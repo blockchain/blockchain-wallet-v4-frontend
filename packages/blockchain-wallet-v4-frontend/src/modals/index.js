@@ -24,7 +24,9 @@ import SendEther from './SendEther'
 import SfoxExchangeData from './SfoxExchangeData'
 import ShowBtcPrivateKey from './ShowBtcPrivateKey'
 import ShowEthPrivateKey from './ShowEthPrivateKey'
+import SignMessage from './SignMessage'
 import ShowXPub from './ShowXPub'
+import SfoxTradeDetails from './SfoxTradeDetails'
 import TransactionReport from './TransactionReport'
 import TransferEther from './TransferEther'
 import TwoStepGoogleAuthenticator from './TwoStepGoogleAuthenticator'
@@ -59,7 +61,9 @@ const Modals = props => (
     <SfoxExchangeData />
     <ShowBtcPrivateKey />
     <ShowEthPrivateKey />
+    <SignMessage />
     <ShowXPub />
+    <SfoxTradeDetails />
     <TransactionReport />
     <TransferEther />
     <TwoStepGoogleAuthenticator />

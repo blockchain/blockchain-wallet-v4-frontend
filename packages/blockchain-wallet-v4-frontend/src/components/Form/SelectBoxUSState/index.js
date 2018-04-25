@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import SelectBox from '../SelectBox'
 
-class SelectBoxUSState extends React.Component {
+class SelectBoxUSState extends React.PureComponent {
   render () {
     const { states, ...rest } = this.props
     const elements = [{ group: '', items: states }]

@@ -14,16 +14,15 @@ const BaseText = styled.div`
   font-style: ${props => props.italic ? 'italic' : 'normal'};
   color: ${props => props.theme[props.color]};
   cursor: ${props => props.cursor};
-  display: ${props => props.flexRow ? 'flex' : 'initial'}
-  flex-direction: ${props => props.flexRow ? 'row' : null}
-
-  & > :first-child { margin-right: 5px; }
+  flex-direction: ${props => props.flexRow ? 'row' : null};
+  display: ${props => props.flexRow ? 'flex' : 'block'};
+  opacity: ${props => props.opacity ? 0.5 : 1};
 `
 
 const Text = ({ children, ...props }) => {
   return (
     <BaseText {...props}>
-      {children}
+      {children}{' '}
     </BaseText>
   )
 }

@@ -5,8 +5,7 @@ import Bitcoin from 'bitcoinjs-lib'
 import EthHd from 'ethereumjs-wallet/hdkey'
 import EthTx from 'ethereumjs-tx'
 import EthUtil from 'ethereumjs-util'
-
-const convertFromGweiToWei = value => Exchange.convertEtherToEther({ value, fromUnit: 'GWEI', toUnit: 'WEI' }).value
+import BigNumber from 'bignumber.js'
 
 /**
  * @param {string} address - The ethereum address
@@ -25,16 +24,13 @@ export const getPrivateKey = (mnemonic, index) => {
   return EthHd.fromExtendedKey(account).getWallet().getPrivateKey()
 }
 
-export const getLegacyPrivateKey = mnemonic => {
-  return deriveChildLegacy(0, mnemonic).getWallet().getPrivateKey()
+// Derivation error using seedHex directly instead of seed derived from mnemonic derived from seedHex
+export const getLegacyPrivateKey = seedHex => {
+  return deriveChildLegacy(0, seedHex).getWallet().getPrivateKey()
 }
 
-const deriveChildLegacy = (index, mnemonic) => {
+const deriveChildLegacy = (index, seed) => {
   const derivationPath = "m/44'/60'/0'/0"
-  // TODO: Obtain seed like
-  // let getSeedHex = w.isDoubleEncrypted ? w.createCipher(secPass, 'dec') : x => x;
-  // let seed = getSeedHex(w.hdwallet.seedHex);
-  const seed = BIP39.mnemonicToSeed(mnemonic)
   return EthHd.fromMasterSeed(seed).derivePath(derivationPath).deriveChild(index)
 }
 
@@ -44,8 +40,27 @@ export const privateKeyToAddress = pk =>
 export const deriveAddress = (mnemonic, index) =>
   privateKeyToAddress(getPrivateKey(mnemonic, index))
 
+export const calculateFee = (gasPrice, gasLimit) => {
+  const feeGWei = new BigNumber(gasPrice).mul(new BigNumber(gasLimit)).toString()
+  return Exchange.convertEtherToEther({ value: feeGWei, fromUnit: 'GWEI', toUnit: 'WEI' }).value
+}
+
+export const calculateEffectiveBalance = (balance, fee) => {
+  return new BigNumber(balance).sub(new BigNumber(fee)).toString()
+}
+
+export const calculateTransactionAmount = (amount, fee) => {
+  return new BigNumber(amount).add(new BigNumber(fee)).toString()
+}
+
+export const convertGweiToWei = (amount) => {
+  return new BigNumber(amount).mul('1000000000').toString()
+}
+
+// TODO :: to remove...
 export const calculateFeeWei = (gasPrice, gasLimit) => gasPrice * gasLimit
 
+// TODO :: to remove...
 export const calculateBalanceWei = (gasPrice, gasLimit, balanceWei) => {
   const transactionFee = calculateFeeWei(gasPrice, gasLimit)
   return {
@@ -55,16 +70,18 @@ export const calculateBalanceWei = (gasPrice, gasLimit, balanceWei) => {
   }
 }
 
+// TODO :: to remove...
 export const convertFeeToWei = fees => ({
   gasLimit: prop('gasLimit', fees),
-  priority: convertFromGweiToWei(prop('priority', fees)),
-  regular: convertFromGweiToWei(prop('regular', fees)),
+  priority: convertGweiToWei(prop('priority', fees)),
+  regular: convertGweiToWei(prop('regular', fees)),
   limits: {
-    min: convertFromGweiToWei(path(['limits', 'min'], fees)),
-    max: convertFromGweiToWei(path(['limits', 'max'], fees))
+    min: convertGweiToWei(path(['limits', 'min'], fees)),
+    max: convertGweiToWei(path(['limits', 'max'], fees))
   }
 })
 
+// TODO :: to remove...
 export const calculateBalanceEther = (gasPrice, gasLimit, balanceWei) => {
   const data = calculateBalanceWei(gasPrice, gasLimit, balanceWei)
   return {

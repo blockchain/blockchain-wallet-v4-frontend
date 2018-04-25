@@ -73,10 +73,8 @@ class AcceptTerms extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.signupError) {
-      this.setState({ busy: false })
-      this.props.updateUI({ uniqueEmail: false })
-    }
+    nextProps.signupError && this.setState({ busy: false })
+    nextProps.signupError === 'user is already registered' && this.props.updateUI({ uniqueEmail: false })
   }
 
   handleSignup (e) {
@@ -87,7 +85,7 @@ class AcceptTerms extends Component {
 
   render () {
     const { busy } = this.state
-    const { invalid, email, smsNumber, signupError, editEmail, editMobile } = this.props
+    const { invalid, email, smsNumber, signupError, editEmail, editMobile, emailVerified, smsVerified } = this.props
 
     const faqHelper = () => helpers.map(el => <Helper question={el.question} answer={el.answer} />)
 
@@ -119,7 +117,7 @@ class AcceptTerms extends Component {
                     </Link>
                   </FieldBox>
                   <IconContainer>
-                    <Icon name='checkmark-in-circle-filled' color='success' size='20px' />
+                    { emailVerified ? <Icon name='checkmark-in-circle-filled' color='success' size='20px' /> : null }
                   </IconContainer>
                 </VerifiedContainer>
               </FieldContainer>
@@ -137,14 +135,14 @@ class AcceptTerms extends Component {
                     </Link>
                   </FieldBox>
                   <IconContainer>
-                    <Icon name='checkmark-in-circle-filled' color='success' size='20px' />
+                    { smsVerified ? <Icon name='checkmark-in-circle-filled' color='success' size='20px' /> : null }
                   </IconContainer>
                 </VerifiedContainer>
               </FieldContainer>
             </FieldsContainer>
             <AcceptTermsContainer>
               <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox}>
-                <FormattedHTMLMessage id='sfoxexchangedata.create.accept.terms' defaultMessage="The legal stuff: Accept Blockchain's <a>Terms of Service</a>, SFOX's <a>Terms of Service</a> and SFOX's <a>Privary Policy</a>." />
+                <FormattedHTMLMessage id='sfoxexchangedata.create.accept.terms' defaultMessage="The legal stuff: Accept Blockchain's <a href='https://www.blockchain.com/terms' target='_blank' rel='noopener noreferrer'>Terms of Service</a>, SFOX's <a href='https://www.sfox.com/terms.html' target='_blank' rel='noopener noreferrer'>Terms of Service</a> and SFOX's <a href='https://www.sfox.com/privacy.html' target='_blank' rel='noopener noreferrer'>Privacy Policy</a>." />
               </Field>
             </AcceptTermsContainer>
           </InputWrapper>
@@ -152,7 +150,7 @@ class AcceptTerms extends Component {
         <ColRight>
           <ColRightInner>
             <ButtonWrapper>
-              <Button uppercase type='submit' nature='primary' fullwidth disabled={invalid || busy || signupError}>
+              <Button uppercase type='submit' nature='primary' fullwidth disabled={invalid || busy || signupError || !smsNumber || !email}>
                 {
                   !busy
                     ? <span>Continue</span>
@@ -162,7 +160,7 @@ class AcceptTerms extends Component {
             </ButtonWrapper>
             <ErrorWrapper>
               {
-                signupError && <Text size='12px' color='error' weight={300} onClick={() => this.props.updateUI({ create: 'change_email' })}>
+                signupError === 'user is already registered' && <Text size='12px' color='error' weight={300} onClick={() => this.props.updateUI({ create: 'change_email' })}>
                   <FormattedHTMLMessage id='sfoxexchangedata.create.accept.error' defaultMessage='Unfortunately this email is being used for another account. <a>Click here</a> to change it.' />
                 </Text>
               }

@@ -8,7 +8,7 @@ import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class ExchangeHistoryContainer extends React.Component {
+class ExchangeHistoryContainer extends React.PureComponent {
   componentWillMount () {
     this.props.dataShapeshiftActions.refreshShapeshiftTrades()
   }

@@ -45,7 +45,7 @@ const FirstStep = (props) => {
         </Text>
         <Link href={recoveryPdf} download='recovery.pdf'>
           <IconButton name='paper-airplane-outlined' nature='empty'>
-            <FormattedMessage id='modals.recoveryphrase.firststep.print' defaultMessage='Print recovery sheet' />
+            <FormattedMessage id='modals.recoveryphrase.firststep.print' defaultMessage='Print Recovery Sheet' />
           </IconButton>
         </Link>
       </PrintContainer>

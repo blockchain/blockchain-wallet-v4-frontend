@@ -39,6 +39,7 @@ export default (state = INITIAL_STATE, action) => {
       const setAccountArchived = assoc('default_account_idx', index)
       return over(valueLens, setAccountArchived, state)
     }
+
     default:
       return state
   }

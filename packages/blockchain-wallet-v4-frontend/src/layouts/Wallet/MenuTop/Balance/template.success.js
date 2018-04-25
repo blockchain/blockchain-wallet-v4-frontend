@@ -35,18 +35,24 @@ const BalanceDropdown = styled.div`
       background: ${props => props.theme['white']};
       &:first-child {
         margin-bottom: 3px;
-        padding-right: 15px;
-        background: transparent;
+        padding-right: 12px;
+        background: white;
+        > div > span:first-child {
+          color: ${props => `${props.theme['gray-5']}`};
+        }
       }
       &:last-child {
         padding-bottom: 2px;
       }
     }
   }
+  > div > div > div > div > span:first-child {
+    color: ${props => `${props.theme['gray-5']}`};
+  }
   > div > div > span:last-child {
     top: 1px;
     right: 10px;
-    font-size: 14px;
+    font-size: 11px;
     font-weight: 600;
     position: relative;
   }

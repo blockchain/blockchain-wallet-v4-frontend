@@ -109,6 +109,11 @@ export const reviver = (jsObject) => {
   return new Wallet(jsObject)
 }
 
+export const spendableActiveAddresses = (wallet) => {
+  let isSpendableActive = (a) => !Address.isWatchOnly(a) && !Address.isArchived(a)
+  return selectAddresses(wallet).filter(isSpendableActive).map(a => a.addr)
+}
+
 // fromEncryptedPayload :: String -> String -> Either Error Wallet
 export const fromEncryptedPayload = curry((password, payload) => {
   let decryptWallet = compose(map(fromJS), crypto.decryptWallet(password))
@@ -141,10 +146,17 @@ export const isValidSecondPwd = curry((password, wallet) => {
 })
 
 // getAddress :: String -> Wallet -> Maybe Address
-export const getAddress = (addr, wallet) => {
+export const getAddress = curry((addr, wallet) => {
   let address = AddressMap.selectAddress(addr, wallet.addresses)
   return Maybe.fromNullable(address)
-}
+})
+
+// getAccount :: Integer -> Wallet -> Maybe HDAccount
+export const getAccount = curry((index, wallet) =>
+  compose(Maybe.fromNullable, selectHdWallets)(wallet)
+    .chain(compose(Maybe.fromNullable, HDWalletList.selectHDWallet))
+    .chain(compose(Maybe.fromNullable, HDWallet.selectAccount(index)))
+)
 
 // applyCipher :: Wallet -> String -> Cipher -> a -> Either Error a
 const applyCipher = curry((wallet, password, f, value) => {
@@ -349,21 +361,21 @@ export const decryptSync = decryptMonadic(
   validateSecondPwd(Either.of, Either.Left)
 )
 
-const _derivePrivateKey = (BitcoinLib, network, xpriv, chain, index) => {
-  return BitcoinLib.HDNode.fromBase58(xpriv, network).derive(chain).derive(index)
-}
+const _derivePrivateKey = (network, xpriv, chain, index) =>
+  Bitcoin.HDNode.fromBase58(xpriv, network).derive(chain).derive(index)
+
 export const derivePrivateKey = memoize(_derivePrivateKey)
 
-export const getHDPrivateKey = curry((BitcoinLib, keypath, secondPassword, network, wallet) => {
+export const getHDPrivateKeyWIF = curry((keypath, secondPassword, network, wallet) => {
   let [accId, chain, index] = map(parseInt, split('/', keypath))
   if (isNil(accId) || isNil(chain) || isNil(index)) { return Task.rejected('WRONG_PATH_KEY') }
   let xpriv = compose(HDAccount.selectXpriv, HDWallet.selectAccount(accId), HDWalletList.selectHDWallet, selectHdWallets)(wallet)
   if (isDoubleEncrypted(wallet)) {
     return validateSecondPwd(Task.of, Task.rejected)(secondPassword, wallet)
       .chain(() => crypto.decryptSecPass(selectSharedKey(wallet), selectIterations(wallet), secondPassword, xpriv))
-      .map(xp => derivePrivateKey(BitcoinLib, network, xp, chain, index).keyPair)
+      .map(xp => derivePrivateKey(network, xp, chain, index).keyPair.toWIF())
   } else {
-    return Task.of(xpriv).map(xp => derivePrivateKey(BitcoinLib, network, xp, chain, index).keyPair)
+    return Task.of(xpriv).map(xp => derivePrivateKey(network, xp, chain, index).keyPair.toWIF())
   }
 })
 
@@ -382,16 +394,25 @@ export const getLegacyPrivateKey = curry((address, secondPassword, network, wall
   }
 })
 
-export const getMnemonic = curry((secondPassword, wallet) => {
-  const entropyToMnemonic = Either.try(BIP39.entropyToMnemonic)
-  let seedHex = compose(HDWallet.selectSeedHex, HDWalletList.selectHDWallet, selectHdWallets)(wallet)
+export const getLegacyPrivateKeyWIF = curry((address, secondPassword, network, wallet) => {
+  return getLegacyPrivateKey(address, secondPassword, network, wallet)
+    .map(ecpair => ecpair.toWIF())
+})
+
+export const getSeedHex = curry((secondPassword, wallet) => {
+  const seedHex = compose(HDWallet.selectSeedHex, HDWalletList.selectHDWallet, selectHdWallets)(wallet)
   if (isDoubleEncrypted(wallet)) {
     return validateSecondPwd(Either.of, Either.Left)(secondPassword, wallet)
       .chain(() => crypto.decryptSecPassSync(selectSharedKey(wallet), selectIterations(wallet), secondPassword, seedHex))
-      .chain(entropyToMnemonic)
   } else {
-    return entropyToMnemonic(seedHex)
+    return Either.of(seedHex)
   }
+})
+
+export const getMnemonic = curry((secondPassword, wallet) => {
+  const entropyToMnemonic = Either.try(BIP39.entropyToMnemonic)
+  const seedHex = getSeedHex(secondPassword, wallet)
+  return seedHex.chain(entropyToMnemonic)
 })
 
 export const js = (guid, sharedKey, label, mnemonic, xpub, nAccounts, network) => ({

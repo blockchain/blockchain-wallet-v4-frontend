@@ -7,7 +7,7 @@ import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class CoinDisplayContainer extends React.Component {
+class CoinDisplayContainer extends React.PureComponent {
   render () {
     const { data, ...rest } = this.props
     return data.cata({

@@ -20,7 +20,7 @@ const Settings = (props) => {
   if (updateToggled) {
     return (
       <SettingWrapper>
-        <SettingForm>
+        <SettingForm onSubmit={handleClick}>
           <Text size='14px' weight={300} leftAlign>
             <FormattedMessage id='scenes.preferences.autologout.settings.warning' defaultMessage='Auto Logout Time' />
           </Text>

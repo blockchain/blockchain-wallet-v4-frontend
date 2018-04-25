@@ -6,7 +6,7 @@ import { take, map, sortBy, prop, range } from 'ramda'
 import { actions } from 'data'
 import ThirdStep from './template.js'
 
-class ThirdStepContainer extends React.Component {
+class ThirdStepContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)

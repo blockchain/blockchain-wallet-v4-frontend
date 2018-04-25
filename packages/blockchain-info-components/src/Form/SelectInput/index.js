@@ -5,7 +5,7 @@ import { equals, head, isEmpty, isNil, contains, toUpper, filter } from 'ramda'
 
 import SelectInput from './template.js'
 
-class SelectInputContainer extends React.Component {
+class SelectInputContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.state = {

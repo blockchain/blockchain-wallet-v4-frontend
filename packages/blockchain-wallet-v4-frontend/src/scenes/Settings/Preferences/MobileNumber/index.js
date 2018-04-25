@@ -7,7 +7,7 @@ import Loading from './template.loading'
 import Success from './template.success'
 import { getData } from './selectors'
 
-class MobileNumberContainer extends React.Component {
+class MobileNumberContainer extends React.PureComponent {
   render () {
     const { data, ...rest } = this.props
 
