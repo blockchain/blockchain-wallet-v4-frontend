@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { concat } from 'ramda'
+import PropTypes from 'prop-types'
 
 import { getData } from './selectors'
 import SelectBox from '../SelectBox'
