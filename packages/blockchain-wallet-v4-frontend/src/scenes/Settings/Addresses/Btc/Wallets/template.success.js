@@ -35,7 +35,7 @@ const Success = ({ wallets, handleClick, onUnarchive, search }) => {
         <TableCell width='40%'>
           <SwitchableDisplay size='13px' coin='BTC'>{wallet.balance}</SwitchableDisplay>
         </TableCell>
-        <TableCell width='20%'>
+        <TableCell width='20%' style={{ display: 'flex', justifyContent: 'flex-end' }}>
           {wallet.archived ? (
             <Link weight={200} size='small' onClick={() => onUnarchive(wallet.index)}>
               <FormattedMessage id='scenes.settings.addresses.unarchive' defaultMessage='Unarchive' />
@@ -63,13 +63,18 @@ const Success = ({ wallets, handleClick, onUnarchive, search }) => {
       <Table>
         <TableHeader>
           <TableCell width='40%'>
-            <Text size='13px' weight={500} capitalize>
+            <Text size='13px' weight={500}>
               <FormattedMessage id='scenes.settings.addresses.wallet_name' defaultMessage='Wallet Name' />
             </Text>
           </TableCell>
           <TableCell width='40%'>
-            <Text size='13px' weight={500} capitalize>
+            <Text size='13px' weight={500}>
               <FormattedMessage id='scenes.settings.addresses.wallet_description' defaultMessage='Balance' />
+            </Text>
+          </TableCell>
+          <TableCell width='20%' style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <Text size='13px' weight={500}>
+              <FormattedMessage id='scenes.settings.addresses.wallet_actions' defaultMessage='Actions' />
             </Text>
           </TableCell>
         </TableHeader>

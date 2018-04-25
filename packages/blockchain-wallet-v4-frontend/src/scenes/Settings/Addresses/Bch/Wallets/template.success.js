@@ -50,15 +50,15 @@ const Success = (props) => {
 
     return (
       <TableRow key={i}>
-        <WalletTableCell width='40%'>
+        <WalletTableCell width='50%'>
           <LabelCell size='13px'>{wallet.label}</LabelCell>
           {isDefault && <Banner label><FormattedMessage id='scenes.settings.addresses.bch.default_label' defaultMessage='Default' /></Banner>}
           {isArchived && <Banner label type='informational'><FormattedMessage id='scenes.settings.bch.addresses.archived_label' defaultMessage='Archived' /></Banner>}
         </WalletTableCell>
-        <TableCell width='40%'>
+        <TableCell width='30%'>
           <SwitchableDisplay size='13px' coin='BCH'>{wallet.value.balance}</SwitchableDisplay>
         </TableCell>
-        <TableCell width='20%'>
+        <TableCell width='20%' style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <ComponentDropdown
             down
             forceSelected
@@ -89,13 +89,18 @@ const Success = (props) => {
       <Table>
         <TableHeader>
           <TableCell width='50%'>
-            <Text size='13px' weight={500} capitalize>
-              <FormattedMessage id='scenes.settings.addresses.wallet_name' defaultMessage='Wallet Name' />
+            <Text size='13px' weight={500}>
+              <FormattedMessage id='scenes.settings.addresses.bch.wallet_name' defaultMessage='Wallet Name' />
             </Text>
           </TableCell>
           <TableCell width='30%'>
-            <Text size='13px' weight={500} capitalize>
-              <FormattedMessage id='scenes.settings.addresses.wallet_description' defaultMessage='Balance' />
+            <Text size='13px' weight={500}>
+              <FormattedMessage id='scenes.settings.addresses.bch.wallet_balance' defaultMessage='Balance' />
+            </Text>
+          </TableCell>
+          <TableCell width='20%' style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <Text size='13px' weight={500}>
+              <FormattedMessage id='scenes.settings.imported_addresses.bch.wallet_actions' defaultMessage='Actions' />
             </Text>
           </TableCell>
         </TableHeader>
