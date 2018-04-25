@@ -25,10 +25,7 @@ const Buttons = styled.div`
   justify-content: center;
   margin-top: 20px;
   button {
-    margin-bottom: 40px;
-  }
-  a:first-of-type {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
   }
 `
 const VerificationContainer = styled.div`
@@ -65,9 +62,6 @@ const ThirdStep = (props) => {
               </Link>
               : null
           }
-          <Link size='12px' weight={300} onClick={inline ? handleClose : goBackOnSuccess}>
-            <FormattedMessage id='modals.recoveryphrase.thirdstep.skipfornow' defaultMessage="Skip for now, I'll do this later" />
-          </Link>
         </Buttons>
       </VerificationContainer>
     </Form>

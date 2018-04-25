@@ -160,7 +160,7 @@ const TwoStepVerification = (props) => {
       return (
         <React.Fragment>
           <Text size='14px'>
-            <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='Use Google Authenticator, Yubikey, or SMS Codes' />
+            <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='Use an Authenticator app, Yubikey, or SMS Codes' />
           </Text>
           <br />
           <FormattedMessage id='scenes.security.twostepverification.description2' defaultMessage='Two-Step Verification helps to prevent unauthorized access to your wallet by requiring a one-time password for every login attempt. Enable this to further secure your wallet.' />
