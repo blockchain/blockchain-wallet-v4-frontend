@@ -4,6 +4,8 @@ import UsedAddressesTemplate from './template'
 
 export default class UsedAddressesContainer extends React.PureComponent {
   render () {
-    return <UsedAddressesTemplate />
+    const onShowUsedAddresses = (i) => window.alert('hi')
+
+    return <UsedAddressesTemplate onShowUsedAddresses={onShowUsedAddresses} />
   }
 }

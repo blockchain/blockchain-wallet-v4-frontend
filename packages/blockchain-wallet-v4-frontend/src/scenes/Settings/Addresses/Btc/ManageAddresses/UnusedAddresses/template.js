@@ -45,7 +45,7 @@ const UnusedAddressesTemplate = ({ account, labels, receiveIndex, isDefault, der
           <OptionItem id='scenes.settings.manage_addresses.show_xpub' defaultMessage='Show xPub' onClick={onShowXPub} />
         ].filter(x => x)} />
     </div>
-    <Text weight={400} size='small' style={{ marginTop: 25 }}>
+    <Text weight={400} size='14px' style={{ marginTop: 25 }}>
       <FormattedMessage id='scenes.settings.manage_addresses.unused_addresses' defaultMessage='Unused Addresses' />
     </Text>
     <Text weight={200} size='small' style={{ marginTop: 10, marginBottom: 15 }}>
