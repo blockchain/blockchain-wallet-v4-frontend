@@ -156,7 +156,7 @@ const TwoStepVerification = (props) => {
   }
 
   const renderDescription = () => {
-    if (!ui.verifyToggled && !props.alone) {
+    if (!twoFAEnabled && !props.alone) {
       return (
         <React.Fragment>
           <Text size='14px'>
@@ -167,7 +167,7 @@ const TwoStepVerification = (props) => {
         </React.Fragment>
       )
     }
-    return <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='Two-Step Verification helps to prevent unauthorized access to your wallet by requiring a one-time password for every login attempt. Enabling this option helps keep unauthorized users from being able to access your wallet.' />
+    return <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='Two-Step Verification helps to prevent unauthorized access to your wallet by requiring a one-time password for every login attempt. You can disable this here if you would like to change your phone number or switch the type of Two-Step Verification you are using.' />
   }
 
   const renderHeader = () => {
