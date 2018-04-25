@@ -124,7 +124,7 @@ const InfoRow = styled.div`
 `
 
 const Success = props => {
-  const { close, sourceCoin, targetCoin, status, exchangeRate, transactionFee, orderId, depositAmount, withdrawalAmount } = props
+  const { sourceCoin, targetCoin, status, exchangeRate, transactionFee, orderId, depositAmount, withdrawalAmount, handleClose } = props
   const { color1, color2, color3, animation1, animation2, animation3, icon3 } = selectStyle(status)
 
   return (
@@ -231,7 +231,7 @@ const Success = props => {
           </Info>
         </Row>
         <Row align='right'>
-          <Button nature='primary' size='13px' weight={300} onClick={close}>
+          <Button nature='primary' size='13px' weight={300} onClick={handleClose}>
             <FormattedMessage id='modals.exchange.shapeshift.close' defaultMessage='Close' />
           </Button>
         </Row>
