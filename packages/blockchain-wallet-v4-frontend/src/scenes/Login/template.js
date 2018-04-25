@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import { spacing } from 'services/StyleService'
 
 import { required } from 'services/FormHelper'
 import { Button, Link, Separator, Text, TextGroup, HeartbeatLoader } from 'blockchain-info-components'
