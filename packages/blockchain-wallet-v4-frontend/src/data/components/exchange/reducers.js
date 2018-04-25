@@ -5,12 +5,11 @@ import { Remote } from 'blockchain-wallet-v4/src'
 const INITIAL_STATE = {
   step: 1,
   accounts: [],
-  minimum: 0,
-  maximum: 0,
-  error: 'insufficient',
+  error: 'invalid',
   payment: {},
-  order: Remote.NotAsked,
-  firstStepEnabled: true
+  order: {},
+  firstStepEnabled: true,
+  secondStep: Remote.NotAsked
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -21,15 +20,14 @@ export default (state = INITIAL_STATE, action) => {
     case AT.EXCHANGE_DESTROYED: {
       return INITIAL_STATE
     }
+    case AT.EXCHANGE_ORDER_UPDATED: {
+      return assoc('order', payload, state)
+    }
     case AT.EXCHANGE_PAYMENT_UPDATED: {
       return assoc('payment', payload, state)
     }
     case AT.EXCHANGE_ACCOUNTS_UPDATED: {
       return assoc('accounts', payload, state)
-    }
-    case AT.EXCHANGE_LIMITS_UPDATED: {
-      const { minimum, maximum } = payload
-      return merge(state, { minimum, maximum })
     }
     case AT.EXCHANGE_FIRST_STEP_INITIALIZED: {
       return state
@@ -47,21 +45,23 @@ export default (state = INITIAL_STATE, action) => {
       return assoc('error', payload, state)
     }
     case AT.EXCHANGE_FIRST_STEP_SUBMIT_CLICKED: {
-      // return assoc('step', 2, state)
-      return state
+      return assoc('step', 2, state)
     }
-    // case AT.EXCHANGE_SECOND_STEP_INITIALIZED: {
-    //   return merge(state, {
-    //     step: 2,
-    //     order: Remote.Loading
-    //   })
-    // }
-    // case AT.EXCHANGE_SECOND_STEP_SUCCESS: {
-    //   return assoc('order', Remote.Success(payload), state)
-    // }
-    // case AT.EXCHANGE_SECOND_STEP_FAILURE: {
-    //   return assoc('order', Remote.Failure(payload), state)
-    // }
+    case AT.EXCHANGE_SECOND_STEP_INITIALIZED: {
+      return assoc('secondStep', Remote.Loading, state)
+    }
+    case AT.EXCHANGE_SECOND_STEP_SUCCESS: {
+      return assoc('secondStep', Remote.Success(payload), state)
+    }
+    case AT.EXCHANGE_SECOND_STEP_FAILURE: {
+      return assoc('secondStep', Remote.Failure(payload), state)
+    }
+    case AT.EXCHANGE_SECOND_STEP_CANCEL_CLICKED: {
+      return INITIAL_STATE
+    }
+    case AT.EXCHANGE_SECOND_STEP_SUBMIT_CLICKED: {
+      return assoc('step', 3, state)
+    }
     // case AT.EXCHANGE_THIRD_STEP_INITIALIZED: {
     //   return assoc('step', 3, state)
     // }

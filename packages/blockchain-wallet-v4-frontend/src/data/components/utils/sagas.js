@@ -1,5 +1,5 @@
 import { call, select } from 'redux-saga/effects'
-import { equals, filter, identity, is, isEmpty, isNil, prop, propEq } from 'ramda'
+import { equals, filter, identity, is, isEmpty, prop, propEq } from 'ramda'
 import { selectors } from 'data'
 import settings from 'config'
 
@@ -16,27 +16,20 @@ export const selectRates = function * (coin) {
 
 export const selectReceiveAddress = function * (source) {
   const appState = yield select(identity)
-  if (isNil(source)) throw new Error('Could not generate return address')
-  if (is(String, source)) return source
-  if (is(Number, source)) {
-    const receiveAddress = selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWROK_B, source, appState).getOrElse('')
-    if (isEmpty(receiveAddress)) throw new Error('Could not generate return address')
-    return receiveAddress
-  }
-  throw new Error('Could not generate return address')
-}
-
-export const selectChangeAddress = function * (source) {
+  const coin = prop('coin', source)
   const address = prop('address', source)
-  const index = prop('index', source)
-  if (!isNil(address) && is(String, index)) {
-    return address
+  if (equals('ETH', coin) && is(String, address)) return address
+  if (equals('BCH', coin) && is(Number, address)) {
+    const bchReceiveAddress = selectors.core.common.bch.getNextAvailableReceiveAddress(settings.NETWORK_BCH, address, appState)
+    if (isEmpty(bchReceiveAddress.getOrElse(''))) throw new Error('Could not generate bitcoin cash receive address')
+    return bchReceiveAddress.getOrElse('')
   }
-  if (!isNil(index) && is(Number, index)) {
-    const addressR = yield select(selectors.core.common.bitcoin.getNextAvailableChangeAddress(settings.NETWORK_BITCOIN, index))
-    return addressR.getOrElse('')
+  if (equals('BTC', coin) && is(Number, address)) {
+    const btcReceiveAddress = selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, address, appState)
+    if (isEmpty(btcReceiveAddress.getOrElse(''))) throw new Error('Could not generate return bitcoin receive address')
+    return btcReceiveAddress.getOrElse('')
   }
-  throw new Error('Could not generate next BTC change address')
+  throw new Error('Could not generate receive address')
 }
 
 export const getBchAccounts = function * () {

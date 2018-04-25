@@ -1,7 +1,7 @@
 
 import { BigNumber } from 'bignumber.js'
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { toLower } from 'ramda'
+import { toLower, path, prop } from 'ramda'
 
 export const getPairFromCoin = (coinSource, coinTarget) => `${toLower(coinSource)}_${toLower(coinTarget)}`
 
@@ -40,6 +40,14 @@ export const convertBaseToStandard = (coin, value) => {
   }
 }
 
+export const convertStandardToBase = (coin, value) => {
+  switch (coin) {
+    case 'BCH': return Exchange.convertBchToBch({ value, fromUnit: 'BCH', toUnit: 'SAT' }).value
+    case 'BTC': return Exchange.convertBitcoinToBitcoin({ value, fromUnit: 'BTC', toUnit: 'SAT' }).value
+    case 'ETH': return Exchange.convertEtherToEther({ value, fromUnit: 'ETH', toUnit: 'WEI' }).value
+  }
+}
+
 export const getMinimum = (coin, minimum) => new BigNumber(minimum).toString()
 
 export const getMaximum = (coin, maximum, effectiveBalance) => {
@@ -55,4 +63,16 @@ export const isAmountAboveMinimum = (value, minimum) => {
 
 export const isAmountBelowMaximum = (value, maximum) => {
   return new BigNumber(value).lessThanOrEqualTo(new BigNumber(maximum))
+}
+
+export const calculateFinalAmount = (value, fee) => {
+  return new BigNumber(value).add(new BigNumber(fee)).toString()
+}
+
+export const selectFee = (coin, payment) => {
+  switch (coin) {
+    case 'BCH': return path(['selection', 'fee'], payment)
+    case 'BTC': return path(['selection', 'fee'], payment)
+    case 'ETH': return prop('fee', payment)
+  }
 }
