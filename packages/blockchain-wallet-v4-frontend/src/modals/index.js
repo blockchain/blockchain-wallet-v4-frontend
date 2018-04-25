@@ -24,6 +24,7 @@ import SendEther from './SendEther'
 import SfoxExchangeData from './SfoxExchangeData'
 import ShowPrivateKey from './ShowPrivateKey'
 import ShowUsedAddresses from './ShowUsedAddresses'
+import SignMessage from './SignMessage'
 import ShowXPub from './ShowXPub'
 import SfoxTradeDetails from './SfoxTradeDetails'
 import TransactionReport from './TransactionReport'
@@ -60,6 +61,7 @@ const Modals = props => (
     <SfoxExchangeData />
     <ShowPrivateKey />
     <ShowUsedAddresses />
+    <SignMessage />
     <ShowXPub />
     <SfoxTradeDetails />
     <TransactionReport />
