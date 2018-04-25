@@ -84,7 +84,7 @@ const Success = ({ wallets, handleClick, onUnarchive, search }) => {
         </TableHeader>
         { walletTableRows }
       </Table>
-      <IconButton style={{ marginTop: 10 }} name='up-arrow-in-circle' onClick={handleClick}>
+      <IconButton style={{ marginTop: 10 }} name='plus' onClick={handleClick}>
         <FormattedMessage id='scenes.settings.wallets.new_hd_account' defaultMessage='New Wallet' />
       </IconButton>
     </Wrapper>
