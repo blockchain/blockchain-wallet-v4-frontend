@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { filter, take } from 'ramda'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import { SettingDescription, SettingHeader } from 'components/Setting'
-import { ComponentDropdown, Link, Table, TableHeader, TableCell, TableRow, Text } from 'blockchain-info-components'
+import { Banner, ComponentDropdown, Link, Table, TableHeader, TableCell, TableRow, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
@@ -22,18 +22,8 @@ const WalletTableCell = styled(TableCell)`
 const ClickableText = styled(Text)`
   cursor: pointer;
 `
-
-const InfoLabel = styled(Text)`
-  display: block;
-  margin-left: 10px;
-  padding: 4px;
-  box-sizing: border-box;
-  border-radius: 3px;
-  background-color: ${props => props.theme[props.bgcolor]};
-  color: ${props => props.theme['white']};
-  font-size: 12px;
-  font-weight: 400;
-  height: 22px;
+const LabelCell = styled(Text)`
+  margin-right: 6px;
 `
 
 const Manage = () => (
@@ -61,9 +51,9 @@ const Success = (props) => {
     return (
       <TableRow key={i}>
         <WalletTableCell width='40%'>
-          <Text size='13px'>{wallet.label}</Text>
-          {isDefault && <InfoLabel bgcolor='brand-primary'>Default</InfoLabel>}
-          {isArchived && <InfoLabel bgcolor='gray-3'>Archived</InfoLabel>}
+          <LabelCell size='13px'>{wallet.label}</LabelCell>
+          {isDefault && <Banner label><FormattedMessage id='scenes.settings.addresses.bch.default_label' defaultMessage='Default' /></Banner>}
+          {isArchived && <Banner label type='informational'><FormattedMessage id='scenes.settings.bch.addresses.archived_label' defaultMessage='Archived' /></Banner>}
         </WalletTableCell>
         <TableCell width='40%'>
           <SwitchableDisplay size='13px' coin='BCH'>{wallet.value.balance}</SwitchableDisplay>
