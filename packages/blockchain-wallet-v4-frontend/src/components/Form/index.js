@@ -6,6 +6,7 @@ import CountdownTimer from './CountdownTimer'
 import DateBox from './DateBox'
 import FiatConvertor from './FiatConvertor'
 import Form from './Form'
+import FormError from './FormError'
 import FormGroup from './FormGroup'
 import FormItem from './FormItem'
 import FormLabel from './FormLabel'
@@ -36,6 +37,7 @@ export {
   DateBox,
   FiatConvertor,
   Form,
+  FormError,
   FormGroup,
   FormItem,
   FormLabel,
