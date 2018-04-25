@@ -2,23 +2,39 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Icon, Text, TableCell, TableRow, Link } from 'blockchain-info-components'
+import UsedAddressesTable from './UsedAddressesTable'
+import UsedAddressesTableEntry from './UsedAddressesTableEntry'
+import { Text, Link } from 'blockchain-info-components'
 
-const Wrapper = styled.div`
-  margin-top: 25px;
+const Fragment = React.Fragment
+const Header = styled.div`
+  margin-top: 30px;
   display: flex;
   flex-direction: row;
   align-items: center;
 `
-const UsedAddressesTemplate = ({ onShowUsedAddresses }) => (
-  <Wrapper>
-    <Text weight={400} size='14px' style={{ marginRight: '16px' }}>
-      <FormattedMessage id='scenes.settings.manage_addresses.used_addresses' defaultMessage='Used Addresses' />
-    </Text>
-    <Link weight={200} size='12px' onClick={onShowUsedAddresses}>
-      <FormattedMessage id='scenes.settings.manage_addresses.show_used_addresses' defaultMessage='Show' />
-    </Link>
-  </Wrapper>
+const usedAddresses = [{index: 0}, {index: 2}]
+
+const UsedAddressesTemplate = ({ onShowUsedAddresses, usedAddressesVisible }) => (
+  <Fragment>
+    <Header>
+      <Text weight={400} size='14px' style={{ marginRight: '16px' }}>
+        <FormattedMessage id='scenes.settings.manage_addresses.used_addresses' defaultMessage='Used Addresses' />
+      </Text>
+      <Link weight={200} size='12px' onClick={onShowUsedAddresses}>
+        { usedAddressesVisible ? <FormattedMessage id='scenes.settings.manage_addresses.hide_used_addresses' defaultMessage='Hide' /> : (
+          <FormattedMessage id='scenes.settings.manage_addresses.show_used_addresses' defaultMessage='Show' />
+        )}
+      </Link>
+    </Header>
+    { !usedAddressesVisible ? null : (
+      <UsedAddressesTable>
+        {usedAddresses.map(address => (
+          <UsedAddressesTableEntry key={address.index} {...{ }} />
+        ))}
+      </UsedAddressesTable>
+    )}
+  </Fragment>
 )
 
 export default UsedAddressesTemplate

@@ -52,14 +52,19 @@ const Success = ({ importedAddresses, onClickImport, onToggleArchived, onShowPri
         importedAddressesTableRows.length > 0 &&
         <Table>
           <TableHeader>
-            <TableCell width='40%'>
-              <Text size='13px' weight={500} capitalize>
+            <TableCell width='50%'>
+              <Text size='13px' weight={500}>
                 <FormattedMessage id='scenes.settings.imported_addresses.address' defaultMessage='Address' />
               </Text>
             </TableCell>
-            <TableCell width='40%'>
-              <Text size='13px' weight={500} capitalize>
-                <FormattedMessage id='scenes.settings.imported_addresses.wallet_description' defaultMessage='Balance' />
+            <TableCell width='30%'>
+              <Text size='13px' weight={500}>
+                <FormattedMessage id='scenes.settings.imported_addresses.balance' defaultMessage='Balance' />
+              </Text>
+            </TableCell>
+            <TableCell width='20%' style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <Text size='13px' weight={500}>
+                <FormattedMessage id='scenes.settings.imported_addresses.actions' defaultMessage='Actions' />
               </Text>
             </TableCell>
           </TableHeader>

@@ -21,16 +21,16 @@ const MoreOptions = () => (
 const AddressRow = ({ address, coin, renderOptions }) => {
   return (
     <TableRow>
-      <AddressTableCell width='40%' style={{ display: 'flex' }}>
+      <AddressTableCell width='50%' style={{ display: 'flex' }}>
         <AddressCell size='13px'>{address.addr}</AddressCell>
         {address.priv == null && (
           <Banner label type='informational'><FormattedMessage id='scenes.settings.manage_addresses.watch_only' defaultMessage='Watch Only' /></Banner>
         )}
       </AddressTableCell>
-      <TableCell width='40%'>
+      <TableCell width='30%'>
         <SwitchableDisplay size='13px' coin={coin || 'BTC'}>{address.info && address.info.final_balance}</SwitchableDisplay>
       </TableCell>
-      <TableCell width='20%'>
+      <TableCell width='20%' style={{ display: 'flex', justifyContent: 'flex-end' }}>
         { renderOptions && <ComponentDropdown down forceSelected color={'gray-5'} selectedComponent={<MoreOptions />} components={renderOptions()} /> }
       </TableCell>
     </TableRow>

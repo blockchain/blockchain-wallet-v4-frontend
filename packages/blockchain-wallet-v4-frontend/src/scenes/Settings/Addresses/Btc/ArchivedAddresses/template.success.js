@@ -37,9 +37,19 @@ const Success = ({ archivedAddresses, onToggleArchived, onDelete, search }) => {
         archivedAddressesTableRows.length > 0 &&
         <Table>
           <TableHeader>
-            <TableCell width='80%'>
-              <Text size='13px' weight={500} capitalize>
+            <TableCell width='50%'>
+              <Text size='13px' weight={500}>
                 <FormattedMessage id='scenes.settings.archived_addrs.address' defaultMessage='Address' />
+              </Text>
+            </TableCell>
+            <TableCell width='30%'>
+              <Text size='13px' weight={500}>
+                <FormattedMessage id='scenes.settings.archived_addrs.balance' defaultMessage='Balance' />
+              </Text>
+            </TableCell>
+            <TableCell width='20%' style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <Text size='13px' weight={500}>
+                <FormattedMessage id='scenes.settings.imported_addresses.wallet_actions' defaultMessage='Actions' />
               </Text>
             </TableCell>
           </TableHeader>
