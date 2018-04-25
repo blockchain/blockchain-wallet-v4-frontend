@@ -9,7 +9,7 @@ import ThirdStep from './template'
 
 class ThirdStepContainer extends React.Component {
   render () {
-    const { sourceCoin, targetCoin, sourceAmount, status, exchangeRate, transactionFee, orderId, depositAmount, withdrawalAmount, handleClose } = this.props
+    const { sourceCoin, targetCoin, sourceAmount, status, exchangeRate, transactionFee, orderId, depositAmount, withdrawalAmount } = this.props
 
     return (
       <ThirdStep

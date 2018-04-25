@@ -1,6 +1,6 @@
-import { call, cancel, cancelled, fork, select, takeEvery, takeLatest, put } from 'redux-saga/effects'
-import { delay } from 'redux-saga'
-import { compose, equals, identity, has, head, merge, nth, path, prop } from 'ramda'
+import { call, fork, select, takeEvery, takeLatest, put } from 'redux-saga/effects'
+// import { delay } from 'redux-saga'
+import { compose, equals, has, head, merge, nth, path, prop } from 'ramda'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
@@ -385,41 +385,41 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const updateTradeStatus = function * (depositAddress) {
-    // const appState = yield select(identity)
-    // const metadataTrade = selectors.core.kvStore.shapeShift.getTrade(depositAddress, appState).getOrFail('Could not find trade.')
-    // const metadataStatus = prop('status', metadataTrade)
-    // if (equals('complete', metadataStatus) || equals('failed', metadataStatus)) {
-    //   return
-    // }
-    // const depositAddress = path(['quote', 'deposit'], trade)
-    // const data = yield call(coreSagas.data.shapeShift.fetchTradeStatus, depositAddress)
-    // const shapeshiftStatus = prop('status', data)
-    // if (!equals(shapeshiftStatus, metadataStatus)) {
-    //   yield put(actions.core.kvStore.shapeShift.updateTradeStatusMetadataShapeshift(depositAddress, shapeshiftStatus))
-    // }
-  }
+  // const updateTradeStatus = function * (depositAddress) {
+  // const appState = yield select(identity)
+  // const metadataTrade = selectors.core.kvStore.shapeShift.getTrade(depositAddress, appState).getOrFail('Could not find trade.')
+  // const metadataStatus = prop('status', metadataTrade)
+  // if (equals('complete', metadataStatus) || equals('failed', metadataStatus)) {
+  //   return
+  // }
+  // const depositAddress = path(['quote', 'deposit'], trade)
+  // const data = yield call(coreSagas.data.shapeShift.fetchTradeStatus, depositAddress)
+  // const shapeshiftStatus = prop('status', data)
+  // if (!equals(shapeshiftStatus, metadataStatus)) {
+  //   yield put(actions.core.kvStore.shapeShift.updateTradeStatusMetadataShapeshift(depositAddress, shapeshiftStatus))
+  // }
+  // }
 
-  let pollingTradeStatusTask
+  // let pollingTradeStatusTask
 
-  const startPollingTradeStatus = function * (depositAddress) {
-    try {
-      while (true) {
-        yield call(updateTradeStatus, depositAddress)
-        yield call(delay, 10000)
-      }
-    } catch (e) {
-      console.log('exception', e)
-    } finally {
-      if (yield cancelled()) {
-        console.log('cancelled')
-      }
-    }
-  }
+  // const startPollingTradeStatus = function * (depositAddress) {
+  //   try {
+  //     while (true) {
+  //       yield call(updateTradeStatus, depositAddress)
+  //       yield call(delay, 10000)
+  //     }
+  //   } catch (e) {
+  //     console.log('exception', e)
+  //   } finally {
+  //     if (yield cancelled()) {
+  //       console.log('cancelled')
+  //     }
+  //   }
+  // }
 
-  const stopPollingTradeStatus = function * () {
-    yield cancel(pollingTradeStatusTask)
-  }
+  // const stopPollingTradeStatus = function * () {
+  //   yield cancel(pollingTradeStatusTask)
+  // }
 
   const destroyed = function * () {
     yield put(actions.form.destroy('exchange'))
