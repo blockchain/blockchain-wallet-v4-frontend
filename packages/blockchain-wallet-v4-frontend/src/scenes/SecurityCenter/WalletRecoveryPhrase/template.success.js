@@ -73,7 +73,7 @@ const WalletRecoveryPhrase = (props) => {
         }
       </SecurityGridContainer>
       {
-        alone || ui.nextStepToggled
+        alone
           ? <SecurityTip>
             <Text color='brand-primary' size='12px' weight={500}>
               <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.enable' defaultMessage='Security Tip' />

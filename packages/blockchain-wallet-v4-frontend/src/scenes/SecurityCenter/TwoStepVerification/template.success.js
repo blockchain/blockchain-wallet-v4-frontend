@@ -113,21 +113,7 @@ const TwoStepVerification = (props) => {
             <div />
             <DisableContainer style={spacing('pl-25')}>
               <Text weight={200} size='14px'>
-<<<<<<< HEAD
-                <FormattedMessage id='scenes.security.sms.twostepsetup' defaultMessage='Two-step verification is set up with {authName} for {number}.' values={{ authName: <span className='heavy'>{props.authName}</span>, number: <span className='heavy'>{smsNumber}</span> }} />
-                <FormattedMessage id='scenes.security.sms.twostepsetup.change' defaultMessage=' {changeNumber}' values={{ changeNumber: <a className='link' onClick={props.handleChangeNumber}> Change Mobile Number</a> }} style={spacing('ml-5')} />
-                {
-                  ui.changeNumberToggled && <ChangeMobileContainer>
-                    <Field name='mobileNumber' minHeight='25px' component={PhoneNumberBox} placeholder={smsNumber} />
-                    <Buttons style={spacing('mt-5')}>
-                      <Text cursor='pointer' weight={200} size='12px' onClick={props.cancelMobileChange} height='25px'>Cancel</Text>
-                      <Button nature='primary' onClick={props.submitMobileChange} height='25px' width='90px'>Change</Button>
-                    </Buttons>
-                  </ChangeMobileContainer>
-                }
-=======
                 <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Two-factor authentication is set up with {authName} for number {number}.' values={{ authName: <span className='heavy'>{props.authName}</span>, number: <span className='heavy'>{smsNumber}</span> }} />
->>>>>>> master
               </Text>
               <DisableLinkText size='14px' weight={300} flexRow='true' pulse={props.pulse}>
                 <FormattedMessage id='scenes.security.2fa.disablefirst' defaultMessage='To change your two-factor authentication method, disable your current one first. {link}' values={{ link: <a onClick={props.handleTwoFactorChange}>Disable {props.authName}</a> }} />
