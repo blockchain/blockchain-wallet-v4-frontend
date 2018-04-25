@@ -59,7 +59,7 @@ const EmailAddress = (props) => {
             <EmailExplanation>
               <FormattedMessage id='scenes.security.email.verifieddescription' defaultMessage='You’ve verified ' />
               {email}
-              <FormattedMessage id='scenes.security.email.verifieddescription2' defaultMessage='. If you’d like to update your email, click ‘Change’ on the right to get started with your new email. ' />
+              <FormattedMessage id='scenes.security.email.verifieddescription2' defaultMessage='. Select ‘Change Email’ on the right to modify this existing address. ' />
             </EmailExplanation>
             <FormattedMessage id='scenes.security.email.verifieddescription3' defaultMessage=' We will use this email to authorize logins, send payment notifications, and notify you of wallet updates.' />
           </React.Fragment>
@@ -79,7 +79,7 @@ const EmailAddress = (props) => {
       <React.Fragment>
         <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='We have sent a verification code to' />
         {email}
-        <FormattedMessage id='scenes.security.email.verifyemailaddress2' defaultMessage='. Please open the email and enter the code below to complete the verification process.' />
+        <FormattedMessage id='scenes.security.email.verifyemailaddress2' defaultMessage='. Please enter this code below to complete your email verification process.' />
       </React.Fragment>
     )
   }
