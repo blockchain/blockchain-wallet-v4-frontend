@@ -26,9 +26,6 @@
     "test:debug": "node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
     "test:watch": "./../../node_modules/.bin/jest --watchAll"
   },
-  "standard": {
-    "parser": "babel-eslint"
-  },
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.js"
@@ -54,7 +51,6 @@
     ]
   },
   "dependencies": {
-    "babel-eslint": "~8.2.2",
     "base-64": "^0.1.0",
     "bignumber.js": "^5.0.0",
     "bip21": "^2.0.1",

@@ -5,13 +5,23 @@ export const initialized = () => ({ type: AT.EXCHANGE_INITIALIZED })
 
 export const destroyed = () => ({ type: AT.EXCHANGE_DESTROYED })
 
+export const paymentUpdated = payment => ({ type: AT.EXCHANGE_PAYMENT_UPDATED, payload: payment })
+
+export const orderUpdated = order => ({ type: AT.EXCHANGE_ORDER_UPDATED, payload: order })
+
 export const firstStepInitialized = () => ({ type: AT.EXCHANGE_FIRST_STEP_INITIALIZED })
 
-export const firstStepLoading = () => ({ type: AT.EXCHANGE_FIRST_STEP_LOADING })
+export const firstStepSuccess = (data) => ({ type: AT.EXCHANGE_FIRST_STEP_SUCCESS, payload: data })
 
-export const firstStepLoaded = () => ({ type: AT.EXCHANGE_FIRST_STEP_LOADED })
+export const firstStepFailure = (error) => ({ type: AT.EXCHANGE_FIRST_STEP_FAILURE, payload: error })
 
-export const firstStepError = (message, data) => ({ type: AT.EXCHANGE_FIRST_STEP_ERROR, payload: { message, data } })
+export const firstStepEnabled = () => ({ type: AT.EXCHANGE_FIRST_STEP_ENABLED })
+
+export const firstStepDisabled = () => ({ type: AT.EXCHANGE_FIRST_STEP_DISABLED })
+
+export const firstStepFormValidated = () => ({ type: AT.EXCHANGE_FIRST_STEP_FORM_VALIDATED })
+
+export const firstStepFormUnvalidated = (error) => ({ type: AT.EXCHANGE_FIRST_STEP_FORM_UNVALIDATED, payload: error })
 
 export const firstStepSubmitClicked = () => ({ type: AT.EXCHANGE_FIRST_STEP_SUBMIT_CLICKED })
 
@@ -21,7 +31,7 @@ export const firstStepMinimumClicked = () => ({ type: AT.EXCHANGE_FIRST_STEP_MIN
 
 export const firstStepMaximumClicked = () => ({ type: AT.EXCHANGE_FIRST_STEP_MAXIMUM_CLICKED })
 
-export const secondStepInitialized = (depositFee, depositTotal) => ({ type: AT.EXCHANGE_SECOND_STEP_INITIALIZED, payload: { depositFee, depositTotal } })
+export const secondStepInitialized = () => ({ type: AT.EXCHANGE_SECOND_STEP_INITIALIZED })
 
 export const secondStepSuccess = (data) => ({ type: AT.EXCHANGE_SECOND_STEP_SUCCESS, payload: data })
 
@@ -34,5 +44,7 @@ export const secondStepCancelClicked = () => ({ type: AT.EXCHANGE_SECOND_STEP_CA
 export const secondStepOrderExpired = () => ({ type: AT.EXCHANGE_SECOND_STEP_ORDER_EXPIRED })
 
 export const thirdStepInitialized = () => ({ type: AT.EXCHANGE_THIRD_STEP_INITIALIZED })
+
+export const thirdStepTradeStatusChanged = (status) => ({ type: AT.EXCHANGE_THIRD_STEP_TRADE_STATUS_CHANGED, payload: status })
 
 export const thirdStepCloseClicked = () => ({ type: AT.EXCHANGE_THIRD_STEP_CLOSE_CLICKED })
