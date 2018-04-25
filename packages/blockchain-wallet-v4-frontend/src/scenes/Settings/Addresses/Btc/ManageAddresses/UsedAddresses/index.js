@@ -2,29 +2,36 @@ import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import UsedAddressesTemplate from './template'
 
 class UsedAddressesContainer extends React.PureComponent {
   constructor (props) {
     super(props)
 
-    this.state = { usedAddressesVisible: false }
     this.onShowUsedAddresses = this.onShowUsedAddresses.bind(this)
   }
 
   onShowUsedAddresses () {
-    this.props.modalsActions.showModal('ShowUsedAddresses')
-    this.setState({ usedAddressesVisible: !this.state.usedAddressesVisible })
+    if (this.props.showUsedAddresses) {
+      this.props.actions.toggleUsedAddresses()
+    } else {
+      this.props.modalsActions.showModal('ShowUsedAddresses')
+    }
   }
 
   render () {
-    return <UsedAddressesTemplate usedAddressesVisible={this.state.usedAddressesVisible} onShowUsedAddresses={this.onShowUsedAddresses} />
+    return <UsedAddressesTemplate usedAddressesVisible={this.props.showUsedAddresses} onShowUsedAddresses={this.onShowUsedAddresses} />
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  modalsActions: bindActionCreators(actions.modals, dispatch)
+const mapStateToProps = state => ({
+  showUsedAddresses: selectors.components.usedAddresses.getUsedAddressesVisiblity(state)
 })
 
-export default connect(null, mapDispatchToProps)(UsedAddressesContainer)
+const mapDispatchToProps = (dispatch) => ({
+  modalsActions: bindActionCreators(actions.modals, dispatch),
+  actions: bindActionCreators(actions.components.usedAddresses, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(UsedAddressesContainer)

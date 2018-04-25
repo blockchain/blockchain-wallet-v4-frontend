@@ -1,9 +1,9 @@
 import React from 'react'
-import styled from 'styled-components'
+// import styled from 'styled-components'
 
-import { Icon, Text, TableCell, TableRow, Link } from 'blockchain-info-components'
+import { Text, TableCell, TableRow, Link } from 'blockchain-info-components'
 
-const UsedAddressesTableEntry = ({  }) => (
+const UsedAddressesTableEntry = () => (
   <TableRow>
     <TableCell width='40%'>
       <Link href={`https://blockchain.info/address/1`} size='small' weight={300} target='_blank'>
