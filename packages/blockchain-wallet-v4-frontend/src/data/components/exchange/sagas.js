@@ -7,7 +7,7 @@ import * as actions from '../../actions'
 import * as actionTypes from '../../actionTypes'
 import * as selectors from '../../selectors'
 import settings from 'config'
-import { getPairFromCoin, getMinimum, getMaximum, convertFiatToCoin, convertCoinToFiat, isAmountAboveMinimum, isAmountBelowMaximum } from './services'
+import { getPairFromCoin, getMinimum, getMaximum, convertFiatToCoin, convertCoinToFiat, convertStandardToBase, isAmountAboveMinimum, isAmountBelowMaximum, calculateFinalAmount, selectFee } from './services'
 import { getActiveBchAccounts, getActiveBtcAccounts, getActiveEthAccounts, getBtcAccounts, selectRates, selectReceiveAddress } from '../utils/sagas'
 
 export default ({ api, coreSagas }) => {
@@ -39,6 +39,40 @@ export default ({ api, coreSagas }) => {
     let payment = coreSagas.payment.eth.create(({ network: settings.NETWORK_ETHEREUM }))
     payment = yield payment.init()
     return yield payment.from(source)
+  }
+
+  const createPayment = function * (coin, sourceAddress, targetAddress, amount) {
+    let payment
+    console.log('createPayment', coin, sourceAddress, targetAddress, amount)
+    switch (coin) {
+      case 'BCH': {
+        payment = coreSagas.payment.bch.create({ network: settings.NETWORK_BCH })
+        payment = yield payment.init()
+        payment = yield payment.fee('priority')
+        payment = yield payment.amount(parseInt(amount))
+        break
+      }
+      case 'BTC': {
+        payment = coreSagas.payment.btc.create({ network: settings.NETWORK_BITCOIN })
+        payment = yield payment.init()
+        payment = yield payment.fee('priority')
+        payment = yield payment.amount(parseInt(amount))
+        break
+      }
+      case 'ETH': {
+        payment = coreSagas.payment.eth.create({ network: settings.NETWORK_ETHEREUM })
+        payment = yield payment.init()
+        payment = yield payment.amount(amount)
+        break
+      }
+      default: throw new Error('Could not create payment.')
+    }
+    console.log('paymentttt', payment)
+    payment = yield payment.from(sourceAddress)
+    payment = yield payment.to(targetAddress)
+    payment = yield payment.build()
+    console.log('paymenttt2', payment)
+    return payment
   }
 
   const getPair = function * (source, target) {
@@ -253,46 +287,43 @@ export default ({ api, coreSagas }) => {
   const firstStepSubmitClicked = function * () {
     try {
       const form = yield select(selectors.form.getFormValues('exchange'))
-      const sourceCoin = path(['source', 'coin'], form)
-      const targetCoin = path(['target', 'coin'], form)
-      const sourceAmount = prop('sourceAmount', form)
-      const sourceAddress = path(['source', 'address'], form)
-      const targetAddress = path(['target', 'address'], form)
-      const returnAddress = yield call(selectReceiveAddress, sourceAddress)
-      const withdrawalAddress = yield call(selectReceiveAddress, targetAddress)
-      console.log('returnAddress', returnAddress)
-      console.log('withdrawalAddress', withdrawalAddress)
+      const source = prop('source', form)
+      const target = prop('target', form)
+      const sourceCoin = prop('coin', source)
+      const targetCoin = prop('coin', target)
+      const sourceAddress = prop('address', source)
+      const targetAddress = prop('address', target)
+      const amount = prop('sourceAmount', form)
+      const returnAddress = yield call(selectReceiveAddress, source)
+      const withdrawalAddress = yield call(selectReceiveAddress, target)
       // Shapeshift order
       const pair = getPairFromCoin(sourceCoin, targetCoin)
-      const orderData = yield call(api.createOrder, sourceAmount, pair, returnAddress, withdrawalAddress)
+      const orderData = yield call(api.createOrder, amount, pair, returnAddress, withdrawalAddress)
       if (!has('success', orderData)) throw new Error('Shapeshift order could not be placed.')
       const order = prop('success', orderData)
-      console.log('order', order)
-      // Prepare payment
-      // let finalPayment
-      // switch (sourceCoin) {
-      //   case 'BCH':
-      //     finalPayment = coreSagas.payment.bch.create({ payment: payment.value(), network: settings.NETWORK_BCH })
-      //     finalPayment = yield finalPayment.to()
-      //     finalPayment = yield finalPayment.amount(parseInt(sourceAmount))
-      //     break
-      //   case 'BTC':
-      //     finalPayment = coreSagas.payment.btc.create({ payment: payment.value(), network: settings.NETWORK_BITCOIN })
-      //     finalPayment = yield finalPayment.to()
-      //     finalPayment = yield finalPayment.amount(parseInt(sourceAmount))
-      //     break
-      //   case 'ETH':
-      //     finalPayment = coreSagas.payment.eth.create({ payment: payment.value(), network: settings.NETWORK_ETHEREUM })
-      //     finalPayment = yield finalPayment.to()
-      //     finalPayment = yield finalPayment.amount(sourceAmount)
-      //     break
-      // }
-      // finalPayment = yield finalPayment.build()
-
-      console.log('withdrawalAddress', withdrawalAddress)
-      // yield put(A.paymentUpdated(finalPayment))
+      yield put(A.orderUpdated(order))
+      // Create final payment
+      const depositAmount = prop('depositAmount', order)
+      const sourceAmount = convertStandardToBase(sourceCoin, depositAmount)
+      const finalPayment = yield call(createPayment, sourceCoin, sourceAddress, targetAddress, sourceAmount)
+      yield put(A.paymentUpdated(finalPayment.value()))
+      // Prepare data for confirmation screen
+      const sourceFee = selectFee(sourceCoin, finalPayment.value())
+      const sourceTotal = calculateFinalAmount(sourceAmount, sourceFee)
+      const data = {
+        sourceCoin,
+        sourceAmount,
+        sourceFee,
+        sourceTotal,
+        exchangeRate: `1 ${sourceCoin} = ${prop('quotedRate', order)} ${targetCoin}`,
+        targetCoin,
+        targetAmount: prop('withdrawalAmount', order),
+        targetFee: prop('minerFee', order),
+        expiration: prop('expiration', order)
+      }
+      yield put(A.secondStepSuccess(data))
     } catch (e) {
-      console.log(e)
+      yield put(A.secondStepFailure('An error has occured.'))
     }
   }
 

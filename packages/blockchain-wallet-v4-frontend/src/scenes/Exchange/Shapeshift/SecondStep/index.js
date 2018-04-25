@@ -9,6 +9,10 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class SecondStepContainer extends React.Component {
+  componentDidMount () {
+    this.props.actions.secondStepInitialized()
+  }
+
   render () {
     return this.props.data.cata({
       Success: (value) => <Success

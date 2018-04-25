@@ -7,9 +7,10 @@ export const destroyed = () => ({ type: AT.EXCHANGE_DESTROYED })
 
 export const paymentUpdated = payment => ({ type: AT.EXCHANGE_PAYMENT_UPDATED, payload: payment })
 
+export const orderUpdated = order => ({ type: AT.EXCHANGE_ORDER_UPDATED, payload: order })
+
 export const accountsUpdated = accounts => ({ type: AT.EXCHANGE_ACCOUNTS_UPDATED, payload: accounts })
 
-export const limitsUpdated = (minimum, maximum) => ({ type: AT.EXCHANGE_LIMITS_UPDATED, payload: { minimum, maximum } })
 
 export const firstStepInitialized = () => ({ type: AT.EXCHANGE_FIRST_STEP_INITIALIZED })
 
