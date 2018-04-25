@@ -1,4 +1,4 @@
-import { head, map, path, prop, curry, lift } from 'ramda'
+import { curry, head, lift, map, path, prop } from 'ramda'
 import { getTransactionsByAddress, getAddresses, getHeight } from '../../data/ethereum/selectors.js'
 import { getAccounts } from '../../kvStore/ethereum/selectors.js'
 import * as transactions from '../../../transactions'

@@ -40,10 +40,8 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     data: merge({ method: 'insert', format: 'plain', email }, data)
   }).then(() => data.checksum)
 
-  const fetchBlockchainData = (context, { n = 50, offset = 0, onlyShow = '' } = {}) => post({
-    url: rootUrl,
-    endPoint: '/multiaddr',
-    data: {
+  const fetchBlockchainData = (context, { n = 50, offset = 0, onlyShow } = {}) => {
+    const data = onlyShow ? {
       active: (Array.isArray(context) ? context : [context]).join('|'),
       onlyShow: onlyShow,
       format: 'json',
@@ -53,8 +51,22 @@ export default ({ rootUrl, apiUrl, get, post }) => {
       n: n,
       language: 'en',
       no_buttons: true
+    } : {
+      active: (Array.isArray(context) ? context : [context]).join('|'),
+      format: 'json',
+      offset: offset,
+      no_compact: true,
+      ct: new Date().getTime(),
+      n: n,
+      language: 'en',
+      no_buttons: true
     }
-  })
+    return post({
+      url: rootUrl,
+      endPoint: '/multiaddr',
+      data
+    })
+  }
 
   const obtainSessionToken = () => post({
     url: rootUrl,
