@@ -1,11 +1,10 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import { Text, Button, Link, ButtonGroup } from 'blockchain-info-components'
+import { Text, Button, Link } from 'blockchain-info-components'
 import styled, { keyframes } from 'styled-components'
-import { Field, reduxForm } from 'redux-form'
+import { reduxForm } from 'redux-form'
 import { SecurityComponent, SecurityContainer, SecurityDescription, SecurityHeader, SecurityIcon, SecuritySummary, SecurityTip, IconContainer } from 'components/Security'
-import { PhoneNumberBox } from 'components/Form'
 import GoogleAuth from './GoogleAuth'
 import Yubikey from './Yubikey'
 import SmsAuth from './SMS'
@@ -64,25 +63,6 @@ const Header = SecurityHeader.extend`
   justify-content: flex-start;
   align-items: center;
 `
-const ChangeMobileContainer = styled.form`
-  display: flex;
-  margin-left: 10px;
-  flex-direction: column;
-  input {
-    min-height: 15px;
-    padding: 0px 5px;
-  }
-  button {
-    height: 25px;
-    font-size: 12px;
-    padding: 0px;
-  }
-`
-const Buttons = styled(ButtonGroup)`
-  button {
-    margin-left: 10px;
-  }
-`
 const TipText = styled(Text)`
 text-align: justify;
 display: inline;
@@ -133,6 +113,7 @@ const TwoStepVerification = (props) => {
             <div />
             <DisableContainer style={spacing('pl-25')}>
               <Text weight={200} size='14px'>
+<<<<<<< HEAD
                 <FormattedMessage id='scenes.security.sms.twostepsetup' defaultMessage='Two-step verification is set up with {authName} for {number}.' values={{ authName: <span className='heavy'>{props.authName}</span>, number: <span className='heavy'>{smsNumber}</span> }} />
                 <FormattedMessage id='scenes.security.sms.twostepsetup.change' defaultMessage=' {changeNumber}' values={{ changeNumber: <a className='link' onClick={props.handleChangeNumber}> Change Mobile Number</a> }} style={spacing('ml-5')} />
                 {
@@ -144,6 +125,9 @@ const TwoStepVerification = (props) => {
                     </Buttons>
                   </ChangeMobileContainer>
                 }
+=======
+                <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Two-factor authentication is set up with {authName} for number {number}.' values={{ authName: <span className='heavy'>{props.authName}</span>, number: <span className='heavy'>{smsNumber}</span> }} />
+>>>>>>> master
               </Text>
               <DisableLinkText size='14px' weight={300} flexRow='true' pulse={props.pulse}>
                 <FormattedMessage id='scenes.security.2fa.disablefirst' defaultMessage='To change your two-factor authentication method, disable your current one first. {link}' values={{ link: <a onClick={props.handleTwoFactorChange}>Disable {props.authName}</a> }} />

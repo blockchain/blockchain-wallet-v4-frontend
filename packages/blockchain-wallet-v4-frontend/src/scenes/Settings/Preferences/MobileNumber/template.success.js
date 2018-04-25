@@ -6,7 +6,7 @@ import Settings from './Settings'
 
 const MobileNumber = (props) => {
   const { data } = props
-  const { smsNumber, smsVerified } = data
+  const { smsNumber, smsVerified, authType } = data
   const isVerified = smsVerified === 1
 
   return (
@@ -28,7 +28,7 @@ const MobileNumber = (props) => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Settings smsNumber={smsNumber} smsVerified={smsVerified} />
+        <Settings smsNumber={smsNumber} smsVerified={smsVerified} authType={authType} />
       </SettingComponent>
     </SettingContainer>
   )

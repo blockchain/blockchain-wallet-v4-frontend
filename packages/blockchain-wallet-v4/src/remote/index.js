@@ -58,4 +58,13 @@ Remote.prototype.getOrElse = function (defaultValue) {
   })
 }
 
+Remote.prototype.getOrFail = function (errorValue) {
+  return this.cata({
+    Success: (value) => value,
+    Failure: () => { throw errorValue },
+    Loading: () => { throw errorValue },
+    NotAsked: () => { throw errorValue }
+  })
+}
+
 export default Remote
