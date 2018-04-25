@@ -35,3 +35,9 @@ export const handle2FAReset = (token) => ({ type: AT.HANDLE_2FA_RESET, payload: 
 export const handle2FAResetLoading = () => ({ type: AT.HANDLE_2FA_RESET_LOADING })
 export const handle2FAResetSuccess = (data) => ({ type: AT.HANDLE_2FA_RESET_SUCCESS, payload: data })
 export const handle2FAResetFailure = (data) => ({ type: AT.HANDLE_2FA_RESET_FAILURE, payload: data })
+
+// VERIFY_EMAIL_TOKEN
+export const verifyEmailToken = (token) => ({ type: AT.VERIFY_EMAIL_TOKEN, payload: { token } })
+export const verifyEmailTokenLoading = () => ({ type: AT.VERIFY_EMAIL_TOKEN_LOADING })
+export const verifyEmailTokenSuccess = (data) => ({ type: AT.VERIFY_EMAIL_TOKEN_SUCCESS, payload: data })
+export const verifyEmailTokenFailure = (data) => ({ type: AT.VERIFY_EMAIL_TOKEN_FAILURE, payload: data })

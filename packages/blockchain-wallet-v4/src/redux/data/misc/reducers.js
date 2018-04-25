@@ -7,6 +7,7 @@ const INITIAL_STATE = {
   captcha: Remote.NotAsked,
   pairing_code: Remote.NotAsked,
   price_index_series: Remote.NotAsked,
+  verify_email_token: Remote.NotAsked,
   handle_2fa_reset: Remote.NotAsked,
   authorize_login: Remote.NotAsked
 }
@@ -68,6 +69,15 @@ const miscReducer = (state = INITIAL_STATE, action) => {
     }
     case AT.HANDLE_2FA_RESET_FAILURE: {
       return assoc('handle_2fa_reset', Remote.Failure(payload), state)
+    }
+    case AT.VERIFY_EMAIL_TOKEN_LOADING: {
+      return assoc('verify_email_token', Remote.Loading, state)
+    }
+    case AT.VERIFY_EMAIL_TOKEN_SUCCESS: {
+      return assoc('verify_email_token', Remote.Success(payload), state)
+    }
+    case AT.VERIFY_EMAIL_TOKEN_FAILURE: {
+      return assoc('verify_email_token', Remote.Failure(payload), state)
     }
     default:
       return state

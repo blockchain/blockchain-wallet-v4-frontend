@@ -141,6 +141,15 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     }
   })
 
+  const verifyEmailToken = (token) => post({
+    url: rootUrl,
+    endPoint: '/wallet',
+    data: {
+      token: token,
+      method: 'verify-email-token'
+    }
+  })
+
   const incrementStat = (eventName) => get({
     url: rootUrl,
     endPoint: '/event',
@@ -183,6 +192,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     savePayload,
     incrementStat,
     handle2faReset,
+    verifyEmailToken,
     incrementSecPasswordStats,
     incrementLoginViaQrStats,
     incrementCurrencyUsageStats
