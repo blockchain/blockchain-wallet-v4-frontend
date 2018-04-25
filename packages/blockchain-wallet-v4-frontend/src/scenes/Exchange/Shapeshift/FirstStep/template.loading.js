@@ -1,13 +1,9 @@
+
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Field, reduxForm } from 'redux-form'
 
-import { Button, Text } from 'blockchain-info-components'
-import { Form } from 'components/Form'
-import CoinConvertor from './CoinConvertor'
-import SelectBoxAccounts from './SelectBoxAccounts'
-import MinimumMaximum from './MinimumMaximum'
+import { SkeletonRectangle, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -19,88 +15,74 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   border: 1px solid ${props => props.theme['gray-2']};
 `
-const Header = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-  width: 100%;
-`
 const Row = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: ${props => props.justify || 'flex-start'};
   align-items: flex-start;
   width: 100%;
-
+  height: ${props => props.height || 'auto'};
   margin-bottom: 10px;
 `
-const Container = styled.div`
+const Cell = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  width: 45%;
-  flex-grow: 2;
-`
-const ContainerMiddle = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
-  width: 10%;
-  min-width: 50px;
-  flex-grow: 1;
-
-  & > :first-child:hover { color: ${props => props.theme['brand-primary']}; }
+  justify-content: center;
+  align-items: ${props => props.size === 'small' ? 'center' : 'flex-start'};
+  width: ${props => props.size === 'small' ? '10%' : '45%'};
+  height: 100%;
 `
 
-const Loading = props => {
-  const { handleSubmit, invalid, submitting, ...rest } = props
+const Loading = props => (
+  <Wrapper>
+    <Row justify='flex-end'>
+      <Text size='12px' weight={300}>
+        <FormattedMessage id='scenes.exchange.shapeshift.firststep.step' defaultMessage='Step 1 of 2' />
+      </Text>
+    </Row>
+    <Row>
+      <Cell>
+        <SkeletonRectangle width='100px' height='20px' />
+      </Cell>
+      <Cell size='small' />
+      <Cell>
+        <SkeletonRectangle width='100px' height='20px' />
+      </Cell>
+    </Row>
+    <Row height='50px'>
+      <Cell>
+        <SkeletonRectangle width='100%' height='25px' />
+      </Cell>
+      <Cell size='small'>
+        <SkeletonRectangle width='20px' height='20px' />
+      </Cell>
+      <Cell>
+        <SkeletonRectangle width='100%' height='25px' />
+      </Cell>
+    </Row>
+    <Row>
+      <SkeletonRectangle width='200px' height='20px' />
+    </Row>
+    <Row height='80px'>
+      <Cell>
+        <SkeletonRectangle width='100%' height='25px' />
+        <SkeletonRectangle width='100%' height='25px' />
+      </Cell>
+      <Cell size='small'>
+        <SkeletonRectangle width='20px' height='20px' />
+      </Cell>
+      <Cell>
+        <SkeletonRectangle width='100%' height='25px' />
+        <SkeletonRectangle width='100%' height='25px' />
+      </Cell>
+    </Row>
+    <Row>
+      <SkeletonRectangle width='200px' height='15px' />
+    </Row>
+    <Row>
+      <SkeletonRectangle width='100%' height='25px' />
+    </Row>
+  </Wrapper>
+)
 
-  return (
-    <Wrapper>
-      <Header>
-        <Text size='12px' weight={300}>
-          <FormattedMessage id='scenes.exchange.shapeshift.firststep.exchangeform.step' defaultMessage='Step 1 of 2' />
-        </Text>
-      </Header>
-      <Form onSubmit={handleSubmit}>
-        <Row>
-          <Container>
-            <Text size='14px' weight={400}>
-              <FormattedMessage id='scenes.exchange.shapeshift.firststep.exchangeform.from' defaultMessage='Exchange:' />
-            </Text>
-          </Container>
-          <ContainerMiddle />
-          <Container>
-            <Text size='14px' weight={400}>
-              <FormattedMessage id='scenes.exchange.shapeshift.firststep.exchangeform.to' defaultMessage='Receive:' />
-            </Text>
-          </Container>
-        </Row>
-        <Row>
-          <Field name='accounts' component={SelectBoxAccounts} {...rest} loading />
-        </Row>
-        <Row>
-          <Text size='14px' weight={400}>
-            <FormattedMessage id='scenes.exchange.shapeshift.firststep.exchangeform.amount' defaultMessage='Enter amount:' />
-          </Text>
-        </Row>
-        <Row>
-          <Field name='amount' component={CoinConvertor} {...rest} loading />
-        </Row>
-        <Row>
-          <MinimumMaximum {...rest} />
-        </Row>
-        <Row>
-          <Button type='submit' nature='primary' fullwidth disabled>
-            <FormattedMessage id='scenes.exchange.shapeshift.firststep.exchangeform.next' defaultMessage='Next' />
-          </Button>
-        </Row>
-      </Form>
-    </Wrapper>
-  )
-}
-
-export default reduxForm({ form: 'exchange', destroyOnUnmount: false })(Loading)
+export default Loading

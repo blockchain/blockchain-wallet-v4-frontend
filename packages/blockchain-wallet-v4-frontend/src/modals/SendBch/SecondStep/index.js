@@ -4,23 +4,26 @@ import { bindActionCreators } from 'redux'
 
 import { getData } from './selectors'
 import { actions } from 'data'
-import SecondStep from './template.js'
+
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
 
 class SecondStepContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.handleSubmit = this.handleSubmit.bind(this)
-  }
-
-  handleSubmit (e) {
-    e.preventDefault()
-    const { selection } = this.props.data
-    this.props.sendBchActions.sendBch(selection)
-  }
-
   render () {
-    const { data, ...rest } = this.props
-    return <SecondStep {...rest} {...data} handleSubmit={this.handleSubmit} />
+    const { data, actions } = this.props
+
+    return data.cata({
+      Success: (value) => <Success
+        {...value}
+        coin='BCH'
+        handleSubmit={() => actions.sendBchSecondStepSubmitClicked()}
+        handleBack={() => actions.sendBchSecondStepCancelClicked()}
+      />,
+      Failure: (message) => <Error>{message}</Error>,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
+    })
   }
 }
 
@@ -29,7 +32,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  sendBchActions: bindActionCreators(actions.modules.sendBch, dispatch)
+  actions: bindActionCreators(actions.components.sendBch, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SecondStepContainer)

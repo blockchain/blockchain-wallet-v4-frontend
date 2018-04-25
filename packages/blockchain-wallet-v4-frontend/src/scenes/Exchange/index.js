@@ -1,58 +1,60 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { equals } from 'ramda'
+import styled from 'styled-components'
 
-import { actions, selectors } from 'data'
-import { getData } from './selectors'
-import Error from './template.error'
-import Loading from './template.loading'
-import Success from './template.success'
-import StateSelect from './StateSelect'
+import ExchangeLayout from 'layouts/Exchange'
+import Shapeshift from './Shapeshift'
+import Info from './Info'
+import Support from './Support'
 
-class ExchangeContainer extends React.PureComponent {
-  constructor (props) {
-    super()
-    this.state = { storedState: false } // TODO for V3, this is kept in metadata, should come from shapeshift KV
-    this.onHandleNextStep = this.onHandleNextStep.bind(this)
+const Wrapper = styled.section`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: start;
+  width: 100%;
+  padding: 30px;
+  box-sizing: border-box;
+  @media(min-width: 992px) { flex-direction: row; }
+`
+const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+`
+const ColumnLeft = styled(Column)`
+  align-items: flex-end;
+  order: 2;
+  margin-right: 10px;
+  & > :first-child { margin-bottom: 10px; }
+  @media(min-width: 992px) {
+    order: 1;
+    width: 60%;
   }
-
-  componentWillMount () {
-    this.props.dataBitcoinActions.fetchFee()
-    this.props.dataBchActions.fetchFee()
-    this.props.dataEthereumActions.fetchFee()
+`
+const ColumnRight = styled(Column)`
+  order: 1;
+  padding: 0;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+  @media(min-width: 992px) {
+    order: 2;
+    width: 40%;
   }
+`
+const Exchange = () => (
+  <ExchangeLayout>
+    <Wrapper>
+      <ColumnLeft>
+        <Shapeshift />
+        <Support />
+      </ColumnLeft>
+      <ColumnRight>
+        <Info />
+      </ColumnRight>
+    </Wrapper>
+  </ExchangeLayout>
+)
 
-  onHandleNextStep () {
-    // TODO store state selection in metadata
-    this.setState({ storedState: true })
-  }
-
-  renderComponent (value) {
-    return equals(this.props.countryCode, 'US') && !this.state.storedState
-      ? <StateSelect handleNextStep={this.onHandleNextStep} />
-      : <Success {...value} />
-  }
-
-  render () {
-    return this.props.data.cata({
-      Success: value => this.renderComponent(value),
-      Failure: message => <Error>{message}</Error>,
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />
-    })
-  }
-}
-
-const mapStateToProps = state => ({
-  data: getData(state),
-  countryCode: selectors.core.settings.getCountryCode(state)
-})
-
-const mapDispatchToProps = dispatch => ({
-  dataBitcoinActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
-  dataBchActions: bindActionCreators(actions.core.data.bch, dispatch),
-  dataEthereumActions: bindActionCreators(actions.core.data.ethereum, dispatch)
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(ExchangeContainer)
+export default Exchange

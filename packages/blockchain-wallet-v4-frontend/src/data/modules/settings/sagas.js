@@ -200,11 +200,10 @@ export default ({ coreSagas }) => {
   }
 
   const showPrivateKey = function * (action) {
-    let { addr } = action.payload
-    let password = yield call(promptForSecondPassword)
-    let wallet = yield select(selectors.core.wallet.getWallet)
-    let priv = Types.Wallet.getPrivateKeyForAddress(wallet, password, addr).getOrElse(null)
-
+    const { addr } = action.payload
+    const password = yield call(promptForSecondPassword)
+    const wallet = yield select(selectors.core.wallet.getWallet)
+    const priv = Types.Wallet.getPrivateKeyForAddress(wallet, password, addr).getOrElse(null)
     if (priv != null) {
       yield put(actions.modules.settings.addShownPrivateKey(priv))
     } else {

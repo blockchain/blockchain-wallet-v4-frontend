@@ -1,19 +1,18 @@
 import { call, select } from 'redux-saga/effects'
 
 import * as wS from '../../wallet/selectors'
-import { sign } from '../../../signer'
-import { txHexToHashHex } from '../../../utils/bitcoin'
+import * as signer from '../../../signer'
+import { futurizeP } from 'futurize'
+import Task from 'data.task'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
-export default ({ api }) => {
+export default ({ api } = {}) => {
+  const pushBchTx = futurizeP(Task)(api.pushBchTx)
   const signAndPublish = function * ({ network, selection, password }) {
     const wrapper = yield select(wS.getWrapper)
-    const signAndPublish = (sel, pass) => taskToPromise(sign('BCH', network, pass, wrapper, sel))
-      .then(txHex => api.pushBchTx(txHex)
-        .then(() => txHexToHashHex(txHex)))
-
-    return yield call(signAndPublish, selection, password)
+    let signAndPublish = signer.bch.sign(network, password, wrapper, selection).chain(pushBchTx)
+    return yield call(() => taskToPromise(signAndPublish))
   }
 
   return {
