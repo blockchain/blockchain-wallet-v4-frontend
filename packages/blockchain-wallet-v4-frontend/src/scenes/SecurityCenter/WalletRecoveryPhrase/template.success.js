@@ -73,13 +73,13 @@ const WalletRecoveryPhrase = (props) => {
         }
       </SecurityGridContainer>
       {
-        alone
+        alone || ui.nextStepToggled
           ? <SecurityTip>
             <Text color='brand-primary' size='12px' weight={500}>
               <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.enable' defaultMessage='Security Tip' />
             </Text>
             <Text weight={200} size='12px'>
-              <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.enable' defaultMessage='Do not store your Backup Phrase on your computer or online anywhere. It is very important to keep your Backup Phrase offline in a safe and private place. As a reminder, anyone with access to your Backup Phrase has access to your funds.' />
+              <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.enable' defaultMessage='Do not store your backup phrase on your computer or anywhere online. It is very important to keep your backup phrase offline in a private place. As a reminder: anyone with access to your backup phrase can access your funds.' />
             </Text>
           </SecurityTip>
           : null
