@@ -42,7 +42,7 @@ export default ({ api }) => {
       const bchAccounts = prop('accounts', newkv.value) || []
       if (isNil(newkv.value) || gt(length(hdAccounts), length(bchAccounts))) {
         yield call(createBch, newkv, hdAccounts, bchAccounts)
-      } 
+      }
       yield put(A.fetchMetadataBchSuccess(newkv))
     } catch (e) {
       yield put(A.fetchMetadataBchFailure(e.message))

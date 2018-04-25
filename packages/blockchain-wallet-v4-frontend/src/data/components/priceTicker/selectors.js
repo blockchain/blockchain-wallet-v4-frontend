@@ -11,8 +11,7 @@ const selectRates = (coin, state) => {
   }
 }
 
-const convertCoinToFiat = (coin, rates) => {
-  const currency = 'USD'
+const convertCoinToFiat = (coin, rates, currency) => {
   switch (coin) {
     case 'BCH': return Exchange.displayBchToFiat({ value: 1, fromUnit: 'BCH', toCurrency: currency, rates })
     case 'BTC': return Exchange.displayBitcoinToFiat({ value: 1, fromUnit: 'BTC', toCurrency: currency, rates })
@@ -23,11 +22,12 @@ const convertCoinToFiat = (coin, rates) => {
 
 export const getData = (coin, state) => {
   const ratesR = selectRates(coin, state)
+  const currencyR = selectors.core.settings.getCurrency(state)
 
-  const transform = (rates) => ({
+  const transform = (rates, currency) => ({
     coin: `1 ${coin}`,
-    fiat: convertCoinToFiat(coin, rates)
+    fiat: convertCoinToFiat(coin, rates, currency)
   })
 
-  return lift(transform)(ratesR)
+  return lift(transform)(ratesR, currencyR)
 }
