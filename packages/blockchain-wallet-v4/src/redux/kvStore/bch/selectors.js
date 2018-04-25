@@ -1,4 +1,4 @@
-import { keys, lift, map, path } from 'ramda'
+import { curry, keys, lift, map, path } from 'ramda'
 import { BCH } from '../config'
 import { kvStorePath } from '../../paths'
 
@@ -15,4 +15,4 @@ export const getAccountsList = state => {
 
 export const getDefaultAccountId = state => getMetadata(state).map(path(['value', 'default_account_idx']))
 
-export const getAccountLabel = (state, index) => getAccounts(state).map(path([index, 'label']))
+export const getAccountLabel = curry((state, index) => getAccounts(state).map(path([index, 'label'])))

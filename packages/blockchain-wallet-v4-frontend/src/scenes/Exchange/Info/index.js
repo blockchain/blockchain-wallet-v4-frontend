@@ -14,25 +14,21 @@ const Wrapper = styled.section`
   box-sizing: border-box;
 `
 
-const Info = () => {
-  return (
-    <Wrapper>
-      <Text size='18px' weight={600} color='brand-primary' >
-        <FormattedMessage id='scenes.exchange.simple' defaultMessage='Simple. Seamless. Secure.' />
+export default () => (
+  <Wrapper>
+    <Text size='18px' weight={600} color='brand-primary' >
+      <FormattedMessage id='scenes.exchange.simple' defaultMessage='Simple. Seamless. Secure.' />
+    </Text>
+    <TextGroup inline>
+      <Text size='13px' weight={300}>
+        <FormattedMessage id='scenes.exchange.summary' defaultMessage='You can now exchange your bitcoin for ether and vice versa directly from your Blockchain wallet.' />
       </Text>
-      <TextGroup inline>
-        <Text size='13px' weight={300}>
-          <FormattedMessage id='scenes.exchange.summary' defaultMessage='You can exchange between bitcoin, ether, and bitcoin cash directly from your Blockchain wallet.' />
-        </Text>
-        <Text size='13px' weight={300}>
-          <FormattedMessage id='scenes.exchange.summary2' defaultMessage='In a few simple steps, your exchange will be in progress.' />
-        </Text>
-        <Text size='13px' weight={300}>
-          <FormattedMessage id='scenes.exchange.summary3' defaultMessage='Note: exchanges usually take between twenty minutes and two hours.' />
-        </Text>
-      </TextGroup>
-    </Wrapper>
-  )
-}
-
-export default Info
+      <Text size='13px' weight={300}>
+        <FormattedMessage id='scenes.exchange.summary2' defaultMessage='In a few simple steps, your exchange will be in progress.' />
+      </Text>
+      <Text size='13px' weight={300}>
+        <FormattedMessage id='scenes.exchange.summary3' defaultMessage='Note: exchanges usually take between twenty minutes and two hours.' />
+      </Text>
+    </TextGroup>
+  </Wrapper>
+)

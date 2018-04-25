@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import ActivityList from './ActivityList'
+// import ActivityList from './ActivityList'
 import DidYouKnow from './DidYouKnow'
 import PriceChart from './PriceChart'
 import BalancesChartContainer from './BalancesChart'
@@ -44,7 +44,7 @@ const Home = () => (
   <Wrapper>
     <ColumnLeft>
       <BalancesChartContainer />
-      <ActivityList />
+      {/* <ActivityList /> */}
     </ColumnLeft>
     <ColumnRight>
       <PriceChart />
