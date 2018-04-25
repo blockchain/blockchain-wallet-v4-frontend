@@ -5,30 +5,40 @@ import { connect } from 'react-redux'
 
 import { actions } from 'data'
 import { getData } from './selectors'
-import ThirdStep from './template'
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
 
 class ThirdStepContainer extends React.Component {
-  render () {
-    const { sourceCoin, targetCoin, sourceAmount, status, exchangeRate, transactionFee, orderId, depositAmount, withdrawalAmount } = this.props
+  componentDidMount () {
+    this.props.thirdStepInitialized()
+  }
 
-    return (
-      <ThirdStep
-        sourceCoin={sourceCoin}
-        targetCoin={targetCoin}
-        sourceAmount={sourceAmount}
-        status={status}
-        exchangeRate={exchangeRate}
-        transactionFee={transactionFee}
-        orderId={orderId}
-        depositAmount={depositAmount}
-        withdrawalAmount={withdrawalAmount}
-        handleClose={() => this.props.actions.thirdStepCloseClicked()}
-      />
-    )
+  render () {
+    const { data, actions } = this.props
+
+    return data.cata({
+      Success: (value) => <Success
+        sourceCoin={value.sourceCoin}
+        targetCoin={value.targetCoin}
+        status={value.status}
+        exchangeRate={value.exchangeRate}
+        transactionFee={value.transactionFee}
+        orderId={value.orderId}
+        depositAmount={value.depositAmount}
+        withdrawalAmount={value.withdrawalAmount}
+        handleClose={() => actions.thirdStepCloseClicked()}
+      />,
+      Failure: (message) => <Error>{message}</Error>,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
+    })
   }
 }
 
-const mapStateToProps = state => getData(state)
+const mapStateToProps = state => ({
+  data: getData(state)
+})
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.exchange, dispatch)

@@ -59,16 +59,13 @@ export default (state = INITIAL_STATE, action) => {
     case AT.EXCHANGE_SECOND_STEP_FAILURE: {
       return assoc('secondStep', Remote.Failure(payload), state)
     }
+    case AT.EXCHANGE_SECOND_STEP_ORDER_EXPIRED:
     case AT.EXCHANGE_SECOND_STEP_CANCEL_CLICKED: {
       return INITIAL_STATE
     }
     case AT.EXCHANGE_SECOND_STEP_SUBMIT_CLICKED: {
       return assoc('step', 3, state)
     }
-
-    // case AT.EXCHANGE_THIRD_STEP_INITIALIZED: {
-    //   return assoc('step', 3, state)
-    // }
     default:
       return state
   }
