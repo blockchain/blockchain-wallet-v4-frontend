@@ -12,3 +12,5 @@ export const getPairingCode = path([dataPath, 'misc', 'pairing_code'])
 export const authorizeLogin = path([dataPath, 'misc', 'authorize_login'])
 
 export const handle2FAReset = path([dataPath, 'misc', 'handle_2fa_reset'])
+
+export const verifyEmailToken = path([dataPath, 'misc', 'verify_email_token'])

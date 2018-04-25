@@ -88,12 +88,28 @@ export default ({ api }) => {
     }
   }
 
+  const verifyEmailToken = function * (action) {
+    const { token } = action.payload
+    try {
+      yield put(A.verifyEmailTokenLoading())
+      const data = yield call(api.verifyEmailToken, token)
+      if (data.success) {
+        yield put(A.verifyEmailTokenSuccess(data))
+      } else {
+        yield put(A.verifyEmailTokenFailure(data.error))
+      }
+    } catch (e) {
+      yield put(A.handle2FAResetFailure(e.message || e.error))
+    }
+  }
+
   return function * () {
     yield takeLatest(AT.AUTHORIZE_LOGIN, authorizeLogin)
     yield takeLatest(AT.FETCH_CAPTCHA, fetchCaptcha)
     yield takeLatest(AT.FETCH_LOGS, fetchLogs)
     yield takeLatest(AT.FETCH_PRICE_INDEX_SERIES, fetchPriceIndexSeries)
     yield takeLatest(AT.ENCODE_PAIRING_CODE, encodePairingCode)
+    yield takeLatest(AT.VERIFY_EMAIL_TOKEN, verifyEmailToken)
     yield takeLatest(AT.HANDLE_2FA_RESET, handle2FAReset)
   }
 }

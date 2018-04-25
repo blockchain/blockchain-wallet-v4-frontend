@@ -19,6 +19,7 @@ import Recover from './Recover'
 import Reminder from './Reminder'
 import Reset2FA from './Reset2FA'
 import Reset2FAToken from './Reset2FAToken'
+import VerifyEmailToken from './VerifyEmailToken'
 import Register from './Register'
 import SecurityCenter from './SecurityCenter'
 import Addresses from './Settings/Addresses/Btc'
@@ -48,6 +49,7 @@ class App extends React.PureComponent {
                 <PublicLayout path='/reminder' component={Reminder} />
                 <PublicLayout path='/reset2fa' component={Reset2FA} />
                 <PublicLayout path='/reset2fa-token' component={Reset2FAToken} />
+                <PublicLayout path='/verify-email-token' component={VerifyEmailToken} />
                 <PublicLayout path='/signup' component={Register} />
                 <PublicLayout path='/authorize-approve' component={AuthorizeLogin} />
                 <WalletLayout path='/home' component={Home} />
@@ -64,7 +66,6 @@ class App extends React.PureComponent {
                 <WalletLayout path='/settings/addresses' component={Addresses} exact />
                 <WalletLayout path='/settings/addresses/bch' component={BchAddresses} />
                 <WalletLayout path='/settings/info' component={Info} />
-                {/* <Redirect from='/settings' to='/settings/info' /> */}
                 <Redirect from='/' to='/login' />
               </Switch>
             </ConnectedRouter>
