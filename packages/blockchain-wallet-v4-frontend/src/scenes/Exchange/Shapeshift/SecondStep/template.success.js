@@ -72,8 +72,8 @@ const TableCell = styled.div`
 
 const Success = props => {
   const { handleSubmit, handleCancel, handleExpiry, submitting, invalid, ...rest } = props
-  const { sourceCoin, sourceAmount, sourceFee, sourceTotal, exchangeRate, targetCoin, targetAmount, targetFee, expiration } = rest
-  console.log('SecondStep render', props, props.sourceCoin)
+  const { sourceLabel, sourceCoin, sourceAmount, sourceFee, sourceTotal, exchangeRate, targetCoin, targetAmount, targetFee, withdrawalAddress, expiration } = rest
+
   return (
     <Wrapper>
       <Header>
@@ -92,7 +92,7 @@ const Success = props => {
                 <FormattedMessage id='scenes.exchange.shapeshift.secondstep.recap' defaultMessage="Review the details below and click 'Confirm' to begin your exchange." />
               </Text>
               <Text size='13px' weight={300}>
-                <FormattedMessage id='scenes.exchange.shapeshift.secondstep.recap2' defaultMessage='The exchanged funds will be deposited directly into {depositLabel}' values={{ depositLabel: 'My Ether Wallet' }} />
+                <FormattedMessage id='scenes.exchange.shapeshift.secondstep.recap2' defaultMessage='The exchanged funds will be deposited directly into {depositLabel}' values={{ depositLabel: sourceLabel }} />
               </Text>
             </TextGroup>
           </Row>

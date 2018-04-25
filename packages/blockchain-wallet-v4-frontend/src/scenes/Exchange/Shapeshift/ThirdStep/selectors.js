@@ -1,18 +1,28 @@
-// import { selectors } from 'data'
+import { selectors } from 'data'
+import { prop } from 'ramda'
+import { getCoinFromPair } from 'services/ShapeshiftService'
 
 export const getData = state => {
-  // const order = selectors.components.getOrder(state)
-  // const { coinSource, coinTarget } =
+  const order = selectors.components.exchange.getOrder(state)
+  const depositAddress = prop('deposit', order)
+  const tradeR = selectors.core.kvStore.shapeShift.getTrade(depositAddress, state)
 
-  return {
-    sourceCoin: 'BTC',
-    targetCoin: 'ETH',
-    sourceAmount: '0.00001',
-    status: 'completed',
-    exchangeRate: '0.04406172',
-    transactionFee: '0.0002',
-    orderId: 'ce86e3e0-42b6-42df-ac17-59add4b013d9',
-    depositAmount: '0.00002',
-    withdrawalAmount: '0.0006'
+  const transform = trade => {
+    const quote = prop('quote', trade)
+    const pair = prop('pair', quote)
+    const { sourceCoin, targetCoin } = getCoinFromPair(pair)
+
+    return {
+      sourceCoin,
+      targetCoin,
+      status: prop('status', trade),
+      exchangeRate: prop('quotedRate', quote),
+      transactionFee: prop('minerFee', quote),
+      orderId: prop('orderId', quote),
+      depositAmount: prop('depositAmount', quote),
+      withdrawalAmount: prop('withdrawalAmount', quote)
+    }
   }
+
+  return tradeR.map(transform)
 }

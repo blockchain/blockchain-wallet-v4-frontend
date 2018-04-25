@@ -241,7 +241,14 @@ const Success = props => {
 }
 
 Success.propTypes = {
-  trade: PropTypes.object.isRequired
+  sourceCoin: PropTypes.string.isRequired,
+  targetCoin: PropTypes.string.isRequired,
+  status: PropTypes.string.isRequired,
+  exchangeRate: PropTypes.string.isRequired,
+  transactionFee: PropTypes.string.isRequired,
+  orderId: PropTypes.string.isRequired,
+  depositAmount: PropTypes.string.isRequired,
+  withdrawalAmount: PropTypes.string.isRequired
 }
 
 export default Success

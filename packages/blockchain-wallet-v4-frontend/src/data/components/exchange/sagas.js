@@ -1,6 +1,6 @@
-import { call, fork, select, takeEvery, takeLatest, put } from 'redux-saga/effects'
-// import { delay } from 'redux-saga'
-import { compose, equals, has, head, merge, nth, path, prop } from 'ramda'
+import { call, cancel, cancelled, fork, select, takeEvery, takeLatest, put } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
+import { compose, equals, identity, has, head, merge, nth, path, prop } from 'ramda'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
@@ -84,7 +84,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const getPair = function * (source, target) {
+  const getShapeShiftLimits = function * (source, target) {
     const coinSource = prop('coin', source)
     const coinTarget = prop('coin', target)
     const pair = getPairFromCoin(coinSource, coinTarget)
@@ -206,7 +206,7 @@ export default ({ api, coreSagas }) => {
       const source = prop('source', form)
       const target = prop('target', form)
       const coin = prop('coin', source)
-      const pair = yield call(getPair, source, target)
+      const pair = yield call(getShapeShiftLimits, source, target)
       const minimum = getMinimum(coin, pair.minimum)
       yield put(actions.form.change('exchange', 'sourceAmount', minimum))
     } catch (e) {
@@ -220,9 +220,8 @@ export default ({ api, coreSagas }) => {
       const source = prop('source', form)
       const target = prop('target', form)
       const coin = prop('coin', source)
-      const payment = yield select(S.getPayment)
       const effectiveBalance = prop('effectiveBalance', payment)
-      const pair = yield call(getPair, source, target)
+      const pair = yield call(getShapeShiftLimits, source, target)
       const maximum = getMaximum(coin, pair.maximum, effectiveBalance)
       yield put(actions.form.change('exchange', 'sourceAmount', maximum))
     } catch (e) {
@@ -275,7 +274,7 @@ export default ({ api, coreSagas }) => {
     const source = prop('source', form)
     const target = prop('target', form)
     const sourceAmount = prop('sourceAmount', form)
-    const pair = yield call(getPair, source, target)
+    const pair = yield call(getShapeShiftLimits, source, target)
     const minimum = getMinimum(source.coin, pair.minimum)
     const maximum = getMaximum(source.coin, pair.maximum, effectiveBalance)
     if (!isAmountAboveMinimum(sourceAmount, minimum) && !isAmountBelowMaximum(sourceAmount, maximum)) {
@@ -325,7 +324,8 @@ export default ({ api, coreSagas }) => {
         targetCoin,
         targetAmount: prop('withdrawalAmount', order),
         targetFee: prop('minerFee', order),
-        expiration: prop('expiration', order)
+        expiration: prop('expiration', order),
+        withdrawalAddress
       }
       yield put(A.secondStepSuccess(data))
     } catch (e) {
@@ -339,16 +339,14 @@ export default ({ api, coreSagas }) => {
       const order = yield select(S.getOrder)
       // Do the transaction to the deposit address
       const { coinSource } = getCoinFromPair(prop('pair', order))
-      console.log('coinSource', coinSource)
       let outgoingPayment = resumePayment(coinSource, payment)
-      console.log('outgoingPayment1', outgoingPayment.value())
       const password = yield call(promptForSecondPassword)
-      console.log('password', password)
       outgoingPayment = yield outgoingPayment.sign(password)
-      // outgoingPayment = yield outgoingPayment.publish()
-      const { txId } = outgoingPayment.value()
-      // yield put(A.paymentUpdated(outgoingPayment.value()))
-      console.log('outgoingPayment', outgoingPayment.value())
+      outgoingPayment = yield outgoingPayment.publish()
+      const paymentValue = outgoingPayment.value()
+      // console.log('outgoingPayment', paymentValue)
+      const { txId } = paymentValue
+      yield put(A.paymentUpdated(paymentValue))
       // Save the trade in metadata
       const trade = {
         hashIn: txId,
@@ -365,9 +363,9 @@ export default ({ api, coreSagas }) => {
           withdrawalAmount: prop('withdrawalAmount', order)
         }
       }
-      console.log('trade', trade)
+      // console.log('trade', trade)
       // Add order in metadata
-      // yield put(actions.core.kvStore.shapeShift.addTradeMetadataShapeshift(trade))
+      yield put(actions.core.kvStore.shapeShift.addTradeMetadataShapeshift(trade))
     } catch (e) {
       yield put(actions.alerts.displayError('Transaction could not be sent. Try again later.'))
     }
@@ -378,51 +376,49 @@ export default ({ api, coreSagas }) => {
       // Start polling trade status
       const order = yield select(S.getOrder)
       const depositAddress = prop('deposit', order)
-      console.log('thirdStep', order, depositAddress)
-      // pollingTradeStatusTask = yield fork(startPollingTradeStatus, depositAddress)
+      pollingTradeStatusTask = yield fork(startPollingTradeStatus, depositAddress)
     } catch (e) {
       console.log(e)
     }
   }
 
-  // const updateTradeStatus = function * (depositAddress) {
-  // const appState = yield select(identity)
-  // const metadataTrade = selectors.core.kvStore.shapeShift.getTrade(depositAddress, appState).getOrFail('Could not find trade.')
-  // const metadataStatus = prop('status', metadataTrade)
-  // if (equals('complete', metadataStatus) || equals('failed', metadataStatus)) {
-  //   return
-  // }
-  // const depositAddress = path(['quote', 'deposit'], trade)
-  // const data = yield call(coreSagas.data.shapeShift.fetchTradeStatus, depositAddress)
-  // const shapeshiftStatus = prop('status', data)
-  // if (!equals(shapeshiftStatus, metadataStatus)) {
-  //   yield put(actions.core.kvStore.shapeShift.updateTradeStatusMetadataShapeshift(depositAddress, shapeshiftStatus))
-  // }
-  // }
+  let pollingTradeStatusTask
 
-  // let pollingTradeStatusTask
+  const startPollingTradeStatus = function * (depositAddress) {
+    try {
+      while (true) {
+        const appState = yield select(identity)
+        const currentTrade = selectors.core.kvStore.shapeShift.getTrade(depositAddress, appState).getOrFail('Could not find trade.')
+        console.log('currentTrade', currentTrade)
+        const currentStatus = prop('status', currentTrade)
+        console.log('currentStatus', currentStatus)
+        if (equals('complete', currentStatus) || equals('failed', currentStatus)) {
+          break
+        }
+        const data = yield call(coreSagas.data.shapeShift.fetchTradeStatus, depositAddress)
+        console.log('data', data)
+        const shapeshiftStatus = prop('status', data)
+        console.log('shapshiftStatus', shapeshiftStatus)
+        if (!equals(shapeshiftStatus, currentStatus)) {
+          yield put(actions.core.kvStore.shapeShift.updateTradeStatusMetadataShapeshift(depositAddress, shapeshiftStatus))
+        }
+        yield call(delay, 5000)
+      }
+    } catch (e) {
+      console.log(e)
+      yield put(actions.alerts.displayError('Could not refresh trade status.'))
+    } finally {
+      if (yield cancelled()) { console.log('cancelled') }
+    }
+  }
 
-  // const startPollingTradeStatus = function * (depositAddress) {
-  //   try {
-  //     while (true) {
-  //       yield call(updateTradeStatus, depositAddress)
-  //       yield call(delay, 10000)
-  //     }
-  //   } catch (e) {
-  //     console.log('exception', e)
-  //   } finally {
-  //     if (yield cancelled()) {
-  //       console.log('cancelled')
-  //     }
-  //   }
-  // }
-
-  // const stopPollingTradeStatus = function * () {
-  //   yield cancel(pollingTradeStatusTask)
-  // }
+  const stopPollingTradeStatus = function * () {
+    yield cancel(pollingTradeStatusTask)
+  }
 
   const destroyed = function * () {
     yield put(actions.form.destroy('exchange'))
+    if (pollingTradeStatusTask) yield call(stopPollingTradeStatus)
   }
 
   return function * () {
@@ -433,8 +429,10 @@ export default ({ api, coreSagas }) => {
     yield takeLatest(AT.EXCHANGE_FIRST_STEP_SUBMIT_CLICKED, firstStepSubmitClicked)
     yield takeLatest(AT.EXCHANGE_THIRD_STEP_INITIALIZED, thirdStepInitialized)
     yield takeLatest(AT.EXCHANGE_SECOND_STEP_SUBMIT_CLICKED, secondStepSubmitClicked)
-    // yield takeEvery(AT.EXCHANGE_SECOND_STEP_ORDER_EXPIRED, destroyed)
-    // yield takeEvery(AT.EXCHANGE_THIRD_STEP_CLOSE_CLICKED, destroyed)
+    yield takeLatest(AT.EXCHANGE_SECOND_STEP_CANCEL_CLICKED, destroyed)
+    yield takeLatest(AT.EXCHANGE_SECOND_STEP_ORDER_EXPIRED, destroyed)
+    yield takeLatest(AT.EXCHANGE_THIRD_STEP_INITIALIZED, thirdStepInitialized)
+    yield takeLatest(AT.EXCHANGE_THIRD_STEP_CLOSE_CLICKED, destroyed)
     yield takeLatest(AT.EXCHANGE_DESTROYED, destroyed)
     yield takeEvery(actionTypes.form.CHANGE, change)
   }

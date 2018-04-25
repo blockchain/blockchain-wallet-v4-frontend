@@ -81,3 +81,11 @@ export const selectFee = (coin, payment) => {
     case 'ETH': return prop('fee', payment)
   }
 }
+
+// export const getLabel = (coin, source) => {
+//   switch (coin) {
+//     case 'BCH': return selectors.core.kvStore.bch.getAccountLabel(state)(target.accountIndex).getOrElse(target.address)
+//     case 'BTC': return path(['selection', 'fee'], payment)
+//     case 'ETH': return prop('fee', payment)
+//   }
+// } 
