@@ -5,7 +5,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import { SettingDescription, SettingHeader } from 'components/Setting'
 import { Table, TableHeader, TableCell, TableRow, Text, IconButton, Link } from 'blockchain-info-components'
-import { filter, take } from 'ramda'
+import { filter } from 'ramda'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
