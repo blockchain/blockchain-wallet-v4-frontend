@@ -56,7 +56,7 @@ const WalletRecoveryPhrase = (props) => {
               {
                 !ui.descriptionToggled
                   ? <span>
-                    <FormattedMessage id='scenes.securitysettings.basicsecurity.recoveryphrase.description' defaultMessage='Your backup phrase contains all of the private keys within your wallet. Please write these 12 words down, in order, and keep them somewhere safe offline. This passphrase gives you (or anyone who has it) a way to restore your wallet and access your funds. ' />
+                    <FormattedMessage id='scenes.securitysettings.basicsecurity.recoveryphrase.description' defaultMessage='Your backup phrase contains all of the private keys within your wallet. Please write these 12 words down, in order, and keep them somewhere safe offline. This phrase gives you (or anyone who has it) a way to restore your wallet and access your funds. ' />
                     <FormattedMessage id='scenes.securitysettings.basicsecurity.recoveryphrase.description2' defaultMessage='In the event that you lose your password or our service is unavailable, this will be your safety net.' />
                   </span>
                   : <FormattedMessage id='scenes.securitysettings.basicsecurity.recoveryphrase.description2' defaultMessage='Using the 12 words you just wrote down, please enter the following words exactly as you see them to complete the backup process.' />

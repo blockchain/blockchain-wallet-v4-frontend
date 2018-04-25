@@ -42,12 +42,12 @@ const FirstStep = (props) => {
     <FirstStepContainer>
       <PrintContainer>
         <Text size='12px' weight={400}>
-          <FormattedMessage id='modals.recoveryphrase.firststep.explain4' defaultMessage='We have created a printable Backup Sheet to give you a place to write down your Backup Phrase and keep it safe. Please print the blank sheet (or grab a piece of paper) and move on to the next step.' />
+          <FormattedMessage id='modals.recoveryphrase.firststep.explain4' defaultMessage='We created a printable backup sheet to give you a place to write down your 12 word phrase and keep it safe. Please print the blank sheet (or grab a piece of paper) and move on to the next step.' />
         </Text>
         <Link href={recoveryPdf} download='recovery.pdf'>
           <Button nature='empty'>
             <Image name='printer' height='20px' width='20px' style={spacing('mr-5')} />
-            <FormattedMessage id='modals.recoveryphrase.firststep.print' defaultMessage='Print Recovery Sheet' />
+            <FormattedMessage id='modals.recoveryphrase.firststep.print' defaultMessage='Print Backup Sheet' />
           </Button>
         </Link>
       </PrintContainer>
