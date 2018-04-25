@@ -116,9 +116,9 @@ export default ({ api }) => {
         const signed = prop('signed', p)
         if (isNil(signed)) throw new Error('missing_signed_tx')
         const publish = txHex => api.pushEthereumTx(signed).then(prop('txHash'))
-        const hash = yield call(publish)
+        const txId = yield call(publish)
 
-        return makePayment(merge(p, { hash }))
+        return makePayment(merge(p, { txId }))
       },
 
       description (message) {

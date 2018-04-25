@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import { actions, selectors } from 'data'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
+import ThirdStep from './ThirdStep'
 
 class ShapeshiftContainer extends React.Component {
   componentWillUnmount () {
@@ -15,7 +16,8 @@ class ShapeshiftContainer extends React.Component {
     switch (this.props.step) {
       case 1: return <FirstStep />
       case 2: return <SecondStep />
-      default: return <div />
+      case 3: return <ThirdStep />
+      default: return <FirstStep />
     }
   }
 }

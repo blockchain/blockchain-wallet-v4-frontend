@@ -1,15 +1,15 @@
-import { assoc, merge } from 'ramda'
+import { assoc } from 'ramda'
 import * as AT from './actionTypes'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 const INITIAL_STATE = {
   step: 1,
-  accounts: [],
+  firstStep: Remote.NotAsked,
+  secondStep: Remote.NotAsked,
   error: 'invalid',
   payment: {},
   order: {},
-  firstStepEnabled: true,
-  secondStep: Remote.NotAsked
+  firstStepEnabled: true
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -26,11 +26,14 @@ export default (state = INITIAL_STATE, action) => {
     case AT.EXCHANGE_PAYMENT_UPDATED: {
       return assoc('payment', payload, state)
     }
-    case AT.EXCHANGE_ACCOUNTS_UPDATED: {
-      return assoc('accounts', payload, state)
-    }
     case AT.EXCHANGE_FIRST_STEP_INITIALIZED: {
-      return state
+      return assoc('firstStep', Remote.Loading, state)
+    }
+    case AT.EXCHANGE_FIRST_STEP_SUCCESS: {
+      return assoc('firstStep', Remote.Success(payload), state)
+    }
+    case AT.EXCHANGE_FIRST_STEP_FAILURE: {
+      return assoc('firstStep', Remote.Failure(payload), state)
     }
     case AT.EXCHANGE_FIRST_STEP_ENABLED: {
       return assoc('firstStepEnabled', true, state)
@@ -62,6 +65,7 @@ export default (state = INITIAL_STATE, action) => {
     case AT.EXCHANGE_SECOND_STEP_SUBMIT_CLICKED: {
       return assoc('step', 3, state)
     }
+
     // case AT.EXCHANGE_THIRD_STEP_INITIALIZED: {
     //   return assoc('step', 3, state)
     // }

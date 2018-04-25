@@ -1,5 +1,6 @@
-import { call, fork, select, takeEvery, takeLatest, put } from 'redux-saga/effects'
-import { compose, equals, has, head, merge, nth, path, prop } from 'ramda'
+import { call, cancel, cancelled, fork, select, takeEvery, takeLatest, put } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
+import { compose, equals, identity, has, head, merge, nth, path, prop } from 'ramda'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
@@ -7,7 +8,9 @@ import * as actions from '../../actions'
 import * as actionTypes from '../../actionTypes'
 import * as selectors from '../../selectors'
 import settings from 'config'
-import { getPairFromCoin, getMinimum, getMaximum, convertFiatToCoin, convertCoinToFiat, convertStandardToBase, isAmountAboveMinimum, isAmountBelowMaximum, calculateFinalAmount, selectFee } from './services'
+import { promptForSecondPassword } from 'services/SagaService'
+import { getCoinFromPair, getPairFromCoin, getMinimum, getMaximum, convertFiatToCoin, convertCoinToFiat,
+  convertStandardToBase, isAmountAboveMinimum, isAmountBelowMaximum, calculateFinalAmount, selectFee } from './services'
 import { getActiveBchAccounts, getActiveBtcAccounts, getActiveEthAccounts, getBtcAccounts, selectRates, selectReceiveAddress } from '../utils/sagas'
 
 export default ({ api, coreSagas }) => {
@@ -43,7 +46,6 @@ export default ({ api, coreSagas }) => {
 
   const createPayment = function * (coin, sourceAddress, targetAddress, amount) {
     let payment
-    console.log('createPayment', coin, sourceAddress, targetAddress, amount)
     switch (coin) {
       case 'BCH': {
         payment = coreSagas.payment.bch.create({ network: settings.NETWORK_BCH })
@@ -67,12 +69,19 @@ export default ({ api, coreSagas }) => {
       }
       default: throw new Error('Could not create payment.')
     }
-    console.log('paymentttt', payment)
     payment = yield payment.from(sourceAddress)
     payment = yield payment.to(targetAddress)
     payment = yield payment.build()
-    console.log('paymenttt2', payment)
     return payment
+  }
+
+  const resumePayment = function (coin, payment) {
+    switch (coin) {
+      case 'BCH': return coreSagas.payment.bch.create({ payment, network: settings.NETWORK_BCH })
+      case 'BTC': return coreSagas.payment.btc.create({ payment, network: settings.NETWORK_BITCOIN })
+      case 'ETH': return coreSagas.payment.eth.create({ payment, network: settings.NETWORK_ETHEREUM })
+      default: throw new Error('Could not resume payment.')
+    }
   }
 
   const getPair = function * (source, target) {
@@ -139,7 +148,6 @@ export default ({ api, coreSagas }) => {
 
   const firstStepInitialized = function * () {
     try {
-      yield put(A.firstStepDisabled())
       // Fetch data
       yield put(actions.core.data.bch.fetchRates())
       yield put(actions.core.data.bitcoin.fetchRates())
@@ -155,12 +163,11 @@ export default ({ api, coreSagas }) => {
       const activeBchAccounts = yield call(getActiveBchAccounts)
       const activeBtcAccounts = yield call(getActiveBtcAccounts)
       const activeEthAccounts = yield call(getActiveEthAccounts)
-      const elements = [
+      const accounts = [
         { group: 'Bitcoin', items: activeBtcAccounts.map(shape) },
         { group: 'Bitcoin cash', items: activeBchAccounts.map(shape) },
         { group: 'Ethereum', items: activeEthAccounts.map(shape) }
       ]
-      yield put(A.accountsUpdated(elements))
       // Initialize payment with default values
       const defaultBtcAccountIndex = yield select(selectors.core.wallet.getDefaultAccountIndex)
       payment = yield createBtcPayment(defaultBtcAccountIndex)
@@ -172,10 +179,9 @@ export default ({ api, coreSagas }) => {
         target: prop('value', defaultEthAccount)
       }
       yield put(actions.form.initialize('exchange', initialValues))
-      yield put(A.firstStepEnabled())
+      yield put(A.firstStepSuccess({ accounts }))
     } catch (e) {
-      console.log('e', e)
-      // yield put(A.firstStepError('Could not load exchange page.'))
+      yield put(A.firstStepFailure('Could not load exchange page.'))
     }
   }
 
@@ -292,7 +298,6 @@ export default ({ api, coreSagas }) => {
       const sourceCoin = prop('coin', source)
       const targetCoin = prop('coin', target)
       const sourceAddress = prop('address', source)
-      const targetAddress = prop('address', target)
       const amount = prop('sourceAmount', form)
       const returnAddress = yield call(selectReceiveAddress, source)
       const withdrawalAddress = yield call(selectReceiveAddress, target)
@@ -303,9 +308,10 @@ export default ({ api, coreSagas }) => {
       const order = prop('success', orderData)
       yield put(A.orderUpdated(order))
       // Create final payment
+      const depositAddress = prop('deposit', order)
       const depositAmount = prop('depositAmount', order)
       const sourceAmount = convertStandardToBase(sourceCoin, depositAmount)
-      const finalPayment = yield call(createPayment, sourceCoin, sourceAddress, targetAddress, sourceAmount)
+      const finalPayment = yield call(createPayment, sourceCoin, sourceAddress, depositAddress, sourceAmount)
       yield put(A.paymentUpdated(finalPayment.value()))
       // Prepare data for confirmation screen
       const sourceFee = selectFee(sourceCoin, finalPayment.value())
@@ -327,20 +333,92 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const secondStepInitialized = function * () {
+  const secondStepSubmitClicked = function * () {
     try {
-      yield
+      const payment = yield select(S.getPayment)
+      const order = yield select(S.getOrder)
+      // Do the transaction to the deposit address
+      const { coinSource } = getCoinFromPair(prop('pair', order))
+      console.log('coinSource', coinSource)
+      let outgoingPayment = resumePayment(coinSource, payment)
+      console.log('outgoingPayment1', outgoingPayment.value())
+      const password = yield call(promptForSecondPassword)
+      console.log('password', password)
+      outgoingPayment = yield outgoingPayment.sign(password)
+      // outgoingPayment = yield outgoingPayment.publish()
+      const { txId } = outgoingPayment.value()
+      // yield put(A.paymentUpdated(outgoingPayment.value()))
+      console.log('outgoingPayment', outgoingPayment.value())
+      // Save the trade in metadata
+      const trade = {
+        hashIn: txId,
+        timestamp: new Date().getTime(),
+        status: 'no_deposits',
+        quote: {
+          orderId: prop('orderId', order),
+          quotedRate: prop('quotedRate', order),
+          deposit: prop('deposit', order),
+          minerFee: prop('minerFee', order),
+          pair: prop('pair', order),
+          depositAmount: prop('depositAmount', order),
+          withdrawal: prop('withdrawal', order),
+          withdrawalAmount: prop('withdrawalAmount', order)
+        }
+      }
+      console.log('trade', trade)
+      // Add order in metadata
+      // yield put(actions.core.kvStore.shapeShift.addTradeMetadataShapeshift(trade))
     } catch (e) {
-      console.log(e)
+      yield put(actions.alerts.displayError('Transaction could not be sent. Try again later.'))
     }
   }
 
   const thirdStepInitialized = function * () {
     try {
-      yield
+      // Start polling trade status
+      const order = yield select(S.getOrder)
+      const depositAddress = prop('deposit', order)
+      console.log('thirdStep', order, depositAddress)
+      // pollingTradeStatusTask = yield fork(startPollingTradeStatus, depositAddress)
     } catch (e) {
       console.log(e)
     }
+  }
+
+  const updateTradeStatus = function * (depositAddress) {
+    // const appState = yield select(identity)
+    // const metadataTrade = selectors.core.kvStore.shapeShift.getTrade(depositAddress, appState).getOrFail('Could not find trade.')
+    // const metadataStatus = prop('status', metadataTrade)
+    // if (equals('complete', metadataStatus) || equals('failed', metadataStatus)) {
+    //   return
+    // }
+    // const depositAddress = path(['quote', 'deposit'], trade)
+    // const data = yield call(coreSagas.data.shapeShift.fetchTradeStatus, depositAddress)
+    // const shapeshiftStatus = prop('status', data)
+    // if (!equals(shapeshiftStatus, metadataStatus)) {
+    //   yield put(actions.core.kvStore.shapeShift.updateTradeStatusMetadataShapeshift(depositAddress, shapeshiftStatus))
+    // }
+  }
+
+  let pollingTradeStatusTask
+
+  const startPollingTradeStatus = function * (depositAddress) {
+    try {
+      while (true) {
+        yield call(updateTradeStatus, depositAddress)
+        yield call(delay, 10000)
+      }
+    } catch (e) {
+      console.log('exception', e)
+    } finally {
+      if (yield cancelled()) {
+        console.log('cancelled')
+      }
+    }
+  }
+
+  const stopPollingTradeStatus = function * () {
+    yield cancel(pollingTradeStatusTask)
   }
 
   const destroyed = function * () {
@@ -353,9 +431,8 @@ export default ({ api, coreSagas }) => {
     yield takeLatest(AT.EXCHANGE_FIRST_STEP_MINIMUM_CLICKED, minimumClicked)
     yield takeLatest(AT.EXCHANGE_FIRST_STEP_MAXIMUM_CLICKED, maximumClicked)
     yield takeLatest(AT.EXCHANGE_FIRST_STEP_SUBMIT_CLICKED, firstStepSubmitClicked)
-    yield takeLatest(AT.EXCHANGE_SECOND_STEP_INITIALIZED, secondStepInitialized)
     yield takeLatest(AT.EXCHANGE_THIRD_STEP_INITIALIZED, thirdStepInitialized)
-    // yield takeEvery(AT.EXCHANGE_SECOND_STEP_CANCEL_CLICKED, destroyed)
+    yield takeLatest(AT.EXCHANGE_SECOND_STEP_SUBMIT_CLICKED, secondStepSubmitClicked)
     // yield takeEvery(AT.EXCHANGE_SECOND_STEP_ORDER_EXPIRED, destroyed)
     // yield takeEvery(AT.EXCHANGE_THIRD_STEP_CLOSE_CLICKED, destroyed)
     yield takeLatest(AT.EXCHANGE_DESTROYED, destroyed)

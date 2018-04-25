@@ -23,7 +23,7 @@ const Form = props => {
 }
 
 Form.propTypes = {
-  override: PropTypes.bool.isRequired
+  override: PropTypes.bool
 }
 
 Form.defaultProps = {

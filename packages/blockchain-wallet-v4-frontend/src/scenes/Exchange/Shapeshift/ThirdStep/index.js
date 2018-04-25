@@ -9,28 +9,26 @@ import ThirdStep from './template'
 
 class ThirdStepContainer extends React.Component {
   render () {
-    return this.props.data.cata({
-      Success: (value) => <ThirdStep
-        sourceCoin={value.sourceCoin}
-        sourceAmount={value.sourceAmount}
-        status={value.status}
-        exchangeRate={value.exchangeRate}
-        transactionFee={value.transactionFee}
-        orderId={value.orderId}
-        depositAmount={value.depositAmount}
-        withdrawalAmount={value.withdrawalAmount}
+    const { sourceCoin, targetCoin, sourceAmount, status, exchangeRate, transactionFee, orderId, depositAmount, withdrawalAmount, handleClose } = this.props
+
+    return (
+      <ThirdStep
+        sourceCoin={sourceCoin}
+        targetCoin={targetCoin}
+        sourceAmount={sourceAmount}
+        status={status}
+        exchangeRate={exchangeRate}
+        transactionFee={transactionFee}
+        orderId={orderId}
+        depositAmount={depositAmount}
+        withdrawalAmount={withdrawalAmount}
         handleClose={() => this.props.actions.thirdStepCloseClicked()}
-      />,
-      Failure: (message) => <Error />,
-      Loading: () => <Loading />,
-      NotAsked: () => <Success />
-    })
+      />
+    )
   }
 }
 
-const mapStateToProps = state => ({
-  data: getData(state)
-})
+const mapStateToProps = state => getData(state)
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.exchange, dispatch)

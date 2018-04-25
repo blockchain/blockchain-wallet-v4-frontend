@@ -7,6 +7,7 @@ import { Button, Link, Text, TextGroup, Tooltip } from 'blockchain-info-componen
 import { CheckBox, CountdownTimer, Form } from 'components/Form'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import Terms from 'components/Terms'
+import { checkboxShouldBeChecked } from './validation'
 
 const Wrapper = styled.div`
   display: flex;
@@ -72,8 +73,7 @@ const TableCell = styled.div`
 const Success = props => {
   const { handleSubmit, handleCancel, handleExpiry, submitting, invalid, ...rest } = props
   const { sourceCoin, sourceAmount, sourceFee, sourceTotal, exchangeRate, targetCoin, targetAmount, targetFee, expiration } = rest
-  const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
-
+  console.log('SecondStep render', props, props.sourceCoin)
   return (
     <Wrapper>
       <Header>

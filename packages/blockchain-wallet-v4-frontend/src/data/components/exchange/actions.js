@@ -9,10 +9,11 @@ export const paymentUpdated = payment => ({ type: AT.EXCHANGE_PAYMENT_UPDATED, p
 
 export const orderUpdated = order => ({ type: AT.EXCHANGE_ORDER_UPDATED, payload: order })
 
-export const accountsUpdated = accounts => ({ type: AT.EXCHANGE_ACCOUNTS_UPDATED, payload: accounts })
-
-
 export const firstStepInitialized = () => ({ type: AT.EXCHANGE_FIRST_STEP_INITIALIZED })
+
+export const firstStepSuccess = (data) => ({ type: AT.EXCHANGE_FIRST_STEP_SUCCESS, payload: data })
+
+export const firstStepFailure = (error) => ({ type: AT.EXCHANGE_FIRST_STEP_FAILURE, payload: error })
 
 export const firstStepEnabled = () => ({ type: AT.EXCHANGE_FIRST_STEP_ENABLED })
 
@@ -43,5 +44,7 @@ export const secondStepCancelClicked = () => ({ type: AT.EXCHANGE_SECOND_STEP_CA
 export const secondStepOrderExpired = () => ({ type: AT.EXCHANGE_SECOND_STEP_ORDER_EXPIRED })
 
 export const thirdStepInitialized = () => ({ type: AT.EXCHANGE_THIRD_STEP_INITIALIZED })
+
+export const thirdStepTradeStatusChanged = (status) => ({ type: AT.EXCHANGE_THIRD_STEP_TRADE_STATUS_CHANGED, payload: status })
 
 export const thirdStepCloseClicked = () => ({ type: AT.EXCHANGE_THIRD_STEP_CLOSE_CLICKED })
