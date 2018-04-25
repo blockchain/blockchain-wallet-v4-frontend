@@ -2,14 +2,23 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
-import { Banner, TableCell, TableRow, Text, Link, ComponentDropdown } from 'blockchain-info-components'
+import { TableCell, TableRow, Text, Link, ComponentDropdown } from 'blockchain-info-components'
 
 const AddressTableCell = styled(TableCell)`
   align-items: center;
   min-height: 23px;
 `
-const AddressCell = styled(Text)`
-  margin-right: 6px;
+const InfoLabel = styled(Text)`
+  display: block;
+  margin-left: 10px;
+  padding: 4px;
+  box-sizing: border-box;
+  border-radius: 3px;
+  background-color: ${props => props.theme['gray-3']};
+  color: ${props => props.theme['white']};
+  font-size: 12px;
+  font-weight: 400;
+  height: 22px;
 `
 
 const MoreOptions = () => (
@@ -22,11 +31,11 @@ const AddressRow = ({ address, coin, renderOptions }) => {
   return (
     <TableRow>
       <AddressTableCell width='40%' style={{ display: 'flex' }}>
-        <AddressCell size='13px'>{address.addr}</AddressCell>
+        <Text size='13px'>{address.addr}</Text>
         {address.priv == null && (
-          <Banner type='informational' inline label>
+          <InfoLabel>
             <FormattedMessage id='scenes.settings.manage_addresses.watch_only' defaultMessage='Watch Only' />
-          </Banner>
+          </InfoLabel>
         )}
       </AddressTableCell>
       <TableCell width='40%'>
