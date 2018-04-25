@@ -31,7 +31,7 @@ const PasswordBox = (field) => {
 
   return (
     <Container>
-      <PasswordInput {...field.input} errorState={errorState} />
+      <PasswordInput {...field.input} controlledBorderColor={field.borderColor} errorState={errorState} />
       { scoreVisible ? <PasswordScore value={field.input.value} /> : <div /> }
       {field.meta.touched && field.meta.error && <Error size='12px' weight={300} color='error'>{field.meta.error}</Error>}
     </Container>

@@ -26,6 +26,9 @@ const Ether = styled.div`
   align-items : center;
   margin-top: 25px;
 `
+const TransactionIcon = styled(Icon)`
+justify-content: center;
+`
 
 const Empty = props => {
   return (
@@ -33,7 +36,7 @@ const Empty = props => {
       <EtherWelcome />
       <Transactions>
         <Text size='20px' weight={300} capitalize>
-          <Icon name='transactions' />
+          <TransactionIcon name='transactions' />
           <FormattedMessage id='scenes.transactions.ether.content.empty.transactions' defaultMessage='Your transactions' />
         </Text>
         <Text size='14px' weight={300}>
