@@ -13,7 +13,7 @@ class ShowUsedAddressesContainer extends React.PureComponent {
   }
 
   handleContinue () {
-    this.props.modalActions.clickWelcomeContinue()
+    this.props.actions.toggleUsedAddresses()
   }
 
   render () {
@@ -24,7 +24,8 @@ class ShowUsedAddressesContainer extends React.PureComponent {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  actions: bindActionCreators(actions.components.usedAddresses, dispatch)
 })
 
 const enhance = compose(

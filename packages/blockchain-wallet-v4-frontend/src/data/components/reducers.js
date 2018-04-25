@@ -5,6 +5,7 @@ import sendBchReducer from './sendBch/reducers'
 import sendBtcReducer from './sendBtc/reducers'
 import sendEthReducer from './sendEth/reducers'
 import signMessageReducer from './signMessage/reducers'
+import usedAddressesReducer from './usedAddresses/reducers'
 
 export default combineReducers({
   exchange: exchangeReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
   sendBch: sendBchReducer,
   sendBtc: sendBtcReducer,
   sendEth: sendEthReducer,
-  signMessage: signMessageReducer
+  signMessage: signMessageReducer,
+  usedAddresses: usedAddressesReducer
 })
