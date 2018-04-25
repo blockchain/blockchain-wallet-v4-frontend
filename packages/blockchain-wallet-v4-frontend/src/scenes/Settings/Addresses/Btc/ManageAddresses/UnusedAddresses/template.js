@@ -60,7 +60,7 @@ const UnusedAddressesTemplate = ({ account, labels, receiveIndex, isDefault, der
     )}
     {receiveIndex.cata({
       Success: (index) => (
-        <IconButton style={{ marginTop: 15 }} name='build' onClick={() => onSetLabel(index, 'New Address')}>
+        <IconButton style={{ marginTop: 15 }} name='plus' onClick={() => onSetLabel(index, 'New Address')}>
           <FormattedMessage id='scenes.settings.manage_addresses.add_label' defaultMessage='Add Next Address' />
         </IconButton>
       ),

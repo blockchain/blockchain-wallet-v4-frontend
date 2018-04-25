@@ -67,7 +67,7 @@ const Success = ({ importedAddresses, onClickImport, onToggleArchived, onShowPri
         </Table>
       }
       <div style={spacing('mt-10')}>
-        <IconButton name='up-arrow-in-circle' onClick={onClickImport}>
+        <IconButton name='plus' onClick={onClickImport}>
           <FormattedMessage id='scenes.settings.imported_addresses.import_bitcoin_addr' defaultMessage='Import Bitcoin Address' />
         </IconButton>
       </div>
