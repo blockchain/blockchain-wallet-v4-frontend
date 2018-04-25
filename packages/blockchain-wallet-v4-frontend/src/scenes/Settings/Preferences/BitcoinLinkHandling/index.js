@@ -5,7 +5,7 @@ import config from 'config'
 
 import BitcoinLinkHandling from './template.js'
 
-class BitcoinLinkHandlingContainer extends React.Component {
+class BitcoinLinkHandlingContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)

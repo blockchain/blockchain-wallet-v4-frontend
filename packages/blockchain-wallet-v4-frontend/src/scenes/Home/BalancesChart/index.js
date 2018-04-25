@@ -9,7 +9,7 @@ import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class BalancesChartContainer extends React.Component {
+class BalancesChartContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleCoinDisplay = this.handleCoinDisplay.bind(this)

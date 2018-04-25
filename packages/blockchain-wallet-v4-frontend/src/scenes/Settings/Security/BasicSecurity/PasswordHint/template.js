@@ -10,7 +10,7 @@ const PasswordHint = (props) => {
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <FormattedMessage id='scenes.settings.passwordhint.title' defaultMessage='Password hint' />
+          <FormattedMessage id='scenes.settings.passwordhint.title' defaultMessage='Password Hint' />
           <SettingStatus active={passwordHintStored}>
             {passwordHintStored
               ? <FormattedMessage id='scenes.security.passwordhint.stored' defaultMessage='Hint Stored' />
@@ -19,9 +19,8 @@ const PasswordHint = (props) => {
           </SettingStatus>
         </SettingHeader>
         <SettingDescription>
-          <FormattedMessage id='scenes.settings.passwordhint.description' defaultMessage='Your Blockchain Wallet never communicates your password to our servers.' />
-          <FormattedMessage id='scenes.settings.passwordhint.description2' defaultMessage='This means we have no idea what your password is and we cannot reset it if you forget it.' />
-          <FormattedMessage id='scenes.settings.passwordhint.description3' defaultMessage='Create a memorable password hint that we can send to your verified email address in case you forget your password.' />
+          <FormattedMessage id='scenes.settings.passwordhint.description1' defaultMessage='Blockchain cannot reset your password.' />
+          <FormattedMessage id='scenes.settings.passwordhint.description2' defaultMessage='Create a memorable password hint that we can send to your verified email address in case you forget your password.' />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>

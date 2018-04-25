@@ -1,34 +1,26 @@
-import { formValueSelector } from 'redux-form'
-import { multiply } from 'ramda'
-import { Exchange } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
-
-const gweiToWei = multiply(1000000000)
+import { utils } from 'blockchain-wallet-v4/src'
 
 export const getData = state => {
-  const from = {
-    address: formValueSelector('sendEther')(state, 'from'),
-    index: 0
-  }
-  const to = formValueSelector('sendEther')(state, 'to')
-  const message = formValueSelector('sendEther')(state, 'message')
-  const amount = formValueSelector('sendEther')(state, 'amount')
-  const fee = formValueSelector('sendEther')(state, 'fee')
-  const nonce = selectors.core.data.ethereum.getNonce(state, from.address).getOrElse(undefined)
-  const gasPrice = gweiToWei(selectors.core.data.ethereum.getFeeRegular(state).getOrElse(undefined))
-  const gasLimit = selectors.core.data.ethereum.getGasLimit(state).getOrElse(undefined)
-  const amountWei = Exchange.convertEtherToEther({ value: amount, fromUnit: 'ETH', toUnit: 'WEI' }).value
-  const total = Number(amountWei) + Number(fee)
+  const paymentR = selectors.components.sendEth.getPayment(state)
 
-  return {
-    from,
-    to,
-    message,
-    amount: amountWei,
-    total,
-    fee,
-    gasLimit,
-    gasPrice,
-    nonce
+  const from = from => {
+    switch (from.type) {
+      case 'ACCOUNT':
+        return selectors.core.kvStore.ethereum.getAccountLabel(state, from.address).getOrElse(from.address)
+      default:
+        return from.address
+    }
   }
+
+  const transform = payment => ({
+    message: payment.description,
+    fromAddress: from(payment.from),
+    toAddress: payment.to,
+    amount: payment.amount,
+    fee: payment.fee,
+    total: utils.ethereum.calculateTransactionAmount(payment.amount, payment.fee)
+  })
+
+  return paymentR.map(transform)
 }

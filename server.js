@@ -1,17 +1,44 @@
 //
-// This server is used only in docker images!
-// Dev server config is located in packages/blockchain-wallet-v4-frontend/webpack.config.js
+// This server is used only in docker images and simulating production locally!
+// The actual dev server is located in packages/blockchain-wallet-v4-frontend/webpack.config.js
 //
 const express = require('express')
 const compression = require('compression')
 const path = require('path')
 
-// store env configs
-const environment = process.env.ENVIRONMENT
-const rootURL = process.env.ROOT_URL
-const webSocketURL = process.env.WEB_SOCKET_URL
-const apiDomain = process.env.API_DOMAIN
-const walletHelperDomdain = process.env.WALLET_HELPER_DOMAIN
+let isLocal
+let localWalletOptions
+let environment
+let rootURL
+let webSocketURL
+let apiDomain
+let walletHelperDomain
+
+// store configs and build server configuration
+if (process.env.LOCAL_PROD) {
+  // local production config
+  const prodConfig = require('./config/env/production.js')
+  localWalletOptions = require('./config/wallet-options-v4.json')
+  isLocal = true
+  environment = 'local prod'
+  rootURL = prodConfig.ROOT_URL
+  webSocketURL = prodConfig.WEB_SOCKET_URL
+  apiDomain = prodConfig.API_DOMAIN
+  walletHelperDomain = prodConfig.WALLET_HELPER_DOMAIN
+  localWalletOptions.domains = {
+    'root': prodConfig.ROOT_URL,
+    'api': prodConfig.API_DOMAIN,
+    'webSocket': prodConfig.WEB_SOCKET_URL,
+    'walletHelper': prodConfig.WALLET_HELPER_DOMAIN
+  }
+} else {
+  // production config
+  environment = process.env.ENVIRONMENT
+  rootURL = process.env.ROOT_URL
+  webSocketURL = process.env.WEB_SOCKET_URL
+  apiDomain = process.env.API_DOMAIN
+  walletHelperDomain = process.env.WALLET_HELPER_DOMAIN
+}
 
 const port = 8080
 const isProduction = environment === 'production'
@@ -24,11 +51,11 @@ console.log(`Listening Port: ${port}`)
 console.log(`Root URL: ${rootURL}`)
 console.log(`Web Socket URL: ${webSocketURL}`)
 console.log(`API Domain: ${apiDomain}`)
-console.log(`Wallet Helper Domain: ${walletHelperDomdain}`)
+console.log(`Wallet Helper Domain: ${walletHelperDomain}`)
 console.log(`iSignThis Domain: ${iSignThisDomain}\n`)
 
 // validate env configs are given
-if (!port || !rootURL || !webSocketURL || !apiDomain || !walletHelperDomdain) {
+if (!port || !rootURL || !webSocketURL || !apiDomain || !walletHelperDomain) {
   throw new Error('One or more required environment variables are undefined!')
 }
 
@@ -42,16 +69,17 @@ app.use(function (req, res, next) {
   let cspHeader = ([
     "img-src 'self' " + rootURL + ' data: blob: android-webview-video-poster:',
     "style-src 'self' 'unsafe-inline'",
-    `child-src ${iSignThisDomain} ${walletHelperDomdain} http://localhost:8081`,
-    `frame-src ${iSignThisDomain} ${walletHelperDomdain} http://localhost:8081`,
+    `child-src ${iSignThisDomain} ${walletHelperDomain} http://localhost:8081`,
+    `frame-src ${iSignThisDomain} ${walletHelperDomain} http://localhost:8081`,
     "worker-src 'self' 'unsafe-eval' blob:",
     "script-src 'self' 'unsafe-eval'",
     'connect-src ' + [
       "'self'",
-      'ws://localhost:8080',
       rootURL,
       apiDomain,
       webSocketURL,
+      walletHelperDomain,
+      iSignThisDomain,
       webSocketURL.replace('/inv', '/eth/inv'),
       webSocketURL.replace('/inv', '/bch/inv'),
       'https://api.sfox.com',
@@ -69,14 +97,16 @@ app.use(function (req, res, next) {
 
   res.setHeader('content-security-policy', cspHeader)
   res.setHeader('X-Frame-Options', 'SAMEORIGIN')
-  res.setHeader('Cache-Control', 'public, max-age=31557600')
+  res.setHeader('Cache-Control', 'public, max-age=' + isLocal ? '0' : '31557600')
   next()
 })
 
-// wallet options call
-app.get('/Resources/wallet-options.json', function (req, res) {
-  res.redirect(rootURL + req.url)
-})
+// wallet options call for local servers only
+if (isLocal) {
+  app.get('/Resources/wallet-options-v4.json', function (req, res) {
+    res.json(localWalletOptions)
+  })
+}
 
 // healthcheck
 app.get('/healthz', function (req, res) {
@@ -86,7 +116,16 @@ app.get('/healthz', function (req, res) {
 // static content
 app.use(express.static(path.join(__dirname, 'dist')))
 
-console.log(`Server started and listening on port ${port}.`)
+// fallback to index.html file
+app.get('/*', function (req, res) {
+  res.sendFile(path.join(__dirname, 'dist/index.html'), function (err) {
+    if (err) {
+      res.sendStatus(404)
+    }
+  })
+})
+
+console.log(`Express server listening on port ${port}...`)
 
 // start server
 app.listen(port)

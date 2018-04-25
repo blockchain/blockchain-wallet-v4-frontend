@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import CarouselTemplate from './template.js'
 
-class Carousel extends React.Component {
+class Carousel extends React.PureComponent {
   constructor (props) {
     super(props)
     this.state = { index: 0, total: props.children.length - 1 }

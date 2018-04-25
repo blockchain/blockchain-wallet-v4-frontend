@@ -9,7 +9,7 @@ import bip21 from 'bip21'
 import { actions } from 'data'
 import QRCodeCapture from './template.js'
 
-class QRCodeCaptureContainer extends React.Component {
+class QRCodeCaptureContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleToggle = this.handleToggle.bind(this)

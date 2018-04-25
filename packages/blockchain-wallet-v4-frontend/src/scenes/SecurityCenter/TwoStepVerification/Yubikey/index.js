@@ -9,7 +9,7 @@ import Error from './template.error'
 import Loading from './template.loading'
 import ui from 'redux-ui'
 
-class YubikeyContainer extends React.Component {
+class YubikeyContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
@@ -24,6 +24,7 @@ class YubikeyContainer extends React.Component {
     const prev = this.props.data.data
     if (next.authType !== prev.authType) {
       this.props.updateUI({ successToggled: true })
+      this.props.triggerSuccess()
       setTimeout(() => {
         nextProps.handleGoBack()
         nextProps.goBackOnSuccess()

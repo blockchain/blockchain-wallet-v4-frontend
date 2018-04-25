@@ -9,7 +9,7 @@ import ui from 'redux-ui'
 import { actions } from 'data'
 import Settings from './template.js'
 
-class SettingsContainer extends React.Component {
+class SettingsContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
@@ -31,7 +31,9 @@ class SettingsContainer extends React.Component {
     return <Settings {...rest}
       updateToggled={ui.updateToggled}
       handleToggle={this.handleToggle}
-      handleClick={this.handleClick} />
+      handleClick={this.handleClick}
+      handleCancel={() => { this.props.formActions.reset('settingPasswordHint'); this.handleToggle() }}
+    />
   }
 }
 

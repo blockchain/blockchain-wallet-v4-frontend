@@ -7,20 +7,21 @@ ARG environment
 ARG root_url
 ARG web_socket_url
 ARG api_domain
+ARG wallet_helper_domain
 
-# ensure required arguments are set
-RUN \
-  : "${environment:? build argument is not set!}" \
+# ensure required build arguments are set
+RUN : "${environment:? build argument is not set!}" \
   : "${root_url:? build argument is not set!}" \
   : "${web_socket_url:? build argument is not set!}" \
   : "${api_domain:? build argument is not set!}" \
+  : "${wallet_helper_domain:? build argument is not set!}"
 
-# set build args as environments variables for Node to consume
+# set build args as environment variables for Node to consume
 ENV ENVIRONMENT=$environment
 ENV ROOT_URL=$root_url
 ENV WEB_SOCKET_URL=$web_socket_url
 ENV API_DOMAIN=$api_domain
-ENV WALLET_HELPER_DOMAIN='https://wallet-helper.blockchain.info'
+ENV WALLET_HELPER_DOMAIN=$wallet_helper_domain
 
 WORKDIR /home/blockchain
 
@@ -30,7 +31,7 @@ COPY . .
 # build assets
 RUN npm install lerna yarn babel-cli
 RUN yarn bootstrap
-RUN yarn ci:build:prod
+RUN yarn ci:compile
 
 USER blockchain
 

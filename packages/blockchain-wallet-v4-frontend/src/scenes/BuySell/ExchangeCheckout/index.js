@@ -7,8 +7,7 @@ import { change, Field, reduxForm, focus } from 'redux-form'
 import { Button, Icon, Text, Tooltip } from 'blockchain-info-components'
 import { Form, FormGroup, FormItem, NumberBox } from 'components/Form'
 
-const Wrapper = styled.div`
-  width: 90%;
+export const Wrapper = styled.div`
   padding: 30px;
   border: 1px solid ${props => props.theme['gray-1']};
 `
@@ -67,7 +66,7 @@ const Amount = styled.span`
 const belowMaxAmount = (value, allValues, props) => value > props.limits.max ? 'max' : undefined
 const aboveMinAmount = (value, allValues, props) => value < props.limits.min ? 'min' : undefined
 
-class ExchangeCheckout extends React.Component {
+class ExchangeCheckout extends React.PureComponent {
   constructor () {
     super()
     this.state = {}

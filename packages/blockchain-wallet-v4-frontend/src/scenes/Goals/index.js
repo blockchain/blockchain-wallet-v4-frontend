@@ -8,7 +8,7 @@ import { actions } from 'data'
 
 import Actions from './template.js'
 
-class ActionsContainer extends React.Component {
+class ActionsContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.state = { error: '' }

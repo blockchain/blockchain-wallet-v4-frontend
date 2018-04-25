@@ -11,7 +11,8 @@ export default ({ api, options }) => {
     const state = yield select()
     const delegate = new ExchangeDelegate(state, api)
     const value = yield select(buySellSelectors.getMetadata)
-    const sfox = sfoxService.refresh(value, delegate, options)
+    const walletOptions = state.walletOptionsPath.data
+    const sfox = sfoxService.refresh(value, delegate, walletOptions)
     return sfox
   }
 
@@ -87,9 +88,9 @@ export default ({ api, options }) => {
 
       const methods = yield apply(sfox, sfox.getBuyMethods)
       const accounts = yield apply(sfox, methods.ach.getAccounts)
-      yield put(A.fetchAccountsSuccess(accounts))
+      yield put(A.sfoxFetchAccountsSuccess(accounts))
     } catch (e) {
-      yield put(A.setBankAccountFailure(e))
+      yield put(A.sfoxFetchAccountsFailure(e))
     }
   }
 
@@ -111,12 +112,30 @@ export default ({ api, options }) => {
     }
   }
 
+  const handleTrade = function * (quote) {
+    try {
+      yield put(A.handleTradeLoading())
+      const accounts = yield select(S.getAccounts)
+      const methods = yield apply(quote, quote.getPaymentMediums)
+      const trade = yield apply(methods.ach, methods.ach.buy, [accounts.data[0]])
+      yield put(A.handleTradeSuccess(trade))
+      yield put(A.fetchProfile())
+      yield put(A.fetchTrades())
+      const trades = yield select(S.getTrades)
+      yield put(buySellA.setTradesBuySell(trades.data))
+    } catch (e) {
+      console.warn(e)
+      yield put(A.handleTradeFailure(e))
+    }
+  }
+
   return {
     setBankManually,
     signup,
     setProfile,
     uploadDoc,
     setBankAccount,
-    verifyMicroDeposits
+    verifyMicroDeposits,
+    handleTrade
   }
 }

@@ -6,7 +6,7 @@
 node_modules/
 coverage/
 dist/
-build/
+lib/
 config/
 packages/blockchain-info-components/lib
 packages/blockchain-info-components/node_modules

@@ -8,7 +8,6 @@ import { FormattedMessage } from 'react-intl'
 import Addresses from './Addresses'
 import Description from './Description'
 import Confirmations from './Confirmations'
-import Fee from './Fee'
 import FiatAtTime from './FiatAtTime'
 import Status from './Status'
 
@@ -44,6 +43,8 @@ const DetailsColumn = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+  white-space: nowrap;
+  overflow: hidden;
   width: 35%;
 
   @media(min-width: 992px) { display: flex; }
@@ -53,9 +54,10 @@ const ConfirmationColumn = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  width: 100%;
+  width: 20%;
 
-  @media(min-width: 1200px) { width: 20%; }
+  * { white-space: nowrap; }
+  @media(min-width: 1200px) { width: 15%; }
 `
 const AmountColumn = styled.div`
   display: flex;
@@ -76,8 +78,18 @@ const ToggleButton = styled(Button)`
   align-self: flex-end;
 `
 
+const FeeWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  width: 100%;
+  > *:first-child {
+    margin-right: 3px;
+  }
+`
+
 const TransactionListItem = (props) => {
-  const { handleClick, transaction, handleEditDescription, coin, minConfirmations } = props
+  const { handleCoinToggle, transaction, handleEditDescription, coin, minConfirmations } = props
 
   return (
     <TransactionRowContainer>
@@ -94,19 +106,26 @@ const TransactionListItem = (props) => {
           )}
         </StatusColumn>
         <DetailsColumn>
-          <Addresses to={transaction.to} from={transaction.from} inputs={transaction.inputs} outputs={transaction.outputs} />
+          <Addresses to={transaction.to} from={transaction.from} inputs={transaction.inputs} outputs={transaction.outputs} coin={coin} />
           <Description value={transaction.description} handleEditDescription={handleEditDescription} />
         </DetailsColumn>
         <ConfirmationColumn>
           <Confirmations coin={coin} confirmations={transaction.confirmations} minConfirmations={minConfirmations} hash={transaction.hash} />
         </ConfirmationColumn>
         <AmountColumn>
-          <ToggleButton nature={transaction.type} onClick={handleClick}>
+          <ToggleButton nature={transaction.type} onClick={handleCoinToggle}>
             <SwitchableDisplay coin={coin} size='16px' weight={300} color='white' cursor='pointer'>{transaction.amount}</SwitchableDisplay>
           </ToggleButton>
           <TransactionValues>
             { coin === 'BTC' && <FiatAtTime amount={transaction.amount} hash={transaction.hash} time={transaction.time} type={transaction.type} /> }
-            { transaction.type !== 'received' && <Fee fee={transaction.fee} coin={coin} /> }
+            { transaction.type !== 'received' &&
+              <FeeWrapper>
+                <Text size='12px' weight={300}>
+                  <FormattedMessage id='scenes.transactions.bitcoin.content.pages.listitem.fee.label' defaultMessage='Transaction Fee: ' />
+                </Text>
+                <SwitchableDisplay coin={coin} size='12px' weight={200}>{transaction.fee}</SwitchableDisplay>
+              </FeeWrapper>
+            }
           </TransactionValues>
         </AmountColumn>
       </TransactionRow>
@@ -117,7 +136,7 @@ const TransactionListItem = (props) => {
 TransactionListItem.propTypes = {
   coin: PropTypes.string.isRequired,
   minConfirmations: PropTypes.number.isRequired,
-  handleClick: PropTypes.func.isRequired,
+  handleCoinToggle: PropTypes.func.isRequired,
   transaction: PropTypes.shape({
     type: PropTypes.string.isRequired,
     amount: PropTypes.number.isRequired,

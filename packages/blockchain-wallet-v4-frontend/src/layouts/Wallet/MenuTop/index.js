@@ -17,7 +17,7 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
 
-  @media(min-width: 850px) { 
+  @media(min-width: 850px) {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
@@ -47,9 +47,11 @@ const TextContainer = styled.div`
 const MenuTop = (props) => (
   <Wrapper>
     <LeftContainer>
-      <TextContainer>
+      <TextContainer inline>
         <Text size='28px' weight={200} uppercase>
           <FormattedMessage id='layouts.wallet.menutop.bank' defaultMessage='Be your own bank.' />
+        </Text>
+        <Text size='20px' weight={200}>
           <sup>®</sup>
         </Text>
       </TextContainer>

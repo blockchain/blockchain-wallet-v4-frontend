@@ -26,10 +26,9 @@
     "build": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run build:dev",
     "build:prod": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run build:prod",
     "bootstrap": "npm i && lerna bootstrap --hoist --ignore-scripts",
-    "ci:build": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run ci:build",
-    "ci:build:prod": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run ci:build:prod",
-    "ci:coverage": "npm run coverage:components && npm run coverage:core && npm run coverage:frontend && istanbul report --root ./coverage --dir ./coverage/ lcov",
-    "ci:test": "npm run test:components && npm run test:core && npm run test:frontend",
+    "ci:compile": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run ci:compile",
+    "ci:coverage": "lerna exec -- npm run test:build && lerna link && npm run coverage:components && npm run coverage:core && npm run coverage:frontend && istanbul report --root ./coverage --dir ./coverage/ lcov",
+    "ci:test": "lerna exec -- npm run test:build && lerna link && npm run test:components && npm run test:core && npm run test:frontend",
     "clean": "rm -rf build coverage dist node_modules *.log *.lerna_backup && lerna clean --yes",
     "coverage": "rm -rf coverage && lerna exec -- npm run coverage && istanbul report --root ./coverage --dir ./coverage/ text-summary html",
     "coverage:components": "lerna exec --scope blockchain-info-components -- npm run coverage",
@@ -47,7 +46,7 @@
     "start:testnet": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run start:testnet",
     "storybook:build": "lerna exec --scope blockchain-info-components -- npm run storybook:build",
     "storybook:serve": "lerna exec --scope blockchain-info-components -- npm run storybook:serve",
-    "test": "lerna exec -- npm run test",
+    "test": "lerna exec -- npm run test:build && lerna link && lerna exec -- npm run test",
     "test:components": "lerna exec --scope blockchain-info-components -- npm run test",
     "test:components:debug": "lerna exec --scope blockchain-info-components -- npm run test:debug",
     "test:components:update": "lerna exec --scope blockchain-info-components -- npm run test -- -u",
@@ -65,12 +64,14 @@
     "vet:frontend": "npm run lint:frontend && npm run test:frontend"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^4.0.0-alpha.1",
-    "@storybook/addon-info": "^4.0.0-alpha.1",
-    "@storybook/cli": "^4.0.0-alpha.1",
-    "@storybook/react": "^4.0.0-alpha.1",
+    "@storybook/addon-actions": "^4.0.0-alpha.3",
+    "@storybook/addon-info": "^4.0.0-alpha.3",
+    "@storybook/addon-links": "4.0.0-alpha.3",
+    "@storybook/cli": "^4.0.0-alpha.3",
+    "@storybook/react": "^4.0.0-alpha.3",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
+    "babel-eslint": "^8.2.3",
     "babel-istanbul": "~0.12.2",
     "babel-jest": "^22.4.1",
     "babel-loader": "^7.0.0",
@@ -128,5 +129,6 @@
     "webpack-bundle-analyzer": "^2.11.1",
     "webpack-cli": "^2.0.13",
     "webpack-dev-server": "^3.1.1"
-  }
+  },
+  "dependencies": {}
 }

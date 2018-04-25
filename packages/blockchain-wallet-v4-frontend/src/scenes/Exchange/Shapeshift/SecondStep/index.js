@@ -2,25 +2,33 @@ import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
+import { actions } from 'data'
 import { getData } from './selectors'
-import { actions, selectors } from 'data'
 import Error from './template.error'
 import Loading from './template.loading'
-import Form from './Form'
+import Success from './template.success'
 
-class SecondContainer extends React.Component {
-  componentWillMount () {
-    // Make request to shapeShift to create order
-    const { pair, sourceReceiveAddress, sourceAmount, targetReceiveAddress } = this.props
-    this.props.kvStoreShapeshiftActions.fetchMetadataShapeshift()
-    this.props.dataShapeshiftActions.fetchOrder(sourceAmount, pair, sourceReceiveAddress, targetReceiveAddress)
+class SecondStepContainer extends React.Component {
+  componentDidMount () {
+    this.props.actions.secondStepInitialized()
   }
 
   render () {
-    const { data, ...rest } = this.props
-
-    return data.cata({
-      Success: (value) => <Form {...rest} {...value} />,
+    return this.props.data.cata({
+      Success: (value) => <Success
+        sourceCoin={value.sourceCoin}
+        sourceAmount={value.sourceAmount}
+        sourceFee={value.sourceFee}
+        sourceTotal={value.sourceTotal}
+        exchangeRate={value.exchangeRate}
+        targetCoin={value.targetCoin}
+        targetAmount={value.targetAmount}
+        targetFee={value.targetFee}
+        expiration={value.expiration}
+        handleSubmit={() => this.props.actions.secondStepSubmitClicked()}
+        handleCancel={() => this.props.actions.secondStepCancelClicked()}
+        handleExpiry={() => this.props.actions.secondStepOrderExpired()}
+      />,
       Failure: (message) => <Error />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
@@ -28,14 +36,12 @@ class SecondContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  data: getData(state, ownProps.source, ownProps.target),
-  coins: selectors.core.data.bitcoin.getCoins(state).getOrElse([])
+const mapStateToProps = state => ({
+  data: getData(state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  dataShapeshiftActions: bindActionCreators(actions.core.data.shapeShift, dispatch),
-  kvStoreShapeshiftActions: bindActionCreators(actions.core.kvStore.shapeShift, dispatch)
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(actions.components.exchange, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SecondContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(SecondStepContainer)

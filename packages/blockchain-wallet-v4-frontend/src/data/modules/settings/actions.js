@@ -20,8 +20,6 @@ export const updateLanguage = (language) => ({ type: AT.UPDATE_LANGUAGE, payload
 
 export const updateCurrency = (currency) => ({ type: AT.UPDATE_CURRENCY, payload: { currency } })
 
-export const updateBitcoinUnit = (unit) => ({ type: AT.UPDATE_BITCOIN_UNIT, payload: { unit } })
-
 export const updateAutoLogout = (autoLogout) => ({ type: AT.UPDATE_AUTO_LOGOUT, payload: { autoLogout } })
 
 export const updateLoggingLevel = (loggingLevel) => ({ type: AT.UPDATE_LOGGING_LEVEL, payload: { loggingLevel } })

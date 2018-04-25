@@ -7,8 +7,6 @@ const SettingForm = styled(Form)`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-
-  @media(min-width: 992px) { align-items: flex-end; }
 `
 
 export default SettingForm

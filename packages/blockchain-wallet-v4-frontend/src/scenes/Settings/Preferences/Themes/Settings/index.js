@@ -7,7 +7,7 @@ import { isNil, equals } from 'ramda'
 import { actions, selectors } from 'data'
 import Settings from './template.js'
 
-class SettingsContainer extends React.Component {
+class SettingsContainer extends React.PureComponent {
   componentWillMount () {
     this.props.formActions.initialize('settingTheme', { 'theme': this.props.theme })
   }

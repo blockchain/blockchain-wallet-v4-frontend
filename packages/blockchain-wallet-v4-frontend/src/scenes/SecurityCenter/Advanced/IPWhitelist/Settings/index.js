@@ -10,7 +10,7 @@ import { equals, isEmpty } from 'ramda'
 import { actions, selectors } from 'data'
 import Settings from './template.js'
 
-class SettingsContainer extends React.Component {
+class SettingsContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
@@ -45,6 +45,7 @@ class SettingsContainer extends React.Component {
       updateToggled={ui.updateToggled}
       handleToggle={this.handleToggle}
       handleClick={this.handleClick}
+      handleCancel={() => { this.props.formActions.reset('settingIPWhitelist'); this.handleToggle() }}
     />
   }
 }

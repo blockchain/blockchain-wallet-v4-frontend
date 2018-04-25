@@ -91,15 +91,6 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const updateBitcoinUnit = function * (action) {
-    try {
-      yield call(coreSagas.settings.setBitcoinUnit, action.payload)
-      yield put(actions.alerts.displaySuccess('Bitcoin unit has been successfully updated.'))
-    } catch (e) {
-      yield put(actions.alerts.displayError('Could not update bitcoin unit.'))
-    }
-  }
-
   const updateAutoLogout = function * (action) {
     try {
       yield call(coreSagas.settings.setAutoLogout, action.payload)
@@ -158,19 +149,19 @@ export default ({ coreSagas }) => {
   const updateTwoStepRemember = function * (action) {
     try {
       yield call(coreSagas.settings.setAuthTypeNeverSave, action.payload)
-      yield put(actions.alerts.displaySuccess('2-step verification remember has been successfully updated.'))
+      yield put(actions.alerts.displaySuccess('2FA remember has been successfully updated.'))
     } catch (e) {
-      yield put(actions.alerts.displayError('Could not update 2-step verification remember.'))
+      yield put(actions.alerts.displayError('Could not update 2FA remember.'))
     }
   }
 
   const enableTwoStepMobile = function * (action) {
     try {
       yield call(coreSagas.settings.setAuthType, action.payload)
-      yield put(actions.alerts.displaySuccess('2-step verification (Mobile) has been successfully enabled.'))
+      yield put(actions.alerts.displaySuccess('2FA (Mobile) has been successfully enabled.'))
       yield put(actions.modals.closeAllModals())
     } catch (e) {
-      yield put(actions.alerts.displayError('Could not update 2-step verification.'))
+      yield put(actions.alerts.displayError('Could not update 2FA.'))
       yield put(actions.modals.closeModal())
     }
   }
@@ -178,10 +169,10 @@ export default ({ coreSagas }) => {
   const enableTwoStepGoogleAuthenticator = function * (action) {
     try {
       yield call(coreSagas.settings.setGoogleAuthenticator, action.payload)
-      yield put(actions.alerts.displaySuccess('2-step verification (Google Authenticator) has been successfully enabled.'))
+      yield put(actions.alerts.displaySuccess('2FA (Google Authenticator) has been successfully enabled.'))
       yield put(actions.modals.closeAllModals())
     } catch (e) {
-      yield put(actions.alerts.displayError('Could not update 2-step verification.'))
+      yield put(actions.alerts.displayError('Could not update 2FA.'))
       yield put(actions.modals.closeModal())
     }
   }
@@ -189,10 +180,10 @@ export default ({ coreSagas }) => {
   const enableTwoStepYubikey = function * (action) {
     try {
       yield call(coreSagas.settings.setYubikey, action.payload)
-      yield put(actions.alerts.displaySuccess('2-step verification (Yubikey) has been successfully enabled.'))
+      yield put(actions.alerts.displaySuccess('2FA (Yubikey) has been successfully enabled.'))
       yield put(actions.modals.closeAllModals())
     } catch (e) {
-      yield put(actions.alerts.displayError('Could not update 2-step verification.'))
+      yield put(actions.alerts.displayError('Could not update 2FA.'))
       yield put(actions.modals.closeModal())
     }
   }
@@ -209,10 +200,10 @@ export default ({ coreSagas }) => {
   }
 
   const showBtcPrivateKey = function * (action) {
-    let { addr } = action.payload
-    let password = yield call(promptForSecondPassword)
-    let wallet = yield select(selectors.core.wallet.getWallet)
-    let priv = Types.Wallet.getPrivateKeyForAddress(wallet, password, addr).getOrElse(null)
+    const { addr } = action.payload
+    const password = yield call(promptForSecondPassword)
+    const wallet = yield select(selectors.core.wallet.getWallet)
+    const priv = Types.Wallet.getPrivateKeyForAddress(wallet, password, addr).getOrElse(null)
 
     if (priv != null) {
       yield put(actions.modules.settings.addShownBtcPrivateKey(priv))
@@ -223,21 +214,27 @@ export default ({ coreSagas }) => {
 
   const showEthPrivateKey = function * (action) {
     const { archived } = action.payload
-    let password = yield call(promptForSecondPassword)
-    const getMnemonic = state => selectors.core.wallet.getMnemonic(state, password)
-    const eitherMnemonic = yield select(getMnemonic)
-    if (eitherMnemonic.isRight) {
-      const mnemonic = eitherMnemonic.value
-      const priv = archived
-        ? utils.ethereum.getLegacyPrivateKey(mnemonic).toString('hex')
-        : utils.ethereum.getPrivateKey(mnemonic, 0).toString('hex')
-      if (priv != null) {
-        yield put(actions.modules.settings.addShownEthPrivateKey(priv))
-      } else {
-        yield put(actions.alerts.displayError('Could not derive private key for address.'))
+    const password = yield call(promptForSecondPassword)
+    let priv = null
+    if (archived) {
+      const getSeedHex = state => selectors.core.wallet.getSeedHex(state, password)
+      const eitherSeedHex = yield select(getSeedHex)
+      if (eitherSeedHex.isRight) {
+        const seedHex = eitherSeedHex.value
+        priv = utils.ethereum.getLegacyPrivateKey(seedHex).toString('hex')
       }
     } else {
-      yield put(actions.alerts.displayError('Could not show private key for address.'))
+      const getMnemonic = state => selectors.core.wallet.getMnemonic(state, password)
+      const eitherMnemonic = yield select(getMnemonic)
+      if (eitherMnemonic.isRight) {
+        const mnemonic = eitherMnemonic.value
+        priv = utils.ethereum.getPrivateKey(mnemonic, 0).toString('hex')
+      }
+    }
+    if (priv != null) {
+      yield put(actions.modules.settings.addShownEthPrivateKey(priv))
+    } else {
+      yield put(actions.alerts.displayError('Could not derive private key.'))
     }
   }
 
@@ -250,7 +247,6 @@ export default ({ coreSagas }) => {
     yield takeLatest(AT.VERIFY_MOBILE, verifyMobile)
     yield takeLatest(AT.UPDATE_LANGUAGE, updateLanguage)
     yield takeLatest(AT.UPDATE_CURRENCY, updateCurrency)
-    yield takeLatest(AT.UPDATE_BITCOIN_UNIT, updateBitcoinUnit)
     yield takeLatest(AT.UPDATE_AUTO_LOGOUT, updateAutoLogout)
     yield takeLatest(AT.UPDATE_LOGGING_LEVEL, updateLoggingLevel)
     yield takeLatest(AT.UPDATE_IP_LOCK, updateIpLock)
