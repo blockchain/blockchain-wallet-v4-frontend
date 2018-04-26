@@ -25,7 +25,7 @@ const Footer = styled.div`
 `
 
 const ThirdStep = (props) => {
-  const { busy, previousStep, onSubmit, submitting, invalid } = props
+  const { busy, previousStep, onSubmit, invalid } = props
 
   return (
     <Wrapper>
@@ -53,7 +53,7 @@ const ThirdStep = (props) => {
           <FormattedMessage id='scenes.reset2fa.thirdstep.captcha' defaultMessage='Captcha' />
         </Text>
         <Field name='code' validate={[required]} component={CaptchaBox} />
-        <Button type='submit' nature='primary' fullwidth uppercase disabled={busy || submitting || invalid} >
+        <Button type='submit' nature='primary' fullwidth uppercase disabled={busy || invalid} >
           {
             busy
               ? <HeartbeatLoader height='20px' width='20px' color='white' />
