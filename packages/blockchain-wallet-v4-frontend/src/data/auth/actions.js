@@ -16,6 +16,12 @@ export const registerFailure = () => ({ type: AT.REGISTER_FAILURE })
 
 export const restore = (mnemonic, email, password, network) => ({ type: AT.RESTORE, payload: { mnemonic, email, password, network } })
 
+export const restoreLoading = () => ({ type: AT.RESTORE_LOADING })
+
+export const restoreSuccess = () => ({ type: AT.RESTORE_SUCCESS })
+
+export const restoreFailure = () => ({ type: AT.RESTORE_FAILURE })
+
 export const remindGuid = (email, code, sessionToken) => ({ type: AT.REMIND_GUID, payload: { email, code, sessionToken } })
 
 export const authenticate = () => ({ type: AT.AUTHENTICATE })
