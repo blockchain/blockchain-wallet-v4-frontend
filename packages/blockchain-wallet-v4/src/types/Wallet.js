@@ -114,10 +114,11 @@ export const spendableActiveAddresses = (wallet) => {
   return selectAddresses(wallet).filter(isSpendableActive).map(a => a.addr)
 }
 
-// fromEncryptedPayload :: String -> String -> Either Error Wallet
+// fromEncryptedPayload :: String -> String -> Task Error Wallet
 export const fromEncryptedPayload = curry((password, payload) => {
-  let decryptWallet = compose(map(fromJS), crypto.decryptWallet(password))
-  return Either.of(payload).chain(decryptWallet)
+  return Task.of(payload)
+    .chain(crypto.decryptWallet(password))
+    .map(fromJS)
 })
 
 // toEncryptedPayload :: String -> Wallet -> Either Error String

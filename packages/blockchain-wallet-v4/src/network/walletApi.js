@@ -21,8 +21,7 @@ const createWalletApi = ({ options, apiKey } = {}, returnType) => {
   // ////////////////////////////////////////////////////////////////
   const fetchWalletWithSharedKeyTask = (guid, sharedKey, password) =>
     promiseToTask(ApiPromise.fetchPayloadWithSharedKey)(guid, sharedKey)
-      .map(Wrapper.fromEncJSON(password))
-      .chain(eitherToTask)
+      .chain(Wrapper.fromEncJSON(password))
 
   const fetchWalletWithSharedKey = compose(taskToPromise, fetchWalletWithSharedKeyTask)
 
@@ -30,8 +29,7 @@ const createWalletApi = ({ options, apiKey } = {}, returnType) => {
   const fetchWalletWithSessionTask = (guid, session, password) =>
     promiseToTask(ApiPromise.fetchPayloadWithSession)(guid, session)
       .chain(is2FAEnabled)
-      .map(Wrapper.fromEncJSON(password))
-      .chain(eitherToTask)
+      .chain(Wrapper.fromEncJSON(password))
 
   const fetchWalletWithSession = compose(taskToPromise, fetchWalletWithSessionTask)
 
@@ -39,8 +37,7 @@ const createWalletApi = ({ options, apiKey } = {}, returnType) => {
   const fetchWalletWithTwoFactorTask = (guid, session, password, twoFactorCode) =>
     promiseToTask(ApiPromise.fetchPayloadWithTwoFactorAuth)(guid, session, twoFactorCode)
       .chain(is2FACodeValid)
-      .map(Wrapper.fromEncPayload(password))
-      .chain(eitherToTask)
+      .chain(Wrapper.fromEncPayload(password))
 
   const fetchWalletWithTwoFactor = compose(taskToPromise, fetchWalletWithTwoFactorTask)
 
