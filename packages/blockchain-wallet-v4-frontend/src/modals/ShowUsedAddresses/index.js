@@ -13,7 +13,7 @@ class ShowUsedAddressesContainer extends React.PureComponent {
   }
 
   handleContinue () {
-    this.props.actions.toggleUsedAddresses()
+    this.props.actions.toggleUsedAddresses(this.props.walletIndex, true)
   }
 
   render () {

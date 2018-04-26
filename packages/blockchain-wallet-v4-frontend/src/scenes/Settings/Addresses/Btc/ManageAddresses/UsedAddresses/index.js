@@ -13,25 +13,25 @@ class UsedAddressesContainer extends React.PureComponent {
   }
 
   onShowUsedAddresses () {
-    if (this.props.showUsedAddresses) {
-      this.props.actions.toggleUsedAddresses()
+    if (this.props.usedAddressesVisible) {
+      this.props.componentActions.toggleUsedAddresses(this.props.walletIndex, false)
     } else {
-      this.props.modalsActions.showModal('ShowUsedAddresses')
+      this.props.modalsActions.showModal('ShowUsedAddresses', { walletIndex: this.props.walletIndex })
     }
   }
 
   render () {
-    return <UsedAddressesTemplate usedAddressesVisible={this.props.showUsedAddresses} onShowUsedAddresses={this.onShowUsedAddresses} />
+    return <UsedAddressesTemplate usedAddressesVisible={this.props.usedAddressesVisible} onShowUsedAddresses={this.onShowUsedAddresses} />
   }
 }
 
-const mapStateToProps = state => ({
-  showUsedAddresses: selectors.components.usedAddresses.getUsedAddressesVisiblity(state)
+const mapStateToProps = (state, ownProps) => ({
+  usedAddressesVisible: selectors.components.usedAddresses.getWalletUsedAddressVisibility(state, ownProps.walletIndex)
 })
 
 const mapDispatchToProps = (dispatch) => ({
   modalsActions: bindActionCreators(actions.modals, dispatch),
-  actions: bindActionCreators(actions.components.usedAddresses, dispatch)
+  componentActions: bindActionCreators(actions.components.usedAddresses, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(UsedAddressesContainer)
