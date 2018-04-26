@@ -20,7 +20,7 @@ const Error = styled(Text)`
   right: 0;
 `
 const getErrorState = (meta) => {
-  return meta.invalid ? 'invalid' : 'initial'
+  return meta.touched && meta.invalid ? 'invalid' : 'initial'
 }
 
 const TextBox = (field) => {

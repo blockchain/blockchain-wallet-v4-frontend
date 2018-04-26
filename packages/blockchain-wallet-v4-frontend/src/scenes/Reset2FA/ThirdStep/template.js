@@ -52,7 +52,7 @@ const ThirdStep = (props) => {
         <Text size='14px' weight={500}>
           <FormattedMessage id='scenes.reset2fa.thirdstep.captcha' defaultMessage='Captcha' />
         </Text>
-        <Field name='code' validate={[required]} component={CaptchaBox} />
+        <Field name='code' autoFocus validate={[required]} component={CaptchaBox} />
         <Button type='submit' nature='primary' fullwidth uppercase disabled={busy || invalid} >
           {
             busy
