@@ -10,14 +10,11 @@ class MenuContainer extends React.Component {
     this.onShowPrivateKey = this.onShowPrivateKey.bind(this)
   }
 
-  onShowPrivateKey (archived) {
-    this.props.modalActions.showModal('ShowEthPrivateKey', { archived: archived })
+  onShowPrivateKey (isLegacy) {
+    this.props.modalActions.showModal('ShowEthPrivateKey', { isLegacy })
   }
 
   render () {
-    // const onShowPrivateKey = () => this.props.modalsActions.showModal('ShowEthPrivateKey')
-    // const onShowArchivedPrivateKey = () => this.props.modalsActions.showModal('ShowArchivedPrivateKey')
-
     return <Menu onShowPrivateKey={this.onShowPrivateKey} />
   }
 }

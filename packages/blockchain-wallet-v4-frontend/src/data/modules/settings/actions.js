@@ -46,7 +46,7 @@ export const newHDAccount = (label) => ({ type: AT.NEW_HD_ACCOUNT, payload: { la
 
 export const showBtcPrivateKey = (addr) => ({ type: AT.SHOW_BTC_PRIV_KEY, payload: { addr } })
 
-export const showEthPrivateKey = (archived) => ({ type: AT.SHOW_ETH_PRIV_KEY, payload: { archived } })
+export const showEthPrivateKey = (isLegacy) => ({ type: AT.SHOW_ETH_PRIV_KEY, payload: { isLegacy } })
 
 export const addShownBtcPrivateKey = (priv) => ({ type: AT.ADD_SHOWN_BTC_PRIV_KEY, payload: { priv } })
 

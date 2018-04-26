@@ -213,10 +213,10 @@ export default ({ coreSagas }) => {
   }
 
   const showEthPrivateKey = function * (action) {
-    const { archived } = action.payload
+    const { isLegacy } = action.payload
     const password = yield call(promptForSecondPassword)
     let priv = null
-    if (archived) {
+    if (isLegacy) {
       const getSeedHex = state => selectors.core.wallet.getSeedHex(state, password)
       const eitherSeedHex = yield select(getSeedHex)
       if (eitherSeedHex.isRight) {
