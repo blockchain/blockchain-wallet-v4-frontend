@@ -7,7 +7,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 
 import { required } from 'services/FormHelper'
 import { Button, Link, Separator, Text, TextGroup, HeartbeatLoader } from 'blockchain-info-components'
-import { Form, FormGroup, FormItem, FormLabel, PasswordBox, TextBox } from 'components/Form'
+import { Form, FormError, FormGroup, FormItem, FormLabel, PasswordBox, TextBox } from 'components/Form'
 import Modals from 'modals'
 import MobileLogin from 'modals/MobileLogin'
 
@@ -47,10 +47,24 @@ const LoginTextGroup = styled(TextGroup)`
   line-height: 1;
   margin-top: 3px;
 `
+const GuidError = styled(TextGroup)`
+  display: inline;
+  margin-top: 3px;
+`
 
 const Login = (props) => {
-  const { submitting, invalid, busy, ...rest } = props
+  const { submitting, invalid, busy, loginError, password, ...rest } = props
   const { onSubmit, handleMobile, authType } = rest
+
+  const guidError = loginError && loginError.toLowerCase().includes('unknown wallet id')
+  const passwordError = loginError && loginError.toLowerCase().includes('error decrypting')
+  const twoFactorError = loginError && loginError.toLowerCase().includes('authentication code')
+  const accountLocked = loginError && (loginError.toLowerCase().includes('this account has been locked') || loginError.toLowerCase().includes('account is locked'))
+
+  const handlePasswordChange = () => {
+    passwordError && props.handleCode(false)
+    props.authActions.clearError()
+  }
 
   return (
     <Wrapper>
@@ -72,7 +86,7 @@ const Login = (props) => {
           </LinkContainer>
         </TextGroup>
       </Header>
-      <Text size='14px' weight={300} altFont>
+      <Text size='14px' weight={300}>
         <FormattedMessage id='scenes.login.explain' defaultMessage='Sign in to your wallet below' />
       </Text>
       <Separator />
@@ -82,16 +96,24 @@ const Login = (props) => {
             <FormLabel for='guid'>
               <FormattedMessage id='scenes.login.guid' defaultMessage='Wallet ID' />
             </FormLabel>
-            <Field name='guid' validate={[required]} component={TextBox} />
+            <Field name='guid' validate={[required]} onChange={props.authActions.clearError} component={TextBox} borderColor={guidError ? 'invalid' : undefined} />
           </FormItem>
+          { guidError && <GuidError inline>
+            <Text size='12px' color='error' weight={300}>
+              <FormattedMessage id='scenes.login.guiderror' defaultMessage='Unknown Wallet ID. If you need a reminder ' />
+            </Text>
+            <LinkContainer to='/reminder'>
+              <Link size='12px' weight={300}><FormattedMessage id='scenes.login.clickhere' defaultMessage='click here.' /></Link>
+            </LinkContainer>
+          </GuidError> }
           <LoginTextGroup inline>
-            <Text size='12px' color={'gray-3'} weight={300} altFont>
+            <Text size='12px' color='gray-3' weight={300}>
               <FormattedMessage id='scenes.login.info' defaultMessage='Find the login link in your email,' />
             </Text>
-            <Text size='12px' color={'gray-3'} weight={300} altFont>
+            <Text size='12px' color='gray-3' weight={300}>
               <FormattedMessage id='scenes.login.info2' defaultMessage='e.g. blockchain.info/wallet/1111-222-333...' />
             </Text>
-            <Text size='12px' color={'gray-3'} weight={300} altFont>
+            <Text size='12px' color='gray-3' weight={300}>
               <FormattedMessage id='scenes.login.info3' defaultMessage='The series of numbers and dashes at the end of the link is your Wallet ID.' />
             </Text>
           </LoginTextGroup>
@@ -101,27 +123,28 @@ const Login = (props) => {
             <FormLabel for='password'>
               <FormattedMessage id='scenes.login.password' defaultMessage='Password' />
             </FormLabel>
-            <Field name='password' validate={[required]} component={PasswordBox} />
+            <Field name='password' validate={[required]} component={PasswordBox} onChange={handlePasswordChange} borderColor={passwordError ? 'invalid' : undefined} />
+            { passwordError && <FormError position={authType > 0 ? 'relative' : 'absolute'}>{loginError}</FormError> }
+            { accountLocked && <FormError position={authType > 0 || passwordError ? 'relative' : 'absolute'}>{loginError}</FormError> }
           </FormItem>
         </FormGroup>
-        <FormGroup>
-          { authType > 0 &&
+        { authType > 0 &&
+          <FormGroup>
             <FormItem>
               <FormLabel for='code'>
                 { authType === 1 && <FormattedMessage id='scenes.login.yubikey' defaultMessage='Yubikey' /> }
                 { authType === 4 && <FormattedMessage id='scenes.login.google' defaultMessage='Authenticator App Code' /> }
                 { authType === 5 && <FormattedMessage id='scenes.login.mobile' defaultMessage='SMS Code' /> }
               </FormLabel>
+              <Field name='code' validate={[required]} component={TextBox} onChange={props.authActions.clearError} borderColor={twoFactorError ? 'invalid' : undefined} />
+              { twoFactorError && <FormError position={'absolute'}>{loginError}</FormError> }
             </FormItem>
-          }
-          { authType > 0 &&
-            <Field name='code' validate={[required]} component={TextBox} />
-          }
-        </FormGroup>
+          </FormGroup>
+        }
         <FormGroup>
-          <LoginButton type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid}>
+          <LoginButton type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid || busy || !password}>
             {
-              busy
+              busy && !loginError
                 ? <HeartbeatLoader height='20px' width='20px' color='white' />
                 : <FormattedMessage id='scenes.login.submit' defaultMessage='Log in' />
             }
