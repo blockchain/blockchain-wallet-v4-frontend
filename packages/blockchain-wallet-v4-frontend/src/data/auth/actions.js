@@ -4,7 +4,7 @@ export const login = (guid, password, code, sharedKey, mobileLogin) => ({ type: 
 
 export const loginLoading = () => ({ type: AT.LOGIN_LOADING })
 
-export const loginSuccess = (msg) => ({ type: AT.LOGIN_SUCCESS })
+export const loginSuccess = () => ({ type: AT.LOGIN_SUCCESS })
 
 export const loginFailure = (err) => ({ type: AT.LOGIN_FAILURE, payload: { err } })
 
@@ -38,6 +38,10 @@ export const startLogoutTimer = () => ({ type: AT.START_LOGOUT_TIMER })
 
 export const reset2fa = (guid, email, newEmail, secretPhrase, message, code, sessionToken) => ({ type: AT.RESET_2FA, payload: { guid, email, newEmail, secretPhrase, message, code, sessionToken } })
 
-export const reset2faError = (val) => ({ type: AT.RESET_2FA_ERROR, payload: { val } })
+export const reset2faLoading = () => ({ type: AT.RESET_2FA_LOADING })
+
+export const reset2faSuccess = () => ({ type: AT.RESET_2FA_SUCCESS })
+
+export const reset2faFailure = (err) => ({ type: AT.RESET_2FA_FAILURE, payload: { err } })
 
 export const upgradeWallet = () => ({ type: AT.UPGRADE_WALLET, payload: {} })

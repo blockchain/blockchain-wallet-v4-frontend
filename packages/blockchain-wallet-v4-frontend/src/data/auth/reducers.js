@@ -6,8 +6,8 @@ const INITIAL_STATE = {
   auth_type: 0,
   isLoggingIn: false,
   isAuthenticated: false,
-  reset_2fa_error: false,
   login: Remote.NotAsked,
+  reset_2fa: Remote.NotAsked,
   restoring: Remote.NotAsked,
   registering: Remote.NotAsked
 }
@@ -49,8 +49,14 @@ const auth = (state = INITIAL_STATE, action) => {
     case AT.RESTORE_FAILURE: {
       return assoc('restoring', Remote.Failure(payload), state)
     }
-    case AT.RESET_2FA_ERROR: {
-      return assoc('reset_2fa_error', payload.val, state)
+    case AT.RESET_2FA_LOADING: {
+      return assoc('reset_2fa', Remote.Loading, state)
+    }
+    case AT.RESET_2FA_SUCCESS: {
+      return assoc('reset_2fa', Remote.Success(payload), state)
+    }
+    case AT.RESET_2FA_FAILURE: {
+      return assoc('reset_2fa', Remote.Failure(payload), state)
     }
     case AT.SET_AUTH_TYPE: {
       const { authType } = payload
