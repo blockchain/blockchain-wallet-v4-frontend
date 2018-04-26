@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
 import { required } from 'services/FormHelper'
-import { Button, Link, Separator, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Link, Separator, Text } from 'blockchain-info-components'
 import { CaptchaBox, Form, TextArea } from 'components/Form'
 
 const Wrapper = styled.div`
@@ -25,7 +25,7 @@ const Footer = styled.div`
 `
 
 const ThirdStep = (props) => {
-  const { previousStep, onSubmit, submitting, invalid } = props
+  const { busy, previousStep, onSubmit, submitting, invalid } = props
 
   return (
     <Wrapper>
@@ -53,8 +53,12 @@ const ThirdStep = (props) => {
           <FormattedMessage id='scenes.reset2fa.thirdstep.captcha' defaultMessage='Captcha' />
         </Text>
         <Field name='code' validate={[required]} component={CaptchaBox} />
-        <Button type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid} >
-          <FormattedMessage id='scenes.reset2fa.thirdstep.reset' defaultMessage='Reset' />
+        <Button type='submit' nature='primary' fullwidth uppercase disabled={busy || submitting || invalid} >
+          {
+            busy
+              ? <HeartbeatLoader height='20px' width='20px' color='white' />
+              : <FormattedMessage id='scenes.reset2fa.thirdstep.reset' defaultMessage='Reset' />
+          }
         </Button>
       </Form>
       <Footer>
