@@ -53,7 +53,7 @@ const FirstStep = (props) => {
       </PrintContainer>
       <Buttons>
         <Button nature='primary' onClick={nextStep}>
-          <FormattedMessage id='modals.recoveryphrase.firststep.logout' defaultMessage='Start Backup Phrase' />
+          <FormattedMessage id='modals.recoveryphrase.firststep.logout' defaultMessage='Get Phrase' />
         </Button>
       </Buttons>
 
