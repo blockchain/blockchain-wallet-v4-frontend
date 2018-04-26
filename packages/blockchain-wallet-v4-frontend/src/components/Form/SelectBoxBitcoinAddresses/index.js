@@ -1,19 +1,25 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { concat } from 'ramda'
+import PropTypes from 'prop-types'
 
 import { getData } from './selectors'
 import SelectBox from '../SelectBox'
 
 class SelectBoxBitcoinAddresses extends React.PureComponent {
+  concatAll (coin) {
+    return concat([{ group: '', items: [{ value: 'all', text: `My Bitcoin${coin === 'BCH' ? ' Cash' : ''} Wallets` }] }])
+  }
   render () {
-    const { data, coin, ...rest } = this.props
+    const { data, coin, includeAll, ...rest } = this.props
 
     return data.cata({
       Success: (value) => {
-        const elements = [{
+        const wallets = [{
           group: '',
           items: value.data
         }]
+        const elements = includeAll ? this.concatAll(coin)(wallets) : wallets
 
         return <SelectBox elements={elements} {...rest} />
       },
@@ -22,6 +28,14 @@ class SelectBoxBitcoinAddresses extends React.PureComponent {
       NotAsked: () => <div />
     })
   }
+}
+
+SelectBoxBitcoinAddresses.propTypes = {
+  includeAll: PropTypes.bool
+}
+
+SelectBoxBitcoinAddresses.defaultProps = {
+  includeAll: true
 }
 
 const mapStateToProps = (state, ownProps) => ({
