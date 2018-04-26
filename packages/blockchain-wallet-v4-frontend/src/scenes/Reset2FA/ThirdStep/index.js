@@ -7,14 +7,14 @@ import ThirdStep from './template'
 import { actions, selectors } from 'data'
 
 class ThirdStepContainer extends React.PureComponent {
+  static getDerivedStateFromProps (props) {
+    if (props.reset2faError) return { busy: false }
+  }
+
   constructor (props) {
     super(props)
     this.state = { busy: false }
     this.onSubmit = this.onSubmit.bind(this)
-  }
-
-  static getDerivedStateFromProps (props) {
-    if (props.reset2faError) return { busy: false }
   }
 
   onSubmit (event) {
