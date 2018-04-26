@@ -6,6 +6,12 @@ export const AUTHENTICATE = 'AUTHENTICATE'
 
 export const REGISTER = 'REGISTER'
 
+export const REGISTER_LOADING = 'REGISTER_LOADING'
+
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS'
+
+export const REGISTER_FAILURE = 'REGISTER_FAILURE'
+
 export const RESTORE = 'RESTORE'
 
 export const REMIND_GUID = 'REMIND_GUID'

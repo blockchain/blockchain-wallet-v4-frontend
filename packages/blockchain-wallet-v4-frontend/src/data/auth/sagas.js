@@ -157,11 +157,14 @@ export default ({ api, coreSagas }) => {
   // =============================================================================
   const register = function * (action) {
     try {
+      yield put(actions.auth.registerLoading())
       yield put(actions.alerts.displayInfo('Creating wallet...'))
       yield call(coreSagas.wallet.createWalletSaga, action.payload)
       yield put(actions.alerts.displaySuccess('Wallet successfully created.'))
       yield call(loginRoutineSaga)
+      yield put(actions.auth.registerSuccess())
     } catch (e) {
+      yield put(actions.auth.registerFailure())
       yield put(actions.alerts.displayError('Wallet could not be created.'))
     }
   }

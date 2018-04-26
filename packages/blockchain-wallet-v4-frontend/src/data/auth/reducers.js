@@ -1,10 +1,12 @@
 import * as AT from './actionTypes'
 import { assoc } from 'ramda'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 const INITIAL_STATE = {
   isLoggingIn: false,
   isAuthenticated: false,
   reset_2fa_error: false,
+  registering: Remote.NotAsked,
   auth_type: 0,
   error: null
 }
@@ -18,6 +20,15 @@ const auth = (state = INITIAL_STATE, action) => {
     }
     case AT.AUTHENTICATE: {
       return assoc('isAuthenticated', true, state)
+    }
+    case AT.REGISTER_LOADING: {
+      return assoc('registering', Remote.Loading, state)
+    }
+    case AT.REGISTER_SUCCESS: {
+      return assoc('registering', Remote.Success(payload), state)
+    }
+    case AT.REGISTER_FAILURE: {
+      return assoc('registering', Remote.Failure(payload), state)
     }
     case AT.RESET_2FA_ERROR: {
       return assoc('reset_2fa_error', payload.val, state)

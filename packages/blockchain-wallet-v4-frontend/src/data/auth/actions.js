@@ -8,6 +8,12 @@ export const setAuthType = (authType) => ({ type: AT.SET_AUTH_TYPE, payload: { a
 
 export const register = (email, password) => ({ type: AT.REGISTER, payload: { email, password } })
 
+export const registerLoading = () => ({ type: AT.REGISTER_LOADING })
+
+export const registerSuccess = () => ({ type: AT.REGISTER_SUCCESS })
+
+export const registerFailure = () => ({ type: AT.REGISTER_FAILURE })
+
 export const restore = (mnemonic, email, password, network) => ({ type: AT.RESTORE, payload: { mnemonic, email, password, network } })
 
 export const remindGuid = (email, code, sessionToken) => ({ type: AT.REMIND_GUID, payload: { email, code, sessionToken } })
