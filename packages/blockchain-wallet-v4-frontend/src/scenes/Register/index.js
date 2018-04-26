@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 
 import Register from './template.js'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 
 class RegisterContainer extends React.PureComponent {
   constructor () {
@@ -19,13 +19,17 @@ class RegisterContainer extends React.PureComponent {
   }
 
   render () {
+    const { data } = this.props
+    let busy = data.cata({ Success: (val) => false, Failure: (message) => false, Loading: () => true, NotAsked: () => false })
+
     return (
-      <Register onSubmit={this.onSubmit} />
+      <Register onSubmit={this.onSubmit} busy={busy} />
     )
   }
 }
 
 const mapStateToProps = (state) => ({
+  data: selectors.auth.getRegistering(state),
   email: formValueSelector('register')(state, 'email'),
   password: formValueSelector('register')(state, 'password')
 })
