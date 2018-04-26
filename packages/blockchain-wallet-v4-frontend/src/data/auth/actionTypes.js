@@ -14,6 +14,12 @@ export const REGISTER_FAILURE = 'REGISTER_FAILURE'
 
 export const RESTORE = 'RESTORE'
 
+export const RESTORE_LOADING = 'RESTORE_LOADING'
+
+export const RESTORE_SUCCESS = 'RESTORE_SUCCESS'
+
+export const RESTORE_FAILURE = 'RESTORE_FAILURE'
+
 export const REMIND_GUID = 'REMIND_GUID'
 
 export const LOGOUT = 'LOGOUT'

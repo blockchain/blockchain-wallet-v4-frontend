@@ -20,7 +20,7 @@ class RegisterContainer extends React.PureComponent {
 
   render () {
     const { data } = this.props
-    let busy = data.cata({ Success: (val) => false, Failure: (message) => false, Loading: () => true, NotAsked: () => false })
+    let busy = data.cata({ Success: () => false, Failure: () => false, Loading: () => true, NotAsked: () => false })
 
     return (
       <Register onSubmit={this.onSubmit} busy={busy} />

@@ -30,6 +30,15 @@ const auth = (state = INITIAL_STATE, action) => {
     case AT.REGISTER_FAILURE: {
       return assoc('registering', Remote.Failure(payload), state)
     }
+    case AT.RESTORE_LOADING: {
+      return assoc('registering', Remote.Loading, state)
+    }
+    case AT.RESTORE_SUCCESS: {
+      return assoc('registering', Remote.Success(payload), state)
+    }
+    case AT.RESTORE_FAILURE: {
+      return assoc('registering', Remote.Failure(payload), state)
+    }
     case AT.RESET_2FA_ERROR: {
       return assoc('reset_2fa_error', payload.val, state)
     }
