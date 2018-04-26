@@ -11,12 +11,17 @@ class Checkout extends React.PureComponent {
     busy: false
   }
   /* eslint-enable */
+
   componentWillMount () {
     this.props.sfoxDataActions.fetchTrades()
     this.props.sfoxDataActions.fetchProfile()
     this.props.sfoxDataActions.sfoxFetchAccounts()
     // this.props.sfoxDataActions.fetchQuote({quote: { amt: 1e8, baseCurr: 'BTC', quoteCurr: 'USD' }})
     this.props.sfoxDataActions.fetchSellQuote({quote: { amt: 1e8, baseCurr: 'BTC', quoteCurr: 'USD' }})
+  }
+
+  componentDidMount () {
+    this.props.sendBtcActions.sendBtcInitialized()
   }
 
   render () {
@@ -55,7 +60,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   sfoxActions: bindActionCreators(actions.modules.sfox, dispatch),
-  sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch)
+  sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch),
+  sendBtcActions: bindActionCreators(actions.components.sendBtc, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Checkout)
