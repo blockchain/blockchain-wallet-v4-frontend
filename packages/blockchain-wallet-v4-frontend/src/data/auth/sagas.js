@@ -37,7 +37,7 @@ export default ({ api, coreSagas }) => {
   //   }
   // }
 
-  const loginRoutineSaga = function * (mobileLogin) {
+  const loginRoutineSaga = function * (mobileLogin, firstLogin) {
     try {
       // If needed, the user should upgrade its wallet before being able to open the wallet
       let isHdWallet = yield select(selectors.core.wallet.isHdWallet)
@@ -47,7 +47,9 @@ export default ({ api, coreSagas }) => {
       yield put(actions.auth.authenticate())
       yield put(actions.core.webSocket.bitcoin.startSocket())
       yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
-      yield put(actions.alerts.displaySuccess('Login successful'))
+      if (!firstLogin) {
+        yield put(actions.alerts.displaySuccess('Login successful'))
+      }
       yield put(actions.router.push('/home'))
       yield put(actions.goals.runGoals())
       yield put(actions.auth.startLogoutTimer())
@@ -160,7 +162,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displayInfo('Creating wallet...'))
       yield call(coreSagas.wallet.createWalletSaga, action.payload)
       yield put(actions.alerts.displaySuccess('Wallet successfully created.'))
-      yield call(loginRoutineSaga)
+      yield call(loginRoutineSaga, false, true)
     } catch (e) {
       yield put(actions.alerts.displayError('Wallet could not be created.'))
     }
