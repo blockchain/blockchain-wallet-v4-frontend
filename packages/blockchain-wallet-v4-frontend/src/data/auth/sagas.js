@@ -116,7 +116,8 @@ export default ({ api, coreSagas }) => {
               yield put(actions.auth.setAuthType(e.auth_type))
               yield put(actions.alerts.displayInfo('2FA required'))
             } else {
-              yield put(actions.alerts.displayError(error || 'Error logging into your wallet'))
+              console.log(e)
+              yield put(actions.alerts.displayError(e.message || 'Error logging into your wallet'))
             }
           }
         } else {

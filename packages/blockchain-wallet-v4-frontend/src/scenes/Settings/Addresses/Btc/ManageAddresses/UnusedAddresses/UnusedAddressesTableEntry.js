@@ -1,13 +1,6 @@
 import React from 'react'
-import styled from 'styled-components'
 
 import { Icon, Text, TableCell, TableRow, Link } from 'blockchain-info-components'
-
-const ClickableIcon = styled(Icon)`
-  &:hover {
-    cursor: pointer;
-  }
-`
 
 const UnusedAddressesTableEntry = ({ entry, deriveAddress, onEditLabel, onDeleteLabel }) => (
   <TableRow>
@@ -20,8 +13,8 @@ const UnusedAddressesTableEntry = ({ entry, deriveAddress, onEditLabel, onDelete
       <Text size='13px'>{entry.label}</Text>
     </TableCell>
     <TableCell style={{ display: 'flex', justifyContent: 'flex-end' }} width='20%'>
-      <ClickableIcon name='pencil' onClick={() => onEditLabel(entry.index)} style={{ marginRight: 10 }} />
-      <ClickableIcon name='trash' onClick={() => onDeleteLabel(entry.index)} />
+      <Icon cursor name='pencil' onClick={() => onEditLabel(entry.index)} style={{ marginRight: 10 }} />
+      <Icon cursor name='trash' onClick={() => onDeleteLabel(entry.index)} />
     </TableCell>
   </TableRow>
 )

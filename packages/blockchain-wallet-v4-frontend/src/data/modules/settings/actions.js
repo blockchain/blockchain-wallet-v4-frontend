@@ -44,8 +44,14 @@ export const addMnemonic = (phrase) => ({ type: AT.ADD_MNEMONIC, payload: { phra
 
 export const newHDAccount = (label) => ({ type: AT.NEW_HD_ACCOUNT, payload: { label } })
 
-export const showPrivateKey = (addr) => ({ type: AT.SHOW_PRIV_KEY, payload: { addr } })
+export const showBtcPrivateKey = (addr) => ({ type: AT.SHOW_BTC_PRIV_KEY, payload: { addr } })
 
-export const addShownPrivateKey = (priv) => ({ type: AT.ADD_SHOWN_PRIV_KEY, payload: { priv } })
+export const showEthPrivateKey = (isLegacy) => ({ type: AT.SHOW_ETH_PRIV_KEY, payload: { isLegacy } })
 
-export const clearShownPrivateKey = (priv) => ({ type: AT.CLEAR_SHOWN_PRIV_KEY, payload: {} })
+export const addShownBtcPrivateKey = (priv) => ({ type: AT.ADD_SHOWN_BTC_PRIV_KEY, payload: { priv } })
+
+export const addShownEthPrivateKey = (priv) => ({ type: AT.ADD_SHOWN_ETH_PRIV_KEY, payload: { priv } })
+
+export const clearShownBtcPrivateKey = (priv) => ({ type: AT.CLEAR_SHOWN_BTC_PRIV_KEY, payload: {} })
+
+export const clearShownEthPrivateKey = (priv) => ({ type: AT.CLEAR_SHOWN_ETH_PRIV_KEY, payload: {} })
