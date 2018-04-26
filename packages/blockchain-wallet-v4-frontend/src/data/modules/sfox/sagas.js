@@ -8,6 +8,7 @@ import * as sendBtcActions from '../../components/sendBtc/actions'
 import * as sendBtcSelectors from '../../components/sendBtc/selectors'
 import settings from 'config'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { promptForSecondPassword } from 'services/SagaService'
 
 export default ({ coreSagas }) => {
   const setBankManually = function * (action) {
@@ -107,27 +108,43 @@ export default ({ coreSagas }) => {
     const q = action.payload
     try {
       console.log('submitting sell quote:', q)
+
+      // we will need the trade object for the 'to' address and id
+      // const trade = yield call(coreSagas.data.sfox.handleSellTrade, action.payload)
+
       let p = yield select(sendBtcSelectors.getPayment)
-      let payment = coreSagas.payment.btc.create({ payment: p.getOrElse({}), network: settings.NETWORK_BITCOIN })
+      let payment = yield coreSagas.payment.btc.create({ payment: p.getOrElse({}), network: settings.NETWORK_BITCOIN })
 
       // assign payment amount from quote
       payment = yield payment.amount(parseInt(q.quoteAmount))
 
       // use priority fee
-      payment = yield payment.fee(p.data.fees.priority)
-
-      // will need the trade object for the address
-      // const trade = yield call(coreSagas.data.sfox.handleSellTrade, action.payload)
+      payment = yield payment.fee('priority')
 
       // assign payment to from trade
       payment = yield payment.to('1LiASK9MawXo9SppMn3RhfWUvHKW2ZHxFx')
 
+      // assign description with id from trade
+      let trade = { id: 'fakeId12345' }
+      payment = yield payment.description(`Exchange Trade SFX-${trade.id}`)
+
+      // build payment and update after assigning fields from trade
       try { payment = yield payment.build() } catch (e) {}
       yield put(sendBtcActions.sendBtcPaymentUpdated(Remote.of(payment.value())))
 
-      let logPayment = yield select(sendBtcSelectors.getPayment)
-      console.log('logPayment', logPayment)
-      // yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
+      // handle 2nd password and sign
+      const password = yield call(promptForSecondPassword)
+      payment = yield payment.sign(password)
+
+      // publish
+      // payment = yield payment.publish()
+
+      // update payment after publish
+      yield put(sendBtcActions.sendBtcPaymentUpdated(Remote.of(payment.value())))
+
+      // send user to order history tab
+      yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
+      console.log('end of sell quote submission', payment, payment.value())
     } catch (e) {
       console.warn('FE submitQuote failed', e)
     }

@@ -47,6 +47,7 @@ export default ({ coreSagas }) => {
       let payment = coreSagas.payment.btc.create({ payment: p.getOrElse({}), network: settings.NETWORK_BITCOIN })
       payment = yield payment.build()
       yield put(A.sendBtcPaymentUpdated(Remote.of(payment.value())))
+      console.log('firstStepSubmitClicked', payment.value())
     } catch (e) {
       console.log(e)
     }
