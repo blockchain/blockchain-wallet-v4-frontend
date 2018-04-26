@@ -2,8 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
+import { Field, reduxForm } from 'redux-form'
 
 import { Icon, ModalHeader, ModalBody } from 'blockchain-info-components'
+import { TextBox } from 'components/Form'
 import FaqGroup from './FaqGroup'
 
 const Fragment = React.Fragment
@@ -45,7 +47,7 @@ const SearchIcon = styled(Icon)`
 `
 
 const Faq = (props) => {
-  const {onFilter, filterText, filteredContent, handleTrayRightToggle} = props
+  const {filteredContent, handleTrayRightToggle} = props
 
   return (
     <Fragment>
@@ -55,13 +57,18 @@ const Faq = (props) => {
       <ModalBody>
         <Wrapper>
           <SearchInputContainer>
-            <SearchInputArea value={filterText} onChange={onFilter} placeholder={'Search'}/>
+            <Field name='search' component={TextBox} />
+            {/* <SearchInputArea value={filterText} onChange={onFilter} placeholder={'Search'}/> */}
             <SearchIcon name='search' size='18px' weight={200} color='gray-3'/>
           </SearchInputContainer>
           <ContentWrapper>
             {
               filteredContent.length > 0 && filteredContent.map((group, i) => {
-                return group.groupQuestions.length > 0 && <FaqGroup groupTitleId={group.groupTitleId} groupTitleMsg={group.groupTitleMsg} groupQuestions={group.groupQuestions} key={i} />
+                return group.groupQuestions.length > 0 &&
+                  <FaqGroup groupTitleId={group.groupTitleId}
+                    groupTitleMsg={group.groupTitleMsg}
+                    groupQuestions={group.groupQuestions}
+                    key={i} />
               })
             }
           </ContentWrapper>
@@ -78,4 +85,4 @@ Faq.propTypes = {
   handleTrayRightToggle: PropTypes.func.isRequired
 }
 
-export default Faq
+export default reduxForm({ form: 'faq' })(Faq)
