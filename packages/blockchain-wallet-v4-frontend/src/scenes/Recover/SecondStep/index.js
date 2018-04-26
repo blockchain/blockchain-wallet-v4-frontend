@@ -10,21 +10,24 @@ import { actions } from 'data'
 class RecoverContainer extends React.PureComponent {
   constructor () {
     super()
+    this.state = { busy: false }
     this.onSubmit = this.onSubmit.bind(this)
   }
 
   onSubmit (e) {
     e.preventDefault()
-    const { mnemonic, email, password } = this.props
+    this.setState({ busy: true })
     const network = settings.NETWORK_BITCOIN
+    const { mnemonic, email, password } = this.props
     this.props.authActions.restore(mnemonic, email, password, network)
   }
 
   render () {
+    const { busy } = this.state
     const { previousStep } = this.props
 
     return (
-      <Recover previousStep={previousStep} onSubmit={this.onSubmit} />
+      <Recover previousStep={previousStep} onSubmit={this.onSubmit} busy={busy} />
     )
   }
 }

@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
 import { required, validEmail } from 'services/FormHelper'
-import { Button, Link, Separator, Text } from 'blockchain-info-components'
+import { Button, Link, HeartbeatLoader, Separator, Text } from 'blockchain-info-components'
 import { CheckBox, Form, PasswordBox, TextBox } from 'components/Form'
 import Terms from 'components/Terms'
 
@@ -26,7 +26,7 @@ const Footer = styled.div`
 `
 
 const SecondStep = (props) => {
-  const { onSubmit, previousStep, submitting, invalid } = props
+  const { busy, onSubmit, previousStep, submitting, invalid } = props
   const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
 
   return (
@@ -59,8 +59,12 @@ const SecondStep = (props) => {
         <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox}>
           <Terms />
         </Field>
-        <Button type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid}>
-          <FormattedMessage id='scenes.recover.secondstep.recover' defaultMessage='Recover Funds' />
+        <Button type='submit' nature='primary' fullwidth uppercase disabled={busy || submitting || invalid}>
+          {
+            busy
+              ? <HeartbeatLoader height='20px' width='20px' color='white' />
+              : <FormattedMessage id='scenes.recover.secondstep.recover' defaultMessage='Recover Funds' />
+          }
         </Button>
       </Form>
       <Footer>

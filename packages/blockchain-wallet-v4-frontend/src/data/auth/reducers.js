@@ -4,6 +4,7 @@ import { assoc } from 'ramda'
 const INITIAL_STATE = {
   isLoggingIn: false,
   isAuthenticated: false,
+  reset_2fa_error: false,
   auth_type: 0,
   error: null
 }
@@ -18,9 +19,19 @@ const auth = (state = INITIAL_STATE, action) => {
     case AT.AUTHENTICATE: {
       return assoc('isAuthenticated', true, state)
     }
+    case AT.RESET_2FA_ERROR: {
+      return assoc('reset_2fa_error', payload.val, state)
+    }
     case AT.SET_AUTH_TYPE: {
       const { authType } = payload
       return assoc('auth_type', authType, state)
+    }
+    case AT.SET_AUTH_ERROR: {
+      const { message } = payload
+      return assoc('error', message, state)
+    }
+    case AT.CLEAR_ERROR: {
+      return assoc('error', null, state)
     }
     default:
       return state
