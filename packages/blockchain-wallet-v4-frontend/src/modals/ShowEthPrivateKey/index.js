@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+
 import modalEnhancer from 'providers/ModalEnhancer'
-import { actions, selectors } from 'data'
+import { actions } from 'data'
+import { getData } from './selectors'
 import ShowEthPrivateKeyTemplate from './template'
 
 class ShowEthPrivateKeyContainer extends Component {
@@ -11,8 +13,8 @@ class ShowEthPrivateKeyContainer extends Component {
   }
 
   render () {
-    let step = this.props.priv == null ? 0 : 1
-    let nextStep = () => this.props.actions.showEthPrivateKey(this.props.archived)
+    const step = this.props.priv == null ? 0 : 1
+    const nextStep = () => this.props.actions.showEthPrivateKey(this.props.isLegacy)
     return (
       <ShowEthPrivateKeyTemplate
         {...this.props}
@@ -23,16 +25,7 @@ class ShowEthPrivateKeyContainer extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  const ethKvStoreSelectors = selectors.core.kvStore.ethereum
-  return ({
-    balance: ownProps.archived ? 0 : selectors.core.data.ethereum.getBalance(state).getOrElse(0),
-    addr: (ownProps.archived
-      ? ethKvStoreSelectors.getLegacyAccountAddress(state)
-      : ethKvStoreSelectors.getContext(state)).getOrElse(''),
-    priv: state.securityCenter.shownEthPrivKey
-  })
-}
+const mapStateToProps = (state, ownProps) => getData(state, ownProps)
 
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.modules.settings, dispatch)
