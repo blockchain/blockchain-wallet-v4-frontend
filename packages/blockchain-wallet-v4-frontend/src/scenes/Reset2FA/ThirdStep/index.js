@@ -13,8 +13,8 @@ class ThirdStepContainer extends React.PureComponent {
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  componentDidUpdate (prevProps) {
-    if (this.props.reset2faError) this.setState({ busy: false })
+  static getDerivedStateFromProps (props) {
+    if (props.reset2faError) return { busy: false }
   }
 
   onSubmit (event) {
