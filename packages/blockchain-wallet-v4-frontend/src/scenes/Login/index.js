@@ -10,19 +10,30 @@ import { actions, selectors } from 'data'
 class LoginContainer extends React.PureComponent {
   constructor (props) {
     super(props)
+    this.state = { useCode: true }
     this.onSubmit = this.onSubmit.bind(this)
+    this.handleCode = this.handleCode.bind(this)
     this.handleMobile = this.handleMobile.bind(this)
   }
 
   componentDidUpdate (prevProps) {
     if (prevProps.authType !== this.props.authType) this.props.updateUI({ busy: false })
+    if (prevProps.error !== this.props.error) this.props.updateUI({ busy: false })
+  }
+
+  handleCode (val) {
+    this.setState({ useCode: val })
   }
 
   onSubmit (event) {
+    this.props.authActions.clearError()
     this.props.updateUI({ busy: true })
     event.preventDefault()
+    const { useCode } = this.state
     const { guid, password, code } = this.props
-    this.props.authActions.login(guid, password, code)
+    const auth = useCode ? code && code.toUpperCase() : undefined
+
+    this.props.authActions.login(guid, password, auth)
   }
 
   handleMobile () {
@@ -35,7 +46,15 @@ class LoginContainer extends React.PureComponent {
 
     const { authType } = this.props
 
-    return <Login initialValues={{ guid }} authType={authType} onSubmit={this.onSubmit} handleMobile={this.handleMobile} busy={this.props.ui.busy} />
+    return <Login {...this.props}
+      initialValues={{ guid }}
+      authType={authType}
+      onSubmit={this.onSubmit}
+      busy={this.props.ui.busy}
+      handleCode={this.handleCode}
+      loginError={this.props.error}
+      handleMobile={this.handleMobile}
+    />
   }
 }
 
@@ -43,7 +62,8 @@ const mapStateToProps = (state) => ({
   guid: formValueSelector('login')(state, 'guid'),
   password: formValueSelector('login')(state, 'password'),
   code: formValueSelector('login')(state, 'code'),
-  authType: selectors.auth.getAuthType(state)
+  authType: selectors.auth.getAuthType(state),
+  error: selectors.auth.getError(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

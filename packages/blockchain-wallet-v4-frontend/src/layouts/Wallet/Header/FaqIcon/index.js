@@ -5,7 +5,6 @@ import { Link, Icon } from 'blockchain-info-components'
 
 const FaqLink = styled(Link)`
   position: relative;
-  margin-top: 4px;
 
   & > :first-child:hover {
     cursor: pointer;
