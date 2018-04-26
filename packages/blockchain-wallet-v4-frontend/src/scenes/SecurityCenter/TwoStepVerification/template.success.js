@@ -101,7 +101,7 @@ const TwoStepVerification = (props) => {
             <div />
             <DisableLinkContainer style={spacing('pl-25')}>
               <DisableLinkText size='14px' weight={300} flexRow='true' pulse={props.pulse}>
-                <FormattedMessage id='scenes.security.2fa.disablefirst' defaultMessage='To change your two-factor authentication method, disable your current one first. {link}' values={{ link: <a onClick={props.handleTwoFactorChange}>Disable {props.authName}</a> }} />
+                <FormattedMessage id='scenes.security.2fa.disablefirst' defaultMessage='To change your two-step verification method, disable your current one first. {link}' values={{ link: <a onClick={props.handleTwoFactorChange}>Disable {props.authName}</a> }} />
               </DisableLinkText>
             </DisableLinkContainer>
           </React.Fragment>
@@ -116,7 +116,7 @@ const TwoStepVerification = (props) => {
                 <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Two-factor authentication is set up with {authName} for number {number}.' values={{ authName: <span className='heavy'>{props.authName}</span>, number: <span className='heavy'>{smsNumber}</span> }} />
               </Text>
               <DisableLinkText size='14px' weight={300} flexRow='true' pulse={props.pulse}>
-                <FormattedMessage id='scenes.security.2fa.disablefirst' defaultMessage='To change your two-factor authentication method,{link} SMS codes first. ' values={{ link: <a onClick={props.handleTwoFactorChange}>disable </a> }} />
+                <FormattedMessage id='scenes.security.2fa.disablefirst' defaultMessage='To change your two-step verification method,{link} SMS codes one first.' values={{ link: <a onClick={props.handleTwoFactorChange}>disable</a> }} />
               </DisableLinkText>
             </DisableContainer>
           </React.Fragment>
@@ -137,7 +137,7 @@ const TwoStepVerification = (props) => {
         </React.Fragment>
       )
     }
-    return <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='Two-step verification helps to prevent unauthorized access to your wallet by requiring a one-time password for every login attempt. You can disable this here if you would like to change your phone number or switch the type of Two-Step Verification you are using.' />
+    return <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='Two-step verification helps to prevent unauthorized access to your wallet by requiring a one-time password for every login attempt. You can disable this here if you would like to change your phone number or switch the type of two-step verification you are using.' />
   }
 
   const renderHeader = () => {
