@@ -4,7 +4,7 @@ import * as actions from '../../actions.js'
 import * as selectors from '../../selectors.js'
 
 import { askSecondPasswordEnhancer, promptForSecondPassword } from 'services/SagaService'
-import { Types } from 'blockchain-wallet-v4/src'
+import { Types, utils } from 'blockchain-wallet-v4/src'
 
 export default ({ coreSagas }) => {
   const initSettingsInfo = function * () {
@@ -199,15 +199,42 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const showPrivateKey = function * (action) {
+  const showBtcPrivateKey = function * (action) {
     const { addr } = action.payload
     const password = yield call(promptForSecondPassword)
     const wallet = yield select(selectors.core.wallet.getWallet)
     const priv = Types.Wallet.getPrivateKeyForAddress(wallet, password, addr).getOrElse(null)
+
     if (priv != null) {
-      yield put(actions.modules.settings.addShownPrivateKey(priv))
+      yield put(actions.modules.settings.addShownBtcPrivateKey(priv))
     } else {
       yield put(actions.alerts.displayError('Could not show private key for address.'))
+    }
+  }
+
+  const showEthPrivateKey = function * (action) {
+    const { isLegacy } = action.payload
+    const password = yield call(promptForSecondPassword)
+    let priv = null
+    if (isLegacy) {
+      const getSeedHex = state => selectors.core.wallet.getSeedHex(state, password)
+      const eitherSeedHex = yield select(getSeedHex)
+      if (eitherSeedHex.isRight) {
+        const seedHex = eitherSeedHex.value
+        priv = utils.ethereum.getLegacyPrivateKey(seedHex).toString('hex')
+      }
+    } else {
+      const getMnemonic = state => selectors.core.wallet.getMnemonic(state, password)
+      const eitherMnemonic = yield select(getMnemonic)
+      if (eitherMnemonic.isRight) {
+        const mnemonic = eitherMnemonic.value
+        priv = utils.ethereum.getPrivateKey(mnemonic, 0).toString('hex')
+      }
+    }
+    if (priv != null) {
+      yield put(actions.modules.settings.addShownEthPrivateKey(priv))
+    } else {
+      yield put(actions.alerts.displayError('Could not derive private key.'))
     }
   }
 
@@ -231,6 +258,7 @@ export default ({ coreSagas }) => {
     yield takeLatest(AT.ENABLE_TWO_STEP_GOOGLE_AUTHENTICATOR, enableTwoStepGoogleAuthenticator)
     yield takeLatest(AT.ENABLE_TWO_STEP_YUBIKEY, enableTwoStepYubikey)
     yield takeLatest(AT.NEW_HD_ACCOUNT, newHDAccount)
-    yield takeLatest(AT.SHOW_PRIV_KEY, showPrivateKey)
+    yield takeLatest(AT.SHOW_BTC_PRIV_KEY, showBtcPrivateKey)
+    yield takeLatest(AT.SHOW_ETH_PRIV_KEY, showEthPrivateKey)
   }
 }
