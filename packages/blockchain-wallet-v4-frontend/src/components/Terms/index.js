@@ -30,7 +30,7 @@ const Terms = (props) => {
           <Text size='14px' weight={300}>
             <FormattedMessage id='scenes.register.registerform.blockchain.read' defaultMessage='I have read and agree to the' />
           </Text>
-          <Link href='https://blockchain.info/Resources/TermsofServicePolicy.pdf' target='_blank' size='12px' weight={300}>
+          <Link href='https://blockchain.info/Resources/TermsofServicePolicy.pdf' target='_blank' size='14px' weight={300}>
             <FormattedMessage id='scenes.register.registerform.blockchain.terms' defaultMessage='Terms of Service' />
           </Link>
         </TermsContainer>
