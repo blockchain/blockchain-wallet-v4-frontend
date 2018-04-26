@@ -1,3 +1,5 @@
 import { path } from 'ramda'
 
-export const getUsedAddressesVisiblity = path(['components', 'usedAddresses', 'showUsedAddresses'])
+export const getWalletUsedAddressVisibility = (state, walletId) => {
+  return path(['components', 'usedAddresses', walletId, 'visible'], state)
+}
