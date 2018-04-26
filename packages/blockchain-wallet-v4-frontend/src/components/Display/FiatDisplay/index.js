@@ -10,7 +10,7 @@ import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class FiatDisplayContainer extends React.Component {
+class FiatDisplayContainer extends React.PureComponent {
   componentWillMount () {
     if (Remote.NotAsked.is(this.props.data)) {
       switch (this.props.coin) {

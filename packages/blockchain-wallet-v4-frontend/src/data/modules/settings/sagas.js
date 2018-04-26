@@ -149,19 +149,19 @@ export default ({ coreSagas }) => {
   const updateTwoStepRemember = function * (action) {
     try {
       yield call(coreSagas.settings.setAuthTypeNeverSave, action.payload)
-      yield put(actions.alerts.displaySuccess('2-step verification remember has been successfully updated.'))
+      yield put(actions.alerts.displaySuccess('2FA remember has been successfully updated.'))
     } catch (e) {
-      yield put(actions.alerts.displayError('Could not update 2-step verification remember.'))
+      yield put(actions.alerts.displayError('Could not update 2FA remember.'))
     }
   }
 
   const enableTwoStepMobile = function * (action) {
     try {
       yield call(coreSagas.settings.setAuthType, action.payload)
-      yield put(actions.alerts.displaySuccess('2-step verification (Mobile) has been successfully enabled.'))
+      yield put(actions.alerts.displaySuccess('2FA (Mobile) has been successfully enabled.'))
       yield put(actions.modals.closeAllModals())
     } catch (e) {
-      yield put(actions.alerts.displayError('Could not update 2-step verification.'))
+      yield put(actions.alerts.displayError('Could not update 2FA.'))
       yield put(actions.modals.closeModal())
     }
   }
@@ -169,10 +169,10 @@ export default ({ coreSagas }) => {
   const enableTwoStepGoogleAuthenticator = function * (action) {
     try {
       yield call(coreSagas.settings.setGoogleAuthenticator, action.payload)
-      yield put(actions.alerts.displaySuccess('2-step verification (Google Authenticator) has been successfully enabled.'))
+      yield put(actions.alerts.displaySuccess('2FA (Google Authenticator) has been successfully enabled.'))
       yield put(actions.modals.closeAllModals())
     } catch (e) {
-      yield put(actions.alerts.displayError('Could not update 2-step verification.'))
+      yield put(actions.alerts.displayError('Could not update 2FA.'))
       yield put(actions.modals.closeModal())
     }
   }
@@ -180,10 +180,10 @@ export default ({ coreSagas }) => {
   const enableTwoStepYubikey = function * (action) {
     try {
       yield call(coreSagas.settings.setYubikey, action.payload)
-      yield put(actions.alerts.displaySuccess('2-step verification (Yubikey) has been successfully enabled.'))
+      yield put(actions.alerts.displaySuccess('2FA (Yubikey) has been successfully enabled.'))
       yield put(actions.modals.closeAllModals())
     } catch (e) {
-      yield put(actions.alerts.displayError('Could not update 2-step verification.'))
+      yield put(actions.alerts.displayError('Could not update 2FA.'))
       yield put(actions.modals.closeModal())
     }
   }
@@ -200,11 +200,10 @@ export default ({ coreSagas }) => {
   }
 
   const showPrivateKey = function * (action) {
-    let { addr } = action.payload
-    let password = yield call(promptForSecondPassword)
-    let wallet = yield select(selectors.core.wallet.getWallet)
-    let priv = Types.Wallet.getPrivateKeyForAddress(wallet, password, addr).getOrElse(null)
-
+    const { addr } = action.payload
+    const password = yield call(promptForSecondPassword)
+    const wallet = yield select(selectors.core.wallet.getWallet)
+    const priv = Types.Wallet.getPrivateKeyForAddress(wallet, password, addr).getOrElse(null)
     if (priv != null) {
       yield put(actions.modules.settings.addShownPrivateKey(priv))
     } else {

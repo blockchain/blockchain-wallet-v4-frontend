@@ -1,7 +1,7 @@
 import React from 'react'
 import SecondStep from './template'
 
-class SecondStepContainer extends React.Component {
+class SecondStepContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)

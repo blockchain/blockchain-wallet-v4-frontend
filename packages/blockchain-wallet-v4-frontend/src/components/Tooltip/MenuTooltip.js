@@ -89,7 +89,7 @@ const TextContainer = styled.div`
   padding: 0px 8px;
 `
 
-class MenuTooltip extends React.Component {
+class MenuTooltip extends React.PureComponent {
   constructor (props) {
     super(props)
     this.state = { displayed: false, hasNews: props.hasNews }

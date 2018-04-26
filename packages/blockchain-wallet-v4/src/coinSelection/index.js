@@ -7,6 +7,12 @@ import { List } from 'immutable-ext'
 import seedrandom from 'seedrandom'
 import * as Coin from './coin.js'
 
+// isFromAccount :: selection -> boolean
+export const isFromAccount = selection => selection.inputs[0] ? selection.inputs[0].isFromAccount() : false
+
+// isFromLegacy :: selection -> boolean
+export const isFromLegacy = selection => selection.inputs[0] ? selection.inputs[0].isFromLegacy() : false
+
 export const dustThreshold = (feeRate) => (Coin.inputBytes({}) + Coin.outputBytes({})) * feeRate
 export const transactionBytes = (inputs, outputs) =>
   Coin.TX_EMPTY_SIZE + inputs.reduce((a, c) => a + Coin.inputBytes(c), 0) + outputs.reduce((a, c) => a + Coin.outputBytes(c), 0)

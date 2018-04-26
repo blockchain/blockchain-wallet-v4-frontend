@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { toUpper } from 'ramda'
-import FiatConvertor from 'components/Form/FiatConvertor/template.success'
+import FiatConvertor from './QuoteInputTemplate'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 const WrappedFiatConverter = ({ leftVal, leftUnit, rightVal, rightUnit, disabled, onChangeLeft, onChangeRight, limits }) => (

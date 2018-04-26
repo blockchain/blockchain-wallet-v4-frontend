@@ -9,11 +9,11 @@ import { Banner, Text } from 'blockchain-info-components'
 
 const Label = styled.label`
   display: block;
-  font-size: 12px;
+  font-size: 11px;
   margin-bottom: 5px;
 `
 
-class ImportExternalBitcoinAddress extends React.Component {
+class ImportExternalBitcoinAddress extends React.PureComponent {
   render () {
     return (
       <div style={spacing('mt-15')}>
@@ -22,7 +22,7 @@ class ImportExternalBitcoinAddress extends React.Component {
         </Text>
         <div style={spacing('mb-15')}>
           <Banner type='alert'>
-            <FormattedMessage id='modals.importbtcaddress.import_external_bitcoin_address.message' defaultMessage='This is an advanced functionality and only suggested for advanced users.' />
+            <FormattedMessage id='modals.importbtcaddress.import_external_bitcoin_address.message' defaultMessage='This is advanced functionality and only suggested for advanced users.' />
           </Banner>
         </div>
         <FormGroup>
@@ -30,7 +30,7 @@ class ImportExternalBitcoinAddress extends React.Component {
             <Label for='from'>
               <FormattedMessage id='modals.importbtcaddress.import_external_bitcoin_address.pub_key' defaultMessage='Bitcoin Address' />
             </Label>
-            <Field name='from' validate={[validBitcoinAddress]} component={TextBox} />
+            <Field name='address' validate={[validBitcoinAddress]} component={TextBox} />
           </FormItem>
         </FormGroup>
         <FormGroup inline>
@@ -40,11 +40,11 @@ class ImportExternalBitcoinAddress extends React.Component {
             </Label>
             <Field name='priv' validate={[optional(validBitcoinPrivateKey)]} component={TextBox} />
           </FormItem>
-          <FormItem width={'40%'}>
+          <FormItem width={'40%'} >
             <Label for='wallets'>
-              <FormattedMessage id='modals.importbtcaddress.import_external_bitcoin_address.prv_key' defaultMessage='Add to an existing wallet (optional)' />
+              <FormattedMessage id='modals.importbtcaddress.import_external_bitcoin_address.prv_key' defaultMessage='Transfer to an existing wallet (optional)' />
             </Label>
-            <Field name='to' component={SelectBoxBitcoinAddresses} validate={[]} props={{ includeAll: false }} />
+            <Field name='to' component={SelectBoxBitcoinAddresses} />
           </FormItem>
         </FormGroup>
       </div>

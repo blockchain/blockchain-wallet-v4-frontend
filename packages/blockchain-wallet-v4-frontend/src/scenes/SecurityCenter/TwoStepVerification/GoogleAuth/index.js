@@ -9,7 +9,7 @@ import Loading from './template.loading'
 import ui from 'redux-ui'
 import { formValueSelector } from 'redux-form'
 
-class GoogleAuthContainer extends React.Component {
+class GoogleAuthContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
@@ -25,6 +25,7 @@ class GoogleAuthContainer extends React.Component {
     const prev = prevProps.data.data
     if (next.authType !== prev.authType) {
       this.props.updateUI({ successToggled: true })
+      this.props.triggerSuccess()
       setTimeout(() => {
         this.props.goBackOnSuccess()
         this.props.handleGoBack()

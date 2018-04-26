@@ -3,48 +3,46 @@ import PropTypes from 'prop-types'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import wizardProvider from 'providers/WizardProvider'
 import modalEnhancer from 'providers/ModalEnhancer'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import SendBitcoin from './template'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 
-class SendBitcoinContainer extends React.Component {
-  componentWillMount () {
-    this.props.resetStep()
-  }
-
-  componentWillUnmount () {
-    this.props.formActions.destroy('sendBitcoin')
+class SendBitcoinContainer extends React.PureComponent {
+  componentDidMount () {
+    this.props.actions.sendBtcInitialized()
   }
 
   render () {
-    const { step, position, total, closeAll, ...rest } = this.props
-
+    const { step, position, total, closeAll } = this.props
     return (
       <SendBitcoin position={position} total={total} closeAll={closeAll}>
-        {step === 1 && <FirstStep {...rest} />}
-        {step === 2 && <SecondStep {...rest} />}
+        {step === 1 && <FirstStep />}
+        {step === 2 && <SecondStep />}
       </SendBitcoin>
     )
   }
 }
 
 SendBitcoinContainer.propTypes = {
+  step: PropTypes.number.isRequired,
   position: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
   closeAll: PropTypes.func.isRequired
 }
 
+const mapStateToProps = state => ({
+  step: selectors.components.sendBtc.getStep(state)
+})
+
 const mapDispatchToProps = dispatch => ({
-  formActions: bindActionCreators(actions.form, dispatch)
+  actions: bindActionCreators(actions.components.sendBtc, dispatch)
 })
 
 const enhance = compose(
-  connect(undefined, mapDispatchToProps),
-  modalEnhancer('SendBitcoin'),
-  wizardProvider('sendBitcoin', 2)
+  connect(mapStateToProps, mapDispatchToProps),
+  modalEnhancer('SendBitcoin')
 )
 
 export default enhance(SendBitcoinContainer)

@@ -4,10 +4,9 @@ import { transparentize } from 'polished'
 import { TextGroup } from '../Text'
 
 const TooltipWrapper = styled.div`
-  width: ${props => props.width === 'auto' || '22px'};
+  width: ${props => props.width === 'auto' ? 'auto' : '22px'};
   display: inline-flex;
   position: relative;
-  margin: 2px;
 `
 const TooltipIcon = styled.div`
   display: inline-flex;
@@ -79,7 +78,7 @@ const selectColors = displayed => displayed
   ? { foreColor: 'white', backgroundColor: 'brand-primary', borderColor: 'brand-primary' }
   : { foreColor: 'gray-5', backgroundColor: 'white', borderColor: 'gray-2' }
 
-class Tooltip extends React.Component {
+class Tooltip extends React.PureComponent {
   constructor (props) {
     super(props)
     this.state = { displayed: false }

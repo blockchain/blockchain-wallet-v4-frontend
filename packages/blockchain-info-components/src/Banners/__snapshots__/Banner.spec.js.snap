@@ -8,7 +8,7 @@ exports[`Banner component type alert renders correctly 1`] = `
     color="brand-secondary"
     cursor={false}
     name="bell"
-    size="12px"
+    size="18px"
     weight={700}
   />
   <Styled(Text)
@@ -31,7 +31,7 @@ exports[`Banner component type caution renders correctly 1`] = `
     color="brand-yellow"
     cursor={false}
     name="alert"
-    size="12px"
+    size="18px"
     weight={700}
   />
   <Styled(Text)
@@ -68,7 +68,7 @@ exports[`Banner component type success renders correctly 1`] = `
     color="success"
     cursor={false}
     name="checkmark-in-circle"
-    size="12px"
+    size="18px"
     weight={700}
   />
   <Styled(Text)
@@ -90,7 +90,7 @@ exports[`Banner component type warning renders correctly 1`] = `
     color="error"
     cursor={false}
     name="alert"
-    size="12px"
+    size="18px"
     weight={700}
   />
   <Styled(Text)

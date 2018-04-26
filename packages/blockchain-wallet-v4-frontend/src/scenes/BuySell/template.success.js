@@ -6,17 +6,32 @@ import { Text, Button } from 'blockchain-info-components'
 import { FormGroup, FormItem, SelectBoxUSState, SelectBoxCountry, TextBox } from 'components/Form'
 import { spacing } from 'services/StyleService'
 import { required } from 'services/FormHelper'
+import BuySellAnimation from './BuySellAnimation'
 
 const Row = styled.div`
   display: flex;
+  align-items: center;
   flex-direction: row;
   width: 100%;
+  @media (max-width: 993px) {
+    align-items: flex-start;
+  }
 `
 const ColLeft = styled.div`
-  width: 55%;
+  width: 50%;
+  margin-right: 5%;
+  margin-top: -28px;
+  @media (max-width: 993px) {
+    display: none;
+  }
 `
 const ColRight = styled.div`
   width: 40%;
+  margin-top: -56px;
+  @media (max-width: 993px) {
+    width: 100%;
+    margin-top: 30px;
+  }
 `
 const PartnerHeader = styled.div`
   font-size: 30px;
@@ -32,10 +47,10 @@ const Intro = styled.div`
   width: 100%;
 `
 const SelectionContainer = Intro.extend`
-  margin-top: 40px;
+  margin-top: 15px;
 `
 const FieldWrapper = Intro.extend`
-  margin-top: 20px;
+  margin-top: 5px;
   width: 50%;
 `
 const UnavailableContainer = styled.div`
@@ -56,23 +71,23 @@ const SelectPartner = (props) => {
   const coinifyCountries = options.platforms.web.coinify.countries
   const countries = [sfoxCountries, coinifyCountries, unocoinCountries].join().split(',')
 
-  const onSfoxWhitelist = val => val && sfoxStates.indexOf(val) >= 0 ? undefined : 'Feature is not available in your state.'
-  const onPartnerCountryWhitelist = val => val && countries.indexOf(val) >= 0 ? undefined : 'Feature is not available in your country.'
+  const onSfoxWhitelist = val => val && sfoxStates.indexOf(val) >= 0 ? undefined : 'state not supported'
+  const onPartnerCountryWhitelist = val => val && countries.indexOf(val) >= 0 ? undefined : 'country not supported'
 
   const onSubmit = (e) => {
     e.preventDefault()
-    if (sfoxCountries.indexOf(props.country) >= 0) {
+    if (sfoxCountries.indexOf(country) >= 0) {
       props.modalActions.showModal('SfoxExchangeData', { step: 'account' })
     }
-    if (unocoinCountries.indexOf(props.country) >= 0) {
+    if (unocoinCountries.indexOf(country) >= 0) {
       console.log('start unocoin')
     }
-    if (coinifyCountries.indexOf(props.country) >= 0) {
+    if (coinifyCountries.indexOf(country) >= 0) {
       props.modalActions.showModal('CoinifyExchangeData', { step: 'account' })
     }
   }
 
-  const renderUnavailable = () => {
+  const renderColLeft = () => {
     if (!pristine && ((country && onPartnerCountryWhitelist(country)) || (stateSelection && onSfoxWhitelist(stateSelection)))) {
       return (
         <UnavailableContainer>
@@ -102,22 +117,25 @@ const SelectPartner = (props) => {
           }
         </UnavailableContainer>
       )
+    } else {
+      return (
+        <BuySellAnimation country={country} options={options} />
+      )
     }
   }
 
   return (
     <Row>
       <ColLeft>
-        placeholder
-        { renderUnavailable() }
+        { renderColLeft() }
       </ColLeft>
       <ColRight>
         <Intro>
           <PartnerHeader>
-            <FormattedMessage id='selectpartner.header' defaultMessage='A Better Buy & Sell' />
+            <FormattedMessage id='selectpartner.header' defaultMessage='Introducing Buy & Sell' />
           </PartnerHeader>
           <PartnerSubHeader>
-            <FormattedMessage id='selectpartner.subheader' defaultMessage="We're excited to introduce an all-in-one experience. Whether you want to buy or sell using your local currency or exchange between your digital assets, you'll find everything you need right here." />
+            <FormattedMessage id='selectpartner.subheader' defaultMessage='You can now buy & sell bitcoin directly from your wallet and have the exchanged funds deposited into your bank account.' />
           </PartnerSubHeader>
           <PartnerSubHeader style={spacing('mt-15')}>
             <FormattedMessage id='selectpartner.subheader2' defaultMessage="Select your location below, verify your identity, and before you know it, you'll be on your way to making your crypto dreams a reality!" />
@@ -131,19 +149,19 @@ const SelectPartner = (props) => {
             <form onSubmit={onSubmit}>
               <FormGroup>
                 <FormItem>
-                  <Field name='country' validate={[required, onPartnerCountryWhitelist]} component={SelectBoxCountry} />
+                  <Field name='country' validate={[required, onPartnerCountryWhitelist]} component={SelectBoxCountry} errorBottom />
                 </FormItem>
               </FormGroup>
               {
                 country === 'US'
-                  ? <FormGroup style={spacing('mt-20')}>
+                  ? <FormGroup style={spacing('mt-5')}>
                     <FormItem>
-                      <Field name='state' validate={[required, onSfoxWhitelist]} component={SelectBoxUSState} />
+                      <Field name='state' validate={[required, onSfoxWhitelist]} component={SelectBoxUSState} errorBottom />
                     </FormItem>
                   </FormGroup>
                   : null
               }
-              <Button nature='primary' uppercase type='submit' disabled={invalid || pristine} style={spacing('mt-20')}>
+              <Button nature='primary' uppercase type='submit' disabled={invalid || pristine} style={spacing('mt-15')}>
                 <FormattedMessage id='selectpartner.getstarted' defaultMessage='get started' />
               </Button>
             </form>

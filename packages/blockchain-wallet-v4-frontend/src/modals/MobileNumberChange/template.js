@@ -6,11 +6,11 @@ import { Field, reduxForm } from 'redux-form'
 import { Button, Link, Modal, ModalHeader, ModalBody, ModalFooter, Text } from 'blockchain-info-components'
 import { Form, PhoneNumberBox } from 'components/Form'
 import { validMobileNumber, required } from 'services/FormHelper'
+import { spacing } from 'services/StyleService'
 
 const MobileNumber = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
   align-items: center;
   padding-top: 5px;
 
@@ -18,7 +18,7 @@ const MobileNumber = styled.div`
 `
 
 const MobileNumberChange = (props) => {
-  const { position, total, close, closeAll, submitting, invalid, pristine, ...rest } = props
+  const { position, total, close, closeAll, submitting, invalid, pristine, countryCode, ...rest } = props
   const { onSubmit } = rest
 
   return (
@@ -32,10 +32,10 @@ const MobileNumberChange = (props) => {
             <FormattedMessage id='modals.mobilenumberchange.explain' defaultMessage='Use your mobile phone to receive a one-time-password after a login attempt.' />
           </Text>
           <MobileNumber>
-            <Text size='14px' weight={300}>
-              <FormattedMessage id='modals.mobilenumberchange.mobile' defaultMessage='Mobile number : ' />
+            <Text size='14px' weight={300} style={spacing('pr-5')}>
+              <FormattedMessage id='modals.mobilenumberchange.mobile' defaultMessage='Mobile number: ' />
             </Text>
-            <Field name='mobileNumber' validate={[validMobileNumber, required]} component={PhoneNumberBox} placeholder='+XX XXX XXX...' />
+            <Field name='mobileNumber' validate={[validMobileNumber, required]} component={PhoneNumberBox} placeholder='+XX XXX XXX...' countryCode={countryCode} />
           </MobileNumber>
         </ModalBody>
         <ModalFooter align='spaced'>

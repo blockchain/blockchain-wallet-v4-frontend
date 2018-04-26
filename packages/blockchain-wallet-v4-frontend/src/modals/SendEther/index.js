@@ -1,43 +1,48 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import wizardProvider from 'providers/WizardProvider'
 import modalEnhancer from 'providers/ModalEnhancer'
-import { actions } from 'data'
-import SendEther from './template'
+import { actions, selectors } from 'data'
+import SendBitcoin from './template'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 
-class SendEtherContainer extends React.Component {
-  componentWillMount () {
-    this.props.resetStep()
-  }
-
-  componentWillUnmount () {
-    this.props.formActions.destroy('sendEther')
+class SendEtherContainer extends React.PureComponent {
+  componentDidMount () {
+    this.props.actions.sendEthInitialized()
   }
 
   render () {
-    const { step, position, total, closeAll, ...rest } = this.props
-
+    const { step, position, total, closeAll } = this.props
     return (
-      <SendEther position={position} total={total} closeAll={closeAll}>
-        {step === 1 && <FirstStep {...rest} />}
-        {step === 2 && <SecondStep {...rest} />}
-      </SendEther>
+      <SendBitcoin position={position} total={total} closeAll={closeAll}>
+        {step === 1 && <FirstStep />}
+        {step === 2 && <SecondStep />}
+      </SendBitcoin>
     )
   }
 }
 
+SendEtherContainer.propTypes = {
+  step: PropTypes.number.isRequired,
+  position: PropTypes.number.isRequired,
+  total: PropTypes.number.isRequired,
+  closeAll: PropTypes.func.isRequired
+}
+
+const mapStateToProps = state => ({
+  step: selectors.components.sendEth.getStep(state)
+})
+
 const mapDispatchToProps = dispatch => ({
-  formActions: bindActionCreators(actions.form, dispatch)
+  actions: bindActionCreators(actions.components.sendEth, dispatch)
 })
 
 const enhance = compose(
-  connect(undefined, mapDispatchToProps),
-  modalEnhancer('SendEther'),
-  wizardProvider('sendEther', 2)
+  connect(mapStateToProps, mapDispatchToProps),
+  modalEnhancer('SendEther')
 )
 
 export default enhance(SendEtherContainer)
