@@ -4,6 +4,10 @@ import * as A from './actions'
 import { actions } from 'data'
 import * as selectors from '../../selectors.js'
 import * as MODALS_ACTIONS from '../../modals/actions'
+import * as sendBtcActions from '../../components/sendBtc/actions'
+import * as sendBtcSelectors from '../../components/sendBtc/selectors'
+import settings from 'config'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 export default ({ coreSagas }) => {
   const setBankManually = function * (action) {
@@ -100,12 +104,30 @@ export default ({ coreSagas }) => {
   }
 
   const submitSellQuote = function * (action) {
+    const q = action.payload
     try {
-      console.log('submitting sell quote:', action.payload)
-      yield call(coreSagas.data.sfox.handleSellTrade, action.payload)
-      let state = yield select()
-      console.log('state', state)
-      yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
+      console.log('submitting sell quote:', q)
+      let p = yield select(sendBtcSelectors.getPayment)
+      let payment = coreSagas.payment.btc.create({ payment: p.getOrElse({}), network: settings.NETWORK_BITCOIN })
+
+      // assign payment amount from quote
+      payment = yield payment.amount(parseInt(q.quoteAmount))
+
+      // use priority fee
+      payment = yield payment.fee(p.data.fees.priority)
+
+      // will need the trade object for the address
+      // const trade = yield call(coreSagas.data.sfox.handleSellTrade, action.payload)
+
+      // assign payment to from trade
+      payment = yield payment.to('1LiASK9MawXo9SppMn3RhfWUvHKW2ZHxFx')
+
+      try { payment = yield payment.build() } catch (e) {}
+      yield put(sendBtcActions.sendBtcPaymentUpdated(Remote.of(payment.value())))
+
+      let logPayment = yield select(sendBtcSelectors.getPayment)
+      console.log('logPayment', logPayment)
+      // yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
     } catch (e) {
       console.warn('FE submitQuote failed', e)
     }

@@ -144,6 +144,7 @@ export default ({ api, options }) => {
       yield put(A.fetchTrades())
       const trades = yield select(S.getTrades)
       yield put(buySellA.setTradesBuySell(trades.data))
+      return trade
     } catch (e) {
       console.warn(e)
       yield put(A.handleTradeFailure(e))
