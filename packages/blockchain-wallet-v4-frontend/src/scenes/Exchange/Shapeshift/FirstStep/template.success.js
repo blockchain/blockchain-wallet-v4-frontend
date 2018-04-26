@@ -5,10 +5,11 @@ import { Field, reduxForm } from 'redux-form'
 
 import { isEmpty } from 'ramda'
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
-import { Form, SelectBox } from 'components/Form'
+import { Form } from 'components/Form'
 import MinimumAmountLink from './MinimumAmountLink'
 import MaximumAmountLink from './MaximumAmountLink'
 import NumberBox from './NumberBox'
+import SelectBox from './SelectBox'
 import { MaximumAmountMessage, MinimumAmountMessage, InsufficientAmountMessage } from './validationMessages'
 
 const Wrapper = styled.div`
@@ -68,7 +69,6 @@ const CurrencyBox = styled(Text)`
 
 const Success = props => {
   const { elements, enabled, currency, sourceCoin, targetCoin, formError, handleSwap, handleSubmit } = props
-  console.log('props', props)
 
   return (
     <Wrapper>
@@ -155,7 +155,7 @@ const Success = props => {
           </OptionsContainer>
         </Row>
         <Row>
-          <Button type='submit' nature='primary' fullwidth disabled={!isEmpty(formError)}>
+          <Button type='submit' nature='primary' fullwidth disabled={!isEmpty(formError) || !enabled}>
             <FormattedMessage id='scenes.exchange.shapeshift.firststep.next' defaultMessage='Next' />
           </Button>
         </Row>
