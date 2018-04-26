@@ -193,4 +193,4 @@ const Success = props => {
   )
 }
 
-export default reduxForm({ form: 'exchange' })(Success)
+export default reduxForm({ form: 'exchange', destroyOnUnmount: false })(Success)

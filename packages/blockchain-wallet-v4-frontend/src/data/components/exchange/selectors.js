@@ -6,8 +6,6 @@ export const getPayment = path(['components', 'exchange', 'payment'])
 
 export const getOrder = path(['components', 'exchange', 'order'])
 
-// export const getFirstStep = path(['components', 'exchange', 'firstStep'])
-
 export const getError = path(['components', 'exchange', 'error'])
 
 export const getFirstStepEnabled = path(['components', 'exchange', 'firstStepEnabled'])
