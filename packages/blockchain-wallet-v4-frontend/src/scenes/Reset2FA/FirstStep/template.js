@@ -6,7 +6,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 
 import { required, validEmail, validWalletId } from 'services/FormHelper'
 import { Button, Link, Separator, Text, TextGroup } from 'blockchain-info-components'
-import { Form, TextBox } from 'components/Form'
+import { Form, FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -22,7 +22,7 @@ const Header = styled.div`
   align-items: center;
 `
 const Footer = styled.div`
-  padding: 5px 0;
+  margin-top: 20px;
 `
 
 const FirstStep = (props) => {
@@ -31,7 +31,7 @@ const FirstStep = (props) => {
   return (
     <Wrapper>
       <Header>
-        <Text size='30px' weight={300}>
+        <Text size='24px' weight={300}>
           <FormattedMessage id='scenes.reset2fa.firststep.reset' defaultMessage='Reset 2FA' />
         </Text>
         <Text size='10px'>
@@ -48,28 +48,36 @@ const FirstStep = (props) => {
       </TextGroup>
       <Separator />
       <Form onSubmit={onSubmit}>
-        <Text size='14px' weight={500}>
-          <FormattedMessage id='scenes.reset2fa.firststep.firststepform.guid' defaultMessage='Wallet Identifier' />
-        </Text>
-        <Field name='guid' validate={[required, validWalletId]} component={TextBox} placeholder='XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX' />
-        <TextGroup inline>
-          <Text size='13px' weight={300}>
-            <FormattedMessage id='scenes.reset2fa.firststep.firststepform.guid_explain' defaultMessage='If you forgot your wallet identifier, please' />
-          </Text>
-          <LinkContainer to='/reminder'>
-            <Link size='13px' weight={300}>
-              <FormattedMessage id='scenes.reset2fa.2fafirstform.look' defaultMessage='look it up here.' />
-            </Link>
-          </LinkContainer>
-        </TextGroup>
-        <Text size='14px' weight={500}>
-          <FormattedMessage id='scenes.reset2fa.firststep.firststepform.email' defaultMessage='Registered Email' />
-        </Text>
-        <Field name='email' validate={[required, validEmail]} component={TextBox} />
-        <Text size='13px' weight={300}>
-          <FormattedMessage id='scenes.reset2fa.firststep.firststepform.email_explain' defaultMessage='Enter the email associated with your wallet. ' />
-          <FormattedMessage id='scenes.reset2fa.firststep.firststepform.email_explain2' defaultMessage='If you lost access to this email, please enter it regardless.' />
-        </Text>
+        <FormGroup>
+          <FormItem>
+            <FormLabel for='guid'>
+              <FormattedMessage id='scenes.reset2fa.firststep.firststepform.guid' defaultMessage='Wallet Identifier' />
+            </FormLabel>
+            <Field name='guid' validate={[required, validWalletId]} component={TextBox} placeholder='XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX' />
+            <TextGroup inline>
+              <Text size='12px' weight={300}>
+                <FormattedMessage id='scenes.reset2fa.firststep.firststepform.guid_explain' defaultMessage='If you forgot your wallet identifier, please' />
+              </Text>
+              <LinkContainer to='/reminder'>
+                <Link size='12px' weight={300}>
+                  <FormattedMessage id='scenes.reset2fa.2fafirstform.look' defaultMessage='look it up here.' />
+                </Link>
+              </LinkContainer>
+            </TextGroup>
+          </FormItem>
+        </FormGroup>
+        <FormGroup>
+          <FormItem>
+            <FormLabel for='email'>
+              <FormattedMessage id='scenes.reset2fa.firststep.firststepform.email' defaultMessage='Registered Email' />
+            </FormLabel>
+            <Field name='email' validate={[required, validEmail]} component={TextBox} />
+            <Text size='12px' weight={300}>
+              <FormattedMessage id='scenes.reset2fa.firststep.firststepform.email_explain' defaultMessage='Enter the email associated with your wallet. ' />
+              <FormattedMessage id='scenes.reset2fa.firststep.firststepform.email_explain2' defaultMessage='If you lost access to this email, please enter it regardless.' />
+            </Text>
+          </FormItem>
+        </FormGroup>
         <Button type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid} >
           <FormattedMessage id='scenes.reset2fa.firststep.firststepform.continue' defaultMessage='Continue' />
         </Button>

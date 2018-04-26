@@ -20,4 +20,10 @@ export const startLogoutTimer = () => ({ type: AT.START_LOGOUT_TIMER })
 
 export const reset2fa = (guid, email, newEmail, secretPhrase, message, code, sessionToken) => ({ type: AT.RESET_2FA, payload: { guid, email, newEmail, secretPhrase, message, code, sessionToken } })
 
+export const reset2faError = (val) => ({ type: AT.RESET_2FA_ERROR, payload: { val } })
+
 export const upgradeWallet = () => ({ type: AT.UPGRADE_WALLET, payload: {} })
+
+export const setError = (message) => ({ type: AT.SET_AUTH_ERROR, payload: { message } })
+
+export const clearError = () => ({ type: AT.CLEAR_ERROR })
