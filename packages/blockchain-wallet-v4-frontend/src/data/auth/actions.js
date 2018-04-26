@@ -2,6 +2,12 @@ import * as AT from './actionTypes'
 
 export const login = (guid, password, code, sharedKey, mobileLogin) => ({ type: AT.LOGIN, payload: { guid, password, code, sharedKey, mobileLogin } })
 
+export const loginLoading = () => ({ type: AT.LOGIN_LOADING })
+
+export const loginSuccess = (msg) => ({ type: AT.LOGIN_SUCCESS })
+
+export const loginFailure = (err) => ({ type: AT.LOGIN_FAILURE, payload: { err } })
+
 export const mobileLogin = (data) => ({ type: AT.MOBILE_LOGIN, payload: { data } })
 
 export const setAuthType = (authType) => ({ type: AT.SET_AUTH_TYPE, payload: { authType } })
@@ -35,7 +41,3 @@ export const reset2fa = (guid, email, newEmail, secretPhrase, message, code, ses
 export const reset2faError = (val) => ({ type: AT.RESET_2FA_ERROR, payload: { val } })
 
 export const upgradeWallet = () => ({ type: AT.UPGRADE_WALLET, payload: {} })
-
-export const setError = (message) => ({ type: AT.SET_AUTH_ERROR, payload: { message } })
-
-export const clearError = () => ({ type: AT.CLEAR_ERROR })

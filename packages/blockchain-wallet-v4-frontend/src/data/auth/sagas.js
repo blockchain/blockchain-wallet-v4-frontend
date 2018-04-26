@@ -97,8 +97,10 @@ export default ({ api, coreSagas }) => {
       localStorage.setItem('ls.guid', JSON.stringify(guid))
       localStorage.setItem('ls.session', JSON.stringify(session))
       yield put(actions.session.saveSession(assoc(guid, session, {})))
+      yield put(actions.auth.loginLoading())
       yield call(coreSagas.wallet.fetchWalletSaga, { guid, sharedKey, session, password, code })
       yield call(loginRoutineSaga, mobileLogin)
+      yield put(actions.auth.loginSuccess())
     } catch (error) {
       const initialError = safeParse(error).map(prop('initial_error'))
       const authRequired = safeParse(error).map(prop('authorization_required'))
@@ -115,6 +117,7 @@ export default ({ api, coreSagas }) => {
             if (e.auth_type > 0) {
               yield put(actions.auth.setAuthType(e.auth_type))
               yield put(actions.alerts.displayInfo('2FA required'))
+              yield put(actions.auth.loginFailure())
             } else {
               console.log(e)
               yield put(actions.alerts.displayError(e.message || 'Error logging into your wallet'))
@@ -125,17 +128,18 @@ export default ({ api, coreSagas }) => {
         }
       } else if (initialError.isRight && initialError.value) {
         // general error
-        yield put(actions.auth.setError(initialError.value))
+        yield put(actions.auth.loginFailure(initialError.value))
       } else {
         // 2FA errors
         if (error.auth_type > 0) { // 2fa required
           // dispatch state change to show form
+          yield put(actions.auth.loginFailure())
           yield put(actions.auth.setAuthType(error.auth_type))
           yield put(actions.alerts.displayInfo('2FA required'))
         } else if (error.message) {
-          yield put(actions.auth.setError(error.message))
+          yield put(actions.auth.loginFailure(error.message))
         } else {
-          yield put(actions.auth.setError(error || 'Error logging into your wallet'))
+          yield put(actions.auth.loginFailure(error || 'Error logging into your wallet'))
         }
       }
     }
