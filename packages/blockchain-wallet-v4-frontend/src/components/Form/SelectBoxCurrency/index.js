@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { selectors } from 'data'
 import SelectBox from '../SelectBox'
 
-class SelectBoxCurrency extends React.Component {
+class SelectBoxCurrency extends React.PureComponent {
   render () {
     const { currencies, ...rest } = this.props
     const elements = [{ group: '', items: currencies }]
@@ -32,7 +32,7 @@ const mapStateToProps = (state, ownProps) => ({
     { text: 'South Korean Won', value: 'KRW' },
     { text: 'Singapore Dollar', value: 'SGD' },
     { text: 'Japanese Yen', value: 'JPY' },
-    { text: 'Polish Zloty', value: 'PNL' },
+    { text: 'Polish Zloty', value: 'PLN' },
     { text: 'Great British Pound', value: 'GBP' },
     { text: 'Swedish Krona', value: 'SEK' },
     { text: 'New Zealand Dollar', value: 'NZD' },

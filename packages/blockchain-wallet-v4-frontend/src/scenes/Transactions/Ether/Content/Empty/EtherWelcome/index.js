@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import { actions, selectors } from 'data'
 import EtherWelcome from './template.js'
 
-class EtherWelcomeContainer extends React.Component {
+class EtherWelcomeContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)

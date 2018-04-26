@@ -20,11 +20,6 @@ const EmailInput = styled.div`
   margin-top: 25px;
   flex-direction: column;
 `
-const CancelText = styled.p`
-  text-align: center;
-  cursor: pointer;
-  font-size: 14px;
-`
 
 class VerifyEmail extends Component {
   constructor (props) {
@@ -69,7 +64,7 @@ class VerifyEmail extends Component {
     let emailHelper = () => {
       switch (true) {
         case emailVerifiedError: return <FormattedMessage id='coinifyexchangedata.create.verifyemail.helper.error' defaultMessage="That code doesn't match. {resend} or {changeEmail}." values={{ resend: <a onClick={this.resendCode}>Resend</a>, changeEmail: <a onClick={() => this.props.updateUI({ create: 'change_email' })}>change email</a> }} />
-        case ui.codeSent: return <FormattedMessage id='sfoxexchangedata.create.verifyemail.helper.sentanothercode' defaultMessage='Another code has been sent!' />
+        case ui.codeSent: return <FormattedMessage id='sfoxexchangedata.create.verifyemail.helper.sentanothercode' defaultMessage='Another code has been sent! {changeEmail}' values={{ changeEmail: <a onClick={() => this.props.updateUI({ create: 'change_email' })}>change email</a> }} />
         case !ui.codeSent: return <FormattedMessage id='sfoxexchangedata.create.verifyemail.helper.didntreceive' defaultMessage="Didn't receive your email? {resend} or {changeEmail}." values={{ resend: <a onClick={this.resendCode}>Resend</a>, changeEmail: <a onClick={() => this.props.updateUI({ create: 'change_email' })}>change email</a> }} />
       }
     }
@@ -90,7 +85,7 @@ class VerifyEmail extends Component {
                   <Text size='14px' weight={400} style={{'margin-bottom': '5px'}}>
                     <FormattedHTMLMessage id='sfoxexchangedata.create.verifyemail.code' defaultMessage='We emailed a verification code to {email}' values={{email: emailAddress}} />
                   </Text>
-                  <Field name='emailCode' onChange={() => this.props.updateUI({ uniqueEmail: true })} component={TextBox} validate={[required]} />
+                  <Field name='emailCode' onChange={() => this.props.updateUI({ uniqueEmail: true })} component={TextBox} errorBottom validate={[required]} />
                   <EmailHelper error={emailVerifiedError}>
                     { emailHelper() }
                   </EmailHelper>
@@ -113,7 +108,6 @@ class VerifyEmail extends Component {
               <Button type='submit' nature='primary' fullwidth uppercase disabled={invalid || ui.create !== 'enter_email_code' || !emailCode}>
                 <FormattedMessage id='sfoxexchangedata.create.verifyemail.continue' defaultMessage='Continue' />
               </Button>
-              <CancelText onClick={() => this.props.updateUI({create: 'create_account'})}>Cancel</CancelText>
             </ButtonWrapper>
           </ColRightInner>
         </ColRight>

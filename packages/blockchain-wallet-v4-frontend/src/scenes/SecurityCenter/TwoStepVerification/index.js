@@ -10,7 +10,7 @@ import Loading from './template.loading'
 import Success from './template.success'
 import { formValueSelector } from 'redux-form'
 
-class TwoStepVerificationContainer extends React.Component {
+class TwoStepVerificationContainer extends React.PureComponent {
   static getDerivedStateFromProps (nextProps, prevState) {
     const data = nextProps.data.data
     if (data.authType === 4) return { authName: 'Authenticator App' }
@@ -23,10 +23,6 @@ class TwoStepVerificationContainer extends React.Component {
 
     this.handleClick = this.handleClick.bind(this)
     this.chooseMethod = this.chooseMethod.bind(this)
-    this.handleGoBack = this.handleGoBack.bind(this)
-    this.handleChangeNumber = this.handleChangeNumber.bind(this)
-    this.cancelMobileChange = this.cancelMobileChange.bind(this)
-    this.submitMobileChange = this.submitMobileChange.bind(this)
     this.handleDisableClick = this.handleDisableClick.bind(this)
     this.handleTwoFactorChange = this.handleTwoFactorChange.bind(this)
     this.pulseText = this.pulseText.bind(this)
@@ -44,7 +40,8 @@ class TwoStepVerificationContainer extends React.Component {
   }
 
   handleDisableClick () {
-    this.props.updateUI({ verifyToggled: !this.props.ui.verifyToggled, editing: true })
+    if (this.props.data.data.authType > 0) this.props.modalActions.showModal('ConfirmDisable2FA', { authName: this.state.authName })
+    else this.props.updateUI({ verifyToggled: !this.props.ui.verifyToggled, editing: true })
   }
 
   chooseMethod (method) {
@@ -54,23 +51,6 @@ class TwoStepVerificationContainer extends React.Component {
     } else {
       this.props.updateUI({ authMethod: method })
     }
-  }
-
-  handleGoBack () {
-    this.props.updateUI({ authMethod: '', verifyToggled: false })
-  }
-
-  handleChangeNumber () {
-    this.props.updateUI({ changeNumberToggled: !this.props.ui.changeNumberToggled })
-  }
-
-  cancelMobileChange () {
-    this.props.updateUI({ changeNumberToggled: false })
-  }
-
-  submitMobileChange () {
-    this.props.securityCenterActions.sendMobileVerificationCode(this.props.mobileNumber)
-    this.props.updateUI({ authMethod: 'sms' })
   }
 
   handleDisableTwoStep () {
@@ -96,17 +76,15 @@ class TwoStepVerificationContainer extends React.Component {
         data={value}
         handleClick={this.handleClick}
         chooseMethod={this.chooseMethod}
-        handleGoBack={this.handleGoBack}
-        handleChangeNumber={this.handleChangeNumber}
+        handleGoBack={() => this.props.updateUI({ authMethod: '', verifyToggled: false })}
         handleDisableClick={this.handleDisableClick}
-        cancelMobileChange={this.cancelMobileChange}
-        submitMobileChange={this.submitMobileChange}
         handleTwoFactorChange={this.handleTwoFactorChange}
         twoStepChoice={this.props.ui.authMethod}
         authName={this.state.authName}
         editing={this.props.ui.editing}
         pulseText={this.pulseText}
         pulse={this.state.pulse}
+        triggerSuccess={() => { this.props.updateUI({ success: true }); setTimeout(() => { this.props.updateUI({ success: false }) }, 1500) }}
       />,
       Failure: (message) => <Error {...rest}
         message={message} />,
@@ -130,7 +108,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ key: 'Security_TwoStep', state: { verifyToggled: false, changeNumberToggled: false, editing: false, authMethod: '' } })
+  ui({ key: 'Security_TwoStep', state: { verifyToggled: false, editing: false, authMethod: '', success: false } })
 )
 
 export default enhance(TwoStepVerificationContainer)

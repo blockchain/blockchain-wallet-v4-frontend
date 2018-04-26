@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import { actions } from 'data'
 import TransactionListItem from './template.js'
 
-class ListItemContainer extends React.Component {
+class ListItemContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleCoinToggle = this.handleCoinToggle.bind(this)

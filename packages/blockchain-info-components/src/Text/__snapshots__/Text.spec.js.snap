@@ -14,5 +14,6 @@ exports[`Text component default renders correctly 1`] = `
   <span>
     Hello World
   </span>
+   
 </styled.div>
 `;

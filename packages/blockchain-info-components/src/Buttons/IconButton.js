@@ -9,7 +9,7 @@ const BaseIconButton = styled(Button)`
   width: auto;
   min-width: ${props => props.min};
   max-width: ${props => props.max};
-  & > :first-child { margin: 0 5px; }
+  & > :first-child { margin-right: 5px; }
 `
 
 const selectColor = (nature, disabled) => {

@@ -16,6 +16,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
   })
 
   const getBchFee = () => {
+    // TODO :: this should come from wallet options
     return Promise.resolve({ priority: 2, regular: 2 })
   }
 

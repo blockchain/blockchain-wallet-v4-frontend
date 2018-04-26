@@ -63,7 +63,7 @@ const Top = styled.div`
   width: 100%;
 `
 
-const WalletLayout = (props) => {
+const WalletLayout = props => {
   const { location, menuLeftToggled, trayRightOpen, handleTrayRightToggle, handleToggleMenuLeft, handleCloseMenuLeft, children, trayRightContent } = props
 
   return (

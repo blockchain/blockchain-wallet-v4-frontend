@@ -31,7 +31,7 @@ const renderTotal = trade => {
   else return `$${trade.receiveAmount.toFixed(2)}`
 }
 
-class SfoxTradeDetails extends React.Component {
+class SfoxTradeDetails extends React.PureComponent {
   render () {
     const headerStatus = statusHelper(this.props.trade.state)
     const bodyStatus = bodyStatusHelper(this.props.trade.state)

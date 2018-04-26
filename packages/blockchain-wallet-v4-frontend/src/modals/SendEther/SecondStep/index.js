@@ -3,28 +3,31 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
-import settings from 'config'
 import { getData } from './selectors'
-import SendConfirm from 'components/SendConfirm'
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
 
-class SecondStepContainer extends React.Component {
-  constructor (props) {
-    super(props)
-    this.handleSubmit = this.handleSubmit.bind(this)
-  }
-
-  handleSubmit (e) {
-    e.preventDefault()
-    // TODO: See how to use the message for the transaction
-    const { from, to, message, amount, gasPrice, gasLimit, nonce } = this.props.data
-    const network = settings.NETWORK_ETHEREUM
-    const data = { from, to, message, amount, gasPrice, gasLimit, nonce }
-    this.props.sendEtherActions.sendEther(network, data)
-  }
-
+class SecondStepContainer extends React.PureComponent {
   render () {
-    const { data, modalActions, ...rest } = this.props
-    return <SendConfirm {...data} {...rest} handleSubmit={this.handleSubmit} coin='ETH' closeAll={modalActions.closeAllModals} />
+    const { data, actions } = this.props
+
+    return data.cata({
+      Success: (value) => <Success
+        coin='ETH'
+        fromAddress={value.fromAddress}
+        toAddress={value.toAddress}
+        message={value.message}
+        amount={value.amount}
+        fee={value.fee}
+        total={value.total}
+        handleBack={() => actions.sendEthSecondStepCancelClicked()}
+        handleSubmit={() => actions.sendEthSecondStepSubmitClicked()}
+      />,
+      Error: (message) => <Error>{message}</Error>,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
+    })
   }
 }
 
@@ -33,8 +36,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  sendEtherActions: bindActionCreators(actions.modules.sendEther, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  actions: bindActionCreators(actions.components.sendEth, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SecondStepContainer)

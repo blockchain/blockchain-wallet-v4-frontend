@@ -15,7 +15,7 @@ import { getData } from './selectors'
 import { actions } from 'data'
 import { path } from 'ramda'
 
-class SfoxExchangeData extends React.Component {
+class SfoxExchangeData extends React.PureComponent {
   constructor () {
     super()
     this.state = { show: false }

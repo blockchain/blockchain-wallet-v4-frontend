@@ -7,28 +7,22 @@ import { Field, reduxForm } from 'redux-form'
 import { Button, Link, Modal, ModalHeader, ModalBody, ModalFooter, Text } from 'blockchain-info-components'
 import { Form, TextBox } from 'components/Form'
 import { required } from 'services/FormHelper'
+import { spacing, flex } from 'services/StyleService'
 
 const Code = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  padding-top: 5px;
-
+  width: 60%;
   & > :first-child { flex-basis: 200px; margin-right: 10px; }
 `
 const Options = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
   align-items: center;
-
-  & > * { margin-right: 5px; ]}
+  padding-top: 5px;
 `
 
 const MobileNumberVerify = (props) => {
   const { position, total, close, closeAll, submitting, invalid, ...rest } = props
-  const { mobileNumber, onSubmit, handleChange, handleResend } = rest
+  const { onSubmit, handleChange, handleResend } = rest
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -38,23 +32,26 @@ const MobileNumberVerify = (props) => {
         </ModalHeader>
         <ModalBody>
           <Text size='14px' weight={300}>
-            <FormattedMessage id='modals.mobilenumberverify.explain' defaultMessage='We have sent to {number} an SMS message with a verification code.' values={{ number: mobileNumber }} />
+            <FormattedMessage id='modals.mobilenumberverify.explain' defaultMessage='We have sent an SMS message with a verification code to {number}.' values={{ number: props.mobileNumber }} />
           </Text>
-          <Text size='14px' weight={500}>
-            <FormattedMessage id='modals.mobilenumberverify.explain2' defaultMessage='Enter code :' />
+          <Text size='14px' weight={500} style={spacing('mt-10 mb-5')}>
+            <FormattedMessage id='modals.mobilenumberverify.explain2' defaultMessage='Enter code:' />
           </Text>
           <Code>
             <Field name='code' validate={[required]} component={TextBox} />
-            <Options>
-              <Link size='13px' weight={300} onClick={handleResend}>
+          </Code>
+          <Options>
+            <Text size='14px' weight={300} style={{ ...flex('row'), ...spacing('pt-5') }}>
+              <FormattedMessage id='modals.mobilenumberverify.get_code' defaultMessage="Didn't get the code?&nbsp;" />
+              <Link size='14px' weight={300} onClick={handleResend}>
                 <FormattedMessage id='modals.mobilenumberverify.resend' defaultMessage='Resend' />
               </Link>
-              <Text size='13px' weight={300} color='brand-secondary'>|</Text>
-              <Link size='13px' weight={300} capitalize onClick={handleChange}>
-                <FormattedMessage id='modals.mobilenumberverify.change' defaultMessage='Change mobile number' />
+              <FormattedMessage id='modals.mobilenumberverify.get_code' defaultMessage='or&nbsp;' />
+              <Link size='14px' weight={300} capitalize onClick={handleChange}>
+                <FormattedMessage id='modals.mobilenumberverify.change' defaultMessage='change mobile number' />
               </Link>
-            </Options>
-          </Code>
+            </Text>
+          </Options>
         </ModalBody>
         <ModalFooter align='spaced'>
           <Link size='13px' weight={300} onClick={close}>

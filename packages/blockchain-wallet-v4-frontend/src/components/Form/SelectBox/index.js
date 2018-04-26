@@ -12,7 +12,7 @@ const Container = styled.div`
 `
 const Error = styled.label`
   position: absolute;
-  top: -18px;
+  top: ${props => props.errorBottom ? '40px' : '-18px'};
   right: 0;
   display: block;
   height: 15px;
@@ -29,7 +29,7 @@ const SelectBox = (props) => {
   return (
     <Container>
       <SelectInput {...input} {...meta} {...rest} errorState={errorState} />
-      {(touched || !pristine) && error && <Error>{error}</Error>}
+      {(touched || !pristine) && error && <Error errorBottom={props.errorBottom}>{error}</Error>}
     </Container>
   )
 }

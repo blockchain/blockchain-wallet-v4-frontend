@@ -15,7 +15,7 @@ const Wrapper = styled.div`
 
 const FilterContainer = styled(Text)`
   color: ${props => props.selected ? props.theme['brand-primary'] : props.theme['gray-3']};
-  border-bottom: ${props => props.selected ? `2px solid ${props.theme['brand-primary']}` : 'none'};
+  border-bottom: ${props => props.selected ? `2px solid ${props.theme['brand-primary']}` : '2px solid transparent'};
   cursor: pointer;
 `
 
@@ -27,16 +27,16 @@ const TimeFilters = props => {
       <FilterContainer size='14px' weight={300} selected={time === 'all'} onClick={() => handleClick('all')}>
         <FormattedMessage id='scenes.priceindexseries.timefilters.all' defaultMessage='All' />
       </FilterContainer>
-      <FilterContainer size='14px' weight={300} selected={time === 'year'} onClick={() => handleClick('year')}>
+      <FilterContainer size='14px' weight={300} selected={time === '1year'} onClick={() => handleClick('1year')}>
         <FormattedMessage id='scenes.priceindexseries.timefilters.year' defaultMessage='Year' />
       </FilterContainer>
-      <FilterContainer size='14px' weight={300} selected={time === 'month'} onClick={() => handleClick('month')}>
+      <FilterContainer size='14px' weight={300} selected={time === '1month'} onClick={() => handleClick('1month')}>
         <FormattedMessage id='scenes.priceindexseries.timefilters.month' defaultMessage='Month' />
       </FilterContainer>
-      <FilterContainer size='14px' weight={300} selected={time === 'week'} onClick={() => handleClick('week')}>
+      <FilterContainer size='14px' weight={300} selected={time === '1week'} onClick={() => handleClick('1week')}>
         <FormattedMessage id='scenes.priceindexseries.timefilters.week' defaultMessage='Week' />
       </FilterContainer>
-      <FilterContainer size='14px' weight={300} selected={time === 'day'} onClick={() => handleClick('day')}>
+      <FilterContainer size='14px' weight={300} selected={time === '1day'} onClick={() => handleClick('1day')}>
         <FormattedMessage id='scenes.priceindexseries.timefilters.day' defaultMessage='Day' />
       </FilterContainer>
     </Wrapper>
@@ -44,7 +44,7 @@ const TimeFilters = props => {
 }
 
 TimeFilters.propTypes = {
-  time: PropTypes.oneOf(['all', 'day', 'week', 'month', 'year']).isRequired,
+  time: PropTypes.oneOf(['all', '1day', '1week', '1month', '1year']).isRequired,
   handleClick: PropTypes.func.isRequired
 }
 

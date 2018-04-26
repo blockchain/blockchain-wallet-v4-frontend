@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import { actions } from 'data'
 import Empty from './template.js'
 
-class EmptyContainer extends React.Component {
+class EmptyContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleSend = this.handleSend.bind(this)

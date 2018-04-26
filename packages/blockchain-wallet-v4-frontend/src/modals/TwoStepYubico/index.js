@@ -7,7 +7,7 @@ import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import TwoStepYubico from './template.js'
 
-class TwoStepYubicoContainer extends React.Component {
+class TwoStepYubicoContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 import CountdownTimer from './template'
 
-class CountdownTimerContainer extends React.Component {
+class CountdownTimerContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.interval = undefined

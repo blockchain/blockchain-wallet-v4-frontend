@@ -113,7 +113,7 @@ const SecurityCenter = (props) => {
           </Wrapper>
           : <Wrapper>
             <BodyContainer>
-              <Advanced tabs={tabs} setView={setView}/>
+              <Advanced tabs={tabs} setView={setView} />
             </BodyContainer>
           </Wrapper>
       }
