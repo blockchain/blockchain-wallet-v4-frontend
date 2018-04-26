@@ -29,19 +29,6 @@ const SearchInputContainer = styled.div`
   border: 1px solid ${props => props.theme['gray-1']};
 `
 
-const SearchInputArea = styled.textarea`
-  width: 100%;
-  resize: none;
-  outline: none;
-  border: none;
-  box-sizing: border-box;
-  padding: 8px 0 0 16px;
-  font-size: 14px;
-  ::placeholder { 
-    font-weight: 100; 
-    color: ${props => props.theme['gray-3']}; 
-  }
-`
 const SearchIcon = styled(Icon)`
   padding: 8px 16px 0 0;
 `
@@ -58,7 +45,6 @@ const Faq = (props) => {
         <Wrapper>
           <SearchInputContainer>
             <Field name='search' component={TextBox} />
-            {/* <SearchInputArea value={filterText} onChange={onFilter} placeholder={'Search'}/> */}
             <SearchIcon name='search' size='18px' weight={200} color='gray-3'/>
           </SearchInputContainer>
           <ContentWrapper>
