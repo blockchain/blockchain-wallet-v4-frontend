@@ -220,26 +220,17 @@ export default ({ api, coreSagas }) => {
   const validateForm = function * () {
     yield put(A.firstStepDisabled())
     const form = yield select(selectors.form.getFormValues('exchange'))
-    console.log('form', form)
     const source = prop('source', form)
-    console.log('source', source)
     const target = prop('target', form)
-    console.log('target', target)
     const sourceAmount = prop('sourceAmount', form)
     if (isEqualsToZero(sourceAmount)) {
       yield put(A.firstStepFormUnvalidated('insufficient'))
       return yield put(A.firstStepEnabled())
     }
-    console.log('sourceAmount', sourceAmount)
     const effectiveBalance = yield call(calculateEffectiveBalance, source)
-    console.log('effectiveBalance', effectiveBalance)
     const pair = yield call(getShapeShiftLimits, source, target)
-    console.log('pair', pair)
     const minimum = getMinimum(source.coin, pair.minimum)
-    console.log('minimum', minimum)
     const maximum = getMaximum(source.coin, pair.maximum, effectiveBalance)
-    console.log('maximum', maximum)
-
     if (!isAmountAboveMinimum(sourceAmount, minimum) && !isAmountBelowMaximum(sourceAmount, maximum)) {
       yield put(A.firstStepFormUnvalidated('insufficient'))
     } else if (!isAmountAboveMinimum(sourceAmount, minimum)) {
@@ -307,7 +298,6 @@ export default ({ api, coreSagas }) => {
       outgoingPayment = yield outgoingPayment.sign(password)
       outgoingPayment = yield outgoingPayment.publish()
       const paymentValue = outgoingPayment.value()
-      console.log('outgoingPayment', paymentValue)
       const { txId } = paymentValue
       yield put(A.paymentUpdated(paymentValue))
       // Save the trade in metadata
@@ -326,7 +316,6 @@ export default ({ api, coreSagas }) => {
           withdrawalAmount: prop('withdrawalAmount', order)
         }
       }
-      // console.log('trade', trade)
       // Add order in metadata
       yield put(actions.core.kvStore.shapeShift.addTradeMetadataShapeshift(trade))
     } catch (e) {
@@ -352,16 +341,12 @@ export default ({ api, coreSagas }) => {
       while (true) {
         const appState = yield select(identity)
         const currentTrade = selectors.core.kvStore.shapeShift.getTrade(depositAddress, appState).getOrFail('Could not find trade.')
-        console.log('currentTrade', currentTrade)
         const currentStatus = prop('status', currentTrade)
-        console.log('currentStatus', currentStatus)
         if (equals('complete', currentStatus) || equals('failed', currentStatus)) {
           break
         }
         const data = yield call(coreSagas.data.shapeShift.fetchTradeStatus, depositAddress)
-        console.log('data', data)
         const shapeshiftStatus = prop('status', data)
-        console.log('shapshiftStatus', shapeshiftStatus)
         if (!equals(shapeshiftStatus, currentStatus)) {
           yield put(actions.core.kvStore.shapeShift.updateTradeStatusMetadataShapeshift(depositAddress, shapeshiftStatus))
         }
