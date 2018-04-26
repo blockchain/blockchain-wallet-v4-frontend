@@ -1,25 +1,104 @@
 import { selectors } from 'data'
-import { lift, prop } from 'ramda'
+import { filter, head, lift, prop, propEq } from 'ramda'
 import { formValueSelector } from 'redux-form'
 
 export const getData = state => {
-  const firstStepR = selectors.components.exchange.getFirstStep(state)
+  const btcAccountsR = getBtcAccounts(state)
+  const bchAccountsR = getBchAccounts(state)
+  const ethAccountsR = getEthAccounts(state)
   const currencyR = selectors.core.settings.getCurrency(state)
   const enabled = selectors.components.exchange.getFirstStepEnabled(state)
   const formError = selectors.components.exchange.getError(state)
   const source = formValueSelector('exchange')(state, 'source')
   const target = formValueSelector('exchange')(state, 'target')
-  const sourceCoin = prop('coin', source)
-  const targetCoin = prop('coin', target)
+  const sourceCoin = prop('coin', source) || 'BTC'
+  const targetCoin = prop('coin', target) || 'ETH'
 
-  const transform = (firstStep, currency) => ({
-    accounts: prop('accounts', firstStep),
-    enabled,
-    formError,
-    currency,
-    sourceCoin,
-    targetCoin
+  const format = acc => ({ text: prop('label', acc), value: acc })
+
+  const transform = (btcAccounts, bchAccounts, ethAccounts, currency) => {
+    const isActive = propEq('archived', false)
+    const activeBtcAccounts = filter(isActive, btcAccounts)
+    const activeBchAccounts = filter(isActive, bchAccounts)
+    const activeEthAccounts = filter(isActive, ethAccounts)
+    const defaultBtcAccount = head(activeBtcAccounts)
+    const defaultEthAccount = head(activeEthAccounts)
+
+    const elements = [
+      { group: 'Bitcoin', items: activeBtcAccounts.map(format) },
+      { group: 'Bitcoin cash', items: activeBchAccounts.map(format) },
+      { group: 'Ethereum', items: activeEthAccounts.map(format) }
+    ]
+    const initialValues = { source: defaultBtcAccount, target: defaultEthAccount }
+
+    return {
+      elements,
+      initialValues,
+      enabled,
+      formError,
+      currency,
+      sourceCoin,
+      targetCoin
+    }
+  }
+
+  return lift(transform)(btcAccountsR, bchAccountsR, ethAccountsR, currencyR)
+}
+
+const getBchAccounts = state => {
+  const bchAccounts = selectors.core.wallet.getHDAccounts(state)
+  const bchDataR = selectors.core.data.bch.getAddresses(state)
+  const bchMetadataR = selectors.core.kvStore.bch.getAccounts(state)
+
+  const transform = (bchData, bchMetadata) => bchAccounts.map(acc => {
+    const index = prop('index', acc)
+    const data = prop(prop('xpub', acc), bchData)
+    const metadata = bchMetadata[index]
+
+    return {
+      archived: prop('archived', metadata),
+      coin: 'BCH',
+      label: prop('label', metadata) || prop('xpub', acc),
+      address: index,
+      balance: prop('final_balance', data)
+    }
   })
 
-  return lift(transform)(firstStepR, currencyR)
+  return lift(transform)(bchDataR, bchMetadataR)
+}
+
+const getBtcAccounts = state => {
+  const btcAccounts = selectors.core.wallet.getHDAccounts(state)
+  const btcData = selectors.core.data.bitcoin.getAddresses(state)
+
+  const transform = (btcData) => {
+    return btcAccounts.map(acc => ({
+      archived: prop('archived', acc),
+      coin: 'BTC',
+      label: prop('label', acc) || prop('xpub', acc),
+      address: prop('index', acc),
+      balance: prop('final_balance', prop(prop('xpub', acc), btcData))
+    }))
+  }
+
+  return lift(transform)(btcData)
+}
+
+const getEthAccounts = state => {
+  const ethData = selectors.core.data.ethereum.getAddresses(state)
+  const ethMetadata = selectors.core.kvStore.ethereum.getAccounts(state)
+
+  const transform = (ethData, ethMetadata) => ethMetadata.map(acc => {
+    const data = prop(prop('addr', acc), ethData)
+
+    return {
+      archived: prop('archived', acc),
+      coin: 'ETH',
+      label: prop('label', acc) || prop('addr', acc),
+      address: prop('addr', acc),
+      balance: prop('balance', data)
+    }
+  })
+
+  return lift(transform)(ethData, ethMetadata)
 }

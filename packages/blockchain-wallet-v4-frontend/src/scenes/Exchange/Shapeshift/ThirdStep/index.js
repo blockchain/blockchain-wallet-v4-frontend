@@ -11,7 +11,7 @@ import Success from './template.success'
 
 class ThirdStepContainer extends React.Component {
   componentDidMount () {
-    this.props.thirdStepInitialized()
+    this.props.actions.thirdStepInitialized()
   }
 
   render () {
