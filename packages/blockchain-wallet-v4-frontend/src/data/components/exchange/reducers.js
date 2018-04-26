@@ -4,9 +4,8 @@ import { Remote } from 'blockchain-wallet-v4/src'
 
 const INITIAL_STATE = {
   step: 1,
-  firstStep: Remote.NotAsked,
   secondStep: Remote.NotAsked,
-  error: 'invalid',
+  error: '',
   payment: {},
   order: {},
   firstStepEnabled: true
@@ -16,7 +15,6 @@ export default (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
-    case AT.EXCHANGE_INITIALIZED:
     case AT.EXCHANGE_DESTROYED: {
       return INITIAL_STATE
     }
@@ -26,15 +24,9 @@ export default (state = INITIAL_STATE, action) => {
     case AT.EXCHANGE_PAYMENT_UPDATED: {
       return assoc('payment', payload, state)
     }
-    case AT.EXCHANGE_FIRST_STEP_INITIALIZED: {
-      return assoc('firstStep', Remote.Loading, state)
-    }
-    case AT.EXCHANGE_FIRST_STEP_SUCCESS: {
-      return assoc('firstStep', Remote.Success(payload), state)
-    }
-    case AT.EXCHANGE_FIRST_STEP_FAILURE: {
-      return assoc('firstStep', Remote.Failure(payload), state)
-    }
+    // case AT.EXCHANGE_FIRST_STEP_INITIALIZED: {
+    //   return assoc('error', '', state)
+    // }
     case AT.EXCHANGE_FIRST_STEP_ENABLED: {
       return assoc('firstStepEnabled', true, state)
     }

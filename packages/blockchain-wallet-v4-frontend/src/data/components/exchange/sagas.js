@@ -11,7 +11,7 @@ import settings from 'config'
 import { promptForSecondPassword } from 'services/SagaService'
 import { getCoinFromPair, getPairFromCoin, getMinimum, getMaximum, convertFiatToCoin, convertCoinToFiat,
   convertStandardToBase, isAmountAboveMinimum, isAmountBelowMaximum, calculateFinalAmount, selectFee,
-  isEqualsToZero } from './services'
+  isUndefinedOrEqualsToZero } from './services'
 import { selectRates, selectReceiveAddress } from '../utils/sagas'
 
 export default ({ api, coreSagas }) => {
@@ -91,7 +91,7 @@ export default ({ api, coreSagas }) => {
     switch (type) {
       case 'sourceFiat': {
         const sourceFiat = prop('sourceFiat', values)
-        if (isEqualsToZero(sourceFiat)) return defaultResult
+        if (isUndefinedOrEqualsToZero(sourceFiat)) return defaultResult
         const sourceAmount = convertFiatToCoin(sourceFiat, 'USD', sourceCoin, sourceCoin, sourceRates).value
         const quotation = yield call(api.createQuote, sourceAmount, pair, true)
         const targetAmount = path(['success', 'withdrawalAmount'], quotation) || 0
@@ -100,7 +100,7 @@ export default ({ api, coreSagas }) => {
       }
       case 'targetAmount': {
         const targetAmount = prop('targetAmount', values)
-        if (isEqualsToZero(targetAmount)) return defaultResult
+        if (isUndefinedOrEqualsToZero(targetAmount)) return defaultResult
         const quotation = yield call(api.createQuote, targetAmount, pair, false)
         const sourceAmount = path(['success', 'depositAmount'], quotation) || 0
         const sourceFiat = convertCoinToFiat(sourceAmount, sourceCoin, sourceCoin, 'USD', sourceRates).value
@@ -109,7 +109,7 @@ export default ({ api, coreSagas }) => {
       }
       case 'targetFiat': {
         const targetFiat = prop('targetFiat', values)
-        if (isEqualsToZero(targetFiat)) return defaultResult
+        if (isUndefinedOrEqualsToZero(targetFiat)) return defaultResult
         const targetAmount = convertFiatToCoin(targetFiat, 'USD', targetCoin, targetCoin, targetRates).value
         const quotation = yield call(api.createQuote, targetAmount, pair, false)
         const sourceAmount = path(['success', 'depositAmount'], quotation) || 0
@@ -119,7 +119,7 @@ export default ({ api, coreSagas }) => {
       case 'sourceAmount':
       default: {
         const sourceAmount = prop('sourceAmount', values)
-        if (isEqualsToZero(sourceAmount)) return defaultResult
+        if (isUndefinedOrEqualsToZero(sourceAmount)) return defaultResult
         const quotation = yield call(api.createQuote, sourceAmount, pair, true)
         const targetAmount = path(['success', 'withdrawalAmount'], quotation) || 0
         const sourceFiat = convertCoinToFiat(sourceAmount, sourceCoin, sourceCoin, 'USD', sourceRates).value
@@ -323,6 +323,14 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const secondStepCancelClicked = function * () {
+    try {
+      yield 
+    } catch (e) {
+
+    }
+  }
+
   const thirdStepInitialized = function * () {
     try {
       // Start polling trade status
@@ -375,12 +383,9 @@ export default ({ api, coreSagas }) => {
     yield takeLatest(AT.EXCHANGE_FIRST_STEP_MINIMUM_CLICKED, minimumClicked)
     yield takeLatest(AT.EXCHANGE_FIRST_STEP_MAXIMUM_CLICKED, maximumClicked)
     yield takeLatest(AT.EXCHANGE_FIRST_STEP_SUBMIT_CLICKED, firstStepSubmitClicked)
-    yield takeLatest(AT.EXCHANGE_THIRD_STEP_INITIALIZED, thirdStepInitialized)
     yield takeLatest(AT.EXCHANGE_SECOND_STEP_SUBMIT_CLICKED, secondStepSubmitClicked)
-    yield takeLatest(AT.EXCHANGE_SECOND_STEP_CANCEL_CLICKED, destroyed)
-    yield takeLatest(AT.EXCHANGE_SECOND_STEP_ORDER_EXPIRED, destroyed)
+    yield takeLatest(AT.EXCHANGE_SECOND_STEP_CANCEL_CLICKED, secondStepCancelClicked)
     yield takeLatest(AT.EXCHANGE_THIRD_STEP_INITIALIZED, thirdStepInitialized)
-    yield takeLatest(AT.EXCHANGE_THIRD_STEP_CLOSE_CLICKED, destroyed)
     yield takeLatest(AT.EXCHANGE_DESTROYED, destroyed)
     yield takeLatest(actionTypes.form.CHANGE, change)
   }

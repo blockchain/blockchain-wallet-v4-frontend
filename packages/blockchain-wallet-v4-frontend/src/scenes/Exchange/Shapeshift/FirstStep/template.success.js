@@ -68,7 +68,8 @@ const CurrencyBox = styled(Text)`
 `
 
 const Success = props => {
-  const { elements, enabled, currency, sourceCoin, targetCoin, formError, handleSwap, handleSubmit } = props
+  const { elements, enabled, currency, sourceCoin, targetCoin, formError, handleSwap, handleSubmit, dirty } = props
+  console.log('DIRTY', dirty)
 
   return (
     <Wrapper>
@@ -155,7 +156,7 @@ const Success = props => {
           </OptionsContainer>
         </Row>
         <Row>
-          <Button type='submit' nature='primary' fullwidth disabled={!isEmpty(formError) || !enabled}>
+          <Button type='submit' nature='primary' fullwidth disabled={!dirty || !enabled || (dirty && !isEmpty(formError))}>
             <FormattedMessage id='scenes.exchange.shapeshift.firststep.next' defaultMessage='Next' />
           </Button>
         </Row>
