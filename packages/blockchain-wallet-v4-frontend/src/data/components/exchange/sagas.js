@@ -1,6 +1,6 @@
-import { call, cancel, cancelled, fork, select, takeEvery, takeLatest, put } from 'redux-saga/effects'
+import { call, cancel, cancelled, fork, select, takeLatest, put } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import { compose, equals, identity, has, head, merge, nth, path, prop } from 'ramda'
+import { equals, identity, has, merge, path, prop } from 'ramda'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
@@ -10,68 +10,49 @@ import * as selectors from '../../selectors'
 import settings from 'config'
 import { promptForSecondPassword } from 'services/SagaService'
 import { getCoinFromPair, getPairFromCoin, getMinimum, getMaximum, convertFiatToCoin, convertCoinToFiat,
-  convertStandardToBase, isAmountAboveMinimum, isAmountBelowMaximum, calculateFinalAmount, selectFee } from './services'
-import { getActiveBchAccounts, getActiveBtcAccounts, getActiveEthAccounts, getBtcAccounts, selectRates, selectReceiveAddress } from '../utils/sagas'
+  convertStandardToBase, isAmountAboveMinimum, isAmountBelowMaximum, calculateFinalAmount, selectFee,
+  isEqualsToZero } from './services'
+import { selectRates, selectReceiveAddress } from '../utils/sagas'
 
 export default ({ api, coreSagas }) => {
   // ===========================================================================
   // ================================= UTILS ===================================
   // ===========================================================================
-  let payment
-
-  const shape = acc => ({
-    text: acc.text,
-    value: acc
-  })
-
-  const createBchPayment = function * (source) {
-    let payment = coreSagas.payment.bch.create(({ network: settings.NETWORK_BCH }))
-    payment = yield payment.init()
-    payment = yield payment.fee('priority')
-    return yield payment.from(source)
-  }
-
-  const createBtcPayment = function * (source) {
-    let payment = coreSagas.payment.btc.create(({ network: settings.NETWORK_BITCOIN }))
-    payment = yield payment.init()
-    payment = yield payment.fee('priority')
-    return yield payment.from(source)
-  }
-
-  const createEthPayment = function * (source) {
-    let payment = coreSagas.payment.eth.create(({ network: settings.NETWORK_ETHEREUM }))
-    payment = yield payment.init()
-    return yield payment.from(source)
+  const calculateEffectiveBalance = function * (source) {
+    const coin = prop('coin', source)
+    const address = prop('address', source)
+    let payment
+    switch (coin) {
+      case 'BCH':
+        payment = yield coreSagas.payment.bch.create({ network: settings.NETWORK_BCH }).chain().init().fee('priority').from(address).done()
+        break
+      case 'BTC':
+        payment = yield coreSagas.payment.btc.create({ network: settings.NETWORK_BITCOIN }).chain().init().fee('priority').from(address).done()
+        break
+      case 'ETH':
+        payment = yield coreSagas.payment.eth.create({ network: settings.NETWORK_ETHEREUM }).chain().init().from(address).done()
+        break
+      default: throw new Error('Could not get effective balance.')
+    }
+    return prop('effectiveBalance', payment.value())
   }
 
   const createPayment = function * (coin, sourceAddress, targetAddress, amount) {
     let payment
     switch (coin) {
-      case 'BCH': {
-        payment = coreSagas.payment.bch.create({ network: settings.NETWORK_BCH })
-        payment = yield payment.init()
-        payment = yield payment.fee('priority')
-        payment = yield payment.amount(parseInt(amount))
+      case 'BCH':
+        payment = coreSagas.payment.bch.create({ network: settings.NETWORK_BCH }).chain().init().fee('priority').amount(parseInt(amount))
         break
-      }
-      case 'BTC': {
-        payment = coreSagas.payment.btc.create({ network: settings.NETWORK_BITCOIN })
-        payment = yield payment.init()
-        payment = yield payment.fee('priority')
-        payment = yield payment.amount(parseInt(amount))
+      case 'BTC':
+        payment = coreSagas.payment.btc.create({ network: settings.NETWORK_BITCOIN }).chain().init().fee('priority').amount(parseInt(amount))
         break
-      }
-      case 'ETH': {
-        payment = coreSagas.payment.eth.create({ network: settings.NETWORK_ETHEREUM })
-        payment = yield payment.init()
-        payment = yield payment.amount(amount)
+      case 'ETH':
+        payment = coreSagas.payment.eth.create({ network: settings.NETWORK_ETHEREUM }).chain().init().amount(amount)
         break
-      }
       default: throw new Error('Could not create payment.')
     }
-    payment = yield payment.from(sourceAddress)
-    payment = yield payment.to(targetAddress)
-    payment = yield payment.build()
+    payment = yield payment.from(sourceAddress).to(targetAddress).build().done()
+    console.log('createPayment', payment.value)
     return payment
   }
 
@@ -105,10 +86,12 @@ export default ({ api, coreSagas }) => {
     const sourceRates = yield call(selectRates, sourceCoin)
     const targetRates = yield call(selectRates, targetCoin)
     const pair = getPairFromCoin(sourceCoin, targetCoin)
+    const defaultResult = { source, target, sourceAmount: 0, sourceFiat: 0, targetAmount: 0, targetFiat: 0 }
 
     switch (type) {
       case 'sourceFiat': {
         const sourceFiat = prop('sourceFiat', values)
+        if (isEqualsToZero(sourceFiat)) return defaultResult
         const sourceAmount = convertFiatToCoin(sourceFiat, 'USD', sourceCoin, sourceCoin, sourceRates).value
         const quotation = yield call(api.createQuote, sourceAmount, pair, true)
         const targetAmount = path(['success', 'withdrawalAmount'], quotation) || 0
@@ -117,6 +100,7 @@ export default ({ api, coreSagas }) => {
       }
       case 'targetAmount': {
         const targetAmount = prop('targetAmount', values)
+        if (isEqualsToZero(targetAmount)) return defaultResult
         const quotation = yield call(api.createQuote, targetAmount, pair, false)
         const sourceAmount = path(['success', 'depositAmount'], quotation) || 0
         const sourceFiat = convertCoinToFiat(sourceAmount, sourceCoin, sourceCoin, 'USD', sourceRates).value
@@ -125,6 +109,7 @@ export default ({ api, coreSagas }) => {
       }
       case 'targetFiat': {
         const targetFiat = prop('targetFiat', values)
+        if (isEqualsToZero(targetFiat)) return defaultResult
         const targetAmount = convertFiatToCoin(targetFiat, 'USD', targetCoin, targetCoin, targetRates).value
         const quotation = yield call(api.createQuote, targetAmount, pair, false)
         const sourceAmount = path(['success', 'depositAmount'], quotation) || 0
@@ -134,6 +119,7 @@ export default ({ api, coreSagas }) => {
       case 'sourceAmount':
       default: {
         const sourceAmount = prop('sourceAmount', values)
+        if (isEqualsToZero(sourceAmount)) return defaultResult
         const quotation = yield call(api.createQuote, sourceAmount, pair, true)
         const targetAmount = path(['success', 'withdrawalAmount'], quotation) || 0
         const sourceFiat = convertCoinToFiat(sourceAmount, sourceCoin, sourceCoin, 'USD', sourceRates).value
@@ -158,30 +144,8 @@ export default ({ api, coreSagas }) => {
       yield put(actions.core.data.shapeShift.fetchPair('btc_eth'))
       yield put(actions.core.data.shapeShift.fetchPair('eth_bch'))
       yield put(actions.core.data.shapeShift.fetchPair('eth_btc'))
-      // Prepare accounts for the dropdowns
-      const btcAccounts = yield call(getBtcAccounts)
-      const activeBchAccounts = yield call(getActiveBchAccounts)
-      const activeBtcAccounts = yield call(getActiveBtcAccounts)
-      const activeEthAccounts = yield call(getActiveEthAccounts)
-      const accounts = [
-        { group: 'Bitcoin', items: activeBtcAccounts.map(shape) },
-        { group: 'Bitcoin cash', items: activeBchAccounts.map(shape) },
-        { group: 'Ethereum', items: activeEthAccounts.map(shape) }
-      ]
-      // Initialize payment with default values
-      const defaultBtcAccountIndex = yield select(selectors.core.wallet.getDefaultAccountIndex)
-      payment = yield createBtcPayment(defaultBtcAccountIndex)
-      // Initialize form with default values
-      const defaultBtcAccount = compose(shape, nth(defaultBtcAccountIndex))(btcAccounts)
-      const defaultEthAccount = head(activeEthAccounts.map(shape))
-      const initialValues = {
-        source: prop('value', defaultBtcAccount),
-        target: prop('value', defaultEthAccount)
-      }
-      yield put(actions.form.initialize('exchange', initialValues))
-      yield put(A.firstStepSuccess({ accounts }))
     } catch (e) {
-      yield put(A.firstStepFailure('Could not load exchange page.'))
+      console.log(e)
     }
   }
 
@@ -193,8 +157,7 @@ export default ({ api, coreSagas }) => {
       const values = merge(form, { source: target, target: source })
       const newValues = yield call(convertValues, values)
       yield put(actions.form.initialize('exchange', newValues))
-      yield put(actions.form.change('exchange', 'target', source))
-      yield put(actions.form.change('exchange', 'source', target))
+      yield call(validateForm)
     } catch (e) {
       console.log(e)
     }
@@ -220,7 +183,7 @@ export default ({ api, coreSagas }) => {
       const source = prop('source', form)
       const target = prop('target', form)
       const coin = prop('coin', source)
-      const effectiveBalance = prop('effectiveBalance', payment)
+      const effectiveBalance = yield call(calculateEffectiveBalance, source)
       const pair = yield call(getShapeShiftLimits, source, target)
       const maximum = getMaximum(coin, pair.maximum, effectiveBalance)
       yield put(actions.form.change('exchange', 'sourceAmount', maximum))
@@ -233,11 +196,8 @@ export default ({ api, coreSagas }) => {
     try {
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
-      const value = prop('payload', action)
       if (!equals('exchange', form)) return
-      // yield console.log('CHANGE', form, field, value)
       switch (field) {
-        case 'source': yield fork(changeSource, value); break
         case 'sourceAmount': yield call(changeAmount, field); break
         case 'sourceFiat': yield call(changeAmount, field); break
         case 'targetAmount': yield call(changeAmount, field); break
@@ -249,17 +209,6 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const changeSource = function * (source) {
-    yield put(A.firstStepDisabled())
-    // We create the payment
-    switch (source.coin) {
-      case 'BCH': payment = yield call(createBchPayment, source.value); break
-      case 'BTC': payment = yield call(createBtcPayment, source.value); break
-      case 'ETH': payment = yield call(createEthPayment, source.value); break
-    }
-    yield put(A.firstStepEnabled())
-  }
-
   const changeAmount = function * (type) {
     yield put(A.firstStepDisabled())
     const values = yield select(selectors.form.getFormValues('exchange'))
@@ -269,24 +218,38 @@ export default ({ api, coreSagas }) => {
   }
 
   const validateForm = function * () {
-    const effectiveBalance = prop('effectiveBalance', payment.value())
+    yield put(A.firstStepDisabled())
     const form = yield select(selectors.form.getFormValues('exchange'))
+    console.log('form', form)
     const source = prop('source', form)
+    console.log('source', source)
     const target = prop('target', form)
+    console.log('target', target)
     const sourceAmount = prop('sourceAmount', form)
+    if (isEqualsToZero(sourceAmount)) {
+      yield put(A.firstStepFormUnvalidated('insufficient'))
+      return yield put(A.firstStepEnabled())
+    }
+    console.log('sourceAmount', sourceAmount)
+    const effectiveBalance = yield call(calculateEffectiveBalance, source)
+    console.log('effectiveBalance', effectiveBalance)
     const pair = yield call(getShapeShiftLimits, source, target)
+    console.log('pair', pair)
     const minimum = getMinimum(source.coin, pair.minimum)
+    console.log('minimum', minimum)
     const maximum = getMaximum(source.coin, pair.maximum, effectiveBalance)
+    console.log('maximum', maximum)
+
     if (!isAmountAboveMinimum(sourceAmount, minimum) && !isAmountBelowMaximum(sourceAmount, maximum)) {
-      return yield put(A.firstStepFormUnvalidated('insufficient'))
+      yield put(A.firstStepFormUnvalidated('insufficient'))
+    } else if (!isAmountAboveMinimum(sourceAmount, minimum)) {
+      yield put(A.firstStepFormUnvalidated('minimum'))
+    } else if (!isAmountBelowMaximum(sourceAmount, maximum)) {
+      yield put(A.firstStepFormUnvalidated('maximum'))
+    } else {
+      yield put(A.firstStepFormValidated())
     }
-    if (!isAmountAboveMinimum(sourceAmount, minimum)) {
-      return yield put(A.firstStepFormUnvalidated('minimum'))
-    }
-    if (!isAmountBelowMaximum(sourceAmount, maximum)) {
-      return yield put(A.firstStepFormUnvalidated('maximum'))
-    }
-    return yield put(A.firstStepFormValidated())
+    yield put(A.firstStepEnabled())
   }
 
   const firstStepSubmitClicked = function * () {
@@ -344,7 +307,7 @@ export default ({ api, coreSagas }) => {
       outgoingPayment = yield outgoingPayment.sign(password)
       outgoingPayment = yield outgoingPayment.publish()
       const paymentValue = outgoingPayment.value()
-      // console.log('outgoingPayment', paymentValue)
+      console.log('outgoingPayment', paymentValue)
       const { txId } = paymentValue
       yield put(A.paymentUpdated(paymentValue))
       // Save the trade in metadata
@@ -434,6 +397,6 @@ export default ({ api, coreSagas }) => {
     yield takeLatest(AT.EXCHANGE_THIRD_STEP_INITIALIZED, thirdStepInitialized)
     yield takeLatest(AT.EXCHANGE_THIRD_STEP_CLOSE_CLICKED, destroyed)
     yield takeLatest(AT.EXCHANGE_DESTROYED, destroyed)
-    yield takeEvery(actionTypes.form.CHANGE, change)
+    yield takeLatest(actionTypes.form.CHANGE, change)
   }
 }

@@ -66,6 +66,9 @@ export default (state = INITIAL_STATE, action) => {
     case AT.EXCHANGE_SECOND_STEP_SUBMIT_CLICKED: {
       return assoc('step', 3, state)
     }
+    case AT.EXCHANGE_THIRD_STEP_CANCEL_CLICKED: {
+      return INITIAL_STATE
+    }
     default:
       return state
   }

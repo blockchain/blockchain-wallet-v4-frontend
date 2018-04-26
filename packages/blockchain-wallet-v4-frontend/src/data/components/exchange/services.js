@@ -70,6 +70,10 @@ export const isAmountBelowMaximum = (value, maximum) => {
   return new BigNumber(value).lessThanOrEqualTo(new BigNumber(maximum))
 }
 
+export const isEqualsToZero = (value) => {
+  return new BigNumber(value).equals(new BigNumber(0))
+}
+
 export const calculateFinalAmount = (value, fee) => {
   return new BigNumber(value).add(new BigNumber(fee)).toString()
 }

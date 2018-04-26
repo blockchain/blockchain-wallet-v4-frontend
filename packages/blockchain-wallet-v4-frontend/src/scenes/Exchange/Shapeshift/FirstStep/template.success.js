@@ -8,7 +8,7 @@ import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { Form, SelectBox } from 'components/Form'
 import MinimumAmountLink from './MinimumAmountLink'
 import MaximumAmountLink from './MaximumAmountLink'
-import TextBox from './TextBox'
+import NumberBox from './NumberBox'
 import { MaximumAmountMessage, MinimumAmountMessage, InsufficientAmountMessage } from './validationMessages'
 
 const Wrapper = styled.div`
@@ -67,7 +67,7 @@ const CurrencyBox = styled(Text)`
 `
 
 const Success = props => {
-  const { accounts, enabled, currency, sourceCoin, targetCoin, formError, handleSwap, handleSubmit } = props
+  const { elements, enabled, currency, sourceCoin, targetCoin, formError, handleSwap, handleSubmit } = props
   console.log('props', props)
 
   return (
@@ -93,13 +93,13 @@ const Success = props => {
         </Row>
         <Row height='50px'>
           <Cell>
-            <Field name='source' component={SelectBox} elements={accounts} />
+            <Field name='source' component={SelectBox} elements={elements} />
           </Cell>
           <Cell size='small'>
             <Icon name='exchange-2' size='24px' weight={500} cursor onClick={handleSwap} />
           </Cell>
           <Cell>
-            <Field name='target' component={SelectBox} elements={accounts} />
+            <Field name='target' component={SelectBox} elements={elements} />
           </Cell>
         </Row>
         <Row justify='space-between'>
@@ -117,11 +117,11 @@ const Success = props => {
         <Row height='80px'>
           <Cell>
             <AmountContainer>
-              <Field name='sourceAmount' component={TextBox} />
+              <Field name='sourceAmount' component={NumberBox} />
               <CurrencyBox>{sourceCoin}</CurrencyBox>
             </AmountContainer>
             <AmountContainer>
-              <Field name='sourceFiat' component={TextBox} />
+              <Field name='sourceFiat' component={NumberBox} />
               <CurrencyBox>{currency}</CurrencyBox>
             </AmountContainer>
           </Cell>
@@ -133,11 +133,11 @@ const Success = props => {
           </Cell>
           <Cell>
             <AmountContainer>
-              <Field name='targetAmount' component={TextBox} />
+              <Field name='targetAmount' component={NumberBox} />
               <CurrencyBox>{targetCoin}</CurrencyBox>
             </AmountContainer>
             <AmountContainer>
-              <Field name='targetFiat' component={TextBox} />
+              <Field name='targetFiat' component={NumberBox} />
               <CurrencyBox>{currency}</CurrencyBox>
             </AmountContainer>
           </Cell>

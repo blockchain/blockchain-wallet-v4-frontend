@@ -72,7 +72,7 @@ const TableCell = styled.div`
 
 const Success = props => {
   const { handleSubmit, handleCancel, handleExpiry, submitting, invalid, ...rest } = props
-  const { sourceLabel, sourceCoin, sourceAmount, sourceFee, sourceTotal, exchangeRate, targetCoin, targetAmount, targetFee, withdrawalAddress, expiration } = rest
+  const { sourceLabel, sourceCoin, sourceAmount, sourceFee, sourceTotal, exchangeRate, targetCoin, targetAmount, targetFee, expiration } = rest
 
   return (
     <Wrapper>
