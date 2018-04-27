@@ -56,7 +56,7 @@ const FirstStep = props => {
           </FormLabel>
           <Row>
             {toToggled
-              ? <Field name='to' placeholder="Paste or scan an address, or select a destination" component={SelectBoxBitcoinAddresses} coin='BCH' validate={[required]} />
+              ? <Field name='to' placeholder="Paste or scan an address, or select a destination" component={SelectBoxBitcoinAddresses} coin='BCH' includeAll={false} validate={[required]} />
               : <Field name='to' placeholder="Paste or scan an address, or select a destination" component={TextBox} validate={[required, validBitcoinCashAddress]} />
             }
             <QRCodeCapture coin='BCH' />
