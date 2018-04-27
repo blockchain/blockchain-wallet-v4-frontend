@@ -23,7 +23,7 @@ export const getAddresses = compose(ImtoJS, map(Address.toJS), Wallet.selectAddr
 export const getActiveAddresses = compose(ImtoJS, map(Address.toJS), AddressMap.selectActive, Wallet.selectAddresses, getWallet)
 export const getArchivedAddresses = compose(ImtoJS, map(Address.toJS), AddressMap.selectArchived, Wallet.selectAddresses, getWallet)
 export const getHDAccounts = compose(ImtoJS, map(HDAccount.toJSwithIndex), Wallet.selectHDAccounts, getWallet)
-export const getSeedHex = compose(HDWallet.selectSeedHex, getDefaultHDWallet)
+export const getSeedHex = curry((state, password) => compose(Wallet.getSeedHex(password), getWallet)(state))
 export const getMnemonic = curry((state, password) => compose(Wallet.getMnemonic(password), getWallet)(state))
 export const getDefaultAccount = compose(HDWallet.selectDefaultAccount, getDefaultHDWallet)
 export const getDefaultAccountIndex = compose(HDWallet.selectDefaultAccountIdx, getDefaultHDWallet)

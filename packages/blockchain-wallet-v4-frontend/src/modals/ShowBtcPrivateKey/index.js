@@ -3,7 +3,7 @@ import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import modalEnhancer from 'providers/ModalEnhancer'
 import { actions } from 'data'
-import ShowPrivateKeyTemplate from './template'
+import ShowBtcPrivateKeyTemplate from './template'
 
 const formats = [{
   group: '',
@@ -13,7 +13,7 @@ const formats = [{
   ]
 }]
 
-class ShowPrivateKeyContainer extends Component {
+class ShowBtcPrivateKeyContainer extends Component {
   constructor (props) {
     super(props)
     this.state = { format: 'wif' }
@@ -21,7 +21,7 @@ class ShowPrivateKeyContainer extends Component {
   }
 
   componentWillUnmount () {
-    this.props.actions.clearShownPrivateKey()
+    this.props.actions.clearShownBtcPrivateKey()
   }
 
   handleChangeFormat (format) {
@@ -30,9 +30,9 @@ class ShowPrivateKeyContainer extends Component {
 
   render () {
     let step = this.props.priv == null ? 0 : 1
-    let nextStep = () => this.props.actions.showPrivateKey(this.props.addr)
+    let nextStep = () => this.props.actions.showBtcPrivateKey(this.props.addr)
     return (
-      <ShowPrivateKeyTemplate
+      <ShowBtcPrivateKeyTemplate
         {...this.props}
         step={step}
         format={this.state.format}
@@ -44,17 +44,17 @@ class ShowPrivateKeyContainer extends Component {
   }
 }
 
-const mapState = (state) => ({
-  priv: state.securityCenter.shownPrivKey
+const mapStateToProps = (state) => ({
+  priv: state.securityCenter.shownBtcPrivKey
 })
 
-const mapDispatch = (dispatch) => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
 const enhance = compose(
-  connect(mapState, mapDispatch),
-  modalEnhancer('ShowPrivateKey')
+  connect(mapStateToProps, mapDispatchToProps),
+  modalEnhancer('ShowBtcPrivateKey')
 )
 
-export default enhance(ShowPrivateKeyContainer)
+export default enhance(ShowBtcPrivateKeyContainer)

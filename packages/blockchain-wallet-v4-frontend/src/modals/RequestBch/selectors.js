@@ -10,7 +10,7 @@ const extractAddress = (selectorFunction, value) =>
     ? value.address
       ? Remote.of(value.address)
       : selectorFunction(value.index)
-    : Remote.of(undefined)
+    : Remote.Loading
 
 export const getData = state => {
   // TODO: USE BCH network
