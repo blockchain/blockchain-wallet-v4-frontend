@@ -47,6 +47,7 @@ export default {
   'search-filled': '\\e92d',
   'send-filled': '\\e92e',
   'settings-filled': '\\e92f',
+  'shapeshift-switch': '\\e978',
   'stack-of-coins-filled': '\\e930',
   'support-filled': '\\e931',
   'transactions-2-filled': '\\e932',
