@@ -25,8 +25,9 @@ class Checkout extends React.PureComponent {
   }
 
   render () {
-    const { data, modalActions, sfoxActions, sfoxDataActions, payment } = this.props
+    const { data, modalActions, sfoxActions, sfoxDataActions, payment, tradeError } = this.props
     const { handleTrade, fetchQuote, refreshQuote, fetchSellQuote } = sfoxDataActions
+    const { clearTradeError } = sfoxActions
     const { showModal } = modalActions
 
     return data.cata({
@@ -41,6 +42,8 @@ class Checkout extends React.PureComponent {
         submitSellQuote={(quote) => { sfoxActions.submitSellQuote(quote); this.setState({ busy: true }) }}
         busy={this.state.busy}
         payment={payment}
+        tradeError={tradeError}
+        clearTradeError={() => { clearTradeError(); this.setState({ busy: false }) }}
       />,
       Failure: (msg) => <div>Failure: {msg.error}</div>,
       Loading: () => <div>Loading...</div>,
@@ -56,7 +59,8 @@ const mapStateToProps = state => ({
   sellQuoteR: getSellQuote(state),
   trades: getTrades(state),
   errors: getErrors(state),
-  payment: getPayment(state)
+  payment: getPayment(state),
+  tradeError: state.sfoxSignup.tradeError
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -52,6 +52,8 @@ const Success = props => {
     errors,
     showModal,
     handleTradeDetailsClick,
+    tradeError,
+    clearTradeError,
     ...rest } = props
 
   const accounts = Remote.of(props.value.accounts).getOrElse([])
@@ -107,6 +109,8 @@ const Success = props => {
                 quoteR={buyQuoteR}
                 onSubmit={submitBuyQuote}
                 busy={busy}
+                tradeError={tradeError}
+                clearTradeError={clearTradeError}
               />
             </BuyOrderSubmitWrapper>
           </div>
@@ -144,6 +148,8 @@ const Success = props => {
                 quoteR={sellQuoteR}
                 onSubmit={submitSellQuote}
                 busy={busy}
+                tradeError={tradeError}
+                clearTradeError={clearTradeError}
               />
             </BuyOrderSubmitWrapper>
           </div>
