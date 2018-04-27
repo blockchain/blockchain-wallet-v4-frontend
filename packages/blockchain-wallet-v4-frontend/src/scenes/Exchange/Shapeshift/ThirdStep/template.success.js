@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled, { keyframes } from 'styled-components'
+import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, Icon, Text, Tooltip } from 'blockchain-info-components'
-import { selectStyle } from './services'
+import { Button, Text, Tooltip } from 'blockchain-info-components'
+import ExchangeTimeline from 'components/ExchangeTimeline'
 
 const Wrapper = styled.div`
   display: flex;
@@ -42,62 +42,6 @@ const Row = styled.div`
 
   margin-bottom: 10px;
 `
-const bounceAnimation = keyframes`
-  0%, 100% { transform: scale(0.9); }
-  50% { transform: scale(1.1); }
-`
-const Timeline = styled.div`
-  position: relative;
-  width: 100%;
-  margin: 10px 0;
-`
-const TimelineItems = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  width: 100%;
-`
-const TimelineItem = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  width: 33.33%;
-`
-const TimelineLines = styled.div`
-  position: absolute;
-  top: 30px;
-  left: 0;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-`
-const Circle = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 60px;
-  height: 60px;
-  border: 1px solid ${props => props.theme[props.color]};
-  border-radius: 50%;
-  padding-top: 5px;
-  margin-bottom: 15px;
-  box-sizing: border-box;
-  animation: ${props => props.animation ? `${bounceAnimation} 1.5s infinite ease-in-out;` : 'none'};
-`
-const Line = styled.div`
-  display: none;
-  width: 19%;
-  height: 1px;
-  margin: 0 35px;
-  background-color: ${props => props.theme[props.color]};
-
-  @media(min-width: 768px) { display: block; }
-`
 const Notice = styled.div`
   width: 100%;
   margin-bottom: 10px;
@@ -134,7 +78,6 @@ const TableCell = styled.div`
 
 const Success = props => {
   const { sourceCoin, targetCoin, status, exchangeRate, transactionFee, orderId, depositAmount, withdrawalAmount, handleClose } = props
-  const { color1, color2, color3, animation1, animation2, animation3, icon3 } = selectStyle(status)
 
   return (
     <Wrapper>
@@ -146,38 +89,7 @@ const Success = props => {
       </Header>
       <Body>
         <Row>
-          <Timeline>
-            <TimelineItems>
-              <TimelineItem>
-                <Circle color={color1} animation={animation1}>
-                  <Icon name='paper-airplane' size='28px' color={color1} />
-                </Circle>
-                <Text size='13px' weight={500} capitalize>
-                  <FormattedMessage id='modals.exchange.shapeshift.send' defaultMessage='Funds sent' />
-                </Text>
-              </TimelineItem>
-              <TimelineItem>
-                <Circle color={color2} animation={animation2}>
-                  <Icon name='exchange' size='28px' color={color2} />
-                </Circle>
-                <Text size='13px' weight={500} capitalize>
-                  <FormattedMessage id='modals.exchange.shapeshift.inprogress' defaultMessage='Exchange In Progress' />
-                </Text>
-              </TimelineItem>
-              <TimelineItem>
-                <Circle color={color3} animation={animation3}>
-                  <Icon name={icon3} size='28px' color={color3} />
-                </Circle>
-                <Text size='13px' weight={500} capitalize>
-                  <FormattedMessage id='modals.exchange.shapeshift.complete' defaultMessage='Trade Complete' />
-                </Text>
-              </TimelineItem>
-            </TimelineItems>
-            <TimelineLines>
-              <Line color={color1} />
-              <Line color={color2} />
-            </TimelineLines>
-          </Timeline>
+          <ExchangeTimeline status={status} />
         </Row>
         <Row>
           {status === 'received' &&
