@@ -2,7 +2,7 @@ import React from 'react'
 import { actions } from 'data'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { getBase, getData, getErrors, getQuote, getSellQuote, getTrades } from './selectors'
+import { getBase, getData, getErrors, getQuote, getSellQuote, getTrades, getPayment } from './selectors'
 import Success from './template.success'
 
 class Checkout extends React.PureComponent {
@@ -21,11 +21,11 @@ class Checkout extends React.PureComponent {
   }
 
   componentDidMount () {
-    this.props.sendBtcActions.sendBtcInitialized()
+    this.props.sendBtcActions.sendBtcInitialized('priority')
   }
 
   render () {
-    const { data, modalActions, sfoxActions, sfoxDataActions } = this.props
+    const { data, modalActions, sfoxActions, sfoxDataActions, payment } = this.props
     const { handleTrade, fetchQuote, refreshQuote, fetchSellQuote } = sfoxDataActions
     const { showModal } = modalActions
 
@@ -40,6 +40,7 @@ class Checkout extends React.PureComponent {
         submitQuote={(quote) => { sfoxActions.submitQuote(quote); this.setState({ busy: true }) }}
         submitSellQuote={(quote) => { sfoxActions.submitSellQuote(quote); this.setState({ busy: true }) }}
         busy={this.state.busy}
+        payment={payment}
       />,
       Failure: (msg) => <div>Failure: {msg.error}</div>,
       Loading: () => <div>Loading...</div>,
@@ -54,7 +55,8 @@ const mapStateToProps = state => ({
   quoteR: getQuote(state),
   sellQuoteR: getSellQuote(state),
   trades: getTrades(state),
-  errors: getErrors(state)
+  errors: getErrors(state),
+  payment: getPayment(state)
 })
 
 const mapDispatchToProps = dispatch => ({
