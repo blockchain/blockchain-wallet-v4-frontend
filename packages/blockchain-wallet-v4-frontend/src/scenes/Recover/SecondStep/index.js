@@ -10,7 +10,6 @@ import { actions, selectors } from 'data'
 class RecoverContainer extends React.PureComponent {
   constructor () {
     super()
-    this.state = { busy: false }
     this.onSubmit = this.onSubmit.bind(this)
   }
 
@@ -24,7 +23,7 @@ class RecoverContainer extends React.PureComponent {
   render () {
     const { data, previousStep } = this.props
     const busy = data.cata({ Success: () => false, Failure: () => false, Loading: () => true, NotAsked: () => false })
-    
+
     return (
       <Recover previousStep={previousStep} onSubmit={this.onSubmit} busy={busy} />
     )
