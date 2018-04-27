@@ -7,19 +7,13 @@ import ThirdStep from './template'
 import { actions, selectors } from 'data'
 
 class ThirdStepContainer extends React.PureComponent {
-  static getDerivedStateFromProps (props) {
-    if (props.reset2faError) return { busy: false }
-  }
-
   constructor (props) {
     super(props)
-    this.state = { busy: false }
     this.onSubmit = this.onSubmit.bind(this)
   }
 
   onSubmit (event) {
     event.preventDefault()
-    this.props.authActions.reset2faError(false)
     this.setState({ timestamp: new Date().getTime(), busy: true })
     const { guid, email, newEmail, secretPhrase, message, code, captcha } = this.props
     const { sessionToken } = captcha.getOrElse({})
@@ -28,7 +22,8 @@ class ThirdStepContainer extends React.PureComponent {
   }
 
   render () {
-    const { busy } = this.state
+    const { data } = this.props
+    let busy = data.cata({ Success: () => false, Failure: () => false, Loading: () => true, NotAsked: () => false })
 
     return <ThirdStep {...this.props} onSubmit={this.onSubmit} busy={busy} />
   }
@@ -42,7 +37,7 @@ const mapStateToProps = (state) => ({
   message: formValueSelector('reset2FA')(state, 'message'),
   code: formValueSelector('reset2FA')(state, 'code'),
   captcha: selectors.core.data.misc.getCaptcha(state),
-  reset2faError: selectors.auth.getReset2faError(state)
+  data: selectors.auth.getReset2fa(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

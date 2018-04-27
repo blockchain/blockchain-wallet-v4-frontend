@@ -26,7 +26,7 @@ const Footer = styled.div`
 `
 
 const SecondStep = (props) => {
-  const { busy, onSubmit, previousStep, submitting, invalid } = props
+  const { busy, onSubmit, previousStep, invalid } = props
   const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
 
   return (
@@ -59,7 +59,7 @@ const SecondStep = (props) => {
         <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox}>
           <Terms />
         </Field>
-        <Button type='submit' nature='primary' fullwidth uppercase disabled={busy || submitting || invalid}>
+        <Button type='submit' nature='primary' fullwidth uppercase disabled={busy || invalid}>
           {
             busy
               ? <HeartbeatLoader height='20px' width='20px' color='white' />

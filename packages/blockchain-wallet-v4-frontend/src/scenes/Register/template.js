@@ -5,7 +5,7 @@ import { Field, reduxForm } from 'redux-form'
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { validStrongPassword, required, validEmail } from 'services/FormHelper'
-import { Button, Link, Separator, Text, TextGroup } from 'blockchain-info-components'
+import { Button, Link, HeartbeatLoader, Separator, Text, TextGroup } from 'blockchain-info-components'
 import { CheckBox, Form, FormGroup, FormItem, FormLabel, PasswordBox, TextBox } from 'components/Form'
 import Terms from 'components/Terms'
 
@@ -31,7 +31,7 @@ const validatePasswordsMatch = values => {
 }
 
 const Register = (props) => {
-  const { onSubmit, submitting, invalid } = props
+  const { onSubmit, busy, invalid } = props
   const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
 
   return (
@@ -61,7 +61,7 @@ const Register = (props) => {
             <FormLabel for='email'>
               <FormattedMessage id='scenes.register.email' defaultMessage='Email' />
             </FormLabel>
-            <Field name='email' validate={[required, validEmail]} component={TextBox} />
+            <Field name='email' autoFocus validate={[required, validEmail]} component={TextBox} />
           </FormItem>
         </FormGroup>
         <FormGroup>
@@ -88,8 +88,11 @@ const Register = (props) => {
           </FormItem>
         </FormGroup>
         <FormGroup>
-          <Button type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid}>
-            <FormattedMessage id='scenes.register.submit' defaultMessage='Continue' />
+          <Button type='submit' nature='primary' fullwidth uppercase disabled={busy || invalid}>
+            { busy
+              ? <HeartbeatLoader height='20px' width='20px' color='white' />
+              : <FormattedMessage id='scenes.register.submit' defaultMessage='Continue' />
+            }
           </Button>
         </FormGroup>
       </RegisterForm>
