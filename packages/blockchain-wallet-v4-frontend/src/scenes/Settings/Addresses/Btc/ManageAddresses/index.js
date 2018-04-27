@@ -2,9 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
 
 import { TextBox } from 'components/Form'
-import { Icon } from 'blockchain-info-components'
+import { Icon, IconButton } from 'blockchain-info-components'
 import UnusedAddresses from './UnusedAddresses'
 
 const Wrapper = styled.div`
@@ -44,12 +45,6 @@ const SearchIcon = styled(Icon)`
   top: 10px;
   right: 10px;
 `
-const BackButton = styled(Icon)`
-  margin-left: 2px;
-  &:hover {
-    cursor: pointer;
-  }
-`
 
 class ManageAddressesContainer extends React.PureComponent {
   render () {
@@ -59,7 +54,9 @@ class ManageAddressesContainer extends React.PureComponent {
       <Wrapper>
         <MenuWrapper>
           <LinkContainer to='/settings/addresses'>
-            <BackButton size='20px' weight={300} name='left-arrow' />
+            <IconButton name='left-arrow' nature='empty'>
+              <FormattedMessage id='scenes.settings.manage_addresses.back' defaultMessage='Back' />
+            </IconButton>
           </LinkContainer>
           <Search>
             <Field name='search' component={TextBox} />
