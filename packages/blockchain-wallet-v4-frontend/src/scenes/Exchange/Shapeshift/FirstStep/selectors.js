@@ -1,6 +1,25 @@
 import { selectors } from 'data'
-import { filter, head, lift, prop, propEq } from 'ramda'
+import { curry, filter, head, length, lift, prop, propEq } from 'ramda'
 import { formValueSelector } from 'redux-form'
+
+export const format = acc => ({ text: prop('label', acc), value: acc })
+
+export const formatDefault = curry((coin, acc) => ({ text: coin, value: acc }))
+
+export const generateGroup = (bchAccounts, btcAccounts, ethAccounts) => {
+  if (length(bchAccounts) === 1 && length(btcAccounts) === 1 && length(ethAccounts) === 1) {
+    return [
+      { group: '', items: btcAccounts.map(formatDefault('Bitcoin')) },
+      { group: '', items: bchAccounts.map(formatDefault('Bitcoin cash')) },
+      { group: '', items: ethAccounts.map(formatDefault('Ether')) }
+    ]
+  }
+  return [
+    { group: 'Bitcoin', items: btcAccounts.map(format) },
+    { group: 'Bitcoin cash', items: bchAccounts.map(format) },
+    { group: 'Ether', items: ethAccounts.map(format) }
+  ]
+}
 
 export const getData = state => {
   const btcAccountsR = getBtcAccounts(state)
@@ -14,8 +33,6 @@ export const getData = state => {
   const sourceCoin = prop('coin', source) || 'BTC'
   const targetCoin = prop('coin', target) || 'ETH'
 
-  const format = acc => ({ text: prop('label', acc), value: acc })
-
   const transform = (btcAccounts, bchAccounts, ethAccounts, currency) => {
     const isActive = propEq('archived', false)
     const activeBtcAccounts = filter(isActive, btcAccounts)
@@ -23,12 +40,7 @@ export const getData = state => {
     const activeEthAccounts = filter(isActive, ethAccounts)
     const defaultBtcAccount = head(activeBtcAccounts)
     const defaultEthAccount = head(activeEthAccounts)
-
-    const elements = [
-      { group: 'Bitcoin', items: activeBtcAccounts.map(format) },
-      { group: 'Bitcoin cash', items: activeBchAccounts.map(format) },
-      { group: 'Ethereum', items: activeEthAccounts.map(format) }
-    ]
+    const elements = generateGroup(activeBchAccounts, activeBtcAccounts, activeEthAccounts)
     const initialValues = { source: defaultBtcAccount, target: defaultEthAccount }
 
     return {

@@ -223,8 +223,8 @@ export default ({ api, coreSagas }) => {
     const source = prop('source', form)
     const target = prop('target', form)
     const sourceAmount = prop('sourceAmount', form)
-    if (isEqualsToZero(sourceAmount)) {
-      yield put(A.firstStepFormUnvalidated('insufficient'))
+    if (isUndefinedOrEqualsToZero(sourceAmount)) {
+      // yield put(A.firstStepFormUnvalidated('insufficient'))
       return yield put(A.firstStepEnabled())
     }
     const effectiveBalance = yield call(calculateEffectiveBalance, source)
@@ -323,14 +323,6 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const secondStepCancelClicked = function * () {
-    try {
-      yield 
-    } catch (e) {
-
-    }
-  }
-
   const thirdStepInitialized = function * () {
     try {
       // Start polling trade status
@@ -384,7 +376,6 @@ export default ({ api, coreSagas }) => {
     yield takeLatest(AT.EXCHANGE_FIRST_STEP_MAXIMUM_CLICKED, maximumClicked)
     yield takeLatest(AT.EXCHANGE_FIRST_STEP_SUBMIT_CLICKED, firstStepSubmitClicked)
     yield takeLatest(AT.EXCHANGE_SECOND_STEP_SUBMIT_CLICKED, secondStepSubmitClicked)
-    yield takeLatest(AT.EXCHANGE_SECOND_STEP_CANCEL_CLICKED, secondStepCancelClicked)
     yield takeLatest(AT.EXCHANGE_THIRD_STEP_INITIALIZED, thirdStepInitialized)
     yield takeLatest(AT.EXCHANGE_DESTROYED, destroyed)
     yield takeLatest(actionTypes.form.CHANGE, change)

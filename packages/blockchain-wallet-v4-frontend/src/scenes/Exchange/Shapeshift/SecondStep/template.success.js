@@ -33,7 +33,7 @@ const Body = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-  padding: 15px 30px 5px 30px;
+  padding: 20px 30px 20px 30px;
   box-sizing: border-box;
 `
 const Row = styled.div`
@@ -42,16 +42,27 @@ const Row = styled.div`
   justify-content: ${props => props.align === 'right' ? 'flex-end' : 'flex-start'};
   align-items: center;
   width: 100%;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
+`
+const Footer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  margin-top 20px;
+
+  > :first-child { margin-right: 20px; }
 `
 
 const Table = styled.div`
   width: 100%;
-  padding: 10px;
+  padding: 0 10px;
   box-sizing: border-box;
   border: 1px solid ${props => props.theme['gray-2']};
-  background-color: ${props => props.theme['brand-quaternary']};
+  background-color: ${props => props.theme['white-blue']};
   & > :last-child { border-bottom: none; }
+  margin-bottom: 10px;
 `
 const TableRow = styled.div`
   display: flex;
@@ -59,15 +70,18 @@ const TableRow = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 5px 0;
+  padding: 8px 0;
   box-sizing: border-box;
   border-bottom: 1px solid ${props => props.theme['gray-2']};
+
+  > :first-child { margin-right: 5px; }
 `
 const TableCell = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
+  & > :first-child { margin-right: 5px; }
 `
 
 const Success = props => {
@@ -85,14 +99,14 @@ const Success = props => {
         </Text>
       </Header>
       <Body>
-        <Form onSubmit={handleSubmit}>
+        <Form override onSubmit={handleSubmit}>
           <Row>
-            <TextGroup>
+            <TextGroup inline>
               <Text size='13px' weight={300}>
                 <FormattedMessage id='scenes.exchange.shapeshift.secondstep.recap' defaultMessage="Review the details below and click 'Confirm' to begin your exchange." />
               </Text>
               <Text size='13px' weight={300}>
-                <FormattedMessage id='scenes.exchange.shapeshift.secondstep.recap2' defaultMessage='The exchanged funds will be deposited directly into {depositLabel}' values={{ depositLabel: sourceLabel }} />
+                <FormattedMessage id='scenes.exchange.shapeshift.secondstep.recap2' defaultMessage='The exchanged funds will be deposited directly into {depositLabel}.' values={{ depositLabel: sourceLabel }} />
               </Text>
             </TextGroup>
           </Row>
@@ -114,7 +128,7 @@ const Success = props => {
               <TableRow>
                 <TableCell>
                   <Text size='13px' weight={400}>
-                    <FormattedMessage id='scenes.exchange.shapeshift.secondstep.txfee' defaultMessage='Transaction fee:' />
+                    <FormattedMessage id='scenes.exchange.shapeshift.secondstep.txfee' defaultMessage='Transaction fee' />
                   </Text>
                   <Tooltip>
                     <FormattedMessage id='scenes.exchange.shapeshift.secondstep.txfeeexplanation' defaultMessage='This fee is used to send the outgoing exchange funds to ShapeShift.' />
@@ -127,7 +141,7 @@ const Success = props => {
               <TableRow>
                 <TableCell>
                   <Text size='13px' weight={400}>
-                    <FormattedMessage id='scenes.exchange.shapeshift.secondstep.leaving' defaultMessage={'Total {sourceCoin} leaving the wallet:'} values={{ sourceCoin }} />
+                    <FormattedMessage id='scenes.exchange.shapeshift.secondstep.leaving' defaultMessage={'Total {sourceCoin} leaving the wallet'} values={{ sourceCoin }} />
                   </Text>
                 </TableCell>
                 <TableCell>
@@ -137,7 +151,7 @@ const Success = props => {
               <TableRow>
                 <TableCell>
                   <Text size='13px' weight={400}>
-                    <FormattedMessage id='scenes.exchange.shapeshift.secondstep.rate' defaultMessage='Exchange rate:' />
+                    <FormattedMessage id='scenes.exchange.shapeshift.secondstep.rate' defaultMessage='Exchange rate' />
                   </Text>
                   <Tooltip>
                     <FormattedMessage id='scenes.exchange.shapeshift.secondstep.ratetooltip' defaultMessage='This rate may change depending on the market price at the time of your transaction.' />
@@ -150,7 +164,7 @@ const Success = props => {
               <TableRow>
                 <TableCell>
                   <Text size='13px' weight={400}>
-                    <FormattedMessage id='scenes.exchange.shapeshift.secondstep.networkfee' defaultMessage='Network transaction fee:' />
+                    <FormattedMessage id='scenes.exchange.shapeshift.secondstep.networkfee' defaultMessage='Network transaction fee' />
                   </Text>
                   <Tooltip>
                     <FormattedMessage id='scenes.exchange.shapeshift.secondstep.networkfeetooltip' defaultMessage='ShapeShift will use this fee to send the incoming exchange funds to your wallet.' />
@@ -163,7 +177,7 @@ const Success = props => {
               <TableRow>
                 <TableCell>
                   <Text size='13px' weight={400}>
-                    <FormattedMessage id='scenes.exchange.shapeshift.exchangebox.secondstep.tobereceived' defaultMessage={`${targetCoin} to be received:`} />
+                    <FormattedMessage id='scenes.exchange.shapeshift.exchangebox.secondstep.tobereceived' defaultMessage={`${targetCoin} to be received`} />
                   </Text>
                 </TableCell>
                 <TableCell>
@@ -178,15 +192,15 @@ const Success = props => {
                 <Terms company='shapeshift' />
               </Text>
             </Field>
-            <Row align='right'>
-              <Link size='13px' weight={300} onClick={handleCancel}>
-                <FormattedMessage id='scenes.exchange.shapeshift.secondstep.back' defaultMessage='Cancel' />
-              </Link>
-              <Button type='submit' nature='primary' disabled={submitting || invalid}>
-                <FormattedMessage id='scenes.exchange.shapeshift.secondstep.finish' defaultMessage='Confirm' />
-              </Button>
-            </Row>
           </Row>
+          <Footer>
+            <Link size='13px' weight={300} onClick={handleCancel}>
+              <FormattedMessage id='scenes.exchange.shapeshift.secondstep.back' defaultMessage='Cancel' />
+            </Link>
+            <Button type='submit' nature='primary' disabled={submitting || invalid}>
+              <FormattedMessage id='scenes.exchange.shapeshift.secondstep.finish' defaultMessage='Confirm' />
+            </Button>
+          </Footer>
         </Form>
       </Body>
     </Wrapper>
