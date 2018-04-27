@@ -46,7 +46,7 @@ class QuoteInput extends Component {
     side: 'input',
     input: this.props.initialAmount,
     output: '0',
-    lastQuoteId: null
+    lastQuoteId: this.props.initialQuoteId
   }
   /* eslint-enable */
 
@@ -133,12 +133,14 @@ QuoteInput.propTypes = {
     output: PropTypes.string,
     input: PropTypes.string
   }).isRequired,
-  onFetchQuote: PropTypes.func.isRequired
+  onFetchQuote: PropTypes.func.isRequired,
+  initialQuoteId: PropTypes.string
 }
 
 QuoteInput.defaultProps = {
   initialAmount: 0,
-  debounce: 500
+  debounce: 500,
+  initialQuoteId: null
 }
 
 export default QuoteInput
