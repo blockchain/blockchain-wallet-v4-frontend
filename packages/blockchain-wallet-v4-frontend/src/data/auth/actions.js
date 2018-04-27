@@ -45,7 +45,3 @@ export const reset2faSuccess = () => ({ type: AT.RESET_2FA_SUCCESS })
 export const reset2faFailure = (err) => ({ type: AT.RESET_2FA_FAILURE, payload: { err } })
 
 export const upgradeWallet = () => ({ type: AT.UPGRADE_WALLET, payload: {} })
-
-export const setError = (message) => ({ type: AT.SET_AUTH_ERROR, payload: { message } })
-
-export const clearError = () => ({ type: AT.CLEAR_ERROR })
