@@ -73,21 +73,27 @@ const BuyCheckout = ({ quoteR, account, onFetchQuote, reason, finishAccountSetup
         <Icon name='bank-filled' size='30px' />
         <FundingSource account={account} />
       </MethodContainer>
-      <Text style={spacing('ml-10')} size='16px' weight={600}>
-        <FormattedMessage id='amount' defaultMessage='Amount' />
-      </Text>
-      <div style={spacing('mt-10')}>
-        <QuoteInput
-          quoteR={quoteR}
-          // initialAmount='0.00'
-          debounce={500}
-          spec={quoteInputSpec}
-          onFetchQuote={onFetchQuote}
-          disabled={disableInputs}
-          limits={limits}
-          type={type}
-        />
-      </div>
+      {
+        reason.indexOf('has_remaining') > -1
+          ? <Fragment>
+            <Text style={spacing('ml-10')} size='16px' weight={600}>
+              <FormattedMessage id='amount' defaultMessage='Amount' />
+            </Text>
+            <div style={spacing('mt-10')}>
+              <QuoteInput
+                quoteR={quoteR}
+                // initialAmount='0.00'
+                debounce={500}
+                spec={quoteInputSpec}
+                onFetchQuote={onFetchQuote}
+                disabled={disableInputs}
+                limits={limits}
+                type={type}
+              />
+            </div>
+          </Fragment>
+          : null
+      }
       { submitButtonHelper() }
     </ExchangeCheckoutWrapper>
   )
