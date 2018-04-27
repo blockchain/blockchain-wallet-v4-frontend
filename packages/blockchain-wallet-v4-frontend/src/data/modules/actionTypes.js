@@ -6,7 +6,6 @@ import * as settings from './settings/actionTypes'
 import * as securityCenter from './securityCenter/actionTypes'
 import * as transferEther from './transferEther/actionTypes'
 import * as sfox from './sfox/actionTypes'
-import * as shapeshiftHistory from './shapeshiftHistory/actionTypes'
 
 export {
   addressesBch,
@@ -16,6 +15,5 @@ export {
   settings,
   securityCenter,
   transferEther,
-  sfox,
-  shapeshiftHistory
+  sfox
 }

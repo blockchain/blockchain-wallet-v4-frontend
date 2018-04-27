@@ -16,7 +16,7 @@ class PagesContainer extends React.PureComponent {
   componentWillMount () {
     // console.log('TRADE', this.props.trade)
     if (path(['trade', 'quote'], this.props) && not(prop('depositAmount', this.props.trade.quote)) && prop('deposit', this.props.trade.quote)) {
-      this.props.shapeshiftHistoryActions.fetchTradeDetails(this.props.trade)
+      this.props.exchangeHistoryActions.fetchTradeDetails(this.props.trade)
     }
   }
 
@@ -35,7 +35,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
-  shapeshiftHistoryActions: bindActionCreators(actions.modules.shapeshiftHistory, dispatch)
+  exchangeHistoryActions: bindActionCreators(actions.components.exchangeHistory, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PagesContainer)
