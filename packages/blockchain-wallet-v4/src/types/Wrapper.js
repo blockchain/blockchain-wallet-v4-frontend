@@ -131,7 +131,7 @@ export const toEncJSON = wrapper => {
   }
   const encrypt = Wallet.toEncryptedPayload(selectPassword(wrapper), selectPbkdf2Iterations(wrapper) || 5000)
   const hash = (x) => crypto.sha256(x).toString('hex')
-  return traverseOf(plens, Either.of, encrypt, response)
+  return traverseOf(plens, Task.of, encrypt, response)
     .map((r) => assoc('length', view(plens, r).length, r))
     .map((r) => assoc('checksum', hash(view(plens, r)), r))
 }

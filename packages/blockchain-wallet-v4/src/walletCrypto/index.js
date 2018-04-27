@@ -23,7 +23,7 @@ const satisfy = ([bool, message]) => bool ? Task.of(true) : Task.rejected(messag
 const satisfyAll = conditions => sequence(Task.of, conditions.map(satisfy))
 
 // safeParse :: String -> String -> Task error JSON
-const safeParse = (payload, errorMessage) => {
+export const safeParse = (payload, errorMessage) => {
   try {
     return Task.of(JSON.parse(payload))
   } catch (e) {
@@ -68,8 +68,11 @@ const decryptBufferWithKey = (payload, iv, key, options) => {
 // hashNTimes :: Integer -> String -> String
 export const hashNTimes = curry((iterations, data) => {
   assert(iterations > 0, '`iterations` must be a number greater than 0')
-  while (iterations--) data = sha256(data)
-  return data
+  let result = data
+  for (let i = 1; i <= iterations; i++) {
+    result = sha256(result)
+  }
+  return result
 })
 
 // isStringHashInFraction :: String -> Float -> Bool
@@ -124,10 +127,6 @@ export const stretchPassword = (password, salt, iterations, keyLenBits) => {
   )
 }
 
-// stringToKey :: String -> Integer -> Task Error Key
-export const stringToKey = (string, iterations) =>
-  stretchPassword(string, 'salt', iterations, U.KEY_BIT_LEN)
-
 // decryptDataWithPassword :: data -> password -> iterations -> options -> Task Error Buffer
 export const decryptDataWithPassword = (data, password, iterations, options) => {
   if (!data) return Task.of(data)
@@ -153,7 +152,6 @@ export const encryptDataWithPassword = (data, password, iterations) => {
   ]).chain(() => stretchPassword(password, salt, iterations, U.KEY_BIT_LEN))
     .chain(key => TaskTry(encryptDataWithKey)(data, key, salt))
 }
-
 
 // encryptSecPass :: String -> Integer -> String -> String -> Task, Error String
 export const encryptSecPass = curry((sharedKey, pbkdf2Iterations, password, message) =>
@@ -200,7 +198,8 @@ const validateWrapper = wrapper => // wrapper
     [has('payload', wrapper), 'v2v3 wrapper: payload_required'],
     [has('version', wrapper), 'v2v3 wrapper: version_required'],
     [has('pbkdf2_iterations', wrapper), 'v2v3 wrapper: pbkdf2_iterations_required'],
-    [propSatisfies(v => v <= SUPPORTED_ENCRYPTION_VERSION, 'version', wrapper), 'Wallet version ' + wrapper.version + ' not supported.']
+    [propSatisfies(v => v <= SUPPORTED_ENCRYPTION_VERSION, 'version', wrapper),
+      'Wallet version ' + wrapper.version + ' not supported.']
   ]).map(() => wrapper)
 
 // decryptWalletV2V3 :: String -> String -> Task Error Object
@@ -214,18 +213,4 @@ export const decryptWalletV2V3 = (password, data) => {
 
 export const decryptWallet = curry((password, data) =>
   decryptWalletV1(password, data)
-    .orElse(() => decryptWalletV2V3(password, data))
-)
-
-// TODO :: gone functions to check
-
-// decryptDataWithPasswordSync :: data -> password -> iterations -> options -> Buffer
-
-// export function encryptDataWithPasswordSync (data, password, iterations) {
-
-// export const encryptSecPassSync = curry((sharedKey, pbkdf2Iterations, password, message) =>
-//   Either.try(() => encryptDataWithPasswordSync(message, sharedKey + password, pbkdf2Iterations))())
-
-// export const decryptSecPassSync = curry((sharedKey, pbkdf2Iterations, password, message) =>
-//   Either.try(() => decryptDataWithPasswordSync(message, sharedKey + password, pbkdf2Iterations))()
-//     .chain(checkFailure(Either.of, Either.Left)))
+    .orElse(() => decryptWalletV2V3(password, data)))
