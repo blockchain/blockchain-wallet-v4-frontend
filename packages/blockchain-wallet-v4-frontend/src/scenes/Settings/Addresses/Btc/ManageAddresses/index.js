@@ -6,7 +6,6 @@ import { Field, reduxForm } from 'redux-form'
 import { TextBox } from 'components/Form'
 import { Icon } from 'blockchain-info-components'
 import UnusedAddresses from './UnusedAddresses'
-import UsedAddresses from './UsedAddresses'
 
 const Wrapper = styled.div`
   display: flex;
@@ -69,11 +68,11 @@ class ManageAddressesContainer extends React.PureComponent {
         </MenuWrapper>
         <ContentWrapper>
           <UnusedAddresses walletIndex={walletIndex} />
-          {/*<UsedAddresses walletIndex={walletIndex} />*/}
+          {/* <UsedAddresses walletIndex={walletIndex} /> */}
         </ContentWrapper>
       </Wrapper>
     )
   }
 }
 
-export default reduxForm({ form: 'todo' })(ManageAddressesContainer)
+export default reduxForm({ form: 'manageAddresses' })(ManageAddressesContainer)
