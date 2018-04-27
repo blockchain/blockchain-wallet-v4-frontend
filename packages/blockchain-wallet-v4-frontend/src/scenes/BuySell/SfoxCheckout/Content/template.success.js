@@ -40,7 +40,6 @@ const isCompleted = (t) => t.state !== 'processing'
 const Success = props => {
   const {
     changeBuySellTabStatus,
-    payment,
     fetchQuote,
     fetchSellQuote,
     refreshQuote,
@@ -54,10 +53,12 @@ const Success = props => {
     showModal,
     handleTradeDetailsClick,
     ...rest } = props
-  console.log('sfox content success:', payment)
+
   const accounts = Remote.of(props.value.accounts).getOrElse([])
   const profile = Remote.of(props.value.profile).getOrElse({ account: { verification_status: {} }, limits: { buy: 0, sell: 0 } })
   const verificationStatus = Remote.of(props.value.verificationStatus).getOrElse({ level: 'unverified', required_docs: [] })
+  const payment = Remote.of(props.payment).getOrElse({ effectiveBalance: 0 })
+  console.log('sfox content success:', payment)
 
   const { trades, type, busy } = rest
   const step = determineStep(profile, verificationStatus, accounts)
@@ -71,7 +72,8 @@ const Success = props => {
     },
     sell: {
       min: 10,
-      max: profile.limits.sell
+      max: profile.limits.sell,
+      effectiveMax: payment && payment.effectiveBalance
     }
   }
 
