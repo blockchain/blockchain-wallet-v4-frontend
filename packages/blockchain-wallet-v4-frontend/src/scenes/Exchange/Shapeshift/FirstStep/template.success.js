@@ -5,10 +5,11 @@ import { Field, reduxForm } from 'redux-form'
 
 import { isEmpty } from 'ramda'
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
-import { Form, SelectBox } from 'components/Form'
+import { Form } from 'components/Form'
 import MinimumAmountLink from './MinimumAmountLink'
 import MaximumAmountLink from './MaximumAmountLink'
-import TextBox from './TextBox'
+import NumberBox from './NumberBox'
+import SelectBox from './SelectBox'
 import { MaximumAmountMessage, MinimumAmountMessage, InsufficientAmountMessage } from './validationMessages'
 
 const Wrapper = styled.div`
@@ -67,8 +68,8 @@ const CurrencyBox = styled(Text)`
 `
 
 const Success = props => {
-  const { accounts, enabled, currency, sourceCoin, targetCoin, formError, handleSwap, handleSubmit } = props
-  console.log('props', props)
+  const { elements, enabled, currency, sourceCoin, targetCoin, formError, handleSwap, handleSubmit, dirty } = props
+  console.log('DIRTY', dirty)
 
   return (
     <Wrapper>
@@ -93,13 +94,13 @@ const Success = props => {
         </Row>
         <Row height='50px'>
           <Cell>
-            <Field name='source' component={SelectBox} elements={accounts} />
+            <Field name='source' component={SelectBox} elements={elements} />
           </Cell>
           <Cell size='small'>
             <Icon name='exchange-2' size='24px' weight={500} cursor onClick={handleSwap} />
           </Cell>
           <Cell>
-            <Field name='target' component={SelectBox} elements={accounts} />
+            <Field name='target' component={SelectBox} elements={elements} />
           </Cell>
         </Row>
         <Row justify='space-between'>
@@ -117,11 +118,11 @@ const Success = props => {
         <Row height='80px'>
           <Cell>
             <AmountContainer>
-              <Field name='sourceAmount' component={TextBox} />
+              <Field name='sourceAmount' component={NumberBox} />
               <CurrencyBox>{sourceCoin}</CurrencyBox>
             </AmountContainer>
             <AmountContainer>
-              <Field name='sourceFiat' component={TextBox} />
+              <Field name='sourceFiat' component={NumberBox} />
               <CurrencyBox>{currency}</CurrencyBox>
             </AmountContainer>
           </Cell>
@@ -133,11 +134,11 @@ const Success = props => {
           </Cell>
           <Cell>
             <AmountContainer>
-              <Field name='targetAmount' component={TextBox} />
+              <Field name='targetAmount' component={NumberBox} />
               <CurrencyBox>{targetCoin}</CurrencyBox>
             </AmountContainer>
             <AmountContainer>
-              <Field name='targetFiat' component={TextBox} />
+              <Field name='targetFiat' component={NumberBox} />
               <CurrencyBox>{currency}</CurrencyBox>
             </AmountContainer>
           </Cell>
@@ -155,7 +156,7 @@ const Success = props => {
           </OptionsContainer>
         </Row>
         <Row>
-          <Button type='submit' nature='primary' fullwidth disabled={!isEmpty(formError)}>
+          <Button type='submit' nature='primary' fullwidth disabled={!dirty || !enabled || (dirty && !isEmpty(formError))}>
             <FormattedMessage id='scenes.exchange.shapeshift.firststep.next' defaultMessage='Next' />
           </Button>
         </Row>

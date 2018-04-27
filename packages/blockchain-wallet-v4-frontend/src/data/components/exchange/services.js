@@ -1,7 +1,7 @@
 
 import { BigNumber } from 'bignumber.js'
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { toLower, path, prop } from 'ramda'
+import { isNil, toLower, path, prop } from 'ramda'
 
 export const getPairFromCoin = (coinSource, coinTarget) => `${toLower(coinSource)}_${toLower(coinTarget)}`
 
@@ -70,6 +70,10 @@ export const isAmountBelowMaximum = (value, maximum) => {
   return new BigNumber(value).lessThanOrEqualTo(new BigNumber(maximum))
 }
 
+export const isUndefinedOrEqualsToZero = (value) => {
+  return isNil(value) || new BigNumber(value).equals(new BigNumber(0))
+}
+
 export const calculateFinalAmount = (value, fee) => {
   return new BigNumber(value).add(new BigNumber(fee)).toString()
 }
@@ -81,3 +85,11 @@ export const selectFee = (coin, payment) => {
     case 'ETH': return prop('fee', payment)
   }
 }
+
+// export const getLabel = (coin, source) => {
+//   switch (coin) {
+//     case 'BCH': return selectors.core.kvStore.bch.getAccountLabel(state)(target.accountIndex).getOrElse(target.address)
+//     case 'BTC': return path(['selection', 'fee'], payment)
+//     case 'ETH': return prop('fee', payment)
+//   }
+// } 
