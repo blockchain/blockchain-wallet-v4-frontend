@@ -107,47 +107,33 @@ export default ({ coreSagas }) => {
   const submitSellQuote = function * (action) {
     const q = action.payload
     try {
-      console.log('submitting sell quote:', q)
+      const trade = yield call(coreSagas.data.sfox.handleSellTrade, q)
 
-      // we will need the trade object for the 'to' address and id
-      const trade = yield call(coreSagas.data.sfox.handleSellTrade, action.payload)
-      console.log('trade response', trade)
-
+      // TODO can refactor this to use payment.chain in the future for cleanliness
       let p = yield select(sendBtcSelectors.getPayment)
       let payment = yield coreSagas.payment.btc.create({ payment: p.getOrElse({}), network: settings.NETWORK_BITCOIN })
 
-      // assign payment amount from quote
       payment = yield payment.amount(parseInt(trade.sendAmount))
 
-      // use priority fee
       payment = yield payment.fee('priority')
 
-      // assign payment to from trade
       payment = yield payment.to('153tQjKYMuxRhymRDvoHqcKez94anDGkGF') // TODO this should be "trade.receiveAddress"
 
-      // assign description with id from trade
-      // let trade = { id: 'fakeId12345' }
       payment = yield payment.description(`Exchange Trade SFX-${trade.id}`)
 
-      // build payment and update after assigning fields from trade
       try { payment = yield payment.build() } catch (e) {}
       yield put(sendBtcActions.sendBtcPaymentUpdated(Remote.of(payment.value())))
 
-      // handle 2nd password and sign
       const password = yield call(promptForSecondPassword)
       payment = yield payment.sign(password)
 
-      // publish
       payment = yield payment.publish()
 
-      // update payment after publish
       yield put(sendBtcActions.sendBtcPaymentUpdated(Remote.of(payment.value())))
 
-      // send user to order history tab
       yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
-      console.log('end of sell quote submission', payment.value())
     } catch (e) {
-      console.log('FE sell saga failure:', e)
+      console.log(e)
     }
   }
 

@@ -16,7 +16,7 @@ class Checkout extends React.PureComponent {
     this.props.sfoxDataActions.fetchTrades()
     this.props.sfoxDataActions.fetchProfile()
     this.props.sfoxDataActions.sfoxFetchAccounts()
-    // this.props.sfoxDataActions.fetchQuote({quote: { amt: 1e8, baseCurr: 'BTC', quoteCurr: 'USD' }})
+    this.props.sfoxDataActions.fetchQuote({quote: { amt: 1e8, baseCurr: 'BTC', quoteCurr: 'USD' }})
     this.props.sfoxDataActions.fetchSellQuote({quote: { amt: 1e8, baseCurr: 'BTC', quoteCurr: 'USD' }})
   }
 
@@ -34,10 +34,10 @@ class Checkout extends React.PureComponent {
         value={value}
         handleTrade={handleTrade}
         showModal={showModal}
-        fetchQuote={(quote) => fetchQuote({ quote, nextAddress: value.nextAddress })}
+        fetchBuyQuote={(quote) => fetchQuote({ quote, nextAddress: value.nextAddress })}
         fetchSellQuote={(quote) => fetchSellQuote({ quote })}
         refreshQuote={() => refreshQuote()}
-        submitQuote={(quote) => { sfoxActions.submitQuote(quote); this.setState({ busy: true }) }}
+        submitBuyQuote={(quote) => { sfoxActions.submitQuote(quote); this.setState({ busy: true }) }}
         submitSellQuote={(quote) => { sfoxActions.submitSellQuote(quote); this.setState({ busy: true }) }}
         busy={this.state.busy}
         payment={payment}
@@ -52,7 +52,7 @@ class Checkout extends React.PureComponent {
 const mapStateToProps = state => ({
   base: getBase(state),
   data: getData(state),
-  quoteR: getQuote(state),
+  buyQuoteR: getQuote(state),
   sellQuoteR: getSellQuote(state),
   trades: getTrades(state),
   errors: getErrors(state),
