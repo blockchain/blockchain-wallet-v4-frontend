@@ -5,26 +5,24 @@ import { formValueSelector } from 'redux-form'
 
 import settings from 'config'
 import Recover from './template.js'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 
 class RecoverContainer extends React.PureComponent {
   constructor () {
     super()
-    this.state = { busy: false }
     this.onSubmit = this.onSubmit.bind(this)
   }
 
   onSubmit (e) {
     e.preventDefault()
-    this.setState({ busy: true })
     const network = settings.NETWORK_BITCOIN
     const { mnemonic, email, password } = this.props
     this.props.authActions.restore(mnemonic, email, password, network)
   }
 
   render () {
-    const { busy } = this.state
-    const { previousStep } = this.props
+    const { data, previousStep } = this.props
+    const busy = data.cata({ Success: () => false, Failure: () => false, Loading: () => true, NotAsked: () => false })
 
     return (
       <Recover previousStep={previousStep} onSubmit={this.onSubmit} busy={busy} />
@@ -33,8 +31,9 @@ class RecoverContainer extends React.PureComponent {
 }
 
 const mapStateToProps = (state) => ({
-  mnemonic: formValueSelector('recover')(state, 'mnemonic'),
+  data: selectors.auth.getRegistering(state),
   email: formValueSelector('recover')(state, 'email'),
+  mnemonic: formValueSelector('recover')(state, 'mnemonic'),
   password: formValueSelector('recover')(state, 'password')
 })
 
