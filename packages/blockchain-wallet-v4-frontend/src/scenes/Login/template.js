@@ -61,11 +61,8 @@ const Login = (props) => {
   const twoFactorError = loginError && loginError.toLowerCase().includes('authentication code')
   const accountLocked = loginError && (loginError.toLowerCase().includes('this account has been locked') || loginError.toLowerCase().includes('account is locked'))
 
-  const handlePasswordChange = () => {
-    passwordError && props.handleCode(false)
-    props.authActions.clearError()
-  }
-
+  const handlePasswordChange = () => { passwordError && props.handleCode(false) }
+  
   return (
     <Wrapper>
       <Modals>
@@ -96,7 +93,7 @@ const Login = (props) => {
             <FormLabel for='guid'>
               <FormattedMessage id='scenes.login.guid' defaultMessage='Wallet ID' />
             </FormLabel>
-            <Field name='guid' validate={[required]} onChange={props.authActions.clearError} component={TextBox} borderColor={guidError ? 'invalid' : undefined} />
+            <Field name='guid' validate={[required]} component={TextBox} borderColor={guidError ? 'invalid' : undefined} />
           </FormItem>
           { guidError && <GuidError inline>
             <Text size='12px' color='error' weight={300}>
@@ -136,7 +133,7 @@ const Login = (props) => {
                 { authType === 4 && <FormattedMessage id='scenes.login.google' defaultMessage='Authenticator App Code' /> }
                 { authType === 5 && <FormattedMessage id='scenes.login.mobile' defaultMessage='SMS Code' /> }
               </FormLabel>
-              <Field name='code' validate={[required]} component={TextBox} onChange={props.authActions.clearError} borderColor={twoFactorError ? 'invalid' : undefined} />
+              <Field name='code' validate={[required]} component={TextBox} borderColor={twoFactorError ? 'invalid' : undefined} />
               { twoFactorError && <FormError position={'absolute'}>{loginError}</FormError> }
             </FormItem>
           </FormGroup>

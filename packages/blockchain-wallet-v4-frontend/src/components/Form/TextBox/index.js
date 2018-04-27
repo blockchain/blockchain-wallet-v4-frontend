@@ -20,7 +20,7 @@ const Error = styled(Text)`
   right: 0;
 `
 const getErrorState = (meta) => {
-  return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')
+  return meta.touched && meta.invalid ? 'invalid' : 'initial'
 }
 
 const TextBox = (field) => {
@@ -28,7 +28,7 @@ const TextBox = (field) => {
 
   return (
     <Container>
-      <TextInput {...field.input} errorState={errorState} initial={field.meta.initial} placeholder={field.placeholder} center={field.center} />
+      <TextInput {...field.input} autoFocus={field.autoFocus} errorState={errorState} initial={field.meta.initial} placeholder={field.placeholder} center={field.center} />
       {field.meta.touched && field.meta.error && <Error size='12px' weight={300} color='error' errorBottom={field.errorBottom}>{field.meta.error}</Error>}
     </Container>
   )

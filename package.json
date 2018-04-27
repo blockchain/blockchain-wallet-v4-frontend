@@ -1,6 +1,6 @@
 {
   "name": "blockchain-wallet-v4",
-  "version": "0.1.0",
+  "version": "4.0.0-alpha1",
   "license": "ISC",
   "author": {
     "name": "Blockchain.info",
@@ -39,6 +39,7 @@
     "lint:core": "eslint './packages/blockchain-wallet-v4/src/**/*.js'",
     "lint:fix": "eslint './packages/*/src/**/*.js' --fix",
     "lint:frontend": "eslint './packages/blockchain-wallet-v4-frontend/src/**/*.js'",
+    "run:prod": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run run:prod",
     "start": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run start:dev",
     "start:dev": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run start:dev",
     "start:prod": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run start:prod",
