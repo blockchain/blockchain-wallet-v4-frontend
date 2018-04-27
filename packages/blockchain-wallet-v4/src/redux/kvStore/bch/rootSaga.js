@@ -1,6 +1,6 @@
 
 import { call, put, select, takeLatest } from 'redux-saga/effects'
-import { append, compose, concat, gt, isNil, length, lift, map, path, prop, range } from 'ramda'
+import { append, compose, concat, gt, isNil, length, lift, map, path, range } from 'ramda'
 import { set } from 'ramda-lens'
 import * as A from './actions'
 import * as AT from './actionTypes'
@@ -61,7 +61,7 @@ export default ({ api }) => {
       const newEntry = createAccountEntry(newEntryIndex)
       const allBchAccounts = lift(append(newEntry))(bchAccounts).getOrElse(bchAccounts)
       yield put(A.addBchAccountComplete(allBchAccounts))
-    } catch(e) {
+    } catch (e) {
       throw new Error('Could not add new BCH account')
     }
   }
