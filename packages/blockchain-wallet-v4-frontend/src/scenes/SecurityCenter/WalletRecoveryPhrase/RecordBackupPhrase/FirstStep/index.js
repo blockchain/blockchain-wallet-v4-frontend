@@ -36,7 +36,7 @@ const Buttons = styled.div`
 `
 
 const FirstStep = (props) => {
-  const { nextStep, goBackOnSuccess } = props
+  const { nextStep } = props
 
   return (
     <FirstStepContainer>
