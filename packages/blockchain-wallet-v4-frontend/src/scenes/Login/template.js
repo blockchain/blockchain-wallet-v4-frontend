@@ -62,7 +62,7 @@ const Login = (props) => {
   const accountLocked = loginError && (loginError.toLowerCase().includes('this account has been locked') || loginError.toLowerCase().includes('account is locked'))
 
   const handlePasswordChange = () => { passwordError && props.handleCode(false) }
-  
+
   return (
     <Wrapper>
       <Modals>

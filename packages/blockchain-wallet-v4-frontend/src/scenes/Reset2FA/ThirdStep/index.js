@@ -7,19 +7,14 @@ import ThirdStep from './template'
 import { actions, selectors } from 'data'
 
 class ThirdStepContainer extends React.PureComponent {
-  static getDerivedStateFromProps (props) {
-    if (props.reset2faError) return { busy: false }
-  }
-
   constructor (props) {
     super(props)
-    this.state = { busy: false }
     this.onSubmit = this.onSubmit.bind(this)
   }
 
   onSubmit (event) {
     event.preventDefault()
-    this.setState({ timestamp: new Date().getTime(), busy: true })
+    this.setState({ timestamp: new Date().getTime() })
     const { guid, email, newEmail, secretPhrase, message, code, captcha } = this.props
     const { sessionToken } = captcha.getOrElse({})
 
