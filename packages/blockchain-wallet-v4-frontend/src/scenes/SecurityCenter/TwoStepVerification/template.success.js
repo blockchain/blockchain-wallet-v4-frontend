@@ -116,7 +116,7 @@ const TwoStepVerification = (props) => {
                 <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Two-factor authentication is set up with {authName} for number {number}.' values={{ authName: <span className='heavy'>{props.authName}</span>, number: <span className='heavy'>{smsNumber}</span> }} />
               </Text>
               <DisableLinkText size='14px' weight={300} flexRow='true' pulse={props.pulse}>
-                <FormattedMessage id='scenes.security.2fa.disablefirst' defaultMessage='To change your two-step verification method,{link} SMS codes one first.' values={{ link: <a onClick={props.handleTwoFactorChange}>disable</a> }} />
+                <FormattedMessage id='scenes.security.2fa.disablefirst' defaultMessage='To change your two-step verification method,{link} SMS codes first.' values={{ link: <a onClick={props.handleTwoFactorChange}>disable</a> }} />
               </DisableLinkText>
             </DisableContainer>
           </React.Fragment>
