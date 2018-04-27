@@ -31,7 +31,7 @@ const AddressButton = styled.div`
 `
 
 const FirstStep = props => {
-  const { invalid, submitting, toToggled, handleToToggle, handleSubmit, totalFee } = props
+  const { destination, invalid, submitting, toToggled, handleToToggle, handleSubmit, totalFee } = props
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -46,7 +46,7 @@ const FirstStep = props => {
           <FormLabel for='from'>
             <FormattedMessage id='modals.sendBch.firststep.from' defaultMessage='From:' />
           </FormLabel>
-          <Field name='from' component={SelectBoxBitcoinAddresses} validate={[required]} coin='BCH' />
+          <Field name='from' component={SelectBoxBitcoinAddresses} includeAll={false} validate={[required]} coin='BCH' />
         </FormItem>
       </FormGroup>
       <FormGroup margin={'15px'}>
@@ -55,15 +55,11 @@ const FirstStep = props => {
             <FormattedMessage id='modals.sendBch.firststep.to' defaultMessage='To:' />
           </FormLabel>
           <Row>
-            {toToggled
-              ? <Field name='to' placeholder="Paste or scan an address, or select a destination" component={SelectBoxBitcoinAddresses} coin='BCH' includeAll={false} validate={[required]} />
-              : <Field name='to' placeholder="Paste or scan an address, or select a destination" component={TextBox} validate={[required, validBitcoinCashAddress]} />
-            }
-            <QRCodeCapture coin='BCH' />
-            {toToggled
-              ? <AddressButton onClick={handleToToggle}><Icon name='pencil' size='16px' cursor /></AddressButton>
-              : <AddressButton onClick={handleToToggle}><Icon name='down-arrow' size='10px' cursor /></AddressButton>
-            }
+            {toToggled && !destination && <Field name='to' component={SelectBoxBitcoinAddresses} opened includeAll={false} coin='BCH' />}
+            {toToggled && destination && <Field name='to' component={SelectBoxBitcoinAddresses} onFocus={() => handleToToggle()} includeAll={false} validate={[required]} hideArrow coin='BCH' />}
+            {!toToggled && <Field name='to' placeholder='Paste or scan an address, or select a destination' component={TextBox} validate={[required, validBitcoinCashAddress]} autoFocus />}
+            {(!toToggled || destination) && <QRCodeCapture coin='BCH' border={['top', 'bottom']} />}
+            {(!toToggled || destination) && <AddressButton onClick={() => handleToToggle(true)}><Icon name='down-arrow' size='10px' cursor /></AddressButton>}
           </Row>
         </FormItem>
       </FormGroup>
