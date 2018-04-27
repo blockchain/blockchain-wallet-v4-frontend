@@ -79,7 +79,7 @@ const BuyCheckout = ({ quoteR, account, onFetchQuote, reason, finishAccountSetup
       <div style={spacing('mt-15')}>
         <QuoteInput
           quoteR={quoteR}
-          initialAmount='10.00'
+          // initialAmount='25.00'
           debounce={500}
           spec={quoteInputSpec}
           onFetchQuote={onFetchQuote}
