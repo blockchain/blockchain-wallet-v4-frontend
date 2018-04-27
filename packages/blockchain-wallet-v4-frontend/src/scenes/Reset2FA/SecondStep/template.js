@@ -43,7 +43,7 @@ const SecondStep = (props) => {
             <FormLabel for='newEmail'>
               <FormattedMessage id='scenes.reset2fa.secondstep.newEmail' defaultMessage='New email' />
             </FormLabel>
-            <Field name='newEmail' component={TextBox} />
+            <Field name='newEmail' autoFocus component={TextBox} />
             <Text size='12px' weight={300}>
               <FormattedMessage id='scenes.reset2fa.secondstep.newEmail_explain' defaultMessage='If you lost access to the email associated with your wallet, enter a new email.' />
               <FormattedMessage id='scenes.reset2fa.secondstep.newEmail_explain2' defaultMessage='If the 2FA reset request is approved, this email will automatically be set as your new wallet email.' />
