@@ -30,13 +30,16 @@ describe('Address', () => {
     })
   })
 
-  describe('encryptSync', () => {
+  describe('encrypt', () => {
     it('should return an encrypted Address', () => {
-      let encrypted = Address.encryptSync(1, null, 'secret', address)
-      expect(encrypted.isRight).toEqual(true)
-      expect(encrypted.value.priv).toEqual('enc<5priv>')
+      Address.encrypt(1, null, 'secret', address)
+        .fork(
+          undefined,
+          enc => expect(enc).toEqual('enc<5priv>')
+        )
     })
   })
+
   describe('serializer', () => {
     it('compose(reviver, replacer) should be identity', () => {
       const string = JSON.stringify(address)

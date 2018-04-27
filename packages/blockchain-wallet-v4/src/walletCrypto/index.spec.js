@@ -73,6 +73,20 @@ describe('WalletCrypto', () => {
     })
   })
 
+  describe('hashNTimes', () => {
+    it('should compute correct hash', () => {
+      let hash = crypto.hashNTimes(100, 'setze jutges d\'un jutjat mengen fetge d\'un penjat')
+      expect(hash.toString('hex')).toBe('bb60847b9b18d2c73dbc6066b036554c430f3bedd64cd84c14b9643bf911a3fe')
+    })
+  })
+
+  describe('hashNTimes', () => {
+    it('should compute correct hash', () => {
+      let hash = crypto.hashNTimes(2, '')
+      expect(hash.toString('hex')).toBe('5df6e0e2761359d30a8275058e299fcc0381534545f55cf43e41983f5d4c9456')
+    })
+  })
+
   // describe('decryptWalletV2V3', () => {
   //   it('should decrypt the wallet correctly', () => {
   //     crypto.decryptWalletV2V3('mypassword', data.v2)
