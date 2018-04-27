@@ -4,6 +4,11 @@ import * as A from './actions'
 import { actions } from 'data'
 import * as selectors from '../../selectors.js'
 import * as MODALS_ACTIONS from '../../modals/actions'
+import * as sendBtcActions from '../../components/sendBtc/actions'
+import * as sendBtcSelectors from '../../components/sendBtc/selectors'
+import settings from 'config'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { promptForSecondPassword } from 'services/SagaService'
 
 export default ({ coreSagas }) => {
   const setBankManually = function * (action) {
@@ -100,14 +105,36 @@ export default ({ coreSagas }) => {
   }
 
   const submitSellQuote = function * (action) {
+    const q = action.payload
     try {
-      console.log('submitting sell quote:', action.payload)
-      yield call(coreSagas.data.sfox.handleSellTrade, action.payload)
-      let state = yield select()
-      console.log('state', state)
+      const trade = yield call(coreSagas.data.sfox.handleSellTrade, q)
+
+      // TODO can refactor this to use payment.chain in the future for cleanliness
+      let p = yield select(sendBtcSelectors.getPayment)
+      let payment = yield coreSagas.payment.btc.create({ payment: p.getOrElse({}), network: settings.NETWORK_BITCOIN })
+
+      payment = yield payment.amount(parseInt(trade.sendAmount))
+
+      payment = yield payment.fee('priority')
+
+      payment = yield payment.to('153tQjKYMuxRhymRDvoHqcKez94anDGkGF') // TODO this should be "trade.receiveAddress"
+
+      payment = yield payment.description(`Exchange Trade SFX-${trade.id}`)
+
+      try { payment = yield payment.build() } catch (e) {}
+      yield put(sendBtcActions.sendBtcPaymentUpdated(Remote.of(payment.value())))
+
+      const password = yield call(promptForSecondPassword)
+      payment = yield payment.sign(password)
+
+      payment = yield payment.publish()
+
+      yield put(sendBtcActions.sendBtcPaymentUpdated(Remote.of(payment.value())))
+
       yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
     } catch (e) {
-      console.warn('FE submitQuote failed', e)
+      yield put(A.setTradeError(e))
+      console.log(e)
     }
   }
 

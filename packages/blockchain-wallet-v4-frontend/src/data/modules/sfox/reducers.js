@@ -19,6 +19,12 @@ const sfoxSignup = (state = INITIAL_STATE, action) => {
     case AT.SET_VERIFY_ERROR: {
       return assoc('verifyError', payload, state)
     }
+    case AT.SET_TRADE_ERROR: {
+      return assoc('tradeError', payload, state)
+    }
+    case AT.CLEAR_TRADE_ERROR: {
+      return assoc('tradeError', null, state)
+    }
     default:
       return state
   }

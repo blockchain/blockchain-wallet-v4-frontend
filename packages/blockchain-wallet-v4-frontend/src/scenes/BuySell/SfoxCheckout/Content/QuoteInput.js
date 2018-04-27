@@ -101,6 +101,7 @@ class QuoteInput extends Component {
 
   fetchQuote = () => {
     let quote = this.getQuoteValues()
+    if ((quote.amt / 100) < this.props.limits.min) return
     this.props.onFetchQuote(quote)
   }
 

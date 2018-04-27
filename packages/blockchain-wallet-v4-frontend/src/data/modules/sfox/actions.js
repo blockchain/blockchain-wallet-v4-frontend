@@ -21,3 +21,6 @@ export const submitMicroDeposits = (data) => ({ type: AT.SUBMIT_MICRO_DEPOSITS, 
 
 export const submitQuote = (quote) => ({ type: AT.SUBMIT_QUOTE, payload: quote })
 export const submitSellQuote = (quote) => ({ type: AT.SUBMIT_SELL_QUOTE, payload: quote })
+
+export const setTradeError = (error) => ({ type: AT.SET_TRADE_ERROR, payload: error })
+export const clearTradeError = () => ({ type: AT.CLEAR_TRADE_ERROR })
