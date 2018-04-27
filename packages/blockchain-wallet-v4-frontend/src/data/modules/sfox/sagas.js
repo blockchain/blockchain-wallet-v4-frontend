@@ -107,8 +107,8 @@ export default ({ coreSagas }) => {
   const submitSellQuote = function * (action) {
     const q = action.payload
     try {
-      throw new Error('error while selling')
       const trade = yield call(coreSagas.data.sfox.handleSellTrade, q)
+
       // TODO can refactor this to use payment.chain in the future for cleanliness
       let p = yield select(sendBtcSelectors.getPayment)
       let payment = yield coreSagas.payment.btc.create({ payment: p.getOrElse({}), network: settings.NETWORK_BITCOIN })
