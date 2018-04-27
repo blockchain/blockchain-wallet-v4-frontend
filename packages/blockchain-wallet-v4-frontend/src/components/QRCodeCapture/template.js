@@ -13,9 +13,12 @@ const Wrapper = styled.div`
   align-items: center;
   width: 40px;
   height: 40px;
-  border: 1px solid ${props => props.theme['gray-2']};
-  box-sizing: border-box;
   cursor: pointer;
+  box-sizing: border-box;
+  border-top: ${props => props.border.indexOf('top') > -1 && `1px solid ${props.theme['gray-2']}`};
+  border-right: ${props => props.border.indexOf('right') > -1 && `1px solid ${props.theme['gray-2']}`};
+  border-bottom: ${props => props.border.indexOf('bottom') > -1 && `1px solid ${props.theme['gray-2']}`};
+  border-left: ${props => props.border.indexOf('left') > -1 && `1px solid ${props.theme['gray-2']}`};
 
   &:hover { background-color: ${props => props.theme['gray-1']}; }
 `
@@ -59,9 +62,10 @@ const TooltipBox = styled.div`
 `
 
 const QRCodeCapture = props => {
-  const { toggled, handleToggle, handleScan, handleError } = props
+  const { border, toggled, handleToggle, handleScan, handleError } = props
+
   return (
-    <Wrapper>
+    <Wrapper border={border}>
       {!toggled && <Image name='qr-code' width='20px' height='20px' onClick={handleToggle} />}
       {toggled && <HeartbeatLoader width='20px' height='20px' color='red' onClick={handleToggle} />}
       {toggled &&
