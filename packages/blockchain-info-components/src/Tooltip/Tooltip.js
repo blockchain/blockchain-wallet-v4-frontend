@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { transparentize } from 'polished'
 import { TextGroup } from '../Text'
@@ -43,7 +44,8 @@ const TooltipBox = styled(TextGroup)`
   font-size: 11px;
   font-weight: 300;
   font-family: "Montserrat", sans serif;
-  
+  text-align: left;
+
   > div,
   > span {
     margin-bottom: 0px;

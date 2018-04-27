@@ -66,25 +66,33 @@ const Notice = styled.div`
   width: 100%;
   margin-bottom: 10px;
 `
-const Info = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
+const Table = styled.div`
   width: 100%;
-  padding: 10px;
+  padding: 0 10px;
   box-sizing: border-box;
-  background-color: ${props => props.theme['gray-1']};
   border: 1px solid ${props => props.theme['gray-2']};
+  background-color: ${props => props.theme['white-blue']};
+  & > :last-child { border-bottom: none; }
+  margin-bottom: 10px;
 `
-const InfoRow = styled.div`
+const TableRow = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 5px 0;
+  padding: 8px 0;
   box-sizing: border-box;
+  border-bottom: 1px solid ${props => props.theme['gray-2']};
+
+  > :first-child { margin-right: 5px; }
+`
+const TableCell = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  & > :first-child { margin-right: 5px; }
 `
 
 const selectStyle = status => {
@@ -110,9 +118,7 @@ const ExchangeDetails = (props) => {
       <ModalHeader closeButton={false}>
         {status === 'complete'
           ? <FormattedMessage id='modals.exchangedetails.title_success' defaultMessage='Success! Your exchange is complete' />
-          : status === 'resolved'
-            ? <FormattedMessage id='modals.exchangedetails.title_resolved' defaultMessage='Your exchange has been resolved' />
-            : <FormattedMessage id='modals.exchangedetails.title_inprogress' defaultMessage='Your exchange is in progress' />
+          : <FormattedMessage id='modals.exchangedetails.title_inprogress' defaultMessage='Your exchange is in progress' />
         }
       </ModalHeader>
       <ModalBody>
@@ -156,54 +162,74 @@ const ExchangeDetails = (props) => {
             </Text>
           </Notice>
         }
-        <Info>
-          <InfoRow>
-            <Text size='13px' weight={400} capitalize>
-              <FormattedMessage id='modals.exchangedetails.deposited' defaultMessage='{coin} deposited:' values={{ coin: sourceCoin }} />
-            </Text>
-            <Text size='13px' weight={300} uppercase>
-              {`${depositAmount} ${sourceCoin}`}
-            </Text>
-          </InfoRow>
-          <InfoRow>
-            <Text size='13px' weight={400} capitalize>
-              <FormattedMessage id='modals.exchangedetails.received' defaultMessage='{coin} received:' values={{ coin: targetCoin }} />
-            </Text>
-            <Text size='13px' weight={300} uppercase>
-              {`${withdrawalAmount} ${targetCoin}`}
-            </Text>
-          </InfoRow>
-          <InfoRow>
-            <Text size='13px' weight={400}>
-              <FormattedMessage id='modals.exchangedetails.received' defaultMessage='Exchange rate:' />
+        <Table>
+          <TableRow>
+            <TableCell>
+              <Text size='13px' weight={400} capitalize>
+                <FormattedMessage id='modals.exchangedetails.deposited' defaultMessage='{coin} deposited:' values={{ coin: sourceCoin }} />
+              </Text>
+            </TableCell>
+            <TableCell>
+              <Text size='13px' weight={300} uppercase>
+                {`${depositAmount} ${sourceCoin}`}
+              </Text>
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>
+              <Text size='13px' weight={400} capitalize>
+                <FormattedMessage id='modals.exchangedetails.received' defaultMessage='{coin} received:' values={{ coin: targetCoin }} />
+              </Text>
+            </TableCell>
+            <TableCell>
+              <Text size='13px' weight={300} uppercase>
+                {`${withdrawalAmount} ${targetCoin}`}
+              </Text>
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>
+              <Text size='13px' weight={400}>
+                <FormattedMessage id='modals.exchangedetails.received' defaultMessage='Exchange rate:' />
+              </Text>
               <Tooltip>
                 <FormattedMessage id='modals.exchangedetails.exchangetooltip' defaultMessage='This rate may change depending on the market price at the time of your transaction.' />
               </Tooltip>
-            </Text>
-            <Text size='13px' weight={300} uppercase>
-              {`1 ${sourceCoin} = ${quotedRate} ${targetCoin}`}
-            </Text>
-          </InfoRow>
-          <InfoRow>
-            <Text size='13px' weight={400}>
-              <FormattedMessage id='modals.exchangedetails.fee' defaultMessage='Transaction fee:' />
+            </TableCell>
+            <TableCell>
+              <Text size='13px' weight={300} uppercase>
+                {`1 ${sourceCoin} = ${quotedRate} ${targetCoin}`}
+              </Text>
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>
+              <Text size='13px' weight={400}>
+                <FormattedMessage id='modals.exchangedetails.fee' defaultMessage='Transaction fee:' />
+              </Text>
               <Tooltip>
                 <FormattedMessage id='modals.exchangedetails.feetooltip' defaultMessage='This fee is used to send the outgoing exchange funds to ShapeShift.' />
               </Tooltip>
-            </Text>
-            <Text size='13px' weight={300} uppercase>
-              {`${minerFee} ${sourceCoin}`}
-            </Text>
-          </InfoRow>
-          <InfoRow>
-            <Text size='13px' weight={400} capitalize>
-              <FormattedMessage id='modals.exchangedetails.orderid' defaultMessage='Order ID:' />
-            </Text>
-            <Text size='13px' weight={300}>
-              SFT-{orderId}
-            </Text>
-          </InfoRow>
-        </Info>
+            </TableCell>
+            <TableCell>
+              <Text size='13px' weight={300} uppercase>
+                {`${minerFee} ${sourceCoin}`}
+              </Text>
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell>
+              <Text size='13px' weight={400} capitalize>
+                <FormattedMessage id='modals.exchangedetails.orderid' defaultMessage='Order ID:' />
+              </Text>
+            </TableCell>
+            <TableCell>
+              <Text size='13px' weight={300}>
+                SFT-{orderId}
+              </Text>
+            </TableCell>
+          </TableRow>
+        </Table>
       </ModalBody>
       <ModalFooter align='right'>
         <Button nature='primary' size='13px' weight={300} onClick={close}>
