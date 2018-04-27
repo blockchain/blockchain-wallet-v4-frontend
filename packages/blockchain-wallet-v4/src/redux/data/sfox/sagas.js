@@ -136,7 +136,6 @@ export default ({ api, options }) => {
       const methods = yield apply(quote, quote.getPaymentMediums)
       const trade = yield apply(methods.ach, methods.ach.sell, [accounts.data[0]])
       yield put(A.handleTradeSuccess(trade))
-      console.log('handleSellTrade core saga success:', trade)
 
       yield put(A.fetchProfile())
       yield put(A.fetchTrades())
