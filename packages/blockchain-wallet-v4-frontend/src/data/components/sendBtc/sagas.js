@@ -12,7 +12,6 @@ import { promptForSecondPassword } from 'services/SagaService'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 
 const DUST = 546
-
 const DUST_BTC = '0.00000546'
 
 export default ({ coreSagas }) => {
