@@ -212,9 +212,9 @@ const TwoStepVerification = (props) => {
             </Text>
             <TipText weight={200} size='12px'>
               <FormattedMessage id='scenes.securitycenter.2fa.tip' defaultMessage='You can choose to use a free app or your mobile phone number to secure your wallet. We recommend using Google Authenticator (available for ' />
-              <Link href='https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8' _target='blank' rel='noopener noreferrer' size='12px'>iOS</Link>
+              <Link href='https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8' target='_blank' rel='noopener noreferrer' size='12px'>iOS</Link>
               <FormattedMessage id='scenes.securitycenter.2fa.tip.two' defaultMessage=' and ' />
-              <Link href='https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en' _target='blank' rel='noopener noreferrer' size='12px'>Android</Link>
+              <Link href='https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en' target='_blank' rel='noopener noreferrer' size='12px'>Android</Link>
               <FormattedMessage id='scenes.securitycenter.2fa.tip.three' defaultMessage=').' />
             </TipText>
           </SecurityTip>
