@@ -62,8 +62,8 @@ const QRCodeCapture = props => {
   const { toggled, handleToggle, handleScan, handleError } = props
   return (
     <Wrapper>
-      {!toggled && <Image name='qr-code' width='30px' height='30px' onClick={handleToggle} />}
-      {toggled && <HeartbeatLoader width='30px' height='30px' color='red' onClick={handleToggle} />}
+      {!toggled && <Image name='qr-code' width='20px' height='20px' onClick={handleToggle} />}
+      {toggled && <HeartbeatLoader width='20px' height='20px' color='red' onClick={handleToggle} />}
       {toggled &&
         <TooltipBox>
           <QRReader onScan={handleScan} onError={handleError} />
