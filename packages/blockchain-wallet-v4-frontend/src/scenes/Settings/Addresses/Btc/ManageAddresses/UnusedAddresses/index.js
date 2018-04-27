@@ -27,7 +27,6 @@ class UnusedAddressesContainer extends React.PureComponent {
     const onEditBtcAccountLabel = () => walletActions.editBtcAccountLabel(account.index, account.label)
     const onShowXPub = () => modalsActions.showModal('ShowXPub', { xpub: account.xpub })
     const onMakeDefault = () => coreActions.setDefaultAccountIdx(account.index)
-
     const onSetArchived = () => {
       coreActions.setAccountArchived(account.index, true)
       routerActions.push('/settings/addresses')
