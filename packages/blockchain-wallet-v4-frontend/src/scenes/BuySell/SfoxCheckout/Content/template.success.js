@@ -40,13 +40,13 @@ const isCompleted = (t) => t.state !== 'processing'
 const Success = props => {
   const {
     changeBuySellTabStatus,
-    fetchQuote,
+    fetchBuyQuote,
     fetchSellQuote,
     refreshQuote,
-    submitQuote,
+    submitBuyQuote,
     submitSellQuote,
     handleTrade,
-    quoteR,
+    buyQuoteR,
     sellQuoteR,
     base,
     errors,
@@ -58,7 +58,6 @@ const Success = props => {
   const profile = Remote.of(props.value.profile).getOrElse({ account: { verification_status: {} }, limits: { buy: 0, sell: 0 } })
   const verificationStatus = Remote.of(props.value.verificationStatus).getOrElse({ level: 'unverified', required_docs: [] })
   const payment = Remote.of(props.payment).getOrElse({ effectiveBalance: 0 })
-  console.log('sfox content success:', payment)
 
   const { trades, type, busy } = rest
   const step = determineStep(profile, verificationStatus, accounts)
@@ -83,9 +82,9 @@ const Success = props => {
         <StepView step={0}>
           <CheckoutWrapper>
             <BuyCheckout
-              quoteR={quoteR}
+              quoteR={buyQuoteR}
               account={accounts[0]}
-              onFetchQuote={fetchQuote}
+              onFetchQuote={fetchBuyQuote}
               reason={reason}
               finishAccountSetup={finishAccountSetup}
               limits={limits.buy}
@@ -97,7 +96,7 @@ const Success = props => {
           <div style={flex('row')}>
             <CheckoutWrapper>
               <BuyOrderDetails
-                quoteR={quoteR}
+                quoteR={buyQuoteR}
                 account={accounts[0]}
                 onRefreshQuote={refreshQuote}
                 type={'buy'}
@@ -105,8 +104,8 @@ const Success = props => {
             </CheckoutWrapper>
             <BuyOrderSubmitWrapper style={{ ...flex('col') }}>
               <BuyOrderSubmit
-                quoteR={quoteR}
-                onSubmit={submitQuote}
+                quoteR={buyQuoteR}
+                onSubmit={submitBuyQuote}
                 busy={busy}
               />
             </BuyOrderSubmitWrapper>
