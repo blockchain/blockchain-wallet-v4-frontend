@@ -1,43 +1,51 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { selectors } from 'data'
-import FaqContent from './FaqContent'
+import { any, assoc, contains, curry, filter, map, path, toLower } from 'ramda'
 
+import FaqContent from './FaqContent'
+import { getData } from './selectors'
 import Faq from './template.js'
 
 class FaqContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
+  render () {
+    const { data, handleTrayRightToggle } = this.props
+    const { search } = data
 
-    this.state = {
-      filterText: ''
+    // Search for matching messages in the component subtree starting
+    const containsRecursive = curry((search, x) => {
+      if (path(['props', 'defaultMessage'], x)) {
+        return contains(toLower(search), toLower(this.context.intl.messages[x.props.id] || x.props.defaultMessage))
+      } else if (path(['props', 'children'], x)) {
+        return any(containsRecursive(search), path(['props', 'children'], x))
+      } else {
+        return false
+      }
+    })
+
+    const filterContent = (contentPart) => {
+      if (search) {
+        const filteredGroupQuestions = filter(q =>
+          containsRecursive(search, q.question) || containsRecursive(search, q.answer)
+        )(contentPart.groupQuestions)
+        return assoc('groupQuestions', filteredGroupQuestions, contentPart)
+      } else {
+        return contentPart
+      }
     }
 
-    this.onFilter = this.onFilter.bind(this)
-  }
-
-  onFilter ({target: {value: filterText}}) {
-    this.setState({filterText})
-  }
-
-  render () {
-    const { faqContent, handleTrayRightToggle } = this.props
-
-    // Bad WIP
-    faqContent[0].groupQuestions = this.state.filterText ? faqContent[0].groupQuestions.filter((q) =>
-      q.question.toLowerCase().indexOf(this.state.filterText.toLowerCase()) !== -1 ||
-      q.answer.toLowerCase().indexOf(this.state.filterText.toLowerCase()) !== -1
-    ) : faqContent[0].groupQuestions
-
     return (
-      <Faq filteredContent={faqContent} onFilter={this.onFilter} filterText={this.state.filterText} handleTrayRightToggle={handleTrayRightToggle}/>
+      <Faq filteredContent={map(filterContent, FaqContent)} handleTrayRightToggle={handleTrayRightToggle}/>
     )
   }
 }
 
 const mapStateToProps = (state) => ({
-  countryCode: selectors.core.settings.getCountryCode(state),
-  faqContent: FaqContent
+  data: getData(state)
 })
+
+FaqContainer.contextTypes = {
+  intl: PropTypes.object.isRequired
+}
 
 export default connect(mapStateToProps, undefined)(FaqContainer)

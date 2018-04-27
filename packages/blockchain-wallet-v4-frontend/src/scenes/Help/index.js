@@ -25,7 +25,8 @@ const Left = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
 
-  & :first-child { margin-bottom: 10px; }
+  &:first-child { margin: 10px 0px; }
+  > div:first-child { margin-bottom: 5px; }
 `
 const Right = styled.div`
   flex: 1;
@@ -37,16 +38,16 @@ const Footer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 5px 0;
+  margin-top: 20px;
 `
 
 const Help = (props) => {
   return (
     <Wrapper>
-      <Text size='30px' weight={300}>
+      <Text size='24px' weight={300}>
         <FormattedMessage id='scenes.help.login' defaultMessage='Login Help' />
       </Text>
-      <Text size='13px' weight={300}>
+      <Text size='14px' weight={300}>
         <FormattedMessage id='scenes.help.wallet' defaultMessage='Need help accessing your wallet?' />
       </Text>
       <Separator />

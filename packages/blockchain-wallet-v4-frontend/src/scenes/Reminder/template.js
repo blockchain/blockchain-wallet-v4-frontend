@@ -6,7 +6,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 
 import { required, validEmail } from 'services/FormHelper'
 import { Button, Link, Separator, Text } from 'blockchain-info-components'
-import { CaptchaBox, Form, TextBox } from 'components/Form'
+import { CaptchaBox, Form, FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -17,7 +17,7 @@ const Wrapper = styled.div`
   @media(min-width: 768px) { width: 550px; }
 `
 const Footer = styled.div`
-  padding: 5px 0;
+  margin-top: 20px;
 `
 
 const Reminder = (props) => {
@@ -25,28 +25,37 @@ const Reminder = (props) => {
 
   return (
     <Wrapper>
-      <Text size='30px' weight={300}>
+      <Text size='24px' weight={300}>
         <FormattedMessage id='scenes.reminder.remind' defaultMessage='Remind Me' />
       </Text>
-      <Text size='13px' weight={300}>
+      <Text size='14px' weight={300}>
         <FormattedMessage id='scenes.reminder.explain' defaultMessage="Lost your Wallet Identifier? We'll send it to you via your email." />
       </Text>
       <Separator />
       <Form onSubmit={onSubmit}>
-        <Text size='14px' weight={500}>
-          <FormattedMessage id='scenes.reminder.email' defaultMessage='Email' />
-        </Text>
-        <Field name='email' validate={[required, validEmail]} component={TextBox} />
-        <Text size='14px' weight={500}>
-          <FormattedMessage id='scenes.reminder.captcha' defaultMessage='Captcha' />
-        </Text>
-        <Text size='14px' weight={300}>
-          <FormattedMessage id='scenes.reminder.robot' defaultMessage="So that we know you're not a robot" />
-        </Text>
-        <Field name='code' validate={[required]} component={CaptchaBox} props={{ timestamp: timestamp }} />
-        <Button type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid} onClick={onSubmit}>
-          <FormattedMessage id='scenes.reminder.continue' defaultMessage='Continue' />
-        </Button>
+        <FormGroup>
+          <FormItem>
+            <FormLabel for='email'>
+              <FormattedMessage id='scenes.reminder.email' defaultMessage='Email' />
+            </FormLabel>
+            <Field name='email' validate={[required, validEmail]} component={TextBox} />
+          </FormItem>
+        </FormGroup>
+        <FormGroup>
+          <FormItem>
+            <FormLabel for='code'>
+              <FormattedMessage id='scenes.reminder.captcha' defaultMessage='Captcha' />
+            </FormLabel>
+            <Field name='code' validate={[required]} component={CaptchaBox} props={{ timestamp: timestamp }} />
+          </FormItem>
+        </FormGroup>
+        <FormGroup>
+          <FormItem>
+            <Button type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid} onClick={onSubmit}>
+              <FormattedMessage id='scenes.reminder.continue' defaultMessage='Continue' />
+            </Button>
+          </FormItem>
+        </FormGroup>
       </Form>
       <Footer>
         <LinkContainer to='/help'>
