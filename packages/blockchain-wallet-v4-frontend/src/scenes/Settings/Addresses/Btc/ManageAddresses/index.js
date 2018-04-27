@@ -69,7 +69,7 @@ class ManageAddressesContainer extends React.PureComponent {
         </MenuWrapper>
         <ContentWrapper>
           <UnusedAddresses walletIndex={walletIndex} />
-          <UsedAddresses walletIndex={walletIndex} />
+          {/*<UsedAddresses walletIndex={walletIndex} />*/}
         </ContentWrapper>
       </Wrapper>
     )
