@@ -23,7 +23,7 @@ const TabMenuBuySellStatus = props => {
 }
 
 TabMenuBuySellStatus.propTypes = {
-  value: PropTypes.oneOf(['buy', 'sell', 'order_history']),
+  value: PropTypes.oneOf(['buy', 'sell', 'order_history', '']),
   onClick: PropTypes.func
 }
 

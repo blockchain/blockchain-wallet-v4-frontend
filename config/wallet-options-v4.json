@@ -80,9 +80,9 @@
         "countries": ["US"],
         "states": ["AR", "AZ", "CA", "CO", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "MI", "MN", "MO", "MT", "NE", "NV", "OK", "PA", "SC", "SD", "TN", "TX", "VA", "WI", "WV"],
         "config": {
-          "production": true,
+          "production": false,
           "availability": true,
-          "apiKey": "f31614a7-5074-49f2-8c2a-bfb8e55de2bd",
+          "apiKey": "6CD61A0E965D48A7B1883A860490DC9E",
           "plaid": "0b041cd9e9fbf1e7d93a0d5a39f5b9",
           "plaidEnv": "tartan",
           "siftScience": "3884e5fae5",
