@@ -24,8 +24,8 @@ const BuyCheckout = ({ quoteR, account, onFetchQuote, reason, finishAccountSetup
   const limitsHelper = (quoteR, limits) => {
     if (quoteR.error) return true
     return quoteR.map(q => {
-      if (q.baseCurrency === 'USD') return +q.baseAmount > limits.max || +q.baseAmount < limits.min
-      if (q.baseCurrency === 'BTC') return +q.quoteAmount > limits.max || +q.quoteAmount < limits.min
+      if (q.baseCurrency === 'USD') return +q.baseAmount > limits.max || +q.baseAmount < limits.min || +q.quoteAmount > limits.effectiveMax
+      if (q.baseCurrency === 'BTC') return +q.quoteAmount > limits.max || +q.quoteAmount < limits.min || +q.baseAmount > limits.effectiveMax
     }).data
   }
 
@@ -76,10 +76,10 @@ const BuyCheckout = ({ quoteR, account, onFetchQuote, reason, finishAccountSetup
       <Text style={spacing('ml-10')} size='16px' weight={600}>
         <FormattedMessage id='amount' defaultMessage='Amount' />
       </Text>
-      <div style={spacing('mt-15')}>
+      <div style={spacing('mt-10')}>
         <QuoteInput
           quoteR={quoteR}
-          initialAmount='10.00'
+          // initialAmount='0.00'
           debounce={500}
           spec={quoteInputSpec}
           onFetchQuote={onFetchQuote}

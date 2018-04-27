@@ -38,11 +38,28 @@ const isPending = (t) => t.state === 'processing'
 const isCompleted = (t) => t.state !== 'processing'
 
 const Success = props => {
-  const { changeBuySellTabStatus, fetchQuote, fetchSellQuote, refreshQuote, submitQuote, submitSellQuote, handleTrade, quoteR, sellQuoteR, base, errors, showModal, handleTradeDetailsClick, ...rest } = props
+  const {
+    changeBuySellTabStatus,
+    fetchBuyQuote,
+    fetchSellQuote,
+    refreshQuote,
+    submitBuyQuote,
+    submitSellQuote,
+    handleTrade,
+    buyQuoteR,
+    sellQuoteR,
+    base,
+    errors,
+    showModal,
+    handleTradeDetailsClick,
+    tradeError,
+    clearTradeError,
+    ...rest } = props
 
   const accounts = Remote.of(props.value.accounts).getOrElse([])
   const profile = Remote.of(props.value.profile).getOrElse({ account: { verification_status: {} }, limits: { buy: 0, sell: 0 } })
   const verificationStatus = Remote.of(props.value.verificationStatus).getOrElse({ level: 'unverified', required_docs: [] })
+  const payment = Remote.of(props.payment).getOrElse({ effectiveBalance: 0 })
 
   const { trades, type, busy } = rest
   const step = determineStep(profile, verificationStatus, accounts)
@@ -56,7 +73,8 @@ const Success = props => {
     },
     sell: {
       min: 10,
-      max: profile.limits.sell
+      max: profile.limits.sell,
+      effectiveMax: payment && payment.effectiveBalance
     }
   }
 
@@ -66,9 +84,9 @@ const Success = props => {
         <StepView step={0}>
           <CheckoutWrapper>
             <BuyCheckout
-              quoteR={quoteR}
+              quoteR={buyQuoteR}
               account={accounts[0]}
-              onFetchQuote={fetchQuote}
+              onFetchQuote={fetchBuyQuote}
               reason={reason}
               finishAccountSetup={finishAccountSetup}
               limits={limits.buy}
@@ -80,7 +98,7 @@ const Success = props => {
           <div style={flex('row')}>
             <CheckoutWrapper>
               <BuyOrderDetails
-                quoteR={quoteR}
+                quoteR={buyQuoteR}
                 account={accounts[0]}
                 onRefreshQuote={refreshQuote}
                 type={'buy'}
@@ -88,9 +106,11 @@ const Success = props => {
             </CheckoutWrapper>
             <BuyOrderSubmitWrapper style={{ ...flex('col') }}>
               <BuyOrderSubmit
-                quoteR={quoteR}
-                onSubmit={submitQuote}
+                quoteR={buyQuoteR}
+                onSubmit={submitBuyQuote}
                 busy={busy}
+                tradeError={tradeError}
+                clearTradeError={clearTradeError}
               />
             </BuyOrderSubmitWrapper>
           </div>
@@ -128,6 +148,8 @@ const Success = props => {
                 quoteR={sellQuoteR}
                 onSubmit={submitSellQuote}
                 busy={busy}
+                tradeError={tradeError}
+                clearTradeError={clearTradeError}
               />
             </BuyOrderSubmitWrapper>
           </div>

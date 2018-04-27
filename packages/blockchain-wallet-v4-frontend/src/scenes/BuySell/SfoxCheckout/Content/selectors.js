@@ -34,3 +34,7 @@ export const getErrors = (state) => {
   const exchangeCheckoutForm = state.form && state.form.exchangeCheckout
   return exchangeCheckoutForm && exchangeCheckoutForm.syncErrors
 }
+
+export const getPayment = (state) => {
+  return selectors.components.sendBtc.getPayment(state).data
+}
