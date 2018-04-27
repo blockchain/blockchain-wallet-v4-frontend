@@ -36,7 +36,7 @@ class SfoxTradeDetails extends React.PureComponent {
     const headerStatus = statusHelper(this.props.trade.state)
     const bodyStatus = bodyStatusHelper(this.props.trade.state)
     const { account, trade } = this.props
-    console.log('trade details render', this.props, this.props.trade.isBuy)
+
     return (
       <Modal size='large' position={this.props.position} total={this.props.total}>
         <ModalHeader onClose={this.props.close}>

@@ -76,7 +76,7 @@ const BuyCheckout = ({ quoteR, account, onFetchQuote, reason, finishAccountSetup
       <Text style={spacing('ml-10')} size='16px' weight={600}>
         <FormattedMessage id='amount' defaultMessage='Amount' />
       </Text>
-      <div style={spacing('mt-15')}>
+      <div style={spacing('mt-10')}>
         <QuoteInput
           quoteR={quoteR}
           // initialAmount='0.00'
