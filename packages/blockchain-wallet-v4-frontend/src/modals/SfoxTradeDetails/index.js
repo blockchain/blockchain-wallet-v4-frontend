@@ -1,15 +1,23 @@
 import React from 'react'
+import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { FormattedMessage } from 'react-intl'
 import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
-import { Icon, Modal, ModalHeader, ModalBody, Text } from 'blockchain-info-components'
+import { Icon, Modal, ModalHeader, ModalBody, Text, Button } from 'blockchain-info-components'
 import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDetails'
 import { MethodContainer } from 'components/BuySell/styled.js'
 import { statusHelper, bodyStatusHelper } from 'services/SfoxService'
 import { spacing } from 'services/StyleService'
 import FundingSource from 'components/BuySell/FundingSource'
+
+const ButtonRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-top: 20px;
+`
 
 const renderDetailsRow = (id, message, value, color) => (
   <OrderDetailsRow>
@@ -76,6 +84,11 @@ class SfoxTradeDetails extends React.PureComponent {
               'success'
             )}
           </OrderDetailsTable>
+          <ButtonRow>
+            <Button width='100px' onClick={this.props.close} nature='primary'>
+              <FormattedMessage id='close' defaultMessage='Close' />
+            </Button>
+          </ButtonRow>
         </ModalBody>
       </Modal>
     )
