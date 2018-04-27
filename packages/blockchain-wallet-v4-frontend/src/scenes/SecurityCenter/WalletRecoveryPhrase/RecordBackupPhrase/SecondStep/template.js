@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, Link, Text } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -39,7 +39,7 @@ const Buttons = styled.div`
 `
 
 const SecondStep = (props) => {
-  const { nextStep, handleClickNext, goBackOnSuccess, step, words } = props
+  const { nextStep, handleClickNext, step, words } = props
   return (
     <Wrapper>
       <Container>
