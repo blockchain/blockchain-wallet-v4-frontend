@@ -190,10 +190,10 @@ export default ({ coreSagas }) => {
       yield put(A.sendBtcPaymentUpdated(Remote.of(payment.value())))
       yield put(actions.modals.closeAllModals())
       yield put(actions.router.push('/btc/transactions'))
-      yield put(actions.alerts.displaySuccess('Bitcoin transaction has been successfully published!'))
+      yield put(actions.alerts.displaySuccess('Your bitcoin has been sent!'))
     } catch (e) {
       console.log(e)
-      yield put(actions.alerts.displayError('Bitcoin transaction could not be published.'))
+      yield put(actions.alerts.displayError('Failed to send Bitcoin.'))
     }
   }
 
