@@ -29,14 +29,13 @@ export default ({ coreSagas }) => {
 
       if (!profile.error) {
         yield put(A.nextStep('verify'))
-        yield put(actions.alerts.displaySuccess('Account successfully created!'))
       } else {
         const error = JSON.parse(profile.error).error
         yield put(A.signupFailure(error))
         if (error === 'user_data is not verified') { yield put(actions.alerts.displayError('Something went wrong. Please contact our support team (or your local developer).')) }
       }
     } catch (e) {
-      yield put(actions.alerts.displayError('Error creating account'))
+      yield put(A.signupFailure(e))
     }
   }
 
