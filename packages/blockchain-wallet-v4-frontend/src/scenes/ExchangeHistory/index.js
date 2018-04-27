@@ -1,21 +1,21 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { compose, bindActionCreators } from 'redux'
+// import { compose, bindActionCreators } from 'redux'
 
-import { actions } from 'data'
+// import { actions } from 'data'
 import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
 class ExchangeHistoryContainer extends React.PureComponent {
-  componentWillMount () {
-    this.props.dataShapeshiftActions.refreshShapeshiftTrades()
-  }
+  // componentWillMount () {
+  //   this.props.exchangeActions.startPollingTradeStatus()
+  // }
 
-  componentWillUnmount () {
-    this.props.dataShapeshiftActions.cancelRefreshShapeshiftTrades()
-  }
+  // componentWillUnmount () {
+  //   this.props.exchangeActions.stopPollingTradeStatus()
+  // }
 
   render () {
     const { data } = this.props
@@ -33,12 +33,14 @@ const mapStateToProps = (state, ownProps) => ({
   data: getData(state)
 })
 
-const mapDispatchToProps = dispatch => ({
-  dataShapeshiftActions: bindActionCreators(actions.modules.sendShapeshift, dispatch)
-})
+// const mapDispatchToProps = dispatch => ({
+//   exchangeActions: bindActionCreators(actions.components.exchange, dispatch)
+// })
 
-const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps)
-)
+// const enhance = compose(
+//   connect(mapStateToProps, mapDispatchToProps)
+// )
 
-export default enhance(ExchangeHistoryContainer)
+// export default enhance(ExchangeHistoryContainer)
+
+export default connect(mapStateToProps)(ExchangeHistoryContainer)
