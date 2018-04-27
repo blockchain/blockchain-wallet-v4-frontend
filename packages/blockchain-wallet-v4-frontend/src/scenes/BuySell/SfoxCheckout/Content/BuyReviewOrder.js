@@ -90,18 +90,27 @@ export const BuyOrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
   </ExchangeCheckoutWrapper>
 )
 
-export const BuyOrderSubmit = ({ quoteR, onSubmit, busy }) => (
+export const BuyOrderSubmit = ({ quoteR, onSubmit, busy, tradeError, clearTradeError }) => (
   <Fragment>
-    <Button
-      nature='primary'
-      disabled={!Remote.Success.is(quoteR)}
-      onClick={quoteR.map((quote) => () => onSubmit(quote)).getOrElse(null)}>
-      {
-        busy
-          ? <HeartbeatLoader height='20px' width='20px' color='white' />
-          : <FormattedMessage id='submit' defaultMessage='Submit' />
-      }
-    </Button>
+    {
+      !tradeError
+        ? <Button
+          nature='primary'
+          disabled={!Remote.Success.is(quoteR)}
+          onClick={quoteR.map((quote) => () => onSubmit(quote)).getOrElse(null)}>
+          {
+            busy
+              ? <HeartbeatLoader height='20px' width='20px' color='white' />
+              : <FormattedMessage id='submit' defaultMessage='Submit' />
+          }
+        </Button>
+        : <div onClick={() => clearTradeError()}>
+          <Text color='error' size='13px'>
+            There has been an error: { tradeError.message || 'unkown error' }
+          </Text>
+          <StepTransition prev Component={Link} weight={300} size='13px'><FormattedMessage id='try_again' defaultMessage='Try again' /></StepTransition>
+        </div>
+    }
     <CancelWrapper style={{ ...flex('row justify/center'), ...spacing('mt-15') }}>
       <StepTransition prev Component={Link}>
         <FormattedMessage id='cancel' defaultMessage='Cancel' />
