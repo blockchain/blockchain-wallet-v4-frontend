@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, Link, Text } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -39,7 +39,7 @@ const Buttons = styled.div`
 `
 
 const SecondStep = (props) => {
-  const { nextStep, handleClickNext, goBackOnSuccess, step, words } = props
+  const { nextStep, handleClickNext, step, words } = props
   return (
     <Wrapper>
       <Container>
@@ -58,7 +58,7 @@ const SecondStep = (props) => {
           step === 3
             ? <Button onClick={nextStep} nature='primary'>
               <Text color='white' weight={300} cursor='pointer'>
-                <FormattedMessage id='modals.recoveryphrase.firststep.finishandcheckphrase' defaultMessage='Finish & Check your Backup Phrase' />
+                <FormattedMessage id='modals.recoveryphrase.firststep.finishandcheckphrase' defaultMessage='Finish & Verify' />
               </Text>
             </Button>
             : <Button onClick={handleClickNext} nature='dark'>
@@ -67,9 +67,6 @@ const SecondStep = (props) => {
               </Text>
             </Button>
         }
-        <Link size='12px' weight={300} onClick={props.inline ? props.handleClose : goBackOnSuccess}>
-          <FormattedMessage id='modals.recoveryphrase.firststep.cancel' defaultMessage="Skip for now, I'll do this later" />
-        </Link>
       </Buttons>
     </Wrapper>
   )
