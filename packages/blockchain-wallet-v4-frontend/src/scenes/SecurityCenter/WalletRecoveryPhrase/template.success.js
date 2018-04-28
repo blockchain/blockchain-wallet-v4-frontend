@@ -56,9 +56,8 @@ const WalletRecoveryPhrase = (props) => {
               {
                 !ui.descriptionToggled
                   ? <span>
-                    <FormattedMessage id='scenes.securitysettings.basicsecurity.recoveryphrase.description' defaultMessage='Your Backup Phrase contains all of the private keys in your wallet, allowing you (or anyone who has it) to restore your wallet and access your funds. Since this is meant for your eyes only, write down your Backup Phrase and keep it somewhere safe offline.' />
-                    <br />
-                    <FormattedMessage id='scenes.securitysettings.basicsecurity.recoveryphrase.description2' defaultMessage='If you ever lose your password or our service is unavailable, your Backup Phrase is how you regain access to your funds.' />
+                    <FormattedMessage id='scenes.securitysettings.basicsecurity.recoveryphrase.description' defaultMessage='Your backup phrase contains all of the private keys within your wallet. Please write these 12 words down, in order, and keep them somewhere safe offline. This phrase gives you (or anyone who has it) a way to restore your wallet and access your funds. ' />
+                    <FormattedMessage id='scenes.securitysettings.basicsecurity.recoveryphrase.description2' defaultMessage='In the event that you lose your password or our service is unavailable, this will be your safety net.' />
                   </span>
                   : <FormattedMessage id='scenes.securitysettings.basicsecurity.recoveryphrase.description2' defaultMessage='Using the 12 words you just wrote down, please enter the following words exactly as you see them to complete the backup process.' />
               }
@@ -80,7 +79,7 @@ const WalletRecoveryPhrase = (props) => {
               <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.enable' defaultMessage='Security Tip' />
             </Text>
             <Text weight={200} size='12px'>
-              <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.enable' defaultMessage='Do not store your Backup Phrase on your computer or online anywhere. It is very important to keep your Backup Phrase offline in a safe and private place. As a reminder, anyone with access to your Backup Phrase has access to your funds.' />
+              <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.enable' defaultMessage='Do not store your backup phrase on your computer or anywhere online. It is very important to keep your backup phrase offline in a private place. As a reminder: anyone with access to your backup phrase can access your funds.' />
             </Text>
           </SecurityTip>
           : null
