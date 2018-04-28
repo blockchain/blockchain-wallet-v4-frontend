@@ -98,6 +98,7 @@ export default {
   'pencil': '\\e96a',
   'phone-in-circle': '\\e96b',
   'phone': '\\e96c',
+  'plus': '\\ea0a',
   'present': '\\e96d',
   'question-in-circle': '\\e96e',
   'question': '\\e94b',
