@@ -35,7 +35,7 @@ const Status = styled.div`
 const PrivateKeysWrapper = styled.div`
   display: flex;
   flex-wrap: nowrap;
-  width: 40%;
+  margin-right: 15px;
 `
 const Search = styled.div`
   position: relative;
