@@ -92,4 +92,4 @@ export const selectFee = (coin, payment) => {
 //     case 'BTC': return path(['selection', 'fee'], payment)
 //     case 'ETH': return prop('fee', payment)
 //   }
-// } 
+// }

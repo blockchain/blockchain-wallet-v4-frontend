@@ -399,16 +399,20 @@ export const getLegacyPrivateKeyWIF = curry((address, secondPassword, network, w
     .map(ecpair => ecpair.toWIF())
 })
 
-export const getMnemonic = curry((secondPassword, wallet) => {
-  const entropyToMnemonic = Either.try(BIP39.entropyToMnemonic)
-  let seedHex = compose(HDWallet.selectSeedHex, HDWalletList.selectHDWallet, selectHdWallets)(wallet)
+export const getSeedHex = curry((secondPassword, wallet) => {
+  const seedHex = compose(HDWallet.selectSeedHex, HDWalletList.selectHDWallet, selectHdWallets)(wallet)
   if (isDoubleEncrypted(wallet)) {
     return validateSecondPwd(Either.of, Either.Left)(secondPassword, wallet)
       .chain(() => crypto.decryptSecPassSync(selectSharedKey(wallet), selectIterations(wallet), secondPassword, seedHex))
-      .chain(entropyToMnemonic)
   } else {
-    return entropyToMnemonic(seedHex)
+    return Either.of(seedHex)
   }
+})
+
+export const getMnemonic = curry((secondPassword, wallet) => {
+  const entropyToMnemonic = Either.try(BIP39.entropyToMnemonic)
+  const seedHex = getSeedHex(secondPassword, wallet)
+  return seedHex.chain(entropyToMnemonic)
 })
 
 export const js = (guid, sharedKey, label, mnemonic, xpub, nAccounts, network) => ({
