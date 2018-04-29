@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Form renders correctly 1`] = `
+<Form__BaseForm
+  bool={false}
+  override={true}
+/>
+`;
