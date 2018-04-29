@@ -37,40 +37,38 @@ const DetailRow = ({ id, defaultMessage, children }) => (
   </div>
 )
 
-const SecondStep = ({ addr, balance, priv, format, formats, onChangeFormat }) => {
-  return (
-    <div style={flex('row')}>
-      <div style={spacing('mr-25')}>
-        <QRCodeReact value={priv} size={120} />
-      </div>
-      <DetailTable>
-        <DetailRow id='modals.show_priv.balance' defaultMessage='Balance'>
-          <CoinDisplay coin='BTC' size='14px'>
-            {balance}
-          </CoinDisplay>
-        </DetailRow>
-        <DetailRow id='modals.show_priv.address' defaultMessage='Address'>
-          <Text size='14px' weight={300}>{addr}</Text>
-        </DetailRow>
-        <DetailRow id='modals.show_priv.priv_key' defaultMessage='Private Key'>
-          {utils.bitcoin.formatPrivateKeyString(priv, format).fold(
-            error => (<Text size='14px' weight={300} color='error'>{error.message}</Text>),
-            keyString => (<Text size='14px' weight={300}>{keyString}</Text>)
-          )}
-        </DetailRow>
-        <DetailRow id='modals.show_priv.priv_key_format' defaultMessage='Private Key Format'>
-          <SelectInput
-            label='Export Format'
-            value={format}
-            searchEnabled={false}
-            onChange={onChangeFormat}
-            elements={formats}
-          />
-        </DetailRow>
-      </DetailTable>
+const SecondStep = ({ addr, balance, priv, format, formats, onChangeFormat }) => (
+  <div style={flex('row')}>
+    <div style={spacing('mr-25')}>
+      <QRCodeReact value={priv} size={120} />
     </div>
-  )
-}
+    <DetailTable>
+      <DetailRow id='modals.show_priv.balance' defaultMessage='Balance'>
+        <CoinDisplay coin='BTC' size='14px'>
+          {balance}
+        </CoinDisplay>
+      </DetailRow>
+      <DetailRow id='modals.show_priv.address' defaultMessage='Address'>
+        <Text size='14px' weight={300}>{addr}</Text>
+      </DetailRow>
+      <DetailRow id='modals.show_priv.priv_key' defaultMessage='Private Key'>
+        {utils.bitcoin.formatPrivateKeyString(priv, format).fold(
+          error => (<Text size='14px' weight={300} color='error'>{error.message}</Text>),
+          keyString => (<Text size='14px' weight={300}>{keyString}</Text>)
+        )}
+      </DetailRow>
+      <DetailRow id='modals.show_priv.priv_key_format' defaultMessage='Private Key Format'>
+        <SelectInput
+          label='Export Format'
+          value={format}
+          searchEnabled={false}
+          onChange={onChangeFormat}
+          elements={formats}
+        />
+      </DetailRow>
+    </DetailTable>
+  </div>
+)
 
 const ShowBtcPrivateKeyTemplate = ({ position, total, close, step, onContinue, ...rest }) => (
   <Modal size='large' position={position} total={total}>
