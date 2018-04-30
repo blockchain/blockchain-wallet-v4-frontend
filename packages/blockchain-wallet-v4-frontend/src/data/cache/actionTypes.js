@@ -1,0 +1,1 @@
+export const GUID_ENTERED = '@EVENT.GUID_ENTERED'
