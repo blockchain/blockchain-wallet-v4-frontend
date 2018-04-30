@@ -79,7 +79,7 @@ export const hashNTimes = curry((iterations, data) => {
 export const isStringHashInFraction = (str, fraction) => {
   if (!str) return false
   if (fraction < 0) return false
-  return (crypto.sha256(str)[0] / 256) >= (1 - fraction)
+  return (sha256(str)[0] / 256) >= (1 - fraction)
 }
 
 // /////////////////////////////////////////////////////////////////////////////
@@ -150,7 +150,7 @@ export const encryptDataWithPassword = (data, password, iterations) => {
     [is(String, password), 'password_required'],
     [is(Number, iterations) && iterations > 0, 'iterations_required']
   ]).chain(() => stretchPassword(password, salt, iterations, U.KEY_BIT_LEN))
-    .chain(key => TaskTry(encryptDataWithKey)(data, key, salt))
+    .chain(key => TaskTry(exports.encryptDataWithKey)(data, key, salt))
 }
 
 // encryptSecPass :: String -> Integer -> String -> String -> Task, Error String
