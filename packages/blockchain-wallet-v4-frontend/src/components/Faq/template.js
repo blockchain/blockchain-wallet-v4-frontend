@@ -40,14 +40,14 @@ const Faq = (props) => {
 
   return (
     <Fragment>
-      <ModalHeader onClose={() => handleTrayRightToggle()}>
-        <FormattedMessage id='layouts.wallet.trayright.faq' defaultMessage='Frequently Asked Questions'/>
+      <ModalHeader onClose={() => handleTrayRightToggle()} >
+        <FormattedMessage id='layouts.wallet.trayright.faq' defaultMessage='Frequently Asked Questions' />
       </ModalHeader>
       <ModalBody>
         <Wrapper>
           <SearchInputContainer>
             <Field name='search' component={TextBox} />
-            <SearchIcon name='search' size='20px' weight={200} color='gray-3'/>
+            <SearchIcon name='search' size='20px' weight={200} color='gray-3' />
           </SearchInputContainer>
           <ContentWrapper>
             {
