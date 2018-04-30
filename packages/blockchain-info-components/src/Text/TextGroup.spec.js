@@ -1,13 +1,13 @@
 import React from 'react'
-import { shallow } from 'enzyme'
-import toJson from 'enzyme-to-json'
+import renderer from 'react-test-renderer'
+import 'jest-styled-components'
 
 import TextGroup from './TextGroup'
 
 describe('TextGroup component', () => {
   it('default renders correctly', () => {
-    const component = shallow(<TextGroup nowrap inline><span>Hello World</span></TextGroup>)
-    const tree = toJson(component)
+    const component = renderer.create(<TextGroup nowrap inline><span>Hello World</span></TextGroup>)
+    const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
 })
