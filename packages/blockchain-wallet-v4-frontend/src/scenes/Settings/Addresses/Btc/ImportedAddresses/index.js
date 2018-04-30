@@ -24,7 +24,7 @@ class ImportedAddressesContainer extends React.Component {
   }
 
   handleShowPriv (address) {
-    this.props.modalsActions.showModal('ShowBtcPrivateKey', { addr: address.addr })
+    this.props.modalsActions.showModal('ShowBtcPrivateKey', { addr: address.addr, balance: address.info.final_balance })
   }
 
   handleSignMessage (address) {
