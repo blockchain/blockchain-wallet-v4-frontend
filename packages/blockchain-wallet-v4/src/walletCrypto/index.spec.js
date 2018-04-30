@@ -1,8 +1,6 @@
 import * as wCrypto from './'
-import * as crypto from 'crypto'
 import data from './wallet-data.json'
 import { repeat } from 'ramda'
-
 
 describe('WalletCrypto', () => {
   describe('safeParse', () => {
@@ -102,7 +100,7 @@ describe('WalletCrypto', () => {
           done)
     })
   })
-  
+
   describe('(de)encryptSecPass', () => {
     it('composition should be the identity', (done) =>
       wCrypto.encryptSecPass('sharedKey', 10, 'password', '300 years ago')
@@ -186,5 +184,4 @@ describe('WalletCrypto', () => {
       expect(hash.toString('hex')).toBe('5df6e0e2761359d30a8275058e299fcc0381534545f55cf43e41983f5d4c9456')
     })
   })
-
 })
