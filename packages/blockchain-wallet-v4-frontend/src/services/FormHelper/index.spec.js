@@ -22,8 +22,14 @@ describe('FormHelper', () => {
     })
   })
 
+  describe('optional()', () => {
+    it('returns falsy value', () => {
+      expect(FormHelper.optional(FormHelper.validNumber('Not num'))()).toBeFalsy()
+    })
+  })
+
   describe('validNumber()', () => {
-    it('returns correct string if no value passed', () => {
+    it('returns correct string if no valid number is passed', () => {
       expect(FormHelper.validNumber('noNum')).toEqual('Invalid number')
     })
 
@@ -142,5 +148,71 @@ describe('FormHelper', () => {
     it('returns undefined if valid btc private key is given', () => {
       expect(FormHelper.validBitcoinPrivateKey('L1fLj9zU3Fp5vbCN88ZQYXJ3Jn3V2XYEWBK3RuG1HEmRZDAYxYZi')).toBeUndefined()
     })
+  })
+
+  describe('validBitcoinCashAddress()', () => {
+    it('returns correct string if invalid bth addr passed', () => {
+      expect(FormHelper.validBitcoinCashAddress('NOTVALIDqqrrt6920wp5zndraya69eltes4tzswn2svhxgqh5a')).toEqual('Invalid Bitcoin Cash Address')
+    })
+
+    it('returns undefined if valid bth addr is given', () => {
+      expect(FormHelper.validBitcoinCashAddress('qqrrt6920wp5zndraya69eltes4tzswn2svhxgqh5a')).toBeUndefined()
+    })
+  })
+
+  describe('ageOverEighteen()', () => {
+    it('returns correct string if age is not over 18', () => {
+      expect(FormHelper.ageOverEighteen(Date.now() - 400000)).toEqual('Must be 18 or older')
+    })
+
+    it('returns undefined if age is over 18', () => {
+      expect(FormHelper.ageOverEighteen(2100134239)).toBeUndefined()
+    })
+  })
+
+  describe('requiredSSN()', () => {
+    it('returns correct string if not a valid SSN', () => {
+      expect(FormHelper.requiredSSN('123-1243-12412')).toEqual('Must be valid SSN')
+    })
+
+    it('returns undefined if SSN is valid', () => {
+      expect(FormHelper.requiredSSN('111-22-3333')).toBeUndefined()
+    })
+  })
+
+  describe('requiredDOB()', () => {
+    it('returns correct string if DOB is not valid', () => {
+      expect(FormHelper.requiredDOB('sfa')).toEqual('Must be valid date')
+    })
+
+    it('returns undefined if DOB is valid', () => {
+      expect(FormHelper.requiredDOB('11-11-1911')).toBeUndefined()
+    })
+  })
+
+  describe('requiredUsZipcode()', () => {
+    it('returns correct string if DOB is not valid', () => {
+      expect(FormHelper.requiredUsZipcode('78342223')).toEqual('Must be valid zipcode')
+    })
+
+    it('returns undefined if zip is valid', () => {
+      expect(FormHelper.requiredUsZipcode('11322')).toBeUndefined()
+    })
+  })
+
+  it('normalizeSocialSecurity() returns normalized SSN', () => {
+    expect(FormHelper.normalizeSocialSecurity('111223333')).toEqual('111-22-3333')
+  })
+
+  it('normalizeDateOfBirth() returns normalized dob', () => {
+    expect(FormHelper.normalizeDateOfBirth('11301988')).toEqual('11/30/1988')
+  })
+
+  it('normalizeUSZipcode() returns normalized zip code', () => {
+    expect(FormHelper.normalizeUSZipcode('11207000')).toEqual('11207')
+  })
+
+  it('normalizePhone() returns normalized phone number', () => {
+    expect(FormHelper.normalizePhone('+1-342-522-4532')).toEqual('13425224532')
   })
 })
