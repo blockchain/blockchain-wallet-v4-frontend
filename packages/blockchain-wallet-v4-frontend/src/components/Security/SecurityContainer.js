@@ -7,6 +7,9 @@ const SecurityContainer = styled.div`
   border: 1px solid ${props => props.theme['gray-2']};
   border-radius: 4px;
   padding: 20px;
+    @media (min-width: 400px) and (max-width: 991px) {
+      display: block;
+    }
 `
 
 export default SecurityContainer

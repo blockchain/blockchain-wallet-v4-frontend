@@ -71,7 +71,7 @@ const WalletLayout = props => {
       <Alerts />
       <Modals />
       <Nav>
-        <Header trayRightContent={trayRightContent} handleToggleMenuLeft={handleToggleMenuLeft} handleTrayRightToggle={handleTrayRightToggle} trayRightOpen={trayRightOpen}/>
+        <Header trayRightContent={trayRightContent} handleToggleMenuLeft={handleToggleMenuLeft} handleTrayRightToggle={handleTrayRightToggle} trayRightOpen={trayRightOpen} />
       </Nav>
       <Container>
         <Left toggled={menuLeftToggled}>

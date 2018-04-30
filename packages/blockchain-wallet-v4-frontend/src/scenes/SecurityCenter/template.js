@@ -19,26 +19,36 @@ const Wrapper = styled.div`
   box-sizing: border-box;
 `
 const TopContainer = styled.div`
-  display: flex;
-  flex-direction: row;
+  display: column;
   justify-content: space-between;
+
+  @media(min-width: 992px)
+  {
+    display: flex;
+    flex-direction: row;
+  }
 `
 const IntroContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  width: 40%;
-  width: ${props => props.progress === 3 ? '100%' : '40%'};
+  width: 100%;
+
+  @media(min-width: 992px) {
+    width: ${props => props.progress === 3 ? '100%' : '40%'};
+  }
 `
 const BodyContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  width: 90%;
   & > * {
     margin-top: 20px;
   }
 `
 const Title = styled(Text)`
+
 `
 const IntroText = styled(Text)`
   padding: 20px 0px
