@@ -16,6 +16,7 @@ export const getData = state => {
     const effectiveBalance = prop('effectiveBalance', payment)
     const feePerByteElements = [{ group: '', items: [{ text: 'Regular', value: regularFeePerByte }, { text: 'Priority', value: priorityFeePerByte }] }]
     const feePerByte = formValueSelector('sendBtc')(state, 'feePerByte')
+    const destination = formValueSelector('sendBtc')(state, 'to')
     const isPriorityFeePerByte = equals(parseInt(feePerByte), priorityFeePerByte)
 
     return {
@@ -28,6 +29,7 @@ export const getData = state => {
       regularFeePerByte,
       priorityFeePerByte,
       isPriorityFeePerByte,
+      destination,
       totalFee
     }
   }

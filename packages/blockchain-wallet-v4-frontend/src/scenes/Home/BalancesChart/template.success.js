@@ -9,7 +9,7 @@ import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 370px;
+  height: 380px;
   padding: 15px;
   display: flex;
   flex-direction: column;

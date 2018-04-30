@@ -38,7 +38,7 @@ const Reminder = (props) => {
             <FormLabel for='email'>
               <FormattedMessage id='scenes.reminder.email' defaultMessage='Email' />
             </FormLabel>
-            <Field name='email' validate={[required, validEmail]} component={TextBox} />
+            <Field name='email' autoFocus validate={[required, validEmail]} component={TextBox} />
           </FormItem>
         </FormGroup>
         <FormGroup>

@@ -29,7 +29,7 @@ const Success = (props) => {
 
   const isMatch = (address) => !search || address.addr.toLowerCase().indexOf(search) > -1
 
-  const importedAddressesTableRows = filter(isMatch, importedAddresses).map((address, i) => {
+  const importedAddressesTableRows = filter(isMatch, importedAddresses).map((address) => {
     return (<AddressRow key={address.addr} address={address} coin='BCH' />)
   })
 
@@ -48,14 +48,14 @@ const Success = (props) => {
         importedAddressesTableRows.length > 0 &&
         <Table>
           <TableHeader>
-            <TableCell width='40%'>
-              <Text size='13px' weight={500} capitalize>
-                <FormattedMessage id='scenes.settings.imported_addresses.address' defaultMessage='Address' />
+            <TableCell width='50%'>
+              <Text size='13px' weight={500}>
+                <FormattedMessage id='scenes.settings.imported_addresses.bch.address' defaultMessage='Address' />
               </Text>
             </TableCell>
-            <TableCell width='40%'>
-              <Text size='13px' weight={500} capitalize>
-                <FormattedMessage id='scenes.settings.imported_addresses.wallet_description' defaultMessage='Balance' />
+            <TableCell width='30%'>
+              <Text size='13px' weight={500}>
+                <FormattedMessage id='scenes.settings.imported_addresses.bch.balance' defaultMessage='Balance' />
               </Text>
             </TableCell>
           </TableHeader>
