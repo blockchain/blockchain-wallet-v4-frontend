@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { compose, bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 import ui from 'redux-ui'
+import { isNil, not } from 'ramda'
 
 import Login from './template.js'
 import { actions, selectors } from 'data'
@@ -41,20 +42,19 @@ class LoginContainer extends React.PureComponent {
   }
 
   render () {
-    let valid = localStorage.getItem('ls.guid') !== 'undefined'
-    const guid = valid && JSON.parse(localStorage.getItem('ls.guid'))
+    const { authType, lastGuid } = this.props
+    const loginProps = {
+      authType,
+      onSubmit: this.onSubmit,
+      busy: this.props.ui.busy,
+      handleCode: this.handleCode,
+      loginError: this.props.error,
+      handleMobile: this.handleMobile
+    }
 
-    const { authType } = this.props
-
-    return <Login {...this.props}
-      initialValues={{ guid }}
-      authType={authType}
-      onSubmit={this.onSubmit}
-      busy={this.props.ui.busy}
-      handleCode={this.handleCode}
-      loginError={this.props.error}
-      handleMobile={this.handleMobile}
-    />
+    return lastGuid
+      ? <Login {...this.props} initialValues={{ guid: lastGuid }} {...loginProps} />
+      : <Login {...this.props} {...loginProps} />
   }
 }
 
@@ -63,7 +63,8 @@ const mapStateToProps = (state) => ({
   password: formValueSelector('login')(state, 'password'),
   code: formValueSelector('login')(state, 'code'),
   authType: selectors.auth.getAuthType(state),
-  error: selectors.auth.getError(state)
+  error: selectors.auth.getError(state),
+  lastGuid: selectors.cache.getLastGuid(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

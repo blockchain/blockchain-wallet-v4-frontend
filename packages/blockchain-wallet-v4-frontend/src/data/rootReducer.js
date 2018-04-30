@@ -6,6 +6,7 @@ import componentsReducer from './components/reducers'
 import { formReducer } from './form/reducers'
 import alertsReducer from './alerts/reducers.js'
 import authReducer from './auth/reducers.js'
+import cacheReducer from './cache/reducers.js'
 import coinifyReducer from './modules/coinify/reducers.js'
 import goalsReducer from './goals/reducers.js'
 import modalsReducer from './modals/reducers.js'
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   goals: goalsReducer,
   modals: modalsReducer,
   preferences: preferencesReducer,
+  cache: cacheReducer,
   scroll: scrollReducer,
   session: sessionReducer,
   ui: reduxUiReducer,
