@@ -6,16 +6,20 @@ import { actions, selectors } from 'data'
 
 export default ({ api, coreSagas }) => {
   const updateTradeStatus = function * (depositAddress) {
-    const appState = yield select(identity)
-    const currentTrade = selectors.core.kvStore.shapeShift.getTrade(depositAddress, appState).getOrFail('Could not find trade.')
-    const currentStatus = prop('status', currentTrade)
-    if (equals('complete', currentStatus) || equals('failed', currentStatus)) {
-      return
-    }
-    const data = yield call(api.getTradeStatus, depositAddress)
-    const status = prop('status', data)
-    if (!equals(status, currentStatus)) {
-      yield put(actions.core.kvStore.shapeShift.updateTradeStatusMetadataShapeshift(depositAddress, status))
+    try {
+      const appState = yield select(identity)
+      const currentTrade = selectors.core.kvStore.shapeShift.getTrade(depositAddress, appState).getOrFail('Could not find trade.')
+      const currentStatus = prop('status', currentTrade)
+      if (equals('complete', currentStatus) || equals('failed', currentStatus)) {
+        return
+      }
+      const data = yield call(api.getTradeStatus, depositAddress)
+      const status = prop('status', data)
+      if (!equals(status, currentStatus)) {
+        yield put(actions.core.kvStore.shapeShift.updateTradeStatusMetadataShapeshift(depositAddress, status))
+      }
+    } catch (e) {
+      console.log(e)
     }
   }
 
