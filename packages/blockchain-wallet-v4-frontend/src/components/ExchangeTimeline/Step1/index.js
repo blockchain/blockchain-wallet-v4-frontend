@@ -48,7 +48,6 @@ const Step1 = props => (
         ? <AnimatedIcon name='paper-airplane' size='40px' color='brand-primary' />
         : <Icon name='paper-airplane' size='40px' color='brand-primary' />
       }
-      <AnimatedIcon name='paper-airplane' size='40px' color='brand-primary' status={props.status} />
     </Circle>
     <Text size='13px' weight={500} capitalize>
       <FormattedMessage id='components.exchangetimeline.funds' defaultMessage='Funds sent' />

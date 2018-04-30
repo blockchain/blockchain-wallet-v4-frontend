@@ -1,12 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
+import { Text } from 'blockchain-info-components'
 import { calculateAnimation } from './services'
 import Step1 from './Step1'
 import Step2 from './Step2'
 import Step3 from './Step3'
 import Line from './Line'
+import Error from './Error'
 
 const Wrapper = styled.div`
   position: relative;
@@ -39,7 +42,7 @@ const RowLine = styled.div`
 const ExchangeTimeline = props => {
   const { step1, line1, step2, line2, step3 } = calculateAnimation(props.status)
 
-  return (
+  return props.status !== 'failed' ? (
     <Wrapper>
       <Row>
         <Step1 status={step1} />
@@ -51,15 +54,21 @@ const ExchangeTimeline = props => {
         <Line status={line2} />
       </RowLine>
     </Wrapper>
+  ) : (
+    <Wrapper>
+      <Row>
+        <Error />
+      </Row>
+    </Wrapper>
   )
 }
 
 ExchangeTimeline.propTypes = {
-  status: PropTypes.oneOf(['no_deposit', 'received', 'success', 'failed'])
+  status: PropTypes.oneOf(['no_deposits', 'received', 'success', 'failed'])
 }
 
 ExchangeTimeline.defaultProps = {
-  status: 'no_deposit'
+  status: 'no_deposits'
 }
 
 export default ExchangeTimeline
