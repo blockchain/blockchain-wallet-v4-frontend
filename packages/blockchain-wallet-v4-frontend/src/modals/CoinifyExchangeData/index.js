@@ -41,10 +41,10 @@ class SfoxExchangeData extends React.PureComponent {
   getStepComponent (step) {
     switch (step) {
       case 'account': return <Create />
+      case 'isx': return <ISignThis />
       case 'order': return <Order />
       case 'payment': return <Payment />
       case 'confirm': return <Confirm />
-      case 'isx': return <ISignThis />
     }
   }
 
@@ -66,7 +66,7 @@ class SfoxExchangeData extends React.PureComponent {
 }
 
 SfoxExchangeData.propTypes = {
-  step: PropTypes.oneOf(['account', 'confirm', 'order', 'payment']),
+  step: PropTypes.oneOf(['account', 'isx', 'confirm', 'order', 'payment']),
   close: PropTypes.function
 }
 

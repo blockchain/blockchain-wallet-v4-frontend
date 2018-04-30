@@ -21,7 +21,7 @@ const helpers = [
   }
 ]
 
-const faqHelper = () => helpers.map(el => <Helper question={el.question} answer={el.answer} />)
+const faqHelper = () => helpers.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
 
 const AcceptTermsContainer = styled.div`
   display: flex;
@@ -66,7 +66,7 @@ class AcceptTerms extends Component {
         <ColLeft>
           <InputWrapper>
             <PartnerHeader>
-              <FormattedMessage id='coinifyexchangedata.create.verifyemail.partner.header.enter_email_code' defaultMessage='Blockchain + Coinify' />
+              <FormattedMessage id='coinifyexchangedata.create.verifyemail.partner.header.create_your_account' defaultMessage='Create Your Account' />
             </PartnerHeader>
             <PartnerSubHeader>
               <FormattedHTMLMessage id='coinifyexchangedata.create.accept.partner.header.enter_email_code' defaultMessage='We teamed up with Coinify’s exchange platform to offer buy and sell to our customers in Europe. We just sent a verification code to your {email} email address.' values={{email: email}} />
@@ -105,7 +105,6 @@ class AcceptTerms extends Component {
 }
 
 AcceptTerms.propTypes = {
-  handleSignup: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
   ui: PropTypes.object,
   email: PropTypes.string.isRequired

@@ -19,11 +19,6 @@ const EmailInput = styled.div`
   margin-top: 25px;
   flex-direction: column;
 `
-const CancelText = styled.p`
-  text-align: center;
-  cursor: pointer;
-  font-size: 14px;
-`
 
 class VerifyEmail extends Component {
   constructor (props) {
@@ -51,6 +46,7 @@ class VerifyEmail extends Component {
     } else {
       this.props.updateUI({ create: 'enter_email_code' })
       this.props.securityCenterActions.updateEmail(this.props.emailAddress)
+      this.props.securityCenterActions.sendConfirmationCodeEmail(this.props.emailAddress)
     }
   }
 
@@ -107,7 +103,6 @@ class VerifyEmail extends Component {
                 <Button type='submit' nature='primary' fullwidth disabled={invalid}>
                   <FormattedMessage id='coinifyexchangedata.create.verifyemail.sendverificationemail' defaultMessage='Send Verification Code Email' />
                 </Button>
-                <CancelText onClick={() => this.props.updateUI({create: 'enter_email_code'})}>Cancel</CancelText>
               </ButtonWrapper>
           }
         </ColRight>

@@ -17,6 +17,10 @@ class CreateContainer extends Component {
     }
   }
 
+  componentDidUpdate (prevProps) {
+    if (!prevProps.emailVerified && this.props.emailVerified) this.props.updateUI({ create: 'create_account' })
+  }
+
   render () {
     return <Create {...this.props} />
   }
