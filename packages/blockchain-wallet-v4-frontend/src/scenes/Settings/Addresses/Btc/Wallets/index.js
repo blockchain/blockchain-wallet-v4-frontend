@@ -13,7 +13,8 @@ class BitcoinWalletsContainer extends React.Component {
   }
 
   render () {
-    const { data, search, ...rest } = this.props
+    const { search, data, ...rest } = this.props
+
     return (
       data.cata({
         Success: (value) => (
