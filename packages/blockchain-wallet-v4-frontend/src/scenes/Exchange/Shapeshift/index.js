@@ -6,7 +6,6 @@ import { actions, selectors } from 'data'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 import ThirdStep from './ThirdStep'
-import ExchangeTimeline from 'components/ExchangeTimeline'
 
 class ShapeshiftContainer extends React.Component {
   componentWillUnmount () {
@@ -14,13 +13,12 @@ class ShapeshiftContainer extends React.Component {
   }
 
   render () {
-    // switch (this.props.step) {
-    //   case 1: return <FirstStep />
-    //   case 2: return <SecondStep />
-    //   case 3: return <ThirdStep />
-    //   default: return <FirstStep />
-    // }
-    return <ExchangeTimeline status='failed' />
+    switch (this.props.step) {
+      case 1: return <FirstStep />
+      case 2: return <SecondStep />
+      case 3: return <ThirdStep />
+      default: return <FirstStep />
+    }
   }
 }
 

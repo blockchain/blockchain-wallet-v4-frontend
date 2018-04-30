@@ -35,6 +35,8 @@ export const secondStepFailure = (error) => ({ type: AT.EXCHANGE_SECOND_STEP_FAI
 
 export const secondStepSubmitClicked = () => ({ type: AT.EXCHANGE_SECOND_STEP_SUBMIT_CLICKED })
 
+export const secondStepPaymentSent = (payment) => ({ type: AT.EXCHANGE_SECOND_STEP_PAYMENT_SENT, payload: payment })
+
 export const secondStepCancelClicked = () => ({ type: AT.EXCHANGE_SECOND_STEP_CANCEL_CLICKED })
 
 export const secondStepOrderExpired = () => ({ type: AT.EXCHANGE_SECOND_STEP_ORDER_EXPIRED })
