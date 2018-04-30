@@ -166,10 +166,6 @@ const applyCipher = curry((wallet, password, f, value) => {
   }
 })
 
-const print = x => {
-  console.log('print: ', x)
-  return x
-}
 // importLegacyAddress :: Wallet -> String -> Number -> String? -> { Network, Api } -> Task Error Wallet
 export const importLegacyAddress = curry((wallet, key, createdTime, password, bipPass, { network, api }) => {
   let checkIfExists = (address) =>

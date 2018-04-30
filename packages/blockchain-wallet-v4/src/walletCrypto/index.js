@@ -165,7 +165,6 @@ export const decryptSecPass = curry((sharedKey, pbkdf2Iterations, password, mess
   decryptDataWithPassword(message, sharedKey + password, pbkdf2Iterations)
     .chain(checkFailure(Task.of, Task.rejected)))
 
-
 // TODO :: review users of that funciton (moved to task)
 // encryptWallet :: String -> String -> Integer -> String -> Task Error String
 export const encryptWallet = curry((data, password, iterations, version) =>
