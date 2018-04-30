@@ -8,13 +8,13 @@ import { flex } from 'services/StyleService'
 import { FormattedMessage } from 'react-intl'
 import { Remote } from 'blockchain-wallet-v4/src'
 import Stepper, { StepView } from 'components/Utilities/Stepper'
-import BuyCheckout from './BuyCheckout'
-import { BuyOrderDetails, BuyOrderSubmit } from './BuyReviewOrder'
+import OrderCheckout from './OrderCheckout'
+import { OrderDetails, OrderSubmit } from './OrderReview'
 
 const CheckoutWrapper = styled.div`
   width: 50%;
 `
-const BuyOrderSubmitWrapper = CheckoutWrapper.extend`
+const OrderSubmitWrapper = CheckoutWrapper.extend`
   width: 35%;
   padding: 30px 30px 30px 10%;
 
@@ -83,7 +83,7 @@ const Success = props => {
       <Stepper initialStep={0}>
         <StepView step={0}>
           <CheckoutWrapper>
-            <BuyCheckout
+            <OrderCheckout
               quoteR={buyQuoteR}
               account={accounts[0]}
               onFetchQuote={fetchBuyQuote}
@@ -97,22 +97,22 @@ const Success = props => {
         <StepView step={1}>
           <div style={flex('row')}>
             <CheckoutWrapper>
-              <BuyOrderDetails
+              <OrderDetails
                 quoteR={buyQuoteR}
                 account={accounts[0]}
                 onRefreshQuote={refreshQuote}
                 type={'buy'}
               />
             </CheckoutWrapper>
-            <BuyOrderSubmitWrapper style={{ ...flex('col') }}>
-              <BuyOrderSubmit
+            <OrderSubmitWrapper style={{ ...flex('col') }}>
+              <OrderSubmit
                 quoteR={buyQuoteR}
                 onSubmit={submitBuyQuote}
                 busy={busy}
                 tradeError={tradeError}
                 clearTradeError={clearTradeError}
               />
-            </BuyOrderSubmitWrapper>
+            </OrderSubmitWrapper>
           </div>
         </StepView>
       </Stepper>
@@ -122,7 +122,7 @@ const Success = props => {
       <Stepper initialStep={0}>
         <StepView step={0}>
           <CheckoutWrapper>
-            <BuyCheckout
+            <OrderCheckout
               quoteR={sellQuoteR}
               account={accounts[0]}
               onFetchQuote={fetchSellQuote}
@@ -136,22 +136,22 @@ const Success = props => {
         <StepView step={1}>
           <div style={flex('row')}>
             <CheckoutWrapper>
-              <BuyOrderDetails
+              <OrderDetails
                 quoteR={sellQuoteR}
                 account={accounts[0]}
                 onRefreshQuote={refreshQuote}
                 type={'sell'}
               />
             </CheckoutWrapper>
-            <BuyOrderSubmitWrapper style={{ ...flex('col') }}>
-              <BuyOrderSubmit
+            <OrderSubmitWrapper style={{ ...flex('col') }}>
+              <OrderSubmit
                 quoteR={sellQuoteR}
                 onSubmit={submitSellQuote}
                 busy={busy}
                 tradeError={tradeError}
                 clearTradeError={clearTradeError}
               />
-            </BuyOrderSubmitWrapper>
+            </OrderSubmitWrapper>
           </div>
         </StepView>
       </Stepper>
