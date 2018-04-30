@@ -37,7 +37,7 @@ const ConfirmDisable2FA = (props) => {
       <ModalHeader onClose={close}>
         <div style={flex('row align/center')}>
           <Icon name='lock' size='20px' style={spacing('pr-5')} />
-          <FormattedMessage id='modals.disable2fa.title' defaultMessage='Disable Two Factor' />
+          <FormattedMessage id='modals.disable2fa.title' defaultMessage='Disable Two-Step' />
         </div>
       </ModalHeader>
       <ModalBody>

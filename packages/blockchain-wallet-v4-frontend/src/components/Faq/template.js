@@ -25,12 +25,14 @@ const SearchInputContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin: 20px 0;
+  margin: 20px 0px;
   border: 1px solid ${props => props.theme['gray-1']};
 `
 
 const SearchIcon = styled(Icon)`
-  padding: 8px 16px 0 0;
+  position: absolute;
+  top: 30px;
+  right: 30px;
 `
 
 const Faq = (props) => {
@@ -45,7 +47,7 @@ const Faq = (props) => {
         <Wrapper>
           <SearchInputContainer>
             <Field name='search' component={TextBox} />
-            <SearchIcon name='search' size='18px' weight={200} color='gray-3'/>
+            <SearchIcon name='search' size='20px' weight={200} color='gray-3'/>
           </SearchInputContainer>
           <ContentWrapper>
             {
