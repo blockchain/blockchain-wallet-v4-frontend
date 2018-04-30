@@ -1,6 +1,5 @@
 import bip39 from 'bip39'
 import * as FormHelper from './index.js'
-// import { isNumeric, isEmail, isDOB, isGuid, isUsZipcode, isIpList, isAlphaNumeric, formatSSN, formatDOB, formatUSZipcode, isOverEighteen, isSSN, isOnSfoxWhitelist, isOnPartnerCountryWhitelist } from './../ValidationHelper'
 
 describe('FormHelper', () => {
   beforeEach(() => {
