@@ -8,7 +8,7 @@
       "jsx": true
     }
   },
-  "plugins": ["babel", "react"],
+  "plugins": ["babel", "react", "jest"],
   "env": {
     "browser": true,
     "jest": true,
@@ -24,6 +24,11 @@
     "no-underscore-dangle": 0,
     "no-alert": 2,
     "require-yield": 2,
+    "jest/no-disabled-tests": 1,
+    "jest/no-focused-tests": 2,
+    "jest/no-identical-title": 2,
+    "jest/prefer-to-have-length": 0,
+    "jest/valid-expect": 2,
     "react/display-name": 0,
     "react/forbid-prop-types": 0,
     "react/jsx-boolean-value": 1,
