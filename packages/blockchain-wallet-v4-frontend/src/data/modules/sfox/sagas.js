@@ -115,7 +115,7 @@ export default ({ coreSagas }) => {
 
       payment = yield payment.fee('priority')
 
-      payment = yield payment.to('153tQjKYMuxRhymRDvoHqcKez94anDGkGF') // TODO this should be "trade.receiveAddress"
+      payment = yield payment.to(trade.receiveAddress)
 
       payment = yield payment.description(`Exchange Trade SFX-${trade.id}`)
 
