@@ -1,10 +1,14 @@
 import { Address, serializer } from './index'
 import * as crypto from '../walletCrypto/index'
 
+import Task from 'data.task'
+
 describe('Address', () => {
   const addressFixture = { priv: '5priv', addr: '1addr' }
   const address = Address.fromJS(addressFixture)
   crypto.encryptDataWithKey = (data, key, iv) => `enc<${data}>`
+  crypto.decryptSecPass = () => Task.of('shit')
+  // Address.encrypt = () => Task.of('FUcK')
 
   describe('toJS', () => {
     it('should return the correct object', () => {
@@ -31,11 +35,14 @@ describe('Address', () => {
   })
 
   describe('encrypt', () => {
-    it('should return an encrypted Address', () => {
+    it('should return an encrypted Address', (done) => {
       Address.encrypt(1, null, 'secret', address)
         .fork(
-          undefined,
-          enc => expect(enc).toEqual('enc<5priv>')
+          done,
+          enc => {
+            expect(enc.priv).toEqual('enc<5priv>')
+            done()
+          }
         )
     })
   })
