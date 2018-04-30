@@ -6,12 +6,6 @@ import { getBase, getData, getErrors, getQuote, getSellQuote, getTrades, getPaym
 import Success from './template.success'
 
 class Checkout extends React.PureComponent {
-  /* eslint-disable */
-  state = {
-    busy: false
-  }
-  /* eslint-enable */
-
   componentWillMount () {
     this.props.sfoxDataActions.fetchTrades()
     this.props.sfoxDataActions.fetchProfile()
@@ -25,10 +19,17 @@ class Checkout extends React.PureComponent {
   }
 
   render () {
-    const { data, modalActions, sfoxActions, sfoxDataActions, payment, tradeError } = this.props
+    const { data, modalActions, sfoxActions, sfoxDataActions, payment, tradeError, orderState } = this.props
     const { handleTrade, fetchQuote, refreshQuote, fetchSellQuote } = sfoxDataActions
-    const { clearTradeError } = sfoxActions
+    const { orderNotAsked } = sfoxActions
     const { showModal } = modalActions
+
+    const busy = orderState.cata({
+      Success: () => false,
+      Failure: (err) => err,
+      Loading: () => true,
+      NotAsked: () => false
+    })
 
     return data.cata({
       Success: (value) => <Success {...this.props}
@@ -40,10 +41,10 @@ class Checkout extends React.PureComponent {
         refreshQuote={() => refreshQuote()}
         submitBuyQuote={(quote) => { sfoxActions.submitQuote(quote); this.setState({ busy: true }) }}
         submitSellQuote={(quote) => { sfoxActions.submitSellQuote(quote); this.setState({ busy: true }) }}
-        busy={this.state.busy}
+        busy={busy}
         payment={payment}
         tradeError={tradeError}
-        clearTradeError={() => { clearTradeError(); this.setState({ busy: false }) }}
+        clearTradeError={() => orderNotAsked()}
       />,
       Failure: (msg) => <div>Failure: {msg.error}</div>,
       Loading: () => <div>Loading...</div>,
@@ -60,7 +61,8 @@ const mapStateToProps = state => ({
   trades: getTrades(state),
   errors: getErrors(state),
   payment: getPayment(state),
-  tradeError: state.sfoxSignup.tradeError
+  tradeError: state.sfoxSignup.tradeError,
+  orderState: state.sfoxSignup.order
 })
 
 const mapDispatchToProps = dispatch => ({

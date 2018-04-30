@@ -52,7 +52,6 @@ const Success = props => {
     errors,
     showModal,
     handleTradeDetailsClick,
-    tradeError,
     clearTradeError,
     ...rest } = props
 
@@ -109,7 +108,6 @@ const Success = props => {
                 quoteR={buyQuoteR}
                 onSubmit={submitBuyQuote}
                 busy={busy}
-                tradeError={tradeError}
                 clearTradeError={clearTradeError}
               />
             </OrderSubmitWrapper>
@@ -148,7 +146,6 @@ const Success = props => {
                 quoteR={sellQuoteR}
                 onSubmit={submitSellQuote}
                 busy={busy}
-                tradeError={tradeError}
                 clearTradeError={clearTradeError}
               />
             </OrderSubmitWrapper>

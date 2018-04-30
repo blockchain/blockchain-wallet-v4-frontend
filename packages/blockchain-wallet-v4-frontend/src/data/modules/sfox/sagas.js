@@ -93,12 +93,12 @@ export default ({ coreSagas }) => {
 
   const submitQuote = function * (action) {
     try {
-      console.log('submitting quote:', action.payload)
+      yield put(A.orderLoading())
       yield call(coreSagas.data.sfox.handleTrade, action.payload)
-      let state = yield select()
-      console.log('state', state)
+      yield put(A.orderSuccess())
       yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
     } catch (e) {
+      yield put(A.orderFailure(e))
       console.warn('FE submitQuote failed', e)
     }
   }
@@ -106,6 +106,7 @@ export default ({ coreSagas }) => {
   const submitSellQuote = function * (action) {
     const q = action.payload
     try {
+      yield put(A.orderLoading())
       const trade = yield call(coreSagas.data.sfox.handleSellTrade, q)
 
       // TODO can refactor this to use payment.chain in the future for cleanliness
@@ -130,9 +131,11 @@ export default ({ coreSagas }) => {
 
       yield put(sendBtcActions.sendBtcPaymentUpdated(Remote.of(payment.value())))
 
+      yield put(A.orderSuccess())
+
       yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
     } catch (e) {
-      yield put(A.setTradeError(e))
+      yield put(A.orderFailure(e))
       console.log(e)
     }
   }
