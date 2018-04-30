@@ -10,9 +10,10 @@ export default ({ api, options }) => {
     const state = yield select()
     const delegate = new ExchangeDelegate(state, api)
     const value = yield select(buySellSelectors.getMetadata)
-    let coinify = yield apply(coinifyService, coinifyService.refresh, [value, delegate, options])
+    const walletOptions = state.walletOptionsPath.data
+    let coinify = yield apply(coinifyService, coinifyService.refresh, [value, delegate, walletOptions])
     yield apply(coinify, coinify.profile.fetch)
-    yield put(A.fetchProfileSuccess(coinify))
+    yield put(A.coinifyFetchProfileSuccess(coinify))
     return coinify
   }
 
@@ -26,6 +27,7 @@ export default ({ api, options }) => {
       yield put(buySellA.coinifySetProfileBuySell(signupResponse))
       yield put(A.coinifySetToken(signupResponse))
     } catch (e) {
+      console.log('coinify signup error:', e)
       yield put(A.coinifySignupFailure(e))
     }
   }
