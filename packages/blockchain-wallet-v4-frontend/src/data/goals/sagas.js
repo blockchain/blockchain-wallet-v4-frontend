@@ -1,21 +1,20 @@
 import { all, takeEvery, select, call, put } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
 import * as AT from './actionTypes'
 import * as actions from '../actions'
 import * as selectors from '../selectors'
-import { Exchange } from 'blockchain-wallet-v4/src'
 
 export default ({ coreSagas }) => {
-  const sendBitcoinGoalSaga = function * (goal) {
+  const sendBtcGoalSaga = function * (goal) {
     const { id, data } = goal
     const { amount, address, message } = data
     // Goal work
-    const scaledAmount = Exchange.convertBitcoinToBitcoin({ value: amount, fromUnit: 'SAT', toUnit: 'BTC' }).value
-    yield put(actions.form.startAsyncValidation('sendBitcoin'))
-    yield put(actions.form.change('sendBitcoin', 'to2', address))
-    yield put(actions.form.change('sendBitcoin', 'amount', scaledAmount))
-    yield put(actions.form.change('sendBitcoin', 'message', message))
-    yield put(actions.form.touch('sendBitcoin', 'to2', 'amount', 'message'))
     yield put(actions.modals.showModal('SendBitcoin'))
+    yield call(delay, 2000)
+    yield put(actions.form.change('sendBtc', 'to', address))
+    yield put(actions.form.change('sendBtc', 'amount', amount))
+    yield put(actions.form.change('sendBtc', 'message', message))
+    yield put(actions.form.touch('sendBtc', 'to', 'amount', 'message'))
     // Goal removed from state
     yield put(actions.goals.deleteGoal(id))
   }
@@ -25,7 +24,7 @@ export default ({ coreSagas }) => {
 
     yield all(goals.map((goal) => {
       switch (goal.name) {
-        case 'payment': return call(sendBitcoinGoalSaga, goal)
+        case 'payment': return call(sendBtcGoalSaga, goal)
       }
     }))
   }

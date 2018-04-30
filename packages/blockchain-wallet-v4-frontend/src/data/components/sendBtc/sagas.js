@@ -16,7 +16,7 @@ const DUST = 546
 const DUST_BTC = '0.00000546'
 
 export default ({ coreSagas }) => {
-  const sendBtcInitialized = function * (action, password) {
+  const sendBtcInitialized = function * () {
     try {
       yield put(A.sendBtcPaymentUpdated(Remote.Loading))
       let payment = coreSagas.payment.btc.create(({network: settings.NETWORK_BITCOIN}))

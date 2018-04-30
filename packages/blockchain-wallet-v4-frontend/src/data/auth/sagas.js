@@ -51,8 +51,9 @@ export default ({ api, coreSagas }) => {
         yield put(actions.alerts.displaySuccess('Login successful'))
       }
       yield put(actions.router.push('/home'))
-      yield put(actions.goals.runGoals())
       yield put(actions.auth.startLogoutTimer())
+      yield call(delay, 1000)
+      yield put(actions.goals.runGoals())
       yield fork(reportStats, mobileLogin)
       yield fork(logoutRoutine, yield call(setLogoutEventListener))
       // ETHER - Fix derivation
