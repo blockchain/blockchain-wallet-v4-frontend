@@ -103,8 +103,8 @@ const FirstStep = props => {
           </FormLabel>
           <Row>
             {toToggled
-              ? <Field name='to' placeholder="Paste or scan an address, or select a destination" component={SelectBoxBitcoinAddresses} validate={[required]} />
-              : <Field name='to' placeholder="Paste or scan an address, or select a destination" component={TextBox} validate={[required, validBitcoinAddress]} />
+              ? <Field name='to' placeholder='Paste or scan an address, or select a destination' component={SelectBoxBitcoinAddresses} validate={[required]} />
+              : <Field name='to' placeholder='Paste or scan an address, or select a destination' component={TextBox} validate={[required, validBitcoinAddress]} />
             }
             <QRCodeCapture coin='BTC' />
             {toToggled
@@ -130,7 +130,7 @@ const FirstStep = props => {
               <FormattedMessage id='modals.sendbtc.firststep.share_tooltip' defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.' />
             </Tooltip>
           </FormLabel>
-          <Field name='message' component={TextArea} placeholder="What's this transaction for?" fullwidth />
+          <Field name='description' component={TextArea} placeholder="What's this transaction for?" fullwidth />
         </FormItem>
       </FormGroup>
       <FormGroup inline margin={'15px'}>

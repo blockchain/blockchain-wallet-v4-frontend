@@ -84,7 +84,7 @@ export default ({ coreSagas }) => {
           const satAmount = Exchange.convertBitcoinToBitcoin({ value: btcAmount, fromUnit: 'BTC', toUnit: 'SAT' }).value
           payment = yield payment.amount(parseInt(satAmount))
           break
-        case 'message':
+        case 'description':
           payment = yield payment.description(payload)
           break
         case 'feePerByte':
@@ -110,7 +110,7 @@ export default ({ coreSagas }) => {
     try {
       const appState = yield select(identity)
       const currency = selectors.core.settings.getCurrency(appState).getOrFail('Can not retrieve currency.')
-      const btcRates = selectors.core.data.bitcoin.getRates(appState).getOrFail('Can not retrive bitcoin rates.')
+      const btcRates = selectors.core.data.bitcoin.getRates(appState).getOrFail('Can not retrieve bitcoin rates.')
       const coin = DUST_BTC
       const fiat = Exchange.convertBitcoinToFiat({ value: DUST, fromUnit: 'SAT', toCurrency: currency, rates: btcRates }).value
       yield put(change('sendBtc', 'amount', { coin, fiat }))
@@ -187,6 +187,9 @@ export default ({ coreSagas }) => {
       payment = yield payment.sign(password)
       payment = yield payment.publish()
       yield put(A.sendBtcPaymentUpdated(Remote.of(payment.value())))
+      if (payment.value().description.length) {
+        yield put(actions.core.wallet.setTransactionNote(payment.value().txId, payment.value().description))
+      }
       yield put(actions.modals.closeAllModals())
       yield put(actions.router.push('/btc/transactions'))
       yield put(actions.alerts.displaySuccess('Your bitcoin has been sent!'))
