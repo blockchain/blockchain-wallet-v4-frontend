@@ -73,7 +73,6 @@ const CurrencyBox = styled(Text)`
 
 const Success = props => {
   const { elements, enabled, currency, sourceCoin, targetCoin, formError, handleSwap, handleSubmit, dirty } = props
-  console.log('DIRTY', dirty)
 
   return (
     <Wrapper>

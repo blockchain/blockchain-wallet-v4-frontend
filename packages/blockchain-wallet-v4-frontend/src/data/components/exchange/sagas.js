@@ -299,7 +299,6 @@ export default ({ api, coreSagas }) => {
       outgoingPayment = yield outgoingPayment.publish()
       const paymentValue = outgoingPayment.value()
       const { txId } = paymentValue
-      yield put(A.paymentUpdated(paymentValue))
       // Save the trade in metadata
       const trade = {
         hashIn: txId,
@@ -318,6 +317,8 @@ export default ({ api, coreSagas }) => {
       }
       // Add order in metadata
       yield put(actions.core.kvStore.shapeShift.addTradeMetadataShapeshift(trade))
+      // We update the payment in the state
+      yield put(A.secondStepPaymentSent(paymentValue))
     } catch (e) {
       yield put(actions.alerts.displayError('Transaction could not be sent. Try again later.'))
     }

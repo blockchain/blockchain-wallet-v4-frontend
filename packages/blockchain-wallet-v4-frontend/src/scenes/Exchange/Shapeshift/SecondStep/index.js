@@ -28,7 +28,7 @@ class SecondStepContainer extends React.Component {
         targetAmount={value.targetAmount}
         targetFee={value.targetFee}
         expiration={value.expiration}
-        handleSubmit={() => actions.secondStepSubmitClicked()}
+        handleSubmit={(e) => { e.preventDefault(); actions.secondStepSubmitClicked() }}
         handleCancel={() => actions.secondStepCancelClicked()}
         handleExpiry={() => actions.secondStepOrderExpired()}
       />,
