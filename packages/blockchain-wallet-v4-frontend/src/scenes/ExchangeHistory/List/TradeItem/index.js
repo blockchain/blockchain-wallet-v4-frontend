@@ -7,16 +7,6 @@ import { getData } from './selectors'
 import TradeItem from './template'
 
 class PagesContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.handleClick = this.handleClick.bind(this)
-  }
-
-  handleClick () {
-    const { deposit } = this.props.trade
-    // this.props.modalActions.showModal('ExchangeDetails', { depositAddress: deposit })
-  }
-
   render () {
     const { status, date, sourceCoin, targetCoin, deposit, depositAmount, withdrawalAmount, modalActions } = this.props
 
