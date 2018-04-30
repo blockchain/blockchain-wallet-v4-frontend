@@ -4,20 +4,21 @@ import * as AT from './actionTypes'
 import * as actions from '../actions'
 import * as selectors from '../selectors'
 import * as actionTypes from '../actionTypes'
+import { Exchange } from 'blockchain-wallet-v4/src'
 
 export default ({ coreSagas }) => {
   const sendBtcGoalSaga = function * (goal) {
     const { id, data } = goal
-    const { address, message } = data
+    const { amount, address, message } = data
+    const currency = yield select(selectors.core.settings.getCurrency)
+    const btcRates = yield select(selectors.core.data.bitcoin.getRates)
+    const fiat = Exchange.convertBitcoinToFiat({ value: amount, fromUnit: 'BTC', toCurrency: currency.data, rates: btcRates.data }).value
     // Goal work
-    const walletContext = yield select(selectors.core.wallet.getWalletContext)
-    yield call(actions.core.data.bitcoin.fetchData, walletContext)
     yield put(actions.modals.showModal('SendBitcoin'))
-    yield call(delay, 1500)
+    yield call(delay, 3000)
     yield put(actions.form.change('sendBtc', 'to', address))
     yield put(actions.form.change('sendBtc', 'message', message))
-    // TODO: amount does not work, issue in passing to CoinConvertor
-    // yield put(actions.form.change('sendBtc', 'amount', amount))
+    yield put(actions.form.change('sendBtc', 'amount', {coin: amount, fiat}))
     // Goal removed from state
     yield put(actions.goals.deleteGoal(id))
   }
