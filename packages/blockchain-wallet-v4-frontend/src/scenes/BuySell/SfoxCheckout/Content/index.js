@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { getBase, getData, getErrors, getQuote, getSellQuote, getTrades, getPayment } from './selectors'
 import Success from './template.success'
+import Loading from '../../template.loading'
+import { path } from 'ramda'
 
 class Checkout extends React.PureComponent {
   componentWillMount () {
@@ -19,9 +21,9 @@ class Checkout extends React.PureComponent {
   }
 
   render () {
-    const { data, modalActions, sfoxActions, sfoxDataActions, payment, tradeError, orderState } = this.props
+    const { data, modalActions, sfoxActions, sfoxDataActions, payment, orderState } = this.props
     const { handleTrade, fetchQuote, refreshQuote, fetchSellQuote } = sfoxDataActions
-    const { orderNotAsked } = sfoxActions
+    const { sfoxNotAsked } = sfoxActions
     const { showModal } = modalActions
 
     const busy = orderState.cata({
@@ -43,11 +45,10 @@ class Checkout extends React.PureComponent {
         submitSellQuote={(quote) => { sfoxActions.submitSellQuote(quote); this.setState({ busy: true }) }}
         busy={busy}
         payment={payment}
-        tradeError={tradeError}
-        clearTradeError={() => orderNotAsked()}
+        clearTradeError={() => sfoxNotAsked()}
       />,
       Failure: (msg) => <div>Failure: {msg.error}</div>,
-      Loading: () => <div>Loading...</div>,
+      Loading: () => <Loading />,
       NotAsked: () => <div>Not Asked</div>
     })
   }
@@ -61,8 +62,7 @@ const mapStateToProps = state => ({
   trades: getTrades(state),
   errors: getErrors(state),
   payment: getPayment(state),
-  tradeError: state.sfoxSignup.tradeError,
-  orderState: state.sfoxSignup.order
+  orderState: path(['sfoxSignup', 'sfoxBusy'], state)
 })
 
 const mapDispatchToProps = dispatch => ({

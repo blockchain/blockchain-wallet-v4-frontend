@@ -26,16 +26,14 @@ export default ({ coreSagas }) => {
     try {
       yield call(coreSagas.data.sfox.signup)
       const profile = yield select(selectors.core.data.sfox.getProfile)
-
       if (!profile.error) {
         yield put(A.nextStep('verify'))
       } else {
         const error = JSON.parse(profile.error).error
-        yield put(A.signupFailure(error))
-        if (error === 'user_data is not verified') { yield put(actions.alerts.displayError('Something went wrong. Please contact our support team (or your local developer).')) }
+        throw new Error(error)
       }
     } catch (e) {
-      yield put(A.signupFailure(e))
+      yield put(A.sfoxFailure(e))
     }
   }
 
@@ -98,7 +96,7 @@ export default ({ coreSagas }) => {
       yield put(A.orderSuccess())
       yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
     } catch (e) {
-      yield put(A.orderFailure(e))
+      yield put(A.sfoxFailure(e))
       console.warn('FE submitQuote failed', e)
     }
   }
@@ -135,7 +133,7 @@ export default ({ coreSagas }) => {
 
       yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
     } catch (e) {
-      yield put(A.orderFailure(e))
+      yield put(A.sfoxFailure(e))
       console.log(e)
     }
   }

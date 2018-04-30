@@ -5,7 +5,6 @@ export const setBankManually = (routing, account, name, type) => ({ type: AT.SET
 export const setBankAccount = (bank) => ({ type: AT.SET_BANK, payload: bank })
 
 export const sfoxSignup = () => ({ type: AT.SFOX_SIGNUP })
-export const signupFailure = (error) => ({ type: AT.SFOX_SIGNUP_FAILURE, payload: error })
 
 export const nextStep = (step) => ({ type: AT.NEXT_STEP, payload: step })
 
@@ -22,7 +21,7 @@ export const submitMicroDeposits = (data) => ({ type: AT.SUBMIT_MICRO_DEPOSITS, 
 export const submitQuote = (quote) => ({ type: AT.SUBMIT_QUOTE, payload: quote })
 export const submitSellQuote = (quote) => ({ type: AT.SUBMIT_SELL_QUOTE, payload: quote })
 
-export const orderNotAsked = () => ({ type: AT.ORDER_NOT_ASKED })
-export const orderLoading = () => ({ type: AT.ORDER_LOADING })
-export const orderSuccess = () => ({ type: AT.ORDER_SUCCESS })
-export const orderFailure = (error) => ({ type: AT.ORDER_FAILURE, payload: error })
+export const sfoxNotAsked = () => ({ type: AT.SFOX_NOT_ASKED })
+export const sfoxLoading = () => ({ type: AT.SFOX_LOADING })
+export const sfoxSuccess = () => ({ type: AT.SFOX_SUCCESS })
+export const sfoxFailure = (error) => ({ type: AT.SFOX_FAILURE, payload: error })
