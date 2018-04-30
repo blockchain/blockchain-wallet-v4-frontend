@@ -15,7 +15,7 @@ const quoteInputSpec = {
   output: 'btc'
 }
 
-const BuyCheckout = ({ quoteR, account, onFetchQuote, reason, finishAccountSetup, limits, type }) => {
+const OrderCheckout = ({ quoteR, account, onFetchQuote, reason, finishAccountSetup, limits, type }) => {
   const disableInputs = limits.max < limits.min || (reason.indexOf('has_remaining') < 0 && reason) || limits.effectiveMax < limits.min
 
   const wantToHelper = () => type === 'buy' ? <FormattedMessage id='buy.output_method.title.buy' defaultMessage='I want to buy' /> : <FormattedMessage id='buy.output_method.title.sell' defaultMessage='I want to sell' />
@@ -100,4 +100,4 @@ const BuyCheckout = ({ quoteR, account, onFetchQuote, reason, finishAccountSetup
   )
 }
 
-export default BuyCheckout
+export default OrderCheckout

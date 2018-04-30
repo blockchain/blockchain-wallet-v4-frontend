@@ -39,7 +39,7 @@ const renderDetailsRow = (id, message, value, color) => (
   </OrderDetailsRow>
 )
 
-export const BuyOrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
+export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
   <ExchangeCheckoutWrapper>
     <Text size='32px' weight={600} style={spacing('mb-10')}>
       <FormattedMessage id='buy.almost_there' defaultMessage="You're almost there" />
@@ -90,7 +90,7 @@ export const BuyOrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
   </ExchangeCheckoutWrapper>
 )
 
-export const BuyOrderSubmit = ({ quoteR, onSubmit, busy, tradeError, clearTradeError }) => (
+export const OrderSubmit = ({ quoteR, onSubmit, busy, tradeError, clearTradeError }) => (
   <Fragment>
     {
       !tradeError
