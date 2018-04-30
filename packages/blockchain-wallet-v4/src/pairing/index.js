@@ -30,16 +30,18 @@ const parseQRcode = (data) => {
 
 // decode :: data -> String -> Task Error Object
 const decode = (data, passphrase) => {
-  const decryptData = data =>
-    crypto.decryptDataWithPassword(data, passphrase, PBKDF2_ITERATIONS)
+  const decryptData = data => {
+    return crypto.decryptDataWithPassword(data, passphrase, PBKDF2_ITERATIONS)
+  }
 
   const getCredentials = decryptedData => {
     const [sharedKey, passwordHex] = decryptedData.split('|')
-    const password = Buffer.from(passwordHex, 'hex').toString('utf8')
-    return { sharedKey, password }
+    return TaskFromPredicate(isNotNil, passwordHex, 'qr_code_expired')
+      .map(p => Buffer.from(p, 'hex').toString('utf8'))
+      .map(p => ({sharedKey, password: p}))
   }
   return TaskFromPredicate(isNotNil, data, 'Null QR code data to decode')
-    .chain(decryptData).map(getCredentials)
+    .chain(decryptData).chain(getCredentials)
 }
 
 // encode :: String -> String -> String -> String -> Task Error String

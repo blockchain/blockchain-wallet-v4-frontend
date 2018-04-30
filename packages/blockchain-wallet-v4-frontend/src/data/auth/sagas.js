@@ -147,7 +147,11 @@ export default ({ api, coreSagas }) => {
       const loginAction = actions.auth.login(guid, password, undefined, sharedKey, true)
       yield call(login, loginAction)
     } catch (error) {
-      yield put(actions.alerts.displayError('Error logging into your wallet'))
+      if (error === 'qr_code_expired') {
+        yield put(actions.alerts.displayError('Error: QR code expired'))
+      } else {
+        yield put(actions.alerts.displayError('Error logging into your wallet'))
+      }
     }
     yield put(actions.modals.closeModal())
   }
