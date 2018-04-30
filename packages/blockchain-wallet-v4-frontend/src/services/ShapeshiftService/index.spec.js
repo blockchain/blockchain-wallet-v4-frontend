@@ -1,5 +1,4 @@
-import * as ShapeshiftService from './index.js'
-import { getCoinFromPair } from './index'
+import * as ShapeshiftService from './index'
 
 describe('ShapeshiftService Service', () => {
   describe('getPairFromCoin()', () => {
@@ -79,7 +78,6 @@ describe('ShapeshiftService Service', () => {
       timestamp: fakeTimestamp,
       quote: { pair: 'btc_eth' }
     }
-
 
     beforeAll(() => {
       // lock Time to 1/1/2018
