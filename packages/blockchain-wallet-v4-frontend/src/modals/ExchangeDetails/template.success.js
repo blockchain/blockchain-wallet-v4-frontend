@@ -6,9 +6,6 @@ import { FormattedMessage } from 'react-intl'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Text, Tooltip } from 'blockchain-info-components'
 import ExchangeTimeline from 'components/ExchangeTimeline'
 
-const TimelineContainer = styled.div`
-  margin-bottom: 20px;
-`
 const Notice = styled.div`
   width: 100%;
   margin-bottom: 10px;
@@ -20,7 +17,6 @@ const Table = styled.div`
   border: 1px solid ${props => props.theme['gray-2']};
   background-color: ${props => props.theme['white-blue']};
   & > :last-child { border-bottom: none; }
-  margin-bottom: 10px;
 `
 const TableRow = styled.div`
   display: flex;
@@ -43,9 +39,8 @@ const TableCell = styled.div`
 `
 
 const ExchangeDetails = (props) => {
-  const { position, total, close, trade } = props
-  const { status, quote, sourceCoin, targetCoin } = trade
-  const { quotedRate, minerFee, orderId, depositAmount, withdrawalAmount } = quote
+  const { position, total, close, ...rest } = props
+  const { status, sourceCoin, targetCoin, quotedRate, minerFee, orderId, depositAmount, withdrawalAmount } = rest
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -56,9 +51,7 @@ const ExchangeDetails = (props) => {
         }
       </ModalHeader>
       <ModalBody>
-        <TimelineContainer>
-          <ExchangeTimeline status={status} />
-        </TimelineContainer>
+        <ExchangeTimeline status={status} />
         {status === 'complete' &&
           <Notice>
             <Text size='13px' weight={300}>
@@ -146,7 +139,14 @@ const ExchangeDetails = (props) => {
 }
 
 ExchangeDetails.propTypes = {
-  trade: PropTypes.object.isRequired
+  status: PropTypes.string.isRequired,
+  sourceCoin: PropTypes.string.isRequired,
+  targetCoin: PropTypes.string.isRequired,
+  quotedRate: PropTypes.string.isRequired,
+  minerFee: PropTypes.string.isRequired,
+  orderId: PropTypes.string.isRequired,
+  depositAmount: PropTypes.string.isRequired,
+  withdrawalAmount: PropTypes.string.isRequired
 }
 
 export default ExchangeDetails

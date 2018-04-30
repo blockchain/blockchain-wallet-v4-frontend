@@ -346,7 +346,7 @@ export default ({ api, coreSagas }) => {
         if (equals('complete', currentStatus) || equals('failed', currentStatus)) {
           break
         }
-        const data = yield call(coreSagas.data.shapeShift.fetchTradeStatus, depositAddress)
+        const data = yield call(api.getTradeStatus, depositAddress)
         const shapeshiftStatus = prop('status', data)
         if (!equals(shapeshiftStatus, currentStatus)) {
           yield put(actions.core.kvStore.shapeShift.updateTradeStatusMetadataShapeshift(depositAddress, shapeshiftStatus))
