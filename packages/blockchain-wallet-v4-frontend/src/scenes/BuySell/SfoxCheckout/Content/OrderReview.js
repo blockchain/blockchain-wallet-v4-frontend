@@ -90,11 +90,17 @@ export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
   </ExchangeCheckoutWrapper>
 )
 
-export const OrderSubmit = ({ quoteR, onSubmit, busy, tradeError, clearTradeError }) => (
+export const OrderSubmit = ({ quoteR, onSubmit, busy, clearTradeError }) => (
   <Fragment>
     {
-      !tradeError
-        ? <Fragment>
+      busy instanceof Error
+        ? <div>
+          <Text color='error' size='13px'>
+            Sorry, something went wrong with your trade: { busy.message }
+          </Text>
+          <span onClick={() => clearTradeError()}><StepTransition prev Component={Link} weight={300} size='13px'><FormattedMessage id='try_again' defaultMessage='Try again' /></StepTransition></span>
+        </div>
+        : <Fragment>
           <Button
             nature='primary'
             disabled={!Remote.Success.is(quoteR)}
@@ -111,12 +117,6 @@ export const OrderSubmit = ({ quoteR, onSubmit, busy, tradeError, clearTradeErro
             </StepTransition>
           </CancelWrapper>
         </Fragment>
-        : <div>
-          <Text color='error' size='13px'>
-            There has been an error: { tradeError.message || 'unkown error' }
-          </Text>
-          <span onClick={() => clearTradeError()}><StepTransition prev Component={Link} weight={300} size='13px'><FormattedMessage id='try_again' defaultMessage='Try again' /></StepTransition></span>
-        </div>
     }
     <StyledFaqRow
       title={<FormattedMessage id='faq.how_long_to_receive_q' defaultMessage='How long does it take to get my funds?' />}

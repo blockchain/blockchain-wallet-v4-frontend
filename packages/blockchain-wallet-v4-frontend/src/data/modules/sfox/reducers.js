@@ -1,7 +1,10 @@
 import * as AT from './actionTypes'
 import { assoc } from 'ramda'
+import { Remote } from 'blockchain-wallet-v4/src'
 
-const INITIAL_STATE = []
+const INITIAL_STATE = {
+  order: Remote.NotAsked
+}
 
 const sfoxSignup = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
@@ -19,11 +22,17 @@ const sfoxSignup = (state = INITIAL_STATE, action) => {
     case AT.SET_VERIFY_ERROR: {
       return assoc('verifyError', payload, state)
     }
-    case AT.SET_TRADE_ERROR: {
-      return assoc('tradeError', payload, state)
+    case AT.ORDER_NOT_ASKED: {
+      return assoc('order', Remote.NotAsked, state)
     }
-    case AT.CLEAR_TRADE_ERROR: {
-      return assoc('tradeError', null, state)
+    case AT.ORDER_LOADING: {
+      return assoc('order', Remote.Loading, state)
+    }
+    case AT.ORDER_SUCCESS: {
+      return assoc('order', Remote.Success(payload), state)
+    }
+    case AT.ORDER_FAILURE: {
+      return assoc('order', Remote.Failure(payload), state)
     }
     default:
       return state
