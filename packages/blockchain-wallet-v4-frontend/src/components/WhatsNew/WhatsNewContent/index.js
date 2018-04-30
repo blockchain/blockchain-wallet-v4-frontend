@@ -6,7 +6,7 @@ import { Color } from 'blockchain-info-components'
 const Announcements = [
   {
     title: <FormattedMessage id='layouts.wallet.header.whatsnew.whatsnew.title12' defaultMessage={'Import Funds from MyEtherWallet'} />,
-    desc: <FormattedMessage id='layouts.wallet.header.whatsnew.whatsnew.desc12' defaultMessage={'You can now import your ether from your MyEtherWallet backup directky into your Blockchain wallet.'} />,
+    desc: <FormattedMessage id='layouts.wallet.header.whatsnew.whatsnew.desc12' defaultMessage={'You can now import your ether from your MyEtherWallet backup directly into your Blockchain wallet.'} />,
     date: 'February 10, 2018',
     link: <NavLink to='/settings/info' style={{color: Color('brand-secondary')}}>
       <FormattedMessage id='layouts.wallet.header.whatsnew.whatsnew.link.12' defaultMessage={'Learn More'} />

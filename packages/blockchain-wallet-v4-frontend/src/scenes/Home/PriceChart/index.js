@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 370px;
+  height: 380px;
   padding: 15px;
   box-sizing: border-box;
   border: 1px solid ${props => props.theme['gray-1']};

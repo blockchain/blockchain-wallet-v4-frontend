@@ -14,7 +14,6 @@ class LoginContainer extends React.PureComponent {
     this.handleCode = this.handleCode.bind(this)
     this.handleMobile = this.handleMobile.bind(this)
   }
-
   handleCode (val) {
     this.setState({ useCode: val })
   }
