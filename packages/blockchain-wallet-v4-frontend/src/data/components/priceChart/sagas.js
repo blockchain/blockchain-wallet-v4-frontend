@@ -1,10 +1,10 @@
-import { select, takeEvery, put } from 'redux-saga/effects'
-import * as AT from './actionTypes'
+import { select, put } from 'redux-saga/effects'
 import * as S from './selectors'
 import * as actions from '../../actions'
 import { calculateStart, calculateScale } from 'services/ChartService'
 
 export default ({ coreSagas }) => {
+  // initialize priceChart component
   const initialized = function * (action) {
     try {
       const { coin, time } = action.payload

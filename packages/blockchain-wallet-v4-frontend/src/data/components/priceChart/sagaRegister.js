@@ -4,7 +4,6 @@ import sagas from './sagas'
 
 export default ({ coreSagas }) => {
   const priceChartSagas = sagas({ coreSagas })
-  console.log('priceChartSagas', priceChartSagas)
 
   return function * () {
     yield takeEvery(AT.PRICE_CHART_INITIALIZED, priceChartSagas.initialized)

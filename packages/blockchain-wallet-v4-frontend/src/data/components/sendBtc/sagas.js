@@ -1,6 +1,5 @@
-import { call, select, takeLatest, put } from 'redux-saga/effects'
+import { call, select, put } from 'redux-saga/effects'
 import { equals, path, prop, nth, is, identity } from 'ramda'
-import * as AT from './actionTypes'
 import * as A from './actions'
 import * as S from './selectors'
 import * as actions from '../../actions'

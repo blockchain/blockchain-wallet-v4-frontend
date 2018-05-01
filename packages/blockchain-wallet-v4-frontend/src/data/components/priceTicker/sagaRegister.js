@@ -5,7 +5,7 @@ import sagas from './sagas'
 export default ({ coreSagas }) => {
   const priceTickerSagas = sagas({ coreSagas })
 
-  return function* () {
+  return function * () {
     yield takeEvery(AT.PRICE_TICKER_INITIALIZED, priceTickerSagas.initialized)
   }
 }

@@ -1,13 +1,12 @@
-import { call, select, takeLatest, put } from 'redux-saga/effects'
+import { call, select, put } from 'redux-saga/effects'
 import { equals, identity, path, prop } from 'ramda'
-import * as AT from './actionTypes'
 import * as A from './actions'
 import * as S from './selectors'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
 import settings from 'config'
 
-import { actionTypes, initialize, change } from 'redux-form'
+import { initialize, change } from 'redux-form'
 import { promptForSecondPassword } from 'services/SagaService'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 

@@ -5,7 +5,7 @@ import sagas from './sagas'
 export default () => {
   const usedAddressesSagas = sagas()
 
-  return function* () {
+  return function * () {
     yield takeLatest(AT.TOGGLE_USED_ADDRESSES, usedAddressesSagas.toggleUsedAddresses)
   }
 }
