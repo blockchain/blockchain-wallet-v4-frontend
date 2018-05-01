@@ -19,6 +19,7 @@ import SelectBoxBankAccountType from './SelectBoxBankAccountType'
 import SelectBox from './SelectBox'
 import SelectBoxBitcoinAddresses from './SelectBoxBitcoinAddresses'
 import SelectBoxCoin from './SelectBoxCoin'
+import SelectBoxCoinifyCurrency from './SelectBoxCoinifyCurrency'
 import SelectBoxCountry from './SelectBoxCountry'
 import SelectBoxCurrency from './SelectBoxCurrency'
 import SelectBoxLanguages from './SelectBoxLanguages'
@@ -50,6 +51,7 @@ export {
   SelectBox,
   SelectBoxBitcoinAddresses,
   SelectBoxCoin,
+  SelectBoxCoinifyCurrency,
   SelectBoxCountry,
   SelectBoxCurrency,
   SelectBoxLanguages,

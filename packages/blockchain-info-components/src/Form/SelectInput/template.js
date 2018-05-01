@@ -29,7 +29,7 @@ const DefaultDisplay = styled.div`
   box-sizing: border-box;
   padding: 5px 20px 5px 10px;
   font-family: 'Montserrat', sans-serif;
-  font-size: 14px;
+  font-size: ${props => props.fontSize === 'small' ? '12px' : '14px'};
   font-weight: 300;
   text-align: left;
   overflow: hidden;
@@ -98,7 +98,7 @@ const DefaultItem = styled.div`
   box-sizing: border-box;
   font-family: 'Montserrat', sans-serif;
   font-weight: 300;
-  font-size: 14px;
+  font-size: ${props => props.fontSize === 'small' ? '12px' : '14px'};
   color: ${props => props.theme['gray-4']};
   cursor: pointer;
 
@@ -114,7 +114,7 @@ const Arrow = styled(Icon)`
 `
 
 const SelectInput = (props) => {
-  const { items, selected, disabled, defaultDisplay, expanded, searchEnabled, handleBlur, handleChange, handleClick, handleFocus, hideArrow, templateDisplay, templateHeader, templateItem, errorState } = props
+  const { items, selected, disabled, defaultDisplay, expanded, searchEnabled, handleBlur, handleChange, handleClick, handleFocus, hideArrow, templateDisplay, templateHeader, templateItem, errorState, fontSize } = props
   const display = selected || { text: defaultDisplay, value: undefined }
   const showArrow = !hideArrow
 
@@ -122,7 +122,7 @@ const SelectInput = (props) => {
     <SelectBoxInput onClick={handleFocus}>
       {!expanded || !searchEnabled
         ? <Display onBlur={handleBlur} disabled={disabled} errorState={errorState}>
-          {templateDisplay ? templateDisplay(display) : <DefaultDisplay>{display.text}</DefaultDisplay>}
+          {templateDisplay ? templateDisplay(display) : <DefaultDisplay fontSize={fontSize}>{display.text}</DefaultDisplay>}
         </Display>
         : <Search autoFocus={expanded} onChange={handleChange} />
       }
@@ -130,7 +130,7 @@ const SelectInput = (props) => {
       <List expanded={expanded}>
         { items.map((item, index) => item.value == null
           ? <Header key={index}>{templateHeader ? templateHeader(item) : <DefaultHeader>{item.text}</DefaultHeader>}</Header>
-          : <Item key={index} onMouseDown={() => handleClick(item)}>{templateItem ? templateItem(item) : <DefaultItem>{item.text}</DefaultItem>}</Item>)
+          : <Item key={index} onMouseDown={() => handleClick(item)}>{templateItem ? templateItem(item) : <DefaultItem fontSize={fontSize}>{item.text}</DefaultItem>}</Item>)
         }
       </List>
     </SelectBoxInput>
@@ -155,7 +155,8 @@ SelectInput.propTypes = {
   handleClick: PropTypes.func,
   handleFocus: PropTypes.func,
   templateHeader: PropTypes.func,
-  templateItem: PropTypes.func
+  templateItem: PropTypes.func,
+  fontSize: PropTypes.string
 }
 
 export default SelectInput

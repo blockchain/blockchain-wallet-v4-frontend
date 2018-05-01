@@ -36,7 +36,18 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const initialized = function * () {
+    try {
+      const initialValues = {
+
+      }
+      yield put(actions.form.initialize('coinifyCheckout', initialValues))
+    } catch (e) {
+    }
+  }
+
   return function * () {
+    yield takeLatest(AT.COINIFY_INITIALIZED, initialized)
     yield takeLatest(AT.SIGNUP, coinifySignup)
     yield takeLatest(AT.COINIFY_SAVE_MEDIUM, coinifySaveMedium)
     yield takeLatest(AT.COINIFY_BUY, buy)
