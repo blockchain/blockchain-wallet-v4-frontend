@@ -19,8 +19,6 @@ const notChange = (io) => !io.change
 
 const Addresses = props => {
   const { from, to, outputs, inputs, coin } = props
-  const labelTo = <Text size='13px' weight={300}>{to}</Text>
-  const labelFrom = <Text size='13px' weight={300}>{from}</Text>
 
   return (
     <Wrapper>
@@ -28,7 +26,7 @@ const Addresses = props => {
         <Text size='13px' weight={500}>
           <FormattedMessage id='scenes.transactions.content.list.listitem.to' defaultMessage='To: ' />
         </Text>
-        <Tooltip width='auto' label={labelTo} hover={outputs && any(hasLabel, filter(notChange, outputs))}>
+        <Tooltip width='auto' label={to} hover={outputs && any(hasLabel, filter(notChange, outputs))}>
           { outputs && filter(hasLabel, filter(notChange, outputs)).map((output) =>
             <Text size='12px' weight={300}>
               {equals(coin, 'BCH') ? utils.bch.toCashAddr(output.address, true) : output.address}
@@ -40,7 +38,7 @@ const Addresses = props => {
         <Text size='13px' weight={500}>
           <FormattedMessage id='scenes.transactions.content.list.listitem.from' defaultMessage='From: ' />
         </Text>
-        <Tooltip width='auto' label={labelFrom} hover={inputs && inputs.some(hasLabel)}>
+        <Tooltip width='auto' label={from} hover={inputs && inputs.some(hasLabel)}>
           { inputs && inputs.map((input) => input.label &&
             <Text size='12px' weight={300}>
               {equals(coin, 'BCH') ? utils.bch.toCashAddr(input.address, true) : input.address}
