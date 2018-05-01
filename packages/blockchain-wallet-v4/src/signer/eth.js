@@ -15,7 +15,7 @@ const toHex = value => {
 // /////////////////////////////////////////////////////////////////////////////
 export const sign = curry((network = 1, mnemonic, data) => {
   const { index, to, amount, nonce, gasPrice, gasLimit } = data
-  const privateKey = eth.getPrivateKey(mnemonic, index).getWallet().getPrivateKey()
+  const privateKey = eth.getPrivateKey(mnemonic, index)
   const txParams = {
     to,
     nonce: toHex(nonce),

@@ -1,5 +1,5 @@
 import { HDWallet, HDAccountList, HDAccount } from '../../../types'
-import { prop, keys, compose, assoc, map, path, curry, split, values, sequence, lift } from 'ramda'
+import { prop, keys, compose, assoc, map, max, path, curry, split, values, sequence, lift } from 'ramda'
 import memoize from 'fast-memoize'
 import { getAddresses, getChangeIndex, getReceiveIndex, getHeight, getTransactions } from '../../data/bitcoin/selectors.js'
 import * as transactions from '../../../transactions'
@@ -139,5 +139,8 @@ export const getNextAvailableReceiveAddress = curry((network, accountIndex, stat
   const account = compose(HDWallet.selectAccount(accountIndex), walletSelectors.getDefaultHDWallet)(state)
   const xpub = HDAccount.selectXpub(account)
   const index = getReceiveIndex(xpub)(state)
-  return index.map(x => getAddress(network, `${accountIndex}/${0}/${x}`, state))
+  const labels = HDAccount.selectAddressLabels(account)
+  const maxLabel = labels.maxBy((label) => label.index)
+  const maxLabelIndex = maxLabel ? maxLabel.index : 0
+  return index.map(x => getAddress(network, `${accountIndex}/${0}/${max(x - 1, maxLabelIndex) + 1}`, state))
 })

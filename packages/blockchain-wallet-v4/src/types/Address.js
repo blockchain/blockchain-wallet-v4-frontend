@@ -81,7 +81,7 @@ export const decryptSync = curry((iterations, sharedKey, password, address) => {
 })
 
 // importAddress :: String|ECPair -> String? -> Number -> Network -> Address
-export const importAddress = (key, label, createdTime, network) => {
+export const importAddress = (key, createdTime, label, network) => {
   let object = {
     priv: null,
     addr: null,
