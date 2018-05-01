@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
-import { isNil, not } from 'ramda'
 
 import Login from './template.js'
 import { actions, selectors } from 'data'
