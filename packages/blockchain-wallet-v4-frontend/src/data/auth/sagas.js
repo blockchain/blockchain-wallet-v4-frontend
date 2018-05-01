@@ -37,7 +37,7 @@ export default ({ api, coreSagas }) => {
   //   }
   // }
 
-  const loginRoutineSaga = function * (mobileLogin) {
+  const loginRoutineSaga = function * (mobileLogin, firstLogin) {
     try {
       // If needed, the user should upgrade its wallet before being able to open the wallet
       let isHdWallet = yield select(selectors.core.wallet.isHdWallet)
@@ -47,7 +47,9 @@ export default ({ api, coreSagas }) => {
       yield put(actions.auth.authenticate())
       yield put(actions.core.webSocket.bitcoin.startSocket())
       yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
-      yield put(actions.alerts.displaySuccess('Login successful'))
+      if (!firstLogin) {
+        yield put(actions.alerts.displaySuccess('Login successful'))
+      }
       yield put(actions.router.push('/home'))
       yield put(actions.goals.runGoals())
       yield put(actions.auth.startLogoutTimer())
@@ -96,8 +98,10 @@ export default ({ api, coreSagas }) => {
       if (!session) { session = yield call(api.obtainSessionToken) }
       yield put(actions.session.saveSession(assoc(guid, session, {})))
       yield put(actions.cache.guidEntered(guid))
+      yield put(actions.auth.loginLoading())
       yield call(coreSagas.wallet.fetchWalletSaga, { guid, sharedKey, session, password, code })
       yield call(loginRoutineSaga, mobileLogin)
+      yield put(actions.auth.loginSuccess())
     } catch (error) {
       const initialError = safeParse(error).map(prop('initial_error'))
       const authRequired = safeParse(error).map(prop('authorization_required'))
@@ -114,6 +118,7 @@ export default ({ api, coreSagas }) => {
             if (e.auth_type > 0) {
               yield put(actions.auth.setAuthType(e.auth_type))
               yield put(actions.alerts.displayInfo('2FA required'))
+              yield put(actions.auth.loginFailure())
             } else {
               console.log(e)
               yield put(actions.alerts.displayError(e.message || 'Error logging into your wallet'))
@@ -124,17 +129,18 @@ export default ({ api, coreSagas }) => {
         }
       } else if (initialError.isRight && initialError.value) {
         // general error
-        yield put(actions.auth.setError(initialError.value))
+        yield put(actions.auth.loginFailure(initialError.value))
       } else {
         // 2FA errors
         if (error.auth_type > 0) { // 2fa required
           // dispatch state change to show form
+          yield put(actions.auth.loginFailure())
           yield put(actions.auth.setAuthType(error.auth_type))
           yield put(actions.alerts.displayInfo('2FA required'))
         } else if (error.message) {
-          yield put(actions.auth.setError(error.message))
+          yield put(actions.auth.loginFailure(error.message))
         } else {
-          yield put(actions.auth.setError(error || 'Error logging into your wallet'))
+          yield put(actions.auth.loginFailure(error || 'Error logging into your wallet'))
         }
       }
     }
@@ -156,11 +162,14 @@ export default ({ api, coreSagas }) => {
   // =============================================================================
   const register = function * (action) {
     try {
+      yield put(actions.auth.registerLoading())
       yield put(actions.alerts.displayInfo('Creating wallet...'))
       yield call(coreSagas.wallet.createWalletSaga, action.payload)
       yield put(actions.alerts.displaySuccess('Wallet successfully created.'))
-      yield call(loginRoutineSaga)
+      yield call(loginRoutineSaga, false, true)
+      yield put(actions.auth.registerSuccess())
     } catch (e) {
+      yield put(actions.auth.registerFailure())
       yield put(actions.alerts.displayError('Wallet could not be created.'))
     }
   }
@@ -170,11 +179,14 @@ export default ({ api, coreSagas }) => {
   // =============================================================================
   const restore = function * (action) {
     try {
+      yield put(actions.auth.restoreLoading())
       yield put(actions.alerts.displayInfo('Restoring wallet...'))
       yield call(coreSagas.wallet.restoreWalletSaga, action.payload)
       yield put(actions.alerts.displaySuccess('Your wallet has been successfully restored.'))
       yield call(loginRoutineSaga)
+      yield put(actions.auth.restoreSuccess())
     } catch (e) {
+      yield put(actions.auth.restoreFailure())
       yield put(actions.alerts.displayError('Error restoring your wallet.'))
     }
   }
@@ -196,16 +208,17 @@ export default ({ api, coreSagas }) => {
   // =============================================================================
   const reset2fa = function * (action) {
     try {
+      yield put(actions.auth.reset2faLoading())
       const response = yield call(coreSagas.wallet.resetWallet2fa, action.payload)
       if (response.success) {
-        yield put(actions.auth.reset2faError(false))
+        yield put(actions.auth.reset2faSuccess())
         yield put(actions.alerts.displayInfo('Reset 2-step Authentication has been successfully submitted. Please check your email for more information.'))
       } else {
-        yield put(actions.auth.reset2faError(true))
+        yield put(actions.auth.reset2faFailure())
         yield put(actions.alerts.displayError(response.message))
       }
     } catch (e) {
-      yield put(actions.auth.reset2faError(true))
+      yield put(actions.auth.reset2faFailure())
       yield put(actions.alerts.displayError('Error resetting 2-step authentication.'))
     }
   }

@@ -29,14 +29,16 @@ export const getData = state => {
     }
   }
 
-  const transform = payment => ({
-    message: payment.description,
-    fromAddress: from(payment),
-    toAddress: payment.to.map(to)[0],
-    amount: payment.amount[0],
-    fee: payment.selection.fee,
-    total: payment.selection.fee + payment.amount[0]
-  })
+  const transform = payment => {
+    return {
+      description: payment.description,
+      fromAddress: from(payment),
+      toAddress: payment.to.map(to)[0],
+      amount: payment.amount[0],
+      fee: payment.selection.fee,
+      total: payment.selection.fee + payment.amount[0]
+    }
+  }
 
   return paymentR.map(transform)
 }

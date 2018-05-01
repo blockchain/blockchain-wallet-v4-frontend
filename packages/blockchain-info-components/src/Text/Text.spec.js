@@ -1,13 +1,13 @@
 import React from 'react'
-import { shallow } from 'enzyme'
-import toJson from 'enzyme-to-json'
+import renderer from 'react-test-renderer'
+import 'jest-styled-components'
 
 import Text from './Text'
 
 describe('Text component', () => {
   it('default renders correctly', () => {
-    const component = shallow(<Text color='gray-1' altFont><span>Hello World</span></Text>)
-    const tree = toJson(component)
+    const component = renderer.create(<Text color='gray-1' altFont><span>Hello World</span></Text>)
+    const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
 })

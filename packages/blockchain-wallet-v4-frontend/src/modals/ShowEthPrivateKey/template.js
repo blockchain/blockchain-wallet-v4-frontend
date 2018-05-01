@@ -1,10 +1,19 @@
 import React from 'react'
+import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import QRCodeReact from 'qrcode.react'
-import { merge } from 'ramda'
 import { Modal, ModalHeader, ModalBody, ModalFooter, Text, Button } from 'blockchain-info-components'
 import { spacing, flex } from 'services/StyleService'
 import CoinDisplay from 'components/Display/CoinDisplay'
+
+const DetailTable = styled.div`
+  min-width: 0;
+  > div { word-break: break-word; }
+  > div:not(:first-child) { margin-top: 10px; }
+`
+const DetailRowText = styled(Text)`
+  white-space: nowrap;
+`
 
 const FirstStep = () => (
   <div>
@@ -18,10 +27,10 @@ const FirstStep = () => (
 )
 
 const DetailRow = ({ id, defaultMessage, children }) => (
-  <div style={merge(flex('row'), spacing('mt-10'))}>
-    <Text size='14px' weight={400}>
+  <div style={flex('row')}>
+    <DetailRowText size='14px' weight={400}>
       <FormattedMessage id={id} defaultMessage={defaultMessage} />
-    </Text>
+    </DetailRowText>
     {':'}&nbsp;
     {children}
   </div>
@@ -32,21 +41,19 @@ const SecondStep = ({ addr, balance, priv }) => (
     <div style={spacing('mr-25')}>
       <QRCodeReact value={priv} size={120} />
     </div>
-    <div>
+    <DetailTable>
+      <DetailRow id='modals.show_eth_priv.balance' defaultMessage='Balance'>
+        <CoinDisplay coin='ETH' size='14px'>
+          {balance}
+        </CoinDisplay>
+      </DetailRow>
       <DetailRow id='modals.show_eth_priv.address' defaultMessage='Address'>
         <Text size='14px' weight={300}>{addr}</Text>
-      </DetailRow>
-      <DetailRow id='modals.show_eth_priv.balance' defaultMessage='Balance'>
-        <Text size='14px' weight={300}>
-          <CoinDisplay coin='ETH'>
-            {balance}
-          </CoinDisplay>
-        </Text>
       </DetailRow>
       <DetailRow id='modals.show_eth_priv.priv_key' defaultMessage='Private Key'>
         <Text size='14px' weight={300}>{priv}</Text>
       </DetailRow>
-    </div>
+    </DetailTable>
   </div>
 )
 

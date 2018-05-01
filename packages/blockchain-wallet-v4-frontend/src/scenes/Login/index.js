@@ -1,8 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { compose, bindActionCreators } from 'redux'
+import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
-import ui from 'redux-ui'
 import { isNil, not } from 'ramda'
 
 import Login from './template.js'
@@ -16,19 +15,11 @@ class LoginContainer extends React.PureComponent {
     this.handleCode = this.handleCode.bind(this)
     this.handleMobile = this.handleMobile.bind(this)
   }
-
-  componentDidUpdate (prevProps) {
-    if (prevProps.authType !== this.props.authType) this.props.updateUI({ busy: false })
-    if (prevProps.error !== this.props.error) this.props.updateUI({ busy: false })
-  }
-
   handleCode (val) {
     this.setState({ useCode: val })
   }
 
   onSubmit (event) {
-    this.props.authActions.clearError()
-    this.props.updateUI({ busy: true })
     event.preventDefault()
     const { useCode } = this.state
     const { guid, password, code } = this.props
@@ -42,13 +33,21 @@ class LoginContainer extends React.PureComponent {
   }
 
   render () {
-    const { authType, lastGuid } = this.props
+    const { authType, data, lastGuid } = this.props
+
+    const { busy, error } = data.cata({
+      Success: () => ({ error: null, busy: false }),
+      Failure: (val) => ({ error: val.err, busy: false }),
+      Loading: () => ({ error: null, busy: true }),
+      NotAsked: () => ({ error: null, busy: false })
+    })
+
     const loginProps = {
       authType,
       onSubmit: this.onSubmit,
-      busy: this.props.ui.busy,
+      busy,
       handleCode: this.handleCode,
-      loginError: this.props.error,
+      loginError: error,
       handleMobile: this.handleMobile
     }
 
@@ -63,8 +62,8 @@ const mapStateToProps = (state) => ({
   password: formValueSelector('login')(state, 'password'),
   code: formValueSelector('login')(state, 'code'),
   authType: selectors.auth.getAuthType(state),
-  error: selectors.auth.getError(state),
-  lastGuid: selectors.cache.getLastGuid(state)
+  lastGuid: selectors.cache.getLastGuid(state),
+  data: selectors.auth.getLogin(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -73,8 +72,4 @@ const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  ui({ state: { busy: false } })
-)
-export default enhance(LoginContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer)
