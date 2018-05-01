@@ -19,6 +19,7 @@ class FirstStep extends React.Component {
     return data.cata({
       Success: value => <Success
         toToggled={value.toToggled}
+        destination={value.destination}
         effectiveBalance={value.effectiveBalance}
         totalFee={value.totalFee}
         handleSubmit={() => actions.sendBchFirstStepSubmitClicked()}

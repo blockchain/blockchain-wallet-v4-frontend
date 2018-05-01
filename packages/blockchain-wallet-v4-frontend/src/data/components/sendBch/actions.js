@@ -8,7 +8,7 @@ export const sendBchPaymentUpdated = payment => ({ type: AT.SEND_BCH_PAYMENT_UPD
 
 export const sendBchFirstStepInitialized = () => ({ type: AT.SEND_BCH_FIRST_STEP_INITIALIZED })
 
-export const sendBchFirstStepToToggled = () => ({ type: AT.SEND_BCH_FIRST_STEP_TO_TOGGLED })
+export const sendBchFirstStepToToggled = (val) => ({ type: AT.SEND_BCH_FIRST_STEP_TO_TOGGLED, payload: val })
 
 export const sendBchFirstStepMaximumAmountClicked = () => ({ type: AT.SEND_BCH_FIRST_STEP_MAXIMUM_AMOUNT_CLICKED })
 

@@ -38,8 +38,8 @@ const FirstStep = props => {
             <FormattedMessage id='modals.sendether.firststep.to' defaultMessage='To:' />
           </FormLabel>
           <Row>
-            <Field name='to' placeholder="Paste or scan an address" component={TextBox} validate={[required, validEtherAddress]} />
-            <QRCodeCapture coin='ETH' />
+            <Field name='to' placeholder='Paste or scan an address' component={TextBox} validate={[required, validEtherAddress]} />
+            <QRCodeCapture coin='ETH' border={['top', 'bottom', 'right']} />
           </Row>
         </FormItem>
       </FormGroup>

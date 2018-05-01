@@ -18,6 +18,7 @@ import googlePlayBadge from './img/google-play-badge.png'
 import halfEther from './img/half-ether.svg'
 import landingPageBannerOverlay from './img/landing-page-banner-overlay.jpg'
 import landingPageBannerSmOverlay from './img/landing-page-banner-sm-overlay.jpg'
+import printer from './img/printer.svg'
 import qrCode from './img/qr-code.png'
 import rocket from './img/rocket.gif'
 import selectArrow from './img/select-arrow.png'
@@ -28,7 +29,7 @@ import walletV3Backup from './img/wallet-v3-backup.jpg'
 import walletV3FundManagement from './img/wallet-v3-fund-management.jpg'
 import walletV3NewDesign from './img/wallet-v3-new-design.jpg'
 import walletV3SecurityUpgrade from './img/wallet-v3-security-upgrade.jpg'
-import yubikey from './img/yubikey.png'
+import yubikey from './img/yubikey.svg'
 
 export default {
   'app-store-badge': appStoreBadge,
@@ -51,6 +52,7 @@ export default {
   'half-ether': halfEther,
   'landing-page-banner-overlay': landingPageBannerOverlay,
   'landing-page-banner-sm-overlay': landingPageBannerSmOverlay,
+  'printer': printer,
   'qr-code': qrCode,
   'rocket': rocket,
   'select-arrow': selectArrow,

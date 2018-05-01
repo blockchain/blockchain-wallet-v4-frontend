@@ -58,8 +58,8 @@ const EmailAddress = (props) => {
           <React.Fragment>
             <EmailExplanation>
               <FormattedMessage id='scenes.security.email.verifieddescription' defaultMessage='You’ve verified ' />
-              {email}
-              <FormattedMessage id='scenes.security.email.verifieddescription2' defaultMessage='. If you’d like to update your email, click ‘Change’ on the right to get started with your new email. ' />
+              <strong>{email}</strong>
+              <FormattedMessage id='scenes.security.email.verifieddescription2' defaultMessage='. Select ‘Change Email’ on the right to modify this existing address. ' />
             </EmailExplanation>
             <FormattedMessage id='scenes.security.email.verifieddescription3' defaultMessage=' We will use this email to authorize logins, send payment notifications, and notify you of wallet updates.' />
           </React.Fragment>
@@ -67,9 +67,9 @@ const EmailAddress = (props) => {
       }
       return (
         <EmailExplanation>
-          <FormattedMessage id='scenes.security.email.unverifieddescription' defaultMessage='We have sent a verification email to ' />
+          <FormattedMessage id='scenes.security.email.unverifieddescription' defaultMessage='Select ‘Send Code’ to begin verifying  ' />
           {email}
-          <FormattedMessage id='scenes.security.email.unverifieddescription2' defaultMessage='. Please enter the code that you’ve received to your email in order to complete the verification process.' />
+          <FormattedMessage id='scenes.security.email.unverifieddescription2' defaultMessage='. Once the code is received, please enter that code in the field. ' />
           <FormattedMessage id='scenes.security.email.unverifieddescription3' defaultMessage='We will use this email to authorize logins, send payment notifications, and notify you of wallet updates.' />
         </EmailExplanation>
       )
@@ -79,7 +79,7 @@ const EmailAddress = (props) => {
       <React.Fragment>
         <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='We have sent a verification code to' />
         {email}
-        <FormattedMessage id='scenes.security.email.verifyemailaddress2' defaultMessage='. Please open the email and enter the code below to complete the verification process.' />
+        <FormattedMessage id='scenes.security.email.verifyemailaddress2' defaultMessage='. Please enter this code below to complete your email verification process.' />
       </React.Fragment>
     )
   }
@@ -116,7 +116,7 @@ const EmailAddress = (props) => {
           uiHelper() && !verified
             ? <React.Fragment>
               <Button nature='primary' onClick={props.handleVerifyClick}>
-                <FormattedMessage id='scenes.security.email.settings.updateform.change' defaultMessage='Enter Code' />
+                <FormattedMessage id='scenes.security.email.settings.updateform.change' defaultMessage='Send Code' />
               </Button>
               <ChangeEmailText color='brand-secondary' size='12px' weight={300} onClick={props.handleChangeEmailView}>
                 <FormattedMessage id='scenes.security.email.upateform.changetext' defaultMessage='Change Your Email' />
