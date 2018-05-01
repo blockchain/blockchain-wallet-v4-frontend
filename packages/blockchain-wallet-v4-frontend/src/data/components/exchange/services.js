@@ -53,21 +53,44 @@ export const convertStandardToBase = (coin, value) => {
   }
 }
 
-export const getMinimum = (coin, minimum) => new BigNumber(minimum).toString()
+export const getEffectiveBalance = (effectiveBalance) => {
+  return new BigNumber(effectiveBalance).toString()
+}
+
+export const getMinimum = (coin, minimum) => {
+  const minimumBase = convertStandardToBase(coin, minimum)
+  return new BigNumber(minimumBase).toString()
+}
 
 export const getMaximum = (coin, maximum, effectiveBalance) => {
+  const maximumBase = convertStandardToBase(coin, maximum)
+  const effectiveBalanceB = new BigNumber(effectiveBalance)
+  const maximumB = new BigNumber(maximumBase)
+  return maximumB.lessThanOrEqualTo(effectiveBalanceB) ? maximumB.toString() : effectiveBalanceB.toString()
+}
+
+export const getMinimumStandard = (minimum) => {
+  return new BigNumber(minimum).toString()
+}
+
+export const getEffectiveBalanceStandard = (coin, effectiveBalance) => {
   const effectiveBalanceStandard = convertBaseToStandard(coin, effectiveBalance)
-  const maximumBig = new BigNumber(maximum)
-  const effectiveBalanceBig = new BigNumber(effectiveBalanceStandard)
-  return maximumBig.lessThanOrEqualTo(effectiveBalanceBig) ? maximumBig.toString() : effectiveBalanceBig.toString()
+  return new BigNumber(effectiveBalanceStandard).toString()
 }
 
-export const isAmountAboveMinimum = (value, minimum) => {
-  return new BigNumber(value).greaterThanOrEqualTo(new BigNumber(minimum))
+export const getMaximumStandard = (coin, maximum, effectiveBalance) => {
+  const maximumB = new BigNumber(maximum)
+  const effectiveBalanceStandard = getEffectiveBalanceStandard(coin, effectiveBalance)
+  const effectiveBalanceB = new BigNumber(effectiveBalanceStandard)
+  return maximumB.lessThanOrEqualTo(effectiveBalanceB) ? maximumB.toString() : effectiveBalanceB.toString()
 }
 
-export const isAmountBelowMaximum = (value, maximum) => {
-  return new BigNumber(value).lessThanOrEqualTo(new BigNumber(maximum))
+export const isAmountBelowMinimum = (value, minimum) => {
+  return new BigNumber(value).lessThan(new BigNumber(minimum))
+}
+
+export const isAmountAboveMaximum = (value, maximum) => {
+  return new BigNumber(value).greaterThan(new BigNumber(maximum))
 }
 
 export const isUndefinedOrEqualsToZero = (value) => {
@@ -85,11 +108,3 @@ export const selectFee = (coin, payment) => {
     case 'ETH': return prop('fee', payment)
   }
 }
-
-// export const getLabel = (coin, source) => {
-//   switch (coin) {
-//     case 'BCH': return selectors.core.kvStore.bch.getAccountLabel(state)(target.accountIndex).getOrElse(target.address)
-//     case 'BTC': return path(['selection', 'fee'], payment)
-//     case 'ETH': return prop('fee', payment)
-//   }
-// } 
