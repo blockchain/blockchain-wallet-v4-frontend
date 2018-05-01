@@ -9,8 +9,8 @@ import { Socket } from '../../../network/index'
 import * as btcActions from '../../data/bitcoin/actions'
 
 // TO REVIEW
-export default ({ api, socket }) => {
-  const send = socket.send.bind(socket)
+export default ({ api, btcSocket }) => {
+  const send = btcSocket.send.bind(btcSocket)
   let lastPongTimestamp = 0
 
   const onOpen = function * () {
@@ -47,6 +47,7 @@ export default ({ api, socket }) => {
         yield put(btcActions.fetchTransactions('', true))
         break
       case 'pong':
+        console.log('ping pong')
         lastPongTimestamp = Date.now()
         yield call(delay, 120000)
         if (lastPongTimestamp < Date.now() - 120000) {

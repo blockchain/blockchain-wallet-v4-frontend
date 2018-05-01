@@ -15,7 +15,7 @@ import kvStoreWhatsnew from './kvStore/whatsNew/rootSaga'
 import walletOptions from './walletOptions/rootSaga'
 import settings from './settings/rootSaga'
 
-export default ({ api, socket, options }) => function * () {
+export default ({ api, options }) => function * () {
   yield all([
     fork(dataBitcoin({ api })),
     fork(dataCoinify({ api, options })),
