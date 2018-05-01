@@ -47,7 +47,6 @@ export default ({ api, btcSocket }) => {
         yield put(btcActions.fetchTransactions('', true))
         break
       case 'pong':
-        console.log('ping pong')
         lastPongTimestamp = Date.now()
         yield call(delay, 120000)
         if (lastPongTimestamp < Date.now() - 120000) {
