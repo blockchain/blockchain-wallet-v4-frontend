@@ -45,10 +45,14 @@ export default ({ coreSagas }) => {
       if (profile.error) {
         throw new Error(profile.error)
       } else {
-        yield put(actions.alerts.displaySuccess('Profile submitted successfully for verification!'))
-        yield put(A.nextStep('funding'))
+        if (profile.data.verificationStatus.required_docs.length) {
+          yield put(A.nextStep('upload'))
+        } else {
+          yield put(A.nextStep('funding'))
+        }
       }
     } catch (e) {
+      console.log(e)
       yield put(A.setVerifyError(e))
       yield put(actions.alerts.displayError(`Error verifying profile: ${e}`))
     }
@@ -59,11 +63,8 @@ export default ({ coreSagas }) => {
       yield call(coreSagas.data.sfox.uploadDoc, payload)
 
       const profile = yield select(selectors.core.data.sfox.getProfile)
-      if (profile.data._verification_status.required_docs.length) {
-        yield put(actions.alerts.displaySuccess('Document uploaded successfully!'))
-      } else {
-        yield put(actions.alerts.displaySuccess('Document uploaded successfully!'))
-        yield put(A.nextStep('link'))
+      if (!profile.data.verificationStatus.required_docs.length) {
+        yield put(A.nextStep('funding'))
       }
     } catch (e) {
       yield put(actions.alerts.displayError('Error uploading'))
