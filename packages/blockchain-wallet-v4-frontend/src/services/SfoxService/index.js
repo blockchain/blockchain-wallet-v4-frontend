@@ -17,20 +17,12 @@ export const determineStep = (profile, verificationStatus, accounts) => {
     if (verificationStatus.level === 'unverified') return 'verify'
     else if (!accounts.length) return 'funding'
     else return 'verified'
-    // if (!isVerified(verificationStatus)) {
-    //   return 'verify'
-    // } else if (!accounts.length || !isActiveAccount(accounts)) {
-    //   return 'funding'
-    // } else {
-    //   return 'verified'
-    // }
   }
 }
 
 export const determineReason = (type, profile, verificationStatus, accounts) => {
   let reason
   if (!profile) reason = 'needs_account'
-  // else if (!isVerified(verificationStatus)) reason = 'needs_id'
   else if (verificationStatus.level === 'unverified') reason = 'needs_id'
   else if (!accounts.length) reason = 'needs_bank'
   else if (!isActiveAccount(accounts)) reason = 'needs_bank_active'
@@ -47,7 +39,7 @@ export const statusHelper = status => {
     case 'completed': return { color: 'success', text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatus.completed' defaultMessage='Completed' /> }
     case 'rejected': return { color: 'error', text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatus.rejected' defaultMessage='Rejected' /> }
     case 'failed': return { color: 'error', text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatus.failed' defaultMessage='Failed' /> }
-    default: return <FormattedMessage id='scenes.buysellorderhistory.list.orderstatus.unknown' defaultMessage='Unknown' />
+    default: return { color: '', text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatus.unknown' defaultMessage='Unknown' /> }
   }
 }
 
@@ -57,6 +49,6 @@ export const bodyStatusHelper = status => {
     case 'completed': return { text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatusbody.completed' defaultMessage='Your buy trade is complete!' /> }
     case 'rejected': return { text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatusbody.rejected' defaultMessage='Your buy trade has been rejected. Please contact support.' /> }
     case 'failed': return { text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatusbody.failed' defaultMessage='Your buy trade failed. Please contact support.' /> }
-    default: return <FormattedMessage id='scenes.buysellorderhistory.list.orderstatusbody.unknown' defaultMessage='There are issues with this trade. Please contact support.' />
+    default: return { text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatusbody.unknown' defaultMessage='There are issues with this trade. Please contact support.' /> }
   }
 }

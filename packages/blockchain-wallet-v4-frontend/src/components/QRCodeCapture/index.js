@@ -69,10 +69,11 @@ class QRCodeCaptureContainer extends React.PureComponent {
   }
 
   render () {
-    const { ui, coin } = this.props
+    const { border, ui, coin } = this.props
     const toggled = coin === 'BTC' ? ui.bitcoin.toggled : coin === 'ETH' ? ui.ethereum.toggled : ui.bch.toggled
 
     return <QRCodeCapture
+      border={border}
       toggled={toggled}
       handleToggle={this.handleToggle}
       handleScan={this.handleScan}
