@@ -4,7 +4,7 @@ import websocketBitcoinFactory from 'blockchain-wallet-v4/src/redux/webSocket/bi
 import refreshFactory from 'blockchain-wallet-v4/src/redux/refresh/sagas'
 import alerts from './alerts/sagas'
 import auth from './auth/sagas'
-import components from './components/sagas'
+import components from './components/rootSaga'
 import modules from './modules/sagas'
 import goals from './goals/sagas'
 import wallet from './wallet/sagas'
