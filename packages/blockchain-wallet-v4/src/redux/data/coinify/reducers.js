@@ -9,6 +9,7 @@ const INITIAL_STATE = {
   profile: Remote.NotAsked,
   accounts: Remote.NotAsked,
   mediums: Remote.NotAsked,
+  rateQuote: Remote.NotAsked,
   nextAddress: null
 }
 
@@ -35,13 +36,13 @@ const sfoxReducer = (state = INITIAL_STATE, action) => {
       return assoc('quote', Remote.Failure(payload), state)
     }
     case AT.COINIFY_FETCH_RATE_QUOTE_LOADING: {
-      return assoc('rateQuote', null, state)
+      return assoc('rateQuote', Remote.Loading, state)
     }
     case AT.COINIFY_FETCH_RATE_QUOTE_SUCCESS: {
-      return assoc('rateQuote', payload, state)
+      return assoc('rateQuote', Remote.Success(payload), state)
     }
     case AT.COINIFY_FETCH_RATE_QUOTE_FAILURE: {
-      return assoc('rateQuote', payload, state)
+      return assoc('rateQuote', Remote.Failure(payload), state)
     }
     case AT.COINIFY_FETCH_TRADES_LOADING: {
       return assoc('trades', Remote.Loading, state)

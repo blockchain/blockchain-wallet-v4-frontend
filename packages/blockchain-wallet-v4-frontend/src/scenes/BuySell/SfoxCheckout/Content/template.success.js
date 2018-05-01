@@ -17,7 +17,6 @@ const CheckoutWrapper = styled.div`
 const OrderSubmitWrapper = CheckoutWrapper.extend`
   width: 35%;
   padding: 30px 30px 30px 10%;
-
 `
 const OrderHistoryWrapper = styled.div`
   width: 100%;

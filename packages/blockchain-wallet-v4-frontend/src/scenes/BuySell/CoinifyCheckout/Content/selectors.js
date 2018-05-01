@@ -24,6 +24,22 @@ export const getRateQuote = (state) => {
   }
 }
 
+export const getQuote = (state) => {
+  try {
+    return selectors.core.data.coinify.getQuote(state)
+  } catch (e) {
+    return null
+  }
+}
+
+export const getCurrency = (state) => {
+  try {
+    return selectors.core.data.coinify.getLevel(state)
+  } catch (e) {
+    return null
+  }
+}
+
 export const getBase = (state) => {
   return state.form.exchangeCheckout && state.form.exchangeCheckout.active
 }
