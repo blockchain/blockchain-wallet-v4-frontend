@@ -46,6 +46,8 @@ export default ({ api, coreSagas }) => {
       }
       yield put(actions.auth.authenticate())
       yield put(actions.core.webSocket.bitcoin.startSocket())
+      yield put(actions.core.webSocket.ethereum.startSocket())
+      yield put(actions.core.webSocket.bch.startSocket())
       yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
       yield put(actions.alerts.displaySuccess('Login successful'))
       yield put(actions.router.push('/home'))
@@ -226,6 +228,8 @@ export default ({ api, coreSagas }) => {
 
   const logout = function * () {
     yield put(actions.core.webSocket.bitcoin.stopSocket())
+    yield put(actions.core.webSocket.ethereum.stopSocket())
+    yield put(actions.core.webSocket.bch.stopSocket())
     yield window.location.reload(true)
   }
 
