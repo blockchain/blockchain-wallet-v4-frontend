@@ -144,7 +144,7 @@ const TwoStepVerification = (props) => {
     if (twoStepChoice === 'google') {
       return (
         <React.Fragment>
-          <FormattedMessage id='scenes.security.twostepverification.title' defaultMessage='Two-Step Verification - Authenticator App' />
+          <FormattedMessage id='scenes.security.twostepverification.authenticator.title' defaultMessage='Two-Step Verification - Authenticator App' />
           <Link size='14px' onClick={props.handleGoBack}>Change</Link>
         </React.Fragment>
       )
@@ -160,7 +160,7 @@ const TwoStepVerification = (props) => {
     if (twoStepChoice === 'sms') {
       return (
         <React.Fragment>
-          <FormattedMessage id='scenes.security.twostepverification.title' defaultMessage='Two-Step Verification - Mobile Phone Number' />
+          <FormattedMessage id='scenes.security.twostepverification.mobile.title' defaultMessage='Two-Step Verification - Mobile Phone Number' />
           <Link size='14px' onClick={props.handleGoBack}>Change</Link>
         </React.Fragment>
       )
