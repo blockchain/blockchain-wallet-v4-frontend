@@ -137,7 +137,7 @@ const TwoStepVerification = (props) => {
         </React.Fragment>
       )
     }
-    return <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='Two-step verification helps to prevent unauthorized access to your wallet by requiring a one-time password for every login attempt. You can disable this here if you would like to change your phone number or switch the type of two-step verification you are using.' />
+    return <FormattedMessage id='scenes.security.twostepverification.description3' defaultMessage='Two-step verification helps to prevent unauthorized access to your wallet by requiring a one-time password for every login attempt. You can disable this here if you would like to change your phone number or switch the type of two-step verification you are using.' />
   }
 
   const renderHeader = () => {
@@ -208,7 +208,7 @@ const TwoStepVerification = (props) => {
         ui.verifyToggled || props.alone
           ? <SecurityTip>
             <Text color='brand-primary' size='12px' weight={500}>
-              <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.enable' defaultMessage='Security Tip' />
+              <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.securitytip' defaultMessage='Security Tip' />
             </Text>
             <TipText weight={200} size='12px'>
               <FormattedMessage id='scenes.securitycenter.2fa.tip' defaultMessage='You can choose to use a free app or your mobile phone number to secure your wallet. We recommend using Google Authenticator (available for ' />
