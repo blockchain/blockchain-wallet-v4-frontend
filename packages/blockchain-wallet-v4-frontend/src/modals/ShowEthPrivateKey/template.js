@@ -21,7 +21,7 @@ const FirstStep = () => (
       <FormattedMessage id='modals.show_eth_priv.warning' defaultMessage='Warning' />
     </Text>
     <Text size='14px' style={spacing('mt-10')} weight={300}>
-      <FormattedMessage id='modals.show_eth_priv.warning_message' defaultMessage='Granting others access to this Private Key gives them the ability to send ether from this address. Exposing your Private Key to others is a security risk that may result in lost ether. Do you wish to continue?' />
+      <FormattedMessage id='modals.show_eth_priv.warning_message' defaultMessage='Granting others access to this private key gives them the ability to send ether from this address. Exposing your private key to others is a security risk that may result in lost ether. Do you wish to continue?' />
     </Text>
   </div>
 )
