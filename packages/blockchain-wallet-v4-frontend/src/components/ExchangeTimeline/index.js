@@ -1,9 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
 
-import { Text } from 'blockchain-info-components'
 import { calculateAnimation } from './services'
 import Step1 from './Step1'
 import Step2 from './Step2'
