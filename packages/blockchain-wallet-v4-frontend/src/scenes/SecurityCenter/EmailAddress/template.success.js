@@ -15,7 +15,14 @@ const EmailExplanation = styled.div`
 const ChangeEmailText = styled(Text)`
   cursor: pointer;
   margin-top: 5px;
-  margin-right: 12px;
+  font-size: 10px;
+  @media (min-width: 400px) and (max-width: 991px) {
+    font-size: 12px;
+  }
+  @media (min-width: 1224px) {
+    font-size: 12px;
+    margin-right: 12px;
+  }
   `
 const EmailSecurityComponent = styled(SecurityComponent)`
   button:first-of-type {
@@ -74,8 +81,8 @@ const EmailAddress = (props) => {
               <FormattedMessage id='scenes.security.email.verifieddescription' defaultMessage='You’ve verified ' />
               <strong>{email}</strong>
               <FormattedMessage id='scenes.security.email.verifieddescription2' defaultMessage='. Select ‘Change Email’ to modify this existing address. ' />
+              <FormattedMessage id='scenes.security.email.verifieddescription3' defaultMessage=' We will use this email to authorize logins, send payment notifications, and notify you of wallet updates.' />
             </EmailExplanation>
-            <FormattedMessage id='scenes.security.email.verifieddescription3' defaultMessage=' We will use this email to authorize logins, send payment notifications, and notify you of wallet updates.' />
           </React.Fragment>
         )
       }
@@ -132,7 +139,7 @@ const EmailAddress = (props) => {
               <EmailButton nature='primary' onClick={props.handleVerifyClick}>
                 <FormattedMessage id='scenes.security.email.settings.updateform.change' defaultMessage='Send Code' />
               </EmailButton>
-              <ChangeEmailText color='brand-secondary' size='12px' weight={300} onClick={props.handleChangeEmailView}>
+              <ChangeEmailText color='brand-secondary' weight={300} onClick={props.handleChangeEmailView}>
                 <FormattedMessage id='scenes.security.email.upateform.changetext' defaultMessage='Change Your Email' />
               </ChangeEmailText>
             </React.Fragment>
