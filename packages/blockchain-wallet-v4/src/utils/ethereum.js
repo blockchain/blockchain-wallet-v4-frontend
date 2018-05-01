@@ -21,19 +21,24 @@ export const getPrivateKey = (mnemonic, index) => {
   const account = Bitcoin.HDNode.fromSeedBuffer(seed)
     .deriveHardened(44).deriveHardened(60).deriveHardened(0)
     .derive(0).derive(index).toBase58()
-  return EthHd.fromExtendedKey(account)
+  return EthHd.fromExtendedKey(account).getWallet().getPrivateKey()
 }
 
-// TODO :: implement same logic: https://github.com/blockchain/My-Wallet-V3/blob/master/src/eth/eth-wallet.js#L322
-export const getLegacyPrivateKey = mnemonic => {
-  throw new Error('Not implemented getLegacyPrivateKey()')
+// Derivation error using seedHex directly instead of seed derived from mnemonic derived from seedHex
+export const getLegacyPrivateKey = seedHex => {
+  return deriveChildLegacy(0, seedHex).getWallet().getPrivateKey()
+}
+
+const deriveChildLegacy = (index, seed) => {
+  const derivationPath = "m/44'/60'/0'/0"
+  return EthHd.fromMasterSeed(seed).derivePath(derivationPath).deriveChild(index)
 }
 
 export const privateKeyToAddress = pk =>
   EthUtil.toChecksumAddress(EthUtil.privateToAddress(pk).toString('hex')).toLowerCase()
 
 export const deriveAddress = (mnemonic, index) =>
-  privateKeyToAddress(getPrivateKey(mnemonic, index).getWallet().getPrivateKey())
+  privateKeyToAddress(getPrivateKey(mnemonic, index))
 
 export const calculateFee = (gasPrice, gasLimit) => {
   const feeGWei = new BigNumber(gasPrice).mul(new BigNumber(gasLimit)).toString()
