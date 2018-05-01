@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { transparentize } from 'polished'
-import { TextGroup } from '../Text'
+import { Text, TextGroup } from '../Text'
 
 const TooltipWrapper = styled.div`
   width: ${props => props.width === 'auto' ? 'auto' : '22px'};
@@ -22,8 +22,9 @@ const TooltipIcon = styled.div`
   font-size: 12px;
   font-weight: 300;
 `
-const TooltipLabel = styled.div`
-  
+const TooltipLabel = styled(Text)`
+  font-size: 13px;
+  font-weight: 300;
 `
 const TooltipBox = styled(TextGroup)`
   position: absolute;
