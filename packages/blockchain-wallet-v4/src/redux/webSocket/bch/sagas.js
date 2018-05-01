@@ -1,5 +1,4 @@
 import { takeEvery, call, put, select } from 'redux-saga/effects'
-import { delay } from 'redux-saga'
 import { compose } from 'ramda'
 import * as A from '../../actions'
 import * as AT from './actionTypes'
@@ -10,7 +9,6 @@ import * as bchActions from '../../data/bch/actions'
 // TO REVIEW
 export default ({ api, bchSocket }) => {
   const send = bchSocket.send.bind(bchSocket)
-  let lastPongTimestamp = 0
 
   const onOpen = function * () {
     const subscribeInfo = yield select(walletSelectors.getInitialSocketContext)
@@ -32,12 +30,6 @@ export default ({ api, bchSocket }) => {
         yield put(bchActions.fetchTransactions('', true))
         break
       case 'pong':
-        lastPongTimestamp = Date.now()
-        yield call(delay, 120000)
-        if (lastPongTimestamp < Date.now() - 120000) {
-          yield put(A.webSocket.bch.stopSocket())
-          yield put(A.webSocket.bch.startSocket())
-        }
         break
       default:
         console.log('unknown type for ', message)

@@ -1,87 +1,45 @@
 import { takeEvery, call, put, select } from 'redux-saga/effects'
-import { delay } from 'redux-saga'
-import { compose } from 'ramda'
 import * as A from '../../actions'
 import * as AT from './actionTypes'
-import { Wrapper } from '../../../types/index'
-import * as walletSelectors from '../../wallet/selectors'
-import { Socket } from '../../../network/index'
-import * as btcActions from '../../data/bitcoin/actions'
+import * as ethSelectors from '../../data/ethereum/selectors'
+import * as ethActions from '../../data/ethereum/actions'
 
 // TO REVIEW
 export default ({ api, ethSocket }) => {
   const send = ethSocket.send.bind(ethSocket)
-  // let lastPongTimestamp = 0
 
   const onOpen = function * () {
-    const subscribeInfo = yield select(walletSelectors.getInitialSocketContext)
-    yield call(compose(send, Socket.onOpenMessage), subscribeInfo)
+    // XXX we need to get account addresses here
+    // const subscribeInfo = yield select(ethSelectors.getDefaultAddress)
+    yield call(send, JSON.stringify({op: 'block_sub'}))
+    yield call(send, JSON.stringify({op: 'account_sub', account: '0xe6cbafa68fdd504e7f7d79acb8349c767bf7e94a'}))// "0x0e23F536b5509eca1Cf4a1ef2E541589EaB4479C"}))
   }
-
-  //const dispatchLogoutEvent = function * () {
-  //  yield window.dispatchEvent(new window.Event('wallet.core.logout'))
-  //}
 
   const onMessage = function * (action) {
     const message = action.payload
     console.log('received ethereum message', message)
 
-    //switch (message.op) {
-    //  case 'on_change':
-    //    const newChecksum = message.x.checksum
-    //    const wrapper = yield select(walletSelectors.getWrapper)
-    //    const oldChecksum = Wrapper.selectPayloadChecksum(wrapper)
-    //    if (oldChecksum !== newChecksum) {
-    //      yield call(refreshWrapper)
-    //      const walletContext = yield select(walletSelectors.getWalletContext)
-    //      yield put(btcActions.fetchData(walletContext))
-    //    }
-    //    break
-    //  case 'utx':
-    //    const walletContext = yield select(walletSelectors.getWalletContext)
-    //    yield put(btcActions.fetchData(walletContext))
-    //    yield put(btcActions.fetchTransactions('', true))
-    //    break
-    //  case 'block':
-    //    const newBlock = message.x
-    //    yield put(A.data.bitcoin.setBitcoinLatestBlock(newBlock.blockIndex, newBlock.hash, newBlock.height, newBlock.time))
-    //    yield put(btcActions.fetchTransactions('', true))
-    //    break
-    //  case 'pong':
-    //    lastPongTimestamp = Date.now()
-    //    yield call(delay, 120000)
-    //    if (lastPongTimestamp < Date.now() - 120000) {
-    //      yield put(A.webSocket.bitcoin.stopSocket())
-    //      yield put(A.webSocket.bitcoin.startSocket())
-    //    }
-    //    break
-    //  case 'email_verified':
-    //    yield put(A.settings.setEmailVerified())
-    //    break
-    //  case 'wallet_logout':
-    //    yield call(dispatchLogoutEvent)
-    //    break
-    //
-    //  default:
-    //    console.log('unknown type for ', message)
-    //    break
-    //}
+    switch (message.op) {
+      case 'utx':
+        //const walletContext = yield select(walletSelectors.getWalletContext)
+        //yield put(ethActions.fetchData(walletContext))
+        //yield put(ethActions.fetchTransactions('', true))
+        break
+      case 'block':
+        //const newBlock = message.x
+        //yield put(A.data.bitcoin.setBitcoinLatestBlock(newBlock.blockIndex, newBlock.hash, newBlock.height, newBlock.time))
+        //yield put(ethActions.fetchTransactions('', true))
+        break
+      case 'pong':
+        break
+      default:
+        console.log('unknown type for ', message)
+        break
+    }
   }
 
   const onClose = function * (action) {
   }
-
-  //const refreshWrapper = function * () {
-  //  const guid = yield select(walletSelectors.getGuid)
-  //  const skey = yield select(walletSelectors.getSharedKey)
-  //  const password = yield select(walletSelectors.getMainPassword)
-  //  try {
-  //    const newWrapper = yield call(api.fetchWallet, guid, skey, undefined, password)
-  //    yield put(A.wallet.refreshWrapper(newWrapper))
-  //  } catch (e) {
-  //    console.log('REFRESH WRAPPER FAILED (WEBSOCKET) :: should dispatch error action ?')
-  //  }
-  //}
 
   return function * () {
     yield takeEvery(AT.OPEN_SOCKET, onOpen)
