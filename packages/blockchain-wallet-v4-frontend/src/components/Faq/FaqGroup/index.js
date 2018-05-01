@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
 
 import { Text } from 'blockchain-info-components'
 import FaqRow from './../FaqRow'
@@ -18,13 +17,10 @@ const GroupTitle = styled(Text)`
 `
 
 const FaqGroup = (props) => {
-  const { groupTitleId, groupTitleMsg, groupQuestions } = props
-
+  const { groupTitleMsg, groupQuestions } = props
   return (
     <Wrapper>
-      <GroupTitle>
-        <FormattedMessage id={groupTitleId} defaultMessage={groupTitleMsg} />
-      </GroupTitle>
+      <GroupTitle>{groupTitleMsg} </GroupTitle>
       {
         groupQuestions.length > 0 && groupQuestions.map((q, i) => {
           return <FaqRow title={q.question} description={q.answer} key={i} />
@@ -35,8 +31,7 @@ const FaqGroup = (props) => {
 }
 
 FaqGroup.propTypes = {
-  groupTitleMsg: PropTypes.string.isRequired,
-  groupTitleId: PropTypes.string.isRequired,
+  groupTitleMsg: PropTypes.object.isRequired,
   groupQuestions: PropTypes.array.isRequired
 }
 

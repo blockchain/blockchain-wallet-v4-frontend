@@ -112,14 +112,20 @@ export default ({ api, coreSagas }) => {
             yield call(coreSagas.wallet.fetchWalletSaga, { guid, session, password })
             yield call(loginRoutineSaga, mobileLogin)
           } catch (e) {
-            yield put(actions.alerts.displayError(error || 'Error logging into your wallet'))
+            if (e.auth_type > 0) {
+              yield put(actions.auth.setAuthType(e.auth_type))
+              yield put(actions.alerts.displayInfo('2FA required'))
+            } else {
+              console.log(e)
+              yield put(actions.alerts.displayError(e.message || 'Error logging into your wallet'))
+            }
           }
         } else {
           yield put(actions.alerts.displayError('Error establishing the session'))
         }
       } else if (initialError.isRight && initialError.value) {
         // general error
-        yield put(actions.alerts.displayError(initialError.value))
+        yield put(actions.auth.setError(initialError.value))
       } else {
         // 2FA errors
         if (error.auth_type > 0) { // 2fa required
@@ -127,9 +133,9 @@ export default ({ api, coreSagas }) => {
           yield put(actions.auth.setAuthType(error.auth_type))
           yield put(actions.alerts.displayInfo('2FA required'))
         } else if (error.message) {
-          yield put(actions.alerts.displayError(error.message))
+          yield put(actions.auth.setError(error.message))
         } else {
-          yield put(actions.alerts.displayError(error || 'Error logging into your wallet'))
+          yield put(actions.auth.setError(error || 'Error logging into your wallet'))
         }
       }
     }
@@ -193,11 +199,14 @@ export default ({ api, coreSagas }) => {
     try {
       const response = yield call(coreSagas.wallet.resetWallet2fa, action.payload)
       if (response.success) {
+        yield put(actions.auth.reset2faError(false))
         yield put(actions.alerts.displayInfo('Reset 2-step Authentication has been successfully submitted. Please check your email for more information.'))
       } else {
+        yield put(actions.auth.reset2faError(true))
         yield put(actions.alerts.displayError(response.message))
       }
     } catch (e) {
+      yield put(actions.auth.reset2faError(true))
       yield put(actions.alerts.displayError('Error resetting 2-step authentication.'))
     }
   }
