@@ -18,6 +18,7 @@ class FirstStep extends React.Component {
 
     return data.cata({
       Success: value => <Success
+        watchOnly={value.watchOnly}
         toToggled={value.toToggled}
         destination={value.destination}
         feePerByteToggled={value.feePerByteToggled}
