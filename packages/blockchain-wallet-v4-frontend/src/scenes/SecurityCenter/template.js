@@ -63,8 +63,11 @@ const PageContainer = styled.div`
 `
 const ButtonContainer = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column-reverse;
   align-items: center;
+  @media(min-width: 992px) {
+    flex-direction: row;
+  }
 `
 
 const SecurityCenter = (props) => {
