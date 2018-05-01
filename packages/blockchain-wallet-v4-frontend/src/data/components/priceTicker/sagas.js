@@ -17,7 +17,7 @@ export default ({ coreSagas }) => {
     }
   }
 
-  return function * () {
-    yield takeEvery(AT.PRICE_TICKER_INITIALIZED, initialized)
+  return {
+    initialized
   }
 }

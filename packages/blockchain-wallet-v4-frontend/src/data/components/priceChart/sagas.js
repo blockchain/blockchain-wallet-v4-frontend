@@ -43,9 +43,9 @@ export default ({ coreSagas }) => {
     }
   }
 
-  return function * () {
-    yield takeEvery(AT.PRICE_CHART_INITIALIZED, initialized)
-    yield takeEvery(AT.PRICE_CHART_COIN_CLICKED, coinClicked)
-    yield takeEvery(AT.PRICE_CHART_TIME_CLICKED, timeClicked)
+  return {
+    initialized,
+    coinClicked,
+    timeClicked
   }
 }

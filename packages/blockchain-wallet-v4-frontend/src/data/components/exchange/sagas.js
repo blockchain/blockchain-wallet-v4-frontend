@@ -425,17 +425,15 @@ export default ({ api, coreSagas }) => {
     yield put(actions.form.destroy('exchange'))
   }
 
-  return function * () {
-    yield takeLatest(AT.EXCHANGE_FIRST_STEP_INITIALIZED, firstStepInitialized)
-    yield takeLatest(AT.EXCHANGE_FIRST_STEP_SWAP_CLICKED, swapClicked)
-    yield takeLatest(AT.EXCHANGE_FIRST_STEP_MINIMUM_CLICKED, minimumClicked)
-    yield takeLatest(AT.EXCHANGE_FIRST_STEP_MAXIMUM_CLICKED, maximumClicked)
-    yield takeLatest(AT.EXCHANGE_FIRST_STEP_SUBMIT_CLICKED, firstStepSubmitClicked)
-    yield takeLatest(AT.EXCHANGE_THIRD_STEP_INITIALIZED, thirdStepInitialized)
-    yield takeLatest(AT.EXCHANGE_SECOND_STEP_SUBMIT_CLICKED, secondStepSubmitClicked)
-    // yield takeEvery(AT.EXCHANGE_SECOND_STEP_ORDER_EXPIRED, destroyed)
-    // yield takeEvery(AT.EXCHANGE_THIRD_STEP_CLOSE_CLICKED, destroyed)
-    yield takeLatest(AT.EXCHANGE_DESTROYED, destroyed)
-    yield takeEvery(actionTypes.form.CHANGE, change)
+  return {
+    firstStepInitialized,
+    swapClicked,
+    minimumClicked,
+    maximumClicked,
+    firstStepSubmitClicked,
+    thirdStepInitialized,
+    secondStepSubmitClicked,
+    destroyed,
+    change
   }
 }

@@ -102,16 +102,15 @@ export default ({ coreSagas }) => {
       yield put(actions.router.push('/eth/transactions'))
       yield put(actions.alerts.displaySuccess('Ether transaction has been successfully published!'))
     } catch (e) {
-      console.log(e)
       yield put(actions.alerts.displayError('Ether transaction could not be published.'))
     }
   }
 
-  return function * () {
-    yield takeLatest(AT.SEND_ETH_INITIALIZED, sendEthInitialized)
-    yield takeLatest(AT.SEND_ETH_FIRST_STEP_SUBMIT_CLICKED, firstStepSubmitClicked)
-    yield takeLatest(AT.SEND_ETH_FIRST_STEP_MAXIMUM_AMOUNT_CLICKED, maximumAmountClicked)
-    yield takeLatest(AT.SEND_ETH_SECOND_STEP_SUBMIT_CLICKED, secondStepSubmitClicked)
-    yield takeLatest(actionTypes.CHANGE, formChanged)
+  return {
+    sendEthInitialized,
+    firstStepSubmitClicked,
+    maximumAmountClicked,
+    secondStepSubmitClicked,
+    formChanged
   }
 }
