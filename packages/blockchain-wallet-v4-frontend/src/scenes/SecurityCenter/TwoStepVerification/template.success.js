@@ -59,6 +59,20 @@ const DisableLinkText = styled(Text)`
   }
   animation: 0.5s ${props => props.pulse ? pulseAnimation : null};
 `
+const TwoStepButton = styled(Button)`
+  width: 100px;
+  font-size: 12px;
+  min-width: 0px;
+  @media (min-width: 400px) and (max-width: 991px) {
+    font-size: 14px;
+    width: 140px;
+  }
+  @media (min-width: 1224px) {
+    width: 140px;
+    min-width: 0px;
+    font-size: 14px;
+  }
+`
 const Header = SecurityHeader.extend`
   justify-content: flex-start;
   align-items: center;
@@ -192,12 +206,12 @@ const TwoStepVerification = (props) => {
             ? <SecurityComponent>
               {
                 !twoFAEnabled
-                  ? <Button nature='primary' onClick={props.handleClick} >
+                  ? <TwoStepButton nature='primary' onClick={props.handleClick} >
                     <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.enable' defaultMessage='Enable' />
-                  </Button>
-                  : <Button nature='primary' onClick={props.handleDisableClick} >
+                  </TwoStepButton>
+                  : <TwoStepButton nature='primary' onClick={props.handleDisableClick} >
                     <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.disable' defaultMessage='Disable' />
-                  </Button>
+                  </TwoStepButton>
               }
             </SecurityComponent>
             : <div />
