@@ -28,7 +28,7 @@ const SelectBox = (props) => {
 
   return (
     <Container>
-      <SelectInput {...input} {...meta} {...rest} errorState={errorState} />
+      <SelectInput placeholder='Andrew Testssss' {...input} {...meta} {...rest} errorState={errorState} />
       {(touched || !pristine) && error && <Error errorBottom={props.errorBottom}>{error}</Error>}
     </Container>
   )
