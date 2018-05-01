@@ -18,22 +18,28 @@ const Choice = styled.div`
 const ChoiceDescription = styled.div`
   display: flex;
   flex-direction: column;
-  padding-left: 10px;
+  @media (min-width: 1224px) {
+    padding-left: 10px;
+  }
 `
-const TwoStepChoicesWapper = styled.div`
+const TwoStepChoicesWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  width: 100%;
   justify-content: space-evenly;
-  margin-top: 30px;
-  margin-bottom: 30px;
+
+  @media (min-width: 1224px) {
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    justify-content: space-evenly;
+  }
 `
 
 function Choices (props) {
   const { authType, editing } = props
 
   return (
-    <TwoStepChoicesWapper>
+    <TwoStepChoicesWrapper>
       <Choice editing={editing} selected={authType === 4} onClick={editing && authType > 0 ? () => props.pulseText() : () => props.chooseMethod('google')}>
         <Icon name='lock' size='18px' weight={400} />
         <ChoiceDescription>
@@ -67,7 +73,7 @@ function Choices (props) {
           </Text>
         </ChoiceDescription>
       </Choice>
-    </TwoStepChoicesWapper>
+    </TwoStepChoicesWrapper>
   )
 }
 
