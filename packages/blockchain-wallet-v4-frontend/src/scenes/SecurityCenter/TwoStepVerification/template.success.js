@@ -15,7 +15,10 @@ import { spacing } from 'services/StyleService'
 const pulseAnimation = keyframes`${pulse}`
 
 const SecuritySummaryChoice = styled(SecuritySummary)`
-  width: 120%;
+  width: 100%;  
+  @media(min-width: 992px) {
+    width: 120%;
+  }
 `
 const SecurityTwoStepContainer = SecurityContainer.extend`
   border-bottom-left-radius: 0px;
