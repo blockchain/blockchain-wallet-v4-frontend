@@ -1,8 +1,6 @@
-
-import { call, select, takeLatest, put } from 'redux-saga/effects'
+import { call, select, put } from 'redux-saga/effects'
 import { identity, prop } from 'ramda'
 import { formValueSelector } from 'redux-form'
-import * as AT from './actionTypes'
 import * as actions from '../../actions'
 import { promptForSecondPassword, promptForInput } from 'services/SagaService'
 import settings from 'config'
@@ -21,6 +19,7 @@ export default ({ api, coreSagas }) => {
     const index = prop('index', to)
     if (utils.checks.isPositiveInteger(index) && priv) {
       try {
+        /* eslint-disable */
         let payment = coreSagas.payment.btc.create(({network: settings.NETWORK_BITCOIN}))
         payment = yield payment.init()
         payment = yield payment.from(priv)
@@ -30,6 +29,7 @@ export default ({ api, coreSagas }) => {
         payment = yield payment.buildSweep()
         payment = yield payment.sign(password)
         payment = yield payment.publish()
+        /* eslint-enable */
         yield put(actions.alerts.displaySuccess(`Swept address funds to ${to.label}`))
       } catch (error) {
         console.log(error)

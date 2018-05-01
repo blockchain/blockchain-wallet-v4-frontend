@@ -6,7 +6,7 @@ import sagas from './sagas'
 export default ({ coreSagas }) => {
   const sendBchSagas = sagas({ coreSagas })
 
-  return function* () {
+  return function * () {
     yield takeLatest(AT.SEND_BCH_INITIALIZED, sendBchSagas.sendBchInitialized)
     yield takeLatest(AT.SEND_BCH_FIRST_STEP_TO_TOGGLED, sendBchSagas.toToggled)
     yield takeLatest(AT.SEND_BCH_FIRST_STEP_MAXIMUM_AMOUNT_CLICKED, sendBchSagas.maximumAmountClicked)
