@@ -12,6 +12,7 @@ import { Button, HeartbeatLoader, Text, Link, Icon } from 'blockchain-info-compo
 import Helper from 'components/BuySell/FAQ'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ErrorWrapper, ColRightInner } from 'components/BuySell/Signup'
 import { spacing } from 'services/StyleService'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
 
@@ -58,36 +59,49 @@ const IconContainer = styled.div`
   display: flex;
   align-items: center;
   margin-left: 10px;
-
+`
+const ErrorText = styled.span`
+  cursor: pointer;
+  color: ${props => props.theme['brand-secondary']};
+  font-size: 12px;
+`
+const ErrorLink = styled.a`
+  color: ${props => props.theme['brand-secondary']};
+  font-size: 12px;
+  text-decoration: none;
 `
 
 class AcceptTerms extends Component {
   constructor (props) {
     super(props)
-    this.state = {
-      busy: false,
-      acceptedTerms: false
-    }
+    this.state = { acceptedTerms: false }
 
     this.handleSignup = this.handleSignup.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
-    nextProps.signupError && this.setState({ busy: false })
-    nextProps.signupError === 'user is already registered' && this.props.updateUI({ uniqueEmail: false })
+    const error = Remote.of(nextProps.errorStatus)
+    if (error.data.error && error.data.error.message === 'user is already registered') this.props.updateUI({ uniqueEmail: false })
   }
 
   handleSignup (e) {
     e.preventDefault()
-    this.setState({ busy: true })
+    this.props.sfoxFrontendActions.sfoxNotAsked()
     this.props.sfoxFrontendActions.sfoxSignup()
   }
 
   render () {
-    const { busy } = this.state
-    const { invalid, email, smsNumber, signupError, editEmail, editMobile, emailVerified, smsVerified } = this.props
+    const busy = this.props.errorStatus.cata({
+      Success: () => false,
+      Failure: (err) => err,
+      Loading: () => true,
+      NotAsked: () => false
+    })
 
-    const faqHelper = () => helpers.map(el => <Helper question={el.question} answer={el.answer} />)
+    const { invalid, email, smsNumber, editEmail, editMobile, emailVerified, smsVerified, sfoxFrontendActions } = this.props
+    const { sfoxNotAsked } = sfoxFrontendActions
+
+    const faqHelper = () => helpers.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
 
     return (
       <Form onSubmit={this.handleSignup}>
@@ -150,7 +164,7 @@ class AcceptTerms extends Component {
         <ColRight>
           <ColRightInner>
             <ButtonWrapper>
-              <Button uppercase type='submit' nature='primary' fullwidth disabled={invalid || busy || signupError || !smsNumber || !email}>
+              <Button uppercase type='submit' nature='primary' fullwidth disabled={invalid || busy || !smsNumber || !email}>
                 {
                   !busy
                     ? <span>Continue</span>
@@ -160,9 +174,22 @@ class AcceptTerms extends Component {
             </ButtonWrapper>
             <ErrorWrapper>
               {
-                signupError === 'user is already registered' && <Text size='12px' color='error' weight={300} onClick={() => this.props.updateUI({ create: 'change_email' })}>
-                  <FormattedHTMLMessage id='sfoxexchangedata.create.accept.error' defaultMessage='Unfortunately this email is being used for another account. <a>Click here</a> to change it.' />
-                </Text>
+                busy instanceof Error && busy.message.toLowerCase() === 'user is already registered'
+                  ? <Text size='12px' color='error' weight={300} onClick={() => { sfoxNotAsked(); this.props.updateUI({ create: 'change_email' }) }}>
+                    <FormattedHTMLMessage id='sfoxexchangedata.create.accept.error' defaultMessage='Unfortunately this email is being used for another account. <a>Click here</a> to change it.' />
+                  </Text>
+                  : busy instanceof Error
+                    ? <Text size='12px' color='error' weight={300}>
+                      <FormattedMessage
+                        id='sfoxexchangedata.create.accept.unknownError'
+                        defaultMessage="We're sorry, but something unexpected went wrong. Please {tryAgain} or {contactSupport}."
+                        values={{
+                          tryAgain: <ErrorText onClick={() => sfoxNotAsked()}>try again</ErrorText>,
+                          contactSupport: <ErrorLink target='_blank' href='https://support.blockchain.com'>contact support</ErrorLink>
+                        }}
+                      />
+                    </Text>
+                    : null
               }
             </ErrorWrapper>
             { faqHelper() }
@@ -174,7 +201,6 @@ class AcceptTerms extends Component {
 }
 
 AcceptTerms.propTypes = {
-  handleSignup: PropTypes.func.isRequired,
   invalid: PropTypes.bool,
   ui: PropTypes.object,
   email: PropTypes.string.isRequired,
@@ -184,7 +210,7 @@ AcceptTerms.propTypes = {
 const mapStateToProps = (state) => ({
   email: selectors.core.settings.getEmail(state).data,
   smsNumber: selectors.core.settings.getSmsNumber(state).data,
-  signupError: path(['sfoxSignup', 'signupError'], state)
+  errorStatus: path(['sfoxSignup', 'sfoxBusy'], state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

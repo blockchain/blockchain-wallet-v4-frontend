@@ -3,19 +3,18 @@ import { filter } from 'ramda'
 import styled from 'styled-components'
 import OrderHistory from '../../OrderHistory'
 import { Text } from 'blockchain-info-components'
-import ExchangeCheckout from '../../ExchangeCheckout'
 import { determineStep, determineReason } from 'services/SfoxService'
 import { flex } from 'services/StyleService'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { Remote } from 'blockchain-wallet-v4/src'
 import Stepper, { StepView } from 'components/Utilities/Stepper'
-import BuyCheckout from './BuyCheckout'
-import { BuyOrderDetails, BuyOrderSubmit } from './BuyReviewOrder'
+import OrderCheckout from './OrderCheckout'
+import { OrderDetails, OrderSubmit } from './OrderReview'
 
 const CheckoutWrapper = styled.div`
   width: 50%;
 `
-const BuyOrderSubmitWrapper = CheckoutWrapper.extend`
+const OrderSubmitWrapper = CheckoutWrapper.extend`
   width: 35%;
   padding: 30px 30px 30px 10%;
 
@@ -38,54 +37,32 @@ const OrderHistoryContent = styled.div`
 const isPending = (t) => t.state === 'processing'
 const isCompleted = (t) => t.state !== 'processing'
 
-const ContinueButton = props => {
-  const { step, type } = props
-
-  switch (true) {
-    case step === 'verify': return <FormattedMessage id='scenes.buysell.sfoxcheckout.verify.button' defaultMessage='Continue Where You Left Off' />
-    case step === 'upload': return <FormattedMessage id='scenes.buysell.sfoxcheckout.upload.button' defaultMessage='Continue Where You Left Off' />
-    case step === 'funding': return <FormattedMessage id='scenes.buysell.sfoxcheckout.funding.button' defaultMessage='Continue Where You Left Off' />
-    case step === 'verified' && type === 'buy': return <FormattedMessage id='scenes.buysell.sfoxcheckout.verified.buy_bitcoin_button' defaultMessage='Buy Bitcoin' />
-    case step === 'verified' && type === 'sell': return <FormattedMessage id='scenes.buysell.sfoxcheckout.verified.sell_bitcoin_button' defaultMessage='Sell Bitcoin' />
-    default: return null
-  }
-}
-
-const RequiredMsg = props => {
-  const { step } = props
-
-  switch (true) {
-    case step === 'verify': return <FormattedMessage id='scenes.buysell.sfoxcheckout.verify.message' defaultMessage='You need to finish personaling your account before you can buy and sell.' />
-    case step === 'upload': return <FormattedMessage id='scenes.buysell.sfoxcheckout.upload.message' defaultMessage='You need to finish personaling your account before you can buy and sell.' />
-    case step === 'funding': return <FormattedMessage id='scenes.buysell.sfoxcheckout.funding.message' defaultMessage='You need to finish linking your bank account before you can buy and sell.' />
-    default: return null
-  }
-}
-
-const ReasonMsg = props => {
-  const { reason, limit } = props
-  switch (true) {
-    case reason === 'has_remaining_buy_limit': return <FormattedHTMLMessage id='scenes.buysell.sfoxcheckout.buy.remaining_limit' defaultMessage='Your remaining buy limit is <span class="link">{limit} USD.</span>' values={{limit}} />
-    case reason === 'has_remaining_sell_limit': return <FormattedHTMLMessage id='scenes.buysell.sfoxcheckout.sell.remaining_limit' defaultMessage='Your remaining sell limit is <span class="link">{limit} USD.</span>' values={{limit}} />
-    default: return <FormattedHTMLMessage id='placeholder' defaultMessage='&nbsp;' />
-  }
-}
-
 const Success = props => {
-  const { changeBuySellTabStatus, fetchQuote, refreshQuote, submitQuote, handleTrade, quoteR, base, errors, showModal, handleTradeDetailsClick, ...rest } = props
-  const quote = quoteR.getOrElse(null)
+  const {
+    changeBuySellTabStatus,
+    fetchBuyQuote,
+    fetchSellQuote,
+    refreshQuote,
+    submitBuyQuote,
+    submitSellQuote,
+    handleTrade,
+    buyQuoteR,
+    sellQuoteR,
+    base,
+    errors,
+    showModal,
+    handleTradeDetailsClick,
+    clearTradeError,
+    ...rest } = props
 
   const accounts = Remote.of(props.value.accounts).getOrElse([])
   const profile = Remote.of(props.value.profile).getOrElse({ account: { verification_status: {} }, limits: { buy: 0, sell: 0 } })
   const verificationStatus = Remote.of(props.value.verificationStatus).getOrElse({ level: 'unverified', required_docs: [] })
+  const payment = Remote.of(props.payment).getOrElse({ effectiveBalance: 0 })
 
   const { trades, type, busy } = rest
   const step = determineStep(profile, verificationStatus, accounts)
   const reason = determineReason(type, profile, verificationStatus, accounts)
-  const onSubmit = (e) => {
-    e.preventDefault()
-    step === 'verified' ? handleTrade(quote) : showModal('SfoxExchangeData', { step })
-  }
   const finishAccountSetup = () => showModal('SfoxExchangeData', { step })
 
   const limits = {
@@ -95,7 +72,8 @@ const Success = props => {
     },
     sell: {
       min: 10,
-      max: profile.limits.sell
+      max: profile.limits.sell,
+      effectiveMax: payment && payment.effectiveBalance
     }
   }
 
@@ -104,56 +82,76 @@ const Success = props => {
       <Stepper initialStep={0}>
         <StepView step={0}>
           <CheckoutWrapper>
-            <BuyCheckout
-              quoteR={quoteR}
+            <OrderCheckout
+              quoteR={buyQuoteR}
               account={accounts[0]}
-              onFetchQuote={fetchQuote}
+              onFetchQuote={fetchBuyQuote}
               reason={reason}
               finishAccountSetup={finishAccountSetup}
-              limits={limits}
+              limits={limits.buy}
+              type={'buy'}
             />
           </CheckoutWrapper>
         </StepView>
         <StepView step={1}>
           <div style={flex('row')}>
             <CheckoutWrapper>
-              <BuyOrderDetails
-                quoteR={quoteR}
+              <OrderDetails
+                quoteR={buyQuoteR}
                 account={accounts[0]}
                 onRefreshQuote={refreshQuote}
+                type={'buy'}
               />
             </CheckoutWrapper>
-            <BuyOrderSubmitWrapper style={{ ...flex('col') }}>
-              <BuyOrderSubmit
-                quoteR={quoteR}
-                onSubmit={submitQuote}
+            <OrderSubmitWrapper style={{ ...flex('col') }}>
+              <OrderSubmit
+                quoteR={buyQuoteR}
+                onSubmit={submitBuyQuote}
                 busy={busy}
+                clearTradeError={clearTradeError}
               />
-            </BuyOrderSubmitWrapper>
+            </OrderSubmitWrapper>
           </div>
         </StepView>
       </Stepper>
     )
   } else if (type === 'sell') {
     return (
-      <CheckoutWrapper>
-        <ExchangeCheckout
-          fiatLimits
-          base={base}
-          quote={quote}
-          errors={errors}
-          fiat={'USD'}
-          crypto={'BTC'}
-          accounts={accounts}
-          onSubmit={onSubmit}
-          fetchQuote={fetchQuote}
-          limits={limits[type]}
-          showRequiredMsg={step !== 'verified'}
-          requiredMsg={<RequiredMsg step={step} type={type} />}
-          continueButton={<ContinueButton step={step} type={type} />}
-          reasonMsg={<ReasonMsg reason={reason} limit={profile.limits[type]} />}
-        />
-      </CheckoutWrapper>
+      <Stepper initialStep={0}>
+        <StepView step={0}>
+          <CheckoutWrapper>
+            <OrderCheckout
+              quoteR={sellQuoteR}
+              account={accounts[0]}
+              onFetchQuote={fetchSellQuote}
+              reason={reason}
+              finishAccountSetup={finishAccountSetup}
+              limits={limits.sell}
+              type={'sell'}
+            />
+          </CheckoutWrapper>
+        </StepView>
+        <StepView step={1}>
+          <div style={flex('row')}>
+            <CheckoutWrapper>
+              <OrderDetails
+                quoteR={sellQuoteR}
+                account={accounts[0]}
+                onRefreshQuote={refreshQuote}
+                type={'sell'}
+              />
+            </CheckoutWrapper>
+            <OrderSubmitWrapper style={{ ...flex('col') }}>
+              <OrderSubmit
+                quoteR={sellQuoteR}
+                onSubmit={submitSellQuote}
+                busy={busy}
+                clearTradeError={clearTradeError}
+              />
+            </OrderSubmitWrapper>
+          </div>
+        </StepView>
+      </Stepper>
     )
   } else if (trades) {
     return (
