@@ -1,5 +1,4 @@
-import { all, takeEvery, takeLatest, select, call, put } from 'redux-saga/effects'
-import { delay } from 'redux-saga'
+import { all, takeEvery, takeLatest, select, put } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import * as actions from '../actions'
 import * as selectors from '../selectors'
@@ -14,11 +13,7 @@ export default ({ coreSagas }) => {
     const btcRates = yield select(selectors.core.data.bitcoin.getRates)
     const fiat = Exchange.convertBitcoinToFiat({ value: amount, fromUnit: 'BTC', toCurrency: currency.data, rates: btcRates.data }).value
     // Goal work
-    yield put(actions.modals.showModal('SendBitcoin'))
-    yield call(delay, 3000)
-    yield put(actions.form.change('sendBtc', 'to', address))
-    yield put(actions.form.change('sendBtc', 'message', message))
-    yield put(actions.form.change('sendBtc', 'amount', {coin: amount, fiat}))
+    yield put(actions.modals.showModal('SendBitcoin', { to: address, message, amount: {coin: amount, fiat} }))
     // Goal removed from state
     yield put(actions.goals.deleteGoal(id))
   }

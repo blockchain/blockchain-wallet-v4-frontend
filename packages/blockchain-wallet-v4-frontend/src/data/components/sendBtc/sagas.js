@@ -16,7 +16,7 @@ const DUST = 546
 const DUST_BTC = '0.00000546'
 
 export default ({ coreSagas }) => {
-  const sendBtcInitialized = function * () {
+  const sendBtcInitialized = function * (action) {
     try {
       yield put(A.sendBtcPaymentUpdated(Remote.Loading))
       let payment = coreSagas.payment.btc.create(({network: settings.NETWORK_BITCOIN}))
@@ -25,11 +25,15 @@ export default ({ coreSagas }) => {
       const defaultIndex = yield select(selectors.core.wallet.getDefaultAccountIndex)
       const defaultAccountR = accountsR.map(nth(defaultIndex))
       const defaultFeePerByte = path(['fees', 'regular'], payment.value())
+      const { to, message, amount } = action.payload
       payment = yield payment.from(defaultIndex)
       payment = yield payment.fee(defaultFeePerByte)
       // TODO :: Redesign account dropdown
       const initialValues = {
+        to: to,
         coin: 'BTC',
+        amount: amount,
+        message: message,
         from: defaultAccountR.getOrElse(),
         feePerByte: defaultFeePerByte
       }
