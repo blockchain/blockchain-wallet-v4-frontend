@@ -7,130 +7,22 @@ import * as S from './selectors'
 import * as actions from '../../actions'
 import * as actionTypes from '../../actionTypes'
 import * as selectors from '../../selectors'
-import settings from 'config'
 import { promptForSecondPassword } from 'services/SagaService'
-import { getCoinFromPair, getPairFromCoin, getMinimum, getMaximum, convertFiatToCoin, convertCoinToFiat,
-  convertStandardToBase, isAmountAboveMinimum, isAmountBelowMaximum, calculateFinalAmount, selectFee,
-  isUndefinedOrEqualsToZero } from './services'
-import { selectRates, selectReceiveAddress } from '../utils/sagas'
+import { getCoinFromPair, getPairFromCoin, getMinimum, getMaximum,
+  convertStandardToBase, isAmountBelowMinimum, isAmountAboveMaximum, calculateFinalAmount, selectFee,
+  isUndefinedOrEqualsToZero, getMinimumStandard, getMaximumStandard } from './services'
+import { selectReceiveAddress } from '../utils/sagas'
+import utils from './sagas.utils'
 
 export default ({ api, coreSagas }) => {
-  // ===========================================================================
-  // ================================= UTILS ===================================
-  // ===========================================================================
-  const calculateEffectiveBalance = function * (source) {
-    const coin = prop('coin', source)
-    const address = prop('address', source)
-    let payment
-    switch (coin) {
-      case 'BCH':
-        payment = yield coreSagas.payment.bch.create({ network: settings.NETWORK_BCH }).chain().init().fee('priority').from(address).done()
-        break
-      case 'BTC':
-        payment = yield coreSagas.payment.btc.create({ network: settings.NETWORK_BITCOIN }).chain().init().fee('priority').from(address).done()
-        break
-      case 'ETH':
-        payment = yield coreSagas.payment.eth.create({ network: settings.NETWORK_ETHEREUM }).chain().init().from(address).done()
-        break
-      default: throw new Error('Could not get effective balance.')
-    }
-    return prop('effectiveBalance', payment.value())
-  }
-
-  const createPayment = function * (coin, sourceAddress, targetAddress, amount) {
-    let payment
-    switch (coin) {
-      case 'BCH':
-        payment = coreSagas.payment.bch.create({ network: settings.NETWORK_BCH }).chain().init().fee('priority').amount(parseInt(amount))
-        break
-      case 'BTC':
-        payment = coreSagas.payment.btc.create({ network: settings.NETWORK_BITCOIN }).chain().init().fee('priority').amount(parseInt(amount))
-        break
-      case 'ETH':
-        payment = coreSagas.payment.eth.create({ network: settings.NETWORK_ETHEREUM }).chain().init().amount(amount)
-        break
-      default: throw new Error('Could not create payment.')
-    }
-    payment = yield payment.from(sourceAddress).to(targetAddress).build().done()
-    console.log('createPayment', payment.value)
-    return payment
-  }
-
-  const resumePayment = function (coin, payment) {
-    switch (coin) {
-      case 'BCH': return coreSagas.payment.bch.create({ payment, network: settings.NETWORK_BCH })
-      case 'BTC': return coreSagas.payment.btc.create({ payment, network: settings.NETWORK_BITCOIN })
-      case 'ETH': return coreSagas.payment.eth.create({ payment, network: settings.NETWORK_ETHEREUM })
-      default: throw new Error('Could not resume payment.')
-    }
-  }
-
-  const getShapeShiftLimits = function * (source, target) {
-    const coinSource = prop('coin', source)
-    const coinTarget = prop('coin', target)
-    const pair = getPairFromCoin(coinSource, coinTarget)
-    const shapeshiftPairR = yield select(selectors.core.data.shapeShift.getPair(pair))
-    const shapeshiftPair = shapeshiftPairR.getOrFail('Could not find shapeshift pair.')
-
-    return {
-      minimum: prop('minimum', shapeshiftPair),
-      maximum: prop('limit', shapeshiftPair)
-    }
-  }
-
-  const convertValues = function * (values, type) {
-    const source = prop('source', values)
-    const sourceCoin = prop('coin', source)
-    const target = prop('target', values)
-    const targetCoin = prop('coin', target)
-    const sourceRates = yield call(selectRates, sourceCoin)
-    const targetRates = yield call(selectRates, targetCoin)
-    const pair = getPairFromCoin(sourceCoin, targetCoin)
-    const defaultResult = { source, target, sourceAmount: 0, sourceFiat: 0, targetAmount: 0, targetFiat: 0 }
-
-    switch (type) {
-      case 'sourceFiat': {
-        const sourceFiat = prop('sourceFiat', values)
-        if (isUndefinedOrEqualsToZero(sourceFiat)) return defaultResult
-        const sourceAmount = convertFiatToCoin(sourceFiat, 'USD', sourceCoin, sourceCoin, sourceRates).value
-        const quotation = yield call(api.createQuote, sourceAmount, pair, true)
-        const targetAmount = path(['success', 'withdrawalAmount'], quotation) || 0
-        const targetFiat = convertCoinToFiat(targetAmount, targetCoin, targetCoin, 'USD', targetRates).value
-        return { source, target, sourceAmount, sourceFiat, targetAmount, targetFiat }
-      }
-      case 'targetAmount': {
-        const targetAmount = prop('targetAmount', values)
-        if (isUndefinedOrEqualsToZero(targetAmount)) return defaultResult
-        const quotation = yield call(api.createQuote, targetAmount, pair, false)
-        const sourceAmount = path(['success', 'depositAmount'], quotation) || 0
-        const sourceFiat = convertCoinToFiat(sourceAmount, sourceCoin, sourceCoin, 'USD', sourceRates).value
-        const targetFiat = convertCoinToFiat(targetAmount, targetCoin, targetCoin, 'USD', targetRates).value
-        return { source, target, sourceAmount, sourceFiat, targetAmount, targetFiat }
-      }
-      case 'targetFiat': {
-        const targetFiat = prop('targetFiat', values)
-        if (isUndefinedOrEqualsToZero(targetFiat)) return defaultResult
-        const targetAmount = convertFiatToCoin(targetFiat, 'USD', targetCoin, targetCoin, targetRates).value
-        const quotation = yield call(api.createQuote, targetAmount, pair, false)
-        const sourceAmount = path(['success', 'depositAmount'], quotation) || 0
-        const sourceFiat = convertCoinToFiat(sourceAmount, sourceCoin, sourceCoin, 'USD', sourceRates).value
-        return { source, target, sourceAmount, sourceFiat, targetAmount, targetFiat }
-      }
-      case 'sourceAmount':
-      default: {
-        const sourceAmount = prop('sourceAmount', values)
-        if (isUndefinedOrEqualsToZero(sourceAmount)) return defaultResult
-        const quotation = yield call(api.createQuote, sourceAmount, pair, true)
-        const targetAmount = path(['success', 'withdrawalAmount'], quotation) || 0
-        const sourceFiat = convertCoinToFiat(sourceAmount, sourceCoin, sourceCoin, 'USD', sourceRates).value
-        const targetFiat = convertCoinToFiat(targetAmount, targetCoin, targetCoin, 'USD', targetRates).value
-        return { source, target, sourceAmount, sourceFiat, targetAmount, targetFiat }
-      }
-    }
-  }
-  // ===========================================================================
-  // ===========================================================================
-  // ===========================================================================
+  const {
+    calculateEffectiveBalance,
+    createPayment,
+    resumePayment,
+    getShapeShiftLimits,
+    convertValues,
+    selectOtherAccount
+  } = utils({ api, coreSagas })
 
   const firstStepInitialized = function * () {
     try {
@@ -168,9 +60,8 @@ export default ({ api, coreSagas }) => {
       const form = yield select(selectors.form.getFormValues('exchange'))
       const source = prop('source', form)
       const target = prop('target', form)
-      const coin = prop('coin', source)
       const pair = yield call(getShapeShiftLimits, source, target)
-      const minimum = getMinimum(coin, pair.minimum)
+      const minimum = getMinimumStandard(prop('minimum', pair))
       yield put(actions.form.change('exchange', 'sourceAmount', minimum))
     } catch (e) {
       console.log(e)
@@ -185,7 +76,7 @@ export default ({ api, coreSagas }) => {
       const coin = prop('coin', source)
       const effectiveBalance = yield call(calculateEffectiveBalance, source)
       const pair = yield call(getShapeShiftLimits, source, target)
-      const maximum = getMaximum(coin, pair.maximum, effectiveBalance)
+      const maximum = getMaximumStandard(coin, prop('maximum', pair), effectiveBalance)
       yield put(actions.form.change('exchange', 'sourceAmount', maximum))
     } catch (e) {
       console.log(e)
@@ -198,6 +89,8 @@ export default ({ api, coreSagas }) => {
       const field = path(['meta', 'field'], action)
       if (!equals('exchange', form)) return
       switch (field) {
+        case 'source': yield call(changeSource); break
+        case 'target': yield call(changeTarget); break
         case 'sourceAmount': yield call(changeAmount, field); break
         case 'sourceFiat': yield call(changeAmount, field); break
         case 'targetAmount': yield call(changeAmount, field); break
@@ -206,6 +99,35 @@ export default ({ api, coreSagas }) => {
       yield call(validateForm)
     } catch (e) {
       console.log(e)
+    }
+  }
+
+  const changeSource = function * () {
+    const form = yield select(selectors.form.getFormValues('exchange'))
+    const source = prop('source', form)
+    const sourceCoin = prop('coin', source)
+    const target = prop('target', form)
+    const targetCoin = prop('coin', target)
+    if (equals(sourceCoin, targetCoin)) {
+      const newTarget = yield call(selectOtherAccount, targetCoin)
+      console.log('newTarget', newTarget)
+      const newValues = merge(form, { target: newTarget })
+      yield put(actions.form.initialize('exchange', newValues))
+    }
+  }
+
+  const changeTarget = function * () {
+    const form = yield select(selectors.form.getFormValues('exchange'))
+    const source = prop('source', form)
+    const sourceCoin = prop('coin', source)
+    const target = prop('target', form)
+    const targetCoin = prop('coin', target)
+
+    if (equals(sourceCoin, targetCoin)) {
+      const newSource = yield call(selectOtherAccount, sourceCoin)
+      console.log('newSource', newSource)
+      const newValues = merge(form, { source: newSource })
+      yield put(actions.form.initialize('exchange', newValues))
     }
   }
 
@@ -218,29 +140,33 @@ export default ({ api, coreSagas }) => {
   }
 
   const validateForm = function * () {
-    yield put(A.firstStepDisabled())
-    const form = yield select(selectors.form.getFormValues('exchange'))
-    const source = prop('source', form)
-    const target = prop('target', form)
-    const sourceAmount = prop('sourceAmount', form)
-    if (isUndefinedOrEqualsToZero(sourceAmount)) {
-      // yield put(A.firstStepFormUnvalidated('insufficient'))
-      return yield put(A.firstStepEnabled())
+    try {
+      yield put(A.firstStepDisabled())
+      const form = yield select(selectors.form.getFormValues('exchange'))
+      const source = prop('source', form)
+      const target = prop('target', form)
+      const sourceAmount = prop('sourceAmount', form)
+      if (isUndefinedOrEqualsToZero(sourceAmount)) {
+        return yield put(A.firstStepEnabled())
+      }
+      const effectiveBalance = yield call(calculateEffectiveBalance, source)
+      const pair = yield call(getShapeShiftLimits, source, target)
+      const minimum = getMinimum(source.coin, pair.minimum)
+      const maximum = getMaximum(source.coin, pair.maximum, effectiveBalance)
+      const sourceAmountBase = convertStandardToBase(source.coin, sourceAmount)
+      if (isAmountBelowMinimum(effectiveBalance, minimum)) {
+        yield put(A.firstStepFormUnvalidated('insufficient'))
+      } else if (isAmountBelowMinimum(sourceAmountBase, minimum)) {
+        yield put(A.firstStepFormUnvalidated('minimum'))
+      } else if (isAmountAboveMaximum(sourceAmountBase, maximum)) {
+        yield put(A.firstStepFormUnvalidated('maximum'))
+      } else {
+        yield put(A.firstStepFormValidated())
+      }
+      yield put(A.firstStepEnabled())
+    } catch (e) {
+      console.log(e)
     }
-    const effectiveBalance = yield call(calculateEffectiveBalance, source)
-    const pair = yield call(getShapeShiftLimits, source, target)
-    const minimum = getMinimum(source.coin, pair.minimum)
-    const maximum = getMaximum(source.coin, pair.maximum, effectiveBalance)
-    if (!isAmountAboveMinimum(sourceAmount, minimum) && !isAmountBelowMaximum(sourceAmount, maximum)) {
-      yield put(A.firstStepFormUnvalidated('insufficient'))
-    } else if (!isAmountAboveMinimum(sourceAmount, minimum)) {
-      yield put(A.firstStepFormUnvalidated('minimum'))
-    } else if (!isAmountBelowMaximum(sourceAmount, maximum)) {
-      yield put(A.firstStepFormUnvalidated('maximum'))
-    } else {
-      yield put(A.firstStepFormValidated())
-    }
-    yield put(A.firstStepEnabled())
   }
 
   const firstStepSubmitClicked = function * () {
