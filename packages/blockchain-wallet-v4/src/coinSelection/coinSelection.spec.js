@@ -12,32 +12,32 @@ describe('Coin Selection', () => {
     })
   })
   describe('effective Balances', () => {
-    it('should return the right effective max Balance', () => {
+    it('should return the right effective max balance with no value and empty valued outputs', () => {
       const inputs = map(Coin.fromJS, [{value: 15000}, {value: 10000}, {value: 20000}])
       const outputs = map(Coin.fromJS, [{value: 0}, {value: 0}])
       expect(cs.effectiveBalance(0, inputs, outputs).value).toEqual(45000)
     })
-    it('should return the right effective max Balance', () => {
+    it('should return the right effective max balance with value and empty valued outputs', () => {
       const inputs = map(Coin.fromJS, [{value: 15000}, {value: 10000}, {value: 20000}])
       const outputs = map(Coin.fromJS, [{value: 0}, {value: 0}])
       expect(cs.effectiveBalance(55, inputs, outputs).value).toEqual(16455)
     })
-    it('should return the right effective max Balance', () => {
+    it('should return the right effective max balance w/ no inputs or outputs', () => {
       expect(cs.effectiveBalance(55, [], []).value).toEqual(0)
     })
-    it('should return the right effective max Balance', () => {
+    it('should return the right effective max balance w/ no value, inputs or outputs', () => {
       expect(cs.effectiveBalance(0, [], []).value).toEqual(0)
     })
   })
 
   describe('findTarget', () => {
-    it('should return the right selection', () => {
+    it('should return the right selection with empty inputs and targets, ', () => {
       const selection = cs.findTarget([], 0, [])
       expect(selection.fee).toEqual(0)
       expect(selection.inputs).toEqual([])
       expect(selection.outputs).toEqual([])
     })
-    it('should return the right selection', () => {
+    it('should return the right selection without feePerByte set', () => {
       const inputs = map(Coin.fromJS, [{value: 1}, {value: 2}, {value: 3}])
       const targets = map(Coin.fromJS, [{value: 10000}])
       const selection = cs.findTarget(targets, 0, inputs)
@@ -45,7 +45,7 @@ describe('Coin Selection', () => {
       expect(selection.inputs).toEqual([])
       expect(selection.outputs).toEqual(targets)
     })
-    it('should return the right selection', () => {
+    it('should return the right selection with feePerByte set', () => {
       const inputs = map(Coin.fromJS, [{value: 1}, {value: 20000}, {value: 300000}])
       const targets = map(Coin.fromJS, [{value: 10000}])
       const selection = cs.findTarget(targets, 55, inputs)
@@ -55,14 +55,14 @@ describe('Coin Selection', () => {
     })
   })
   describe('selectAll', () => {
-    it('should return the right selection', () => {
+    it('should return the right selection with inputs', () => {
       const inputs = map(Coin.fromJS, [{value: 1}, {value: 20000}, {value: 0}, {value: 0}, {value: 300000}])
       const selection = cs.selectAll(55, inputs)
       expect(selection.fee).toEqual(18590)
       expect(selection.inputs.map(x => x.value)).toEqual([20000, 300000])
       expect(selection.outputs.map(x => x.value)).toEqual([301410])
     })
-    it('should return the right selection', () => {
+    it('should return the right selection without inputs', () => {
       const inputs = map(Coin.fromJS, [])
       const selection = cs.selectAll(55, inputs)
       expect(selection.fee).toEqual(0)
