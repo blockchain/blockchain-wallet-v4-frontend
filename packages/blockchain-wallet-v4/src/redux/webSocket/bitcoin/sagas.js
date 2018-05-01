@@ -1,5 +1,4 @@
 import { takeEvery, call, put, select } from 'redux-saga/effects'
-import { delay } from 'redux-saga'
 import { compose } from 'ramda'
 import * as A from '../../actions'
 import * as AT from './actionTypes'
@@ -11,7 +10,6 @@ import * as btcActions from '../../data/bitcoin/actions'
 // TO REVIEW
 export default ({ api, btcSocket }) => {
   const send = btcSocket.send.bind(btcSocket)
-  let lastPongTimestamp = 0
 
   const onOpen = function * () {
     const subscribeInfo = yield select(walletSelectors.getInitialSocketContext)
@@ -47,12 +45,6 @@ export default ({ api, btcSocket }) => {
         yield put(btcActions.fetchTransactions('', true))
         break
       case 'pong':
-        lastPongTimestamp = Date.now()
-        yield call(delay, 120000)
-        if (lastPongTimestamp < Date.now() - 120000) {
-          yield put(A.webSocket.bitcoin.stopSocket())
-          yield put(A.webSocket.bitcoin.startSocket())
-        }
         break
       case 'email_verified':
         yield put(A.settings.setEmailVerified())
