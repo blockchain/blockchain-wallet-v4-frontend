@@ -7,8 +7,8 @@ import { Icon, Text } from 'blockchain-info-components'
 
 const animation = keyframes`
   0% { transform: rotate(0deg); }
-  50% { transform: rotate(180deg); }
-  100% { transform: rotate(360deg); }
+  50% { transform: rotate(-180deg); }
+  100% { transform: rotate(-360deg); }
 `
 const Wrapper = styled.div`
   display: flex;
