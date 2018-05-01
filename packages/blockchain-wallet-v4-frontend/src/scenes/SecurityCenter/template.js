@@ -63,10 +63,17 @@ const PageContainer = styled.div`
 `
 const ButtonContainer = styled.div`
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   align-items: center;
+  Button {
+    width: 50%;
+    margin-bottom: 10px;
+  }
   @media(min-width: 992px) {
     flex-direction: row;
+    Button {
+      width: 25%;
+    }
   }
 `
 
@@ -85,7 +92,7 @@ const SecurityCenter = (props) => {
         <WalletRecoveryPhrase handleEnable={() => props.handleEnable('recovery')} goBackOnSuccess={props.onClose} />
         {
           !tabs && <ButtonContainer>
-            <Button nature='empty' width='25%' onClick={() => props.setView('advanced')}>
+            <Button nature='empty' onClick={() => props.setView('advanced')}>
               <Text size='14px' weight={400}>
                 <FormattedMessage id='scenes.securitycenter.introadvancedbutton' defaultMessage='Advanced Settings' />
               </Text>
