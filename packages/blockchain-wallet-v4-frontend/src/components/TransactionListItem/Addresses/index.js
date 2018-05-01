@@ -19,8 +19,8 @@ const notChange = (io) => !io.change
 
 const Addresses = props => {
   const { from, to, outputs, inputs, coin } = props
-  const labelTo = <Text size='13px' weight={300} id='scenes.transactions.content.list.listitem.to'>{to}</Text>
-  const labelFrom = <Text size='13px' weight={300} id='scenes.transactions.content.list.listitem.from'>{from}</Text>
+  const labelTo = <Text size='13px' weight={300}>{to}</Text>
+  const labelFrom = <Text size='13px' weight={300}>{from}</Text>
 
   return (
     <Wrapper>
@@ -38,7 +38,7 @@ const Addresses = props => {
       </TextGroup>
       <TextGroup inline>
         <Text size='13px' weight={500}>
-          <FormattedMessage id='scenes.transactions.content.list.listitem.to' defaultMessage='From: ' />
+          <FormattedMessage id='scenes.transactions.content.list.listitem.from' defaultMessage='From: ' />
         </Text>
         <Tooltip width='auto' label={labelFrom} hover={inputs && inputs.some(hasLabel)}>
           { inputs && inputs.map((input) => input.label &&
