@@ -110,7 +110,6 @@ export default ({ api, coreSagas }) => {
     const targetCoin = prop('coin', target)
     if (equals(sourceCoin, targetCoin)) {
       const newTarget = yield call(selectOtherAccount, targetCoin)
-      console.log('newTarget', newTarget)
       const newValues = merge(form, { target: newTarget })
       yield put(actions.form.initialize('exchange', newValues))
     }
@@ -125,7 +124,6 @@ export default ({ api, coreSagas }) => {
 
     if (equals(sourceCoin, targetCoin)) {
       const newSource = yield call(selectOtherAccount, sourceCoin)
-      console.log('newSource', newSource)
       const newValues = merge(form, { source: newSource })
       yield put(actions.form.initialize('exchange', newValues))
     }
