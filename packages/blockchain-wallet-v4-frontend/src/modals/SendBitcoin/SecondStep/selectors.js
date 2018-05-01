@@ -9,7 +9,7 @@ export const getData = state => {
     const toLabel = btcToLabel(payment, state)
 
     return {
-      message: payment.description,
+      description: payment.description,
       fromAddress: fromLabel,
       toAddress: toLabel,
       amount: payment.amount[0],
