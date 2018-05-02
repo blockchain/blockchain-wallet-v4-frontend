@@ -5,6 +5,8 @@ import PropTypes from 'prop-types'
 
 import { getData } from './selectors'
 import SelectBox from '../SelectBox'
+import SelectBoxBitcoin from './template'
+
 
 class SelectBoxBitcoinAddresses extends React.PureComponent {
   getLabel (coin) {
@@ -23,8 +25,7 @@ class SelectBoxBitcoinAddresses extends React.PureComponent {
           items: value.data
         }]
         const elements = includeAll ? this.concatAll(coin)(wallets) : wallets
-
-        return <SelectBox label={this.getLabel(coin)} elements={elements} {...rest} />
+        return <SelectBoxBitcoin label={this.getLabel(coin)} elements={elements} {...rest} />
       },
       Failure: (message) => <div>{message}</div>,
       Loading: () => <div />,
