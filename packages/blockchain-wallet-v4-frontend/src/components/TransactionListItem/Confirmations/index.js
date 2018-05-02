@@ -23,10 +23,7 @@ const IconWrapper = styled.div`
   display: flex;
   justify-items: center;
   margin-left: 4px;
-  & > :last-child { margin-top: 4px; }
-  @media(min-width: 480px) {
-    & > :last-child { margin-keft: 4px; }
-  }
+  & > :last-child { display; inline; }
 `
 
 const explorers = {
