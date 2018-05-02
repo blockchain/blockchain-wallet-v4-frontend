@@ -13,5 +13,6 @@ export default ({ coreSagas }) => {
     yield takeLatest(AT.UPLOAD, sfoxSagas.upload)
     yield takeLatest(AT.SUBMIT_MICRO_DEPOSITS, sfoxSagas.submitMicroDeposits)
     yield takeLatest(AT.SUBMIT_QUOTE, sfoxSagas.submitQuote)
+    yield takeLatest(AT.SUBMIT_SELL_QUOTE, sfoxSagas.submitSellQuote)
   }
 }
