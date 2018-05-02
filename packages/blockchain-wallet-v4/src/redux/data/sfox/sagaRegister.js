@@ -1,4 +1,3 @@
-import ExchangeDelegate from '../../../exchange/delegate'
 import { takeLatest } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import sagas from './sagas'
@@ -7,7 +6,7 @@ export default ({ api, options }) => {
   const dataSfoxSagas = sagas({ api, options })
 
   return function * () {
-    yield takeLatest(buySellAT.FETCH_METADATA_BUYSELL_SUCCESS, dataSfoxSagas.init)
+    yield takeLatest(AT.FETCH_METADATA_BUYSELL_SUCCESS, dataSfoxSagas.init)
     yield takeLatest(AT.SFOX_FETCH_ACCOUNTS, dataSfoxSagas.fetchAccounts)
     yield takeLatest(AT.FETCH_PROFILE, dataSfoxSagas.fetchProfile)
     yield takeLatest(AT.FETCH_TRADES, dataSfoxSagas.fetchTrades)

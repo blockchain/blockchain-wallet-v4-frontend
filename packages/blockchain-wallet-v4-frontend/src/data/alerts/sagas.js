@@ -7,7 +7,7 @@ import * as actions from '../actions.js'
 
 const DISMISS_AFTER = 7000
 
-export const handleTimer = function* (action) {
+export const handleTimer = function * (action) {
   const { id } = action.payload
   yield call(delay, DISMISS_AFTER)
   yield put(actions.alerts.dismissAlert(id))

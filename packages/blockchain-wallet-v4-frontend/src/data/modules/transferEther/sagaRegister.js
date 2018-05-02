@@ -5,7 +5,7 @@ import sagas from './sagas'
 export default ({ coreSagas }) => {
   const transferEtherSagas = sagas({ coreSagas })
 
-  return function* () {
+  return function * () {
     yield takeEvery(AT.INIT_TRANSFER_ETHER, transferEtherSagas.initTransferEther)
     yield takeLatest(AT.TRANSFER_ETHER, transferEtherSagas.transferEther)
   }

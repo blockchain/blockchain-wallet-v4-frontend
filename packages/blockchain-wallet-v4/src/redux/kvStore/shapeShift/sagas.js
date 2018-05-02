@@ -29,7 +29,7 @@ export default ({ api }) => {
     }
   }
 
-  const createShapeshift = function* (kv) {
+  const createShapeshift = function * (kv) {
     const newShapeshiftEntry = {
       trades: [],
       USAState: ''
@@ -38,7 +38,7 @@ export default ({ api }) => {
     yield put(A.createMetadataShapeshift(newkv))
   }
 
-  const fetchMetadataShapeshift = function* () {
+  const fetchMetadataShapeshift = function * () {
     try {
       const typeId = derivationMap[SHAPESHIFT]
       const mxpriv = yield select(getMetadataXpriv)
