@@ -24,8 +24,8 @@ export default (state = INITIAL_STATE, action) => {
     case AT.SET_BCH_ACCOUNT_LABEL: {
       const { accountIdx, label } = action.payload
       const valueLens = compose(mapped, KVStoreEntry.value)
-      const setAccount = assocPath(['accounts', accountIdx, 'label'], label)
-      return over(valueLens, setAccount, state)
+      const setAccountLabel = assocPath(['accounts', accountIdx, 'label'], label)
+      return over(valueLens, setAccountLabel, state)
     }
     case AT.SET_BCH_ACCOUNT_ARCHIVED: {
       const { accountIdx, archived } = action.payload
@@ -36,8 +36,14 @@ export default (state = INITIAL_STATE, action) => {
     case AT.SET_DEFAULT_BCH_ACCOUNT: {
       const { index } = action.payload
       const valueLens = compose(mapped, KVStoreEntry.value)
-      const setAccountArchived = assoc('default_account_idx', index)
-      return over(valueLens, setAccountArchived, state)
+      const setDefaultAccount = assoc('default_account_idx', index)
+      return over(valueLens, setDefaultAccount, state)
+    }
+    case AT.ADD_BCH_ACCOUNT_COMPLETE: {
+      const { bchAccounts } = action.payload
+      const valueLens = compose(mapped, KVStoreEntry.value)
+      const setBchAccounts = assoc('accounts', bchAccounts)
+      return over(valueLens, setBchAccounts, state)
     }
 
     default:
