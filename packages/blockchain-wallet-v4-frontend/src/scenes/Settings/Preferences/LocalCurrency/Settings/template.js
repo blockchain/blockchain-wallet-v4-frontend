@@ -4,7 +4,7 @@ import { Field, reduxForm } from 'redux-form'
 import { SelectBoxCurrency } from 'components/Form'
 import { SettingSelectBoxWrapper } from 'components/Setting'
 
-const Settings = (props) => (
+const Settings = () => (
   <SettingSelectBoxWrapper>
     <Field name='currency' component={SelectBoxCurrency} />
   </SettingSelectBoxWrapper>
