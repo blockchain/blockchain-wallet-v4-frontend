@@ -1,6 +1,5 @@
 import { call, put } from 'redux-saga/effects'
 import { has, prop } from 'ramda'
-import * as AT from './actionTypes'
 import * as A from './actions'
 
 export default ({ api } = {}) => {

@@ -1,10 +1,13 @@
 import ExchangeDelegate from '../../../exchange/delegate'
-import { apply, call, put, select } from 'redux-saga/effects'
+import { apply, fork, call, put, select, take } from 'redux-saga/effects'
 import * as S from './selectors'
 import * as A from './actions'
+import * as AT from './actionTypes'
 import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import * as buySellA from '../../kvStore/buySell/actions'
 import { sfoxService } from '../../../exchange/service'
+
+let sfox
 
 export default ({ api, options }) => {
   const refreshSFOX = function * () {

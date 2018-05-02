@@ -1,5 +1,4 @@
-import { takeEvery, takeLatest, put, call } from 'redux-saga/effects'
-import * as AT from './actionTypes'
+import { put, call } from 'redux-saga/effects'
 import * as actions from '../../actions.js'
 
 export default ({ coreSagas }) => {

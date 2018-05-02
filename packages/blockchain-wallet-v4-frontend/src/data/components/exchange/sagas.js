@@ -1,5 +1,5 @@
-import { call, fork, select, put } from 'redux-saga/effects'
-import { compose, equals, has, head, merge, nth, path, prop } from 'ramda'
+import { cancel, cancelled, delay, identity, call, fork, select, put } from 'redux-saga/effects'
+import { equals, has, merge, path, prop } from 'ramda'
 import * as A from './actions'
 import * as S from './selectors'
 import * as actions from '../../actions'

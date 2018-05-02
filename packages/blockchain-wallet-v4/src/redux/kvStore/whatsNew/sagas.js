@@ -1,9 +1,7 @@
-
 import { call, put, select } from 'redux-saga/effects'
 import { compose, isNil } from 'ramda'
 import { set } from 'ramda-lens'
 import * as A from './actions'
-import * as AT from './actionTypes'
 import { KVStoreEntry } from '../../../types'
 import { getMetadataXpriv } from '../root/selectors'
 import { derivationMap, WHATSNEW } from '../config'

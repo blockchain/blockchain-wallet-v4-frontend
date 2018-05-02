@@ -1,6 +1,7 @@
 import { call, put, select } from 'redux-saga/effects'
 import { contains, toLower } from 'ramda'
 import * as actions from './actions'
+import * as selectors from '../selectors'
 import * as walletActions from '../wallet/actions'
 import * as wS from '../wallet/selectors'
 import * as pairing from '../../pairing'

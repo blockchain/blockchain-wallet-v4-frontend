@@ -1,8 +1,5 @@
-
 import { delay } from 'redux-saga'
-import { takeEvery, call, put } from 'redux-saga/effects'
-
-import * as AT from './actionTypes'
+import { call, put } from 'redux-saga/effects'
 import * as actions from '../actions.js'
 
 const DISMISS_AFTER = 7000
