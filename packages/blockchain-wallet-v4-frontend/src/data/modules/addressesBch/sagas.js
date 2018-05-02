@@ -26,8 +26,8 @@ export default ({ coreSagas }) => {
     }
   }
 
-  return function * () {
-    yield takeEvery(AT.EDIT_BCH_HD_LABEL, editBchHdLabel)
-    yield takeEvery(AT.EDIT_BCH_ACCOUNT_LABEL, editBchAccountLabel)
+  return {
+    editBchHdLabel,
+    editBchAccountLabel
   }
 }

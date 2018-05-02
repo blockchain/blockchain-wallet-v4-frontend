@@ -2,12 +2,12 @@ import { all, call, fork } from 'redux-saga/effects'
 import { coreSagasFactory, coreRootSagaFactory } from 'blockchain-wallet-v4/src'
 import websocketBitcoinFactory from 'blockchain-wallet-v4/src/redux/webSocket/bitcoin/sagas'
 import refreshFactory from 'blockchain-wallet-v4/src/redux/refresh/sagas'
-import alerts from './alerts/sagas'
-import auth from './auth/sagas'
-import components from './components/rootSaga'
-import modules from './modules/sagas'
-import goals from './goals/sagas'
-import wallet from './wallet/sagas'
+import alerts from './alerts/sagaRegister'
+import auth from './auth/sagaRegister'
+import components from './components/sagaRegister'
+import modules from './modules/sagaRegister'
+import goals from './goals/sagaRegister'
+import wallet from './wallet/sagaRegister'
 
 const welcomeSaga = function * () {
   if (console) {
