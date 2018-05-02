@@ -14,6 +14,10 @@ export const getQuote = (state) => {
   return selectors.core.data.sfox.getQuote(state)
 }
 
+export const getSellQuote = (state) => {
+  return selectors.core.data.sfox.getSellQuote(state)
+}
+
 export const getTrades = (state) => {
   try {
     return selectors.core.data.sfox.getTrades(state).data
@@ -29,4 +33,8 @@ export const getBase = (state) => {
 export const getErrors = (state) => {
   const exchangeCheckoutForm = state.form && state.form.exchangeCheckout
   return exchangeCheckoutForm && exchangeCheckoutForm.syncErrors
+}
+
+export const getPayment = (state) => {
+  return selectors.components.sendBtc.getPayment(state).data
 }

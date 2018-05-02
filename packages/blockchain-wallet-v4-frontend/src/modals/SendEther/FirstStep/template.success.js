@@ -39,7 +39,7 @@ const FirstStep = props => {
           </FormLabel>
           <Row>
             <Field name='to' placeholder='Paste or scan an address' component={TextBox} validate={[required, validEtherAddress]} />
-            <QRCodeCapture coin='ETH' border={['top', 'bottom', 'right']} />
+            <QRCodeCapture scanType='ethAddress' border={['top', 'bottom', 'right']} />
           </Row>
         </FormItem>
       </FormGroup>

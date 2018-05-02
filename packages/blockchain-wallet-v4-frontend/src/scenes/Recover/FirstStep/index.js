@@ -31,6 +31,8 @@ const MnemonicLabel = styled(FormLabel)`
 `
 const Footer = styled.div`
   margin-top: 20px;
+  display: flex;
+  align-items: start;
 `
 
 const FirstStep = (props) => {

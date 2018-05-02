@@ -2,7 +2,7 @@
 
 exports[`TextGroup component default renders correctly 1`] = `
 .c0 {
-  text-align: justify;
+  text-align: left;
 }
 
 .c0 > * {
@@ -11,6 +11,7 @@ exports[`TextGroup component default renders correctly 1`] = `
 
 .c0 > * {
   display: inline;
+  margin-right: 2px;
 }
 
 <div

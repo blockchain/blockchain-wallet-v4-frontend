@@ -29,7 +29,7 @@ const SelectBox = (props) => {
   return (
     <Container>
       <SelectInput {...input} {...meta} {...rest} errorState={errorState} />
-      {(touched || !pristine) && error && <Error errorBottom={props.errorBottom}>{error}</Error>}
+      {(touched || !pristine) && error && <Error>{error}</Error>}
     </Container>
   )
 }
@@ -44,7 +44,7 @@ SelectBox.propTypes = {
   elements: PropTypes.arrayOf(PropTypes.shape({
     group: PropTypes.string.isRequired,
     items: PropTypes.arrayOf(PropTypes.shape({
-      text: PropTypes.string.isRequired,
+      text: PropTypes.object.isRequired,
       value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired, PropTypes.object.isRequired])
     })).isRequired
   })).isRequired,

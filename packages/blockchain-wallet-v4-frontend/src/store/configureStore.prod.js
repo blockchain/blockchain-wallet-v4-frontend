@@ -35,12 +35,12 @@ const configureStore = () => {
         connectRouter(history)(rootReducer),
         composeEnhancers(
           applyMiddleware(
+            sagaMiddleware,
             routerMiddleware(history),
             coreMiddleware.kvStore({ isAuthenticated, api, kvStorePath }),
             coreMiddleware.socket.bitcoin(socket, walletPath, isAuthenticated),
             coreMiddleware.walletSync({ isAuthenticated, api, walletPath }),
-            autoDisconnection(),
-            sagaMiddleware
+            autoDisconnection()
           ),
           autoRehydrate()
         )
