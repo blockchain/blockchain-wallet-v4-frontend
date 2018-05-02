@@ -41,7 +41,7 @@ describe('WalletCrypto', () => {
     })
   })
 
-  describe('encryptDataWithPassword', () => {
+  describe('encryptDataWithNullPassword', () => {
     it('should not accept null password', (done) => {
       let message = '155'
       wCrypto.encryptDataWithPassword(message, null, 11)
@@ -51,7 +51,7 @@ describe('WalletCrypto', () => {
     })
   })
 
-  describe('encryptDataWithPassword', () => {
+  describe('encryptDataWithPassword bad iterations', () => {
     it('should not accept bad iterations', (done) => {
       let message = '155'
       wCrypto.encryptDataWithPassword(message, '155', -100)
@@ -61,7 +61,7 @@ describe('WalletCrypto', () => {
     })
   })
 
-  describe('decryptDataWithPassword', () => {
+  describe('decryptDataWithPassword no salt', () => {
     it('should not accept encrypted messages without the salt', (done) => {
       wCrypto.decryptDataWithPassword('message-without-salt', '1714', 11)
         .fork(
@@ -89,7 +89,7 @@ describe('WalletCrypto', () => {
     })
   })
 
-  describe('stretchPassword', () => {
+  describe('stretchPassword no iterations', () => {
     it('should fail with no iterations', (done) => {
       wCrypto.stretchPassword('mypassword', 'salt', 0, 256)
         .fork(
@@ -161,7 +161,7 @@ describe('WalletCrypto', () => {
           })
     })
   })
-  describe('decryptWallet (V3)', () => {
+  describe('decryptWallet (V3) wrong password', () => {
     it('should fail because of wrong password', (done) => {
       wCrypto.decryptWallet('wrong password', data.v3)
         .fork(
@@ -171,14 +171,14 @@ describe('WalletCrypto', () => {
     })
   })
 
-  describe('hashNTimes', () => {
+  describe('hashNTimes 100 times', () => {
     it('should compute correct hash', () => {
       let hash = wCrypto.hashNTimes(100, 'setze jutges d\'un jutjat mengen fetge d\'un penjat')
       expect(hash.toString('hex')).toBe('bb60847b9b18d2c73dbc6066b036554c430f3bedd64cd84c14b9643bf911a3fe')
     })
   })
 
-  describe('hashNTimes', () => {
+  describe('hashNTimes 2 times', () => {
     it('should compute correct hash', () => {
       let hash = wCrypto.hashNTimes(2, '')
       expect(hash.toString('hex')).toBe('5df6e0e2761359d30a8275058e299fcc0381534545f55cf43e41983f5d4c9456')
