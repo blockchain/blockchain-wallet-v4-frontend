@@ -6,7 +6,7 @@ import * as S from './selectors'
 import * as selectors from '../../selectors'
 
 export default ({ api }) => {
-  const fetchData = function* (action) {
+  const fetchData = function * (action) {
     try {
       yield put(A.fetchDataLoading())
       const { context } = action.payload
@@ -22,7 +22,7 @@ export default ({ api }) => {
     }
   }
 
-  const fetchFee = function* () {
+  const fetchFee = function * () {
     try {
       yield put(A.fetchFeeLoading())
       const data = yield call(api.getBchFee)
@@ -32,7 +32,7 @@ export default ({ api }) => {
     }
   }
 
-  const fetchRates = function* () {
+  const fetchRates = function * () {
     try {
       yield put(A.fetchRatesLoading())
       const data = yield call(api.getBchTicker)
@@ -42,14 +42,14 @@ export default ({ api }) => {
     }
   }
 
-  const watchTransactions = function* () {
+  const watchTransactions = function * () {
     while (true) {
       const action = yield take(AT.FETCH_BCH_TRANSACTIONS)
       yield call(fetchTransactions, action)
     }
   }
 
-  const fetchTransactions = function* ({ type, payload }) {
+  const fetchTransactions = function * ({ type, payload }) {
     const { address, reset } = payload
     const TX_PER_PAGE = 50
     const BCH_FORK_TIME = 1501590000
@@ -67,7 +67,7 @@ export default ({ api }) => {
     }
   }
 
-  const fetchTransactionHistory = function* ({ type, payload }) {
+  const fetchTransactionHistory = function * ({ type, payload }) {
     const { address, start, end } = payload
     try {
       yield put(A.fetchTransactionHistoryLoading())
@@ -86,7 +86,7 @@ export default ({ api }) => {
     }
   }
 
-  const fetchUnspent = function* (action) {
+  const fetchUnspent = function * (action) {
     try {
       // source can be the hd account index / or a legacy address
       const { source } = action.payload

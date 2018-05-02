@@ -5,7 +5,7 @@ import sagas from './sagas'
 export default ({ coreSagas }) => {
   const settingsSagas = sagas({ coreSagas })
 
-  return function* () {
+  return function * () {
     yield takeLatest(AT.INIT_SETTINGS_INFO, settingsSagas.initSettingsInfo)
     yield takeLatest(AT.INIT_SETTINGS_PREFERENCES, settingsSagas.initSettingsPreferences)
     yield takeLatest(AT.SHOW_BACKUP_RECOVERY, settingsSagas.showBackupRecovery)

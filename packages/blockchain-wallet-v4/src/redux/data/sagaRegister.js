@@ -1,5 +1,4 @@
 import { fork } from 'redux-saga/effects'
-
 import bitcoin from './bitcoin/sagaRegister'
 import ethereum from './ethereum/sagaRegister'
 import bch from './bch/sagaRegister'
@@ -9,11 +8,11 @@ import sfox from './sfox/sagaRegister'
 import coinify from './coinify/sagaRegister'
 
 export default ({ api }) => function * () {
-  fork(bitcoin({ api })),
-  fork(coinify({ api })),
-  fork(ethereum({ api })),
-  fork(bch({ api })),
-  fork(misc({ api })),
-  fork(shapeShift({ api })),
-  fork(sfox({ api }))
+  yield fork(bitcoin({ api }))
+  yield fork(coinify({ api }))
+  yield fork(ethereum({ api }))
+  yield fork(bch({ api }))
+  yield fork(misc({ api }))
+  yield fork(shapeShift({ api }))
+  yield fork(sfox({ api }))
 }

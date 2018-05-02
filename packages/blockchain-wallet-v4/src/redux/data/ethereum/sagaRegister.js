@@ -6,7 +6,7 @@ import sagas from './sagas'
 export default ({ api }) => {
   const dataEthereumSagas = sagas({ api })
 
-  return function* () {
+  return function * () {
     yield takeLatest(AT.FETCH_ETHEREUM_DATA, dataEthereumSagas.fetchData)
     yield takeLatest(AT.FETCH_ETHEREUM_FEE, dataEthereumSagas.fetchFee)
     yield takeLatest(AT.FETCH_ETHEREUM_LATEST_BLOCK, dataEthereumSagas.fetchLatestBlock)

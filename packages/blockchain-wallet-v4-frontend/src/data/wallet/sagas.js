@@ -1,5 +1,4 @@
-import { takeEvery, call, put } from 'redux-saga/effects'
-import * as AT from './actionTypes'
+import { call, put } from 'redux-saga/effects'
 import * as actions from '../actions.js'
 import { askSecondPasswordEnhancer, promptForInput } from 'services/SagaService'
 

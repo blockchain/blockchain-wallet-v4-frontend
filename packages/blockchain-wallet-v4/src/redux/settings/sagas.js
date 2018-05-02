@@ -9,7 +9,7 @@ const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
 export default ({ api }) => {
-  const fetchSettings = function* () {
+  const fetchSettings = function * () {
     try {
       const guid = yield select(selectors.wallet.getGuid)
       const sharedKey = yield select(selectors.wallet.getSharedKey)

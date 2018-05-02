@@ -12,7 +12,7 @@ export default ({ api }) => {
     return yield call(compose(taskToPromise, () => task))
   }
 
-  const createContacts = function* (kv) {
+  const createContacts = function * (kv) {
     // TOOD : empty contacts implementation
     // const newEntry = {}
     // const newkv = set(KVStoreEntry.value, newEntry, kv)
@@ -27,7 +27,7 @@ export default ({ api }) => {
     yield put(A.setContacts(newkv))
   }
 
-  const fetchMetadataContacts = function* () {
+  const fetchMetadataContacts = function * () {
     try {
       const typeId = derivationMap[CONTACTS]
       const mxpriv = yield select(getMetadataXpriv)

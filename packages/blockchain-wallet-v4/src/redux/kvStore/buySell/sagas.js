@@ -21,7 +21,7 @@ export default ({ api }) => {
     yield put(A.setBuySell(newkv))
   }
 
-  const createBuysell = function* (kv) {
+  const createBuysell = function * (kv) {
     const newBuysellEntry = {
       sfox: {
         trades: []
@@ -37,7 +37,7 @@ export default ({ api }) => {
     yield put(A.createMetadataBuysell(newkv))
   }
 
-  const fetchMetadataBuySell = function* () {
+  const fetchMetadataBuySell = function * () {
     try {
       const typeId = derivationMap[BUYSELL]
       const mxpriv = yield select(getMetadataXpriv)

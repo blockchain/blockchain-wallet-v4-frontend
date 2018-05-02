@@ -4,7 +4,7 @@ import { convertFeeToWei } from '../../../utils/ethereum'
 import * as A from './actions'
 
 export default ({ api }) => {
-  const fetchData = function* (action) {
+  const fetchData = function * (action) {
     try {
       yield put(A.fetchDataLoading())
       const { context } = action.payload
@@ -35,7 +35,7 @@ export default ({ api }) => {
     }
   }
 
-  const fetchFee = function* () {
+  const fetchFee = function * () {
     try {
       yield put(A.fetchFeeLoading())
       const data = yield call(api.getEthereumFee)
@@ -46,7 +46,7 @@ export default ({ api }) => {
     }
   }
 
-  const fetchLatestBlock = function* () {
+  const fetchLatestBlock = function * () {
     try {
       yield put(A.fetchLatestBlockLoading())
       const data = yield call(api.getEthereumLatestBlock)
@@ -56,7 +56,7 @@ export default ({ api }) => {
     }
   }
 
-  const fetchRates = function* () {
+  const fetchRates = function * () {
     try {
       yield put(A.fetchRatesLoading())
       const data = yield call(api.getEthereumTicker)
@@ -66,7 +66,7 @@ export default ({ api }) => {
     }
   }
 
-  const fetchTransactions = function* ({ address }) {
+  const fetchTransactions = function * ({ address }) {
     try {
       yield put(A.fetchTransactionsLoading())
       const data = yield call(api.getEthereumData, address)
