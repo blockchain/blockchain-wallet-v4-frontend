@@ -16,7 +16,8 @@ class FirstStepContainer extends React.Component {
   render () {
     return this.props.data.cata({
       Success: (value) => <Success
-        accounts={value.accounts}
+        elements={value.elements}
+        initialValues={value.initialValues}
         enabled={value.enabled}
         minimum={value.minimum}
         maximum={value.maximum}
@@ -26,7 +27,7 @@ class FirstStepContainer extends React.Component {
         targetCoin={value.targetCoin}
         handleMaximum={() => this.props.actions.firstStepMaximumClicked()}
         handleMinimum={() => this.props.actions.firstStepMinimumClicked()}
-        handleSubmit={(e) => { e.preventDefault(); this.props.actions.firstStepSubmitClicked() }}
+        handleSubmit={() => this.props.actions.firstStepSubmitClicked()}
         handleSwap={() => this.props.actions.firstStepSwapClicked()}
       />,
       Failure: (message) => <Error />,

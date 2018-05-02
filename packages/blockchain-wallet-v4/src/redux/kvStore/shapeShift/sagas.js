@@ -1,5 +1,6 @@
 import { call, put, select } from 'redux-saga/effects'
-import { compose } from 'ramda'
+import { compose, isNil } from 'ramda'
+import { set } from 'ramda-lens'
 import * as A from './actions'
 import { KVStoreEntry } from '../../../types'
 import { getMetadataXpriv } from '../root/selectors'
@@ -28,8 +29,37 @@ export default ({ api }) => {
     }
   }
 
+  const createShapeshift = function* (kv) {
+    const newShapeshiftEntry = {
+      trades: [],
+      USAState: ''
+    }
+    const newkv = set(KVStoreEntry.value, newShapeshiftEntry, kv)
+    yield put(A.createMetadataShapeshift(newkv))
+  }
+
+  const fetchMetadataShapeshift = function* () {
+    try {
+      const typeId = derivationMap[SHAPESHIFT]
+      const mxpriv = yield select(getMetadataXpriv)
+      const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId)
+      yield put(A.fetchMetadataShapeshiftLoading())
+      const newkv = yield callTask(api.fetchKVStore(kv))
+      yield put(A.fetchMetadataShapeshiftSuccess(newkv))
+      if (isNil(newkv.value)) {
+        yield call(createShapeshift, newkv)
+      } else {
+        yield put(A.fetchMetadataShapeshiftSuccess(newkv))
+      }
+    } catch (e) {
+      yield put(A.fetchMetadataShapeshiftFailure(e.message))
+    }
+  }
+
   return {
+    createShapeshift,
     fetchShapeShift,
-    fetchShapeshiftTrade
+    fetchShapeshiftTrade,
+    fetchMetadataShapeshift
   }
 }

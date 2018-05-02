@@ -66,7 +66,6 @@ export const fromCredentials = curry((guid, sharedKey, password) => {
   const d = BigInteger.fromBuffer(entropy)
   const key = new Bitcoin.ECPair(d, null)
   const enc = key.d.toBuffer(32)
-  // const enc = crypto.stringToKey(password + sharedKey, 5000)
   return fromKeys(key, enc)
 })
 

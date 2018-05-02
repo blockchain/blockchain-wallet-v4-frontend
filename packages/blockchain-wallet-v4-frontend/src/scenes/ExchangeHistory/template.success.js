@@ -1,19 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { and, isEmpty, map, reduce, values } from 'ramda'
+import { isEmpty } from 'ramda'
 
 import ExchangeLayout from 'layouts/Exchange'
 import Empty from './Empty'
 import List from './List'
 
 const Success = props => {
-  const { trades } = props
+  const { complete, incomplete } = props
 
   return (
     <ExchangeLayout>
-      {reduce(and, true, map(isEmpty, values(trades)))
+      {isEmpty(complete) && isEmpty(incomplete)
         ? <Empty />
-        : <List trades={trades} />
+        : <List complete={complete} incomplete={incomplete} />
       }
     </ExchangeLayout>
   )

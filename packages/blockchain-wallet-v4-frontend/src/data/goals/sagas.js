@@ -20,7 +20,7 @@ export default ({ coreSagas }) => {
     yield put(actions.goals.deleteGoal(id))
   }
 
-  const goalSaga = function * () {
+  const runGoals = function * () {
     const goals = yield select(selectors.goals.getGoals)
 
     yield all(goals.map((goal) => {
@@ -30,7 +30,7 @@ export default ({ coreSagas }) => {
     }))
   }
 
-  return function * () {
-    yield takeEvery(AT.RUN_GOALS, goalSaga)
+  return {
+    runGoals
   }
 }

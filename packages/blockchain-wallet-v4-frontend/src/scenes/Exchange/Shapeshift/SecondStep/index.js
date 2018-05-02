@@ -14,8 +14,11 @@ class SecondStepContainer extends React.Component {
   }
 
   render () {
-    return this.props.data.cata({
+    const { data, actions } = this.props
+
+    return data.cata({
       Success: (value) => <Success
+        sourceLabel={value.sourceLabel}
         sourceCoin={value.sourceCoin}
         sourceAmount={value.sourceAmount}
         sourceFee={value.sourceFee}
@@ -25,11 +28,11 @@ class SecondStepContainer extends React.Component {
         targetAmount={value.targetAmount}
         targetFee={value.targetFee}
         expiration={value.expiration}
-        handleSubmit={() => this.props.actions.secondStepSubmitClicked()}
-        handleCancel={() => this.props.actions.secondStepCancelClicked()}
-        handleExpiry={() => this.props.actions.secondStepOrderExpired()}
+        handleSubmit={(e) => { e.preventDefault(); actions.secondStepSubmitClicked() }}
+        handleCancel={() => actions.secondStepCancelClicked()}
+        handleExpiry={() => actions.secondStepOrderExpired()}
       />,
-      Failure: (message) => <Error />,
+      Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })

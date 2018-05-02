@@ -1,5 +1,4 @@
-import { takeLatest, put, call } from 'redux-saga/effects'
-import * as AT from './actionTypes'
+import { put, call } from 'redux-saga/effects'
 import * as actions from '../../actions.js'
 
 export default ({ coreSagas }) => {
@@ -109,17 +108,17 @@ export default ({ coreSagas }) => {
     }
   }
 
-  return function * () {
-    yield takeLatest(AT.UPDATE_EMAIL, updateEmail)
-    yield takeLatest(AT.VERIFY_EMAIL, verifyEmail)
-    yield takeLatest(AT.SEND_CONFIRMATION_CODE_EMAIL, sendConfirmationCodeEmail)
-    yield takeLatest(AT.VERIFY_EMAIL_CODE, verifyEmailCode)
-    yield takeLatest(AT.GET_GOOGLE_AUTHENTICATOR_SECRET_URL, getGoogleAuthenticatorSecretUrl)
-    yield takeLatest(AT.VERIFY_GOOGLE_AUTHENTICATOR, verifyGoogleAuthenticator)
-    yield takeLatest(AT.SET_YUBIKEY, setYubikey)
-    yield takeLatest(AT.SEND_MOBILE_VERIFICATION_CODE, sendMobileVerificationCode)
-    yield takeLatest(AT.VERIFY_MOBILE_SECURITY_CENTER, verifyMobile)
-    yield takeLatest(AT.DISABLE_TWO_STEP, disableTwoStep)
-    yield takeLatest(AT.SET_VERIFIED_MOBILE_AS_TWO_FACTOR, setVerifiedMobileAsTwoFactor)
+  return {
+    updateEmail,
+    verifyEmail,
+    sendConfirmationCodeEmail,
+    verifyEmailCode,
+    getGoogleAuthenticatorSecretUrl,
+    verifyGoogleAuthenticator,
+    setYubikey,
+    sendMobileVerificationCode,
+    verifyMobile,
+    disableTwoStep,
+    setVerifiedMobileAsTwoFactor
   }
 }
