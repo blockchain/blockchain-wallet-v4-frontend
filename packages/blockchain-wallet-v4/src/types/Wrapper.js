@@ -1,6 +1,7 @@
 import { is, curry, lensProp, pipe, compose, assoc, dissoc, prop } from 'ramda'
 import { traverseOf, view, over, set } from 'ramda-lens'
 import Either from 'data.either'
+import Task from 'data.task'
 
 import * as crypto from '../walletCrypto'
 import Type from './Type'
@@ -76,7 +77,7 @@ export const computeChecksum = compose(
   prop('payload')
 )
 
-// fromEncJSON :: String -> JSON -> Either Error Wrapper
+// fromEncJSON :: String -> JSON -> Task Error Wrapper
 export const fromEncJSON = curry((password, json) => {
   let payloadL = lensProp('payload')
   let payloadJsonE = Either.try(JSON.parse)(json.payload)
@@ -91,7 +92,7 @@ export const fromEncJSON = curry((password, json) => {
     .map(payload => assoc('version', payload.version, wrapper))
     .getOrElse(wrapper)
 
-  return traverseOf(payloadL, Either.of, Wallet.fromEncryptedPayload(password), json)
+  return traverseOf(payloadL, Task.of, Wallet.fromEncryptedPayload(password), json)
     .map(assocVersion)
     .map(assocIterations)
     .map(o => assoc('wallet', o.payload, o))
@@ -106,13 +107,13 @@ export const fromEncJSON = curry((password, json) => {
 })
 
 // This is needed because the 2FA login hits a different endpoint to login (review that)
-// fromEncPayload :: String -> JSON -> Either Error Wrapper
+// fromEncPayload :: String -> JSON -> Task Error Wrapper
 export const fromEncPayload = curry((password, payload) => {
   const temp = JSON.parse(payload)
   const pbkdf2Iterations = prop('pbkdf2_iterations', temp)
   const version = prop('version', temp)
   const wrapper = { password, payload, pbkdf2Iterations, version }
-  return traverseOf(lensProp('payload'), Either.of, Wallet.fromEncryptedPayload(password), wrapper)
+  return traverseOf(lensProp('payload'), Task.of, Wallet.fromEncryptedPayload(password), wrapper)
     .map(o => assoc('wallet', o.payload, o))
     .map(dissoc('payload'))
     .map(fromJS)
@@ -130,7 +131,7 @@ export const toEncJSON = wrapper => {
   }
   const encrypt = Wallet.toEncryptedPayload(selectPassword(wrapper), selectPbkdf2Iterations(wrapper) || 5000)
   const hash = (x) => crypto.sha256(x).toString('hex')
-  return traverseOf(plens, Either.of, encrypt, response)
+  return traverseOf(plens, Task.of, encrypt, response)
     .map((r) => assoc('length', view(plens, r).length, r))
     .map((r) => assoc('checksum', hash(view(plens, r)), r))
 }

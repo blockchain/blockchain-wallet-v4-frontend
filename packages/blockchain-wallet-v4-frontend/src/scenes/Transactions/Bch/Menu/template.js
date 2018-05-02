@@ -71,15 +71,17 @@ const SearchIcon = styled(Icon)`
 `
 
 const Menu = (props) => {
-  const { handleClickReporting } = props
+  const { accounts, handleClickReporting } = props
 
   return (
     <Wrapper>
       <Container>
         <Controls>
-          <Addresses>
-            <Field name='source' component={SelectBoxBitcoinAddresses} props={{ coin: 'BCH' }} />
-          </Addresses>
+          { accounts.length > 1 &&
+            <Addresses>
+              <Field name='source' component={SelectBoxBitcoinAddresses} props={{coin: 'BCH'}}/>
+            </Addresses>
+          }
           <Status>
             <Field name='status' statuses={['', 'sent', 'received', 'transferred']} component={TabMenuTransactionStatus} />
           </Status>

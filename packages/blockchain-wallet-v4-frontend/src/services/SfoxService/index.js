@@ -15,6 +15,7 @@ export const determineStep = (profile, verificationStatus, accounts) => {
     return 'account'
   } else {
     if (verificationStatus.level === 'unverified') return 'verify'
+    if (verificationStatus.level === 'needs_documents') return 'upload'
     else if (!accounts.length) return 'funding'
     else return 'verified'
   }
@@ -43,12 +44,43 @@ export const statusHelper = status => {
   }
 }
 
-export const bodyStatusHelper = status => {
-  switch (status) {
-    case 'processing': return { text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatusbody.processing' defaultMessage='Your buy trade has been initiated. You will receive your bitcoin in 3-5 business days.' /> }
-    case 'completed': return { text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatusbody.completed' defaultMessage='Your buy trade is complete!' /> }
-    case 'rejected': return { text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatusbody.rejected' defaultMessage='Your buy trade has been rejected. Please contact support.' /> }
-    case 'failed': return { text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatusbody.failed' defaultMessage='Your buy trade failed. Please contact support.' /> }
-    default: return { text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatusbody.unknown' defaultMessage='There are issues with this trade. Please contact support.' /> }
+export const bodyStatusHelper = (status, isBuy) => {
+  if (isBuy) {
+    switch (status) {
+      case 'processing': return { text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatusbody.buy.processing' defaultMessage='Your buy trade has been initiated. You will receive your bitcoin in 3-5 business days.' /> }
+      case 'completed': return { text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatusbody.buy.completed' defaultMessage='Your buy trade is complete!' /> }
+      case 'rejected': return { text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatusbody.buy.rejected' defaultMessage='Your buy trade has been rejected. Please contact support.' /> }
+      case 'failed': return { text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatusbody.buy.failed' defaultMessage='Your buy trade failed. Please contact support.' /> }
+    }
+  } else {
+    switch (status) {
+      case 'processing': return { text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatusbody.sell.processing' defaultMessage='Your sell trade has been initiated. You will receive your funds in 3-5 business days.' /> }
+      case 'completed': return { text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatusbody.sell.completed' defaultMessage='Your sell trade is complete!' /> }
+      case 'rejected': return { text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatusbody.sell.rejected' defaultMessage='Your sell trade has been rejected. Please contact support.' /> }
+      case 'failed': return { text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatusbody.sell.failed' defaultMessage='Your sell trade failed. Please contact support.' /> }
+    }
+  }
+  return { text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatusbody.unknown' defaultMessage='There are issues with this trade. Please contact support.' /> }
+}
+
+export const reviewOrder = {
+  baseBtc: (q) => q.baseCurrency === 'BTC',
+  renderFirstRow (q, type) {
+    if (type === 'buy') {
+      if (this.baseBtc(q)) return `${q.baseAmount / 1e8} BTC ($${(+q.quoteAmount - +q.feeAmount).toFixed(2)})`
+      else return `${q.quoteAmount / 1e8} BTC ($${(+q.baseAmount - +q.feeAmount).toFixed(2)})`
+    } else {
+      if (this.baseBtc(q)) return `${q.baseAmount / 1e8} BTC ($${(+q.quoteAmount).toFixed(2)})`
+      else return `${q.quoteAmount / 1e8} BTC ($${(+q.baseAmount).toFixed(2)})`
+    }
+  },
+  renderTotal (q, type) {
+    if (type === 'buy') {
+      if (this.baseBtc(q)) return `$${q.quoteAmount}`
+      else return `$${q.baseAmount}`
+    } else {
+      if (this.baseBtc(q)) return `$${(+q.quoteAmount - +q.feeAmount).toFixed(2)}`
+      else return `$${(+q.baseAmount - +q.feeAmount).toFixed(2)}`
+    }
   }
 }
