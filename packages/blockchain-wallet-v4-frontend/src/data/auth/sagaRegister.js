@@ -1,14 +1,5 @@
-import { takeLatest, call, put, select, take, fork } from 'redux-saga/effects'
-import { delay } from 'redux-saga'
-import { prop, assoc, toUpper } from 'ramda'
-import Either from 'data.either'
-
+import { takeLatest } from 'redux-saga/effects'
 import * as AT from './actionTypes'
-import * as actions from '../actions.js'
-import * as actionTypes from '../actionTypes.js'
-import * as selectors from '../selectors.js'
-import { askSecondPasswordEnhancer, promptForSecondPassword, forceSyncWallet } from 'services/SagaService'
-import { Types } from 'blockchain-wallet-v4/src'
 import sagas from './sagas'
 
 // =============================================================================
@@ -17,7 +8,7 @@ import sagas from './sagas'
 export default ({ api, coreSagas }) => {
   const authSagas = sagas({ api, coreSagas })
 
-  return function* () {
+  return function * () {
     yield takeLatest(AT.LOGIN, authSagas.login)
     yield takeLatest(AT.MOBILE_LOGIN, authSagas.mobileLogin)
     yield takeLatest(AT.REGISTER, authSagas.register)
