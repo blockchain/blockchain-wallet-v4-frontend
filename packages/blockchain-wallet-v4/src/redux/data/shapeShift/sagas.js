@@ -1,10 +1,14 @@
-import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
+import { call, put } from 'redux-saga/effects'
 import { has, prop } from 'ramda'
 import * as AT from './actionTypes'
 import * as A from './actions'
 
 export default ({ api } = {}) => {
-  const fetchPair = function * (action) {
+  const fetchTradeStatus = function * (address) {
+    return yield call(api.getTradeStatus, address)
+  }
+
+  const fetchPair = function* (action) {
     const { pair } = action.payload
     try {
       yield put(A.fetchPairLoading(pair))
@@ -15,7 +19,7 @@ export default ({ api } = {}) => {
     }
   }
 
-  const fetchOrder = function * (action) {
+  const fetchOrder = function* (action) {
     try {
       const { depositAmount, pair, returnAddress, withdrawal } = action.payload
       yield put(A.fetchOrderLoading())
@@ -37,7 +41,7 @@ export default ({ api } = {}) => {
   //   }
   // }
 
-  const fetchQuotation = function * (action) {
+  const fetchQuotation = function* (action) {
     try {
       const { amount, pair, isDeposit } = action.payload
       yield put(A.fetchQuotationLoading())
@@ -52,10 +56,10 @@ export default ({ api } = {}) => {
     }
   }
 
-  return function * () {
-    yield takeEvery(AT.FETCH_PAIR, fetchPair)
-    yield takeLatest(AT.FETCH_SHAPESHIFT_ORDER, fetchOrder)
-    yield takeLatest(AT.FETCH_SHAPESHIFT_QUOTATION, fetchQuotation)
-    // yield fork(watchShapeshiftQuotation)
+  return {
+    fetchTradeStatus,
+    fetchPair,
+    fetchOrder,
+    fetchQuotation
   }
 }

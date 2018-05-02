@@ -1,11 +1,10 @@
-import {call, put, takeLatest} from 'redux-saga/effects'
+import { call, put } from 'redux-saga/effects'
 import { compose, dissoc, mapObjIndexed, negate, prop, sortBy, sum, values } from 'ramda'
 import { convertFeeToWei } from '../../../utils/ethereum'
-import * as AT from './actionTypes'
 import * as A from './actions'
 
 export default ({ api }) => {
-  const fetchData = function * (action) {
+  const fetchData = function* (action) {
     try {
       yield put(A.fetchDataLoading())
       const { context } = action.payload
@@ -36,7 +35,7 @@ export default ({ api }) => {
     }
   }
 
-  const fetchFee = function * () {
+  const fetchFee = function* () {
     try {
       yield put(A.fetchFeeLoading())
       const data = yield call(api.getEthereumFee)
@@ -47,7 +46,7 @@ export default ({ api }) => {
     }
   }
 
-  const fetchLatestBlock = function * () {
+  const fetchLatestBlock = function* () {
     try {
       yield put(A.fetchLatestBlockLoading())
       const data = yield call(api.getEthereumLatestBlock)
@@ -57,7 +56,7 @@ export default ({ api }) => {
     }
   }
 
-  const fetchRates = function * () {
+  const fetchRates = function* () {
     try {
       yield put(A.fetchRatesLoading())
       const data = yield call(api.getEthereumTicker)
@@ -67,7 +66,7 @@ export default ({ api }) => {
     }
   }
 
-  const fetchTransactions = function * ({ address }) {
+  const fetchTransactions = function* ({ address }) {
     try {
       yield put(A.fetchTransactionsLoading())
       const data = yield call(api.getEthereumData, address)
@@ -77,11 +76,11 @@ export default ({ api }) => {
     }
   }
 
-  return function * () {
-    yield takeLatest(AT.FETCH_ETHEREUM_DATA, fetchData)
-    yield takeLatest(AT.FETCH_ETHEREUM_FEE, fetchFee)
-    yield takeLatest(AT.FETCH_ETHEREUM_LATEST_BLOCK, fetchLatestBlock)
-    yield takeLatest(AT.FETCH_ETHEREUM_RATES, fetchRates)
-    yield takeLatest(AT.FETCH_ETHEREUM_TRANSACTIONS, fetchTransactions)
+  return {
+    fetchData,
+    fetchFee,
+    fetchLatestBlock,
+    fetchRates,
+    fetchTransactions
   }
 }

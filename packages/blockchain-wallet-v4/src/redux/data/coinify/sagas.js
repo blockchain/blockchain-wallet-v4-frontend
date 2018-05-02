@@ -1,15 +1,14 @@
 import ExchangeDelegate from '../../../exchange/delegate'
-import { apply, call, put, select, takeLatest } from 'redux-saga/effects'
-import * as buySellSelectors from '../../kvStore/buySell/selectors'
-import * as buySellAT from '../../kvStore/buySell/actionTypes'
-import { coinifyService } from '../../../exchange/service'
-import * as AT from './actionTypes'
+import { apply, call, put, select } from 'redux-saga/effects'
 import * as A from './actions'
+import * as buySellSelectors from '../../kvStore/buySell/selectors'
+import { coinifyService } from '../../../exchange/service'
+import * as buySellA from '../../kvStore/buySell/actions'
 
 export default ({ api, options }) => {
   let coinify
 
-  const refreshCoinify = function * () {
+  const refreshCoinify = function* () {
     yield put(A.coinifyFetchProfileLoading())
     const state = yield select()
     const delegate = new ExchangeDelegate(state, api)
@@ -19,7 +18,7 @@ export default ({ api, options }) => {
     yield put(A.coinifyFetchProfileSuccess(coinify))
   }
 
-  const init = function * () {
+  const init = function* () {
     try {
       yield call(refreshCoinify)
     } catch (e) {
@@ -28,7 +27,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const coinifyFetchProfile = function * () {
+  const coinifyFetchProfile = function* () {
     try {
       yield put(A.coinifyFetchProfileLoading())
       yield apply(coinify, coinify.profile.fetch)
@@ -38,7 +37,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const fetchQuote = function * (data) {
+  const fetchQuote = function* (data) {
     try {
       yield put(A.fetchQuoteLoading())
       const { amt, baseCurrency, quoteCurrency } = data.payload
@@ -49,7 +48,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const fetchQuoteAndMediums = function * (data) {
+  const fetchQuoteAndMediums = function* (data) {
     try {
       const { amt, baseCurrency, quoteCurrency, medium } = data.payload
       const quote = yield apply(coinify, coinify.getBuyQuote, [amt, baseCurrency, quoteCurrency])
@@ -63,7 +62,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const fetchRateQuote = function * (data) {
+  const fetchRateQuote = function* (data) {
     try {
       yield put(A.fetchRateQuoteLoading())
       const quoteCurr = data.payload
@@ -74,7 +73,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const fetchTrades = function * () {
+  const fetchTrades = function* () {
     try {
       yield put(A.fetchTradesLoading())
       const trades = yield apply(coinify, coinify.getTrades)
@@ -84,7 +83,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const fetchAccounts = function * () {
+  const fetchAccounts = function* () {
     try {
       yield put(A.fetchAccountsLoading())
       const methods = yield apply(coinify, coinify.getBuyMethods)
@@ -95,11 +94,11 @@ export default ({ api, options }) => {
     }
   }
 
-  const resetProfile = function * () {
+  const resetProfile = function* () {
     yield put(A.resetProfile())
   }
 
-  const getPaymentMediums = function * (data) {
+  const getPaymentMediums = function* (data) {
     const quote = data.payload
     try {
       yield put(A.getPaymentMediumsLoading())
@@ -110,7 +109,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const getMediumAccounts = function * (data) {
+  const getMediumAccounts = function* (data) {
     const medium = data.payload
     try {
       const account = yield apply(medium, medium.getAccounts)
@@ -120,16 +119,54 @@ export default ({ api, options }) => {
     }
   }
 
-  return function * () {
-    yield takeLatest(buySellAT.FETCH_METADATA_BUYSELL_SUCCESS, init)
-    yield takeLatest(AT.FETCH_ACCOUNTS, fetchAccounts)
-    yield takeLatest(AT.COINIFY_FETCH_PROFILE, coinifyFetchProfile)
-    yield takeLatest(AT.COINIFY_FETCH_TRADES, fetchTrades)
-    yield takeLatest(AT.COINIFY_FETCH_QUOTE, fetchQuote)
-    yield takeLatest(AT.COINIFY_FETCH_RATE_QUOTE, fetchRateQuote)
-    yield takeLatest(AT.RESET_PROFILE, resetProfile)
-    yield takeLatest(AT.COINIFY_GET_PAYMENT_MEDIUMS, getPaymentMediums)
-    yield takeLatest(AT.COINIFY_GET_MEDIUM_ACCOUNTS, getMediumAccounts)
-    yield takeLatest(AT.COINIFY_FETCH_QUOTE_AND_MEDIUMS, fetchQuoteAndMediums)
+  const getCoinify = function * () {
+    const state = yield select()
+    const delegate = new ExchangeDelegate(state, api)
+    const value = yield select(buySellSelectors.getMetadata)
+    let coinify = yield apply(coinifyService, coinifyService.refresh, [value, delegate, options])
+    yield apply(coinify, coinify.profile.fetch)
+    yield put(A.fetchProfileSuccess(coinify))
+    return coinify
+  }
+
+  const signup = function * () {
+    const countryCode = 'FR' // TODO should be passed in
+    const fiatCurrency = 'EUR' // TODO should be passed in
+    try {
+      const coinify = yield call(getCoinify)
+      const signupResponse = yield apply(coinify, coinify.signup, [countryCode, fiatCurrency]) // TODO countryCode and fiatCurrency passed in as args
+
+      yield put(buySellA.coinifySetProfileBuySell(signupResponse))
+      yield put(A.coinifySetToken(signupResponse))
+    } catch (e) {
+      yield put(A.coinifySignupFailure(e))
+    }
+  }
+
+  const buy = function * (data) {
+    const { quote, medium } = data.payload
+    try {
+      const mediums = yield apply(quote, quote.getPaymentMediums)
+      const accounts = yield apply(mediums[medium], mediums[medium].getAccounts)
+      const buyResult = yield apply(accounts[0], accounts[0].buy)
+      console.log('coinify buy result in core', buyResult)
+    } catch (e) {
+      console.warn('buy failed in core', e)
+    }
+  }
+
+  return {
+    signup,
+    buy,
+    init,
+    fetchAccounts,
+    coinifyFetchProfile,
+    fetchTrades,
+    fetchQuote,
+    fetchRateQuote,
+    resetProfile,
+    getPaymentMediums,
+    getMediumAccounts,
+    fetchQuoteAndMediums
   }
 }
