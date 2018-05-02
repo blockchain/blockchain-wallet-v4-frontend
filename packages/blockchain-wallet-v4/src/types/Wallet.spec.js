@@ -114,16 +114,6 @@ describe('Wallet', () => {
     })
   })
 
-  describe('encryptSync', () => {
-    it('should encrypt', () => {
-      let encrypted = Wallet.encryptSync('secret', wallet).value
-      let [before, after] = [wallet, encrypted].map(Wallet.selectAddresses)
-      let enc = crypto.encryptDataWithKey
-      let success = R.zip(before, after).every(([b, a]) => enc(b.priv) === a.priv)
-      expect(success).toEqual(true)
-    })
-  })
-
   describe('decrypt', () => {
     it('should decrypt', (done) => {
       Wallet.decrypt('secret', walletSecpass).fork(done, (decrypted) => {
@@ -138,19 +128,6 @@ describe('Wallet', () => {
         expect(error.message).toEqual('INVALID_SECOND_PASSWORD')
         done()
       }, done)
-    })
-  })
-
-  describe('decryptSync', () => {
-    it('should decrypt', () => {
-      let decrypted = Wallet.decryptSync('secret', walletSecpass).value
-      expect(Wallet.toJS(decrypted)).toEqual(walletFixture)
-    })
-
-    it('should fail when given an incorrect password', () => {
-      let decrypted = Wallet.decryptSync('wrong', walletSecpass).value
-      expect(R.is(Error, decrypted)).toEqual(true)
-      expect(decrypted.message).toEqual('INVALID_SECOND_PASSWORD')
     })
   })
 
