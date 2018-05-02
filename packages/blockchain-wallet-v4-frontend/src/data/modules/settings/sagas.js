@@ -6,6 +6,8 @@ import * as selectors from '../../selectors.js'
 import { askSecondPasswordEnhancer, promptForSecondPassword } from 'services/SagaService'
 import { Types, utils } from 'blockchain-wallet-v4/src'
 
+const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
+
 export default ({ coreSagas }) => {
   const initSettingsInfo = function * () {
     try {
@@ -34,11 +36,12 @@ export default ({ coreSagas }) => {
   const showBackupRecovery = function * (action) {
     const recoverySaga = function * ({ password }) {
       const getMnemonic = s => selectors.core.wallet.getMnemonic(s, password)
-      const eitherMnemonic = yield select(getMnemonic)
-      if (eitherMnemonic.isRight) {
-        const mnemonic = eitherMnemonic.value.split(' ')
-        yield put(actions.modules.settings.addMnemonic({ mnemonic }))
-      } else {
+      try {
+        const mnemonicT = yield select(getMnemonic)
+        const mnemonic = yield call(() => taskToPromise(mnemonicT))
+        const mnemonicArray = mnemonic.split(' ')
+        yield put(actions.modules.settings.addMnemonic({ mnemonic: mnemonicArray }))
+      } catch (e) {
         yield put(actions.alerts.displayError('Could not read mnemonic.'))
       }
     }
@@ -203,11 +206,11 @@ export default ({ coreSagas }) => {
     const { addr } = action.payload
     const password = yield call(promptForSecondPassword)
     const wallet = yield select(selectors.core.wallet.getWallet)
-    const priv = Types.Wallet.getPrivateKeyForAddress(wallet, password, addr).getOrElse(null)
-
-    if (priv != null) {
+    try {
+      const privT = Types.Wallet.getPrivateKeyForAddress(wallet, password, addr)
+      const priv = yield call(() => taskToPromise(privT))
       yield put(actions.modules.settings.addShownBtcPrivateKey(priv))
-    } else {
+    } catch (e) {
       yield put(actions.alerts.displayError('Could not show private key for address.'))
     }
   }
@@ -215,25 +218,21 @@ export default ({ coreSagas }) => {
   const showEthPrivateKey = function * (action) {
     const { isLegacy } = action.payload
     const password = yield call(promptForSecondPassword)
-    let priv = null
-    if (isLegacy) {
-      const getSeedHex = state => selectors.core.wallet.getSeedHex(state, password)
-      const eitherSeedHex = yield select(getSeedHex)
-      if (eitherSeedHex.isRight) {
-        const seedHex = eitherSeedHex.value
-        priv = utils.ethereum.getLegacyPrivateKey(seedHex).toString('hex')
+    try {
+      if (isLegacy) {
+        const getSeedHex = state => selectors.core.wallet.getSeedHex(state, password)
+        const seedHexT = yield select(getSeedHex)
+        const seedHex = yield call(() => taskToPromise(seedHexT))
+        const legPriv = utils.ethereum.getLegacyPrivateKey(seedHex).toString('hex')
+        yield put(actions.modules.settings.addShownEthPrivateKey(legPriv))
+      } else {
+        const getMnemonic = state => selectors.core.wallet.getMnemonic(state, password)
+        const mnemonicT = yield select(getMnemonic)
+        const mnemonic = yield call(() => taskToPromise(mnemonicT))
+        let priv = utils.ethereum.getPrivateKey(mnemonic, 0).toString('hex')
+        yield put(actions.modules.settings.addShownEthPrivateKey(priv))
       }
-    } else {
-      const getMnemonic = state => selectors.core.wallet.getMnemonic(state, password)
-      const eitherMnemonic = yield select(getMnemonic)
-      if (eitherMnemonic.isRight) {
-        const mnemonic = eitherMnemonic.value
-        priv = utils.ethereum.getPrivateKey(mnemonic, 0).toString('hex')
-      }
-    }
-    if (priv != null) {
-      yield put(actions.modules.settings.addShownEthPrivateKey(priv))
-    } else {
+    } catch (e) {
       yield put(actions.alerts.displayError('Could not derive private key.'))
     }
   }
