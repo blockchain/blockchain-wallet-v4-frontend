@@ -4,11 +4,12 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
 import { isEmpty } from 'ramda'
-import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
-import { Form, SelectBox } from 'components/Form'
+import { Button, HeartbeatLoader, Icon, Link, Text, TextGroup, Tooltip } from 'blockchain-info-components'
+import { Form } from 'components/Form'
 import MinimumAmountLink from './MinimumAmountLink'
 import MaximumAmountLink from './MaximumAmountLink'
-import TextBox from './TextBox'
+import NumberBox from './NumberBox'
+import SelectBox from './SelectBox'
 import { MaximumAmountMessage, MinimumAmountMessage, InsufficientAmountMessage } from './validationMessages'
 
 const Wrapper = styled.div`
@@ -17,7 +18,7 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  padding: 30px 30px 10px 30px;
+  padding: 20px 30px 10px 30px;
   box-sizing: border-box;
   border: 1px solid ${props => props.theme['gray-2']};
 `
@@ -28,7 +29,7 @@ const Row = styled.div`
   align-items: flex-start;
   width: 100%;
   height: ${props => props.height || 'auto'};
-  margin-bottom: 10px;
+  margin-bottom: ${props => props.spaced ? '20px' : '5px'};
 `
 const Cell = styled.div`
   display: flex;
@@ -47,6 +48,7 @@ const OptionsContainer = styled.div`
   & > * { margin-right: 2px; }
 `
 const AmountContainer = styled.div`
+  position: relative;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -54,25 +56,27 @@ const AmountContainer = styled.div`
   width: 100%;
 `
 const CurrencyBox = styled(Text)`
+  position: absolute;
+  right: 5px;
+  top: 5px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 300;
   transform: uppercase;
-  background-color: ${props => props.theme['gray-1']};
+  background-color: ${props => props.theme['white']};
 `
 
 const Success = props => {
-  const { accounts, enabled, currency, sourceCoin, targetCoin, formError, handleSwap, handleSubmit } = props
-  console.log('props', props)
+  const { elements, enabled, currency, sourceCoin, targetCoin, formError, handleSwap, handleSubmit, dirty } = props
 
   return (
     <Wrapper>
-      <Form onSubmit={handleSubmit}>
+      <Form override onSubmit={handleSubmit}>
         <Row justify='flex-end'>
           <Text size='12px' weight={300}>
             <FormattedMessage id='scenes.exchange.shapeshift.firststep.step' defaultMessage='Step 1 of 2' />
@@ -91,21 +95,29 @@ const Success = props => {
             </Text>
           </Cell>
         </Row>
-        <Row height='50px'>
+        <Row height='50px' spaced>
           <Cell>
-            <Field name='source' component={SelectBox} elements={accounts} />
+            <Field name='source' component={SelectBox} elements={elements} />
           </Cell>
           <Cell size='small'>
             <Icon name='exchange-2' size='24px' weight={500} cursor onClick={handleSwap} />
           </Cell>
           <Cell>
-            <Field name='target' component={SelectBox} elements={accounts} />
+            <Field name='target' component={SelectBox} elements={elements} />
           </Cell>
         </Row>
         <Row justify='space-between'>
           <Text size='14px' weight={400}>
             <FormattedMessage id='scenes.exchange.shapeshift.firststep.amount' defaultMessage='Enter amount:' />
           </Text>
+          <Tooltip>
+            <TextGroup inline>
+              <FormattedMessage id='scenes.exchange.shapeshift.firststep.tooltip' defaultMessage='This quote may change depending on the market price at the time of your transaction.' />
+              <Link size='12px' weight={300} href='https://info.shapeshift.io/about' target='_blank'>
+                <FormattedMessage id='scenes.exchange.shapeshift.firststep.tooltip2' defaultMessage='Learn more' />
+              </Link>
+            </TextGroup>
+          </Tooltip>
         </Row>
         <Row>
           <Text size='12px' weight={300} color='error'>
@@ -117,11 +129,11 @@ const Success = props => {
         <Row height='80px'>
           <Cell>
             <AmountContainer>
-              <Field name='sourceAmount' component={TextBox} />
+              <Field name='sourceAmount' component={NumberBox} />
               <CurrencyBox>{sourceCoin}</CurrencyBox>
             </AmountContainer>
             <AmountContainer>
-              <Field name='sourceFiat' component={TextBox} />
+              <Field name='sourceFiat' component={NumberBox} />
               <CurrencyBox>{currency}</CurrencyBox>
             </AmountContainer>
           </Cell>
@@ -133,16 +145,16 @@ const Success = props => {
           </Cell>
           <Cell>
             <AmountContainer>
-              <Field name='targetAmount' component={TextBox} />
+              <Field name='targetAmount' component={NumberBox} />
               <CurrencyBox>{targetCoin}</CurrencyBox>
             </AmountContainer>
             <AmountContainer>
-              <Field name='targetFiat' component={TextBox} />
+              <Field name='targetFiat' component={NumberBox} />
               <CurrencyBox>{currency}</CurrencyBox>
             </AmountContainer>
           </Cell>
         </Row>
-        <Row>
+        <Row spaced>
           <OptionsContainer>
             <Text weight={300} size='12px'>
               <FormattedMessage id='scenes.exchangebox.firststep.use1' defaultMessage='Use' />
@@ -154,8 +166,8 @@ const Success = props => {
             <MaximumAmountLink />
           </OptionsContainer>
         </Row>
-        <Row>
-          <Button type='submit' nature='primary' fullwidth disabled={!isEmpty(formError)}>
+        <Row spaced>
+          <Button type='submit' nature='primary' fullwidth disabled={!dirty || !enabled || (dirty && !isEmpty(formError))}>
             <FormattedMessage id='scenes.exchange.shapeshift.firststep.next' defaultMessage='Next' />
           </Button>
         </Row>

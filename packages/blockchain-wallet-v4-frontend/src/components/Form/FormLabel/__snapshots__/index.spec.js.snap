@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormItem renders correctly 1`] = `
+.c0 > div {
+  margin-bottom: 5px;
+}
+
+<label
+  className="c0"
+  htmlFor={undefined}
+>
+  <text
+    size="14px"
+    weight={400}
+  />
+</label>
+`;
