@@ -8,14 +8,25 @@ import recoveryPdf from './recovery.pdf'
 
 const PrintContainer = styled.div`
   display: flex;
-  flex-direction: row;
+
   justify-content: center;
   align-items: center;
   padding: 20px 0;
-  div:first-of-type {
-    padding-right: 30px;
-  }
   width: 65%;
+  flex-direction: column;
+  Button {
+    margin-top: 20px;
+  }
+  @media(min-width: 992px) {
+    width: 65%;
+    flex-direction: row;
+    Button {
+      margin-top: 0px;
+    }
+    div:first-of-type {
+      padding-right: 30px;
+    }
+  }
 `
 const FirstStepContainer = styled.div`
   display: flex;
@@ -29,9 +40,12 @@ const Buttons = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 30px;
+  margin-top: 10px;
   a {
     margin-top: 15px;
+  }
+  @media(min-width: 992px) {
+    margin-top: 30px;
   }
 `
 
