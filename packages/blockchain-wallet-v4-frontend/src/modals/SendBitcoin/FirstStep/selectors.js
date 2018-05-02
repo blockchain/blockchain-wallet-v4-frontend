@@ -19,6 +19,7 @@ export const getData = state => {
     const destination = formValueSelector('sendBtc')(state, 'to')
     const from = formValueSelector('sendBtc')(state, 'from')
     const watchOnly = prop('watchOnly', from)
+    const addressMatchesPriv = payment.fromType === 'FROM.WATCH_ONLY'
     const isPriorityFeePerByte = equals(parseInt(feePerByte), priorityFeePerByte)
 
     return {
@@ -33,7 +34,8 @@ export const getData = state => {
       isPriorityFeePerByte,
       destination,
       totalFee,
-      watchOnly
+      watchOnly,
+      addressMatchesPriv
     }
   }
 
