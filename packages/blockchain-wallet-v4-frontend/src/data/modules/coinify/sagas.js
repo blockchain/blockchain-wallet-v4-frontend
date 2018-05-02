@@ -1,8 +1,8 @@
-import { takeLatest, put, call, select } from 'redux-saga/effects'
-import * as AT from './actionTypes'
+import { put, call, select, takeLatest } from 'redux-saga/effects'
 import * as A from './actions'
+import * as actions from '../../actions'
 import * as selectors from '../../selectors.js'
-import { actions } from 'data'
+import * as AT from './actionTypes'
 
 export default ({ coreSagas }) => {
   const coinifySignup = function * () {

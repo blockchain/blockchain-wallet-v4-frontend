@@ -74,22 +74,22 @@ describe('SfoxService', () => {
 
   describe('bodyStatusHelper()', () => {
     it('should return correct object for processing status', () => {
-      const status = SfoxService.bodyStatusHelper('processing')
+      const status = SfoxService.bodyStatusHelper('processing', true)
       expect(status.text.props.defaultMessage).toEqual('Your buy trade has been initiated. You will receive your bitcoin in 3-5 business days.')
     })
 
     it('should return correct object for completed status', () => {
-      const status = SfoxService.bodyStatusHelper('completed')
+      const status = SfoxService.bodyStatusHelper('completed', true)
       expect(status.text.props.defaultMessage).toEqual('Your buy trade is complete!')
     })
 
     it('should return correct object for rejected status', () => {
       const status = SfoxService.bodyStatusHelper('rejected')
-      expect(status.text.props.defaultMessage).toEqual('Your buy trade has been rejected. Please contact support.')
+      expect(status.text.props.defaultMessage).toEqual('Your sell trade has been rejected. Please contact support.')
     })
 
     it('should return correct object for failed status', () => {
-      const status = SfoxService.bodyStatusHelper('failed')
+      const status = SfoxService.bodyStatusHelper('failed', true)
       expect(status.text.props.defaultMessage).toEqual('Your buy trade failed. Please contact support.')
     })
 

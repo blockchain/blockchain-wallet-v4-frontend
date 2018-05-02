@@ -11,6 +11,7 @@ const BaseNumberInput = styled.input.attrs({
   padding: 6px 12px;
   box-sizing: border-box;
   font-size: 14px;
+  font-weight: 300;
   color: ${props => props.theme['gray-5']};
   background-color: ${props => props.theme['white']};
   font-family: 'Montserrat', Helvetica, sans-serif;
@@ -26,10 +27,10 @@ const BaseNumberInput = styled.input.attrs({
 
 const selectBorderColor = (state) => {
   switch (state) {
-    case 'initial': return 'gray-1'
+    case 'initial': return 'gray-2'
     case 'invalid': return 'error'
     case 'valid': return 'success'
-    default: return 'gray-1'
+    default: return 'gray-2'
   }
 }
 
