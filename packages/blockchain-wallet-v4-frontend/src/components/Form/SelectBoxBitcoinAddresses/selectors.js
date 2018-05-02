@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { assoc, assocPath, compose, concat, identity, lift, map, path, prop, sequence } from 'ramda'
+import { assoc, assocPath, compose, concat, lift, map, path, prop, sequence } from 'ramda'
 import { Banner, Text } from 'blockchain-info-components'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
