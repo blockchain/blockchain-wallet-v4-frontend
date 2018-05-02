@@ -10,6 +10,7 @@ export const getData = state => {
       case 'FROM.LEGACY':
         // TODO :: shall we show multiple froms? (map selector and concat)
         return selectors.core.wallet.getLegacyAddressLabel(state)(payment.from[0])
+      // No account/address needed for watch only as the payment comes from the private key
       case 'FROM.WATCH_ONLY':
       case 'FROM.EXTERNAL':
       default:

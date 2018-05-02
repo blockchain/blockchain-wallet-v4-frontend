@@ -7,7 +7,7 @@ import { Field, reduxForm } from 'redux-form'
 import { required, validBitcoinAddress, validBitcoinPrivateKey } from 'services/FormHelper'
 import { Button, Icon, Link, Text, Tooltip } from 'blockchain-info-components'
 import { FiatConvertor, Form, FormGroup, FormItem, FormLabel, NumberBox, SelectBoxBitcoinAddresses, SelectBoxCoin, SelectBox, TextBox, TextArea } from 'components/Form'
-import { shouldValidate, emptyAccount, minimumAmount, maximumAmount, minimumFeePerByte, maximumFeePerByte } from './validation'
+import { shouldValidate, isAddressDerivedFromPriv, emptyAccount, minimumAmount, maximumAmount, minimumFeePerByte, maximumFeePerByte } from './validation'
 import QRCodeCapture from 'components/QRCodeCapture'
 import RegularFeeLink from './RegularFeeLink'
 import PriorityFeeLink from './PriorityFeeLink'
@@ -77,7 +77,7 @@ const FeePerByteContainer = styled.div`
 
 const FirstStep = props => {
   const { invalid, submitting, ...rest } = props
-  const { watchOnly, destination, toToggled, feePerByteToggled, feePerByteElements, regularFeePerByte, priorityFeePerByte, isPriorityFeePerByte, totalFee, ...rest2 } = rest
+  const { watchOnly, addressMatchesPriv, destination, toToggled, feePerByteToggled, feePerByteElements, regularFeePerByte, priorityFeePerByte, isPriorityFeePerByte, totalFee, ...rest2 } = rest
   const { handleFeePerByteToggle, handleToToggle, handleSubmit } = rest2
 
   return (
@@ -96,7 +96,7 @@ const FirstStep = props => {
           <Field name='from' component={SelectBoxBitcoinAddresses} validate={[required]} />
           {watchOnly &&
             <Row>
-              <Field name='priv' placeholder='Please enter your private key...' component={TextBox} validate={[required, validBitcoinPrivateKey]} autoFocus />
+              <Field name='priv' placeholder='Please enter your private key...' component={TextBox} validate={[required, validBitcoinPrivateKey, isAddressDerivedFromPriv]} autoFocus />
               <QRCodeCapture scanType='btcPriv' border={['top', 'bottom']} />
             </Row>
           }
