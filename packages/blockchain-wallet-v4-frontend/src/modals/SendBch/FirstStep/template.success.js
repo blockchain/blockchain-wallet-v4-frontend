@@ -58,7 +58,7 @@ const FirstStep = props => {
             {toToggled && !destination && <Field name='to' component={SelectBoxBitcoinAddresses} opened includeAll={false} coin='BCH' />}
             {toToggled && destination && <Field name='to' component={SelectBoxBitcoinAddresses} onFocus={() => handleToToggle()} includeAll={false} validate={[required]} hideArrow coin='BCH' />}
             {!toToggled && <Field name='to' placeholder='Paste or scan an address, or select a destination' component={TextBox} validate={[required, validBitcoinCashAddress]} autoFocus />}
-            {(!toToggled || destination) && <QRCodeCapture coin='BCH' border={['top', 'bottom']} />}
+            {(!toToggled || destination) && <QRCodeCapture scanType='bchAddress' border={['top', 'bottom']} />}
             {(!toToggled || destination) && <AddressButton onClick={() => handleToToggle(true)}><Icon name='down-arrow' size='10px' cursor /></AddressButton>}
           </Row>
         </FormItem>
