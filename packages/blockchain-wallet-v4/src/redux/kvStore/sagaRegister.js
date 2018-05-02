@@ -8,10 +8,10 @@ import buySell from './buySell/sagaRegister'
 import contacts from './contacts/sagaRegister'
 
 export default ({ api }) => function * () {
-  fork(whatsNew({ api })),
-  fork(ethereum({ api })),
-  fork(bch({ api })),
-  fork(shapeShift({ api })),
-  fork(buySell({ api })),
-  fork(contacts({ api }))
+  yield fork(whatsNew({ api }))
+  yield fork(ethereum({ api }))
+  yield fork(bch({ api }))
+  yield fork(shapeShift({ api }))
+  yield fork(buySell({ api }))
+  yield fork(contacts({ api }))
 }

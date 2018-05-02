@@ -1,9 +1,7 @@
-
 import { call, put, select } from 'redux-saga/effects'
 import { compose, concat, gt, isNil, length, map, path, prop, range } from 'ramda'
 import { set } from 'ramda-lens'
 import * as A from './actions'
-import * as AT from './actionTypes'
 import { KVStoreEntry } from '../../../types'
 import { getMetadataXpriv } from '../root/selectors'
 import { getHDAccounts } from '../../wallet/selectors'
@@ -12,11 +10,11 @@ import { derivationMap, BCH } from '../config'
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
 export default ({ api }) => {
-  const callTask = function* (task) {
+  const callTask = function * (task) {
     return yield call(compose(taskToPromise, () => task))
   }
 
-  const createBch = function* (kv, hdAccounts, bchAccounts) {
+  const createBch = function * (kv, hdAccounts, bchAccounts) {
     const createAccountEntry = x => ({
       label: `My Bitcoin Cash Wallet${x > 0 ? ` ${x + 1}` : ''}`,
       archived: path([x, 'archived'], hdAccounts) || false
@@ -31,7 +29,7 @@ export default ({ api }) => {
     yield put(A.createMetadataBch(newkv))
   }
 
-  const fetchMetadataBch = function* () {
+  const fetchMetadataBch = function * () {
     try {
       const typeId = derivationMap[BCH]
       const mxpriv = yield select(getMetadataXpriv)
