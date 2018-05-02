@@ -8,7 +8,7 @@ import { StepTransition } from 'components/Utilities/Stepper'
 import QuoteInput from './QuoteInput'
 import { MethodContainer } from 'components/BuySell/styled.js'
 
-const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, limits, type, defaultCurrency, symbol, checkoutBusy, busy }) => {
+const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, limits, type, defaultCurrency, symbol, checkoutBusy, busy, setMax }) => {
   const quoteInputSpec = {
     method: 'buy',
     input: defaultCurrency,
@@ -78,6 +78,7 @@ const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, limi
                 type={type}
                 defaultCurrency={defaultCurrency}
                 symbol={symbol}
+                setMax={setMax}
               />
             </div>
           </Fragment>

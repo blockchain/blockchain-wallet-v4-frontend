@@ -26,6 +26,7 @@ class Checkout extends React.PureComponent {
         fetchBuyQuote={(quote) => fetchQuote({ quote, nextAddress: value.nextAddress })}
         currency={currency}
         checkoutBusy={checkoutBusy}
+        setMax={(amt) => this.props.actions.setCheckoutMax(amt)}
       />,
       Failure: (msg) => <div>Failure: {msg.error}</div>,
       Loading: () => <div>Getting profile...</div>,

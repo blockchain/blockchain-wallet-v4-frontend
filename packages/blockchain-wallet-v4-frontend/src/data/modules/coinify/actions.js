@@ -19,3 +19,5 @@ export const initializeCheckoutForm = (currency) => ({ type: AT.COINIFY_INITIALI
 
 export const coinifyCheckoutBusyOn = () => ({ type: AT.COINIFY_CHECKOUT_BUSY_ON })
 export const coinifyCheckoutBusyOff = () => ({ type: AT.COINIFY_CHECKOUT_BUSY_OFF })
+
+export const setCheckoutMax = (amount) => ({ type: AT.COINIFY_SET_CHECKOUT_MAX, payload: amount })

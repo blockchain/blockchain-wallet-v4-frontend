@@ -35,6 +35,7 @@ const Success = props => {
     currency,
     rateQuoteR,
     checkoutBusy,
+    setMax,
     ...rest } = props
 
   const profile = Remote.of(props.value.profile).getOrElse({ _limits: service.mockedLimits, _level: { currency: 'EUR' } })
@@ -62,6 +63,7 @@ const Success = props => {
               defaultCurrency={defaultCurrency}
               symbol={symbol}
               checkoutBusy={checkoutBusy}
+              setMax={setMax}
             />
           </CheckoutWrapper>
         </StepView>
