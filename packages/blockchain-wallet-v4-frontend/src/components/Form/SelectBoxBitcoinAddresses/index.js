@@ -4,9 +4,7 @@ import { concat } from 'ramda'
 import PropTypes from 'prop-types'
 
 import { getData } from './selectors'
-import SelectBox from '../SelectBox'
 import SelectBoxBitcoin from './template'
-
 
 class SelectBoxBitcoinAddresses extends React.PureComponent {
   getLabel (coin) {
