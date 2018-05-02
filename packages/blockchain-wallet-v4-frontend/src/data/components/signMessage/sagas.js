@@ -1,5 +1,4 @@
-import { takeLatest, put, call, select } from 'redux-saga/effects'
-import * as AT from './actionTypes'
+import { put, call, select } from 'redux-saga/effects'
 import * as A from './actions.js'
 import * as actions from '../../actions.js'
 import * as selectors from '../../selectors.js'
@@ -25,7 +24,7 @@ export default ({ coreSagas }) => {
     }
   }
 
-  return function * () {
-    yield takeLatest(AT.SIGN_MESSAGE_SUBMITTED, signMessage)
+  return {
+    signMessage
   }
 }
