@@ -1,4 +1,5 @@
 import * as exchange from './exchange/actionTypes'
+import * as exchangeHistory from './exchangeHistory/actionTypes'
 import * as importBtcAddress from './importBtcAddress/actionTypes'
 import * as priceChart from './priceChart/actionTypes'
 import * as priceTicker from './priceTicker/actionTypes'
@@ -10,6 +11,7 @@ import * as usedAddresses from './usedAddresses/actionTypes'
 
 export {
   exchange,
+  exchangeHistory,
   importBtcAddress,
   priceChart,
   priceTicker,
