@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { Text, Icon, Button } from 'blockchain-info-components'
+import { Text, Icon, Button, HeartbeatLoader } from 'blockchain-info-components'
 import { Wrapper as ExchangeCheckoutWrapper } from '../../ExchangeCheckout'
 import { flex, spacing } from 'services/StyleService'
 import { FormattedMessage } from 'react-intl'
@@ -28,7 +28,11 @@ const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, limi
   const submitButtonHelper = () => (
     reason.indexOf('has_remaining') > -1
       ? <StepTransition next Component={Button} style={spacing('mt-45')} nature='primary' fullwidth disabled={checkoutBusy || Remote.Loading.is(quoteR) || limitsHelper(quoteR, limits)}>
-        <FormattedMessage id='continue' defaultMessage='Continue' />
+        {
+          Remote.Loading.is(quoteR)
+            ? <HeartbeatLoader height='20px' width='20px' color='white' />
+            : <FormattedMessage id='continue' defaultMessage='Continue' />
+        }
       </StepTransition>
       : null
   )
