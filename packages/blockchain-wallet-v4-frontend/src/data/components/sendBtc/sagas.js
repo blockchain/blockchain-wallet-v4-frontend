@@ -75,7 +75,13 @@ export default ({ coreSagas }) => {
           break
         case 'from':
           const source = prop('address', payload) || prop('index', payload)
-          payment = yield payment.from(source)
+          if (!prop('watchOnly', payload)) {
+            payment = yield payment.from(source)
+          }
+          break
+        case 'priv':
+          // Payload is the private key entered by the user
+          payment = yield payment.from(payload)
           break
         case 'to':
           const target = is(String, payload)
@@ -191,7 +197,7 @@ export default ({ coreSagas }) => {
       payment = yield payment.sign(password)
       payment = yield payment.publish()
       yield put(A.sendBtcPaymentUpdated(Remote.of(payment.value())))
-      if (payment.value().description.length) {
+      if (path(['description', 'length'], payment.value())) {
         yield put(actions.core.wallet.setTransactionNote(payment.value().txId, payment.value().description))
       }
       yield put(actions.modals.closeAllModals())

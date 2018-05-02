@@ -1,11 +1,9 @@
 import { assoc, assocPath, compose, concat, lift, map, path, prop, sequence } from 'ramda'
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
 
 export const getData = (state, coin) => {
   const toDropdown = map(x => ({ text: x.label, value: x }))
-  const formatAddressesData = (addressesData) => addressesData.map(a => a.data.map(d => { d.text = `${d.text} (${Exchange.displayCoinToCoin({ value: d.value.balance, coin: d.value.coin, baseToStandard: true })})` }))
-  const importedAddresses = selectors.core.common.bch.getActiveAddresses(state)
 
   const formatAddress = (addressData) => {
     const formattedAddress = {}
@@ -23,21 +21,24 @@ export const getData = (state, coin) => {
 
   const getAddressesData = (coin) => {
     switch (coin) {
-      case 'BCH': return sequence(Remote.of,
-        [
-          selectors.core.common.bch.getAccountsBalances(state).map(toDropdown),
-          lift(formatImportedAddressesData)(importedAddresses)
-        ]).map(([b1, b2]) => ({ data: concat(b1, b2) }))
-      default: return sequence(Remote.of,
-        [
-          selectors.core.common.bitcoin.getActiveAccountsBalances(state).map(toDropdown),
-          selectors.core.common.bitcoin.getAddressesBalances(state).map(toDropdown)
-        ]).map(([b1, b2]) => ({ data: concat(b1, b2) }))
+      case 'BCH':
+        const importedAddresses = selectors.core.common.bch.getActiveAddresses(state)
+        return sequence(Remote.of,
+          [
+            selectors.core.common.bch.getAccountsBalances(state).map(toDropdown),
+            lift(formatImportedAddressesData)(importedAddresses)
+          ]).map(([b1, b2]) => ({ data: concat(b1, b2) }))
+      default:
+        return sequence(Remote.of,
+          [
+            selectors.core.common.bitcoin.getActiveAccountsBalances(state).map(toDropdown),
+            selectors.core.common.bitcoin.getAddressesBalances(state).map(toDropdown)
+          ]).map(([b1, b2]) => ({ data: concat(b1, b2) }))
     }
   }
 
   const addressesData = getAddressesData(coin)
-  formatAddressesData(addressesData)
+  // formatAddressesData(addressesData)
 
   return addressesData
 }
