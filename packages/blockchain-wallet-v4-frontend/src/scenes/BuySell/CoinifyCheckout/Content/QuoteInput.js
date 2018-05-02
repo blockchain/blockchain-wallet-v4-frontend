@@ -7,7 +7,7 @@ import { actions } from 'data'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-const WrappedFiatConverter = ({ leftVal, leftUnit, rightVal, rightUnit, disabled, onChangeLeft, onChangeRight, limits, defaultCurrency, symbol }) => (
+const WrappedFiatConverter = ({ leftVal, leftUnit, rightVal, rightUnit, disabled, onChangeLeft, onChangeRight, limits, defaultCurrency, symbol, setMax }) => (
   <FiatConvertor
     value={leftVal}
     fiat={rightVal}
@@ -27,6 +27,7 @@ const WrappedFiatConverter = ({ leftVal, leftUnit, rightVal, rightUnit, disabled
     limits={limits}
     defaultCurrency={defaultCurrency}
     symbol={symbol}
+    setMax={setMax}
   />
 )
 
@@ -131,7 +132,7 @@ class QuoteInput extends Component {
   }
 
   render () {
-    let { symbol } = this.props
+    let { symbol, setMax } = this.props
     // let { input, output } = this.state
 
     return (
@@ -146,6 +147,7 @@ class QuoteInput extends Component {
         // disabled={disabled}
         defaultCurrency={this.props.defaultCurrency}
         symbol={symbol}
+        setMax={setMax}
       />
     )
   }

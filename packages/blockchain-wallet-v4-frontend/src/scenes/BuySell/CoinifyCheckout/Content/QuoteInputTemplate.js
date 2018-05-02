@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
 import { Icon, TextInput, Text } from 'blockchain-info-components'
 import { SelectBoxCoinifyCurrency, TextBox } from 'components/Form'
@@ -58,6 +59,14 @@ const Error = styled(Text)`
   top: 42px;
   right: 0;
 `
+const LimitsHelper = styled.div`
+  position: relative;
+  top: 15px;
+  a {
+    color: ${props => props.theme['brand-secondary']};
+    cursor: pointer;
+  }
+`
 const getErrorState = (meta) => {
   return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')
 }
@@ -71,7 +80,7 @@ const getLimitsError = (val, limits, disabled, fiat, symbol) => {
 }
 
 const FiatConvertor = (props) => {
-  const { value, fiat, disabled, handleBlur, handleCoinChange, handleFiatChange, handleFocus, handleErrorClick, meta, limits, defaultCurrency, symbol } = props
+  const { value, fiat, disabled, setMax, handleErrorClick, meta, limits, defaultCurrency, symbol } = props
   const { currency } = props.data.data
   const errorState = getErrorState(meta)
 
@@ -92,6 +101,9 @@ const FiatConvertor = (props) => {
             <Unit>{currency}</Unit>
           </Container>
         </FiatConvertorInput>
+        <LimitsHelper>
+          <FormattedMessage id='buy.quote_input.remaining_buy_limit' defaultMessage='Your remaining buy limit is {max}' values={{ max: <a onClick={() => setMax(limits.max)}>{symbol}{limits.max}</a> }} />
+        </LimitsHelper>
         {meta.touched && meta.error && <Error onClick={handleErrorClick} size='13px' weight={300} color='error'>{meta.error}</Error>}
         {
           limits && <Error size='13px' weight={300} color='error'>

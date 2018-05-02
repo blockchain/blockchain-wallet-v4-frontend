@@ -93,12 +93,22 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const setCheckoutMax = function * (action) {
+    try {
+      // const values = yield select(selectors.form.getFormValues('coinifyCheckout'))
+      yield put(actions.form.change('coinifyCheckout', 'leftVal', action.payload))
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   return {
     handleChange,
     // resetCoinifyCheckout,
     initialized,
     buy,
     coinifySaveMedium,
-    coinifySignup
+    coinifySignup,
+    setCheckoutMax
   }
 }
