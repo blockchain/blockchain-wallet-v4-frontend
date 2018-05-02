@@ -29,8 +29,8 @@ export default ({ coreSagas }) => {
     }
   }
 
-  return function * () {
-    yield takeEvery(AT.INIT_TRANSFER_ETHER, initTransferEther)
-    yield takeLatest(AT.TRANSFER_ETHER, transferEther)
+  return {
+    initTransferEther,
+    transferEther
   }
 }

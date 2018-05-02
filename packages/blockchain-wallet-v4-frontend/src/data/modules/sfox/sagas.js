@@ -1,6 +1,6 @@
 import { put, call, select } from 'redux-saga/effects'
 import * as A from './actions'
-import { actions } from 'data'
+import * as actions from '../../actions'
 import * as selectors from '../../selectors.js'
 import * as modalActions from '../../modals/actions'
 import * as sendBtcActions from '../../components/sendBtc/actions'
