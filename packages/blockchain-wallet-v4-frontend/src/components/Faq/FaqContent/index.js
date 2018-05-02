@@ -34,7 +34,7 @@ const FaqContent = [
       question: <FormattedMessage id='scenes.faq.group.walletfunctionality.question6' defaultMessage='Can an address still receive funds even though it’s no longer displayed under ‘Request’?' />,
       answer: <FaqDescription>
         <FormattedMessage id='scenes.faq.group.walletfunctionality.answer6.one' defaultMessage='Yes. All public addresses generated from your wallet can still receive funds, even if they no longer appear under ‘Request’. As explained ' />
-        <Link href='https://support.blockchain.com/hc/en-us/articles/210353663-Why-is-my-bitcoin-address-changing-' target='_blank' size='12px' weight='200'>
+        <Link href='https://support.blockchain.com/hc/en-us/articles/210353663-Why-is-my-bitcoin-address-changing-' target='_blank' size='12px' weight={200}>
           <FormattedMessage id='scenes.faq.group.walletfunctionality.answer6.link' defaultMessage='here' />
         </Link>
         <FormattedMessage id='scenes.faq.group.walletfunctionality.answer6.two' defaultMessage=', a new address will automatically display under ‘Request’ once the previously displayed address receives a payment.' />
@@ -52,7 +52,7 @@ const FaqContent = [
         <br />
         <br />
         <FormattedMessage id='scenes.faq.group.walletfunctionality.answer8.two' defaultMessage="To learn more about why transactions can\'t be canceled and how this aspect of bitcoin and other similar cryptocurrencies compares to other methods of payment like credit cards and cash, check out our blog post on " />
-        <Link href='https://blog.blockchain.com/2016/06/16/support-team-tips-bitcoin-transactions-and-chargebacks/' target='_blank' size='12px' weight='200'>
+        <Link href='https://blog.blockchain.com/2016/06/16/support-team-tips-bitcoin-transactions-and-chargebacks/' target='_blank' size='12px' weight={200}>
           <FormattedMessage id='scenes.faq.group.walletfunctionality.answer8.link' defaultMessage='Bitcoin Transactions & Chargebacks' />
         </Link>
         <FormattedMessage id='scenes.faq.group.walletfunctionality.answer8.three' defaultMessage='.' />
@@ -68,7 +68,7 @@ const FaqContent = [
         <br />
         <FormattedMessage id='scenes.faq.group.walletfunctionality.answer9.three' defaultMessage='Like all wallet providers, Blockchain has no control over the speed of confirmation, and unfortunately cannot expedite transactions. All we can suggest is using an appropriate transaction fee in order to incentivize a miner to include your transaction into a block. This is always dependent upon the network of miners.' />
         <FormattedMessage id='scenes.faq.group.walletfunctionality.answer9.three' defaultMessage='We do everything we can to lessen the number of pending transactions. For this reason, your Blockchain wallet utilizes dynamic bitcoin and bitcoin cash fees that are dependent upon current network conditions. To learn more about how this works read our blog ' />
-        <Link href='https://blog.blockchain.com/2016/03/16/introducing-dynamic-fees/' target='_blank' size='12px' weight='200'>
+        <Link href='https://blog.blockchain.com/2016/03/16/introducing-dynamic-fees/' target='_blank' size='12px' weight={200}>
           <FormattedMessage id='scenes.faq.group.walletfunctionality.answer9.link' defaultMessage='here' />
         </Link>
         <FormattedMessage id='scenes.faq.group.walletfunctionality.answer8.four' defaultMessage='.' />
@@ -86,7 +86,7 @@ const FaqContent = [
         <br />
         <br />
         <FormattedMessage id='scenes.faq.group.walletfunctionality.answer11.three' defaultMessage='To look up a bitcoin transaction, users can visit' />
-        <Link href='https://blockchain.info' target='_blank' size='12px' weight='200'>
+        <Link href='https://blockchain.info' target='_blank' size='12px' weight={200}>
           <FormattedMessage id='scenes.faq.group.walletfunctionality.answer11.link' defaultMessage=' https://blockchain.info ' />
         </Link>
         <FormattedMessage id='scenes.faq.group.walletfunctionality.answer11.four' defaultMessage='and use the search bar on the upper right to learn more about a particular bitcoin address, transaction hash, or block number.' />
@@ -137,7 +137,7 @@ const FaqContent = [
         <br />
         <br />
         <FormattedMessage id='scenes.faq.group.walletsecurity.answer4.five' defaultMessage='If you’ve created an account with one of our exchange partners (Coinify, SFOX, Unocoin or Shapeshift), please reach out to their support teams for further assistance with removing your personal information from their records. For assistance with this, please reach out to our support team' />
-        <Link href='https://support.blockchain.com/hc/en-us/requests/new' target='_blank' size='12px' weight='200'>
+        <Link href='https://support.blockchain.com/hc/en-us/requests/new' target='_blank' size='12px' weight={200}>
           <FormattedMessage id='scenes.faq.group.walletsecurity.answer4.link' defaultMessage=' here' />
         </Link>
         <FormattedMessage id='scenes.faq.group.walletsecurity.answer4.six' defaultMessage='.' />

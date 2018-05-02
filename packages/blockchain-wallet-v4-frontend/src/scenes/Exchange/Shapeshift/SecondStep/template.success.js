@@ -65,7 +65,7 @@ const Success = props => {
 
   return (
     <Wrapper>
-      <Form override onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit}>
         <Row justify='space-between'>
           <Text size='14px'>
             <FormattedMessage id='scenes.exchange.shapeshift.secondstep.title' defaultMessage='Confirm Exchange Order' />

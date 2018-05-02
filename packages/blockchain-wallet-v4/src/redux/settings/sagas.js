@@ -9,6 +9,17 @@ const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
 export default ({ api }) => {
+  const fetchSettings = function* () {
+    try {
+      const guid = yield select(selectors.wallet.getGuid)
+      const sharedKey = yield select(selectors.wallet.getSharedKey)
+      yield put(actions.fetchSettingsLoading())
+      const data = yield call(api.getSettings, guid, sharedKey)
+      yield put(actions.fetchSettingsSuccess(data))
+    } catch (e) {
+      yield put(actions.fetchSettingsFailure(e.message))
+    }
+  }
   // Utilities
   const decodePairingCode = function * ({ data }) {
     const { guid, encrypted } = yield call(() => taskToPromise(pairing.parseQRcode(data)))
@@ -184,7 +195,7 @@ export default ({ api }) => {
   return {
     decodePairingCode,
     requestGoogleAuthenticatorSecretUrl,
-    // fetchSettings,
+    fetchSettings,
     setEmail,
     setMobile,
     setMobileVerified,
