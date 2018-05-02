@@ -6,6 +6,7 @@ import { OrderDetails, OrderSubmit } from './OrderReview'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { flex } from 'services/StyleService'
 import * as service from './service'
+import Payment from '../../../../modals/CoinifyExchangeData/Payment'
 
 const CheckoutWrapper = styled.div`
   width: 55%;
@@ -65,7 +66,8 @@ const Success = props => {
           </CheckoutWrapper>
         </StepView>
         <StepView step={1}>
-          <div style={flex('row')}>
+          <Payment />
+          {/* <div style={flex('row')}>
             <CheckoutWrapper>
               <OrderDetails
                 quoteR={buyQuoteR}
@@ -82,7 +84,7 @@ const Success = props => {
                 clearTradeError={clearTradeError}
               />
             </OrderSubmitWrapper>
-          </div>
+          </div> */}
         </StepView>
       </Stepper>
     )
