@@ -3,6 +3,8 @@ import * as AT from './actionTypes'
 import * as A from './actions'
 import * as selectors from '../../selectors.js'
 import { actions } from 'data'
+import { actionTypes, formValueSelector } from 'redux-form'
+import { merge, path, prop, equals } from 'ramda'
 
 export default ({ coreSagas }) => {
   const coinifySignup = function * () {
@@ -46,7 +48,44 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const resetCoinifyCheckout = function * () {
+    console.log('resetCoinifyCheckout')
+    try {
+      yield put(actions.form.change('coinifyCheckout', 'leftVal', ''))
+    } catch (e) {
+      console.log('resetCoinifyCheckout Error', e)
+    }
+  }
+
+  const handleChange = function * (action) {
+    try {
+      const form = path(['meta', 'form'], action)
+      const field = path(['meta', 'field'], action)
+      const payload = prop('payload', action)
+      if (!equals('coinifyCheckout', form)) return
+      const values = yield select(selectors.form.getFormValues('coinifyCheckout'))
+      console.log('handleChange', action, form, values)
+
+      switch (field) {
+        case 'leftVal':
+          const leftResult = yield call(coreSagas.data.coinify.fetchQuote, { quote: { amt: payload, baseCurr: 'EUR', quoteCurr: 'BTC' } })
+          const amount = leftResult.quoteAmount
+          yield put(actions.form.initialize('coinifyCheckout', merge(values, { 'rightVal': amount })))
+          break
+        case 'rightVal':
+          const rightResult = yield call(coreSagas.data.coinify.fetchQuote, { quote: { amt: payload * 1e8, baseCurr: 'BTC', quoteCurr: 'EUR' } })
+          const fiatAmount = rightResult.quoteAmount
+          yield put(actions.form.initialize('coinifyCheckout', merge(values, { 'leftVal': fiatAmount })))
+          break
+      }
+    } catch (e) {
+
+    }
+  }
+
   return function * () {
+    yield takeLatest(actionTypes.CHANGE, handleChange)
+    yield takeLatest(AT.RESET_COINIFY_CHECKOUT, resetCoinifyCheckout)
     yield takeLatest(AT.COINIFY_INITIALIZED, initialized)
     yield takeLatest(AT.SIGNUP, coinifySignup)
     yield takeLatest(AT.COINIFY_SAVE_MEDIUM, coinifySaveMedium)

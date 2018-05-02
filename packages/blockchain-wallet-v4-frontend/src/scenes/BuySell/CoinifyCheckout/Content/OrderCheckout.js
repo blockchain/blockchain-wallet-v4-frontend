@@ -6,10 +6,9 @@ import { FormattedMessage } from 'react-intl'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { StepTransition } from 'components/Utilities/Stepper'
 import QuoteInput from './QuoteInput'
-// import FundingSource from 'components/BuySell/FundingSource'
 import { MethodContainer } from 'components/BuySell/styled.js'
 
-const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, finishAccountSetup, limits, type, defaultCurrency }) => {
+const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, finishAccountSetup, limits, type, defaultCurrency, symbol }) => {
   const quoteInputSpec = {
     method: 'buy',
     input: defaultCurrency,
@@ -53,7 +52,7 @@ const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, fini
           <Text size='12px' weight={300}>
             {'@ '}
             {rateQuoteR
-              .map((quote) => '$' + quote && quote.quoteAmount.toLocaleString())
+              .map((quote) => `${symbol}${quote && quote.quoteAmount.toLocaleString()}`)
               .getOrElse(
                 <Fragment>
                   <FormattedMessage id='loading' defaultMessage='Loading' />
@@ -81,6 +80,7 @@ const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, fini
                 limits={limits}
                 type={type}
                 defaultCurrency={defaultCurrency}
+                symbol={symbol}
               />
             </div>
           </Fragment>

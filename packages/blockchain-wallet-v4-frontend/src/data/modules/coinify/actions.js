@@ -16,3 +16,5 @@ export const saveMediumSuccess = (medium) => ({ type: AT.COINIFY_SAVE_MEDIUM_SUC
 export const initiateBuy = (data) => ({ type: AT.COINIFY_BUY, payload: data })
 
 export const initialized = () => ({ type: AT.COINIFY_INITIALIZED })
+
+export const resetCoinifyCheckout = () => ({ type: AT.RESET_COINIFY_CHECKOUT })
