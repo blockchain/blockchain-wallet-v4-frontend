@@ -11,15 +11,16 @@ export default ({ api }) => {
     return yield call(compose(taskToPromise, () => task))
   }
   const createRoot = function * ({ password }) {
-    const mnemonic = state => getMnemonic(state, password)
-    const eitherMnemonic = yield select(mnemonic)
-    if (eitherMnemonic.isRight) {
-      const seedHex = BIP39.mnemonicToEntropy(eitherMnemonic.value)
+    try {
+      const obtainMnemonic = state => getMnemonic(state, password)
+      const mnemonicT = yield select(obtainMnemonic)
+      const mnemonic = yield call(() => taskToPromise(mnemonicT))
+      const seedHex = BIP39.mnemonicToEntropy(mnemonic)
       const getMetadataNode = compose(KVStoreEntry.deriveMetadataNode, KVStoreEntry.getMasterHDNode)
       const metadataNode = getMetadataNode(seedHex)
       const metadata = metadataNode.toBase58()
       yield put(A.updateMetadataRoot({ metadata }))
-    } else {
+    } catch (e) {
       throw new Error('create root Metadata :: Error decrypting mnemonic')
     }
   }
