@@ -67,7 +67,7 @@ export default ({ api }) => {
     const wallet = S.wallet.getWallet(appState)
 
     // No origin => assume origin = all the legacy addresses (non - watchOnly)
-    if (origin === null || origin === undefined || origin === '') {
+    if (isNil(origin) || origin === '') {
       let spendableActiveAddresses = yield select(S.wallet.getSpendableActiveAddresses)
       return fromLegacyList(spendableActiveAddresses)
     }

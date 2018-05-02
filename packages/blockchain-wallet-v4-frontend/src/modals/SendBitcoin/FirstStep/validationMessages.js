@@ -48,3 +48,7 @@ export const MinimumFeeMessage = () => (
 export const EmptyAccount = () => (
   <FormattedMessage id='modals.sencbtc.nomoney' defaultMessage='No money to spend on this account' />
 )
+
+export const AddressMatchesPriv = () => (
+  <FormattedMessage id='modals.sencbtc.addressprivmismatch' defaultMessage='This private key does not match the watch only address above' />
+)
