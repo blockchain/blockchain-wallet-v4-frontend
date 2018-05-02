@@ -46,7 +46,7 @@ const MobileNumberVerify = (props) => {
               <Link size='14px' weight={300} onClick={handleResend}>
                 <FormattedMessage id='modals.mobilenumberverify.resend' defaultMessage='Resend' />
               </Link>
-              <FormattedMessage id='modals.mobilenumberverify.get_code' defaultMessage='or&nbsp;' />
+              <FormattedMessage id='modals.mobilenumberverify.get_code' defaultMessage='&nbsp;or&nbsp;' />
               <Link size='14px' weight={300} capitalize onClick={handleChange}>
                 <FormattedMessage id='modals.mobilenumberverify.change' defaultMessage='change mobile number' />
               </Link>

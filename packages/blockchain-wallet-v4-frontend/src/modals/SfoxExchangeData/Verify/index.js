@@ -6,6 +6,7 @@ import { formValueSelector } from 'redux-form'
 import { path, equals } from 'ramda'
 import { actions } from 'data'
 import ui from 'redux-ui'
+import Upload from '../Upload'
 
 import Helper from 'components/BuySell/FAQ'
 
@@ -51,9 +52,9 @@ class VerifyContainer extends Component {
   }
 
   render () {
-    return this.props.ui.verify === 'address'
-      ? <Address {...this.props} faqs={faqHelper} />
-      : <Identity {...this.props} faqs={faqHelper} handleSubmit={this.handleSubmit} handleReset={this.handleReset} />
+    if (this.props.step === 'upload') return <Upload />
+    if (this.props.ui.verify === 'address') return <Address {...this.props} faqs={faqHelper} />
+    if (this.props.ui.verify === 'identity') return <Identity {...this.props} faqs={faqHelper} handleSubmit={this.handleSubmit} handleReset={this.handleReset} />
   }
 }
 
