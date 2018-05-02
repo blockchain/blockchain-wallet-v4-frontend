@@ -10,6 +10,13 @@ export const getLimits = (limits, curr) => {
   }
 }
 
+export const currencySymbolMap = {
+  GBP: '£',
+  USD: '$',
+  EUR: '€',
+  DKK: 'kr. ' // intentional space
+}
+
 export const mockedLimits = {
   bank: {
     inRemaining: { EUR: 0, USD: 0, GBP: 0, DKK: 0 },
