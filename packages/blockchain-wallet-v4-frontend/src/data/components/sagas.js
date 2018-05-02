@@ -1,4 +1,5 @@
 import exchange from './exchange/sagas'
+import exchangeHistory from './exchangeHistory/sagas'
 import importBtcAddress from './importBtcAddress/sagas'
 import priceChart from './priceChart/sagas'
 import priceTicker from './priceTicker/sagas'
@@ -8,14 +9,15 @@ import sendEth from './sendEth/sagas'
 import signMessage from './signMessage/sagas'
 import usedAddresses from './usedAddresses/sagas'
 
-export default ({ api, coreSagas }) => ({
-  exchange: exchange({ coreSagas }),
-  importBtcAddress: importBtcAddress({ coreSagas }),
-  priceChart: priceChart({ coreSagas }),
-  priceTicker: priceTicker({ coreSagas }),
-  sendBch: sendBch({ coreSagas }),
-  sendBtc: sendBtc({ coreSagas }),
-  sendEth: sendEth({ coreSagas }),
-  signMessage: signMessage({ coreSagas }),
-  usedAddresses: usedAddresses({ coreSagas })
-})
+export default ({ api, coreSagas }) => function * () {
+    yield fork(exchange({ api, coreSagas })),
+    yield fork(exchangeHistory({ api, coreSagas })),
+    yield fork(importBtcAddress({ api, coreSagas })),
+    yield fork(priceChart({ coreSagas })),
+    yield fork(priceTicker({ coreSagas })),
+    yield fork(sendBch({ api, coreSagas })),
+    yield fork(sendBtc({ api, coreSagas })),
+    yield fork(sendEth({ api, coreSagas })),
+    yield fork(signMessage({ coreSagas })),
+    yield fork(usedAddresses({ coreSagas }))
+}

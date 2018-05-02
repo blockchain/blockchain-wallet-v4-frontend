@@ -1,9 +1,14 @@
 
-import { propEq, propSatisfies } from 'ramda'
+import { propEq, propSatisfies, isNil, not, compose } from 'ramda'
 import * as crypto from '../walletCrypto'
-import Either from 'data.either'
+import Task from 'data.task'
 
-const PAIRING_CODE_PBKDF2_ITERATIONS = 10
+const isNotNil = compose(not, isNil)
+
+const TaskFromPredicate = (predicate, value, errorMsg) =>
+  predicate(value) ? Task.of(value) : Task.rejected(errorMsg)
+
+const PBKDF2_ITERATIONS = 10
 const VERSION = '1'
 
 const parseQRcode = (data) => {
@@ -11,43 +16,40 @@ const parseQRcode = (data) => {
     const [version, guid, encrypted] = string.split('|')
     return ({ version, guid, encrypted })
   }
-  const checkVersion = object => {
-    if (propEq('version', VERSION, object)) {
-      return Either.Right(object)
-    } else {
-      return Either.Left(`Invalid Pairing Version Code ${object.version}`)
-    }
-  }
-  const checkGUID = object => {
-    if (propSatisfies(g => (g == null || g.length !== 36), 'guid', object)) {
-      return Either.Left(`Invalid Pairing QR Code, GUID is invalid`)
-    } else {
-      return Either.Right(object)
-    }
-  }
-  return Either.fromNullable(data)
+
+  const isValidGUID = propSatisfies(g => (g != null && g.length === 36), 'guid')
+  const isValidVersion = propEq('version', VERSION)
+  const errorGUID = `Invalid Pairing QR Code, GUID is invalid`
+  const errorVersion = `Invalid Pairing QR Code, Version is invalid`
+
+  return TaskFromPredicate(isNotNil, data, 'Null QR code data to parse')
     .map(split)
-    .chain(checkVersion)
-    .chain(checkGUID)
+    .chain(obj => TaskFromPredicate(isValidGUID, obj, errorVersion))
+    .chain(obj => TaskFromPredicate(isValidVersion, obj, errorGUID))
 }
 
+// decode :: data -> String -> Task Error Object
 const decode = (data, passphrase) => {
-  const decryptData = data =>
-    crypto.decryptDataWithPasswordSync(data, passphrase, PAIRING_CODE_PBKDF2_ITERATIONS)
+  const decryptData = data => {
+    return crypto.decryptDataWithPassword(data, passphrase, PBKDF2_ITERATIONS)
+  }
 
   const getCredentials = decryptedData => {
     const [sharedKey, passwordHex] = decryptedData.split('|')
-    const password = Buffer.from(passwordHex, 'hex').toString('utf8')
-    return { sharedKey, password }
+    return TaskFromPredicate(isNotNil, passwordHex, 'qr_code_expired')
+      .map(p => Buffer.from(p, 'hex').toString('utf8'))
+      .map(p => ({sharedKey, password: p}))
   }
-  return Either.fromNullable(data).map(decryptData).map(getCredentials)
+  return TaskFromPredicate(isNotNil, data, 'Null QR code data to decode')
+    .chain(decryptData).chain(getCredentials)
 }
 
+// encode :: String -> String -> String -> String -> Task Error String
 const encode = (guid, sharedKey, password, pairingPassword) => {
   const passwordHex = Buffer.from(password, 'utf8').toString('hex')
   const data = `${sharedKey}|${passwordHex}`
-  var encrypted = crypto.encryptDataWithPasswordSync(data, pairingPassword, PAIRING_CODE_PBKDF2_ITERATIONS)
-  return `${VERSION}|${guid}|${encrypted}`
+  return crypto.encryptDataWithPassword(data, pairingPassword, PBKDF2_ITERATIONS)
+    .map(encrypted => `${VERSION}|${guid}|${encrypted}`)
 }
 
 export { parseQRcode, decode, encode }
