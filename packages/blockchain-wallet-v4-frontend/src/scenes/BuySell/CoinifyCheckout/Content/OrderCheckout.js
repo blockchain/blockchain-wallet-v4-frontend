@@ -8,7 +8,7 @@ import { StepTransition } from 'components/Utilities/Stepper'
 import QuoteInput from './QuoteInput'
 import { MethodContainer } from 'components/BuySell/styled.js'
 
-const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, finishAccountSetup, limits, type, defaultCurrency, symbol }) => {
+const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, limits, type, defaultCurrency, symbol, checkoutBusy, busy }) => {
   const quoteInputSpec = {
     method: 'buy',
     input: defaultCurrency,
@@ -27,17 +27,10 @@ const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, fini
 
   const submitButtonHelper = () => (
     reason.indexOf('has_remaining') > -1
-      ? <StepTransition next Component={Button} style={spacing('mt-45')} nature='primary' fullwidth disabled={!Remote.Success.is(quoteR) || limitsHelper(quoteR, limits)}>
-        <FormattedMessage id='review_order' defaultMessage='Review Order' />
+      ? <StepTransition next Component={Button} style={spacing('mt-45')} nature='primary' fullwidth disabled={checkoutBusy || Remote.Loading.is(quoteR) || limitsHelper(quoteR, limits)}>
+        <FormattedMessage id='continue' defaultMessage='Continue' />
       </StepTransition>
-      : <div style={{ ...flex('col'), ...spacing('mt-15') }}>
-        <Text size='14px' weight={300}>
-          You need to finish setting up your account before you can buy and sell.
-        </Text>
-        <Button style={spacing('mt-15')} nature='primary' onClick={finishAccountSetup}>
-          Continue Where You Left Off
-        </Button>
-      </div>
+      : null
   )
 
   return (

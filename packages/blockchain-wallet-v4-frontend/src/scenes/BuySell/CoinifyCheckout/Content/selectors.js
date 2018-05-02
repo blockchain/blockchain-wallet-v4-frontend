@@ -4,8 +4,8 @@ import { selectors } from 'data'
 
 export const getData = (state) => {
   const profile = selectors.core.data.coinify.getProfile(state)
-  const nextAddress = selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, 0, state)
-  return lift((profile, nextAddress) => ({ profile, nextAddress }))(profile, nextAddress)
+  // const nextAddress = selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, 0, state)
+  return lift((profile) => ({ profile }))(profile)
 }
 
 export const getTrades = (state) => {

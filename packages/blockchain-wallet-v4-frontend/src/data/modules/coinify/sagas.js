@@ -10,7 +10,8 @@ export default ({ coreSagas }) => {
       yield call(coreSagas.data.coinify.signup)
       const profile = yield select(selectors.core.data.coinify.getProfile)
       if (!profile.error) {
-        yield put(A.coinifyNextStep('isx'))
+        yield put(actions.modals.closeAllModals())
+        // yield put(A.coinifyNextStep('isx'))
         yield put(actions.alerts.displaySuccess('Account successfully created!'))
       } else {
         yield put(A.coinifySignupFailure(profile.error))
@@ -37,52 +38,63 @@ export default ({ coreSagas }) => {
   }
   const initialized = function * () {
     try {
+      const level = yield select(selectors.core.data.coinify.getLevel)
+      const currencyR = level.map(l => l.currency)
+      console.log('initialize and get curr', currencyR)
+
       const initialValues = {
-
+        leftVal: '',
+        rightVal: '',
+        currency: currencyR.getOrElse('EUR')
       }
-      yield put(actions.form.initialize('coinifyCheckout', initialValues))
-    } catch (e) {
-    }
-  }
 
-  const resetCoinifyCheckout = function * () {
-    console.log('resetCoinifyCheckout')
-    try {
-      yield put(actions.form.change('coinifyCheckout', 'leftVal', ''))
+      yield put(actions.form.initialize('coinifyCheckout', initialValues))
+      yield put(actions.core.data.coinify.fetchRateQuote(currencyR.getOrElse('EUR')))
     } catch (e) {
-      console.log('resetCoinifyCheckout Error', e)
+      console.log('initialize coinify checkout form', e)
     }
   }
 
   const handleChange = function * (action) {
     try {
+      yield put(A.coinifyCheckoutBusyOn())
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
       const payload = prop('payload', action)
       if (!equals('coinifyCheckout', form)) return
+
       const values = yield select(selectors.form.getFormValues('coinifyCheckout'))
       console.log('handleChange', action, form, values)
 
+      if (!payload) return null
+
       switch (field) {
         case 'leftVal':
-          const leftResult = yield call(coreSagas.data.coinify.fetchQuote, { quote: { amt: payload, baseCurr: 'EUR', quoteCurr: 'BTC' } })
+          const leftResult = yield call(coreSagas.data.coinify.fetchQuote, { quote: { amt: payload * 100, baseCurr: values.currency, quoteCurr: 'BTC' } })
           const amount = leftResult.quoteAmount
-          yield put(actions.form.initialize('coinifyCheckout', merge(values, { 'rightVal': amount })))
+          yield put(actions.form.initialize('coinifyCheckout', merge(values, { 'rightVal': amount / 1e8 })))
+          yield put(A.coinifyCheckoutBusyOff())
           break
         case 'rightVal':
-          const rightResult = yield call(coreSagas.data.coinify.fetchQuote, { quote: { amt: payload * 1e8, baseCurr: 'BTC', quoteCurr: 'EUR' } })
+          const rightResult = yield call(coreSagas.data.coinify.fetchQuote, { quote: { amt: payload * 1e8, baseCurr: 'BTC', quoteCurr: values.currency } })
           const fiatAmount = rightResult.quoteAmount
           yield put(actions.form.initialize('coinifyCheckout', merge(values, { 'leftVal': fiatAmount })))
+          yield put(A.coinifyCheckoutBusyOff())
+          break
+        case 'currency':
+          yield put(actions.core.data.coinify.fetchRateQuote(payload))
+          yield put(actions.form.initialize('coinifyCheckout', merge(values, { 'leftVal': '', 'rightVal': '' })))
+          yield put(A.coinifyCheckoutBusyOff())
           break
       }
     } catch (e) {
-
+      console.log(e)
     }
   }
 
   return {
     handleChange,
-    resetCoinifyCheckout,
+    // resetCoinifyCheckout,
     initialized,
     buy,
     coinifySaveMedium,
