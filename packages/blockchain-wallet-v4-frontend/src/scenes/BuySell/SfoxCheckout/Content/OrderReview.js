@@ -1,14 +1,16 @@
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
-import { Text, Button, Icon, HeartbeatLoader } from 'blockchain-info-components'
+import { Text, Button, Icon, HeartbeatLoader, Link } from 'blockchain-info-components'
 import { Remote } from 'blockchain-wallet-v4/src'
 import FaqRow from 'components/Faq/FaqRow'
 import CountdownTimer from 'components/Form/CountdownTimer'
 import { Wrapper as ExchangeCheckoutWrapper } from '../../ExchangeCheckout'
 import { flex, spacing } from 'services/StyleService'
+import { reviewOrder } from 'services/SfoxService'
 import { FormattedMessage } from 'react-intl'
 import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDetails'
 import FundingSource from 'components/BuySell/FundingSource'
+import { StepTransition } from 'components/Utilities/Stepper'
 
 const StyledFaqRow = styled(FaqRow)`
   padding: 20px 0px;
@@ -22,6 +24,13 @@ const MethodContainer = styled.div`
   height: 42px;
   border: 1px solid ${props => props.theme['gray-2']}
 `
+const CancelWrapper = styled.div`
+  a {
+    color: #545456;
+    font-weight: 300;
+    font-size: 14px;
+  }
+`
 
 const renderDetailsRow = (id, message, value, color) => (
   <OrderDetailsRow>
@@ -30,14 +39,7 @@ const renderDetailsRow = (id, message, value, color) => (
   </OrderDetailsRow>
 )
 
-const renderFirstRow = q => (
-  q.baseCurrency === 'BTC'
-    ? `${q.baseAmount / 100000000} BTC ($${(+q.quoteAmount - +q.feeAmount).toFixed(2)})`
-    : `${q.quoteAmount / 100000000} BTC ($${(+q.baseAmount - +q.feeAmount).toFixed(2)})`
-)
-const renderTotal = q => q.baseCurrency === 'BTC' ? `$${q.quoteAmount}` : `$${q.baseAmount}`
-
-export const BuyOrderDetails = ({ quoteR, account, onRefreshQuote }) => (
+export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
   <ExchangeCheckoutWrapper>
     <Text size='32px' weight={600} style={spacing('mb-10')}>
       <FormattedMessage id='buy.almost_there' defaultMessage="You're almost there" />
@@ -62,9 +64,9 @@ export const BuyOrderDetails = ({ quoteR, account, onRefreshQuote }) => (
     </div>
     <OrderDetailsTable style={spacing('mt-10')}>
       {renderDetailsRow(
-        'order_details.amount_to_purchase',
-        'BTC Amount to Purchase',
-        quoteR.map(quote => renderFirstRow(quote)).getOrElse('~')
+        'order_details.amount_to_transact',
+        type === 'buy' ? 'BTC Amount to Purchase' : 'BTC Amount to Sell',
+        quoteR.map(quote => reviewOrder.renderFirstRow(quote, type)).getOrElse('~')
       )}
       {renderDetailsRow(
         'order_details.trading_fee',
@@ -72,9 +74,9 @@ export const BuyOrderDetails = ({ quoteR, account, onRefreshQuote }) => (
         quoteR.map(quote => `$${(+quote.feeAmount).toFixed(2)}`).getOrElse('~')
       )}
       {renderDetailsRow(
-        'order_details.total_cost',
-        'Total Cost',
-        quoteR.map(quote => renderTotal(quote)).getOrElse('~'),
+        'order_details.total_transacted',
+        type === 'buy' ? 'Total Cost' : 'Total to be Received',
+        quoteR.map(quote => reviewOrder.renderTotal(quote, type)).getOrElse('~'),
         'success'
       )}
     </OrderDetailsTable>
@@ -88,18 +90,34 @@ export const BuyOrderDetails = ({ quoteR, account, onRefreshQuote }) => (
   </ExchangeCheckoutWrapper>
 )
 
-export const BuyOrderSubmit = ({ quoteR, onSubmit, busy }) => (
+export const OrderSubmit = ({ quoteR, onSubmit, busy, clearTradeError }) => (
   <Fragment>
-    <Button
-      nature='primary'
-      disabled={!Remote.Success.is(quoteR)}
-      onClick={quoteR.map((quote) => () => onSubmit(quote)).getOrElse(null)}>
-      {
-        busy
-          ? <HeartbeatLoader height='20px' width='20px' color='white' />
-          : <FormattedMessage id='submit' defaultMessage='Submit' />
-      }
-    </Button>
+    {
+      busy instanceof Error
+        ? <div>
+          <Text color='error' size='13px'>
+            Sorry, something went wrong with your trade: { busy.message }
+          </Text>
+          <span onClick={() => clearTradeError()}><StepTransition prev Component={Link} weight={300} size='13px'><FormattedMessage id='try_again' defaultMessage='Try again' /></StepTransition></span>
+        </div>
+        : <Fragment>
+          <Button
+            nature='primary'
+            disabled={!Remote.Success.is(quoteR)}
+            onClick={quoteR.map((quote) => () => onSubmit(quote)).getOrElse(null)}>
+            {
+              busy
+                ? <HeartbeatLoader height='20px' width='20px' color='white' />
+                : <FormattedMessage id='submit' defaultMessage='Submit' />
+            }
+          </Button>
+          <CancelWrapper style={{ ...flex('row justify/center'), ...spacing('mt-15') }}>
+            <StepTransition prev Component={Link}>
+              <FormattedMessage id='cancel' defaultMessage='Cancel' />
+            </StepTransition>
+          </CancelWrapper>
+        </Fragment>
+    }
     <StyledFaqRow
       title={<FormattedMessage id='faq.how_long_to_receive_q' defaultMessage='How long does it take to get my funds?' />}
       description={<FormattedMessage id='faq.how_long_to_receive_a' defaultMessage='A bitcoin is never late, nor is it early. A bitcoin arrives precisely when it intends to.' />}
