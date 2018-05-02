@@ -192,10 +192,11 @@ export default ({ coreSagas }) => {
   const newHDAccount = function * (action) {
     try {
       yield call(askSecondPasswordEnhancer(coreSagas.wallet.newHDAccount), action.payload)
+      yield put(actions.core.kvStore.bch.addBchAccount())
       yield put(actions.alerts.displaySuccess('Successfully created new wallet.'))
       yield put(actions.modals.closeAllModals())
     } catch (e) {
-      yield put(actions.alerts.displayError('Could not create new wallet.'))
+      yield put(actions.alerts.displayError(e.message || 'Could not create new wallet.'))
       yield put(actions.modals.closeModal())
     }
   }
