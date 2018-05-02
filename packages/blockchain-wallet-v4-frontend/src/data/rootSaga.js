@@ -1,7 +1,7 @@
 import { all, call, fork } from 'redux-saga/effects'
 import { coreSagasFactory, coreRootSagaFactory } from 'blockchain-wallet-v4/src'
 import websocketBitcoinFactory from 'blockchain-wallet-v4/src/redux/webSocket/bitcoin/sagas'
-import refreshFactory from 'blockchain-wallet-v4/src/redux/refresh/sagas'
+import refreshFactory from 'blockchain-wallet-v4/src/redux/refresh/sagaRegister'
 import alerts from './alerts/sagaRegister'
 import auth from './auth/sagaRegister'
 import components from './components/sagaRegister'
