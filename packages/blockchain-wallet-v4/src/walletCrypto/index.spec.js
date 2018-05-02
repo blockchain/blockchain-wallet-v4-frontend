@@ -41,7 +41,7 @@ describe('WalletCrypto', () => {
     })
   })
 
-  describe('encryptDataWithPassword', () => {
+  describe('encryptDataWithPassword - password', () => {
     it('should not accept null password', (done) => {
       let message = '155'
       wCrypto.encryptDataWithPassword(message, null, 11)
@@ -51,7 +51,7 @@ describe('WalletCrypto', () => {
     })
   })
 
-  describe('encryptDataWithPassword', () => {
+  describe('encryptDataWithPassword - iterations', () => {
     it('should not accept bad iterations', (done) => {
       let message = '155'
       wCrypto.encryptDataWithPassword(message, '155', -100)
@@ -89,7 +89,7 @@ describe('WalletCrypto', () => {
     })
   })
 
-  describe('stretchPassword', () => {
+  describe('stretchPassword - iterations', () => {
     it('should fail with no iterations', (done) => {
       wCrypto.stretchPassword('mypassword', 'salt', 0, 256)
         .fork(
