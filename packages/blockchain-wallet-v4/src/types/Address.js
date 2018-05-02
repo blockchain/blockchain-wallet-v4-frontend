@@ -68,16 +68,16 @@ export const setArchived = curry((archived, address) =>
   set(tag, archived ? 2 : 0, address)
 )
 
-// encryptSync :: Number -> String -> String -> Address -> Either Error Address
-export const encryptSync = curry((iterations, sharedKey, password, address) => {
-  const cipher = crypto.encryptSecPassSync(sharedKey, iterations, password)
-  return traverseOf(priv, Either.of, cipher, address)
+// encrypt :: Number -> String -> String -> Address -> Task Error Address
+export const encrypt = curry((iterations, sharedKey, password, address) => {
+  const cipher = crypto.encryptSecPass(sharedKey, iterations, password)
+  return traverseOf(priv, Task.of, cipher, address)
 })
 
-// decryptSync :: Number -> String -> String -> Address -> Either Error Address
-export const decryptSync = curry((iterations, sharedKey, password, address) => {
-  const cipher = crypto.decryptSecPassSync(sharedKey, iterations, password)
-  return traverseOf(priv, Either.of, cipher, address)
+// decrypt :: Number -> String -> String -> Address -> Task Error Address
+export const decrypt = curry((iterations, sharedKey, password, address) => {
+  const cipher = crypto.decryptSecPass(sharedKey, iterations, password)
+  return traverseOf(priv, Task.of, cipher, address)
 })
 
 // importAddress :: String|ECPair -> String? -> Number -> Network -> Address
