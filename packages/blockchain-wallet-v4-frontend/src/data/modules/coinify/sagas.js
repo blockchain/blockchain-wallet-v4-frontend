@@ -50,6 +50,7 @@ export default ({ coreSagas }) => {
 
       yield put(actions.form.initialize('coinifyCheckout', initialValues))
       yield put(actions.core.data.coinify.fetchRateQuote(currencyR.getOrElse('EUR')))
+      yield put(A.coinifyCheckoutBusyOn())
     } catch (e) {
       console.log('initialize coinify checkout form', e)
     }

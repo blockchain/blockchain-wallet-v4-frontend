@@ -4,22 +4,21 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { actions } from 'data'
 import ui from 'redux-ui'
-import { getData } from './selectors'
+import { getData, getQuote } from './selectors'
 import Success from './template.success'
 
 class PaymentContainer extends Component {
   constructor (props) {
     super(props)
 
-    this.toConfirmStep = this.toConfirmStep.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
     this.handlePaymentClick = this.handlePaymentClick.bind(this)
 
     this.state = { medium: '' }
   }
 
-  toConfirmStep () {
-    this.props.coinifyActions.coinifyNextStep('confirm')
+  componentDidMount () {
+    this.props.coinifyDataActions.getPaymentMediums(this.props.quote.data)
   }
 
   handlePaymentClick (medium) {
@@ -28,7 +27,6 @@ class PaymentContainer extends Component {
 
   onSubmit (e) {
     e.preventDefault()
-    // TODO save medium in state --> go to confirm step
     this.props.coinifyActions.saveMedium(this.state.medium)
   }
 
@@ -40,7 +38,6 @@ class PaymentContainer extends Component {
         <Success
           value={value}
           getAccounts={this.getAccounts}
-          toConfirmStep={this.toConfirmStep}
           onSubmit={this.onSubmit}
           handlePaymentClick={this.handlePaymentClick}
           medium={this.state.medium}
@@ -48,7 +45,7 @@ class PaymentContainer extends Component {
         />,
       Failure: (msg) => <div>ERROR: {console.warn('ERR', msg)}</div>,
       Loading: () => <div>Loading...</div>,
-      NotAsked: () => <div>Not asked...</div>
+      NotAsked: () => <div>Payment Medium Not asked...</div>
     })
   }
 }
@@ -61,7 +58,8 @@ PaymentContainer.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-  data: getData(state)
+  data: getData(state),
+  quote: getQuote(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
