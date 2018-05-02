@@ -1,8 +1,6 @@
-
-import { call, select, takeLatest, put } from 'redux-saga/effects'
+import { call, select, put } from 'redux-saga/effects'
 import { identity, prop } from 'ramda'
 import { formValueSelector } from 'redux-form'
-import * as AT from './actionTypes'
 import * as actions from '../../actions'
 import { promptForSecondPassword, promptForInput } from 'services/SagaService'
 import settings from 'config'
@@ -74,7 +72,9 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  return function * () {
-    yield takeLatest(AT.IMPORT_BTC_ADDRESS_SUBMIT_CLICKED, importBtcAddressSubmitClicked)
+  return {
+    importBtcAddressSubmitClicked,
+    sweepImportedToAccount,
+    importLegacyAddress
   }
 }

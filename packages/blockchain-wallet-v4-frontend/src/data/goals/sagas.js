@@ -1,5 +1,4 @@
-import { all, takeEvery, select, call, put } from 'redux-saga/effects'
-import * as AT from './actionTypes'
+import { all, select, call, put } from 'redux-saga/effects'
 import * as actions from '../actions'
 import * as selectors from '../selectors'
 import { Exchange } from 'blockchain-wallet-v4/src'
@@ -20,7 +19,7 @@ export default ({ coreSagas }) => {
     yield put(actions.goals.deleteGoal(id))
   }
 
-  const goalSaga = function * () {
+  const runGoals = function * () {
     const goals = yield select(selectors.goals.getGoals)
 
     yield all(goals.map((goal) => {
@@ -30,7 +29,7 @@ export default ({ coreSagas }) => {
     }))
   }
 
-  return function * () {
-    yield takeEvery(AT.RUN_GOALS, goalSaga)
+  return {
+    runGoals
   }
 }

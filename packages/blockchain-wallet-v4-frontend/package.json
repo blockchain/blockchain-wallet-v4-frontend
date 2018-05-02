@@ -30,8 +30,7 @@
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.js",
-      "!src/**/actions.js",
-      "!src/**/actionTypes.js"
+      "!src/**/rootSaga.js"
     ],
     "coverageDirectory": "<rootDir>/../../coverage/blockchain-wallet-v4-frontend",
     "coverageReporters": [
