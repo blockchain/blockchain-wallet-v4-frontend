@@ -1,7 +1,7 @@
 import React from 'react'
 import { prop } from 'ramda'
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { MaximumAmountMessage, MaximumFeeMessage, MinimumAmountMessage, MinimumFeeMessage, EmptyAccount } from './validationMessages'
+import { AddressMatchesPriv, MaximumAmountMessage, MaximumFeeMessage, MinimumAmountMessage, MinimumFeeMessage, EmptyAccount } from './validationMessages'
 
 const DUST = 546
 
@@ -21,9 +21,13 @@ export const minimumFeePerByte = (value, allValues, props) => value >= props.min
 
 export const maximumFeePerByte = (value, allValues, props) => value <= props.maxFeePerByte ? undefined : <MaximumFeeMessage />
 
-export const emptyAccount = (value, allValues, props) => props.effectiveBalance > 0 ? undefined : <EmptyAccount />
+export const emptyAccount = (value, allValues, props) =>
+  props.effectiveBalance > 0 ? undefined : <EmptyAccount />
 
 export const shouldValidate = ({ values, nextProps, props, initialRender, structure }) => {
   if (initialRender) { return true }
   return initialRender || !structure.deepEqual(values, nextProps.values) || props.effectiveBalance !== nextProps.effectiveBalance
 }
+
+export const isAddressDerivedFromPriv = (value, allValue, props) =>
+  props.addressMatchesPriv ? undefined : <AddressMatchesPriv />

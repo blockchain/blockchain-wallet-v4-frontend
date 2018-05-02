@@ -1,12 +1,13 @@
 import { takeLatest } from 'redux-saga/effects'
 import * as AT from './actionTypes'
+import * as actionTypes from '../../actionTypes'
 import sagas from './sagas'
 
 export default ({ api, options }) => {
   const coinifySagas = sagas({ api, options })
 
   return function * () {
-    yield takeLatest(AT.FETCH_METADATA_BUYSELL_SUCCESS, coinifySagas.init)
+    yield takeLatest(actionTypes.kvStore.buySell.FETCH_METADATA_BUYSELL_SUCCESS, coinifySagas.init)
     yield takeLatest(AT.FETCH_ACCOUNTS, coinifySagas.fetchAccounts)
     yield takeLatest(AT.COINIFY_FETCH_PROFILE, coinifySagas.coinifyFetchProfile)
     yield takeLatest(AT.COINIFY_FETCH_TRADES, coinifySagas.fetchTrades)
