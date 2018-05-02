@@ -47,6 +47,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.auth.authenticate())
       yield put(actions.core.webSocket.bitcoin.startSocket())
       yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
+      // yield call ethereum metadata
       if (!firstLogin) {
         yield put(actions.alerts.displaySuccess('Login successful'))
       }
