@@ -46,7 +46,7 @@ class QuoteInput extends Component {
     side: 'input',
     input: this.props.initialAmount,
     output: '0',
-    lastQuoteId: null
+    lastQuoteId: this.props.initialQuoteId
   }
   /* eslint-enable */
 
@@ -68,6 +68,10 @@ class QuoteInput extends Component {
 
   componentDidMount () {
     this.fetchQuoteDebounced()
+  }
+
+  componentDidUpdate (prevProps) {
+    if (prevProps.type !== this.props.type) this.fetchQuoteDebounced()
   }
 
   getQuoteValues = () => {
@@ -97,6 +101,7 @@ class QuoteInput extends Component {
 
   fetchQuote = () => {
     let quote = this.getQuoteValues()
+    if ((quote.amt / 100) < this.props.limits.min) return
     this.props.onFetchQuote(quote)
   }
 
@@ -128,12 +133,14 @@ QuoteInput.propTypes = {
     output: PropTypes.string,
     input: PropTypes.string
   }).isRequired,
-  onFetchQuote: PropTypes.func.isRequired
+  onFetchQuote: PropTypes.func.isRequired,
+  initialQuoteId: PropTypes.string
 }
 
 QuoteInput.defaultProps = {
   initialAmount: 0,
-  debounce: 500
+  debounce: 500,
+  initialQuoteId: null
 }
 
 export default QuoteInput

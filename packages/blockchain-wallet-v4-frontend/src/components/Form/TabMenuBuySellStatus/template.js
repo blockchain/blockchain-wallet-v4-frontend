@@ -9,7 +9,7 @@ const TabMenuBuySellStatus = props => {
 
   return (
     <TabMenu>
-      <TabMenuItem selected={value === 'buy'} onClick={() => handleClick('buy')}>
+      <TabMenuItem style={{ paddingLeft: '0px' }}selected={value === 'buy'} onClick={() => handleClick('buy')}>
         <FormattedMessage id='components.form.tabmenubuysell.buy' defaultMessage='Buy' />
       </TabMenuItem>
       <TabMenuItem selected={value === 'sell'} onClick={() => handleClick('sell')}>
@@ -23,7 +23,7 @@ const TabMenuBuySellStatus = props => {
 }
 
 TabMenuBuySellStatus.propTypes = {
-  value: PropTypes.oneOf(['buy', 'sell', 'order_history']),
+  value: PropTypes.oneOf(['buy', 'sell', 'order_history', '']),
   onClick: PropTypes.func
 }
 

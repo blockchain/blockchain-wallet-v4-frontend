@@ -7,6 +7,9 @@ import * as selectors from '../../selectors'
 import * as wS from '../../wallet/selectors'
 import * as pairing from '../../../pairing'
 
+const taskToPromise = t =>
+  new Promise((resolve, reject) => t.fork(reject, resolve))
+
 export default ({ api }) => {
   const fetchCaptcha = function * () {
     try {
@@ -51,10 +54,11 @@ export default ({ api }) => {
       const sharedKey = yield select(wS.getSharedKey)
       const password = yield select(wS.getMainPassword)
       const pairingPassword = yield call(api.getPairingPassword, guid)
-      const encryptionPhrase = pairing.encode(guid, sharedKey, password, pairingPassword)
+      const encryptionPhrase = yield call(() =>
+        taskToPromise(pairing.encode(guid, sharedKey, password, pairingPassword)))
       yield put(A.encodePairingCodeSuccess(encryptionPhrase))
     } catch (e) {
-      yield put(A.encodePairingCodeFailure(e.message))
+      yield put(A.encodePairingCodeFailure(e.message || e))
     }
   }
 

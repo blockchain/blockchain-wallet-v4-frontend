@@ -29,7 +29,7 @@ const SelectBox = (props) => {
   return (
     <Container>
       <SelectInput {...input} {...meta} {...rest} errorState={errorState} />
-      {(touched || !pristine) && error && <Error errorBottom={props.errorBottom}>{error}</Error>}
+      {(touched || !pristine) && error && <Error>{error}</Error>}
     </Container>
   )
 }

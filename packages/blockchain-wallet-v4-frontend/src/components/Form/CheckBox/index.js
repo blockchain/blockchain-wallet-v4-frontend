@@ -10,7 +10,6 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  height: 50px;
 `
 const Container = styled.div`
   display: flex;
@@ -18,13 +17,10 @@ const Container = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-  height: 35px;
+  height: 25px;
 `
 const Error = styled(Text)`
-  position: absolute;
   display: block;
-  bottom: 5px;
-  left: 0;
   height: 15px;
 `
 const getErrorState = (meta) => {

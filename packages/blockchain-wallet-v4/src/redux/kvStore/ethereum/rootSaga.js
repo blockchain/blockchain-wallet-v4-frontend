@@ -18,11 +18,10 @@ export default ({ api }) => {
   }
 
   const createEthereum = function * ({ kv, password }) {
-    // TODO :: find a way to make the second password arrive this point if needed
-    const mnemonic = state => getMnemonic(state, password)
-    const eitherMnemonic = yield select(mnemonic)
-    if (eitherMnemonic.isRight) {
-      const mnemonic = eitherMnemonic.value
+    try {
+      const obtainMnemonic = state => getMnemonic(state, password)
+      const mnemonicT = yield select(obtainMnemonic)
+      const mnemonic = yield call(() => taskToPromise(mnemonicT))
       const defaultIndex = 0
       const addr = eth.deriveAddress(mnemonic, defaultIndex)
       const ethereum = {
@@ -40,7 +39,7 @@ export default ({ api }) => {
       }
       const newkv = set(KVStoreEntry.value, {ethereum}, kv)
       yield put(A.createMetadataEthereum(newkv))
-    } else {
+    } catch (e) {
       throw new Error('[NOT IMPLEMENTED] MISSING_SECOND_PASSWORD in core.createEthereum saga')
     }
   }
