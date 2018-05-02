@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import { getBase, getData, getErrors, getQuote, getRateQuote, getTrades, getCurrency } from './selectors'
 import Success from './template.success'
 import { formValueSelector } from 'redux-form'
+import * as service from './service'
 
 class Checkout extends React.PureComponent {
   componentWillMount () {
@@ -24,6 +25,7 @@ class Checkout extends React.PureComponent {
   componentDidUpdate (prevProps) {
     if (prevProps.currency !== this.props.currency) {
       this.props.coinifyDataActions.fetchRateQuote(this.props.currency)
+      this.props.actions.resetCoinifyCheckout()
     }
   }
 
@@ -31,7 +33,6 @@ class Checkout extends React.PureComponent {
     const { data, modalActions, coinifyDataActions, rateQuoteR, buyQuoteR, currency } = this.props
     const { handleTrade, fetchQuote } = coinifyDataActions
     const { showModal } = modalActions
-
     return data.cata({
       Success: (value) => <Success {...this.props}
         value={value}

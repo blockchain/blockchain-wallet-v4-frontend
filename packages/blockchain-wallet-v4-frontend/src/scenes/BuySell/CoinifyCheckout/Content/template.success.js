@@ -38,11 +38,12 @@ const Success = props => {
   const profile = Remote.of(props.value.profile).getOrElse({ _limits: service.mockedLimits })
 
   const defaultCurrency = currency || profile._level.currency
+  const symbol = service.currencySymbolMap[defaultCurrency]
 
   const { trades, type, busy } = rest
 
   const limits = service.getLimits(profile._limits, defaultCurrency)
-  console.log('coinify success template', limits, defaultCurrency)
+  console.log('coinify success template', limits, defaultCurrency, symbol)
 
   if (type === 'buy' || !type) {
     return (
@@ -58,6 +59,7 @@ const Success = props => {
               type={'buy'}
               reason={'has_remaining'} // placeholder for now - coinify does not require a reason
               defaultCurrency={defaultCurrency}
+              symbol={symbol}
             />
           </CheckoutWrapper>
         </StepView>
