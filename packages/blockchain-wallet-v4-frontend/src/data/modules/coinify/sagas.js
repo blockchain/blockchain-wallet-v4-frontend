@@ -36,9 +36,9 @@ export default ({ coreSagas }) => {
     }
   }
 
-  return function * () {
-    yield takeLatest(AT.SIGNUP, coinifySignup)
-    yield takeLatest(AT.COINIFY_SAVE_MEDIUM, coinifySaveMedium)
-    yield takeLatest(AT.COINIFY_BUY, buy)
+  return {
+    coinifySignup,
+    coinifySaveMedium,
+    buy
   }
 }
