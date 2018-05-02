@@ -5,6 +5,7 @@ import OrderCheckout from './OrderCheckout'
 import { OrderDetails, OrderSubmit } from './OrderReview'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { flex } from 'services/StyleService'
+import * as service from './service'
 
 const CheckoutWrapper = styled.div`
   width: 55%;
@@ -34,35 +35,15 @@ const Success = props => {
     rateQuoteR,
     ...rest } = props
 
-  const profile = Remote.of(props.value.profile).getOrElse({ account: { verification_status: {} }, limits: { buy: 0, sell: 0 } })
+  const profile = Remote.of(props.value.profile).getOrElse({ _limits: service.mockedLimits })
 
   const defaultCurrency = currency || profile._level.currency
 
   const { trades, type, busy } = rest
-  // return (
-  //   <div>
-  //     <p>Coinify Success Template - user has profile</p>
-  //     {
-  //       props.rateQuote
-  //         ? <p>Rate: 1 BTC = {props.rateQuote.quoteAmount} {props.rateQuote.quoteCurrency}</p>
-  //         : <p>Rate Loading..</p>
-  //     }
-  //     <button onClick={() => props.showModal('CoinifyExchangeData', { step: 'order' })}>open modal at order step</button>
-  //   </div>
-  // )
-  console.log('coinify success template', props)
-  const limits = {
-    buy: {
-      min: 10,
-      max: 300
-    }
-    // sell: {
-    //   min: 10,
-    //   max: profile.limits.sell,
-    //   effectiveMax: payment && payment.effectiveBalance
-    // }
-  }
-  console.log('rateQuoteR', rateQuoteR.map(q => console.log(q)))
+
+  const limits = service.getLimits(profile._limits, defaultCurrency)
+  console.log('coinify success template', limits, defaultCurrency)
+
   if (type === 'buy' || !type) {
     return (
       <Stepper initialStep={0}>

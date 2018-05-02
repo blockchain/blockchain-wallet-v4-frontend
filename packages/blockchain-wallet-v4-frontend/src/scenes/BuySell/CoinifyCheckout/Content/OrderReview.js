@@ -47,13 +47,6 @@ export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
     <Text size='14px' weight={300} style={spacing('mb-20')}>
       <FormattedMessage id='buy.review_order_subtext' defaultMessage='Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order.' />
     </Text>
-    <Text size='14px' weight={300} style={spacing('mt-20')}>
-      <FormattedMessage id='buy.connected_account' defaultMessage='Your Connected Account' />:
-    </Text>
-    <MethodContainer style={spacing('mt-10')}>
-      <Icon style={spacing('ml-15')} name='bank-filled' size='26px' />
-      <FundingSource account={account} />
-    </MethodContainer>
     <div style={{ ...flex('row align/center justify/end'), ...spacing('mt-20') }}>
       <Text size='12px' weight={500} style={spacing('mr-10')}>
         <FormattedMessage id='exchange_rate' defaultMessage='Exchange Rate' />

@@ -26,17 +26,6 @@ const WrappedFiatConverter = ({ leftVal, leftUnit, rightVal, rightUnit, disabled
   />
 )
 
-const convert = {
-  from: {
-    btc: (value) => Math.floor(parseFloat(value) * 1e8),
-    usd: (value) => Math.floor(parseFloat(value) * 100)
-  },
-  to: {
-    btc: (value) => (value / 1e8).toFixed(8).replace(/\.?0+$/, ''),
-    usd: (value) => String(value).replace(/\.?0+$/, '')
-  }
-}
-
 const otherSide = (side) => {
   return side === 'input' ? 'output' : 'input'
 }
@@ -52,6 +41,16 @@ class QuoteInput extends Component {
   /* eslint-enable */
 
   static getDerivedStateFromProps (nextProps, lastState) {
+    const convert = {
+      from: {
+        btc: (value) => Math.floor(parseFloat(value) * 1e8),
+        [nextProps.defaultCurrency]: (value) => Math.floor(parseFloat(value) * 100)
+      },
+      to: {
+        btc: (value) => (value / 1e8).toFixed(8).replace(/\.?0+$/, ''),
+        [nextProps.defaultCurrency]: (value) => String(value)// .replace(/\.?0+$/, '')
+      }
+    }
     let { quoteR, spec } = nextProps
     let { side } = lastState
     return quoteR.map((quote) => {
@@ -78,6 +77,18 @@ class QuoteInput extends Component {
   getQuoteValues = () => {
     let { spec } = this.props
     let { side } = this.state
+    console.log('getQuoteValues', spec, side, this.state)
+    const convert = {
+      from: {
+        btc: (value) => Math.floor(parseFloat(value) * 1e8),
+        [this.props.defaultCurrency]: (value) => Math.floor(parseFloat(value) * 100)
+      },
+      to: {
+        btc: (value) => (value / 1e8).toFixed(8).replace(/\.?0+$/, ''),
+        [this.props.defaultCurrency]: (value) => String(value)// .replace(/\.?0+$/, '')
+      }
+    }
+
     return {
       amt: convert.from[spec[side]](this.state[side]),
       baseCurr: toUpper(spec[side]),
@@ -109,7 +120,7 @@ class QuoteInput extends Component {
   render () {
     let { spec, disabled } = this.props
     let { input, output } = this.state
-    console.log('QuoteInput', this.props)
+
     return (
       <WrappedFiatConverter
         leftVal={input}
