@@ -1,13 +1,12 @@
-import { call, select, takeLatest, put } from 'redux-saga/effects'
+import { call, select, put } from 'redux-saga/effects'
 import { equals, path, prop, nth, is, identity } from 'ramda'
-import * as AT from './actionTypes'
 import * as A from './actions'
 import * as S from './selectors'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
 import settings from 'config'
 
-import { actionTypes, initialize, change } from 'redux-form'
+import { initialize, change } from 'redux-form'
 import { promptForSecondPassword } from 'services/SagaService'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 
@@ -204,17 +203,17 @@ export default ({ coreSagas }) => {
     }
   }
 
-  return function * () {
-    yield takeLatest(AT.SEND_BTC_INITIALIZED, sendBtcInitialized)
-    yield takeLatest(AT.SEND_BTC_FIRST_STEP_TO_TOGGLED, toToggled)
-    yield takeLatest(AT.SEND_BTC_FIRST_STEP_MINIMUM_AMOUNT_CLICKED, minimumAmountClicked)
-    yield takeLatest(AT.SEND_BTC_FIRST_STEP_MAXIMUM_AMOUNT_CLICKED, maximumAmountClicked)
-    yield takeLatest(AT.SEND_BTC_FIRST_STEP_MINIMUM_FEE_CLICKED, minimumFeeClicked)
-    yield takeLatest(AT.SEND_BTC_FIRST_STEP_MAXIMUM_FEE_CLICKED, maximumFeeClicked)
-    yield takeLatest(AT.SEND_BTC_FIRST_STEP_REGULAR_FEE_CLICKED, regularFeeClicked)
-    yield takeLatest(AT.SEND_BTC_FIRST_STEP_PRIORITY_FEE_CLICKED, priorityFeeClicked)
-    yield takeLatest(AT.SEND_BTC_FIRST_STEP_SUBMIT_CLICKED, firstStepSubmitClicked)
-    yield takeLatest(AT.SEND_BTC_SECOND_STEP_SUBMIT_CLICKED, secondStepSubmitClicked)
-    yield takeLatest(actionTypes.CHANGE, formChanged)
+  return {
+    sendBtcInitialized,
+    toToggled,
+    minimumAmountClicked,
+    maximumAmountClicked,
+    minimumFeeClicked,
+    maximumFeeClicked,
+    regularFeeClicked,
+    priorityFeeClicked,
+    firstStepSubmitClicked,
+    secondStepSubmitClicked,
+    formChanged
   }
 }
