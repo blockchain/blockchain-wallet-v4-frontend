@@ -1,11 +1,8 @@
-import { call, cancel, cancelled, fork, select, takeLatest, put } from 'redux-saga/effects'
-import { delay } from 'redux-saga'
-import { equals, identity, has, merge, path, prop } from 'ramda'
+import { cancel, cancelled, delay, identity, call, fork, select, put } from 'redux-saga/effects'
+import { equals, has, merge, path, prop } from 'ramda'
 import * as A from './actions'
-import * as AT from './actionTypes'
 import * as S from './selectors'
 import * as actions from '../../actions'
-import * as actionTypes from '../../actionTypes'
 import * as selectors from '../../selectors'
 import { promptForSecondPassword } from 'services/SagaService'
 import { getCoinFromPair, getPairFromCoin, getMinimum, getMaximum,
@@ -294,15 +291,15 @@ export default ({ api, coreSagas }) => {
     if (pollingTradeStatusTask) yield call(stopPollingTradeStatus)
   }
 
-  return function * () {
-    yield takeLatest(AT.EXCHANGE_FIRST_STEP_INITIALIZED, firstStepInitialized)
-    yield takeLatest(AT.EXCHANGE_FIRST_STEP_SWAP_CLICKED, swapClicked)
-    yield takeLatest(AT.EXCHANGE_FIRST_STEP_MINIMUM_CLICKED, minimumClicked)
-    yield takeLatest(AT.EXCHANGE_FIRST_STEP_MAXIMUM_CLICKED, maximumClicked)
-    yield takeLatest(AT.EXCHANGE_FIRST_STEP_SUBMIT_CLICKED, firstStepSubmitClicked)
-    yield takeLatest(AT.EXCHANGE_SECOND_STEP_SUBMIT_CLICKED, secondStepSubmitClicked)
-    yield takeLatest(AT.EXCHANGE_THIRD_STEP_INITIALIZED, thirdStepInitialized)
-    yield takeLatest(AT.EXCHANGE_DESTROYED, destroyed)
-    yield takeLatest(actionTypes.form.CHANGE, change)
+  return {
+    firstStepInitialized,
+    swapClicked,
+    minimumClicked,
+    maximumClicked,
+    firstStepSubmitClicked,
+    thirdStepInitialized,
+    secondStepSubmitClicked,
+    destroyed,
+    change
   }
 }
