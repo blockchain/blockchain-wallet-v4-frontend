@@ -1,10 +1,5 @@
-import { takeLatest, put, call, select } from 'redux-saga/effects'
+import { takeLatest } from 'redux-saga/effects'
 import * as AT from './actionTypes'
-import * as actions from '../../actions.js'
-import * as selectors from '../../selectors.js'
-
-import { askSecondPasswordEnhancer, promptForSecondPassword } from 'services/SagaService'
-import { Types, utils } from 'blockchain-wallet-v4/src'
 import sagas from './sagas'
 
 export default ({ coreSagas }) => {
