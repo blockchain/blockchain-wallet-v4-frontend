@@ -8,13 +8,14 @@ import { selectors } from 'data'
 export const getData = (state, coin) => {
   const toDropdown = map(x => ({ text: x.label, value: x }))
   const formatAddressesData = (addressesData) => addressesData.map(a => a.data.map(d => {
-  d.text = <Text weight={300} size='12px'>
-            {d.text} ({Exchange.displayCoinToCoin({ value: d.value.balance, coin: d.value.coin, baseToStandard: true })})
-            {path(['value', 'watchOnly'], d) 
-              && <Banner type='informational' inline>
-                  <FormattedMessage id='components.selectboxbitcoin.watchonly' defaultMessage='Watch Only'/>
-                </Banner>}
-          </Text> }))
+    d.text = <Text weight={300} size='12px'>
+      {d.text} ({Exchange.displayCoinToCoin({ value: d.value.balance, coin: d.value.coin, baseToStandard: true })})
+      {path(['value', 'watchOnly'], d) &&
+        <Banner type='informational' inline>
+          <FormattedMessage id='components.selectboxbitcoin.watchonly' defaultMessage='Watch Only'/>
+        </Banner>}
+    </Text>
+  }))
 
   const formatAddress = (addressData) => {
     const formattedAddress = {}

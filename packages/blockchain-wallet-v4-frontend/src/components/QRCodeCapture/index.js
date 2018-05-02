@@ -79,7 +79,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
         case 'ethAddress': return ui.ethAddress.toggled
         case 'bchAddress': return ui.bchAddress.toggled
         case 'btcPriv': return ui.btcPriv.toggled
-      } 
+      }
     }
     const toggled = getTypeToggled(scanType)
 
@@ -102,9 +102,9 @@ const mapDispatchToProps = dispatch => ({
 const enhance = compose(
   ui({ key: 'QRCodeCapture',
     state: { btcAddress: { toggled: false },
-              ethAddress: { toggled: false },
-              bchAddress: { toggled: false },
-              btcPriv: { toggled: false } } }),
+      ethAddress: { toggled: false },
+      bchAddress: { toggled: false },
+      btcPriv: { toggled: false } } }),
   connect(undefined, mapDispatchToProps)
 )
 
