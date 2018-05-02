@@ -6,9 +6,7 @@ import { TableCell, TableRow, Text, Link } from 'blockchain-info-components'
 import OrderStatus from './OrderStatus'
 
 const TradeItem = props => {
-  const { trade, handleClick } = props
-  const { status, date, sourceCoin, targetCoin, quote } = trade
-  const { depositAmount, withdrawalAmount, deposit } = quote
+  const { status, date, sourceCoin, targetCoin, depositAmount, withdrawalAmount, handleClick } = props
 
   return (
     <TableRow>
@@ -16,7 +14,7 @@ const TradeItem = props => {
         <OrderStatus status={status} />
       </TableCell>
       <TableCell width='15%'>
-        <Link size='14px' weight={300} capitalize onClick={() => handleClick(deposit)}>
+        <Link size='14px' weight={300} capitalize onClick={handleClick}>
           <FormattedMessage id='scenes.exchangehistory.list.tradeitem' defaultMessage='View details' />
         </Link>
       </TableCell>
@@ -34,7 +32,13 @@ const TradeItem = props => {
 }
 
 TradeItem.propTypes = {
-  trade: PropTypes.object.isRequired
+  status: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
+  sourceCoin: PropTypes.string.isRequired,
+  targetCoin: PropTypes.string.isRequired,
+  depositAmount: PropTypes.string.isRequired,
+  withdrawalAmount: PropTypes.string.isRequired,
+  handleClick: PropTypes.func.isRequired
 }
 
 export default TradeItem

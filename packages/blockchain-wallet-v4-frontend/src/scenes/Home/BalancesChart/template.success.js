@@ -60,7 +60,7 @@ const BalancesChart = (props) => {
   const { btcBalance, ethBalance, bchBalance, chartData, symbol, btcAccountsLength, bchAccountsLength } = balances
 
   return (
-    <Wrapper>
+    <Wrapper className={'ignore-react-onclickoutside'}>
       <Text uppercase color='brand-primary' weight={300} size='24px'>
         <FormattedMessage id='scenes.home.balanceschart.yourbalances' defaultMessage='Your Balances' />
       </Text>

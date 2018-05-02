@@ -102,14 +102,16 @@ export default ({ api }) => {
       },
 
       * sign (password) {
-        const appState = yield select(identity)
-        const eitherMnemonic = S.wallet.getMnemonic(appState, password)
-        if (eitherMnemonic.isLeft) throw new Error('missing_mnemonic')
-        const mnemonic = eitherMnemonic.value
-        const sign = data => taskToPromise(eth.sign(network, mnemonic, data))
-        const signed = yield call(sign, p.raw)
-
-        return makePayment(merge(p, { signed }))
+        try {
+          const appState = yield select(identity)
+          const mnemonicT = S.wallet.getMnemonic(appState, password)
+          const mnemonic = yield call(() => taskToPromise(mnemonicT))
+          const sign = data => taskToPromise(eth.sign(network, mnemonic, data))
+          const signed = yield call(sign, p.raw)
+          return makePayment(merge(p, { signed }))
+        } catch (e) {
+          throw new Error('missing_mnemonic')
+        }
       },
 
       * publish () {

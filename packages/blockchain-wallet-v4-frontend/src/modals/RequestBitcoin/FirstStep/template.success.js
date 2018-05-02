@@ -38,7 +38,7 @@ const FirstStep = props => {
   const { submitting, invalid, handleSubmit, handleClickQRCode, receiveAddress } = props
 
   return (
-    <Form override onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit}>
       <CoinSelector margin={'20px'}>
         <FormItem>
           <FormLabel for='coin'>
