@@ -1,5 +1,5 @@
 import { HDWallet, HDAccountList, HDAccount } from '../../../types'
-import { prop, keys, compose, assoc, map, max, path, curry, split, values, sequence, lift } from 'ramda'
+import { keys, compose, assoc, isNil, map, max, path, prop, curry, split, values, sequence, lift } from 'ramda'
 import memoize from 'fast-memoize'
 import { getAddresses, getChangeIndex, getReceiveIndex, getHeight, getTransactions } from '../../data/bitcoin/selectors.js'
 import * as transactions from '../../../transactions'
@@ -70,7 +70,8 @@ const flattenAddress = addr => ({
   coin: 'BTC',
   label: prop('label', addr) ? prop('label', addr) : prop('addr', addr),
   balance: path(['info', 'final_balance'], addr),
-  address: prop('addr', addr)
+  address: prop('addr', addr),
+  watchOnly: compose(isNil, prop('priv'))(addr)
 })
 
 // TODO :: (rename that shit) getAddressesBalances :: state => Remote([])
