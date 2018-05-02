@@ -1,9 +1,8 @@
-import { takeLatest, put, call, select } from 'redux-saga/effects'
-import * as AT from './actionTypes'
+import { put, call, select } from 'redux-saga/effects'
 import * as A from './actions'
-import { actions } from 'data'
+import * as actions from '../../actions'
 import * as selectors from '../../selectors.js'
-import * as MODALS_ACTIONS from '../../modals/actions'
+import * as modalActions from '../../modals/actions'
 import * as sendBtcActions from '../../components/sendBtc/actions'
 import * as sendBtcSelectors from '../../components/sendBtc/selectors'
 import settings from 'config'
@@ -75,7 +74,7 @@ export default ({ coreSagas }) => {
     try {
       yield call(coreSagas.data.sfox.setBankAccount, payload)
       yield put(actions.alerts.displaySuccess('Bank account set successfully!'))
-      yield put(MODALS_ACTIONS.closeAllModals())
+      yield put(modalActions.closeAllModals())
     } catch (e) {
       yield put(actions.alerts.displayError('Error setting bank'))
     }
@@ -139,14 +138,14 @@ export default ({ coreSagas }) => {
     }
   }
 
-  return function * () {
-    yield takeLatest(AT.SET_BANK_MANUALLY, setBankManually)
-    yield takeLatest(AT.SET_BANK, setBank)
-    yield takeLatest(AT.SFOX_SIGNUP, sfoxSignup)
-    yield takeLatest(AT.SET_PROFILE, setProfile)
-    yield takeLatest(AT.UPLOAD, upload)
-    yield takeLatest(AT.SUBMIT_MICRO_DEPOSITS, submitMicroDeposits)
-    yield takeLatest(AT.SUBMIT_QUOTE, submitQuote)
-    yield takeLatest(AT.SUBMIT_SELL_QUOTE, submitSellQuote)
+  return {
+    setBankManually,
+    setBank,
+    sfoxSignup,
+    setProfile,
+    upload,
+    submitMicroDeposits,
+    submitQuote,
+    submitSellQuote
   }
 }

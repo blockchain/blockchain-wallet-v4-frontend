@@ -38,7 +38,7 @@ const RequestBch = props => {
         <FormattedMessage id='modals.requestbch.title' defaultMessage='Request Bitcoin Cash' />
       </ModalHeader>
       <ModalBody>
-        <Form override onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit}>
           <FormGroup inline margin={'20px'}>
             <FormItem>
               <FormLabel for='coin'>
