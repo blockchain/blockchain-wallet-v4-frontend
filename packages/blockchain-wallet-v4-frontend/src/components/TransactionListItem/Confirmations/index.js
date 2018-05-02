@@ -8,7 +8,10 @@ import { Icon, Link, Text, Tooltip } from 'blockchain-info-components'
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  flex-direction: row;
+  flex-direction: column;
+  @media(min-width: 480px) {
+    flex-direction: row;
+  }
 `
 
 const TransactionTooltip = styled.div`
@@ -20,7 +23,10 @@ const IconWrapper = styled.div`
   display: flex;
   justify-items: center;
   margin-left: 4px;
-  & > :last-child { margin-left: 4px; }
+  & > :last-child { margin-top: 4px; }
+  @media(min-width: 480px) {
+    & > :last-child { margin-keft: 4px; }
+  }
 `
 
 const explorers = {
