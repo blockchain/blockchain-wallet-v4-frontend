@@ -22,7 +22,6 @@ class Checkout extends React.PureComponent {
   }
 
   componentDidUpdate (prevProps) {
-    console.log('cDU', prevProps, this.props)
     if (prevProps.currency !== this.props.currency) {
       this.props.coinifyDataActions.fetchRateQuote(this.props.currency)
     }

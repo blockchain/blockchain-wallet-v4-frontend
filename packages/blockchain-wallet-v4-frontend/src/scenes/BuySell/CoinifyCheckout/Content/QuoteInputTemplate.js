@@ -77,7 +77,6 @@ const FiatConvertor = (props) => {
 
   return (
     <form>
-      { console.log('QuoteInputTemplate', defaultCurrency) }
       <Wrapper>
         <FiatConvertorInput>
           <Container>

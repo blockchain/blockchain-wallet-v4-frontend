@@ -9,15 +9,13 @@ import QuoteInput from './QuoteInput'
 // import FundingSource from 'components/BuySell/FundingSource'
 import { MethodContainer } from 'components/BuySell/styled.js'
 
-const quoteInputSpec = {
-  method: 'buy',
-  input: 'usd',
-  output: 'btc'
-}
-
 const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, finishAccountSetup, limits, type, defaultCurrency }) => {
+  const quoteInputSpec = {
+    method: 'buy',
+    input: defaultCurrency,
+    output: 'btc'
+  }
   const disableInputs = limits.max < limits.min || (reason.indexOf('has_remaining') < 0 && reason) || limits.effectiveMax < limits.min
-  console.log('OrderCheckout Component', defaultCurrency)
   const wantToHelper = () => type === 'buy' ? <FormattedMessage id='buy.output_method.title.buy' defaultMessage='I want to buy' /> : <FormattedMessage id='buy.output_method.title.sell' defaultMessage='I want to sell' />
 
   const limitsHelper = (quoteR, limits) => {
@@ -55,7 +53,7 @@ const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, fini
           <Text size='12px' weight={300}>
             {'@ '}
             {rateQuoteR
-              .map((quote) => '$' + quote && quote.quoteAmount)
+              .map((quote) => '$' + quote && quote.quoteAmount.toLocaleString())
               .getOrElse(
                 <Fragment>
                   <FormattedMessage id='loading' defaultMessage='Loading' />
