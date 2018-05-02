@@ -30,8 +30,7 @@
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.js",
-      "!src/**/actions.js",
-      "!src/**/actionTypes.js"
+      "!src/**/rootSaga.js"
     ],
     "coverageDirectory": "<rootDir>/../../coverage/blockchain-wallet-v4-frontend",
     "coverageReporters": [
@@ -81,7 +80,7 @@
     "react-csv": "^1.0.14",
     "react-dom": "^16.3.0",
     "react-dropzone": "^4.2.8",
-    "react-highcharts": "^13.0.0",
+    "react-highcharts": "^16.0.2",
     "react-intl": "^2.3.0",
     "react-intl-tel-input": "^5.0.1",
     "react-onclickoutside": "^6.7.1",

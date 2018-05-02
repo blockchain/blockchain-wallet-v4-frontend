@@ -1,9 +1,8 @@
-import { takeLatest, call, put, select, take, fork } from 'redux-saga/effects'
+import { call, put, select, take, fork } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import { prop, assoc, toUpper } from 'ramda'
 import Either from 'data.either'
 
-import * as AT from './actionTypes'
 import * as actions from '../actions.js'
 import * as actionTypes from '../actionTypes.js'
 import * as selectors from '../selectors.js'
@@ -152,7 +151,11 @@ export default ({ api, coreSagas }) => {
       const loginAction = actions.auth.login(guid, password, undefined, sharedKey, true)
       yield call(login, loginAction)
     } catch (error) {
-      yield put(actions.alerts.displayError('Error logging into your wallet'))
+      if (error === 'qr_code_expired') {
+        yield put(actions.alerts.displayError('Error: QR code expired'))
+      } else {
+        yield put(actions.alerts.displayError('Error logging into your wallet'))
+      }
     }
     yield put(actions.modals.closeModal())
   }
@@ -241,14 +244,14 @@ export default ({ api, coreSagas }) => {
     yield window.location.reload(true)
   }
 
-  return function * () {
-    yield takeLatest(AT.LOGIN, login)
-    yield takeLatest(AT.MOBILE_LOGIN, mobileLogin)
-    yield takeLatest(AT.REGISTER, register)
-    yield takeLatest(AT.RESTORE, restore)
-    yield takeLatest(AT.REMIND_GUID, remindGuid)
-    yield takeLatest(AT.LOGOUT, logout)
-    yield takeLatest(AT.RESET_2FA, reset2fa)
-    yield takeLatest(AT.UPGRADE_WALLET, upgradeWallet)
+  return {
+    login,
+    mobileLogin,
+    register,
+    restore,
+    remindGuid,
+    logout,
+    reset2fa,
+    upgradeWallet
   }
 }

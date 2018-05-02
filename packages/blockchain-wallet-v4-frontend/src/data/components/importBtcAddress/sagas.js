@@ -1,8 +1,6 @@
-
-import { call, select, takeLatest, put } from 'redux-saga/effects'
+import { call, select, put } from 'redux-saga/effects'
 import { identity, prop } from 'ramda'
 import { formValueSelector } from 'redux-form'
-import * as AT from './actionTypes'
 import * as actions from '../../actions'
 import { promptForSecondPassword, promptForInput } from 'services/SagaService'
 import settings from 'config'
@@ -21,26 +19,18 @@ export default ({ api, coreSagas }) => {
     const index = prop('index', to)
     if (utils.checks.isPositiveInteger(index) && priv) {
       try {
-        let payment = coreSagas.payment.btc.create(({network: settings.NETWORK_BITCOIN}))
-        payment = yield payment.init()
-        payment = yield payment.from(priv)
-        payment = yield payment.fee('regular')
-        payment = yield payment.to(index)
-        payment = yield payment.description('Imported address sweeped') // TODO: real message here and translated
-        console.log('1')
-        console.log(payment.value())
-        payment = yield payment.buildSweep()
-        console.log('2')
-        console.log(payment.value())
-        payment = yield payment.sign(password)
-        console.log('3')
-        console.log(payment.value())
-        payment = yield payment.publish()
-        console.log('4')
-        console.log(payment.value())
+        coreSagas.payment.btc.create(({network: settings.NETWORK_BITCOIN}))
+          .chain()
+          .init()
+          .fee('regular')
+          .to(index)
+          .description('Imported address sweeped')
+          .buildSweep()
+          .sign(password)
+          .publish()
+          .done()
         yield put(actions.alerts.displaySuccess(`Swept address funds to ${to.label}`))
       } catch (error) {
-        console.log(error)
         if (error.message === 'empty_addresses') {
           yield put(actions.alerts.displaySuccess('The imported address does not have funds.'))
         } else {
@@ -82,7 +72,9 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  return function * () {
-    yield takeLatest(AT.IMPORT_BTC_ADDRESS_SUBMIT_CLICKED, importBtcAddressSubmitClicked)
+  return {
+    importBtcAddressSubmitClicked,
+    sweepImportedToAccount,
+    importLegacyAddress
   }
 }
