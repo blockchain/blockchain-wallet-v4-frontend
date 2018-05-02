@@ -37,7 +37,7 @@ export default function * ({ api, socket, options }) {
     fork(goals({ coreSagas })),
     fork(wallet({ coreSagas })),
     fork(websocketBitcoinFactory({ api, socket })),
-    fork(refreshFactory()),
+    // fork(refreshFactory()),
     fork(coreRootSagaFactory({ api, socket, options }))
   ])
 }
