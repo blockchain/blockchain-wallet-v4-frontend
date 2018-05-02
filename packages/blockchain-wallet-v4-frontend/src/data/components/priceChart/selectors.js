@@ -1,6 +1,4 @@
-import { path, prop } from 'ramda'
-
-export const getPriceChart = prop('priceChart')
+import { path } from 'ramda'
 
 export const getCoin = path(['components', 'priceChart', 'coin'])
 
