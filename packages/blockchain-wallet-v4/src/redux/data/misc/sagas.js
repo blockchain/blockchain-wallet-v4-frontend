@@ -1,7 +1,5 @@
-
-import { call, put, select, takeLatest } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 import readBlob from 'read-blob'
-import * as AT from './actionTypes'
 import * as A from './actions'
 import * as selectors from '../../selectors'
 import * as wS from '../../wallet/selectors'
@@ -107,13 +105,13 @@ export default ({ api }) => {
     }
   }
 
-  return function * () {
-    yield takeLatest(AT.AUTHORIZE_LOGIN, authorizeLogin)
-    yield takeLatest(AT.FETCH_CAPTCHA, fetchCaptcha)
-    yield takeLatest(AT.FETCH_LOGS, fetchLogs)
-    yield takeLatest(AT.FETCH_PRICE_INDEX_SERIES, fetchPriceIndexSeries)
-    yield takeLatest(AT.ENCODE_PAIRING_CODE, encodePairingCode)
-    yield takeLatest(AT.VERIFY_EMAIL_TOKEN, verifyEmailToken)
-    yield takeLatest(AT.HANDLE_2FA_RESET, handle2FAReset)
+  return {
+    authorizeLogin,
+    fetchCaptcha,
+    fetchLogs,
+    fetchPriceIndexSeries,
+    encodePairingCode,
+    verifyEmailToken,
+    handle2FAReset
   }
 }

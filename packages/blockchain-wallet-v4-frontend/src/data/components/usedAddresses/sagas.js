@@ -1,5 +1,4 @@
-import { takeLatest, put } from 'redux-saga/effects'
-import * as AT from './actionTypes'
+import { put } from 'redux-saga/effects'
 import * as actions from '../../actions.js'
 
 export default () => {
@@ -7,7 +6,7 @@ export default () => {
     yield put(actions.modals.closeAllModals())
   }
 
-  return function * () {
-    yield takeLatest(AT.TOGGLE_USED_ADDRESSES, toggleUsedAddresses)
+  return {
+    toggleUsedAddresses
   }
 }

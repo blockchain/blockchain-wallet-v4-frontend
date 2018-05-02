@@ -1,4 +1,3 @@
-
 import { BigNumber } from 'bignumber.js'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { isNil, toLower, path, prop } from 'ramda'
