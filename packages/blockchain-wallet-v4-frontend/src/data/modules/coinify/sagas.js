@@ -1,10 +1,11 @@
-import { takeLatest, put, call, select } from 'redux-saga/effects'
-import * as AT from './actionTypes'
+import { put, call, select, takeLatest } from 'redux-saga/effects'
 import * as A from './actions'
 import * as selectors from '../../selectors.js'
 import { actions } from 'data'
-import { actionTypes, formValueSelector } from 'redux-form'
+// import { formValueSelector } from 'redux-form'
 import { merge, path, prop, equals } from 'ramda'
+import * as AT from './actionTypes'
+import { actionTypes } from 'redux-form'
 
 export default ({ coreSagas }) => {
   const coinifySignup = function * () {
@@ -96,11 +97,21 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const setCheckoutMax = function * (action) {
+    try {
+      // const values = yield select(selectors.form.getFormValues('coinifyCheckout'))
+      yield put(actions.form.change('coinifyCheckout', 'leftVal', action.payload))
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   return function * () {
-    yield takeLatest(actionTypes.CHANGE, handleChange)
-    yield takeLatest(AT.COINIFY_INITIALIZED, initialized)
     yield takeLatest(AT.SIGNUP, coinifySignup)
     yield takeLatest(AT.COINIFY_SAVE_MEDIUM, coinifySaveMedium)
     yield takeLatest(AT.COINIFY_BUY, buy)
+    yield takeLatest(actionTypes.CHANGE, handleChange)
+    yield takeLatest(AT.COINIFY_INITIALIZED, initialized)
+    yield takeLatest(AT.COINIFY_SET_CHECKOUT_MAX, setCheckoutMax)
   }
 }
