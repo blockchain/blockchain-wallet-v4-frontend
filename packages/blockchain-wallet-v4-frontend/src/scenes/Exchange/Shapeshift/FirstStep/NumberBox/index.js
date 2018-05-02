@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { TextInput } from 'blockchain-info-components'
+import { NumberInput } from 'blockchain-info-components'
 
 const Container = styled.div`
   position: relative;
@@ -14,14 +14,14 @@ const Container = styled.div`
 `
 const getErrorState = (meta) => (!meta.touched || meta.valid) ? 'initial' : 'invalid'
 
-const TextBox = (field) => {
+const NumberBox = (field) => {
   const errorState = getErrorState(field.meta)
 
   return (
     <Container>
-      <TextInput {...field.input} errorState={errorState} initial={field.meta.initial} placeholder={field.placeholder} />
+      <NumberInput {...field.input} errorState={errorState} initial={field.meta.initial} placeholder={field.placeholder} />
     </Container>
   )
 }
 
-export default TextBox
+export default NumberBox

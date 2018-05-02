@@ -44,7 +44,8 @@ const TooltipBox = styled(TextGroup)`
   font-size: 11px;
   font-weight: 300;
   font-family: "Montserrat", sans serif;
-  
+  text-align: left;
+
   > div,
   > span {
     margin-bottom: 0px;
