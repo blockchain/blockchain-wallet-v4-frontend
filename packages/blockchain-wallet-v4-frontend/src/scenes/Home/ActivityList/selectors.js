@@ -1,4 +1,4 @@
-import { isNil, take, map, lift, prop, curry, compose, descend, sort } from 'ramda'
+import { isNil, take, flatten, map, lift, prop, curry, compose, descend, sort } from 'ramda'
 import { selectors } from 'data'
 import { createSelector } from 'reselect'
 import { Remote } from 'blockchain-wallet-v4/src'
@@ -39,7 +39,7 @@ export const getData = createSelector(
   [getLogs, getBtcTransactions, getBchTransactions, getEthTransactions, getNumber],
   (logs, btc, bch, eth, number) => {
     const transform = (logs, btc, bch, eth) => {
-      return [logs, btc, bch, eth].map(sort(descend(prop('time')))).map(take(number))
+      return flatten([logs, btc, bch, eth].map(sort(descend(prop('time')))).map(take(number)))
     }
     return lift(transform)(logs, btc, bch, eth)
   }
