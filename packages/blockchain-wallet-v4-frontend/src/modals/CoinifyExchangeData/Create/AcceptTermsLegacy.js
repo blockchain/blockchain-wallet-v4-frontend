@@ -40,7 +40,6 @@ class AcceptTerms extends Component {
       busy: false,
       acceptedTerms: false
     }
-
     this.handleSignup = this.handleSignup.bind(this)
   }
 

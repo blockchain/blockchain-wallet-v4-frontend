@@ -24,7 +24,6 @@ class VerifyEmail extends Component {
   constructor (props) {
     super(props)
     this.state = {}
-
     this.onSubmit = this.onSubmit.bind(this)
     this.resendCode = this.resendCode.bind(this)
   }
