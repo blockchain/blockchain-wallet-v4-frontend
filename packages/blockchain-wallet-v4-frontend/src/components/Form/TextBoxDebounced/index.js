@@ -49,14 +49,15 @@ class TextBoxDebounced extends React.Component {
       : this.state.value
 
     this.lastPropValue = this.props.input.value
-
+    // console.log(`this.state.value: ${this.state.value} -- props.input.value: ${this.props.input.value} -- this.lastPropValue: ${this.lastPropValue}`)
     return value
   }
 
   render () {
-    console.log('TEXT BOX DEBOUNCED:', this.props)
+    // console.log('TEXT BOX DEBOUNCED:', this.props)
     const { input, meta, borderRightNone, disabled, placeholder, center, errorBottom, autoFocus } = this.props
     const errorState = getErrorState(meta)
+
     return (
       <Container>
         <TextInput {...input}

@@ -61,14 +61,7 @@ export default ({ coreSagas }) => {
   const handleChange = function * (action) {
     try {
       yield put(A.clearCoinifyCheckoutError())
-      const getLimitsError = (amt, userLimits, curr) => {
-        const limits = service.getLimits(userLimits, curr)
-        if (limits.buy.max < limits.buy.min) return 'max_below_min'
-        if (amt > limits.buy.max) return 'over_max'
-        if (amt < limits.buy.min) return 'under_min'
-        // if ((fiat * 1e8) > limits.effectiveMax) return `Enter an amount less than your balance minus the priority fee (${limits.effectiveMax / 1e8} BTC)`
-        return false
-      }
+
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
       const payload = prop('payload', action)
@@ -81,23 +74,29 @@ export default ({ coreSagas }) => {
       console.log('handleChange', action, form, values)
 
       if (!payload) return null
-      const limitsError = getLimitsError(payload, limits.data, values.currency)
 
       switch (field) {
         case 'leftVal':
-
-          if (limitsError) {
-            yield put(A.setCoinifyCheckoutError(limitsError))
+          const leftLimitsError = service.getLimitsError(payload, limits.data, values.currency)
+          if (leftLimitsError) {
+            yield put(A.setCoinifyCheckoutError(leftLimitsError))
             return
           }
-          const leftResult = yield call(coreSagas.data.coinify.fetchQuote, { quote: { amt: payload * 100, baseCurr: values.currency, quoteCurr: 'BTC' } })
+          const leftResult = yield call(coreSagas.data.coinify.fetchQuote, { quote: { amount: payload * 100, baseCurrency: values.currency, quoteCurrency: 'BTC' } })
           const amount = leftResult.quoteAmount
           yield put(actions.form.initialize('coinifyCheckout', merge(values, { 'rightVal': amount / 1e8 })))
           yield put(A.coinifyCheckoutBusyOff())
           break
         case 'rightVal':
-          const rightResult = yield call(coreSagas.data.coinify.fetchQuote, { quote: { amt: payload * 1e8, baseCurr: 'BTC', quoteCurr: values.currency } })
+          const rightResult = yield call(coreSagas.data.coinify.fetchQuote, { quote: { amount: payload * 1e8, baseCurrency: 'BTC', quoteCurrency: values.currency } })
           const fiatAmount = rightResult.quoteAmount
+
+          const rightLimitsError = service.getLimitsError(fiatAmount, limits.data, values.currency)
+          if (rightLimitsError) {
+            yield put(A.setCoinifyCheckoutError(rightLimitsError))
+            yield put(actions.form.initialize('coinifyCheckout', merge(values, { 'leftVal': fiatAmount })))
+            return
+          }
           yield put(actions.form.initialize('coinifyCheckout', merge(values, { 'leftVal': fiatAmount })))
           yield put(A.coinifyCheckoutBusyOff())
           break
@@ -114,7 +113,7 @@ export default ({ coreSagas }) => {
 
   const setCheckoutMax = function * (action) {
     try {
-      // const values = yield select(selectors.form.getFormValues('coinifyCheckout'))
+      console.log('set max', action)
       yield put(actions.form.change('coinifyCheckout', 'leftVal', action.payload))
     } catch (e) {
       console.log(e)

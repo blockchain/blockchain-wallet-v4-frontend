@@ -6,6 +6,17 @@ import { coinifyService } from '../../../exchange/service'
 import * as buySellA from '../../kvStore/buySell/actions'
 
 export default ({ api, options }) => {
+  const getCoinify = function * () {
+    const state = yield select()
+    const delegate = new ExchangeDelegate(state, api)
+    const value = yield select(buySellSelectors.getMetadata)
+    const walletOptions = state.walletOptionsPath.data
+    let coinify = yield apply(coinifyService, coinifyService.refresh, [value, delegate, walletOptions])
+    yield apply(coinify, coinify.profile.fetch)
+    yield put(A.coinifyFetchProfileSuccess(coinify))
+    return coinify
+  }
+
   let coinify
 
   const refreshCoinify = function * () {
@@ -40,10 +51,12 @@ export default ({ api, options }) => {
 
   const fetchQuote = function * (data) {
     try {
+      const coinify = yield call(getCoinify)
       yield put(A.fetchQuoteLoading())
-      const { amt, baseCurrency, quoteCurrency } = data.payload
-      const quote = yield apply(coinify, coinify.getBuyQuote, [amt, baseCurrency, quoteCurrency])
+      const { amount, baseCurrency, quoteCurrency } = data.quote
+      const quote = yield apply(coinify, coinify.getBuyQuote, [amount, baseCurrency, quoteCurrency])
       yield put(A.fetchQuoteSuccess(quote))
+      return quote
     } catch (e) {
       yield put(A.fetchQuoteFailure(e))
     }
@@ -118,17 +131,6 @@ export default ({ api, options }) => {
     } catch (e) {
       yield put(A.getMediumAccountsFailure(e))
     }
-  }
-
-  const getCoinify = function * () {
-    const state = yield select()
-    const delegate = new ExchangeDelegate(state, api)
-    const value = yield select(buySellSelectors.getMetadata)
-    const walletOptions = state.walletOptionsPath.data
-    let coinify = yield apply(coinifyService, coinifyService.refresh, [value, delegate, walletOptions])
-    yield apply(coinify, coinify.profile.fetch)
-    yield put(A.coinifyFetchProfileSuccess(coinify))
-    return coinify
   }
 
   const signup = function * () {
