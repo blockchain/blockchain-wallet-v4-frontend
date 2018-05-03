@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import { getBase, getData, getErrors, getQuote, getRateQuote, getTrades, getCurrency } from './selectors'
 import Success from './template.success'
 import { formValueSelector } from 'redux-form'
+import Loading from '../../template.loading'
 
 class Checkout extends React.PureComponent {
   componentDidMount () {
@@ -29,7 +30,7 @@ class Checkout extends React.PureComponent {
         setMax={(amt) => this.props.actions.setCheckoutMax(amt)}
       />,
       Failure: (msg) => <div>Failure: {msg.error}</div>,
-      Loading: () => <div>Getting profile...</div>,
+      Loading: () => <Loading />,
       NotAsked: () => <div>Not Asked</div>
     })
   }

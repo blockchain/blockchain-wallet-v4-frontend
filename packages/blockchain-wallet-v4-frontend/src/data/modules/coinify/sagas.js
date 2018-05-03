@@ -6,6 +6,7 @@ import { actions } from 'data'
 import { merge, path, prop, equals } from 'ramda'
 import * as AT from './actionTypes'
 import { actionTypes } from 'redux-form'
+import * as service from 'services/CoinifyService'
 
 export default ({ coreSagas }) => {
   const coinifySignup = function * () {
@@ -62,19 +63,36 @@ export default ({ coreSagas }) => {
 
   const handleChange = function * (action) {
     try {
-      yield put(A.coinifyCheckoutBusyOn())
+      yield put(A.clearCoinifyCheckoutError())
+      const getLimitsError = (amt, userLimits, curr) => {
+        const limits = service.getLimits(userLimits, curr)
+        if (limits.buy.max < limits.buy.min) return 'max_below_min'
+        if (amt > limits.buy.max) return 'over_max'
+        if (amt < limits.buy.min) return 'under_min'
+        // if ((fiat * 1e8) > limits.effectiveMax) return `Enter an amount less than your balance minus the priority fee (${limits.effectiveMax / 1e8} BTC)`
+        return false
+      }
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
       const payload = prop('payload', action)
       if (!equals('coinifyCheckout', form)) return
+      yield put(A.coinifyCheckoutBusyOn())
+
+      const limits = yield select(selectors.core.data.coinify.getLimits)
 
       const values = yield select(selectors.form.getFormValues('coinifyCheckout'))
       console.log('handleChange', action, form, values)
 
       if (!payload) return null
+      const limitsError = getLimitsError(payload, limits.data, values.currency)
 
       switch (field) {
         case 'leftVal':
+
+          if (limitsError) {
+            yield put(A.setCoinifyCheckoutError(limitsError))
+            return
+          }
           const leftResult = yield call(coreSagas.data.coinify.fetchQuote, { quote: { amt: payload * 100, baseCurr: values.currency, quoteCurr: 'BTC' } })
           const amount = leftResult.quoteAmount
           yield put(actions.form.initialize('coinifyCheckout', merge(values, { 'rightVal': amount / 1e8 })))
@@ -89,7 +107,7 @@ export default ({ coreSagas }) => {
         case 'currency':
           yield put(actions.core.data.coinify.fetchRateQuote(payload))
           yield put(actions.form.initialize('coinifyCheckout', merge(values, { 'leftVal': '', 'rightVal': '' })))
-          yield put(A.coinifyCheckoutBusyOff())
+          yield put(A.coinifyCheckoutBusyOn())
           break
       }
     } catch (e) {
