@@ -11,10 +11,6 @@ export const orderUpdated = order => ({ type: AT.EXCHANGE_ORDER_UPDATED, payload
 
 export const firstStepInitialized = () => ({ type: AT.EXCHANGE_FIRST_STEP_INITIALIZED })
 
-export const firstStepSuccess = (data) => ({ type: AT.EXCHANGE_FIRST_STEP_SUCCESS, payload: data })
-
-export const firstStepFailure = (error) => ({ type: AT.EXCHANGE_FIRST_STEP_FAILURE, payload: error })
-
 export const firstStepEnabled = () => ({ type: AT.EXCHANGE_FIRST_STEP_ENABLED })
 
 export const firstStepDisabled = () => ({ type: AT.EXCHANGE_FIRST_STEP_DISABLED })
@@ -38,6 +34,8 @@ export const secondStepSuccess = (data) => ({ type: AT.EXCHANGE_SECOND_STEP_SUCC
 export const secondStepFailure = (error) => ({ type: AT.EXCHANGE_SECOND_STEP_FAILURE, payload: error })
 
 export const secondStepSubmitClicked = () => ({ type: AT.EXCHANGE_SECOND_STEP_SUBMIT_CLICKED })
+
+export const secondStepPaymentSent = (payment) => ({ type: AT.EXCHANGE_SECOND_STEP_PAYMENT_SENT, payload: payment })
 
 export const secondStepCancelClicked = () => ({ type: AT.EXCHANGE_SECOND_STEP_CANCEL_CLICKED })
 

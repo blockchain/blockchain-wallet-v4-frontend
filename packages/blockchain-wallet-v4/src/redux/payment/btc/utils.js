@@ -70,7 +70,7 @@ export const fromPrivateKey = (network, wallet, key) => {
   let u = getWifAddress(key, false)
   let isCompressedWatchOnly = Wallet.getAddress(c.address, wallet)
     .map(Address.isWatchOnly).getOrElse(false)
-  let isUncompressedWatchOnly = Wallet.getAddress(c.address, wallet)
+  let isUncompressedWatchOnly = Wallet.getAddress(u.address, wallet)
     .map(Address.isWatchOnly).getOrElse(false)
 
   // key corresponds to an uncompressed existing address

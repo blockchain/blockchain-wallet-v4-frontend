@@ -1,5 +1,4 @@
-import { takeEvery, call, put } from 'redux-saga/effects'
-import * as AT from './actionTypes'
+import { call, put } from 'redux-saga/effects'
 import * as actions from '../../actions.js'
 import { promptForInput } from 'services/SagaService'
 
@@ -26,8 +25,8 @@ export default ({ coreSagas }) => {
     }
   }
 
-  return function * () {
-    yield takeEvery(AT.EDIT_BCH_HD_LABEL, editBchHdLabel)
-    yield takeEvery(AT.EDIT_BCH_ACCOUNT_LABEL, editBchAccountLabel)
+  return {
+    editBchHdLabel,
+    editBchAccountLabel
   }
 }

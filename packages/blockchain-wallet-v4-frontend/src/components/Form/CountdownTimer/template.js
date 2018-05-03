@@ -11,6 +11,8 @@ const Wrapper = styled.div`
   justify-content: flex-end;
   align-items: center;
   width: 100%;
+
+  > :first-child { margin-right: 5px; }
 `
 
 const CountdownTimer = (props) => (
