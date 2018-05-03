@@ -1,6 +1,6 @@
 import { formValueSelector } from 'redux-form'
 
 export const getData = state => ({
-  emailCode: formValueSelector('coinifyCreate')(state, 'emailCode'),
-  emailAddress: formValueSelector('coinifyCreate')(state, 'emailAddress')
+  emailCode: formValueSelector('coinifyVerifyEmail')(state, 'emailCode'),
+  emailAddress: formValueSelector('coinifyVerifyEmail')(state, 'emailAddress')
 })

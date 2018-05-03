@@ -16,7 +16,7 @@ class VerifyEmailContainer extends Component {
   }
 
   componentDidMount () {
-    this.props.formActions.change('coinifyCreate', 'emailAddress', this.props.oldEmail)
+    this.props.formActions.change('coinifyVerifyEmail', 'emailAddress', this.props.oldEmail)
   }
 
   resendCode () {
@@ -27,7 +27,7 @@ class VerifyEmailContainer extends Component {
   onSubmit (e) {
     e.preventDefault()
     if (this.props.ui.create === 'enter_email_code') {
-      this.props.coinifyFrontendActions.coinifyClearSignupError()
+      this.props.coinifyActions.coinifyClearSignupError()
       this.props.securityCenterActions.verifyEmailCode(this.props.emailCode)
     } else {
       this.props.updateUI({ create: 'enter_email_code' })
@@ -63,7 +63,7 @@ const mapStateToProps = (state) => getData(state)
 
 const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
-  coinifyFrontendActions: bindActionCreators(actions.modules.coinify, dispatch),
+  coinifyActions: bindActionCreators(actions.modules.coinify, dispatch),
   securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch)
 })
 
