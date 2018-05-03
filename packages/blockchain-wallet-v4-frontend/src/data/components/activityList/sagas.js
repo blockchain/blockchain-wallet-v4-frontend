@@ -18,7 +18,6 @@ export default ({ coreSagas }) => {
     }
   }
 
-
   return {
     initialized
   }
