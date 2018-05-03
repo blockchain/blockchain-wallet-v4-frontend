@@ -1,11 +1,9 @@
-import { put, call, select, takeLatest } from 'redux-saga/effects'
+import { put, call, select } from 'redux-saga/effects'
 import * as A from './actions'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors.js'
 // import { formValueSelector } from 'redux-form'
 import { merge, path, prop, equals } from 'ramda'
-import * as AT from './actionTypes'
-import { actionTypes } from 'redux-form'
 import * as service from 'services/CoinifyService'
 
 export default ({ coreSagas }) => {
@@ -124,12 +122,12 @@ export default ({ coreSagas }) => {
     }
   }
 
-  return function * () {
-    yield takeLatest(AT.SIGNUP, coinifySignup)
-    yield takeLatest(AT.COINIFY_SAVE_MEDIUM, coinifySaveMedium)
-    yield takeLatest(AT.COINIFY_BUY, buy)
-    yield takeLatest(actionTypes.CHANGE, handleChange)
-    yield takeLatest(AT.COINIFY_INITIALIZED, initialized)
-    yield takeLatest(AT.COINIFY_SET_CHECKOUT_MAX, setCheckoutMax)
+  return {
+    setCheckoutMax,
+    handleChange,
+    initialized,
+    buy,
+    coinifySaveMedium,
+    coinifySignup
   }
 }

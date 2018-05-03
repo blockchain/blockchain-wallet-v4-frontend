@@ -33,6 +33,7 @@ class TextBoxDebounced extends React.Component {
     this.lastPropValue = props.input.value
 
     this.debouncedOnChange = _debounce(event => {
+      console.log('in debounce', props)
       props.input.onChange(event.target.value)
     }, 500)
 
@@ -54,7 +55,7 @@ class TextBoxDebounced extends React.Component {
   }
 
   render () {
-    console.log('TEXT BOX DEBOUNCED:', this.props)
+    // console.log('TEXT BOX DEBOUNCED:', this.props)
     const { input, meta, borderRightNone, disabled, placeholder, center, errorBottom, autoFocus } = this.props
     const errorState = getErrorState(meta)
     return (
