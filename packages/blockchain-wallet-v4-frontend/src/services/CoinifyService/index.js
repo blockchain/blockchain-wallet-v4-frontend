@@ -10,6 +10,15 @@ export const getLimits = (limits, curr) => {
   }
 }
 
+export const getLimitsError = (amt, userLimits, curr) => {
+  const limits = getLimits(userLimits, curr)
+  if (limits.buy.max < limits.buy.min) return 'max_below_min'
+  if (amt > limits.buy.max) return 'over_max'
+  if (amt < limits.buy.min) return 'under_min'
+  // if ((fiat * 1e8) > limits.effectiveMax) return `Enter an amount less than your balance minus the priority fee (${limits.effectiveMax / 1e8} BTC)`
+  return false
+}
+
 export const currencySymbolMap = {
   GBP: '£',
   USD: '$',
