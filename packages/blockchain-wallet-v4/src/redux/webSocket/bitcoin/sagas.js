@@ -35,6 +35,8 @@ export default ({ api, btcSocket }) => {
         }
         break
       case 'utx':
+        console.log('bitcoin transaction received ', message)
+        yield put(A.webSocket.bitcoin.paymentReceived('You\'ve just received a Bitcoin payment.'))
         const walletContext = yield select(walletSelectors.getWalletContext)
         yield put(btcActions.fetchData(walletContext))
         yield put(btcActions.fetchTransactions('', true))

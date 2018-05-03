@@ -2,7 +2,7 @@ import { takeEvery, call, put, select, take } from 'redux-saga/effects'
 import * as A from '../../actions'
 import * as AT from './actionTypes'
 import * as ethAT from '../../kvStore/ethereum/actionTypes'
-import * as ethSelectors from '../../data/ethereum/selectors'
+import * as ethSelectors from '../../kvStore/ethereum/selectors'
 import * as ethActions from '../../data/ethereum/actions'
 
 const ACCOUNT_SUB = 'account_sub'
@@ -13,24 +13,25 @@ export default ({ api, ethSocket }) => {
   const send = ethSocket.send.bind(ethSocket)
 
   const onOpen = function * () {
-    const metadata = yield take(ethAT.FETCH_METADATA_ETHEREUM_SUCCESS)
     yield call(send, JSON.stringify({op: BLOCK_SUB}))
-    yield call(send, JSON.stringify({op: ACCOUNT_SUB, account: metadata.payload.address}))
+    const metadata = yield take(ethAT.FETCH_METADATA_ETHEREUM_SUCCESS)
+    for (let i in metadata.payload.value.ethereum.accounts) {
+      yield call(send, JSON.stringify({op: ACCOUNT_SUB, account: metadata.payload.value.ethereum.accounts[i].addr}))
+    }
   }
 
   const onMessage = function * (action) {
     const message = action.payload
-    // console.log('received ethereum message', message)
 
     switch (message.op) {
       case ACCOUNT_SUB:
-        //const walletContext = yield select(walletSelectors.getWalletContext)
-        //yield put(ethActions.fetchData(walletContext))
+        console.log('ethereum account sub received ', message)
+        if (message.tx.to === message.account) {
+          yield put(A.webSocket.bitcoin.paymentReceived('You\'ve just received an Ethereum payment.'))
+        }
         break
       case BLOCK_SUB:
-        console.log('ethereum block ', message)
         yield put(ethActions.fetchLatestBlock())
-        yield put(ethActions.fetchTransactions('', true))
         break
       case 'pong':
         break
