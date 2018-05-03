@@ -73,13 +73,8 @@ const FaqContent = [
         <FormattedMessage id='scenes.faq.group.walletfunctionality.answer8.four' defaultMessage='.' />
       </FaqDescription>
     }, {
-<<<<<<< HEAD
-      question: <FormattedMessage id='scenes.faq.group.walletfunctionality.question10' defaultMessage={'What is a watch-only address?'} />,
-      answer: <FormattedMessage id='scenes.faq.group.walletfunctionality.answer10' defaultMessage={'A watch-only address is a public key that you’ve imported into your wallet by navigating to Settings > Addresses > Import. With every public key, there is a private key behind it, and you need this key in order to spend the funds attached to the account. You can think of this private key as the ‘password’ to your public key. Watch-only addresses are a useful feature to monitor incoming and outgoing transactions or to keep track of an address for repeated payments like rent. Keep in mind— sending and receiving to the same address makes your transaction history easy to trace. Alternatively, you can import a private key from a different wallet provider (which has your public key attached) and spend from it freely within your Blockchain wallet. Since your funds in these addresses are not included in your backup phrase, we strongly recommend ‘transferring’ any funds from these addresses into your main accounts.'} />
-=======
       question: <FormattedMessage id='scenes.faq.group.walletfunctionality.question10' defaultMessage='What is a watch-only address?' />,
       answer: <FormattedMessage id='scenes.faq.group.walletfunctionality.answer10' defaultMessage='A watch-only address is a public key that you’ve imported into your wallet by navigating to Settings > Addresses > Import. With every public key, there is a private key behind it, and you need this key in order to spend the funds attached to the account. You can think of this private key as the ‘password’ to your public key. Watch-only addresses are a useful feature to monitor incoming and outgoing transactions or to keep track of an address for repeated payments like rent. Keep in mind— sending and receiving to the same address makes your transaction history easy to trace. Alternatively, you can import a private key from a different wallet provider (which has your public key attached) and spend from it freely within your Blockchain wallet. Since your funds in these addresses are not backup in your recovery phrase, we strongly recommend ‘transferring’ any funds from these addresses into your main accounts.' />
->>>>>>> development
     }, {
       question: <FormattedMessage id='scenes.faq.group.walletfunctionality.question11' defaultMessage='How can I look up a transaction on the blockchain?' />,
       answer: <FaqDescription>
