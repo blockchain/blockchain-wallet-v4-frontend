@@ -96,6 +96,7 @@
     "redux-persist": "4.8.3",
     "redux-saga": "0.16.0",
     "redux-ui": "0.1.1",
+    "reselect": "^3.0.1",
     "styled-components": "3.2.4",
     "zxcvbn": "4.4.2"
   }
