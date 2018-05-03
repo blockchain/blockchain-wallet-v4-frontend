@@ -7,10 +7,6 @@ const SecurityDescription = styled.div`
   font-weight: 200;
   font-size: 14px;
   color: ${Color('gray-5')};
-  @media(min-width: 480px) {
-    text-align: justify;
-  }
-
   & > * { display: inline; margin-right: 5px; }
 `
 
