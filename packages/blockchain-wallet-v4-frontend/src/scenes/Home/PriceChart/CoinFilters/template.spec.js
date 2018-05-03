@@ -1,8 +1,9 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import toJson from 'enzyme-to-json'
-import { testPropTypes } from 'utils/tests'
+import { testPropTypes } from 'utils/test.utils'
 import CoinFilters from './template'
+
 jest.mock('./CoinTicker', () => 'CoinTicker')
 
 describe('CoinFilters component', () => {
@@ -14,18 +15,12 @@ describe('CoinFilters component', () => {
   })
 
   it('should accept a mandatory string BTC, ETH or BCH for prop coin', () => {
-    const testValues = [
-      ['BTC', 'BCH', 'ETH'],
-      [0, '', undefined, null, {}]
-    ]
-    testPropTypes(CoinFilters, 'coin', testValues, { handleClick: jest.fn() })
+    expect(testPropTypes(CoinFilters, 'coin', ['BTC', 'BCH', 'ETH'], false, { handleClick: jest.fn() })).toBeTruthy()
+    expect(testPropTypes(CoinFilters, 'coin', [0, '', undefined, null, {}], true, { handleClick: jest.fn() })).toBeTruthy()
   })
 
   it('should accept a mandatory function for prop handleClick', () => {
-    const testValues = [
-      [jest.fn()],
-      [0, '', undefined, null, {}]
-    ]
-    testPropTypes(CoinFilters, 'handleClick', testValues, { coin: 'BTC' })
+    expect(testPropTypes(CoinFilters, 'handleClick', [jest.fn()], false, { coin: 'BTC' })).toBeTruthy()
+    expect(testPropTypes(CoinFilters, 'handleClick', [0, '', undefined, null, {}], false, { coin: 'BTC' })).toBeTruthy()
   })
 })
