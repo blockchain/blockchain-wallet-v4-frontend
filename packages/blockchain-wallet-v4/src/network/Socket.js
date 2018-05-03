@@ -1,5 +1,5 @@
-
 import { compose, concat, prop, propEq, identity } from 'ramda'
+
 const WebSocket = global.WebSocket || global.MozWebSocket
 
 function WS (uri, protocols, opts) {
