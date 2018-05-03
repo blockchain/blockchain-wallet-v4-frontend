@@ -15,7 +15,7 @@ const AuthenticatorSummary = styled.div`
   width: 100%;
   padding: 0px 20px;
   opacity: ${props => props.success ? 0.3 : 1};
-  @@media (min-width: 992px) {
+  @media (min-width: 992px) {
     width: 110%;
   }
 `
