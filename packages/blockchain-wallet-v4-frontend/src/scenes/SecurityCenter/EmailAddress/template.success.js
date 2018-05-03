@@ -139,7 +139,7 @@ const EmailAddress = (props) => {
           uiHelper() && !verified
             ? <React.Fragment>
               <EmailButton nature='primary' onClick={props.handleVerifyClick}>
-                <FormattedMessage id='scenes.security.email.settings.updateform.change' defaultMessage='Send Code' />
+                <FormattedMessage id='scenes.security.email.settings.updateform.sendcode' defaultMessage='Send Code' />
               </EmailButton>
               <ChangeEmailText color='brand-secondary' weight={300} onClick={props.handleChangeEmailView}>
                 <FormattedMessage id='scenes.security.email.upateform.changetext' defaultMessage='Change Your Email' />
