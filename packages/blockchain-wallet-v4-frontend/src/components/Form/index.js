@@ -29,6 +29,7 @@ import TabMenuBuySellStatus from './TabMenuBuySellStatus'
 import TabMenuTransactionStatus from './TabMenuTransactionStatus'
 import TextArea from './TextArea'
 import TextBox from './TextBox'
+import TextBoxDebounced from './TextBoxDebounced'
 
 export {
   CaptchaBox,
@@ -60,5 +61,6 @@ export {
   TabMenuBuySellStatus,
   TabMenuTransactionStatus,
   TextArea,
-  TextBox
+  TextBox,
+  TextBoxDebounced
 }
