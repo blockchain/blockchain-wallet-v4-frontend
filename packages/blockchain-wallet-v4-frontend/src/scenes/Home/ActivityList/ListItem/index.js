@@ -29,7 +29,6 @@ const Circle = styled.div`
   border: 1px solid ${props => props.theme['gray-2']};
   border-radius: 100%;
   text-align: center;
-  z-index: 10;
 `
 const Info = styled.div`
   display: flex;
@@ -55,14 +54,6 @@ const Info = styled.div`
     }
   }
 `
-const RecentActivityText = styled(Text)`
-  font-size: 12px;
-  font-weight: 300;
-  @media (min-width: 480px) {
-    font-size: 14px;
-  }
-`
-
 const selectIcon = type => {
   switch (type) {
     case 'log': return 'settings'
@@ -77,6 +68,14 @@ const selectColor = action => {
     default: return 'gray-5'
   }
 }
+
+const RecentActivityText = styled(Text)`
+  font-size: 12px;
+  font-weight: 300;
+  @media (min-width: 480px) {
+    font-size: 14px;
+  }
+`
 
 const ActivityListItem = (props) => {
   const { action, time, type, amount, coin } = props
