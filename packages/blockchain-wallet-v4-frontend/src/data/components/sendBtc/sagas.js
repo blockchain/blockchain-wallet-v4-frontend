@@ -1,13 +1,12 @@
-import { call, select, takeLatest, put } from 'redux-saga/effects'
+import { call, select, put } from 'redux-saga/effects'
 import { equals, path, prop, nth, is, identity } from 'ramda'
-import * as AT from './actionTypes'
 import * as A from './actions'
 import * as S from './selectors'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
 import settings from 'config'
 
-import { actionTypes, initialize, change } from 'redux-form'
+import { initialize, change } from 'redux-form'
 import { promptForSecondPassword } from 'services/SagaService'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 
@@ -15,21 +14,24 @@ const DUST = 546
 const DUST_BTC = '0.00000546'
 
 export default ({ coreSagas }) => {
-  const sendBtcInitialized = function * (action, password) {
+  const sendBtcInitialized = function * (action) {
     try {
-      const feeType = action.payload || 'regular'
+      const { to, message, amount, feeType } = action.payload
       yield put(A.sendBtcPaymentUpdated(Remote.Loading))
       let payment = coreSagas.payment.btc.create(({network: settings.NETWORK_BITCOIN}))
       payment = yield payment.init()
       const accountsR = yield select(selectors.core.common.bitcoin.getAccountsBalances)
       const defaultIndex = yield select(selectors.core.wallet.getDefaultAccountIndex)
       const defaultAccountR = accountsR.map(nth(defaultIndex))
-      const defaultFeePerByte = path(['fees', feeType], payment.value())
+      const defaultFeePerByte = path(['fees', feeType || 'regular'], payment.value())
       payment = yield payment.from(defaultIndex)
       payment = yield payment.fee(defaultFeePerByte)
       // TODO :: Redesign account dropdown
       const initialValues = {
+        to: to,
         coin: 'BTC',
+        amount: amount,
+        message: message,
         from: defaultAccountR.getOrElse(),
         feePerByte: defaultFeePerByte
       }
@@ -72,7 +74,13 @@ export default ({ coreSagas }) => {
           break
         case 'from':
           const source = prop('address', payload) || prop('index', payload)
-          payment = yield payment.from(source)
+          if (!prop('watchOnly', payload)) {
+            payment = yield payment.from(source)
+          }
+          break
+        case 'priv':
+          // Payload is the private key entered by the user
+          payment = yield payment.from(payload)
           break
         case 'to':
           const target = is(String, payload)
@@ -188,7 +196,7 @@ export default ({ coreSagas }) => {
       payment = yield payment.sign(password)
       payment = yield payment.publish()
       yield put(A.sendBtcPaymentUpdated(Remote.of(payment.value())))
-      if (payment.value().description.length) {
+      if (path(['description', 'length'], payment.value())) {
         yield put(actions.core.wallet.setTransactionNote(payment.value().txId, payment.value().description))
       }
       yield put(actions.modals.closeAllModals())
@@ -200,17 +208,17 @@ export default ({ coreSagas }) => {
     }
   }
 
-  return function * () {
-    yield takeLatest(AT.SEND_BTC_INITIALIZED, sendBtcInitialized)
-    yield takeLatest(AT.SEND_BTC_FIRST_STEP_TO_TOGGLED, toToggled)
-    yield takeLatest(AT.SEND_BTC_FIRST_STEP_MINIMUM_AMOUNT_CLICKED, minimumAmountClicked)
-    yield takeLatest(AT.SEND_BTC_FIRST_STEP_MAXIMUM_AMOUNT_CLICKED, maximumAmountClicked)
-    yield takeLatest(AT.SEND_BTC_FIRST_STEP_MINIMUM_FEE_CLICKED, minimumFeeClicked)
-    yield takeLatest(AT.SEND_BTC_FIRST_STEP_MAXIMUM_FEE_CLICKED, maximumFeeClicked)
-    yield takeLatest(AT.SEND_BTC_FIRST_STEP_REGULAR_FEE_CLICKED, regularFeeClicked)
-    yield takeLatest(AT.SEND_BTC_FIRST_STEP_PRIORITY_FEE_CLICKED, priorityFeeClicked)
-    yield takeLatest(AT.SEND_BTC_FIRST_STEP_SUBMIT_CLICKED, firstStepSubmitClicked)
-    yield takeLatest(AT.SEND_BTC_SECOND_STEP_SUBMIT_CLICKED, secondStepSubmitClicked)
-    yield takeLatest(actionTypes.CHANGE, formChanged)
+  return {
+    sendBtcInitialized,
+    toToggled,
+    minimumAmountClicked,
+    maximumAmountClicked,
+    minimumFeeClicked,
+    maximumFeeClicked,
+    regularFeeClicked,
+    priorityFeeClicked,
+    firstStepSubmitClicked,
+    secondStepSubmitClicked,
+    formChanged
   }
 }

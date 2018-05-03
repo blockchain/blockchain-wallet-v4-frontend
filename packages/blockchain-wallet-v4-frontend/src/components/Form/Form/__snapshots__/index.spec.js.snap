@@ -2,7 +2,6 @@
 
 exports[`Form renders correctly 1`] = `
 <Form__BaseForm
-  bool={false}
   override={true}
 />
 `;

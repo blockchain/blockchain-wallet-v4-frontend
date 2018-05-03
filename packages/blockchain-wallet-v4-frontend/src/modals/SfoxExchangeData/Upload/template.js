@@ -2,13 +2,19 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
-import { Text, Button, IconButton, Link } from 'blockchain-info-components'
+import { Text, Button, IconButton, Link, Icon } from 'blockchain-info-components'
 import { } from 'services/FormHelper'
+import { flex } from 'services/StyleService'
 import Dropzone from 'react-dropzone'
 
 import CameraContainer from './camera'
 import TitleStrings from './strings'
-import { Row, ColLeft, ColRight } from 'components/BuySell/Signup'
+import { Row, ColLeft, ColRight, ColLeftInner, PartnerHeader } from 'components/BuySell/Signup'
+
+const LockIcon = styled(Icon)`
+  font-size: 24px;
+  margin-left: 7px;
+`
 
 const InputContainer = styled.div`
   max-height: 300px;
@@ -108,7 +114,13 @@ const Upload = (props) => {
   return (
     <Row>
       <ColLeft>
-        <TitleStrings idType={idType} />
+        <ColLeftInner>
+          <PartnerHeader style={{ ...flex('row align/center') }}>
+            <FormattedMessage id='sfoxexchangedata.upload.title' defaultMessage='The Hidden Details' />
+            <LockIcon name='lock-filled' />
+          </PartnerHeader>
+          <TitleStrings idType={idType} />
+        </ColLeftInner>
         <InputContainer>
           {
             file

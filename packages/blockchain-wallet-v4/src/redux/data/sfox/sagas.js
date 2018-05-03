@@ -1,12 +1,110 @@
 import ExchangeDelegate from '../../../exchange/delegate'
-import { apply, call, put, select } from 'redux-saga/effects'
+import { apply, fork, call, put, select, take } from 'redux-saga/effects'
 import * as S from './selectors'
 import * as A from './actions'
+import * as AT from './actionTypes'
 import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import * as buySellA from '../../kvStore/buySell/actions'
 import { sfoxService } from '../../../exchange/service'
 
+let sfox
+
 export default ({ api, options }) => {
+  const refreshSFOX = function * () {
+    const state = yield select()
+    const delegate = new ExchangeDelegate(state, api)
+    const value = yield select(buySellSelectors.getMetadata)
+    sfox = sfoxService.refresh(value, delegate, options)
+  }
+
+  const init = function * () {
+    try {
+      yield call(refreshSFOX)
+    } catch (e) {
+      throw new Error(e)
+    }
+  }
+
+  const fetchProfile = function * () {
+    try {
+      yield put(A.fetchProfileLoading())
+      const profile = yield apply(sfox, sfox.fetchProfile)
+      yield put(A.fetchProfileSuccess(profile))
+    } catch (e) {
+      yield put(A.fetchProfileFailure(e))
+    }
+  }
+
+  const fetchQuote = function * (data) {
+    try {
+      yield put(A.fetchQuoteLoading())
+      const nextAddress = data.payload.nextAddress
+      yield put(A.setNextAddress(nextAddress))
+      yield call(refreshSFOX)
+      const { amt, baseCurr, quoteCurr } = data.payload.quote
+      const quote = yield apply(sfox, sfox.getBuyQuote, [amt, baseCurr, quoteCurr])
+      yield put(A.fetchQuoteSuccess(quote))
+      yield fork(waitForRefreshQuote, data.payload)
+    } catch (e) {
+      yield put(A.fetchQuoteFailure(e))
+    }
+  }
+
+  const fetchSellQuote = function * (data) {
+    try {
+      yield put(A.fetchSellQuoteLoading())
+      // const nextAddress = data.payload.nextAddress
+      // yield put(A.setNextAddress(nextAddress))
+      yield call(refreshSFOX)
+      const { amt, baseCurr, quoteCurr } = data.payload.quote
+      const quote = yield apply(sfox, sfox.getSellQuote, [amt, baseCurr, quoteCurr])
+      yield put(A.fetchSellQuoteSuccess(quote))
+      // yield fork(waitForRefreshQuote, data.payload)
+    } catch (e) {
+      yield put(A.fetchSellQuoteFailure(e))
+    }
+  }
+
+  const waitForRefreshQuote = function * (quotePayload) {
+    yield take(AT.REFRESH_QUOTE)
+    yield put(A.fetchQuote(quotePayload))
+  }
+
+  const fetchTrades = function * () {
+    try {
+      yield put(A.fetchTradesLoading())
+      const trades = yield apply(sfox, sfox.getTrades)
+      yield put(A.fetchTradesSuccess(trades))
+    } catch (e) {
+      yield put(A.fetchTradesFailure(e))
+    }
+  }
+
+  const fetchAccounts = function * () {
+    try {
+      yield put(A.sfoxFetchAccountsLoading())
+      const methods = yield apply(sfox, sfox.getBuyMethods)
+      const accounts = yield apply(sfox, methods.ach.getAccounts)
+      yield put(A.sfoxFetchAccountsSuccess(accounts))
+    } catch (e) {
+      yield put(A.sfoxFetchAccountsFailure(e))
+    }
+  }
+
+  const getBankAccounts = function * (data) {
+    const token = data.payload
+    try {
+      const bankAccounts = yield apply(sfox.bankLink, sfox.bankLink.getAccounts, [token])
+      yield put(A.getBankAccountsSuccess(bankAccounts))
+    } catch (e) {
+      yield put(A.getBankAccountsFailure(e))
+    }
+  }
+
+  const resetProfile = function * () {
+    yield put(A.resetProfile())
+  }
+
   const getSfox = function * () {
     const state = yield select()
     const delegate = new ExchangeDelegate(state, api)
@@ -149,6 +247,14 @@ export default ({ api, options }) => {
   }
 
   return {
+    init,
+    fetchAccounts,
+    fetchProfile,
+    fetchTrades,
+    fetchQuote,
+    fetchSellQuote,
+    getBankAccounts,
+    resetProfile,
     setBankManually,
     signup,
     setProfile,

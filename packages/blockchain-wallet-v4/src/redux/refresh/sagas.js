@@ -1,5 +1,4 @@
-import { put, select, throttle } from 'redux-saga/effects'
-import * as AT from './actionTypes'
+import { put, select } from 'redux-saga/effects'
 import * as btcActions from '../data/bitcoin/actions'
 import * as bchActions from '../data/bch/actions'
 import * as ethActions from '../data/ethereum/actions'
@@ -18,7 +17,7 @@ export default () => {
     yield put(ethActions.fetchRates())
   }
 
-  return function * () {
-    yield throttle(5000, AT.REFRESH, refresh)
+  return {
+    refresh
   }
 }

@@ -51,7 +51,7 @@ const Google = props => {
       <SuccessOverlay success={props.ui.successToggled}>
         <Icon name='checkmark-in-circle' size='150px' color='success' />
         <Text size='14px' weight={300} color='success'>
-          <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage="Congrats! You've successfully set up 2FA with your authenticator app." />
+          <FormattedMessage id='scenes.security.twostepverification.authenticator.success' defaultMessage="Congrats! You've successfully set up 2FA with your authenticator app." />
         </Text>
       </SuccessOverlay>
       <AuthenticatorSummary success={props.ui.successToggled}>
@@ -65,10 +65,10 @@ const Google = props => {
           }
           <QRCodeCopy>
             <Text size='14px' weight={200}>
-              <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='1. Scan this QR code with your Authenticator app.' />
+              <FormattedMessage id='scenes.security.twostepverification.authenticator.stepone' defaultMessage='1. Scan this QR code with your Authenticator app.' />
             </Text>
             <Text size='14px' weight={200} style={spacing('mt-5')}>
-              <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='2. Enter the random number presented below.' />
+              <FormattedMessage id='scenes.security.twostepverification.authenticator.steptwo' defaultMessage='2. Enter the random number presented below.' />
             </Text>
           </QRCodeCopy>
           <QRInputWrapper>
