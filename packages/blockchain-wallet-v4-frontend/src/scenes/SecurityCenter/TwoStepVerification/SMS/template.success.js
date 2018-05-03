@@ -45,7 +45,7 @@ const SmsAuth = props => {
       <SuccessOverlay success={ui.successToggled}>
         <Icon name='checkmark-in-circle' size='150px' color='success' />
         <Text size='14px' weight={300} color='success'>
-          <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage="Congrats! You've successfully set up SMS Codes." />
+          <FormattedMessage id='scenes.security.twostepverification.sms.success' defaultMessage="Congrats! You've successfully set up SMS Codes." />
         </Text>
       </SuccessOverlay>
       <AuthenticatorSummary verified={ui.successToggled}>
@@ -54,7 +54,7 @@ const SmsAuth = props => {
             (!smsNumber && !smsVerified) || ui.changeNumberToggled
               ? <Fragment>
                 <Text size='14px' weight={200}>
-                  <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='Enter your mobile number and click Get Code. A verification code will be sent.' />
+                  <FormattedMessage id='scenes.security.twostepverification.sms.entermobile' defaultMessage='Enter your mobile number and click Get Code. A verification code will be sent.' />
                 </Text>
                 <QRInputWrapper>
                   <Field name='mobileNumber' component={PhoneNumberBox} validate={[required]} placeholder='212-555-5555' />
@@ -63,7 +63,7 @@ const SmsAuth = props => {
               </Fragment>
               : <Fragment>
                 <Text size='14px' weight={200}>
-                  <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='Enter your verification code below and click submit.' />
+                  <FormattedMessage id='scenes.security.twostepverification.sms.entercode' defaultMessage='Enter your verification code below and click submit.' />
                 </Text>
                 <QRInputWrapper>
                   <Field name='verificationCode' component={TextBox} validate={[required]} />
