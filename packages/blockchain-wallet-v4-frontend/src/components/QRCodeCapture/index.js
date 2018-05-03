@@ -18,47 +18,50 @@ class QRCodeCaptureContainer extends React.PureComponent {
   }
 
   handleToggle () {
-    switch (this.props.coin) {
-      case 'BTC': return this.props.updateUI({ bitcoin: { toggled: !this.props.ui.bitcoin.toggled } })
-      case 'ETH': return this.props.updateUI({ ethereum: { toggled: !this.props.ui.ethereum.toggled } })
-      case 'BCH': return this.props.updateUI({ bch: { toggled: !this.props.ui.bch.toggled } })
+    switch (this.props.scanType) {
+      case 'btcAddress': return this.props.updateUI({ btcAddress: { toggled: !this.props.ui.btcAddress.toggled } })
+      case 'ethAddress': return this.props.updateUI({ ethAddress: { toggled: !this.props.ui.ethAddress.toggled } })
+      case 'bchAddress': return this.props.updateUI({ bchAddress: { toggled: !this.props.ui.bchAddress.toggled } })
+      case 'btcPriv': return this.props.updateUI({ btcPriv: { toggled: !this.props.ui.btcPriv.toggled } })
     }
   }
 
-  handleScanBitcoin (data) {
-    if (!isNil(data) && !isEmpty(data)) {
-      const { address, options } = bip21.decode(data)
-      const { amount, message } = options
-      this.props.formActions.change('sendBtc', 'to', address)
-      this.props.formActions.change('sendBtc', 'amount', amount)
-      this.props.formActions.change('sendBtc', 'message', message)
-      this.props.updateUI({ bitcoin: { toggled: false } })
-    }
+  handleScanBtcAddress (data) {
+    const { address, options } = bip21.decode(data)
+    const { amount, message } = options
+    this.props.formActions.change('sendBtc', 'to', address)
+    this.props.formActions.change('sendBtc', 'amount', amount)
+    this.props.formActions.change('sendBtc', 'message', message)
+    this.props.updateUI({ btcAddress: { toggled: false } })
   }
 
-  handleScanBch (data) {
-    if (!isNil(data) && !isEmpty(data)) {
-      const { address, options } = bip21.decode(data)
-      const { amount, message } = options
-      this.props.formActions.change('sendBch', 'to', address)
-      this.props.formActions.change('sendBch', 'amount', amount)
-      this.props.formActions.change('sendBch', 'message', message)
-      this.props.updateUI({ bch: { toggled: false } })
-    }
+  handleScanBchAddress (data) {
+    const { address, options } = bip21.decode(data, 'bitcoincash')
+    const { amount, message } = options
+    this.props.formActions.change('sendBch', 'to', address)
+    this.props.formActions.change('sendBch', 'amount', amount)
+    this.props.formActions.change('sendBch', 'message', message)
+    this.props.updateUI({ bchAddress: { toggled: false } })
   }
 
-  handleScanEthereum (data) {
-    if (!isNil(data) && !isEmpty(data)) {
-      this.props.formActions.change('sendEther', 'to', data)
-      this.props.updateUI({ ethereum: { toggled: false } })
-    }
+  handleScanEthAddress (data) {
+    this.props.formActions.change('sendEth', 'to', data)
+    this.props.updateUI({ ethAddress: { toggled: false } })
+  }
+
+  handleScanBtcPriv (data) {
+    // TODO: Put priv in state to proceed to payment
+    this.props.updateUI({ btcPriv: { toggled: false } })
   }
 
   handleScan (data) {
-    switch (this.props.coin) {
-      case 'BTC': return this.handleScanBitcoin(data)
-      case 'ETH': return this.handleScanEthereum(data)
-      case 'BCH': return this.handleScanBch(data)
+    if (!isNil(data) && !isEmpty(data)) {
+      switch (this.props.scanType) {
+        case 'btcAddress': return this.handleScanBtcAddress(data)
+        case 'ethAddress': return this.handleScanEthAddress(data)
+        case 'bchAddress': return this.handleScanBchAddress(data)
+        case 'btcPriv': return this.handleScanBtcPriv(data)
+      }
     }
   }
 
@@ -69,8 +72,16 @@ class QRCodeCaptureContainer extends React.PureComponent {
   }
 
   render () {
-    const { border, ui, coin } = this.props
-    const toggled = coin === 'BTC' ? ui.bitcoin.toggled : coin === 'ETH' ? ui.ethereum.toggled : ui.bch.toggled
+    const { border, ui, scanType } = this.props
+    const getTypeToggled = (scanType) => {
+      switch (scanType) {
+        case 'btcAddress': return ui.btcAddress.toggled
+        case 'ethAddress': return ui.ethAddress.toggled
+        case 'bchAddress': return ui.bchAddress.toggled
+        case 'btcPriv': return ui.btcPriv.toggled
+      }
+    }
+    const toggled = getTypeToggled(scanType)
 
     return <QRCodeCapture
       border={border}
@@ -89,12 +100,16 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  ui({ key: 'QRCodeCapture', state: { bitcoin: { toggled: false }, ethereum: { toggled: false }, bch: { toggled: false } } }),
+  ui({ key: 'QRCodeCapture',
+    state: { btcAddress: { toggled: false },
+      ethAddress: { toggled: false },
+      bchAddress: { toggled: false },
+      btcPriv: { toggled: false } } }),
   connect(undefined, mapDispatchToProps)
 )
 
 QRCodeCaptureContainer.defaultProps = {
-  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH'])
+  scanType: PropTypes.oneOf(['btcAddress', 'ethAddress', 'bchAddress', 'btcPriv'])
 }
 
 export default enhance(QRCodeCaptureContainer)

@@ -1,8 +1,6 @@
-import { takeLatest, put, call, select } from 'redux-saga/effects'
-import * as AT from './actionTypes'
+import { put, call, select } from 'redux-saga/effects'
 import * as actions from '../../actions.js'
 import * as selectors from '../../selectors.js'
-
 import { askSecondPasswordEnhancer, promptForSecondPassword } from 'services/SagaService'
 import { Types, utils } from 'blockchain-wallet-v4/src'
 
@@ -238,27 +236,27 @@ export default ({ coreSagas }) => {
     }
   }
 
-  return function * () {
-    yield takeLatest(AT.INIT_SETTINGS_INFO, initSettingsInfo)
-    yield takeLatest(AT.INIT_SETTINGS_PREFERENCES, initSettingsPreferences)
-    yield takeLatest(AT.SHOW_BACKUP_RECOVERY, showBackupRecovery)
-    yield takeLatest(AT.SHOW_GOOGLE_AUTHENTICATOR_SECRET_URL, showGoogleAuthenticatorSecretUrl)
-    yield takeLatest(AT.UPDATE_MOBILE, updateMobile)
-    yield takeLatest(AT.VERIFY_MOBILE, verifyMobile)
-    yield takeLatest(AT.UPDATE_LANGUAGE, updateLanguage)
-    yield takeLatest(AT.UPDATE_CURRENCY, updateCurrency)
-    yield takeLatest(AT.UPDATE_AUTO_LOGOUT, updateAutoLogout)
-    yield takeLatest(AT.UPDATE_LOGGING_LEVEL, updateLoggingLevel)
-    yield takeLatest(AT.UPDATE_IP_LOCK, updateIpLock)
-    yield takeLatest(AT.UPDATE_IP_LOCK_ON, updateIpLockOn)
-    yield takeLatest(AT.UPDATE_BLOCK_TOR_IPS, updateBlockTorIps)
-    yield takeLatest(AT.UPDATE_HINT, updateHint)
-    yield takeLatest(AT.UPDATE_TWO_STEP_REMEMBER, updateTwoStepRemember)
-    yield takeLatest(AT.ENABLE_TWO_STEP_MOBILE, enableTwoStepMobile)
-    yield takeLatest(AT.ENABLE_TWO_STEP_GOOGLE_AUTHENTICATOR, enableTwoStepGoogleAuthenticator)
-    yield takeLatest(AT.ENABLE_TWO_STEP_YUBIKEY, enableTwoStepYubikey)
-    yield takeLatest(AT.NEW_HD_ACCOUNT, newHDAccount)
-    yield takeLatest(AT.SHOW_BTC_PRIV_KEY, showBtcPrivateKey)
-    yield takeLatest(AT.SHOW_ETH_PRIV_KEY, showEthPrivateKey)
+  return {
+    initSettingsInfo,
+    initSettingsPreferences,
+    showBackupRecovery,
+    showGoogleAuthenticatorSecretUrl,
+    updateMobile,
+    verifyMobile,
+    updateLanguage,
+    updateCurrency,
+    updateAutoLogout,
+    updateLoggingLevel,
+    updateIpLock,
+    updateIpLockOn,
+    updateBlockTorIps,
+    updateHint,
+    updateTwoStepRemember,
+    enableTwoStepMobile,
+    enableTwoStepGoogleAuthenticator,
+    enableTwoStepYubikey,
+    newHDAccount,
+    showBtcPrivateKey,
+    showEthPrivateKey
   }
 }
