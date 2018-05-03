@@ -15,6 +15,7 @@ import Goals from './Goals'
 import Help from './Help'
 import Home from './Home'
 import Login from './Login'
+import Open from './Open'
 import Recover from './Recover'
 import Reminder from './Reminder'
 import Reset2FA from './Reset2FA'
@@ -45,6 +46,7 @@ class App extends React.PureComponent {
                 <PublicLayout path='/a/:payload' component={Goals} />
                 <PublicLayout path='/login' component={Login} />
                 <PublicLayout path='/help' component={Help} />
+                <PublicLayout path='/open' component={Open} />
                 <PublicLayout path='/recover' component={Recover} />
                 <PublicLayout path='/reminder' component={Reminder} />
                 <PublicLayout path='/reset2fa' component={Reset2FA} />
