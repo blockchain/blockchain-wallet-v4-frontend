@@ -29,6 +29,7 @@ const Circle = styled.div`
   border: 1px solid ${props => props.theme['gray-2']};
   border-radius: 100%;
   text-align: center;
+  z-index: 7;
 `
 const Info = styled.div`
   display: flex;
