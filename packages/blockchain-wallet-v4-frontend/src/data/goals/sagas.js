@@ -1,5 +1,4 @@
-import { all, takeEvery, takeLatest, select, put } from 'redux-saga/effects'
-import * as AT from './actionTypes'
+import { all, select, takeLatest, put } from 'redux-saga/effects'
 import * as actions from '../actions'
 import * as selectors from '../selectors'
 import * as actionTypes from '../actionTypes'
@@ -18,7 +17,7 @@ export default ({ coreSagas }) => {
     yield put(actions.goals.deleteGoal(id))
   }
 
-  const goalSaga = function * () {
+  const runGoals = function * () {
     const goals = yield select(selectors.goals.getGoals)
 
     yield all(goals.map((goal) => {
@@ -28,7 +27,7 @@ export default ({ coreSagas }) => {
     }))
   }
 
-  return function * () {
-    yield takeEvery(AT.RUN_GOALS, goalSaga)
+  return {
+    runGoals
   }
 }

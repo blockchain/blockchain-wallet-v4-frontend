@@ -76,7 +76,7 @@ const Success = props => {
 
   return (
     <Wrapper>
-      <Form override onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit}>
         <Row justify='flex-end'>
           <Text size='12px' weight={300}>
             <FormattedMessage id='scenes.exchange.shapeshift.firststep.step' defaultMessage='Step 1 of 2' />
