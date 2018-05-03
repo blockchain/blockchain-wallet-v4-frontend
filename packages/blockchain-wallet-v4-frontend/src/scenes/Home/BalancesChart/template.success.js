@@ -9,7 +9,7 @@ import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 380px;
+  height: 400px;
   padding: 15px;
   display: flex;
   flex-direction: column;
@@ -19,6 +19,9 @@ const Wrapper = styled.div`
   svg {
     font-weight: 300;
     font-family: 'Montserrat' !important;
+  }
+  @media(min-width: 480px) {
+    height: 380px;
   }
 `
 const ChartInfo = styled.div`

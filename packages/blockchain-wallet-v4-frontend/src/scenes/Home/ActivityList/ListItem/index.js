@@ -40,19 +40,26 @@ const Info = styled.div`
   padding: 10px 20px;
   box-sizing: border-box;
 
-  & > * { 
-    padding: 0 5px; 
+  & > * {
+    padding: 0 5px;
     width: 50%;
   }
-  
+
   div:nth-child(2) {
     text-align: center;
   }
-  
+
   div:last-child {
     > div {
       justify-content: flex-end;
     }
+  }
+`
+const RecentActivityText = styled(Text)`
+  font-size: 12px;
+  font-weight: 300;
+  @media (min-width: 480px) {
+    font-size: 14px;
   }
 `
 
@@ -83,9 +90,9 @@ const ActivityListItem = (props) => {
         <Icon name={iconName} color='brand-primary' />
       </Circle>
       <Info>
-        <Text size='14px' weight={300} capitalize color={selectColor(action)}>{action} {coin}</Text>
-        <Text size='14px' weight={300}>{timeFormatted}</Text>
-        <Text style={{visibility: visibility}} ><SwitchableDisplay size='14px' weight={300} visibility={'hidden'} coin={coin}>{amount}</SwitchableDisplay></Text>
+        <RecentActivityText capitalize color={selectColor(action)}>{action} {coin}</RecentActivityText>
+        <RecentActivityText>{timeFormatted}</RecentActivityText>
+        <RecentActivityText style={{visibility: visibility}} ><SwitchableDisplay mobileSize='12px' size='14px' visibility={'hidden'} coin={coin}>{amount}</SwitchableDisplay></RecentActivityText>
       </Info>
     </Container>
   )
