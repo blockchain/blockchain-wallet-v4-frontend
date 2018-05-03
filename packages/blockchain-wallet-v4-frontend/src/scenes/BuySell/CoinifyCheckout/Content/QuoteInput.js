@@ -56,7 +56,6 @@ class QuoteInput extends Component {
 // }
 
 const mapStateToProps = state => ({
-  hello: 'world',
   checkoutError: state.coinify.checkoutError
 })
 

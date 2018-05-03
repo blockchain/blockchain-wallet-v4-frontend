@@ -36,6 +36,7 @@ const Success = props => {
     rateQuoteR,
     checkoutBusy,
     setMax,
+    paymentMedium,
     ...rest } = props
 
   const profile = Remote.of(props.value.profile).getOrElse({ _limits: service.mockedLimits, _level: { currency: 'EUR' } })
@@ -76,6 +77,7 @@ const Success = props => {
                 quoteR={buyQuoteR}
                 onRefreshQuote={refreshQuote}
                 type={'buy'}
+                medium={paymentMedium}
               />
             </CheckoutWrapper>
             <OrderSubmitWrapper style={{ ...flex('col') }}>

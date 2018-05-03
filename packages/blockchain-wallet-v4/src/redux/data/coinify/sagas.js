@@ -1,6 +1,7 @@
 import ExchangeDelegate from '../../../exchange/delegate'
 import { apply, call, put, select } from 'redux-saga/effects'
 import * as A from './actions'
+import * as S from './selectors'
 import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import { coinifyService } from '../../../exchange/service'
 import * as buySellA from '../../kvStore/buySell/actions'
@@ -51,10 +52,10 @@ export default ({ api, options }) => {
 
   const fetchQuote = function * (data) {
     try {
-      const coinify = yield call(getCoinify)
+      const coinify = yield select(S.getProfile)
       yield put(A.fetchQuoteLoading())
       const { amount, baseCurrency, quoteCurrency } = data.quote
-      const quote = yield apply(coinify, coinify.getBuyQuote, [amount, baseCurrency, quoteCurrency])
+      const quote = yield apply(coinify.data, coinify.data.getBuyQuote, [amount, baseCurrency, quoteCurrency])
       yield put(A.fetchQuoteSuccess(quote))
       return quote
     } catch (e) {

@@ -14,7 +14,7 @@ class Checkout extends React.PureComponent {
   }
 
   render () {
-    const { data, modalActions, coinifyDataActions, rateQuoteR, buyQuoteR, currency, checkoutBusy } = this.props
+    const { data, modalActions, coinifyDataActions, rateQuoteR, buyQuoteR, currency, checkoutBusy, paymentMedium } = this.props
     const { handleTrade, fetchQuote } = coinifyDataActions
     const { showModal } = modalActions
     return data.cata({
@@ -28,6 +28,7 @@ class Checkout extends React.PureComponent {
         currency={currency}
         checkoutBusy={checkoutBusy}
         setMax={(amt) => this.props.actions.setCheckoutMax(amt)}
+        paymentMedium={paymentMedium}
       />,
       Failure: (msg) => <div>Failure: {msg.error}</div>,
       Loading: () => <Loading />,
@@ -45,7 +46,8 @@ const mapStateToProps = state => ({
   errors: getErrors(state),
   currency: formValueSelector('coinifyCheckout')(state, 'currency'),
   defaultCurrency: getCurrency(state),
-  checkoutBusy: state.coinify.checkoutBusy
+  checkoutBusy: state.coinify.checkoutBusy,
+  paymentMedium: state.coinify.medium
 })
 
 const mapDispatchToProps = dispatch => ({

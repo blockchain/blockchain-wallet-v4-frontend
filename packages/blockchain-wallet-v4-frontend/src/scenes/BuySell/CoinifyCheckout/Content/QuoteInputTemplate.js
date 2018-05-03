@@ -97,7 +97,7 @@ const FiatConvertor = (props) => {
           <ArrowLeft size='16px' name='left-arrow' />
           <ArrowRight size='16px' name='right-arrow' />
           <Container>
-            <Field name='rightVal' component={TextBox} disabled={disabled} />
+            <Field name='rightVal' component={TextBoxDebounced} disabled={disabled} />
             <Unit>{currency}</Unit>
           </Container>
         </FiatConvertorInput>

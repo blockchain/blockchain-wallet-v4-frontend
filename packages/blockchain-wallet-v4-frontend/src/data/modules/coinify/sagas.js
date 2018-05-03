@@ -42,7 +42,6 @@ export default ({ coreSagas }) => {
     try {
       const level = yield select(selectors.core.data.coinify.getLevel)
       const currencyR = level.map(l => l.currency)
-      console.log('initialize and get curr', currencyR)
 
       const initialValues = {
         leftVal: '',
@@ -88,7 +87,7 @@ export default ({ coreSagas }) => {
           yield put(A.coinifyCheckoutBusyOff())
           break
         case 'rightVal':
-          const rightResult = yield call(coreSagas.data.coinify.fetchQuote, { quote: { amount: payload * 1e8, baseCurrency: 'BTC', quoteCurrency: values.currency } })
+          const rightResult = yield call(coreSagas.data.coinify.fetchQuote, { quote: { amount: Math.round(payload * 1e8), baseCurrency: 'BTC', quoteCurrency: values.currency } })
           const fiatAmount = rightResult.quoteAmount
 
           const rightLimitsError = service.getLimitsError(fiatAmount, limits.data, values.currency)
@@ -113,7 +112,6 @@ export default ({ coreSagas }) => {
 
   const setCheckoutMax = function * (action) {
     try {
-      console.log('set max', action)
       yield put(actions.form.change('coinifyCheckout', 'leftVal', action.payload))
     } catch (e) {
       console.log(e)

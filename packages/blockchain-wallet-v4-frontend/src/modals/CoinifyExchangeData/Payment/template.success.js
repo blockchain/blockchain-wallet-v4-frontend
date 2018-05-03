@@ -68,7 +68,7 @@ const Payment = (props) => {
                 : <HeartbeatLoader height='20px' width='20px' color='white' />
             }
           </Button> */}
-          <StepTransition next Component={Button} style={spacing('mt-45')} nature='primary' fullwidth disabled={!medium || busy}>
+          <StepTransition next Component={Button} style={spacing('mt-45')} nature='primary' fullwidth uppercase disabled={!medium || busy}>
             {
               !busy
                 ? <FormattedMessage id='coinifyexchangedata.confirm.confirm' defaultMessage='Continue' />
