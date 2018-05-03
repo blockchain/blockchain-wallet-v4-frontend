@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
-import { Text, Button, Icon, HeartbeatLoader, Link } from 'blockchain-info-components'
+import { Text, Button, HeartbeatLoader, Link } from 'blockchain-info-components'
 import { Remote } from 'blockchain-wallet-v4/src'
 import FaqRow from 'components/Faq/FaqRow'
 import CountdownTimer from 'components/Form/CountdownTimer'
@@ -9,20 +9,11 @@ import { flex, spacing } from 'services/StyleService'
 import { reviewOrder } from 'services/SfoxService'
 import { FormattedMessage } from 'react-intl'
 import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDetails'
-import FundingSource from 'components/BuySell/FundingSource'
 import { StepTransition } from 'components/Utilities/Stepper'
 
 const StyledFaqRow = styled(FaqRow)`
   padding: 20px 0px;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
-`
-
-const MethodContainer = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  height: 42px;
-  border: 1px solid ${props => props.theme['gray-2']}
 `
 const CancelWrapper = styled.div`
   a {
@@ -105,7 +96,7 @@ export const OrderSubmit = ({ quoteR, onSubmit, busy, clearTradeError }) => (
             }
           </Button>
           <CancelWrapper style={{ ...flex('row justify/center'), ...spacing('mt-15') }}>
-            <StepTransition prev Component={Link}>
+            <StepTransition restart Component={Link}>
               <FormattedMessage id='cancel' defaultMessage='Cancel' />
             </StepTransition>
           </CancelWrapper>

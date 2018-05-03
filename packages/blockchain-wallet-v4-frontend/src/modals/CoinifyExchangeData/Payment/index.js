@@ -11,7 +11,7 @@ class PaymentContainer extends Component {
   constructor (props) {
     super(props)
 
-    this.onSubmit = this.onSubmit.bind(this)
+    // this.onSubmit = this.onSubmit.bind(this)
     this.handlePaymentClick = this.handlePaymentClick.bind(this)
 
     this.state = { medium: '' }
@@ -23,12 +23,13 @@ class PaymentContainer extends Component {
 
   handlePaymentClick (medium) {
     this.setState({ medium })
+    this.props.coinifyActions.saveMedium(medium)
   }
 
-  onSubmit (e) {
-    e.preventDefault()
-    this.props.coinifyActions.saveMedium(this.state.medium)
-  }
+  // onSubmit (e) {
+  //   e.preventDefault()
+  //   this.props.coinifyActions.saveMedium(this.state.medium)
+  // }
 
   render () {
     const { data } = this.props
@@ -38,7 +39,7 @@ class PaymentContainer extends Component {
         <Success
           value={value}
           getAccounts={this.getAccounts}
-          onSubmit={this.onSubmit}
+          // onSubmit={this.onSubmit}
           handlePaymentClick={this.handlePaymentClick}
           medium={this.state.medium}
           quote={this.props.quote}
