@@ -30,7 +30,7 @@ const renderDetailsRow = (id, message, value, color) => (
   </OrderDetailsRow>
 )
 
-export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
+export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium, orderSummary }) => (
   <ExchangeCheckoutWrapper>
     {console.log('orderDetails', quoteR)}
     <Text size='32px' weight={600} style={spacing('mb-10')}>
@@ -48,20 +48,21 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
       </Text>
     </div>
     <OrderDetailsTable style={spacing('mt-10')}>
+      {console.log('render service string', orderSummary, quoteR.map(q => reviewOrder.render(q, type, medium).firstRow))}
       {renderDetailsRow(
         'order_details.amount_to_transact',
         type === 'buy' ? 'BTC Amount to Purchase' : 'BTC Amount to Sell',
-        quoteR.map(q => reviewOrder.renderFirstRow(q, type, medium)).getOrElse('~')
+        orderSummary.data.firstRow
       )}
       {renderDetailsRow(
         'order_details.trading_fee',
         'Trading Fee',
-        quoteR.map(q => `${currencySymbolMap[q.paymentMediums[medium]['inCurrency']]}${(+q.paymentMediums[medium]['fee']).toFixed(2)}`).getOrElse('~')
+        orderSummary.data.fee
       )}
       {renderDetailsRow(
         'order_details.total_transacted',
         type === 'buy' ? 'Total Cost' : 'Total to be Received',
-        quoteR.map(q => reviewOrder.renderTotal(q, type, medium)).getOrElse('~'),
+        orderSummary.data.total,
         'success'
       )}
     </OrderDetailsTable>
