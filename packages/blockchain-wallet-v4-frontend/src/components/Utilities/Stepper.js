@@ -18,12 +18,17 @@ class Stepper extends React.PureComponent {
     this.stepTo(this.props.ui.step - 1)
   }
 
+  restartStep = () => {
+    this.stepTo(0)
+  }
+
   render () {
     let value = {
       currentStep: this.props.ui.step,
       stepTo: this.stepTo,
       nextStep: this.nextStep,
-      prevStep: this.prevStep
+      prevStep: this.prevStep,
+      restartStep: this.restartStep
     }
 
     return (
@@ -48,12 +53,12 @@ export const StepView = ({ children, step }) => (
   </Consumer>
 )
 
-export const StepTransition = ({ Component, next, prev, to = 0, ...rest }) => (
+export const StepTransition = ({ Component, next, prev, restart, to = 0, ...rest }) => (
   <Consumer>
-    {({ stepTo, nextStep, prevStep }) => (
+    {({ stepTo, nextStep, prevStep, restartStep }) => (
       <Component
         {...rest}
-        onClick={next ? nextStep : prev ? prevStep : () => stepTo(to)}
+        onClick={next ? nextStep : prev ? prevStep : restart ? restartStep : () => stepTo(to)}
       />
     )}
   </Consumer>

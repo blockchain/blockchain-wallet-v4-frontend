@@ -3,10 +3,11 @@ import PropTypes from 'prop-types'
 import { reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
-import { spacing } from 'services/StyleService'
+import { flex, spacing } from 'services/StyleService'
 import Helper from 'components/BuySell/FAQ'
+import { StepTransition } from 'components/Utilities/Stepper'
 
-import { Button, HeartbeatLoader } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Link } from 'blockchain-info-components'
 import { Form, ColLeft, InputWrapper, PartnerHeader, PartnerSubHeader, ColRight, ColRightInner } from 'components/BuySell/Signup'
 
 import { cardOptionHelper, bankOptionHelper } from './mediumHelpers'
@@ -14,6 +15,13 @@ import { cardOptionHelper, bankOptionHelper } from './mediumHelpers'
 const PaymentWrapper = styled.div`
   display: flex;
   flex-direction: row;
+`
+const CancelWrapper = styled.div`
+  a {
+    color: #545456;
+    font-weight: 300;
+    font-size: 14px;
+  }
 `
 
 const helpers = [
@@ -30,13 +38,13 @@ const helpers = [
 const faqHelper = () => helpers.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
 
 const Payment = (props) => {
-  const { value, busy, onSubmit, handlePaymentClick, medium } = props
+  const { value, busy, handlePaymentClick, medium } = props
   const { limits, quote } = value
 
   const isChecked = (type) => medium === type
 
   return (
-    <Form onSubmit={onSubmit}>
+    <Form>
       <ColLeft>
         <InputWrapper style={spacing('mb-40')}>
           <PartnerHeader>
@@ -53,13 +61,25 @@ const Payment = (props) => {
       </ColLeft>
       <ColRight>
         <ColRightInner>
-          <Button uppercase nature='primary' fullwidth type='submit' disabled={!medium || busy}>
+          {/* <Button uppercase nature='primary' fullwidth type='submit' disabled={!medium || busy}>
             {
               !busy
                 ? <FormattedMessage id='coinifyexchangedata.confirm.confirm' defaultMessage='confirm' />
                 : <HeartbeatLoader height='20px' width='20px' color='white' />
             }
-          </Button>
+          </Button> */}
+          <StepTransition next Component={Button} style={spacing('mt-45')} nature='primary' fullwidth disabled={!medium || busy}>
+            {
+              !busy
+                ? <FormattedMessage id='coinifyexchangedata.confirm.confirm' defaultMessage='Continue' />
+                : <HeartbeatLoader height='20px' width='20px' color='white' />
+            }
+          </StepTransition>
+          <CancelWrapper style={{ ...flex('row justify/center'), ...spacing('mt-15') }}>
+            <StepTransition prev Component={Link}>
+              <FormattedMessage id='cancel' defaultMessage='Cancel' />
+            </StepTransition>
+          </CancelWrapper>
           { faqHelper() }
         </ColRightInner>
       </ColRight>

@@ -2,19 +2,19 @@ import React from 'react'
 import styled from 'styled-components'
 import Stepper, { StepView } from 'components/Utilities/Stepper'
 import OrderCheckout from './OrderCheckout'
-// import { OrderDetails, OrderSubmit } from './OrderReview'
+import { OrderDetails, OrderSubmit } from './OrderReview'
 import { Remote } from 'blockchain-wallet-v4/src'
-// import { flex } from 'services/StyleService'
+import { flex } from 'services/StyleService'
 import * as service from 'services/CoinifyService'
 import Payment from '../../../../modals/CoinifyExchangeData/Payment'
 
 const CheckoutWrapper = styled.div`
   width: 55%;
 `
-// const OrderSubmitWrapper = CheckoutWrapper.extend`
-//   width: 35%;
-//   padding: 30px 30px 30px 10%;
-// `
+const OrderSubmitWrapper = CheckoutWrapper.extend`
+  width: 35%;
+  padding: 30px 30px 30px 10%;
+`
 
 const Success = props => {
   const {
@@ -55,7 +55,6 @@ const Success = props => {
             <OrderCheckout
               quoteR={buyQuoteR}
               rateQuoteR={rateQuoteR}
-              // account={accounts[0]}
               onFetchQuote={fetchBuyQuote}
               limits={limits.buy}
               type={'buy'}
@@ -69,11 +68,12 @@ const Success = props => {
         </StepView>
         <StepView step={1}>
           <Payment />
-          {/* <div style={flex('row')}>
+        </StepView>
+        <StepView step={2}>
+          <div style={flex('row')}>
             <CheckoutWrapper>
               <OrderDetails
                 quoteR={buyQuoteR}
-                // account={accounts[0]}
                 onRefreshQuote={refreshQuote}
                 type={'buy'}
               />
@@ -86,7 +86,7 @@ const Success = props => {
                 clearTradeError={clearTradeError}
               />
             </OrderSubmitWrapper>
-          </div> */}
+          </div>
         </StepView>
       </Stepper>
     )
