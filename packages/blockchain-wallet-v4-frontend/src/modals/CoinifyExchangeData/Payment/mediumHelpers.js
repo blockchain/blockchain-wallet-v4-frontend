@@ -68,11 +68,25 @@ export const cardOptionHelper = (quote, limits, isChecked, handlePaymentClick) =
     </PaymentOptionContainer>
   )
 
-  if (Math.abs(quote.baseAmount) <= limits.card.inRemaining[quote.baseCurrency]) {
-    return renderContainer(isChecked, handlePaymentClick)
+  if (quote.baseCurrency === 'BTC') {
+    if (Math.abs(quote.quoteAmount) <= limits.card.inRemaining[quote.quoteCurrency]) {
+      return renderContainer(isChecked, handlePaymentClick)
+    } else {
+      renderText()
+    }
   } else {
-    renderText()
+    if (Math.abs(quote.baseAmount) <= limits.card.inRemaining[quote.baseCurrency]) {
+      return renderContainer(isChecked, handlePaymentClick)
+    } else {
+      renderText()
+    }
   }
+
+  // if (Math.abs(quote.baseAmount) <= limits.card.inRemaining[quote.baseCurrency]) {
+  //   return renderContainer(isChecked, handlePaymentClick)
+  // } else {
+  //   renderText()
+  // }
 }
 
 export const bankOptionHelper = (quote, limits, isChecked, handlePaymentClick) => {
@@ -107,9 +121,17 @@ export const bankOptionHelper = (quote, limits, isChecked, handlePaymentClick) =
     </PaymentOptionContainer>
   )
 
-  if (Math.abs(quote.baseAmount) >= limits.bank.minimumInAmounts[quote.baseCurrency]) {
-    return renderContainer(isChecked, handlePaymentClick)
+  if (quote.baseCurrency === 'BTC') {
+    if (Math.abs(quote.quoteAmount) >= limits.bank.minimumInAmounts[quote.quoteCurrency]) {
+      return renderContainer(isChecked, handlePaymentClick)
+    } else {
+      renderText()
+    }
   } else {
-    renderText()
+    if (Math.abs(quote.baseAmount) >= limits.bank.minimumInAmounts[quote.baseCurrency]) {
+      return renderContainer(isChecked, handlePaymentClick)
+    } else {
+      renderText()
+    }
   }
 }

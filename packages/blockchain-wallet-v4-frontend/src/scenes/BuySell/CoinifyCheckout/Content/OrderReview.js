@@ -6,7 +6,7 @@ import FaqRow from 'components/Faq/FaqRow'
 import CountdownTimer from 'components/Form/CountdownTimer'
 import { Wrapper as ExchangeCheckoutWrapper } from '../../ExchangeCheckout'
 import { flex, spacing } from 'services/StyleService'
-import { reviewOrder } from 'services/SfoxService'
+import { reviewOrder, currencySymbolMap } from 'services/CoinifyService'
 import { FormattedMessage } from 'react-intl'
 import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDetails'
 import { StepTransition } from 'components/Utilities/Stepper'
@@ -30,8 +30,9 @@ const renderDetailsRow = (id, message, value, color) => (
   </OrderDetailsRow>
 )
 
-export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
+export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
   <ExchangeCheckoutWrapper>
+    {console.log('orderDetails', quoteR)}
     <Text size='32px' weight={600} style={spacing('mb-10')}>
       <FormattedMessage id='buy.almost_there' defaultMessage="You're almost there" />
     </Text>
@@ -43,31 +44,31 @@ export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
         <FormattedMessage id='exchange_rate' defaultMessage='Exchange Rate' />
       </Text>
       <Text size='12px' weight={300}>
-        1 BTC = {quoteR.map((quote) => `$${quote.rate}`).getOrElse('~')}
+        1 BTC = {quoteR.map((q) => `$${q.rate}`).getOrElse('~')}
       </Text>
     </div>
     <OrderDetailsTable style={spacing('mt-10')}>
       {renderDetailsRow(
         'order_details.amount_to_transact',
         type === 'buy' ? 'BTC Amount to Purchase' : 'BTC Amount to Sell',
-        quoteR.map(quote => reviewOrder.renderFirstRow(quote, type)).getOrElse('~')
+        quoteR.map(q => reviewOrder.renderFirstRow(q, type, medium)).getOrElse('~')
       )}
       {renderDetailsRow(
         'order_details.trading_fee',
         'Trading Fee',
-        quoteR.map(quote => `$${(+quote.feeAmount).toFixed(2)}`).getOrElse('~')
+        quoteR.map(q => `${currencySymbolMap[q.paymentMediums[medium]['inCurrency']]}${(+q.paymentMediums[medium]['fee']).toFixed(2)}`).getOrElse('~')
       )}
       {renderDetailsRow(
         'order_details.total_transacted',
         type === 'buy' ? 'Total Cost' : 'Total to be Received',
-        quoteR.map(quote => reviewOrder.renderTotal(quote, type)).getOrElse('~'),
+        quoteR.map(q => reviewOrder.renderTotal(q, type, medium)).getOrElse('~'),
         'success'
       )}
     </OrderDetailsTable>
-    {quoteR.map((quote) => (
+    {quoteR.map((q) => (
       <CountdownTimer
         style={spacing('mt-20')}
-        expiryDate={quote.expiresAt.getTime()}
+        expiryDate={q.expiresAt.getTime()}
         handleExpiry={onRefreshQuote}
       />
     )).getOrElse(null)}

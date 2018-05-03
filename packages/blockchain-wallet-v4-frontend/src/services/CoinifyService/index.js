@@ -23,7 +23,8 @@ export const currencySymbolMap = {
   GBP: '£',
   USD: '$',
   EUR: '€',
-  DKK: 'kr. ' // intentional space
+  DKK: 'kr. ',
+  BTC: 'BTC '
 }
 
 export const mockedLimits = {
@@ -38,5 +39,29 @@ export const mockedLimits = {
   blockchain: {
     inRemaining: { BTC: 0 },
     minimumInAmounts: { BTC: 0 }
+  }
+}
+
+export const reviewOrder = {
+  baseBtc: (q) => q.baseCurrency === 'BTC',
+  renderFirstRow (q, type, medium) {
+    console.log('renderFirstRow', q, type)
+
+    if (type === 'buy') {
+      if (this.baseBtc(q)) return `${q.baseAmount / 1e8} BTC (${currencySymbolMap[q.quoteCurrency]}${Math.abs(q.quoteAmount).toFixed(2)})`
+      else return `${q.quoteAmount / 1e8} BTC (${currencySymbolMap[q.baseCurrency]}${Math.abs(q.baseAmount).toFixed(2)})`
+    } else {
+      if (this.baseBtc(q)) return `${q.baseAmount / 1e8} BTC (${currencySymbolMap[q.quoteCurrency]}${(+q.quoteAmount).toFixed(2)})`
+      else return `${q.quoteAmount / 1e8} BTC (${currencySymbolMap[q.baseCurrency]}${(+q.baseAmount).toFixed(2)})`
+    }
+  },
+  renderTotal (q, type, medium) {
+    if (type === 'buy') {
+      if (this.baseBtc(q)) return `${currencySymbolMap[q.quoteCurrency]}${(q.paymentMediums[medium]['total']).toFixed(2)}`
+      return `${currencySymbolMap[q.baseCurrency]}${(q.paymentMediums[medium]['total']).toFixed(2)}`
+    } else {
+      if (this.baseBtc(q)) return `$${(+q.quoteAmount - +q.feeAmount).toFixed(2)}`
+      else return `$${(+q.baseAmount - +q.feeAmount).toFixed(2)}`
+    }
   }
 }
