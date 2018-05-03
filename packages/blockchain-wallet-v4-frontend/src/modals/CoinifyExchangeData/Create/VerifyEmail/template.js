@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Field } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Text, Button } from 'blockchain-info-components'
@@ -74,4 +74,4 @@ const VerifyEmail = (props) => {
   )
 }
 
-export default VerifyEmail
+export default reduxForm({ form: 'coinifyVerifyEmail' })(VerifyEmail)

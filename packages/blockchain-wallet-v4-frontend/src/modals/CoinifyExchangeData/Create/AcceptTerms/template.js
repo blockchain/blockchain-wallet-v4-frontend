@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import styled from 'styled-components'
-import { Field } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 
 import Helper from 'components/BuySell/FAQ'
 import { CheckBox } from 'components/Form'
@@ -74,4 +74,4 @@ const AcceptTerms = (props) => {
   )
 }
 
-export default AcceptTerms
+export default reduxForm({ form: 'coinifyAcceptTerms' })(AcceptTerms)

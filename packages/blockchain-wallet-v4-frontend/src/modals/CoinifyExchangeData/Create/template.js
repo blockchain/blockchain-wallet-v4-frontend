@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { reduxForm } from 'redux-form'
 
 import AcceptTerms from './AcceptTerms'
 import VerifyEmail from './VerifyEmail'
@@ -27,4 +26,4 @@ Create.propTypes = {
   smsNumber: PropTypes.string
 }
 
-export default reduxForm({ form: 'coinifyCreate' })(Create)
+export default Create
