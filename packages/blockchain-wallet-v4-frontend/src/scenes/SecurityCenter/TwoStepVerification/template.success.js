@@ -131,7 +131,7 @@ const TwoStepVerification = (props) => {
             <div />
             <DisableContainer style={spacing('pl-25')}>
               <Text weight={200} size='14px'>
-                <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Two-factor authentication is set up with {authName} for number {number}.' values={{ authName: <span className='heavy'>{props.authName}</span>, number: <span className='heavy'>{smsNumber}</span> }} />
+                <FormattedMessage id='scenes.security.2fa.sms.success' defaultMessage='Two-factor authentication is set up with {authName} for number {number}.' values={{ authName: <span className='heavy'>{props.authName}</span>, number: <span className='heavy'>{smsNumber}</span> }} />
               </Text>
               <DisableLinkText size='14px' weight={300} flexRow='true' pulse={props.pulse}>
                 <FormattedMessage id='scenes.security.2fa.disablefirst' defaultMessage='To change your two-step verification method,{link} SMS codes first.' values={{ link: <a onClick={props.handleTwoFactorChange}>disable</a> }} />
@@ -155,14 +155,14 @@ const TwoStepVerification = (props) => {
         </React.Fragment>
       )
     }
-    return <FormattedMessage id='scenes.security.twostepverification.description' defaultMessage='Two-step verification helps to prevent unauthorized access to your wallet by requiring a one-time password for every login attempt. You can disable this here if you would like to change your phone number or switch the type of two-step verification you are using.' />
+    return <FormattedMessage id='scenes.security.twostepverification.description3' defaultMessage='Two-step verification helps to prevent unauthorized access to your wallet by requiring a one-time password for every login attempt. You can disable this here if you would like to change your phone number or switch the type of two-step verification you are using.' />
   }
 
   const renderHeader = () => {
     if (twoStepChoice === 'google') {
       return (
         <React.Fragment>
-          <FormattedMessage id='scenes.security.twostepverification.title' defaultMessage='Two-Step Verification - Authenticator App' />
+          <FormattedMessage id='scenes.security.twostepverification.authenticator.title' defaultMessage='Two-Step Verification - Authenticator App' />
           <Link size='14px' onClick={props.handleGoBack}>Change</Link>
         </React.Fragment>
       )
@@ -178,7 +178,7 @@ const TwoStepVerification = (props) => {
     if (twoStepChoice === 'sms') {
       return (
         <React.Fragment>
-          <FormattedMessage id='scenes.security.twostepverification.title' defaultMessage='Two-Step Verification - Mobile Phone Number' />
+          <FormattedMessage id='scenes.security.twostepverification.mobile.title' defaultMessage='Two-Step Verification - Mobile Phone Number' />
           <Link size='14px' onClick={props.handleGoBack}>Change</Link>
         </React.Fragment>
       )
@@ -226,7 +226,7 @@ const TwoStepVerification = (props) => {
         ui.verifyToggled || props.alone
           ? <SecurityTip>
             <Text color='brand-primary' size='12px' weight={500}>
-              <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.enable' defaultMessage='Security Tip' />
+              <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.securitytip' defaultMessage='Security Tip' />
             </Text>
             <TipText weight={200} size='12px'>
               <FormattedMessage id='scenes.securitycenter.2fa.tip' defaultMessage='You can choose to use a free app or your mobile phone number to secure your wallet. We recommend using Google Authenticator (available for ' />

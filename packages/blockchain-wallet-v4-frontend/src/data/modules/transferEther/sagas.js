@@ -1,5 +1,4 @@
-import { takeEvery, takeLatest, put, call } from 'redux-saga/effects'
-import * as AT from './actionTypes'
+import { put, call } from 'redux-saga/effects'
 import * as actions from '../../actions.js'
 
 export default ({ coreSagas }) => {
@@ -29,8 +28,8 @@ export default ({ coreSagas }) => {
     }
   }
 
-  return function * () {
-    yield takeEvery(AT.INIT_TRANSFER_ETHER, initTransferEther)
-    yield takeLatest(AT.TRANSFER_ETHER, transferEther)
+  return {
+    initTransferEther,
+    transferEther
   }
 }

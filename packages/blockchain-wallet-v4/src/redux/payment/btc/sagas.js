@@ -24,18 +24,13 @@ const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resol
       .chain().fee(myFee).amount(myAmount).done()
 */
 
-// TODO :: SHOULD WE HAVE A METHOD TO SAVE THE DESCRIPTION RELATED TO A PUBLISHED TX?
-//  -- just dispatch the actions that will change the wallet payload (after publish)
-
 export default ({ api }) => {
-  // ///////////////////////////////////////////////////////////////////////////
   const pushBitcoinTx = futurizeP(Task)(api.pushBitcoinTx)
   const getWalletUnspent = (network, fromData) =>
     api.getBitcoinUnspents(fromData.from, -1)
       .then(prop('unspent_outputs'))
       .then(map(toCoin(network, fromData)))
 
-  // ///////////////////////////////////////////////////////////////////////////
   const calculateTo = function * (destinations, network) {
     const appState = yield select(identity)
     const wallet = S.wallet.getWallet(appState)
@@ -55,7 +50,6 @@ export default ({ api }) => {
     throw new Error('no_destination_set')
   }
 
-  // ///////////////////////////////////////////////////////////////////////////
   const calculateAmount = function (amounts) {
     if (isPositiveNumber(amounts)) {
       return [amounts]
@@ -68,13 +62,12 @@ export default ({ api }) => {
     throw new Error('no_amount_set')
   }
 
-  // ///////////////////////////////////////////////////////////////////////////
   const calculateFrom = function * (origin, network) {
     const appState = yield select(identity)
     const wallet = S.wallet.getWallet(appState)
 
     // No origin => assume origin = all the legacy addresses (non - watchOnly)
-    if (origin === null || origin === undefined || origin === '') {
+    if (isNil(origin) || origin === '') {
       let spendableActiveAddresses = yield select(S.wallet.getSpendableActiveAddresses)
       return fromLegacyList(spendableActiveAddresses)
     }
@@ -105,7 +98,6 @@ export default ({ api }) => {
     throw new Error('no_origin_set')
   }
 
-  // ///////////////////////////////////////////////////////////////////////////
   const calculateFee = function (fee, fees) {
     if (isPositiveNumber(fee)) {
       return fee
@@ -118,7 +110,6 @@ export default ({ api }) => {
     throw new Error('no_fee_set')
   }
 
-  // ///////////////////////////////////////////////////////////////////////////
   const calculateSelection = function ({ to, amount, fee, coins, change, effectiveBalance }) {
     if (!to) {
       throw new Error('missing_to')
@@ -148,7 +139,6 @@ export default ({ api }) => {
     return CoinSelection.descentDraw(targets, fee, coins, change)
   }
 
-  // ///////////////////////////////////////////////////////////////////////////
   const calculateSweepSelection = function ({ to, fee, coins, effectiveBalance }) {
     if (!to) {
       throw new Error('missing_to')
@@ -182,7 +172,6 @@ export default ({ api }) => {
     }
   }
 
-  // ///////////////////////////////////////////////////////////////////////////
   const calculateSignature = function * (network, password, fromType, selection) {
     if (!selection) {
       throw new Error('missing_selection')
@@ -205,7 +194,6 @@ export default ({ api }) => {
     }
   }
 
-  // ///////////////////////////////////////////////////////////////////////////
   const calculatePublish = function * (txHex) {
     if (!txHex) {
       throw new Error('missing_signed_tx')
@@ -213,7 +201,6 @@ export default ({ api }) => {
     return yield call(() => taskToPromise(pushBitcoinTx(txHex)))
   }
 
-  // ///////////////////////////////////////////////////////////////////////////
   function create ({ network, payment } = { network: undefined, payment: {} }) {
     const makePayment = (p) => ({
       value () {

@@ -1,0 +1,359 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Whats New renders correctly 1`] = `
+<React.Fragment>
+  <modal-header
+    onClose={[Function]}
+  >
+    <FormattedMessage
+      defaultMessage="Whats New"
+      id="layouts.wallet.trayright.whatsnew"
+      values={Object {}}
+    />
+  </modal-header>
+  <modal-body>
+    <template__Wrapper>
+      <template__ContentWrapper>
+        <React.Fragment
+          key="0"
+        >
+          <div>
+            <template__WhatsNewTitle
+              size="14px"
+              weight={600}
+            >
+              <FormattedMessage
+                defaultMessage="Import Funds from MyEtherWallet"
+                id="layouts.wallet.header.whatsnew.whatsnew.title12"
+                values={Object {}}
+              />
+            </template__WhatsNewTitle>
+            <template__WhatsNewDate
+              color="gray-3"
+              size="12px"
+              weight={400}
+            >
+              February 10, 2018
+            </template__WhatsNewDate>
+          </div>
+          <text-group
+            inline={true}
+          >
+            <template__WhatsNewContent
+              size="12px"
+              weight={300}
+            >
+              <FormattedMessage
+                defaultMessage="You can now import your ether from your MyEtherWallet backup directly into your Blockchain wallet."
+                id="layouts.wallet.header.whatsnew.whatsnew.desc12"
+                values={Object {}}
+              />
+            </template__WhatsNewContent>
+            <React.Fragment>
+              <template__WhatsNewLink
+                onClick={[Function]}
+              >
+                <NavLink
+                  activeClassName="active"
+                  style={
+                    Object {
+                      "color": "brand-secondary",
+                    }
+                  }
+                  to="/settings/info"
+                >
+                  <FormattedMessage
+                    defaultMessage="Learn More"
+                    id="layouts.wallet.header.whatsnew.whatsnew.link.12"
+                    values={Object {}}
+                  />
+                </NavLink>
+              </template__WhatsNewLink>
+            </React.Fragment>
+          </text-group>
+        </React.Fragment>
+        <React.Fragment
+          key="1"
+        >
+          <div>
+            <template__WhatsNewTitle
+              size="14px"
+              weight={600}
+            >
+              <FormattedMessage
+                defaultMessage="New Bitcoin Cash Address Format"
+                id="layouts.wallet.header.whatsnew.whatsnew.title11"
+                values={Object {}}
+              />
+            </template__WhatsNewTitle>
+            <template__WhatsNewDate
+              color="gray-3"
+              size="12px"
+              weight={400}
+            >
+              January 18, 2018
+            </template__WhatsNewDate>
+          </div>
+          <text-group
+            inline={true}
+          >
+            <template__WhatsNewContent
+              size="12px"
+              weight={300}
+            >
+              <FormattedMessage
+                defaultMessage="Bitcoin Cash addresses now follow the CashAddr format."
+                id="layouts.wallet.header.whatsnew.whatsnew.desc11"
+                values={Object {}}
+              />
+            </template__WhatsNewContent>
+            <React.Fragment>
+              <template__WhatsNewLink
+                onClick={[Function]}
+              >
+                <FormattedMessage
+                  defaultMessage="Learn More"
+                  id="layouts.wallet.header.whatsnew.whatsnew.link.11"
+                  values={Object {}}
+                />
+              </template__WhatsNewLink>
+            </React.Fragment>
+          </text-group>
+        </React.Fragment>
+        <React.Fragment
+          key="2"
+        >
+          <div>
+            <template__WhatsNewTitle
+              size="14px"
+              weight={600}
+            >
+              <FormattedMessage
+                defaultMessage="Bitcoin Cash"
+                id="layouts.wallet.header.whatsnew.whatsnew.title10"
+                values={Object {}}
+              />
+            </template__WhatsNewTitle>
+            <template__WhatsNewDate
+              color="gray-3"
+              size="12px"
+              weight={400}
+            >
+              October 3, 2017
+            </template__WhatsNewDate>
+          </div>
+          <text-group
+            inline={true}
+          >
+            <template__WhatsNewContent
+              size="12px"
+              weight={300}
+            >
+              <FormattedMessage
+                defaultMessage="If you had bitcoin in your wallet before August 1, 2017, you can now access Bitcoin Cash via Settings > General."
+                id="layouts.wallet.header.whatsnew.whatsnew.desc10"
+                values={Object {}}
+              />
+            </template__WhatsNewContent>
+            <React.Fragment>
+              <template__WhatsNewLink
+                onClick={[Function]}
+              >
+                <NavLink
+                  activeClassName="active"
+                  style={
+                    Object {
+                      "color": "brand-secondary",
+                    }
+                  }
+                  to="/bch/transactions"
+                >
+                  <FormattedMessage
+                    defaultMessage="Learn More"
+                    id="layouts.wallet.header.whatsnew.whatsnew.link.12"
+                    values={Object {}}
+                  />
+                </NavLink>
+              </template__WhatsNewLink>
+            </React.Fragment>
+          </text-group>
+        </React.Fragment>
+        <React.Fragment
+          key="3"
+        >
+          <div>
+            <template__WhatsNewTitle
+              size="14px"
+              weight={600}
+            >
+              <FormattedMessage
+                defaultMessage="Exchange Assets"
+                id="layouts.wallet.header.whatsnew.whatsnew.title9"
+                values={Object {}}
+              />
+            </template__WhatsNewTitle>
+            <template__WhatsNewDate
+              color="gray-3"
+              size="12px"
+              weight={400}
+            >
+              August 11, 2017
+            </template__WhatsNewDate>
+          </div>
+          <text-group
+            inline={true}
+          >
+            <template__WhatsNewContent
+              size="12px"
+              weight={300}
+            >
+              <FormattedMessage
+                defaultMessage="You can exchange between bitcoin, ether, and bitcoin cash directly from your Blockchain wallet"
+                id="layouts.wallet.header.whatsnew.whatsnew.desc9"
+                values={Object {}}
+              />
+            </template__WhatsNewContent>
+            <React.Fragment>
+              <template__WhatsNewLink
+                onClick={[Function]}
+              >
+                <NavLink
+                  activeClassName="active"
+                  style={
+                    Object {
+                      "color": "brand-secondary",
+                    }
+                  }
+                  to="/exchange"
+                >
+                  <FormattedMessage
+                    defaultMessage="Learn More"
+                    id="layouts.wallet.header.whatsnew.whatsnew.link.9"
+                    values={Object {}}
+                  />
+                </NavLink>
+              </template__WhatsNewLink>
+            </React.Fragment>
+          </text-group>
+        </React.Fragment>
+        <React.Fragment
+          key="4"
+        >
+          <div>
+            <template__WhatsNewTitle
+              size="14px"
+              weight={600}
+            >
+              <FormattedMessage
+                defaultMessage="Send & Receive Ether"
+                id="layouts.wallet.header.whatsnew.whatsnew.title8"
+                values={Object {}}
+              />
+            </template__WhatsNewTitle>
+            <template__WhatsNewDate
+              color="gray-3"
+              size="12px"
+              weight={400}
+            >
+              July 24, 2017
+            </template__WhatsNewDate>
+          </div>
+          <text-group
+            inline={true}
+          >
+            <template__WhatsNewContent
+              size="12px"
+              weight={300}
+            >
+              <FormattedMessage
+                defaultMessage="You can now send and receive ether from your Blockchain wallet!"
+                id="layouts.wallet.header.whatsnew.whatsnew.desc8"
+                values={Object {}}
+              />
+            </template__WhatsNewContent>
+            <React.Fragment>
+              <template__WhatsNewLink
+                onClick={[Function]}
+              >
+                <NavLink
+                  activeClassName="active"
+                  style={
+                    Object {
+                      "color": "brand-secondary",
+                    }
+                  }
+                  to="/eth/transactions"
+                >
+                  <FormattedMessage
+                    defaultMessage="Learn More"
+                    id="layouts.wallet.header.whatsnew.whatsnew.link.8"
+                    values={Object {}}
+                  />
+                </NavLink>
+              </template__WhatsNewLink>
+            </React.Fragment>
+          </text-group>
+        </React.Fragment>
+        <React.Fragment
+          key="5"
+        >
+          <div>
+            <template__WhatsNewTitle
+              size="14px"
+              weight={600}
+            >
+              <FormattedMessage
+                defaultMessage="Sell Bitcoin"
+                id="layouts.wallet.header.whatsnew.whatsnew.title7"
+                values={Object {}}
+              />
+            </template__WhatsNewTitle>
+            <template__WhatsNewDate
+              color="gray-3"
+              size="12px"
+              weight={400}
+            >
+              May 12, 2017
+            </template__WhatsNewDate>
+          </div>
+          <text-group
+            inline={true}
+          >
+            <template__WhatsNewContent
+              size="12px"
+              weight={300}
+            >
+              <FormattedMessage
+                defaultMessage="You can now sell bitcoin directly from your Blockchain wallet!"
+                id="layouts.wallet.header.whatsnew.whatsnew.desc7"
+                values={Object {}}
+              />
+            </template__WhatsNewContent>
+            <React.Fragment>
+              <template__WhatsNewLink
+                onClick={[Function]}
+              >
+                <NavLink
+                  activeClassName="active"
+                  style={
+                    Object {
+                      "color": "brand-secondary",
+                    }
+                  }
+                  to="/buy-sell"
+                >
+                  <FormattedMessage
+                    defaultMessage="Learn More"
+                    id="layouts.wallet.header.whatsnew.whatsnew.link.7"
+                    values={Object {}}
+                  />
+                </NavLink>
+              </template__WhatsNewLink>
+            </React.Fragment>
+          </text-group>
+        </React.Fragment>
+      </template__ContentWrapper>
+    </template__Wrapper>
+  </modal-body>
+</React.Fragment>
+`;
