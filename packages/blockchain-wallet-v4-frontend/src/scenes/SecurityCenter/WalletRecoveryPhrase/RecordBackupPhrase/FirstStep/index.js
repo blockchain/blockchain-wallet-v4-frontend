@@ -33,7 +33,11 @@ const FirstStepContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 118%;
+  width: 100%;
+  @media(min-width: 480px){
+    width: 118%;
+  }
+
 `
 const Buttons = styled.div`
   display: flex;

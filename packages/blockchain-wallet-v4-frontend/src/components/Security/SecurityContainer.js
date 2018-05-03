@@ -9,6 +9,7 @@ const SecurityContainer = styled.div`
   padding: 20px;
     @media (min-width: 400px) and (max-width: 991px) {
       display: block;
+      width: 95%;
     }
 `
 
