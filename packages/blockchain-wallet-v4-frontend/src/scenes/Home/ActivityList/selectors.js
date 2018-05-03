@@ -1,5 +1,6 @@
-import { take, map, sequence, prop, curry, compose, descend, sort } from 'ramda'
+import { isNil, take, flatten, map, lift, prop, curry, compose, descend, sort } from 'ramda'
 import { selectors } from 'data'
+import { createSelector } from 'reselect'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 export const transform = curry((coin, transaction) => {
@@ -11,28 +12,35 @@ export const transform = curry((coin, transaction) => {
     coin: coin
   }
 })
-export const getData = (state, number) => {
-  let activities = selectors.core.settings.getLoggingLevel(state).getOrElse(false)
-    ? selectors.core.data.misc.getLogs(state).map(take(number))
-    : Remote.of([])
 
-  const btcTransactions = selectors.core.common.bitcoin.getWalletTransactions(state)
-  if (btcTransactions[0] !== undefined) {
-    const b = btcTransactions[0].map(compose(take(number), map(transform('BTC'))))
-    activities = sequence(Remote.of, [activities, b]).map(([a, b]) => a.concat(b))
+export const getNumber = () => 8
+
+export const getLogs = createSelector(
+  [selectors.core.settings.getLoggingLevel, selectors.core.data.misc.getLogs, getNumber],
+  (level, logs, number) => level.getOrElse(false) ? logs.map(take(number)) : Remote.of([])
+)
+
+export const getBtcTransactions = createSelector(
+  [selectors.core.common.bitcoin.getWalletTransactions, getNumber],
+  (transactions, number) => isNil(transactions[0]) ? Remote.of([]) : transactions[0].map(compose(take(number), map(transform('BTC'))))
+)
+
+export const getBchTransactions = createSelector(
+  [selectors.core.common.bitcoin.getWalletTransactions, getNumber],
+  (transactions, number) => isNil(transactions[0]) ? Remote.of([]) : transactions[0].map(compose(take(number), map(transform('BCH'))))
+)
+
+export const getEthTransactions = createSelector(
+  [selectors.core.common.ethereum.getTransactions, getNumber],
+  (transactions, number) => transactions.map(compose(take(number), map(transform('ETH'))))
+)
+
+export const getData = createSelector(
+  [getLogs, getBtcTransactions, getBchTransactions, getEthTransactions, getNumber],
+  (logs, btc, bch, eth, number) => {
+    const transform = (logs, btc, bch, eth) => {
+      return flatten([logs, btc, bch, eth].map(sort(descend(prop('time')))).map(take(number)))
+    }
+    return lift(transform)(logs, btc, bch, eth)
   }
-
-  const bchTransactions = selectors.core.common.bch.getWalletTransactions(state)
-  if (bchTransactions[0] !== undefined) {
-    const b = bchTransactions[0].map(compose(take(number), map(transform('BCH'))))
-    activities = sequence(Remote.of, [activities, b]).map(([a, b]) => a.concat(b))
-  }
-
-  const ethTransactions = selectors.core.common.ethereum.getTransactions(state)
-  const b = ethTransactions.map(compose(take(number), map(transform('ETH'))))
-  activities = sequence(Remote.of, [activities, b]).map(([a, b]) => a.concat(b))
-
-  return activities.map(sort(descend(prop('time')))).map(take(number))
-}
-
-export const getEthereumContext = selectors.core.kvStore.ethereum.getContext
+)
