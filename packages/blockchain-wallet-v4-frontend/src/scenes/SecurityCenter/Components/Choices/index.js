@@ -24,8 +24,11 @@ const ChoiceDescription = styled.div`
 `
 const TwoStepChoicesWrapper = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-evenly;
+  @media (min-width: 480px) {
+    flex-direction: row;
+  }
 
   @media (min-width: 1224px) {
     width: 100%;

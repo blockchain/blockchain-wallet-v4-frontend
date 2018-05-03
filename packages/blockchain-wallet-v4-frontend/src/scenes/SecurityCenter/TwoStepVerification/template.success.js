@@ -83,7 +83,6 @@ const Header = SecurityHeader.extend`
   align-items: center;
 `
 const TipText = styled(Text)`
-text-align: justify;
 display: inline;
 font-size: 12px;
 
