@@ -1,15 +1,14 @@
 import React, { Fragment } from 'react'
-import { Text, Icon, Button } from 'blockchain-info-components'
+import { Text, Icon, Button, HeartbeatLoader } from 'blockchain-info-components'
 import { Wrapper as ExchangeCheckoutWrapper } from '../../ExchangeCheckout'
 import { flex, spacing } from 'services/StyleService'
 import { FormattedMessage } from 'react-intl'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { StepTransition } from 'components/Utilities/Stepper'
 import QuoteInput from './QuoteInput'
-// import FundingSource from 'components/BuySell/FundingSource'
 import { MethodContainer } from 'components/BuySell/styled.js'
 
-const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, finishAccountSetup, limits, type, defaultCurrency }) => {
+const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, limits, type, defaultCurrency, symbol, checkoutBusy, busy, setMax }) => {
   const quoteInputSpec = {
     method: 'buy',
     input: defaultCurrency,
@@ -28,17 +27,14 @@ const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, fini
 
   const submitButtonHelper = () => (
     reason.indexOf('has_remaining') > -1
-      ? <StepTransition next Component={Button} style={spacing('mt-45')} nature='primary' fullwidth disabled={!Remote.Success.is(quoteR) || limitsHelper(quoteR, limits)}>
-        <FormattedMessage id='review_order' defaultMessage='Review Order' />
+      ? <StepTransition next Component={Button} style={spacing('mt-45')} nature='primary' fullwidth disabled={checkoutBusy || Remote.Loading.is(quoteR) || limitsHelper(quoteR, limits)}>
+        {
+          Remote.Loading.is(quoteR)
+            ? <HeartbeatLoader height='20px' width='20px' color='white' />
+            : <FormattedMessage id='continue' defaultMessage='Continue' />
+        }
       </StepTransition>
-      : <div style={{ ...flex('col'), ...spacing('mt-15') }}>
-        <Text size='14px' weight={300}>
-          You need to finish setting up your account before you can buy and sell.
-        </Text>
-        <Button style={spacing('mt-15')} nature='primary' onClick={finishAccountSetup}>
-          Continue Where You Left Off
-        </Button>
-      </div>
+      : null
   )
 
   return (
@@ -53,7 +49,7 @@ const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, fini
           <Text size='12px' weight={300}>
             {'@ '}
             {rateQuoteR
-              .map((quote) => '$' + quote && quote.quoteAmount.toLocaleString())
+              .map((quote) => `${symbol}${quote && quote.quoteAmount.toLocaleString()}`)
               .getOrElse(
                 <Fragment>
                   <FormattedMessage id='loading' defaultMessage='Loading' />
@@ -81,6 +77,8 @@ const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, fini
                 limits={limits}
                 type={type}
                 defaultCurrency={defaultCurrency}
+                symbol={symbol}
+                setMax={setMax}
               />
             </div>
           </Fragment>

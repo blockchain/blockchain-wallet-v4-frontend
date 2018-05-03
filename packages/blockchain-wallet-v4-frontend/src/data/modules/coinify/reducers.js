@@ -1,7 +1,10 @@
 import * as AT from './actionTypes'
 import { assoc } from 'ramda'
 
-const INITIAL_STATE = []
+const INITIAL_STATE = {
+  checkoutBusy: false,
+  checkoutError: false
+}
 
 const coinify = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
@@ -21,6 +24,18 @@ const coinify = (state = INITIAL_STATE, action) => {
     }
     case AT.COINIFY_SAVE_MEDIUM_SUCCESS: {
       return assoc('medium', payload, state)
+    }
+    case AT.COINIFY_CHECKOUT_BUSY_ON: {
+      return assoc('checkoutBusy', true, state)
+    }
+    case AT.COINIFY_CHECKOUT_BUSY_OFF: {
+      return assoc('checkoutBusy', false, state)
+    }
+    case AT.COINIFY_SET_CHECKOUT_ERROR: {
+      return assoc('checkoutError', payload, state)
+    }
+    case AT.COINIFY_CLEAR_CHECKOUT_ERROR: {
+      return assoc('checkoutError', false, state)
     }
     default:
       return state

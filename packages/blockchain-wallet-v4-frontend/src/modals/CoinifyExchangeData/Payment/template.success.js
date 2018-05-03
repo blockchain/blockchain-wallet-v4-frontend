@@ -27,7 +27,7 @@ const helpers = [
   }
 ]
 
-const faqHelper = () => helpers.map(el => <Helper question={el.question} answer={el.answer} />)
+const faqHelper = () => helpers.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
 
 const Payment = (props) => {
   const { value, busy, onSubmit, handlePaymentClick, medium } = props

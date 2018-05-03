@@ -5,33 +5,18 @@ import { bindActionCreators } from 'redux'
 import { getBase, getData, getErrors, getQuote, getRateQuote, getTrades, getCurrency } from './selectors'
 import Success from './template.success'
 import { formValueSelector } from 'redux-form'
+import Loading from '../../template.loading'
 
 class Checkout extends React.PureComponent {
-  componentWillMount () {
-    this.props.coinifyDataActions.fetchQuote({ quote: { amt: 1e8, baseCurr: 'BTC', quoteCurr: 'EUR' } }) // only pass quoteCurr as amt and base will always ben 1e8 and "BTC"
+  componentDidMount () {
+    this.props.actions.initializeCheckoutForm()
     this.props.coinifyDataActions.fetchTrades()
   }
 
-  componentDidMount () {
-    this.props.data.map(d => {
-      if (d.profile._level) {
-        this.props.coinifyDataActions.fetchRateQuote(d.profile._level.currency)
-      }
-    })
-    this.props.actions.initialized()
-  }
-
-  componentDidUpdate (prevProps) {
-    if (prevProps.currency !== this.props.currency) {
-      this.props.coinifyDataActions.fetchRateQuote(this.props.currency)
-    }
-  }
-
   render () {
-    const { data, modalActions, coinifyDataActions, rateQuoteR, buyQuoteR, currency } = this.props
+    const { data, modalActions, coinifyDataActions, rateQuoteR, buyQuoteR, currency, checkoutBusy } = this.props
     const { handleTrade, fetchQuote } = coinifyDataActions
     const { showModal } = modalActions
-
     return data.cata({
       Success: (value) => <Success {...this.props}
         value={value}
@@ -41,9 +26,11 @@ class Checkout extends React.PureComponent {
         rateQuoteR={rateQuoteR}
         fetchBuyQuote={(quote) => fetchQuote({ quote, nextAddress: value.nextAddress })}
         currency={currency}
+        checkoutBusy={checkoutBusy}
+        setMax={(amt) => this.props.actions.setCheckoutMax(amt)}
       />,
       Failure: (msg) => <div>Failure: {msg.error}</div>,
-      Loading: () => <div>Loading...</div>,
+      Loading: () => <Loading />,
       NotAsked: () => <div>Not Asked</div>
     })
   }
@@ -57,7 +44,8 @@ const mapStateToProps = state => ({
   trades: getTrades(state),
   errors: getErrors(state),
   currency: formValueSelector('coinifyCheckout')(state, 'currency'),
-  defaultCurrency: getCurrency(state)
+  defaultCurrency: getCurrency(state),
+  checkoutBusy: state.coinify.checkoutBusy
 })
 
 const mapDispatchToProps = dispatch => ({
