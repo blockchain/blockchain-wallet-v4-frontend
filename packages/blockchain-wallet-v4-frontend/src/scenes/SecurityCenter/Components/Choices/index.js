@@ -47,10 +47,10 @@ function Choices (props) {
         <Icon name='lock' size='18px' weight={400} />
         <ChoiceDescription>
           <Text weight={300} size='14px'>
-            <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Authenticator App' />
+            <FormattedMessage id='scenes.security.twostepsetup.useauthenticatortitle' defaultMessage='Authenticator App' />
           </Text>
           <Text weight={200} size='12px'>
-            <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Use app-generated codes' />
+            <FormattedMessage id='scenes.security.twostepsetup.useauthenticator' defaultMessage='Use app-generated codes' />
           </Text>
         </ChoiceDescription>
       </Choice>
@@ -58,10 +58,10 @@ function Choices (props) {
         <Image name='yubikey' height='18px' width='18px' />
         <ChoiceDescription>
           <Text weight={300} size='14px'>
-            <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Yubikey' />
+            <FormattedMessage id='scenes.security.twostepsetup.useyubikey.title' defaultMessage='Yubikey' />
           </Text>
           <Text weight={200} size='12px'>
-            <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Pair with your Yubikey' />
+            <FormattedMessage id='scenes.security.twostepsetup.useyubikey' defaultMessage='Pair with your Yubikey' />
           </Text>
         </ChoiceDescription>
       </Choice>
@@ -69,10 +69,10 @@ function Choices (props) {
         <Icon name='mobile' size='18px' weight={400} />
         <ChoiceDescription>
           <Text weight={300} size='14px'>
-            <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Mobile Phone Number' />
+            <FormattedMessage id='scenes.security.twostepsetup.smstitle' defaultMessage='Mobile Phone Number' />
           </Text>
           <Text weight={200} size='12px'>
-            <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Use codes sent via SMS' />
+            <FormattedMessage id='scenes.security.twostepsetup.sms' defaultMessage='Use codes sent via SMS' />
           </Text>
         </ChoiceDescription>
       </Choice>

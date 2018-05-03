@@ -37,11 +37,11 @@
     }
   },
   "dependencies": {
-    "polished": "^1.9.0",
-    "react-onclickoutside": "^6.7.1",
-    "prop-types": "^15.6.1",
-    "react": "^16.2.0",
-    "styled-components": "^3.2.4",
-    "ramda": "^0.25.0"
+    "polished": "1.9.0",
+    "react-onclickoutside": "6.7.1",
+    "prop-types": "15.6.1",
+    "react": "16.3.0",
+    "styled-components": "3.2.4",
+    "ramda": "0.25.0"
   }
 }

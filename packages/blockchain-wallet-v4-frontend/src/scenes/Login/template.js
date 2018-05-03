@@ -87,7 +87,7 @@ const Login = (props) => {
         <FormattedMessage id='scenes.login.explain' defaultMessage='Sign in to your wallet below' />
       </Text>
       <Separator />
-      <LoginForm override onSubmit={onSubmit}>
+      <LoginForm onSubmit={onSubmit}>
         <FormGroup>
           <FormItem>
             <FormLabel for='guid'>
