@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const BaseTextGroup = styled.div`
-  text-align: justify;
   ${props => props.nowrap ? '& > * { white-space: nowrap }' : '& > * { white-space: normal }'};
   ${props => props.inline ? '& > * { display: inline; }' : '& > * { display: block; margin-bottom: 10px; }'};
 `
