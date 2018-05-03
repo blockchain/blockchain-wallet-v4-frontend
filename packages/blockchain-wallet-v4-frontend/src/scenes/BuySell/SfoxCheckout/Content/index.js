@@ -17,7 +17,7 @@ class Checkout extends React.PureComponent {
   }
 
   componentDidMount () {
-    this.props.sendBtcActions.sendBtcInitialized('priority')
+    this.props.sendBtcActions.sendBtcInitialized({ feeType: 'priority' })
   }
 
   render () {
