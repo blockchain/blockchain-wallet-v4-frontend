@@ -15,7 +15,7 @@ import { spacing } from 'services/StyleService'
 const pulseAnimation = keyframes`${pulse}`
 
 const SecuritySummaryChoice = styled(SecuritySummary)`
-  width: 100%;  
+  width: 100%;
   @media(min-width: 992px) {
     width: 120%;
   }
@@ -26,9 +26,11 @@ const SecurityTwoStepContainer = SecurityContainer.extend`
   grid-template-columns: 85% 15%;
 `
 const IconAndHeaderContainer = styled.div`
-  display: grid;
-  grid-template-columns: 15% 85%;
   opacity: ${props => props.success ? 0.3 : 1};
+  @media(min-width: 480px) {
+    display: grid;
+    grid-template-columns: 15% 85%;
+}
 `
 const DisableContainer = styled.div`
   width: 100%;

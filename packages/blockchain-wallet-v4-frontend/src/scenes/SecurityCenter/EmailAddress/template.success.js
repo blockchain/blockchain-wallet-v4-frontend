@@ -44,9 +44,11 @@ const EmailButton = styled(Button)`
   }
 `
 const IconAndHeaderContainer = styled.div`
-  display: grid;
-  grid-template-columns: 15% 85%;
   opacity: ${props => props.success ? 0.3 : 1};
+  @media(min-width: 480px) {
+    display: grid;
+    grid-template-columns: 15% 85%;
+  }
 `
 const GridContainer = styled(SecurityContainer)`
   grid-template-columns: 85% 15%;

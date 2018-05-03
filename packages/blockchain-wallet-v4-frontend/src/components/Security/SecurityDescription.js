@@ -2,12 +2,14 @@ import styled from 'styled-components'
 import { Color } from 'blockchain-info-components'
 
 const SecurityDescription = styled.div`
-  text-align: justify;
   padding: 10px 0;
   font-family: 'Montserrat', sans-serif;
   font-weight: 200;
   font-size: 14px;
   color: ${Color('gray-5')};
+  @media(min-width: 480px) {
+    text-align: justify;
+  }
 
   & > * { display: inline; margin-right: 5px; }
 `
