@@ -157,19 +157,6 @@ export default ({ api, options }) => {
     }
   }
 
-  const fetchQuote = function * (data) {
-    try {
-      const coinify = yield call(getCoinify)
-      yield put(A.fetchQuoteLoading())
-      const { amt, baseCurr, quoteCurr } = data.quote
-      const quote = yield apply(coinify, coinify.getBuyQuote, [amt, baseCurr, quoteCurr])
-      yield put(A.fetchQuoteSuccess(quote))
-      return quote
-    } catch (e) {
-      yield put(A.fetchQuoteFailure(e))
-    }
-  }
-
   return {
     signup,
     buy,
