@@ -28,6 +28,7 @@
     "test:watch": "./../../node_modules/.bin/jest --watchAll"
   },
   "jest": {
+    "automock": false,
     "collectCoverageFrom": [
       "src/**/*.js",
       "!src/**/rootSaga.js"
