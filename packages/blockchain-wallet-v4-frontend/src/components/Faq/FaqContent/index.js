@@ -6,7 +6,6 @@ import styled from 'styled-components'
 import { Link, Color } from 'blockchain-info-components'
 
 const FaqDescription = styled.div`
-  text-align: justify;
   font-size: 12px;
 
   & > * { display: inline; }
