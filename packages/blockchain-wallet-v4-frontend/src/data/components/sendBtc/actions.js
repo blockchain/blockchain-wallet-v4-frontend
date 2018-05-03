@@ -1,6 +1,6 @@
 import * as AT from './actionTypes'
 
-export const sendBtcInitialized = feeType => ({ type: AT.SEND_BTC_INITIALIZED, payload: feeType })
+export const sendBtcInitialized = payload => ({ type: AT.SEND_BTC_INITIALIZED, payload })
 
 export const sendBtcDestroyed = () => ({ type: AT.SEND_BTC_DESTROYED })
 
