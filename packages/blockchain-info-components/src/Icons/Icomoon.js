@@ -121,5 +121,6 @@ export default {
   'up-arrow': '\\e953',
   'user-id': '\\e954',
   'user': '\\e955',
-  'wallet': '\\e956'
+  'wallet': '\\e956',
+  'open-in-new-tab': '\\e979'
 }

@@ -54,7 +54,7 @@ const Confirmations = (props) => {
           </TransactionTooltip>
         }
         <Link href={`${explorers[props.coin]}/${props.hash}`} target='_blank'>
-          <Icon name='up-arrow-in-circle' color='marketing-primary' cursor size='17px' />
+          <Icon name='open-in-new-tab' color='marketing-primary' cursor size='17px' />
         </Link>
       </IconWrapper>
     </Wrapper>
