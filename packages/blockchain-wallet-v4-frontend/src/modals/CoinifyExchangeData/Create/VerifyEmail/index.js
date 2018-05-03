@@ -37,14 +37,15 @@ class VerifyEmailContainer extends Component {
   }
 
   render () {
-    const { ui, invalid, emailVerifiedError } = this.props
+    const { emailVerifiedError, invalid, ui, updateUI } = this.props
 
     return <VerifyEmail
       emailVerifiedError={emailVerifiedError}
       invalid={invalid}
       onSubmit={this.onSubmit}
       resendCode={this.resendCode}
-      ui={ui} />
+      ui={ui}
+      updateUI={updateUI} />
   }
 }
 
