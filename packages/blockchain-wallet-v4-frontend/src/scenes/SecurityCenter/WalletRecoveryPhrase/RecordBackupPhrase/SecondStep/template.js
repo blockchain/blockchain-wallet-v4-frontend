@@ -9,7 +9,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  @media @media(min-width: 992px) {
+  @media (min-width: 992px) {
     width: 118%;
   }
 `
