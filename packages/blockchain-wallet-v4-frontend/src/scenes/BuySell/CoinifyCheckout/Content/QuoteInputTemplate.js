@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
 import { Icon, Text } from 'blockchain-info-components'
-import { SelectBoxCoinifyCurrency, TextBox } from 'components/Form'
+import { SelectBoxCoinifyCurrency, TextBox, TextBoxDebounced } from 'components/Form'
 
 import { Field, reduxForm } from 'redux-form'
 
@@ -91,7 +91,7 @@ const FiatConvertor = (props) => {
       <Wrapper>
         <FiatConvertorInput>
           <Container>
-            <Field name='leftVal' component={TextBox} disabled={disabled} borderRightNone={1} />
+            <Field name='leftVal' component={TextBoxDebounced} disabled={disabled} borderRightNone={1} />
             <Field name='currency' component={SelectBoxCoinifyCurrency} defaultDisplay={defaultCurrency} />
           </Container>
           <ArrowLeft size='16px' name='left-arrow' />
