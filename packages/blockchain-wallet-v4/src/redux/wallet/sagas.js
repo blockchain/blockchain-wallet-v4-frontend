@@ -5,7 +5,6 @@ import { prop, compose, endsWith, repeat, range, map, propSatisfies,
   length, dropLastWhile, not, concat, propEq, is, find, isEmpty } from 'ramda'
 import { set } from 'ramda-lens'
 import Task from 'data.task'
-import Either from 'data.either'
 import * as A from './actions'
 import * as S from './selectors'
 import { fetchData } from '../data/bitcoin/actions'
@@ -14,7 +13,6 @@ import { Wrapper, Wallet } from '../../types'
 import { generateMnemonic } from '../../walletCrypto'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
-const eitherToTask = e => e.fold(Task.rejected, Task.of)
 
 export default ({ api }) => {
   const runTask = function * (task, setActionCreator) {
@@ -44,8 +42,8 @@ export default ({ api }) => {
 
   const newHDAccount = function * ({label, password}) {
     let wrapper = yield select(S.getWrapper)
-    let nextWrapper = Wrapper.traverseWallet(Either.of, Wallet.newHDAccount(label, password), wrapper)
-    yield call(runTask, eitherToTask(nextWrapper), A.setWrapper)
+    let nextWrapper = Wrapper.traverseWallet(Task.of, Wallet.newHDAccount(label, password), wrapper)
+    yield call(runTask, nextWrapper, A.setWrapper)
     yield refetchContextData()
   }
 
@@ -69,8 +67,8 @@ export default ({ api }) => {
     if (isEmpty(hdwallets)) {
       let mnemonic = yield call(generateMnemonic, api)
       let upgradeWallet = Wallet.upgradeToHd(mnemonic, 'My Bitcoin Wallet', password)
-      let nextWrapper = Wrapper.traverseWallet(Either.of, upgradeWallet, wrapper)
-      yield call(runTask, eitherToTask(nextWrapper), A.setWrapper)
+      let nextWrapper = Wrapper.traverseWallet(Task.of, upgradeWallet, wrapper)
+      yield call(runTask, nextWrapper, A.setWrapper)
     } else {
       throw new Error('Already an HD wallet')
     }
