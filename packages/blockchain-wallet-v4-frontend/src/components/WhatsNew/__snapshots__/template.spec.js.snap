@@ -55,6 +55,7 @@ exports[`Whats New renders correctly 1`] = `
               >
                 <NavLink
                   activeClassName="active"
+                  ariaCurrent="true"
                   style={
                     Object {
                       "color": "brand-secondary",
@@ -161,6 +162,7 @@ exports[`Whats New renders correctly 1`] = `
               >
                 <NavLink
                   activeClassName="active"
+                  ariaCurrent="true"
                   style={
                     Object {
                       "color": "brand-secondary",
@@ -219,6 +221,7 @@ exports[`Whats New renders correctly 1`] = `
               >
                 <NavLink
                   activeClassName="active"
+                  ariaCurrent="true"
                   style={
                     Object {
                       "color": "brand-secondary",
@@ -277,6 +280,7 @@ exports[`Whats New renders correctly 1`] = `
               >
                 <NavLink
                   activeClassName="active"
+                  ariaCurrent="true"
                   style={
                     Object {
                       "color": "brand-secondary",
@@ -335,6 +339,7 @@ exports[`Whats New renders correctly 1`] = `
               >
                 <NavLink
                   activeClassName="active"
+                  ariaCurrent="true"
                   style={
                     Object {
                       "color": "brand-secondary",
