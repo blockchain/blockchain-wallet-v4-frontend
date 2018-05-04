@@ -17,6 +17,7 @@ class Checkout extends React.PureComponent {
     const { data, modalActions, coinifyDataActions, rateQuoteR, buyQuoteR, currency, checkoutBusy, paymentMedium } = this.props
     const { handleTrade, fetchQuote } = coinifyDataActions
     const { showModal } = modalActions
+
     return data.cata({
       Success: (value) => <Success {...this.props}
         value={value}

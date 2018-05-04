@@ -19,6 +19,12 @@ const WrappedFiatConverter = ({ checkoutError, disabled, limits, defaultCurrency
 )
 
 class QuoteInput extends Component {
+  componentDidMount () {
+    this.props.actions.initializeCheckoutForm()
+  }
+  componentWillUnmount () {
+    this.props.actions.initializeCheckoutForm()
+  }
   render () {
     let { symbol, setMax, checkoutError } = this.props
 
@@ -35,25 +41,14 @@ class QuoteInput extends Component {
     )
   }
 }
-//
-// QuoteInput.propTypes = {
-//   quoteR: PropTypes.any.isRequired,
-//   initialAmount: PropTypes.string,
-//   debounce: PropTypes.number,
-//   spec: PropTypes.shape({
-//     method: PropTypes.string,
-//     output: PropTypes.string,
-//     input: PropTypes.string
-//   }).isRequired,
-//   onFetchQuote: PropTypes.func.isRequired,
-//   initialQuoteId: PropTypes.string
-// }
-//
-// QuoteInput.defaultProps = {
-//   initialAmount: 0,
-//   debounce: 500,
-//   initialQuoteId: null
-// }
+
+QuoteInput.propTypes = {
+  limits: PropTypes.object.isRequired,
+  defaultCurrency: PropTypes.string.isRequired,
+  symbol: PropTypes.string.isRequired,
+  setMax: PropTypes.func.isRequired,
+  checkoutError: PropTypes.string.isRequired
+}
 
 const mapStateToProps = state => ({
   checkoutError: state.coinify.checkoutError

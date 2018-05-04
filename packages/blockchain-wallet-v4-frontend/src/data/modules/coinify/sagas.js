@@ -26,7 +26,6 @@ export default ({ coreSagas }) => {
   const coinifySaveMedium = function * (data) {
     const medium = data.payload
     yield put(A.saveMediumSuccess(medium))
-    yield put(A.coinifyNextStep('confirm'))
   }
 
   const buy = function * (payload) {
@@ -70,7 +69,7 @@ export default ({ coreSagas }) => {
       const limits = yield select(selectors.core.data.coinify.getLimits)
 
       const values = yield select(selectors.form.getFormValues('coinifyCheckout'))
-      console.log('handleChange', action, form, values)
+      // console.log('handleChange', action, form, values)
 
       if (!payload) return null
 

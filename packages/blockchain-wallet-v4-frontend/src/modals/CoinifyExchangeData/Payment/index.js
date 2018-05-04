@@ -52,10 +52,10 @@ class PaymentContainer extends Component {
 }
 
 PaymentContainer.propTypes = {
-  ui: PropTypes.object,
-  updateUI: PropTypes.function,
-  smsVerified: PropTypes.number.isRequired,
-  emailVerified: PropTypes.number.isRequired
+  // ui: PropTypes.object,
+  // updateUI: PropTypes.function,
+  // smsVerified: PropTypes.number.isRequired,
+  // emailVerified: PropTypes.number.isRequired
 }
 
 const mapStateToProps = (state) => ({

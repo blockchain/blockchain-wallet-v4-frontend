@@ -6,7 +6,7 @@ import FaqRow from 'components/Faq/FaqRow'
 import CountdownTimer from 'components/Form/CountdownTimer'
 import { Wrapper as ExchangeCheckoutWrapper } from '../../ExchangeCheckout'
 import { flex, spacing } from 'services/StyleService'
-import { reviewOrder, currencySymbolMap } from 'services/CoinifyService'
+import { reviewOrder } from 'services/CoinifyService'
 import { FormattedMessage } from 'react-intl'
 import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDetails'
 import { StepTransition } from 'components/Utilities/Stepper'
@@ -30,9 +30,8 @@ const renderDetailsRow = (id, message, value, color) => (
   </OrderDetailsRow>
 )
 
-export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium, orderSummary }) => (
+export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
   <ExchangeCheckoutWrapper>
-    {console.log('orderDetails', quoteR)}
     <Text size='32px' weight={600} style={spacing('mb-10')}>
       <FormattedMessage id='buy.almost_there' defaultMessage="You're almost there" />
     </Text>
@@ -48,21 +47,20 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium, orderSummar
       </Text>
     </div>
     <OrderDetailsTable style={spacing('mt-10')}>
-      {console.log('render service string', orderSummary, quoteR.map(q => reviewOrder.render(q, type, medium).firstRow))}
       {renderDetailsRow(
         'order_details.amount_to_transact',
         type === 'buy' ? 'BTC Amount to Purchase' : 'BTC Amount to Sell',
-        orderSummary.data.firstRow
+        quoteR.map(q => reviewOrder.renderSummary(q, type, medium)).data.firstRow
       )}
       {renderDetailsRow(
         'order_details.trading_fee',
         'Trading Fee',
-        orderSummary.data.fee
+        quoteR.map(q => reviewOrder.renderSummary(q, type, medium)).data.fee
       )}
       {renderDetailsRow(
         'order_details.total_transacted',
         type === 'buy' ? 'Total Cost' : 'Total to be Received',
-        orderSummary.data.total,
+        quoteR.map(q => reviewOrder.renderSummary(q, type, medium)).data.total,
         'success'
       )}
     </OrderDetailsTable>
@@ -76,7 +74,7 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium, orderSummar
   </ExchangeCheckoutWrapper>
 )
 
-export const OrderSubmit = ({ quoteR, onSubmit, busy, clearTradeError }) => (
+export const OrderSubmit = ({ quoteR, onSubmit, busy, clearTradeError, goToStep }) => (
   <Fragment>
     {
       busy instanceof Error

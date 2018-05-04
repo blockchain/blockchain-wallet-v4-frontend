@@ -1,3 +1,4 @@
+import { has } from 'ramda'
 
 export const getLimits = (limits, curr) => {
   const getMin = (limits, curr) => Math.min(limits.bank.minimumInAmounts[curr], limits.card.minimumInAmounts[curr])
@@ -44,19 +45,25 @@ export const mockedLimits = {
 
 export const reviewOrder = {
   baseBtc: (q) => q.baseCurrency === 'BTC',
-  render: (q, type, medium) => {
+  hasMedium: (paymentMediums, medium) => {
+    const hasMedium = has(medium)
+    if (hasMedium(paymentMediums)) return medium
+    else return medium === 'bank' ? 'card' : 'bank'
+  },
+  renderSummary: (q, type, medium) => {
+    const med = reviewOrder.hasMedium(q.paymentMediums, medium)
     if (type === 'buy') {
       if (reviewOrder.baseBtc(q)) {
         return {
           firstRow: `${Math.abs(q.baseAmount / 1e8)} BTC (${currencySymbolMap[q.quoteCurrency]}${Math.abs(q.quoteAmount).toFixed(2)})`,
-          fee: `${currencySymbolMap[q.paymentMediums[medium]['_inCurrency']]}${(+q.paymentMediums[medium]['fee']).toFixed(2)}`,
-          total: `${currencySymbolMap[q.quoteCurrency]}${(q.quoteAmount + q.paymentMediums[medium]['fee']).toFixed(2)}`
+          fee: `${currencySymbolMap[q.quoteCurrency]}${(+q.paymentMediums[med]['fee']).toFixed(2)}`,
+          total: `${currencySymbolMap[q.quoteCurrency]}${(q.quoteAmount + q.paymentMediums[med]['fee']).toFixed(2)}`
         }
       } else {
         return {
           firstRow: `${q.quoteAmount / 1e8} BTC (${currencySymbolMap[q.baseCurrency]}${Math.abs(q.baseAmount).toFixed(2)})`,
-          fee: `${currencySymbolMap[q.baseCurrency]}${(q.paymentMediums[medium]['fee']).toFixed(2)}`,
-          total: `${currencySymbolMap[q.baseCurrency]}${(q.paymentMediums[medium]['total']).toFixed(2)}`
+          fee: `${currencySymbolMap[q.baseCurrency]}${(q.paymentMediums[med]['fee']).toFixed(2)}`,
+          total: `${currencySymbolMap[q.baseCurrency]}${(q.paymentMediums[med]['total']).toFixed(2)}`
         }
       }
     } else {
@@ -65,30 +72,4 @@ export const reviewOrder = {
       }
     }
   }
-  // renderFirstRow (q, type, medium) {
-  //   console.log('renderFirstRow', q, type)
-  //
-  //   if (type === 'buy') {
-  //     if (this.baseBtc(q)) return `${Math.abs(q.baseAmount / 1e8)} BTC (${currencySymbolMap[q.quoteCurrency]}${Math.abs(q.quoteAmount).toFixed(2)})`
-  //     else return `${q.quoteAmount / 1e8} BTC (${currencySymbolMap[q.baseCurrency]}${Math.abs(q.baseAmount).toFixed(2)})`
-  //   } else {
-  //     if (this.baseBtc(q)) return `${q.baseAmount / 1e8} BTC (${currencySymbolMap[q.quoteCurrency]}${(+q.quoteAmount).toFixed(2)})`
-  //     else return `${q.quoteAmount / 1e8} BTC (${currencySymbolMap[q.baseCurrency]}${(+q.baseAmount).toFixed(2)})`
-  //   }
-  // },
-  // renderFee (q, type, medium) {
-  //   if (type === 'buy') {
-  //
-  //   }
-  //   //
-  // },
-  // renderTotal (q, type, medium) {
-  //   if (type === 'buy') {
-  //     if (this.baseBtc(q)) return `${currencySymbolMap[q.quoteCurrency]}${(q.quoteAmount + q.paymentMediums[medium]['fee']).toFixed(2)}`
-  //     return `${currencySymbolMap[q.baseCurrency]}${(q.paymentMediums[medium]['total']).toFixed(2)}`
-  //   } else {
-  //     if (this.baseBtc(q)) return `$${(+q.quoteAmount - +q.feeAmount).toFixed(2)}`
-  //     else return `$${(+q.baseAmount - +q.feeAmount).toFixed(2)}`
-  //   }
-  // }
 }

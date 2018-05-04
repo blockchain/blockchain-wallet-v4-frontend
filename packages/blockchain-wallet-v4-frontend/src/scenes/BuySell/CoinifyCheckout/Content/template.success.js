@@ -47,7 +47,6 @@ const Success = props => {
   const { trades, type, busy } = rest
 
   const limits = service.getLimits(profile._limits, defaultCurrency)
-  const orderSummary = paymentMedium && buyQuoteR.map(q => service.reviewOrder.render(q, type, paymentMedium))
 
   if (type === 'buy' || !type) {
     return (
@@ -79,7 +78,6 @@ const Success = props => {
                 onRefreshQuote={refreshQuote}
                 type={'buy'}
                 medium={paymentMedium}
-                orderSummary={orderSummary}
               />
             </CheckoutWrapper>
             <OrderSubmitWrapper style={{ ...flex('col') }}>

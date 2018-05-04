@@ -117,17 +117,14 @@ const FiatConvertor = (props) => {
   )
 }
 
-// FiatConvertor.propTypes = {
-//   coin: PropTypes.string,
-//   fiat: PropTypes.string,
-//   unit: PropTypes.string.isRequired,
-//   currency: PropTypes.string.isRequired,
-//   disabled: PropTypes.bool,
-//   handleBlur: PropTypes.func.isRequired,
-//   handleCoinChange: PropTypes.func.isRequired,
-//   handleFiatChange: PropTypes.func.isRequired,
-//   handleFocus: PropTypes.func.isRequired,
-//   handleErrorClick: PropTypes.func
-// }
+FiatConvertor.propTypes = {
+  defaultCurrency: PropTypes.string.isRequired,
+  checkoutError: PropTypes.string,
+  symbol: PropTypes.string.isRequired,
+  limits: PropTypes.object.isRequired,
+  setMax: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
+  handleErrorClick: PropTypes.func
+}
 
-export default reduxForm({ form: 'coinifyCheckout' })(FiatConvertor)
+export default reduxForm({ form: 'coinifyCheckout', destroyOnUnmount: false })(FiatConvertor)
