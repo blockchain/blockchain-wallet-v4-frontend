@@ -4,6 +4,7 @@ import * as auth from './auth/actionTypes'
 import * as components from './components/actionTypes'
 import { actionTypes as form } from './form/actionTypes'
 import * as goals from './goals/actionTypes'
+import * as logs from './logs/actionTypes'
 import * as modals from './modals/actionTypes'
 import * as modules from './modules/actionTypes'
 import * as preferences from './preferences/actionTypes'
@@ -18,6 +19,7 @@ export {
   alerts,
   auth,
   goals,
+  logs,
   modals,
   modules,
   preferences,
