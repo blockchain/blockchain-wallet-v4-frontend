@@ -18,7 +18,10 @@ class FirstStep extends React.Component {
 
     return data.cata({
       Success: value => <Success
+        watchOnly={value.watchOnly}
+        addressMatchesPriv={value.addressMatchesPriv}
         toToggled={value.toToggled}
+        destination={value.destination}
         feePerByteToggled={value.feePerByteToggled}
         feePerByteElements={value.feePerByteElements}
         effectiveBalance={value.effectiveBalance}
@@ -30,7 +33,7 @@ class FirstStep extends React.Component {
         totalFee={value.totalFee}
         handleSubmit={() => actions.sendBtcFirstStepSubmitClicked()}
         handleFeePerByteToggle={() => actions.sendBtcFirstStepFeePerByteToggled()}
-        handleToToggle={() => actions.sendBtcFirstStepToToggled()}
+        handleToToggle={(val) => actions.sendBtcFirstStepToToggled(val)}
       />,
       Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,

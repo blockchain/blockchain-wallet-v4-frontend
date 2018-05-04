@@ -8,7 +8,7 @@ import Tray from 'components/Tray'
 import Create from './Create'
 import Verify from './Verify'
 import Link from './Link'
-import Upload from './Upload'
+// import Upload from './Upload'
 import { ModalHeader, ModalBody } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
@@ -40,10 +40,10 @@ class SfoxExchangeData extends React.PureComponent {
 
   getStepComponent (step) {
     switch (step) {
-      case 'account': return <Create />
-      case 'verify': return <Verify />
-      case 'funding': return <Link />
-      case 'upload': return <Upload />
+      case 'account': return { component: <Create />, step: 'account' }
+      case 'verify': return { component: <Verify />, step: 'verify' }
+      case 'funding': return { component: <Link />, step: 'funding' }
+      case 'upload': return { component: <Verify step='upload' />, step: 'verify' }
       case 'verified': {
         this.handleClose()
         break
@@ -58,10 +58,10 @@ class SfoxExchangeData extends React.PureComponent {
     return (
       <Tray position={this.props.position} total={this.props.total} in={show} class='tray' onClose={this.handleClose.bind(this)}>
         <ModalHeader tray center onClose={this.handleClose.bind(this)}>
-          <StepIndicator step={step} stepMap={this.stepMap} />
+          <StepIndicator step={this.getStepComponent(step)['step']} stepMap={this.stepMap} />
         </ModalHeader>
         <ModalBody>
-          { this.getStepComponent(step) }
+          { this.getStepComponent(step)['component'] }
         </ModalBody>
       </Tray>
     )

@@ -1,13 +1,12 @@
-import { call, select, takeLatest, put } from 'redux-saga/effects'
+import { call, select, put } from 'redux-saga/effects'
 import { equals, identity, path, prop } from 'ramda'
-import * as AT from './actionTypes'
 import * as A from './actions'
 import * as S from './selectors'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
 import settings from 'config'
 
-import { actionTypes, initialize, change } from 'redux-form'
+import { initialize, change } from 'redux-form'
 import { promptForSecondPassword } from 'services/SagaService'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 
@@ -102,16 +101,15 @@ export default ({ coreSagas }) => {
       yield put(actions.router.push('/eth/transactions'))
       yield put(actions.alerts.displaySuccess('Ether transaction has been successfully published!'))
     } catch (e) {
-      console.log(e)
       yield put(actions.alerts.displayError('Ether transaction could not be published.'))
     }
   }
 
-  return function * () {
-    yield takeLatest(AT.SEND_ETH_INITIALIZED, sendEthInitialized)
-    yield takeLatest(AT.SEND_ETH_FIRST_STEP_SUBMIT_CLICKED, firstStepSubmitClicked)
-    yield takeLatest(AT.SEND_ETH_FIRST_STEP_MAXIMUM_AMOUNT_CLICKED, maximumAmountClicked)
-    yield takeLatest(AT.SEND_ETH_SECOND_STEP_SUBMIT_CLICKED, secondStepSubmitClicked)
-    yield takeLatest(actionTypes.CHANGE, formChanged)
+  return {
+    sendEthInitialized,
+    firstStepSubmitClicked,
+    maximumAmountClicked,
+    secondStepSubmitClicked,
+    formChanged
   }
 }

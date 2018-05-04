@@ -1,36 +1,16 @@
 import { all, fork } from 'redux-saga/effects'
-import dataBitcoin from './data/bitcoin/rootSaga'
-import dataCoinify from './data/coinify/rootSaga'
-import dataEthereum from './data/ethereum/rootSaga'
-import dataBch from './data/bch/rootSaga'
-import dataMisc from './data/misc/rootSaga'
-import dataSfox from './data/sfox/rootSaga'
-import dataShapeShift from './data/shapeShift/rootSaga'
-import kvStoreBch from './kvStore/bch/rootSaga'
-import kvStoreBuysell from './kvStore/buySell/rootSaga'
-import kvStoreContacts from './kvStore/contacts/rootSaga'
-import kvStoreEthereum from './kvStore/ethereum/rootSaga'
-import kvStoreShapeshift from './kvStore/shapeShift/rootSaga'
-import kvStoreWhatsnew from './kvStore/whatsNew/rootSaga'
-import walletOptions from './walletOptions/rootSaga'
-import settings from './settings/rootSaga'
+import data from './data/sagaRegister'
+import kvStore from './kvStore/sagaRegister'
+import walletOptions from './walletOptions/sagaRegister'
+import settings from './settings/sagaRegister'
+import refresh from './refresh/sagaRegister'
 
 export default ({ api, options }) => function * () {
   yield all([
-    fork(dataBitcoin({ api })),
-    fork(dataCoinify({ api, options })),
-    fork(dataEthereum({ api })),
-    fork(dataBch({ api })),
-    fork(dataMisc({ api })),
-    fork(dataSfox({ api, options })),
-    fork(dataShapeShift({ api })),
-    fork(kvStoreBch({ api })),
-    fork(kvStoreBuysell({ api })),
-    fork(kvStoreContacts({ api })),
-    fork(kvStoreEthereum({ api })),
-    fork(kvStoreShapeshift({ api })),
-    fork(kvStoreWhatsnew({ api })),
+    fork(data({ api, options })),
+    fork(kvStore({ api })),
     fork(walletOptions({ api, options })),
-    fork(settings({ api }))
+    fork(settings({ api })),
+    fork(refresh())
   ])
 }

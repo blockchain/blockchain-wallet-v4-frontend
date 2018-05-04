@@ -38,7 +38,7 @@ const FirstStep = props => {
   const { submitting, invalid, handleSubmit, handleClickQRCode, receiveAddress } = props
 
   return (
-    <Form override onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit}>
       <CoinSelector margin={'20px'}>
         <FormItem>
           <FormLabel for='coin'>
@@ -81,7 +81,7 @@ const FirstStep = props => {
           <FormLabel for='to'>
             <FormattedMessage id='modals.requestbitcoin.firststep.to' defaultMessage='Receive To:' />
           </FormLabel>
-          <Field name='to' component={SelectBoxBitcoinAddresses} validate={[required]} />
+          <Field name='to' component={SelectBoxBitcoinAddresses} includeAll={false} validate={[required]} />
         </FormItem>
       </FormGroup>
       <FormGroup margin={'20px'}>
