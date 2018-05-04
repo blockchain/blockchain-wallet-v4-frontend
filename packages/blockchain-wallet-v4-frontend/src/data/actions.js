@@ -3,6 +3,7 @@ import * as alerts from './alerts/actions'
 import * as auth from './auth/actions'
 import * as components from './components/actions'
 import * as goals from './goals/actions'
+import * as logs from './logs/actions'
 import * as modals from './modals/actions'
 import * as modules from './modules/actions'
 import { actions as form } from 'redux-form'
@@ -19,6 +20,7 @@ export {
   alerts,
   auth,
   goals,
+  logs,
   form,
   modals,
   modules,

@@ -8,6 +8,7 @@ import alertsReducer from './alerts/reducers.js'
 import authReducer from './auth/reducers.js'
 import coinifyReducer from './modules/coinify/reducers.js'
 import goalsReducer from './goals/reducers.js'
+import logsReducer from './logs/reducers'
 import modalsReducer from './modals/reducers.js'
 import preferencesReducer from './preferences/reducers.js'
 import scrollReducer from './scroll/reducers.js'
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   form: formReducer,
   goals: goalsReducer,
   modals: modalsReducer,
+  logs: logsReducer,
   preferences: preferencesReducer,
   scroll: scrollReducer,
   session: sessionReducer,

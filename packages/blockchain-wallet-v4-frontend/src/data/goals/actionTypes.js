@@ -1,4 +1,3 @@
-
 export const SAVE_GOAL = 'SAVE_GOAL'
 
 export const DELETE_GOAL = 'DELETE_GOAL'
