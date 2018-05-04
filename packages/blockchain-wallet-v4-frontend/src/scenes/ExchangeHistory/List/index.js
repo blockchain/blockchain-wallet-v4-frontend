@@ -1,13 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { concat } from 'ramda'
 
 import { actions } from 'data'
 import List from './template'
 
 class ListContainer extends React.PureComponent {
   componentDidMount () {
-    this.props.actions.initialized(this.props.incomplete)
+    this.props.actions.initialized(concat(this.props.incomplete, this.props.complete))
   }
 
   render () {
