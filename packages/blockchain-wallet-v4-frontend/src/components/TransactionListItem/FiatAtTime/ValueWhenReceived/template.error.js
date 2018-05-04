@@ -1,19 +1,21 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { SkeletonRectangle } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  padding: 5px 0;
+  padding: 5px;
   box-sizing: border-box;
 `
 
 export default (props) => (
   <Wrapper>
-    <SkeletonRectangle width='200px' height='15px' />
+    <Text size='12px' weight={300} color='red'>
+      {props.children}
+    </Text>
   </Wrapper>
 )

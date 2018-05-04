@@ -1,6 +1,7 @@
 import { coreSelectors as core } from 'blockchain-wallet-v4/src'
 import * as alerts from './alerts/selectors'
 import * as auth from './auth/selectors'
+import * as cache from './cache/selectors'
 import * as components from './components/selectors'
 import * as form from './form/selectors'
 import * as goals from './goals/selectors'
@@ -14,6 +15,7 @@ import * as wizard from './wizard/selectors'
 export {
   alerts,
   auth,
+  cache,
   components,
   form,
   core,

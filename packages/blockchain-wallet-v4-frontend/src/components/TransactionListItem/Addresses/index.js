@@ -27,8 +27,8 @@ const Addresses = props => {
           <FormattedMessage id='scenes.transactions.content.list.listitem.to' defaultMessage='To: ' />
         </Text>
         <Tooltip width='auto' label={to} hover={outputs && any(hasLabel, filter(notChange, outputs))}>
-          { outputs && filter(hasLabel, filter(notChange, outputs)).map((output) =>
-            <Text size='12px' weight={300}>
+          { outputs && filter(hasLabel, filter(notChange, outputs)).map((output, index) =>
+            <Text key={index} size='12px' weight={300}>
               {equals(coin, 'BCH') ? utils.bch.toCashAddr(output.address, true) : output.address}
             </Text>)
           }
@@ -39,8 +39,8 @@ const Addresses = props => {
           <FormattedMessage id='scenes.transactions.content.list.listitem.from' defaultMessage='From: ' />
         </Text>
         <Tooltip width='auto' label={from} hover={inputs && inputs.some(hasLabel)}>
-          { inputs && inputs.map((input) => input.label &&
-            <Text size='12px' weight={300}>
+          { inputs && inputs.map((input, index) => input.label &&
+            <Text key={index} size='12px' weight={300}>
               {equals(coin, 'BCH') ? utils.bch.toCashAddr(input.address, true) : input.address}
             </Text>)
           }
