@@ -37,6 +37,7 @@ const Success = props => {
     setMax,
     paymentMedium,
     initiateBuy,
+    step,
     ...rest } = props
 
   const profile = Remote.of(props.value.profile).getOrElse({ _limits: service.mockedLimits, _level: { currency: 'EUR' } })
@@ -49,49 +50,51 @@ const Success = props => {
   const limits = service.getLimits(profile._limits, defaultCurrency)
 
   if (type === 'buy' || !type) {
-    return (
-      <Stepper initialStep={0}>
-        <StepView step={0}>
-          <CheckoutWrapper>
-            <OrderCheckout
-              quoteR={buyQuoteR}
-              rateQuoteR={rateQuoteR}
-              onFetchQuote={fetchBuyQuote}
-              limits={limits.buy}
-              type={'buy'}
-              reason={'has_remaining'} // placeholder for now - coinify does not require a reason
-              defaultCurrency={defaultCurrency}
-              symbol={symbol}
-              checkoutBusy={checkoutBusy}
-              setMax={setMax}
-            />
-          </CheckoutWrapper>
-        </StepView>
-        <StepView step={1}>
-          <Payment />
-        </StepView>
-        <StepView step={2}>
-          <div style={flex('row')}>
+    if (step !== 'isx') {
+      return (
+        <Stepper initialStep={0}>
+          <StepView step={0}>
             <CheckoutWrapper>
-              <OrderDetails
+              <OrderCheckout
                 quoteR={buyQuoteR}
-                onRefreshQuote={refreshQuote}
+                rateQuoteR={rateQuoteR}
+                onFetchQuote={fetchBuyQuote}
+                limits={limits.buy}
                 type={'buy'}
-                medium={paymentMedium}
+                reason={'has_remaining'} // placeholder for now - coinify does not require a reason
+                defaultCurrency={defaultCurrency}
+                symbol={symbol}
+                checkoutBusy={checkoutBusy}
+                setMax={setMax}
               />
             </CheckoutWrapper>
-            <OrderSubmitWrapper style={{ ...flex('col') }}>
-              <OrderSubmit
-                quoteR={buyQuoteR}
-                onSubmit={initiateBuy}
-                busy={busy}
-                clearTradeError={clearTradeError}
-              />
-            </OrderSubmitWrapper>
-          </div>
-        </StepView>
-      </Stepper>
-    )
+          </StepView>
+          <StepView step={1}>
+            <Payment />
+          </StepView>
+          <StepView step={2}>
+            <div style={flex('row')}>
+              <CheckoutWrapper>
+                <OrderDetails
+                  quoteR={buyQuoteR}
+                  onRefreshQuote={refreshQuote}
+                  type={'buy'}
+                  medium={paymentMedium}
+                />
+              </CheckoutWrapper>
+              <OrderSubmitWrapper style={{ ...flex('col') }}>
+                <OrderSubmit
+                  quoteR={buyQuoteR}
+                  onSubmit={initiateBuy}
+                  busy={busy}
+                  clearTradeError={clearTradeError}
+                />
+              </OrderSubmitWrapper>
+            </div>
+          </StepView>
+        </Stepper>
+      )
+    }
   }
 }
 

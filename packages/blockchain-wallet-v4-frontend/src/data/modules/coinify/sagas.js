@@ -33,7 +33,7 @@ export default ({ coreSagas }) => {
       const buyTrade = yield call(coreSagas.data.coinify.buy, payload)
 
       console.log('go to step after buy resolves with trade:', buyTrade)
-      // yield put(A.coinifyNextStep('isx'))
+      yield put(A.coinifyNextCheckoutStep('isx'))
     } catch (e) {
       console.warn('coinify buy FE saga error', e)
       // yield put(actions.alerts.displayError('Error buying.'))

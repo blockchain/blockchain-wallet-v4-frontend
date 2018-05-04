@@ -13,6 +13,9 @@ const coinify = (state = INITIAL_STATE, action) => {
     case AT.COINIFY_NEXT_STEP: {
       return assoc('signupStep', payload, state)
     }
+    case AT.COINIFY_NEXT_CHECKOUT_STEP: {
+      return assoc('checkoutStep', payload, state)
+    }
     case AT.COINIFY_SIGNUP_FAILURE: {
       return assoc('signupError', payload, state)
     }

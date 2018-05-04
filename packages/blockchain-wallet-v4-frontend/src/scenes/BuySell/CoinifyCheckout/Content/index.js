@@ -6,6 +6,7 @@ import { getBase, getData, getErrors, getQuote, getRateQuote, getTrades, getCurr
 import Success from './template.success'
 import { formValueSelector } from 'redux-form'
 import Loading from '../../template.loading'
+import { path } from 'ramda'
 
 class Checkout extends React.Component {
   constructor (props) {
@@ -24,7 +25,7 @@ class Checkout extends React.Component {
   }
 
   render () {
-    const { data, modalActions, coinifyDataActions, rateQuoteR, buyQuoteR, currency, checkoutBusy, paymentMedium } = this.props
+    const { data, modalActions, coinifyDataActions, rateQuoteR, buyQuoteR, currency, checkoutBusy, paymentMedium, step } = this.props
     const { handleTrade, fetchQuote } = coinifyDataActions
     const { showModal } = modalActions
 
@@ -41,6 +42,7 @@ class Checkout extends React.Component {
         setMax={(amt) => this.props.actions.setCheckoutMax(amt)}
         paymentMedium={paymentMedium}
         initiateBuy={this.startBuy}
+        step={step}
       />,
       Failure: (msg) => <div>Failure: {msg.error}</div>,
       Loading: () => <Loading />,
@@ -58,8 +60,9 @@ const mapStateToProps = state => ({
   errors: getErrors(state),
   currency: formValueSelector('coinifyCheckout')(state, 'currency'),
   defaultCurrency: getCurrency(state),
-  checkoutBusy: state.coinify.checkoutBusy,
-  paymentMedium: state.coinify.medium
+  checkoutBusy: path(['coinify', 'checkoutBusy'], state),
+  paymentMedium: path(['coinify', 'medium'], state),
+  step: path(['coinify', 'checkoutStep'], state)
 })
 
 const mapDispatchToProps = dispatch => ({
