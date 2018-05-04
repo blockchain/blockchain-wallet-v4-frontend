@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import { SelectBoxBitcoinAddresses, FormGroup, FormItem, TextBox } from 'components/Form'
 import { optional, validBitcoinAddress, validBitcoinPrivateKey } from 'services/FormHelper'
 import { spacing } from 'services/StyleService'
-import { Banner, Text } from 'blockchain-info-components'
+import { Banner } from 'blockchain-info-components'
 
 const Label = styled.label`
   display: block;
