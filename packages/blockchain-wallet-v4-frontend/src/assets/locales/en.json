@@ -1001,7 +1001,7 @@
   "scenes.transactions.bitcoin.content.empty.request": "Request",
   "scenes.transaction.ether.content.empty.etherwelcome.getstarted": "Get started with ether",
   "scenes.transaction.ether.content.empty.etherwelcome.welcome": "Welcome to Ether",
-  "scenes.transaction.ether.content.empty.etherwelcome.learnmore": "Learn Mores",
+  "scenes.transaction.ether.content.empty.etherwelcome.learnmore": "Learn More",
   "scenes.transaction.ether.content.empty.etherwelcome.what": "What is ether?",
   "scenes.transaction.ether.content.empty.etherwelcome.currency": "Ether is a digital currency.",
   "scenes.transaction.ether.content.empty.etherwelcome.transact": "Like Bitcoin, it enables people around the world to transact, save, and hedge their way to a better financial future.",

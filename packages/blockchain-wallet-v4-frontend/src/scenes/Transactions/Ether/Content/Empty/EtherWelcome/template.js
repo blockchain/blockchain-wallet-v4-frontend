@@ -60,7 +60,7 @@ const EtherWelcome = props => {
       <Container>
         <Row>
           <LinkContainer to='/exchange'>
-            <Button nature='primary' bold fullwidth uppercase>
+            <Button nature='primary' fullwidth uppercase>
               <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.getstarted' defaultMessage='Get started with ether' />
             </Button>
           </LinkContainer>

@@ -19,6 +19,7 @@ const BitcoinImage = styled(Image)`
   display: none;
   height: 230px;
   opacity: 0.3;
+  color: ${props => props.theme['brand-tertiary']};
   @media(min-width: 1200px) { display: block; }
 `
 const Container = styled.div`
@@ -60,7 +61,7 @@ const BitcoinWelcome = props => {
       <Container>
         <Row>
           <LinkContainer to='/exchange'>
-            <Button nature='primary' bold fullwidth uppercase>
+            <Button nature='primary' fullwidth uppercase>
               <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.getstarted' defaultMessage='Get started with bitcoin' />
             </Button>
           </LinkContainer>
