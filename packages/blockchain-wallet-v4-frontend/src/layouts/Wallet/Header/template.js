@@ -8,23 +8,29 @@ import WhatsNewIcon from './WhatsNewIcon'
 import RefreshIcon from './RefreshIcon'
 import Logout from './Logout'
 
-import { Image } from 'blockchain-info-components'
-import { Navbar, NavbarBrand, NavbarHeader, NavbarMenu, NavbarNav, NavbarNavItem, NavbarToggler } from 'components/Navbar'
+import { Icon, Image } from 'blockchain-info-components'
+import { Navbar, NavbarBrand, NavbarHeader, NavbarMenu, NavbarNav, NavbarNavItem } from 'components/Navbar'
 
-const MenuLeftToggler = styled(NavbarToggler)`
-  left: 20px;
+const BlockchainLogoImage = styled(Image)`
+  height: 16px;
+  display: block;
+  margin-left: 10px;
+  @media (min-width: 768px) {
+    height: 20px;
+    margin-left: 0px;
+  }
 `
 
 const Header = (props) => {
-  const { navigationToggled, handleToggleNavigation, handleTrayRightToggle, handleToggleMenuLeft, trayRightOpen, trayRightContent } = props
+  const { navigationToggled, handleTrayRightToggle, handleToggleMenuLeft, trayRightOpen, trayRightContent } = props
 
   return (
     <Navbar height='60px'>
-      <MenuLeftToggler onToggle={handleToggleMenuLeft} />
       <NavbarHeader>
         <NavbarBrand>
+          <Icon name='hamburger-menu' color='white' size='16px' onClick={handleToggleMenuLeft} />
           <NavLink to='/home'>
-            <Image name='blockchain-vector' height='20px' />
+            <BlockchainLogoImage name='blockchain-vector' />
           </NavLink>
         </NavbarBrand>
       </NavbarHeader>
@@ -45,7 +51,6 @@ const Header = (props) => {
           </NavbarNavItem>
         </NavbarNav>
       </NavbarMenu>
-      <NavbarToggler onToggle={handleToggleNavigation} />
     </Navbar>
   )
 }
