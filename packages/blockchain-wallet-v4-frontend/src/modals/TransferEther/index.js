@@ -14,15 +14,15 @@ class TransferEtherContainer extends React.PureComponent {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
+  componentDidMount () {
+    this.props.sendEthActions.sendEthInitialized({ from: this.props.addr, type: 'LEGACY' })
+  }
+
   componentDidUpdate (prevProps) {
     if (Remote.Success.is(this.props.data)) {
       const { fee, effectiveBalance } = this.props.data.data
       if (parseFloat(fee) > parseFloat(effectiveBalance)) this.props.modalActions.closeAllModals()
     }
-  }
-
-  componentDidMount () {
-    this.props.sendEthActions.sendEthInitialized({ from: this.props.addr, type: 'LEGACY' })
   }
 
   handleSubmit () {
