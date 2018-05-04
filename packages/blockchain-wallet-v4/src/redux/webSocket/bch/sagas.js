@@ -28,7 +28,6 @@ export default ({ api, bchSocket }) => {
       case 'block':
         const newBlock = message.x
         yield put(A.data.bch.setBCHLatestBlock(newBlock.blockIndex, newBlock.hash, newBlock.height, newBlock.time))
-        yield put(bchActions.fetchTransactions('', true))
         break
       case 'pong':
         break
