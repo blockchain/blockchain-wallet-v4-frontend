@@ -26,7 +26,7 @@ export const getBtcTransactions = createSelector(
 )
 
 export const getBchTransactions = createSelector(
-  [selectors.core.common.bitcoin.getWalletTransactions, getNumber],
+  [selectors.core.common.bch.getWalletTransactions, getNumber],
   (transactions, number) => isNil(transactions[0]) ? Remote.of([]) : transactions[0].map(compose(take(number), map(transform('BCH'))))
 )
 

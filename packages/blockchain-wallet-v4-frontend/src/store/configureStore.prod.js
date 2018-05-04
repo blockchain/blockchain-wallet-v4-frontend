@@ -49,6 +49,7 @@ const configureStore = () => {
           autoRehydrate()
         )
       )
+      persistStore(store, { whitelist: ['session', 'preferences', 'cache'] })
       persistStore(store, { whitelist: ['session', 'preferences'] })
       sagaMiddleware.run(rootSaga, { api, btcSocket, ethSocket, bchSocket, options })
 

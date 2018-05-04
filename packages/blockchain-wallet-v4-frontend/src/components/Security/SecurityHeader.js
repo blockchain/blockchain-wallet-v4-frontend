@@ -7,9 +7,12 @@ const SecurityHeader = styled.div`
   align-items: flex-start;
   font-family: 'Montserrat', sans-serif;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 18px;
   color: ${Color('gray-5')};
   width: 100%;
+  @media(min-width: 480px) {
+    font-size: 16px;
+}
 
   & > * { margin-right: 10px; }
 `

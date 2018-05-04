@@ -9,3 +9,5 @@ export const getTheme = path(['preferences', 'theme'])
 export const getCoinDisplayed = path(['preferences', 'coinDisplayed'])
 
 export const getShowEtherWelcome = path(['preferences', 'showEtherWelcome'])
+
+export const getPriceChart = path(['preferences', 'priceChart'])

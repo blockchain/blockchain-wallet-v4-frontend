@@ -88,7 +88,7 @@ const ExchangeDetails = (props) => {
           <TableRow>
             <TableCell>
               <Text size='13px' weight={400}>
-                <FormattedMessage id='modals.exchangedetails.received' defaultMessage='Exchange rate:' />
+                <FormattedMessage id='modals.exchangedetails.exchangerate' defaultMessage='Exchange rate:' />
               </Text>
               <Tooltip>
                 <FormattedMessage id='modals.exchangedetails.exchangetooltip' defaultMessage='This rate may change depending on the market price at the time of your transaction.' />
