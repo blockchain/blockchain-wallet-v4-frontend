@@ -78,12 +78,6 @@ export default (state = INITIAL_STATE, action) => {
     case AT.FETCH_ETHEREUM_TRANSACTION_FAILURE: {
       return assoc('transactions', Remote.Failure(payload), state)
     }
-    //case AT.PREPEND_ETHEREUM_TRANSACTION: {
-    //  const transactionsR = prop('transactions', state).map(prop(payload.account))
-    //  const newTransactionsR = transactionsR.map(prepend(payload.transaction))
-    //  const finalR = newTransactionsR.map(x => ({ [payload.account]: x }))
-    //  return assoc('transactions', finalR, state)
-    //}
     default:
       return state
   }
