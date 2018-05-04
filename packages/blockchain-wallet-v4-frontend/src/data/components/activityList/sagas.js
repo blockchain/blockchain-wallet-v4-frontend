@@ -3,7 +3,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { actions, selectors } from 'data'
 
 export default ({ coreSagas }) => {
-  const initialized = function * (action) {
+  const initialized = function * () {
     try {
       const logsR = yield select(selectors.core.data.misc.getLogs)
       const btcTransactionsR = yield select(selectors.core.data.bitcoin.getTransactions)
@@ -14,7 +14,7 @@ export default ({ coreSagas }) => {
       if (!Remote.Success.is(bchTransactionsR)) yield put(actions.core.data.bch.fetchTransactions('', true))
       if (!Remote.Success.is(ethTransactionsR)) yield put(actions.core.data.misc.ethereum.fetchTransactions())
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage('components/activityList initialized saga', e))
     }
   }
 
