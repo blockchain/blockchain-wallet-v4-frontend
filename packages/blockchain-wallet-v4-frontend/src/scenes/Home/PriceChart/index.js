@@ -26,14 +26,25 @@ const Row = styled.div`
   align-items: center;
   width: 100%;
 `
+const TitleRow = styled(Row)`
+  display: flex;
+  flex-direction: column;
+  @media (min-width: 480px) {flex-direction: row;}
+`
+const TitleText = styled(Text)`
+  font-size: 22px;
+  margin-bottom: 10px;
+  font-weight: 300;
+  @media (min-width: 480px) {font-size: 24px; margin: 0;}
+`
 const PriceChart = () => (
   <Wrapper>
-    <Row>
-      <Text size='24px' weight={300} color='brand-primary' uppercase>
+    <TitleRow>
+      <TitleText color='brand-primary' uppercase>
         <FormattedMessage id='scenes.home.pricechart' defaultMessage='Price chart' />
-      </Text>
+      </TitleText>
       <TimeFilters />
-    </Row>
+    </TitleRow>
     <Row>
       <Chart />
     </Row>

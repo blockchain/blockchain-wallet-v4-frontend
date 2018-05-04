@@ -15,20 +15,16 @@ const AddressContainer = styled.div`
   justify-content: flex-start;
   align-items: center;
 `
-const QRCodeButton = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 100px;
-  height: 36px;
-  font-weight: 300;
-  font-size: 14px;
+const AddressFormLabel = styled(FormLabel)`
+  > div {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+`
+const QRText = styled(Text)`
   cursor: pointer;
-  padding: 0px 4px;
-  color: ${props => props.theme['white']};
-  font-family: 'Montserrat', Helvetica, sans-serif;
-  background-color: ${props => props.theme['brand-secondary']};
 `
 const CoinSelector = styled(FormGroup)`
   width: 50%;
@@ -49,17 +45,19 @@ const FirstStep = props => {
       </CoinSelector>
       <FormGroup margin={'5px'}>
         <FormItem>
-          <FormLabel>
-            <FormattedMessage id='modals.requestbitcoin.firststep.share' defaultMessage='Copy & Share Address:&nbsp;' />
-            <Tooltip>
-              <FormattedMessage id='modals.requestbitcoin.firststep.share_tooltip' defaultMessage='Share this address with others, and they can send you BTC directly to your wallet. Your address changes with every payment. You can also create a request by attaching an amount below.' />
-            </Tooltip>
-          </FormLabel>
+          <AddressFormLabel>
+            <div>
+              <FormattedMessage id='modals.requestbitcoin.firststep.share' defaultMessage='Copy & Share Address:&nbsp;' />
+              <Tooltip>
+                <FormattedMessage id='modals.requestbitcoin.firststep.share_tooltip' defaultMessage='Share this address with others, and they can send you BTC directly to your wallet. Your address changes with every payment. You can also create a request by attaching an amount below.' />
+              </Tooltip>
+            </div>
+            <QRText size='14px' weight={300} color='brand-secondary' onClick={handleClickQRCode}>
+              <FormattedMessage id='modals.requestbitcoin.firststep.qrcode' defaultMessage='QR Code' />
+            </QRText>
+          </AddressFormLabel>
           <AddressContainer>
             <CopyClipboard address={receiveAddress} />
-            <QRCodeButton onClick={handleClickQRCode}>
-              <FormattedMessage id='modals.requestbitcoin.firststep.qrcode' defaultMessage='QR Code' />
-            </QRCodeButton>
           </AddressContainer>
         </FormItem>
       </FormGroup>

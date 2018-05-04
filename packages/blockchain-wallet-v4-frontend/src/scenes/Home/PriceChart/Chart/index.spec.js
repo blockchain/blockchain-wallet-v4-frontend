@@ -19,7 +19,7 @@ const localStorageMock = {
 global.localStorage = localStorageMock
 
 describe('Chart container', () => {
-  const props = { data: Remote.Success(''), actions: { initialized: jest.fn() } }
+  const props = { data: Remote.Success(''), priceChartActions: { initialized: jest.fn() } }
 
   it('renders correctly (Success)', () => {
     const component = shallow(<ChartContainer {...props} />)

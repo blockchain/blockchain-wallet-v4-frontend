@@ -13,6 +13,7 @@ const Wrapper = styled.div`
   height: auto;
   min-height: 100%;
   width: 100%;
+  overflow: scroll;
 
   @media(min-width: 768px) {
     display: flex;
@@ -37,8 +38,12 @@ const ContentContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
   overflow-y: auto;
+  padding: 0 25px;
+  @media (min-width: 768px) {
+    padding: 0px;
+    height: 100%;
+  }
 `
 const FooterContainer = styled.div`
   position: relative;
