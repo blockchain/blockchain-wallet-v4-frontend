@@ -28,7 +28,7 @@ export default ({ api }) => {
       case 'ACCOUNT':
         return S.kvStore.ethereum.getAccountIndex(appState, prop('address', from)).getOrFail('Could not find ether account index')
       case 'LEGACY':
-        return 0
+        return 1
     }
   }
   // ///////////////////////////////////////////////////////////////////////////
@@ -110,6 +110,19 @@ export default ({ api }) => {
           return makePayment(merge(p, { signed }))
         } catch (e) {
           throw new Error('missing_mnemonic')
+        }
+      },
+
+      * signLegacy (password) {
+        try {
+          const appState = yield select(identity)
+          const seedHexT = S.wallet.getSeedHex(appState, password)
+          const seedHex = yield call(() => taskToPromise(seedHexT))
+          const signLegacy = data => taskToPromise(eth.signLegacy(network, seedHex, data))
+          const signed = yield call(signLegacy, p.raw)
+          return makePayment(merge(p, { signed }))
+        } catch (e) {
+          throw new Error('missing_seed_hex')
         }
       },
 

@@ -14,7 +14,7 @@ export default ({ coreSagas }) => {
       const password = yield call(promptForSecondPassword)
       payment = yield payment.amount(effectiveBalance)
       payment = yield payment.build()
-      payment = yield payment.sign(password)
+      payment = yield payment.signLegacy(password)
       yield payment.publish()
       yield put(actions.modals.closeAllModals())
       yield put(actions.router.push('/eth/transactions'))
