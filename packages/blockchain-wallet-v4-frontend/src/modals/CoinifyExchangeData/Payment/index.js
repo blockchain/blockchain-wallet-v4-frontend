@@ -46,7 +46,7 @@ class PaymentContainer extends Component {
           medium={this.state.medium}
           quote={this.props.quote}
         />,
-      Failure: (msg) => <div>ERROR: {console.warn('ERR', msg)}</div>,
+      Failure: (msg) => <div>ERROR: {msg}</div>,
       Loading: () => <div>Loading...</div>,
       NotAsked: () => <div>Not asked...</div>
     })
