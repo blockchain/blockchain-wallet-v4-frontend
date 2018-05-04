@@ -15,19 +15,27 @@ class Checkout extends React.Component {
     this.startBuy = this.startBuy.bind(this)
   }
   componentDidMount () {
-    this.props.actions.initializeCheckoutForm()
+    this.props.coinifyActions.initializeCheckoutForm()
     this.props.coinifyDataActions.fetchTrades()
   }
 
   startBuy () {
     const { buyQuoteR, paymentMedium } = this.props
-    buyQuoteR.map(q => this.props.actions.initiateBuy({ quote: q, medium: paymentMedium }))
+    buyQuoteR.map(q => this.props.coinifyActions.initiateBuy({ quote: q, medium: paymentMedium }))
   }
 
   render () {
-    const { data, modalActions, coinifyDataActions, rateQuoteR, buyQuoteR, currency, checkoutBusy, paymentMedium, step } = this.props
+    const { data, modalActions, coinifyActions, coinifyDataActions, rateQuoteR, buyQuoteR, currency, checkoutBusy, paymentMedium, step, coinifyBusy } = this.props
     const { handleTrade, fetchQuote } = coinifyDataActions
     const { showModal } = modalActions
+    const { coinifyNotAsked } = coinifyActions
+
+    const busy = coinifyBusy.cata({
+      Success: () => false,
+      Failure: (err) => err,
+      Loading: () => true,
+      NotAsked: () => false
+    })
 
     return data.cata({
       Success: (value) => <Success {...this.props}
@@ -39,10 +47,12 @@ class Checkout extends React.Component {
         fetchBuyQuote={(quote) => fetchQuote({ quote, nextAddress: value.nextAddress })}
         currency={currency}
         checkoutBusy={checkoutBusy}
-        setMax={(amt) => this.props.actions.setCheckoutMax(amt)}
+        setMax={(amt) => this.props.coinifyActions.setCheckoutMax(amt)}
         paymentMedium={paymentMedium}
         initiateBuy={this.startBuy}
         step={step}
+        busy={busy}
+        clearTradeError={() => coinifyNotAsked()}
       />,
       Failure: (msg) => <div>Failure: {msg.error}</div>,
       Loading: () => <Loading />,
@@ -62,14 +72,15 @@ const mapStateToProps = state => ({
   defaultCurrency: getCurrency(state),
   checkoutBusy: path(['coinify', 'checkoutBusy'], state),
   paymentMedium: path(['coinify', 'medium'], state),
-  step: path(['coinify', 'checkoutStep'], state)
+  step: path(['coinify', 'checkoutStep'], state),
+  coinifyBusy: path(['coinify', 'coinifyBusy'], state)
 })
 
 const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   coinifyDataActions: bindActionCreators(actions.core.data.coinify, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
-  actions: bindActionCreators(actions.modules.coinify, dispatch)
+  coinifyActions: bindActionCreators(actions.modules.coinify, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Checkout)

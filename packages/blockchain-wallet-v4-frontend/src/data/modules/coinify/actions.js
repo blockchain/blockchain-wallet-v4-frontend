@@ -25,3 +25,8 @@ export const setCheckoutMax = (amount) => ({ type: AT.COINIFY_SET_CHECKOUT_MAX, 
 
 export const setCoinifyCheckoutError = (error) => ({ type: AT.COINIFY_SET_CHECKOUT_ERROR, payload: error })
 export const clearCoinifyCheckoutError = () => ({ type: AT.COINIFY_CLEAR_CHECKOUT_ERROR })
+
+export const coinifyNotAsked = () => ({ type: AT.COINIFY_NOT_ASKED })
+export const coinifyLoading = () => ({ type: AT.COINIFY_LOADING })
+export const coinifySuccess = () => ({ type: AT.COINIFY_SUCCESS })
+export const coinifyFailure = (error) => ({ type: AT.COINIFY_FAILURE, payload: error })

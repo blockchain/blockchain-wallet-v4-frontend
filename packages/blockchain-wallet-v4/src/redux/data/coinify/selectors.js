@@ -24,3 +24,5 @@ export const getKycs = state => getProfile(state).map(path(['_kycs']))
 export const getMediumAccounts = path([dataPath, 'coinify', 'accounts'])
 
 export const getDefaultCurrency = path([dataPath, 'coinify', '_default_currency'])
+
+export const getTrade = path([dataPath, 'coinify', 'trade'])
