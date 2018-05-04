@@ -9,27 +9,24 @@ import { Button } from 'blockchain-info-components'
 const Wrapper = styled.div`
   position: relative;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   width: 100%;
-
-  @media(min-width:768px) { flex-direction: row; }
 `
 const AddressBox = styled.span`
-  display: flex;
+  display: block;
   width: 100%;
   height: 36px;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 300;
   overflow: hidden;
+  line-height: 36px;
   padding-left: 10px;
   align-items: center;
   white-space: nowrap;
   text-overflow: ellipsis;
   font-family: 'Montserrat', Helvetica, sans-serif;
   background-color: ${props => props.theme['gray-1']};
-
-  @media(min-width:768px) { font-size: 14px; }
 `
 const CopyButton = styled(Button)`
   width: 100px;

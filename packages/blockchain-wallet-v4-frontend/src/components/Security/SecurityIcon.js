@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Icon } from 'blockchain-info-components'
 
 const Circle = styled.div`
-  display: flex;
+  display: none;
   justify-content: center;
   align-self: center;
   align-items: center;
@@ -11,6 +11,9 @@ const Circle = styled.div`
   height: 74px;
   border: 2px solid ${props => props.enabled ? props.theme['success'] : props.theme['gray-2']};
   border-radius: 74px;
+  @media(min-width: 480px) {
+    display: flex;
+  }
 `
 const StyledIcon = styled(Icon)`
   display: flex;

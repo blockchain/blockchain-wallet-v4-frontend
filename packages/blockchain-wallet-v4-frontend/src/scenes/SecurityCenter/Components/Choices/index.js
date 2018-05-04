@@ -18,15 +18,24 @@ const Choice = styled.div`
 const ChoiceDescription = styled.div`
   display: flex;
   flex-direction: column;
-  padding-left: 10px;
+  @media (min-width: 1224px) {
+    padding-left: 10px;
+  }
 `
 const TwoStepChoicesWrapper = styled.div`
   display: flex;
-  flex-direction: row;
-  width: 100%;
+  flex-direction: column;
   justify-content: space-evenly;
-  margin-top: 30px;
-  margin-bottom: 30px;
+  @media (min-width: 480px) {
+    flex-direction: row;
+  }
+
+  @media (min-width: 1224px) {
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    justify-content: space-evenly;
+  }
 `
 
 function Choices (props) {
