@@ -292,6 +292,11 @@ const getSymbol = currency => {
   return path(['units', tradeUnit, 'symbol'], data)
 }
 
+const formatFiat = (value, currency) => {
+  const symbol = getSymbol(currency)
+  return `${symbol}${value}`
+}
+
 export {
   DefaultConversion,
   DefaultDisplay,
@@ -325,5 +330,6 @@ export {
   displayCoinToCoin,
   displayCoinToFiat,
   displayFiatToFiat,
-  getSymbol
+  getSymbol,
+  formatFiat
 }
