@@ -13,7 +13,9 @@ const SecurityGridContainer = SecurityContainer.extend`
 `
 const IconAndHeaderContainer = styled.div`
   display: grid;
-  grid-template-columns: 15% 85%;
+  @media(min-width: 480px) {
+    grid-template-columns: 15% 85%;
+  }
   `
 
 const WalletRecoveryPhrase = (props) => {

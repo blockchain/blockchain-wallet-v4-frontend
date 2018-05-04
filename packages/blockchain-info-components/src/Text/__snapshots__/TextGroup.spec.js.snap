@@ -1,10 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TextGroup component default renders correctly 1`] = `
-.c0 {
-  text-align: left;
-}
-
 .c0 > * {
   white-space: nowrap;
 }
