@@ -25,10 +25,14 @@ export default ({ api, ethSocket }) => {
 
     switch (message.op) {
       case ACCOUNT_SUB:
-        console.log('ethereum account sub received ', message)
+        if (message.tx.type !== 'confirmed') {
+          break
+        }
         if (message.tx.to === message.account) {
           yield put(A.webSocket.bitcoin.paymentReceived('You\'ve just received an Ethereum payment.'))
         }
+        const context = yield select(ethSelectors.getContext)
+        yield put(ethActions.fetchData(context.data))
         break
       case BLOCK_SUB:
         yield put(ethActions.fetchLatestBlock())
