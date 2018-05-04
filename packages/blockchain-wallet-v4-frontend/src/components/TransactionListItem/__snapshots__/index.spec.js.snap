@@ -31,6 +31,8 @@ exports[`ListItemContainer renders correctly 1`] = `
       Object {
         "setCulture": [Function],
         "setEtherWelcome": [Function],
+        "setBitcoinWelcome": [Function],
+        "setBitcoinCashWelcome": [Function],
         "setLanguage": [Function],
         "setTheme": [Function],
         "toggleCoinDisplayed": [Function],
