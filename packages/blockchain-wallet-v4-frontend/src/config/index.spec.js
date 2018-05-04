@@ -12,7 +12,7 @@ jest.mock('bitcoinforksjs-lib', () => ({
   }
 }))
 
-describe('prod config', () => {
+describe('application config constants', () => {
   it('returns correct defaults', () => {
     expect(Config.WALLET_DATA_PATH).toEqual('wallet.data')
     expect(Config.WALLET_PAYLOAD_PATH).toEqual('wallet.payload')
