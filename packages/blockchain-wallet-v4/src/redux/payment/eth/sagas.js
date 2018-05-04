@@ -57,7 +57,7 @@ export default ({ api }) => {
         return makePayment(merge(p, { amount }))
       },
 
-      * from (origin) {
+      * from (origin, type) {
         let account = origin
         if (origin === null || origin === undefined || origin === '') {
           const accountR = (yield select(S.kvStore.ethereum.getDefaultAddress))
@@ -67,10 +67,9 @@ export default ({ api }) => {
         const data = yield call(api.getEthereumBalances, account)
         const balance = path([account, 'balance'], data)
         const nonce = path([account, 'nonce'], data)
-
         const effectiveBalance = calculateEffectiveBalance(balance, prop('fee', p))
         const from = {
-          type: 'ACCOUNT',
+          type: type || 'ACCOUNT',
           address: account,
           nonce
         }

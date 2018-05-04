@@ -1,12 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import { head } from 'ramda'
 
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
-import TransferEther from './template.js'
-import { transactions } from 'blockchain-wallet-v4/src'
+import Success from './template.success.js'
+import { getData } from './selectors.js'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 class TransferEtherContainer extends React.PureComponent {
   constructor (props) {
@@ -14,33 +14,42 @@ class TransferEtherContainer extends React.PureComponent {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
+  componentDidUpdate (prevProps) {
+    if (Remote.Success.is(this.props.data)) {
+      const { fee, effectiveBalance } = this.props.data.data
+      if (parseFloat(fee) > parseFloat(effectiveBalance)) this.props.modalActions.closeAllModals()
+    }
+  }
+
+  componentDidMount () {
+    this.props.sendEthActions.sendEthInitialized({ from: this.props.addr, type: 'LEGACY' })
+  }
+
   handleSubmit () {
-    this.props.transferEtherActions.transferEther()
+    const { to, effectiveBalance } = this.props.data.data
+    this.props.transferEtherActions.confirmTransferEth({ to, effectiveBalance })
   }
 
   render () {
-    return <TransferEther handleSubmit={this.handleSubmit} {...this.props} />
+    const { addr, data } = this.props
+    return data.cata({
+      Success: (val) => <Success handleSubmit={this.handleSubmit} from={addr} val={val} {...this.props} />,
+      Loading: () => null,
+      NotAsked: () => null,
+      Failure: () => null
+    })
   }
 }
 
 const mapStateToProps = state => {
-  const legacyAccount = selectors.core.data.ethereum.getLegacyAccount(state)
-  const legacyAccountAddress = legacyAccount.account
-  const defaultAccountAddress = head(selectors.core.kvStore.ethereum.getAccounts(state)).addr
-  const balance = legacyAccount.balance
-  const gasPrice = selectors.core.data.ethereum.getFeeRegular(state)
-  const gasLimit = selectors.core.data.ethereum.getGasLimit(state)
-  const fee = (gasPrice && gasLimit) ? transactions.ethereum.calculateFee(gasPrice, gasLimit) : 0
-
   return {
-    from: legacyAccountAddress,
-    to: defaultAccountAddress,
-    balance,
-    fee
+    data: getData(state)
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  sendEthActions: bindActionCreators(actions.components.sendEth, dispatch),
   transferEtherActions: bindActionCreators(actions.modules.transferEther, dispatch)
 })
 

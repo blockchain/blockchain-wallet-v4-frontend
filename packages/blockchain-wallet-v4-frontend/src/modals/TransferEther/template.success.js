@@ -25,9 +25,9 @@ const Row = styled.div`
   box-sizing: border-box;
 `
 
-const TransferEther = (props) => {
+const Success = (props) => {
   const { position, total, loading, ...rest } = props
-  const { handleSubmit, from, to, balance, fee } = rest
+  const { handleSubmit, from, val } = rest
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -43,7 +43,7 @@ const TransferEther = (props) => {
             <FormattedMessage id='modals.transferether.updated' defaultMessage="Because of this, we've updated your ether address and are requiring a transfer of your funds." />
           </Text>
           <Text size='14px' weight={300}>
-            <FormattedMessage id='modals.transferether.old' defaultMessage="Don't worry, your old address is still valid" />
+            <FormattedMessage id='modals.transferether.old' defaultMessage="Don't worry, your old address is still valid." />
           </Text>
         </TextGroup>
         <Container>
@@ -60,24 +60,20 @@ const TransferEther = (props) => {
               <FormattedMessage id='modals.transferether.label2' defaultMessage='To:' />
             </Text>
             <Text size='14px' weight={300}>
-              {to}
+              {val.to}
             </Text>
           </Row>
           <Row>
             <Text size='14px' weight={500}>
               <FormattedMessage id='modals.transferether.label3' defaultMessage='Amount:' />
             </Text>
-            <Text size='14px' weight={300}>
-              <CoinDisplay coin='ETH'>{balance}</CoinDisplay>
-            </Text>
+            <CoinDisplay size='14px' coin='ETH'>{val.effectiveBalance}</CoinDisplay>
           </Row>
           <Row>
             <Text size='14px' weight={500}>
-              <FormattedMessage id='modals.transferether.label3' defaultMessage='Transaction Fee:' />
+              <FormattedMessage id='modals.transferether.label4' defaultMessage='Transaction Fee:' />
             </Text>
-            <Text size='14px' weight={300}>
-              <CoinDisplay coin='ETH'>{fee}</CoinDisplay>
-            </Text>
+            <CoinDisplay size='14px' coin='ETH'>{val.fee}</CoinDisplay>
           </Row>
         </Container>
         <Button nature='primary' fullwidth uppercase onClick={handleSubmit}>
@@ -88,4 +84,4 @@ const TransferEther = (props) => {
   )
 }
 
-export default TransferEther
+export default Success
