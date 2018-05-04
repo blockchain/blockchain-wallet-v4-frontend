@@ -97,8 +97,8 @@ export default ({ coreSagas }) => {
           yield put(A.coinifyCheckoutBusyOff())
           break
         case 'rightVal':
-          const rightResult = yield call(coreSagas.data.coinify.fetchQuote, { quote: { amount: Math.round(payload * 1e8), baseCurrency: 'BTC', quoteCurrency: values.currency } })
-          const fiatAmount = rightResult.quoteAmount
+          const rightResult = yield call(coreSagas.data.coinify.fetchQuote, { quote: { amount: Math.round((payload * 1e8) * -1), baseCurrency: 'BTC', quoteCurrency: values.currency } })
+          const fiatAmount = Math.abs(rightResult.quoteAmount)
 
           const rightLimitsError = service.getLimitsError(fiatAmount, limits.data, values.currency)
           if (rightLimitsError) {

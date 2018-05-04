@@ -23,6 +23,10 @@ const CancelWrapper = styled.div`
     font-size: 14px;
   }
 `
+const BorderBox = styled.div`
+  border: 1px solid ${props => props.theme['gray-1']};
+  padding: 30px;
+`
 
 const helpers = [
   {
@@ -46,18 +50,20 @@ const Payment = (props) => {
   return (
     <Form>
       <ColLeft>
-        <InputWrapper style={spacing('mb-40')}>
-          <PartnerHeader>
-            <FormattedMessage id='coinifyexchangedata.payment.header' defaultMessage='Select Payment Method' />
-          </PartnerHeader>
-          <PartnerSubHeader>
-            <FormattedMessage id='coinifyexchangedata.payment.subheader' defaultMessage='You can link your bank account or credit card to buy cryptocurrency. Select the account that you would like to use to fund your purchases. You can always change your payment method.' />
-          </PartnerSubHeader>
-        </InputWrapper>
-        <PaymentWrapper>
-          { bankOptionHelper(quote, limits, isChecked('bank'), handlePaymentClick) }
-          { cardOptionHelper(quote, limits, isChecked('card'), handlePaymentClick) }
-        </PaymentWrapper>
+        <BorderBox>
+          <InputWrapper style={spacing('mb-40')}>
+            <PartnerHeader>
+              <FormattedMessage id='coinifyexchangedata.payment.header' defaultMessage='Select Payment Method' />
+            </PartnerHeader>
+            <PartnerSubHeader>
+              <FormattedMessage id='coinifyexchangedata.payment.subheader' defaultMessage='You can link your bank account or credit card to buy cryptocurrency. Select the account that you would like to use to fund your purchases. You can always change your payment method.' />
+            </PartnerSubHeader>
+          </InputWrapper>
+          <PaymentWrapper>
+            { bankOptionHelper(quote, limits, isChecked('bank'), handlePaymentClick) }
+            { cardOptionHelper(quote, limits, isChecked('card'), handlePaymentClick) }
+          </PaymentWrapper>
+        </BorderBox>
       </ColLeft>
       <ColRight>
         <ColRightInner>

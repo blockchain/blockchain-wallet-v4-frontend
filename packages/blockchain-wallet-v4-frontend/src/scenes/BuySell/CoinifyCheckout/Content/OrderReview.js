@@ -79,7 +79,7 @@ export const OrderSubmit = ({ quoteR, onSubmit, busy, clearTradeError, goToStep 
     {
       busy.error
         ? <div onClick={() => clearTradeError()}>
-          <Text weight={300} color='error' size='13px'>
+          <Text weight={300} color='error' size='13px' style={spacing('mb-5')}>
             Sorry, something went wrong with your trade: { busy.error_description }
           </Text>
           <span><StepTransition restart Component={Link} weight={300} size='13px'><FormattedMessage id='try_again' defaultMessage='Try again' /></StepTransition></span>
