@@ -2,6 +2,8 @@ import { put, call } from 'redux-saga/effects'
 import * as actions from '../../actions.js'
 
 export default ({ coreSagas }) => {
+  const logLocation = 'modules/transerEther/sagas'
+
   const initTransferEther = function * (action) {
     try {
       const { balance } = action.payload
@@ -10,7 +12,7 @@ export default ({ coreSagas }) => {
       yield call(coreSagas.data.ethereum.fetchFee)
       yield put(actions.modals.updateModalOptions({ loading: false }))
     } catch (e) {
-      yield put(actions.alerts.displayError('Could not init transfer ether.'))
+      yield put(actions.logs.logErrorMessage(`${logLocation} initTransferEther`, e))
     }
   }
 
@@ -24,7 +26,7 @@ export default ({ coreSagas }) => {
 
       // const transaction = yield call(coreSagas.data.ethereum.buildTx, { from, to, amount, gasPrice, gasLimit })
     } catch (e) {
-      yield put(actions.alerts.displayError('Could not transfer ether.'))
+      yield put(actions.logs.logErrorMessage(`${logLocation} transferEther`, e))
     }
   }
 
