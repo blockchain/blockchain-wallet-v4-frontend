@@ -61,15 +61,14 @@ const Success = props => {
     busy,
     ...rest } = props
 
+  const { trades, type } = rest
   const profile = Remote.of(props.value.profile).getOrElse({ _limits: service.mockedLimits, _level: { currency: 'EUR' } })
 
   const defaultCurrency = currency || 'EUR'// profile._level.currency
   const symbol = service.currencySymbolMap[defaultCurrency]
 
-  const { trades, type } = rest
-
   const limits = service.getLimits(profile._limits, defaultCurrency)
-  console.log('trades', trades)
+
   if (type === 'buy' || !type) {
     if (step !== 'isx') {
       return (

@@ -51,17 +51,19 @@ export const reviewOrder = {
     else return medium === 'bank' ? 'card' : 'bank'
   },
   renderSummary: (q, type, medium) => {
+    const qAmt = Math.abs(q.quoteAmount)
+    const bAmt = Math.abs(q.baseAmount)
     const med = reviewOrder.hasMedium(q.paymentMediums, medium)
     if (type === 'buy') {
       if (reviewOrder.baseBtc(q)) {
         return {
-          firstRow: `${Math.abs(q.baseAmount / 1e8)} BTC (${currencySymbolMap[q.quoteCurrency]}${Math.abs(q.quoteAmount).toFixed(2)})`,
+          firstRow: `${bAmt / 1e8} BTC (${currencySymbolMap[q.quoteCurrency]}${qAmt.toFixed(2)})`,
           fee: `${currencySymbolMap[q.quoteCurrency]}${(+q.paymentMediums[med]['fee']).toFixed(2)}`,
-          total: `${currencySymbolMap[q.quoteCurrency]}${(q.quoteAmount + q.paymentMediums[med]['fee']).toFixed(2)}`
+          total: `${currencySymbolMap[q.quoteCurrency]}${(qAmt + q.paymentMediums[med]['fee']).toFixed(2)}`
         }
       } else {
         return {
-          firstRow: `${q.quoteAmount / 1e8} BTC (${currencySymbolMap[q.baseCurrency]}${Math.abs(q.baseAmount).toFixed(2)})`,
+          firstRow: `${qAmt / 1e8} BTC (${currencySymbolMap[q.baseCurrency]}${bAmt.toFixed(2)})`,
           fee: `${currencySymbolMap[q.baseCurrency]}${(q.paymentMediums[med]['fee']).toFixed(2)}`,
           total: `${currencySymbolMap[q.baseCurrency]}${(q.paymentMediums[med]['total']).toFixed(2)}`
         }
