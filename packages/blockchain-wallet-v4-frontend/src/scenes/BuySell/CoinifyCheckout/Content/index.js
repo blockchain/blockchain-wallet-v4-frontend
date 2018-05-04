@@ -7,10 +7,20 @@ import Success from './template.success'
 import { formValueSelector } from 'redux-form'
 import Loading from '../../template.loading'
 
-class Checkout extends React.PureComponent {
+class Checkout extends React.Component {
+  constructor (props) {
+    super(props)
+
+    this.startBuy = this.startBuy.bind(this)
+  }
   componentDidMount () {
     this.props.actions.initializeCheckoutForm()
     this.props.coinifyDataActions.fetchTrades()
+  }
+
+  startBuy () {
+    const { buyQuoteR, paymentMedium } = this.props
+    buyQuoteR.map(q => this.props.actions.initiateBuy({ quote: q, medium: paymentMedium }))
   }
 
   render () {
@@ -30,6 +40,7 @@ class Checkout extends React.PureComponent {
         checkoutBusy={checkoutBusy}
         setMax={(amt) => this.props.actions.setCheckoutMax(amt)}
         paymentMedium={paymentMedium}
+        initiateBuy={this.startBuy}
       />,
       Failure: (msg) => <div>Failure: {msg.error}</div>,
       Loading: () => <Loading />,

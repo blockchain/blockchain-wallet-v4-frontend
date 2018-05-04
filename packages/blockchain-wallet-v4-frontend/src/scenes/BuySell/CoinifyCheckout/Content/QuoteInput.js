@@ -47,7 +47,7 @@ QuoteInput.propTypes = {
   defaultCurrency: PropTypes.string.isRequired,
   symbol: PropTypes.string.isRequired,
   setMax: PropTypes.func.isRequired,
-  checkoutError: PropTypes.string.isRequired
+  checkoutError: PropTypes.bool
 }
 
 const mapStateToProps = state => ({

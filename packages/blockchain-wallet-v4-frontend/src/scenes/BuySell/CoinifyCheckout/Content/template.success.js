@@ -22,7 +22,6 @@ const Success = props => {
     fetchBuyQuote,
     fetchSellQuote,
     refreshQuote,
-    submitBuyQuote,
     submitSellQuote,
     handleTrade,
     buyQuoteR,
@@ -37,6 +36,7 @@ const Success = props => {
     checkoutBusy,
     setMax,
     paymentMedium,
+    initiateBuy,
     ...rest } = props
 
   const profile = Remote.of(props.value.profile).getOrElse({ _limits: service.mockedLimits, _level: { currency: 'EUR' } })
@@ -83,7 +83,7 @@ const Success = props => {
             <OrderSubmitWrapper style={{ ...flex('col') }}>
               <OrderSubmit
                 quoteR={buyQuoteR}
-                onSubmit={submitBuyQuote}
+                onSubmit={initiateBuy}
                 busy={busy}
                 clearTradeError={clearTradeError}
               />

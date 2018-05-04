@@ -88,7 +88,7 @@ export const OrderSubmit = ({ quoteR, onSubmit, busy, clearTradeError, goToStep 
           <Button
             nature='primary'
             disabled={!Remote.Success.is(quoteR)}
-            onClick={quoteR.map((quote) => () => onSubmit(quote)).getOrElse(null)}>
+            onClick={onSubmit}>
             {
               busy
                 ? <HeartbeatLoader height='20px' width='20px' color='white' />
