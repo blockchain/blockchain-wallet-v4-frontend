@@ -4,6 +4,7 @@ import FiatConvertor from './QuoteInputTemplate'
 import { actions } from 'data'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { path } from 'ramda'
 
 const WrappedFiatConverter = ({ checkoutError, disabled, limits, defaultCurrency, symbol, setMax }) => (
   <FiatConvertor
@@ -51,7 +52,7 @@ QuoteInput.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  checkoutError: state.coinify.checkoutError
+  checkoutError: path(['coinify', 'checkoutError'], state)
 })
 
 const mapDispatchToProps = dispatch => ({
