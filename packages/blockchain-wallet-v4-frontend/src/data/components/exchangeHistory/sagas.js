@@ -5,6 +5,9 @@ import * as AT from './actionTypes'
 import { actions, selectors } from 'data'
 
 export default ({ api, coreSagas }) => {
+  const logLocation = 'components/exchangeHistory/sagas'
+  let pollingTradeStatusTask
+
   const updateTradeStatus = function * (depositAddress) {
     try {
       const appState = yield select(identity)
@@ -19,7 +22,7 @@ export default ({ api, coreSagas }) => {
         yield put(actions.core.kvStore.shapeShift.updateTradeStatusMetadataShapeshift(depositAddress, status))
       }
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(`${logLocation} updateTradeStatus`, e))
     }
   }
 
@@ -34,14 +37,14 @@ export default ({ api, coreSagas }) => {
           yield fork(updateTradeStatus, depositAddress)
         } catch (e) {
           yield put(actions.alerts.displayError(`Could not fetch trade [${orderId}] status.`))
+          yield put(actions.logs.logErrorMessage(`${logLocation} exchangeHistoryInitialized`, e))
         }
       }
     } catch (e) {
       yield put(actions.alerts.displayError(`Could not fetch all trades statuses.`))
+      yield put(actions.logs.logErrorMessage(`${logLocation} exchangeHistoryInitialized`, e))
     }
   }
-
-  let pollingTradeStatusTask
 
   const startPollingTradeStatus = function * (depositAddress) {
     try {
@@ -50,7 +53,8 @@ export default ({ api, coreSagas }) => {
         yield call(delay, 5000)
       }
     } catch (e) {
-      yield put(actions.alerts.displayError('Could not refresh trade status.'))
+      yield put(actions.alerts.displayError('Unable to poll for trade status.'))
+      yield put(actions.logs.logErrorMessage(`${logLocation} startPollingTradeStatus`, e))
     }
   }
 
@@ -59,15 +63,15 @@ export default ({ api, coreSagas }) => {
       const { depositAddress } = action.payload
       pollingTradeStatusTask = yield fork(startPollingTradeStatus, depositAddress)
     } catch (e) {
-      yield put(actions.alerts.displayError('Error fetching trade information'))
+      yield put(actions.logs.logErrorMessage(`${logLocation} exchangeHistoryModalInitialized`, e))
     }
   }
 
-  const exchangeHistoryModalDestroyed = function * (action) {
+  const exchangeHistoryModalDestroyed = function * () {
     try {
       yield cancel(pollingTradeStatusTask)
     } catch (e) {
-      yield put(actions.alerts.displayError('Error fetching trade information'))
+      yield put(actions.logs.logErrorMessage(`${logLocation} exchangeHistoryModalDestroyed`, e))
     }
   }
 
