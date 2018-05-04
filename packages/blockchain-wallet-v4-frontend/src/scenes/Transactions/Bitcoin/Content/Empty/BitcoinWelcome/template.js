@@ -68,10 +68,10 @@ const BitcoinWelcome = props => {
         </Row>
         <Row>
           <Cell small>
-            <Text size='28px' weight={300} color='brand-primary' uppercase>
+            <Text size='24px' weight={300} color='brand-primary' uppercase>
               <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.welcome' defaultMessage='Welcome to Bitcoin' />
             </Text>
-            <Link href='https://blockchain.info/wallet/bitcoin-faq' target='_blank' weight={300} uppercase>
+            <Link href='https://blockchain.info/wallet/bitcoin-faq' size='16px' target='_blank' weight={300} uppercase>
               <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.learnmore' defaultMessage='Learn More' />
               <Icon name='right-arrow' color='brand-secondary' />
             </Link>
