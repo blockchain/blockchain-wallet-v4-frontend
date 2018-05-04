@@ -1,6 +1,6 @@
 import { call, put, select, take, fork } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import { prop, assoc, toUpper } from 'ramda'
+import { path, prop, assoc, toUpper } from 'ramda'
 import Either from 'data.either'
 
 import * as actions from '../actions.js'
@@ -29,12 +29,18 @@ export default ({ api, coreSagas }) => {
     yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
   }
 
-  // const transferEtherSaga = function * () {
-  //   const legacyAccountBalance = yield select(selectors.core.data.ethereum.getLegacyAccountBalance)
-  //   if (parseFloat(legacyAccountBalance) > 0) {
-  //     // yield put(actions.payment.ethereum.initTransferEther())
-  //   }
-  // }
+  const transferEtherSaga = function * () {
+    const legacyAccount = yield select(selectors.core.kvStore.ethereum.getLegacyAccount)
+    const { data } = legacyAccount
+    // If needed, get the ethereum legacy account balance and prompt sweep
+    if (data && !data.correct) {
+      const balances = yield call(api.getEthereumBalances, data.addr)
+      const balance = path([data.addr, 'balance'], balances)
+      if (balance > 0) {
+        yield put(actions.modals.showModal('TransferEther', { balance, addr: data.addr }))
+      }
+    }
+  }
 
   const loginRoutineSaga = function * (mobileLogin, firstLogin) {
     try {
@@ -46,20 +52,20 @@ export default ({ api, coreSagas }) => {
       yield put(actions.auth.authenticate())
       yield put(actions.core.webSocket.bitcoin.startSocket())
       yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
-      // yield call ethereum metadata
-      if (!firstLogin) {
-        yield put(actions.alerts.displaySuccess('Login successful'))
-      }
+      yield call(coreSagas.kvStore.ethereum.fetchMetadataEthereum)
+      yield call(coreSagas.kvStore.bch.fetchMetadataBch)
       yield put(actions.router.push('/home'))
+      yield fork(transferEtherSaga)
       yield put(actions.auth.startLogoutTimer())
       yield put(actions.goals.runGoals())
       yield fork(reportStats, mobileLogin)
       yield fork(logoutRoutine, yield call(setLogoutEventListener))
-      // ETHER - Fix derivation
-      // yield call(transferEtherSaga)
+      if (!firstLogin) {
+        yield put(actions.alerts.displaySuccess('Login successful'))
+      }
     } catch (e) {
       // Redirect to error page instead of notification
-      yield put(actions.alerts.displayError('Critical error while fetching essential data !' + e.message))
+      yield put(actions.alerts.displayError('Critical error while fetching essential data! ' + e.message))
     }
   }
 
