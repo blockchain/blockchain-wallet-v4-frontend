@@ -1,12 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 import Stepper, { StepView } from 'components/Utilities/Stepper'
 import OrderCheckout from './OrderCheckout'
+import { Text } from 'blockchain-info-components'
 import { OrderDetails, OrderSubmit } from './OrderReview'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { flex } from 'services/StyleService'
 import * as service from 'services/CoinifyService'
 import Payment from '../../../../modals/CoinifyExchangeData/Payment'
+import OrderHistory from '../../OrderHistory'
+import { filter } from 'ramda'
 
 const CheckoutWrapper = styled.div`
   width: 55%;
@@ -15,6 +19,22 @@ const OrderSubmitWrapper = CheckoutWrapper.extend`
   width: 35%;
   padding: 30px 30px 30px 10%;
 `
+const OrderHistoryWrapper = styled.div`
+  width: 100%;
+  > div:last-child > div:last-child {
+    margin-bottom: 0px;
+  }
+`
+const OrderHistoryContent = styled.div`
+  > div:first-child {
+    margin-bottom: 10px;
+  }
+  > div:last-child {
+    margin-bottom: 20px;
+  }
+`
+const isPending = (t) => t.state === 'processing' || t.state === 'awaiting_transfer_in'
+const isCompleted = (t) => t.state !== 'awaiting_transfer_in'
 
 const Success = props => {
   const {
@@ -38,6 +58,7 @@ const Success = props => {
     paymentMedium,
     initiateBuy,
     step,
+    busy,
     ...rest } = props
 
   const profile = Remote.of(props.value.profile).getOrElse({ _limits: service.mockedLimits, _level: { currency: 'EUR' } })
@@ -45,10 +66,10 @@ const Success = props => {
   const defaultCurrency = currency || 'EUR'// profile._level.currency
   const symbol = service.currencySymbolMap[defaultCurrency]
 
-  const { trades, type, busy } = rest
+  const { trades, type } = rest
 
   const limits = service.getLimits(profile._limits, defaultCurrency)
-
+  console.log('trades', trades)
   if (type === 'buy' || !type) {
     if (step !== 'isx') {
       return (
@@ -95,6 +116,23 @@ const Success = props => {
         </Stepper>
       )
     }
+  } else if (trades) {
+    return (
+      <OrderHistoryWrapper>
+        <OrderHistoryContent>
+          <Text size='15px' weight={400}>
+            <FormattedMessage id='scenes.buysell.coinifycheckout.trades.pending' defaultMessage='Pending Orders' />
+          </Text>
+          <OrderHistory trades={filter(isPending, trades)} conversion={100} handleDetailsClick={trade => showModal('CoinifyTradeDetails', { trade })} />
+        </OrderHistoryContent>
+        <OrderHistoryContent>
+          <Text size='15px' weight={400}>
+            <FormattedMessage id='scenes.buysell.coinifycheckout.trades.completed' defaultMessage='Completed Orders' />
+          </Text>
+          <OrderHistory trades={filter(isCompleted, trades)} conversion={100} handleDetailsClick={trade => showModal('CoinifyTradeDetails', { trade })} />
+        </OrderHistoryContent>
+      </OrderHistoryWrapper>
+    )
   }
 }
 

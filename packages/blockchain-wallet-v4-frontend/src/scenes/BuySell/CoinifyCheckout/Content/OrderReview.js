@@ -77,12 +77,12 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
 export const OrderSubmit = ({ quoteR, onSubmit, busy, clearTradeError, goToStep }) => (
   <Fragment>
     {
-      busy instanceof Error
-        ? <div>
-          <Text color='error' size='13px'>
-            Sorry, something went wrong with your trade: { busy.message }
+      busy.error
+        ? <div onClick={() => clearTradeError()}>
+          <Text weight={300} color='error' size='13px'>
+            Sorry, something went wrong with your trade: { busy.error_description }
           </Text>
-          <span onClick={() => clearTradeError()}><StepTransition prev Component={Link} weight={300} size='13px'><FormattedMessage id='try_again' defaultMessage='Try again' /></StepTransition></span>
+          <span><StepTransition restart Component={Link} weight={300} size='13px'><FormattedMessage id='try_again' defaultMessage='Try again' /></StepTransition></span>
         </div>
         : <Fragment>
           <Button

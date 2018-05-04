@@ -32,6 +32,14 @@ export default ({ coreSagas }) => {
     try {
       const buyTrade = yield call(coreSagas.data.coinify.buy, payload)
 
+      if (!buyTrade) {
+        const trade = yield select(selectors.core.data.coinify.getTrade)
+        const parsed = JSON.parse(trade.error)
+
+        yield put(A.coinifyFailure(parsed))
+        return
+      }
+
       console.log('go to step after buy resolves with trade:', buyTrade)
       yield put(A.coinifyNextCheckoutStep('isx'))
     } catch (e) {
