@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ListItemContainer renders correctly 1`] = `
+<Connect(ListItemContainer)
+  minConfirmations={3}
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <ListItemContainer
+    ethereumActions={
+      Object {
+        "createMetadataEthereum": [Function],
+        "fetchMetadataEthereum": [Function],
+        "fetchMetadataEthereumFailure": [Function],
+        "fetchMetadataEthereumLoading": [Function],
+        "fetchMetadataEthereumSuccess": [Function],
+        "setTxNotesEthereum": [Function],
+        "updateMetadataEthereum": [Function],
+      }
+    }
+    minConfirmations={3}
+    preferencesActions={
+      Object {
+        "setCulture": [Function],
+        "setEtherWelcome": [Function],
+        "setLanguage": [Function],
+        "setTheme": [Function],
+        "toggleCoinDisplayed": [Function],
+      }
+    }
+    store={
+      Object {
+        "clearActions": [Function],
+        "dispatch": [Function],
+        "getActions": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+      }
+    }
+    walletActions={
+      Object {
+        "createLegacyAddress": [Function],
+        "deleteHdAddressLabel": [Function],
+        "deleteLegacyAddress": [Function],
+        "deleteWrapper": [Function],
+        "refreshWrapper": [Function],
+        "setAccountArchived": [Function],
+        "setAccountLabel": [Function],
+        "setAddressArchived": [Function],
+        "setAutoLogout": [Function],
+        "setDefaultAccountIdx": [Function],
+        "setHdAddressLabel": [Function],
+        "setLegacyAddressLabel": [Function],
+        "setMainPassword": [Function],
+        "setPayloadChecksum": [Function],
+        "setTransactionNote": [Function],
+        "setWrapper": [Function],
+        "verifyMnemonic": [Function],
+      }
+    }
+  >
+    <template
+      handleCoinToggle={[Function]}
+      handleEditDescription={[Function]}
+      minConfirmations={3}
+    />
+  </ListItemContainer>
+</Connect(ListItemContainer)>
+`;

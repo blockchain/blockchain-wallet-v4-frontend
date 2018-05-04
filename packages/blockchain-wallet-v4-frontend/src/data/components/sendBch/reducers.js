@@ -16,7 +16,7 @@ export default (state = INITIAL_STATE, action) => {
       return INITIAL_STATE
     }
     case AT.SEND_BCH_FIRST_STEP_TO_TOGGLED: {
-      return assoc('toToggled', !state.toToggled, state)
+      return assoc('toToggled', payload || !state.toToggled, state)
     }
     case AT.SEND_BCH_PAYMENT_UPDATED: {
       return assoc('payment', payload, state)

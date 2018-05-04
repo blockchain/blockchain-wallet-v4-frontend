@@ -17,3 +17,7 @@ export const setAccountArchived = (accountIdx, archived) =>
 
 export const setDefaultAccountIdx = (index) =>
   ({ type: AT.SET_DEFAULT_BCH_ACCOUNT, payload: { index } })
+
+export const addBchAccount = () => ({ type: AT.ADD_BCH_ACCOUNT })
+
+export const addBchAccountComplete = (bchAccounts) => ({ type: AT.ADD_BCH_ACCOUNT_COMPLETE, payload: { bchAccounts } })

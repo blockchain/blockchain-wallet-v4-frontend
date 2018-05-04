@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { Text, Icon, Button } from 'blockchain-info-components'
 import styled from 'styled-components'
 import { reduxForm } from 'redux-form'
+import { spacing } from 'services/StyleService'
 
 import { SuccessOverlay } from 'components/Security'
 
@@ -18,6 +19,9 @@ const YubikeyContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+`
+const YubikeyCopy = styled.div`
+  display: block;
 `
 const YubikeyInputWrapper = styled.div`
   width: 30%;
@@ -62,12 +66,14 @@ const Yubikey = props => {
       </SuccessOverlay>
       <AuthenticatorSummary success={props.ui.successToggled}>
         <YubikeyContainer>
-          <Text size='14px' weight={200}>
-            <FormattedMessage id='scenes.security.twostepverification.yubi.step1' defaultMessage='1. Insert the Yubikey into an available USB port.' />
-          </Text>
-          <Text size='14px' weight={200}>
-            <FormattedMessage id='scenes.security.twostepverification.yubi.step2' defaultMessage='2. Pair your Yubikey.' />
-          </Text>
+          <YubikeyCopy>
+            <Text size='14px' weight={200}>
+              <FormattedMessage id='scenes.security.twostepverification.yubi.step1' defaultMessage={'1. Insert the Yubikey into your computer\'s USB port.'} />
+            </Text>
+            <Text size='14px' weight={200} style={spacing('mt-5')}>
+              <FormattedMessage id='scenes.security.twostepverification.yubi.step2' defaultMessage='2. Pair your Yubikey.' />
+            </Text>
+          </YubikeyCopy>
           <YubikeyInputWrapper>
             <YubikeyInput type='password' name='yubikeyCode' value={props.value} onChange={props.handleInput} />
           </YubikeyInputWrapper>

@@ -15,7 +15,7 @@ const Settings = (props) => {
     <SettingWrapper>
       <Text>{currentWhitelist.data}</Text>
       <Button nature='primary' onClick={handleToggle}>
-        <FormattedMessage id='scenes.securitysettings.advancedsettings.ipwhitelist.settings.change' defaultMessage='Change' />
+        <FormattedMessage id='scenes.securitysettings.advancedsettings.ipwhitelist.settings.change' defaultMessage='Add' />
       </Button>
       {updateToggled &&
         <SettingForm>

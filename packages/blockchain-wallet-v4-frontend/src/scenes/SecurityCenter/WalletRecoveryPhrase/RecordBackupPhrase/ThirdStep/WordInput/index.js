@@ -16,11 +16,22 @@ const Container = styled.div`
   height: 60px;
   width: 100px;
   div:first-of-type {
-    margin-bottom: 5px;
+    margin-bottom: 30x;
   }
 `
+const Error = styled.label`
+  position: absolute;
+  top: ${props => props.errorBottom ? '35px' : '60px'};
+  right: 0;
+  display: block;
+  height: 15px;
+  font-size: 12px;
+  font-weight: 300;
+  color: ${props => props.theme['error']};
+`
+
 const validateWord = index => (value, allValues, props) => {
-  return equals(toLower(value), toLower(props.recoveryPhrase[index])) ? undefined : 'Invalid'
+  return equals(toLower(value), toLower(props.recoveryPhrase[index])) ? undefined : <Error errorBottom={props.errorBottom}>Invalid</Error>
 }
 
 const languageHelper = (num) => {

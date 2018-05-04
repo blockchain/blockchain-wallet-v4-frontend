@@ -2,7 +2,6 @@ import { prop } from 'ramda'
 import { settingsPath } from '../paths'
 
 export const getSettings = prop(settingsPath)
-
 export const getLanguage = state => getSettings(state).map(prop('language'))
 export const getCountryCode = state => getSettings(state).map(prop('country_code'))
 export const getCurrency = state => getSettings(state).map(prop('currency'))

@@ -52,17 +52,19 @@ const Error = styled(Text)`
   display: block;
   font-size: 12px;
   height: 15px;
-  top: -20px;
+  top: 42px;
   right: 0;
 `
 const getErrorState = (meta) => {
   return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')
 }
 
-const getLimitsError = (val, limits, disabled) => {
-  if ((limits.buy.max < limits.buy.min) && disabled) return `Your limit of $${limits.buy.max} is below the minimum allowed amount.`
-  if (val > limits.buy.max) return `Enter an amount under your $${limits.buy.max.toLocaleString()} limit`
-  if (val < limits.buy.min) return `Enter an amount above the $${limits.buy.min.toLocaleString()} minimum`
+const getLimitsError = (val, limits, disabled, fiat) => {
+  if (!val || !fiat) return
+  if ((limits.max < limits.min) && disabled) return `Your limit of $${limits.max} is below the minimum allowed amount.`
+  if (val > limits.max) return `Enter an amount under your $${limits.max.toLocaleString()} limit`
+  if (val < limits.min) return `Enter an amount above the $${limits.min.toLocaleString()} minimum`
+  if ((fiat * 1e8) > limits.effectiveMax) return `Enter an amount less than your balance minus the priority fee (${limits.effectiveMax / 1e8} BTC)`
 }
 
 const FiatConvertor = (props) => {
@@ -87,7 +89,7 @@ const FiatConvertor = (props) => {
       {meta.touched && meta.error && <Error onClick={handleErrorClick} size='13px' weight={300} color='error'>{meta.error}</Error>}
       {
         limits && <Error size='13px' weight={300} color='error'>
-          { getLimitsError(value, limits, disabled) }
+          { getLimitsError(value, limits, disabled, fiat) }
         </Error>
       }
     </Wrapper>
