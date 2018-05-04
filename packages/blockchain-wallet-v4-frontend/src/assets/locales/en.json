@@ -562,7 +562,7 @@
   "selectpartner.selectcountry": "Select your country:",
   "selectpartner.getstarted": "get started",
   "scenes.exchange.simple": "Need help?",
-  "scenes.exchange.summary": "You can now exchange your bitcoin for ether and vice versa directly from your Blockchain wallet.",
+  "scenes.exchange.summary": "You can exchange between bitcoin, ether, and bitcoin cash directly from your Blockchain wallet.",
   "scenes.exchange.summary2": "In a few simple steps, your exchange will be in progress.",
   "scenes.exchange.summary3": "Note: exchanges usually take between twenty minutes and two hours.",
   "scenes.exchange.firststep.maximumamountlink.maximum": "maximum",

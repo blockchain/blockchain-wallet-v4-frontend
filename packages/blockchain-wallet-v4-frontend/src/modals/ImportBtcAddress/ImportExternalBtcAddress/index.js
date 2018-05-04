@@ -16,10 +16,7 @@ const Label = styled.label`
 class ImportExternalBitcoinAddress extends React.PureComponent {
   render () {
     return (
-      <div style={spacing('mt-15')}>
-        <Text style={spacing('mb-15')} size='small' weight={300}>
-          <FormattedMessage id='modals.importbtcaddress.import.info' defaultMessage='Your wallet automatically creates new bitcoin addresses as it needs them. You can optionally import an existing address generated outside of this wallet and transfer the funds to your wallet if you have the corresponding Private Key.' />
-        </Text>
+      <div>
         <div style={spacing('mb-15')}>
           <Banner type='alert'>
             <FormattedMessage id='modals.importbtcaddress.import_external_bitcoin_address.message' defaultMessage='This is advanced functionality and only suggested for advanced users.' />
