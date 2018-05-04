@@ -13,6 +13,11 @@ const Wrapper = styled.div`
   align-items: center;
   padding-top: 10px;
   width: auto;
+  margin-top: 8px;
+
+  @media (min-width: 768px) {
+    margin-top: 0px;
+  }
 `
 
 const Actions = props => {
