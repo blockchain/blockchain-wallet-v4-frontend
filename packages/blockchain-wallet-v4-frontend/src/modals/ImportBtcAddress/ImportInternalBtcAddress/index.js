@@ -6,10 +6,6 @@ import { Banner } from 'blockchain-info-components'
 const Wrapper = styled.div`
   margin-top: 15px;
 `
-const Info = styled.div`
-  margin-top: 15px;
-  font-size: 12px;
-`
 
 class ImportInternalBitcoinAddress extends React.PureComponent {
   render () {
