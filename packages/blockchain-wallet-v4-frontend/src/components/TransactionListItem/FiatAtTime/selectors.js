@@ -1,11 +1,11 @@
 import { selectors } from 'data'
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { Exchange } from 'blockchain-wallet-v4/src'
 
-export const getCurrency = state => selectors.core.settings.getCurrency(state).getOrElse('USD')
+export const getData = state => {
+  const currencyR = selectors.core.settings.getCurrency(state)
 
-export const getData = (state, hash) => {
-  const currency = getCurrency(state)
-  const fiatAtTimeR = selectors.core.data.bitcoin.getFiatAtTime(state, hash, currency) || Remote.NotAsked
-  const currencySymbol = Exchange.getSymbol(currency)
-  return fiatAtTimeR.map(x => ({ currency: currencySymbol, fiatAtTime: x }))
+  return currencyR.map(x => ({
+    currency: x,
+    currencySymbol: Exchange.getSymbol(x)
+  }))
 }
