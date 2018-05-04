@@ -8,7 +8,10 @@ import { Icon, Link, Text, Tooltip } from 'blockchain-info-components'
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  flex-direction: row;
+  flex-direction: column;
+  @media(min-width: 480px) {
+    flex-direction: row;
+  }
 `
 
 const TransactionTooltip = styled.div`
@@ -20,7 +23,7 @@ const IconWrapper = styled.div`
   display: flex;
   justify-items: center;
   margin-left: 4px;
-  & > :last-child { margin-left: 4px; }
+  & > :last-child { display; inline; }
 `
 
 const explorers = {
@@ -51,7 +54,7 @@ const Confirmations = (props) => {
           </TransactionTooltip>
         }
         <Link href={`${explorers[props.coin]}/${props.hash}`} target='_blank'>
-          <Icon name='up-arrow-in-circle' color='marketing-primary' cursor size='17px' />
+          <Icon name='open-in-new-tab' color='marketing-primary' cursor size='17px' />
         </Link>
       </IconWrapper>
     </Wrapper>
