@@ -15,7 +15,7 @@ const Wrapper = styled.div`
   width: 100%;
   background-color: ${props => props.theme['brand-quaternary']};
 `
-const EtherImage = styled(Image)`
+const BitcoinImage = styled(Image)`
   display: none;
   height: 230px;
   opacity: 0.3;
@@ -51,58 +51,52 @@ const CloseArrow = styled(Icon)`
   width: 30px;
   margin-top: 20px;
 `
-const EtherWelcome = props => {
+const BitcoinWelcome = props => {
   const { displayed, handleClick } = props
 
   return (
     <Wrapper displayed={displayed}>
-      <EtherImage name='half-ether' />
+      <BitcoinImage name='half-bitcoin' />
       <Container>
         <Row>
           <LinkContainer to='/exchange'>
             <Button nature='primary' bold fullwidth uppercase>
-              <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.getstarted' defaultMessage='Get started with ether' />
+              <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.getstarted' defaultMessage='Get started with bitcoin' />
             </Button>
           </LinkContainer>
         </Row>
         <Row>
           <Cell small>
             <Text size='28px' weight={300} color='brand-primary' uppercase>
-              <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.welcome' defaultMessage='Welcome to Ether' />
+              <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.welcome' defaultMessage='Welcome to Bitcoin' />
             </Text>
-            <Link href='https://www.blockchain.com/ether-basics' target='_blank' weight={300} uppercase>
-              <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.learnmore' defaultMessage='Learn More' />
+            <Link href='https://blockchain.info/wallet/bitcoin-faq' target='_blank' weight={300} uppercase>
+              <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.learnmore' defaultMessage='Learn More' />
               <Icon name='right-arrow' color='brand-secondary' />
             </Link>
           </Cell>
           <Cell>
             <Text size='18px' weight={300} color='brand-primary' uppercase>
-              <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.what' defaultMessage='What is ether?' />
+              <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.what' defaultMessage='What is bitcoin?' />
             </Text>
             <Separator />
             <TextGroup inline>
               <Text weight={300}>
-                <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.currency' defaultMessage='Ether is a digital currency.' />
+                <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.currency' defaultMessage='Bitcoin is a digital currency, and is used like other assets in exchange for goods and services.' />
               </Text>
               <Text weight={300}>
-                <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.transact' defaultMessage='Like Bitcoin, it enables people around the world to transact, save, and hedge their way to a better financial future.' />
-              </Text>
-              <Text weight={300}>
-                <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.platform' defaultMessage='In addition to sending value, ether also powers the Ethereum platform.' />
+                <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.transact' defaultMessage='Unlike traditional currencies and assets, bitcoin is easily portable, divisible, and irreversible.' />
               </Text>
             </TextGroup>
           </Cell>
           <Cell>
             <Text size='18px' weight={300} color='brand-primary' uppercase>
-              <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.why' defaultMessage='Why should I use it?' />
+              <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.why' defaultMessage='Why should I use it?' />
             </Text>
             <Separator />
             <TextGroup inline>
               <Text weight={300}>
-                <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.grow' defaultMessage='As the Ethereum platform grows, more intelligent applications will be built on top of it.' />
-              </Text>
-              <Text weight={300}>
-                <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.opportunity' defaultMessage="We want to give you the opportunity to start using ether now, so you' ll be ready to use these products in the future." />
+                <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.fees' defaultMessage='As a global currency you can send bitcoin to anyone, anywhere in the world without worrying about cross border remittance fees.' />
               </Text>
             </TextGroup>
           </Cell>
@@ -113,9 +107,9 @@ const EtherWelcome = props => {
   )
 }
 
-EtherWelcome.propTypes = {
+BitcoinWelcome.propTypes = {
   displayed: PropTypes.bool.isRequired,
   handleClick: PropTypes.func.isRequired
 }
 
-export default EtherWelcome
+export default BitcoinWelcome
