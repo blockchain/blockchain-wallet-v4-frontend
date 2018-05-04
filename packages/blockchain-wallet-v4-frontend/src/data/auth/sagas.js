@@ -95,9 +95,8 @@ export default ({ api, coreSagas }) => {
 
     try {
       if (!session) { session = yield call(api.obtainSessionToken) }
-      localStorage.setItem('ls.guid', JSON.stringify(guid))
-      localStorage.setItem('ls.session', JSON.stringify(session))
       yield put(actions.session.saveSession(assoc(guid, session, {})))
+      yield put(actions.cache.guidEntered(guid))
       yield put(actions.auth.loginLoading())
       yield call(coreSagas.wallet.fetchWalletSaga, { guid, sharedKey, session, password, code })
       yield call(loginRoutineSaga, mobileLogin)
