@@ -1,7 +1,6 @@
-import { cancel, call, fork, put, select, takeEvery, takeLatest } from 'redux-saga/effects'
+import { cancel, call, fork, put, select } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import { equals, identity, path, prop } from 'ramda'
-import * as AT from './actionTypes'
 import { actions, selectors } from 'data'
 
 export default ({ api, coreSagas }) => {
@@ -71,9 +70,9 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  return function * () {
-    yield takeEvery(AT.EXCHANGE_HISTORY_INITIALIZED, exchangeHistoryInitialized)
-    yield takeLatest(AT.EXCHANGE_HISTORY_MODAL_INITIALIZED, exchangeHistoryModalInitialized)
-    yield takeLatest(AT.EXCHANGE_HISTORY_MODAL_DESTROYED, exchangeHistoryModalDestroyed)
+  return {
+    exchangeHistoryInitialized,
+    exchangeHistoryModalInitialized,
+    exchangeHistoryModalDestroyed
   }
 }
