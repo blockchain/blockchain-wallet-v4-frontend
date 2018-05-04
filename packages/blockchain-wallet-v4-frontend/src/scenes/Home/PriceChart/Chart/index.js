@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actions } from 'data'
-import { isNil } from 'ramda'
+import { path, toUpper } from 'ramda'
 import { getData } from './selectors'
 
 import Error from './template.error'
@@ -11,49 +11,34 @@ import Success from './template.success'
 
 export class ChartContainer extends React.PureComponent {
   componentDidMount () {
-    const cache = window.localStorage.getItem('ls.chart')
-    const config = cache && JSON.parse(cache)
-    const coin = config ? config.base.toUpperCase() : 'BTC'
-    const time = config ? config.time : '1month'
-    this.props.actions.initialized(coin, time)
+    const coin = path(['cache', 'coin'], this.props) ? toUpper(this.props.cache.coin) : 'BTC'
+    const time = path(['cache', 'time'], this.props) || '1month'
+    this.props.priceChartActions.initialized(coin, time)
   }
 
   render () {
+    const { currency } = this.props
     return this.props.data.cata({
       Success: (value) => {
-        window.localStorage.setItem('ls.chart-data', JSON.stringify(value))
-        window.localStorage.setItem('ls.chart', JSON.stringify({ base: value.coin, time: value.time }))
+        const { data, coin, time } = value
         return (<Success
-          currency={value.currency}
-          coin={value.coin}
-          time={value.time}
-          data={value.data}
+          currency={currency}
+          coin={coin}
+          time={time}
+          data={data}
         />)
       },
-      Failure: (message) => {
-        const cache = window.localStorage.getItem('ls.chart-data')
-        const value = cache && JSON.parse(cache)
-        return isNil(value)
-          ? (<Error>{message}</Error>)
-          : (<Success
-            currency={value.currency}
-            coin={value.coin}
-            time={value.time}
-            data={value.data}
-          />)
-      },
+      Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
   }
 }
 
-const mapStateToProps = state => ({
-  data: getData(state)
-})
+const mapStateToProps = state => getData(state)
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.components.priceChart, dispatch)
+  priceChartActions: bindActionCreators(actions.components.priceChart, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChartContainer)
