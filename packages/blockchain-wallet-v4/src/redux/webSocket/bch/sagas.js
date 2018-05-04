@@ -40,9 +40,9 @@ export default ({ api, bchSocket }) => {
   const onClose = function * (action) {
   }
 
-  return function * () {
-    yield takeEvery(AT.OPEN_SOCKET, onOpen)
-    yield takeEvery(AT.MESSAGE_SOCKET, onMessage)
-    yield takeEvery(AT.CLOSE_SOCKET, onClose)
+  return {
+    onOpen,
+    onMessage,
+    onClose
   }
 }
