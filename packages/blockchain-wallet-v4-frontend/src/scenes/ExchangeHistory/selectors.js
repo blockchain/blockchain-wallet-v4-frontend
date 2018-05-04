@@ -1,11 +1,14 @@
-import { difference, equals, filter, lift, or, prop } from 'ramda'
+import { anyPass, curry, equals, filter, lift, map, prop } from 'ramda'
 import { selectors } from 'data'
 
-const getTradesWithStatus = (trades, status1, status2) => filter(trade => or(equals(prop('status', trade), status1), equals(prop('status', trade), status2)), trades)
+const getTradesWithStatus = curry((statuses, trades) =>
+  filter(trade => anyPass(map(equals, statuses))(prop('status', trade)), trades))
 
 export const getData = (state) => {
   const trades = selectors.core.kvStore.shapeShift.getTrades(state)
-  const completedTrades = trades.map(t => getTradesWithStatus(t, 'complete', 'resolved'))
-  const incompleteTrades = lift((t, completed) => difference(t, completed))(trades, completedTrades)
-  return lift((c, i) => ({ complete: c, incomplete: i }))(completedTrades, incompleteTrades)
+  const completedTrades = lift(getTradesWithStatus(['complete', 'resolved']))(trades)
+  const errorTrades = lift(getTradesWithStatus(['error', 'failed']))(trades)
+  const incompleteTrades = lift(getTradesWithStatus(['no_deposits']))(trades)
+  return lift((c, i, e) =>
+    ({ complete: c, incomplete: i, error: e }))(completedTrades, incompleteTrades, errorTrades)
 }
