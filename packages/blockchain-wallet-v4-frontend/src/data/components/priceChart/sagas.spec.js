@@ -8,7 +8,6 @@ describe('priceChart sagas', () => {
   let calcScaleSpy
   let calcStartSpy
   let fetchPriceActionSpy
-  let errorSpy
 
   beforeEach(() => {
     calcStartSpy = jest.spyOn(chartService, 'calculateStart').mockReturnValueOnce('test')
