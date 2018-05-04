@@ -1,5 +1,4 @@
 import React from 'react'
-import toJson from 'enzyme-to-json'
 import Tooltip from './template.js'
 import renderer from 'react-test-renderer'
 import 'jest-styled-components'
