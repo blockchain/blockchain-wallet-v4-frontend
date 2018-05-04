@@ -1,4 +1,5 @@
 import { fork } from 'redux-saga/effects'
+import activityList from './activityList/sagaRegister'
 import exchange from './exchange/sagaRegister'
 import importBtcAddress from './importBtcAddress/sagaRegister'
 import priceChart from './priceChart/sagaRegister'
@@ -10,6 +11,7 @@ import signMessage from './signMessage/sagaRegister'
 import usedAddresses from './usedAddresses/sagaRegister'
 
 export default ({ api, coreSagas }) => function * () {
+  yield fork(activityList({ coreSagas }))
   yield fork(exchange({ api, coreSagas }))
   yield fork(importBtcAddress({ api, coreSagas }))
   yield fork(priceChart({ coreSagas }))
