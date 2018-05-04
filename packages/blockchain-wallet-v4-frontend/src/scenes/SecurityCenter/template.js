@@ -19,26 +19,36 @@ const Wrapper = styled.div`
   box-sizing: border-box;
 `
 const TopContainer = styled.div`
-  display: flex;
-  flex-direction: row;
+  display: column;
   justify-content: space-between;
+
+  @media(min-width: 992px)
+  {
+    display: flex;
+    flex-direction: row;
+  }
 `
 const IntroContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  width: 40%;
-  width: ${props => props.progress === 3 ? '100%' : '40%'};
+  width: 100%;
+
+  @media(min-width: 992px) {
+    width: ${props => props.progress === 3 ? '100%' : '40%'};
+  }
 `
 const BodyContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  width: 100%;
   & > * {
     margin-top: 20px;
   }
 `
 const Title = styled(Text)`
+
 `
 const IntroText = styled(Text)`
   padding: 20px 0px
@@ -53,8 +63,18 @@ const PageContainer = styled.div`
 `
 const ButtonContainer = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
+  Button {
+    width: 50%;
+    margin-bottom: 10px;
+  }
+  @media(min-width: 992px) {
+    flex-direction: row;
+    Button {
+      width: 25%;
+    }
+  }
 `
 
 const SecurityCenter = (props) => {
@@ -72,7 +92,7 @@ const SecurityCenter = (props) => {
         <WalletRecoveryPhrase handleEnable={() => props.handleEnable('recovery')} goBackOnSuccess={props.onClose} />
         {
           !tabs && <ButtonContainer>
-            <Button nature='empty' width='25%' onClick={() => props.setView('advanced')}>
+            <Button nature='empty' onClick={() => props.setView('advanced')}>
               <Text size='14px' weight={400}>
                 <FormattedMessage id='scenes.securitycenter.introadvancedbutton' defaultMessage='Advanced Settings' />
               </Text>
