@@ -4,10 +4,11 @@ import styled from 'styled-components'
 import QRCodeReact from 'qrcode.react'
 import { Modal, ModalHeader, ModalBody, ModalFooter, Text, Button } from 'blockchain-info-components'
 
-const XPubTextBox = styled.p`
+const XPubTextBox = styled.div`
   background-color: ${props => props.theme['white-blue']};
   padding: 10px;
   font-family: "Courier New", monospace;
+  margin-bottom: 20px;
   font-size: 10pt;
   color: #4B4D4E;
   word-break: break-all;
@@ -29,7 +30,6 @@ const FirstStep = () => (
 
 const SecondStep = ({ xpub }) => (
   <div>
-    <Text size='13px' weight={500}>xPub:</Text>
     <XPubTextBox>{xpub}</XPubTextBox>
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <QRCodeReact value={xpub} size={200} />

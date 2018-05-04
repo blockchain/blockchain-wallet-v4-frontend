@@ -1,5 +1,4 @@
-import { takeEvery, put } from 'redux-saga/effects'
-import * as AT from './actionTypes'
+import { put } from 'redux-saga/effects'
 import * as actions from '../../actions'
 
 export default ({ coreSagas }) => {
@@ -17,7 +16,7 @@ export default ({ coreSagas }) => {
     }
   }
 
-  return function * () {
-    yield takeEvery(AT.PRICE_TICKER_INITIALIZED, initialized)
+  return {
+    initialized
   }
 }

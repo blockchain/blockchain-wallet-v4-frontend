@@ -42,7 +42,7 @@ const RequestEther = (props) => {
         <FormattedMessage id='modals.requestether.title' defaultMessage='Request Ether' />
       </ModalHeader>
       <ModalBody>
-        <Form override onSubmit={onSubmit}>
+        <Form onSubmit={onSubmit}>
           <CoinSelector margin={'20px'}>
             <FormItem>
               <FormLabel for='coin'>

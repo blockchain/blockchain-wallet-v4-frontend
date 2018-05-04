@@ -1,6 +1,6 @@
 {
   "name": "blockchain-wallet-v4",
-  "version": "4.0.0-alpha1",
+  "version": "4.0.0-alpha3",
   "license": "ISC",
   "author": {
     "name": "Blockchain.info",
@@ -39,6 +39,7 @@
     "lint:core": "eslint './packages/blockchain-wallet-v4/src/**/*.js'",
     "lint:fix": "eslint './packages/*/src/**/*.js' --fix",
     "lint:frontend": "eslint './packages/blockchain-wallet-v4-frontend/src/**/*.js'",
+    "run:prod": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run run:prod",
     "start": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run start:dev",
     "start:dev": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run start:dev",
     "start:prod": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run start:prod",
@@ -102,6 +103,7 @@
     "eslint-loader": "^2.0.0",
     "eslint-plugin-babel": "^5.0.0",
     "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jest": "^21.15.1",
     "eslint-plugin-node": "^6.0.1",
     "eslint-plugin-react": "^7.4.0",
     "eslint-plugin-standard": "^3.0.1",
@@ -121,6 +123,7 @@
     "react-hot-loader": "^4.0.1",
     "react-test-renderer": "^16.2.0",
     "redux-mock-store": "^1.3.0",
+    "redux-saga-test-plan": "^3.6.0",
     "standard": "^11.0.1",
     "style-loader": "^0.20.3",
     "thread-loader": "^1.1.5",

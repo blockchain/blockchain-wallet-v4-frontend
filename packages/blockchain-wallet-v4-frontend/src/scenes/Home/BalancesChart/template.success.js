@@ -9,7 +9,7 @@ import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 370px;
+  height: 380px;
   padding: 15px;
   display: flex;
   flex-direction: column;
@@ -60,7 +60,7 @@ const BalancesChart = (props) => {
   const { btcBalance, ethBalance, bchBalance, chartData, symbol, btcAccountsLength, bchAccountsLength } = balances
 
   return (
-    <Wrapper>
+    <Wrapper className={'ignore-react-onclickoutside'}>
       <Text uppercase color='brand-primary' weight={300} size='24px'>
         <FormattedMessage id='scenes.home.balanceschart.yourbalances' defaultMessage='Your Balances' />
       </Text>

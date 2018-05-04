@@ -86,6 +86,7 @@ const List = styled.div`
   background-color: ${props => props.theme['white']};
   border: 1px solid ${props => props.theme['gray-2']};
   box-sizing: border-box;
+  border-top: 0px;
   z-index: 10;
 `
 const Item = styled.div`
@@ -113,8 +114,9 @@ const Arrow = styled(Icon)`
 `
 
 const SelectInput = (props) => {
-  const { items, selected, disabled, defaultDisplay, expanded, searchEnabled, handleBlur, handleChange, handleClick, handleFocus, templateDisplay, templateHeader, templateItem, errorState } = props
+  const { items, selected, disabled, defaultDisplay, expanded, searchEnabled, handleBlur, handleChange, handleClick, handleFocus, hideArrow, templateDisplay, templateHeader, templateItem, errorState } = props
   const display = selected || { text: defaultDisplay, value: undefined }
+  const showArrow = !hideArrow
 
   return (
     <SelectBoxInput onClick={handleFocus}>
@@ -124,7 +126,7 @@ const SelectInput = (props) => {
         </Display>
         : <Search autoFocus={expanded} onChange={handleChange} />
       }
-      <Arrow name='down-arrow' size='10px' />
+      {showArrow && <Arrow name='down-arrow' size='10px' />}
       <List expanded={expanded}>
         { items.map((item, index) => item.value == null
           ? <Header key={index}>{templateHeader ? templateHeader(item) : <DefaultHeader>{item.text}</DefaultHeader>}</Header>

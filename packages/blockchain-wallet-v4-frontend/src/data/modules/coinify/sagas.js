@@ -1,8 +1,7 @@
-import { takeLatest, put, call, select } from 'redux-saga/effects'
-import * as AT from './actionTypes'
+import { put, call, select } from 'redux-saga/effects'
 import * as A from './actions'
+import * as actions from '../../actions'
 import * as selectors from '../../selectors.js'
-import { actions } from 'data'
 
 export default ({ coreSagas }) => {
   const coinifySignup = function * () {
@@ -36,9 +35,9 @@ export default ({ coreSagas }) => {
     }
   }
 
-  return function * () {
-    yield takeLatest(AT.SIGNUP, coinifySignup)
-    yield takeLatest(AT.COINIFY_SAVE_MEDIUM, coinifySaveMedium)
-    yield takeLatest(AT.COINIFY_BUY, buy)
+  return {
+    coinifySignup,
+    coinifySaveMedium,
+    buy
   }
 }

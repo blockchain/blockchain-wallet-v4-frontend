@@ -23,6 +23,8 @@ const Header = styled.div`
 `
 const Footer = styled.div`
   margin-top: 20px;
+  display: flex;
+  align-items: start;
 `
 
 const FirstStep = (props) => {
@@ -53,7 +55,7 @@ const FirstStep = (props) => {
             <FormLabel for='guid'>
               <FormattedMessage id='scenes.reset2fa.firststep.firststepform.guid' defaultMessage='Wallet Identifier' />
             </FormLabel>
-            <Field name='guid' validate={[required, validWalletId]} component={TextBox} placeholder='XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX' />
+            <Field name='guid' autoFocus validate={[required, validWalletId]} component={TextBox} placeholder='XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX' />
             <TextGroup inline>
               <Text size='12px' weight={300}>
                 <FormattedMessage id='scenes.reset2fa.firststep.firststepform.guid_explain' defaultMessage='If you forgot your wallet identifier, please' />

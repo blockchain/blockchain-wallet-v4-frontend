@@ -38,7 +38,7 @@ const RequestBch = props => {
         <FormattedMessage id='modals.requestbch.title' defaultMessage='Request Bitcoin Cash' />
       </ModalHeader>
       <ModalBody>
-        <Form override onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit}>
           <FormGroup inline margin={'20px'}>
             <FormItem>
               <FormLabel for='coin'>
@@ -50,7 +50,7 @@ const RequestBch = props => {
               <FormLabel for='to'>
                 <FormattedMessage id='modals.requestbitcoin.firststep.to' defaultMessage='Receive to:' />
               </FormLabel>
-              <Field name='to' component={SelectBoxBitcoinAddresses} validate={[required]} coin='BCH' />
+              <Field name='to' component={SelectBoxBitcoinAddresses} includeAll={false} validate={[required]} coin='BCH' />
             </FormItem>
           </FormGroup>
           <FormGroup>

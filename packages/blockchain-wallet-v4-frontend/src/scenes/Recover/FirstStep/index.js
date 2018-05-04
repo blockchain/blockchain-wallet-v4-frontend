@@ -31,6 +31,8 @@ const MnemonicLabel = styled(FormLabel)`
 `
 const Footer = styled.div`
   margin-top: 20px;
+  display: flex;
+  align-items: start;
 `
 
 const FirstStep = (props) => {
@@ -64,7 +66,7 @@ const FirstStep = (props) => {
             <Text size='12px' weight={300}>
               <FormattedMessage id='scenes.recover.firststep.mnemonic_explain' defaultMessage='Enter your 12 word phrase, with spaces between each, to recover your funds & transactions.' />
             </Text>
-            <Field name='mnemonic' validate={[required, validMnemonic]} component={TextBox} />
+            <Field name='mnemonic' autoFocus validate={[required, validMnemonic]} component={TextBox} />
           </FormItem>
         </FormGroup>
         <Button type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid}>
