@@ -13,7 +13,7 @@ import Success from './template.success'
 class ValueWhenReceived extends React.PureComponent {
   render () {
     const { data, actions, amount, hash, time, currency } = this.props
-    // console.log('ValueWhenReceived', this.props)
+
     return data.cata({
       Success: (value) => <Success fiatAtTime={value} />,
       Failure: (message) => <Error>{message}</Error>,
@@ -26,7 +26,7 @@ class ValueWhenReceived extends React.PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  data: getData(ownProps.hash, ownProps.currency, ownProps.currencySymbol, state)
+  data: getData(ownProps.hash, ownProps.currency, state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -37,8 +37,7 @@ ValueWhenReceived.propTypes = {
   amount: PropTypes.number.isRequired,
   hash: PropTypes.string.isRequired,
   time: PropTypes.number.isRequired,
-  currency: PropTypes.string.isRequired,
-  currencySymbol: PropTypes.string.isRequired
+  currency: PropTypes.string.isRequired
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ValueWhenReceived)

@@ -13,8 +13,7 @@ class FiatAtTime extends React.PureComponent {
 
     return data.cata({
       Success: (value) => <Success
-        currency={value.currency}
-        currencySymbol={value.currencySymbol}
+        currency={value}
         amount={amount}
         hash={hash}
         time={time}

@@ -24,7 +24,6 @@ const Success = props => (
     </Text>
     <ValueWhenReceived
       currency={props.currency}
-      currencySymbol={props.currencySymbol}
       amount={props.amount}
       hash={props.hash}
       time={props.time}
@@ -34,7 +33,6 @@ const Success = props => (
 
 Success.propTypes = {
   currency: PropTypes.string.isRequired,
-  currencySymbol: PropTypes.string.isRequired,
   amount: PropTypes.number.isRequired,
   hash: PropTypes.string.isRequired,
   time: PropTypes.number.isRequired
