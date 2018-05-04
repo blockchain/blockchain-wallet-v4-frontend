@@ -44,7 +44,7 @@ const MobileNumberVerify = (props) => {
             <Text size='14px' weight={300} style={{ ...flex('row'), ...spacing('pt-5') }}>
               <FormattedMessage id='modals.mobilenumberverify.get_code1' defaultMessage={'Didn\'t get the code?'} />
               <Link size='14px' weight={300} onClick={handleResend}>
-                <FormattedMessage id='modals.mobilenumberverify.resend' defaultMessage='Resend' />
+                <FormattedMessage id='modals.mobilenumberverify.resend' defaultMessage={'Resend'} />
               </Link>
               <FormattedMessage id='modals.mobilenumberverify.get_code2' defaultMessage='or' />
               <Link size='14px' weight={300} capitalize onClick={handleChange}>

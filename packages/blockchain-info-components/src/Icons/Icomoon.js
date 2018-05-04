@@ -113,6 +113,7 @@ export default {
   'stack-of-coins-2': '\\e972',
   'stack-of-coins': '\\e973',
   'support': '\\e974',
+  'switch': '\\e9b6',
   'transactions-2': '\\e975',
   'transactions': '\\e976',
   'trash': '\\e951',
@@ -120,5 +121,6 @@ export default {
   'up-arrow': '\\e953',
   'user-id': '\\e954',
   'user': '\\e955',
-  'wallet': '\\e956'
+  'wallet': '\\e956',
+  'open-in-new-tab': '\\e979'
 }

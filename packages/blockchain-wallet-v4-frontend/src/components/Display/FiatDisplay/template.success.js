@@ -10,16 +10,22 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
 `
+const FiatText = styled(Text)`
+  font-size: ${props => props.mobileSize};
+  @media (min-width: 480px){
+    font-size: ${props => props.size};
+  }
+`
 
 const FiatDisplay = props => {
-  const { showIcon, coin, children, size, weight, color, cursor } = props
+  const { showIcon, coin, children, size, weight, color, cursor, mobileSize } = props
 
   return (
     <Wrapper>
       {showIcon && coin === 'BTC' && <Icon name='bitcoin' size={size} weight={weight} color={color} />}
       {showIcon && coin === 'ETH' && <Icon name='ethereum' size={size} weight={weight} color={color} />}
       {showIcon && coin === 'BCH' && <Icon name='bitcoin' size={size} weight={weight} color={color} />}
-      <Text size={size} weight={weight} color={color} cursor={cursor}>{children}</Text>
+      <FiatText mobileSize={mobileSize} size={size} weight={weight} color={color} cursor={cursor}>{children}</FiatText>
     </Wrapper>
   )
 }
@@ -31,7 +37,8 @@ FiatDisplay.propTypes = {
   size: PropTypes.string,
   weight: PropTypes.number,
   color: PropTypes.string,
-  cursor: PropTypes.string
+  cursor: PropTypes.string,
+  mobileSize: PropTypes.string
 }
 
 FiatDisplay.defaultProps = {
