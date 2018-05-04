@@ -18,6 +18,8 @@ const Wrapper = styled.div`
 `
 const Footer = styled.div`
   margin-top: 20px;
+  display: flex;
+  align-items: start;
 `
 
 const Reminder = (props) => {
@@ -38,7 +40,7 @@ const Reminder = (props) => {
             <FormLabel for='email'>
               <FormattedMessage id='scenes.reminder.email' defaultMessage='Email' />
             </FormLabel>
-            <Field name='email' validate={[required, validEmail]} component={TextBox} />
+            <Field name='email' autoFocus validate={[required, validEmail]} component={TextBox} />
           </FormItem>
         </FormGroup>
         <FormGroup>

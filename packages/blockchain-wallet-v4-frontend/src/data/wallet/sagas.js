@@ -1,5 +1,4 @@
-import { takeEvery, call, put } from 'redux-saga/effects'
-import * as AT from './actionTypes'
+import { call, put } from 'redux-saga/effects'
 import * as actions from '../actions.js'
 import { askSecondPasswordEnhancer, promptForInput } from 'services/SagaService'
 
@@ -51,11 +50,11 @@ export default ({ coreSagas }) => {
     }
   }
 
-  return function * () {
-    yield takeEvery(AT.TOGGLE_SECOND_PASSWORD, toggleSecondPassword)
-    yield takeEvery(AT.UPDATE_PBKDF2_ITERATIONS, updatePbkdf2Iterations)
-    yield takeEvery(AT.VERIFY_MNEMONIC, verifyMmenonic)
-    yield takeEvery(AT.EDIT_HD_LABEL, editHdLabel)
-    yield takeEvery(AT.EDIT_BTC_ACCOUNT_LABEL, editBtcAccountLabel)
+  return {
+    toggleSecondPassword,
+    updatePbkdf2Iterations,
+    verifyMmenonic,
+    editHdLabel,
+    editBtcAccountLabel
   }
 }

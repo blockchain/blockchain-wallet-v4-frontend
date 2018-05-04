@@ -79,7 +79,7 @@ class VerifyMobile extends Component {
               <FormattedMessage id='sfoxexchangedata.create.verifymobile.partner.subheader.mobile' defaultMessage="Confirming your phone number allows SFOX to secure your account. Don't worry, we won't use your number for anything other than sending your code." />
             </PartnerSubHeader>
             <MobileInput>
-              <Text size='14px' weight={400} style={{'margin-bottom': '5px'}}>
+              <Text size='14px' weight={400} style={{'marginBottom': '5px'}}>
                 <FormattedMessage id='sfoxexchangedata.create.mobile.number' defaultMessage='Enter your digits here:' />
               </Text>
               <Field name='mobileNumber' defaultValue={this.props.smsNumber} component={PhoneNumberBox} validate={[required, validMobileNumber]} normalize={normalizePhone} />
@@ -91,7 +91,7 @@ class VerifyMobile extends Component {
             </MobileInput>
             {
               ui.create === 'enter_mobile_code' && <MobileCodeContainer>
-                <Text size='14px' weight={400} style={{'margin-bottom': '5px'}}>
+                <Text size='14px' weight={400} style={{'marginBottom': '5px'}}>
                   <FormattedMessage id='sfoxexchangedata.create.mobile.entercode' defaultMessage='Enter the code we just sent to your phone:' />
                 </Text>
                 <Field name='mobileCode' component={TextBox} validate={[required]} />

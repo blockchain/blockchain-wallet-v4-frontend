@@ -15,9 +15,7 @@ const SCALES = {
 }
 
 const BTCSTART = 1282089600
-
 const ETHSTART = 1438992000
-
 const BCHSTART = 1500854400
 
 const start = {

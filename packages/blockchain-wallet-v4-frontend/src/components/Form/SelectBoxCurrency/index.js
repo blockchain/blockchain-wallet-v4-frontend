@@ -13,31 +13,31 @@ class SelectBoxCurrency extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = (state) => ({
   currency: selectors.core.settings.getCurrency(state),
   currencies: [
-    { text: 'Swiss Franc', value: 'CHF' },
-    { text: 'Icelandic Króna', value: 'ISK' },
-    { text: 'Hong Kong Dollar', value: 'HKD' },
-    { text: 'New Taiwan Dollar', value: 'TWD' },
-    { text: 'Euro', value: 'EUR' },
-    { text: 'Danish Krone', value: 'DKK' },
-    { text: 'Chilean Peso', value: 'CLP' },
-    { text: 'U.S. Dollar', value: 'USD' },
-    { text: 'Canadia Dollar', value: 'CAD' },
-    { text: 'Indian Rupee', value: 'INR' },
-    { text: 'Chinese Yuan', value: 'CNY' },
-    { text: 'Thai Baht', value: 'THB' },
     { text: 'Australian Dollar', value: 'AUD' },
-    { text: 'South Korean Won', value: 'KRW' },
-    { text: 'Singapore Dollar', value: 'SGD' },
-    { text: 'Japanese Yen', value: 'JPY' },
-    { text: 'Polish Zloty', value: 'PLN' },
-    { text: 'Great British Pound', value: 'GBP' },
-    { text: 'Swedish Krona', value: 'SEK' },
-    { text: 'New Zealand Dollar', value: 'NZD' },
     { text: 'Brazil Real', value: 'BRL' },
-    { text: 'Russian Ruble', value: 'RUB' }
+    { text: 'Canadian Dollar', value: 'CAD' },
+    { text: 'Chilean Peso', value: 'CLP' },
+    { text: 'Chinese Yuan', value: 'CNY' },
+    { text: 'Danish Krone', value: 'DKK' },
+    { text: 'Euro', value: 'EUR' },
+    { text: 'Great British Pound', value: 'GBP' },
+    { text: 'Hong Kong Dollar', value: 'HKD' },
+    { text: 'Icelandic Króna', value: 'ISK' },
+    { text: 'Indian Rupee', value: 'INR' },
+    { text: 'Japanese Yen', value: 'JPY' },
+    { text: 'New Taiwan Dollar', value: 'TWD' },
+    { text: 'New Zealand Dollar', value: 'NZD' },
+    { text: 'Polish Zloty', value: 'PLN' },
+    { text: 'Russian Ruble', value: 'RUB' },
+    { text: 'Singapore Dollar', value: 'SGD' },
+    { text: 'South Korean Won', value: 'KRW' },
+    { text: 'Swedish Krona', value: 'SEK' },
+    { text: 'Swiss Franc', value: 'CHF' },
+    { text: 'Thai Baht', value: 'THB' },
+    { text: 'U.S. Dollar', value: 'USD' }
   ]
 })
 
