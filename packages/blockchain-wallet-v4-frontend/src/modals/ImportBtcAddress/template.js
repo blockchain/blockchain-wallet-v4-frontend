@@ -23,7 +23,7 @@ const RadioContainer = styled.div`
 `
 
 const ImportBtcAddress = (props) => {
-  const { position, close, submitting, invalid, isAddressInternal, isAddressExternal, handleSubmit } = props
+  const { position, close, submitting, invalid, isAddressInternal, isAddressExternal, priv, handleSubmit } = props
 
   return (
     <Modal size='large' position={position}>
@@ -47,7 +47,7 @@ const ImportBtcAddress = (props) => {
               </Field>
             </RadioContainer>
             { isAddressInternal && <ImportInternalBtcAddress /> }
-            { isAddressExternal && <ImportExternalBtcAddress /> }
+            { isAddressExternal && <ImportExternalBtcAddress priv={priv} /> }
           </ModalBody>
           {
             isAddressExternal && (
