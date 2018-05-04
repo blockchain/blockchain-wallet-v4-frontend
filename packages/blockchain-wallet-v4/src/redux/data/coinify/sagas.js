@@ -152,12 +152,19 @@ export default ({ api, options }) => {
   const buy = function * (data) {
     const { quote, medium } = data.payload
     try {
+      yield put(A.handleTradeLoading())
+      console.log('core saga buy', data.payload)
       const mediums = yield apply(quote, quote.getPaymentMediums)
       const accounts = yield apply(mediums[medium], mediums[medium].getAccounts)
       const buyResult = yield apply(accounts[0], accounts[0].buy)
+      yield put(A.handleTradeSuccess(buyResult))
       console.log('coinify buy result in core', buyResult)
+      yield put(A.fetchTrades())
+      yield call(refreshCoinify())
+      return buyResult
     } catch (e) {
       console.warn('buy failed in core', e)
+      yield put(A.handleTradeFailure(e))
     }
   }
 
