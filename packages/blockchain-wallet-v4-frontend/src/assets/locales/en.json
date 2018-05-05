@@ -1000,7 +1000,7 @@
   "scenes.transactions.bitcoin.content.empty.send": "Send",
   "scenes.transactions.bitcoin.content.empty.request": "Request",
   "scenes.transaction.ether.content.empty.etherwelcome.getstarted": "Get started with ether",
-  "scenes.transaction.ether.content.empty.etherwelcome.welcome": "Welcome to Ether",
+  "scenes.transaction.ether.content.empty.etherwelcome.welcome": "Welcome to",
   "scenes.transaction.ether.content.empty.etherwelcome.learnmore": "Learn More",
   "scenes.transaction.ether.content.empty.etherwelcome.what": "What is ether?",
   "scenes.transaction.ether.content.empty.etherwelcome.currency": "Ether is a digital currency.",
