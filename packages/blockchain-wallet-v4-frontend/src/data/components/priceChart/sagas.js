@@ -34,9 +34,9 @@ export default ({ coreSagas }) => {
     try {
       const { coin } = action.payload
       const currency = 'USD'
-      yield effects.select(S.getTime)
-      const start = calculateStart(coin, 'tt')
-      const scale = calculateScale(coin, '')
+      const time = yield effects.select(S.getTime)
+      const start = calculateStart(coin, time)
+      const scale = calculateScale(coin, time)
       yield effects.put(actions.core.data.misc.fetchPriceIndexSeries(coin, currency, start, scale))
     } catch (e) {
       // TODO: create error wrapper!
