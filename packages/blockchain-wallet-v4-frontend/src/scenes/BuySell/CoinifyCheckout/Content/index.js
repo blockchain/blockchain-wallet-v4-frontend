@@ -2,7 +2,7 @@ import React from 'react'
 import { actions } from 'data'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { getBase, getData, getErrors, getQuote, getRateQuote, getTrades, getCurrency } from './selectors'
+import { getBase, getData, getErrors, getQuote, getRateQuote, getTrades, getCurrency, getTrade } from './selectors'
 import Success from './template.success'
 import { formValueSelector } from 'redux-form'
 import Loading from '../../template.loading'
@@ -25,7 +25,8 @@ class Checkout extends React.Component {
   }
 
   render () {
-    const { data, modalActions, coinifyActions, coinifyDataActions, rateQuoteR, buyQuoteR, currency, checkoutBusy, paymentMedium, step, coinifyBusy } = this.props
+    const { data, modalActions, coinifyActions, coinifyDataActions, rateQuoteR, buyQuoteR, currency, paymentMedium, trade, ...rest } = this.props
+    const { step, checkoutBusy, coinifyBusy } = rest
     const { handleTrade, fetchQuote } = coinifyDataActions
     const { showModal } = modalActions
     const { coinifyNotAsked } = coinifyActions
@@ -53,6 +54,7 @@ class Checkout extends React.Component {
         step={step}
         busy={busy}
         clearTradeError={() => coinifyNotAsked()}
+        trade={trade}
       />,
       Failure: (msg) => <div>Failure: {msg.error}</div>,
       Loading: () => <Loading />,
@@ -67,6 +69,7 @@ const mapStateToProps = state => ({
   buyQuoteR: getQuote(state),
   rateQuoteR: getRateQuote(state),
   trades: getTrades(state),
+  trade: getTrade(state),
   errors: getErrors(state),
   currency: formValueSelector('coinifyCheckout')(state, 'currency'),
   defaultCurrency: getCurrency(state),

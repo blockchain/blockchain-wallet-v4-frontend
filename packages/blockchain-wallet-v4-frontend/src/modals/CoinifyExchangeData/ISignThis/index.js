@@ -8,6 +8,7 @@ import { actions } from 'data'
 
 class ISignThisContainer extends Component {
   componentDidMount () {
+    console.log('isx mounted', this.props)
     window.addEventListener('message', function (e) {
       console.log('addEventListener', e)
     })
@@ -18,7 +19,7 @@ class ISignThisContainer extends Component {
 
     var e = document.getElementById('isx-iframe')
     const iSignThisDomain = 'https://verify.isignthis.com'
-    // const iSignThisID = '6ae7fdad-4f3b-406a-9a59-f12c135c7709'
+    const iSignThisID = this.props.iSignThisId
 
     var _isx = {
       transactionId: '',
@@ -82,6 +83,7 @@ class ISignThisContainer extends Component {
       console.log('eventer', eventer, messageEvent)
       // Listen to message from child window
       eventer(messageEvent, function (e) {
+        if (e.origin === 'http://localhost:8080') return
         console.log('eventer called', e)
         // Check for the domain who sent the messageEvent
         var origin = e.origin || e.originalEvent.origin
@@ -124,7 +126,7 @@ class ISignThisContainer extends Component {
       return this
     }
     var widget = {
-      transaction_id: '6ae7fdad-4f3b-406a-9a59-f12c135c7709',
+      transaction_id: this.props.iSignThisId,
       container_id: 'isx-iframe'
     }
 
@@ -171,14 +173,15 @@ class ISignThisContainer extends Component {
   }
 
   render () {
+    const srcUrl = `https://verify.isignthis.com/landing/${this.props.iSignThisId}`
     return (
       <div>
-        <h3>iSignThis step</h3>
+        <span>iSignThis step</span>
 
         {/* <div style={{width: '80%'}} id='isx-container' /> */}
 
         <iframe style={{width: '80%', height: '400px'}}
-          src="https://verify.isignthis.com/landing/6ae7fdad-4f3b-406a-9a59-f12c135c7709" // hardcode a trade
+          src={srcUrl}
           sandbox='allow-same-origin allow-scripts allow-forms'
           scrolling='yes'
           id='isx-iframe'
