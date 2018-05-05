@@ -120,6 +120,7 @@ const Success = props => {
       return (
         <ISignThis
           iSignThisId={path(['iSignThisID'], trade)}
+          options={props.options}
         />
       )
     }
