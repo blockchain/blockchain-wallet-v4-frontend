@@ -3,13 +3,14 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actions } from 'data'
-// import { path } from 'ramda'
+import { path } from 'ramda'
 // import Template from './template'
 
 class ISignThisContainer extends Component {
   componentDidMount () {
     console.log('isx mounted', this.props)
     window.addEventListener('message', function (e) {
+      if (e.origin === 'http://localhost:8080') return
       console.log('addEventListener', e)
     })
 
@@ -18,8 +19,8 @@ class ISignThisContainer extends Component {
     }
 
     var e = document.getElementById('isx-iframe')
-    const iSignThisDomain = 'https://verify.isignthis.com'
-    const iSignThisID = this.props.iSignThisId
+    const iSignThisDomain = path(['platforms', 'web', 'coinify', 'config', 'iSignThisDomain'], this.props.options)
+    // const iSignThisID = this.props.iSignThisId
 
     var _isx = {
       transactionId: '',
@@ -173,12 +174,13 @@ class ISignThisContainer extends Component {
   }
 
   render () {
-    const srcUrl = `https://verify.isignthis.com/landing/${this.props.iSignThisId}`
+    const { options, iSignThisId } = this.props
+    const iSignThisDomain = path(['platforms', 'web', 'coinify', 'config', 'iSignThisDomain'], options)
+    const srcUrl = `${iSignThisDomain}/landing/${iSignThisId}`
+
     return (
       <div>
-        <span>iSignThis step</span>
-
-        {/* <div style={{width: '80%'}} id='isx-container' /> */}
+        <p>iSignThis step</p>
 
         <iframe style={{width: '80%', height: '400px'}}
           src={srcUrl}
