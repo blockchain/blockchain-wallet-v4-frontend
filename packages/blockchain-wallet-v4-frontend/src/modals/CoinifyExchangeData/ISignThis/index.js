@@ -174,7 +174,7 @@ class ISignThisContainer extends Component {
   render () {
     const { options, iSignThisId } = this.props
     const iSignThisDomain = path(['platforms', 'web', 'coinify', 'config', 'iSignThisDomain'], options)
-    const srcUrl = `${iSignThisDomain}/landing/${iSignThisId}`
+    const srcUrl = `${iSignThisDomain}/landing/${iSignThisId}?embed=true`
 
     return (
       <div>
