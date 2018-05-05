@@ -20,7 +20,8 @@ class Checkout extends React.Component {
   }
 
   startBuy () {
-    const { buyQuoteR, paymentMedium } = this.props
+    const { buyQuoteR, paymentMedium, coinifyActions } = this.props
+    coinifyActions.coinifyLoading()
     buyQuoteR.map(q => this.props.coinifyActions.initiateBuy({ quote: q, medium: paymentMedium }))
   }
 
