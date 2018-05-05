@@ -94,6 +94,7 @@ export class ExchangeDelegate {
   }
 
   releaseReceiveAddress (trade) {
+    console.log('delegate.releaseReceiveAddress', trade)
     // TODO: releaseReceiveAddress
   }
 

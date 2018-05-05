@@ -168,6 +168,18 @@ export default ({ api, options }) => {
     }
   }
 
+  const cancelTrade = function * (trade) {
+    try {
+      const trades = yield select(S.getTrades)
+      const trade = trades.data[0]
+      const cancel = yield apply(trade, trade.cancel)
+      yield call(getCoinify)
+      console.log('cancelled trade', cancel)
+    } catch (e) {
+      console.log('issue cancelling trade', e)
+    }
+  }
+
   return {
     signup,
     buy,
@@ -180,6 +192,7 @@ export default ({ api, options }) => {
     resetProfile,
     getPaymentMediums,
     getMediumAccounts,
-    fetchQuoteAndMediums
+    fetchQuoteAndMediums,
+    cancelTrade
   }
 }
