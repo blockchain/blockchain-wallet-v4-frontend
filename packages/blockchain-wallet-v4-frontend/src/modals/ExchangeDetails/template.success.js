@@ -38,6 +38,17 @@ const TableCell = styled.div`
   & > :first-child { margin-right: 5px; }
 `
 
+const getModalHeader = (status) => {
+  switch (status) {
+    case 'complete':
+      return <FormattedMessage id='modals.exchangedetails.title_success' defaultMessage='Success! Your exchange is complete' />
+    case 'resolved':
+      return <FormattedMessage id='modals.exchangedetails.title_refunded' defaultMessage='Trade refunded' />
+    default:
+      return <FormattedMessage id='modals.exchangedetails.title_inprogress' defaultMessage='Your exchange is in progress' />
+  }
+}
+
 const ExchangeDetails = (props) => {
   const { position, total, close, ...rest } = props
   const { status, sourceCoin, targetCoin, quotedRate, minerFee, orderId, depositAmount, withdrawalAmount } = rest
@@ -45,10 +56,7 @@ const ExchangeDetails = (props) => {
   return (
     <Modal size='large' position={position} total={total}>
       <ModalHeader closeButton={false}>
-        {status === 'complete'
-          ? <FormattedMessage id='modals.exchangedetails.title_success' defaultMessage='Success! Your exchange is complete' />
-          : <FormattedMessage id='modals.exchangedetails.title_inprogress' defaultMessage='Your exchange is in progress' />
-        }
+        {getModalHeader(status)}
       </ModalHeader>
       <ModalBody>
         <ExchangeTimeline status={status} />
