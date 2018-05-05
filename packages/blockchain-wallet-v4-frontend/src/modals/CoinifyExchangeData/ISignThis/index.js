@@ -8,14 +8,13 @@ import { path } from 'ramda'
 
 class ISignThisContainer extends Component {
   componentDidMount () {
-    console.log('isx mounted', this.props)
+    console.log('V4 ISX_COMPONENT: isx mounted', this.props)
     window.addEventListener('message', function (e) {
-      if (e.origin === 'http://localhost:8080') return
-      console.log('addEventListener', e)
+      console.log('V4 ISX_COMPONENT: addEventListener', e)
     })
 
     const onComplete = (e) => {
-      console.log('from onComplete', e)
+      console.log('V4 ISX_COMPONENT: from onComplete', e)
     }
 
     var e = document.getElementById('isx-iframe')
@@ -43,36 +42,36 @@ class ISignThisContainer extends Component {
 
       this.configOptions = setup
 
-      console.log('_isx setup')
+      console.log('V4 ISX_COMPONENT: _isx setup')
       return this
     }
 
     _isx.done = function (_completeListener) {
       this.completeListener = _completeListener
-      console.log('_isx done')
+      console.log('V4 ISX_COMPONENT: _isx done')
       return this
     }
 
     _isx.fail = function (_errorListener) {
       this.errorListener = _errorListener
-      console.log('_isx fail')
+      console.log('V4 ISX_COMPONENT: _isx fail')
       return this
     }
 
     _isx.route = function (_routeListener) {
       this.routeListener = _routeListener
-      console.log('_isx route')
+      console.log('V4 ISX_COMPONENT: _isx route')
       return this
     }
 
     _isx.resized = function (_resizeListener) {
       this.resizeListener = _resizeListener
-      console.log('_isx resized')
+      console.log('V4 ISX_COMPONENT: _isx resized')
       return this
     }
 
     _isx.publish = function () {
-      console.log('_isx publish')
+      console.log('V4 ISX_COMPONENT: _isx publish')
       this.iframe = e
 
       // Create IE + others compatible event handler
@@ -81,11 +80,10 @@ class ISignThisContainer extends Component {
       var messageEvent = eventMethod === 'attachEvent' ? 'onmessage' : 'message'
 
       var self = this
-      console.log('eventer', eventer, messageEvent)
+      console.log('V4 ISX_COMPONENT: eventer', eventer, messageEvent)
       // Listen to message from child window
       eventer(messageEvent, function (e) {
-        if (e.origin === 'http://localhost:8080') return
-        console.log('eventer called', e)
+        console.log('V4 ISX_COMPONENT: eventer called', e)
         // Check for the domain who sent the messageEvent
         var origin = e.origin || e.originalEvent.origin
         if (origin !== iSignThisDomain) {
@@ -120,7 +118,7 @@ class ISignThisContainer extends Component {
             }
           }
         } catch (err) {
-          console.log('err caught:', err)
+          console.log('V4 ISX_COMPONENT: err caught:', err)
         }
       }, false)
 
@@ -132,7 +130,7 @@ class ISignThisContainer extends Component {
     }
 
     var setState = (state) => {
-      console.log('setState', state)
+      console.log('V4 ISX_COMPONENT: setState', state)
       switch (state) {
         case 'SUCCESS':
           onComplete('processing')
@@ -157,18 +155,18 @@ class ISignThisContainer extends Component {
     _isx
       .setup(widget)
       .done(function (e) {
-        console.log('completed. e=', JSON.stringify(e))
+        console.log('V4 ISX_COMPONENT: completed. e=', JSON.stringify(e))
 
         setState(e.state)
       })
       .fail(function (e) {
-        console.log('error. e=' + JSON.stringify(e))
+        console.log('V4 ISX_COMPONENT: error. e=' + JSON.stringify(e))
       })
       .resized(function (e) {
-        console.log('resized. e=', JSON.stringify(e))
+        console.log('V4 ISX_COMPONENT: resized. e=', JSON.stringify(e))
       })
       .route(function (e) {
-        console.log('route. e=' + JSON.stringify(e))
+        console.log('V4 ISX_COMPONENT: route. e=' + JSON.stringify(e))
       })
       .publish()
   }
