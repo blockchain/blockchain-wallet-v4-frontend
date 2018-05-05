@@ -41,6 +41,7 @@ export default ({ coreSagas }) => {
       }
 
       console.log('go to step after buy resolves with trade:', buyTrade)
+      yield put(A.coinifyNotAsked())
       yield put(A.coinifyNextCheckoutStep('isx'))
     } catch (e) {
       console.warn('coinify buy FE saga error', e)
