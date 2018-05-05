@@ -35,7 +35,7 @@ class FaqContainer extends React.PureComponent {
     }
 
     return (
-      <Faq filteredContent={map(filterContent, FaqContent)} handleTrayRightToggle={handleTrayRightToggle}/>
+      <Faq filteredContent={map(filterContent, FaqContent)} handleTrayRightToggle={handleTrayRightToggle} />
     )
   }
 }
