@@ -29,7 +29,7 @@ export default ({ api, coreSagas }) => {
     yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
   }
 
-  const transferEtherSaga = function * () {
+  const transferEthSaga = function * () {
     const legacyAccountR = yield select(selectors.core.kvStore.ethereum.getLegacyAccount)
     const legacyAccount = legacyAccountR.getOrElse({})
     const { addr, correct } = legacyAccount
@@ -38,7 +38,7 @@ export default ({ api, coreSagas }) => {
       const balances = yield call(api.getEthereumBalances, addr)
       const balance = path([addr, 'balance'], balances)
       if (balance > 0) {
-        yield put(actions.modals.showModal('TransferEther', { balance, addr }))
+        yield put(actions.modals.showModal('TransferEth', { balance, addr }))
       }
     }
   }
@@ -56,7 +56,7 @@ export default ({ api, coreSagas }) => {
       yield call(coreSagas.kvStore.ethereum.fetchMetadataEthereum)
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
       yield put(actions.router.push('/home'))
-      yield fork(transferEtherSaga)
+      yield fork(transferEthSaga)
       yield put(actions.auth.startLogoutTimer())
       yield put(actions.goals.runGoals())
       yield fork(reportStats, mobileLogin)

@@ -8,7 +8,7 @@ import Success from './template.success.js'
 import { getData } from './selectors.js'
 import { Remote } from 'blockchain-wallet-v4/src'
 
-class TransferEtherContainer extends React.PureComponent {
+class TransferEthContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -27,7 +27,7 @@ class TransferEtherContainer extends React.PureComponent {
 
   handleSubmit () {
     const { to, effectiveBalance } = this.props.data.getOrElse({})
-    this.props.transferEtherActions.confirmTransferEth({ to, effectiveBalance })
+    this.props.transferEthActions.confirmTransferEth({ to, effectiveBalance })
   }
 
   render () {
@@ -50,12 +50,12 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   sendEthActions: bindActionCreators(actions.components.sendEth, dispatch),
-  transferEtherActions: bindActionCreators(actions.modules.transferEther, dispatch)
+  transferEthActions: bindActionCreators(actions.modules.transferEth, dispatch)
 })
 
 const enhance = compose(
-  modalEnhancer('TransferEther'),
+  modalEnhancer('TransferEth'),
   connect(mapStateToProps, mapDispatchToProps)
 )
 
-export default enhance(TransferEtherContainer)
+export default enhance(TransferEthContainer)
