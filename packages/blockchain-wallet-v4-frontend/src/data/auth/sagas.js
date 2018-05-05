@@ -30,14 +30,15 @@ export default ({ api, coreSagas }) => {
   }
 
   const transferEtherSaga = function * () {
-    const legacyAccount = yield select(selectors.core.kvStore.ethereum.getLegacyAccount)
-    const { data } = legacyAccount
+    const legacyAccountR = yield select(selectors.core.kvStore.ethereum.getLegacyAccount)
+    const legacyAccount = legacyAccountR.getOrElse({})
+    const { addr, correct } = legacyAccount
     // If needed, get the ethereum legacy account balance and prompt sweep
-    if (data && !data.correct) {
-      const balances = yield call(api.getEthereumBalances, data.addr)
-      const balance = path([data.addr, 'balance'], balances)
+    if (!correct && addr) {
+      const balances = yield call(api.getEthereumBalances, addr)
+      const balance = path([addr, 'balance'], balances)
       if (balance > 0) {
-        yield put(actions.modals.showModal('TransferEther', { balance, addr: data.addr }))
+        yield put(actions.modals.showModal('TransferEther', { balance, addr }))
       }
     }
   }

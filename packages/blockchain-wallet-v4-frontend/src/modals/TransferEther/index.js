@@ -20,13 +20,13 @@ class TransferEtherContainer extends React.PureComponent {
 
   componentDidUpdate (prevProps) {
     if (Remote.Success.is(this.props.data)) {
-      const { fee, effectiveBalance } = this.props.data.data
+      const { fee, effectiveBalance } = this.props.data.getOrElse({})
       if (parseFloat(fee) > parseFloat(effectiveBalance)) this.props.modalActions.closeAllModals()
     }
   }
 
   handleSubmit () {
-    const { to, effectiveBalance } = this.props.data.data
+    const { to, effectiveBalance } = this.props.data.getOrElse({})
     this.props.transferEtherActions.confirmTransferEth({ to, effectiveBalance })
   }
 
