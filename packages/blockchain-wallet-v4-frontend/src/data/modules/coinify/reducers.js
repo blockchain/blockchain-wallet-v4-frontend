@@ -5,7 +5,8 @@ import { Remote } from 'blockchain-wallet-v4/src'
 const INITIAL_STATE = {
   checkoutBusy: false,
   checkoutError: false,
-  coinifyBusy: Remote.NotAsked
+  coinifyBusy: Remote.NotAsked,
+  step: null
 }
 
 const coinify = (state = INITIAL_STATE, action) => {

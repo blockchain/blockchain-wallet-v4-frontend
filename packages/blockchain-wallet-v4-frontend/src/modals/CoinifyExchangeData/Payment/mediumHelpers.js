@@ -41,7 +41,7 @@ export const cardOptionHelper = (quote, limits, isChecked, handlePaymentClick) =
     <PaymentOption isChecked={isChecked} onClick={() => handlePaymentClick('card')} >
       <input type='radio' name='inMedium' id='card' value='card' style={{display: 'none'}} />
       <OptionLabel htmlFor='card'>
-        <PaymentIcon name='credit-card-filled' cursor={1} size='50px' isChecked={isChecked} />
+        <PaymentIcon name='credit-card-filled' cursor size='50px' isChecked={isChecked} />
         <PaymentText isChecked={isChecked}>
           <FormattedMessage id='coinifyexchangedata.payment.card' defaultMessage='Credit / Debit' />
         </PaymentText>
@@ -94,7 +94,7 @@ export const bankOptionHelper = (quote, limits, isChecked, handlePaymentClick) =
     <PaymentOption isChecked={isChecked} onClick={() => handlePaymentClick('bank')} >
       <input type='radio' name='inMedium' id='bank' value='bank' style={{display: 'none'}} />
       <OptionLabel htmlFor='bank'>
-        <PaymentIcon name='bank-filled' cursor={1} size='50px' isChecked={isChecked} />
+        <PaymentIcon name='bank-filled' cursor size='50px' isChecked={isChecked} />
         <PaymentText isChecked={isChecked}>
           <FormattedMessage id='coinifyexchangedata.payment.bank' defaultMessage='Bank Transfer' />
         </PaymentText>

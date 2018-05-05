@@ -24,6 +24,14 @@ export const getRateQuote = (state) => {
   }
 }
 
+export const getTrade = (state) => {
+  try {
+    return selectors.core.data.coinify.getTrade(state).data
+  } catch (e) {
+    return null
+  }
+}
+
 export const getQuote = (state) => {
   try {
     return selectors.core.data.coinify.getQuote(state)

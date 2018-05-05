@@ -40,9 +40,9 @@ export default ({ api, options }) => {
     }
   }
 
-  const coinifyFetchProfile = function * () {
+  const coinifyFetchProfile = function * (noLoad) {
     try {
-      yield put(A.coinifyFetchProfileLoading())
+      // yield put(A.coinifyFetchProfileLoading()) // commented so there's no loading spinner in the middle of the flow
       yield apply(coinify, coinify.profile.fetch)
       yield put(A.coinifyFetchProfileSuccess(coinify.profile))
     } catch (e) {
@@ -160,7 +160,7 @@ export default ({ api, options }) => {
       yield put(A.handleTradeSuccess(buyResult))
       console.log('coinify buy result in core', buyResult)
       yield put(A.fetchTrades())
-      yield call(refreshCoinify())
+      yield call(coinifyFetchProfile)
       return buyResult
     } catch (e) {
       console.warn('buy failed in core', e)

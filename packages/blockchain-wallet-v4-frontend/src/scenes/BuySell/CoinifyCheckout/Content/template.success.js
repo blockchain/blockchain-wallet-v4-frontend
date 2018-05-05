@@ -9,8 +9,9 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { flex } from 'services/StyleService'
 import * as service from 'services/CoinifyService'
 import Payment from '../../../../modals/CoinifyExchangeData/Payment'
+import ISignThis from '../../../../modals/CoinifyExchangeData/ISignThis'
 import OrderHistory from '../../OrderHistory'
-import { filter } from 'ramda'
+import { filter, path } from 'ramda'
 
 const CheckoutWrapper = styled.div`
   width: 55%;
@@ -59,6 +60,7 @@ const Success = props => {
     initiateBuy,
     step,
     busy,
+    trade,
     ...rest } = props
 
   const { trades, type } = rest
@@ -68,7 +70,7 @@ const Success = props => {
   const symbol = service.currencySymbolMap[defaultCurrency]
 
   const limits = service.getLimits(profile._limits, defaultCurrency)
-
+  console.log('template.success', step, props)
   if (type === 'buy' || !type) {
     if (step !== 'isx') {
       return (
@@ -113,6 +115,12 @@ const Success = props => {
             </div>
           </StepView>
         </Stepper>
+      )
+    } else if (step === 'isx') {
+      return (
+        <ISignThis
+          iSignThisId={path(['iSignThisID'], trade)}
+        />
       )
     }
   } else if (trades) {
