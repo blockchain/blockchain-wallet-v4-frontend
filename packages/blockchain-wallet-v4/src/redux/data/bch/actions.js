@@ -1,6 +1,6 @@
 import * as AT from './actionTypes'
 
-// export const setBCHLatestBlock = (block_index, hash, height, time) => ({ type: AT.SET_BCH_LATEST_BLOCK, payload: { block_index, hash, height, time } })
+export const setBCHLatestBlock = (block_index, hash, height, time) => ({ type: AT.SET_BCH_LATEST_BLOCK, payload: { block_index, hash, height, time } })
 
 // FETCH_BCH_DATA
 export const fetchData = (context) => ({ type: AT.FETCH_BCH_DATA, payload: { context } })
