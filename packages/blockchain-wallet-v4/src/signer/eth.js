@@ -30,22 +30,20 @@ export const sign = curry((network = 1, mnemonic, data) => {
   return Task.of(rawTx)
 })
 
-// TODO
-export const signLegacy = curry((network = 1, mnemonic, data) => {
-  throw new Error('Not implemented exception')
-  // const { index, to, amount, nonce, gasPrice, gasLimit } = data
-  // const privateKey = eth.getPrivateKey(mnemonic, index).getWallet().getPrivateKey()
-  // const txParams = {
-  //   to,
-  //   nonce: toHex(nonce),
-  //   gasPrice: toHex(gasPrice),
-  //   gasLimit: toHex(gasLimit),
-  //   value: toHex(amount),
-  //   chainId: network || 1
-  // }
+export const signLegacy = curry((network = 1, seedHex, data) => {
+  const { index, to, amount, nonce, gasPrice, gasLimit } = data
+  const privateKey = eth.getLegacyPrivateKey(seedHex, index)
+  const txParams = {
+    to,
+    nonce: toHex(nonce),
+    gasPrice: toHex(gasPrice),
+    gasLimit: toHex(gasLimit),
+    value: toHex(amount),
+    chainId: network || 1
+  }
 
-  // const tx = new EthereumTx(txParams)
-  // tx.signLegacy(privateKey)
-  // const rawTx = '0x' + tx.serialize().toString('hex')
-  // return Task.of(rawTx)
+  const tx = new EthereumTx(txParams)
+  tx.sign(privateKey)
+  const rawTx = '0x' + tx.serialize().toString('hex')
+  return Task.of(rawTx)
 })
