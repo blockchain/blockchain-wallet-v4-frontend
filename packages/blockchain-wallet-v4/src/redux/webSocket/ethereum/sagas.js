@@ -1,6 +1,5 @@
-import { takeEvery, call, put, select, take } from 'redux-saga/effects'
+import { call, put, select, take } from 'redux-saga/effects'
 import * as A from '../../actions'
-import * as AT from './actionTypes'
 import * as ethAT from '../../kvStore/ethereum/actionTypes'
 import * as ethSelectors from '../../kvStore/ethereum/selectors'
 import * as ethActions from '../../data/ethereum/actions'

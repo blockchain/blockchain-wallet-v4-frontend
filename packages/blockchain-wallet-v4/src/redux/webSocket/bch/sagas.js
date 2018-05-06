@@ -1,7 +1,6 @@
-import { takeEvery, call, put, select } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 import { compose } from 'ramda'
 import * as A from '../../actions'
-import * as AT from './actionTypes'
 import * as walletSelectors from '../../wallet/selectors'
 import { Socket } from '../../../network/index'
 import * as bchActions from '../../data/bch/actions'

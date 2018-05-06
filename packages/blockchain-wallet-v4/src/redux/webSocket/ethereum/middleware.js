@@ -1,8 +1,6 @@
-import { compose, prop } from 'ramda'
-import { Socket } from '../../../network/index'
+import { compose } from 'ramda'
 import * as A from './actions'
 import * as T from './actionTypes'
-import * as walletTypes from '../../wallet/actionTypes'
 
 const socket = (socket) => (store) => {
   return (next) => (action) => {
