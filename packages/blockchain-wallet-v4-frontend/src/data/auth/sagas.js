@@ -26,7 +26,9 @@ export default ({ api, coreSagas }) => {
 
   const welcomeSaga = function * (firstLogin) {
     if (firstLogin) {
-      yield put(actions.modals.showModal('Welcome'))
+      const walletNUsers = yield call(api.getWalletNUsers)
+      const walletMillions = Math.floor(walletNUsers.values[walletNUsers.values.length - 1].y / 1e6)
+      yield put(actions.modals.showModal('Welcome', { walletMillions }))
     } else {
       yield put(actions.alerts.displaySuccess('Login successful'))
     }
@@ -69,7 +71,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.auth.startLogoutTimer())
       yield put(actions.goals.runGoals())
       yield fork(transferEthSaga)
-      yield fork(welcomeSaga, true)
+      yield fork(welcomeSaga, firstLogin)
       yield fork(reportStats, mobileLogin)
       yield fork(logoutRoutine, yield call(setLogoutEventListener))
       if (!firstLogin) {
