@@ -39,11 +39,18 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     data: { bytes, format }
   })
 
+  const getWalletNUsers = () => get({
+    url: apiUrl,
+    ignoreKey: true,
+    endPoint: '/charts/my-wallet-n-users?cors=true'
+  })
+
   return {
     getCaptchaImage,
     getTransactionHistory,
     getLogs,
     getPriceIndexSeries,
-    getRandomBytes
+    getRandomBytes,
+    getWalletNUsers
   }
 }
