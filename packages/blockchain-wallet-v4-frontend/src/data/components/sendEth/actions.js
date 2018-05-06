@@ -1,6 +1,6 @@
 import * as AT from './actionTypes'
 
-export const sendEthInitialized = () => ({ type: AT.SEND_ETH_INITIALIZED })
+export const sendEthInitialized = payload => ({ type: AT.SEND_ETH_INITIALIZED, payload })
 export const sendEthDestroyed = () => ({ type: AT.SEND_ETH_DESTROYED })
 export const sendEthPaymentUpdated = payment => ({ type: AT.SEND_ETH_PAYMENT_UPDATED, payload: payment })
 export const sendEthFirstStepInitialized = () => ({ type: AT.SEND_ETH_FIRST_STEP_INITIALIZED })
