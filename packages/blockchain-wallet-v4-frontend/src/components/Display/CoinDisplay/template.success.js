@@ -45,7 +45,7 @@ CoinDisplay.defaultProps = {
   weight: 300,
   color: 'gray-5',
   cursor: 'auto',
-  mobileSize: false
+  mobileSize: ''
 }
 
 export default CoinDisplay

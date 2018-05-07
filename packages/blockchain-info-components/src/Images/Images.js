@@ -17,6 +17,8 @@ import emptySearch from './img/empty-search.svg'
 import emptyTx from './img/empty-tx.svg'
 import googleAuthenticator from './img/google-authenticator.png'
 import googlePlayBadge from './img/google-play-badge.png'
+import halfBitcoin from './img/half-bitcoin.svg'
+import halfBitcoincash from './img/half-bitcoincash.svg'
 import halfEther from './img/half-ether.svg'
 import landingPageBannerOverlay from './img/landing-page-banner-overlay.jpg'
 import landingPageBannerSmOverlay from './img/landing-page-banner-sm-overlay.jpg'
@@ -54,6 +56,8 @@ export default {
   'empty-tx': emptyTx,
   'google-authenticator': googleAuthenticator,
   'google-play-badge': googlePlayBadge,
+  'half-bitcoin': halfBitcoin,
+  'half-bitcoincash': halfBitcoincash,
   'half-ether': halfEther,
   'landing-page-banner-overlay': landingPageBannerOverlay,
   'landing-page-banner-sm-overlay': landingPageBannerSmOverlay,
