@@ -29,9 +29,9 @@ const bchReducer = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
-    // case AT.SET_BCH_LATEST_BLOCK: {
-    //   return assocPath(['latest_block'], payload, state)
-    // }
+    case AT.SET_BCH_LATEST_BLOCK: {
+      return assocPath(['latest_block'], Remote.Success(payload), state)
+    }
     case AT.REFRESH_BCH_EFFECTIVE_BALANCE: {
       const { coins, feePerByte } = payload
       const { outputs } = selectAll(feePerByte, coins)

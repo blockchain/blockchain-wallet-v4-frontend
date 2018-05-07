@@ -16,7 +16,7 @@ export default ({ coreSagas }) => {
       yield put(A.sendEthPaymentUpdated(Remote.Loading))
       let payment = coreSagas.payment.eth.create(({ network: settings.NETWORK_ETHEREUM }))
       payment = yield payment.init()
-      payment = yield payment.from()
+      payment = yield payment.from(action.payload.from, action.payload.type)
       const initialValues = { coin: 'ETH' }
       yield put(initialize('sendEth', initialValues))
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))

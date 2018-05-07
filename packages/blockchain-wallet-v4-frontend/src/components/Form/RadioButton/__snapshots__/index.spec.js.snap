@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RadioButton renders correctly 1`] = `
+<RadioButton__Wrapper>
+  <RadioButton__Container />
+</RadioButton__Wrapper>
+`;

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Icon, Text } from 'blockchain-info-components'
+import { Color, Icon, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -24,21 +24,41 @@ const Circle = styled.div`
   width: 80px;
   height: 80px;
   border-radius: 40px;
-  border: 1px solid ${props => props.status === 'disabled' ? props.theme['gray-2'] : props.theme['brand-primary']};
+  border: 1px solid ${props => getColor(props.status)};
   box-sizing: border-box;
   overflow: hidden;
 `
 
-const Step3 = props => (
-  <Wrapper>
-    <Circle status={props.status}>
-      <Icon name='checkmark' size='40px' color={props.status === 'disabled' ? 'gray-2' : 'brand-primary'} />
-    </Circle>
-    <Text size='13px' weight={500} capitalize>
-      <FormattedMessage id='components.exchangetimeline.trade' defaultMessage='Trade complete' />
-    </Text>
-  </Wrapper>
-)
+const getColor = (status) => {
+  switch (status) {
+    case 'disabled': return Color('gray-2')
+    case 'refunded': return Color('error')
+    default: return Color('brand-primary')
+  }
+}
+
+const Step3 = props => {
+  const { status } = props
+
+  return (
+    <Wrapper>
+      <Circle status={status}>
+        {
+          status === 'refunded'
+            ? <Icon name='alert' size='40px' color='error' />
+            : <Icon name='checkmark' size='40px' color={status === 'disabled' ? 'gray-2' : 'brand-primary'} />
+        }
+      </Circle>
+      <Text size='13px' weight={500} capitalize>
+        {
+          status === 'refunded'
+            ? <FormattedMessage id='components.exchangetimeline.refunded' defaultMessage='Trade refunded' />
+            : <FormattedMessage id='components.exchangetimeline.trade' defaultMessage='Trade complete' />
+        }
+      </Text>
+    </Wrapper>
+  )
+}
 
 Step3.propTypes = {
   status: PropTypes.oneOf(['disabled', 'active'])

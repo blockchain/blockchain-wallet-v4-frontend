@@ -7,13 +7,13 @@ import Empty from './Empty'
 import List from './List'
 
 const Success = props => {
-  const { complete, incomplete } = props
+  const { complete, incomplete, error } = props.trades
 
   return (
     <ExchangeLayout>
-      {isEmpty(complete) && isEmpty(incomplete)
+      {isEmpty(complete) && isEmpty(incomplete) && isEmpty(error)
         ? <Empty />
-        : <List complete={complete} incomplete={incomplete} />
+        : <List complete={complete} incomplete={incomplete} error={error} />
       }
     </ExchangeLayout>
   )
