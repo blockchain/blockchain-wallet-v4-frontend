@@ -13,7 +13,7 @@ import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 export default ({ coreSagas }) => {
   const logLocation = 'components/sendEth/sagas'
 
-  const sendEthInitialized = function * () {
+  const sendEthInitialized = function * (action) {
     try {
       yield put(A.sendEthPaymentUpdated(Remote.Loading))
       let payment = coreSagas.payment.eth.create(({ network: settings.NETWORK_ETHEREUM }))

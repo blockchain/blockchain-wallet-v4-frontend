@@ -66,7 +66,7 @@ describe('ShapeshiftService Service', () => {
   describe('formatTrade()', () => {
     let dateNowSpy
     let fakeTimestamp = 1517443202000
-    let fakeTimeFormatted = '01 February 2018, 00:00'
+    let fakeTimeFormatted = '31 January 2018, 19:00'
     let mockTrade = {
       timestamp: fakeTimestamp,
       quote: { pair: 'btc_eth' }
