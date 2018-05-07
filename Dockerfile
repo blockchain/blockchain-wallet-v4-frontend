@@ -19,7 +19,9 @@ RUN : "${environment:? build argument is not set!}" \
 # set build args as environment variables for Node to consume
 ENV ENVIRONMENT=$environment
 ENV ROOT_URL=$root_url
-ENV WEB_SOCKET_URL=$web_socket_url
+ENV BTC_WEB_SOCKET_URL=$btc_web_socket_url
+ENV BCH_WEB_SOCKET_URL=$bch_web_socket_url
+ENV ETH_WEB_SOCKET_URL=$eth_web_socket_url
 ENV API_DOMAIN=$api_domain
 ENV WALLET_HELPER_DOMAIN=$wallet_helper_domain
 
