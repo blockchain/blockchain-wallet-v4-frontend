@@ -4,6 +4,8 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { actions, selectors } from 'data'
 
 export default ({ coreSagas }) => {
+  const logLocation = 'components/btcTransactions/sagas'
+
   const initialized = function * () {
     try {
       const defaultSource = ''
@@ -16,7 +18,7 @@ export default ({ coreSagas }) => {
       const btcTransactionsR = yield select(selectors.core.data.bitcoin.getTransactions)
       if (!Remote.Success.is(btcTransactionsR)) yield put(actions.core.data.bitcoin.fetchTransactions(defaultSource))
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(`${logLocation} initialized`, e))
     }
   }
 
@@ -26,12 +28,12 @@ export default ({ coreSagas }) => {
       const source = prop('source', formValues)
       const threshold = 250
       const { yMax, yOffset } = action.payload
-      console.log(yMax, yOffset, threshold, yMax - yOffset < threshold)
+
       if (yMax - yOffset < threshold) {
         yield put(actions.core.data.bitcoin.fetchTransactions(source, false))
       }
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(`${logLocation} scrollUpdated`, e))
     }
   }
 
@@ -41,15 +43,15 @@ export default ({ coreSagas }) => {
       const field = path(['meta', 'field'], action)
       const payload = prop('payload', action)
       if (!equals('btcTransactions', form)) return
-      yield console.log(form, field, payload)
+      yield put(actions.logs.logInfoMessage(`${logLocation} formChanged`, {form, field, payload}))
       switch (field) {
         case 'source':
-          console.log('source changed:' + payload)
+          yield put(actions.logs.logInfoMessage(`${logLocation} formChanged case:source`, {payload}))
           const source = payload.xpub || payload.address
           yield put(actions.core.data.bitcoin.fetchTransactions(source, true))
       }
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(`${logLocation} formChanged`, e))
     }
   }
 
