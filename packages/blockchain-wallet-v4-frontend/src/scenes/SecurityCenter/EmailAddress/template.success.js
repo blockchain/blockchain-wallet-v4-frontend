@@ -81,7 +81,7 @@ const EmailAddress = (props) => {
           <React.Fragment>
             <EmailExplanation>
               <FormattedMessage id='scenes.security.email.verifieddescription' defaultMessage='You’ve verified ' />
-              <strong>{email}</strong>
+              {email}
               <FormattedMessage id='scenes.security.email.verifieddescription2' defaultMessage='. Select ‘Change Email’ to modify this existing address. ' />
               <FormattedMessage id='scenes.security.email.verifieddescription3' defaultMessage=' We will use this email to authorize logins, send payment notifications, and notify you of wallet updates.' />
             </EmailExplanation>

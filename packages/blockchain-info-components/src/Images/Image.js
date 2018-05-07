@@ -7,6 +7,7 @@ import Images from './Images'
 const BaseImage = styled.img`
   width: ${props => props.width};
   height: ${props => props.height};
+  color: ${props => props.color};
 `
 
 const Image = (props) => {
@@ -19,13 +20,15 @@ const Image = (props) => {
 
 Image.defaultProps = {
   width: 'auto',
-  height: 'auto'
+  height: 'auto',
+  color: 'auto'
 }
 
 Image.propTypes = {
   name: PropTypes.string.isRequired,
   width: PropTypes.string,
-  height: PropTypes.string
+  height: PropTypes.string,
+  color: PropTypes.string
 }
 
 export default Image

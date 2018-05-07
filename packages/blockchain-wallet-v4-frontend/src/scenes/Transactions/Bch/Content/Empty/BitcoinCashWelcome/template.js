@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { LinkContainer } from 'react-router-bootstrap'
+// import { LinkContainer } from 'react-router-bootstrap'
 
 import { Button, Icon, Image, Link, Separator, Text, TextGroup } from 'blockchain-info-components'
 
@@ -15,7 +15,7 @@ const Wrapper = styled.div`
   width: 100%;
   background-color: ${props => props.theme['brand-quaternary']};
 `
-const EtherImage = styled(Image)`
+const BitcoinCashImage = styled(Image)`
   display: none;
   height: 230px;
   opacity: 0.3;
@@ -35,9 +35,6 @@ const Row = styled.div`
   align-items: center;
   width: 100%;
   box-sizing: border-box;
-  button {
-    margin-top: 10px;
-  }
   @media(min-width: 1200px) {
     flex-direction: row;
   }
@@ -53,64 +50,59 @@ const CloseArrow = styled(Icon)`
   width: 30px;
   margin-top: 20px;
 `
-const EtherWelcome = props => {
-  const { displayed, handleClick } = props
+const BitcoinCashWelcome = props => {
+  const { displayed, handleClick, handleRequest } = props
 
   return (
     <Wrapper displayed={displayed}>
-      <EtherImage name='half-ether' />
+      <BitcoinCashImage name='half-bitcoincash' />
       <Container>
         <Row>
           <Cell small>
             <Text size='24px' weight={300} color='brand-primary' uppercase>
-              <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.welcome' defaultMessage='Welcome to' />
+              <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.welcome' defaultMessage='Welcome to' />
             </Text>
             <Text size='24px' weight={300} color='brand-primary' uppercase>
-              <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.welcome2' defaultMessage='Ether' />
+              <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.welcome2' defaultMessage='Bitcoin Cash' />
             </Text>
-            <Link href='https://www.blockchain.com/ether-basics' target='_blank' size='16px' weight={300} uppercase>
-              <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.learnmore' defaultMessage='Learn More' />
+            <Link href='https://support.blockchain.com/hc/en-us/categories/115001262946-Bitcoin-Cash' size='16px' target='_blank' weight={300} uppercase>
+              <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.learnmore' defaultMessage='Learn More' />
               <Icon name='right-arrow' color='brand-secondary' />
             </Link>
           </Cell>
           <Cell>
             <Text weight={300} color='brand-primary' uppercase>
-              <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.what' defaultMessage='What is ether?' />
+              <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.what' defaultMessage='What is Bitcoin Cash?' />
             </Text>
             <Separator />
             <TextGroup inline>
               <Text size='12px' weight={300}>
-                <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.currency' defaultMessage='Ether is a digital currency.' />
+                <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.currency' defaultMessage='Bitcoin Cash is a form of peer-to-peer electronic cash that was created after a fork of the Bitcoin block chain in August 2017.' />
               </Text>
               <Text size='12px' weight={300}>
-                <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.transact' defaultMessage='Like Bitcoin, it enables people around the world to transact, save, and hedge their way to a better financial future.' />
-              </Text>
-              <Text size='12px' weight={300}>
-                <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.platform' defaultMessage='In addition to sending value, ether also powers the Ethereum platform.' />
+                <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.top' defaultMessage='Bitcoin Cash has since grown to be one of the top cryptocurrencies, along with bitcoin and ether.' />
               </Text>
             </TextGroup>
           </Cell>
           <Cell>
             <Text weight={300} color='brand-primary' uppercase>
-              <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.why' defaultMessage='Why should I use it?' />
+              <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.why' defaultMessage='How do I get Bitcoin Cash?' />
             </Text>
             <Separator />
             <TextGroup inline>
               <Text size='12px' weight={300}>
-                <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.grow' defaultMessage='As the Ethereum platform grows, more intelligent applications will be built on top of it.' />
+                <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.fees' defaultMessage='If you had bitcoin in your Blockchain wallet before the fork in August, you already have Bitcoin Cash.' />
               </Text>
               <Text size='12px' weight={300}>
-                <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.opportunity' defaultMessage="We want to give you the opportunity to start using ether now, so you' ll be ready to use these products in the future." />
+                <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.fees' defaultMessage='If you’re new to Blockchain, you can get started with Bitcoin Cash by exchanging bitcoin or ether.' />
               </Text>
             </TextGroup>
           </Cell>
         </Row>
         <Row>
-          <LinkContainer to='/exchange'>
-            <Button nature='primary' fullwidth uppercase>
-              <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.getstarted' defaultMessage='Get started with ether' />
-            </Button>
-          </LinkContainer>
+          <Button nature='primary' onClick={handleRequest} fullwidth uppercase>
+            <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.getstarted' defaultMessage='Get started with Bitcoin Cash' />
+          </Button>
         </Row>
       </Container>
       <CloseArrow name='close' size='12px' cursor onClick={handleClick} />
@@ -118,9 +110,10 @@ const EtherWelcome = props => {
   )
 }
 
-EtherWelcome.propTypes = {
+BitcoinCashWelcome.propTypes = {
   displayed: PropTypes.bool.isRequired,
-  handleClick: PropTypes.func.isRequired
+  handleClick: PropTypes.func.isRequired,
+  handleRequest: PropTypes.func.isRequired
 }
 
-export default EtherWelcome
+export default BitcoinCashWelcome

@@ -8,7 +8,8 @@ exports[`Badge component applestore renders correctly 1`] = `
   target="_blank"
 >
   <img
-    class="sc-htpNat chbhfk"
+    class="sc-htpNat gLNmzh"
+    color="auto"
     height="40px"
     src="[object Object]"
     width="auto"
@@ -24,7 +25,8 @@ exports[`Badge component googleplay renders correctly 1`] = `
   target="_blank"
 >
   <img
-    class="sc-htpNat chbhfk"
+    class="sc-htpNat gLNmzh"
+    color="auto"
     height="40px"
     src="[object Object]"
     width="auto"
