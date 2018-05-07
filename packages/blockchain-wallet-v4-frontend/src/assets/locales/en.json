@@ -218,7 +218,7 @@
   "modals.mobilelogin.login": "Logging in with Mobile",
   "modals.mobilelogin.openapp": "Open your Blockchain App on your mobile device and go to Settings.",
   "modals.mobilelogin.tapweb": "Tap Log in to Web Wallet.",
-  "modals.mobilelogin.usecamera": "Using your computer s camera, scan the QR code that appears on your device.",
+  "modals.mobilelogin.usecamera": "Using your computer's camera, scan the QR code that appears on your device.",
   "modals.mobilelogin.cancel": "Cancel",
   "modals.mobilenumberchange.title1": "Change Mobile Number",
   "modals.mobilenumberchange.explain": "Use your mobile phone to receive a one-time-password after a login attempt.",

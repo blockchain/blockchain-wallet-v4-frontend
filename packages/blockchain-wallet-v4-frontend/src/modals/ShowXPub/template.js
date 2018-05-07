@@ -23,7 +23,7 @@ const FirstStep = () => (
       <FormattedMessage id='modals.xpub.warning' defaultMessage='Warning' />
     </Text>
     <Text size='14px' style={{ marginTop: 10 }} weight={300}>
-      <FormattedMessage id='modals.xpub.warning_message' defaultMessage={'Don\'t share your Extended Public Key (xPub) with an untrusted source. Anyone with access to this can keep track of your payments and may be able to disrupt access to your wallet.'} />
+      <FormattedMessage id='modals.xpub.warning_message' defaultMessage="Don't share your Extended Public Key (xPub) with an untrusted source. Anyone with access to this can keep track of your payments and may be able to disrupt access to your wallet." />
     </Text>
   </div>
 )
