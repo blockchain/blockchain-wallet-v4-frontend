@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import FiatConvertor from './QuoteInputTemplate'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { path } from 'ramda'
@@ -52,7 +52,9 @@ QuoteInput.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  checkoutError: path(['coinify', 'checkoutError'], state)
+  checkoutError: path(['coinify', 'checkoutError'], state),
+  canTrade: selectors.core.data.coinify.canTrade(state),
+  cannotTradeReason: selectors.core.data.coinify.cannotTradeReason(state)
 })
 
 const mapDispatchToProps = dispatch => ({

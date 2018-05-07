@@ -143,6 +143,15 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const triggerKYC = function * () {
+    try {
+      const kyc = yield call(coreSagas.data.coinify.triggerKYC)
+      yield put(A.coinifyNextCheckoutStep('isx', { iSignThisId: kyc.iSignThisID }))
+    } catch (e) {
+      console.log('failed to triggerKYC', e)
+    }
+  }
+
   return {
     handleChange,
     // resetCoinifyCheckout,
@@ -151,6 +160,7 @@ export default ({ coreSagas }) => {
     coinifySaveMedium,
     coinifySignup,
     setCheckoutMax,
-    fromISX
+    fromISX,
+    triggerKYC
   }
 }

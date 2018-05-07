@@ -83,13 +83,11 @@ export const tradeDetails = {
     const fiat = trade.inCurrency !== 'BTC' ? trade.inCurrency : trade.outCurrency
     const medium = trade.medium
     if (trade.isBuy) {
-      if (fiat !== 'BTC') {
-        const symbol = currencySymbolMap[fiat]
-        return {
-          firstRow: `${trade.receiveAmount} BTC (${symbol}${(trade.inAmount / 100).toFixed(2)})`,
-          fee: `${symbol}${((trade.sendAmount / 100) - (trade.inAmount / 100)).toFixed(2)}`,
-          total: `${symbol}${(trade.sendAmount / 100).toFixed(2)}`
-        }
+      const symbol = currencySymbolMap[fiat]
+      return {
+        firstRow: `${trade.receiveAmount} BTC (${symbol}${(trade.inAmount / 100).toFixed(2)})`,
+        fee: `${symbol}${((trade.sendAmount / 100) - (trade.inAmount / 100)).toFixed(2)}`,
+        total: `${symbol}${(trade.sendAmount / 100).toFixed(2)}`
       }
     }
   }

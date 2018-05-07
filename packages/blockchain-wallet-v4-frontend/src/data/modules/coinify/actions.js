@@ -32,3 +32,5 @@ export const coinifySuccess = () => ({ type: AT.COINIFY_SUCCESS })
 export const coinifyFailure = (error) => ({ type: AT.COINIFY_FAILURE, payload: error })
 
 export const fromISX = (state) => ({ type: AT.COINIFY_FROM_ISX, payload: state })
+
+export const triggerKYC = () => ({ type: AT.COINIFY_TRIGGER_KYC })

@@ -44,7 +44,7 @@ const faqHelper = () => helpers.map((el, i) => <Helper key={i} question={el.ques
 const Payment = (props) => {
   const { value, busy, handlePaymentClick, medium } = props
   const { limits, quote } = value
-
+  console.log('payment template', value)
   const isChecked = (type) => medium === type
 
   return (
@@ -67,13 +67,9 @@ const Payment = (props) => {
       </ColLeft>
       <ColRight>
         <ColRightInner>
-          {/* <Button uppercase nature='primary' fullwidth type='submit' disabled={!medium || busy}>
-            {
-              !busy
-                ? <FormattedMessage id='coinifyexchangedata.confirm.confirm' defaultMessage='confirm' />
-                : <HeartbeatLoader height='20px' width='20px' color='white' />
-            }
-          </Button> */}
+          {
+
+          }
           <StepTransition next Component={Button} style={spacing('mt-45')} nature='primary' fullwidth uppercase disabled={!medium || busy}>
             {
               !busy

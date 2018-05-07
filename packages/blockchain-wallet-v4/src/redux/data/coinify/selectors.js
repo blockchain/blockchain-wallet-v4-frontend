@@ -26,3 +26,7 @@ export const getMediumAccounts = path([dataPath, 'coinify', 'accounts'])
 export const getDefaultCurrency = path([dataPath, 'coinify', '_default_currency'])
 
 export const getTrade = path([dataPath, 'coinify', 'trade'])
+
+export const canTrade = state => getProfile(state).map(path(['_canTrade']))
+
+export const cannotTradeReason = state => getProfile(state).map(path(['_cannotTradeReason']))

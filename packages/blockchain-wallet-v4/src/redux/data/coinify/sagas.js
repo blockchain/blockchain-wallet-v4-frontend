@@ -180,6 +180,16 @@ export default ({ api, options }) => {
     }
   }
 
+  const triggerKYC = function * () {
+    try {
+      const kyc = yield apply(coinify, coinify.triggerKYC)
+      yield call(getCoinify)
+      return kyc
+    } catch (e) {
+      console.log('failed to trigger KYC in core', e)
+    }
+  }
+
   return {
     signup,
     buy,
@@ -193,6 +203,7 @@ export default ({ api, options }) => {
     getPaymentMediums,
     getMediumAccounts,
     fetchQuoteAndMediums,
-    cancelTrade
+    cancelTrade,
+    triggerKYC
   }
 }
