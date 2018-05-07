@@ -55,7 +55,7 @@ export default (state = INITIAL_STATE, action) => {
       return assoc('latest_block', Remote.Loading, state)
     }
     case AT.FETCH_ETHEREUM_LATEST_BLOCK_SUCCESS: {
-      return assoc('latest_Block', Remote.Success(payload), state)
+      return assoc('latest_block', Remote.Success(payload), state)
     }
     case AT.FETCH_ETHEREUM_LATEST_BLOCK_FAILURE: {
       return assoc('latest_block', Remote.Failure(payload), state)

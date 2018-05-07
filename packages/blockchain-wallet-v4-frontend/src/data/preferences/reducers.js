@@ -1,5 +1,6 @@
-import { assoc } from 'ramda'
+import { assoc, assocPath } from 'ramda'
 import * as AT from './actionTypes'
+import * as priceChartActionTypes from '../components/priceChart/actionTypes'
 
 const INITIAL_STATE = {
   culture: 'en-GB',
@@ -44,6 +45,15 @@ const preferences = (state = INITIAL_STATE, action) => {
     case AT.SET_BITCOIN_CASH_WELCOME: {
       const { displayed } = payload
       return assoc('showBitcoinCashWelcome', displayed, state)
+
+    case priceChartActionTypes.PRICE_CHART_COIN_CLICKED: {
+      const { coin } = payload
+      return assocPath(['priceChart', 'coin'], coin, state)
+    }
+    case priceChartActionTypes.PRICE_CHART_TIME_CLICKED: {
+      const { time } = payload
+      return assocPath(['priceChart', 'time'], time, state)
+
     }
     default:
       return state

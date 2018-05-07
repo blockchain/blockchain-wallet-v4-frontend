@@ -32,9 +32,7 @@ class LoginContainer extends React.PureComponent {
   }
 
   render () {
-    const valid = localStorage.getItem('ls.guid') !== 'undefined'
-    const guid = valid && JSON.parse(localStorage.getItem('ls.guid'))
-    const { authType, data } = this.props
+    const { authType, data, lastGuid } = this.props
 
     const { busy, error } = data.cata({
       Success: () => ({ error: null, busy: false }),
@@ -43,15 +41,18 @@ class LoginContainer extends React.PureComponent {
       NotAsked: () => ({ error: null, busy: false })
     })
 
-    return <Login {...this.props}
-      busy={busy}
-      loginError={error}
-      initialValues={{ guid }}
-      authType={authType}
-      onSubmit={this.onSubmit}
-      handleCode={this.handleCode}
-      handleMobile={this.handleMobile}
-    />
+    const loginProps = {
+      authType,
+      onSubmit: this.onSubmit,
+      busy,
+      handleCode: this.handleCode,
+      loginError: error,
+      handleMobile: this.handleMobile
+    }
+
+    return lastGuid
+      ? <Login {...this.props} initialValues={{ guid: lastGuid }} {...loginProps} />
+      : <Login {...this.props} {...loginProps} />
   }
 }
 
@@ -60,6 +61,7 @@ const mapStateToProps = (state) => ({
   password: formValueSelector('login')(state, 'password'),
   code: formValueSelector('login')(state, 'code'),
   authType: selectors.auth.getAuthType(state),
+  lastGuid: selectors.cache.getLastGuid(state),
   data: selectors.auth.getLogin(state)
 })
 

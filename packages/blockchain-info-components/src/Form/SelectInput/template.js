@@ -119,9 +119,9 @@ const SelectInput = (props) => {
   const showArrow = !hideArrow
 
   return (
-    <SelectBoxInput onClick={handleFocus}>
+    <SelectBoxInput>
       {!expanded || !searchEnabled
-        ? <Display onBlur={handleBlur} disabled={disabled} errorState={errorState}>
+        ? <Display onClick={handleFocus} onBlur={handleBlur} disabled={disabled} errorState={errorState}>
           {templateDisplay ? templateDisplay(display) : <DefaultDisplay>{display.text}</DefaultDisplay>}
         </Display>
         : <Search autoFocus={expanded} onChange={handleChange} />
@@ -138,14 +138,8 @@ const SelectInput = (props) => {
 }
 
 SelectInput.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.shape({
-    text: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.object.isRequired]),
-    value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired, PropTypes.object.isRequired])
-  })).isRequired,
-  selected: PropTypes.shape({
-    text: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.object.isRequired]),
-    value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired, PropTypes.object.isRequired])
-  }),
+  items: PropTypes.array.isRequired,
+  selected: PropTypes.object.isRequired,
   expanded: PropTypes.bool,
   searchEnabled: PropTypes.bool,
   opened: PropTypes.bool,
