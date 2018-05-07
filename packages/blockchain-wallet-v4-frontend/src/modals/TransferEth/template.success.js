@@ -25,31 +25,31 @@ const Row = styled.div`
   box-sizing: border-box;
 `
 
-const TransferEther = (props) => {
+const Success = (props) => {
   const { position, total, loading, ...rest } = props
-  const { handleSubmit, from, to, balance, fee } = rest
+  const { handleSubmit, from, val } = rest
 
   return (
     <Modal size='large' position={position} total={total}>
       <ModalHeader closeButton={false}>
-        <FormattedMessage id='modals.transferether.title' defaultMessage='Your Ether Address' />
+        <FormattedMessage id='modals.transfereth.title' defaultMessage='Your Ether Address' />
       </ModalHeader>
       <ModalBody loading={loading}>
         <TextGroup inline>
           <Text size='14px' weight={300}>
-            <FormattedMessage id='modals.transferether.beta' defaultMessage='As we leave our beta program we want to make sure your backup phrase is compatible with other ether wallets.' />
+            <FormattedMessage id='modals.transfereth.beta' defaultMessage='As we leave our beta program we want to make sure your backup phrase is compatible with other ether wallets.' />
           </Text>
           <Text size='14px' weight={300}>
-            <FormattedMessage id='modals.transferether.updated' defaultMessage="Because of this, we've updated your ether address and are requiring a transfer of your funds." />
+            <FormattedMessage id='modals.transfereth.updated' defaultMessage="Because of this, we've updated your ether address and are requiring a transfer of your funds." />
           </Text>
           <Text size='14px' weight={300}>
-            <FormattedMessage id='modals.transferether.old' defaultMessage="Don't worry, your old address is still valid" />
+            <FormattedMessage id='modals.transfereth.old' defaultMessage="Don't worry, your old address is still valid." />
           </Text>
         </TextGroup>
         <Container>
           <Row>
             <Text size='14px' weight={500}>
-              <FormattedMessage id='modals.transferether.label1' defaultMessage='Send ETH From:' />
+              <FormattedMessage id='modals.transfereth.label1' defaultMessage='Send ETH From:' />
             </Text>
             <Text size='14px' weight={300}>
               {from}
@@ -57,35 +57,31 @@ const TransferEther = (props) => {
           </Row>
           <Row>
             <Text size='14px' weight={500}>
-              <FormattedMessage id='modals.transferether.label2' defaultMessage='To:' />
+              <FormattedMessage id='modals.transfereth.label2' defaultMessage='To:' />
             </Text>
             <Text size='14px' weight={300}>
-              {to}
+              {val.to}
             </Text>
           </Row>
           <Row>
             <Text size='14px' weight={500}>
-              <FormattedMessage id='modals.transferether.label3' defaultMessage='Amount:' />
+              <FormattedMessage id='modals.transfereth.label3' defaultMessage='Amount:' />
             </Text>
-            <Text size='14px' weight={300}>
-              <CoinDisplay coin='ETH'>{balance}</CoinDisplay>
-            </Text>
+            <CoinDisplay size='14px' coin='ETH'>{val.effectiveBalance}</CoinDisplay>
           </Row>
           <Row>
             <Text size='14px' weight={500}>
-              <FormattedMessage id='modals.transferether.label3' defaultMessage='Transaction Fee:' />
+              <FormattedMessage id='modals.transfereth.label4' defaultMessage='Transaction Fee:' />
             </Text>
-            <Text size='14px' weight={300}>
-              <CoinDisplay coin='ETH'>{fee}</CoinDisplay>
-            </Text>
+            <CoinDisplay size='14px' coin='ETH'>{val.fee}</CoinDisplay>
           </Row>
         </Container>
         <Button nature='primary' fullwidth uppercase onClick={handleSubmit}>
-          <FormattedMessage id='modals.transferether.confirm' defaultMessage='Confirm' />
+          <FormattedMessage id='modals.transfereth.confirm' defaultMessage='Confirm' />
         </Button>
       </ModalBody>
     </Modal>
   )
 }
 
-export default TransferEther
+export default Success

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { transparentize } from 'polished'
+import PropTypes from 'prop-types'
 import { Text, TextGroup } from '../Text'
 
 const TooltipWrapper = styled.div`
@@ -39,7 +39,6 @@ const TooltipBox = styled(TextGroup)`
   border-radius: 5px;
   padding: 10px 10px;
   box-sizing: border-box;
-  box-shadow: ${props => transparentize(0.65, props.theme['gray-6'])} 0px 3px 8px 0px;
   cursor: pointer;
   font-size: 11px;
   font-weight: 300;
@@ -72,50 +71,33 @@ const TooltipBox = styled(TextGroup)`
     width: 0;
     height: 0;
     border: 9px solid transparent;
-    border-top-color: ${props => props.theme['gray-1']};
+    border-top-color: ${props => props.theme['white-blue']};
   }
 `
 
-const selectColors = displayed => displayed
-  ? { foreColor: 'white', backgroundColor: 'brand-primary', borderColor: 'brand-primary' }
-  : { foreColor: 'gray-5', backgroundColor: 'white', borderColor: 'gray-2' }
+export const Tooltip = props => {
+  const { icon, colors, width, label, displayed, handleClick, handleMouseEnter, handleMouseLeave } = props
+  return (
+    <TooltipWrapper width={width}>
+      {
+        label
+          ? <TooltipLabel onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>{label}</TooltipLabel>
+          : <TooltipIcon displayed={displayed} colors={colors} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={handleClick}>{icon}</TooltipIcon>
+      }
+      <TooltipBox width={width} displayed={displayed} onClick={handleClick}>{props.children}</TooltipBox>
+    </TooltipWrapper>
+  )
+}
 
-class Tooltip extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.state = { displayed: false }
-    this.handleClick = this.handleClick.bind(this)
-    this.handleMouseEnter = this.handleMouseEnter.bind(this)
-    this.handleMouseLeave = this.handleMouseLeave.bind(this)
-  }
-
-  handleClick () {
-    this.setState({ displayed: !this.state.displayed })
-  }
-
-  handleMouseEnter () {
-    this.props.hover && this.setState({ displayed: true })
-  }
-
-  handleMouseLeave () {
-    this.props.hover && this.setState({ displayed: false })
-  }
-
-  render () {
-    const icon = this.state.displayed ? 'X' : '?'
-    const colors = selectColors(this.state.displayed)
-
-    return (
-      <TooltipWrapper width={this.props.width}>
-        {
-          this.props.label
-            ? <TooltipLabel onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave}>{this.props.label}</TooltipLabel>
-            : <TooltipIcon displayed={this.state.displayed} colors={colors} onMouseEnter={this.handleMouseEnter} onMouseLeave={this.handleMouseLeave} onClick={this.handleClick}>{icon}</TooltipIcon>
-        }
-        <TooltipBox width={this.props.width} displayed={this.state.displayed} onClick={this.handleClick}>{this.props.children}</TooltipBox>
-      </TooltipWrapper>
-    )
-  }
+Tooltip.propTypes = {
+  icon: PropTypes.string,
+  colors: PropTypes.string,
+  width: PropTypes.string,
+  label: PropTypes.string,
+  displayed: PropTypes.bool,
+  handleClick: PropTypes.func,
+  handleMouseEnter: PropTypes.func,
+  handleMouseLeave: PropTypes.func
 }
 
 export default Tooltip
