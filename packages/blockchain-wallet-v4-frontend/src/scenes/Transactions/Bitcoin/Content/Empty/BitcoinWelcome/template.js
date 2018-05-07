@@ -95,7 +95,7 @@ const BitcoinWelcome = props => {
           </Cell>
         </Row>
         <Row>
-          <LinkContainer to='/exchange'>
+          <LinkContainer to='/buy-sell'>
             <Button nature='primary' margin='20px' fullwidth uppercase>
               <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.getstarted' defaultMessage='Get started with bitcoin' />
             </Button>
