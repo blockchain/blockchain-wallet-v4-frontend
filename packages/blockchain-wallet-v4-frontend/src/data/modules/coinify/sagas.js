@@ -129,6 +129,16 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const fromISX = function * (action) {
+    try {
+      yield put(A.coinifyNextCheckoutStep('order_history'))
+      const trade = yield select(selectors.core.data.coinify.getTrade)
+      // TODO: open trade details modal with trade data and isx status
+    } catch (e) {
+      console.log('error fromISX', e)
+    }
+  }
+
   return {
     handleChange,
     // resetCoinifyCheckout,
@@ -136,6 +146,7 @@ export default ({ coreSagas }) => {
     buy,
     coinifySaveMedium,
     coinifySignup,
-    setCheckoutMax
+    setCheckoutMax,
+    fromISX
   }
 }

@@ -13,5 +13,6 @@ export default ({ coreSagas }) => {
     yield takeLatest(actionTypes.CHANGE, coinifySagas.handleChange)
     yield takeLatest(AT.COINIFY_INITIALIZED, coinifySagas.initialized)
     yield takeLatest(AT.COINIFY_SET_CHECKOUT_MAX, coinifySagas.setCheckoutMax)
+    yield takeLatest(AT.COINIFY_FROM_ISX, coinifySagas.fromISX)
   }
 }
