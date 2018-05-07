@@ -10,7 +10,7 @@ import AdvancedSecurity from './AdvancedSecurity'
 const Wrapper = styled.section`
   padding: 20px;
   box-sizing: border-box;
-  @@media (min-width: 480px) {
+  @media (min-width: 480px) {
     padding: 30px;
   }
 `
