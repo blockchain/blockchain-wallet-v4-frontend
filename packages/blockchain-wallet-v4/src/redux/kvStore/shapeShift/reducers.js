@@ -1,5 +1,5 @@
 import { over, mapped, set, view } from 'ramda-lens'
-import { append, compose, findIndex, path, equals, lensIndex, toLower } from 'ramda'
+import { append, compose, findIndex, identity, path, equals, lensIndex, toLower } from 'ramda'
 import * as AT from './actionTypes'
 import Remote from '../../../remote'
 import { lensProp } from '../../../types/util'
@@ -50,7 +50,6 @@ export default (state = INITIAL_STATE, action) => {
       const { address, incomingCoin, outgoingCoin, incomingType, outgoingType } = payload
       return state.map(trades => {
         const lensTrades = compose(lensProp('value'), lensProp('trades'))
-
         const i = findIndex(
           compose(
             equals(address),
@@ -66,9 +65,12 @@ export default (state = INITIAL_STATE, action) => {
           value)
 
         return compose(
-          setPropValue('depositAmount', incomingCoin),
-          setPropValue('withdrawalAmount', outgoingCoin),
-          setPropValue('pair', `${toLower(incomingType)}_${toLower(outgoingType)}`))(trades)
+          incomingCoin ? setPropValue('depositAmount', incomingCoin) : identity,
+          outgoingCoin ? setPropValue('withdrawalAmount', outgoingCoin) : identity,
+          (incomingType && outgoingType)
+            ? setPropValue('pair', `${toLower(incomingType)}_${toLower(outgoingType)}`)
+            : identity
+        )(trades)
       })
     }
     default:

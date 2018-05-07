@@ -9,7 +9,7 @@ import usedAddressesReducer from './usedAddresses/reducers'
 
 export default combineReducers({
   exchange: exchangeReducer,
-  price_chart: priceChartReducer,
+  priceChart: priceChartReducer,
   sendBch: sendBchReducer,
   sendBtc: sendBtcReducer,
   sendEth: sendEthReducer,

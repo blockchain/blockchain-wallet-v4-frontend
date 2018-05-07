@@ -26,7 +26,7 @@ export const getBtcTransactions = createSelector(
 )
 
 export const getBchTransactions = createSelector(
-  [selectors.core.common.bitcoin.getWalletTransactions, getNumber],
+  [selectors.core.common.bch.getWalletTransactions, getNumber],
   (transactions, number) => isNil(transactions[0]) ? Remote.of([]) : transactions[0].map(compose(take(number), map(transform('BCH'))))
 )
 
@@ -39,7 +39,7 @@ export const getData = createSelector(
   [getLogs, getBtcTransactions, getBchTransactions, getEthTransactions, getNumber],
   (logs, btc, bch, eth, number) => {
     const transform = (logs, btc, bch, eth) => {
-      return flatten([logs, btc, bch, eth].map(sort(descend(prop('time')))).map(take(number)))
+      return take(number, flatten([logs, btc, bch, eth].map(sort(descend(prop('time')))).map(take(number))))
     }
     return lift(transform)(logs, btc, bch, eth)
   }

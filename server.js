@@ -22,20 +22,20 @@ if (process.env.LOCAL_PROD) {
   isLocal = true
   environment = 'local prod'
   rootURL = prodConfig.ROOT_URL
-  webSocketURL = prodConfig.WEB_SOCKET_URL
+  webSocketURL = prodConfig.BTC_WEB_SOCKET_URL
   apiDomain = prodConfig.API_DOMAIN
   walletHelperDomain = prodConfig.WALLET_HELPER_DOMAIN
   localWalletOptions.domains = {
     'root': prodConfig.ROOT_URL,
     'api': prodConfig.API_DOMAIN,
-    'webSocket': prodConfig.WEB_SOCKET_URL,
+    'btcSocket': prodConfig.BTC_WEB_SOCKET_URL,
     'walletHelper': prodConfig.WALLET_HELPER_DOMAIN
   }
 } else {
   // production config
   environment = process.env.ENVIRONMENT
   rootURL = process.env.ROOT_URL
-  webSocketURL = process.env.WEB_SOCKET_URL
+  webSocketURL = process.env.BTC_WEB_SOCKET_URL
   apiDomain = process.env.API_DOMAIN
   walletHelperDomain = process.env.WALLET_HELPER_DOMAIN
 }

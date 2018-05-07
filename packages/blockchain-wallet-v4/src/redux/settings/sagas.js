@@ -139,7 +139,7 @@ export default ({ api }) => {
   const setIpLockOn = function * ({ ipLockOn }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
-    const response = yield call(api.updateIpLockOn, guid, sharedKey, String(ipLockOn))
+    const response = yield call(api.updateIpLockOn, guid, sharedKey, String(Boolean(ipLockOn)))
     if (!contains('Updated IP Lock Settings', response)) { throw new Error(response) }
     yield put(actions.setIpLockOn(ipLockOn))
   }

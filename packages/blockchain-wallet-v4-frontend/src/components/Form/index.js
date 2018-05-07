@@ -12,7 +12,6 @@ import FormItem from './FormItem'
 import FormLabel from './FormLabel'
 import NumberBox from './NumberBox'
 import PasswordBox from './PasswordBox'
-import PlaceHolder from './PlaceHolder'
 import PhoneNumberBox from './PhoneNumberBox'
 import RadioButton from './RadioButton'
 import SelectBoxBankAccountType from './SelectBoxBankAccountType'
@@ -43,7 +42,6 @@ export {
   FormLabel,
   NumberBox,
   PasswordBox,
-  PlaceHolder,
   PhoneNumberBox,
   RadioButton,
   SelectBoxBankAccountType,

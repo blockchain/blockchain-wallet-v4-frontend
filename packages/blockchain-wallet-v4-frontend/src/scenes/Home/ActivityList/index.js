@@ -24,7 +24,7 @@ class ActivityListContainer extends React.PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  data: getData(state, 8)
+  data: getData(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
