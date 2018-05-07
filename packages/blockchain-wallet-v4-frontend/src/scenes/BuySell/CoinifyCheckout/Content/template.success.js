@@ -11,7 +11,7 @@ import * as service from 'services/CoinifyService'
 import Payment from '../../../../modals/CoinifyExchangeData/Payment'
 import ISignThis from '../../../../modals/CoinifyExchangeData/ISignThis'
 import OrderHistory from '../../OrderHistory'
-import { filter, path } from 'ramda'
+import { filter, path, contains } from 'ramda'
 
 const CheckoutWrapper = styled.div`
   width: 55%;
@@ -35,7 +35,7 @@ const OrderHistoryContent = styled.div`
   }
 `
 const isPending = (t) => t.state === 'processing' || t.state === 'awaiting_transfer_in'
-const isCompleted = (t) => t.state !== 'awaiting_transfer_in'
+const isCompleted = (t) => contains(t.state, ['completed', 'rejected', 'cancelled', 'expired'])
 
 const Success = props => {
   const {
