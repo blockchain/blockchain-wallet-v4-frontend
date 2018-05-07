@@ -172,9 +172,7 @@ module.exports = {
         mockWalletOptions.domains = {
           'root': envConfig.ROOT_URL,
           'api': envConfig.API_DOMAIN,
-          'btcSocket': envConfig.BTC_WEB_SOCKET_URL,
-          'ethSocket': envConfig.ETH_WEB_SOCKET_URL,
-          'bchSocket': envConfig.BCH_WEB_SOCKET_URL,
+          'webSocket': envConfig.WEB_SOCKET_URL,
           'walletHelper': envConfig.WALLET_HELPER_DOMAIN
         }
 
@@ -207,12 +205,12 @@ module.exports = {
           'connect-src',
           "'self'",
           'ws://localhost:8080',
-          envConfig.BTC_WEB_SOCKET_URL,
-          envConfig.ETH_WEB_SOCKET_URL,
-          envConfig.BCH_WEB_SOCKET_URL,
           envConfig.ROOT_URL,
           envConfig.API_DOMAIN,
+          envConfig.WEB_SOCKET_URL,
           envConfig.WALLET_HELPER_DOMAIN,
+          envConfig.WEB_SOCKET_URL.replace('/inv', '/eth/inv'),
+          envConfig.WEB_SOCKET_URL.replace('/inv', '/bch/inv'),
           'https://app-api.coinify.com',
           'https://api.sfox.com',
           'https://api.staging.sfox.com',
