@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-
+import EmptyTx from 'components/EmptyTx'
 import Empty from './Empty'
 import List from './List'
 
@@ -11,8 +11,10 @@ const Wrapper = styled.div`
 
 const Success = props => (
   <Wrapper>
-    {props.isEmpty && <Empty />}
-    {!props.isEmpty && <List transactions={props.transactions} />}
+    {props.transactions.length === 0
+      ? props.search ? <EmptyTx /> : <Empty />
+      : <List transactions={props.transactions} />
+    }
   </Wrapper>
 )
 

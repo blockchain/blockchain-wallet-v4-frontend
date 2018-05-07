@@ -16,5 +16,5 @@ export const getData = state => {
   const search = formValueSelector('bchTransaction')(state, 'search') || ''
   const source = formValueSelector('bchTransaction')(state, 'source') || {}
   const transactions = txs.map(map(filterTransactions(status, search)))
-  return { pages: transactions, source: source.address || source.xpub }
+  return { pages: transactions, source: source.address || source.xpub, search: search.length > 0 }
 }
