@@ -39,7 +39,7 @@ export const getData = createSelector(
   [getLogs, getBtcTransactions, getBchTransactions, getEthTransactions, getNumber],
   (logs, btc, bch, eth, number) => {
     const transform = (logs, btc, bch, eth) => {
-      return flatten([logs, btc, bch, eth].map(sort(descend(prop('time')))).map(take(number)))
+      return take(number, flatten([logs, btc, bch, eth].map(sort(descend(prop('time')))).map(take(number))))
     }
     return lift(transform)(logs, btc, bch, eth)
   }
