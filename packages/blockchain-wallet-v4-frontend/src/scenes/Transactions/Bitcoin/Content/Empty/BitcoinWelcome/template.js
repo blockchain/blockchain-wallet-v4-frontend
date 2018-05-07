@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { LinkContainer } from 'react-router-bootstrap'
+// import { LinkContainer } from 'react-router-bootstrap'
 
 import { Button, Icon, Image, Link, Separator, Text, TextGroup } from 'blockchain-info-components'
 
@@ -52,7 +52,7 @@ const CloseArrow = styled(Icon)`
   margin-top: 20px;
 `
 const BitcoinWelcome = props => {
-  const { displayed, handleClick } = props
+  const { displayed, handleClick, handleRequest } = props
 
   return (
     <Wrapper displayed={displayed}>
@@ -95,11 +95,10 @@ const BitcoinWelcome = props => {
           </Cell>
         </Row>
         <Row>
-          <LinkContainer to='/buy-sell'>
-            <Button nature='primary' margin='20px' fullwidth uppercase>
-              <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.getstarted' defaultMessage='Get started with bitcoin' />
-            </Button>
-          </LinkContainer>
+          {/* use link container to set up conditional to send to buy if available */}
+          <Button nature='primary' margin='20px' onClick={handleRequest} fullwidth uppercase>
+            <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.getstarted' defaultMessage='Get started with bitcoin' />
+          </Button>
         </Row>
       </Container>
       <CloseArrow name='close' size='12px' cursor onClick={handleClick} />
@@ -109,7 +108,8 @@ const BitcoinWelcome = props => {
 
 BitcoinWelcome.propTypes = {
   displayed: PropTypes.bool.isRequired,
-  handleClick: PropTypes.func.isRequired
+  handleClick: PropTypes.func.isRequired,
+  handleRequest: PropTypes.func.isRequired
 }
 
 export default BitcoinWelcome
