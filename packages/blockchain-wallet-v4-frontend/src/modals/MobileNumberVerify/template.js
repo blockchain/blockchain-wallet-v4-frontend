@@ -7,7 +7,7 @@ import { Field, reduxForm } from 'redux-form'
 import { Button, Link, Modal, ModalHeader, ModalBody, ModalFooter, Text } from 'blockchain-info-components'
 import { Form, TextBox } from 'components/Form'
 import { required } from 'services/FormHelper'
-import { spacing, flex } from 'services/StyleService'
+import { spacing } from 'services/StyleService'
 
 const Code = styled.div`
   width: 60%;
