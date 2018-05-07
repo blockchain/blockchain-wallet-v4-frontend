@@ -24,6 +24,16 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const welcomeSaga = function * (firstLogin) {
+    if (firstLogin) {
+      const walletNUsers = yield call(api.getWalletNUsers)
+      const walletMillions = Math.floor(walletNUsers.values[walletNUsers.values.length - 1].y / 1e6)
+      yield put(actions.modals.showModal('Welcome', { walletMillions }))
+    } else {
+      yield put(actions.alerts.displaySuccess('Login successful'))
+    }
+  }
+
   const upgradeWalletSaga = function * () {
     yield put(actions.modals.showModal('UpgradeWallet'))
     yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
@@ -55,15 +65,13 @@ export default ({ api, coreSagas }) => {
       yield put(actions.core.webSocket.ethereum.startSocket())
       yield put(actions.core.webSocket.bch.startSocket())
       yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
-      if (!firstLogin) {
-        yield put(actions.alerts.displaySuccess('Login successful'))
-      }
       yield call(coreSagas.kvStore.ethereum.fetchMetadataEthereum)
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
       yield put(actions.router.push('/home'))
-      yield fork(transferEthSaga)
       yield put(actions.auth.startLogoutTimer())
       yield put(actions.goals.runGoals())
+      yield fork(transferEthSaga)
+      yield fork(welcomeSaga, firstLogin)
       yield fork(reportStats, mobileLogin)
       yield fork(logoutRoutine, yield call(setLogoutEventListener))
       if (!firstLogin) {
