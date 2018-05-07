@@ -70,7 +70,7 @@ const Success = props => {
   const symbol = service.currencySymbolMap[defaultCurrency]
 
   const limits = service.getLimits(profile._limits, defaultCurrency)
-  console.log('template.success', step, props)
+
   if (type === 'buy' || !type) {
     if (step !== 'isx') {
       return (

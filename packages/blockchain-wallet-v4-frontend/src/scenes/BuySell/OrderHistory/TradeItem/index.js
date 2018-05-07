@@ -13,7 +13,7 @@ const TradeItem = props => {
   const { conversion, handleClick, trade } = props
   const receiveAmount = trade.isBuy ? trade.receiveAmount : Exchange.displayFiatToFiat({ value: trade.receiveAmount })
   const exchangeAmount = trade.isBuy ? Exchange.displayFiatToFiat({ value: trade.sendAmount / conversion }) : trade.sendAmount / conversion
-  console.log('trade item exchangeAmount', exchangeAmount, conversion)
+
   return (
     <TableRow>
       <TableCell width='15%'>

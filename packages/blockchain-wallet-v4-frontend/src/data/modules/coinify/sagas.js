@@ -130,9 +130,13 @@ export default ({ coreSagas }) => {
   }
 
   const fromISX = function * (action) {
+    const status = action.payload
     try {
-      yield put(A.coinifyNextCheckoutStep('order_history'))
+      yield put(A.coinifyNextCheckoutStep('checkout'))
       const trade = yield select(selectors.core.data.coinify.getTrade)
+      console.log('fromISX', status, trade)
+      yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
+      yield put(actions.modals.showModal('CoinifyTradeDetails', { trade: trade.data, status: status }))
       // TODO: open trade details modal with trade data and isx status
     } catch (e) {
       console.log('error fromISX', e)
