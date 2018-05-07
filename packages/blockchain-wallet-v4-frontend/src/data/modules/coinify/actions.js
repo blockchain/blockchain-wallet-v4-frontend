@@ -30,3 +30,5 @@ export const coinifyNotAsked = () => ({ type: AT.COINIFY_NOT_ASKED })
 export const coinifyLoading = () => ({ type: AT.COINIFY_LOADING })
 export const coinifySuccess = () => ({ type: AT.COINIFY_SUCCESS })
 export const coinifyFailure = (error) => ({ type: AT.COINIFY_FAILURE, payload: error })
+
+export const fromISX = (state) => ({ type: AT.COINIFY_FROM_ISX, payload: state })
