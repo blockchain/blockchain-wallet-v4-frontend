@@ -182,10 +182,13 @@ export default ({ api, options }) => {
 
   const triggerKYC = function * () {
     try {
+      yield put(A.handleTradeLoading())
+      const coinify = yield call(getCoinify)
       const kyc = yield apply(coinify, coinify.triggerKYC)
-      yield call(getCoinify)
+      yield put(A.handleTradeSuccess(kyc))
       return kyc
     } catch (e) {
+      yield put(A.handleTradeFailure(e))
       console.log('failed to trigger KYC in core', e)
     }
   }
