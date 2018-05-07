@@ -39,18 +39,13 @@ const isCompleted = (t) => contains(t.state, ['completed', 'rejected', 'cancelle
 
 const Success = props => {
   const {
-    changeBuySellTabStatus,
     fetchBuyQuote,
     fetchSellQuote,
     refreshQuote,
     submitSellQuote,
-    handleTrade,
     buyQuoteR,
     sellQuoteR,
-    base,
-    errors,
     showModal,
-    handleTradeDetailsClick,
     clearTradeError,
     currency,
     rateQuoteR,
