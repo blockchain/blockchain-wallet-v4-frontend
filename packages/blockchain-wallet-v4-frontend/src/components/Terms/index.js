@@ -17,7 +17,7 @@ const Terms = (props) => {
       return (
         <TermsContainer >
           <Text size='12px' weight={300}>
-            <FormattedMessage id='scenes.register.registerform.shapeshift.read' defaultMessage='I agree to ShapeShift&#39;s' />
+            <FormattedMessage id='scenes.register.registerform.shapeshift.read' defaultMessage="I agree to ShapeShift's" />
           </Text>
           <Link href='https://info.shapeshift.io/sites/default/files/ShapeShift_Terms_Conditions%20v1.1.pdf' target='_blank' size='12px' weight={300}>
             <FormattedMessage id='scenes.register.registerform.shapeshift.terms' defaultMessage='terms and conditions' />
