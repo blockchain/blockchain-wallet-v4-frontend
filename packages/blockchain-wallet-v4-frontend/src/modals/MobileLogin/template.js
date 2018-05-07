@@ -76,13 +76,16 @@ const MobileLogin = (props) => {
             </Text>
             <InstructionList>
               <Instruction>
-                <FormattedMessage id='modals.mobilelogin.openapp' defaultMessage='Open your Blockchain App on your mobile device and go to Settings.' />
+                <FormattedMessage id='modals.mobilelogin.openapp' defaultMessage='Open the Blockchain app on your mobile device ' />
               </Instruction>
               <Instruction>
-                <FormattedMessage id='modals.mobilelogin.tapweb' defaultMessage='Tap Log in to Web Wallet.' />
+                <FormattedMessage id='modals.mobilelogin.tapweb' defaultMessage="Select 'Log in to Web Wallet' from your wallet's side menu" />
               </Instruction>
               <Instruction>
-                <FormattedMessage id='modals.mobilelogin.usecamera' defaultMessage='Using your computer s camera, scan the QR code that appears on your device.' />
+                <FormattedMessage id='modals.mobilelogin.showqr' defaultMessage="Select 'Show QR Code'" />
+              </Instruction>
+              <Instruction>
+                <FormattedMessage id='modals.mobilelogin.scan' defaultMessage="Using your computer's camera, scan the QR code that appears" />
               </Instruction>
             </InstructionList>
           </InstructionsContainer>
