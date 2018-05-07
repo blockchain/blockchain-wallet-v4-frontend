@@ -195,8 +195,8 @@ module.exports = {
       'Content-Security-Policy': [
         "img-src 'self' data: blob:",
         "style-src 'self' 'unsafe-inline'",
-        'frame-src https://verify.isignthis.com/ https://wallet-helper.blockchain.info http://localhost:8081',
-        'child-src https://verify.isignthis.com/ https://wallet-helper.blockchain.info http://localhost:8081',
+        'frame-src https://verify.isignthis.com/ https://wallet-helper.blockchain.info http://localhost:8081 https://wallet-helper.dev.blockchain.info/ https://wallet-helper.staging.blockchain.info/',
+        'child-src https://verify.isignthis.com/ https://wallet-helper.blockchain.info http://localhost:8081 https://wallet-helper.dev.blockchain.info/ https://wallet-helper.staging.blockchain.info/',
         // 'unsafe-eval' is only used by webpack for development. It should not
         // be present on production!
         "worker-src 'self' 'unsafe-eval' blob:",
