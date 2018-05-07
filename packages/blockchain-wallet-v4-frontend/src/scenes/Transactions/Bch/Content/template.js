@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { equals, isEmpty, length } from 'ramda'
 
 import { Remote } from 'blockchain-wallet-v4/src'
+import EmptyTx from 'components/EmptyTx'
 import Empty from './Empty'
 import Pages from './Pages'
 
@@ -19,9 +20,9 @@ const Success = props => {
 
   return (
     <Wrapper>
-      { !hasNoTransactions
-        ? props.pages.map((value, index) => <Pages key={index} data={value} />)
-        : <Empty />
+      {hasNoTransactions
+        ? props.search ? <EmptyTx /> : <Empty />
+        : props.pages.map((value, index) => <Pages key={index} data={value} />)
       }
     </Wrapper>
   )

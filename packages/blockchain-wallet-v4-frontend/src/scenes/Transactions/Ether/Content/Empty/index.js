@@ -17,7 +17,7 @@ const Transactions = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items : center;
-  margin-top: 100px;
+  margin-top: 50px;
 `
 const Ether = styled.div`
   display: flex;
