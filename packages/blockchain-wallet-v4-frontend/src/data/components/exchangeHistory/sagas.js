@@ -1,8 +1,7 @@
-import { cancel, call, fork, put, select, takeEvery, takeLatest } from 'redux-saga/effects'
+import { cancel, call, fork, put, race, select, take } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import { equals, identity, path, prop } from 'ramda'
-import * as AT from './actionTypes'
-import { actions, selectors } from 'data'
+import { actions, actionTypes, selectors } from 'data'
 
 export default ({ api, coreSagas }) => {
   const logLocation = 'components/exchangeHistory/sagas'
@@ -32,10 +31,14 @@ export default ({ api, coreSagas }) => {
       for (let i = 0; i < trades.length; i++) {
         const trade = trades[i]
         const depositAddress = path(['quote', 'deposit'], trade)
-        const orderId = path(['quote', 'orderId'], trade)
         try {
-          yield fork(updateTradeStatus, depositAddress)
+          yield call(coreSagas.kvStore.shapeShift.fetchShapeshiftTrade, depositAddress)
+          yield race({
+            success: take(actionTypes.core.kvStore.shapeShift.FETCH_SHAPESHIFT_TRADE_SUCCESS),
+            failure: take(actionTypes.core.kvStore.shapeShift.FETCH_SHAPESHIFT_TRADE_FAILURE)
+          })
         } catch (e) {
+          const orderId = path(['quote', 'orderId'], trade)
           yield put(actions.alerts.displayError(`Could not fetch trade [${orderId}] status.`))
           yield put(actions.logs.logErrorMessage(`${logLocation} exchangeHistoryInitialized`, e))
         }
@@ -75,9 +78,9 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  return function * () {
-    yield takeEvery(AT.EXCHANGE_HISTORY_INITIALIZED, exchangeHistoryInitialized)
-    yield takeLatest(AT.EXCHANGE_HISTORY_MODAL_INITIALIZED, exchangeHistoryModalInitialized)
-    yield takeLatest(AT.EXCHANGE_HISTORY_MODAL_DESTROYED, exchangeHistoryModalDestroyed)
+  return {
+    exchangeHistoryInitialized,
+    exchangeHistoryModalInitialized,
+    exchangeHistoryModalDestroyed
   }
 }

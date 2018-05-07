@@ -27,7 +27,7 @@ export const fetchRatesSuccess = (data) => ({ type: AT.FETCH_ETHEREUM_RATES_SUCC
 export const fetchRatesFailure = (error) => ({ type: AT.FETCH_ETHEREUM_RATES_FAILURE, payload: error })
 
 // FETCH_ETHEREUM_TRANSACTIONS
-export const fetchTransactions = () => ({ type: AT.FETCH_ETHEREUM_TRANSACTIONS })
+export const fetchTransactions = (address) => ({ type: AT.FETCH_ETHEREUM_TRANSACTIONS, address })
 export const fetchTransactionsLoading = () => ({ type: AT.FETCH_ETHEREUM_TRANSACTIONS_LOADING })
 export const fetchTransactionsSuccess = (data) => ({ type: AT.FETCH_ETHEREUM_TRANSACTIONS_SUCCESS, payload: data })
 export const fetchTransactionsFailure = (error) => ({ type: AT.FETCH_ETHEREUM_TRANSACTIONS_FAILURE, payload: error })
