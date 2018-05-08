@@ -50,7 +50,7 @@ export default ({ api }) => {
 
   const fetchTransactions = function * ({ type, payload }) {
     const { address, reset } = payload
-    const TX_PER_PAGE = 50
+    const TX_PER_PAGE = 10
     try {
       const pages = yield select(S.getTransactions)
       const lastPage = last(pages)

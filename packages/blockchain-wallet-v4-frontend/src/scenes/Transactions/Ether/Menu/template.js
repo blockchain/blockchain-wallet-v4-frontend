@@ -101,4 +101,4 @@ const Menu = (props) => {
   )
 }
 
-export default reduxForm({ form: 'etherTransaction' })(Menu)
+export default reduxForm({ form: 'ethTransactions' })(Menu)
