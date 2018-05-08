@@ -61,3 +61,8 @@ export const initiateBuy = (data) => ({ type: AT.COINIFY_BUY, payload: data })
 export const initiateSell = (data) => ({ type: AT.COINIFY_SELL, payload: data })
 
 export const cancelTrade = (trade) => ({ type: AT.COINIFY_CANCEL_TRADE, payload: trade })
+
+export const getKycs = () => ({ type: AT.GET_KYCS })
+export const getKYCsLoading = () => ({ type: AT.GET_KYCS_LOADING })
+export const getKYCsSuccess = (kycs) => ({ type: AT.GET_KYCS_SUCCESS, payload: kycs })
+export const getKYCsFailure = (error) => ({ type: AT.GET_KYCS_FAILURE, payload: error })

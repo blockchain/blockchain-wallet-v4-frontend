@@ -16,6 +16,7 @@ class BuyContainer extends React.Component {
   componentDidMount () {
     this.props.coinifyActions.initializeCheckoutForm()
     this.props.coinifyDataActions.fetchTrades()
+    this.props.coinifyDataActions.getKycs()
   }
 
   startBuy () {
