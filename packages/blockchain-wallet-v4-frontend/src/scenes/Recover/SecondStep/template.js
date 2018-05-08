@@ -28,7 +28,7 @@ const Footer = styled(FormGroup)`
   align-items: center;
 `
 const GoBackLink = styled(Link)`
-  margin-right: 10px;
+  margin-right: 15px;
 `
 
 const validatePasswordsMatch = values => {
