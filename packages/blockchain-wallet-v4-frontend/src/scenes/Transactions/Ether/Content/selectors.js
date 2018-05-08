@@ -1,6 +1,7 @@
-import { formValueSelector } from 'redux-form'
+import { createSelector } from 'reselect'
 import { selectors } from 'data'
-import { curry, propSatisfies, toUpper, prop, allPass, anyPass, compose, contains, map, filter, length, lift } from 'ramda'
+import { curry, isEmpty, propSatisfies, toUpper, prop, allPass, anyPass, compose, contains, map, filter } from 'ramda'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 const filterTransactions = curry((status, criteria, transactions) => {
   const isOfType = curry((filter, tx) => propSatisfies(x => filter === '' || toUpper(x) === toUpper(filter), 'type', tx))
@@ -10,13 +11,22 @@ const filterTransactions = curry((status, criteria, transactions) => {
   return filter(fullPredicate, transactions)
 })
 
-export const getData = (state) => {
-  const status = formValueSelector('etherTransaction')(state, 'status') || ''
-  const search = formValueSelector('etherTransaction')(state, 'search') || ''
-  const transactions = selectors.core.common.ethereum.getTransactions(state)
-  const filtered = transactions.map(filterTransactions(status, search))
-  const total = transactions.map(length)
-  return lift((transactions, total) => ({ transactions, total, search: search.length > 0 }))(filtered, total)
-}
+export const getData = createSelector(
+  [
+    selectors.form.getFormValues('ethTransactions'),
+    selectors.core.common.ethereum.getTransactions
+  ],
+  (formValues, list) => {
+    const search = prop('search', formValues) || ''
+    const status = prop('status', formValues) || ''
+    const filteredList = list.map(isEmpty).getOrElse(false)
+      ? Remote.of([])
+      : list.map(filterTransactions(status, search))
 
-export const getContext = selectors.core.kvStore.ethereum.getContext
+    return {
+      list: filteredList,
+      search: search.length > 0,
+      empty: filteredList.map(isEmpty).getOrElse(false)
+    }
+  }
+)

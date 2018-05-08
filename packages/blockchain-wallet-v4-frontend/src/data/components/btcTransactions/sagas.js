@@ -42,7 +42,6 @@ export default ({ coreSagas }) => {
       const field = path(['meta', 'field'], action)
       const payload = prop('payload', action)
       if (!equals('btcTransactions', form)) return
-
       switch (field) {
         case 'source':
           const source = payload.xpub || payload.address
