@@ -31,6 +31,7 @@ const devToolsConfig = {
 const configureStore = () => {
   const history = createBrowserHistory()
   const sagaMiddleware = createSagaMiddleware()
+  // TODO: should these tools be allowed in upper environments!?
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(devToolsConfig) : compose
   const walletPath = appConfig.WALLET_PAYLOAD_PATH
   const kvStorePath = appConfig.WALLET_KVSTORE_PATH
