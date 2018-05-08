@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Icon, IconButton, Separator, Text } from 'blockchain-info-components'
+import BitcoinWelcome from './BitcoinWelcome'
 
 const Wrapper = styled.div`
   display: flex;
@@ -16,7 +17,7 @@ const Transactions = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items : center;
-  margin-top: 100px;
+  margin-top: 50px;
 `
 const Bitcoin = styled.div`
   display: flex;
@@ -35,6 +36,7 @@ const Empty = props => {
 
   return (
     <Wrapper>
+      <BitcoinWelcome />
       <Transactions>
         <Text size='20px' weight={300} capitalize>
           <TransactionIcon name='transactions' />

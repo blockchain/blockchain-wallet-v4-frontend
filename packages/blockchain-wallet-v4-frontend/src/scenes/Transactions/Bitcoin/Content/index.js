@@ -12,7 +12,8 @@ class ContentContainer extends React.PureComponent {
   }
 
   render () {
-    return <Content pages={this.props.pages} />
+    const { empty, pages, search } = this.props
+    return <Content empty={empty} search={search} pages={pages} />
   }
 }
 

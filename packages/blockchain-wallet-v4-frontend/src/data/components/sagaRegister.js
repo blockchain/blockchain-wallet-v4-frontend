@@ -3,6 +3,7 @@ import activityList from './activityList/sagaRegister'
 import bchTransactions from './bchTransactions/sagaRegister'
 import btcTransactions from './btcTransactions/sagaRegister'
 import exchange from './exchange/sagaRegister'
+import exchangeHistory from './exchangeHistory/sagaRegister'
 import importBtcAddress from './importBtcAddress/sagaRegister'
 import priceChart from './priceChart/sagaRegister'
 import priceTicker from './priceTicker/sagaRegister'
@@ -17,6 +18,7 @@ export default ({ api, coreSagas }) => function * () {
   yield fork(bchTransactions({ api, coreSagas }))
   yield fork(btcTransactions({ api, coreSagas }))
   yield fork(exchange({ api, coreSagas }))
+  yield fork(exchangeHistory({ api, coreSagas }))
   yield fork(importBtcAddress({ api, coreSagas }))
   yield fork(priceChart({ coreSagas }))
   yield fork(priceTicker({ coreSagas }))
