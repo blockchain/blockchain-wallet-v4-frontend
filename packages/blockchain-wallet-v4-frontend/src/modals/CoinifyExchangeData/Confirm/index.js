@@ -48,7 +48,7 @@ class ConfirmContainer extends Component {
           editingAmount={editingAmount}
           toggleEdit={() => this.props.updateUI({ editing: !this.props.ui.editing })}
         />,
-      Failure: (msg) => <div>ERROR: {console.warn('ERR', msg)}</div>,
+      Failure: (msg) => <div>ERROR: {msg}</div>,
       Loading: () => <div>Loading...</div>,
       NotAsked: () => <div>Not asked...</div>
     })

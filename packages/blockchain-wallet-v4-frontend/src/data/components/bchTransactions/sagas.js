@@ -4,6 +4,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { actions, selectors } from 'data'
 
 export default ({ coreSagas }) => {
+  const logLocation = 'components/bchTransactions/sagas'
   const initialized = function * () {
     try {
       const defaultSource = ''
@@ -16,7 +17,7 @@ export default ({ coreSagas }) => {
       const bchTransactionsR = yield select(selectors.core.data.bch.getTransactions)
       if (!Remote.Success.is(bchTransactionsR)) yield put(actions.core.data.bch.fetchTransactions(defaultSource))
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
     }
   }
 
@@ -32,7 +33,7 @@ export default ({ coreSagas }) => {
         yield put(actions.core.data.bch.fetchTransactions(source, false))
       }
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'scrollUpdated', e))
     }
   }
 
@@ -49,7 +50,7 @@ export default ({ coreSagas }) => {
           yield put(actions.core.data.bch.fetchTransactions(source, true))
       }
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
     }
   }
 
