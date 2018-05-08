@@ -68,8 +68,6 @@ const Faq = (props) => {
 
 Faq.propTypes = {
   filteredContent: PropTypes.array.isRequired,
-  onFilter: PropTypes.func.isRequired,
-  filterText: PropTypes.string.isRequired,
   handleTrayRightToggle: PropTypes.func.isRequired
 }
 
