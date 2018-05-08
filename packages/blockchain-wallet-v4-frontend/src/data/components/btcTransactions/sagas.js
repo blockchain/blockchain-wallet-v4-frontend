@@ -26,7 +26,6 @@ export default ({ coreSagas }) => {
       const source = prop('source', formValues)
       const threshold = 250
       const { yMax, yOffset } = action.payload
-      console.log(yMax, yOffset, threshold, yMax - yOffset < threshold)
       if (yMax - yOffset < threshold) {
         yield put(actions.core.data.bitcoin.fetchTransactions(source, false))
       }
@@ -41,10 +40,8 @@ export default ({ coreSagas }) => {
       const field = path(['meta', 'field'], action)
       const payload = prop('payload', action)
       if (!equals('btcTransactions', form)) return
-      yield console.log(form, field, payload)
       switch (field) {
         case 'source':
-          console.log('source changed:' + payload)
           const source = payload.xpub || payload.address
           yield put(actions.core.data.bitcoin.fetchTransactions(source, true))
       }
