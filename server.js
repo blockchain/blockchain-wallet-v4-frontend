@@ -69,8 +69,8 @@ app.use(function (req, res, next) {
   let cspHeader = ([
     "img-src 'self' " + rootURL + ' data: blob: android-webview-video-poster:',
     "style-src 'self' 'unsafe-inline'",
-    `child-src ${iSignThisDomain} ${walletHelperDomain} http://localhost:8081`,
-    `frame-src ${iSignThisDomain} ${walletHelperDomain} http://localhost:8081`,
+    `child-src ${iSignThisDomain} ${walletHelperDomain}`,
+    `frame-src ${iSignThisDomain} ${walletHelperDomain}`,
     "worker-src 'self' 'unsafe-eval' blob:",
     "script-src 'self' 'unsafe-eval'",
     'connect-src ' + [
