@@ -3,22 +3,24 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actions } from 'data'
-// import { path } from 'ramda'
+import { path } from 'ramda'
 // import Template from './template'
 
 class ISignThisContainer extends Component {
   componentDidMount () {
     window.addEventListener('message', function (e) {
-      console.log('addEventListener', e)
+      // console.log('V4 ISX_COMPONENT: addEventListener', e)
     })
 
     const onComplete = (e) => {
-      console.log('from onComplete', e)
+      console.log('V4 ISX_COMPONENT: from onComplete', e)
+      // TODO dispatch action to go to next step --> order history and open modal for in review, rejected, processing, etc..
+      this.props.coinifyActions.fromISX(e)
     }
 
     var e = document.getElementById('isx-iframe')
-    const iSignThisDomain = 'https://verify.isignthis.com'
-    // const iSignThisID = '6ae7fdad-4f3b-406a-9a59-f12c135c7709'
+    const iSignThisDomain = path(['platforms', 'web', 'coinify', 'config', 'iSignThisDomain'], this.props.options)
+    // const iSignThisID = this.props.iSignThisId
 
     var _isx = {
       transactionId: '',
@@ -41,36 +43,30 @@ class ISignThisContainer extends Component {
 
       this.configOptions = setup
 
-      console.log('_isx setup')
       return this
     }
 
     _isx.done = function (_completeListener) {
       this.completeListener = _completeListener
-      console.log('_isx done')
       return this
     }
 
     _isx.fail = function (_errorListener) {
       this.errorListener = _errorListener
-      console.log('_isx fail')
       return this
     }
 
     _isx.route = function (_routeListener) {
       this.routeListener = _routeListener
-      console.log('_isx route')
       return this
     }
 
     _isx.resized = function (_resizeListener) {
       this.resizeListener = _resizeListener
-      console.log('_isx resized')
       return this
     }
 
     _isx.publish = function () {
-      console.log('_isx publish')
       this.iframe = e
 
       // Create IE + others compatible event handler
@@ -79,10 +75,10 @@ class ISignThisContainer extends Component {
       var messageEvent = eventMethod === 'attachEvent' ? 'onmessage' : 'message'
 
       var self = this
-      console.log('eventer', eventer, messageEvent)
+      console.log('V4 ISX_COMPONENT: eventer', eventer, messageEvent)
       // Listen to message from child window
       eventer(messageEvent, function (e) {
-        console.log('eventer called', e)
+        // console.log('V4 ISX_COMPONENT: eventer called', e)
         // Check for the domain who sent the messageEvent
         var origin = e.origin || e.originalEvent.origin
         if (origin !== iSignThisDomain) {
@@ -100,36 +96,40 @@ class ISignThisContainer extends Component {
           var d = JSON.parse(e.data.split('[ISX-Embed]')[1])
 
           if (d.event.toLowerCase() === 'complete') {
+            console.log('V4 ISX_COMPONENT complete')
             if (self.completeListener) {
               self.completeListener(d)
             }
           } else if (d.event.toLowerCase() === 'route') {
+            console.log('V4 ISX_COMPONENT route')
             if (self.routeListener) {
               self.routeListener(d)
             }
           } else if (d.event.toLowerCase() === 'error') {
+            console.log('V4 ISX_COMPONENT error')
             if (self.errorListener) {
               self.errorListener(d)
             }
           } else if (d.event.toLowerCase() === 'resized') {
+            console.log('V4 ISX_COMPONENT resized')
             if (self.resizeListener) {
               self.resizeListener(d)
             }
           }
         } catch (err) {
-          console.log('err caught:', err)
+          console.log('V4 ISX_COMPONENT: err caught:', err)
         }
       }, false)
 
       return this
     }
     var widget = {
-      transaction_id: '6ae7fdad-4f3b-406a-9a59-f12c135c7709',
+      transaction_id: this.props.iSignThisId,
       container_id: 'isx-iframe'
     }
 
     var setState = (state) => {
-      console.log('setState', state)
+      console.log('V4 ISX_COMPONENT: setState', state)
       switch (state) {
         case 'SUCCESS':
           onComplete('processing')
@@ -154,31 +154,33 @@ class ISignThisContainer extends Component {
     _isx
       .setup(widget)
       .done(function (e) {
-        console.log('completed. e=', JSON.stringify(e))
+        console.log('V4 ISX_COMPONENT: completed. e=', JSON.stringify(e))
 
         setState(e.state)
       })
       .fail(function (e) {
-        console.log('error. e=' + JSON.stringify(e))
+        console.log('V4 ISX_COMPONENT: error. e=' + JSON.stringify(e))
       })
       .resized(function (e) {
-        console.log('resized. e=', JSON.stringify(e))
+        console.log('V4 ISX_COMPONENT: resized. e=', JSON.stringify(e))
       })
       .route(function (e) {
-        console.log('route. e=' + JSON.stringify(e))
+        console.log('V4 ISX_COMPONENT: route. e=' + JSON.stringify(e))
       })
       .publish()
   }
 
   render () {
+    const { options, iSignThisId } = this.props
+    const iSignThisDomain = path(['platforms', 'web', 'coinify', 'config', 'iSignThisDomain'], options)
+    const srcUrl = `${iSignThisDomain}/landing/${iSignThisId}?embed=true`
+
     return (
       <div>
-        <h3>iSignThis step</h3>
-
-        {/* <div style={{width: '80%'}} id='isx-container' /> */}
+        <p>iSignThis step</p>
 
         <iframe style={{width: '80%', height: '400px'}}
-          src="https://verify.isignthis.com/landing/6ae7fdad-4f3b-406a-9a59-f12c135c7709" // hardcode a trade
+          src={srcUrl}
           sandbox='allow-same-origin allow-scripts allow-forms'
           scrolling='yes'
           id='isx-iframe'
@@ -188,9 +190,7 @@ class ISignThisContainer extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  hello: 'world'
-})
+const mapStateToProps = (state) => ({})
 
 const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),

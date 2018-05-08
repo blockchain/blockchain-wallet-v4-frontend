@@ -11,7 +11,6 @@ class PaymentContainer extends Component {
   constructor (props) {
     super(props)
 
-    this.onSubmit = this.onSubmit.bind(this)
     this.handlePaymentClick = this.handlePaymentClick.bind(this)
 
     this.state = { medium: '' }
@@ -23,11 +22,9 @@ class PaymentContainer extends Component {
 
   handlePaymentClick (medium) {
     this.setState({ medium })
-  }
+    console.log('handlePaymentClick', medium, this.props)
 
-  onSubmit (e) {
-    e.preventDefault()
-    this.props.coinifyActions.saveMedium(this.state.medium)
+    this.props.coinifyActions.saveMedium(medium)
   }
 
   render () {
@@ -38,7 +35,7 @@ class PaymentContainer extends Component {
         <Success
           value={value}
           getAccounts={this.getAccounts}
-          onSubmit={this.onSubmit}
+          // onSubmit={this.onSubmit}
           handlePaymentClick={this.handlePaymentClick}
           medium={this.state.medium}
           quote={this.props.quote}
@@ -51,10 +48,10 @@ class PaymentContainer extends Component {
 }
 
 PaymentContainer.propTypes = {
-  ui: PropTypes.object,
-  updateUI: PropTypes.function,
-  smsVerified: PropTypes.number.isRequired,
-  emailVerified: PropTypes.number.isRequired
+  // ui: PropTypes.object,
+  // updateUI: PropTypes.function,
+  // smsVerified: PropTypes.number.isRequired,
+  // emailVerified: PropTypes.number.isRequired
 }
 
 const mapStateToProps = (state) => ({

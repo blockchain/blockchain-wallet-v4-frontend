@@ -26,23 +26,33 @@ export default ({ coreSagas }) => {
   const coinifySaveMedium = function * (data) {
     const medium = data.payload
     yield put(A.saveMediumSuccess(medium))
-    yield put(A.coinifyNextStep('confirm'))
   }
 
   const buy = function * (payload) {
     try {
-      yield call(coreSagas.data.coinify.buy, payload)
-      yield put(actions.alerts.displaySuccess('Buy trade successfully created!'))
-      yield put(A.coinifyNextStep('isx'))
+      const buyTrade = yield call(coreSagas.data.coinify.buy, payload)
+
+      if (!buyTrade) {
+        const trade = yield select(selectors.core.data.coinify.getTrade)
+        const parsed = JSON.parse(trade.error)
+
+        yield put(A.coinifyFailure(parsed))
+        return
+      }
+
+      console.log('go to step after buy resolves with trade:', buyTrade)
+      yield put(A.coinifyNotAsked())
+      yield put(A.coinifyNextCheckoutStep('isx'))
     } catch (e) {
-      yield put(actions.alerts.displayError('Error buying.'))
+      console.warn('coinify buy FE saga error', e)
+      // yield put(actions.alerts.displayError('Error buying.'))
     }
   }
+
   const initialized = function * () {
     try {
       const level = yield select(selectors.core.data.coinify.getLevel)
       const currencyR = level.map(l => l.currency)
-      console.log('initialize and get curr', currencyR)
 
       const initialValues = {
         leftVal: '',
@@ -71,7 +81,7 @@ export default ({ coreSagas }) => {
       const limits = yield select(selectors.core.data.coinify.getLimits)
 
       const values = yield select(selectors.form.getFormValues('coinifyCheckout'))
-      console.log('handleChange', action, form, values)
+      // console.log('handleChange', action, form, values)
 
       if (!payload) return null
 
@@ -88,8 +98,8 @@ export default ({ coreSagas }) => {
           yield put(A.coinifyCheckoutBusyOff())
           break
         case 'rightVal':
-          const rightResult = yield call(coreSagas.data.coinify.fetchQuote, { quote: { amount: payload * 1e8, baseCurrency: 'BTC', quoteCurrency: values.currency } })
-          const fiatAmount = rightResult.quoteAmount
+          const rightResult = yield call(coreSagas.data.coinify.fetchQuote, { quote: { amount: Math.round((payload * 1e8) * -1), baseCurrency: 'BTC', quoteCurrency: values.currency } })
+          const fiatAmount = Math.abs(rightResult.quoteAmount)
 
           const rightLimitsError = service.getLimitsError(fiatAmount, limits.data, values.currency)
           if (rightLimitsError) {
@@ -113,10 +123,33 @@ export default ({ coreSagas }) => {
 
   const setCheckoutMax = function * (action) {
     try {
-      console.log('set max', action)
       yield put(actions.form.change('coinifyCheckout', 'leftVal', action.payload))
     } catch (e) {
       console.log(e)
+    }
+  }
+
+  const fromISX = function * (action) {
+    const status = action.payload
+    try {
+      yield put(A.coinifyNextCheckoutStep('checkout'))
+      const trade = yield select(selectors.core.data.coinify.getTrade)
+      console.log('fromISX', status, trade)
+      yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
+      yield put(actions.modals.showModal('CoinifyTradeDetails', { trade: trade.data, status: status }))
+      // TODO: open trade details modal with trade data and isx status
+    } catch (e) {
+      console.log('error fromISX', e)
+    }
+  }
+
+  const triggerKYC = function * () {
+    try {
+      const kyc = yield call(coreSagas.data.coinify.triggerKYC)
+      yield put(A.coinifyNextCheckoutStep('isx'))
+      console.log('FE triggerKYC', kyc)
+    } catch (e) {
+      console.log('failed to triggerKYC', e)
     }
   }
 
@@ -127,6 +160,8 @@ export default ({ coreSagas }) => {
     buy,
     coinifySaveMedium,
     coinifySignup,
-    setCheckoutMax
+    setCheckoutMax,
+    fromISX,
+    triggerKYC
   }
 }

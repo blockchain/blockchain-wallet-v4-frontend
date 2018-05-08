@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import FiatConvertor from './QuoteInputTemplate'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { path } from 'ramda'
 
 const WrappedFiatConverter = ({ checkoutError, disabled, limits, defaultCurrency, symbol, setMax }) => (
   <FiatConvertor
@@ -19,6 +20,12 @@ const WrappedFiatConverter = ({ checkoutError, disabled, limits, defaultCurrency
 )
 
 class QuoteInput extends Component {
+  componentDidMount () {
+    this.props.actions.initializeCheckoutForm()
+  }
+  componentWillUnmount () {
+    this.props.actions.initializeCheckoutForm()
+  }
   render () {
     let { symbol, setMax, checkoutError } = this.props
 
@@ -35,29 +42,19 @@ class QuoteInput extends Component {
     )
   }
 }
-//
-// QuoteInput.propTypes = {
-//   quoteR: PropTypes.any.isRequired,
-//   initialAmount: PropTypes.string,
-//   debounce: PropTypes.number,
-//   spec: PropTypes.shape({
-//     method: PropTypes.string,
-//     output: PropTypes.string,
-//     input: PropTypes.string
-//   }).isRequired,
-//   onFetchQuote: PropTypes.func.isRequired,
-//   initialQuoteId: PropTypes.string
-// }
-//
-// QuoteInput.defaultProps = {
-//   initialAmount: 0,
-//   debounce: 500,
-//   initialQuoteId: null
-// }
+
+QuoteInput.propTypes = {
+  limits: PropTypes.object.isRequired,
+  defaultCurrency: PropTypes.string.isRequired,
+  symbol: PropTypes.string.isRequired,
+  setMax: PropTypes.func.isRequired,
+  checkoutError: PropTypes.bool
+}
 
 const mapStateToProps = state => ({
-  hello: 'world',
-  checkoutError: state.coinify.checkoutError
+  checkoutError: path(['coinify', 'checkoutError'], state),
+  canTrade: selectors.core.data.coinify.canTrade(state),
+  cannotTradeReason: selectors.core.data.coinify.cannotTradeReason(state)
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -3,6 +3,7 @@ import React from 'react'
 import AddBitcoinWallet from './AddBitcoinWallet'
 import AutoDisconnection from './AutoDisconnection'
 import CoinifyExchangeData from './CoinifyExchangeData'
+import CoinifyTradeDetails from './CoinifyTradeDetails'
 import ConfirmDisable2FA from './ConfirmDisable2FA'
 import EditTxDescription from './EditTxDescription'
 import ExchangeDetails from './ExchangeDetails'
@@ -41,6 +42,7 @@ const Modals = props => (
     <AddBitcoinWallet />
     <AutoDisconnection />
     <CoinifyExchangeData />
+    <CoinifyTradeDetails />
     <ConfirmDisable2FA />
     <EditTxDescription />
     <ExchangeDetails />

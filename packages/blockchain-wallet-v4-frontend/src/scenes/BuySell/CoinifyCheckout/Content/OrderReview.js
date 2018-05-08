@@ -1,28 +1,19 @@
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
-import { Text, Button, Icon, HeartbeatLoader, Link } from 'blockchain-info-components'
+import { Text, Button, HeartbeatLoader, Link } from 'blockchain-info-components'
 import { Remote } from 'blockchain-wallet-v4/src'
 import FaqRow from 'components/Faq/FaqRow'
 import CountdownTimer from 'components/Form/CountdownTimer'
 import { Wrapper as ExchangeCheckoutWrapper } from '../../ExchangeCheckout'
 import { flex, spacing } from 'services/StyleService'
-import { reviewOrder } from 'services/SfoxService'
+import { reviewOrder } from 'services/CoinifyService'
 import { FormattedMessage } from 'react-intl'
 import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDetails'
-import FundingSource from 'components/BuySell/FundingSource'
 import { StepTransition } from 'components/Utilities/Stepper'
 
 const StyledFaqRow = styled(FaqRow)`
   padding: 20px 0px;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
-`
-
-const MethodContainer = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  height: 42px;
-  border: 1px solid ${props => props.theme['gray-2']}
 `
 const CancelWrapper = styled.div`
   a {
@@ -39,7 +30,7 @@ const renderDetailsRow = (id, message, value, color) => (
   </OrderDetailsRow>
 )
 
-export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
+export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
   <ExchangeCheckoutWrapper>
     <Text size='32px' weight={600} style={spacing('mb-10')}>
       <FormattedMessage id='buy.almost_there' defaultMessage="You're almost there" />
@@ -52,52 +43,52 @@ export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
         <FormattedMessage id='exchange_rate' defaultMessage='Exchange Rate' />
       </Text>
       <Text size='12px' weight={300}>
-        1 BTC = {quoteR.map((quote) => `$${quote.rate}`).getOrElse('~')}
+        1 BTC = {quoteR.map((q) => `$${q.rate}`).getOrElse('~')}
       </Text>
     </div>
     <OrderDetailsTable style={spacing('mt-10')}>
       {renderDetailsRow(
         'order_details.amount_to_transact',
         type === 'buy' ? 'BTC Amount to Purchase' : 'BTC Amount to Sell',
-        quoteR.map(quote => reviewOrder.renderFirstRow(quote, type)).getOrElse('~')
+        quoteR.map(q => reviewOrder.renderSummary(q, type, medium)).data.firstRow
       )}
       {renderDetailsRow(
         'order_details.trading_fee',
         'Trading Fee',
-        quoteR.map(quote => `$${(+quote.feeAmount).toFixed(2)}`).getOrElse('~')
+        quoteR.map(q => reviewOrder.renderSummary(q, type, medium)).data.fee
       )}
       {renderDetailsRow(
         'order_details.total_transacted',
         type === 'buy' ? 'Total Cost' : 'Total to be Received',
-        quoteR.map(quote => reviewOrder.renderTotal(quote, type)).getOrElse('~'),
+        quoteR.map(q => reviewOrder.renderSummary(q, type, medium)).data.total,
         'success'
       )}
     </OrderDetailsTable>
-    {quoteR.map((quote) => (
+    {quoteR.map((q) => (
       <CountdownTimer
         style={spacing('mt-20')}
-        expiryDate={quote.expiresAt.getTime()}
+        expiryDate={q.expiresAt.getTime()}
         handleExpiry={onRefreshQuote}
       />
     )).getOrElse(null)}
   </ExchangeCheckoutWrapper>
 )
 
-export const OrderSubmit = ({ quoteR, onSubmit, busy, clearTradeError }) => (
+export const OrderSubmit = ({ quoteR, onSubmit, busy, clearTradeError, goToStep }) => (
   <Fragment>
     {
-      busy instanceof Error
-        ? <div>
-          <Text color='error' size='13px'>
-            Sorry, something went wrong with your trade: { busy.message }
+      busy.error
+        ? <div onClick={() => clearTradeError()}>
+          <Text weight={300} color='error' size='13px' style={spacing('mb-5')}>
+            Sorry, something went wrong with your trade: { busy.error_description }
           </Text>
-          <span onClick={() => clearTradeError()}><StepTransition prev Component={Link} weight={300} size='13px'><FormattedMessage id='try_again' defaultMessage='Try again' /></StepTransition></span>
+          <span><StepTransition restart Component={Link} weight={300} size='13px'><FormattedMessage id='try_again' defaultMessage='Try again' /></StepTransition></span>
         </div>
         : <Fragment>
           <Button
             nature='primary'
             disabled={!Remote.Success.is(quoteR)}
-            onClick={quoteR.map((quote) => () => onSubmit(quote)).getOrElse(null)}>
+            onClick={onSubmit}>
             {
               busy
                 ? <HeartbeatLoader height='20px' width='20px' color='white' />
@@ -105,7 +96,7 @@ export const OrderSubmit = ({ quoteR, onSubmit, busy, clearTradeError }) => (
             }
           </Button>
           <CancelWrapper style={{ ...flex('row justify/center'), ...spacing('mt-15') }}>
-            <StepTransition prev Component={Link}>
+            <StepTransition restart Component={Link}>
               <FormattedMessage id='cancel' defaultMessage='Cancel' />
             </StepTransition>
           </CancelWrapper>

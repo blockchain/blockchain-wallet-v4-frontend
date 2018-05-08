@@ -68,18 +68,6 @@ const sfoxReducer = (state = INITIAL_STATE, action) => {
     case AT.SET_PROFILE_FAILURE: {
       return assoc('profile', Remote.Failure(payload), state)
     }
-    case AT.UPLOAD_SUCCESS: {
-      return state
-    }
-    case AT.UPLOAD_FAILURE: {
-      return state
-    }
-    case AT.SET_BANK_ACCOUNT_SUCCESS: {
-      return state
-    }
-    case AT.SET_BANK_ACCOUNT_FAILURE: {
-      return state
-    }
     case AT.COINIFY_SIGNUP_SUCCESS: {
       return assoc('profile', Remote.Success(payload), state)
     }
@@ -106,6 +94,9 @@ const sfoxReducer = (state = INITIAL_STATE, action) => {
     }
     case AT.COINIFY_GET_PAYMENT_MEDIUMS_FAILURE: {
       return assoc('mediums', Remote.Failure(payload), state)
+    }
+    case AT.COINIFY_GET_MEDIUM_ACCOUNTS_LOADING: {
+      return assoc('accounts', Remote.Loading, state)
     }
     case AT.COINIFY_GET_MEDIUM_ACCOUNTS_SUCCESS: {
       return assoc('accounts', payload, state)
