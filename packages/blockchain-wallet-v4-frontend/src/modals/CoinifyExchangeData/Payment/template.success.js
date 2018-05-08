@@ -41,6 +41,7 @@ const helpers = [
 ]
 
 const faqHelper = () => helpers.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
+const busyHelper = (busy) => !busy ? <FormattedMessage id='coinifyexchangedata.payment.continue' defaultMessage='Continue' /> : <HeartbeatLoader height='20px' width='20px' color='white' />
 
 const Payment = (props) => {
   const { value, busy, handlePaymentClick, medium, triggerKyc } = props
@@ -71,18 +72,10 @@ const Payment = (props) => {
           {
             path(['name'], level) < 2 && medium === 'bank'
               ? <Button nature='primary' fullwidth style={spacing('mt-45')} onClick={triggerKyc} disabled={!medium || busy}>
-                {
-                  !busy
-                    ? <FormattedMessage id='coinifyexchangedata.payment.continue' defaultMessage='Continue' />
-                    : <HeartbeatLoader height='20px' width='20px' color='white' />
-                }
+                { busyHelper(busy) }
               </Button>
               : <StepTransition next Component={Button} style={spacing('mt-45')} nature='primary' fullwidth disabled={!medium || busy}>
-                {
-                  !busy
-                    ? <FormattedMessage id='coinifyexchangedata.payment.continue' defaultMessage='Continue' />
-                    : <HeartbeatLoader height='20px' width='20px' color='white' />
-                }
+                { busyHelper(busy) }
               </StepTransition>
           }
           <CancelWrapper style={{ ...flex('row justify/center'), ...spacing('mt-15') }}>
