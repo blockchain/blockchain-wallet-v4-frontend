@@ -5,7 +5,7 @@ import { Field, reduxForm } from 'redux-form'
 
 import { required, validEmail } from 'services/FormHelper'
 import { Button, Link, HeartbeatLoader, Separator, Text } from 'blockchain-info-components'
-import { CheckBox, Form, PasswordBox, TextBox } from 'components/Form'
+import { CheckBox, Form, FormGroup, PasswordBox, TextBox } from 'components/Form'
 import Terms from 'components/Terms'
 
 const Wrapper = styled.div`
@@ -21,8 +21,14 @@ const Header = styled.div`
   justify-content: space-between;
   align-items: center;
 `
-const Footer = styled.div`
-  padding: 5px 0;
+const Footer = styled(FormGroup)`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+`
+const GoBackLink = styled(Link)`
+  margin-right: 10px;
 `
 
 const validatePasswordsMatch = values => {
@@ -48,34 +54,41 @@ const SecondStep = (props) => {
       </Text>
       <Separator />
       <Form onSubmit={onSubmit}>
-        <Text size='14px' weight={500}>
-          <FormattedMessage id='scenes.recover.secondstep.email' defaultMessage='Email' />
-        </Text>
-        <Field name='email' validate={[required, validEmail]} component={TextBox} />
-        <Text size='14px' weight={500}>
-          <FormattedMessage id='scenes.recover.secondstep.password' defaultMessage='Password' />
-        </Text>
-        <Field name='password' validate={[required]} component={PasswordBox} score />
-        <Text size='14px' weight={500}>
-          <FormattedMessage id='scenes.recover.secondstep.confirmationPassword' defaultMessage='Confirm Password' />
-        </Text>
-        <Field name='confirmationPassword' validate={[required]} component={PasswordBox} />
-        <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox}>
-          <Terms />
-        </Field>
-        <Button type='submit' nature='primary' fullwidth uppercase disabled={busy || invalid}>
-          {
-            busy
+        <FormGroup>
+          <Text size='14px' weight={500}>
+            <FormattedMessage id='scenes.recover.secondstep.email' defaultMessage='Email' />
+          </Text>
+          <Field name='email' validate={[required, validEmail]} component={TextBox} />
+        </FormGroup>
+        <FormGroup>
+          <Text size='14px' weight={500}>
+            <FormattedMessage id='scenes.recover.secondstep.password' defaultMessage='Password' />
+          </Text>
+          <Field name='password' validate={[required]} component={PasswordBox} score />
+        </FormGroup>
+        <FormGroup>
+          <Text size='14px' weight={500}>
+            <FormattedMessage id='scenes.recover.secondstep.confirmationPassword' defaultMessage='Confirm Password' />
+          </Text>
+          <Field name='confirmationPassword' validate={[required]} component={PasswordBox} />
+        </FormGroup>
+        <FormGroup>
+          <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox}>
+            <Terms />
+          </Field>
+        </FormGroup>
+        <Footer>
+          <GoBackLink onClick={previousStep} size='13px' weight={300}>
+            <FormattedMessage id='scenes.recover.secondstep.back' defaultMessage='Go Back' />
+          </GoBackLink>
+          <Button type='submit' nature='primary' uppercase disabled={busy || invalid}>
+            { busy
               ? <HeartbeatLoader height='20px' width='20px' color='white' />
               : <FormattedMessage id='scenes.recover.secondstep.recover' defaultMessage='Recover Funds' />
-          }
-        </Button>
+            }
+          </Button>
+        </Footer>
       </Form>
-      <Footer>
-        <Link onClick={previousStep} size='13px' weight={300}>
-          <FormattedMessage id='scenes.recover.secondstep.back' defaultMessage='Go Back' />
-        </Link>
-      </Footer>
     </Wrapper>
   )
 }
