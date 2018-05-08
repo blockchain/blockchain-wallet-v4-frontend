@@ -16,7 +16,7 @@ export const getData = (state) => {
   const transactions = selectors.core.common.ethereum.getTransactions(state)
   const filtered = transactions.map(filterTransactions(status, search))
   const total = transactions.map(length)
-  return lift((transactions, total) => ({ transactions, total }))(filtered, total)
+  return lift((transactions, total) => ({ transactions, total, search: search.length > 0 }))(filtered, total)
 }
 
 export const getContext = selectors.core.kvStore.ethereum.getContext
