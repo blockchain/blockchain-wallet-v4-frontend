@@ -30,29 +30,27 @@ const TransactionIcon = styled(Icon)`
 justify-content: center;
 `
 
-const Empty = props => {
-  return (
-    <Wrapper>
-      <EtherWelcome />
-      <Transactions>
-        <Text size='20px' weight={300} capitalize>
-          <TransactionIcon name='transactions' />
-          <FormattedMessage id='scenes.transactions.ether.content.empty.transactions' defaultMessage='Your transactions' />
-        </Text>
-        <Text size='14px' weight={300}>
-          <FormattedMessage id='scenes.transactions.ether.content.empty.explain' defaultMessage='Transactions occur when you receive and send ether.' />
-        </Text>
-        <Separator />
-      </Transactions>
-      <Ether>
-        <LinkContainer to='/exchange'>
-          <IconButton name='exchange' nature='empty' uppercase>
-            <FormattedMessage id='scenes.transactions.ether.content.empty.getether' defaultMessage='Get ether' />
-          </IconButton>
-        </LinkContainer>
-      </Ether>
-    </Wrapper>
-  )
-}
+const Empty = props => (
+  <Wrapper>
+    <EtherWelcome />
+    <Transactions>
+      <Text size='20px' weight={300} capitalize>
+        <TransactionIcon name='transactions' />
+        <FormattedMessage id='scenes.transactions.ether.content.empty.transactions' defaultMessage='Your transactions' />
+      </Text>
+      <Text size='14px' weight={300}>
+        <FormattedMessage id='scenes.transactions.ether.content.empty.explain' defaultMessage='Transactions occur when you receive and send ether.' />
+      </Text>
+      <Separator />
+    </Transactions>
+    <Ether>
+      <LinkContainer to='/exchange'>
+        <IconButton name='exchange' nature='empty' uppercase>
+          <FormattedMessage id='scenes.transactions.ether.content.empty.getether' defaultMessage='Get ether' />
+        </IconButton>
+      </LinkContainer>
+    </Ether>
+  </Wrapper>
+)
 
 export default Empty
