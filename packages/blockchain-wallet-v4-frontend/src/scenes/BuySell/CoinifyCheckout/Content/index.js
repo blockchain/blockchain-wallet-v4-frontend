@@ -30,7 +30,7 @@ class Checkout extends React.Component {
     const { step, checkoutBusy, coinifyBusy } = rest
     const { handleTrade, fetchQuote } = coinifyDataActions
     const { showModal } = modalActions
-    const { coinifyNotAsked } = coinifyActions
+    const { coinifyNotAsked, triggerKYC } = coinifyActions
 
     const busy = coinifyBusy.cata({
       Success: () => false,
@@ -56,6 +56,7 @@ class Checkout extends React.Component {
         busy={busy}
         clearTradeError={() => coinifyNotAsked()}
         trade={trade}
+        triggerKyc={() => triggerKYC()}
       />,
       Failure: (msg) => <div>Failure: {msg.error}</div>,
       Loading: () => <Loading />,

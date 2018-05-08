@@ -4,8 +4,14 @@ import { selectors } from 'data'
 
 export const getData = (state) => {
   const profile = selectors.core.data.coinify.getProfile(state)
+  const kycs = selectors.core.data.coinify.getKycs(state)
   // const nextAddress = selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, 0, state)
-  return lift((profile) => ({ profile }))(profile)
+  return lift((profile, kycs) => ({ profile, kycs }))(profile, kycs)
+}
+
+export const getQuoteInputData = (state) => {
+  const level = selectors.core.data.coinify.getLevel(state)
+  return lift((level) => ({ level }))(level)
 }
 
 export const getTrades = (state) => {
