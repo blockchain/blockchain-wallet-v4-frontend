@@ -11,7 +11,7 @@ import { tradeDetails, statusHelper, bodyStatusHelper } from 'services/CoinifySe
 import { spacing } from 'services/StyleService'
 
 import Trade from './Trade'
-import Kyc from './KYC'
+import Kyc from './Kyc'
 
 class CoinifyTradeDetails extends React.PureComponent {
   render () {
