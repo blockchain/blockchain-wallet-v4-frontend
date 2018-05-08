@@ -8,12 +8,12 @@ const ActivityListSkeleton = styled(SkeletonRectangle)`
   flex-direction: column;
   align-items: start;
   box-sizing: border-box;
-  padding-top: 25px;
+  padding-top: 10px;
 `
 const ActivitySkeleton = styled.div`
   flex: 1;
   width: 100%;
-  padding: 0 15px;
+  padding: 0 10px;
   & > :first-child { margin-bottom: 5px; }
 `
 
@@ -21,16 +21,16 @@ export default () => {
   return (
     <ActivityListSkeleton height='450px' width='100%;' bgColor='white'>
       <ActivitySkeleton>
-        <SkeletonRectangle width='50%' height='30px' bgColor='white-blue' />
-        <SkeletonRectangle width='calc(100% - 30px)' height='80px' bgColor='white-blue' />
+        <SkeletonRectangle width='50%' height='25px' bgColor='white-blue' />
+        <SkeletonRectangle width='calc(100% - 30px)' height='75px' bgColor='white-blue' />
       </ActivitySkeleton>
       <ActivitySkeleton>
-        <SkeletonRectangle width='50%' height='30px' bgColor='white-blue' />
-        <SkeletonRectangle width='calc(100% - 30px)' height='80px' bgColor='white-blue' />
+        <SkeletonRectangle width='50%' height='25px' bgColor='white-blue' />
+        <SkeletonRectangle width='calc(100% - 30px)' height='75px' bgColor='white-blue' />
       </ActivitySkeleton>
       <ActivitySkeleton>
-        <SkeletonRectangle width='50%' height='30px' bgColor='white-blue' />
-        <SkeletonRectangle width='calc(100% - 30px)' height='80px' bgColor='white-blue' />
+        <SkeletonRectangle width='50%' height='25px' bgColor='white-blue' />
+        <SkeletonRectangle width='calc(100% - 30px)' height='75px' bgColor='white-blue' />
       </ActivitySkeleton>
     </ActivityListSkeleton>
   )

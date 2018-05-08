@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import EmptyTx from 'components/EmptyTx'
 import Empty from './Empty'
-import Pages from './Pages'
+import List from './List'
 
 const Wrapper = styled.div`
   display: flex;
@@ -17,7 +17,7 @@ const Success = props => {
     <Wrapper>
       {props.empty
         ? props.search ? <EmptyTx /> : <Empty />
-        : props.pages.map((value, index) => <Pages key={index} data={value} />)
+        : <List data={props.list} />
       }
     </Wrapper>
   )

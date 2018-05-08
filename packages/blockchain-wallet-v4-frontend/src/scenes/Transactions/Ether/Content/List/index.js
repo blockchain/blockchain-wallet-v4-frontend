@@ -1,27 +1,20 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
 
-import TransactionListItem from 'components/TransactionListItem'
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  width: 100%;
-`
+class List extends React.PureComponent {
+  render () {
+    const { data } = this.props
 
-const TransactionList = (props) => {
-  return (
-    <Wrapper>
-      { props.transactions.map((transaction, index) => <TransactionListItem key={index} transaction={transaction} coin='ETH' minConfirmations={12} />)}
-    </Wrapper>
-  )
+    return data.cata({
+      Success: (value) => <Success transactions={value} />,
+      Failure: (message) => <Error>{message}</Error>,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
+    })
+  }
 }
 
-TransactionList.propTypes = {
-  transactions: PropTypes.array.isRequired
-}
-
-export default TransactionList
+export default List
