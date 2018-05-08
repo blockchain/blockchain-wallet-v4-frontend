@@ -20,5 +20,6 @@ export default ({ api, options }) => {
     yield takeLatest(AT.COINIFY_CANCEL_TRADE, coinifySagas.cancelTrade)
     yield takeLatest(AT.COINIFY_BUY, coinifySagas.buy)
     yield takeLatest(AT.COINIFY_SELL, coinifySagas.sell)
+    yield takeLatest(AT.GET_KYCS, coinifySagas.getKYCs)
   }
 }

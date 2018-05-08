@@ -9,9 +9,11 @@ import OrderCheckout from '../OrderCheckout'
 import { OrderDetails, OrderSubmit } from '../OrderReview'
 import Payment from 'modals/CoinifyExchangeData/Payment'
 import ISignThis from 'modals/CoinifyExchangeData/ISignThis'
-
+import KYCNotification from '../KYCNotification'
 const CheckoutWrapper = styled.div`
-  width: 55%;
+  display: grid;
+  grid-template-columns: 55% 35%;
+  grid-gap: 10%;
 `
 const OrderSubmitWrapper = styled.div`
   display: flex;
@@ -23,6 +25,8 @@ const FlexRow = styled.div`
   display: flex;
   flex-direction: row;
 `
+const RightContainer = styled.div``
+const LeftContainer = styled.div``
 
 const Buy = props => {
   const {
@@ -53,18 +57,23 @@ const Buy = props => {
       <Stepper initialStep={0}>
         <StepView step={0}>
           <CheckoutWrapper>
-            <OrderCheckout
-              quoteR={buyQuoteR}
-              rateQuoteR={rateQuoteR}
-              onFetchQuote={fetchBuyQuote}
-              limits={limits.buy}
-              type={'buy'}
-              reason={'has_remaining'} // placeholder for now - coinify does not require a reason
-              defaultCurrency={defaultCurrency}
-              symbol={symbol}
-              checkoutBusy={checkoutBusy}
-              setMax={setMax}
-            />
+            <LeftContainer>
+              <OrderCheckout
+                quoteR={buyQuoteR}
+                rateQuoteR={rateQuoteR}
+                onFetchQuote={fetchBuyQuote}
+                limits={limits.buy}
+                type={'buy'}
+                reason={'has_remaining'} // placeholder for now - coinify does not require a reason
+                defaultCurrency={defaultCurrency}
+                symbol={symbol}
+                checkoutBusy={checkoutBusy}
+                setMax={setMax}
+              />
+            </LeftContainer>
+            <RightContainer>
+              <KYCNotification />
+            </RightContainer>
           </CheckoutWrapper>
         </StepView>
         <StepView step={1}>

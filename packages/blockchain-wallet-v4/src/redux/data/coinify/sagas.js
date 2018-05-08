@@ -5,6 +5,7 @@ import * as S from './selectors'
 import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import { coinifyService } from '../../../exchange/service'
 import * as buySellA from '../../kvStore/buySell/actions'
+import { sort } from 'ramda'
 
 export default ({ api, options }) => {
   const getCoinify = function * () {
@@ -206,10 +207,27 @@ export default ({ api, options }) => {
       const coinify = yield call(getCoinify)
       const kyc = yield apply(coinify, coinify.triggerKYC)
       yield put(A.handleTradeSuccess(kyc))
+      yield put(A.getKycs())
       return kyc
     } catch (e) {
       yield put(A.handleTradeFailure(e))
       console.log('failed to trigger KYC in core', e)
+    }
+  }
+
+  const getKYCs = function * () {
+    try {
+      yield put(A.getKYCsLoading())
+      const coinify = yield call(getCoinify)
+      const kycs = yield apply(coinify, coinify.getKYCs)
+      const byTime = (a, b) => b.createdAt - a.createdAt
+      const sortedKYCs = sort(byTime, kycs)
+      console.log('getKYCs', sortedKYCs, kycs)
+      yield put(A.getKYCsSuccess(sortedKYCs))
+      return kycs
+    } catch (e) {
+      console.log('getKYCs failure', e)
+      yield put(A.getKYCsFailure(e))
     }
   }
 
@@ -228,6 +246,7 @@ export default ({ api, options }) => {
     getMediumAccounts,
     fetchQuoteAndMediums,
     cancelTrade,
-    triggerKYC
+    triggerKYC,
+    getKYCs
   }
 }
