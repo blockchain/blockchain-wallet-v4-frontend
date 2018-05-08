@@ -83,31 +83,29 @@ const FiatConvertor = (props) => {
   const currency = 'BTC'
 
   return (
-    <form>
-      <Wrapper>
-        <FiatConvertorInput>
-          <Container>
-            <Field name='leftVal' component={TextBoxDebounced} disabled={disabled} borderRightNone={1} />
-            <Field name='currency' component={SelectBoxCoinifyCurrency} defaultDisplay={defaultCurrency} />
-          </Container>
-          <ArrowLeft size='16px' name='left-arrow' />
-          <ArrowRight size='16px' name='right-arrow' />
-          <Container>
-            <Field name='rightVal' component={TextBoxDebounced} disabled={disabled} />
-            <Unit>{currency}</Unit>
-          </Container>
-        </FiatConvertorInput>
-        {
-          checkoutError
-            ? <Error size='13px' weight={300} color='error'>
-              { getLimitsError(checkoutError, limits, symbol) }
-            </Error>
-            : <LimitsHelper>
-              <FormattedMessage id='buy.quote_input.remaining_buy_limit' defaultMessage='Your remaining buy limit is {max}' values={{ max: <a onClick={() => setMax(limits.max)}>{symbol}{limits.max}</a> }} />
-            </LimitsHelper>
-        }
-      </Wrapper>
-    </form>
+    <Wrapper>
+      <FiatConvertorInput>
+        <Container>
+          <Field name='leftVal' component={TextBoxDebounced} disabled={disabled} borderRightNone={1} />
+          <Field name='currency' component={SelectBoxCoinifyCurrency} defaultDisplay={defaultCurrency} />
+        </Container>
+        <ArrowLeft size='16px' name='left-arrow' />
+        <ArrowRight size='16px' name='right-arrow' />
+        <Container>
+          <Field name='rightVal' component={TextBoxDebounced} disabled={disabled} />
+          <Unit>{currency}</Unit>
+        </Container>
+      </FiatConvertorInput>
+      {
+        checkoutError
+          ? <Error size='13px' weight={300} color='error'>
+            {getLimitsError(checkoutError, limits, symbol)}
+          </Error>
+          : <LimitsHelper>
+            <FormattedMessage id='buy.quote_input.remaining_buy_limit' defaultMessage='Your remaining buy limit is {max}' values={{ max: <a onClick={() => setMax(limits.max)}>{symbol}{limits.max}</a> }} />
+          </LimitsHelper>
+      }
+    </Wrapper>
   )
 }
 
