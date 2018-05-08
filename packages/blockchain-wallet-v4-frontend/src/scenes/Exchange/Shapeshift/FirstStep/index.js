@@ -18,6 +18,7 @@ class FirstStepContainer extends React.Component {
       Success: (value) => <Success
         elements={value.elements}
         initialValues={value.initialValues}
+        hasOneAccount={value.hasOneAccount}
         enabled={value.enabled}
         minimum={value.minimum}
         maximum={value.maximum}
