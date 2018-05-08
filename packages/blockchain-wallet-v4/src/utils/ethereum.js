@@ -46,7 +46,11 @@ export const calculateFee = (gasPrice, gasLimit) => {
 }
 
 export const calculateEffectiveBalance = (balance, fee) => {
-  return new BigNumber(balance).sub(new BigNumber(fee)).toString()
+  const balanceB = new BigNumber(balance)
+  const feeB = new BigNumber(fee)
+  const effectiveBalanceB = balanceB.sub(feeB)
+  const zeroB = new BigNumber('0')
+  return effectiveBalanceB.lessThan(zeroB) ? zeroB.toString() : effectiveBalanceB.toString()
 }
 
 export const calculateTransactionAmount = (amount, fee) => {
