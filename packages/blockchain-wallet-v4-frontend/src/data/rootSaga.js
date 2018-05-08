@@ -27,7 +27,7 @@ const welcomeSaga = function * () {
     console.log('%c it is a scam and will give them access to your money!', style2)
     /* eslint-enable */
   } catch (e) {
-    yield put(actions.logs.logErrorMessage('welcomeSaga', e))
+    yield put(actions.logs.logErrorMessage('data/rootSaga', 'welcomeSaga', e))
   }
 }
 

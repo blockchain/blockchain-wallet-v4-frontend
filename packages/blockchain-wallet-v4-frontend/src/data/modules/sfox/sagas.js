@@ -17,7 +17,7 @@ export default ({ coreSagas }) => {
       yield call(coreSagas.data.sfox.setBankManually, action.payload)
       yield put(actions.alerts.displaySuccess('Bank has been added!'))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} setBankManually`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'setBankManually', e))
     }
   }
 
@@ -31,7 +31,7 @@ export default ({ coreSagas }) => {
         throw new Error(JSON.parse(profile.error).error)
       }
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} sfoxSignup`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'sfoxSignup', e))
       yield put(A.sfoxFailure(e))
     }
   }
@@ -51,7 +51,7 @@ export default ({ coreSagas }) => {
         }
       }
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} setProfile`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'setProfile', e))
       yield put(A.setVerifyError(e))
     }
   }
@@ -65,7 +65,7 @@ export default ({ coreSagas }) => {
         yield put(A.nextStep('funding'))
       }
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} upload`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'upload', e))
       yield put(actions.alerts.displayError('Failed to upload document.'))
     }
   }
@@ -76,7 +76,7 @@ export default ({ coreSagas }) => {
       yield put(actions.alerts.displaySuccess('Bank account set successfully!'))
       yield put(modalActions.closeAllModals())
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} setBank`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'setBank', e))
     }
   }
 
@@ -85,7 +85,7 @@ export default ({ coreSagas }) => {
       yield call(coreSagas.data.sfox.verifyMicroDeposits, payload)
       yield put(actions.alerts.displaySuccess('Bank Verified!'))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} submitMicroDeposits`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'submitMicroDeposits', e))
     }
   }
 
@@ -97,7 +97,7 @@ export default ({ coreSagas }) => {
       yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
     } catch (e) {
       yield put(A.sfoxFailure(e))
-      yield put(actions.logs.logErrorMessage(`${logLocation} submitQuote`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'submitQuote', e))
     }
   }
 
@@ -119,7 +119,7 @@ export default ({ coreSagas }) => {
       try {
         payment = yield payment.build()
       } catch (e) {
-        yield put(actions.logs.logErrorMessage(`${logLocation} submitSellQuote`, e))
+        yield put(actions.logs.logErrorMessage(logLocation, 'submitSellQuote', e))
       }
       yield put(sendBtcActions.sendBtcPaymentUpdated(Remote.of(payment.value())))
 
@@ -132,7 +132,7 @@ export default ({ coreSagas }) => {
       yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
     } catch (e) {
       yield put(A.sfoxFailure(e))
-      yield put(actions.logs.logErrorMessage(`${logLocation} submitSellQuote`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'submitSellQuote', e))
     }
   }
 

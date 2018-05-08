@@ -24,7 +24,7 @@ export default ({ coreSagas }) => {
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
       yield
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} sendEthInitialized`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'sendEthInitialized', e))
     }
   }
 
@@ -36,7 +36,7 @@ export default ({ coreSagas }) => {
       payment = yield payment.build()
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} firstStepSubmitClicked`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', e))
     }
   }
 
@@ -71,7 +71,7 @@ export default ({ coreSagas }) => {
       }
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} formChanged`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
     }
   }
 
@@ -87,7 +87,7 @@ export default ({ coreSagas }) => {
       const fiat = Exchange.convertEtherToFiat({ value: effectiveBalance, fromUnit: 'WEI', toCurrency: currency, rates: ethRates }).value
       yield put(change('sendEth', 'amount', { coin, fiat }))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} maximumAmountClicked`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'maximumAmountClicked', e))
     }
   }
 
@@ -103,7 +103,7 @@ export default ({ coreSagas }) => {
       yield put(actions.router.push('/eth/transactions'))
       yield put(actions.alerts.displaySuccess('Ether transaction has been successfully published!'))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} secondStepSubmitClicked`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e))
       yield put(actions.alerts.displayError('Failed to send Ether.'))
     }
   }

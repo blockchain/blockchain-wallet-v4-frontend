@@ -22,7 +22,7 @@ export default ({ coreSagas }) => {
       const signed = yield call(() => taskToPromise(signedT))
       yield put(A.messageSigned(signed))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} signMessage`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'signMessage', e))
       yield put(actions.alerts.displayError('Failed to sign message.'))
     }
   }

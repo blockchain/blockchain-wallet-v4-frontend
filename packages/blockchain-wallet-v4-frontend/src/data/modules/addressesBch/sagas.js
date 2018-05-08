@@ -12,7 +12,7 @@ export default ({ coreSagas }) => {
       yield put(actions.core.kvStore.bch.setAccountLabel(index, newLabel))
       yield put(actions.alerts.displaySuccess('BCH wallet name updated.'))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} editBchAccountLabel`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'editBchAccountLabel', e))
       yield put(actions.alerts.displayError('Failed to update Bitcoin Cash account label.'))
     }
   }
@@ -24,7 +24,7 @@ export default ({ coreSagas }) => {
       yield put(actions.core.kvStore.bch.setHdAddressLabel(accountIdx, addressIdx, newLabel))
       yield put(actions.alerts.displaySuccess('Address label updated.'))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} editBchHdLabel`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'editBchHdLabel', e))
       yield put(actions.alerts.displayError('Failed to update Bitcoin Cash account label.'))
     }
   }

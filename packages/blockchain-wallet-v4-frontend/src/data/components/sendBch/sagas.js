@@ -30,7 +30,7 @@ export default ({ coreSagas }) => {
       yield put(initialize('sendBch', initialValues))
       yield put(A.sendBchPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} sendBchInitialized`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'sendBchInitialized', e))
     }
   }
 
@@ -42,7 +42,7 @@ export default ({ coreSagas }) => {
       payment = yield payment.build()
       yield put(A.sendBchPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} firstStepSubmitClicked`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', e))
     }
   }
 
@@ -86,7 +86,7 @@ export default ({ coreSagas }) => {
       try { payment = yield payment.build() } catch (e) {}
       yield put(A.sendBchPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} formChanged`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
     }
   }
 
@@ -94,7 +94,7 @@ export default ({ coreSagas }) => {
     try {
       yield put(change('sendBch', 'to', ''))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} toToggled`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'toToggled', e))
     }
   }
 
@@ -110,7 +110,7 @@ export default ({ coreSagas }) => {
       const fiat = Exchange.convertBchToFiat({ value: effectiveBalance, fromUnit: 'SAT', toCurrency: currency, rates: bchRates }).value
       yield put(change('sendBch', 'amount', { coin, fiat }))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} maximumAmountClicked`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'maximumAmountClicked', e))
     }
   }
 
@@ -126,7 +126,7 @@ export default ({ coreSagas }) => {
       yield put(actions.router.push('/bch/transactions'))
       yield put(actions.alerts.displaySuccess('Bitcoin cash transaction has been successfully published!'))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} secondStepSubmitClicked`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e))
       yield put(actions.alerts.displayError('Failed to publish Bitcoin Cash transaction.'))
     }
   }
