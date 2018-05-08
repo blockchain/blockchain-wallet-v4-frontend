@@ -56,9 +56,6 @@ class CameraContainer extends Component {
         video.src = vendorURL.createObjectURL(this.state.stream)
         video.play()
       })
-      .catch((err) => {
-        console.log(err)
-      })
   }
 
   componentWillUnmount () {
