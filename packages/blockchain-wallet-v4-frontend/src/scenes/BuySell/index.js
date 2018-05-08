@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import SfoxCheckout from './SfoxCheckout'
 import CoinifyCheckout from './CoinifyCheckout'
 import { bindActionCreators, compose } from 'redux'
-import { Field, reduxForm, formValueSelector } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 import { TabMenuBuySellStatus } from 'components/Form'
 import HorizontalMenu from 'components/HorizontalMenu'
 import SelectPartner from './template.success'
@@ -74,7 +74,7 @@ class BuySellContainer extends React.PureComponent {
       Success: (value) => this.renderPartner(value.buySell.value, value.options, type),
       Failure: (message) => <div>failure: {message}</div>,
       Loading: () => <Loading />,
-      NotAsked: () => <div>not asked...</div>
+      NotAsked: () => <Loading />
     })
 
     return (
@@ -90,13 +90,7 @@ class BuySellContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  data: getData(state),
-  type: state.form.buySellTabStatus && state.form.buySellTabStatus.values.status,
-  country: formValueSelector('selectPartner')(state, 'country'),
-  stateSelection: formValueSelector('selectPartner')(state, 'state'),
-  email: formValueSelector('selectPartner')(state, 'email')
-})
+const mapStateToProps = state => getData(state)
 
 const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch),

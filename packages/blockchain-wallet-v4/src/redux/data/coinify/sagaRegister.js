@@ -18,5 +18,7 @@ export default ({ api, options }) => {
     yield takeLatest(AT.COINIFY_GET_MEDIUM_ACCOUNTS, coinifySagas.getMediumAccounts)
     yield takeLatest(AT.COINIFY_FETCH_QUOTE_AND_MEDIUMS, coinifySagas.fetchQuoteAndMediums)
     yield takeLatest(AT.COINIFY_CANCEL_TRADE, coinifySagas.cancelTrade)
+    yield takeLatest(AT.COINIFY_BUY, coinifySagas.buy)
+    yield takeLatest(AT.COINIFY_SELL, coinifySagas.sell)
   }
 }

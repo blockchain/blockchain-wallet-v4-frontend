@@ -5,14 +5,8 @@ import { selectors } from 'data'
 
 export const getProfileData = (state) => {
   const profile = selectors.core.data.coinify.getProfile(state)
-  const kycs = selectors.core.data.coinify.getKycs(state)
   // const nextAddress = selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, 0, state)
-  return lift((profile, kycs) => ({ profile, kycs }))(profile, kycs)
-}
-
-export const getQuoteInputData = (state) => {
-  const level = selectors.core.data.coinify.getLevel(state)
-  return lift((level) => ({ level }))(level)
+  return lift((profile) => ({ profile }))(profile)
 }
 
 export const getTrades = (state) => {
@@ -68,7 +62,6 @@ export const getData = (state) => ({
   base: getBase(state),
   data: getProfileData(state),
   buyQuoteR: getQuote(state),
-  sellQuoteR: getQuote(state),
   rateQuoteR: getRateQuote(state),
   trades: getTrades(state),
   trade: getTrade(state),

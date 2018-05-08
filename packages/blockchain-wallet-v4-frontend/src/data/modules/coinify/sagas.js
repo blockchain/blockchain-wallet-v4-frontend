@@ -49,6 +49,27 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const sell = function * (payload) {
+    try {
+      const sellTrade = yield call(coreSagas.data.coinify.sell, payload)
+
+      if (!sellTrade) {
+        const trade = yield select(selectors.core.data.coinify.getTrade)
+        const parsed = JSON.parse(trade.error)
+
+        yield put(A.coinifyFailure(parsed))
+        return
+      }
+
+      console.log('go to step after sell resolves with trade:', sellTrade)
+      yield put(A.coinifyNotAsked())
+      yield put(A.coinifyNextCheckoutStep('isx'))
+    } catch (e) {
+      console.warn('coinify sell FE saga error', e)
+      // yield put(actions.alerts.displayError('Error selling.'))
+    }
+  }
+
   const initialized = function * () {
     try {
       const level = yield select(selectors.core.data.coinify.getLevel)
@@ -157,6 +178,7 @@ export default ({ coreSagas }) => {
     // resetCoinifyCheckout,
     initialized,
     buy,
+    sell,
     coinifySaveMedium,
     coinifySignup,
     setCheckoutMax,

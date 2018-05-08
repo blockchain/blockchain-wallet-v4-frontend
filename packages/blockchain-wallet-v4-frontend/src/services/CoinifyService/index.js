@@ -9,6 +9,10 @@ export const getLimits = (limits, curr) => {
     buy: {
       min: getMin(limits, curr),
       max: getMax(limits, curr)
+    },
+    sell: {
+      min: getMin(limits, curr),
+      max: getMax(limits, curr)
     }
   }
 }
