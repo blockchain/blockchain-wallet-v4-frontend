@@ -1,23 +1,14 @@
 import React, { Component } from 'react'
-// import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actions } from 'data'
-// import { path } from 'ramda'
-// import Template from './template'
 
 class ISignThisContainer extends Component {
   componentDidMount () {
-    window.addEventListener('message', function (e) {
-      console.log('addEventListener', e)
-    })
-
-    const onComplete = (e) => {
-      console.log('from onComplete', e)
-    }
-
-    var e = document.getElementById('isx-iframe')
+    window.addEventListener('message', function (e) {})
+    const onComplete = () => {}
     const iSignThisDomain = 'https://verify.isignthis.com'
+    // const e = document.getElementById('isx-iframe')
     // const iSignThisID = '6ae7fdad-4f3b-406a-9a59-f12c135c7709'
 
     var _isx = {
@@ -38,66 +29,53 @@ class ISignThisContainer extends Component {
 
     _isx.setup = function (setup) {
       this.transactionId = setup.transaction_id
-
       this.configOptions = setup
-
-      console.log('_isx setup')
       return this
     }
 
     _isx.done = function (_completeListener) {
       this.completeListener = _completeListener
-      console.log('_isx done')
       return this
     }
 
     _isx.fail = function (_errorListener) {
       this.errorListener = _errorListener
-      console.log('_isx fail')
       return this
     }
 
     _isx.route = function (_routeListener) {
       this.routeListener = _routeListener
-      console.log('_isx route')
       return this
     }
 
     _isx.resized = function (_resizeListener) {
       this.resizeListener = _resizeListener
-      console.log('_isx resized')
       return this
     }
 
     _isx.publish = function () {
-      console.log('_isx publish')
-      this.iframe = e
-
       // Create IE + others compatible event handler
-      var eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent'
-      var eventer = window[eventMethod]
-      var messageEvent = eventMethod === 'attachEvent' ? 'onmessage' : 'message'
-
-      var self = this
-      console.log('eventer', eventer, messageEvent)
+      let eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent'
+      let eventer = window[eventMethod]
+      let messageEvent = eventMethod === 'attachEvent' ? 'onmessage' : 'message'
+      let self = this
       // Listen to message from child window
       eventer(messageEvent, function (e) {
-        console.log('eventer called', e)
         // Check for the domain who sent the messageEvent
-        var origin = e.origin || e.originalEvent.origin
+        let origin = e.origin || e.originalEvent.origin
         if (origin !== iSignThisDomain) {
           // Event not generated from ISX, simply return
           return
         }
 
-        var frame = document.getElementById('isx-iframe')
+        let frame = document.getElementById('isx-iframe')
         if (e.source !== frame.contentWindow) {
           // Source of message isn't from the iframe
           return
         }
 
         try {
-          var d = JSON.parse(e.data.split('[ISX-Embed]')[1])
+          let d = JSON.parse(e.data.split('[ISX-Embed]')[1])
 
           if (d.event.toLowerCase() === 'complete') {
             if (self.completeListener) {
@@ -116,20 +94,17 @@ class ISignThisContainer extends Component {
               self.resizeListener(d)
             }
           }
-        } catch (err) {
-          console.log('err caught:', err)
-        }
+        } catch (e) {}
       }, false)
 
       return this
     }
-    var widget = {
+    let widget = {
       transaction_id: '6ae7fdad-4f3b-406a-9a59-f12c135c7709',
       container_id: 'isx-iframe'
     }
 
-    var setState = (state) => {
-      console.log('setState', state)
+    let setState = (state) => {
       switch (state) {
         case 'SUCCESS':
           onComplete('processing')
@@ -154,19 +129,11 @@ class ISignThisContainer extends Component {
     _isx
       .setup(widget)
       .done(function (e) {
-        console.log('completed. e=', JSON.stringify(e))
-
         setState(e.state)
       })
-      .fail(function (e) {
-        console.log('error. e=' + JSON.stringify(e))
-      })
-      .resized(function (e) {
-        console.log('resized. e=', JSON.stringify(e))
-      })
-      .route(function (e) {
-        console.log('route. e=' + JSON.stringify(e))
-      })
+      .fail(function (e) {})
+      .resized(function (e) {})
+      .route(function (e) {})
       .publish()
   }
 
@@ -174,9 +141,6 @@ class ISignThisContainer extends Component {
     return (
       <div>
         <h3>iSignThis step</h3>
-
-        {/* <div style={{width: '80%'}} id='isx-container' /> */}
-
         <iframe style={{width: '80%', height: '400px'}}
           src="https://verify.isignthis.com/landing/6ae7fdad-4f3b-406a-9a59-f12c135c7709" // hardcode a trade
           sandbox='allow-same-origin allow-scripts allow-forms'
@@ -188,7 +152,7 @@ class ISignThisContainer extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = () => ({
   hello: 'world'
 })
 

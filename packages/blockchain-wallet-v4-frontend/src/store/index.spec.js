@@ -99,7 +99,7 @@ describe('App Store Config', () => {
     expect(createStoreSpy).toHaveBeenCalledTimes(1)
     expect(persistStore.mock.calls.length).toBe(1)
     expect(persistStore.mock.calls[0][0]).toEqual(expect.any(Object))
-    expect(persistStore.mock.calls[0][1]).toEqual({ whitelist: ['session', 'preferences'] })
+    expect(persistStore.mock.calls[0][1]).toEqual({ whitelist: ['session', 'preferences', 'cache'] })
     expect(mockStore.history).toBeDefined()
     expect(mockStore.store).toBeDefined()
   })

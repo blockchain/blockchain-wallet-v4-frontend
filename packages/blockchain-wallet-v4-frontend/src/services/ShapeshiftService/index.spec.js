@@ -65,15 +65,13 @@ describe('ShapeshiftService Service', () => {
 
   describe('formatTrade()', () => {
     let dateNowSpy
-    let fakeTimestamp = 1517443202000
-    let fakeTimeFormatted = '01 February 2018, 00:00'
+    let fakeTimestamp = 1517443101000
     let mockTrade = {
       timestamp: fakeTimestamp,
       quote: { pair: 'btc_eth' }
     }
 
     beforeAll(() => {
-      // lock Time to 1/1/2018
       dateNowSpy = jest.spyOn(Date, 'now').mockImplementation(() => fakeTimestamp)
     })
 
@@ -85,7 +83,7 @@ describe('ShapeshiftService Service', () => {
     it('should return correct formatted trades for btc_eth pair', () => {
       mockTrade.quote.pair = 'btc_eth'
       expect(ShapeshiftService.formatTrade(mockTrade)).toEqual({
-        date: fakeTimeFormatted,
+        date: expect.any(String),
         quote: { pair: 'btc_eth' },
         sourceCoin: 'BTC',
         targetCoin: 'ETH',
@@ -96,7 +94,7 @@ describe('ShapeshiftService Service', () => {
     it('should return correct formatted trades for btc_bch pair', () => {
       mockTrade.quote.pair = 'btc_bch'
       expect(ShapeshiftService.formatTrade(mockTrade)).toEqual({
-        date: fakeTimeFormatted,
+        date: expect.any(String),
         quote: { pair: 'btc_bch' },
         sourceCoin: 'BTC',
         targetCoin: 'BCH',
@@ -107,7 +105,7 @@ describe('ShapeshiftService Service', () => {
     it('should return correct formatted trades for bch_btc pair', () => {
       mockTrade.quote.pair = 'bch_btc'
       expect(ShapeshiftService.formatTrade(mockTrade)).toEqual({
-        date: fakeTimeFormatted,
+        date: expect.any(String),
         quote: { pair: 'bch_btc' },
         sourceCoin: 'BCH',
         targetCoin: 'BTC',
@@ -118,7 +116,7 @@ describe('ShapeshiftService Service', () => {
     it('should return correct formatted trades for bch_eth pair', () => {
       mockTrade.quote.pair = 'bch_eth'
       expect(ShapeshiftService.formatTrade(mockTrade)).toEqual({
-        date: fakeTimeFormatted,
+        date: expect.any(String),
         quote: { pair: 'bch_eth' },
         sourceCoin: 'BCH',
         targetCoin: 'ETH',
@@ -129,7 +127,7 @@ describe('ShapeshiftService Service', () => {
     it('should return correct formatted trades for eth_btc pair', () => {
       mockTrade.quote.pair = 'eth_btc'
       expect(ShapeshiftService.formatTrade(mockTrade)).toEqual({
-        date: fakeTimeFormatted,
+        date: expect.any(String),
         quote: { pair: 'eth_btc' },
         sourceCoin: 'ETH',
         targetCoin: 'BTC',
@@ -140,7 +138,7 @@ describe('ShapeshiftService Service', () => {
     it('should return correct formatted trades for eth_bch pair', () => {
       mockTrade.quote.pair = 'eth_bch'
       expect(ShapeshiftService.formatTrade(mockTrade)).toEqual({
-        date: fakeTimeFormatted,
+        date: expect.any(String),
         quote: { pair: 'eth_bch' },
         sourceCoin: 'ETH',
         targetCoin: 'BCH',

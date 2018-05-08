@@ -1,11 +1,14 @@
-import { call, select } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 import { equals, filter, head, lift, path, prop, propEq } from 'ramda'
 import * as selectors from '../../selectors'
+import * as actions from '../../actions'
 import settings from 'config'
 import { getPairFromCoin, convertFiatToCoin, convertCoinToFiat, isUndefinedOrEqualsToZero } from './services'
 import { selectRates } from '../utils/sagas'
 
 export default ({ api, coreSagas }) => {
+  const logLocation = 'components/exchange/sagas.utils'
+
   const calculateEffectiveBalance = function * (source) {
     const coin = prop('coin', source)
     const address = prop('address', source)
@@ -20,7 +23,9 @@ export default ({ api, coreSagas }) => {
       case 'ETH':
         payment = yield coreSagas.payment.eth.create({ network: settings.NETWORK_ETHEREUM }).chain().init().from(address).done()
         break
-      default: throw new Error('Could not get effective balance.')
+      default:
+        yield put(actions.logs.logErrorMessage(logLocation, 'calculateEffectiveBalance', 'Could not get effective balance.'))
+        throw new Error('Could not get effective balance.')
     }
     return prop('effectiveBalance', payment.value())
   }
@@ -37,10 +42,12 @@ export default ({ api, coreSagas }) => {
       case 'ETH':
         payment = coreSagas.payment.eth.create({ network: settings.NETWORK_ETHEREUM }).chain().init().amount(amount)
         break
-      default: throw new Error('Could not create payment.')
+      default:
+        yield put(actions.logs.logErrorMessage(logLocation, 'createPayment', 'Could not create payment.'))
+        throw new Error('Could not create payment.')
     }
     payment = yield payment.from(sourceAddress).to(targetAddress).build().done()
-    console.log('createPayment', payment.value)
+    yield put(actions.logs.logInfoMessage(logLocation, 'createPayment', payment))
     return payment
   }
 

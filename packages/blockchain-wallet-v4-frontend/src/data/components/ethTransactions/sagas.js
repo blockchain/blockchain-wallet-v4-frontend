@@ -4,6 +4,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { actions, selectors } from 'data'
 
 export default ({ coreSagas }) => {
+  const logLocation = 'components/ethTransactions/sagas'
   const initialized = function * () {
     try {
       const initialValues = {
@@ -14,7 +15,7 @@ export default ({ coreSagas }) => {
       const ethTransactionsR = yield select(selectors.core.data.eth.getTransactions)
       if (!Remote.Success.is(ethTransactionsR)) yield put(actions.core.data.eth.fetchTransactions())
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
     }
   }
 
@@ -26,7 +27,7 @@ export default ({ coreSagas }) => {
         yield put(actions.core.data.eth.fetchTransactions(false))
       }
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'scrollUpdated', e))
     }
   }
 
@@ -40,7 +41,7 @@ export default ({ coreSagas }) => {
           yield put(actions.core.data.eth.fetchTransactions())
       }
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
     }
   }
 
