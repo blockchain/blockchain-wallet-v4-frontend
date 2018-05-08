@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
 import { selectors } from 'data'
-import { curry, isEmpty, propSatisfies, toUpper, prop, allPass, anyPass, compose, contains, map, filter } from 'ramda'
+import { all, curry, isEmpty, propSatisfies, toUpper, prop, allPass, anyPass, compose, contains, map, filter } from 'ramda'
 
 const filterTransactions = curry((status, criteria, transactions) => {
   const isOfType = curry((filter, tx) => propSatisfies(x => filter === '' || toUpper(x) === toUpper(filter), 'type', tx))
@@ -16,6 +16,7 @@ export const getData = createSelector(
     selectors.core.common.bch.getWalletTransactions
   ],
   (formValues, pages) => {
+    const empty = (page) => isEmpty(page.data)
     const search = prop('search', formValues) || ''
     const status = prop('status', formValues) || ''
     const filteredPages = !isEmpty(pages)
@@ -23,7 +24,9 @@ export const getData = createSelector(
       : []
 
     return {
-      pages: filteredPages
+      pages: filteredPages,
+      search: search.length > 0,
+      empty: all(empty)(filteredPages)
     }
   }
 )
