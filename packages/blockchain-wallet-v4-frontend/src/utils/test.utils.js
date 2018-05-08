@@ -1,5 +1,8 @@
 import React from 'react'
 
+/* eslint-disable */
+
+// spy on console error
 console.error = jest.fn()
 
 export const testPropTypes = (component, propName, testValues, expectError, otherProps) => {
@@ -16,3 +19,4 @@ export const testPropTypes = (component, propName, testValues, expectError, othe
 
   return !_test(testValues)
 }
+/* eslint-enable */
