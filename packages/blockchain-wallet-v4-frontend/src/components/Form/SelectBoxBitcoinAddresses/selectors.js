@@ -19,20 +19,21 @@ export const getData = (state, coin) => {
     return map(formatAddress, addressesData)
   }
 
-  const getAddressesData = (coin) => {
+  const getAddressesData = (ownProps) => {
+    const { coin, includeImported } = ownProps
     switch (coin) {
       case 'BCH':
         const importedAddresses = selectors.core.common.bch.getActiveAddresses(state)
         return sequence(Remote.of,
           [
             selectors.core.common.bch.getAccountsBalances(state).map(toDropdown),
-            lift(formatImportedAddressesData)(importedAddresses)
+            includeImported ? lift(formatImportedAddressesData)(importedAddresses) : Remote.of([])
           ]).map(([b1, b2]) => ({ data: concat(b1, b2) }))
       default:
         return sequence(Remote.of,
           [
             selectors.core.common.bitcoin.getActiveAccountsBalances(state).map(toDropdown),
-            selectors.core.common.bitcoin.getAddressesBalances(state).map(toDropdown)
+            includeImported ? selectors.core.common.bitcoin.getAddressesBalances(state).map(toDropdown) : Remote.of([])
           ]).map(([b1, b2]) => ({ data: concat(b1, b2) }))
     }
   }

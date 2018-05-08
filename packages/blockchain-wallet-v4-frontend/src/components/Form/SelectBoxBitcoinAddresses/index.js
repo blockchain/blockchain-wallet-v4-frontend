@@ -8,7 +8,7 @@ import SelectBoxBitcoin from './template'
 
 class SelectBoxBitcoinAddresses extends React.PureComponent {
   getLabel (coin) {
-    return `All Bitcoin${coin === 'BCH' ? ' Cash' : ''} Wallets`
+    return this.props.optional ? 'N/A' : `All Bitcoin${coin === 'BCH' ? ' Cash' : ''} Wallets`
   }
   concatAll (coin) {
     return concat([{ group: '', items: [{ value: 'all', text: this.getLabel(coin) }] }])
@@ -33,15 +33,17 @@ class SelectBoxBitcoinAddresses extends React.PureComponent {
 }
 
 SelectBoxBitcoinAddresses.propTypes = {
-  includeAll: PropTypes.bool
+  includeAll: PropTypes.bool,
+  includeImported: PropTypes.bool
 }
 
 SelectBoxBitcoinAddresses.defaultProps = {
-  includeAll: true
+  includeAll: true,
+  includeImported: true
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  data: getData(state, ownProps.coin)
+  data: getData(state, ownProps)
 })
 
 export default connect(mapStateToProps)(SelectBoxBitcoinAddresses)
