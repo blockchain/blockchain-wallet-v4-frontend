@@ -1,5 +1,5 @@
 import { select, put } from 'redux-saga/effects'
-import { equals, path, prop } from 'ramda'
+import { equals, path } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { actions, selectors } from 'data'
 
