@@ -1,5 +1,5 @@
 import { cancel, cancelled, delay, identity, call, fork, select, put } from 'redux-saga/effects'
-import { equals, has, merge, path, prop } from 'ramda'
+import { equals, has, path, prop } from 'ramda'
 import * as A from './actions'
 import * as S from './selectors'
 import * as actions from '../../actions'
@@ -43,9 +43,13 @@ export default ({ api, coreSagas }) => {
       const form = yield select(selectors.form.getFormValues('exchange'))
       const source = prop('source', form)
       const target = prop('target', form)
-      const values = merge(form, { source: target, target: source })
-      const newValues = yield call(convertValues, values)
-      yield put(actions.form.initialize('exchange', newValues))
+      yield put(actions.form.change2('exchange', 'source', target))
+      yield put(actions.form.change2('exchange', 'target', source))
+      const { sourceAmount, sourceFiat, targetAmount, targetFiat } = yield call(convertValues)
+      yield put(actions.form.change2('exchange', 'sourceAmount', sourceAmount))
+      yield put(actions.form.change2('exchange', 'sourceFiat', sourceFiat))
+      yield put(actions.form.change2('exchange', 'targetAmount', targetAmount))
+      yield put(actions.form.change2('exchange', 'targetFiat', targetFiat))
       yield call(validateForm)
     } catch (e) {
       console.log(e)
@@ -107,8 +111,7 @@ export default ({ api, coreSagas }) => {
     const targetCoin = prop('coin', target)
     if (equals(sourceCoin, targetCoin)) {
       const newTarget = yield call(selectOtherAccount, targetCoin)
-      const newValues = merge(form, { target: newTarget })
-      yield put(actions.form.initialize('exchange', newValues))
+      yield put(actions.form.change2('exchange', 'target', newTarget))
     }
   }
 
@@ -118,19 +121,19 @@ export default ({ api, coreSagas }) => {
     const sourceCoin = prop('coin', source)
     const target = prop('target', form)
     const targetCoin = prop('coin', target)
-
     if (equals(sourceCoin, targetCoin)) {
       const newSource = yield call(selectOtherAccount, sourceCoin)
-      const newValues = merge(form, { source: newSource })
-      yield put(actions.form.initialize('exchange', newValues))
+      yield put(actions.form.change2('exchange', 'source', newSource))
     }
   }
 
   const changeAmount = function * (type) {
     yield put(A.firstStepDisabled())
-    const values = yield select(selectors.form.getFormValues('exchange'))
-    const newValues = yield call(convertValues, values, type)
-    yield put(actions.form.initialize('exchange', newValues))
+    const { sourceAmount, sourceFiat, targetAmount, targetFiat } = yield call(convertValues, type)
+    yield put(actions.form.change2('exchange', 'sourceAmount', sourceAmount))
+    yield put(actions.form.change2('exchange', 'sourceFiat', sourceFiat))
+    yield put(actions.form.change2('exchange', 'targetAmount', targetAmount))
+    yield put(actions.form.change2('exchange', 'targetFiat', targetFiat))
     yield put(A.firstStepEnabled())
   }
 
