@@ -41,7 +41,7 @@ jest.mock('config', () => {
 describe('App Store Config', () => {
   let apiKey = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
   let fakeWalletOptions = { domains: { webSocket: 'MOCK_SOCKET', root: 'MOCK_ROOT' } }
-  let createStoreSpy, applyMiddlewareSpy, composeSpy, kvStoreSpy, btcSocketSpy, walletSyncSpy, autoDisconnectSpy
+  let createStoreSpy, applyMiddlewareSpy, composeSpy, kvStoreSpy, btcSocketSpy, walletSyncSpy, autoDisconnectSpy, bchSocketSpy, ethSocketSpy
 
   beforeAll(() => {
     // setup fetch mock
@@ -54,6 +54,8 @@ describe('App Store Config', () => {
     composeSpy = jest.spyOn(Redux, 'compose').mockImplementation(jest.fn())
     kvStoreSpy = jest.spyOn(CoreSrc.coreMiddleware, 'kvStore')
     btcSocketSpy = jest.spyOn(CoreSrc.coreMiddleware.socket, 'bitcoin')
+    bchSocketSpy = jest.spyOn(CoreSrc.coreMiddleware.socket, 'bch')
+    ethSocketSpy = jest.spyOn(CoreSrc.coreMiddleware.socket, 'ethereum')
     walletSyncSpy = jest.spyOn(CoreSrc.coreMiddleware, 'walletSync')
     autoDisconnectSpy = jest.spyOn(Middleware, 'autoDisconnection')
   })
@@ -67,8 +69,10 @@ describe('App Store Config', () => {
     expect(fetch.mock.calls.length).toEqual(1)
     expect(fetch.mock.calls[0][0]).toEqual('/Resources/wallet-options-v4.json')
     // socket registration
-    expect(Socket.mock.calls.length).toEqual(1)
-    expect(Socket.mock.calls[0][0]).toEqual({ options: fakeWalletOptions })
+    expect(Socket.mock.calls.length).toEqual(3)
+    expect(Socket.mock.calls[0][0]).toEqual({ options: fakeWalletOptions, socketType: 'btcSocket' })
+    expect(Socket.mock.calls[1][0]).toEqual({ options: fakeWalletOptions, socketType: 'ethSocket' })
+    expect(Socket.mock.calls[2][0]).toEqual({ options: fakeWalletOptions, socketType: 'bchSocket' })
     // build api
     expect(createWalletApi.mock.calls.length).toBe(1)
     expect(createWalletApi.mock.calls[0][0]).toEqual({
@@ -84,6 +88,10 @@ describe('App Store Config', () => {
     })
     expect(btcSocketSpy).toHaveBeenCalledTimes(1)
     expect(btcSocketSpy).toHaveBeenCalledWith(expect.any(Object), 'MOCK_WALLET_PATH', expect.any(Function))
+    expect(bchSocketSpy).toHaveBeenCalledTimes(1)
+    expect(bchSocketSpy).toHaveBeenCalledWith(expect.any(Object), 'MOCK_WALLET_PATH', expect.any(Function))
+    expect(ethSocketSpy).toHaveBeenCalledTimes(1)
+    expect(ethSocketSpy).toHaveBeenCalledWith(expect.any(Object), 'MOCK_WALLET_PATH', expect.any(Function))
     expect(walletSyncSpy).toHaveBeenCalledTimes(1)
     expect(walletSyncSpy).toHaveBeenCalledWith({
       isAuthenticated: expect.any(Function),
