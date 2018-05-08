@@ -28,7 +28,9 @@ const configureStore = () => {
     .then(options => {
       const apiKey = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
 
-      const socket = new Socket({ options })
+      const btcSocket = new Socket({ options, socketType: 'btcSocket' })
+      const ethSocket = new Socket({ options, socketType: 'ethSocket' })
+      const bchSocket = new Socket({ options, socketType: 'bchSocket' })
       const api = createWalletApi({ options, apiKey })
 
       const store = createStore(
@@ -38,7 +40,9 @@ const configureStore = () => {
             sagaMiddleware,
             routerMiddleware(history),
             coreMiddleware.kvStore({ isAuthenticated, api, kvStorePath }),
-            coreMiddleware.socket.bitcoin(socket, walletPath, isAuthenticated),
+            coreMiddleware.socket.bitcoin(btcSocket, walletPath, isAuthenticated),
+            coreMiddleware.socket.ethereum(ethSocket, walletPath, isAuthenticated),
+            coreMiddleware.socket.bch(bchSocket, walletPath, isAuthenticated),
             coreMiddleware.walletSync({ isAuthenticated, api, walletPath }),
             autoDisconnection()
           ),
@@ -46,7 +50,8 @@ const configureStore = () => {
         )
       )
       persistStore(store, { whitelist: ['session', 'preferences', 'cache'] })
-      sagaMiddleware.run(rootSaga, { api, socket, options })
+      persistStore(store, { whitelist: ['session', 'preferences'] })
+      sagaMiddleware.run(rootSaga, { api, btcSocket, ethSocket, bchSocket, options })
 
       return {
         store,
