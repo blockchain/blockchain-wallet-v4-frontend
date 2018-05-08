@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import { flex, spacing } from 'services/StyleService'
 import Helper from 'components/BuySell/FAQ'
 import { StepTransition } from 'components/Utilities/Stepper'
+import { path } from 'ramda'
 
 import { Button, HeartbeatLoader, Link } from 'blockchain-info-components'
 import { Form, ColLeft, InputWrapper, PartnerHeader, PartnerSubHeader, ColRight, ColRightInner } from 'components/BuySell/Signup'
@@ -42,8 +43,8 @@ const helpers = [
 const faqHelper = () => helpers.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
 
 const Payment = (props) => {
-  const { value, busy, handlePaymentClick, medium } = props
-  const { limits, quote } = value
+  const { value, busy, handlePaymentClick, medium, triggerKyc } = props
+  const { limits, quote, level } = value
   console.log('payment template', value)
   const isChecked = (type) => medium === type
 
@@ -68,15 +69,22 @@ const Payment = (props) => {
       <ColRight>
         <ColRightInner>
           {
-
+            path(['name'], level) < 2 && medium === 'bank'
+              ? <Button nature='primary' fullwidth style={spacing('mt-45')} onClick={triggerKyc} disabled={!medium || busy}>
+                {
+                  !busy
+                    ? <FormattedMessage id='coinifyexchangedata.payment.continue' defaultMessage='Continue' />
+                    : <HeartbeatLoader height='20px' width='20px' color='white' />
+                }
+              </Button>
+              : <StepTransition next Component={Button} style={spacing('mt-45')} nature='primary' fullwidth disabled={!medium || busy}>
+                {
+                  !busy
+                    ? <FormattedMessage id='coinifyexchangedata.payment.continue' defaultMessage='Continue' />
+                    : <HeartbeatLoader height='20px' width='20px' color='white' />
+                }
+              </StepTransition>
           }
-          <StepTransition next Component={Button} style={spacing('mt-45')} nature='primary' fullwidth uppercase disabled={!medium || busy}>
-            {
-              !busy
-                ? <FormattedMessage id='coinifyexchangedata.confirm.confirm' defaultMessage='Continue' />
-                : <HeartbeatLoader height='20px' width='20px' color='white' />
-            }
-          </StepTransition>
           <CancelWrapper style={{ ...flex('row justify/center'), ...spacing('mt-15') }}>
             <StepTransition prev Component={Link}>
               <FormattedMessage id='cancel' defaultMessage='Cancel' />
