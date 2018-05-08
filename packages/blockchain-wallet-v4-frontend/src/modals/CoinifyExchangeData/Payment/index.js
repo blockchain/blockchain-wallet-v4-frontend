@@ -21,6 +21,10 @@ class PaymentContainer extends Component {
     this.props.coinifyDataActions.getPaymentMediums(this.props.quote.data)
   }
 
+  componentWillUnmount () {
+    this.props.coinifyActions.coinifyNotAsked()
+  }
+
   triggerKyc () {
     this.props.coinifyActions.coinifyLoading()
     this.props.coinifyActions.triggerKYC()

@@ -56,16 +56,18 @@ const Success = props => {
     step,
     busy,
     trade,
+    triggerKyc,
     ...rest } = props
 
-  const { trades, type } = rest
-  const profile = Remote.of(props.value.profile).getOrElse({ _limits: service.mockedLimits, _level: { currency: 'EUR' } })
+  const { trades, type, value } = rest
+  const profile = Remote.of(value.profile).getOrElse({ _limits: service.mockedLimits, _level: { currency: 'EUR' } })
+  const level = value.level
 
   const defaultCurrency = currency || 'EUR'// profile._level.currency
   const symbol = service.currencySymbolMap[defaultCurrency]
 
   const limits = service.getLimits(profile._limits, defaultCurrency)
-
+  console.log('success template', props, value)
   if (type === 'buy' || !type) {
     if (step !== 'isx') {
       return (
@@ -83,6 +85,8 @@ const Success = props => {
                 symbol={symbol}
                 checkoutBusy={checkoutBusy}
                 setMax={setMax}
+                increaseLimit={triggerKyc}
+                level={level}
               />
             </CheckoutWrapper>
           </StepView>

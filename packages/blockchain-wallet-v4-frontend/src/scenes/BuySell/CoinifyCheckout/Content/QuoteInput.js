@@ -5,19 +5,8 @@ import { actions, selectors } from 'data'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { path } from 'ramda'
-
-const WrappedFiatConverter = ({ checkoutError, disabled, limits, defaultCurrency, symbol, setMax }) => (
-  <FiatConvertor
-    disabled={disabled}
-    unit={'__required__'}
-    currency={'__required__'}
-    limits={limits}
-    defaultCurrency={defaultCurrency}
-    symbol={symbol}
-    setMax={setMax}
-    checkoutError={checkoutError}
-  />
-)
+import { getQuoteInputData } from './selectors'
+import Loading from '../../template.loading'
 
 class QuoteInput extends Component {
   componentDidMount () {
@@ -27,19 +16,25 @@ class QuoteInput extends Component {
     this.props.actions.initializeCheckoutForm()
   }
   render () {
-    let { symbol, setMax, checkoutError } = this.props
+    let { data, symbol, setMax, checkoutError, increaseLimit, defaultCurrency, limits, disabled } = this.props
 
-    return (
-      <WrappedFiatConverter
-        rightUnit='BTC'
-        limits={this.props.limits}
-        // disabled={disabled}
-        defaultCurrency={this.props.defaultCurrency}
+    return data.cata({
+      Success: (value) => <FiatConvertor
+        val={value}
+        disabled={disabled}
+        unit={'__required__'}
+        currency={'__required__'}
+        limits={limits}
+        defaultCurrency={defaultCurrency}
         symbol={symbol}
         setMax={setMax}
         checkoutError={checkoutError}
-      />
-    )
+        increaseLimit={increaseLimit}
+      />,
+      Failure: (msg) => <div>Failure: {msg.error}</div>,
+      Loading: () => <Loading />,
+      NotAsked: () => <div>Not Asked</div>
+    })
   }
 }
 
@@ -54,7 +49,8 @@ QuoteInput.propTypes = {
 const mapStateToProps = state => ({
   checkoutError: path(['coinify', 'checkoutError'], state),
   canTrade: selectors.core.data.coinify.canTrade(state),
-  cannotTradeReason: selectors.core.data.coinify.cannotTradeReason(state)
+  cannotTradeReason: selectors.core.data.coinify.cannotTradeReason(state),
+  data: getQuoteInputData(state)
 })
 
 const mapDispatchToProps = dispatch => ({
