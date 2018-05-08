@@ -11,7 +11,9 @@ import { promptForSecondPassword } from 'services/SagaService'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 
 export default ({ coreSagas }) => {
-  const sendEthInitialized = function * (action, password) {
+  const logLocation = 'components/sendEth/sagas'
+
+  const sendEthInitialized = function * (action) {
     try {
       yield put(A.sendEthPaymentUpdated(Remote.Loading))
       let payment = coreSagas.payment.eth.create(({ network: settings.NETWORK_ETHEREUM }))
@@ -22,11 +24,11 @@ export default ({ coreSagas }) => {
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
       yield
     } catch (e) {
-      console.log('error: ', e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'sendEthInitialized', e))
     }
   }
 
-  const firstStepSubmitClicked = function * (action) {
+  const firstStepSubmitClicked = function * () {
     try {
       let p = yield select(S.getPayment)
       yield put(A.sendEthPaymentUpdated(Remote.Loading))
@@ -34,7 +36,7 @@ export default ({ coreSagas }) => {
       payment = yield payment.build()
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', e))
     }
   }
 
@@ -69,7 +71,7 @@ export default ({ coreSagas }) => {
       }
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
     }
   }
 
@@ -85,7 +87,7 @@ export default ({ coreSagas }) => {
       const fiat = Exchange.convertEtherToFiat({ value: effectiveBalance, fromUnit: 'WEI', toCurrency: currency, rates: ethRates }).value
       yield put(change('sendEth', 'amount', { coin, fiat }))
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'maximumAmountClicked', e))
     }
   }
 
@@ -101,7 +103,8 @@ export default ({ coreSagas }) => {
       yield put(actions.router.push('/eth/transactions'))
       yield put(actions.alerts.displaySuccess('Ether transaction has been successfully published!'))
     } catch (e) {
-      yield put(actions.alerts.displayError('Ether transaction could not be published.'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e))
+      yield put(actions.alerts.displayError('Failed to send Ether.'))
     }
   }
 

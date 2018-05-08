@@ -79,9 +79,9 @@ const SelectPartner = (props) => {
     if (sfoxCountries.indexOf(country) >= 0) {
       props.modalActions.showModal('SfoxExchangeData', { step: 'account' })
     }
-    if (unocoinCountries.indexOf(country) >= 0) {
-      console.log('start unocoin')
-    }
+    // if (unocoinCountries.indexOf(country) >= 0) {
+    //   console.log('start unocoin')
+    // }
     if (coinifyCountries.indexOf(country) >= 0) {
       props.modalActions.showModal('CoinifyExchangeData', { step: 'account' })
     }

@@ -140,7 +140,7 @@ export default ({ api, coreSagas }) => {
               yield put(actions.alerts.displayInfo('2FA required'))
               yield put(actions.auth.loginFailure())
             } else {
-              console.log(e)
+              // TODO: write to logger here
               yield put(actions.alerts.displayError(e.message || 'Error logging into your wallet'))
             }
           }
