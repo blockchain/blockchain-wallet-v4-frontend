@@ -1,6 +1,7 @@
 import ExchangeDelegate from '../../../exchange/delegate'
 import { apply, call, put, select } from 'redux-saga/effects'
 import * as A from './actions'
+import * as S from './selectors'
 import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import { coinifyService } from '../../../exchange/service'
 import * as buySellA from '../../kvStore/buySell/actions'
@@ -39,7 +40,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const coinifyFetchProfile = function * () {
+  const coinifyFetchProfile = function * (noLoad) {
     try {
       yield put(A.coinifyFetchProfileLoading())
       yield apply(coinify, coinify.profile.fetch)
@@ -51,10 +52,10 @@ export default ({ api, options }) => {
 
   const fetchQuote = function * (data) {
     try {
-      const coinify = yield call(getCoinify)
+      const coinify = yield select(S.getProfile)
       yield put(A.fetchQuoteLoading())
       const { amount, baseCurrency, quoteCurrency } = data.quote
-      const quote = yield apply(coinify, coinify.getBuyQuote, [amount, baseCurrency, quoteCurrency])
+      const quote = yield apply(coinify.data, coinify.data.getBuyQuote, [amount, baseCurrency, quoteCurrency])
       yield put(A.fetchQuoteSuccess(quote))
       return quote
     } catch (e) {
@@ -151,12 +152,44 @@ export default ({ api, options }) => {
   const buy = function * (data) {
     const { quote, medium } = data.payload
     try {
+      yield put(A.handleTradeLoading())
+      console.log('core saga buy', data.payload)
       const mediums = yield apply(quote, quote.getPaymentMediums)
       const accounts = yield apply(mediums[medium], mediums[medium].getAccounts)
       const buyResult = yield apply(accounts[0], accounts[0].buy)
+      yield put(A.handleTradeSuccess(buyResult))
       console.log('coinify buy result in core', buyResult)
+      yield put(A.fetchTrades())
+      yield call(getCoinify)
+      return buyResult
     } catch (e) {
       console.warn('buy failed in core', e)
+      yield put(A.handleTradeFailure(e))
+    }
+  }
+
+  const cancelTrade = function * (trade) {
+    try {
+      const trades = yield select(S.getTrades)
+      const trade = trades.data[0]
+      const cancel = yield apply(trade, trade.cancel)
+      yield call(getCoinify)
+      console.log('cancelled trade', cancel)
+    } catch (e) {
+      console.log('issue cancelling trade', e)
+    }
+  }
+
+  const triggerKYC = function * () {
+    try {
+      yield put(A.handleTradeLoading())
+      const coinify = yield call(getCoinify)
+      const kyc = yield apply(coinify, coinify.triggerKYC)
+      yield put(A.handleTradeSuccess(kyc))
+      return kyc
+    } catch (e) {
+      yield put(A.handleTradeFailure(e))
+      console.log('failed to trigger KYC in core', e)
     }
   }
 
@@ -172,6 +205,8 @@ export default ({ api, options }) => {
     resetProfile,
     getPaymentMediums,
     getMediumAccounts,
-    fetchQuoteAndMediums
+    fetchQuoteAndMediums,
+    cancelTrade,
+    triggerKYC
   }
 }

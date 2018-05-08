@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
 import { Icon, Text } from 'blockchain-info-components'
-import { SelectBoxCoinifyCurrency, TextBox, TextBoxDebounced } from 'components/Form'
+import { SelectBoxCoinifyCurrency, TextBoxDebounced } from 'components/Form'
 
 import { Field, reduxForm } from 'redux-form'
 
@@ -70,9 +70,6 @@ const LimitsHelper = styled.div`
     cursor: pointer;
   }
 `
-// const getErrorState = (meta) => {
-//   return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')
-// }
 
 const getLimitsError = (errorType, limits, symbol) => {
   if (errorType === 'below_min') return `Your limit of ${symbol}${limits.max} is below the minimum allowed amount.`
@@ -82,9 +79,8 @@ const getLimitsError = (errorType, limits, symbol) => {
 }
 
 const FiatConvertor = (props) => {
-  const { disabled, setMax, handleErrorClick, meta, limits, checkoutError, defaultCurrency, symbol } = props
+  const { disabled, setMax, limits, checkoutError, defaultCurrency, symbol } = props
   const currency = 'BTC'
-  // const errorState = getErrorState(meta)
 
   return (
     <form>
@@ -97,7 +93,7 @@ const FiatConvertor = (props) => {
           <ArrowLeft size='16px' name='left-arrow' />
           <ArrowRight size='16px' name='right-arrow' />
           <Container>
-            <Field name='rightVal' component={TextBox} disabled={disabled} />
+            <Field name='rightVal' component={TextBoxDebounced} disabled={disabled} />
             <Unit>{currency}</Unit>
           </Container>
         </FiatConvertorInput>
@@ -110,24 +106,18 @@ const FiatConvertor = (props) => {
               <FormattedMessage id='buy.quote_input.remaining_buy_limit' defaultMessage='Your remaining buy limit is {max}' values={{ max: <a onClick={() => setMax(limits.max)}>{symbol}{limits.max}</a> }} />
             </LimitsHelper>
         }
-
-        {/* {meta.touched && meta.error && <Error onClick={handleErrorClick} size='13px' weight={300} color='error'>{meta.error}</Error>} */}
       </Wrapper>
     </form>
   )
 }
 
-// FiatConvertor.propTypes = {
-//   coin: PropTypes.string,
-//   fiat: PropTypes.string,
-//   unit: PropTypes.string.isRequired,
-//   currency: PropTypes.string.isRequired,
-//   disabled: PropTypes.bool,
-//   handleBlur: PropTypes.func.isRequired,
-//   handleCoinChange: PropTypes.func.isRequired,
-//   handleFiatChange: PropTypes.func.isRequired,
-//   handleFocus: PropTypes.func.isRequired,
-//   handleErrorClick: PropTypes.func
-// }
+FiatConvertor.propTypes = {
+  defaultCurrency: PropTypes.string.isRequired,
+  checkoutError: PropTypes.bool,
+  symbol: PropTypes.string.isRequired,
+  limits: PropTypes.object.isRequired,
+  setMax: PropTypes.func.isRequired,
+  disabled: PropTypes.bool
+}
 
-export default reduxForm({ form: 'coinifyCheckout' })(FiatConvertor)
+export default reduxForm({ form: 'coinifyCheckout', destroyOnUnmount: false })(FiatConvertor)
