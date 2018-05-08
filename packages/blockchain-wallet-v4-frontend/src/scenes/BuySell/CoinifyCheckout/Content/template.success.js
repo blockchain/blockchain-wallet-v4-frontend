@@ -1,22 +1,24 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import { filter, path, contains } from 'ramda'
+
+import { Text } from 'blockchain-info-components'
+import { Remote } from 'blockchain-wallet-v4/src'
+import * as service from 'services/CoinifyService'
 import Stepper, { StepView } from 'components/Utilities/Stepper'
 import OrderCheckout from './OrderCheckout'
-import { Text } from 'blockchain-info-components'
 import { OrderDetails, OrderSubmit } from './OrderReview'
-import { Remote } from 'blockchain-wallet-v4/src'
-import { flex } from 'services/StyleService'
-import * as service from 'services/CoinifyService'
 import Payment from '../../../../modals/CoinifyExchangeData/Payment'
 import ISignThis from '../../../../modals/CoinifyExchangeData/ISignThis'
 import OrderHistory from '../../OrderHistory'
-import { filter, path, contains } from 'ramda'
 
 const CheckoutWrapper = styled.div`
   width: 55%;
 `
-const OrderSubmitWrapper = CheckoutWrapper.extend`
+const OrderSubmitWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 35%;
   padding: 30px 30px 30px 10%;
 `
@@ -34,6 +36,11 @@ const OrderHistoryContent = styled.div`
     margin-bottom: 20px;
   }
 `
+const FlexRow = styled.div`
+  display: flex;
+  flex-direction: row;
+`
+
 const isPending = (t) => t.state === 'processing' || t.state === 'awaiting_transfer_in'
 const isCompleted = (t) => contains(t.state, ['completed', 'rejected', 'cancelled', 'expired'])
 
@@ -53,6 +60,7 @@ const Success = props => {
     setMax,
     paymentMedium,
     initiateBuy,
+    initiateSell,
     step,
     busy,
     trade,
@@ -90,7 +98,7 @@ const Success = props => {
             <Payment />
           </StepView>
           <StepView step={2}>
-            <div style={flex('row')}>
+            <FlexRow>
               <CheckoutWrapper>
                 <OrderDetails
                   quoteR={buyQuoteR}
@@ -99,7 +107,7 @@ const Success = props => {
                   medium={paymentMedium}
                 />
               </CheckoutWrapper>
-              <OrderSubmitWrapper style={{ ...flex('col') }}>
+              <OrderSubmitWrapper>
                 <OrderSubmit
                   quoteR={buyQuoteR}
                   onSubmit={initiateBuy}
@@ -107,7 +115,7 @@ const Success = props => {
                   clearTradeError={clearTradeError}
                 />
               </OrderSubmitWrapper>
-            </div>
+            </FlexRow>
           </StepView>
         </Stepper>
       )
@@ -119,6 +127,50 @@ const Success = props => {
         />
       )
     }
+  } else if (type === 'sell') {
+    return (
+      <Stepper initialStep={0}>
+        <StepView step={0}>
+          <CheckoutWrapper>
+            <OrderCheckout
+              quoteR={buyQuoteR}
+              rateQuoteR={rateQuoteR}
+              onFetchQuote={fetchBuyQuote}
+              limits={limits.sell}
+              type={'sell'}
+              reason={'has_remaining'} // placeholder for now - coinify does not require a reason
+              defaultCurrency={defaultCurrency}
+              symbol={symbol}
+              checkoutBusy={checkoutBusy}
+              setMax={setMax}
+            />
+          </CheckoutWrapper>
+        </StepView>
+        <StepView step={1}>
+          <Payment />
+        </StepView>
+        <StepView step={2}>
+          <FlexRow>
+            <CheckoutWrapper>
+              <OrderDetails
+                quoteR={buyQuoteR}
+                onRefreshQuote={refreshQuote}
+                type={'sell'}
+                medium={paymentMedium}
+              />
+            </CheckoutWrapper>
+            <OrderSubmitWrapper>
+              <OrderSubmit
+                quoteR={buyQuoteR}
+                onSubmit={initiateSell}
+                busy={busy}
+                clearTradeError={clearTradeError}
+              />
+            </OrderSubmitWrapper>
+          </FlexRow>
+        </StepView>
+      </Stepper>
+    )
   } else if (trades) {
     return (
       <OrderHistoryWrapper>

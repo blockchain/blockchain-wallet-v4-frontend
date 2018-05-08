@@ -1,4 +1,6 @@
 import { lift } from 'ramda'
+import { formValueSelector } from 'redux-form'
+
 import { selectors } from 'data'
 
 export const getData = (state) => {
@@ -6,5 +8,12 @@ export const getData = (state) => {
   const buySellR = selectors.core.kvStore.buySell.getMetadata(state)
 
   const transform = lift((buySell, options) => ({ buySell, options }))
-  return transform(buySellR, optionsR)
+
+  return {
+    data: transform(buySellR, optionsR),
+    type: state.form.buySellTabStatus && state.form.buySellTabStatus.values.status,
+    country: formValueSelector('selectPartner')(state, 'country'),
+    stateSelection: formValueSelector('selectPartner')(state, 'state'),
+    email: formValueSelector('selectPartner')(state, 'email')
+  }
 }
