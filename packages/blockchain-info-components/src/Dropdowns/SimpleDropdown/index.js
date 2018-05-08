@@ -46,13 +46,13 @@ class SimpleDropdown extends React.PureComponent {
 SimpleDropdown.defaultProps = {
   color: 'brand-secondary',
   opened: false,
-  // selectedValue: 0,
+  selectedValue: 0,
   uppercase: true,
   down: false
 }
 
 SimpleDropdown.propTypes = {
-  selectedValue: PropTypes.string,
+  selectedValue: PropTypes.number,
   items: PropTypes.arrayOf(PropTypes.shape({
     text: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired

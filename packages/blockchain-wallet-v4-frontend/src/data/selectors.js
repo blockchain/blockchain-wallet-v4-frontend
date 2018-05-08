@@ -8,6 +8,7 @@ import * as goals from './goals/selectors'
 import * as logs from './logs/selectors'
 import * as modals from './modals/selectors'
 import * as preferences from './preferences/selectors'
+import * as router from './router/selectors'
 import * as scroll from './scroll/selectors'
 import * as session from './session/selectors'
 import * as wizard from './wizard/selectors'
@@ -23,6 +24,7 @@ export {
   logs,
   modals,
   preferences,
+  router,
   scroll,
   session,
   wizard
