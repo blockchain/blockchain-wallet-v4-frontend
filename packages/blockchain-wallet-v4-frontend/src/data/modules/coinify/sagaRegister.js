@@ -16,5 +16,6 @@ export default ({ coreSagas }) => {
     yield takeLatest(AT.COINIFY_SET_CHECKOUT_MAX, coinifySagas.setCheckoutMax)
     yield takeLatest(AT.COINIFY_FROM_ISX, coinifySagas.fromISX)
     yield takeLatest(AT.COINIFY_TRIGGER_KYC, coinifySagas.triggerKYC)
+    yield takeLatest(AT.OPEN_KYC, coinifySagas.openKYC)
   }
 }

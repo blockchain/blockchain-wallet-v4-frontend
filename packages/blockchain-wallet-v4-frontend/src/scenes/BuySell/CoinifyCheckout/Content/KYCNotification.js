@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { Text, Button } from 'blockchain-info-components'
 import { kycHeaderHelper, kycNotificationBodyHelper, kycNotificationButtonHelper } from 'services/CoinifyService'
 import { spacing } from 'services/StyleService'
+import { path } from 'ramda'
 
 const ISXContainer = styled.div`
   display: flex;
@@ -13,10 +14,11 @@ const ISXContainer = styled.div`
 `
 
 const KYCNotification = (props) => {
-  const state = props.state
+  const { kyc, onTrigger } = props
+
+  const state = path(['state'], kyc)
   const header = kycHeaderHelper(state)
   const body = kycNotificationBodyHelper(state)
-
   return (
     <ISXContainer>
       <Text size='14px' color='brand-primary' weight={300} style={spacing('mb-20')}>
@@ -27,7 +29,7 @@ const KYCNotification = (props) => {
       </Text>
       {
         state === 'pending' || state === 'rejected'
-          ? <Button nature='empty-secondary'>
+          ? <Button onClick={() => onTrigger(kyc)} nature='empty-secondary'>
             <Text size='14px' color='brand-secondary'>
               { kycNotificationButtonHelper(state)['text'] }
             </Text>

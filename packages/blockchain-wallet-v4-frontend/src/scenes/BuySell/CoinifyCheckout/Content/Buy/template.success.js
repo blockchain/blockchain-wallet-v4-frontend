@@ -43,16 +43,17 @@ const Buy = props => {
     initiateBuy,
     step,
     busy,
-    trade
+    trade,
+    handleKycAction
   } = props
 
   const profile = Remote.of(props.value.profile).getOrElse({ _limits: service.mockedLimits, _level: { currency: 'EUR' } })
-  const kycState = value.kycs.length && head(value.kycs)['state']
+  const kyc = value.kycs.length && head(value.kycs)
   const defaultCurrency = currency || 'EUR' // profile._level.currency
   const symbol = service.currencySymbolMap[defaultCurrency]
 
   const limits = service.getLimits(profile._limits, defaultCurrency)
-  console.log(props)
+  // console.log(kyc, value)
   if (step !== 'isx') {
     return (
       <Stepper initialStep={0}>
@@ -74,7 +75,9 @@ const Buy = props => {
             </LeftContainer>
             <RightContainer>
               {
-                value.kycs.length && <KYCNotification state={kycState} />
+                value.kycs.length
+                  ? <KYCNotification kyc={kyc} onTrigger={(kyc) => handleKycAction(kyc)} />
+                  : null
               }
             </RightContainer>
           </CheckoutWrapper>
