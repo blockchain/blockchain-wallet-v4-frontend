@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { path } from 'ramda'
+import { path, head } from 'ramda'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import * as service from 'services/CoinifyService'
@@ -30,6 +30,7 @@ const LeftContainer = styled.div``
 
 const Buy = props => {
   const {
+    value,
     fetchBuyQuote,
     refreshQuote,
     buyQuoteR,
@@ -46,12 +47,12 @@ const Buy = props => {
   } = props
 
   const profile = Remote.of(props.value.profile).getOrElse({ _limits: service.mockedLimits, _level: { currency: 'EUR' } })
-
+  const kycState = value.kycs.length && head(value.kycs)['state']
   const defaultCurrency = currency || 'EUR' // profile._level.currency
   const symbol = service.currencySymbolMap[defaultCurrency]
 
   const limits = service.getLimits(profile._limits, defaultCurrency)
-
+  console.log(props)
   if (step !== 'isx') {
     return (
       <Stepper initialStep={0}>
@@ -72,7 +73,9 @@ const Buy = props => {
               />
             </LeftContainer>
             <RightContainer>
-              <KYCNotification />
+              {
+                value.kycs.length && <KYCNotification state={kycState} />
+              }
             </RightContainer>
           </CheckoutWrapper>
         </StepView>

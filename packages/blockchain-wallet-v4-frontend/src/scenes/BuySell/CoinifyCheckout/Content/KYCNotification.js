@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Text, Button } from 'blockchain-info-components'
-import { kycHeaderHelper, kycNotificationBodyHelper } from 'services/CoinifyService'
+import { kycHeaderHelper, kycNotificationBodyHelper, kycNotificationButtonHelper } from 'services/CoinifyService'
 import { spacing } from 'services/StyleService'
 
 const ISXContainer = styled.div`
@@ -13,22 +13,27 @@ const ISXContainer = styled.div`
 `
 
 const KYCNotification = (props) => {
-  const header = kycHeaderHelper('processing')
-  const body = kycNotificationBodyHelper('processing')
+  const state = props.state
+  const header = kycHeaderHelper(state)
+  const body = kycNotificationBodyHelper(state)
 
   return (
     <ISXContainer>
-      <Text size='14px' color='brand-primary' weight={300} style={spacing('mb-10')}>
+      <Text size='14px' color='brand-primary' weight={300} style={spacing('mb-20')}>
         { header.text }
       </Text>
       <Text size='14px' weight={300} style={spacing('mb-20')}>
         { body.text }
       </Text>
-      <Button nature='empty-secondary'>
-        <Text size='14px' color='brand-secondary'>
-          <FormattedMessage id='coinify.kyc_notification.complete' defaultMessage='Complete Verification' />
-        </Text>
-      </Button>
+      {
+        state === 'pending' || state === 'rejected'
+          ? <Button nature='empty-secondary'>
+            <Text size='14px' color='brand-secondary'>
+              { kycNotificationButtonHelper(state)['text'] }
+            </Text>
+          </Button>
+          : null
+      }
     </ISXContainer>
   )
 }
