@@ -2,11 +2,9 @@ import React from 'react'
 import { actions } from 'data'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { getBase, getData, getErrors, getQuote, getRateQuote, getTrades, getCurrency, getTrade } from './selectors'
+import { getData } from './selectors'
 import Success from './template.success'
-import { formValueSelector } from 'redux-form'
 import Loading from '../../template.loading'
-import { path } from 'ramda'
 
 class Checkout extends React.Component {
   constructor (props) {
@@ -14,6 +12,7 @@ class Checkout extends React.Component {
 
     this.startBuy = this.startBuy.bind(this)
   }
+
   componentDidMount () {
     this.props.coinifyActions.initializeCheckoutForm()
     this.props.coinifyDataActions.fetchTrades()
@@ -25,8 +24,14 @@ class Checkout extends React.Component {
     buyQuoteR.map(q => this.props.coinifyActions.initiateBuy({ quote: q, medium: paymentMedium }))
   }
 
+  startSell () {
+    const { sellQuoteR, paymentMedium, coinifyActions } = this.props
+    coinifyActions.coinifyLoading()
+    sellQuoteR.map(q => this.props.coinifyActions.initiateSell({ quote: q, medium: paymentMedium }))
+  }
+
   render () {
-    const { data, modalActions, coinifyActions, coinifyDataActions, rateQuoteR, buyQuoteR, currency, paymentMedium, trade, ...rest } = this.props
+    const { data, modalActions, coinifyActions, coinifyDataActions, rateQuoteR, buyQuoteR, sellQuoteR, currency, paymentMedium, trade, ...rest } = this.props
     const { step, checkoutBusy, coinifyBusy } = rest
     const { handleTrade, fetchQuote } = coinifyDataActions
     const { showModal } = modalActions
@@ -45,6 +50,7 @@ class Checkout extends React.Component {
         handleTrade={handleTrade}
         showModal={showModal}
         buyQuoteR={buyQuoteR}
+        sellQuoteR={sellQuoteR}
         rateQuoteR={rateQuoteR}
         fetchBuyQuote={(quote) => fetchQuote({ quote, nextAddress: value.nextAddress })}
         currency={currency}
@@ -52,6 +58,7 @@ class Checkout extends React.Component {
         setMax={(amt) => this.props.coinifyActions.setCheckoutMax(amt)}
         paymentMedium={paymentMedium}
         initiateBuy={this.startBuy}
+        initiateSell={this.startSell}
         step={step}
         busy={busy}
         clearTradeError={() => coinifyNotAsked()}
@@ -59,26 +66,12 @@ class Checkout extends React.Component {
       />,
       Failure: (msg) => <div>Failure: {msg.error}</div>,
       Loading: () => <Loading />,
-      NotAsked: () => <div>Not Asked</div>
+      NotAsked: () => <Loading />
     })
   }
 }
 
-const mapStateToProps = state => ({
-  base: getBase(state),
-  data: getData(state),
-  buyQuoteR: getQuote(state),
-  rateQuoteR: getRateQuote(state),
-  trades: getTrades(state),
-  trade: getTrade(state),
-  errors: getErrors(state),
-  currency: formValueSelector('coinifyCheckout')(state, 'currency'),
-  defaultCurrency: getCurrency(state),
-  checkoutBusy: path(['coinify', 'checkoutBusy'], state),
-  paymentMedium: path(['coinify', 'medium'], state),
-  step: path(['coinify', 'checkoutStep'], state),
-  coinifyBusy: path(['coinify', 'coinifyBusy'], state)
-})
+const mapStateToProps = state => getData(state)
 
 const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch),

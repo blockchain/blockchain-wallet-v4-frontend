@@ -169,6 +169,25 @@ export default ({ api, options }) => {
     }
   }
 
+  const sell = function * (data) {
+    const { quote, medium } = data.payload
+    try {
+      yield put(A.handleTradeLoading())
+      console.log('core saga sell', data.payload)
+      const mediums = yield apply(quote, quote.getPaymentMediums)
+      const accounts = yield apply(mediums[medium], mediums[medium].getAccounts)
+      const sellResult = yield apply(accounts[0], accounts[0].sell)
+      yield put(A.handleTradeSuccess(sellResult))
+      console.log('coinify sell result in core', sellResult)
+      yield put(A.fetchTrades())
+      yield call(getCoinify)
+      return sellResult
+    } catch (e) {
+      console.warn('sell failed in core', e)
+      yield put(A.handleTradeFailure(e))
+    }
+  }
+
   const cancelTrade = function * (trade) {
     try {
       const trades = yield select(S.getTrades)
@@ -197,6 +216,7 @@ export default ({ api, options }) => {
   return {
     signup,
     buy,
+    sell,
     init,
     fetchAccounts,
     coinifyFetchProfile,
