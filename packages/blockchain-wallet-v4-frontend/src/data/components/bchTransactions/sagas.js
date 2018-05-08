@@ -12,9 +12,9 @@ export default ({ coreSagas }) => {
         status: '',
         search: ''
       }
-      yield put(actions.form.initialize('btcTransactions', initialValues))
-      const btcTransactionsR = yield select(selectors.core.data.bitcoin.getTransactions)
-      if (!Remote.Success.is(btcTransactionsR)) yield put(actions.core.data.bitcoin.fetchTransactions(defaultSource))
+      yield put(actions.form.initialize('bchTransactions', initialValues))
+      const bchTransactionsR = yield select(selectors.core.data.bch.getTransactions)
+      if (!Remote.Success.is(bchTransactionsR)) yield put(actions.core.data.bch.fetchTransactions(defaultSource))
     } catch (e) {
       console.log(e)
     }
@@ -23,13 +23,13 @@ export default ({ coreSagas }) => {
   const scrollUpdated = function * (action) {
     try {
       const pathname = yield select(selectors.router.getPathname)
-      if (!equals(pathname, '/btc/transactions')) return
-      const formValues = yield select(selectors.form.getFormValues('btcTransactions'))
+      if (!equals(pathname, '/bch/transactions')) return
+      const formValues = yield select(selectors.form.getFormValues('bchTransactions'))
       const source = prop('source', formValues)
       const threshold = 250
       const { yMax, yOffset } = action.payload
       if (yMax - yOffset < threshold) {
-        yield put(actions.core.data.bitcoin.fetchTransactions(source, false))
+        yield put(actions.core.data.bch.fetchTransactions(source, false))
       }
     } catch (e) {
       console.log(e)
@@ -41,11 +41,12 @@ export default ({ coreSagas }) => {
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
       const payload = prop('payload', action)
-      if (!equals('btcTransactions', form)) return
+      if (!equals('bchTransactions', form)) return
+
       switch (field) {
         case 'source':
           const source = payload.xpub || payload.address
-          yield put(actions.core.data.bitcoin.fetchTransactions(source, true))
+          yield put(actions.core.data.bch.fetchTransactions(source, true))
       }
     } catch (e) {
       console.log(e)
