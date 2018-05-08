@@ -1,6 +1,7 @@
 import { coreActions as core } from 'blockchain-wallet-v4/src'
 import * as alerts from './alerts/actions'
 import * as auth from './auth/actions'
+import * as cache from './cache/actions'
 import * as components from './components/actions'
 import * as goals from './goals/actions'
 import * as modals from './modals/actions'
@@ -14,6 +15,7 @@ import * as wizard from './wizard/actions'
 import * as wallet from './wallet/actions'
 
 export {
+  cache,
   core,
   components,
   alerts,

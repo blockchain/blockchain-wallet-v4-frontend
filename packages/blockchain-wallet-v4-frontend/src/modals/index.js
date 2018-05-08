@@ -30,7 +30,7 @@ import SignMessage from './SignMessage'
 import ShowXPub from './ShowXPub'
 import SfoxTradeDetails from './SfoxTradeDetails'
 import TransactionReport from './TransactionReport'
-import TransferEther from './TransferEther'
+import TransferEth from './TransferEth'
 import TwoStepGoogleAuthenticator from './TwoStepGoogleAuthenticator'
 import TwoStepSetup from './TwoStepSetup'
 import TwoStepYubico from './TwoStepYubico'
@@ -69,7 +69,7 @@ const Modals = props => (
     <ShowXPub />
     <SfoxTradeDetails />
     <TransactionReport />
-    <TransferEther />
+    <TransferEth />
     <TwoStepGoogleAuthenticator />
     <TwoStepSetup />
     <TwoStepYubico />

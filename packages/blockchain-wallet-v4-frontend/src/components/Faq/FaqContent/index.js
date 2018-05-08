@@ -6,7 +6,6 @@ import styled from 'styled-components'
 import { Link, Color } from 'blockchain-info-components'
 
 const FaqDescription = styled.div`
-  text-align: justify;
   font-size: 12px;
 
   & > * { display: inline; }
@@ -25,11 +24,8 @@ const FaqContent = [
       question: <FormattedMessage id='scenes.faq.group.walletfunctionality.question3' defaultMessage='What is the difference between a wallet ID and an address?' />,
       answer: <FormattedMessage id='scenes.faq.group.walletfunctionality.answer3' defaultMessage='You can think of your wallet ID as a username that contains numbers, letters, and dashes. It is only used to log into your wallet and should be kept private. Your wallet ID can be found in the welcome email we sent you when you created your wallet or in Settings -> General. Addresses are what you share with others when you want to receive funds. To find your bitcoin, ether, or bitcoin cash address click on ‘Request’.' />
     }, {
-      question: <FormattedMessage id='scenes.faq.group.walletfunctionality.question4' defaultMessage='Why are my bitcoin and bitcoin cash addresses changing?' />,
-      answer: <FormattedMessage id='scenes.faq.group.walletfunctionality.answer4' defaultMessage='Although you can reuse addresses, transacting with the same address makes it easy for people to track your payments history. We alleviate this by using a HD (hierarchical deterministic) framework which provides you endless different addresses to send and receive to for additional security.' />
-    }, {
-      question: <FormattedMessage id='scenes.faq.group.walletfunctionality.question5' defaultMessage='Why are my bitcoin and bitcoin cash addresses changing?' />,
-      answer: <FormattedMessage id='scenes.faq.group.walletfunctionality.answer5' defaultMessage='You can think of your wallet ID as a username that contains numbers, letters, and dashes. It is only used to log into your wallet and should be kept private. Your wallet ID can be found in the welcome email we sent you when you created your wallet or in Settings -> General. Addresses are what you share with others when you want to receive funds. To find your bitcoin, ether, or bitcoin cash address click on ‘Request’.' />
+      question: <FormattedMessage id='scenes.faq.group.walletfunctionality.question5' defaultMessage='Why do we generate new addresses for each Bitcoin and Bitcoin cash transaction?' />,
+      answer: <FormattedMessage id='scenes.faq.group.walletfunctionality.answer5' defaultMessage='Although you can reuse addresses, transacting with the same address makes it easy for people to track your payments history. We alleviate this by using a HD (hierarchical deterministic) framework which provides you endless different addresses to send and receive to for additional security.' />
     }, {
       question: <FormattedMessage id='scenes.faq.group.walletfunctionality.question6' defaultMessage='Can an address still receive funds even though it’s no longer displayed under ‘Request’?' />,
       answer: <FaqDescription>
@@ -40,7 +36,7 @@ const FaqContent = [
         <FormattedMessage id='scenes.faq.group.walletfunctionality.answer6.two' defaultMessage=', a new address will automatically display under ‘Request’ once the previously displayed address receives a payment.' />
         <br />
         <br />
-        <FormattedMessage id='scenes.faq.group.walletfunctionality.answer6.three' defaultMessage="In Settings > Addresses, you can click on ‘Manage’ to the right of each wallet to view all of the labeled addresses that have been generated for that specific wallet. Clicking ‘Used Addresses’ allows you to see every receiving addressed ever generated within the wallet, as well as the current balance of each of these used addresses. Please note that when you send funds, your Blockchain wallet automatically selects addresses to spend from. That\'s why the current balance of an address can be different from the total received value." />
+        <FormattedMessage id='scenes.faq.group.walletfunctionality.answer6.three' defaultMessage="In Settings > Addresses, you can click on ‘Manage’ to the right of each wallet to view all of the labeled addresses that have been generated for that specific wallet. Clicking ‘Used Addresses’ allows you to see every receiving addressed ever generated within the wallet, as well as the current balance of each of these used addresses. Please note that when you send funds, your Blockchain wallet automatically selects addresses to spend from. That's why the current balance of an address can be different from the total received value." />
       </FaqDescription>
     }, {
       question: <FormattedMessage id='scenes.faq.group.walletfunctionality.question7' defaultMessage='How do I know if a transaction has been successfully received/sent?' />,
@@ -51,16 +47,16 @@ const FaqContent = [
         <FormattedMessage id='scenes.faq.group.walletfunctionality.answer8.one' defaultMessage='No, unfortunately we are unable to cancel or reverse any transaction. Even advanced cryptocurrency users can recall an incident when they failed to double-check their transaction details and accidentally sent funds to the wrong recipient, or sent the wrong amount. As unfortunate as it is, cryptocurrency transactions on the Bitcoin, Ethereum, and Bitcoin Cash networks are designed to be       irreversible and we have no control over them. Knowing this, it is extremely important to make sure your transaction details are correct before you click send.' />
         <br />
         <br />
-        <FormattedMessage id='scenes.faq.group.walletfunctionality.answer8.two' defaultMessage="To learn more about why transactions can\'t be canceled and how this aspect of bitcoin and other similar cryptocurrencies compares to other methods of payment like credit cards and cash, check out our blog post on " />
+        <FormattedMessage id='scenes.faq.group.walletfunctionality.answer8.two' defaultMessage="To learn more about why transactions can't be canceled and how this aspect of bitcoin and other similar cryptocurrencies compares to other methods of payment like credit cards and cash, check out our blog post on " />
         <Link href='https://blog.blockchain.com/2016/06/16/support-team-tips-bitcoin-transactions-and-chargebacks/' target='_blank' size='12px' weight={200}>
           <FormattedMessage id='scenes.faq.group.walletfunctionality.answer8.link' defaultMessage='Bitcoin Transactions & Chargebacks' />
         </Link>
         <FormattedMessage id='scenes.faq.group.walletfunctionality.answer8.three' defaultMessage='.' />
       </FaqDescription>
     }, {
-      question: <FormattedMessage id='scenes.faq.group.walletfunctionality.question9' defaultMessage="Why hasn\'t my transaction confirmed yet?" />,
+      question: <FormattedMessage id='scenes.faq.group.walletfunctionality.question9' defaultMessage="Why hasn't my transaction confirmed yet?" />,
       answer: <FaqDescription>
-        <FormattedMessage id='scenes.faq.group.walletfunctionality.answer9.one' defaultMessage="Every cryptocurrency transaction that’s sent will flow into what\'s called the mempool (short for memory pool) before it can be confirmed by miners. When there\'s a dramatic spike in transaction activity, the mempool can become congested because so many transactions are waiting to be included in the next block." />
+        <FormattedMessage id='scenes.faq.group.walletfunctionality.answer9.one' defaultMessage="Every cryptocurrency transaction that’s sent will flow into what's called the mempool (short for memory pool) before it can be confirmed by miners. When there's a dramatic spike in transaction activity, the mempool can become congested because so many transactions are waiting to be included in the next block." />
         <br />
         <br />
         <FormattedMessage id='scenes.faq.group.walletfunctionality.answer9.two' defaultMessage='An unconfirmed transaction will eventually either be accepted into a block by a mining pool, or be rejected by the network. If it is eventually rejected, the funds will remain on the address they were sent from. At this point, we can only recommend that you wait to see if your transaction is accepted into a block. Clicking the ⬆ icon in your transaction feed will relay to you the details of thattransaction through its respective explorer.' />

@@ -28,7 +28,7 @@ class ContentContainer extends React.PureComponent {
     const { data } = this.props
 
     return data.cata({
-      Success: (value) => <Success isEmpty={equals(value.total, 0)} transactions={value.transactions} />,
+      Success: (value) => <Success isEmpty={equals(value.total, 0)} search={value.search} transactions={value.transactions} />,
       Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
@@ -39,7 +39,6 @@ class ContentContainer extends React.PureComponent {
 const mapStateToProps = (state) => ({
   data: getData(state),
   context: getContext(state)
-  // scroll: selectors.scroll.selectScroll(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

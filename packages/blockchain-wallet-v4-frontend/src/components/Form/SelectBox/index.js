@@ -39,7 +39,7 @@ SelectBox.propTypes = {
     onBlur: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
     onFocus: PropTypes.func.isRequired,
-    value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired, PropTypes.object.isRequired])
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object])
   }).isRequired,
   elements: PropTypes.arrayOf(PropTypes.shape({
     group: PropTypes.string.isRequired,

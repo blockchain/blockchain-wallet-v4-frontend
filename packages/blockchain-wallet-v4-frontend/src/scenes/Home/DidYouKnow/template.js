@@ -16,11 +16,36 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   border: 1px solid ${props => props.theme['gray-1']};
 `
+
+const TitleText = styled(Text)`
+  font-size: 20px;
+  @media (min-width: 480px) {
+    font-size: 24px;
+  }
+`
+const SubtitleText = styled(Text)`
+  font-size: 14px;
+  @media (min-width: 480px) {
+    font-size: 18px;
+  }
+`
+const ContentText = styled(Text)`
+  font-size: 12px;
+  @media (min-width: 480px) {
+    font-size: 14px;
+  }
+`
+
 const Content = styled.div`
   > * { margin-top: 15px; }
 `
 const PaddedIcon = styled(Icon)`
-  padding: 5px;
+  padding: 0 5px 5px 0;
+  font-size: 12px;
+  @media (min-width: 480px) {
+    font-size: 14px;
+    padding: 5px;
+  }
 `
 const selectTitle = (number) => {
   switch (number) {
@@ -67,9 +92,9 @@ const selectContent = (number) => {
     case 12: return <FormattedMessage id='scenes.home.didyouknow.content12' defaultMessage="Did you know you can identify whether a site protects your sensitive information with SSL? Simply look for a green lock in the left of your browser's URL bar." />
     case 13: return <FormattedMessage id='scenes.home.didyouknow.content13' defaultMessage="Beware of emails that say your Blockchain Wallet is suspended or locked. Because we're noncustodial, you're the only one who can manage your funds, keep them secure, and access your wallet. Learn more about this topic [here]." />
     case 14: return <FormattedMessage id='scenes.home.didyouknow.content14' defaultMessage='Phishing scams exist to try and deceive users into providing personal or financial information. Outsmart them by learning about the [most common tricks] used.' />
-    case 15: return <FormattedMessage id='scenes.home.didyouknow.content15' defaultMessage="Like gold, bitcoins can never be doubled or multiplied. This is because the total number of coins and how they can be generated are already built-in to the protocol code. If a company claims they've discovered a magic doubling formula, consider that a sure-fire sign they\'re a scam." />
+    case 15: return <FormattedMessage id='scenes.home.didyouknow.content15' defaultMessage="Like gold, bitcoins can never be doubled or multiplied. This is because the total number of coins and how they can be generated are already built-in to the protocol code. If a company claims they've discovered a magic doubling formula, consider that a sure-fire sign they're a scam." />
     case 16: return <FormattedMessage id='scenes.home.didyouknow.content16' defaultMessage='Blockchain does not offer bitcoin investment opportunities, but scams exist that desperately want you to believe otherwise. If one of these scams sneak their way into your inbox, be sure to do us a solid and grab a screenshot to share with our support team before you delete it.' />
-    case 17: return <FormattedMessage id='scenes.home.didyouknow.content17' defaultMessage="Legitimate investing platforms do exist, but their scheming counterparts present some serious red flags: they\'ll contact you through an unsolicited email and they will guarantee profits. Before investing with any platform, always do your research about the company\'s reputation, location, and contact details." />
+    case 17: return <FormattedMessage id='scenes.home.didyouknow.content17' defaultMessage="Legitimate investing platforms do exist, but their scheming counterparts present some serious red flags: they'll contact you through an unsolicited email and they will guarantee profits. Before investing with any platform, always do your research about the company's reputation, location, and contact details." />
     case 18: return <FormattedMessage id='scenes.home.didyouknow.content18' defaultMessage='Every address has an accompanying private key, which is what indicates ownership or control over funds at that particular address. In other words, whoever has the private key can spend those funds.' />
     case 19: return <FormattedMessage id='scenes.home.didyouknow.content19' defaultMessage='Your Blockchain wallet backup phrase serves as the copy of your private keys. You can find this phrase in your Security Center. It makes backing up a one- time process for all funds except Imported Addresses.' />
     case 20: return <FormattedMessage id='scenes.home.didyouknow.content20' defaultMessage='Your passwords are considered secure as long as they are 16 characters minimum, unique, and include a diverse range of letters, numbers, and symbols. ' />
@@ -85,19 +110,19 @@ const DidYouKnow = (props) => {
 
   return (
     <Wrapper>
-      <Text size='24px' weight={300} color='brand-primary' uppercase>
+      <TitleText weight={300} color='brand-primary' uppercase>
         <FormattedMessage id='scenes.home.didyouknow.title' defaultMessage='Did you know?' />
-      </Text>
+      </TitleText>
       <Content>
         <TextGroup inline>
           <PaddedIcon name='user' size='18px' color='brand-primary' />
-          <Text size='18px' weight={300} color='brand-primary'>
+          <SubtitleText weight={300} color='brand-primary'>
             { selectTitle(number) }
-          </Text>
+          </SubtitleText>
         </TextGroup>
-        <Text size='14px' weight={300}>
+        <ContentText weight={300}>
           { selectContent(number) }
-        </Text>
+        </ContentText>
       </Content>
     </Wrapper>
   )
