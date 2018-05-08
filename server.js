@@ -5,14 +5,7 @@
 const express = require('express')
 const compression = require('compression')
 const path = require('path')
-
-let isLocal
-let localWalletOptions
-let environment
-let rootURL
-let webSocketURL
-let apiDomain
-let walletHelperDomain
+let isLocal, localWalletOptions, environment, rootURL, apiDomain, walletHelperDomain, webSocketBtcURL, webSocketEthURL, webSocketBchURL
 
 // store configs and build server configuration
 if (process.env.LOCAL_PROD) {
@@ -22,20 +15,26 @@ if (process.env.LOCAL_PROD) {
   isLocal = true
   environment = 'local prod'
   rootURL = prodConfig.ROOT_URL
-  webSocketURL = prodConfig.WEB_SOCKET_URL
+  webSocketBtcURL = prodConfig.BTC_WEB_SOCKET_URL
+  webSocketBchURL = prodConfig.BCH_WEB_SOCKET_URL
+  webSocketEthURL = prodConfig.ETH_WEB_SOCKET_URL
   apiDomain = prodConfig.API_DOMAIN
   walletHelperDomain = prodConfig.WALLET_HELPER_DOMAIN
   localWalletOptions.domains = {
-    'root': prodConfig.ROOT_URL,
-    'api': prodConfig.API_DOMAIN,
-    'webSocket': prodConfig.WEB_SOCKET_URL,
-    'walletHelper': prodConfig.WALLET_HELPER_DOMAIN
+    'root': rootURL,
+    'api': apiDomain,
+    'btcSocket': webSocketBtcURL,
+    'bchSocket': webSocketBchURL,
+    'ethSocket': webSocketEthURL,
+    'walletHelper': walletHelperDomain
   }
 } else {
   // production config
   environment = process.env.ENVIRONMENT
   rootURL = process.env.ROOT_URL
-  webSocketURL = process.env.WEB_SOCKET_URL
+  webSocketBtcURL = process.env.BTC_WEB_SOCKET_URL
+  webSocketBchURL = process.env.BCH_WEB_SOCKET_URL
+  webSocketEthURL = process.env.ETH_WEB_SOCKET_URL
   apiDomain = process.env.API_DOMAIN
   walletHelperDomain = process.env.WALLET_HELPER_DOMAIN
 }
@@ -49,13 +48,15 @@ console.log('\n** Configuration **')
 console.log(`Environment: ${environment}`)
 console.log(`Listening Port: ${port}`)
 console.log(`Root URL: ${rootURL}`)
-console.log(`Web Socket URL: ${webSocketURL}`)
+console.log(`BTC Web Socket URL: ${webSocketBtcURL}`)
+console.log(`BCH Web Socket URL: ${webSocketBchURL}`)
+console.log(`ETH Web Socket URL: ${webSocketEthURL}`)
 console.log(`API Domain: ${apiDomain}`)
 console.log(`Wallet Helper Domain: ${walletHelperDomain}`)
 console.log(`iSignThis Domain: ${iSignThisDomain}\n`)
 
 // validate env configs are given
-if (!port || !rootURL || !webSocketURL || !apiDomain || !walletHelperDomain) {
+if (!port || !rootURL || !webSocketEthURL || !webSocketBchURL || !webSocketBtcURL || !apiDomain || !walletHelperDomain) {
   throw new Error('One or more required environment variables are undefined!')
 }
 

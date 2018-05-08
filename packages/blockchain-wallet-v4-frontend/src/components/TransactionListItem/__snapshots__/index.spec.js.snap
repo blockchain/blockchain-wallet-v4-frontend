@@ -29,6 +29,8 @@ exports[`ListItemContainer renders correctly 1`] = `
     minConfirmations={3}
     preferencesActions={
       Object {
+        "setBitcoinCashWelcome": [Function],
+        "setBitcoinWelcome": [Function],
         "setCulture": [Function],
         "setEtherWelcome": [Function],
         "setLanguage": [Function],

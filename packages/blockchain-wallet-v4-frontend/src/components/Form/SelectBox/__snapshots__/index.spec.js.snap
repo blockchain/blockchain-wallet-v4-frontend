@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SelectBox renders correctly 1`] = `
+.c0 {
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+<div
+  className="c0"
+>
+  <select-input
+    errorState="initial"
+  />
+</div>
+`;

@@ -1,8 +1,10 @@
 import React from 'react'
+import { isNil } from 'ramda'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actions } from 'data'
 import Menu from './template.js'
+import { getLegacyAccountAddress } from './selectors'
 
 class MenuContainer extends React.Component {
   constructor (props) {
@@ -15,12 +17,19 @@ class MenuContainer extends React.Component {
   }
 
   render () {
-    return <Menu onShowPrivateKey={this.onShowPrivateKey} />
+    const { legacyAccountAddress } = this.props
+    const hasLegacyAccount = !isNil(legacyAccountAddress.data)
+
+    return <Menu onShowPrivateKey={this.onShowPrivateKey} hasLegacyAccount={hasLegacyAccount} />
   }
 }
+
+const mapStateToProps = (state) => ({
+  legacyAccountAddress: getLegacyAccountAddress(state)
+})
 
 const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(undefined, mapDispatchToProps)(MenuContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(MenuContainer)

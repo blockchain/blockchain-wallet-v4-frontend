@@ -14,6 +14,7 @@ const BaseButton = styled.button.attrs({
   min-width: ${props => props.width ? props.width : '140px'};
   height: ${props => props.height};
   padding: ${props => props.padding ? props.padding : '10px 15px'};
+  margin: ${props => props.margin};
   box-sizing: border-box;
   user-select: none;
   text-align: center;
@@ -87,7 +88,8 @@ Button.propTypes = {
   uppercase: PropTypes.bool,
   capitalize: PropTypes.bool,
   width: PropTypes.string,
-  padding: PropTypes.string
+  padding: PropTypes.string,
+  margin: PropTypes.string
 }
 
 Button.defaultProps = {

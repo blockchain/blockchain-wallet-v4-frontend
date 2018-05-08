@@ -9,7 +9,7 @@ import Success from './template.success'
 class ExchangeHistoryContainer extends React.PureComponent {
   render () {
     return this.props.data.cata({
-      Success: (value) => <Success complete={value.complete} incomplete={value.incomplete} />,
+      Success: (value) => <Success trades={value} />,
       Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />

@@ -31,7 +31,9 @@ if (!isCiBuild) {
     console.log(chalk.cyan('Root URL') + `: ${envConfig.ROOT_URL}`)
     console.log(chalk.cyan('API Domain') + `: ${envConfig.API_DOMAIN}`)
     console.log(chalk.cyan('Wallet Helper Domain') + ': ' + chalk.blue(envConfig.WALLET_HELPER_DOMAIN))
-    console.log(chalk.cyan('Web Socket URL') + ': ' + chalk.blue(envConfig.WEB_SOCKET_URL) + '\n')
+    console.log(chalk.cyan('BTC Web Socket URL') + ': ' + chalk.blue(envConfig.BTC_WEB_SOCKET_URL))
+    console.log(chalk.cyan('BCH Web Socket URL') + ': ' + chalk.blue(envConfig.BCH_WEB_SOCKET_URL))
+    console.log(chalk.cyan('ETH Web Socket URL') + ': ' + chalk.blue(envConfig.ETH_WEB_SOCKET_URL) + '\n')
   }
 }
 
@@ -172,7 +174,9 @@ module.exports = {
         mockWalletOptions.domains = {
           'root': envConfig.ROOT_URL,
           'api': envConfig.API_DOMAIN,
-          'webSocket': envConfig.WEB_SOCKET_URL,
+          'btcSocket': envConfig.BTC_WEB_SOCKET_URL,
+          'ethSocket': envConfig.ETH_WEB_SOCKET_URL,
+          'bchSocket': envConfig.BCH_WEB_SOCKET_URL,
           'walletHelper': envConfig.WALLET_HELPER_DOMAIN
         }
 
@@ -205,7 +209,9 @@ module.exports = {
           'connect-src',
           "'self'",
           'ws://localhost:8080',
-          envConfig.WEB_SOCKET_URL,
+          envConfig.BTC_WEB_SOCKET_URL,
+          envConfig.ETH_WEB_SOCKET_URL,
+          envConfig.BCH_WEB_SOCKET_URL,
           envConfig.ROOT_URL,
           envConfig.API_DOMAIN,
           envConfig.WALLET_HELPER_DOMAIN,
