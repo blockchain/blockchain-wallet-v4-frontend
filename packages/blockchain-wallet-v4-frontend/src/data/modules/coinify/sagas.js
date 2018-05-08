@@ -4,6 +4,8 @@ import * as actions from '../../actions'
 import * as selectors from '../../selectors.js'
 
 export default ({ coreSagas }) => {
+  const logLocation = 'modules/coinify/sagas'
+
   const coinifySignup = function * () {
     try {
       yield call(coreSagas.data.coinify.signup)
@@ -15,7 +17,8 @@ export default ({ coreSagas }) => {
         yield put(A.coinifySignupFailure(profile.error))
       }
     } catch (e) {
-      yield put(actions.alerts.displayError('Error creating account'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'coinifySignup', e))
+      yield put(actions.alerts.displayError('Failed to create Coinify account.'))
     }
   }
 
@@ -31,7 +34,8 @@ export default ({ coreSagas }) => {
       yield put(actions.alerts.displaySuccess('Buy trade successfully created!'))
       yield put(A.coinifyNextStep('isx'))
     } catch (e) {
-      yield put(actions.alerts.displayError('Error buying.'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'buy', e))
+      yield put(actions.alerts.displayError('Failed to create Coinify trade.'))
     }
   }
 

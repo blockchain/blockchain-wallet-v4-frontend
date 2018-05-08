@@ -10,14 +10,14 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { promptForSecondPassword } from 'services/SagaService'
 
 export default ({ coreSagas }) => {
+  const logLocation = 'modules/sfox/sagas'
+
   const setBankManually = function * (action) {
     try {
       yield call(coreSagas.data.sfox.setBankManually, action.payload)
       yield put(actions.alerts.displaySuccess('Bank has been added!'))
     } catch (e) {
-      console.warn(e)
-      yield put(actions.alerts.displayError('Could not add bank. Please try again.'))
-      // can dispatch an action here to set some kind of state
+      yield put(actions.logs.logErrorMessage(logLocation, 'setBankManually', e))
     }
   }
 
@@ -28,10 +28,10 @@ export default ({ coreSagas }) => {
       if (!profile.error) {
         yield put(A.nextStep('verify'))
       } else {
-        const error = JSON.parse(profile.error).error
-        throw new Error(error)
+        throw new Error(JSON.parse(profile.error).error)
       }
     } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'sfoxSignup', e))
       yield put(A.sfoxFailure(e))
     }
   }
@@ -51,9 +51,8 @@ export default ({ coreSagas }) => {
         }
       }
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'setProfile', e))
       yield put(A.setVerifyError(e))
-      yield put(actions.alerts.displayError(`Error verifying profile: ${e}`))
     }
   }
 
@@ -66,7 +65,8 @@ export default ({ coreSagas }) => {
         yield put(A.nextStep('funding'))
       }
     } catch (e) {
-      yield put(actions.alerts.displayError('Error uploading'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'upload', e))
+      yield put(actions.alerts.displayError('Failed to upload document.'))
     }
   }
 
@@ -76,7 +76,7 @@ export default ({ coreSagas }) => {
       yield put(actions.alerts.displaySuccess('Bank account set successfully!'))
       yield put(modalActions.closeAllModals())
     } catch (e) {
-      yield put(actions.alerts.displayError('Error setting bank'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'setBank', e))
     }
   }
 
@@ -85,7 +85,7 @@ export default ({ coreSagas }) => {
       yield call(coreSagas.data.sfox.verifyMicroDeposits, payload)
       yield put(actions.alerts.displaySuccess('Bank Verified!'))
     } catch (e) {
-      yield put(actions.alerts.displayError('Unable to verify bank'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'submitMicroDeposits', e))
     }
   }
 
@@ -97,7 +97,7 @@ export default ({ coreSagas }) => {
       yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
     } catch (e) {
       yield put(A.sfoxFailure(e))
-      console.warn('FE submitQuote failed', e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'submitQuote', e))
     }
   }
 
@@ -112,29 +112,27 @@ export default ({ coreSagas }) => {
       let payment = yield coreSagas.payment.btc.create({ payment: p.getOrElse({}), network: settings.NETWORK_BITCOIN })
 
       payment = yield payment.amount(parseInt(trade.sendAmount))
-
       payment = yield payment.fee('priority')
-
       payment = yield payment.to(trade.receiveAddress)
-
       payment = yield payment.description(`Exchange Trade SFX-${trade.id}`)
 
-      try { payment = yield payment.build() } catch (e) {}
+      try {
+        payment = yield payment.build()
+      } catch (e) {
+        yield put(actions.logs.logErrorMessage(logLocation, 'submitSellQuote', e))
+      }
       yield put(sendBtcActions.sendBtcPaymentUpdated(Remote.of(payment.value())))
 
       const password = yield call(promptForSecondPassword)
       payment = yield payment.sign(password)
-
       payment = yield payment.publish()
 
       yield put(sendBtcActions.sendBtcPaymentUpdated(Remote.of(payment.value())))
-
       yield put(A.orderSuccess())
-
       yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
     } catch (e) {
       yield put(A.sfoxFailure(e))
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'submitSellQuote', e))
     }
   }
 

@@ -1,5 +1,6 @@
 import React from 'react'
 
+/* eslint-disable */
 export const testPropTypes = (component, propName, arraysOfTestValues, otherProps) => {
   console.error = jest.fn()
   const _test = (testValues, expectError) => {
@@ -13,3 +14,4 @@ export const testPropTypes = (component, propName, arraysOfTestValues, otherProp
   _test(arraysOfTestValues[0], false)
   _test(arraysOfTestValues[1], true)
 }
+/* eslint-enable */
