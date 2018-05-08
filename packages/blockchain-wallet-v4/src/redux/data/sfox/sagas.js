@@ -14,8 +14,8 @@ export default ({ api, options }) => {
     const state = yield select()
     const delegate = new ExchangeDelegate(state, api)
     const value = yield select(buySellSelectors.getMetadata)
-    const walletOptions = state.walletOptionsPath
-    sfox = sfoxService.refresh(value, delegate, walletOptions.data)
+    const walletOptions = state.walletOptionsPath.data
+    sfox = sfoxService.refresh(value, delegate, walletOptions)
   }
 
   const init = function * () {

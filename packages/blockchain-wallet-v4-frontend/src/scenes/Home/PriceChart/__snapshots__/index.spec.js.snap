@@ -2,21 +2,19 @@
 
 exports[`PriceChart component renders correctly 1`] = `
 <PriceChart__Wrapper>
-  <PriceChart__Row>
-    <text
+  <PriceChart__TitleRow>
+    <PriceChart__TitleText
       color="brand-primary"
-      size="24px"
       uppercase={true}
-      weight={300}
     >
       <FormattedMessage
         defaultMessage="Price chart"
         id="scenes.home.pricechart"
         values={Object {}}
       />
-    </text>
+    </PriceChart__TitleText>
     <timeFilters />
-  </PriceChart__Row>
+  </PriceChart__TitleRow>
   <PriceChart__Row>
     <chart />
   </PriceChart__Row>

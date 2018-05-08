@@ -62,7 +62,7 @@ const ExchangeTimeline = props => {
 }
 
 ExchangeTimeline.propTypes = {
-  status: PropTypes.oneOf(['no_deposits', 'received', 'success', 'failed'])
+  status: PropTypes.oneOf(['no_deposits', 'received', 'resolved', 'success', 'failed'])
 }
 
 ExchangeTimeline.defaultProps = {

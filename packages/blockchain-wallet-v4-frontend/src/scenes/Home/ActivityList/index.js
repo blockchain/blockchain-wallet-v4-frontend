@@ -3,26 +3,18 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
-import { getData, getEthereumContext } from './selectors'
+import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
-import { Remote } from 'blockchain-wallet-v4/src'
 
 class ActivityListContainer extends React.PureComponent {
-  componentWillMount () {
-    this.props.miscActions.fetchLogs()
-    this.props.btcActions.fetchTransactions('', true)
-    if (Remote.Success.is(this.props.ethContext)) {
-      this.props.ethContext.map(x => this.props.ethActions.fetchData(x))
-    }
-    this.props.bchActions.fetchTransactions('', true)
+  componentDidMount () {
+    this.props.actions.initialized()
   }
 
   render () {
-    const { data } = this.props
-
-    return data.cata({
+    return this.props.data.cata({
       Success: (value) => <Success activities={value} />,
       Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
@@ -32,15 +24,11 @@ class ActivityListContainer extends React.PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  data: getData(state, 8),
-  ethContext: getEthereumContext(state)
+  data: getData(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  miscActions: bindActionCreators(actions.core.data.misc, dispatch),
-  btcActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
-  ethActions: bindActionCreators(actions.core.data.ethereum, dispatch),
-  bchActions: bindActionCreators(actions.core.data.bch, dispatch)
+  actions: bindActionCreators(actions.components.activityList, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ActivityListContainer)

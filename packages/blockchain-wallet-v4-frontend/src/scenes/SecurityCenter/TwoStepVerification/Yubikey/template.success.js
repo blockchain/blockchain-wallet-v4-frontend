@@ -9,9 +9,12 @@ import { spacing } from 'services/StyleService'
 import { SuccessOverlay } from 'components/Security'
 
 const AuthenticatorSummary = styled.div`
-  width: 110%;
+  width: 100%;
   padding: 0px 20px;
   opacity: ${props => props.success ? 0.3 : 1};
+  @media (min-width: 992px) {
+    width: 110%;
+  }
 `
 const YubikeyContainer = styled.div`
   margin-top: 25px;
@@ -68,7 +71,7 @@ const Yubikey = props => {
         <YubikeyContainer>
           <YubikeyCopy>
             <Text size='14px' weight={200}>
-              <FormattedMessage id='scenes.security.twostepverification.yubi.step1' defaultMessage={'1. Insert the Yubikey into your computer\'s USB port.'} />
+              <FormattedMessage id='scenes.security.twostepverification.yubi.step1' defaultMessage="1. Insert the Yubikey into your computer's USB port." />
             </Text>
             <Text size='14px' weight={200} style={spacing('mt-5')}>
               <FormattedMessage id='scenes.security.twostepverification.yubi.step2' defaultMessage='2. Pair your Yubikey.' />

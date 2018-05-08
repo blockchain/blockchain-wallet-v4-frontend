@@ -25,6 +25,16 @@ const WhatsNewLink = styled(Link)`
     transition: opacity ${props => props.trayRightOpen ? '.2s' : '0'};
     transition-delay: ${props => props.trayRightOpen ? '.3s' : '.1s'};
   }
+  
+  > span {
+    font-size: 16px;
+  }
+
+  @media (min-width: 786px) {
+    > span {
+      font-size: 18px;
+    }
+  }
 `
 
 const WhatsNewIcon = (props) => {
@@ -32,7 +42,7 @@ const WhatsNewIcon = (props) => {
 
   return (
     <WhatsNewLink className={'ignore-react-onclickoutside'} trayRightContent={trayRightContent} trayRightOpen={trayRightOpen} onClick={() => handleTrayRightToggle('whats-new')} size='16px' weight={300} color='white'>
-      <Icon name='bell-filled' size='18px' color='white'/>
+      <Icon name='bell-filled' color='white' />
     </WhatsNewLink>
   )
 }

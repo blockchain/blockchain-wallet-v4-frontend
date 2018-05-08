@@ -10,17 +10,11 @@ import { validEmail } from 'services/FormHelper'
 
 const ChangeEmailWrapper = styled.div`
   width: 100%;
-  display: flex;
-  flex-direction: row;
+  display: block;
   align-items: center;
-  div:first-of-type {
-    width: 50%;
-  }
-  button {
-    margin-left: 0px;
-  }
-  justify-content: space-between;
-  margin: 20px 0px;
+  @media (min-width: 554px) {
+    width: 80%;
+}
 `
 const CancelText = styled(Text)`
   cursor: pointer;
@@ -34,9 +28,12 @@ const CustomBannerWrapper = styled.div`
 `
 const ButtonContainer = styled.div`
   display: flex;
-  flex-direction: row;
   align-items: center;
-  div:first-of-type { margin-right: 20px;}
+  justify-content: center;
+  margin-top: 10px;
+  button {
+    margin-right: 5px;
+  }
 `
 
 function ChangeEmailSteps (props) {
@@ -45,10 +42,10 @@ function ChangeEmailSteps (props) {
       <ChangeEmailWrapper>
         <Field name='changeEmail' validate={[validEmail]} component={TextBox} placeholder='email@email.com' />
         <ButtonContainer>
-          <CancelText weight={300} size='12px' onClick={props.handleEmailChangeCancel}>Cancel</CancelText>
           <Button nature='primary' onClick={props.handleEmailChangeSubmit} disabled={props.invalid}>
             <FormattedMessage id='scenes.preferences.email.settings.updateform.change' defaultMessage='Change' />
           </Button>
+          <CancelText weight={300} size='12px' onClick={props.handleEmailChangeCancel}>Cancel</CancelText>
         </ButtonContainer>
       </ChangeEmailWrapper>
       <CustomBannerWrapper>

@@ -50,7 +50,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
   }
 
   handleScanBtcPriv (data) {
-    // TODO: Put priv in state to proceed to payment
+    this.props.formActions.change('sendBtc', 'priv', data)
     this.props.updateUI({ btcPriv: { toggled: false } })
   }
 

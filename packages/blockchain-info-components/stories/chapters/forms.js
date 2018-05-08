@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react'
 import { withInfo } from '@storybook/addon-info'
 
 import Layout from '../components/layout'
-import { CheckBoxInput, DateInput, NumberInput, PasswordInput, PlaceHolder, RadioButtonInput, SelectInput, TextAreaInput, TextInput } from '../../src'
+import { CheckBoxInput, DateInput, NumberInput, PasswordInput, RadioButtonInput, SelectInput, TextAreaInput, TextInput } from '../../src'
 
 storiesOf('Forms', module)
     .addDecorator(story => (<Layout>{story()}</Layout>))
@@ -14,7 +14,6 @@ storiesOf('Forms', module)
     .add('RadioButton input', () => <RadioButtonInput name='myRadioButton' props={{id: 'myRadioButton'}}>Label for myRadioButton</RadioButtonInput>)
     .add('Number input', () => <NumberInput />)
     .add('Password input', () => <PasswordInput />)
-    .add('PlaceHolder', () => <div><TextInput /><PlaceHolder>Enter text here</PlaceHolder></div>)
     .add('TextArea input', () => <TextAreaInput />)
     .add('Date input', () => <DateInput />)
     .add('Text input', () => <TextInput />)

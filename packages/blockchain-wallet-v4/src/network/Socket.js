@@ -28,8 +28,8 @@ if (WebSocket) {
 let toArrayFormat = (a) => Array.isArray(a) ? a : [a]
 
 class Socket {
-  constructor ({ options = {} }) {
-    this.wsUrl = options.domains.webSocket
+  constructor ({ options = {}, socketType }) {
+    this.wsUrl = options.domains[socketType]
     this.headers = { 'Origin': options.domains.root }
     this.pingInterval = 30000
     this.pingIntervalPID = null
