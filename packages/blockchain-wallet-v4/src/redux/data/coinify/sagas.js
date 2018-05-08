@@ -135,17 +135,6 @@ export default ({ api, options }) => {
     }
   }
 
-  const getCoinify = function * () {
-    const state = yield select()
-    const delegate = new ExchangeDelegate(state, api)
-    const value = yield select(buySellSelectors.getMetadata)
-    const walletOptions = state.walletOptionsPath.data
-    let coinify = yield apply(coinifyService, coinifyService.refresh, [value, delegate, walletOptions])
-    yield apply(coinify, coinify.profile.fetch)
-    yield put(A.fetchProfileSuccess(coinify))
-    return coinify
-  }
-
   const signup = function * () {
     const countryCode = 'FR' // TODO should be passed in
     const fiatCurrency = 'EUR' // TODO should be passed in
