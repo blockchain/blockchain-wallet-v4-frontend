@@ -1,15 +1,11 @@
 import React from 'react'
 import ui from 'redux-ui'
-
 import SecondStep from './template.js'
-
 import { compose, values, pickAll } from 'ramda'
 
 const SecondStepContainer = props => {
   const { ui, updateUI } = props
-
   const handleClickPrevious = () => { updateUI({ step: ui.step - 1 }) }
-
   const handleClickNext = () => { updateUI({ step: ui.step + 1 }) }
 
   const getWordsAtStep = (step) => {
