@@ -172,13 +172,12 @@ class ISignThisContainer extends Component {
 
   render () {
     const { options, iSignThisId } = this.props
-    const iSignThisDomain = path(['platforms', 'web', 'coinify', 'config', 'iSignThisDomain'], options)
+    const walletOpts = options || this.props.walletOptions.data
+    const iSignThisDomain = path(['platforms', 'web', 'coinify', 'config', 'iSignThisDomain'], walletOpts)
     const srcUrl = `${iSignThisDomain}/landing/${iSignThisId}?embed=true`
 
     return (
       <div>
-        <p>iSignThis step</p>
-
         <iframe style={{width: '80%', height: '400px'}}
           src={srcUrl}
           sandbox='allow-same-origin allow-scripts allow-forms'
@@ -190,7 +189,9 @@ class ISignThisContainer extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({})
+const mapStateToProps = (state) => ({
+  walletOptions: path(['walletOptionsPath'], state)
+})
 
 const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),

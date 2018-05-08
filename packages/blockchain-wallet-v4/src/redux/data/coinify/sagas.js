@@ -193,9 +193,8 @@ export default ({ api, options }) => {
     try {
       const trades = yield select(S.getTrades)
       const trade = trades.data[0]
-      const cancel = yield apply(trade, trade.cancel)
+      yield apply(trade, trade.cancel)
       yield call(getCoinify)
-      console.log('cancelled trade', cancel)
     } catch (e) {
       console.log('issue cancelling trade', e)
     }
@@ -222,12 +221,21 @@ export default ({ api, options }) => {
       const kycs = yield apply(coinify, coinify.getKYCs)
       const byTime = (a, b) => b.createdAt - a.createdAt
       const sortedKYCs = sort(byTime, kycs)
-      console.log('getKYCs', sortedKYCs, kycs)
+
       yield put(A.getKYCsSuccess(sortedKYCs))
       return kycs
     } catch (e) {
       console.log('getKYCs failure', e)
       yield put(A.getKYCsFailure(e))
+    }
+  }
+
+  const kycAsTrade = function * (data) {
+    const { kyc } = data
+    try {
+      yield put(A.handleTradeSuccess(kyc))
+    } catch (e) {
+      console.log('kycAsTrade failure', e)
     }
   }
 
@@ -247,6 +255,7 @@ export default ({ api, options }) => {
     fetchQuoteAndMediums,
     cancelTrade,
     triggerKYC,
-    getKYCs
+    getKYCs,
+    kycAsTrade
   }
 }

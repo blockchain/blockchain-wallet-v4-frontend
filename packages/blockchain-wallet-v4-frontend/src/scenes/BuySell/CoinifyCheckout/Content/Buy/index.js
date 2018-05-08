@@ -30,7 +30,7 @@ class BuyContainer extends React.Component {
     const { step, checkoutBusy, coinifyBusy } = rest
     const { handleTrade, fetchQuote } = coinifyDataActions
     const { showModal } = modalActions
-    const { coinifyNotAsked, triggerKYC } = coinifyActions
+    const { coinifyNotAsked, triggerKYC, openKYC } = coinifyActions
 
     const busy = coinifyBusy.cata({
       Success: () => false,
@@ -57,6 +57,7 @@ class BuyContainer extends React.Component {
         clearTradeError={() => coinifyNotAsked()}
         trade={trade}
         triggerKyc={() => triggerKYC()}
+        handleKycAction={(kyc) => openKYC(kyc)}
       />,
       Failure: (msg) => <div>Failure: {msg.error}</div>,
       Loading: () => <Loading />,

@@ -155,7 +155,7 @@ export default ({ coreSagas }) => {
     try {
       yield put(A.coinifyNextCheckoutStep('checkout'))
       const trade = yield select(selectors.core.data.coinify.getTrade)
-      console.log('fromISX', status, trade)
+
       yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
       yield put(actions.modals.showModal('CoinifyTradeDetails', { trade: trade.data, status: status }))
     } catch (e) {
@@ -165,11 +165,24 @@ export default ({ coreSagas }) => {
 
   const triggerKYC = function * () {
     try {
-      const kyc = yield call(coreSagas.data.coinify.triggerKYC)
+      yield call(coreSagas.data.coinify.triggerKYC)
       yield put(A.coinifyNextCheckoutStep('isx'))
-      console.log('FE triggerKYC', kyc)
     } catch (e) {
       console.log('failed to triggerKYC', e)
+    }
+  }
+
+  const openKYC = function * (data) {
+    const kyc = data.payload
+    try {
+      if (kyc.state === 'pending') {
+        yield call(coreSagas.data.coinify.kycAsTrade, { kyc })
+        yield put(A.coinifyNextCheckoutStep('isx'))
+      } else {
+        triggerKYC()
+      }
+    } catch (e) {
+
     }
   }
 
@@ -183,6 +196,7 @@ export default ({ coreSagas }) => {
     coinifySignup,
     setCheckoutMax,
     fromISX,
-    triggerKYC
+    triggerKYC,
+    openKYC
   }
 }
