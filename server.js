@@ -29,6 +29,8 @@ if (process.env.LOCAL_PROD) {
     'root': prodConfig.ROOT_URL,
     'api': prodConfig.API_DOMAIN,
     'btcSocket': prodConfig.BTC_WEB_SOCKET_URL,
+    'bchSocket': prodConfig.BCH_WEB_SOCKET_URL,
+    'ethSocket': prodConfig.ETH_WEB_SOCKET_URL,
     'walletHelper': prodConfig.WALLET_HELPER_DOMAIN
   }
 } else {
