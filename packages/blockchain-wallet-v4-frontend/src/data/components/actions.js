@@ -1,4 +1,6 @@
 import * as activityList from './activityList/actions'
+import * as bchTransactions from './bchTransactions/actions'
+import * as btcTransactions from './btcTransactions/actions'
 import * as exchange from './exchange/actions'
 import * as exchangeHistory from './exchangeHistory/actions'
 import * as importBtcAddress from './importBtcAddress/actions'
@@ -12,6 +14,8 @@ import * as usedAddresses from './usedAddresses/actions'
 
 export {
   activityList,
+  bchTransactions,
+  btcTransactions,
   exchange,
   exchangeHistory,
   importBtcAddress,

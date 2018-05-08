@@ -9,7 +9,7 @@ import { getData } from './selectors'
 
 class ImportBtcAddressContainer extends React.PureComponent {
   render () {
-    const { position, close, submitting, invalid, isAddressInternal, isAddressExternal, actions } = this.props
+    const { position, close, submitting, invalid, isAddressInternal, isAddressExternal, priv, actions } = this.props
 
     return (
       <ImportBtcAddress
@@ -19,6 +19,7 @@ class ImportBtcAddressContainer extends React.PureComponent {
         submitting={submitting}
         invalid={invalid}
         close={close}
+        priv={priv}
         onSubmit={() => actions.importBtcAddressSubmitClicked()}
       />
     )

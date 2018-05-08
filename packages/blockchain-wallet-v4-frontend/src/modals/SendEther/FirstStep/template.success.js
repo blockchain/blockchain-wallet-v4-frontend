@@ -54,7 +54,7 @@ const FirstStep = props => {
       <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel for='message'>
-            <FormattedMessage id='modals.sendether.firststep.description' defaultMessage='Description:&nbsp;' />
+            <FormattedMessage id='modals.sendether.firststep.description' defaultMessage='Description: ' />
             <Tooltip>
               <FormattedMessage id='modals.sendether.firststep.share_tooltip' defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.' />
             </Tooltip>

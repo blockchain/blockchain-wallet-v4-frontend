@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
 
-import { FlatLoader, Text } from 'blockchain-info-components'
+import { SkeletonRectangle } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -13,13 +12,8 @@ const Wrapper = styled.div`
   box-sizing: border-box;
 `
 
-export default (props) => {
-  return (
-    <Wrapper>
-      <Text size='12px' weight={300}>
-        <FormattedMessage id='scenes.transactions.bitcoin.content.list.listitem.initial' defaultMessage={`Value when ${props.type}: `} />
-      </Text>
-      <FlatLoader width='40px' height='10px' />
-    </Wrapper>
-  )
-}
+export default (props) => (
+  <Wrapper>
+    <SkeletonRectangle width='200px' height='15px' />
+  </Wrapper>
+)
