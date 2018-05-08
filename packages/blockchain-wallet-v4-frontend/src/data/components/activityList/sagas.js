@@ -15,7 +15,7 @@ export default ({ coreSagas }) => {
       if (!Remote.Success.is(bchTransactionsR)) yield put(actions.core.data.bch.fetchTransactions('', true))
       if (!Remote.Success.is(ethTransactionsR)) yield put(actions.core.data.ethereum.fetchTransactions(ethContext.getOrFail('Could not find Ethereum context.')))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage('components/activityList initialized saga', e))
+      yield put(actions.logs.logErrorMessage('components/activityList/sagas', 'initialized', e))
     }
   }
 

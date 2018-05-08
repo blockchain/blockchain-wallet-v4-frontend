@@ -13,7 +13,7 @@ export default ({ coreSagas }) => {
     try {
       yield call(coreSagas.settings.fetchSettings)
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} initSettingsInfo`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'initSettingsInfo', e))
     }
   }
 
@@ -21,7 +21,7 @@ export default ({ coreSagas }) => {
     try {
       yield call(coreSagas.settings.fetchSettings)
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} initSettingsPreferences`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'initSettingsPreferences', e))
     }
   }
 
@@ -34,7 +34,7 @@ export default ({ coreSagas }) => {
         const mnemonicArray = mnemonic.split(' ')
         yield put(actions.modules.settings.addMnemonic({ mnemonic: mnemonicArray }))
       } catch (e) {
-        yield put(actions.logs.logErrorMessage(`${logLocation} showBackupRecovery`, e))
+        yield put(actions.logs.logErrorMessage(logLocation, 'showBackupRecovery', e))
       }
     }
     yield call(askSecondPasswordEnhancer(recoverySaga), {})
@@ -45,7 +45,7 @@ export default ({ coreSagas }) => {
       const googleAuthenticatorSecretUrl = yield call(coreSagas.settings.requestGoogleAuthenticatorSecretUrl)
       yield put(actions.modals.showModal('TwoStepGoogleAuthenticator', { googleAuthenticatorSecretUrl }))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} showGoogleAuthenticatorSecretUrl`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'showGoogleAuthenticatorSecretUrl', e))
     }
   }
 
@@ -54,7 +54,7 @@ export default ({ coreSagas }) => {
       yield call(coreSagas.settings.setMobile, action.payload)
       yield put(actions.alerts.displaySuccess('Mobile number has been successfully updated. Verification SMS has been sent.'))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} updateMobile`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'updateMobile', e))
       yield put(actions.alerts.displayError('Failed to update mobile number.'))
     }
   }
@@ -64,7 +64,7 @@ export default ({ coreSagas }) => {
       yield call(coreSagas.settings.setMobileVerified, action.payload)
       yield put(actions.alerts.displaySuccess('Mobile number has been verified!'))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} verifyMobile`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'verifyMobile', e))
       yield put(actions.alerts.displayError('Failed to verify mobile number.'))
       yield put(actions.modules.settings.verifyMobileFailure())
     }
@@ -75,7 +75,7 @@ export default ({ coreSagas }) => {
       yield call(coreSagas.settings.setLanguage, action.payload)
       yield put(actions.alerts.displaySuccess('Language has been successfully updated.'))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} updateLanguage`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'updateLanguage', e))
       yield put(actions.alerts.displayError('Failed to update language.'))
     }
   }
@@ -85,7 +85,7 @@ export default ({ coreSagas }) => {
       yield call(coreSagas.settings.setCurrency, action.payload)
       yield put(actions.alerts.displaySuccess('Currency has been successfully updated.'))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} updateCurrency`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'updateCurrency', e))
       yield put(actions.alerts.displayError('Failed to update currency.'))
     }
   }
@@ -96,7 +96,7 @@ export default ({ coreSagas }) => {
       yield put(actions.auth.startLogoutTimer())
       yield put(actions.alerts.displaySuccess('Auto logout has been successfully updated.'))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} updateAutoLogout`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'updateAutoLogout', e))
       yield put(actions.alerts.displayError('Failed to update auto logout.'))
     }
   }
@@ -106,7 +106,7 @@ export default ({ coreSagas }) => {
       yield call(coreSagas.settings.setLoggingLevel, action.payload)
       yield put(actions.alerts.displaySuccess('Logging level has been successfully updated.'))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} updateLoggingLevel`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'updateLoggingLevel', e))
       yield put(actions.alerts.displayError('Failed to update logging level.'))
     }
   }
@@ -116,7 +116,7 @@ export default ({ coreSagas }) => {
       yield call(coreSagas.settings.setIpLock, action.payload)
       yield put(actions.alerts.displaySuccess('IP whitelist has been successfully updated.'))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} updateIpLock`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'updateIpLock', e))
       yield put(actions.alerts.displayError('Failed to update IP whitelist.'))
     }
   }
@@ -126,7 +126,7 @@ export default ({ coreSagas }) => {
       yield call(coreSagas.settings.setIpLockOn, action.payload)
       yield put(actions.alerts.displaySuccess('IP restriction has been successfully updated.'))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} updateIpLockOn`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'updateIpLockOn', e))
       yield put(actions.alerts.displayError('Failed to update IP restriction.'))
     }
   }
@@ -136,7 +136,7 @@ export default ({ coreSagas }) => {
       yield call(coreSagas.settings.setBlockTorIps, action.payload)
       yield put(actions.alerts.displaySuccess('TOR blocking has been successfully updated.'))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} updateBlockTorIps`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'updateBlockTorIps', e))
       yield put(actions.alerts.displayError('Failed to update TOR blocking.'))
     }
   }
@@ -146,7 +146,7 @@ export default ({ coreSagas }) => {
       yield call(coreSagas.settings.setHint, action.payload)
       yield put(actions.alerts.displaySuccess('Hint has been successfully updated.'))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} updateHint`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'updateHint', e))
       yield put(actions.alerts.displayError('Failed to update hint.'))
     }
   }
@@ -156,7 +156,7 @@ export default ({ coreSagas }) => {
       yield call(coreSagas.settings.setAuthTypeNeverSave, action.payload)
       yield put(actions.alerts.displaySuccess('2FA remember has been successfully updated.'))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} updateTwoStepRemember`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'updateTwoStepRemember', e))
       yield put(actions.alerts.displayError('Failed to update 2FA remember.'))
     }
   }
@@ -167,7 +167,7 @@ export default ({ coreSagas }) => {
       yield put(actions.alerts.displaySuccess('2FA (Mobile) has been successfully enabled.'))
       yield put(actions.modals.closeAllModals())
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} enableTwoStepMobile`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'enableTwoStepMobile', e))
       yield put(actions.alerts.displayError('Failed to update mobile 2FA.'))
       yield put(actions.modals.closeModal())
     }
@@ -179,7 +179,7 @@ export default ({ coreSagas }) => {
       yield put(actions.alerts.displaySuccess('2FA (Google Authenticator) has been successfully enabled.'))
       yield put(actions.modals.closeAllModals())
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} enableTwoStepGoogleAuthenticator`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'enableTwoStepGoogleAuthenticator', e))
       yield put(actions.alerts.displayError('Failed to update Google Authenticator 2FA.'))
       yield put(actions.modals.closeModal())
     }
@@ -191,7 +191,7 @@ export default ({ coreSagas }) => {
       yield put(actions.alerts.displaySuccess('Yubikey 2FA has been successfully enabled.'))
       yield put(actions.modals.closeAllModals())
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} enableTwoStepYubikey`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'enableTwoStepYubikey', e))
       yield put(actions.alerts.displayError('Failed to update Yubikey 2FA.'))
       yield put(actions.modals.closeModal())
     }
@@ -204,7 +204,7 @@ export default ({ coreSagas }) => {
       yield put(actions.alerts.displaySuccess('Successfully created new wallet.'))
       yield put(actions.modals.closeAllModals())
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} newHDAccount`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'newHDAccount', e))
       yield put(actions.alerts.displayError('Failed to create new wallet.'))
       yield put(actions.modals.closeModal())
     }
@@ -219,7 +219,7 @@ export default ({ coreSagas }) => {
       const priv = yield call(() => taskToPromise(privT))
       yield put(actions.modules.settings.addShownBtcPrivateKey(priv))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} showBtcPrivateKey`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'showBtcPrivateKey', e))
     }
   }
 
@@ -241,7 +241,7 @@ export default ({ coreSagas }) => {
         yield put(actions.modules.settings.addShownEthPrivateKey(priv))
       }
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} showEthPrivateKey`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'showEthPrivateKey', e))
     }
   }
 

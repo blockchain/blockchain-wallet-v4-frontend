@@ -22,7 +22,7 @@ export default ({ coreSagas }) => {
       const scale = calculateScale(coin, time)
       yield put(actions.core.data.misc.fetchPriceIndexSeries(coin, currency, start, scale))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} initialized`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
     }
   }
 
@@ -39,7 +39,7 @@ export default ({ coreSagas }) => {
       const scale = calculateScale(coin, time)
       yield put(actions.core.data.misc.fetchPriceIndexSeries(coin, currency, start, scale))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} coinClicked`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'coinClicked', e))
     }
   }
 
@@ -56,7 +56,7 @@ export default ({ coreSagas }) => {
       const scale = calculateScale(coin, time)
       yield put(actions.core.data.misc.fetchPriceIndexSeries(coin, currency, start, scale))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} timeClicked`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'timeClicked', e))
     }
   }
 

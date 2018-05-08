@@ -33,7 +33,7 @@ export default ({ api, coreSagas }) => {
           .done()
         yield put(actions.alerts.displaySuccess(`Swept address funds to ${to.label}`))
       } catch (error) {
-        yield put(actions.logs.logErrorMessage(`${logLocation} sweepImportedToAccount`, error))
+        yield put(actions.logs.logErrorMessage(logLocation, 'sweepImportedToAccount', error))
         if (error.message === 'empty_addresses') {
           yield put(actions.alerts.displaySuccess('The imported address does not have funds.'))
         } else {

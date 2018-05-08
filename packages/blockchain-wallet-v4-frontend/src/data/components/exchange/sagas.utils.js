@@ -24,7 +24,7 @@ export default ({ api, coreSagas }) => {
         payment = yield coreSagas.payment.eth.create({ network: settings.NETWORK_ETHEREUM }).chain().init().from(address).done()
         break
       default:
-        yield put(actions.logs.logErrorMessage(`${logLocation} calculateEffectiveBalance`, 'Could not get effective balance.'))
+        yield put(actions.logs.logErrorMessage(logLocation, 'calculateEffectiveBalance', 'Could not get effective balance.'))
         throw new Error('Could not get effective balance.')
     }
     return prop('effectiveBalance', payment.value())
@@ -43,11 +43,11 @@ export default ({ api, coreSagas }) => {
         payment = coreSagas.payment.eth.create({ network: settings.NETWORK_ETHEREUM }).chain().init().amount(amount)
         break
       default:
-        yield put(actions.logs.logErrorMessage(`${logLocation} createPayment`, 'Could not create payment.'))
+        yield put(actions.logs.logErrorMessage(logLocation, 'createPayment', 'Could not create payment.'))
         throw new Error('Could not create payment.')
     }
     payment = yield payment.from(sourceAddress).to(targetAddress).build().done()
-    yield put(actions.logs.logInfoMessage(`${logLocation} createPayment`, payment))
+    yield put(actions.logs.logInfoMessage(logLocation, 'createPayment', payment))
     return payment
   }
 

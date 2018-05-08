@@ -36,7 +36,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.core.data.shapeShift.fetchPair('eth_bch'))
       yield put(actions.core.data.shapeShift.fetchPair('eth_btc'))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} firstStepInitialized`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'firstStepInitialized', e))
     }
   }
 
@@ -50,7 +50,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.form.initialize('exchange', newValues))
       yield call(validateForm)
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} swapClicked`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'swapClicked', e))
     }
   }
 
@@ -63,7 +63,7 @@ export default ({ api, coreSagas }) => {
       const minimum = getMinimumStandard(prop('minimum', pair))
       yield put(actions.form.change('exchange', 'sourceAmount', minimum))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} minimumClicked`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'minimumClicked', e))
     }
   }
 
@@ -78,7 +78,7 @@ export default ({ api, coreSagas }) => {
       const maximum = getMaximumStandard(coin, prop('maximum', pair), effectiveBalance)
       yield put(actions.form.change('exchange', 'sourceAmount', maximum))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} maximumClicked`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'maximumClicked', e))
     }
   }
 
@@ -97,7 +97,7 @@ export default ({ api, coreSagas }) => {
       }
       yield call(validateForm)
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} change`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'change', e))
     }
   }
 
@@ -162,7 +162,7 @@ export default ({ api, coreSagas }) => {
       }
       yield put(A.firstStepEnabled())
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} validateForm`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'validateForm', e))
     }
   }
 
@@ -207,7 +207,7 @@ export default ({ api, coreSagas }) => {
       yield put(A.secondStepSuccess(data))
     } catch (e) {
       yield put(A.secondStepFailure('An error has occurred.'))
-      yield put(actions.logs.logErrorMessage(`${logLocation} firstStepSubmitClicked`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', e))
     }
   }
 
@@ -245,7 +245,7 @@ export default ({ api, coreSagas }) => {
       yield put(A.secondStepPaymentSent(paymentValue))
     } catch (e) {
       yield put(actions.alerts.displayError('The transaction failed to send. Please try again later.'))
-      yield put(actions.logs.logErrorMessage(`${logLocation} secondStepSubmitClicked`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e))
     }
   }
 
@@ -256,7 +256,7 @@ export default ({ api, coreSagas }) => {
       const depositAddress = prop('deposit', order)
       pollingTradeStatusTask = yield fork(startPollingTradeStatus, depositAddress)
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} thirdStepInitialized`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'thirdStepInitialized', e))
     }
   }
 
@@ -277,11 +277,11 @@ export default ({ api, coreSagas }) => {
         yield call(delay, 5000)
       }
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} startPollingTradeStatus`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'startPollingTradeStatus', e))
       yield put(actions.alerts.displayError('Failed to refresh trade status.'))
     } finally {
       if (yield cancelled()) {
-        yield put(actions.logs.logInfoMessage(`${logLocation} startPollingTradeStatus`, 'trade polling cancelled'))
+        yield put(actions.logs.logInfoMessage(logLocation, 'startPollingTradeStatus', 'trade polling cancelled'))
       }
     }
   }

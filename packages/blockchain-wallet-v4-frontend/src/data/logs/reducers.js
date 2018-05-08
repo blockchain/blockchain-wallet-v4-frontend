@@ -9,7 +9,8 @@ const logger = (state = INITIAL_STATE, action) => {
   const createLog = (msgType, payload) => {
     return {
       type: msgType,
-      location: payload.location,
+      file: payload.file,
+      method: payload.method,
       message: payload.message,
       timestamp: Date.now()
     }

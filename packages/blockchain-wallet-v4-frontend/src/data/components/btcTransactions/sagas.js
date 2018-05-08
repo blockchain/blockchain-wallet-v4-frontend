@@ -18,7 +18,7 @@ export default ({ coreSagas }) => {
       const btcTransactionsR = yield select(selectors.core.data.bitcoin.getTransactions)
       if (!Remote.Success.is(btcTransactionsR)) yield put(actions.core.data.bitcoin.fetchTransactions(defaultSource))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} initialized`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
     }
   }
 
@@ -35,7 +35,7 @@ export default ({ coreSagas }) => {
         yield put(actions.core.data.bitcoin.fetchTransactions(source, false))
       }
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} scrollUpdated`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'scrollUpdated', e))
     }
   }
 
@@ -52,7 +52,7 @@ export default ({ coreSagas }) => {
           yield put(actions.core.data.bitcoin.fetchTransactions(source, true))
       }
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} formChanged`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
     }
   }
 

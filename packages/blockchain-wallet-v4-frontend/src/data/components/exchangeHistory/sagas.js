@@ -21,7 +21,7 @@ export default ({ api, coreSagas }) => {
         yield put(actions.core.kvStore.shapeShift.updateTradeStatusMetadataShapeshift(depositAddress, status))
       }
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} updateTradeStatus`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'updateTradeStatus', e))
     }
   }
 
@@ -40,12 +40,12 @@ export default ({ api, coreSagas }) => {
         } catch (e) {
           const orderId = path(['quote', 'orderId'], trade)
           yield put(actions.alerts.displayError(`Could not fetch trade [${orderId}] status.`))
-          yield put(actions.logs.logErrorMessage(`${logLocation} exchangeHistoryInitialized`, e))
+          yield put(actions.logs.logErrorMessage(logLocation, 'exchangeHistoryInitialized', e))
         }
       }
     } catch (e) {
       yield put(actions.alerts.displayError(`Could not fetch all trades statuses.`))
-      yield put(actions.logs.logErrorMessage(`${logLocation} exchangeHistoryInitialized`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'exchangeHistoryInitialized', e))
     }
   }
 
@@ -57,7 +57,7 @@ export default ({ api, coreSagas }) => {
       }
     } catch (e) {
       yield put(actions.alerts.displayError('Unable to poll for trade status.'))
-      yield put(actions.logs.logErrorMessage(`${logLocation} startPollingTradeStatus`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'startPollingTradeStatus', e))
     }
   }
 
@@ -66,7 +66,7 @@ export default ({ api, coreSagas }) => {
       const { depositAddress } = action.payload
       pollingTradeStatusTask = yield fork(startPollingTradeStatus, depositAddress)
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} exchangeHistoryModalInitialized`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'exchangeHistoryModalInitialized', e))
     }
   }
 
@@ -74,7 +74,7 @@ export default ({ api, coreSagas }) => {
     try {
       yield cancel(pollingTradeStatusTask)
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(`${logLocation} exchangeHistoryModalDestroyed`, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'exchangeHistoryModalDestroyed', e))
     }
   }
 
