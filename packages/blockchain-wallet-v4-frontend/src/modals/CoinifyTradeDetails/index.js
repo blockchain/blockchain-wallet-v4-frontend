@@ -1,14 +1,9 @@
 import React from 'react'
-import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import { FormattedMessage } from 'react-intl'
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
-import { Modal, ModalHeader, ModalBody, Text, Button } from 'blockchain-info-components'
-import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDetails'
-import { tradeDetails, statusHelper, bodyStatusHelper } from 'services/CoinifyService'
-import { spacing } from 'services/StyleService'
+import { Modal } from 'blockchain-info-components'
 
 import Trade from './Trade'
 import Kyc from './Kyc'
@@ -22,7 +17,7 @@ class CoinifyTradeDetails extends React.PureComponent {
     const renderComponent = (trade) => (
       trade.constructor.name === 'Trade'
         ? <Trade trade={trade} close={this.props.close} />
-        : <Kyc status={status} />
+        : <Kyc status={status} close={this.props.close} />
     )
 
     return (

@@ -137,7 +137,6 @@ export default ({ coreSagas }) => {
       console.log('fromISX', status, trade)
       yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
       yield put(actions.modals.showModal('CoinifyTradeDetails', { trade: trade.data, status: status }))
-      // TODO: open trade details modal with trade data and isx status
     } catch (e) {
       console.log('error fromISX', e)
     }
