@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import Welcome from './template.js'
@@ -13,7 +12,8 @@ class WelcomeContainer extends React.PureComponent {
   }
 
   handleContinue () {
-    this.props.modalActions.clickWelcomeContinue()
+    this.props.modalActions.closeModal()
+    this.props.modalActions.showModal('RequestBitcoin')
   }
 
   render () {

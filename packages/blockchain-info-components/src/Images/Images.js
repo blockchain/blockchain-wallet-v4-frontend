@@ -13,8 +13,12 @@ import buySellSellBtc from './img/buy-sell-sell-btc.svg'
 import buySellSellEth from './img/buy-sell-sell-eth.svg'
 import chartPlaceholder from './img/chart-placeholder.png'
 import checkHelper from './img/check-helper.svg'
+import emptySearch from './img/empty-search.svg'
+import emptyTx from './img/empty-tx.svg'
 import googleAuthenticator from './img/google-authenticator.png'
 import googlePlayBadge from './img/google-play-badge.png'
+import halfBitcoin from './img/half-bitcoin.svg'
+import halfBitcoincash from './img/half-bitcoincash.svg'
 import halfEther from './img/half-ether.svg'
 import landingPageBannerOverlay from './img/landing-page-banner-overlay.jpg'
 import landingPageBannerSmOverlay from './img/landing-page-banner-sm-overlay.jpg'
@@ -25,6 +29,7 @@ import selectArrow from './img/select-arrow.png'
 import shapeshiftLogo from './img/shapeshift-logo.png'
 import smartphone from './img/smartphone.png'
 import sophisticated from './img/sophisticated.svg'
+import v4Welcome from './img/v4-welcome.jpg'
 import walletV3Backup from './img/wallet-v3-backup.jpg'
 import walletV3FundManagement from './img/wallet-v3-fund-management.jpg'
 import walletV3NewDesign from './img/wallet-v3-new-design.jpg'
@@ -47,8 +52,12 @@ export default {
   'buy-sell-sell-eth': buySellSellEth,
   'chart-placeholder': chartPlaceholder,
   'check-helper': checkHelper,
+  'empty-search': emptySearch,
+  'empty-tx': emptyTx,
   'google-authenticator': googleAuthenticator,
   'google-play-badge': googlePlayBadge,
+  'half-bitcoin': halfBitcoin,
+  'half-bitcoincash': halfBitcoincash,
   'half-ether': halfEther,
   'landing-page-banner-overlay': landingPageBannerOverlay,
   'landing-page-banner-sm-overlay': landingPageBannerSmOverlay,
@@ -59,6 +68,7 @@ export default {
   'shapeshiftLogo': shapeshiftLogo,
   'smartphone': smartphone,
   'sophisticated': sophisticated,
+  'v4-welcome': v4Welcome,
   'wallet-v3-backup': walletV3Backup,
   'wallet-v3-fund-management': walletV3FundManagement,
   'wallet-v3-new-design': walletV3NewDesign,

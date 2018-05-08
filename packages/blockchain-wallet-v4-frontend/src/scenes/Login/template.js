@@ -57,7 +57,7 @@ const Login = (props) => {
   const { onSubmit, handleMobile, authType } = rest
 
   const guidError = loginError && loginError.toLowerCase().includes('unknown wallet id')
-  const passwordError = loginError && loginError.toLowerCase().includes('error decrypting')
+  const passwordError = loginError && loginError.toLowerCase().includes('wrong_wallet_password')
   const twoFactorError = loginError && loginError.toLowerCase().includes('authentication code')
   const accountLocked = loginError && (loginError.toLowerCase().includes('this account has been locked') || loginError.toLowerCase().includes('account is locked'))
 
@@ -121,7 +121,7 @@ const Login = (props) => {
               <FormattedMessage id='scenes.login.password' defaultMessage='Password' />
             </FormLabel>
             <Field name='password' validate={[required]} component={PasswordBox} onChange={handlePasswordChange} borderColor={passwordError ? 'invalid' : undefined} />
-            { passwordError && <FormError position={authType > 0 ? 'relative' : 'absolute'}>{loginError}</FormError> }
+            { passwordError && <FormError position={authType > 0 ? 'relative' : 'absolute'}><FormattedMessage id='scenes.login.wrong_password' defaultMessage='Error decrypting wallet. Wrong password' /></FormError> }
             { accountLocked && <FormError position={authType > 0 || passwordError ? 'relative' : 'absolute'}>{loginError}</FormError> }
           </FormItem>
         </FormGroup>
