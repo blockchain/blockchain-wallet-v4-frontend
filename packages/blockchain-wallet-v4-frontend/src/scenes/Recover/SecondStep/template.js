@@ -25,6 +25,10 @@ const Footer = styled.div`
   padding: 5px 0;
 `
 
+const validatePasswordsMatch = values => {
+  return values.password === values.confirmationPassword ? {} : { confirmationPassword: 'Passwords must match' }
+}
+
 const SecondStep = (props) => {
   const { busy, onSubmit, previousStep, invalid } = props
   const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
@@ -76,4 +80,8 @@ const SecondStep = (props) => {
   )
 }
 
-export default reduxForm({ form: 'recover', destroyOnUnmount: false })(SecondStep)
+export default reduxForm({
+  form: 'recover',
+  destroyOnUnmount: false,
+  validate: validatePasswordsMatch
+})(SecondStep)
