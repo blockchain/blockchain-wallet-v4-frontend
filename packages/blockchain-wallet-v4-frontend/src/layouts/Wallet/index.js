@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { compose, bindActionCreators } from 'redux'
 import { Route, Redirect } from 'react-router-dom'
 import ui from 'redux-ui'
+import { reset } from 'redux-form'
 
 import { actions, selectors } from 'data'
 import WalletLayout from './template'
@@ -27,6 +28,7 @@ class WalletLayoutContainer extends React.PureComponent {
           trayRightOpen={ui.trayRightOpen}
           trayRightContent={ui.trayRightContent}
           handleTrayRightToggle={(content, fromClickOutside) => {
+            this.props.resetFaqForm()
             if (fromClickOutside) {
               updateUI({ trayRightOpen: false })
             } else if (content && ui.trayRightOpen && ui.trayRightContent !== content) {
@@ -51,6 +53,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  resetFaqForm: () => dispatch(reset('faq')),
   kvStoreBchActions: bindActionCreators(actions.core.kvStore.bch, dispatch),
   kvStoreEthereumActions: bindActionCreators(actions.core.kvStore.ethereum, dispatch),
   kvStoreShapeshiftActions: bindActionCreators(actions.core.kvStore.shapeShift, dispatch),
