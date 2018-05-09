@@ -22,8 +22,11 @@ class LoginContainer extends React.PureComponent {
     event.preventDefault()
     const { useCode } = this.state
     const { guid, password, code } = this.props
-    const auth = useCode ? code && code.toUpperCase() : undefined
-
+    let auth = useCode ? code : undefined
+    // only uppercase if authType is not Yubikey
+    if (auth && this.props.authType !== 1) {
+      auth = auth.toUpperCase()
+    }
     this.props.authActions.login(guid, password, auth)
   }
 

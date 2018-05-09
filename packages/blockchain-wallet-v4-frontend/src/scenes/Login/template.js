@@ -11,6 +11,7 @@ import { Form, FormError, FormGroup, FormItem, FormLabel, PasswordBox, TextBox }
 import Modals from 'modals'
 import MobileLogin from 'modals/MobileLogin'
 
+const Fragment = React.Fragment
 const Wrapper = styled.div`
   width: 100%;
   padding: 35px;
@@ -128,12 +129,30 @@ const Login = (props) => {
         { authType > 0 &&
           <FormGroup>
             <FormItem>
-              <FormLabel for='code'>
-                { authType === 1 && <FormattedMessage id='scenes.login.yubikey' defaultMessage='Yubikey' /> }
-                { authType === 4 && <FormattedMessage id='scenes.login.google' defaultMessage='Authenticator App Code' /> }
-                { authType === 5 && <FormattedMessage id='scenes.login.mobile' defaultMessage='SMS Code' /> }
-              </FormLabel>
-              <Field name='code' validate={[required]} component={TextBox} borderColor={twoFactorError ? 'invalid' : undefined} />
+              { authType === 1 &&
+                <Fragment>
+                  <FormLabel for='code'>
+                    <FormattedMessage id='scenes.login.yubikey' defaultMessage='Yubikey' />
+                  </FormLabel>
+                  <Field name='code' validate={[required]} component={PasswordBox} borderColor={twoFactorError ? 'invalid' : undefined} />
+                </Fragment>
+              }
+              { authType === 4 &&
+              <Fragment>
+                <FormLabel for='code'>
+                  <FormattedMessage id='scenes.login.google' defaultMessage='Authenticator App Code' />
+                </FormLabel>
+                <Field name='code' validate={[required]} component={TextBox} borderColor={twoFactorError ? 'invalid' : undefined} />
+              </Fragment>
+              }
+              { authType === 5 &&
+              <Fragment>
+                <FormLabel for='code'>
+                  <FormattedMessage id='scenes.login.mobile' defaultMessage='SMS Code' />
+                </FormLabel>
+                <Field name='code' validate={[required]} component={TextBox} borderColor={twoFactorError ? 'invalid' : undefined} />
+              </Fragment>
+              }
               { twoFactorError && <FormError position={'absolute'}>{loginError}</FormError> }
             </FormItem>
           </FormGroup>
