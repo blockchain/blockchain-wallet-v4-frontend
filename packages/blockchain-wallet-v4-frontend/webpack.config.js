@@ -19,11 +19,11 @@ let envConfig = {}
 let mockWalletOptions
 let iSignThisDomain
 
-// load, parse and log application configuration if not a CI build
-mockWalletOptions = require('./../../config/wallet-options-v4.json')
-iSignThisDomain = mockWalletOptions.platforms.web.coinify.config.iSignThisDomain
 try {
   envConfig = require(PATHS.envConfig + process.env.NODE_ENV + '.js')
+  // load, parse and log application configuration if not a CI build
+  mockWalletOptions = require('./../../config/wallet-options-v4.json')
+  iSignThisDomain = mockWalletOptions.platforms.web.coinify.config.iSignThisDomain
 } catch (e) {
   console.log(chalk.red('\u{1F6A8} WARNING \u{1F6A8} ') + chalk.yellow(`Failed to load ${process.env.NODE_ENV}.js config file! Using the production config instead.\n`))
   envConfig = require(PATHS.envConfig + 'production.js')
