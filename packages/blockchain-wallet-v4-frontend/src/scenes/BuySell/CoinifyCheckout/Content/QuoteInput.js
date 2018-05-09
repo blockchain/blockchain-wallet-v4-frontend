@@ -16,7 +16,7 @@ class QuoteInput extends Component {
     this.props.actions.initializeCheckoutForm()
   }
   render () {
-    let { data, symbol, setMax, checkoutError, increaseLimit, defaultCurrency, limits, disabled } = this.props
+    let { data, symbol, setMax, setMin, checkoutError, increaseLimit, defaultCurrency, limits, disabled } = this.props
 
     return data.cata({
       Success: (value) => <FiatConvertor
@@ -28,6 +28,7 @@ class QuoteInput extends Component {
         defaultCurrency={defaultCurrency}
         symbol={symbol}
         setMax={setMax}
+        setMin={setMin}
         checkoutError={checkoutError}
         increaseLimit={increaseLimit}
       />,
