@@ -38,7 +38,6 @@ class TextBoxDebounced extends React.Component {
 
     this.handleChange = event => {
       event.persist()
-      console.log('debouncer handleChange:', event.target.value)
       this.setState({ value: event.target.value })
       this.debouncedOnChange(event)
     }
@@ -51,11 +50,12 @@ class TextBoxDebounced extends React.Component {
 
     this.lastPropValue = this.props.input.value
     if (this.props.input.name === 'leftVal') {
-      console.log(`debouncer getValue - props.input.value: ${this.props.input.value}  lastPropValue: ${this.lastPropValue}  state.value: ${this.state.value}`)
+      console.log(`debounce GETVALUE - props.input.value: ${this.props.input.value}  lastPropValue: ${this.lastPropValue}  state.value: ${this.state.value}`)
     }
-    // if (this.props.input.value === this.lastPropValue && this.state.value !== this.props.input.value) return this.props.input.value
     return value
   }
+
+  handleFocus () {}
 
   render () {
     const { input, meta, borderRightNone, disabled, placeholder, center, errorBottom, autoFocus } = this.props
@@ -73,6 +73,7 @@ class TextBoxDebounced extends React.Component {
           initial={meta.initial}
           placeholder={placeholder}
           center={center}
+          onFocus={this.handleFocus()}
         />
         {meta.touched && meta.error && <Error size='12px' weight={300} color='error' errorBottom={errorBottom}>{meta.error}</Error>}
       </Container>

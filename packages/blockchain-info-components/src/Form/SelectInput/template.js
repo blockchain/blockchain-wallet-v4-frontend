@@ -114,6 +114,7 @@ const Arrow = styled(Icon)`
   position: absolute;
   top: 15px;
   right: 15px;
+  font-size: ${props => props.size || '10px'};
 `
 
 const SelectInput = (props) => {
@@ -129,7 +130,7 @@ const SelectInput = (props) => {
         </Display>
         : <Search borderLeft={props.borderLeft} autoFocus={expanded} onChange={handleChange} />
       }
-      {showArrow && <Arrow name='down-arrow' size='10px' />}
+      {showArrow && <Arrow name='down-arrow' size={props.arrowSize} />}
       <List expanded={expanded}>
         { items.map((item, index) => item.value == null
           ? <Header key={index}>{templateHeader ? templateHeader(item) : <DefaultHeader>{item.text}</DefaultHeader>}</Header>
