@@ -49,7 +49,7 @@ const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, limi
           <Text size='12px' weight={300}>
             {'@ '}
             {rateQuoteR
-              .map((quote) => `${symbol}${quote && quote.quoteAmount.toLocaleString()}`)
+              .map((quote) => `${symbol}${Math.abs(quote && quote.quoteAmount).toLocaleString()}`)
               .getOrElse(
                 <Fragment>
                   <FormattedMessage id='loading' defaultMessage='Loading' />

@@ -83,7 +83,7 @@ export default ({ api, options }) => {
     try {
       yield put(A.fetchRateQuoteLoading())
       const quoteCurr = data.payload
-      const quote = yield apply(coinify, coinify.getBuyQuote, [1e8, 'BTC', quoteCurr])
+      const quote = yield apply(coinify, coinify.getBuyQuote, [-1e8, 'BTC', quoteCurr])
       yield put(A.fetchRateQuoteSuccess(quote))
     } catch (e) {
       yield put(A.fetchRateQuoteFailure(e))
