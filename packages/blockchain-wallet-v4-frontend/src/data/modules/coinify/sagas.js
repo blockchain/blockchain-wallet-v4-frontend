@@ -175,14 +175,16 @@ export default ({ coreSagas }) => {
   const openKYC = function * (data) {
     const kyc = data.payload
     try {
-      if (kyc.state === 'pending') {
+      if (!data.payload) {
+        yield call(triggerKYC)
+      } else if (kyc.state === 'pending') {
         yield call(coreSagas.data.coinify.kycAsTrade, { kyc })
         yield put(A.coinifyNextCheckoutStep('isx'))
       } else {
-        triggerKYC()
+        yield call(triggerKYC)
       }
     } catch (e) {
-
+      console.log('error with openKYC', e)
     }
   }
 

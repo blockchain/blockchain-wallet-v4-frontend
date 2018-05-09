@@ -71,6 +71,7 @@ const Buy = props => {
                 symbol={symbol}
                 checkoutBusy={checkoutBusy}
                 setMax={setMax}
+                increaseLimit={handleKycAction}
               />
             </LeftContainer>
             <RightContainer>
