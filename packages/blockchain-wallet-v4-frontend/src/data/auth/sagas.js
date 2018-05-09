@@ -1,6 +1,6 @@
 import { call, put, select, take, fork } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import { path, prop, assoc, toUpper } from 'ramda'
+import { path, prop, assoc } from 'ramda'
 import Either from 'data.either'
 
 import * as actions from '../actions.js'
