@@ -1,4 +1,5 @@
-import { cancel, cancelled, delay, identity, call, fork, select, put } from 'redux-saga/effects'
+import { cancel, cancelled, call, fork, select, put } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
 import { equals, has, path, prop } from 'ramda'
 import * as A from './actions'
 import * as S from './selectors'
@@ -271,8 +272,8 @@ export default ({ api, coreSagas }) => {
   const startPollingTradeStatus = function * (depositAddress) {
     try {
       while (true) {
-        const appState = yield select(identity)
-        const currentTrade = selectors.core.kvStore.shapeShift.getTrade(depositAddress, appState).getOrFail('Could not find trade.')
+        const currentTradeR = yield select(selectors.core.kvStore.shapeShift.getTrade(depositAddress))
+        const currentTrade = currentTradeR.getOrFail('Could not find trade.')
         const currentStatus = prop('status', currentTrade)
         if (equals('complete', currentStatus) || equals('failed', currentStatus)) {
           break

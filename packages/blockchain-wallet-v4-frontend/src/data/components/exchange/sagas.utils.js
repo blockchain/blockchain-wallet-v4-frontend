@@ -192,7 +192,7 @@ export default ({ api, coreSagas }) => {
       case 'BTC': return selectors.core.wallet.getAccountLabel(appState)(value) ||
                          selectors.core.wallet.getLegacyAddressLabel(appState)(value)
       case 'BCH': return selectors.core.kvStore.bch.getAccountLabel(appState)(value).getOrElse(value)
-      case 'ETH': return selectors.core.kvStore.ethereum.getAccountLabel(appState)(value).getOrElse(value)
+      case 'ETH': return selectors.core.kvStore.ethereum.getAccountLabel(appState, value).getOrElse(value)
       default: return value
     }
   }
