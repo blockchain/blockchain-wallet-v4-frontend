@@ -5,7 +5,7 @@ import { path, head } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 import * as service from 'services/CoinifyService'
 import Stepper, { StepView } from 'components/Utilities/Stepper'
-import OrderCheckout from '../OrderCheckout'
+import OrderCheckout from './OrderCheckout'
 import { OrderDetails, OrderSubmit } from '../OrderReview'
 import Payment from 'modals/CoinifyExchangeData/Payment'
 import ISignThis from 'modals/CoinifyExchangeData/ISignThis'
@@ -65,7 +65,6 @@ const Buy = props => {
                 rateQuoteR={rateQuoteR}
                 onFetchQuote={fetchBuyQuote}
                 limits={limits.buy}
-                type={'buy'}
                 reason={'has_remaining'} // placeholder for now - coinify does not require a reason
                 defaultCurrency={defaultCurrency}
                 symbol={symbol}

@@ -114,7 +114,7 @@ const Arrow = styled(Icon)`
 `
 
 const SelectInput = (props) => {
-  const { items, selected, disabled, defaultDisplay, expanded, searchEnabled, handleBlur, handleChange, handleClick, handleFocus, hideArrow, templateDisplay, templateHeader, templateItem, errorState, fontSize } = props
+  const { items, selected, disabled, defaultDisplay, expanded, searchEnabled, handleBlur, handleChange, handleClick, hideArrow, templateDisplay, templateHeader, templateItem, errorState, fontSize } = props
   const display = selected || { text: defaultDisplay, value: undefined }
   const showArrow = !hideArrow
 

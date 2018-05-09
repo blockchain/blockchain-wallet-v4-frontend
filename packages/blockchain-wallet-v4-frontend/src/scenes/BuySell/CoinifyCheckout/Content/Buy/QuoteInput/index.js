@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import FiatConvertor from './QuoteInputTemplate'
+import FiatConvertor from './template'
 import { actions, selectors } from 'data'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { path } from 'ramda'
 import { getQuoteInputData } from './selectors'
-import Loading from '../../template.loading'
+import Loading from '../../../../template.loading'
 
 class QuoteInput extends Component {
   componentDidMount () {

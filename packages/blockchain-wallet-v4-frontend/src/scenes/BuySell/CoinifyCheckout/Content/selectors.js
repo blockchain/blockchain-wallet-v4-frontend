@@ -10,11 +10,6 @@ export const getProfileData = (state) => {
   return lift((profile, kycs) => ({ profile, kycs }))(profile, kycs)
 }
 
-export const getQuoteInputData = (state) => {
-  const level = selectors.core.data.coinify.getLevel(state)
-  return lift((level) => ({ level }))(level)
-}
-
 export const getTrades = (state) => {
   try {
     return selectors.core.data.coinify.getTrades(state).data
