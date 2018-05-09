@@ -98,4 +98,4 @@ const Menu = (props) => {
   )
 }
 
-export default reduxForm({ form: 'bchTransaction' })(Menu)
+export default reduxForm({ form: 'bchTransactions' })(Menu)

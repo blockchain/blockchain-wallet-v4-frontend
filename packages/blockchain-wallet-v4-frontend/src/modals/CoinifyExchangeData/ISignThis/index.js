@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-// import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actions } from 'data'
@@ -40,7 +39,6 @@ class ISignThisContainer extends Component {
 
     _isx.setup = function (setup) {
       this.transactionId = setup.transaction_id
-
       this.configOptions = setup
 
       return this
@@ -67,33 +65,28 @@ class ISignThisContainer extends Component {
     }
 
     _isx.publish = function () {
-      this.iframe = e
-
       // Create IE + others compatible event handler
-      var eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent'
-      var eventer = window[eventMethod]
-      var messageEvent = eventMethod === 'attachEvent' ? 'onmessage' : 'message'
-
-      var self = this
-      console.log('V4 ISX_COMPONENT: eventer', eventer, messageEvent)
+      let eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent'
+      let eventer = window[eventMethod]
+      let messageEvent = eventMethod === 'attachEvent' ? 'onmessage' : 'message'
+      let self = this
       // Listen to message from child window
       eventer(messageEvent, function (e) {
-        // console.log('V4 ISX_COMPONENT: eventer called', e)
         // Check for the domain who sent the messageEvent
-        var origin = e.origin || e.originalEvent.origin
+        let origin = e.origin || e.originalEvent.origin
         if (origin !== iSignThisDomain) {
           // Event not generated from ISX, simply return
           return
         }
 
-        var frame = document.getElementById('isx-iframe')
+        let frame = document.getElementById('isx-iframe')
         if (e.source !== frame.contentWindow) {
           // Source of message isn't from the iframe
           return
         }
 
         try {
-          var d = JSON.parse(e.data.split('[ISX-Embed]')[1])
+          let d = JSON.parse(e.data.split('[ISX-Embed]')[1])
 
           if (d.event.toLowerCase() === 'complete') {
             console.log('V4 ISX_COMPONENT complete')

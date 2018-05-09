@@ -29,10 +29,14 @@ const MnemonicLabel = styled(FormLabel)`
     margin-bottom: 10px;
   }
 `
-const Footer = styled.div`
-  margin-top: 20px;
+const Footer = styled(FormGroup)`
   display: flex;
-  align-items: start;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+`
+const GoBackLink = styled(LinkContainer)`
+  margin-right: 15px;
 `
 
 const FirstStep = (props) => {
@@ -69,17 +73,17 @@ const FirstStep = (props) => {
             <Field name='mnemonic' autoFocus validate={[required, validMnemonic]} component={TextBox} />
           </FormItem>
         </FormGroup>
-        <Button type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid}>
-          <FormattedMessage id='scenes.recover.firststep.continue' defaultMessage='Continue' />
-        </Button>
+        <Footer>
+          <GoBackLink to='/help'>
+            <Link size='13px' weight={300}>
+              <FormattedMessage id='scenes.recover.firststep.back' defaultMessage='Go Back' />
+            </Link>
+          </GoBackLink>
+          <Button type='submit' nature='primary' uppercase disabled={submitting || invalid}>
+            <FormattedMessage id='scenes.recover.firststep.continue' defaultMessage='Continue' />
+          </Button>
+        </Footer>
       </Form>
-      <Footer>
-        <LinkContainer to='/help'>
-          <Link size='13px' weight={300}>
-            <FormattedMessage id='scenes.recover.firststep.back' defaultMessage='Go Back' />
-          </Link>
-        </LinkContainer>
-      </Footer>
     </Wrapper>
 
   )

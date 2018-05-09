@@ -1,6 +1,6 @@
-import { formValueSelector } from 'redux-form'
+import { createSelector } from 'reselect'
 import { selectors } from 'data'
-import { curry, propSatisfies, toUpper, prop, allPass, anyPass, compose, contains, map, filter } from 'ramda'
+import { all, curry, isEmpty, propSatisfies, toUpper, prop, allPass, anyPass, compose, contains, map, filter } from 'ramda'
 
 const filterTransactions = curry((status, criteria, transactions) => {
   const isOfType = curry((filter, tx) => propSatisfies(x => filter === '' || toUpper(x) === toUpper(filter), 'type', tx))
@@ -9,12 +9,24 @@ const filterTransactions = curry((status, criteria, transactions) => {
   const fullPredicate = allPass([isOfType(status), searchPredicate])
   return filter(fullPredicate, transactions)
 })
-// getData :: state -> {filtered: Remote(), total: Remote(Int)}
-export const getData = state => {
-  const txs = selectors.core.common.bch.getWalletTransactions(state)
-  const status = formValueSelector('bchTransaction')(state, 'status') || ''
-  const search = formValueSelector('bchTransaction')(state, 'search') || ''
-  const source = formValueSelector('bchTransaction')(state, 'source') || {}
-  const transactions = txs.map(map(filterTransactions(status, search)))
-  return { pages: transactions, source: source.address || source.xpub, search: search.length > 0 }
-}
+
+export const getData = createSelector(
+  [
+    selectors.form.getFormValues('bchTransactions'),
+    selectors.core.common.bch.getWalletTransactions
+  ],
+  (formValues, pages) => {
+    const empty = (page) => isEmpty(page.data)
+    const search = prop('search', formValues) || ''
+    const status = prop('status', formValues) || ''
+    const filteredPages = !isEmpty(pages)
+      ? pages.map(map(filterTransactions(status, search)))
+      : []
+
+    return {
+      pages: filteredPages,
+      search: search.length > 0,
+      empty: all(empty)(filteredPages)
+    }
+  }
+)
