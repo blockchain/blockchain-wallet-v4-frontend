@@ -12,31 +12,52 @@ const ISXContainer = styled.div`
   padding: 20px;
   border: 1px solid #DDDDDD;
 `
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+const LimitsNotice = styled.div`
+  background-color: #FFE6B4;
+  padding: 12px 15px;
+  margin-bottom: 20px;
+`
 
 const KYCNotification = (props) => {
-  const { kyc, onTrigger } = props
+  const { kyc, onTrigger, symbol, limits } = props
 
   const state = path(['state'], kyc)
   const header = kycHeaderHelper(state)
   const body = kycNotificationBodyHelper(state)
+
   return (
-    <ISXContainer>
-      <Text size='14px' color='brand-primary' weight={300} style={spacing('mb-20')}>
-        { header.text }
-      </Text>
-      <Text size='14px' weight={300} style={spacing('mb-20')}>
-        { body.text }
-      </Text>
+    <Wrapper>
       {
-        state === 'pending' || state === 'rejected'
-          ? <Button onClick={() => onTrigger(kyc)} nature='empty-secondary'>
-            <Text size='14px' color='brand-secondary'>
-              { kycNotificationButtonHelper(state)['text'] }
+        state === 'pending'
+          ? <LimitsNotice>
+            <Text size='13px' weight={300}>
+              <FormattedMessage id='kyc.limits_notice' defaultMessage='While your identity gets verified, you can buy and sell up {symbol}{limit} to using your credit/debit card.' values={{ symbol: symbol, limit: limits.max }} />
             </Text>
-          </Button>
+          </LimitsNotice>
           : null
       }
-    </ISXContainer>
+      <ISXContainer>
+        <Text size='13px' color='brand-primary' weight={300} style={spacing('mb-20')}>
+          { header.text }
+        </Text>
+        <Text size='13px' weight={300} style={spacing('mb-20')}>
+          { body.text }
+        </Text>
+        {
+          state === 'pending' || state === 'rejected'
+            ? <Button onClick={() => onTrigger(kyc)} nature='empty-secondary'>
+              <Text size='13px' color='brand-secondary'>
+                { kycNotificationButtonHelper(state)['text'] }
+              </Text>
+            </Button>
+            : null
+        }
+      </ISXContainer>
+    </Wrapper>
   )
 }
 

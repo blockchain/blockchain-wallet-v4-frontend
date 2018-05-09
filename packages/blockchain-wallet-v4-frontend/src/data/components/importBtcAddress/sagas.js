@@ -7,7 +7,9 @@ import settings from 'config'
 import { utils } from 'blockchain-wallet-v4/src'
 
 export default ({ api, coreSagas }) => {
-  const importBtcAddressSubmitClicked = function * (action) {
+  const logLocation = 'components/importBtcAddress/sagas'
+
+  const importBtcAddressSubmitClicked = function * () {
     const appState = yield select(identity)
     const address = formValueSelector('importBtcAddress')(appState, 'address')
     const priv = formValueSelector('importBtcAddress')(appState, 'priv')
@@ -31,6 +33,7 @@ export default ({ api, coreSagas }) => {
           .done()
         yield put(actions.alerts.displaySuccess(`Swept address funds to ${to.label}`))
       } catch (error) {
+        yield put(actions.logs.logErrorMessage(logLocation, 'sweepImportedToAccount', error))
         if (error.message === 'empty_addresses') {
           yield put(actions.alerts.displaySuccess('The imported address does not have funds.'))
         } else {
@@ -52,6 +55,7 @@ export default ({ api, coreSagas }) => {
       yield call(coreSagas.wallet.refetchContextData)
       yield put(actions.modals.closeAllModals())
     } catch (error) {
+      yield put(actions.logs.logErrorMessage(`${logLocation} importLegacyAddress`, error))
       switch (error.message) {
         case 'present_in_wallet':
           yield put(actions.alerts.displayError('This address already exists in your wallet.'))

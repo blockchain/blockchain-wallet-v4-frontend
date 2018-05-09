@@ -11,7 +11,7 @@ const NotAsked = props => (
 )
 
 NotAsked.propTypes = {
-  handleClick: PropTypes.string.isRequired
+  handleClick: PropTypes.func.isRequired
 }
 
 export default NotAsked

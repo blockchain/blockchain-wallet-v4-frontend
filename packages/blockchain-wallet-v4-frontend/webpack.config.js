@@ -31,7 +31,9 @@ if (!isCiBuild) {
     console.log(chalk.cyan('Root URL') + `: ${envConfig.ROOT_URL}`)
     console.log(chalk.cyan('API Domain') + `: ${envConfig.API_DOMAIN}`)
     console.log(chalk.cyan('Wallet Helper Domain') + ': ' + chalk.blue(envConfig.WALLET_HELPER_DOMAIN))
-    console.log(chalk.cyan('Web Socket URL') + ': ' + chalk.blue(envConfig.WEB_SOCKET_URL) + '\n')
+    console.log(chalk.cyan('BTC Web Socket URL') + ': ' + chalk.blue(envConfig.BTC_WEB_SOCKET_URL))
+    console.log(chalk.cyan('BCH Web Socket URL') + ': ' + chalk.blue(envConfig.BCH_WEB_SOCKET_URL))
+    console.log(chalk.cyan('ETH Web Socket URL') + ': ' + chalk.blue(envConfig.ETH_WEB_SOCKET_URL) + '\n')
   }
 }
 

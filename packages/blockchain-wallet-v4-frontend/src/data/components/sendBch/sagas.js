@@ -10,7 +10,9 @@ import { promptForSecondPassword } from 'services/SagaService'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 
 export default ({ coreSagas }) => {
-  const sendBchInitialized = function * (action, password) {
+  const logLocation = 'components/sendBch/sagas'
+
+  const sendBchInitialized = function * () {
     try {
       yield put(A.sendBchPaymentUpdated(Remote.Loading))
       let payment = coreSagas.payment.bch.create(({ network: settings.NETWORK_BCH }))
@@ -28,11 +30,11 @@ export default ({ coreSagas }) => {
       yield put(initialize('sendBch', initialValues))
       yield put(A.sendBchPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
-      console.log('error: ', e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'sendBchInitialized', e))
     }
   }
 
-  const firstStepSubmitClicked = function * (action) {
+  const firstStepSubmitClicked = function * () {
     try {
       let p = yield select(S.getPayment)
       yield put(A.sendBchPaymentUpdated(Remote.Loading))
@@ -40,7 +42,7 @@ export default ({ coreSagas }) => {
       payment = yield payment.build()
       yield put(A.sendBchPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', e))
     }
   }
 
@@ -84,7 +86,7 @@ export default ({ coreSagas }) => {
       try { payment = yield payment.build() } catch (e) {}
       yield put(A.sendBchPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
     }
   }
 
@@ -92,7 +94,7 @@ export default ({ coreSagas }) => {
     try {
       yield put(change('sendBch', 'to', ''))
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'toToggled', e))
     }
   }
 
@@ -108,7 +110,7 @@ export default ({ coreSagas }) => {
       const fiat = Exchange.convertBchToFiat({ value: effectiveBalance, fromUnit: 'SAT', toCurrency: currency, rates: bchRates }).value
       yield put(change('sendBch', 'amount', { coin, fiat }))
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'maximumAmountClicked', e))
     }
   }
 
@@ -124,7 +126,8 @@ export default ({ coreSagas }) => {
       yield put(actions.router.push('/bch/transactions'))
       yield put(actions.alerts.displaySuccess('Bitcoin cash transaction has been successfully published!'))
     } catch (e) {
-      yield put(actions.alerts.displayError('Bitcoin cash transaction could not be published.'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e))
+      yield put(actions.alerts.displayError('Failed to publish Bitcoin Cash transaction.'))
     }
   }
 

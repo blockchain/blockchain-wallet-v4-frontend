@@ -16,7 +16,6 @@ class ThirdStepContainer extends React.Component {
 
   render () {
     const { data, actions } = this.props
-    console.log('thirdStep', data)
     return data.cata({
       Success: (value) => <Success
         sourceCoin={value.sourceCoin}

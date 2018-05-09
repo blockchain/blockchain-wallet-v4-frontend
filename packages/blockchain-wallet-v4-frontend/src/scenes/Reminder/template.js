@@ -17,9 +17,13 @@ const Wrapper = styled.div`
   @media(min-width: 768px) { width: 550px; }
 `
 const Footer = styled.div`
-  margin-top: 20px;
   display: flex;
-  align-items: start;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+`
+const GoBackLink = styled(LinkContainer)`
+  margin-right: 15px;
 `
 
 const Reminder = (props) => {
@@ -51,21 +55,17 @@ const Reminder = (props) => {
             <Field name='code' validate={[required]} component={CaptchaBox} props={{ timestamp: timestamp }} />
           </FormItem>
         </FormGroup>
-        <FormGroup>
-          <FormItem>
-            <Button type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid} onClick={onSubmit}>
-              <FormattedMessage id='scenes.reminder.continue' defaultMessage='Continue' />
-            </Button>
-          </FormItem>
-        </FormGroup>
+        <Footer>
+          <GoBackLink to='/help'>
+            <Link size='13px' weight={300}>
+              <FormattedMessage id='scenes.reminder.back' defaultMessage='Go Back' />
+            </Link>
+          </GoBackLink>
+          <Button type='submit' nature='primary' uppercase disabled={submitting || invalid} onClick={onSubmit}>
+            <FormattedMessage id='scenes.reminder.continue' defaultMessage='Continue' />
+          </Button>
+        </Footer>
       </Form>
-      <Footer>
-        <LinkContainer to='/help'>
-          <Link size='13px' weight={300}>
-            <FormattedMessage id='scenes.reminder.back' defaultMessage='Go Back' />
-          </Link>
-        </LinkContainer>
-      </Footer>
     </Wrapper>
   )
 }
