@@ -19,8 +19,10 @@ export default ({ api, coreSagas }) => {
     resumePayment,
     getShapeShiftLimits,
     convertValues,
-    selectOtherAccount
+    selectOtherAccount,
+    selectLabel
   } = utils({ api, coreSagas })
+
   let pollingTradeStatusTask
 
   const firstStepInitialized = function * () {
@@ -177,6 +179,7 @@ export default ({ api, coreSagas }) => {
       const sourceCoin = prop('coin', source)
       const targetCoin = prop('coin', target)
       const sourceAddress = prop('address', source)
+      const targetAddress = prop('address', target)
       const amount = prop('sourceAmount', form)
       const returnAddress = yield call(selectReceiveAddress, source)
       const withdrawalAddress = yield call(selectReceiveAddress, target)
@@ -193,6 +196,7 @@ export default ({ api, coreSagas }) => {
       const finalPayment = yield call(createPayment, sourceCoin, sourceAddress, depositAddress, sourceAmount)
       yield put(A.paymentUpdated(finalPayment.value()))
       // Prepare data for confirmation screen
+      const targetLabel = yield call(selectLabel, targetCoin, targetAddress)
       const sourceFee = selectFee(sourceCoin, finalPayment.value())
       const sourceTotal = calculateFinalAmount(sourceAmount, sourceFee)
       const data = {
@@ -204,6 +208,7 @@ export default ({ api, coreSagas }) => {
         targetCoin,
         targetAmount: prop('withdrawalAmount', order),
         targetFee: prop('minerFee', order),
+        targetLabel,
         expiration: prop('expiration', order),
         withdrawalAddress
       }
