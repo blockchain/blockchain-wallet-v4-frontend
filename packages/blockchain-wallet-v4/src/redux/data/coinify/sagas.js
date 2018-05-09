@@ -57,7 +57,7 @@ export default ({ api, options }) => {
       const coinify = yield select(S.getProfile)
       yield put(A.fetchQuoteLoading())
       const { amount, baseCurrency, quoteCurrency } = data.quote
-      const quote = yield apply(coinify.data, coinify.data.getBuyQuote, [amount, baseCurrency, quoteCurrency])
+      const quote = yield apply(coinify.data, coinify.data.getBuyQuote, [Math.floor(amount), baseCurrency, quoteCurrency])
       yield put(A.fetchQuoteSuccess(quote))
       return quote
     } catch (e) {
