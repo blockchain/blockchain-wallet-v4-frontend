@@ -10,6 +10,8 @@ import Order from './Order'
 import Payment from './Payment'
 import Confirm from './Confirm'
 import ISignThis from './ISignThis'
+import AddBankDetails from './AddBankDetails'
+import AddCustomerDetails from './AddCustomerDetails'
 import { ModalHeader, ModalBody } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
@@ -45,6 +47,8 @@ class SfoxExchangeData extends React.PureComponent {
       case 'order': return <Order />
       case 'payment': return <Payment />
       case 'confirm': return <Confirm />
+      case 'bankdetails': return <AddBankDetails />
+      case 'customerdetails': return <AddCustomerDetails />
     }
   }
 

@@ -82,7 +82,7 @@ const getLimitsError = (errorType, limits, symbol) => {
 }
 
 const FiatConvertor = (props) => {
-  const { val, disabled, setMax, limits, checkoutError, defaultCurrency, symbol, increaseLimit } = props
+  const { val, disabled, setMax, limits, checkoutError, defaultCurrency, symbol, increaseLimit, type } = props
   const { level } = val
   const currency = 'BTC'
 
@@ -107,8 +107,13 @@ const FiatConvertor = (props) => {
               { getLimitsError(checkoutError, limits, symbol) }
             </Error>
             : <LimitsHelper>
-              <FormattedMessage id='buy.quote_input.remaining_buy_limit' defaultMessage='Your remaining buy limit is {max}' values={{ max: <a onClick={() => setMax(limits.max)}>{symbol}{limits.max}</a> }} />
-              {level.name < 2 && <FormattedMessage id='buy.quote_input.increase_limits' defaultMessage='{increase}' values={{ increase: <a onClick={() => increaseLimit()}>Increase your limit.</a> }} />}
+              {type === 'buy'
+                ? <FormattedMessage id='buy.quote_input.remaining_buy_limit'
+                  defaultMessage='Your remaining buy limit is {max}' values={{ max: <a onClick={() => setMax(limits.max)}>{symbol}{limits.max}</a> }} />
+                : <FormattedMessage id='sell.quote_input.remaining_buy_limit'
+                  defaultMessage='Your remaining sell limit is {max}' values={{ max: <a onClick={() => setMax(limits.max)}>{symbol}{limits.max}</a> }} />
+              }
+              {level.name < 2 && <a onClick={() => increaseLimit()}><FormattedMessage id='quote_input.increase_limits' defaultMessage='Increase your limit.' /></a>}
             </LimitsHelper>
         }
       </Wrapper>
