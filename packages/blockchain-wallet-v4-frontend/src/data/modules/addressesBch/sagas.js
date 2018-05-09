@@ -3,6 +3,8 @@ import * as actions from '../../actions.js'
 import { promptForInput } from 'services/SagaService'
 
 export default ({ coreSagas }) => {
+  const logLocation = 'modules/addressesBch/sagas'
+
   const editBchAccountLabel = function * (action) {
     try {
       const { index, label } = action.payload
@@ -10,7 +12,8 @@ export default ({ coreSagas }) => {
       yield put(actions.core.kvStore.bch.setAccountLabel(index, newLabel))
       yield put(actions.alerts.displaySuccess('BCH wallet name updated.'))
     } catch (e) {
-      yield put(actions.alerts.displayError('The Bitcoin Cash account label could not be updated.'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'editBchAccountLabel', e))
+      yield put(actions.alerts.displayError('Failed to update Bitcoin Cash account label.'))
     }
   }
 
@@ -21,7 +24,8 @@ export default ({ coreSagas }) => {
       yield put(actions.core.kvStore.bch.setHdAddressLabel(accountIdx, addressIdx, newLabel))
       yield put(actions.alerts.displaySuccess('Address label updated.'))
     } catch (e) {
-      yield put(actions.alerts.displayError('The Bitcoin Cash address label could not be updated.'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'editBchHdLabel', e))
+      yield put(actions.alerts.displayError('Failed to update Bitcoin Cash account label.'))
     }
   }
 

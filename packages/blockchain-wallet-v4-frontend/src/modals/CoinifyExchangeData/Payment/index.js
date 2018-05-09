@@ -57,7 +57,7 @@ class PaymentContainer extends Component {
           triggerKyc={this.triggerKyc}
           busy={busy}
         />,
-      Failure: (msg) => <div>ERROR: {console.warn('ERR', msg)}</div>,
+      Failure: (msg) => <div>ERROR: {msg}</div>,
       Loading: () => <div>Loading...</div>,
       NotAsked: () => <div>Payment Medium Not asked...</div>
     })

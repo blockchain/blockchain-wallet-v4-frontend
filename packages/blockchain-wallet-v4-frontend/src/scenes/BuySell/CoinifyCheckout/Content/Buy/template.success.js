@@ -18,12 +18,7 @@ const CheckoutWrapper = styled.div`
 const OrderSubmitWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 35%;
-  padding: 30px 30px 30px 10%;
-`
-const FlexRow = styled.div`
-  display: flex;
-  flex-direction: row;
+  width: 100%;
 `
 const RightContainer = styled.div``
 const LeftContainer = styled.div``
@@ -39,6 +34,7 @@ const Buy = props => {
     rateQuoteR,
     checkoutBusy,
     setMax,
+    setMin,
     paymentMedium,
     initiateBuy,
     step,
@@ -53,7 +49,7 @@ const Buy = props => {
   const symbol = service.currencySymbolMap[defaultCurrency]
 
   const limits = service.getLimits(profile._limits, defaultCurrency)
-  // console.log(kyc, value)
+
   if (step !== 'isx') {
     return (
       <Stepper initialStep={0}>
@@ -71,13 +67,14 @@ const Buy = props => {
                 symbol={symbol}
                 checkoutBusy={checkoutBusy}
                 setMax={setMax}
+                setMin={setMin}
                 increaseLimit={handleKycAction}
               />
             </LeftContainer>
             <RightContainer>
               {
                 value.kycs.length
-                  ? <KYCNotification kyc={kyc} onTrigger={(kyc) => handleKycAction(kyc)} />
+                  ? <KYCNotification kyc={kyc} limits={limits.buy} symbol={symbol} onTrigger={(kyc) => handleKycAction(kyc)} />
                   : null
               }
             </RightContainer>
@@ -87,15 +84,13 @@ const Buy = props => {
           <Payment />
         </StepView>
         <StepView step={2}>
-          <FlexRow>
-            <CheckoutWrapper>
-              <OrderDetails
-                quoteR={buyQuoteR}
-                onRefreshQuote={refreshQuote}
-                type={'buy'}
-                medium={paymentMedium}
-              />
-            </CheckoutWrapper>
+          <CheckoutWrapper>
+            <OrderDetails
+              quoteR={buyQuoteR}
+              onRefreshQuote={refreshQuote}
+              type={'buy'}
+              medium={paymentMedium}
+            />
             <OrderSubmitWrapper>
               <OrderSubmit
                 quoteR={buyQuoteR}
@@ -104,7 +99,7 @@ const Buy = props => {
                 clearTradeError={clearTradeError}
               />
             </OrderSubmitWrapper>
-          </FlexRow>
+          </CheckoutWrapper>
         </StepView>
       </Stepper>
     )

@@ -17,6 +17,7 @@ class BuyContainer extends React.Component {
     this.props.coinifyActions.initializeCheckoutForm()
     this.props.coinifyDataActions.fetchTrades()
     this.props.coinifyDataActions.getKycs()
+    if (this.props.step === 'isx') this.props.coinifyActions.coinifyNextCheckoutStep('checkout')
   }
 
   startBuy () {
@@ -50,6 +51,7 @@ class BuyContainer extends React.Component {
         currency={currency}
         checkoutBusy={checkoutBusy}
         setMax={(amt) => this.props.coinifyActions.setCheckoutMax(amt)}
+        setMin={(amt) => this.props.coinifyActions.setCheckoutMin(amt)}
         paymentMedium={paymentMedium}
         initiateBuy={this.startBuy}
         step={step}

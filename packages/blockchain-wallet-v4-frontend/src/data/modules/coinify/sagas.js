@@ -7,6 +7,8 @@ import { merge, path, prop, equals } from 'ramda'
 import * as service from 'services/CoinifyService'
 
 export default ({ coreSagas }) => {
+  const logLocation = 'modules/coinify/sagas'
+
   const coinifySignup = function * () {
     try {
       yield call(coreSagas.data.coinify.signup)
@@ -19,7 +21,8 @@ export default ({ coreSagas }) => {
         yield put(A.coinifySignupFailure(profile.error))
       }
     } catch (e) {
-      yield put(actions.alerts.displayError('Error creating account'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'coinifySignup', e))
+      yield put(actions.alerts.displayError('Failed to create Coinify account.'))
     }
   }
 
@@ -138,6 +141,7 @@ export default ({ coreSagas }) => {
           break
       }
     } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'handleChange', e))
       console.log(e)
     }
   }
@@ -146,7 +150,15 @@ export default ({ coreSagas }) => {
     try {
       yield put(actions.form.change('coinifyCheckout', 'leftVal', action.payload))
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'setCheckoutMax', e))
+    }
+  }
+
+  const setCheckoutMin = function * (action) {
+    try {
+      yield put(actions.form.change('coinifyCheckout', 'leftVal', action.payload))
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'setCheckoutMin', e))
     }
   }
 
@@ -159,7 +171,7 @@ export default ({ coreSagas }) => {
       yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
       yield put(actions.modals.showModal('CoinifyTradeDetails', { trade: trade.data, status: status }))
     } catch (e) {
-      console.log('error fromISX', e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'fromISX', e))
     }
   }
 
@@ -168,7 +180,7 @@ export default ({ coreSagas }) => {
       yield call(coreSagas.data.coinify.triggerKYC)
       yield put(A.coinifyNextCheckoutStep('isx'))
     } catch (e) {
-      console.log('failed to triggerKYC', e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'triggerKYC', e))
     }
   }
 
@@ -184,7 +196,7 @@ export default ({ coreSagas }) => {
         yield call(triggerKYC)
       }
     } catch (e) {
-      console.log('error with openKYC', e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'openKYC', e))
     }
   }
 
@@ -197,6 +209,7 @@ export default ({ coreSagas }) => {
     coinifySaveMedium,
     coinifySignup,
     setCheckoutMax,
+    setCheckoutMin,
     fromISX,
     triggerKYC,
     openKYC

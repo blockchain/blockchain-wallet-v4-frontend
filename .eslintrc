@@ -20,7 +20,7 @@
   "rules": {
     "camelcase": 0,
     "no-case-declarations": 0,
-    "no-console": 0,
+    "no-console": 2,
     "no-underscore-dangle": 0,
     "no-alert": 2,
     "require-yield": 2,

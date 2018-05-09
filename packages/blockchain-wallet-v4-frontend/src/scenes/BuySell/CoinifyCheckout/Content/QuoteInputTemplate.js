@@ -58,6 +58,10 @@ const Error = styled(Text)`
   height: 15px;
   top: 42px;
   right: 0;
+  a {
+    color: ${props => props.theme['brand-secondary']};
+    cursor: pointer;
+  }
 `
 const LimitsHelper = styled.div`
   position: absolute;
@@ -74,15 +78,16 @@ const LimitsHelper = styled.div`
   }
 `
 
-const getLimitsError = (errorType, limits, symbol) => {
+const getLimitsError = (errorType, limits, symbol, setMin) => {
   if (errorType === 'below_min') return `Your limit of ${symbol}${limits.max} is below the minimum allowed amount.`
   if (errorType === 'over_max') return `Enter an amount under your ${symbol}${limits.max.toLocaleString()} limit`
-  if (errorType === 'under_min') return `Enter an amount above the ${symbol}${limits.min.toLocaleString()} minimum`
+  // if (errorType === 'under_min') return `Enter an amount above the ${symbol}${limits.min.toLocaleString()} minimum`
+  if (errorType === 'under_min') return <FormattedMessage id='buy.quote_input.under_min' defaultMessage='Enter an amount above the {setMin} minimum' values={{ setMin: <a onClick={() => setMin(limits.min)}>{symbol}{limits.min.toLocaleString()}</a> }} />
   // if (errorType === 'effective_max') return `Enter an amount less than your balance minus the priority fee (${limits.effectiveMax / 1e8} BTC)`
 }
 
 const FiatConvertor = (props) => {
-  const { val, disabled, setMax, limits, checkoutError, defaultCurrency, symbol, increaseLimit, type } = props
+  const { val, disabled, setMax, setMin, limits, checkoutError, defaultCurrency, symbol, increaseLimit, type } = props
   const { level } = val
   const currency = 'BTC'
 
@@ -104,7 +109,7 @@ const FiatConvertor = (props) => {
         {
           checkoutError
             ? <Error size='13px' weight={300} color='error'>
-              { getLimitsError(checkoutError, limits, symbol) }
+              { getLimitsError(checkoutError, limits, symbol, setMin) }
             </Error>
             : <LimitsHelper>
               {type === 'buy'
@@ -123,7 +128,7 @@ const FiatConvertor = (props) => {
 
 FiatConvertor.propTypes = {
   defaultCurrency: PropTypes.string.isRequired,
-  checkoutError: PropTypes.bool,
+  checkoutError: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   symbol: PropTypes.string.isRequired,
   limits: PropTypes.object.isRequired,
   setMax: PropTypes.func.isRequired,
