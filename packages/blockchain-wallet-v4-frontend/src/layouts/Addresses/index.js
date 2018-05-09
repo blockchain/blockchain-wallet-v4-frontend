@@ -13,7 +13,6 @@ const Wrapper = styled.div`
 
 const AddressesLayout = props => {
   const { location, children } = props
-  debugger
 
   return (
     <Wrapper location={location}>
