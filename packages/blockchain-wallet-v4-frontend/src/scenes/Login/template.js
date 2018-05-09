@@ -129,30 +129,12 @@ const Login = (props) => {
         { authType > 0 &&
           <FormGroup>
             <FormItem>
-              { authType === 1 &&
-                <Fragment>
-                  <FormLabel for='code'>
-                    <FormattedMessage id='scenes.login.yubikey' defaultMessage='Yubikey' />
-                  </FormLabel>
-                  <Field name='code' validate={[required]} component={PasswordBox} borderColor={twoFactorError ? 'invalid' : undefined} />
-                </Fragment>
-              }
-              { authType === 4 &&
-              <Fragment>
-                <FormLabel for='code'>
-                  <FormattedMessage id='scenes.login.google' defaultMessage='Authenticator App Code' />
-                </FormLabel>
-                <Field name='code' validate={[required]} component={TextBox} borderColor={twoFactorError ? 'invalid' : undefined} />
-              </Fragment>
-              }
-              { authType === 5 &&
-              <Fragment>
-                <FormLabel for='code'>
-                  <FormattedMessage id='scenes.login.mobile' defaultMessage='SMS Code' />
-                </FormLabel>
-                <Field name='code' validate={[required]} component={TextBox} borderColor={twoFactorError ? 'invalid' : undefined} />
-              </Fragment>
-              }
+              <FormLabel for='code'>
+                { authType === 1 && <FormattedMessage id='scenes.login.yubikey' defaultMessage='Yubikey' /> }
+                { authType === 4 && <FormattedMessage id='scenes.login.google' defaultMessage='Authenticator App Code' /> }
+                { authType === 5 && <FormattedMessage id='scenes.login.mobile' defaultMessage='SMS Code' /> }
+              </FormLabel>
+              <Field name='code' validate={[required]} component={authType === 1 ? PasswordBox : TextBox} borderColor={twoFactorError ? 'invalid' : undefined} />
               { twoFactorError && <FormError position={'absolute'}>{loginError}</FormError> }
             </FormItem>
           </FormGroup>
