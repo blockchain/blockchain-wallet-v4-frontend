@@ -1,5 +1,5 @@
 import { call, put, select } from 'redux-saga/effects'
-import { equals, filter, head, lift, path, prop, propEq } from 'ramda'
+import { equals, filter, identity, head, lift, path, prop, propEq } from 'ramda'
 import * as selectors from '../../selectors'
 import * as actions from '../../actions'
 import settings from 'config'
@@ -186,6 +186,17 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const selectLabel = function * (coin, value) {
+    const appState = yield select(identity)
+    switch (coin) {
+      case 'BTC': return selectors.core.wallet.getAccountLabel(appState)(value) ||
+                         selectors.core.wallet.getLegacyAddressLabel(appState)(value)
+      case 'BCH': return selectors.core.kvStore.bch.getAccountLabel(appState)(value).getOrElse(value)
+      case 'ETH': return selectors.core.kvStore.ethereum.getAccountLabel(appState)(value).getOrElse(value)
+      default: return value
+    }
+  }
+
   return {
     calculateEffectiveBalance,
     createPayment,
@@ -196,6 +207,7 @@ export default ({ api, coreSagas }) => {
     getDefaultEthAccountValue,
     getBtcAccounts,
     getEthAccounts,
+    selectLabel,
     selectOtherAccount
   }
 }
