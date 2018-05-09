@@ -67,7 +67,8 @@ class LinkContainer extends Component {
 
   render () {
     const { bankAccounts, accounts, ui } = this.props
-    const plaidUrl = `http://localhost:8081/wallet-helper/plaid/#/key/${this.props.plaidPath}/env/${this.props.plaidEnv}`
+    const { plaidBaseUrl, plaidPath, plaidEnv } = this.props
+    const plaidUrl = `${plaidBaseUrl}/wallet-helper/plaid/#/key/${plaidPath}/env/${plaidEnv}`
 
     return <Link
       onSubmit={this.onSubmit}
@@ -98,6 +99,7 @@ const plaidEnvPath = append('plaidEnv', basePath)
 const mapStateToProps = (state) => ({
   plaidPath: path(plaidPath, state),
   plaidEnv: path(plaidEnvPath, state),
+  plaidBaseUrl: path(['walletOptionsPath', 'data', 'domains', 'walletHelper'], state),
   bankAccounts: selectors.core.data.sfox.getBankAccounts(state),
   accounts: selectors.core.data.sfox.getAccounts(state).data,
   deposit1: formValueSelector('sfoxLink')(state, 'deposit1'),
