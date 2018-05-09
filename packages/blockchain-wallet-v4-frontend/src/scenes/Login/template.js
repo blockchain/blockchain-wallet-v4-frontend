@@ -11,7 +11,6 @@ import { Form, FormError, FormGroup, FormItem, FormLabel, PasswordBox, TextBox }
 import Modals from 'modals'
 import MobileLogin from 'modals/MobileLogin'
 
-const Fragment = React.Fragment
 const Wrapper = styled.div`
   width: 100%;
   padding: 35px;
