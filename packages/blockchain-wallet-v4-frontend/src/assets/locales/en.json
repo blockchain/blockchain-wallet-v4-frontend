@@ -785,7 +785,7 @@
   "scenes.securitysettings.apiaccess.description1": "Use our API to interact with your wallet programmatically. Follow the steps",
   "scenes.securitysettings.apiaccess.getstarted": "here",
   "scenes.securitysettings.apiaccess.description2": "to get started.",
-  "scenes.securitycenter.advanced.goback": "< Back",
+  "scenes.securitycenter.advanced.back": "Back",
   "scenes.securitysettings.advancedsettings.ipwhitelist.settings.change": "Add",
   "scenes.securitysettings.advancedsettings.ipwhitelist.settings.cancel": "Cancel",
   "scenes.securitysettings.advancedsettings.ipwhitelist.settings.save": "Save",
