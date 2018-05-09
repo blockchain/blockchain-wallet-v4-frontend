@@ -33,13 +33,11 @@ class SelectBoxBitcoinAddresses extends React.PureComponent {
 }
 
 SelectBoxBitcoinAddresses.propTypes = {
-  includeAll: PropTypes.bool,
-  includeImported: PropTypes.bool
+  includeAll: PropTypes.bool
 }
 
 SelectBoxBitcoinAddresses.defaultProps = {
-  includeAll: true,
-  includeImported: true
+  includeAll: true
 }
 
 const mapStateToProps = (state, ownProps) => ({
