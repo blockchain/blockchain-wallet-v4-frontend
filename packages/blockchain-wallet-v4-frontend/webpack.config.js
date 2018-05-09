@@ -17,10 +17,12 @@ const PATHS = {
 }
 let envConfig = {}
 let mockWalletOptions
+let iSignThisDomain
 
 // load, parse and log application configuration if not a CI build
 if (!isCiBuild) {
   mockWalletOptions = require('./../../config/wallet-options-v4.json')
+  iSignThisDomain = mockWalletOptions.platforms.web.coinify.config.iSignThisDomain
   try {
     envConfig = require(PATHS.envConfig + process.env.NODE_ENV + '.js')
   } catch (e) {
@@ -197,8 +199,8 @@ module.exports = {
       'Content-Security-Policy': [
         "img-src 'self' data: blob:",
         "style-src 'self' 'unsafe-inline'",
-        'frame-src https://verify.isignthis.com/ https://wallet-helper.blockchain.info http://localhost:8081',
-        'child-src https://verify.isignthis.com/ https://wallet-helper.blockchain.info http://localhost:8081',
+        `frame-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN}`,
+        `child-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN}`,
         // 'unsafe-eval' is only used by webpack for development. It should not
         // be present on production!
         "worker-src 'self' 'unsafe-eval' blob:",
