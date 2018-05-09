@@ -32,7 +32,7 @@ export default ({ api } = {}) => {
       const addr = eth.deriveAddress(mnemonic, defaultIndex)
       const ethereum = {
         has_seen: true,
-        default_account_index: defaultIndex,
+        default_account_idx: defaultIndex,
         accounts: [{
           label: 'My Ether Wallet',
           archived: false,

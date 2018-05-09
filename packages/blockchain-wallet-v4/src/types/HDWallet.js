@@ -99,7 +99,7 @@ export const js = (label, mnemonic, xpub, nAccounts, network) => {
   const masterNode = mnemonic ? Bitcoin.HDNode.fromSeedBuffer(seed, network) : undefined
   const parentNode = mnemonic ? masterNode.deriveHardened(44).deriveHardened(0) : undefined
   const node = i => mnemonic ? parentNode.deriveHardened(i) : undefined
-  const account = i => HDAccount.js(`${label} ${i + 1}`, node(i), xpub)
+  const account = i => HDAccount.js(`${label} ${i > 0 ? i + 1 : ''}`, node(i), xpub)
   return {
     seed_hex: seedHex,
     passphrase: '',
