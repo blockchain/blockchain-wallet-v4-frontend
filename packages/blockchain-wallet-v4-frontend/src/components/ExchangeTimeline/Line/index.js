@@ -4,7 +4,6 @@ import styled, { keyframes } from 'styled-components'
 
 const animation = keyframes`
   0% { width: 100%; }
-  1% { width: 0; }
   25% { width: 25%; }
   50% { width: 50%; }
   75% { width: 75%; }
