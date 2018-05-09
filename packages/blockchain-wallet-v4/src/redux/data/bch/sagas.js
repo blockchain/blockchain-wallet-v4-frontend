@@ -51,7 +51,7 @@ export default ({ api }) => {
 
   const fetchTransactions = function * ({ type, payload }) {
     const { address, reset } = payload
-    const TX_PER_PAGE = 50
+    const TX_PER_PAGE = 10
     const BCH_FORK_TIME = 1501590000
     try {
       const pages = yield select(S.getTransactions)

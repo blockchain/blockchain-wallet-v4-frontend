@@ -31,8 +31,8 @@ describe('ListItemContainer', () => {
       instance.handleEditDescription()
       expect(spy).toHaveBeenCalled()
     })
-    it('handles btc/bch tx notes', () => {
-      const component = shallow(<ListItemContainer minConfirmations={3} transaction={tx} store={store} />)
+    it('handles btc tx notes', () => {
+      const component = shallow(<ListItemContainer minConfirmations={3} transaction={tx} coin='BTC' store={store} />)
       const instance = component.dive().instance()
       const spy = jest.spyOn(instance.props.walletActions, 'setTransactionNote')
       instance.handleEditDescription()
