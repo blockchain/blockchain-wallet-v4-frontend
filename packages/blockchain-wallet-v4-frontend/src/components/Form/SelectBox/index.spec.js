@@ -12,7 +12,7 @@ const fakeInput = {
 }
 
 const fakeElements = [{
-  group: 'fakeG', items:[1,2,3]
+  group: 'fakeG', items: [1, 2, 3]
 }]
 
 describe('SelectBox', () => {
