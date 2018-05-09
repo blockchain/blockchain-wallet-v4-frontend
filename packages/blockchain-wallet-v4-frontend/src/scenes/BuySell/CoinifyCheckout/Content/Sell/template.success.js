@@ -46,7 +46,10 @@ const Sell = props => {
   const defaultCurrency = currency || 'EUR' // profile._level.currency
   const symbol = service.currencySymbolMap[defaultCurrency]
 
-  const limits = service.getLimits(profile._limits, defaultCurrency)
+  const limits = {
+    max: profile._limits._blockchain._inRemaining.BTC,
+    min: profile._limits._blockchain._minimumInAmounts.BTC
+  }
 
   if (step !== 'isx') {
     return (
@@ -57,7 +60,7 @@ const Sell = props => {
               quoteR={sellQuoteR}
               rateQuoteR={rateQuoteR}
               onFetchQuote={fetchSellQuote}
-              limits={limits.sell}
+              limits={limits}
               type={'sell'}
               reason={'has_remaining'} // placeholder for now - coinify does not require a reason
               defaultCurrency={defaultCurrency}

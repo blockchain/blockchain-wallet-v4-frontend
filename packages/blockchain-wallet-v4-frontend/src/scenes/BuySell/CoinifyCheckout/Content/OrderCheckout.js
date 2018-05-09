@@ -1,12 +1,12 @@
 import React, { Fragment } from 'react'
-import { Text, Icon, Button, HeartbeatLoader } from 'blockchain-info-components'
+import { Text, Button, HeartbeatLoader } from 'blockchain-info-components'
 import { Wrapper as ExchangeCheckoutWrapper } from '../../ExchangeCheckout'
-import { flex, spacing } from 'services/StyleService'
+import { spacing } from 'services/StyleService'
 import { FormattedMessage } from 'react-intl'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { StepTransition } from 'components/Utilities/Stepper'
+import BitcoinTicker from 'components/BuySell/BitcoinTicker'
 import QuoteInput from './QuoteInput'
-import { MethodContainer } from 'components/BuySell/styled.js'
 
 const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, limits, type, defaultCurrency, symbol, checkoutBusy, busy, setMax, increaseLimit }) => {
   const quoteInputSpec = {
@@ -14,7 +14,9 @@ const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, limi
     input: defaultCurrency,
     output: 'btc'
   }
-  const disableInputs = limits.max < limits.min || (reason.indexOf('has_remaining') < 0 && reason) || limits.effectiveMax < limits.min
+  const disableInputs = (limits.max < limits.min) ||
+    (reason.indexOf('has_remaining') < 0 && reason) ||
+    (limits.effectiveMax < limits.min)
   const wantToHelper = () => type === 'buy' ? <FormattedMessage id='buy.output_method.title.buy' defaultMessage='I want to buy' /> : <FormattedMessage id='buy.output_method.title.sell' defaultMessage='I want to sell' />
 
   const limitsHelper = (quoteR, limits) => {
@@ -42,23 +44,7 @@ const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, limi
       <Text style={spacing('ml-10')} size='16px' weight={600}>
         { wantToHelper() }
       </Text>
-      <MethodContainer>
-        <Icon name='bitcoin-in-circle-filled' color='bitcoin-orange' size='30px' />
-        <div style={{ ...flex('col'), ...spacing('ml-20') }}>
-          <Text size='14px' weight={300} uppercase>Bitcoin</Text>
-          <Text size='12px' weight={300}>
-            {'@ '}
-            {rateQuoteR
-              .map((quote) => `${symbol}${quote && quote.quoteAmount.toLocaleString()}`)
-              .getOrElse(
-                <Fragment>
-                  <FormattedMessage id='loading' defaultMessage='Loading' />
-                  {'...'}
-                </Fragment>
-              )}
-          </Text>
-        </div>
-      </MethodContainer>
+      <BitcoinTicker rateQuoteR={rateQuoteR} symbol={symbol} />
       {
         reason.indexOf('has_remaining') > -1
           ? <Fragment>
