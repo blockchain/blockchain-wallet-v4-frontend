@@ -21,10 +21,14 @@ const Header = styled.div`
   justify-content: space-between;
   align-items: center;
 `
-const Footer = styled.div`
-  margin-top: 20px;
+const Footer = styled(FormGroup)`
   display: flex;
-  align-items: start;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+`
+const GoBackLink = styled(LinkContainer)`
+  margin-right: 15px;
 `
 
 const FirstStep = (props) => {
@@ -80,17 +84,17 @@ const FirstStep = (props) => {
             </Text>
           </FormItem>
         </FormGroup>
-        <Button type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid} >
-          <FormattedMessage id='scenes.reset2fa.firststep.firststepform.continue' defaultMessage='Continue' />
-        </Button>
+        <Footer>
+          <GoBackLink to='/help'>
+            <Link size='13px' weight={300}>
+              <FormattedMessage id='scenes.reset2fa.firststep.back' defaultMessage='Go Back' />
+            </Link>
+          </GoBackLink>
+          <Button type='submit' nature='primary' uppercase disabled={submitting || invalid} >
+            <FormattedMessage id='scenes.reset2fa.firststep.firststepform.continue' defaultMessage='Continue' />
+          </Button>
+        </Footer>
       </Form>
-      <Footer>
-        <LinkContainer to='/help'>
-          <Link size='13px' weight={300}>
-            <FormattedMessage id='scenes.reset2fa.firststep.back' defaultMessage='Go Back' />
-          </Link>
-        </LinkContainer>
-      </Footer>
     </Wrapper>
   )
 }

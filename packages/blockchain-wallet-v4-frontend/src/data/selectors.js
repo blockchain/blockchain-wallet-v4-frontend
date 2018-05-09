@@ -5,8 +5,10 @@ import * as cache from './cache/selectors'
 import * as components from './components/selectors'
 import * as form from './form/selectors'
 import * as goals from './goals/selectors'
+import * as logs from './logs/selectors'
 import * as modals from './modals/selectors'
 import * as preferences from './preferences/selectors'
+import * as router from './router/selectors'
 import * as scroll from './scroll/selectors'
 import * as session from './session/selectors'
 import * as wizard from './wizard/selectors'
@@ -19,8 +21,10 @@ export {
   form,
   core,
   goals,
+  logs,
   modals,
   preferences,
+  router,
   scroll,
   session,
   wizard

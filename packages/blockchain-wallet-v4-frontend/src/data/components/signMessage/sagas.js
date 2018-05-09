@@ -10,6 +10,8 @@ import * as signer from 'blockchain-wallet-v4/src/signer'
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
 export default ({ coreSagas }) => {
+  const logLocation = 'components/signMessage/sagas'
+
   const signMessage = function * (action) {
     try {
       const { addr, message } = action.payload
@@ -20,7 +22,8 @@ export default ({ coreSagas }) => {
       const signed = yield call(() => taskToPromise(signedT))
       yield put(A.messageSigned(signed))
     } catch (e) {
-      yield put(actions.alerts.displayError('Could sign message.'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'signMessage', e))
+      yield put(actions.alerts.displayError('Failed to sign message.'))
     }
   }
 

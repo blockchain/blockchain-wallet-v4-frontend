@@ -28,7 +28,6 @@ const renderApp = (Component, store, history) => {
 }
 
 const renderError = (e) => {
-  console.log('renderError', e)
   ReactDOM.render(
     <Error />,
     document.getElementById('app')

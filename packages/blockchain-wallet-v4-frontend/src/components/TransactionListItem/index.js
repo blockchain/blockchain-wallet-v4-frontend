@@ -17,10 +17,15 @@ class ListItemContainer extends React.PureComponent {
   }
 
   handleEditDescription (value) {
-    if (this.props.coin === 'ETH') {
-      this.props.ethereumActions.setTxNotesEthereum(this.props.transaction.hash, value)
-    } else {
-      this.props.walletActions.setTransactionNote(this.props.transaction.hash, value)
+    switch (this.props.coin) {
+      case 'ETH': {
+        this.props.ethereumActions.setTxNotesEthereum(this.props.transaction.hash, value)
+        break
+      }
+      case 'BTC': {
+        this.props.walletActions.setTransactionNote(this.props.transaction.hash, value)
+        break
+      }
     }
   }
 
