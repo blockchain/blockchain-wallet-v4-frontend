@@ -133,7 +133,7 @@ const Login = (props) => {
                 { authType === 4 && <FormattedMessage id='scenes.login.google' defaultMessage='Authenticator App Code' /> }
                 { authType === 5 && <FormattedMessage id='scenes.login.mobile' defaultMessage='SMS Code' /> }
               </FormLabel>
-              <Field name='code' validate={[required]} component={TextBox} borderColor={twoFactorError ? 'invalid' : undefined} />
+              <Field name='code' validate={[required]} component={authType === 1 ? PasswordBox : TextBox} borderColor={twoFactorError ? 'invalid' : undefined} />
               { twoFactorError && <FormError position={'absolute'}>{loginError}</FormError> }
             </FormItem>
           </FormGroup>
