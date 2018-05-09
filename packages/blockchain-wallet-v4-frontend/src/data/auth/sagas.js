@@ -1,6 +1,6 @@
 import { call, put, select, take, fork } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import { path, prop, assoc, toUpper } from 'ramda'
+import { path, prop, assoc } from 'ramda'
 import Either from 'data.either'
 
 import * as actions from '../actions.js'
@@ -110,7 +110,6 @@ export default ({ api, coreSagas }) => {
 
   const login = function * (action) {
     let { guid, sharedKey, password, code, mobileLogin } = action.payload
-    code = code && toUpper(code)
     const safeParse = Either.try(JSON.parse)
     let session = yield select(selectors.session.getSession(guid))
 
