@@ -9,10 +9,6 @@ export const getLimits = (limits, curr) => {
     buy: {
       min: getMin(limits, curr),
       max: getMax(limits, curr)
-    },
-    sell: {
-      min: getMin(limits, curr),
-      max: getMax(limits, curr)
     }
   }
 }
@@ -85,7 +81,6 @@ export const reviewOrder = {
 export const tradeDetails = {
   renderDetails: (trade) => {
     const fiat = trade.inCurrency !== 'BTC' ? trade.inCurrency : trade.outCurrency
-    const medium = trade.medium
     if (trade.isBuy) {
       const symbol = currencySymbolMap[fiat]
       return {

@@ -5,7 +5,7 @@ import { path } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 import * as service from 'services/CoinifyService'
 import Stepper, { StepView } from 'components/Utilities/Stepper'
-import OrderCheckout from '../OrderCheckout'
+import OrderCheckout from './OrderCheckout'
 import { OrderDetails, OrderSubmit } from '../OrderReview'
 import Payment from 'modals/CoinifyExchangeData/Payment'
 import ISignThis from 'modals/CoinifyExchangeData/ISignThis'
@@ -46,7 +46,10 @@ const Sell = props => {
   const defaultCurrency = currency || 'EUR' // profile._level.currency
   const symbol = service.currencySymbolMap[defaultCurrency]
 
-  const limits = service.getLimits(profile._limits, defaultCurrency)
+  const limits = {
+    max: profile._limits._blockchain._inRemaining.BTC,
+    min: profile._limits._blockchain._minimumInAmounts.BTC
+  }
 
   if (step !== 'isx') {
     return (
@@ -57,8 +60,7 @@ const Sell = props => {
               quoteR={sellQuoteR}
               rateQuoteR={rateQuoteR}
               onFetchQuote={fetchSellQuote}
-              limits={limits.sell}
-              type={'sell'}
+              limits={limits}
               reason={'has_remaining'} // placeholder for now - coinify does not require a reason
               defaultCurrency={defaultCurrency}
               symbol={symbol}

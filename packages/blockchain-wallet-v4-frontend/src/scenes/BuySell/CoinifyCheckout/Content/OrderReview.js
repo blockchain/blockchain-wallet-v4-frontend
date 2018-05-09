@@ -5,7 +5,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import FaqRow from 'components/Faq/FaqRow'
 import CountdownTimer from 'components/Form/CountdownTimer'
 import { Wrapper as ExchangeCheckoutWrapper } from '../../ExchangeCheckout'
-import { flex, spacing } from 'services/StyleService'
+import { spacing } from 'services/StyleService'
 import { reviewOrder } from 'services/CoinifyService'
 import { FormattedMessage } from 'react-intl'
 import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDetails'
@@ -16,11 +16,22 @@ const StyledFaqRow = styled(FaqRow)`
   border-bottom: 1px solid ${props => props.theme['gray-1']};
 `
 const CancelWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 15px;
   a {
     color: #545456;
     font-weight: 300;
     font-size: 14px;
   }
+`
+const ExchangeRateWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 20px;
 `
 
 const renderDetailsRow = (id, message, value, color) => (
@@ -38,14 +49,14 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
     <Text size='14px' weight={300} style={spacing('mb-20')}>
       <FormattedMessage id='buy.review_order_subtext' defaultMessage='Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order.' />
     </Text>
-    <div style={{ ...flex('row align/center justify/end'), ...spacing('mt-20') }}>
+    <ExchangeRateWrapper>
       <Text size='12px' weight={500} style={spacing('mr-10')}>
         <FormattedMessage id='exchange_rate' defaultMessage='Exchange Rate' />
       </Text>
       <Text size='12px' weight={300}>
         1 BTC = {quoteR.map((q) => `$${q.rate}`).getOrElse('~')}
       </Text>
-    </div>
+    </ExchangeRateWrapper>
     <OrderDetailsTable style={spacing('mt-10')}>
       {renderDetailsRow(
         'order_details.amount_to_transact',
@@ -95,7 +106,7 @@ export const OrderSubmit = ({ quoteR, onSubmit, busy, clearTradeError, goToStep 
                 : <FormattedMessage id='submit' defaultMessage='Submit' />
             }
           </Button>
-          <CancelWrapper style={{ ...flex('row justify/center'), ...spacing('mt-15') }}>
+          <CancelWrapper>
             <StepTransition restart Component={Link}>
               <FormattedMessage id='cancel' defaultMessage='Cancel' />
             </StepTransition>
