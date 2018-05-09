@@ -38,7 +38,6 @@ export const transformTx = (addresses, state, latestBlock, tx) => {
     fee: new BigNumber(tx.gasPrice).mul(tx.gasUsed || tx.gas).toString(),
     description: getEthereumTxNote(state, tx.hash).data || '',
     time: tx.timeStamp,
-    timeFormatted: formattedDate(tx.timeStamp),
-    status: ''
+    timeFormatted: formattedDate(tx.timeStamp)
   })
 }
