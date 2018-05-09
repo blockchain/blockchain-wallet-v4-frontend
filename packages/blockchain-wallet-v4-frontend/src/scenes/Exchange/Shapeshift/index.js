@@ -2,10 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { actions, selectors } from 'data'
-import FirstStep from './FirstStep'
-import SecondStep from './SecondStep'
-import ThirdStep from './ThirdStep'
+import { actions } from 'data'
+import Template from './template'
+import { getData } from './selectors'
 
 class ShapeshiftContainer extends React.Component {
   componentWillUnmount () {
@@ -13,17 +12,17 @@ class ShapeshiftContainer extends React.Component {
   }
 
   render () {
-    switch (this.props.step) {
-      case 1: return <FirstStep />
-      case 2: return <SecondStep />
-      case 3: return <ThirdStep />
-      default: return <FirstStep />
-    }
+    return this.props.data.cata({
+      Success: (value) => <Template step={value.step}/>,
+      Failure: () => <div />,
+      Loading: () => <div />,
+      NotAsked: () => <div />
+    })
   }
 }
 
 const mapStateToProps = state => ({
-  step: selectors.components.exchange.getStep(state)
+  data: getData(state)
 })
 
 const mapDispatchToProps = dispatch => ({
