@@ -70,11 +70,13 @@ exports[`ListItemContainer renders correctly 1`] = `
       }
     }
   >
-    <template
+    <Component
       handleCoinToggle={[Function]}
       handleEditDescription={[Function]}
       minConfirmations={3}
-    />
+    >
+      <div />
+    </Component>
   </ListItemContainer>
 </Connect(ListItemContainer)>
 `;
