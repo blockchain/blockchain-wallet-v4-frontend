@@ -22,17 +22,17 @@ export const getLogs = createSelector(
 
 export const getBtcTransactions = createSelector(
   [selectors.core.common.bitcoin.getWalletTransactions, getNumber],
-  (transactions, number) => isNil(transactions[0]) ? Remote.of([]) : transactions[0].map(compose(take(number), map(transform('BTC'))))
+  (transactions, number) => Remote.Success.is(transactions[0]) && !isNil(transactions[0]) ? transactions[0].map(compose(take(number), map(transform('BTC')))) : Remote.of([])
 )
 
 export const getBchTransactions = createSelector(
   [selectors.core.common.bch.getWalletTransactions, getNumber],
-  (transactions, number) => isNil(transactions[0]) ? Remote.of([]) : transactions[0].map(compose(take(number), map(transform('BCH'))))
+  (transactions, number) => Remote.Success.is(transactions[0]) && !isNil(transactions[0]) ? transactions[0].map(compose(take(number), map(transform('BCH')))) : Remote.of([])
 )
 
 export const getEthTransactions = createSelector(
   [selectors.core.common.ethereum.getTransactions, getNumber],
-  (transactions, number) => transactions.map(compose(take(number), map(transform('ETH'))))
+  (transactions, number) => Remote.Success.is(transactions) ? transactions.map(compose(take(number), map(transform('ETH')))) : Remote.of([])
 )
 
 export const getData = createSelector(
