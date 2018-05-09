@@ -22,7 +22,7 @@ const Row = styled.div`
   margin-bottom: 15px;
 `
 
-export default props => (
+export default () => (
   <Wrapper>
     <Row>
       <Text size='24px' weight={300} color='brand-primary'>We&rsquo;ll be back soon!</Text>

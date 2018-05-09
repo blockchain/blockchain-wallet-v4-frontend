@@ -1,8 +1,6 @@
 import sagas from './sagas'
 import * as actions from '../../actions'
 import * as chartService from 'services/ChartService'
-// import { testSaga } from 'redux-saga-test-plan'
-// import * as SE from './selectors'
 
 jest.mock('./selectors')
 
@@ -10,12 +8,10 @@ describe('priceChart sagas', () => {
   let calcScaleSpy
   let calcStartSpy
   let fetchPriceActionSpy
-  let errorSpy
 
   beforeEach(() => {
     calcStartSpy = jest.spyOn(chartService, 'calculateStart').mockReturnValueOnce('test')
     calcScaleSpy = jest.spyOn(chartService, 'calculateScale').mockReturnValueOnce('test')
-    errorSpy = jest.spyOn(window.console, 'log').mockImplementation(() => jest.fn())
     fetchPriceActionSpy = jest.spyOn(actions.core.data.misc, 'fetchPriceIndexSeries').mockImplementation(() => { return 't' })
   })
 
@@ -40,18 +36,18 @@ describe('priceChart sagas', () => {
       expect(fetchPriceActionSpy).toHaveBeenCalledWith('BTC', 'USD', 'test', 'test')
     })
 
-    it('should handle errors', () => {
-      // arrange
-      fetchPriceActionSpy = jest.spyOn(actions.core.data.misc, 'fetchPriceIndexSeries').mockImplementation(() => { throw new Error('') })
-      const saga = sagas({}).initialized({type: '', payload: {coin: 'BTC', time: 'all'}})
-
-      // act
-      saga.next()
-
-      // assert
-      expect(fetchPriceActionSpy).toHaveBeenCalledTimes(1)
-      expect(errorSpy).toHaveBeenCalledWith('Error in initialized saga')
-    })
+    // it('should handle errors', () => {
+    //   // arrange
+    //   fetchPriceActionSpy = jest.spyOn(actions.core.data.misc, 'fetchPriceIndexSeries').mockImplementation(() => { throw new Error('') })
+    //   const saga = sagas({}).initialized({type: '', payload: {coin: 'BTC', time: 'all'}})
+    //
+    //   // act
+    //   saga.next()
+    //
+    //   // assert
+    //   expect(fetchPriceActionSpy).toHaveBeenCalledTimes(1)
+    //   expect(errorSpy).toHaveBeenCalledWith('Error in initialized saga')
+    // })
   })
 
   // describe('coinClicked saga', () => {

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
-import { Image, Text } from 'blockchain-info-components'
+import { Image, Link, Text, TextGroup } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -31,9 +31,17 @@ class EmptyTxContainer extends React.PureComponent {
           <Header size='18px' weight={500}>
             <FormattedMessage id='scenes.transactions.empty.content.header' defaultMessage="Oops, we couldn't find any transactions!" />
           </Header>
-          <Text size='18px' weight={300}>
-            <FormattedHTMLMessage id='scenes.transactions.empty.content.body' defaultMessage='Please try filtering by a different criteria or <a href="https://support.blockchain.com/" target="_blank" referrer="noreferrer">reach out to us</a> if you need help.' />
-          </Text>
+          <TextGroup inline>
+            <Text size='18px' weight={300}>
+              <FormattedHTMLMessage id='scenes.transactions.empty.content.body' defaultMessage='Please try filtering by a different criteria or ' />
+            </Text>
+            <Link size='18px' href='https://support.blockchain.com/' target='_blank' referrer='noreferrer'>
+              <FormattedMessage id='scenes.transactions.empty.content.body2' defaultMessage='reach out to us ' />
+            </Link>
+            <Text size='18px' weight={300}>
+              <FormattedMessage id='scenes.transactions.empty.content.body3' defaultMessage='if you need help.' />
+            </Text>
+          </TextGroup>
         </Empty>
       </Wrapper>
     )

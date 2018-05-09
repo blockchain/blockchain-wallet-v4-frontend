@@ -7,6 +7,8 @@ import { merge, path, prop, equals } from 'ramda'
 import * as service from 'services/CoinifyService'
 
 export default ({ coreSagas }) => {
+  const logLocation = 'modules/coinify/sagas'
+
   const coinifySignup = function * () {
     try {
       yield call(coreSagas.data.coinify.signup)
@@ -19,7 +21,8 @@ export default ({ coreSagas }) => {
         yield put(A.coinifySignupFailure(profile.error))
       }
     } catch (e) {
-      yield put(actions.alerts.displayError('Error creating account'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'coinifySignup', e))
+      yield put(actions.alerts.displayError('Failed to create Coinify account.'))
     }
   }
 
