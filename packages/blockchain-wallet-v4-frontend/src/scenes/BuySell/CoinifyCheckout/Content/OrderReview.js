@@ -6,7 +6,7 @@ import FaqRow from 'components/Faq/FaqRow'
 import CountdownTimer from 'components/Form/CountdownTimer'
 import { Wrapper as ExchangeCheckoutWrapper } from '../../ExchangeCheckout'
 import { flex, spacing } from 'services/StyleService'
-import { reviewOrder } from 'services/CoinifyService'
+import { reviewOrder, currencySymbolMap } from 'services/CoinifyService'
 import { FormattedMessage } from 'react-intl'
 import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDetails'
 import { StepTransition } from 'components/Utilities/Stepper'
@@ -30,6 +30,10 @@ const renderDetailsRow = (id, message, value, color) => (
   </OrderDetailsRow>
 )
 
+const renderRate = (rate, q) => {
+  return <FormattedMessage id='rate' defaultMessage='{rate}' values={{ rate: `${currencySymbolMap[q.baseCurrency]}${rate.toLocaleString()}` }} />
+}
+
 export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
   <ExchangeCheckoutWrapper>
     <Text size='32px' weight={600} style={spacing('mb-10')}>
@@ -43,7 +47,11 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
         <FormattedMessage id='exchange_rate' defaultMessage='Exchange Rate' />
       </Text>
       <Text size='12px' weight={300}>
-        1 BTC = {quoteR.map((q) => `$${q.rate}`).getOrElse('~')}
+        1 BTC = {quoteR.map((q) => {
+          const rate = +((1 / (Math.abs(q.quoteAmount) / 1e8)) * Math.abs(q.baseAmount)).toFixed(2)
+          // console.log('create rate', `${currencySymbolMap[q.baseCurrency]}${rate.toLocaleString()}`)
+          return renderRate(rate, q)
+        }).getOrElse('~')}
       </Text>
     </div>
     <OrderDetailsTable style={spacing('mt-10')}>
