@@ -3,7 +3,8 @@ import { assoc } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 const INITIAL_STATE = {
-  sfoxBusy: Remote.NotAsked
+  sfoxBusy: Remote.NotAsked,
+  qaSellAddress: null
 }
 
 const sfoxSignup = (state = INITIAL_STATE, action) => {
@@ -27,6 +28,9 @@ const sfoxSignup = (state = INITIAL_STATE, action) => {
     }
     case AT.SFOX_FAILURE: {
       return assoc('sfoxBusy', Remote.Failure(payload), state)
+    }
+    case AT.QA_SELL_ADDRESS: {
+      return assoc('qaSellAddress', payload, state)
     }
     default:
       return state
