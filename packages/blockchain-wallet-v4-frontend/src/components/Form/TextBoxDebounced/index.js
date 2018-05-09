@@ -49,9 +49,7 @@ class TextBoxDebounced extends React.Component {
       : this.state.value
 
     this.lastPropValue = this.props.input.value
-    if (this.props.input.name === 'leftVal') {
-      console.log(`debounce GETVALUE - props.input.value: ${this.props.input.value}  lastPropValue: ${this.lastPropValue}  state.value: ${this.state.value}`)
-    }
+
     return value
   }
 

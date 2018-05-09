@@ -6,6 +6,7 @@ import { actions } from 'data'
 import { getData, getQuote } from './selectors'
 import Success from './template.success'
 import { path } from 'ramda'
+import Loading from 'components/BuySell/Loading'
 
 class PaymentContainer extends Component {
   constructor (props) {
@@ -58,7 +59,7 @@ class PaymentContainer extends Component {
           busy={busy}
         />,
       Failure: (msg) => <div>ERROR: {msg}</div>,
-      Loading: () => <div>Loading...</div>,
+      Loading: () => <Loading />,
       NotAsked: () => <div>Payment Medium Not asked...</div>
     })
   }
