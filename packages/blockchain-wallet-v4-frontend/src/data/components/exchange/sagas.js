@@ -12,6 +12,7 @@ import { selectReceiveAddress } from '../utils/sagas'
 import utils from './sagas.utils'
 
 export default ({ api, coreSagas }) => {
+  const logLocation = 'components/exchange/sagas'
   const {
     calculateEffectiveBalance,
     createPayment,
@@ -20,6 +21,7 @@ export default ({ api, coreSagas }) => {
     convertValues,
     selectOtherAccount
   } = utils({ api, coreSagas })
+  let pollingTradeStatusTask
 
   const firstStepInitialized = function * () {
     try {
@@ -34,7 +36,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.core.data.shapeShift.fetchPair('eth_bch'))
       yield put(actions.core.data.shapeShift.fetchPair('eth_btc'))
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'firstStepInitialized', e))
     }
   }
 
@@ -48,7 +50,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.form.initialize('exchange', newValues))
       yield call(validateForm)
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'swapClicked', e))
     }
   }
 
@@ -61,7 +63,7 @@ export default ({ api, coreSagas }) => {
       const minimum = getMinimumStandard(prop('minimum', pair))
       yield put(actions.form.change('exchange', 'sourceAmount', minimum))
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'minimumClicked', e))
     }
   }
 
@@ -76,7 +78,7 @@ export default ({ api, coreSagas }) => {
       const maximum = getMaximumStandard(coin, prop('maximum', pair), effectiveBalance)
       yield put(actions.form.change('exchange', 'sourceAmount', maximum))
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'maximumClicked', e))
     }
   }
 
@@ -95,7 +97,7 @@ export default ({ api, coreSagas }) => {
       }
       yield call(validateForm)
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'change', e))
     }
   }
 
@@ -160,7 +162,7 @@ export default ({ api, coreSagas }) => {
       }
       yield put(A.firstStepEnabled())
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'validateForm', e))
     }
   }
 
@@ -204,7 +206,8 @@ export default ({ api, coreSagas }) => {
       }
       yield put(A.secondStepSuccess(data))
     } catch (e) {
-      yield put(A.secondStepFailure('An error has occured.'))
+      yield put(A.secondStepFailure('An error has occurred.'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', e))
     }
   }
 
@@ -241,7 +244,8 @@ export default ({ api, coreSagas }) => {
       // We update the payment in the state
       yield put(A.secondStepPaymentSent(paymentValue))
     } catch (e) {
-      yield put(actions.alerts.displayError('Transaction could not be sent. Try again later.'))
+      yield put(actions.alerts.displayError('The transaction failed to send. Please try again later.'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e))
     }
   }
 
@@ -252,11 +256,9 @@ export default ({ api, coreSagas }) => {
       const depositAddress = prop('deposit', order)
       pollingTradeStatusTask = yield fork(startPollingTradeStatus, depositAddress)
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'thirdStepInitialized', e))
     }
   }
-
-  let pollingTradeStatusTask
 
   const startPollingTradeStatus = function * (depositAddress) {
     try {
@@ -275,10 +277,12 @@ export default ({ api, coreSagas }) => {
         yield call(delay, 5000)
       }
     } catch (e) {
-      console.log(e)
-      yield put(actions.alerts.displayError('Could not refresh trade status.'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'startPollingTradeStatus', e))
+      yield put(actions.alerts.displayError('Failed to refresh trade status.'))
     } finally {
-      if (yield cancelled()) { console.log('cancelled') }
+      if (yield cancelled()) {
+        yield put(actions.logs.logInfoMessage(logLocation, 'startPollingTradeStatus', 'trade polling cancelled'))
+      }
     }
   }
 

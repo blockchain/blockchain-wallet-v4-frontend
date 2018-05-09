@@ -3,8 +3,6 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
-import { contains, range } from 'ramda'
-
 import { Button, Link, Icon, Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
 import WordInput from './WordInput'
@@ -34,7 +32,7 @@ const VerificationContainer = styled.div`
 `
 
 const ThirdStep = (props) => {
-  const { previousStep, position, showSuccess, close, submitting, invalid, recoveryPhrase, goBackOnSuccess, inline, handleClose, ...rest } = props
+  const { previousStep, showSuccess, submitting, invalid, ...rest } = props
   const { indexes, onSubmit, isMnemonicVerified } = rest
 
   return (
@@ -47,9 +45,7 @@ const ThirdStep = (props) => {
       </SuccessOverlay>
       <VerificationContainer authType={showSuccess && isMnemonicVerified}>
         <Container>
-          {range(0, 11).map(
-            index => contains(index, indexes) && <WordInput index={index} />
-          )}
+          {indexes.map(index => <WordInput index={index} />)}
         </Container>
         <Buttons>
           <Button type='submit' nature='primary' disabled={submitting || invalid}>
