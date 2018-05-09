@@ -17,15 +17,22 @@ const ItemWrapper = styled.div`
   padding: 5px;
   box-sizing: border-box;
   cursor: pointer;
+  overflow-x: scroll;
   & > * { margin-left: 5px; }
   &:hover {
     color: ${props => props.theme['gray-4']};
     background-color: ${props => props.theme['gray-1']};
   }
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+  }
 `
 const BalanceContainer = styled.div`
   display: flex;
   flex-direction: row;
+  white-space: nowrap;
 `
 const renderItem = item => {
   return (
