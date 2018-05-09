@@ -1,9 +1,19 @@
 import React, { Component } from 'react'
+import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actions } from 'data'
 import { path } from 'ramda'
-// import Template from './template'
+import { Button, Text } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
+
+const ISXContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`
+const ButtonContainer = styled.div`
+  margin-left: 10%;
+`
 
 class ISignThisContainer extends Component {
   componentDidMount () {
@@ -18,7 +28,7 @@ class ISignThisContainer extends Component {
     }
 
     var e = document.getElementById('isx-iframe')
-    const iSignThisDomain = path(['platforms', 'web', 'coinify', 'config', 'iSignThisDomain'], this.props.options)
+    const iSignThisDomain = path(['platforms', 'web', 'coinify', 'config', 'iSignThisDomain'], this.props.walletOptions.data)
     // const iSignThisID = this.props.iSignThisId
 
     var _isx = {
@@ -65,6 +75,7 @@ class ISignThisContainer extends Component {
     }
 
     _isx.publish = function () {
+      this.iframe = e
       // Create IE + others compatible event handler
       let eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent'
       let eventer = window[eventMethod]
@@ -164,20 +175,27 @@ class ISignThisContainer extends Component {
   }
 
   render () {
-    const { options, iSignThisId } = this.props
+    const { options, iSignThisId, coinifyActions } = this.props
     const walletOpts = options || this.props.walletOptions.data
     const iSignThisDomain = path(['platforms', 'web', 'coinify', 'config', 'iSignThisDomain'], walletOpts)
     const srcUrl = `${iSignThisDomain}/landing/${iSignThisId}?embed=true`
 
     return (
-      <div>
-        <iframe style={{width: '80%', height: '400px'}}
+      <ISXContainer>
+        <iframe style={{width: '65%', height: '400px'}}
           src={srcUrl}
           sandbox='allow-same-origin allow-scripts allow-forms'
           scrolling='yes'
           id='isx-iframe'
         />
-      </div>
+        <ButtonContainer>
+          <Button nature='empty-secondary' onClick={() => coinifyActions.coinifyNextCheckoutStep('checkout')}>
+            <Text size='13px' weight={300}>
+              <FormattedMessage id='cancel' defaultMessage='Cancel' />
+            </Text>
+          </Button>
+        </ButtonContainer>
+      </ISXContainer>
     )
   }
 }
