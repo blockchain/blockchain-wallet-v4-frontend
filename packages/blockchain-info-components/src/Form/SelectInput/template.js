@@ -121,7 +121,7 @@ const SelectInput = (props) => {
   return (
     <SelectBoxInput>
       {!expanded || !searchEnabled
-        ? <Display onBlur={handleBlur} disabled={disabled} errorState={errorState}>
+        ? <Display onClick={handleFocus} onBlur={handleBlur} disabled={disabled} errorState={errorState}>
           {templateDisplay ? templateDisplay(display) : <DefaultDisplay fontSize={fontSize}>{display.text}</DefaultDisplay>}
         </Display>
         : <Search autoFocus={expanded} onChange={handleChange} />
