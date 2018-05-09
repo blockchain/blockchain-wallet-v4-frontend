@@ -7,7 +7,8 @@ import * as service from 'services/CoinifyService'
 import Stepper, { StepView } from 'components/Utilities/Stepper'
 import OrderCheckout from '../OrderCheckout'
 import { OrderDetails, OrderSubmit } from '../OrderReview'
-import Payment from 'modals/CoinifyExchangeData/Payment'
+import AddBankDetails from 'modals/CoinifyExchangeData/AddBankDetails'
+import AddCustomerDetails from 'modals/CoinifyExchangeData/AddCustomerDetails'
 import ISignThis from 'modals/CoinifyExchangeData/ISignThis'
 
 const CheckoutWrapper = styled.div`
@@ -68,9 +69,12 @@ const Sell = props => {
           </CheckoutWrapper>
         </StepView>
         <StepView step={1}>
-          <Payment />
+          <AddBankDetails />
         </StepView>
         <StepView step={2}>
+          <AddCustomerDetails />
+        </StepView>
+        <StepView step={3}>
           <FlexRow>
             <CheckoutWrapper>
               <OrderDetails

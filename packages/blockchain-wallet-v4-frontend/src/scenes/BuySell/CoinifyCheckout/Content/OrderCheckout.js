@@ -10,7 +10,7 @@ import { MethodContainer } from 'components/BuySell/styled.js'
 
 const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, limits, type, defaultCurrency, symbol, checkoutBusy, busy, setMax, increaseLimit }) => {
   const quoteInputSpec = {
-    method: 'buy',
+    method: type, // buy or sell
     input: defaultCurrency,
     output: 'btc'
   }
