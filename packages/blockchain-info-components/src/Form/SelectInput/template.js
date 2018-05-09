@@ -21,17 +21,18 @@ const Display = styled.button.attrs({ type: 'button' })`
   border-radius: 0;
   background-color: ${props => props.disabled ? props.theme['gray-1'] : props.theme['white']};
   cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
+  border-left: ${props => props.borderLeft === 'none' ? '0px' : ''};
 
   &:focus { outline: none; }
 `
 const DefaultDisplay = styled.div`
   width: 100%;
   box-sizing: border-box;
-  padding: 5px 20px 5px 10px;
+  padding: 5px 10px 5px 10px;
   font-family: 'Montserrat', sans-serif;
   font-size: ${props => props.fontSize === 'small' ? '12px' : '14px'};
   font-weight: 300;
-  text-align: left;
+  text-align: ${props => props.textAlign === 'center' ? 'center' : 'left'};
   overflow: hidden;
   text-overflow: ellipsis;
   color: ${props => props.theme['gray-5']};
@@ -49,6 +50,7 @@ const Search = styled.input.attrs({ type: 'text' })`
   border: 1px solid ${props => props.theme['gray-2']};
   box-sizing: border-box;
   padding: 0.5rem 1rem;
+  border-left: ${props => props.borderLeft === 'none' ? '0px' : ''};
 
   &:focus {
     border-radius: none;
@@ -88,6 +90,7 @@ const List = styled.div`
   box-sizing: border-box;
   border-top: 0px;
   z-index: 10;
+  border-left: ${props => props.borderLeft === 'none' ? 'none' : ''};
 `
 const Item = styled.div`
   width: 100%;
@@ -121,10 +124,10 @@ const SelectInput = (props) => {
   return (
     <SelectBoxInput>
       {!expanded || !searchEnabled
-        ? <Display onClick={handleFocus} onBlur={handleBlur} disabled={disabled} errorState={errorState}>
-          {templateDisplay ? templateDisplay(display) : <DefaultDisplay fontSize={fontSize}>{display.text}</DefaultDisplay>}
+        ? <Display onClick={handleFocus} onBlur={handleBlur} disabled={disabled} errorState={errorState} borderLeft={props.borderLeft}>
+          {templateDisplay ? templateDisplay(display) : <DefaultDisplay textAlign={props.textAlign} fontSize={fontSize}>{display.text}</DefaultDisplay>}
         </Display>
-        : <Search autoFocus={expanded} onChange={handleChange} />
+        : <Search borderLeft={props.borderLeft} autoFocus={expanded} onChange={handleChange} />
       }
       {showArrow && <Arrow name='down-arrow' size='10px' />}
       <List expanded={expanded}>

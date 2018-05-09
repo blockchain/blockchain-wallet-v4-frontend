@@ -69,6 +69,7 @@ const LimitsHelper = styled.div`
   height: 15px;
   font-size: 13px;
   top: 42px;
+  padding-top: 3px;
   a {
     color: ${props => props.theme['brand-secondary']};
     cursor: pointer;
