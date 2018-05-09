@@ -9,6 +9,9 @@ const CustomSelectBox = styled(SelectBox)`
   * button {
     border-left: none;
   }
+  * {
+    border-left: none;
+  }
 `
 
 class SelectBoxCoinifyCurrency extends React.PureComponent {
@@ -16,7 +19,7 @@ class SelectBoxCoinifyCurrency extends React.PureComponent {
     const { currencies, ...rest } = this.props
     const elements = [{ group: '', items: currencies }]
 
-    return <CustomSelectBox fontSize='small' label='' elements={elements} {...rest} />
+    return <CustomSelectBox textAlign='center' fontSize='small' label='' elements={elements} borderLeft='none' {...rest} />
   }
 }
 
