@@ -30,4 +30,4 @@ export const MinimumAmountMessage = () => (
 )
 
 export const InsufficientAmountMessage = () =>
-  <FormattedMessage id='modals.exchange.insufficientamountmessage' defaultMessage='Insufficient funds.' />
+  <FormattedMessage id='modals.exchange.insufficientamountmessage' defaultMessage='Insufficient funds' />
