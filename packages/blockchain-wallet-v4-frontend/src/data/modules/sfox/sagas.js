@@ -91,9 +91,9 @@ export default ({ coreSagas }) => {
 
   const submitQuote = function * (action) {
     try {
-      yield put(A.orderLoading())
+      yield put(A.sfoxLoading())
       yield call(coreSagas.data.sfox.handleTrade, action.payload)
-      yield put(A.orderSuccess())
+      yield put(A.sfoxSuccess())
       yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
     } catch (e) {
       yield put(A.sfoxFailure(e))
@@ -104,10 +104,9 @@ export default ({ coreSagas }) => {
   const submitSellQuote = function * (action) {
     const q = action.payload
     try {
-      yield put(A.orderLoading())
+      yield put(A.sfoxLoading())
       const trade = yield call(coreSagas.data.sfox.handleSellTrade, q)
 
-      // TODO can refactor this to use payment.chain in the future for cleanliness
       let p = yield select(sendBtcSelectors.getPayment)
       let payment = yield coreSagas.payment.btc.create({ payment: p.getOrElse({}), network: settings.NETWORK_BITCOIN })
 
@@ -128,7 +127,7 @@ export default ({ coreSagas }) => {
       payment = yield payment.publish()
 
       yield put(sendBtcActions.sendBtcPaymentUpdated(Remote.of(payment.value())))
-      yield put(A.orderSuccess())
+      yield put(A.sfoxSuccess())
       yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
     } catch (e) {
       yield put(A.sfoxFailure(e))
