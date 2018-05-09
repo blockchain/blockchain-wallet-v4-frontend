@@ -12,7 +12,7 @@ export const getData = state => {
     const priorityFeePerByte = path(['fees', 'priority'], payment)
     const minFeePerByte = path(['fees', 'limits', 'min'], payment)
     const maxFeePerByte = path(['fees', 'limits', 'max'], payment)
-    const totalFee = path(['selection', 'fee'], payment)
+    const totalFee = path(['selection', 'fee'], payment) || 0
     const effectiveBalance = prop('effectiveBalance', payment)
     const feePerByteElements = [{ group: '', items: [{ text: 'Regular', value: regularFeePerByte }, { text: 'Priority', value: priorityFeePerByte }] }]
     const feePerByte = formValueSelector('sendBtc')(state, 'feePerByte')

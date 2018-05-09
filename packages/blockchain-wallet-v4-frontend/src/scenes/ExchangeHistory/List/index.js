@@ -8,15 +8,20 @@ import List from './template'
 
 class ListContainer extends React.PureComponent {
   componentDidMount () {
-    const tradesWithDeposit = concat(this.props.incomplete, this.props.complete)
+    const { complete, incomplete } = this.props
+    const tradesWithDeposit = concat(incomplete, complete)
     this.props.actions.initialized(tradesWithDeposit)
   }
 
   render () {
-    const { complete, incomplete, error } = this.props
-    const allIncomplete = concat(incomplete, error)
+    const { complete, incomplete, showComplete, showIncomplete } = this.props
 
-    return <List complete={complete} incomplete={allIncomplete} />
+    return <List
+      complete={complete}
+      incomplete={incomplete}
+      showComplete={showComplete}
+      showIncomplete={showIncomplete}
+    />
   }
 }
 
