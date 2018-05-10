@@ -72,7 +72,7 @@ const ExchangeDetails = props => {
           <TableRow>
             <TableCell>
               <Text size='13px' weight={400} capitalize>
-                <FormattedMessage id='modals.exchangedetails.deposited' defaultMessage='{coin} deposited:' values={{ coin: sourceCoin }} />
+                <FormattedMessage id='modals.exchangedetails.deposited' defaultMessage='{coin} Deposited:' values={{ coin: sourceCoin }} />
               </Text>
             </TableCell>
             <TableCell>
@@ -84,7 +84,7 @@ const ExchangeDetails = props => {
           <TableRow>
             <TableCell>
               <Text size='13px' weight={400} capitalize>
-                <FormattedMessage id='modals.exchangedetails.received' defaultMessage='{coin} received:' values={{ coin: targetCoin }} />
+                <FormattedMessage id='modals.exchangedetails.received' defaultMessage='{coin} to be Received:' values={{ coin: targetCoin }} />
               </Text>
             </TableCell>
             <TableCell>
