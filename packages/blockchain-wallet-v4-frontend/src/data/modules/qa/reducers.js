@@ -10,7 +10,6 @@ const qa = (state = INITIAL_STATE, action) => {
 
   switch (type) {
     case AT.QA_SET_SELL_ADDRESS: {
-      console.log('qa reducer')
       return assoc('qaSellAddress', payload, state)
     }
     default:
