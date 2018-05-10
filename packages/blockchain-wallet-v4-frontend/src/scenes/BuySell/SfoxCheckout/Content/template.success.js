@@ -1,7 +1,7 @@
 import React from 'react'
 import { filter } from 'ramda'
 import styled from 'styled-components'
-import OrderHistory from '../../OrderHistory'
+import OrderHistoryTable from 'components/BuySell/OrderHistoryTable'
 import { Text } from 'blockchain-info-components'
 import { determineStep, determineReason } from 'services/SfoxService'
 import { flex } from 'services/StyleService'
@@ -17,7 +17,6 @@ const CheckoutWrapper = styled.div`
 const OrderSubmitWrapper = CheckoutWrapper.extend`
   width: 35%;
   padding: 30px 30px 30px 10%;
-
 `
 const OrderHistoryWrapper = styled.div`
   width: 100%;
@@ -160,13 +159,13 @@ const Success = props => {
           <Text size='15px' weight={400}>
             <FormattedMessage id='scenes.buysell.sfoxcheckout.trades.pending' defaultMessage='Pending Orders' />
           </Text>
-          <OrderHistory trades={filter(isPending, trades)} conversion={1e8} handleDetailsClick={trade => showModal('SfoxTradeDetails', { trade })} />
+          <OrderHistoryTable trades={filter(isPending, trades)} conversion={1e8} handleDetailsClick={trade => showModal('SfoxTradeDetails', { trade })} />
         </OrderHistoryContent>
         <OrderHistoryContent>
           <Text size='15px' weight={400}>
             <FormattedMessage id='scenes.buysell.sfoxcheckout.trades.completed' defaultMessage='Completed Orders' />
           </Text>
-          <OrderHistory trades={filter(isCompleted, trades)} conversion={1e8} handleDetailsClick={trade => showModal('SfoxTradeDetails', { trade })} />
+          <OrderHistoryTable trades={filter(isCompleted, trades)} conversion={1e8} handleDetailsClick={trade => showModal('SfoxTradeDetails', { trade })} />
         </OrderHistoryContent>
       </OrderHistoryWrapper>
     )

@@ -43,7 +43,10 @@ SelectBox.propTypes = {
   }).isRequired,
   elements: PropTypes.arrayOf(PropTypes.shape({
     group: PropTypes.string.isRequired,
-    items: PropTypes.array.isRequired
+    items: PropTypes.arrayOf(PropTypes.shape({
+      text: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.object.isRequired]),
+      value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired, PropTypes.object.isRequired])
+    })).isRequired
   })).isRequired,
   label: PropTypes.string,
   searchEnabled: PropTypes.bool,
