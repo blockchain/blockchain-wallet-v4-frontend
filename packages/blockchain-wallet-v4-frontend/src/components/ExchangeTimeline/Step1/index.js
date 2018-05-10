@@ -56,7 +56,7 @@ const Step1 = props => (
 )
 
 Step1.propTypes = {
-  status: PropTypes.oneOf(['active, inactive'])
+  status: PropTypes.oneOf(['active', 'inactive'])
 }
 
 Step1.defaultProps = {

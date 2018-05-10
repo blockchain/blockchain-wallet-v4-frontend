@@ -72,7 +72,7 @@ const CurrencyBox = styled(Text)`
 `
 
 const Success = props => {
-  const { elements, enabled, currency, sourceCoin, targetCoin, formError, handleSwap, handleSubmit, dirty } = props
+  const { elements, enabled, hasOneAccount, currency, sourceCoin, targetCoin, formError, handleSwap, handleSubmit, dirty } = props
 
   return (
     <Wrapper>
@@ -97,13 +97,13 @@ const Success = props => {
         </Row>
         <Row height='50px' spaced>
           <Cell>
-            <Field name='source' component={SelectBox} elements={elements} />
+            <Field name='source' component={SelectBox} elements={elements} hasOneAccount={hasOneAccount} />
           </Cell>
           <Cell size='small'>
             <Icon name='exchange-2' size='24px' weight={500} cursor onClick={handleSwap} />
           </Cell>
           <Cell>
-            <Field name='target' component={SelectBox} elements={elements} />
+            <Field name='target' component={SelectBox} elements={elements} hasOneAccount={hasOneAccount} />
           </Cell>
         </Row>
         <Row justify='space-between'>
