@@ -6,6 +6,7 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import StepIndicator from 'components/StepIndicator'
 import Tray from 'components/Tray'
+import { selectors } from 'data'
 import Create from './Create'
 import Order from './Order'
 import Payment from './Payment'
@@ -43,9 +44,10 @@ class SfoxExchangeData extends React.PureComponent {
   }
 
   getStepComponent (step) {
+    console.log('get step comp', this.props)
     switch (step) {
       case 'account': return <Create />
-      case 'isx': return <ISignThis />
+      case 'isx': return <ISignThis iSignThisId={path(['iSignThisID'], this.props.trade.data)} />
       case 'order': return <Order />
       case 'payment': return <Payment />
       case 'confirm': return <Confirm />
@@ -81,7 +83,8 @@ SfoxExchangeData.propTypes = {
 
 const mapStateToProps = (state) => ({
   data: getData(state),
-  signupStep: path(['coinify', 'signupStep'], state)
+  signupStep: path(['coinify', 'signupStep'], state),
+  trade: selectors.core.data.coinify.getTrade(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

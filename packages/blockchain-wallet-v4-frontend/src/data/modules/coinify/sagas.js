@@ -3,7 +3,7 @@ import * as A from './actions'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors.js'
 // import { formValueSelector } from 'redux-form'
-import { merge, path, prop, equals } from 'ramda'
+import { merge, path, prop, equals, head } from 'ramda'
 import * as service from 'services/CoinifyService'
 
 export default ({ coreSagas }) => {
@@ -138,7 +138,6 @@ export default ({ coreSagas }) => {
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'handleChange', e))
-      console.log(e)
     }
   }
 
@@ -158,6 +157,13 @@ export default ({ coreSagas }) => {
   const fromISX = function * (action) {
     const status = action.payload
     try {
+      // TODO if in modal: close modal, checkout step, open CoinifyTradeDetails modal for KYC result
+      const modals = yield select(selectors.modals.getModals)
+      // if (path(['type'], head(modals)) === 'CoinifyExchangeData') {
+      //   yield put(actions.modals.closeAllModals())
+      //   yield put(A.coinifyNextCheckoutStep('checkout'))
+      //
+      // }
       yield put(A.coinifyNextCheckoutStep('checkout'))
       const trade = yield select(selectors.core.data.coinify.getTrade)
 
