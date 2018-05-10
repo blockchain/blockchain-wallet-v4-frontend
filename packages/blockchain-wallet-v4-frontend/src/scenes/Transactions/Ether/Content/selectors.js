@@ -12,7 +12,7 @@ const filterTransactions = curry((status, criteria, transactions) => {
 
 export const getData = createSelector(
   [
-    selectors.form.getFormValues('btcTransactions'),
+    selectors.form.getFormValues('ethTransactions'),
     selectors.core.common.ethereum.getWalletTransactions
   ],
   (formValues, pages) => {
