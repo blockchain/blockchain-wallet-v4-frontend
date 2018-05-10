@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { filter, prop, reverse, sortBy } from 'ramda'
 import { Table, TableCell, TableHeader, Text } from 'blockchain-info-components'
 
-class OrderHistory extends React.PureComponent {
+class OrderHistoryTable extends React.PureComponent {
   constructor () {
     super()
     this.state = {}
@@ -49,4 +49,4 @@ class OrderHistory extends React.PureComponent {
   }
 }
 
-export default OrderHistory
+export default OrderHistoryTable

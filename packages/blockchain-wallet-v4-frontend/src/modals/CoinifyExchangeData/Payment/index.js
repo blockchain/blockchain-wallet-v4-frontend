@@ -1,67 +1,78 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
+import { bindActionCreators } from 'redux'
 import { actions } from 'data'
-import ui from 'redux-ui'
-import { getData } from './selectors'
+import { getData, getQuote } from './selectors'
 import Success from './template.success'
+import { path } from 'ramda'
+import Loading from 'components/BuySell/Loading'
 
 class PaymentContainer extends Component {
   constructor (props) {
     super(props)
 
-    this.toConfirmStep = this.toConfirmStep.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
     this.handlePaymentClick = this.handlePaymentClick.bind(this)
+    this.triggerKyc = this.triggerKyc.bind(this)
 
     this.state = { medium: '' }
   }
 
-  toConfirmStep () {
-    this.props.coinifyActions.coinifyNextStep('confirm')
+  componentDidMount () {
+    this.props.coinifyDataActions.getPaymentMediums(this.props.quote.data)
+  }
+
+  componentWillUnmount () {
+    this.props.coinifyActions.coinifyNotAsked()
+  }
+
+  triggerKyc () {
+    this.props.coinifyActions.coinifyLoading()
+    this.props.coinifyActions.triggerKYC()
   }
 
   handlePaymentClick (medium) {
     this.setState({ medium })
-  }
-
-  onSubmit (e) {
-    e.preventDefault()
-    // TODO save medium in state --> go to confirm step
-    this.props.coinifyActions.saveMedium(this.state.medium)
+    this.props.coinifyActions.saveMedium(medium)
   }
 
   render () {
-    const { data } = this.props
+    const { data, coinifyBusy } = this.props
+
+    const busy = coinifyBusy.cata({
+      Success: () => false,
+      Failure: (err) => err,
+      Loading: () => true,
+      NotAsked: () => false
+    })
 
     return data.cata({
       Success: (value) =>
         <Success
           value={value}
           getAccounts={this.getAccounts}
-          toConfirmStep={this.toConfirmStep}
-          onSubmit={this.onSubmit}
+          // onSubmit={this.onSubmit}
           handlePaymentClick={this.handlePaymentClick}
           medium={this.state.medium}
           quote={this.props.quote}
+          triggerKyc={this.triggerKyc}
+          busy={busy}
         />,
       Failure: (msg) => <div>ERROR: {msg}</div>,
-      Loading: () => <div>Loading...</div>,
-      NotAsked: () => <div>Not asked...</div>
+      Loading: () => <Loading />,
+      NotAsked: () => <div>Payment Medium Not asked...</div>
     })
   }
 }
 
 PaymentContainer.propTypes = {
-  ui: PropTypes.object,
-  updateUI: PropTypes.function,
-  smsVerified: PropTypes.number.isRequired,
-  emailVerified: PropTypes.number.isRequired
+  quote: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state) => ({
-  data: getData(state)
+  data: getData(state),
+  quote: getQuote(state),
+  coinifyBusy: path(['coinify', 'coinifyBusy'], state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -70,9 +81,4 @@ const mapDispatchToProps = (dispatch) => ({
   coinifyActions: bindActionCreators(actions.modules.coinify, dispatch)
 })
 
-const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  ui({ state: {} })
-)
-
-export default enhance(PaymentContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(PaymentContainer)

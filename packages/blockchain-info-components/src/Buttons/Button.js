@@ -59,6 +59,7 @@ const selectColor = (nature, disabled) => {
     case 'transferred': return { color: 'white', backgroundColor: 'transferred', borderColor: 'transferred' }
     case 'logout': return { color: 'white', backgroundColor: 'error', borderColor: 'error' }
     case 'dark': return { color: 'white', backgroundColor: 'gray-6', borderColor: 'gray-6' }
+    case 'empty-secondary': return { color: 'white', backgroundColor: 'white', borderColor: 'brand-secondary' }
     default: return { color: 'gray-6', backgroundColor: 'white', borderColor: 'gray-2' }
   }
 }
@@ -80,7 +81,7 @@ const Button = (props) => {
 }
 
 Button.propTypes = {
-  nature: PropTypes.oneOf(['empty', 'primary', 'secondary', 'copy', 'received', 'sent', 'transferred', 'logout', 'dark']),
+  nature: PropTypes.oneOf(['empty', 'primary', 'secondary', 'copy', 'received', 'sent', 'transferred', 'logout', 'dark', 'empty-secondary']),
   fullwidth: PropTypes.bool,
   disabled: PropTypes.bool,
   rounded: PropTypes.bool,

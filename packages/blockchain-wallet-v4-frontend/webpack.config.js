@@ -214,6 +214,7 @@ module.exports = {
           envConfig.API_DOMAIN,
           envConfig.WALLET_HELPER_DOMAIN,
           'https://app-api.coinify.com',
+          'https://app-api.sandbox.coinify.com',
           'https://api.sfox.com',
           'https://api.staging.sfox.com',
           'https://quotes.sfox.com',
