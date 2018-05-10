@@ -11,6 +11,5 @@ export default ({ api }) => {
     yield takeLatest(AT.FETCH_BCH_FEE, dataBchSagas.fetchFee)
     yield fork(dataBchSagas.watchTransactions)
     yield takeLatest(AT.FETCH_BCH_TRANSACTION_HISTORY, dataBchSagas.fetchTransactionHistory)
-    yield takeLatest(AT.FETCH_BCH_UNSPENT, dataBchSagas.fetchUnspent)
   }
 }

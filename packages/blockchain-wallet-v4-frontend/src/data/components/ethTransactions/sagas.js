@@ -1,6 +1,5 @@
 import { select, put } from 'redux-saga/effects'
-import { equals, path } from 'ramda'
-import { Remote } from 'blockchain-wallet-v4/src'
+import { equals, isEmpty, path } from 'ramda'
 import { actions, selectors } from 'data'
 
 export default ({ coreSagas }) => {
@@ -12,8 +11,9 @@ export default ({ coreSagas }) => {
         search: ''
       }
       yield put(actions.form.initialize('ethTransactions', initialValues))
-      const ethTransactionsR = yield select(selectors.core.data.eth.getTransactions)
-      if (!Remote.Success.is(ethTransactionsR)) yield put(actions.core.data.eth.fetchTransactions())
+      const ethTransactions = yield select(selectors.core.data.ethereum.getTransactions)
+      // Add context here
+      if (isEmpty(ethTransactions)) yield put(actions.core.data.ethereum.fetchTransactions())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
     }
@@ -24,7 +24,7 @@ export default ({ coreSagas }) => {
       const threshold = 250
       const { yMax, yOffset } = action.payload
       if (yMax - yOffset < threshold) {
-        yield put(actions.core.data.eth.fetchTransactions(false))
+        yield put(actions.core.data.eth.fetchTransactions())
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'scrollUpdated', e))

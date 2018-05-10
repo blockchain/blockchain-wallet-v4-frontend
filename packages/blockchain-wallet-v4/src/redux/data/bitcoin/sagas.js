@@ -48,7 +48,8 @@ export default ({ api }) => {
     }
   }
 
-  const fetchTransactions = function * ({ type, payload }) {
+  const fetchTransactions = function * (action) {
+    const { payload } = action
     const { address, reset } = payload
     const TX_PER_PAGE = 10
     try {
