@@ -2,7 +2,11 @@ import React from 'react'
 import BigNumber from 'bignumber.js'
 import { prop } from 'ramda'
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { MaximumAmountMessage } from './validationMessages'
+import { MaximumAmountMessage, InsufficientFundsMessage } from './validationMessages'
+
+export const insufficientFunds = (value, allValues, props) => {
+  return props.effectiveBalance < 0 ? undefined : <InsufficientFundsMessage />
+}
 
 export const maximumAmount = (value, allValues, props) => {
   const valueEth = prop('coin', value)

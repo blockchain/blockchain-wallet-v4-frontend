@@ -20,3 +20,7 @@ export const MaximumAmountMessage = () => (
     <MaximumAmountLink />
   </Wrapper>
 )
+
+export const InsufficientFundsMessage = () => (
+  <FormattedMessage id='modals.sendeth.insufficientfundsnessage' defaultMessage="Insufficients funds" />
+)

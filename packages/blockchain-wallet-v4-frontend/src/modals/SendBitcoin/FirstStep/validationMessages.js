@@ -45,8 +45,8 @@ export const MinimumFeeMessage = () => (
   </Wrapper>
 )
 
-export const EmptyAccount = () => (
-  <FormattedMessage id='modals.sencbtc.nomoney' defaultMessage='No money to spend on this account' />
+export const InsufficientFundsMessage = () => (
+  <FormattedMessage id='modals.sendbtc.insufficientfundsnessage' defaultMessage="Insufficients funds" />
 )
 
 export const AddressMatchesPriv = () => (
