@@ -9,6 +9,9 @@ Please enter one or more of the following:
 - Upgrades
 - Other (add explanation)
 
+## Ticket Numbers
+Add comma separated list of ticket numbers
+
 ## Testing Steps
 Detail the steps required for the reviewer(s) to verify and test these changes.
 
@@ -22,4 +25,3 @@ Detail the steps required for the reviewer(s) to verify and test these changes.
 - [ ] Change validated and application spot checked
 - [ ] Code styles and best practices met
 - [ ] Code is readable and commented when necessary
-
