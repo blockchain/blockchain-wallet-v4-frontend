@@ -192,7 +192,7 @@ export default ({ api, coreSagas }) => {
       yield call(loginRoutineSaga, false, true)
       yield put(actions.auth.registerSuccess())
     } catch (e) {
-      yield put(actions.auth.registerFailure())
+      yield put(actions.auth.registerFailure(e))
       yield put(actions.alerts.displayError('Wallet could not be created.'))
     }
   }
