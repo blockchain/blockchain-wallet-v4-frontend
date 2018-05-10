@@ -21,10 +21,10 @@ class FirstStepContainer extends React.PureComponent {
     this.props.initialValues.map(x => {
       this.props.formActions.initialize('requestBitcoin', x)
     })
-
-    if (Remote.NotAsked.is(this.props.data)) {
-      this.props.bitcoinDataActions.fetchData()
-    }
+    // TODO: pass the context to fetchData.
+    // if (Remote.NotAsked.is(this.props.data)) {
+    //   this.props.bitcoinDataActions.fetchData()
+    // }
   }
 
   componentWillReceiveProps (nextProps) {

@@ -1,17 +1,15 @@
-import { isNil, take, flatten, map, lift, prop, curry, compose, descend, sort } from 'ramda'
+import { concat, isNil, take, map, lift, prop, curry, compose, descend, reduce, sort, unapply } from 'ramda'
 import { selectors } from 'data'
 import { createSelector } from 'reselect'
 import { Remote } from 'blockchain-wallet-v4/src'
 
-export const transform = curry((coin, transaction) => {
-  return {
-    type: 'transaction',
-    time: transaction.time * 1000,
-    amount: transaction.amount,
-    action: transaction.type,
-    coin: coin
-  }
-})
+export const transform = curry((coin, transaction) => ({
+  type: 'transaction',
+  time: transaction.time * 1000,
+  amount: transaction.amount,
+  action: transaction.type,
+  coin: coin
+}))
 
 export const getNumber = () => 8
 
@@ -31,15 +29,20 @@ export const getBchTransactions = createSelector(
 )
 
 export const getEthTransactions = createSelector(
-  [selectors.core.common.ethereum.getTransactions, getNumber],
-  (transactions, number) => transactions.map(compose(take(number), map(transform('ETH'))))
+  [selectors.core.common.ethereum.getWalletTransactions, getNumber],
+  (transactions, number) => isNil(transactions[0]) ? Remote.of([]) : transactions[0].map(compose(take(number), map(transform('ETH'))))
 )
+
+export const concatAll = unapply(reduce(concat, []))
 
 export const getData = createSelector(
   [getLogs, getBtcTransactions, getBchTransactions, getEthTransactions, getNumber],
   (logs, btc, bch, eth, number) => {
     const transform = (logs, btc, bch, eth) => {
-      return take(number, flatten([logs, btc, bch, eth].map(sort(descend(prop('time')))).map(take(number))))
+      const allActivities = concatAll(logs, btc, bch, eth)
+      const filterByTime = sort(descend(prop('time')))
+      const take8 = take(8)
+      return compose(take8, filterByTime)(allActivities)
     }
     return lift(transform)(logs, btc, bch, eth)
   }

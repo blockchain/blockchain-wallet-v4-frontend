@@ -21,10 +21,10 @@ class RequestBchContainer extends React.PureComponent {
     this.props.initialValues.map(x => {
       this.props.formActions.initialize('requestBch', x)
     })
-
-    if (Remote.NotAsked.is(this.props.data)) {
-      this.props.bchDataActions.fetchData()
-    }
+    // TODO: pass the context to fetchData.
+    // if (Remote.NotAsked.is(this.props.data)) {
+    //   this.props.bchDataActions.fetchData()
+    // }
   }
 
   componentWillReceiveProps (nextProps) {
