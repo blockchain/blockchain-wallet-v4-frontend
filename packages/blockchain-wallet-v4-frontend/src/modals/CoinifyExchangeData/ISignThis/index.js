@@ -17,12 +17,12 @@ const ButtonContainer = styled.div`
 
 class ISignThisContainer extends Component {
   componentDidMount () {
+    // console.log('isx mounted', this.props)
     window.addEventListener('message', function (e) {
-      // console.log('V4 ISX_COMPONENT: addEventListener', e)
     })
 
     const onComplete = (e) => {
-      console.log('V4 ISX_COMPONENT: from onComplete', e)
+      // console.log('V4 ISX_COMPONENT: from onComplete', e)
       // TODO dispatch action to go to next step --> order history and open modal for in review, rejected, processing, etc..
       this.props.coinifyActions.fromISX(e)
     }
@@ -100,28 +100,28 @@ class ISignThisContainer extends Component {
           let d = JSON.parse(e.data.split('[ISX-Embed]')[1])
 
           if (d.event.toLowerCase() === 'complete') {
-            console.log('V4 ISX_COMPONENT complete')
+            // console.log('V4 ISX_COMPONENT complete')
             if (self.completeListener) {
               self.completeListener(d)
             }
           } else if (d.event.toLowerCase() === 'route') {
-            console.log('V4 ISX_COMPONENT route')
+            // console.log('V4 ISX_COMPONENT route')
             if (self.routeListener) {
               self.routeListener(d)
             }
           } else if (d.event.toLowerCase() === 'error') {
-            console.log('V4 ISX_COMPONENT error')
+            // console.log('V4 ISX_COMPONENT error')
             if (self.errorListener) {
               self.errorListener(d)
             }
           } else if (d.event.toLowerCase() === 'resized') {
-            console.log('V4 ISX_COMPONENT resized')
+            // console.log('V4 ISX_COMPONENT resized')
             if (self.resizeListener) {
               self.resizeListener(d)
             }
           }
         } catch (err) {
-          console.log('V4 ISX_COMPONENT: err caught:', err)
+          // console.log('V4 ISX_COMPONENT: err caught:', err)
         }
       }, false)
 
@@ -133,7 +133,7 @@ class ISignThisContainer extends Component {
     }
 
     var setState = (state) => {
-      console.log('V4 ISX_COMPONENT: setState', state)
+      // console.log('V4 ISX_COMPONENT: setState', state)
       switch (state) {
         case 'SUCCESS':
           onComplete('processing')
@@ -158,18 +158,18 @@ class ISignThisContainer extends Component {
     _isx
       .setup(widget)
       .done(function (e) {
-        console.log('V4 ISX_COMPONENT: completed. e=', JSON.stringify(e))
+        // console.log('V4 ISX_COMPONENT: completed. e=', JSON.stringify(e))
 
         setState(e.state)
       })
       .fail(function (e) {
-        console.log('V4 ISX_COMPONENT: error. e=' + JSON.stringify(e))
+        // console.log('V4 ISX_COMPONENT: error. e=' + JSON.stringify(e))
       })
       .resized(function (e) {
-        console.log('V4 ISX_COMPONENT: resized. e=', JSON.stringify(e))
+        // console.log('V4 ISX_COMPONENT: resized. e=', JSON.stringify(e))
       })
       .route(function (e) {
-        console.log('V4 ISX_COMPONENT: route. e=' + JSON.stringify(e))
+        // console.log('V4 ISX_COMPONENT: route. e=' + JSON.stringify(e))
       })
       .publish()
   }
