@@ -21,7 +21,7 @@ export const getConfirmations = (blockNumber, latestBlockHeight) => {
 }
 
 export const getTime = tx => {
-  const date = moment.utc(tx.timeStamp * 1000)
+  const date = moment.unix(tx.timeStamp).local()
   return equals(date.year(), moment().year())
     ? date.format('MMMM D @ h:mm A')
     : date.format('MMMM D YYYY @ h:mm A')
