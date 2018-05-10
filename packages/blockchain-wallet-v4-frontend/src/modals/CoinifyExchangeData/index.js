@@ -22,7 +22,7 @@ const HeaderWrapper = styled.div`
   flex-direction: row;
 `
 
-class SfoxExchangeData extends React.PureComponent {
+class CoinifyExchangeData extends React.PureComponent {
   constructor () {
     super()
     this.state = { show: false }
@@ -64,7 +64,7 @@ class SfoxExchangeData extends React.PureComponent {
             <Text size='20px' weight={300}>
               <FormattedMessage id='coinify.header.start' defaultMessage='Start buying and selling in two simple steps.' />
             </Text>
-            <StepIndicator coinify step={step} stepMap={this.stepMap} />
+            <StepIndicator flexEnd minWidth='135px' maxWidth='135px' step={step} stepMap={this.stepMap} />
           </HeaderWrapper>
         </ModalHeader>
         <ModalBody>
@@ -75,7 +75,7 @@ class SfoxExchangeData extends React.PureComponent {
   }
 }
 
-SfoxExchangeData.propTypes = {
+CoinifyExchangeData.propTypes = {
   step: PropTypes.oneOf(['account', 'isx', 'confirm', 'order', 'payment']),
   close: PropTypes.function
 }
@@ -95,4 +95,4 @@ const enhance = compose(
   modalEnhancer('CoinifyExchangeData')
 )
 
-export default enhance(SfoxExchangeData)
+export default enhance(CoinifyExchangeData)
