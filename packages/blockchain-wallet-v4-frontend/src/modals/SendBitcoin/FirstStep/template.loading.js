@@ -9,16 +9,14 @@ const Wrapper = styled.div`
   box-sizing: border-box;
 `
 
-export default (props) => {
-  return (
-    <Wrapper>
-      <SkeletonRectangle height='20px' width='30%' />
-      <SkeletonRectangle height='40px' width='100%' style={spacing('mt-15')} />
-      <SkeletonRectangle height='20px' width='30%' style={spacing('mt-30')} />
-      <SkeletonRectangle height='40px' width='100%' style={spacing('mt-15')} />
-      <SkeletonRectangle height='20px' width='30%' style={spacing('mt-15')} />
-      <SkeletonRectangle height='40px' width='100%' style={spacing('mt-15')} />
-      <SkeletonRectangle height='80px' width='100%' style={spacing('mt-40')} />
-    </Wrapper>
-  )
-}
+export default (props) => (
+  <Wrapper>
+    <SkeletonRectangle height='20px' width='30%' />
+    <SkeletonRectangle height='40px' width='100%' style={spacing('mt-15')} />
+    <SkeletonRectangle height='20px' width='30%' style={spacing('mt-30')} />
+    <SkeletonRectangle height='40px' width='100%' style={spacing('mt-15')} />
+    <SkeletonRectangle height='20px' width='30%' style={spacing('mt-15')} />
+    <SkeletonRectangle height='40px' width='100%' style={spacing('mt-15')} />
+    <SkeletonRectangle height='80px' width='100%' style={spacing('mt-40')} />
+  </Wrapper>
+)

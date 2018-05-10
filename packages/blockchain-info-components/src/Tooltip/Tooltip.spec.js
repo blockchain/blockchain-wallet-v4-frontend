@@ -5,7 +5,7 @@ import 'jest-styled-components'
 
 describe('Tooltip component', () => {
   it('renders correctly', () => {
-    const component = renderer.create(<Tooltip colors={{'backgroundColor': '#12345'}}><span>Default</span></Tooltip>)
+    const component = renderer.create(<Tooltip colors={'primary'}><span>Default</span></Tooltip>)
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
