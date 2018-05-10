@@ -139,8 +139,8 @@ export default ({ api, coreSagas }) => {
               yield put(actions.alerts.displayInfo('2FA required'))
               yield put(actions.auth.loginFailure())
             } else {
-              // TODO: write to logger here
-              yield put(actions.alerts.displayError(e.message || 'Error logging into your wallet'))
+              yield put(actions.auth.loginFailure('wrong_wallet_password'))
+              yield put(actions.logs.logErrorMessage('data/auth/sagas', 'login', e))
             }
           }
         } else {
