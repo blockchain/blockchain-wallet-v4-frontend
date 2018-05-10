@@ -18,7 +18,6 @@ class SecondStepContainer extends React.Component {
 
     return data.cata({
       Success: (value) => <Success
-        sourceLabel={value.sourceLabel}
         sourceCoin={value.sourceCoin}
         sourceAmount={value.sourceAmount}
         sourceFee={value.sourceFee}
@@ -27,6 +26,7 @@ class SecondStepContainer extends React.Component {
         targetCoin={value.targetCoin}
         targetAmount={value.targetAmount}
         targetFee={value.targetFee}
+        targetLabel={value.targetLabel}
         expiration={value.expiration}
         handleSubmit={(e) => { e.preventDefault(); actions.secondStepSubmitClicked() }}
         handleCancel={() => actions.secondStepCancelClicked()}

@@ -3,9 +3,10 @@ import { shallow, mount } from 'enzyme'
 import toJson from 'enzyme-to-json'
 import ListItemContainer from './index'
 import configureStore from 'redux-mock-store'
-jest.mock('./template', () => 'template')
-const store = configureStore([])({})
 
+jest.mock('./template', () => () => { return (<div/>) })
+
+const store = configureStore([])({})
 const tx = { hash: '123abc' }
 
 describe('ListItemContainer', () => {

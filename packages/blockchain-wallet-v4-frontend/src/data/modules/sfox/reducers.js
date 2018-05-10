@@ -3,7 +3,8 @@ import { assoc } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 const INITIAL_STATE = {
-  sfoxBusy: Remote.NotAsked
+  sfoxBusy: Remote.NotAsked,
+  qaSellAddress: null
 }
 
 const sfoxSignup = (state = INITIAL_STATE, action) => {

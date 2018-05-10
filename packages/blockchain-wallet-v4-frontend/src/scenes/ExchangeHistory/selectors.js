@@ -1,4 +1,4 @@
-import { anyPass, curry, equals, filter, lift, map, prop } from 'ramda'
+import { anyPass, concat, curry, equals, filter, isEmpty, lift, map, prop } from 'ramda'
 import { selectors } from 'data'
 
 const getTradesWithStatus = curry((statuses, trades) =>
@@ -9,6 +9,18 @@ export const getData = (state) => {
   const completedTrades = lift(getTradesWithStatus(['complete', 'resolved']))(trades)
   const errorTrades = lift(getTradesWithStatus(['error', 'failed']))(trades)
   const incompleteTrades = lift(getTradesWithStatus(['no_deposits']))(trades)
-  return lift((c, i, e) =>
-    ({ complete: c, incomplete: i, error: e }))(completedTrades, incompleteTrades, errorTrades)
+
+  const transform = (c, i, e) => {
+    const incomplete = concat(i, e)
+    const showComplete = !isEmpty(c)
+    const showIncomplete = !isEmpty(incomplete)
+
+    return {
+      complete: c,
+      showComplete,
+      incomplete,
+      showIncomplete
+    }
+  }
+  return lift(transform)(completedTrades, incompleteTrades, errorTrades)
 }

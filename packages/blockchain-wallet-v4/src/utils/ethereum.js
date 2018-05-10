@@ -46,7 +46,11 @@ export const calculateFee = (gasPrice, gasLimit) => {
 }
 
 export const calculateEffectiveBalance = (balance, fee) => {
-  return new BigNumber(balance).sub(new BigNumber(fee)).toString()
+  const balanceB = new BigNumber(balance)
+  const feeB = new BigNumber(fee)
+  const effectiveBalanceB = balanceB.sub(feeB)
+  const zeroB = new BigNumber('0')
+  return effectiveBalanceB.lessThan(zeroB) ? zeroB.toString() : effectiveBalanceB.toString()
 }
 
 export const calculateTransactionAmount = (amount, fee) => {
@@ -57,20 +61,6 @@ export const convertGweiToWei = (amount) => {
   return new BigNumber(amount).mul('1000000000').toString()
 }
 
-// TODO :: to remove...
-export const calculateFeeWei = (gasPrice, gasLimit) => gasPrice * gasLimit
-
-// TODO :: to remove...
-export const calculateBalanceWei = (gasPrice, gasLimit, balanceWei) => {
-  const transactionFee = calculateFeeWei(gasPrice, gasLimit)
-  return {
-    balance: balanceWei,
-    fee: transactionFee,
-    effectiveBalance: balanceWei - transactionFee
-  }
-}
-
-// TODO :: to remove...
 export const convertFeeToWei = fees => ({
   gasLimit: prop('gasLimit', fees),
   priority: convertGweiToWei(prop('priority', fees)),
@@ -80,15 +70,5 @@ export const convertFeeToWei = fees => ({
     max: convertGweiToWei(path(['limits', 'max'], fees))
   }
 })
-
-// TODO :: to remove...
-export const calculateBalanceEther = (gasPrice, gasLimit, balanceWei) => {
-  const data = calculateBalanceWei(gasPrice, gasLimit, balanceWei)
-  return {
-    balance: Exchange.convertEtherToEther({ value: data.balance, fromUnit: 'WEI', toUnit: 'ETH' }).value,
-    fee: Exchange.convertEtherToEther({ value: data.fee, fromUnit: 'WEI', toUnit: 'ETH' }).value,
-    effectiveBalance: Exchange.convertEtherToEther({ value: data.effectiveBalance, fromUnit: 'WEI', toUnit: 'ETH' }).value
-  }
-}
 
 export const txHexToHashHex = txHex => new EthTx(txHex).hash().toString('hex')

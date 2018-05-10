@@ -6,13 +6,18 @@ export const format = acc => ({ text: prop('label', acc), value: acc })
 
 export const formatDefault = curry((coin, acc) => ({ text: coin, value: acc }))
 
-export const generateGroup = (bchAccounts, btcAccounts, ethAccounts) => {
-  if (length(bchAccounts) === 1 && length(btcAccounts) === 1 && length(ethAccounts) === 1) {
-    return [
-      { group: '', items: btcAccounts.map(formatDefault('Bitcoin')) },
-      { group: '', items: bchAccounts.map(formatDefault('Bitcoin cash')) },
-      { group: '', items: ethAccounts.map(formatDefault('Ether')) }
+export const generateGroup = (bchAccounts, btcAccounts, ethAccounts, hasOneAccount) => {
+  if (hasOneAccount) {
+    const accounts = [
+      btcAccounts.map(formatDefault('Bitcoin')),
+      bchAccounts.map(formatDefault('Bitcoin cash')),
+      ethAccounts.map(formatDefault('Ether'))
     ]
+
+    return [{
+      group: '',
+      items: accounts.reduce((a, b) => a.concat(b))
+    }]
   }
   return [
     { group: 'Bitcoin', items: btcAccounts.map(format) },
@@ -40,12 +45,14 @@ export const getData = state => {
     const activeEthAccounts = filter(isActive, ethAccounts)
     const defaultBtcAccount = head(activeBtcAccounts)
     const defaultEthAccount = head(activeEthAccounts)
-    const elements = generateGroup(activeBchAccounts, activeBtcAccounts, activeEthAccounts)
+    const hasOneAccount = length(activeBtcAccounts) === 1
+    const elements = generateGroup(activeBchAccounts, activeBtcAccounts, activeEthAccounts, hasOneAccount)
     const initialValues = { source: defaultBtcAccount, target: defaultEthAccount }
 
     return {
       elements,
       initialValues,
+      hasOneAccount,
       enabled,
       formError,
       currency,
