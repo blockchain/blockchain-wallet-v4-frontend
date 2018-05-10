@@ -211,6 +211,16 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const usStateRegistered = function * () {
+    try {
+      const form = yield select(selectors.form.getFormValues('exchange'))
+      const usState = prop('state', form)
+      console.info(usState)
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'usStateRegistered', e))
+    }
+  }
+
   const secondStepSubmitClicked = function * () {
     try {
       const payment = yield select(S.getPayment)
@@ -304,6 +314,7 @@ export default ({ api, coreSagas }) => {
     thirdStepInitialized,
     secondStepSubmitClicked,
     destroyed,
-    change
+    change,
+    usStateRegistered
   }
 }

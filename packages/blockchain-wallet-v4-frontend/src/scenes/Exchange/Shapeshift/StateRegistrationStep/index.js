@@ -13,12 +13,12 @@ class StateRegistrationStep extends React.Component {
 
   onSubmit = (e) => {
     e.preventDefault()
-    window.alert('submit')
+    this.props.actions.usStateRegistered()
   }
 
   render () {
     return this.props.data.cata({
-      Success: (value) => <Template handleSubmit={this.props.onSubmit} stateWhitelist={value.stateWhitelist}/>
+      Success: (value) => <Template handleSubmit={this.onSubmit} stateWhitelist={value.stateWhitelist}/>
     })
   }
 }

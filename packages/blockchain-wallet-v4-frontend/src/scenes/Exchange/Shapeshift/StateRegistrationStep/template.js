@@ -67,4 +67,4 @@ StateRegistrationStep.propTypes = {
   stateWhitelist: PropTypes.array.isRequired
 }
 
-export default reduxForm({ form: 'selectExchangeState' })(StateRegistrationStep)
+export default reduxForm({ form: 'exchange' })(StateRegistrationStep)

@@ -139,7 +139,7 @@ const SelectInput = (props) => {
 
 SelectInput.propTypes = {
   items: PropTypes.array.isRequired,
-  selected: PropTypes.object.isRequired,
+  selected: PropTypes.object,
   expanded: PropTypes.bool,
   searchEnabled: PropTypes.bool,
   opened: PropTypes.bool,
