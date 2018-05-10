@@ -1,4 +1,4 @@
-import { compose, filter, head, findIndex, propEq, path, prop } from 'ramda'
+import { compose, curry, filter, head, findIndex, propEq, path, prop } from 'ramda'
 import { ETHEREUM } from '../config'
 import { kvStorePath } from '../../paths'
 
@@ -18,7 +18,7 @@ export const getLegacyAccountAddress = state => getLegacyAccount(state).map(prop
 
 export const getAccount = (state, address) => getAccounts(state).map(head, filter(propEq('addr', address)))
 
-export const getAccountLabel = (state, address) => getAccount(state, address).map(prop('label'))
+export const getAccountLabel = curry((state, address) => getAccount(state, address).map(prop('label')))
 
 export const getAccountIndex = (state, address) => getAccounts(state).map(findIndex(propEq('addr', address)))
 
