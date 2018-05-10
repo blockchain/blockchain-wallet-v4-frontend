@@ -75,7 +75,7 @@ const Logo = styled(Image)`
 `
 
 const StepIndicator = (props) => {
-  const { step, stepMap, minWidth, maxWidth, flexEnd } = props
+  const { step, stepMap, minWidth, maxWidth, flexEnd, adjuster } = props
   const steps = Object.keys(stepMap)
   const index = steps.indexOf(step) + 1
   const width = index / steps.length
@@ -83,7 +83,7 @@ const StepIndicator = (props) => {
   return (
     <Wrapper flexEnd={flexEnd}>
       <Logo name='blue-logo' height='50px' />
-      <Steps width={width - 0.1}>
+      <Steps width={width - adjuster}>
         { steps.map((s) => <Step minWidth={minWidth} maxWidth={maxWidth}>{stepMap[s]}</Step>) }
       </Steps>
     </Wrapper>
