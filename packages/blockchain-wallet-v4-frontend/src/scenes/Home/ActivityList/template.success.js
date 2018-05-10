@@ -77,7 +77,7 @@ const Success = props => (
     </Header>
     <Content>
       { (props.activities.length === 0)
-        ? <Empty />
+        ? <Empty partner={props.partner} handleRequest={props.handleRequest} />
         : props.activities.map((activity, index) => <ListItem action={activity.action} type={activity.type} amount={activity.amount} time={activity.time} coin={activity.coin} key={index} />)
       }
     </Content>
