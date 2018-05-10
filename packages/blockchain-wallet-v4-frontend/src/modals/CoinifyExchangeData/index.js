@@ -64,7 +64,7 @@ class CoinifyExchangeData extends React.PureComponent {
             <Text size='20px' weight={300}>
               <FormattedMessage id='coinify.header.start' defaultMessage='Start buying and selling in two simple steps.' />
             </Text>
-            <StepIndicator flexEnd minWidth='135px' maxWidth='135px' step={step} stepMap={this.stepMap} />
+            <StepIndicator adjuster={0} barFullWidth flexEnd minWidth='135px' maxWidth='135px' step={step} stepMap={this.stepMap} />
           </HeaderWrapper>
         </ModalHeader>
         <ModalBody>
