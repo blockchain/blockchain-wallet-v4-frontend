@@ -68,24 +68,21 @@ const Content = styled.div`
   }
 `
 
-const Success = props => {
-  console.log('Success', props)
-  return (
-    <Wrapper>
-      <Header>
-        <Text uppercase size='24px' weight={300} color='brand-primary'>
-          <FormattedMessage id='scenes.home.activitylist.title' defaultMessage='Recent Activity' />
-        </Text>
-      </Header>
-      <Content>
-        { (props.activities.length === 0)
-          ? <Empty />
-          : props.activities.map((activity, index) => <ListItem action={activity.action} type={activity.type} amount={activity.amount} time={activity.time} coin={activity.coin} key={index} />)
-        }
-      </Content>
-    </Wrapper>
-  )
-}
+const Success = props => (
+  <Wrapper>
+    <Header>
+      <Text uppercase size='24px' weight={300} color='brand-primary'>
+        <FormattedMessage id='scenes.home.activitylist.title' defaultMessage='Recent Activity' />
+      </Text>
+    </Header>
+    <Content>
+      { (props.activities.length === 0)
+        ? <Empty />
+        : props.activities.map((activity, index) => <ListItem action={activity.action} type={activity.type} amount={activity.amount} time={activity.time} coin={activity.coin} key={index} />)
+      }
+    </Content>
+  </Wrapper>
+)
 
 Success.propTypes = {
   activities: PropTypes.arrayOf(PropTypes.shape({
