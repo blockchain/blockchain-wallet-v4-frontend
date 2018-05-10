@@ -7,8 +7,8 @@ import * as service from 'services/CoinifyService'
 import Stepper, { StepView } from 'components/Utilities/Stepper'
 import OrderCheckout from '../OrderCheckout'
 import { OrderDetails, OrderSubmit } from '../OrderReview'
-import AddBankDetails from 'modals/CoinifyExchangeData/AddBankDetails'
-import AddCustomerDetails from 'modals/CoinifyExchangeData/AddCustomerDetails'
+import AddBankDetails from './AddBankDetails'
+import AddCustomerDetails from './AddCustomerDetails'
 import ISignThis from 'modals/CoinifyExchangeData/ISignThis'
 
 const CheckoutWrapper = styled.div`
