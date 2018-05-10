@@ -7,7 +7,7 @@ import { required, validBitcoinCashAddress } from 'services/FormHelper'
 import { Button, Icon, Tooltip } from 'blockchain-info-components'
 import { FiatConvertor, Form, FormGroup, FormItem, FormLabel, SelectBoxBitcoinAddresses, SelectBoxCoin, TextBox, TextArea } from 'components/Form'
 import ComboDisplay from 'components/Display/ComboDisplay'
-import { shouldValidate, maximumAmount, emptyAccount } from './validation'
+import { shouldValidate, insufficientFunds, maximumAmount } from './validation'
 import QRCodeCapture from 'components/QRCodeCapture'
 
 const Row = styled.div`
@@ -68,7 +68,7 @@ const FirstStep = props => {
           <FormLabel for='amount'>
             <FormattedMessage id='modals.requestbitcoin.firststep.amount' defaultMessage='Enter Amount:' />
           </FormLabel>
-          <Field name='amount' component={FiatConvertor} validate={[required, emptyAccount, maximumAmount]} coin='BCH' />
+          <Field name='amount' component={FiatConvertor} validate={[required, insufficientFunds, maximumAmount]} coin='BCH' />
         </FormItem>
       </FormGroup>
       <FormGroup margin={'15px'}>
