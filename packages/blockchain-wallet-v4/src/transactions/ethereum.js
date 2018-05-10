@@ -16,8 +16,6 @@ const getType = (tx, addresses) => {
   }
 }
 
-export const calculateFee = (gasPrice, gasLimit) => `${(gasPrice * gasLimit)}000000000` // Convert gwei => wei
-
 // transformTx :: [String] -> Tx -> ProcessedTx
 export const transformTx = (addresses, state, latestBlock, tx) => {
   const conf = latestBlock - tx.blockNumber + 1

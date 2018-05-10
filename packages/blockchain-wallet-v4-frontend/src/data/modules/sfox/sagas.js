@@ -8,6 +8,7 @@ import * as sendBtcSelectors from '../../components/sendBtc/selectors'
 import settings from 'config'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { promptForSecondPassword } from 'services/SagaService'
+import { path } from 'ramda'
 
 export default ({ coreSagas }) => {
   const logLocation = 'modules/sfox/sagas'
@@ -91,9 +92,9 @@ export default ({ coreSagas }) => {
 
   const submitQuote = function * (action) {
     try {
-      yield put(A.orderLoading())
+      yield put(A.sfoxLoading())
       yield call(coreSagas.data.sfox.handleTrade, action.payload)
-      yield put(A.orderSuccess())
+      yield put(A.sfoxSuccess())
       yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
     } catch (e) {
       yield put(A.sfoxFailure(e))
@@ -104,16 +105,25 @@ export default ({ coreSagas }) => {
   const submitSellQuote = function * (action) {
     const q = action.payload
     try {
-      yield put(A.orderLoading())
+      yield put(A.sfoxLoading())
       const trade = yield call(coreSagas.data.sfox.handleSellTrade, q)
 
-      // TODO can refactor this to use payment.chain in the future for cleanliness
       let p = yield select(sendBtcSelectors.getPayment)
       let payment = yield coreSagas.payment.btc.create({ payment: p.getOrElse({}), network: settings.NETWORK_BITCOIN })
 
       payment = yield payment.amount(parseInt(trade.sendAmount))
       payment = yield payment.fee('priority')
-      payment = yield payment.to(trade.receiveAddress)
+
+      // QA Tool: manually set a "to" address on the payment object for testing sell
+      const qaState = yield select()
+      const qaAddress = path(['qa', 'qaSellAddress'], qaState)
+
+      if (qaAddress) {
+        payment = yield payment.to(qaAddress)
+      } else {
+        payment = yield payment.to(trade.receiveAddress)
+      }
+
       payment = yield payment.description(`Exchange Trade SFX-${trade.id}`)
 
       try {
@@ -128,7 +138,7 @@ export default ({ coreSagas }) => {
       payment = yield payment.publish()
 
       yield put(sendBtcActions.sendBtcPaymentUpdated(Remote.of(payment.value())))
-      yield put(A.orderSuccess())
+      yield put(A.sfoxSuccess())
       yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
     } catch (e) {
       yield put(A.sfoxFailure(e))

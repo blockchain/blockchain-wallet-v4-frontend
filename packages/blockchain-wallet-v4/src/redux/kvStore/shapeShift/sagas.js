@@ -32,7 +32,7 @@ export default ({ api }) => {
   const createShapeshift = function * (kv) {
     const newShapeshiftEntry = {
       trades: [],
-      USAState: ''
+      USAState: null
     }
     const newkv = set(KVStoreEntry.value, newShapeshiftEntry, kv)
     yield put(A.createMetadataShapeshift(newkv))
