@@ -1,15 +1,35 @@
 import React, { Component } from 'react'
+import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actions } from 'data'
+import { path } from 'ramda'
+import { Button, Text } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
+
+const ISXContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`
+const ButtonContainer = styled.div`
+  margin-left: 10%;
+`
 
 class ISignThisContainer extends Component {
   componentDidMount () {
-    window.addEventListener('message', function (e) {})
-    const onComplete = () => {}
-    const iSignThisDomain = 'https://verify.isignthis.com'
-    // const e = document.getElementById('isx-iframe')
-    // const iSignThisID = '6ae7fdad-4f3b-406a-9a59-f12c135c7709'
+    // console.log('isx mounted', this.props)
+    window.addEventListener('message', function (e) {
+    })
+
+    const onComplete = (e) => {
+      // console.log('V4 ISX_COMPONENT: from onComplete', e)
+      // TODO dispatch action to go to next step --> order history and open modal for in review, rejected, processing, etc..
+      this.props.coinifyActions.fromISX(e)
+    }
+
+    var e = document.getElementById('isx-iframe')
+    const iSignThisDomain = path(['platforms', 'web', 'coinify', 'config', 'iSignThisDomain'], this.props.walletOptions.data)
+    // const iSignThisID = this.props.iSignThisId
 
     var _isx = {
       transactionId: '',
@@ -30,6 +50,7 @@ class ISignThisContainer extends Component {
     _isx.setup = function (setup) {
       this.transactionId = setup.transaction_id
       this.configOptions = setup
+
       return this
     }
 
@@ -54,6 +75,7 @@ class ISignThisContainer extends Component {
     }
 
     _isx.publish = function () {
+      this.iframe = e
       // Create IE + others compatible event handler
       let eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent'
       let eventer = window[eventMethod]
@@ -78,33 +100,40 @@ class ISignThisContainer extends Component {
           let d = JSON.parse(e.data.split('[ISX-Embed]')[1])
 
           if (d.event.toLowerCase() === 'complete') {
+            // console.log('V4 ISX_COMPONENT complete')
             if (self.completeListener) {
               self.completeListener(d)
             }
           } else if (d.event.toLowerCase() === 'route') {
+            // console.log('V4 ISX_COMPONENT route')
             if (self.routeListener) {
               self.routeListener(d)
             }
           } else if (d.event.toLowerCase() === 'error') {
+            // console.log('V4 ISX_COMPONENT error')
             if (self.errorListener) {
               self.errorListener(d)
             }
           } else if (d.event.toLowerCase() === 'resized') {
+            // console.log('V4 ISX_COMPONENT resized')
             if (self.resizeListener) {
               self.resizeListener(d)
             }
           }
-        } catch (e) {}
+        } catch (err) {
+          // console.log('V4 ISX_COMPONENT: err caught:', err)
+        }
       }, false)
 
       return this
     }
-    let widget = {
-      transaction_id: '6ae7fdad-4f3b-406a-9a59-f12c135c7709',
+    var widget = {
+      transaction_id: this.props.iSignThisId,
       container_id: 'isx-iframe'
     }
 
-    let setState = (state) => {
+    var setState = (state) => {
+      // console.log('V4 ISX_COMPONENT: setState', state)
       switch (state) {
         case 'SUCCESS':
           onComplete('processing')
@@ -129,31 +158,50 @@ class ISignThisContainer extends Component {
     _isx
       .setup(widget)
       .done(function (e) {
+        // console.log('V4 ISX_COMPONENT: completed. e=', JSON.stringify(e))
+
         setState(e.state)
       })
-      .fail(function (e) {})
-      .resized(function (e) {})
-      .route(function (e) {})
+      .fail(function (e) {
+        // console.log('V4 ISX_COMPONENT: error. e=' + JSON.stringify(e))
+      })
+      .resized(function (e) {
+        // console.log('V4 ISX_COMPONENT: resized. e=', JSON.stringify(e))
+      })
+      .route(function (e) {
+        // console.log('V4 ISX_COMPONENT: route. e=' + JSON.stringify(e))
+      })
       .publish()
   }
 
   render () {
+    const { options, iSignThisId, coinifyActions } = this.props
+    const walletOpts = options || this.props.walletOptions.data
+    const iSignThisDomain = path(['platforms', 'web', 'coinify', 'config', 'iSignThisDomain'], walletOpts)
+    const srcUrl = `${iSignThisDomain}/landing/${iSignThisId}?embed=true`
+
     return (
-      <div>
-        <h3>iSignThis step</h3>
-        <iframe style={{width: '80%', height: '400px'}}
-          src="https://verify.isignthis.com/landing/6ae7fdad-4f3b-406a-9a59-f12c135c7709" // hardcode a trade
+      <ISXContainer>
+        <iframe style={{width: '65%', height: '400px'}}
+          src={srcUrl}
           sandbox='allow-same-origin allow-scripts allow-forms'
           scrolling='yes'
           id='isx-iframe'
         />
-      </div>
+        <ButtonContainer>
+          <Button nature='empty-secondary' onClick={() => coinifyActions.coinifyNextCheckoutStep('checkout')}>
+            <Text size='13px' weight={300}>
+              <FormattedMessage id='cancel' defaultMessage='Cancel' />
+            </Text>
+          </Button>
+        </ButtonContainer>
+      </ISXContainer>
     )
   }
 }
 
-const mapStateToProps = () => ({
-  hello: 'world'
+const mapStateToProps = (state) => ({
+  walletOptions: path(['walletOptionsPath'], state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
