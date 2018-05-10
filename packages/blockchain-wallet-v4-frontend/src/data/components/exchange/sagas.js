@@ -1,5 +1,6 @@
-import { cancel, cancelled, delay, identity, call, fork, select, put } from 'redux-saga/effects'
-import { equals, has, merge, path, prop } from 'ramda'
+import { cancel, cancelled, call, fork, select, put } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
+import { equals, has, path, prop } from 'ramda'
 import * as A from './actions'
 import * as S from './selectors'
 import * as actions from '../../actions'
@@ -19,8 +20,10 @@ export default ({ api, coreSagas }) => {
     resumePayment,
     getShapeShiftLimits,
     convertValues,
-    selectOtherAccount
+    selectOtherAccount,
+    selectLabel
   } = utils({ api, coreSagas })
+
   let pollingTradeStatusTask
 
   const firstStepInitialized = function * () {
@@ -45,9 +48,13 @@ export default ({ api, coreSagas }) => {
       const form = yield select(selectors.form.getFormValues('exchange'))
       const source = prop('source', form)
       const target = prop('target', form)
-      const values = merge(form, { source: target, target: source })
-      const newValues = yield call(convertValues, values)
-      yield put(actions.form.initialize('exchange', newValues))
+      yield put(actions.form.change2('exchange', 'source', target))
+      yield put(actions.form.change2('exchange', 'target', source))
+      const { sourceAmount, sourceFiat, targetAmount, targetFiat } = yield call(convertValues)
+      yield put(actions.form.change2('exchange', 'sourceAmount', sourceAmount))
+      yield put(actions.form.change2('exchange', 'sourceFiat', sourceFiat))
+      yield put(actions.form.change2('exchange', 'targetAmount', targetAmount))
+      yield put(actions.form.change2('exchange', 'targetFiat', targetFiat))
       yield call(validateForm)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'swapClicked', e))
@@ -109,8 +116,7 @@ export default ({ api, coreSagas }) => {
     const targetCoin = prop('coin', target)
     if (equals(sourceCoin, targetCoin)) {
       const newTarget = yield call(selectOtherAccount, targetCoin)
-      const newValues = merge(form, { target: newTarget })
-      yield put(actions.form.initialize('exchange', newValues))
+      yield put(actions.form.change2('exchange', 'target', newTarget))
     }
   }
 
@@ -120,19 +126,19 @@ export default ({ api, coreSagas }) => {
     const sourceCoin = prop('coin', source)
     const target = prop('target', form)
     const targetCoin = prop('coin', target)
-
     if (equals(sourceCoin, targetCoin)) {
       const newSource = yield call(selectOtherAccount, sourceCoin)
-      const newValues = merge(form, { source: newSource })
-      yield put(actions.form.initialize('exchange', newValues))
+      yield put(actions.form.change2('exchange', 'source', newSource))
     }
   }
 
   const changeAmount = function * (type) {
     yield put(A.firstStepDisabled())
-    const values = yield select(selectors.form.getFormValues('exchange'))
-    const newValues = yield call(convertValues, values, type)
-    yield put(actions.form.initialize('exchange', newValues))
+    const { sourceAmount, sourceFiat, targetAmount, targetFiat } = yield call(convertValues, type)
+    yield put(actions.form.change2('exchange', 'sourceAmount', sourceAmount))
+    yield put(actions.form.change2('exchange', 'sourceFiat', sourceFiat))
+    yield put(actions.form.change2('exchange', 'targetAmount', targetAmount))
+    yield put(actions.form.change2('exchange', 'targetFiat', targetFiat))
     yield put(A.firstStepEnabled())
   }
 
@@ -174,6 +180,7 @@ export default ({ api, coreSagas }) => {
       const sourceCoin = prop('coin', source)
       const targetCoin = prop('coin', target)
       const sourceAddress = prop('address', source)
+      const targetAddress = prop('address', target)
       const amount = prop('sourceAmount', form)
       const returnAddress = yield call(selectReceiveAddress, source)
       const withdrawalAddress = yield call(selectReceiveAddress, target)
@@ -190,6 +197,7 @@ export default ({ api, coreSagas }) => {
       const finalPayment = yield call(createPayment, sourceCoin, sourceAddress, depositAddress, sourceAmount)
       yield put(A.paymentUpdated(finalPayment.value()))
       // Prepare data for confirmation screen
+      const targetLabel = yield call(selectLabel, targetCoin, targetAddress)
       const sourceFee = selectFee(sourceCoin, finalPayment.value())
       const sourceTotal = calculateFinalAmount(sourceAmount, sourceFee)
       const data = {
@@ -201,6 +209,7 @@ export default ({ api, coreSagas }) => {
         targetCoin,
         targetAmount: prop('withdrawalAmount', order),
         targetFee: prop('minerFee', order),
+        targetLabel,
         expiration: prop('expiration', order),
         withdrawalAddress
       }
@@ -263,8 +272,8 @@ export default ({ api, coreSagas }) => {
   const startPollingTradeStatus = function * (depositAddress) {
     try {
       while (true) {
-        const appState = yield select(identity)
-        const currentTrade = selectors.core.kvStore.shapeShift.getTrade(depositAddress, appState).getOrFail('Could not find trade.')
+        const currentTradeR = yield select(selectors.core.kvStore.shapeShift.getTrade(depositAddress))
+        const currentTrade = currentTradeR.getOrFail('Could not find trade.')
         const currentStatus = prop('status', currentTrade)
         if (equals('complete', currentStatus) || equals('failed', currentStatus)) {
           break
