@@ -41,9 +41,9 @@ const configureStore = () => {
     .then(res => res.json())
     .then(options => {
       const apiKey = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
-      const btcSocket = new Socket({ options, socketType: 'btcSocket' })
-      const ethSocket = new Socket({ options, socketType: 'ethSocket' })
-      const bchSocket = new Socket({ options, socketType: 'bchSocket' })
+      const btcSocket = new Socket({ options, socketType: '' })
+      const ethSocket = new Socket({ options, socketType: '/eth' })
+      const bchSocket = new Socket({ options, socketType: '/bch' })
       const api = createWalletApi({ options, apiKey })
 
       const store = createStore(
