@@ -114,12 +114,11 @@ export default ({ coreSagas }) => {
       payment = yield payment.amount(parseInt(trade.sendAmount))
       payment = yield payment.fee('priority')
 
-      // for QA
+      // QA Tool: manually set a "to" address on the payment object for testing sell
       const qaState = yield select()
-      const qaAddress = path(['sfoxSignup', 'qaSellAddress'], qaState)
+      const qaAddress = path(['qa', 'qaSellAddress'], qaState)
 
       if (qaAddress) {
-        console.log('QA Sell to:', qaAddress)
         payment = yield payment.to(qaAddress)
       } else {
         payment = yield payment.to(trade.receiveAddress)
