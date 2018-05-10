@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
 
-  > * { margin-left: 2px; }
+  > * { margin: 0 0 0 2px; }
 `
 
 export const MaximumAmountMessage = () => (
