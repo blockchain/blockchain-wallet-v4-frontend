@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl'
 
 import { required } from 'services/FormHelper'
 import { Button, Text } from 'blockchain-info-components'
-import { FormGroup, FormItem, SelectBoxUSState } from 'components/Form'
+import { Form, FormGroup, FormLabel, FormItem, SelectBoxUSState } from 'components/Form'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -28,8 +28,9 @@ const SubmitButton = styled(Button)`
 `
 
 const StateRegistrationStep = (props) => {
-  const { handleSubmit, invalid, pristine } = props
-  const onShapeshiftWhitelist = (val) => (undefined) //val && sfoxStates.indexOf(val) >= 0 ? undefined : 'state not supported'
+  const { handleSubmit, invalid, pristine, stateWhitelist } = props
+  const onShapeshiftWhitelist = (val) => val && stateWhitelist.indexOf(val) >= 0 ? undefined : 'This service is not yet available in your state.'
+
   return (
     <Wrapper>
       <Header>
@@ -43,26 +44,27 @@ const StateRegistrationStep = (props) => {
         </Text>
       </SubHeader>
       <SelectionContainer>
-        <Text size='14px'>
-          <FormattedMessage id='scenes.exchange.shapeshift.stateregistration.selectstate' defaultMessage='Select your state of residency:' />
-        </Text>
-        <form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit}>
           <FormGroup>
             <FormItem>
-              <Field name='state' validate={[required]} component={SelectBoxUSState} errorBottom />
+              <FormLabel for='state'>
+                <FormattedMessage id='scenes.exchange.shapeshift.stateregistration.selectstate' defaultMessage='Select your state of residency:' />
+              </FormLabel>
+              <Field name='state' validate={[required, onShapeshiftWhitelist]} component={SelectBoxUSState} />
             </FormItem>
           </FormGroup>
           <SubmitButton nature='primary' uppercase fullwidth type='submit' disabled={invalid || pristine}>
             <FormattedMessage id='scenes.exchange.shapeshift.stateregistration.continue' defaultMessage='Continue' />
           </SubmitButton>
-        </form>
+        </Form>
       </SelectionContainer>
     </Wrapper>
   )
 }
 
 StateRegistrationStep.propTypes = {
-  handleSubmit: PropTypes.func.isRequired
+  handleSubmit: PropTypes.func.isRequired,
+  stateWhitelist: PropTypes.array.isRequired
 }
 
 export default reduxForm({ form: 'selectExchangeState' })(StateRegistrationStep)

@@ -1,9 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { lift } from 'ramda'
 
 import Template from './template'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 
 class StateRegistrationStep extends React.Component {
   componentWillUnmount () {
@@ -12,18 +13,18 @@ class StateRegistrationStep extends React.Component {
 
   onSubmit = (e) => {
     e.preventDefault()
+    window.alert('submit')
   }
 
   render () {
-    const { onSubmit } = this.props
-    return (
-      <Template handleSubmit={onSubmit} />
-    )
+    return this.props.data.cata({
+      Success: (value) => <Template handleSubmit={this.props.onSubmit} stateWhitelist={value.stateWhitelist}/>
+    })
   }
 }
 
 const mapStateToProps = (state) => ({
-  data: '' //getData(state)
+  data: lift((stateWhitelist) => ({ stateWhitelist }))(selectors.core.walletOptions.getShapeshiftStates(state))
 })
 
 const mapDispatchToProps = (dispatch) => ({
