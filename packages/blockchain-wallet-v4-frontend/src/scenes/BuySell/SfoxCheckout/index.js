@@ -8,9 +8,11 @@ const Wrapper = styled.div`
 `
 
 const SfoxCheckoutContainer = (props) => {
+  const { type, options, value } = props
+
   return (
     <Wrapper>
-      <Content {...props} />
+      <Content type={type} options={options} value={value} />
     </Wrapper>
   )
 }

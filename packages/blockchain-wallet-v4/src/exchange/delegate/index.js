@@ -88,12 +88,14 @@ export class ExchangeDelegate {
   reserveReceiveAddress () {
     const receiveAddress = bitcoin.getNextAvailableReceiveAddress(Bitcoin.networks.bitcoin.NETWORK_BITCOIN, 0, this.state)
     return {
+      // receiveAddress: '2N7FwMpgyXQA85SaVXumm3UZowq2VKChehP', // receiveAddress.data for now testnet address used on staging
       receiveAddress: receiveAddress.data,
       commit: (trade) => {}
     }
   }
 
   releaseReceiveAddress (trade) {
+    // console.log('delegate.releaseReceiveAddress', trade)
     // TODO: releaseReceiveAddress
   }
 
