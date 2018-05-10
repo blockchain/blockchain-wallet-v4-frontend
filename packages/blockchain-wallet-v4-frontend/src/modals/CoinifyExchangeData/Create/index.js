@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { bindActionCreators, compose } from 'redux'
-import Create from './template'
-import { actions, selectors } from 'data'
 import ui from 'redux-ui'
-import { path } from 'ramda'
+import { bindActionCreators, compose } from 'redux'
+
+import { actions } from 'data'
+import { getData } from './selectors'
+import Create from './template'
 
 class CreateContainer extends Component {
   componentDidMount () {
@@ -17,8 +18,18 @@ class CreateContainer extends Component {
     }
   }
 
+  componentDidUpdate (prevProps) {
+    if (!prevProps.emailVerified && this.props.emailVerified) this.props.updateUI({ create: 'create_account' })
+  }
+
   render () {
-    return <Create {...this.props} />
+    const { handleSignup, oldEmail, signupError, ui, updateUI } = this.props
+    return <Create
+      handleSignup={handleSignup}
+      oldEmail={oldEmail}
+      signupError={signupError}
+      ui={ui}
+      updateUI={updateUI} />
   }
 }
 
@@ -29,11 +40,7 @@ CreateContainer.propTypes = {
   emailVerified: PropTypes.number.isRequired
 }
 
-const mapStateToProps = (state) => ({
-  oldEmail: selectors.core.settings.getEmail(state).data,
-  emailVerified: selectors.core.settings.getEmailVerified(state).data,
-  emailVerifiedError: path(['securityCenter', 'emailVerifiedError'], state)
-})
+const mapStateToProps = (state) => getData(state)
 
 const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
@@ -42,7 +49,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  ui({ state: { create: '', uniqueEmail: true } })
+  ui({ state: { create: '', uniqueEmail: true, codeSent: false } })
 )
 
 export default enhance(CreateContainer)
