@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
+import { getCanBuy } from './selectors'
 import { actions, selectors } from 'data'
 import BitcoinWelcome from './template.js'
 
@@ -20,12 +21,14 @@ class BitcoinWelcomeContainer extends React.PureComponent {
   }
 
   render () {
-    const { showBitcoinWelcome } = this.props
-    return <BitcoinWelcome displayed={showBitcoinWelcome} handleClick={this.handleClick} handleRequest={this.handleRequest} />
+    const { showBitcoinWelcome, canBuy } = this.props
+    const partner = canBuy.cata({ Success: (val) => val, Loading: () => false, Failure: () => false, NotAsked: () => false })
+    return <BitcoinWelcome displayed={showBitcoinWelcome} handleClick={this.handleClick} handleRequest={this.handleRequest} partner={partner} />
   }
 }
 
 const mapStateToProps = state => ({
+  canBuy: getCanBuy(state),
   showBitcoinWelcome: selectors.preferences.getShowBitcoinWelcome(state)
 })
 

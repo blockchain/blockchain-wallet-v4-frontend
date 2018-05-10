@@ -1,3 +1,37 @@
-export const canBuy = (accountInfo, location) => {
-  console.log(accountInfo, location)
+import { isNil } from 'ramda'
+
+const hasAccount = (partners) => {
+  const { coinify, sfox } = partners
+  if (!isNil(sfox.offline_token)) return 'sfox'
+  if (!isNil(coinify.offline_token)) return 'coinify'
+}
+
+const findMatch = (settings, options) => {
+  /* eslint-disable */
+  const { country_code } = settings
+  /* eslint-enable */
+  const { sfox, coinify } = options.platforms.web
+
+  // if user's location matches a partner country code set match
+  if (sfox.countries.indexOf(country_code) > -1) return 'sfox'
+  if (coinify.countries.indexOf(country_code) > -1) return 'coinify'
+}
+
+// settings, options, buySell => 'partner' || false
+export const canBuy = (settings, options, buySell) => {
+  // if user has an account return 'partner'
+  const account = hasAccount(buySell.value)
+  if (account) return account
+
+  // if location does not match any partner return false
+  const match = findMatch(settings, options)
+  if (!match) return false
+
+  // check if user is invited to location match => 'partner'
+  const { invited } = settings
+  switch (match) {
+    case 'sfox': return invited.sfoxBuy && 'sfox'
+    case 'coinify': return invited.coinifyBuy && 'coinify'
+    default: return false
+  }
 }
