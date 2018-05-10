@@ -2,6 +2,7 @@ import { isNil, take, flatten, map, lift, prop, curry, compose, descend, sort } 
 import { selectors } from 'data'
 import { createSelector } from 'reselect'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { canBuy } from 'services/ExchangeService'
 
 export const transform = curry((coin, transaction) => {
   return {
@@ -44,3 +45,12 @@ export const getData = createSelector(
     return lift(transform)(logs, btc, bch, eth)
   }
 )
+
+export const getCanBuy = (state) => {
+  const settingsR = selectors.core.settings.getSettings(state)
+  const optionsR = selectors.core.walletOptions.getOptions(state)
+  const buySellR = selectors.core.kvStore.buySell.getMetadata(state)
+
+  const transform = (settings, options, buySell) => canBuy(settings, options, buySell)
+  return lift(transform)(settingsR, optionsR, buySellR)
+}

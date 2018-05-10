@@ -16,6 +16,7 @@ class BitcoinWelcomeContainer extends React.PureComponent {
   handleClick () {
     this.props.preferencesActions.setBitcoinWelcome(false)
   }
+
   handleRequest () {
     this.props.modalActions.showModal('RequestBitcoin')
   }
