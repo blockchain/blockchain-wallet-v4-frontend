@@ -14,9 +14,10 @@ export default ({ coreSagas }) => {
       yield call(coreSagas.data.coinify.signup)
       const profile = yield select(selectors.core.data.coinify.getProfile)
       if (!profile.error) {
-        yield put(actions.modals.closeAllModals())
-        // yield put(A.coinifyNextStep('isx'))
-        yield put(actions.alerts.displaySuccess('Account successfully created!'))
+        // yield put(actions.modals.closeAllModals())
+        yield call(coreSagas.data.coinify.triggerKYC)
+        yield put(A.coinifyNextStep('isx'))
+        // yield put(actions.alerts.displaySuccess('Account successfully created!'))
       } else {
         yield put(A.coinifySignupFailure(profile.error))
       }
