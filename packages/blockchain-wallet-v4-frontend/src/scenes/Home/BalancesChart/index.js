@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { withRouter } from 'react-router-dom'
 
 import { actions } from 'data'
-import { getData } from './selectors'
+import { getCanBuy, getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
@@ -20,11 +20,13 @@ class BalancesChartContainer extends React.PureComponent {
   }
 
   render () {
-    const { data, history, modalsActions } = this.props
+    const { canBuy, data, history, modalsActions } = this.props
+    const partner = canBuy.cata({ Success: (val) => val, Loading: () => false, Failure: () => false, NotAsked: () => false })
 
     return data.cata({
       Success: (value) => <Success
         balances={value}
+        partner={partner}
         handleCoinDisplay={this.handleCoinDisplay}
         history={history}
         modalsActions={modalsActions}
@@ -37,7 +39,8 @@ class BalancesChartContainer extends React.PureComponent {
 }
 
 const mapStateToProps = (state) => ({
-  data: getData(state)
+  data: getData(state),
+  canBuy: getCanBuy(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
