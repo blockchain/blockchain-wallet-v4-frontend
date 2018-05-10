@@ -5,17 +5,28 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import FaqRow from 'components/Faq/FaqRow'
 import CountdownTimer from 'components/Form/CountdownTimer'
 import { Wrapper as ExchangeCheckoutWrapper } from '../../ExchangeCheckout'
-import { flex, spacing } from 'services/StyleService'
+import { spacing } from 'services/StyleService'
 import { reviewOrder } from 'services/CoinifyService'
 import { FormattedMessage } from 'react-intl'
 import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDetails'
 import { StepTransition } from 'components/Utilities/Stepper'
 
+const ExchangeRateWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 20px;
+`
 const StyledFaqRow = styled(FaqRow)`
   padding: 20px 0px;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
 `
 const CancelWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 15px;
   a {
     color: #545456;
     font-weight: 300;
@@ -30,49 +41,52 @@ const renderDetailsRow = (id, message, value, color) => (
   </OrderDetailsRow>
 )
 
-export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
-  <ExchangeCheckoutWrapper>
-    <Text size='32px' weight={600} style={spacing('mb-10')}>
-      <FormattedMessage id='buy.almost_there' defaultMessage="You're almost there" />
-    </Text>
-    <Text size='14px' weight={300} style={spacing('mb-20')}>
-      <FormattedMessage id='buy.review_order_subtext' defaultMessage='Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order.' />
-    </Text>
-    <div style={{ ...flex('row align/center justify/end'), ...spacing('mt-20') }}>
-      <Text size='12px' weight={500} style={spacing('mr-10')}>
-        <FormattedMessage id='exchange_rate' defaultMessage='Exchange Rate' />
+export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => {
+  console.log(type, medium)
+  return (
+    <ExchangeCheckoutWrapper>
+      <Text size='32px' weight={600} style={spacing('mb-10')}>
+        <FormattedMessage id='buy.almost_there' defaultMessage="You're almost there" />
       </Text>
-      <Text size='12px' weight={300}>
-        1 BTC = {quoteR.map((q) => `$${q.rate}`).getOrElse('~')}
+      <Text size='14px' weight={300} style={spacing('mb-20')}>
+        <FormattedMessage id='buy.review_order_subtext' defaultMessage='Please confirm your order details before continuing.' />
       </Text>
-    </div>
-    <OrderDetailsTable style={spacing('mt-10')}>
-      {renderDetailsRow(
-        'order_details.amount_to_transact',
-        type === 'buy' ? 'BTC Amount to Purchase' : 'BTC Amount to Sell',
-        quoteR.map(q => reviewOrder.renderSummary(q, type, medium)).data.firstRow
-      )}
-      {renderDetailsRow(
-        'order_details.trading_fee',
-        'Trading Fee',
-        quoteR.map(q => reviewOrder.renderSummary(q, type, medium)).data.fee
-      )}
-      {renderDetailsRow(
-        'order_details.total_transacted',
-        type === 'buy' ? 'Total Cost' : 'Total to be Received',
-        quoteR.map(q => reviewOrder.renderSummary(q, type, medium)).data.total,
-        'success'
-      )}
-    </OrderDetailsTable>
-    {quoteR.map((q) => (
-      <CountdownTimer
-        style={spacing('mt-20')}
-        expiryDate={q.expiresAt.getTime()}
-        handleExpiry={onRefreshQuote}
-      />
-    )).getOrElse(null)}
-  </ExchangeCheckoutWrapper>
-)
+      <ExchangeRateWrapper>
+        <Text size='12px' weight={500} style={spacing('mr-10')}>
+          <FormattedMessage id='exchange_rate' defaultMessage='Exchange Rate' />
+        </Text>
+        <Text size='12px' weight={300}>
+          1 BTC = {quoteR.map((q) => `$${q.rate}`).getOrElse('~')}
+        </Text>
+      </ExchangeRateWrapper>
+      <OrderDetailsTable style={spacing('mt-10')}>
+        {renderDetailsRow(
+          'order_details.amount_to_transact',
+          type === 'buy' ? 'BTC Amount to Purchase' : 'BTC Amount to Sell',
+          quoteR.map(q => reviewOrder.renderSummary(q, type, medium)).data.firstRow
+        )}
+        {renderDetailsRow(
+          'order_details.trading_fee',
+          'Trading Fee',
+          quoteR.map(q => reviewOrder.renderSummary(q, type, medium)).data.fee
+        )}
+        {renderDetailsRow(
+          'order_details.total_transacted',
+          type === 'buy' ? 'Total Cost' : 'Total to be Received',
+          quoteR.map(q => reviewOrder.renderSummary(q, type, medium)).data.total,
+          'success'
+        )}
+      </OrderDetailsTable>
+      {quoteR.map((q) => (
+        <CountdownTimer
+          style={spacing('mt-20')}
+          expiryDate={q.expiresAt.getTime()}
+          handleExpiry={onRefreshQuote}
+        />
+      )).getOrElse(null)}
+    </ExchangeCheckoutWrapper>
+  )
+}
 
 export const OrderSubmit = ({ quoteR, onSubmit, busy, clearTradeError, goToStep }) => (
   <Fragment>
@@ -95,7 +109,7 @@ export const OrderSubmit = ({ quoteR, onSubmit, busy, clearTradeError, goToStep 
                 : <FormattedMessage id='submit' defaultMessage='Submit' />
             }
           </Button>
-          <CancelWrapper style={{ ...flex('row justify/center'), ...spacing('mt-15') }}>
+          <CancelWrapper>
             <StepTransition restart Component={Link}>
               <FormattedMessage id='cancel' defaultMessage='Cancel' />
             </StepTransition>

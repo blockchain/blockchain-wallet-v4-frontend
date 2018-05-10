@@ -6,12 +6,8 @@ import { connect } from 'react-redux'
 import StepIndicator from 'components/StepIndicator'
 import Tray from 'components/Tray'
 import Create from './Create'
-import Order from './Order'
-import Payment from './Payment'
 import Confirm from './Confirm'
 import ISignThis from './ISignThis'
-import AddBankDetails from './AddBankDetails'
-import AddCustomerDetails from './AddCustomerDetails'
 import { ModalHeader, ModalBody } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
@@ -22,9 +18,7 @@ class SfoxExchangeData extends React.PureComponent {
     super()
     this.state = { show: false }
     this.stepMap = {
-      order: <FormattedMessage id='modals.coinifyexchangedata.steps.order' defaultMessage='Order' />,
       verify: <FormattedMessage id='modals.coinifyexchangedata.steps.verify' defaultMessage='Verify' />,
-      payment: <FormattedMessage id='modals.coinifyexchangedata.steps.payment' defaultMessage='Payment' />,
       submit: <FormattedMessage id='modals.coinifyexchangedata.steps.submit' defaultMessage='Submit' />
     }
   }
@@ -44,11 +38,7 @@ class SfoxExchangeData extends React.PureComponent {
     switch (step) {
       case 'account': return <Create />
       case 'isx': return <ISignThis />
-      case 'order': return <Order />
-      case 'payment': return <Payment />
       case 'confirm': return <Confirm />
-      case 'bankdetails': return <AddBankDetails />
-      case 'customerdetails': return <AddCustomerDetails />
     }
   }
 

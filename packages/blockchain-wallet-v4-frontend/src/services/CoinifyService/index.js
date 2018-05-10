@@ -52,11 +52,14 @@ export const mockedLimits = {
 export const reviewOrder = {
   baseBtc: (q) => q.baseCurrency === 'BTC',
   hasMedium: (paymentMediums, medium) => {
-    const hasMedium = has(medium)
-    if (hasMedium(paymentMediums)) return medium
-    else return medium === 'bank' ? 'card' : 'bank'
+    if (paymentMediums && has(medium, paymentMediums)) {
+      return medium
+    } else {
+      return medium === 'bank' ? 'card' : 'bank'
+    }
   },
   renderSummary: (q, type, medium) => {
+    console.log(q)
     const qAmt = Math.abs(q.quoteAmount)
     const bAmt = Math.abs(q.baseAmount)
     const med = reviewOrder.hasMedium(q.paymentMediums, medium)
@@ -74,9 +77,19 @@ export const reviewOrder = {
           total: `${currencySymbolMap[q.baseCurrency]}${(q.paymentMediums[med]['total']).toFixed(2)}`
         }
       }
-    } else {
-      if (this.baseBtc(q)) {
-
+    } else { // type = sell
+      if (reviewOrder.baseBtc(q)) {
+        return {
+          firstRow: `${bAmt / 1e8} BTC (${currencySymbolMap[q.quoteCurrency]}${qAmt.toFixed(2)})`,
+          fee: `${currencySymbolMap[q.quoteCurrency]}${(+q.paymentMediums[med]['fee']).toFixed(2)}`,
+          total: `${currencySymbolMap[q.quoteCurrency]}${(qAmt + q.paymentMediums[med]['fee']).toFixed(2)}`
+        }
+      } else {
+        return {
+          firstRow: `${qAmt / 1e8} BTC (${currencySymbolMap[q.baseCurrency]}${bAmt.toFixed(2)})`,
+          fee: `${currencySymbolMap[q.baseCurrency]}${(q.paymentMediums[med]['fee']).toFixed(2)}`,
+          total: `${currencySymbolMap[q.baseCurrency]}${(q.paymentMediums[med]['total']).toFixed(2)}`
+        }
       }
     }
   }
