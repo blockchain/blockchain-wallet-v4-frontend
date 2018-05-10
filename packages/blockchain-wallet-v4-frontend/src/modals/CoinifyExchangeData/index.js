@@ -44,7 +44,6 @@ class SfoxExchangeData extends React.PureComponent {
   }
 
   getStepComponent (step) {
-    console.log('get step comp', this.props)
     switch (step) {
       case 'account': return <Create />
       case 'isx': return <ISignThis iSignThisId={path(['iSignThisID'], this.props.trade.data)} />
