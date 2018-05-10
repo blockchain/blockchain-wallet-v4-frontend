@@ -69,7 +69,7 @@ const Sell = props => {
           </CheckoutWrapper>
         </StepView>
         <StepView step={1}>
-          <AddBankDetails />
+          <AddBankDetails quoteR={sellQuoteR} />
         </StepView>
         <StepView step={2}>
           <AddCustomerDetails />
