@@ -5,7 +5,7 @@ import { Exchange } from 'blockchain-wallet-v4/src'
 import { MaximumAmountMessage, InsufficientFundsMessage } from './validationMessages'
 
 export const insufficientFunds = (value, allValues, props) => {
-  return props.effectiveBalance < 0 ? undefined : <InsufficientFundsMessage />
+  return props.effectiveBalance > 0 ? undefined : <InsufficientFundsMessage />
 }
 
 export const maximumAmount = (value, allValues, props) => {

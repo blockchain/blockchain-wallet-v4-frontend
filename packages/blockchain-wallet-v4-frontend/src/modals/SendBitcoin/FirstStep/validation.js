@@ -6,7 +6,7 @@ import { AddressMatchesPriv, MaximumAmountMessage, MaximumFeeMessage, MinimumAmo
 const DUST = 546
 
 export const insufficientFunds = (value, allValues, props) => {
-  return props.effectiveBalance < 0 ? undefined : <InsufficientFundsMessage />
+  return props.effectiveBalance > 0 ? undefined : <InsufficientFundsMessage />
 }
 
 export const minimumAmount = (value, allValues, props) => {

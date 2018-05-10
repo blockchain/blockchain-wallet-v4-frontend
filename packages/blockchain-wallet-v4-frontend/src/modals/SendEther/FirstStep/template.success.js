@@ -7,7 +7,7 @@ import { Field, reduxForm } from 'redux-form'
 import { required, validEtherAddress } from 'services/FormHelper'
 import { Button, Tooltip } from 'blockchain-info-components'
 import { FiatConvertor, Form, FormGroup, FormItem, FormLabel, SelectBoxCoin, TextBox, TextArea } from 'components/Form'
-import { insufficientsFunds, maximumAmount } from './validation'
+import { insufficientFunds, maximumAmount } from './validation'
 import QRCodeCapture from 'components/QRCodeCapture'
 import ComboDisplay from 'components/Display/ComboDisplay'
 
@@ -48,7 +48,7 @@ const FirstStep = props => {
           <FormLabel for='amount'>
             <FormattedMessage id='modals.sendether.firststep.amount' defaultMessage='Enter amount:' />
           </FormLabel>
-          <Field name='amount' component={FiatConvertor} coin='ETH' validate={[insufficientsFunds, maximumAmount]} />
+          <Field name='amount' component={FiatConvertor} coin='ETH' validate={[insufficientFunds, maximumAmount]} />
         </FormItem>
       </FormGroup>
       <FormGroup margin={'15px'}>
