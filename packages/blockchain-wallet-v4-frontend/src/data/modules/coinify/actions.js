@@ -1,6 +1,6 @@
 import * as AT from './actionTypes'
 
-export const coinifySignup = () => ({ type: AT.SIGNUP })
+export const coinifySignup = (country) => ({ type: AT.SIGNUP, payload: country })
 
 export const coinifySignupFailure = (error) => ({ type: AT.COINIFY_SIGNUP_FAILURE, payload: error })
 

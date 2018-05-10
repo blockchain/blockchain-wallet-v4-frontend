@@ -8,9 +8,10 @@ import * as service from 'services/CoinifyService'
 export default ({ coreSagas }) => {
   const logLocation = 'modules/coinify/sagas'
 
-  const coinifySignup = function * () {
+  const coinifySignup = function * (data) {
+    const country = data.payload
     try {
-      yield call(coreSagas.data.coinify.signup)
+      yield call(coreSagas.data.coinify.signup, country)
       const profile = yield select(selectors.core.data.coinify.getProfile)
       if (!profile.error) {
         yield call(coreSagas.data.coinify.triggerKYC)

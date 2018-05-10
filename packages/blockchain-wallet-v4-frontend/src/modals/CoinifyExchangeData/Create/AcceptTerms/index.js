@@ -27,7 +27,7 @@ class AcceptTermsContainer extends Component {
   handleSignup (e) {
     e.preventDefault()
     this.setState({ busy: true })
-    this.props.coinifyFrontendActions.coinifySignup()
+    this.props.coinifyFrontendActions.coinifySignup(this.props.country)
   }
 
   render () {
@@ -47,7 +47,8 @@ class AcceptTermsContainer extends Component {
 AcceptTermsContainer.propTypes = {
   invalid: PropTypes.bool,
   updateUI: PropTypes.function,
-  email: PropTypes.string.isRequired
+  email: PropTypes.string.isRequired,
+  country: PropTypes.string
 }
 
 const mapStateToProps = (state) => getData(state)

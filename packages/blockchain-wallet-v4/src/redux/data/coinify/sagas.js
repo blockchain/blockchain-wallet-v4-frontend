@@ -136,17 +136,21 @@ export default ({ api, options }) => {
     }
   }
 
-  const signup = function * () {
-    const countryCode = 'FR' // TODO should be passed in
-    const fiatCurrency = 'EUR' // TODO should be passed in
+  const signup = function * (data) {
+    const countryCode = data
+    let fiatCurrency
+
+    if (countryCode === 'DK') fiatCurrency = 'DKK'
+    else if (countryCode === 'GB') fiatCurrency = 'GBP'
+    else fiatCurrency = 'EUR'
+
     try {
       const coinify = yield call(getCoinify)
-      const signupResponse = yield apply(coinify, coinify.signup, [countryCode, fiatCurrency]) // TODO countryCode and fiatCurrency passed in as args
+      const signupResponse = yield apply(coinify, coinify.signup, [countryCode, fiatCurrency])
 
       yield put(buySellA.coinifySetProfileBuySell(signupResponse))
       yield put(A.coinifySetToken(signupResponse))
     } catch (e) {
-      console.log('coinify signup error:', e)
       yield put(A.coinifySignupFailure(e))
     }
   }

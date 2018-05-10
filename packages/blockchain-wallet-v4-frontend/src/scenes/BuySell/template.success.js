@@ -83,7 +83,7 @@ const SelectPartner = (props) => {
     //   console.log('start unocoin')
     // }
     if (coinifyCountries.indexOf(country) >= 0) {
-      props.modalActions.showModal('CoinifyExchangeData', { step: 'account' })
+      props.modalActions.showModal('CoinifyExchangeData', { step: 'account', country: props.country })
     }
   }
 

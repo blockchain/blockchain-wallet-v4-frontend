@@ -45,7 +45,7 @@ class CoinifyExchangeData extends React.PureComponent {
 
   getStepComponent (step) {
     switch (step) {
-      case 'account': return <Create />
+      case 'account': return <Create country={this.props.country} />
       case 'isx': return <ISignThis iSignThisId={path(['iSignThisID'], this.props.trade.data)} />
       case 'order': return <Order />
       case 'payment': return <Payment />
