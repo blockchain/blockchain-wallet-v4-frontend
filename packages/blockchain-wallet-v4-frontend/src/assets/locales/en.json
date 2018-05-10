@@ -574,7 +574,7 @@
   "selectpartner.subheader": "You can now buy & sell bitcoin directly from your wallet and have the exchanged funds deposited into your bank account.",
   "selectpartner.selectcountry": "Select your country:",
   "selectpartner.getstarted": "get started",
-  "scenes.exchange.simple": "Need help?",
+  "scenes.exchange.help": "Need help?",
   "scenes.exchange.summary": "You can exchange between bitcoin, ether, and bitcoin cash directly from your Blockchain wallet.",
   "scenes.exchange.summary2": "In a few simple steps, your exchange will be in progress.",
   "scenes.exchange.summary3": "Note: exchanges usually take between twenty minutes and two hours.",
