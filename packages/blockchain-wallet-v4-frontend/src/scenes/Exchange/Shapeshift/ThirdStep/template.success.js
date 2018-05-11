@@ -142,7 +142,7 @@ const Success = props => {
             </TableRow>
             <TableRow>
               <TableCell>
-                <Text size='13px' weight={400}>
+                <Text size='13px' weight={400} capitalize>
                   <FormattedMessage id='modals.exchange.shapeshift.exchangerate' defaultMessage='Exchange rate' />
                 </Text>
                 <Tooltip>
@@ -157,7 +157,7 @@ const Success = props => {
             </TableRow>
             <TableRow>
               <TableCell>
-                <Text size='13px' weight={400}>
+                <Text size='13px' weight={400} capitalize>
                   <FormattedMessage id='modals.exchange.shapeshift.fee' defaultMessage='Transaction fee' />
                 </Text>
                 <Tooltip>

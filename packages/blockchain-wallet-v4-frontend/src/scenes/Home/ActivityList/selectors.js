@@ -1,7 +1,12 @@
-import { concat, isNil, take, map, lift, prop, curry, compose, descend, reduce, sort, unapply } from 'ramda'
+import { concat, equals, isNil, take, map, lift, prop, curry, compose, descend, reduce, sort, unapply } from 'ramda'
 import { selectors } from 'data'
-import { createSelector } from 'reselect'
+import { createSelector, createSelectorCreator, defaultMemoize } from 'reselect'
 import { Remote } from 'blockchain-wallet-v4/src'
+
+export const createDeepEqualSelector = createSelectorCreator(
+  defaultMemoize,
+  equals
+)
 
 export const transform = curry((coin, transaction) => ({
   type: 'transaction',
@@ -13,29 +18,29 @@ export const transform = curry((coin, transaction) => ({
 
 export const getNumber = () => 8
 
-export const getLogs = createSelector(
+export const getLogs = createDeepEqualSelector(
   [selectors.core.settings.getLoggingLevel, selectors.core.data.misc.getLogs, getNumber],
   (level, logs, number) => level.getOrElse(false) ? logs.map(take(number)) : Remote.of([])
 )
 
-export const getBtcTransactions = createSelector(
+export const getBtcTransactions = createDeepEqualSelector(
   [selectors.core.common.bitcoin.getWalletTransactions, getNumber],
   (transactions, number) => isNil(transactions[0]) ? Remote.of([]) : transactions[0].map(compose(take(number), map(transform('BTC'))))
 )
 
-export const getBchTransactions = createSelector(
+export const getBchTransactions = createDeepEqualSelector(
   [selectors.core.common.bch.getWalletTransactions, getNumber],
   (transactions, number) => isNil(transactions[0]) ? Remote.of([]) : transactions[0].map(compose(take(number), map(transform('BCH'))))
 )
 
-export const getEthTransactions = createSelector(
+export const getEthTransactions = createDeepEqualSelector(
   [selectors.core.common.ethereum.getWalletTransactions, getNumber],
   (transactions, number) => isNil(transactions[0]) ? Remote.of([]) : transactions[0].map(compose(take(number), map(transform('ETH'))))
 )
 
 export const concatAll = unapply(reduce(concat, []))
 
-export const getData = createSelector(
+export const getData = createDeepEqualSelector(
   [getLogs, getBtcTransactions, getBchTransactions, getEthTransactions, getNumber],
   (logs, btc, bch, eth, number) => {
     const transform = (logs, btc, bch, eth) => {

@@ -13,7 +13,9 @@ const BaseLink = styled.a`
   font-size: ${props => props.size};
   font-weight: ${props => props.weight};
   color: ${props => props.theme[props.color]};
-  text-transform: ${props => props.uppercase ? 'uppercase' : 'none'};
+  text-transform: ${props =>
+    props.uppercase ? 'uppercase'
+      : props.capitalize ? 'capitalize' : 'none'};
   text-decoration: none;
   cursor : pointer;
 
@@ -39,6 +41,7 @@ Link.propTypes = {
   size: PropTypes.string,
   color: PropTypes.oneOf(keysIn(Palette())),
   uppercase: PropTypes.bool,
+  capitalize: PropTypes.bool,
   bold: PropTypes.bool
 }
 
@@ -47,6 +50,7 @@ Link.defaultProps = {
   size: '16px',
   color: 'brand-secondary',
   uppercase: false,
+  capitalize: false,
   bold: false
 }
 
