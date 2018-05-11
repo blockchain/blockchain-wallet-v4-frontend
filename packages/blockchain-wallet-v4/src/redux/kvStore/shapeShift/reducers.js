@@ -47,7 +47,8 @@ export default (state = INITIAL_STATE, action) => {
       })
     }
     case AT.FETCH_SHAPESHIFT_TRADE_SUCCESS: {
-      const { address, incomingCoin, outgoingCoin, incomingType, outgoingType } = payload
+      const { status, address, incomingCoin, outgoingCoin, incomingType, outgoingType } = payload
+
       return state.map(trades => {
         const lensTrades = compose(lensProp('value'), lensProp('trades'))
         const i = findIndex(
@@ -56,7 +57,14 @@ export default (state = INITIAL_STATE, action) => {
             path(['quote', 'deposit'])
           ))(view(lensTrades, trades))
 
-        const setPropValue = (prop, value) => set(
+        const setTradePropValue = (prop, value) => set(
+          compose(
+            lensTrades,
+            lensIndex(i),
+            lensProp(prop)),
+          value)
+
+        const setQuotePropValue = (prop, value) => set(
           compose(
             lensTrades,
             lensIndex(i),
@@ -64,13 +72,16 @@ export default (state = INITIAL_STATE, action) => {
             lensProp(prop)),
           value)
 
-        return compose(
-          incomingCoin ? setPropValue('depositAmount', incomingCoin) : identity,
-          outgoingCoin ? setPropValue('withdrawalAmount', outgoingCoin) : identity,
-          (incomingType && outgoingType)
-            ? setPropValue('pair', `${toLower(incomingType)}_${toLower(outgoingType)}`)
-            : identity
-        )(trades)
+        if (equals(status, 'complete')) {
+          return compose(
+            setTradePropValue('status', status),
+            setQuotePropValue('depositAmount', incomingCoin),
+            setQuotePropValue('withdrawalAmount', outgoingCoin),
+            setQuotePropValue('pair', `${toLower(incomingType)}_${toLower(outgoingType)}`)
+          )(trades)
+        } else {
+          return trades
+        }
       })
     }
     default:
