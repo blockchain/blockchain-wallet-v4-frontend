@@ -17,6 +17,10 @@ const Wrapper = styled.div`
   > * { margin: 0 0 0 2px; }
 `
 
+export const InvalidAmountMessage = () => (
+  <FormattedMessage id='modals.sendbtc.amountnotzeromessage' defaultMessage="Invalid amount" />
+)
+
 export const MaximumAmountMessage = () => (
   <Wrapper>
     <FormattedMessage id='modals.sencbtc.maximumamountmessage' defaultMessage='Maximum amount exceeded. Use' />
