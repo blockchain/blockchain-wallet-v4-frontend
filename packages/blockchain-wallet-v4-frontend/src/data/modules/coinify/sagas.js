@@ -157,7 +157,7 @@ export default ({ coreSagas }) => {
     try {
       const modals = yield select(selectors.modals.getModals)
       const trade = yield select(selectors.core.data.coinify.getTrade)
-
+      // TODO if "trade" is KYC do not change tab, if it is buy, take user to order_history
       if (path(['type'], head(modals)) === 'CoinifyExchangeData') yield put(actions.modals.closeAllModals())
       else yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
 
@@ -194,6 +194,12 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const cancelISX = function * () {
+    const modals = yield select(selectors.modals.getModals)
+    if (path(['type'], head(modals)) === 'CoinifyExchangeData') yield put(actions.modals.closeAllModals())
+    else yield put(A.coinifyNextCheckoutStep('checkout'))
+  }
+
   return {
     handleChange,
     initialized,
@@ -204,6 +210,7 @@ export default ({ coreSagas }) => {
     fromISX,
     triggerKYC,
     openKYC,
-    setMinMax
+    setMinMax,
+    cancelISX
   }
 }
