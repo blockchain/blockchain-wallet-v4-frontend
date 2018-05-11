@@ -18,13 +18,13 @@ export const initiateBuy = (data) => ({ type: AT.COINIFY_BUY, payload: data })
 
 export const initiateSell = (data) => ({ type: AT.COINIFY_SELL, payload: data })
 
-export const initializeCheckoutForm = (currency) => ({ type: AT.COINIFY_INITIALIZED, payload: currency })
+export const initializeCheckoutForm = (type) => ({ type: AT.COINIFY_INITIALIZED, payload: { type } })
 
 export const coinifyCheckoutBusyOn = () => ({ type: AT.COINIFY_CHECKOUT_BUSY_ON })
 export const coinifyCheckoutBusyOff = () => ({ type: AT.COINIFY_CHECKOUT_BUSY_OFF })
 
-export const setCheckoutMax = (amount) => ({ type: AT.COINIFY_SET_CHECKOUT_MAX, payload: amount })
-export const setCheckoutMin = (amount) => ({ type: AT.COINIFY_SET_CHECKOUT_MIN, payload: amount })
+export const setCheckoutMax = (amount, type) => ({ type: AT.COINIFY_SET_CHECKOUT_MAX, payload: { amount, type } })
+export const setCheckoutMin = (amount, type) => ({ type: AT.COINIFY_SET_CHECKOUT_MIN, payload: { amount, type } })
 
 export const setCoinifyCheckoutError = (error) => ({ type: AT.COINIFY_SET_CHECKOUT_ERROR, payload: error })
 export const clearCoinifyCheckoutError = () => ({ type: AT.COINIFY_CLEAR_CHECKOUT_ERROR })

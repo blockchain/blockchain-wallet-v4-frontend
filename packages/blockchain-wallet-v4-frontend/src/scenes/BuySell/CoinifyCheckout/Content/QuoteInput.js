@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import FiatConvertor from './QuoteInputTemplate'
+import { QuoteInputTemplateBuy, QuoteInputTemplateSell } from './QuoteInputTemplate'
 import { actions, selectors } from 'data'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -9,30 +9,26 @@ import { getQuoteInputData } from './selectors'
 import Loading from '../../template.loading'
 
 class QuoteInput extends Component {
-  componentDidMount () {
-    this.props.actions.initializeCheckoutForm()
-  }
-  componentWillUnmount () {
-    this.props.actions.initializeCheckoutForm()
-  }
   render () {
     let { data, symbol, setMax, setMin, checkoutError, increaseLimit, defaultCurrency, limits, disabled, type } = this.props
-
     return data.cata({
-      Success: (value) => <FiatConvertor
-        val={value}
-        disabled={disabled}
-        unit={'__required__'}
-        currency={'__required__'}
-        limits={limits}
-        defaultCurrency={defaultCurrency}
-        symbol={symbol}
-        setMax={setMax}
-        setMin={setMin}
-        checkoutError={checkoutError}
-        increaseLimit={increaseLimit}
-        type={type}
-      />,
+      Success: (value) => {
+        const QuoteInputTemplate = type === 'buy' ? QuoteInputTemplateBuy : QuoteInputTemplateSell
+        return <QuoteInputTemplate
+          val={value}
+          disabled={disabled}
+          unit={'__required__'}
+          currency={'__required__'}
+          limits={limits}
+          defaultCurrency={defaultCurrency}
+          symbol={symbol}
+          setMax={setMax}
+          setMin={setMin}
+          checkoutError={checkoutError}
+          increaseLimit={increaseLimit}
+          type={type}
+        />
+      },
       Failure: (msg) => <div>Failure: {msg.error}</div>,
       Loading: () => <Loading />,
       NotAsked: () => <div>Not Asked</div>

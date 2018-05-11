@@ -14,7 +14,7 @@ class BuyContainer extends React.Component {
   }
 
   componentDidMount () {
-    this.props.coinifyActions.initializeCheckoutForm()
+    this.props.coinifyActions.initializeCheckoutForm('buy')
     this.props.coinifyDataActions.fetchTrades()
     this.props.coinifyDataActions.getKycs()
     if (this.props.step === 'isx') this.props.coinifyActions.coinifyNextCheckoutStep('checkout')
@@ -50,8 +50,8 @@ class BuyContainer extends React.Component {
         fetchBuyQuote={(quote) => fetchQuote({ quote, nextAddress: value.nextAddress })}
         currency={currency}
         checkoutBusy={checkoutBusy}
-        setMax={(amt) => this.props.coinifyActions.setCheckoutMax(amt)}
-        setMin={(amt) => this.props.coinifyActions.setCheckoutMin(amt)}
+        setMax={(amt) => this.props.coinifyActions.setCheckoutMax(amt, 'buy')}
+        setMin={(amt) => this.props.coinifyActions.setCheckoutMin(amt, 'buy')}
         paymentMedium={paymentMedium}
         initiateBuy={this.startBuy}
         step={step}

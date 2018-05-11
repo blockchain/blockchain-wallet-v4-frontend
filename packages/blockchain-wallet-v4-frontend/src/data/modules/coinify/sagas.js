@@ -3,7 +3,7 @@ import * as A from './actions'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors.js'
 // import { formValueSelector } from 'redux-form'
-import { merge, path, prop, equals } from 'ramda'
+import { any, merge, path, prop, equals } from 'ramda'
 import * as service from 'services/CoinifyService'
 
 export default ({ coreSagas }) => {
@@ -73,8 +73,9 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const initialized = function * () {
+  const initialized = function * (action) {
     try {
+      const { type } = action.payload
       const level = yield select(selectors.core.data.coinify.getLevel)
       const currencyR = level.map(l => l.currency)
 
@@ -84,8 +85,12 @@ export default ({ coreSagas }) => {
         currency: currencyR.getOrElse('EUR')
       }
 
-      yield put(actions.form.initialize('coinifyCheckout', initialValues))
-      yield put(actions.core.data.coinify.fetchRateQuote(currencyR.getOrElse('EUR')))
+      if (type === 'buy') {
+        yield put(actions.form.initialize('coinifyCheckoutBuy', initialValues))
+      } else {
+        yield put(actions.form.initialize('coinifyCheckoutSell', initialValues))
+      }
+      yield put(actions.core.data.coinify.fetchRateQuote(currencyR.getOrElse('EUR'), type))
       yield put(A.coinifyCheckoutBusyOn())
     } catch (e) {
       console.log('initialize coinify checkout form', e)
@@ -99,14 +104,13 @@ export default ({ coreSagas }) => {
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
       const payload = prop('payload', action)
-      if (!equals('coinifyCheckout', form)) return
+      if (!any(equals(form))(['coinifyCheckoutBuy', 'coinifyCheckoutSell'])) return
       yield put(A.coinifyCheckoutBusyOn())
 
       const limits = yield select(selectors.core.data.coinify.getLimits)
 
-      const values = yield select(selectors.form.getFormValues('coinifyCheckout'))
+      const values = yield select(selectors.form.getFormValues(form))
       // console.log('handleChange', action, form, values)
-
       if (!payload) return null
 
       switch (field) {
@@ -118,7 +122,7 @@ export default ({ coreSagas }) => {
           }
           const leftResult = yield call(coreSagas.data.coinify.fetchQuote, { quote: { amount: payload * 100, baseCurrency: values.currency, quoteCurrency: 'BTC' } })
           const amount = leftResult.quoteAmount
-          yield put(actions.form.initialize('coinifyCheckout', merge(values, { 'rightVal': amount / 1e8 })))
+          yield put(actions.form.initialize(form, merge(values, { 'rightVal': amount / 1e8 })))
           yield put(A.coinifyCheckoutBusyOff())
           break
         case 'rightVal':
@@ -128,15 +132,15 @@ export default ({ coreSagas }) => {
           const rightLimitsError = service.getLimitsError(fiatAmount, limits.data, values.currency)
           if (rightLimitsError) {
             yield put(A.setCoinifyCheckoutError(rightLimitsError))
-            yield put(actions.form.initialize('coinifyCheckout', merge(values, { 'leftVal': fiatAmount })))
+            yield put(actions.form.initialize(form, merge(values, { 'leftVal': fiatAmount })))
             return
           }
-          yield put(actions.form.initialize('coinifyCheckout', merge(values, { 'leftVal': fiatAmount })))
+          yield put(actions.form.initialize(form, merge(values, { 'leftVal': fiatAmount })))
           yield put(A.coinifyCheckoutBusyOff())
           break
         case 'currency':
           yield put(actions.core.data.coinify.fetchRateQuote(payload))
-          yield put(actions.form.initialize('coinifyCheckout', merge(values, { 'leftVal': '', 'rightVal': '' })))
+          yield put(actions.form.initialize(form, merge(values, { 'leftVal': '', 'rightVal': '' })))
           yield put(A.coinifyCheckoutBusyOn())
           break
       }
@@ -147,8 +151,11 @@ export default ({ coreSagas }) => {
   }
 
   const setCheckoutMax = function * (action) {
+    const { amount, type } = action.payload
     try {
-      yield put(actions.form.change('coinifyCheckout', 'leftVal', action.payload))
+      type === 'buy'
+        ? yield put(actions.form.change('coinifyCheckoutBuy', 'leftVal', amount))
+        : yield put(actions.form.change('coinifyCheckoutSell', 'leftVal', amount))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'setCheckoutMax', e))
     }
@@ -156,7 +163,10 @@ export default ({ coreSagas }) => {
 
   const setCheckoutMin = function * (action) {
     try {
-      yield put(actions.form.change('coinifyCheckout', 'leftVal', action.payload))
+      const { amount, type } = action.payload
+      type === 'buy'
+        ? yield put(actions.form.change('coinifyCheckoutBuy', 'leftVal', amount))
+        : yield put(actions.form.change('coinifyCheckoutSell', 'leftVal', amount))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'setCheckoutMin', e))
     }
