@@ -10,12 +10,12 @@ class ReminderContainer extends React.PureComponent {
   }
 
   render () {
-    const { step, ...rest } = this.props
+    const { step, nextStep, previousStep, ...rest } = this.props
 
     switch (step) {
-      case 1: return <FirstStep {...rest} />
-      case 2: return <SecondStep {...rest} />
-      default: return <FirstStep {...rest} />
+      case 1: return <FirstStep onSubmit={nextStep} {...rest} />
+      case 2: return <SecondStep previousStep={previousStep} {...rest} />
+      default: return <FirstStep onSubmit={nextStep} {...rest} />
     }
   }
 }
