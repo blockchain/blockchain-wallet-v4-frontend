@@ -52,7 +52,7 @@ const CloseArrow = styled(Icon)`
   margin-top: 20px;
 `
 const BitcoinWelcome = props => {
-  const { displayed, handleClick, handleRequest, partner } = props
+  const { displayed, handleClick, handleRequest, partner, exchange } = props
 
   return (
     <Wrapper displayed={displayed}>
@@ -101,7 +101,11 @@ const BitcoinWelcome = props => {
                 <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.getstarted' defaultMessage='Get started with bitcoin' />
               </Button>
             </LinkContainer>
-            : <Button nature='primary' margin='20px' onClick={handleRequest} fullwidth uppercase>
+            : exchange ? <LinkContainer to='/exchange'>
+              <Button nature='primary' margin='20px' fullwidth uppercase>
+                <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.getstarted' defaultMessage='Get started with bitcoin' />
+              </Button>
+            </LinkContainer> : <Button nature='primary' margin='20px' onClick={handleRequest} fullwidth uppercase>
               <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.getstarted' defaultMessage='Get started with bitcoin' />
             </Button>
           }
