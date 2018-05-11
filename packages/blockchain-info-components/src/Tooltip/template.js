@@ -91,7 +91,7 @@ export const Tooltip = props => {
 
 Tooltip.propTypes = {
   icon: PropTypes.string,
-  colors: PropTypes.string,
+  colors: PropTypes.object,
   width: PropTypes.string,
   label: PropTypes.string,
   displayed: PropTypes.bool,

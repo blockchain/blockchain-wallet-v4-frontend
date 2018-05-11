@@ -190,7 +190,7 @@ export const _transformTx = (wallet, currentBlockHeight, tx) => {
     type: toLower(type),
     description: TXNotes.selectNote(tx.hash, txNotes) || '',
     time: tx.time,
-    timeFormatted: getTime(tx.time),
+    timeFormatted: getTime(tx),
     fee: tx.fee,
     confirmations: confirmations,
     inputs: inputs,
