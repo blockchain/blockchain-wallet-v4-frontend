@@ -18,11 +18,13 @@ class WalletLayoutContainer extends React.PureComponent {
   }
 
   render () {
-    const { ui, updateUI, isAuthenticated, path, computedMatch, component: Component } = this.props
+    const { ui, updateUI, canTrade, isAuthenticated, path, computedMatch, component: Component } = this.props
+    const partner = canTrade.cata({ Success: (val) => val, Failure: () => false, Loading: () => false, NotAsked: () => false })
 
     return isAuthenticated
       ? <Route path={path} render={props => (
         <WalletLayout
+          partner={partner}
           location={props.location}
           menuLeftToggled={ui.menuLeftToggled}
           trayRightOpen={ui.trayRightOpen}
@@ -49,6 +51,7 @@ class WalletLayoutContainer extends React.PureComponent {
 }
 
 const mapStateToProps = (state) => ({
+  canTrade: selectors.exchange.getCanTrade(state),
   isAuthenticated: selectors.auth.isAuthenticated(state)
 })
 
