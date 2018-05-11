@@ -215,7 +215,10 @@ export default ({ api, coreSagas }) => {
     try {
       const form = yield select(selectors.form.getFormValues('exchange'))
       const usState = prop('state', form)
-      console.info(usState)
+      // Add user state to kvStore metadata
+      yield put(actions.core.kvStore.shapeShift.addStateMetadataShapeshift(usState))
+      // Go to step 1 of exchange process
+      yield put(A.firstStepEnabled())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'usStateRegistered', e))
     }

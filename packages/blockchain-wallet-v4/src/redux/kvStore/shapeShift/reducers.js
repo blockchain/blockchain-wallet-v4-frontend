@@ -1,8 +1,9 @@
 import { over, mapped, set, view } from 'ramda-lens'
-import { append, compose, findIndex, identity, path, equals, lensIndex, toLower } from 'ramda'
+import { append, compose, findIndex, identity, path, equals, lensIndex, lensPath, toLower } from 'ramda'
 import * as AT from './actionTypes'
 import Remote from '../../../remote'
 import { lensProp } from '../../../types/util'
+import { value } from '../../../types/KVStoreEntry'
 
 // initial state should be a kvstore object
 const INITIAL_STATE = Remote.NotAsked
@@ -21,6 +22,9 @@ export default (state = INITIAL_STATE, action) => {
     case AT.FETCH_SHAPESHIFT_TRADE_FAILURE:
     case AT.FETCH_METADATA_SHAPESHIFT_FAILURE: {
       return Remote.Failure(payload)
+    }
+    case AT.ADD_STATE_METADATA_SHAPESHIFT: {
+      return set(compose(mapped, value, lensPath(['USAState', 'Code'])), payload.usState, state)
     }
     case AT.ADD_TRADE_METADATA_SHAPESHIFT: {
       const { trade } = payload
