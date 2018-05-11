@@ -17,8 +17,8 @@ const findMatch = (settings, options) => {
   if (coinify.countries.indexOf(country_code) > -1) return 'coinify'
 }
 
-// settings, options, buySell => 'partner' || false
-export const canBuy = (settings, options, buySell) => {
+// type ('Buy' || 'Sell'), settings, options, buySell => 'partner' || false
+export const canTrade = (type, settings, options, buySell) => {
   // if user has an account return 'partner'
   const account = hasAccount(buySell.value)
   if (account) return account
@@ -30,8 +30,8 @@ export const canBuy = (settings, options, buySell) => {
   // check if user is invited to location match => 'partner'
   const { invited } = settings
   switch (match) {
-    case 'sfox': return invited.sfoxBuy && 'sfox'
-    case 'coinify': return invited.coinifyBuy && 'coinify'
+    case 'sfox': return invited['sfox' + type] && 'sfox'
+    case 'coinify': return invited['coinify' + type] && 'coinify'
     default: return false
   }
 }
