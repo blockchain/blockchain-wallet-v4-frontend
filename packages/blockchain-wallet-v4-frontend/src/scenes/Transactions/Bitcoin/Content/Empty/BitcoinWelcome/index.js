@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { getCanBuy } from './selectors'
 import { actions, selectors } from 'data'
 import BitcoinWelcome from './template.js'
 
@@ -29,7 +28,7 @@ class BitcoinWelcomeContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  canBuy: getCanBuy(state),
+  canBuy: selectors.exchange.getCanTrade(state, 'Buy'),
   showBitcoinWelcome: selectors.preferences.getShowBitcoinWelcome(state)
 })
 

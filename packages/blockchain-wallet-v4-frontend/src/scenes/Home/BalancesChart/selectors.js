@@ -1,7 +1,6 @@
 import { selectors } from 'data'
 import { length, lift } from 'ramda'
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { canTrade } from 'services/ExchangeService'
 import { Color } from 'blockchain-info-components'
 
 export const getData = (state) => {
@@ -48,13 +47,4 @@ export const getData = (state) => {
   }
 
   return lift(transform)(btcRates, ethRates, bchRates, settings)
-}
-
-export const getCanBuy = (state) => {
-  const settingsR = selectors.core.settings.getSettings(state)
-  const optionsR = selectors.core.walletOptions.getOptions(state)
-  const buySellR = selectors.core.kvStore.buySell.getMetadata(state)
-
-  const transform = (settings, options, buySell) => canTrade(settings, options, buySell, 'Buy')
-  return lift(transform)(settingsR, optionsR, buySellR)
 }

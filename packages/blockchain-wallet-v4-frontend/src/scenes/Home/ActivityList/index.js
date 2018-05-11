@@ -2,8 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { actions } from 'data'
-import { getData, getCanBuy } from './selectors'
+import { actions, selectors } from 'data'
+import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
@@ -36,8 +36,8 @@ class ActivityListContainer extends React.PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  canBuy: getCanBuy(state),
-  data: getData(state)
+  data: getData(state),
+  canBuy: selectors.exchange.getCanTrade(state, 'Buy')
 })
 
 const mapDispatchToProps = (dispatch) => ({

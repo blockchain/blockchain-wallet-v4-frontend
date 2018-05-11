@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { withRouter } from 'react-router-dom'
 
-import { actions } from 'data'
-import { getCanBuy, getData } from './selectors'
+import { actions, selectors } from 'data'
+import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
@@ -40,7 +40,7 @@ class BalancesChartContainer extends React.PureComponent {
 
 const mapStateToProps = (state) => ({
   data: getData(state),
-  canBuy: getCanBuy(state)
+  canBuy: selectors.exchange.getCanTrade(state, 'Buy')
 })
 
 const mapDispatchToProps = (dispatch) => ({
