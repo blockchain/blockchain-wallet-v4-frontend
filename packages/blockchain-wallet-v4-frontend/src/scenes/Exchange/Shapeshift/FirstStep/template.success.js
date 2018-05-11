@@ -123,13 +123,6 @@ const Success = props => {
             </TextGroup>
           </Tooltip>
         </Row>
-        <Row>
-          <Text size='12px' weight={300} color='error'>
-            {formError && formError === 'minimum' && <MinimumAmountMessage />}
-            {formError && formError === 'maximum' && <MaximumAmountMessage />}
-            {formError && formError === 'insufficient' && <InsufficientAmountMessage />}
-          </Text>
-        </Row>
         <Row height='80px'>
           <Cell>
             <AmountContainer hasNoBottomBorder>
@@ -158,18 +151,27 @@ const Success = props => {
             </AmountContainer>
           </Cell>
         </Row>
+        {formError &&
         <Row spaced>
-          <OptionsContainer>
-            <Text weight={300} size='12px'>
-              <FormattedMessage id='scenes.exchangebox.firststep.use1' defaultMessage='Use' />
-            </Text>
-            <MinimumAmountLink />
-            <Text weight={300} size='12px'>
-              <FormattedMessage id='scenes.exchangebox.firststep.use2' defaultMessage='| Use' />
-            </Text>
-            <MaximumAmountLink />
-          </OptionsContainer>
+          {formError === 'minimum' && <MinimumAmountMessage />}
+          {formError === 'maximum' && <MaximumAmountMessage />}
+          {formError === 'insufficient' && <InsufficientAmountMessage />}
         </Row>
+        }
+        {!formError &&
+          <Row spaced>
+            <OptionsContainer>
+              <Text weight={300} size='12px'>
+                <FormattedMessage id='scenes.exchangebox.firststep.use1' defaultMessage='Use' />
+              </Text>
+              <MinimumAmountLink />
+              <Text weight={300} size='12px'>
+                <FormattedMessage id='scenes.exchangebox.firststep.use2' defaultMessage='| Use' />
+              </Text>
+              <MaximumAmountLink />
+            </OptionsContainer>
+          </Row>
+        }
         <Row spaced>
           <Button type='submit' nature='primary' fullwidth disabled={!dirty || !enabled || (dirty && !isEmpty(formError))}>
             <FormattedMessage id='scenes.exchange.shapeshift.firststep.next' defaultMessage='Next' />
