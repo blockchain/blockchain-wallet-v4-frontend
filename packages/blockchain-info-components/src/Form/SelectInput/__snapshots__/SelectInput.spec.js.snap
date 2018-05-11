@@ -9,7 +9,6 @@ exports[`SelectInput component default renders correctly 1`] = `
   </styled.button>
   <Styled(Icon)
     name="down-arrow"
-    size="10px"
   />
   <styled.div>
     <styled.div
