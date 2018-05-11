@@ -58,7 +58,7 @@ export const StepTransition = ({ Component, onClick, next, prev, restart, to = 0
     {({ stepTo, nextStep, prevStep, restartStep }) => {
       const goToStep = next ? nextStep : prev ? prevStep : restart ? restartStep : () => stepTo(to)
       const onClickAndGo = () => {
-        onClick()
+        onClick && onClick()
         goToStep()
       }
       return (
