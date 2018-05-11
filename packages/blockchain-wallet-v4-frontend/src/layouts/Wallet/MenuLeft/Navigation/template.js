@@ -83,7 +83,7 @@ const Navigation = (props) => {
         </MenuItem>
         <LinkContainer to='/btc/transactions' activeClassName='active' onClick={handleCloseSettings}>
           <MenuItem>
-            <Icon name='bitcoin' />
+            <Icon name='bitcoin-in-circle' />
             <FormattedMessage id='layouts.wallet.menuleft.navigation.transactions.bitcoin' defaultMessage='Bitcoin' smaller uppercase />
           </MenuItem>
         </LinkContainer>
@@ -104,13 +104,13 @@ const Navigation = (props) => {
         </MenuItem>
         <LinkContainer to='/buy-sell' activeClassName='active' onClick={handleCloseSettings}>
           <MenuItem>
-            <Icon name='bitcoin' />
+            <Icon name='cart-filled' />
             <FormattedMessage id='layouts.wallet.menuleft.navigation.buybitcoin' defaultMessage='Buy & sell bitcoin' smaller uppercase />
           </MenuItem>
         </LinkContainer>
         <LinkContainer to='/exchange' activeClassName='active' onClick={handleCloseSettings}>
           <MenuItem>
-            <Icon name='exchange' />
+            <Icon name='exchange-2' />
             <FormattedMessage id='layouts.wallet.menuleft.navigation.exchange' defaultMessage='Exchange' smaller uppercase />
           </MenuItem>
         </LinkContainer>
