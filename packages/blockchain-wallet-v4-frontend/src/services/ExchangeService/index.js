@@ -17,7 +17,7 @@ export const findMatch = (settings, options) => {
   if (sfox.countries.indexOf(country_code) > -1 && (sfox.states.indexOf(state) > -1 || !state)) return 'sfox'
 }
 
-// type ('Buy' || 'Sell'), settings, options, buySell => 'partner' || false
+// settings, options, buySell, type ('Buy' || 'Sell') => 'partner' || false
 export const canTrade = (settings, options, buySell, type) => {
   // if user has an account return 'partner'
   const account = hasAccount(buySell.value)
