@@ -7,7 +7,7 @@ const selectStyle = status => {
   switch (status) {
     case 'complete': return { color: 'success', italic: false }
     case 'failed': return { color: 'error', italic: false }
-    case 'no_deposits': return { color: 'gray-6', italic: true }
+    case 'no_deposits': return { color: 'transferred', italic: false }
     case 'received': return { color: 'gray-6', italic: true }
     case 'resolved': return { color: 'green', italic: false }
   }
@@ -30,7 +30,7 @@ const OrderStatus = props => {
   const style = selectStyle(status)
 
   return (
-    <Text size='14px' weight={300} {...style}>
+    <Text size='14px' weight={300} capitalize {...style}>
       {renderStatus(status)}
     </Text>
   )
