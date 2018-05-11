@@ -39,7 +39,8 @@ const Sell = props => {
     initiateSell,
     step,
     busy,
-    trade
+    trade,
+    onOrderCheckoutSubmit
   } = props
 
   const profile = Remote.of(props.value.profile).getOrElse({ _limits: service.mockedLimits, _level: { currency: 'EUR' } })
@@ -65,6 +66,7 @@ const Sell = props => {
               symbol={symbol}
               checkoutBusy={checkoutBusy}
               setMax={setMax}
+              onOrderCheckoutSubmit={onOrderCheckoutSubmit}
             />
           </CheckoutWrapper>
         </StepView>

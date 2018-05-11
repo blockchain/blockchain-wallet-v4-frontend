@@ -54,6 +54,7 @@ class SellContainer extends React.Component {
         busy={busy}
         clearTradeError={() => coinifyNotAsked()}
         trade={trade}
+        onOrderCheckoutSubmit={() => sellQuoteR.map(quote => this.props.coinifyDataActions.getPaymentMediums(quote))}
       />,
       Failure: (msg) => <div>Failure: {msg.error}</div>,
       Loading: () => <Loading />,
