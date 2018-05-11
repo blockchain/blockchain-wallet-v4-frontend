@@ -7,7 +7,8 @@ export const getData = state => {
   const exchangeStep = selectors.components.exchange.getStep(state)
 
   const transform = (country, usState) => {
-    const isRegistered = country === 'USA' && usState && usState.code
+    // determine is user is in the US and has not registered their state with Shapeshift
+    const isRegistered = country === 'US' && usState && usState.Code
 
     return {
       step: !isRegistered ? 0 : exchangeStep
