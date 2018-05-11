@@ -1,12 +1,12 @@
 import { isNil } from 'ramda'
 
-const hasAccount = (partners) => {
+export const hasAccount = (partners) => {
   const { coinify, sfox } = partners
   if (!isNil(sfox.offline_token)) return 'sfox'
   if (!isNil(coinify.offline_token)) return 'coinify'
 }
 
-const findMatch = (settings, options) => {
+export const findMatch = (settings, options) => {
   /* eslint-disable */
   const { country_code, state } = settings
   /* eslint-enable */
@@ -30,8 +30,8 @@ export const canTrade = (settings, options, buySell, type) => {
   // check if user is invited to location match => 'partner'
   const { invited } = settings
   switch (match) {
-    case 'sfox': return type ? invited['sfox' + type] : (invited.sfoxBuy || invited.sfoxSell) && 'sfox'
-    case 'coinify': return type ? invited['coinify' + type] : (invited.coinifyBuy || invited.coinifySell) && 'coinify'
+    case 'sfox': return (type ? invited['sfox' + type] : (invited.sfoxBuy || invited.sfoxSell)) && 'sfox'
+    case 'coinify': return (type ? invited['coinify' + type] : (invited.coinifyBuy || invited.coinifySell)) && 'coinify'
     default: return false
   }
 }
