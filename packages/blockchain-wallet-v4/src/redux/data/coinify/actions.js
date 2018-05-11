@@ -7,7 +7,7 @@ export const fetchQuoteFailure = (error) => ({ type: AT.COINIFY_FETCH_QUOTE_FAIL
 
 export const fetchQuoteAndMediums = (data) => ({ type: AT.COINIFY_FETCH_QUOTE_AND_MEDIUMS, payload: data })
 
-export const fetchRateQuote = (curr) => ({ type: AT.COINIFY_FETCH_RATE_QUOTE, payload: curr })
+export const fetchRateQuote = (currency, type) => ({ type: AT.COINIFY_FETCH_RATE_QUOTE, payload: { currency, type } })
 export const fetchRateQuoteLoading = () => ({ type: AT.COINIFY_FETCH_RATE_QUOTE_LOADING })
 export const fetchRateQuoteSuccess = (data) => ({ type: AT.COINIFY_FETCH_RATE_QUOTE_SUCCESS, payload: data })
 export const fetchRateQuoteFailure = (error) => ({ type: AT.COINIFY_FETCH_RATE_QUOTE_FAILURE, payload: error })
