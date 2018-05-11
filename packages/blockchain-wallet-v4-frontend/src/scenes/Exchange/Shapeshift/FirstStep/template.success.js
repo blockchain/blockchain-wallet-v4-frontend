@@ -54,7 +54,8 @@ const AmountContainer = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-`
+  ${props => props.hasNoBottomBorder && '& input { border-bottom: none; }'}
+ `
 const CurrencyBox = styled(Text)`
   position: absolute;
   right: 5px;
@@ -69,6 +70,9 @@ const CurrencyBox = styled(Text)`
   font-weight: 300;
   transform: uppercase;
   background-color: ${props => props.theme['white']};
+`
+const ShapeshiftIcon = styled(Icon)`
+  &:hover { color: ${props => props.theme['brand-secondary']}; }
 `
 
 const Success = props => {
@@ -100,7 +104,7 @@ const Success = props => {
             <Field name='source' component={SelectBox} elements={elements} hasOneAccount={hasOneAccount} />
           </Cell>
           <Cell size='small'>
-            <Icon name='exchange-2' size='24px' weight={500} cursor onClick={handleSwap} />
+            <ShapeshiftIcon name='shapeshift-switch' size='28px' weight={500} cursor onClick={handleSwap} />
           </Cell>
           <Cell>
             <Field name='target' component={SelectBox} elements={elements} hasOneAccount={hasOneAccount} />
@@ -128,7 +132,7 @@ const Success = props => {
         </Row>
         <Row height='80px'>
           <Cell>
-            <AmountContainer>
+            <AmountContainer hasNoBottomBorder>
               <Field name='sourceAmount' component={NumberBox} />
               <CurrencyBox>{sourceCoin}</CurrencyBox>
             </AmountContainer>
@@ -139,12 +143,12 @@ const Success = props => {
           </Cell>
           <Cell size='small'>
             {enabled
-              ? <Icon name='right-arrow' size='24px' weight={500} cursor />
+              ? <Icon name='right-arrow' size='24px' weight={500} />
               : <HeartbeatLoader width='20px' height='20px' />
             }
           </Cell>
           <Cell>
-            <AmountContainer>
+            <AmountContainer hasNoBottomBorder>
               <Field name='targetAmount' component={NumberBox} />
               <CurrencyBox>{targetCoin}</CurrencyBox>
             </AmountContainer>
