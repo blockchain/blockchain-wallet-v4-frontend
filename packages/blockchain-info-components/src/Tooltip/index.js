@@ -1,6 +1,7 @@
 import React from 'react'
 import onClickOutside from 'react-onclickoutside'
 import Tooltip from './template.js'
+import { Icon } from '../Icons'
 
 class TooltipContainer extends React.PureComponent {
   constructor (props) {
@@ -32,7 +33,7 @@ class TooltipContainer extends React.PureComponent {
       ? { foreColor: 'white', backgroundColor: 'brand-primary', borderColor: 'brand-primary' }
       : { foreColor: 'gray-5', backgroundColor: 'white', borderColor: 'gray-2' }
 
-    const icon = this.state.displayed ? 'X' : '?'
+    const icon = this.state.displayed ? <Icon name='close' /> : <Icon name='question-in-circle-filled' />
     const colors = selectColors(this.state.displayed)
 
     return (

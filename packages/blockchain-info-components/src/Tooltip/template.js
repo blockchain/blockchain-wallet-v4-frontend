@@ -17,10 +17,11 @@ const TooltipIcon = styled.div`
   border-radius: 10px;
   background-color: ${props => props.theme[props.colors.backgroundColor]};
   color: ${props => props.theme[props.colors.foreColor]};
-  border: 1px solid ${props => props.theme[props.colors.borderColor]};
-  cursor: pointer;
   font-size: 12px;
   font-weight: 300;
+  > span {
+    cursor: pointer;
+  }
 `
 const TooltipLabel = styled(Text)`
   font-size: 13px;
