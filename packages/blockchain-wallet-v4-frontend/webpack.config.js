@@ -17,12 +17,14 @@ const PATHS = {
 }
 let envConfig = {}
 let mockWalletOptions
+let iSignThisDomain
 
-// load, parse and log application configuration if not a CI build
 if (!isCiBuild) {
-  mockWalletOptions = require('./../../config/wallet-options-v4.json')
   try {
     envConfig = require(PATHS.envConfig + process.env.NODE_ENV + '.js')
+    // load, parse and log application configuration if not a CI build
+    mockWalletOptions = require('./../../config/wallet-options-v4.json')
+    iSignThisDomain = mockWalletOptions.platforms.web.coinify.config.iSignThisDomain
   } catch (e) {
     console.log(chalk.red('\u{1F6A8} WARNING \u{1F6A8} ') + chalk.yellow(`Failed to load ${process.env.NODE_ENV}.js config file! Using the production config instead.\n`))
     envConfig = require(PATHS.envConfig + 'production.js')
@@ -31,9 +33,7 @@ if (!isCiBuild) {
     console.log(chalk.cyan('Root URL') + `: ${envConfig.ROOT_URL}`)
     console.log(chalk.cyan('API Domain') + `: ${envConfig.API_DOMAIN}`)
     console.log(chalk.cyan('Wallet Helper Domain') + ': ' + chalk.blue(envConfig.WALLET_HELPER_DOMAIN))
-    console.log(chalk.cyan('BTC Web Socket URL') + ': ' + chalk.blue(envConfig.BTC_WEB_SOCKET_URL))
-    console.log(chalk.cyan('BCH Web Socket URL') + ': ' + chalk.blue(envConfig.BCH_WEB_SOCKET_URL))
-    console.log(chalk.cyan('ETH Web Socket URL') + ': ' + chalk.blue(envConfig.ETH_WEB_SOCKET_URL) + '\n')
+    console.log(chalk.cyan('Web Socket URL') + ': ' + chalk.blue(envConfig.WEB_SOCKET_URL))
   }
 }
 
@@ -174,9 +174,7 @@ module.exports = {
         mockWalletOptions.domains = {
           'root': envConfig.ROOT_URL,
           'api': envConfig.API_DOMAIN,
-          'btcSocket': envConfig.BTC_WEB_SOCKET_URL,
-          'ethSocket': envConfig.ETH_WEB_SOCKET_URL,
-          'bchSocket': envConfig.BCH_WEB_SOCKET_URL,
+          'webSocket': envConfig.WEB_SOCKET_URL,
           'walletHelper': envConfig.WALLET_HELPER_DOMAIN
         }
 
@@ -194,11 +192,11 @@ module.exports = {
       errors: true
     },
     headers: {
-      'Content-Security-Policy': [
+      'Content-Security-Policy': isCiBuild ? [] : [
         "img-src 'self' data: blob:",
         "style-src 'self' 'unsafe-inline'",
-        'frame-src https://stage-verify.isignthis.com https://verify.isignthis.com/ https://wallet-helper.blockchain.info http://localhost:8081',
-        'child-src https://stage-verify.isignthis.com https://verify.isignthis.com/ https://wallet-helper.blockchain.info http://localhost:8081',
+        `frame-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN}`,
+        `child-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN}`,
         // 'unsafe-eval' is only used by webpack for development. It should not
         // be present on production!
         "worker-src 'self' 'unsafe-eval' blob:",
@@ -209,9 +207,9 @@ module.exports = {
           'connect-src',
           "'self'",
           'ws://localhost:8080',
-          envConfig.BTC_WEB_SOCKET_URL,
-          envConfig.ETH_WEB_SOCKET_URL,
-          envConfig.BCH_WEB_SOCKET_URL,
+          envConfig.WEB_SOCKET_URL,
+          envConfig.WEB_SOCKET_URL.replace('/inv', '/eth/inv'),
+          envConfig.WEB_SOCKET_URL.replace('/inv', '/bch/inv'),
           envConfig.ROOT_URL,
           envConfig.API_DOMAIN,
           envConfig.WALLET_HELPER_DOMAIN,

@@ -145,9 +145,7 @@
   "domains": {
     "root": "https://blockchain.info",
     "api": "https://api.blockchain.info",
-    "btcSocket": "wss://ws.blockchain.info/inv",
-    "ethSocket": "wss://ws.blockchain.info/eth/inv",
-    "bchSocket": "wss://ws.blockchain.info/bch/inv",
+    "webSocket": "wss://ws.blockchain.info/inv",
     "walletHelper": "https://wallet-helper.blockchain.info"
   }
 }

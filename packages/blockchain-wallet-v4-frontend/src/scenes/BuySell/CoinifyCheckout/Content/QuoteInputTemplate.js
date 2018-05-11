@@ -42,14 +42,10 @@ const Unit = styled.span`
   position: absolute;
   color: ${props => props.theme['gray-4']};
 `
-const ArrowLeft = styled(Icon)`
-  margin-left: 10px;
-  color: #bbb;
-`
 const ArrowRight = styled(Icon)`
-  margin-left: -10px;
-  margin-right: 10px;
-  color: #bbb;
+  margin-left: 15px;
+  margin-right: 15px;
+  color: #5F5F5F;
 `
 const Error = styled(Text)`
   position: absolute;
@@ -69,6 +65,7 @@ const LimitsHelper = styled.div`
   height: 15px;
   font-size: 13px;
   top: 42px;
+  padding-top: 3px;
   a {
     color: ${props => props.theme['brand-secondary']};
     cursor: pointer;
@@ -98,8 +95,7 @@ const FiatConvertor = (props) => {
           <Field name='leftVal' component={TextBoxDebounced} disabled={disabled} borderRightNone={1} />
           <Field name='currency' component={SelectBoxCoinifyCurrency} defaultDisplay={defaultCurrency} />
         </Container>
-        <ArrowLeft size='16px' name='left-arrow' />
-        <ArrowRight size='16px' name='right-arrow' />
+        <ArrowRight weight={600} size='22px' name='right-arrow' />
         <Container>
           <Field name='rightVal' component={TextBoxDebounced} disabled={disabled} />
           <Unit>{currency}</Unit>
@@ -108,7 +104,7 @@ const FiatConvertor = (props) => {
       {
         checkoutError
           ? <Error size='13px' weight={300} color='error'>
-            {getLimitsError(checkoutError, limits, symbol, setMin)}
+            { getLimitsError(checkoutError, limits, symbol, setMin) }
           </Error>
           : <LimitsHelper>
             {type === 'buy'

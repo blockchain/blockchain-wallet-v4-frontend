@@ -14,9 +14,10 @@ export default ({ coreSagas }) => {
       yield call(coreSagas.data.coinify.signup)
       const profile = yield select(selectors.core.data.coinify.getProfile)
       if (!profile.error) {
-        yield put(actions.modals.closeAllModals())
-        // yield put(A.coinifyNextStep('isx'))
-        yield put(actions.alerts.displaySuccess('Account successfully created!'))
+        // yield put(actions.modals.closeAllModals())
+        yield call(coreSagas.data.coinify.triggerKYC)
+        yield put(A.coinifyNextStep('isx'))
+        // yield put(actions.alerts.displaySuccess('Account successfully created!'))
       } else {
         yield put(A.coinifySignupFailure(profile.error))
       }
@@ -43,12 +44,10 @@ export default ({ coreSagas }) => {
         return
       }
 
-      console.log('go to step after buy resolves with trade:', buyTrade)
       yield put(A.coinifyNotAsked())
       yield put(A.coinifyNextCheckoutStep('isx'))
     } catch (e) {
-      console.warn('coinify buy FE saga error', e)
-      // yield put(actions.alerts.displayError('Error buying.'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'buy', e))
     }
   }
 
@@ -64,12 +63,10 @@ export default ({ coreSagas }) => {
         return
       }
 
-      console.log('go to step after sell resolves with trade:', sellTrade)
       yield put(A.coinifyNotAsked())
       yield put(A.coinifyNextCheckoutStep('isx'))
     } catch (e) {
-      console.warn('coinify sell FE saga error', e)
-      // yield put(actions.alerts.displayError('Error selling.'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'sell', e))
     }
   }
 
@@ -93,7 +90,7 @@ export default ({ coreSagas }) => {
       yield put(actions.core.data.coinify.fetchRateQuote(currencyR.getOrElse('EUR'), type))
       yield put(A.coinifyCheckoutBusyOn())
     } catch (e) {
-      console.log('initialize coinify checkout form', e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
     }
   }
 
@@ -110,7 +107,7 @@ export default ({ coreSagas }) => {
       const limits = yield select(selectors.core.data.coinify.getLimits)
 
       const values = yield select(selectors.form.getFormValues(form))
-      // console.log('handleChange', action, form, values)
+
       if (!payload) return null
 
       switch (field) {
@@ -146,35 +143,34 @@ export default ({ coreSagas }) => {
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'handleChange', e))
-      console.log(e)
     }
   }
 
-  const setCheckoutMax = function * (action) {
-    const { amount, type } = action.payload
+  const setMinMax = function * (action) {
     try {
-      type === 'buy'
-        ? yield put(actions.form.change('coinifyCheckoutBuy', 'leftVal', amount))
-        : yield put(actions.form.change('coinifyCheckoutSell', 'leftVal', amount))
+      yield put(A.coinifyCheckoutBusyOn())
+      const { amount, type } = action.payload
+      const form = type === 'buy' ? 'coinifyCheckoutBuy' : 'coinifyCheckoutSell'
+      const values = yield select(selectors.form.getFormValues(form))
+      const leftResult = yield call(coreSagas.data.coinify.fetchQuote, { quote: { amount: amount * 100, baseCurrency: values.currency, quoteCurrency: 'BTC' } })
+      yield put(actions.form.initialize('coinifyCheckout', merge(values, { 'leftVal': action.payload, 'rightVal': leftResult.quoteAmount / 1e8 })))
+      yield put(A.coinifyCheckoutBusyOff())
+      yield put(A.clearCoinifyCheckoutError())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'setCheckoutMax', e))
-    }
-  }
-
-  const setCheckoutMin = function * (action) {
-    try {
-      const { amount, type } = action.payload
-      type === 'buy'
-        ? yield put(actions.form.change('coinifyCheckoutBuy', 'leftVal', amount))
-        : yield put(actions.form.change('coinifyCheckoutSell', 'leftVal', amount))
-    } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'setCheckoutMin', e))
     }
   }
 
   const fromISX = function * (action) {
     const status = action.payload
     try {
+      // TODO if in modal: close modal, checkout step, open CoinifyTradeDetails modal for KYC result
+      // const modals = yield select(selectors.modals.getModals)
+      // if (path(['type'], head(modals)) === 'CoinifyExchangeData') {
+      //   yield put(actions.modals.closeAllModals())
+      //   yield put(A.coinifyNextCheckoutStep('checkout'))
+      //
+      // }
       yield put(A.coinifyNextCheckoutStep('checkout'))
       const trade = yield select(selectors.core.data.coinify.getTrade)
 
@@ -212,16 +208,14 @@ export default ({ coreSagas }) => {
 
   return {
     handleChange,
-    // resetCoinifyCheckout,
     initialized,
     buy,
     sell,
     coinifySaveMedium,
     coinifySignup,
-    setCheckoutMax,
-    setCheckoutMin,
     fromISX,
     triggerKYC,
-    openKYC
+    openKYC,
+    setMinMax
   }
 }

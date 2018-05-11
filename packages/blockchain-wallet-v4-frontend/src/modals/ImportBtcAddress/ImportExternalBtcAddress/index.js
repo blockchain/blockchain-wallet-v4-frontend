@@ -42,7 +42,7 @@ class ImportExternalBitcoinAddress extends React.PureComponent {
             <Label for='wallets'>
               <FormattedMessage id='modals.importbtcaddress.import_external_bitcoin_address.prv_key' defaultMessage='Transfer to an existing wallet (optional)' />
             </Label>
-            <Field name='to' component={SelectBoxBitcoinAddresses} disabled={isNil(this.props.priv)} />
+            <Field name='to' component={SelectBoxBitcoinAddresses} optional excludeImported disabled={isNil(this.props.priv)} />
           </FormItem>
         </FormGroup>
       </div>

@@ -8,6 +8,7 @@ const Wrapper = styled.div`
   flex-direction: row;
   align-items: center;
   width: 100%;
+  justify-content: ${props => props.coinify ? 'flex-end' : ''};
 
   @media(max-width: 991px) {
     flex-direction: row-reverse;
@@ -49,8 +50,8 @@ const Steps = styled.div`
 
 const Step = styled.span`
   font-size: 14px;
-  min-width: 70px;
-  max-width: 70px;
+  min-width: ${props => props.coinify ? '135px' : '70px'};
+  max-width: ${props => props.coinify ? '135px' : '70px'};
   margin-left: 50px;
   margin-right: 50px;
   overflow: hidden;
@@ -74,16 +75,16 @@ const Logo = styled(Image)`
 `
 
 const StepIndicator = (props) => {
-  const { step, stepMap } = props
+  const { step, stepMap, coinify } = props
   const steps = Object.keys(stepMap)
   const index = steps.indexOf(step) + 1
   const width = index / steps.length
 
   return (
-    <Wrapper>
+    <Wrapper coinify={coinify}>
       <Logo name='blue-logo' height='50px' />
       <Steps width={width - 0.1}>
-        { steps.map((s) => <Step>{stepMap[s]}</Step>) }
+        { steps.map((s) => <Step coinify={coinify}>{stepMap[s]}</Step>) }
       </Steps>
     </Wrapper>
   )
