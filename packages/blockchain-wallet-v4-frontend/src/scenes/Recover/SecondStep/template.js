@@ -36,7 +36,7 @@ const validatePasswordsMatch = values => {
 }
 
 const SecondStep = (props) => {
-  const { busy, onSubmit, previousStep, invalid } = props
+  const { busy, invalid, handleSubmit, previousStep } = props
   const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
 
   return (
@@ -53,7 +53,7 @@ const SecondStep = (props) => {
         <FormattedMessage id='scenes.recover.secondstep.explain' defaultMessage='Recover funds from your lost wallet' />
       </Text>
       <Separator />
-      <Form onSubmit={onSubmit}>
+      <Form onSubmit={handleSubmit}>
         <FormGroup>
           <Text size='14px' weight={500}>
             <FormattedMessage id='scenes.recover.secondstep.email' defaultMessage='Email' />
