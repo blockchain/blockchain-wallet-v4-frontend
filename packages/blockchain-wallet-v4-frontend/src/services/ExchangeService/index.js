@@ -18,7 +18,7 @@ const findMatch = (settings, options) => {
 }
 
 // type ('Buy' || 'Sell'), settings, options, buySell => 'partner' || false
-export const canTrade = (type, settings, options, buySell) => {
+export const canTrade = (settings, options, buySell, type) => {
   // if user has an account return 'partner'
   const account = hasAccount(buySell.value)
   if (account) return account
@@ -30,8 +30,8 @@ export const canTrade = (type, settings, options, buySell) => {
   // check if user is invited to location match => 'partner'
   const { invited } = settings
   switch (match) {
-    case 'sfox': return invited['sfox' + type] && 'sfox'
-    case 'coinify': return invited['coinify' + type] && 'coinify'
+    case 'sfox': return type ? invited['sfox' + type] : (invited.sfoxBuy || invited.sfoxSell) && 'sfox'
+    case 'coinify': return type ? invited['coinify' + type] : (invited.coinifyBuy || invited.coinifySell) && 'coinify'
     default: return false
   }
 }

@@ -63,7 +63,7 @@ const SubMenuItem = styled.li`
 `
 
 const Navigation = (props) => {
-  const { settingsToggled, handleOpenSettings, handleCloseSettings, handleCloseMenuLeft, ...rest } = props
+  const { settingsToggled, handleOpenSettings, handleCloseSettings, handleCloseMenuLeft, partner, ...rest } = props
 
   return (
     <Wrapper {...rest}>
@@ -102,12 +102,14 @@ const Navigation = (props) => {
         <MenuItem>
           <Separator />
         </MenuItem>
-        <LinkContainer to='/buy-sell' activeClassName='active' onClick={handleCloseSettings}>
-          <MenuItem>
-            <Icon name='bitcoin' />
-            <FormattedMessage id='layouts.wallet.menuleft.navigation.buybitcoin' defaultMessage='Buy & sell bitcoin' smaller uppercase />
-          </MenuItem>
-        </LinkContainer>
+        {partner && (
+          <LinkContainer to='/buy-sell' activeClassName='active' onClick={handleCloseSettings}>
+            <MenuItem>
+              <Icon name='bitcoin' />
+              <FormattedMessage id='layouts.wallet.menuleft.navigation.buybitcoin' defaultMessage='Buy & sell bitcoin' smaller uppercase />
+            </MenuItem>
+          </LinkContainer>
+        )}
         <LinkContainer to='/exchange' activeClassName='active' onClick={handleCloseSettings}>
           <MenuItem>
             <Icon name='exchange' />
