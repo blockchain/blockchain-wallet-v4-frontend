@@ -70,9 +70,9 @@ describe('App Store Config', () => {
     expect(fetch.mock.calls[0][0]).toEqual('/Resources/wallet-options-v4.json')
     // socket registration
     expect(Socket.mock.calls.length).toEqual(3)
-    expect(Socket.mock.calls[0][0]).toEqual({ options: fakeWalletOptions, socketType: 'btcSocket' })
-    expect(Socket.mock.calls[1][0]).toEqual({ options: fakeWalletOptions, socketType: 'ethSocket' })
-    expect(Socket.mock.calls[2][0]).toEqual({ options: fakeWalletOptions, socketType: 'bchSocket' })
+    expect(Socket.mock.calls[0][0]).toEqual({ options: fakeWalletOptions, socketType: '' })
+    expect(Socket.mock.calls[1][0]).toEqual({ options: fakeWalletOptions, socketType: '/eth' })
+    expect(Socket.mock.calls[2][0]).toEqual({ options: fakeWalletOptions, socketType: '/bch' })
     // build api
     expect(createWalletApi.mock.calls.length).toBe(1)
     expect(createWalletApi.mock.calls[0][0]).toEqual({

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { prop } from 'ramda'
+import { path, prop } from 'ramda'
 
 import { Icon, Separator, Text } from 'blockchain-info-components'
 import { SelectBox } from 'components/Form'
@@ -70,4 +70,17 @@ const renderItem = item => (
   </ItemWrapper>
 )
 
-export default props => <SelectBox {...props} templateDisplay={renderDisplay} templateHeader={renderHeader} templateItem={renderItem} />
+const renderItemWithIcon = item => (
+  <ItemWrapper>
+    {path(['value', 'coin'], item) === 'BCH' && <Icon name='bitcoin-cash' size='14px' weight={300} />}
+    {path(['value', 'coin'], item) === 'BTC' && <Icon name='bitcoin' size='14px' weight={300} />}
+    {path(['value', 'coin'], item) === 'ETH' && <Icon name='ethereum' size='14px' weight={300} />}
+    <Text size='14px' weight={300}>{item.text}</Text>
+  </ItemWrapper>
+)
+
+const SelectBoxExchange = props => props.hasOneAccount
+  ? <SelectBox {...props} templateDisplay={renderDisplay} templateItem={renderItemWithIcon} />
+  : <SelectBox {...props} templateDisplay={renderDisplay} templateHeader={renderHeader} templateItem={renderItem} />
+
+export default SelectBoxExchange

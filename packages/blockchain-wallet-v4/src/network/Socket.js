@@ -29,7 +29,7 @@ let toArrayFormat = (a) => Array.isArray(a) ? a : [a]
 
 class Socket {
   constructor ({ options = {}, socketType }) {
-    this.wsUrl = options.domains[socketType]
+    this.wsUrl = options.domains.webSocket.replace('/inv', socketType + '/inv')
     this.headers = { 'Origin': options.domains.root }
     this.pingInterval = 30000
     this.pingIntervalPID = null

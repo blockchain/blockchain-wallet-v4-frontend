@@ -10,8 +10,6 @@ import Kyc from './Kyc'
 
 class CoinifyTradeDetails extends React.PureComponent {
   render () {
-    console.log('CoinifyTradeDetails', this.props)
-
     const { trade, status } = this.props
 
     const renderComponent = (trade) => (

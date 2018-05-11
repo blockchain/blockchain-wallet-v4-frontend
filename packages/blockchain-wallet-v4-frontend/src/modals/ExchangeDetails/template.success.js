@@ -49,7 +49,7 @@ const getModalHeader = (status) => {
   }
 }
 
-const ExchangeDetails = (props) => {
+const ExchangeDetails = props => {
   const { position, total, close, ...rest } = props
   const { status, sourceCoin, targetCoin, quotedRate, minerFee, orderId, depositAmount, withdrawalAmount } = rest
 
@@ -153,7 +153,7 @@ ExchangeDetails.propTypes = {
   quotedRate: PropTypes.string.isRequired,
   minerFee: PropTypes.string.isRequired,
   orderId: PropTypes.string.isRequired,
-  depositAmount: PropTypes.string.isRequired,
+  depositAmount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   withdrawalAmount: PropTypes.string.isRequired
 }
 

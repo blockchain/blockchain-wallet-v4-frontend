@@ -5,8 +5,8 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import FaqRow from 'components/Faq/FaqRow'
 import CountdownTimer from 'components/Form/CountdownTimer'
 import { Wrapper as ExchangeCheckoutWrapper } from '../../ExchangeCheckout'
-import { spacing } from 'services/StyleService'
-import { reviewOrder } from 'services/CoinifyService'
+import { flex, spacing } from 'services/StyleService'
+import { reviewOrder, currencySymbolMap } from 'services/CoinifyService'
 import { FormattedMessage } from 'react-intl'
 import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDetails'
 import { StepTransition } from 'components/Utilities/Stepper'
@@ -41,15 +41,28 @@ const renderDetailsRow = (id, message, value, color) => (
   </OrderDetailsRow>
 )
 
-export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => {
-  console.log(type, medium)
-  return (
-    <ExchangeCheckoutWrapper>
-      <Text size='32px' weight={600} style={spacing('mb-10')}>
-        <FormattedMessage id='buy.almost_there' defaultMessage="You're almost there" />
+const renderRate = (rate, q) => {
+  return <FormattedMessage id='rate' defaultMessage='{rate}' values={{ rate: `${currencySymbolMap[q.baseCurrency]}${rate.toLocaleString()}` }} />
+}
+
+export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
+  <ExchangeCheckoutWrapper>
+    <Text size='32px' weight={600} style={spacing('mb-10')}>
+      <FormattedMessage id='buy.almost_there' defaultMessage="You're almost there" />
+    </Text>
+    <Text size='14px' weight={300} style={spacing('mb-20')}>
+      <FormattedMessage id='buy.review_order_subtext' defaultMessage='Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order.' />
+    </Text>
+    <div style={{ ...flex('row align/center justify/end'), ...spacing('mt-20') }}>
+      <Text size='12px' weight={500} style={spacing('mr-10')}>
+        <FormattedMessage id='exchange_rate' defaultMessage='Exchange Rate' />
       </Text>
-      <Text size='14px' weight={300} style={spacing('mb-20')}>
-        <FormattedMessage id='buy.review_order_subtext' defaultMessage='Please confirm your order details before continuing.' />
+      <Text size='12px' weight={300}>
+        1 BTC = {quoteR.map((q) => {
+          const rate = +((1 / (Math.abs(q.quoteAmount) / 1e8)) * Math.abs(q.baseAmount)).toFixed(2)
+          // console.log('create rate', `${currencySymbolMap[q.baseCurrency]}${rate.toLocaleString()}`)
+          return renderRate(rate, q)
+        }).getOrElse('~')}
       </Text>
       <ExchangeRateWrapper>
         <Text size='12px' weight={500} style={spacing('mr-10')}>
@@ -84,9 +97,9 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => {
           handleExpiry={onRefreshQuote}
         />
       )).getOrElse(null)}
+      </div>
     </ExchangeCheckoutWrapper>
   )
-}
 
 export const OrderSubmit = ({ quoteR, onSubmit, busy, clearTradeError, goToStep }) => (
   <Fragment>

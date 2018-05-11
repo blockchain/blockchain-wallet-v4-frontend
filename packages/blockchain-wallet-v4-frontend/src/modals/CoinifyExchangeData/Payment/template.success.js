@@ -46,7 +46,7 @@ const busyHelper = (busy) => !busy ? <FormattedMessage id='coinifyexchangedata.p
 const Payment = (props) => {
   const { value, busy, handlePaymentClick, medium, triggerKyc } = props
   const { limits, quote, level } = value
-  console.log('payment template', value)
+
   const isChecked = (type) => medium === type
 
   return (
@@ -91,8 +91,14 @@ const Payment = (props) => {
 }
 
 Payment.propTypes = {
-  handleSignup: PropTypes.func.isRequired,
-  smsNumber: PropTypes.string
+  value: PropTypes.object.isRequired,
+  busy: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.object
+  ]),
+  handlePaymentClick: PropTypes.func.isRequired,
+  medium: PropTypes.string,
+  triggerKYC: PropTypes.func
 }
 
 export default reduxForm({ form: 'coinifyPayment' })(Payment)
