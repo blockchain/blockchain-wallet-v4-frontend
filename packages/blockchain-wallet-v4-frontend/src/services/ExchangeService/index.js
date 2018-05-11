@@ -8,13 +8,13 @@ const hasAccount = (partners) => {
 
 const findMatch = (settings, options) => {
   /* eslint-disable */
-  const { country_code } = settings
+  const { country_code, state } = settings
   /* eslint-enable */
   const { sfox, coinify } = options.platforms.web
 
   // if user's location matches a partner country code set match
-  if (sfox.countries.indexOf(country_code) > -1) return 'sfox'
   if (coinify.countries.indexOf(country_code) > -1) return 'coinify'
+  if (sfox.countries.indexOf(country_code) > -1 && (sfox.states.indexOf(state) > -1 || !state)) return 'sfox'
 }
 
 // type ('Buy' || 'Sell'), settings, options, buySell => 'partner' || false
