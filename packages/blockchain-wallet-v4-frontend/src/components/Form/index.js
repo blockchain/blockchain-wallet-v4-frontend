@@ -18,6 +18,7 @@ import SelectBoxBankAccountType from './SelectBoxBankAccountType'
 import SelectBox from './SelectBox'
 import SelectBoxBitcoinAddresses from './SelectBoxBitcoinAddresses'
 import SelectBoxCoin from './SelectBoxCoin'
+import SelectBoxCoinifyCurrency from './SelectBoxCoinifyCurrency'
 import SelectBoxCountry from './SelectBoxCountry'
 import SelectBoxCurrency from './SelectBoxCurrency'
 import SelectBoxLanguages from './SelectBoxLanguages'
@@ -27,6 +28,7 @@ import TabMenuBuySellStatus from './TabMenuBuySellStatus'
 import TabMenuTransactionStatus from './TabMenuTransactionStatus'
 import TextArea from './TextArea'
 import TextBox from './TextBox'
+import TextBoxDebounced from './TextBoxDebounced'
 
 export {
   CaptchaBox,
@@ -48,6 +50,7 @@ export {
   SelectBox,
   SelectBoxBitcoinAddresses,
   SelectBoxCoin,
+  SelectBoxCoinifyCurrency,
   SelectBoxCountry,
   SelectBoxCurrency,
   SelectBoxLanguages,
@@ -56,5 +59,6 @@ export {
   TabMenuBuySellStatus,
   TabMenuTransactionStatus,
   TextArea,
-  TextBox
+  TextBox,
+  TextBoxDebounced
 }

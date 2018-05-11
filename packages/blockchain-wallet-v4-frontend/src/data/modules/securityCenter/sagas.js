@@ -8,7 +8,7 @@ export default ({ coreSagas }) => {
     try {
       yield put(actions.modules.settings.clearEmailCodeFailure())
       yield call(coreSagas.settings.setEmail, action.payload)
-      yield put(actions.alerts.displaySuccess('Your email has been updated. An email with your confirmation code has been sent.'))
+      yield put(actions.alerts.displaySuccess('Your email has been updated and your confirmation code has been sent.'))
       yield call(coreSagas.settings.sendConfirmationCodeEmail, action.payload)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'updateEmail', e))

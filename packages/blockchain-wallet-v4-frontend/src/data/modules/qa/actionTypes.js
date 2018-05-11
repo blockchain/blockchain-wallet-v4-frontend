@@ -1,0 +1,1 @@
+export const QA_SET_SELL_ADDRESS = '@QA.SET_SELL_ADDRESS'
