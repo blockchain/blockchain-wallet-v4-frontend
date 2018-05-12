@@ -19,7 +19,7 @@ export const getData = state => {
   const message = formValueSelector('requestBitcoin')(state, 'message')
   const receiveAddressR = extractAddress(getReceive, to)
   const transform = lift((receiveAddress) => {
-    const satoshis = Exchange.convertBitcoinToBitcoin({ value: amount, fromUnit: 'BTC', toUnit: 'SAT' }).value
+    const satoshis = Exchange.convertBitcoinToBitcoin({ value: amount.coin, fromUnit: 'BTC', toUnit: 'SAT' }).value
     const link = `https://blockchain.info/payment_request?address=${receiveAddress}&amount=${amount}&message=${message}`
     return { satoshis, link, amount, message, receiveAddress }
   })
