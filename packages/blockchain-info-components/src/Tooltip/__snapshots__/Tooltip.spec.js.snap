@@ -34,11 +34,12 @@ exports[`Tooltip component renders correctly 1`] = `
   align-items: center;
   width: 16px;
   height: 16px;
-  border-radius: 10px;
-  border: 1px solid;
-  cursor: pointer;
   font-size: 12px;
   font-weight: 300;
+}
+
+.c1 > span {
+  cursor: pointer;
 }
 
 .c2 {
