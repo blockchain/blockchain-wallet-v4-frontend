@@ -1,7 +1,9 @@
-import { call, put } from 'redux-saga/effects'
-import { compose, dissoc, mapObjIndexed, negate, prop, sortBy, sum, values } from 'ramda'
+import { call, put, select } from 'redux-saga/effects'
+import { dissoc, isNil, length, mapObjIndexed, path, sum, values } from 'ramda'
 import { convertFeeToWei } from '../../../utils/ethereum'
 import * as A from './actions'
+import * as S from './selectors'
+import * as selectors from '../../selectors'
 
 export default ({ api }) => {
   const fetchData = function * (action) {
@@ -16,7 +18,7 @@ export default ({ api }) => {
       const totalSent = sum(values(data).map(obj => obj.totalSent))
       const nTx = sum(values(data).map(obj => obj.txn_count))
       const addresses = mapObjIndexed((num, key, obj) => dissoc('txns', num), data)
-      const transactions = mapObjIndexed((num, key, obj) => sortBy(compose(negate, prop('timeStamp')), prop('txns', num)), data)
+      // const transactions = mapObjIndexed((num, key, obj) => sortBy(compose(negate, prop('timeStamp')), prop('txns', num)), data)
 
       const ethereumData = {
         addresses,
@@ -26,8 +28,8 @@ export default ({ api }) => {
           total_sent: totalSent,
           final_balance: finalBalance
         },
-        latest_block: latestBlock,
-        transactions
+        latest_block: latestBlock
+        // transactions
       }
       yield put(A.fetchDataSuccess(ethereumData))
     } catch (e) {
@@ -66,11 +68,17 @@ export default ({ api }) => {
     }
   }
 
-  const fetchTransactions = function * ({ address }) {
+  const fetchTransactions = function * () {
     try {
+      const defaultAccountR = yield select(selectors.kvStore.ethereum.getContext)
+      const address = defaultAccountR.getOrFail('Could not get ethereum context.')
+      const pages = yield select(S.getTransactions)
+      const nextPage = length(pages)
       yield put(A.fetchTransactionsLoading())
-      const data = yield call(api.getEthereumData, address)
-      yield put(A.fetchTransactionsSuccess(data))
+      const data = yield call(api.getEthereumTransactions, address, nextPage)
+      const txs = path([address, 'txns'], data)
+      if (isNil(txs)) return
+      yield put(A.fetchTransactionsSuccess(txs))
     } catch (e) {
       yield put(A.fetchTransactionsFailure(e.message))
     }

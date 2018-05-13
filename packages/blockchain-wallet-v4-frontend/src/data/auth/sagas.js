@@ -41,8 +41,8 @@ export default ({ api, coreSagas }) => {
 
   const transferEthSaga = function * () {
     const legacyAccountR = yield select(selectors.core.kvStore.ethereum.getLegacyAccount)
-    const legacyAccount = legacyAccountR.getOrElse({})
-    const { addr, correct } = legacyAccount
+    const legacyAccount = legacyAccountR.getOrElse(null)
+    const { addr, correct } = legacyAccount || {}
     // If needed, get the ethereum legacy account balance and prompt sweep
     if (!correct && addr) {
       const balances = yield call(api.getEthereumBalances, addr)
