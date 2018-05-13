@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-// import { LinkContainer } from 'react-router-bootstrap'
+import { LinkContainer } from 'react-router-bootstrap'
 
 import { Button, Icon, Image, Link, Separator, Text, TextGroup } from 'blockchain-info-components'
 
@@ -51,7 +51,7 @@ const CloseArrow = styled(Icon)`
   margin-top: 20px;
 `
 const BitcoinCashWelcome = props => {
-  const { displayed, handleClick, handleRequest } = props
+  const { displayed, handleClick, handleRequest, exchange } = props
 
   return (
     <Wrapper displayed={displayed}>
@@ -100,9 +100,15 @@ const BitcoinCashWelcome = props => {
           </Cell>
         </Row>
         <Row>
-          <Button nature='primary' onClick={handleRequest} fullwidth uppercase>
-            <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.getstarted' defaultMessage='Get started with Bitcoin Cash' />
-          </Button>
+          {
+            exchange ? <LinkContainer to='/exchange'>
+              <Button nature='primary' fullwidth uppercase>
+                <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.getstarted' defaultMessage='Get started with Bitcoin Cash' />
+              </Button>
+            </LinkContainer> : <Button nature='primary' onClick={handleRequest} fullwidth uppercase>
+              <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.getstarted' defaultMessage='Get started with Bitcoin Cash' />
+            </Button>
+          }
         </Row>
       </Container>
       <CloseArrow name='close' size='12px' cursor onClick={handleClick} />
