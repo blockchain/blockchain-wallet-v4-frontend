@@ -55,7 +55,7 @@ export default (state = INITIAL_STATE, action) => {
     case AT.EXCHANGE_SECOND_STEP_PAYMENT_SENT: {
       return merge(state, { step: 3, payment: payload })
     }
-    case AT.EXCHANGE_THIRD_STEP_CANCEL_CLICKED: {
+    case AT.EXCHANGE_THIRD_STEP_CLOSE_CLICKED: {
       return INITIAL_STATE
     }
     default:

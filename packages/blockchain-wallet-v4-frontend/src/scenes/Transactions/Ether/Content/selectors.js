@@ -1,7 +1,6 @@
 import { createSelector } from 'reselect'
 import { selectors } from 'data'
-import { curry, isEmpty, propSatisfies, toUpper, prop, allPass, anyPass, compose, contains, map, filter } from 'ramda'
-import { Remote } from 'blockchain-wallet-v4/src'
+import { all, curry, isEmpty, propSatisfies, toUpper, prop, allPass, anyPass, compose, contains, map, filter } from 'ramda'
 
 const filterTransactions = curry((status, criteria, transactions) => {
   const isOfType = curry((filter, tx) => propSatisfies(x => filter === '' || toUpper(x) === toUpper(filter), 'type', tx))
@@ -14,19 +13,20 @@ const filterTransactions = curry((status, criteria, transactions) => {
 export const getData = createSelector(
   [
     selectors.form.getFormValues('ethTransactions'),
-    selectors.core.common.ethereum.getTransactions
+    selectors.core.common.ethereum.getWalletTransactions
   ],
-  (formValues, list) => {
+  (formValues, pages) => {
+    const empty = (page) => isEmpty(page.data)
     const search = prop('search', formValues) || ''
     const status = prop('status', formValues) || ''
-    const filteredList = list.map(isEmpty).getOrElse(false)
-      ? Remote.of([])
-      : list.map(filterTransactions(status, search))
+    const filteredPages = !isEmpty(pages)
+      ? pages.map(map(filterTransactions(status, search)))
+      : []
 
     return {
-      list: filteredList,
+      pages: filteredPages,
       search: search.length > 0,
-      empty: filteredList.map(isEmpty).getOrElse(false)
+      empty: all(empty)(filteredPages)
     }
   }
 )
