@@ -10,7 +10,7 @@ export const getData = state => {
     index: x.index,
     archived: x.archived,
     default: defaultId === x.index,
-    balance: x.info.final_balance,
+    balance: x.info ? x.info.final_balance : 0,
     xpub: x.xpub
   }))
 
