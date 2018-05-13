@@ -5,7 +5,7 @@ import Welcome from './template.js'
 class WelcomeContainer extends React.PureComponent {
   render () {
     return (
-      <Welcome {...this.props} handleContinue={this.handleContinue} />
+      <Welcome {...this.props} />
     )
   }
 }
