@@ -4,7 +4,7 @@ import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class List extends React.PureComponent {
+class Pages extends React.PureComponent {
   render () {
     const { data } = this.props
 
@@ -17,4 +17,4 @@ class List extends React.PureComponent {
   }
 }
 
-export default List
+export default Pages

@@ -1,6 +1,6 @@
 import { cancel, call, fork, put, race, select, take } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import { equals, identity, path, prop } from 'ramda'
+import { any, equals, identity, isNil, path, prop } from 'ramda'
 import { actions, actionTypes, selectors } from 'data'
 
 export default ({ api, coreSagas }) => {
@@ -30,13 +30,19 @@ export default ({ api, coreSagas }) => {
       const { trades } = action.payload
       for (let i = 0; i < trades.length; i++) {
         const trade = trades[i]
-        const depositAddress = path(['quote', 'deposit'], trade)
         try {
-          yield call(coreSagas.kvStore.shapeShift.fetchShapeshiftTrade, depositAddress)
-          yield race({
-            success: take(actionTypes.core.kvStore.shapeShift.FETCH_SHAPESHIFT_TRADE_SUCCESS),
-            failure: take(actionTypes.core.kvStore.shapeShift.FETCH_SHAPESHIFT_TRADE_FAILURE)
-          })
+          const depositAddress = path(['quote', 'deposit'], trade)
+          const status = prop('status', trade)
+          const quote = prop('quote', trade)
+          const depositAmount = prop('depositAmount', quote)
+          const withdrawalAmount = prop('withdrawalAmount', quote)
+          if (!equals('complete', status) || any(isNil)([depositAmount, withdrawalAmount])) {
+            yield call(coreSagas.kvStore.shapeShift.fetchShapeshiftTrade, depositAddress)
+            yield race({
+              success: take(actionTypes.core.kvStore.shapeShift.FETCH_METADATA_SHAPESHIFT_SUCCESS),
+              failure: take(actionTypes.core.kvStore.shapeShift.FETCH_METADATA_SHAPESHIFT_FAILURE)
+            })
+          }
         } catch (e) {
           const orderId = path(['quote', 'orderId'], trade)
           yield put(actions.alerts.displayError(`Could not fetch trade [${orderId}] status.`))
