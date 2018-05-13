@@ -4,7 +4,6 @@ import { bindActionCreators, compose } from 'redux'
 import { equals, prop } from 'ramda'
 
 import modalEnhancer from 'providers/ModalEnhancer'
-import { Remote } from 'blockchain-wallet-v4/src'
 import { actions } from 'data'
 import { getData, getInitialValues } from './selectors'
 import Error from './template.error'
@@ -21,10 +20,6 @@ class RequestBchContainer extends React.PureComponent {
     this.props.initialValues.map(x => {
       this.props.formActions.initialize('requestBch', x)
     })
-
-    if (Remote.NotAsked.is(this.props.data)) {
-      this.props.bchDataActions.fetchData()
-    }
   }
 
   componentWillReceiveProps (nextProps) {

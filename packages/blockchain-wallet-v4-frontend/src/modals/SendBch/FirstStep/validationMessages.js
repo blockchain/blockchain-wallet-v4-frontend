@@ -11,16 +11,20 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
 
-  > * { margin-left: 2px; }
+  > * { margin: 0 0 0 2px; }
 `
+
+export const InvalidAmountMessage = () => (
+  <FormattedMessage id='modals.sendbch.amountnotzeromessage' defaultMessage="Invalid amount" />
+)
 
 export const MaximumAmountMessage = () => (
   <Wrapper>
-    <FormattedMessage id='modals.sendeth.maximumamountmessage' defaultMessage='Maximum amount exceeded. Use' />
+    <FormattedMessage id='modals.sendbch.maximumamountmessage' defaultMessage='Maximum amount exceeded. Use' />
     <MaximumAmountLink />
   </Wrapper>
 )
 
-export const EmptyAccount = () => (
-  <FormattedMessage id='modals.sencbch.nomoney' defaultMessage='No money to spend on this account' />
+export const InsufficientFundsMessage = () => (
+  <FormattedMessage id='modals.sendbch.insufficientfundsnessage' defaultMessage="Insufficients funds" />
 )
