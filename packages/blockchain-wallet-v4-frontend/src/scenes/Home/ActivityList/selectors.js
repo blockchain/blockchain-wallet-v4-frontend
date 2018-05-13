@@ -1,6 +1,6 @@
 import { concat, equals, isNil, take, map, lift, prop, curry, compose, descend, reduce, sort, unapply } from 'ramda'
 import { selectors } from 'data'
-import { createSelector, createSelectorCreator, defaultMemoize } from 'reselect'
+import { createSelectorCreator, defaultMemoize } from 'reselect'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 export const createDeepEqualSelector = createSelectorCreator(
