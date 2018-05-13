@@ -1,4 +1,4 @@
-# Dream Wallet Front-end - Localization guidelines
+# Wallet V4 - Localization guidelines
 
 ## Introduction
 * The project is using the popular **react-intl** package for localization
@@ -65,9 +65,3 @@ Two components can be used for translations:
 ```
 <FormattedMessage id='scenes.landing.main.walletsamount' defaultMessage='{nbWallets} Million+' values={{nbWallets: 14}} />
 ```
-
-## Dates
-TODO
-
-## Currencies
-TODO
