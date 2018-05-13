@@ -9,6 +9,9 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  &:after {
+    border-left: 0 !important;
+  }
 `
 const Container = styled.div`
   display: flex;
@@ -28,11 +31,15 @@ const Empty = props => (
       <Text size='16px' weight={300}>
         <FormattedMessage id='scenes.home.activitylist.empty.funds' defaultMessage='Get started by adding some funds to your wallet!' />
       </Text>
-      <LinkContainer to='/buy-sell'>
-        <Button uppercase rounded nature='primary'>
-          <FormattedMessage id='scenes.home.activitylist.empty.getstarted' defaultMessage='Click here to get started' />
+      {
+        props.partner ? <LinkContainer to='/buy-sell'>
+          <Button uppercase rounded nature='primary'>
+            <FormattedMessage id='scenes.home.activitylist.empty.buybitcoin' defaultMessage='Buy Bitcoin' />
+          </Button>
+        </LinkContainer> : <Button uppercase rounded nature='primary' onClick={props.handleRequest}>
+          <FormattedMessage id='scenes.home.activitylist.empty.requestfunds' defaultMessage='Request Funds' />
         </Button>
-      </LinkContainer>
+      }
     </Container>
   </Wrapper>
 )

@@ -524,7 +524,7 @@
   "modals.upgradewallet.continue": "Continue",
   "modals.welcome.welcome": "Welcome to Blockchain!",
   "modals.welcome.thanks": "Thanks for joining over {walletMillions} million Blockchain wallet users in helping create an open, accessible, and fair financial future. Your wallet makes transacting with digital currencies simple and secure. Get started now.",
-  "modals.welcome.continue": "Request Funds",
+  "modals.welcome.continue": "Get Started",
   "scenes.authorizelogin.attemptfrombrowser": "Login attempt from another browser",
   "scenes.authorizelogin.attemptfrombrowsermsg": "Someone, hopefully you, is attempting to login to your wallet from a different browser.",
   "scenes.authorizelogin.vs": "vs.",

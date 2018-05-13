@@ -15,17 +15,21 @@ class BitcoinCashWelcomeContainer extends React.PureComponent {
   handleClick () {
     this.props.preferencesActions.setBitcoinCashWelcome(false)
   }
+
   handleRequest () {
     this.props.modalActions.showModal('RequestBch')
   }
 
   render () {
-    const { showBitcoinCashWelcome } = this.props
-    return <BitcoinCashWelcome displayed={showBitcoinCashWelcome} handleClick={this.handleClick} handleRequest={this.handleRequest} />
+    const { showBitcoinCashWelcome, ethBalanceR, btcBalanceR } = this.props
+    const exchange = ethBalanceR.getOrElse(0) + btcBalanceR.getOrElse(0) > 0
+    return <BitcoinCashWelcome displayed={showBitcoinCashWelcome} handleClick={this.handleClick} handleRequest={this.handleRequest} exchange={exchange} />
   }
 }
 
 const mapStateToProps = state => ({
+  ethBalanceR: selectors.core.data.ether.getBalance(state),
+  btcBalanceR: selectors.core.data.bitcoin.getBalance(state),
   showBitcoinCashWelcome: selectors.preferences.getShowBitcoinCashWelcome(state)
 })
 
