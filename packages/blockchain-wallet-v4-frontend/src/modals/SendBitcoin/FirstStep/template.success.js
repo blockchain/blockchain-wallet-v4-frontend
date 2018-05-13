@@ -7,7 +7,7 @@ import { Field, reduxForm } from 'redux-form'
 import { required, validBitcoinAddress, validBitcoinPrivateKey } from 'services/FormHelper'
 import { Button, Icon, Link, Text, Tooltip } from 'blockchain-info-components'
 import { FiatConvertor, Form, FormGroup, FormItem, FormLabel, NumberBox, SelectBoxBitcoinAddresses, SelectBoxCoin, SelectBox, TextBox, TextArea } from 'components/Form'
-import { shouldValidate, isAddressDerivedFromPriv, emptyAccount, minimumAmount, maximumAmount, minimumFeePerByte, maximumFeePerByte } from './validation'
+import { shouldValidate, isAddressDerivedFromPriv, insufficientFunds, minimumAmount, maximumAmount, minimumFeePerByte, maximumFeePerByte, invalidAmount } from './validation'
 import QRCodeCapture from 'components/QRCodeCapture'
 import RegularFeeLink from './RegularFeeLink'
 import PriorityFeeLink from './PriorityFeeLink'
@@ -121,7 +121,7 @@ const FirstStep = props => {
           <FormLabel for='amount'>
             <FormattedMessage id='modals.sendbtc.firststep.amount' defaultMessage='Enter Amount:' />
           </FormLabel>
-          <Field name='amount' component={FiatConvertor} validate={[required, emptyAccount, minimumAmount, maximumAmount]} coin='BTC' />
+          <Field name='amount' component={FiatConvertor} validate={[required, invalidAmount, insufficientFunds, minimumAmount, maximumAmount]} coin='BTC' />
         </FormItem>
       </FormGroup>
       <FormGroup margin={'15px'}>

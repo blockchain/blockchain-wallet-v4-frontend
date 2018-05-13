@@ -10,8 +10,6 @@ import WalletLayout from './template'
 
 class WalletLayoutContainer extends React.PureComponent {
   componentWillMount () {
-    this.props.kvStoreBchActions.fetchMetadataBch()
-    this.props.kvStoreEthereumActions.fetchMetadataEthereum()
     this.props.kvStoreWhatsnewActions.fetchMetadataWhatsnew()
     this.props.kvStoreShapeshiftActions.fetchMetadataShapeshift()
     this.props.settingsActions.fetchSettings()
