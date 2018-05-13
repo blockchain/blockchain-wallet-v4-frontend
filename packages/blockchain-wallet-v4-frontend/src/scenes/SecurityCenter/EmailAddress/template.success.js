@@ -109,7 +109,7 @@ const EmailAddress = (props) => {
     return (
       <React.Fragment>
         <Text size='14px' weight={200}>
-          <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='We have sent a verification code to' />
+          <FormattedMessage id='scenes.security.email.verifyemailaddress1' defaultMessage='We have sent a verification code to' />
           <span>&nbsp;{email}</span>
           <FormattedMessage id='scenes.security.email.verifyemailaddress2' defaultMessage='.  Please enter this code below to complete your email verification process.' />
         </Text>
