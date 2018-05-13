@@ -118,6 +118,7 @@ export default ({ api, coreSagas }) => {
       const newTarget = yield call(selectOtherAccount, targetCoin)
       yield put(actions.form.change2('exchange', 'target', newTarget))
     }
+    yield call(changeAmount)
   }
 
   const changeTarget = function * () {
@@ -130,6 +131,7 @@ export default ({ api, coreSagas }) => {
       const newSource = yield call(selectOtherAccount, sourceCoin)
       yield put(actions.form.change2('exchange', 'source', newSource))
     }
+    yield call(changeAmount)
   }
 
   const changeAmount = function * (type) {

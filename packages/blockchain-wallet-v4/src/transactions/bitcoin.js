@@ -160,6 +160,13 @@ const CoinBaseData = total => ({
   change: 0
 })
 
+export const getTime = tx => {
+  const date = moment.unix(tx.time).local()
+  return equals(date.year(), moment().year())
+    ? date.format('MMMM D @ h:mm A')
+    : date.format('MMMM D YYYY @ h:mm A')
+}
+
 export const _transformTx = (wallet, currentBlockHeight, tx) => {
   const txNotes = Wallet.selectTxNotes(wallet)
   const conf = currentBlockHeight - tx.block_height + 1
@@ -176,14 +183,6 @@ export const _transformTx = (wallet, currentBlockHeight, tx) => {
   const [outputData, outputs] = findLegacyChanges(inputs, inputData, outs, oData)
   const { from, to } = selectFromAndto(inputs, outputs, type)
 
-  const formattedDate = time => {
-    const date = moment.utc(time * 1000)
-
-    return equals(date.year(), moment().year())
-      ? date.format('MMMM D @ h:mm A')
-      : date.format('MMMM D YYYY @ h:mm A')
-  }
-
   return ({
     double_spend: tx.double_spend,
     hash: tx.hash,
@@ -191,19 +190,15 @@ export const _transformTx = (wallet, currentBlockHeight, tx) => {
     type: toLower(type),
     description: TXNotes.selectNote(tx.hash, txNotes) || '',
     time: tx.time,
-    timeFormatted: formattedDate(tx.time),
+    timeFormatted: getTime(tx),
     fee: tx.fee,
     confirmations: confirmations,
     inputs: inputs,
     outputs: outputs,
     fromWatchOnly: inputData.isWatchOnly,
     toWatchOnly: outputData.isWatchOnly,
-    from: from, // based on inputs
-    to: to, // based on outputs
-
-    // properties that frontend should compute
-    status: null, // based on confirmations
-    initial_value: null // when the user opens the modal
+    from,
+    to
   })
 }
 
