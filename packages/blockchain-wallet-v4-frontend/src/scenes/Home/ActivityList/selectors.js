@@ -25,17 +25,17 @@ export const getLogs = createDeepEqualSelector(
 
 export const getBtcTransactions = createDeepEqualSelector(
   [selectors.core.common.bitcoin.getWalletTransactions, getNumber],
-  (transactions, number) => isNil(transactions[0]) ? Remote.of([]) : transactions[0].map(compose(take(number), map(transform('BTC'))))
+  (transactions, number) => Remote.Success.is(transactions[0]) && !isNil(transactions[0]) ? transactions[0].map(compose(take(number), map(transform('BTC')))) : Remote.of([])
 )
 
 export const getBchTransactions = createDeepEqualSelector(
   [selectors.core.common.bch.getWalletTransactions, getNumber],
-  (transactions, number) => isNil(transactions[0]) ? Remote.of([]) : transactions[0].map(compose(take(number), map(transform('BCH'))))
+  (transactions, number) => Remote.Success.is(transactions[0]) && !isNil(transactions[0]) ? transactions[0].map(compose(take(number), map(transform('BCH')))) : Remote.of([])
 )
 
 export const getEthTransactions = createDeepEqualSelector(
   [selectors.core.common.ethereum.getWalletTransactions, getNumber],
-  (transactions, number) => isNil(transactions[0]) ? Remote.of([]) : transactions[0].map(compose(take(number), map(transform('ETH'))))
+  (transactions, number) => Remote.Success.is(transactions) ? transactions.map(compose(take(number), map(transform('ETH')))) : Remote.of([])
 )
 
 export const concatAll = unapply(reduce(concat, []))
