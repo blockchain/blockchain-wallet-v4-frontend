@@ -14,13 +14,14 @@ const TooltipIcon = styled.div`
   align-items: center;
   width: 16px;
   height: 16px;
-  border-radius: 10px;
-  background-color: ${props => props.theme[props.colors.backgroundColor]};
-  color: ${props => props.theme[props.colors.foreColor]};
-  border: 1px solid ${props => props.theme[props.colors.borderColor]};
-  cursor: pointer;
   font-size: 12px;
   font-weight: 300;
+  > span {
+    cursor: pointer;
+    &:before {
+      color: ${props => props.displayed && props.theme['brand-primary']};
+    }
+  }
 `
 const TooltipLabel = styled(Text)`
   font-size: 13px;
@@ -76,13 +77,13 @@ const TooltipBox = styled(TextGroup)`
 `
 
 export const Tooltip = props => {
-  const { icon, colors, width, label, displayed, handleClick, handleMouseEnter, handleMouseLeave } = props
+  const { icon, width, label, displayed, handleClick, handleMouseEnter, handleMouseLeave } = props
   return (
     <TooltipWrapper width={width}>
       {
         label
           ? <TooltipLabel onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>{label}</TooltipLabel>
-          : <TooltipIcon displayed={displayed} colors={colors} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={handleClick}>{icon}</TooltipIcon>
+          : <TooltipIcon displayed={displayed} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={handleClick}>{icon}</TooltipIcon>
       }
       <TooltipBox width={width} displayed={displayed} onClick={handleClick}>{props.children}</TooltipBox>
     </TooltipWrapper>
@@ -91,7 +92,6 @@ export const Tooltip = props => {
 
 Tooltip.propTypes = {
   icon: PropTypes.string,
-  colors: PropTypes.string,
   width: PropTypes.string,
   label: PropTypes.string,
   displayed: PropTypes.bool,

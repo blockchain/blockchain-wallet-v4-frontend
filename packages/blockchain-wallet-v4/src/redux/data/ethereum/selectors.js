@@ -29,5 +29,3 @@ export const getAddress = (state, address) => getAddresses(state).map(prop(addre
 export const getHeight = state => getLatestBlock(state).map(path(['number']))
 
 export const getNonce = (state, address) => getAddresses(state).map(path([address, 'nonce']))
-
-export const getTransactionsByAddress = (state, address) => getTransactions(state).map(prop(address))

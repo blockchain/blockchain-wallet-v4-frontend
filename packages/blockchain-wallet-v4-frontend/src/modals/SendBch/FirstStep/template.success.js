@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
@@ -7,7 +8,7 @@ import { required, validBitcoinCashAddress } from 'services/FormHelper'
 import { Button, Icon, Tooltip } from 'blockchain-info-components'
 import { FiatConvertor, Form, FormGroup, FormItem, FormLabel, SelectBoxBitcoinAddresses, SelectBoxCoin, TextBox, TextArea } from 'components/Form'
 import ComboDisplay from 'components/Display/ComboDisplay'
-import { shouldValidate, maximumAmount, emptyAccount } from './validation'
+import { shouldValidate, insufficientFunds, maximumAmount, invalidAmount } from './validation'
 import QRCodeCapture from 'components/QRCodeCapture'
 
 const Row = styled.div`
@@ -68,7 +69,7 @@ const FirstStep = props => {
           <FormLabel for='amount'>
             <FormattedMessage id='modals.requestbitcoin.firststep.amount' defaultMessage='Enter Amount:' />
           </FormLabel>
-          <Field name='amount' component={FiatConvertor} validate={[required, emptyAccount, maximumAmount]} coin='BCH' />
+          <Field name='amount' component={FiatConvertor} validate={[required, invalidAmount, insufficientFunds, maximumAmount]} coin='BCH' />
         </FormItem>
       </FormGroup>
       <FormGroup margin={'15px'}>
@@ -100,16 +101,12 @@ const FirstStep = props => {
 }
 
 FirstStep.propTypes = {
-  // invalid: PropTypes.bool.isRequired,
-  // submitting: PropTypes.bool.isRequired,
-  // addressSelectToggled: PropTypes.bool.isRequired,
-  // addressSelectOpened: PropTypes.bool.isRequired,
-  // feeEditToggled: PropTypes.bool.isRequired,
-  // totalFee: PropTypes.number,
-  // fee: PropTypes.string.isRequired,
-  // handleSubmit: PropTypes.func.isRequired,
-  // handleClickAddressToggler: PropTypes.func.isRequired,
-  // handleClickFeeToggler: PropTypes.func.isRequired
+  invalid: PropTypes.bool.isRequired,
+  submitting: PropTypes.bool.isRequired,
+  toToggled: PropTypes.bool.isRequired,
+  handleToToggle: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  totalFee: PropTypes.string.isRequired
 }
 
 export default reduxForm({ form: 'sendBch', destroyOnUnmount: false, shouldValidate })(FirstStep)

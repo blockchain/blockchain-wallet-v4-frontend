@@ -64,7 +64,7 @@ const Top = styled.div`
 `
 
 const WalletLayout = props => {
-  const { location, menuLeftToggled, trayRightOpen, handleTrayRightToggle, handleToggleMenuLeft, handleCloseMenuLeft, children, trayRightContent } = props
+  const { location, partner, menuLeftToggled, trayRightOpen, handleTrayRightToggle, handleToggleMenuLeft, handleCloseMenuLeft, children, trayRightContent } = props
 
   return (
     <Wrapper>
@@ -75,7 +75,7 @@ const WalletLayout = props => {
       </Nav>
       <Container>
         <Left toggled={menuLeftToggled}>
-          <MenuLeft location={location} handleToggleMenuLeft={handleToggleMenuLeft} handleCloseMenuLeft={handleCloseMenuLeft} />
+          <MenuLeft location={location} handleToggleMenuLeft={handleToggleMenuLeft} handleCloseMenuLeft={handleCloseMenuLeft} partner={partner} />
         </Left>
         <TrayRight isOpen={trayRightOpen} class='tray' handleTrayRightToggle={handleTrayRightToggle} trayRightContent={trayRightContent} />
         <Content>

@@ -73,6 +73,7 @@ export default {
   'checkmark': '\\e95d',
   'clipboard': '\\e95e',
   'close': '\\e93f',
+  'close-in-circle': '\\e97a',
   'club-mate': '\\e940',
   'credit-card': '\\e941',
   'dollars': '\\e942',

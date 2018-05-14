@@ -36,6 +36,12 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     endPoint: `/eth/tx/${hash}`
   })
 
+  const getEthereumTransactions = (account, page = 0) => get({
+    url: apiUrl,
+    endPoint: `/eth/account/${account}`,
+    data: { page }
+  })
+
   const pushEthereumTx = (rawTx) => post({
     url: apiUrl,
     endPoint: '/eth/pushtx',
@@ -51,6 +57,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     getEthereumLatestBlock,
     getEthereumTicker,
     getEthereumTransaction,
+    getEthereumTransactions,
     pushEthereumTx
   }
 }
