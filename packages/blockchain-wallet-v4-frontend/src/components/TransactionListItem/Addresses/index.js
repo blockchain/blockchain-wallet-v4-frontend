@@ -24,7 +24,7 @@ const Addresses = props => {
     <Wrapper>
       <TextGroup inline>
         <Text size='13px' weight={500}>
-          <FormattedMessage id='scenes.transactions.content.list.listitem.to' defaultMessage='To: ' />
+          <FormattedMessage id='components.transactionlistitem.addresses.to' defaultMessage='To: ' />
         </Text>
         <Tooltip width='auto' label={to} hover={outputs && any(hasLabel, filter(notChange, outputs))}>
           { outputs && filter(hasLabel, filter(notChange, outputs)).map((output, index) =>
@@ -36,7 +36,7 @@ const Addresses = props => {
       </TextGroup>
       <TextGroup inline>
         <Text size='13px' weight={500}>
-          <FormattedMessage id='scenes.transactions.content.list.listitem.from' defaultMessage='From: ' />
+          <FormattedMessage id='components.transactionlistitem.addresses.from' defaultMessage='From: ' />
         </Text>
         <Tooltip width='auto' label={from} hover={inputs && inputs.some(hasLabel)}>
           { inputs && inputs.map((input, index) => input.label &&
