@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
+import { validEmail } from 'services/FormHelper'
 import { Button, Link, Separator, Text } from 'blockchain-info-components'
 import { Form, FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
 
@@ -43,7 +44,7 @@ const SecondStep = (props) => {
             <FormLabel for='newEmail'>
               <FormattedMessage id='scenes.reset2fa.secondstep.newEmail' defaultMessage='New email' />
             </FormLabel>
-            <Field name='newEmail' autoFocus component={TextBox} />
+            <Field name='newEmail' validate={[validEmail]} autoFocus component={TextBox} />
             <Text size='12px' weight={300}>
               <FormattedMessage id='scenes.reset2fa.secondstep.newEmail_explain' defaultMessage='If you lost access to the email associated with your wallet, enter a new email.' />
               <FormattedMessage id='scenes.reset2fa.secondstep.newEmail_explain2' defaultMessage='If the 2FA reset request is approved, this email will automatically be set as your new wallet email.' />
