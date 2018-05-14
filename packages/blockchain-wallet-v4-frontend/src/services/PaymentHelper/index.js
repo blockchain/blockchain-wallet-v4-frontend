@@ -34,7 +34,7 @@ export const bchToLabel = curry((payment, state) => {
     case 'TO.ACCOUNT':
       return selectors.core.kvStore.bch.getAccountLabel(state)(target.accountIndex).getOrElse(target.address)
     case 'TO.ADDRESS':
-      return utils.bch.toCashAddr(target.address, true)
+      return utils.bch.isCashAddr(target.address) ? target.address : utils.bch.toCashAddr(target.address, true)
     default:
       return target.address
   }
