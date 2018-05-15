@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import Menu from './Menu'
 import Content from './Content'
 
 const Wrapper = styled.div`
@@ -11,7 +10,6 @@ const Wrapper = styled.div`
 const BchTransactionsContainer = (props) => {
   return (
     <Wrapper>
-      <Menu />
       <Content />
     </Wrapper>
   )

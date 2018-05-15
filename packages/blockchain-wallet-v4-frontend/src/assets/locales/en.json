@@ -342,7 +342,7 @@
   "modals.sendbtc.minimumamountlink.minimum": "minimum",
   "modals.sendbtc.minimumfeelink.minimum": "minimum",
   "modals.sendbtc.priorityfeelink.priority": "Priority: {fee}",
-  "modals.sendbtc.regularfeelink.regular": "Reg: {fee},",
+  "modals.sendbtc.regularfeelink.regular": "Reg: {fee}, ",
   "modals.sendbtc.firststep.coin": "Currency:",
   "modals.sendbtc.firststep.from": "From:",
   "modals.sendbtc.firststep.to": "To:",

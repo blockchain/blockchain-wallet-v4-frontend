@@ -1,8 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import MenuTop from './MenuTop'
-
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -16,7 +14,6 @@ const AddressesLayout = props => {
 
   return (
     <Wrapper location={location}>
-      <MenuTop />
       {children}
     </Wrapper>
   )
