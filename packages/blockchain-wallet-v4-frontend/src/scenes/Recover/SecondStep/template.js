@@ -5,7 +5,7 @@ import { Field, reduxForm } from 'redux-form'
 
 import { required, validEmail } from 'services/FormHelper'
 import { Button, Link, HeartbeatLoader, Separator, Text } from 'blockchain-info-components'
-import { CheckBox, Form, FormGroup, PasswordBox, TextBox } from 'components/Form'
+import { CheckBox, Form, FormGroup, FormLabel, PasswordBox, TextBox } from 'components/Form'
 import Terms from 'components/Terms'
 
 const Wrapper = styled.div`
@@ -55,21 +55,21 @@ const SecondStep = (props) => {
       <Separator />
       <Form onSubmit={handleSubmit}>
         <FormGroup>
-          <Text size='14px' weight={500}>
+          <FormLabel for='email'>
             <FormattedMessage id='scenes.recover.secondstep.email' defaultMessage='Email' />
-          </Text>
+          </FormLabel>
           <Field name='email' validate={[required, validEmail]} component={TextBox} />
         </FormGroup>
         <FormGroup>
-          <Text size='14px' weight={500}>
+          <FormLabel for='password'>
             <FormattedMessage id='scenes.recover.secondstep.password' defaultMessage='Password' />
-          </Text>
+          </FormLabel>
           <Field name='password' validate={[required]} component={PasswordBox} score />
         </FormGroup>
         <FormGroup>
-          <Text size='14px' weight={500}>
+          <FormLabel for='confirmationPassword'>
             <FormattedMessage id='scenes.recover.secondstep.confirmationPassword' defaultMessage='Confirm Password' />
-          </Text>
+          </FormLabel>
           <Field name='confirmationPassword' validate={[required]} component={PasswordBox} />
         </FormGroup>
         <FormGroup>
