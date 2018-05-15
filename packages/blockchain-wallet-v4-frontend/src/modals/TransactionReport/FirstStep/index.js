@@ -19,6 +19,7 @@ class FirstStepContainer extends React.PureComponent {
 
   componentWillMount () {
     const initialValues = {
+      from: this.props.from,
       start: moment().subtract(7, 'day').format(dateFormatUS),
       end: moment().format(dateFormatUS)
     }
@@ -43,7 +44,9 @@ class FirstStepContainer extends React.PureComponent {
 }
 
 const mapStateToProps = (state) => ({
-  from: formValueSelector('transactionReport')(state, 'from'),
+  from: formValueSelector('transactionReport')(state, 'from') ||
+        formValueSelector('btcTransactions')(state, 'source') ||
+        formValueSelector('bchTransactions')(state, 'source') || 'all',
   start: formValueSelector('transactionReport')(state, 'start'),
   end: formValueSelector('transactionReport')(state, 'end')
 })
