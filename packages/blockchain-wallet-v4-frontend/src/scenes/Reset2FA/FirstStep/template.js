@@ -21,6 +21,9 @@ const Header = styled.div`
   justify-content: space-between;
   align-items: center;
 `
+const FirstStepForm = styled(Form)`
+  margin-top: 15px;
+`
 const Footer = styled(FormGroup)`
   display: flex;
   flex-direction: row;
@@ -44,6 +47,7 @@ const FirstStep = (props) => {
           <FormattedMessage id='scenes.reset2fa.firststep.step1' defaultMessage='Step 1 of 3' />
         </Text>
       </Header>
+      <Separator />
       <TextGroup>
         <Text size='13px' weight={300}>
           <FormattedMessage id='scenes.reset2fa.firststep.explain' defaultMessage='Are you unable to gain access to your wallet because you lost your two factor authentication (2FA) device or are unable to access your email account?' />
@@ -52,8 +56,7 @@ const FirstStep = (props) => {
           <FormattedMessage id='scenes.reset2fa.firststep.explain2' defaultMessage='2FA reset requests are automatically approved after a certain time. Your IP address and browser information will be recorded on submission.' />
         </Text>
       </TextGroup>
-      <Separator />
-      <Form onSubmit={onSubmit}>
+      <FirstStepForm onSubmit={onSubmit}>
         <FormGroup>
           <FormItem>
             <FormLabel for='guid'>
@@ -79,8 +82,7 @@ const FirstStep = (props) => {
             </FormLabel>
             <Field name='email' validate={[required, validEmail]} component={TextBox} />
             <Text size='12px' weight={300}>
-              <FormattedMessage id='scenes.reset2fa.firststep.firststepform.email_explain' defaultMessage='Enter the email associated with your wallet. ' />
-              <FormattedMessage id='scenes.reset2fa.firststep.firststepform.email_explain2' defaultMessage='If you lost access to this email, please enter it regardless.' />
+              <FormattedMessage id='scenes.reset2fa.firststep.firststepform.email_explain' defaultMessage='Enter the email associated with your wallet.  If you lost access to this email, please enter it regardless.' />
             </Text>
           </FormItem>
         </FormGroup>
@@ -94,7 +96,7 @@ const FirstStep = (props) => {
             <FormattedMessage id='scenes.reset2fa.firststep.firststepform.continue' defaultMessage='Continue' />
           </Button>
         </Footer>
-      </Form>
+      </FirstStepForm>
     </Wrapper>
   )
 }
