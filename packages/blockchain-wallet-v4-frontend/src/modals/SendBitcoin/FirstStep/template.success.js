@@ -71,7 +71,6 @@ const FeeOptionsContainer = styled.div`
   align-items: center;
 `
 const FeePerByteContainer = styled.div`
-  margin-top: 10px;
   width: 100%;
 `
 
@@ -135,7 +134,7 @@ const FirstStep = props => {
           <Field name='description' component={TextArea} placeholder="What's this transaction for?" fullwidth />
         </FormItem>
       </FormGroup>
-      <FormGroup inline margin={'15px'}>
+      <FormGroup inline margin={'10px'}>
         <ColLeft>
           <FeeFormContainer toggled={feePerByteToggled}>
             <FeeFormLabel>
@@ -165,7 +164,7 @@ const FirstStep = props => {
           </Link>
         </ColRight>
       </FormGroup>
-      <FormGroup>
+      <FormGroup margin={'15px'}>
         <Text size='13px' weight={300}>
           {!isPriorityFeePerByte && <FormattedMessage id='modals.sendbtc.firststep.estimated' defaultMessage='Estimated confirmation time 1+ hour' />}
           {isPriorityFeePerByte && <FormattedMessage id='modals.sendbtc.firststep.estimated2' defaultMessage='Estimated confirmation time 0-60 minutes' />}
