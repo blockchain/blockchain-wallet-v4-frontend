@@ -31,6 +31,8 @@ class VerifyContainer extends Component {
     super(props)
     this.handleReset = this.handleReset.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+
+    this.state = { viewSSN: false }
   }
 
   componentWillReceiveProps (nextProps) {
@@ -54,7 +56,7 @@ class VerifyContainer extends Component {
   render () {
     if (this.props.step === 'upload') return <Upload />
     if (this.props.ui.verify === 'address') return <Address {...this.props} faqs={faqHelper} />
-    if (this.props.ui.verify === 'identity') return <Identity {...this.props} faqs={faqHelper} handleSubmit={this.handleSubmit} handleReset={this.handleReset} />
+    if (this.props.ui.verify === 'identity') return <Identity {...this.props} toggleSSN={() => this.setState({ viewSSN: !this.state.viewSSN })} viewSSN={this.state.viewSSN} faqs={faqHelper} handleSubmit={this.handleSubmit} handleReset={this.handleReset} />
   }
 }
 
