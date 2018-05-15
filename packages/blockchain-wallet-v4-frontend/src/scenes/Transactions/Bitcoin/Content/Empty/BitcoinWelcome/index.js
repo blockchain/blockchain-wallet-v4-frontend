@@ -31,7 +31,7 @@ class BitcoinWelcomeContainer extends React.PureComponent {
 const mapStateToProps = state => ({
   canBuy: selectors.exchange.getCanTrade(state, 'Buy'),
   bchBalanceR: selectors.core.data.bch.getBalance(state),
-  ethBalanceR: selectors.core.data.ether.getBalance(state),
+  ethBalanceR: selectors.core.data.ethereum.getBalance(state),
   showBitcoinWelcome: selectors.preferences.getShowBitcoinWelcome(state)
 })
 
