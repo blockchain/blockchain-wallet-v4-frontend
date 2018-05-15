@@ -93,9 +93,10 @@ export default ({ coreSagas }) => {
   const submitQuote = function * (action) {
     try {
       yield put(A.sfoxLoading())
-      yield call(coreSagas.data.sfox.handleTrade, action.payload)
+      const trade = yield call(coreSagas.data.sfox.handleTrade, action.payload)
       yield put(A.sfoxSuccess())
       yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
+      yield put(modalActions.showModal('SfoxTradeDetails', { trade }))
     } catch (e) {
       yield put(A.sfoxFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'submitQuote', e))
