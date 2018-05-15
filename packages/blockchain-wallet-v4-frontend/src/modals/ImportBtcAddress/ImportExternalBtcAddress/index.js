@@ -9,7 +9,7 @@ import { spacing } from 'services/StyleService'
 import { Banner } from 'blockchain-info-components'
 
 const Label = styled.label`
-  display: block;
+  display;
   font-size: 11px;
   margin-bottom: 5px;
 `
@@ -40,7 +40,7 @@ class ImportExternalBitcoinAddress extends React.PureComponent {
           </FormItem>
           <FormItem width={'40%'} >
             <Label for='wallets'>
-              <FormattedMessage id='modals.importbtcaddress.import_external_bitcoin_address.prv_key' defaultMessage='Transfer to an existing wallet (optional)' />
+              <FormattedMessage id='modals.importbtcaddress.import_external_bitcoin_address.transfer' defaultMessage='Transfer funds to an existing wallet (optional)' />
             </Label>
             <Field name='to' component={SelectBoxBitcoinAddresses} optional excludeImported disabled={isNil(this.props.priv)} />
           </FormItem>
