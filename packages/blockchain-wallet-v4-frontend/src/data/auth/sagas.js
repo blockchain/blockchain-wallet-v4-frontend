@@ -199,7 +199,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displayInfo('Restoring wallet...'))
       yield call(coreSagas.wallet.restoreWalletSaga, action.payload)
       yield put(actions.alerts.displaySuccess('Your wallet has been successfully restored.'))
-      yield call(loginRoutineSaga)
+      yield call(loginRoutineSaga, false, true)
       yield put(actions.auth.restoreSuccess())
     } catch (e) {
       yield put(actions.auth.restoreFailure())
