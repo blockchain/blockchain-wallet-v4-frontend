@@ -34,7 +34,7 @@ const mapStateToProps = state => ({
   ethBalanceR: selectors.core.data.ethereum.getBalance(state),
   showBitcoinWelcome: selectors.preferences.getShowBitcoinWelcome(state)
 })
-ethereum
+
 const mapDispatchToProps = dispatch => ({
   preferencesActions: bindActionCreators(actions.preferences, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
