@@ -91,6 +91,7 @@ const WalletLayout = props => {
           { location.pathname === '/bch/transactions' && <BchMenu /> }
           { location.pathname === '/eth/transactions' && <EthMenu /> }
           { location.pathname === '/settings/addresses' && <AddrMenu /> }
+          { location.pathname === '/settings/addresses/bch' && <AddrMenu /> }
           <Page>
             {children}
           </Page>
