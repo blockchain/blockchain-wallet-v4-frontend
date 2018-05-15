@@ -21,7 +21,7 @@ const CountdownTimer = (props) => (
       <FormattedMessage id='scenes.exchange.secondstep.expiry' defaultMessage='Quote expires in: {timeLeft}' values={{ timeLeft: props.timeLeft }} />
     </Text>
     <Tooltip>
-      <FormattedMessage id='scenes.exchange.secondstep.expiry_tooltip' defaultMessage='This rate will expire after 10 minutes.' />
+      <FormattedMessage id='scenes.exchange.secondstep.sfox_expiry_tooltip' defaultMessage='This rate will expire after 30 seconds.' />
       <FormattedMessage id='scenes.exchange.secondstep.expiry_tooltip2' defaultMessage='If that happens please restart your trade.' />
     </Tooltip>
   </Wrapper>
