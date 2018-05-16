@@ -69,7 +69,7 @@ const FirstStep = (props) => {
               </Text>
               <LinkContainer to='/reminder'>
                 <Link size='12px' weight={300}>
-                  <FormattedMessage id='scenes.reset2fa.2fafirstform.look' defaultMessage='look it up here.' />
+                  <FormattedMessage id='scenes.reset2fa.firststep.look' defaultMessage='look it up here.' />
                 </Link>
               </LinkContainer>
             </TextGroup>

@@ -756,7 +756,7 @@
   "scenes.reset2fa.firststep.explain2": "2FA reset requests are automatically approved after a certain time. Your IP address and browser information will be recorded on submission.",
   "scenes.reset2fa.firststep.firststepform.guid": "Wallet Identifier",
   "scenes.reset2fa.firststep.firststepform.guid_explain": "If you forgot your wallet identifier, please",
-  "scenes.reset2fa.2fafirstform.look": "look it up here.",
+  "scenes.reset2fa.firststep.look": "look it up here.",
   "scenes.reset2fa.firststep.firststepform.email": "Registered Email",
   "scenes.reset2fa.firststep.firststepform.email_explain": "Enter the email associated with your wallet. ",
   "scenes.reset2fa.firststep.back": "Go Back",
