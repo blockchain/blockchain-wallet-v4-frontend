@@ -1,5 +1,5 @@
 import { over, mapped, set, view } from 'ramda-lens'
-import { append, compose, findIndex, path, equals, lensIndex, lensPath, toLower } from 'ramda'
+import { append, compose, findIndex, path, equals, lensIndex, toLower } from 'ramda'
 import * as AT from './actionTypes'
 import Remote from '../../../remote'
 import { lensProp } from '../../../types/util'
@@ -24,7 +24,10 @@ export default (state = INITIAL_STATE, action) => {
       return Remote.Failure(payload)
     }
     case AT.ADD_STATE_METADATA_SHAPESHIFT: {
-      return set(compose(mapped, value, lensPath(['USAState', 'Code'])), payload.usState, state)
+      return set(compose(mapped, value, lensProp('USAState')), {
+        Code: payload.usState.code,
+        Name: payload.usState.name
+      }, state)
     }
     case AT.ADD_TRADE_METADATA_SHAPESHIFT: {
       const { trade } = payload

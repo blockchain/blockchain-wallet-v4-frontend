@@ -29,7 +29,9 @@ const SubmitButton = styled(Button)`
 
 const StateRegistrationStep = (props) => {
   const { handleSubmit, invalid, pristine, stateWhitelist } = props
-  const onShapeshiftWhitelist = (val) => val && stateWhitelist.indexOf(val) >= 0 ? undefined : 'This service is not yet available in your state.'
+  const onShapeshiftWhitelist = (state) => {
+    return state.code && stateWhitelist.indexOf(state.code) >= 0 ? undefined : 'This service is not yet available in your state.'
+  }
 
   return (
     <Wrapper>

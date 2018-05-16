@@ -11,7 +11,7 @@ export const getData = state => {
     const isRegistered = country === 'US' && usState && usState.Code
 
     return {
-      step: !isRegistered ? 0 : exchangeStep
+      step: isRegistered || country !== 'US' ? exchangeStep : 0
     }
   }
 
