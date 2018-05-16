@@ -6,8 +6,8 @@ const Wrapper = styled.div`
   display: ${props => props.toggled ? 'flex' : 'none'};
   width: 100%;
   font-family: 'Montserrat', Helvetica, sans-serif;
-  font-weight: 200;
-  font-size: 12px;
+  font-weight: 300;
+  font-size: 13px;
   padding: 5px 0;
   color: ${props => props.theme['gray-5']};
 `
