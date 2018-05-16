@@ -7,6 +7,7 @@ import BankAccounts from './BankAccounts'
 import AddManually from './AddManually'
 import MicroDeposits from './MicroDeposits'
 import PlaidFrame from './iframe.js'
+import AwaitingDeposits from './AwaitingDeposits'
 
 import Helper from 'components/BuySell/FAQ'
 import { ColLeft, ColRight, PartnerHeader, PartnerSubHeader, ColRightInner } from 'components/BuySell/Signup'
@@ -99,7 +100,8 @@ const BankLink = (props) => {
     handleAccountType,
     microStep,
     goToMicroDepositStep,
-    submitMicroDeposits } = props
+    submitMicroDeposits,
+    awaitingDeposits } = props
 
   const titleHelper = () => {
     switch (true) {
@@ -184,6 +186,10 @@ const BankLink = (props) => {
         }
       </Button>
     )
+  }
+
+  if (awaitingDeposits) {
+    return <AwaitingDeposits />
   }
 
   return (

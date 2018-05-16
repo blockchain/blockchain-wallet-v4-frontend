@@ -67,7 +67,7 @@ class LinkContainer extends Component {
 
   render () {
     const { bankAccounts, accounts, ui } = this.props
-    const { plaidBaseUrl, plaidPath, plaidEnv } = this.props
+    const { plaidBaseUrl, plaidPath, plaidEnv, awaitingDeposits } = this.props
     const plaidUrl = `${plaidBaseUrl}/wallet-helper/plaid/#/key/${plaidPath}/env/${plaidEnv}`
 
     return <Link
@@ -88,6 +88,7 @@ class LinkContainer extends Component {
       microStep={ui.microStep}
       goToMicroDepositStep={(step) => this.props.updateUI({ microStep: step })}
       submitMicroDeposits={this.submitMicroDeposits}
+      awaitingDeposits={awaitingDeposits}
     />
   }
 }
