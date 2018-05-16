@@ -18,6 +18,8 @@ const TransactionTooltip = styled.div`
   position: relative;
   display: flex;
   justify-items: flex-start;
+    * { white-space: normal !important; }
+
 `
 const IconWrapper = styled.div`
   display: flex;
