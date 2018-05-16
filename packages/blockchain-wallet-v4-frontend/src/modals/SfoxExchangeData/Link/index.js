@@ -67,8 +67,9 @@ class LinkContainer extends Component {
 
   render () {
     const { bankAccounts, accounts, ui } = this.props
-    const { plaidBaseUrl, plaidPath, plaidEnv, awaitingDeposits } = this.props
+    const { plaidBaseUrl, plaidPath, plaidEnv } = this.props
     const plaidUrl = `${plaidBaseUrl}/wallet-helper/plaid/#/key/${plaidPath}/env/${plaidEnv}`
+    const { showModal } = this.props.modalActions
 
     return <Link
       onSubmit={this.onSubmit}
@@ -88,7 +89,8 @@ class LinkContainer extends Component {
       microStep={ui.microStep}
       goToMicroDepositStep={(step) => this.props.updateUI({ microStep: step })}
       submitMicroDeposits={this.submitMicroDeposits}
-      awaitingDeposits={awaitingDeposits}
+      awaitingDeposits={accounts[0]['status'] === 'pending'}
+      showModal={showModal}
     />
   }
 }

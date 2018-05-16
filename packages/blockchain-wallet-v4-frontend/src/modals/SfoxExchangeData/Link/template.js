@@ -101,6 +101,7 @@ const BankLink = (props) => {
     microStep,
     goToMicroDepositStep,
     submitMicroDeposits,
+    showModal,
     awaitingDeposits } = props
 
   const titleHelper = () => {
@@ -189,7 +190,7 @@ const BankLink = (props) => {
   }
 
   if (awaitingDeposits) {
-    return <AwaitingDeposits />
+    return <AwaitingDeposits showModal={showModal} />
   }
 
   return (
