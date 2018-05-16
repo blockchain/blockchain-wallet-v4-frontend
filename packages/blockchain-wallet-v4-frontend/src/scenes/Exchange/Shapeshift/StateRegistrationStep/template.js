@@ -10,6 +10,9 @@ import { Form, FormGroup, FormLabel, FormItem, SelectBoxUSState } from 'componen
 
 const Wrapper = styled.div`
   width: 100%;
+  padding: 20px 30px;
+  box-sizing: border-box;
+  border: 1px solid ${props => props.theme['gray-2']};
 `
 const Header = styled.div`
   display: flex;
