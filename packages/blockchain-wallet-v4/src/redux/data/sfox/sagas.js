@@ -122,6 +122,7 @@ export default ({ api, options }) => {
       const methods = yield apply(sfox, sfox.getBuyMethods)
       const addedBankAccount = yield apply(methods.ach, methods.ach.addAccount, [routing, account, name, type])
       yield put(A.setBankManuallySuccess(addedBankAccount))
+      return addedBankAccount
     } catch (e) {
       yield put(A.setBankAccountFailure(e))
     }
