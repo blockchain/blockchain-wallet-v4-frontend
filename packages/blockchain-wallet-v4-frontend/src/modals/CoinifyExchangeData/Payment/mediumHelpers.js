@@ -41,7 +41,7 @@ export const cardOptionHelper = (quote, limits, isChecked, handlePaymentClick) =
     <PaymentOption isChecked={isChecked} onClick={() => handlePaymentClick('card')} >
       <input type='radio' name='inMedium' id='card' value='card' style={{display: 'none'}} />
       <OptionLabel htmlFor='card'>
-        <PaymentIcon name='credit-card-filled' cursor='pointer' size='50px' isChecked={isChecked} />
+        <PaymentIcon name='credit-card-filled' cursor size='50px' isChecked={isChecked} />
         <PaymentText isChecked={isChecked}>
           <FormattedMessage id='coinifyexchangedata.payment.card' defaultMessage='Credit / Debit' />
         </PaymentText>
@@ -68,11 +68,25 @@ export const cardOptionHelper = (quote, limits, isChecked, handlePaymentClick) =
     </PaymentOptionContainer>
   )
 
-  if (Math.abs(quote.baseAmount) <= limits.card.inRemaining[quote.baseCurrency]) {
-    return renderContainer(isChecked, handlePaymentClick)
+  if (quote.baseCurrency === 'BTC') {
+    if (Math.abs(quote.quoteAmount) <= limits.card.inRemaining[quote.quoteCurrency]) {
+      return renderContainer(isChecked, handlePaymentClick)
+    } else {
+      renderText()
+    }
   } else {
-    renderText()
+    if (Math.abs(quote.baseAmount) <= limits.card.inRemaining[quote.baseCurrency]) {
+      return renderContainer(isChecked, handlePaymentClick)
+    } else {
+      renderText()
+    }
   }
+
+  // if (Math.abs(quote.baseAmount) <= limits.card.inRemaining[quote.baseCurrency]) {
+  //   return renderContainer(isChecked, handlePaymentClick)
+  // } else {
+  //   renderText()
+  // }
 }
 
 export const bankOptionHelper = (quote, limits, isChecked, handlePaymentClick) => {
@@ -80,7 +94,7 @@ export const bankOptionHelper = (quote, limits, isChecked, handlePaymentClick) =
     <PaymentOption isChecked={isChecked} onClick={() => handlePaymentClick('bank')} >
       <input type='radio' name='inMedium' id='bank' value='bank' style={{display: 'none'}} />
       <OptionLabel htmlFor='bank'>
-        <PaymentIcon name='bank-filled' cursor='pointer' size='50px' isChecked={isChecked} />
+        <PaymentIcon name='bank-filled' cursor size='50px' isChecked={isChecked} />
         <PaymentText isChecked={isChecked}>
           <FormattedMessage id='coinifyexchangedata.payment.bank' defaultMessage='Bank Transfer' />
         </PaymentText>
@@ -107,9 +121,17 @@ export const bankOptionHelper = (quote, limits, isChecked, handlePaymentClick) =
     </PaymentOptionContainer>
   )
 
-  if (Math.abs(quote.baseAmount) >= limits.bank.minimumInAmounts[quote.baseCurrency]) {
-    return renderContainer(isChecked, handlePaymentClick)
+  if (quote.baseCurrency === 'BTC') {
+    if (Math.abs(quote.quoteAmount) >= limits.bank.minimumInAmounts[quote.quoteCurrency]) {
+      return renderContainer(isChecked, handlePaymentClick)
+    } else {
+      renderText()
+    }
   } else {
-    renderText()
+    if (Math.abs(quote.baseAmount) >= limits.bank.minimumInAmounts[quote.baseCurrency]) {
+      return renderContainer(isChecked, handlePaymentClick)
+    } else {
+      renderText()
+    }
   }
 }

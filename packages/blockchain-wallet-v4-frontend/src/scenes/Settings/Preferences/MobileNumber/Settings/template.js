@@ -35,7 +35,7 @@ const Setting = (props) => {
                 ? <FormattedMessage id='scenes.preferences.mobile.settings.change' defaultMessage='Change' />
                 : smsNumber
                   ? <FormattedMessage id='scenes.preferences.mobile.settings.verify' defaultMessage='Verify' />
-                  : <FormattedMessage id='scenes.preferences.mobile.settings.verify' defaultMessage='Add Mobile Number' />
+                  : <FormattedMessage id='scenes.preferences.mobile.settings.addmobile' defaultMessage='Add Mobile Number' />
               }
             </Button>
           </Fragment>

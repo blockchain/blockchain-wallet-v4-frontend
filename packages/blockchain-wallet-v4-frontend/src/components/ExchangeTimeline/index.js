@@ -16,7 +16,7 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  padding: 40px;
+  padding: 15px;
   box-sizing: border-box;
 `
 const Row = styled.div`
@@ -62,7 +62,7 @@ const ExchangeTimeline = props => {
 }
 
 ExchangeTimeline.propTypes = {
-  status: PropTypes.oneOf(['no_deposits', 'received', 'resolved', 'success', 'failed'])
+  status: PropTypes.oneOf(['no_deposits', 'received', 'resolved', 'complete', 'failed'])
 }
 
 ExchangeTimeline.defaultProps = {

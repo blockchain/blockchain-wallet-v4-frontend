@@ -45,8 +45,8 @@ const Step1 = props => (
   <Wrapper>
     <Circle>
       { props.status === 'active'
-        ? <AnimatedIcon name='paper-airplane' size='40px' color='brand-primary' />
-        : <Icon name='paper-airplane' size='40px' color='brand-primary' />
+        ? <AnimatedIcon name='paper-airplane-filled-2' size='40px' color='brand-primary' />
+        : <Icon name='paper-airplane-filled-2' size='40px' color='brand-primary' />
       }
     </Circle>
     <Text size='13px' weight={500} capitalize>
@@ -56,7 +56,7 @@ const Step1 = props => (
 )
 
 Step1.propTypes = {
-  status: PropTypes.oneOf(['active, inactive'])
+  status: PropTypes.oneOf(['active', 'inactive'])
 }
 
 Step1.defaultProps = {

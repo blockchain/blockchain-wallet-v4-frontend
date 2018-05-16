@@ -3,7 +3,7 @@ import { ALERTS_CLEAR, ALERTS_SHOW, ALERTS_DISMISS } from './actionTypes'
 
 const INITIAL_STATE = []
 
-const alerts = (state = INITIAL_STATE, action) => {
+export default (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
@@ -23,5 +23,3 @@ const alerts = (state = INITIAL_STATE, action) => {
     }
   }
 }
-
-export default alerts
