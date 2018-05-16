@@ -97,9 +97,9 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
           handleExpiry={onRefreshQuote}
         />
       )).getOrElse(null)}
-      </div>
-    </ExchangeCheckoutWrapper>
-  )
+    </div>
+  </ExchangeCheckoutWrapper>
+)
 
 export const OrderSubmit = ({ quoteR, onSubmit, busy, clearTradeError, goToStep }) => (
   <Fragment>

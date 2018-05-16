@@ -59,7 +59,6 @@ export const reviewOrder = {
     }
   },
   renderSummary: (q, type, medium) => {
-    console.log(q)
     const qAmt = Math.abs(q.quoteAmount)
     const bAmt = Math.abs(q.baseAmount)
     const med = reviewOrder.hasMedium(q.paymentMediums, medium)
