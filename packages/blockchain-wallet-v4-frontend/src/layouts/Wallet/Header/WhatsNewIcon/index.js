@@ -42,7 +42,7 @@ const WhatsNewIcon = (props) => {
 
   return (
     <WhatsNewLink className={'ignore-react-onclickoutside'} trayRightContent={trayRightContent} trayRightOpen={trayRightOpen} onClick={() => handleTrayRightToggle('whats-new')} size='16px' weight={300} color='white'>
-      <Icon name='bell-filled' color='white' />
+      <Icon name='bell' color='white' />
     </WhatsNewLink>
   )
 }

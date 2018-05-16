@@ -23,7 +23,7 @@ class LinkContainer extends Component {
       if (!e.data.command) return
       if (e.data.from !== 'plaid') return
       if (e.data.to !== 'exchange') return
-      if (e.origin !== `http://localhost:8081`) return // TODO: get from wallet options
+      if (e.origin !== this.props.plaidBaseUrl) return
       if (plaidWhitelist.indexOf(e.data.command) < 0) return
 
       if (e.data.command === 'enablePlaid') this.setState({ enablePlaid: true })

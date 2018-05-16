@@ -18,8 +18,7 @@ const Container = styled.div`
 `
 
 const Welcome = (props) => {
-  const { position, total, close, ...rest } = props
-  const { handleContinue } = rest
+  const { position, total, close } = props
 
   return (
     <Modal size='medium' position={position} total={total}>
@@ -33,9 +32,8 @@ const Welcome = (props) => {
           <Text size='16px' weight={300}>
             <FormattedMessage id='modals.welcome.thanks' defaultMessage='Thanks for joining over {walletMillions} million Blockchain wallet users in helping create an open, accessible, and fair financial future. Your wallet makes transacting with digital currencies simple and secure. Get started now.' values={{walletMillions: props.walletMillions}} />
           </Text>
-          <Button nature='primary' fullwidth uppercase onClick={handleContinue}>
-            {/* TODO: trade-status */}
-            <FormattedMessage id='modals.welcome.continue' defaultMessage='Request Funds' />
+          <Button nature='primary' fullwidth uppercase onClick={close}>
+            <FormattedMessage id='modals.welcome.continue' defaultMessage='Get Started' />
           </Button>
         </Container>
       </ModalBody>

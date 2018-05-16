@@ -12,6 +12,5 @@ export default ({ api }) => {
     yield takeLatest(AT.FETCH_BITCOIN_RATES, dataBtcSagas.fetchRates)
     yield fork(dataBtcSagas.watchTransactions)
     yield takeLatest(AT.FETCH_BITCOIN_TRANSACTION_HISTORY, dataBtcSagas.fetchTransactionHistory)
-    yield takeLatest(AT.FETCH_BITCOIN_UNSPENT, dataBtcSagas.fetchUnspent)
   }
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { prop } from 'ramda'
+import { path, prop } from 'ramda'
 
 import { Icon, Separator, Text } from 'blockchain-info-components'
 import { SelectBox } from 'components/Form'
@@ -15,6 +15,8 @@ const DisplayWrapper = styled.div`
   padding: 5px;
   box-sizing: border-box;
   cursor: pointer;
+  text-overflow: ellipsis;
+
   & > * { margin-left: 5px; }
 `
 const HeaderWrapper = styled.div`
@@ -27,6 +29,8 @@ const HeaderWrapper = styled.div`
   padding: 5px;
   box-sizing: border-box;
   cursor: not-allowed;
+  text-overflow: ellipsis;
+
   & > * { margin-left: 5px; }
   & > :first-child { margin-right: 5px; }
 `
@@ -40,6 +44,8 @@ const ItemWrapper = styled.div`
   padding: 5px;
   box-sizing: border-box;
   cursor: pointer;
+  text-overflow: ellipsis;
+
   & > * { margin-left: 5px; }
   &:hover {
     color: ${props => props.theme['gray-4']};
@@ -70,4 +76,17 @@ const renderItem = item => (
   </ItemWrapper>
 )
 
-export default props => <SelectBox {...props} templateDisplay={renderDisplay} templateHeader={renderHeader} templateItem={renderItem} />
+const renderItemWithIcon = item => (
+  <ItemWrapper>
+    {path(['value', 'coin'], item) === 'BCH' && <Icon name='bitcoin-cash' size='14px' weight={300} />}
+    {path(['value', 'coin'], item) === 'BTC' && <Icon name='bitcoin' size='14px' weight={300} />}
+    {path(['value', 'coin'], item) === 'ETH' && <Icon name='ethereum' size='14px' weight={300} />}
+    <Text size='14px' weight={300}>{item.text}</Text>
+  </ItemWrapper>
+)
+
+const SelectBoxExchange = props => props.hasOneAccount
+  ? <SelectBox {...props} templateDisplay={renderDisplay} templateItem={renderItemWithIcon} />
+  : <SelectBox {...props} templateDisplay={renderDisplay} templateHeader={renderHeader} templateItem={renderItem} />
+
+export default SelectBoxExchange

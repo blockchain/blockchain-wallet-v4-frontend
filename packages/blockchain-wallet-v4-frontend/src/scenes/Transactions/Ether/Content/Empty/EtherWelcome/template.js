@@ -54,7 +54,7 @@ const CloseArrow = styled(Icon)`
   margin-top: 20px;
 `
 const EtherWelcome = props => {
-  const { displayed, handleClick } = props
+  const { displayed, handleClick, handleRequest, exchange } = props
 
   return (
     <Wrapper displayed={displayed}>
@@ -106,11 +106,15 @@ const EtherWelcome = props => {
           </Cell>
         </Row>
         <Row>
-          <LinkContainer to='/exchange'>
-            <Button nature='primary' fullwidth uppercase>
+          {
+            exchange ? <LinkContainer to='/exchange'>
+              <Button nature='primary' fullwidth uppercase>
+                <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.getstarted' defaultMessage='Get started with ether' />
+              </Button>
+            </LinkContainer> : <Button nature='primary' onClick={handleRequest} fullwidth uppercase>
               <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.getstarted' defaultMessage='Get started with ether' />
             </Button>
-          </LinkContainer>
+          }
         </Row>
       </Container>
       <CloseArrow name='close' size='12px' cursor onClick={handleClick} />
