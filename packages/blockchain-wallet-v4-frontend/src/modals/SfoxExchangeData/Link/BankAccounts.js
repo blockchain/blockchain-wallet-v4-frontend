@@ -6,11 +6,13 @@ import { TextBox, Form } from 'components/Form'
 import { Text } from 'blockchain-info-components'
 import { required } from 'services/FormHelper'
 import Bank from './Bank'
+import { spacing } from 'services/StyleService'
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
+  margin-top: 15px;
   button {
     margin-top: 20px;
   }
@@ -42,7 +44,7 @@ class BankAccounts extends Component {
               )
             })
           }
-          <Text size='14px'>
+          <Text size='14px' style={spacing('mt-10')}>
             <FormattedMessage id='sfoxexchangedata.link.accountholdername' defaultMessage="Account Holder's Name" />
           </Text>
           <Field name='accountHolder' component={TextBox} validate={required} onChange={this.onInputChange} />

@@ -7,7 +7,7 @@ import Success from './template.success'
 import Loading from '../../template.loading'
 import { path } from 'ramda'
 
-class Checkout extends React.PureComponent {
+class SfoxCheckout extends React.PureComponent {
   componentWillMount () {
     this.props.sfoxDataActions.fetchTrades()
     this.props.sfoxDataActions.fetchProfile()
@@ -72,4 +72,4 @@ const mapDispatchToProps = dispatch => ({
   sendBtcActions: bindActionCreators(actions.components.sendBtc, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Checkout)
+export default connect(mapStateToProps, mapDispatchToProps)(SfoxCheckout)
