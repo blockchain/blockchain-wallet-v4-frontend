@@ -6,6 +6,7 @@ import { Field, reduxForm } from 'redux-form'
 import { required } from 'services/FormHelper'
 import { Button, HeartbeatLoader, Link, Separator, Text } from 'blockchain-info-components'
 import { CaptchaBox, Form, TextArea } from 'components/Form'
+import { FormGroup } from '../../../components/Form'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -20,8 +21,20 @@ const Header = styled.div`
   justify-content: space-between;
   align-items: center;
 `
-const Footer = styled.div`
-  padding: 5px 0;
+const ThirdStepForm = styled(Form)`
+  margin-top: 10px;
+`
+const CaptchaText = styled(Text)`
+  margin-top: 6px;
+`
+const BackLink = styled(Link)`
+  margin-right: 15px;
+`
+const Footer = styled(FormGroup)`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
 `
 
 const ThirdStep = (props) => {
@@ -37,11 +50,11 @@ const ThirdStep = (props) => {
           <FormattedMessage id='scenes.reset2fa.thirdstep.step3' defaultMessage='Step 3 of 3' />
         </Text>
       </Header>
+      <Separator />
       <Text size='13px' weight={300}>
         <FormattedMessage id='scenes.reset2fa.thirdstep.explain' defaultMessage='The process will be quicker with more precise details provided to us.' />
       </Text>
-      <Separator />
-      <Form onSubmit={onSubmit}>
+      <ThirdStepForm onSubmit={onSubmit}>
         <Text size='14px' weight={500}>
           <FormattedMessage id='scenes.reset2fa.thirdstep.message' defaultMessage='Message' />
         </Text>
@@ -49,23 +62,23 @@ const ThirdStep = (props) => {
         <Text size='13px' weight={300}>
           <FormattedMessage id='scenes.reset2fa.thirdstep.message_explain' defaultMessage='Enter a message for Blockchain.info admins to review.' />
         </Text>
-        <Text size='14px' weight={500}>
+        <CaptchaText size='14px' weight={500}>
           <FormattedMessage id='scenes.reset2fa.thirdstep.captcha' defaultMessage='Captcha' />
-        </Text>
+        </CaptchaText>
         <Field name='code' autoFocus validate={[required]} component={CaptchaBox} />
-        <Button type='submit' nature='primary' fullwidth uppercase disabled={busy || invalid} >
-          {
-            busy
-              ? <HeartbeatLoader height='20px' width='20px' color='white' />
-              : <FormattedMessage id='scenes.reset2fa.thirdstep.reset' defaultMessage='Reset' />
-          }
-        </Button>
-      </Form>
-      <Footer>
-        <Link onClick={previousStep} size='13px' weight={300}>
-          <FormattedMessage id='scenes.reset2fa.thirdstep.back' defaultMessage='Go Back' />
-        </Link>
-      </Footer>
+        <Footer>
+          <BackLink onClick={previousStep} size='13px' weight={300}>
+            <FormattedMessage id='scenes.reset2fa.thirdstep.back' defaultMessage='Go Back' />
+          </BackLink>
+          <Button type='submit' nature='primary' uppercase disabled={busy || invalid} >
+            {
+              busy
+                ? <HeartbeatLoader height='20px' width='20px' color='white' />
+                : <FormattedMessage id='scenes.reset2fa.thirdstep.reset' defaultMessage='Reset' />
+            }
+          </Button>
+        </Footer>
+      </ThirdStepForm>
     </Wrapper>
   )
 }
