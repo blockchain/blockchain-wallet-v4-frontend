@@ -24,4 +24,4 @@ class Reset2FAContainer extends React.PureComponent {
   }
 }
 
-export default wizardProvider('reset2FA', 3)(Reset2FAContainer)
+export default wizardProvider('reset2FA', 4)(Reset2FAContainer)
