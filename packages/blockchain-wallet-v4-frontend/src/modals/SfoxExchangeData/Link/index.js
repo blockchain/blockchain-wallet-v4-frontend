@@ -71,6 +71,8 @@ class LinkContainer extends Component {
     const plaidUrl = `${plaidBaseUrl}/wallet-helper/plaid/#/key/${plaidPath}/env/${plaidEnv}`
     const { showModal } = this.props.modalActions
 
+    const awaitingDeposits = accounts[0] && accounts[0]['status'] === 'pending'
+
     return <Link
       onSubmit={this.onSubmit}
       plaidUrl={plaidUrl}
@@ -89,7 +91,7 @@ class LinkContainer extends Component {
       microStep={ui.microStep}
       goToMicroDepositStep={(step) => this.props.updateUI({ microStep: step })}
       submitMicroDeposits={this.submitMicroDeposits}
-      awaitingDeposits={accounts[0]['status'] === 'pending'}
+      awaitingDeposits={awaitingDeposits}
       showModal={showModal}
     />
   }

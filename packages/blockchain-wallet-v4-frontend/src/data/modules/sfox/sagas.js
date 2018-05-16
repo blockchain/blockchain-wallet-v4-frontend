@@ -16,7 +16,8 @@ export default ({ coreSagas }) => {
   const setBankManually = function * (action) {
     try {
       yield call(coreSagas.data.sfox.setBankManually, action.payload)
-      yield put(actions.alerts.displaySuccess('Bank has been added!'))
+
+      // TODO need to dispatch an action to make Link step go to awaiting deposits state
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'setBankManually', e))
     }
