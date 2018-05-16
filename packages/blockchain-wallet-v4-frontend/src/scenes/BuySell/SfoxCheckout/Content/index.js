@@ -8,15 +8,12 @@ import Loading from '../../template.loading'
 import { path } from 'ramda'
 
 class SfoxCheckout extends React.PureComponent {
-  componentWillMount () {
+  componentDidMount () {
     this.props.sfoxDataActions.fetchTrades()
     this.props.sfoxDataActions.fetchProfile()
     this.props.sfoxDataActions.sfoxFetchAccounts()
     this.props.sfoxDataActions.fetchQuote({quote: { amt: 1e8, baseCurr: 'BTC', quoteCurr: 'USD' }})
     this.props.sfoxDataActions.fetchSellQuote({quote: { amt: 1e8, baseCurr: 'BTC', quoteCurr: 'USD' }})
-  }
-
-  componentDidMount () {
     this.props.sendBtcActions.sendBtcInitialized({ feeType: 'priority' })
   }
 
@@ -47,7 +44,7 @@ class SfoxCheckout extends React.PureComponent {
         payment={payment}
         clearTradeError={() => sfoxNotAsked()}
       />,
-      Failure: (msg) => <div>Failure: {msg}</div>,
+      Failure: (error) => <div>Failure: {error.message || error}</div>,
       Loading: () => <Loading />,
       NotAsked: () => <div>Not Asked</div>
     })
