@@ -1,6 +1,6 @@
 {
   "name": "blockchain-info-components",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A shared UI components library for blockchain.info applications.",
   "license": "ISC",
   "author": {
@@ -20,17 +20,32 @@
     "test:watch": "./../../node_modules/.bin/jest --watchAll"
   },
   "jest": {
-    "collectCoverageFrom": ["src/**/*.js", "!src/**/index.js"],
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/**/index.js"
+    ],
     "coverageDirectory": "<rootDir>/../../coverage/blockchain-info-components",
-    "coverageReporters": ["json", "html"],
+    "coverageReporters": [
+      "json",
+      "html"
+    ],
     "moduleNameMapper": {
       "\\.(pdf|jpg|jpeg|png|gif|eot|otf|svg|ttf|woff|woff2)$": "<rootDir>/src/__mocks__/fileMock.js",
       "\\.(css|scss)$": "<rootDir>/../../node_modules/identity-obj-proxy"
     },
-    "modulePathIgnorePatterns": ["./lib"],
-    "setupFiles": ["<rootDir>/../../config/jest/jest.shim.js", "<rootDir>/../../config/jest/jest.config.js"],
-    "snapshotSerializers": ["<rootDir>/../../node_modules/enzyme-to-json/serializer"],
-    "testPathIgnorePatterns": ["./lib"],
+    "modulePathIgnorePatterns": [
+      "./lib"
+    ],
+    "setupFiles": [
+      "<rootDir>/../../config/jest/jest.shim.js",
+      "<rootDir>/../../config/jest/jest.config.js"
+    ],
+    "snapshotSerializers": [
+      "<rootDir>/../../node_modules/enzyme-to-json/serializer"
+    ],
+    "testPathIgnorePatterns": [
+      "./lib"
+    ],
     "transform": {
       "^.+\\.jsx$": "<rootDir>/../../node_modules/babel-jest",
       "^.+\\.js$": "<rootDir>/../../node_modules/babel-jest"
