@@ -67,7 +67,7 @@ const mapStateToProps = (state) => ({
     address1: formValueSelector('sfoxAddress')(state, 'address1'),
     address2: formValueSelector('sfoxAddress')(state, 'address2'),
     city: formValueSelector('sfoxAddress')(state, 'city'),
-    state: formValueSelector('sfoxAddress')(state, 'state'),
+    state: formValueSelector('sfoxAddress')(state, 'state').code,
     zipcode: formValueSelector('sfoxAddress')(state, 'zipcode')
   },
   verificationError: path(['sfoxSignup', 'verifyError'], state)
