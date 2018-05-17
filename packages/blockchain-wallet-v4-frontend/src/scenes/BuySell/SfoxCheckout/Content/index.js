@@ -44,7 +44,7 @@ class SfoxCheckout extends React.PureComponent {
         payment={payment}
         clearTradeError={() => sfoxNotAsked()}
       />,
-      Failure: (error) => <div>Failure: {error.message || error}</div>,
+      Failure: (error) => <div>Failure: {error && error.message}</div>,
       Loading: () => <Loading />,
       NotAsked: () => <div>Not Asked</div>
     })
