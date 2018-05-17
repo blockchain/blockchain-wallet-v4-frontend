@@ -81,7 +81,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const fetchAccounts = function * () {
+  const fetchSfoxAccounts = function * () {
     try {
       yield put(A.sfoxFetchAccountsLoading())
       const methods = yield apply(sfox, sfox.getBuyMethods)
@@ -118,10 +118,12 @@ export default ({ api, options }) => {
   const setBankManually = function * (data) {
     const { routing, account, name, type } = data
     try {
+      yield put(A.setBankManuallyLoading())
       const sfox = yield call(getSfox)
       const methods = yield apply(sfox, sfox.getBuyMethods)
       const addedBankAccount = yield apply(methods.ach, methods.ach.addAccount, [routing, account, name, type])
       yield put(A.setBankManuallySuccess(addedBankAccount))
+      yield call(fetchSfoxAccounts)
       return addedBankAccount
     } catch (e) {
       yield put(A.setBankAccountFailure(e))
@@ -207,7 +209,7 @@ export default ({ api, options }) => {
 
          may need to call payment methods after this resolves
       */
-      yield call(fetchAccounts)
+      yield call(fetchSfoxAccounts)
       return response
     } catch (e) {
       console.warn(e)
@@ -254,7 +256,7 @@ export default ({ api, options }) => {
 
   return {
     init,
-    fetchAccounts,
+    fetchSfoxAccounts,
     fetchProfile,
     fetchTrades,
     fetchQuote,
