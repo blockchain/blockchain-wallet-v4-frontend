@@ -53,7 +53,7 @@ const Success = (props) => {
           {isArchived && <Banner label type='informational'><FormattedMessage id='scenes.settings.bch.addresses.archived_label' defaultMessage='Archived' /></Banner>}
         </WalletTableCell>
         <TableCell width='30%'>
-          <SwitchableDisplay size='13px' coin='BCH'>{wallet.value.balance}</SwitchableDisplay>
+          {!isArchived && <SwitchableDisplay size='13px' coin='BCH'>{wallet.value.balance}</SwitchableDisplay>}
         </TableCell>
         <TableCell width='20%' style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <ComponentDropdown

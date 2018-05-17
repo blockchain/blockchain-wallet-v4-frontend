@@ -2,6 +2,7 @@ import { call, put, select } from 'redux-saga/effects'
 import { compose, concat, gt, isNil, length, map, path, prop, range } from 'ramda'
 import { set } from 'ramda-lens'
 import * as A from './actions'
+import * as refreshActions from '../../refresh/actions'
 import { KVStoreEntry } from '../../../types'
 import { getMetadataXpriv } from '../root/selectors'
 import { getHDAccounts } from '../../wallet/selectors'
@@ -47,7 +48,12 @@ export default ({ api }) => {
     }
   }
 
+  const setBchAccountArchived = function * () {
+    yield put(refreshActions.refresh())
+  }
+
   return {
-    fetchMetadataBch
+    fetchMetadataBch,
+    setBchAccountArchived
   }
 }
