@@ -118,6 +118,7 @@ export default ({ api, coreSagas }) => {
       const newTarget = yield call(selectOtherAccount, targetCoin)
       yield put(actions.form.change2('exchange', 'target', newTarget))
     }
+    yield call(changeAmount)
   }
 
   const changeTarget = function * () {
@@ -130,6 +131,7 @@ export default ({ api, coreSagas }) => {
       const newSource = yield call(selectOtherAccount, sourceCoin)
       yield put(actions.form.change2('exchange', 'source', newSource))
     }
+    yield call(changeAmount)
   }
 
   const changeAmount = function * (type) {
@@ -217,6 +219,18 @@ export default ({ api, coreSagas }) => {
     } catch (e) {
       yield put(A.secondStepFailure('An error has occurred.'))
       yield put(actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', e))
+    }
+  }
+
+  const usStateRegistered = function * () {
+    try {
+      const form = yield select(selectors.form.getFormValues('exchange'))
+      // Add user state to kvStore metadata
+      yield put(actions.core.kvStore.shapeShift.addStateMetadataShapeshift(prop('state', form)))
+      // Go to step 1 of exchange process
+      yield put(A.firstStepEnabled())
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'usStateRegistered', e))
     }
   }
 
@@ -313,6 +327,7 @@ export default ({ api, coreSagas }) => {
     thirdStepInitialized,
     secondStepSubmitClicked,
     destroyed,
-    change
+    change,
+    usStateRegistered
   }
 }

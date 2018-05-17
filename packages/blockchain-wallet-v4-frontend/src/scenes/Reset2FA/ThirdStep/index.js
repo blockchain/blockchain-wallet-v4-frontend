@@ -18,6 +18,7 @@ class ThirdStepContainer extends React.PureComponent {
     const { sessionToken } = captcha.getOrElse({})
 
     this.props.authActions.reset2fa(guid, email, newEmail, secretPhrase, message, code, sessionToken)
+    this.props.nextStep()
   }
 
   render () {

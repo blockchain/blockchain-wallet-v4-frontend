@@ -39,7 +39,6 @@ class BuySellContainer extends React.PureComponent {
   }
 
   componentDidMount () {
-    this.props.kvStoreBuySellActions.fetchMetadataBuySell()
     this.props.formActions.initialize('buySellTabStatus', { status: 'buy' })
   }
 
@@ -94,7 +93,6 @@ const mapStateToProps = state => getData(state)
 
 const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch),
-  kvStoreBuySellActions: bindActionCreators(actions.core.kvStore.buySell, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 

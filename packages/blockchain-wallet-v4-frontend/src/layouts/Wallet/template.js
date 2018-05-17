@@ -10,6 +10,11 @@ import MenuTop from './MenuTop'
 import TrayRight from './TrayRight'
 import Page from './Page'
 
+import BtcMenu from '../../scenes/Transactions/Bitcoin/Menu'
+import BchMenu from '../../scenes/Transactions/Bch/Menu'
+import EthMenu from '../../scenes/Transactions/Ether/Menu'
+import AddrMenu from '../../scenes/Settings/Addresses/Menu'
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -64,7 +69,7 @@ const Top = styled.div`
 `
 
 const WalletLayout = props => {
-  const { location, menuLeftToggled, trayRightOpen, handleTrayRightToggle, handleToggleMenuLeft, handleCloseMenuLeft, children, trayRightContent } = props
+  const { location, partner, menuLeftToggled, trayRightOpen, handleTrayRightToggle, handleToggleMenuLeft, handleCloseMenuLeft, children, trayRightContent } = props
 
   return (
     <Wrapper>
@@ -75,13 +80,17 @@ const WalletLayout = props => {
       </Nav>
       <Container>
         <Left toggled={menuLeftToggled}>
-          <MenuLeft location={location} handleToggleMenuLeft={handleToggleMenuLeft} handleCloseMenuLeft={handleCloseMenuLeft} />
+          <MenuLeft location={location} handleToggleMenuLeft={handleToggleMenuLeft} handleCloseMenuLeft={handleCloseMenuLeft} partner={partner} />
         </Left>
         <TrayRight isOpen={trayRightOpen} class='tray' handleTrayRightToggle={handleTrayRightToggle} trayRightContent={trayRightContent} />
         <Content>
           <Top>
             <MenuTop />
           </Top>
+          { location.pathname === '/btc/transactions' && <BtcMenu /> }
+          { location.pathname === '/bch/transactions' && <BchMenu /> }
+          { location.pathname === '/eth/transactions' && <EthMenu /> }
+          { location.pathname === '/settings/addresses' && <AddrMenu /> }
           <Page>
             {children}
           </Page>
