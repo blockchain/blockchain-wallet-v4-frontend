@@ -54,7 +54,7 @@ const Success = props => {
     clearTradeError,
     ...rest } = props
 
-  const accounts = Remote.of(props.value.accounts).getOrElse([{}])
+  const accounts = Remote.of(props.value.accounts).getOrElse([])
   const profile = Remote.of(props.value.profile).getOrElse({ account: { verification_status: {} }, limits: { buy: 0, sell: 0 } })
   const verificationStatus = Remote.of(props.value.verificationStatus).getOrElse({ level: 'unverified', required_docs: [] })
   const payment = Remote.of(props.payment).getOrElse({ effectiveBalance: 0 })
