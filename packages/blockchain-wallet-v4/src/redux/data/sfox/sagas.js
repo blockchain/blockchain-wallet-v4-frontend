@@ -207,8 +207,11 @@ export default ({ api, options }) => {
 
          may need to call payment methods after this resolves
       */
+      yield call(fetchAccounts)
+      return response
     } catch (e) {
       console.warn(e)
+      return e
     }
   }
 

@@ -84,8 +84,10 @@ export default ({ coreSagas }) => {
 
   const submitMicroDeposits = function * (payload) {
     try {
-      yield call(coreSagas.data.sfox.verifyMicroDeposits, payload)
-      yield put(actions.alerts.displaySuccess('Bank Verified!'))
+      const result = yield call(coreSagas.data.sfox.verifyMicroDeposits, payload)
+      if (result.status === 'active') {
+        yield put(modalActions.closeAllModals())
+      }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'submitMicroDeposits', e))
     }
