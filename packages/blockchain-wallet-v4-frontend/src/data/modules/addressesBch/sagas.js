@@ -12,25 +12,13 @@ export default ({ coreSagas }) => {
       yield put(actions.core.kvStore.bch.setAccountLabel(index, newLabel))
       yield put(actions.alerts.displaySuccess('BCH wallet name updated.'))
     } catch (e) {
+      if (e.message === 'PROMPT_INPUT_CANCEL') return
       yield put(actions.logs.logErrorMessage(logLocation, 'editBchAccountLabel', e))
       yield put(actions.alerts.displayError('Failed to update Bitcoin Cash account label.'))
     }
   }
 
-  const editBchHdLabel = function * (action) {
-    try {
-      let { accountIdx, addressIdx } = action.payload
-      let newLabel = yield call(promptForInput, { title: 'Rename Address Label' })
-      yield put(actions.core.kvStore.bch.setHdAddressLabel(accountIdx, addressIdx, newLabel))
-      yield put(actions.alerts.displaySuccess('Address label updated.'))
-    } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'editBchHdLabel', e))
-      yield put(actions.alerts.displayError('Failed to update Bitcoin Cash account label.'))
-    }
-  }
-
   return {
-    editBchHdLabel,
     editBchAccountLabel
   }
 }
