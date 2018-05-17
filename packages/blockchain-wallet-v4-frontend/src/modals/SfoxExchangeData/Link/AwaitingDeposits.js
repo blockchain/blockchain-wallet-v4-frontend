@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Image, Text, Button } from 'blockchain-info-components'
-// import { spacing } from 'services/StyleService'
+import PropTypes from 'prop-types'
 
 const Container = styled.div`
   height: 100%;
@@ -46,6 +46,10 @@ const AwaitingDeposits = ({ showModal }) => {
       </RightCol>
     </Container>
   )
+}
+
+AwaitingDeposits.propTypes = {
+  showModal: PropTypes.func.isRequired
 }
 
 export default AwaitingDeposits
