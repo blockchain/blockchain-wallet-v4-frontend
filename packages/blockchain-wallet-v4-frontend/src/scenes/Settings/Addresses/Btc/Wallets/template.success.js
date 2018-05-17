@@ -33,7 +33,7 @@ const Success = ({ wallets, handleClick, onUnarchive, search }) => {
           {wallet.archived && <Banner label type='informational'><FormattedMessage id='scenes.settings.addresses.archived_label' defaultMessage='Archived' /></Banner>}
         </WalletTableCell>
         <TableCell width='40%'>
-          <SwitchableDisplay size='13px' coin='BTC'>{wallet.balance}</SwitchableDisplay>
+          {!wallet.archived && <SwitchableDisplay size='13px' coin='BTC'>{wallet.balance}</SwitchableDisplay>}
         </TableCell>
         <TableCell width='20%' style={{ display: 'flex', justifyContent: 'flex-end' }}>
           {wallet.archived ? (
