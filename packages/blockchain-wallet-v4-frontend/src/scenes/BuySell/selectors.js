@@ -1,4 +1,4 @@
-import { lift } from 'ramda'
+import { lift, prop } from 'ramda'
 import { formValueSelector } from 'redux-form'
 
 import { selectors } from 'data'
@@ -13,7 +13,7 @@ export const getData = (state) => {
     data: transform(buySellR, optionsR),
     type: state.form.buySellTabStatus && state.form.buySellTabStatus.values.status,
     country: formValueSelector('selectPartner')(state, 'country'),
-    stateSelection: formValueSelector('selectPartner')(state, 'state').code,
+    stateSelection: prop('code', formValueSelector('selectPartner')(state, 'state')),
     email: formValueSelector('selectPartner')(state, 'email')
   }
 }
