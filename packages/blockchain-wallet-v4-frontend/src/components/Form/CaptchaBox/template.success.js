@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Icon, Text, TextGroup, TextInput, Link } from 'blockchain-info-components'
+import { Icon, Text, TextInput, Link } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   position: relative;
