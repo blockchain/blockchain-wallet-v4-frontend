@@ -269,7 +269,7 @@
   "modals.recoveryphrase.firststep.explain5": "Print the blank Recovery Sheet and then move onto the next step to fill it in.",
   "modals.recoveryphrase.firststep.print": "Print Backup Sheet",
   "modals.recoveryphrase.firststep.cancel": "Cancel",
-  "modals.recoveryphrase.firststep.logout": "Get Phrase",
+  "modals.recoveryphrase.firststep.backup": "Backup Funds",
   "modals.recoveryphrase.secondstep.title": "Backup recovery phrase",
   "modals.recoveryphrase.secondstep.tip": "Write it down",
   "modals.recoveryphrase.secondstep.explain": "Use a pen to legibly write down the following 12 words onto your printed Recovery Sheet.",
