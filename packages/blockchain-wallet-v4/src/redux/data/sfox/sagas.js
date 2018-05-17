@@ -153,7 +153,7 @@ export default ({ api, options }) => {
         address1,
         address2,
         city,
-        state,
+        state.code,
         zipcode
       )
       yield apply(sfox.profile, sfox.profile.verify)
