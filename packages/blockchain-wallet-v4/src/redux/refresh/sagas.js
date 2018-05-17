@@ -7,7 +7,7 @@ export default () => {
   const refresh = function * () {
     yield put(btcActions.fetchTransactions('', true))
     yield put(bchActions.fetchTransactions('', true))
-    yield put(ethActions.fetchTransactions())
+    yield put(ethActions.fetchTransactions(true))
     yield put(btcActions.fetchRates())
     yield put(bchActions.fetchRates())
     yield put(ethActions.fetchRates())
