@@ -41,6 +41,7 @@ const Info = styled.div`
   box-sizing: border-box;
 
   & > * {
+    cursor: ${props => props.cursor ? 'pointer' : ''};
     padding: 0 5px;
     width: 50%;
   }
@@ -80,17 +81,18 @@ const RecentActivityText = styled(Text)`
 `
 
 const ActivityListItem = (props) => {
-  const { action, time, type, amount, coin } = props
+  const { action, time, type, amount, path, coin, handleLink } = props
   const timeFormatted = moment(time).format('ll')
   const iconName = selectIcon(type)
   const visibility = coin ? 'visible' : 'hidden'
+  console.log(props)
 
   return (
     <Container>
       <Circle>
         <Icon name={iconName} color='brand-primary' />
       </Circle>
-      <Info>
+      <Info cursor={coin} onClick={() => path && handleLink(path)}>
         <RecentActivityText capitalize color={selectColor(action)}>{action} {coin}</RecentActivityText>
         <RecentActivityText>{timeFormatted}</RecentActivityText>
         <RecentActivityText style={{visibility: visibility}} ><SwitchableDisplay mobileSize='12px' size='14px' visibility={'hidden'} coin={coin}>{amount}</SwitchableDisplay></RecentActivityText>
