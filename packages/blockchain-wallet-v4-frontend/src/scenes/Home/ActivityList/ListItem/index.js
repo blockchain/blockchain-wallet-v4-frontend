@@ -64,8 +64,9 @@ const selectIcon = type => {
 
 const selectColor = action => {
   switch (action) {
-    case 'received': return 'received'
     case 'sent': return 'sent'
+    case 'received': return 'received'
+    case 'transferred': return 'transferred'
     default: return 'gray-5'
   }
 }
