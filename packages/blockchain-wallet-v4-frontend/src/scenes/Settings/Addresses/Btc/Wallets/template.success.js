@@ -27,12 +27,12 @@ const Success = ({ wallets, handleClick, onUnarchive, search }) => {
   const walletTableRows = filter(isMatch, wallets).map((wallet) => {
     return (
       <TableRow key={wallet.index}>
-        <WalletTableCell width='40%' style={{ display: 'flex' }}>
+        <WalletTableCell width='50%' style={{ display: 'flex' }}>
           <LabelCell size='13px'>{wallet.label}</LabelCell>
           {wallet.default && <Banner label><FormattedMessage id='scenes.settings.addresses.default_label' defaultMessage='Default' /></Banner>}
           {wallet.archived && <Banner label type='informational'><FormattedMessage id='scenes.settings.addresses.archived_label' defaultMessage='Archived' /></Banner>}
         </WalletTableCell>
-        <TableCell width='40%'>
+        <TableCell width='30%'>
           {!wallet.archived && <SwitchableDisplay size='13px' coin='BTC'>{wallet.balance}</SwitchableDisplay>}
         </TableCell>
         <TableCell width='20%' style={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -62,12 +62,12 @@ const Success = ({ wallets, handleClick, onUnarchive, search }) => {
       </SettingDescription>
       <Table>
         <TableHeader>
-          <TableCell width='40%'>
+          <TableCell width='50%'>
             <Text size='13px' weight={500}>
               <FormattedMessage id='scenes.settings.addresses.wallet_name' defaultMessage='Wallet Name' />
             </Text>
           </TableCell>
-          <TableCell width='40%'>
+          <TableCell width='30%'>
             <Text size='13px' weight={500}>
               <FormattedMessage id='scenes.settings.addresses.wallet_description' defaultMessage='Balance' />
             </Text>
