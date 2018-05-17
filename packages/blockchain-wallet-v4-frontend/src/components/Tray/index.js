@@ -69,4 +69,4 @@ class Tray extends React.PureComponent {
   }
 }
 
-export default onClickOutside(Tray)
+export default Tray
