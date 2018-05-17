@@ -5,6 +5,7 @@ import { Modal, ModalHeader, ModalBody, Text, Button } from 'blockchain-info-com
 import { Field, reduxForm } from 'redux-form'
 import { Form, FormGroup, FormItem, NumberBox } from 'components/Form'
 import { required } from 'services/FormHelper'
+import PropTypes from 'prop-types'
 
 const ButtonRow = styled.div`
   display: flex;
@@ -53,6 +54,10 @@ const MicroDeposits = (props) => {
       </ModalBody>
     </Modal>
   )
+}
+
+MicroDeposits.propTypes = {
+  handleSubmit: PropTypes.func.isRequired
 }
 
 export default reduxForm({ form: 'sfoxMicroDeposits' })(MicroDeposits)

@@ -6,6 +6,7 @@ import { TextBox, SelectBoxBankAccountType, Form } from 'components/Form'
 import { required } from 'services/FormHelper'
 import { Image, Text } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
+import PropTypes from 'prop-types'
 
 const Container = styled.div`
   display: flex;
@@ -58,6 +59,13 @@ class AddManually extends Component {
       </Form>
     )
   }
+}
+
+AddManually.propTypes = {
+  handleFullName: PropTypes.func.isRequired,
+  handleAccountNumber: PropTypes.func.isRequired,
+  handleRoutingNumber: PropTypes.func.isRequired,
+  handleAccountType: PropTypes.func.isRequired
 }
 
 export default reduxForm({ form: 'sfoxLink' })(AddManually)
