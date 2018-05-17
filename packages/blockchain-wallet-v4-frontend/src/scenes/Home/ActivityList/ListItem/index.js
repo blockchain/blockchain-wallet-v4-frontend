@@ -85,7 +85,6 @@ const ActivityListItem = (props) => {
   const timeFormatted = moment(time).format('ll')
   const iconName = selectIcon(type)
   const visibility = coin ? 'visible' : 'hidden'
-  console.log(props)
 
   return (
     <Container>
