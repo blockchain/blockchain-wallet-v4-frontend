@@ -13,7 +13,8 @@ class SfoxEnterMicroDeposits extends React.PureComponent {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
   handleSubmit (e) {
-    // call frontend saga for verifying deposits
+    const deposits = { amount1: parseFloat(this.props.deposit1), amount2: parseFloat(this.props.deposit2) }
+    this.props.sfoxActions.submitMicroDeposits(deposits)
   }
 
   render () {
