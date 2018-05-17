@@ -70,6 +70,7 @@
     "es6-promise": "4.1.0",
     "fast-memoize": "2.2.8",
     "libphonenumber-js": "0.4.40",
+    "lodash.debounce": "4.0.8",
     "moment": "2.19.2",
     "prop-types": "15.6.1",
     "qrcode.react": "0.7.2",
