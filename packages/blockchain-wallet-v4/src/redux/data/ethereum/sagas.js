@@ -1,8 +1,9 @@
-import { call, put, select } from 'redux-saga/effects'
+import { call, put, select, take } from 'redux-saga/effects'
 import { dissoc, isNil, length, mapObjIndexed, path, sum, values } from 'ramda'
 import { convertFeeToWei } from '../../../utils/ethereum'
 import * as A from './actions'
 import * as S from './selectors'
+import * as AT from './actionTypes'
 import * as selectors from '../../selectors'
 
 export default ({ api }) => {
@@ -68,6 +69,13 @@ export default ({ api }) => {
     }
   }
 
+  const watchTransactions = function * () {
+    while (true) {
+      const action = yield take(AT.FETCH_ETHEREUM_TRANSACTIONS)
+      yield call(fetchTransactions, action)
+    }
+  }
+
   const fetchTransactions = function * () {
     try {
       const defaultAccountR = yield select(selectors.kvStore.ethereum.getContext)
@@ -85,10 +93,11 @@ export default ({ api }) => {
   }
 
   return {
-    fetchData,
     fetchFee,
-    fetchLatestBlock,
+    fetchData,
     fetchRates,
-    fetchTransactions
+    fetchLatestBlock,
+    fetchTransactions,
+    watchTransactions
   }
 }
