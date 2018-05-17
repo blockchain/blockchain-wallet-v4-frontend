@@ -41,17 +41,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
   }).then(() => data.checksum)
 
   const fetchBlockchainData = (context, { n = 50, offset = 0, onlyShow } = {}) => {
-    const data = onlyShow ? {
-      active: (Array.isArray(context) ? context : [context]).join('|'),
-      onlyShow: onlyShow,
-      format: 'json',
-      offset: offset,
-      no_compact: true,
-      ct: new Date().getTime(),
-      n: n,
-      language: 'en',
-      no_buttons: true
-    } : {
+    const data = {
       active: (Array.isArray(context) ? context : [context]).join('|'),
       format: 'json',
       offset: offset,
@@ -64,7 +54,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     return post({
       url: rootUrl,
       endPoint: '/multiaddr',
-      data
+      data: onlyShow ? merge(data, { onlyShow }) : data
     })
   }
 

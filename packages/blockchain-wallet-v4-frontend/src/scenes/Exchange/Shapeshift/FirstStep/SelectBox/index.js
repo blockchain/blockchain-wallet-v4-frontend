@@ -15,6 +15,8 @@ const DisplayWrapper = styled.div`
   padding: 5px;
   box-sizing: border-box;
   cursor: pointer;
+  text-overflow: ellipsis;
+
   & > * { margin-left: 5px; }
 `
 const HeaderWrapper = styled.div`
@@ -27,6 +29,8 @@ const HeaderWrapper = styled.div`
   padding: 5px;
   box-sizing: border-box;
   cursor: not-allowed;
+  text-overflow: ellipsis;
+
   & > * { margin-left: 5px; }
   & > :first-child { margin-right: 5px; }
 `
@@ -40,6 +44,8 @@ const ItemWrapper = styled.div`
   padding: 5px;
   box-sizing: border-box;
   cursor: pointer;
+  text-overflow: ellipsis;
+
   & > * { margin-left: 5px; }
   &:hover {
     color: ${props => props.theme['gray-4']};

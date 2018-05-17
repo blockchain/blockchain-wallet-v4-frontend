@@ -8,7 +8,7 @@ export const getData = (state) => {
   const trades = selectors.core.kvStore.shapeShift.getTrades(state)
   const completedTrades = lift(getTradesWithStatus(['complete', 'resolved']))(trades)
   const errorTrades = lift(getTradesWithStatus(['error', 'failed']))(trades)
-  const incompleteTrades = lift(getTradesWithStatus(['no_deposits']))(trades)
+  const incompleteTrades = lift(getTradesWithStatus(['no_deposits', 'received']))(trades)
 
   const transform = (c, i, e) => {
     const incomplete = concat(i, e)

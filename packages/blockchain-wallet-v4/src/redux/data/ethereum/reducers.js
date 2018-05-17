@@ -1,4 +1,4 @@
-import {assoc, merge, prop} from 'ramda'
+import { assoc, merge, lensProp, over, append, compose, dropLast, prop } from 'ramda'
 import * as AT from './actionTypes'
 import Remote from '../../../remote'
 
@@ -8,7 +8,7 @@ const INITIAL_STATE = {
   info: Remote.NotAsked,
   latest_block: Remote.NotAsked,
   rates: Remote.NotAsked,
-  transactions: Remote.NotAsked
+  transactions: []
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -19,8 +19,7 @@ export default (state = INITIAL_STATE, action) => {
       const newState = {
         addresses: Remote.Loading,
         info: Remote.Loading,
-        latest_block: Remote.Loading,
-        transactions: Remote.Loading
+        latest_block: Remote.Loading
       }
       return merge(state, newState)
     }
@@ -28,8 +27,7 @@ export default (state = INITIAL_STATE, action) => {
       const newState = {
         addresses: Remote.Success(prop('addresses', payload)),
         info: Remote.Success(prop('info', payload)),
-        latest_block: Remote.Success(prop('latest_block', payload)),
-        transactions: Remote.Success(prop('transactions', payload))
+        latest_block: Remote.Success(prop('latest_block', payload))
       }
       return merge(state, newState)
     }
@@ -37,8 +35,7 @@ export default (state = INITIAL_STATE, action) => {
       const newState = {
         addresses: Remote.Failure(prop('addresses', payload)),
         info: Remote.Failure(prop('info', payload)),
-        latest_block: Remote.Failure(prop('latest_block', payload)),
-        transactions: Remote.Failure(prop('transactions', payload))
+        latest_block: Remote.Failure(prop('latest_block', payload))
       }
       return merge(state, newState)
     }
@@ -70,14 +67,40 @@ export default (state = INITIAL_STATE, action) => {
       return assoc('rates', Remote.Failure(payload), state)
     }
     case AT.FETCH_ETHEREUM_TRANSACTIONS_LOADING: {
-      return assoc('transactions', Remote.Loading, state)
+      return over(lensProp('transactions'), append(Remote.Loading), state)
     }
-    case AT.FETCH_ETHEREUM_TRANSACTION_SUCCESS: {
-      return assoc('transactions', Remote.Success(payload), state)
+    case AT.FETCH_ETHEREUM_TRANSACTIONS_SUCCESS: {
+      return over(lensProp('transactions'), compose(append(Remote.Success(payload)), dropLast(1)), state)
     }
-    case AT.FETCH_ETHEREUM_TRANSACTION_FAILURE: {
-      return assoc('transactions', Remote.Failure(payload), state)
+    case AT.FETCH_ETHEREUM_TRANSACTIONS_FAILURE: {
+      return over(lensProp('transactions'), compose(append(Remote.Failure(payload)), dropLast(1)), state)
     }
+    // case AT.FETCH_ETHEREUM_TRANSACTIONS: {
+    //   const { address } = payload
+    //   const path = ['transactions', address]
+    //   const lens = lensPath(path)
+    //   const data = view(lens, state)
+    //   return isNil(data) ? assocPath(path, [], state) : state
+    // }
+    // case AT.FETCH_ETHEREUM_TRANSACTIONS_LOADING: {
+    //   const { address } = payload
+    //   const lens = lensPath(['transactions', address])
+    //   return over(lens, append(Remote.Loading), state)
+    // }
+    // case AT.FETCH_ETHEREUM_TRANSACTIONS_SUCCESS: {
+    //   const { address, transactions } = payload
+    //   const lens = lensPath(['transactions', address])
+    //   const data = map(x => Remote.Success(x), transactions)
+    //   const newState = over(lens, compose(concat(data), dropLast(1)), state)
+    //   console.log('newState', newState)
+    //   return newState
+    // }
+    // case AT.FETCH_ETHEREUM_TRANSACTIONS_FAILURE: {
+    //   const { address, error } = payload
+    //   const lens = lensPath(['transactions', address])
+    //   return over(lens, compose(concat(Remote.Failure(error)), dropLast(1)), state)
+    // }
+
     default:
       return state
   }

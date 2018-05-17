@@ -40,7 +40,7 @@ const GoBackLink = styled(LinkContainer)`
 `
 
 const FirstStep = (props) => {
-  const { nextStep, submitting, invalid } = props
+  const { submitting, invalid, handleSubmit } = props
 
   return (
     <Wrapper>
@@ -56,7 +56,7 @@ const FirstStep = (props) => {
         <FormattedMessage id='scenes.recover.firststep.explain' defaultMessage='Recover funds from your lost wallet' />
       </Text>
       <Separator />
-      <Form onSubmit={nextStep}>
+      <Form onSubmit={handleSubmit}>
         <TextGroup>
           <Text size='13px' weight={300} color='error'>
             <FormattedMessage id='scenes.recover.firststep.warning' defaultMessage='You should always pair or login if you have access to your Wallet ID and password. Recovering your funds will create a new Wallet ID.' />

@@ -25,8 +25,8 @@ export const getData = createSelector(
 
     return {
       pages: filteredPages,
-      search: search.length > 0,
-      empty: all(empty)(filteredPages)
+      empty: all(empty)(filteredPages),
+      search: search.length > 0 || status !== ''
     }
   }
 )

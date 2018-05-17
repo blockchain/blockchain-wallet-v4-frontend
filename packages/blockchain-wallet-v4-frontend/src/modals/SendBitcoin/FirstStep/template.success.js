@@ -7,7 +7,7 @@ import { Field, reduxForm } from 'redux-form'
 import { required, validBitcoinAddress, validBitcoinPrivateKey } from 'services/FormHelper'
 import { Button, Icon, Link, Text, Tooltip } from 'blockchain-info-components'
 import { FiatConvertor, Form, FormGroup, FormItem, FormLabel, NumberBox, SelectBoxBitcoinAddresses, SelectBoxCoin, SelectBox, TextBox, TextArea } from 'components/Form'
-import { shouldValidate, isAddressDerivedFromPriv, emptyAccount, minimumAmount, maximumAmount, minimumFeePerByte, maximumFeePerByte } from './validation'
+import { shouldValidate, isAddressDerivedFromPriv, insufficientFunds, minimumAmount, maximumAmount, minimumFeePerByte, maximumFeePerByte, invalidAmount } from './validation'
 import QRCodeCapture from 'components/QRCodeCapture'
 import RegularFeeLink from './RegularFeeLink'
 import PriorityFeeLink from './PriorityFeeLink'
@@ -71,7 +71,6 @@ const FeeOptionsContainer = styled.div`
   align-items: center;
 `
 const FeePerByteContainer = styled.div`
-  margin-top: 10px;
   width: 100%;
 `
 
@@ -121,7 +120,7 @@ const FirstStep = props => {
           <FormLabel for='amount'>
             <FormattedMessage id='modals.sendbtc.firststep.amount' defaultMessage='Enter Amount:' />
           </FormLabel>
-          <Field name='amount' component={FiatConvertor} validate={[required, emptyAccount, minimumAmount, maximumAmount]} coin='BTC' />
+          <Field name='amount' component={FiatConvertor} validate={[required, invalidAmount, insufficientFunds, minimumAmount, maximumAmount]} coin='BTC' />
         </FormItem>
       </FormGroup>
       <FormGroup margin={'15px'}>
@@ -135,7 +134,7 @@ const FirstStep = props => {
           <Field name='description' component={TextArea} placeholder="What's this transaction for?" fullwidth />
         </FormItem>
       </FormGroup>
-      <FormGroup inline margin={'15px'}>
+      <FormGroup inline margin={'10px'}>
         <ColLeft>
           <FeeFormContainer toggled={feePerByteToggled}>
             <FeeFormLabel>
@@ -165,7 +164,7 @@ const FirstStep = props => {
           </Link>
         </ColRight>
       </FormGroup>
-      <FormGroup>
+      <FormGroup margin={'15px'}>
         <Text size='13px' weight={300}>
           {!isPriorityFeePerByte && <FormattedMessage id='modals.sendbtc.firststep.estimated' defaultMessage='Estimated confirmation time 1+ hour' />}
           {isPriorityFeePerByte && <FormattedMessage id='modals.sendbtc.firststep.estimated2' defaultMessage='Estimated confirmation time 0-60 minutes' />}
