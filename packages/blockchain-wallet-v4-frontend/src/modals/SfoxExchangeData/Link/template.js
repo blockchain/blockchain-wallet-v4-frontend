@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
-import { Button, HeartbeatLoader } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Link } from 'blockchain-info-components'
 import BankAccounts from './BankAccounts'
 import AddManually from './AddManually'
 import MicroDeposits from './MicroDeposits'
@@ -54,6 +54,13 @@ const OrText = styled.p`
     left: 100%;
     margin-left: 15px;
   }
+`
+const GoBackLink = styled(Link)`
+  font-weight: 300;
+  font-size: 13px;
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
 `
 
 const selectBankFaqs = [
@@ -179,13 +186,22 @@ const BankLink = (props) => {
       )
     }
     return (
-      <Button type='submit' nature='primary' uppercase fullwidth disabled={ui.busy || invalid || pristine} >
+      <Fragment>
+        <Button type='submit' nature='primary' uppercase fullwidth disabled={ui.busy || invalid || pristine} >
+          {
+            ui.busy
+              ? <HeartbeatLoader height='20px' width='20px' color='white' />
+              : <FormattedMessage id='sfoxexchangedata.link.continue' defaultMessage='continue' />
+          }
+        </Button>
         {
-          ui.busy
-            ? <HeartbeatLoader height='20px' width='20px' color='white' />
-            : <FormattedMessage id='sfoxexchangedata.link.continue' defaultMessage='continue' />
+          ui.toggleManual
+            ? <GoBackLink onClick={toggleManual}>
+              <FormattedMessage id='go_back' defaultMessage='Go Back' />
+            </GoBackLink>
+            : null
         }
-      </Button>
+      </Fragment>
     )
   }
 

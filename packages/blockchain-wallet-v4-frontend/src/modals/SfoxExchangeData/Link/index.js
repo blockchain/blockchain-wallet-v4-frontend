@@ -80,7 +80,7 @@ class LinkContainer extends Component {
       bankAccounts={bankAccounts}
       accounts={accounts}
       onSetBankAccount={this.onSetBankAccount}
-      toggleManual={() => this.props.updateUI({ toggleManual: true })}
+      toggleManual={() => this.props.updateUI({ toggleManual: !ui.toggleManual })}
       ui={ui}
       handleBankSelection={(id) => this.setState({ id })}
       onNameChange={(name) => this.setState({ holderName: name })}
