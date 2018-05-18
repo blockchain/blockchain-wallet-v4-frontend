@@ -5,6 +5,7 @@ export const fetchQuoteLoading = () => ({ type: AT.SFOX_FETCH_QUOTE_LOADING })
 export const fetchQuoteSuccess = (data) => ({ type: AT.SFOX_FETCH_QUOTE_SUCCESS, payload: data })
 export const fetchQuoteFailure = (error) => ({ type: AT.SFOX_FETCH_QUOTE_FAILURE, payload: error })
 export const refreshQuote = () => ({ type: AT.REFRESH_QUOTE })
+export const refreshSellQuote = () => ({ type: AT.REFRESH_SELL_QUOTE })
 
 export const fetchSellQuote = (data) => ({ type: AT.SFOX_FETCH_SELL_QUOTE, payload: data })
 export const fetchSellQuoteLoading = () => ({ type: AT.SFOX_FETCH_SELL_QUOTE_LOADING })
