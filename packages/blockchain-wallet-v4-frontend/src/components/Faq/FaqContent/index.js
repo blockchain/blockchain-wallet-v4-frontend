@@ -6,8 +6,6 @@ import styled from 'styled-components'
 import { Link, Color } from 'blockchain-info-components'
 
 const FaqDescription = styled.div`
-  font-size: 12px;
-
   & > * { display: inline; }
 `
 
@@ -16,7 +14,7 @@ const FaqContent = [
     groupTitleMsg: <FormattedMessage id='scenes.faq.group.walletfunctionality.title' defaultMessage='Wallet Functionality' />,
     groupQuestions: [{
       question: <FormattedMessage id='scenes.faq.group.walletfunctionality.question1' defaultMessage='How do I receive/send funds?' />,
-      answer: <FormattedMessage id='scenes.faq.group.walletfunctionality.answer1' defaultMessage='To receive funds, the sender needs your address. Your wallet will automatically generate a new address for each bitcoin or bitcoin cash transaction you make. For all ether transactions, your address will remain the same. Click on ‘Request’, select the currency you’d like to receive from the dropdown, and copy the address to share with the sender. To send funds, click ‘Send’, select the currency you want to send from the dropdown, and enter the recipient’s address in the ‘To’ field and enter how much you would like to send.' />
+      answer: <FormattedMessage id='scenes.faq.group.walletfunctionality.answer1' defaultMessage='To receive funds, the sender needs your address. Your wallet will automatically generate a new address for each bitcoin or bitcoin cash transaction you make. For all ether transactions, your address will remain the same. Click on ‘Request’, select the currency you’d like to receive from the dropdown, and copy the address to share with the sender. To send funds, click ‘Send’, select the currency you want to send from the dropdown, enter the recipient’s address in the ‘To’ field and enter how much you would like to send.' />
     }, {
       question: <FormattedMessage id='scenes.faq.group.walletfunctionality.question2' defaultMessage='How much does it cost to send funds?' />,
       answer: <FormattedMessage id='scenes.faq.group.walletfunctionality.answer2' defaultMessage='While our wallet is entirely free to use, the small fee included in your transaction goes to the miners, who help power the flow of transactions on the Bitcoin, Ethereum, and Bitcoin Cash networks. To ensure your transactions confirm consistently and reliably, your wallet will automatically include an appropriate fee based on your transaction’s size and the level of network traffic at the time. If you wish to specify your own fee for bitcoin transactions, you can do so under ‘Customize Fee’.' />
@@ -24,13 +22,13 @@ const FaqContent = [
       question: <FormattedMessage id='scenes.faq.group.walletfunctionality.question3' defaultMessage='What is the difference between a wallet ID and an address?' />,
       answer: <FormattedMessage id='scenes.faq.group.walletfunctionality.answer3' defaultMessage='You can think of your wallet ID as a username that contains numbers, letters, and dashes. It is only used to log into your wallet and should be kept private. Your wallet ID can be found in the welcome email we sent you when you created your wallet or in Settings -> General. Addresses are what you share with others when you want to receive funds. To find your bitcoin, ether, or bitcoin cash address click on ‘Request’.' />
     }, {
-      question: <FormattedMessage id='scenes.faq.group.walletfunctionality.question5' defaultMessage='Why do we generate new addresses for each Bitcoin and Bitcoin cash transaction?' />,
+      question: <FormattedMessage id='scenes.faq.group.walletfunctionality.question5' defaultMessage='Why do we generate new addresses for each bitcoin and bitcoin cash transaction?' />,
       answer: <FormattedMessage id='scenes.faq.group.walletfunctionality.answer5' defaultMessage='Although you can reuse addresses, transacting with the same address makes it easy for people to track your payments history. We alleviate this by using a HD (hierarchical deterministic) framework which provides you endless different addresses to send and receive to for additional security.' />
     }, {
       question: <FormattedMessage id='scenes.faq.group.walletfunctionality.question6' defaultMessage='Can an address still receive funds even though it’s no longer displayed under ‘Request’?' />,
       answer: <FaqDescription>
         <FormattedMessage id='scenes.faq.group.walletfunctionality.answer6.one' defaultMessage='Yes. All public addresses generated from your wallet can still receive funds, even if they no longer appear under ‘Request’. As explained ' />
-        <Link href='https://support.blockchain.com/hc/en-us/articles/210353663-Why-is-my-bitcoin-address-changing-' target='_blank' size='12px' weight={200}>
+        <Link href='https://support.blockchain.com/hc/en-us/articles/210353663-Why-is-my-bitcoin-address-changing-' target='_blank' size='13px' weight={200}>
           <FormattedMessage id='scenes.faq.group.walletfunctionality.answer6.link' defaultMessage='here' />
         </Link>
         <FormattedMessage id='scenes.faq.group.walletfunctionality.answer6.two' defaultMessage=', a new address will automatically display under ‘Request’ once the previously displayed address receives a payment.' />
@@ -48,7 +46,7 @@ const FaqContent = [
         <br />
         <br />
         <FormattedMessage id='scenes.faq.group.walletfunctionality.answer8.two' defaultMessage="To learn more about why transactions can't be canceled and how this aspect of bitcoin and other similar cryptocurrencies compares to other methods of payment like credit cards and cash, check out our blog post on " />
-        <Link href='https://blog.blockchain.com/2016/06/16/support-team-tips-bitcoin-transactions-and-chargebacks/' target='_blank' size='12px' weight={200}>
+        <Link href='https://blog.blockchain.com/2016/06/16/support-team-tips-bitcoin-transactions-and-chargebacks/' target='_blank' size='13px' weight={200}>
           <FormattedMessage id='scenes.faq.group.walletfunctionality.answer8.link' defaultMessage='Bitcoin Transactions & Chargebacks' />
         </Link>
         <FormattedMessage id='scenes.faq.group.walletfunctionality.answer8.three' defaultMessage='.' />
@@ -59,12 +57,12 @@ const FaqContent = [
         <FormattedMessage id='scenes.faq.group.walletfunctionality.answer9.one' defaultMessage="Every cryptocurrency transaction that’s sent will flow into what's called the mempool (short for memory pool) before it can be confirmed by miners. When there's a dramatic spike in transaction activity, the mempool can become congested because so many transactions are waiting to be included in the next block." />
         <br />
         <br />
-        <FormattedMessage id='scenes.faq.group.walletfunctionality.answer9.two' defaultMessage='An unconfirmed transaction will eventually either be accepted into a block by a mining pool, or be rejected by the network. If it is eventually rejected, the funds will remain on the address they were sent from. At this point, we can only recommend that you wait to see if your transaction is accepted into a block. Clicking the ⬆ icon in your transaction feed will relay to you the details of thattransaction through its respective explorer.' />
+        <FormattedMessage id='scenes.faq.group.walletfunctionality.answer9.two' defaultMessage='An unconfirmed transaction will eventually either be accepted into a block by a mining pool, or be rejected by the network. If it is eventually rejected, the funds will remain on the address they were sent from. At this point, we can only recommend that you wait to see if your transaction is accepted into a block. Clicking the ⬆ icon in your transaction feed will relay to you the details of that transaction through its respective explorer.' />
         <br />
         <br />
         <FormattedMessage id='scenes.faq.group.walletfunctionality.answer9.three' defaultMessage='Like all wallet providers, Blockchain has no control over the speed of confirmation, and unfortunately cannot expedite transactions. All we can suggest is using an appropriate transaction fee in order to incentivize a miner to include your transaction into a block. This is always dependent upon the network of miners.' />
         <FormattedMessage id='scenes.faq.group.walletfunctionality.answer9.three' defaultMessage='We do everything we can to lessen the number of pending transactions. For this reason, your Blockchain wallet utilizes dynamic bitcoin and bitcoin cash fees that are dependent upon current network conditions. To learn more about how this works read our blog ' />
-        <Link href='https://blog.blockchain.com/2016/03/16/introducing-dynamic-fees/' target='_blank' size='12px' weight={200}>
+        <Link href='https://blog.blockchain.com/2016/03/16/introducing-dynamic-fees/' target='_blank' size='13px' weight={200}>
           <FormattedMessage id='scenes.faq.group.walletfunctionality.answer9.link' defaultMessage='here' />
         </Link>
         <FormattedMessage id='scenes.faq.group.walletfunctionality.answer8.four' defaultMessage='.' />
@@ -75,14 +73,14 @@ const FaqContent = [
     }, {
       question: <FormattedMessage id='scenes.faq.group.walletfunctionality.question11' defaultMessage='How can I look up a transaction on the blockchain?' />,
       answer: <FaqDescription>
-        <FormattedMessage id='scenes.faq.group.walletfunctionality.answer11.one' defaultMessage='Block explorers provide a visually appealing and intuitive way to navigate different currencies’ blockchains. For any transactions within your wallet, you can navigate to that currency’s tab and click on the arrow icon to view your transaction.' />
+        <FormattedMessage id='scenes.faq.group.walletfunctionality.answer11.one' defaultMessage='Block explorers provide a visually appealing and intuitive way to navigate different currencies’ blockchains. For any transactions within your wallet, you can navigate to that currency’s tab and click on the ⬆ to view your transaction.' />
         <br />
         <br />
         <FormattedMessage id='scenes.faq.group.walletfunctionality.answer11.two' defaultMessage='Blockchain has our own bitcoin specific block explorer that launched in August 2011, and was created for as a way for anyone to study bitcoin transactions, along with a variety of helpful charts and statistics about activity on the network.' />
         <br />
         <br />
         <FormattedMessage id='scenes.faq.group.walletfunctionality.answer11.three' defaultMessage='To look up a bitcoin transaction, users can visit' />
-        <Link href='https://blockchain.info' target='_blank' size='12px' weight={200}>
+        <Link href='https://blockchain.info' target='_blank' size='13px' weight={200}>
           <FormattedMessage id='scenes.faq.group.walletfunctionality.answer11.link' defaultMessage=' https://blockchain.info ' />
         </Link>
         <FormattedMessage id='scenes.faq.group.walletfunctionality.answer11.four' defaultMessage='and use the search bar on the upper right to learn more about a particular bitcoin address, transaction hash, or block number.' />
@@ -129,11 +127,11 @@ const FaqContent = [
         <FormattedMessage id='scenes.faq.group.walletsecurity.answer4.three' defaultMessage='by replacing them with an invalid submission. For example, one could use 555-5555 for the phone number, or abc@123.com as an email.' />
         <br />
         <br />
-        <FormattedMessage id='scenes.faq.group.walletsecurity.answer4.four' defaultMessage='After replacing this associated information, and archiving all imported addresses within the “Addresses” section, all information associated with the user personally has been removed. If you are the only one that knows your backup phrase, your wallet is essentially mute until you decide to use it again. We suggest keeping the wallet’s Backup Phrase in a safe place, in case you ever want to returto our wallet.' />
+        <FormattedMessage id='scenes.faq.group.walletsecurity.answer4.four' defaultMessage='After replacing this associated information, and archiving all imported addresses within the “Addresses” section, all information associated with the user personally has been removed. If you are the only one that knows your backup phrase, your wallet is essentially mute until you decide to use it again. We suggest keeping the wallet’s Backup Phrase in a safe place, in case you ever want to return to your wallet.' />
         <br />
         <br />
         <FormattedMessage id='scenes.faq.group.walletsecurity.answer4.five' defaultMessage='If you’ve created an account with one of our exchange partners (Coinify, SFOX, Unocoin or Shapeshift), please reach out to their support teams for further assistance with removing your personal information from their records. For assistance with this, please reach out to our support team' />
-        <Link href='https://support.blockchain.com/hc/en-us/requests/new' target='_blank' size='12px' weight={200}>
+        <Link href='https://support.blockchain.com/hc/en-us/requests/new' target='_blank' size='13px' weight={200}>
           <FormattedMessage id='scenes.faq.group.walletsecurity.answer4.link' defaultMessage=' here' />
         </Link>
         <FormattedMessage id='scenes.faq.group.walletsecurity.answer4.six' defaultMessage='.' />
@@ -144,7 +142,7 @@ const FaqContent = [
     groupQuestions: [{
       answerId: '',
       question: <FormattedMessage id='scenes.faq.group.educationalresources.question1' defaultMessage='What is block chain technology?' />,
-      answer: <FormattedMessage id='scenes.faq.group.educationalresources.answer1' defaultMessage='The block chain is a uniquely architected database for digital transactions. To break it down— a block contains a record of new transactions and cnce that block is full, it is added to a chain of other blocks of transactions; hence the name “block chain”. This information is publicly viewable on an explorer, where eventually each transaction is approved or rejected by a network of computers (called miners). The block chain is considered immutable (meaning unchanging) because in order to alter a block, all previous blocks would have to also be altered. The vast majority of the community would have to agree on the change and be willing to update all subsequent blocks.' />
+      answer: <FormattedMessage id='scenes.faq.group.educationalresources.answer1' defaultMessage='The block chain is a uniquely architected database for digital transactions. To break it down— a block contains a record of new transactions and once that block is full, it is added to a chain of other blocks of transactions; hence the name “block chain”. This information is publicly viewable on an explorer, where eventually each transaction is approved or rejected by a network of computers (called miners). The block chain is considered immutable (meaning unchanging) because in order to alter a block, all previous blocks would have to also be altered. The vast majority of the community would have to agree on the change and be willing to update all subsequent blocks.' />
     }, {
       question: <FormattedMessage id='scenes.faq.group.educationalresources.question2' defaultMessage='What is bitcoin?' />,
       answer: <FormattedMessage id='scenes.faq.group.educationalresources.answer2' defaultMessage='Bitcoin (BTC) is the first ever cryptocurrency and is used like other monetary assets in exchange for goods and services. Unlike traditional assets, bitcoin is easily portable, divisible, and irreversible. Bitcoin increases system efficiency and enables the provision of financial services at a drastically lower cost, giving users more power and freedom.' />
