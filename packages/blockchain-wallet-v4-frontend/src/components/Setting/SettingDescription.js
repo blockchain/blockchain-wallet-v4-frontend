@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { Color } from 'blockchain-info-components'
 
 const SettingDescription = styled.div`
   padding: 10px 0;
