@@ -14,5 +14,5 @@ export const getData = state => {
     xpub: x.xpub
   }))
 
-  return selectors.core.common.bitcoin.getActiveHDAccounts(state).map(wallets)
+  return selectors.core.common.bitcoin.getHDAccounts(state).map(wallets)
 }

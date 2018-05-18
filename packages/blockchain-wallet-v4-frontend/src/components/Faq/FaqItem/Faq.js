@@ -8,6 +8,7 @@ const Wrapper = styled.div`
   align-items: flex-start;
   width: 100%;
   padding: 0;
+  margin-bottom: 5px;
   box-sizing: border-box;
 `
 

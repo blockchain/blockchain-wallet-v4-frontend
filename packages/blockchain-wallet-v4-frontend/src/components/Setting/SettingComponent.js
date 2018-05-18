@@ -6,7 +6,6 @@ const SettingComponent = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  height: 100%;
   padding: 15px 0 10px 0;
   box-sizing: border-box;
 
