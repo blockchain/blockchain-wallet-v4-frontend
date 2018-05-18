@@ -19,7 +19,7 @@ class SfoxCheckout extends React.PureComponent {
 
   render () {
     const { data, modalActions, sfoxActions, sfoxDataActions, payment, orderState } = this.props
-    const { handleTrade, fetchQuote, refreshQuote, fetchSellQuote } = sfoxDataActions
+    const { handleTrade, fetchQuote, refreshQuote, refreshSellQuote, fetchSellQuote } = sfoxDataActions
     const { sfoxNotAsked } = sfoxActions
     const { showModal } = modalActions
 
@@ -37,7 +37,8 @@ class SfoxCheckout extends React.PureComponent {
         showModal={showModal}
         fetchBuyQuote={(quote) => fetchQuote({ quote, nextAddress: value.nextAddress })}
         fetchSellQuote={(quote) => fetchSellQuote({ quote })}
-        refreshQuote={() => refreshQuote()}
+        refreshBuyQuote={() => refreshQuote()}
+        refreshSellQuote={() => refreshSellQuote()}
         submitBuyQuote={(quote) => { sfoxActions.submitQuote(quote); this.setState({ busy: true }) }}
         submitSellQuote={(quote) => { sfoxActions.submitSellQuote(quote); this.setState({ busy: true }) }}
         busy={busy}

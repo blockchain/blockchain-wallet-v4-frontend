@@ -41,7 +41,8 @@ const Success = props => {
     changeBuySellTabStatus,
     fetchBuyQuote,
     fetchSellQuote,
-    refreshQuote,
+    refreshBuyQuote,
+    refreshSellQuote,
     submitBuyQuote,
     submitSellQuote,
     handleTrade,
@@ -98,7 +99,7 @@ const Success = props => {
               <OrderDetails
                 quoteR={buyQuoteR}
                 account={accounts[0]}
-                onRefreshQuote={refreshQuote}
+                onRefreshQuote={refreshBuyQuote}
                 type={'buy'}
               />
             </CheckoutWrapper>
@@ -136,7 +137,7 @@ const Success = props => {
               <OrderDetails
                 quoteR={sellQuoteR}
                 account={accounts[0]}
-                onRefreshQuote={refreshQuote}
+                onRefreshQuote={refreshSellQuote}
                 type={'sell'}
               />
             </CheckoutWrapper>
