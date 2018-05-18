@@ -76,7 +76,7 @@ const FeePerByteContainer = styled.div`
 
 const FirstStep = props => {
   const { invalid, submitting, ...rest } = props
-  const { watchOnly, addressMatchesPriv, destination, toToggled, feePerByteToggled, feePerByteElements, regularFeePerByte, priorityFeePerByte, isPriorityFeePerByte, totalFee, ...rest2 } = rest
+  const { from, watchOnly, addressMatchesPriv, destination, toToggled, enableToggle, feePerByteToggled, feePerByteElements, regularFeePerByte, priorityFeePerByte, isPriorityFeePerByte, totalFee, ...rest2 } = rest
   const { handleFeePerByteToggle, handleToToggle, handleSubmit } = rest2
 
   return (
@@ -107,11 +107,11 @@ const FirstStep = props => {
             <FormattedMessage id='modals.sendbtc.firststep.to' defaultMessage='To:' />
           </FormLabel>
           <Row>
-            {toToggled && !destination && <Field name='to' component={SelectBoxBitcoinAddresses} opened includeAll={false} />}
-            {toToggled && destination && <Field name='to' component={SelectBoxBitcoinAddresses} onFocus={() => handleToToggle()} includeAll={false} validate={[required]} hideArrow />}
+            {toToggled && !destination && <Field name='to' component={SelectBoxBitcoinAddresses} opened includeAll={false} exclude={[from.label]} />}
+            {toToggled && destination && <Field name='to' component={SelectBoxBitcoinAddresses} onFocus={() => handleToToggle()} includeAll={false} validate={[required]} exclude={[from.label]} hideArrow />}
             {!toToggled && <Field name='to' placeholder='Paste or scan an address, or select a destination' component={TextBox} validate={[required, validBitcoinAddress]} autoFocus />}
-            {(!toToggled || destination) && <QRCodeCapture scanType='btcAddress' border={['top', 'bottom']} />}
-            {(!toToggled || destination) && <AddressButton onClick={() => handleToToggle(true)}><Icon name='down-arrow' size='10px' cursor /></AddressButton>}
+            {(!toToggled || destination) && <QRCodeCapture scanType='btcAddress' border={enableToggle ? ['top', 'bottom'] : ['top', 'bottom', 'right']} />}
+            {(enableToggle && (!toToggled || destination)) && <AddressButton onClick={() => handleToToggle(true)}><Icon name='down-arrow' size='10px' cursor /></AddressButton>}
           </Row>
         </FormItem>
       </FormGroup>
