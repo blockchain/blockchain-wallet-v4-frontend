@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { Color } from 'blockchain-info-components'
 
 const SecurityHeader = styled.div`
   display: flex;
