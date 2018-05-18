@@ -65,6 +65,7 @@ export default ({ coreSagas }) => {
           }
           break
         case 'from':
+          yield put(A.sendBchFirstStepToToggled(false))
           const source = prop('address', payload) || prop('index', payload)
           payment = yield payment.from(source)
           break
