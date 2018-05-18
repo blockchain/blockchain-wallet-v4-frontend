@@ -25,7 +25,7 @@ class FirstStep extends React.Component {
         effectiveBalance={value.effectiveBalance}
         totalFee={value.totalFee}
         onSubmit={() => actions.sendBchFirstStepSubmitClicked()}
-        handleToToggle={() => actions.sendBchFirstStepToToggled()}
+        handleToToggle={(val) => actions.sendBchFirstStepToToggled(val)}
       />,
       Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
