@@ -1,4 +1,4 @@
-import { equals, prop, path } from 'ramda'
+import { equals, length, prop, path } from 'ramda'
 import { selectors } from 'data'
 import { formValueSelector } from 'redux-form'
 
@@ -6,6 +6,9 @@ export const getData = state => {
   const toToggled = selectors.components.sendBtc.getToToggled(state)
   const feePerByteToggled = selectors.components.sendBtc.getFeePerByteToggled(state)
   const paymentR = selectors.components.sendBtc.getPayment(state)
+  const btcAccountsLength = length(selectors.core.common.bitcoin.getActiveHDAccounts(state).getOrElse([]))
+  const btcAddressesLength = length(selectors.core.common.bitcoin.getActiveAddresses(state).getOrElse([]))
+  const enableToggle = btcAccountsLength + btcAddressesLength > 1
 
   const transform = payment => {
     const regularFeePerByte = path(['fees', 'regular'], payment)
@@ -23,7 +26,9 @@ export const getData = state => {
     const isPriorityFeePerByte = equals(parseInt(feePerByte), priorityFeePerByte)
 
     return {
+      from,
       toToggled,
+      enableToggle,
       feePerByteToggled,
       feePerByteElements,
       effectiveBalance,
