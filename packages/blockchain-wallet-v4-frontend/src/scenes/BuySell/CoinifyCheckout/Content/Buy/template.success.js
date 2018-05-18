@@ -23,7 +23,7 @@ const OrderSubmitWrapper = styled.div`
 const RightContainer = styled.div``
 const LeftContainer = styled.div``
 
-const Buy = props => {
+const CoinifyBuy = props => {
   const {
     value,
     fetchBuyQuote,
@@ -113,4 +113,4 @@ const Buy = props => {
   }
 }
 
-export default Buy
+export default CoinifyBuy

@@ -2,10 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-
 import { Icon, Text } from 'blockchain-info-components'
 import { SelectBoxCoinifyCurrency, TextBoxDebounced } from 'components/Form'
-
 import { Field, reduxForm } from 'redux-form'
 
 const Wrapper = styled.div`
@@ -83,8 +81,8 @@ const getLimitsError = (errorType, limits, symbol, setMin) => {
 
 const FiatConvertor = (props) => {
   const { val, disabled, setMax, setMin, limits, checkoutError, defaultCurrency, symbol, increaseLimit } = props
-  const { level } = val
   const currency = 'BTC'
+  const level = val.level || { name: 1 }
 
   return (
     <form>
