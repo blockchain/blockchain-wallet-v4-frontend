@@ -84,14 +84,17 @@ export default ({ coreSagas }) => {
 
   const submitMicroDeposits = function * (payload) {
     try {
+      yield put(A.sfoxLoading())
       const result = yield call(coreSagas.data.sfox.verifyMicroDeposits, payload)
       if (result.status === 'active') {
+        yield put(A.sfoxSuccess())
         yield put(modalActions.closeAllModals())
       } else {
-        yield put(A.sfoxFailure(result))
+        throw new Error(result)
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'submitMicroDeposits', e))
+      yield put(A.sfoxFailure(e))
     }
   }
 
