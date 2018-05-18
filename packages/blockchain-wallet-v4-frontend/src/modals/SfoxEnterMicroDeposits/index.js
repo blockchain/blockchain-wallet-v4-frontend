@@ -5,6 +5,7 @@ import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import { reduxForm, formValueSelector } from 'redux-form'
 import Template from './template'
+import { path } from 'ramda'
 
 class SfoxEnterMicroDeposits extends React.PureComponent {
   constructor (props) {
@@ -18,10 +19,14 @@ class SfoxEnterMicroDeposits extends React.PureComponent {
   }
 
   render () {
+    const status = this.props.status.cata({ Success: () => false, Failure: (err) => err, Loading: () => 'loading', NotAsked: () => false })
+
     return (
       <Template
         {...this.props}
         handleSubmit={this.handleSubmit}
+        status={status}
+        tryAgain={() => this.props.sfoxActions.sfoxNotAsked()}
       />
     )
   }
@@ -29,7 +34,8 @@ class SfoxEnterMicroDeposits extends React.PureComponent {
 
 const mapStateToProps = (state) => ({
   deposit1: formValueSelector('sfoxMicroDeposits')(state, 'deposit1'),
-  deposit2: formValueSelector('sfoxMicroDeposits')(state, 'deposit2')
+  deposit2: formValueSelector('sfoxMicroDeposits')(state, 'deposit2'),
+  status: path(['sfoxSignup', 'sfoxBusy'], state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

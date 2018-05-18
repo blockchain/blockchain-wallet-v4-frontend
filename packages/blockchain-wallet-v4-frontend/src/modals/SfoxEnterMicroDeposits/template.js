@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Modal, ModalHeader, ModalBody, Text, Button } from 'blockchain-info-components'
+import { Modal, ModalHeader, ModalBody, Text, Button, Link, HeartbeatLoader } from 'blockchain-info-components'
 import { Field, reduxForm } from 'redux-form'
 import { Form, FormGroup, FormItem, NumberBox } from 'components/Form'
 import { required } from 'services/FormHelper'
@@ -13,9 +13,15 @@ const ButtonRow = styled.div`
   justify-content: space-between;
   margin-top: 20px;
 `
+const ErrorText = styled(Text)`
+  width: 250px;
+  a {
+    display: inline;
+  }
+`
 
 const MicroDeposits = (props) => {
-  const { handleSubmit, close, position, total, invalid } = props
+  const { handleSubmit, close, position, total, invalid, status, tryAgain } = props
 
   return (
     <Modal size='medium' position={position} total={total}>
@@ -47,9 +53,19 @@ const MicroDeposits = (props) => {
           <Button onClick={close} >
             <FormattedMessage id='cancel' defaultMessage='Cancel' />
           </Button>
-          <Button type='submit' nature='primary' onClick={handleSubmit} disabled={invalid}>
-            <FormattedMessage id='verify' defaultMessage='Verify' />
-          </Button>
+          {
+            status instanceof Error
+              ? <ErrorText size='13px' weight={300}>
+                <FormattedMessage id='sfox_micro_deposits.error' defaultMessage='The amounts entered do not match the deposits. {tryAgain}' values={{ tryAgain: <Link size='13px' weight={300} onClick={tryAgain}><FormattedMessage id='try_again' defaultMessage='Try again.' /></Link> }} />
+              </ErrorText>
+              : <Button type='submit' nature='primary' onClick={handleSubmit} disabled={invalid}>
+                {
+                  status === 'loading'
+                    ? <HeartbeatLoader height='20px' width='20px' color='white' />
+                    : <FormattedMessage id='verify' defaultMessage='Verify' />
+                }
+              </Button>
+          }
         </ButtonRow>
       </ModalBody>
     </Modal>

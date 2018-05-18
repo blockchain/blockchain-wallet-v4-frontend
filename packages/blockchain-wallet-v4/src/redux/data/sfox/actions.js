@@ -49,7 +49,7 @@ export const setBankAccountFailure = (error) => ({ type: AT.SET_BANK_ACCOUNT_FAI
 
 export const setBankManually = (data) => ({ type: AT.SET_BANK_MANUALLY, payload: data })
 export const setBankManuallyLoading = () => ({ type: AT.SET_BANK_MANUALLY_LOADING })
-export const setBankManuallySuccess = () => ({ type: AT.SET_BANK_MANUALLY_SUCCESS })
+export const setBankManuallySuccess = (bank) => ({ type: AT.SET_BANK_MANUALLY_SUCCESS, payload: bank })
 export const setBankManuallyFailure = (error) => ({ type: AT.SET_BANK_MANUALLY_FAILURE, payload: error })
 
 export const signup = () => ({ type: AT.SIGNUP })

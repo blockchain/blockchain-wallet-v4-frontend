@@ -20,6 +20,8 @@ export default ({ api, options }) => {
 
   const init = function * () {
     try {
+      const value = yield select(buySellSelectors.getMetadata)
+      if (!value.data.value.sfox.account_token) return
       yield call(refreshSFOX)
     } catch (e) {
       throw new Error(e)
@@ -83,6 +85,7 @@ export default ({ api, options }) => {
 
   const fetchSfoxAccounts = function * () {
     try {
+      yield call(refreshSFOX)
       yield put(A.sfoxFetchAccountsLoading())
       const methods = yield apply(sfox, sfox.getBuyMethods)
       const accounts = yield apply(sfox, methods.ach.getAccounts)
