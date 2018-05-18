@@ -7,6 +7,22 @@ import { getConfig } from './services'
 
 const Wrapper = styled.div`
   width: 100%;
+  svg {
+    font-family: 'Montserrat', Helvetica, sans-serif !important;
+    .highcharts-background {
+      fill: ${props => props.theme['white']} !important;
+    }
+    .highcharts-axis-labels {
+      text {
+        fill: ${props => props.theme['gray-5']} !important;
+      }
+    }
+    .highcharts-series {
+      path:first-child {
+        stroke: ${props => props.theme['brand-secondary']} !important;
+      }
+    }
+  }
 `
 
 class Chart extends React.PureComponent {
