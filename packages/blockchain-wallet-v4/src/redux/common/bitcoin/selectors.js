@@ -136,12 +136,17 @@ export const getNextAvailableChangeAddress = curry((network, accountIndex, state
   return index.map(x => getAddress(network, `${accountIndex}/${1}/${x}`, state))
 })
 
-export const getNextAvailableReceiveAddress = curry((network, accountIndex, state) => {
+export const getNextAvailableReceiveIndex = curry((network, accountIndex, state) => {
   const account = compose(HDWallet.selectAccount(accountIndex), walletSelectors.getDefaultHDWallet)(state)
   const xpub = HDAccount.selectXpub(account)
   const index = getReceiveIndex(xpub)(state)
   const labels = HDAccount.selectAddressLabels(account)
   const maxLabel = labels.maxBy((label) => label.index)
-  const maxLabelIndex = maxLabel ? maxLabel.index : 0
-  return index.map(x => getAddress(network, `${accountIndex}/${0}/${max(x - 1, maxLabelIndex) + 1}`, state))
+  const maxLabelIndex = maxLabel ? maxLabel.index : -1
+  return index.map(x => max(x - 1, maxLabelIndex) + 1)
+})
+
+export const getNextAvailableReceiveAddress = curry((network, accountIndex, state) => {
+  const index = getNextAvailableReceiveIndex(network, accountIndex, state)
+  return index.map(x => getAddress(network, `${accountIndex}/${0}/${max(x - 1, index) + 1}`, state))
 })
