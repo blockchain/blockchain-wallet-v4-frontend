@@ -22,6 +22,12 @@ This repo contains the three codebases/packages listed below that are combined i
 4. Start the application in development mode: `yarn start`
 5. The frontend application will now be accessible via browser at `localhost:8080`
 
+### Windows Support
+To ensure proper support for Windows, please take the following actions before running the above setup isntructions.
+1. Open a Powershell window rights elevated to an Administrator.
+2. Run `npm install -g windows-build-tools`. This will install Python 2.7 and Visual C++ Build Tools which are required to compile some native Node modules.
+3. Ensure Python has been added to your environment variables by opening a cmd prompt and typing `python`. If you get a `CommandNotFoundException` message, add the folder `%USERPROFILE%\.windows-build-tools\python27` to your environment variables.
+
 ### Tips & Useful Commands
 1. To completely remove all dependencies and artifacts run `yarn clean`
 2. After installing or uninstalling a NPM package, run `yarn bootstrap` to re-init the project
