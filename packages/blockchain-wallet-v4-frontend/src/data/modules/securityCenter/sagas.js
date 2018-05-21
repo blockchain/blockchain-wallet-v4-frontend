@@ -42,7 +42,6 @@ export default ({ coreSagas }) => {
       yield call(coreSagas.settings.sendConfirmationCodeEmail, action.payload)
       yield put(actions.alerts.displaySuccess('Confirmation code has been sent.'))
     } catch (e) {
-      yield put(actions.alerts.displaySuccess('Email address has been successfully verified.'))
       yield put(actions.logs.logErrorMessage(logLocation, 'sendConfirmationCodeEmail', e))
     }
   }

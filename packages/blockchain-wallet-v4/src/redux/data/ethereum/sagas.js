@@ -1,8 +1,9 @@
-import { call, put, select } from 'redux-saga/effects'
+import { call, put, select, take } from 'redux-saga/effects'
 import { dissoc, isNil, length, mapObjIndexed, path, sum, values } from 'ramda'
 import { convertFeeToWei } from '../../../utils/ethereum'
 import * as A from './actions'
 import * as S from './selectors'
+import * as AT from './actionTypes'
 import * as selectors from '../../selectors'
 
 export default ({ api }) => {
@@ -68,27 +69,37 @@ export default ({ api }) => {
     }
   }
 
-  const fetchTransactions = function * () {
+  const watchTransactions = function * () {
+    while (true) {
+      const action = yield take(AT.FETCH_ETHEREUM_TRANSACTIONS)
+      yield call(fetchTransactions, action)
+    }
+  }
+
+  const fetchTransactions = function * (action) {
+    const { payload } = action
+    const { reset } = payload
     try {
       const defaultAccountR = yield select(selectors.kvStore.ethereum.getContext)
       const address = defaultAccountR.getOrFail('Could not get ethereum context.')
-      const pages = yield select(S.getTransactions)
+      const pages = reset ? [] : yield select(S.getTransactions)
       const nextPage = length(pages)
       yield put(A.fetchTransactionsLoading())
       const data = yield call(api.getEthereumTransactions, address, nextPage)
       const txs = path([address, 'txns'], data)
       if (isNil(txs)) return
-      yield put(A.fetchTransactionsSuccess(txs))
+      yield put(A.fetchTransactionsSuccess(txs, reset))
     } catch (e) {
       yield put(A.fetchTransactionsFailure(e.message))
     }
   }
 
   return {
-    fetchData,
     fetchFee,
-    fetchLatestBlock,
+    fetchData,
     fetchRates,
-    fetchTransactions
+    fetchLatestBlock,
+    fetchTransactions,
+    watchTransactions
   }
 }

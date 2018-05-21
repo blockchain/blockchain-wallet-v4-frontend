@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 import ReactHighcharts from 'react-highcharts'
 import { FormattedMessage } from 'react-intl'
-import { Color, Text, Link } from 'blockchain-info-components'
+import { Text, Link } from 'blockchain-info-components'
 import configure from './chart.config.js'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 
@@ -19,6 +19,21 @@ const Wrapper = styled.div`
   svg {
     font-weight: 300;
     font-family: 'Montserrat' !important;
+    .highcharts-background {
+      fill: ${props => props.theme['white']} !important;
+    }
+    .highcharts-title {
+      fill: ${props => props.theme['gray-5']} !important;
+    }
+    .highcharts-color-0 {
+      fill: ${props => props.theme['brand-primary']} !important;
+    }
+    .highcharts-color-1 {
+      fill: ${props => props.theme['brand-secondary']} !important;
+    }
+    .highcharts-color-2 {
+      fill: ${props => props.theme['brand-tertiary']} !important;
+    }
   }
   @media(min-width: 480px) {
     height: 380px;
@@ -38,7 +53,7 @@ const Column = styled.div`
 const ColourBar = styled.div`
   width: 100%;
   height: 4px;
-  background-color: ${props => props.color};
+  background-color: ${props => props.theme[props.color]};
 `
 const CoinBalance = styled.div`
   cursor: pointer;
@@ -70,7 +85,7 @@ const BalancesChart = (props) => {
       <ReactHighcharts config={configure(chartData, symbol, history)} isPureConfig />
       <ChartInfo>
         <Column>
-          <ColourBar color={Color('brand-primary')} />
+          <ColourBar color='brand-primary' />
           <Text size='14px' weight={300}>
             <FormattedMessage id='scenes.home.balanceschart.btc' defaultMessage='Bitcoin' />
           </Text>
@@ -98,7 +113,7 @@ const BalancesChart = (props) => {
           }
         </Column>
         <Column>
-          <ColourBar color={Color('brand-secondary')} />
+          <ColourBar color='brand-secondary' />
           <Text size='14px' weight={300}>
             <FormattedMessage id='scenes.home.balanceschart.eth' defaultMessage='Ether' />
           </Text>
@@ -115,7 +130,7 @@ const BalancesChart = (props) => {
           }
         </Column>
         <Column>
-          <ColourBar color={Color('brand-tertiary')} />
+          <ColourBar color='brand-tertiary' />
           <Text size='14px' weight={300}>
             <FormattedMessage id='scenes.home.balanceschart.bch' defaultMessage='Bitcoin Cash' />
           </Text>
