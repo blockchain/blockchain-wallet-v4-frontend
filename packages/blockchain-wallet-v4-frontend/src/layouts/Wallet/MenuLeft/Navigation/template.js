@@ -63,7 +63,11 @@ const SubMenuItem = styled.li`
 `
 
 const Navigation = (props) => {
-  const { settingsToggled, handleOpenSettings, handleCloseSettings, handleCloseMenuLeft, partner, ...rest } = props
+  const { settingsToggled, handleOpenSettings, handleCloseSettings, handleCloseMenuLeft, location, partner, ...rest } = props
+
+  const activeSettingsRoute = () => {
+    return location.pathname.indexOf('/settings') !== -1 ? 'active' : ''
+  }
 
   return (
     <Wrapper {...rest}>
@@ -123,7 +127,7 @@ const Navigation = (props) => {
             <SecurityGauge />
           </MenuItem>
         </LinkContainer>
-        <LinkContainer to='/settings/info' onClick={handleOpenSettings}>
+        <LinkContainer to='/settings/info' activeClassName='active' onClick={handleOpenSettings} className={activeSettingsRoute()}>
           <MenuItem>
             <Icon name='settings' />
             <FormattedMessage id='layouts.wallet.menuleft.navigation.settings' defaultMessage='Settings' smaller uppercase />

@@ -1,9 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
-import { FormGroup, FormItem, TextBox } from 'components/Form'
+import { FormGroup, FormItem, TextBox, PasswordBox } from 'components/Form'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
-import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Icon, Text, Link } from 'blockchain-info-components'
+import { spacing } from 'services/StyleService'
 
 import { requiredSSN, requiredDOB, normalizeSocialSecurity, normalizeDateOfBirth, ageOverEighteen } from 'services/FormHelper'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ErrorWrapper, ColRightInner } from 'components/BuySell/Signup'
@@ -23,7 +24,7 @@ const IconHeader = styled(PartnerHeader)`
 `
 
 const Identity = (props) => {
-  const { handleReset, handleSubmit, invalid, pristine, submitting, verificationError } = props
+  const { handleReset, handleSubmit, invalid, pristine, submitting, verificationError, viewSSN, toggleSSN } = props
   const { busy } = props.ui
 
   return (
@@ -51,7 +52,18 @@ const Identity = (props) => {
                 <Text size='14px' weight={400} style={{'margin-bottom': '5px'}}>
                   <FormattedMessage id='sfoxexchangedata.verify.ssn' defaultMessage='Social Security Number' />
                 </Text>
-                <Field name='ssn' validate={[requiredSSN]} component={TextBox} placeholder='___-__-___' normalize={normalizeSocialSecurity} />
+                {
+                  viewSSN
+                    ? <Field name='ssn' validate={[requiredSSN]} component={TextBox} placeholder='___-__-___' normalize={normalizeSocialSecurity} />
+                    : <Field name='ssn' validate={[requiredSSN]} component={PasswordBox} placeholder='___-__-___' normalize={normalizeSocialSecurity} />
+                }
+                <Link size='12px' weight={300} onClick={toggleSSN} style={spacing('mt-5')}>
+                  {
+                    viewSSN
+                      ? <FormattedMessage id='sfoxexchangedata.verify.hidessn' defaultMessage='Hide SSN' />
+                      : <FormattedMessage id='sfoxexchangedata.verify.viewssn' defaultMessage='View SSN' />
+                  }
+                </Link>
               </FormItem>
             </FormGroup>
           </FormContainer>

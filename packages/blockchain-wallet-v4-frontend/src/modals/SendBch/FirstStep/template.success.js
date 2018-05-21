@@ -32,7 +32,7 @@ const AddressButton = styled.div`
 `
 
 const FirstStep = props => {
-  const { destination, invalid, submitting, toToggled, handleToToggle, handleSubmit, totalFee } = props
+  const { from, enableToggle, destination, invalid, submitting, toToggled, handleToToggle, handleSubmit, totalFee } = props
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -56,11 +56,11 @@ const FirstStep = props => {
             <FormattedMessage id='modals.sendBch.firststep.to' defaultMessage='To:' />
           </FormLabel>
           <Row>
-            {toToggled && !destination && <Field name='to' component={SelectBoxBitcoinAddresses} opened includeAll={false} coin='BCH' />}
-            {toToggled && destination && <Field name='to' component={SelectBoxBitcoinAddresses} onFocus={() => handleToToggle()} includeAll={false} validate={[required]} hideArrow coin='BCH' />}
+            {toToggled && !destination && <Field name='to' component={SelectBoxBitcoinAddresses} opened includeAll={false} exclude={[from.label]} hideErrors coin='BCH' />}
+            {toToggled && destination && <Field name='to' component={SelectBoxBitcoinAddresses} onFocus={() => handleToToggle()} includeAll={false} validate={[required]} exclude={[from.label]} hideArrow hideErrors coin='BCH' />}
             {!toToggled && <Field name='to' placeholder='Paste or scan an address, or select a destination' component={TextBox} validate={[required, validBitcoinCashAddress]} autoFocus />}
-            {(!toToggled || destination) && <QRCodeCapture scanType='bchAddress' border={['top', 'bottom']} />}
-            {(!toToggled || destination) && <AddressButton onClick={() => handleToToggle(true)}><Icon name='down-arrow' size='10px' cursor /></AddressButton>}
+            {(!toToggled || destination) && <QRCodeCapture scanType='bchAddress' border={enableToggle ? ['top', 'bottom'] : ['top', 'bottom', 'right']} />}
+            {(enableToggle && (!toToggled || destination)) && <AddressButton onClick={() => handleToToggle(true)}><Icon name='down-arrow' size='10px' cursor /></AddressButton>}
           </Row>
         </FormItem>
       </FormGroup>

@@ -2,10 +2,12 @@ import { call, put, select } from 'redux-saga/effects'
 import { compose, concat, gt, isNil, length, map, path, prop, range } from 'ramda'
 import { set } from 'ramda-lens'
 import * as A from './actions'
+import * as S from './selectors'
+import * as bchActions from '../../data/bch/actions'
 import { KVStoreEntry } from '../../../types'
-import { getMetadataXpriv } from '../root/selectors'
-import { getHDAccounts } from '../../wallet/selectors'
 import { derivationMap, BCH } from '../config'
+import { getMetadataXpriv } from '../root/selectors'
+import { getHDAccounts, getWalletContext } from '../../wallet/selectors'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
@@ -47,7 +49,14 @@ export default ({ api }) => {
     }
   }
 
+  const setBchAccountArchived = function * () {
+    const btcContext = yield select(getWalletContext)
+    const bchContext = yield select(S.getContext, btcContext)
+    yield put(bchActions.fetchData(bchContext))
+  }
+
   return {
-    fetchMetadataBch
+    fetchMetadataBch,
+    setBchAccountArchived
   }
 }
