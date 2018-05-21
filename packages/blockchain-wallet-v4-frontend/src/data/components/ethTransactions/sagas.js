@@ -24,7 +24,7 @@ export default ({ coreSagas }) => {
       const threshold = 250
       const { yMax, yOffset } = action.payload
       if (yMax - yOffset < threshold) {
-        yield put(actions.core.data.eth.fetchTransactions())
+        yield put(actions.core.data.ethereum.fetchTransactions())
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'scrollUpdated', e))
@@ -38,7 +38,7 @@ export default ({ coreSagas }) => {
       if (!equals('ethTransactions', form)) return
       switch (field) {
         case 'source':
-          yield put(actions.core.data.eth.fetchTransactions())
+          yield put(actions.core.data.ethereum.fetchTransactions())
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))

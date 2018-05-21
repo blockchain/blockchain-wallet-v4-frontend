@@ -25,6 +25,7 @@ const AddressBox = styled.span`
   align-items: center;
   white-space: nowrap;
   text-overflow: ellipsis;
+  color: ${props => props.theme['gray-5']};
   font-family: 'Montserrat', Helvetica, sans-serif;
   background-color: ${props => props.theme['gray-1']};
 `
