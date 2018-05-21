@@ -92,7 +92,7 @@ const SecurityCenter = (props) => {
               <FormattedMessage id='scenes.securitycenter.introadvancedbutton' defaultMessage='Advanced Settings' />
             </Button>
             <Text size='14px' weight={300} style={spacing('pl-15')}>
-              <FormattedMessage id='scenes.securitycenter.introadvancedexplainer' defaultMessage='We recommend you complete these 3 steps before moving into the Advanced Security Settings.' />
+              <FormattedMessage id='scenes.securitycenter.introadvancedexplainer' defaultMessage='We recommend you complete these 3 steps before moving into the advanced security settings.' />
             </Text>
           </ButtonContainer>
         }

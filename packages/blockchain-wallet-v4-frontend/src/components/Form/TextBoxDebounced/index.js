@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Text, TextInput } from 'blockchain-info-components'
-
 import _debounce from 'lodash.debounce'
 
 const Container = styled.div`
