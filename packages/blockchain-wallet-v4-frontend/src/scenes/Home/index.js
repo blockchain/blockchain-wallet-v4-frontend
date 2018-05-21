@@ -6,14 +6,14 @@ import ActivityList from './ActivityList'
 import DidYouKnow from './DidYouKnow'
 import PriceChart from './PriceChart'
 import BalancesChartContainer from './BalancesChart'
-import ExchangeStepper from './ExchangeStepper'
+import BuySellStepper from './BuySellStepper'
 
 ReactHighcharts.Highcharts.setOptions({ lang: { thousandsSep: ',' } })
 
 const Wrapper = styled.div`
   width: 100%;
   height: 100%;
-  padding: 0 30px;
+  margin: 0 30px;
 `
 const ColumnWrapper = styled.div`
   display: flex;
@@ -46,7 +46,7 @@ const ColumnRight = styled(Column)`
 
 const Home = () => (
   <Wrapper>
-    <ExchangeStepper/>
+    <BuySellStepper />
     <ColumnWrapper>
       <ColumnLeft>
         <BalancesChartContainer />
