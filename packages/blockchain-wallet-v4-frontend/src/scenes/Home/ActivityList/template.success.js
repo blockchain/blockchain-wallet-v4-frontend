@@ -78,7 +78,7 @@ const Success = props => (
     <Content>
       { (props.activities.length === 0)
         ? <Empty partner={props.partner} handleRequest={props.handleRequest} />
-        : props.activities.map((activity, index) => <ListItem action={activity.action} type={activity.type} amount={activity.amount} time={activity.time} coin={activity.coin} key={index} />)
+        : props.activities.map((activity, index) => <ListItem handleLink={props.handleLink} action={activity.action} type={activity.type} amount={activity.amount} time={activity.time} coin={activity.coin} path={activity.path} key={index} />)
       }
     </Content>
   </Wrapper>
