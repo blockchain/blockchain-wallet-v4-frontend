@@ -20,6 +20,8 @@ export default ({ api, options }) => {
 
   const init = function * () {
     try {
+      const value = yield select(buySellSelectors.getMetadata)
+      if (!value.data.value.sfox.account_token) return
       yield call(refreshSFOX)
     } catch (e) {
       throw new Error(e)
@@ -54,13 +56,11 @@ export default ({ api, options }) => {
   const fetchSellQuote = function * (data) {
     try {
       yield put(A.fetchSellQuoteLoading())
-      // const nextAddress = data.payload.nextAddress
-      // yield put(A.setNextAddress(nextAddress))
       yield call(refreshSFOX)
       const { amt, baseCurr, quoteCurr } = data.payload.quote
       const quote = yield apply(sfox, sfox.getSellQuote, [amt, baseCurr, quoteCurr])
       yield put(A.fetchSellQuoteSuccess(quote))
-      // yield fork(waitForRefreshQuote, data.payload)
+      yield fork(waitForRefreshSellQuote, data.payload, quote)
     } catch (e) {
       yield put(A.fetchSellQuoteFailure(e))
     }
@@ -69,6 +69,24 @@ export default ({ api, options }) => {
   const waitForRefreshQuote = function * (quotePayload) {
     yield take(AT.REFRESH_QUOTE)
     yield put(A.fetchQuote(quotePayload))
+  }
+
+  const waitForRefreshSellQuote = function * (sellQuotePayload, quote) {
+    yield take(AT.REFRESH_SELL_QUOTE)
+    let sellQuote
+    if (quote.baseCurrency !== 'BTC') {
+      sellQuote = {
+        quote: {
+          amt: quote.quoteAmount,
+          baseCurr: 'BTC',
+          quoteCurr: 'USD'
+        }
+      }
+    } else {
+      sellQuote = sellQuotePayload
+    }
+
+    yield put(A.fetchSellQuote(sellQuote))
   }
 
   const fetchTrades = function * () {
@@ -81,8 +99,9 @@ export default ({ api, options }) => {
     }
   }
 
-  const fetchAccounts = function * () {
+  const fetchSfoxAccounts = function * () {
     try {
+      yield call(refreshSFOX)
       yield put(A.sfoxFetchAccountsLoading())
       const methods = yield apply(sfox, sfox.getBuyMethods)
       const accounts = yield apply(sfox, methods.ach.getAccounts)
@@ -118,10 +137,13 @@ export default ({ api, options }) => {
   const setBankManually = function * (data) {
     const { routing, account, name, type } = data
     try {
+      yield put(A.setBankManuallyLoading())
       const sfox = yield call(getSfox)
       const methods = yield apply(sfox, sfox.getBuyMethods)
       const addedBankAccount = yield apply(methods.ach, methods.ach.addAccount, [routing, account, name, type])
       yield put(A.setBankManuallySuccess(addedBankAccount))
+      yield call(fetchSfoxAccounts)
+      return addedBankAccount
     } catch (e) {
       yield put(A.setBankAccountFailure(e))
     }
@@ -206,8 +228,11 @@ export default ({ api, options }) => {
 
          may need to call payment methods after this resolves
       */
+      yield call(fetchSfoxAccounts)
+      return response
     } catch (e) {
       console.warn(e)
+      return e
     }
   }
 
@@ -222,6 +247,7 @@ export default ({ api, options }) => {
       yield put(A.fetchTrades())
       const trades = yield select(S.getTrades)
       yield put(buySellA.setTradesBuySell(trades.data))
+      return trade
     } catch (e) {
       console.warn(e)
       yield put(A.handleTradeFailure(e))
@@ -249,7 +275,7 @@ export default ({ api, options }) => {
 
   return {
     init,
-    fetchAccounts,
+    fetchSfoxAccounts,
     fetchProfile,
     fetchTrades,
     fetchQuote,

@@ -35,6 +35,8 @@ export default ({ api, options }) => {
 
   const init = function * () {
     try {
+      const val = yield select(buySellSelectors.getMetadata)
+      if (!val.data.value.coinify.offline_token) return
       yield call(refreshCoinify)
     } catch (e) {
       console.warn(e)
@@ -97,17 +99,6 @@ export default ({ api, options }) => {
       yield put(A.fetchTradesSuccess(trades))
     } catch (e) {
       yield put(A.fetchTradesFailure(e))
-    }
-  }
-
-  const fetchAccounts = function * () {
-    try {
-      yield put(A.fetchAccountsLoading())
-      const methods = yield apply(coinify, coinify.getBuyMethods)
-      const accounts = yield apply(coinify, methods.ach.getAccounts)
-      yield put(A.fetchAccountsSuccess(accounts))
-    } catch (e) {
-      yield put(A.fetchAccountsFailure(e))
     }
   }
 
@@ -244,7 +235,6 @@ export default ({ api, options }) => {
     buy,
     sell,
     init,
-    fetchAccounts,
     coinifyFetchProfile,
     fetchTrades,
     fetchQuote,

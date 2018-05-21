@@ -11,7 +11,7 @@ export const getTrades = path([dataPath, 'sfox', 'trades'])
 
 export const getProfile = path([dataPath, 'sfox', 'profile'])
 
-export const getAccounts = path([dataPath, 'sfox', 'accounts'])
+export const getAccounts = path([dataPath, 'sfox', 'achAccounts'])
 
 export const getVerificationStatus = state => getProfile(state).map(path(['verificationStatus']))
 
