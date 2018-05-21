@@ -119,7 +119,7 @@ export default ({ coreSagas }) => {
           }
           const leftResult = yield call(coreSagas.data.coinify.fetchQuote,
             { quote: { amount: payload * 100, baseCurrency: values.currency, quoteCurrency: 'BTC', type } })
-          const amount = leftResult.quoteAmount
+          const amount = Math.abs(leftResult.quoteAmount)
           yield put(actions.form.initialize(form, merge(values, { 'rightVal': amount / 1e8 })))
           yield put(A.coinifyCheckoutBusyOff())
           break
