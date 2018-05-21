@@ -3,6 +3,7 @@ import { append, compose, findIndex, path, equals, lensIndex, toLower } from 'ra
 import * as AT from './actionTypes'
 import Remote from '../../../remote'
 import { lensProp } from '../../../types/util'
+import { value } from '../../../types/KVStoreEntry'
 
 // initial state should be a kvstore object
 const INITIAL_STATE = Remote.NotAsked
@@ -21,6 +22,12 @@ export default (state = INITIAL_STATE, action) => {
     case AT.FETCH_SHAPESHIFT_TRADE_FAILURE:
     case AT.FETCH_METADATA_SHAPESHIFT_FAILURE: {
       return Remote.Failure(payload)
+    }
+    case AT.ADD_STATE_METADATA_SHAPESHIFT: {
+      return set(compose(mapped, value, lensProp('USAState')), {
+        Code: payload.usState.code,
+        Name: payload.usState.name
+      }, state)
     }
     case AT.ADD_TRADE_METADATA_SHAPESHIFT: {
       const { trade } = payload

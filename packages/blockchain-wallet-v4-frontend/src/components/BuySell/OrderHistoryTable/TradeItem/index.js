@@ -10,7 +10,7 @@ import OrderStatus from '../OrderStatus'
 const tradeDateHelper = (trade) => type(trade.createdAt) === 'Number' ? new Date(trade.createdAt).toLocaleString() : trade.createdAt.toLocaleString()
 
 const TradeItem = props => {
-  const { conversion, handleClick, trade } = props
+  const { conversion, handleClick, handleFinish, trade } = props
   const receiveAmount = trade.isBuy ? trade.receiveAmount : Exchange.displayFiatToFiat({ value: trade.receiveAmount })
   const exchangeAmount = trade.isBuy ? Exchange.displayFiatToFiat({ value: trade.sendAmount / conversion }) : trade.sendAmount / conversion
 
@@ -20,9 +20,15 @@ const TradeItem = props => {
         <OrderStatus status={trade.state} isBuy={trade.isBuy} />
       </TableCell>
       <TableCell width='15%'>
-        <Link size='13px' weight={300} capitalize onClick={() => handleClick(trade)}>
-          <FormattedMessage id='scenes.exchangehistory.list.details' defaultMessage='View details' />
-        </Link>
+        {
+          trade.state === 'awaiting_transfer_in'
+            ? <Link size='13px' weight={300} capitalize onClick={() => handleFinish(trade)}>
+              <FormattedMessage id='buysell.orderhistory.finishtrade' defaultMessage='Finish Trade' />
+            </Link>
+            : <Link size='13px' weight={300} capitalize onClick={() => handleClick(trade)}>
+              <FormattedMessage id='scenes.exchangehistory.list.details' defaultMessage='View details' />
+            </Link>
+        }
       </TableCell>
       <TableCell width='30%'>
         <Text opacity={trade.state === 'processing'} size='13px' weight={300}>{tradeDateHelper(trade)}</Text>

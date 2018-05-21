@@ -85,6 +85,7 @@ export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
         style={spacing('mt-20')}
         expiryDate={quote.expiresAt.getTime()}
         handleExpiry={onRefreshQuote}
+        tooltipExpiryTime='30 seconds'
       />
     )).getOrElse(null)}
   </ExchangeCheckoutWrapper>

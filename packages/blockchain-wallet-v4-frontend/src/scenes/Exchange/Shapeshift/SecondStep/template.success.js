@@ -85,7 +85,7 @@ const Success = props => {
           </TextGroup>
         </Row>
         <Row align='right'>
-          <CountdownTimer expiryDate={expiration} />
+          <CountdownTimer expiryDate={expiration} tooltipExpiryTime='10 minutes' />
         </Row>
         <Row>
           <Table>

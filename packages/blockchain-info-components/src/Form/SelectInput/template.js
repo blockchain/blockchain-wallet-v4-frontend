@@ -113,8 +113,11 @@ const DefaultItem = styled.div`
 const Arrow = styled(Icon)`
   position: absolute;
   top: 15px;
-  right: 15px;
+  right: 8px !important;
   font-size: ${props => props.size || '10px'};
+  @media (min-width: 320px) {
+    right: 15px;
+  }
 `
 
 const SelectInput = (props) => {
@@ -143,7 +146,7 @@ const SelectInput = (props) => {
 
 SelectInput.propTypes = {
   items: PropTypes.array.isRequired,
-  selected: PropTypes.object.isRequired,
+  selected: PropTypes.object,
   expanded: PropTypes.bool,
   searchEnabled: PropTypes.bool,
   opened: PropTypes.bool,

@@ -10,6 +10,11 @@ import MenuTop from './MenuTop'
 import TrayRight from './TrayRight'
 import Page from './Page'
 
+import BtcMenu from '../../scenes/Transactions/Bitcoin/Menu'
+import BchMenu from '../../scenes/Transactions/Bch/Menu'
+import EthMenu from '../../scenes/Transactions/Ether/Menu'
+import AddrMenu from '../../scenes/Settings/Addresses/Menu'
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -82,6 +87,11 @@ const WalletLayout = props => {
           <Top>
             <MenuTop />
           </Top>
+          { location.pathname === '/btc/transactions' && <BtcMenu /> }
+          { location.pathname === '/bch/transactions' && <BchMenu /> }
+          { location.pathname === '/eth/transactions' && <EthMenu /> }
+          { location.pathname === '/settings/addresses' && <AddrMenu /> }
+          { location.pathname === '/settings/addresses/bch' && <AddrMenu /> }
           <Page>
             {children}
           </Page>

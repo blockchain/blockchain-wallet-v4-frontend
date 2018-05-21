@@ -75,6 +75,7 @@ export default ({ coreSagas }) => {
           }
           break
         case 'from':
+          yield put(A.sendBtcFirstStepToToggled(false))
           const source = prop('address', payload) || prop('index', payload)
           if (!prop('watchOnly', payload)) {
             payment = yield payment.from(source)
@@ -199,18 +200,18 @@ export default ({ coreSagas }) => {
       let p = yield select(S.getPayment)
       let payment = coreSagas.payment.btc.create({ payment: p.getOrElse({}), network: settings.NETWORK_BITCOIN })
       const password = yield call(promptForSecondPassword)
+      yield put(actions.modals.closeAllModals())
       payment = yield payment.sign(password)
       payment = yield payment.publish()
       yield put(A.sendBtcPaymentUpdated(Remote.of(payment.value())))
       if (path(['description', 'length'], payment.value())) {
         yield put(actions.core.wallet.setTransactionNote(payment.value().txId, payment.value().description))
       }
-      yield put(actions.modals.closeAllModals())
       yield put(actions.router.push('/btc/transactions'))
       yield put(actions.alerts.displaySuccess('Your bitcoin has been sent!'))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e))
-      yield put(actions.alerts.displayError('Failed to send Bitcoin.'))
+      yield put(actions.alerts.displayError('Failed to send bitcoin.'))
     }
   }
 

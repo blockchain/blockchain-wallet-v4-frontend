@@ -3,10 +3,11 @@ import { selectors } from 'data'
 import { join, lift } from 'ramda'
 
 export const getData = (state) => {
-  const bitcoinContext = Remote.of(join('|', selectors.core.wallet.getWalletContext(state)))
-  const etherContext = selectors.core.kvStore.ethereum.getContext(state)
-  const bchContext = Remote.of(join('|', selectors.core.wallet.getWalletContext(state)))
+  const btcContext = selectors.core.wallet.getWalletContext(state)
+  const ethContextR = selectors.core.kvStore.ethereum.getContext(state)
+  const bchContextR = Remote.of(selectors.core.kvStore.bch.getContext(state, btcContext))
+  const btcContextR = Remote.of(join('|', btcContext))
   const path = state.router.location.pathname
-  const transform = lift((bitcoinContext, etherContext, bchContext) => ({bitcoinContext, etherContext, bchContext, path}))
-  return transform(bitcoinContext, etherContext, bchContext)
+  const transform = lift((btcContext, ethContext, bchContext) => ({btcContext, ethContext, bchContext, path}))
+  return transform(btcContextR, ethContextR, bchContextR)
 }

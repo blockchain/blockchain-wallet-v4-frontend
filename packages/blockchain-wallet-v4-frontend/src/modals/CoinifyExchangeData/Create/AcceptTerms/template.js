@@ -21,7 +21,7 @@ const AcceptTermsContainer = styled.div`
 const AcceptTerms = (props) => {
   const { busy, email, invalid, onSubmit, signupError, updateUI } = props
 
-  const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
+  const checkboxShouldBeChecked = value => value ? undefined : 'You must agree to the terms and conditions'
 
   const helpers = [
     {

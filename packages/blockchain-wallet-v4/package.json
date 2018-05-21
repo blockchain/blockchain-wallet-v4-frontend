@@ -11,12 +11,12 @@
   "module": "src/index.js",
   "scripts": {
     "compile": "babel --presets es2015,stage-2 -d lib/ --ignore spec.js src/ --copy-files",
-    "coverage": "./../../node_modules/.bin/jest --coverage",
+    "coverage": "cross-env ./../../node_modules/.bin/jest --coverage",
     "start": "babel-node src/index.js",
-    "test": "./../../node_modules/.bin/jest",
+    "test": "cross-env ./../../node_modules/.bin/jest",
     "test:build": "npm run compile",
-    "test:debug": "node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
-    "test:watch": "./../../node_modules/.bin/jest --watchAll"
+    "test:debug": "cross-env node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
+    "test:watch": "cross-env ./../../node_modules/.bin/jest --watchAll"
   },
   "jest": {
     "collectCoverageFrom": [

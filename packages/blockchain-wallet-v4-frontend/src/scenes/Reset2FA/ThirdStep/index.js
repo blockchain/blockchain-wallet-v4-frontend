@@ -22,9 +22,9 @@ class ThirdStepContainer extends React.PureComponent {
 
   render () {
     const { data } = this.props
-    let busy = data.cata({ Success: () => false, Failure: () => false, Loading: () => true, NotAsked: () => false })
+    let busy = data.cata({ Success: () => { this.props.nextStep(); return false }, Failure: () => false, Loading: () => true, NotAsked: () => false })
 
-    return <ThirdStep {...this.props} onSubmit={this.onSubmit} busy={busy} />
+    return <ThirdStep {...this.props} fetchNewCaptcha={this.fetchNewCaptcha} onSubmit={this.onSubmit} busy={busy} />
   }
 }
 

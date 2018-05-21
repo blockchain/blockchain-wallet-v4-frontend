@@ -6,7 +6,7 @@ import { getData } from './selectors'
 import Success from './template.success'
 import Loading from '../../../template.loading'
 
-class BuyContainer extends React.Component {
+class CoinifyBuyContainer extends React.Component {
   constructor (props) {
     super(props)
 
@@ -77,4 +77,4 @@ const mapDispatchToProps = dispatch => ({
   coinifyActions: bindActionCreators(actions.modules.coinify, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(BuyContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(CoinifyBuyContainer)
