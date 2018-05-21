@@ -47,7 +47,8 @@ class SellContainer extends React.Component {
         fetchSellQuote={(quote) => fetchQuote({ quote, nextAddress: value.nextAddress })}
         currency={currency}
         checkoutBusy={checkoutBusy}
-        setMax={(amt) => this.props.coinifyActions.setCheckoutMax(amt, 'sell')}
+        setMax={(amt) => coinifyActions.setCheckoutMax(amt, 'sell')}
+        setMin={(amt) => coinifyActions.setCheckoutMin(amt, 'sell')}
         paymentMedium={paymentMedium}
         initiateSell={this.startSell}
         step={step}
