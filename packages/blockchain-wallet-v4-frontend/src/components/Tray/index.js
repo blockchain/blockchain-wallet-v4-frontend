@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import onClickOutside from 'react-onclickoutside'
 import { Modal } from 'blockchain-info-components'
 import Transition from 'react-transition-group/Transition'
 
@@ -69,4 +68,4 @@ class Tray extends React.PureComponent {
   }
 }
 
-export default onClickOutside(Tray)
+export default Tray

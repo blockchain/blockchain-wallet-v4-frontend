@@ -43,13 +43,13 @@ class MicroDeposits extends Component {
               <Container>
                 <InputContainer>
                   <Text size='14px' weight={500} style={spacing('mb-10')}>
-                    <FormattedMessage id='sfoxexchangedata.link.micro.deposit1' defaultMessage="Deposit 1" />
+                    <FormattedMessage id='sfoxexchangedata.link.micro.deposit1' defaultMessage='Deposit 1' />
                   </Text>
                   <Field name='deposit1' component={TextBox} validate={[required]} type='number' />
                 </InputContainer>
                 <InputContainer>
                   <Text size='14px' weight={500} style={spacing('mb-10')}>
-                    <FormattedMessage id='sfoxexchangedata.link.micro.deposit2' defaultMessage="Deposit 2" />
+                    <FormattedMessage id='sfoxexchangedata.link.micro.deposit2' defaultMessage='Deposit 2' />
                   </Text>
                   <Field name='deposit2' component={TextBox} validate={[required]} type='number' />
                 </InputContainer>

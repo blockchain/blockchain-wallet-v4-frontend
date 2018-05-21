@@ -9,7 +9,16 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class CaptchaBoxContainer extends React.PureComponent {
+  constructor (props) {
+    super(props)
+    this.fetchNewCaptcha = this.fetchNewCaptcha.bind(this)
+  }
+
   componentWillMount () {
+    this.props.actions.fetchCaptcha()
+  }
+
+  fetchNewCaptcha () {
     this.props.actions.fetchCaptcha()
   }
 
@@ -17,7 +26,7 @@ class CaptchaBoxContainer extends React.PureComponent {
     const { data } = this.props
 
     return data.cata({
-      Success: (value) => <Success captchaUrl={value.url} {...this.props} />,
+      Success: (value) => <Success captchaUrl={value.url} fetchNewCaptcha={this.fetchNewCaptcha} {...this.props} />,
       Failure: (message) => <Error>{message}</Error>,
       NotAsked: () => <Loading />,
       Loading: () => <Loading />

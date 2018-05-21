@@ -4,7 +4,7 @@ import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, 
 
 import Settings from './Settings'
 
-const IPWhitelist = (props) => {
+const IPWhitelist = () => {
   return (
     <SettingContainer>
       <SettingSummary>
