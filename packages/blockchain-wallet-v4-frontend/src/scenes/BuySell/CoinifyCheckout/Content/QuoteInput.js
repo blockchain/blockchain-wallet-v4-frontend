@@ -10,7 +10,7 @@ import Loading from '../../template.loading'
 
 class QuoteInput extends Component {
   render () {
-    let { data, symbol, setMax, setMin, checkoutError, increaseLimit, defaultCurrency, limits, disabled, type } = this.props
+    const { data, symbol, setMax, setMin, checkoutError, increaseLimit, defaultCurrency, limits, disabled, type } = this.props
     return data.cata({
       Success: (value) => {
         const QuoteInputTemplate = type === 'buy' ? QuoteInputTemplateBuy : QuoteInputTemplateSell
