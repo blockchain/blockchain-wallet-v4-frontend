@@ -42,8 +42,12 @@ export default ({ coreSagas }) => {
         return
       }
 
-      yield put(A.coinifyNotAsked())
-      yield put(A.coinifyNextCheckoutStep('isx'))
+      if (buyTrade.medium === 'bank') {
+        yield put(A.coinifyNextCheckoutStep('bankTransferDetails'))
+      } else {
+        yield put(A.coinifyNotAsked())
+        yield put(A.coinifyNextCheckoutStep('isx'))
+      }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'buy', e))
     }
