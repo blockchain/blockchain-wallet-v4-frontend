@@ -27,7 +27,7 @@ class ConfirmContainer extends Component {
     if (this.props.ui.editing) {
       const { baseCurrency, quoteCurrency } = this.props.data.data.quote
       const amt = +this.props.editingAmount * 100
-      this.props.coinifyDataActions.fetchQuoteAndMediums({ amt, baseCurrency, quoteCurrency, medium })
+      this.props.coinifyDataActions.fetchQuoteAndMediums({ amt, baseCurrency, quoteCurrency, medium, type: 'buy' })
     } else {
       const quote = this.props.data.data.quote
       this.props.coinifyActions.initiateBuy({ quote, medium })

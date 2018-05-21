@@ -56,8 +56,9 @@ export default ({ api, options }) => {
     try {
       const coinify = yield select(S.getProfile)
       yield put(A.fetchQuoteLoading())
-      const { amount, baseCurrency, quoteCurrency } = data.quote
-      const quote = yield apply(coinify.data, coinify.data.getBuyQuote, [Math.floor(amount), baseCurrency, quoteCurrency])
+      const { amount, baseCurrency, quoteCurrency, type } = data.quote
+      const getQuote = type === 'sell' ? coinify.data.getSellQuote : coinify.data.getBuyQuote
+      const quote = yield apply(coinify.data, getQuote, [Math.floor(amount), baseCurrency, quoteCurrency])
       yield put(A.fetchQuoteSuccess(quote))
       return quote
     } catch (e) {
@@ -67,8 +68,9 @@ export default ({ api, options }) => {
 
   const fetchQuoteAndMediums = function * (data) {
     try {
-      const { amt, baseCurrency, quoteCurrency, medium } = data.payload
-      const quote = yield apply(coinify, coinify.getBuyQuote, [amt, baseCurrency, quoteCurrency])
+      const { amt, baseCurrency, quoteCurrency, medium, type } = data.payload
+      const getQuote = type === 'sell' ? coinify.data.getSellQuote : coinify.data.getBuyQuote
+      const quote = yield apply(coinify, getQuote, [amt, baseCurrency, quoteCurrency])
       const mediums = yield apply(quote, quote.getPaymentMediums)
       const account = yield apply(mediums[medium], mediums[medium].getAccounts)
       yield put(A.fetchQuoteSuccess(quote))

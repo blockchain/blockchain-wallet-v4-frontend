@@ -42,8 +42,8 @@ export default ({ api, options }) => {
       const nextAddress = data.payload.nextAddress
       yield put(A.setNextAddress(nextAddress))
       yield call(refreshSFOX)
-      const { amt, baseCurr, quoteCurr } = data.payload.quote
-      const quote = yield apply(sfox, sfox.getBuyQuote, [amt, baseCurr, quoteCurr])
+      const { amt, baseCurrency, quoteCurrency } = data.payload.quote
+      const quote = yield apply(sfox, sfox.getBuyQuote, [amt, baseCurrency, quoteCurrency])
       yield put(A.fetchQuoteSuccess(quote))
       yield fork(waitForRefreshQuote, data.payload)
     } catch (e) {
@@ -57,8 +57,8 @@ export default ({ api, options }) => {
       // const nextAddress = data.payload.nextAddress
       // yield put(A.setNextAddress(nextAddress))
       yield call(refreshSFOX)
-      const { amt, baseCurr, quoteCurr } = data.payload.quote
-      const quote = yield apply(sfox, sfox.getSellQuote, [amt, baseCurr, quoteCurr])
+      const { amt, baseCurrency, quoteCurrency } = data.payload.quote
+      const quote = yield apply(sfox, sfox.getSellQuote, [amt, baseCurrency, quoteCurrency])
       yield put(A.fetchSellQuoteSuccess(quote))
       // yield fork(waitForRefreshQuote, data.payload)
     } catch (e) {

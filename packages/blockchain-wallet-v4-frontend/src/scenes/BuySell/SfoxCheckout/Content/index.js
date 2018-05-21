@@ -12,8 +12,8 @@ class Checkout extends React.PureComponent {
     this.props.sfoxDataActions.fetchTrades()
     this.props.sfoxDataActions.fetchProfile()
     this.props.sfoxDataActions.sfoxFetchAccounts()
-    this.props.sfoxDataActions.fetchQuote({quote: { amt: 1e8, baseCurr: 'BTC', quoteCurr: 'USD' }})
-    this.props.sfoxDataActions.fetchSellQuote({quote: { amt: 1e8, baseCurr: 'BTC', quoteCurr: 'USD' }})
+    this.props.sfoxDataActions.fetchQuote({quote: { amt: 1e8, baseCurrency: 'BTC', quoteCurrency: 'USD' }})
+    this.props.sfoxDataActions.fetchSellQuote({quote: { amt: 1e8, baseCurrency: 'BTC', quoteCurrency: 'USD' }})
   }
 
   componentDidMount () {
