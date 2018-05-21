@@ -1,27 +1,39 @@
 import React from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import AddCustomerDetails from './template.js'
 
+import { actions } from 'data'
+import { getData } from './selectors.js'
+import Success from './template.success.js'
+import Loading from '../../../../template.loading'
 class AddCustomerDetailsContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  onSubmit (e) {
-    e.preventDefault()
-    // TODO: Store form data in the state
+  onSubmit (mediums, account) {
+    const { coinifyDataActions } = this.props
+    console.log('Submitting')
+    coinifyDataActions.addBankAccount(mediums, account)
   }
 
   render () {
-    return <AddCustomerDetails {...this.props} onSubmit={this.onSubmit} />
+    return this.props.data.cata({
+      Success: (value) => <Success onSubmit={this.onSubmit} {...value} />,
+      Failure: (msg) => <div>Failure: {msg.error}</div>,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
+    })
   }
 }
 
 const mapStateToProps = (state) => ({
+  data: getData(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  coinifyDataActions: bindActionCreators(actions.core.data.coinify, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddCustomerDetailsContainer)

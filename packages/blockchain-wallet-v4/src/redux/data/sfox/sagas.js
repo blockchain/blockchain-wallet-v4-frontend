@@ -120,7 +120,8 @@ export default ({ api, options }) => {
     try {
       const sfox = yield call(getSfox)
       const methods = yield apply(sfox, sfox.getBuyMethods)
-      const addedBankAccount = yield apply(methods.ach, methods.ach.addAccount, [routing, account, name, type])
+      const addedBankAccount = yield apply(methods.ach, methods.ach.addAccount,
+        [routing, account, name, type])
       yield put(A.setBankManuallySuccess(addedBankAccount))
     } catch (e) {
       yield put(A.setBankAccountFailure(e))
@@ -168,7 +169,8 @@ export default ({ api, options }) => {
     try {
       const sfox = yield call(getSfox)
       const profile = yield select(S.getProfile)
-      const sfoxUrl = yield apply(profile.data, profile.data.getSignedURL, [idType, file.name])
+      const sfoxUrl = yield apply(profile.data, profile.data.getSignedURL,
+        [idType, file.name])
 
       yield call(api.uploadVerificationDocument, sfoxUrl.signed_url, file)
 
@@ -197,7 +199,8 @@ export default ({ api, options }) => {
     const { amount1, amount2 } = data.payload
     try {
       const accounts = yield select(S.getAccounts)
-      const response = yield apply(accounts.data[0], accounts.data[0].verify, [amount1, amount2])
+      const response = yield apply(accounts.data[0], accounts.data[0].verify,
+        [amount1, amount2])
       console.log('deposits response', response)
       /*
         valid response: {payment_method_id: "69fa19d0-f045-4097-96ec-4e1c74ccc695", status: "active"}
