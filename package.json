@@ -135,7 +135,5 @@
     "webpack-cli": "^2.0.13",
     "webpack-dev-server": "^3.1.1"
   },
-  "dependencies": {
-    "lodash.debounce": "^4.0.8"
-  }
+  "dependencies": {}
 }

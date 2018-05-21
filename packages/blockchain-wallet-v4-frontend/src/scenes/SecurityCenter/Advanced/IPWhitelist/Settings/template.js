@@ -2,32 +2,44 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
 
 import { Button, ButtonGroup, Text } from 'blockchain-info-components'
 import { TextBox } from 'components/Form'
 import { validIpList } from 'services/FormHelper'
 import { SettingForm, SettingWrapper } from 'components/Setting'
 
+const ButtonWrapper = styled(ButtonGroup)`
+  margin-top: 5px;
+  & > :first-child {
+    margin-right: 5px;
+  }
+`
+const Input = styled(Field)`
+  margin-top: 20px;
+`
 const Settings = (props) => {
   const { updateToggled, handleToggle, handleClick, currentWhitelist, submitting, invalid, handleCancel } = props
 
   return (
     <SettingWrapper>
       <Text>{currentWhitelist.data}</Text>
-      <Button nature='primary' onClick={handleToggle}>
-        <FormattedMessage id='scenes.securitysettings.advancedsettings.ipwhitelist.settings.change' defaultMessage='Add' />
-      </Button>
-      {updateToggled &&
+      { !updateToggled &&
+        <Button nature='primary' onClick={handleToggle}>
+          <FormattedMessage id='scenes.securitysettings.advancedsettings.ipwhitelist.settings.change' defaultMessage='Add' />
+        </Button>
+      }
+      { updateToggled &&
         <SettingForm>
-          <Field name='IPWhitelist' validate={[validIpList]} component={TextBox} />
-          <ButtonGroup>
+          <Input name='IPWhitelist' validate={[validIpList]} component={TextBox} />
+          <ButtonWrapper>
             <Button nature='empty' capitalize onClick={handleCancel}>
               <FormattedMessage id='scenes.securitysettings.advancedsettings.ipwhitelist.settings.cancel' defaultMessage='Cancel' />
             </Button>
             <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleClick}>
               <FormattedMessage id='scenes.securitysettings.advancedsettings.ipwhitelist.settings.save' defaultMessage='Save' />
             </Button>
-          </ButtonGroup>
+          </ButtonWrapper>
         </SettingForm>
       }
     </SettingWrapper>
