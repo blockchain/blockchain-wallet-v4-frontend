@@ -28,6 +28,9 @@ const CheckoutWrapper = styled.div`
   font-family: 'Montserrat', Helvetica, sans-serif;
   flex-direction: row;
   display: flex;
+  @media(min-height: 800px) {
+    height: 70%;
+  }
 `
 const Menu = reduxForm({ form: 'buySellTabStatus' })(HorizontalMenu)
 
