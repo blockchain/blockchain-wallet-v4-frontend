@@ -6,7 +6,8 @@ const INITIAL_STATE = {
   checkoutBusy: false,
   checkoutError: false,
   coinifyBusy: Remote.NotAsked,
-  step: null
+  step: null,
+  checkoutStep: 'checkout'
 }
 
 const coinify = (state = INITIAL_STATE, action) => {
