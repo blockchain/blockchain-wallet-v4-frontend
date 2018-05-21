@@ -16,6 +16,7 @@ export default ({ api, options }) => {
     yield takeLatest(AT.RESET_PROFILE, coinifySagas.resetProfile)
     yield takeLatest(AT.COINIFY_GET_PAYMENT_MEDIUMS, coinifySagas.getPaymentMediums)
     yield takeLatest(AT.COINIFY_GET_MEDIUM_ACCOUNTS, coinifySagas.getMediumAccounts)
+    yield takeLatest(AT.COINIFY_ADD_BANK_ACCOUNT, coinifySagas.addBankAccount)
     yield takeLatest(AT.COINIFY_FETCH_QUOTE_AND_MEDIUMS, coinifySagas.fetchQuoteAndMediums)
     yield takeLatest(AT.COINIFY_CANCEL_TRADE, coinifySagas.cancelTrade)
     yield takeLatest(AT.COINIFY_BUY, coinifySagas.buy)

@@ -41,7 +41,7 @@ const AddBankDetails = (props) => {
             </Text>
             <Text weight={300} size='12px'>
               <FormattedMessage id='coinifyexchangedata.addbankdetails.swift' defaultMessage='Bank Identifier Code (SWIFT/BIC)' />
-              <Field name='swift' validate={[required]} component={TextBox} />
+              <Field name='bic' validate={[required]} component={TextBox} />
             </Text>
           </InputWrapper>
         </BorderBox>
@@ -62,4 +62,4 @@ const AddBankDetails = (props) => {
   )
 }
 
-export default reduxForm({ form: 'coinifyAddBankDetails' })(AddBankDetails)
+export default reduxForm({ form: 'coinifyAddBankDetails', destroyOnUnmount: false })(AddBankDetails)

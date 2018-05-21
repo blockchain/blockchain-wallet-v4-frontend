@@ -13,7 +13,8 @@ export default ({ api, options }) => {
     const delegate = new ExchangeDelegate(state, api)
     const value = yield select(buySellSelectors.getMetadata)
     const walletOptions = state.walletOptionsPath.data
-    let coinify = yield apply(coinifyService, coinifyService.refresh, [value, delegate, walletOptions])
+    let coinify = yield apply(coinifyService, coinifyService.refresh,
+      [value, delegate, walletOptions])
     yield apply(coinify, coinify.profile.fetch)
     yield put(A.coinifyFetchProfileSuccess(coinify))
     return coinify
@@ -28,7 +29,8 @@ export default ({ api, options }) => {
     const value = yield select(buySellSelectors.getMetadata)
 
     const walletOptions = state.walletOptionsPath.data
-    coinify = yield apply(coinifyService, coinifyService.refresh, [value, delegate, walletOptions])
+    coinify = yield apply(coinifyService, coinifyService.refresh,
+      [value, delegate, walletOptions])
     yield apply(coinify, coinify.profile.fetch)
     yield put(A.coinifyFetchProfileSuccess(coinify))
   }
@@ -57,8 +59,11 @@ export default ({ api, options }) => {
       const coinify = yield select(S.getProfile)
       yield put(A.fetchQuoteLoading())
       const { amount, baseCurrency, quoteCurrency, type } = data.quote
-      const getQuote = type === 'sell' ? coinify.data.getSellQuote : coinify.data.getBuyQuote
-      const quote = yield apply(coinify.data, getQuote, [Math.floor(amount), baseCurrency, quoteCurrency])
+      const getQuote = type === 'sell'
+        ? coinify.data.getSellQuote
+        : coinify.data.getBuyQuote
+      const quote = yield apply(coinify.data, getQuote,
+        [Math.floor(amount), baseCurrency, quoteCurrency])
       yield put(A.fetchQuoteSuccess(quote))
       return quote
     } catch (e) {
@@ -69,7 +74,9 @@ export default ({ api, options }) => {
   const fetchQuoteAndMediums = function * (data) {
     try {
       const { amt, baseCurrency, quoteCurrency, medium, type } = data.payload
-      const getQuote = type === 'sell' ? coinify.data.getSellQuote : coinify.data.getBuyQuote
+      const getQuote = type === 'sell'
+        ? coinify.data.getSellQuote
+        : coinify.data.getBuyQuote
       const quote = yield apply(coinify, getQuote, [amt, baseCurrency, quoteCurrency])
       const mediums = yield apply(quote, quote.getPaymentMediums)
       const account = yield apply(mediums[medium], mediums[medium].getAccounts)
@@ -139,12 +146,25 @@ export default ({ api, options }) => {
     }
   }
 
+  const addBankAccount = function * (data) {
+    try {
+      const { medium, account } = data.payload
+      const bankAccount = yield apply(medium, medium.addBankAccount, [account])
+      console.log(bankAccount)
+      // yield put(A.addBankAccountSuccess(bankAccount))
+    } catch (e) {
+      yield put(A.addBankAccountFailure(e))
+    }
+  }
+
   const signup = function * () {
     const countryCode = 'FR' // TODO should be passed in
     const fiatCurrency = 'EUR' // TODO should be passed in
     try {
       const coinify = yield call(getCoinify)
-      const signupResponse = yield apply(coinify, coinify.signup, [countryCode, fiatCurrency]) // TODO countryCode and fiatCurrency passed in as args
+      const signupResponse = yield apply(coinify, coinify.signup,
+        [countryCode, fiatCurrency])
+      // TODO countryCode and fiatCurrency passed in as args
 
       yield put(buySellA.coinifySetProfileBuySell(signupResponse))
       yield put(A.coinifySetToken(signupResponse))
@@ -255,6 +275,7 @@ export default ({ api, options }) => {
     resetProfile,
     getPaymentMediums,
     getMediumAccounts,
+    addBankAccount,
     fetchQuoteAndMediums,
     cancelTrade,
     triggerKYC,
