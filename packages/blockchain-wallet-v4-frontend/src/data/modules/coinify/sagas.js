@@ -101,14 +101,14 @@ export default ({ coreSagas }) => {
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
       const payload = prop('payload', action)
+
       if (!any(equals(form))(['coinifyCheckoutBuy', 'coinifyCheckoutSell'])) return
       yield put(A.coinifyCheckoutBusyOn())
+      if (!payload) return null
 
       const limits = yield select(selectors.core.data.coinify.getLimits)
-
       const values = yield select(selectors.form.getFormValues(form))
-
-      if (!payload) return null
+      const type = form === 'coinifyCheckoutBuy' ? 'buy' : 'sell'
 
       switch (field) {
         case 'leftVal':
@@ -117,13 +117,15 @@ export default ({ coreSagas }) => {
             yield put(A.setCoinifyCheckoutError(leftLimitsError))
             return
           }
-          const leftResult = yield call(coreSagas.data.coinify.fetchQuote, { quote: { amount: payload * 100, baseCurrency: values.currency, quoteCurrency: 'BTC' } })
+          const leftResult = yield call(coreSagas.data.coinify.fetchQuote,
+            { quote: { amount: payload * 100, baseCurrency: values.currency, quoteCurrency: 'BTC', type } })
           const amount = leftResult.quoteAmount
           yield put(actions.form.initialize(form, merge(values, { 'rightVal': amount / 1e8 })))
           yield put(A.coinifyCheckoutBusyOff())
           break
         case 'rightVal':
-          const rightResult = yield call(coreSagas.data.coinify.fetchQuote, { quote: { amount: Math.round((payload * 1e8) * -1), baseCurrency: 'BTC', quoteCurrency: values.currency } })
+          const rightResult = yield call(coreSagas.data.coinify.fetchQuote,
+            { quote: { amount: Math.round((payload * 1e8) * -1), baseCurrency: 'BTC', quoteCurrency: values.currency, type } })
           const fiatAmount = Math.abs(rightResult.quoteAmount)
 
           const rightLimitsError = service.getLimitsError(fiatAmount, limits.data, values.currency)
@@ -152,8 +154,10 @@ export default ({ coreSagas }) => {
       const { amount, type } = action.payload
       const form = type === 'buy' ? 'coinifyCheckoutBuy' : 'coinifyCheckoutSell'
       const values = yield select(selectors.form.getFormValues(form))
-      const leftResult = yield call(coreSagas.data.coinify.fetchQuote, { quote: { amount: amount * 100, baseCurrency: values.currency, quoteCurrency: 'BTC' } })
-      yield put(actions.form.initialize('coinifyCheckout', merge(values, { 'leftVal': action.payload, 'rightVal': leftResult.quoteAmount / 1e8 })))
+      const leftResult = yield call(coreSagas.data.coinify.fetchQuote,
+        { quote: { amount: amount * 100, baseCurrency: values.currency, quoteCurrency: 'BTC', type } })
+      yield put(actions.form.initialize('coinifyCheckout',
+        merge(values, { 'leftVal': action.payload, 'rightVal': leftResult.quoteAmount / 1e8 })))
       yield put(A.coinifyCheckoutBusyOff())
       yield put(A.clearCoinifyCheckoutError())
     } catch (e) {
@@ -175,7 +179,8 @@ export default ({ coreSagas }) => {
       const trade = yield select(selectors.core.data.coinify.getTrade)
 
       yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
-      yield put(actions.modals.showModal('CoinifyTradeDetails', { trade: trade.data, status: status }))
+      yield put(actions.modals.showModal('CoinifyTradeDetails',
+        { trade: trade.data, status: status }))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'fromISX', e))
     }
