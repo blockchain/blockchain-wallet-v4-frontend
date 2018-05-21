@@ -29,6 +29,6 @@ export default {
   'white-blue': '#F5F7F9',
   'red': '#FF0000',
   'black': '#000000',
-  halftransparentgrey: 'rgba(0, 0, 0, 0.5)',
+  'halftransparentgrey': 'rgba(0, 0, 0, 0.5)',
   'bitcoin-orange': '#f69335'
 }

@@ -1,4 +1,4 @@
-import { assoc } from 'ramda'
+import { isNil, assoc } from 'ramda'
 import * as AT from './actionTypes'
 import { Remote } from 'blockchain-wallet-v4/src'
 
@@ -16,7 +16,7 @@ export default (state = INITIAL_STATE, action) => {
       return INITIAL_STATE
     }
     case AT.SEND_BCH_FIRST_STEP_TO_TOGGLED: {
-      return assoc('toToggled', payload || !state.toToggled, state)
+      return assoc('toToggled', isNil(payload) ? !state.toToggled : payload, state)
     }
     case AT.SEND_BCH_PAYMENT_UPDATED: {
       return assoc('payment', payload, state)

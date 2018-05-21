@@ -16,7 +16,7 @@ const ChangeEmailText = styled(Text)`
   cursor: pointer;
   margin-top: 5px;
   font-size: 10px;
-  @media (min-width: 400px) and (max-width: 991px) {
+  @media (min-width: 320px) and (max-width: 991px) {
     font-size: 12px;
   }
   @media (min-width: 1224px) {
@@ -33,7 +33,7 @@ const EmailButton = styled(Button)`
   width: 100px;
   font-size: 12px;
   min-width: 0px;
-  @media (min-width: 400px) and (max-width: 991px) {
+  @media (min-width: 320px) and (max-width: 991px) {
     font-size: 14px;
     width: 140px;
   }
@@ -45,7 +45,7 @@ const EmailButton = styled(Button)`
 `
 const IconAndHeaderContainer = styled.div`
   opacity: ${props => props.success ? 0.3 : 1};
-  @media(min-width: 480px) {
+  @media(min-width: 320px) {
     display: grid;
     grid-template-columns: 15% 85%;
   }
@@ -64,7 +64,7 @@ const ResendContainer = styled.div`
   div:first-of-type {
     margin-right: 5px;
   }
- 
+
 `
 const EmailAddress = (props) => {
   const { data, ui, handleSubmitVerification, handleResend, invalid, code } = props
@@ -98,10 +98,9 @@ const EmailAddress = (props) => {
       }
       return (
         <EmailExplanation>
-          <FormattedMessage id='scenes.security.email.unverifieddescription' defaultMessage='Select ‘Send Code’ to begin verifying  ' />
+          <FormattedMessage id='scenes.security.email.unverifieddescription' defaultMessage='We have sent a verification email to ' />
           {email}
-          <FormattedMessage id='scenes.security.email.unverifieddescription2' defaultMessage='. Once the code is received, please enter that code in the field. ' />
-          <FormattedMessage id='scenes.security.email.unverifieddescription3' defaultMessage='We will use this email to authorize logins, send payment notifications, and notify you of wallet updates.' />
+          <FormattedMessage id='scenes.security.email.unverifieddescription2' defaultMessage='. Please enter the code you’ve received to your email in order to complete the verification process. We will use this email to authorize logins, send payment notifications, and notify you of wallet updates.' />
         </EmailExplanation>
       )
     }

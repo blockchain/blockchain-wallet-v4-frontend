@@ -44,7 +44,7 @@ const Success = ({ importedAddresses, onClickImport, onToggleArchived, onShowPri
       </ImportedAddressesSettingHeader>
       <SettingDescription style={spacing('mb-10')}>
         <WarningWrapper>
-          <Icon name='alert-filled' size='22px' className={'warning-icon'} />
+          <Icon name='alert-filled' size='22px' className={'warning-icon'} color='brand-yellow' />
           <FormattedMessage id='scenes.settings.addresses.imported_bitcoin_addrs_desc' defaultMessage='Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet.' />
         </WarningWrapper>
       </SettingDescription>

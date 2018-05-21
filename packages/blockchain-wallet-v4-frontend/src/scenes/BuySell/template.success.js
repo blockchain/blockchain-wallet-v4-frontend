@@ -47,7 +47,7 @@ const Intro = styled.div`
   width: 100%;
 `
 const SelectionContainer = Intro.extend`
-  margin-top: 15px;
+  margin-top: 25px;
 `
 const FieldWrapper = Intro.extend`
   margin-top: 5px;
@@ -71,19 +71,16 @@ const SelectPartner = (props) => {
   const coinifyCountries = options.platforms.web.coinify.countries
   const countries = [sfoxCountries, coinifyCountries, unocoinCountries].join().split(',')
 
-  const onSfoxWhitelist = val => val && sfoxStates.indexOf(val) >= 0 ? undefined : 'state not supported'
-  const onPartnerCountryWhitelist = val => val && countries.indexOf(val) >= 0 ? undefined : 'country not supported'
+  const onSfoxWhitelist = usState => usState.code && sfoxStates.indexOf(usState.code) >= 0 ? undefined : 'This service is not yet available in your state.'
+  const onPartnerCountryWhitelist = val => val && countries.indexOf(val) >= 0 ? undefined : 'This service is not yet available in your country.'
 
   const onSubmit = (e) => {
     e.preventDefault()
     if (sfoxCountries.indexOf(country) >= 0) {
       props.modalActions.showModal('SfoxExchangeData', { step: 'account' })
     }
-    // if (unocoinCountries.indexOf(country) >= 0) {
-    //   console.log('start unocoin')
-    // }
     if (coinifyCountries.indexOf(country) >= 0) {
-      props.modalActions.showModal('CoinifyExchangeData', { step: 'account' })
+      props.modalActions.showModal('CoinifyExchangeData', { step: 'account', country: props.country })
     }
   }
 

@@ -10,7 +10,7 @@ class ConvertorContainer extends React.PureComponent {
     if (!equals(nextProps.value, prevState)) {
       return nextProps.value
     }
-    return undefined
+    return null
   }
 
   constructor (props) {

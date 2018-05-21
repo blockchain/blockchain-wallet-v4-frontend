@@ -1,6 +1,6 @@
 import * as AT from './actionTypes'
 
-export const coinifySignup = () => ({ type: AT.SIGNUP })
+export const coinifySignup = (country) => ({ type: AT.SIGNUP, payload: country })
 
 export const coinifySignupFailure = (error) => ({ type: AT.COINIFY_SIGNUP_FAILURE, payload: error })
 
@@ -39,3 +39,7 @@ export const fromISX = (state) => ({ type: AT.COINIFY_FROM_ISX, payload: state }
 export const triggerKYC = () => ({ type: AT.COINIFY_TRIGGER_KYC })
 
 export const openKYC = (kyc) => ({ type: AT.OPEN_KYC, payload: kyc })
+
+export const cancelISX = () => ({ type: AT.CANCEL_ISX })
+
+export const finishTrade = (trade) => ({ type: AT.FINISH_TRADE, payload: trade })

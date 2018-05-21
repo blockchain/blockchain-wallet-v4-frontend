@@ -12,9 +12,6 @@ const Wrapper = styled.section`
 const BchWalletsAddressesSettingHeader = SettingHeader.extend`
   justify-content: flex-start;
 `
-const AddressesSettingDescription = SettingDescription.extend`
-  margin-bottom: 10px;
-`
 const WalletTableCell = styled(TableCell)`
   align-items: center;
   min-height: 23px;
@@ -56,7 +53,7 @@ const Success = (props) => {
           {isArchived && <Banner label type='informational'><FormattedMessage id='scenes.settings.bch.addresses.archived_label' defaultMessage='Archived' /></Banner>}
         </WalletTableCell>
         <TableCell width='30%'>
-          <SwitchableDisplay size='13px' coin='BCH'>{wallet.value.balance}</SwitchableDisplay>
+          {!isArchived && <SwitchableDisplay size='13px' coin='BCH'>{wallet.value.balance}</SwitchableDisplay>}
         </TableCell>
         <TableCell width='20%' style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <ComponentDropdown
@@ -83,9 +80,9 @@ const Success = (props) => {
       <BchWalletsAddressesSettingHeader>
         <FormattedMessage id='scenes.settings.addresses.bch_wallets' defaultMessage='Bitcoin Cash Wallets' />
       </BchWalletsAddressesSettingHeader>
-      <AddressesSettingDescription>
+      <SettingDescription>
         <FormattedMessage id='scenes.settings.addresses.bch_wallets_description' defaultMessage='Wallets allow you to organize your funds into categories, like spending or savings. To see all of the individual addresses that have been generated for each wallet, click on ‘Manage‘.' />
-      </AddressesSettingDescription>
+      </SettingDescription>
       <Table>
         <TableHeader>
           <TableCell width='50%'>

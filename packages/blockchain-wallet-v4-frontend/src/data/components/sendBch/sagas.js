@@ -65,6 +65,7 @@ export default ({ coreSagas }) => {
           }
           break
         case 'from':
+          yield put(A.sendBchFirstStepToToggled(false))
           const source = prop('address', payload) || prop('index', payload)
           payment = yield payment.from(source)
           break
@@ -119,15 +120,15 @@ export default ({ coreSagas }) => {
       let p = yield select(S.getPayment)
       let payment = coreSagas.payment.bch.create({ payment: p.getOrElse({}), network: settings.NETWORK_BCH })
       const password = yield call(promptForSecondPassword)
+      yield put(actions.modals.closeAllModals())
       payment = yield payment.sign(password)
       payment = yield payment.publish()
       yield put(A.sendBchPaymentUpdated(Remote.of(payment.value())))
-      yield put(actions.modals.closeAllModals())
       yield put(actions.router.push('/bch/transactions'))
-      yield put(actions.alerts.displaySuccess('Bitcoin cash transaction has been successfully published!'))
+      yield put(actions.alerts.displaySuccess('Your bitcoin cash transaction is now pending.'))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e))
-      yield put(actions.alerts.displayError('Failed to publish Bitcoin Cash transaction.'))
+      yield put(actions.alerts.displayError('Your bitcoin cash transaction failed to send. Please try again.'))
     }
   }
 

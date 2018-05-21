@@ -11,6 +11,7 @@ export const createDeepEqualSelector = createSelectorCreator(
 export const transform = curry((coin, transaction) => ({
   type: 'transaction',
   time: transaction.time * 1000,
+  path: `/${coin.toLowerCase()}/transactions`,
   amount: transaction.amount,
   action: transaction.type,
   coin: coin

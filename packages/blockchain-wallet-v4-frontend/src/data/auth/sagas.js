@@ -199,7 +199,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displayInfo('Restoring wallet...'))
       yield call(coreSagas.wallet.restoreWalletSaga, action.payload)
       yield put(actions.alerts.displaySuccess('Your wallet has been successfully restored.'))
-      yield call(loginRoutineSaga)
+      yield call(loginRoutineSaga, false, true)
       yield put(actions.auth.restoreSuccess())
     } catch (e) {
       yield put(actions.auth.restoreFailure())
@@ -224,8 +224,9 @@ export default ({ api, coreSagas }) => {
       const response = yield call(coreSagas.wallet.resetWallet2fa, action.payload)
       if (response.success) {
         yield put(actions.auth.reset2faSuccess())
-        yield put(actions.alerts.displayInfo('Reset 2-step Authentication has been successfully submitted. Please check your email for more information.'))
+        yield put(actions.alerts.displayInfo('Reset 2-step authentication has been successfully submitted.'))
       } else {
+        yield put(actions.core.data.misc.fetchCaptcha())
         yield put(actions.auth.reset2faFailure())
         yield put(actions.alerts.displayError(response.message))
       }

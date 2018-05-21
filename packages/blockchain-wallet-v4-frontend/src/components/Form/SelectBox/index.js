@@ -22,14 +22,14 @@ const Error = styled.label`
 `
 
 const SelectBox = (props) => {
-  const { input, meta, ...rest } = props
+  const { input, meta, hideErrors, ...rest } = props
   const { touched, invalid, error, pristine } = meta
   const errorState = !touched ? 'initial' : (invalid ? 'invalid' : 'valid')
 
   return (
     <Container>
       <SelectInput {...input} {...meta} {...rest} errorState={errorState} />
-      {(touched || !pristine) && error && <Error>{error}</Error>}
+      {(touched || !pristine) && error && !hideErrors && <Error>{error}</Error>}
     </Container>
   )
 }
