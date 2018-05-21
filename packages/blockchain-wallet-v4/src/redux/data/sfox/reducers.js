@@ -7,7 +7,7 @@ const INITIAL_STATE = {
   quote: Remote.NotAsked,
   trades: Remote.NotAsked,
   profile: Remote.NotAsked,
-  accounts: Remote.NotAsked,
+  achAccounts: Remote.NotAsked,
   nextAddress: null
 }
 
@@ -52,13 +52,13 @@ const sfoxReducer = (state = INITIAL_STATE, action) => {
       return assoc('trades', Remote.Failure(payload), state)
     }
     case AT.SFOX_FETCH_ACCOUNTS_LOADING: {
-      return assoc('accounts', Remote.Loading, state)
+      return assoc('achAccounts', Remote.Loading, state)
     }
     case AT.SFOX_FETCH_ACCOUNTS_SUCCESS: {
-      return assoc('accounts', Remote.Success(payload), state)
+      return assoc('achAccounts', Remote.Success(payload), state)
     }
     case AT.SFOX_FETCH_ACCOUNTS_FAILURE: {
-      return assoc('accounts', Remote.Failure(payload), state)
+      return assoc('achAccounts', Remote.Failure(payload), state)
     }
     case AT.SFOX_HANDLE_TRADE_LOADING: {
       return assoc('trade', Remote.Loading, state)
@@ -94,10 +94,13 @@ const sfoxReducer = (state = INITIAL_STATE, action) => {
       return state
     }
     case AT.SET_BANK_MANUALLY_SUCCESS: {
-      return assoc('accounts', Remote.Success(payload), state)
+      return assoc('achAccounts', Remote.Success(payload), state)
+    }
+    case AT.SET_BANK_MANUALLY_LOADING: {
+      return assoc('achAccounts', Remote.Loading, state)
     }
     case AT.SET_BANK_MANUALLY_FAILURE: {
-      return assoc('accounts', Remote.Failure(payload), state)
+      return assoc('achAccounts', Remote.Failure(payload), state)
     }
     case AT.SIGNUP_SUCCESS: {
       return assoc('profile', Remote.Success(payload), state)

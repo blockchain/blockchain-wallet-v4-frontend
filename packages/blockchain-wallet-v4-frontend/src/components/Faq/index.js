@@ -26,7 +26,7 @@ class FaqContainer extends React.PureComponent {
     const filterContent = (contentPart) => {
       if (search) {
         const filteredGroupQuestions = filter(q =>
-          containsRecursive(search, q.question) || containsRecursive(search, q.answer)
+          containsRecursive(search, q.question) || containsRecursive(search, q.answer) || containsRecursive(search, contentPart.groupTitleMsg)
         )(contentPart.groupQuestions)
         return assoc('groupQuestions', filteredGroupQuestions, contentPart)
       } else {

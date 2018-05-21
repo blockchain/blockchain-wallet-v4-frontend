@@ -59,14 +59,14 @@ const BalanceDropdown = styled.div`
 `
 
 const Success = props => {
-  const { bitcoinContext, etherContext, bchContext, path } = props
+  const { btcContext, ethContext, bchContext, path } = props
 
   const getComponentOrder = () => {
     switch (path) {
-      case '/btc/transactions': return [<BitcoinBalance large context={bitcoinContext} />, <EtherBalance context={etherContext} />, <BchBalance context={bchContext} />, <TotalBalance />]
-      case '/eth/transactions': return [<EtherBalance large context={etherContext} />, <BitcoinBalance context={bitcoinContext} />, <BchBalance context={bchContext} />, <TotalBalance />]
-      case '/bch/transactions': return [<BchBalance large context={bchContext} />, <BitcoinBalance context={bitcoinContext} />, <EtherBalance context={etherContext} />, <TotalBalance />]
-      default: return [<TotalBalance large />, <BitcoinBalance context={bitcoinContext} />, <EtherBalance context={etherContext} />, <BchBalance context={bchContext} />]
+      case '/btc/transactions': return [<BitcoinBalance large context={btcContext} />, <EtherBalance context={ethContext} />, <BchBalance context={bchContext} />, <TotalBalance />]
+      case '/eth/transactions': return [<EtherBalance large context={ethContext} />, <BitcoinBalance context={btcContext} />, <BchBalance context={bchContext} />, <TotalBalance />]
+      case '/bch/transactions': return [<BchBalance large context={bchContext} />, <BitcoinBalance context={btcContext} />, <EtherBalance context={ethContext} />, <TotalBalance />]
+      default: return [<TotalBalance large />, <BitcoinBalance context={btcContext} />, <EtherBalance context={ethContext} />, <BchBalance context={bchContext} />]
     }
   }
 

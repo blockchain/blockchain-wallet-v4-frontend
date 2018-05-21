@@ -14,6 +14,7 @@ class WalletLayoutContainer extends React.PureComponent {
     this.props.kvStoreBuySellActions.fetchMetadataBuySell()
     this.props.kvStoreWhatsnewActions.fetchMetadataWhatsnew()
     this.props.kvStoreShapeshiftActions.fetchMetadataShapeshift()
+    this.props.kvStoreBuySellActions.fetchMetadataBuySell()
   }
 
   render () {
