@@ -78,9 +78,13 @@ class BuySellContainer extends React.PureComponent {
 
     return (
       <Wrapper>
-        <Menu>
-          <Field name='status' component={TabMenuBuySellStatus} />
-        </Menu>
+        {
+          view.props.value.coinify.offline_token || view.props.value.sfox.account_token
+            ? <Menu>
+              <Field name='status' component={TabMenuBuySellStatus} />
+            </Menu>
+            : null
+        }
         <CheckoutWrapper>
           {view}
         </CheckoutWrapper>
