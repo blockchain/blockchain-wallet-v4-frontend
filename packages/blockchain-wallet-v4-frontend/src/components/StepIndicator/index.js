@@ -50,8 +50,13 @@ const Steps = styled.div`
 
 const Step = styled.span`
   font-size: 14px;
+<<<<<<< Updated upstream
   min-width: ${props => props.coinify ? '135px' : '70px'};
   max-width: ${props => props.coinify ? '135px' : '70px'};
+=======
+  min-width: ${props => props.minWidth || '70px'};
+  max-width: ${props => props.maxWidth || '70px'};
+>>>>>>> Stashed changes
   margin-left: 50px;
   margin-right: 50px;
   overflow: hidden;
