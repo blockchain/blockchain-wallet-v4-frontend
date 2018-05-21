@@ -19,6 +19,12 @@ const Wrapper = styled.div`
 
   @media(min-width: 850px) { align-items: flex-end; }
 `
+const BalanceText = styled(Text)`
+  font-size: 20px;
+  @media(min-width: 768) {
+    font-size: 16px;
+  }
+`
 
 const BalanceDropdown = styled.div`
   margin-top: 4px;
@@ -81,9 +87,9 @@ const Success = props => {
 
   return (
     <Wrapper>
-      <Text size={'20px'} weight={300}>
+      <BalanceText weight={300}>
         {getBalanceMessage()}
-      </Text>
+      </BalanceText>
       <BalanceDropdown>
         <ComponentDropdown
           down

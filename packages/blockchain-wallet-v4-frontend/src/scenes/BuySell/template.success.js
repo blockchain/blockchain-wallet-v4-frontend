@@ -47,7 +47,7 @@ const Intro = styled.div`
   width: 100%;
 `
 const SelectionContainer = Intro.extend`
-  margin-top: 15px;
+  margin-top: 25px;
 `
 const FieldWrapper = Intro.extend`
   margin-top: 5px;

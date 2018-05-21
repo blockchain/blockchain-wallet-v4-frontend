@@ -211,7 +211,7 @@ export default ({ coreSagas }) => {
       yield put(actions.alerts.displaySuccess('Your bitcoin has been sent!'))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e))
-      yield put(actions.alerts.displayError('Failed to send Bitcoin.'))
+      yield put(actions.alerts.displayError('Failed to send bitcoin.'))
     }
   }
 

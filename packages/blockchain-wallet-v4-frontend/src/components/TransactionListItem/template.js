@@ -18,10 +18,10 @@ const TransactionRowContainer = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  padding: 15px 15px;
+  padding: 10px;
   box-sizing: border-box;
   border-bottom: 1px solid ${props => props.theme['gray-2']};
-  @media (min-width: 480px){
+  @media (min-width: 320px){
     padding: 15px 30px;
   }
 `
