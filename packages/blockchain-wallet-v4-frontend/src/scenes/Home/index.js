@@ -13,23 +13,27 @@ ReactHighcharts.Highcharts.setOptions({ lang: { thousandsSep: ',' } })
 const Wrapper = styled.div`
   width: 100%;
   height: 100%;
-  margin: 0 30px;
+  @media(max-width: 400px) { margin: 0 5px; }
+  @media(min-width: 400px), (max-width: 992px) { margin: 0 15px; }
+  @media(min-width: 992px) { margin: 0 30px; }
 `
-const ColumnWrapper = styled.div`
+const ColumnWrapper = styled.section`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: flex-start;
-  margin: 15px 0;
+  height: 100%;
+  width: 100%;
+  @media(min-width: 992px) { flex-direction: row; }
 `
 const Column = styled.div`
-  display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   height: 100%;
   width: 100%;
+  display: flex;
+  margin-top: 15px;
   box-sizing: border-box;
-  @media(min-width: 992px) { flex-direction: row; }
   @media (max-height: 800px), (max-width: 992px) {
     height: auto;
     display: block;
@@ -37,11 +41,11 @@ const Column = styled.div`
 `
 const ColumnLeft = styled(Column)`
   padding: 0 10px 10px 0;
-  //@media(min-width: 992px) { padding: 15px 0 15px 15px; }
+  @media(max-width: 992px) { padding: 0 }
 `
 const ColumnRight = styled(Column)`
   padding: 0 0 10px 0;
-  //@media(min-width: 992px) { padding: 15px 15px 15px 15px; }
+  @media(max-width: 992px) { padding-top: 15px; }
 `
 
 const Home = () => (

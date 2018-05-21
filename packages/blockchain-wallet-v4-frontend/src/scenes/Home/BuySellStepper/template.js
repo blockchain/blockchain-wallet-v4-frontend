@@ -37,6 +37,10 @@ const LeftColumn = styled.div`
   height: 100px;
   flex-basis: 45%;
   padding: 0 15px;
+  @media(max-width: 992px) { 
+    flex-basis: 100%;
+    justify-content: space-evenly; 
+  }
 `
 const RightColumn = styled.div`
   display: flex;
@@ -46,6 +50,8 @@ const RightColumn = styled.div`
   height: 100px;
   flex-basis: 55%;
   flex-grow: 1;
+  padding: 0 15px;
+  @media(max-width: 992px) { display: none; }
 `
 const Step = styled.div`
   width: 100%;
@@ -111,7 +117,7 @@ const getStepTitle = (step) => {
   switch (step) {
     case 1: return <FormattedMessage id='scenes.home.exchangeStepper.step1' defaultMessage='Create Account' />
     case 2: return <FormattedMessage id='scenes.home.exchangeStepper.step2' defaultMessage='Verify Identity' />
-    case 3: return <FormattedMessage id='scenes.home.exchangeStepper.step3' defaultMessage='Add Documents' />
+    case 3: return <FormattedMessage id='scenes.home.exchangeStepper.step3' defaultMessage='Upload Documents' />
     case 4: return <FormattedMessage id='scenes.home.exchangeStepper.step4' defaultMessage='Link Bank' />
     default: return <div />
   }
