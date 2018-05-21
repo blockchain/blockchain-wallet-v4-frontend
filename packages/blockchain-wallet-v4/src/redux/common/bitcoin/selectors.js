@@ -147,6 +147,6 @@ export const getNextAvailableReceiveIndex = curry((network, accountIndex, state)
 })
 
 export const getNextAvailableReceiveAddress = curry((network, accountIndex, state) => {
-  const index = getNextAvailableReceiveIndex(network, accountIndex, state)
-  return index.map(x => getAddress(network, `${accountIndex}/${0}/${max(x - 1, index) + 1}`, state))
+  const receiveIndex = getNextAvailableReceiveIndex(network, accountIndex, state)
+  return receiveIndex.map(x => getAddress(network, `${accountIndex}/${0}/${x}`, state))
 })
