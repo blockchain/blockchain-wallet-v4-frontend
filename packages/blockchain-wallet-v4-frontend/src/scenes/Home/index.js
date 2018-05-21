@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   width: 100%;
   height: 100%;
   @media(max-width: 400px) { margin: 0 5px; }
-  @media(min-width: 400px), (max-width: 992px) { margin: 0 15px; }
+  @media(min-width: 400px), (max-width: 992px) { margin: 0 10px; }
   @media(min-width: 992px) { margin: 0 30px; }
 `
 const ColumnWrapper = styled.section`

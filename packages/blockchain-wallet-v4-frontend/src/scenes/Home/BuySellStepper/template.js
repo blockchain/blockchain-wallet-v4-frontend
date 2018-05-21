@@ -9,6 +9,7 @@ const Header = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
+  height: 100px;
   margin-top: 15px;
   background-color: ${props => props.theme['brand-quaternary']};
   border: 1px solid ${props => props.theme['gray-1']};
@@ -46,12 +47,12 @@ const RightColumn = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  align-items: center;
-  height: 100px;
+  padding-top: 15px;
   flex-basis: 55%;
   flex-grow: 1;
-  padding: 0 15px;
+  padding-right: 15px;
   @media(max-width: 992px) { display: none; }
+  @media(min-width: 1200px) { padding-top: 18px; }
 `
 const Step = styled.div`
   width: 100%;
@@ -68,16 +69,16 @@ const ArrowWrapper = styled.div`
 `
 const Arrow = styled.div`
   width: 100%; 
-  border-top: 1px solid  #727272;
+  border-top: 1px solid  ${props => props.theme['gray-5']};
   position: absolute;
-  top: -10px;
-  left: 0px;
+  top: 15px;
+  left: 0;
 
   &:before {
     content: '';
     position: absolute;
     right: -2px;
-    background: #727272;
+    background: ${props => props.theme['gray-5']};
     height: 1px;
     width: 12px;
     top: -5px;
@@ -88,7 +89,7 @@ const Arrow = styled.div`
     content: '';
     position: absolute;
     right: -2px;
-    background:  #727272;
+    background:  ${props => props.theme['gray-5']};
     height: 1px;
     width: 12px;
     top: 3px;
@@ -100,7 +101,7 @@ const Circle = styled.div`
   height: 30px;
   line-height: 30px;
   border-radius: 15px;
-  background: #757575;
+  background: ${props => props.theme['gray-5']};
   margin-bottom: 10px;
   flex-wrap: nowrap;
   
@@ -136,16 +137,15 @@ const BuySellStepper = (props) => {
       </LeftColumn>
       <RightColumn>
         {[...Array(4)].map((r, i) => {
-          let rStep = i + 1
           return (
             <React.Fragment key={i}>
               <Step>
                 <Circle className={currentStep >= i ? 'step-complete' : ''}>
                   {currentStep > i && <Icon name='checkmark' size='13px' color='white-blue' weight={600}/>}
-                  {currentStep <= i && <Text color='white-blue' weight={200}>{rStep}</Text>}
+                  {currentStep <= i && <Text color='white-blue' weight={200}>{i + 1}</Text>}
                 </Circle>
                 <Text size='12px' weight={300} color={currentStep >= i ? 'brand-secondary' : 'gray-5'}>
-                  {getStepTitle(rStep)}
+                  {getStepTitle(i + 1)}
                 </Text>
               </Step>
               {i !== 3 && <ArrowWrapper><Arrow/></ArrowWrapper>}
