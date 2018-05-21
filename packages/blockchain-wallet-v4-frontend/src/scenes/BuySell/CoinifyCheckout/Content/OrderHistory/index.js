@@ -18,12 +18,16 @@ class OrderHistoryContainer extends React.Component {
   }
 
   render () {
-    const { data, modalActions } = this.props
+    const { data, modalActions, coinifyActions, step, trade } = this.props
     const { showModal } = modalActions
+    const { finishTrade } = coinifyActions
     return data.cata({
       Success: (value) => <Success
         trades={value}
         showModal={showModal}
+        finishTrade={finishTrade}
+        trade={trade}
+        step={step}
       />,
       Failure: (msg) => <div>Failure: {msg.error}</div>,
       Loading: () => <Loading />,
@@ -36,7 +40,8 @@ const mapStateToProps = state => getData(state)
 
 const mapDispatchToProps = (dispatch) => ({
   coinifyDataActions: bindActionCreators(actions.core.data.coinify, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  coinifyActions: bindActionCreators(actions.modules.coinify, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrderHistoryContainer)

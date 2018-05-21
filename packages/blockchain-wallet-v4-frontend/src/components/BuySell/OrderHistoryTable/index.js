@@ -43,7 +43,7 @@ class OrderHistoryTable extends React.PureComponent {
             </Text>
           </TableCell>
         </TableHeader>
-        {sortedTrades.map((trade, index) => <TradeItem key={index} trade={trade} conversion={conversion} handleClick={this.props.handleDetailsClick}/>)}
+        {sortedTrades.map((trade, index) => <TradeItem key={index} trade={trade} conversion={conversion} handleFinish={this.props.handleFinishTrade} handleClick={this.props.handleDetailsClick} />)}
       </Table>
     )
   }
