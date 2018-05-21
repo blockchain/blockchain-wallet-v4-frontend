@@ -9,7 +9,6 @@ import { spacing } from 'services/StyleService'
 import { Banner } from 'blockchain-info-components'
 
 const Label = styled.label`
-  display;
   font-size: 12px;
   margin-bottom: 5px;
 `
