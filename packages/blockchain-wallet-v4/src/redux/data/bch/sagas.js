@@ -11,12 +11,7 @@ export default ({ api }) => {
       yield put(A.fetchDataLoading())
       const { context } = action.payload
       const data = yield call(api.fetchBchData, context, { n: 1 })
-      const bchData = {
-        addresses: indexBy(prop('address'), prop('addresses', data)),
-        info: path(['wallet'], data),
-        latest_block: path(['info', 'latest_block'], data)
-      }
-      yield put(A.fetchDataSuccess(bchData))
+      yield call(multiaddrSaga, data)
     } catch (e) {
       yield put(A.fetchDataFailure(e.message))
     }
@@ -61,6 +56,7 @@ export default ({ api }) => {
       yield put(A.fetchTransactionsLoading(reset))
       const context = yield select(selectors.wallet.getWalletContext)
       const data = yield call(api.fetchBchData, context, { n: TX_PER_PAGE, onlyShow: address, offset })
+      yield call(multiaddrSaga, data)
       yield put(A.fetchTransactionsSuccess(data.txs.filter(tx => tx.time > BCH_FORK_TIME), reset))
     } catch (e) {
       yield put(A.fetchTransactionsFailure(e.message))
@@ -99,11 +95,19 @@ export default ({ api }) => {
     }
   }
 
+  const multiaddrSaga = function * (data) {
+    const bchData = {
+      addresses: indexBy(prop('address'), prop('addresses', data)),
+      info: path(['wallet'], data),
+      latest_block: path(['info', 'latest_block'], data)
+    }
+    yield put(A.fetchDataSuccess(bchData))
+  }
+
   return {
     fetchData,
     fetchRates,
     fetchFee,
-    // yield takeLatest(AT.FETCH_BCH_TRANSACTIONS, fetchTransactions)
     watchTransactions,
     fetchTransactionHistory,
     fetchUnspent
