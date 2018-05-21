@@ -194,6 +194,19 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const finishTrade = function * (data) {
+    const tradeToFinish = data.payload
+    try {
+      if (tradeToFinish.state === 'awaiting_transfer_in') {
+        yield call(coreSagas.data.coinify.kycAsTrade, { kyc: tradeToFinish }) // core expects obj key to be 'kyc'
+        // yield put(actions.form.change('buySellTabStatus', 'status', 'buy'))
+        yield put(A.coinifyNextCheckoutStep('isx'))
+      }
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'finishTrade', e))
+    }
+  }
+
   const cancelISX = function * () {
     const modals = yield select(selectors.modals.getModals)
     if (path(['type'], head(modals)) === 'CoinifyExchangeData') yield put(actions.modals.closeAllModals())
@@ -211,6 +224,7 @@ export default ({ coreSagas }) => {
     triggerKYC,
     openKYC,
     setMinMax,
-    cancelISX
+    cancelISX,
+    finishTrade
   }
 }
