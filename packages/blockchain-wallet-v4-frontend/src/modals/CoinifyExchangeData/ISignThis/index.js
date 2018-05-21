@@ -23,13 +23,11 @@ class ISignThisContainer extends Component {
 
     const onComplete = (e) => {
       // console.log('V4 ISX_COMPONENT: from onComplete', e)
-      // TODO dispatch action to go to next step --> order history and open modal for in review, rejected, processing, etc..
       this.props.coinifyActions.fromISX(e)
     }
 
     var e = document.getElementById('isx-iframe')
     const iSignThisDomain = path(['platforms', 'web', 'coinify', 'config', 'iSignThisDomain'], this.props.walletOptions.data)
-    // const iSignThisID = this.props.iSignThisId
 
     var _isx = {
       transactionId: '',
@@ -189,7 +187,7 @@ class ISignThisContainer extends Component {
           id='isx-iframe'
         />
         <ButtonContainer>
-          <Button nature='empty-secondary' onClick={() => coinifyActions.coinifyNextCheckoutStep('checkout')}>
+          <Button nature='empty-secondary' onClick={() => coinifyActions.cancelISX()}>
             <Text size='13px' weight={300}>
               <FormattedMessage id='cancel' defaultMessage='Cancel' />
             </Text>

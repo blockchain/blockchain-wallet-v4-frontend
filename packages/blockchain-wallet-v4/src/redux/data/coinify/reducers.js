@@ -13,7 +13,7 @@ const INITIAL_STATE = {
   nextAddress: null
 }
 
-const sfoxReducer = (state = INITIAL_STATE, action) => {
+const coinifyReducer = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
@@ -109,4 +109,4 @@ const sfoxReducer = (state = INITIAL_STATE, action) => {
   }
 }
 
-export default sfoxReducer
+export default coinifyReducer
