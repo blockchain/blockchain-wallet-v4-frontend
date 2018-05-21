@@ -58,7 +58,7 @@ const Step = styled.span`
   text-align: center;
   white-space: nowrap;
   color: ${props => props.theme['brand-primary']};
-  @media (max-width: 480) {
+  @media (max-width: 480px) {
     margin-top: 10px;
     margin-left: 10px;
     margin-right: 10px;
@@ -68,7 +68,7 @@ const Step = styled.span`
 
 const Logo = styled(Image)`
   margin-right: 60px;
-  @media (max-width: 480) {
+  @media (max-width: 480px) {
     margin-right: 0px;
     margin-left: 30px;
   }
