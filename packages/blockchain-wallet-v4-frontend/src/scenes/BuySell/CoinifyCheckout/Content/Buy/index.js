@@ -31,7 +31,7 @@ class CoinifyBuyContainer extends React.Component {
     const { step, checkoutBusy, coinifyBusy } = rest
     const { handleTrade, fetchQuote } = coinifyDataActions
     const { showModal } = modalActions
-    const { coinifyNotAsked, triggerKYC, openKYC } = coinifyActions
+    const { coinifyNotAsked, triggerKYC, openKYC, coinifyNextCheckoutStep } = coinifyActions
     const { change } = formActions
 
     const busy = coinifyBusy.cata({
@@ -48,11 +48,11 @@ class CoinifyBuyContainer extends React.Component {
         showModal={showModal}
         buyQuoteR={buyQuoteR}
         rateQuoteR={rateQuoteR}
-        fetchBuyQuote={(quote) => fetchQuote({ quote, nextAddress: value.nextAddress })}
+        fetchBuyQuote={quote => fetchQuote({ quote, nextAddress: value.nextAddress })}
         currency={currency}
         checkoutBusy={checkoutBusy}
-        setMax={(amt) => this.props.coinifyActions.setCheckoutMax(amt)}
-        setMin={(amt) => this.props.coinifyActions.setCheckoutMin(amt)}
+        setMax={amt => this.props.coinifyActions.setCheckoutMax(amt)}
+        setMin={amt => this.props.coinifyActions.setCheckoutMin(amt)}
         paymentMedium={paymentMedium}
         initiateBuy={this.startBuy}
         step={step}
@@ -60,8 +60,9 @@ class CoinifyBuyContainer extends React.Component {
         clearTradeError={() => coinifyNotAsked()}
         trade={trade}
         triggerKyc={() => triggerKYC()}
-        handleKycAction={(kyc) => openKYC(kyc)}
-        changeTab={(tab) => change('buySellTabStatus', 'status', tab)}
+        handleKycAction={kyc => openKYC(kyc)}
+        changeTab={tab => change('buySellTabStatus', 'status', tab)}
+        coinifyNextCheckoutStep={step => coinifyNextCheckoutStep(step)}
       />,
       Failure: (msg) => <div>Failure: {msg.error}</div>,
       Loading: () => <Loading />,

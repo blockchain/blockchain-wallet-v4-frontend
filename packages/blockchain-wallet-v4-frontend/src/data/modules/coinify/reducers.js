@@ -56,6 +56,9 @@ const coinify = (state = INITIAL_STATE, action) => {
     case AT.COINIFY_FAILURE: {
       return assoc('coinifyBusy', Remote.Failure(payload), state)
     }
+    case AT.SET_CANCEL_TRADE_ID: {
+      return assoc('cancelTradeId', payload, state)
+    }
     default:
       return state
   }

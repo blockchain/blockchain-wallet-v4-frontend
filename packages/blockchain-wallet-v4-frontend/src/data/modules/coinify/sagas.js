@@ -45,9 +45,9 @@ export default ({ coreSagas }) => {
       if (buyTrade.medium === 'bank') {
         yield put(A.coinifyNextCheckoutStep('bankTransferDetails'))
       } else {
-        yield put(A.coinifyNotAsked())
         yield put(A.coinifyNextCheckoutStep('isx'))
       }
+      yield put(A.coinifyNotAsked())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'buy', e))
     }
@@ -223,6 +223,7 @@ export default ({ coreSagas }) => {
   const cancelTrade = function * (data) {
     const trade = data.payload
     try {
+      yield put(A.setCancelTradeId(trade.id))
       yield put(A.coinifyLoading())
       yield call(coreSagas.data.coinify.cancelTrade, { trade })
       yield put(A.coinifySuccess())

@@ -46,7 +46,8 @@ const CoinifyBuy = props => {
     busy,
     trade,
     handleKycAction,
-    changeTab
+    changeTab,
+    coinifyNextCheckoutStep
   } = props
 
   const profile = Remote.of(props.value.profile).getOrElse({ _limits: service.mockedLimits, _level: { currency: 'EUR' } })
@@ -121,7 +122,7 @@ const CoinifyBuy = props => {
       <CheckoutWrapper>
         <BankTransferDetails trade={trade} />
         <RightContainer>
-          <Button nature='primary' onClick={() => changeTab('order_history')}>
+          <Button nature='primary' onClick={() => { changeTab('order_history'); coinifyNextCheckoutStep('checkout') }}>
             <FormattedMessage id='close' defaultMessage='Close' />
           </Button>
         </RightContainer>
