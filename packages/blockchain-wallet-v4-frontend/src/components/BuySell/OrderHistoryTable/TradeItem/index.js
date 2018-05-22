@@ -21,7 +21,7 @@ const TradeItem = props => {
       </TableCell>
       <TableCell width='15%'>
         {
-          trade.state === 'awaiting_transfer_in'
+          trade.state === 'awaiting_transfer_in' && trade.medium === 'card'
             ? <Link size='13px' weight={300} capitalize onClick={() => handleFinish(trade)}>
               <FormattedMessage id='buysell.orderhistory.finishtrade' defaultMessage='Finish Trade' />
             </Link>
