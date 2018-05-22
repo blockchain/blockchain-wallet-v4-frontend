@@ -71,7 +71,7 @@ const Arrow = styled.div`
   width: 100%; 
   border-top: 1px solid  ${props => props.theme['gray-5']};
   position: absolute;
-  top: 15px;
+  top: 20px;
   left: 0;
 
   &:before {
@@ -114,18 +114,26 @@ const Circle = styled.div`
   }
 `
 
-const getStepTitle = (step) => {
+const getSfoxStepTitle = (step) => {
   switch (step) {
-    case 1: return <FormattedMessage id='scenes.home.exchangeStepper.step1' defaultMessage='Create Account' />
-    case 2: return <FormattedMessage id='scenes.home.exchangeStepper.step2' defaultMessage='Verify Identity' />
-    case 3: return <FormattedMessage id='scenes.home.exchangeStepper.step3' defaultMessage='Upload Documents' />
-    case 4: return <FormattedMessage id='scenes.home.exchangeStepper.step4' defaultMessage='Link Bank' />
+    case 1: return <FormattedMessage id='scenes.home.exchangeStepper.sfox.step1' defaultMessage='Create Account' />
+    case 2: return <FormattedMessage id='scenes.home.exchangeStepper.sfox.step2' defaultMessage='Verify Identity' />
+    case 3: return <FormattedMessage id='scenes.home.exchangeStepper.sfox.step3' defaultMessage='Upload Documents' />
+    case 4: return <FormattedMessage id='scenes.home.exchangeStepper.sfox.step4' defaultMessage='Link Bank' />
+    default: return <div />
+  }
+}
+
+const getCoinifyStepTitle = (step) => {
+  switch (step) {
+    case 1: return <FormattedMessage id='scenes.home.exchangeStepper.coinify.step1' defaultMessage='Verify Email' />
+    case 2: return <FormattedMessage id='scenes.home.exchangeStepper.coinify.step2' defaultMessage='Accept Terms' />
     default: return <div />
   }
 }
 
 const BuySellStepper = (props) => {
-  const { currentStep, goToBuySell } = props
+  const { currentStep, goToBuySell, partner, totalSteps } = props
 
   return (
     <Header onClick={() => { goToBuySell() }}>
@@ -136,7 +144,7 @@ const BuySellStepper = (props) => {
         </Text>
       </LeftColumn>
       <RightColumn>
-        {[...Array(4)].map((r, i) => {
+        {[...Array(totalSteps)].map((r, i) => {
           return (
             <React.Fragment key={i}>
               <Step>
@@ -145,10 +153,11 @@ const BuySellStepper = (props) => {
                   {currentStep <= i && <Text color='white-blue' weight={200}>{i + 1}</Text>}
                 </Circle>
                 <Text size='12px' weight={300} color={currentStep >= i ? 'brand-secondary' : 'gray-5'}>
-                  {getStepTitle(i + 1)}
+                  {partner === 'sfox' && getSfoxStepTitle(i + 1)}
+                  {partner === 'coinify' && getCoinifyStepTitle(i + 1)}
                 </Text>
               </Step>
-              {i !== 3 && <ArrowWrapper><Arrow/></ArrowWrapper>}
+              {i !== totalSteps - 1 && <ArrowWrapper><Arrow/></ArrowWrapper>}
             </React.Fragment>
           )
         })}
@@ -159,7 +168,9 @@ const BuySellStepper = (props) => {
 
 BuySellStepper.propTypes = {
   currentStep: PropTypes.number.isRequired,
-  goToBuySell: PropTypes.func.isRequired
+  goToBuySell: PropTypes.func.isRequired,
+  partner: PropTypes.string.isRequired,
+  totalSteps: PropTypes.number.isRequired
 }
 
 export default BuySellStepper
