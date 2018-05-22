@@ -50,11 +50,7 @@ export default ({ api, coreSagas }) => {
       const target = prop('target', form)
       yield put(actions.form.change2('exchange', 'source', target))
       yield put(actions.form.change2('exchange', 'target', source))
-      const { sourceAmount, sourceFiat, targetAmount, targetFiat } = yield call(convertValues)
-      yield put(actions.form.change2('exchange', 'sourceAmount', sourceAmount))
-      yield put(actions.form.change2('exchange', 'sourceFiat', sourceFiat))
-      yield put(actions.form.change2('exchange', 'targetAmount', targetAmount))
-      yield put(actions.form.change2('exchange', 'targetFiat', targetFiat))
+      yield call(changeAmount)
       yield call(validateForm)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'swapClicked', e))
@@ -152,7 +148,8 @@ export default ({ api, coreSagas }) => {
       const target = prop('target', form)
       const sourceAmount = prop('sourceAmount', form)
       if (isUndefinedOrEqualsToZero(sourceAmount)) {
-        return yield put(A.firstStepEnabled())
+        yield put(A.firstStepFormUnvalidated('invalid'))
+        yield put(A.firstStepEnabled())
       }
       const effectiveBalance = yield call(calculateEffectiveBalance, source)
       const pair = yield call(getShapeShiftLimits, source, target)
