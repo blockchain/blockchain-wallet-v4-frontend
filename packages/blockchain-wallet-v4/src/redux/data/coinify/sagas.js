@@ -40,7 +40,6 @@ export default ({ api, options }) => {
       yield call(refreshCoinify)
     } catch (e) {
       console.warn(e)
-      // throw new Error(e)
     }
   }
 
@@ -94,6 +93,7 @@ export default ({ api, options }) => {
 
   const fetchTrades = function * () {
     try {
+      const coinify = yield call(getCoinify)
       yield put(A.fetchTradesLoading())
       const trades = yield apply(coinify, coinify.getTrades)
       yield put(A.fetchTradesSuccess(trades))
@@ -150,7 +150,6 @@ export default ({ api, options }) => {
     const { quote, medium } = data.payload
     try {
       yield put(A.handleTradeLoading())
-      console.log('core saga buy', data.payload)
       const mediums = yield apply(quote, quote.getPaymentMediums)
       const accounts = yield apply(mediums[medium], mediums[medium].getAccounts)
       const buyResult = yield apply(accounts[0], accounts[0].buy)
@@ -184,12 +183,10 @@ export default ({ api, options }) => {
     }
   }
 
-  const cancelTrade = function * (trade) {
+  const cancelTrade = function * ({trade}) {
     try {
-      const trades = yield select(S.getTrades)
-      const trade = trades.data[0]
       yield apply(trade, trade.cancel)
-      yield call(getCoinify)
+      yield call(fetchTrades)
     } catch (e) {
       console.log('issue cancelling trade', e)
     }

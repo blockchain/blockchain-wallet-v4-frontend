@@ -220,6 +220,15 @@ export default ({ coreSagas }) => {
     else yield put(A.coinifyNextCheckoutStep('checkout'))
   }
 
+  const cancelTrade = function * (data) {
+    const trade = data.payload
+    try {
+      yield call(coreSagas.data.coinify.cancelTrade, { trade })
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'cancelTrade', e))
+    }
+  }
+
   return {
     handleChange,
     initialized,
@@ -232,6 +241,7 @@ export default ({ coreSagas }) => {
     openKYC,
     setMinMax,
     cancelISX,
-    finishTrade
+    finishTrade,
+    cancelTrade
   }
 }
