@@ -20,8 +20,9 @@ const PaymentOption = styled.div`
   padding: 15px;
   border-radius: 4px;
   width: 130px;
-  cursor: pointer;
+  cursor: ${props => props.bankDisabled ? 'not-allowed' : 'pointer'};
   background-color: ${props => props.isChecked ? props.theme['brand-primary'] : 'white'};
+  opacity: ${props => props.bankDisabled ? 0.2 : 1};
 `
 const OptionLabel = styled.label`
   display: flex;
@@ -81,17 +82,11 @@ export const cardOptionHelper = (quote, limits, isChecked, handlePaymentClick) =
       renderText()
     }
   }
-
-  // if (Math.abs(quote.baseAmount) <= limits.card.inRemaining[quote.baseCurrency]) {
-  //   return renderContainer(isChecked, handlePaymentClick)
-  // } else {
-  //   renderText()
-  // }
 }
 
-export const bankOptionHelper = (quote, limits, isChecked, handlePaymentClick) => {
+export const bankOptionHelper = (quote, limits, isChecked, handlePaymentClick, bankDisabled) => {
   const PaymentRadioBank = ({ isChecked, handlePaymentClick }) => (
-    <PaymentOption isChecked={isChecked} onClick={() => handlePaymentClick('bank')} >
+    <PaymentOption isChecked={isChecked} onClick={() => handlePaymentClick('bank')} bankDisabled={bankDisabled}>
       <input type='radio' name='inMedium' id='bank' value='bank' style={{display: 'none'}} />
       <OptionLabel htmlFor='bank'>
         <PaymentIcon name='bank-filled' cursor size='50px' isChecked={isChecked} />
@@ -105,11 +100,17 @@ export const bankOptionHelper = (quote, limits, isChecked, handlePaymentClick) =
   const renderContainer = (isChecked, handlePaymentClick) => (
     <PaymentOptionContainer>
       <Field name='inMedium' value='bank' isChecked={isChecked} handlePaymentClick={handlePaymentClick} component={PaymentRadioBank} validate={[required]} />
-      <Text size='14px' weight={300} color='gray-2' style={spacing('mt-25')}>
-        <FormattedMessage id='coinifyexchangedata.payment.bank.detail1' defaultMessage='One time ID verification' /><br />
-        <FormattedMessage id='coinifyexchangedata.payment.bank.detail2' defaultMessage='Receive bitcoin in 2-3 days' /><br />
-        <FormattedMessage id='coinifyexchangedata.payment.bank.detail3' defaultMessage='No payment fees' />
-      </Text>
+      {
+        bankDisabled
+          ? <Text size='14px' weight={300} color='error' style={spacing('mt-25')}>
+            <FormattedMessage id='coinifyexchangedata.payment.bank.unavailable' defaultMessage='Bank transfers are unavailable until Identity Verification has finished.' />
+          </Text>
+          : <Text size='14px' weight={300} color='gray-2' style={spacing('mt-25')}>
+            <FormattedMessage id='coinifyexchangedata.payment.bank.detail1' defaultMessage='One time ID verification' /><br />
+            <FormattedMessage id='coinifyexchangedata.payment.bank.detail2' defaultMessage='Receive bitcoin in 2-3 days' /><br />
+            <FormattedMessage id='coinifyexchangedata.payment.bank.detail3' defaultMessage='No payment fees' />
+          </Text>
+      }
     </PaymentOptionContainer>
   )
 

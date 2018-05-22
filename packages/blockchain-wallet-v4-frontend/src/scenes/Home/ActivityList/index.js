@@ -11,6 +11,7 @@ import Success from './template.success'
 class ActivityListContainer extends React.PureComponent {
   constructor (props) {
     super(props)
+    this.handleLink = this.handleLink.bind(this)
     this.handleRequest = this.handleRequest.bind(this)
   }
 
@@ -22,12 +23,16 @@ class ActivityListContainer extends React.PureComponent {
     this.props.modalActions.showModal('RequestBitcoin')
   }
 
+  handleLink (path) {
+    this.props.routerActions.push(path)
+  }
+
   render () {
     const { data, canBuy } = this.props
     const partner = canBuy.cata({ Success: (val) => val, Loading: () => false, Failure: () => false, NotAsked: () => false })
 
     return data.cata({
-      Success: (value) => <Success activities={value} partner={partner} handleRequest={this.handleRequest} />,
+      Success: (value) => <Success activities={value} partner={partner} handleRequest={this.handleRequest} handleLink={this.handleLink} />,
       Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
@@ -42,6 +47,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
+  routerActions: bindActionCreators(actions.router, dispatch),
   actions: bindActionCreators(actions.components.activityList, dispatch)
 })
 

@@ -35,6 +35,8 @@ export default ({ api, options }) => {
 
   const init = function * () {
     try {
+      const val = yield select(buySellSelectors.getMetadata)
+      if (!val.data.value.coinify.offline_token) return
       yield call(refreshCoinify)
     } catch (e) {
       console.warn(e)
@@ -100,17 +102,6 @@ export default ({ api, options }) => {
     }
   }
 
-  const fetchAccounts = function * () {
-    try {
-      yield put(A.fetchAccountsLoading())
-      const methods = yield apply(coinify, coinify.getBuyMethods)
-      const accounts = yield apply(coinify, methods.ach.getAccounts)
-      yield put(A.fetchAccountsSuccess(accounts))
-    } catch (e) {
-      yield put(A.fetchAccountsFailure(e))
-    }
-  }
-
   const resetProfile = function * () {
     yield put(A.resetProfile())
   }
@@ -136,17 +127,21 @@ export default ({ api, options }) => {
     }
   }
 
-  const signup = function * () {
-    const countryCode = 'FR' // TODO should be passed in
-    const fiatCurrency = 'EUR' // TODO should be passed in
+  const signup = function * (data) {
+    const countryCode = data
+    let fiatCurrency
+
+    if (countryCode === 'DK') fiatCurrency = 'DKK'
+    else if (countryCode === 'GB') fiatCurrency = 'GBP'
+    else fiatCurrency = 'EUR'
+
     try {
       const coinify = yield call(getCoinify)
-      const signupResponse = yield apply(coinify, coinify.signup, [countryCode, fiatCurrency]) // TODO countryCode and fiatCurrency passed in as args
+      const signupResponse = yield apply(coinify, coinify.signup, [countryCode, fiatCurrency])
 
       yield put(buySellA.coinifySetProfileBuySell(signupResponse))
       yield put(A.coinifySetToken(signupResponse))
     } catch (e) {
-      console.log('coinify signup error:', e)
       yield put(A.coinifySignupFailure(e))
     }
   }
@@ -244,7 +239,6 @@ export default ({ api, options }) => {
     buy,
     sell,
     init,
-    fetchAccounts,
     coinifyFetchProfile,
     fetchTrades,
     fetchQuote,

@@ -7,14 +7,13 @@ const INITIAL_STATE = {
   quote: Remote.NotAsked,
   trades: Remote.NotAsked,
   profile: Remote.NotAsked,
-  accounts: Remote.NotAsked,
   mediums: Remote.NotAsked,
   rateQuote: Remote.NotAsked,
   kycs: Remote.NotAsked,
   nextAddress: null
 }
 
-const sfoxReducer = (state = INITIAL_STATE, action) => {
+const coinifyReducer = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
@@ -96,15 +95,6 @@ const sfoxReducer = (state = INITIAL_STATE, action) => {
     case AT.COINIFY_GET_PAYMENT_MEDIUMS_FAILURE: {
       return assoc('mediums', Remote.Failure(payload), state)
     }
-    case AT.COINIFY_GET_MEDIUM_ACCOUNTS_LOADING: {
-      return assoc('accounts', Remote.Loading, state)
-    }
-    case AT.COINIFY_GET_MEDIUM_ACCOUNTS_SUCCESS: {
-      return assoc('accounts', payload, state)
-    }
-    case AT.COINIFY_GET_MEDIUM_ACCOUNTS_FAILURE: {
-      return assoc('accounts', payload, state)
-    }
     case AT.GET_KYCS_LOADING: {
       return assoc('kycs', Remote.Loading, state)
     }
@@ -119,4 +109,4 @@ const sfoxReducer = (state = INITIAL_STATE, action) => {
   }
 }
 
-export default sfoxReducer
+export default coinifyReducer

@@ -9,7 +9,7 @@ import { path } from 'ramda'
 const ISXContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 12px 15px;
   border: 1px solid #DDDDDD;
 `
 const Wrapper = styled.div`
@@ -32,7 +32,7 @@ const KYCNotification = (props) => {
   return (
     <Wrapper>
       {
-        state === 'pending'
+        state === 'pending' || state === 'reviewing'
           ? <LimitsNotice>
             <Text size='12px' weight={300}>
               <FormattedMessage id='kyc.limits_notice' defaultMessage='While your identity gets verified, you can buy and sell up {symbol}{limit} to using your credit/debit card.' values={{ symbol: symbol, limit: limits.max }} />
@@ -41,7 +41,7 @@ const KYCNotification = (props) => {
           : null
       }
       <ISXContainer>
-        <Text size='13px' color='brand-primary' weight={300} style={spacing('mb-20')}>
+        <Text size='13px' color='brand-primary' weight={400} style={spacing('mb-20')}>
           { header.text }
         </Text>
         <Text size='13px' weight={300} style={spacing('mb-20')}>
