@@ -128,7 +128,12 @@ const selectMessage = (message, data = undefined) => {
     case C.MOBILE_LOGIN_SCAN_ERROR: return <FormattedMessage id='components.alerts.mobile_login_scan_error' defaultMessage='Could not scan the mobile login QR Code' />
     case C.SECOND_PASSWORD_INVALID_ERROR: return <FormattedMessage id='components.alerts.second_password_invalid_error' defaultMessage='Wrong second password' />
     case C.ADDRESS_LABEL_MAXIMUM_ERROR: return <FormattedMessage id='components.alerts.address_label_maximum_error' defaultMessage='You cannot label more than 15 unused addresses in a row; please send some bitcoins to at least one of them.' />
-
+    case C.WALLET_UPGRADE_ERROR: return <FormattedMessage id='components.alerts.wallet_upgrade_error' defaultMessage='Failed to upgrade to HD and save wallet.' />
+    case C.WALLET_LOADING_ERROR: return <FormattedMessage id='components.alerts.wallet_loading_error' defaultMessage='Could not retrieve essential data. Try again later.' />
+    case C.WALLET_SESSION_ERROR: return <FormattedMessage id='components.alerts.wallet_session_error' defaultMessage='Error establishing the session' />
+    case C.MOBILE_LOGIN_ERROR_QRCODE_EXPIRED: return <FormattedMessage id='components.alerts.mobile_login_error_qrcode_expired' defaultMessage='QR code expired' />
+    case C.MOBILE_LOGIN_ERROR: return <FormattedMessage id='components.alerts.mobile_login_error' defaultMessage='Error logging into your wallet' />
+    case C.TWOFA_RESET_ERROR: return <FormattedMessage id='components.alerts.twofa_reset_error' defaultMessage='Error resetting two-step authentication.' />
     default: return <FormattedMessage id='components.alerts.uknown_error' defaultMessage='An error has occured.' />
   }
 }
