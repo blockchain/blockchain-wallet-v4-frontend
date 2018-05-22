@@ -19,6 +19,12 @@ const Wrapper = styled.div`
 
   @media(min-width: 850px) { align-items: flex-end; }
 `
+const BalanceText = styled(Text)`
+  font-size: 20px;
+  @media(min-width: 768) {
+    font-size: 16px;
+  }
+`
 
 const BalanceDropdown = styled.div`
   margin-top: 4px;
@@ -59,14 +65,14 @@ const BalanceDropdown = styled.div`
 `
 
 const Success = props => {
-  const { bitcoinContext, etherContext, bchContext, path } = props
+  const { btcContext, ethContext, bchContext, path } = props
 
   const getComponentOrder = () => {
     switch (path) {
-      case '/btc/transactions': return [<BitcoinBalance large context={bitcoinContext} />, <EtherBalance context={etherContext} />, <BchBalance context={bchContext} />, <TotalBalance />]
-      case '/eth/transactions': return [<EtherBalance large context={etherContext} />, <BitcoinBalance context={bitcoinContext} />, <BchBalance context={bchContext} />, <TotalBalance />]
-      case '/bch/transactions': return [<BchBalance large context={bchContext} />, <BitcoinBalance context={bitcoinContext} />, <EtherBalance context={etherContext} />, <TotalBalance />]
-      default: return [<TotalBalance large />, <BitcoinBalance context={bitcoinContext} />, <EtherBalance context={etherContext} />, <BchBalance context={bchContext} />]
+      case '/btc/transactions': return [<BitcoinBalance large context={btcContext} />, <EtherBalance context={ethContext} />, <BchBalance context={bchContext} />, <TotalBalance />]
+      case '/eth/transactions': return [<EtherBalance large context={ethContext} />, <BitcoinBalance context={btcContext} />, <BchBalance context={bchContext} />, <TotalBalance />]
+      case '/bch/transactions': return [<BchBalance large context={bchContext} />, <BitcoinBalance context={btcContext} />, <EtherBalance context={ethContext} />, <TotalBalance />]
+      default: return [<TotalBalance large />, <BitcoinBalance context={btcContext} />, <EtherBalance context={ethContext} />, <BchBalance context={bchContext} />]
     }
   }
 
@@ -81,9 +87,9 @@ const Success = props => {
 
   return (
     <Wrapper>
-      <Text size={'20px'} weight={300}>
+      <BalanceText weight={300}>
         {getBalanceMessage()}
-      </Text>
+      </BalanceText>
       <BalanceDropdown>
         <ComponentDropdown
           down

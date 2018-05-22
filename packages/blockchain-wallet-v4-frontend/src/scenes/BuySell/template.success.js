@@ -47,7 +47,7 @@ const Intro = styled.div`
   width: 100%;
 `
 const SelectionContainer = Intro.extend`
-  margin-top: 15px;
+  margin-top: 25px;
 `
 const FieldWrapper = Intro.extend`
   margin-top: 5px;
@@ -80,7 +80,7 @@ const SelectPartner = (props) => {
       props.modalActions.showModal('SfoxExchangeData', { step: 'account' })
     }
     if (coinifyCountries.indexOf(country) >= 0) {
-      props.modalActions.showModal('CoinifyExchangeData', { step: 'account' })
+      props.modalActions.showModal('CoinifyExchangeData', { step: 'account', country: props.country })
     }
   }
 

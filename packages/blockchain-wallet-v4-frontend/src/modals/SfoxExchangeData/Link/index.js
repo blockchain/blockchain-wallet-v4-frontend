@@ -6,6 +6,7 @@ import Link from './template'
 import { actions, selectors } from 'data'
 import { formValueSelector } from 'redux-form'
 import { merge, path, append } from 'ramda'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 class LinkContainer extends Component {
   constructor (props) {
@@ -35,10 +36,6 @@ class LinkContainer extends Component {
       }
     }
     window.addEventListener('message', receiveMessage, false)
-
-    if (this.props.accounts.length) {
-      if (this.props.accounts[0].status === 'pending') this.props.updateUI({ microDeposits: true })
-    }
   }
 
   onSetBankAccount (data) {
@@ -69,6 +66,12 @@ class LinkContainer extends Component {
     const { bankAccounts, accounts, ui } = this.props
     const { plaidBaseUrl, plaidPath, plaidEnv } = this.props
     const plaidUrl = `${plaidBaseUrl}/wallet-helper/plaid/#/key/${plaidPath}/env/${plaidEnv}`
+    const { showModal } = this.props.modalActions
+
+    let awaitingDeposits = false
+    if (Remote.Success.is(accounts) && accounts.data) {
+      awaitingDeposits = accounts.data[0] && accounts.data[0]['status'] === 'pending'
+    }
 
     return <Link
       onSubmit={this.onSubmit}
@@ -77,7 +80,7 @@ class LinkContainer extends Component {
       bankAccounts={bankAccounts}
       accounts={accounts}
       onSetBankAccount={this.onSetBankAccount}
-      toggleManual={() => this.props.updateUI({ toggleManual: true })}
+      toggleManual={() => this.props.updateUI({ toggleManual: !ui.toggleManual })}
       ui={ui}
       handleBankSelection={(id) => this.setState({ id })}
       onNameChange={(name) => this.setState({ holderName: name })}
@@ -88,6 +91,8 @@ class LinkContainer extends Component {
       microStep={ui.microStep}
       goToMicroDepositStep={(step) => this.props.updateUI({ microStep: step })}
       submitMicroDeposits={this.submitMicroDeposits}
+      awaitingDeposits={awaitingDeposits}
+      showModal={showModal}
     />
   }
 }
@@ -101,7 +106,7 @@ const mapStateToProps = (state) => ({
   plaidEnv: path(plaidEnvPath, state),
   plaidBaseUrl: path(['walletOptionsPath', 'data', 'domains', 'walletHelper'], state),
   bankAccounts: selectors.core.data.sfox.getBankAccounts(state),
-  accounts: selectors.core.data.sfox.getAccounts(state).data,
+  accounts: selectors.core.data.sfox.getAccounts(state),
   deposit1: formValueSelector('sfoxLink')(state, 'deposit1'),
   deposit2: formValueSelector('sfoxLink')(state, 'deposit2')
 })

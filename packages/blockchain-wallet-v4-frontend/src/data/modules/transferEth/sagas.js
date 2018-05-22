@@ -18,9 +18,9 @@ export default ({ coreSagas }) => {
       yield payment.publish()
       yield put(actions.modals.closeAllModals())
       yield put(actions.router.push('/eth/transactions'))
-      yield put(actions.alerts.displaySuccess('Ether transaction has been successfully published!'))
+      yield put(actions.alerts.displaySuccess('Your ether transaction is now pending.'))
     } catch (e) {
-      yield put(actions.alerts.displayError('Ether transaction could not be published.'))
+      yield put(actions.alerts.displayError('Your ether transaction failed to send. Please try again.'))
     }
   }
 

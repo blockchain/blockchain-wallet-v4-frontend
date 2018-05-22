@@ -1,9 +1,10 @@
-import { assoc, assocPath, compose, concat, lift, map, path, prop, sequence } from 'ramda'
+import { assoc, assocPath, compose, concat, filter, lift, map, path, prop, sequence } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
 
 export const getData = (state, ownProps) => {
-  const { coin, excludeImported } = ownProps
+  const { coin, exclude = [], excludeImported } = ownProps
+  const excluded = filter(x => !exclude.includes(x.label))
   const toDropdown = map(x => ({ text: x.label, value: x }))
 
   const formatAddress = (addressData) => {
@@ -26,13 +27,13 @@ export const getData = (state, ownProps) => {
         const importedAddresses = selectors.core.common.bch.getActiveAddresses(state)
         return sequence(Remote.of,
           [
-            selectors.core.common.bch.getAccountsBalances(state).map(toDropdown),
+            selectors.core.common.bch.getAccountsBalances(state).map(excluded).map(toDropdown),
             excludeImported ? Remote.of([]) : lift(formatImportedAddressesData)(importedAddresses)
           ]).map(([b1, b2]) => ({ data: concat(b1, b2) }))
       default:
         return sequence(Remote.of,
           [
-            selectors.core.common.bitcoin.getActiveAccountsBalances(state).map(toDropdown),
+            selectors.core.common.bitcoin.getActiveAccountsBalances(state).map(excluded).map(toDropdown),
             excludeImported ? Remote.of([]) : selectors.core.common.bitcoin.getAddressesBalances(state).map(toDropdown)
           ]).map(([b1, b2]) => ({ data: concat(b1, b2) }))
     }

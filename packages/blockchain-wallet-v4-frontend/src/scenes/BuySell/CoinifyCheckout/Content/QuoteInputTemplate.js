@@ -2,10 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-
 import { Icon, Text } from 'blockchain-info-components'
 import { SelectBoxCoinifyCurrency, TextBoxDebounced } from 'components/Form'
-
 import { Field, reduxForm } from 'redux-form'
 
 const Wrapper = styled.div`
@@ -78,15 +76,13 @@ const LimitsHelper = styled.div`
 const getLimitsError = (errorType, limits, symbol, setMin) => {
   if (errorType === 'below_min') return `Your limit of ${symbol}${limits.max} is below the minimum allowed amount.`
   if (errorType === 'over_max') return `Enter an amount under your ${symbol}${limits.max.toLocaleString()} limit`
-  // if (errorType === 'under_min') return `Enter an amount above the ${symbol}${limits.min.toLocaleString()} minimum`
   if (errorType === 'under_min') return <FormattedMessage id='buy.quote_input.under_min' defaultMessage='Enter an amount above the {setMin} minimum' values={{ setMin: <a onClick={() => setMin(limits.min)}>{symbol}{limits.min.toLocaleString()}</a> }} />
-  // if (errorType === 'effective_max') return `Enter an amount less than your balance minus the priority fee (${limits.effectiveMax / 1e8} BTC)`
 }
 
 const FiatConvertor = (props) => {
   const { val, disabled, setMax, setMin, limits, checkoutError, defaultCurrency, symbol, increaseLimit } = props
-  const { level } = val
   const currency = 'BTC'
+  const level = val.level || { name: 1 }
 
   return (
     <form>
