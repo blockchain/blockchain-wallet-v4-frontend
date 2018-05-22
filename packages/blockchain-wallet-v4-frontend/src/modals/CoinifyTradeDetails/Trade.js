@@ -12,7 +12,7 @@ const renderDetailsRow = (id, message, value, color) => (
     <Text size='13px' weight={300} color={color}>{value}</Text>
   </OrderDetailsRow>
 )
-const ButtonRow = styled.div`
+export const ButtonRow = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
