@@ -43,3 +43,5 @@ export const openKYC = (kyc) => ({ type: AT.OPEN_KYC, payload: kyc })
 export const cancelISX = () => ({ type: AT.CANCEL_ISX })
 
 export const finishTrade = (trade) => ({ type: AT.FINISH_TRADE, payload: trade })
+
+export const cancelTrade = (trade) => ({ type: AT.CANCEL_TRADE, payload: trade })

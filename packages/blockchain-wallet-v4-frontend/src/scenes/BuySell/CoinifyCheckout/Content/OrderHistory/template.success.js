@@ -25,7 +25,7 @@ const isPending = (t) => t.state === 'processing' || t.state === 'awaiting_trans
 const isCompleted = (t) => contains(t.state, ['completed', 'rejected', 'cancelled', 'expired'])
 
 const OrderHistory = (props) => {
-  const { showModal, finishTrade, trades, step, trade } = props
+  const { showModal, finishTrade, cancelTrade, trades, step, trade } = props
 
   if (step === 'isx') {
     return (
@@ -41,7 +41,7 @@ const OrderHistory = (props) => {
           <Text size='15px' weight={400}>
             <FormattedMessage id='scenes.buysell.coinifycheckout.trades.pending' defaultMessage='Pending Orders' />
           </Text>
-          <OrderHistoryTable trades={filter(isPending, trades)} conversion={100} handleFinishTrade={trade => finishTrade(trade)} handleDetailsClick={trade => showModal('CoinifyTradeDetails', { trade })} />
+          <OrderHistoryTable trades={filter(isPending, trades)} conversion={100} handleFinishTrade={trade => finishTrade(trade)} handleDetailsClick={trade => showModal('CoinifyTradeDetails', { trade })} handleTradeCancel={cancelTrade} />
         </OrderHistoryContent>
         <OrderHistoryContent>
           <Text size='15px' weight={400}>
