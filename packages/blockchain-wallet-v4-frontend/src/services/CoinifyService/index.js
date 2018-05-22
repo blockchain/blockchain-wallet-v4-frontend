@@ -1,5 +1,5 @@
 import React from 'react'
-import { has } from 'ramda'
+import { has, slice, toUpper } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 
 export const getLimits = (limits, curr) => {
@@ -108,11 +108,12 @@ export const tradeDetails = {
   }
 }
 
+export const getCountryCodeFromIban = (iban) => toUpper(slice(0, 2, iban))
+
 export const statusHelper = status => {
   switch (status) {
     case 'awaiting_transfer_in':
     case 'processing': return { color: 'transferred', text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatus.processing' defaultMessage='Pending' /> }
-
     case 'completed': return { color: 'success', text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatus.completed' defaultMessage='Completed' /> }
     case 'rejected': return { color: 'error', text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatus.rejected' defaultMessage='Rejected' /> }
     case 'failed': return { color: 'error', text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatus.failed' defaultMessage='Failed' /> }
