@@ -223,7 +223,9 @@ export default ({ coreSagas }) => {
   const cancelTrade = function * (data) {
     const trade = data.payload
     try {
+      yield put(A.coinifyLoading())
       yield call(coreSagas.data.coinify.cancelTrade, { trade })
+      yield put(A.coinifySuccess())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'cancelTrade', e))
     }
