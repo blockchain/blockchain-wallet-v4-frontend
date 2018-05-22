@@ -13,6 +13,7 @@ class LoginContainer extends React.PureComponent {
     this.onSubmit = this.onSubmit.bind(this)
     this.handleCode = this.handleCode.bind(this)
     this.handleMobile = this.handleMobile.bind(this)
+    this.handleSmsResend = this.handleSmsResend.bind(this)
   }
   handleCode (val) {
     this.setState({ useCode: val })
@@ -34,6 +35,10 @@ class LoginContainer extends React.PureComponent {
     this.props.modalActions.showModal('MobileLogin')
   }
 
+  handleSmsResend () {
+    this.props.authActions.resendSmsCode(this.props.guid)
+  }
+
   render () {
     const { authType, data, lastGuid } = this.props
 
@@ -50,7 +55,8 @@ class LoginContainer extends React.PureComponent {
       busy,
       handleCode: this.handleCode,
       loginError: error,
-      handleMobile: this.handleMobile
+      handleMobile: this.handleMobile,
+      handleSmsResend: this.handleSmsResend
     }
 
     return lastGuid
