@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { path, head } from 'ramda'
 
-import { Text, Button } from 'blockchain-info-components'
+import { Button } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 
 import { Remote } from 'blockchain-wallet-v4/src'
@@ -13,7 +13,7 @@ import { OrderDetails, OrderSubmit } from '../OrderReview'
 import Payment from 'modals/CoinifyExchangeData/Payment'
 import ISignThis from 'modals/CoinifyExchangeData/ISignThis'
 import KYCNotification from '../KYCNotification'
-import BankTransferDetails from './BankTransferDetails'
+import BankTransferDetails from 'components/BuySell/BankTransferDetails'
 
 const CheckoutWrapper = styled.div`
   display: grid;
@@ -117,11 +117,9 @@ const CoinifyBuy = props => {
       />
     )
   } else if (step === 'bankTransferDetails') {
-    const holderAddress = trade.bankAccount.holderAddress
-    const bankAddress = trade.bankAccount.bankAddress
     return (
       <CheckoutWrapper>
-        <BankTransferDetails trade={trade} holderAddress={holderAddress} bankAddress={bankAddress} />
+        <BankTransferDetails trade={trade} />
         <RightContainer>
           <Button nature='primary' onClick={() => changeTab('order_history')}>
             <FormattedMessage id='close' defaultMessage='Close' />
