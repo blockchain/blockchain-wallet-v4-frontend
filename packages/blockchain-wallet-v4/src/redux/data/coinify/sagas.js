@@ -151,9 +151,11 @@ export default ({ api, options }) => {
       const { medium, account } = data.payload
       const bankAccount = yield apply(medium, medium.addBankAccount, [account])
       console.log(bankAccount)
+      console.log('A bank account was added')
       // yield put(A.addBankAccountSuccess(bankAccount))
     } catch (e) {
-      yield put(A.addBankAccountFailure(e))
+      console.log(e)
+      // yield put(A.addBankAccountFailure(e))
     }
   }
 

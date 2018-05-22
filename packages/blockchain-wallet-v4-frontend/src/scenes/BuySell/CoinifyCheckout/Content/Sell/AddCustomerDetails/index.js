@@ -14,7 +14,6 @@ class AddCustomerDetailsContainer extends React.PureComponent {
 
   onSubmit (mediums, account) {
     const { coinifyDataActions } = this.props
-    console.log('Submitting')
     coinifyDataActions.addBankAccount(mediums, account)
   }
 
