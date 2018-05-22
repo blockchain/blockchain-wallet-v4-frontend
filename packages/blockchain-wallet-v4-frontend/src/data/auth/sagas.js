@@ -20,7 +20,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.modals.closeModal())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'upgradeWallet', e))
-      yield put(actions.alerts.displayError('Failed to upgrade to HD and save wallet'))
+      yield put(actions.alerts.displayError(C.WALLET_UPGRADE_ERROR))
     }
   }
 
@@ -81,7 +81,7 @@ export default ({ api, coreSagas }) => {
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'loginRoutineSaga', e))
       // Redirect to error page instead of notification
-      yield put(actions.alerts.displayError('Critical error while fetching essential data! ' + e.message))
+      yield put(actions.alerts.displayError(C.WALLET_LOADING_ERROR))
     }
   }
 
@@ -142,7 +142,7 @@ export default ({ api, coreSagas }) => {
             }
           }
         } else {
-          yield put(actions.alerts.displayError('Error establishing the session'))
+          yield put(actions.alerts.displayError(C.WALLET_SESSION_ERROR))
         }
       } else if (initialError.isRight && initialError.value) {
         // general error
@@ -171,9 +171,9 @@ export default ({ api, coreSagas }) => {
     } catch (error) {
       yield put(actions.logs.logErrorMessage(logLocation, 'mobileLogin', error))
       if (error === 'qr_code_expired') {
-        yield put(actions.alerts.displayError('Error: QR code expired'))
+        yield put(actions.alerts.displayError(C.MOBILE_LOGIN_ERROR_QRCODE_EXPIRED))
       } else {
-        yield put(actions.alerts.displayError('Error logging into your wallet'))
+        yield put(actions.alerts.displayError(C.MOBILE_LOGIN_ERROR))
       }
     }
     yield put(actions.modals.closeModal())
@@ -234,7 +234,7 @@ export default ({ api, coreSagas }) => {
     } catch (e) {
       yield put(actions.auth.reset2faFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'reset2fa', e))
-      yield put(actions.alerts.displayError('Error resetting 2-step authentication.'))
+      yield put(actions.alerts.displayError(C.TWOFA_RESET_ERROR))
     }
   }
 
