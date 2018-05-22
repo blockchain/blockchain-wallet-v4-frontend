@@ -2,7 +2,7 @@ import { isNil } from 'ramda'
 
 export const hasAccount = (partners) => {
   const { coinify, sfox } = partners
-  if (!isNil(sfox.offline_token)) return 'sfox'
+  if (!isNil(sfox.account_token)) return 'sfox'
   if (!isNil(coinify.offline_token)) return 'coinify'
 }
 
