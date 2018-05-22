@@ -5,7 +5,7 @@ import * as S from './selectors'
 import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import { coinifyService } from '../../../exchange/service'
 import * as buySellA from '../../kvStore/buySell/actions'
-import { sort } from 'ramda'
+import { prop, sort } from 'ramda'
 
 export default ({ api, options }) => {
   const getCoinify = function * () {
@@ -126,8 +126,8 @@ export default ({ api, options }) => {
   }
 
   const getPaymentMediums = function * (data) {
-    const quote = data.payload
     try {
+      const quote = data.payload
       yield put(A.getPaymentMediumsLoading())
       const mediums = yield apply(quote, quote.getPaymentMediums)
       yield put(A.getPaymentMediumsSuccess(mediums))
@@ -137,12 +137,27 @@ export default ({ api, options }) => {
   }
 
   const getMediumAccounts = function * (data) {
-    const medium = data.payload
     try {
+      const medium = data.payload
       const account = yield apply(medium, medium.getAccounts)
       yield put(A.getMediumAccountsSuccess(account))
     } catch (e) {
       yield put(A.getMediumAccountsFailure(e))
+    }
+  }
+
+  // Used in sell to get mediums with accounts
+  const getMediumsWithBankAccounts = function * (data) {
+    try {
+      const quote = data.payload
+      yield put(A.getPaymentMediumsLoading())
+      const mediums = yield apply(quote, quote.getPaymentMediums)
+      const medium = prop('bank', mediums)
+      yield apply(medium, medium.getBankAccounts)
+      yield put(A.getPaymentMediumsSuccess(mediums))
+    } catch (e) {
+      console.log(e)
+      yield put(A.getPaymentMediumsFailure(e))
     }
   }
 
@@ -277,6 +292,7 @@ export default ({ api, options }) => {
     resetProfile,
     getPaymentMediums,
     getMediumAccounts,
+    getMediumsWithBankAccounts,
     addBankAccount,
     fetchQuoteAndMediums,
     cancelTrade,

@@ -34,3 +34,5 @@ export const canTrade = state => getProfile(state).map(path(['_canTrade']))
 export const cannotTradeReason = state => getProfile(state).map(path(['_cannotTradeReason']))
 
 export const getSortedKycs = path([dataPath, 'coinify', 'kycs'])
+
+export const getBankAccounts = state => getMediums(state).map(path(['bank', '_accounts']))

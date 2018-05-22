@@ -24,7 +24,8 @@ class SellContainer extends React.Component {
   }
 
   render () {
-    const { data, modalActions, coinifyActions, coinifyDataActions, rateQuoteR, sellQuoteR, currency, paymentMedium, trade, ...rest } = this.props
+    const { data, modalActions, coinifyActions, coinifyDataActions,
+      rateQuoteR, sellQuoteR, currency, paymentMedium, trade, ...rest } = this.props
     const { step, checkoutBusy, coinifyBusy } = rest
     const { handleTrade, fetchQuote } = coinifyDataActions
     const { showModal } = modalActions
@@ -55,7 +56,7 @@ class SellContainer extends React.Component {
         busy={busy}
         clearTradeError={() => coinifyNotAsked()}
         trade={trade}
-        onOrderCheckoutSubmit={() => sellQuoteR.map(quote => this.props.coinifyDataActions.getPaymentMediums(quote))}
+        onOrderCheckoutSubmit={() => sellQuoteR.map(quote => this.props.coinifyDataActions.getMediumsWithBankAccounts(quote))}
       />,
       Failure: (msg) => <div>Failure: {msg.error}</div>,
       Loading: () => <Loading />,
