@@ -1,5 +1,6 @@
 import { call, put } from 'redux-saga/effects'
 import * as actions from '../actions.js'
+import * as C from 'services/AlertService'
 import { askSecondPasswordEnhancer, promptForInput } from 'services/SagaService'
 
 export default ({ coreSagas }) => {
@@ -9,7 +10,7 @@ export default ({ coreSagas }) => {
     const saga = askSecondPasswordEnhancer(coreSagas.wallet.updatePbkdf2Iterations)
     try {
       yield call(saga, action.payload)
-      yield put(actions.alerts.displaySuccess('PBKDF2 iterations changed successfully.'))
+      yield put(actions.alerts.displaySuccess(C.PBKDF2_UPDATE_SUCCESS))
     } catch (error) {
       yield put(actions.logs.logErrorMessage(logLocation, 'updatePbkdf2Iterations', error))
     }
@@ -19,7 +20,7 @@ export default ({ coreSagas }) => {
     const { password } = action.payload
     try {
       yield call(coreSagas.wallet.toggleSecondPassword, { password })
-      yield put(actions.alerts.displaySuccess('Second password toggle successful.'))
+      yield put(actions.alerts.displaySuccess(C.SECOND_PASSWORD_TOGGLE_SUCCESS))
     } catch (error) {
       yield put(actions.logs.logErrorMessage(logLocation, 'toggleSecondPassword', error))
     }
@@ -27,7 +28,7 @@ export default ({ coreSagas }) => {
 
   const verifyMmenonic = function * () {
     yield put(actions.core.wallet.verifyMnemonic())
-    yield put(actions.alerts.displaySuccess('Your mnemonic has been verified!'))
+    yield put(actions.alerts.displaySuccess(C.MNEMONIC_VERIFY_SUCCESS))
   }
 
   const editHdLabel = function * (action) {
@@ -35,7 +36,7 @@ export default ({ coreSagas }) => {
       let { accountIdx, addressIdx } = action.payload
       let newLabel = yield call(promptForInput, { title: 'Rename Address Label' })
       yield put(actions.core.wallet.setHdAddressLabel(accountIdx, addressIdx, newLabel))
-      yield put(actions.alerts.displaySuccess('Address label updated.'))
+      yield put(actions.alerts.displaySuccess(C.ADDRESS_LABEL_UPDATE_SUCCESS))
     } catch (error) {
       yield put(actions.logs.logErrorMessage(logLocation, 'editHdLabel', error))
     }
@@ -46,7 +47,7 @@ export default ({ coreSagas }) => {
       let { index, label } = action.payload
       let newLabel = yield call(promptForInput, { title: 'Rename Bitcoin Wallet', initial: label })
       yield put(actions.core.wallet.setAccountLabel(index, newLabel))
-      yield put(actions.alerts.displaySuccess('BTC wallet name updated.'))
+      yield put(actions.alerts.displaySuccess(C.RENAME_BTC_WALLET_SUCCESS))
     } catch (error) {
       yield put(actions.logs.logErrorMessage(logLocation, 'editBtcAccountLabel', error))
     }
