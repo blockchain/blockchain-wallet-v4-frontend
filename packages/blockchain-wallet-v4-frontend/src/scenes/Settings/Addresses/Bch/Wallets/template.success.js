@@ -36,13 +36,13 @@ const OptionItem = ({ id, text, onClick }) => (
 )
 
 const Success = (props) => {
-  const { bchAccounts, wallets, defaultId } = props.data
+  const { bchAccounts, wallets, defaultIndex } = props.data
   const { onEditBchAccountLabel, onMakeDefault, onSetArchived, onShowXPub, search } = props
 
   const isMatch = (wallet) => !search || wallet.label.toLowerCase().indexOf(search) > -1
 
   const walletTableRows = filter(isMatch, take(bchAccounts.length, wallets)).map((wallet, i) => {
-    const isDefault = i === defaultId
+    const isDefault = i === defaultIndex
     const isArchived = bchAccounts[i].archived
 
     return (
