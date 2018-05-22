@@ -10,7 +10,7 @@ import MinimumAmountLink from './MinimumAmountLink'
 import MaximumAmountLink from './MaximumAmountLink'
 import NumberBox from './NumberBox'
 import SelectBox from './SelectBox'
-import { MaximumAmountMessage, MinimumAmountMessage, InsufficientAmountMessage } from './validationMessages'
+import { MaximumAmountMessage, MinimumAmountMessage, InsufficientAmountMessage, InvalidAmountMessage } from './validationMessages'
 
 const Wrapper = styled.div`
   display: flex;
@@ -156,6 +156,7 @@ const Success = props => {
           {formError === 'minimum' && <MinimumAmountMessage />}
           {formError === 'maximum' && <MaximumAmountMessage />}
           {formError === 'insufficient' && <InsufficientAmountMessage />}
+          {formError === 'invalid' && <InvalidAmountMessage />}
         </Row>
         }
         {!formError &&
