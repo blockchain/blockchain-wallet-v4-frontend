@@ -150,6 +150,7 @@ export default ({ api, coreSagas }) => {
       if (isUndefinedOrEqualsToZero(sourceAmount)) {
         yield put(A.firstStepFormUnvalidated('invalid'))
         yield put(A.firstStepEnabled())
+        return
       }
       const effectiveBalance = yield call(calculateEffectiveBalance, source)
       const pair = yield call(getShapeShiftLimits, source, target)
