@@ -1,7 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import SelectAccounts from './template.js'
+import { getData } from './selectors.js'
+import Success from './template.success.js'
+import Loading from '../../../../template.loading'
 
 class SelectAccountsContainer extends React.PureComponent {
   constructor (props) {
@@ -15,11 +17,18 @@ class SelectAccountsContainer extends React.PureComponent {
   }
 
   render () {
-    return <SelectAccounts {...this.props} onSubmit={this.onSubmit} />
+    const { data } = this.props
+    return data.cata({
+      Success: (value) => <Success onSubmit={this.onSubmit} {...value} />,
+      Failure: (message) => <div>Failure: {message.error}</div>,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
+    })
   }
 }
 
 const mapStateToProps = (state) => ({
+  data: getData(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

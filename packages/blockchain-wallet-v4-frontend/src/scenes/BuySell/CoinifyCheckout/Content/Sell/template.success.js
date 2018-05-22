@@ -9,6 +9,7 @@ import OrderCheckout from '../OrderCheckout'
 import { OrderDetails, OrderSubmit } from '../OrderReview'
 import AddBankDetails from './AddBankDetails'
 import AddCustomerDetails from './AddCustomerDetails'
+import SelectAccounts from './SelectAccounts'
 import ISignThis from 'modals/CoinifyExchangeData/ISignThis'
 
 const CheckoutWrapper = styled.div`
@@ -73,12 +74,15 @@ const Sell = props => {
           </CheckoutWrapper>
         </StepView>
         <StepView step={1}>
-          <AddBankDetails quoteR={sellQuoteR} />
+          <SelectAccounts />
         </StepView>
         <StepView step={2}>
-          <AddCustomerDetails />
+          <AddBankDetails quoteR={sellQuoteR} />
         </StepView>
         <StepView step={3}>
+          <AddCustomerDetails />
+        </StepView>
+        <StepView step={4}>
           <FlexRow>
             <CheckoutWrapper>
               <OrderDetails

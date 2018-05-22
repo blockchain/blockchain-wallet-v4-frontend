@@ -1,12 +1,14 @@
 import React from 'react'
-import { reduxForm } from 'redux-form'
+import { reduxForm, Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
-import { Button, Link } from 'blockchain-info-components'
+import { path } from 'ramda'
+import { Button, Icon, Link, Text } from 'blockchain-info-components'
 
 import { spacing } from 'services/StyleService'
+import { CheckBox } from 'components/Form'
 import { StepTransition } from 'components/Utilities/Stepper'
-import { Form, ColLeft, InputWrapper, PartnerHeader, PartnerSubHeader, ColRight, ColRightInner } from 'components/BuySell/Signup'
+import { Form, ColLeft, InputWrapper, PartnerHeader, PartnerSubHeader, ColRight, ColRightInner, Row } from 'components/BuySell/Signup'
 
 const CancelWrapper = styled.div`
   display: flex;
@@ -24,7 +26,7 @@ const BorderBox = styled.div`
 `
 
 const SelectAccounts = (props) => {
-  const { invalid, submitting } = props
+  const { invalid, submitting, bankAccounts } = props
   return (
     <Form>
       <ColLeft>
@@ -36,6 +38,13 @@ const SelectAccounts = (props) => {
             <PartnerSubHeader>
               <FormattedMessage id='coinifyexchangedata.selectaccounts.subheader' defaultMessage='Where would you like your funds sent? You have the following bank accounts linked: ' />
             </PartnerSubHeader>
+            {bankAccounts && bankAccounts.map((b, index) =>
+              <Row>
+                <Field name={`iban${index}`} component={CheckBox} />
+                <Text weight={300} key={index}>{path(['_account', '_number'], b)}</Text>
+                <Icon name='trash' />
+              </Row>
+            )}
           </InputWrapper>
           <StepTransition next Component={Button} style={spacing('mt-45')} nature='primary' fullwidth disabled={submitting || invalid}>
             <FormattedMessage id='coinifyexchangedata.selectaccounts.continue' defaultMessage='Add new account' />
