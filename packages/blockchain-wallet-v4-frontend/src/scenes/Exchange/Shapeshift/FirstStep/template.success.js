@@ -5,10 +5,9 @@ import { Field, reduxForm } from 'redux-form'
 
 import { isEmpty } from 'ramda'
 import { Button, HeartbeatLoader, Icon, Link, Text, TextGroup, Tooltip } from 'blockchain-info-components'
-import { Form } from 'components/Form'
+import { Form, NumberBoxDebounced } from 'components/Form'
 import MinimumAmountLink from './MinimumAmountLink'
 import MaximumAmountLink from './MaximumAmountLink'
-import NumberBox from './NumberBox'
 import SelectBox from './SelectBox'
 import { MaximumAmountMessage, MinimumAmountMessage, InsufficientAmountMessage, InvalidAmountMessage } from './validationMessages'
 
@@ -126,11 +125,11 @@ const Success = props => {
         <Row height='80px'>
           <Cell>
             <AmountContainer hasNoBottomBorder>
-              <Field name='sourceAmount' component={NumberBox} />
+              <Field name='sourceAmount' component={NumberBoxDebounced} />
               <CurrencyBox>{sourceCoin}</CurrencyBox>
             </AmountContainer>
             <AmountContainer>
-              <Field name='sourceFiat' component={NumberBox} />
+              <Field name='sourceFiat' component={NumberBoxDebounced} />
               <CurrencyBox>{currency}</CurrencyBox>
             </AmountContainer>
           </Cell>
@@ -142,11 +141,11 @@ const Success = props => {
           </Cell>
           <Cell>
             <AmountContainer hasNoBottomBorder>
-              <Field name='targetAmount' component={NumberBox} />
+              <Field name='targetAmount' component={NumberBoxDebounced} />
               <CurrencyBox>{targetCoin}</CurrencyBox>
             </AmountContainer>
             <AmountContainer>
-              <Field name='targetFiat' component={NumberBox} />
+              <Field name='targetFiat' component={NumberBoxDebounced} />
               <CurrencyBox>{currency}</CurrencyBox>
             </AmountContainer>
           </Cell>
