@@ -243,6 +243,23 @@ export default ({ api, coreSagas }) => {
     })
   }
 
+  const resendSmsLoginCode = function * (action) {
+    try {
+      let { guid } = action.payload
+      let sessionToken = yield select(selectors.session.getSession(guid))
+      const response = yield call(coreSagas.wallet.resendSmsLoginCode, { guid, sessionToken })
+
+      if (response.initial_error) {
+        throw new Error(response)
+      } else {
+        yield put(actions.alerts.displaySuccess('A new SMS verification code has been sent to your phone.'))
+      }
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'resendSmsLoginCode', e))
+      yield put(actions.alerts.displayError('Error sending SMS verification code.'))
+    }
+  }
+
   const logoutRoutine = function * () {
     yield call(logout)
   }
@@ -256,12 +273,13 @@ export default ({ api, coreSagas }) => {
 
   return {
     login,
+    logout,
     mobileLogin,
     register,
-    restore,
     remindGuid,
-    logout,
     reset2fa,
+    resendSmsLoginCode,
+    restore,
     upgradeWallet
   }
 }

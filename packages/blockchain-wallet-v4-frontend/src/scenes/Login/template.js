@@ -51,10 +51,13 @@ const GuidError = styled(TextGroup)`
   display: inline;
   margin-top: 3px;
 `
+const ResendSmsLink = styled(Link)`
+  margin-top: 4px;
+`
 
 const Login = (props) => {
   const { submitting, invalid, busy, loginError, password, ...rest } = props
-  const { onSubmit, handleMobile, authType } = rest
+  const { onSubmit, handleMobile, handleSmsResend, authType } = rest
 
   const guidError = loginError && loginError.toLowerCase().includes('unknown wallet id')
   const passwordError = loginError && loginError.toLowerCase().includes('wrong_wallet_password')
@@ -134,6 +137,7 @@ const Login = (props) => {
                 { authType === 5 && <FormattedMessage id='scenes.login.mobile' defaultMessage='SMS Code' /> }
               </FormLabel>
               <Field name='code' validate={[required]} component={authType === 1 ? PasswordBox : TextBox} borderColor={twoFactorError ? 'invalid' : undefined} />
+              { authType === 5 && <ResendSmsLink size='12px' weight={300} onClick={handleSmsResend}><FormattedMessage id='scenes.login.resendsms' defaultMessage='Resend SMS' /></ResendSmsLink> }
               { twoFactorError && <FormError position={'absolute'}>{loginError}</FormError> }
             </FormItem>
           </FormGroup>
@@ -168,7 +172,8 @@ const Login = (props) => {
 }
 
 Login.propTypes = {
-  handleMobile: PropTypes.func.isRequired
+  handleMobile: PropTypes.func.isRequired,
+  handleSmsResend: PropTypes.func.isRequired
 }
 
 export default reduxForm({ form: 'login' })(Login)
