@@ -12,6 +12,7 @@ import HorizontalMenu from 'components/HorizontalMenu'
 import SelectPartner from './template.success'
 import Loading from './template.loading'
 import ui from 'redux-ui'
+import { canTrade } from 'services/ExchangeService'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -82,7 +83,7 @@ class BuySellContainer extends React.PureComponent {
     return (
       <Wrapper>
         {
-          view.props.value.coinify.offline_token || view.props.value.sfox.account_token
+          canTrade(null, null, view.props)
             ? <Menu>
               <Field name='status' component={TabMenuBuySellStatus} />
             </Menu>
