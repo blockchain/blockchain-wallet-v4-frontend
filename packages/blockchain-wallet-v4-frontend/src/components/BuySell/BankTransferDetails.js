@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Text } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
+import PropTypes from 'prop-types'
 
 const BankTransferDetailsTable = styled.div`
   display: flex;
@@ -94,6 +95,14 @@ const BankTransferDetails = ({ trade }) => {
       </BankTransferDetailsTable>
     </BankTransferDetailsWrapper>
   )
+}
+
+BankTransferDetails.propTypes = {
+  trade: PropTypes.shape({
+    bankAccount: PropTypes.object.isRequired,
+    sendAmount: PropTypes.number.isRequired,
+    inCurrency: PropTypes.string.isRequired
+  })
 }
 
 export default BankTransferDetails

@@ -94,7 +94,6 @@ export default ({ api, options }) => {
   const fetchTrades = function * () {
     try {
       const coinify = yield call(getCoinify)
-      yield put(A.fetchTradesLoading())
       const trades = yield apply(coinify, coinify.getTrades)
       yield put(A.fetchTradesSuccess(trades))
     } catch (e) {
