@@ -180,7 +180,7 @@ export default ({ api, coreSagas }) => {
 
   const selectOtherAccount = function * (coin) {
     if (equals('BTC', coin)) {
-      return yield call(getDefaultBtcAccountValue)
+      return yield call(getDefaultEthAccountValue)
     } else {
       return yield call(getDefaultBtcAccountValue)
     }
