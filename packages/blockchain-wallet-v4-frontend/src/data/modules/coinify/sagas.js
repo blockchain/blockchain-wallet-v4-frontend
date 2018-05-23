@@ -211,16 +211,27 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const deleteBankAccount = function * (payload) {
+    try {
+      yield call(coreSagas.data.coinify.deleteBankAccount, payload)
+      const quote = yield select(selectors.core.data.coinify.getQuote)
+      yield put(actions.core.data.coinify.getMediumsWithBankAccounts(quote.data))
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'deleteBankAccount', e))
+    }
+  }
+
   return {
-    handleChange,
-    initialized,
     buy,
-    sell,
     coinifySaveMedium,
     coinifySignup,
+    deleteBankAccount,
     fromISX,
-    triggerKYC,
+    handleChange,
+    initialized,
     openKYC,
-    setMinMax
+    sell,
+    setMinMax,
+    triggerKYC
   }
 }
