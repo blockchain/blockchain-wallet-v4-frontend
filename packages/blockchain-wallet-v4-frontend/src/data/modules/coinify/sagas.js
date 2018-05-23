@@ -62,9 +62,7 @@ export default ({ coreSagas }) => {
         yield put(A.coinifyFailure(parsed))
         return
       }
-
       yield put(A.coinifyNotAsked())
-      yield put(A.coinifyNextCheckoutStep('isx'))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'sell', e))
     }
