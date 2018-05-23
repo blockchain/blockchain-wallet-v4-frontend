@@ -22,13 +22,13 @@ const Setting = (props) => {
   return (
     <Wrapper>
       <Text>
-        <FormattedMessage id='scenes.preferences.notifications.settings.receive' defaultMessage='Receive By:' />
+        <FormattedMessage id='scenes.settings.preferences.notifications.settings.receive' defaultMessage='Receive By:' />
       </Text>
       <CheckBoxInput disabled={not(isEmailVerified)} name='Email'>
-        <Text size='14' weight={300}><FormattedMessage id='scenes.preferences.notifications.settings.email' defaultMessage='Email' /></Text>
+        <Text size='14' weight={300}><FormattedMessage id='scenes.settings.preferences.notifications.settings.email' defaultMessage='Email' /></Text>
       </CheckBoxInput>
       <CheckBoxInput disabled={not(isMobileVerified)} name='SMS'>
-        <Text size='14' weight={300}><FormattedMessage id='scenes.preferences.notifications.settings.sms' defaultMessage='SMS' /></Text>
+        <Text size='14' weight={300}><FormattedMessage id='scenes.settings.preferences.notifications.settings.sms' defaultMessage='SMS' /></Text>
       </CheckBoxInput>
     </Wrapper>
   )

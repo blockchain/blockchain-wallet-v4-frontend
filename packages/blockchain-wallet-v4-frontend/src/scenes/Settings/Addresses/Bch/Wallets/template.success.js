@@ -25,7 +25,7 @@ const LabelCell = styled(Text)`
 
 const Manage = () => (
   <Link weight={200} size='small'>
-    <FormattedMessage id='scenes.settings.addresses.manage' defaultMessage='Manage Wallet' />
+    <FormattedMessage id='scenes.settings.addresses.bch.wallets.manage' defaultMessage='Manage Wallet' />
   </Link>
 )
 
@@ -49,8 +49,8 @@ const Success = (props) => {
       <TableRow key={i}>
         <WalletTableCell width='50%'>
           <LabelCell size='13px'>{wallet.label}</LabelCell>
-          {isDefault && <Banner label><FormattedMessage id='scenes.settings.addresses.bch.default_label' defaultMessage='Default' /></Banner>}
-          {isArchived && <Banner label type='informational'><FormattedMessage id='scenes.settings.bch.addresses.archived_label' defaultMessage='Archived' /></Banner>}
+          {isDefault && <Banner label><FormattedMessage id='scenes.settings.addresses.bch.wallets.defaultlabel' defaultMessage='Default' /></Banner>}
+          {isArchived && <Banner label type='informational'><FormattedMessage id='scenes.settings.addresses.bch.wallets.archivedlabel' defaultMessage='Archived' /></Banner>}
         </WalletTableCell>
         <TableCell width='30%'>
           {!isArchived && <SwitchableDisplay size='13px' coin='BCH'>{wallet.value.balance}</SwitchableDisplay>}
@@ -78,26 +78,26 @@ const Success = (props) => {
   return (
     <Wrapper>
       <BchWalletsAddressesSettingHeader>
-        <FormattedMessage id='scenes.settings.addresses.bch_wallets' defaultMessage='Bitcoin Cash Wallets' />
+        <FormattedMessage id='scenes.settings.addresses.bch.wallets.title' defaultMessage='Bitcoin Cash Wallets' />
       </BchWalletsAddressesSettingHeader>
       <SettingDescription>
-        <FormattedMessage id='scenes.settings.addresses.bch_wallets_description' defaultMessage='Wallets allow you to organize your funds into categories, like spending or savings. To see all of the individual addresses that have been generated for each wallet, click on ‘Manage‘.' />
+        <FormattedMessage id='scenes.settings.addresses.bch.wallets.description' defaultMessage='Wallets allow you to organize your funds into categories, like spending or savings. To see all of the individual addresses that have been generated for each wallet, click on ‘Manage‘.' />
       </SettingDescription>
       <Table>
         <TableHeader>
           <TableCell width='50%'>
             <Text size='13px' weight={500}>
-              <FormattedMessage id='scenes.settings.addresses.bch.wallet_name' defaultMessage='Wallet Name' />
+              <FormattedMessage id='scenes.settings.addresses.bch.wallets.walletname' defaultMessage='Wallet Name' />
             </Text>
           </TableCell>
           <TableCell width='30%'>
             <Text size='13px' weight={500}>
-              <FormattedMessage id='scenes.settings.addresses.bch.wallet_balance' defaultMessage='Balance' />
+              <FormattedMessage id='scenes.settings.addresses.bch.wallets.balance' defaultMessage='Balance' />
             </Text>
           </TableCell>
           <TableCell width='20%' style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <Text size='13px' weight={500}>
-              <FormattedMessage id='scenes.settings.imported_addresses.bch.wallet_actions' defaultMessage='Actions' />
+              <FormattedMessage id='scenes.settings.addresses.bch.wallets.actions' defaultMessage='Actions' />
             </Text>
           </TableCell>
         </TableHeader>

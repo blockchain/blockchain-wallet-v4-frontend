@@ -14,7 +14,7 @@ const AddressCell = styled(Text)`
 
 const MoreOptions = () => (
   <Link weight={200} size='small'>
-    <FormattedMessage id='scenes.settings.manage_addresses.more_options' defaultMessage='More Options' />
+    <FormattedMessage id='scenes.settings.addresses.btc.addressrow.moreoptions' defaultMessage='More Options' />
   </Link>
 )
 
@@ -24,7 +24,7 @@ const AddressRow = ({ address, archived, coin, renderOptions }) => {
       <AddressTableCell width='50%' style={{ display: 'flex' }}>
         <AddressCell size='13px'>{address.addr}</AddressCell>
         {address.priv == null && (
-          <Banner label type='informational'><FormattedMessage id='scenes.settings.manage_addresses.watch_only' defaultMessage='Watch Only' /></Banner>
+          <Banner label type='informational'><FormattedMessage id='scenes.settings.addresses.btc.addressrow.watchonly' defaultMessage='Watch Only' /></Banner>
         )}
       </AddressTableCell>
       <TableCell width='30%'>

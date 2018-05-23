@@ -28,10 +28,10 @@ const Success = ({ archivedAddresses, onToggleArchived, onDelete, search }) => {
   return (
     <Wrapper>
       <ArchivedAddressesContainer>
-        <FormattedMessage id='scenes.settings.addresses.archived_addrs' defaultMessage='Archived Bitcoin Addresses' />
+        <FormattedMessage id='scenes.settings.addresses.btc.archivedaddresses.title' defaultMessage='Archived Bitcoin Addresses' />
       </ArchivedAddressesContainer>
       <SettingDescription style={spacing('mb-10')}>
-        <FormattedMessage id='scenes.settings.addresses.archived_addrs_desc' defaultMessage='Archived addresses are addresses you may not need anymore that are hidden from the main view but still a part of your wallet. You can unarchive them any time.' />
+        <FormattedMessage id='scenes.settings.addresses.btc.archivedaddresses.description' defaultMessage='Archived addresses are addresses you may not need anymore that are hidden from the main view but still a part of your wallet. You can unarchive them any time.' />
       </SettingDescription>
       {
         archivedAddressesTableRows.length > 0 &&
@@ -39,17 +39,17 @@ const Success = ({ archivedAddresses, onToggleArchived, onDelete, search }) => {
           <TableHeader>
             <TableCell width='50%'>
               <Text size='13px' weight={500}>
-                <FormattedMessage id='scenes.settings.archived_addrs.address' defaultMessage='Address' />
+                <FormattedMessage id='scenes.settings.addresses.btc.archivedaddresses.address' defaultMessage='Address' />
               </Text>
             </TableCell>
             <TableCell width='30%'>
               <Text size='13px' weight={500}>
-                <FormattedMessage id='scenes.settings.archived_addrs.balance' defaultMessage='Balance' />
+                <FormattedMessage id='scenes.settings.addresses.btc.archivedaddresses.balance' defaultMessage='Balance' />
               </Text>
             </TableCell>
             <TableCell width='20%' style={{ display: 'flex', justifyContent: 'flex-end' }}>
               <Text size='13px' weight={500}>
-                <FormattedMessage id='scenes.settings.imported_addresses.wallet_actions' defaultMessage='Actions' />
+                <FormattedMessage id='scenes.settings.addresses.btc.archivedaddresses.actions' defaultMessage='Actions' />
               </Text>
             </TableCell>
           </TableHeader>

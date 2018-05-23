@@ -11,10 +11,10 @@ const LocalCurrency = (props) => {
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <FormattedMessage id='scenes.preferences.currency.title' defaultMessage='Local Currency' />
+          <FormattedMessage id='scenes.settings.preferences.localcurrency.error.title' defaultMessage='Local Currency' />
         </SettingHeader>
         <SettingDescription>
-          <FormattedMessage id='scenes.preferences.currency.description' defaultMessage='Select your local currency.' />
+          <FormattedMessage id='scenes.settings.preferences.localcurrency.error.description' defaultMessage='Select your local currency.' />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
