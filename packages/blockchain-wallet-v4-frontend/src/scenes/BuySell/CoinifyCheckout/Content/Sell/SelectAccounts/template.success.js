@@ -58,7 +58,7 @@ const SelectAccounts = (props) => {
       </ColLeft>
       <ColRight>
         <ColRightInner>
-          <StepTransition next Component={Button} style={spacing('mt-45')} nature='primary'
+          <StepTransition to={4} Component={Button} style={spacing('mt-45')} nature='primary'
             fullwidth disabled={submitting || invalid || noRadioButtonSelected}>
             <FormattedMessage id='coinifyexchangedata.selectaccounts.continue' defaultMessage='Continue' />
           </StepTransition>

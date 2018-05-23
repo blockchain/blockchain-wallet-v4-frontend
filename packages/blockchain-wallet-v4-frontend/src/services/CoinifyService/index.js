@@ -62,32 +62,34 @@ export const reviewOrder = {
     const qAmt = Math.abs(q.quoteAmount)
     const bAmt = Math.abs(q.baseAmount)
     const med = reviewOrder.hasMedium(q.paymentMediums, medium)
+    const fee = Math.abs(q.paymentMediums[med]['fee'])
+    const totalBase = Math.abs((q.paymentMediums[med]['total']).toFixed(2))
     if (type === 'buy') {
       if (reviewOrder.baseBtc(q)) {
         return {
           firstRow: `${bAmt / 1e8} BTC (${currencySymbolMap[q.quoteCurrency]}${qAmt.toFixed(2)})`,
-          fee: `${currencySymbolMap[q.quoteCurrency]}${(+q.paymentMediums[med]['fee']).toFixed(2)}`,
-          total: `${currencySymbolMap[q.quoteCurrency]}${(qAmt + q.paymentMediums[med]['fee']).toFixed(2)}`
+          fee: `${currencySymbolMap[q.quoteCurrency]}${fee.toFixed(2)}`,
+          total: `${currencySymbolMap[q.quoteCurrency]}${(qAmt + fee).toFixed(2)}`
         }
       } else {
         return {
           firstRow: `${qAmt / 1e8} BTC (${currencySymbolMap[q.baseCurrency]}${bAmt.toFixed(2)})`,
-          fee: `${currencySymbolMap[q.baseCurrency]}${(q.paymentMediums[med]['fee']).toFixed(2)}`,
-          total: `${currencySymbolMap[q.baseCurrency]}${(q.paymentMediums[med]['total']).toFixed(2)}`
+          fee: `${currencySymbolMap[q.baseCurrency]}${fee.toFixed(2)}`,
+          total: `${currencySymbolMap[q.baseCurrency]}${totalBase}`
         }
       }
     } else { // type = sell
       if (reviewOrder.baseBtc(q)) {
         return {
           firstRow: `${bAmt / 1e8} BTC (${currencySymbolMap[q.quoteCurrency]}${qAmt.toFixed(2)})`,
-          fee: `${currencySymbolMap[q.quoteCurrency]}${(+q.paymentMediums[med]['fee']).toFixed(2)}`,
-          total: `${currencySymbolMap[q.quoteCurrency]}${(qAmt + q.paymentMediums[med]['fee']).toFixed(2)}`
+          fee: `${currencySymbolMap[q.quoteCurrency]}${fee.toFixed(2)}`,
+          total: `${currencySymbolMap[q.quoteCurrency]}${(qAmt + fee).toFixed(2)}`
         }
       } else {
         return {
           firstRow: `${qAmt / 1e8} BTC (${currencySymbolMap[q.baseCurrency]}${bAmt.toFixed(2)})`,
-          fee: `${currencySymbolMap[q.baseCurrency]}${(q.paymentMediums[med]['fee']).toFixed(2)}`,
-          total: `${currencySymbolMap[q.baseCurrency]}${(q.paymentMediums[med]['total']).toFixed(2)}`
+          fee: `${currencySymbolMap[q.baseCurrency]}${fee.toFixed(2)}`,
+          total: `${currencySymbolMap[q.baseCurrency]}${totalBase}`
         }
       }
     }
