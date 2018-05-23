@@ -7,7 +7,7 @@ import * as actions from '../../actions'
 import * as selectors from '../../selectors'
 import { promptForSecondPassword } from 'services/SagaService'
 import { getCoinFromPair, getPairFromCoin, getMinimum, getMaximum,
-  convertStandardToBase, isAmountBelowMinimum, isAmountAboveMaximum, calculateFinalAmount, selectFee,
+  convertStandardToBase, isAmountBelowMinimum, isAmountAboveMaximum, isMinimumGreaterThanMaximum, calculateFinalAmount, selectFee,
   isUndefinedOrEqualsToZero, getMinimumStandard, getMaximumStandard } from './services'
 import { selectReceiveAddress } from '../utils/sagas'
 import utils from './sagas.utils'
@@ -147,17 +147,15 @@ export default ({ api, coreSagas }) => {
       const source = prop('source', form)
       const target = prop('target', form)
       const sourceAmount = prop('sourceAmount', form)
-      if (isUndefinedOrEqualsToZero(sourceAmount)) {
-        yield put(A.firstStepFormUnvalidated('invalid'))
-        yield put(A.firstStepEnabled())
-        return
-      }
+
       const effectiveBalance = yield call(calculateEffectiveBalance, source)
       const pair = yield call(getShapeShiftLimits, source, target)
       const minimum = getMinimum(source.coin, pair.minimum)
       const maximum = getMaximum(source.coin, pair.maximum, effectiveBalance)
       const sourceAmountBase = convertStandardToBase(source.coin, sourceAmount)
-      if (isAmountBelowMinimum(effectiveBalance, minimum)) {
+      if (isUndefinedOrEqualsToZero(sourceAmount) || isMinimumGreaterThanMaximum(minimum, maximum)) {
+        yield put(A.firstStepFormUnvalidated('invalid'))
+      } else if (isAmountBelowMinimum(effectiveBalance, minimum)) {
         yield put(A.firstStepFormUnvalidated('insufficient'))
       } else if (isAmountBelowMinimum(sourceAmountBase, minimum)) {
         yield put(A.firstStepFormUnvalidated('minimum'))
@@ -276,6 +274,8 @@ export default ({ api, coreSagas }) => {
       const order = yield select(S.getOrder)
       const depositAddress = prop('deposit', order)
       pollingTradeStatusTask = yield fork(startPollingTradeStatus, depositAddress)
+      // Reset form
+      yield put(actions.form.reset('exchange'))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'thirdStepInitialized', e))
     }

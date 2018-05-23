@@ -68,7 +68,7 @@ const CurrencyBox = styled(Text)`
   font-size: 13px;
   font-weight: 300;
   transform: uppercase;
-  background-color: ${props => props.theme['white']};
+  background-color: ${props => props.disabled ? props.theme['gray-1'] : props.theme['white']};
 `
 const ShapeshiftIcon = styled(Icon)`
   &:hover { color: ${props => props.theme['brand-secondary']}; }
@@ -125,12 +125,12 @@ const Success = props => {
         <Row height='80px'>
           <Cell>
             <AmountContainer hasNoBottomBorder>
-              <Field name='sourceAmount' component={NumberBoxDebounced} />
-              <CurrencyBox>{sourceCoin}</CurrencyBox>
+              <Field name='sourceAmount' component={NumberBoxDebounced} disabled={!enabled} />
+              <CurrencyBox disabled={!enabled}>{sourceCoin}</CurrencyBox>
             </AmountContainer>
             <AmountContainer>
-              <Field name='sourceFiat' component={NumberBoxDebounced} />
-              <CurrencyBox>{currency}</CurrencyBox>
+              <Field name='sourceFiat' component={NumberBoxDebounced} disabled={!enabled} />
+              <CurrencyBox disabled={!enabled}>{currency}</CurrencyBox>
             </AmountContainer>
           </Cell>
           <Cell size='small'>
@@ -141,12 +141,12 @@ const Success = props => {
           </Cell>
           <Cell>
             <AmountContainer hasNoBottomBorder>
-              <Field name='targetAmount' component={NumberBoxDebounced} />
-              <CurrencyBox>{targetCoin}</CurrencyBox>
+              <Field name='targetAmount' component={NumberBoxDebounced} disabled={!enabled} />
+              <CurrencyBox disabled={!enabled}>{targetCoin}</CurrencyBox>
             </AmountContainer>
             <AmountContainer>
-              <Field name='targetFiat' component={NumberBoxDebounced} />
-              <CurrencyBox>{currency}</CurrencyBox>
+              <Field name='targetFiat' component={NumberBoxDebounced} disabled={!enabled} />
+              <CurrencyBox disabled={!enabled}>{currency}</CurrencyBox>
             </AmountContainer>
           </Cell>
         </Row>

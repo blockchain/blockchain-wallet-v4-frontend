@@ -13,7 +13,10 @@ class ShapeshiftContainer extends React.Component {
 
   render () {
     return this.props.data.cata({
-      Success: (value) => <SuccessTemplate step={value.step}/>
+      Success: (value) => <SuccessTemplate step={value.step}/>,
+      Failure: () => <div />,
+      Loading: () => <div />,
+      NotAsked: () => <div />
     })
   }
 }

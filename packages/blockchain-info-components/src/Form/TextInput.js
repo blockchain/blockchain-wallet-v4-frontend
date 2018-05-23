@@ -46,14 +46,13 @@ const TextInput = props => {
 }
 
 TextInput.propTypes = {
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  height: PropTypes.string,
+  minHeight: PropTypes.string
 }
 
 TextInput.defaultProps = {
-  disabled: false
-}
-
-TextInput.defaultProps = {
+  disabled: false,
   height: '40px',
   minHeight: '40px'
 }
