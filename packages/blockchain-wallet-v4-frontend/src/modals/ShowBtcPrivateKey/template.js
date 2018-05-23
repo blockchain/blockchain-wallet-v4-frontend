@@ -12,6 +12,11 @@ const DetailTable = styled.div`
   > div { word-break: break-word; }
   > div:not(:first-child) { margin-top: 10px; }
 `
+const DetailRow = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+`
 const DetailRowText = styled(Text)`
   white-space: nowrap;
 `
@@ -27,37 +32,43 @@ const FirstStep = () => (
   </div>
 )
 
-const DetailRow = ({ id, defaultMessage, children }) => (
-  <div style={flex('row')}>
-    <DetailRowText size='14px' weight={400}>
-      <FormattedMessage id={id} defaultMessage={defaultMessage} />
-    </DetailRowText>
-    {':'}&nbsp;
-    {children}
-  </div>
-)
-
 const SecondStep = ({ addr, balance, priv, format, formats, onChangeFormat }) => (
   <div style={flex('row')}>
     <div style={spacing('mr-25')}>
       <QRCodeReact value={priv} size={120} />
     </div>
     <DetailTable>
-      <DetailRow id='modals.showbtcpriv.balance' defaultMessage='Balance'>
+      <DetailRow>
+        <DetailRowText size='14px' weight={400}>
+          <FormattedMessage id='modals.showbtcpriv.balance' defaultMessage='Balance' />
+        </DetailRowText>
+        {':'}&nbsp;
         <CoinDisplay coin='BTC' size='14px'>
           {balance}
         </CoinDisplay>
       </DetailRow>
-      <DetailRow id='modals.showbtcpriv.address' defaultMessage='Address'>
+      <DetailRow>
+        <DetailRowText size='14px' weight={400}>
+          <FormattedMessage id='modals.showbtcpriv.address' defaultMessage='Address' />
+        </DetailRowText>
+        {':'}&nbsp;
         <Text size='14px' weight={300}>{addr}</Text>
       </DetailRow>
-      <DetailRow id='modals.showbtcpriv.privatekey' defaultMessage='Private Key'>
+      <DetailRow>
+        <DetailRowText size='14px' weight={400}>
+          <FormattedMessage id='modals.showbtcpriv.priv_key' defaultMessage='Private Key' />
+        </DetailRowText>
+        {':'}&nbsp;
         {utils.bitcoin.formatPrivateKeyString(priv, format).fold(
           error => (<Text size='14px' weight={300} color='error'>{error.message}</Text>),
           keyString => (<Text size='14px' weight={300}>{keyString}</Text>)
         )}
       </DetailRow>
-      <DetailRow id='modals.showbtcpriv.privatekeyformat' defaultMessage='Private Key Format'>
+      <DetailRow>
+        <DetailRowText size='14px' weight={400}>
+          <FormattedMessage id='modals.showbtcpriv.priv_key_format' defaultMessage='Private Key Format' />
+        </DetailRowText>
+        {':'}&nbsp;
         <SelectInput
           label='Export Format'
           value={format}

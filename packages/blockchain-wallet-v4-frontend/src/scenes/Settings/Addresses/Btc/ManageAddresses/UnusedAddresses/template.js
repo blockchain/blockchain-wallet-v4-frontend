@@ -4,12 +4,14 @@ import { FormattedMessage } from 'react-intl'
 import { filter } from 'ramda'
 
 import { Banner, Text, Table, TableHeader, TableRow, TableCell, Icon, IconButton, Link, ComponentDropdown } from 'blockchain-info-components'
-import OptionItem from '../../OptionItem'
 
 const Fragment = React.Fragment
 const WalletLabelCell = styled.div`
   display: flex;
   align-items: center;
+`
+const ClickableText = styled(Text)`
+  cursor: pointer;
 `
 
 const MoreOptions = () => (
@@ -59,10 +61,18 @@ const UnusedAddressesTemplate = ({ account, labels, receiveIndex, isDefault, der
           color={'gray-5'}
           selectedComponent={<MoreOptions />}
           components={[
-            <OptionItem id='scenes.settings.manage_addresses.edit_name' defaultMessage='Edit Name' onClick={onEditBtcAccountLabel} />,
-            (!isDefault && <OptionItem id='scenes.settings.manage_addresses.make_default' defaultMessage='Make Default' onClick={onMakeDefault} />),
-            (!isDefault && <OptionItem id='scenes.settings.manage_addresses.archive' defaultMessage='Archive' onClick={onSetArchived} />),
-            <OptionItem id='scenes.settings.manage_addresses.show_xpub' defaultMessage='Show xPub' onClick={onShowXPub} />
+            <ClickableText size='small' onClick={onEditBtcAccountLabel}>
+              <FormattedMessage id='scenes.settings.manage_addresses.edit_name' defaultMessage='Edit Name' />
+            </ClickableText>,
+            (!isDefault && <ClickableText size='small' onClick={onMakeDefault}>
+              <FormattedMessage id='scenes.settings.manage_addresses.make_default' defaultMessage='Make Default' />
+            </ClickableText>),
+            (!isDefault && <ClickableText size='small' onClick={onSetArchived}>
+              <FormattedMessage id='scenes.settings.manage_addresses.archive' defaultMessage='Archive' />
+            </ClickableText>),
+            <ClickableText size='small' onClick={onShowXPub}>
+              <FormattedMessage id='scenes.settings.manage_addresses.show_xpub' defaultMessage='Show xPub' />
+            </ClickableText>
           ].filter(x => x)} />
       </div>
       <Text weight={400} size='14px' style={{ marginTop: 25 }}>

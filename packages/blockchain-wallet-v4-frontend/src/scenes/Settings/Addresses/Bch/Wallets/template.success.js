@@ -29,12 +29,6 @@ const Manage = () => (
   </Link>
 )
 
-const OptionItem = ({ id, text, onClick }) => (
-  <ClickableText size='small' onClick={onClick}>
-    <FormattedMessage id={id} defaultMessage={text} />
-  </ClickableText>
-)
-
 const Success = (props) => {
   const { bchAccounts, wallets, defaultId } = props.data
   const { onEditBchAccountLabel, onMakeDefault, onSetArchived, onShowXPub, search } = props
@@ -62,13 +56,23 @@ const Success = (props) => {
             color={'gray-5'}
             selectedComponent={<Manage />}
             components={[
-              <OptionItem id='scenes.settings.addresses.bch.edit_name' text='Edit Wallet Name' onClick={() => onEditBchAccountLabel(wallet.value)} />,
-              (!isDefault && !isArchived && <OptionItem id='scenes.settings.addresses.bch.make_default' text='Make Default' onClick={() => onMakeDefault(wallet.value)} />),
+              <ClickableText size='small' onClick={() => onEditBchAccountLabel(wallet.value)}>
+                <FormattedMessage id='scenes.settings.addresses.bch.edit_name' defaultMessage='Edit Wallet Name' />
+              </ClickableText>,
+              (!isDefault && !isArchived && <ClickableText size='small' onClick={() => onMakeDefault(wallet.value)}>
+                <FormattedMessage id='scenes.settings.addresses.bch.make_default' defaultMessage='Make Default' />
+              </ClickableText>),
               (!isDefault &&
                 (isArchived
-                  ? <OptionItem id='scenes.settings.addresses.bch.unarchive' text='Unarchive' onClick={() => onSetArchived(wallet.value, false)} />
-                  : <OptionItem id='scenes.settings.addresses.bch.archive' text='Archive' onClick={() => onSetArchived(wallet.value, true)} />)),
-              (!isArchived && <OptionItem id='scenes.settings.addresses.bch.show_xpub' text='Show xPub' onClick={() => onShowXPub(wallet.value)} />)
+                  ? <ClickableText size='small' onClick={() => onSetArchived(wallet.value, false)}>
+                    <FormattedMessage id='scenes.settings.addresses.bch.unarchive' defaultMessage='Unarchive' />
+                  </ClickableText>
+                  : <ClickableText size='small' onClick={() => onSetArchived(wallet.value, true)}>
+                    <FormattedMessage id='scenes.settings.addresses.bch.archive' defaultMessage='Archive' />
+                  </ClickableText>)),
+              (!isArchived && <ClickableText size='small' onClick={() => onShowXPub(wallet.value)}>
+                <FormattedMessage id='scenes.settings.addresses.bch.show_xpub' defaultMessage='Show xPub' />
+              </ClickableText>)
             ].filter(x => x)} />
         </TableCell>
       </TableRow>
