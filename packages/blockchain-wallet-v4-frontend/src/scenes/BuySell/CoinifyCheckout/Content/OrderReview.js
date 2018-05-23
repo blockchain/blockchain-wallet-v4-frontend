@@ -96,7 +96,7 @@ export const OrderSubmit = ({ quoteR, onSubmit, busy, clearTradeError, goToStep 
         : <Fragment>
           <Button
             nature='primary'
-            disabled={!Remote.Success.is(quoteR)}
+            disabled={!Remote.Success.is(quoteR) || busy}
             onClick={onSubmit}>
             {
               busy
