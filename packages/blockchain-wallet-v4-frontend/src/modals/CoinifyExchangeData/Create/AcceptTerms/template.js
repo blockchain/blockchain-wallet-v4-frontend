@@ -5,6 +5,7 @@ import { Field, reduxForm } from 'redux-form'
 
 import Helper from 'components/BuySell/FAQ'
 import { CheckBox } from 'components/Form'
+import Terms from 'components/Terms'
 import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ErrorWrapper, ColRightInner } from 'components/BuySell/Signup'
 
@@ -45,7 +46,7 @@ const AcceptTerms = (props) => {
           </PartnerSubHeader>
           <AcceptTermsContainer>
             <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox}>
-              <FormattedMessage id='coinifyexchangedata.create.accept.terms' defaultMessage="I accept Blockchain's {bcTos}, Coinify's {coinifyTos} & {coinifyPriv}." values={{ bcTos: <a href='https://www.blockchain.com/terms/index.html' target='_blank'>Terms of Service</a>, coinifyTos: <a href='https://www.coinify.com/legal' target='_blank' rel='noopener noreferrer'>Terms of Service</a>, coinifyPriv: <a href='https://www.coinify.com/legal/policy' target='_blank' rel='noopener noreferrer'>Privacy Policy</a> }} />
+              <Terms company='coinify' />
             </Field>
           </AcceptTermsContainer>
         </InputWrapper>
