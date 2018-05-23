@@ -19,11 +19,11 @@ const OrderCheckout = ({ quoteR, account, onFetchQuote, reason, finishAccountSet
   const disableInputs = limits.max < limits.min || (reason.indexOf('has_remaining') < 0 && reason) || limits.effectiveMax < limits.min
 
   const wantToHelper = () => type === 'buy'
-    ? <FormattedMessage id='buy.output_method.title.buy' defaultMessage='I want to buy' />
-    : <FormattedMessage id='buy.output_method.title.sell' defaultMessage='I want to sell' />
+    ? <FormattedMessage id='buy.sfoxcheckout.outputmethod.title.buy' defaultMessage='I want to buy' />
+    : <FormattedMessage id='buy.sfoxcheckout.title.sell' defaultMessage='I want to sell' />
   const payWithHelper = () => type === 'buy'
-    ? <FormattedMessage id='buy.input_method.title.buy_with' defaultMessage='I will pay with' />
-    : <FormattedMessage id='buy.output_method.title.sell_with' defaultMessage='I will receive funds into' />
+    ? <FormattedMessage id='buy.sfoxcheckout.inputmethod.title.buywith' defaultMessage='I will pay with' />
+    : <FormattedMessage id='buy.sfoxcheckout.outputmethod.title.sellwith' defaultMessage='I will receive funds into' />
 
   const limitsHelper = (quoteR, limits) => {
     if (quoteR.error) return true
@@ -36,7 +36,7 @@ const OrderCheckout = ({ quoteR, account, onFetchQuote, reason, finishAccountSet
   const submitButtonHelper = () => (
     reason.indexOf('has_remaining') > -1
       ? <StepTransition next Component={Button} style={spacing('mt-45')} nature='primary' fullwidth disabled={!Remote.Success.is(quoteR) || limitsHelper(quoteR, limits)}>
-        <FormattedMessage id='review_order' defaultMessage='Review Order' />
+        <FormattedMessage id='buy.sfoxcheckout.revieworder' defaultMessage='Review Order' />
       </StepTransition>
       : <div style={{ ...flex('col'), ...spacing('mt-15') }}>
         <Text size='14px' weight={300}>
@@ -63,7 +63,7 @@ const OrderCheckout = ({ quoteR, account, onFetchQuote, reason, finishAccountSet
               .map((quote) => '$' + quote.rate)
               .getOrElse(
                 <Fragment>
-                  <FormattedMessage id='loading' defaultMessage='Loading' />
+                  <FormattedMessage id='buy.sfoxcheckout.loading' defaultMessage='Loading' />
                   {'...'}
                 </Fragment>
               )}
@@ -81,7 +81,7 @@ const OrderCheckout = ({ quoteR, account, onFetchQuote, reason, finishAccountSet
         reason.indexOf('has_remaining') > -1
           ? <Fragment>
             <Text style={spacing('ml-10')} size='16px' weight={600}>
-              <FormattedMessage id='amount' defaultMessage='Amount' />
+              <FormattedMessage id='buy.sfoxcheckout.amount' defaultMessage='Amount' />
             </Text>
             <div style={spacing('mt-10')}>
               <QuoteInput
