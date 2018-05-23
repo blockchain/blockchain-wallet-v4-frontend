@@ -76,7 +76,7 @@ const LimitsHelper = styled.div`
 const getLimitsError = (errorType, limits, symbol, setMin) => {
   if (errorType === 'below_min') return `Your limit of ${symbol}${limits.max} is below the minimum allowed amount.`
   if (errorType === 'over_max') return `Enter an amount under your ${symbol}${limits.max.toLocaleString()} limit`
-  if (errorType === 'under_min') return <FormattedMessage id='buy.quote_input.under_min' defaultMessage='Enter an amount above the {setMin} minimum' values={{ setMin: <a onClick={() => setMin(limits.min)}>{symbol}{limits.min.toLocaleString()}</a> }} />
+  if (errorType === 'under_min') return <FormattedMessage id='buy.coinifycheckout.content.quoteinput.undermin' defaultMessage='Enter an amount above the {setMin} minimum' values={{ setMin: <a onClick={() => setMin(limits.min)}>{symbol}{limits.min.toLocaleString()}</a> }} />
 }
 
 const FiatConvertor = (props) => {
@@ -104,8 +104,8 @@ const FiatConvertor = (props) => {
               { getLimitsError(checkoutError, limits, symbol, setMin) }
             </Error>
             : <LimitsHelper>
-              <FormattedMessage id='buy.quote_input.remaining_buy_limit' defaultMessage='Your remaining buy limit is {max}' values={{ max: <a onClick={() => setMax(limits.max)}>{symbol}{limits.max}</a> }} />
-              {level.name < 2 && <FormattedMessage id='buy.quote_input.increase_limits' defaultMessage='{increase}' values={{ increase: <a onClick={() => increaseLimit()}>Increase your limit.</a> }} />}
+              <FormattedMessage id='buy.coinifycheckout.content.quoteinput.remainingbuylimit' defaultMessage='Your remaining buy limit is {max}' values={{ max: <a onClick={() => setMax(limits.max)}>{symbol}{limits.max}</a> }} />
+              {level.name < 2 && <FormattedMessage id='buy.coinifycheckout.content.quoteinput.increaselimits' defaultMessage='{increase}' values={{ increase: <a onClick={() => increaseLimit()}>Increase your limit.</a> }} />}
             </LimitsHelper>
         }
       </Wrapper>

@@ -18,10 +18,10 @@ const DetailRowText = styled(Text)`
 const FirstStep = () => (
   <div>
     <Text size='13px' color='error' weight={500} uppercase>
-      <FormattedMessage id='modals.show_eth_priv.warning' defaultMessage='Warning' />
+      <FormattedMessage id='modals.showethpriv.warning' defaultMessage='Warning' />
     </Text>
     <Text size='14px' style={spacing('mt-10')} weight={300}>
-      <FormattedMessage id='modals.show_eth_priv.warning_message' defaultMessage="Don't share your private key with anyone. This may result in a loss of funds." />
+      <FormattedMessage id='modals.showethpriv.warning.message' defaultMessage="Don't share your private key with anyone. This may result in a loss of funds." />
     </Text>
   </div>
 )
@@ -42,15 +42,15 @@ const SecondStep = ({ addr, balance, priv }) => (
       <QRCodeReact value={priv} size={120} />
     </div>
     <DetailTable>
-      <DetailRow id='modals.show_eth_priv.balance' defaultMessage='Balance'>
+      <DetailRow id='modals.showethpriv.balance' defaultMessage='Balance'>
         <CoinDisplay coin='ETH' size='14px'>
           {balance}
         </CoinDisplay>
       </DetailRow>
-      <DetailRow id='modals.show_eth_priv.address' defaultMessage='Address'>
+      <DetailRow id='modals.showethpriv.address' defaultMessage='Address'>
         <Text size='14px' weight={300}>{addr}</Text>
       </DetailRow>
-      <DetailRow id='modals.show_eth_priv.priv_key' defaultMessage='Private Key'>
+      <DetailRow id='modals.showethpriv.privatekey' defaultMessage='Private Key'>
         <Text size='14px' weight={300}>{priv}</Text>
       </DetailRow>
     </DetailTable>
@@ -60,18 +60,18 @@ const SecondStep = ({ addr, balance, priv }) => (
 const ShowEthPrivateKeyTemplate = ({ position, total, close, step, onContinue, ...rest }) => (
   <Modal size='large' position={position} total={total}>
     <ModalHeader icon='lock' closeButton={false}>
-      <FormattedMessage id='modals.show_eth_priv.title' defaultMessage='Private Key' />
+      <FormattedMessage id='modals.showethpriv.title' defaultMessage='Private Key' />
     </ModalHeader>
     <ModalBody>
       {step === 0 ? <FirstStep /> : <SecondStep {...rest} />}
     </ModalBody>
     <ModalFooter align='right'>
       <Text cursor='pointer' size='small' weight={300} style={spacing('mr-15')} onClick={close}>
-        <FormattedMessage id='modals.show_eth_priv.close' defaultMessage='Close' />
+        <FormattedMessage id='modals.showethpriv.close' defaultMessage='Close' />
       </Text>
       {step === 0 && (
         <Button nature='primary' onClick={onContinue}>
-          <FormattedMessage id='modals.show_eth_priv.continue' defaultMessage='Continue' />
+          <FormattedMessage id='modals.showethpriv.continue' defaultMessage='Continue' />
         </Button>
       )}
     </ModalFooter>

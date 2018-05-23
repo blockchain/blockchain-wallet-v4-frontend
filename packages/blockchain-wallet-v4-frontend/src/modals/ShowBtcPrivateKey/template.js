@@ -19,10 +19,10 @@ const DetailRowText = styled(Text)`
 const FirstStep = () => (
   <div>
     <Text size='13px' color='error' weight={500} uppercase>
-      <FormattedMessage id='modals.show_priv.warning' defaultMessage='Warning' />
+      <FormattedMessage id='modals.showbtcpriv.warning' defaultMessage='Warning' />
     </Text>
     <Text size='14px' style={spacing('mt-10')} weight={300}>
-      <FormattedMessage id='modals.show_priv.warning_message' defaultMessage="Don't share your private key with anyone. This may result in a loss of funds." />
+      <FormattedMessage id='modals.showbtcpriv.warning.message' defaultMessage="Don't share your private key with anyone. This may result in a loss of funds." />
     </Text>
   </div>
 )
@@ -43,21 +43,21 @@ const SecondStep = ({ addr, balance, priv, format, formats, onChangeFormat }) =>
       <QRCodeReact value={priv} size={120} />
     </div>
     <DetailTable>
-      <DetailRow id='modals.show_priv.balance' defaultMessage='Balance'>
+      <DetailRow id='modals.showbtcpriv.balance' defaultMessage='Balance'>
         <CoinDisplay coin='BTC' size='14px'>
           {balance}
         </CoinDisplay>
       </DetailRow>
-      <DetailRow id='modals.show_priv.address' defaultMessage='Address'>
+      <DetailRow id='modals.showbtcpriv.address' defaultMessage='Address'>
         <Text size='14px' weight={300}>{addr}</Text>
       </DetailRow>
-      <DetailRow id='modals.show_priv.priv_key' defaultMessage='Private Key'>
+      <DetailRow id='modals.showbtcpriv.privatekey' defaultMessage='Private Key'>
         {utils.bitcoin.formatPrivateKeyString(priv, format).fold(
           error => (<Text size='14px' weight={300} color='error'>{error.message}</Text>),
           keyString => (<Text size='14px' weight={300}>{keyString}</Text>)
         )}
       </DetailRow>
-      <DetailRow id='modals.show_priv.priv_key_format' defaultMessage='Private Key Format'>
+      <DetailRow id='modals.showbtcpriv.privatekeyformat' defaultMessage='Private Key Format'>
         <SelectInput
           label='Export Format'
           value={format}
@@ -73,18 +73,18 @@ const SecondStep = ({ addr, balance, priv, format, formats, onChangeFormat }) =>
 const ShowBtcPrivateKeyTemplate = ({ position, total, close, step, onContinue, ...rest }) => (
   <Modal size='large' position={position} total={total}>
     <ModalHeader icon='lock' closeButton={false}>
-      <FormattedMessage id='modals.show_priv.title' defaultMessage='Private Key' />
+      <FormattedMessage id='modals.showbtcpriv.title' defaultMessage='Private Key' />
     </ModalHeader>
     <ModalBody>
       {step === 0 ? <FirstStep /> : <SecondStep {...rest} />}
     </ModalBody>
     <ModalFooter align='right'>
       <Text cursor='pointer' size='small' weight={300} style={spacing('mr-15')} onClick={close}>
-        <FormattedMessage id='modals.show_priv.close' defaultMessage='Close' />
+        <FormattedMessage id='modals.showbtcpriv.close' defaultMessage='Close' />
       </Text>
       {step === 0 && (
         <Button nature='primary' onClick={onContinue}>
-          <FormattedMessage id='modals.show_priv.continue' defaultMessage='Continue' />
+          <FormattedMessage id='modals.showbtcpriv.continue' defaultMessage='Continue' />
         </Button>
       )}
     </ModalFooter>
