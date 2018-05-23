@@ -34,7 +34,7 @@ class EmptyOrderHistoryContainer extends React.PureComponent {
           </Header>
           <TextGroup inline>
             <Text size='18px' weight={300}>
-              <FormattedHTMLMessage id='scenes.buysell.empty.content.body' defaultMessage='To get started, go to ' />
+              <FormattedHTMLMessage id='scenes.buysell.empty.content.goto' defaultMessage='To get started, go to ' />
             </Text>
             <Link size='18px' onClick={() => changeTab('buy')}>
               <FormattedMessage id='scenes.buysell.empty.content.buy' defaultMessage='buy ' />
