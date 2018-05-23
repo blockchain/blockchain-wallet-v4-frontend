@@ -18,9 +18,9 @@ export const getActiveHDAccounts = state => {
   const addInfo = account => balancesRD.map(prop(prop('xpub', account)))
     .map(x => assoc('info', x, account))
   const addBchLabel = account => account.map(a => assoc('label', path([prop('index', a), 'label'], bchAccounts), a))
-  const setArchived = account => account.map(a => assoc('archived', path([prop('index', a), 'archived'], bchAccounts), a))
+  const addArchived = account => account.map(a => assoc('archived', path([prop('index', a), 'archived'], bchAccounts), a))
 
-  const objectOfRemotes = compose(map(setArchived), map(addBchLabel), map(addInfo),
+  const objectOfRemotes = compose(map(addArchived), map(addBchLabel), map(addInfo),
     HDAccountList.toJSwithIndex, HDWallet.selectAccounts, walletSelectors.getDefaultHDWallet)(state)
 
   return sequence(Remote.of, objectOfRemotes)
