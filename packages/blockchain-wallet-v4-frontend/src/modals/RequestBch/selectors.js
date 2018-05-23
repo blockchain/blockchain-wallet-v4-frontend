@@ -14,7 +14,6 @@ const extractAddress = (selectorFunction, value) => {
 }
 
 export const getData = state => {
-  // TODO: USE BCH network
   const getReceive = index => selectors.core.common.bch.getNextAvailableReceiveAddress(settings.NETWORK_BCH, index, state)
   const coin = formValueSelector('requestBch')(state, 'coin')
   const to = formValueSelector('requestBch')(state, 'to')
