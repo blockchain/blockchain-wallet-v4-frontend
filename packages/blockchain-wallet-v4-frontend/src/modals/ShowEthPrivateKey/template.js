@@ -11,6 +11,11 @@ const DetailTable = styled.div`
   > div { word-break: break-word; }
   > div:not(:first-child) { margin-top: 10px; }
 `
+const DetailRow = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+`
 const DetailRowText = styled(Text)`
   white-space: nowrap;
 `
@@ -26,31 +31,33 @@ const FirstStep = () => (
   </div>
 )
 
-const DetailRow = ({ id, defaultMessage, children }) => (
-  <div style={flex('row')}>
-    <DetailRowText size='14px' weight={400}>
-      <FormattedMessage id={id} defaultMessage={defaultMessage} />
-    </DetailRowText>
-    {':'}&nbsp;
-    {children}
-  </div>
-)
-
 const SecondStep = ({ addr, balance, priv }) => (
   <div style={flex('row')}>
     <div style={spacing('mr-25')}>
       <QRCodeReact value={priv} size={120} />
     </div>
     <DetailTable>
-      <DetailRow id='modals.showethpriv.balance' defaultMessage='Balance'>
+      <DetailRow>
+        <DetailRowText size='14px' weight={400}>
+          <FormattedMessage id='modals.showethpriv.balance' defaultMessage='Balance' />
+        </DetailRowText>
+        {':'}&nbsp;
         <CoinDisplay coin='ETH' size='14px'>
           {balance}
         </CoinDisplay>
       </DetailRow>
-      <DetailRow id='modals.showethpriv.address' defaultMessage='Address'>
+      <DetailRow>
+        <DetailRowText size='14px' weight={400}>
+          <FormattedMessage id='modals.showethpriv.address' defaultMessage='Address' />
+        </DetailRowText>
+        {':'}&nbsp;
         <Text size='14px' weight={300}>{addr}</Text>
       </DetailRow>
-      <DetailRow id='modals.showethpriv.privatekey' defaultMessage='Private Key'>
+      <DetailRow>
+        <DetailRowText size='14px' weight={400}>
+          <FormattedMessage id='modals.showethpriv.priv_key' defaultMessage='Private Key' />
+        </DetailRowText>
+        {':'}&nbsp;
         <Text size='14px' weight={300}>{priv}</Text>
       </DetailRow>
     </DetailTable>
