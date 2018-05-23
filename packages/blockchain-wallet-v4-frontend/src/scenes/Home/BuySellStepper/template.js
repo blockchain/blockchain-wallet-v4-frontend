@@ -138,7 +138,7 @@ const BuySellStepper = (props) => {
   return (
     <Header onClick={() => { goToBuySell() }}>
       <LeftColumn>
-        <Icon name='cart' color='gray-5' size='54px' style={{ paddingRight: 15 }} />
+        <Icon name='cart' color='gray-5' size='54px' style={{ paddingRight: 25, paddingLeft: 5 }} />
         <Text size='18px' weight={200}>
           <FormattedMessage id='scenes.home.exchangeStepper.title' defaultMessage='Complete the following steps to buy & sell bitcoin.' />
         </Text>
