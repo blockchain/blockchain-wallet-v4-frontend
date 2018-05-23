@@ -20,17 +20,17 @@ class SelectAccountsContainer extends React.PureComponent {
   }
 
   deleteBankAccount (bankAccount) {
-    console.log(bankAccount)
     this.props.coinifyActions.deleteBankAccount(bankAccount)
   }
 
   render () {
-    const { data } = this.props
+    const { data, radioButtonSelected } = this.props
     return data.cata({
       Success: (value) =>
         <Success
           onSubmit={this.onSubmit}
           deleteBankAccount={this.deleteBankAccount}
+          radioButtonSelected={radioButtonSelected}
           {...value} />,
       Failure: (message) => <div>Failure: {message.error}</div>,
       Loading: () => <Loading />,
@@ -39,9 +39,7 @@ class SelectAccountsContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
-  data: getData(state)
-})
+const mapStateToProps = (state) => getData(state)
 
 const mapDispatchToProps = (dispatch) => ({
   coinifyActions: bindActionCreators(actions.modules.coinify, dispatch)

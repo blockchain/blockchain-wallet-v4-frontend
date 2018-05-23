@@ -2,11 +2,11 @@ import React from 'react'
 import { reduxForm, Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
-import { path } from 'ramda'
+import { equals, isNil, or, path } from 'ramda'
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
 
 import { spacing } from 'services/StyleService'
-import { CheckBox } from 'components/Form'
+import { RadioButton } from 'components/Form'
 import { StepTransition } from 'components/Utilities/Stepper'
 import { Form, ColLeft, InputWrapper, PartnerHeader, PartnerSubHeader, ColRight, ColRightInner, Row } from 'components/BuySell/Signup'
 
@@ -29,7 +29,9 @@ const ClickableIcon = styled(Icon)`
 `
 
 const SelectAccounts = (props) => {
-  const { invalid, submitting, bankAccounts, deleteBankAccount } = props
+  const { invalid, submitting, bankAccounts, deleteBankAccount, radioButtonSelected } = props
+  const noRadioButtonSelected = or(isNil(radioButtonSelected), equals(radioButtonSelected, ''))
+
   return (
     <Form>
       <ColLeft>
@@ -43,7 +45,7 @@ const SelectAccounts = (props) => {
             </PartnerSubHeader>
             {bankAccounts && bankAccounts.map((b, index) =>
               <Row key={index}>
-                <Field name={`iban${index}`} component={CheckBox} />
+                <Field name='iban' component={RadioButton} props={{ id: `iban${index}`, value: index }} />
                 <Text weight={300}>{path(['_account', '_number'], b)}</Text>
                 <ClickableIcon name='trash' onClick={() => deleteBankAccount(b)} />
               </Row>
@@ -56,7 +58,8 @@ const SelectAccounts = (props) => {
       </ColLeft>
       <ColRight>
         <ColRightInner>
-          <StepTransition next Component={Button} style={spacing('mt-45')} nature='primary' fullwidth disabled={submitting || invalid}>
+          <StepTransition next Component={Button} style={spacing('mt-45')} nature='primary'
+            fullwidth disabled={submitting || invalid || noRadioButtonSelected}>
             <FormattedMessage id='coinifyexchangedata.selectaccounts.continue' defaultMessage='Continue' />
           </StepTransition>
           <CancelWrapper style={spacing('mt-15')}>
@@ -70,4 +73,4 @@ const SelectAccounts = (props) => {
   )
 }
 
-export default reduxForm({ form: 'coinifySelectAccounts' })(SelectAccounts)
+export default reduxForm({ form: 'radioButtonSelected' })(SelectAccounts)
