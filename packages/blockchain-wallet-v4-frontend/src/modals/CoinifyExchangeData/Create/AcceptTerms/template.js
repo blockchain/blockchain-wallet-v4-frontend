@@ -45,10 +45,7 @@ const AcceptTerms = (props) => {
           </PartnerSubHeader>
           <AcceptTermsContainer>
             <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox}>
-              <FormattedMessage
-                id='coinifyexchangedata.create.accept.terms'
-                defaultMessage="I accept Blockchain's {bcTos}, Coinify's {coinifyTos} & {coinifyPriv}."
-                values={{ bcTos: <a href='https://www.blockchain.com/terms/index.html' target='_blank'>Terms of Service</a>, coinifyTos: <a href='https://www.coinify.com/legal' target='_blank' rel='noopener noreferrer'>Terms of Service</a>, coinifyPriv: <a href='https://www.coinify.com/legal/policy' target='_blank' rel='noopener noreferrer'>Privacy Policy</a> }} />
+              <FormattedMessage id='coinifyexchangedata.create.accept.terms' defaultMessage="I accept Blockchain's {bcTos}, Coinify's {coinifyTos} & {coinifyPriv}." values={{ bcTos: <a href='https://www.blockchain.com/terms/index.html' target='_blank'>Terms of Service</a>, coinifyTos: <a href='https://www.coinify.com/legal' target='_blank' rel='noopener noreferrer'>Terms of Service</a>, coinifyPriv: <a href='https://www.coinify.com/legal/policy' target='_blank' rel='noopener noreferrer'>Privacy Policy</a> }} />
             </Field>
           </AcceptTermsContainer>
         </InputWrapper>
@@ -67,10 +64,7 @@ const AcceptTerms = (props) => {
           <ErrorWrapper>
             {
               signupError && <Text size='12px' color='error' weight={300} onClick={() => updateUI({ create: 'change_email' })}>
-                <FormattedMessage
-                  id='coinifyexchangedata.create.accept.error'
-                  defaultMessage='Unfortunately this email is being used for another account. {clickHere} to change it.'
-                  values={{ clickHere: <a>Click here</a> }} />
+                <FormattedMessage id='coinifyexchangedata.create.accept.error' defaultMessage='Unfortunately this email is being used for another account. {clickHere} to change it.' values={{ clickHere: <a>Click here</a> }} />
               </Text>
             }
           </ErrorWrapper>
