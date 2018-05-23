@@ -4,7 +4,6 @@ import { FormattedMessage } from 'react-intl'
 import { SettingDescription, SettingHeader } from 'components/Setting'
 import { Icon, IconButton, Table, TableHeader, TableCell, Text } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
-import OptionItem from '../OptionItem'
 import AddressRow from '../AddressRow'
 import { filter } from 'ramda'
 
@@ -23,16 +22,25 @@ const WarningWrapper = styled.div`
     margin-right: 4px;
   }
 `
+const ClickableText = styled(Text)`
+  cursor: pointer;
+`
 
 const Success = ({ importedAddresses, onClickImport, onToggleArchived, onShowPriv, onShowSignMessage, search }) => {
   const isMatch = (address) => !search || address.addr.toLowerCase().indexOf(search) > -1
   const importedAddressesTableRows = filter(isMatch, importedAddresses).map((address) => (
     <AddressRow key={address.addr} address={address} renderOptions={() => [
-      <OptionItem id='scens.settings.addresses.archive' defaultMessage='Archive' onClick={() => onToggleArchived(address)} />
+      <ClickableText size='small' onClick={() => onToggleArchived(address)}>
+        <FormattedMessage id='scenes.settings.addresses.archive' defaultMessage='Archive' />
+      </ClickableText>
     ].concat(
       !address.priv ? [] : [
-        <OptionItem id='scens.settings.addresses.show_priv' defaultMessage='Private Key' onClick={() => onShowPriv(address)} />,
-        <OptionItem id='scens.settings.addresses.sign_message' defaultMessage='Sign Message' onClick={() => onShowSignMessage(address)} />
+        <ClickableText size='small' onClick={() => onShowPriv(address)}>
+          <FormattedMessage id='scenes.settings.addresses.show_priv' defaultMessage='Private Key' />
+        </ClickableText>,
+        <ClickableText size='small' onClick={() => onShowSignMessage(address)}>
+          <FormattedMessage id='scenes.settings.addresses.sign_message' defaultMessage='Sign Message' />
+        </ClickableText>
       ]
     )} />
   ))

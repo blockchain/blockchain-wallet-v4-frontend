@@ -4,7 +4,6 @@ import { FormattedMessage } from 'react-intl'
 import { SettingDescription, SettingHeader } from 'components/Setting'
 import { Table, TableHeader, TableCell, Text } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
-import OptionItem from '../OptionItem'
 import AddressRow from '../AddressRow'
 import { filter } from 'ramda'
 
@@ -15,13 +14,20 @@ const ArchivedAddressesContainer = SettingHeader.extend`
   justify-content: flex-start;
   margin-top: 30px;
 `
+const ClickableText = styled(Text)`
+  cursor: pointer;
+`
 
 const Success = ({ archivedAddresses, onToggleArchived, onDelete, search }) => {
   const isMatch = (address) => !search || address.addr.toLowerCase().indexOf(search) > -1
   const archivedAddressesTableRows = filter(isMatch, archivedAddresses).map((address) => (
     <AddressRow key={address.addr} archived address={address} renderOptions={() => [
-      <OptionItem id='scenes.settings.addresses.unarchive' defaultMessage='Unarchive' onClick={() => onToggleArchived(address)} />,
-      <OptionItem id='scenes.settings.addresses.delete_address' defaultMessage='Delete' onClick={() => onDelete(address)} />
+      <ClickableText size='small' onClick={() => onToggleArchived(address)}>
+        <FormattedMessage id='scenes.settings.addresses.unarchive' defaultMessage='Unarchive' />
+      </ClickableText>,
+      <ClickableText size='small' onClick={() => onDelete(address)}>
+        <FormattedMessage id='scenes.settings.addresses.delete_address' defaultMessage='Delete' />
+      </ClickableText>
     ]} />
   ))
 
