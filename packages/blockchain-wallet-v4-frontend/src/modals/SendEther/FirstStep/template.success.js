@@ -20,7 +20,7 @@ const Row = styled.div`
 `
 
 const FirstStep = props => {
-  const { pristine, invalid, submitting, fee, handleSubmit } = props
+  const { pristine, invalid, submitting, fee, handleSubmit, unconfirmedTransaction } = props
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -41,6 +41,7 @@ const FirstStep = props => {
             <Field name='to' placeholder='Paste or scan an address' component={TextBox} validate={[required, validEtherAddress]} />
             <QRCodeCapture scanType='ethAddress' border={['top', 'bottom', 'right']} />
           </Row>
+          <FormattedMessage id='modals.sendeth.unconfirmedtransactionmessage' defaultMessage="Please wait until your transaction confirms" />
         </FormItem>
       </FormGroup>
       <FormGroup margin={'15px'}>
@@ -84,7 +85,8 @@ FirstStep.propTypes = {
   submitting: PropTypes.bool.isRequired,
   fee: PropTypes.string.isRequired,
   effectiveBalance: PropTypes.string.isRequired,
-  handleSubmit: PropTypes.func.isRequired
+  handleSubmit: PropTypes.func.isRequired,
+  unconfirmedTransaction: PropTypes.bool
 }
 
 export default reduxForm({ form: 'sendEth', destroyOnUnmount: false })(FirstStep)

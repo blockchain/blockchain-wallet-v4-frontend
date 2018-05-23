@@ -21,6 +21,7 @@ class FirstStep extends React.PureComponent {
         onSubmit={() => actions.sendEthFirstStepSubmitClicked()}
         effectiveBalance={value.effectiveBalance}
         fee={value.fee}
+        unconfirmedTransaction={value.unconfirmedTransaction}
       />,
       Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
