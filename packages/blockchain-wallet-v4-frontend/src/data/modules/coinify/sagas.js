@@ -216,8 +216,16 @@ export default ({ coreSagas }) => {
 
   const cancelISX = function * () {
     const modals = yield select(selectors.modals.getModals)
-    if (path(['type'], head(modals)) === 'CoinifyExchangeData') yield put(actions.modals.closeAllModals())
-    else yield put(A.coinifyNextCheckoutStep('checkout'))
+    const trade = yield select(selectors.core.data.coinify.getTrade)
+
+    if (path(['type'], head(modals)) === 'CoinifyExchangeData') {
+      yield put(actions.modals.closeAllModals())
+    } else if (trade.data.state === 'awaiting_transfer_in') {
+      yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
+      yield put(A.coinifyNextCheckoutStep('checkout'))
+    } else {
+      yield put(A.coinifyNextCheckoutStep('checkout'))
+    }
   }
 
   const cancelTrade = function * (data) {
