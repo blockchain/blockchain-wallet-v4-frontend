@@ -60,7 +60,9 @@ class SfoxTradeDetails extends React.PureComponent {
             <FormattedMessage id='order_details.trade_id' defaultMessage='Your order ID is: SFX-{id}' values={{ id: trade.id }} />
           </Text>
           <Text style={spacing('mt-20')} size='14px' weight={400}>
-            { trade.isBuy ? <FormattedMessage id='order_details.method' defaultMessage='Payment Method' /> : <FormattedMessage id='order_details.receiving_funds_into' defaultMessage='Receiving Funds Into' /> }
+            { trade.isBuy
+              ? <FormattedMessage id='order_details.method' defaultMessage='Payment Method' />
+              : <FormattedMessage id='order_details.receiving_funds_into' defaultMessage='Receiving Funds Into' /> }
           </Text>
           <MethodContainer borderDark style={spacing('mt-5')}>
             <Icon name='bank-filled' size='30px' />

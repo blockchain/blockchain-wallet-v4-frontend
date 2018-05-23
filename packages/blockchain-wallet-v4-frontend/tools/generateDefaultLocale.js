@@ -8,7 +8,7 @@ const rootPath = path.resolve(`${__dirname}/../src`)
 const outputPath = rootPath + '/assets/locales'
 const outputFilename = 'en.json'
 // const regexIntlImport = new RegExp(/.+from['" ]+react-intl['" ]+/)
-const regexIntlComponent = new RegExp(/(<FormattedMessage[^>]+\/>)/, 'gm')
+const regexIntlComponent = new RegExp(/(<FormattedMessage([^>])+\/>|<FormattedHTMLMessage(.+)+\/>)/, 'gm')
 const regexIntlId = new RegExp(/id='([^']+)'/)
 const regexIntlMessage = new RegExp(/defaultMessage='([^']+)'|defaultMessage="(.+)"/)
 
@@ -49,11 +49,16 @@ export const elements = data => data.match(regexIntlComponent)
 export const toKeyValue = element => {
   const id = element.match(regexIntlId)
   const message = element.match(regexIntlMessage)
-  if (isNotNil(id) && isNotNil(message)) {
-    return {[id[1]]: message[1]}
+  if (isNil(id) && isNil(message)) {
+    console.warn('Invalid FormattedMessage (Dynamic): ' + element)
+  } else if (element.includes('FormattedHTMLMessage')) {
+    console.log('Invalid FormattedMessage (HTML Injection): ' + element)
+  } else if (isNil(id)) {
+    console.log('Invalid ID: ' + element)
+  } else if (isNil(message)) {
+    console.log('Invalid Message: ' + element)
   } else {
-    console.warn('FAILED TO ADD KEY : ', (id || [])[1], (message || [])[1])
-    return {}
+    return { [id[1]]: message[1] }
   }
 }
 
