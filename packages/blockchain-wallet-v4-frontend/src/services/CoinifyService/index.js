@@ -162,7 +162,7 @@ export const kycNotificationBodyHelper = (status) => {
     case 'rejected': return { text: <FormattedMessage id='scenes.coinify_details_modal.kyc.rejected' defaultMessage='There was an issue verifying your identity with the documents provided. Please try uploading different identification. Bank transfers are unavailable until we can successfully verify your identity.' /> }
     case 'failed': return { text: <FormattedMessage id='scenes.coinify_details_modal.kyc.failed' defaultMessage='Your identity verification has failed. Please contact support.' /> }
     case 'cancelled': return { text: <FormattedMessage id='scenes.coinify_details_modal.kyc.cancelled' defaultMessage='Your identity verification was cancelled. Please try again.' /> }
-    default: return { color: '', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.unknown' defaultMessage='Unknown' /> }
+    default: return { color: '', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.unknown2' defaultMessage='Unknown' /> }
   }
 }
 
@@ -170,7 +170,7 @@ export const kycNotificationButtonHelper = (status) => {
   switch (status) {
     case 'pending': return { color: 'transferred', text: <FormattedMessage id='scenes.buy_sell.kyc_notification.complete' defaultMessage='Complete Verification' /> }
     case 'rejected': return { color: 'error', text: <FormattedMessage id='scenes.buy_sell.kyc_notification.rejected' defaultMessage='Try Again' /> }
-    default: return { color: '', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.unknown' defaultMessage='' /> }
+    default: return { color: '', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.unknown3' defaultMessage='Unknown' /> }
   }
 }
 

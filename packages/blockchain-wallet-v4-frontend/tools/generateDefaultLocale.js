@@ -8,9 +8,9 @@ const rootPath = path.resolve(`${__dirname}/../src`)
 const outputPath = rootPath + '/assets/locales'
 const outputFilename = 'en.json'
 // const regexIntlImport = new RegExp(/.+from['" ]+react-intl['" ]+/)
-const regexIntlComponent = new RegExp(/(<FormattedMessage[^>]+\/>|<FormattedHtmlMessage[^>]+\/>)/, 'gm')
+const regexIntlComponent = new RegExp(/(<FormattedMessage[^>]+\/>)/, 'gm')
 const regexIntlId = new RegExp(/id='([^']+)'/)
-const regexIntlMessage = new RegExp(/defaultMessage='([^']+)'/)
+const regexIntlMessage = new RegExp(/defaultMessage='([^']+)'|defaultMessage="(.+)"/)
 
 const isNotNil = compose(not, isNil)
 
@@ -52,7 +52,7 @@ export const toKeyValue = element => {
   if (isNotNil(id) && isNotNil(message)) {
     return {[id[1]]: message[1]}
   } else {
-    console.warn('FAILED TO ADD KEY: ', id, message)
+    console.warn('FAILED TO ADD KEY : ', (id || [])[1], (message || [])[1])
     return {}
   }
 }
@@ -68,6 +68,6 @@ filenames(rootPath + '/**/*.js')
   .map(filter(isNotNil))
   .map(flatten)
   .map(reduce(mapReducer, {}))
-  .map(toString)
+  // .map(toString)
   .chain(writeFile(outputPath + '/' + outputFilename))
   .fork(console.warn, console.log)
