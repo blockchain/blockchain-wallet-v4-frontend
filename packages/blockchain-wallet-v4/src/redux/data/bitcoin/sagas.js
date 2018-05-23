@@ -11,12 +11,7 @@ export default ({ api }) => {
       yield put(A.fetchDataLoading())
       const { context } = action.payload
       const data = yield call(api.fetchBlockchainData, context, { n: 1 })
-      const bitcoinData = {
-        addresses: indexBy(prop('address'), prop('addresses', data)),
-        info: path(['wallet'], data),
-        latest_block: path(['info', 'latest_block'], data)
-      }
-      yield put(A.fetchDataSuccess(bitcoinData))
+      yield call(multiaddrSaga, data)
     } catch (e) {
       yield put(A.fetchDataFailure(e.message))
     }
@@ -60,6 +55,7 @@ export default ({ api }) => {
       yield put(A.fetchTransactionsLoading(reset))
       const context = yield select(selectors.wallet.getWalletContext)
       const data = yield call(api.fetchBlockchainData, context, { n: TX_PER_PAGE, onlyShow: address, offset })
+      yield call(multiaddrSaga, data)
       yield put(A.fetchTransactionsSuccess(data.txs, reset))
     } catch (e) {
       yield put(A.fetchTransactionsFailure(e.message))
@@ -107,6 +103,15 @@ export default ({ api }) => {
     } catch (e) {
       yield put(A.fetchUnspentSuccess([]))
     }
+  }
+
+  const multiaddrSaga = function * (data) {
+    const btcData = {
+      addresses: indexBy(prop('address'), prop('addresses', data)),
+      info: path(['wallet'], data),
+      latest_block: path(['info', 'latest_block'], data)
+    }
+    yield put(A.fetchDataSuccess(btcData))
   }
 
   return {
