@@ -9,6 +9,7 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+  z-index: 10;
   @media(min-width: 480px) {
     flex-direction: row;
   }

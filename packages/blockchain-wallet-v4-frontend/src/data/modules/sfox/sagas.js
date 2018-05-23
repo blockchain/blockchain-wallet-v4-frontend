@@ -16,7 +16,8 @@ export default ({ coreSagas }) => {
   const setBankManually = function * (action) {
     try {
       yield call(coreSagas.data.sfox.setBankManually, action.payload)
-      yield put(actions.alerts.displaySuccess('Bank has been added!'))
+
+      // TODO need to dispatch an action to make Link step go to awaiting deposits state
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'setBankManually', e))
     }
@@ -83,19 +84,27 @@ export default ({ coreSagas }) => {
 
   const submitMicroDeposits = function * (payload) {
     try {
-      yield call(coreSagas.data.sfox.verifyMicroDeposits, payload)
-      yield put(actions.alerts.displaySuccess('Bank Verified!'))
+      yield put(A.sfoxLoading())
+      const result = yield call(coreSagas.data.sfox.verifyMicroDeposits, payload)
+      if (result.status === 'active') {
+        yield put(A.sfoxSuccess())
+        yield put(modalActions.closeAllModals())
+      } else {
+        throw new Error(result)
+      }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'submitMicroDeposits', e))
+      yield put(A.sfoxFailure(e))
     }
   }
 
   const submitQuote = function * (action) {
     try {
       yield put(A.sfoxLoading())
-      yield call(coreSagas.data.sfox.handleTrade, action.payload)
+      const trade = yield call(coreSagas.data.sfox.handleTrade, action.payload)
       yield put(A.sfoxSuccess())
       yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
+      yield put(modalActions.showModal('SfoxTradeDetails', { trade }))
     } catch (e) {
       yield put(A.sfoxFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'submitQuote', e))

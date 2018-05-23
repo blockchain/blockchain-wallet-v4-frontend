@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   flex-direction: row;
   align-items: center;
   width: 100%;
-  justify-content: ${props => props.coinify ? 'flex-end' : ''};
+  justify-content: ${props => props.flexEnd ? 'flex-end' : ''};
 
   @media(max-width: 991px) {
     flex-direction: row-reverse;
@@ -32,7 +32,7 @@ const Steps = styled.div`
     width: ${props => props.width * 100}%;
     background: ${props => props.theme['brand-primary']};
   }
-  @media (max-width: 991px) {
+  @media (max-width: 480px) {
     border-bottom: 0;
     padding-bottom: 0px;
     flex-direction: column;
@@ -50,15 +50,15 @@ const Steps = styled.div`
 
 const Step = styled.span`
   font-size: 14px;
-  min-width: ${props => props.coinify ? '135px' : '70px'};
-  max-width: ${props => props.coinify ? '135px' : '70px'};
+  min-width: ${props => props.minWidth ? '135px' : '70px'};
+  max-width: ${props => props.maxWidth ? '135px' : '70px'};
   margin-left: 50px;
   margin-right: 50px;
   overflow: hidden;
   text-align: center;
   white-space: nowrap;
   color: ${props => props.theme['brand-primary']};
-  @media (max-width: 991px) {
+  @media (max-width: 480px) {
     margin-top: 10px;
     margin-left: 10px;
     margin-right: 10px;
@@ -68,23 +68,23 @@ const Step = styled.span`
 
 const Logo = styled(Image)`
   margin-right: 60px;
-  @media (max-width: 991px) {
+  @media (max-width: 480px) {
     margin-right: 0px;
     margin-left: 30px;
   }
 `
 
 const StepIndicator = (props) => {
-  const { step, stepMap, coinify } = props
+  const { step, stepMap, minWidth, maxWidth, flexEnd, adjuster } = props
   const steps = Object.keys(stepMap)
   const index = steps.indexOf(step) + 1
   const width = index / steps.length
 
   return (
-    <Wrapper coinify={coinify}>
+    <Wrapper flexEnd={flexEnd}>
       <Logo name='blue-logo' height='50px' />
-      <Steps width={width - 0.1}>
-        { steps.map((s) => <Step coinify={coinify}>{stepMap[s]}</Step>) }
+      <Steps width={width - adjuster}>
+        { steps.map((s) => <Step minWidth={minWidth} maxWidth={maxWidth}>{stepMap[s]}</Step>) }
       </Steps>
     </Wrapper>
   )

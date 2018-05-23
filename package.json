@@ -1,6 +1,6 @@
 {
   "name": "blockchain-wallet-v4",
-  "version": "4.0.0-alpha7.1",
+  "version": "4.0.0-alpha8.3",
   "license": "ISC",
   "author": {
     "name": "Blockchain.info",
@@ -25,12 +25,12 @@
     "analyze": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run analyze",
     "build": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run build:dev",
     "build:prod": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run build:prod",
-    "bootstrap": "npm i && lerna bootstrap --hoist --ignore-scripts",
+    "bootstrap": "cross-env npm i && lerna bootstrap --hoist --ignore-scripts",
     "ci:compile": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run ci:compile",
     "ci:coverage": "lerna exec -- npm run test:build && lerna link && npm run coverage:components && npm run coverage:core && npm run coverage:frontend && istanbul report --root ./coverage --dir ./coverage/ lcov",
     "ci:test": "lerna exec -- npm run test:build && lerna link && npm run test:components && npm run test:core && npm run test:frontend",
-    "clean": "rm -rf build coverage dist node_modules *.log *.lerna_backup && lerna clean --yes",
-    "coverage": "rm -rf coverage && lerna exec -- npm run coverage && istanbul report --root ./coverage --dir ./coverage/ text-summary html",
+    "clean": "cross-env rimraf node_modules && rimraf build && rimraf coverage && rimraf dist && rimraf *.log && rimraf *.lerna_backup && lerna clean --yes",
+    "coverage": "cross-env rimraf coverage && lerna exec -- npm run coverage && istanbul report --root ./coverage --dir ./coverage/ text-summary html",
     "coverage:components": "lerna exec --scope blockchain-info-components -- npm run coverage",
     "coverage:core": "lerna exec --scope blockchain-wallet-v4 -- npm run coverage",
     "coverage:frontend": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run coverage",
@@ -47,7 +47,7 @@
     "start:testnet": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run start:testnet",
     "storybook:build": "lerna exec --scope blockchain-info-components -- npm run storybook:build",
     "storybook:serve": "lerna exec --scope blockchain-info-components -- npm run storybook:serve",
-    "test": "lerna exec -- npm run test:build && lerna link && lerna exec -- npm run test",
+    "test": "cross-env  lerna exec -- npm run test:build && lerna link && lerna exec -- npm run test",
     "test:components": "lerna exec --scope blockchain-info-components -- npm run test",
     "test:components:debug": "lerna exec --scope blockchain-info-components -- npm run test:debug",
     "test:components:update": "lerna exec --scope blockchain-info-components -- npm run test -- -u",
@@ -59,10 +59,10 @@
     "test:frontend:debug": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run test:debug",
     "test:frontend:update": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run test -- -u",
     "test:frontend:watch": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run test:watch",
-    "vet": "npm run lint && npm run test",
-    "vet:components": "npm run lint:components && npm run test:components",
-    "vet:core": "npm run lint:core && npm run test:core",
-    "vet:frontend": "npm run lint:frontend && npm run test:frontend"
+    "vet": "cross-env npm run lint && npm run test",
+    "vet:components": "cross-env npm run lint:components && npm run test:components",
+    "vet:core": "cross-env npm run lint:core && npm run test:core",
+    "vet:frontend": "cross-env npm run lint:frontend && npm run test:frontend"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^4.0.0-alpha.3",
@@ -94,6 +94,7 @@
     "clean-webpack-plugin": "^0.1.19",
     "compression": "^1.7.2",
     "copy-webpack-plugin": "^4.5.1",
+    "cross-env": "^5.1.5",
     "css-loader": "^0.28.10",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
@@ -126,6 +127,7 @@
     "react-test-renderer": "^16.2.0",
     "redux-mock-store": "^1.4.0",
     "redux-saga-test-plan": "^3.6.0",
+    "rimraf": "^2.6.2",
     "standard": "^11.0.1",
     "style-loader": "^0.20.3",
     "thread-loader": "^1.1.5",
@@ -135,7 +137,5 @@
     "webpack-cli": "^2.0.13",
     "webpack-dev-server": "^3.1.1"
   },
-  "dependencies": {
-    "lodash.debounce": "^4.0.8"
-  }
+  "dependencies": {}
 }

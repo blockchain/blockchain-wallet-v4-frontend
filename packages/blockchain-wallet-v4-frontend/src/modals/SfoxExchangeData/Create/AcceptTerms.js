@@ -14,7 +14,7 @@ import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader,
 import { spacing } from 'services/StyleService'
 import { Remote } from 'blockchain-wallet-v4/src'
 
-const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
+const checkboxShouldBeChecked = value => value ? undefined : 'You must agree to the terms and conditions'
 
 const helpers = [
   {

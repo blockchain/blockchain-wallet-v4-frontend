@@ -16,6 +16,12 @@ const Container = styled.div`
     width: 100%;
     height: 40px;
     font-size: 14px;
+    ::-webkit-input-placeholder {
+      opacity: .35;
+    }
+    ::-moz-placeholder {
+      opacity: .35;
+    }
   }
   * {
     color: ${props => props.theme['gray-5']};

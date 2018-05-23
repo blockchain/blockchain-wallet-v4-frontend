@@ -28,6 +28,9 @@ const CheckoutWrapper = styled.div`
   font-family: 'Montserrat', Helvetica, sans-serif;
   flex-direction: row;
   display: flex;
+  @media(min-height: 800px) {
+    height: 70%;
+  }
 `
 const Menu = reduxForm({ form: 'buySellTabStatus' })(HorizontalMenu)
 
@@ -78,9 +81,13 @@ class BuySellContainer extends React.PureComponent {
 
     return (
       <Wrapper>
-        <Menu>
-          <Field name='status' component={TabMenuBuySellStatus} />
-        </Menu>
+        {
+          view.props.value.coinify.offline_token || view.props.value.sfox.account_token
+            ? <Menu>
+              <Field name='status' component={TabMenuBuySellStatus} />
+            </Menu>
+            : null
+        }
         <CheckoutWrapper>
           {view}
         </CheckoutWrapper>

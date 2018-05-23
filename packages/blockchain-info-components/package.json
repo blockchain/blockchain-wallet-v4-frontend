@@ -10,14 +10,14 @@
   "main": "lib/index.js",
   "module": "src/index.js",
   "scripts": {
-    "coverage": "./../../node_modules/.bin/jest --coverage",
-    "publish": "rm -rf lib && babel --out-dir lib --ignore spec.js --copy-files src",
+    "coverage": "cross-env ./../../node_modules/.bin/jest --coverage",
+    "publish": "cross-env rimraf lib && babel --out-dir lib --ignore spec.js --copy-files src",
     "storybook:build": "build-storybook",
     "storybook:serve": "start-storybook -p 6006",
-    "test": "./../../node_modules/.bin/jest",
-    "test:build": "rm -rf lib && babel --out-dir lib --ignore spec.js --copy-files src",
-    "test:debug": "node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
-    "test:watch": "./../../node_modules/.bin/jest --watchAll"
+    "test": "cross-env ./../../node_modules/.bin/jest",
+    "test:build": "cross-env rimraf lib && babel --out-dir lib --ignore spec.js --copy-files src",
+    "test:debug": "cross-env node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
+    "test:watch": "cross-env ./../../node_modules/.bin/jest --watchAll"
   },
   "jest": {
     "collectCoverageFrom": [
