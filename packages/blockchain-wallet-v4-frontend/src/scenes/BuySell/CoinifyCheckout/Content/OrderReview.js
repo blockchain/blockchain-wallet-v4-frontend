@@ -42,7 +42,8 @@ const renderDetailsRow = (id, message, value, color) => (
 )
 
 const renderRate = (rate, q) => {
-  return <FormattedMessage id='rate' defaultMessage='{rate}' values={{ rate: `${currencySymbolMap[q.baseCurrency]}${rate.toLocaleString()}` }} />
+  return <FormattedMessage id='rate' defaultMessage='{rate}'
+    values={{ rate: `${currencySymbolMap[q.baseCurrency]}${rate.toLocaleString()}` }} />
 }
 
 export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
@@ -51,9 +52,10 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
       <FormattedMessage id='buy.almost_there' defaultMessage="You're almost there" />
     </Text>
     <Text size='14px' weight={300} style={spacing('mb-20')}>
-      <FormattedMessage id='buy.review_order_subtext' defaultMessage='Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order.' />
+      <FormattedMessage id='buy.review_order_subtext'
+        defaultMessage='Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order.' />
     </Text>
-    <div style={{ ...flex('row align/center justify/end'), ...spacing('mt-20') }}>
+    <ExchangeRateWrapper>
       <Text size='12px' weight={500} style={spacing('mr-10')}>
         <FormattedMessage id='exchange_rate' defaultMessage='Exchange Rate' />
       </Text>
@@ -64,40 +66,32 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
           return renderRate(rate, q)
         }).getOrElse('~')}
       </Text>
-      <ExchangeRateWrapper>
-        <Text size='12px' weight={500} style={spacing('mr-10')}>
-          <FormattedMessage id='exchange_rate' defaultMessage='Exchange Rate' />
-        </Text>
-        <Text size='12px' weight={300}>
-          1 BTC = {quoteR.map((q) => `$${q.rate}`).getOrElse('~')}
-        </Text>
-      </ExchangeRateWrapper>
-      <OrderDetailsTable style={spacing('mt-10')}>
-        {renderDetailsRow(
-          'order_details.amount_to_transact',
-          type === 'buy' ? 'BTC Amount to Purchase' : 'BTC Amount to Sell',
-          quoteR.map(q => reviewOrder.renderSummary(q, type, medium)).data.firstRow
-        )}
-        {renderDetailsRow(
-          'order_details.trading_fee',
-          'Trading Fee',
-          quoteR.map(q => reviewOrder.renderSummary(q, type, medium)).data.fee
-        )}
-        {renderDetailsRow(
-          'order_details.total_transacted',
-          type === 'buy' ? 'Total Cost' : 'Total to be Received',
-          quoteR.map(q => reviewOrder.renderSummary(q, type, medium)).data.total,
-          'success'
-        )}
-      </OrderDetailsTable>
-      {quoteR.map((q) => (
-        <CountdownTimer
-          style={spacing('mt-20')}
-          expiryDate={q.expiresAt.getTime()}
-          handleExpiry={onRefreshQuote}
-        />
-      )).getOrElse(null)}
-    </div>
+    </ExchangeRateWrapper>
+    <OrderDetailsTable style={spacing('mt-10')}>
+      {renderDetailsRow(
+        'order_details.amount_to_transact',
+        type === 'buy' ? 'BTC Amount to Purchase' : 'BTC Amount to Sell',
+        quoteR.map(q => reviewOrder.renderSummary(q, type, medium)).data.firstRow
+      )}
+      {renderDetailsRow(
+        'order_details.trading_fee',
+        'Trading Fee',
+        quoteR.map(q => reviewOrder.renderSummary(q, type, medium)).data.fee
+      )}
+      {renderDetailsRow(
+        'order_details.total_transacted',
+        type === 'buy' ? 'Total Cost' : 'Total to be Received',
+        quoteR.map(q => reviewOrder.renderSummary(q, type, medium)).data.total,
+        'success'
+      )}
+    </OrderDetailsTable>
+    {quoteR.map((q) => (
+      <CountdownTimer
+        style={spacing('mt-20')}
+        expiryDate={q.expiresAt.getTime()}
+        handleExpiry={onRefreshQuote}
+      />
+    )).getOrElse(null)}
   </ExchangeCheckoutWrapper>
 )
 
@@ -109,7 +103,11 @@ export const OrderSubmit = ({ quoteR, onSubmit, busy, clearTradeError, goToStep 
           <Text weight={300} color='error' size='13px' style={spacing('mb-5')}>
             Sorry, something went wrong with your trade: { busy.error_description }
           </Text>
-          <span><StepTransition restart Component={Link} weight={300} size='13px'><FormattedMessage id='try_again' defaultMessage='Try again' /></StepTransition></span>
+          <span>
+            <StepTransition restart Component={Link} weight={300} size='13px'>
+              <FormattedMessage id='try_again' defaultMessage='Try again' />
+            </StepTransition>
+          </span>
         </div>
         : <Fragment>
           <Button
