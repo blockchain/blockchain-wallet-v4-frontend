@@ -164,13 +164,20 @@ export default ({ api, options }) => {
   const addBankAccount = function * (data) {
     try {
       const { medium, account } = data.payload
-      const bankAccount = yield apply(medium, medium.addBankAccount, [account])
-      console.log(bankAccount)
-      console.log('A bank account was added')
+      yield apply(medium, medium.addBankAccount, [account])
       // yield put(A.addBankAccountSuccess(bankAccount))
     } catch (e) {
       console.log(e)
       // yield put(A.addBankAccountFailure(e))
+    }
+  }
+
+  const deleteBankAccount = function * (data) {
+    try {
+      const account = data.payload
+      yield apply(account, account.delete)
+    } catch (e) {
+      console.log(e)
     }
   }
 
@@ -294,6 +301,7 @@ export default ({ api, options }) => {
     getMediumAccounts,
     getMediumsWithBankAccounts,
     addBankAccount,
+    deleteBankAccount,
     fetchQuoteAndMediums,
     cancelTrade,
     triggerKYC,

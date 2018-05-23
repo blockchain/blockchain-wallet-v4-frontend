@@ -56,7 +56,7 @@ export const getMediumAccountsLoading = () => ({ type: AT.COINIFY_GET_MEDIUM_ACC
 export const getMediumAccountsSuccess = (accounts) => ({ type: AT.COINIFY_GET_MEDIUM_ACCOUNTS_SUCCESS, payload: accounts })
 export const getMediumAccountsFailure = (error) => ({ type: AT.COINIFY_GET_MEDIUM_ACCOUNTS_FAILURE, payload: error })
 
-export const getMediumsWithBankAccounts = (accounts) => ({ type: AT.COINIFY_GET_BANK_ACCOUNTS, payload: accounts })
+export const getMediumsWithBankAccounts = (quote) => ({ type: AT.COINIFY_GET_BANK_ACCOUNTS, payload: quote })
 
 export const addBankAccount = (medium, account) => ({ type: AT.COINIFY_ADD_BANK_ACCOUNT, payload: { medium, account } })
 export const addBankAccountFailure = (error) => ({ type: AT.COINIFY_ADD_BANK_ACCOUNT_FAILURE, payload: error })

@@ -24,9 +24,12 @@ const BorderBox = styled.div`
   border: 1px solid ${props => props.theme['gray-1']};
   padding: 30px;
 `
+const ClickableIcon = styled(Icon)`
+  cursor: pointer;
+`
 
 const SelectAccounts = (props) => {
-  const { invalid, submitting, bankAccounts } = props
+  const { invalid, submitting, bankAccounts, deleteBankAccount } = props
   return (
     <Form>
       <ColLeft>
@@ -39,10 +42,10 @@ const SelectAccounts = (props) => {
               <FormattedMessage id='coinifyexchangedata.selectaccounts.subheader' defaultMessage='Where would you like your funds sent? You have the following bank accounts linked: ' />
             </PartnerSubHeader>
             {bankAccounts && bankAccounts.map((b, index) =>
-              <Row>
+              <Row key={index}>
                 <Field name={`iban${index}`} component={CheckBox} />
-                <Text weight={300} key={index}>{path(['_account', '_number'], b)}</Text>
-                <Icon name='trash' />
+                <Text weight={300}>{path(['_account', '_number'], b)}</Text>
+                <ClickableIcon name='trash' onClick={() => deleteBankAccount(b)} />
               </Row>
             )}
           </InputWrapper>
