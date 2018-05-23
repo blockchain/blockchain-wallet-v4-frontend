@@ -105,6 +105,9 @@ const sfoxReducer = (state = INITIAL_STATE, action) => {
     case AT.COINIFY_GET_MEDIUM_ACCOUNTS_FAILURE: {
       return assoc('accounts', payload, state)
     }
+    case AT.COINIFY_SET_BANK_ACCOUNT: {
+      return assoc('account', payload, state)
+    }
     case AT.GET_KYCS_LOADING: {
       return assoc('kycs', Remote.Loading, state)
     }

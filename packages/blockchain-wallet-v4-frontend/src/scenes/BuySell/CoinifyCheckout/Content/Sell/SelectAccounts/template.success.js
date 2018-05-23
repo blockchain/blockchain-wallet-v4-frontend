@@ -29,7 +29,7 @@ const ClickableIcon = styled(Icon)`
 `
 
 const SelectAccounts = (props) => {
-  const { invalid, submitting, bankAccounts, deleteBankAccount, radioButtonSelected } = props
+  const { invalid, submitting, bankAccounts, setBankAccount, deleteBankAccount, radioButtonSelected } = props
   const noRadioButtonSelected = or(isNil(radioButtonSelected), equals(radioButtonSelected, ''))
 
   return (
@@ -59,7 +59,7 @@ const SelectAccounts = (props) => {
       <ColRight>
         <ColRightInner>
           <StepTransition to={4} Component={Button} style={spacing('mt-45')} nature='primary'
-            fullwidth disabled={submitting || invalid || noRadioButtonSelected}>
+            onClick={setBankAccount} fullwidth disabled={submitting || invalid || noRadioButtonSelected}>
             <FormattedMessage id='coinifyexchangedata.selectaccounts.continue' defaultMessage='Continue' />
           </StepTransition>
           <CancelWrapper style={spacing('mt-15')}>

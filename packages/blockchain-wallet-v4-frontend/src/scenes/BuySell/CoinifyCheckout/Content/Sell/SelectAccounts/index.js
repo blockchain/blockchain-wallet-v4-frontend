@@ -1,6 +1,7 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { prop } from 'ramda'
 
 import { actions } from 'data'
 import { getData } from './selectors.js'
@@ -10,13 +11,12 @@ import Loading from '../../../../template.loading'
 class SelectAccountsContainer extends React.PureComponent {
   constructor (props) {
     super(props)
+    this.setBankAccount = this.setBankAccount.bind(this)
     this.deleteBankAccount = this.deleteBankAccount.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
   }
 
-  onSubmit (e) {
-    e.preventDefault()
-    // TODO: Store form data in the state
+  setBankAccount (bankAccount) {
+    this.props.coinifyDataActions.setBankAccount(bankAccount)
   }
 
   deleteBankAccount (bankAccount) {
@@ -28,7 +28,7 @@ class SelectAccountsContainer extends React.PureComponent {
     return data.cata({
       Success: (value) =>
         <Success
-          onSubmit={this.onSubmit}
+          setBankAccount={() => this.setBankAccount(prop(radioButtonSelected, value.bankAccounts))}
           deleteBankAccount={this.deleteBankAccount}
           radioButtonSelected={radioButtonSelected}
           {...value} />,
@@ -42,7 +42,8 @@ class SelectAccountsContainer extends React.PureComponent {
 const mapStateToProps = (state) => getData(state)
 
 const mapDispatchToProps = (dispatch) => ({
-  coinifyActions: bindActionCreators(actions.modules.coinify, dispatch)
+  coinifyActions: bindActionCreators(actions.modules.coinify, dispatch),
+  coinifyDataActions: bindActionCreators(actions.core.data.coinify, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SelectAccountsContainer)

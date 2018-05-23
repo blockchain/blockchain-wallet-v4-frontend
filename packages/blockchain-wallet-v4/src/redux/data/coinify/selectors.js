@@ -13,6 +13,9 @@ export const getProfile = path([dataPath, 'coinify', 'profile'])
 
 export const getMediums = path([dataPath, 'coinify', 'mediums'])
 
+// Bank account selected to receive sale fiat
+export const getAccount = path([dataPath, 'coinify', 'account'])
+
 export const getBaseCurrency = state => getQuote(state).map(prop('_baseCurrency'))
 
 export const getLimits = state => getProfile(state).map(path(['_limits']))
