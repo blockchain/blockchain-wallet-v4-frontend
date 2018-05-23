@@ -35,7 +35,7 @@ const KYCNotification = (props) => {
         state === 'pending' || state === 'reviewing'
           ? <LimitsNotice>
             <Text size='12px' weight={300}>
-              <FormattedMessage id='kyc.limits_notice' defaultMessage='While your identity gets verified, you can buy and sell up {symbol}{limit} to using your credit/debit card.' values={{ symbol: symbol, limit: limits.max }} />
+              <FormattedMessage id='scenes.buysell.coinifycheckout.content.kycnotification.limitsnotice' defaultMessage='While your identity gets verified, you can buy and sell up {symbol}{limit} to using your credit/debit card.' values={{ symbol: symbol, limit: limits.max }} />
             </Text>
           </LimitsNotice>
           : null

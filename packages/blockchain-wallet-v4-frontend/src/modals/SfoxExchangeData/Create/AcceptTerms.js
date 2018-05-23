@@ -127,7 +127,7 @@ class AcceptTerms extends Component {
                       { email }
                     </Text>
                     <Link onClick={editEmail} size='14px' weight={300}>
-                      <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.edit' defaultMessage='edit' />
+                      <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.editemail' defaultMessage='edit' />
                     </Link>
                   </FieldBox>
                   <IconContainer>
@@ -145,7 +145,7 @@ class AcceptTerms extends Component {
                       { smsNumber }
                     </Text>
                     <Link onClick={editMobile} size='14px' weight={300}>
-                      <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.edit' defaultMessage='edit' />
+                      <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.editmobile' defaultMessage='edit' />
                     </Link>
                   </FieldBox>
                   <IconContainer>

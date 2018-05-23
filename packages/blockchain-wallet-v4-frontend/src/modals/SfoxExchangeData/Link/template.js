@@ -197,7 +197,7 @@ const BankLink = (props) => {
         {
           ui.toggleManual
             ? <GoBackLink onClick={toggleManual}>
-              <FormattedMessage id='go_back' defaultMessage='Go Back' />
+              <FormattedMessage id='sfoxexchangedata.link.goback' defaultMessage='Go Back' />
             </GoBackLink>
             : null
         }
