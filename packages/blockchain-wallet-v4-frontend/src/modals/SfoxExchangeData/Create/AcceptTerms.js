@@ -13,6 +13,7 @@ import Helper from 'components/BuySell/FAQ'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ErrorWrapper, ColRightInner } from 'components/BuySell/Signup'
 import { spacing } from 'services/StyleService'
 import { Remote } from 'blockchain-wallet-v4/src'
+import Terms from 'components/Terms'
 
 const checkboxShouldBeChecked = value => value ? undefined : 'You must agree to the terms and conditions'
 
@@ -61,15 +62,11 @@ const IconContainer = styled.div`
   align-items: center;
   margin-left: 10px;
 `
-const ErrorText = styled.span`
-  cursor: pointer;
-  color: ${props => props.theme['brand-secondary']};
-  font-size: 12px;
-`
-const ErrorLink = styled.a`
-  color: ${props => props.theme['brand-secondary']};
-  font-size: 12px;
-  text-decoration: none;
+const InlineTextWrapper = styled.div`
+  & > * {
+    display: inline-block;
+    margin-right: 3px;
+  }
 `
 
 class AcceptTerms extends Component {
@@ -157,10 +154,7 @@ class AcceptTerms extends Component {
             </FieldsContainer>
             <AcceptTermsContainer>
               <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox}>
-                <FormattedMessage
-                  id='sfoxexchangedata.create.accept.terms'
-                  defaultMessage="The legal stuff: Accept Blockchain's {bcTos}, SFOX's {sfoxTos} and SFOX's {sfoxPriv}."
-                  values={{ bcTos: <a href='https://www.blockchain.com/terms' target='_blank' rel='noopener noreferrer'>Terms of Service</a>, sfoxTos: <a href='https://www.sfox.com/terms.html' target='_blank' rel='noopener noreferrer'>Terms of Service</a>, sfoxPriv: <a href='https://www.sfox.com/privacy.html' target='_blank' rel='noopener noreferrer'>Privacy Policy</a> }} />
+                <Terms company='sfox' />
               </Field>
             </AcceptTermsContainer>
           </InputWrapper>
@@ -179,23 +173,32 @@ class AcceptTerms extends Component {
             <ErrorWrapper>
               {
                 busy instanceof Error && busy.message.toLowerCase() === 'user is already registered'
-                  ? <Text size='12px' color='error' weight={300} onClick={() => { sfoxNotAsked(); this.props.updateUI({ create: 'change_email' }) }}>
-                    <FormattedMessage
-                      id='sfoxexchangedata.create.accept.error'
-                      defaultMessage='Unfortunately this email is being used for another account. {clickHere} to change it.'
-                      values={{ clickHere: <a>Click here</a> }} />
-                  </Text>
-                  : busy instanceof Error
-                    ? <Text size='12px' color='error' weight={300}>
-                      <FormattedMessage
-                        id='sfoxexchangedata.create.accept.unknownError'
-                        defaultMessage="We're sorry, but something unexpected went wrong. Please {tryAgain} or {contactSupport}."
-                        values={{
-                          tryAgain: <ErrorText onClick={() => sfoxNotAsked()}>try again</ErrorText>,
-                          contactSupport: <ErrorLink target='_blank' href='https://support.blockchain.com'>contact support</ErrorLink>
-                        }}
-                      />
+                  ? <InlineTextWrapper>
+                    <Text size='12px' color='error' weight={300} >
+                      <FormattedMessage id='sfoxexchangedata.create.accept.error' defaultMessage='Unfortunately this email is being used for another account.' />
                     </Text>
+                    <Link size='12px' weight={300} onClick={() => { sfoxNotAsked(); this.props.updateUI({ create: 'change_email' }) }} >
+                      <FormattedMessage id='clickhere' defaultMessage='Click here' />
+                    </Link>
+                    <Text size='12px' weight={300} color='error'>
+                      <FormattedMessage id='sfoxexchangedata.create.accept.tochangeit' defaultMessage=' to change it.' />
+                    </Text>
+                  </InlineTextWrapper>
+                  : busy instanceof Error
+                    ? <InlineTextWrapper>
+                      <Text size='12px' color='error' weight={300}>
+                        <FormattedMessage id='sfoxexchangedata.create.accept.unknownError' defaultMessage="We're sorry, but something unexpected went wrong. Please " />
+                      </Text>
+                      <Link size='12px' weight={300} onClick={() => sfoxNotAsked()}>
+                        <FormattedMessage id='tryagain' defaultMessage='try again' />
+                      </Link>
+                      <Text size='12px' color='error' weight={300}>
+                        <FormattedMessage id='or' defaultMessage='or' />
+                      </Text>
+                      <Link target='_blank' href='https://support.blockchain.com' size='12px' weight={300}>
+                        <FormattedMessage id='contactsupport' defaultMessage='contact support.' />
+                      </Link>
+                    </InlineTextWrapper>
                     : null
               }
             </ErrorWrapper>
