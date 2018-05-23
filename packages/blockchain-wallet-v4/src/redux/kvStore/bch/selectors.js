@@ -13,10 +13,15 @@ export const getAccountsList = state => {
   return lift(a => map(key => a[key], keys(a)))(accountsObj)
 }
 
-export const getContext = (state, btcContext) => {
-  const accountsObj = getAccounts(state)
-  const xpubs = filter(x => x.includes('xpub'), btcContext)
-  return xpubs.filter((xpub, i) => !accountsObj.data[i].archived)
+export const getContext = (state, btcXpubContext) => {
+  const btcContext = btcXpubContext.map(x => x.xpub)
+  try {
+    const accountsObj = getAccounts(state)
+    const xpubs = filter(x => x.includes('xpub'), btcContext)
+    return xpubs.filter((xpub, i) => !accountsObj.data[i].archived)
+  } catch (e) {
+    return btcContext
+  }
 }
 
 export const getDefaultAccountIndex = state => getMetadata(state).map(path(['value', 'default_account_idx']))
