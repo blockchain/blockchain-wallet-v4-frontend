@@ -18,8 +18,12 @@ const quoteInputSpec = {
 const OrderCheckout = ({ quoteR, account, onFetchQuote, reason, finishAccountSetup, limits, type }) => {
   const disableInputs = limits.max < limits.min || (reason.indexOf('has_remaining') < 0 && reason) || limits.effectiveMax < limits.min
 
-  const wantToHelper = () => type === 'buy' ? <FormattedMessage id='buy.output_method.title.buy' defaultMessage='I want to buy' /> : <FormattedMessage id='buy.output_method.title.sell' defaultMessage='I want to sell' />
-  const payWithHelper = () => type === 'buy' ? <FormattedMessage id='buy.input_method.title.buy_with' defaultMessage='I will pay with' /> : <FormattedMessage id='buy.output_method.title.sell_with' defaultMessage='I will receive funds into' />
+  const wantToHelper = () => type === 'buy'
+    ? <FormattedMessage id='buy.output_method.title.buy' defaultMessage='I want to buy' />
+    : <FormattedMessage id='buy.output_method.title.sell' defaultMessage='I want to sell' />
+  const payWithHelper = () => type === 'buy'
+    ? <FormattedMessage id='buy.input_method.title.buy_with' defaultMessage='I will pay with' />
+    : <FormattedMessage id='buy.output_method.title.sell_with' defaultMessage='I will receive funds into' />
 
   const limitsHelper = (quoteR, limits) => {
     if (quoteR.error) return true

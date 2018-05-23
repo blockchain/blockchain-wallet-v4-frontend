@@ -5,6 +5,7 @@ import * as A from './actions'
 import * as S from './selectors'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
+import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
 import { getCoinFromPair, getPairFromCoin, getMinimum, getMaximum,
   convertStandardToBase, isAmountBelowMinimum, isAmountAboveMaximum, calculateFinalAmount, selectFee,
@@ -267,7 +268,7 @@ export default ({ api, coreSagas }) => {
       // We update the payment in the state
       yield put(A.secondStepPaymentSent(paymentValue))
     } catch (e) {
-      yield put(actions.alerts.displayError('The transaction failed to send. Please try again later.'))
+      yield put(actions.alerts.displayError(C.EXCHANGE_TRANSACTION_ERROR))
       yield put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e))
     }
   }
@@ -301,7 +302,7 @@ export default ({ api, coreSagas }) => {
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'startPollingTradeStatus', e))
-      yield put(actions.alerts.displayError('Failed to refresh trade status.'))
+      yield put(actions.alerts.displayError(C.EXCHANGE_REFRESH_TRADE_ERROR))
     } finally {
       if (yield cancelled()) {
         yield put(actions.logs.logInfoMessage(logLocation, 'startPollingTradeStatus', 'trade polling cancelled'))

@@ -36,7 +36,7 @@ const Trade = ({ trade, close }) => {
           { bodyStatus.text }
         </Text>
         <Text style={spacing('pt-5')} size='13px' weight={300}>
-          <FormattedMessage id='order_details.trade_id' defaultMessage={`Your order ID is: CNY-{id}`} values={{ id: trade.id }} />
+          <FormattedMessage id='order_details.trade_id' defaultMessage='Your order ID is: CNY-{id}' values={{ id: trade.id }} />
         </Text>
         <OrderDetailsTable style={spacing('mt-10')}>
           {renderDetailsRow(

@@ -15,7 +15,9 @@ const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, limi
     output: 'btc'
   }
   const disableInputs = limits.max < limits.min || (reason.indexOf('has_remaining') < 0 && reason) || limits.effectiveMax < limits.min
-  const wantToHelper = () => type === 'buy' ? <FormattedMessage id='buy.output_method.title.buy' defaultMessage='I want to buy' /> : <FormattedMessage id='buy.output_method.title.sell' defaultMessage='I want to sell' />
+  const wantToHelper = () => type === 'buy'
+    ? <FormattedMessage id='buy.output_method.title.buy' defaultMessage='I want to buy' />
+    : <FormattedMessage id='buy.output_method.title.sell' defaultMessage='I want to sell' />
 
   const limitsHelper = (quoteR, limits) => {
     if (quoteR.error) return true
