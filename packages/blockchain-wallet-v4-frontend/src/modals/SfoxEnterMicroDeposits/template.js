@@ -27,7 +27,7 @@ const MicroDeposits = (props) => {
     <Modal size='medium' position={position} total={total}>
       <ModalHeader onClose={close}>
         <Text>
-          <FormattedMessage id='sfox_micro_deposits.header' defaultMessage='Verify Bank Deposits' />
+          <FormattedMessage id='sfoxmicrodeposits.header' defaultMessage='Verify Bank Deposits' />
         </Text>
       </ModalHeader>
       <ModalBody>
@@ -35,7 +35,7 @@ const MicroDeposits = (props) => {
           <FormGroup>
             <FormItem>
               <Text size='14px' weight={400} style={{'margin-bottom': '5px'}}>
-                <FormattedMessage id='sfox_micro_deposits.deposit1' defaultMessage='Deposit 1' />
+                <FormattedMessage id='sfoxmicrodeposits.deposit1' defaultMessage='Deposit 1' />
               </Text>
               <Field name='deposit1' validate={[required]} component={NumberBox} placeholder='0.00' />
             </FormItem>
@@ -43,7 +43,7 @@ const MicroDeposits = (props) => {
           <FormGroup>
             <FormItem>
               <Text size='14px' weight={400} style={{'margin-bottom': '5px'}}>
-                <FormattedMessage id='sfox_micro_deposits.deposit2' defaultMessage='Deposit 2' />
+                <FormattedMessage id='sfoxmicrodeposits.deposit2' defaultMessage='Deposit 2' />
               </Text>
               <Field name='deposit2' validate={[required]} component={NumberBox} placeholder='0.00' />
             </FormItem>
@@ -56,7 +56,7 @@ const MicroDeposits = (props) => {
           {
             status instanceof Error
               ? <ErrorText size='13px' weight={300}>
-                <FormattedMessage id='sfox_micro_deposits.error' defaultMessage='The amounts entered do not match the deposits. {tryAgain}' values={{ tryAgain: <Link size='13px' weight={300} onClick={tryAgain}><FormattedMessage id='try_again' defaultMessage='Try again.' /></Link> }} />
+                <FormattedMessage id='sfoxmicrodeposits.error' defaultMessage='The amounts entered do not match the deposits. {tryAgain}' values={{ tryAgain: <Link size='13px' weight={300} onClick={tryAgain}><FormattedMessage id='try_again' defaultMessage='Try again.' /></Link> }} />
               </ErrorText>
               : <Button type='submit' nature='primary' onClick={handleSubmit} disabled={invalid}>
                 {

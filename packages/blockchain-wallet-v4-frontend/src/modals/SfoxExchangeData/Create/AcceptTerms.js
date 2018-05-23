@@ -180,14 +180,7 @@ class AcceptTerms extends Component {
                   </Text>
                   : busy instanceof Error
                     ? <Text size='12px' color='error' weight={300}>
-                      <FormattedMessage
-                        id='sfoxexchangedata.create.accept.unknownError'
-                        defaultMessage="We're sorry, but something unexpected went wrong. Please {tryAgain} or {contactSupport}."
-                        values={{
-                          tryAgain: <ErrorText onClick={() => sfoxNotAsked()}>try again</ErrorText>,
-                          contactSupport: <ErrorLink target='_blank' href='https://support.blockchain.com'>contact support</ErrorLink>
-                        }}
-                      />
+                      <FormattedMessage id='sfoxexchangedata.create.accept.unknownError' defaultMessage="We're sorry, but something unexpected went wrong. Please {tryAgain} or {contactSupport}." values={{tryAgain: <ErrorText onClick={() => sfoxNotAsked()}>try again</ErrorText>, contactSupport: <ErrorLink target='_blank' href='https://support.blockchain.com'>contact support</ErrorLink>}} />
                     </Text>
                     : null
               }

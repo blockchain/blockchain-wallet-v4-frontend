@@ -34,7 +34,7 @@ const ImportBtcAddress = (props) => {
           </ModalHeader>
           <ModalBody>
             <Title>
-              <FormattedMessage id='modals.importbtcaddress.import_type' defaultMessage='What do you want to import?' />
+              <FormattedMessage id='modals.importbtcaddress.importtype' defaultMessage='What do you want to import?' />
             </Title>
             <RadioContainer>
               <Field name='address-type' value='internal' props={{id: 'internal', value: 'internal'}} validate={[]} component={RadioButton}>

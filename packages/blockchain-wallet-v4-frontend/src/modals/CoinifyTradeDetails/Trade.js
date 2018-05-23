@@ -36,7 +36,7 @@ const Trade = ({ trade, close }) => {
           { bodyStatus.text }
         </Text>
         <Text style={spacing('pt-5')} size='13px' weight={300}>
-          <FormattedMessage id='order_details.trade_id' defaultMessage='Your order ID is: CNY-{id}' values={{ id: trade.id }} />
+          <FormattedMessage id='modals.coinifytradedetails.trade.tradeid' defaultMessage='Your order ID is: CNY-{id}' values={{ id: trade.id }} />
         </Text>
         <OrderDetailsTable style={spacing('mt-10')}>
           {renderDetailsRow(
@@ -58,7 +58,7 @@ const Trade = ({ trade, close }) => {
         </OrderDetailsTable>
         <ButtonRow>
           <Button width='100px' onClick={close} nature='primary'>
-            <FormattedMessage id='close' defaultMessage='Close' />
+            <FormattedMessage id='modals.coinifytradedetails.trade.close' defaultMessage='Close' />
           </Button>
         </ButtonRow>
       </ModalBody>

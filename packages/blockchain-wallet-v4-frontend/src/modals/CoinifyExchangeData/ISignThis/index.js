@@ -189,7 +189,7 @@ class ISignThisContainer extends Component {
         <ButtonContainer>
           <Button nature='empty-secondary' onClick={() => coinifyActions.cancelISX()}>
             <Text size='13px' weight={300}>
-              <FormattedMessage id='cancel' defaultMessage='Cancel' />
+              <FormattedMessage id='coinifyexchangedata.ist.cancel' defaultMessage='Cancel' />
             </Text>
           </Button>
         </ButtonContainer>

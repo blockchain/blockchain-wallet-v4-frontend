@@ -19,13 +19,13 @@ class ImportExternalBitcoinAddress extends React.PureComponent {
       <div>
         <div style={spacing('mb-15')}>
           <Banner type='alert'>
-            <FormattedMessage id='modals.importbtcaddress.import_external_bitcoin_address.message' defaultMessage='This is advanced functionality and only suggested for advanced users.' />
+            <FormattedMessage id='modals.importbtcaddress.importexternalbitcoinaddress.advanced.message' defaultMessage='This is advanced functionality and only suggested for advanced users.' />
           </Banner>
         </div>
         <FormGroup>
           <FormItem>
             <Label for='from'>
-              <FormattedMessage id='modals.importbtcaddress.import_external_bitcoin_address.pub_key' defaultMessage='Bitcoin Address' />
+              <FormattedMessage id='modals.importbtcaddress.importexternalbitcoinaddress.bitcoinaddress' defaultMessage='Bitcoin Address' />
             </Label>
             <Field name='address' validate={[validBitcoinAddress]} component={TextBox} />
           </FormItem>
@@ -33,13 +33,13 @@ class ImportExternalBitcoinAddress extends React.PureComponent {
         <FormGroup>
           <FormItem width={'100%'}>
             <Label for='private-key'>
-              <FormattedMessage id='modals.importbtcaddress.import_external_bitcoin_address.prv_key' defaultMessage='Enter Private Key' />
+              <FormattedMessage id='modals.importbtcaddress.importexternalbitcoinaddress.prvkey' defaultMessage='Enter Private Key' />
             </Label>
             <Field name='priv' validate={[optional(validBitcoinPrivateKey)]} component={TextBox} />
           </FormItem>
           <FormItem style={spacing('mt-10')} width={'50%'} >
             <Label for='wallets'>
-              <FormattedMessage id='modals.importbtcaddress.import_external_bitcoin_address.transfer' defaultMessage='Transfer funds to an existing wallet (optional)' />
+              <FormattedMessage id='modals.importbtcaddress.importexternalbitcoinaddress.transfer' defaultMessage='Transfer funds to an existing wallet (optional)' />
             </Label>
             <Field name='to' component={SelectBoxBitcoinAddresses} optional excludeImported disabled={isNil(this.props.priv)} />
           </FormItem>

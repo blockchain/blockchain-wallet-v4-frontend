@@ -37,7 +37,7 @@ const AcceptTerms = (props) => {
       <ColLeft>
         <InputWrapper>
           <PartnerHeader>
-            <FormattedMessage id='coinifyexchangedata.create.verifyemail.partner.header.create_your_account' defaultMessage='Create Your Account' />
+            <FormattedMessage id='coinifyexchangedata.create.verifyemail.partner.header.createyouraccount' defaultMessage='Create Your Account' />
           </PartnerHeader>
           <PartnerSubHeader>
             <FormattedHTMLMessage id='coinifyexchangedata.create.accept.partner.header.enter_email_code' defaultMessage='We teamed up with Coinify’s exchange platform to offer buy and sell to our customers in Europe. We just sent a verification code to your {email} email address.' values={{ email: email }} />
