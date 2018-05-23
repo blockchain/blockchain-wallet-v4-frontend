@@ -18,7 +18,7 @@ const Wrapper = styled.div`
 
   & > * { margin-top: 5px; }
 
-  @media(min-width: 768px) { 
+  @media(min-width: 768px) {
     bottom: 5px;
     left: 5px;
     width: auto;
@@ -36,7 +36,7 @@ const selectHeader = nature => {
 
 const selectMessage = (message, data = undefined) => {
   switch (message) {
-    case C.ADDRESS_ADD_ERROR: return <FormattedMessage id='components.alerts.address_error_add' defaultMessage='Error adding address.' />
+    case C.ADDRESS_ADD_ERROR: return <FormattedMessage id='components.alerts.addresserroradd' defaultMessage='Error adding address.' />
     case C.ADDRESS_DOES_NOT_EXIST_ERROR: return <FormattedMessage id='components.alerts.address_does_not_exist_error' defaultMessage='This address already exists in your wallet.' />
     case C.ADDRESS_FORMAT_NOT_SUPPORTED_ERROR: return <FormattedMessage id='components.alerts.address_format_not_supported_error' defaultMessage='This address format is not supported.' />
     case C.ADDRESS_LABEL_MAXIMUM_ERROR: return <FormattedMessage id='components.alerts.address_label_maximum_error' defaultMessage='You cannot label more than 15 unused addresses in a row; please send some bitcoins to at least one of them.' />

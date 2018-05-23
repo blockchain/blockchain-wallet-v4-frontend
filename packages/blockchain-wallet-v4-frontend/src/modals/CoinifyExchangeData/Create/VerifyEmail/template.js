@@ -30,10 +30,10 @@ const VerifyEmail = (props) => {
       <ColLeft>
         <InputWrapper>
           <PartnerHeader>
-            <FormattedMessage id='coinifyexchangedata.create.verifyemail.partner.header.change_email' defaultMessage="What's your email?" />
+            <FormattedMessage id='coinifyexchangedata.create.verifyemail.partner.header.whatsyouremail' defaultMessage="What's your email?" />
           </PartnerHeader>
           <PartnerSubHeader>
-            <FormattedMessage id='coinifyexchangedata.create.verifyemail.partner.subheader.change_email' defaultMessage="Enter the email address you would like to use with your Coinify account. We'll send you a verification code to make sure it's yours." />
+            <FormattedMessage id='coinifyexchangedata.create.verifyemail.partner.subheader.enteremail' defaultMessage="Enter the email address you would like to use with your Coinify account. We'll send you a verification code to make sure it's yours." />
           </PartnerSubHeader>
           {
             ui.create === 'enter_email_code'
@@ -48,7 +48,7 @@ const VerifyEmail = (props) => {
               </EmailInput>
               : <EmailInput>
                 <Text size='14px' weight={400} style={{ 'margin-bottom': '5px' }}>
-                  <FormattedMessage id='coinifyexchangedata.create.verifyemail.confirm' defaultMessage="Enter the email address you'd like to verify:" />
+                  <FormattedMessage id='coinifyexchangedata.create.verifyemail.enteremail.youwouldlike' defaultMessage="Enter the email address you'd like to verify:" />
                 </Text>
                 <Field name='emailAddress' component={TextBox} validate={[required]} />
               </EmailInput>

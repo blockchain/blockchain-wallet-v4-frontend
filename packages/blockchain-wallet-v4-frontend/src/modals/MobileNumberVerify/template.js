@@ -43,11 +43,11 @@ const MobileNumberVerify = (props) => {
             <Field name='code' validate={[required]} component={TextBox} />
           </Code>
           <OptionsText size='14px' weight={300}>
-            <FormattedMessage id='modals.mobilenumberverify.get_code1' defaultMessage="Didn't get the code?" />
+            <FormattedMessage id='modals.mobilenumberverify.getcode1' defaultMessage="Didn't get the code?" />
             <Link size='14px' weight={300} onClick={handleResend}>
               <FormattedMessage id='modals.mobilenumberverify.resend' defaultMessage='Resend' />
             </Link>
-            <FormattedMessage id='modals.mobilenumberverify.get_code2' defaultMessage='or' />
+            <FormattedMessage id='modals.mobilenumberverify.getcode2' defaultMessage='or' />
             <Link size='14px' weight={300} capitalize onClick={handleChange}>
               <FormattedMessage id='modals.mobilenumberverify.change' defaultMessage=' change mobile number' />
             </Link>

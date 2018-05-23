@@ -27,7 +27,7 @@ const Summary = styled.div`
   padding: 10px 0;
   margin: 5px 0;
   margin-bottom: 25px;
-  
+
   & > * { padding: 10px 0; }
 `
 const Footer = styled.div`
@@ -93,7 +93,7 @@ const Success = props => {
           <FormattedMessage id='modals.sendbch.secondstep.send' defaultMessage='Send Bitcoin Cash' />
         </Button>
         <Link onClick={handleBack} size='13px' weight={300}>
-          <FormattedMessage id='scenes.sendconfirm.back' defaultMessage='Go back' />
+          <FormattedMessage id='modals.sendbch.secondstep.back' defaultMessage='Go back' />
         </Link>
       </Footer>
     </div>

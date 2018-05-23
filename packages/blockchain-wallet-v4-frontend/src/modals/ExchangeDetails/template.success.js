@@ -41,11 +41,11 @@ const TableCell = styled.div`
 const getModalHeader = (status) => {
   switch (status) {
     case 'complete':
-      return <FormattedMessage id='modals.exchangedetails.title_success' defaultMessage='Exchange Completed' />
+      return <FormattedMessage id='modals.exchangedetails.title.success' defaultMessage='Exchange Completed' />
     case 'resolved':
-      return <FormattedMessage id='modals.exchangedetails.title_refunded' defaultMessage='Trade Refunded' />
+      return <FormattedMessage id='modals.exchangedetails.title.refunded' defaultMessage='Trade Refunded' />
     default:
-      return <FormattedMessage id='modals.exchangedetails.title_inprogress' defaultMessage='Exchange in Progress' />
+      return <FormattedMessage id='modals.exchangedetails.title.inprogress' defaultMessage='Exchange in Progress' />
   }
 }
 
