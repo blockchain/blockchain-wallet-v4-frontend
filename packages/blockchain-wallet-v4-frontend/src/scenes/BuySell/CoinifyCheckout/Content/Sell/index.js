@@ -23,9 +23,9 @@ class SellContainer extends React.Component {
   }
 
   startSell () {
-    const { sellQuoteR, paymentMedium, coinifyActions } = this.props
+    const { coinifyActions } = this.props
     coinifyActions.coinifyLoading()
-    this.props.coinifyActions.initiateSell()
+    coinifyActions.initiateSell()
   }
 
   render () {
