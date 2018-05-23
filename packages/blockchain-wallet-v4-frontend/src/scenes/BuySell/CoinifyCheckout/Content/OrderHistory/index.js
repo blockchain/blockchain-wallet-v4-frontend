@@ -18,9 +18,10 @@ class OrderHistoryContainer extends React.Component {
   }
 
   render () {
-    const { data, modalActions, coinifyActions, step, trade, busy, cancelTradeId } = this.props
+    const { data, modalActions, coinifyActions, formActions, step, trade, busy, cancelTradeId } = this.props
     const { showModal } = modalActions
     const { finishTrade, cancelTrade } = coinifyActions
+    const { change } = formActions
     const status = busy.cata({ Success: () => false, Failure: (err) => err, Loading: () => true, NotAsked: () => false })
 
     return data.cata({
@@ -33,6 +34,7 @@ class OrderHistoryContainer extends React.Component {
         cancelTrade={cancelTrade}
         status={status}
         cancelTradeId={cancelTradeId}
+        changeTab={tab => change('buySellTabStatus', 'status', tab)}
       />,
       Failure: (msg) => <div>Failure: {msg.error}</div>,
       Loading: () => <Loading />,
@@ -46,7 +48,8 @@ const mapStateToProps = state => getData(state)
 const mapDispatchToProps = (dispatch) => ({
   coinifyDataActions: bindActionCreators(actions.core.data.coinify, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
-  coinifyActions: bindActionCreators(actions.modules.coinify, dispatch)
+  coinifyActions: bindActionCreators(actions.modules.coinify, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrderHistoryContainer)

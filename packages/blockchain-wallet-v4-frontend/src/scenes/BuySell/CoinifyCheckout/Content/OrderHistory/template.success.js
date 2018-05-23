@@ -6,6 +6,7 @@ import { Text } from 'blockchain-info-components'
 import ISignThis from 'modals/CoinifyExchangeData/ISignThis'
 
 import OrderHistoryTable from 'components/BuySell/OrderHistoryTable'
+import EmptyOrderHistoryContainer from 'components/BuySell/EmptyOrderHistory'
 
 const OrderHistoryWrapper = styled.div`
   width: 100%;
@@ -25,7 +26,7 @@ const isPending = (t) => t.state === 'processing' || t.state === 'awaiting_trans
 const isCompleted = (t) => contains(t.state, ['completed', 'rejected', 'cancelled', 'expired'])
 
 const OrderHistory = (props) => {
-  const { showModal, finishTrade, cancelTrade, trades, step, trade, status, cancelTradeId } = props
+  const { showModal, finishTrade, cancelTrade, trades, step, trade, status, cancelTradeId, changeTab } = props
 
   if (step === 'isx') {
     return (
@@ -35,6 +36,9 @@ const OrderHistory = (props) => {
       />
     )
   } else {
+    if (!trades.length) {
+      return <EmptyOrderHistoryContainer changeTab={changeTab} />
+    }
     return (
       <OrderHistoryWrapper>
         <OrderHistoryContent>
