@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
 import { SelectBoxCoinifyCurrency, TextBoxDebounced } from 'components/Form'
 import { Field, reduxForm } from 'redux-form'
+import { head } from 'ramda'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -83,6 +84,7 @@ const FiatConvertor = (props) => {
   const { val, disabled, setMax, setMin, limits, checkoutError, defaultCurrency, symbol, increaseLimit } = props
   const currency = 'BTC'
   const level = val.level || { name: 1 }
+  const kyc = val.kycs.length && head(val.kycs)
 
   return (
     <form>
@@ -105,7 +107,11 @@ const FiatConvertor = (props) => {
             </Error>
             : <LimitsHelper>
               <FormattedMessage id='buy.quote_input.remaining_buy_limit' defaultMessage='Your remaining buy limit is {max}' values={{ max: <a onClick={() => setMax(limits.max)}>{symbol}{limits.max}</a> }} />
-              {level.name < 2 && <FormattedMessage id='buy.quote_input.increase_limits' defaultMessage='{increase}' values={{ increase: <a onClick={() => increaseLimit()}>Increase your limit.</a> }} />}
+              {
+                level.name < 2 && kyc.state !== 'reviewing'
+                  ? <FormattedMessage id='buy.quote_input.increase_limits' defaultMessage='{increase}' values={{ increase: <a onClick={() => increaseLimit()}>Increase your limit.</a> }} />
+                  : null
+              }
             </LimitsHelper>
         }
       </Wrapper>
