@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 
@@ -14,7 +14,8 @@ const AcceptTermsContainer = styled.div`
   margin-top: 25px;
   font-size: 12px;
   a {
-    color: ${props => props.theme['brand-secondary']}
+    color: ${props => props.theme['brand-secondary']};
+    text-decoration: none;
   }
 `
 
@@ -40,11 +41,14 @@ const AcceptTerms = (props) => {
             <FormattedMessage id='coinifyexchangedata.create.verifyemail.partner.header.create_your_account' defaultMessage='Create Your Account' />
           </PartnerHeader>
           <PartnerSubHeader>
-            <FormattedHTMLMessage id='coinifyexchangedata.create.accept.partner.header.enter_email_code' defaultMessage='We teamed up with Coinify’s exchange platform to offer buy and sell to our customers in Europe. We just sent a verification code to your {email} email address.' values={{ email: email }} />
+            <FormattedMessage id='coinifyexchangedata.create.accept.partner.header.enter_email_code' defaultMessage='We teamed up with Coinify’s exchange platform to offer buy and sell to our customers in Europe. We just sent a verification code to your {email} email address.' values={{ email: email }} />
           </PartnerSubHeader>
           <AcceptTermsContainer>
             <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox}>
-              <FormattedHTMLMessage id='coinifyexchangedata.create.accept.terms' defaultMessage="I accept Blockchain's <a>Terms of Service</a>, Coinify's <a>Terms of Service</a> & <a>Privary Policy</a>." />
+              <FormattedMessage
+                id='coinifyexchangedata.create.accept.terms'
+                defaultMessage="I accept Blockchain's {bcTos}, Coinify's {coinifyTos} & {coinifyPriv}."
+                values={{ bcTos: <a href='https://www.blockchain.com/terms/index.html' target='_blank'>Terms of Service</a>, coinifyTos: <a href='https://www.coinify.com/legal' target='_blank' rel='noopener noreferrer'>Terms of Service</a>, coinifyPriv: <a href='https://www.coinify.com/legal/policy' target='_blank' rel='noopener noreferrer'>Privacy Policy</a> }} />
             </Field>
           </AcceptTermsContainer>
         </InputWrapper>
@@ -63,7 +67,10 @@ const AcceptTerms = (props) => {
           <ErrorWrapper>
             {
               signupError && <Text size='12px' color='error' weight={300} onClick={() => updateUI({ create: 'change_email' })}>
-                <FormattedHTMLMessage id='coinifyexchangedata.create.accept.error' defaultMessage='Unfortunately this email is being used for another account. <a>Click here</a> to change it.' />
+                <FormattedMessage
+                  id='coinifyexchangedata.create.accept.error'
+                  defaultMessage='Unfortunately this email is being used for another account. {clickHere} to change it.'
+                  values={{ clickHere: <a>Click here</a> }} />
               </Text>
             }
           </ErrorWrapper>

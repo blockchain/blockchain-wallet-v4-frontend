@@ -23,13 +23,6 @@ const CancelWrapper = styled.div`
   }
 `
 
-const renderDetailsRow = (id, message, value, color) => (
-  <OrderDetailsRow>
-    <Text size='13px' weight={300}><FormattedMessage id={id} defaultMessage={message} /></Text>
-    <Text size='13px' weight={300} color={color}>{value}</Text>
-  </OrderDetailsRow>
-)
-
 const renderRate = (rate, q) => {
   return <FormattedMessage id='rate' defaultMessage='{rate}' values={{ rate: `${currencySymbolMap[q.baseCurrency]}${rate.toLocaleString()}` }} />
 }
@@ -49,28 +42,31 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
       <Text size='12px' weight={300}>
         1 BTC = {quoteR.map((q) => {
           const rate = +((1 / (Math.abs(q.quoteAmount) / 1e8)) * Math.abs(q.baseAmount)).toFixed(2)
-          // console.log('create rate', `${currencySymbolMap[q.baseCurrency]}${rate.toLocaleString()}`)
           return renderRate(rate, q)
         }).getOrElse('~')}
       </Text>
     </div>
     <OrderDetailsTable style={spacing('mt-10')}>
-      {renderDetailsRow(
-        'order_details.amount_to_transact',
-        type === 'buy' ? 'BTC Amount to Purchase' : 'BTC Amount to Sell',
-        quoteR.map(q => reviewOrder.renderSummary(q, type, medium)).data.firstRow
-      )}
-      {renderDetailsRow(
-        'order_details.trading_fee',
-        'Trading Fee',
-        quoteR.map(q => reviewOrder.renderSummary(q, type, medium)).data.fee
-      )}
-      {renderDetailsRow(
-        'order_details.total_transacted',
-        type === 'buy' ? 'Total Cost' : 'Total to be Received',
-        quoteR.map(q => reviewOrder.renderSummary(q, type, medium)).data.total,
-        'success'
-      )}
+      <OrderDetailsRow>
+        {
+          type === 'buy'
+            ? <Text size='13px' weight={300}><FormattedMessage id='orderdetails.amounttopurchase' defaultMessage='BTC Amount to Purchase' /></Text>
+            : <Text size='13px' weight={300}><FormattedMessage id='orderdetails.amounttosell' defaultMessage='BTC Amount to Sell' /></Text>
+        }
+        <Text size='13px' weight={300}>{quoteR.map(q => reviewOrder.renderSummary(q, type, medium)).data.firstRow}</Text>
+      </OrderDetailsRow>
+      <OrderDetailsRow>
+        <Text size='13px' weight={300}><FormattedMessage id='orderdetails.tradingfee' defaultMessage='Trading Fee' /></Text>
+        <Text size='13px' weight={300}>{quoteR.map(q => reviewOrder.renderSummary(q, type, medium)).data.fee}</Text>
+      </OrderDetailsRow>
+      <OrderDetailsRow>
+        {
+          type === 'buy'
+            ? <Text size='13px' weight={300}><FormattedMessage id='orderdetails.totalcost' defaultMessage='Total Cost' /></Text>
+            : <Text size='13px' weight={300}><FormattedMessage id='orderdetails.totaltobereceived' defaultMessage='Total to be Received' /></Text>
+        }
+        <Text size='13px' weight={300} color='success'>{quoteR.map(q => reviewOrder.renderSummary(q, type, medium)).data.total}</Text>
+      </OrderDetailsRow>
     </OrderDetailsTable>
     {quoteR.map((q) => (
       <CountdownTimer

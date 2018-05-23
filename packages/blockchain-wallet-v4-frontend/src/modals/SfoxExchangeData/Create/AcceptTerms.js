@@ -7,7 +7,7 @@ import { path } from 'ramda'
 import { Field } from 'redux-form'
 import { actions, selectors } from 'data'
 import { CheckBox } from 'components/Form'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { Button, HeartbeatLoader, Text, Link, Icon } from 'blockchain-info-components'
 import Helper from 'components/BuySell/FAQ'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ErrorWrapper, ColRightInner } from 'components/BuySell/Signup'
@@ -30,7 +30,8 @@ const AcceptTermsContainer = styled.div`
   font-size: 12px;
   font-weight: 400;
   a {
-    color: ${props => props.theme['brand-secondary']}
+    color: ${props => props.theme['brand-secondary']};
+    text-decoration: none;
   }
 `
 const FieldsContainer = styled.div`
@@ -111,10 +112,10 @@ class AcceptTerms extends Component {
               <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.header' defaultMessage='Create Your Account' />
             </PartnerHeader>
             <PartnerSubHeader>
-              <FormattedHTMLMessage id='sfoxexchangedata.create.createaccount.partner.subheader' defaultMessage="Your buy and sell experience is being streamlined. We've teamed up with SFOX to make your dreams of simply managing funds a reality." />
+              <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.subheader' defaultMessage="Your buy and sell experience is being streamlined. We've teamed up with SFOX to make your dreams of simply managing funds a reality." />
             </PartnerSubHeader>
             <PartnerSubHeader style={spacing('mt-10')}>
-              <FormattedHTMLMessage id='sfoxexchangedata.create.createaccount.partner.subheader2' defaultMessage="Rest assured: there are only a few steps separating you from the good stuff. Let's start by confirming your verified email address and phone number." />
+              <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.subheader2' defaultMessage="Rest assured: there are only a few steps separating you from the good stuff. Let's start by confirming your verified email address and phone number." />
             </PartnerSubHeader>
             <FieldsContainer>
               <FieldContainer>
@@ -156,7 +157,10 @@ class AcceptTerms extends Component {
             </FieldsContainer>
             <AcceptTermsContainer>
               <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox}>
-                <FormattedHTMLMessage id='sfoxexchangedata.create.accept.terms' defaultMessage="The legal stuff: Accept Blockchain's <a href='https://www.blockchain.com/terms' target='_blank' rel='noopener noreferrer'>Terms of Service</a>, SFOX's <a href='https://www.sfox.com/terms.html' target='_blank' rel='noopener noreferrer'>Terms of Service</a> and SFOX's <a href='https://www.sfox.com/privacy.html' target='_blank' rel='noopener noreferrer'>Privacy Policy</a>." />
+                <FormattedMessage
+                  id='sfoxexchangedata.create.accept.terms'
+                  defaultMessage="The legal stuff: Accept Blockchain's {bcTos}, SFOX's {sfoxTos} and SFOX's {sfoxPriv}."
+                  values={{ bcTos: <a href='https://www.blockchain.com/terms' target='_blank' rel='noopener noreferrer'>Terms of Service</a>, sfoxTos: <a href='https://www.sfox.com/terms.html' target='_blank' rel='noopener noreferrer'>Terms of Service</a>, sfoxPriv: <a href='https://www.sfox.com/privacy.html' target='_blank' rel='noopener noreferrer'>Privacy Policy</a> }} />
               </Field>
             </AcceptTermsContainer>
           </InputWrapper>
@@ -176,7 +180,10 @@ class AcceptTerms extends Component {
               {
                 busy instanceof Error && busy.message.toLowerCase() === 'user is already registered'
                   ? <Text size='12px' color='error' weight={300} onClick={() => { sfoxNotAsked(); this.props.updateUI({ create: 'change_email' }) }}>
-                    <FormattedHTMLMessage id='sfoxexchangedata.create.accept.error' defaultMessage='Unfortunately this email is being used for another account. <a>Click here</a> to change it.' />
+                    <FormattedMessage
+                      id='sfoxexchangedata.create.accept.error'
+                      defaultMessage='Unfortunately this email is being used for another account. {clickHere} to change it.'
+                      values={{ clickHere: <a>Click here</a> }} />
                   </Text>
                   : busy instanceof Error
                     ? <Text size='12px' color='error' weight={300}>
