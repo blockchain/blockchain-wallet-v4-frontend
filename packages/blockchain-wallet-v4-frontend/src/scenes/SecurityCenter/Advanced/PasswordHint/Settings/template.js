@@ -23,7 +23,7 @@ const Settings = (props) => {
       <Hint />
       { !updateToggled &&
         <Button nature='primary' onClick={handleToggle}>
-          <FormattedMessage id='scenes.securitysettings.basicsecurity.passwordhint.settings.change' defaultMessage='Change'/>
+          <FormattedMessage id='scenes.securitysettings.basicsecurity.passwordhint.settings.change' defaultMessage='Change' />
         </Button>
       }
       { updateToggled &&

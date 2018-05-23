@@ -65,7 +65,7 @@ const FirstStep = (props) => {
             <Field name='guid' autoFocus validate={[required, validWalletId]} component={TextBox} placeholder='XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX' />
             <TextGroup inline>
               <Text size='12px' weight={300}>
-                <FormattedMessage id='scenes.reset2fa.firststep.firststepform.guid_explain' defaultMessage='If you forgot your wallet identifier, please' />
+                <FormattedMessage id='scenes.reset2fa.firststep.firststepform.guidexplain' defaultMessage='If you forgot your wallet identifier, please' />
               </Text>
               <LinkContainer to='/reminder'>
                 <Link size='12px' weight={300}>
@@ -82,7 +82,7 @@ const FirstStep = (props) => {
             </FormLabel>
             <Field name='email' validate={[required, validEmail]} component={TextBox} />
             <Text size='12px' weight={300}>
-              <FormattedMessage id='scenes.reset2fa.firststep.firststepform.email_explain' defaultMessage='Enter the email associated with your wallet.  If you lost access to this email, please enter it regardless.' />
+              <FormattedMessage id='scenes.reset2fa.firststep.firststepform.emailexplain' defaultMessage='Enter the email associated with your wallet.  If you lost access to this email, please enter it regardless.' />
             </Text>
           </FormItem>
         </FormGroup>

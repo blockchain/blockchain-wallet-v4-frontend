@@ -25,7 +25,7 @@ const Settings = (props) => {
       }
       { !updateToggled &&
         <Button nature='primary' onClick={handleToggle}>
-          <FormattedMessage id='scenes.securitysettings.advancedsettings.passwordstretching.settings.change' defaultMessage='Change'/>
+          <FormattedMessage id='scenes.securitysettings.advancedsettings.passwordstretching.settings.change' defaultMessage='Change' />
         </Button>
       }
       { updateToggled &&

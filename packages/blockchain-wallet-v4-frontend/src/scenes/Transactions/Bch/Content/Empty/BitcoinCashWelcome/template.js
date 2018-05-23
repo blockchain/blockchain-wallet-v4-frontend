@@ -91,10 +91,10 @@ const BitcoinCashWelcome = props => {
             <Separator />
             <TextGroup inline>
               <Text size='12px' weight={300}>
-                <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.fees' defaultMessage='If you had bitcoin in your Blockchain wallet before the fork in August, you already have Bitcoin Cash.' />
+                <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.fork' defaultMessage='If you had bitcoin in your Blockchain wallet before the fork in August, you already have Bitcoin Cash.' />
               </Text>
               <Text size='12px' weight={300}>
-                <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.fees' defaultMessage='If you’re new to Blockchain, you can get started with Bitcoin Cash by exchanging bitcoin or ether.' />
+                <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.exchange' defaultMessage='If you’re new to Blockchain, you can get started with Bitcoin Cash by exchanging bitcoin or ether.' />
               </Text>
             </TextGroup>
           </Cell>
@@ -103,10 +103,10 @@ const BitcoinCashWelcome = props => {
           {
             exchange ? <LinkContainer to='/exchange'>
               <Button nature='primary' fullwidth uppercase>
-                <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.getstarted' defaultMessage='Get started with Bitcoin Cash' />
+                <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.getstarted.exchange' defaultMessage='Get started with Bitcoin Cash' />
               </Button>
             </LinkContainer> : <Button nature='primary' onClick={handleRequest} fullwidth uppercase>
-              <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.getstarted' defaultMessage='Get started with Bitcoin Cash' />
+              <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.getstarted.request' defaultMessage='Get started with Bitcoin Cash' />
             </Button>
           }
         </Row>

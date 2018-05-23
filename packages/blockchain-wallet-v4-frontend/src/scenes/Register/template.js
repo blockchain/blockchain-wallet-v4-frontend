@@ -75,7 +75,7 @@ const Register = (props) => {
         <FormGroup>
           <FormItem>
             <FormLabel for='confirmationPassword'>
-              <FormattedMessage id='scenes.register.confirmationPassword' defaultMessage='Confirm Password' />
+              <FormattedMessage id='scenes.register.confirmpassword' defaultMessage='Confirm Password' />
             </FormLabel>
             <Field name='confirmationPassword' validate={[required]} component={PasswordBox} />
           </FormItem>
