@@ -16,7 +16,7 @@ export default () => (
   <Wrapper>
     <TextGroup inline>
       <Text weight={300} size='13px'>
-        <FormattedMessage id='scenes.exchange.simple' defaultMessage='Need help?' />
+        <FormattedMessage id='scenes.exchange.help' defaultMessage='Need help?' />
       </Text>
       <Link href='https://support.blockchain.com/hc/en-us/requests/new' target='_blank' size='13px' weight={300}>
         <FormattedMessage id='scenes.exchange.support' defaultMessage='Contact Support' />

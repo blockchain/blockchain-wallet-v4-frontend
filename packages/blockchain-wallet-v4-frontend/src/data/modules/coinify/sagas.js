@@ -2,22 +2,20 @@ import { put, call, select } from 'redux-saga/effects'
 import * as A from './actions'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors.js'
-// import { formValueSelector } from 'redux-form'
-import { merge, path, prop, equals } from 'ramda'
+import { merge, path, prop, equals, head } from 'ramda'
 import * as service from 'services/CoinifyService'
 
 export default ({ coreSagas }) => {
   const logLocation = 'modules/coinify/sagas'
 
-  const coinifySignup = function * () {
+  const coinifySignup = function * (data) {
+    const country = data.payload
     try {
-      yield call(coreSagas.data.coinify.signup)
+      yield call(coreSagas.data.coinify.signup, country)
       const profile = yield select(selectors.core.data.coinify.getProfile)
       if (!profile.error) {
-        // yield put(actions.modals.closeAllModals())
         yield call(coreSagas.data.coinify.triggerKYC)
         yield put(A.coinifyNextStep('isx'))
-        // yield put(actions.alerts.displaySuccess('Account successfully created!'))
       } else {
         yield put(A.coinifySignupFailure(profile.error))
       }
@@ -157,17 +155,14 @@ export default ({ coreSagas }) => {
   const fromISX = function * (action) {
     const status = action.payload
     try {
-      // TODO if in modal: close modal, checkout step, open CoinifyTradeDetails modal for KYC result
-      // const modals = yield select(selectors.modals.getModals)
-      // if (path(['type'], head(modals)) === 'CoinifyExchangeData') {
-      //   yield put(actions.modals.closeAllModals())
-      //   yield put(A.coinifyNextCheckoutStep('checkout'))
-      //
-      // }
-      yield put(A.coinifyNextCheckoutStep('checkout'))
+      const modals = yield select(selectors.modals.getModals)
       const trade = yield select(selectors.core.data.coinify.getTrade)
 
-      yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
+      if (path(['type'], head(modals)) === 'CoinifyExchangeData') yield put(actions.modals.closeAllModals())
+      else yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
+
+      yield put(A.coinifyNextCheckoutStep('checkout'))
+      yield call(coreSagas.data.coinify.getKYCs)
       yield put(actions.modals.showModal('CoinifyTradeDetails', { trade: trade.data, status: status }))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'fromISX', e))
@@ -199,6 +194,24 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const finishTrade = function * (data) {
+    const tradeToFinish = data.payload
+    try {
+      if (tradeToFinish.state === 'awaiting_transfer_in') {
+        yield call(coreSagas.data.coinify.kycAsTrade, { kyc: tradeToFinish }) // core expects obj key to be 'kyc'
+        yield put(A.coinifyNextCheckoutStep('isx'))
+      }
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'finishTrade', e))
+    }
+  }
+
+  const cancelISX = function * () {
+    const modals = yield select(selectors.modals.getModals)
+    if (path(['type'], head(modals)) === 'CoinifyExchangeData') yield put(actions.modals.closeAllModals())
+    else yield put(A.coinifyNextCheckoutStep('checkout'))
+  }
+
   return {
     handleChange,
     initialized,
@@ -209,6 +222,8 @@ export default ({ coreSagas }) => {
     fromISX,
     triggerKYC,
     openKYC,
-    setMinMax
+    setMinMax,
+    cancelISX,
+    finishTrade
   }
 }

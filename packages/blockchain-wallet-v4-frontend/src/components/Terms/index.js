@@ -28,7 +28,7 @@ const Terms = (props) => {
       return (
         <TermsContainer >
           <Text size='12px' weight={300}>
-            <FormattedMessage id='scenes.register.registerform.blockchain.read' defaultMessage='I have read and agree to the' />
+            <FormattedMessage id='scenes.register.registerform.blockchain.read' defaultMessage='I have read and agreed to the' />
           </Text>
           <Link href='https://www.blockchain.com/terms/index.html' target='_blank' size='12px' weight={300}>
             <FormattedMessage id='scenes.register.registerform.blockchain.terms' defaultMessage='Terms of Service' />

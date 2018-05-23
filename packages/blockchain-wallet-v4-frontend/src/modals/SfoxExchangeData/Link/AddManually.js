@@ -6,6 +6,7 @@ import { TextBox, SelectBoxBankAccountType, Form } from 'components/Form'
 import { required } from 'services/FormHelper'
 import { Image, Text } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
+import PropTypes from 'prop-types'
 
 const Container = styled.div`
   display: flex;
@@ -36,13 +37,13 @@ class AddManually extends Component {
         <Container>
           <InputContainer>
             <Text size='14px' weight={500} style={spacing('mb-10')}>
-              <FormattedMessage id='sfoxexchangedata.link.addmanually.accountholdername' defaultMessage="Full Name of Primary Account Holder" />
+              <FormattedMessage id='sfoxexchangedata.link.addmanually.accountholdername' defaultMessage='Full Name of Primary Account Holder' />
             </Text>
             <Field name='fullName' component={TextBox} validate={[required]} onChange={(e) => handleFullName(e)} placeholder='John Doe' />
           </InputContainer>
           <InputContainer>
             <Text size='14px' weight={500} style={spacing('mb-10')}>
-              <FormattedMessage id='sfoxexchangedata.link.addmanually.bankaccountinformation' defaultMessage="Bank Account Information" />
+              <FormattedMessage id='sfoxexchangedata.link.addmanually.bankaccountinformation' defaultMessage='Bank Account Information' />
             </Text>
             <CheckImage name='check-helper' />
             <Field name='routingNumber' component={TextBox} validate={[required]} onChange={(e) => handleRoutingNumber(e)} placeholder='Routing Number' />
@@ -50,7 +51,7 @@ class AddManually extends Component {
           </InputContainer>
           <InputContainer>
             <Text size='14px' weight={500} style={spacing('mb-10')}>
-              <FormattedMessage id='sfoxexchangedata.link.addmanually.accounttype' defaultMessage="Account Type" />
+              <FormattedMessage id='sfoxexchangedata.link.addmanually.accounttype' defaultMessage='Account Type' />
             </Text>
             <Field name='type' component={SelectBoxBankAccountType} validate={[required]} onChange={(e, val) => handleAccountType(e, val)} />
           </InputContainer>
@@ -58,6 +59,13 @@ class AddManually extends Component {
       </Form>
     )
   }
+}
+
+AddManually.propTypes = {
+  handleFullName: PropTypes.func.isRequired,
+  handleAccountNumber: PropTypes.func.isRequired,
+  handleRoutingNumber: PropTypes.func.isRequired,
+  handleAccountType: PropTypes.func.isRequired
 }
 
 export default reduxForm({ form: 'sfoxLink' })(AddManually)

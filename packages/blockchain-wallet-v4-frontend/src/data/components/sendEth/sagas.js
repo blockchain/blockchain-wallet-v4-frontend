@@ -101,10 +101,10 @@ export default ({ coreSagas }) => {
       payment = yield payment.publish()
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
       yield put(actions.router.push('/eth/transactions'))
-      yield put(actions.alerts.displaySuccess('Ether transaction has been successfully published!'))
+      yield put(actions.alerts.displaySuccess('Your ether transaction is now pending.'))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e))
-      yield put(actions.alerts.displayError('Failed to send Ether.'))
+      yield put(actions.alerts.displayError('Your ether transaction failed to send. Please try again.'))
     }
   }
 

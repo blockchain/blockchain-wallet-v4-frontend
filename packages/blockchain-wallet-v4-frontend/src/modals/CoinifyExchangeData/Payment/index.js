@@ -51,7 +51,6 @@ class PaymentContainer extends Component {
         <Success
           value={value}
           getAccounts={this.getAccounts}
-          // onSubmit={this.onSubmit}
           handlePaymentClick={this.handlePaymentClick}
           medium={this.state.medium}
           quote={this.props.quote}

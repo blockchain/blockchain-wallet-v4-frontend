@@ -12,7 +12,7 @@ cache:
     - packages/blockchain-wallet-v4-frontend/node_modules
 
 before_install:
-  - npm install -g lerna yarn babel-cli
+  - npm install -g lerna yarn babel-cli rimraf cross-env
 
 install:
   - yarn bootstrap
