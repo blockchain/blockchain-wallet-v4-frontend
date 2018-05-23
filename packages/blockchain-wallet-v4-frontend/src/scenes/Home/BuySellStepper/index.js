@@ -1,8 +1,10 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import { selectors } from 'data'
+import { actions, selectors } from 'data'
+import { getData } from './selectors'
 import * as SfoxService from 'services/SfoxService'
 import BuySellStepper from './template.js'
 
@@ -12,19 +14,27 @@ class BuySellStepperContainer extends React.PureComponent {
     this.goToBuySell = this.goToBuySell.bind(this)
   }
 
+  // componentDidMount () {
+  //   this.props.sfoxDataActions.fetchTrades()
+  //   this.props.sfoxDataActions.fetchProfile()
+  //   this.props.sfoxDataActions.sfoxFetchAccounts()
+  // }
+
   goToBuySell = () => {
     this.props.history.push('/buy-sell')
   }
 
   render () {
-    const { canTrade } = this.props
-    const partner = canTrade.cata({ Success: (val) => val, Loading: () => false, Failure: () => false, NotAsked: () => false })
+    const { canTrade, data } = this.props
+    const partner2 = data.cata({ Success: (val) => val, Loading: () => false, Failure: () => false, NotAsked: () => false })
+    const partner = 'sfox'
+    console.info(partner2)
     const totalSteps = partner === 'sfox' ? 4 : 2
 
     if (partner === 'sfox') {
-      console.info(SfoxService.determineStep())
+     // console.info(SfoxService.determineStep())
     } else {
-      console.log('coinify')
+     // console.log('coinify')
     }
 
     return (partner ? <BuySellStepper partner={partner} currentStep={1} totalSteps={totalSteps} goToBuySell={this.goToBuySell} /> : null)
@@ -32,7 +42,11 @@ class BuySellStepperContainer extends React.PureComponent {
 }
 
 const mapStateToProps = (state) => ({
-  canTrade: selectors.exchange.getCanTrade(state)
+  data: getData(state)
 })
 
-export default withRouter(connect(mapStateToProps)(BuySellStepperContainer))
+const mapDispatchToProps = dispatch => ({
+  sfoxActions: bindActionCreators(actions.modules.sfox, dispatch)
+})
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(BuySellStepperContainer))
