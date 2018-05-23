@@ -5,8 +5,8 @@ import * as S from './selectors'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
 import settings from 'config'
-
 import { initialize, change } from 'redux-form'
+import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 
@@ -101,10 +101,10 @@ export default ({ coreSagas }) => {
       payment = yield payment.publish()
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
       yield put(actions.router.push('/eth/transactions'))
-      yield put(actions.alerts.displaySuccess('Your ether transaction is now pending.'))
+      yield put(actions.alerts.displaySuccess(C.SEND_ETH_SUCCESS))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e))
-      yield put(actions.alerts.displayError('Your ether transaction failed to send. Please try again.'))
+      yield put(actions.alerts.displayError(C.SEND_ETH_ERROR))
     }
   }
 
