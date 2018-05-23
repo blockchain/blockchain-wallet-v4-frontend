@@ -1,4 +1,5 @@
 import { put, call, select } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
 import * as A from './actions'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors.js'
@@ -162,8 +163,13 @@ export default ({ coreSagas }) => {
       const modals = yield select(selectors.modals.getModals)
       const trade = yield select(selectors.core.data.coinify.getTrade)
 
-      if (path(['type'], head(modals)) === 'CoinifyExchangeData') yield put(actions.modals.closeAllModals())
-      else yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
+      if (path(['type'], head(modals)) === 'CoinifyExchangeData') {
+        yield put(A.coinifySignupComplete())
+        yield call(delay, 500)
+        yield put(actions.modals.closeAllModals())
+      } else {
+        yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
+      }
 
       yield put(A.coinifyNextCheckoutStep('checkout'))
       yield call(coreSagas.data.coinify.getKYCs)

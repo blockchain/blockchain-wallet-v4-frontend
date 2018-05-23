@@ -7,7 +7,8 @@ const INITIAL_STATE = {
   checkoutError: false,
   coinifyBusy: Remote.NotAsked,
   step: null,
-  checkoutStep: 'checkout'
+  checkoutStep: 'checkout',
+  signupComplete: null
 }
 
 const coinify = (state = INITIAL_STATE, action) => {
@@ -58,6 +59,9 @@ const coinify = (state = INITIAL_STATE, action) => {
     }
     case AT.SET_CANCEL_TRADE_ID: {
       return assoc('cancelTradeId', payload, state)
+    }
+    case AT.COINIFY_SIGNUP_COMPLETE: {
+      return assoc('signupComplete', true, state)
     }
     default:
       return state
