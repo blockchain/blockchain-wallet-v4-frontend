@@ -51,9 +51,9 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const sell = function * (payload) {
+  const sell = function * () {
     try {
-      const sellTrade = yield call(coreSagas.data.coinify.sell, payload)
+      const sellTrade = yield call(coreSagas.data.coinify.sell)
 
       if (!sellTrade) {
         const trade = yield select(selectors.core.data.coinify.getTrade)

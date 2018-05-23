@@ -63,9 +63,11 @@ export const addBankAccountFailure = (error) => ({ type: AT.COINIFY_ADD_BANK_ACC
 export const addBankAccountLoading = () => ({ type: AT.COINIFY_ADD_BANK_ACCOUNT_LOADING })
 export const addBankAccountSuccess = (account) => ({ type: AT.COINIFY_ADD_BANK_ACCOUNT_SUCCESS, payload: account })
 
+export const setBankAccount = (account) => ({ type: AT.COINIFY_SET_BANK_ACCOUNT, payload: account })
+
 export const initiateBuy = (data) => ({ type: AT.COINIFY_BUY, payload: data })
 
-export const initiateSell = (data) => ({ type: AT.COINIFY_SELL, payload: data })
+export const initiateSell = () => ({ type: AT.COINIFY_SELL })
 
 export const cancelTrade = (trade) => ({ type: AT.COINIFY_CANCEL_TRADE, payload: trade })
 

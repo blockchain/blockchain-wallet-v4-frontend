@@ -9,18 +9,23 @@ import Loading from '../../../template.loading'
 class SellContainer extends React.Component {
   constructor (props) {
     super(props)
-
+    this.submitQuote = this.submitQuote.bind(this)
     this.startSell = this.startSell.bind(this)
   }
 
   componentDidMount () {
     this.props.coinifyActions.initializeCheckoutForm('sell')
   }
+  submitQuote () {
+    const { sellQuoteR } = this.props
+    sellQuoteR.map(quote => this.props.coinifyDataActions.getMediumsWithBankAccounts(quote))
+    this.props.coinifyActions.saveMedium('blockchain')
+  }
 
   startSell () {
     const { sellQuoteR, paymentMedium, coinifyActions } = this.props
     coinifyActions.coinifyLoading()
-    sellQuoteR.map(q => this.props.coinifyActions.initiateSell({ quote: q, medium: paymentMedium }))
+    this.props.coinifyActions.initiateSell()
   }
 
   render () {
@@ -56,7 +61,7 @@ class SellContainer extends React.Component {
         busy={busy}
         clearTradeError={() => coinifyNotAsked()}
         trade={trade}
-        onOrderCheckoutSubmit={() => sellQuoteR.map(quote => this.props.coinifyDataActions.getMediumsWithBankAccounts(quote))}
+        onOrderCheckoutSubmit={this.submitQuote}
       />,
       Failure: (msg) => <div>Failure: {msg.error}</div>,
       Loading: () => <Loading />,

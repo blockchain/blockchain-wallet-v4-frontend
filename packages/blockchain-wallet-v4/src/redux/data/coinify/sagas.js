@@ -164,8 +164,8 @@ export default ({ api, options }) => {
   const addBankAccount = function * (data) {
     try {
       const { medium, account } = data.payload
-      yield apply(medium, medium.addBankAccount, [account])
-      // yield put(A.addBankAccountSuccess(bankAccount))
+      const bankAccount = yield apply(medium, medium.addBankAccount, [account])
+      yield put(A.setBankAccount(bankAccount))
     } catch (e) {
       console.log(e)
       // yield put(A.addBankAccountFailure(e))
@@ -217,14 +217,12 @@ export default ({ api, options }) => {
     }
   }
 
-  const sell = function * (data) {
-    const { quote, medium } = data.payload
+  const sell = function * () {
     try {
       yield put(A.handleTradeLoading())
-      console.log('core saga sell', data.payload)
-      const mediums = yield apply(quote, quote.getPaymentMediums)
-      const accounts = yield apply(mediums[medium], mediums[medium].getAccounts)
-      const sellResult = yield apply(accounts[0], accounts[0].sell)
+      console.log('core saga sell')
+      const account = yield select(S.getAccount)
+      const sellResult = yield apply(account, account.sell)
       yield put(A.handleTradeSuccess(sellResult))
       console.log('coinify sell result in core', sellResult)
       yield put(A.fetchTrades())
