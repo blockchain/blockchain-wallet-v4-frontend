@@ -21,7 +21,6 @@ const VideoContainer = styled.div`
 const Camera = (props) => (
   <VideoContainer>
     <video id='video' />
-    {/* <CamHelp>Help text here</CamHelp> */}
   </VideoContainer>
 )
 
@@ -41,20 +40,17 @@ class CameraContainer extends Component {
 
   componentDidMount () {
     const constraints = this.state.constraints
-    const getUserMedia = (params) => (
-      new Promise((resolve, reject) => {
-        navigator.webkitGetUserMedia(params, resolve, reject)
-      })
-    )
 
-    getUserMedia(constraints)
+    navigator.mediaDevices.getUserMedia(constraints)
       .then((stream) => {
         this.setState({ stream })
         const video = document.querySelector('video')
         const vendorURL = window.URL || window.webkitURL
 
         video.src = vendorURL.createObjectURL(this.state.stream)
-        video.play()
+        video.onloadedmetadata = function (e) {
+          video.play()
+        }
       })
   }
 
