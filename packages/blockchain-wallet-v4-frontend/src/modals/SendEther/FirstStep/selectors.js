@@ -6,13 +6,13 @@ export const getData = state => {
 
   const transform = payment => {
     const effectiveBalance = prop('effectiveBalance', payment) || '0'
+    const unconfirmedTx = prop('unconfirmedTx', payment)
     const fee = prop('fee', payment) || '0'
-    const unconfirmedTransaction = prop('unconfirmedTransaction', payment)
 
     return {
       effectiveBalance,
-      fee,
-      unconfirmedTransaction
+      unconfirmedTx,
+      fee
     }
   }
 

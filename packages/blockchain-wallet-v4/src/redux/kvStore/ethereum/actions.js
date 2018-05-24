@@ -13,4 +13,5 @@ export const createMetadataEthereum = (data) => ({ type: AT.CREATE_METADATA_ETHE
 
 export const setTxNotesEthereum = (txHash, txNote) => ({type: AT.SET_TRANSACTION_NOTE_ETHEREUM, payload: {txHash, txNote}})
 
-export const setLatestTransactionTimestampEthereum = (txHash, timestamp) => ({type: AT.SET_LATEST_TRANSACTION_TIMESTAMP_ETHEREUM, payload: {txHash, timestamp}})
+export const setLatestTxEthereum = (txHash) => ({type: AT.SET_LATEST_TX_ETHEREUM, payload: txHash})
+export const setLatestTxTimestampEthereum = (timestamp) => ({type: AT.SET_LATEST_TX_TIMESTAMP_ETHEREUM, payload: timestamp})
