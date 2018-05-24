@@ -7,14 +7,15 @@ import { path } from 'ramda'
 import { Field } from 'redux-form'
 import { actions, selectors } from 'data'
 import { CheckBox } from 'components/Form'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { Button, HeartbeatLoader, Text, Link, Icon } from 'blockchain-info-components'
 import Helper from 'components/BuySell/FAQ'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ErrorWrapper, ColRightInner } from 'components/BuySell/Signup'
 import { spacing } from 'services/StyleService'
 import { Remote } from 'blockchain-wallet-v4/src'
+import Terms from 'components/Terms'
 
-const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
+const checkboxShouldBeChecked = value => value ? undefined : 'You must agree to the terms and conditions'
 
 const helpers = [
   {
@@ -30,7 +31,8 @@ const AcceptTermsContainer = styled.div`
   font-size: 12px;
   font-weight: 400;
   a {
-    color: ${props => props.theme['brand-secondary']}
+    color: ${props => props.theme['brand-secondary']};
+    text-decoration: none;
   }
 `
 const FieldsContainer = styled.div`
@@ -60,15 +62,11 @@ const IconContainer = styled.div`
   align-items: center;
   margin-left: 10px;
 `
-const ErrorText = styled.span`
-  cursor: pointer;
-  color: ${props => props.theme['brand-secondary']};
-  font-size: 12px;
-`
-const ErrorLink = styled.a`
-  color: ${props => props.theme['brand-secondary']};
-  font-size: 12px;
-  text-decoration: none;
+const InlineTextWrapper = styled.div`
+  & > * {
+    display: inline-block;
+    margin-right: 3px;
+  }
 `
 
 class AcceptTerms extends Component {
@@ -111,10 +109,10 @@ class AcceptTerms extends Component {
               <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.header' defaultMessage='Create Your Account' />
             </PartnerHeader>
             <PartnerSubHeader>
-              <FormattedHTMLMessage id='sfoxexchangedata.create.createaccount.partner.subheader' defaultMessage="Your buy and sell experience is being streamlined. We've teamed up with SFOX to make your dreams of simply managing funds a reality." />
+              <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.subheader' defaultMessage="Your buy and sell experience is being streamlined. We've teamed up with SFOX to make your dreams of simply managing funds a reality." />
             </PartnerSubHeader>
             <PartnerSubHeader style={spacing('mt-10')}>
-              <FormattedHTMLMessage id='sfoxexchangedata.create.createaccount.partner.subheader2' defaultMessage="Rest assured: there are only a few steps separating you from the good stuff. Let's start by confirming your verified email address and phone number." />
+              <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.subheader2' defaultMessage="Rest assured: there are only a few steps separating you from the good stuff. Let's start by confirming your verified email address and phone number." />
             </PartnerSubHeader>
             <FieldsContainer>
               <FieldContainer>
@@ -156,7 +154,7 @@ class AcceptTerms extends Component {
             </FieldsContainer>
             <AcceptTermsContainer>
               <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox}>
-                <FormattedHTMLMessage id='sfoxexchangedata.create.accept.terms' defaultMessage="The legal stuff: Accept Blockchain's <a href='https://www.blockchain.com/terms' target='_blank' rel='noopener noreferrer'>Terms of Service</a>, SFOX's <a href='https://www.sfox.com/terms.html' target='_blank' rel='noopener noreferrer'>Terms of Service</a> and SFOX's <a href='https://www.sfox.com/privacy.html' target='_blank' rel='noopener noreferrer'>Privacy Policy</a>." />
+                <Terms company='sfox' />
               </Field>
             </AcceptTermsContainer>
           </InputWrapper>
@@ -175,20 +173,32 @@ class AcceptTerms extends Component {
             <ErrorWrapper>
               {
                 busy instanceof Error && busy.message.toLowerCase() === 'user is already registered'
-                  ? <Text size='12px' color='error' weight={300} onClick={() => { sfoxNotAsked(); this.props.updateUI({ create: 'change_email' }) }}>
-                    <FormattedHTMLMessage id='sfoxexchangedata.create.accept.error' defaultMessage='Unfortunately this email is being used for another account. <a>Click here</a> to change it.' />
-                  </Text>
-                  : busy instanceof Error
-                    ? <Text size='12px' color='error' weight={300}>
-                      <FormattedMessage
-                        id='sfoxexchangedata.create.accept.unknownError'
-                        defaultMessage="We're sorry, but something unexpected went wrong. Please {tryAgain} or {contactSupport}."
-                        values={{
-                          tryAgain: <ErrorText onClick={() => sfoxNotAsked()}>try again</ErrorText>,
-                          contactSupport: <ErrorLink target='_blank' href='https://support.blockchain.com'>contact support</ErrorLink>
-                        }}
-                      />
+                  ? <InlineTextWrapper>
+                    <Text size='12px' color='error' weight={300} >
+                      <FormattedMessage id='sfoxexchangedata.create.accept.error' defaultMessage='Unfortunately this email is being used for another account.' />
                     </Text>
+                    <Link size='12px' weight={300} onClick={() => { sfoxNotAsked(); this.props.updateUI({ create: 'change_email' }) }} >
+                      <FormattedMessage id='clickhere' defaultMessage='Click here' />
+                    </Link>
+                    <Text size='12px' weight={300} color='error'>
+                      <FormattedMessage id='sfoxexchangedata.create.accept.tochangeit' defaultMessage=' to change it.' />
+                    </Text>
+                  </InlineTextWrapper>
+                  : busy instanceof Error
+                    ? <InlineTextWrapper>
+                      <Text size='12px' color='error' weight={300}>
+                        <FormattedMessage id='sfoxexchangedata.create.accept.unknownError' defaultMessage="We're sorry, but something unexpected went wrong. Please " />
+                      </Text>
+                      <Link size='12px' weight={300} onClick={() => sfoxNotAsked()}>
+                        <FormattedMessage id='tryagain' defaultMessage='try again' />
+                      </Link>
+                      <Text size='12px' color='error' weight={300}>
+                        <FormattedMessage id='or' defaultMessage='or' />
+                      </Text>
+                      <Link target='_blank' href='https://support.blockchain.com' size='12px' weight={300}>
+                        <FormattedMessage id='contactsupport' defaultMessage='contact support.' />
+                      </Link>
+                    </InlineTextWrapper>
                     : null
               }
             </ErrorWrapper>

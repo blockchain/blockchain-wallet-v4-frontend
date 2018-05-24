@@ -226,6 +226,7 @@ export default ({ api, coreSagas }) => {
         yield put(actions.auth.reset2faSuccess())
         yield put(actions.alerts.displayInfo('Reset 2-step authentication has been successfully submitted.'))
       } else {
+        yield put(actions.core.data.misc.fetchCaptcha())
         yield put(actions.auth.reset2faFailure())
         yield put(actions.alerts.displayError(response.message))
       }

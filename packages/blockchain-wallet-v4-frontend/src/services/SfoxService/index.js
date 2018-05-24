@@ -16,7 +16,7 @@ export const determineStep = (profile, verificationStatus, accounts) => {
   } else {
     if (verificationStatus.level === 'unverified') return 'verify'
     if (verificationStatus.level === 'needs_documents') return 'upload'
-    else if (!accounts.length) return 'funding'
+    else if (!accounts.length || accounts[0]['status'] === 'pending') return 'funding'
     else return 'verified'
   }
 }

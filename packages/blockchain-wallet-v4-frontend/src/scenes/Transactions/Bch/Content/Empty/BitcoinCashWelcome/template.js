@@ -65,7 +65,7 @@ const BitcoinCashWelcome = props => {
             <Text size='24px' weight={300} color='brand-primary' uppercase>
               <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.welcome2' defaultMessage='Bitcoin Cash' />
             </Text>
-            <Link href='https://support.blockchain.com/hc/en-us/categories/115001262946-Bitcoin-Cash' size='16px' target='_blank' weight={300} uppercase>
+            <Link href='https://support.blockchain.com/hc/en-us/sections/115001633403-Bitcoin-Cash-FAQ' size='16px' target='_blank' weight={300} uppercase>
               <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.learnmore' defaultMessage='Learn More' />
               <Icon name='right-arrow' color='brand-secondary' />
             </Link>

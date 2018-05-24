@@ -19,7 +19,7 @@ const ArchivedAddressesContainer = SettingHeader.extend`
 const Success = ({ archivedAddresses, onToggleArchived, onDelete, search }) => {
   const isMatch = (address) => !search || address.addr.toLowerCase().indexOf(search) > -1
   const archivedAddressesTableRows = filter(isMatch, archivedAddresses).map((address) => (
-    <AddressRow key={address.addr} address={address} renderOptions={() => [
+    <AddressRow key={address.addr} archived address={address} renderOptions={() => [
       <OptionItem id='scenes.settings.addresses.unarchive' defaultMessage='Unarchive' onClick={() => onToggleArchived(address)} />,
       <OptionItem id='scenes.settings.addresses.delete_address' defaultMessage='Delete' onClick={() => onDelete(address)} />
     ]} />

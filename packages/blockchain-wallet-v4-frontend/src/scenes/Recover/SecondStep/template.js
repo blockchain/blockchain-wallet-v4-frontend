@@ -37,7 +37,7 @@ const validatePasswordsMatch = values => {
 
 const SecondStep = (props) => {
   const { busy, invalid, handleSubmit, previousStep } = props
-  const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
+  const checkboxShouldBeChecked = value => value ? undefined : 'You must agree to the terms and conditions'
 
   return (
     <Wrapper>

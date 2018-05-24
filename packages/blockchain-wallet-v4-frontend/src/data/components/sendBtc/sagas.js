@@ -75,6 +75,7 @@ export default ({ coreSagas }) => {
           }
           break
         case 'from':
+          yield put(A.sendBtcFirstStepToToggled(false))
           const source = prop('address', payload) || prop('index', payload)
           if (!prop('watchOnly', payload)) {
             payment = yield payment.from(source)
@@ -210,7 +211,7 @@ export default ({ coreSagas }) => {
       yield put(actions.alerts.displaySuccess('Your bitcoin has been sent!'))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e))
-      yield put(actions.alerts.displayError('Failed to send Bitcoin.'))
+      yield put(actions.alerts.displayError('Failed to send bitcoin.'))
     }
   }
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { reduxForm, Field } from 'redux-form'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { Text, Button } from 'blockchain-info-components'
 import { FormGroup, FormItem, SelectBoxUSState, SelectBoxCountry, TextBox } from 'components/Form'
 import { spacing } from 'services/StyleService'
@@ -47,7 +47,7 @@ const Intro = styled.div`
   width: 100%;
 `
 const SelectionContainer = Intro.extend`
-  margin-top: 15px;
+  margin-top: 25px;
 `
 const FieldWrapper = Intro.extend`
   margin-top: 5px;
@@ -80,7 +80,7 @@ const SelectPartner = (props) => {
       props.modalActions.showModal('SfoxExchangeData', { step: 'account' })
     }
     if (coinifyCountries.indexOf(country) >= 0) {
-      props.modalActions.showModal('CoinifyExchangeData', { step: 'account' })
+      props.modalActions.showModal('CoinifyExchangeData', { step: 'account', country: props.country })
     }
   }
 
@@ -108,7 +108,7 @@ const SelectPartner = (props) => {
                   <FormattedMessage id='selectpartner.unavailable.thanks' defaultMessage='Thanks!' />
                 </Text>
                 <Text size='14px' weight={300}>
-                  <FormattedHTMLMessage id='selectpartner.unavailable.sendemail' defaultMessage='We will send an email to <strong>{email}</strong> once buy & sell are available for your area.' values={{email: email}} />
+                  <FormattedMessage id='selectpartner.unavailable.sendemail' defaultMessage='We will send an email to {email} once buy & sell are available for your area.' values={{ email: <strong>{email}</strong> }} />
                 </Text>
               </SubmittedWrapper>
           }

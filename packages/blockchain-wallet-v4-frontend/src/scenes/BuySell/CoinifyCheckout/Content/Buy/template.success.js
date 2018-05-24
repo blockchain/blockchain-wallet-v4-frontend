@@ -2,6 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { path, head } from 'ramda'
 
+import { Button } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
+
 import { Remote } from 'blockchain-wallet-v4/src'
 import * as service from 'services/CoinifyService'
 import Stepper, { StepView } from 'components/Utilities/Stepper'
@@ -10,6 +13,8 @@ import { OrderDetails, OrderSubmit } from '../OrderReview'
 import Payment from 'modals/CoinifyExchangeData/Payment'
 import ISignThis from 'modals/CoinifyExchangeData/ISignThis'
 import KYCNotification from '../KYCNotification'
+import BankTransferDetails from 'components/BuySell/BankTransferDetails'
+
 const CheckoutWrapper = styled.div`
   display: grid;
   grid-template-columns: 55% 35%;
@@ -23,7 +28,7 @@ const OrderSubmitWrapper = styled.div`
 const RightContainer = styled.div``
 const LeftContainer = styled.div``
 
-const Buy = props => {
+const CoinifyBuy = props => {
   const {
     value,
     fetchBuyQuote,
@@ -40,7 +45,9 @@ const Buy = props => {
     step,
     busy,
     trade,
-    handleKycAction
+    handleKycAction,
+    changeTab,
+    coinifyNextCheckoutStep
   } = props
 
   const profile = Remote.of(props.value.profile).getOrElse({ _limits: service.mockedLimits, _level: { currency: 'EUR' } })
@@ -50,7 +57,7 @@ const Buy = props => {
 
   const limits = service.getLimits(profile._limits, defaultCurrency)
 
-  if (step !== 'isx') {
+  if (step === 'checkout') {
     return (
       <Stepper initialStep={0}>
         <StepView step={0}>
@@ -110,7 +117,18 @@ const Buy = props => {
         options={props.options}
       />
     )
+  } else if (step === 'bankTransferDetails') {
+    return (
+      <CheckoutWrapper>
+        <BankTransferDetails trade={trade} />
+        <RightContainer>
+          <Button nature='primary' onClick={() => { changeTab('order_history'); coinifyNextCheckoutStep('checkout') }}>
+            <FormattedMessage id='close' defaultMessage='Close' />
+          </Button>
+        </RightContainer>
+      </CheckoutWrapper>
+    )
   }
 }
 
-export default Buy
+export default CoinifyBuy

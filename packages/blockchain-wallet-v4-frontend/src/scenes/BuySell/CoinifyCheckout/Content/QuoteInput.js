@@ -46,8 +46,6 @@ QuoteInput.propTypes = {
 
 const mapStateToProps = state => ({
   checkoutError: path(['coinify', 'checkoutError'], state),
-  canTrade: selectors.core.data.coinify.canTrade(state),
-  cannotTradeReason: selectors.core.data.coinify.cannotTradeReason(state),
   data: getQuoteInputData(state)
 })
 
