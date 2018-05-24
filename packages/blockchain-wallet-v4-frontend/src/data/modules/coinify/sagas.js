@@ -58,8 +58,8 @@ export default ({ coreSagas }) => {
 
   const sell = function * () {
     try {
-      yield put(A.coinifyLoading())
       const trade = yield call(coreSagas.data.coinify.sell)
+      yield put(A.coinifyLoading())
 
       if (!trade) {
         const trade = yield select(selectors.core.data.coinify.getTrade)
@@ -70,9 +70,18 @@ export default ({ coreSagas }) => {
       }
       const p = yield select(sendBtcSelectors.getPayment)
       let payment = yield coreSagas.payment.btc.create(
-        { payment: p.getOrElse({}), network: settings.NETWORK_BITCOIN })
+        { payment: p.getOrElse({}), network: settings.NETWORK })
       payment = yield payment.amount(parseInt(trade.sendAmount))
-      payment = yield payment.fee('priority')
+
+      // QA Tool: manually set a "to" address on the payment object for testing sell
+      const qaState = yield select()
+      const qaAddress = path(['qa', 'qaSellAddress'], qaState)
+
+      if (qaAddress) {
+        payment = yield payment.to(qaAddress)
+      } else {
+        payment = yield payment.to(trade.receiveAddress)
+      }
       payment = yield payment.to(trade.receiveAddress)
       payment = yield payment.description(`Exchange Trade COINIFY=${trade.id}`)
 
@@ -85,13 +94,14 @@ export default ({ coreSagas }) => {
       yield put(sendBtcActions.sendBtcPaymentUpdated(Remote.of(payment.value())))
       const password = yield call(promptForSecondPassword)
       payment = yield payment.sign(password)
-      payment = yield payment.publish
+      payment = yield payment.publish()
 
       yield put(sendBtcActions.sendBtcPaymentUpdated(Remote.of(payment.value())))
 
       yield put(A.coinifySuccess())
       yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
     } catch (e) {
+      console.log('Error in coinifysell', e)
       yield put(A.coinifyFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'sell', e))
     }
