@@ -43,7 +43,25 @@ export default ({ api }) => {
         const gasPrice = prop('regular', fees)
         const gasLimit = prop('gasLimit', fees)
         const fee = calculateFee(gasPrice, gasLimit)
-        return makePayment(merge(p, { fees, fee }))
+
+        const latestTransactionR = yield select(S.kvStore.ethereum.getLatestTransaction)
+        const latestTransaction = latestTransactionR.getOrElse(undefined)
+        let unconfirmedTransaction = false
+        if (latestTransaction) {
+          const ethOptionsR = yield select(S.walletOptions.getEthereumTxFuse)
+          const lastTxFuse = ethOptionsR.getOrElse(86400000)
+          try {
+            const latestTransactionStatus = yield call(api.getEthereumTransaction, latestTransaction.txHash)
+            if (!latestTransactionStatus.blockNumber && latestTransaction.timestamp + lastTxFuse > Date.now()) {
+              unconfirmedTransaction = true
+            }
+          } catch (e) {
+            if (latestTransaction.timestamp + lastTxFuse > Date.now()) {
+              unconfirmedTransaction = true
+            }
+          }
+        }
+        return makePayment(merge(p, { fees, fee, unconfirmedTransaction }))
       },
 
       to (destination) {
