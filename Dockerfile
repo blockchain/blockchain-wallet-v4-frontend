@@ -29,7 +29,7 @@ WORKDIR /home/blockchain
 COPY . .
 
 # build assets
-RUN npm install lerna yarn babel-cli
+RUN npm install lerna yarn babel-cli rimraf cross-env
 RUN yarn bootstrap
 RUN yarn ci:compile
 

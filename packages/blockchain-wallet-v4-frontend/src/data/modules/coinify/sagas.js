@@ -1,9 +1,10 @@
 import { put, call, select } from 'redux-saga/effects'
 import { any, merge, path, prop, equals } from 'ramda'
-
+import { delay } from 'redux-saga'
 import * as A from './actions'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors.js'
+import { merge, path, prop, equals, head } from 'ramda'
 import * as service from 'services/CoinifyService'
 import * as sendBtcActions from '../../components/sendBtc/actions'
 import * as sendBtcSelectors from '../../components/sendBtc/selectors'
@@ -14,15 +15,14 @@ import { promptForSecondPassword } from 'services/SagaService'
 export default ({ coreSagas }) => {
   const logLocation = 'modules/coinify/sagas'
 
-  const coinifySignup = function * () {
+  const coinifySignup = function * (data) {
+    const country = data.payload
     try {
-      yield call(coreSagas.data.coinify.signup)
+      yield call(coreSagas.data.coinify.signup, country)
       const profile = yield select(selectors.core.data.coinify.getProfile)
       if (!profile.error) {
-        // yield put(actions.modals.closeAllModals())
         yield call(coreSagas.data.coinify.triggerKYC)
         yield put(A.coinifyNextStep('isx'))
-        // yield put(actions.alerts.displaySuccess('Account successfully created!'))
       } else {
         yield put(A.coinifySignupFailure(profile.error))
       }
@@ -49,8 +49,12 @@ export default ({ coreSagas }) => {
         return
       }
 
+      if (buyTrade.medium === 'bank') {
+        yield put(A.coinifyNextCheckoutStep('bankTransferDetails'))
+      } else {
+        yield put(A.coinifyNextCheckoutStep('isx'))
+      }
       yield put(A.coinifyNotAsked())
-      yield put(A.coinifyNextCheckoutStep('isx'))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'buy', e))
     }
@@ -205,19 +209,20 @@ export default ({ coreSagas }) => {
   const fromISX = function * (action) {
     const status = action.payload
     try {
-      // TODO if in modal: close modal, checkout step, open CoinifyTradeDetails modal for KYC result
-      // const modals = yield select(selectors.modals.getModals)
-      // if (path(['type'], head(modals)) === 'CoinifyExchangeData') {
-      //   yield put(actions.modals.closeAllModals())
-      //   yield put(A.coinifyNextCheckoutStep('checkout'))
-      //
-      // }
-      yield put(A.coinifyNextCheckoutStep('checkout'))
+      const modals = yield select(selectors.modals.getModals)
       const trade = yield select(selectors.core.data.coinify.getTrade)
 
-      yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
-      yield put(actions.modals.showModal('CoinifyTradeDetails',
-        { trade: trade.data, status: status }))
+      if (path(['type'], head(modals)) === 'CoinifyExchangeData') {
+        yield put(A.coinifySignupComplete())
+        yield call(delay, 500)
+        yield put(actions.modals.closeAllModals())
+      } else {
+        yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
+      }
+
+      yield put(A.coinifyNextCheckoutStep('checkout'))
+      yield call(coreSagas.data.coinify.getKYCs)
+      yield put(actions.modals.showModal('CoinifyTradeDetails', { trade: trade.data, status: status }))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'fromISX', e))
     }
@@ -255,6 +260,46 @@ export default ({ coreSagas }) => {
       yield put(actions.core.data.coinify.getMediumsWithBankAccounts(quote.data))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'deleteBankAccount', e))
+
+  const finishTrade = function * (data) {
+    const tradeToFinish = data.payload
+    try {
+      if (tradeToFinish.state === 'awaiting_transfer_in') {
+        if (tradeToFinish.medium === 'card') {
+          yield call(coreSagas.data.coinify.kycAsTrade, { kyc: tradeToFinish }) // core expects obj key to be 'kyc'
+          yield put(A.coinifyNextCheckoutStep('isx'))
+        } else if (tradeToFinish.medium === 'bank') {
+          yield put(actions.modals.showModal('CoinifyTradeDetails', { trade: tradeToFinish }))
+        }
+      }
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'finishTrade', e))
+    }
+  }
+
+  const cancelISX = function * () {
+    const modals = yield select(selectors.modals.getModals)
+    const trade = yield select(selectors.core.data.coinify.getTrade)
+
+    if (path(['type'], head(modals)) === 'CoinifyExchangeData') {
+      yield put(actions.modals.closeAllModals())
+    } else if (trade.data.state === 'awaiting_transfer_in') {
+      yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
+      yield put(A.coinifyNextCheckoutStep('checkout'))
+    } else {
+      yield put(A.coinifyNextCheckoutStep('checkout'))
+    }
+  }
+
+  const cancelTrade = function * (data) {
+    const trade = data.payload
+    try {
+      yield put(A.setCancelTradeId(trade.id))
+      yield put(A.coinifyLoading())
+      yield call(coreSagas.data.coinify.cancelTrade, { trade })
+      yield put(A.coinifySuccess())
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'cancelTrade', e))
     }
   }
 
@@ -268,7 +313,10 @@ export default ({ coreSagas }) => {
     initialized,
     openKYC,
     sell,
-    setMinMax,
     triggerKYC
+    setMinMax,
+    cancelISX,
+    finishTrade,
+    cancelTrade
   }
 }

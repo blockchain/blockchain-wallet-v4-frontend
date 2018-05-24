@@ -19,12 +19,6 @@ const ButtonRow = styled.div`
   margin-top: 20px;
 `
 
-const renderDetailsRow = (id, message, value, color) => (
-  <OrderDetailsRow>
-    <Text size='13px' weight={300}><FormattedMessage id={id} defaultMessage={message} /></Text>
-    <Text size='13px' weight={300} color={color}>{value}</Text>
-  </OrderDetailsRow>
-)
 const renderFirstRow = trade => {
   if (trade.isBuy) {
     if (trade.outCurrency === 'BTC') return `${trade.receiveAmount} BTC ($${((+trade.sendAmount / 1e8) - trade.feeAmount).toFixed(2)})`
@@ -42,7 +36,7 @@ const renderTotal = trade => {
 class SfoxTradeDetails extends React.PureComponent {
   render () {
     const headerStatus = statusHelper(this.props.trade.state)
-    const bodyStatus = bodyStatusHelper(this.props.trade.state)
+    const bodyStatus = bodyStatusHelper(this.props.trade.state, this.props.trade.isBuy)
     const { account, trade } = this.props
 
     return (
@@ -67,22 +61,26 @@ class SfoxTradeDetails extends React.PureComponent {
             <FundingSource account={account[0]} />
           </MethodContainer>
           <OrderDetailsTable style={spacing('mt-10')}>
-            {renderDetailsRow(
-              'order_details.amount_to_purchase',
-              trade.isBuy ? 'BTC Amount to Purchase' : 'BTC Amount to Sell',
-              renderFirstRow(trade))
-            }
-            {renderDetailsRow(
-              'order_details.trading_fee',
-              'Trading Fee',
-              `$${(+trade.feeAmount).toFixed(2)}`
-            )}
-            {renderDetailsRow(
-              'order_details.total_cost',
-              trade.isBuy ? 'Total Cost' : 'Total To Be Received',
-              renderTotal(trade),
-              'success'
-            )}
+            <OrderDetailsRow>
+              {
+                trade.isBuy
+                  ? <Text size='13px' weight={300}><FormattedMessage id='orderdetails.amounttopurchase' defaultMessage='BTC Amount to Purchase' /></Text>
+                  : <Text size='13px' weight={300}><FormattedMessage id='orderdetails.amounttosell' defaultMessage='BTC Amount to Sell' /></Text>
+              }
+              <Text size='13px' weight={300}>{renderFirstRow(trade)}</Text>
+            </OrderDetailsRow>
+            <OrderDetailsRow>
+              <Text size='13px' weight={300}><FormattedMessage id='orderdetails.tradingfee' defaultMessage='Trading Fee' /></Text>
+              <Text size='13px' weight={300}>{`$${(+trade.feeAmount).toFixed(2)}`}</Text>
+            </OrderDetailsRow>
+            <OrderDetailsRow>
+              {
+                trade.isBuy
+                  ? <Text size='13px' weight={300}><FormattedMessage id='orderdetails.totalcost' defaultMessage='Total Cost' /></Text>
+                  : <Text size='13px' weight={300}><FormattedMessage id='orderdetails.totaltobereceived' defaultMessage='Total to be Received' /></Text>
+              }
+              <Text size='13px' weight={300} color='success'>{renderTotal(trade)}</Text>
+            </OrderDetailsRow>
           </OrderDetailsTable>
           <ButtonRow>
             <Button width='100px' onClick={this.props.close} nature='primary'>

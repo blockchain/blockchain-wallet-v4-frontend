@@ -2,11 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-
 import { Icon, Text } from 'blockchain-info-components'
 import { SelectBoxCoinifyCurrency, TextBoxDebounced } from 'components/Form'
-
 import { Field, reduxForm } from 'redux-form'
+import { head } from 'ramda'
+import { getReasonExplanation } from 'services/CoinifyService'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -53,7 +53,8 @@ const Error = styled(Text)`
   font-size: 13px;
   height: 15px;
   top: 42px;
-  right: 0;
+  padding-top: 3px;
+  left: 0px;
   a {
     color: ${props => props.theme['brand-secondary']};
     cursor: pointer;
@@ -78,44 +79,60 @@ const LimitsHelper = styled.div`
 const getLimitsError = (errorType, limits, symbol, setMin) => {
   if (errorType === 'below_min') return `Your limit of ${symbol}${limits.max} is below the minimum allowed amount.`
   if (errorType === 'over_max') return `Enter an amount under your ${symbol}${limits.max.toLocaleString()} limit`
-  // if (errorType === 'under_min') return `Enter an amount above the ${symbol}${limits.min.toLocaleString()} minimum`
   if (errorType === 'under_min') return <FormattedMessage id='buy.quote_input.under_min' defaultMessage='Enter an amount above the {setMin} minimum' values={{ setMin: <a onClick={() => setMin(limits.min)}>{symbol}{limits.min.toLocaleString()}</a> }} />
-  // if (errorType === 'effective_max') return `Enter an amount less than your balance minus the priority fee (${limits.effectiveMax / 1e8} BTC)`
 }
 
 const FiatConvertor = (props) => {
   const { val, disabled, setMax, setMin, limits, checkoutError, defaultCurrency, symbol, increaseLimit, type } = props
-  const { level } = val
   const currency = 'BTC'
+  const level = val.level || { name: 1 }
+  const kyc = val.kycs.length && head(val.kycs)
+  const { canTrade, cannotTradeReason, profile } = val
+  const { canTradeAfter } = profile
+
+  const reasonExplanation = cannotTradeReason && getReasonExplanation(cannotTradeReason, canTradeAfter)
+
+  const renderErrorsAndLimits = () => {
+    if (!canTrade) {
+      return (
+        <Error size='13px' weight={300} color='error'>
+          { reasonExplanation }
+        </Error>
+      )
+    } else if (checkoutError) {
+      return (
+        <Error size='13px' weight={300} color='error'>
+          { getLimitsError(checkoutError, limits, symbol, setMin) }
+        </Error>
+      )
+    } else {
+      return (
+        <LimitsHelper>
+          <FormattedMessage id='buy.quote_input.remaining_buy_limit' defaultMessage='Your remaining buy limit is {max}' values={{ max: <a onClick={() => setMax(limits.max)}>{symbol}{limits.max}</a> }} />
+          {
+            level.name < 2 && kyc.state !== 'reviewing'
+              ? <FormattedMessage id='buy.quote_input.increase_limits' defaultMessage='{increase}' values={{ increase: <a onClick={() => increaseLimit()}>Increase your limit.</a> }} />
+              : null
+          }
+        </LimitsHelper>
+      )
+    }
+  }
 
   return (
     <Wrapper>
       <FiatConvertorInput>
         <Container>
-          <Field name='leftVal' component={TextBoxDebounced} disabled={disabled} borderRightNone={1} />
+          <Field name='leftVal' component={TextBoxDebounced} disabled={disabled || !canTrade} borderRightNone={1} />
           <Field name='currency' component={SelectBoxCoinifyCurrency} defaultDisplay={defaultCurrency} />
         </Container>
         <ArrowRight weight={600} size='22px' name='right-arrow' />
         <Container>
-          <Field name='rightVal' component={TextBoxDebounced} disabled={disabled} />
+          <Field name='rightVal' component={TextBoxDebounced} disabled={disabled || !canTrade} />
           <Unit>{currency}</Unit>
         </Container>
       </FiatConvertorInput>
-      {
-        checkoutError
-          ? <Error size='13px' weight={300} color='error'>
-            { getLimitsError(checkoutError, limits, symbol, setMin) }
-          </Error>
-          : <LimitsHelper>
-            {type === 'buy'
-              ? <FormattedMessage id='buy.quote_input.remaining_buy_limit'
-                defaultMessage='Your remaining buy limit is {max}' values={{ max: <a onClick={() => setMax(limits.max)}>{symbol}{limits.max}</a> }} />
-              : <FormattedMessage id='sell.quote_input.remaining_buy_limit'
-                defaultMessage='Your remaining sell limit is {max}' values={{ max: <a onClick={() => setMax(limits.max)}>{symbol}{limits.max}</a> }} />
-            }
-            {level.name < 2 && <a onClick={() => increaseLimit()}><FormattedMessage id='quote_input.increase_limits' defaultMessage='Increase your limit.' /></a>}
-          </LimitsHelper>
-      }
+      { renderErrorsAndLimits() }
     </Wrapper>
   )
 }

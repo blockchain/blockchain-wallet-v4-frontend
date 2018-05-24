@@ -37,10 +37,11 @@ export default ({ api, options }) => {
 
   const init = function * () {
     try {
+      const val = yield select(buySellSelectors.getMetadata)
+      if (!val.data.value.coinify.offline_token) return
       yield call(refreshCoinify)
     } catch (e) {
       console.warn(e)
-      // throw new Error(e)
     }
   }
 
@@ -102,22 +103,11 @@ export default ({ api, options }) => {
 
   const fetchTrades = function * () {
     try {
-      yield put(A.fetchTradesLoading())
+      const coinify = yield call(getCoinify)
       const trades = yield apply(coinify, coinify.getTrades)
       yield put(A.fetchTradesSuccess(trades))
     } catch (e) {
       yield put(A.fetchTradesFailure(e))
-    }
-  }
-
-  const fetchAccounts = function * () {
-    try {
-      yield put(A.fetchAccountsLoading())
-      const methods = yield apply(coinify, coinify.getBuyMethods)
-      const accounts = yield apply(coinify, methods.ach.getAccounts)
-      yield put(A.fetchAccountsSuccess(accounts))
-    } catch (e) {
-      yield put(A.fetchAccountsFailure(e))
     }
   }
 
@@ -181,19 +171,20 @@ export default ({ api, options }) => {
     }
   }
 
-  const signup = function * () {
-    const countryCode = 'FR' // TODO should be passed in
-    const fiatCurrency = 'EUR' // TODO should be passed in
+  const signup = function * (data) {
+    const countryCode = data
+    let fiatCurrency
+
+    if (countryCode === 'DK') fiatCurrency = 'DKK'
+    else if (countryCode === 'GB') fiatCurrency = 'GBP'
+    else fiatCurrency = 'EUR'
+
     try {
       const coinify = yield call(getCoinify)
-      const signupResponse = yield apply(coinify, coinify.signup,
-        [countryCode, fiatCurrency])
-      // TODO countryCode and fiatCurrency passed in as args
-
+      const signupResponse = yield apply(coinify, coinify.signup, [countryCode, fiatCurrency])
       yield put(buySellA.coinifySetProfileBuySell(signupResponse))
       yield put(A.coinifySetToken(signupResponse))
     } catch (e) {
-      console.log('coinify signup error:', e)
       yield put(A.coinifySignupFailure(e))
     }
   }
@@ -202,7 +193,6 @@ export default ({ api, options }) => {
     const { quote, medium } = data.payload
     try {
       yield put(A.handleTradeLoading())
-      console.log('core saga buy', data.payload)
       const mediums = yield apply(quote, quote.getPaymentMediums)
       const accounts = yield apply(mediums[medium], mediums[medium].getAccounts)
       const buyResult = yield apply(accounts[0], accounts[0].buy)
@@ -234,12 +224,10 @@ export default ({ api, options }) => {
     }
   }
 
-  const cancelTrade = function * (trade) {
+  const cancelTrade = function * ({trade}) {
     try {
-      const trades = yield select(S.getTrades)
-      const trade = trades.data[0]
       yield apply(trade, trade.cancel)
-      yield call(getCoinify)
+      yield call(fetchTrades)
     } catch (e) {
       console.log('issue cancelling trade', e)
     }
@@ -289,7 +277,6 @@ export default ({ api, options }) => {
     buy,
     sell,
     init,
-    fetchAccounts,
     coinifyFetchProfile,
     fetchTrades,
     fetchQuote,

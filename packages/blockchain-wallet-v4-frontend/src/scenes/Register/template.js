@@ -32,7 +32,7 @@ const validatePasswordsMatch = values => {
 
 const Register = (props) => {
   const { onSubmit, busy, invalid } = props
-  const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
+  const checkboxShouldBeChecked = value => value ? undefined : 'You must agree to the terms and conditions'
 
   return (
     <Wrapper>

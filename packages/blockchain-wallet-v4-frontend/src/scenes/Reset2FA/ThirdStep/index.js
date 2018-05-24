@@ -18,14 +18,13 @@ class ThirdStepContainer extends React.PureComponent {
     const { sessionToken } = captcha.getOrElse({})
 
     this.props.authActions.reset2fa(guid, email, newEmail, secretPhrase, message, code, sessionToken)
-    this.props.nextStep()
   }
 
   render () {
     const { data } = this.props
-    let busy = data.cata({ Success: () => false, Failure: () => false, Loading: () => true, NotAsked: () => false })
+    let busy = data.cata({ Success: () => { this.props.nextStep(); return false }, Failure: () => false, Loading: () => true, NotAsked: () => false })
 
-    return <ThirdStep {...this.props} onSubmit={this.onSubmit} busy={busy} />
+    return <ThirdStep {...this.props} fetchNewCaptcha={this.fetchNewCaptcha} onSubmit={this.onSubmit} busy={busy} />
   }
 }
 

@@ -20,7 +20,7 @@ const HeaderWrapper = styled.div`
   flex-direction: row;
 `
 
-class SfoxExchangeData extends React.PureComponent {
+class CoinifyExchangeData extends React.PureComponent {
   constructor () {
     super()
     this.state = { show: false }
@@ -43,7 +43,7 @@ class SfoxExchangeData extends React.PureComponent {
 
   getStepComponent (step) {
     switch (step) {
-      case 'account': return <Create />
+      case 'account': return <Create country={this.props.country} />
       case 'isx': return <ISignThis iSignThisId={path(['iSignThisID'], this.props.trade.data)} />
       case 'confirm': return <Confirm />
     }
@@ -53,6 +53,10 @@ class SfoxExchangeData extends React.PureComponent {
     const { show } = this.state
     const step = this.props.signupStep || this.props.step
 
+    let adjuster
+    if (this.props.signupComplete) adjuster = 0.0
+    else if (step === 'account' || step === 'isx') adjuster = 0.25
+
     return (
       <Tray in={show} class='tray' onClose={this.handleClose.bind(this)}>
         <ModalHeader tray paddingHorizontal='15%' onClose={this.handleClose.bind(this)}>
@@ -60,7 +64,7 @@ class SfoxExchangeData extends React.PureComponent {
             <Text size='20px' weight={300}>
               <FormattedMessage id='coinify.header.start' defaultMessage='Start buying and selling in two simple steps.' />
             </Text>
-            <StepIndicator coinify step={step} stepMap={this.stepMap} />
+            <StepIndicator adjuster={adjuster} barFullWidth flexEnd minWidth='135px' maxWidth='135px' step={step} stepMap={this.stepMap} />
           </HeaderWrapper>
         </ModalHeader>
         <ModalBody>
@@ -71,7 +75,7 @@ class SfoxExchangeData extends React.PureComponent {
   }
 }
 
-SfoxExchangeData.propTypes = {
+CoinifyExchangeData.propTypes = {
   step: PropTypes.oneOf(['account', 'isx', 'confirm', 'order', 'payment']),
   close: PropTypes.function
 }
@@ -79,6 +83,7 @@ SfoxExchangeData.propTypes = {
 const mapStateToProps = (state) => ({
   data: getData(state),
   signupStep: path(['coinify', 'signupStep'], state),
+  signupComplete: path(['coinify', 'signupComplete'], state),
   trade: selectors.core.data.coinify.getTrade(state)
 })
 
@@ -91,4 +96,4 @@ const enhance = compose(
   modalEnhancer('CoinifyExchangeData')
 )
 
-export default enhance(SfoxExchangeData)
+export default enhance(CoinifyExchangeData)

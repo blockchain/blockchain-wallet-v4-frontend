@@ -12,6 +12,7 @@ import HorizontalMenu from 'components/HorizontalMenu'
 import SelectPartner from './template.success'
 import Loading from './template.loading'
 import ui from 'redux-ui'
+import { hasAccount } from 'services/ExchangeService'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -28,6 +29,9 @@ const CheckoutWrapper = styled.div`
   font-family: 'Montserrat', Helvetica, sans-serif;
   flex-direction: row;
   display: flex;
+  @media(min-height: 800px) {
+    height: 70%;
+  }
 `
 const Menu = reduxForm({ form: 'buySellTabStatus' })(HorizontalMenu)
 
@@ -78,9 +82,13 @@ class BuySellContainer extends React.PureComponent {
 
     return (
       <Wrapper>
-        <Menu>
-          <Field name='status' component={TabMenuBuySellStatus} />
-        </Menu>
+        {
+          hasAccount(view.props.value)
+            ? <Menu>
+              <Field name='status' component={TabMenuBuySellStatus} />
+            </Menu>
+            : null
+        }
         <CheckoutWrapper>
           {view}
         </CheckoutWrapper>

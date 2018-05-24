@@ -13,7 +13,7 @@ export const getData = (state) => {
     data: transform(buySellR, optionsR),
     type: state.form.buySellTabStatus && state.form.buySellTabStatus.values.status,
     country: formValueSelector('selectPartner')(state, 'country'),
-    stateSelection: prop('code', formValueSelector('selectPartner')(state, 'state')),
+    stateSelection: formValueSelector('selectPartner')(state, 'state'),
     email: formValueSelector('selectPartner')(state, 'email')
   }
 }

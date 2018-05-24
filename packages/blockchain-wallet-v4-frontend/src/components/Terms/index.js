@@ -24,11 +24,55 @@ const Terms = (props) => {
           </Link>
         </TermsContainer>
       )
+    case 'coinify':
+      return (
+        <TermsContainer>
+          <Text size='12px' weight={300}>
+            <FormattedMessage id='buysellexchangedata.create.accept.terms' defaultMessage="I accept Blockchain's " />
+          </Text>
+          <Link size='12px' weight={300} href='https://www.blockchain.com/terms/index.html' target='_blank'>
+            <FormattedMessage id='tos' defaultMessage='Terms of Service,' />
+          </Link>
+          <Text size='12px' weight={300}>
+            {`Coinify's`}
+          </Text>
+          <Link size='12px' weight={300} href='https://www.coinify.com/legal' target='_blank'>
+            <FormattedMessage id='tos' defaultMessage='Terms of Service' />
+          </Link>
+          {`&`}
+          &nbsp;
+          <Link size='12px' weight={300} href='https://www.coinify.com/legal/policy' target='_blank'>
+            <FormattedMessage id='privacypolicy' defaultMessage='Privacy Policy.' />
+          </Link>
+        </TermsContainer>
+      )
+    case 'sfox':
+      return (
+        <TermsContainer>
+          <Text size='12px' weight={300}>
+            <FormattedMessage id='buysellexchangedata.create.accept.terms' defaultMessage="I accept Blockchain's " />
+          </Text>
+          <Link size='12px' weight={300} href='https://www.blockchain.com/terms/index.html' target='_blank'>
+            <FormattedMessage id='tos' defaultMessage='Terms of Service,' />
+          </Link>
+          <Text size='12px' weight={300}>
+            {`SFOX's`}
+          </Text>
+          <Link size='12px' weight={300} href='https://www.sfox.com/terms.html' target='_blank'>
+            <FormattedMessage id='tos' defaultMessage='Terms of Service' />
+          </Link>
+          {`&`}
+          &nbsp;
+          <Link size='12px' weight={300} href='https://www.sfox.com/privacy.html' target='_blank'>
+            <FormattedMessage id='privacypolicy' defaultMessage='Privacy Policy.' />
+          </Link>
+        </TermsContainer>
+      )
     default:
       return (
         <TermsContainer >
           <Text size='12px' weight={300}>
-            <FormattedMessage id='scenes.register.registerform.blockchain.read' defaultMessage='I have read and agree to the' />
+            <FormattedMessage id='scenes.register.registerform.blockchain.read' defaultMessage='I have read and agreed to the' />
           </Text>
           <Link href='https://www.blockchain.com/terms/index.html' target='_blank' size='12px' weight={300}>
             <FormattedMessage id='scenes.register.registerform.blockchain.terms' defaultMessage='Terms of Service' />

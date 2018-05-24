@@ -6,7 +6,7 @@ import { getData } from './selectors'
 import Success from './template.success'
 import Loading from '../../../template.loading'
 
-class BuyContainer extends React.Component {
+class CoinifyBuyContainer extends React.Component {
   constructor (props) {
     super(props)
 
@@ -27,11 +27,12 @@ class BuyContainer extends React.Component {
   }
 
   render () {
-    const { data, modalActions, coinifyActions, coinifyDataActions, rateQuoteR, buyQuoteR, currency, paymentMedium, trade, ...rest } = this.props
+    const { data, modalActions, coinifyActions, coinifyDataActions, rateQuoteR, buyQuoteR, currency, paymentMedium, trade, formActions, ...rest } = this.props
     const { step, checkoutBusy, coinifyBusy } = rest
     const { handleTrade, fetchQuote } = coinifyDataActions
     const { showModal } = modalActions
-    const { coinifyNotAsked, triggerKYC, openKYC } = coinifyActions
+    const { coinifyNotAsked, triggerKYC, openKYC, coinifyNextCheckoutStep } = coinifyActions
+    const { change } = formActions
 
     const busy = coinifyBusy.cata({
       Success: () => false,
@@ -47,7 +48,7 @@ class BuyContainer extends React.Component {
         showModal={showModal}
         buyQuoteR={buyQuoteR}
         rateQuoteR={rateQuoteR}
-        fetchBuyQuote={(quote) => fetchQuote({ quote, nextAddress: value.nextAddress })}
+        fetchBuyQuote={quote => fetchQuote({ quote, nextAddress: value.nextAddress })}
         currency={currency}
         checkoutBusy={checkoutBusy}
         setMax={(amt) => this.props.coinifyActions.setCheckoutMax(amt, 'buy')}
@@ -59,7 +60,9 @@ class BuyContainer extends React.Component {
         clearTradeError={() => coinifyNotAsked()}
         trade={trade}
         triggerKyc={() => triggerKYC()}
-        handleKycAction={(kyc) => openKYC(kyc)}
+        handleKycAction={kyc => openKYC(kyc)}
+        changeTab={tab => change('buySellTabStatus', 'status', tab)}
+        coinifyNextCheckoutStep={step => coinifyNextCheckoutStep(step)}
       />,
       Failure: (msg) => <div>Failure: {msg.error}</div>,
       Loading: () => <Loading />,
@@ -77,4 +80,4 @@ const mapDispatchToProps = dispatch => ({
   coinifyActions: bindActionCreators(actions.modules.coinify, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(BuyContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(CoinifyBuyContainer)

@@ -1,11 +1,12 @@
 import React from 'react'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 
 import Helper from 'components/BuySell/FAQ'
 import { CheckBox } from 'components/Form'
-import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
+import Terms from 'components/Terms'
+import { Button, HeartbeatLoader, Text, TextGroup, Link } from 'blockchain-info-components'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ErrorWrapper, ColRightInner } from 'components/BuySell/Signup'
 
 const AcceptTermsContainer = styled.div`
@@ -14,14 +15,15 @@ const AcceptTermsContainer = styled.div`
   margin-top: 25px;
   font-size: 12px;
   a {
-    color: ${props => props.theme['brand-secondary']}
+    color: ${props => props.theme['brand-secondary']};
+    text-decoration: none;
   }
 `
 
 const AcceptTerms = (props) => {
   const { busy, email, invalid, onSubmit, signupError, updateUI } = props
 
-  const checkboxShouldBeChecked = value => value ? undefined : 'You must agree with the terms and conditions'
+  const checkboxShouldBeChecked = value => value ? undefined : 'You must agree to the terms and conditions'
 
   const helpers = [
     {
@@ -40,11 +42,11 @@ const AcceptTerms = (props) => {
             <FormattedMessage id='coinifyexchangedata.create.verifyemail.partner.header.create_your_account' defaultMessage='Create Your Account' />
           </PartnerHeader>
           <PartnerSubHeader>
-            <FormattedHTMLMessage id='coinifyexchangedata.create.accept.partner.header.enter_email_code' defaultMessage='We teamed up with Coinify’s exchange platform to offer buy and sell to our customers in Europe. We just sent a verification code to your {email} email address.' values={{ email: email }} />
+            <FormattedMessage id='coinifyexchangedata.create.accept.partner.header.enter_email_code' defaultMessage='We teamed up with Coinify’s exchange platform to offer buy and sell to our customers in Europe. We just sent a verification code to your {email} email address.' values={{ email: email }} />
           </PartnerSubHeader>
           <AcceptTermsContainer>
             <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox}>
-              <FormattedHTMLMessage id='coinifyexchangedata.create.accept.terms' defaultMessage="I accept Blockchain's <a>Terms of Service</a>, Coinify's <a>Terms of Service</a> & <a>Privary Policy</a>." />
+              <Terms company='coinify' />
             </Field>
           </AcceptTermsContainer>
         </InputWrapper>
@@ -62,9 +64,17 @@ const AcceptTerms = (props) => {
           </ButtonWrapper>
           <ErrorWrapper>
             {
-              signupError && <Text size='12px' color='error' weight={300} onClick={() => updateUI({ create: 'change_email' })}>
-                <FormattedHTMLMessage id='coinifyexchangedata.create.accept.error' defaultMessage='Unfortunately this email is being used for another account. <a>Click here</a> to change it.' />
-              </Text>
+              signupError && <TextGroup inline>
+                <Text size='12px' color='error' weight={300}>
+                  <FormattedMessage id='coinifyexchangedata.create.accept.error' defaultMessage='Unfortunately this email is being used for another account.' />
+                </Text>
+                <Link size='12px' weight={300} onClick={() => updateUI({ create: 'change_email' })}>
+                  <FormattedMessage id='clickhere' defaultMessage='Click here' />
+                </Link>
+                <Text size='12px' color='error' weight={300}>
+                  <FormattedMessage id='clickhere' defaultMessage='to change it.' />
+                </Text>
+              </TextGroup>
             }
           </ErrorWrapper>
           {faqHelper()}

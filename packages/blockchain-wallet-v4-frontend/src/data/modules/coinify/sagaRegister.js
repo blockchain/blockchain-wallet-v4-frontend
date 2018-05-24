@@ -19,5 +19,8 @@ export default ({ coreSagas }) => {
     yield takeLatest(AT.COINIFY_TRIGGER_KYC, coinifySagas.triggerKYC)
     yield takeLatest(AT.OPEN_KYC, coinifySagas.openKYC)
     yield takeLatest(AT.COINIFY_DELETE_BANK_ACCOUNT, coinifySagas.deleteBankAccount)
+    yield takeLatest(AT.CANCEL_ISX, coinifySagas.cancelISX)
+    yield takeLatest(AT.FINISH_TRADE, coinifySagas.finishTrade)
+    yield takeLatest(AT.CANCEL_TRADE, coinifySagas.cancelTrade)
   }
 }

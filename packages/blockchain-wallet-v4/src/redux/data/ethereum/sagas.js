@@ -1,8 +1,9 @@
-import { call, put, select } from 'redux-saga/effects'
+import { call, put, select, take } from 'redux-saga/effects'
 import { dissoc, isNil, length, mapObjIndexed, path, sum, values } from 'ramda'
 import { convertFeeToWei } from '../../../utils/ethereum'
 import * as A from './actions'
 import * as S from './selectors'
+import * as AT from './actionTypes'
 import * as selectors from '../../selectors'
 
 export default ({ api }) => {
@@ -12,26 +13,7 @@ export default ({ api }) => {
       const { context } = action.payload
       const data = yield call(api.getEthereumData, context)
       const latestBlock = yield call(api.getEthereumLatestBlock)
-      // Accounts treatments
-      const finalBalance = sum(values(data).map(obj => obj.balance))
-      const totalReceived = sum(values(data).map(obj => obj.totalReceived))
-      const totalSent = sum(values(data).map(obj => obj.totalSent))
-      const nTx = sum(values(data).map(obj => obj.txn_count))
-      const addresses = mapObjIndexed((num, key, obj) => dissoc('txns', num), data)
-      // const transactions = mapObjIndexed((num, key, obj) => sortBy(compose(negate, prop('timeStamp')), prop('txns', num)), data)
-
-      const ethereumData = {
-        addresses,
-        info: {
-          n_tx: nTx,
-          total_received: totalReceived,
-          total_sent: totalSent,
-          final_balance: finalBalance
-        },
-        latest_block: latestBlock
-        // transactions
-      }
-      yield put(A.fetchDataSuccess(ethereumData))
+      yield call(accountSaga, data, latestBlock)
     } catch (e) {
       yield put(A.fetchDataFailure(e.message))
     }
@@ -68,27 +50,62 @@ export default ({ api }) => {
     }
   }
 
-  const fetchTransactions = function * () {
+  const watchTransactions = function * () {
+    while (true) {
+      const action = yield take(AT.FETCH_ETHEREUM_TRANSACTIONS)
+      yield call(fetchTransactions, action)
+    }
+  }
+
+  const fetchTransactions = function * (action) {
+    const { payload } = action
+    const { reset } = payload
     try {
       const defaultAccountR = yield select(selectors.kvStore.ethereum.getContext)
       const address = defaultAccountR.getOrFail('Could not get ethereum context.')
-      const pages = yield select(S.getTransactions)
+      const pages = reset ? [] : yield select(S.getTransactions)
       const nextPage = length(pages)
       yield put(A.fetchTransactionsLoading())
       const data = yield call(api.getEthereumTransactions, address, nextPage)
+      const latestBlock = yield call(api.getEthereumLatestBlock)
+      yield call(accountSaga, data, latestBlock)
       const txs = path([address, 'txns'], data)
       if (isNil(txs)) return
-      yield put(A.fetchTransactionsSuccess(txs))
+      yield put(A.fetchTransactionsSuccess(txs, reset))
     } catch (e) {
       yield put(A.fetchTransactionsFailure(e.message))
     }
   }
 
+  const accountSaga = function * (data, latestBlock) {
+    // Accounts treatments
+    const finalBalance = sum(values(data).map(obj => obj.balance))
+    const totalReceived = sum(values(data).map(obj => obj.totalReceived))
+    const totalSent = sum(values(data).map(obj => obj.totalSent))
+    const nTx = sum(values(data).map(obj => obj.txn_count))
+    const addresses = mapObjIndexed((num, key, obj) => dissoc('txns', num), data)
+    // const transactions = mapObjIndexed((num, key, obj) => sortBy(compose(negate, prop('timeStamp')), prop('txns', num)), data)
+
+    const ethereumData = {
+      addresses,
+      info: {
+        n_tx: nTx,
+        total_received: totalReceived,
+        total_sent: totalSent,
+        final_balance: finalBalance
+      },
+      latest_block: latestBlock
+      // transactions
+    }
+    yield put(A.fetchDataSuccess(ethereumData))
+  }
+
   return {
-    fetchData,
     fetchFee,
-    fetchLatestBlock,
+    fetchData,
     fetchRates,
-    fetchTransactions
+    fetchLatestBlock,
+    fetchTransactions,
+    watchTransactions
   }
 }
