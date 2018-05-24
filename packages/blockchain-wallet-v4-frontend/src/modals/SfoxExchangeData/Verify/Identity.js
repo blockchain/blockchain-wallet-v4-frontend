@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 import { FormGroup, FormItem, TextBox, PasswordBox } from 'components/Form'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { Button, HeartbeatLoader, Icon, Text, Link } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
 
@@ -81,7 +81,10 @@ const Identity = (props) => {
           <ErrorWrapper>
             {
               verificationError && <Text size='12px' color='error' weight={300} onClick={handleReset}>
-                <FormattedHTMLMessage id='sfoxexchangedata.verify.identity.error' defaultMessage='Unfortunately there was a problem verifying your identity. <a>Click here</a> to start over.' />
+                <FormattedMessage
+                  id='sfoxexchangedata.verify.identity.error'
+                  defaultMessage='Unfortunately there was a problem verifying your identity. {clickHere} to start over.'
+                  values={{ clickHere: <a>Click here</a> }} />
               </Text>
             }
           </ErrorWrapper>

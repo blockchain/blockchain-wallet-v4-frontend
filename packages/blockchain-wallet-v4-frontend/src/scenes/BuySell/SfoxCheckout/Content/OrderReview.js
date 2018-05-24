@@ -39,13 +39,6 @@ const ToolTipWrapper = styled.div`
   }
 `
 
-const renderDetailsRow = (id, message, value, color) => (
-  <OrderDetailsRow>
-    <Text size='13px' weight={300}><FormattedMessage id={id} defaultMessage={message} /></Text>
-    <Text size='13px' weight={300} color={color}>{value}</Text>
-  </OrderDetailsRow>
-)
-
 export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
   <ExchangeCheckoutWrapper>
     <Text size='32px' weight={600} style={spacing('mb-10')}>
@@ -70,11 +63,14 @@ export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
       </Text>
     </div>
     <OrderDetailsTable style={spacing('mt-10')}>
-      {renderDetailsRow(
-        'order_details.amount_to_transact',
-        type === 'buy' ? 'BTC Amount to Purchase' : 'BTC Amount to Sell',
-        quoteR.map(quote => reviewOrder.renderFirstRow(quote, type)).getOrElse('~')
-      )}
+      <OrderDetailsRow>
+        {
+          type === 'buy'
+            ? <Text size='13px' weight={300}><FormattedMessage id='orderdetails.amounttopurchase' defaultMessage='BTC Amount to Purchase' /></Text>
+            : <Text size='13px' weight={300}><FormattedMessage id='orderdetails.amounttosell' defaultMessage='BTC Amount to Sell' /></Text>
+        }
+        <Text size='13px' weight={300}>{quoteR.map(quote => reviewOrder.renderFirstRow(quote, type)).getOrElse('~')}</Text>
+      </OrderDetailsRow>
       <OrderDetailsRow>
         <ToolTipWrapper>
           <Text size='13px' weight={300}>
@@ -86,12 +82,14 @@ export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
         </ToolTipWrapper>
         <Text size='13px' weight={300}>{quoteR.map(quote => `$${(+quote.feeAmount).toFixed(2)}`).getOrElse('~')}</Text>
       </OrderDetailsRow>
-      {renderDetailsRow(
-        'order_details.total_transacted',
-        type === 'buy' ? 'Total Cost' : 'Total to be Received',
-        quoteR.map(quote => reviewOrder.renderTotal(quote, type)).getOrElse('~'),
-        'success'
-      )}
+      <OrderDetailsRow>
+        {
+          type === 'buy'
+            ? <Text size='13px' weight={300}><FormattedMessage id='orderdetails.totalcost' defaultMessage='Total Cost' /></Text>
+            : <Text size='13px' weight={300}><FormattedMessage id='orderdetails.totaltobereceived' defaultMessage='Total to be Received' /></Text>
+        }
+        <Text size='13px' weight={300} color='success'>{quoteR.map(quote => reviewOrder.renderTotal(quote, type)).getOrElse('~')}</Text>
+      </OrderDetailsRow>
     </OrderDetailsTable>
     {quoteR.map((quote) => (
       <CountdownTimer
