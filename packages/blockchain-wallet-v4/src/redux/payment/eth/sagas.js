@@ -42,26 +42,30 @@ export default ({ api }) => {
         const fees = yield call(api.getEthereumFee)
         const gasPrice = prop('regular', fees)
         const gasLimit = prop('gasLimit', fees)
-        const fee = calculateFee(gasPrice, gasLimit)
+        const fee = calculateFee(0.00000000001, gasLimit)
 
-        const latestTransactionR = yield select(S.kvStore.ethereum.getLatestTransaction)
-        const latestTransaction = latestTransactionR.getOrElse(undefined)
-        let unconfirmedTransaction = false
-        if (latestTransaction) {
+        const latestTxR = yield select(S.kvStore.ethereum.getLatestTx)
+        const latestTxTimestampR = yield select(S.kvStore.ethereum.getLatestTxTimestamp)
+
+        const latestTx = latestTxR.getOrElse(undefined)
+        const latestTxTimestamp = latestTxTimestampR.getOrElse(undefined)
+
+        let unconfirmedTx = false
+        if (latestTx) {
           const ethOptionsR = yield select(S.walletOptions.getEthereumTxFuse)
           const lastTxFuse = ethOptionsR.getOrElse(86400000)
           try {
-            const latestTransactionStatus = yield call(api.getEthereumTransaction, latestTransaction.txHash)
-            if (!latestTransactionStatus.blockNumber && latestTransaction.timestamp + lastTxFuse > Date.now()) {
-              unconfirmedTransaction = true
+            const latestTxStatus = yield call(api.getEthereumTransaction, latestTx.txHash)
+            if (!latestTxStatus.blockNumber && latestTxTimestamp + lastTxFuse > Date.now()) {
+              unconfirmedTx = true
             }
           } catch (e) {
-            if (latestTransaction.timestamp + lastTxFuse > Date.now()) {
-              unconfirmedTransaction = true
+            if (latestTxTimestamp + lastTxFuse > Date.now()) {
+              unconfirmedTx = true
             }
           }
         }
-        return makePayment(merge(p, { fees, fee, unconfirmedTransaction }))
+        return makePayment(merge(p, { fees, fee, unconfirmedTx }))
       },
 
       to (destination) {

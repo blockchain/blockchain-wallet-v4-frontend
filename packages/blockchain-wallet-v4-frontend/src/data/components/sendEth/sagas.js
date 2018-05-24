@@ -100,7 +100,8 @@ export default ({ coreSagas }) => {
       payment = yield payment.sign(password)
       payment = yield payment.publish()
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
-      yield put(actions.core.kvStore.ethereum.setLatestTransactionTimestampEthereum(payment.value().txId, Date.now()))
+      yield put(actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(Date.now()))
+      yield put(actions.core.kvStore.ethereum.setLatestTxEthereum(payment.value().txId))
       yield put(actions.router.push('/eth/transactions'))
       yield put(actions.alerts.displaySuccess('Ether transaction has been successfully published!'))
     } catch (e) {
