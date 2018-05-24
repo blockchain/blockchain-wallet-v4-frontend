@@ -1,10 +1,9 @@
 import { put, call, select } from 'redux-saga/effects'
-import { any, merge, path, prop, equals } from 'ramda'
+import { any, merge, path, prop, equals, head } from 'ramda'
 import { delay } from 'redux-saga'
 import * as A from './actions'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors.js'
-import { merge, path, prop, equals, head } from 'ramda'
 import * as service from 'services/CoinifyService'
 import * as sendBtcActions from '../../components/sendBtc/actions'
 import * as sendBtcSelectors from '../../components/sendBtc/selectors'
@@ -260,6 +259,8 @@ export default ({ coreSagas }) => {
       yield put(actions.core.data.coinify.getMediumsWithBankAccounts(quote.data))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'deleteBankAccount', e))
+    }
+  }
 
   const finishTrade = function * (data) {
     const tradeToFinish = data.payload
@@ -313,7 +314,7 @@ export default ({ coreSagas }) => {
     initialized,
     openKYC,
     sell,
-    triggerKYC
+    triggerKYC,
     setMinMax,
     cancelISX,
     finishTrade,
