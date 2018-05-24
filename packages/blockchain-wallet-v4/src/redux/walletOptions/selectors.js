@@ -8,4 +8,4 @@ export const getShapeshiftStates = state => getOptions(state).map(path(['platfor
 // export const selectEthereum = path([walletOptionsPath, 'platforms', 'web', 'ethereum'])
 // export const selectEthereumAvailability = path([walletOptionsPath, 'platforms', 'web', 'ethereum', 'availability'])
 
-export const getEthereumTxFuse  = state => getOptions(state).map(path(['platforms', 'web', 'ethereum', 'lastTxFuse']))
+export const getEthereumTxFuse = state => getOptions(state).map(path(['platforms', 'web', 'ethereum', 'lastTxFuse']))
