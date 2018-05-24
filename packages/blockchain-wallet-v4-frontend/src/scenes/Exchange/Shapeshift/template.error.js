@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
 import { Text } from 'blockchain-info-components'
 
@@ -16,7 +17,7 @@ const Wrapper = styled.div`
 export default (props) => (
   <Wrapper>
     <Text size='12px' weight={300} color='red'>
-      {props.children}
+      <FormattedMessage id='scenes.exchange.shapeshift.error' defaultMessage='An error has occured. Please try again.' />
     </Text>
   </Wrapper>
 )
