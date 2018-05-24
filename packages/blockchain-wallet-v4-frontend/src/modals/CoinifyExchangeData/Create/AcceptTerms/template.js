@@ -6,7 +6,7 @@ import { Field, reduxForm } from 'redux-form'
 import Helper from 'components/BuySell/FAQ'
 import { CheckBox } from 'components/Form'
 import Terms from 'components/Terms'
-import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Text, TextGroup, Link } from 'blockchain-info-components'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ErrorWrapper, ColRightInner } from 'components/BuySell/Signup'
 
 const AcceptTermsContainer = styled.div`
@@ -64,9 +64,17 @@ const AcceptTerms = (props) => {
           </ButtonWrapper>
           <ErrorWrapper>
             {
-              signupError && <Text size='12px' color='error' weight={300} onClick={() => updateUI({ create: 'change_email' })}>
-                <FormattedMessage id='coinifyexchangedata.create.accept.error' defaultMessage='Unfortunately this email is being used for another account. {clickHere} to change it.' values={{ clickHere: <a>Click here</a> }} />
-              </Text>
+              signupError && <TextGroup inline>
+                <Text size='12px' color='error' weight={300}>
+                  <FormattedMessage id='coinifyexchangedata.create.accept.error' defaultMessage='Unfortunately this email is being used for another account.' />
+                </Text>
+                <Link size='12px' weight={300} onClick={() => updateUI({ create: 'change_email' })}>
+                  <FormattedMessage id='clickhere' defaultMessage='Click here' />
+                </Link>
+                <Text size='12px' color='error' weight={300}>
+                  <FormattedMessage id='clickhere' defaultMessage='to change it.' />
+                </Text>
+              </TextGroup>
             }
           </ErrorWrapper>
           {faqHelper()}
