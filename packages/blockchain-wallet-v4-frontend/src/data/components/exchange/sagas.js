@@ -21,13 +21,16 @@ export default ({ api, coreSagas }) => {
     getShapeShiftLimits,
     convertValues,
     selectOtherAccount,
-    selectLabel
+    selectLabel,
+    resetForm
   } = utils({ api, coreSagas })
 
   let pollingTradeStatusTask
 
   const firstStepInitialized = function * () {
     try {
+      // Reset form
+      yield call(resetForm)
       // Fetch data
       yield put(actions.core.data.bch.fetchRates())
       yield put(actions.core.data.bitcoin.fetchRates())
@@ -185,7 +188,9 @@ export default ({ api, coreSagas }) => {
       // Shapeshift order
       const pair = getPairFromCoin(sourceCoin, targetCoin)
       const orderData = yield call(api.createOrder, amount, pair, returnAddress, withdrawalAddress)
-      if (!has('success', orderData)) throw new Error('Shapeshift order could not be placed.')
+      if (!has('success', orderData)) {
+        throw new Error('exchange_order_error')
+      }
       const order = prop('success', orderData)
       yield put(A.orderUpdated(order))
       // Create final payment
@@ -213,7 +218,7 @@ export default ({ api, coreSagas }) => {
       }
       yield put(A.secondStepSuccess(data))
     } catch (e) {
-      yield put(A.secondStepFailure('An error has occurred.'))
+      yield put(A.secondStepFailure(e.message))
       yield put(actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', e))
     }
   }
@@ -312,7 +317,6 @@ export default ({ api, coreSagas }) => {
   }
 
   const destroyed = function * () {
-    yield put(actions.form.destroy('exchange'))
     if (pollingTradeStatusTask) yield call(stopPollingTradeStatus)
   }
 

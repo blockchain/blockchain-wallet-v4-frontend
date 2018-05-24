@@ -199,6 +199,13 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const resetForm = function * () {
+    yield put(actions.form.change2('exchange', 'sourceAmount', ''))
+    yield put(actions.form.change2('exchange', 'sourceFiat', ''))
+    yield put(actions.form.change2('exchange', 'targetAmount', ''))
+    yield put(actions.form.change2('exchange', 'targetFiat', ''))
+  }
+
   return {
     calculateEffectiveBalance,
     createPayment,
@@ -210,6 +217,7 @@ export default ({ api, coreSagas }) => {
     getBtcAccounts,
     getEthAccounts,
     selectLabel,
-    selectOtherAccount
+    selectOtherAccount,
+    resetForm
   }
 }
