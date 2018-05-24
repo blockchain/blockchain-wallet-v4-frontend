@@ -1,10 +1,15 @@
 import { put, call, select } from 'redux-saga/effects'
+import { any, merge, path, prop, equals } from 'ramda'
+
 import * as A from './actions'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors.js'
-// import { formValueSelector } from 'redux-form'
-import { any, merge, path, prop, equals } from 'ramda'
 import * as service from 'services/CoinifyService'
+import * as sendBtcActions from '../../components/sendBtc/actions'
+import * as sendBtcSelectors from '../../components/sendBtc/selectors'
+import settings from 'config'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { promptForSecondPassword } from 'services/SagaService'
 
 export default ({ coreSagas }) => {
   const logLocation = 'modules/coinify/sagas'
@@ -53,17 +58,41 @@ export default ({ coreSagas }) => {
 
   const sell = function * () {
     try {
-      const sellTrade = yield call(coreSagas.data.coinify.sell)
+      yield put(A.coinifyLoading())
+      const trade = yield call(coreSagas.data.coinify.sell)
 
-      if (!sellTrade) {
+      if (!trade) {
         const trade = yield select(selectors.core.data.coinify.getTrade)
         const parsed = JSON.parse(trade.error)
 
         yield put(A.coinifyFailure(parsed))
         return
       }
-      yield put(A.coinifyNotAsked())
+      const p = yield select(sendBtcSelectors.getPayment)
+      let payment = yield coreSagas.payment.btc.create(
+        { payment: p.getOrElse({}), network: settings.NETWORK_BITCOIN })
+      payment = yield payment.amount(parseInt(trade.sendAmount))
+      payment = yield payment.fee('priority')
+      payment = yield payment.to(trade.receiveAddress)
+      payment = yield payment.description(`Exchange Trade COINIFY=${trade.id}`)
+
+      try {
+        payment = yield payment.build()
+      } catch (e) {
+        yield put(actions.logs.logErrorMessage(logLocation, 'sell', e))
+      }
+
+      yield put(sendBtcActions.sendBtcPaymentUpdated(Remote.of(payment.value())))
+      const password = yield call(promptForSecondPassword)
+      payment = yield payment.sign(password)
+      payment = yield payment.publish
+
+      yield put(sendBtcActions.sendBtcPaymentUpdated(Remote.of(payment.value())))
+
+      yield put(A.coinifySuccess())
+      yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
     } catch (e) {
+      yield put(A.coinifyFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'sell', e))
     }
   }
