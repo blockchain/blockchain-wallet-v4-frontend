@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import { TextBox, Form } from 'components/Form'
 import { PartnerHeader } from 'components/BuySell/Signup'
 import { required } from 'services/FormHelper'
-import { Text } from 'blockchain-info-components'
+import { Text, TextGroup } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
 
 const Container = styled.div`
@@ -35,12 +35,14 @@ class MicroDeposits extends Component {
               <Text size='13px' weight={300}>
                 <FormattedMessage id='sfoxexchangedata.link.micro.description' defaultMessage='To verify your bank details, SFOX will send two micro-deposits to your bank account for a few cents each. Once received, select Enter Deposit Details to finish setting up your account.' />
               </Text>
-              <Text size='13px' weight={300} style={spacing('mt-10')}>
-                <FormattedMessage
-                  id='sfoxexchangedata.link.micro.description'
-                  defaultMessage='{bear} receiving these deposits can take up to 5 business days.'
-                  values={{ bear: <strong>Bear with us:</strong> }} />
-              </Text>
+              <TextGroup inline style={spacing('mt-10')}>
+                <Text size='13px' weight={400}>
+                  <FormattedMessage id='sfoxexchangedata.link.micro.bear' defaultMessage='Bear with us:' />
+                </Text>
+                <Text size='13px' weight={300} >
+                  <FormattedMessage id='sfoxexchangedata.link.micro.description' defaultMessage='receiving these deposits can take up to 5 business days.' />
+                </Text>
+              </TextGroup>
             </Fragment>
             : <Form>
               <Container>
