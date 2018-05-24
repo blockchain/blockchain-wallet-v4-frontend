@@ -46,7 +46,7 @@ const busyHelper = (busy) => !busy ? <FormattedMessage id='coinifyexchangedata.p
 const Payment = (props) => {
   const { value, busy, handlePaymentClick, medium, triggerKyc } = props
   const { limits, quote, level, kycs } = value
-  const kycState = kycs[0]['state']
+  const kycState = kycs.length && kycs[0]['state']
   const bankDisabled = kycState === 'reviewing' || kycState === 'pending' || kycState === 'processing'
   if (bankDisabled) handlePaymentClick('card')
 

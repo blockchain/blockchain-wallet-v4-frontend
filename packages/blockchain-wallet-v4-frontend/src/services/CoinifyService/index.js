@@ -133,6 +133,7 @@ export const bodyStatusHelper = (status, isBuy) => {
 
 export const kycBodyHelper = (status) => {
   switch (status) {
+    case 'reviewing':
     case 'pending': return { text: <FormattedMessage id='scenes.coinify_details_modal.kyc.processing' defaultMessage='Your identity verification is processing.' /> }
     case 'completed': return { text: <FormattedMessage id='scenes.coinify_details_modal.kyc.completed' defaultMessage='Your identity verification is complete! Your limits have been raised.' /> }
     case 'rejected': return { text: <FormattedMessage id='scenes.coinify_details_modal.kyc.rejected' defaultMessage='There was an issue verifying your identity with the documents provided. Please try uploading different identification. Bank transfers are unavailable until we can successfully verify your identity.' /> }
@@ -156,7 +157,7 @@ export const kycHeaderHelper = (status) => {
 export const kycNotificationBodyHelper = (status) => {
   switch (status) {
     case 'reviewing':
-    case 'processing': return { text: <FormattedMessage id='scenes.coinify_details_modal.kyc.processing' defaultMessage='Your request for authentication has been submitted and will be reviewed shortly. Conify will email you a status updated within 48 business hours. If you have any questions about the status of your submission, feel free to reach out to Coinify directly at www.coinify.com/support' /> }
+    case 'processing': return { text: <FormattedMessage id='scenes.coinify_details_modal.kyc.processing' defaultMessage='Your request for authentication has been submitted and will be reviewed shortly. Coinify will email you a status updated within 48 business hours. If you have any questions about the status of your submission, feel free to reach out to Coinify directly at www.coinify.com/support' /> }
     case 'pending': return { text: <FormattedMessage id='scenes.coinify_details_modal.kyc.pending' defaultMessage="It looks like you started your identity verification but didn't finish. Complete this process to link your bank account and/or increase your buy & sell limits." /> }
     case 'completed': return { text: <FormattedMessage id='scenes.coinify_details_modal.kyc.completed' defaultMessage='Your identity verification is complete! Your limits have been raised.' /> }
     case 'rejected': return { text: <FormattedMessage id='scenes.coinify_details_modal.kyc.rejected' defaultMessage='There was an issue verifying your identity with the documents provided. Please try uploading different identification. Bank transfers are unavailable until we can successfully verify your identity.' /> }
@@ -178,4 +179,18 @@ export const showKycStatus = (state) => {
   if (state === 'pending') return state
   if (state === 'rejected') return state
   return false
+}
+
+export const getReasonExplanation = (reason, time) => {
+  const ONE_DAY_MS = 86400000
+  let canTradeAfter = time
+  let days = isNaN(canTradeAfter) ? `1 day` : `${Math.ceil((canTradeAfter - Date.now()) / ONE_DAY_MS)} days`
+
+  switch (reason) {
+    case 'awaiting_first_trade_completion':
+      return <FormattedMessage id='scenes.coinify.cannottradereason.firsttradecompletion' defaultMessage='Trading is disabled because your first trade has not completed yet.' />
+    case 'after_first_trade':
+      return <FormattedMessage id='scenes.coinify.cannottradereason.afterfirsttrade' defaultMessage='Trading is disabled as our exchange partner verifies your payment info. This will happen only once, and you may resume trading in {days}.' values={{ days: days }} />
+    default: return <FormattedMessage id='scenes.coinify.cannottradereason.unknown' defaultMessage='Trading is disabled.' />
+  }
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { FormGroup, FormItem, TextBox, SelectBoxUSState } from 'components/Form'
 import { Text, Button, HeartbeatLoader } from 'blockchain-info-components'
@@ -56,7 +56,7 @@ const Address = (props) => {
               <FormItem>
                 <AddressLabel size='14px' weight={400} style={{'marginBottom': '5px'}}>
                   <FormattedMessage id='sfoxexchangedata.verify.address' defaultMessage='Address' />
-                  <FormattedHTMLMessage id='sfoxexchangedata.verify.addressdetail' defaultMessage='<span style="font-weight: 300">(Please use your primary billing address.)</span>' />
+                  <FormattedMessage id='sfoxexchangedata.verify.addressdetail' defaultMessage='{message}' values={{ message: <span style='font-weight: 300'>(Please use your primary billing address.)</span> }} />
                 </AddressLabel>
                 <Field name='address1' validate={[required]} component={TextBox} placeholder='Street Address' />
               </FormItem>
