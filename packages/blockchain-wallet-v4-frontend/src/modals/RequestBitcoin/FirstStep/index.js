@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { equals, prop } from 'ramda'
 
-import { Remote } from 'blockchain-wallet-v4/src'
 import { actions } from 'data'
 import { getData, getInitialValues } from './selectors'
 import Error from './template.error'
@@ -21,10 +20,6 @@ class FirstStepContainer extends React.PureComponent {
     this.props.initialValues.map(x => {
       this.props.formActions.initialize('requestBitcoin', x)
     })
-
-    if (Remote.NotAsked.is(this.props.data)) {
-      this.props.bitcoinDataActions.fetchData()
-    }
   }
 
   componentWillReceiveProps (nextProps) {

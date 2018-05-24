@@ -84,36 +84,39 @@ const getLimitsError = (errorType, limits, symbol, setMin) => {
 }
 
 const FiatConvertor = (props) => {
-  const { val, disabled, setMax, setMin, limits, checkoutError, defaultCurrency, symbol, increaseLimit } = props
+  const { val, disabled, setMax, setMin, limits, checkoutError, defaultCurrency, symbol, increaseLimit, type } = props
   const { level } = val
   const currency = 'BTC'
 
   return (
-    <form>
-      <Wrapper>
-        <FiatConvertorInput>
-          <Container>
-            <Field name='leftVal' component={TextBoxDebounced} disabled={disabled} borderRightNone={1} />
-            <Field name='currency' component={SelectBoxCoinifyCurrency} defaultDisplay={defaultCurrency} />
-          </Container>
-          <ArrowRight weight={600} size='22px' name='right-arrow' />
-          <Container>
-            <Field name='rightVal' component={TextBoxDebounced} disabled={disabled} />
-            <Unit>{currency}</Unit>
-          </Container>
-        </FiatConvertorInput>
-        {
-          checkoutError
-            ? <Error size='13px' weight={300} color='error'>
-              { getLimitsError(checkoutError, limits, symbol, setMin) }
-            </Error>
-            : <LimitsHelper>
-              <FormattedMessage id='buy.quote_input.remaining_buy_limit' defaultMessage='Your remaining buy limit is {max}' values={{ max: <a onClick={() => setMax(limits.max)}>{symbol}{limits.max}</a> }} />
-              {level.name < 2 && <FormattedMessage id='buy.quote_input.increase_limits' defaultMessage='{increase}' values={{ increase: <a onClick={() => increaseLimit()}>Increase your limit.</a> }} />}
-            </LimitsHelper>
-        }
-      </Wrapper>
-    </form>
+    <Wrapper>
+      <FiatConvertorInput>
+        <Container>
+          <Field name='leftVal' component={TextBoxDebounced} disabled={disabled} borderRightNone={1} />
+          <Field name='currency' component={SelectBoxCoinifyCurrency} defaultDisplay={defaultCurrency} />
+        </Container>
+        <ArrowRight weight={600} size='22px' name='right-arrow' />
+        <Container>
+          <Field name='rightVal' component={TextBoxDebounced} disabled={disabled} />
+          <Unit>{currency}</Unit>
+        </Container>
+      </FiatConvertorInput>
+      {
+        checkoutError
+          ? <Error size='13px' weight={300} color='error'>
+            { getLimitsError(checkoutError, limits, symbol, setMin) }
+          </Error>
+          : <LimitsHelper>
+            {type === 'buy'
+              ? <FormattedMessage id='buy.quote_input.remaining_buy_limit'
+                defaultMessage='Your remaining buy limit is {max}' values={{ max: <a onClick={() => setMax(limits.max)}>{symbol}{limits.max}</a> }} />
+              : <FormattedMessage id='sell.quote_input.remaining_buy_limit'
+                defaultMessage='Your remaining sell limit is {max}' values={{ max: <a onClick={() => setMax(limits.max)}>{symbol}{limits.max}</a> }} />
+            }
+            {level.name < 2 && <a onClick={() => increaseLimit()}><FormattedMessage id='quote_input.increase_limits' defaultMessage='Increase your limit.' /></a>}
+          </LimitsHelper>
+      }
+    </Wrapper>
   )
 }
 
@@ -126,4 +129,5 @@ FiatConvertor.propTypes = {
   disabled: PropTypes.bool
 }
 
-export default reduxForm({ form: 'coinifyCheckout', destroyOnUnmount: false })(FiatConvertor)
+export const QuoteInputTemplateBuy = reduxForm({ form: 'coinifyCheckoutBuy', destroyOnUnmount: false })(FiatConvertor)
+export const QuoteInputTemplateSell = reduxForm({ form: 'coinifyCheckoutSell', destroyOnUnmount: false })(FiatConvertor)

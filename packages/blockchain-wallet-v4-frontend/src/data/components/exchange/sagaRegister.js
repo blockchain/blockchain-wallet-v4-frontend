@@ -14,8 +14,7 @@ export default ({ api, coreSagas }) => {
     yield takeLatest(AT.EXCHANGE_FIRST_STEP_SUBMIT_CLICKED, exchangeSagas.firstStepSubmitClicked)
     yield takeLatest(AT.EXCHANGE_THIRD_STEP_INITIALIZED, exchangeSagas.thirdStepInitialized)
     yield takeLatest(AT.EXCHANGE_SECOND_STEP_SUBMIT_CLICKED, exchangeSagas.secondStepSubmitClicked)
-    // yield takeEvery(AT.EXCHANGE_SECOND_STEP_ORDER_EXPIRED, destroyed)
-    // yield takeEvery(AT.EXCHANGE_THIRD_STEP_CLOSE_CLICKED, destroyed)
+    yield takeLatest(AT.EXCHANGE_US_STATE_REGISTERED, exchangeSagas.usStateRegistered)
     yield takeLatest(AT.EXCHANGE_DESTROYED, exchangeSagas.destroyed)
     yield takeEvery(actionTypes.CHANGE, exchangeSagas.change)
   }

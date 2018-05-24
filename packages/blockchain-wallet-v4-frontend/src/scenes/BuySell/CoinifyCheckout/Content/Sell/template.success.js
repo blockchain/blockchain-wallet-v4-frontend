@@ -7,7 +7,9 @@ import * as service from 'services/CoinifyService'
 import Stepper, { StepView } from 'components/Utilities/Stepper'
 import OrderCheckout from '../OrderCheckout'
 import { OrderDetails, OrderSubmit } from '../OrderReview'
-import Payment from 'modals/CoinifyExchangeData/Payment'
+import AddBankDetails from './AddBankDetails'
+import AddCustomerDetails from './AddCustomerDetails'
+import SelectAccounts from './SelectAccounts'
 import ISignThis from 'modals/CoinifyExchangeData/ISignThis'
 
 const CheckoutWrapper = styled.div`
@@ -34,11 +36,13 @@ const Sell = props => {
     rateQuoteR,
     checkoutBusy,
     setMax,
+    setMin,
     paymentMedium,
     initiateSell,
     step,
     busy,
-    trade
+    trade,
+    onOrderCheckoutSubmit
   } = props
 
   const profile = Remote.of(props.value.profile).getOrElse({ _limits: service.mockedLimits, _level: { currency: 'EUR' } })
@@ -64,13 +68,21 @@ const Sell = props => {
               symbol={symbol}
               checkoutBusy={checkoutBusy}
               setMax={setMax}
+              setMin={setMin}
+              onOrderCheckoutSubmit={onOrderCheckoutSubmit}
             />
           </CheckoutWrapper>
         </StepView>
         <StepView step={1}>
-          <Payment />
+          <SelectAccounts />
         </StepView>
         <StepView step={2}>
+          <AddBankDetails quoteR={sellQuoteR} />
+        </StepView>
+        <StepView step={3}>
+          <AddCustomerDetails />
+        </StepView>
+        <StepView step={4}>
           <FlexRow>
             <CheckoutWrapper>
               <OrderDetails

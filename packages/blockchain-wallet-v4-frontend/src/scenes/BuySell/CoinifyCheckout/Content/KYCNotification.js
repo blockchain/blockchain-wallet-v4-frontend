@@ -1,6 +1,6 @@
 import React from 'react'
-import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
 import { Text, Button } from 'blockchain-info-components'
 import { kycHeaderHelper, kycNotificationBodyHelper, kycNotificationButtonHelper } from 'services/CoinifyService'
 import { spacing } from 'services/StyleService'

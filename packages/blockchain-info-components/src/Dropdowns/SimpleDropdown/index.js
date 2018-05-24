@@ -52,7 +52,10 @@ SimpleDropdown.defaultProps = {
 }
 
 SimpleDropdown.propTypes = {
-  selectedValue: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  selectedValue: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
   items: PropTypes.arrayOf(PropTypes.shape({
     text: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired

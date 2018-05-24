@@ -48,7 +48,8 @@ export default ({ api }) => {
     }
   }
 
-  const fetchTransactions = function * ({ type, payload }) {
+  const fetchTransactions = function * (action) {
+    const { payload } = action
     const { address, reset } = payload
     const TX_PER_PAGE = 10
     try {
@@ -76,7 +77,7 @@ export default ({ api }) => {
       } else {
         const context = yield select(selectors.wallet.getWalletContext)
         const active = context.join('|')
-        const data = yield call(api.getTransactionHistory, 'BTC', active, currency, start, end)
+        const data = yield call(api.getTransactionHistory, 'BTC', active, currency.getOrElse('USD'), start, end)
         yield put(A.fetchTransactionHistorySuccess(data))
       }
     } catch (e) {

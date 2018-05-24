@@ -65,7 +65,7 @@ export const getData = (state) => ({
   rateQuoteR: getRateQuote(state),
   trade: getTrade(state),
   errors: getErrors(state),
-  currency: formValueSelector('coinifyCheckout')(state, 'currency'),
+  currency: formValueSelector('coinifyCheckoutSell')(state, 'currency'),
   defaultCurrency: getCurrency(state),
   checkoutBusy: path(['coinify', 'checkoutBusy'], state),
   paymentMedium: path(['coinify', 'medium'], state),

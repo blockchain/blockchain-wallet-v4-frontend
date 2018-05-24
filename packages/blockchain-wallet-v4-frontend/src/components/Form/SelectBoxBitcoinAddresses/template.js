@@ -5,7 +5,7 @@ import { has, path, prop } from 'ramda'
 
 import { Banner, Text } from 'blockchain-info-components'
 import { SelectBox } from 'components/Form'
-import CoinDisplay from 'components/Display/CoinDisplay'
+import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 
 const ItemWrapper = styled.div`
   display: flex;
@@ -17,15 +17,22 @@ const ItemWrapper = styled.div`
   padding: 5px;
   box-sizing: border-box;
   cursor: pointer;
+  overflow-x: scroll;
   & > * { margin-left: 5px; }
   &:hover {
     color: ${props => props.theme['gray-4']};
     background-color: ${props => props.theme['gray-1']};
   }
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+  }
 `
 const BalanceContainer = styled.div`
   display: flex;
   flex-direction: row;
+  white-space: nowrap;
 `
 const renderItem = item => {
   return (
@@ -36,7 +43,7 @@ const renderItem = item => {
       { has('balance', prop('value', item)) &&
         <BalanceContainer>
           <Text weight={300} size='12px'>(</Text>
-          <CoinDisplay weight={300} size='12px' coin={item.value.coin}>{item.value.balance}</CoinDisplay>
+          <SwitchableDisplay weight={300} size='12px' coin={item.value.coin}>{item.value.balance}</SwitchableDisplay>
           <Text weight={300} size='12px'>)</Text>
         </BalanceContainer>
       }

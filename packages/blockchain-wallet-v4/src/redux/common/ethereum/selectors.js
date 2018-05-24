@@ -1,5 +1,5 @@
-import { curry, head, lift, map, path, prop } from 'ramda'
-import { getTransactionsByAddress, getAddresses, getHeight } from '../../data/ethereum/selectors.js'
+import { lift, map, path, prop } from 'ramda'
+import { getAddresses, getTransactions, getHeight } from '../../data/ethereum/selectors.js'
 import { getAccounts } from '../../kvStore/ethereum/selectors.js'
 import * as transactions from '../../../transactions'
 
@@ -22,15 +22,17 @@ export const getAccountsInfo = (state) => {
   return getAccounts(state).map(map(digest))
 }
 
-// getTransactions :: state -> Remote([ProcessedTx])
-export const getTransactions = (state) => {
+const mTransformTx = transactions.ethereum.transformTx
+
+// getWalletTransactions :: state -> Remote([ProcessedTx])
+export const getWalletTransactions = (state) => {
   const accountsR = getAccounts(state)
   const blockHeightR = getHeight(state)
   const addressesR = accountsR.map(map(prop('addr')))
-  const rawTxsR = accountsR.map(head)
-    .map(prop('addr'))
-    .chain(curry(getTransactionsByAddress)(state))
-  const objectR = lift((addrs, txs, blockHeight) => ({addrs, txs, blockHeight}))(addressesR, rawTxsR, blockHeightR)
-  const transform = curry(transactions.ethereum.transformTx)
-  return objectR.map(o => o.txs.map(transform(o.addrs, state, o.blockHeight)))
+  const pages = getTransactions(state)
+  const ProcessTxs = (addresses, blockHeight, txList) => {
+    return map(mTransformTx(addresses, blockHeight, state), txList)
+  }
+  const ProcessPage = lift(ProcessTxs)(addressesR, blockHeightR)
+  return map(ProcessPage, pages)
 }

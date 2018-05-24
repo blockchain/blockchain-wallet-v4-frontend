@@ -9,22 +9,29 @@ import Loading from '../../../template.loading'
 class SellContainer extends React.Component {
   constructor (props) {
     super(props)
-
+    this.submitQuote = this.submitQuote.bind(this)
     this.startSell = this.startSell.bind(this)
   }
 
   componentDidMount () {
-    this.props.coinifyActions.initializeCheckoutForm()
+    this.props.sendBtcActions.sendBtcInitialized({ feeType: 'priority' })
+    this.props.coinifyActions.initializeCheckoutForm('sell')
+  }
+
+  submitQuote () {
+    const { sellQuoteR } = this.props
+    sellQuoteR.map(quote => this.props.coinifyDataActions.getMediumsWithBankAccounts(quote))
+    this.props.coinifyActions.saveMedium('blockchain')
   }
 
   startSell () {
-    const { sellQuoteR, paymentMedium, coinifyActions } = this.props
-    coinifyActions.coinifyLoading()
-    sellQuoteR.map(q => this.props.coinifyActions.initiateSell({ quote: q, medium: paymentMedium }))
+    const { coinifyActions } = this.props
+    coinifyActions.initiateSell()
   }
 
   render () {
-    const { data, modalActions, coinifyActions, coinifyDataActions, rateQuoteR, sellQuoteR, currency, paymentMedium, trade, ...rest } = this.props
+    const { data, modalActions, coinifyActions, coinifyDataActions,
+      rateQuoteR, sellQuoteR, currency, paymentMedium, trade, ...rest } = this.props
     const { step, checkoutBusy, coinifyBusy } = rest
     const { handleTrade, fetchQuote } = coinifyDataActions
     const { showModal } = modalActions
@@ -47,13 +54,15 @@ class SellContainer extends React.Component {
         fetchSellQuote={(quote) => fetchQuote({ quote, nextAddress: value.nextAddress })}
         currency={currency}
         checkoutBusy={checkoutBusy}
-        setMax={(amt) => this.props.coinifyActions.setCheckoutMax(amt)}
+        setMax={(amt) => coinifyActions.setCheckoutMax(amt, 'sell')}
+        setMin={(amt) => coinifyActions.setCheckoutMin(amt, 'sell')}
         paymentMedium={paymentMedium}
         initiateSell={this.startSell}
         step={step}
         busy={busy}
         clearTradeError={() => coinifyNotAsked()}
         trade={trade}
+        onOrderCheckoutSubmit={this.submitQuote}
       />,
       Failure: (msg) => <div>Failure: {msg.error}</div>,
       Loading: () => <Loading />,
@@ -66,6 +75,7 @@ const mapStateToProps = state => getData(state)
 
 const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
+  sendBtcActions: bindActionCreators(actions.components.sendBtc, dispatch),
   coinifyDataActions: bindActionCreators(actions.core.data.coinify, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   coinifyActions: bindActionCreators(actions.modules.coinify, dispatch)
