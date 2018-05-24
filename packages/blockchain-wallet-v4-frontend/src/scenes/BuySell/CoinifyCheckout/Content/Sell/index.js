@@ -14,8 +14,10 @@ class SellContainer extends React.Component {
   }
 
   componentDidMount () {
+    this.props.sendBtcActions.sendBtcInitialized({ feeType: 'priority' })
     this.props.coinifyActions.initializeCheckoutForm('sell')
   }
+
   submitQuote () {
     const { sellQuoteR } = this.props
     sellQuoteR.map(quote => this.props.coinifyDataActions.getMediumsWithBankAccounts(quote))
@@ -24,7 +26,6 @@ class SellContainer extends React.Component {
 
   startSell () {
     const { coinifyActions } = this.props
-    coinifyActions.coinifyLoading()
     coinifyActions.initiateSell()
   }
 
@@ -74,6 +75,7 @@ const mapStateToProps = state => getData(state)
 
 const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
+  sendBtcActions: bindActionCreators(actions.components.sendBtc, dispatch),
   coinifyDataActions: bindActionCreators(actions.core.data.coinify, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   coinifyActions: bindActionCreators(actions.modules.coinify, dispatch)
