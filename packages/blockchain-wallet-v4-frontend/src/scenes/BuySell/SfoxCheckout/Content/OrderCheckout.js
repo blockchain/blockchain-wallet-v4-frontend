@@ -86,7 +86,6 @@ const OrderCheckout = ({ quoteR, account, onFetchQuote, reason, finishAccountSet
               <QuoteInput
                 quoteR={quoteR}
                 initialQuoteId={quoteR.map(quote => quote.id).getOrElse(null)}
-                // initialAmount='0.00'
                 debounce={500}
                 spec={quoteInputSpec}
                 onFetchQuote={onFetchQuote}
