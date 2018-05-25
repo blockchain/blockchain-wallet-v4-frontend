@@ -6,7 +6,7 @@ import { Field, reduxForm } from 'redux-form'
 import Helper from 'components/BuySell/FAQ'
 import { CheckBox } from 'components/Form'
 import Terms from 'components/Terms'
-import { Button, HeartbeatLoader, Text, TextGroup, Link } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Text, TextGroup } from 'blockchain-info-components'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ErrorWrapper, ColRightInner } from 'components/BuySell/Signup'
 
 const AcceptTermsContainer = styled.div`
