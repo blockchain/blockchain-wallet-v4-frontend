@@ -26,11 +26,11 @@ const Settings = (props) => {
       <SettingWrapper>
         { !updateToggled &&
           <Button nature='primary' onClick={handleToggle}>
-            <FormattedMessage id='scenes.securitysettings.basicsecurity.secondpasswordwallet.settings.remove' defaultMessage='Remove Second Password'/>
+            <FormattedMessage id='scenes.securitysettings.basicsecurity.secondpasswordwallet.settings.remove' defaultMessage='Remove Second Password' />
           </Button>
         }
         { updateToggled &&
-          <SettingForm>
+          <SettingForm onSubmit={handleClick}>
             <Text size='14px' weight={300}>
               <FormattedMessage id='scenes.securitysettings.basicsecurity.secondpasswordwallet.settings.label' defaultMessage='Second Password' />
             </Text>
@@ -40,7 +40,7 @@ const Settings = (props) => {
                 <FormattedMessage id='scenes.securitysettings.basicsecurity.secondpasswordwallet.settings.cancel' defaultMessage='Cancel' />
               </Button>
               <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleClick}>
-                <FormattedMessage id='scenes.securitysettings.basicsecurity.secondpasswordwallet.settings.save' defaultMessage='Save' />
+                <FormattedMessage id='scenes.securitysettings.basicsecurity.secondpasswordwallet.settings.remove' defaultMessage='Remove Second password' />
               </Button>
             </ButtonWrapper>
           </SettingForm>
