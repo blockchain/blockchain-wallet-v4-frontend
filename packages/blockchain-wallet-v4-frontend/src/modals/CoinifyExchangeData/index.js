@@ -57,6 +57,10 @@ class CoinifyExchangeData extends React.PureComponent {
     const { show } = this.state
     const step = this.props.signupStep || this.props.step
 
+    let adjuster
+    if (this.props.signupComplete) adjuster = 0.0
+    else if (step === 'account' || step === 'isx') adjuster = 0.25
+
     return (
       <Tray in={show} class='tray' onClose={this.handleClose.bind(this)}>
         <ModalHeader tray paddingHorizontal='15%' onClose={this.handleClose.bind(this)}>
@@ -64,7 +68,7 @@ class CoinifyExchangeData extends React.PureComponent {
             <Text size='20px' weight={300}>
               <FormattedMessage id='coinifyexchangedata.header.start' defaultMessage='Start buying and selling in two simple steps.' />
             </Text>
-            <StepIndicator adjuster={0} barFullWidth flexEnd minWidth='135px' maxWidth='135px' step={step} stepMap={this.stepMap} />
+            <StepIndicator adjuster={adjuster} barFullWidth flexEnd minWidth='135px' maxWidth='135px' step={step} stepMap={this.stepMap} />
           </HeaderWrapper>
         </ModalHeader>
         <ModalBody>
@@ -83,6 +87,7 @@ CoinifyExchangeData.propTypes = {
 const mapStateToProps = (state) => ({
   data: getData(state),
   signupStep: path(['coinify', 'signupStep'], state),
+  signupComplete: path(['coinify', 'signupComplete'], state),
   trade: selectors.core.data.coinify.getTrade(state)
 })
 

@@ -6,13 +6,7 @@ import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDeta
 import { tradeDetails, statusHelper, bodyStatusHelper } from 'services/CoinifyService'
 import { spacing } from 'services/StyleService'
 
-const renderDetailsRow = (id, message, value, color) => (
-  <OrderDetailsRow>
-    <Text size='13px' weight={300}><FormattedMessage id={id} defaultMessage={message} /></Text>
-    <Text size='13px' weight={300} color={color}>{value}</Text>
-  </OrderDetailsRow>
-)
-const ButtonRow = styled.div`
+export const ButtonRow = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -39,22 +33,26 @@ const Trade = ({ trade, close }) => {
           <FormattedMessage id='modals.coinifytradedetails.trade.tradeid' defaultMessage='Your order ID is: CNY-{id}' values={{ id: trade.id }} />
         </Text>
         <OrderDetailsTable style={spacing('mt-10')}>
-          {renderDetailsRow(
-            'order_details.amount_to_purchase',
-            trade.isBuy ? 'BTC Purchased' : 'BTC Sold',
-            details.firstRow
-          )}
-          {renderDetailsRow(
-            'order_details.trading_fee',
-            'Trading Fee',
-            details.fee
-          )}
-          {renderDetailsRow(
-            'order_details.total_cost',
-            trade.isBuy ? 'Total Cost' : 'Total To Be Received',
-            details.total,
-            'success'
-          )}
+          <OrderDetailsRow>
+            {
+              trade.isBuy
+                ? <Text size='13px' weight={300}><FormattedMessage id='orderdetails.amounttopurchase' defaultMessage='BTC Purchased' /></Text>
+                : <Text size='13px' weight={300}><FormattedMessage id='orderdetails.amounttosell' defaultMessage='BTC Sold' /></Text>
+            }
+            <Text size='13px' weight={300}>{details.firstRow}</Text>
+          </OrderDetailsRow>
+          <OrderDetailsRow>
+            <Text size='13px' weight={300}><FormattedMessage id='orderdetails.tradingfee' defaultMessage='Trading Fee' /></Text>
+            <Text size='13px' weight={300}>{details.fee}</Text>
+          </OrderDetailsRow>
+          <OrderDetailsRow>
+            {
+              trade.isBuy
+                ? <Text size='13px' weight={300}><FormattedMessage id='orderdetails.totalcost' defaultMessage='Total Cost' /></Text>
+                : <Text size='13px' weight={300}><FormattedMessage id='orderdetails.totaltobereceived' defaultMessage='Total To Be Received' /></Text>
+            }
+            <Text size='13px' weight={300} color='success'>{details.total}</Text>
+          </OrderDetailsRow>
         </OrderDetailsTable>
         <ButtonRow>
           <Button width='100px' onClick={close} nature='primary'>

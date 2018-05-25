@@ -9,7 +9,7 @@ import Convertor from './Convertor'
 
 class FiatConvertorContainer extends React.PureComponent {
   render () {
-    const { input, meta, data } = this.props
+    const { input, meta, data, disabled } = this.props
 
     return data.cata({
       Success: (value) => <Convertor
@@ -23,6 +23,7 @@ class FiatConvertorContainer extends React.PureComponent {
         onChange={input.onChange}
         onBlur={input.onBlur}
         onFocus={input.onFocus}
+        disabled={disabled}
       />,
       Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
