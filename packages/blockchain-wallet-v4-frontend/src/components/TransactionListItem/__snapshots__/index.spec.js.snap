@@ -22,6 +22,7 @@ exports[`ListItemContainer renders correctly 1`] = `
         "fetchMetadataEthereumFailure": [Function],
         "fetchMetadataEthereumLoading": [Function],
         "fetchMetadataEthereumSuccess": [Function],
+        "setLatestTxEthereum": [Function],
         "setLatestTxTimestampEthereum": [Function],
         "setTxNotesEthereum": [Function],
         "updateMetadataEthereum": [Function],
