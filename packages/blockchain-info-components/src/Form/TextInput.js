@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-// TODO:: disabled
 const BaseTextInput = styled.input.attrs({
   type: 'text',
   disabled: props => props.disabled
