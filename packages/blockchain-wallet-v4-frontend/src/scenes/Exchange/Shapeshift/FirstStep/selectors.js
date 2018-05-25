@@ -53,7 +53,7 @@ export const getData = state => {
       elements,
       initialValues,
       hasOneAccount,
-      enabled,
+      disabled: !enabled,
       formError,
       currency,
       sourceCoin,
