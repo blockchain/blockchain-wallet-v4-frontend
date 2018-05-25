@@ -75,7 +75,7 @@ const ShapeshiftIcon = styled(Icon)`
 `
 
 const Success = props => {
-  const { elements, enabled, hasOneAccount, currency, sourceCoin, targetCoin, formError, handleSwap, handleSubmit, dirty } = props
+  const { elements, disabled, hasOneAccount, currency, sourceCoin, targetCoin, formError, handleSwap, handleSubmit, dirty } = props
 
   return (
     <Wrapper>
@@ -100,13 +100,13 @@ const Success = props => {
         </Row>
         <Row height='50px' spaced>
           <Cell>
-            <Field name='source' component={SelectBox} elements={elements} hasOneAccount={hasOneAccount} />
+            <Field name='source' component={SelectBox} elements={elements} hasOneAccount={hasOneAccount} disabled={disabled} />
           </Cell>
           <Cell size='small'>
-            <ShapeshiftIcon name='shapeshift-switch' size='28px' weight={500} cursor onClick={handleSwap} />
+            <ShapeshiftIcon name='shapeshift-switch' size='28px' weight={500} cursor onClick={() => { if (!disabled) handleSwap() }} />
           </Cell>
           <Cell>
-            <Field name='target' component={SelectBox} elements={elements} hasOneAccount={hasOneAccount} />
+            <Field name='target' component={SelectBox} elements={elements} hasOneAccount={hasOneAccount} disabled={disabled} />
           </Cell>
         </Row>
         <Row justify='space-between'>
@@ -125,28 +125,28 @@ const Success = props => {
         <Row height='80px'>
           <Cell>
             <AmountContainer hasNoBottomBorder>
-              <Field name='sourceAmount' component={NumberBoxDebounced} disabled={!enabled} />
-              <CurrencyBox disabled={!enabled}>{sourceCoin}</CurrencyBox>
+              <Field name='sourceAmount' component={NumberBoxDebounced} disabled={disabled} />
+              <CurrencyBox disabled={disabled}>{sourceCoin}</CurrencyBox>
             </AmountContainer>
             <AmountContainer>
-              <Field name='sourceFiat' component={NumberBoxDebounced} disabled={!enabled} />
-              <CurrencyBox disabled={!enabled}>{currency}</CurrencyBox>
+              <Field name='sourceFiat' component={NumberBoxDebounced} disabled={disabled} />
+              <CurrencyBox disabled={disabled}>{currency}</CurrencyBox>
             </AmountContainer>
           </Cell>
           <Cell size='small'>
-            {enabled
-              ? <Icon name='right-arrow' size='24px' weight={500} />
-              : <HeartbeatLoader width='20px' height='20px' />
+            {disabled
+              ? <HeartbeatLoader width='20px' height='20px' />
+              : <Icon name='right-arrow' size='24px' weight={500} />
             }
           </Cell>
           <Cell>
             <AmountContainer hasNoBottomBorder>
-              <Field name='targetAmount' component={NumberBoxDebounced} disabled={!enabled} />
-              <CurrencyBox disabled={!enabled}>{targetCoin}</CurrencyBox>
+              <Field name='targetAmount' component={NumberBoxDebounced} disabled={disabled} />
+              <CurrencyBox disabled={disabled}>{targetCoin}</CurrencyBox>
             </AmountContainer>
             <AmountContainer>
-              <Field name='targetFiat' component={NumberBoxDebounced} disabled={!enabled} />
-              <CurrencyBox disabled={!enabled}>{currency}</CurrencyBox>
+              <Field name='targetFiat' component={NumberBoxDebounced} disabled={disabled} />
+              <CurrencyBox disabled={disabled}>{currency}</CurrencyBox>
             </AmountContainer>
           </Cell>
         </Row>
@@ -173,7 +173,7 @@ const Success = props => {
           </Row>
         }
         <Row spaced>
-          <Button type='submit' nature='primary' fullwidth disabled={!dirty || !enabled || (dirty && !isEmpty(formError))}>
+          <Button type='submit' nature='primary' fullwidth disabled={!dirty || disabled || (dirty && !isEmpty(formError))}>
             <FormattedMessage id='scenes.exchange.shapeshift.firststep.next' defaultMessage='Next' />
           </Button>
         </Row>
