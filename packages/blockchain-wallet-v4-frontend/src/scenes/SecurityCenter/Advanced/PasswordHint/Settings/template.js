@@ -27,7 +27,7 @@ const Settings = (props) => {
         </Button>
       }
       { updateToggled &&
-        <SettingForm>
+        <SettingForm onSubmit={handleClick}>
           <Field name='passwordHint' component={TextBox} />
           <ButtonWrapper>
             <Button nature='empty' capitalize onClick={handleCancel}>

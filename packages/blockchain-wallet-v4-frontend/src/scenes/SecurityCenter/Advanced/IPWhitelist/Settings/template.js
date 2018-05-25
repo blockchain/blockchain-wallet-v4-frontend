@@ -30,7 +30,7 @@ const Settings = (props) => {
         </Button>
       }
       { updateToggled &&
-        <SettingForm>
+        <SettingForm onSubmit={handleClick}>
           <Input name='IPWhitelist' validate={[validIpList]} component={TextBox} />
           <ButtonWrapper>
             <Button nature='empty' capitalize onClick={handleCancel}>
