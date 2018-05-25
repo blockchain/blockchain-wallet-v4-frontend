@@ -8,6 +8,6 @@ export default ({ api }) => {
 
   return function * () {
     yield takeLatest(AT.FETCH_METADATA_BCH, kvStoreBchSagas.fetchMetadataBch)
-    yield takeLatest(AT.SET_BCH_ACCOUNT_ARCHIVED, kvStoreBchSagas.setBchAccountArchived)
+    yield takeLatest(AT.SET_BCH_ACCOUNT_ARCHIVED, kvStoreBchSagas.refetchContextData)
   }
 }
