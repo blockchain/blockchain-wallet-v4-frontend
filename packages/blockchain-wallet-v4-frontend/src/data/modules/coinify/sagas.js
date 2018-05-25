@@ -1,4 +1,5 @@
 import { put, call, select } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
 import * as A from './actions'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors.js'
@@ -42,8 +43,12 @@ export default ({ coreSagas }) => {
         return
       }
 
+      if (buyTrade.medium === 'bank') {
+        yield put(A.coinifyNextCheckoutStep('bankTransferDetails'))
+      } else {
+        yield put(A.coinifyNextCheckoutStep('isx'))
+      }
       yield put(A.coinifyNotAsked())
-      yield put(A.coinifyNextCheckoutStep('isx'))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'buy', e))
     }
@@ -89,12 +94,11 @@ export default ({ coreSagas }) => {
 
   const handleChange = function * (action) {
     try {
-      yield put(A.clearCoinifyCheckoutError())
-
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
       const payload = prop('payload', action)
       if (!equals('coinifyCheckout', form)) return
+      yield put(A.clearCoinifyCheckoutError())
       yield put(A.coinifyCheckoutBusyOn())
 
       const limits = yield select(selectors.core.data.coinify.getLimits)
@@ -158,8 +162,13 @@ export default ({ coreSagas }) => {
       const modals = yield select(selectors.modals.getModals)
       const trade = yield select(selectors.core.data.coinify.getTrade)
 
-      if (path(['type'], head(modals)) === 'CoinifyExchangeData') yield put(actions.modals.closeAllModals())
-      else yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
+      if (path(['type'], head(modals)) === 'CoinifyExchangeData') {
+        yield put(A.coinifySignupComplete())
+        yield call(delay, 500)
+        yield put(actions.modals.closeAllModals())
+      } else {
+        yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
+      }
 
       yield put(A.coinifyNextCheckoutStep('checkout'))
       yield call(coreSagas.data.coinify.getKYCs)
@@ -198,8 +207,12 @@ export default ({ coreSagas }) => {
     const tradeToFinish = data.payload
     try {
       if (tradeToFinish.state === 'awaiting_transfer_in') {
-        yield call(coreSagas.data.coinify.kycAsTrade, { kyc: tradeToFinish }) // core expects obj key to be 'kyc'
-        yield put(A.coinifyNextCheckoutStep('isx'))
+        if (tradeToFinish.medium === 'card') {
+          yield call(coreSagas.data.coinify.kycAsTrade, { kyc: tradeToFinish }) // core expects obj key to be 'kyc'
+          yield put(A.coinifyNextCheckoutStep('isx'))
+        } else if (tradeToFinish.medium === 'bank') {
+          yield put(actions.modals.showModal('CoinifyTradeDetails', { trade: tradeToFinish }))
+        }
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'finishTrade', e))
@@ -208,8 +221,28 @@ export default ({ coreSagas }) => {
 
   const cancelISX = function * () {
     const modals = yield select(selectors.modals.getModals)
-    if (path(['type'], head(modals)) === 'CoinifyExchangeData') yield put(actions.modals.closeAllModals())
-    else yield put(A.coinifyNextCheckoutStep('checkout'))
+    const trade = yield select(selectors.core.data.coinify.getTrade)
+
+    if (path(['type'], head(modals)) === 'CoinifyExchangeData') {
+      yield put(actions.modals.closeAllModals())
+    } else if (trade.data.state === 'awaiting_transfer_in') {
+      yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
+      yield put(A.coinifyNextCheckoutStep('checkout'))
+    } else {
+      yield put(A.coinifyNextCheckoutStep('checkout'))
+    }
+  }
+
+  const cancelTrade = function * (data) {
+    const trade = data.payload
+    try {
+      yield put(A.setCancelTradeId(trade.id))
+      yield put(A.coinifyLoading())
+      yield call(coreSagas.data.coinify.cancelTrade, { trade })
+      yield put(A.coinifySuccess())
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'cancelTrade', e))
+    }
   }
 
   return {
@@ -224,6 +257,7 @@ export default ({ coreSagas }) => {
     openKYC,
     setMinMax,
     cancelISX,
-    finishTrade
+    finishTrade,
+    cancelTrade
   }
 }

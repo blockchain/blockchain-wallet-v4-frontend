@@ -12,3 +12,6 @@ export const fetchMetadataEthereumFailure = (error) => ({ type: AT.FETCH_METADAT
 export const createMetadataEthereum = (data) => ({ type: AT.CREATE_METADATA_ETHEREUM, payload: data })
 
 export const setTxNotesEthereum = (txHash, txNote) => ({type: AT.SET_TRANSACTION_NOTE_ETHEREUM, payload: {txHash, txNote}})
+
+export const setLatestTxEthereum = (txHash) => ({type: AT.SET_LATEST_TX_ETHEREUM, payload: txHash})
+export const setLatestTxTimestampEthereum = (timestamp) => ({type: AT.SET_LATEST_TX_TIMESTAMP_ETHEREUM, payload: timestamp})
