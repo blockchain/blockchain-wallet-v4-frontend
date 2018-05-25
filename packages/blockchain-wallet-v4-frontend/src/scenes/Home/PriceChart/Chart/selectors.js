@@ -1,8 +1,11 @@
 import { lift, map, prop } from 'ramda'
 import { selectors } from 'data'
+import { Exchange } from 'blockchain-wallet-v4/src'
 
 export const getData = (state) => {
   const currencyR = selectors.core.settings.getCurrency(state)
+  const currency = currencyR.getOrElse('USD')
+  const currencySymbol = Exchange.getSymbol(currency)
   const priceChartPref = selectors.preferences.getPriceChart(state)
   const cacheCoin = prop('coin', priceChartPref)
   const cacheTime = prop('time', priceChartPref)
@@ -18,7 +21,8 @@ export const getData = (state) => {
 
   return {
     data: lift(transform)(priceIndexSeriesDataR),
-    currency: currencyR.getOrElse('USD'),
+    currency,
+    currencySymbol,
     cache: {
       coin: cacheCoin,
       time: cacheTime
