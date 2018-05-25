@@ -220,14 +220,6 @@ export default ({ api, options }) => {
     try {
       const accounts = yield select(S.getAccounts)
       const response = yield apply(accounts.data[0], accounts.data[0].verify, [amount1, amount2])
-      console.log('deposits response', response)
-      /*
-        valid response: {payment_method_id: "69fa19d0-f045-4097-96ec-4e1c74ccc695", status: "active"}
-                        payment_method_id:"69fa19d0-f045-4097-96ec-4e1c74ccc695"
-                        status:"active"
-
-         may need to call payment methods after this resolves
-      */
       yield call(fetchSfoxAccounts)
       return response
     } catch (e) {

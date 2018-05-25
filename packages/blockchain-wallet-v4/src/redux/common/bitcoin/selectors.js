@@ -102,7 +102,7 @@ export const getAddressesInfo = state => {
 }
 
 // getWalletTransactions :: state -> [Page]
-export const getWalletTransactions = memoize(state => {
+export const getWalletTransactions = state => {
   // Page == Remote ([Tx])
   // Remote(wallet)
   const walletR = Remote.of(walletSelectors.getWallet(state))
@@ -117,7 +117,7 @@ export const getWalletTransactions = memoize(state => {
   // ProcessRemotePage :: Page -> Page
   const ProcessPage = lift(ProcessTxs)(walletR, blockHeightR)
   return map(ProcessPage, pages)
-})
+}
 
 // path is: accountIndex/chainIndex/addressIndex
 const getAddress = curry((network, path, state) => {
