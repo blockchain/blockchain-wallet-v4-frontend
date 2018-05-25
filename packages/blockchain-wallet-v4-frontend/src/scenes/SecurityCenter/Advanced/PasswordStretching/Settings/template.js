@@ -29,7 +29,7 @@ const Settings = (props) => {
         </Button>
       }
       { updateToggled &&
-        <SettingForm>
+        <SettingForm onSubmit={handleClick}>
           <Field name='passwordStretching' component={NumberBox} validate={validPasswordStretchingNumber} />
           <ButtonWrapper>
             <Button nature='empty' capitalize onClick={handleToggle}>
