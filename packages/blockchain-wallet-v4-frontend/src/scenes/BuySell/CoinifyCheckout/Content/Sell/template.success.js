@@ -42,15 +42,17 @@ const Sell = props => {
     step,
     busy,
     trade,
-    onOrderCheckoutSubmit
+    value,
+    onOrderCheckoutSubmit,
+    checkoutError
   } = props
 
-  const profile = Remote.of(props.value.profile).getOrElse({ _limits: service.mockedLimits, _level: { currency: 'EUR' } })
+  const profile = value.profile || { _limits: service.mockedLimits, _level: { currency: 'EUR' } }
 
   const defaultCurrency = currency || 'EUR' // profile._level.currency
   const symbol = service.currencySymbolMap[defaultCurrency]
 
-  const limits = service.getLimits(profile._limits, defaultCurrency)
+  const limits = service.getLimits(profile._limits, defaultCurrency, path(['payment', 'effectiveBalance'], value))
 
   if (step !== 'isx') {
     return (
@@ -70,6 +72,7 @@ const Sell = props => {
               setMax={setMax}
               setMin={setMin}
               onOrderCheckoutSubmit={onOrderCheckoutSubmit}
+              checkoutError={checkoutError}
             />
           </CheckoutWrapper>
         </StepView>

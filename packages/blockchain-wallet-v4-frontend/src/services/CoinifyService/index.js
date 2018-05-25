@@ -1,8 +1,8 @@
 import React from 'react'
-import { has, slice, toUpper } from 'ramda'
+import { gt, has, slice, toUpper } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 
-export const getLimits = (limits, curr) => {
+export const getLimits = (limits, curr, effectiveBalance) => {
   const getMin = (limits, curr) => Math.min(limits.bank.minimumInAmounts[curr], limits.card.minimumInAmounts[curr])
   const getMax = (limits, curr) => Math.max(limits.bank.inRemaining[curr], limits.card.inRemaining[curr])
   return {
@@ -12,7 +12,8 @@ export const getLimits = (limits, curr) => {
     },
     sell: {
       min: getMin(limits, curr),
-      max: getMax(limits, curr)
+      max: getMax(limits, curr),
+      effectiveMax: effectiveBalance
     }
   }
 }
@@ -22,9 +23,11 @@ export const getLimitsError = (amt, userLimits, curr) => {
   if (limits.buy.max < limits.buy.min) return 'max_below_min'
   if (amt > limits.buy.max) return 'over_max'
   if (amt < limits.buy.min) return 'under_min'
-  // if ((fiat * 1e8) > limits.effectiveMax) return `Enter an amount less than your balance minus the priority fee (${limits.effectiveMax / 1e8} BTC)`
   return false
 }
+
+export const isOverEffectiveMax = (amount, effectiveBalance) =>
+  gt((amount * 1e8), effectiveBalance)
 
 export const currencySymbolMap = {
   GBP: '£',

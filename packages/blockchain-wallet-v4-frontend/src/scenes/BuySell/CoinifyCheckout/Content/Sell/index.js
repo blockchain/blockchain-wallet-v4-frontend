@@ -30,9 +30,9 @@ class SellContainer extends React.Component {
   }
 
   render () {
-    const { data, modalActions, coinifyActions, coinifyDataActions,
+    const { data, modalActions, coinifyActions, coinifyDataActions, formActions,
       rateQuoteR, sellQuoteR, currency, paymentMedium, trade, ...rest } = this.props
-    const { step, checkoutBusy, coinifyBusy } = rest
+    const { step, checkoutBusy, coinifyBusy, checkoutError } = rest
     const { handleTrade, fetchQuote } = coinifyDataActions
     const { showModal } = modalActions
     const { coinifyNotAsked } = coinifyActions
@@ -45,7 +45,7 @@ class SellContainer extends React.Component {
     })
 
     return data.cata({
-      Success: (value) => <Success {...this.props}
+      Success: (value) => <Success
         value={value}
         handleTrade={handleTrade}
         showModal={showModal}
@@ -54,8 +54,8 @@ class SellContainer extends React.Component {
         fetchSellQuote={(quote) => fetchQuote({ quote, nextAddress: value.nextAddress })}
         currency={currency}
         checkoutBusy={checkoutBusy}
-        setMax={(amt) => coinifyActions.setCheckoutMax(amt, 'sell')}
-        setMin={(amt) => coinifyActions.setCheckoutMin(amt, 'sell')}
+        setMax={(amt) => formActions.change('coinifyCheckoutSell', 'leftVal', amt)}
+        setMin={(amt) => formActions.change('coinifyCheckoutSell', 'leftVal', amt)}
         paymentMedium={paymentMedium}
         initiateSell={this.startSell}
         step={step}
@@ -63,6 +63,7 @@ class SellContainer extends React.Component {
         clearTradeError={() => coinifyNotAsked()}
         trade={trade}
         onOrderCheckoutSubmit={this.submitQuote}
+        checkoutError={checkoutError}
       />,
       Failure: (msg) => <div>Failure: {msg.error}</div>,
       Loading: () => <Loading />,

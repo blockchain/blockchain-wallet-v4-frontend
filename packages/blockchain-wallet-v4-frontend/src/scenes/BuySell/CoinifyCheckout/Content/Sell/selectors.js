@@ -1,57 +1,30 @@
 import { formValueSelector } from 'redux-form'
 import { lift, path } from 'ramda'
-// import settings from 'config'
 import { selectors } from 'data'
 
-export const getProfileData = (state) => {
+export const getUserData = (state) => {
   const profile = selectors.core.data.coinify.getProfile(state)
-  // const nextAddress = selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, 0, state)
-  return lift((profile) => ({ profile }))(profile)
+  const payment = selectors.components.sendBtc.getPayment(state)
+  return lift((profile, payment) => ({ profile, payment }))(profile, payment)
 }
 
-export const getTrades = (state) => {
-  try {
-    return selectors.core.data.coinify.getTrades(state).data
-  } catch (e) {
-    return null
-  }
-}
+export const getTrades = (state) =>
+  selectors.core.data.coinify.getTrades(state).getOrElse(null)
 
-export const getRateQuote = (state) => {
-  try {
-    return selectors.core.data.coinify.getRateQuote(state)
-  } catch (e) {
-    return null
-  }
-}
+export const getRateQuote = (state) =>
+  selectors.core.data.coinify.getRateQuote(state)
 
-export const getTrade = (state) => {
-  try {
-    return selectors.core.data.coinify.getTrade(state).data
-  } catch (e) {
-    return null
-  }
-}
+export const getTrade = (state) =>
+  selectors.core.data.coinify.getTrade(state).getOrElse(null)
 
-export const getQuote = (state) => {
-  try {
-    return selectors.core.data.coinify.getQuote(state)
-  } catch (e) {
-    return null
-  }
-}
+export const getQuote = (state) =>
+  selectors.core.data.coinify.getQuote(state)
 
-export const getCurrency = (state) => {
-  try {
-    return selectors.core.data.coinify.getLevel(state)
-  } catch (e) {
-    return null
-  }
-}
+export const getCurrency = (state) =>
+  selectors.core.data.coinify.getLevel(state)
 
-export const getBase = (state) => {
-  return state.form.exchangeCheckout && state.form.exchangeCheckout.active
-}
+export const getBase = (state) =>
+  state.form.exchangeCheckout && state.form.exchangeCheckout.active
 
 export const getErrors = (state) => {
   const exchangeCheckoutForm = state.form && state.form.exchangeCheckout
@@ -60,7 +33,7 @@ export const getErrors = (state) => {
 
 export const getData = (state) => ({
   base: getBase(state),
-  data: getProfileData(state),
+  data: getUserData(state),
   sellQuoteR: getQuote(state),
   rateQuoteR: getRateQuote(state),
   trade: getTrade(state),
@@ -70,5 +43,6 @@ export const getData = (state) => ({
   checkoutBusy: path(['coinify', 'checkoutBusy'], state),
   paymentMedium: path(['coinify', 'medium'], state),
   step: path(['coinify', 'checkoutStep'], state),
-  coinifyBusy: path(['coinify', 'coinifyBusy'], state)
+  coinifyBusy: path(['coinify', 'coinifyBusy'], state),
+  checkoutError: path(['coinify', 'checkoutError'], state)
 })

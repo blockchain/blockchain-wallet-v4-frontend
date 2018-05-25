@@ -8,7 +8,7 @@ import { StepTransition } from 'components/Utilities/Stepper'
 import QuoteInput from './QuoteInput'
 import { MethodContainer } from 'components/BuySell/styled.js'
 
-const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, limits,
+const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, limits, checkoutError,
   type, defaultCurrency, symbol, checkoutBusy, busy, setMax, setMin, increaseLimit, onOrderCheckoutSubmit }) => {
   const quoteInputSpec = {
     method: type, // buy or sell
@@ -20,22 +20,10 @@ const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, limi
     ? <FormattedMessage id='buy.output_method.title.buy' defaultMessage='I want to buy' />
     : <FormattedMessage id='buy.output_method.title.sell' defaultMessage='I want to sell' />
 
-  const limitsHelper = (quoteR, limits) => {
-    if (quoteR.error) return true
-    return quoteR.map(q => {
-      if (q.baseCurrency === 'USD') {
-        return +q.baseAmount > limits.max || +q.baseAmount < limits.min || +q.quoteAmount > limits.effectiveMax
-      }
-      if (q.baseCurrency === 'BTC') {
-        return Math.abs(q.quoteAmount) > limits.max || Math.abs(q.quoteAmount) < limits.min || +q.baseAmount > limits.effectiveMax
-      }
-    }).data
-  }
-
   const submitButtonHelper = () => (
     reason.indexOf('has_remaining') > -1
       ? <StepTransition next Component={Button} onClick={onOrderCheckoutSubmit} style={spacing('mt-45')}
-        nature='primary' fullwidth disabled={checkoutBusy || Remote.Loading.is(quoteR) || limitsHelper(quoteR, limits)}>
+        nature='primary' fullwidth disabled={checkoutBusy || Remote.Loading.is(quoteR) || checkoutError}>
         {
           Remote.Loading.is(quoteR)
             ? <HeartbeatLoader height='20px' width='20px' color='white' />

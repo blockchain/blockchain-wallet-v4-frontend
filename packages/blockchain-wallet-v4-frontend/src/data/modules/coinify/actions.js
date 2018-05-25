@@ -24,9 +24,6 @@ export const initializeCheckoutForm = (type) => ({ type: AT.COINIFY_INITIALIZED,
 export const coinifyCheckoutBusyOn = () => ({ type: AT.COINIFY_CHECKOUT_BUSY_ON })
 export const coinifyCheckoutBusyOff = () => ({ type: AT.COINIFY_CHECKOUT_BUSY_OFF })
 
-export const setCheckoutMax = (amount, type) => ({ type: AT.COINIFY_SET_CHECKOUT_MAX, payload: { amount, type } })
-export const setCheckoutMin = (amount, type) => ({ type: AT.COINIFY_SET_CHECKOUT_MIN, payload: { amount, type } })
-
 export const setCoinifyCheckoutError = (error) => ({ type: AT.COINIFY_SET_CHECKOUT_ERROR, payload: error })
 export const clearCoinifyCheckoutError = () => ({ type: AT.COINIFY_CLEAR_CHECKOUT_ERROR })
 

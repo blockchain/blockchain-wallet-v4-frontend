@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { QuoteInputTemplateBuy, QuoteInputTemplateSell } from './QuoteInputTemplate'
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { path } from 'ramda'
@@ -26,7 +26,6 @@ class QuoteInput extends Component {
           setMin={setMin}
           checkoutError={checkoutError}
           increaseLimit={increaseLimit}
-          type={type}
         />
       },
       Failure: (msg) => <div>Failure: {msg.error}</div>,
@@ -44,7 +43,7 @@ QuoteInput.propTypes = {
   checkoutError: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, ownProps) => ({
   checkoutError: path(['coinify', 'checkoutError'], state),
   data: getQuoteInputData(state)
 })
