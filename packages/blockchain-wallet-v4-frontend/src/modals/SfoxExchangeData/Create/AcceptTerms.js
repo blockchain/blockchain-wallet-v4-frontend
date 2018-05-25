@@ -125,7 +125,7 @@ class AcceptTerms extends Component {
                       { email }
                     </Text>
                     <Link onClick={editEmail} size='14px' weight={300}>
-                      <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.editemail' defaultMessage='edit' />
+                      <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.edit' defaultMessage='edit' />
                     </Link>
                   </FieldBox>
                   <IconContainer>
@@ -143,7 +143,7 @@ class AcceptTerms extends Component {
                       { smsNumber }
                     </Text>
                     <Link onClick={editMobile} size='14px' weight={300}>
-                      <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.editmobile' defaultMessage='edit' />
+                      <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.edit' defaultMessage='edit' />
                     </Link>
                   </FieldBox>
                   <IconContainer>
@@ -173,13 +173,15 @@ class AcceptTerms extends Component {
             <ErrorWrapper>
               {
                 busy instanceof Error && busy.message.toLowerCase() === 'user is already registered'
-                  ? <Text size='12px' color='error' weight={300} onClick={() => { sfoxNotAsked(); this.props.updateUI({ create: 'change_email' }) }}>
-                    <FormattedHTMLMessage id='sfoxexchangedata.create.accept.error' defaultMessage='Unfortunately this email is being used for another account. <a>Click here</a> to change it.' />
-                  </Text>
-                  : busy instanceof Error
-                    ? <Text size='12px' color='error' weight={300}>
-                      <FormattedMessage id='sfoxexchangedata.create.accept.unknownError' defaultMessage="We're sorry, but something unexpected went wrong. Please {tryAgain} or {contactSupport}." values={{tryAgain: <ErrorText onClick={() => sfoxNotAsked()}>try again</ErrorText>, contactSupport: <ErrorLink target='_blank' href='https://support.blockchain.com'>contact support</ErrorLink>}} />
-
+                  ? <InlineTextWrapper>
+                    <Text size='12px' color='error' weight={300} >
+                      <FormattedMessage id='sfoxexchangedata.create.accept.error' defaultMessage='Unfortunately this email is being used for another account.' />
+                    </Text>
+                    <Link size='12px' weight={300} onClick={() => { sfoxNotAsked(); this.props.updateUI({ create: 'change_email' }) }} >
+                      <FormattedMessage id='clickhere' defaultMessage='Click here' />
+                    </Link>
+                    <Text size='12px' weight={300} color='error'>
+                      <FormattedMessage id='sfoxexchangedata.create.accept.tochangeit' defaultMessage=' to change it.' />
                     </Text>
                   </InlineTextWrapper>
                   : busy instanceof Error
