@@ -179,3 +179,17 @@ export const showKycStatus = (state) => {
   if (state === 'rejected') return state
   return false
 }
+
+export const getReasonExplanation = (reason, time) => {
+  const ONE_DAY_MS = 86400000
+  let canTradeAfter = time
+  let days = isNaN(canTradeAfter) ? `1 day` : `${Math.ceil((canTradeAfter - Date.now()) / ONE_DAY_MS)} days`
+
+  switch (reason) {
+    case 'awaiting_first_trade_completion':
+      return <FormattedMessage id='scenes.coinify.cannottradereason.firsttradecompletion' defaultMessage='Trading is disabled because your first trade has not completed yet.' />
+    case 'after_first_trade':
+      return <FormattedMessage id='scenes.coinify.cannottradereason.afterfirsttrade' defaultMessage='Trading is disabled as our exchange partner verifies your payment info. This will happen only once, and you may resume trading in {days}.' values={{ days: days }} />
+    default: return <FormattedMessage id='scenes.coinify.cannottradereason.unknown' defaultMessage='Trading is disabled.' />
+  }
+}

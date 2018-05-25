@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { bindActionCreators, compose } from 'redux'
 import ui from 'redux-ui'
 import { actions, selectors } from 'data'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { formValueSelector, Field } from 'redux-form'
 
 import { TextBox } from 'components/Form'
@@ -83,7 +83,7 @@ class VerifyEmail extends Component {
               ui.create === 'enter_email_code'
                 ? <EmailInput>
                   <Text size='14px' weight={400} style={{'margin-bottom': '5px'}}>
-                    <FormattedHTMLMessage id='sfoxexchangedata.create.verifyemail.code' defaultMessage='We emailed a verification code to {email}' values={{email: emailAddress}} />
+                    <FormattedMessage id='sfoxexchangedata.create.verifyemail.code' defaultMessage='We emailed a verification code to {email}' values={{email: emailAddress}} />
                   </Text>
                   <Field name='emailCode' onChange={() => this.props.updateUI({ uniqueEmail: true })} component={TextBox} errorBottom validate={[required]} />
                   <EmailHelper error={emailVerifiedError}>

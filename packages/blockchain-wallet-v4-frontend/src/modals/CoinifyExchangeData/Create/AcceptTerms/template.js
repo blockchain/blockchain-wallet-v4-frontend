@@ -5,7 +5,8 @@ import { Field, reduxForm } from 'redux-form'
 
 import Helper from 'components/BuySell/FAQ'
 import { CheckBox } from 'components/Form'
-import { Button, HeartbeatLoader, Link, Text, TextGroup } from 'blockchain-info-components'
+import Terms from 'components/Terms'
+import { Button, HeartbeatLoader, Text, TextGroup, Link } from 'blockchain-info-components'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ErrorWrapper, ColRightInner } from 'components/BuySell/Signup'
 
 const AcceptTermsContainer = styled.div`
@@ -14,7 +15,8 @@ const AcceptTermsContainer = styled.div`
   margin-top: 25px;
   font-size: 12px;
   a {
-    color: ${props => props.theme['brand-secondary']}
+    color: ${props => props.theme['brand-secondary']};
+    text-decoration: none;
   }
   * { cursor: pointer; }
 `
@@ -45,26 +47,7 @@ const AcceptTerms = (props) => {
           </PartnerSubHeader>
           <AcceptTermsContainer>
             <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox}>
-              <TextGroup inline>
-                <Text size='12px' weight={300}>
-                  <FormattedMessage id='coinifyexchangedata.create.accept.terms1' defaultMessage="I accept Blockchain's " />
-                </Text>
-                <Link href='https://www.blockchain.com/terms/index.html' target='_blank' referrer='noreferrer' size='12px' weight={300}>
-                  <FormattedMessage id='coinifyexchangedata.create.accept.terms2' defaultMessage='Terms of Service ' />
-                </Link>
-                <Text size='12px' weight={300}>
-                  Coinify's
-                </Text>
-                <Link href='https://coinify.com/legal/' target='_blank' referrer='noreferrer' size='12px' weight={300}>
-                  <FormattedMessage id='coinifyexchangedata.create.accept.terms3' defaultMessage='Terms of Service' />
-                </Link>
-                <Text size='12px' weight={300}>
-                  <FormattedMessage id='coinifyexchangedata.create.accept.terms4' defaultMessage=' &' />
-                </Text>
-                <Link href='https://coinify.com/legal/' target='_blank' referrer='noreferrer' size='12px' weight={300}>
-                  <FormattedMessage id='coinifyexchangedata.create.accept.terms5' defaultMessage='Privacy Policy.' />
-                </Link>
-              </TextGroup>
+              <Terms company='coinify' />
             </Field>
           </AcceptTermsContainer>
         </InputWrapper>
@@ -91,6 +74,7 @@ const AcceptTerms = (props) => {
                 </Text>
                 <Text size='12px' color='error' weight={300}>
                   <FormattedMessage id='coinifyexchangedata.create.accept.error3' defaultMessage='to change it.' />
+
                 </Text>
               </TextGroup>
             }
