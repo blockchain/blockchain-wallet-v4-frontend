@@ -21,12 +21,13 @@ export default ({ api, coreSagas }) => {
     const index = prop('index', to)
     if (utils.checks.isPositiveInteger(index) && priv) {
       try {
-        coreSagas.payment.btc.create(({network: settings.NETWORK_BITCOIN}))
+        yield coreSagas.payment.btc.create(({network: settings.NETWORK_BITCOIN}))
           .chain()
           .init()
+          .from(priv)
           .fee('regular')
           .to(index)
-          .description('Imported address sweeped')
+          .description('Imported address swept')
           .buildSweep()
           .sign(password)
           .publish()

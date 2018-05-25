@@ -20,7 +20,8 @@ export const btcFromLabel = curry((payment, state) => {
     case 'FROM.ACCOUNT':
       return selectors.core.wallet.getAccountLabel(state)(payment.fromAccountIdx)
     case 'FROM.LEGACY':
-      return selectors.core.wallet.getLegacyAddressLabel(state)(payment.from[0])
+      const label = selectors.core.wallet.getLegacyAddressLabel(state)(payment.from[0])
+      return label || payment.from[0]
     case 'FROM.WATCH_ONLY':
     case 'FROM.EXTERNAL':
     default:
