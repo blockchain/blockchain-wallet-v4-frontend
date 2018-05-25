@@ -1,5 +1,4 @@
 import React from 'react'
-import { connect } from 'react-redux'
 
 import AddBankDetails from './template.js'
 
@@ -9,10 +8,4 @@ class AddBankDetailsContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
-})
-
-const mapDispatchToProps = (dispatch) => ({
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(AddBankDetailsContainer)
+export default AddBankDetailsContainer

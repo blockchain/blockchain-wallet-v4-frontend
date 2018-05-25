@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
 import { SelectBoxCoinifyCurrency, TextBoxDebounced } from 'components/Form'
 import { Field, reduxForm } from 'redux-form'
-import { head } from 'ramda'
+import { has, head, prop } from 'ramda'
 import { getReasonExplanation } from 'services/CoinifyService'
 
 const Wrapper = styled.div`
@@ -77,13 +77,16 @@ const LimitsHelper = styled.div`
 `
 
 const getLimitsError = (errorType, limits, symbol, setMin) => {
-  if (errorType === 'below_min') return `Your limit of ${symbol}${limits.max} is below the minimum allowed amount.`
-  if (errorType === 'over_max') return `Enter an amount under your ${symbol}${limits.max.toLocaleString()} limit`
-  if (errorType === 'under_min') return <FormattedMessage id='buy.quote_input.under_min' defaultMessage='Enter an amount above the {setMin} minimum' values={{ setMin: <a onClick={() => setMin(limits.min)}>{symbol}{limits.min.toLocaleString()}</a> }} />
+  switch (errorType) {
+    case 'below_min': return `Your limit of ${symbol}${limits.max} is below the minimum allowed amount.`
+    case 'over_max': return `Enter an amount under your ${symbol}${limits.max.toLocaleString()} limit`
+    case 'under_min': return <FormattedMessage id='buy.quote_input.under_min' defaultMessage='Enter an amount above the {setMin} minimum' values={{ setMin: <a onClick={() => setMin(limits.min)}>{symbol}{limits.min.toLocaleString()}</a> }} />
+    case 'over_effective_max': return `Enter an amount less than your balance minus the priority fee (${limits.effectiveMax / 1e8} BTC)`
+  }
 }
 
 const FiatConvertor = (props) => {
-  const { val, disabled, setMax, setMin, limits, checkoutError, defaultCurrency, symbol, increaseLimit, type } = props
+  const { val, disabled, setMax, setMin, limits, checkoutError, defaultCurrency, symbol, increaseLimit } = props
   const currency = 'BTC'
   const level = val.level || { name: 1 }
   const kyc = val.kycs.length && head(val.kycs)

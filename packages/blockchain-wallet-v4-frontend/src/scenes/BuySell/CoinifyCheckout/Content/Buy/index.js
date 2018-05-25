@@ -51,8 +51,8 @@ class CoinifyBuyContainer extends React.Component {
         fetchBuyQuote={quote => fetchQuote({ quote, nextAddress: value.nextAddress })}
         currency={currency}
         checkoutBusy={checkoutBusy}
-        setMax={(amt) => this.props.coinifyActions.setCheckoutMax(amt, 'buy')}
-        setMin={(amt) => this.props.coinifyActions.setCheckoutMin(amt, 'buy')}
+        setMax={(amt) => formActions.change('coinifyCheckoutBuy', 'leftVal', amt)}
+        setMin={(amt) => formActions.change('coinifyCheckoutBuy', 'leftVal', amt)}
         paymentMedium={paymentMedium}
         initiateBuy={this.startBuy}
         step={step}

@@ -1,5 +1,5 @@
 import { lift } from 'ramda'
-// import settings from 'config'
+
 import { selectors } from 'data'
 
 export const getQuoteInputData = (state) => {
