@@ -20,6 +20,7 @@ export const secondStepSubmitClicked = () => ({ type: AT.EXCHANGE_SECOND_STEP_SU
 export const secondStepPaymentSent = (payment) => ({ type: AT.EXCHANGE_SECOND_STEP_PAYMENT_SENT, payload: payment })
 export const secondStepCancelClicked = () => ({ type: AT.EXCHANGE_SECOND_STEP_CANCEL_CLICKED })
 export const secondStepOrderExpired = () => ({ type: AT.EXCHANGE_SECOND_STEP_ORDER_EXPIRED })
+export const secondStepGoBack = () => ({ type: AT.EXCHANGE_SECOND_STEP_GOBACK })
 export const thirdStepInitialized = () => ({ type: AT.EXCHANGE_THIRD_STEP_INITIALIZED })
 export const thirdStepTradeStatusChanged = (status) => ({ type: AT.EXCHANGE_THIRD_STEP_TRADE_STATUS_CHANGED, payload: status })
 export const thirdStepCloseClicked = () => ({ type: AT.EXCHANGE_THIRD_STEP_CLOSE_CLICKED })
