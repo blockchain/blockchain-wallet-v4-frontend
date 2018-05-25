@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
 import { SelectBoxCoinifyCurrency, TextBoxDebounced } from 'components/Form'
 import { Field, reduxForm } from 'redux-form'
-import { has, head, prop } from 'ramda'
+import { head } from 'ramda'
 import { getReasonExplanation } from 'services/CoinifyService'
 
 const Wrapper = styled.div`
