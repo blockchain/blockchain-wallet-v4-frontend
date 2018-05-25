@@ -30,6 +30,18 @@ const Summary = styled.div`
   
   & > * { padding: 10px 0; }
 `
+const Warning = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${props => props.theme['brand-yellow-lighter']};
+  border-left: 10px solid ${props => props.theme['brand-yellow']};
+  padding: 10px 0;
+  margin: 5px 0;
+  margin-bottom: 25px;
+  
+  & > * { padding: 10px 0; }
+`
 const Footer = styled.div`
   display: flex;
   flex-direction: column;
@@ -41,7 +53,7 @@ const Footer = styled.div`
 `
 
 const Success = props => {
-  const { message, fromAddress, toAddress, amount, fee, total, coin, handleSubmit, handleBack } = props
+  const { message, fromAddress, toAddress, amount, fee, total, coin, handleSubmit, handleBack, isLegacy } = props
 
   return (
     <div>
@@ -88,6 +100,14 @@ const Success = props => {
         <CoinDisplay coin={coin} size='30px' weight={600} color='sent'>{total}</CoinDisplay>
         <FiatDisplay coin={coin} size='20px' weight={300} color='sent'>{total}</FiatDisplay>
       </Summary>
+      {isLegacy &&
+        <Warning>
+          <Text size='14px' weight={400}>
+            <FormattedMessage id='modals.sendbch.secondstep.legacyAddressWarning'
+              defaultMessage='Are you sure this is a Bitcoin Cash Address? Sending funds to bitcoin address by accident will result in loss of funds.' />
+          </Text>
+        </Warning>
+      }
       <Footer>
         <Button onClick={handleSubmit} nature='primary' fullwidth uppercase>
           <FormattedMessage id='modals.sendbch.secondstep.send' defaultMessage='Send Bitcoin Cash' />
