@@ -20,7 +20,6 @@ const BaseTextInput = styled.input.attrs({
   outline-width: 0;
   user-select: text;
   border: 1px solid  ${props => props.theme[props.borderColor]};
-  cursor: ${props => props.disabled ? 'not-allowed' : 'initial'};
   border-right: ${props => props.borderRightNone ? 'none' : ''};
 
   &::placeholder {
