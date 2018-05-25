@@ -28,6 +28,16 @@ export default (state = INITIAL_STATE, action) => {
       let setNote = assocPath(['ethereum', 'tx_notes', payload.txHash], payload.txNote)
       return over(valueLens, setNote, state)
     }
+    case AT.SET_LATEST_TX_ETHEREUM: {
+      let valueLens = compose(mapped, KVStoreEntry.value)
+      let setTx = assocPath(['ethereum', 'last_tx'], payload)
+      return over(valueLens, setTx, state)
+    }
+    case AT.SET_LATEST_TX_TIMESTAMP_ETHEREUM: {
+      let valueLens = compose(mapped, KVStoreEntry.value)
+      let setTxTimestamp = assocPath(['ethereum', 'last_tx_timestamp'], payload)
+      return over(valueLens, setTxTimestamp, state)
+    }
     default:
       return state
   }

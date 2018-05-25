@@ -18,9 +18,10 @@ class FirstStep extends React.PureComponent {
 
     return data.cata({
       Success: value => <Success
-        onSubmit={() => actions.sendEthFirstStepSubmitClicked()}
-        effectiveBalance={value.effectiveBalance}
         fee={value.fee}
+        unconfirmedTx={value.unconfirmedTx}
+        effectiveBalance={value.effectiveBalance}
+        onSubmit={() => actions.sendEthFirstStepSubmitClicked()}
       />,
       Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
