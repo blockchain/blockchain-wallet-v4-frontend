@@ -13,7 +13,7 @@ export const InvalidMobileNumberMessage = () => <FormattedMessage id='formhelper
 export const InvalidNumberMessage = () => <FormattedMessage id='formhelper.invalidnumber' defaultMessage='Invalid number' />
 export const InvalidPassphraseMessage = () => <FormattedMessage id='formhelper.invalidpassphrase' defaultMessage='Invalid passphrase' />
 export const InvalidPasswordStretchingNumberMessage = () => <FormattedMessage id='formhelper.invalidpasswordstretchingnumber' defaultMessage='Please ensure 1 < PBKDF2 <=20000' />
-export const InvalidStrongPasswordMessage = () => < FormattedMessage id='formhelper.invalidstrongpassword' defaultMessage='Your password is not strong enough' />
+export const InvalidStrongPasswordMessage = () => <FormattedMessage id='formhelper.invalidstrongpassword' defaultMessage='Your password is not strong enough' />
 export const InvalidWalletIdMessage = () => <FormattedMessage id='formhelper.invalidwalletidentifier' defaultMessage='Invalid wallet identifier' />
 export const RequiredDOBMessage = () => <FormattedMessage id='formhelper.requireddob' defaultMessage='Must be a valid date' />
 export const RequiredMessage = () => <FormattedMessage id='formhelper.required' defaultMessage='Required' />
