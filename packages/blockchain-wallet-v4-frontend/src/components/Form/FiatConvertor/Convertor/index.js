@@ -44,12 +44,13 @@ class ConvertorContainer extends React.PureComponent {
 
   render () {
     const { coin, fiat } = this.state
-    const { unit, currency, meta } = this.props
+    const { disabled, unit, currency, meta } = this.props
 
     return <Convertor
       coin={coin}
       fiat={fiat}
       unit={unit}
+      disabled={disabled}
       currency={currency}
       meta={meta}
       handleBlur={this.handleBlur}

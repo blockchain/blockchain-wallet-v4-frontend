@@ -4,6 +4,9 @@ import { actions, actionTypes, selectors } from 'data'
 let timer, counter, interval
 // Actions that won't refresh the autodisconnection timer
 let blackListedActivityTypes = [
+  actionTypes.core.data.ethereum.FETCH_ETHEREUM_LATEST_BLOCK_SUCCESS,
+  actionTypes.core.data.ethereum.FETCH_ETHEREUM_LATEST_BLOCK_LOADING,
+  actionTypes.core.data.ethereum.FETCH_ETHEREUM_LATEST_BLOCK,
   actionTypes.core.webSocket.bitcoin.MESSAGE_SOCKET,
   actionTypes.core.webSocket.ethereum.MESSAGE_SOCKET,
   actionTypes.core.webSocket.bch.MESSAGE_SOCKET]
