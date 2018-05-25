@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { Button, Link, Text } from 'blockchain-info-components'
 
-import { required } from 'services/FormHelper'
+import { required, validIban, validBIC } from 'services/FormHelper'
 import { flex, spacing } from 'services/StyleService'
 import { StepTransition } from 'components/Utilities/Stepper'
 import { Form, ColLeft, InputWrapper, PartnerHeader, PartnerSubHeader, ColRight, ColRightInner } from 'components/BuySell/Signup'
@@ -37,11 +37,11 @@ const AddBankDetails = (props) => {
             </PartnerSubHeader>
             <Text weight={300} size='12px'>
               <FormattedMessage id='coinifyexchangedata.addbankdetails.iban' defaultMessage='International Bank Account (IBAN)' />
-              <Field name='iban' validate={[required]} component={TextBox} />
+              <Field name='iban' validate={[required, validIban]} component={TextBox} />
             </Text>
             <Text weight={300} size='12px'>
               <FormattedMessage id='coinifyexchangedata.addbankdetails.swift' defaultMessage='Bank Identifier Code (SWIFT/BIC)' />
-              <Field name='bic' validate={[required]} component={TextBox} />
+              <Field name='bic' validate={[required, validBIC]} component={TextBox} />
             </Text>
           </InputWrapper>
         </BorderBox>

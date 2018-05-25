@@ -1,4 +1,4 @@
-import { lift, prop } from 'ramda'
+import { lift } from 'ramda'
 import { formValueSelector } from 'redux-form'
 
 import { selectors } from 'data'

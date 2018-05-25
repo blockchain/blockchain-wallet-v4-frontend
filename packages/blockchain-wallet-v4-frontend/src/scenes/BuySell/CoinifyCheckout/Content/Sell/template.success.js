@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import { path } from 'ramda'
 
-import { Remote } from 'blockchain-wallet-v4/src'
 import * as service from 'services/CoinifyService'
 import Stepper, { StepView } from 'components/Utilities/Stepper'
 import OrderCheckout from '../OrderCheckout'
