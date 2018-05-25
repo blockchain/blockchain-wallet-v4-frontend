@@ -49,14 +49,13 @@ export default ({ api }) => {
     }
   }
 
-  // TODO:: Rename this to refetchContext to match btc/eth
-  const setBchAccountArchived = function * () {
+  const refetchContextData = function * () {
     const bchContext = yield select(S.getContext)
     yield put(bchActions.fetchData(bchContext))
   }
 
   return {
     fetchMetadataBch,
-    setBchAccountArchived
+    refetchContextData
   }
 }
