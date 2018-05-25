@@ -7,7 +7,7 @@ import * as bchActions from '../../data/bch/actions'
 import { KVStoreEntry } from '../../../types'
 import { derivationMap, BCH } from '../config'
 import { getMetadataXpriv } from '../root/selectors'
-import { getHDAccounts, getWalletContext } from '../../wallet/selectors'
+import { getHDAccounts } from '../../wallet/selectors'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
@@ -50,8 +50,8 @@ export default ({ api }) => {
   }
 
   const setBchAccountArchived = function * () {
-    const btcContext = yield select(getWalletContext)
-    const bchContext = yield select(S.getContext, btcContext)
+    const btcHDAccountContext = yield select(getHDAccounts)
+    const bchContext = yield select(S.getContext, btcHDAccountContext)
     yield put(bchActions.fetchData(bchContext))
   }
 
