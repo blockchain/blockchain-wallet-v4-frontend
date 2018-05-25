@@ -96,6 +96,10 @@ export const isUndefinedOrEqualsToZero = (value) => {
   return isNil(value) || new BigNumber(value).equals(new BigNumber(0))
 }
 
+export const isMinimumGreaterThanMaximum = (minimum, maximum) => {
+  return new BigNumber(minimum).greaterThan(new BigNumber(maximum))
+}
+
 export const calculateFinalAmount = (value, fee) => {
   return new BigNumber(value).add(new BigNumber(fee)).toString()
 }

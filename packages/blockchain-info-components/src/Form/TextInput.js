@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const BaseTextInput = styled.input.attrs({
-  type: 'text'
+  type: 'text',
+  disabled: props => props.disabled
 })`
   display: block;
   width: 100%;
@@ -20,7 +21,6 @@ const BaseTextInput = styled.input.attrs({
   outline-width: 0;
   user-select: text;
   border: 1px solid  ${props => props.theme[props.borderColor]};
-  cursor: ${props => props.disabled ? 'not-allowed' : 'initial'};
   border-right: ${props => props.borderRightNone ? 'none' : ''};
 
   &::placeholder {
@@ -46,14 +46,13 @@ const TextInput = props => {
 }
 
 TextInput.propTypes = {
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  height: PropTypes.string,
+  minHeight: PropTypes.string
 }
 
 TextInput.defaultProps = {
-  disabled: false
-}
-
-TextInput.defaultProps = {
+  disabled: false,
   height: '40px',
   minHeight: '40px'
 }

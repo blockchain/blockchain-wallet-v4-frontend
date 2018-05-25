@@ -131,7 +131,7 @@ const Success = props => {
             <TableRow>
               <TableCell>
                 <Text size='13px' weight={400} capitalize>
-                  <FormattedMessage id='modals.exchange.shapeshift.received' defaultMessage='{coin} received' values={{ coin: targetCoin }} />
+                  <FormattedMessage id='modals.exchange.shapeshift.received' defaultMessage='{coin} to be received' values={{ coin: targetCoin }} />
                 </Text>
               </TableCell>
               <TableCell>

@@ -15,8 +15,8 @@ const options = {
 
 describe('ExchangeService', () => {
   describe('hasAccount()', () => {
-    it('returns "sfox" if user has a sfox offline_token', () => {
-      expect(ExchangeService.hasAccount({ sfox: { 'offline_token': 123 }, coinify: {} })).toBe('sfox')
+    it('returns "sfox" if user has a sfox account_token', () => {
+      expect(ExchangeService.hasAccount({ sfox: { 'account_token': 123 }, coinify: {} })).toBe('sfox')
     })
     it('returns "coinify" if user has a coinify offline_token', () => {
       expect(ExchangeService.hasAccount({ sfox: {}, coinify: { 'offline_token': 123 } })).toBe('coinify')

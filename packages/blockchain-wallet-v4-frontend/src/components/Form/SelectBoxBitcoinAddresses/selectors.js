@@ -4,6 +4,7 @@ import { selectors } from 'data'
 
 export const getData = (state, ownProps) => {
   const { coin, exclude = [], excludeImported } = ownProps
+  const isActive = filter(x => !x.archived)
   const excluded = filter(x => !exclude.includes(x.label))
   const toDropdown = map(x => ({ text: x.label, value: x }))
 
@@ -27,7 +28,7 @@ export const getData = (state, ownProps) => {
         const importedAddresses = selectors.core.common.bch.getActiveAddresses(state)
         return sequence(Remote.of,
           [
-            selectors.core.common.bch.getAccountsBalances(state).map(excluded).map(toDropdown),
+            selectors.core.common.bch.getAccountsBalances(state).map(isActive).map(excluded).map(toDropdown),
             excludeImported ? Remote.of([]) : lift(formatImportedAddressesData)(importedAddresses)
           ]).map(([b1, b2]) => ({ data: concat(b1, b2) }))
       default:

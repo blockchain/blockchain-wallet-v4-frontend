@@ -3,7 +3,9 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
-import SuccessTemplate from './template'
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
 import { getData } from './selectors'
 
 class ShapeshiftContainer extends React.Component {
@@ -13,7 +15,10 @@ class ShapeshiftContainer extends React.Component {
 
   render () {
     return this.props.data.cata({
-      Success: (value) => <SuccessTemplate step={value.step}/>
+      Success: (value) => <Success step={value.step}/>,
+      Failure: () => <Error />,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
     })
   }
 }
