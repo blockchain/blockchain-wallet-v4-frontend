@@ -42,7 +42,7 @@ export default ({ api }) => {
         const fees = yield call(api.getEthereumFee)
         const gasPrice = prop('regular', fees)
         const gasLimit = prop('gasLimit', fees)
-        const fee = calculateFee(0.00000000001, gasLimit)
+        const fee = calculateFee(gasPrice, gasLimit)
 
         const latestTxR = yield select(S.kvStore.ethereum.getLatestTx)
         const latestTxTimestampR = yield select(S.kvStore.ethereum.getLatestTxTimestamp)
