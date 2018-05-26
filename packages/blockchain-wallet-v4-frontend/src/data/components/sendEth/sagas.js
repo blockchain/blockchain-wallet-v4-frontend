@@ -55,6 +55,7 @@ export default ({ coreSagas }) => {
             case 'BTC': {
               yield put(actions.modals.closeAllModals())
               yield put(actions.modals.showModal('SendBitcoin'))
+              break
             }
             case 'BCH': {
               yield put(actions.modals.closeAllModals())
