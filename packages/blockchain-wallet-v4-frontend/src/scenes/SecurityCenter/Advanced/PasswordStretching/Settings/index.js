@@ -11,11 +11,11 @@ import Settings from './template.js'
 class SettingsContainer extends React.PureComponent {
   constructor (props) {
     super(props)
-    this.handleClick = this.handleClick.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
     this.handleToggle = this.handleToggle.bind(this)
   }
 
-  handleClick () {
+  handleSubmit () {
     const { passwordStretchingValue } = this.props
     this.props.walletActions.updatePbkdf2Iterations(Number(passwordStretchingValue))
     this.handleToggle()
@@ -32,7 +32,7 @@ class SettingsContainer extends React.PureComponent {
       {...rest}
       updateToggled={ui.updateToggled}
       handleToggle={this.handleToggle}
-      handleClick={this.handleClick}
+      handleSubmit={this.handleSubmit}
     />
   }
 }

@@ -19,7 +19,7 @@ const Input = styled(Field)`
   margin-top: 20px;
 `
 const Settings = (props) => {
-  const { updateToggled, handleToggle, handleClick, currentWhitelist, submitting, invalid, handleCancel } = props
+  const { updateToggled, handleToggle, handleSubmit, currentWhitelist, submitting, invalid, handleCancel } = props
 
   return (
     <SettingWrapper>
@@ -30,13 +30,13 @@ const Settings = (props) => {
         </Button>
       }
       { updateToggled &&
-        <SettingForm onSubmit={handleClick}>
+        <SettingForm onSubmit={handleSubmit}>
           <Input name='IPWhitelist' validate={[validIpList]} component={TextBox} />
           <ButtonWrapper>
             <Button nature='empty' capitalize onClick={handleCancel}>
               <FormattedMessage id='scenes.securitysettings.advancedsettings.ipwhitelist.settings.cancel' defaultMessage='Cancel' />
             </Button>
-            <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleClick}>
+            <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleSubmit}>
               <FormattedMessage id='scenes.securitysettings.advancedsettings.ipwhitelist.settings.save' defaultMessage='Save' />
             </Button>
           </ButtonWrapper>
@@ -50,7 +50,7 @@ Settings.propTypes = {
   currentWhitelist: PropTypes.string.isRequired,
   updateToggled: PropTypes.bool.isRequired,
   handleToggle: PropTypes.func.isRequired,
-  handleClick: PropTypes.func.isRequired
+  handleSubmit: PropTypes.func.isRequired
 }
 
 export default reduxForm({ form: 'settingIPWhitelist' })(Settings)
