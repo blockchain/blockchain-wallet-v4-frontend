@@ -13,7 +13,7 @@ import Settings from './template.js'
 class SettingsContainer extends React.PureComponent {
   constructor (props) {
     super(props)
-    this.handleClick = this.handleClick.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
     this.handleToggle = this.handleToggle.bind(this)
   }
 
@@ -29,7 +29,7 @@ class SettingsContainer extends React.PureComponent {
     }
   }
 
-  handleClick () {
+  onSubmit () {
     this.props.settingsActions.updateIpLock(this.props.IPWhitelist)
     this.handleToggle()
   }
@@ -42,9 +42,9 @@ class SettingsContainer extends React.PureComponent {
     const { ui, ...rest } = this.props
     return <Settings
       {...rest}
+      onSubmit={this.onSubmit}
       updateToggled={ui.updateToggled}
       handleToggle={this.handleToggle}
-      handleClick={this.handleClick}
       handleCancel={() => { this.props.formActions.reset('settingIPWhitelist'); this.handleToggle() }}
     />
   }
