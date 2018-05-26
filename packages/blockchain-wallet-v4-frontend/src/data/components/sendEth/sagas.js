@@ -102,6 +102,9 @@ export default ({ coreSagas }) => {
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
       yield put(actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(Date.now()))
       yield put(actions.core.kvStore.ethereum.setLatestTxEthereum(payment.value().txId))
+      if (path(['description', 'length'], payment.value())) {
+        yield put(actions.core.kvStore.ethereum.setTxNotesEthereum(payment.value().txId, payment.value().description))
+      }
       yield put(actions.alerts.displaySuccess('Your ether transaction is now pending.'))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e))
