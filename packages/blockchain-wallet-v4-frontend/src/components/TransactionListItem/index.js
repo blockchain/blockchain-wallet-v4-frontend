@@ -22,7 +22,8 @@ class ListItemContainer extends React.PureComponent {
         this.props.ethereumActions.setTxNotesEthereum(this.props.transaction.hash, value)
         break
       }
-      case 'BTC': {
+      case 'BTC':
+      case 'BCH': {
         this.props.walletActions.setTransactionNote(this.props.transaction.hash, value)
         break
       }
