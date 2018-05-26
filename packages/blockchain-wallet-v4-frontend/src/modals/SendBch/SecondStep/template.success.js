@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, Link, Text } from 'blockchain-info-components'
+import { Banner, Button, Link, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import ComboDisplay from 'components/Display/ComboDisplay'
@@ -26,21 +26,12 @@ const Summary = styled.div`
   background-color: ${props => props.theme['gray-1']};
   padding: 10px 0;
   margin: 5px 0;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
   
   & > * { padding: 10px 0; }
 `
-const Warning = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: ${props => props.theme['brand-yellow-lighter']};
-  border-left: 10px solid ${props => props.theme['brand-yellow']};
-  padding: 10px 0;
-  margin: 5px 0;
-  margin-bottom: 25px;
-  
-  & > * { padding: 10px 0; }
+const WarningBanner = styled.div`
+  margin-bottom: 20px;
 `
 const Footer = styled.div`
   display: flex;
@@ -101,12 +92,11 @@ const Success = props => {
         <FiatDisplay coin={coin} size='20px' weight={300} color='sent'>{total}</FiatDisplay>
       </Summary>
       {isLegacy &&
-        <Warning>
-          <Text size='14px' weight={400}>
-            <FormattedMessage id='modals.sendbch.secondstep.legacyAddressWarning'
-              defaultMessage='Are you sure this is a Bitcoin Cash Address? Sending funds to bitcoin address by accident will result in loss of funds.' />
-          </Text>
-        </Warning>
+        <WarningBanner>
+          <Banner type='caution'>
+            <FormattedMessage id='modals.sendbch.secondstep.legacy_addr_warning' defaultMessage='Are you sure this is a Bitcoin Cash Address? Sending funds to bitcoin address by accident will result in loss of funds.' />
+          </Banner>
+        </WarningBanner>
       }
       <Footer>
         <Button onClick={handleSubmit} nature='primary' fullwidth uppercase>
