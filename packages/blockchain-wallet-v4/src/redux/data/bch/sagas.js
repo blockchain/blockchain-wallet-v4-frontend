@@ -54,8 +54,7 @@ export default ({ api }) => {
       if (!reset && lastPage && lastPage.map(length).getOrElse(0) === 0) { return }
       const offset = reset ? 0 : length(pages) * TX_PER_PAGE
       yield put(A.fetchTransactionsLoading(reset))
-      const btcHDAccountContext = yield select(selectors.wallet.getHDAccounts)
-      const context = yield select(selectors.kvStore.bch.getContext, btcHDAccountContext)
+      const context = yield select(selectors.kvStore.bch.getContext)
       const data = yield call(api.fetchBchData, context, { n: TX_PER_PAGE, onlyShow: address, offset })
       yield call(multiaddrSaga, data)
       yield put(A.fetchTransactionsSuccess(data.txs.filter(tx => tx.time > BCH_FORK_TIME), reset))
