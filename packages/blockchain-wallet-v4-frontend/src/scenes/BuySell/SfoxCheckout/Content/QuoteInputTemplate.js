@@ -60,8 +60,8 @@ const getErrorState = (meta) => {
 }
 
 const getLimitsError = (val, limits, disabled, fiat) => {
+  if (limits.max < limits.min) return `Your limit of $${limits.max} is below the minimum allowed amount.`
   if (!val || !fiat) return
-  if ((limits.max < limits.min) && disabled) return `Your limit of $${limits.max} is below the minimum allowed amount.`
   if (val > limits.max) return `Enter an amount under your $${limits.max.toLocaleString()} limit`
   if (val < limits.min) return `Enter an amount above the $${limits.min.toLocaleString()} minimum`
   if ((fiat * 1e8) > limits.effectiveMax) return `Enter an amount less than your balance minus the priority fee (${limits.effectiveMax / 1e8} BTC)`

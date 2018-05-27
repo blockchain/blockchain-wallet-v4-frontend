@@ -56,7 +56,7 @@ const Address = (props) => {
               <FormItem>
                 <AddressLabel size='14px' weight={400} style={{'marginBottom': '5px'}}>
                   <FormattedMessage id='sfoxexchangedata.verify.address' defaultMessage='Address' />
-                  <FormattedMessage id='sfoxexchangedata.verify.addressdetail' defaultMessage='{message}' values={{ message: <span style='font-weight: 300'>(Please use your primary billing address.)</span> }} />
+                  <FormattedMessage id='sfoxexchangedata.verify.addressdetail' defaultMessage='{message}' values={{ message: <span style={{'fontWeight': 300}}>(Please use your primary billing address.)</span> }} />
                 </AddressLabel>
                 <Field name='address1' validate={[required]} component={TextBox} placeholder='Street Address' />
               </FormItem>
