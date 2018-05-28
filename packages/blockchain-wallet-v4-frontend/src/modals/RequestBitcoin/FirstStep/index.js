@@ -8,6 +8,7 @@ import { getData, getInitialValues } from './selectors'
 import Loading from './template.loading'
 import Success from './template.success'
 import DataError from 'components/DataError'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 class FirstStepContainer extends React.PureComponent {
   constructor (props) {
@@ -15,12 +16,17 @@ class FirstStepContainer extends React.PureComponent {
     this.handleClickQRCode = this.handleClickQRCode.bind(this)
     this.handleRefresh = this.handleRefresh.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.init = this.init.bind(this)
   }
 
   componentWillMount () {
-    this.props.initialValues.map(x => {
-      this.props.formActions.initialize('requestBitcoin', x)
-    })
+    this.init()
+  }
+
+  componentDidUpdate (prevProps) {
+    if (!Remote.Success.is(prevProps.initialValues) && Remote.Success.is(this.props.initialValues)) {
+      this.init()
+    }
   }
 
   componentWillReceiveProps (nextProps) {
@@ -32,6 +38,12 @@ class FirstStepContainer extends React.PureComponent {
         this.props.modalActions.closeAllModals()
         this.props.modalActions.showModal('RequestBch')
       }
+    })
+  }
+
+  init () {
+    this.props.initialValues.map(x => {
+      this.props.formActions.initialize('requestBitcoin', x)
     })
   }
 
