@@ -23,12 +23,6 @@ class FirstStepContainer extends React.PureComponent {
     this.init()
   }
 
-  componentDidUpdate (prevProps) {
-    if (!Remote.Success.is(prevProps.initialValues) && Remote.Success.is(this.props.initialValues)) {
-      this.init()
-    }
-  }
-
   componentWillReceiveProps (nextProps) {
     nextProps.data.map(x => {
       if (equals(prop('coin', x), 'ETH')) {
@@ -39,6 +33,12 @@ class FirstStepContainer extends React.PureComponent {
         this.props.modalActions.showModal('RequestBch')
       }
     })
+  }
+
+  componentDidUpdate (prevProps) {
+    if (!Remote.Success.is(prevProps.initialValues) && Remote.Success.is(this.props.initialValues)) {
+      this.init()
+    }
   }
 
   init () {
