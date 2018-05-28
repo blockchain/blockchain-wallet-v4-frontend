@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Image, Link, Text, TextGroup } from 'blockchain-info-components'
@@ -46,6 +47,10 @@ class DataErrorContainer extends React.PureComponent {
       </Wrapper>
     )
   }
+}
+
+DataErrorContainer.propTypes = {
+  onClick: PropTypes.func.isRequired
 }
 
 export default DataErrorContainer
