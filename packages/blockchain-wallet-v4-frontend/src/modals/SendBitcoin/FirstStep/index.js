@@ -2,20 +2,23 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { getData } from './selectors'
+import { getData, getBtcData } from './selectors'
 import { actions } from 'data'
 import Loading from './template.loading'
 import Success from './template.success'
 import DataError from 'components/DataError'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 class FirstStep extends React.Component {
   constructor (props) {
     super(props)
-    this.handleRefresh.bind(this)
+    this.handleRefresh = this.handleRefresh.bind(this)
   }
 
-  componentDidMount () {
-    this.props.actions.sendBtcFirstStepInitialized()
+  componentDidUpdate (prevProps) {
+    if (!Remote.Success.is(prevProps.btcData) && Remote.Success.is(this.props.btcData)) {
+      this.props.actions.sendBtcInitialized({})
+    }
   }
 
   handleRefresh () {
@@ -54,7 +57,8 @@ class FirstStep extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  data: getData(state)
+  data: getData(state),
+  btcData: getBtcData(state)
 })
 
 const mapDispatchToProps = dispatch => ({
