@@ -7,6 +7,7 @@ import { FormattedMessage } from 'react-intl'
 import { TextBox } from 'components/Form'
 import { Icon, IconButton } from 'blockchain-info-components'
 import UnusedAddresses from './UnusedAddresses'
+import UsedAddresses from './UsedAddresses'
 
 const Wrapper = styled.div`
   display: flex;
@@ -65,7 +66,7 @@ class ManageAddressesContainer extends React.PureComponent {
         </MenuWrapper>
         <ContentWrapper>
           <UnusedAddresses walletIndex={walletIndex} />
-          {/* <UsedAddresses walletIndex={walletIndex} /> */}
+          <UsedAddresses walletIndex={walletIndex} />
         </ContentWrapper>
       </Wrapper>
     )

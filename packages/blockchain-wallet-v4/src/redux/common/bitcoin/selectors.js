@@ -45,6 +45,10 @@ export const getActiveAddresses = state => {
   return sequence(Remote.of, objectOfRemotes)
 }
 
+export const getUsedAddresses = state => {
+
+}
+
 export const getArchivedAddresses = state => {
   const archivedAddresses = compose(keys, walletSelectors.getArchivedAddresses)(state)
   return Remote.of(archivedAddresses)
