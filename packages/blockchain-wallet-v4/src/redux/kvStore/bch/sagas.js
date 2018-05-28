@@ -49,14 +49,13 @@ export default ({ api }) => {
     }
   }
 
-  const setBchAccountArchived = function * () {
-    const btcHDAccountContext = yield select(getHDAccounts)
-    const bchContext = yield select(S.getContext, btcHDAccountContext)
+  const refetchContextData = function * () {
+    const bchContext = yield select(S.getContext)
     yield put(bchActions.fetchData(bchContext))
   }
 
   return {
     fetchMetadataBch,
-    setBchAccountArchived
+    refetchContextData
   }
 }
