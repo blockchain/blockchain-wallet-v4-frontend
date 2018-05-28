@@ -10,7 +10,7 @@ import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class BitcoinBalance extends React.PureComponent {
+class EthBalance extends React.PureComponent {
   constructor (props) {
     super(props)
     this.onRefresh = this.onRefresh.bind(this)
@@ -38,7 +38,7 @@ class BitcoinBalance extends React.PureComponent {
   }
 }
 
-BitcoinBalance.propTypes = {
+EthBalance.propTypes = {
   context: PropTypes.string.isRequired
 }
 
@@ -47,7 +47,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actions.core.data.bitcoin, dispatch)
+  actions: bindActionCreators(actions.core.data.ethereum, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(BitcoinBalance)
+export default connect(mapStateToProps, mapDispatchToProps)(EthBalance)

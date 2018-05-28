@@ -6,7 +6,8 @@ import { Link } from 'blockchain-info-components'
 const Wrapper = styled.div`
   display: flex;
   box-sizing: border-box;
-  padding: 0 5px;
+  justify-content: flex-end;
+  padding-right: 25px;
 `
 const ErrorLink = styled(Link)`
   text-decoration: underline;
@@ -15,7 +16,7 @@ const ErrorLink = styled(Link)`
 export default (props) => (
   <Wrapper>
     <ErrorLink size='12px' weight={300} onClick={() => props.onRefresh()}>
-      <FormattedMessage id='wallet.menutop.balance.refresh' defaultMessage='Refresh {curr} data' values={{curr: 'Ether'}} />
+      <FormattedMessage id='wallet.menutop.balance.refresh' defaultMessage='Refresh {curr} data' values={{curr: 'Bitcoin'}} />
     </ErrorLink>
   </Wrapper>
 )
