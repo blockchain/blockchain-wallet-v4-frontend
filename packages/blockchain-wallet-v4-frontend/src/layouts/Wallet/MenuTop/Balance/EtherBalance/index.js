@@ -11,10 +11,19 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class EtherBalance extends React.PureComponent {
+  constructor (props) {
+    super(props)
+    this.onRefresh = this.onRefresh.bind(this)
+  }
+
   componentWillMount () {
     if (Remote.NotAsked.is(this.props.data)) {
       this.props.actions.fetchData(this.props.context)
     }
+  }
+
+  onRefresh () {
+    this.props.actions.fetchData(this.props.context)
   }
 
   render () {
@@ -22,7 +31,7 @@ class EtherBalance extends React.PureComponent {
 
     return data.cata({
       Success: (value) => <Success balance={value} large={large} />,
-      Failure: (message) => <Error>{message}</Error>,
+      Failure: (message) => <Error onRefresh={this.onRefresh} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })

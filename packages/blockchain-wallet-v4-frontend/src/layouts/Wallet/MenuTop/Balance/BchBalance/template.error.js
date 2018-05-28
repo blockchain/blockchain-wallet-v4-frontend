@@ -1,21 +1,21 @@
 import React from 'react'
 import styled from 'styled-components'
-
-import { Text } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
+import { Link } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 5px;
   box-sizing: border-box;
+  padding: 0 5px;
+`
+const ErrorLink = styled(Link)`
+  text-decoration: underline;
 `
 
 export default (props) => (
   <Wrapper>
-    <Text size='12px' weight={300} color='red'>
-      {props.children}
-    </Text>
+    <ErrorLink size='12px' weight={300} onClick={() => props.onRefresh()}>
+      <FormattedMessage id='wallet.menutop.balance.refresh' defaultMessage='Refresh {curr} data' values={{curr: 'Bitcoin Cash'}} />
+    </ErrorLink>
   </Wrapper>
 )
