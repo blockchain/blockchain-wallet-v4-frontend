@@ -79,7 +79,7 @@ const Success = props => {
 
   if (type === 'buy' || !type) {
     return (
-      <Stepper initialStep={0}>
+      <Stepper key='BuyStepper' initialStep={0}>
         <StepView step={0}>
           <CheckoutWrapper>
             <OrderCheckout
@@ -117,7 +117,7 @@ const Success = props => {
     )
   } else if (type === 'sell') {
     return (
-      <Stepper initialStep={0}>
+      <Stepper key='SellStepper' initialStep={0}>
         <StepView step={0}>
           <CheckoutWrapper>
             <OrderCheckout

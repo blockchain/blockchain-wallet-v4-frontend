@@ -40,6 +40,9 @@ class FirstStepContainer extends React.PureComponent {
 
   handleSubmit (e) {
     e.preventDefault()
+    const { accountIdx, addressIdx, message, receiveAddress } = this.props.data.getOrElse({})
+    this.props.requestBtcActions.firstStepSubmitClicked({ accountIdx, addressIdx, message })
+    this.props.setReceiveAddress(receiveAddress)
     this.props.nextStep()
   }
 
@@ -48,6 +51,9 @@ class FirstStepContainer extends React.PureComponent {
 
     return data.cata({
       Success: (value) => <Success
+        message={value.message}
+        addressIdx={value.addressIdx}
+        accountIdx={value.accountIdx}
         receiveAddress={value.receiveAddress}
         handleClickQRCode={() => this.handleClickQRCode(value)}
         handleSubmit={this.handleSubmit}
@@ -65,6 +71,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  requestBtcActions: bindActionCreators(actions.components.requestBtc, dispatch),
   bitcoinDataActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
