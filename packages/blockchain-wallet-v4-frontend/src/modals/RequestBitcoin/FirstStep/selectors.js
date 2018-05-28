@@ -14,12 +14,16 @@ const extractAddress = (selectorFunction, value) =>
 
 const extractAddressIdx = (selectorFunction, value) =>
   value
-    ? selectorFunction(value.index)
+    ? value.address
+      ? Remote.of(value.address)
+      : selectorFunction(value.index)
     : Remote.NotAsked
 
 const extractAccountIdx = (value) =>
   value
-    ? Remote.of(value.index)
+    ? value.address
+      ? Remote.of(value.address)
+      : Remote.of(value.index)
     : Remote.NotAsked
 
 export const getData = state => {
