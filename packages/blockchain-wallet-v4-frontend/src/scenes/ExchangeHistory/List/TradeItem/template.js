@@ -25,7 +25,7 @@ const TradeItem = props => {
         <Text size='14px' weight={300}>{`${depositAmount} ${sourceCoin}`}</Text>
       </TableCell>
       <TableCell width='20%'>
-        <Text size='14px' weight={300}>{`${withdrawalAmount} ${targetCoin}`}</Text>
+        <Text size='14px' weight={300} color={status === 'complete' ? 'gray-5' : 'gray-2'}>{`${withdrawalAmount} ${targetCoin}`}</Text>
       </TableCell>
     </TableRow>
   )

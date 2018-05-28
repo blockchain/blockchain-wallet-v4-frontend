@@ -35,7 +35,7 @@ const deriveChildLegacy = (index, seed) => {
 }
 
 export const privateKeyToAddress = pk =>
-  EthUtil.toChecksumAddress(EthUtil.privateToAddress(pk).toString('hex')).toLowerCase()
+  EthUtil.toChecksumAddress(EthUtil.privateToAddress(pk).toString('hex'))
 
 export const deriveAddress = (mnemonic, index) =>
   privateKeyToAddress(getPrivateKey(mnemonic, index))

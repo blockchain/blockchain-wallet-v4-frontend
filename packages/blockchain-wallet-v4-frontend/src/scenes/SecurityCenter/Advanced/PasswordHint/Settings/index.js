@@ -12,11 +12,11 @@ import Settings from './template.js'
 class SettingsContainer extends React.PureComponent {
   constructor (props) {
     super(props)
-    this.handleClick = this.handleClick.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
     this.handleToggle = this.handleToggle.bind(this)
   }
 
-  handleClick () {
+  onSubmit () {
     this.props.settingsActions.updateHint(this.props.passwordHintValue)
     this.handleToggle()
   }
@@ -29,9 +29,9 @@ class SettingsContainer extends React.PureComponent {
     const { ui, ...rest } = this.props
 
     return <Settings {...rest}
+      onSubmit={this.onSubmit}
       updateToggled={ui.updateToggled}
       handleToggle={this.handleToggle}
-      handleClick={this.handleClick}
       handleCancel={() => { this.props.formActions.reset('settingPasswordHint'); this.handleToggle() }}
     />
   }

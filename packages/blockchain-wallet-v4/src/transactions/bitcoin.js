@@ -6,7 +6,6 @@ import {
   prop, compose, curry, mapAccum, isNil, not, findIndex, view, allPass,
   propSatisfies, ifElse, always, propEq, propOr, find, over, lensProp, lensIndex, equals, toLower
 } from 'ramda'
-import memoize from 'fast-memoize'
 import moment from 'moment'
 
 const unpackInput = prop('prev_out')
@@ -202,4 +201,4 @@ export const _transformTx = (wallet, currentBlockHeight, tx) => {
   })
 }
 
-export const transformTx = memoize(_transformTx)
+export const transformTx = _transformTx

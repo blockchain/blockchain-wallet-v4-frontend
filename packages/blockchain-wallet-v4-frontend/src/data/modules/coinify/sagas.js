@@ -95,12 +95,11 @@ export default ({ coreSagas }) => {
 
   const handleChange = function * (action) {
     try {
-      yield put(A.clearCoinifyCheckoutError())
-
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
       const payload = prop('payload', action)
       if (!equals('coinifyCheckout', form)) return
+      yield put(A.clearCoinifyCheckoutError())
       yield put(A.coinifyCheckoutBusyOn())
 
       const limits = yield select(selectors.core.data.coinify.getLimits)

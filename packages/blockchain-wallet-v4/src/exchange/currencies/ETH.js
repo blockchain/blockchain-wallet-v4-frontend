@@ -19,7 +19,7 @@ export default
     ETH: {
       rate: '1000000000000000000',
       symbol: 'ETH',
-      decimal_digits: 18,
+      decimal_digits: 8,
       currency: 'ETH'
     }
   }
