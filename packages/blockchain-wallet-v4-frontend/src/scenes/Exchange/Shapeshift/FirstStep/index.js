@@ -11,15 +11,15 @@ import DataError from 'components/DataError'
 class FirstStepContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.onRefresh = this.onRefresh.bind(this)
+    this.handleRefresh = this.handleRefresh.bind(this)
   }
 
   componentDidMount () {
     this.props.actions.firstStepInitialized()
   }
 
-  onRefresh () {
-    this.props.coreActions.refresh()
+  handleRefresh () {
+    this.props.refreshActions.refresh()
   }
 
   render () {
@@ -40,7 +40,7 @@ class FirstStepContainer extends React.Component {
         handleSubmit={() => this.props.actions.firstStepSubmitClicked()}
         handleSwap={() => this.props.actions.firstStepSwapClicked()}
       />,
-      Failure: (message) => <DataError onClick={this.onRefresh} message={message} />,
+      Failure: (message) => <DataError onClick={this.handleRefresh} message={message} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
@@ -52,7 +52,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  coreActions: bindActionCreators(actions.core.refresh, dispatch),
+  refreshActions: bindActionCreators(actions.core.refresh, dispatch),
   actions: bindActionCreators(actions.components.exchange, dispatch)
 })
 
