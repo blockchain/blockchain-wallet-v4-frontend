@@ -122,7 +122,6 @@ export default ({ coreSagas }) => {
       let payment = yield coreSagas.payment.btc.create({ payment: p.getOrElse({}), network: settings.NETWORK_BITCOIN })
 
       payment = yield payment.amount(parseInt(trade.sendAmount))
-      payment = yield payment.fee('priority')
 
       // QA Tool: manually set a "to" address on the payment object for testing sell
       const qaState = yield select()
@@ -141,7 +140,6 @@ export default ({ coreSagas }) => {
       } catch (e) {
         yield put(actions.logs.logErrorMessage(logLocation, 'submitSellQuote', e))
       }
-      yield put(sendBtcActions.sendBtcPaymentUpdated(Remote.of(payment.value())))
 
       const password = yield call(promptForSecondPassword)
       payment = yield payment.sign(password)

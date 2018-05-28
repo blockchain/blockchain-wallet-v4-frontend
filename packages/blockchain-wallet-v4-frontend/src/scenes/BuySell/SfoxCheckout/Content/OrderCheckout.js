@@ -60,7 +60,10 @@ const OrderCheckout = ({ quoteR, account, onFetchQuote, reason, finishAccountSet
           <Text size='12px' weight={300}>
             {'@ '}
             {quoteR
-              .map((quote) => '$' + quote.rate)
+              .map(q => {
+                if (q.baseCurrency.toLowerCase() === 'btc') return '$' + ((1 / (Math.abs(q.baseAmount / 1e8))) * Math.abs(q.quoteAmount)).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})
+                else return '$' + ((1 / (Math.abs(q.quoteAmount / 1e8))) * Math.abs(q.baseAmount)).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})
+              })
               .getOrElse(
                 <Fragment>
                   <FormattedMessage id='buy.sfoxcheckout.loading' defaultMessage='Loading' />
@@ -87,7 +90,6 @@ const OrderCheckout = ({ quoteR, account, onFetchQuote, reason, finishAccountSet
               <QuoteInput
                 quoteR={quoteR}
                 initialQuoteId={quoteR.map(quote => quote.id).getOrElse(null)}
-                // initialAmount='0.00'
                 debounce={500}
                 spec={quoteInputSpec}
                 onFetchQuote={onFetchQuote}

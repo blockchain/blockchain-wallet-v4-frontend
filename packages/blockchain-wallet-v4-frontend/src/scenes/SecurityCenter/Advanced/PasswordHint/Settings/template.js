@@ -17,7 +17,7 @@ const ButtonWrapper = styled(ButtonGroup)`
 `
 
 const Settings = (props) => {
-  const { updateToggled, handleToggle, handleClick, submitting, invalid, handleCancel } = props
+  const { updateToggled, handleToggle, handleSubmit, submitting, invalid, handleCancel } = props
   return (
     <SettingWrapper>
       <Hint />
@@ -27,13 +27,13 @@ const Settings = (props) => {
         </Button>
       }
       { updateToggled &&
-        <SettingForm>
+        <SettingForm onSubmit={handleSubmit}>
           <Field name='passwordHint' component={TextBox} />
           <ButtonWrapper>
             <Button nature='empty' capitalize onClick={handleCancel}>
               <FormattedMessage id='scenes.securitysettings.basicsecurity.passwordhint.settings.cancel' defaultMessage='Cancel' />
             </Button>
-            <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleClick}>
+            <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleSubmit}>
               <FormattedMessage id='scenes.securitysettings.basicsecurity.passwordhint.settings.save' defaultMessage='Change' />
             </Button>
           </ButtonWrapper>
@@ -46,7 +46,7 @@ const Settings = (props) => {
 Settings.propTypes = {
   updateToggled: PropTypes.bool.isRequired,
   handleToggle: PropTypes.func.isRequired,
-  handleClick: PropTypes.func.isRequired
+  handleSubmit: PropTypes.func.isRequired
 }
 
 export default reduxForm({ form: 'settingPasswordHint' })(Settings)

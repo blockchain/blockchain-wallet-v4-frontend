@@ -7,7 +7,7 @@ import IPWhitelist from './IPWhitelist'
 import LoginIpRestriction from './LoginIpRestriction'
 import PasswordStretching from './PasswordStretching'
 import WalletAccessTor from './WalletAccessTor'
-import PasswordHint from './PasswordHint'
+// import PasswordHint from './PasswordHint'
 import WalletPassword from './WalletPassword'
 import SecondPasswordWallet from './SecondPasswordWallet'
 import { IconButton } from 'blockchain-info-components'
@@ -33,11 +33,11 @@ export default class Advanced extends PureComponent {
       <AdvancedContainer>
         {!this.props.showTabs &&
           <BackButton name='left-arrow' nature='empty' onClick={() => this.props.setView('security')} id='advanced-button'>
-            <FormattedMessage id='scenes.securitycenter.advanced.back' defaultMessage='Back'/>
+            <FormattedMessage id='scenes.securitycenter.advanced.back' defaultMessage='Back' />
           </BackButton>
         }
         <WalletPassword />
-        <PasswordHint />
+        {/* <PasswordHint /> */}
         <SecondPasswordWallet />
         <ActivityLogging />
         <IPWhitelist />

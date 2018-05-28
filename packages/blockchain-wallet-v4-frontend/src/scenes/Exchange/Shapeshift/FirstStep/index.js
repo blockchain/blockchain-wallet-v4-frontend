@@ -19,7 +19,7 @@ class FirstStepContainer extends React.Component {
         elements={value.elements}
         initialValues={value.initialValues}
         hasOneAccount={value.hasOneAccount}
-        enabled={value.enabled}
+        disabled={value.disabled}
         minimum={value.minimum}
         maximum={value.maximum}
         formError={value.formError}
