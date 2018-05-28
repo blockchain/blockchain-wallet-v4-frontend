@@ -4,13 +4,22 @@ import { bindActionCreators } from 'redux'
 
 import { getData } from './selectors'
 import { actions } from 'data'
-import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
+import DataError from 'components/DataError'
 
 class FirstStep extends React.Component {
+  constructor (props) {
+    super(props)
+    this.handleRefresh.bind(this)
+  }
+
   componentDidMount () {
     this.props.actions.sendBtcFirstStepInitialized()
+  }
+
+  handleRefresh () {
+    this.props.refreshActions.refresh()
   }
 
   render () {
@@ -37,9 +46,9 @@ class FirstStep extends React.Component {
         handleFeePerByteToggle={() => actions.sendBtcFirstStepFeePerByteToggled()}
         handleToToggle={(val) => actions.sendBtcFirstStepToToggled(val)}
       />,
-      Failure: (message) => <Error>{message}</Error>,
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />
+      NotAsked: () => <DataError onClick={this.handleRefresh} />,
+      Failure: () => <DataError onClick={this.handleRefresh} />,
+      Loading: () => <Loading />
     })
   }
 }
@@ -49,6 +58,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  refreshActions: bindActionCreators(actions.core.refresh, dispatch),
   actions: bindActionCreators(actions.components.sendBtc, dispatch)
 })
 

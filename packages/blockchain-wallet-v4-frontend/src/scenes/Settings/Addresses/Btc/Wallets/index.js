@@ -11,14 +11,14 @@ import DataError from 'components/DataError'
 class BitcoinWalletsContainer extends React.Component {
   constructor (props) {
     super(props)
-    this.onRefresh = this.onRefresh.bind(this)
+    this.handleRefresh = this.handleRefresh.bind(this)
   }
 
   shouldComponentUpdate (nextProps) {
     return !Remote.Loading.is(nextProps.data)
   }
 
-  onRefresh () {
+  handleRefresh () {
     this.props.actions.fetchData(this.props.context)
   }
 
@@ -36,7 +36,7 @@ class BitcoinWalletsContainer extends React.Component {
             {...rest}
           />
         ),
-        Failure: (message) => <DataError onClick={this.onRefresh}>{message}</DataError>,
+        Failure: (message) => <DataError onClick={this.handleRefresh}>{message}</DataError>,
         Loading: () => <div />,
         NotAsked: () => <div />
       })

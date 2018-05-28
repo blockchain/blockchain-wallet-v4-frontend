@@ -13,7 +13,7 @@ import Success from './template.success'
 class EthBalance extends React.PureComponent {
   constructor (props) {
     super(props)
-    this.onRefresh = this.onRefresh.bind(this)
+    this.handleRefresh = this.handleRefresh.bind(this)
   }
 
   componentWillMount () {
@@ -22,7 +22,7 @@ class EthBalance extends React.PureComponent {
     }
   }
 
-  onRefresh () {
+  handleRefresh () {
     this.props.actions.fetchData(this.props.context)
   }
 
@@ -31,7 +31,7 @@ class EthBalance extends React.PureComponent {
 
     return data.cata({
       Success: (value) => <Success balance={value} large={large} />,
-      Failure: (message) => <Error onRefresh={this.onRefresh} />,
+      Failure: (message) => <Error onRefresh={this.handleRefresh} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
