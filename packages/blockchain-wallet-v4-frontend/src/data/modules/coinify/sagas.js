@@ -61,8 +61,8 @@ export default ({ coreSagas }) => {
 
   const sell = function * () {
     try {
-      const trade = yield call(coreSagas.data.coinify.sell)
       yield put(A.coinifyLoading())
+      const trade = yield call(coreSagas.data.coinify.sell)
 
       if (!trade) {
         const trade = yield select(selectors.core.data.coinify.getTrade)
@@ -85,21 +85,15 @@ export default ({ coreSagas }) => {
       } else {
         payment = yield payment.to(trade.receiveAddress)
       }
-      payment = yield payment.description(`Exchange Trade COINIFY=${trade.id}`)
 
-      try {
-        payment = yield payment.build()
-      } catch (e) {
-        yield put(actions.logs.logErrorMessage(logLocation, 'sell', e))
-      }
+      payment = yield payment.description(`Exchange Trade COINIFY=${trade.id}`)
+      payment = yield payment.build()
 
       yield put(sendBtcActions.sendBtcPaymentUpdated(Remote.of(payment.value())))
       const password = yield call(promptForSecondPassword)
       payment = yield payment.sign(password)
       payment = yield payment.publish()
-
       yield put(sendBtcActions.sendBtcPaymentUpdated(Remote.of(payment.value())))
-
       yield put(A.coinifySuccess())
       yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
     } catch (e) {

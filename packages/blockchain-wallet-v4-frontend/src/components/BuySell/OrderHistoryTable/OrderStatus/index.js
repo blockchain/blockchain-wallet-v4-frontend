@@ -24,6 +24,7 @@ const renderStatus = (status, isBuy) => {
     case 'rejected': return <FormattedMessage id='scenes.buysellorderhistory.list.orderstatus.rejected' defaultMessage='Rejected' />
     case 'failed': return <FormattedMessage id='scenes.buysellorderhistory.list.orderstatus.failed' defaultMessage='Failed' />
     case 'cancelled': return <FormattedMessage id='scenes.buysellorderhistory.list.orderstatus.cancelled' defaultMessage='Cancelled' />
+    case 'expired': return <FormattedMessage id='scenes.buysellorderhistory.list.orderstatus.expired' defaultMessage='Expired' />
     default: return <FormattedMessage id='scenes.buysellorderhistory.list.orderstatus.unknown' defaultMessage='Unknown' />
   }
 }
