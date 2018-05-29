@@ -2,7 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 
 const BasePasswordInput = styled.input.attrs({
-  type: 'password'
+  type: 'password',
+  disabled: props => props.disabled
 })`
   display: block;
   width: 100%;
@@ -19,9 +20,12 @@ const BasePasswordInput = styled.input.attrs({
   user-select: text;
   font-family: 'Montserrat', Helvetica, sans-serif;
   border: 1px solid ${props => props.theme[props.borderColor]};
-
   &::-webkit-input-placeholder {
     color: ${props => props.theme['gray-2']};
+  }
+  &:disabled {
+    cursor: not-allowed;
+    background-color: ${props => props.theme['gray-1']};
   }
 `
 
