@@ -1,9 +1,10 @@
-import { call, put, select } from 'redux-saga/effects'
+import { call, put, select, take } from 'redux-saga/effects'
 import { compose } from 'ramda'
 import * as A from '../../actions'
 import * as walletSelectors from '../../wallet/selectors'
 import { Socket } from '../../../network/index'
 import * as bchActions from '../../data/bch/actions'
+import * as bchAT from '../../data/bch/actionTypes'
 
 // TO REVIEW
 export default ({ api, bchSocket }) => {
@@ -19,9 +20,14 @@ export default ({ api, bchSocket }) => {
 
     switch (message.op) {
       case 'utx':
-        const walletContext = yield select(walletSelectors.getWalletContext)
-        yield put(bchActions.fetchData(walletContext))
         yield put(bchActions.fetchTransactions('', true))
+        const transactions = yield take(bchAT.FETCH_BCH_TRANSACTIONS_SUCCESS)
+        for (let i in transactions.payload.transactions) {
+          const tx = transactions.payload.transactions[i]
+          if (tx.hash === message.x.hash && tx.result > 0) {
+            yield put(A.webSocket.bitcoin.paymentReceived('You\'ve just received a bitcoin payment.'))
+          }
+        }
         break
       case 'block':
         const newBlock = message.x
