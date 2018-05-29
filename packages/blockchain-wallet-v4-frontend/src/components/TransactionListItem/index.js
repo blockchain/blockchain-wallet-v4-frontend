@@ -22,9 +22,12 @@ class ListItemContainer extends React.PureComponent {
         this.props.ethereumActions.setTxNotesEthereum(this.props.transaction.hash, value)
         break
       }
-      case 'BTC':
-      case 'BCH': {
+      case 'BTC': {
         this.props.walletActions.setTransactionNote(this.props.transaction.hash, value)
+        break
+      }
+      case 'BCH': {
+        this.props.bchActions.setTxNotesBch(this.props.transaction.hash, value)
         break
       }
     }
@@ -44,7 +47,8 @@ class ListItemContainer extends React.PureComponent {
 const mapDispatchToProps = (dispatch) => ({
   preferencesActions: bindActionCreators(actions.preferences, dispatch),
   walletActions: bindActionCreators(actions.core.wallet, dispatch),
-  ethereumActions: bindActionCreators(actions.core.kvStore.ethereum, dispatch)
+  ethereumActions: bindActionCreators(actions.core.kvStore.ethereum, dispatch),
+  bchActions: bindActionCreators(actions.core.kvStore.bch, dispatch)
 })
 
 export default connect(undefined, mapDispatchToProps)(ListItemContainer)

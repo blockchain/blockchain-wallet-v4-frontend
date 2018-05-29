@@ -27,3 +27,5 @@ export const getContext = (state, btcXpubContext) => {
 export const getDefaultAccountIndex = state => getMetadata(state).map(path(['value', 'default_account_idx']))
 
 export const getAccountLabel = curry((state, index) => getAccounts(state).map(path([index, 'label'])))
+
+export const getBchTxNote = (state, txHash) => getMetadata(state).map(path(['value', 'tx_notes', txHash]))

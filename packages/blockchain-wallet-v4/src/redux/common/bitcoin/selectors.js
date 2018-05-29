@@ -1,4 +1,4 @@
-import { HDWallet, HDAccountList, HDAccount } from '../../../types'
+import { Wallet, HDWallet, HDAccountList, HDAccount, TXNotes } from '../../../types'
 import { keys, compose, assoc, isNil, map, max, path, prop, curry, split, values, sequence, lift } from 'ramda'
 import memoize from 'fast-memoize'
 import { getAddresses, getChangeIndex, getReceiveIndex, getHeight, getTransactions } from '../../data/bitcoin/selectors.js'
@@ -105,11 +105,17 @@ export const getAddressesInfo = state => {
 export const getWalletTransactions = memoize(state => {
   // Page == Remote ([Tx])
   // Remote(wallet)
-  const walletR = Remote.of(walletSelectors.getWallet(state))
+  const wallet = walletSelectors.getWallet(state)
+  const walletR = Remote.of(wallet)
   // Remote(blockHeight)
   const blockHeightR = getHeight(state)
   // [Remote([tx])] == [Page] == Pages
-  const pages = getTransactions(state)
+  const txNotes = Wallet.selectTxNotes(wallet)
+  const addDescription = (tx) => {
+    tx.description = TXNotes.selectNote(tx.hash, txNotes) || ''
+    return tx
+  }
+  const pages = getTransactions(state).map(map(map(addDescription)))
   // mTransformTx :: wallet -> blockHeight -> Tx
   // ProcessPage :: wallet -> blockHeight -> [Tx] -> [Tx]
   const ProcessTxs = (wallet, block, txList) =>
