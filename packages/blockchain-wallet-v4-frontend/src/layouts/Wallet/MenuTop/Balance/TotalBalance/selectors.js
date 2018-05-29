@@ -1,6 +1,7 @@
 import { lift } from 'ramda'
 import { selectors } from 'data'
 import { Exchange } from 'blockchain-wallet-v4/src'
+import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 
 export const getData = (state) => {
   const btcBalanceR = selectors.core.data.bitcoin.getBalance(state)
@@ -20,8 +21,9 @@ export const getData = (state) => {
     const ethFiatBalance = Exchange.convertEtherToFiat({ value: ethBalance, fromUnit: 'WEI', toCurrency: settings.currency, rates: ethRates })
     const bchFiatBalance = Exchange.convertBchToFiat({ value: bchBalance, fromUnit: 'SAT', toCurrency: settings.currency, rates: bchRates })
     const totalFiatBalance = Number(btcFiatBalance.value) + Number(ethFiatBalance.value) + Number(bchFiatBalance.value)
+    const totalFiatBalanceFormatted = Currency.formatFiat(totalFiatBalance)
     const symbol = btcRates[settings.currency].symbol
-    return ({ symbol, totalFiatBalance, path })
+    return ({ symbol, totalFiatBalanceFormatted, path })
   }
 
   return lift(transform)(btcRates, ethRates, bchRates, settings)
