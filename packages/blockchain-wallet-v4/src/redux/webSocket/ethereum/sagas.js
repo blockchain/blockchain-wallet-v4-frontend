@@ -34,7 +34,7 @@ export default ({ api, ethSocket }) => {
         yield put(ethActions.fetchData(context.data))
         break
       case BLOCK_SUB:
-        yield put(ethActions.fetchLatestBlock())
+        // yield put(ethActions.fetchLatestBlock())
         break
       case 'pong':
         break

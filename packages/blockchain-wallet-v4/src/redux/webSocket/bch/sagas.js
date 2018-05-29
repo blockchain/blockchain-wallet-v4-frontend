@@ -16,9 +16,12 @@ export default ({ api, bchSocket }) => {
 
   const onMessage = function * (action) {
     const message = action.payload
+    console.log(message)
 
     switch (message.op) {
       case 'utx':
+        debugger
+        yield put(A.webSocket.bitcoin.paymentReceived('You\'ve just received a bitcoin payment.'))
         const walletContext = yield select(walletSelectors.getWalletContext)
         yield put(bchActions.fetchData(walletContext))
         yield put(bchActions.fetchTransactions('', true))
