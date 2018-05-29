@@ -176,7 +176,7 @@ describe('FormHelper', () => {
     })
 
     it('returns undefined if valid BIC is given', () => {
-      expect(FormHelper.validBIC('GB04BARC20474473160944')).toBeUndefined()
+      expect(FormHelper.validBIC('DABAIE2D')).toBeUndefined()
     })
   })
 
