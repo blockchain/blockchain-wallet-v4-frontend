@@ -210,11 +210,9 @@ export default ({ api, options }) => {
   const sell = function * () {
     try {
       yield put(A.handleTradeLoading())
-      console.log('core saga sell')
       const account = yield select(S.getAccount)
       const sellResult = yield apply(account, account.sell)
       yield put(A.handleTradeSuccess(sellResult))
-      console.log('coinify sell result in core', sellResult)
       yield put(A.fetchTrades())
       yield call(getCoinify)
       return sellResult

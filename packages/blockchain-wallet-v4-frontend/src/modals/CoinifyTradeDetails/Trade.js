@@ -16,6 +16,7 @@ export const ButtonRow = styled.div`
 const Trade = ({ trade, close }) => {
   const headerStatus = statusHelper(trade.state)
   const bodyStatus = bodyStatusHelper(trade.state, trade.isBuy)
+  console.log(trade)
   const details = tradeDetails.renderDetails(trade)
 
   return (
