@@ -10,17 +10,21 @@ const extractAddress = (selectorFunction, value) =>
     ? value.address
       ? Remote.of(value.address)
       : selectorFunction(value.index)
-    : Remote.Loading
+    : Remote.NotAsked
 
 const extractAddressIdx = (selectorFunction, value) =>
   value
-    ? selectorFunction(value.index)
-    : Remote.Loading
+    ? value.address
+      ? Remote.of(value.address)
+      : selectorFunction(value.index)
+    : Remote.NotAsked
 
 const extractAccountIdx = (value) =>
   value
-    ? Remote.of(value.index)
-    : Remote.Loading
+    ? value.address
+      ? Remote.of(value.address)
+      : Remote.of(value.index)
+    : Remote.NotAsked
 
 export const getData = state => {
   const getReceive = index => selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, index, state)
