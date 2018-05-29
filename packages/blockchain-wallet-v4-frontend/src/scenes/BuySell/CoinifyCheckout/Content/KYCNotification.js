@@ -48,7 +48,7 @@ const KYCNotification = (props) => {
           { body.text }
         </Text>
         {
-          state === 'pending' || state === 'rejected'
+          state === 'pending' || state === 'rejected' || state === 'expired'
             ? <Button onClick={() => onTrigger(kyc)} nature='empty-secondary'>
               <Text size='13px' color='brand-secondary'>
                 { kycNotificationButtonHelper(state)['text'] }

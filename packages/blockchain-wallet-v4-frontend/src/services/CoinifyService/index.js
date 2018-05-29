@@ -150,6 +150,7 @@ export const kycHeaderHelper = (status) => {
     case 'rejected': return { color: 'error', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.rejected' defaultMessage='Identity Verification Denied' /> }
     case 'failed': return { color: 'error', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.failed' defaultMessage='Identity Verification Failed' /> }
     case 'cancelled': return { color: 'error', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.cancelled' defaultMessage='Identity Verification Cancelled' /> }
+    case 'expired': return { color: 'error', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.expired' defaultMessage='Identity Verification Expired' /> }
     default: return { color: '', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.unknown' defaultMessage='Unknown' /> }
   }
 }
@@ -163,6 +164,7 @@ export const kycNotificationBodyHelper = (status) => {
     case 'rejected': return { text: <FormattedMessage id='scenes.coinify_details_modal.kyc.rejected' defaultMessage='There was an issue verifying your identity with the documents provided. Please try uploading different identification. Bank transfers are unavailable until we can successfully verify your identity.' /> }
     case 'failed': return { text: <FormattedMessage id='scenes.coinify_details_modal.kyc.failed' defaultMessage='Your identity verification has failed. Please contact support.' /> }
     case 'cancelled': return { text: <FormattedMessage id='scenes.coinify_details_modal.kyc.cancelled' defaultMessage='Your identity verification was cancelled. Please try again.' /> }
+    case 'expired': return { text: <FormattedMessage id='scenes.coinify_details_modal.kyc.expired' defaultMessage='Your identity verification request has expired. Please try again.' /> }
     default: return { color: '', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.unknown' defaultMessage='Unknown' /> }
   }
 }
@@ -171,6 +173,7 @@ export const kycNotificationButtonHelper = (status) => {
   switch (status) {
     case 'pending': return { color: 'transferred', text: <FormattedMessage id='scenes.buy_sell.kyc_notification.complete' defaultMessage='Complete Verification' /> }
     case 'rejected': return { color: 'error', text: <FormattedMessage id='scenes.buy_sell.kyc_notification.rejected' defaultMessage='Try Again' /> }
+    case 'expired': return { color: 'error', text: <FormattedMessage id='scenes.buy_sell.kyc_notification.expired' defaultMessage='Try Again' /> }
     default: return { color: '', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.unknown' defaultMessage='' /> }
   }
 }
