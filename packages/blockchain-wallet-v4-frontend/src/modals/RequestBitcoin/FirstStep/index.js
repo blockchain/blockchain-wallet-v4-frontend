@@ -5,21 +5,22 @@ import { equals, prop } from 'ramda'
 
 import { actions } from 'data'
 import { getData, getInitialValues } from './selectors'
-import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
+import DataError from 'components/DataError'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 class FirstStepContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleClickQRCode = this.handleClickQRCode.bind(this)
+    this.handleRefresh = this.handleRefresh.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.init = this.init.bind(this)
   }
 
   componentWillMount () {
-    this.props.initialValues.map(x => {
-      this.props.formActions.initialize('requestBitcoin', x)
-    })
+    this.init()
   }
 
   componentWillReceiveProps (nextProps) {
@@ -34,13 +35,32 @@ class FirstStepContainer extends React.PureComponent {
     })
   }
 
+  componentDidUpdate (prevProps) {
+    if (!Remote.Success.is(prevProps.initialValues) && Remote.Success.is(this.props.initialValues)) {
+      this.init()
+    }
+  }
+
+  init () {
+    this.props.initialValues.map(x => {
+      this.props.formActions.initialize('requestBitcoin', x)
+    })
+  }
+
   handleClickQRCode (value) {
     this.props.modalActions.showModal('QRCode', { value })
   }
 
   handleSubmit (e) {
     e.preventDefault()
+    const { accountIdx, addressIdx, message, receiveAddress } = this.props.data.getOrElse({})
+    this.props.requestBtcActions.firstStepSubmitClicked({ accountIdx, addressIdx, message })
+    this.props.setReceiveAddress(receiveAddress)
     this.props.nextStep()
+  }
+
+  handleRefresh () {
+    this.props.refreshActions.refresh()
   }
 
   render () {
@@ -48,13 +68,16 @@ class FirstStepContainer extends React.PureComponent {
 
     return data.cata({
       Success: (value) => <Success
+        message={value.message}
+        addressIdx={value.addressIdx}
+        accountIdx={value.accountIdx}
         receiveAddress={value.receiveAddress}
         handleClickQRCode={() => this.handleClickQRCode(value)}
         handleSubmit={this.handleSubmit}
       />,
-      Failure: (message) => <Error>{message}</Error>,
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />
+      NotAsked: () => <DataError onClick={this.handleRefresh} />,
+      Failure: () => <DataError onClick={this.handleRefresh} />,
+      Loading: () => <Loading />
     })
   }
 }
@@ -65,7 +88,9 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  requestBtcActions: bindActionCreators(actions.components.requestBtc, dispatch),
   bitcoinDataActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
+  refreshActions: bindActionCreators(actions.core.refresh, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })

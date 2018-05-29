@@ -5,7 +5,7 @@ import { bindActionCreators, compose } from 'redux'
 import { FormattedMessage } from 'react-intl'
 import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
-import { Icon, Modal, ModalHeader, ModalBody, Text, Button } from 'blockchain-info-components'
+import { Icon, Modal, ModalHeader, ModalBody, Text, Button, Tooltip } from 'blockchain-info-components'
 import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDetails'
 import { MethodContainer } from 'components/BuySell/styled.js'
 import { statusHelper, bodyStatusHelper } from 'services/SfoxService'
@@ -17,6 +17,13 @@ const ButtonRow = styled.div`
   flex-direction: row;
   justify-content: flex-end;
   margin-top: 20px;
+`
+const ToolTipWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  div:first-of-type {
+    margin-right: 5px;
+  }
 `
 
 const renderFirstRow = trade => {
@@ -70,8 +77,15 @@ class SfoxTradeDetails extends React.PureComponent {
               <Text size='13px' weight={300}>{renderFirstRow(trade)}</Text>
             </OrderDetailsRow>
             <OrderDetailsRow>
-              <Text size='13px' weight={300}><FormattedMessage id='orderdetails.tradingfee' defaultMessage='Trading Fee' /></Text>
-              <Text size='13px' weight={300}>{`$${(+trade.feeAmount).toFixed(2)}`}</Text>
+              <ToolTipWrapper>
+                <Text size='13px' weight={300}>
+                  <FormattedMessage id='orderdetails.tradingfee' defaultMessage='Trading Fee' />
+                </Text>
+                <Tooltip>
+                  <FormattedMessage id='orderdetails.tradingfee.tooltip' defaultMessage='The fee charged to execute a trade through SFOX.' />
+                </Tooltip>
+              </ToolTipWrapper>
+              <Text size='13px' weight={300}>{`$${trade.feeAmount.toFixed(2)}`}</Text>
             </OrderDetailsRow>
             <OrderDetailsRow>
               {

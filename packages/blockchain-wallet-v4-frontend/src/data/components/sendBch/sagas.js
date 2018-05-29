@@ -58,10 +58,16 @@ export default ({ coreSagas }) => {
 
       switch (field) {
         case 'coin':
-          yield put(actions.modals.closeAllModals())
           switch (payload) {
-            case 'BTC': yield put(actions.modals.showModal('SendBitcoin')); break
-            case 'ETH': yield put(actions.modals.showModal('SendEther')); break
+            case 'BTC': {
+              yield put(actions.modals.closeAllModals())
+              yield put(actions.modals.showModal('SendBitcoin'))
+              break
+            }
+            case 'ETH': {
+              yield put(actions.modals.closeAllModals())
+              yield put(actions.modals.showModal('SendEther'))
+            }
           }
           break
         case 'from':
