@@ -14,6 +14,8 @@ import BtcMenu from '../../scenes/Transactions/Bitcoin/Menu'
 import BchMenu from '../../scenes/Transactions/Bch/Menu'
 import EthMenu from '../../scenes/Transactions/Ether/Menu'
 import AddrMenu from '../../scenes/Settings/Addresses/Menu'
+import ExchangeMenu from '..//Exchange'
+import Exchange from '../../scenes/Exchange';
 
 const Wrapper = styled.div`
   display: flex;
@@ -92,6 +94,8 @@ const WalletLayout = props => {
           { location.pathname === '/eth/transactions' && <EthMenu /> }
           { location.pathname === '/settings/addresses' && <AddrMenu /> }
           { location.pathname === '/settings/addresses/bch' && <AddrMenu /> }
+          { location.pathname === '/exchange' && <ExchangeMenu /> }
+          { location.pathname === '/exchange/history' && <ExchangeMenu /> }
           <Page>
             {children}
           </Page>
