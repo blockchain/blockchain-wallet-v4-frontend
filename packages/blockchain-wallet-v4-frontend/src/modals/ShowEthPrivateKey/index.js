@@ -32,8 +32,8 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  modalEnhancer('ShowEthPrivateKey')
+  modalEnhancer('ShowEthPrivateKey'),
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default enhance(ShowEthPrivateKeyContainer)
