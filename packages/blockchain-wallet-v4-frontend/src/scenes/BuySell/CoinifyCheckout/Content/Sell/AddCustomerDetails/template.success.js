@@ -10,7 +10,7 @@ import { StepTransition } from 'components/Utilities/Stepper'
 import { Form, ColLeft, InputWrapper, PartnerHeader, PartnerSubHeader, ColRight, ColRightInner, Row } from 'components/BuySell/Signup'
 import { SelectBoxCountry, TextBox } from 'components/Form'
 
-const DetailsInputWrapper = styled(InputWrapper) `
+const DetailsInputWrapper = styled(InputWrapper)`
   & > * {
     padding-bottom: 12px;
   }
