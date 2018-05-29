@@ -40,7 +40,7 @@ const AwaitingDeposits = ({ showModal }) => {
         </Text>
       </LeftCol>
       <RightCol>
-        <Button uppercase nature='primary' onClick={() => showModal('SfoxEnterMicroDeposits')}>
+        <Button uppercase width='80%' nature='primary' onClick={() => showModal('SfoxEnterMicroDeposits')}>
           <FormattedMessage id='awaiting_deposits.enter' defaultMessage='Enter Deposit Details' />
         </Button>
       </RightCol>
