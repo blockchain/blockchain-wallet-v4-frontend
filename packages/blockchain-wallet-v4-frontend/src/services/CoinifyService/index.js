@@ -102,12 +102,18 @@ export const reviewOrder = {
 export const tradeDetails = {
   renderDetails: (trade) => {
     const fiat = trade.inCurrency !== 'BTC' ? trade.inCurrency : trade.outCurrency
+    const symbol = currencySymbolMap[fiat]
     if (trade.isBuy) {
-      const symbol = currencySymbolMap[fiat]
       return {
         firstRow: `${trade.receiveAmount} BTC (${symbol}${(trade.inAmount / 100).toFixed(2)})`,
         fee: `${symbol}${((trade.sendAmount / 100) - (trade.inAmount / 100)).toFixed(2)}`,
         total: `${symbol}${(trade.sendAmount / 100).toFixed(2)}`
+      }
+    } else {
+      return {
+        firstRow: `${trade.sendAmount / 1e8} BTC (${symbol}${(trade.outAmountExpected / 100).toFixed(2)})`,
+        fee: `${symbol}${((trade.outAmountExpected / 100) - trade.receiveAmount).toFixed(2)}`,
+        total: `${symbol}${(trade.receiveAmount).toFixed(2)}`
       }
     }
   }
