@@ -1,4 +1,4 @@
-import { call, fork, put, select } from 'redux-saga/effects'
+import { call, fork, put, select, spawn } from 'redux-saga/effects'
 
 import * as A from './actions'
 import * as actions from '../../actions'
@@ -9,23 +9,24 @@ import { Remote, Types } from 'blockchain-wallet-v4/src'
 export default ({ api }) => {
   const toggleUsedAddresses = function * () {
     yield put(actions.modals.closeAllModals())
+    //yield spawn(fetchUsedAddresses, {}, '0')
   }
 
   const deriveAddresses = function * (account) {
     let i = 0
     let t = []
 
-    while (i <= 10) { //receiveIndex.data
+    while (i <= 5) { //receiveIndex.data
       console.log(i)
-      t.push(Types.HDAccount.getReceiveAddress(account, i, settings.NETWORK_BITCOIN))
+      t.push(Types.HDAccount.getReceiveAddressFast(account, i, settings.NETWORK_BITCOIN))
       i++
     }
 
     return t
   }
 
-  const fetchUsedAddresses = function * (action) {
-    const {walletIndex} = action.payload
+  const fetchUsedAddresses = function * (action, walletId) {
+    const walletIndex = action.payload ? action.payload.walletIndex : walletId
     yield put(A.fetchUsedAddressesLoading(walletIndex))
     const wallet = yield select(selectors.core.wallet.getWallet)
     const account = Types.Wallet.selectHDAccounts(wallet).get(walletIndex)
