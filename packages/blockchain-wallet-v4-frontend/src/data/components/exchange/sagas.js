@@ -53,7 +53,7 @@ export default ({ api, coreSagas }) => {
       const target = prop('target', form)
       yield put(actions.form.change2('exchange', 'source', target))
       yield put(actions.form.change2('exchange', 'target', source))
-      yield call(changeAmount)
+      yield call(resetForm)
       yield call(validateForm)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'swapClicked', e))
