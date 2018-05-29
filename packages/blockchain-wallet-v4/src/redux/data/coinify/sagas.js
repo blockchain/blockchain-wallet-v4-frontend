@@ -197,7 +197,6 @@ export default ({ api, options }) => {
       const accounts = yield apply(mediums[medium], mediums[medium].getAccounts)
       const buyResult = yield apply(accounts[0], accounts[0].buy)
       yield put(A.handleTradeSuccess(buyResult))
-      console.log('coinify buy result in core', buyResult)
       yield put(A.fetchTrades())
       yield call(getCoinify)
       return buyResult
