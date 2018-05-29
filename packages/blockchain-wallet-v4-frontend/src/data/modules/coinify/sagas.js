@@ -128,12 +128,9 @@ export default ({ coreSagas }) => {
 
   const handleChange = function * (action) {
     try {
-      yield put(A.clearCoinifyCheckoutError())
-
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
       const payload = prop('payload', action)
-
       if (!any(equals(form))(['coinifyCheckoutBuy', 'coinifyCheckoutSell'])) return
       yield put(A.coinifyCheckoutBusyOn())
       if (!payload) return null

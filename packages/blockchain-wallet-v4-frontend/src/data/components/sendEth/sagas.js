@@ -51,10 +51,16 @@ export default ({ coreSagas }) => {
 
       switch (field) {
         case 'coin':
-          yield put(actions.modals.closeAllModals())
           switch (payload) {
-            case 'BTC': yield put(actions.modals.showModal('SendBitcoin')); break
-            case 'BCH': yield put(actions.modals.showModal('SendBch')); break
+            case 'BTC': {
+              yield put(actions.modals.closeAllModals())
+              yield put(actions.modals.showModal('SendBitcoin'))
+              break
+            }
+            case 'BCH': {
+              yield put(actions.modals.closeAllModals())
+              yield put(actions.modals.showModal('SendBch'))
+            }
           }
           break
         case 'to':
@@ -100,7 +106,11 @@ export default ({ coreSagas }) => {
       payment = yield payment.sign(password)
       payment = yield payment.publish()
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
-      yield put(actions.router.push('/eth/transactions'))
+      yield put(actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(Date.now()))
+      yield put(actions.core.kvStore.ethereum.setLatestTxEthereum(payment.value().txId))
+      if (path(['description', 'length'], payment.value())) {
+        yield put(actions.core.kvStore.ethereum.setTxNotesEthereum(payment.value().txId, payment.value().description))
+      }
       yield put(actions.alerts.displaySuccess('Your ether transaction is now pending.'))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e))
