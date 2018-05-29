@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import ExchangeLayout from 'layouts/Exchange'
 import { Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
@@ -15,11 +14,9 @@ const Wrapper = styled.div`
 `
 
 export default (props) => (
-  <ExchangeLayout>
-    <Wrapper>
-      <Text size='12px' weight={300} color='red'>
-        {props.children}
-      </Text>
-    </Wrapper>
-  </ExchangeLayout>
+  <Wrapper>
+    <Text size='12px' weight={300} color='red'>
+      {props.children}
+    </Text>
+  </Wrapper>
 )
