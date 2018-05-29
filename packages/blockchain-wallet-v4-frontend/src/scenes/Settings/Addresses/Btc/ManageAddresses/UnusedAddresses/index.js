@@ -44,6 +44,7 @@ const mapStateToProps = (state, props) => {
   const isDefault = parseInt(props.walletIndex) === Types.HDWallet.selectDefaultAccountIdx(Types.Wallet.selectHdWallets(state.walletPath.wallet).get(0))
   const account = Types.Wallet.selectHDAccounts(state.walletPath.wallet).get(props.walletIndex)
   const labels = Types.HDAccount.selectAddressLabels(account).reverse().toArray()
+  // TODO: remove addresses with tx > 0
   const nextReceiveIndex = selectors.core.data.bitcoin.getReceiveIndex(account.xpub, state)
   const lastLabeledIndex = labels.reduce((acc, l) => Math.max(acc, l.index), 0)
   const receiveIndex = nextReceiveIndex.map(i => Math.max(i, lastLabeledIndex + 1))

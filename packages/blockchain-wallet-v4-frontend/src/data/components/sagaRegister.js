@@ -30,5 +30,5 @@ export default ({ api, coreSagas }) => function * () {
   yield fork(sendBtc({ api, coreSagas }))
   yield fork(sendEth({ api, coreSagas }))
   yield fork(signMessage({ coreSagas }))
-  yield fork(usedAddresses({ coreSagas }))
+  yield fork(usedAddresses({ api, coreSagas }))
 }
