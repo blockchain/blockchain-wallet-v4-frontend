@@ -20,7 +20,7 @@ class SelectAccountsContainer extends React.PureComponent {
   }
 
   deleteBankAccount (bankAccount) {
-    this.props.coinifyActions.deleteBankAccount(bankAccount)
+    this.props.modalActions.showModal('CoinifyDeleteBank', { bankAccount })
   }
 
   render () {
@@ -42,8 +42,8 @@ class SelectAccountsContainer extends React.PureComponent {
 const mapStateToProps = (state) => getData(state)
 
 const mapDispatchToProps = (dispatch) => ({
-  coinifyActions: bindActionCreators(actions.modules.coinify, dispatch),
-  coinifyDataActions: bindActionCreators(actions.core.data.coinify, dispatch)
+  coinifyDataActions: bindActionCreators(actions.core.data.coinify, dispatch),
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SelectAccountsContainer)
