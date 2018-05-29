@@ -28,7 +28,6 @@ export default ({ coreSagas }) => {
       const defaultFeePerByte = path(['fees', feeType || 'regular'], payment.value())
       payment = yield payment.from(defaultIndex)
       payment = yield payment.fee(defaultFeePerByte)
-      // TODO :: Redesign account dropdown
       const initialValues = {
         to: to,
         coin: 'BTC',
@@ -40,6 +39,7 @@ export default ({ coreSagas }) => {
       yield put(initialize('sendBtc', initialValues))
       yield put(A.sendBtcPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
+      yield put(A.sendBtcPaymentUpdated(Remote.Failure(e)))
       yield put(actions.logs.logErrorMessage(logLocation, 'sendBtcInitialized', e))
     }
   }
@@ -68,10 +68,16 @@ export default ({ coreSagas }) => {
 
       switch (field) {
         case 'coin':
-          yield put(actions.modals.closeAllModals())
           switch (payload) {
-            case 'ETH': yield put(actions.modals.showModal('SendEther')); break
-            case 'BCH': yield put(actions.modals.showModal('SendBch')); break
+            case 'ETH': {
+              yield put(actions.modals.closeAllModals())
+              yield put(actions.modals.showModal('SendEther'))
+              break
+            }
+            case 'BCH': {
+              yield put(actions.modals.closeAllModals())
+              yield put(actions.modals.showModal('SendBch'))
+            }
           }
           break
         case 'from':
