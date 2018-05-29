@@ -17,7 +17,7 @@ const Wrapper = styled.div`
 
 const CountdownTimer = (props) => (
   <Wrapper {...props}>
-    <Text size='12px' weight={300}>
+    <Text size='11px' weight={300}>
       <FormattedMessage id='scenes.exchange.secondstep.expiry' defaultMessage='Quote expires in: {timeLeft}' values={{ timeLeft: props.timeLeft }} />
     </Text>
     <Tooltip>

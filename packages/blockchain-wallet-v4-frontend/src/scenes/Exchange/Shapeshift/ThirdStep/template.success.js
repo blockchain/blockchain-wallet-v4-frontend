@@ -166,7 +166,7 @@ const Success = props => {
               </TableCell>
               <TableCell>
                 <Text size='13px' weight={300} uppercase>
-                  {transactionFee}
+                  {`${transactionFee} ${targetCoin}`}
                 </Text>
               </TableCell>
             </TableRow>
