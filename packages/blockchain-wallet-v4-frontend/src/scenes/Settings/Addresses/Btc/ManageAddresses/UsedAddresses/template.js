@@ -13,9 +13,8 @@ const Header = styled.div`
   flex-direction: row;
   align-items: center;
 `
-// TODO: finish this feature
-const usedAddresses = []
-const UsedAddressesTemplate = ({ onShowUsedAddresses, usedAddressesVisible }) => (
+
+const UsedAddressesTemplate = ({ onShowUsedAddresses, usedAddressesVisible, usedAddresses }) => (
   <Fragment>
     <Header>
       <Text weight={400} size='14px' style={{ marginRight: '16px' }}>
@@ -30,7 +29,7 @@ const UsedAddressesTemplate = ({ onShowUsedAddresses, usedAddressesVisible }) =>
     { !usedAddressesVisible ? null : (
       <UsedAddressesTable>
         {usedAddresses.map((address, i) => (
-          <UsedAddressesTableEntry key={i} />
+          <UsedAddressesTableEntry key={i} address={address} />
         ))}
       </UsedAddressesTable>
     )}

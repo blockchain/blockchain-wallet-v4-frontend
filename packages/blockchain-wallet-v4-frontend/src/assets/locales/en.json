@@ -944,7 +944,7 @@
   "scenes.settings.manage_addresses.unused_addresses": "Unused Addresses",
   "scenes.settings.manage_addresses.unused_addresses.message": "Your Blockchain Wallet contains an unlimited collection of bitcoin addresses that you can use to receive funds from anybody, globally. Your wallet will automatically manage your bitcoin addresses for you. The addresses below are the subset of addresses that are labeled.",
   "scenes.settings.addresses.address": "Address",
-  "scenes.settings.addresses.address_label": "Balance",
+  "scenes.settings.addresses.address_label": "Label",
   "scenes.settings.addresses.actions_label": "Actions",
   "scenes.settings.manage_addresses.add_label": "Add Next Address",
   "scenes.settings.manage_addresses.used_addresses": "Used Addresses",
