@@ -94,30 +94,10 @@ export default ({ api, options }) => {
     try {
       yield put(A.fetchTradesLoading())
 
-      // get number of trades from metadata
       const kvTrades = yield select(buySellSelectors.getSfoxTrades)
       const numberOfTrades = kvTrades.length
-
-      // get args for api call
-      const meta = yield select(buySellSelectors.getMetadata)
-      let token = meta.data.value.sfox.account_token
-      const state = yield select()
-      const options = state.walletOptionsPath.data
-      const configPath = (partner, key) => ['platforms', 'web', partner, 'config', key]
-      let apiKey = path(configPath('sfox', 'apiKey'), options)
-      let production = path(configPath('sfox', 'production'), options)
-
-      // fetch trades with length
-      const trades = yield call(api.fetchTradesWithLength, token, numberOfTrades, apiKey, production)
-
-      // delegate to create trade class
-      const delegate = sfox._delegate
-
-      let allTrades = trades.map(trade => {
-        return new sfox._TradeClass(trade, api, delegate)
-      })
-
-      yield put(A.fetchTradesSuccess(allTrades))
+      const trades = yield apply(sfox, sfox.getTrades, [numberOfTrades])
+      yield put(A.fetchTradesSuccess(trades))
     } catch (e) {
       yield put(A.fetchTradesFailure(e))
     }
