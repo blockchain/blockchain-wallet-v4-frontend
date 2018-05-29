@@ -165,9 +165,10 @@ export default ({ api, coreSagas }) => {
       } else {
         yield put(A.firstStepFormValidated())
       }
-      yield put(A.firstStepEnabled())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'validateForm', e))
+    } finally {
+      yield put(A.firstStepEnabled())
     }
   }
 
