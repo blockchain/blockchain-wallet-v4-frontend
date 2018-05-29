@@ -154,19 +154,23 @@ const Success = props => {
       </Stepper>
     )
   } else if (trades) {
+    const conversion = {
+      buy: 1e8,
+      sell: 1e8
+    }
     return (
       <OrderHistoryWrapper>
         <OrderHistoryContent>
           <Text size='15px' weight={400}>
             <FormattedMessage id='scenes.buysell.sfoxcheckout.trades.pending' defaultMessage='Pending Orders' />
           </Text>
-          <OrderHistoryTable trades={filter(isPending, trades)} conversion={1e8} handleDetailsClick={trade => showModal('SfoxTradeDetails', { trade })} />
+          <OrderHistoryTable trades={filter(isPending, trades)} conversion={conversion} handleDetailsClick={trade => showModal('SfoxTradeDetails', { trade })} />
         </OrderHistoryContent>
         <OrderHistoryContent>
           <Text size='15px' weight={400}>
             <FormattedMessage id='scenes.buysell.sfoxcheckout.trades.completed' defaultMessage='Completed Orders' />
           </Text>
-          <OrderHistoryTable trades={filter(isCompleted, trades)} conversion={1e8} handleDetailsClick={trade => showModal('SfoxTradeDetails', { trade })} />
+          <OrderHistoryTable trades={filter(isCompleted, trades)} conversion={conversion} handleDetailsClick={trade => showModal('SfoxTradeDetails', { trade })} />
         </OrderHistoryContent>
       </OrderHistoryWrapper>
     )
