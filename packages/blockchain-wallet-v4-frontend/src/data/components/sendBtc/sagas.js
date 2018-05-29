@@ -210,6 +210,7 @@ export default ({ coreSagas }) => {
       payment = yield payment.sign(password)
       payment = yield payment.publish()
       yield put(A.sendBtcPaymentUpdated(Remote.of(payment.value())))
+      yield put(actions.core.data.bitcoin.fetchTransactions('', true))
       if (path(['description', 'length'], payment.value())) {
         yield put(actions.core.wallet.setTransactionNote(payment.value().txId, payment.value().description))
       }
