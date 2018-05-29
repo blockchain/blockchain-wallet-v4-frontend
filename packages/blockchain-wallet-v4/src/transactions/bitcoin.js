@@ -1,6 +1,6 @@
 import {
   Wallet, HDWallet, HDWalletList, HDAccountList, AddressMap,
-  TXNotes, Address, HDAccount, AddressBook, AddressBookEntry
+  Address, HDAccount, AddressBook, AddressBookEntry
 } from '../types'
 import {
   prop, compose, curry, mapAccum, isNil, not, findIndex, view, allPass,
@@ -167,7 +167,6 @@ export const getTime = tx => {
 }
 
 export const _transformTx = (wallet, currentBlockHeight, tx) => {
-  const txNotes = Wallet.selectTxNotes(wallet)
   const conf = currentBlockHeight - tx.block_height + 1
   const confirmations = conf > 0 ? conf : 0
   const type = txtype(tx.result, tx.fee)
@@ -187,7 +186,7 @@ export const _transformTx = (wallet, currentBlockHeight, tx) => {
     hash: tx.hash,
     amount: computeAmount(type, inputData, outputData),
     type: toLower(type),
-    description: TXNotes.selectNote(tx.hash, txNotes) || '',
+    description: tx.description,
     time: tx.time,
     timeFormatted: getTime(tx),
     fee: tx.fee,

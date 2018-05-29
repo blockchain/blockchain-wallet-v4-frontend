@@ -61,10 +61,9 @@ app.use(compression())
 app.use(function (req, res, next) {
   let cspHeader = ([
     "img-src 'self' " + rootURL + ' data: blob: android-webview-video-poster:',
-    "style-src 'self' 'unsafe-inline'",
-    `child-src ${iSignThisDomain} ${walletHelperDomain}`,
+    `child-src ${iSignThisDomain} ${walletHelperDomain} blob:`,
     `frame-src ${iSignThisDomain} ${walletHelperDomain}`,
-    "worker-src 'self' 'unsafe-eval' blob:",
+    "style-src 'self' 'unsafe-inline'",
     "script-src 'self' 'unsafe-eval'",
     'connect-src ' + [
       "'self'",

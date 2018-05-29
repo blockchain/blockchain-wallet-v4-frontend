@@ -6,10 +6,20 @@ import { getData } from './selectors'
 import Success from './template.success'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { formValueSelector } from 'redux-form'
+import DataError from 'components/DataError'
 
 class BitcoinWalletsContainer extends React.Component {
+  constructor (props) {
+    super(props)
+    this.handleRefresh = this.handleRefresh.bind(this)
+  }
+
   shouldComponentUpdate (nextProps) {
     return !Remote.Loading.is(nextProps.data)
+  }
+
+  handleRefresh () {
+    this.props.actions.fetchData(this.props.context)
   }
 
   render () {
@@ -22,11 +32,11 @@ class BitcoinWalletsContainer extends React.Component {
             wallets={value}
             search={search && search.toLowerCase()}
             onUnarchive={(i) => this.props.coreActions.setAccountArchived(i, false)}
-            handleClick={() => this.props.actions.showModal('AddBitcoinWallet', { wallets: value })}
+            handleClick={() => this.props.modalActions.showModal('AddBitcoinWallet', { wallets: value })}
             {...rest}
           />
         ),
-        Failure: (message) => <div>{message}</div>,
+        Failure: (message) => <DataError onClick={this.handleRefresh}>{message}</DataError>,
         Loading: () => <div />,
         NotAsked: () => <div />
       })
@@ -35,8 +45,9 @@ class BitcoinWalletsContainer extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actions.modals, dispatch),
-  coreActions: bindActionCreators(actions.core.wallet, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  coreActions: bindActionCreators(actions.core.wallet, dispatch),
+  actions: bindActionCreators(actions.core.data.bitcoin, dispatch)
 })
 
 const mapStateToProps = (state) => ({

@@ -5,7 +5,7 @@ import { getAddresses, getChangeIndex, getReceiveIndex, getHeight, getTransactio
 import * as transactions from '../../../transactions'
 import * as walletSelectors from '../../wallet/selectors'
 import Remote from '../../../remote'
-import { getAccountsList } from '../../kvStore/bch/selectors.js'
+import { getAccountsList, getBchTxNote } from '../../kvStore/bch/selectors.js'
 import { toCashAddr } from '../../../utils/bch'
 import { isValidBitcoinAddress } from '../../../utils/bitcoin'
 
@@ -113,7 +113,11 @@ export const getWalletTransactions = memoize(state => {
   // Remote(blockHeight)
   const blockHeightR = getHeight(state)
   // [Remote([tx])] == [Page] == Pages
-  const pages = getTransactions(state)
+  const addDescription = (tx) => {
+    tx.description = getBchTxNote(state, tx.hash).data || ''
+    return tx
+  }
+  const pages = getTransactions(state).map(map(map(addDescription)))
   // mTransformTx :: wallet -> blockHeight -> Tx
   // ProcessPage :: wallet -> blockHeight -> [Tx] -> [Tx]
   const ProcessTxs = (wallet, block, txList) =>
