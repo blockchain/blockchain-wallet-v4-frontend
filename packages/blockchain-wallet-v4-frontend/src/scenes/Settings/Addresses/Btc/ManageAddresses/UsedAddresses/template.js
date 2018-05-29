@@ -14,26 +14,28 @@ const Header = styled.div`
   align-items: center;
 `
 
-const UsedAddressesTemplate = ({ onShowUsedAddresses, usedAddressesVisible, usedAddresses }) => (
-  <Fragment>
-    <Header>
-      <Text weight={400} size='14px' style={{ marginRight: '16px' }}>
-        <FormattedMessage id='scenes.settings.manage_addresses.used_addresses' defaultMessage='Used Addresses' />
-      </Text>
-      <Link weight={200} size='12px' onClick={onShowUsedAddresses}>
-        { usedAddressesVisible ? <FormattedMessage id='scenes.settings.manage_addresses.hide_used_addresses' defaultMessage='Hide' /> : (
-          <FormattedMessage id='scenes.settings.manage_addresses.show_used_addresses' defaultMessage='Show' />
-        )}
-      </Link>
-    </Header>
-    { !usedAddressesVisible ? null : (
-      <UsedAddressesTable>
-        {usedAddresses.map((address, i) => (
-          <UsedAddressesTableEntry key={i} address={address} />
-        ))}
-      </UsedAddressesTable>
-    )}
-  </Fragment>
-)
+const UsedAddressesTemplate = ({ onShowUsedAddresses, usedAddressesVisible, usedAddresses }) => {
+  return (
+    <Fragment>
+      <Header>
+        <Text weight={400} size='14px' style={{ marginRight: '16px' }}>
+          <FormattedMessage id='scenes.settings.manage_addresses.used_addresses' defaultMessage='Used Addresses' />
+        </Text>
+        <Link weight={200} size='12px' onClick={onShowUsedAddresses}>
+          { usedAddressesVisible ? <FormattedMessage id='scenes.settings.manage_addresses.hide_used_addresses' defaultMessage='Hide' /> : (
+            <FormattedMessage id='scenes.settings.manage_addresses.show_used_addresses' defaultMessage='Show' />
+          )}
+        </Link>
+      </Header>
+      { !usedAddressesVisible ? null : (
+        <UsedAddressesTable>
+          {usedAddresses && usedAddresses.map((address, i) => (
+            <UsedAddressesTableEntry key={i} address={address} />
+          ))}
+        </UsedAddressesTable>
+      )}
+    </Fragment>
+  )
+}
 
 export default UsedAddressesTemplate
