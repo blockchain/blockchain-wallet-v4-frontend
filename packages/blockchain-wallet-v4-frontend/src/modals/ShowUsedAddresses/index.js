@@ -12,11 +12,18 @@ class ShowUsedAddressesContainer extends React.PureComponent {
     this.handleContinue = this.handleContinue.bind(this)
   }
 
+  // componentWillUnmount () {
+  //   this.props.componentActions.fetchUsedAddresses(this.props.walletIndex)
+  // }
+
   handleContinue () {
     this.props.actions.toggleUsedAddresses(this.props.walletIndex, true)
   }
 
   render () {
+    // setTimeout(() => {
+    //   this.props.componentActions.fetchUsedAddresses(this.props.walletIndex)
+    // }, 0)
     return (
       <ShowUsedAddresses {...this.props} handleContinue={this.handleContinue} />
     )
@@ -25,7 +32,8 @@ class ShowUsedAddressesContainer extends React.PureComponent {
 
 const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
-  actions: bindActionCreators(actions.components.usedAddresses, dispatch)
+  actions: bindActionCreators(actions.components.usedAddresses, dispatch),
+  componentActions: bindActionCreators(actions.components.usedAddresses, dispatch)
 })
 
 const enhance = compose(

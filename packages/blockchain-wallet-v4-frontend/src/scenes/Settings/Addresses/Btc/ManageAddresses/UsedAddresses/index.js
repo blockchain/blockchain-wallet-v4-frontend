@@ -4,16 +4,12 @@ import { connect } from 'react-redux'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import { actions, selectors } from 'data'
-import UsedAddressesTemplate from './template'
+import UsedAddressesShowTemplate from './template'
 
 class UsedAddressesContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.onShowUsedAddresses = this.onShowUsedAddresses.bind(this)
-  }
-
-  componentDidMount () {
-    this.props.componentActions.fetchUsedAddresses(this.props.walletIndex)
   }
 
   onShowUsedAddresses () {
@@ -25,18 +21,9 @@ class UsedAddressesContainer extends React.PureComponent {
   }
 
   render () {
-    const { usedAddresses, usedAddressesVisible } = this.props
+    const { usedAddressesVisible, walletIndex } = this.props
 
-    // return (<UsedAddressesTemplate usedAddresses={usedAddresses} usedAddressesVisible={usedAddressesVisible} onShowUsedAddresses={this.onShowUsedAddresses} />)
-
-    return (
-      usedAddresses.cata({
-        Success: (value) => <UsedAddressesTemplate usedAddresses={value} usedAddressesVisible={usedAddressesVisible} onShowUsedAddresses={this.onShowUsedAddresses} />,
-        Failure: (message) => <div>{message}</div>,
-        Loading: () => <div>LOADING</div>,
-        NotAsked: () => <div/>
-      })
-    )
+    return <UsedAddressesShowTemplate usedAddressesVisible={usedAddressesVisible} onShowUsedAddresses={this.onShowUsedAddresses} walletIndex={walletIndex} />
   }
 }
 
@@ -49,8 +36,7 @@ const mapStateToProps = (state, ownProps) => {
     }
   }
   return {
-    usedAddressesVisible: selectors.components.usedAddresses.getWalletUsedAddressVisibility(state, ownProps.walletIndex),
-    usedAddresses: selectors.components.usedAddresses.getWalletUsedAddresses(state, ownProps.walletIndex)
+    usedAddressesVisible: selectors.components.usedAddresses.getWalletUsedAddressVisibility(state, ownProps.walletIndex)
   }
 }
 
