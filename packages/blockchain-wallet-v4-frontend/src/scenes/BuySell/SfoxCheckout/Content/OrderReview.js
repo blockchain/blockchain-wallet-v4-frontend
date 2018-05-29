@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
-import { Text, Button, Icon, HeartbeatLoader, Link } from 'blockchain-info-components'
+import { Text, Button, Icon, HeartbeatLoader, Link, Tooltip } from 'blockchain-info-components'
 import { Remote } from 'blockchain-wallet-v4/src'
 import FaqRow from 'components/Faq/FaqRow'
 import CountdownTimer from 'components/Form/CountdownTimer'
@@ -29,6 +29,13 @@ const CancelWrapper = styled.div`
     color: #545456;
     font-weight: 300;
     font-size: 14px;
+  }
+`
+const ToolTipWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  div:first-of-type {
+    margin-right: 5px;
   }
 `
 
@@ -65,7 +72,14 @@ export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
         <Text size='13px' weight={300}>{quoteR.map(quote => reviewOrder.renderFirstRow(quote, type)).getOrElse('~')}</Text>
       </OrderDetailsRow>
       <OrderDetailsRow>
-        <Text size='13px' weight={300}><FormattedMessage id='orderdetails.tradingfee' defaultMessage='Trading Fee' /></Text>
+        <ToolTipWrapper>
+          <Text size='13px' weight={300}>
+            <FormattedMessage id='orderdetails.tradingfee' defaultMessage='Trading Fee' />
+          </Text>
+          <Tooltip>
+            <FormattedMessage id='orderdetails.tradingfee.tooltip' defaultMessage='The fee charged to execute a trade through SFOX.' />
+          </Tooltip>
+        </ToolTipWrapper>
         <Text size='13px' weight={300}>{quoteR.map(quote => `$${(+quote.feeAmount).toFixed(2)}`).getOrElse('~')}</Text>
       </OrderDetailsRow>
       <OrderDetailsRow>

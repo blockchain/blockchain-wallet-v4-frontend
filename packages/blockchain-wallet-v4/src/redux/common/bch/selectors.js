@@ -5,7 +5,7 @@ import { getAddresses, getChangeIndex, getReceiveIndex, getHeight, getTransactio
 import * as transactions from '../../../transactions'
 import * as walletSelectors from '../../wallet/selectors'
 import Remote from '../../../remote'
-import { getAccountsList } from '../../kvStore/bch/selectors.js'
+import { getAccountsList, getBchTxNote } from '../../kvStore/bch/selectors.js'
 import { toCashAddr } from '../../../utils/bch'
 import { isValidBitcoinAddress } from '../../../utils/bitcoin'
 
@@ -18,8 +18,9 @@ export const getActiveHDAccounts = state => {
   const addInfo = account => balancesRD.map(prop(prop('xpub', account)))
     .map(x => assoc('info', x, account))
   const addBchLabel = account => account.map(a => assoc('label', path([prop('index', a), 'label'], bchAccounts), a))
+  const addArchived = account => account.map(a => assoc('archived', path([prop('index', a), 'archived'], bchAccounts), a))
 
-  const objectOfRemotes = compose(map(addBchLabel), map(addInfo),
+  const objectOfRemotes = compose(map(addArchived), map(addBchLabel), map(addInfo),
     HDAccountList.toJSwithIndex, HDWallet.selectAccounts, walletSelectors.getDefaultHDWallet)(state)
 
   return sequence(Remote.of, objectOfRemotes)
@@ -49,6 +50,7 @@ const digestAccount = x => ({
   coin: 'BCH',
   label: prop('label', x) ? prop('label', x) : prop('xpub', x),
   balance: path(['info', 'final_balance'], x),
+  archived: prop('archived', x),
   xpub: prop('xpub', x),
   index: prop('index', x)
 })
@@ -111,7 +113,11 @@ export const getWalletTransactions = memoize(state => {
   // Remote(blockHeight)
   const blockHeightR = getHeight(state)
   // [Remote([tx])] == [Page] == Pages
-  const pages = getTransactions(state)
+  const addDescription = (tx) => {
+    tx.description = getBchTxNote(state, tx.hash).data || ''
+    return tx
+  }
+  const pages = getTransactions(state).map(map(map(addDescription)))
   // mTransformTx :: wallet -> blockHeight -> Tx
   // ProcessPage :: wallet -> blockHeight -> [Tx] -> [Tx]
   const ProcessTxs = (wallet, block, txList) =>

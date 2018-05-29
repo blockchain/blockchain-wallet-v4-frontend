@@ -17,18 +17,11 @@ export class ChartContainer extends React.PureComponent {
   }
 
   render () {
-    const { currency } = this.props
+    const { currencySymbol } = this.props
+
     return this.props.data.cata({
-      Success: (value) => {
-        const { data, coin, time } = value
-        return (<Success
-          currency={currency}
-          coin={coin}
-          time={time}
-          data={data}
-        />)
-      },
-      Failure: (message) => <Error>{message}</Error>,
+      Success: value => <Success currency={currencySymbol} coin={value.coin} time={value.time} data={value.data} />,
+      Failure: message => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })

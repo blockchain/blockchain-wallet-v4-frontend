@@ -12,6 +12,6 @@ export default ({ api }) => ({
   wallet: wallet({ api }),
   walletOptions: walletOptions({ api }),
   kvStore: kvStore({ api }),
-  refresh: refresh({ api }),
+  refresh: refresh(),
   payment: payment({ api })
 })

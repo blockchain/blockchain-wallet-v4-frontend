@@ -25,3 +25,7 @@ export const getAccountLabel = curry((state, address) => getAccount(state, addre
 export const getAccountIndex = (state, address) => getAccounts(state).map(findIndex(propEq('addr', address)))
 
 export const getEthereumTxNote = (state, txHash) => getMetadata(state).map(path(['value', 'ethereum', 'tx_notes', txHash]))
+
+export const getLatestTx = (state) => getMetadata(state).map(path(['value', 'ethereum', 'last_tx']))
+
+export const getLatestTxTimestamp = (state) => getMetadata(state).map(path(['value', 'ethereum', 'last_tx_timestamp']))
