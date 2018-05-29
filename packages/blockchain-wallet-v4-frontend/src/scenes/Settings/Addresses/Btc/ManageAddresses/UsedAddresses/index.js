@@ -23,17 +23,16 @@ class UsedAddressesContainer extends React.PureComponent {
   }
 
   render () {
-    const { account,nextReceiveIndex, usedAddressesVisible } = this.props
-    // console.info(this.props)
-    console.log(nextReceiveIndex)
-    var i = 0
+    const { account, nextReceiveIndex, usedAddressesVisible } = this.props
+    let i = 0
+    let t = []
+
     while (i <= nextReceiveIndex.data) {
-      console.log(i)
-      console.info(Types.HDAccount.getReceiveAddress(account, i, settings.NETWORK_BITCOIN))
+      t.push(Types.HDAccount.getReceiveAddress(account, i, settings.NETWORK_BITCOIN))
       i++
     }
 
-    return <UsedAddressesTemplate usedAddressesVisible={usedAddressesVisible} onShowUsedAddresses={this.onShowUsedAddresses} />
+    return <UsedAddressesTemplate usedAddressesVisible={usedAddressesVisible} usedAddresses={t} onShowUsedAddresses={this.onShowUsedAddresses} />
   }
 }
 
@@ -43,7 +42,6 @@ const mapStateToProps = (state, ownProps) => {
   const labels = Types.HDAccount.selectAddressLabels(account).reverse().toArray()
   const nextReceiveIndex = selectors.core.data.bitcoin.getReceiveIndex(account.xpub, state)
   const lastLabeledIndex = labels.reduce((acc, l) => Math.max(acc, l.index), 0)
-  const usedAddresses = se
 
   return { usedAddressesVisible, account, nextReceiveIndex, lastLabeledIndex }
 }

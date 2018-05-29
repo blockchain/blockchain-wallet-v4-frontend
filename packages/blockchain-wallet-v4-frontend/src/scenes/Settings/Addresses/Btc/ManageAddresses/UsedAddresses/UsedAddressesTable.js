@@ -22,7 +22,7 @@ const UsedAddressesTable = ({ children }) => (
         </TableCell>
         <TableCell width='20%' style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <Text size='13px' weight={500}>
-            <FormattedMessage id='scenes.settings.addresses.address_label' defaultMessage='Balance' />
+            <FormattedMessage id='scenes.settings.addresses.address_balance' defaultMessage='Balance' />
           </Text>
         </TableCell>
       </TableHeader>
