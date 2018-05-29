@@ -39,8 +39,11 @@ export default ({ api, btcSocket }) => {
         const transactions = yield take(btcAT.FETCH_BITCOIN_TRANSACTIONS_SUCCESS)
         for (let i in transactions.payload.transactions) {
           const tx = transactions.payload.transactions[i]
-          if (tx.hash === message.x.hash && tx.result > 0) {
-            yield put(A.webSocket.bitcoin.paymentReceived('You\'ve just received a bitcoin payment.'))
+          if (tx.hash === message.x.hash) {
+            if (tx.result > 0) {
+              yield put(A.webSocket.bitcoin.paymentReceived('You\'ve just received a bitcoin payment.'))
+            }
+            break
           }
         }
         break
