@@ -54,7 +54,6 @@ export default ({ api, coreSagas }) => {
       yield put(actions.form.change2('exchange', 'source', target))
       yield put(actions.form.change2('exchange', 'target', source))
       yield call(resetForm)
-      yield call(validateForm)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'swapClicked', e))
     }
@@ -150,7 +149,6 @@ export default ({ api, coreSagas }) => {
       const source = prop('source', form)
       const target = prop('target', form)
       const sourceAmount = prop('sourceAmount', form)
-
       const effectiveBalance = yield call(calculateEffectiveBalance, source)
       const pair = yield call(getShapeShiftLimits, source, target)
       const minimum = getMinimum(source.coin, pair.minimum)
