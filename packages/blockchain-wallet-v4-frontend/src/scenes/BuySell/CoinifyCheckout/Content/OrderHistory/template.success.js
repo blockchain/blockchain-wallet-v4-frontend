@@ -39,19 +39,23 @@ const OrderHistory = (props) => {
     if (!trades.length) {
       return <EmptyOrderHistoryContainer changeTab={changeTab} />
     }
+    const conversion = {
+      buy: 100,
+      sell: 1e8
+    }
     return (
       <OrderHistoryWrapper>
         <OrderHistoryContent>
           <Text size='15px' weight={400}>
             <FormattedMessage id='scenes.buysell.coinifycheckout.trades.pending' defaultMessage='Pending Orders' />
           </Text>
-          <OrderHistoryTable trades={filter(isPending, trades)} conversion={1e8} handleFinishTrade={trade => finishTrade(trade)} handleDetailsClick={trade => showModal('CoinifyTradeDetails', { trade })} handleTradeCancel={cancelTrade} status={status} cancelTradeId={cancelTradeId} />
+          <OrderHistoryTable trades={filter(isPending, trades)} conversion={conversion} handleFinishTrade={trade => finishTrade(trade)} handleDetailsClick={trade => showModal('CoinifyTradeDetails', { trade })} handleTradeCancel={cancelTrade} status={status} cancelTradeId={cancelTradeId} />
         </OrderHistoryContent>
         <OrderHistoryContent>
           <Text size='15px' weight={400}>
             <FormattedMessage id='scenes.buysell.coinifycheckout.trades.completed' defaultMessage='Completed Orders' />
           </Text>
-          <OrderHistoryTable trades={filter(isCompleted, trades)} conversion={1e8} handleDetailsClick={trade => showModal('CoinifyTradeDetails', { trade })} />
+          <OrderHistoryTable trades={filter(isCompleted, trades)} conversion={conversion} handleDetailsClick={trade => showModal('CoinifyTradeDetails', { trade })} />
         </OrderHistoryContent>
       </OrderHistoryWrapper>
     )
