@@ -31,7 +31,7 @@ const AwaitingDeposits = ({ showModal }) => {
         <Text size='30px' weight={600}>
           <FormattedMessage id='awaiting_deposits.title' defaultMessage='Verify Your Bank Account' />
         </Text>
-        <Image />
+        <Image name='micro-deposits-whole' width='100%' />
         <Text size='13px' weight={300}>
           <FormattedMessage id='awaiting_deposits.body' defaultMessage='To verify your bank details, SFOX will send two micro-deposits to your bank account for a few cents each. Once received, select Enter Deposit Details to finish setting up your account.' />
         </Text>
