@@ -20,7 +20,7 @@ const Wrapper = styled.div`
 `
 
 const Success = props => {
-  const amount = <span>{props.symbol + props.totalFiatBalance.toFixed(2)}</span>
+  const amount = <span>{props.symbol + props.totalFiatBalance}</span>
   if (!props.large) {
     return (
       <LinkContainer to='/home'>
