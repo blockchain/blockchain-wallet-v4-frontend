@@ -10,10 +10,10 @@ import OrderStatus from '../OrderStatus'
 const tradeDateHelper = (trade) => type(trade.createdAt) === 'Number' ? new Date(trade.createdAt).toLocaleString() : trade.createdAt.toLocaleString()
 
 const TradeItem = props => {
-  const { conversion, handleClick, handleFinish, handleTradeCancel, trade, status, cancelTradeId } = props
+  const { conversion, handleClick, handleFinish, handleTradeCancel, trade, status, cancelTradeId, canTrade } = props
   const receiveAmount = trade.isBuy ? trade.receiveAmount : Exchange.displayFiatToFiat({ value: trade.receiveAmount })
   const exchangeAmount = trade.isBuy ? Exchange.displayFiatToFiat({ value: trade.sendAmount / conversion }) : trade.sendAmount / conversion
-  const canCancel = trade.state === 'awaiting_transfer_in'
+  const canCancel = canTrade && trade.state === 'awaiting_transfer_in'
 
   return (
     <TableRow>
