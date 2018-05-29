@@ -58,10 +58,16 @@ export default ({ coreSagas }) => {
 
       switch (field) {
         case 'coin':
-          yield put(actions.modals.closeAllModals())
           switch (payload) {
-            case 'BTC': yield put(actions.modals.showModal('SendBitcoin')); break
-            case 'ETH': yield put(actions.modals.showModal('SendEther')); break
+            case 'BTC': {
+              yield put(actions.modals.closeAllModals())
+              yield put(actions.modals.showModal('SendBitcoin'))
+              break
+            }
+            case 'ETH': {
+              yield put(actions.modals.closeAllModals())
+              yield put(actions.modals.showModal('SendEther'))
+            }
           }
           break
         case 'from':
@@ -124,6 +130,9 @@ export default ({ coreSagas }) => {
       payment = yield payment.sign(password)
       payment = yield payment.publish()
       yield put(A.sendBchPaymentUpdated(Remote.of(payment.value())))
+      if (path(['description', 'length'], payment.value())) {
+        yield put(actions.core.kvStore.bch.setTxNotesBch(payment.value().txId, payment.value().description))
+      }
       yield put(actions.router.push('/bch/transactions'))
       yield put(actions.alerts.displaySuccess('Your bitcoin cash transaction is now pending.'))
     } catch (e) {

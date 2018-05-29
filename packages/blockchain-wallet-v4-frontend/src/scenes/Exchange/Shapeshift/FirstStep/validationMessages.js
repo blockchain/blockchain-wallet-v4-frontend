@@ -45,3 +45,9 @@ export const InsufficientAmountMessage = () => (
     <FormattedMessage id='modals.exchange.insufficientamountmessage' defaultMessage='Insufficient funds' />
   </Text>
 )
+
+export const InvalidAmountMessage = () => (
+  <Text size='12px' weight={300} color='error'>
+    <FormattedMessage id='modals.exchange.invalidamountmessage' defaultMessage='Invalid amount' />
+  </Text>
+)

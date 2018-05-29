@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const BaseTextInput = styled.input.attrs({
-  type: 'text'
+  type: 'text',
+  disabled: props => props.disabled
 })`
   display: block;
   width: 100%;
@@ -14,18 +15,21 @@ const BaseTextInput = styled.input.attrs({
   font-size: 14px;
   font-weight: 300;
   color: ${props => props.theme['gray-5']};
-  background-color: ${props => props.disabled ? props.theme['gray-1'] : props.theme['white']};
+  background-color: ${props => props.theme['white']};
   font-family: 'Montserrat', Helvetica, sans-serif;
   background-image: none;
   outline-width: 0;
   user-select: text;
   border: 1px solid  ${props => props.theme[props.borderColor]};
-  cursor: ${props => props.disabled ? 'not-allowed' : 'initial'};
   border-right: ${props => props.borderRightNone ? 'none' : ''};
 
   &::placeholder {
     color: ${props => props.theme['gray-3']};
     opacity: 0.4;
+  }
+  &:disabled {
+    cursor: not-allowed;
+    background-color: ${props => props.theme['gray-1']};
   }
 `
 
@@ -46,14 +50,13 @@ const TextInput = props => {
 }
 
 TextInput.propTypes = {
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  height: PropTypes.string,
+  minHeight: PropTypes.string
 }
 
 TextInput.defaultProps = {
-  disabled: false
-}
-
-TextInput.defaultProps = {
+  disabled: false,
   height: '40px',
   minHeight: '40px'
 }

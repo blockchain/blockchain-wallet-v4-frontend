@@ -46,8 +46,8 @@ export default ({ coreSagas }) => {
 
       switch (field) {
         case 'source':
-          const source = payload.xpub || payload.address
-          yield put(actions.core.data.bch.fetchTransactions(source, true))
+          const onlyShow = equals(payload, 'all') ? '' : (payload.xpub || payload.address)
+          yield put(actions.core.data.bch.fetchTransactions(onlyShow, true))
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))

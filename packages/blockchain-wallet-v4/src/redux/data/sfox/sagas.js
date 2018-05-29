@@ -6,6 +6,7 @@ import * as AT from './actionTypes'
 import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import * as buySellA from '../../kvStore/buySell/actions'
 import { sfoxService } from '../../../exchange/service'
+import { prepend, path } from 'ramda'
 
 let sfox
 
@@ -92,8 +93,31 @@ export default ({ api, options }) => {
   const fetchTrades = function * () {
     try {
       yield put(A.fetchTradesLoading())
-      const trades = yield apply(sfox, sfox.getTrades)
-      yield put(A.fetchTradesSuccess(trades))
+
+      // get number of trades from metadata
+      const kvTrades = yield select(buySellSelectors.getSfoxTrades)
+      const numberOfTrades = kvTrades.length
+
+      // get args for api call
+      const meta = yield select(buySellSelectors.getMetadata)
+      let token = meta.data.value.sfox.account_token
+      const state = yield select()
+      const options = state.walletOptionsPath.data
+      const configPath = (partner, key) => ['platforms', 'web', partner, 'config', key]
+      let apiKey = path(configPath('sfox', 'apiKey'), options)
+      let production = path(configPath('sfox', 'production'), options)
+
+      // fetch trades with length
+      const trades = yield call(api.fetchTradesWithLength, token, numberOfTrades, apiKey, production)
+
+      // delegate to create trade class
+      const delegate = sfox._delegate
+
+      let allTrades = trades.map(trade => {
+        return new sfox._TradeClass(trade, api, delegate)
+      })
+
+      yield put(A.fetchTradesSuccess(allTrades))
     } catch (e) {
       yield put(A.fetchTradesFailure(e))
     }
@@ -220,14 +244,6 @@ export default ({ api, options }) => {
     try {
       const accounts = yield select(S.getAccounts)
       const response = yield apply(accounts.data[0], accounts.data[0].verify, [amount1, amount2])
-      console.log('deposits response', response)
-      /*
-        valid response: {payment_method_id: "69fa19d0-f045-4097-96ec-4e1c74ccc695", status: "active"}
-                        payment_method_id:"69fa19d0-f045-4097-96ec-4e1c74ccc695"
-                        status:"active"
-
-         may need to call payment methods after this resolves
-      */
       yield call(fetchSfoxAccounts)
       return response
     } catch (e) {
@@ -245,8 +261,16 @@ export default ({ api, options }) => {
       yield put(A.handleTradeSuccess(trade))
       yield put(A.fetchProfile())
       yield put(A.fetchTrades())
-      const trades = yield select(S.getTrades)
-      yield put(buySellA.setTradesBuySell(trades.data))
+
+      // get current kvstore trades
+      const kvTrades = yield select(buySellSelectors.getSfoxTrades)
+
+      // prepend new trade
+      const newTrades = prepend(trade, kvTrades)
+
+      // set new trades to metadata
+      yield put(buySellA.setSfoxTradesBuySell(newTrades))
+
       return trade
     } catch (e) {
       console.warn(e)

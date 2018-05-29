@@ -11,6 +11,7 @@ import FormGroup from './FormGroup'
 import FormItem from './FormItem'
 import FormLabel from './FormLabel'
 import NumberBox from './NumberBox'
+import NumberBoxDebounced from './NumberBoxDebounced'
 import PasswordBox from './PasswordBox'
 import PhoneNumberBox from './PhoneNumberBox'
 import RadioButton from './RadioButton'
@@ -43,6 +44,7 @@ export {
   FormItem,
   FormLabel,
   NumberBox,
+  NumberBoxDebounced,
   PasswordBox,
   PhoneNumberBox,
   RadioButton,

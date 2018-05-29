@@ -34,7 +34,7 @@ const TrayModal = styled(Modal)`
   width: 100%;
   height: 100%;
   margin-top: 0px;
-  z-index: 2;
+  z-index: 20;
 
   > div:first-child {
     padding: 20px;

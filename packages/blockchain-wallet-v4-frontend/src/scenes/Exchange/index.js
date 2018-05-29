@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import ExchangeLayout from 'layouts/Exchange'
 import Shapeshift from './Shapeshift'
 import Info from './Info'
-import Support from './Support'
 
 const Wrapper = styled.section`
   display: flex;
@@ -48,7 +47,6 @@ const Exchange = () => (
     <Wrapper>
       <ColumnLeft>
         <Shapeshift />
-        <Support />
       </ColumnLeft>
       <ColumnRight>
         <Info />
