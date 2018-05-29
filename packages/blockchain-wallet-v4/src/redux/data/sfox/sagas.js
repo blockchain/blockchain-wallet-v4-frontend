@@ -6,7 +6,7 @@ import * as AT from './actionTypes'
 import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import * as buySellA from '../../kvStore/buySell/actions'
 import { sfoxService } from '../../../exchange/service'
-import { prepend, path } from 'ramda'
+import { prepend } from 'ramda'
 
 let sfox
 
