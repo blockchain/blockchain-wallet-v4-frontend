@@ -15,7 +15,7 @@ const BaseTextInput = styled.input.attrs({
   font-size: 14px;
   font-weight: 300;
   color: ${props => props.theme['gray-5']};
-  background-color: ${props => props.disabled ? props.theme['gray-1'] : props.theme['white']};
+  background-color: ${props => props.theme['white']};
   font-family: 'Montserrat', Helvetica, sans-serif;
   background-image: none;
   outline-width: 0;
@@ -26,6 +26,10 @@ const BaseTextInput = styled.input.attrs({
   &::placeholder {
     color: ${props => props.theme['gray-3']};
     opacity: 0.4;
+  }
+  &:disabled {
+    cursor: not-allowed;
+    background-color: ${props => props.theme['gray-1']};
   }
 `
 
