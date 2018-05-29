@@ -10,6 +10,12 @@ import { StepTransition } from 'components/Utilities/Stepper'
 import { Form, ColLeft, InputWrapper, PartnerHeader, PartnerSubHeader, ColRight, ColRightInner, Row } from 'components/BuySell/Signup'
 import { SelectBoxCountry, TextBox } from 'components/Form'
 
+const DetailsInputWrapper = styled(InputWrapper) `
+  & > * {
+    padding-bottom: 12px;
+  }
+`
+
 const CancelWrapper = styled.div`
   a {
     color: #545456;
@@ -28,7 +34,7 @@ const AddBankDetails = (props) => {
     <Form>
       <ColLeft>
         <BorderBox>
-          <InputWrapper style={spacing('mb-40')}>
+          <DetailsInputWrapper style={spacing('mb-40')}>
             <PartnerHeader>
               <FormattedMessage id='coinifyexchangedata.addcustomerdetails.header' defaultMessage='Add Bank Account' />
             </PartnerHeader>
@@ -57,7 +63,7 @@ const AddBankDetails = (props) => {
               <FormattedMessage id='coinifyexchangedata.addcustomerdetails.' defaultMessage='Country' />
               <Field name='country' validate={[required]} component={SelectBoxCountry} />
             </Text>
-          </InputWrapper>
+          </DetailsInputWrapper>
         </BorderBox>
       </ColLeft>
       <ColRight>

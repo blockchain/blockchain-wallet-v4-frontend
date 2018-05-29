@@ -10,6 +10,10 @@ import { RadioButton } from 'components/Form'
 import { StepTransition } from 'components/Utilities/Stepper'
 import { Form, ColLeft, InputWrapper, PartnerHeader, PartnerSubHeader, ColRight, ColRightInner, Row } from 'components/BuySell/Signup'
 
+const AccountRow = styled(Row)`
+  justify-content: space-between;
+`
+
 const CancelWrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -43,14 +47,14 @@ const SelectAccounts = (props) => {
             <PartnerSubHeader>
               <FormattedMessage id='coinifyexchangedata.selectaccounts.subheader' defaultMessage='Where would you like your funds sent? You have the following bank accounts linked: ' />
             </PartnerSubHeader>
-            {bankAccounts && bankAccounts.map((b, index) =>
-              <Row key={index}>
-                <Field name='iban' component={RadioButton} props={{ id: `iban${index}`, value: index }} />
-                <Text weight={300}>{path(['_account', '_number'], b)}</Text>
-                <ClickableIcon name='trash' onClick={() => deleteBankAccount(b)} />
-              </Row>
-            )}
           </InputWrapper>
+          {bankAccounts && bankAccounts.map((b, index) =>
+            <AccountRow key={index}>
+              <Field name='iban' component={RadioButton} props={{ id: `iban${index}`, value: index }} />
+              <Text weight={300}>{path(['_account', '_number'], b)}</Text>
+              <ClickableIcon name='trash' onClick={() => deleteBankAccount(b)} />
+            </AccountRow>
+          )}
           <StepTransition next Component={Button} style={spacing('mt-45')} nature='primary' fullwidth disabled={submitting || invalid}>
             <FormattedMessage id='coinifyexchangedata.selectaccounts.continue' defaultMessage='Add new account' />
           </StepTransition>
