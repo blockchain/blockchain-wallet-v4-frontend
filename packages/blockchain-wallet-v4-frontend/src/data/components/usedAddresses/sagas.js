@@ -37,22 +37,20 @@ export default ({ api }) => {
     const derivedAddrsFull = yield call(api.fetchBlockchainData, derivedAddrs)
     // fetch label indexes and derive those addresses
     const labels = Types.HDAccount.selectAddressLabels(account).reverse().toArray()
-    const labeledAddrs = labels.map(l => {
-      return { address: Types.HDAccount.getReceiveAddress(account, l.index, settings.NETWORK_BITCOIN), index: l.index, label: l.label }
+    const labeledAddrs = labels.map(la => {
+      return { address: Types.HDAccount.getReceiveAddress(account, la.index, settings.NETWORK_BITCOIN), index: la.index, label: la.label }
     })
 
     // filter only addresses with tx's
     const usedAddresses = filter(a => a.n_tx > 0, derivedAddrsFull.addresses)
 
     // match labels with addresses
-    if (labeledAddrs.length) {
-      forEach((labeledAddr) => {
-        let idx = findIndex(propEq('address', labeledAddr.address))(usedAddresses)
-        if (idx !== -1) {
-          usedAddresses[idx].label = labeledAddr.label
-        }
-      }, labeledAddrs)
-    }
+    forEach((labeledAddr) => {
+      let idx = findIndex(propEq('address', labeledAddr.address))(usedAddresses)
+      if (idx !== -1) {
+        usedAddresses[idx].label = labeledAddr.label
+      }
+    }, labeledAddrs)
 
     yield put(A.fetchUsedAddressesSuccess(walletIndex, usedAddresses))
   }
