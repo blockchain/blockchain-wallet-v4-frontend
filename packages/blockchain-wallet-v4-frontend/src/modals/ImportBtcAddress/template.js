@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'blockchain-info-components'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import SanitizedFormattedHTMLMessage from 'components/SanitizedFormattedHTMLMessage'
+import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { RadioButton, Form } from 'components/Form'
 import ImportInternalBtcAddress from './ImportInternalBtcAddress'
@@ -20,6 +21,7 @@ const Title = styled.div`
 const RadioContainer = styled.div`
   font-size: 12px;
   margin-bottom: 10px;
+  label > span > span { font-weight: 500; }
 `
 
 const ImportBtcAddress = (props) => {
@@ -38,12 +40,12 @@ const ImportBtcAddress = (props) => {
             </Title>
             <RadioContainer>
               <Field name='address-type' value='internal' props={{id: 'internal', value: 'internal'}} validate={[]} component={RadioButton}>
-                <FormattedHTMLMessage id='modals.importbtcaddress.generated_in_wallet' defaultMessage='Existing address generated in <span style="font-weight: bold;">this wallet</span>.' />
+                <SanitizedFormattedHTMLMessage id='modals.importbtcaddress.generated_in_wallet' defaultMessage='Existing address generated in <span>this wallet</span>.' />
               </Field>
             </RadioContainer>
             <RadioContainer>
               <Field name='address-type' value='external' props={{id: 'external', value: 'external'}} validate={[]} component={RadioButton}>
-                <FormattedHTMLMessage id='modals.importbtcaddress.generated_outside_wallet' defaultMessage='Existing address generated <span style="font-weight: bold;">outside this wallet</span>.' />
+                <SanitizedFormattedHTMLMessage id='modals.importbtcaddress.generated_outside_wallet' defaultMessage='Existing address generated <span>outside this wallet</span>.' />
               </Field>
             </RadioContainer>
             { isAddressInternal && <ImportInternalBtcAddress /> }
