@@ -3,7 +3,7 @@ import * as AT from './actionTypes.js'
 import Remote from '../../../remote'
 
 const INITIAL_STATE = {
-  trade: null,
+  trade: Remote.NotAsked,
   quote: Remote.NotAsked,
   trades: Remote.NotAsked,
   profile: Remote.NotAsked,
@@ -94,6 +94,9 @@ const coinifyReducer = (state = INITIAL_STATE, action) => {
     }
     case AT.COINIFY_GET_PAYMENT_MEDIUMS_FAILURE: {
       return assoc('mediums', Remote.Failure(payload), state)
+    }
+    case AT.COINIFY_SET_BANK_ACCOUNT: {
+      return assoc('account', payload, state)
     }
     case AT.GET_KYCS_LOADING: {
       return assoc('kycs', Remote.Loading, state)

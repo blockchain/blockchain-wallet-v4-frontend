@@ -46,3 +46,5 @@ export const getData = state => {
 
   return paymentR.map(transform)
 }
+
+export const getBtcData = selectors.core.common.bitcoin.getHDAccounts

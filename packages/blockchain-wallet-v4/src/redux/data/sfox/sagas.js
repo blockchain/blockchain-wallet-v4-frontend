@@ -45,8 +45,8 @@ export default ({ api, options }) => {
       const nextAddress = data.payload.nextAddress
       yield put(A.setNextAddress(nextAddress))
       yield call(refreshSFOX)
-      const { amt, baseCurr, quoteCurr } = data.payload.quote
-      const quote = yield apply(sfox, sfox.getBuyQuote, [amt, baseCurr, quoteCurr])
+      const { amt, baseCurrency, quoteCurrency } = data.payload.quote
+      const quote = yield apply(sfox, sfox.getBuyQuote, [amt, baseCurrency, quoteCurrency])
       yield put(A.fetchQuoteSuccess(quote))
       yield fork(waitForRefreshQuote, data.payload)
     } catch (e) {
@@ -58,8 +58,8 @@ export default ({ api, options }) => {
     try {
       yield put(A.fetchSellQuoteLoading())
       yield call(refreshSFOX)
-      const { amt, baseCurr, quoteCurr } = data.payload.quote
-      const quote = yield apply(sfox, sfox.getSellQuote, [amt, baseCurr, quoteCurr])
+      const { amt, baseCurrency, quoteCurrency } = data.payload.quote
+      const quote = yield apply(sfox, sfox.getSellQuote, [amt, baseCurrency, quoteCurrency])
       yield put(A.fetchSellQuoteSuccess(quote))
       yield fork(waitForRefreshSellQuote, data.payload, quote)
     } catch (e) {
@@ -164,7 +164,8 @@ export default ({ api, options }) => {
       yield put(A.setBankManuallyLoading())
       const sfox = yield call(getSfox)
       const methods = yield apply(sfox, sfox.getBuyMethods)
-      const addedBankAccount = yield apply(methods.ach, methods.ach.addAccount, [routing, account, name, type])
+      const addedBankAccount = yield apply(methods.ach, methods.ach.addAccount,
+        [routing, account, name, type])
       yield put(A.setBankManuallySuccess(addedBankAccount))
       yield call(fetchSfoxAccounts)
       return addedBankAccount
@@ -214,7 +215,8 @@ export default ({ api, options }) => {
     try {
       const sfox = yield call(getSfox)
       const profile = yield select(S.getProfile)
-      const sfoxUrl = yield apply(profile.data, profile.data.getSignedURL, [idType, file.name])
+      const sfoxUrl = yield apply(profile.data, profile.data.getSignedURL,
+        [idType, file.name])
 
       yield call(api.uploadVerificationDocument, sfoxUrl.signed_url, file)
 
