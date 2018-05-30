@@ -83,7 +83,7 @@ const Sell = props => {
             <div>
               {
                 value.kycs.length
-                  ? <KYCNotification kyc={kyc} limits={limits.sell} symbol={symbol} onTrigger={(kyc) => handleKycAction(kyc)} />
+                  ? <KYCNotification kyc={kyc} limits={limits.sell} symbol={symbol} onTrigger={(kyc) => handleKycAction(kyc)} type='sell' />
                   : null
               }
             </div>

@@ -26,7 +26,6 @@ class QuoteInput extends Component {
           setMin={setMin}
           checkoutError={checkoutError}
           increaseLimit={increaseLimit}
-          type={type}
         />
       },
       Failure: (msg) => <div>Failure: {msg.error}</div>,
