@@ -12,7 +12,7 @@ export default ({ api }) => {
     yield put(actions.modals.closeAllModals())
   }
 
-  const deriveAddresses = function * (account, receiveIndex) {
+  const deriveAddresses = function (account, receiveIndex) {
     let i = 0
     let addrs = []
 
