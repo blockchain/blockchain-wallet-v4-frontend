@@ -9,7 +9,7 @@ const rootPath = path.resolve(`${__dirname}/../src`)
 const outputPath = rootPath + '/assets/locales'
 const outputFilename = 'en.json'
 // const regexIntlImport = new RegExp(/.+from['" ]+react-intl['" ]+/)
-const regexIntlComponent = new RegExp(/(<FormattedMessage([^>])+\/>|<FormattedHTMLMessage(.+)+\/>)/, 'gm')
+const regexIntlComponent = new RegExp(/(<FormattedMessage([^>])+\/>|<SanitizedFormattedHTMLMessage(.+)+\/>)/, 'gm')
 const regexIntlId = new RegExp(/id='([^']+)'/)
 const regexIntlMessage = new RegExp(/defaultMessage='([^']+)'|defaultMessage="(.+)"/)
 
@@ -52,8 +52,6 @@ export const toKeyValue = element => {
   const message = element.match(regexIntlMessage)
   if (isNil(id) && isNil(message)) {
     console.warn('Invalid FormattedMessage (Dynamic): ' + element)
-  } else if (element.includes('FormattedHTMLMessage')) {
-    console.log('Invalid FormattedMessage (HTML Injection): ' + element)
   } else if (isNil(id)) {
     console.log('Invalid ID: ' + element)
   } else if (isNil(message)) {
