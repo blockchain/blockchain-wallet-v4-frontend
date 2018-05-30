@@ -105,14 +105,14 @@ export const tradeDetails = {
     const symbol = currencySymbolMap[fiat]
     if (trade.isBuy) {
       return {
-        firstRow: `${trade.receiveAmount} BTC (${symbol}${(trade.inAmount / 100).toFixed(2)})`,
-        fee: `${symbol}${((trade.sendAmount / 100) - (trade.inAmount / 100)).toFixed(2)}`,
+        btcAmount: `${trade.receiveAmount} BTC (${symbol}${(trade.inAmount / 100).toFixed(2)})`,
+        // fee: `${symbol}${((trade.sendAmount / 100) - (trade.inAmount / 100)).toFixed(2)}`,
         total: `${symbol}${(trade.sendAmount / 100).toFixed(2)}`
       }
     } else {
       return {
-        firstRow: `${trade.sendAmount / 1e8} BTC (${symbol}${(trade.outAmountExpected / 100).toFixed(2)})`,
-        fee: `${symbol}${((trade.outAmountExpected / 100) - trade.receiveAmount).toFixed(2)}`,
+        btcAmount: `${trade.sendAmount / 1e8} BTC (${symbol}${(trade.outAmountExpected / 100).toFixed(2)})`,
+        // fee: `${symbol}${((trade.outAmountExpected / 100) - trade.receiveAmount).toFixed(2)}`,
         total: `${symbol}${(trade.receiveAmount).toFixed(2)}`
       }
     }
@@ -129,7 +129,7 @@ export const statusHelper = status => {
     case 'rejected': return { color: 'error', text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatus.rejected' defaultMessage='Rejected' /> }
     case 'failed': return { color: 'error', text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatus.failed' defaultMessage='Failed' /> }
     case 'cancelled': return { color: 'error', text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatus.cancelled' defaultMessage='Cancelled' /> }
-    default: return { color: '', text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatus.unknown' defaultMessage='Unknown' /> }
+    default: return { color: 'gray-5', text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatus.unknown' defaultMessage='Unknown' /> }
   }
 }
 
