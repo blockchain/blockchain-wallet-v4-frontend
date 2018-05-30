@@ -1,5 +1,5 @@
 import { call, put, select } from 'redux-saga/effects'
-import { findIndex, forEach, propEq } from 'ramda'
+import { filter, findIndex, forEach, propEq } from 'ramda'
 
 import * as A from './actions'
 import * as actions from '../../actions'
@@ -29,26 +29,20 @@ export default ({ api }) => {
     yield put(A.fetchUsedAddressesLoading(walletIndex))
     const wallet = yield select(selectors.core.wallet.getWallet)
     const account = Types.Wallet.selectHDAccounts(wallet).get(walletIndex)
-    // get current receive index
+    // get current receive index of wallet
     const receiveIndex = yield select(selectors.core.data.bitcoin.getReceiveIndex(account.xpub))
-    // derive old addresses
+    // derive previous addresses
     const derivedAddrs = yield call(deriveAddresses, account, receiveIndex)
     // fetch blockchain data for each address
     const derivedAddrsFull = yield call(api.fetchBlockchainData, derivedAddrs)
-    // fetch label indexes and derive addresses
+    // fetch label indexes and derive those addresses
     const labels = Types.HDAccount.selectAddressLabels(account).reverse().toArray()
     const labeledAddrs = labels.map(l => {
-      return {
-        address: Types.HDAccount.getReceiveAddress(account, l.index, settings.NETWORK_BITCOIN),
-        index: l.index,
-        label: l.label
-      }
+      return { address: Types.HDAccount.getReceiveAddress(account, l.index, settings.NETWORK_BITCOIN), index: l.index, label: l.label }
     })
 
     // filter only addresses with tx's
-    const usedAddresses = derivedAddrsFull.addresses.filter(a => {
-      return a.n_tx > 0
-    })
+    const usedAddresses = filter(a => a.n_tx > 0, derivedAddrsFull.addresses)
 
     // match labels with addresses
     if (labeledAddrs.length) {
