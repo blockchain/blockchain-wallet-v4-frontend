@@ -46,7 +46,7 @@ CountdownTimerContainer.propTypes = {
 }
 
 CountdownTimerContainer.defaultProps = {
-  expiryDate: moment().add('minutes', 1)
+  expiryDate: moment().add(1, 'minutes')
 }
 
 export default CountdownTimerContainer
