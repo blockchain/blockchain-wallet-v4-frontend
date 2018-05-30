@@ -35,7 +35,7 @@ class SellContainer extends React.Component {
     const { step, checkoutBusy, coinifyBusy, checkoutError } = rest
     const { handleTrade, fetchQuote } = coinifyDataActions
     const { showModal } = modalActions
-    const { coinifyNotAsked } = coinifyActions
+    const { coinifyNotAsked, openKYC } = coinifyActions
 
     const busy = coinifyBusy.cata({
       Success: () => false,
@@ -64,6 +64,7 @@ class SellContainer extends React.Component {
         trade={trade}
         onOrderCheckoutSubmit={this.submitQuote}
         checkoutError={checkoutError}
+        handleKycAction={kyc => openKYC(kyc)}
       />,
       Failure: (msg) => <div>Failure: {msg.error}</div>,
       Loading: () => <Loading />,
