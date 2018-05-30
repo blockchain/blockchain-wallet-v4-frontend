@@ -110,6 +110,9 @@ export default ({ coreSagas }) => {
       yield put(actions.core.kvStore.ethereum.setLatestTxEthereum(payment.value().txId))
       yield put(actions.router.push('/eth/transactions'))
       yield put(actions.alerts.displaySuccess(C.SEND_ETH_SUCCESS))
+      if (path(['description', 'length'], payment.value())) {
+        yield put(actions.core.kvStore.ethereum.setTxNotesEthereum(payment.value().txId, payment.value().description))
+      }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e))
       yield put(actions.alerts.displayError(C.SEND_ETH_ERROR))

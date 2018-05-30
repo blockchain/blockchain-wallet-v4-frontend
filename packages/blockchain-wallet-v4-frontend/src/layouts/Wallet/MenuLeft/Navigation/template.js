@@ -116,7 +116,7 @@ const Navigation = (props) => {
         )}
         <LinkContainer to='/exchange' activeClassName='active' onClick={handleCloseSettings}>
           <MenuItem>
-            <Icon name='exchange-2' />
+            <Icon name='exchange-filled' />
             <FormattedMessage id='layouts.wallet.menuleft.navigation.exchange' defaultMessage='Exchange' smaller uppercase />
           </MenuItem>
         </LinkContainer>

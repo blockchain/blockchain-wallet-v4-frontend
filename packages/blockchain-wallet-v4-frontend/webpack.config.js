@@ -197,10 +197,9 @@ module.exports = {
         "img-src 'self' data: blob:",
         "style-src 'self' 'unsafe-inline'",
         `frame-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN}`,
-        `child-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN}`,
+        `child-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
         // 'unsafe-eval' is only used by webpack for development. It should not
         // be present on production!
-        "worker-src 'self' 'unsafe-eval' blob:",
         "script-src 'self' 'unsafe-eval'",
         // 'ws://localhost:8080' is only used by webpack for development and
         // should not be present on production.
