@@ -17,8 +17,8 @@ class SettingsContainer extends React.PureComponent {
 
   onSubmit (e) {
     e.preventDefault()
-    const { secondPasswordValue } = this.props
-    this.props.walletActions.toggleSecondPassword(secondPasswordValue)
+    const { secondPasswordValue, secondPasswordEnabled } = this.props
+    this.props.walletActions.toggleSecondPassword(secondPasswordValue, secondPasswordEnabled)
     this.handleToggle()
   }
 

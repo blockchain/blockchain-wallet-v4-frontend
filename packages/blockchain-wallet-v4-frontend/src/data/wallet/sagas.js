@@ -16,10 +16,14 @@ export default ({ coreSagas }) => {
   }
 
   const toggleSecondPassword = function * (action) {
-    const { password } = action.payload
+    const { password, secondPasswordEnabled } = action.payload
     try {
       yield call(coreSagas.wallet.toggleSecondPassword, { password })
-      yield put(actions.alerts.displaySuccess('Second password toggle successful.'))
+      if (secondPasswordEnabled) {
+        yield put(actions.alerts.displaySuccess('Second password disabled successfully.'))
+      } else {
+        yield put(actions.alerts.displaySuccess('Second password enabled successfuly.'))
+      }
     } catch (error) {
       yield put(actions.logs.logErrorMessage(logLocation, 'toggleSecondPassword', error))
     }
