@@ -141,22 +141,30 @@ export default ({ coreSagas }) => {
 
       switch (field) {
         case 'leftVal':
-          const leftLimitsError = service.getLimitsError(payload, limits.data, values.currency)
-          if (leftLimitsError) {
-            yield put(A.setCoinifyCheckoutError(leftLimitsError))
-            return
+          if (type === 'buy') {
+            const leftLimitsError = service.getLimitsError(payload, limits.data, values.currency, type)
+            if (leftLimitsError) {
+              yield put(A.setCoinifyCheckoutError(leftLimitsError))
+              return
+            } else {
+              yield put(A.clearCoinifyCheckoutError())
+            }
           }
+
           const leftResult = yield call(coreSagas.data.coinify.fetchQuote,
             { quote: { amount: payload * 100, baseCurrency: values.currency, quoteCurrency: 'BTC', type } })
           const amount = Math.abs(leftResult.quoteAmount)
 
           if (type === 'sell') {
-            const payment = yield select(sendBtcSelectors.getPayment)
-            const effectiveBalance = prop('effectiveBalance', payment.getOrElse(undefined))
-            if (service.isOverEffectiveMax(amount, effectiveBalance)) {
-              yield put(A.setCoinifyCheckoutError('over_effective_max'))
+            let btcAmt = (amount / 1e8)
+            const leftLimitsError = service.getLimitsError(btcAmt, limits.data, values.currency, type)
+            if (leftLimitsError) {
+              yield put(A.setCoinifyCheckoutError(leftLimitsError))
             } else {
-              yield put(A.clearCoinifyCheckoutError())
+              const payment = yield select(sendBtcSelectors.getPayment)
+              const effectiveBalance = prop('effectiveBalance', payment.getOrElse(undefined))
+              if (service.isOverEffectiveMax(amount, effectiveBalance)) yield put(A.setCoinifyCheckoutError('over_effective_max'))
+              else yield put(A.clearCoinifyCheckoutError())
             }
           }
 
@@ -164,16 +172,34 @@ export default ({ coreSagas }) => {
           yield put(A.coinifyCheckoutBusyOff())
           break
         case 'rightVal':
+          if (type === 'sell') {
+            const rightLimitsError = service.getLimitsError(payload, limits.data, values.currency, type)
+            if (rightLimitsError) {
+              yield put(A.setCoinifyCheckoutError(rightLimitsError))
+              return
+            } else {
+              yield put(A.clearCoinifyCheckoutError())
+            }
+          }
+
           const rightResult = yield call(coreSagas.data.coinify.fetchQuote,
             { quote: { amount: Math.round((payload * 1e8) * -1), baseCurrency: 'BTC', quoteCurrency: values.currency, type } })
           const fiatAmount = Math.abs(rightResult.quoteAmount)
 
-          const rightLimitsError = service.getLimitsError(fiatAmount, limits.data, values.currency)
+          let rightLimitsError
+          if (type === 'sell') rightLimitsError = service.getLimitsError(payload, limits.data, values.currency, type)
+          if (type === 'buy') rightLimitsError = service.getLimitsError(fiatAmount, limits.data, values.currency, type)
+
           if (rightLimitsError) {
             yield put(A.setCoinifyCheckoutError(rightLimitsError))
             yield put(actions.form.initialize(form, merge(values, { 'leftVal': fiatAmount })))
-            return
+          } else {
+            const payment = yield select(sendBtcSelectors.getPayment)
+            const effectiveBalance = prop('effectiveBalance', payment.getOrElse(undefined))
+            if (service.isOverEffectiveMax(payload * 1e8, effectiveBalance)) yield put(A.setCoinifyCheckoutError('over_effective_max'))
+            else yield put(A.clearCoinifyCheckoutError())
           }
+
           yield put(actions.form.initialize(form, merge(values, { 'leftVal': fiatAmount })))
           yield put(A.coinifyCheckoutBusyOff())
           break

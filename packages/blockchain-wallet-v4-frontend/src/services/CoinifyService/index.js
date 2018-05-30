@@ -5,24 +5,35 @@ import { FormattedMessage } from 'react-intl'
 export const getLimits = (limits, curr, effectiveBalance) => {
   const getMin = (limits, curr) => Math.min(limits.bank.minimumInAmounts[curr], limits.card.minimumInAmounts[curr])
   const getMax = (limits, curr) => Math.max(limits.bank.inRemaining[curr], limits.card.inRemaining[curr])
+  const getSellMin = (limits, curr) => limits.blockchain.minimumInAmounts[curr]
+  const getSellMax = (limits, curr) => limits.blockchain.inRemaining[curr]
   return {
     buy: {
       min: getMin(limits, curr),
       max: getMax(limits, curr)
     },
     sell: {
-      min: getMin(limits, curr),
-      max: getMax(limits, curr),
+      min: getSellMin(limits, 'BTC'),
+      max: getSellMax(limits, 'BTC'),
       effectiveMax: effectiveBalance
     }
   }
 }
 
-export const getLimitsError = (amt, userLimits, curr) => {
+export const getLimitsError = (amt, userLimits, curr, type) => {
   const limits = getLimits(userLimits, curr)
-  if (limits.buy.max < limits.buy.min) return 'max_below_min'
-  if (amt > limits.buy.max) return 'over_max'
-  if (amt < limits.buy.min) return 'under_min'
+
+  if (type === 'buy') {
+    if (limits.buy.max < limits.buy.min) return 'max_below_min'
+    if (amt > limits.buy.max) return 'over_max'
+    if (amt < limits.buy.min) return 'under_min'
+  }
+  if (type === 'sell') {
+    if (limits.sell.max < limits.sell.min) return 'max_below_min'
+    if (amt > limits.sell.max) return 'over_max'
+    if (amt < limits.sell.min) return 'under_min'
+  }
+
   return false
 }
 
