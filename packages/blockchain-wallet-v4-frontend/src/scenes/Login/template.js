@@ -9,6 +9,7 @@ import { check } from 'bowser'
 import { required } from 'services/FormHelper'
 import { Banner, Button, Link, Separator, Text, TextGroup, HeartbeatLoader } from 'blockchain-info-components'
 import { Form, FormError, FormGroup, FormItem, FormLabel, PasswordBox, TextBox } from 'components/Form'
+import SanitizedFormattedHTMLMessage from 'components/SanitizedFormattedHTMLMessage'
 import Modals from 'modals'
 import MobileLogin from 'modals/MobileLogin'
 
