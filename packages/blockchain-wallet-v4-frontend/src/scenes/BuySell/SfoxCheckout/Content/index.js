@@ -8,6 +8,10 @@ import Loading from 'components/BuySell/Loading'
 import { path } from 'ramda'
 
 class SfoxCheckout extends React.PureComponent {
+  constructor (props) {
+    super(props)
+    this.state = { buttonStatus: false }
+  }
   componentDidMount () {
     this.props.sfoxDataActions.fetchTrades()
     this.props.sfoxDataActions.fetchProfile()
@@ -46,6 +50,9 @@ class SfoxCheckout extends React.PureComponent {
         payment={payment}
         clearTradeError={() => sfoxNotAsked()}
         changeTab={tab => change('buySellTabStatus', 'status', tab)}
+        disableButton={() => this.setState({ buttonStatus: false })}
+        enableButton={() => this.setState({ buttonStatus: true })}
+        buttonStatus={this.state.buttonStatus}
       />,
       Failure: (error) => <div>Failure: {error && error.message}</div>,
       Loading: () => <Loading />,

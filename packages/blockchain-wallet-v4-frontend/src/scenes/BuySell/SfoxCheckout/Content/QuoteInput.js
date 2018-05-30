@@ -58,7 +58,8 @@ class QuoteInput extends Component {
         return {
           [side]: convert.to[spec[side]](quote.baseAmount),
           [otherSide(side)]: convert.to[spec[otherSide(side)]](quote.quoteAmount),
-          lastQuoteId: quote.id
+          lastQuoteId: quote.id,
+          fiatAmount: quote.baseCurrency === 'BTC' ? quote.quoteAmount : quote.baseAmount
         }
       } else {
         return null
@@ -101,15 +102,15 @@ class QuoteInput extends Component {
 
   fetchQuote = () => {
     let quote = this.getQuoteValues()
-    let amt = quote.amt / 100
-    let { min, max } = this.props.limits
-    if (amt > max || amt < min) return
     this.props.onFetchQuote(quote)
   }
 
   render () {
-    let { spec, disabled } = this.props
-    let { input, output } = this.state
+    let { spec, disabled, limits } = this.props
+    let { input, output, fiatAmount } = this.state
+
+    if (fiatAmount > limits.max || fiatAmount < limits.min) this.props.disableButton()
+    else this.props.enableButton()
 
     return (
       <WrappedFiatConverter

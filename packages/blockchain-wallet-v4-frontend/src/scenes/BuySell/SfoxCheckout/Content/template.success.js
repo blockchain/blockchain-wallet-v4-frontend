@@ -72,6 +72,9 @@ const Success = props => {
     handleTradeDetailsClick,
     clearTradeError,
     changeTab,
+    disableButton,
+    enableButton,
+    buttonStatus,
     ...rest } = props
 
   const accounts = Remote.of(props.value.accounts).getOrElse([])
@@ -107,6 +110,9 @@ const Success = props => {
                 account={accounts[0]}
                 onFetchQuote={fetchBuyQuote}
                 reason={reason}
+                disableButton={disableButton}
+                enableButton={enableButton}
+                buttonStatus={buttonStatus}
                 finishAccountSetup={finishAccountSetup}
                 limits={limits.buy}
                 type={'buy'}
@@ -149,6 +155,9 @@ const Success = props => {
               account={accounts[0]}
               onFetchQuote={fetchSellQuote}
               reason={reason}
+              disableButton={disableButton}
+              enableButton={enableButton}
+              buttonStatus={buttonStatus}
               finishAccountSetup={finishAccountSetup}
               limits={limits.sell}
               type={'sell'}
