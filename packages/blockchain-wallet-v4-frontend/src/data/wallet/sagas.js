@@ -55,13 +55,12 @@ export default ({ coreSagas }) => {
       yield put(actions.logs.logErrorMessage(logLocation, 'editBtcAccountLabel', error))
     }
   }
-  
+
   const setMainPassword = function * (action) {
     const { password } = action.payload
     yield put(actions.core.wallet.setMainPassword(password))
     yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
   }
-
 
   return {
     toggleSecondPassword,
