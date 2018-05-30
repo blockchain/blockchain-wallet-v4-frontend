@@ -30,7 +30,7 @@ class BitcoinBalance extends React.PureComponent {
 }
 
 BitcoinBalance.propTypes = {
-  context: PropTypes.string.isRequired
+  context: PropTypes.array.isRequired
 }
 
 const mapStateToProps = (state) => ({
