@@ -430,7 +430,7 @@
   "modals.requestbitcoin.firststep.description": "Description:",
   "modals.requestbitcoin.firststep.next": "Next",
   "modals.requestbitcoin.secondstep.title": "Request",
-  "modals.requestbitcoin.secondstep.explain": "Send the link below to your friend of contact and they will be able to send bitcoin directly to your wallet.",
+  "modals.requestbitcoin.secondstep.explain": "Send the link below to your friend or contact and they will be able to send bitcoin directly to your wallet.",
   "modals.requestbitcoin.secondstep.payment": "Payment request:",
   "modals.requestbitcoin.secondstep.copied": "Copied!",
   "modals.requestbitcoin.secondstep.copy": "Copy link",
