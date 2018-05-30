@@ -130,6 +130,10 @@ export default ({ coreSagas }) => {
       payment = yield payment.sign(password)
       payment = yield payment.publish()
       yield put(A.sendBchPaymentUpdated(Remote.of(payment.value())))
+      if (path(['description', 'length'], payment.value())) {
+        yield put(actions.core.kvStore.bch.setTxNotesBch(payment.value().txId, payment.value().description))
+      }
+      yield put(actions.core.data.bch.fetchTransactions('', true))
       yield put(actions.router.push('/bch/transactions'))
       yield put(actions.alerts.displaySuccess('Your bitcoin cash transaction is now pending.'))
     } catch (e) {

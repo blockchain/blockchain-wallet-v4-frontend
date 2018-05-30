@@ -63,7 +63,7 @@ const renderDisplay = item => (
 const renderHeader = item => (
   <HeaderWrapper>
     {prop('text', item) === 'Bitcoin' && <Icon name='bitcoin-in-circle' size='14px' weight={300} />}
-    {prop('text', item) === 'Bitcoin cash' && <Icon name='bitcoin-cash' size='14px' weight={300} />}
+    {prop('text', item) === 'Bitcoin Cash' && <Icon name='bitcoin-cash' size='14px' weight={300} />}
     {prop('text', item) === 'Ether' && <Icon name='ethereum-filled' size='14px' weight={300} />}
     <Separator align='right'>
       <Text size='14px' weight={300} uppercase>{item.text}</Text>
