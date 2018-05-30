@@ -28,6 +28,7 @@ import SelectBoxUSState from './SelectBoxUSState'
 import TabMenuBuySellStatus from './TabMenuBuySellStatus'
 import TabMenuTransactionStatus from './TabMenuTransactionStatus'
 import TextArea from './TextArea'
+import TextAreaDebounced from './TextAreaDebounced'
 import TextBox from './TextBox'
 import TextBoxDebounced from './TextBoxDebounced'
 
@@ -61,6 +62,7 @@ export {
   TabMenuBuySellStatus,
   TabMenuTransactionStatus,
   TextArea,
+  TextAreaDebounced,
   TextBox,
   TextBoxDebounced
 }
