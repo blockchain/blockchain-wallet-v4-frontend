@@ -93,7 +93,8 @@ export const isAmountAboveMaximum = (value, maximum) => {
 }
 
 export const isUndefinedOrEqualsToZero = (value) => {
-  return isNil(value) || new BigNumber(value).equals(new BigNumber(0))
+  const amount = value || 0
+  return new BigNumber(amount).equals(new BigNumber(0))
 }
 
 export const isMinimumGreaterThanMaximum = (minimum, maximum) => {
