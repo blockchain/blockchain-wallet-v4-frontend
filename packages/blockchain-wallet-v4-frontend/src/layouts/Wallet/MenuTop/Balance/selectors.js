@@ -1,13 +1,20 @@
-import { Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
-import { lift } from 'ramda'
+import { createDeepEqualSelector } from 'services/ReselectHelper'
 
-export const getData = (state) => {
-  const ethContextR = selectors.core.kvStore.ethereum.getContext(state)
-  const bchContextR = Remote.of(selectors.core.kvStore.bch.getContext(state))
-  const btcContextR = Remote.of(selectors.core.wallet.getWalletContext(state))
-
-  const path = state.router.location.pathname
-  const transform = lift((btcContext, ethContext, bchContext) => ({btcContext, ethContext, bchContext, path}))
-  return transform(btcContextR, ethContextR, bchContextR)
-}
+export const getData = createDeepEqualSelector(
+  [
+    selectors.core.wallet.getWalletContext,
+    selectors.core.kvStore.bch.getContext,
+    selectors.core.kvStore.ethereum.getContext,
+    selectors.router.getPathname
+  ],
+  (btcContext, bchContext, ethContextR, path) => {
+    const transform = (ethContext) => ({
+      btcContext,
+      ethContext,
+      bchContext,
+      path
+    })
+    return ethContextR.map(transform)
+  }
+)
