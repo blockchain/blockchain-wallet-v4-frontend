@@ -13,14 +13,12 @@ class UsedAddressesTableContainer extends React.PureComponent {
   render () {
     const { usedAddresses } = this.props
 
-    return (
-      usedAddresses.cata({
-        Success: (value) => <UsedAddressesTable usedAddresses={value} />,
-        Failure: (message) => <div>{message}</div>,
-        Loading: () => <div/>,
-        NotAsked: () => <div/>
-      })
-    )
+    return !usedAddresses ? null : usedAddresses.cata({
+      Success: (value) => <UsedAddressesTable usedAddresses={value} />,
+      Failure: (message) => <div>{message}</div>,
+      Loading: () => <div/>,
+      NotAsked: () => <div/>
+    })
   }
 }
 
