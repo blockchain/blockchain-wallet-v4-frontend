@@ -160,6 +160,26 @@ describe('FormHelper', () => {
     })
   })
 
+  describe('validIban()', () => {
+    it('returns correct string if invalid iban passed', () => {
+      expect(FormHelper.validIban('this is not a valid iban')).toEqual('Invalid IBAN')
+    })
+
+    it('returns undefined if valid iban is given', () => {
+      expect(FormHelper.validIban('GB04BARC20474473160944')).toBeUndefined()
+    })
+  })
+
+  describe('validBIC()', () => {
+    it('returns correct string if invalid BIC passed', () => {
+      expect(FormHelper.validBIC('this is not a valid BIC')).toEqual('Invalid BIC')
+    })
+
+    it('returns undefined if valid BIC is given', () => {
+      expect(FormHelper.validBIC('DABAIE2D')).toBeUndefined()
+    })
+  })
+
   describe('ageOverEighteen()', () => {
     it('returns correct string if age is not over 18', () => {
       expect(FormHelper.ageOverEighteen(Date.now() - 400000)).toEqual('Must be 18 or older')

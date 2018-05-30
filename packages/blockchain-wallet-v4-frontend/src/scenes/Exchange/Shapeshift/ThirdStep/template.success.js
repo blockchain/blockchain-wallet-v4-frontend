@@ -177,8 +177,8 @@ const Success = props => {
                 </Text>
               </TableCell>
               <TableCell>
-                <Text size='13px' weight={300} uppercase>
-                  {orderId}
+                <Text size='13px' weight={300}>
+                  SFT-{orderId}
                 </Text>
               </TableCell>
             </TableRow>
