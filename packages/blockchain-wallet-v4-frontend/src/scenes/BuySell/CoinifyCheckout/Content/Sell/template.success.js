@@ -38,7 +38,6 @@ const Sell = props => {
     rateQuoteR,
     checkoutBusy,
     setMax,
-    setEffectiveMax,
     setMin,
     paymentMedium,
     initiateSell,
@@ -75,7 +74,6 @@ const Sell = props => {
                 symbol={symbol}
                 checkoutBusy={checkoutBusy}
                 setMax={setMax}
-                setEffectiveMax={setEffectiveMax}
                 setMin={setMin}
                 onOrderCheckoutSubmit={onOrderCheckoutSubmit}
                 checkoutError={checkoutError}
