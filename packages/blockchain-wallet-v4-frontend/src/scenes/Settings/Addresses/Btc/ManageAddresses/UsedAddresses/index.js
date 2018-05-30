@@ -29,6 +29,8 @@ class UsedAddressesContainer extends React.PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  // since usedAddresses state tree is stored based on walletIndexes, the default states will not exist
+  // on first attempt to access
   if (!path(['state', 'components', 'usedAddresses', ownProps.walletIndex])) {
     state.components.usedAddresses[ownProps.walletIndex] = {
       visible: false,

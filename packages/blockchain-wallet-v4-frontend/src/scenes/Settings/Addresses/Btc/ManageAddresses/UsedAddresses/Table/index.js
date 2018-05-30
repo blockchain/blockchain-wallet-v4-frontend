@@ -17,8 +17,8 @@ class UsedAddressesTableContainer extends React.PureComponent {
       usedAddresses.cata({
         Success: (value) => <UsedAddressesTable usedAddresses={value} />,
         Failure: (message) => <div>{message}</div>,
-        Loading: () => <div>LOADING</div>,
-        NotAsked: () => <div>LOADING</div>
+        Loading: () => <div/>,
+        NotAsked: () => <div/>
       })
     )
   }
