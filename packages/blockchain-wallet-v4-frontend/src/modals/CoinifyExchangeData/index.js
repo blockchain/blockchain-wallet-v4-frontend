@@ -8,8 +8,6 @@ import StepIndicator from 'components/StepIndicator'
 import Tray from 'components/Tray'
 import { selectors } from 'data'
 import Create from './Create'
-import Order from './Order'
-import Payment from './Payment'
 import Confirm from './Confirm'
 import ISignThis from './ISignThis'
 import { ModalHeader, ModalBody, Text } from 'blockchain-info-components'
@@ -47,8 +45,6 @@ class CoinifyExchangeData extends React.PureComponent {
     switch (step) {
       case 'account': return <Create country={this.props.country} />
       case 'isx': return <ISignThis iSignThisId={path(['iSignThisID'], this.props.trade.data)} />
-      case 'order': return <Order />
-      case 'payment': return <Payment />
       case 'confirm': return <Confirm />
     }
   }

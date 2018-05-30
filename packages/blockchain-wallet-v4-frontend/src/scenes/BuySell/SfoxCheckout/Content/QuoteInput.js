@@ -79,8 +79,8 @@ class QuoteInput extends Component {
     let { side } = this.state
     return {
       amt: convert.from[spec[side]](this.state[side]),
-      baseCurr: toUpper(spec[side]),
-      quoteCurr: toUpper(spec[otherSide(side)])
+      baseCurrency: toUpper(spec[side]),
+      quoteCurrency: toUpper(spec[otherSide(side)])
     }
   }
 
