@@ -921,7 +921,7 @@
   "scenes.recover.firststep.explain": "Recover funds from your lost wallet",
   "scenes.recover.firststep.warning": "You should always pair or login if you have access to your Wallet ID and password. Recovering your funds will create a new Wallet ID.",
   "scenes.recover.firststep.mnemonic": "Your backup phrase",
-  "scenes.recover.firststep.mnemonic.explain": "Enter your 12 word phrase, with spaces between each, to recover your funds & transactions.",
+  "scenes.recover.firststep.mnemonic_explain": "Enter your 12 word phrase, lowercase, with spaces between each, to recover your funds & transactions.",
   "scenes.recover.firststep.back": "Go Back",
   "scenes.recover.firststep.continue": "Continue",
   "scenes.recover.secondstep.funds": "Recover Funds",

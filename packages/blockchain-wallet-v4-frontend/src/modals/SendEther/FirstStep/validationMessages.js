@@ -26,5 +26,5 @@ export const MaximumAmountMessage = () => (
 )
 
 export const InsufficientFundsMessage = () => (
-  <FormattedMessage id='modals.sendeth.insufficientfundsnessage' defaultMessage='Insufficients funds' />
+  <FormattedMessage id='modals.sendeth.insufficientfundsmessage' defaultMessage='Insufficient funds' />
 )
