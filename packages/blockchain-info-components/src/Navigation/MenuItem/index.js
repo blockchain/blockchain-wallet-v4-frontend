@@ -170,24 +170,12 @@ const Item = styled.li`
     }
   }
 `
-const FlexibleSpace = styled.li`
-  flex-grow: 1;
-  @media screen and (max-width: 1024px) {
-    display: none;
-  }
-`
 
 class MenuItem extends Component {
-  render() {
+  render () {
     const { children, hasMenu, onChange, flexibleSpace } = this.props
     return (
-      (flexibleSpace ? <Item style={{flexGrow: 1}} /> :
-        <Item
-          className={hasMenu ? 'with-children' : null}
-          onMouseEnter={hasMenu ? () => onChange(true) : null}
-          onMouseLeave={hasMenu ? () => onChange(false) : null}>
-          {children}
-        </Item>
+      (flexibleSpace ? <Item style={{flexGrow: 1}} /> : <Item className={hasMenu ? 'with-children' : null} onMouseEnter={hasMenu ? () => onChange(true) : null} onMouseLeave={hasMenu ? () => onChange(false) : null}> {children} </Item>
       )
     )
   }

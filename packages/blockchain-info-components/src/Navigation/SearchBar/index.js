@@ -1,5 +1,5 @@
 
-import React, { Component } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 const TextField = styled.input`
@@ -91,8 +91,8 @@ const TextField = styled.input`
 `
 
 const SearchBar = props => {
-  return(
-    <TextField name="search" placeholder="block, hash, transaction, etc..." type="text" />
+  return (
+    <TextField name='search' placeholder='block, hash, transaction, etc...' type='text' />
   )
 }
 
