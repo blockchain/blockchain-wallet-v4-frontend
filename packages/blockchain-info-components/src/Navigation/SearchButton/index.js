@@ -34,7 +34,7 @@ const Button = styled.button`
 `
 
 class SearchButton extends Component {
-  render() {
+  render () {
     return (
       <Button />
     )
