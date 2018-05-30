@@ -15,3 +15,5 @@ export const editHdLabel = (accountIdx, addressIdx) => ({ type: AT.EDIT_HD_LABEL
 export const submitPromptInput = (value) => ({ type: AT.SUBMIT_PROMPT_INPUT, payload: { value } })
 
 export const editBtcAccountLabel = (index, label) => ({ type: AT.EDIT_BTC_ACCOUNT_LABEL, payload: { index, label } })
+
+export const setMainPassword = (password) => ({ type: AT.SET_MAIN_PASSWORD, payload: { password } })
