@@ -8,22 +8,12 @@ import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
 import { RadioButton } from 'components/Form'
 import { StepTransition } from 'components/Utilities/Stepper'
-import { Form, ColLeft, InputWrapper, PartnerHeader, PartnerSubHeader, ColRight, ColRightInner, Row } from 'components/BuySell/Signup'
+import { Form, CancelWrapper, ColLeft, InputWrapper, PartnerHeader, PartnerSubHeader, ColRight, ColRightInner, Row } from 'components/BuySell/Signup'
 
 const AccountRow = styled(Row)`
   justify-content: space-between;
 `
 
-const CancelWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  a {
-    color: #545456;
-    font-weight: 300;
-    font-size: 14px;
-  }
-`
 const BorderBox = styled.div`
   border: 1px solid ${props => props.theme['gray-1']};
   padding: 30px;
@@ -66,7 +56,7 @@ const SelectAccounts = (props) => {
             onClick={setBankAccount} fullwidth disabled={submitting || invalid || noRadioButtonSelected}>
             <FormattedMessage id='coinifyexchangedata.selectaccounts.continue' defaultMessage='Continue' />
           </StepTransition>
-          <CancelWrapper style={spacing('mt-15')}>
+          <CancelWrapper>
             <StepTransition prev Component={Link}>
               <FormattedMessage id='back' defaultMessage='Back' />
             </StepTransition>

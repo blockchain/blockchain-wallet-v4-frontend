@@ -83,3 +83,15 @@ export const EmailHelper = styled.span`
     color: ${props => props.theme['brand-secondary']};
   }
 `
+
+export const CancelWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 15px;
+  a {
+    color: #545456;
+    font-weight: 300;
+    font-size: 14px;
+  }
+`

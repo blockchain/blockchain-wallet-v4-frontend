@@ -115,7 +115,9 @@ const FiatConvertor = (props) => {
           <a onClick={() => setMax(limits.max)}>{symbol}{limits.max}</a>
           {
             level.name < 2 && kyc.state !== 'reviewing'
-              ? <FormattedMessage id='buysell.quote_input.increase_limits' defaultMessage='{increase}' values={{ increase: <a onClick={() => increaseLimit()}>Increase your limit.</a> }} />
+              ? <a onClick={() => increaseLimit()}>
+                <FormattedMessage id='buysell.quote_input.increase_limits' defaultMessage=' Increase your limit.' />
+              </a>
               : null
           }
         </LimitsHelper>
