@@ -54,11 +54,10 @@ const UsedAddressesTable = ({ usedAddresses }) => (
     <Text weight={200} size='small' style={{ marginTop: 10, marginBottom: 15 }}>
       <FormattedMessage id='scenes.settings.manage_addresses.used_addresses_message' defaultMessage='Previously used addresses are helpful for debugging purposes and viewing associated balances. For privacy reasons, we do not recommend re-using these addresses. Change addresses are not included here.'/>
     </Text>
-    <UsedTable>
-      {usedAddresses && usedAddresses.map((address, i) => (
-        <UsedTableEntry key={i} address={address} />
-      ))}
-    </UsedTable>
+    { usedAddresses.length
+      ? <UsedTable>{usedAddresses.map((address, i) => (<UsedTableEntry key={i} address={address} />))}</UsedTable>
+      : <Text weight={300} style={{ marginTop: 10, textAlign: 'center' }}><FormattedMessage id='scenes.settings.manage_addresses.no_used_addresses_message' defaultMessage='This wallet has no previously used addresses.'/></Text>
+    }
   </React.Fragment>
 )
 
