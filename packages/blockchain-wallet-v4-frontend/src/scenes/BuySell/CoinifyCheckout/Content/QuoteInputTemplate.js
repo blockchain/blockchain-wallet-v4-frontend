@@ -86,7 +86,7 @@ const getLimitsError = (errorType, limits, symbol, setMin) => {
 }
 
 const FiatConvertor = (props) => {
-  const { val, disabled, setMax, setMin, limits, checkoutError, defaultCurrency, symbol, increaseLimit } = props
+  const { val, disabled, setMax, setEffectiveMax, setMin, limits, checkoutError, defaultCurrency, symbol, increaseLimit, form } = props
   const currency = 'BTC'
   const level = val.level || { name: 1 }
   const kyc = val.kycs.length && head(val.kycs)
@@ -111,7 +111,11 @@ const FiatConvertor = (props) => {
     } else {
       return (
         <LimitsHelper>
-          <FormattedMessage id='buy.quote_input.remaining_buy_limit' defaultMessage='Your remaining buy limit is {max}' values={{ max: <a onClick={() => setMax(limits.max)}>{symbol}{limits.max}</a> }} />
+          {
+            form === 'coinifyCheckoutBuy'
+              ? <FormattedMessage id='buy.quote_input.remaining_buy_limit' defaultMessage='Your remaining buy limit is {max}' values={{ max: <a onClick={() => setMax(limits.max)}>{symbol}{limits.max}</a> }} />
+              : <FormattedMessage id='sell.quote_input.remaining_sell_limit' defaultMessage='Your remaining sell limit is {max}' values={{ max: <a onClick={() => setEffectiveMax(limits.effectiveMax)}>{limits.effectiveMax / 1e8} BTC</a> }} />
+          }
           {
             level.name < 2 && kyc.state !== 'reviewing'
               ? <FormattedMessage id='buy.quote_input.increase_limits' defaultMessage='{increase}' values={{ increase: <a onClick={() => increaseLimit()}>Increase your limit.</a> }} />

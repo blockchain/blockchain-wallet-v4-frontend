@@ -55,6 +55,7 @@ class SellContainer extends React.Component {
         currency={currency}
         checkoutBusy={checkoutBusy}
         setMax={(amt) => formActions.change('coinifyCheckoutSell', 'leftVal', amt)}
+        setEffectiveMax={(btcAmt) => formActions.change('coinifyCheckoutSell', 'rightVal', (btcAmt / 1e8))}
         setMin={(amt) => formActions.change('coinifyCheckoutSell', 'leftVal', amt)}
         paymentMedium={paymentMedium}
         initiateSell={this.startSell}
