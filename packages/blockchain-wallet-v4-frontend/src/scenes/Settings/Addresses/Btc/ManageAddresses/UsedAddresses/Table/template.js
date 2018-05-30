@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
+import CoinDisplay from 'components/Display/CoinDisplay'
 import { Link, Text, Table, TableHeader, TableRow, TableCell } from 'blockchain-info-components'
 
 const UsedTable = ({ children }) => (
@@ -41,7 +42,7 @@ const UsedTableEntry = ({ address }) => {
       </TableCell>
       <TableCell style={{display: 'flex', justifyContent: 'flex-end'}} width='20%'>
         <Text size='13px'>
-          {address.final_balance}
+          <CoinDisplay coin={'BTC'} size='13px' weight={300}>{address.final_balance}</CoinDisplay>
         </Text>
       </TableCell>
     </TableRow>
