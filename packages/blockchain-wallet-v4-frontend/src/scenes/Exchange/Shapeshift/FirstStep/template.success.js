@@ -158,7 +158,7 @@ const Success = props => {
           {formError === 'invalid' && <InvalidAmountMessage />}
         </Row>
         }
-        {!formError &&
+        {(!formError || formError === 'initial') &&
           <Row spaced>
             <OptionsContainer>
               <Text weight={300} size='12px'>
