@@ -19,8 +19,12 @@ const checkboxShouldBeChecked = value => value ? undefined : 'You must agree to 
 
 const helpers = [
   {
-    question: <FormattedMessage id='sfoxsignup.create.helper1.question' defaultMessage='What is SFOX?' />,
-    answer: <FormattedMessage id='sfoxsignup.create.helper1.answer' defaultMessage='Answer placeholder' />
+    question: <FormattedMessage id='scenes.sfoxsignup.acceptterms.helper1.question' defaultMessage='What is SFOX?' />,
+    answer: <FormattedMessage id='scenes.sfoxsignup.acceptterms.helper1.answer' defaultMessage='SFOX (San Francisco Open Exchange) is a trading platform we’ve partnered with to bring you a harmonious buy & sell experience in your Blockchain wallet.' />
+  },
+  {
+    question: <FormattedMessage id='scenes.sfoxsignup.acceptterms.helper2.question' defaultMessage='How do I change my email address, phone number, or other personal information?' />,
+    answer: <FormattedMessage id='scenes.sfoxsignup.acceptterms.helper2.answer' defaultMessage='Personal information can be changed by submitting a request to support@sfox.com. Make sure you mention Blockchain in the subject and include the information you want to change. Changing your email or phone number within your Blockchain wallet will not impact your SFOX account.' />
   }
 ]
 
