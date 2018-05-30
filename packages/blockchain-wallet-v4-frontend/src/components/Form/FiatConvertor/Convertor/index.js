@@ -30,7 +30,11 @@ class ConvertorContainer extends React.PureComponent {
 
   handleFiatChange (e) {
     const { unit, currency, btcRates, bchRates, ethRates } = this.props
-    const nextProps = convertFiatToCoin(e.target.value, unit, currency, bchRates, btcRates, ethRates)
+    const decimals = e.target.value.split('.')[1]
+    const needsFormatting = decimals && decimals.length > 2
+    const val = needsFormatting ? Number(e.target.value).toFixed(2) : e.target.value
+
+    const nextProps = convertFiatToCoin(val, unit, currency, bchRates, btcRates, ethRates)
     this.props.onChange(nextProps)
   }
 
