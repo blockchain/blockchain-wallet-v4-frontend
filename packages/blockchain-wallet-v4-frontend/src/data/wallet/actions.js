@@ -1,6 +1,6 @@
 import * as AT from './actionTypes'
 
-export const toggleSecondPassword = (password) => ({ type: AT.TOGGLE_SECOND_PASSWORD, payload: { password } })
+export const toggleSecondPassword = (password, secondPasswordEnabled) => ({ type: AT.TOGGLE_SECOND_PASSWORD, payload: { password, secondPasswordEnabled } })
 
 export const updatePbkdf2Iterations = (iterations) => ({ type: AT.UPDATE_PBKDF2_ITERATIONS, payload: { iterations } })
 

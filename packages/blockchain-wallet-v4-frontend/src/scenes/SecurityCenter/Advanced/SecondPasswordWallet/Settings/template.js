@@ -19,7 +19,7 @@ const ButtonWrapper = styled(ButtonGroup)`
 `
 
 const Settings = (props) => {
-  const { updateToggled, handleToggle, handleSubmit, mainPassword, submitting, invalid, secondPasswordEnabled, handleCancel } = props
+  const { updateToggled, handleToggle, onSubmit, mainPassword, submitting, invalid, secondPasswordEnabled, handleCancel } = props
   const isMainPassword = (props) => mainPassword !== props ? null : "You can't use your main password as your second password."
   if (secondPasswordEnabled) {
     return (
@@ -30,7 +30,7 @@ const Settings = (props) => {
           </Button>
         }
         { updateToggled &&
-          <SettingForm onSubmit={handleSubmit}>
+          <SettingForm onSubmit={onSubmit}>
             <Text size='14px' weight={300}>
               <FormattedMessage id='scenes.securitysettings.basicsecurity.secondpasswordwallet.settings.label' defaultMessage='Second Password' />
             </Text>
@@ -39,8 +39,8 @@ const Settings = (props) => {
               <Button nature='empty' capitalize onClick={handleCancel}>
                 <FormattedMessage id='scenes.securitysettings.basicsecurity.secondpasswordwallet.settings.cancel' defaultMessage='Cancel' />
               </Button>
-              <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleSubmit}>
-                <FormattedMessage id='scenes.securitysettings.basicsecurity.secondpasswordwallet.settings.remove' defaultMessage='Remove Second Password' />
+              <Button nature='primary' capitalize disabled={submitting || invalid} onClick={onSubmit}>
+                <FormattedMessage id='scenes.securitysettings.basicsecurity.secondpasswordwallet.settings.confirmremove' defaultMessage='Remove' />
               </Button>
             </ButtonWrapper>
           </SettingForm>
@@ -86,7 +86,7 @@ const Settings = (props) => {
               <Button nature='empty' capitalize onClick={handleCancel}>
                 <FormattedMessage id='scenes.securitysettings.basicsecurity.secondpasswordwallet.settings.cancel2' defaultMessage='Cancel' />
               </Button>
-              <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleSubmit}>
+              <Button nature='primary' capitalize disabled={submitting || invalid} onClick={onSubmit}>
                 <FormattedMessage id='scenes.securitysettings.basicsecurity.secondpasswordwallet.settings.save2' defaultMessage='Save' />
               </Button>
             </ButtonWrapper>
@@ -100,7 +100,7 @@ const Settings = (props) => {
 Settings.propTypes = {
   updateToggled: PropTypes.bool.isRequired,
   handleToggle: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired
+  onSubmit: PropTypes.func.isRequired
 }
 
 export default reduxForm({ form: 'settingSecondPassword' })(Settings)
