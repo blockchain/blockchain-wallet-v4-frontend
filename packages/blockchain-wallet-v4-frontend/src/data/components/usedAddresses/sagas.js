@@ -1,4 +1,5 @@
 import { call, put, select } from 'redux-saga/effects'
+import { findIndex, forEach, propEq } from 'ramda'
 
 import * as A from './actions'
 import * as actions from '../../actions'
@@ -13,15 +14,14 @@ export default ({ api }) => {
 
   const deriveAddresses = function * (account, receiveIndex) {
     let i = 0
-    let t = []
+    let addrs = []
 
     while (i <= receiveIndex.data) {
-      console.log(i)
-      t.push(Types.HDAccount.getReceiveAddress(account, i, settings.NETWORK_BITCOIN))
+      addrs.push(Types.HDAccount.getReceiveAddress(account, i, settings.NETWORK_BITCOIN))
       i++
     }
 
-    return t
+    return addrs
   }
 
   const fetchUsedAddresses = function * (action) {
@@ -49,6 +49,13 @@ export default ({ api }) => {
     const usedAddresses = derivedAddrsFull.addresses.filter(a => {
       return a.n_tx > 0
     })
+
+    // match labels with addresses
+    if (labeledAddrs.length) {
+      forEach((labeledAddr) => {
+        usedAddresses[findIndex(propEq('address', labeledAddr.address))(usedAddresses)].label = labeledAddr.label
+      }, labeledAddrs)
+    }
 
     yield put(A.fetchUsedAddressesSuccess(walletIndex, usedAddresses))
   }

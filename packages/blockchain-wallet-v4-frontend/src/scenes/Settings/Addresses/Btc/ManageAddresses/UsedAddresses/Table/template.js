@@ -30,13 +30,13 @@ const UsedTableEntry = ({ address }) => {
   return (
     <TableRow>
       <TableCell width='40%'>
-        <Link href={`https://blockchain.info/address/TODO`} size='small' weight={300} target='_blank'>
+        <Link href={`https://blockchain.info/address/${address.address}`} size='small' weight={300} target='_blank'>
           {address.address}
         </Link>
       </TableCell>
       <TableCell width='40%'>
         <Text size='13px'>
-          TODO
+          {address.label}
         </Text>
       </TableCell>
       <TableCell style={{display: 'flex', justifyContent: 'flex-end'}} width='20%'>
