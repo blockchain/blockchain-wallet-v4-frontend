@@ -155,6 +155,8 @@ export default ({ coreSagas }) => {
             const effectiveBalance = prop('effectiveBalance', payment.getOrElse(undefined))
             if (service.isOverEffectiveMax(amount, effectiveBalance)) {
               yield put(A.setCoinifyCheckoutError('over_effective_max'))
+            } else {
+              yield put(A.clearCoinifyCheckoutError())
             }
           }
 

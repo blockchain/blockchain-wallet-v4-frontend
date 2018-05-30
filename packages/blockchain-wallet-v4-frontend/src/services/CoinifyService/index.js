@@ -27,7 +27,7 @@ export const getLimitsError = (amt, userLimits, curr) => {
 }
 
 export const isOverEffectiveMax = (amount, effectiveBalance) =>
-  gt((amount * 1e8), effectiveBalance)
+  gt(amount, effectiveBalance)
 
 export const currencySymbolMap = {
   GBP: '£',
