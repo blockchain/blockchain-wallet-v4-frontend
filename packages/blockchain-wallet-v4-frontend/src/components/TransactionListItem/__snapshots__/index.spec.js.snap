@@ -15,6 +15,21 @@ exports[`ListItemContainer renders correctly 1`] = `
   }
 >
   <ListItemContainer
+    bchActions={
+      Object {
+        "addBchAccount": [Function],
+        "addBchAccountComplete": [Function],
+        "createMetadataBch": [Function],
+        "fetchMetadataBch": [Function],
+        "fetchMetadataBchFailure": [Function],
+        "fetchMetadataBchLoading": [Function],
+        "fetchMetadataBchSuccess": [Function],
+        "setAccountArchived": [Function],
+        "setAccountLabel": [Function],
+        "setDefaultAccountIdx": [Function],
+        "setTxNotesBch": [Function],
+      }
+    }
     ethereumActions={
       Object {
         "createMetadataEthereum": [Function],

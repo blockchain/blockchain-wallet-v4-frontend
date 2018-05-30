@@ -80,6 +80,8 @@ export const fromUnit = ({value, unit}) => {
     }))
 }
 
-export const fiatToString = ({ value, unit }) => `${unit.symbol}${value}`
+export const fiatToString = ({ value, unit }) => `${unit.symbol}${formatFiat(value)}`
 
 export const coinToString = ({ value, unit }) => `${value} ${unit.symbol}`
+
+export const formatFiat = (value) => Number(value).toLocaleString(undefined, {minimumFractionDigits: 2})

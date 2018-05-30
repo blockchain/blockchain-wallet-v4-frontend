@@ -50,7 +50,7 @@ export const MinimumFeeMessage = () => (
 )
 
 export const InsufficientFundsMessage = () => (
-  <FormattedMessage id='modals.sendbtc.insufficientfundsnessage' defaultMessage='Insufficients funds' />
+  <FormattedMessage id='modals.sendbtc.insufficientfundsmessage' defaultMessage='Insufficient funds' />
 )
 
 export const AddressMatchesPriv = () => (
