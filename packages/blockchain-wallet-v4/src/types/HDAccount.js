@@ -44,11 +44,6 @@ export const getAddress = (account, path, network) => {
   return pipe(HDAccount.guard, derive)(account)
 }
 
-export const getReceiveAddressFast = (account, receiveIndex, network) => {
-  HDAccount.guard(account)
-  return Bitcoin.HDNode.fromBase58(account.xpub, network).derive(receiveIndex).getAddress()
-}
-
 export const getReceiveAddress = (account, receiveIndex, network) => {
   HDAccount.guard(account)
   return Cache.getAddress(selectCache(account), 0, receiveIndex, network)

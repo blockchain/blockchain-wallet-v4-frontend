@@ -1,6 +1,7 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { path } from 'ramda'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import { actions, selectors } from 'data'
@@ -28,8 +29,7 @@ class UsedAddressesContainer extends React.PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  // TODO: better way to this?
-  if (!state.components.usedAddresses[ownProps.walletIndex]) {
+  if (!path(['state', 'components', 'usedAddresses', ownProps.walletIndex])) {
     state.components.usedAddresses[ownProps.walletIndex] = {
       visible: false,
       addresses: Remote.NotAsked
