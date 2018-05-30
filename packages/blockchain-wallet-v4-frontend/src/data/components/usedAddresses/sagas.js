@@ -45,7 +45,7 @@ export default ({ api }) => {
       }
     })
 
-    // return only addresses with tx's
+    // filter only addresses with tx's
     const usedAddresses = derivedAddrsFull.addresses.filter(a => {
       return a.n_tx > 0
     })
@@ -53,7 +53,10 @@ export default ({ api }) => {
     // match labels with addresses
     if (labeledAddrs.length) {
       forEach((labeledAddr) => {
-        usedAddresses[findIndex(propEq('address', labeledAddr.address))(usedAddresses)].label = labeledAddr.label
+        let idx = findIndex(propEq('address', labeledAddr.address))(usedAddresses)
+        if (idx !== -1) {
+          usedAddresses[idx].label = labeledAddr.label
+        }
       }, labeledAddrs)
     }
 
