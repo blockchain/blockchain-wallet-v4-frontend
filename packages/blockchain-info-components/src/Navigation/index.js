@@ -572,7 +572,7 @@ const Wrapper = styled.div`
 `
 
 class Navigation extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       menuButtonIsActive: false,
@@ -581,7 +581,7 @@ class Navigation extends Component {
     }
   }
 
-  menuButtonPressed() {
+  menuButtonPressed () {
     const { menuButtonIsActive, open } = this.state
     this.setState({
       menuButtonIsActive: !menuButtonIsActive,
@@ -589,7 +589,7 @@ class Navigation extends Component {
     })
   }
 
-  searchButtonPress() {
+  searchButtonPress () {
     const { searching } = this.state
     this.setState({
       open: false,
@@ -597,23 +597,24 @@ class Navigation extends Component {
     })
   }
 
-  setHeaderOpenState(state) {
+  setHeaderOpenState (state) {
     this.setState({
       open: state,
       menuButtonIsActive: state
     })
   }
 
-  render() {
+  render () {
     const { menuButtonIsActive, open, searching } = this.state
     const status = open ? 'open' : searching ? 'searching' : null
     return (
+      /* eslint-disable */
       <Wrapper>
         <nav className={status}>
-      		<ul className="igation">
-      			<li className="">
-      				<a className="bc-logo" href="https://blockchain.com">
-      					<img src={Logo} alt="Blockchain" />
+      		<ul className='igation'>
+      			<li className=''>
+      				<a className='bc-logo' href='https://blockchain.com'>
+      					<img src={Logo} alt='Blockchain' />
       				</a>
       				<button
                 className={menuButtonIsActive ? 'menu-button is-active' : 'menu-button'}
@@ -621,64 +622,65 @@ class Navigation extends Component {
       					<span></span>
       				</button>
       				<button
-                className="search-button"
+                className='search-button'
                 onClick={() => this.searchButtonPress()}
-                type="button">
+                type='button'>
               </button>
       			</li>
       			<li
-              className="with-children"
+              className='with-children'
               onMouseEnter={() => this.setHeaderOpenState(true)}
               onMouseLeave={() => this.setHeaderOpenState(false)}>
-      				<a href="https://blockchain.info/wallet" id="wallet-link">Wallet</a>
+      				<a href='https://blockchain.info/wallet' id='wallet-link'>Wallet</a>
       				<ul>
-      					<li><a href="https://blockchain.info/wallet/#/login">Login</a></li>
+      					<li><a href='https://blockchain.info/wallet/#/login'>Login</a></li>
       				</ul>
       			</li>
       			<li
-              className="with-children"
+              className='with-children'
               onMouseEnter={() => this.setHeaderOpenState(true)}
               onMouseLeave={() => this.setHeaderOpenState(false)}>
-      				<a href="https://blockchain.info">Data</a>
+      				<a href='https://blockchain.info'>Data</a>
       				<ul>
-      					<li><a href="https://blockchain.info/charts">Charts</a></li>
-      					<li><a href="https://blockchain.info/stats">Stats</a></li>
-      					<li><a href="https://blockchain.info/markets">Markets</a></li>
+      					<li><a href='https://blockchain.info/charts'>Charts</a></li>
+      					<li><a href='https://blockchain.info/stats'>Stats</a></li>
+      					<li><a href='https://blockchain.info/markets'>Markets</a></li>
       				</ul>
       			</li>
       			<li
-              className="with-children"
+              className='with-children'
               onMouseEnter={() => this.setHeaderOpenState(true)}
               onMouseLeave={() => this.setHeaderOpenState(false)}>
-      				<a href="https://blockchain.info/api">API</a>
+      				<a href='https://blockchain.info/api'>API</a>
       				<ul>
-      					<li><a href="https://www.blockchain.com/enterprise">Business</a></li>
+      					<li><a href='https://www.blockchain.com/enterprise'>Business</a></li>
       				</ul>
       			</li>
       			<li
-              className="with-children"
+              className='with-children'
               onMouseEnter={() => this.setHeaderOpenState(true)}
               onMouseLeave={() => this.setHeaderOpenState(false)}>
-      				<a href="https://www.blockchain.com/about">About</a>
+      				<a href='https://www.blockchain.com/about'>About</a>
       				<ul>
-      					<li><a href="https://www.blockchain.com/team">Team</a></li>
-      					<li><a href="https://www.blockchain.com/careers">Careers</a></li>
-      					<li><a href="https://www.blockchain.com/press">Press</a></li>
-      					<li><a href="https://blog.blockchain.com">Blog</a></li>
+      					<li><a href='https://www.blockchain.com/team'>Team</a></li>
+      					<li><a href='https://www.blockchain.com/careers'>Careers</a></li>
+      					<li><a href='https://www.blockchain.com/press'>Press</a></li>
+      					<li><a href='https://blog.blockchain.com'>Blog</a></li>
       				</ul>
       			</li>
-      			<li className="flex-space"></li>
+      			<li className='flex-space'></li>
       			<li>
-      				<form action="https://blockchain.info/search" className="search-form" method="GET">
-      					<input className="search-bar" name="search" placeholder="block, hash, transaction, etc..." type="text" />
+      				<form action='https://blockchain.info/search' className='search-form' method='GET'>
+      					<input className='search-bar' name='search' placeholder='block, hash, transaction, etc...' type='text' />
       				</form>
       			</li>
       			<li>
-      				<a className="wallet-button" href="https://blockchain.info/wallet/#/signup">Get A Free Wallet</a>
+      				<a className='wallet-button' href='https://blockchain.info/wallet/#/signup'>Get A Free Wallet</a>
       			</li>
       		</ul>
       	</nav>
       </Wrapper>
+      /* eslint-enable */
     )
   }
 }
