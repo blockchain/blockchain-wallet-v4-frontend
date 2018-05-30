@@ -1,30 +1,44 @@
 import React from 'react'
-import { has } from 'ramda'
+import { gt, has, slice, toUpper } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 
-export const getLimits = (limits, curr) => {
+export const getLimits = (limits, curr, effectiveBalance) => {
   const getMin = (limits, curr) => Math.min(limits.bank.minimumInAmounts[curr], limits.card.minimumInAmounts[curr])
   const getMax = (limits, curr) => Math.max(limits.bank.inRemaining[curr], limits.card.inRemaining[curr])
+  const getSellMin = (limits, curr) => limits.blockchain.minimumInAmounts[curr]
+  const getSellMax = (limits, curr) => limits.blockchain.inRemaining[curr]
   return {
     buy: {
       min: getMin(limits, curr),
       max: getMax(limits, curr)
     },
     sell: {
-      min: getMin(limits, curr),
-      max: getMax(limits, curr)
+      min: getSellMin(limits, 'BTC'),
+      max: getSellMax(limits, 'BTC'),
+      effectiveMax: effectiveBalance
     }
   }
 }
 
-export const getLimitsError = (amt, userLimits, curr) => {
+export const getLimitsError = (amt, userLimits, curr, type) => {
   const limits = getLimits(userLimits, curr)
-  if (limits.buy.max < limits.buy.min) return 'max_below_min'
-  if (amt > limits.buy.max) return 'over_max'
-  if (amt < limits.buy.min) return 'under_min'
-  // if ((fiat * 1e8) > limits.effectiveMax) return `Enter an amount less than your balance minus the priority fee (${limits.effectiveMax / 1e8} BTC)`
+
+  if (type === 'buy') {
+    if (limits.buy.max < limits.buy.min) return 'max_below_min'
+    if (amt > limits.buy.max) return 'over_max'
+    if (amt < limits.buy.min) return 'under_min'
+  }
+  if (type === 'sell') {
+    if (limits.sell.max < limits.sell.min) return 'max_below_min'
+    if (amt > limits.sell.max) return 'over_max'
+    if (amt < limits.sell.min) return 'under_min'
+  }
+
   return false
 }
+
+export const isOverEffectiveMax = (amount, effectiveBalance) =>
+  gt(amount, effectiveBalance)
 
 export const currencySymbolMap = {
   GBP: '£',
@@ -52,31 +66,45 @@ export const mockedLimits = {
 export const reviewOrder = {
   baseBtc: (q) => q.baseCurrency === 'BTC',
   hasMedium: (paymentMediums, medium) => {
-    const hasMedium = has(medium)
-    if (hasMedium(paymentMediums)) return medium
-    else return medium === 'bank' ? 'card' : 'bank'
+    if (paymentMediums && has(medium, paymentMediums)) {
+      return medium
+    } else {
+      return medium === 'bank' ? 'card' : 'bank'
+    }
   },
   renderSummary: (q, type, medium) => {
     const qAmt = Math.abs(q.quoteAmount)
     const bAmt = Math.abs(q.baseAmount)
     const med = reviewOrder.hasMedium(q.paymentMediums, medium)
+    const fee = Math.abs(q.paymentMediums[med]['fee'])
+    const totalBase = Math.abs((q.paymentMediums[med]['total']).toFixed(2))
     if (type === 'buy') {
       if (reviewOrder.baseBtc(q)) {
         return {
           firstRow: `${bAmt / 1e8} BTC (${currencySymbolMap[q.quoteCurrency]}${qAmt.toFixed(2)})`,
-          fee: `${currencySymbolMap[q.quoteCurrency]}${(+q.paymentMediums[med]['fee']).toFixed(2)}`,
-          total: `${currencySymbolMap[q.quoteCurrency]}${(qAmt + q.paymentMediums[med]['fee']).toFixed(2)}`
+          fee: `${currencySymbolMap[q.quoteCurrency]}${fee.toFixed(2)}`,
+          total: `${currencySymbolMap[q.quoteCurrency]}${(qAmt + fee).toFixed(2)}`
         }
       } else {
         return {
           firstRow: `${qAmt / 1e8} BTC (${currencySymbolMap[q.baseCurrency]}${bAmt.toFixed(2)})`,
-          fee: `${currencySymbolMap[q.baseCurrency]}${(q.paymentMediums[med]['fee']).toFixed(2)}`,
-          total: `${currencySymbolMap[q.baseCurrency]}${(q.paymentMediums[med]['total']).toFixed(2)}`
+          fee: `${currencySymbolMap[q.baseCurrency]}${fee.toFixed(2)}`,
+          total: `${currencySymbolMap[q.baseCurrency]}${totalBase}`
         }
       }
-    } else {
-      if (this.baseBtc(q)) {
-
+    } else { // type = sell
+      if (reviewOrder.baseBtc(q)) {
+        return {
+          firstRow: `${bAmt / 1e8} BTC (${currencySymbolMap[q.quoteCurrency]}${qAmt.toFixed(2)})`,
+          fee: `${currencySymbolMap[q.quoteCurrency]}${fee.toFixed(2)}`,
+          total: `${currencySymbolMap[q.quoteCurrency]}${(qAmt + fee).toFixed(2)}`
+        }
+      } else {
+        return {
+          firstRow: `${qAmt / 1e8} BTC (${currencySymbolMap[q.baseCurrency]}${bAmt.toFixed(2)})`,
+          fee: `${currencySymbolMap[q.baseCurrency]}${fee.toFixed(2)}`,
+          total: `${currencySymbolMap[q.baseCurrency]}${totalBase}`
+        }
       }
     }
   }
@@ -85,22 +113,29 @@ export const reviewOrder = {
 export const tradeDetails = {
   renderDetails: (trade) => {
     const fiat = trade.inCurrency !== 'BTC' ? trade.inCurrency : trade.outCurrency
+    const symbol = currencySymbolMap[fiat]
     if (trade.isBuy) {
-      const symbol = currencySymbolMap[fiat]
       return {
         firstRow: `${trade.receiveAmount} BTC (${symbol}${(trade.inAmount / 100).toFixed(2)})`,
         fee: `${symbol}${((trade.sendAmount / 100) - (trade.inAmount / 100)).toFixed(2)}`,
         total: `${symbol}${(trade.sendAmount / 100).toFixed(2)}`
       }
+    } else {
+      return {
+        firstRow: `${trade.sendAmount / 1e8} BTC (${symbol}${(trade.outAmountExpected / 100).toFixed(2)})`,
+        fee: `${symbol}${((trade.outAmountExpected / 100) - trade.receiveAmount).toFixed(2)}`,
+        total: `${symbol}${(trade.receiveAmount).toFixed(2)}`
+      }
     }
   }
 }
+
+export const getCountryCodeFromIban = (iban) => toUpper(slice(0, 2, iban))
 
 export const statusHelper = status => {
   switch (status) {
     case 'awaiting_transfer_in':
     case 'processing': return { color: 'transferred', text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatus.processing' defaultMessage='Pending' /> }
-
     case 'completed': return { color: 'success', text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatus.completed' defaultMessage='Completed' /> }
     case 'rejected': return { color: 'error', text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatus.rejected' defaultMessage='Rejected' /> }
     case 'failed': return { color: 'error', text: <FormattedMessage id='scenes.buysellorderhistory.list.orderstatus.failed' defaultMessage='Failed' /> }

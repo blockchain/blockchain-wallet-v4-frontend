@@ -10,7 +10,7 @@ import { Field, reduxForm } from 'redux-form'
 import { TabMenuBuySellStatus } from 'components/Form'
 import HorizontalMenu from 'components/HorizontalMenu'
 import SelectPartner from './template.success'
-import Loading from './template.loading'
+import Loading from 'components/BuySell/Loading'
 import ui from 'redux-ui'
 import { hasAccount } from 'services/ExchangeService'
 

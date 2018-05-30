@@ -39,6 +39,10 @@ const OrderHistory = (props) => {
     if (!trades.length) {
       return <EmptyOrderHistoryContainer changeTab={changeTab} />
     }
+    const conversion = {
+      buy: 100,
+      sell: 1e8
+    }
     return (
       <OrderHistoryWrapper>
         <OrderHistoryContent>
@@ -60,7 +64,7 @@ const OrderHistory = (props) => {
           <Text size='15px' weight={400}>
             <FormattedMessage id='scenes.buysell.coinifycheckout.trades.completed' defaultMessage='Completed Orders' />
           </Text>
-          <OrderHistoryTable trades={filter(isCompleted, trades)} conversion={100} handleDetailsClick={trade => showModal('CoinifyTradeDetails', { trade })} />
+          <OrderHistoryTable trades={filter(isCompleted, trades)} conversion={conversion} handleDetailsClick={trade => showModal('CoinifyTradeDetails', { trade })} />
         </OrderHistoryContent>
       </OrderHistoryWrapper>
     )

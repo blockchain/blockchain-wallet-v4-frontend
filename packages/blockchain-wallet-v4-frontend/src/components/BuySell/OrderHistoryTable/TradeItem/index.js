@@ -12,8 +12,8 @@ const tradeDateHelper = (trade) => type(trade.createdAt) === 'Number' ? new Date
 const TradeItem = props => {
   const { conversion, handleClick, handleFinish, handleTradeCancel, trade, status, cancelTradeId, canTrade } = props
   const receiveAmount = trade.isBuy ? trade.receiveAmount : Exchange.displayFiatToFiat({ value: trade.receiveAmount })
-  const exchangeAmount = trade.isBuy ? Exchange.displayFiatToFiat({ value: trade.sendAmount / conversion }) : trade.sendAmount / conversion
-  const canCancel = canTrade && trade.state === 'awaiting_transfer_in'
+  const exchangeAmount = trade.isBuy ? Exchange.displayFiatToFiat({ value: trade.sendAmount / conversion.buy }) : trade.sendAmount / conversion.sell
+  const canCancel = canTrade && trade.isBuy && trade.state === 'awaiting_transfer_in'
 
   return (
     <TableRow>
