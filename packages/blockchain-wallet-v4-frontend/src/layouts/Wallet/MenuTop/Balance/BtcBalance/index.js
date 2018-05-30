@@ -10,11 +10,20 @@ import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class EtherBalance extends React.PureComponent {
+class BtcBalance extends React.PureComponent {
+  constructor (props) {
+    super(props)
+    this.handleRefresh = this.handleRefresh.bind(this)
+  }
+
   componentWillMount () {
     if (Remote.NotAsked.is(this.props.data)) {
       this.props.actions.fetchData(this.props.context)
     }
+  }
+
+  handleRefresh () {
+    this.props.actions.fetchData(this.props.context)
   }
 
   render () {
@@ -22,15 +31,15 @@ class EtherBalance extends React.PureComponent {
 
     return data.cata({
       Success: (value) => <Success balance={value} large={large} />,
-      Failure: (message) => <Error>{message}</Error>,
+      Failure: (message) => <Error onRefresh={this.handleRefresh} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
   }
 }
 
-EtherBalance.propTypes = {
-  context: PropTypes.string.isRequired
+BtcBalance.propTypes = {
+  context: PropTypes.array.isRequired
 }
 
 const mapStateToProps = (state) => ({
@@ -38,7 +47,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actions.core.data.ethereum, dispatch)
+  actions: bindActionCreators(actions.core.data.bitcoin, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(EtherBalance)
+export default connect(mapStateToProps, mapDispatchToProps)(BtcBalance)
