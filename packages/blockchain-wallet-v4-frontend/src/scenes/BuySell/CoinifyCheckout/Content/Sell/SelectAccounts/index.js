@@ -6,7 +6,7 @@ import { prop } from 'ramda'
 import { actions } from 'data'
 import { getData } from './selectors.js'
 import Success from './template.success.js'
-import Loading from '../../../../template.loading'
+import Loading from 'components/BuySell/Loading'
 
 class SelectAccountsContainer extends React.PureComponent {
   constructor (props) {

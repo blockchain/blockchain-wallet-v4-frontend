@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { getBase, getData, getErrors, getQuote, getSellQuote, getTrades, getPayment } from './selectors'
 import Success from './template.success'
-import Loading from '../../template.loading'
+import Loading from 'components/BuySell/Loading'
 import { path } from 'ramda'
 
 class SfoxCheckout extends React.PureComponent {

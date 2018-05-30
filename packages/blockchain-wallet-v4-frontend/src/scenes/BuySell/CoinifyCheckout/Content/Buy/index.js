@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { getData } from './selectors'
 import Success from './template.success'
-import Loading from '../../../template.loading'
+import Loading from 'components/BuySell/Loading'
 
 class CoinifyBuyContainer extends React.Component {
   constructor (props) {
@@ -42,7 +42,7 @@ class CoinifyBuyContainer extends React.Component {
     })
 
     return data.cata({
-      Success: (value) => <Success {...this.props}
+      Success: (value) => <Success
         value={value}
         handleTrade={handleTrade}
         showModal={showModal}
