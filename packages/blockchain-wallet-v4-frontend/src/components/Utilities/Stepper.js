@@ -58,14 +58,21 @@ export const StepView = ({ children, step }) => (
   </Consumer>
 )
 
-export const StepTransition = ({ Component, next, prev, restart, to = 0, ...rest }) => (
+export const StepTransition = ({ Component, onClick, next, prev, restart, to = 0, ...rest }) => (
   <Consumer>
-    {({ stepTo, nextStep, prevStep, restartStep }) => (
-      <Component
-        {...rest}
-        onClick={next ? nextStep : prev ? prevStep : restart ? restartStep : () => stepTo(to)}
-      />
-    )}
+    {({ stepTo, nextStep, prevStep, restartStep }) => {
+      const goToStep = next ? nextStep : prev ? prevStep : restart ? restartStep : () => stepTo(to)
+      const onClickAndGo = () => {
+        onClick && onClick()
+        goToStep()
+      }
+      return (
+        <Component
+          {...rest}
+          onClick={onClickAndGo}
+        />
+      )
+    }}
   </Consumer>
 )
 
