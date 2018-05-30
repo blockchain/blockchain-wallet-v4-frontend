@@ -131,16 +131,16 @@ export const OrderSubmit = ({ quoteR, onSubmit, busy, clearTradeError }) => (
         </Fragment>
     }
     <StyledFaqRow
-      title={<FormattedMessage id='faq.how_long_to_receive_q' defaultMessage='How long does it take to get my funds?' />}
-      description={<FormattedMessage id='faq.how_long_to_receive_a' defaultMessage='A bitcoin is never late, nor is it early. A bitcoin arrives precisely when it intends to.' />}
+      title={<FormattedMessage id='scenes.buysell.sfoxcheckout.orderreview.helper1.question' defaultMessage='What are the fees?' />}
+      description={<FormattedMessage id='scenes.buysell.sfoxcheckout.orderreview.helper1.answer' defaultMessage='There is a trading fee that SFOX requires to execute a buy or sell trade. For sell trades specifically, there is an additional transaction fee that goes to network miners in order to send the amount you’re selling to SFOX.' />}
     />
     <StyledFaqRow
-      title={<FormattedMessage id='faq.exchange_rate_q' defaultMessage='What is the exchange rate?' />}
-      description={<FormattedMessage id='faq.exchange_rate_a' defaultMessage='The exchange rate varies from minute to minute.' />}
+      title={<FormattedMessage id='scenes.buysell.sfoxcheckout.orderreview.helper2.question' defaultMessage='How long will it take to get my funds?' />}
+      description={<FormattedMessage id='scenes.buysell.sfoxcheckout.orderreview.helper2.answer' defaultMessage='On average, it will take about a week for you to receive your funds from either a buy or sell trade.' />}
     />
     <StyledFaqRow
-      title={<FormattedMessage id='faq.exchange_fees_q' defaultMessage='What are the fees?' />}
-      description={<FormattedMessage id='faq.exchange_fees_a' defaultMessage='Each exchange takes a small percentage of the total amount as a fee.' />}
+      title={<FormattedMessage id='scenes.buysell.sfoxcheckout.orderreview.helper3.question' defaultMessage='Can I cancel my trade?' />}
+      description={<FormattedMessage id='scenes.buysell.sfoxcheckout.orderreview.helper3.answer' defaultMessage='Once you submit your trade here, it will move into a pending state, and cannot be reversed, cancelled or changed. Please be sure to verify the information here carefully before submitting.' />}
     />
   </Fragment>
 )
