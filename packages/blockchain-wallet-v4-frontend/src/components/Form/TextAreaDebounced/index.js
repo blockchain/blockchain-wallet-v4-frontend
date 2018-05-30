@@ -46,12 +46,10 @@ class TextAreaDebounced extends React.Component {
 
   handleChange (e) {
     e.preventDefault()
-    console.log('lol')
     const value = e.target.value
     this.setState({ value })
     if (this.timeout) clearTimeout(this.timeout)
     this.timeout = setTimeout(() => {
-      console.log('LOL')
       this.props.input.onChange(value)
     }, 500)
   }
