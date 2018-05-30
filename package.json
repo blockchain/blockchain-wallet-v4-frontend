@@ -138,7 +138,5 @@
     "webpack-cli": "^2.0.13",
     "webpack-dev-server": "^3.1.1"
   },
-  "dependencies": {
-    "ibantools": "^2.0.0"
-  }
+  "dependencies": {}
 }
