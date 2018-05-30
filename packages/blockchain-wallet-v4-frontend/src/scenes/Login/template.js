@@ -8,6 +8,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { required } from 'services/FormHelper'
 import { Button, Link, Separator, Text, TextGroup, HeartbeatLoader } from 'blockchain-info-components'
 import { Form, FormError, FormGroup, FormItem, FormLabel, PasswordBox, TextBox } from 'components/Form'
+import SanitizedFormattedHTMLMessage from 'components/SanitizedFormattedHTMLMessage'
 import Modals from 'modals'
 import MobileLogin from 'modals/MobileLogin'
 
