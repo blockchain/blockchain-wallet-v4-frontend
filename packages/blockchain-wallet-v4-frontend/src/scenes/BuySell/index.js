@@ -44,6 +44,7 @@ class BuySellContainer extends React.PureComponent {
 
   componentDidMount () {
     this.props.formActions.initialize('buySellTabStatus', { status: 'buy' })
+    this.props.formActions.change('selectPartner', 'country', this.props.data.data.countryCode)
   }
 
   /**
