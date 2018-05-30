@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
+import ui from 'redux-ui'
 
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
@@ -9,23 +10,21 @@ import ShowUsedAddresses from './template.js'
 class ShowUsedAddressesContainer extends React.PureComponent {
   constructor (props) {
     super(props)
+    this.state = { busy: false }
     this.handleContinue = this.handleContinue.bind(this)
   }
 
-  // componentWillUnmount () {
-  //   this.props.componentActions.fetchUsedAddresses(this.props.walletIndex)
-  // }
-
   handleContinue () {
-    this.props.actions.toggleUsedAddresses(this.props.walletIndex, true)
+    this.setState({ busy: true })
+    // ensure busy is set before address derivation begins
+    setTimeout(() => {
+      this.props.actions.toggleUsedAddresses(this.props.walletIndex, true)
+    }, 0)
   }
 
   render () {
-    // setTimeout(() => {
-    //   this.props.componentActions.fetchUsedAddresses(this.props.walletIndex)
-    // }, 0)
     return (
-      <ShowUsedAddresses {...this.props} handleContinue={this.handleContinue} />
+      <ShowUsedAddresses {...this.props} busy={this.state.busy} handleContinue={this.handleContinue} />
     )
   }
 }
