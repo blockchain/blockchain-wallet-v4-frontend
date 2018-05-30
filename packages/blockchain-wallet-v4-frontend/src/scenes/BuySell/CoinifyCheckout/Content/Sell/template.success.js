@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { path } from 'ramda'
+import { head, path } from 'ramda'
 
 import * as service from 'services/CoinifyService'
 import Stepper, { StepView } from 'components/Utilities/Stepper'
@@ -10,9 +10,12 @@ import AddBankDetails from './AddBankDetails'
 import AddCustomerDetails from './AddCustomerDetails'
 import SelectAccounts from './SelectAccounts'
 import ISignThis from 'modals/CoinifyExchangeData/ISignThis'
+import KYCNotification from '../KYCNotification'
 
 const CheckoutWrapper = styled.div`
-  width: 55%;
+  display: grid;
+  grid-template-columns: 55% 35%;
+  grid-gap: 10%;
 `
 const OrderSubmitWrapper = styled.div`
   display: flex;
@@ -43,11 +46,12 @@ const Sell = props => {
     trade,
     value,
     onOrderCheckoutSubmit,
-    checkoutError
+    checkoutError,
+    handleKycAction
   } = props
 
   const profile = value.profile || { _limits: service.mockedLimits, _level: { currency: 'EUR' } }
-
+  const kyc = value.kycs.length && head(value.kycs)
   const defaultCurrency = currency || 'EUR' // profile._level.currency
   const symbol = service.currencySymbolMap[defaultCurrency]
 
@@ -58,21 +62,31 @@ const Sell = props => {
       <Stepper initialStep={0}>
         <StepView step={0}>
           <CheckoutWrapper>
-            <OrderCheckout
-              quoteR={sellQuoteR}
-              rateQuoteR={rateQuoteR}
-              onFetchQuote={fetchSellQuote}
-              limits={limits.sell}
-              type={'sell'}
-              reason={'has_remaining'} // placeholder for now - coinify does not require a reason
-              defaultCurrency={defaultCurrency}
-              symbol={symbol}
-              checkoutBusy={checkoutBusy}
-              setMax={setMax}
-              setMin={setMin}
-              onOrderCheckoutSubmit={onOrderCheckoutSubmit}
-              checkoutError={checkoutError}
-            />
+            <div>
+              <OrderCheckout
+                quoteR={sellQuoteR}
+                rateQuoteR={rateQuoteR}
+                onFetchQuote={fetchSellQuote}
+                limits={limits.sell}
+                type={'sell'}
+                reason={'has_remaining'} // placeholder for now - coinify does not require a reason
+                defaultCurrency={defaultCurrency}
+                symbol={symbol}
+                checkoutBusy={checkoutBusy}
+                setMax={setMax}
+                setMin={setMin}
+                onOrderCheckoutSubmit={onOrderCheckoutSubmit}
+                checkoutError={checkoutError}
+                increaseLimit={handleKycAction}
+              />
+            </div>
+            <div>
+              {
+                value.kycs.length
+                  ? <KYCNotification kyc={kyc} limits={limits.sell} symbol={symbol} onTrigger={(kyc) => handleKycAction(kyc)} />
+                  : null
+              }
+            </div>
           </CheckoutWrapper>
         </StepView>
         <StepView step={1}>
