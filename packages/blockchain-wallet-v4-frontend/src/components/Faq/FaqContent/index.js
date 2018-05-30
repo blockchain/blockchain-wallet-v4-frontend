@@ -70,7 +70,7 @@ const FaqContent = [
         <FormattedMessage id='scenes.faq.group.walletfunctionality.answer9.one' defaultMessage="Every cryptocurrency transaction that’s sent will flow into what's called the mempool (short for memory pool) before it can be confirmed by miners. When there's a dramatic spike in transaction activity, the mempool can become congested because so many transactions are waiting to be included in the next block." />
         <br />
         <br />
-        <FormattedMessage id='scenes.faq.group.walletfunctionality.answer9.two' defaultMessage='An unconfirmed transaction will eventually either be accepted into a block by a mining pool, or be rejected by the network. If it is eventually rejected, the funds will remain on the address they were sent from. At this point, we can only recommend that you wait to see if your transaction is accepted into a block. Clicking the ⬆ icon in your transaction feed will relay to you the details of that transaction through its respective explorer.' />
+        <FormattedMessage id='scenes.faq.group.walletfunctionality.answer9.two' defaultMessage='An unconfirmed transaction will eventually either be accepted into a block by a mining pool, or be rejected by the network. If it is eventually rejected, the funds will remain on the address they were sent from. At this point, we can only recommend that you wait to see if your transaction is accepted into a block. Clicking the ⬆ icon in your transaction feed will relay to you the details of that  transaction through its respective explorer.' />
         <br />
         <br />
         <FormattedMessage id='scenes.faq.group.walletfunctionality.answer9.three' defaultMessage='Like all wallet providers, Blockchain has no control over the speed of confirmation, and unfortunately cannot expedite transactions. All we can suggest is using an appropriate transaction fee in order to incentivize a miner to include your transaction into a block. This is always dependent upon the network of miners. To learn more about how this works read our blog ' />
@@ -89,7 +89,7 @@ const FaqContent = [
     }, {
       question: <FormattedMessage id='scenes.faq.group.walletfunctionality.question11' defaultMessage='How can I look up a transaction on the blockchain?' />,
       answer: <FaqDescription>
-        <FormattedMessage id='scenes.faq.group.walletfunctionality.answer11.one' defaultMessage='Block explorers provide a visually appealing and intuitive way to navigate different currencies’ blockchains. For any transactions within your wallet, you can navigate to that currency’s tab and click on the ⬆ to view your transaction.' />
+        <FormattedMessage id='scenes.faq.group.walletfunctionality.answer11.one' defaultMessage='Block explorers provide a visually appealing and intuitive way to navigate different currencies’ block chains. For any transactions within your wallet, you can navigate to that currency’s tab and click on the ⬆ icon to view your transaction.' />
         <br />
         <br />
         <FormattedMessage id='scenes.faq.group.walletfunctionality.answer11.two' defaultMessage='Blockchain has our own bitcoin specific block explorer that launched in August 2011, and was created as a way for anyone to study bitcoin transactions, along with a variety of helpful charts and statistics about activity on the network.' />
@@ -113,7 +113,7 @@ const FaqContent = [
     groupQuestions: [{
       question: <FormattedMessage id='scenes.faq.group.walletsecurity.question1' defaultMessage='What do I need to keep my wallet safe?' />,
       answer: <FaqDescription>
-        <FormattedMessage id='scenes.faq.group.walletsecurity.answer1.one' defaultMessage='Our Security Center helps you to keep your wallet secure and ensure that you always have access to your funds - all in less than 5 minutes. A great place to start is to enable 2-Step Verification and write down your Backup Phrase to make sure you never lose access to your funds. We also recommend using a unique, random password that’s at least 16 characters or more.' />
+        <FormattedMessage id='scenes.faq.group.walletsecurity.answer1.one' defaultMessage='Our Security Center helps you to keep your wallet safe and ensures that you always have access to your funds - all in less than 5 minutes. A great place to start is to enable 2-Step Verification and write down your Backup Phrase to make sure you never lose access to your funds. We also recommend using a unique, random password that’s at least 16 characters or more.' />
         <NavLink to='/security-center' style={{textDecoration: 'none', color: Color('brand-secondary')}} >
           <FormattedMessage id='scenes.faq.group.walletsecurity.answer1.navlink' defaultMessage=' Click here ' />
         </NavLink>
@@ -146,7 +146,7 @@ const FaqContent = [
         <FormattedMessage id='scenes.faq.group.walletsecurity.answer4.three' defaultMessage='by replacing them with an invalid submission. For example, one could use 555-5555 for the phone number, or abc@123.com as an email.' />
         <br />
         <br />
-        <FormattedMessage id='scenes.faq.group.walletsecurity.answer4.four' defaultMessage='After replacing this associated information, and archiving all imported addresses within the “Addresses” section, all information associated with the user personally has been removed. If you are the only one that knows your backup phrase, your wallet is essentially mute until you decide to use it again. We suggest keeping the wallet’s Backup Phrase in a safe place, in case you ever want to return to your wallet.' />
+        <FormattedMessage id='scenes.faq.group.walletsecurity.answer4.four' defaultMessage='After replacing this associated information, and archiving all imported addresses within the “Addresses” section, all information pertaining to you has been removed. If you are the only one that knows your backup phrase, your wallet is essentially mute until you decide to use it again. We suggest keeping the wallet’s Backup Phrase in a safe place, in case you ever want to return to your wallet.' />
         <br />
         <br />
         <FormattedMessage id='scenes.faq.group.walletsecurity.answer4.five' defaultMessage='If you’ve created an account with one of our exchange partners (Coinify, SFOX, Unocoin or Shapeshift), please reach out to their support teams for further assistance with removing your personal information from their records. For assistance with this, please reach out to our support team' />
