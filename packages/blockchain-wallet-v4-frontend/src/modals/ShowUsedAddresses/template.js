@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
 import { spacing } from 'services/StyleService'
-import { Button, Icon, Modal, ModalHeader, ModalBody, ModalFooter, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Icon, Modal, ModalHeader, ModalBody, ModalFooter, Text } from 'blockchain-info-components'
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -19,7 +19,7 @@ const CancelBtn = styled(Text)`
 `
 
 const ShowUsedAddresses = (props) => {
-  const { position, total, close, ...rest } = props
+  const { busy, position, total, close, ...rest } = props
   const { handleContinue } = rest
 
   return (
@@ -39,8 +39,12 @@ const ShowUsedAddresses = (props) => {
         <CancelBtn size='small' weight={300} style={spacing('mr-15')} onClick={close}>
           <FormattedMessage id='modals.show_used_addresses.cancel' defaultMessage='Cancel' />
         </CancelBtn>
-        <Button nature='primary' onClick={handleContinue}>
-          <FormattedMessage id='modals.show_used_addresses.ok' defaultMessage='OK' />
+        <Button uppercase nature='primary' type='submit' onClick={handleContinue} disabled={busy}>
+          {
+            !busy
+              ? <FormattedMessage id='modals.show_used_addresses.ok' defaultMessage='OK' />
+              : <HeartbeatLoader height='20px' width='20px' color='white' />
+          }
         </Button>
       </ModalFooter>
     </Modal>
