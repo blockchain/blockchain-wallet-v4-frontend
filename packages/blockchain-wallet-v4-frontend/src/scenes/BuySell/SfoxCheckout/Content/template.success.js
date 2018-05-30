@@ -11,6 +11,7 @@ import Stepper, { StepView } from 'components/Utilities/Stepper'
 import OrderCheckout from './OrderCheckout'
 import { OrderDetails, OrderSubmit } from './OrderReview'
 import Helper from 'components/BuySell/FAQ'
+import EmptyOrderHistoryContainer from 'components/BuySell/EmptyOrderHistory'
 
 const CheckoutWrapper = styled.div`
   width: 50%;
@@ -70,6 +71,7 @@ const Success = props => {
     showModal,
     handleTradeDetailsClick,
     clearTradeError,
+    changeTab,
     ...rest } = props
 
   const accounts = Remote.of(props.value.accounts).getOrElse([])
@@ -180,22 +182,27 @@ const Success = props => {
       buy: 1e8,
       sell: 1e8
     }
-    return (
-      <OrderHistoryWrapper>
-        <OrderHistoryContent>
-          <Text size='15px' weight={400}>
-            <FormattedMessage id='scenes.buysell.sfoxcheckout.trades.pending' defaultMessage='Pending Orders' />
-          </Text>
-          <OrderHistoryTable trades={filter(isPending, trades)} conversion={conversion} handleDetailsClick={trade => showModal('SfoxTradeDetails', { trade })} />
-        </OrderHistoryContent>
-        <OrderHistoryContent>
-          <Text size='15px' weight={400}>
-            <FormattedMessage id='scenes.buysell.sfoxcheckout.trades.completed' defaultMessage='Completed Orders' />
-          </Text>
-          <OrderHistoryTable trades={filter(isCompleted, trades)} conversion={conversion} handleDetailsClick={trade => showModal('SfoxTradeDetails', { trade })} />
-        </OrderHistoryContent>
-      </OrderHistoryWrapper>
-    )
+
+    if (!trades.length) {
+      return <EmptyOrderHistoryContainer changeTab={changeTab} />
+    } else {
+      return (
+        <OrderHistoryWrapper>
+          <OrderHistoryContent>
+            <Text size='15px' weight={400}>
+              <FormattedMessage id='scenes.buysell.sfoxcheckout.trades.pending' defaultMessage='Pending Orders' />
+            </Text>
+            <OrderHistoryTable trades={filter(isPending, trades)} conversion={conversion} handleDetailsClick={trade => showModal('SfoxTradeDetails', { trade })} />
+          </OrderHistoryContent>
+          <OrderHistoryContent>
+            <Text size='15px' weight={400}>
+              <FormattedMessage id='scenes.buysell.sfoxcheckout.trades.completed' defaultMessage='Completed Orders' />
+            </Text>
+            <OrderHistoryTable trades={filter(isCompleted, trades)} conversion={conversion} handleDetailsClick={trade => showModal('SfoxTradeDetails', { trade })} />
+          </OrderHistoryContent>
+        </OrderHistoryWrapper>
+      )
+    }
   } else {
     return null
   }

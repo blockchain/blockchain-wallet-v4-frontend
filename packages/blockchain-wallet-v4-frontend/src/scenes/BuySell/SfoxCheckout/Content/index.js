@@ -18,10 +18,11 @@ class SfoxCheckout extends React.PureComponent {
   }
 
   render () {
-    const { data, modalActions, sfoxActions, sfoxDataActions, payment, orderState } = this.props
+    const { data, modalActions, sfoxActions, sfoxDataActions, payment, orderState, formActions } = this.props
     const { handleTrade, fetchQuote, refreshQuote, refreshSellQuote, fetchSellQuote } = sfoxDataActions
     const { sfoxNotAsked } = sfoxActions
     const { showModal } = modalActions
+    const { change } = formActions
 
     const busy = orderState.cata({
       Success: () => false,
@@ -44,6 +45,7 @@ class SfoxCheckout extends React.PureComponent {
         busy={busy}
         payment={payment}
         clearTradeError={() => sfoxNotAsked()}
+        changeTab={tab => change('buySellTabStatus', 'status', tab)}
       />,
       Failure: (error) => <div>Failure: {error && error.message}</div>,
       Loading: () => <Loading />,
@@ -67,7 +69,8 @@ const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   sfoxActions: bindActionCreators(actions.modules.sfox, dispatch),
   sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch),
-  sendBtcActions: bindActionCreators(actions.components.sendBtc, dispatch)
+  sendBtcActions: bindActionCreators(actions.components.sendBtc, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SfoxCheckout)
