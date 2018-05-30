@@ -10,7 +10,7 @@ import Loading from 'components/BuySell/Loading'
 
 class QuoteInput extends Component {
   render () {
-    const { data, symbol, setMax, setEffectiveMax, setMin, checkoutError, increaseLimit, defaultCurrency, limits, disabled, type } = this.props
+    const { data, symbol, setMax, setMin, checkoutError, increaseLimit, defaultCurrency, limits, disabled, type } = this.props
     return data.cata({
       Success: (value) => {
         const QuoteInputTemplate = type === 'buy' ? QuoteInputTemplateBuy : QuoteInputTemplateSell
@@ -23,7 +23,6 @@ class QuoteInput extends Component {
           defaultCurrency={defaultCurrency}
           symbol={symbol}
           setMax={setMax}
-          setEffectiveMax={setEffectiveMax}
           setMin={setMin}
           checkoutError={checkoutError}
           increaseLimit={increaseLimit}
