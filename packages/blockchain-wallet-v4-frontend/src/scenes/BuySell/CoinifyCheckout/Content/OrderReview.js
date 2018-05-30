@@ -9,6 +9,7 @@ import { spacing } from 'services/StyleService'
 import { reviewOrder, currencySymbolMap } from 'services/CoinifyService'
 import { FormattedMessage } from 'react-intl'
 import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDetails'
+import { CancelWrapper } from 'components/BuySell/Signup'
 import { StepTransition } from 'components/Utilities/Stepper'
 
 const ExchangeRateWrapper = styled.div`
@@ -21,17 +22,6 @@ const ExchangeRateWrapper = styled.div`
 const StyledFaqRow = styled(FaqRow)`
   padding: 20px 0px;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
-`
-const CancelWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  margin-top: 15px;
-  a {
-    color: #545456;
-    font-weight: 300;
-    font-size: 14px;
-  }
 `
 
 const renderRate = (rate, q) => {
@@ -126,7 +116,13 @@ export const OrderSubmit = ({ quoteR, onSubmit, busy, clearTradeError, goToStep 
     }
     <StyledFaqRow
       title={<FormattedMessage id='faq.how_long_to_receive_q' defaultMessage='How long does it take to get my funds?' />}
-      description={<FormattedMessage id='faq.how_long_to_receive_a' defaultMessage='A bitcoin is never late, nor is it early. A bitcoin arrives precisely when it intends to.' />}
+      description={
+        <div>
+          <FormattedMessage id='faq.how_long_to_receive_a1' defaultMessage='The quote expires within 15 minutes of placing the order. If the transaction is not broadcasted during that time the order will not be processed.' />
+          <FormattedMessage id='faq.how_long_to_receive_a2' defaultMessage='Coinify will contact you with intructions on how to receive a BTC refund if they are received after the quote expires, and if the amount received is higher or lower that the one specified in the order.' />
+          <FormattedMessage id='faq.how_long_to_receive_a3' defaultMessage='Coinify won’t be refunding the bitcoin transaction fee.' />
+        </div>
+      }
     />
     <StyledFaqRow
       title={<FormattedMessage id='faq.exchange_rate_q' defaultMessage='What is the exchange rate?' />}

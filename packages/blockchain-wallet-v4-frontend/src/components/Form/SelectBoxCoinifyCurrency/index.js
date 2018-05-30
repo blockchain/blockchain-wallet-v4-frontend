@@ -28,7 +28,6 @@ const mapStateToProps = (state, ownProps) => ({
   currencies: [
     { text: 'EUR', value: 'EUR' },
     { text: 'DKK', value: 'DKK' },
-    { text: 'USD', value: 'USD' },
     { text: 'GBP', value: 'GBP' }
   ]
 })
