@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { path } from 'ramda'
 import { getQuoteInputData } from './selectors'
-import Loading from '../../template.loading'
+import Loading from 'components/BuySell/Loading'
 
 class QuoteInput extends Component {
   render () {

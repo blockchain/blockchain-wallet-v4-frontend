@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { getData } from './selectors'
 import Success from './template.success'
-import Loading from '../../../template.loading'
+import Loading from 'components/BuySell/Loading'
 
 class SellContainer extends React.Component {
   constructor (props) {
