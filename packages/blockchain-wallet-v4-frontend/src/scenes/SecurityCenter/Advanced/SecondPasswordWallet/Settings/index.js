@@ -42,7 +42,8 @@ class SettingsContainer extends React.PureComponent {
 const mapStateToProps = (state) => ({
   mainPassword: selectors.core.wallet.getMainPassword(state),
   secondPasswordEnabled: selectors.core.wallet.isSecondPasswordOn(state),
-  secondPasswordValue: formValueSelector('settingSecondPassword')(state, 'secondPassword')
+  secondPasswordValue: formValueSelector('settingSecondPassword')(state, 'secondPassword'),
+  wallet: selectors.core.wallet.getWallet(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

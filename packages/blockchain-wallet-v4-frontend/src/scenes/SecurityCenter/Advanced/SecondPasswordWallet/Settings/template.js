@@ -5,8 +5,10 @@ import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, ButtonGroup, Text, TextGroup } from 'blockchain-info-components'
+import { Types } from 'blockchain-wallet-v4'
 import { FormGroup, FormItem, FormLabel, PasswordBox } from 'components/Form'
 import { SettingForm, SettingWrapper } from 'components/Setting'
+import { required } from 'services/FormHelper'
 
 const SecondPasswordWrapper = styled(SettingWrapper)`
   width: ${props => props.toggled ? '150%' : 'initial'};
@@ -18,6 +20,9 @@ const ButtonWrapper = styled(ButtonGroup)`
   }
 `
 
+const validateSecondPassword = (value, allValues, props) => {
+  return Types.Wallet.isValidSecondPwd(value, props.wallet) ? undefined : 'Second password invalid'
+}
 const Settings = (props) => {
   const { updateToggled, handleToggle, onSubmit, mainPassword, submitting, invalid, secondPasswordEnabled, handleCancel } = props
   const isMainPassword = (props) => mainPassword !== props ? null : "You can't use your main password as your second password."
@@ -34,7 +39,7 @@ const Settings = (props) => {
             <Text size='14px' weight={300}>
               <FormattedMessage id='scenes.securitysettings.basicsecurity.secondpasswordwallet.settings.label' defaultMessage='Second Password' />
             </Text>
-            <Field name='secondPassword' component={PasswordBox} />
+            <Field name='secondPassword' component={PasswordBox} validate={[required, validateSecondPassword]} />
             <ButtonWrapper>
               <Button nature='empty' capitalize onClick={handleCancel}>
                 <FormattedMessage id='scenes.securitysettings.basicsecurity.secondpasswordwallet.settings.cancel' defaultMessage='Cancel' />
