@@ -1,11 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import ui from 'redux-ui'
 
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
-import ShowUsedAddresses from './template.js'
+import ShowUsedAddresses from './template'
 
 class ShowUsedAddressesContainer extends React.PureComponent {
   constructor (props) {

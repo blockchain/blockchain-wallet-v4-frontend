@@ -12,6 +12,8 @@ import UsedAddresses from './UsedAddresses'
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
 `
 const MenuWrapper = styled.div`
   display: flex;

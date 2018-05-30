@@ -6,6 +6,7 @@ import ArchivedAddresses from './ArchivedAddresses'
 import ImportedAddresses from './ImportedAddresses'
 
 const Wrapper = styled.section`
+  width: 100%;
   padding: 30px;
   box-sizing: border-box;
 `

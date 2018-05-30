@@ -26,7 +26,7 @@ const ShowUsedAddresses = (props) => {
     <Modal size='large' position={position} total={total}>
       <ModalHeader onClose={close}>
         <HeaderWrapper>
-          <Icon name='alert-filled' size='26px' className={'warning-icon'} />
+          <Icon name='alert-filled' size='26px' className={'warning-icon'} color='brand-yellow' />
           <FormattedMessage id='modals.show_used_addresses.title' defaultMessage='Are you sure?' />
         </HeaderWrapper>
       </ModalHeader>
