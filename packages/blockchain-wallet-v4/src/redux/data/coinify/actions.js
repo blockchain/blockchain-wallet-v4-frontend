@@ -4,6 +4,7 @@ export const fetchQuote = (data) => ({ type: AT.COINIFY_FETCH_QUOTE, payload: da
 export const fetchQuoteLoading = () => ({ type: AT.COINIFY_FETCH_QUOTE_LOADING })
 export const fetchQuoteSuccess = (data) => ({ type: AT.COINIFY_FETCH_QUOTE_SUCCESS, payload: data })
 export const fetchQuoteFailure = (error) => ({ type: AT.COINIFY_FETCH_QUOTE_FAILURE, payload: error })
+export const refreshBuyQuote = () => ({ type: AT.COINIFY_REFRESH_BUY_QUOTE })
 
 export const fetchQuoteAndMediums = (data) => ({ type: AT.COINIFY_FETCH_QUOTE_AND_MEDIUMS, payload: data })
 
