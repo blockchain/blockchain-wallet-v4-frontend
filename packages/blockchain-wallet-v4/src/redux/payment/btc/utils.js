@@ -53,7 +53,7 @@ export const fromExternal = (addrComp, addrUncomp, wifComp, wifUncomp) => ({
 export const fromAccount = (network, state, index) => {
   const wallet = S.wallet.getWallet(state)
   let account = Wallet.getAccount(index, wallet).get()
-  let changeAddress = S.data.bitcoin.getChangeIndex(account.xpub, state)
+  let changeAddress = S.data.bch.getChangeIndex(account.xpub, state)
     .map((index) => HDAccount.getChangeAddress(account, index, network))
     .getOrFail(new Error('missing_change_address'))
   return {
@@ -105,7 +105,7 @@ export const toOutput = curry((network, state, addressOrIndex) => {
   let wallet = S.wallet.getWallet(state)
   if (isPositiveInteger(addressOrIndex)) {
     let account = Wallet.getAccount(addressOrIndex, wallet).get() // throw if nothing
-    let receiveIndex = S.data.bitcoin.getReceiveIndex(account.xpub, state)
+    let receiveIndex = S.data.bch.getReceiveIndex(account.xpub, state)
       .getOrFail(new Error('missing_receive_address'))
     let address = HDAccount.getReceiveAddress(account, receiveIndex, network)
     return toOutputAccount(address, addressOrIndex, receiveIndex)
