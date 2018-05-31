@@ -57,7 +57,7 @@ const WalletLayout = props => {
         <Header />
       </Nav>
       <Container>
-        <MenuLeft />
+        <MenuLeft location={location} />
         <TrayRight />
         <Content>
           <Top>
