@@ -8,6 +8,7 @@ import AddBankDetails from './template.js'
 class AddBankDetailsContainer extends React.PureComponent {
   render () {
     const { data } = this.props
+    console.log(data)
     return data.cata({
       Success: (value) => <AddBankDetails quote={value} />,
       Loading: <Loading />,

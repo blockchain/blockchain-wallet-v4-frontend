@@ -30,7 +30,7 @@ export const Info = styled.div`
 `
 
 export const InputWrapper = styled.div`
-  width: 90%;
+  width: 100%;
 `
 
 export const PartnerHeader = styled.div`
@@ -94,4 +94,9 @@ export const CancelWrapper = styled.div`
     font-weight: 300;
     font-size: 14px;
   }
+`
+
+export const BorderBox = styled.div`
+  border: 1px solid ${props => props.theme['gray-1']};
+  padding: 30px;
 `
