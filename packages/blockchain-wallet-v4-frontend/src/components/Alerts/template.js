@@ -101,7 +101,8 @@ const selectMessage = (message, data = undefined) => {
     case C.RESTORE_SUCCESS: return <FormattedMessage id='components.alerts.restore_success' defaultMessage='Your wallet has been successfully restored' />
     case C.RESTORE_WALLET_INFO: return <FormattedMessage id='components.alerts.restore_wallet_info' defaultMessage='Restoring wallet...' />
     case C.SECOND_PASSWORD_INVALID_ERROR: return <FormattedMessage id='components.alerts.second_password_invalid_error' defaultMessage='Wrong second password' />
-    case C.SECOND_PASSWORD_TOGGLE_SUCCESS: return <FormattedMessage id='components.alerts.second_password_toggle_success' defaultMessage='Second password toggle successfully' />
+    case C.SECOND_PASSWORD_ENABLED_SUCCESS: return <FormattedMessage id='components.alerts.second_password_enabled_success' defaultMessage='Second password enabled' />
+    case C.C.SECOND_PASSWORD_DISABLED_SUCCESS: return <FormattedMessage id='components.alerts.second_password_disabled_success' defaultMessage='Second password disabled' />
     case C.SEND_BCH_ERROR: return <FormattedMessage id='components.alerts.send_bch_error' defaultMessage='Your bitcoin cash transaction failed to send. Please try again.' />
     case C.SEND_BCH_SUCCESS: return <FormattedMessage id='components.alerts.send_bch_success' defaultMessage='Your bitcoin cash transaction is now pending' />
     case C.SEND_BTC_ERROR: return <FormattedMessage id='components.alerts.send_btc_error' defaultMessage='Your bitcoin transaction failed to send. Please try again.' />
