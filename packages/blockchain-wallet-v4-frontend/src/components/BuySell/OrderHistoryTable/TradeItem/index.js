@@ -28,7 +28,7 @@ const TradeItem = props => {
               <FormattedMessage id='buysell.orderhistory.finishtrade' defaultMessage='Finish Trade' />
             </Link>
             : <Link size='13px' weight={300} capitalize onClick={() => handleClick(trade)}>
-              <FormattedMessage id='scenes.exchangehistory.list.details' defaultMessage='View details' />
+              <FormattedMessage id='buysell.orderhistory.list.details' defaultMessage='View details' />
             </Link>
         }
       </TableCell>

@@ -40,8 +40,8 @@ const KYCNotification = (props) => {
             <Text size='12px' weight={300}>
               {
                 type === 'sell'
-                  ? <FormattedMessage id='kyc.sell.limitsnotice' defaultMessage='While your identity gets verified, you can sell up to {limit} BTC.' values={{ limit: sellMax }} />
-                  : <FormattedMessage id='kyc.buy.limitsnotice' defaultMessage='While your identity gets verified, you can buy up to {symbol}{limit} using your credit/debit card.' values={{ symbol: symbol, limit: limits.max }} />
+                  ? <FormattedMessage id='scenes.buysell.coinifycheckout.content.kycnotification.limitsnotice.buy' defaultMessage='While your identity gets verified, you can sell up to {limit} BTC.' values={{ limit: sellMax }} />
+                  : <FormattedMessage id='scenes.buysell.coinifycheckout.content.kycnotification.limitsnotice.sell' defaultMessage='While your identity gets verified, you can buy up to {symbol}{limit}.' values={{ symbol: symbol, limit: limits.max }} />
               }
             </Text>
           </LimitsNotice>

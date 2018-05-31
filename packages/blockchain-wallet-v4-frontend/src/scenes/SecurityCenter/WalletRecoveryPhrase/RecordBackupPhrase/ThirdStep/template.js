@@ -40,7 +40,7 @@ const ThirdStep = (props) => {
       <SuccessOverlay success={showSuccess && isMnemonicVerified}>
         <Icon name='checkmark-in-circle' size='150px' color='success' />
         <Text size='14px' weight={300} color='success'>
-          <FormattedMessage id='scenes.security.backupphrase.verified' defaultMessage="Congrats! You've successfully verified your Backup Phrase!" />
+          <FormattedMessage id='scenes.securitycenter.walletrecoveryphrase.thirdstep.verified' defaultMessage="Congrats! You've successfully verified your Backup Phrase!" />
         </Text>
       </SuccessOverlay>
       <VerificationContainer authType={showSuccess && isMnemonicVerified}>
@@ -49,12 +49,12 @@ const ThirdStep = (props) => {
         </Container>
         <Buttons>
           <Button type='submit' nature='primary' disabled={submitting || invalid}>
-            <FormattedMessage id='modals.recoveryphrase.thirdstep.confirm' defaultMessage='Confirm' />
+            <FormattedMessage id='scenes.securitycenter.walletrecoveryphrase.thirdstep.confirm' defaultMessage='Confirm' />
           </Button>
           {
             invalid
               ? <Link size='12px' weight={300} onClick={previousStep}>
-                <FormattedMessage id='modals.recoveryphrase.thirdstep.doublecheck' defaultMessage='Double check your backup phrase' />
+                <FormattedMessage id='scenes.securitycenter.walletrecoveryphrase.thirdstep.doublecheck' defaultMessage='Double check your backup phrase' />
               </Link>
               : null
           }

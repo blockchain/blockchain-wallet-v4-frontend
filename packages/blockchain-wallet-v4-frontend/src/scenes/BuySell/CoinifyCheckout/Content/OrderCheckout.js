@@ -33,7 +33,7 @@ const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, limi
         {
           Remote.Loading.is(quoteR)
             ? <HeartbeatLoader height='20px' width='20px' color='white' />
-            : <FormattedMessage id='continue' defaultMessage='Continue' />
+            : <FormattedMessage id='scenes.buysell.coinifycheckout.content.ordercheckout.continue' defaultMessage='Continue' />
         }
       </StepTransition>
       : null
@@ -54,7 +54,7 @@ const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, limi
               .map((quote) => `${symbol}${Math.abs(quote && quote.quoteAmount).toLocaleString()}`)
               .getOrElse(
                 <Fragment>
-                  <FormattedMessage id='loading' defaultMessage='Loading' />
+                  <FormattedMessage id='scenes.buysell.coinifycheckout.content.ordercheckout.loading' defaultMessage='Loading' />
                   {'...'}
                 </Fragment>
               )}
@@ -65,7 +65,7 @@ const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, limi
         reason.indexOf('has_remaining') > -1
           ? <Fragment>
             <Text style={spacing('ml-10')} size='16px' weight={600}>
-              <FormattedMessage id='amount' defaultMessage='Amount' />
+              <FormattedMessage id='scenes.buysell.coinifycheckout.content.ordercheckout.amount' defaultMessage='Amount' />
             </Text>
             <div style={spacing('mt-10')}>
               <QuoteInput

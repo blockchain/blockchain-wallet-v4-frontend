@@ -5,8 +5,8 @@ import * as S from './selectors'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
 import settings from 'config'
-
 import { initialize, change } from 'redux-form'
+import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 
@@ -215,10 +215,10 @@ export default ({ coreSagas }) => {
         yield put(actions.core.wallet.setTransactionNote(payment.value().txId, payment.value().description))
       }
       yield put(actions.router.push('/btc/transactions'))
-      yield put(actions.alerts.displaySuccess('Your bitcoin has been sent!'))
+      yield put(actions.alerts.displaySuccess(C.SEND_BTC_SUCCESS))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e))
-      yield put(actions.alerts.displayError('Failed to send bitcoin.'))
+      yield put(actions.alerts.displayError(C.SEND_BTC_ERROR))
     }
   }
 

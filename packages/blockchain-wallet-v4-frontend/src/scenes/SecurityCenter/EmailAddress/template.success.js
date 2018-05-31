@@ -78,8 +78,8 @@ const EmailAddress = (props) => {
       if (isVerified) return <FormattedMessage id='scenes.security.email.verifiedtitle' defaultMessage='Email Address' />
       return <FormattedMessage id='scenes.security.email.unverifiedemail.title' defaultMessage='Verify Email Address' />
     }
-    if (ui.changeEmailToggled) return <FormattedMessage id='scenes.security.email.verifiedemail.title' defaultMessage='Change Email Address' />
-    return <FormattedMessage id='scenes.security.email.unverifiedemail.title2' defaultMessage='Verify Email Address' />
+    if (ui.changeEmailToggled) return <FormattedMessage id='scenes.security.email.verifiedemail.change' defaultMessage='Change Email Address' />
+    return <FormattedMessage id='scenes.security.email.unverifiedemail.verifyemail' defaultMessage='Verify Email Address' />
   }
 
   const securityDescriptionHelper = () => {
@@ -104,20 +104,20 @@ const EmailAddress = (props) => {
         </EmailExplanation>
       )
     }
-    if (ui.changeEmailToggled) return <FormattedMessage id='scenes.security.email.verifyemailaddress' defaultMessage='Your verified email address is used to send login codes when suspicious or unusual activity is detected, to remind you of your wallet login ID, and to send payment alerts when you receive funds.' />
+    if (ui.changeEmailToggled) return <FormattedMessage id='scenes.security.email.yourverifiedemailaddress' defaultMessage='Your verified email address is used to send login codes when suspicious or unusual activity is detected, to remind you of your wallet login ID, and to send payment alerts when you receive funds.' />
     return (
       <React.Fragment>
         <Text size='14px' weight={200}>
-          <FormattedMessage id='scenes.security.email.verifyemailaddress1' defaultMessage='We have sent a verification code to' />
+          <FormattedMessage id='scenes.security.email.verify.wehavesentcode' defaultMessage='We have sent a verification code to' />
           <span>&nbsp;{email}</span>
-          <FormattedMessage id='scenes.security.email.verifyemailaddress2' defaultMessage='.  Please enter this code below to complete your email verification process.' />
+          <FormattedMessage id='scenes.security.email.verify.pleaseenter' defaultMessage='.  Please enter this code below to complete your email verification process.' />
         </Text>
         <ResendContainer>
           <Text size='14px' weight={200}>
-            <FormattedMessage id='scenes.security.email.verifyemailaddress3' defaultMessage='Didn’t receive the verification email?' />
+            <FormattedMessage id='scenes.security.email.verify.didnotreceive' defaultMessage='Didn’t receive the verification email?' />
           </Text>
           <Link onClick={props.handleResend} size='14px' weight={300}>
-            <FormattedMessage id='scenes.security.email.verifyemailaddress4' defaultMessage='Resend email' />
+            <FormattedMessage id='scenes.security.email.verify.resend' defaultMessage='Resend email' />
           </Link>
         </ResendContainer>
       </React.Fragment>
