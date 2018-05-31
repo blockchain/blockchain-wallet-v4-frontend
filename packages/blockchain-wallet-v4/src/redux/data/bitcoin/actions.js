@@ -43,3 +43,9 @@ export const fetchSpendableBalance = (context) => ({ type: AT.FETCH_BITCOIN_SPEN
 export const fetchSpendableBalanceLoading = () => ({ type: AT.FETCH_BITCOIN_SPENDABLE_BALANCE_LOADING })
 export const fetchSpendableBalanceSuccess = (data) => ({ type: AT.FETCH_BITCOIN_SPENDABLE_BALANCE_SUCCESS, payload: data })
 export const fetchSpendableBalanceFailure = (error) => ({ type: AT.FETCH_BITCOIN_SPENDABLE_BALANCE_FAILURE, payload: error })
+
+// FETCH_BITCOIN_UNSPENDABLE_BALANCE
+export const fetchUnspendableBalance = (context) => ({ type: AT.FETCH_BITCOIN_UNSPENDABLE_BALANCE, payload: { context } })
+export const fetchUnspendableBalanceLoading = () => ({ type: AT.FETCH_BITCOIN_UNSPENDABLE_BALANCE_LOADING })
+export const fetchUnspendableBalanceSuccess = (data) => ({ type: AT.FETCH_BITCOIN_UNSPENDABLE_BALANCE_SUCCESS, payload: data })
+export const fetchUnspendableBalanceFailure = (error) => ({ type: AT.FETCH_BITCOIN_UNSPENDABLE_BALANCE_FAILURE, payload: error })

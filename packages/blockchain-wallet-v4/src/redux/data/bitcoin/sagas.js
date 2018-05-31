@@ -116,6 +116,17 @@ export default ({ api }) => {
     }
   }
 
+  const fetchUnspendableBalance = function * (action) {
+    try {
+      const { context } = action.payload
+      yield put(A.fetchUnspendableBalanceLoading())
+      const data = yield call(api.fetchBlockchainData, context)
+      yield put(A.fetchUnspendableBalanceSuccess(data))
+    } catch (e) {
+      yield put(A.fetchUnspendableBalanceFailure(e))
+    }
+  }
+
   const multiaddrSaga = function * (data) {
     const btcData = {
       addresses: indexBy(prop('address'), prop('addresses', data)),
@@ -133,6 +144,7 @@ export default ({ api }) => {
     fetchFiatAtTime,
     watchTransactions,
     fetchSpendableBalance,
+    fetchUnspendableBalance,
     fetchTransactionHistory
   }
 }

@@ -5,9 +5,12 @@ import TotalBalance from './TotalBalance'
 import BtcBalance from './BtcBalance'
 import EthBalance from './EthBalance'
 import BchBalance from './BchBalance'
+import BtcWatchOnlyBalance from './BtcWatchOnlyBalance'
 
 import { FormattedMessage } from 'react-intl'
-import { ComponentDropdown, Text } from 'blockchain-info-components'
+import { ComponentDropdown, Separator, Text } from 'blockchain-info-components'
+
+const Fragment = React.Fragment
 
 const Wrapper = styled.div`
   display: flex;
@@ -25,7 +28,6 @@ const BalanceText = styled(Text)`
     font-size: 16px;
   }
 `
-
 const BalanceDropdown = styled.div`
   margin-top: 4px;
   > div > ul {
@@ -34,7 +36,6 @@ const BalanceDropdown = styled.div`
     padding: 0;
     padding-top: 5px;
     position: absolute;
-    background: transparent;
     > li {
       padding: 0px 6px;
       text-align: right;
@@ -65,7 +66,7 @@ const BalanceDropdown = styled.div`
 `
 
 const Success = props => {
-  const { btcContext, ethContext, bchContext, path } = props
+  const { btcContext, ethContext, bchContext, btcUnspendableContext, path } = props
 
   const getComponentOrder = () => {
     switch (path) {
@@ -85,6 +86,13 @@ const Success = props => {
     }
   }
 
+  const getSubBalances = () => {
+    return btcUnspendableContext.length ? <Fragment>
+      <Separator margin='0' />
+      <BtcWatchOnlyBalance context={btcUnspendableContext} />
+    </Fragment> : null
+  }
+
   return (
     <Wrapper>
       <BalanceText weight={300}>
@@ -96,7 +104,7 @@ const Success = props => {
           forceSelected
           color={'gray-5'}
           selectedComponent={getComponentOrder()[0]}
-          components={getComponentOrder()}
+          components={getComponentOrder().concat(getSubBalances())}
           callback={() => {}} />
       </BalanceDropdown>
     </Wrapper>
