@@ -5,7 +5,7 @@ import { Field, reduxForm } from 'redux-form'
 
 import { required } from 'services/FormHelper'
 import { Button, HeartbeatLoader, Link, Separator, Text } from 'blockchain-info-components'
-import { CaptchaBox, Form, TextArea } from 'components/Form'
+import { CaptchaBox, Form } from 'components/Form'
 import { FormGroup } from '../../../components/Form'
 
 const Wrapper = styled.div`
