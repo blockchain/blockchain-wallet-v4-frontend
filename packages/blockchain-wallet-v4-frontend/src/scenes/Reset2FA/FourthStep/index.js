@@ -34,7 +34,7 @@ class FourthStep extends React.PureComponent {
         <Separator />
         <TextGroup inline>
           <Text size='12px' weight={300}>
-            <FormattedMessage id='scenes.reset2fa.fourthstep.message' defaultMessage='Thank you for submitting a 2-step authentication reset request. Please check your email for further instructions.' />
+            <FormattedMessage id='scenes.reset2fa.fourthstep.message' defaultMessage='Thank you for submitting a two-factor authentication reset request. Please check your email for further instructions.' />
           </Text>
           <Text size='12px' weight={300}>
             <FormattedMessage id='scenes.reset2fa.fourthstep.info' defaultMessage='If you would like to learn more about the reset process, visit our ' />

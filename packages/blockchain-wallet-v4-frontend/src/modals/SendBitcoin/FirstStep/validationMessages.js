@@ -23,7 +23,7 @@ export const InvalidAmountMessage = () => (
 
 export const MaximumAmountMessage = () => (
   <Wrapper>
-    <FormattedMessage id='modals.sencbtc.maximumamountmessage' defaultMessage='Maximum amount exceeded. Use' />
+    <FormattedMessage id='modals.sencbtc.maximumamountmessage' defaultMessage='Not enough funds. Use' />
     <MaximumAmountLink />
   </Wrapper>
 )
