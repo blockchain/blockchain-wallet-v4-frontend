@@ -53,7 +53,7 @@ export const cardOptionHelper = (quote, limits, isChecked, handlePaymentClick) =
   const renderContainer = (isChecked, handlePaymentClick) => (
     <PaymentOptionContainer>
       <Field name='inMedium' value='card' isChecked={isChecked} handlePaymentClick={handlePaymentClick} component={PaymentRadioCard} validate={[required]} />
-      <Text size='14px' weight={300} color='gray-2' style={spacing('mt-25')}>
+      <Text size='14px' weight={300} style={spacing('mt-25')}>
         <FormattedMessage id='coinifyexchangedata.payment.mediumhelpers.card.detail1' defaultMessage='Receive bitcoin instantly' /><br />
         <FormattedMessage id='coinifyexchangedata.payment.mediumhelpers.card.detail2' defaultMessage='3% convenience fee' /><br />
         <FormattedMessage id='coinifyexchangedata.payment.mediumhelpers.card.detail3' defaultMessage='Visa or Mastercard' />
@@ -105,7 +105,7 @@ export const bankOptionHelper = (quote, limits, isChecked, handlePaymentClick, b
           ? <Text size='14px' weight={300} color='error' style={spacing('mt-25')}>
             <FormattedMessage id='coinifyexchangedata.payment.bank.unavailable' defaultMessage='Bank transfers are unavailable until Identity Verification has finished.' />
           </Text>
-          : <Text size='14px' weight={300} color='gray-2' style={spacing('mt-25')}>
+          : <Text size='14px' weight={300} style={spacing('mt-25')}>
             <FormattedMessage id='coinifyexchangedata.payment.mediumhelpers.bank.detail1' defaultMessage='One time ID verification' /><br />
             <FormattedMessage id='coinifyexchangedata.payment.mediumhelpers.bank.detail2' defaultMessage='Receive bitcoin in 2-3 days' /><br />
             <FormattedMessage id='coinifyexchangedata.payment.mediumhelpers.bank.detail3' defaultMessage='No payment fees' />
