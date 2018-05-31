@@ -29,7 +29,7 @@ class CoinifyBuyContainer extends React.Component {
   render () {
     const { data, modalActions, coinifyActions, coinifyDataActions, rateQuoteR, buyQuoteR, currency, paymentMedium, trade, formActions, canTrade, ...rest } = this.props
     const { step, checkoutBusy, coinifyBusy } = rest
-    const { handleTrade, fetchQuote } = coinifyDataActions
+    const { handleTrade, fetchQuote, refreshBuyQuote } = coinifyDataActions
     const { showModal } = modalActions
     const { coinifyNotAsked, openKYC, coinifyNextCheckoutStep } = coinifyActions
     const { change } = formActions
@@ -49,6 +49,7 @@ class CoinifyBuyContainer extends React.Component {
         buyQuoteR={buyQuoteR}
         rateQuoteR={rateQuoteR}
         fetchBuyQuote={quote => fetchQuote({ quote, nextAddress: value.nextAddress })}
+        refreshQuote={refreshBuyQuote}
         currency={currency}
         checkoutBusy={checkoutBusy}
         setMax={(amt) => formActions.change('coinifyCheckoutBuy', 'leftVal', amt)}
