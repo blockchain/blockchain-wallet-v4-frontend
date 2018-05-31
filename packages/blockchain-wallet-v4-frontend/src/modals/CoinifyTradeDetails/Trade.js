@@ -1,14 +1,16 @@
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { prop } from 'ramda'
+import { any, equals, prop } from 'ramda'
 import moment from 'moment'
 
 import { ModalHeader, ModalBody, Text, Button } from 'blockchain-info-components'
 import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDetails'
 import { tradeDetails, statusHelper, bodyStatusHelper } from 'services/CoinifyService'
-import { spacing } from 'services/StyleService'
 
+const TableTitle = styled(Text)`
+  padding-top: 10px;
+`
 const ButtonRow = styled.div`
   display: flex;
   flex-direction: row;
@@ -25,6 +27,7 @@ const Trade = ({ trade, close }) => {
   const bodyStatus = bodyStatusHelper(trade.state, trade.isBuy)
   const details = tradeDetails.renderDetails(trade)
   const date = moment(prop('createdAt', trade)).local().format('MMMM D YYYY @ h:mm A')
+  const isPendingSell = any(equals(prop('state', trade)))(['awaiting_transfer_in', 'processing']) && !prop('isBuy', trade)
 
   return (
     <Fragment>
@@ -37,7 +40,8 @@ const Trade = ({ trade, close }) => {
         <Text size='13px' weight={300}>
           { bodyStatus.text }
         </Text>
-        <StyledOrderDetailsTable style={spacing('mt-10')}>
+        <TableTitle size='13px' weight={400}><FormattedMessage id='orderdetails.payoutdetails' defaultMessage='Order Details' /></TableTitle>
+        <StyledOrderDetailsTable>
           <OrderDetailsRow>
             <Text size='13px' weight={300}><FormattedMessage id='orderdetails.coinifytradeid' defaultMessage='Coinify Trade ID' /></Text>
             <Text size='13px' weight={300}>{prop('id', trade)}</Text>
@@ -55,7 +59,7 @@ const Trade = ({ trade, close }) => {
             <Text size='13px' weight={300}>{prop('btcAmount', details)}</Text>
           </OrderDetailsRow>
         </StyledOrderDetailsTable>
-        <Text size='13px' weight={300}><FormattedMessage id='orderdetails.payoutdetails' defaultMessage='Payout Details' /></Text>
+        <TableTitle size='13px' weight={400}><FormattedMessage id='orderdetails.payoutdetails' defaultMessage='Payout Details' /></TableTitle>
         <StyledOrderDetailsTable>
           {
             !trade.isBuy &&
@@ -73,6 +77,12 @@ const Trade = ({ trade, close }) => {
             <Text size='13px' weight={300} color='success'>{prop('total', details)}</Text>
           </OrderDetailsRow>
         </StyledOrderDetailsTable>
+        {
+          isPendingSell &&
+          <Text size='12px' weight={300}>
+            <FormattedMessage id='orderdetails.footnote' defaultMessage='*Please note: depending on your bank’s tranfers policies, you will see the funds reflected in your account within 1-2 days from the transfer. ' />
+          </Text>
+        }
         <ButtonRow>
           <Button width='100px' onClick={close} nature='primary'>
             <FormattedMessage id='close' defaultMessage='Close' />

@@ -105,6 +105,7 @@ const Sell = props => {
                   quoteR={sellQuoteR}
                   onSubmit={initiateSell}
                   busy={busy}
+                  type='sell'
                   clearTradeError={clearTradeError}
                 />
               </ColRightInner>
