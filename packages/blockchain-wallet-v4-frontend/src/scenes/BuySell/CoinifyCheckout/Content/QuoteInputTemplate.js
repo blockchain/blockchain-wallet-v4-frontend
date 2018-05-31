@@ -78,10 +78,22 @@ const LimitsHelper = styled.div`
 
 const getLimitsError = (errorType, limits, curr, setMin) => {
   switch (errorType) {
-    case 'below_min': return `Your limit of ${curr}${limits.max} is below the minimum allowed amount.`
-    case 'over_max': return `Enter an amount under your ${curr}${limits.max} limit`
-    case 'under_min': return <FormattedMessage id='buy.quote_input.under_min' defaultMessage='Enter an amount above the {setMin} minimum' values={{ setMin: <a onClick={() => setMin(limits.min)}>{curr}{limits.min}</a> }} />
-    case 'over_effective_max': return `Enter an amount less than your balance minus the priority fee (${limits.effectiveMax / 1e8} BTC)`
+    case 'below_min':
+      return <FormattedMessage id='buy.quote_input.below_min'
+        defaultMessage='Your limit of {curr}{max} is below the minimum allowed amount.'
+        values={{ curr, max: limits.max }} />
+    case 'over_max':
+      return <FormattedMessage id='buy.quote_input.over_max'
+        defaultMessage='Enter an amount under your {curr}{max} limit'
+        values={{ curr, max: limits.max }} />
+    case 'under_min':
+      return <FormattedMessage id='buy.quote_input.under_min'
+        defaultMessage='Enter an amount above the {setMin} minimum'
+        values={{ setMin: <a onClick={() => setMin(limits.min)}>{curr}{limits.min}</a> }} />
+    case 'over_effective_max':
+      return <FormattedMessage id='buy.quote_input.over_effective_max'
+        defaultMessage='Enter an amount less than your balance minus the priority fee ({effectiveMax} BTC)'
+        values={{ effectiveMax: limits.effectiveMax / 1e8 }} />
   }
 }
 
