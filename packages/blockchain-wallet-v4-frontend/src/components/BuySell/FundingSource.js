@@ -13,7 +13,7 @@ const FundingSource = ({ account }) => (
         : <Fragment>
           <Text size='14px' weight={300}>
             {`${capitalize(account.accountType)} `}
-            <FormattedMessage id='buy.account_ending_with' defaultMessage='ending with' />
+            <FormattedMessage id='buy.accountendingwith' defaultMessage='ending with' />
             {' ' + account.accountNumber}
           </Text>
           <Text size='12px' weight={300}>

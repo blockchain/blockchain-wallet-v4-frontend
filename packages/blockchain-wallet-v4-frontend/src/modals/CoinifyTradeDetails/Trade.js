@@ -85,7 +85,7 @@ const Trade = ({ trade, close }) => {
         }
         <ButtonRow>
           <Button width='100px' onClick={close} nature='primary'>
-            <FormattedMessage id='close' defaultMessage='Close' />
+            <FormattedMessage id='modals.coinifytradedetails.trade.close' defaultMessage='Close' />
           </Button>
         </ButtonRow>
       </ModalBody>

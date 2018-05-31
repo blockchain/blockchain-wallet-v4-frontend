@@ -25,8 +25,7 @@ const StyledFaqRow = styled(FaqRow)`
 `
 
 const renderRate = (rate, q) => {
-  return <FormattedMessage id='rate' defaultMessage='{rate}'
-    values={{ rate: `${currencySymbolMap[q.baseCurrency]}${rate.toLocaleString()}` }} />
+  return <FormattedMessage id='scenes.buysell.coinifycheckout.content.orderreview.rate' defaultMessage='{rate}' values={{ rate: `${currencySymbolMap[q.baseCurrency]}${rate.toLocaleString()}` }} />
 }
 
 export const OrderDetails = (props) => {
