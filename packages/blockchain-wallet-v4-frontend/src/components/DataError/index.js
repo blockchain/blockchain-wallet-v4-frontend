@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { Image, Link, Text, TextGroup } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
@@ -34,13 +34,13 @@ class DataErrorContainer extends React.PureComponent {
           </Header>
           <TextGroup inline>
             <Text size='18px' weight={300}>
-              <FormattedHTMLMessage id='components.dataerror.body' defaultMessage='Please ' />
+              <FormattedMessage id='components.dataerror.body' defaultMessage='Please ' />
             </Text>
             <Link size='18px' onClick={this.props.onClick}>
               <FormattedMessage id='components.dataerror.click' defaultMessage='click here' />
             </Link>
             <Text size='18px' weight={300}>
-              <FormattedHTMLMessage id='components.dataerror.refresh' defaultMessage=' to refresh.' />
+              <FormattedMessage id='components.dataerror.refresh' defaultMessage=' to refresh.' />
             </Text>
           </TextGroup>
         </Empty>

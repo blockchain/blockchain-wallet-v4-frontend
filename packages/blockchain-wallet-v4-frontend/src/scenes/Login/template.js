@@ -165,11 +165,11 @@ const Login = (props) => {
         </Link>
         <TextGroup inline>
           <Text size='13px' weight={300}>
-            <FormattedMessage id='scenes.login.troubles' defaultMessage='Having some troubles?' />
+            <FormattedMessage id='scenes.login.troubles' defaultMessage='Having some trouble?' />
           </Text>
           <LinkContainer to='/help'>
             <Link size='13px' weight={300}>
-              <FormattedMessage id='scenes.login.options' defaultMessage='View Options' />
+              <FormattedMessage id='scenes.login.options' defaultMessage='Get help logging in' />
             </Link>
           </LinkContainer>
         </TextGroup>

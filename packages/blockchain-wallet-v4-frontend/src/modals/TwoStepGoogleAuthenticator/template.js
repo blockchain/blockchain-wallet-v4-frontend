@@ -43,7 +43,7 @@ const TwoStepGoogleAuthenticator = (props) => {
             <FormattedMessage id='modals.twostepgoogleauthenticator.explain' defaultMessage='Scan this QR code with your Google Authenticator app on your mobile phone (download for iOS or Android).' />
           </Text>
           <Text size='14px' weight={300}>
-            <FormattedMessage id='modals.twostepgoogleauthenticator.explain' defaultMessage='Once scanned you will be presented with a random 6 digit number.' />
+            <FormattedMessage id='modals.twostepgoogleauthenticator.explain2' defaultMessage='Once scanned you will be presented with a random 6 digit number.' />
           </Text>
           <Code>
             <Text size='14px' weight={300}>

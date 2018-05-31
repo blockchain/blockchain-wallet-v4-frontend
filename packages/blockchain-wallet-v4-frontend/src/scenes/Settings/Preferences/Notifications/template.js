@@ -9,10 +9,10 @@ const Notifications = (props) => {
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <FormattedMessage id='scenes.preferences.notifications.title' defaultMessage='Notifications' />
+          <FormattedMessage id='scenes.settings.preferences.notifications.title' defaultMessage='Notifications' />
         </SettingHeader>
         <SettingDescription>
-          <FormattedMessage id='scenes.preferences.notifications.description' defaultMessage='Get notified when you receive bitcoin.' />
+          <FormattedMessage id='scenes.settings.preferences.notifications.description' defaultMessage='Get notified when you receive bitcoin.' />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>

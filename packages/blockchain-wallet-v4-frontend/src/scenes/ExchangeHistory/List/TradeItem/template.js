@@ -15,7 +15,7 @@ const TradeItem = props => {
       </TableCell>
       <TableCell width='15%'>
         <Link size='14px' weight={300} capitalize onClick={handleClick}>
-          <FormattedMessage id='scenes.exchangehistory.list.tradeitem' defaultMessage='View details' />
+          <FormattedMessage id='scenes.exchangehistory.list.tradeitem.viewdetails' defaultMessage='View details' />
         </Link>
       </TableCell>
       <TableCell width='30%'>
