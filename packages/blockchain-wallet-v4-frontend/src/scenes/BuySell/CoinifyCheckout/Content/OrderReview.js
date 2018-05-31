@@ -5,17 +5,28 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import FaqRow from 'components/Faq/FaqRow'
 import CountdownTimer from 'components/Form/CountdownTimer'
 import { Wrapper as ExchangeCheckoutWrapper } from '../../ExchangeCheckout'
-import { flex, spacing } from 'services/StyleService'
+import { spacing } from 'services/StyleService'
 import { reviewOrder, currencySymbolMap } from 'services/CoinifyService'
 import { FormattedMessage } from 'react-intl'
 import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDetails'
 import { StepTransition } from 'components/Utilities/Stepper'
 
+const ExchangeRateWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 20px;
+`
 const StyledFaqRow = styled(FaqRow)`
   padding: 20px 0px;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
 `
 const CancelWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 15px;
   a {
     color: #545456;
     font-weight: 300;
@@ -35,7 +46,7 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
     <Text size='14px' weight={300} style={spacing('mb-20')}>
       <FormattedMessage id='scenes.buysell.coinifycheckout.content.orderreview.buy.revieworder.subtext' defaultMessage='Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order.' />
     </Text>
-    <div style={{ ...flex('row align/center justify/end'), ...spacing('mt-20') }}>
+    <ExchangeRateWrapper>
       <Text size='12px' weight={500} style={spacing('mr-10')}>
         <FormattedMessage id='scenes.buysell.coinifycheckout.content.orderreview.exchangerate' defaultMessage='Exchange Rate' />
       </Text>
@@ -45,7 +56,7 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
           return renderRate(rate, q)
         }).getOrElse('~')}
       </Text>
-    </div>
+    </ExchangeRateWrapper>
     <OrderDetailsTable style={spacing('mt-10')}>
       <OrderDetailsRow>
         {
@@ -87,7 +98,11 @@ export const OrderSubmit = ({ quoteR, onSubmit, busy, clearTradeError, goToStep 
           <Text weight={300} color='error' size='13px' style={spacing('mb-5')}>
             Sorry, something went wrong with your trade: { busy.error_description }
           </Text>
-          <span><StepTransition restart Component={Link} weight={300} size='13px'><FormattedMessage id='try_again' defaultMessage='Try again' /></StepTransition></span>
+          <span>
+            <StepTransition restart Component={Link} weight={300} size='13px'>
+              <FormattedMessage id='try_again' defaultMessage='Try again' />
+            </StepTransition>
+          </span>
         </div>
         : <Fragment>
           <Button
@@ -100,7 +115,7 @@ export const OrderSubmit = ({ quoteR, onSubmit, busy, clearTradeError, goToStep 
                 : <FormattedMessage id='scenes.buysell.coinifycheckout.content.orderreview.submit' defaultMessage='Submit' />
             }
           </Button>
-          <CancelWrapper style={{ ...flex('row justify/center'), ...spacing('mt-15') }}>
+          <CancelWrapper>
             <StepTransition restart Component={Link}>
               <FormattedMessage id='scenes.buysell.coinifycheckout.content.orderreview.cancel' defaultMessage='Cancel' />
             </StepTransition>

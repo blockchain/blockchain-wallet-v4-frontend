@@ -2,6 +2,7 @@
 import React from 'react'
 import bip39 from 'bip39'
 import { isNumeric, isEmail, isDOB, isGuid, isUsZipcode, isIpList, isAlphaNumeric, formatSSN, formatDOB, formatUSZipcode, isOverEighteen, isSSN, formatPhone } from './../ValidationHelper'
+import { isValidIBAN, isValidBIC } from 'ibantools'
 import { isValidNumber } from 'libphonenumber-js'
 import zxcvbn from 'zxcvbn'
 import { utils } from 'blockchain-wallet-v4/src'
@@ -38,6 +39,10 @@ const validBitcoinCashAddress = value => (utils.bitcoin.isValidBitcoinAddress(va
 const validEmailCode = value => isAlphaNumeric(value) ? undefined : <M.InvalidEmailCodeMessage />
 
 const validBitcoinPrivateKey = value => utils.bitcoin.isValidBitcoinPrivateKey(value) ? undefined : <M.InvalidBitcoinPrivateKeyMessage />
+
+const validIban = value => isValidIBAN(value) ? undefined : 'Invalid IBAN'
+
+const validBIC = value => isValidBIC(value) ? undefined : 'Invalid BIC'
 
 const normalizeSocialSecurity = (val, prevVal) => formatSSN(val, prevVal)
 
@@ -76,6 +81,8 @@ export {
   validBitcoinCashAddress,
   validBitcoinPrivateKey,
   validEtherAddress,
+  validIban,
+  validBIC,
   normalizeSocialSecurity,
   normalizeDateOfBirth,
   normalizeUSZipcode,
