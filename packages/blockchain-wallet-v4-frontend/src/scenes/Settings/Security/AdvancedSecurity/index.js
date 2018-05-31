@@ -15,8 +15,8 @@ const Wrapper = styled.div``
 const AdvancedSecurity = () => (
   <Wrapper>
     <InfoWell>
-      <FormattedMessage id='scenes.settings.advancedsecurity.explain' defaultMessage='Advanced security: Further customize your security settings for more granular access control and tracking.' />
-      <FormattedMessage id='scenes.settings.advancedsecurity.explain2' defaultMessage='Do not modify these settings unless you know what you are doing.' />
+      <FormattedMessage id='scenes.settings.security.advancedsecurity.explain' defaultMessage='Advanced security: Further customize your security settings for more granular access control and tracking.' />
+      <FormattedMessage id='scenes.settings.security.advancedsecurity.explain2' defaultMessage='Do not modify these settings unless you know what you are doing.' />
     </InfoWell>
     {/* <ActivityLogging />
     <LoginIpRestriction />

@@ -17,7 +17,7 @@ const Container = styled.div`
   align-items: center;
   padding: 20px 0;
   margin-top: 5px;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   background-color: ${props => props.theme['white-blue']};
 
   & > * { padding: 5px 0; }
@@ -47,7 +47,7 @@ const SecondStep = (props) => {
       <ModalBody>
         <Form onSubmit={handleSubmit}>
           <SubHeader size='14px' weight={300}>
-            <FormattedMessage id='modals.requestbitcoin.secondstep.explain' defaultMessage='Send the link below to your friend of contact and they will be able to send bitcoin directly to your wallet.' />
+            <FormattedMessage id='modals.requestbitcoin.secondstep.explain' defaultMessage='Send the link below to your friend or contact and they will be able to send bitcoin directly to your wallet.' />
           </SubHeader>
           <Text size='14px' weight={500}>
             <FormattedMessage id='modals.requestbitcoin.secondstep.payment' defaultMessage='Payment Request:' />

@@ -6,7 +6,7 @@ import { Field, reduxForm } from 'redux-form'
 import Helper from 'components/BuySell/FAQ'
 import { CheckBox } from 'components/Form'
 import Terms from 'components/Terms'
-import { Button, HeartbeatLoader, Text, TextGroup, Link } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Text, TextGroup } from 'blockchain-info-components'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ErrorWrapper, ColRightInner } from 'components/BuySell/Signup'
 
 const AcceptTermsContainer = styled.div`
@@ -18,6 +18,7 @@ const AcceptTermsContainer = styled.div`
     color: ${props => props.theme['brand-secondary']};
     text-decoration: none;
   }
+  * { cursor: pointer; }
 `
 
 const AcceptTerms = (props) => {
@@ -39,7 +40,7 @@ const AcceptTerms = (props) => {
       <ColLeft>
         <InputWrapper>
           <PartnerHeader>
-            <FormattedMessage id='coinifyexchangedata.create.verifyemail.partner.header.create_your_account' defaultMessage='Create Your Account' />
+            <FormattedMessage id='coinifyexchangedata.create.verifyemail.partner.header.createyouraccount' defaultMessage='Create Your Account' />
           </PartnerHeader>
           <PartnerSubHeader>
             <FormattedMessage id='coinifyexchangedata.create.accept.partner.header.enter_email_code' defaultMessage='We teamed up with Coinify’s exchange platform to offer buy and sell to our customers in Europe. We just sent a verification code to your {email} email address.' values={{ email: email }} />
@@ -66,13 +67,14 @@ const AcceptTerms = (props) => {
             {
               signupError && <TextGroup inline>
                 <Text size='12px' color='error' weight={300}>
-                  <FormattedMessage id='coinifyexchangedata.create.accept.error' defaultMessage='Unfortunately this email is being used for another account.' />
+                  <FormattedMessage id='coinifyexchangedata.create.accept.error1' defaultMessage='Unfortunately this email is being used for another account. ' />
                 </Text>
-                <Link size='12px' weight={300} onClick={() => updateUI({ create: 'change_email' })}>
-                  <FormattedMessage id='clickhere' defaultMessage='Click here' />
-                </Link>
+                <Text size='12px' color='brand-secondary' cursor='pointer' weight={300} onClick={() => updateUI({ create: 'change_email' })}>
+                  <FormattedMessage id='coinifyexchangedata.create.accept.error2' defaultMessage='Click here ' />
+                </Text>
                 <Text size='12px' color='error' weight={300}>
-                  <FormattedMessage id='clickhere' defaultMessage='to change it.' />
+                  <FormattedMessage id='coinifyexchangedata.create.accept.error3' defaultMessage='to change it.' />
+
                 </Text>
               </TextGroup>
             }
