@@ -83,12 +83,13 @@ export const EmailHelper = styled.span`
     color: ${props => props.theme['brand-secondary']};
   }
 `
-
-export const CancelWrapper = styled.div`
+export const CenteredWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
   margin-top: 15px;
+`
+export const CancelWrapper = styled(CenteredWrapper)`
   a {
     color: #545456;
     font-weight: 300;
