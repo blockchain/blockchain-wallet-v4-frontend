@@ -35,7 +35,7 @@ const Settings = (props) => {
             <Button nature='empty' capitalize onClick={handleToggle}>
               <FormattedMessage id='scenes.securitysettings.advancedsettings.passwordstretching.settings.cancel' defaultMessage='Cancel' />
             </Button>
-            <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleSubmit}>
+            <Button type='submit' nature='primary' capitalize disabled={submitting || invalid}>
               <FormattedMessage id='scenes.securitysettings.advancedsettings.passwordstretching.settings.save' defaultMessage='Change' />
             </Button>
           </ButtonWrapper>

@@ -17,7 +17,7 @@ const ButtonWrapper = styled(ButtonGroup)`
 `
 
 const Settings = (props) => {
-  const { updateToggled, handleToggle, handleClick, submitting, invalid, currentWalletPassword, handleCancel } = props
+  const { updateToggled, handleToggle, handleSubmit, submitting, invalid, currentWalletPassword, handleCancel } = props
   return (
     <SettingWrapper>
       { !updateToggled &&
@@ -26,7 +26,7 @@ const Settings = (props) => {
         </Button>
       }
       { updateToggled &&
-        <Form>
+        <Form onSubmit={handleSubmit}>
           <FormGroup>
             <FormItem>
               <FormLabel for='currentPassword'>
@@ -51,7 +51,7 @@ const Settings = (props) => {
             <Button nature='empty' capitalize onClick={handleCancel}>
               <FormattedMessage id='scenes.securitysettings.basicsecurity.walletpassword.settings.cancel' defaultMessage='Cancel' />
             </Button>
-            <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleClick}>
+            <Button type='submit' nature='primary' capitalize disabled={submitting || invalid}>
               <FormattedMessage id='scenes.securitysettings.basicsecurity.walletpassword.settings.save' defaultMessage='Save' />
             </Button>
           </ButtonWrapper>
@@ -64,7 +64,7 @@ const Settings = (props) => {
 Settings.propTypes = {
   updateToggled: PropTypes.bool.isRequired,
   handleToggle: PropTypes.func.isRequired,
-  handleClick: PropTypes.func.isRequired
+  handleSubmit: PropTypes.func.isRequired
 }
 
 export default reduxForm({ form: 'settingWalletPassword' })(Settings)
