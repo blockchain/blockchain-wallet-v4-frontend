@@ -15,7 +15,7 @@ export const getData = (state) => {
   const bchRates = selectors.core.data.bch.getRates(state)
   const settings = selectors.core.settings.getSettings(state)
 
-  const btcAccountsLength = length(selectors.core.common.bitcoin.getActiveHDAccounts(state).getOrElse([]))
+  const btcAccountsLength = length(selectors.core.common.btc.getActiveHDAccounts(state).getOrElse([]))
   const bchAccountsLength = length(selectors.core.kvStore.bch.getAccounts(state).getOrElse([]))
 
   const transform = (btcRates, ethRates, bchRates, settings) => {

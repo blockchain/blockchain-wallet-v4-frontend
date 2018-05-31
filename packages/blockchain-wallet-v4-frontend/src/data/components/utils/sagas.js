@@ -25,7 +25,7 @@ export const selectReceiveAddress = function * (source) {
     return bchReceiveAddress.getOrElse('')
   }
   if (equals('BTC', coin) && is(Number, address)) {
-    const btcReceiveAddress = selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, address, appState)
+    const btcReceiveAddress = selectors.core.common.btc.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, address, appState)
     if (isEmpty(btcReceiveAddress.getOrElse(''))) throw new Error('Could not generate return bitcoin receive address')
     return btcReceiveAddress.getOrElse('')
   }

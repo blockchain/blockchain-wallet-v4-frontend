@@ -37,3 +37,9 @@ export const fetchTransactionHistory = (address, start, end) => ({ type: AT.FETC
 export const fetchTransactionHistoryLoading = () => ({ type: AT.FETCH_BITCOIN_TRANSACTION_HISTORY_LOADING })
 export const fetchTransactionHistorySuccess = (data) => ({ type: AT.FETCH_BITCOIN_TRANSACTION_HISTORY_SUCCESS, payload: data })
 export const fetchTransactionHistoryFailure = (error) => ({ type: AT.FETCH_BITCOIN_TRANSACTION_HISTORY_FAILURE, payload: error })
+
+// FETCH_BITCOIN_SPENDABLE_BALANCE
+export const fetchSpendableBalance = (context) => ({ type: AT.FETCH_BITCOIN_SPENDABLE_BALANCE, payload: { context } })
+export const fetchSpendableBalanceLoading = () => ({ type: AT.FETCH_BITCOIN_SPENDABLE_BALANCE_LOADING })
+export const fetchSpendableBalanceSuccess = (data) => ({ type: AT.FETCH_BITCOIN_SPENDABLE_BALANCE_SUCCESS, payload: data })
+export const fetchSpendableBalanceFailure = (error) => ({ type: AT.FETCH_BITCOIN_SPENDABLE_BALANCE_FAILURE, payload: error })

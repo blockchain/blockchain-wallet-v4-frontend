@@ -4,7 +4,7 @@ import { Exchange } from 'blockchain-wallet-v4/src'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 
 export const getData = (state) => {
-  const btcBalanceR = selectors.core.data.bitcoin.getBalance(state)
+  const btcBalanceR = selectors.core.data.bitcoin.getSpendableBalance(state)
   const ethBalanceR = selectors.core.data.ethereum.getBalance(state)
   const bchBalanceR = selectors.core.data.bch.getBalance(state)
   const btcBalance = btcBalanceR.getOrElse(0)

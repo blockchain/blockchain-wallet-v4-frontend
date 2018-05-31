@@ -10,6 +10,7 @@ const INITIAL_STATE = {
   rates: Remote.NotAsked,
   transactions: [],
   transactions_fiat: {},
+  spendable_balance: Remote.NotAsked,
   transaction_history: Remote.NotAsked
 }
 
@@ -98,6 +99,17 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
     }
     case AT.FETCH_BITCOIN_TRANSACTION_HISTORY_FAILURE: {
       return assoc('transaction_history', Remote.Failure(payload), state)
+    }
+    case AT.FETCH_BITCOIN_SPENDABLE_BALANCE_LOADING: {
+      return assoc('spendable_balance', Remote.Loading, state)
+    }
+    case AT.FETCH_BITCOIN_SPENDABLE_BALANCE_SUCCESS: {
+      const { wallet } = payload
+      const balance = wallet.final_balance
+      return assoc('spendable_balance', Remote.Success(balance), state)
+    }
+    case AT.FETCH_BITCOIN_SPENDABLE_BALANCE_FAILURE: {
+      return assoc('spendable_balance', Remote.Failure(payload), state)
     }
     default:
       return state
