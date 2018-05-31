@@ -20,7 +20,7 @@ export const InvalidAmountMessage = () => (
 
 export const MaximumAmountMessage = () => (
   <Wrapper>
-    <FormattedMessage id='modals.sendbch.maximumamountmessage' defaultMessage='Maximum amount exceeded. Use' />
+    <FormattedMessage id='modals.sendbch.maximumamountmessage' defaultMessage='Not enough funds. Use' />
     <MaximumAmountLink />
   </Wrapper>
 )

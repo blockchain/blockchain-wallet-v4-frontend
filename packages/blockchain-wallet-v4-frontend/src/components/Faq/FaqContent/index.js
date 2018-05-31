@@ -204,5 +204,62 @@ const FaqContent = [
         <FormattedMessage id='scenes.faq.group.educationalresources.answer10.two' defaultMessage='and multiple people go to approve or deny it. If miners disagree on a transaction, the network automatically rejects the transaction that doesn’t match the rest: preventing fraud. It’s impossible for scammers to manipulate the system this way, since their copy of the block chain wouldn’t match the others, and each transaction has to be agreed upon.' />
       </FaqDescription>
     }]
+  }, {
+    groupTitleMsg: <FormattedMessage id='scenes.faq.group.coinify.title' defaultMessage='Exchange Services' />,
+    groupQuestions: [{
+      answerId: '',
+      question: <FormattedMessage id='scenes.faq.group.coinify.question1' defaultMessage='What can I buy and sell?' />,
+      answer: <FaqDescription>
+        <FormattedMessage id='scenes.faq.group.coinify.answer1.one' defaultMessage='We currently only support buying and selling bitcoin with fiat currency. We’re working on expanding to ether and bitcoin cash soon! In the meantime, you can exchange bitcoin for ether or bitcoin cash in the' />
+        <NavLink to='/exchange' style={{textDecoration: 'none', color: Color('brand-secondary')}} >
+          <FormattedMessage id='scenes.faq.group.coinify.answer1.navlink' defaultMessage=' Exchange tab ' />
+        </NavLink>
+        <FormattedMessage id='scenes.faq.group.coinify.answer1.two' defaultMessage='of your wallet.' />
+      </FaqDescription>
+    }, {
+      question: <FormattedMessage id='scenes.faq.group.coinify.question2' defaultMessage='How do I create a buy trade?' />,
+      answer: <FaqDescription>
+        <FormattedMessage id='scenes.faq.group.coinify.answer2.one' defaultMessage='Get started by navigating to the Buy & Sell tab of your wallet. Once there, select your country, verify your email address, and begin the identity verification process to start setting up your account. You’ll need your government issued ID, drivers license, or passport handy for this process.' />,
+        <FormattedMessage id='scenes.faq.group.coinify.answer2.two' defaultMessage='While Coinify is reviewing your submitted information, you will have a lower limit that you can trade with in the meantime. Begin your trade by entering the amount you would like to buy, selecting your payment method (you can always change this), and entering your bank details.' />,
+        <FormattedMessage id='scenes.faq.group.coinify.answer2.three' defaultMessage='Bank transfers take between 2-3 days with no fees, whereas credit card transfers initiate immediately with a 3% convenience fee. Please note: the name on your bank account must match the name on your government issued ID for the trade to complete. Once you’ve double checked your bank information, you’ll be taken to a confirmation screen to review your order details.' />,
+        <FormattedMessage id='scenes.faq.group.coinify.answer2.four' defaultMessage='Don’t forget, if you’ve chosen bank transfer as your payment method, the allotted funds must be sent to Coinfy’s bank within 48 hours for the trade to initiate. Once confirming your payment, it’s all smooth sailing from there. You will receive an email from Coinify confirming the transfer once it has been completed.' />
+      </FaqDescription>
+    }, {
+      question: <FormattedMessage id='scenes.faq.group.coinify.question3' defaultMessage='How do I create a sell trade?' />,
+      answer: <FaqDescription>
+        <FormattedMessage id='scenes.faq.group.coinify.answer3.one' defaultMessage='Get started by navigating to the Buy & Sell tab of your wallet. Once there, select your country, verify your email address, and begin the identity verification portion to begin setting up your account. You’ll need your government issued ID, drivers license, or passport handy for this process.' />,
+        <FormattedMessage id='scenes.faq.group.coinify.answer3.two' defaultMessage='While Coinify is reviewing your submitted information, you will have a low limit that you can trade with in the meantime. Begin your trade by entering the amount you would like to sell and adding the bank account you’d like your funds sent to. Make sure your billing and bank details are entered correctly, with no misspellings or inconsistencies, or your transfer will be rejected.' />,
+        <FormattedMessage id='scenes.faq.group.coinify.answer3.three' defaultMessage='Please note: Blockchain does not store this information in your wallet, it is stored on Coinify’s servers and can be deleted at any time. Complete your order by reviewing the details, and selecting ‘confirm’. Your bitcoin will {automatically} be sent from your wallet, you can view this transaction within the Bitcoin tab on your left navigation.' values={{automatically: <strong>automatically</strong>}} />,
+        <FormattedMessage id='scenes.faq.group.coinify.answer3.four' defaultMessage='Depending on your bank— you will see your funds deposited within 1-2 business days. You’ll receive an email from Coinify confirming the transfer once it has been completed.' />,
+      </FaqDescription>
+    }, {
+      question: <FormattedMessage id='scenes.faq.group.coinify.question4' defaultMessage='How can I increase my daily limit?' />,
+      answer: <FaqDescription>
+        <FormattedMessage id='scenes.faq.group.coinify.answer4' defaultMessage='You can increase your initial daily limit by completing the identity verification process. Additionally, once your documents have been approved, and you’ve completed a €1,000’s worth of trades, you can further raise your limit. To do so, there will be a 14 day approval period, during which you will still be able to trade within your current daily limit.' />
+      </FaqDescription>
+    }, {
+      question: <FormattedMessage id='scenes.faq.group.coinify.question5' defaultMessage='Why am I blocked from buying? (7 day delay, verification pending)' />,
+      answer: <FaqDescription>
+        <FormattedMessage id='scenes.faq.group.coinify.answer5.one' defaultMessage='Buy isn’t accessible to you either because you aren’t in a supported region, your documents weren’t approved (whether it be a misspelling, or mismatching information between our form and your uploaded documents), or because you have reached your limit. Keep in mind, these limits renew daily. Reach out to our support team' />
+        <Link href='https://support.blockchain.com/hc/en-us/requests/new' target='_blank' size='13px' weight={200}>
+          <FormattedMessage id='scenes.faq.group.coinify.answer5.link' defaultMessage=' here ' />
+        </Link>
+        <FormattedMessage id='scenes.faq.group.coinify.two' defaultMessage='with further questions. We will direct you to Coinify’s support team if necessary.' />
+      </FaqDescription>
+    }, {
+      question: <FormattedMessage id='scenes.faq.group.coinify.question6' defaultMessage='Where is my personal information stored?' />,
+      answer: <FaqDescription>
+        <FormattedMessage id='scenes.faq.group.coinify.answer6.one' defaultMessage='Your personal information is stored with Coinify, not in your Blockchain wallet. To read more about how your information is stored, visit Coinify’s' />
+        <Link href='https://www.coinify.com/legal/' target='_blank' size='13px' weight={200}>
+          <FormattedMessage id='scenes.faq.group.coinify.answer6.link' defaultMessage=' privay policy' />
+        </Link>
+        <FormattedMessage id='scenes.faq.group.coinify.answer6.two' defaultMessage='.' />
+      </FaqDescription>
+    }, {
+      question: <FormattedMessage id='scenes.faq.group.coinify.question7' defaultMessage='How can I exchange cryptocurrencies within my Blockchain wallet?' />,
+      answer: <FaqDescription>
+        <FormattedMessage id='scenes.faq.group.coinify.answer7' defaultMessage='.' />
+      </FaqDescription>
+    }]
   }]
 export default FaqContent
