@@ -27,7 +27,7 @@ class CoinifyBuyContainer extends React.Component {
   }
 
   render () {
-    const { data, modalActions, coinifyActions, coinifyDataActions, rateQuoteR, buyQuoteR, currency, paymentMedium, trade, formActions, ...rest } = this.props
+    const { data, modalActions, coinifyActions, coinifyDataActions, rateQuoteR, buyQuoteR, currency, paymentMedium, trade, formActions, canTrade, ...rest } = this.props
     const { step, checkoutBusy, coinifyBusy } = rest
     const { handleTrade, fetchQuote } = coinifyDataActions
     const { showModal } = modalActions
@@ -62,6 +62,7 @@ class CoinifyBuyContainer extends React.Component {
         handleKycAction={kyc => openKYC(kyc)}
         changeTab={tab => change('buySellTabStatus', 'status', tab)}
         coinifyNextCheckoutStep={step => coinifyNextCheckoutStep(step)}
+        canTrade={canTrade}
       />,
       Failure: (msg) => <div>Failure: {msg.error}</div>,
       Loading: () => <Loading />,
