@@ -42,11 +42,16 @@ const helpers = [
 
 const faqHelper = () => helpers.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
 const busyHelper = (busy) => !busy ? <FormattedMessage id='coinifyexchangedata.payment.continue' defaultMessage='Continue' /> : <HeartbeatLoader height='20px' width='20px' color='white' />
+const isCardDisabled = (q, l) => {
+  if (q.baseCurrency === 'BTC') return Math.abs(q.quoteAmount) > l.card.inRemaining[q.quoteCurrency]
+  else return Math.abs(q.baseAmount) > l.card.inRemaining[q.baseCurrency]
+}
 
 const Payment = (props) => {
   const { value, busy, handlePaymentClick, medium, triggerKyc } = props
   const { limits, quote, level, kycs } = value
   const kycState = kycs.length && kycs[0]['state']
+  const cardDisabled = isCardDisabled(quote, limits)
   const bankDisabled = kycState === 'reviewing' || kycState === 'pending' || kycState === 'processing'
   if (bankDisabled) handlePaymentClick('card')
 
@@ -66,7 +71,7 @@ const Payment = (props) => {
           </InputWrapper>
           <PaymentWrapper>
             { bankOptionHelper(quote, limits, isChecked('bank'), handlePaymentClick, bankDisabled) }
-            { cardOptionHelper(quote, limits, isChecked('card'), handlePaymentClick) }
+            { cardOptionHelper(quote, limits, isChecked('card'), handlePaymentClick, cardDisabled) }
           </PaymentWrapper>
         </BorderBox>
       </ColLeft>

@@ -2,9 +2,10 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { Field } from 'redux-form'
-import { Text, Icon } from 'blockchain-info-components'
+import { Text, Icon, Link } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
 import { required } from 'services/FormHelper'
+import { StepTransition } from 'components/Utilities/Stepper'
 
 const PaymentOptionContainer = styled.div`
   width: 50%;
@@ -20,9 +21,9 @@ const PaymentOption = styled.div`
   padding: 15px;
   border-radius: 4px;
   width: 130px;
-  cursor: ${props => props.bankDisabled ? 'not-allowed' : 'pointer'};
+  cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
   background-color: ${props => props.isChecked ? props.theme['brand-primary'] : 'white'};
-  opacity: ${props => props.bankDisabled ? 0.2 : 1};
+  opacity: ${props => props.disabled ? 0.3 : 1};
 `
 const OptionLabel = styled.label`
   display: flex;
@@ -37,9 +38,9 @@ const PaymentText = styled(Text)`
   color: ${props => props.isChecked ? 'white' : props.theme['brand-primary']}
 `
 
-export const cardOptionHelper = (quote, limits, isChecked, handlePaymentClick) => {
+export const cardOptionHelper = (quote, limits, isChecked, handlePaymentClick, cardDisabled) => {
   const PaymentRadioCard = ({ isChecked, handlePaymentClick }) => (
-    <PaymentOption isChecked={isChecked} onClick={() => handlePaymentClick('card')} >
+    <PaymentOption isChecked={isChecked} onClick={() => !cardDisabled && handlePaymentClick('card')} disabled={cardDisabled} >
       <input type='radio' name='inMedium' id='card' value='card' style={{display: 'none'}} />
       <OptionLabel htmlFor='card'>
         <PaymentIcon name='credit-card-filled' cursor size='50px' isChecked={isChecked} />
@@ -50,9 +51,11 @@ export const cardOptionHelper = (quote, limits, isChecked, handlePaymentClick) =
     </PaymentOption>
   )
 
+  const renderField = () => <Field name='inMedium' value='card' isChecked={isChecked} handlePaymentClick={handlePaymentClick} component={PaymentRadioCard} validate={[required]} />
+
   const renderContainer = (isChecked, handlePaymentClick) => (
     <PaymentOptionContainer>
-      <Field name='inMedium' value='card' isChecked={isChecked} handlePaymentClick={handlePaymentClick} component={PaymentRadioCard} validate={[required]} />
+      { renderField() }
       <Text size='14px' weight={300} style={spacing('mt-25')}>
         <FormattedMessage id='coinifyexchangedata.payment.mediumhelpers.card.detail1' defaultMessage='Receive bitcoin instantly' /><br />
         <FormattedMessage id='coinifyexchangedata.payment.mediumhelpers.card.detail2' defaultMessage='3% convenience fee' /><br />
@@ -61,32 +64,38 @@ export const cardOptionHelper = (quote, limits, isChecked, handlePaymentClick) =
     </PaymentOptionContainer>
   )
 
-  const renderText = () => (
+  const renderText = (currency, amount, limit) => (
     <PaymentOptionContainer>
-      <Text>
-        Can't use card medium
+      { renderField() }
+      <Text size='14px' weight={300} style={spacing('mt-25 mb-15')}>
+        <FormattedMessage id='coinifyexchangedata.payment.mediumhelpers.card.abovecardlimit' defaultMessage='{amount} {currency} is above your daily credit card limit of {limit} {currency}. Please use a bank transfer or lower your purchase amount.' values={{ currency: currency, amount: amount, limit: limit }} />
       </Text>
+      <StepTransition prev Component={Link} size='13px' weight={300}>
+        <FormattedMessage id='coinifyexchangedata.payment.mediumhelpers.card.usecreditdebit' defaultMessage='Use Credit/Debit card' />
+      </StepTransition>
     </PaymentOptionContainer>
   )
 
+  const { baseCurrency, quoteAmount, quoteCurrency, baseAmount } = quote
+
   if (quote.baseCurrency === 'BTC') {
-    if (Math.abs(quote.quoteAmount) <= limits.card.inRemaining[quote.quoteCurrency]) {
+    if (Math.abs(quoteAmount) <= limits.card.inRemaining[quoteCurrency]) {
       return renderContainer(isChecked, handlePaymentClick)
     } else {
-      renderText()
+      return renderText(quoteCurrency, Math.abs(quoteAmount), limits.card.inRemaining[quoteCurrency])
     }
   } else {
-    if (Math.abs(quote.baseAmount) <= limits.card.inRemaining[quote.baseCurrency]) {
+    if (Math.abs(baseAmount) <= limits.card.inRemaining[baseCurrency]) {
       return renderContainer(isChecked, handlePaymentClick)
     } else {
-      renderText()
+      return renderText(baseCurrency, Math.abs(baseAmount), limits.card.inRemaining[baseCurrency])
     }
   }
 }
 
 export const bankOptionHelper = (quote, limits, isChecked, handlePaymentClick, bankDisabled) => {
   const PaymentRadioBank = ({ isChecked, handlePaymentClick }) => (
-    <PaymentOption isChecked={isChecked} onClick={() => handlePaymentClick('bank')} bankDisabled={bankDisabled}>
+    <PaymentOption isChecked={isChecked} onClick={() => handlePaymentClick('bank')} disabled={bankDisabled}>
       <input type='radio' name='inMedium' id='bank' value='bank' style={{display: 'none'}} />
       <OptionLabel htmlFor='bank'>
         <PaymentIcon name='bank-filled' cursor size='50px' isChecked={isChecked} />
