@@ -9,7 +9,7 @@ import { spacing } from 'services/StyleService'
 import { reviewOrder, currencySymbolMap } from 'services/CoinifyService'
 import { FormattedMessage } from 'react-intl'
 import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDetails'
-import { CancelWrapper } from 'components/BuySell/Signup'
+import { BorderBox, CancelWrapper, Row } from 'components/BuySell/Signup'
 import { StepTransition } from 'components/Utilities/Stepper'
 
 const ExchangeRateWrapper = styled.div`
@@ -30,56 +30,58 @@ const renderRate = (rate, q) => {
 }
 
 export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
-  <ExchangeCheckoutWrapper>
-    <Text size='32px' weight={600} style={spacing('mb-10')}>
-      <FormattedMessage id='buy.almost_there' defaultMessage="You're almost there" />
-    </Text>
-    <Text size='14px' weight={300} style={spacing('mb-20')}>
-      <FormattedMessage id='buy.review_order_subtext'
-        defaultMessage='Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order.' />
-    </Text>
-    <ExchangeRateWrapper>
-      <Text size='12px' weight={500} style={spacing('mr-10')}>
-        <FormattedMessage id='exchange_rate' defaultMessage='Exchange Rate' />
+  <Row>
+    <BorderBox>
+      <Text size='32px' weight={600} style={spacing('mb-10')}>
+        <FormattedMessage id='buy.almost_there' defaultMessage="You're almost there" />
       </Text>
-      <Text size='12px' weight={300}>
-        1 BTC = {quoteR.map((q) => {
-          const rate = +((1 / (Math.abs(q.quoteAmount) / 1e8)) * Math.abs(q.baseAmount)).toFixed(2)
-          return renderRate(rate, q)
-        }).getOrElse('~')}
+      <Text size='14px' weight={300} style={spacing('mb-20')}>
+        <FormattedMessage id='buy.review_order_subtext'
+          defaultMessage='Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order.' />
       </Text>
-    </ExchangeRateWrapper>
-    <OrderDetailsTable style={spacing('mt-10')}>
-      <OrderDetailsRow>
-        {
-          type === 'buy'
-            ? <Text size='13px' weight={300}><FormattedMessage id='orderdetails.amounttopurchase' defaultMessage='BTC Amount to Purchase' /></Text>
-            : <Text size='13px' weight={300}><FormattedMessage id='orderdetails.amounttosell' defaultMessage='BTC Amount to Sell' /></Text>
-        }
-        <Text size='13px' weight={300}>{quoteR.map(q => reviewOrder.renderSummary(q, type, medium)).data.firstRow}</Text>
-      </OrderDetailsRow>
-      <OrderDetailsRow>
-        <Text size='13px' weight={300}><FormattedMessage id='orderdetails.tradingfee' defaultMessage='Trading Fee' /></Text>
-        <Text size='13px' weight={300}>{quoteR.map(q => reviewOrder.renderSummary(q, type, medium)).data.fee}</Text>
-      </OrderDetailsRow>
-      <OrderDetailsRow>
-        {
-          type === 'buy'
-            ? <Text size='13px' weight={300}><FormattedMessage id='orderdetails.totalcost' defaultMessage='Total Cost' /></Text>
-            : <Text size='13px' weight={300}><FormattedMessage id='orderdetails.totaltobereceived' defaultMessage='Total to be Received' /></Text>
-        }
-        <Text size='13px' weight={300} color='success'>{quoteR.map(q => reviewOrder.renderSummary(q, type, medium)).data.total}</Text>
-      </OrderDetailsRow>
-    </OrderDetailsTable>
-    {quoteR.map((q) => (
-      <CountdownTimer
-        style={spacing('mt-20')}
-        expiryDate={q.expiresAt.getTime()}
-        handleExpiry={onRefreshQuote}
-        tooltipExpiryTime='15 minutes'
-      />
-    )).getOrElse(null)}
-  </ExchangeCheckoutWrapper>
+      <ExchangeRateWrapper>
+        <Text size='12px' weight={500} style={spacing('mr-10')}>
+          <FormattedMessage id='exchange_rate' defaultMessage='Exchange Rate' />
+        </Text>
+        <Text size='12px' weight={300}>
+          1 BTC = {quoteR.map((q) => {
+            const rate = +((1 / (Math.abs(q.quoteAmount) / 1e8)) * Math.abs(q.baseAmount)).toFixed(2)
+            return renderRate(rate, q)
+          }).getOrElse('~')}
+        </Text>
+      </ExchangeRateWrapper>
+      <OrderDetailsTable style={spacing('mt-10')}>
+        <OrderDetailsRow>
+          {
+            type === 'buy'
+              ? <Text size='13px' weight={300}><FormattedMessage id='orderdetails.amounttopurchase' defaultMessage='BTC Amount to Purchase' /></Text>
+              : <Text size='13px' weight={300}><FormattedMessage id='orderdetails.amounttosell' defaultMessage='BTC Amount to Sell' /></Text>
+          }
+          <Text size='13px' weight={300}>{quoteR.map(q => reviewOrder.renderSummary(q, type, medium)).data.firstRow}</Text>
+        </OrderDetailsRow>
+        <OrderDetailsRow>
+          <Text size='13px' weight={300}><FormattedMessage id='orderdetails.tradingfee' defaultMessage='Trading Fee' /></Text>
+          <Text size='13px' weight={300}>{quoteR.map(q => reviewOrder.renderSummary(q, type, medium)).data.fee}</Text>
+        </OrderDetailsRow>
+        <OrderDetailsRow>
+          {
+            type === 'buy'
+              ? <Text size='13px' weight={300}><FormattedMessage id='orderdetails.totalcost' defaultMessage='Total Cost' /></Text>
+              : <Text size='13px' weight={300}><FormattedMessage id='orderdetails.totaltobereceived' defaultMessage='Total to be Received' /></Text>
+          }
+          <Text size='13px' weight={300} color='success'>{quoteR.map(q => reviewOrder.renderSummary(q, type, medium)).data.total}</Text>
+        </OrderDetailsRow>
+      </OrderDetailsTable>
+      {quoteR.map((q) => (
+        <CountdownTimer
+          style={spacing('mt-20')}
+          expiryDate={q.expiresAt.getTime()}
+          handleExpiry={onRefreshQuote}
+          tooltipExpiryTime='15 minutes'
+        />
+      )).getOrElse(null)}
+    </BorderBox>
+  </Row>
 )
 
 export const OrderSubmit = ({ quoteR, onSubmit, busy, clearTradeError, goToStep }) => (

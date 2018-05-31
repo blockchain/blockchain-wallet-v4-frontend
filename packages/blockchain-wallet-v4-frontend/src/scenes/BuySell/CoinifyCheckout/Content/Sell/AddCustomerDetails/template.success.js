@@ -7,20 +7,21 @@ import { Button, Link, Text } from 'blockchain-info-components'
 import { required } from 'services/FormHelper'
 import { spacing } from 'services/StyleService'
 import { StepTransition } from 'components/Utilities/Stepper'
-import { Form, CancelWrapper, ColLeft, ColLeftInner, ColRight, ColRightInner, InputWrapper, PartnerHeader, PartnerSubHeader, Row } from 'components/BuySell/Signup'
+import { BorderBox, Form, CancelWrapper, ColLeft, ColRight, ColRightInner, InputWrapper, PartnerHeader, PartnerSubHeader, Row } from 'components/BuySell/Signup'
 import { SelectBoxCountry, TextBox } from 'components/Form'
 
-const BorderBox = styled.div`
-  border: 1px solid ${props => props.theme['gray-1']};
-  padding: 30px;
-`
-const SpaceRow = styled(Row)`
+const SpaceRow = styled.div`
   width: 100%;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 55% 35%;
+  grid-gap: 10%;
 `
 const FieldText = styled(Text)`
   padding-bottom: 10px;
   padding-top: 20px;
+`
+const Col = styled.div`
+  width: 100%;
 `
 
 const AddBankDetails = (props) => {
@@ -45,18 +46,18 @@ const AddBankDetails = (props) => {
             </FieldText>
             <Field name='street' validate={[required]} component={TextBox} />
             <SpaceRow>
-              <ColLeftInner>
+              <Col>
                 <FieldText weight={300} size='12px'>
                   <FormattedMessage id='coinifyexchangedata.addcustomerdetails.' defaultMessage='City' />
                 </FieldText>
                 <Field name='city' validate={[required]} component={TextBox} />
-              </ColLeftInner>
-              <ColRightInner>
+              </Col>
+              <Col>
                 <FieldText weight={300} size='12px'>
                   <FormattedMessage id='coinifyexchangedata.addcustomerdetails.' defaultMessage='Postal Code' />
                 </FieldText>
                 <Field name='postcode' validate={[required]} component={TextBox} />
-              </ColRightInner>
+              </Col>
             </SpaceRow>
             <FieldText weight={300} size='12px'>
               <FormattedMessage id='coinifyexchangedata.addcustomerdetails.' defaultMessage='Country' />
