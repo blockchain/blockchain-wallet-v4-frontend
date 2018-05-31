@@ -5,6 +5,7 @@ import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import SecondPassword from './template.js'
 import { Types } from 'blockchain-wallet-v4'
+import * as C from 'services/AlertService'
 
 class SecondPasswordContainer extends React.PureComponent {
   constructor (props) {
@@ -19,7 +20,7 @@ class SecondPasswordContainer extends React.PureComponent {
       this.props.modalActions.closeModal()
       this.props.walletActions.submitSecondPassword(this.state.secondPassword)
     } else {
-      this.props.alertActions.displayError('Wrong second password')
+      this.props.alertActions.displayError(C.SECOND_PASSWORD_INVALID_ERROR)
       this.setState({ secondPassword: '' })
     }
   }

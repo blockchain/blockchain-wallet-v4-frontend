@@ -77,12 +77,10 @@ const LimitsHelper = styled.div`
 `
 
 const getLimitsError = (errorType, limits, curr, setMin) => {
-  switch (errorType) {
-    case 'below_min': return `Your limit of ${curr}${limits.max} is below the minimum allowed amount.`
-    case 'over_max': return `Enter an amount under your ${curr}${limits.max} limit`
-    case 'under_min': return <FormattedMessage id='buy.quote_input.under_min' defaultMessage='Enter an amount above the {setMin} minimum' values={{ setMin: <a onClick={() => setMin(limits.min)}>{curr}{limits.min}</a> }} />
-    case 'over_effective_max': return `Enter an amount less than your balance minus the priority fee (${limits.effectiveMax / 1e8} BTC)`
-  }
+  if (errorType === 'below_min') return `Your limit of ${curr}${limits.max} is below the minimum allowed amount.`
+  if (errorType === 'over_max') return `Enter an amount under your ${curr}${limits.max} limit`
+  if (errorType === 'under_min') return <FormattedMessage id='buy.coinifycheckout.content.quoteinput.undermin' defaultMessage='Enter an amount above the {setMin} minimum' values={{ setMin: <a onClick={() => setMin(limits.min)}>{curr}{limits.min}</a> }} />
+  if (errorType === 'over_effective_max') return `Enter an amount less than your balance minus the priority fee (${limits.effectiveMax / 1e8} BTC)`
 }
 
 const FiatConvertor = (props) => {

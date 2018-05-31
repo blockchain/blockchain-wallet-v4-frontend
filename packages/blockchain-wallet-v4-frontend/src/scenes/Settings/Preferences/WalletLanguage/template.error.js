@@ -11,10 +11,10 @@ const WalletLanguage = (props) => {
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <FormattedMessage id='scenes.preferences.language.title' defaultMessage='Wallet Language' />
+          <FormattedMessage id='scenes.settings.preferences.walletlanguage.error.title' defaultMessage='Wallet Language' />
         </SettingHeader>
         <SettingDescription>
-          <FormattedMessage id='scenes.preferences.language.description' defaultMessage='Set your preferred language.' />
+          <FormattedMessage id='scenes.settings.preferences.walletlanguage.error.description' defaultMessage='Set your preferred language.' />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>

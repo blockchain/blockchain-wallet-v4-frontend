@@ -98,15 +98,15 @@ const BitcoinWelcome = props => {
           { partner
             ? <LinkContainer to='/buy-sell'>
               <Button nature='primary' margin='20px' fullwidth uppercase>
-                <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.getstarted' defaultMessage='Get started with bitcoin' />
+                <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.getstarted.buysell' defaultMessage='Get started with bitcoin' />
               </Button>
             </LinkContainer>
             : exchange ? <LinkContainer to='/exchange'>
               <Button nature='primary' margin='20px' fullwidth uppercase>
-                <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.getstarted' defaultMessage='Get started with bitcoin' />
+                <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.getstarted.exchange' defaultMessage='Get started with bitcoin' />
               </Button>
             </LinkContainer> : <Button nature='primary' margin='20px' onClick={handleRequest} fullwidth uppercase>
-              <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.getstarted' defaultMessage='Get started with bitcoin' />
+              <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.getstarted.request' defaultMessage='Get started with bitcoin' />
             </Button>
           }
         </Row>
