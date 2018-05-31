@@ -13,18 +13,18 @@ const MobileNumber = (props) => {
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <FormattedMessage id='scenes.preferences.mobile.title' defaultMessage='Mobile Number' />
+          <FormattedMessage id='scenes.settings.preferences.mobile.success.title' defaultMessage='Mobile Number' />
           <SettingStatus active={isVerified}>
             {isVerified
-              ? <FormattedMessage id='scenes.preferences.mobile.verified' defaultMessage='Verified' />
-              : <FormattedMessage id='scenes.preferences.mobile.unverified' defaultMessage='Unverified' />
+              ? <FormattedMessage id='scenes.settings.preferences.mobile.success.verified' defaultMessage='Verified' />
+              : <FormattedMessage id='scenes.settings.preferences.mobile.success.unverified' defaultMessage='Unverified' />
             }
           </SettingStatus>
         </SettingHeader>
         <SettingDescription>
-          <FormattedMessage id='scenes.preferences.mobile.description1' defaultMessage='Your mobile phone can be used to enable two-factor authentication,' />
-          <FormattedMessage id='scenes.preferences.mobile.description2' defaultMessage='helping to secure your wallet from unauthorized access,' />
-          <FormattedMessage id='scenes.preferences.mobile.description3' defaultMessage='and to send bitcoin payment alerts when you receive funds.' />
+          <FormattedMessage id='scenes.settings.preferences.mobile.success.description1' defaultMessage='Your mobile phone can be used to enable two-factor authentication,' />
+          <FormattedMessage id='scenes.settings.preferences.mobile.success.description2' defaultMessage='helping to secure your wallet from unauthorized access,' />
+          <FormattedMessage id='scenes.settings.preferences.mobile.success.description3' defaultMessage='and to send bitcoin payment alerts when you receive funds.' />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>

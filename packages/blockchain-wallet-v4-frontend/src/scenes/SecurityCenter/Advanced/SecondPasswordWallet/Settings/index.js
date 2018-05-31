@@ -15,10 +15,9 @@ class SettingsContainer extends React.PureComponent {
     this.handleToggle = this.handleToggle.bind(this)
   }
 
-  onSubmit (e) {
-    e.preventDefault()
-    const { secondPasswordValue } = this.props
-    this.props.walletActions.toggleSecondPassword(secondPasswordValue)
+  onSubmit () {
+    const { secondPasswordValue, secondPasswordEnabled } = this.props
+    this.props.walletActions.toggleSecondPassword(secondPasswordValue, secondPasswordEnabled)
     this.handleToggle()
   }
 
@@ -42,7 +41,8 @@ class SettingsContainer extends React.PureComponent {
 const mapStateToProps = (state) => ({
   mainPassword: selectors.core.wallet.getMainPassword(state),
   secondPasswordEnabled: selectors.core.wallet.isSecondPasswordOn(state),
-  secondPasswordValue: formValueSelector('settingSecondPassword')(state, 'secondPassword')
+  secondPasswordValue: formValueSelector('settingSecondPassword')(state, 'secondPassword'),
+  wallet: selectors.core.wallet.getWallet(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

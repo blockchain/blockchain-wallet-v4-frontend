@@ -63,7 +63,7 @@ const Success = props => {
           <DeviceInfoWrapper>
             <DeviceInfoHeader>
               <Text size='16px' weight={400} color='success'>
-                <FormattedMessage id='scenes.authorizelogin.vs' defaultMessage='Your Device' />
+                <FormattedMessage id='scenes.authorizelogin.yourdevice' defaultMessage='Your Device' />
               </Text>
               &nbsp;
               <Text size='16px' weight={400} color='gray-5'>
@@ -91,7 +91,7 @@ const Success = props => {
                 { approver_ip === requester_ip ? <Icon name='checkmark-in-circle-filled' color='success' size='13px' /> : <Icon name='close-filled' color='error' size='13px' /> }
                 &nbsp;
                 <Text size='14px'>
-                  <FormattedMessage id='scenes.authorizelogin.browser' defaultMessage='IP Address: ' />
+                  <FormattedMessage id='scenes.authorizelogin.ipaddress' defaultMessage='IP Address: ' />
                 </Text>
                 <Banner type='success' inline>{approver_ip}</Banner>
                 { approver_ip !== requester_ip && <Banner type='warning' inline>{requester_ip}</Banner> }
@@ -134,8 +134,8 @@ const Success = props => {
           <Text size='16px' weight={300} color='gray-5' style={{ 'margin-top': '25px' }}>
             {
               requestDenied
-                ? <FormattedMessage id='scenes.authorizelogin.loading' defaultMessage='Login attempt rejected! Please contact our support team if you have any questions or concerns.' />
-                : <FormattedMessage id='scenes.authorizelogin.loading' defaultMessage='Login approved! Please return to your previous tab to view your wallet.' />
+                ? <FormattedMessage id='scenes.authorizelogin.loading.rejected' defaultMessage='Login attempt rejected! Please contact our support team if you have any questions or concerns.' />
+                : <FormattedMessage id='scenes.authorizelogin.loading.approved' defaultMessage='Login approved! Please return to your previous tab to view your wallet.' />
             }
           </Text>
         </Fragment>
