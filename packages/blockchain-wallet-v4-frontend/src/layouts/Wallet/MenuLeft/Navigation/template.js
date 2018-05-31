@@ -154,7 +154,10 @@ const Navigation = props => {
 }
 
 Navigation.propTypes = {
-  settingsToggled: PropTypes.bool.isRequired,
+  menuOpened: PropTypes.bool.isRequired,
+  settingsOpened: PropTypes.bool.isRequired,
+  canBuy: PropTypes.bool.isRequired,
+  pathname: PropTypes.string.isRequired,
   handleCloseMenu: PropTypes.func.isRequired
 }
 
