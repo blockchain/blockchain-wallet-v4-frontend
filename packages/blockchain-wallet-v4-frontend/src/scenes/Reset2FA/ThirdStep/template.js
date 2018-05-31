@@ -52,17 +52,7 @@ const ThirdStep = (props) => {
         </Text>
       </Header>
       <Separator />
-      <Text size='13px' weight={300}>
-        <FormattedMessage id='scenes.reset2fa.thirdstep.explain' defaultMessage='The process will be quicker with more precise details provided to us.' />
-      </Text>
       <ThirdStepForm onSubmit={onSubmit}>
-        <Text size='14px' weight={500}>
-          <FormattedMessage id='scenes.reset2fa.thirdstep.message' defaultMessage='Message' />
-        </Text>
-        <Field name='message' component={TextArea} />
-        <Text size='13px' weight={300}>
-          <FormattedMessage id='scenes.reset2fa.thirdstep.message.explain' defaultMessage='Enter a message for Blockchain.info admins to review.' />
-        </Text>
         <CaptchaText size='14px' weight={500}>
           <FormattedMessage id='scenes.reset2fa.thirdstep.captcha' defaultMessage='Captcha' />
         </CaptchaText>
