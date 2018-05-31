@@ -18,12 +18,12 @@ class BtcBalance extends React.PureComponent {
 
   componentWillMount () {
     if (Remote.NotAsked.is(this.props.data)) {
-      this.props.actions.fetchData(this.props.context)
+      this.props.actions.fetchSpendableBalance(this.props.context)
     }
   }
 
   handleRefresh () {
-    this.props.actions.fetchData(this.props.context)
+    this.props.actions.fetchSpendableBalance(this.props.context)
   }
 
   render () {
