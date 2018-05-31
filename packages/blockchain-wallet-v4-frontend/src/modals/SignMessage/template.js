@@ -9,8 +9,7 @@ const SignMessage = props => (
     <ModalHeader onClose={props.closeAll}>
       <FormattedMessage id='modals.signmessage.title' defaultMessage='Sign Message' />
       <Tooltip>
-        <FormattedMessage id='modals.signmessage.label'
-          defaultMessage='By signing a message, you can prove that you own this bitcoin address. You can verify signed messages by clicking on "More Actions > Verify Message".' />
+        <FormattedMessage id='modals.signmessage.label' defaultMessage="By signing a message, you can prove that you own this bitcoin address. You can verify signed messages by clicking on 'More Actions' > 'Verify Message'." />
       </Tooltip>
     </ModalHeader>
     <ModalBody>

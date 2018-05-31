@@ -75,19 +75,19 @@ const TwoStepSetup = (props) => {
           <Container onClick={handleGoogleAuthenticator}>
             <Image name='google-authenticator' height='100px' />
             <Text size='14px' weight={300}>
-              <FormattedMessage id='modals.twostepsetup.use_google' defaultMessage='Google Authenticator' />
+              <FormattedMessage id='modals.twostepsetup.usegoogle' defaultMessage='Google Authenticator' />
             </Text>
           </Container>
           <Container onClick={handleYubico}>
             <Image name='yubikey' height='100px' />
             <Text size='14px' weight={300}>
-              <FormattedMessage id='modals.twostepsetup.use_yubikey' defaultMessage='Yubikey' />
+              <FormattedMessage id='modals.twostepsetup.useyubikey' defaultMessage='Yubikey' />
             </Text>
           </Container>
           <Container onClick={handleMobile}>
             <Image name='smartphone' height='100px' />
             <Text size='14px' weight={300}>
-              <FormattedMessage id='modals.twostepsetup.use_mobile' defaultMessage='Mobile number' />
+              <FormattedMessage id='modals.twostepsetup.usemobile' defaultMessage='Mobile number' />
             </Text>
           </Container>
         </Wrapper>

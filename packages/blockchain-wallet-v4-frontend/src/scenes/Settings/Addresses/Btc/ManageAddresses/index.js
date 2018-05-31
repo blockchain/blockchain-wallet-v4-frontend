@@ -55,7 +55,7 @@ class ManageAddressesContainer extends React.PureComponent {
         <MenuWrapper>
           <LinkContainer to='/settings/addresses'>
             <IconButton name='left-arrow' nature='empty'>
-              <FormattedMessage id='scenes.settings.manage_addresses.back' defaultMessage='Back' />
+              <FormattedMessage id='scenes.settings.addresses.btc.manageaddresses.back' defaultMessage='Back' />
             </IconButton>
           </LinkContainer>
           <Search>

@@ -7,6 +7,7 @@ import * as sendBtcActions from '../../components/sendBtc/actions'
 import * as sendBtcSelectors from '../../components/sendBtc/selectors'
 import settings from 'config'
 import { Remote } from 'blockchain-wallet-v4/src'
+import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
 import { path } from 'ramda'
 
@@ -69,14 +70,14 @@ export default ({ coreSagas }) => {
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'upload', e))
-      yield put(actions.alerts.displayError('Failed to upload document.'))
+      yield put(actions.alerts.displayError(C.DOCUMENT_UPLOAD_ERROR))
     }
   }
 
   const setBank = function * (payload) {
     try {
       yield call(coreSagas.data.sfox.setBankAccount, payload)
-      yield put(actions.alerts.displaySuccess('Bank account set successfully!'))
+      yield put(actions.alerts.displaySuccess(C.BANK_ACCOUNT_SET_SUCCESS))
       yield put(modalActions.closeAllModals())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'setBank', e))

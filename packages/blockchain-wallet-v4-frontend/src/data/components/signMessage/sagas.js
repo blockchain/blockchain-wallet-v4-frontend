@@ -2,7 +2,7 @@ import { put, call, select } from 'redux-saga/effects'
 import * as A from './actions.js'
 import * as actions from '../../actions.js'
 import * as selectors from '../../selectors.js'
-
+import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
 import { Types } from 'blockchain-wallet-v4/src'
 import * as signer from 'blockchain-wallet-v4/src/signer'
@@ -23,7 +23,7 @@ export default ({ coreSagas }) => {
       yield put(A.messageSigned(signed))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'signMessage', e))
-      yield put(actions.alerts.displayError('Failed to sign message.'))
+      yield put(actions.alerts.displayError(C.MESSAGE_SIGN_ERROR))
     }
   }
 
