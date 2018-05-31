@@ -77,7 +77,7 @@ class VerifyEmail extends Component {
               <FormattedMessage id='sfoxexchangedata.create.verifyemail.partner.header' defaultMessage="What's your email?" />
             </PartnerHeader>
             <PartnerSubHeader>
-              <FormattedMessage id='sfoxexchangedata.create.verifyemail.partner.subheader' defaultMessage="Enter the email address you would like to use with your SFOX account. We'll send you a verification code to make sure it's yours." />
+              <FormattedMessage id='sfoxexchangedata.create.verifyemail.partner.subheader' defaultMessage="Rest assured: there are only a few steps separating you from the good stuff. Let's start by confirming your verified email address and phone number." />
             </PartnerSubHeader>
             {
               ui.create === 'enter_email_code'
