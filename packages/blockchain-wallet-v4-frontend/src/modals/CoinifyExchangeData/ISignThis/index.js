@@ -2,18 +2,29 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import { path } from 'ramda'
 import { Button, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
+import Helper from 'components/BuySell/FAQ'
 
 const ISXContainer = styled.div`
   display: flex;
   flex-direction: row;
 `
 const ButtonContainer = styled.div`
-  margin-left: 10%;
+  margin-left: 5%;
+  width: 20%;
 `
+
+const helpers = [
+  {
+    question: <FormattedMessage id='scenes.buysell.coinify.isx.question1' defaultMessage='Why do I have to do this?' />,
+    answer: <FormattedMessage id='scenes.buysell.coinify.isx.answer1' defaultMessage="Completing the identity verification process allows you to buy and sell at higher limits. If you don't submit this information, you will only be able to buy and sell up to €300." />
+  }
+]
+
+const faqHelper = () => helpers.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
 
 class ISignThisContainer extends Component {
   componentDidMount () {
@@ -161,10 +172,11 @@ class ISignThisContainer extends Component {
   }
 
   render () {
-    const { options, iSignThisId, coinifyActions } = this.props
+    const { options, iSignThisId, coinifyActions, trade } = this.props
     const walletOpts = options || this.props.walletOptions.data
     const iSignThisDomain = path(['platforms', 'web', 'coinify', 'config', 'iSignThisDomain'], walletOpts)
     const srcUrl = `${iSignThisDomain}/landing/${iSignThisId}?embed=true`
+    const isxType = path(['data', 'constructor', 'name'], trade)
 
     return (
       <ISXContainer>
@@ -177,9 +189,14 @@ class ISignThisContainer extends Component {
         <ButtonContainer>
           <Button nature='empty-secondary' onClick={() => coinifyActions.cancelISX()}>
             <Text size='13px' weight={300} color='brand-secondary'>
-              <FormattedMessage id='cancel' defaultMessage='Cancel' />
+              <FormattedMessage id='scenes.buysell.coinify.isx.dolater' defaultMessage="I'll do this later" />
             </Text>
           </Button>
+          {
+            isxType && isxType !== 'Trade'
+              ? faqHelper()
+              : null
+          }
         </ButtonContainer>
       </ISXContainer>
     )
@@ -187,7 +204,8 @@ class ISignThisContainer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  walletOptions: path(['walletOptionsPath'], state)
+  walletOptions: path(['walletOptionsPath'], state),
+  trade: selectors.core.data.coinify.getTrade(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
