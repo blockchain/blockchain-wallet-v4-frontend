@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import Modals from 'modals'
@@ -30,28 +29,6 @@ const Nav = styled.div`
   flex: 0 0 60px;
   background-color: ${props => props.theme['brand-primary']};
 `
-const Left = styled.div`
-  display: flex;
-  position: absolute;
-
-  left: ${props => props.toggled ? '0' : '-270px'};
-  width: 270px;
-  height: 100%;
-  padding: 15px;
-  box-sizing: border-box;
-  background: ${props => props.theme['white-blue']};
-  border-right: 1px solid ${props => props.theme['gray-1']};
-  z-index: 8;
-  transition: left .3s ease-in-out;
-
-  @media(min-width: 768px) {
-    display: flex;
-    flex: 0 0 270px;
-    position: relative;
-    top: initial;
-    left: initial;
-  }
-`
 const Content = styled.div`
   position: relative;
   display: flex;
@@ -70,20 +47,18 @@ const Top = styled.div`
 `
 
 const WalletLayout = props => {
-  const { location, partner, menuLeftToggled, trayRightOpen, handleTrayRightToggle, handleToggleMenuLeft, handleCloseMenuLeft, children, trayRightContent } = props
+  const { location, children } = props
 
   return (
     <Wrapper>
       <Alerts />
       <Modals />
       <Nav>
-        <Header trayRightContent={trayRightContent} handleToggleMenuLeft={handleToggleMenuLeft} handleTrayRightToggle={handleTrayRightToggle} trayRightOpen={trayRightOpen} />
+        <Header />
       </Nav>
       <Container>
-        <Left toggled={menuLeftToggled}>
-          <MenuLeft location={location} handleToggleMenuLeft={handleToggleMenuLeft} handleCloseMenuLeft={handleCloseMenuLeft} partner={partner} />
-        </Left>
-        <TrayRight isOpen={trayRightOpen} class='tray' handleTrayRightToggle={handleTrayRightToggle} trayRightContent={trayRightContent} />
+        <MenuLeft />
+        <TrayRight />
         <Content>
           <Top>
             <MenuTop />
@@ -102,16 +77,6 @@ const WalletLayout = props => {
       </Container>
     </Wrapper>
   )
-}
-
-WalletLayout.propTypes = {
-  location: PropTypes.object.isRequired,
-  menuLeftToggled: PropTypes.bool.isRequired,
-  trayRightOpen: PropTypes.bool.isRequired,
-  trayRightContent: PropTypes.string.isRequired,
-  handleTrayRightToggle: PropTypes.func.isRequired,
-  handleToggleMenuLeft: PropTypes.func.isRequired,
-  handleCloseMenuLeft: PropTypes.func.isRequired
 }
 
 export default WalletLayout
