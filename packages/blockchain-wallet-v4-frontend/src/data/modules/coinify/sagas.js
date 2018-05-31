@@ -4,6 +4,7 @@ import { delay } from 'redux-saga'
 import * as A from './actions'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors.js'
+import * as C from 'services/AlertService'
 import * as service from 'services/CoinifyService'
 import * as sendBtcActions from '../../components/sendBtc/actions'
 import * as sendBtcSelectors from '../../components/sendBtc/selectors'
@@ -27,7 +28,7 @@ export default ({ coreSagas }) => {
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'coinifySignup', e))
-      yield put(actions.alerts.displayError('Failed to create Coinify account.'))
+      yield put(actions.alerts.displayError(C.COINIFY_SIGNUP_ERROR))
     }
   }
 

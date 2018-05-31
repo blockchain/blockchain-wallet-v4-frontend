@@ -1,41 +1,44 @@
+
+import React from 'react'
 import bip39 from 'bip39'
 import { isNumeric, isEmail, isDOB, isGuid, isUsZipcode, isIpList, isAlphaNumeric, formatSSN, formatDOB, formatUSZipcode, isOverEighteen, isSSN, formatPhone } from './../ValidationHelper'
 import { isValidIBAN, isValidBIC } from 'ibantools'
 import { isValidNumber } from 'libphonenumber-js'
 import zxcvbn from 'zxcvbn'
 import { utils } from 'blockchain-wallet-v4/src'
+import * as M from './validationMessages'
 
-const required = value => value ? undefined : 'Required'
+const required = value => value ? undefined : <M.RequiredMessage />
 
 const optional = validator => value => value === undefined || value === '' ? undefined : validator(value)
 
-const validNumber = value => isNumeric(value) ? undefined : 'Invalid number'
+const validNumber = value => isNumeric(value) ? undefined : <M.InvalidNumberMessage />
 
-const requiredNumber = value => isNumeric(value) && value > 0 ? undefined : 'Invalid number'
+const requiredNumber = value => isNumeric(value) && value > 0 ? undefined : <M.RequiredNumberMessage />
 
-const validEmail = value => isEmail(value) ? undefined : 'Invalid email address'
+const validEmail = value => isEmail(value) ? undefined : <M.InvalidEmailMessage />
 
-const validMnemonic = value => bip39.validateMnemonic(value) ? undefined : 'Invalid passphrase'
+const validMnemonic = value => bip39.validateMnemonic(value) ? undefined : <M.InvalidPassphraseMessage />
 
-const validWalletId = value => isGuid(value) ? undefined : 'Invalid wallet identifier'
+const validWalletId = value => isGuid(value) ? undefined : <M.InvalidWalletIdMessage />
 
-const validMobileNumber = value => isValidNumber(value) ? undefined : 'Invalid mobile number'
+const validMobileNumber = value => isValidNumber(value) ? undefined : <M.InvalidMobileNumberMessage />
 
-const validStrongPassword = value => (value !== undefined && zxcvbn(value).score > 1) ? undefined : 'Your password is not strong enough'
+const validStrongPassword = value => (value !== undefined && zxcvbn(value).score > 1) ? undefined : <M.InvalidStrongPasswordMessage />
 
-const validIpList = value => isIpList(value) ? undefined : 'Invalid IP list'
+const validIpList = value => isIpList(value) ? undefined : <M.InvalidIpListMessage />
 
-const validPasswordStretchingNumber = value => (value > 1 && value <= 20000) ? undefined : 'Please ensure 1 < PBKDF2 <= 20000'
+const validPasswordStretchingNumber = value => (value > 1 && value <= 20000) ? undefined : <M.InvalidPasswordStretchingNumberMessage />
 
-const validEtherAddress = value => utils.ethereum.isValidAddress(value) ? undefined : 'Invalid Ether Address'
+const validEtherAddress = value => utils.ethereum.isValidAddress(value) ? undefined : <M.InvalidEtherAddressMessage />
 
-const validBitcoinAddress = value => utils.bitcoin.isValidBitcoinAddress(value) ? undefined : 'Invalid Bitcoin Address'
+const validBitcoinAddress = value => utils.bitcoin.isValidBitcoinAddress(value) ? undefined : <M.InvalidBitcoinAddressMessage />
 
-const validBitcoinCashAddress = value => (utils.bitcoin.isValidBitcoinAddress(value) || utils.bch.isCashAddr(value)) ? undefined : 'Invalid Bitcoin Cash Address'
+const validBitcoinCashAddress = value => (utils.bitcoin.isValidBitcoinAddress(value) || utils.bch.isCashAddr(value)) ? undefined : <M.InvalidBitcoinCashAddressMessage />
 
-const validEmailCode = value => isAlphaNumeric(value) ? undefined : 'Invalid Email Code'
+const validEmailCode = value => isAlphaNumeric(value) ? undefined : <M.InvalidEmailCodeMessage />
 
-const validBitcoinPrivateKey = value => utils.bitcoin.isValidBitcoinPrivateKey(value) ? undefined : 'Invalid Bitcoin Private Key'
+const validBitcoinPrivateKey = value => utils.bitcoin.isValidBitcoinPrivateKey(value) ? undefined : <M.InvalidBitcoinPrivateKeyMessage />
 
 const validIban = value => isValidIBAN(value) ? undefined : 'Invalid IBAN'
 
@@ -47,13 +50,13 @@ const normalizeDateOfBirth = (val, prevVal) => formatDOB(val, prevVal)
 
 const normalizeUSZipcode = value => formatUSZipcode(value)
 
-const ageOverEighteen = value => isOverEighteen(value) ? undefined : 'Must be 18 or older'
+const ageOverEighteen = value => isOverEighteen(value) ? undefined : <M.AgeOverEighteenMessage />
 
-const requiredSSN = value => isSSN(value) ? undefined : 'Must be valid SSN'
+const requiredSSN = value => isSSN(value) ? undefined : <M.RequiredSSNMessage />
 
-const requiredDOB = value => isDOB(value) ? undefined : 'Must be valid date'
+const requiredDOB = value => isDOB(value) ? undefined : <M.RequiredDOBMessage />
 
-const requiredUsZipcode = value => isUsZipcode(value) ? undefined : 'Must be valid zipcode'
+const requiredUsZipcode = value => isUsZipcode(value) ? undefined : <M.RequiredUSZipCodeMessage />
 
 const normalizePhone = (val, prevVal) => formatPhone(val, prevVal)
 

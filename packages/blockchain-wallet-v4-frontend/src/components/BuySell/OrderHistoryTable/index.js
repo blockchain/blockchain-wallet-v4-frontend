@@ -23,23 +23,23 @@ class OrderHistoryTable extends React.PureComponent {
         <TableHeader>
           <TableCell width='15%'>
             <Text size='13px' weight={500} capitalize>
-              <FormattedMessage id='scenes.orderhistory.list.status' defaultMessage='Status' />
+              <FormattedMessage id='scenes.buysell.orderhistory.list.status' defaultMessage='Status' />
             </Text>
           </TableCell>
           <TableCell width='15%' />
           <TableCell width='30%'>
             <Text size='13px' weight={500} capitalize>
-              <FormattedMessage id='scenes.orderhistory.list.date' defaultMessage='Date' />
+              <FormattedMessage id='scenes.buysell.orderhistory.list.date' defaultMessage='Date' />
             </Text>
           </TableCell>
           <TableCell width='20%'>
             <Text size='13px' weight={500} capitalize>
-              <FormattedMessage id='scenes.orderhistory.list.exchanged' defaultMessage='Exchanged' />
+              <FormattedMessage id='scenes.buysell.orderhistory.list.exchanged' defaultMessage='Exchanged' />
             </Text>
           </TableCell>
           <TableCell width='20%'>
             <Text size='13px' weight={500} capitalize>
-              <FormattedMessage id='scenes.orderhistory.list.received' defaultMessage='Received' />
+              <FormattedMessage id='scenes.buysell.orderhistory.list.received' defaultMessage='Received' />
             </Text>
           </TableCell>
         </TableHeader>

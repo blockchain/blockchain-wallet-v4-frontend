@@ -6,6 +6,7 @@ import Either from 'data.either'
 import * as actions from '../actions.js'
 import * as actionTypes from '../actionTypes.js'
 import * as selectors from '../selectors.js'
+import * as C from 'services/AlertService'
 import { askSecondPasswordEnhancer, promptForSecondPassword, forceSyncWallet } from 'services/SagaService'
 import { Types } from 'blockchain-wallet-v4/src'
 
@@ -19,7 +20,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.modals.closeModal())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'upgradeWallet', e))
-      yield put(actions.alerts.displayError('Failed to upgrade to HD and save wallet'))
+      yield put(actions.alerts.displayError(C.WALLET_UPGRADE_ERROR))
     }
   }
 
@@ -30,7 +31,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.modals.showModal('Welcome', { walletMillions }))
     } else {
       yield put(actions.logs.logInfoMessage(logLocation, 'welcomeSaga', 'login success'))
-      yield put(actions.alerts.displaySuccess('Login successful'))
+      yield put(actions.alerts.displaySuccess(C.LOGIN_SUCCESS))
     }
   }
 
@@ -75,12 +76,12 @@ export default ({ api, coreSagas }) => {
       yield fork(reportStats, mobileLogin)
       yield fork(logoutRoutine, yield call(setLogoutEventListener))
       if (!firstLogin) {
-        yield put(actions.alerts.displaySuccess('Login successful'))
+        yield put(actions.alerts.displaySuccess(C.LOGIN_SUCCESS))
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'loginRoutineSaga', e))
       // Redirect to error page instead of notification
-      yield put(actions.alerts.displayError('Critical error while fetching essential data! ' + e.message))
+      yield put(actions.alerts.displayError(C.WALLET_LOADING_ERROR))
     }
   }
 
@@ -124,7 +125,7 @@ export default ({ api, coreSagas }) => {
 
       if (authRequired.isRight && authRequired.value) {
         // auth errors (polling)
-        yield put(actions.alerts.displayInfo('Authorization required. Please check your mailbox.'))
+        yield put(actions.alerts.displayInfo(C.AUTHORIZATION_REQUIRED_INFO))
         const authorized = yield call(pollingSession, session)
         if (authorized) {
           try {
@@ -133,7 +134,7 @@ export default ({ api, coreSagas }) => {
           } catch (e) {
             if (e.auth_type > 0) {
               yield put(actions.auth.setAuthType(e.auth_type))
-              yield put(actions.alerts.displayInfo('2FA required'))
+              yield put(actions.alerts.displayInfo(C.TWOFA_REQUIRED_INFO))
               yield put(actions.auth.loginFailure())
             } else {
               yield put(actions.auth.loginFailure('wrong_wallet_password'))
@@ -141,7 +142,7 @@ export default ({ api, coreSagas }) => {
             }
           }
         } else {
-          yield put(actions.alerts.displayError('Error establishing the session'))
+          yield put(actions.alerts.displayError(C.WALLET_SESSION_ERROR))
         }
       } else if (initialError.isRight && initialError.value) {
         // general error
@@ -152,7 +153,7 @@ export default ({ api, coreSagas }) => {
           // dispatch state change to show form
           yield put(actions.auth.loginFailure())
           yield put(actions.auth.setAuthType(error.auth_type))
-          yield put(actions.alerts.displayInfo('2FA required'))
+          yield put(actions.alerts.displayInfo(C.TWOFA_REQUIRED_INFO))
         } else if (error.message) {
           yield put(actions.auth.loginFailure(error.message))
         } else {
@@ -170,9 +171,9 @@ export default ({ api, coreSagas }) => {
     } catch (error) {
       yield put(actions.logs.logErrorMessage(logLocation, 'mobileLogin', error))
       if (error === 'qr_code_expired') {
-        yield put(actions.alerts.displayError('Error: QR code expired'))
+        yield put(actions.alerts.displayError(C.MOBILE_LOGIN_ERROR_QRCODE_EXPIRED))
       } else {
-        yield put(actions.alerts.displayError('Error logging into your wallet'))
+        yield put(actions.alerts.displayError(C.MOBILE_LOGIN_ERROR))
       }
     }
     yield put(actions.modals.closeModal())
@@ -181,40 +182,40 @@ export default ({ api, coreSagas }) => {
   const register = function * (action) {
     try {
       yield put(actions.auth.registerLoading())
-      yield put(actions.alerts.displayInfo('Creating wallet...'))
+      yield put(actions.alerts.displayInfo(C.CREATE_WALLET_INFO))
       yield call(coreSagas.wallet.createWalletSaga, action.payload)
-      yield put(actions.alerts.displaySuccess('Wallet successfully created.'))
+      yield put(actions.alerts.displaySuccess(C.REGISTER_SUCCESS))
       yield call(loginRoutineSaga, false, true)
       yield put(actions.auth.registerSuccess())
     } catch (e) {
       yield put(actions.auth.registerFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'register', e))
-      yield put(actions.alerts.displayError('Wallet could not be created.'))
+      yield put(actions.alerts.displayError(C.REGISTER_ERROR))
     }
   }
 
   const restore = function * (action) {
     try {
       yield put(actions.auth.restoreLoading())
-      yield put(actions.alerts.displayInfo('Restoring wallet...'))
+      yield put(actions.alerts.displayInfo(C.RESTORE_WALLET_INFO))
       yield call(coreSagas.wallet.restoreWalletSaga, action.payload)
-      yield put(actions.alerts.displaySuccess('Your wallet has been successfully restored.'))
+      yield put(actions.alerts.displaySuccess(C.RESTORE_SUCCESS))
       yield call(loginRoutineSaga, false, true)
       yield put(actions.auth.restoreSuccess())
     } catch (e) {
       yield put(actions.auth.restoreFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'restore', e))
-      yield put(actions.alerts.displayError('Error restoring your wallet.'))
+      yield put(actions.alerts.displayError(C.RESTORE_ERROR))
     }
   }
 
   const remindGuid = function * (action) {
     try {
       yield call(coreSagas.wallet.remindWalletGuidSaga, action.payload)
-      yield put(actions.alerts.displaySuccess('Your wallet guid has been sent to your email address.'))
+      yield put(actions.alerts.displaySuccess(C.GUID_SENT_SUCCESS))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'remindGuid', e))
-      yield put(actions.alerts.displayError('Error sending email.'))
+      yield put(actions.alerts.displayError(C.GUID_SENT_ERROR))
     }
   }
 
@@ -224,7 +225,7 @@ export default ({ api, coreSagas }) => {
       const response = yield call(coreSagas.wallet.resetWallet2fa, action.payload)
       if (response.success) {
         yield put(actions.auth.reset2faSuccess())
-        yield put(actions.alerts.displayInfo('Reset 2-step authentication has been successfully submitted.'))
+        yield put(actions.alerts.displayInfo(C.RESET_TWOFA_INFO))
       } else {
         yield put(actions.core.data.misc.fetchCaptcha())
         yield put(actions.auth.reset2faFailure())
@@ -233,7 +234,7 @@ export default ({ api, coreSagas }) => {
     } catch (e) {
       yield put(actions.auth.reset2faFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'reset2fa', e))
-      yield put(actions.alerts.displayError('Error resetting 2-step authentication.'))
+      yield put(actions.alerts.displayError(C.TWOFA_RESET_ERROR))
     }
   }
 

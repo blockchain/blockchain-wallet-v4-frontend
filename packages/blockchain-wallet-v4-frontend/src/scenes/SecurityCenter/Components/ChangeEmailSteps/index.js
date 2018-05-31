@@ -50,7 +50,7 @@ function ChangeEmailSteps (props) {
       </ChangeEmailWrapper>
       <CustomBannerWrapper>
         <Banner type='caution' size='20px' weight={200}>
-          <FormattedMessage id='scenes.security.email.changeemail' defaultMessage="This will change your wallet's email address. The email address you use to buy or sell with will remain the same." />
+          <FormattedMessage id='scenes.security.email.changeemail.description' defaultMessage="This will change your wallet's email address. The email address you use to buy or sell with will remain the same." />
         </Banner>
       </CustomBannerWrapper>
     </SecuritySummary>

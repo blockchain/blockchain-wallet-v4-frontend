@@ -29,14 +29,14 @@ const AwaitingDeposits = ({ showModal }) => {
     <Container>
       <LeftCol>
         <Text size='30px' weight={600}>
-          <FormattedMessage id='awaiting_deposits.title' defaultMessage='Verify Your Bank Account' />
+          <FormattedMessage id='modals.sfoxexchangedata.link.awaitingdeposits.title' defaultMessage='Verify Your Bank Account' />
         </Text>
         <Image name='micro-deposits-whole' width='100%' />
         <Text size='13px' weight={300}>
-          <FormattedMessage id='awaiting_deposits.body' defaultMessage='To verify your bank details, SFOX will send two micro-deposits to your bank account for a few cents each. Once received, select Enter Deposit Details to finish setting up your account.' />
+          <FormattedMessage id='modals.sfoxexchangedata.link.awaitingdeposits.body' defaultMessage='To verify your bank details, SFOX will send two micro-deposits to your bank account for a few cents each. Once received, select Enter Deposit Details to finish setting up your account.' />
         </Text>
         <Text size='13px' weight={300}>
-          <FormattedMessage id='awaiting_deposits.note' defaultMessage='Bear with us: receiving these deposits can take up to 5 business days.' />
+          <FormattedMessage id='modals.sfoxexchangedata.link.awaitingdeposits.note' defaultMessage='Bear with us: receiving these deposits can take up to 5 business days.' />
         </Text>
       </LeftCol>
       <RightCol>

@@ -23,7 +23,7 @@ const Settings = (props) => {
       <Hint />
       { !updateToggled &&
         <Button nature='primary' onClick={handleToggle}>
-          <FormattedMessage id='scenes.securitysettings.basicsecurity.passwordhint.settings.change' defaultMessage='Change'/>
+          <FormattedMessage id='scenes.securitysettings.basicsecurity.passwordhint.settings.change' defaultMessage='Change' />
         </Button>
       }
       { updateToggled &&
@@ -33,7 +33,7 @@ const Settings = (props) => {
             <Button nature='empty' capitalize onClick={handleCancel}>
               <FormattedMessage id='scenes.securitysettings.basicsecurity.passwordhint.settings.cancel' defaultMessage='Cancel' />
             </Button>
-            <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleSubmit}>
+            <Button type='submit' nature='primary' capitalize disabled={submitting || invalid}>
               <FormattedMessage id='scenes.securitysettings.basicsecurity.passwordhint.settings.save' defaultMessage='Change' />
             </Button>
           </ButtonWrapper>
