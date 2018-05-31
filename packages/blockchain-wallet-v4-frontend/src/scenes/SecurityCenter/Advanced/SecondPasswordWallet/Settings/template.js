@@ -91,13 +91,8 @@ const Settings = (props) => {
               <Button nature='empty' capitalize onClick={handleCancel}>
                 <FormattedMessage id='scenes.securitysettings.advanced.secondpasswordwallet.settings.cancel2' defaultMessage='Cancel' />
               </Button>
-<<<<<<< HEAD
               <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleSubmit}>
                 <FormattedMessage id='scenes.securitysettings.advanced.secondpasswordwallet.settings.save2' defaultMessage='Save' />
-=======
-              <Button type='submit' nature='primary' capitalize disabled={submitting || invalid}>
-                <FormattedMessage id='scenes.securitysettings.basicsecurity.secondpasswordwallet.settings.save2' defaultMessage='Save' />
->>>>>>> development
               </Button>
             </ButtonWrapper>
           </SettingForm>
