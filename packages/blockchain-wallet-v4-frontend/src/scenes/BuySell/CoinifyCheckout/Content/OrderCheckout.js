@@ -18,18 +18,18 @@ const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, limi
   const disableInputs = limits.max < limits.min || (reason.indexOf('has_remaining') < 0 && reason) || limits.effectiveMax < limits.min
   const wantToHelper = () => type === 'buy' ? <FormattedMessage id='buy.output_method.title.buy' defaultMessage='I want to buy' /> : <FormattedMessage id='buy.output_method.title.sell' defaultMessage='I want to sell' />
 
-  // const limitsHelper = (quoteR, limits) => {
-  //   if (quoteR.error) return true
-  //   return quoteR.map(q => {
-  //     if (q.baseCurrency !== 'BTC') return Math.abs(q.baseAmount) > limits.max || Math.abs(q.baseAmount) < limits.min || Math.abs(q.quoteAmount) > limits.effectiveMax
-  //     if (q.baseCurrency === 'BTC') return Math.abs(q.quoteAmount) > limits.max || Math.abs(q.quoteAmount) < limits.min || Math.abs(q.baseAmount) > limits.effectiveMax
-  //   }).data
-  // }
+  const limitsHelper = (quoteR, limits) => {
+    if (quoteR.error) return true
+    return quoteR.map(q => {
+      if (q.baseCurrency !== 'BTC') return Math.abs(q.baseAmount) > limits.max || Math.abs(q.baseAmount) < limits.min || Math.abs(q.quoteAmount) > limits.effectiveMax
+      if (q.baseCurrency === 'BTC') return Math.abs(q.quoteAmount) > limits.max || Math.abs(q.quoteAmount) < limits.min || Math.abs(q.baseAmount) > limits.effectiveMax
+    }).data
+  }
 
   const submitButtonHelper = () => (
     reason.indexOf('has_remaining') > -1
       ? <StepTransition next Component={Button} onClick={onOrderCheckoutSubmit} style={spacing('mt-45')}
-        nature='primary' fullwidth disabled={checkoutBusy || Remote.Loading.is(quoteR) || checkoutError}>
+        nature='primary' fullwidth disabled={checkoutBusy || Remote.Loading.is(quoteR) || checkoutError || limitsHelper(quoteR, limits)}>
         {
           Remote.Loading.is(quoteR)
             ? <HeartbeatLoader height='20px' width='20px' color='white' />
