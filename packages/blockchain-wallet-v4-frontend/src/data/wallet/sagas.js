@@ -17,10 +17,14 @@ export default ({ coreSagas }) => {
   }
 
   const toggleSecondPassword = function * (action) {
-    const { password } = action.payload
+    const { password, secondPasswordEnabled } = action.payload
     try {
       yield call(coreSagas.wallet.toggleSecondPassword, { password })
-      yield put(actions.alerts.displaySuccess(C.SECOND_PASSWORD_TOGGLE_SUCCESS))
+      if (secondPasswordEnabled) {
+        yield put(actions.alerts.displaySuccess(C.SECOND_PASSWORD_ENABLED_SUCCESS))
+      } else {
+        yield put(actions.alerts.displaySuccess(C.SECOND_PASSWORD_DISABLED_SUCCESS))
+      }
     } catch (error) {
       yield put(actions.logs.logErrorMessage(logLocation, 'toggleSecondPassword', error))
     }
@@ -53,11 +57,18 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const setMainPassword = function * (action) {
+    const { password } = action.payload
+    yield put(actions.core.wallet.setMainPassword(password))
+    yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
+  }
+
   return {
     toggleSecondPassword,
     updatePbkdf2Iterations,
     verifyMmenonic,
     editHdLabel,
-    editBtcAccountLabel
+    editBtcAccountLabel,
+    setMainPassword
   }
 }
