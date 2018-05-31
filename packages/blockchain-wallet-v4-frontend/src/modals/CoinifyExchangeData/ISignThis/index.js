@@ -189,7 +189,11 @@ class ISignThisContainer extends Component {
         <ButtonContainer>
           <Button nature='empty-secondary' onClick={() => coinifyActions.cancelISX()}>
             <Text size='13px' weight={300} color='brand-secondary'>
-              <FormattedMessage id='scenes.buysell.coinify.isx.dolater' defaultMessage="I'll do this later" />
+              {
+                isxType && isxType === 'Trade'
+                  ? <FormattedMessage id='scenes.buysell.coinify.isx.finishlater' defaultMessage='Finish later' />
+                  : <FormattedMessage id='scenes.buysell.coinify.isx.dolater' defaultMessage="I'll do this later" />
+              }
             </Text>
           </Button>
           {
