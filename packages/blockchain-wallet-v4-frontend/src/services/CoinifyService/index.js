@@ -175,11 +175,14 @@ export const bodyStatusHelper = (status, isBuy) => {
 
 export const kycBodyHelper = (status) => {
   switch (status) {
+    case 'reviewing':
+    case 'processing': return { text: <FormattedMessage id='scenes.coinify.details.kyc.reviewing' defaultMessage='Your request for authentication has been submitted and will be reviewed shortly. Coinify will email you a status updated within 48 business hours. If you have any questions about the status of your submission, feel free to reach out to Coinify directly at www.coinify.com/support' /> }
     case 'pending': return { text: <FormattedMessage id='scenes.coinify.detailsmodal.kyc.processing' defaultMessage='Your identity verification is processing.' /> }
     case 'completed': return { text: <FormattedMessage id='scenes.coinify.detailsmodal.kyc.completed' defaultMessage='Your identity verification is complete! Your limits have been raised.' /> }
     case 'rejected': return { text: <FormattedMessage id='scenes.coinify.detailsmodal.kyc.rejected' defaultMessage='There was an issue verifying your identity with the documents provided. Please try uploading different identification. Bank transfers are unavailable until we can successfully verify your identity.' /> }
     case 'failed': return { text: <FormattedMessage id='scenes.coinify.detailsmodal.kyc.failed' defaultMessage='Your identity verification has failed. Please contact support.' /> }
     case 'cancelled': return { text: <FormattedMessage id='scenes.coinify.detailsmodal.kyc.cancelled' defaultMessage='Your identity verification was cancelled. Please try again.' /> }
+    default: return { color: '', text: <FormattedMessage id='scenes.coinify.detailsmodal.kyc.unknown' defaultMessage='Status is unknown' /> }
   }
 }
 
