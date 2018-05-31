@@ -1,5 +1,5 @@
 import React from 'react'
-import { gt, has, slice, toUpper } from 'ramda'
+import { gt, has, slice, toUpper, equals } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 
 export const getLimits = (limits, curr, effectiveBalance) => {
@@ -131,6 +131,12 @@ export const tradeDetails = {
 }
 
 export const getCountryCodeFromIban = (iban) => toUpper(slice(0, 2, iban))
+
+export const canCancelTrade = (trade) => {
+  const { state } = trade
+  if (equals(state, 'awaiting_transfer_in')) return true
+  return false
+}
 
 export const statusHelper = status => {
   switch (status) {
