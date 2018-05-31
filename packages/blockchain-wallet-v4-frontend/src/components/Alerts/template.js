@@ -62,7 +62,7 @@ const selectMessage = (message, data = undefined) => {
     case C.GOOGLE_AUTH_VERIFY_ERROR: return <FormattedMessage id='components.alerts.google_auth_verify_error' defaultMessage='Failed to verify Google Authenticator code' />
     case C.GOOGLE_AUTH_VERIFY_SUCCESS: return <FormattedMessage id='components.alerts.google_auth_verify_success' defaultMessage='Google auth verified' />
     case C.GUID_SENT_ERROR: return <FormattedMessage id='components.alerts.guid_sent_error' defaultMessage='Wallet guid could not be sent to your email address' />
-    case C.GUID_SENT_SUCCESS: return <FormattedMessage id='components.alerts.guid_sent_success' defaultMessage='Your wallet guid has been sent to your email address' />
+    case C.GUID_SENT_SUCCESS: return <FormattedMessage id='components.alerts.guid_sent_success' defaultMessage='Your wallet ID has been sent to your email address' />
     case C.HINT_UPDATE_ERROR: return <FormattedMessage id='components.alerts.hint_update_error' defaultMessage='Failed to update hint' />
     case C.HINT_UPDATE_SUCCESS: return <FormattedMessage id='components.alerts.hint_update_success' defaultMessage='Hint has been successfully updated' />
     case C.IMPORT_LEGACY_SUCCESS: return <FormattedMessage id='components.alerts.import_legacy_success' defaultMessage='Address added successfully' />
