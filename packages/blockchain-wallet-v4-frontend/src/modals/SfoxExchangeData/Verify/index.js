@@ -24,7 +24,7 @@ const faqCopy = [
   }
 ]
 
-const faqHelper = () => faqCopy.map(el => <Helper question={el.question} answer={el.answer} />)
+const faqHelper = () => faqCopy.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
 
 class VerifyContainer extends Component {
   constructor (props) {
