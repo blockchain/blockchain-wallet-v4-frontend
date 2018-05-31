@@ -85,8 +85,8 @@ const faqList = [
   }
 ]
 
-const selectBankFaqHelper = () => selectBankFaqs.map(el => <Helper question={el.question} answer={el.answer} />)
-const faqListHelper = () => faqList.map(el => <Helper question={el.question} answer={el.answer} />)
+const selectBankFaqHelper = () => selectBankFaqs.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
+const faqListHelper = () => faqList.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
 
 const BankLink = (props) => {
   const {
