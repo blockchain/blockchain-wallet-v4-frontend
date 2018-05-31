@@ -23,7 +23,7 @@ const LimitsNotice = styled.div`
 `
 
 const KYCNotification = (props) => {
-  const { kyc, onTrigger, symbol, limits, type } = props
+  const { kyc, onTrigger, symbol, limits, type, canTrade } = props
 
   const state = path(['state'], kyc)
   const header = kycHeaderHelper(state)
@@ -35,7 +35,7 @@ const KYCNotification = (props) => {
   return (
     <Wrapper>
       {
-        (state === 'pending' || state === 'reviewing')
+        (state === 'pending' || state === 'reviewing') && canTrade
           ? <LimitsNotice>
             <Text size='12px' weight={300}>
               {
