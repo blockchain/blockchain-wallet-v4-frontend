@@ -25,6 +25,7 @@ export default ({ coreSagas }) => {
 
   const sfoxSignup = function * () {
     try {
+      yield put(A.sfoxLoading())
       yield call(coreSagas.data.sfox.signup)
       const profile = yield select(selectors.core.data.sfox.getProfile)
       if (!profile.error) {

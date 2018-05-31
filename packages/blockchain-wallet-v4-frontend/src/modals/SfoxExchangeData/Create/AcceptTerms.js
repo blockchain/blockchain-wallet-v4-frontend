@@ -96,7 +96,7 @@ class AcceptTerms extends Component {
     const busy = this.props.errorStatus.cata({
       Success: () => false,
       Failure: (err) => err,
-      Loading: () => true,
+      Loading: () => Remote.Loading,
       NotAsked: () => false
     })
 
@@ -168,9 +168,9 @@ class AcceptTerms extends Component {
             <ButtonWrapper>
               <Button uppercase type='submit' nature='primary' fullwidth disabled={invalid || busy || !smsNumber || !email}>
                 {
-                  !busy
-                    ? <span>Continue</span>
-                    : <HeartbeatLoader height='20px' width='20px' color='white' />
+                  Remote.Loading.is(busy)
+                    ? <HeartbeatLoader height='20px' width='20px' color='white' />
+                    : <span>Continue</span>
                 }
               </Button>
             </ButtonWrapper>
