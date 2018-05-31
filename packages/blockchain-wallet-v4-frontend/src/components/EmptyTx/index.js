@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { Image, Link, Text, TextGroup } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
@@ -33,7 +33,7 @@ class EmptyTxContainer extends React.PureComponent {
           </Header>
           <TextGroup inline>
             <Text size='18px' weight={300}>
-              <FormattedHTMLMessage id='scenes.transactions.empty.content.body' defaultMessage='Please try filtering by a different criteria or ' />
+              <FormattedMessage id='scenes.transactions.empty.content.body' defaultMessage='Please try filtering by a different criteria or ' />
             </Text>
             <Link size='18px' href='https://support.blockchain.com/' target='_blank' referrer='noreferrer'>
               <FormattedMessage id='scenes.transactions.empty.content.body2' defaultMessage='reach out to us ' />

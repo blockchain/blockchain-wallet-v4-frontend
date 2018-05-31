@@ -56,7 +56,7 @@ const RequestEther = (props) => {
               <FormLabel>
                 <FormattedMessage id='modals.requestether.share' defaultMessage='Copy & Share Address:' />
                 <Tooltip>
-                  <FormattedMessage id='modals.requestether.share_tooltip' defaultMessage='Share this address with others, and they can send you ETH directly to your wallet. Your request address will not change.' />
+                  <FormattedMessage id='modals.requestether.sharetooltip' defaultMessage='Share this address with others, and they can send you ETH directly to your wallet. Your request address will not change.' />
                 </Tooltip>
               </FormLabel>
             </FormItem>

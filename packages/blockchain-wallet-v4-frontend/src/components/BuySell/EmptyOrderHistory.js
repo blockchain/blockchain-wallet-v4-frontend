@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { Image, Link, Text, TextGroup } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
@@ -34,7 +34,7 @@ class EmptyOrderHistoryContainer extends React.PureComponent {
           </Header>
           <TextGroup inline>
             <Text size='18px' weight={300}>
-              <FormattedHTMLMessage id='scenes.buysell.empty.content.goto' defaultMessage='To get started, go to ' />
+              <FormattedMessage id='scenes.buysell.empty.content.goto' defaultMessage='To get started, go to ' />
             </Text>
             <Link size='18px' onClick={() => changeTab('buy')}>
               <FormattedMessage id='scenes.buysell.empty.content.buy' defaultMessage='buy ' />
