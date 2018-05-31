@@ -53,9 +53,9 @@ export default ({ api }) => {
         let unconfirmedTx = false
         if (latestTx) {
           const ethOptionsR = yield select(S.walletOptions.getEthereumTxFuse)
-          const lastTxFuse = ethOptionsR.getOrElse(86400000)
+          const lastTxFuse = ethOptionsR.getOrElse(86400) * 1000
           try {
-            const latestTxStatus = yield call(api.getEthereumTransaction, latestTx.txHash)
+            const latestTxStatus = yield call(api.getEthereumTransaction, latestTx)
             if (!latestTxStatus.blockNumber && latestTxTimestamp + lastTxFuse > Date.now()) {
               unconfirmedTx = true
             }
