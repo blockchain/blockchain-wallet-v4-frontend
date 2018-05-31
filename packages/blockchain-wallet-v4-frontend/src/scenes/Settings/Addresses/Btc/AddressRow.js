@@ -24,7 +24,7 @@ const AddressRow = ({ address, archived, coin, renderOptions }) => {
       <AddressTableCell width='50%' style={{ display: 'flex' }}>
         <AddressCell size='13px'>{address.addr}</AddressCell>
         {address.priv == null && (
-          <Banner label type='informational'><FormattedMessage id='scenes.settings.manage_addresses.watch_only' defaultMessage='Watch Only' /></Banner>
+          <Banner label type='informational'><FormattedMessage id='scenes.settings.manage_addresses.watch_only' defaultMessage='Non-Spendable' /></Banner>
         )}
       </AddressTableCell>
       <TableCell width='30%'>
