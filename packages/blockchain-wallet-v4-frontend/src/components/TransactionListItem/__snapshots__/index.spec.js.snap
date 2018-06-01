@@ -17,8 +17,6 @@ exports[`ListItemContainer renders correctly 1`] = `
   <ListItemContainer
     bchActions={
       Object {
-        "addBchAccount": [Function],
-        "addBchAccountComplete": [Function],
         "createMetadataBch": [Function],
         "fetchMetadataBch": [Function],
         "fetchMetadataBchFailure": [Function],
