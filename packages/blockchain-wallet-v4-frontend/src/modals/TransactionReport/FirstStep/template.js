@@ -54,11 +54,11 @@ const FirstStep = (props) => {
       </ModalBody>
       <ModalFooter align='right'>
         <Link size='13px' weight={300} fullwidth onClick={close}>
-          <FormattedMessage id='modals.firststep.transactionreport.close' defaultMessage='Close' />
+          <FormattedMessage id='modals.firststep.transactionreport.firststep.close' defaultMessage='Close' />
         </Link>
         <ButtonContainer>
           <Button type='submit' nature='primary' disabled={submitting || invalid}>
-            <FormattedMessage id='modals.firststep.transactionreport.generate' defaultMessage='Export' />
+            <FormattedMessage id='modals.firststep.transactionreport.firststep.generate' defaultMessage='Export' />
           </Button>
         </ButtonContainer>
       </ModalFooter>

@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { isNil, isEmpty } from 'ramda'
 
+import * as C from 'services/AlertService'
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import MobileLogin from './template.js'
@@ -19,7 +20,7 @@ class MobileLoginContainer extends React.PureComponent {
   }
 
   handleError (error) {
-    if (isNil(error) && isEmpty(error)) { this.props.alertsActions.displayError('Could not scan the mobile login QR Code') }
+    if (isNil(error) && isEmpty(error)) { this.props.alertsActions.displayError(C.MOBILE_LOGIN_SCAN_ERROR) }
   }
 
   render () {

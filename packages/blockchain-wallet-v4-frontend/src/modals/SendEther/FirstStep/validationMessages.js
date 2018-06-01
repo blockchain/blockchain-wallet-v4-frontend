@@ -15,16 +15,16 @@ const Wrapper = styled.div`
 `
 
 export const InvalidAmountMessage = () => (
-  <FormattedMessage id='modals.sendeth.amountnotzeromessage' defaultMessage="Invalid amount" />
+  <FormattedMessage id='modals.sendeth.amountnotzeromessage' defaultMessage='Invalid amount' />
 )
 
 export const MaximumAmountMessage = () => (
   <Wrapper>
-    <FormattedMessage id='modals.sendeth.maximumamountmessage' defaultMessage='Maximum amount exceeded. Use' />
+    <FormattedMessage id='modals.sendeth.maximumamountmessage' defaultMessage='Not enough funds. Use' />
     <MaximumAmountLink />
   </Wrapper>
 )
 
 export const InsufficientFundsMessage = () => (
-  <FormattedMessage id='modals.sendeth.insufficientfundsnessage' defaultMessage='Insufficient funds' />
+  <FormattedMessage id='modals.sendeth.insufficientfundsmessage' defaultMessage='Insufficient funds' />
 )

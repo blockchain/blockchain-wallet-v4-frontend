@@ -35,22 +35,20 @@ const CancelWrapper = styled.div`
 `
 
 const renderRate = (rate, q) => {
-  return <FormattedMessage id='rate' defaultMessage='{rate}'
-    values={{ rate: `${currencySymbolMap[q.baseCurrency]}${rate.toLocaleString()}` }} />
+  return <FormattedMessage id='scenes.buysell.coinifycheckout.content.orderreview.rate' defaultMessage='{rate}' values={{ rate: `${currencySymbolMap[q.baseCurrency]}${rate.toLocaleString()}` }} />
 }
 
 export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
   <ExchangeCheckoutWrapper>
     <Text size='32px' weight={600} style={spacing('mb-10')}>
-      <FormattedMessage id='buy.almost_there' defaultMessage="You're almost there" />
+      <FormattedMessage id='scenes.buysell.coinifycheckout.content.orderreview.buy.almostthere' defaultMessage="You're almost there" />
     </Text>
     <Text size='14px' weight={300} style={spacing('mb-20')}>
-      <FormattedMessage id='buy.review_order_subtext'
-        defaultMessage='Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order.' />
+      <FormattedMessage id='scenes.buysell.coinifycheckout.content.orderreview.buy.revieworder.subtext' defaultMessage='Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order.' />
     </Text>
     <ExchangeRateWrapper>
       <Text size='12px' weight={500} style={spacing('mr-10')}>
-        <FormattedMessage id='exchange_rate' defaultMessage='Exchange Rate' />
+        <FormattedMessage id='scenes.buysell.coinifycheckout.content.orderreview.exchangerate' defaultMessage='Exchange Rate' />
       </Text>
       <Text size='12px' weight={300}>
         1 BTC = {quoteR.map((q) => {
@@ -114,27 +112,27 @@ export const OrderSubmit = ({ quoteR, onSubmit, busy, clearTradeError, goToStep 
             {
               busy
                 ? <HeartbeatLoader height='20px' width='20px' color='white' />
-                : <FormattedMessage id='submit' defaultMessage='Submit' />
+                : <FormattedMessage id='scenes.buysell.coinifycheckout.content.orderreview.submit' defaultMessage='Submit' />
             }
           </Button>
           <CancelWrapper>
             <StepTransition restart Component={Link}>
-              <FormattedMessage id='cancel' defaultMessage='Cancel' />
+              <FormattedMessage id='scenes.buysell.coinifycheckout.content.orderreview.cancel' defaultMessage='Cancel' />
             </StepTransition>
           </CancelWrapper>
         </Fragment>
     }
     <StyledFaqRow
-      title={<FormattedMessage id='faq.how_long_to_receive_q' defaultMessage='How long does it take to get my funds?' />}
-      description={<FormattedMessage id='faq.how_long_to_receive_a' defaultMessage='A bitcoin is never late, nor is it early. A bitcoin arrives precisely when it intends to.' />}
+      title={<FormattedMessage id='scenes.buysell.coinifycheckout.content.orderreview.faq.howlongtoreceive.question' defaultMessage='How long does it take to get my funds?' />}
+      description={<FormattedMessage id='scenes.buysell.coinifycheckout.content.orderreview.faq.howlongtoreceive.answer' defaultMessage='A bitcoin is never late, nor is it early. A bitcoin arrives precisely when it intends to.' />}
     />
     <StyledFaqRow
-      title={<FormattedMessage id='faq.exchange_rate_q' defaultMessage='What is the exchange rate?' />}
-      description={<FormattedMessage id='faq.exchange_rate_a' defaultMessage='The exchange rate varies from minute to minute.' />}
+      title={<FormattedMessage id='scenes.buysell.coinifycheckout.content.orderreview.faq.exchangerate.question' defaultMessage='What is the exchange rate?' />}
+      description={<FormattedMessage id='scenes.buysell.coinifycheckout.content.orderreview.faq.exchangerate.answer' defaultMessage='The exchange rate varies from minute to minute.' />}
     />
     <StyledFaqRow
-      title={<FormattedMessage id='faq.exchange_fees_q' defaultMessage='What are the fees?' />}
-      description={<FormattedMessage id='faq.exchange_fees_a' defaultMessage='Each exchange takes a small percentage of the total amount as a fee.' />}
+      title={<FormattedMessage id='scenes.buysell.coinifycheckout.content.orderreview.faq.exchangefees.question' defaultMessage='What are the fees?' />}
+      description={<FormattedMessage id='scenes.buysell.coinifycheckout.content.orderreview.faq.exchangefees.answer' defaultMessage='Each exchange takes a small percentage of the total amount as a fee.' />}
     />
   </Fragment>
 )

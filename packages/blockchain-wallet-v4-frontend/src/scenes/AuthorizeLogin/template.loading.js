@@ -15,7 +15,7 @@ const Loading = props => {
     <Wrapper>
       <BlockchainLoader width='40px' height='40px' />
       <Text size='16px' weight={300} style={{ 'margin-top': '25px' }}>
-        <FormattedMessage id='scenes.authorizelogin.loading' defaultMessage="We're verifying your authorization attempt. Please wait..." />
+        <FormattedMessage id='scenes.authorizelogin.verifying' defaultMessage="We're verifying your authorization attempt. Please wait..." />
       </Text>
     </Wrapper>
   )

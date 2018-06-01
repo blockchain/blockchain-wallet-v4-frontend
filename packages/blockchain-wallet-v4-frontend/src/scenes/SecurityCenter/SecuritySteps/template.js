@@ -67,7 +67,7 @@ const SecuritySteps = (props) => {
           {emailSuccess && <Icon name='checkmark' color='success' size='30px' />}
         </Circle>
         <StepText success={emailSuccess} size='12px' weight={300}>
-          <FormattedMessage id='scenes.securitycenter.step1' defaultMessage='Verified Email Address' />
+          <FormattedMessage id='scenes.securitycenter.steps.step1' defaultMessage='Verified Email Address' />
         </StepText>
       </EmailSection>
       <TwoStepSection success={twoFactorSuccess} leftRadius={twoFactorSuccess && emailSuccess} rightRadius={twoFactorSuccess && isMnemonicVerified}>
@@ -75,7 +75,7 @@ const SecuritySteps = (props) => {
           {twoFactorSuccess && <Icon name='checkmark' color='success' size='30px' />}
         </Circle>
         <StepText success={twoFactorSuccess} size='12px' weight={300}>
-          <FormattedMessage id='scenes.securitycenter.step2' defaultMessage='Two-Step Verification' />
+          <FormattedMessage id='scenes.securitycenter.steps.step2' defaultMessage='Two-Step Verification' />
         </StepText>
       </TwoStepSection>
       <BackupSection success={isMnemonicVerified} radius={isMnemonicVerified && twoFactorSuccess}>
@@ -83,7 +83,7 @@ const SecuritySteps = (props) => {
           {isMnemonicVerified && <Icon name='checkmark' color='success' size='30px' />}
         </Circle>
         <StepText success={isMnemonicVerified} size='12px' weight={300}>
-          <FormattedMessage id='scenes.securitycenter.step3' defaultMessage='Backup Phrase' />
+          <FormattedMessage id='scenes.securitycenter.steps.step3' defaultMessage='Backup Phrase' />
         </StepText>
       </BackupSection>
     </Wrapper>

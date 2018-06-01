@@ -6,6 +6,7 @@ import * as actions from '../../actions'
 import * as selectors from '../../selectors'
 import settings from 'config'
 import { initialize, change } from 'redux-form'
+import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 
@@ -136,10 +137,10 @@ export default ({ coreSagas }) => {
       }
       yield put(actions.core.data.bch.fetchTransactions('', true))
       yield put(actions.router.push('/bch/transactions'))
-      yield put(actions.alerts.displaySuccess('Your bitcoin cash transaction is now pending.'))
+      yield put(actions.alerts.displaySuccess(C.SEND_BCH_SUCCESS))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e))
-      yield put(actions.alerts.displayError('Your bitcoin cash transaction failed to send. Please try again.'))
+      yield put(actions.alerts.displayError(C.SEND_BCH_ERROR))
     }
   }
 
