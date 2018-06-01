@@ -12,25 +12,31 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  padding: 30px;
+  width: 100%;
+  height: 100%;
+  padding: 0 30px 30px 30px;
   box-sizing: border-box;
-  overflow-x: hidden;
-  overflow-y: scroll;
 `
 const Search = styled.div`
   position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  margin-bottom: 20px;
-  box-sizing: border-box;
+  height: 80px;
 
   & > :last-child {
     position: absolute;
-    top: 10px;
+    top: 50%;
+    margin-top: -10px;
     right: 10px;
   }
 `
 const Content = styled.div`
-  height: 100%;
+  width: 100%;
+  height: calc(100% - 80px);
+  overflow-x: auto;
   overflow-y: scroll;
 `
 

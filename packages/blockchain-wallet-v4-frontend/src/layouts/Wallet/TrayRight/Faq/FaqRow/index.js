@@ -13,13 +13,10 @@ class FaqRowContainer extends React.PureComponent {
   }
 
   render () {
-    const { title, description, ...rest } = this.props
-
     return (
       <FaqRow
-        {...rest}
-        title={title}
-        description={description}
+        title={this.props.title}
+        description={this.props.description}
         toggled={this.state.toggled}
         handleToggle={this.handleToggle}
       />
