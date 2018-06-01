@@ -138,6 +138,7 @@ export const statusHelper = status => {
     case 'rejected': return { color: 'error', text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatus.rejected' defaultMessage='Rejected' /> }
     case 'failed': return { color: 'error', text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatus.failed' defaultMessage='Failed' /> }
     case 'cancelled': return { color: 'error', text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatus.cancelled' defaultMessage='Cancelled' /> }
+    case 'expired': return { color: 'error', text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatus.expired' defaultMessage='Expired' /> }
     default: return { color: '', text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatus.unknown' defaultMessage='Unknown' /> }
   }
 }
@@ -152,6 +153,7 @@ export const bodyStatusHelper = (status, isBuy) => {
       case 'rejected': return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.buy.rejected' defaultMessage='Your buy trade has been rejected. Please contact support.' /> }
       case 'failed': return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.buy.failed' defaultMessage='Your buy trade failed. Please contact support.' /> }
       case 'cancelled': return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.buy.cancelled' defaultMessage='Your buy trade was cancelled.' /> }
+      case 'expired': return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.buy.expired' defaultMessage='Your buy trade has expired.' /> }
     }
   } else {
     switch (status) {
@@ -159,6 +161,7 @@ export const bodyStatusHelper = (status, isBuy) => {
       case 'completed': return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.sell.completed' defaultMessage='Your sell trade is complete!' /> }
       case 'rejected': return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.sell.rejected' defaultMessage='Your sell trade has been rejected. Please contact support.' /> }
       case 'failed': return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.sell.failed' defaultMessage='Your sell trade failed. Please contact support.' /> }
+      case 'expired': return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.sell.expired' defaultMessage='Your sell trade has expired.' /> }
     }
   }
   return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.unknown' defaultMessage='There are issues with this trade. Please contact support.' /> }
