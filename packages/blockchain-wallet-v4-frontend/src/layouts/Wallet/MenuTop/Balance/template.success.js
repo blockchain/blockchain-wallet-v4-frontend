@@ -11,8 +11,6 @@ import BchWatchOnlyBalance from './BchWatchOnlyBalance'
 import { FormattedMessage } from 'react-intl'
 import { ComponentDropdown, Separator, Text } from 'blockchain-info-components'
 
-const Fragment = React.Fragment
-
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;

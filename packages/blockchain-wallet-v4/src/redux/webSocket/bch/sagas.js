@@ -21,9 +21,9 @@ export default ({ api, bchSocket }) => {
 
     switch (message.op) {
       case 'utx':
-        const spendableContext = yield select(walletSelectors.getSpendableContext)
-        yield put(bchActions.fetchTransactions('', true))
+        const spendableContext = yield select(bchSelectors.getSpendableContext)
         yield put(bchActions.fetchSpendableBalance(spendableContext))
+        yield put(bchActions.fetchTransactions('', true))
         const transactions = yield take(bchAT.FETCH_BCH_TRANSACTIONS_SUCCESS)
         for (let i in transactions.payload.transactions) {
           const tx = transactions.payload.transactions[i]
