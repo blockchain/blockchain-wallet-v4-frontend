@@ -65,32 +65,23 @@ export const mockedLimits = {
 
 export const reviewOrder = {
   baseBtc: (q) => q.baseCurrency === 'BTC',
-  hasMedium: (paymentMediums, medium) => {
-    if (medium) return medium
-    if (paymentMediums && has(medium, paymentMediums)) {
-      return medium
-    } else {
-      return medium === 'bank' ? 'card' : 'bank'
-    }
-  },
-  renderFirstRow: (q, type, medium) => {
+  renderFirstRow: (q, medium) => {
     const qAmt = Math.abs(q.quoteAmount)
     const bAmt = Math.abs(q.baseAmount)
     if (reviewOrder.baseBtc(q)) return `${bAmt / 1e8} BTC (${currencySymbolMap[q.quoteCurrency]}${qAmt.toFixed(2)})`
     else return `${qAmt / 1e8} BTC (${currencySymbolMap[q.baseCurrency]}${bAmt.toFixed(2)})`
   },
-  renderFeeRow: (q, type, medium) => {
+  renderFeeRow: (q, medium) => {
     const med = medium
     const fee = path(['paymentMediums', med], q) && Math.abs(q.paymentMediums[med]['fee'])
     if (!fee) return `~`
     if (reviewOrder.baseBtc(q)) return `${currencySymbolMap[q.quoteCurrency]}${fee && fee.toFixed(2)}`
     else return `${currencySymbolMap[q.baseCurrency]}${fee && fee.toFixed(2)}`
   },
-  renderTotalRow: (q, type, medium) => {
+  renderTotalRow: (q, medium) => {
     const qAmt = Math.abs(q.quoteAmount)
-    const med = reviewOrder.hasMedium(q.paymentMediums, medium)
-    const fee = path(['paymentMediums', med], q) && Math.abs(q.paymentMediums[med]['fee'])
-    const totalBase = path(['paymentMediums', med], q) && Math.abs((q.paymentMediums[med]['total']).toFixed(2))
+    const fee = path(['paymentMediums', medium], q) && Math.abs(q.paymentMediums[medium]['fee'])
+    const totalBase = path(['paymentMediums', medium], q) && Math.abs((q.paymentMediums[medium]['total']).toFixed(2))
     if (!fee) return `~`
     if (reviewOrder.baseBtc(q)) return `${currencySymbolMap[q.quoteCurrency]}${(qAmt + (fee || 0)).toFixed(2)}`
     else return `${currencySymbolMap[q.baseCurrency]}${totalBase}`
@@ -123,6 +114,18 @@ export const canCancelTrade = (trade) => {
   const { state } = trade
   if (equals(state, 'awaiting_transfer_in')) return true
   return false
+}
+
+export const checkoutButtonLimitsHelper = (quoteR, limits, type) => {
+  return quoteR.map(q => {
+    if (type === 'sell') {
+      if (q.baseCurrency !== 'BTC') return Math.abs(q.quoteAmount / 1e8) > limits.max || Math.abs(q.quoteAmount / 1e8) < limits.min || Math.abs(q.quoteAmount) > limits.effectiveMax
+      if (q.baseCurrency !== 'BTC') return Math.abs(q.baseAmount / 1e8) > limits.max || Math.abs(q.baseAmount / 1e8) < limits.min || Math.abs(q.baseAmount) > limits.effectiveMax
+    } else {
+      if (q.baseCurrency !== 'BTC') return Math.abs(q.baseAmount) > limits.max || Math.abs(q.baseAmount) < limits.min || Math.abs(q.quoteAmount) > limits.effectiveMax
+      if (q.baseCurrency === 'BTC') return Math.abs(q.quoteAmount) > limits.max || Math.abs(q.quoteAmount) < limits.min || Math.abs(q.baseAmount) > limits.effectiveMax
+    }
+  }).data
 }
 
 export const statusHelper = status => {
