@@ -16,6 +16,7 @@ export const getData = createDeepEqualSelector(
       ethContext,
       bchContext,
       btcUnspendableContext,
+      bchUnspendableContext,
       path
     })
     return ethContextR.map(transform)
