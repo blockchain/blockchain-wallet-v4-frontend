@@ -72,7 +72,7 @@ export const selectAddrContext = compose(AddressMap.selectContext, AddressMap.se
 export const selectArchivedContext = compose(AddressMap.selectContext, AddressMap.selectActive, selectAddresses)
 export const selectXpubsContext = compose(HDWallet.selectContext, HDWalletList.selectHDWallet, selectHdWallets)
 export const selectSpendableAddrContext = compose(AddressMap.selectContext, AddressMap.selectSpendable, selectAddresses)
-export const selectUnspendableAddrContext = compose(AddressMap.selectContext, AddressMap.selectUnspendable, selectAddresses)
+export const selectUnspendableAddrContext = compose(AddressMap.selectContext, AddressMap.selectUnspendable, AddressMap.selectActive, selectAddresses)
 export const selectContext = w => selectAddrContext(w).concat(selectXpubsContext(w))
 export const selectHDAccounts = w => selectHdWallets(w).flatMap(HDWallet.selectAccounts)
 export const selectSpendableContext = w => selectSpendableAddrContext(w).concat(selectXpubsContext(w))
