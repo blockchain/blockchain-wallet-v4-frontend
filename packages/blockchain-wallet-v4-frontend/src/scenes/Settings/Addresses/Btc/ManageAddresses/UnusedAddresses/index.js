@@ -23,11 +23,10 @@ class UnusedAddressesContainer extends React.PureComponent {
     const onShowXPub = () => modalsActions.showModal('ShowXPub', { xpub: account.xpub })
     const onMakeDefault = () => coreActions.setDefaultAccountIdx(account.index)
     const onGenerateNextAddress = () => {
-      if (length(unusedAddresses) >= 15) {
+      if (length(this.props.unusedAddresses.getOrElse([])) >= 15) {
         this.props.alertActions.displayError(C.ADDRESS_LABEL_MAXIMUM_ERROR)
       } else {
         this.props.componentActions.generateNextReceiveAddress(this.props.walletIndex)
-        //coreActions.setHdAddressLabel(account.index, i + 1, 'New Address')
       }
     }
     const onSetArchived = () => {
@@ -56,7 +55,6 @@ const mapStateToProps = (state, ownProps) => {
   const currentReceiveIndex = selectors.core.data.bitcoin.getReceiveIndex(account.xpub, state)
   const search = formValueSelector('manageAddresses')(state, 'search')
 
-  // TODO: are you sure adding next receive address works..
   return { account, isDefault, currentReceiveIndex, unusedAddresses, search }
 }
 

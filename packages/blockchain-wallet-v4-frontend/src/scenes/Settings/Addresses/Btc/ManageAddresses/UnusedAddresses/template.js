@@ -22,9 +22,9 @@ const MoreOptions = () => (
 
 const UnusedAddressesTemplate = ({ account, currentReceiveIndex, unusedAddresses, isDefault, onGenerateNextAddress, onEditLabel, onDeleteLabel, onEditBtcAccountLabel, onShowXPub, onMakeDefault, onSetArchived, search }) => {
   const isMatch = (addr) => !search || addr.label.toLowerCase().indexOf(search.toLowerCase()) > -1 || addr.address.toLowerCase().indexOf(search.toLowerCase()) > -1
-  const addresses = filter(isMatch, unusedAddresses).map((entry) => {
+  const addresses = filter(isMatch, unusedAddresses).map((entry, i) => {
     return (
-      <TableRow key={entry.index}>
+      <TableRow key={i}>
         <TableCell width='40%'>
           <Link href={`https://blockchain.info/address/${entry.address}`} size='small' weight={300} target='_blank'>
             {entry.address}

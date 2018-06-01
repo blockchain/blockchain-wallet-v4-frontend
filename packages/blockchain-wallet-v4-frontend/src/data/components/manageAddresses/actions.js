@@ -4,7 +4,7 @@ import * as AT from './actionTypes'
 export const generateNextReceiveAddress = (walletIndex) => ({ type: AT.GENERATE_NEXT_RECEIVE_ADDRESS, payload: { walletIndex } })
 export const generateNextReceiveAddressError = (walletIndex, message) => ({ type: AT.GENERATE_NEXT_RECEIVE_ADDRESS_ERROR, payload: { walletIndex, message } })
 export const generateNextReceiveAddressLoading = (walletIndex) => ({ type: AT.GENERATE_NEXT_RECEIVE_ADDRESS_LOADING, payload: { walletIndex } })
-export const generateNextReceiveAddressSuccess = (walletIndex) => ({ type: AT.GENERATE_NEXT_RECEIVE_ADDRESS_SUCCESS, payload: { walletIndex } })
+export const generateNextReceiveAddressSuccess = (walletIndex, newAddress) => ({ type: AT.GENERATE_NEXT_RECEIVE_ADDRESS_SUCCESS, payload: { walletIndex, newAddress } })
 
 export const fetchUnusedAddresses = (walletIndex) => ({ type: AT.FETCH_UNUSED_ADDRESSES, payload: { walletIndex } })
 export const fetchUnusedAddressesError = (walletIndex, message) => ({ type: AT.FETCH_UNUSED_ADDRESSES_ERROR, payload: { walletIndex, message } })
