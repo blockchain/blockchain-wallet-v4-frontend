@@ -84,7 +84,7 @@ export default ({ coreSagas }) => {
       if (qaAddress) {
         payment = yield payment.to(qaAddress)
       } else {
-        payment = yield payment.to(trade.receiveAddress)
+        payment = yield payment.to(path(['transferIn', 'details', 'account'], trade))
       }
 
       payment = yield payment.description(`Exchange Trade COINIFY=${trade.id}`)
