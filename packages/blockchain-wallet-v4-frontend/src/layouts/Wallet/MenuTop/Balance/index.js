@@ -12,7 +12,13 @@ class Balance extends React.PureComponent {
   render () {
     const { data } = this.props
     return data.cata({
-      Success: (value) => <Success btcContext={value.btcSpendableContext} btcUnspendableContext={value.btcUnspendableContext} ethContext={value.ethContext} bchContext={value.bchContext} path={value.path} />,
+      Success: (value) => <Success
+        btcContext={value.btcContext}
+        ethContext={value.ethContext}
+        bchContext={value.bchContext}
+        btcUnspendableContext={value.btcUnspendableContext}
+        bchUnspendableContext={value.bchUnspendableContext}
+        path={value.path} />,
       Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />

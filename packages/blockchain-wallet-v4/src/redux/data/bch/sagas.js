@@ -95,6 +95,28 @@ export default ({ api }) => {
     }
   }
 
+  const fetchSpendableBalance = function * (action) {
+    try {
+      const { context } = action.payload
+      yield put(A.fetchSpendableBalanceLoading())
+      const data = yield call(api.fetchBchData, context)
+      yield put(A.fetchSpendableBalanceSuccess(data))
+    } catch (e) {
+      yield put(A.fetchSpendableBalanceFailure(e))
+    }
+  }
+
+  const fetchUnspendableBalance = function * (action) {
+    try {
+      const { context } = action.payload
+      yield put(A.fetchUnspendableBalanceLoading())
+      const data = yield call(api.fetchBchData, context)
+      yield put(A.fetchUnspendableBalanceSuccess(data))
+    } catch (e) {
+      yield put(A.fetchUnspendableBalanceFailure(e))
+    }
+  }
+
   const multiaddrSaga = function * (data) {
     const bchData = {
       addresses: indexBy(prop('address'), prop('addresses', data)),
@@ -105,11 +127,13 @@ export default ({ api }) => {
   }
 
   return {
+    fetchFee,
     fetchData,
     fetchRates,
-    fetchFee,
+    fetchUnspent,
     watchTransactions,
-    fetchTransactionHistory,
-    fetchUnspent
+    fetchSpendableBalance,
+    fetchUnspendableBalance,
+    fetchTransactionHistory
   }
 }

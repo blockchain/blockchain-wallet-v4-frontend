@@ -6,6 +6,7 @@ import BtcBalance from './BtcBalance'
 import EthBalance from './EthBalance'
 import BchBalance from './BchBalance'
 import BtcWatchOnlyBalance from './BtcWatchOnlyBalance'
+import BchWatchOnlyBalance from './BchWatchOnlyBalance'
 
 import { FormattedMessage } from 'react-intl'
 import { ComponentDropdown, Separator, Text } from 'blockchain-info-components'
@@ -64,9 +65,14 @@ const BalanceDropdown = styled.div`
     position: relative;
   }
 `
+const SubItems = styled.div`
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+`
 
 const Success = props => {
-  const { btcContext, ethContext, bchContext, btcUnspendableContext, path } = props
+  const { btcContext, ethContext, bchContext, btcUnspendableContext, bchUnspendableContext, path } = props
 
   const getComponentOrder = () => {
     switch (path) {
@@ -87,10 +93,11 @@ const Success = props => {
   }
 
   const getSubBalances = () => {
-    return btcUnspendableContext.length ? <Fragment>
+    return btcUnspendableContext.length || bchUnspendableContext.length ? <SubItems>
       <Separator margin='0' />
       <BtcWatchOnlyBalance context={btcUnspendableContext} />
-    </Fragment> : null
+      <BchWatchOnlyBalance context={bchUnspendableContext} />
+    </SubItems> : null
   }
 
   return (

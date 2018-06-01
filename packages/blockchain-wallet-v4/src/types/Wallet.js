@@ -68,11 +68,15 @@ export const selectAddresses = view(addresses)
 export const selectHdWallets = view(hdWallets)
 export const isDoubleEncrypted = compose(Boolean, view(doubleEncryption))
 
-export const selectArchivedContext = compose(AddressMap.selectContext, AddressMap.selectActive, selectAddresses)
 export const selectAddrContext = compose(AddressMap.selectContext, AddressMap.selectActive, selectAddresses)
+export const selectArchivedContext = compose(AddressMap.selectContext, AddressMap.selectActive, selectAddresses)
 export const selectXpubsContext = compose(HDWallet.selectContext, HDWalletList.selectHDWallet, selectHdWallets)
-export const selectHDAccounts = w => selectHdWallets(w).flatMap(HDWallet.selectAccounts)
+export const selectSpendableAddrContext = compose(AddressMap.selectContext, AddressMap.selectSpendable, selectAddresses)
+export const selectUnspendableAddrContext = compose(AddressMap.selectContext, AddressMap.selectUnspendable, selectAddresses)
 export const selectContext = w => selectAddrContext(w).concat(selectXpubsContext(w))
+export const selectHDAccounts = w => selectHdWallets(w).flatMap(HDWallet.selectAccounts)
+export const selectSpendableContext = w => selectSpendableAddrContext(w).concat(selectXpubsContext(w))
+export const selectUnspendableContext = w => selectUnspendableAddrContext(w).concat(selectXpubsContext(w))
 
 const shiftWallet = compose(shiftIProp('keys', 'addresses'), shift)
 
