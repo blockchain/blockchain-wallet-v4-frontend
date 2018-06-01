@@ -1,5 +1,5 @@
 import { call, put, select } from 'redux-saga/effects'
-import { filter, findIndex, forEach, pluck, propEq } from 'ramda'
+import { ascend, filter, findIndex, forEach, pluck, prop, propEq, sort, sortBy } from 'ramda'
 
 import * as A from './actions'
 import * as actions from '../../actions'
@@ -28,9 +28,16 @@ export default ({ api }) => {
 
   const generateNextReceiveAddress = function * (action) {
     const { walletIndex } = action.payload
-    debugger
     try {
       yield put(A.generateNextReceiveAddressLoading(walletIndex))
+      const wallet = yield select(selectors.core.wallet.getWallet)
+      const account = Types.Wallet.selectHDAccounts(wallet).get(walletIndex)
+      const labels = Types.HDAccount.selectAddressLabels(account).reverse().toArray()
+      const receiveIndex = yield select(selectors.core.data.bitcoin.getReceiveIndex(account.xpub))
+      const lastLabeledIndex = labels.reduce((acc, l) => Math.max(acc, l.index), 0)
+      yield put(actions.core.wallet.setHdAddressLabel(account.index, Math.max(receiveIndex.data, lastLabeledIndex + 1), 'New Address'))
+      yield put(A.fetchUnusedAddresses(walletIndex))
+      yield put(A.generateNextReceiveAddressSuccess(walletIndex))
     } catch (e) {
       yield put(A.generateNextReceiveAddressError(walletIndex, e))
       yield put(actions.logs.logErrorMessage(logLocation, 'generateNextReceiveAddress', e))
@@ -55,11 +62,11 @@ export default ({ api }) => {
       forEach((labeledAddr) => {
         let idx = findIndex(propEq('address', labeledAddr.address))(unusedAddresses)
         if (idx !== -1) {
+          unusedAddresses[idx].derivationIndex = labeledAddr.index
           unusedAddresses[idx].label = labeledAddr.label
         }
       }, labeledAddrs)
-
-      yield put(A.fetchUnusedAddressesSuccess(walletIndex, unusedAddresses))
+      yield put(A.fetchUnusedAddressesSuccess(walletIndex, sort((a, b) => { return a.derivationIndex - b.derivationIndex }, unusedAddresses)))
     } catch (e) {
       yield put(A.fetchUnusedAddressesError(walletIndex, e))
       yield put(actions.logs.logErrorMessage(logLocation, 'fetchUnusedAddresses', e))

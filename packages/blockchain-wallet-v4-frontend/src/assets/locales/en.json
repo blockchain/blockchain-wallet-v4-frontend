@@ -6,7 +6,7 @@
   "components.alerts.addresserroradd": "Error adding address.",
   "components.alerts.address_does_not_exist_error": "This address already exists in your wallet.",
   "components.alerts.address_format_not_supported_error": "This address format is not supported.",
-  "components.alerts.address_label_maximum_error": "You cannot label more than 15 unused addresses in a row; please send some bitcoins to at least one of them.",
+  "components.alerts.address_label_maximum_error": "You cannot have more than 15 unused addresses. Please send some Bitcoin to at least one of them.",
   "components.alerts.address_label_update_success": "Address label updated.",
   "components.alerts.authorization_required_info": "Authorization required. Please check your mailbox.",
   "components.alerts.autologout_update_error": "Failed to update auto logout",
