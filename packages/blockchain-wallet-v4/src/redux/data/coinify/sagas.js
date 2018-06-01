@@ -88,7 +88,7 @@ export default ({ api, options }) => {
       const refreshedQuote = yield call(fetchQuote, {quote: quotePayload})
       yield call(getPaymentMediums, {payload: refreshedQuote})
     } catch (e) {
-
+      yield put(A.fetchQuoteFailure(e))
     }
   }
 

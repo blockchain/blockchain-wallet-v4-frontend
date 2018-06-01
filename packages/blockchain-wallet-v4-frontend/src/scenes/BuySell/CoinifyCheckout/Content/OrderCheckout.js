@@ -7,6 +7,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { StepTransition } from 'components/Utilities/Stepper'
 import QuoteInput from './QuoteInput'
 import { MethodContainer } from 'components/BuySell/styled.js'
+import { checkoutButtonLimitsHelper } from 'services/CoinifyService'
 
 const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, limits, checkoutError,
   type, defaultCurrency, symbol, checkoutBusy, busy, setMax, setMin, increaseLimit, onOrderCheckoutSubmit }) => {
@@ -20,10 +21,7 @@ const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, limi
 
   const limitsHelper = (quoteR, limits) => {
     if (quoteR.error) return true
-    return quoteR.map(q => {
-      if (q.baseCurrency !== 'BTC') return Math.abs(q.baseAmount) > limits.max || Math.abs(q.baseAmount) < limits.min || Math.abs(q.quoteAmount) > limits.effectiveMax
-      if (q.baseCurrency === 'BTC') return Math.abs(q.quoteAmount) > limits.max || Math.abs(q.quoteAmount) < limits.min || Math.abs(q.baseAmount) > limits.effectiveMax
-    }).data
+    return checkoutButtonLimitsHelper(quoteR, limits, type)
   }
 
   const submitButtonHelper = () => (
