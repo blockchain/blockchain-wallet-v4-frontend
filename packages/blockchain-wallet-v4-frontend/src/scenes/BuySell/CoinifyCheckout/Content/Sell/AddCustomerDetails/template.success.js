@@ -7,7 +7,8 @@ import { Button, Link, Text } from 'blockchain-info-components'
 import { required } from 'services/FormHelper'
 import { spacing } from 'services/StyleService'
 import { StepTransition } from 'components/Utilities/Stepper'
-import { BorderBox, Form, CancelWrapper, ColLeft, ColRight, ColRightInner, InputWrapper, PartnerHeader, PartnerSubHeader, Row } from 'components/BuySell/Signup'
+import { BorderBox, Form, CancelWrapper, ColLeft, ColRight,
+  ColRightInner, InputWrapper, PartnerHeader, PartnerSubHeader } from 'components/BuySell/Signup'
 import { SelectBoxCountry, TextBox } from 'components/Form'
 
 const SpaceRow = styled.div`
