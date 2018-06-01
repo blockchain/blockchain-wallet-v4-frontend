@@ -1,9 +1,7 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { path } from 'ramda'
 
-import { Remote } from 'blockchain-wallet-v4/src'
 import { actions, selectors } from 'data'
 import UsedAddressesShowTemplate from './template'
 
@@ -28,23 +26,13 @@ class UsedAddressesContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  // since usedAddresses state tree is stored based on walletIndexes, the default states will not exist
-  // on first attempt to access
-  if (!path(['state', 'components', 'usedAddresses', ownProps.walletIndex])) {
-    state.components.usedAddresses[ownProps.walletIndex] = {
-      visible: false,
-      addresses: Remote.NotAsked
-    }
-  }
-  return {
-    usedAddressesVisible: selectors.components.usedAddresses.getWalletUsedAddressVisibility(state, ownProps.walletIndex)
-  }
-}
+const mapStateToProps = (state, ownProps) => ({
+  usedAddressesVisible: selectors.components.manageAddresses.getWalletUsedAddressVisibility(state, ownProps.walletIndex)
+})
 
 const mapDispatchToProps = (dispatch) => ({
   modalsActions: bindActionCreators(actions.modals, dispatch),
-  componentActions: bindActionCreators(actions.components.usedAddresses, dispatch)
+  componentActions: bindActionCreators(actions.components.manageAddresses, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(UsedAddressesContainer)

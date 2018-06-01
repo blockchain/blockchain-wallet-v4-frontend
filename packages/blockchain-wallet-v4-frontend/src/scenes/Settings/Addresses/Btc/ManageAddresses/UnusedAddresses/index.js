@@ -8,32 +8,40 @@ import { formValueSelector } from 'redux-form'
 import * as C from 'services/AlertService'
 import { actions, selectors } from 'data'
 import { Types } from 'blockchain-wallet-v4'
-import settings from 'config'
 import UnusedAddressesTemplate from './template'
 
 class UnusedAddressesContainer extends React.PureComponent {
+  componentWillMount () {
+    this.props.componentActions.fetchUnusedAddresses(this.props.walletIndex)
+  }
+
   render () {
-    const { account, labels, receiveIndex, isDefault, coreActions, walletActions, modalsActions, routerActions, search } = this.props
-    const deriveAddress = (i) => Types.HDAccount.getReceiveAddress(account, i, settings.NETWORK_BITCOIN)
-    const onSetLabel = (i, label) => {
-      if (length(labels) >= 15) {
-        this.props.alertActions.displayError(C.ADDRESS_LABEL_MAXIMUM_ERROR)
-      } else {
-        coreActions.setHdAddressLabel(account.index, i, label)
-      }
-    }
+    const { account, unusedAddresses, currentReceiveIndex, isDefault, coreActions, walletActions, modalsActions, routerActions, search } = this.props
     const onEditLabel = (i) => walletActions.editHdLabel(account.index, i)
     const onDeleteLabel = (i) => coreActions.deleteHdAddressLabel(account.index, i)
     const onEditBtcAccountLabel = () => walletActions.editBtcAccountLabel(account.index, account.label)
     const onShowXPub = () => modalsActions.showModal('ShowXPub', { xpub: account.xpub })
     const onMakeDefault = () => coreActions.setDefaultAccountIdx(account.index)
+    const onGenerateNextAddress = () => {
+      if (length(unusedAddresses) >= 15) {
+        this.props.alertActions.displayError(C.ADDRESS_LABEL_MAXIMUM_ERROR)
+      } else {
+        this.props.componentActions.generateNextReceiveAddress(this.props.walletIndex)
+        //coreActions.setHdAddressLabel(account.index, i + 1, 'New Address')
+      }
+    }
     const onSetArchived = () => {
       coreActions.setAccountArchived(account.index, true)
       routerActions.push('/settings/addresses')
     }
-    const props = { account, labels, receiveIndex, isDefault, deriveAddress, onSetLabel, onEditLabel, onDeleteLabel, onEditBtcAccountLabel, onShowXPub, onMakeDefault, onSetArchived, search }
+    const props = { account, unusedAddresses, currentReceiveIndex, isDefault, onGenerateNextAddress, onEditLabel, search, onDeleteLabel, onEditBtcAccountLabel, onShowXPub, onMakeDefault, onSetArchived }
 
-    return <UnusedAddressesTemplate {...props} />
+    return !unusedAddresses ? null : unusedAddresses.cata({
+      Success: (value) => <UnusedAddressesTemplate {...props} unusedAddresses={value} />,
+      Failure: () => <div/>,
+      Loading: () => <div/>,
+      NotAsked: () => <div/>
+    })
   }
 }
 
@@ -41,25 +49,24 @@ UnusedAddressesContainer.propTypes = {
   index: PropTypes.number.required
 }
 
-const mapStateToProps = (state, props) => {
-  const isDefault = parseInt(props.walletIndex) === Types.HDWallet.selectDefaultAccountIdx(Types.Wallet.selectHdWallets(state.walletPath.wallet).get(0))
-  const account = Types.Wallet.selectHDAccounts(state.walletPath.wallet).get(props.walletIndex)
-  const labels = Types.HDAccount.selectAddressLabels(account).reverse().toArray()
-  // TODO: remove addresses with tx > 0
-  const nextReceiveIndex = selectors.core.data.bitcoin.getReceiveIndex(account.xpub, state)
-  const lastLabeledIndex = labels.reduce((acc, l) => Math.max(acc, l.index), 0)
-  const receiveIndex = nextReceiveIndex.map(i => Math.max(i, lastLabeledIndex + 1))
+const mapStateToProps = (state, ownProps) => {
+  const account = Types.Wallet.selectHDAccounts(state.walletPath.wallet).get(ownProps.walletIndex)
+  const isDefault = parseInt(ownProps.walletIndex) === Types.HDWallet.selectDefaultAccountIdx(Types.Wallet.selectHdWallets(state.walletPath.wallet).get(0))
+  const unusedAddresses = selectors.components.manageAddresses.getWalletUnusedAddresses(state, ownProps.walletIndex)
+  const currentReceiveIndex = selectors.core.data.bitcoin.getReceiveIndex(account.xpub, state)
   const search = formValueSelector('manageAddresses')(state, 'search')
 
-  return { account, labels, receiveIndex, isDefault, search }
+  // TODO: are you sure adding next receive address works..
+  return { account, isDefault, currentReceiveIndex, unusedAddresses, search }
 }
 
 const mapDispatchToProps = (dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
+  componentActions: bindActionCreators(actions.components.manageAddresses, dispatch),
   coreActions: bindActionCreators(actions.core.wallet, dispatch),
-  walletActions: bindActionCreators(actions.wallet, dispatch),
   modalsActions: bindActionCreators(actions.modals, dispatch),
-  routerActions: bindActionCreators(actions.router, dispatch)
+  routerActions: bindActionCreators(actions.router, dispatch),
+  walletActions: bindActionCreators(actions.wallet, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(UnusedAddressesContainer)

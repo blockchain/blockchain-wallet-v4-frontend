@@ -16,7 +16,7 @@ class UsedAddressesTableContainer extends React.PureComponent {
 
     return !usedAddresses ? null : usedAddresses.cata({
       Success: (value) => <UsedAddressesTable usedAddresses={value} search={search} />,
-      Failure: (message) => <div>{message}</div>,
+      Failure: () => <div/>,
       Loading: () => <div/>,
       NotAsked: () => <div/>
     })
@@ -25,11 +25,11 @@ class UsedAddressesTableContainer extends React.PureComponent {
 
 const mapStateToProps = (state, ownProps) => ({
   search: formValueSelector('manageAddresses')(state, 'search'),
-  usedAddresses: selectors.components.usedAddresses.getWalletUsedAddresses(state, ownProps.walletIndex)
+  usedAddresses: selectors.components.manageAddresses.getWalletUsedAddresses(state, ownProps.walletIndex)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  componentActions: bindActionCreators(actions.components.usedAddresses, dispatch)
+  componentActions: bindActionCreators(actions.components.manageAddresses, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(UsedAddressesTableContainer)
