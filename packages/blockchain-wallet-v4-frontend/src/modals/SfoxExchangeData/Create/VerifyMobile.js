@@ -32,6 +32,10 @@ class VerifyMobile extends Component {
     this.updateMobileNumber = this.updateMobileNumber.bind(this)
   }
 
+  componentDidMount () {
+    this.props.sfoxFrontendActions.sfoxNotAsked()
+  }
+
   componentDidUpdate (prevProps) {
     if (this.props.smsVerified && !prevProps.smsVerified) this.props.updateUI({ create: 'create_account' })
     if (this.props.smsVerified && !this.props.editVerifiedMobile) this.props.updateUI({ create: 'create_account' })
