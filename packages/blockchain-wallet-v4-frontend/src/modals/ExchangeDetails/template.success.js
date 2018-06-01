@@ -121,7 +121,7 @@ const ExchangeDetails = props => {
             </TableCell>
             <TableCell>
               <Text size='13px' weight={300} uppercase>
-                {`${minerFee} ${sourceCoin}`}
+                {`${minerFee} ${targetCoin}`}
               </Text>
             </TableCell>
           </TableRow>

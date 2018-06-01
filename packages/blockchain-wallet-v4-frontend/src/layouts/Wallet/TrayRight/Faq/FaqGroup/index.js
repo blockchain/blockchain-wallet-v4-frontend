@@ -16,19 +16,12 @@ const GroupTitle = styled(Text)`
  padding-bottom: 4px;
 `
 
-const FaqGroup = (props) => {
-  const { groupTitleMsg, groupQuestions } = props
-  return (
-    <Wrapper>
-      <GroupTitle>{groupTitleMsg} </GroupTitle>
-      {
-        groupQuestions.length > 0 && groupQuestions.map((q, i) => {
-          return <FaqRow title={q.question} description={q.answer} key={i} />
-        })
-      }
-    </Wrapper>
-  )
-}
+const FaqGroup = props => (
+  <Wrapper>
+    {props.groupQuestions.length > 0 && <GroupTitle>{props.groupTitleMsg} </GroupTitle>}
+    {props.groupQuestions.map((q, i) => <FaqRow title={q.question} description={q.answer} key={i} />)}
+  </Wrapper>
+)
 
 FaqGroup.propTypes = {
   groupTitleMsg: PropTypes.object.isRequired,

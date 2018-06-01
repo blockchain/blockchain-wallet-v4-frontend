@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Faq, FaqContent, FaqHeader } from './../FaqItem'
 
 const FaqRow = ({ title, description, toggled, handleToggle, ...rest }) => {
@@ -12,6 +13,13 @@ const FaqRow = ({ title, description, toggled, handleToggle, ...rest }) => {
       </FaqContent>
     </Faq>
   )
+}
+
+FaqRow.propTypes = {
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  toggled: PropTypes.bool.isRequired,
+  handleToggle: PropTypes.func.isRequired
 }
 
 export default FaqRow
