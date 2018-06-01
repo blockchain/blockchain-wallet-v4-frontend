@@ -90,7 +90,7 @@ const bchReducer = (state = INITIAL_STATE, action) => {
       return assoc('transaction_history', Remote.Failure(payload), state)
     }
     case AT.FETCH_BCH_SPENDABLE_BALANCE_LOADING: {
-      return assoc('spendable_balance', Remote.Loading, state)
+      return state
     }
     case AT.FETCH_BCH_SPENDABLE_BALANCE_SUCCESS: {
       const { wallet } = payload
@@ -101,7 +101,7 @@ const bchReducer = (state = INITIAL_STATE, action) => {
       return assoc('spendable_balance', Remote.Failure(payload), state)
     }
     case AT.FETCH_BCH_UNSPENDABLE_BALANCE_LOADING: {
-      return assoc('unspendable_balance', Remote.Loading, state)
+      return state
     }
     case AT.FETCH_BCH_UNSPENDABLE_BALANCE_SUCCESS: {
       const { wallet } = payload
