@@ -79,8 +79,8 @@ export default ({ api, options }) => {
       sellQuote = {
         quote: {
           amt: quote.quoteAmount,
-          baseCurr: 'BTC',
-          quoteCurr: 'USD'
+          baseCurrency: 'BTC',
+          quoteCurrency: 'USD'
         }
       }
     } else {
