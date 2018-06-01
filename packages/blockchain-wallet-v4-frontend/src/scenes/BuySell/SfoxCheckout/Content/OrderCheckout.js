@@ -16,7 +16,11 @@ const quoteInputSpec = {
 }
 
 const OrderCheckout = ({ quoteR, account, onFetchQuote, reason, finishAccountSetup, limits, type, disableButton, enableButton, buttonStatus }) => {
-  const disableInputs = limits.max < limits.min || (reason.indexOf('has_remaining') < 0 && reason) || limits.effectiveMax < limits.min
+  const disableInputs = () => {
+    if (limits.max < limits.min) return 'max_below_min'
+    if (reason.indexOf('has_remaining') < 0 && reason) return 'no_remaining'
+    if (limits.effectiveMax < limits.min) return 'not_enough_funds'
+  }
 
   const wantToHelper = () => type === 'buy'
     ? <FormattedMessage id='buy.sfoxcheckout.outputmethod.title.buy' defaultMessage='I want to buy' />
