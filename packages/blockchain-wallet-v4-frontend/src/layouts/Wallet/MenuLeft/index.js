@@ -1,23 +1,15 @@
 import React from 'react'
-import styled from 'styled-components'
+import { connect } from 'react-redux'
 
-import Footer from './Footer'
-import Navigation from './Navigation'
+import { getData } from './selectors'
+import MenuLeft from './template'
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-`
-
-const MenuLeft = (props) => {
-  return (
-    <Wrapper>
-      <Navigation {...props} />
-      <Footer />
-    </Wrapper>
-  )
+class MenuLeftContainer extends React.PureComponent {
+  render () {
+    return <MenuLeft toggled={this.props.toggled} />
+  }
 }
 
-export default MenuLeft
+const mapStateToProps = state => getData(state)
+
+export default connect(mapStateToProps)(MenuLeftContainer)

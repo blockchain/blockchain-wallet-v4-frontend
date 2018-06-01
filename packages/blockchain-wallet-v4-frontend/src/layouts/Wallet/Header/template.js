@@ -21,47 +21,38 @@ const BlockchainLogoImage = styled(Image)`
   }
 `
 
-const Header = (props) => {
-  const { navigationToggled, handleTrayRightToggle, handleToggleMenuLeft, trayRightOpen, trayRightContent } = props
-
-  return (
-    <Navbar height='60px'>
-      <NavbarHeader>
-        <NavbarBrand>
-          <Icon name='hamburger-menu' color='white' size='16px' onClick={handleToggleMenuLeft} />
-          <NavLink to='/home'>
-            <BlockchainLogoImage name='blockchain-vector' />
-          </NavLink>
-        </NavbarBrand>
-      </NavbarHeader>
-      <NavbarMenu toggled={navigationToggled}>
-        <div />
-        <NavbarNav>
-          <NavbarNavItem>
-            <FaqIcon trayRightContent={trayRightContent} handleTrayRightToggle={handleTrayRightToggle} trayRightOpen={trayRightOpen} />
-          </NavbarNavItem>
-          <NavbarNavItem>
-            <WhatsNewIcon trayRightContent={trayRightContent} handleTrayRightToggle={handleTrayRightToggle} trayRightOpen={trayRightOpen} />
-          </NavbarNavItem>
-          <NavbarNavItem>
-            <RefreshIcon />
-          </NavbarNavItem>
-          <NavbarNavItem>
-            <Logout />
-          </NavbarNavItem>
-        </NavbarNav>
-      </NavbarMenu>
-    </Navbar>
-  )
-}
+const Header = props => (
+  <Navbar height='60px'>
+    <NavbarHeader>
+      <NavbarBrand>
+        <Icon name='hamburger-menu' color='white' size='16px' onClick={props.handleToggle} />
+        <NavLink to='/home'>
+          <BlockchainLogoImage name='blockchain-vector' />
+        </NavLink>
+      </NavbarBrand>
+    </NavbarHeader>
+    <NavbarMenu>
+      <div />
+      <NavbarNav>
+        <NavbarNavItem>
+          <FaqIcon />
+        </NavbarNavItem>
+        <NavbarNavItem>
+          <WhatsNewIcon />
+        </NavbarNavItem>
+        <NavbarNavItem>
+          <RefreshIcon />
+        </NavbarNavItem>
+        <NavbarNavItem>
+          <Logout />
+        </NavbarNavItem>
+      </NavbarNav>
+    </NavbarMenu>
+  </Navbar>
+)
 
 Header.propTypes = {
-  trayRightContent: PropTypes.string.isRequired,
-  handleToggleNavigation: PropTypes.func.isRequired,
-  handleToggleMenuLeft: PropTypes.func.isRequired,
-  handleTrayRightToggle: PropTypes.func.isRequired,
-  navigationToggled: PropTypes.bool.isRequired,
-  trayRightOpen: PropTypes.bool.isRequired
+  handleToggle: PropTypes.func.isRequired
 }
 
 export default Header

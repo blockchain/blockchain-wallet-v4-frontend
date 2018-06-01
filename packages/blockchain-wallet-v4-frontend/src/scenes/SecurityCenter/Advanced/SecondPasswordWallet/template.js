@@ -9,17 +9,17 @@ const SecondPasswordWallet = (props) => {
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <FormattedMessage id='scenes.security.secondpassword.title' defaultMessage='Second Password' />
+          <FormattedMessage id='scenes.security.advanced.secondpassword.title' defaultMessage='Second Password' />
           <SettingStatus active={secondPasswordEnabled}>
             {secondPasswordEnabled
-              ? <FormattedMessage id='scenes.security.secondpassword.enabled' defaultMessage='Enabled' />
-              : <FormattedMessage id='scenes.security.secondpassword.disabled' defaultMessage='Disabled' />
+              ? <FormattedMessage id='scenes.security.advanced.secondpassword.enabled' defaultMessage='Enabled' />
+              : <FormattedMessage id='scenes.security.advanced.secondpassword.disabled' defaultMessage='Disabled' />
             }
           </SettingStatus>
         </SettingHeader>
         <SettingDescription>
-          <FormattedMessage id='scenes.security.secondpassword.description' defaultMessage='For additional security, you can choose a second password that is asked whenever you want to spend funds.' />
-          <FormattedMessage id='scenes.security.secondpassword.description2' defaultMessage='As with your main password, if you forget your second password, we cannot reset it for you.' />
+          <FormattedMessage id='scenes.security.advanced.secondpassword.description' defaultMessage='For additional security, you can choose a second password that is asked whenever you want to spend funds.' />
+          <FormattedMessage id='scenes.security.advanced.secondpassword.description2' defaultMessage='As with your main password, if you forget your second password, we cannot reset it for you.' />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>

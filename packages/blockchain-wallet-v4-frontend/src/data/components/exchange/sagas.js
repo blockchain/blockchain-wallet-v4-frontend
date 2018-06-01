@@ -5,6 +5,7 @@ import * as A from './actions'
 import * as S from './selectors'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
+import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
 import { getCoinFromPair, getPairFromCoin, getMinimum, getMaximum,
   convertStandardToBase, isAmountBelowMinimum, isAmountAboveMaximum, isMinimumGreaterThanMaximum, calculateFinalAmount, selectFee,
@@ -53,8 +54,7 @@ export default ({ api, coreSagas }) => {
       const target = prop('target', form)
       yield put(actions.form.change2('exchange', 'source', target))
       yield put(actions.form.change2('exchange', 'target', source))
-      yield call(changeAmount)
-      yield call(validateForm)
+      yield call(resetForm)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'swapClicked', e))
     }
@@ -150,15 +150,16 @@ export default ({ api, coreSagas }) => {
       const source = prop('source', form)
       const target = prop('target', form)
       const sourceAmount = prop('sourceAmount', form)
-
+      if (isUndefinedOrEqualsToZero(sourceAmount)) {
+        yield put(A.firstStepFormUnvalidated('invalid'))
+        return yield put(A.firstStepEnabled())
+      }
       const effectiveBalance = yield call(calculateEffectiveBalance, source)
       const pair = yield call(getShapeShiftLimits, source, target)
       const minimum = getMinimum(source.coin, pair.minimum)
       const maximum = getMaximum(source.coin, pair.maximum, effectiveBalance)
       const sourceAmountBase = convertStandardToBase(source.coin, sourceAmount)
-      if (isUndefinedOrEqualsToZero(sourceAmount) || isMinimumGreaterThanMaximum(minimum, maximum)) {
-        yield put(A.firstStepFormUnvalidated('invalid'))
-      } else if (isAmountBelowMinimum(effectiveBalance, minimum)) {
+      if (isMinimumGreaterThanMaximum(minimum, maximum)) {
         yield put(A.firstStepFormUnvalidated('insufficient'))
       } else if (isAmountBelowMinimum(sourceAmountBase, minimum)) {
         yield put(A.firstStepFormUnvalidated('minimum'))
@@ -167,9 +168,10 @@ export default ({ api, coreSagas }) => {
       } else {
         yield put(A.firstStepFormValidated())
       }
-      yield put(A.firstStepEnabled())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'validateForm', e))
+    } finally {
+      yield put(A.firstStepEnabled())
     }
   }
 
@@ -268,7 +270,7 @@ export default ({ api, coreSagas }) => {
       // We update the payment in the state
       yield put(A.secondStepPaymentSent(paymentValue))
     } catch (e) {
-      yield put(actions.alerts.displayError('The transaction failed to send. Please try again later.'))
+      yield put(actions.alerts.displayError(C.EXCHANGE_TRANSACTION_ERROR))
       yield put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e))
     }
   }
@@ -304,7 +306,7 @@ export default ({ api, coreSagas }) => {
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'startPollingTradeStatus', e))
-      yield put(actions.alerts.displayError('Failed to refresh trade status.'))
+      yield put(actions.alerts.displayError(C.EXCHANGE_REFRESH_TRADE_ERROR))
     } finally {
       if (yield cancelled()) {
         yield put(actions.logs.logInfoMessage(logLocation, 'startPollingTradeStatus', 'trade polling cancelled'))

@@ -83,7 +83,7 @@ const Payment = (props) => {
           }
           <CancelWrapper style={{ ...flex('row justify/center'), ...spacing('mt-15') }}>
             <StepTransition prev Component={Link}>
-              <FormattedMessage id='cancel' defaultMessage='Cancel' />
+              <FormattedMessage id='coinifyexchangedata.payment.cancel' defaultMessage='Cancel' />
             </StepTransition>
           </CancelWrapper>
           { faqHelper() }

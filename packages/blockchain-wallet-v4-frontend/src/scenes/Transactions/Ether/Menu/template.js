@@ -57,12 +57,6 @@ const ClickableText = styled(Text)`
   cursor: pointer;
 `
 
-const OptionItem = ({ id, defaultMessage, onClick }) => (
-  <ClickableText size='small' onClick={onClick}>
-    <FormattedMessage id={id} defaultMessage={defaultMessage} />
-  </ClickableText>
-)
-
 const PrivateKeys = () => (
   <Link weight={300} size='12px'>
     <FormattedMessage id='scenes.transactions.ether.privatekeys' defaultMessage='Private Keys' />
@@ -86,8 +80,12 @@ const Menu = (props) => {
                 color={'gray-5'}
                 selectedComponent={<PrivateKeys />}
                 components={[
-                  <OptionItem id='scenes.transactions.ether.export.privatekey' defaultMessage='Export Private Key' onClick={() => onShowPrivateKey(false)} />,
-                  <OptionItem id='scenes.transactions.ether.export.archived' defaultMessage='Export Archived Private Key' onClick={() => onShowPrivateKey(true)} />
+                  <ClickableText size='small' onClick={() => onShowPrivateKey(false)}>
+                    <FormattedMessage id='scenes.transactions.ether.export.privatekey' defaultMessage='Export Private Key' />
+                  </ClickableText>,
+                  <ClickableText size='small' onClick={() => onShowPrivateKey(true)}>
+                    <FormattedMessage id='scenes.transactions.ether.export.archived' defaultMessage='Export Archived Private Key' />
+                  </ClickableText>
                 ].filter(x => x)} /> : <Link size={'12px'} weight={300} onClick={() => onShowPrivateKey(false)}><FormattedMessage id='scenes.transactions.ether.export.privatekey' defaultMessage='Export Private Key' /></Link>
             }
           </PrivateKeysWrapper>
