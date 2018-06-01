@@ -1,6 +1,7 @@
 import { call, put, select, take } from 'redux-saga/effects'
 import { compose } from 'ramda'
 import * as A from '../../actions'
+import * as bchSelectors from '../../kvStore/bch/selectors'
 import * as walletSelectors from '../../wallet/selectors'
 import { Socket } from '../../../network/index'
 import * as bchActions from '../../data/bch/actions'
@@ -20,7 +21,9 @@ export default ({ api, bchSocket }) => {
 
     switch (message.op) {
       case 'utx':
+        const spendableContext = yield select(walletSelectors.getSpendableContext)
         yield put(bchActions.fetchTransactions('', true))
+        yield put(bchActions.fetchSpendableBalance(spendableContext))
         const transactions = yield take(bchAT.FETCH_BCH_TRANSACTIONS_SUCCESS)
         for (let i in transactions.payload.transactions) {
           const tx = transactions.payload.transactions[i]
