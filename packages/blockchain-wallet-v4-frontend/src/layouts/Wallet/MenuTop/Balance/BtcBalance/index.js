@@ -39,7 +39,7 @@ class BtcBalance extends React.PureComponent {
 }
 
 BtcBalance.propTypes = {
-  context: PropTypes.string.isRequired
+  context: PropTypes.array.isRequired
 }
 
 const mapStateToProps = (state) => ({

@@ -161,12 +161,12 @@ const Success = props => {
                   <FormattedMessage id='modals.exchange.shapeshift.fee' defaultMessage='Transaction fee' />
                 </Text>
                 <Tooltip>
-                  <FormattedMessage id='modals.exchange.shapeshift.feetooltip' defaultMessage='This fee is used to send the outgoing exchange funds to ShapeShift.' />
+                  <FormattedMessage id='modals.exchange.shapeshift.feetooltip' defaultMessage='This fee is used to send the incoming exchange funds from ShapeShift.' />
                 </Tooltip>
               </TableCell>
               <TableCell>
                 <Text size='13px' weight={300} uppercase>
-                  {transactionFee}
+                  {`${transactionFee} ${targetCoin}`}
                 </Text>
               </TableCell>
             </TableRow>

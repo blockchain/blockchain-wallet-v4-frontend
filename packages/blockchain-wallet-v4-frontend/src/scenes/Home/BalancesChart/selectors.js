@@ -2,49 +2,101 @@ import { selectors } from 'data'
 import { length, lift } from 'ramda'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { Color } from 'blockchain-info-components'
+import { createDeepEqualSelector } from 'services/ReselectHelper'
 
-export const getData = (state) => {
-  const btcBalanceR = selectors.core.data.bitcoin.getSpendableBalance(state)
-  const bchBalanceR = selectors.core.data.bch.getSpendableBalance(state)
-  const ethBalanceR = selectors.core.data.ethereum.getBalance(state)
-  const btcBalance = btcBalanceR.getOrElse(0)
-  const ethBalance = ethBalanceR.getOrElse(0)
-  const bchBalance = bchBalanceR.getOrElse(0)
-  const btcRates = selectors.core.data.bitcoin.getRates(state)
-  const ethRates = selectors.core.data.ethereum.getRates(state)
-  const bchRates = selectors.core.data.bch.getRates(state)
-  const settings = selectors.core.settings.getSettings(state)
-
-  const btcAccountsLength = length(selectors.core.common.btc.getActiveHDAccounts(state).getOrElse([]))
-  const bchAccountsLength = length(selectors.core.kvStore.bch.getAccounts(state).getOrElse([]))
-
-  const transform = (btcRates, ethRates, bchRates, settings) => {
-    const btcFiatBalance = Exchange.convertBitcoinToFiat({ value: btcBalance, fromUnit: 'SAT', toCurrency: settings.currency, rates: btcRates })
-    const ethFiatBalance = Exchange.convertEtherToFiat({ value: ethBalance, fromUnit: 'WEI', toCurrency: settings.currency, rates: ethRates })
-    const bchFiatBalance = Exchange.convertBchToFiat({ value: bchBalance, fromUnit: 'SAT', toCurrency: settings.currency, rates: bchRates })
-
-    const chartData = [{
-      y: Number(btcFiatBalance.value),
-      color: Color('brand-primary'),
-      fiat: btcFiatBalance.value,
-      name: 'Bitcoin',
-      id: 'btc'
-    }, {
-      y: Number(ethFiatBalance.value),
-      color: Color('brand-secondary'),
-      fiat: ethFiatBalance.value,
-      name: 'Ether',
-      id: 'eth'
-    }, {
-      y: Number(bchFiatBalance.value),
-      color: Color('brand-tertiary'),
-      fiat: bchFiatBalance.value,
-      name: 'Bitcoin Cash',
-      id: 'bch'
-    }]
-
-    return ({ btcBalance, ethBalance, bchBalance, chartData, symbol: btcFiatBalance.unit.symbol, btcAccountsLength, bchAccountsLength })
+export const getBtcBalances = createDeepEqualSelector(
+  [
+    selectors.core.data.bitcoin.getSpendableBalance,
+    selectors.core.data.bitcoin.getRates,
+    selectors.core.settings.getCurrency
+  ],
+  (btcBalanceR, btcRatesR, currencyR) => {
+    const transform = (btcBalance, btcRates, currency) => ({
+      coin: btcBalance,
+      fiat: Exchange.convertBitcoinToFiat({ value: btcBalance, fromUnit: 'SAT', toCurrency: currency, rates: btcRates })
+    })
+    return lift(transform)(btcBalanceR, btcRatesR, currencyR)
   }
+)
 
-  return lift(transform)(btcRates, ethRates, bchRates, settings)
-}
+export const getBchBalances = createDeepEqualSelector(
+  [
+    selectors.core.data.bch.getSpendableBalance,
+    selectors.core.data.bch.getRates,
+    selectors.core.settings.getCurrency
+  ],
+  (bchBalanceR, bchRatesR, currencyR) => {
+    const transform = (bchBalance, bchRates, currency) => ({
+      coin: bchBalance,
+      fiat: Exchange.convertBchToFiat({ value: bchBalance, fromUnit: 'SAT', toCurrency: currency, rates: bchRates })
+    })
+    return lift(transform)(bchBalanceR, bchRatesR, currencyR)
+  }
+)
+
+export const getEthBalances = createDeepEqualSelector(
+  [
+    selectors.core.data.ethereum.getBalance,
+    selectors.core.data.ethereum.getRates,
+    selectors.core.settings.getCurrency
+  ],
+  (ethBalanceR, ethRatesR, currencyR) => {
+    const transform = (ethBalance, ethRates, currency) => ({
+      coin: ethBalance,
+      fiat: Exchange.convertEtherToFiat({ value: ethBalance, fromUnit: 'WEI', toCurrency: currency, rates: ethRates })
+    })
+    return lift(transform)(ethBalanceR, ethRatesR, currencyR)
+  }
+)
+
+export const getData = createDeepEqualSelector(
+  [
+    getBtcBalances,
+    getBchBalances,
+    getEthBalances,
+    selectors.core.common.btc.getActiveHDAccounts,
+    selectors.core.kvStore.bch.getAccounts
+  ],
+  (btcBalancesR, bchBalancesR, ethBalancesR, btcAccountsR, bchAccountsR) => {
+    const btcAccountsLength = length(btcAccountsR.getOrElse([]))
+    const bchAccountsLength = length(bchAccountsR.getOrElse([]))
+
+    const transform = (btcBalances, bchBalances, ethBalances) => {
+      const symbol = btcBalances.fiat.unit.symbol
+      const btcBalance = btcBalances.coin
+      const bchBalance = bchBalances.coin
+      const ethBalance = ethBalances.coin
+
+      const chartData = [{
+        y: Number(btcBalances.fiat.value),
+        color: Color('brand-primary'),
+        fiat: btcBalances.fiat.value,
+        name: 'Bitcoin',
+        id: 'btc'
+      }, {
+        y: Number(ethBalances.fiat.value),
+        color: Color('brand-secondary'),
+        fiat: ethBalances.fiat.value,
+        name: 'Ether',
+        id: 'eth'
+      }, {
+        y: Number(bchBalances.fiat.value),
+        color: Color('brand-tertiary'),
+        fiat: bchBalances.fiat.value,
+        name: 'Bitcoin Cash',
+        id: 'bch'
+      }]
+
+      return {
+        btcBalance,
+        ethBalance,
+        bchBalance,
+        chartData,
+        symbol,
+        btcAccountsLength,
+        bchAccountsLength
+      }
+    }
+    return lift(transform)(btcBalancesR, bchBalancesR, ethBalancesR)
+  }
+)

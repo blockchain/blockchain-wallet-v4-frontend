@@ -11,10 +11,12 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 5px 30px;
+  padding: 0 30px;
   box-sizing: border-box;
   background-color: ${props => props.theme['white-blue']};
   border-bottom: 1px solid ${props => props.theme['gray-1']};
+
+  > div > span:first-child { padding-left: 0px; }
 `
 const Shapeshift = styled(TextGroup)`
   display: flex;
