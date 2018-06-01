@@ -9,17 +9,17 @@ const UsedTable = ({ children }) => (
     <TableHeader>
       <TableCell width='40%'>
         <Text size='13px' weight={500}>
-          <FormattedMessage id='scenes.settings.addresses.address' defaultMessage='Address' />
+          <FormattedMessage id='scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.address' defaultMessage='Address' />
         </Text>
       </TableCell>
       <TableCell width='40%'>
         <Text size='13px' weight={500}>
-          <FormattedMessage id='scenes.settings.addresses.address_label' defaultMessage='Label' />
+          <FormattedMessage id='scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.label' defaultMessage='Label' />
         </Text>
       </TableCell>
       <TableCell width='20%' style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <Text size='13px' weight={500}>
-          <FormattedMessage id='scenes.settings.addresses.address_balance' defaultMessage='Balance' />
+          <FormattedMessage id='scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.balance' defaultMessage='Balance' />
         </Text>
       </TableCell>
     </TableHeader>
@@ -60,11 +60,11 @@ const UsedTableEntry = ({ address, search }) => {
 const UsedAddressesTable = ({ usedAddresses, search }) => (
   <React.Fragment>
     <Text weight={200} size='small' style={{ marginTop: 10, marginBottom: 15 }}>
-      <FormattedMessage id='scenes.settings.manage_addresses.used_addresses_message' defaultMessage='Previously used addresses are helpful for debugging purposes and viewing associated balances. For privacy reasons, we do not recommend re-using these addresses. Change addresses are not included here.'/>
+      <FormattedMessage id='scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.message' defaultMessage='Previously used addresses are helpful for debugging purposes and viewing associated balances. For privacy reasons, we do not recommend re-using these addresses. Change addresses are not included here.'/>
     </Text>
     { usedAddresses.length
       ? <UsedTable>{usedAddresses.map((address, i) => (<UsedTableEntry key={i} address={address} search={search} />))}</UsedTable>
-      : <Text weight={300} style={{ marginTop: 10, textAlign: 'center' }}><FormattedMessage id='scenes.settings.manage_addresses.no_used_addresses_message' defaultMessage='This wallet has no previously used addresses.'/></Text>
+      : <Text weight={300} style={{ marginTop: 20, textAlign: 'center' }}><FormattedMessage id='scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.nousedmessage' defaultMessage='This wallet has no previously used addresses.'/></Text>
     }
   </React.Fragment>
 )

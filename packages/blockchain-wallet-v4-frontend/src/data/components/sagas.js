@@ -13,7 +13,7 @@ import sendBch from './sendBch/sagas'
 import sendBtc from './sendBtc/sagas'
 import sendEth from './sendEth/sagas'
 import signMessage from './signMessage/sagas'
-import usedAddresses from './usedAddresses/sagas'
+import manageAddresses from './manageAddresses/sagas'
 
 export default ({ api, coreSagas }) => function * () {
   yield fork(activityList({ api, coreSagas }))
@@ -30,5 +30,5 @@ export default ({ api, coreSagas }) => function * () {
   yield fork(sendBtc({ api, coreSagas }))
   yield fork(sendEth({ api, coreSagas }))
   yield fork(signMessage({ coreSagas }))
-  yield fork(usedAddresses({ api, coreSagas }))
+  yield fork(manageAddresses({ api, coreSagas }))
 }

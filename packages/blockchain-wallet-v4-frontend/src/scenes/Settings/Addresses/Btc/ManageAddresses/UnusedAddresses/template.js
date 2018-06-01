@@ -20,10 +20,9 @@ const MoreOptions = () => (
   </Link>
 )
 
-const UnusedAddressesTemplate = ({ account, labels, receiveIndex, isDefault, deriveAddress, onSetLabel, onEditLabel, onDeleteLabel, onEditBtcAccountLabel, onShowXPub, onMakeDefault, onSetArchived, search }) => {
-  labels = labels.map(label => { return { index: label.index, label: label.label, address: deriveAddress(label.index) } })
-  const isMatch = (label) => !search || label.label.toLowerCase().indexOf(search.toLowerCase()) > -1 || label.address.toLowerCase().indexOf(search.toLowerCase()) > -1
-  const addresses = filter(isMatch, labels).map((entry) => {
+const UnusedAddressesTemplate = ({ account, currentReceiveIndex, unusedAddresses, isDefault, onGenerateNextAddress, onEditLabel, onDeleteLabel, onEditBtcAccountLabel, onShowXPub, onMakeDefault, onSetArchived, search }) => {
+  const isMatch = (addr) => !search || addr.label.toLowerCase().indexOf(search.toLowerCase()) > -1 || addr.address.toLowerCase().indexOf(search.toLowerCase()) > -1
+  const addresses = filter(isMatch, unusedAddresses).map((entry) => {
     return (
       <TableRow key={entry.index}>
         <TableCell width='40%'>
@@ -81,7 +80,7 @@ const UnusedAddressesTemplate = ({ account, labels, receiveIndex, isDefault, der
       <Text weight={200} size='small' style={{ marginTop: 10, marginBottom: 15 }}>
         <FormattedMessage id='scenes.settings.addresses.btc.manageaddresses.unusedaddresses.message' defaultMessage='Your Blockchain Wallet contains an unlimited collection of bitcoin addresses that you can use to receive funds from anybody, globally. Your wallet will automatically manage your bitcoin addresses for you. The addresses below are the subset of addresses that are labeled.' />
       </Text>
-      {labels.length === 0 ? null : (
+      {unusedAddresses.length === 0 ? null : (
         <Table>
           <TableHeader>
             <TableCell width='40%'>
@@ -103,16 +102,9 @@ const UnusedAddressesTemplate = ({ account, labels, receiveIndex, isDefault, der
           {addresses}
         </Table>
       )}
-      {receiveIndex.cata({
-        Success: (index) => (
-          <IconButton style={{ marginTop: 15 }} name='plus' onClick={() => onSetLabel(index, 'New Address')}>
-            <FormattedMessage id='scenes.settings.addresses.btc.manageaddresses.unusedaddresses.addnext' defaultMessage='Add Next Address' />
-          </IconButton>
-        ),
-        Failure: () => null,
-        Loading: () => null,
-        NotAsked: () => null
-      })}
+      <IconButton style={{ marginTop: 15 }} name='plus' onClick={() => onGenerateNextAddress()}>
+        <FormattedMessage id='scenes.settings.addresses.btc.manageaddresses.unusedaddresses.addnext' defaultMessage='Add Next Address' />
+      </IconButton>
     </Fragment>
   )
 }
