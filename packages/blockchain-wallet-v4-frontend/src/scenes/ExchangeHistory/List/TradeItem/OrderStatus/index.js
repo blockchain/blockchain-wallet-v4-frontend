@@ -9,7 +9,7 @@ const selectStyle = status => {
     case 'failed': return { color: 'error', italic: false }
     case 'no_deposits': return { color: 'transferred', italic: false }
     case 'received': return { color: 'transferred', italic: false }
-    case 'resolved': return { color: 'green', italic: false }
+    case 'resolved': return { color: 'error', italic: false }
   }
 }
 
