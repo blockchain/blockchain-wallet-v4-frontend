@@ -13,7 +13,7 @@ export class Currency extends Type {
   toUnit (unit) {
     if (unit && unit.currency === this.currency.code) {
       return Maybe.Just({
-        value: this.value.multiply(BigRational(unit.rate).reciprocate()).toDecimal(unit.decimal_digits),
+        value: Number(this.value.multiply(BigRational(unit.rate).reciprocate())).toFixed(unit.decimal_digits),
         unit: unit
       })
     } else { return Maybe.Nothing() }
