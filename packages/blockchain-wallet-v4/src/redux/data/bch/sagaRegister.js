@@ -10,6 +10,8 @@ export default ({ api }) => {
     yield takeLatest(AT.FETCH_BCH_RATES, dataBchSagas.fetchRates)
     yield takeLatest(AT.FETCH_BCH_FEE, dataBchSagas.fetchFee)
     yield fork(dataBchSagas.watchTransactions)
+    yield takeLatest(AT.FETCH_BCH_SPENDABLE_BALANCE, dataBchSagas.fetchSpendableBalance)
+    yield takeLatest(AT.FETCH_BCH_UNSPENDABLE_BALANCE, dataBchSagas.fetchUnspendableBalance)
     yield takeLatest(AT.FETCH_BCH_TRANSACTION_HISTORY, dataBchSagas.fetchTransactionHistory)
   }
 }
