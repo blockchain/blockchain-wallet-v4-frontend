@@ -2,6 +2,7 @@ import { cancel, call, fork, put, race, select, take } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import { any, equals, identity, isNil, path, prop } from 'ramda'
 import { actions, actionTypes, selectors } from 'data'
+import * as C from 'services/AlertService'
 
 export default ({ api, coreSagas }) => {
   const logLocation = 'components/exchangeHistory/sagas'
@@ -44,13 +45,12 @@ export default ({ api, coreSagas }) => {
             })
           }
         } catch (e) {
-          const orderId = path(['quote', 'orderId'], trade)
-          yield put(actions.alerts.displayError(`Could not fetch trade [${orderId}] status.`))
+          yield put(actions.alerts.displayError(C.EXCHANGE_REFRESH_TRADE_ERROR))
           yield put(actions.logs.logErrorMessage(logLocation, 'exchangeHistoryInitialized', e))
         }
       }
     } catch (e) {
-      yield put(actions.alerts.displayError(`Could not fetch all trades statuses.`))
+      yield put(actions.alerts.displayError(C.EXCHANGE_REFRESH_TRADES_ERROR))
       yield put(actions.logs.logErrorMessage(logLocation, 'exchangeHistoryInitialized', e))
     }
   }
@@ -62,7 +62,7 @@ export default ({ api, coreSagas }) => {
         yield call(delay, 5000)
       }
     } catch (e) {
-      yield put(actions.alerts.displayError('Unable to poll for trade status.'))
+      yield put(actions.alerts.displayError(C.EXCHANGE_REFRESH_TRADE_ERROR))
       yield put(actions.logs.logErrorMessage(logLocation, 'startPollingTradeStatus', e))
     }
   }

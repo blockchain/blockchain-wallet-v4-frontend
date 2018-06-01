@@ -15,9 +15,30 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  padding: 20px 30px 10px 30px;
-  box-sizing: border-box;
   border: 1px solid ${props => props.theme['gray-2']};
+`
+const Header = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 20px 30px 20px 30px;
+  border-bottom: 1px solid ${props => props.theme['gray-2']};
+  box-sizing: border-box;
+`
+const Container = styled.div`
+  padding: 20px 30px 20px 30px;
+  box-sizing: border-box;
+`
+const Footer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 10px;
+
+  & > :first-child { margin-right: 20px; }
 `
 const Row = styled.div`
   display: flex;
@@ -27,17 +48,19 @@ const Row = styled.div`
   width: 100%;
   height: ${props => props.height || 'auto'};
   margin-bottom: ${props => props.spaced ? '20px' : '5px'};
-
-  > :first-child { margin-right: 20px; }
 `
 const Table = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   padding: 0 10px;
   box-sizing: border-box;
   border: 1px solid ${props => props.theme['gray-2']};
   background-color: ${props => props.theme['white-blue']};
   & > :last-child { border-bottom: none; }
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 `
 const TableRow = styled.div`
   display: flex;
@@ -48,8 +71,6 @@ const TableRow = styled.div`
   padding: 8px 0;
   box-sizing: border-box;
   border-bottom: 1px solid ${props => props.theme['gray-2']};
-
-  > :first-child { margin-right: 5px; }
 `
 const TableCell = styled.div`
   display: flex;
@@ -65,34 +86,34 @@ const Success = props => {
 
   return (
     <Wrapper>
-      <Form onSubmit={handleSubmit}>
-        <Row justify='space-between'>
-          <Text size='14px'>
-            <FormattedMessage id='scenes.exchange.shapeshift.secondstep.title' defaultMessage='Confirm Exchange Order' />
-          </Text>
-          <Text size='12px' weight={300}>
-            <FormattedMessage id='scenes.exchange.shapeshift.secondstep.stepnumber' defaultMessage='Step 2 of 2' />
-          </Text>
-        </Row>
-        <Row>
-          <TextGroup inline>
-            <Text size='13px' weight={300}>
-              <FormattedMessage id='scenes.exchange.shapeshift.secondstep.recap' defaultMessage="Review the details below and click 'Confirm' to begin your exchange." />
-            </Text>
-            <Text size='13px' weight={300}>
-              <FormattedMessage id='scenes.exchange.shapeshift.secondstep.recap2' defaultMessage='The exchanged funds will be deposited directly into {depositLabel}.' values={{ depositLabel: targetLabel }} />
-            </Text>
-          </TextGroup>
-        </Row>
-        <Row align='right'>
-          <CountdownTimer expiryDate={expiration} tooltipExpiryTime='10 minutes' handleExpiry={handleExpiry} />
-        </Row>
-        <Row>
+      <Header justify='space-between'>
+        <Text size='14px'>
+          <FormattedMessage id='scenes.exchange.shapeshift.secondstep.title' defaultMessage='Confirm Exchange Order' />
+        </Text>
+        <Text size='12px' weight={300}>
+          <FormattedMessage id='scenes.exchange.shapeshift.secondstep.stepnumber' defaultMessage='Step 2 of 2' />
+        </Text>
+      </Header>
+      <Container>
+        <Form onSubmit={handleSubmit}>
+          <Row>
+            <TextGroup inline>
+              <Text size='13px' weight={300}>
+                <FormattedMessage id='scenes.exchange.shapeshift.secondstep.recap' defaultMessage="Review the details below and click 'Confirm' to begin your exchange." />
+              </Text>
+              <Text size='13px' weight={300}>
+                <FormattedMessage id='scenes.exchange.shapeshift.secondstep.recap2' defaultMessage='The exchanged funds will be deposited directly into {depositLabel}.' values={{ depositLabel: targetLabel }} />
+              </Text>
+            </TextGroup>
+          </Row>
+          <Row align='right'>
+            <CountdownTimer expiryDate={expiration} tooltipExpiryTime='10 minutes' handleExpiry={handleExpiry} />
+          </Row>
           <Table>
             <TableRow>
               <TableCell>
                 <Text size='13px' weight={400}>
-                  <FormattedMessage id='scenes.exchange.shapeshift.secondstep.todeposit' defaultMessage={'{sourceCoin} to deposit:'} values={{ sourceCoin }} />
+                  <FormattedMessage id='scenes.exchange.shapeshift.secondstep.todeposit' defaultMessage='{coin} to deposit:' values={{ coin: sourceCoin }} />
                 </Text>
               </TableCell>
               <TableCell>
@@ -115,7 +136,7 @@ const Success = props => {
             <TableRow>
               <TableCell>
                 <Text size='13px' weight={400}>
-                  <FormattedMessage id='scenes.exchange.shapeshift.secondstep.leaving' defaultMessage={'Total {sourceCoin} leaving the wallet'} values={{ sourceCoin }} />
+                  <FormattedMessage id='scenes.exchange.shapeshift.secondstep.leaving' defaultMessage='Total {sourceCoin} leaving the wallet' values={{ sourceCoin }} />
                 </Text>
               </TableCell>
               <TableCell>
@@ -151,7 +172,7 @@ const Success = props => {
             <TableRow>
               <TableCell>
                 <Text size='13px' weight={400}>
-                  <FormattedMessage id='scenes.exchange.shapeshift.exchangebox.secondstep.tobereceived' defaultMessage={`${targetCoin} to be received`} />
+                  <FormattedMessage id='scenes.exchange.shapeshift.exchangebox.secondstep.tobereceived' defaultMessage='{coin} to be received' values={{ coin: targetCoin }} />
                 </Text>
               </TableCell>
               <TableCell>
@@ -159,23 +180,23 @@ const Success = props => {
               </TableCell>
             </TableRow>
           </Table>
-        </Row>
-        <Row>
-          <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox}>
-            <Text size='12px' weight={300}>
-              <Terms company='shapeshift' />
-            </Text>
-          </Field>
-        </Row>
-        <Row justify='flex-end'>
-          <Link size='13px' weight={300} onClick={handleCancel}>
-            <FormattedMessage id='scenes.exchange.shapeshift.secondstep.back' defaultMessage='Cancel' />
-          </Link>
-          <Button type='submit' nature='primary' disabled={submitting || invalid}>
-            <FormattedMessage id='scenes.exchange.shapeshift.secondstep.finish' defaultMessage='Confirm' />
-          </Button>
-        </Row>
-      </Form>
+          <Row>
+            <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox}>
+              <Text size='12px' weight={300}>
+                <Terms company='shapeshift' />
+              </Text>
+            </Field>
+          </Row>
+          <Footer>
+            <Link size='13px' weight={300} onClick={handleCancel}>
+              <FormattedMessage id='scenes.exchange.shapeshift.secondstep.back' defaultMessage='Cancel' />
+            </Link>
+            <Button type='submit' nature='primary' disabled={submitting || invalid}>
+              <FormattedMessage id='scenes.exchange.shapeshift.secondstep.finish' defaultMessage='Confirm' />
+            </Button>
+          </Footer>
+        </Form>
+      </Container>
     </Wrapper>
   )
 }

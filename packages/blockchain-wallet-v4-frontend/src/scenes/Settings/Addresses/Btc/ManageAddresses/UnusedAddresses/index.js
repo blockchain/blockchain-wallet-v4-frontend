@@ -5,6 +5,7 @@ import { length } from 'ramda'
 import PropTypes from 'prop-types'
 import { formValueSelector } from 'redux-form'
 
+import * as C from 'services/AlertService'
 import { actions, selectors } from 'data'
 import { Types } from 'blockchain-wallet-v4'
 import settings from 'config'
@@ -16,7 +17,7 @@ class UnusedAddressesContainer extends React.PureComponent {
     const deriveAddress = (i) => Types.HDAccount.getReceiveAddress(account, i, settings.NETWORK_BITCOIN)
     const onSetLabel = (i, label) => {
       if (length(labels) >= 15) {
-        this.props.alertActions.displayError('You cannot label more than 15 unused addresses in a row; please send some bitcoins to at least one of them.')
+        this.props.alertActions.displayError(C.ADDRESS_LABEL_MAXIMUM_ERROR)
       } else {
         coreActions.setHdAddressLabel(account.index, i, label)
       }

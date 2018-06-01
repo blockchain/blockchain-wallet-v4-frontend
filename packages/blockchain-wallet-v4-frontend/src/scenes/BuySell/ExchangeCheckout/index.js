@@ -110,7 +110,7 @@ class ExchangeCheckout extends React.PureComponent {
         <Form onSubmit={onSubmit}>
           <LabelWrapper>
             <Label>
-              <FormattedMessage id='scenes.buysell.exchangecheckout.enter_amount' defaultMessage='Enter Amount:' />
+              <FormattedMessage id='scenes.buysell.exchangecheckout.enteramount' defaultMessage='Enter Amount:' />
             </Label>
             { rate && !minError &&
               <Rate>
@@ -124,7 +124,7 @@ class ExchangeCheckout extends React.PureComponent {
               minError &&
               <Rate>
                 <Text size='12px' color={'error'} weight={300} >
-                  <FormattedMessage id='scenes.buysell.exchangecheckout.synced' defaultMessage='Please enter an amount greater than {min} {curr}.' values={{ min: limits.min, curr: this.props.fiatLimits ? fiat : crypto }} />
+                  <FormattedMessage id='scenes.buysell.exchangecheckout.enteramount.details' defaultMessage='Please enter an amount greater than {min} {curr}.' values={{ min: limits.min, curr: this.props.fiatLimits ? fiat : crypto }} />
                 </Text>
               </Rate>
             }

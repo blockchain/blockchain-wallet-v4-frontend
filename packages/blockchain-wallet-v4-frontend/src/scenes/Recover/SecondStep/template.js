@@ -56,7 +56,7 @@ const SecondStep = (props) => {
       <Form onSubmit={handleSubmit}>
         <FormGroup>
           <FormLabel for='email'>
-            <FormattedMessage id='scenes.recover.secondstep.email' defaultMessage='Email' />
+            <FormattedMessage id='scenes.recover.secondstep.email' defaultMessage='New Email' />
           </FormLabel>
           <Field name='email' validate={[required, validEmail]} component={TextBox} />
         </FormGroup>
@@ -68,7 +68,7 @@ const SecondStep = (props) => {
         </FormGroup>
         <FormGroup>
           <FormLabel for='confirmationPassword'>
-            <FormattedMessage id='scenes.recover.secondstep.confirmationPassword' defaultMessage='Confirm Password' />
+            <FormattedMessage id='scenes.recover.secondstep.confirmapassword' defaultMessage='Confirm Password' />
           </FormLabel>
           <Field name='confirmationPassword' validate={[required]} component={PasswordBox} />
         </FormGroup>

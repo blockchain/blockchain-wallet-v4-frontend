@@ -27,22 +27,22 @@ const ShowUsedAddresses = (props) => {
       <ModalHeader onClose={close}>
         <HeaderWrapper>
           <Icon name='alert-filled' size='26px' className={'warning-icon'} color='brand-yellow' />
-          <FormattedMessage id='modals.show_used_addresses.title' defaultMessage='Are you sure?' />
+          <FormattedMessage id='modals.showusedaddresses.title' defaultMessage='Are you sure?' />
         </HeaderWrapper>
       </ModalHeader>
       <ModalBody>
         <Text size='14px' weight={300}>
-          <FormattedMessage id='modals.show_used_addresses.message' defaultMessage='Viewing used addresses can be helpful for debugging purposes, and is recommended for advanced users only. For privacy reasons, we strongly discourage using each address more than once.'/>
+          <FormattedMessage id='modals.showusedaddresses.message' defaultMessage='Viewing used addresses can be helpful for debugging purposes, and is recommended for advanced users only. For privacy reasons, we strongly discourage using each address more than once.'/>
         </Text>
       </ModalBody>
       <ModalFooter align='right'>
         <CancelBtn size='small' weight={300} style={spacing('mr-15')} onClick={close}>
-          <FormattedMessage id='modals.show_used_addresses.cancel' defaultMessage='Cancel' />
+          <FormattedMessage id='modals.showusedaddresses.cancel' defaultMessage='Cancel' />
         </CancelBtn>
         <Button uppercase nature='primary' type='submit' onClick={handleContinue} disabled={busy}>
           {
             !busy
-              ? <FormattedMessage id='modals.show_used_addresses.ok' defaultMessage='OK' />
+              ? <FormattedMessage id='modals.showusedaddresses.ok' defaultMessage='OK' />
               : <HeartbeatLoader height='20px' width='20px' color='white' />
           }
         </Button>
