@@ -1,5 +1,5 @@
 import React from 'react'
-import { gt, has, slice, toUpper, equals, path } from 'ramda'
+import { gt, slice, toUpper, equals, path } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 
 export const getLimits = (limits, curr, effectiveBalance) => {
@@ -71,19 +71,20 @@ export const reviewOrder = {
     if (reviewOrder.baseBtc(q)) return `${bAmt / 1e8} BTC (${currencySymbolMap[q.quoteCurrency]}${qAmt.toFixed(2)})`
     else return `${qAmt / 1e8} BTC (${currencySymbolMap[q.baseCurrency]}${bAmt.toFixed(2)})`
   },
-  renderFeeRow: (q, medium) => {
-    const med = medium
+  renderFeeRow: (q, medium, type) => {
+    const med = type === 'sell' ? 'bank' : medium
     const fee = path(['paymentMediums', med], q) && Math.abs(q.paymentMediums[med]['fee'])
     if (!fee) return `~`
-    if (reviewOrder.baseBtc(q)) return `${currencySymbolMap[q.quoteCurrency]}${fee && fee.toFixed(2)}`
-    else return `${currencySymbolMap[q.baseCurrency]}${fee && fee.toFixed(2)}`
+    if (reviewOrder.baseBtc(q)) return `${currencySymbolMap[q.quoteCurrency]}${fee.toFixed(2)}`
+    else return `${currencySymbolMap[q.baseCurrency]}${fee.toFixed(2)}`
   },
-  renderTotalRow: (q, medium) => {
+  renderTotalRow: (q, medium, type) => {
+    const med = type === 'sell' ? 'bank' : medium
     const qAmt = Math.abs(q.quoteAmount)
-    const fee = path(['paymentMediums', medium], q) && Math.abs(q.paymentMediums[medium]['fee'])
-    const totalBase = path(['paymentMediums', medium], q) && Math.abs((q.paymentMediums[medium]['total']).toFixed(2))
+    const fee = path(['paymentMediums', med], q) && Math.abs(q.paymentMediums[med]['fee'])
+    const totalBase = path(['paymentMediums', med], q) && Math.abs((q.paymentMediums[med]['total']).toFixed(2))
     if (!fee) return `~`
-    if (reviewOrder.baseBtc(q)) return `${currencySymbolMap[q.quoteCurrency]}${(qAmt + (fee || 0)).toFixed(2)}`
+    if (reviewOrder.baseBtc(q)) return `${currencySymbolMap[q.quoteCurrency]}${(qAmt + fee).toFixed(2)}`
     else return `${currencySymbolMap[q.baseCurrency]}${totalBase}`
   }
 }

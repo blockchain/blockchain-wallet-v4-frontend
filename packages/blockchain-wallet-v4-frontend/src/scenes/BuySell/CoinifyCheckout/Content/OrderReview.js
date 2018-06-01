@@ -68,7 +68,7 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
       </OrderDetailsRow>
       <OrderDetailsRow>
         <Text size='13px' weight={300}><FormattedMessage id='orderdetails.tradingfee' defaultMessage='Trading Fee' /></Text>
-        <Text size='13px' weight={300}>{quoteR.map(q => reviewOrder.renderFeeRow(q, medium)).getOrElse('~')}</Text>
+        <Text size='13px' weight={300}>{quoteR.map(q => reviewOrder.renderFeeRow(q, medium, type)).getOrElse('~')}</Text>
       </OrderDetailsRow>
       <OrderDetailsRow>
         {
@@ -76,7 +76,7 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
             ? <Text size='13px' weight={300}><FormattedMessage id='orderdetails.totalcost' defaultMessage='Total Cost' /></Text>
             : <Text size='13px' weight={300}><FormattedMessage id='orderdetails.totaltobereceived' defaultMessage='Total to be Received' /></Text>
         }
-        <Text size='13px' weight={300} color='success'>{quoteR.map(q => reviewOrder.renderTotalRow(q, medium)).getOrElse('~')}</Text>
+        <Text size='13px' weight={300} color='success'>{quoteR.map(q => reviewOrder.renderTotalRow(q, medium, type)).getOrElse('~')}</Text>
       </OrderDetailsRow>
     </OrderDetailsTable>
     {quoteR.map((q) => (
