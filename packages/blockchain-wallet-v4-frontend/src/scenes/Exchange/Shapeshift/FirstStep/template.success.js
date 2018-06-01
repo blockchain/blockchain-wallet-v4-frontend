@@ -125,7 +125,7 @@ const Success = props => {
         <Row height='80px'>
           <Cell>
             <AmountContainer hasNoBottomBorder>
-              <Field name='sourceAmount' component={NumberBoxDebounced} disabled={disabled} />
+              <Field name='sourceAmount' component={NumberBoxDebounced} disabled={disabled} step='0.00000001' />
               <CurrencyBox disabled={disabled}>{sourceCoin}</CurrencyBox>
             </AmountContainer>
             <AmountContainer>
@@ -141,7 +141,7 @@ const Success = props => {
           </Cell>
           <Cell>
             <AmountContainer hasNoBottomBorder>
-              <Field name='targetAmount' component={NumberBoxDebounced} disabled={disabled} />
+              <Field name='targetAmount' component={NumberBoxDebounced} disabled={disabled} step='0.00000001' />
               <CurrencyBox disabled={disabled}>{targetCoin}</CurrencyBox>
             </AmountContainer>
             <AmountContainer>
@@ -158,7 +158,7 @@ const Success = props => {
           {formError === 'invalid' && <InvalidAmountMessage />}
         </Row>
         }
-        {!formError &&
+        {(!formError || formError === 'initial') &&
           <Row spaced>
             <OptionsContainer>
               <Text weight={300} size='12px'>

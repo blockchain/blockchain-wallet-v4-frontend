@@ -39,7 +39,7 @@ class BchBalance extends React.PureComponent {
 }
 
 BchBalance.propTypes = {
-  context: PropTypes.string.isRequired
+  context: PropTypes.array.isRequired
 }
 
 const mapStateToProps = (state) => ({

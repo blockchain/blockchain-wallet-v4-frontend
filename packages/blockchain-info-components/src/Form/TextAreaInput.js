@@ -32,7 +32,6 @@ const selectBorderColor = (state) => {
 const TextAreaInput = props => {
   const { errorState, ...rest } = props
   const borderColor = selectBorderColor(errorState)
-
   return <BaseTextAreaInput borderColor={borderColor} {...rest} />
 }
 
