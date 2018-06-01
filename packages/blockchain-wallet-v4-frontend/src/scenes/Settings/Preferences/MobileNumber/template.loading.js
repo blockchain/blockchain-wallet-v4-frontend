@@ -9,13 +9,13 @@ const MobileNumber = (props) => {
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <FormattedMessage id='scenes.preferences.mobile.title' defaultMessage='Mobile Number' />
+          <FormattedMessage id='scenes.settings.preferences.mobile.loading.title' defaultMessage='Mobile Number' />
           <FlatLoader width='50px' height='14px' />
         </SettingHeader>
         <SettingDescription>
-          <FormattedMessage id='scenes.preferences.mobile.description1' defaultMessage='Your mobile phone can be used to enable two-factor authentication,' />
-          <FormattedMessage id='scenes.preferences.mobile.description2' defaultMessage='helping to secure your wallet from unauthorized access,' />
-          <FormattedMessage id='scenes.preferences.mobile.description3' defaultMessage='and to send bitcoin payment alerts when you receive funds.' />
+          <FormattedMessage id='scenes.settings.preferences.mobile.loading.description1' defaultMessage='Your mobile phone can be used to enable two-factor authentication,' />
+          <FormattedMessage id='scenes.settings.preferences.mobile.loading.description2' defaultMessage='helping to secure your wallet from unauthorized access,' />
+          <FormattedMessage id='scenes.settings.preferences.mobile.loading.description3' defaultMessage='and to send bitcoin payment alerts when you receive funds.' />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>

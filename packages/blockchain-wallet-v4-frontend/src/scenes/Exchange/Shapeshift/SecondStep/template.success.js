@@ -113,7 +113,7 @@ const Success = props => {
             <TableRow>
               <TableCell>
                 <Text size='13px' weight={400}>
-                  <FormattedMessage id='scenes.exchange.shapeshift.secondstep.todeposit' defaultMessage={'{sourceCoin} to deposit:'} values={{ sourceCoin }} />
+                  <FormattedMessage id='scenes.exchange.shapeshift.secondstep.todeposit' defaultMessage='{coin} to deposit:' values={{ coin: sourceCoin }} />
                 </Text>
               </TableCell>
               <TableCell>
@@ -136,7 +136,7 @@ const Success = props => {
             <TableRow>
               <TableCell>
                 <Text size='13px' weight={400}>
-                  <FormattedMessage id='scenes.exchange.shapeshift.secondstep.leaving' defaultMessage={'Total {sourceCoin} leaving the wallet'} values={{ sourceCoin }} />
+                  <FormattedMessage id='scenes.exchange.shapeshift.secondstep.leaving' defaultMessage='Total {sourceCoin} leaving the wallet' values={{ sourceCoin }} />
                 </Text>
               </TableCell>
               <TableCell>
@@ -172,7 +172,7 @@ const Success = props => {
             <TableRow>
               <TableCell>
                 <Text size='13px' weight={400}>
-                  <FormattedMessage id='scenes.exchange.shapeshift.exchangebox.secondstep.tobereceived' defaultMessage={`${targetCoin} to be received`} />
+                  <FormattedMessage id='scenes.exchange.shapeshift.exchangebox.secondstep.tobereceived' defaultMessage='{coin} to be received' values={{ coin: targetCoin }} />
                 </Text>
               </TableCell>
               <TableCell>
