@@ -1,12 +1,11 @@
 import ExchangeDelegate from '../../../exchange/delegate'
-import { apply, call, put, select, fork, take } from 'redux-saga/effects'
+import { apply, call, put, select } from 'redux-saga/effects'
 import * as A from './actions'
 import * as S from './selectors'
-import * as AT from './actionTypes'
 import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import { coinifyService } from '../../../exchange/service'
 import * as buySellA from '../../kvStore/buySell/actions'
-import { prop, sort } from 'ramda'
+import { prop, sort, path } from 'ramda'
 
 export default ({ api, options }) => {
   const getCoinify = function * () {
@@ -67,16 +66,30 @@ export default ({ api, options }) => {
       const quote = yield apply(coinify.data, getQuote,
         [Math.floor(amount), baseCurrency, quoteCurrency])
       yield put(A.fetchQuoteSuccess(quote))
-      yield fork(waitForRefreshQuote, data.quote)
       return quote
     } catch (e) {
       yield put(A.fetchQuoteFailure(e))
     }
   }
 
-  const waitForRefreshQuote = function * (quotePayload) {
-    yield take(AT.COINIFY_REFRESH_BUY_QUOTE)
-    yield put(A.fetchQuote(quotePayload))
+  const refreshBuyQuote = function * () {
+    try {
+      const quote = yield select(S.getQuote)
+      const qData = path(['data'], quote)
+
+      let quotePayload = {
+        baseCurrency: qData.baseCurrency,
+        quoteCurrency: qData.quoteCurrency,
+        type: 'buy'
+      }
+
+      if (qData.baseCurrency !== 'BTC') quotePayload['amount'] = (qData.baseAmount * -1) * 100
+      else quotePayload['amount'] = (qData.baseAmount * -1) / 1e8
+      const refreshedQuote = yield call(fetchQuote, {quote: quotePayload})
+      yield call(getPaymentMediums, {payload: refreshedQuote})
+    } catch (e) {
+
+    }
   }
 
   const fetchQuoteAndMediums = function * (data) {
@@ -128,6 +141,7 @@ export default ({ api, options }) => {
       yield put(A.getPaymentMediumsLoading())
       const mediums = yield apply(quote, quote.getPaymentMediums)
       yield put(A.getPaymentMediumsSuccess(mediums))
+      return mediums
     } catch (e) {
       yield put(A.getPaymentMediumsFailure(e))
     }
@@ -295,6 +309,7 @@ export default ({ api, options }) => {
     cancelTrade,
     triggerKYC,
     getKYCs,
-    kycAsTrade
+    kycAsTrade,
+    refreshBuyQuote
   }
 }

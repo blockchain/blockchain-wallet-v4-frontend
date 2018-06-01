@@ -64,11 +64,11 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
             ? <Text size='13px' weight={300}><FormattedMessage id='orderdetails.amounttopurchase' defaultMessage='BTC Amount to Purchase' /></Text>
             : <Text size='13px' weight={300}><FormattedMessage id='orderdetails.amounttosell' defaultMessage='BTC Amount to Sell' /></Text>
         }
-        <Text size='13px' weight={300}>{quoteR.map(q => reviewOrder.renderSummary(q, type, medium)).data.firstRow}</Text>
+        <Text size='13px' weight={300}>{quoteR.map(q => reviewOrder.renderFirstRow(q, type, medium)).getOrElse('~')}</Text>
       </OrderDetailsRow>
       <OrderDetailsRow>
         <Text size='13px' weight={300}><FormattedMessage id='orderdetails.tradingfee' defaultMessage='Trading Fee' /></Text>
-        <Text size='13px' weight={300}>{quoteR.map(q => reviewOrder.renderSummary(q, type, medium)).data.fee}</Text>
+        <Text size='13px' weight={300}>{quoteR.map(q => reviewOrder.renderFeeRow(q, type, medium)).getOrElse('~')}</Text>
       </OrderDetailsRow>
       <OrderDetailsRow>
         {
@@ -76,7 +76,7 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
             ? <Text size='13px' weight={300}><FormattedMessage id='orderdetails.totalcost' defaultMessage='Total Cost' /></Text>
             : <Text size='13px' weight={300}><FormattedMessage id='orderdetails.totaltobereceived' defaultMessage='Total to be Received' /></Text>
         }
-        <Text size='13px' weight={300} color='success'>{quoteR.map(q => reviewOrder.renderSummary(q, type, medium)).data.total}</Text>
+        <Text size='13px' weight={300} color='success'>{quoteR.map(q => reviewOrder.renderTotalRow(q, type, medium)).getOrElse('~')}</Text>
       </OrderDetailsRow>
     </OrderDetailsTable>
     {quoteR.map((q) => (

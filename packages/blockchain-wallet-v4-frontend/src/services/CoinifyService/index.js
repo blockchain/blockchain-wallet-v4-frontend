@@ -1,5 +1,5 @@
 import React from 'react'
-import { gt, has, slice, toUpper, equals } from 'ramda'
+import { gt, has, slice, toUpper, equals, path } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 
 export const getLimits = (limits, curr, effectiveBalance) => {
@@ -66,47 +66,34 @@ export const mockedLimits = {
 export const reviewOrder = {
   baseBtc: (q) => q.baseCurrency === 'BTC',
   hasMedium: (paymentMediums, medium) => {
+    if (medium) return medium
     if (paymentMediums && has(medium, paymentMediums)) {
       return medium
     } else {
       return medium === 'bank' ? 'card' : 'bank'
     }
   },
-  renderSummary: (q, type, medium) => {
+  renderFirstRow: (q, type, medium) => {
     const qAmt = Math.abs(q.quoteAmount)
     const bAmt = Math.abs(q.baseAmount)
+    if (reviewOrder.baseBtc(q)) return `${bAmt / 1e8} BTC (${currencySymbolMap[q.quoteCurrency]}${qAmt.toFixed(2)})`
+    else return `${qAmt / 1e8} BTC (${currencySymbolMap[q.baseCurrency]}${bAmt.toFixed(2)})`
+  },
+  renderFeeRow: (q, type, medium) => {
+    const med = medium
+    const fee = path(['paymentMediums', med], q) && Math.abs(q.paymentMediums[med]['fee'])
+    if (!fee) return `~`
+    if (reviewOrder.baseBtc(q)) return `${currencySymbolMap[q.quoteCurrency]}${fee && fee.toFixed(2)}`
+    else return `${currencySymbolMap[q.baseCurrency]}${fee && fee.toFixed(2)}`
+  },
+  renderTotalRow: (q, type, medium) => {
+    const qAmt = Math.abs(q.quoteAmount)
     const med = reviewOrder.hasMedium(q.paymentMediums, medium)
-    const fee = Math.abs(q.paymentMediums[med]['fee'])
-    const totalBase = Math.abs((q.paymentMediums[med]['total']).toFixed(2))
-    if (type === 'buy') {
-      if (reviewOrder.baseBtc(q)) {
-        return {
-          firstRow: `${bAmt / 1e8} BTC (${currencySymbolMap[q.quoteCurrency]}${qAmt.toFixed(2)})`,
-          fee: `${currencySymbolMap[q.quoteCurrency]}${fee.toFixed(2)}`,
-          total: `${currencySymbolMap[q.quoteCurrency]}${(qAmt + fee).toFixed(2)}`
-        }
-      } else {
-        return {
-          firstRow: `${qAmt / 1e8} BTC (${currencySymbolMap[q.baseCurrency]}${bAmt.toFixed(2)})`,
-          fee: `${currencySymbolMap[q.baseCurrency]}${fee.toFixed(2)}`,
-          total: `${currencySymbolMap[q.baseCurrency]}${totalBase}`
-        }
-      }
-    } else { // type = sell
-      if (reviewOrder.baseBtc(q)) {
-        return {
-          firstRow: `${bAmt / 1e8} BTC (${currencySymbolMap[q.quoteCurrency]}${qAmt.toFixed(2)})`,
-          fee: `${currencySymbolMap[q.quoteCurrency]}${fee.toFixed(2)}`,
-          total: `${currencySymbolMap[q.quoteCurrency]}${(qAmt + fee).toFixed(2)}`
-        }
-      } else {
-        return {
-          firstRow: `${qAmt / 1e8} BTC (${currencySymbolMap[q.baseCurrency]}${bAmt.toFixed(2)})`,
-          fee: `${currencySymbolMap[q.baseCurrency]}${fee.toFixed(2)}`,
-          total: `${currencySymbolMap[q.baseCurrency]}${totalBase}`
-        }
-      }
-    }
+    const fee = path(['paymentMediums', med], q) && Math.abs(q.paymentMediums[med]['fee'])
+    const totalBase = path(['paymentMediums', med], q) && Math.abs((q.paymentMediums[med]['total']).toFixed(2))
+    if (!fee) return `~`
+    if (reviewOrder.baseBtc(q)) return `${currencySymbolMap[q.quoteCurrency]}${(qAmt + (fee || 0)).toFixed(2)}`
+    else return `${currencySymbolMap[q.baseCurrency]}${totalBase}`
   }
 }
 
