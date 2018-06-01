@@ -1,286 +1,288 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Whats New renders correctly 1`] = `
 <WhatsNew__Wrapper>
-      <WhatsNew__Container
-        key="0"
+  <WhatsNew__Container
+    key="0"
+  >
+    <WhatsNew__RowTitle>
+      <text
+        size="14px"
+        weight={600}
       >
-        <WhatsNew__RowTitle>
-          <text
-            size="14px"
-            weight={600}
-          >
-            <FormattedMessage
-              defaultMessage="Import Funds from MyEtherWallet"
-              id="layouts.wallet.header.whatsnew.whatsnew.title12"
-              values={Object {}}
-            />
-          </text>
-        </WhatsNew__RowTitle>
-        <WhatsNew__RowDate>
-          <text
-            color="gray-3"
-            size="12px"
-            weight={400}
-          >
-            February 10, 2018
-          </text>
-        </WhatsNew__RowDate>
-        <WhatsNew__RowContent>
-          <text-group
-            inline={true}
-          >
-            <text
-              size="12px"
-              weight={300}
-            >
-              <FormattedMessage
-                defaultMessage="You can now import your ether from your MyEtherWallet backup directly into your Blockchain wallet."
-                id="layouts.wallet.header.whatsnew.whatsnew.desc12"
-                values={Object {}}
-              />
-            </text>
-            <LinkContainer
-              activeClassName="active"
-              exact={false}
-              replace={false}
-              strict={false}
-              to="/settings/info"
-            />
-          </text-group>
-        </WhatsNew__RowContent>
-      </WhatsNew__Container>
-      <WhatsNew__Container
-        key="1"
+        <FormattedMessage
+          defaultMessage="Import Funds from MyEtherWallet"
+          id="layouts.wallet.header.whatsnew.whatsnew.title12"
+          values={Object {}}
+        />
+      </text>
+    </WhatsNew__RowTitle>
+    <WhatsNew__RowDate>
+      <text
+        color="gray-3"
+        size="12px"
+        weight={400}
       >
-        <WhatsNew__RowTitle>
-          <text
-            size="14px"
-            weight={600}
-          >
-            <FormattedMessage
-              defaultMessage="New Bitcoin Cash Address Format"
-              id="layouts.wallet.header.whatsnew.whatsnew.title11"
-              values={Object {}}
-            />
-          </text>
-        </WhatsNew__RowTitle>
-        <WhatsNew__RowDate>
-          <text
-            color="gray-3"
-            size="12px"
-            weight={400}
-          >
-            January 18, 2018
-          </text>
-        </WhatsNew__RowDate>
-        <WhatsNew__RowContent>
-          <text-group
-            inline={true}
-          >
-            <text
-              size="12px"
-              weight={300}
-            >
-              <FormattedMessage
-                defaultMessage="Bitcoin Cash addresses now follow the CashAddr format."
-                id="layouts.wallet.header.whatsnew.whatsnew.desc11"
-                values={Object {}}
-              />
-            </text>
-            <Connect(FaqLink) />
-          </text-group>
-        </WhatsNew__RowContent>
-      </WhatsNew__Container>
-      <WhatsNew__Container
-        key="2"
+        February 10, 2018
+      </text>
+    </WhatsNew__RowDate>
+    <WhatsNew__RowContent>
+      <text-group
+        inline={true}
       >
-        <WhatsNew__RowTitle>
-          <text
-            size="14px"
-            weight={600}
-          >
-            <FormattedMessage
-              defaultMessage="Bitcoin Cash"
-              id="layouts.wallet.header.whatsnew.whatsnew.title10"
-              values={Object {}}
-            />
-          </text>
-        </WhatsNew__RowTitle>
-        <WhatsNew__RowDate>
-          <text
-            color="gray-3"
-            size="12px"
-            weight={400}
-          >
-            October 3, 2017
-          </text>
-        </WhatsNew__RowDate>
-        <WhatsNew__RowContent>
-          <text-group
-            inline={true}
-          >
-            <text
-              size="12px"
-              weight={300}
-            >
-              <FormattedMessage
-                defaultMessage="If you had bitcoin in your wallet before August 1, 2017, you can now access Bitcoin Cash via Settings > General."
-                id="layouts.wallet.header.whatsnew.whatsnew.desc10"
-                values={Object {}}
-              />
-            </text>
-            <LinkContainer
-              activeClassName="active"
-              exact={false}
-              replace={false}
-              strict={false}
-              to="/bch/transactions"
-            />
-          </text-group>
-        </WhatsNew__RowContent>
-      </WhatsNew__Container>
-      <WhatsNew__Container
-        key="3"
+        <text
+          size="12px"
+          weight={300}
+        >
+          <FormattedMessage
+            defaultMessage="You can now import your ether from your MyEtherWallet backup directly into your Blockchain wallet."
+            id="layouts.wallet.header.whatsnew.whatsnew.desc12"
+            values={Object {}}
+          />
+        </text>
+        <LinkContainer
+          activeClassName="active"
+          exact={false}
+          replace={false}
+          strict={false}
+          to="/settings/info"
+        />
+      </text-group>
+    </WhatsNew__RowContent>
+  </WhatsNew__Container>
+  <WhatsNew__Container
+    key="1"
+  >
+    <WhatsNew__RowTitle>
+      <text
+        size="14px"
+        weight={600}
       >
-        <WhatsNew__RowTitle>
-          <text
-            size="14px"
-            weight={600}
-          >
-            <FormattedMessage
-              defaultMessage="Exchange Assets"
-              id="layouts.wallet.header.whatsnew.whatsnew.title9"
-              values={Object {}}
-            />
-          </text>
-        </WhatsNew__RowTitle>
-        <WhatsNew__RowDate>
-          <text
-            color="gray-3"
-            size="12px"
-            weight={400}
-          >
-            August 11, 2017
-          </text>
-        </WhatsNew__RowDate>
-        <WhatsNew__RowContent>
-          <text-group
-            inline={true}
-          >
-            <text
-              size="12px"
-              weight={300}
-            >
-              <FormattedMessage
-                defaultMessage="You can exchange between bitcoin, ether, and bitcoin cash directly from your Blockchain wallet"
-                id="layouts.wallet.header.whatsnew.whatsnew.desc9"
-                values={Object {}}
-              />
-            </text>
-            <LinkContainer
-              activeClassName="active"
-              exact={false}
-              replace={false}
-              strict={false}
-              to="/exchange"
-            />
-          </text-group>
-        </WhatsNew__RowContent>
-      </WhatsNew__Container>
-      <WhatsNew__Container
-        key="4"
+        <FormattedMessage
+          defaultMessage="New Bitcoin Cash Address Format"
+          id="layouts.wallet.header.whatsnew.whatsnew.title11"
+          values={Object {}}
+        />
+      </text>
+    </WhatsNew__RowTitle>
+    <WhatsNew__RowDate>
+      <text
+        color="gray-3"
+        size="12px"
+        weight={400}
       >
-        <WhatsNew__RowTitle>
-          <text
-            size="14px"
-            weight={600}
-          >
-            <FormattedMessage
-              defaultMessage="Send & Receive Ether"
-              id="layouts.wallet.header.whatsnew.whatsnew.title8"
-              values={Object {}}
-            />
-          </text>
-        </WhatsNew__RowTitle>
-        <WhatsNew__RowDate>
-          <text
-            color="gray-3"
-            size="12px"
-            weight={400}
-          >
-            July 24, 2017
-          </text>
-        </WhatsNew__RowDate>
-        <WhatsNew__RowContent>
-          <text-group
-            inline={true}
-          >
-            <text
-              size="12px"
-              weight={300}
-            >
-              <FormattedMessage
-                defaultMessage="You can now send and receive ether from your Blockchain wallet!"
-                id="layouts.wallet.header.whatsnew.whatsnew.desc8"
-                values={Object {}}
-              />
-            </text>
-            <LinkContainer
-              activeClassName="active"
-              exact={false}
-              replace={false}
-              strict={false}
-              to="/eth/transactions"
-            />
-          </text-group>
-        </WhatsNew__RowContent>
-      </WhatsNew__Container>
-      <WhatsNew__Container
-        key="5"
+        January 18, 2018
+      </text>
+    </WhatsNew__RowDate>
+    <WhatsNew__RowContent>
+      <text-group
+        inline={true}
       >
-        <WhatsNew__RowTitle>
-          <text
-            size="14px"
-            weight={600}
-          >
-            <FormattedMessage
-              defaultMessage="Sell Bitcoin"
-              id="layouts.wallet.header.whatsnew.whatsnew.title7"
-              values={Object {}}
-            />
-          </text>
-        </WhatsNew__RowTitle>
-        <WhatsNew__RowDate>
-          <text
-            color="gray-3"
-            size="12px"
-            weight={400}
-          >
-            May 12, 2017
-          </text>
-        </WhatsNew__RowDate>
-        <WhatsNew__RowContent>
-          <text-group
-            inline={true}
-          >
-            <text
-              size="12px"
-              weight={300}
-            >
-              <FormattedMessage
-                defaultMessage="You can now sell bitcoin directly from your Blockchain wallet!"
-                id="layouts.wallet.header.whatsnew.whatsnew.desc7"
-                values={Object {}}
-              />
-            </text>
-            <LinkContainer
-              activeClassName="active"
-              exact={false}
-              replace={false}
-              strict={false}
-              to="/buy-sell"
-            />
-          </text-group>
-        </WhatsNew__RowContent>
-      </WhatsNew__Container>
-    </WhatsNew__Wrapper>
+        <text
+          size="12px"
+          weight={300}
+        >
+          <FormattedMessage
+            defaultMessage="Bitcoin Cash addresses now follow the CashAddr format."
+            id="layouts.wallet.header.whatsnew.whatsnew.desc11"
+            values={Object {}}
+          />
+        </text>
+        <Connect(FaqLink) />
+      </text-group>
+    </WhatsNew__RowContent>
+  </WhatsNew__Container>
+  <WhatsNew__Container
+    key="2"
+  >
+    <WhatsNew__RowTitle>
+      <text
+        size="14px"
+        weight={600}
+      >
+        <FormattedMessage
+          defaultMessage="Bitcoin Cash"
+          id="layouts.wallet.header.whatsnew.whatsnew.title10"
+          values={Object {}}
+        />
+      </text>
+    </WhatsNew__RowTitle>
+    <WhatsNew__RowDate>
+      <text
+        color="gray-3"
+        size="12px"
+        weight={400}
+      >
+        October 3, 2017
+      </text>
+    </WhatsNew__RowDate>
+    <WhatsNew__RowContent>
+      <text-group
+        inline={true}
+      >
+        <text
+          size="12px"
+          weight={300}
+        >
+          <FormattedMessage
+            defaultMessage="If you had bitcoin in your wallet before August 1, 2017, you can now access Bitcoin Cash via Settings > General."
+            id="layouts.wallet.header.whatsnew.whatsnew.desc10"
+            values={Object {}}
+          />
+        </text>
+        <LinkContainer
+          activeClassName="active"
+          exact={false}
+          replace={false}
+          strict={false}
+          to="/bch/transactions"
+        />
+      </text-group>
+    </WhatsNew__RowContent>
+  </WhatsNew__Container>
+  <WhatsNew__Container
+    key="3"
+  >
+    <WhatsNew__RowTitle>
+      <text
+        size="14px"
+        weight={600}
+      >
+        <FormattedMessage
+          defaultMessage="Exchange Assets"
+          id="layouts.wallet.header.whatsnew.whatsnew.title9"
+          values={Object {}}
+        />
+      </text>
+    </WhatsNew__RowTitle>
+    <WhatsNew__RowDate>
+      <text
+        color="gray-3"
+        size="12px"
+        weight={400}
+      >
+        August 11, 2017
+      </text>
+    </WhatsNew__RowDate>
+    <WhatsNew__RowContent>
+      <text-group
+        inline={true}
+      >
+        <text
+          size="12px"
+          weight={300}
+        >
+          <FormattedMessage
+            defaultMessage="You can exchange between bitcoin, ether, and bitcoin cash directly from your Blockchain wallet"
+            id="layouts.wallet.header.whatsnew.whatsnew.desc9"
+            values={Object {}}
+          />
+        </text>
+        <LinkContainer
+          activeClassName="active"
+          exact={false}
+          replace={false}
+          strict={false}
+          to="/exchange"
+        />
+      </text-group>
+    </WhatsNew__RowContent>
+  </WhatsNew__Container>
+  <WhatsNew__Container
+    key="4"
+  >
+    <WhatsNew__RowTitle>
+      <text
+        size="14px"
+        weight={600}
+      >
+        <FormattedMessage
+          defaultMessage="Send & Receive Ether"
+          id="layouts.wallet.header.whatsnew.whatsnew.title8"
+          values={Object {}}
+        />
+      </text>
+    </WhatsNew__RowTitle>
+    <WhatsNew__RowDate>
+      <text
+        color="gray-3"
+        size="12px"
+        weight={400}
+      >
+        July 24, 2017
+      </text>
+    </WhatsNew__RowDate>
+    <WhatsNew__RowContent>
+      <text-group
+        inline={true}
+      >
+        <text
+          size="12px"
+          weight={300}
+        >
+          <FormattedMessage
+            defaultMessage="You can now send and receive ether from your Blockchain wallet!"
+            id="layouts.wallet.header.whatsnew.whatsnew.desc8"
+            values={Object {}}
+          />
+        </text>
+        <LinkContainer
+          activeClassName="active"
+          exact={false}
+          replace={false}
+          strict={false}
+          to="/eth/transactions"
+        />
+      </text-group>
+    </WhatsNew__RowContent>
+  </WhatsNew__Container>
+  <WhatsNew__Container
+    key="5"
+  >
+    <WhatsNew__RowTitle>
+      <text
+        size="14px"
+        weight={600}
+      >
+        <FormattedMessage
+          defaultMessage="Sell Bitcoin"
+          id="layouts.wallet.header.whatsnew.whatsnew.title7"
+          values={Object {}}
+        />
+      </text>
+    </WhatsNew__RowTitle>
+    <WhatsNew__RowDate>
+      <text
+        color="gray-3"
+        size="12px"
+        weight={400}
+      >
+        May 12, 2017
+      </text>
+    </WhatsNew__RowDate>
+    <WhatsNew__RowContent>
+      <text-group
+        inline={true}
+      >
+        <text
+          size="12px"
+          weight={300}
+        >
+          <FormattedMessage
+            defaultMessage="You can now sell bitcoin directly from your Blockchain wallet!"
+            id="layouts.wallet.header.whatsnew.whatsnew.desc7"
+            values={Object {}}
+          />
+        </text>
+        <LinkContainer
+          activeClassName="active"
+          exact={false}
+          replace={false}
+          strict={false}
+          to="/buy-sell"
+        />
+      </text-group>
+    </WhatsNew__RowContent>
+  </WhatsNew__Container>
+</WhatsNew__Wrapper>
+`;
