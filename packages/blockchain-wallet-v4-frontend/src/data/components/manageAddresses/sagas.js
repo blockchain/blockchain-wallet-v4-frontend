@@ -1,5 +1,5 @@
 import { call, put, select } from 'redux-saga/effects'
-import { ascend, filter, findIndex, forEach, pluck, prop, propEq, sort, sortBy } from 'ramda'
+import { filter, findIndex, forEach, pluck, propEq, sort } from 'ramda'
 
 import * as A from './actions'
 import * as actions from '../../actions'
@@ -112,10 +112,43 @@ export default ({ api }) => {
     }
   }
 
+  const editUnusedAddressLabel = function * (action) {
+    const { accountIndex, walletIndex, addressIndex } = action.payload
+
+    try {
+      yield put(A.editUnusedAddressLabelLoading(accountIndex))
+      yield put(actions.wallet.editHdLabel(accountIndex, addressIndex))
+      yield put(A.fetchUnusedAddresses(walletIndex))
+      yield put(A.editUnusedAddressLabelSuccess(walletIndex))
+    } catch (e) {
+      yield put(A.editUnusedAddressLabelError(walletIndex, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'editUnusedAddressLabel', e))
+      yield put(actions.alerts.displayError('Failed to update address label.'))
+    }
+  }
+
+  const deleteUnusedAddressLabel = function * (action) {
+    const { accountIndex, walletIndex, addressIndex } = action.payload
+
+    try {
+      yield put(A.deleteUnusedAddressLabelLoading(accountIndex))
+      yield put(actions.core.wallet.deleteHdAddressLabel(accountIndex, addressIndex))
+      yield put(A.fetchUnusedAddresses(walletIndex))
+      yield put(actions.alerts.displaySuccess('Address was deleted successfully.'))
+      yield put(A.deleteUnusedAddressLabelSuccess(walletIndex))
+    } catch (e) {
+      yield put(A.deleteUnusedAddressLabelError(walletIndex, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'deleteUnusedAddressLabel', e))
+      yield put(actions.alerts.displayError('Failed to delete address label.'))
+    }
+  }
+
   return {
+    editUnusedAddressLabel,
     generateNextReceiveAddress,
     fetchUnusedAddresses,
     fetchUsedAddresses,
+    deleteUnusedAddressLabel,
     toggleUsedAddresses
   }
 }
