@@ -34,8 +34,8 @@ const UnusedAddressesTemplate = ({ account, currentReceiveIndex, unusedAddresses
           <Text size='13px'>{entry.label}</Text>
         </TableCell>
         <TableCell style={{ display: 'flex', justifyContent: 'flex-end' }} width='20%'>
-          <Icon cursor name='pencil' onClick={() => onEditLabel(entry.index)} style={{ marginRight: 10 }} />
-          <Icon cursor name='trash' onClick={() => onDeleteLabel(entry.index)} />
+          <Icon cursor name='pencil' onClick={() => onEditLabel(entry.derivationIndex)} style={{ marginRight: 10 }} />
+          <Icon cursor name='trash' onClick={() => onDeleteLabel(entry.derivationIndex)} />
         </TableCell>
       </TableRow>
     )
