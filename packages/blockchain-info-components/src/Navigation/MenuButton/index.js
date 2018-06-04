@@ -22,7 +22,7 @@ const Button = styled.button`
       transition-delay: 100ms;
     }
     & span {
-      background: #fff;
+      background: ${props => props.theme['white']};
       border-radius: 2px !important;
       display: block;
       height: 2px;
@@ -33,7 +33,7 @@ const Button = styled.button`
     }
     & span::before,
     & span::after {
-      background-color: #fff;
+      background-color: ${props => props.theme['white']};
       border-radius: 2px !important;
       content: "";
       display: block;
