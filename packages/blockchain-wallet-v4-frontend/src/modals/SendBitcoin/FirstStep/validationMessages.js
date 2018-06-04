@@ -18,12 +18,12 @@ const Wrapper = styled.div`
 `
 
 export const InvalidAmountMessage = () => (
-  <FormattedMessage id='modals.sendbtc.amountnotzeromessage' defaultMessage="Invalid amount" />
+  <FormattedMessage id='modals.sendbtc.amountnotzeromessage' defaultMessage='Invalid amount' />
 )
 
 export const MaximumAmountMessage = () => (
   <Wrapper>
-    <FormattedMessage id='modals.sencbtc.maximumamountmessage' defaultMessage='Maximum amount exceeded. Use' />
+    <FormattedMessage id='modals.sencbtc.maximumamountmessage' defaultMessage='Not enough funds. Use' />
     <MaximumAmountLink />
   </Wrapper>
 )
@@ -50,7 +50,7 @@ export const MinimumFeeMessage = () => (
 )
 
 export const InsufficientFundsMessage = () => (
-  <FormattedMessage id='modals.sendbtc.insufficientfundsnessage' defaultMessage="Insufficients funds" />
+  <FormattedMessage id='modals.sendbtc.insufficientfundsmessage' defaultMessage='Insufficient funds' />
 )
 
 export const AddressMatchesPriv = () => (

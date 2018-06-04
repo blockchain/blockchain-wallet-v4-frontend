@@ -2,8 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 
 import TotalBalance from './TotalBalance'
-import BitcoinBalance from './BitcoinBalance'
-import EtherBalance from './EtherBalance'
+import BtcBalance from './BtcBalance'
+import EthBalance from './EthBalance'
 import BchBalance from './BchBalance'
 
 import { FormattedMessage } from 'react-intl'
@@ -69,10 +69,10 @@ const Success = props => {
 
   const getComponentOrder = () => {
     switch (path) {
-      case '/btc/transactions': return [<BitcoinBalance large context={btcContext} />, <EtherBalance context={ethContext} />, <BchBalance context={bchContext} />, <TotalBalance />]
-      case '/eth/transactions': return [<EtherBalance large context={ethContext} />, <BitcoinBalance context={btcContext} />, <BchBalance context={bchContext} />, <TotalBalance />]
-      case '/bch/transactions': return [<BchBalance large context={bchContext} />, <BitcoinBalance context={btcContext} />, <EtherBalance context={ethContext} />, <TotalBalance />]
-      default: return [<TotalBalance large />, <BitcoinBalance context={btcContext} />, <EtherBalance context={ethContext} />, <BchBalance context={bchContext} />]
+      case '/btc/transactions': return [<BtcBalance large context={btcContext} />, <EthBalance context={ethContext} />, <BchBalance context={bchContext} />, <TotalBalance />]
+      case '/eth/transactions': return [<EthBalance large context={ethContext} />, <BtcBalance context={btcContext} />, <BchBalance context={bchContext} />, <TotalBalance />]
+      case '/bch/transactions': return [<BchBalance large context={bchContext} />, <BtcBalance context={btcContext} />, <EthBalance context={ethContext} />, <TotalBalance />]
+      default: return [<TotalBalance large />, <BtcBalance context={btcContext} />, <EthBalance context={ethContext} />, <BchBalance context={bchContext} />]
     }
   }
 

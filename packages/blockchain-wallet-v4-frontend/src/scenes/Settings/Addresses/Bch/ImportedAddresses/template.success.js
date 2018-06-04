@@ -36,12 +36,12 @@ const Success = (props) => {
   return (
     <Wrapper>
       <ImportedAddressesSettingHeader>
-        <FormattedMessage id='scenes.settings.addresses.imported_bch_addrs' defaultMessage='Imported Bitcoin Cash Addresses' />
+        <FormattedMessage id='scenes.settings.addresses.bch.importedaddresses.title' defaultMessage='Imported Bitcoin Cash Addresses' />
       </ImportedAddressesSettingHeader>
       <AddressesSettingDescription>
         <WarningWrapper>
-          <Icon name='alert-filled' size='22px' className={'warning-icon'} color='brand-yellow'/>
-          <FormattedMessage id='scenes.settings.addresses.imported_bch_addrs_desc' defaultMessage='Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet.' />
+          <Icon name='alert-filled' size='22px' className={'warning-icon'} color='brand-yellow' />
+          <FormattedMessage id='scenes.settings.addresses.bch.importedaddresses.description' defaultMessage='Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet.' />
         </WarningWrapper>
       </AddressesSettingDescription>
       {
@@ -50,12 +50,12 @@ const Success = (props) => {
           <TableHeader>
             <TableCell width='50%'>
               <Text size='13px' weight={500}>
-                <FormattedMessage id='scenes.settings.imported_addresses.bch.address' defaultMessage='Address' />
+                <FormattedMessage id='scenes.settings.addresses.bch.importedaddresses.address' defaultMessage='Address' />
               </Text>
             </TableCell>
             <TableCell width='30%'>
               <Text size='13px' weight={500}>
-                <FormattedMessage id='scenes.settings.imported_addresses.bch.balance' defaultMessage='Balance' />
+                <FormattedMessage id='scenes.settings.addresses.bch.importedaddresses.balance' defaultMessage='Balance' />
               </Text>
             </TableCell>
           </TableHeader>

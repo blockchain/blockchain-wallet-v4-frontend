@@ -5,8 +5,8 @@ import * as S from './selectors'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
 import settings from 'config'
-
 import { initialize, change } from 'redux-form'
+import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 
@@ -28,7 +28,6 @@ export default ({ coreSagas }) => {
       const defaultFeePerByte = path(['fees', feeType || 'regular'], payment.value())
       payment = yield payment.from(defaultIndex)
       payment = yield payment.fee(defaultFeePerByte)
-      // TODO :: Redesign account dropdown
       const initialValues = {
         to: to,
         coin: 'BTC',
@@ -40,6 +39,7 @@ export default ({ coreSagas }) => {
       yield put(initialize('sendBtc', initialValues))
       yield put(A.sendBtcPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
+      yield put(A.sendBtcPaymentUpdated(Remote.Failure(e)))
       yield put(actions.logs.logErrorMessage(logLocation, 'sendBtcInitialized', e))
     }
   }
@@ -68,10 +68,16 @@ export default ({ coreSagas }) => {
 
       switch (field) {
         case 'coin':
-          yield put(actions.modals.closeAllModals())
           switch (payload) {
-            case 'ETH': yield put(actions.modals.showModal('SendEther')); break
-            case 'BCH': yield put(actions.modals.showModal('SendBch')); break
+            case 'ETH': {
+              yield put(actions.modals.closeAllModals())
+              yield put(actions.modals.showModal('SendEther'))
+              break
+            }
+            case 'BCH': {
+              yield put(actions.modals.closeAllModals())
+              yield put(actions.modals.showModal('SendBch'))
+            }
           }
           break
         case 'from':
@@ -204,14 +210,15 @@ export default ({ coreSagas }) => {
       payment = yield payment.sign(password)
       payment = yield payment.publish()
       yield put(A.sendBtcPaymentUpdated(Remote.of(payment.value())))
+      yield put(actions.core.data.bitcoin.fetchTransactions('', true))
       if (path(['description', 'length'], payment.value())) {
         yield put(actions.core.wallet.setTransactionNote(payment.value().txId, payment.value().description))
       }
       yield put(actions.router.push('/btc/transactions'))
-      yield put(actions.alerts.displaySuccess('Your bitcoin has been sent!'))
+      yield put(actions.alerts.displaySuccess(C.SEND_BTC_SUCCESS))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e))
-      yield put(actions.alerts.displayError('Failed to send bitcoin.'))
+      yield put(actions.alerts.displayError(C.SEND_BTC_ERROR))
     }
   }
 

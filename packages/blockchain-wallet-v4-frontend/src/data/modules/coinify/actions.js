@@ -1,6 +1,7 @@
 import * as AT from './actionTypes'
 
 export const coinifySignup = (country) => ({ type: AT.SIGNUP, payload: country })
+export const coinifySignupComplete = () => ({ type: AT.COINIFY_SIGNUP_COMPLETE })
 
 export const coinifySignupFailure = (error) => ({ type: AT.COINIFY_SIGNUP_FAILURE, payload: error })
 
@@ -16,15 +17,12 @@ export const saveMediumSuccess = (medium) => ({ type: AT.COINIFY_SAVE_MEDIUM_SUC
 
 export const initiateBuy = (data) => ({ type: AT.COINIFY_BUY, payload: data })
 
-export const initiateSell = (data) => ({ type: AT.COINIFY_SELL, payload: data })
+export const initiateSell = () => ({ type: AT.COINIFY_SELL })
 
-export const initializeCheckoutForm = (currency) => ({ type: AT.COINIFY_INITIALIZED, payload: currency })
+export const initializeCheckoutForm = (type) => ({ type: AT.COINIFY_INITIALIZED, payload: { type } })
 
 export const coinifyCheckoutBusyOn = () => ({ type: AT.COINIFY_CHECKOUT_BUSY_ON })
 export const coinifyCheckoutBusyOff = () => ({ type: AT.COINIFY_CHECKOUT_BUSY_OFF })
-
-export const setCheckoutMax = (amount) => ({ type: AT.COINIFY_SET_CHECKOUT_MAX, payload: amount })
-export const setCheckoutMin = (amount) => ({ type: AT.COINIFY_SET_CHECKOUT_MIN, payload: amount })
 
 export const setCoinifyCheckoutError = (error) => ({ type: AT.COINIFY_SET_CHECKOUT_ERROR, payload: error })
 export const clearCoinifyCheckoutError = () => ({ type: AT.COINIFY_CLEAR_CHECKOUT_ERROR })
@@ -40,6 +38,11 @@ export const triggerKYC = () => ({ type: AT.COINIFY_TRIGGER_KYC })
 
 export const openKYC = (kyc) => ({ type: AT.OPEN_KYC, payload: kyc })
 
+export const deleteBankAccount = (account) => ({ type: AT.COINIFY_DELETE_BANK_ACCOUNT, payload: account })
+
 export const cancelISX = () => ({ type: AT.CANCEL_ISX })
+export const setCancelTradeId = (id) => ({ type: AT.SET_CANCEL_TRADE_ID, payload: id })
 
 export const finishTrade = (trade) => ({ type: AT.FINISH_TRADE, payload: trade })
+
+export const cancelTrade = (trade) => ({ type: AT.CANCEL_TRADE, payload: trade })

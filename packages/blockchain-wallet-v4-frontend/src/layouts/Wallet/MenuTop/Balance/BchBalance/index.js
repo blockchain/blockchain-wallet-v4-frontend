@@ -11,10 +11,19 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class BchBalance extends React.PureComponent {
+  constructor (props) {
+    super(props)
+    this.handleRefresh = this.handleRefresh.bind(this)
+  }
+
   componentWillMount () {
     if (Remote.NotAsked.is(this.props.data)) {
       this.props.actions.fetchData(this.props.context)
     }
+  }
+
+  handleRefresh () {
+    this.props.actions.fetchData(this.props.context)
   }
 
   render () {
@@ -22,7 +31,7 @@ class BchBalance extends React.PureComponent {
 
     return data.cata({
       Success: (value) => <Success balance={value} large={large} />,
-      Failure: (message) => <Error>{message}</Error>,
+      Failure: (message) => <Error onRefresh={this.handleRefresh} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
@@ -30,7 +39,7 @@ class BchBalance extends React.PureComponent {
 }
 
 BchBalance.propTypes = {
-  context: PropTypes.string.isRequired
+  context: PropTypes.array.isRequired
 }
 
 const mapStateToProps = (state) => ({

@@ -74,6 +74,8 @@ export default ({ api, coreSagas }) => {
   }
 
   const convertValues = function * (type) {
+    const currencyR = yield select(selectors.core.settings.getCurrency)
+    const currency = currencyR.getOrElse('USD')
     const form = yield select(selectors.form.getFormValues('exchange'))
     const sourceCoin = path(['source', 'coin'], form)
     const targetCoin = path(['target', 'coin'], form)
@@ -89,7 +91,7 @@ export default ({ api, coreSagas }) => {
         const sourceAmount = convertFiatToCoin(sourceFiat, 'USD', sourceCoin, sourceCoin, sourceRates).value
         const quotation = yield call(api.createQuote, sourceAmount, pair, true)
         const targetAmount = path(['success', 'withdrawalAmount'], quotation) || 0
-        const targetFiat = convertCoinToFiat(targetAmount, targetCoin, targetCoin, 'USD', targetRates).value
+        const targetFiat = convertCoinToFiat(targetAmount, targetCoin, targetCoin, currency, targetRates).value
         return { sourceAmount, sourceFiat, targetAmount, targetFiat }
       }
       case 'targetAmount': {
@@ -97,17 +99,17 @@ export default ({ api, coreSagas }) => {
         if (isUndefinedOrEqualsToZero(targetAmount)) return defaultResult
         const quotation = yield call(api.createQuote, targetAmount, pair, false)
         const sourceAmount = path(['success', 'depositAmount'], quotation) || 0
-        const sourceFiat = convertCoinToFiat(sourceAmount, sourceCoin, sourceCoin, 'USD', sourceRates).value
-        const targetFiat = convertCoinToFiat(targetAmount, targetCoin, targetCoin, 'USD', targetRates).value
+        const sourceFiat = convertCoinToFiat(sourceAmount, sourceCoin, sourceCoin, currency, sourceRates).value
+        const targetFiat = convertCoinToFiat(targetAmount, targetCoin, targetCoin, currency, targetRates).value
         return { sourceAmount, sourceFiat, targetAmount, targetFiat }
       }
       case 'targetFiat': {
         const targetFiat = prop('targetFiat', form)
         if (isUndefinedOrEqualsToZero(targetFiat)) return defaultResult
-        const targetAmount = convertFiatToCoin(targetFiat, 'USD', targetCoin, targetCoin, targetRates).value
+        const targetAmount = convertFiatToCoin(targetFiat, currency, targetCoin, targetCoin, targetRates).value
         const quotation = yield call(api.createQuote, targetAmount, pair, false)
         const sourceAmount = path(['success', 'depositAmount'], quotation) || 0
-        const sourceFiat = convertCoinToFiat(sourceAmount, sourceCoin, sourceCoin, 'USD', sourceRates).value
+        const sourceFiat = convertCoinToFiat(sourceAmount, sourceCoin, sourceCoin, currency, sourceRates).value
         return { sourceAmount, sourceFiat, targetAmount, targetFiat }
       }
       case 'sourceAmount':
@@ -116,8 +118,8 @@ export default ({ api, coreSagas }) => {
         if (isUndefinedOrEqualsToZero(sourceAmount)) return defaultResult
         const quotation = yield call(api.createQuote, sourceAmount, pair, true)
         const targetAmount = path(['success', 'withdrawalAmount'], quotation) || 0
-        const sourceFiat = convertCoinToFiat(sourceAmount, sourceCoin, sourceCoin, 'USD', sourceRates).value
-        const targetFiat = convertCoinToFiat(targetAmount, targetCoin, targetCoin, 'USD', targetRates).value
+        const sourceFiat = convertCoinToFiat(sourceAmount, sourceCoin, sourceCoin, currency, sourceRates).value
+        const targetFiat = convertCoinToFiat(targetAmount, targetCoin, targetCoin, currency, targetRates).value
         return { sourceAmount, sourceFiat, targetAmount, targetFiat }
       }
     }
@@ -180,7 +182,7 @@ export default ({ api, coreSagas }) => {
 
   const selectOtherAccount = function * (coin) {
     if (equals('BTC', coin)) {
-      return yield call(getDefaultBtcAccountValue)
+      return yield call(getDefaultEthAccountValue)
     } else {
       return yield call(getDefaultBtcAccountValue)
     }
@@ -197,6 +199,14 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const resetForm = function * () {
+    yield put(actions.form.change2('exchange', 'sourceAmount', ''))
+    yield put(actions.form.change2('exchange', 'sourceFiat', ''))
+    yield put(actions.form.change2('exchange', 'targetAmount', ''))
+    yield put(actions.form.change2('exchange', 'targetFiat', ''))
+    yield put(actions.components.exchange.firstStepFormUnvalidated('initial'))
+  }
+
   return {
     calculateEffectiveBalance,
     createPayment,
@@ -208,6 +218,7 @@ export default ({ api, coreSagas }) => {
     getBtcAccounts,
     getEthAccounts,
     selectLabel,
-    selectOtherAccount
+    selectOtherAccount,
+    resetForm
   }
 }

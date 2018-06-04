@@ -1,4 +1,4 @@
-import { path } from 'ramda'
+import { path, prop } from 'ramda'
 import { dataPath } from '../../paths'
 
 export const getCoinify = path([dataPath, 'coinify'])
@@ -12,6 +12,11 @@ export const getTrades = path([dataPath, 'coinify', 'trades'])
 export const getProfile = path([dataPath, 'coinify', 'profile'])
 
 export const getMediums = path([dataPath, 'coinify', 'mediums'])
+
+// Bank account selected to receive sale fiat
+export const getAccount = path([dataPath, 'coinify', 'account'])
+
+export const getBaseCurrency = state => getQuote(state).map(prop('_baseCurrency'))
 
 export const getLimits = state => getProfile(state).map(path(['_limits']))
 
@@ -30,3 +35,5 @@ export const canTrade = state => getProfile(state).map(path(['_canTrade']))
 export const cannotTradeReason = state => getProfile(state).map(path(['_cannotTradeReason']))
 
 export const getSortedKycs = path([dataPath, 'coinify', 'kycs'])
+
+export const getBankAccounts = state => getMediums(state).map(path(['bank', '_accounts']))

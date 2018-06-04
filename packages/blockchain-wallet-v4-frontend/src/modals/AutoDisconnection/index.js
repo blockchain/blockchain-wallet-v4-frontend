@@ -10,9 +10,17 @@ import AutoDisconnection from './template.js'
 class AutoDisconnectionContainer extends React.PureComponent {
   constructor (props) {
     super(props)
+    this.timeout = undefined
     this.onSubmit = this.onSubmit.bind(this)
     this.handleCancel = this.handleCancel.bind(this)
+  }
+
+  componentDidMount () {
     this.timeout = setTimeout(this.onSubmit, 10000)
+  }
+
+  componentWillUnmount () {
+    clearTimeout(this.timeout)
   }
 
   onSubmit () {

@@ -17,7 +17,7 @@ const ButtonWrapper = styled(ButtonGroup)`
 `
 
 const Settings = (props) => {
-  const { updateToggled, handleToggle, handleClick, submitting, invalid, currentStretch } = props
+  const { updateToggled, handleToggle, handleSubmit, submitting, invalid, currentStretch } = props
   return (
     <SettingWrapper>
       { currentStretch &&
@@ -25,17 +25,17 @@ const Settings = (props) => {
       }
       { !updateToggled &&
         <Button nature='primary' onClick={handleToggle}>
-          <FormattedMessage id='scenes.securitysettings.advancedsettings.passwordstretching.settings.change' defaultMessage='Change'/>
+          <FormattedMessage id='scenes.securitysettings.advancedsettings.passwordstretching.settings.change' defaultMessage='Change' />
         </Button>
       }
       { updateToggled &&
-        <SettingForm>
+        <SettingForm onSubmit={handleSubmit}>
           <Field name='passwordStretching' component={NumberBox} validate={validPasswordStretchingNumber} />
           <ButtonWrapper>
             <Button nature='empty' capitalize onClick={handleToggle}>
               <FormattedMessage id='scenes.securitysettings.advancedsettings.passwordstretching.settings.cancel' defaultMessage='Cancel' />
             </Button>
-            <Button nature='primary' capitalize disabled={submitting || invalid} onClick={handleClick}>
+            <Button type='submit' nature='primary' capitalize disabled={submitting || invalid}>
               <FormattedMessage id='scenes.securitysettings.advancedsettings.passwordstretching.settings.save' defaultMessage='Change' />
             </Button>
           </ButtonWrapper>
@@ -48,7 +48,7 @@ const Settings = (props) => {
 Settings.propTypes = {
   updateToggled: PropTypes.bool.isRequired,
   handleToggle: PropTypes.func.isRequired,
-  handleClick: PropTypes.func.isRequired
+  handleSubmit: PropTypes.func.isRequired
 }
 
 export default reduxForm({ form: 'settingPasswordStretching' })(Settings)

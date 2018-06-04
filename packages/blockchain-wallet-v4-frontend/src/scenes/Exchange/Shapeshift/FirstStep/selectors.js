@@ -10,7 +10,7 @@ export const generateGroup = (bchAccounts, btcAccounts, ethAccounts, hasOneAccou
   if (hasOneAccount) {
     const accounts = [
       btcAccounts.map(formatDefault('Bitcoin')),
-      bchAccounts.map(formatDefault('Bitcoin cash')),
+      bchAccounts.map(formatDefault('Bitcoin Cash')),
       ethAccounts.map(formatDefault('Ether'))
     ]
 
@@ -21,7 +21,7 @@ export const generateGroup = (bchAccounts, btcAccounts, ethAccounts, hasOneAccou
   }
   return [
     { group: 'Bitcoin', items: btcAccounts.map(format) },
-    { group: 'Bitcoin cash', items: bchAccounts.map(format) },
+    { group: 'Bitcoin Cash', items: bchAccounts.map(format) },
     { group: 'Ether', items: ethAccounts.map(format) }
   ]
 }
@@ -53,7 +53,7 @@ export const getData = state => {
       elements,
       initialValues,
       hasOneAccount,
-      enabled,
+      disabled: !enabled,
       formError,
       currency,
       sourceCoin,

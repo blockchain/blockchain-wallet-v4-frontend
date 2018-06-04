@@ -18,8 +18,8 @@ const Success = props => (
   <Wrapper>
     <Text size='12px' weight={300}>
       {props.type === 'sent'
-        ? <FormattedMessage id='components.transactionlistitem.fiatattime.valuewhensent' defaultMessage={`Value when sent: `} />
-        : <FormattedMessage id='components.transactionlistitem.fiatattime.valuewhenreceived' defaultMessage={`Value when received: `} />
+        ? <FormattedMessage id='components.transactionlistitem.fiatattime.valuewhensent' defaultMessage='Value when sent: ' />
+        : <FormattedMessage id='components.transactionlistitem.fiatattime.valuewhenreceived' defaultMessage='Value when received: ' />
       }
     </Text>
     <ValueWhenReceived

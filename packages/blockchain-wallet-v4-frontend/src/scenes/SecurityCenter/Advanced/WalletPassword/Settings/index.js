@@ -11,11 +11,11 @@ import Settings from './template.js'
 class SettingsContainer extends React.PureComponent {
   constructor (props) {
     super(props)
-    this.handleClick = this.handleClick.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
     this.handleToggle = this.handleToggle.bind(this)
   }
 
-  handleClick () {
+  onSubmit () {
     this.props.walletActions.setMainPassword(this.props.newWalletPasswordValue)
     this.props.formActions.reset('settingWalletPassword')
     this.handleToggle()
@@ -32,7 +32,7 @@ class SettingsContainer extends React.PureComponent {
       {...rest}
       updateToggled={ui.updateToggled}
       handleToggle={this.handleToggle}
-      handleClick={this.handleClick}
+      onSubmit={this.onSubmit}
       handleCancel={() => { this.props.formActions.reset('settingWalletPassword'); this.handleToggle() }}
     />
   }
@@ -45,7 +45,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  walletActions: bindActionCreators(actions.core.wallet, dispatch),
+  walletActions: bindActionCreators(actions.wallet, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 

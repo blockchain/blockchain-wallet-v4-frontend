@@ -34,10 +34,10 @@ class FourthStep extends React.PureComponent {
         <Separator />
         <TextGroup inline>
           <Text size='12px' weight={300}>
-            <FormattedMessage id='scenes.reset2fa.fourthstep.message' defaultMessage='Thank you for submitting a 2-step authentication reset request. Please check your email for further instructions.' />
+            <FormattedMessage id='scenes.reset2fa.fourthstep.message' defaultMessage='Thank you for submitting a two-factor authentication reset request. Please check your email for further instructions.' />
           </Text>
           <Text size='12px' weight={300}>
-            <FormattedMessage id='scenes.reset2fa.fourthstep.info' defaultMessage='If you would like to learn more about the reset process, visit our ' />
+            <FormattedMessage id='scenes.reset2fa.fourthstep.info' defaultMessage='This process usually takes two weeks. If you would like to learn more about the reset process, visit our ' />
           </Text>
           <Link size='12px' weight={300} href='https://support.blockchain.com/hc/en-us/articles/360000286426-I-lost-my-2FA-device-How-do-I-get-back-into-my-wallet-' target='_blank'>
             <FormattedMessage id='scenes.reset2fa.fourthstep.infolink' defaultMessage='support page.' />

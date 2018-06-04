@@ -8,8 +8,6 @@ import StepIndicator from 'components/StepIndicator'
 import Tray from 'components/Tray'
 import { selectors } from 'data'
 import Create from './Create'
-import Order from './Order'
-import Payment from './Payment'
 import Confirm from './Confirm'
 import ISignThis from './ISignThis'
 import { ModalHeader, ModalBody, Text } from 'blockchain-info-components'
@@ -28,7 +26,7 @@ class CoinifyExchangeData extends React.PureComponent {
     this.state = { show: false }
     this.stepMap = {
       account: <FormattedMessage id='modals.coinifyexchangedata.steps.account' defaultMessage='Create Account' />,
-      isx: <FormattedMessage id='modals.coinifyexchangedata.steps.identity_verify' defaultMessage='Identity Verification' />
+      isx: <FormattedMessage id='modals.coinifyexchangedata.steps.identityverify' defaultMessage='Identity Verification' />
     }
   }
 
@@ -47,8 +45,6 @@ class CoinifyExchangeData extends React.PureComponent {
     switch (step) {
       case 'account': return <Create country={this.props.country} />
       case 'isx': return <ISignThis iSignThisId={path(['iSignThisID'], this.props.trade.data)} />
-      case 'order': return <Order />
-      case 'payment': return <Payment />
       case 'confirm': return <Confirm />
     }
   }
@@ -57,14 +53,18 @@ class CoinifyExchangeData extends React.PureComponent {
     const { show } = this.state
     const step = this.props.signupStep || this.props.step
 
+    let adjuster
+    if (this.props.signupComplete) adjuster = 0.0
+    else if (step === 'account' || step === 'isx') adjuster = 0.25
+
     return (
       <Tray in={show} class='tray' onClose={this.handleClose.bind(this)}>
         <ModalHeader tray paddingHorizontal='15%' onClose={this.handleClose.bind(this)}>
           <HeaderWrapper>
             <Text size='20px' weight={300}>
-              <FormattedMessage id='coinify.header.start' defaultMessage='Start buying and selling in two simple steps.' />
+              <FormattedMessage id='coinifyexchangedata.header.start' defaultMessage='Start buying and selling in two simple steps.' />
             </Text>
-            <StepIndicator adjuster={0} barFullWidth flexEnd minWidth='135px' maxWidth='135px' step={step} stepMap={this.stepMap} />
+            <StepIndicator adjuster={adjuster} barFullWidth flexEnd minWidth='135px' maxWidth='135px' step={step} stepMap={this.stepMap} />
           </HeaderWrapper>
         </ModalHeader>
         <ModalBody>
@@ -83,6 +83,7 @@ CoinifyExchangeData.propTypes = {
 const mapStateToProps = (state) => ({
   data: getData(state),
   signupStep: path(['coinify', 'signupStep'], state),
+  signupComplete: path(['coinify', 'signupComplete'], state),
   trade: selectors.core.data.coinify.getTrade(state)
 })
 

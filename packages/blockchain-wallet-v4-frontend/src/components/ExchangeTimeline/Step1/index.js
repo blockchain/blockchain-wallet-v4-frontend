@@ -50,7 +50,10 @@ const Step1 = props => (
       }
     </Circle>
     <Text size='13px' weight={500} capitalize>
-      <FormattedMessage id='components.exchangetimeline.funds' defaultMessage='Funds sent' />
+      { props.status === 'active'
+        ? <FormattedMessage id='components.exchangetimeline.sendingfunds' defaultMessage='Sending funds' />
+        : <FormattedMessage id='components.exchangetimeline.funds' defaultMessage='Funds sent' />
+      }
     </Text>
   </Wrapper>
 )

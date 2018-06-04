@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { getData } from './selectors'
 import Success from './template.success'
-import Loading from '../../../template.loading'
+import Loading from 'components/BuySell/Loading'
 
 class CoinifyBuyContainer extends React.Component {
   constructor (props) {
@@ -14,7 +14,7 @@ class CoinifyBuyContainer extends React.Component {
   }
 
   componentDidMount () {
-    this.props.coinifyActions.initializeCheckoutForm()
+    this.props.coinifyActions.initializeCheckoutForm('buy')
     this.props.coinifyDataActions.fetchTrades()
     this.props.coinifyDataActions.getKycs()
     if (this.props.step === 'isx') this.props.coinifyActions.coinifyNextCheckoutStep('checkout')
@@ -27,11 +27,12 @@ class CoinifyBuyContainer extends React.Component {
   }
 
   render () {
-    const { data, modalActions, coinifyActions, coinifyDataActions, rateQuoteR, buyQuoteR, currency, paymentMedium, trade, ...rest } = this.props
+    const { data, modalActions, coinifyActions, coinifyDataActions, rateQuoteR, buyQuoteR, currency, paymentMedium, trade, formActions, ...rest } = this.props
     const { step, checkoutBusy, coinifyBusy } = rest
     const { handleTrade, fetchQuote } = coinifyDataActions
     const { showModal } = modalActions
-    const { coinifyNotAsked, triggerKYC, openKYC } = coinifyActions
+    const { coinifyNotAsked, openKYC, coinifyNextCheckoutStep } = coinifyActions
+    const { change } = formActions
 
     const busy = coinifyBusy.cata({
       Success: () => false,
@@ -41,25 +42,26 @@ class CoinifyBuyContainer extends React.Component {
     })
 
     return data.cata({
-      Success: (value) => <Success {...this.props}
+      Success: (value) => <Success
         value={value}
         handleTrade={handleTrade}
         showModal={showModal}
         buyQuoteR={buyQuoteR}
         rateQuoteR={rateQuoteR}
-        fetchBuyQuote={(quote) => fetchQuote({ quote, nextAddress: value.nextAddress })}
+        fetchBuyQuote={quote => fetchQuote({ quote, nextAddress: value.nextAddress })}
         currency={currency}
         checkoutBusy={checkoutBusy}
-        setMax={(amt) => this.props.coinifyActions.setCheckoutMax(amt)}
-        setMin={(amt) => this.props.coinifyActions.setCheckoutMin(amt)}
+        setMax={(amt) => formActions.change('coinifyCheckoutBuy', 'leftVal', amt)}
+        setMin={(amt) => formActions.change('coinifyCheckoutBuy', 'leftVal', amt)}
         paymentMedium={paymentMedium}
         initiateBuy={this.startBuy}
         step={step}
         busy={busy}
         clearTradeError={() => coinifyNotAsked()}
         trade={trade}
-        triggerKyc={() => triggerKYC()}
-        handleKycAction={(kyc) => openKYC(kyc)}
+        handleKycAction={kyc => openKYC(kyc)}
+        changeTab={tab => change('buySellTabStatus', 'status', tab)}
+        coinifyNextCheckoutStep={step => coinifyNextCheckoutStep(step)}
       />,
       Failure: (msg) => <div>Failure: {msg.error}</div>,
       Loading: () => <Loading />,

@@ -1,4 +1,4 @@
-import { HDWallet, HDAccountList, HDAccount } from '../../../types'
+import { Wallet, HDWallet, HDAccountList, HDAccount, TXNotes } from '../../../types'
 import { keys, compose, assoc, isNil, map, max, path, prop, curry, split, values, sequence, lift } from 'ramda'
 import memoize from 'fast-memoize'
 import { getAddresses, getChangeIndex, getReceiveIndex, getHeight, getTransactions } from '../../data/bitcoin/selectors.js'
@@ -102,14 +102,20 @@ export const getAddressesInfo = state => {
 }
 
 // getWalletTransactions :: state -> [Page]
-export const getWalletTransactions = memoize(state => {
+export const getWalletTransactions = state => {
   // Page == Remote ([Tx])
   // Remote(wallet)
-  const walletR = Remote.of(walletSelectors.getWallet(state))
+  const wallet = walletSelectors.getWallet(state)
+  const walletR = Remote.of(wallet)
   // Remote(blockHeight)
   const blockHeightR = getHeight(state)
   // [Remote([tx])] == [Page] == Pages
-  const pages = getTransactions(state)
+  const txNotes = Wallet.selectTxNotes(wallet)
+  const addDescription = (tx) => {
+    tx.description = TXNotes.selectNote(tx.hash, txNotes) || ''
+    return tx
+  }
+  const pages = getTransactions(state).map(map(map(addDescription)))
   // mTransformTx :: wallet -> blockHeight -> Tx
   // ProcessPage :: wallet -> blockHeight -> [Tx] -> [Tx]
   const ProcessTxs = (wallet, block, txList) =>
@@ -117,7 +123,7 @@ export const getWalletTransactions = memoize(state => {
   // ProcessRemotePage :: Page -> Page
   const ProcessPage = lift(ProcessTxs)(walletR, blockHeightR)
   return map(ProcessPage, pages)
-})
+}
 
 // path is: accountIndex/chainIndex/addressIndex
 const getAddress = curry((network, path, state) => {
@@ -136,12 +142,17 @@ export const getNextAvailableChangeAddress = curry((network, accountIndex, state
   return index.map(x => getAddress(network, `${accountIndex}/${1}/${x}`, state))
 })
 
-export const getNextAvailableReceiveAddress = curry((network, accountIndex, state) => {
+export const getNextAvailableReceiveIndex = curry((network, accountIndex, state) => {
   const account = compose(HDWallet.selectAccount(accountIndex), walletSelectors.getDefaultHDWallet)(state)
   const xpub = HDAccount.selectXpub(account)
   const index = getReceiveIndex(xpub)(state)
   const labels = HDAccount.selectAddressLabels(account)
   const maxLabel = labels.maxBy((label) => label.index)
-  const maxLabelIndex = maxLabel ? maxLabel.index : 0
-  return index.map(x => getAddress(network, `${accountIndex}/${0}/${max(x - 1, maxLabelIndex) + 1}`, state))
+  const maxLabelIndex = maxLabel ? maxLabel.index : -1
+  return index.map(x => max(x - 1, maxLabelIndex) + 1)
+})
+
+export const getNextAvailableReceiveAddress = curry((network, accountIndex, state) => {
+  const receiveIndex = getNextAvailableReceiveIndex(network, accountIndex, state)
+  return receiveIndex.map(x => getAddress(network, `${accountIndex}/${0}/${x}`, state))
 })

@@ -1,15 +1,20 @@
 import React from 'react'
-import ui from 'redux-ui'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+
+import { actions } from 'data'
 import Header from './template.js'
 
-const HeaderContainer = ({ ui, updateUI, ...props }) => (
-  <Header
-    navigationToggled={ui.navigationToggled}
-    handleToggleNavigation={() => updateUI({ navigationToggled: !ui.navigationToggled })}
-    {...props}
-  />
-)
+class HeaderContainer extends React.PureComponent {
+  render () {
+    return (
+      <Header handleToggle={() => this.props.actions.layoutWalletMenuToggleClicked()} />
+    )
+  }
+}
 
-const enhance = ui({ key: 'Header', state: { navigationToggled: false } })
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(actions.components.layoutWallet, dispatch)
+})
 
-export default enhance(HeaderContainer)
+export default connect(undefined, mapDispatchToProps)(HeaderContainer)
