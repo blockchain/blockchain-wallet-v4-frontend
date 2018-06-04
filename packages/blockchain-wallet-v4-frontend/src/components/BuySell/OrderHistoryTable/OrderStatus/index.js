@@ -10,6 +10,7 @@ const selectStyle = status => {
     case 'rejected': return { color: 'error' }
     case 'failed': return { color: 'error' }
     case 'cancelled': return { color: 'error' }
+    case 'expired': return { color: 'error' }
   }
 }
 

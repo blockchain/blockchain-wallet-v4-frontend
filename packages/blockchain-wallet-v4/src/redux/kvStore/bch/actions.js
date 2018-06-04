@@ -18,8 +18,4 @@ export const setAccountArchived = (accountIdx, archived) =>
 export const setDefaultAccountIdx = (index) =>
   ({ type: AT.SET_DEFAULT_BCH_ACCOUNT, payload: { index } })
 
-export const addBchAccount = () => ({ type: AT.ADD_BCH_ACCOUNT })
-
-export const addBchAccountComplete = (bchAccounts) => ({ type: AT.ADD_BCH_ACCOUNT_COMPLETE, payload: { bchAccounts } })
-
 export const setTxNotesBch = (txHash, txNote) => ({type: AT.SET_TRANSACTION_NOTE_BCH, payload: {txHash, txNote}})

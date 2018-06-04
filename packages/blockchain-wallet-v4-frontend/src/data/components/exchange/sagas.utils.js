@@ -204,6 +204,7 @@ export default ({ api, coreSagas }) => {
     yield put(actions.form.change2('exchange', 'sourceFiat', ''))
     yield put(actions.form.change2('exchange', 'targetAmount', ''))
     yield put(actions.form.change2('exchange', 'targetFiat', ''))
+    yield put(actions.components.exchange.firstStepFormUnvalidated('initial'))
   }
 
   return {

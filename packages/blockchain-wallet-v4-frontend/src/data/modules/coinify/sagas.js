@@ -84,7 +84,7 @@ export default ({ coreSagas }) => {
       if (qaAddress) {
         payment = yield payment.to(qaAddress)
       } else {
-        payment = yield payment.to(trade.receiveAddress)
+        payment = yield payment.to(path(['transferIn', 'details', 'account'], trade))
       }
 
       payment = yield payment.description(`Exchange Trade COINIFY=${trade.id}`)
@@ -97,6 +97,7 @@ export default ({ coreSagas }) => {
       yield put(sendBtcActions.sendBtcPaymentUpdated(Remote.of(payment.value())))
       yield put(A.coinifySuccess())
       yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
+      yield put(actions.modals.showModal('CoinifyTradeDetails', { trade }))
     } catch (e) {
       yield put(A.coinifyFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'sell', e))
