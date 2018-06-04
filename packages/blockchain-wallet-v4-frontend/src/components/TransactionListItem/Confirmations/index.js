@@ -42,7 +42,7 @@ const Confirmations = (props) => {
         </Text>
       ) : (
         <Text size='12px' weight={300} color='gray-3'>
-          <FormattedMessage id='scenes.transactions.content.pages.listitem.confirmation.unconfirmed' defaultMessage='Pending: {count}/{total} Confirmations' values={{ count: props.confirmations, total: props.minConfirmations }} />
+          <FormattedMessage id='scenes.transactions.content.pages.listitem.confirmation.unconfirmed' defaultMessage='Pending: {count, number}/{total} Confirmations' values={{ count: props.confirmations, total: props.minConfirmations }} />
         </Text>
       )}
       <IconWrapper>
