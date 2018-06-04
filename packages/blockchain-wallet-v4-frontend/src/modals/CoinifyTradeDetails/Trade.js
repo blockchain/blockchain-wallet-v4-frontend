@@ -44,7 +44,7 @@ const Trade = ({ trade, close }) => {
         <StyledOrderDetailsTable>
           <OrderDetailsRow>
             <Text size='13px' weight={300}><FormattedMessage id='orderdetails.coinifytradeid' defaultMessage='Coinify Trade ID' /></Text>
-            <Text size='13px' weight={300}>{prop('id', trade)}</Text>
+            <Text size='13px' weight={300}>{`CNY-${prop('id', trade)}`}</Text>
           </OrderDetailsRow>
           <OrderDetailsRow>
             <Text size='13px' weight={300}><FormattedMessage id='orderdetails.date' defaultMessage='Date Initialized' /></Text>
