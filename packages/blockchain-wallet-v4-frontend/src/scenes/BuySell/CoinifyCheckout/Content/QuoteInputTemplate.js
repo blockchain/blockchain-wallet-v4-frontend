@@ -79,21 +79,13 @@ const LimitsHelper = styled.div`
 const getLimitsError = (errorType, limits, curr, setMin) => {
   switch (errorType) {
     case 'below_min':
-      return <FormattedMessage id='buy.quote_input.below_min'
-        defaultMessage='Your limit of {curr}{max} is below the minimum allowed amount.'
-        values={{ curr, max: limits.max }} />
+      return <FormattedMessage id='buy.quote_input.below_min' defaultMessage='Your limit of {curr}{max} is below the minimum allowed amount.' values={{ curr, max: limits.max }} />
     case 'over_max':
-      return <FormattedMessage id='buy.quote_input.over_max'
-        defaultMessage='Enter an amount under your {curr}{max} limit'
-        values={{ curr, max: limits.max }} />
+      return <FormattedMessage id='buy.quote_input.over_max' defaultMessage='Enter an amount under your {curr}{max} limit' values={{ curr, max: limits.max }} />
     case 'under_min':
-      return <FormattedMessage id='buy.quote_input.under_min'
-        defaultMessage='Enter an amount above the {setMin} minimum'
-        values={{ setMin: <a onClick={() => setMin(limits.min)}>{curr}{limits.min}</a> }} />
+      return <FormattedMessage id='buy.quote_input.under_min' defaultMessage='Enter an amount above the {setMin} minimum' values={{ setMin: <a onClick={() => setMin(limits.min)}>{curr}{limits.min}</a> }} />
     case 'over_effective_max':
-      return <FormattedMessage id='buy.quote_input.over_effective_max'
-        defaultMessage='Enter an amount less than your balance minus the priority fee ({effectiveMax} BTC)'
-        values={{ effectiveMax: limits.effectiveMax / 1e8 }} />
+      return <FormattedMessage id='buy.quote_input.over_effective_max' defaultMessage='Enter an amount less than your balance minus the priority fee ({effectiveMax} BTC)' values={{ effectiveMax: limits.effectiveMax / 1e8 }} />
   }
 }
 
@@ -154,7 +146,7 @@ const FiatConvertor = (props) => {
       <FiatConvertorInput>
         <Container>
           <Field name='leftVal' component={TextBoxDebounced} disabled={disabled || !canTrade} borderRightNone={1} />
-          <Field name='currency' component={SelectBoxCoinifyCurrency} defaultDisplay={defaultCurrency} />
+          <Field name='currency' component={SelectBoxCoinifyCurrency} defaultDisplay={defaultCurrency} isSell={isSell} />
         </Container>
         <ArrowRight weight={600} size='22px' name='right-arrow' />
         <Container>

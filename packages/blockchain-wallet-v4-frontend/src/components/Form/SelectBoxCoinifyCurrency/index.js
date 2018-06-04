@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 
-import { selectors } from 'data'
+import { getData } from './selectors'
 import SelectBox from '../SelectBox'
 
 const CustomSelectBox = styled(SelectBox)`
@@ -23,13 +23,6 @@ class SelectBoxCoinifyCurrency extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  currency: selectors.core.settings.getCurrency(state),
-  currencies: [
-    { text: 'EUR', value: 'EUR' },
-    { text: 'DKK', value: 'DKK' },
-    { text: 'GBP', value: 'GBP' }
-  ]
-})
+const mapStateToProps = (state, ownProps) => getData(state, ownProps)
 
 export default connect(mapStateToProps)(SelectBoxCoinifyCurrency)
