@@ -47,13 +47,15 @@ const NumberInput = props => {
 NumberInput.propTypes = {
   disabled: PropTypes.bool,
   height: PropTypes.string,
-  minHeight: PropTypes.string
+  minHeight: PropTypes.string,
+  step: PropTypes.string
 }
 
 NumberInput.defaultProps = {
   disabled: false,
   height: '40px',
-  minHeight: '40px'
+  minHeight: '40px',
+  step: '0.01'
 }
 
 export default NumberInput

@@ -1,4 +1,4 @@
-import { converge, or, assoc, drop, curry, set, always, compose } from 'ramda'
+import { converge, equals, or, assoc, drop, curry, set, always, compose } from 'ramda'
 import * as Coin from '../../../coinSelection/coin'
 import { Wallet, HDAccount, Address } from '../../../types'
 import { isPositiveInteger } from '../../../utils/checks'
@@ -50,14 +50,16 @@ export const fromExternal = (addrComp, addrUncomp, wifComp, wifUncomp) => ({
 })
 
 // fromAccount :: Network -> ReduxState -> Object
-export const fromAccount = (coin, network, state, index) => {
+
+export const fromAccount = (network, state, index, coin) => {
   const wallet = S.wallet.getWallet(state)
   let account = Wallet.getAccount(index, wallet).get()
-  let changeIndexR = coin === 'BTC'
+
+  let changeIndex = equals(coin, 'BTC')
     ? S.data.bitcoin.getChangeIndex(account.xpub, state)
     : S.data.bch.getChangeIndex(account.xpub, state)
-  let changeAddress = changeIndexR.map((index) => HDAccount.getChangeAddress(account, index, network))
-    .getOrFail(new Error('missing_change_address'))
+  let changeAddress = changeIndex.map((index) => HDAccount.getChangeAddress(account, index, network)).getOrFail('missing_change_address')
+
   return {
     fromType: FROM.ACCOUNT,
     from: [account.xpub],

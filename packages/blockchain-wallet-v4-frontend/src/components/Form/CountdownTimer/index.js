@@ -23,7 +23,7 @@ class CountdownTimerContainer extends React.PureComponent {
   tick () {
     const { handleExpiry } = this.props
     const elapsed = moment.duration(moment(this.state.expiration).diff(moment()))
-    if (this.state.elapsed.as('milliseconds') < 0) {
+    if (this.state.elapsed.as('seconds') < 1) {
       // If we reach the end of the timer, we execute the expiry callback
       if (handleExpiry) { handleExpiry() }
     } else {
@@ -46,7 +46,7 @@ CountdownTimerContainer.propTypes = {
 }
 
 CountdownTimerContainer.defaultProps = {
-  expiryDate: moment().add('minutes', 1)
+  expiryDate: moment().add(1, 'minutes')
 }
 
 export default CountdownTimerContainer
