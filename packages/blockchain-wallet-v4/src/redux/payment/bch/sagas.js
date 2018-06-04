@@ -88,7 +88,7 @@ export default ({ api }) => {
 
     // Single account index
     if (isPositiveInteger(origin)) {
-      return fromAccount(network, appState, origin)
+      return fromAccount(network, appState, origin, 'BCH')
     }
 
     // From private key (watch only: compressed / uncompressed, external)

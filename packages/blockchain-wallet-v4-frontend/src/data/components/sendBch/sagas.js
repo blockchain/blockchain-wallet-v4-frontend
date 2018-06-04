@@ -19,7 +19,8 @@ export default ({ coreSagas }) => {
       let payment = coreSagas.payment.bch.create(({ network: settings.NETWORK_BCH }))
       payment = yield payment.init()
       const accountsR = yield select(selectors.core.common.bch.getAccountsBalances)
-      const defaultIndex = yield select(selectors.core.wallet.getDefaultAccountIndex)
+      const defaultIndexR = yield select(selectors.core.kvStore.bch.getDefaultAccountIndex)
+      const defaultIndex = defaultIndexR.getOrElse(0)
       const defaultAccountR = accountsR.map(nth(defaultIndex))
       payment = yield payment.from(defaultIndex)
       // TODO: Check how to retrieve Bitcoin cash default fee

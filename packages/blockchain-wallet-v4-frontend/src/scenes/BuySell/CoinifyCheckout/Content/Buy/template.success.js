@@ -104,6 +104,7 @@ const CoinifyBuy = props => {
                 quoteR={buyQuoteR}
                 onSubmit={initiateBuy}
                 busy={busy}
+                type={'buy'}
                 clearTradeError={clearTradeError}
               />
             </OrderSubmitWrapper>

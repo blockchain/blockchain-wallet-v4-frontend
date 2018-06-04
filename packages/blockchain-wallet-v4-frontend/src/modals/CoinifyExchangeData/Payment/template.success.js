@@ -3,13 +3,13 @@ import PropTypes from 'prop-types'
 import { reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
-import { flex, spacing } from 'services/StyleService'
+import { spacing } from 'services/StyleService'
 import Helper from 'components/BuySell/FAQ'
 import { StepTransition } from 'components/Utilities/Stepper'
 import { path } from 'ramda'
 
 import { Button, HeartbeatLoader, Link } from 'blockchain-info-components'
-import { Form, ColLeft, InputWrapper, PartnerHeader, PartnerSubHeader, ColRight, ColRightInner } from 'components/BuySell/Signup'
+import { Form, CancelWrapper, ColLeft, ColRight, ColRightInner, InputWrapper, PartnerHeader, PartnerSubHeader } from 'components/BuySell/Signup'
 
 import { cardOptionHelper, bankOptionHelper } from './mediumHelpers'
 
@@ -17,13 +17,7 @@ const PaymentWrapper = styled.div`
   display: flex;
   flex-direction: row;
 `
-const CancelWrapper = styled.div`
-  a {
-    color: #545456;
-    font-weight: 300;
-    font-size: 14px;
-  }
-`
+
 const BorderBox = styled.div`
   border: 1px solid ${props => props.theme['gray-1']};
   padding: 30px;
@@ -86,7 +80,7 @@ const Payment = (props) => {
                 { busyHelper(busy) }
               </StepTransition>
           }
-          <CancelWrapper style={{ ...flex('row justify/center'), ...spacing('mt-15') }}>
+          <CancelWrapper>
             <StepTransition prev Component={Link}>
               <FormattedMessage id='coinifyexchangedata.payment.cancel' defaultMessage='Cancel' />
             </StepTransition>

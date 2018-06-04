@@ -6,7 +6,7 @@ import { Field, reduxForm } from 'redux-form'
 
 import { required, validBitcoinAddress, validBitcoinPrivateKey } from 'services/FormHelper'
 import { Button, Icon, Link, Text, Tooltip } from 'blockchain-info-components'
-import { FiatConvertor, Form, FormGroup, FormItem, FormLabel, NumberBox, SelectBoxBitcoinAddresses, SelectBoxCoin, SelectBox, TextBox, TextArea } from 'components/Form'
+import { FiatConvertor, Form, FormGroup, FormItem, FormLabel, NumberBox, SelectBoxBitcoinAddresses, SelectBoxCoin, SelectBox, TextBox, TextAreaDebounced } from 'components/Form'
 import { shouldValidate, isAddressDerivedFromPriv, insufficientFunds, minimumAmount, maximumAmount, minimumFeePerByte, maximumFeePerByte, invalidAmount } from './validation'
 import QRCodeCapture from 'components/QRCodeCapture'
 import RegularFeeLink from './RegularFeeLink'
@@ -131,7 +131,7 @@ const FirstStep = props => {
               <FormattedMessage id='modals.sendbtc.firststep.sharetooltip' defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.' />
             </Tooltip>
           </FormLabel>
-          <Field name='description' component={TextArea} placeholder="What's this transaction for?" fullwidth />
+          <Field name='description' component={TextAreaDebounced} placeholder="What's this transaction for?" rows={3} />
         </FormItem>
       </FormGroup>
       <FormGroup inline margin={'10px'}>
