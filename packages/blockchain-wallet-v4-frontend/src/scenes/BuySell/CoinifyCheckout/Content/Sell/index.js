@@ -24,7 +24,7 @@ class SellContainer extends React.Component {
     this.props.coinifyActions.saveMedium('blockchain')
   }
 
-  startSell (values) {
+  startSell () {
     const { coinifyActions } = this.props
     coinifyActions.initiateSell()
   }
