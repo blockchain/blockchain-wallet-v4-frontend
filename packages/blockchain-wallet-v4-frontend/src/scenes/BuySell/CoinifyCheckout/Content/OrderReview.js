@@ -24,8 +24,16 @@ const StyledFaqRow = styled(FaqRow)`
   border-bottom: 1px solid ${props => props.theme['gray-1']};
 `
 
-const renderRate = (rate, q) => {
-  return <FormattedMessage id='scenes.buysell.coinifycheckout.content.orderreview.rate' defaultMessage='{rate}' values={{ rate: `${currencySymbolMap[q.baseCurrency]}${rate.toLocaleString()}` }} />
+const rateHelper = (quoteR) => {
+  return quoteR.map(q => {
+    let fiat = q.baseCurrency !== 'BTC' ? Math.abs(q.quoteAmount) : Math.abs(q.baseAmount)
+    let crypto = q.baseCurrency !== 'BTC' ? Math.abs(q.baseAmount) : Math.abs(q.quoteAmount)
+    let curr = q.baseCurrency !== 'BTC' ? q.baseCurrency : q.quoteCurrency
+
+    let rate = +((1 / (fiat / 1e8)) * crypto)
+    let displayRate = rate.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+    return `${currencySymbolMap[curr]}${displayRate}`
+  }).getOrElse(`~`)
 }
 
 export const OrderDetails = (props) => {
@@ -38,18 +46,14 @@ export const OrderDetails = (props) => {
           <FormattedMessage id='buy.almost_there' defaultMessage="You're almost there" />
         </Text>
         <Text size='14px' weight={300} style={spacing('mb-20')}>
-          <FormattedMessage id='buy.review_order_subtext'
-            defaultMessage='Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order.' />
+          <FormattedMessage id='buy.review_order_subtext' defaultMessage='Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order.' />
         </Text>
         <ExchangeRateWrapper>
           <Text size='12px' weight={500} style={spacing('mr-10')}>
             <FormattedMessage id='exchange_rate' defaultMessage='Exchange Rate' />
           </Text>
           <Text size='12px' weight={300}>
-            1 BTC = {quoteR.map((q) => {
-              const rate = +((1 / (Math.abs(q.quoteAmount) / 1e8)) * Math.abs(q.baseAmount)).toFixed(2)
-              return renderRate(rate, q)
-            }).getOrElse('~')}
+            1 BTC = { rateHelper(quoteR) }
           </Text>
         </ExchangeRateWrapper>
         <OrderDetailsTable style={spacing('mt-10')}>

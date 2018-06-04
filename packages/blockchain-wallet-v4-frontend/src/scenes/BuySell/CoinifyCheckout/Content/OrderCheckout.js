@@ -20,6 +20,25 @@ const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, limi
     ? <FormattedMessage id='scenes.buysell.coinifycheckout.content.ordercheckout.buy.outputmethod.title.buy' defaultMessage='I want to buy' />
     : <FormattedMessage id='scenes.buysell.coinifycheckout.content.ordercheckout.buy.outputmethod.title.sell' defaultMessage='I want to sell' />
 
+  const rateHelper = () => {
+    let quote
+    if (Remote.NotAsked.is(quoteR)) quote = rateQuoteR
+    else quote = quoteR
+
+    return quote.map(q => {
+      let fiat = q.baseCurrency !== 'BTC' ? Math.abs(q.quoteAmount) : Math.abs(q.baseAmount)
+      let crypto = q.baseCurrency !== 'BTC' ? Math.abs(q.baseAmount) : Math.abs(q.quoteAmount)
+      let rate = +((1 / (fiat / 1e8)) * crypto)
+      let displayRate = rate.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+      return `${symbol}${displayRate}`
+    }).getOrElse(
+      <Fragment>
+        <FormattedMessage id='scenes.buysell.coinifycheckout.content.ordercheckout.loading' defaultMessage='Loading' />
+        {'...'}
+      </Fragment>
+    )
+  }
+
   const submitButtonHelper = () => (
     reason.indexOf('has_remaining') > -1
       ? <StepTransition next Component={Button} onClick={onOrderCheckoutSubmit} style={spacing('mt-45')}
@@ -44,14 +63,7 @@ const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, limi
           <Text size='14px' weight={300} uppercase>Bitcoin</Text>
           <Text size='12px' weight={300}>
             {'@ '}
-            {rateQuoteR
-              .map((quote) => `${symbol}${Math.abs(quote && quote.quoteAmount).toLocaleString()}`)
-              .getOrElse(
-                <Fragment>
-                  <FormattedMessage id='scenes.buysell.coinifycheckout.content.ordercheckout.loading' defaultMessage='Loading' />
-                  {'...'}
-                </Fragment>
-              )}
+            {rateHelper()}
           </Text>
         </div>
       </MethodContainer>
