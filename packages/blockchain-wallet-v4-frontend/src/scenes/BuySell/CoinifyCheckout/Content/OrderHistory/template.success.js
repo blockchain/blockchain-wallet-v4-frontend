@@ -56,7 +56,7 @@ const OrderHistory = (props) => {
             handleDetailsClick={trade => showModal('CoinifyTradeDetails', { trade })}
             handleTradeCancel={cancelTrade}
             status={status}
-            canTrade={canTrade.getOrElse(true)}
+            canTrade={canTrade}
             cancelTradeId={cancelTradeId}
           />
         </OrderHistoryContent>
