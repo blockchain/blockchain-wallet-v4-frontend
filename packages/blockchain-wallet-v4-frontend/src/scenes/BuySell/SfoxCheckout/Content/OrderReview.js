@@ -10,26 +10,19 @@ import { reviewOrder } from 'services/SfoxService'
 import { FormattedMessage } from 'react-intl'
 import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDetails'
 import FundingSource from 'components/BuySell/FundingSource'
+import { CancelWrapper } from 'components/BuySell/Signup'
 import { StepTransition } from 'components/Utilities/Stepper'
 
 const StyledFaqRow = styled(FaqRow)`
   padding: 20px 0px;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
 `
-
 const MethodContainer = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
   height: 42px;
   border: 1px solid ${props => props.theme['gray-2']}
-`
-const CancelWrapper = styled.div`
-  a {
-    color: #545456;
-    font-weight: 300;
-    font-size: 14px;
-  }
 `
 const ToolTipWrapper = styled.div`
   display: flex;
@@ -123,7 +116,7 @@ export const OrderSubmit = ({ quoteR, onSubmit, busy, clearTradeError }) => (
                 : <FormattedMessage id='buysell.sfoxcheckout.orderreview.submit' defaultMessage='Submit' />
             }
           </Button>
-          <CancelWrapper style={{ ...flex('row justify/center'), ...spacing('mt-15') }}>
+          <CancelWrapper>
             <StepTransition prev Component={Link}>
               <FormattedMessage id='buysell.sfoxcheckout.orderreview.cancel' defaultMessage='Cancel' />
             </StepTransition>
