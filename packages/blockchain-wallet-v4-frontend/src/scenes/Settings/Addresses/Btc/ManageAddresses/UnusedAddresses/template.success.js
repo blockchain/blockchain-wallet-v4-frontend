@@ -46,8 +46,7 @@ const UnusedAddressesTemplate = ({ account, currentReceiveIndex, unusedAddresses
         </TableCell>
       </TableHeader>
       {addresses}
-    </Table>
-  )
+    </Table>)
 }
 
 export default UnusedAddressesTemplate
