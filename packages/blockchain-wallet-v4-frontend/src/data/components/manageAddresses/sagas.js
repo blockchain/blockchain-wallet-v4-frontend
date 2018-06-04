@@ -6,6 +6,8 @@ import * as actions from '../../actions'
 import { selectors } from '../../index'
 import settings from 'config'
 import { Types } from 'blockchain-wallet-v4/src'
+import * as C from 'services/AlertService'
+import { promptForInput } from 'services/SagaService'
 
 export default ({ api }) => {
   const logLocation = 'components/manageAddresses/sagas'
@@ -112,43 +114,45 @@ export default ({ api }) => {
     }
   }
 
-  const editUnusedAddressLabel = function * (action) {
+  const editAddressLabel = function * (action) {
     const { accountIndex, walletIndex, addressIndex } = action.payload
 
     try {
-      yield put(A.editUnusedAddressLabelLoading(accountIndex))
-      yield put(actions.wallet.editHdLabel(accountIndex, addressIndex))
+      yield put(A.editAddressLabelLoading(accountIndex))
+      let newLabel = yield call(promptForInput, { title: 'Rename Address Label' })
+      yield put(actions.core.wallet.setHdAddressLabel(accountIndex, addressIndex, newLabel))
+      yield put(actions.alerts.displaySuccess(C.ADDRESS_LABEL_UPDATE_SUCCESS))
       yield put(A.fetchUnusedAddresses(walletIndex))
-      yield put(A.editUnusedAddressLabelSuccess(walletIndex))
+      yield put(A.editAddressLabelSuccess(walletIndex))
     } catch (e) {
-      yield put(A.editUnusedAddressLabelError(walletIndex, e))
-      yield put(actions.logs.logErrorMessage(logLocation, 'editUnusedAddressLabel', e))
+      yield put(A.editAddressLabelError(walletIndex, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'editAddressLabel', e))
       yield put(actions.alerts.displayError('Failed to update address label.'))
     }
   }
 
-  const deleteUnusedAddressLabel = function * (action) {
+  const deleteAddressLabel = function * (action) {
     const { accountIndex, walletIndex, addressIndex } = action.payload
 
     try {
-      yield put(A.deleteUnusedAddressLabelLoading(accountIndex))
+      yield put(A.deleteAddressLabelLoading(accountIndex))
       yield put(actions.core.wallet.deleteHdAddressLabel(accountIndex, addressIndex))
-      yield put(A.fetchUnusedAddresses(walletIndex))
       yield put(actions.alerts.displaySuccess('Address was deleted successfully.'))
-      yield put(A.deleteUnusedAddressLabelSuccess(walletIndex))
+      yield put(A.deleteAddressLabelSuccess(walletIndex))
+      yield put(A.fetchUnusedAddresses(walletIndex))
     } catch (e) {
-      yield put(A.deleteUnusedAddressLabelError(walletIndex, e))
-      yield put(actions.logs.logErrorMessage(logLocation, 'deleteUnusedAddressLabel', e))
+      yield put(A.deleteAddressLabelError(walletIndex, e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'deleteAddressLabel', e))
       yield put(actions.alerts.displayError('Failed to delete address label.'))
     }
   }
 
   return {
-    editUnusedAddressLabel,
+    editAddressLabel,
     generateNextReceiveAddress,
     fetchUnusedAddresses,
     fetchUsedAddresses,
-    deleteUnusedAddressLabel,
+    deleteAddressLabel,
     toggleUsedAddresses
   }
 }
