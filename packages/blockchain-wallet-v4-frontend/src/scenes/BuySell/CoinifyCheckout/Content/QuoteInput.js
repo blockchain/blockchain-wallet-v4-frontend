@@ -1,37 +1,33 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import FiatConvertor from './QuoteInputTemplate'
-import { actions, selectors } from 'data'
+import { QuoteInputTemplateBuy, QuoteInputTemplateSell } from './QuoteInputTemplate'
+import { actions } from 'data'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { path } from 'ramda'
 import { getQuoteInputData } from './selectors'
-import Loading from '../../template.loading'
+import Loading from 'components/BuySell/Loading'
 
 class QuoteInput extends Component {
-  componentDidMount () {
-    this.props.actions.initializeCheckoutForm()
-  }
-  componentWillUnmount () {
-    this.props.actions.initializeCheckoutForm()
-  }
   render () {
-    let { data, symbol, setMax, setMin, checkoutError, increaseLimit, defaultCurrency, limits, disabled } = this.props
-
+    const { data, symbol, setMax, setMin, checkoutError, increaseLimit, defaultCurrency, limits, disabled, type } = this.props
     return data.cata({
-      Success: (value) => <FiatConvertor
-        val={value}
-        disabled={disabled}
-        unit={'__required__'}
-        currency={'__required__'}
-        limits={limits}
-        defaultCurrency={defaultCurrency}
-        symbol={symbol}
-        setMax={setMax}
-        setMin={setMin}
-        checkoutError={checkoutError}
-        increaseLimit={increaseLimit}
-      />,
+      Success: (value) => {
+        const QuoteInputTemplate = type === 'buy' ? QuoteInputTemplateBuy : QuoteInputTemplateSell
+        return <QuoteInputTemplate
+          val={value}
+          disabled={disabled}
+          unit={'__required__'}
+          currency={'__required__'}
+          limits={limits}
+          defaultCurrency={defaultCurrency}
+          symbol={symbol}
+          setMax={setMax}
+          setMin={setMin}
+          checkoutError={checkoutError}
+          increaseLimit={increaseLimit}
+        />
+      },
       Failure: (msg) => <div>Failure: {msg.error}</div>,
       Loading: () => <Loading />,
       NotAsked: () => <div>Not Asked</div>
@@ -47,10 +43,8 @@ QuoteInput.propTypes = {
   checkoutError: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, ownProps) => ({
   checkoutError: path(['coinify', 'checkoutError'], state),
-  canTrade: selectors.core.data.coinify.canTrade(state),
-  cannotTradeReason: selectors.core.data.coinify.cannotTradeReason(state),
   data: getQuoteInputData(state)
 })
 

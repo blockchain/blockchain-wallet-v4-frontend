@@ -1,6 +1,7 @@
 import { put, select } from 'redux-saga/effects'
 import * as S from './selectors'
 import * as actions from '../../actions'
+import * as selectors from '../../selectors'
 import { calculateStart, calculateScale } from 'services/ChartService'
 
 /**
@@ -17,10 +18,10 @@ export default ({ coreSagas }) => {
   const initialized = function * (action) {
     try {
       const { coin, time } = action.payload
-      const currency = 'USD'
+      const currencyR = yield select(selectors.core.settings.getCurrency)
       const start = calculateStart(coin, time)
       const scale = calculateScale(coin, time)
-      yield put(actions.core.data.misc.fetchPriceIndexSeries(coin, currency, start, scale))
+      yield put(actions.core.data.misc.fetchPriceIndexSeries(coin, currencyR.getOrElse('USD'), start, scale))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
     }
@@ -33,11 +34,11 @@ export default ({ coreSagas }) => {
   const coinClicked = function * (action) {
     try {
       const { coin } = action.payload
-      const currency = 'USD'
+      const currencyR = yield select(selectors.core.settings.getCurrency)
       const time = yield select(S.getTime)
       const start = calculateStart(coin, time)
       const scale = calculateScale(coin, time)
-      yield put(actions.core.data.misc.fetchPriceIndexSeries(coin, currency, start, scale))
+      yield put(actions.core.data.misc.fetchPriceIndexSeries(coin, currencyR.getOrElse('USD'), start, scale))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'coinClicked', e))
     }
@@ -50,11 +51,11 @@ export default ({ coreSagas }) => {
   const timeClicked = function * (action) {
     try {
       const { time } = action.payload
-      const currency = 'USD'
+      const currencyR = yield select(selectors.core.settings.getCurrency)
       const coin = yield select(S.getCoin)
       const start = calculateStart(coin, time)
       const scale = calculateScale(coin, time)
-      yield put(actions.core.data.misc.fetchPriceIndexSeries(coin, currency, start, scale))
+      yield put(actions.core.data.misc.fetchPriceIndexSeries(coin, currencyR.getOrElse('USD'), start, scale))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'timeClicked', e))
     }

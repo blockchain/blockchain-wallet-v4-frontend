@@ -72,6 +72,7 @@
         "fraction": 1,
         "countries": "*",
         "states": "*",
+        "lastTxFuse": 86400,
         "config": {
           "network": "mainnet"
         }

@@ -50,11 +50,11 @@ class LoginContainer extends React.PureComponent {
     })
 
     const loginProps = {
-      authType,
-      onSubmit: this.onSubmit,
       busy,
-      handleCode: this.handleCode,
+      authType,
       loginError: error,
+      onSubmit: this.onSubmit,
+      handleCode: this.handleCode,
       handleMobile: this.handleMobile,
       handleSmsResend: this.handleSmsResend
     }

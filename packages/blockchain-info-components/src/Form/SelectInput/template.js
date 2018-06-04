@@ -22,6 +22,7 @@ const Display = styled.button.attrs({ type: 'button' })`
   background-color: ${props => props.disabled ? props.theme['gray-1'] : props.theme['white']};
   cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
   border-left: ${props => props.borderLeft === 'none' ? '0px' : ''};
+  text-align: left;
 
   &:focus { outline: none; }
 `

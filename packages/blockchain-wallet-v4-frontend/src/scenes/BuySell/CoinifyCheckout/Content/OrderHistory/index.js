@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { getData } from './selectors'
 import Success from './template.success.js'
-import Loading from '../../../template.loading.js'
+import Loading from 'components/BuySell/Loading'
 
 class OrderHistoryContainer extends React.Component {
   componentDidMount () {
@@ -18,9 +18,12 @@ class OrderHistoryContainer extends React.Component {
   }
 
   render () {
-    const { data, modalActions, coinifyActions, step, trade } = this.props
+    const { data, modalActions, coinifyActions, formActions, step, trade, busy, cancelTradeId } = this.props
     const { showModal } = modalActions
-    const { finishTrade } = coinifyActions
+    const { finishTrade, cancelTrade } = coinifyActions
+    const { change } = formActions
+    const status = busy.cata({ Success: () => false, Failure: (err) => err, Loading: () => true, NotAsked: () => false })
+
     return data.cata({
       Success: (value) => <Success
         trades={value}
@@ -28,6 +31,10 @@ class OrderHistoryContainer extends React.Component {
         finishTrade={finishTrade}
         trade={trade}
         step={step}
+        cancelTrade={cancelTrade}
+        status={status}
+        cancelTradeId={cancelTradeId}
+        changeTab={tab => change('buySellTabStatus', 'status', tab)}
       />,
       Failure: (msg) => <div>Failure: {msg.error}</div>,
       Loading: () => <Loading />,
@@ -41,7 +48,8 @@ const mapStateToProps = state => getData(state)
 const mapDispatchToProps = (dispatch) => ({
   coinifyDataActions: bindActionCreators(actions.core.data.coinify, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
-  coinifyActions: bindActionCreators(actions.modules.coinify, dispatch)
+  coinifyActions: bindActionCreators(actions.modules.coinify, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrderHistoryContainer)

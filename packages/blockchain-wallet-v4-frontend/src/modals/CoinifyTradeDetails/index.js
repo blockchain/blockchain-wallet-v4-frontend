@@ -5,6 +5,7 @@ import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import { Modal } from 'blockchain-info-components'
 
+import BankTransfer from './BankTransfer'
 import Trade from './Trade'
 import Kyc from './Kyc'
 
@@ -12,11 +13,17 @@ class CoinifyTradeDetails extends React.PureComponent {
   render () {
     const { trade, status } = this.props
 
-    const renderComponent = (trade) => (
-      trade.constructor.name === 'Trade'
-        ? <Trade trade={trade} close={this.props.close} />
-        : <Kyc status={status} close={this.props.close} />
-    )
+    const renderComponent = (trade) => {
+      if (trade.constructor.name === 'Trade') {
+        if (trade.medium === 'bank' && trade.state === 'awaiting_transfer_in') {
+          return <BankTransfer trade={trade} close={this.props.close} />
+        } else {
+          return <Trade trade={trade} close={this.props.close} />
+        }
+      } else {
+        return <Kyc status={status} close={this.props.close} />
+      }
+    }
 
     return (
       <Modal size='large' position={this.props.position} total={this.props.total}>

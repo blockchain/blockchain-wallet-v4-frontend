@@ -50,10 +50,10 @@ const FirstStep = (props) => {
       <Separator />
       <TextGroup>
         <Text size='13px' weight={300}>
-          <FormattedMessage id='scenes.reset2fa.firststep.explain' defaultMessage='Are you unable to gain access to your wallet because you lost your two factor authentication (2FA) device or are unable to access your email account?' />
+          <FormattedMessage id='scenes.reset2fa.firststep.explain' defaultMessage='Fill out the form below to regain access to your wallet by resetting your 2FA, restricted IP, and verified email.' />
         </Text>
         <Text size='13px' weight={300}>
-          <FormattedMessage id='scenes.reset2fa.firststep.explain2' defaultMessage='2FA reset requests are automatically approved after a certain time. Your IP address and browser information will be recorded on submission.' />
+          <FormattedMessage id='scenes.reset2fa.firststep.explain2' defaultMessage='Note: Your IP address and browser information will be recorded upon submission.' />
         </Text>
       </TextGroup>
       <FirstStepForm onSubmit={onSubmit}>
@@ -65,7 +65,7 @@ const FirstStep = (props) => {
             <Field name='guid' autoFocus validate={[required, validWalletId]} component={TextBox} placeholder='XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX' />
             <TextGroup inline>
               <Text size='12px' weight={300}>
-                <FormattedMessage id='scenes.reset2fa.firststep.firststepform.guid_explain' defaultMessage='If you forgot your wallet identifier, please' />
+                <FormattedMessage id='scenes.reset2fa.firststep.firststepform.guidexplain' defaultMessage='If you forgot your wallet identifier, please' />
               </Text>
               <LinkContainer to='/reminder'>
                 <Link size='12px' weight={300}>
@@ -82,7 +82,7 @@ const FirstStep = (props) => {
             </FormLabel>
             <Field name='email' validate={[required, validEmail]} component={TextBox} />
             <Text size='12px' weight={300}>
-              <FormattedMessage id='scenes.reset2fa.firststep.firststepform.email_explain' defaultMessage='Enter the email associated with your wallet.  If you lost access to this email, please enter it regardless.' />
+              <FormattedMessage id='scenes.reset2fa.firststep.firststepform.emailexplain' defaultMessage="Enter the email associated with your wallet (even if you've lost access to it)." />
             </Text>
           </FormItem>
         </FormGroup>

@@ -17,12 +17,10 @@ const ButtonContainer = styled.div`
 
 class ISignThisContainer extends Component {
   componentDidMount () {
-    // console.log('isx mounted', this.props)
     window.addEventListener('message', function (e) {
     })
 
     const onComplete = (e) => {
-      // console.log('V4 ISX_COMPONENT: from onComplete', e)
       this.props.coinifyActions.fromISX(e)
     }
 
@@ -98,28 +96,23 @@ class ISignThisContainer extends Component {
           let d = JSON.parse(e.data.split('[ISX-Embed]')[1])
 
           if (d.event.toLowerCase() === 'complete') {
-            // console.log('V4 ISX_COMPONENT complete')
             if (self.completeListener) {
               self.completeListener(d)
             }
           } else if (d.event.toLowerCase() === 'route') {
-            // console.log('V4 ISX_COMPONENT route')
             if (self.routeListener) {
               self.routeListener(d)
             }
           } else if (d.event.toLowerCase() === 'error') {
-            // console.log('V4 ISX_COMPONENT error')
             if (self.errorListener) {
               self.errorListener(d)
             }
           } else if (d.event.toLowerCase() === 'resized') {
-            // console.log('V4 ISX_COMPONENT resized')
             if (self.resizeListener) {
               self.resizeListener(d)
             }
           }
         } catch (err) {
-          // console.log('V4 ISX_COMPONENT: err caught:', err)
         }
       }, false)
 
@@ -156,18 +149,13 @@ class ISignThisContainer extends Component {
     _isx
       .setup(widget)
       .done(function (e) {
-        // console.log('V4 ISX_COMPONENT: completed. e=', JSON.stringify(e))
-
         setState(e.state)
       })
       .fail(function (e) {
-        // console.log('V4 ISX_COMPONENT: error. e=' + JSON.stringify(e))
       })
       .resized(function (e) {
-        // console.log('V4 ISX_COMPONENT: resized. e=', JSON.stringify(e))
       })
       .route(function (e) {
-        // console.log('V4 ISX_COMPONENT: route. e=' + JSON.stringify(e))
       })
       .publish()
   }
@@ -189,7 +177,8 @@ class ISignThisContainer extends Component {
         <ButtonContainer>
           <Button nature='empty-secondary' onClick={() => coinifyActions.cancelISX()}>
             <Text size='13px' weight={300}>
-              <FormattedMessage id='cancel' defaultMessage='Cancel' />
+              <FormattedMessage id='coinifyexchangedata.ist.cancel' defaultMessage='Cancel' />
+
             </Text>
           </Button>
         </ButtonContainer>

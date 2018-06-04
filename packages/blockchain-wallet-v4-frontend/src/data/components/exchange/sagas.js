@@ -5,9 +5,10 @@ import * as A from './actions'
 import * as S from './selectors'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
+import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
 import { getCoinFromPair, getPairFromCoin, getMinimum, getMaximum,
-  convertStandardToBase, isAmountBelowMinimum, isAmountAboveMaximum, calculateFinalAmount, selectFee,
+  convertStandardToBase, isAmountBelowMinimum, isAmountAboveMaximum, isMinimumGreaterThanMaximum, calculateFinalAmount, selectFee,
   isUndefinedOrEqualsToZero, getMinimumStandard, getMaximumStandard } from './services'
 import { selectReceiveAddress } from '../utils/sagas'
 import utils from './sagas.utils'
@@ -21,13 +22,16 @@ export default ({ api, coreSagas }) => {
     getShapeShiftLimits,
     convertValues,
     selectOtherAccount,
-    selectLabel
+    selectLabel,
+    resetForm
   } = utils({ api, coreSagas })
 
   let pollingTradeStatusTask
 
   const firstStepInitialized = function * () {
     try {
+      // Reset form
+      yield call(resetForm)
       // Fetch data
       yield put(actions.core.data.bch.fetchRates())
       yield put(actions.core.data.bitcoin.fetchRates())
@@ -50,12 +54,7 @@ export default ({ api, coreSagas }) => {
       const target = prop('target', form)
       yield put(actions.form.change2('exchange', 'source', target))
       yield put(actions.form.change2('exchange', 'target', source))
-      const { sourceAmount, sourceFiat, targetAmount, targetFiat } = yield call(convertValues)
-      yield put(actions.form.change2('exchange', 'sourceAmount', sourceAmount))
-      yield put(actions.form.change2('exchange', 'sourceFiat', sourceFiat))
-      yield put(actions.form.change2('exchange', 'targetAmount', targetAmount))
-      yield put(actions.form.change2('exchange', 'targetFiat', targetFiat))
-      yield call(validateForm)
+      yield call(resetForm)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'swapClicked', e))
     }
@@ -152,6 +151,7 @@ export default ({ api, coreSagas }) => {
       const target = prop('target', form)
       const sourceAmount = prop('sourceAmount', form)
       if (isUndefinedOrEqualsToZero(sourceAmount)) {
+        yield put(A.firstStepFormUnvalidated('invalid'))
         return yield put(A.firstStepEnabled())
       }
       const effectiveBalance = yield call(calculateEffectiveBalance, source)
@@ -159,7 +159,7 @@ export default ({ api, coreSagas }) => {
       const minimum = getMinimum(source.coin, pair.minimum)
       const maximum = getMaximum(source.coin, pair.maximum, effectiveBalance)
       const sourceAmountBase = convertStandardToBase(source.coin, sourceAmount)
-      if (isAmountBelowMinimum(effectiveBalance, minimum)) {
+      if (isMinimumGreaterThanMaximum(minimum, maximum)) {
         yield put(A.firstStepFormUnvalidated('insufficient'))
       } else if (isAmountBelowMinimum(sourceAmountBase, minimum)) {
         yield put(A.firstStepFormUnvalidated('minimum'))
@@ -168,9 +168,10 @@ export default ({ api, coreSagas }) => {
       } else {
         yield put(A.firstStepFormValidated())
       }
-      yield put(A.firstStepEnabled())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'validateForm', e))
+    } finally {
+      yield put(A.firstStepEnabled())
     }
   }
 
@@ -189,7 +190,9 @@ export default ({ api, coreSagas }) => {
       // Shapeshift order
       const pair = getPairFromCoin(sourceCoin, targetCoin)
       const orderData = yield call(api.createOrder, amount, pair, returnAddress, withdrawalAddress)
-      if (!has('success', orderData)) throw new Error('Shapeshift order could not be placed.')
+      if (!has('success', orderData)) {
+        throw new Error('exchange_order_error')
+      }
       const order = prop('success', orderData)
       yield put(A.orderUpdated(order))
       // Create final payment
@@ -217,7 +220,7 @@ export default ({ api, coreSagas }) => {
       }
       yield put(A.secondStepSuccess(data))
     } catch (e) {
-      yield put(A.secondStepFailure('An error has occurred.'))
+      yield put(A.secondStepFailure(e.message))
       yield put(actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', e))
     }
   }
@@ -267,7 +270,7 @@ export default ({ api, coreSagas }) => {
       // We update the payment in the state
       yield put(A.secondStepPaymentSent(paymentValue))
     } catch (e) {
-      yield put(actions.alerts.displayError('The transaction failed to send. Please try again later.'))
+      yield put(actions.alerts.displayError(C.EXCHANGE_TRANSACTION_ERROR))
       yield put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e))
     }
   }
@@ -278,6 +281,8 @@ export default ({ api, coreSagas }) => {
       const order = yield select(S.getOrder)
       const depositAddress = prop('deposit', order)
       pollingTradeStatusTask = yield fork(startPollingTradeStatus, depositAddress)
+      // Reset form
+      yield put(actions.form.reset('exchange'))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'thirdStepInitialized', e))
     }
@@ -301,7 +306,7 @@ export default ({ api, coreSagas }) => {
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'startPollingTradeStatus', e))
-      yield put(actions.alerts.displayError('Failed to refresh trade status.'))
+      yield put(actions.alerts.displayError(C.EXCHANGE_REFRESH_TRADE_ERROR))
     } finally {
       if (yield cancelled()) {
         yield put(actions.logs.logInfoMessage(logLocation, 'startPollingTradeStatus', 'trade polling cancelled'))
@@ -314,7 +319,6 @@ export default ({ api, coreSagas }) => {
   }
 
   const destroyed = function * () {
-    yield put(actions.form.destroy('exchange'))
     if (pollingTradeStatusTask) yield call(stopPollingTradeStatus)
   }
 

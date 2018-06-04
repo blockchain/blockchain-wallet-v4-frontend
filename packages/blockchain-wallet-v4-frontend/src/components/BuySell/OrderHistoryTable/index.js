@@ -11,7 +11,7 @@ class OrderHistoryTable extends React.PureComponent {
   }
 
   render () {
-    const { conversion, trades } = this.props
+    const { conversion, trades, handleTradeCancel, handleFinishTrade, handleDetailsClick, status, cancelTradeId } = this.props
 
     const isValid = (t) => t.createdAt
     const validTrades = filter(isValid, trades)
@@ -23,27 +23,27 @@ class OrderHistoryTable extends React.PureComponent {
         <TableHeader>
           <TableCell width='15%'>
             <Text size='13px' weight={500} capitalize>
-              <FormattedMessage id='scenes.orderhistory.list.status' defaultMessage='Status' />
+              <FormattedMessage id='scenes.buysell.orderhistory.list.status' defaultMessage='Status' />
             </Text>
           </TableCell>
           <TableCell width='15%' />
           <TableCell width='30%'>
             <Text size='13px' weight={500} capitalize>
-              <FormattedMessage id='scenes.orderhistory.list.date' defaultMessage='Date' />
+              <FormattedMessage id='scenes.buysell.orderhistory.list.date' defaultMessage='Date' />
             </Text>
           </TableCell>
           <TableCell width='20%'>
             <Text size='13px' weight={500} capitalize>
-              <FormattedMessage id='scenes.orderhistory.list.exchanged' defaultMessage='Exchanged' />
+              <FormattedMessage id='scenes.buysell.orderhistory.list.exchanged' defaultMessage='Exchanged' />
             </Text>
           </TableCell>
           <TableCell width='20%'>
             <Text size='13px' weight={500} capitalize>
-              <FormattedMessage id='scenes.orderhistory.list.received' defaultMessage='Received' />
+              <FormattedMessage id='scenes.buysell.orderhistory.list.received' defaultMessage='Received' />
             </Text>
           </TableCell>
         </TableHeader>
-        {sortedTrades.map((trade, index) => <TradeItem key={index} trade={trade} conversion={conversion} handleFinish={this.props.handleFinishTrade} handleClick={this.props.handleDetailsClick} />)}
+        {sortedTrades.map((trade, index) => <TradeItem key={index} trade={trade} conversion={conversion} handleFinish={handleFinishTrade} handleClick={handleDetailsClick} handleTradeCancel={handleTradeCancel} status={status} cancelTradeId={cancelTradeId} />)}
       </Table>
     )
   }

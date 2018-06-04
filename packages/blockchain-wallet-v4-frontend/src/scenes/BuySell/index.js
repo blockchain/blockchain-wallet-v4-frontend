@@ -10,8 +10,9 @@ import { Field, reduxForm } from 'redux-form'
 import { TabMenuBuySellStatus } from 'components/Form'
 import HorizontalMenu from 'components/HorizontalMenu'
 import SelectPartner from './template.success'
-import Loading from './template.loading'
+import Loading from 'components/BuySell/Loading'
 import ui from 'redux-ui'
+import { hasAccount } from 'services/ExchangeService'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -82,7 +83,7 @@ class BuySellContainer extends React.PureComponent {
     return (
       <Wrapper>
         {
-          view.props.value.coinify.offline_token || view.props.value.sfox.account_token
+          hasAccount(view.props.value)
             ? <Menu>
               <Field name='status' component={TabMenuBuySellStatus} />
             </Menu>

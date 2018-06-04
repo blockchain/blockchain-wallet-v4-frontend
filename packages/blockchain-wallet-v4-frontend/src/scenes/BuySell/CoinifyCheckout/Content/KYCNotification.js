@@ -1,6 +1,6 @@
-import React from 'react'
-import styled from 'styled-components'
+import React, { Fragment } from 'react'
 import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
 import { Text, Button } from 'blockchain-info-components'
 import { kycHeaderHelper, kycNotificationBodyHelper, kycNotificationButtonHelper } from 'services/CoinifyService'
 import { spacing } from 'services/StyleService'
@@ -23,19 +23,32 @@ const LimitsNotice = styled.div`
 `
 
 const KYCNotification = (props) => {
-  const { kyc, onTrigger, symbol, limits } = props
+  const { kyc, onTrigger, symbol, limits, type } = props
 
   const state = path(['state'], kyc)
   const header = kycHeaderHelper(state)
   const body = kycNotificationBodyHelper(state)
 
+  let effBal = limits.effectiveMax / 1e8
+  let sellMax = Math.min(effBal, limits.max)
+
   return (
     <Wrapper>
       {
-        state === 'pending' || state === 'reviewing'
+        (state === 'pending' || state === 'reviewing')
           ? <LimitsNotice>
             <Text size='12px' weight={300}>
-              <FormattedMessage id='kyc.limits_notice' defaultMessage='While your identity gets verified, you can buy and sell up {symbol}{limit} to using your credit/debit card.' values={{ symbol: symbol, limit: limits.max }} />
+              {
+                type === 'sell'
+                  ? <Fragment>
+                    <FormattedMessage id='scenes.buysell.coinifycheckout.content.kycnotification.limitsnotice.sell' defaultMessage='While your identity gets verified, you can sell up to ' />
+                    {sellMax} BTC.
+                  </Fragment>
+                  : <Fragment>
+                    <FormattedMessage id='scenes.buysell.coinifycheckout.content.kycnotification.limitsnotice.buy' defaultMessage='While your identity gets verified, you can buy up to ' />
+                    {symbol}{limits.max}.
+                  </Fragment>
+              }
             </Text>
           </LimitsNotice>
           : null

@@ -65,10 +65,10 @@ const FirstStep = (props) => {
         <FormGroup>
           <FormItem>
             <MnemonicLabel for='mnemonic'>
-              <FormattedMessage id='scenes.recover.firststep.mnemonic' defaultMessage='Your backup phrase' />
+              <FormattedMessage id='scenes.recover.firststep.mnemonic' defaultMessage='Your Backup Phrase' />
             </MnemonicLabel>
             <Text size='12px' weight={300}>
-              <FormattedMessage id='scenes.recover.firststep.mnemonic_explain' defaultMessage='Enter your 12 word phrase, with spaces between each, to recover your funds & transactions.' />
+              <FormattedMessage id='scenes.recover.firststep.mnemonic_explain' defaultMessage='Enter your 12 word phrase, lowercase, with spaces between each word, to recover your funds & transactions.' />
             </Text>
             <Field name='mnemonic' autoFocus validate={[required, validMnemonic]} component={TextBox} />
           </FormItem>

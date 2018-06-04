@@ -1,4 +1,5 @@
 import * as exchange from './exchange/selectors'
+import * as layoutWallet from './layoutWallet/selectors'
 import * as priceChart from './priceChart/selectors'
 import * as priceTicker from './priceTicker/selectors'
 import * as sendBch from './sendBch/selectors'
@@ -9,6 +10,7 @@ import * as usedAddresses from './usedAddresses/selectors'
 
 export {
   exchange,
+  layoutWallet,
   priceChart,
   priceTicker,
   sendBch,
