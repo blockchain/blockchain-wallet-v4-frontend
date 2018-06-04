@@ -29,6 +29,7 @@ export default ({ api }) => {
 
     const newkv = set(KVStoreEntry.value, newBchEntry, kv)
     yield put(A.createMetadataBch(newkv))
+    yield refetchContextData()
   }
 
   const fetchMetadataBch = function * () {
@@ -49,14 +50,13 @@ export default ({ api }) => {
     }
   }
 
-  const setBchAccountArchived = function * () {
-    const btcHDAccountContext = yield select(getHDAccounts)
-    const bchContext = yield select(S.getContext, btcHDAccountContext)
+  const refetchContextData = function * () {
+    const bchContext = yield select(S.getContext)
     yield put(bchActions.fetchData(bchContext))
   }
 
   return {
     fetchMetadataBch,
-    setBchAccountArchived
+    refetchContextData
   }
 }

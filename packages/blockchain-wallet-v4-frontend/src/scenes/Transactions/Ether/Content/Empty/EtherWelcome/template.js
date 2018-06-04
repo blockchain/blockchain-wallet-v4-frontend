@@ -109,10 +109,10 @@ const EtherWelcome = props => {
           {
             exchange ? <LinkContainer to='/exchange'>
               <Button nature='primary' fullwidth uppercase>
-                <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.getstarted' defaultMessage='Get started with ether' />
+                <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.getstarted.exchange' defaultMessage='Get started with ether' />
               </Button>
             </LinkContainer> : <Button nature='primary' onClick={handleRequest} fullwidth uppercase>
-              <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.getstarted' defaultMessage='Get started with ether' />
+              <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.getstarted.request' defaultMessage='Get started with ether' />
             </Button>
           }
         </Row>

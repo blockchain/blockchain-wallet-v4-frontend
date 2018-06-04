@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import ExchangeLayout from 'layouts/Exchange'
 import { BlockchainLoader } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
@@ -15,9 +14,7 @@ const Wrapper = styled.div`
 `
 
 export default (props) => (
-  <ExchangeLayout>
-    <Wrapper>
-      <BlockchainLoader width='200px' height='200px' />
-    </Wrapper>
-  </ExchangeLayout>
+  <Wrapper>
+    <BlockchainLoader width='200px' height='200px' />
+  </Wrapper>
 )

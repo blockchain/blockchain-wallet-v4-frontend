@@ -83,8 +83,8 @@ const Success = props => {
     <Wrapper>
       <Header>
         <Text size='13px' weight={500} capitalize>
-          {status === 'complete' && <FormattedMessage id='modals.exchange.shapeshift.title_success' defaultMessage='Success! Your exchange is complete' />}
-          {status !== 'complete' && <FormattedMessage id='modals.exchange.shapeshift.title_inprogress' defaultMessage='Exchange In Progress' />}
+          {status === 'complete' && <FormattedMessage id='modals.exchange.shapeshift.title.success' defaultMessage='Success! Your exchange is complete' />}
+          {status !== 'complete' && <FormattedMessage id='modals.exchange.shapeshift.title.inprogress' defaultMessage='Exchange In Progress' />}
         </Text>
       </Header>
       <Body>
@@ -131,7 +131,7 @@ const Success = props => {
             <TableRow>
               <TableCell>
                 <Text size='13px' weight={400} capitalize>
-                  <FormattedMessage id='modals.exchange.shapeshift.received' defaultMessage='{coin} received' values={{ coin: targetCoin }} />
+                  <FormattedMessage id='modals.exchange.shapeshift.received' defaultMessage='{coin} to be received' values={{ coin: targetCoin }} />
                 </Text>
               </TableCell>
               <TableCell>
@@ -161,12 +161,12 @@ const Success = props => {
                   <FormattedMessage id='modals.exchange.shapeshift.fee' defaultMessage='Transaction fee' />
                 </Text>
                 <Tooltip>
-                  <FormattedMessage id='modals.exchange.shapeshift.feetooltip' defaultMessage='This fee is used to send the outgoing exchange funds to ShapeShift.' />
+                  <FormattedMessage id='modals.exchange.shapeshift.feetooltip' defaultMessage='This fee is used to send the incoming exchange funds from ShapeShift.' />
                 </Tooltip>
               </TableCell>
               <TableCell>
                 <Text size='13px' weight={300} uppercase>
-                  {transactionFee}
+                  {`${transactionFee} ${targetCoin}`}
                 </Text>
               </TableCell>
             </TableRow>
@@ -177,8 +177,8 @@ const Success = props => {
                 </Text>
               </TableCell>
               <TableCell>
-                <Text size='13px' weight={300} uppercase>
-                  {orderId}
+                <Text size='13px' weight={300}>
+                  SFT-{orderId}
                 </Text>
               </TableCell>
             </TableRow>

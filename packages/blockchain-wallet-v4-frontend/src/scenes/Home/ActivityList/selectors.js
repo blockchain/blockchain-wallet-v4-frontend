@@ -1,12 +1,7 @@
-import { concat, equals, isNil, take, map, lift, prop, curry, compose, descend, reduce, sort, unapply } from 'ramda'
+import { concat, isNil, take, map, lift, prop, curry, compose, descend, reduce, sort, unapply } from 'ramda'
 import { selectors } from 'data'
-import { createSelectorCreator, defaultMemoize } from 'reselect'
 import { Remote } from 'blockchain-wallet-v4/src'
-
-export const createDeepEqualSelector = createSelectorCreator(
-  defaultMemoize,
-  equals
-)
+import { createDeepEqualSelector } from 'services/ReselectHelper'
 
 export const transform = curry((coin, transaction) => ({
   type: 'transaction',
@@ -36,7 +31,7 @@ export const getBchTransactions = createDeepEqualSelector(
 
 export const getEthTransactions = createDeepEqualSelector(
   [selectors.core.common.ethereum.getWalletTransactions, getNumber],
-  (transactions, number) => Remote.Success.is(transactions) ? transactions.map(compose(take(number), map(transform('ETH')))) : Remote.of([])
+  (transactions, number) => Remote.Success.is(transactions[0]) && !isNil(transactions[0]) ? transactions[0].map(compose(take(number), map(transform('ETH')))) : Remote.of([])
 )
 
 export const concatAll = unapply(reduce(concat, []))

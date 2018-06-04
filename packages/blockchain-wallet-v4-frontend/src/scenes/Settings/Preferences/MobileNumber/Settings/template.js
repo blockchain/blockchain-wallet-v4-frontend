@@ -14,16 +14,16 @@ const Setting = (props) => {
         showWarning
           ? <Fragment>
             <Text>
-              <FormattedMessage id='scenes.preferences.mobile.settings.2fa_warning' defaultMessage='To change your mobile number you need to disable 2FA via SMS' />
+              <FormattedMessage id='scenes.settings.preferences.mobilenumber.settings.2fawarning' defaultMessage='To change your mobile number you need to disable 2FA via SMS' />
             </Text>
             <Button nature='primary' onClick={() => {
               resetWarning()
               modalActions.showModal('ConfirmDisable2FA', {
                 authName: '2FA using SMS',
-                extraCopy: <FormattedMessage id='scenes.preferences.mobile.settings.reenable_sec_center' defaultMessage='If you want to re-enable this feature, please go to the Security Center.' />
+                extraCopy: <FormattedMessage id='scenes.settings.preferences.mobilenumber.settings.reenableseccenter' defaultMessage='If you want to re-enable this feature, please go to the Security Center.' />
               })
             }} >
-              <FormattedMessage id='scenes.preferences.mobile.settings.disable_2fa' defaultMessage='Disable 2FA' />
+              <FormattedMessage id='scenes.settings.preferences.mobilenumber.settings.disable2fa' defaultMessage='Disable 2FA' />
             </Button>
           </Fragment>
           : <Fragment>
@@ -32,10 +32,10 @@ const Setting = (props) => {
             }
             <Button nature='primary' onClick={handleClick}>
               { smsVerified === 1
-                ? <FormattedMessage id='scenes.preferences.mobile.settings.change' defaultMessage='Change' />
+                ? <FormattedMessage id='scenes.settings.preferences.mobilenumber.settings.change' defaultMessage='Change' />
                 : smsNumber
-                  ? <FormattedMessage id='scenes.preferences.mobile.settings.verify' defaultMessage='Verify' />
-                  : <FormattedMessage id='scenes.preferences.mobile.settings.addmobile' defaultMessage='Add Mobile Number' />
+                  ? <FormattedMessage id='scenes.settings.preferences.mobilenumber.settings.verify' defaultMessage='Verify' />
+                  : <FormattedMessage id='scenes.settings.preferences.mobilenumber.settings.addmobile' defaultMessage='Add Mobile Number' />
               }
             </Button>
           </Fragment>

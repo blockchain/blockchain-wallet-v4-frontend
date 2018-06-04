@@ -1,21 +1,26 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ui from 'redux-ui'
 
 const { Provider, Consumer } = React.createContext()
 
 class Stepper extends React.PureComponent {
+  constructor (props) {
+    super(props)
+
+    this.state = { step: props.initialStep }
+  }
+
   // eslint-disable-next-line
   stepTo = (step) => {
-    this.props.updateUI({ step })
+    this.setState({ step })
   }
 
   nextStep = () => {
-    this.stepTo(this.props.ui.step + 1)
+    this.setState({ step: this.state.step + 1 })
   }
 
   prevStep = () => {
-    this.stepTo(this.props.ui.step - 1)
+    this.setState({ step: this.state.step - 1 })
   }
 
   restartStep = () => {
@@ -24,7 +29,7 @@ class Stepper extends React.PureComponent {
 
   render () {
     let value = {
-      currentStep: this.props.ui.step,
+      currentStep: this.state.step,
       stepTo: this.stepTo,
       nextStep: this.nextStep,
       prevStep: this.prevStep,
@@ -53,21 +58,22 @@ export const StepView = ({ children, step }) => (
   </Consumer>
 )
 
-export const StepTransition = ({ Component, next, prev, restart, to = 0, ...rest }) => (
+export const StepTransition = ({ Component, onClick, next, prev, restart, to = 0, ...rest }) => (
   <Consumer>
-    {({ stepTo, nextStep, prevStep, restartStep }) => (
-      <Component
-        {...rest}
-        onClick={next ? nextStep : prev ? prevStep : restart ? restartStep : () => stepTo(to)}
-      />
-    )}
+    {({ stepTo, nextStep, prevStep, restartStep }) => {
+      const goToStep = next ? nextStep : prev ? prevStep : restart ? restartStep : () => stepTo(to)
+      const onClickAndGo = () => {
+        onClick && onClick()
+        goToStep()
+      }
+      return (
+        <Component
+          {...rest}
+          onClick={onClickAndGo}
+        />
+      )
+    }}
   </Consumer>
 )
 
-const uiEnhancer = ui({
-  state: {
-    step: (props) => props.initialStep
-  }
-})
-
-export default uiEnhancer(Stepper)
+export default Stepper

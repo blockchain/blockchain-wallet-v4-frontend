@@ -38,11 +38,10 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
       return merge(state, data)
     }
     case AT.FETCH_BITCOIN_DATA_FAILURE: {
-      const { addresses, info, latest_block } = payload
       const data = {
-        addresses: Remote.Failure(addresses),
-        info: Remote.Failure(info),
-        latest_block: Remote.Failure(latest_block)
+        addresses: Remote.Failure(payload),
+        info: Remote.Failure(payload),
+        latest_block: Remote.Failure(payload)
       }
       return merge(state, data)
     }

@@ -94,7 +94,7 @@ const Success = props => {
           <FormattedMessage id='modals.sendeth.secondstep.send' defaultMessage='Send Ether' />
         </Button>
         <Link onClick={handleBack} size='13px' weight={300}>
-          <FormattedMessage id='scenes.sendconfirm.back' defaultMessage='Go Back' />
+          <FormattedMessage id='modals.sendeth.sendconfirm.back' defaultMessage='Go Back' />
         </Link>
       </Footer>
     </Wrapper>

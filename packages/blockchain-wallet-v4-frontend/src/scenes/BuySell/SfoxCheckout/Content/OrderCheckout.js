@@ -18,8 +18,12 @@ const quoteInputSpec = {
 const OrderCheckout = ({ quoteR, account, onFetchQuote, reason, finishAccountSetup, limits, type }) => {
   const disableInputs = limits.max < limits.min || (reason.indexOf('has_remaining') < 0 && reason) || limits.effectiveMax < limits.min
 
-  const wantToHelper = () => type === 'buy' ? <FormattedMessage id='buy.output_method.title.buy' defaultMessage='I want to buy' /> : <FormattedMessage id='buy.output_method.title.sell' defaultMessage='I want to sell' />
-  const payWithHelper = () => type === 'buy' ? <FormattedMessage id='buy.input_method.title.buy_with' defaultMessage='I will pay with' /> : <FormattedMessage id='buy.output_method.title.sell_with' defaultMessage='I will receive funds into' />
+  const wantToHelper = () => type === 'buy'
+    ? <FormattedMessage id='buy.sfoxcheckout.outputmethod.title.buy' defaultMessage='I want to buy' />
+    : <FormattedMessage id='buy.sfoxcheckout.title.sell' defaultMessage='I want to sell' />
+  const payWithHelper = () => type === 'buy'
+    ? <FormattedMessage id='buy.sfoxcheckout.inputmethod.title.buywith' defaultMessage='I will pay with' />
+    : <FormattedMessage id='buy.sfoxcheckout.outputmethod.title.sellwith' defaultMessage='I will receive funds into' />
 
   const limitsHelper = (quoteR, limits) => {
     if (quoteR.error) return true
@@ -32,7 +36,7 @@ const OrderCheckout = ({ quoteR, account, onFetchQuote, reason, finishAccountSet
   const submitButtonHelper = () => (
     reason.indexOf('has_remaining') > -1
       ? <StepTransition next Component={Button} style={spacing('mt-45')} nature='primary' fullwidth disabled={!Remote.Success.is(quoteR) || limitsHelper(quoteR, limits)}>
-        <FormattedMessage id='review_order' defaultMessage='Review Order' />
+        <FormattedMessage id='buy.sfoxcheckout.revieworder' defaultMessage='Review Order' />
       </StepTransition>
       : <div style={{ ...flex('col'), ...spacing('mt-15') }}>
         <Text size='14px' weight={300}>
@@ -56,10 +60,13 @@ const OrderCheckout = ({ quoteR, account, onFetchQuote, reason, finishAccountSet
           <Text size='12px' weight={300}>
             {'@ '}
             {quoteR
-              .map((quote) => '$' + quote.rate)
+              .map(q => {
+                if (q.baseCurrency.toLowerCase() === 'btc') return '$' + ((1 / (Math.abs(q.baseAmount / 1e8))) * Math.abs(q.quoteAmount)).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})
+                else return '$' + ((1 / (Math.abs(q.quoteAmount / 1e8))) * Math.abs(q.baseAmount)).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})
+              })
               .getOrElse(
                 <Fragment>
-                  <FormattedMessage id='loading' defaultMessage='Loading' />
+                  <FormattedMessage id='buy.sfoxcheckout.loading' defaultMessage='Loading' />
                   {'...'}
                 </Fragment>
               )}
@@ -77,13 +84,12 @@ const OrderCheckout = ({ quoteR, account, onFetchQuote, reason, finishAccountSet
         reason.indexOf('has_remaining') > -1
           ? <Fragment>
             <Text style={spacing('ml-10')} size='16px' weight={600}>
-              <FormattedMessage id='amount' defaultMessage='Amount' />
+              <FormattedMessage id='buy.sfoxcheckout.amount' defaultMessage='Amount' />
             </Text>
             <div style={spacing('mt-10')}>
               <QuoteInput
                 quoteR={quoteR}
                 initialQuoteId={quoteR.map(quote => quote.id).getOrElse(null)}
-                // initialAmount='0.00'
                 debounce={500}
                 spec={quoteInputSpec}
                 onFetchQuote={onFetchQuote}

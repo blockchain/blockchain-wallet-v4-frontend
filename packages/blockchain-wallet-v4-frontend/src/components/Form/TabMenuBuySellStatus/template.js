@@ -16,7 +16,7 @@ const TabMenuBuySellStatus = props => {
         <FormattedMessage id='components.form.tabmenubuysell.sell' defaultMessage='Sell' />
       </TabMenuItem>
       <TabMenuItem selected={value === 'order_history'} onClick={() => handleClick('order_history')}>
-        <FormattedMessage id='components.form.tabmenubuysell.order_history' defaultMessage='Order History' />
+        <FormattedMessage id='components.form.tabmenubuysell.orderhistory' defaultMessage='Order History' />
       </TabMenuItem>
     </TabMenu>
   )

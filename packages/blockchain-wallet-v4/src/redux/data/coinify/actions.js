@@ -7,7 +7,7 @@ export const fetchQuoteFailure = (error) => ({ type: AT.COINIFY_FETCH_QUOTE_FAIL
 
 export const fetchQuoteAndMediums = (data) => ({ type: AT.COINIFY_FETCH_QUOTE_AND_MEDIUMS, payload: data })
 
-export const fetchRateQuote = (curr) => ({ type: AT.COINIFY_FETCH_RATE_QUOTE, payload: curr })
+export const fetchRateQuote = (currency, type) => ({ type: AT.COINIFY_FETCH_RATE_QUOTE, payload: { currency, type } })
 export const fetchRateQuoteLoading = () => ({ type: AT.COINIFY_FETCH_RATE_QUOTE_LOADING })
 export const fetchRateQuoteSuccess = (data) => ({ type: AT.COINIFY_FETCH_RATE_QUOTE_SUCCESS, payload: data })
 export const fetchRateQuoteFailure = (error) => ({ type: AT.COINIFY_FETCH_RATE_QUOTE_FAILURE, payload: error })
@@ -51,9 +51,18 @@ export const getMediumAccountsLoading = () => ({ type: AT.COINIFY_GET_MEDIUM_ACC
 export const getMediumAccountsSuccess = (accounts) => ({ type: AT.COINIFY_GET_MEDIUM_ACCOUNTS_SUCCESS, payload: accounts })
 export const getMediumAccountsFailure = (error) => ({ type: AT.COINIFY_GET_MEDIUM_ACCOUNTS_FAILURE, payload: error })
 
+export const getMediumsWithBankAccounts = (quote) => ({ type: AT.COINIFY_GET_BANK_ACCOUNTS, payload: quote })
+
+export const addBankAccount = (medium, account) => ({ type: AT.COINIFY_ADD_BANK_ACCOUNT, payload: { medium, account } })
+export const addBankAccountFailure = (error) => ({ type: AT.COINIFY_ADD_BANK_ACCOUNT_FAILURE, payload: error })
+export const addBankAccountLoading = () => ({ type: AT.COINIFY_ADD_BANK_ACCOUNT_LOADING })
+export const addBankAccountSuccess = (account) => ({ type: AT.COINIFY_ADD_BANK_ACCOUNT_SUCCESS, payload: account })
+
+export const setBankAccount = (account) => ({ type: AT.COINIFY_SET_BANK_ACCOUNT, payload: account })
+
 export const initiateBuy = (data) => ({ type: AT.COINIFY_BUY, payload: data })
 
-export const initiateSell = (data) => ({ type: AT.COINIFY_SELL, payload: data })
+export const initiateSell = () => ({ type: AT.COINIFY_SELL })
 
 export const cancelTrade = (trade) => ({ type: AT.COINIFY_CANCEL_TRADE, payload: trade })
 

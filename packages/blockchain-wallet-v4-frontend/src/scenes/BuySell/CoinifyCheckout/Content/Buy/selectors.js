@@ -1,11 +1,9 @@
 import { formValueSelector } from 'redux-form'
 import { lift, path } from 'ramda'
-// import settings from 'config'
 import { selectors } from 'data'
 
 export const getProfileData = (state) => {
   const profile = selectors.core.data.coinify.getProfile(state)
-  // const nextAddress = selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, 0, state)
   const kycs = selectors.core.data.coinify.getSortedKycs(state)
   return lift((profile, kycs) => ({ profile, kycs }))(profile, kycs)
 }
@@ -67,7 +65,7 @@ export const getData = (state) => ({
   trades: getTrades(state),
   trade: getTrade(state),
   errors: getErrors(state),
-  currency: formValueSelector('coinifyCheckout')(state, 'currency'),
+  currency: formValueSelector('coinifyCheckoutBuy')(state, 'currency'),
   defaultCurrency: getCurrency(state),
   checkoutBusy: path(['coinify', 'checkoutBusy'], state),
   paymentMedium: path(['coinify', 'medium'], state),

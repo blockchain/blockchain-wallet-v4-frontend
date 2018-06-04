@@ -1,6 +1,4 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { getData } from './selectors'
 import Buy from './Buy'
 import Sell from './Sell'
 import OrderHistory from './OrderHistory'
@@ -16,6 +14,4 @@ class Checkout extends React.Component {
   }
 }
 
-const mapStateToProps = state => getData(state)
-
-export default connect(mapStateToProps, undefined)(Checkout)
+export default Checkout

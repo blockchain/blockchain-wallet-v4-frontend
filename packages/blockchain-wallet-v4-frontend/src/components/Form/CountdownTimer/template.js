@@ -17,12 +17,12 @@ const Wrapper = styled.div`
 
 const CountdownTimer = (props) => (
   <Wrapper {...props}>
-    <Text size='12px' weight={300}>
+    <Text size='11px' weight={300}>
       <FormattedMessage id='scenes.exchange.secondstep.expiry' defaultMessage='Quote expires in: {timeLeft}' values={{ timeLeft: props.timeLeft }} />
     </Text>
     <Tooltip>
-      <FormattedMessage id='scenes.exchange.secondstep.expiry_tooltip1' defaultMessage='This rate will expire after {time}.' values={{time: props.tooltipExpiryTime}} />
-      <FormattedMessage id='scenes.exchange.secondstep.expiry_tooltip2' defaultMessage='If that happens please restart your trade.' />
+      <FormattedMessage id='scenes.exchange.secondstep.expiry.tooltip1' defaultMessage='This rate will expire after {time}.' values={{time: props.tooltipExpiryTime}} />
+      <FormattedMessage id='scenes.exchange.secondstep.expiry.tooltip2' defaultMessage='If that happens please restart your trade.' />
     </Tooltip>
   </Wrapper>
 )
