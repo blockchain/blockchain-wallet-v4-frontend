@@ -20,7 +20,7 @@ class SettingsContainer extends React.PureComponent {
   }
 
   render () {
-    return <Settings {...this.props} />
+    return <Settings />
   }
 }
 

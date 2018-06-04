@@ -17,7 +17,7 @@ class SettingsContainer extends React.PureComponent {
   }
 
   render () {
-    return <Settings {...this.props} handleClick={this.handleClick} />
+    return <Settings handleClick={this.handleClick} />
   }
 }
 
