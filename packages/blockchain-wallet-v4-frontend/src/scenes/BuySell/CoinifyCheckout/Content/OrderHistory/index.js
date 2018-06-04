@@ -18,7 +18,7 @@ class OrderHistoryContainer extends React.Component {
   }
 
   render () {
-    const { data, modalActions, coinifyActions, formActions, step, trade, busy, cancelTradeId } = this.props
+    const { data, modalActions, coinifyActions, formActions, step, trade, busy, cancelTradeId, canTrade } = this.props
     const { showModal } = modalActions
     const { finishTrade, cancelTrade } = coinifyActions
     const { change } = formActions
@@ -34,6 +34,7 @@ class OrderHistoryContainer extends React.Component {
         cancelTrade={cancelTrade}
         status={status}
         cancelTradeId={cancelTradeId}
+        canTrade={canTrade}
         changeTab={tab => change('buySellTabStatus', 'status', tab)}
       />,
       Failure: (msg) => <div>Failure: {msg.error}</div>,

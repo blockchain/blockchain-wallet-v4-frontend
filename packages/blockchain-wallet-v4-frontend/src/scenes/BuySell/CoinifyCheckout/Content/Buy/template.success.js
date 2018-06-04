@@ -47,7 +47,8 @@ const CoinifyBuy = props => {
     trade,
     handleKycAction,
     changeTab,
-    coinifyNextCheckoutStep
+    coinifyNextCheckoutStep,
+    canTrade
   } = props
 
   const profile = Remote.of(props.value.profile).getOrElse({ _limits: service.mockedLimits, _level: { currency: 'EUR' } })
@@ -80,8 +81,8 @@ const CoinifyBuy = props => {
             </LeftContainer>
             <RightContainer>
               {
-                value.kycs.length
-                  ? <KYCNotification kyc={kyc} limits={limits.buy} symbol={symbol} onTrigger={(kyc) => handleKycAction(kyc)} />
+                value.kycs.length && path(['state'], kyc)
+                  ? <KYCNotification kyc={kyc} limits={limits.buy} symbol={symbol} onTrigger={(kyc) => handleKycAction(kyc)} canTrade={canTrade.data} />
                   : null
               }
             </RightContainer>
