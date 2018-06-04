@@ -136,7 +136,12 @@ export default ({ api }) => {
 
     try {
       yield put(A.deleteAddressLabelLoading(accountIdx))
-      yield call(actions.core.wallet.deleteHdAddressLabel, accountIdx, addressIdx)
+      // yield put(actions.core.wallet.deleteHdAddressLabel(accountIdx, addressIdx))
+      yield call(function * () {
+        yield put(actions.core.wallet.deleteHdAddressLabel(accountIdx, addressIdx, walletIdx))
+      }, accountIdx, addressIdx)
+      // let t = yield call(actions.core.wallet.deleteHdAddressLabel, {accountIdx}, {addressIdx})
+      // console.log('123')
       yield put(actions.alerts.displaySuccess('Address was deleted successfully.'))
       yield put(A.deleteAddressLabelSuccess(walletIdx))
       yield put(A.fetchUnusedAddresses(walletIdx))
