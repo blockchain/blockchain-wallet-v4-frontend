@@ -41,7 +41,7 @@ const Error = props => (
         <FormattedMessage id='components.exchangetimeline.error.failed2' defaultMessage='Any funds broadcast from your wallet will be returned minus the transaction fee.' />
       </Text>
       <Text size='13px' weight={300}>
-        <FormattedMessage id='components.exchangetimeline.error.failed3' defaultMessage='Please return to the transaction tab to start a new trade' />
+        <FormattedMessage id='components.exchangetimeline.error.failed3' defaultMessage='Please return to the exchange tab to start a new trade' />
       </Text>
     </TextGroup>
   </Wrapper>
