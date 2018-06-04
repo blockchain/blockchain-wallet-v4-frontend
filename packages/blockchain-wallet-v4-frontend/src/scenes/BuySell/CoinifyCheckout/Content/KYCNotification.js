@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { Text, Button } from 'blockchain-info-components'
@@ -40,8 +40,14 @@ const KYCNotification = (props) => {
             <Text size='12px' weight={300}>
               {
                 type === 'sell'
-                  ? <FormattedMessage id='scenes.buysell.coinifycheckout.content.kycnotification.limitsnotice.buy' defaultMessage='While your identity gets verified, you can sell up to {limit} BTC.' values={{ limit: sellMax }} />
-                  : <FormattedMessage id='scenes.buysell.coinifycheckout.content.kycnotification.limitsnotice.sell' defaultMessage='While your identity gets verified, you can buy up to {symbol}{limit}.' values={{ symbol: symbol, limit: limits.max }} />
+                  ? <Fragment>
+                    <FormattedMessage id='scenes.buysell.coinifycheckout.content.kycnotification.limitsnotice.sell' defaultMessage='While your identity gets verified, you can sell up to ' />
+                    {sellMax} BTC.
+                  </Fragment>
+                  : <Fragment>
+                    <FormattedMessage id='scenes.buysell.coinifycheckout.content.kycnotification.limitsnotice.buy' defaultMessage='While your identity gets verified, you can buy up to ' />
+                    {symbol}{limits.max}.
+                  </Fragment>
               }
             </Text>
           </LimitsNotice>
