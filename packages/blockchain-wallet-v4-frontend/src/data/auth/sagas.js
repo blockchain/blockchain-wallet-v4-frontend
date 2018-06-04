@@ -109,7 +109,7 @@ export default ({ api, coreSagas }) => {
   const login = function * (action) {
     let { guid, sharedKey, password, code, mobileLogin } = action.payload
     const safeParse = Either.try(JSON.parse)
-    let session = yield select(selectors.session.getSession(guid))
+    let session = yield select(selectors.session.getSession, guid)
 
     try {
       if (!session) { session = yield call(api.obtainSessionToken) }
@@ -257,6 +257,7 @@ export default ({ api, coreSagas }) => {
 
   return {
     login,
+    loginRoutineSaga,
     mobileLogin,
     register,
     restore,
