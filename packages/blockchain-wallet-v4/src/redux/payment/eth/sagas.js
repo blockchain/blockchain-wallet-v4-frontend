@@ -95,7 +95,6 @@ export default ({ api }) => {
           address: account,
           nonce
         }
-        // let effectiveBalance = yield call(calculateEffectiveBalance, {coins, fee: p.fee})
         return makePayment(merge(p, { from, effectiveBalance }))
       },
 

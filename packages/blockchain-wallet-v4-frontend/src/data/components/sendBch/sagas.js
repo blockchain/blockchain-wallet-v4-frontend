@@ -13,7 +13,7 @@ import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 export default ({ coreSagas }) => {
   const logLocation = 'components/sendBch/sagas'
 
-  const sendBchInitialized = function * () {
+  const initialized = function * () {
     try {
       yield put(A.sendBchPaymentUpdated(Remote.Loading))
       let payment = coreSagas.payment.bch.create(({ network: settings.NETWORK_BCH }))
@@ -34,6 +34,10 @@ export default ({ coreSagas }) => {
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'sendBchInitialized', e))
     }
+  }
+
+  const destroyed = function * () {
+    yield put(actions.form.destroy('sendBch'))
   }
 
   const firstStepSubmitClicked = function * () {
@@ -145,7 +149,8 @@ export default ({ coreSagas }) => {
   }
 
   return {
-    sendBchInitialized,
+    initialized,
+    destroyed,
     toToggled,
     maximumAmountClicked,
     firstStepSubmitClicked,
