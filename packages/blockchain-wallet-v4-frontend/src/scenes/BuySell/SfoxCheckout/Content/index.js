@@ -8,6 +8,10 @@ import Loading from 'components/BuySell/Loading'
 import { path } from 'ramda'
 
 class SfoxCheckout extends React.PureComponent {
+  constructor (props) {
+    super(props)
+    this.state = { buttonStatus: false }
+  }
   componentDidMount () {
     this.props.sfoxDataActions.fetchTrades()
     this.props.sfoxDataActions.fetchProfile()
@@ -18,10 +22,11 @@ class SfoxCheckout extends React.PureComponent {
   }
 
   render () {
-    const { data, modalActions, sfoxActions, sfoxDataActions, payment, orderState } = this.props
+    const { data, modalActions, sfoxActions, sfoxDataActions, payment, orderState, formActions } = this.props
     const { handleTrade, fetchQuote, refreshQuote, refreshSellQuote, fetchSellQuote } = sfoxDataActions
     const { sfoxNotAsked } = sfoxActions
     const { showModal } = modalActions
+    const { change } = formActions
 
     const busy = orderState.cata({
       Success: () => false,
@@ -44,6 +49,10 @@ class SfoxCheckout extends React.PureComponent {
         busy={busy}
         payment={payment}
         clearTradeError={() => sfoxNotAsked()}
+        changeTab={tab => change('buySellTabStatus', 'status', tab)}
+        disableButton={() => this.setState({ buttonStatus: false })}
+        enableButton={() => this.setState({ buttonStatus: true })}
+        buttonStatus={this.state.buttonStatus}
       />,
       Failure: (error) => <div>Failure: {error && error.message}</div>,
       Loading: () => <Loading />,
@@ -67,7 +76,8 @@ const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   sfoxActions: bindActionCreators(actions.modules.sfox, dispatch),
   sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch),
-  sendBtcActions: bindActionCreators(actions.components.sendBtc, dispatch)
+  sendBtcActions: bindActionCreators(actions.components.sendBtc, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SfoxCheckout)
