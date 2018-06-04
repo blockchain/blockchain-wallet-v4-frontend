@@ -226,13 +226,14 @@ export default ({ coreSagas }) => {
         yield put(A.coinifySignupComplete())
         yield call(delay, 500)
         yield put(actions.modals.closeAllModals())
+      } else if (trade.data.constructor.name !== 'Trade') {
+        yield put(actions.form.change('buySellTabStatus', 'status', 'buy'))
       } else {
         yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
       }
-
       yield put(A.coinifyNextCheckoutStep('checkout'))
-      yield call(coreSagas.data.coinify.getKYCs)
       yield put(actions.modals.showModal('CoinifyTradeDetails', { trade: trade.data, status: status }))
+      yield call(coreSagas.data.coinify.getKYCs)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'fromISX', e))
     }
