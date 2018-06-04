@@ -17,7 +17,7 @@ const UnusedAddressesTemplate = ({ account, currentReceiveIndex, unusedAddresses
         <TableCell width='40%'>
           <Text size='13px'>{entry.label}</Text>
         </TableCell>
-        <TableCell style={{ display: 'flex', justifyContent: 'flex-end' }} width='20%'>
+        <TableCell width='20%' style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <Icon cursor name='pencil' onClick={() => onEditLabel(entry.derivationIndex)} style={{ marginRight: 10 }} />
           <Icon cursor name='trash' onClick={() => onDeleteLabel(entry.derivationIndex)} />
         </TableCell>
@@ -26,7 +26,9 @@ const UnusedAddressesTemplate = ({ account, currentReceiveIndex, unusedAddresses
   })
 
   return unusedAddresses.length === 0
-    ? <Text weight={300} style={{ marginTop: 20, textAlign: 'center' }}><FormattedMessage id='scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.nousedmessage' defaultMessage='This wallet has no unused addresses.'/></Text>
+    ? (<Text weight={300} style={{ marginTop: 20, textAlign: 'center' }}>
+      <FormattedMessage id='scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.nousedmessage' defaultMessage='This wallet has no unused addresses.'/>
+    </Text>)
     : (<Table>
       <TableHeader>
         <TableCell width='40%'>

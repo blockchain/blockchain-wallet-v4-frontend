@@ -101,7 +101,7 @@
   "components.alerts.wallet_upgrade_error": "Failed to upgrade to HD and save wallet.",
   "components.alerts.yubikey_verify_error": "Failed to verify Yubikey",
   "components.alerts.yubikey_verify_success": "Yubikey verified",
-  "components.alerts.uknown_error": "An error has occured.",
+  "components.alerts.unknown_error": "An error has occurred.",
   "coinify.banktransferdetails.header": "Bank Transfer Order Details",
   "coinify.banktransferdetails.directions": "Funds must come from your bank account, which needs to be in the same name as your government issued ID. Coinify will reject any transfers from third party accounts not in your name.",
   "coinify.banktransferdetails.recipientname": "Recipient Name:",
