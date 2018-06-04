@@ -109,7 +109,7 @@ export default ({ api, coreSagas }) => {
   const login = function * (action) {
     let { guid, sharedKey, password, code, mobileLogin } = action.payload
     const safeParse = Either.try(JSON.parse)
-    let session = yield select(selectors.session.getSession(guid))
+    let session = yield select(selectors.session.getSession, guid)
 
     try {
       if (!session) { session = yield call(api.obtainSessionToken) }
@@ -215,7 +215,11 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displaySuccess(C.GUID_SENT_SUCCESS))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'remindGuid', e))
-      yield put(actions.alerts.displayError(C.GUID_SENT_ERROR))
+      if (e.message === 'Captcha Code Incorrect') {
+        yield put(actions.alerts.displayError(C.CAPTCHA_CODE_INCORRECT))
+      } else {
+        yield put(actions.alerts.displayError(C.GUID_SENT_ERROR))
+      }
     }
   }
 
@@ -257,6 +261,7 @@ export default ({ api, coreSagas }) => {
 
   return {
     login,
+    loginRoutineSaga,
     mobileLogin,
     register,
     restore,

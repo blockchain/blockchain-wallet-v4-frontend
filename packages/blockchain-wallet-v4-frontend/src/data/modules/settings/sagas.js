@@ -198,7 +198,7 @@ export default ({ coreSagas }) => {
   const newHDAccount = function * (action) {
     try {
       yield call(askSecondPasswordEnhancer(coreSagas.wallet.newHDAccount), action.payload)
-      yield put(actions.core.kvStore.bch.addBchAccount())
+      yield put(actions.core.kvStore.bch.fetchMetadataBch())
       yield put(actions.alerts.displaySuccess(C.NEW_WALLET_CREATE_SUCCESS))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'newHDAccount', e))
