@@ -151,7 +151,7 @@ export const bodyStatusHelper = (status, isBuy) => {
       case 'rejected': return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.buy.rejected' defaultMessage='Your buy trade has been rejected. Please contact support.' /> }
       case 'failed': return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.buy.failed' defaultMessage='Your buy trade failed. Please contact support.' /> }
       case 'cancelled': return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.buy.cancelled' defaultMessage='Your buy trade was cancelled.' /> }
-      case 'expired': return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.buy.expired' defaultMessage='Your buy trade has expired.' /> }
+      default: return { text: <FormattedMessage id='scenes.services.coinifyservice.busellorderhistory.list.orderstatusbody.buy.unknown' defaultMessage='There are issues with this trade, please contact support.' /> }
     }
   } else {
     switch (status) {
@@ -161,9 +161,9 @@ export const bodyStatusHelper = (status, isBuy) => {
       case 'rejected': return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.sell.rejected' defaultMessage='Your sell trade has been rejected. Please contact support.' /> }
       case 'failed': return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.sell.failed' defaultMessage='Your sell trade failed. Please contact support.' /> }
       case 'expired': return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.sell.expired' defaultMessage='Your sell trade expired.' /> }
+      default: return { text: <FormattedMessage id='scenes.services.coinifyservice.busellorderhistory.list.orderstatusbody.sell.unknown' defaultMessage='There are issues with this trade, please contact support.' /> }
     }
   }
-  return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.unknown' defaultMessage='There are issues with this trade. Please contact support.' /> }
 }
 
 export const kycBodyHelper = (status) => {
@@ -175,7 +175,7 @@ export const kycBodyHelper = (status) => {
     case 'rejected': return { text: <FormattedMessage id='scenes.coinify.detailsmodal.kyc.rejected' defaultMessage='There was an issue verifying your identity with the documents provided. Please try uploading different identification. Bank transfers are unavailable until we can successfully verify your identity.' /> }
     case 'failed': return { text: <FormattedMessage id='scenes.coinify.detailsmodal.kyc.failed' defaultMessage='Your identity verification has failed. Please contact support.' /> }
     case 'cancelled': return { text: <FormattedMessage id='scenes.coinify.detailsmodal.kyc.cancelled' defaultMessage='Your identity verification was cancelled. Please try again.' /> }
-    default: return { color: '', text: <FormattedMessage id='scenes.coinify.detailsmodal.kyc.unknown' defaultMessage='Status is unknown' /> }
+    default: return { text: <FormattedMessage id='scenes.coinify.detailsmodal.kyc.cancelled.unknown' defaultMessage='Your identity verification status could not be determined, please contact support.' /> }
   }
 }
 
