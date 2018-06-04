@@ -40,8 +40,8 @@ const Label = styled.label`
   align-items: center;
   &:before {
     content: '';
-    min-width: 15px;
-    min-height: 15px;
+    min-width: 12px;
+    min-height: 12px;
     margin-right: 5px;
     background: white;
     border-radius: 2px;

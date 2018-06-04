@@ -19,6 +19,7 @@ const Wrapper = styled.div`
 
 const Toggler = styled(Icon)`
   margin-left: 5px;
+  margin-right: 10px;
   transform: ${props => props.toggled ? 'rotate(-180deg)' : 'none'};
 `
 

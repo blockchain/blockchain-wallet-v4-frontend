@@ -29,6 +29,7 @@ export default ({ api }) => {
 
     const newkv = set(KVStoreEntry.value, newBchEntry, kv)
     yield put(A.createMetadataBch(newkv))
+    yield refetchContextData()
   }
 
   const fetchMetadataBch = function * () {

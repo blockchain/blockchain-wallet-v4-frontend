@@ -18,6 +18,7 @@ const Wrapper = styled.div`
   width: 100%;
   padding: 15px;
   box-sizing: border-box;
+  padding-bottom: 0;
 `
 const Row = styled.div`
   display: flex;
