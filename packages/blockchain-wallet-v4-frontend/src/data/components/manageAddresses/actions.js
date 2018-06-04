@@ -1,15 +1,15 @@
 import * as AT from './actionTypes'
 
 // UNUSED ADDRESSES
-export const deleteUnusedAddressLabel = (accountIndex, walletIndex, addressIndex) => ({ type: AT.DELETE_UNUSED_ADDRESS_LABEL, payload: { accountIndex, walletIndex, addressIndex } })
-export const deleteUnusedAddressLabelError = (walletIndex, message) => ({ type: AT.DELETE_UNUSED_ADDRESS_LABEL_ERROR, payload: { walletIndex, message } })
-export const deleteUnusedAddressLabelLoading = (walletIndex) => ({ type: AT.DELETE_UNUSED_ADDRESS_LABEL_LOADING, payload: { walletIndex } })
-export const deleteUnusedAddressLabelSuccess = (walletIndex) => ({ type: AT.DELETE_UNUSED_ADDRESS_LABEL_SUCCESS, payload: { walletIndex } })
+export const deleteAddressLabel = (accountIndex, walletIndex, addressIndex) => ({ type: AT.DELETE_ADDRESS_LABEL, payload: { accountIndex, walletIndex, addressIndex } })
+export const deleteAddressLabelError = (walletIndex, message) => ({ type: AT.DELETE_ADDRESS_LABEL_ERROR, payload: { walletIndex, message } })
+export const deleteAddressLabelLoading = (walletIndex) => ({ type: AT.DELETE_ADDRESS_LABEL_LOADING, payload: { walletIndex } })
+export const deleteAddressLabelSuccess = (walletIndex) => ({ type: AT.DELETE_ADDRESS_LABEL_SUCCESS, payload: { walletIndex } })
 
-export const editUnusedAddressLabel = (accountIndex, walletIndex, addressIndex) => ({ type: AT.EDIT_UNUSED_ADDRESS_LABEL, payload: { accountIndex, walletIndex, addressIndex } })
-export const editUnusedAddressLabelError = (walletIndex, message) => ({ type: AT.EDIT_UNUSED_ADDRESS_LABEL_ERROR, payload: { walletIndex, message } })
-export const editUnusedAddressLabelLoading = (walletIndex) => ({ type: AT.EDIT_UNUSED_ADDRESS_LABEL_LOADING, payload: { walletIndex } })
-export const editUnusedAddressLabelSuccess = (walletIndex) => ({ type: AT.EDIT_UNUSED_ADDRESS_LABEL_SUCCESS, payload: { walletIndex } })
+export const editAddressLabel = (accountIndex, walletIndex, addressIndex) => ({ type: AT.EDIT_ADDRESS_LABEL, payload: { accountIndex, walletIndex, addressIndex } })
+export const editAddressLabelError = (walletIndex, message) => ({ type: AT.EDIT_ADDRESS_LABEL_ERROR, payload: { walletIndex, message } })
+export const editAddressLabelLoading = (walletIndex) => ({ type: AT.EDIT_ADDRESS_LABEL_LOADING, payload: { walletIndex } })
+export const editAddressLabelSuccess = (walletIndex) => ({ type: AT.EDIT_ADDRESS_LABEL_SUCCESS, payload: { walletIndex } })
 
 export const generateNextReceiveAddress = (walletIndex) => ({ type: AT.GENERATE_NEXT_RECEIVE_ADDRESS, payload: { walletIndex } })
 export const generateNextReceiveAddressError = (walletIndex, message) => ({ type: AT.GENERATE_NEXT_RECEIVE_ADDRESS_ERROR, payload: { walletIndex, message } })

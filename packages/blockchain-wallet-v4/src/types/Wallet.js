@@ -248,6 +248,7 @@ export const deleteHdAddressLabel = curry((accountIdx, addressIdx, wallet) => {
     HDAccountList.account(accountIdx),
     HDAccount.addressLabels)
   const eitherW = Either.try(over(lens, AddressLabelMap.deleteLabel(addressIdx)))(wallet)
+  debugger
   return eitherW.getOrElse(wallet)
 })
 
