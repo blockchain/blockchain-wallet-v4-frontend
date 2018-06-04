@@ -8,13 +8,13 @@ import { getData } from './selectors'
 
 class WalletLanguageContainer extends React.PureComponent {
   render () {
-    const { data, ...rest } = this.props
+    const { data } = this.props
 
     return data.cata({
-      Success: (value) => <Success {...rest} language={value} />,
-      Failure: (message) => <Error {...rest} message={message} />,
-      Loading: () => <Loading {...rest} />,
-      NotAsked: () => <Loading {...rest} />
+      Success: (value) => <Success language={value} />,
+      Failure: (message) => <Error message={message} />,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
     })
   }
 }
