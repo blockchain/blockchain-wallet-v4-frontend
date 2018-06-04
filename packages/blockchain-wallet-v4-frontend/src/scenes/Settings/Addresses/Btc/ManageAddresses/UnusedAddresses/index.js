@@ -37,7 +37,6 @@ class UnusedAddressesContainer extends React.PureComponent {
     const { account, unusedAddresses, currentReceiveIndex, isDefault, coreActions, walletActions, modalsActions, routerActions, search } = this.props
     const onEditLabel = (i) => this.props.componentActions.editAddressLabel(account.index, this.props.walletIndex, i)
     const onDeleteLabel = (i) => this.props.componentActions.deleteAddressLabel(account.index, this.props.walletIndex, i)
-    //const onDeleteLabel = (i) => coreActions.deleteHdAddressLabel(account.index, i)
     const onEditBtcAccountLabel = () => walletActions.editBtcAccountLabel(account.index, account.label)
     const onShowXPub = () => modalsActions.showModal('ShowXPub', { xpub: account.xpub })
     const onMakeDefault = () => coreActions.setDefaultAccountIdx(account.index)
