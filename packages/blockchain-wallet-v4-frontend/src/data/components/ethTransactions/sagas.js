@@ -21,8 +21,11 @@ export default ({ coreSagas }) => {
 
   const scrollUpdated = function * (action) {
     try {
+      const pathname = yield select(selectors.router.getPathname)
+      if (!equals(pathname, '/eth/transactions')) return
       const threshold = 250
       const { yMax, yOffset } = action.payload
+
       if (yMax - yOffset < threshold) {
         yield put(actions.core.data.ethereum.fetchTransactions())
       }

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
 import { Text, Link } from 'blockchain-info-components'
-import FaqRow from 'components/Faq/FaqRow'
+import FaqRow from 'layouts/Wallet/TrayRight/Faq/FaqRow'
 import CountdownTimer from 'components/Form/CountdownTimer'
 import { spacing } from 'services/StyleService'
 import { reviewOrder, currencySymbolMap } from 'services/CoinifyService'

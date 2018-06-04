@@ -6,5 +6,6 @@ exports[`NumberInput component default renders correctly 1`] = `
   disabled={false}
   height="40px"
   minHeight="40px"
+  step="0.01"
 />
 `;

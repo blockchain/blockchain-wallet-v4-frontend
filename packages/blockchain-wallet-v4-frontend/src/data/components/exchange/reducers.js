@@ -5,7 +5,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 const INITIAL_STATE = {
   step: 1,
   secondStep: Remote.NotAsked,
-  error: '',
+  error: 'initial',
   payment: {},
   order: {},
   firstStepEnabled: true
