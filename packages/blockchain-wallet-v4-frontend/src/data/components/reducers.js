@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 import exchangeReducer from './exchange/reducers'
+import layoutWalletReducer from './layoutWallet/reducers'
 import priceChartReducer from './priceChart/reducers'
 import sendBchReducer from './sendBch/reducers'
 import sendBtcReducer from './sendBtc/reducers'
@@ -9,6 +10,7 @@ import usedAddressesReducer from './usedAddresses/reducers'
 
 export default combineReducers({
   exchange: exchangeReducer,
+  layoutWallet: layoutWalletReducer,
   priceChart: priceChartReducer,
   sendBch: sendBchReducer,
   sendBtc: sendBtcReducer,
