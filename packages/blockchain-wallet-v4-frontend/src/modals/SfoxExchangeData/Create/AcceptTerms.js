@@ -99,7 +99,7 @@ class AcceptTerms extends Component {
       Loading: () => ({ busy: true }),
       NotAsked: () => ({ busy: false })
     })
-    console.log('busy and error', busy, error && error.message, error)
+
     const { invalid, email, smsNumber, editEmail, editMobile, emailVerified, smsVerified, sfoxFrontendActions } = this.props
     const { sfoxNotAsked } = sfoxFrontendActions
 
