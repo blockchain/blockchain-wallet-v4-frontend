@@ -11,6 +11,7 @@ import FormGroup from './FormGroup'
 import FormItem from './FormItem'
 import FormLabel from './FormLabel'
 import NumberBox from './NumberBox'
+import NumberBoxDebounced from './NumberBoxDebounced'
 import PasswordBox from './PasswordBox'
 import PhoneNumberBox from './PhoneNumberBox'
 import RadioButton from './RadioButton'
@@ -27,6 +28,7 @@ import SelectBoxUSState from './SelectBoxUSState'
 import TabMenuBuySellStatus from './TabMenuBuySellStatus'
 import TabMenuTransactionStatus from './TabMenuTransactionStatus'
 import TextArea from './TextArea'
+import TextAreaDebounced from './TextAreaDebounced'
 import TextBox from './TextBox'
 import TextBoxDebounced from './TextBoxDebounced'
 
@@ -43,6 +45,7 @@ export {
   FormItem,
   FormLabel,
   NumberBox,
+  NumberBoxDebounced,
   PasswordBox,
   PhoneNumberBox,
   RadioButton,
@@ -59,6 +62,7 @@ export {
   TabMenuBuySellStatus,
   TabMenuTransactionStatus,
   TextArea,
+  TextAreaDebounced,
   TextBox,
   TextBoxDebounced
 }

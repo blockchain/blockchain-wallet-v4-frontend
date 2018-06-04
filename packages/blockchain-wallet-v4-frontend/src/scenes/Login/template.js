@@ -4,12 +4,15 @@ import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
+import { check } from 'bowser'
 
 import { required } from 'services/FormHelper'
-import { Button, Link, Separator, Text, TextGroup, HeartbeatLoader } from 'blockchain-info-components'
+import { Banner, Button, Link, Separator, Text, TextGroup, HeartbeatLoader } from 'blockchain-info-components'
 import { Form, FormError, FormGroup, FormItem, FormLabel, PasswordBox, TextBox } from 'components/Form'
 import Modals from 'modals'
 import MobileLogin from 'modals/MobileLogin'
+
+const isSupportedBrowser = check({msie: '11', safari: '8', chrome: '45', firefox: '45', opera: '20'})
 
 const Wrapper = styled.div`
   width: 100%;
@@ -51,6 +54,9 @@ const GuidError = styled(TextGroup)`
   display: inline;
   margin-top: 3px;
 `
+const BrowserWarning = styled.div`
+  margin-bottom: 10px;
+`
 
 const Login = (props) => {
   const { submitting, invalid, busy, loginError, password, ...rest } = props
@@ -88,12 +94,17 @@ const Login = (props) => {
       </Text>
       <Separator />
       <LoginForm onSubmit={onSubmit}>
+        { !isSupportedBrowser && <BrowserWarning>
+          <Banner type='warning'>
+            <FormattedMessage id='scenes.login.browserwarning' defaultMessage='Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, IE 11, or Opera ' />
+          </Banner>
+        </BrowserWarning> }
         <FormGroup>
           <FormItem>
             <FormLabel for='guid'>
               <FormattedMessage id='scenes.login.guid' defaultMessage='Wallet ID' />
             </FormLabel>
-            <Field name='guid' validate={[required]} component={TextBox} borderColor={guidError ? 'invalid' : undefined} />
+            <Field name='guid' validate={[required]} component={TextBox} borderColor={guidError ? 'invalid' : undefined} disabled={!isSupportedBrowser} />
           </FormItem>
           { guidError && <GuidError inline>
             <Text size='12px' color='error' weight={300}>
@@ -120,7 +131,7 @@ const Login = (props) => {
             <FormLabel for='password'>
               <FormattedMessage id='scenes.login.password' defaultMessage='Password' />
             </FormLabel>
-            <Field name='password' validate={[required]} component={PasswordBox} onChange={handlePasswordChange} borderColor={passwordError ? 'invalid' : undefined} />
+            <Field name='password' validate={[required]} component={PasswordBox} onChange={handlePasswordChange} borderColor={passwordError ? 'invalid' : undefined} disabled={!isSupportedBrowser} />
             { passwordError && <FormError position={authType > 0 ? 'relative' : 'absolute'}><FormattedMessage id='scenes.login.wrong_password' defaultMessage='Error decrypting wallet. Wrong password' /></FormError> }
             { accountLocked && <FormError position={authType > 0 || passwordError ? 'relative' : 'absolute'}>{loginError}</FormError> }
           </FormItem>
@@ -148,21 +159,21 @@ const Login = (props) => {
           </LoginButton>
         </FormGroup>
       </LoginForm>
-      <Footer>
+      { isSupportedBrowser && <Footer>
         <Link size='13px' weight={300} onClick={handleMobile}>
           <FormattedMessage id='scenes.login.loginmobile' defaultMessage='Login via Mobile' />
         </Link>
         <TextGroup inline>
           <Text size='13px' weight={300}>
-            <FormattedMessage id='scenes.login.troubles' defaultMessage='Having some troubles?' />
+            <FormattedMessage id='scenes.login.troubles' defaultMessage='Having some trouble?' />
           </Text>
           <LinkContainer to='/help'>
             <Link size='13px' weight={300}>
-              <FormattedMessage id='scenes.login.options' defaultMessage='View Options' />
+              <FormattedMessage id='scenes.login.options' defaultMessage='Get help logging in' />
             </Link>
           </LinkContainer>
         </TextGroup>
-      </Footer>
+      </Footer> }
     </Wrapper>
   )
 }

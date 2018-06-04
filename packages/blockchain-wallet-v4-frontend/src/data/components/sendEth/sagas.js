@@ -5,8 +5,8 @@ import * as S from './selectors'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
 import settings from 'config'
-
 import { initialize, change } from 'redux-form'
+import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 
@@ -51,10 +51,16 @@ export default ({ coreSagas }) => {
 
       switch (field) {
         case 'coin':
-          yield put(actions.modals.closeAllModals())
           switch (payload) {
-            case 'BTC': yield put(actions.modals.showModal('SendBitcoin')); break
-            case 'BCH': yield put(actions.modals.showModal('SendBch')); break
+            case 'BTC': {
+              yield put(actions.modals.closeAllModals())
+              yield put(actions.modals.showModal('SendBitcoin'))
+              break
+            }
+            case 'BCH': {
+              yield put(actions.modals.closeAllModals())
+              yield put(actions.modals.showModal('SendBch'))
+            }
           }
           break
         case 'to':
@@ -103,10 +109,13 @@ export default ({ coreSagas }) => {
       yield put(actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(Date.now()))
       yield put(actions.core.kvStore.ethereum.setLatestTxEthereum(payment.value().txId))
       yield put(actions.router.push('/eth/transactions'))
-      yield put(actions.alerts.displaySuccess('Your ether transaction is now pending.'))
+      yield put(actions.alerts.displaySuccess(C.SEND_ETH_SUCCESS))
+      if (path(['description', 'length'], payment.value())) {
+        yield put(actions.core.kvStore.ethereum.setTxNotesEthereum(payment.value().txId, payment.value().description))
+      }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e))
-      yield put(actions.alerts.displayError('Your ether transaction failed to send. Please try again.'))
+      yield put(actions.alerts.displayError(C.SEND_ETH_ERROR))
     }
   }
 

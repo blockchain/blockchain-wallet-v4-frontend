@@ -6,23 +6,23 @@ const Fragment = React.Fragment
 const UsedAddressesTable = ({ children }) => (
   <Fragment>
     <Text weight={200} size='small' style={{ marginTop: 10, marginBottom: 15 }}>
-      <FormattedMessage id='scenes.settings.manage_addresses.used_addresses_message' defaultMessage='Previously used addresses are helpful for debugging purposes and viewing associated balances. For privacy reasons, we do not recommend re-using these addresses. Change addresses are not included here.'/>
+      <FormattedMessage id='scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.message' defaultMessage='Previously used addresses are helpful for debugging purposes and viewing associated balances. For privacy reasons, we do not recommend re-using these addresses. Change addresses are not included here.' />
     </Text>
     <Table>
       <TableHeader>
         <TableCell width='40%'>
           <Text size='13px' weight={500}>
-            <FormattedMessage id='scenes.settings.addresses.address' defaultMessage='Address' />
+            <FormattedMessage id='scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.address' defaultMessage='Address' />
           </Text>
         </TableCell>
         <TableCell width='40%'>
           <Text size='13px' weight={500}>
-            <FormattedMessage id='scenes.settings.addresses.address_label' defaultMessage='Label' />
+            <FormattedMessage id='scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.label' defaultMessage='Label' />
           </Text>
         </TableCell>
         <TableCell width='20%' style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <Text size='13px' weight={500}>
-            <FormattedMessage id='scenes.settings.addresses.address_label' defaultMessage='Balance' />
+            <FormattedMessage id='scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.balance' defaultMessage='Balance' />
           </Text>
         </TableCell>
       </TableHeader>

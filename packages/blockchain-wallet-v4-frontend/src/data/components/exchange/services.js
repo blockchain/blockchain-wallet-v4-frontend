@@ -1,6 +1,6 @@
 import { BigNumber } from 'bignumber.js'
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { isNil, toLower, path, prop } from 'ramda'
+import { toLower, path, prop } from 'ramda'
 
 export const getPairFromCoin = (coinSource, coinTarget) => `${toLower(coinSource)}_${toLower(coinTarget)}`
 
@@ -93,7 +93,12 @@ export const isAmountAboveMaximum = (value, maximum) => {
 }
 
 export const isUndefinedOrEqualsToZero = (value) => {
-  return isNil(value) || new BigNumber(value).equals(new BigNumber(0))
+  const amount = value || 0
+  return new BigNumber(amount).equals(new BigNumber(0))
+}
+
+export const isMinimumGreaterThanMaximum = (minimum, maximum) => {
+  return new BigNumber(minimum).greaterThan(new BigNumber(maximum))
 }
 
 export const calculateFinalAmount = (value, fee) => {

@@ -15,18 +15,24 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 15px 0;
-  background-color: ${props => props.theme['gray-1']};
-  margin: 5px 0;
+  padding: 20px 0;
+  margin-top: 5px;
+  margin-bottom: 20px;
+  background-color: ${props => props.theme['white-blue']};
 
   & > * { padding: 5px 0; }
 `
 const LinkContainer = styled.div`
-  padding: 10px;
+  width: 100%;
+  margin-top: 20px;
   box-sizing: border-box;
+  padding: 20px 15px 0px 15px;
   text-align: center;
   word-wrap: break-word;
-  border-top: 1px solid ${props => props.theme['gray-2']};
+  border-top: 1px solid ${props => props.theme['gray-1']};
+`
+const SubHeader = styled(Text)`
+  margin-bottom: 20px;
 `
 
 const SecondStep = (props) => {
@@ -40,20 +46,18 @@ const SecondStep = (props) => {
       </ModalHeader>
       <ModalBody>
         <Form onSubmit={handleSubmit}>
-          <Text size='14px' weight={300}>
-            <FormattedMessage id='modals.requestbitcoin.secondstep.explain' defaultMessage='Send the link below to your friend of contact and they will be able to send bitcoin directly to your wallet.' />
-          </Text>
+          <SubHeader size='14px' weight={300}>
+            <FormattedMessage id='modals.requestbitcoin.secondstep.explain' defaultMessage='Send the link below to your friend or contact and they will be able to send bitcoin directly to your wallet.' />
+          </SubHeader>
           <Text size='14px' weight={500}>
-            <FormattedMessage id='modals.requestbitcoin.secondstep.payment' defaultMessage='Payment request:' />
+            <FormattedMessage id='modals.requestbitcoin.secondstep.payment' defaultMessage='Payment Request:' />
           </Text>
           <Container>
-            <Text size='24px' weight={600} color='transferred'>
-              <CoinDisplay coin='BTC'>{satoshis}</CoinDisplay>
+            <CoinDisplay size='28px' weight={500} color='received' coin='BTC'>{satoshis}</CoinDisplay>
+            <FiatDisplay size='20px' weight={300} color='received' coin='BTC'>{satoshis}</FiatDisplay>
+            <Text size='16px'>
+              <FormattedMessage id='modals.requestbitcoin.secondstep.message' defaultMessage='For "{message}"' values={{message: message}} />
             </Text>
-            <Text size='20px' weight={600} color='transferred'>
-              <FiatDisplay coin='BTC'>{satoshis}</FiatDisplay>
-            </Text>
-            <Text size='16px'>{message}</Text>
             <LinkContainer>
               <Text size='12px' weight={300}>{link}</Text>
             </LinkContainer>

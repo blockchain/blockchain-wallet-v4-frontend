@@ -6,6 +6,7 @@ import * as actions from '../../actions'
 import * as selectors from '../../selectors'
 import settings from 'config'
 import { initialize, change } from 'redux-form'
+import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 
@@ -18,7 +19,8 @@ export default ({ coreSagas }) => {
       let payment = coreSagas.payment.bch.create(({ network: settings.NETWORK_BCH }))
       payment = yield payment.init()
       const accountsR = yield select(selectors.core.common.bch.getAccountsBalances)
-      const defaultIndex = yield select(selectors.core.wallet.getDefaultAccountIndex)
+      const defaultIndexR = yield select(selectors.core.kvStore.bch.getDefaultAccountIndex)
+      const defaultIndex = defaultIndexR.getOrElse(0)
       const defaultAccountR = accountsR.map(nth(defaultIndex))
       payment = yield payment.from(defaultIndex)
       // TODO: Check how to retrieve Bitcoin cash default fee
@@ -58,10 +60,16 @@ export default ({ coreSagas }) => {
 
       switch (field) {
         case 'coin':
-          yield put(actions.modals.closeAllModals())
           switch (payload) {
-            case 'BTC': yield put(actions.modals.showModal('SendBitcoin')); break
-            case 'ETH': yield put(actions.modals.showModal('SendEther')); break
+            case 'BTC': {
+              yield put(actions.modals.closeAllModals())
+              yield put(actions.modals.showModal('SendBitcoin'))
+              break
+            }
+            case 'ETH': {
+              yield put(actions.modals.closeAllModals())
+              yield put(actions.modals.showModal('SendEther'))
+            }
           }
           break
         case 'from':
@@ -124,11 +132,15 @@ export default ({ coreSagas }) => {
       payment = yield payment.sign(password)
       payment = yield payment.publish()
       yield put(A.sendBchPaymentUpdated(Remote.of(payment.value())))
+      if (path(['description', 'length'], payment.value())) {
+        yield put(actions.core.kvStore.bch.setTxNotesBch(payment.value().txId, payment.value().description))
+      }
+      yield put(actions.core.data.bch.fetchTransactions('', true))
       yield put(actions.router.push('/bch/transactions'))
-      yield put(actions.alerts.displaySuccess('Your bitcoin cash transaction is now pending.'))
+      yield put(actions.alerts.displaySuccess(C.SEND_BCH_SUCCESS))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e))
-      yield put(actions.alerts.displayError('Your bitcoin cash transaction failed to send. Please try again.'))
+      yield put(actions.alerts.displayError(C.SEND_BCH_ERROR))
     }
   }
 

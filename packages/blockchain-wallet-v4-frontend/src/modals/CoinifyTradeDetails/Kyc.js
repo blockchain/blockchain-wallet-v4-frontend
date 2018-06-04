@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import { prop } from 'ramda'
+
 import { ModalHeader, ModalBody, Text, Button } from 'blockchain-info-components'
 import { kycBodyHelper, kycHeaderHelper } from 'services/CoinifyService'
 import { spacing } from 'services/StyleService'
@@ -20,19 +22,19 @@ const Kyc = ({ close, status }) => {
     <Fragment>
       <ModalHeader onClose={close}>
         <Text>
-          <FormattedMessage id='order_details.identity_verification.header' defaultMessage='Buy & Sell Bitcoin' />
+          <FormattedMessage id='modals.coinifytradedetails.kyc.identityverification.header' defaultMessage='Buy & Sell Bitcoin' />
         </Text>
       </ModalHeader>
       <ModalBody>
         <Text color={kycHeader.color} style={spacing('mb-10')}>
-          { kycHeader.text }
+          { prop('text', kycHeader) }
         </Text>
         <Text size='13px' weight={300}>
-          { kycBody.text }
+          { prop('text', kycBody) }
         </Text>
         <ButtonRow>
           <Button width='100px' onClick={close} nature='primary'>
-            <FormattedMessage id='close' defaultMessage='Close' />
+            <FormattedMessage id='modals.coinifytradedetails.kyc.close' defaultMessage='Close' />
           </Button>
         </ButtonRow>
       </ModalBody>

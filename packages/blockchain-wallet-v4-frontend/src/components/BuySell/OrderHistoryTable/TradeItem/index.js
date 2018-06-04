@@ -2,18 +2,19 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { type } from 'ramda'
+import { prop, type } from 'ramda'
+import moment from 'moment'
 
 import { TableCell, TableRow, Text, Link, Icon, HeartbeatLoader } from 'blockchain-info-components'
 import OrderStatus from '../OrderStatus'
 
-const tradeDateHelper = (trade) => type(trade.createdAt) === 'Number' ? new Date(trade.createdAt).toLocaleString() : trade.createdAt.toLocaleString()
+const tradeDateHelper = (trade) => type(trade.createdAt) === 'Number' ? moment(prop('createdAt', trade)).local().format('MMMM D YYYY @ h:mm A') : trade.createdAt.toLocaleString()
 
 const TradeItem = props => {
   const { conversion, handleClick, handleFinish, handleTradeCancel, trade, status, cancelTradeId } = props
   const receiveAmount = trade.isBuy ? trade.receiveAmount : Exchange.displayFiatToFiat({ value: trade.receiveAmount })
-  const exchangeAmount = trade.isBuy ? Exchange.displayFiatToFiat({ value: trade.sendAmount / conversion }) : trade.sendAmount / conversion
-  const canCancel = trade.state === 'awaiting_transfer_in'
+  const exchangeAmount = trade.isBuy ? Exchange.displayFiatToFiat({ value: trade.sendAmount / conversion.buy }) : trade.sendAmount / conversion.sell
+  const canCancel = trade.isBuy && trade.state === 'awaiting_transfer_in'
 
   return (
     <TableRow>
@@ -27,7 +28,7 @@ const TradeItem = props => {
               <FormattedMessage id='buysell.orderhistory.finishtrade' defaultMessage='Finish Trade' />
             </Link>
             : <Link size='13px' weight={300} capitalize onClick={() => handleClick(trade)}>
-              <FormattedMessage id='scenes.exchangehistory.list.details' defaultMessage='View details' />
+              <FormattedMessage id='buysell.orderhistory.list.details' defaultMessage='View details' />
             </Link>
         }
       </TableCell>

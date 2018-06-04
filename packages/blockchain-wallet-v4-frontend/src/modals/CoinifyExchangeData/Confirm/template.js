@@ -131,7 +131,7 @@ const Confirm = (props) => {
             !busy && !editing
               ? <FormattedMessage id='coinifyexchangedata.confirm.confirm' defaultMessage='confirm' />
               : editing
-                ? <FormattedMessage id='coinifyexchangedata.confirm.confirm' defaultMessage='update' />
+                ? <FormattedMessage id='coinifyexchangedata.confirm.update' defaultMessage='update' />
                 : <HeartbeatLoader height='20px' width='20px' color='white' />
           }
         </Button>

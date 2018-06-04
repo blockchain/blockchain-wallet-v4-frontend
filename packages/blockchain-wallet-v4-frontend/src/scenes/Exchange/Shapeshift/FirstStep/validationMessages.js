@@ -19,7 +19,7 @@ const Wrapper = styled.div`
 export const MaximumAmountMessage = () => (
   <Wrapper>
     <Text size='12px' weight={300} color='error'>
-      <FormattedMessage id='modals.exchange.maximumamountmessage' defaultMessage='Maximum amount exceeded.' />
+      <FormattedMessage id='modals.exchange.maximumamountmessage' defaultMessage='Not enough funds.' />
     </Text>
     <Text size='12px' weight={300}>
       <FormattedMessage id='modals.exchange.maximumamountmessage2' defaultMessage='Use' />
@@ -43,5 +43,11 @@ export const MinimumAmountMessage = () => (
 export const InsufficientAmountMessage = () => (
   <Text size='12px' weight={300} color='error'>
     <FormattedMessage id='modals.exchange.insufficientamountmessage' defaultMessage='Insufficient funds' />
+  </Text>
+)
+
+export const InvalidAmountMessage = () => (
+  <Text size='12px' weight={300} color='error'>
+    <FormattedMessage id='modals.exchange.invalidamountmessage' defaultMessage='Invalid amount' />
   </Text>
 )

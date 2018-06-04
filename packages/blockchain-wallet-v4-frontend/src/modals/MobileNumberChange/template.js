@@ -25,7 +25,7 @@ const MobileNumberChange = (props) => {
     <Modal size='large' position={position} total={total}>
       <Form onSubmit={onSubmit}>
         <ModalHeader icon='mobile' onClose={closeAll} >
-          <FormattedMessage id='modals.mobilenumberchange.title1' defaultMessage='Change Mobile Number' />
+          <FormattedMessage id='modals.mobilenumberchange.changenumbertitle' defaultMessage='Change Mobile Number' />
         </ModalHeader>
         <ModalBody>
           <Text size='14px' weight={300}>

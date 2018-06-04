@@ -59,7 +59,7 @@ const Step2 = props => (
       </SmallCircle>
     </Circle>
     <Text size='13px' weight={500} capitalize>
-      <FormattedMessage id='components.exchangetimeline.exchange' defaultMessage='Exchange In Progress' />
+      <FormattedMessage id='components.exchangetimeline.exchange.inprogress' defaultMessage='Exchange In Progress' />
     </Text>
   </Wrapper>
 )
