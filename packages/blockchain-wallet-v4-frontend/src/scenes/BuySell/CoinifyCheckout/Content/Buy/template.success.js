@@ -81,7 +81,7 @@ const CoinifyBuy = props => {
             </LeftContainer>
             <RightContainer>
               {
-                value.kycs.length
+                value.kycs.length && path(['state'], kyc)
                   ? <KYCNotification kyc={kyc} limits={limits.buy} symbol={symbol} onTrigger={(kyc) => handleKycAction(kyc)} canTrade={canTrade.data} />
                   : null
               }
