@@ -51,12 +51,12 @@ const OrderHistory = (props) => {
           </Text>
           <OrderHistoryTable
             trades={filter(isPending, trades)}
-            conversion={100}
+            conversion={conversion}
             handleFinishTrade={trade => finishTrade(trade)}
             handleDetailsClick={trade => showModal('CoinifyTradeDetails', { trade })}
             handleTradeCancel={cancelTrade}
             status={status}
-            canTrade={canTrade.data}
+            canTrade={canTrade.getOrElse(true)}
             cancelTradeId={cancelTradeId}
           />
         </OrderHistoryContent>
