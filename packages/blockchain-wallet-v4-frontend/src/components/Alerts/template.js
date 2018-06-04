@@ -124,7 +124,7 @@ const selectMessage = (message, data = undefined) => {
     case C.TWOFA_MOBILE_VERIFY_SUCCESS: return <FormattedMessage id='components.alerts.twofa_mobile_verify_success' defaultMessage='Your mobile number is now your two-factor authentication method.' />
     case C.TWOFA_REMEMBER_UPDATE_ERROR: return <FormattedMessage id='components.alerts.twofa_remember_update_success' defaultMessage='Failed to update 2FA remember' />
     case C.TWOFA_REMEMBER_UPDATE_SUCCESS: return <FormattedMessage id='components.alerts.twofa_remember_update_success' defaultMessage='2FA remember has been successfully updated.' />
-    case C.TWOFA_REQUIRED_INFO: return <FormattedMessage id='components.alerts.twofa_required_info' defaultMessage='2FA required' />
+    case C.TWOFA_REQUIRED_INFO: return <FormattedMessage id='components.alerts.twofa_required_info' defaultMessage='2FA required for login.' />
     case C.TWOFA_RESET_ERROR: return <FormattedMessage id='components.alerts.twofa_reset_error' defaultMessage='Error resetting two-step authentication.' />
     case C.TWOFA_UPDATE_ERROR: return <FormattedMessage id='components.alerts.twofa_success_error' defaultMessage='Failed to update 2FA setting' />
     case C.TWOFA_UPDATE_SUCCESS: return <FormattedMessage id='components.alerts.twofa_update_success' defaultMessage='2FA has been successfully updated' />
