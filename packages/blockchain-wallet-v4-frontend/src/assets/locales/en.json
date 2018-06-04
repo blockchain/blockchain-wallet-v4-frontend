@@ -169,7 +169,7 @@
   "components.transactionlistitem.addresses.to": "To: ",
   "components.transactionlistitem.addresses.from": "From: ",
   "scenes.transactions.content.pages.listitem.confirmation.confirmed": "Transaction Confirmed",
-  "scenes.transactions.content.pages.listitem.confirmation.unconfirmed": "Pending: {count, number}/{total} Confirmations",
+  "scenes.transactions.content.pages.listitem.confirmation.unconfirmed": "Pending: {count}/{total} Confirmations",
   "scenes.transactions.content.list.listitem.transactionunconfirmed": "Your transaction will be complete after it has {minConfirmations} confirmations.",
   "components.editdescription.add": "Add a description",
   "components.transactionlistitem.fiatattime.valuewhensent": "Value when sent: ",

@@ -142,7 +142,6 @@ TransactionListItem.propTypes = {
   transaction: PropTypes.shape({
     type: PropTypes.string.isRequired,
     amount: PropTypes.number.isRequired,
-    confirmations: PropTypes.number,
     time: PropTypes.number.isRequired,
     to: PropTypes.string.isRequired,
     from: PropTypes.string.isRequired,

@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
+import { toString } from 'ramda'
 
 import { Icon, Link, Text, Tooltip } from 'blockchain-info-components'
 
@@ -42,7 +43,7 @@ const Confirmations = (props) => {
         </Text>
       ) : (
         <Text size='12px' weight={300} color='gray-3'>
-          <FormattedMessage id='scenes.transactions.content.pages.listitem.confirmation.unconfirmed' defaultMessage='Pending: {count, number}/{total} Confirmations' values={{ count: props.confirmations, total: props.minConfirmations }} />
+          <FormattedMessage id='scenes.transactions.content.pages.listitem.confirmation.unconfirmed' defaultMessage='Pending: {count}/{total} Confirmations' values={{ count: toString(props.confirmations), total: props.minConfirmations }} />
         </Text>
       )}
       <IconWrapper>
