@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { formValueSelector } from 'redux-form'
 
+import { FlatLoader } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import UsedAddressesTable from './template'
 
@@ -17,7 +18,7 @@ class UsedAddressesTableContainer extends React.PureComponent {
     return !usedAddresses ? null : usedAddresses.cata({
       Success: (value) => <UsedAddressesTable usedAddresses={value} search={search} />,
       Failure: () => <div/>,
-      Loading: () => <div/>,
+      Loading: () => <FlatLoader style={{ margin: '25px auto' }} width='100px' height='12px' />,
       NotAsked: () => <div/>
     })
   }

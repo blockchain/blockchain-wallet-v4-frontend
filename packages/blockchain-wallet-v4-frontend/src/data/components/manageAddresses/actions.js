@@ -1,7 +1,7 @@
 import * as AT from './actionTypes'
 
 // UNUSED ADDRESSES
-export const deleteAddressLabel = (accountIndex, walletIndex, addressIndex) => ({ type: AT.DELETE_ADDRESS_LABEL, payload: { accountIndex, walletIndex, addressIndex } })
+export const deleteAddressLabel = (accountIdx, walletIdx, addressIdx) => ({ type: AT.DELETE_ADDRESS_LABEL, payload: { accountIdx, walletIdx, addressIdx } })
 export const deleteAddressLabelError = (walletIndex, message) => ({ type: AT.DELETE_ADDRESS_LABEL_ERROR, payload: { walletIndex, message } })
 export const deleteAddressLabelLoading = (walletIndex) => ({ type: AT.DELETE_ADDRESS_LABEL_LOADING, payload: { walletIndex } })
 export const deleteAddressLabelSuccess = (walletIndex) => ({ type: AT.DELETE_ADDRESS_LABEL_SUCCESS, payload: { walletIndex } })
