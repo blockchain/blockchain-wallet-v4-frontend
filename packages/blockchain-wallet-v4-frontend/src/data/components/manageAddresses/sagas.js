@@ -132,16 +132,16 @@ export default ({ api }) => {
   }
 
   const deleteAddressLabel = function * (action) {
-    const { accountIndex, walletIndex, addressIndex } = action.payload
+    const { accountIdx, walletIdx, addressIdx } = action.payload
 
     try {
-      yield put(A.deleteAddressLabelLoading(accountIndex))
-      yield put(actions.core.wallet.deleteHdAddressLabel(accountIndex, addressIndex))
+      yield put(A.deleteAddressLabelLoading(accountIdx))
+      yield call(actions.core.wallet.deleteHdAddressLabel, accountIdx, addressIdx)
       yield put(actions.alerts.displaySuccess('Address was deleted successfully.'))
-      yield put(A.deleteAddressLabelSuccess(walletIndex))
-      yield put(A.fetchUnusedAddresses(walletIndex))
+      yield put(A.deleteAddressLabelSuccess(walletIdx))
+      yield put(A.fetchUnusedAddresses(walletIdx))
     } catch (e) {
-      yield put(A.deleteAddressLabelError(walletIndex, e))
+      yield put(A.deleteAddressLabelError(walletIdx, e))
       yield put(actions.logs.logErrorMessage(logLocation, 'deleteAddressLabel', e))
       yield put(actions.alerts.displayError('Failed to delete address label.'))
     }
