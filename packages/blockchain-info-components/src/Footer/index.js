@@ -9,8 +9,8 @@ import linkedinFooterLogo from '../Images/img/linkedin-footer-logo.svg'
 import twitterFooterLogo from '../Images/img/twitter-footer-logo.svg'
 
 const Container = styled.footer`
-  background: #e3eff5;
-  color: #004a7c;
+  background: ${props => props.theme['white-blue']};
+  color: ${props => props.theme['brand-primary']};
   font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 12px;
   line-height: normal;
@@ -22,7 +22,7 @@ const Container = styled.footer`
     font-weight: 300;
     &:hover { text-decoration: underline }
   }
-  a, a:active, a:hover, a:visited { color: #004a7c }
+  a, a:active, a:hover, a:visited { color: ${props => props.theme['brand-primary']} }
   .flex-container {
     display: flex;
     flex-flow: row nowrap;
@@ -71,7 +71,7 @@ const Container = styled.footer`
         img { width: inherit }
       }
       h6 {
-        color: #004a7c;
+        color: ${props => props.theme['brand-primary']};
         font-size: 12px;
         font-weight: 600;
         line-height: normal;
@@ -102,7 +102,7 @@ const Container = styled.footer`
             }
           }
           &:first-of-type, &:nth-of-type(6) {
-            border-top: 1px solid #004a7c;
+            border-top: 1px solid ${props => props.theme['brand-primary']};
             margin-top: 3px;
             padding-top: 8px;
             @media screen and (max-width: 768px) {
@@ -148,7 +148,7 @@ const Container = styled.footer`
     }
     .copyright {
       align-self: flex-end;
-      color: #004a7c;
+      color: ${props => props.theme['brand-primary']};
       flex-grow: 1;
       font-size: 10px;
       margin-right: 0;
