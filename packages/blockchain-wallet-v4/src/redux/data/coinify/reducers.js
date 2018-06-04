@@ -78,7 +78,7 @@ const coinifyReducer = (state = INITIAL_STATE, action) => {
       return assoc('nextAddress', payload, state)
     }
     case AT.RESET_PROFILE: {
-      return assoc('profile', null)
+      return assoc('profile', Remote.NotAsked)
     }
     case AT.GET_DELEGATE_TOKEN_SUCCESS: {
       return assoc('delegateToken', payload, state)
