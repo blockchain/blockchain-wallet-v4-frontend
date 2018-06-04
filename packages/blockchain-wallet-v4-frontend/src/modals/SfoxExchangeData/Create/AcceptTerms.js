@@ -82,7 +82,7 @@ class AcceptTerms extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    const error = Remote.of(nextProps.errorStatus)
+    const error = Remote.of(nextProps.sfoxSignupStatus)
     if (error.data.error && error.data.error.message === 'user is already registered') this.props.updateUI({ uniqueEmail: false })
   }
 
@@ -93,13 +93,13 @@ class AcceptTerms extends Component {
   }
 
   render () {
-    const busy = this.props.errorStatus.cata({
-      Success: () => false,
-      Failure: (err) => err,
-      Loading: () => Remote.Loading,
-      NotAsked: () => false
+    const { busy, error } = this.props.sfoxSignupStatus.cata({
+      Success: () => ({ busy: false }),
+      Failure: (error) => ({ busy: false, error }),
+      Loading: () => ({ busy: true }),
+      NotAsked: () => ({ busy: false })
     })
-
+    console.log('busy and error', busy, error && error.message, error)
     const { invalid, email, smsNumber, editEmail, editMobile, emailVerified, smsVerified, sfoxFrontendActions } = this.props
     const { sfoxNotAsked } = sfoxFrontendActions
 
@@ -166,9 +166,9 @@ class AcceptTerms extends Component {
         <ColRight>
           <ColRightInner>
             <ButtonWrapper>
-              <Button uppercase type='submit' nature='primary' fullwidth disabled={invalid || busy || !smsNumber || !email}>
+              <Button uppercase type='submit' nature='primary' fullwidth disabled={invalid || busy || !smsNumber || !email || error}>
                 {
-                  Remote.Loading.is(busy)
+                  busy
                     ? <HeartbeatLoader height='20px' width='20px' color='white' />
                     : <span>Continue</span>
                 }
@@ -176,7 +176,7 @@ class AcceptTerms extends Component {
             </ButtonWrapper>
             <ErrorWrapper>
               {
-                busy instanceof Error && busy.message.toLowerCase() === 'user is already registered'
+                error && error.message.toLowerCase() === 'user is already registered'
                   ? <InlineTextWrapper>
                     <Text size='12px' color='error' weight={300} >
                       <FormattedMessage id='sfoxexchangedata.create.accept.error' defaultMessage='Unfortunately this email is being used for another account.' />
@@ -188,7 +188,7 @@ class AcceptTerms extends Component {
                       <FormattedMessage id='sfoxexchangedata.create.accept.tochangeit' defaultMessage=' to change it.' />
                     </Text>
                   </InlineTextWrapper>
-                  : busy instanceof Error
+                  : error
                     ? <InlineTextWrapper>
                       <Text size='12px' color='error' weight={300}>
                         <FormattedMessage id='sfoxexchangedata.create.accept.unknownError' defaultMessage="We're sorry, but something unexpected went wrong. Please " />
@@ -224,7 +224,7 @@ AcceptTerms.propTypes = {
 const mapStateToProps = (state) => ({
   email: selectors.core.settings.getEmail(state).data,
   smsNumber: selectors.core.settings.getSmsNumber(state).data,
-  errorStatus: path(['sfoxSignup', 'sfoxBusy'], state)
+  sfoxSignupStatus: path(['sfoxSignup', 'sfoxBusy'], state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
