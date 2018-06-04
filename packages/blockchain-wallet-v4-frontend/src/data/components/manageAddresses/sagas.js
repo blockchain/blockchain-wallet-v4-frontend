@@ -43,7 +43,7 @@ export default ({ api }) => {
     } catch (e) {
       yield put(A.generateNextReceiveAddressError(walletIndex, e))
       yield put(actions.logs.logErrorMessage(logLocation, 'generateNextReceiveAddress', e))
-      yield put(actions.alerts.displayError('Failed to generate new address.'))
+      yield put(actions.alerts.displayError(C.NEW_ADDRESS_GENERATE_ERROR))
     }
   }
 
@@ -54,13 +54,18 @@ export default ({ api }) => {
       yield put(A.fetchUnusedAddressesLoading(walletIndex))
       const wallet = yield select(selectors.core.wallet.getWallet)
       const account = Types.Wallet.selectHDAccounts(wallet).get(walletIndex)
+      // get all indexes for labeled addresses
       const labels = Types.HDAccount.selectAddressLabels(account).reverse().toArray()
+      // derive addresses from label indexes
       const labeledAddrs = labels.map(la => ({
         address: Types.HDAccount.getReceiveAddress(account, la.index, settings.NETWORK_BITCOIN), index: la.index, label: la.label
       }))
+      // fetch blockchain data for each address
       const labeledAddrsFull = yield call(api.fetchBlockchainData, pluck('address', labeledAddrs))
+      // filter only addresses with 0 txs
       const unusedAddresses = filter(a => a.n_tx === 0, labeledAddrsFull.addresses)
 
+      // map labels back to unused addresses
       forEach((labeledAddr) => {
         let idx = findIndex(propEq('address', labeledAddr.address))(unusedAddresses)
         if (idx !== -1) {
@@ -68,11 +73,12 @@ export default ({ api }) => {
           unusedAddresses[idx].label = labeledAddr.label
         }
       }, labeledAddrs)
+
       yield put(A.fetchUnusedAddressesSuccess(walletIndex, sort((a, b) => { return a.derivationIndex - b.derivationIndex }, unusedAddresses)))
     } catch (e) {
       yield put(A.fetchUnusedAddressesError(walletIndex, e))
       yield put(actions.logs.logErrorMessage(logLocation, 'fetchUnusedAddresses', e))
-      yield put(actions.alerts.displayError('Failed to retrieve unused addresses.'))
+      yield put(actions.alerts.displayError(C.FETCH_UNUSED_ADDRESSES_ERROR))
     }
   }
 
@@ -98,7 +104,7 @@ export default ({ api }) => {
       // filter only addresses with tx's
       const usedAddresses = filter(a => a.n_tx > 0, derivedAddrsFull.addresses)
 
-      // match labels with addresses
+      // map labels back to used addresses
       forEach((labeledAddr) => {
         let idx = findIndex(propEq('address', labeledAddr.address))(usedAddresses)
         if (idx !== -1) {
@@ -110,7 +116,7 @@ export default ({ api }) => {
     } catch (e) {
       yield put(A.fetchUsedAddressesError(walletIndex, e))
       yield put(actions.logs.logErrorMessage(logLocation, 'fetchUsedAddresses', e))
-      yield put(actions.alerts.displayError('Failed to retrieve used addresses.'))
+      yield put(actions.alerts.displayError(C.FETCH_USED_ADDRESSES_ERROR))
     }
   }
 
@@ -121,13 +127,13 @@ export default ({ api }) => {
       yield put(A.editAddressLabelLoading(accountIndex))
       let newLabel = yield call(promptForInput, { title: 'Rename Address Label' })
       yield put(actions.core.wallet.setHdAddressLabel(accountIndex, addressIndex, newLabel))
-      yield put(actions.alerts.displaySuccess(C.ADDRESS_LABEL_UPDATE_SUCCESS))
       yield put(A.fetchUnusedAddresses(walletIndex))
       yield put(A.editAddressLabelSuccess(walletIndex))
+      yield put(actions.alerts.displaySuccess(C.UPDATE_ADDRESS_LABEL_SUCCESS))
     } catch (e) {
       yield put(A.editAddressLabelError(walletIndex, e))
       yield put(actions.logs.logErrorMessage(logLocation, 'editAddressLabel', e))
-      yield put(actions.alerts.displayError('Failed to update address label.'))
+      yield put(actions.alerts.displayError(C.UPDATE_ADDRESS_LABEL_ERROR))
     }
   }
 
@@ -136,19 +142,16 @@ export default ({ api }) => {
 
     try {
       yield put(A.deleteAddressLabelLoading(accountIdx))
-      // yield put(actions.core.wallet.deleteHdAddressLabel(accountIdx, addressIdx))
       yield call(function * () {
         yield put(actions.core.wallet.deleteHdAddressLabel(accountIdx, addressIdx, walletIdx))
       }, accountIdx, addressIdx)
-      // let t = yield call(actions.core.wallet.deleteHdAddressLabel, {accountIdx}, {addressIdx})
-      // console.log('123')
-      yield put(actions.alerts.displaySuccess('Address was deleted successfully.'))
       yield put(A.deleteAddressLabelSuccess(walletIdx))
       yield put(A.fetchUnusedAddresses(walletIdx))
+      yield put(actions.alerts.displaySuccess(C.ADDRESS_DELETE_SUCCESS))
     } catch (e) {
       yield put(A.deleteAddressLabelError(walletIdx, e))
       yield put(actions.logs.logErrorMessage(logLocation, 'deleteAddressLabel', e))
-      yield put(actions.alerts.displayError('Failed to delete address label.'))
+      yield put(actions.alerts.displayError(C.ADDRESS_DELETE_ERROR))
     }
   }
 
