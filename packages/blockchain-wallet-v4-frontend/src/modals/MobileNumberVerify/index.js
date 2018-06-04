@@ -16,10 +16,6 @@ class MobileNumberVerifyContainer extends React.PureComponent {
     this.handleChange = this.handleChange.bind(this)
   }
 
-  componentDidMount () {
-    this.handleResend()
-  }
-
   onSubmit (e) {
     e.preventDefault()
     this.props.settingsActions.verifyMobile(this.props.code)

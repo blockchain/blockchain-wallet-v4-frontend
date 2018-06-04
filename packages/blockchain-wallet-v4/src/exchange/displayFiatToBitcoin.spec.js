@@ -9,7 +9,7 @@ describe('displayFiatToBitcoin', () => {
       toUnit: 'BTC',
       rates: bitcoinRates
     }
-    const expectedOutput = '0.00015174 BTC'
+    const expectedOutput = '0.00015175 BTC'
     const result = Conversion.displayFiatToBitcoin(input)
     expect(result).toEqual(expectedOutput)
   })
@@ -20,7 +20,7 @@ describe('displayFiatToBitcoin', () => {
       toUnit: 'BTC',
       rates: bitcoinRates
     }
-    const expectedOutput = '0 BTC'
+    const expectedOutput = '0.00000000 BTC'
     const result = Conversion.displayFiatToBitcoin(input)
     expect(result).toEqual(expectedOutput)
   })
