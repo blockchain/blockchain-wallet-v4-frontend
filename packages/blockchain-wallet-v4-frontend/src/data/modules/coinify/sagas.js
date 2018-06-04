@@ -248,12 +248,15 @@ export default ({ coreSagas }) => {
   }
 
   const openKYC = function * (data) {
-    const kyc = data.payload
+    let kyc = data.payload
+    const inProgressKycs = yield select(selectors.core.data.coinify.getSortedKycs)
+    const recentKyc = head(inProgressKycs.data)
+
     try {
-      if (!data.payload) {
+      if (!data.payload && !equals(prop('state', recentKyc), 'pending')) {
         yield call(triggerKYC)
-      } else if (kyc.state === 'pending') {
-        yield call(coreSagas.data.coinify.kycAsTrade, { kyc })
+      } else if (equals(prop('state', kyc), 'pending') || equals(prop('state', recentKyc), 'pending')) {
+        yield call(coreSagas.data.coinify.kycAsTrade, { kyc: kyc || recentKyc }) // if no kyc was given, take the most recent
         yield put(A.coinifyNextCheckoutStep('isx'))
       } else {
         yield call(triggerKYC)
