@@ -124,16 +124,8 @@ const getSfoxStepTitle = (step) => {
   }
 }
 
-const getCoinifyStepTitle = (step) => {
-  switch (step) {
-    case 1: return <FormattedMessage id='scenes.home.exchangeStepper.coinify.step1' defaultMessage='Verify Email' />
-    case 2: return <FormattedMessage id='scenes.home.exchangeStepper.coinify.step2' defaultMessage='Accept Terms' />
-    default: return <div />
-  }
-}
-
 const BuySellStepper = (props) => {
-  const { currentStep, goToBuySell, partner, totalSteps } = props
+  const { currentStep, goToBuySell } = props
 
   return (
     <Header onClick={() => { goToBuySell() }}>
@@ -144,7 +136,7 @@ const BuySellStepper = (props) => {
         </Text>
       </LeftColumn>
       <RightColumn>
-        {[...Array(totalSteps)].map((r, i) => {
+        {[...Array(4)].map((r, i) => {
           return (
             <React.Fragment key={i}>
               <Step>
@@ -153,11 +145,10 @@ const BuySellStepper = (props) => {
                   {currentStep <= i && <Text color='white-blue' weight={200}>{i + 1}</Text>}
                 </Circle>
                 <Text size='12px' weight={300} color={currentStep >= i ? 'brand-secondary' : 'gray-5'}>
-                  {partner === 'sfox' && getSfoxStepTitle(i + 1)}
-                  {partner === 'coinify' && getCoinifyStepTitle(i + 1)}
+                  {getSfoxStepTitle(i + 1)}
                 </Text>
               </Step>
-              {i !== totalSteps - 1 && <ArrowWrapper><Arrow/></ArrowWrapper>}
+              {i !== 3 && <ArrowWrapper><Arrow/></ArrowWrapper>}
             </React.Fragment>
           )
         })}
@@ -168,9 +159,7 @@ const BuySellStepper = (props) => {
 
 BuySellStepper.propTypes = {
   currentStep: PropTypes.number.isRequired,
-  goToBuySell: PropTypes.func.isRequired,
-  partner: PropTypes.string.isRequired,
-  totalSteps: PropTypes.number.isRequired
+  goToBuySell: PropTypes.func.isRequired
 }
 
 export default BuySellStepper

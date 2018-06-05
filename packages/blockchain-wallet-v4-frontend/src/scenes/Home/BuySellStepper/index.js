@@ -2,48 +2,76 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { path } from 'ramda'
 
-import { actions, selectors } from 'data'
+import { actions } from 'data'
+import { determineStep } from 'services/SfoxService'
 import { getData } from './selectors'
-import * as SfoxService from 'services/SfoxService'
 import BuySellStepper from './template.js'
 
 class BuySellStepperContainer extends React.PureComponent {
   constructor (props) {
     super(props)
+    this.renderStepper = this.renderStepper.bind(this)
     this.goToBuySell = this.goToBuySell.bind(this)
   }
 
-  // componentDidMount () {
-  //   this.props.sfoxDataActions.fetchTrades()
-  //   this.props.sfoxDataActions.fetchProfile()
-  //   this.props.sfoxDataActions.sfoxFetchAccounts()
-  // }
+  componentDidMount () {
+    //this.props.sfoxActions.fetchProfile()
+    //this.props.sfoxActions.sfoxFetchAccounts()
+  }
 
-  goToBuySell = () => {
+  goToBuySell () {
     this.props.history.push('/buy-sell')
   }
 
-  render () {
-    const { canTrade, data } = this.props
-    const partner2 = data.cata({ Success: (val) => val, Loading: () => false, Failure: () => false, NotAsked: () => false })
-    const partner = 'sfox'
-    console.info(partner2)
-    const totalSteps = partner === 'sfox' ? 4 : 2
+  renderStepper (data) {
+    let currentStep = 0
+    console.info(data)
 
-    if (partner === 'sfox') {
-     // console.info(SfoxService.determineStep())
+    if (path(['value', 'sfox', 'account_token'], data.bsMetadata)) {
+      console.info('account_token found')
+      currentStep = 0 // ????
     } else {
-     // console.log('coinify')
+      const step = determineStep(data.profile, data.vStatus.level, data.accounts)
+      console.info(step)
+      switch (step) {
+        case 'account':
+          currentStep = 1
+          break
+        case 'verify':
+          currentStep = 2
+          break
+        case 'upload':
+          currentStep = 3
+          break
+        case 'funding':
+          currentStep = 4
+          break
+        default: {
+          break
+        }
+      }
     }
 
-    return (partner ? <BuySellStepper partner={partner} currentStep={1} totalSteps={totalSteps} goToBuySell={this.goToBuySell} /> : null)
+    return currentStep > 0
+      ? (<BuySellStepper currentStep={currentStep} goToBuySell={this.goToBuySell}/>)
+      : null
+  }
+
+  render () {
+    const { data } = this.props
+
+    return data.cata({
+      Success: (value) => this.renderStepper(value),
+      Failure: () => <div/>,
+      Loading: () => <div/>,
+      NotAsked: () => <div/>
+    })
   }
 }
 
-const mapStateToProps = (state) => ({
-  data: getData(state)
-})
+const mapStateToProps = state => getData(state)
 
 const mapDispatchToProps = dispatch => ({
   sfoxActions: bindActionCreators(actions.modules.sfox, dispatch)
