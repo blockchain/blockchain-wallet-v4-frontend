@@ -9,7 +9,6 @@ exports[`DateInput component default renders correctly 1`] = `
   dateFormat={true}
   fullwidth={false}
   input={true}
-  open={true}
   strictParsing={false}
   timeFormat={false}
   utc={false}
