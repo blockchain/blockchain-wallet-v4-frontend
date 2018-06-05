@@ -1,18 +1,21 @@
 import React from 'react'
 import styled from 'styled-components'
-import { getData } from './selectors'
-import { actions } from 'data'
 import { connect } from 'react-redux'
-import SfoxCheckout from './SfoxCheckout'
-import CoinifyCheckout from './CoinifyCheckout'
 import { bindActionCreators, compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
+import ui from 'redux-ui'
+import { path } from 'ramda'
+
+import { Remote } from 'blockchain-wallet-v4/src'
+import { actions } from 'data'
 import { TabMenuBuySellStatus } from 'components/Form'
 import HorizontalMenu from 'components/HorizontalMenu'
-import SelectPartner from './template.success'
 import Loading from 'components/BuySell/Loading'
-import ui from 'redux-ui'
 import { hasAccount } from 'services/ExchangeService'
+import SfoxCheckout from './SfoxCheckout'
+import CoinifyCheckout from './CoinifyCheckout'
+import { getData } from './selectors'
+import SelectPartner from './template.success'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -44,7 +47,7 @@ class BuySellContainer extends React.PureComponent {
 
   componentDidMount () {
     this.props.formActions.initialize('buySellTabStatus', { status: 'buy' })
-    this.props.formActions.change('selectPartner', 'country', this.props.data.data.countryCode)
+    this.props.data.map(data => this.props.formActions.change('selectPartner', 'country', data.countryCode))
   }
 
   /**
@@ -54,16 +57,17 @@ class BuySellContainer extends React.PureComponent {
    */
 
   renderPartner (buySell, options, type) {
-    if (buySell.sfox.account_token) {
+    if (path(['sfox', 'account_token'], buySell)) {
       return <SfoxCheckout type={type} options={options} value={buySell} />
     }
-    if (buySell.unocoin.token) { // TODO replace token
+    if (path(['unocoin', 'token'], buySell)) { // TODO replace token
       return <span>Unocoin</span>
     }
-    if (buySell.coinify.offline_token) {
+    if (path(['coinify', 'offline_token'], buySell)) {
       return <CoinifyCheckout type={type} options={options} value={buySell} />
     }
-    return <SelectPartner type={type} options={options} value={buySell} onSubmit={this.onSubmit} submitEmail={this.submitEmail} {...this.props} />
+    return <SelectPartner type={type} options={options} value={buySell}
+      onSubmit={this.onSubmit} submitEmail={this.submitEmail} {...this.props} />
   }
 
   submitEmail () {
@@ -75,7 +79,7 @@ class BuySellContainer extends React.PureComponent {
     const { data, type } = this.props
 
     let view = data.cata({
-      Success: (value) => this.renderPartner(value.buySell.value, value.options, type),
+      Success: (value) => this.renderPartner(path(['buySell', 'value'], value), value.options, type),
       Failure: (message) => <div>failure: {message}</div>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
