@@ -912,7 +912,7 @@
   "scenes.exchange.shapeshift.stateregistration.subheader": "Blockchain works with exchange partners to make exchanging coins in your wallet secure and seamless.",
   "scenes.exchange.shapeshift.stateregistration.selectstate": "Select your state of residency:",
   "scenes.exchange.shapeshift.stateregistration.continue": "Continue",
-  "scenes.exchange.shapeshift.error": "An error has occured. Please try again.",
+  "scenes.exchange.shapeshift.error": "An error has occurred. Please try again.",
   "modals.exchange.shapeshift.title.success": "Success! Your exchange is complete",
   "modals.exchange.shapeshift.title.inprogress": "Exchange In Progress",
   "modals.exchange.shapeshift.explain": "Thanks for placing your trade! ",
