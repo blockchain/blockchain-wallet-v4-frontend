@@ -9,7 +9,7 @@ import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class BchBalance extends React.PureComponent {
+class BtcWatchOnlyBalance extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleRefresh = this.handleRefresh.bind(this)
@@ -17,12 +17,12 @@ class BchBalance extends React.PureComponent {
 
   componentWillMount () {
     if (Remote.NotAsked.is(this.props.data)) {
-      this.props.actions.fetchSpendableBalance()
+      this.props.actions.fetchUnspendableBalance()
     }
   }
 
   handleRefresh () {
-    this.props.actions.fetchSpendableBalance()
+    this.props.actions.fetchUnspendableBalance()
   }
 
   render () {
@@ -42,7 +42,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actions.core.data.bch, dispatch)
+  actions: bindActionCreators(actions.core.data.bitcoin, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(BchBalance)
+export default connect(mapStateToProps, mapDispatchToProps)(BtcWatchOnlyBalance)

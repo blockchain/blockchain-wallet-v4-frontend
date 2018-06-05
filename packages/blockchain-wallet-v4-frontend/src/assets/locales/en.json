@@ -1282,7 +1282,7 @@
   "scenes.settings.addresses.bch.wallets.balance": "Balance",
   "scenes.settings.addresses.bch.wallets.actions": "Actions",
   "scenes.settings.addresses.btc.addressrow.moreoptions": "More Options",
-  "scenes.settings.addresses.btc.addressrow.watchonly": "Watch Only",
+  "scenes.settings.addresses.btc.addressrow.watchonly": "Non-Spendable",
   "scenes.settings.addresses.unarchive": "Unarchive",
   "scenes.settings.addresses.delete_address": "Delete",
   "scenes.settings.addresses.btc.archivedaddresses.title": "Archived Bitcoin Addresses",
