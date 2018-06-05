@@ -35,6 +35,8 @@ const selectHeader = nature => {
 }
 
 const selectMessage = (message, data = undefined) => {
+  console.info(message)
+  console.info(data)
   switch (message) {
     case C.ADDRESS_ADD_ERROR: return <FormattedMessage id='components.alerts.addresserroradd' defaultMessage='Error adding address.' />
     case C.ADDRESS_DELETE_ERROR: return <FormattedMessage id='components.alerts.address_delete_error' defaultMessage='Failed to delete address label.' />
