@@ -110,7 +110,7 @@ const BalancesChart = (props) => {
                   <FormattedMessage id='scenes.home.balanceschart.btc.viewall' defaultMessage='View All Balances' />
                 </ViewAllText>
               </NavLink>
-              : null
+            : null
           }
         </Column>
         <Column>
@@ -121,7 +121,7 @@ const BalancesChart = (props) => {
           <CoinBalance onClick={handleCoinDisplay}>
             <SwitchableDisplay coin='ETH' cursor='pointer' size='14px' weight={200}>{ethBalance}</SwitchableDisplay>
           </CoinBalance>
-          { ethBalance <= 0
+          { (btcBalance > 0 || bchBalance > 0) && ethBalance <= 0
             ? <WalletLink to='/exchange' size='10px' weight={300}>
               <FormattedMessage id='scenes.home.balanceschart.getstarted' defaultMessage='Get Started' />
             </WalletLink>
@@ -138,7 +138,7 @@ const BalancesChart = (props) => {
           <CoinBalance onClick={handleCoinDisplay}>
             <SwitchableDisplay coin='BCH' cursor='pointer' size='14px' weight={200}>{bchBalance}</SwitchableDisplay>
           </CoinBalance>
-          { bchBalance <= 0
+          { (btcBalance > 0 || ethBalance > 0) && bchBalance <= 0
             ? <WalletLink to='/exchange' size='10px' weight={300}>
               <FormattedMessage id='scenes.home.balanceschart.getstarted' defaultMessage='Get Started' />
             </WalletLink>
