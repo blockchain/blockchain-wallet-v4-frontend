@@ -135,7 +135,8 @@ const selectMessage = (message, data = undefined) => {
     case C.WALLET_UPGRADE_ERROR: return <FormattedMessage id='components.alerts.wallet_upgrade_error' defaultMessage='Failed to upgrade to HD and save wallet.' />
     case C.YUBIKEY_VERIFY_ERROR: return <FormattedMessage id='components.alerts.yubikey_verify_error' defaultMessage='Failed to verify Yubikey' />
     case C.YUBIKEY_VERIFY_SUCCESS: return <FormattedMessage id='components.alerts.yubikey_verify_success' defaultMessage='Yubikey verified' />
-    default: return <FormattedMessage id='components.alerts.unknown.error' defaultMessage='An error has occurred.' />
+    case C.CAPTCHA_CODE_INCORRECT: return <FormattedMessage id='components.alerts.captcha_code_incorrect' defaultMessage='The captcha you provided was incorrect, please try again' />
+    default: return <FormattedMessage id='components.alerts.uknown_error' defaultMessage='An error has occurred.' />
   }
 }
 

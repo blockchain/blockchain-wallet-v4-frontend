@@ -10,7 +10,7 @@ describe('convertFiatToBitcoin', () => {
       rates: bitcoinRates
     }
     const expectedOutput = {
-      value: '0.00015174',
+      value: '0.00015175',
       unit: { rate: '100000000', symbol: 'BTC', decimal_digits: 8, currency: 'BTC' }
     }
     const result = Conversion.convertFiatToBitcoin(input)
@@ -24,7 +24,7 @@ describe('convertFiatToBitcoin', () => {
       rates: bitcoinRates
     }
     const expectedOutput = {
-      value: '0',
+      value: '0.00000000',
       unit: { rate: '100000000', symbol: 'BTC', decimal_digits: 8, currency: 'BTC' }
     }
     const result = Conversion.convertFiatToBitcoin(input)
