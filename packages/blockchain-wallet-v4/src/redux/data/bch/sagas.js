@@ -100,7 +100,8 @@ export default ({ api }) => {
       const { context } = action.payload
       yield put(A.fetchSpendableBalanceLoading())
       const data = yield call(api.fetchBchData, context)
-      yield put(A.fetchSpendableBalanceSuccess(data))
+      const balance = data.wallet ? data.wallet.final_balance : 0
+      yield put(A.fetchSpendableBalanceSuccess(balance))
     } catch (e) {
       yield put(A.fetchSpendableBalanceFailure(e))
     }
@@ -111,7 +112,8 @@ export default ({ api }) => {
       const { context } = action.payload
       yield put(A.fetchUnspendableBalanceLoading())
       const data = yield call(api.fetchBchData, context)
-      yield put(A.fetchUnspendableBalanceSuccess(data))
+      const balance = data.wallet ? data.wallet.final_balance : 0
+      yield put(A.fetchUnspendableBalanceSuccess(balance))
     } catch (e) {
       yield put(A.fetchUnspendableBalanceFailure(e))
     }
