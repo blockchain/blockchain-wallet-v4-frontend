@@ -2,7 +2,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import toJson from 'enzyme-to-json'
 
-import DateInput from './DateInput'
+import DateInput from './index'
 
 describe('DateInput component', () => {
   it('default renders correctly', () => {

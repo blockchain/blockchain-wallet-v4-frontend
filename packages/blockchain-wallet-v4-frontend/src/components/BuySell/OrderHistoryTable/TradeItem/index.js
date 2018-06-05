@@ -2,19 +2,20 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { prop, type } from 'ramda'
+import { canCancelTrade } from 'services/CoinifyService'
+import { prop } from 'ramda'
 import moment from 'moment'
 
 import { TableCell, TableRow, Text, Link, Icon, HeartbeatLoader } from 'blockchain-info-components'
 import OrderStatus from '../OrderStatus'
 
-const tradeDateHelper = (trade) => type(trade.createdAt) === 'Number' ? moment(prop('createdAt', trade)).local().format('MMMM D YYYY @ h:mm A') : trade.createdAt.toLocaleString()
+const tradeDateHelper = (trade) => moment(prop('createdAt', trade)).local().format('MMMM D YYYY @ h:mm A')
 
 const TradeItem = props => {
-  const { conversion, handleClick, handleFinish, handleTradeCancel, trade, status, cancelTradeId } = props
+  const { conversion, handleClick, handleFinish, handleTradeCancel, trade, status, cancelTradeId, canTrade } = props
   const receiveAmount = trade.isBuy ? trade.receiveAmount : Exchange.displayFiatToFiat({ value: trade.receiveAmount })
   const exchangeAmount = trade.isBuy ? Exchange.displayFiatToFiat({ value: trade.sendAmount / conversion.buy }) : trade.sendAmount / conversion.sell
-  const canCancel = trade.isBuy && trade.state === 'awaiting_transfer_in'
+  const canCancel = (canTrade && trade.isBuy) && canCancelTrade(trade)
 
   return (
     <TableRow>
