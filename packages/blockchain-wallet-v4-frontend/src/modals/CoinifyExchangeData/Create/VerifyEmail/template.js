@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { Text, Button } from 'blockchain-info-components'
 import { TextBox } from 'components/Form'
 import { required } from 'services/FormHelper'
-import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, EmailHelper } from 'components/BuySell/Signup'
+import { Form, ColLeft, ColRight, ColRightInner, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, EmailHelper } from 'components/BuySell/Signup'
 
 const EmailInput = styled.div`
   display: flex;
@@ -56,19 +56,21 @@ const VerifyEmail = (props) => {
         </InputWrapper>
       </ColLeft>
       <ColRight>
-        {
-          ui.create === 'enter_email_code'
-            ? <ButtonWrapper>
-              <Button uppercase type='submit' nature='primary' fullwidth disabled={invalid}>
-                <FormattedMessage id='coinifyexchangedata.create.verifyemail.continue' defaultMessage='Continue' />
-              </Button>
-            </ButtonWrapper>
-            : <ButtonWrapper>
-              <Button type='submit' nature='primary' fullwidth disabled={invalid}>
-                <FormattedMessage id='coinifyexchangedata.create.verifyemail.sendverificationemail' defaultMessage='Send Verification Code Email' />
-              </Button>
-            </ButtonWrapper>
-        }
+        <ColRightInner>
+          {
+            ui.create === 'enter_email_code'
+              ? <ButtonWrapper>
+                <Button uppercase type='submit' nature='primary' fullwidth disabled={invalid}>
+                  <FormattedMessage id='coinifyexchangedata.create.verifyemail.continue' defaultMessage='Continue' />
+                </Button>
+              </ButtonWrapper>
+              : <ButtonWrapper>
+                <Button type='submit' nature='primary' fullwidth disabled={invalid}>
+                  <FormattedMessage id='coinifyexchangedata.create.verifyemail.sendverificationemail' defaultMessage='Send Verification Code Email' />
+                </Button>
+              </ButtonWrapper>
+          }
+        </ColRightInner>
       </ColRight>
     </Form>
   )
