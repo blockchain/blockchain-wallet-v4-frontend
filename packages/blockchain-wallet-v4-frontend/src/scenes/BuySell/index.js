@@ -6,7 +6,6 @@ import { Field, reduxForm } from 'redux-form'
 import ui from 'redux-ui'
 import { path } from 'ramda'
 
-import { Remote } from 'blockchain-wallet-v4/src'
 import { actions } from 'data'
 import { TabMenuBuySellStatus } from 'components/Form'
 import HorizontalMenu from 'components/HorizontalMenu'
