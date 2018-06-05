@@ -4,8 +4,8 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm, Field } from 'redux-form'
 
-import { Button, Link, ModalBody, ModalFooter } from 'blockchain-info-components'
-import { DateBox, SelectBoxBitcoinAddresses, Form } from 'components/Form'
+import { Button, Icon, Link, Text } from 'blockchain-info-components'
+import { DateBoxDebounced, SelectBoxBitcoinAddresses, Form } from 'components/Form'
 import { required } from 'services/FormHelper'
 
 const Container = styled.div`
@@ -16,24 +16,29 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
 `
-const Addresses = styled.div`
+const Row = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 0;
-  width: 70%;
+  width: 100%;
+  margin-bottom: ${props => props.margin || '10px'};
 `
-const Dates = styled(Addresses)`
-  & > * { width: 45%; }
-`
-const ButtonContainer = styled.div`
+const TimeContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
+  width: 100%;
+`
+const Footer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
 
-  & > :last-child { margin-left: 10px; }
+  & > :first-child { margin-right: 10px; }
 `
 
 const FirstStep = (props) => {
@@ -41,27 +46,36 @@ const FirstStep = (props) => {
 
   return (
     <Form onSubmit={onSubmit}>
-      <ModalBody>
-        <Container>
-          <Addresses>
-            <Field name='from' placeholder="TEST" validate={[required]} component={SelectBoxBitcoinAddresses} props={{coin}} />
-          </Addresses>
-          <Dates>
-            <Field name='start' validate={[required]} component={DateBox} />
-            <Field name='end' validate={[required]} component={DateBox} />
-          </Dates>
-        </Container>
-      </ModalBody>
-      <ModalFooter align='right'>
+      <Container>
+        <Row>
+          <Text size='13px' weight={400} capitalize>
+            <FormattedMessage id='modals.transactionreport.firststep.selectwallet' defaultMessage='Select wallet' />
+          </Text>
+        </Row>
+        <Row margin='30px'>
+          <Field name='from' component={SelectBoxBitcoinAddresses} props={{ coin }} />
+        </Row>
+        <Row>
+          <Text size='13px' weight={400} capitalize>
+            <FormattedMessage id='modals.transactionreport.firststep.selectwallet' defaultMessage='Select time range' />
+          </Text>
+        </Row>
+        <Row margin='30px'>
+          <TimeContainer>
+            <Field name='start' validate={[required]} component={DateBoxDebounced} />
+            <Icon name='right-arrow' size='30px' />
+            <Field name='end' validate={[required]} component={DateBoxDebounced} />
+          </TimeContainer>
+        </Row>
+      </Container>
+      <Footer>
         <Link size='13px' weight={300} fullwidth onClick={close}>
           <FormattedMessage id='modals.firststep.transactionreport.firststep.close' defaultMessage='Close' />
         </Link>
-        <ButtonContainer>
-          <Button type='submit' nature='primary' disabled={submitting || invalid}>
-            <FormattedMessage id='modals.firststep.transactionreport.firststep.generate' defaultMessage='Export' />
-          </Button>
-        </ButtonContainer>
-      </ModalFooter>
+        <Button type='submit' nature='primary' disabled={submitting || invalid}>
+          <FormattedMessage id='modals.firststep.transactionreport.firststep.generate' defaultMessage='Export CSV' />
+        </Button>
+      </Footer>
     </Form>
   )
 }

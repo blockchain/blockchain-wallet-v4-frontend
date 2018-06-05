@@ -13,6 +13,7 @@ import * as sendBch from './sendBch/actions'
 import * as sendBtc from './sendBtc/actions'
 import * as sendEth from './sendEth/actions'
 import * as signMessage from './signMessage/actions'
+import * as transactionReport from './transactionReport/actions'
 import * as usedAddresses from './usedAddresses/actions'
 
 export {
@@ -31,5 +32,6 @@ export {
   sendBtc,
   sendEth,
   signMessage,
+  transactionReport,
   usedAddresses
 }

@@ -137,7 +137,7 @@ const BaseDateInput = styled(ReactDatetime)`
     height: 30px;
     font-family: 'Montserrat', Helvetica, sans-serif;
     font-size: 14px;
-    font-weight: 400;
+    font-weight: 300;
     border: 1px solid ${props => props.theme['gray-1']};
     border-radius: 5px;
     box-sizing: border-box;

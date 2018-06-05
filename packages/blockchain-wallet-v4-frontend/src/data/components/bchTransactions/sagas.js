@@ -21,6 +21,14 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const reportClicked = function * () {
+    try {
+      yield put(actions.modals.showModal('TransactionReport', { coin: 'BCH' }))
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'reportClicked', e))
+    }
+  }
+
   const scrollUpdated = function * (action) {
     try {
       const pathname = yield select(selectors.router.getPathname)
@@ -56,6 +64,7 @@ export default ({ coreSagas }) => {
 
   return {
     initialized,
+    reportClicked,
     formChanged,
     scrollUpdated
   }
