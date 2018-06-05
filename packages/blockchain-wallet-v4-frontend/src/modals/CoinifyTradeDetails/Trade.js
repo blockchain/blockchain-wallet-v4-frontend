@@ -23,7 +23,7 @@ const StyledOrderDetailsTable = styled(OrderDetailsTable)`
 `
 
 const Trade = ({ trade, close, status }) => {
-  let tradeStatus = status.toLowerCase() || trade.state
+  let tradeStatus = (status && status.toLowerCase()) || trade.state
   const headerStatus = statusHelper(tradeStatus)
   const bodyStatus = bodyStatusHelper(tradeStatus, trade.isBuy)
   const details = tradeDetails.renderDetails(trade)
