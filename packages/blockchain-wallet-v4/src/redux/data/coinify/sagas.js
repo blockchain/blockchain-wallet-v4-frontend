@@ -38,7 +38,7 @@ export default ({ api, options }) => {
   const init = function * () {
     try {
       const val = yield select(buySellSelectors.getMetadata)
-      if (!val.data.value.coinify.offline_token) return
+      if (!path(['data', 'value', 'coinify', 'offline_token'], val)) return
       yield call(refreshCoinify)
     } catch (e) {
       console.warn(e)
