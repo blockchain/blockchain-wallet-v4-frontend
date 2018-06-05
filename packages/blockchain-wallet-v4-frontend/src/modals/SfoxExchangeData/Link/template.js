@@ -65,28 +65,28 @@ const GoBackLink = styled(Link)`
 
 const selectBankFaqs = [
   {
-    question: <FormattedMessage id='sfoxsignup.link.helper3.question' defaultMessage='How will this account be used?' />,
-    answer: <FormattedMessage id='sfoxsignup.link.helper3.answer' defaultMessage='Answer3 placeholder' />
+    question: <FormattedMessage id='scenes.buysell.sfoxsignup.link.helper3.question' defaultMessage='How will this account be used?' />,
+    answer: <FormattedMessage id='scenes.buysell.sfoxsignup.link.helper3.answer' defaultMessage='This will be the primary account you buy or sell assets with.' />
   },
   {
-    question: <FormattedMessage id='sfoxsignup.link.helper4.question' defaultMessage='Can I change this later?' />,
-    answer: <FormattedMessage id='sfoxsignup.link.helper4.answer' defaultMessage='Answer4 placeholder' />
+    question: <FormattedMessage id='scenes.buysell.sfoxsignup.link.helper4.question' defaultMessage='What if I need to change my linked bank account?' />,
+    answer: <FormattedMessage id='scenes.buysell.sfoxsignup.link.helper4.answer' defaultMessage='To change account information, or link a new account, please submit a request to support@sfox.com. Make sure you mention Blockchain in the subject and include the information you want to change.' />
   }
 ]
 
 const faqList = [
   {
-    question: <FormattedMessage id='sfoxsignup.link.helper1.question' defaultMessage='How is my payment method used?' />,
-    answer: <FormattedMessage id='sfoxsignup.link.helper1.answer' defaultMessage='Answer1 placeholder' />
+    question: <FormattedMessage id='scenes.buysell.sfoxsignup.link.helper1.question' defaultMessage='Can I change my bank account once it’s linked?' />,
+    answer: <FormattedMessage id='scenes.buysell.sfoxsignup.link.helper1.answer' defaultMessage='Yes, you can change your bank account by emailing support@sfox.com. Make sure you mention Blockchain in the subject and include the information you want to change.' />
   },
   {
-    question: <FormattedMessage id='sfoxsignup.link.helper2.question' defaultMessage='Are there transaction fees?' />,
-    answer: <FormattedMessage id='sfoxsignup.link.helper2.answer' defaultMessage='Answer2 placeholder' />
+    question: <FormattedMessage id='scenes.buysell.sfoxsignup.link.helper2.question' defaultMessage='Which method of linking my bank takes longer?' />,
+    answer: <FormattedMessage id='scenes.buysell.sfoxsignup.link.helper2.answer' defaultMessage='Adding your account details manually. In order to verify these details belong to you, SFOX sends 2 micro-deposits to your account. This process can take up to 5 days in itself, so we recommend signing directly into your bank if you would like to buy & sell immediately.' />
   }
 ]
 
-const selectBankFaqHelper = () => selectBankFaqs.map(el => <Helper question={el.question} answer={el.answer} />)
-const faqListHelper = () => faqList.map(el => <Helper question={el.question} answer={el.answer} />)
+const selectBankFaqHelper = () => selectBankFaqs.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
+const faqListHelper = () => faqList.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
 
 const BankLink = (props) => {
   const {

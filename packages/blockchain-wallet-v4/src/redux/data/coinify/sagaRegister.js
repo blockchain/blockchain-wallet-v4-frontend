@@ -22,5 +22,6 @@ export default ({ api, options }) => {
     yield takeLatest(AT.COINIFY_BUY, coinifySagas.buy)
     yield takeLatest(AT.COINIFY_SELL, coinifySagas.sell)
     yield takeLatest(AT.GET_KYCS, coinifySagas.getKYCs)
+    yield takeLatest(AT.COINIFY_REFRESH_BUY_QUOTE, coinifySagas.refreshBuyQuote)
   }
 }

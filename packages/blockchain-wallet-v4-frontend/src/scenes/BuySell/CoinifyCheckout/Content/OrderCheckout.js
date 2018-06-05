@@ -7,6 +7,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { StepTransition } from 'components/Utilities/Stepper'
 import QuoteInput from './QuoteInput'
 import { MethodContainer } from 'components/BuySell/styled.js'
+import { checkoutButtonLimitsHelper } from 'services/CoinifyService'
 
 const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, limits, checkoutError,
   type, defaultCurrency, symbol, checkoutBusy, busy, setMax, setMin, increaseLimit, onOrderCheckoutSubmit }) => {
@@ -16,14 +17,17 @@ const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, limi
     output: 'btc'
   }
   const disableInputs = limits.max < limits.min || (reason.indexOf('has_remaining') < 0 && reason) || limits.effectiveMax < limits.min
-  const wantToHelper = () => type === 'buy'
-    ? <FormattedMessage id='scenes.buysell.coinifycheckout.content.ordercheckout.buy.outputmethod.title.buy' defaultMessage='I want to buy' />
-    : <FormattedMessage id='scenes.buysell.coinifycheckout.content.ordercheckout.buy.outputmethod.title.sell' defaultMessage='I want to sell' />
+  const wantToHelper = () => type === 'buy' ? <FormattedMessage id='buy.output_method.title.buy' defaultMessage='I want to buy' /> : <FormattedMessage id='buy.output_method.title.sell' defaultMessage='I want to sell' />
+
+  const limitsHelper = (quoteR, limits) => {
+    if (quoteR.error) return true
+    return checkoutButtonLimitsHelper(quoteR, limits, type)
+  }
 
   const submitButtonHelper = () => (
     reason.indexOf('has_remaining') > -1
       ? <StepTransition next Component={Button} onClick={onOrderCheckoutSubmit} style={spacing('mt-45')}
-        nature='primary' fullwidth disabled={checkoutBusy || Remote.Loading.is(quoteR) || checkoutError}>
+        nature='primary' fullwidth disabled={checkoutBusy || Remote.Loading.is(quoteR) || checkoutError || limitsHelper(quoteR, limits)}>
         {
           Remote.Loading.is(quoteR)
             ? <HeartbeatLoader height='20px' width='20px' color='white' />
