@@ -5,27 +5,24 @@ import styled from 'styled-components'
 import { Button, Link, Text } from 'blockchain-info-components'
 
 import { required } from 'services/FormHelper'
-import { flex, spacing } from 'services/StyleService'
+import { spacing } from 'services/StyleService'
 import { StepTransition } from 'components/Utilities/Stepper'
-import { Form, ColLeft, InputWrapper, PartnerHeader, PartnerSubHeader, ColRight, ColRightInner, Row } from 'components/BuySell/Signup'
+import { BorderBox, Form, CancelWrapper, ColLeft, ColRight,
+  ColRightInner, InputWrapper, PartnerHeader, PartnerSubHeader } from 'components/BuySell/Signup'
 import { SelectBoxCountry, TextBox } from 'components/Form'
 
-const DetailsInputWrapper = styled(InputWrapper)`
-  & > * {
-    padding-bottom: 12px;
-  }
+const SpaceRow = styled.div`
+  width: 100%;
+  display: grid;
+  grid-template-columns: 55% 35%;
+  grid-gap: 10%;
 `
-
-const CancelWrapper = styled.div`
-  a {
-    color: #545456;
-    font-weight: 300;
-    font-size: 14px;
-  }
+const FieldText = styled(Text)`
+  padding-bottom: 10px;
+  padding-top: 20px;
 `
-const BorderBox = styled.div`
-  border: 1px solid ${props => props.theme['gray-1']};
-  padding: 30px;
+const Col = styled.div`
+  width: 100%;
 `
 
 const AddBankDetails = (props) => {
@@ -34,36 +31,40 @@ const AddBankDetails = (props) => {
     <Form>
       <ColLeft>
         <BorderBox>
-          <DetailsInputWrapper style={spacing('mb-40')}>
+          <InputWrapper style={spacing('mb-40')}>
             <PartnerHeader>
               <FormattedMessage id='coinifyexchangedata.addcustomerdetails.header' defaultMessage='Add Bank Account' />
             </PartnerHeader>
             <PartnerSubHeader>
               <FormattedMessage id='coinifyexchangedata.addcustomerdetails.subheader' defaultMessage='Who owns this bank account?  This information should match the holder’s bank statement. ' />
             </PartnerSubHeader>
-            <Text weight={300} size='12px'>
+            <FieldText weight={300} size='12px'>
               <FormattedMessage id='coinifyexchangedata.addcustomerdetails.' defaultMessage='Account Holder’s Full Name' />
-              <Field name='fullname' validate={[required]} component={TextBox} />
-            </Text>
-            <Text weight={300} size='12px'>
+            </FieldText>
+            <Field name='fullname' validate={[required]} component={TextBox} />
+            <FieldText weight={300} size='12px'>
               <FormattedMessage id='coinifyexchangedata.addcustomerdetails.' defaultMessage='Street and Number' />
-              <Field name='street' validate={[required]} component={TextBox} />
-            </Text>
-            <Row>
-              <Text weight={300} size='12px'>
-                <FormattedMessage id='coinifyexchangedata.addcustomerdetails.' defaultMessage='City' />
+            </FieldText>
+            <Field name='street' validate={[required]} component={TextBox} />
+            <SpaceRow>
+              <Col>
+                <FieldText weight={300} size='12px'>
+                  <FormattedMessage id='coinifyexchangedata.addcustomerdetails.' defaultMessage='City' />
+                </FieldText>
                 <Field name='city' validate={[required]} component={TextBox} />
-              </Text>
-              <Text weight={300} size='12px'>
-                <FormattedMessage id='coinifyexchangedata.addcustomerdetails.' defaultMessage='Postal Code' />
+              </Col>
+              <Col>
+                <FieldText weight={300} size='12px'>
+                  <FormattedMessage id='coinifyexchangedata.addcustomerdetails.' defaultMessage='Postal Code' />
+                </FieldText>
                 <Field name='postcode' validate={[required]} component={TextBox} />
-              </Text>
-            </Row>
-            <Text weight={300} size='12px'>
+              </Col>
+            </SpaceRow>
+            <FieldText weight={300} size='12px'>
               <FormattedMessage id='coinifyexchangedata.addcustomerdetails.' defaultMessage='Country' />
-              <Field name='country' validate={[required]} component={SelectBoxCountry} />
-            </Text>
-          </DetailsInputWrapper>
+            </FieldText>
+            <Field name='country' validate={[required]} component={SelectBoxCountry} />
+          </InputWrapper>
         </BorderBox>
       </ColLeft>
       <ColRight>
@@ -71,7 +72,7 @@ const AddBankDetails = (props) => {
           <StepTransition next Component={Button} style={spacing('mt-45')} nature='primary' fullwidth disabled={submitting || invalid} onClick={() => onSubmit(medium, account)}>
             <FormattedMessage id='coinifyexchangedata.addcustomerdetails.continue' defaultMessage='Continue' />
           </StepTransition>
-          <CancelWrapper style={{ ...flex('row justify/center'), ...spacing('mt-15') }}>
+          <CancelWrapper>
             <StepTransition prev Component={Link}>
               <FormattedMessage id='back' defaultMessage='Back' />
             </StepTransition>

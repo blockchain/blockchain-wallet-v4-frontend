@@ -5,7 +5,7 @@ import { Icon } from 'blockchain-info-components'
 const Container = styled.div`
   border-bottom: 1px solid #979797;
   padding: 20px 0px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 300;
 `
 const Question = styled.div`

@@ -10,26 +10,19 @@ import { reviewOrder } from 'services/SfoxService'
 import { FormattedMessage } from 'react-intl'
 import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDetails'
 import FundingSource from 'components/BuySell/FundingSource'
+import { CancelWrapper } from 'components/BuySell/Signup'
 import { StepTransition } from 'components/Utilities/Stepper'
 
 const StyledFaqRow = styled(FaqRow)`
   padding: 20px 0px;
   border-bottom: 1px solid ${props => props.theme['gray-1']};
 `
-
 const MethodContainer = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
   height: 42px;
   border: 1px solid ${props => props.theme['gray-2']}
-`
-const CancelWrapper = styled.div`
-  a {
-    color: #545456;
-    font-weight: 300;
-    font-size: 14px;
-  }
 `
 const ToolTipWrapper = styled.div`
   display: flex;
@@ -123,7 +116,7 @@ export const OrderSubmit = ({ quoteR, onSubmit, busy, clearTradeError }) => (
                 : <FormattedMessage id='buysell.sfoxcheckout.orderreview.submit' defaultMessage='Submit' />
             }
           </Button>
-          <CancelWrapper style={{ ...flex('row justify/center'), ...spacing('mt-15') }}>
+          <CancelWrapper>
             <StepTransition prev Component={Link}>
               <FormattedMessage id='buysell.sfoxcheckout.orderreview.cancel' defaultMessage='Cancel' />
             </StepTransition>
@@ -131,16 +124,16 @@ export const OrderSubmit = ({ quoteR, onSubmit, busy, clearTradeError }) => (
         </Fragment>
     }
     <StyledFaqRow
-      title={<FormattedMessage id='buysell.sfoxcheckout.orderreview.faq.howlongtoreceive.question' defaultMessage='How long does it take to get my funds?' />}
-      description={<FormattedMessage id='buysell.sfoxcheckout.orderreview.faq.howlongtoreceive.answer' defaultMessage='A bitcoin is never late, nor is it early. A bitcoin arrives precisely when it intends to.' />}
+      title={<FormattedMessage id='scenes.buysell.sfoxcheckout.orderreview.helper1.question' defaultMessage='What are the fees?' />}
+      description={<FormattedMessage id='scenes.buysell.sfoxcheckout.orderreview.helper1.answer' defaultMessage='There is a trading fee that SFOX requires to execute a buy or sell trade. For sell trades specifically, there is an additional transaction fee that goes to network miners in order to send the amount you’re selling to SFOX.' />}
     />
     <StyledFaqRow
-      title={<FormattedMessage id='buysell.sfoxcheckout.orderreview.faq.exchangerate.question' defaultMessage='What is the exchange rate?' />}
-      description={<FormattedMessage id='buysell.sfoxcheckout.orderreview.faq.exchangerate.answer' defaultMessage='The exchange rate varies from minute to minute.' />}
+      title={<FormattedMessage id='scenes.buysell.sfoxcheckout.orderreview.helper2.question' defaultMessage='How long will it take to get my funds?' />}
+      description={<FormattedMessage id='scenes.buysell.sfoxcheckout.orderreview.helper2.answer' defaultMessage='On average, it will take about a week for you to receive your funds from either a buy or sell trade.' />}
     />
     <StyledFaqRow
-      title={<FormattedMessage id='buysell.sfoxcheckout.orderreview.faq.exchangefees.question' defaultMessage='What are the fees?' />}
-      description={<FormattedMessage id='buysell.sfoxcheckout.orderreview.faq.exchangefees.answer' defaultMessage='Each exchange takes a small percentage of the total amount as a fee.' />}
+      title={<FormattedMessage id='scenes.buysell.sfoxcheckout.orderreview.helper3.question' defaultMessage='Can I cancel my trade?' />}
+      description={<FormattedMessage id='scenes.buysell.sfoxcheckout.orderreview.helper3.answer' defaultMessage='Once you submit your trade here, it will move into a pending state, and cannot be reversed, cancelled or changed. Please be sure to verify the information here carefully before submitting.' />}
     />
   </Fragment>
 )
