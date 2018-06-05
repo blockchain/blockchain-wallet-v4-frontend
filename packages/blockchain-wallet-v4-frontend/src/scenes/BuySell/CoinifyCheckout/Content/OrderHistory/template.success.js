@@ -27,7 +27,7 @@ const isCompleted = (t) => contains(t.state, ['completed', 'rejected', 'cancelle
 
 const OrderHistory = (props) => {
   const { showModal, finishTrade, cancelTrade, trades, step, trade, status, cancelTradeId, changeTab, canTrade } = props
-
+  const pendingTrades = filter(isPending, trades)
   if (step === 'isx') {
     return (
       <ISignThis
@@ -45,21 +45,24 @@ const OrderHistory = (props) => {
     }
     return (
       <OrderHistoryWrapper>
-        <OrderHistoryContent>
-          <Text size='15px' weight={400}>
-            <FormattedMessage id='scenes.buysell.coinifycheckout.trades.pending' defaultMessage='Pending Orders' />
-          </Text>
-          <OrderHistoryTable
-            trades={filter(isPending, trades)}
-            conversion={conversion}
-            handleFinishTrade={trade => finishTrade(trade)}
-            handleDetailsClick={trade => showModal('CoinifyTradeDetails', { trade })}
-            handleTradeCancel={cancelTrade}
-            status={status}
-            canTrade={canTrade}
-            cancelTradeId={cancelTradeId}
-          />
-        </OrderHistoryContent>
+        {
+          pendingTrades.length > 0 &&
+          <OrderHistoryContent>
+            <Text size='15px' weight={400}>
+              <FormattedMessage id='scenes.buysell.coinifycheckout.trades.pending' defaultMessage='Pending Orders' />
+            </Text>
+            <OrderHistoryTable
+              trades={pendingTrades}
+              conversion={conversion}
+              handleFinishTrade={trade => finishTrade(trade)}
+              handleDetailsClick={trade => showModal('CoinifyTradeDetails', { trade })}
+              handleTradeCancel={cancelTrade}
+              status={status}
+              canTrade={canTrade}
+              cancelTradeId={cancelTradeId}
+            />
+          </OrderHistoryContent>
+        }
         <OrderHistoryContent>
           <Text size='15px' weight={400}>
             <FormattedMessage id='scenes.buysell.coinifycheckout.trades.completed' defaultMessage='Completed Orders' />
