@@ -26,7 +26,7 @@ class SelectInputContainer extends React.PureComponent {
   }
 
   handleClick (item) {
-    this.setState({ value: item.value, expanded: false })
+    this.setState({ value: item.value, expanded: false, search: '' })
     if (this.props.onChange) { this.props.onChange(item.value) }
   }
 
@@ -35,7 +35,7 @@ class SelectInputContainer extends React.PureComponent {
   }
 
   handleBlur () {
-    this.setState({ expanded: false })
+    this.setState({ expanded: false, search: '' })
     if (this.props.onBlur) { this.props.onBlur() }
     if (this.props.onChange) { this.props.onChange(this.state.value) }
   }
@@ -46,7 +46,7 @@ class SelectInputContainer extends React.PureComponent {
   }
 
   handleClickOutside () {
-    this.setState({ expanded: false })
+    this.setState({ expanded: false, search: '' })
   }
 
   transform (elements, search) {
