@@ -1,60 +1,78 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import styled, { keyframes } from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { canCancelTrade } from 'services/CoinifyService'
 import { prop } from 'ramda'
 import moment from 'moment'
+import { spacing } from 'services/StyleService'
 
-import { TableCell, TableRow, Text, Link, Icon, HeartbeatLoader } from 'blockchain-info-components'
-import OrderStatus from '../OrderStatus'
+import { TableCell, TableRow, Text, Link, Icon } from 'blockchain-info-components'
+// import OrderStatus from '../OrderStatus'
 
 const tradeDateHelper = (trade) => moment(prop('createdAt', trade)).local().format('MMMM D YYYY @ h:mm A')
 
-const RecurringOrder = props => {
-  const { conversion, handleClick, handleFinish, handleTradeCancel, trade, status, cancelTradeId, canTrade } = props
-  const receiveAmount = trade.isBuy ? trade.receiveAmount : Exchange.displayFiatToFiat({ value: trade.receiveAmount })
-  const exchangeAmount = trade.isBuy ? Exchange.displayFiatToFiat({ value: trade.sendAmount / conversion.buy }) : trade.sendAmount / conversion.sell
-  const canCancel = (canTrade && trade.isBuy) && canCancelTrade(trade)
+const rotate90 = keyframes`
+from {
+  transform: rotate(0deg);
+}
 
-  return (
-    <TableRow>
-      <TableCell width='15%'>
-        <OrderStatus status={trade.state} isBuy={trade.isBuy} />
-      </TableCell>
-      <TableCell width='15%'>
-        {
-          trade.state === 'awaiting_transfer_in' && trade.medium === 'card'
-            ? <Link size='13px' weight={300} capitalize onClick={() => handleFinish(trade)}>
-              <FormattedMessage id='buysell.orderhistory.finishtrade' defaultMessage='Finish Trade' />
-            </Link>
-            : <Link size='13px' weight={300} capitalize onClick={() => handleClick(trade)}>
-              <FormattedMessage id='buysell.orderhistory.list.details' defaultMessage='View details' />
-            </Link>
-        }
-      </TableCell>
-      <TableCell width='30%'>
-        <Text opacity={trade.state === 'processing'} size='13px' weight={300}>{tradeDateHelper(trade)}</Text>
-      </TableCell>
-      <TableCell width='20%'>
-        <Text opacity={trade.state === 'processing'} size='13px' weight={300}>{`${exchangeAmount} ${trade.inCurrency}`}</Text>
-      </TableCell>
-      <TableCell width='20%'>
-        <TableCell width='80%'>
-          <Text opacity={trade.state === 'processing'} size='13px' weight={300}>{`${receiveAmount} ${trade.outCurrency}`}</Text>
+to {
+  transform: rotate(90deg);
+}
+`
+
+const ToggleIcon = styled(Icon)`
+  animation: {rotate90} 2s linear infinite;
+`
+
+class RecurringOrder extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = { toggled: false }
+    this.toggleRow = this.toggleRow.bind(this)
+  }
+
+  toggleRow () {
+    this.setState({ toggled: !this.state.toggled })
+  }
+
+  render () {
+    const { subscription } = this.props
+    console.log('Recurring Order', this.props, this.state)
+    return (
+      <TableRow>
+        <TableCell width='15%'>
+          <ToggleIcon name='down-arrow' onClick={this.toggleRow} toggled={this.state.toggled} />
+          <Text color={subscription.isActive ? 'success' : 'error'} size='13px' weight={300} style={spacing('ml-10')}>
+            {
+              subscription.isActive
+                ? <FormattedMessage id='scenes.buysell.orderhistory.recurring.order.active' defaultMessage='Active' />
+                : <FormattedMessage id='scenes.buysell.orderhistory.recurring.order.inactive' defaultMessage='Inactive' />
+            }
+          </Text>
+        </TableCell>
+        <TableCell width='15%'>
+          <Link size='13px' weight={400} >
+            <FormattedMessage id='scenes.buysell.orderhistory.recurring.order.manage' defaultMessage='Manage This Order' />
+          </Link>
+        </TableCell>
+        <TableCell width='30%'>
+          <Text size='13px' weight={300}>
+            Daily/Weekly/Monthly
+          </Text>
         </TableCell>
         <TableCell width='20%'>
-          {
-            canCancel && status && cancelTradeId === trade.id
-              ? <HeartbeatLoader color='red' height='15px' width='15px' />
-              : canCancel && cancelTradeId !== trade.id
-                ? <Icon cursor onClick={() => handleTradeCancel(trade)} name='trash' size='14px' weight={300} color='error' />
-                : null
-          }
+          {/* <Text opacity={trade.state === 'processing'} size='13px' weight={300}>{`${exchangeAmount} ${trade.inCurrency}`}</Text> */}
         </TableCell>
-      </TableCell>
-    </TableRow>
-  )
+        <TableCell width='20%'>
+          <TableCell width='80%'>
+            {/* <Text opacity={trade.state === 'processing'} size='13px' weight={300}>{`${receiveAmount} ${trade.outCurrency}`}</Text> */}
+          </TableCell>
+          <TableCell width='20%' />
+        </TableCell>
+      </TableRow>
+    )
+  }
 }
 
 RecurringOrder.propTypes = {

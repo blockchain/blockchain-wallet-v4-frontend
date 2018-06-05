@@ -6,6 +6,7 @@ import { Text } from 'blockchain-info-components'
 import ISignThis from 'modals/CoinifyExchangeData/ISignThis'
 
 import OrderHistoryTable from 'components/BuySell/OrderHistoryTable'
+import RecurringOrderHistoryTable from './RecurringOrderHistoryTable'
 import EmptyOrderHistoryContainer from 'components/BuySell/EmptyOrderHistory'
 
 const OrderHistoryWrapper = styled.div`
@@ -29,7 +30,7 @@ const OrderHistory = (props) => {
   const { showModal, finishTrade, cancelTrade, step, status, cancelTradeId, trade, changeTab, canTrade, value } = props
   const { trades, subscriptions } = value
   const pendingTrades = filter(isPending, trades)
-  console.log('OrderHistory template', props)
+  console.log('OrderHistory template', props, subscriptions.length > 0)
   if (step === 'isx') {
     return (
       <ISignThis
@@ -62,6 +63,17 @@ const OrderHistory = (props) => {
               status={status}
               canTrade={canTrade}
               cancelTradeId={cancelTradeId}
+            />
+          </OrderHistoryContent>
+        }
+        {
+          subscriptions.length > 0 &&
+          <OrderHistoryContent>
+            <Text size='15px' weight={400}>
+              <FormattedMessage id='scenes.buysell.coinifycheckout.trades.recurring' defaultMessage='Recurring Orders' />
+            </Text>
+            <RecurringOrderHistoryTable
+              subscriptions={subscriptions}
             />
           </OrderHistoryContent>
         }

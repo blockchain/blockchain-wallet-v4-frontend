@@ -1,23 +1,17 @@
 import React from 'react'
 import RecurringOrder from './RecurringOrder'
 import { FormattedMessage } from 'react-intl'
-import { filter, prop, reverse, sortBy } from 'ramda'
 import { Table, TableCell, TableHeader, Text } from 'blockchain-info-components'
 
-class OrderHistoryTable extends React.PureComponent {
+class RecurringOrderHistoryTable extends React.PureComponent {
   constructor () {
     super()
     this.state = {}
   }
 
   render () {
-    const { conversion, trades, handleTradeCancel, handleFinishTrade, handleDetailsClick, status, cancelTradeId, canTrade } = this.props
-
-    const isValid = (t) => t.createdAt
-    const validTrades = filter(isValid, trades)
-    const sortByCreated = sortBy(prop('createdAt'))
-    const sortedTrades = reverse(sortByCreated(validTrades))
-
+    const { subscriptions, cancelSubscription } = this.props
+    console.log('RecurringOrderHistoryTable', subscriptions)
     return (
       <Table>
         <TableHeader>
@@ -43,20 +37,14 @@ class OrderHistoryTable extends React.PureComponent {
             </Text>
           </TableCell>
         </TableHeader>
-        {sortedTrades.map((trade, index) => <RecurringOrder // list of all recurring orders, trades will be inside these
+        {subscriptions.map((subscription, index) => <RecurringOrder // list of all recurring orders, trades will be inside these
           key={index}
-          trade={trade}
-          conversion={conversion}
-          handleFinish={handleFinishTrade}
-          handleClick={handleDetailsClick}
-          handleTradeCancel={handleTradeCancel}
-          status={status}
-          cancelTradeId={cancelTradeId}
-          canTrade={canTrade}
+          subscription={subscription}
+          cancelSubscription={cancelSubscription}
         />)}
       </Table>
     )
   }
 }
 
-export default OrderHistoryTable
+export default RecurringOrderHistoryTable
