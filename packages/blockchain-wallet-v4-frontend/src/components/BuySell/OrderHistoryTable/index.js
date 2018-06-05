@@ -11,7 +11,7 @@ class OrderHistoryTable extends React.PureComponent {
   }
 
   render () {
-    const { conversion, trades, handleTradeCancel, handleFinishTrade, handleDetailsClick, status, cancelTradeId } = this.props
+    const { conversion, trades, handleTradeCancel, handleFinishTrade, handleDetailsClick, status, cancelTradeId, canTrade } = this.props
 
     const isValid = (t) => t.createdAt
     const validTrades = filter(isValid, trades)
@@ -43,7 +43,17 @@ class OrderHistoryTable extends React.PureComponent {
             </Text>
           </TableCell>
         </TableHeader>
-        {sortedTrades.map((trade, index) => <TradeItem key={index} trade={trade} conversion={conversion} handleFinish={handleFinishTrade} handleClick={handleDetailsClick} handleTradeCancel={handleTradeCancel} status={status} cancelTradeId={cancelTradeId} />)}
+        {sortedTrades.map((trade, index) => <TradeItem
+          key={index}
+          trade={trade}
+          conversion={conversion}
+          handleFinish={handleFinishTrade}
+          handleClick={handleDetailsClick}
+          handleTradeCancel={handleTradeCancel}
+          status={status}
+          cancelTradeId={cancelTradeId}
+          canTrade={canTrade}
+        />)}
       </Table>
     )
   }
