@@ -270,7 +270,6 @@ const selectBorderColor = (state) => {
 }
 
 const DateInput = props => {
-  console.log('props', props)
   const { errorState, ...rest } = props
   const borderColor = selectBorderColor(props.errorState)
 
@@ -313,7 +312,6 @@ DateInput.defaultProps = {
   utc: false,
   viewMode: 'days',
   className: '',
-  locale: 'fr',
   strictParsing: false,
   closeOnSelect: true,
   closeOnTab: true,
