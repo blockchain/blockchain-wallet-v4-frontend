@@ -59,8 +59,9 @@ const getErrorState = (meta) => {
   return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')
 }
 
-const getLimitsError = (val, limits, disabled, fiat) => {
+const getLimitsError = (val, limits, disabledReason, fiat) => {
   if (limits.max < limits.min) return `Your limit of $${limits.max} is below the minimum allowed amount.`
+  if (disabledReason === 'not_enough_funds') return `There are not enough funds to meet the sell minimum of $${limits.min.toLocaleString()}`
   if (!val || !fiat) return
   if (val > limits.max) return `Enter an amount under your $${limits.max.toLocaleString()} limit`
   if (val < limits.min) return `Enter an amount above the $${limits.min.toLocaleString()} minimum`
@@ -71,25 +72,26 @@ const FiatConvertor = (props) => {
   const { value, fiat, disabled, handleBlur, handleCoinChange, handleFiatChange, handleFocus, handleErrorClick, meta, limits } = props
   const { currency, unit } = props.data.data
   const errorState = getErrorState(meta)
+  const disabledReason = disabled()
 
   return (
     <Wrapper>
       <FiatConvertorInput>
         <Container>
-          <TextInput placeholder='0' onBlur={handleBlur} onChange={handleCoinChange} onFocus={handleFocus} value={value} errorState={errorState} disabled={disabled} />
+          <TextInput placeholder='0' onBlur={handleBlur} onChange={handleCoinChange} onFocus={handleFocus} value={value} errorState={errorState} disabled={disabledReason} />
           <Unit>{unit}</Unit>
         </Container>
         <ArrowLeft size='16px' name='left-arrow' />
         <ArrowRight size='16px' name='right-arrow' />
         <Container>
-          <TextInput placeholder='0' onBlur={handleBlur} onChange={handleFiatChange} onFocus={handleFocus} value={fiat} errorState={errorState} disabled={disabled} />
+          <TextInput placeholder='0' onBlur={handleBlur} onChange={handleFiatChange} onFocus={handleFocus} value={fiat} errorState={errorState} disabled={disabledReason} />
           <Unit>{currency}</Unit>
         </Container>
       </FiatConvertorInput>
       {meta.touched && meta.error && <Error onClick={handleErrorClick} size='13px' weight={300} color='error'>{meta.error}</Error>}
       {
         limits && <Error size='13px' weight={300} color='error'>
-          { getLimitsError(value, limits, disabled, fiat) }
+          { getLimitsError(value, limits, disabledReason, fiat) }
         </Error>
       }
     </Wrapper>

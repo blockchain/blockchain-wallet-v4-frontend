@@ -31,7 +31,7 @@ const AwaitingDeposits = ({ showModal }) => {
         <Text size='30px' weight={600}>
           <FormattedMessage id='modals.sfoxexchangedata.link.awaitingdeposits.title' defaultMessage='Verify Your Bank Account' />
         </Text>
-        <Image />
+        <Image name='micro-deposits-whole' width='100%' />
         <Text size='13px' weight={300}>
           <FormattedMessage id='modals.sfoxexchangedata.link.awaitingdeposits.body' defaultMessage='To verify your bank details, SFOX will send two micro-deposits to your bank account for a few cents each. Once received, select Enter Deposit Details to finish setting up your account.' />
         </Text>
@@ -40,8 +40,8 @@ const AwaitingDeposits = ({ showModal }) => {
         </Text>
       </LeftCol>
       <RightCol>
-        <Button uppercase nature='primary' onClick={() => showModal('SfoxEnterMicroDeposits')}>
-          <FormattedMessage id='modals.sfoxexchangedata.link.awaitingdeposits.enter' defaultMessage='Enter Deposit Details' />
+        <Button uppercase width='80%' nature='primary' onClick={() => showModal('SfoxEnterMicroDeposits')}>
+          <FormattedMessage id='awaiting_deposits.enter' defaultMessage='Enter Deposit Details' />
         </Button>
       </RightCol>
     </Container>
