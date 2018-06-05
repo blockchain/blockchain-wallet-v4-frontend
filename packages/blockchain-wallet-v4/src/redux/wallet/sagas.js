@@ -131,6 +131,10 @@ export default ({ api }) => {
     return yield call(api.reset2fa, guid, email, newEmail, secretPhrase, message, code, sessionToken)
   }
 
+  const resendSmsLoginCode = function * ({ guid, sessionToken }) {
+    return yield call(api.resendSmsLoginCode, guid, sessionToken)
+  }
+
   const refetchContextData = function * () {
     const walletContext = yield select(S.getWalletContext)
     yield put(fetchData(walletContext))
@@ -147,6 +151,7 @@ export default ({ api }) => {
     fetchWalletSaga,
     upgradeToHd,
     resetWallet2fa,
-    refetchContextData
+    refetchContextData,
+    resendSmsLoginCode
   }
 }

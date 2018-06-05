@@ -109,6 +109,8 @@ const selectMessage = (message, data = undefined) => {
     case C.SEND_BTC_SUCCESS: return <FormattedMessage id='components.alerts.send_btc_success' defaultMessage='Your bitcoin transaction is now pending' />
     case C.SEND_ETH_ERROR: return <FormattedMessage id='components.alerts.send_eth_error' defaultMessage='Your ether transaction failed to send. Please try again.' />
     case C.SEND_ETH_SUCCESS: return <FormattedMessage id='components.alerts.send_eth_success' defaultMessage='Your ether transaction is now pending' />
+    case C.SMS_RESEND_ERROR: return <FormattedMessage id='components.alerts.sms_resend_error' defaultMessage='Error sending SMS verification code.' />
+    case C.SMS_RESEND_SUCCESS: return <FormattedMessage id='components.alerts.sms_resend_success' defaultMessage='A new SMS verification code has been sent to your phone.' />
     case C.SWEEP_ERROR: return <FormattedMessage id='components.alerts.sweep_error' defaultMessage='Could not sweep address' />
     case C.SWEEP_ERROR_EMPTY_ADDRESS: return <FormattedMessage id='components.alerts.sweep_error_empty_address' defaultMessage='The imported address does not have funds' />
     case C.SWEEP_SUCCESS: return <FormattedMessage id='components.alerts.sweep_success' defaultMessage='Swept address funds to {label}' values={data} />
@@ -124,7 +126,7 @@ const selectMessage = (message, data = undefined) => {
     case C.TWOFA_MOBILE_VERIFY_SUCCESS: return <FormattedMessage id='components.alerts.twofa_mobile_verify_success' defaultMessage='Your mobile number is now your two-factor authentication method.' />
     case C.TWOFA_REMEMBER_UPDATE_ERROR: return <FormattedMessage id='components.alerts.twofa_remember_update_success' defaultMessage='Failed to update 2FA remember' />
     case C.TWOFA_REMEMBER_UPDATE_SUCCESS: return <FormattedMessage id='components.alerts.twofa_remember_update_success' defaultMessage='2FA remember has been successfully updated.' />
-    case C.TWOFA_REQUIRED_INFO: return <FormattedMessage id='components.alerts.twofa_required_info' defaultMessage='2FA required' />
+    case C.TWOFA_REQUIRED_INFO: return <FormattedMessage id='components.alerts.twofa_required_info' defaultMessage='2FA required for login.' />
     case C.TWOFA_RESET_ERROR: return <FormattedMessage id='components.alerts.twofa_reset_error' defaultMessage='Error resetting two-step authentication.' />
     case C.TWOFA_UPDATE_ERROR: return <FormattedMessage id='components.alerts.twofa_success_error' defaultMessage='Failed to update 2FA setting' />
     case C.TWOFA_UPDATE_SUCCESS: return <FormattedMessage id='components.alerts.twofa_update_success' defaultMessage='2FA has been successfully updated' />
@@ -135,6 +137,7 @@ const selectMessage = (message, data = undefined) => {
     case C.WALLET_UPGRADE_ERROR: return <FormattedMessage id='components.alerts.wallet_upgrade_error' defaultMessage='Failed to upgrade to HD and save wallet.' />
     case C.YUBIKEY_VERIFY_ERROR: return <FormattedMessage id='components.alerts.yubikey_verify_error' defaultMessage='Failed to verify Yubikey' />
     case C.YUBIKEY_VERIFY_SUCCESS: return <FormattedMessage id='components.alerts.yubikey_verify_success' defaultMessage='Yubikey verified' />
+    case C.CAPTCHA_CODE_INCORRECT: return <FormattedMessage id='components.alerts.captcha_code_incorrect' defaultMessage='The captcha you provided was incorrect, please try again' />
     default: return <FormattedMessage id='components.alerts.uknown_error' defaultMessage='An error has occured.' />
   }
 }
