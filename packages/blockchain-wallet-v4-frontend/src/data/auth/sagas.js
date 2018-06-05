@@ -120,8 +120,7 @@ export default ({ api, coreSagas }) => {
       yield call(loginRoutineSaga, mobileLogin)
       yield put(actions.auth.loginSuccess())
     } catch (error) {
-      console.info('2FA Auth part 1')
-      console.info(error)
+      // TODO: fix safe parse
       const initialError = error.initial_error ? error.initial_error : safeParse(error).map(prop('initial_error'))
       const authRequired = error.authorization_required ? error.authorization_required : safeParse(error).map(prop('authorization_required'))
 
@@ -134,8 +133,6 @@ export default ({ api, coreSagas }) => {
             yield call(coreSagas.wallet.fetchWalletSaga, { guid, session, password })
             yield call(loginRoutineSaga, mobileLogin)
           } catch (e) {
-            console.info('2FA Auth pArt 2')
-            console.info(e)
             if (e.auth_type > 0) {
               yield put(actions.auth.setAuthType(e.auth_type))
               yield put(actions.alerts.displayInfo(C.TWOFA_REQUIRED_INFO))
@@ -153,8 +150,6 @@ export default ({ api, coreSagas }) => {
         yield put(actions.auth.loginFailure(initialError.value))
       } else {
         // 2FA errors
-        console.info('2FA Error')
-        console.info(error)
         if (error.auth_type > 0) { // 2fa required
           // dispatch state change to show form
           yield put(actions.auth.loginFailure())
@@ -255,11 +250,9 @@ export default ({ api, coreSagas }) => {
   }
 
   const resendSmsLoginCode = function * (action) {
-    console.log('resendSmsLoginCode saga')
     try {
-      debugger
       let { guid } = action.payload
-      let sessionToken = yield select(selectors.session.getSession(guid))
+      let sessionToken = yield select(selectors.session.getSession, guid)
       const response = yield call(coreSagas.wallet.resendSmsLoginCode, { guid, sessionToken })
       debugger
       if (response.initial_error) {
