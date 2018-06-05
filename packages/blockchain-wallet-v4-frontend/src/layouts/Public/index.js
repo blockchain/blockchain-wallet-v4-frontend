@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   height: auto;
   min-height: 100%;
   width: 100%;
-  overflow: scroll;
+  overflow: auto;
 
   @media(min-width: 768px) {
     display: flex;
