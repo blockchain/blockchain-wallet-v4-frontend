@@ -70,5 +70,6 @@ export const getData = (state) => ({
   checkoutBusy: path(['coinify', 'checkoutBusy'], state),
   paymentMedium: path(['coinify', 'medium'], state),
   step: path(['coinify', 'checkoutStep'], state),
-  coinifyBusy: path(['coinify', 'coinifyBusy'], state)
+  coinifyBusy: path(['coinify', 'coinifyBusy'], state),
+  canTrade: selectors.core.data.coinify.canTrade(state)
 })

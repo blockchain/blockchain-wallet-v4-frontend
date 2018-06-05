@@ -1,12 +1,13 @@
-import ExchangeDelegate from '../../../exchange/delegate'
 import { apply, fork, call, put, select, take } from 'redux-saga/effects'
+import { path, prepend } from 'ramda'
+
+import ExchangeDelegate from '../../../exchange/delegate'
 import * as S from './selectors'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import * as buySellA from '../../kvStore/buySell/actions'
 import { sfoxService } from '../../../exchange/service'
-import { prepend } from 'ramda'
 
 let sfox
 
@@ -22,7 +23,7 @@ export default ({ api, options }) => {
   const init = function * () {
     try {
       const value = yield select(buySellSelectors.getMetadata)
-      if (!value.data.value.sfox.account_token) return
+      if (!path(['data', 'value', 'sfox', 'account_token'], value)) return
       yield call(refreshSFOX)
     } catch (e) {
       throw new Error(e)
@@ -79,8 +80,8 @@ export default ({ api, options }) => {
       sellQuote = {
         quote: {
           amt: quote.quoteAmount,
-          baseCurr: 'BTC',
-          quoteCurr: 'USD'
+          baseCurrency: 'BTC',
+          quoteCurrency: 'USD'
         }
       }
     } else {
@@ -267,11 +268,14 @@ export default ({ api, options }) => {
       const methods = yield apply(quote, quote.getPaymentMediums)
       const trade = yield apply(methods.ach, methods.ach.sell, [accounts.data[0]])
       yield put(A.handleTradeSuccess(trade))
-
       yield put(A.fetchProfile())
       yield put(A.fetchTrades())
-      const trades = yield select(S.getTrades)
-      yield put(buySellA.setTradesBuySell(trades.data))
+
+      // get current kvstore trades, add new trade and set new trades to metadata
+      const kvTrades = yield select(buySellSelectors.getSfoxTrades)
+      const newTrades = prepend(trade, kvTrades)
+      yield put(buySellA.setSfoxTradesBuySell(newTrades))
+
       return trade
     } catch (e) {
       console.log(e)

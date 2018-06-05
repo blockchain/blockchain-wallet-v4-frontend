@@ -96,6 +96,13 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     data: { format: 'json', method: 'get', pin, key }
   })
 
+  const resendSmsLoginCode = (guid, sessionToken) => get({
+    url: rootUrl,
+    endPoint: `/wallet/${guid}`,
+    data: { format: 'json', resend_code: true },
+    sessionToken
+  })
+
   const remindGuid = (email, captcha, sessionToken) => post({
     url: rootUrl,
     endPoint: '/wallet',
@@ -197,6 +204,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     verifyEmailToken,
     incrementSecPasswordStats,
     incrementLoginViaQrStats,
-    incrementCurrencyUsageStats
+    incrementCurrencyUsageStats,
+    resendSmsLoginCode
   }
 }
