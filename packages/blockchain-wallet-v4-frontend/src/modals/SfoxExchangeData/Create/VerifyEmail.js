@@ -35,6 +35,7 @@ class VerifyEmail extends Component {
       this.props.securityCenterActions.sendConfirmationCodeEmail(this.props.oldEmail)
     }
     this.props.formActions.change('sfoxCreate', 'emailAddress', this.props.oldEmail)
+    this.props.sfoxFrontendActions.sfoxNotAsked()
   }
 
   componentDidUpdate (prevProps) {

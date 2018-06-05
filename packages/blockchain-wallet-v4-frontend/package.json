@@ -59,7 +59,7 @@
     "bip21": "2.0.2",
     "bip39": "2.3.1",
     "bitcoin-coinify-client": "0.7.6",
-    "bitcoin-sfox-client": "0.3.2",
+    "bitcoin-sfox-client": "0.4.0",
     "bitcoinforksjs-lib": "git://github.com/blockchain/bitcoinjs-lib.git#opt-in-bitcoincash-sighash",
     "bitcoinjs-lib": "3.1.1",
     "blockchain-info-components": "0.0.2",

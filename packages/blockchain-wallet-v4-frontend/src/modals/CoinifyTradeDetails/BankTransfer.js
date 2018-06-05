@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { ModalBody, Button } from 'blockchain-info-components'
 import BankTransferDetails from 'components/BuySell/BankTransferDetails'
 
-export const ButtonRow = styled.div`
+const ButtonRow = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
