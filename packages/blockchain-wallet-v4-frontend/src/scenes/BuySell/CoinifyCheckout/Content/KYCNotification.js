@@ -23,11 +23,11 @@ const LimitsNotice = styled.div`
 `
 
 const KYCNotification = (props) => {
-  const { kyc, onTrigger, symbol, limits, type } = props
+  const { kyc, onTrigger, symbol, limits, type, canTrade } = props
 
-  const state = path(['state'], kyc)
-  const header = kycHeaderHelper(state)
-  const body = kycNotificationBodyHelper(state)
+  const status = path(['state'], kyc)
+  const header = kycHeaderHelper(status)
+  const body = kycNotificationBodyHelper(status)
 
   let effBal = limits.effectiveMax / 1e8
   let sellMax = Math.min(effBal, limits.max)
@@ -35,7 +35,7 @@ const KYCNotification = (props) => {
   return (
     <Wrapper>
       {
-        (state === 'pending' || state === 'reviewing')
+        (status === 'pending' || status === 'reviewing') && canTrade
           ? <LimitsNotice>
             <Text size='12px' weight={300}>
               {
@@ -55,16 +55,16 @@ const KYCNotification = (props) => {
       }
       <ISXContainer>
         <Text size='13px' color='brand-primary' weight={400} style={spacing('mb-20')}>
-          { header.text }
+          { path(['text'], header) }
         </Text>
         <Text size='13px' weight={300} style={spacing('mb-20')}>
-          { body.text }
+          { path(['text'], body) }
         </Text>
         {
-          state === 'pending' || state === 'rejected'
+          status === 'pending' || status === 'rejected' || status === 'expired'
             ? <Button onClick={() => onTrigger(kyc)} nature='empty-secondary'>
               <Text size='13px' color='brand-secondary'>
-                { kycNotificationButtonHelper(state)['text'] }
+                { path(['text'], kycNotificationButtonHelper(status)) }
               </Text>
             </Button>
             : null
