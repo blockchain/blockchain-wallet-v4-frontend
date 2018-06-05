@@ -30,11 +30,7 @@ export default ({ apiKey }) => {
   const request = ({ method, url, endPoint, data, sessionToken, ignoreKey, contentType = 'application/x-www-form-urlencoded' }) => {
     const defaultHeaders = { 'Content-Type': contentType }
 
-    let formEncodedData
-    method === 'GET' ? formEncodedData = encodeData(contentType, { ...data, 'api_code': apiKey, ct: Date.now() }) : formEncodedData = encodeData(contentType, { ...data, 'api_code': apiKey })
-
-    console.info('api call')
-    console.info(formEncodedData)
+    const formEncodedData = encodeData(contentType, { ...data, 'api_code': apiKey, ct: Date.now() })
 
     const finalHeaders = isNil(sessionToken)
       ? defaultHeaders
