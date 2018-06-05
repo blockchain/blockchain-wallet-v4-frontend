@@ -120,9 +120,8 @@ export default ({ api, coreSagas }) => {
       yield call(loginRoutineSaga, mobileLogin)
       yield put(actions.auth.loginSuccess())
     } catch (error) {
-      // TODO: fix safe parse
-      const initialError = error.initial_error ? error.initial_error : safeParse(error).map(prop('initial_error'))
-      const authRequired = error.authorization_required ? error.authorization_required : safeParse(error).map(prop('authorization_required'))
+      const initialError = safeParse(error).map(prop('initial_error'))
+      const authRequired = safeParse(error).map(prop('authorization_required'))
 
       if (authRequired.isRight && authRequired.value) {
         // auth errors (polling)
@@ -251,18 +250,17 @@ export default ({ api, coreSagas }) => {
 
   const resendSmsLoginCode = function * (action) {
     try {
-      let { guid } = action.payload
-      let sessionToken = yield select(selectors.session.getSession, guid)
+      const { guid } = action.payload
+      const sessionToken = yield select(selectors.session.getSession, guid)
       const response = yield call(coreSagas.wallet.resendSmsLoginCode, { guid, sessionToken })
-      debugger
       if (response.initial_error) {
         throw new Error(response)
       } else {
-        yield put(actions.alerts.displaySuccess('A new SMS verification code has been sent to your phone.'))
+        yield put(actions.alerts.displaySuccess(C.SMS_RESEND_SUCCESS))
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'resendSmsLoginCode', e))
-      yield put(actions.alerts.displayError('Error sending SMS verification code.'))
+      yield put(actions.alerts.displayError(C.SMS_RESEND_ERROR))
     }
   }
 
