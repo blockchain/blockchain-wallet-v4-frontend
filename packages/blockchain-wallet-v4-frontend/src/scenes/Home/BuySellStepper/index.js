@@ -72,7 +72,6 @@ class BuySellStepperContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => getData(state)
-
 const mapDispatchToProps = dispatch => ({
   sfoxActions: bindActionCreators(actions.modules.sfox, dispatch)
 })
