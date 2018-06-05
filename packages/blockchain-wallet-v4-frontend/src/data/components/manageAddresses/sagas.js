@@ -1,12 +1,12 @@
 import { call, put, select } from 'redux-saga/effects'
 import { filter, findIndex, forEach, pluck, propEq, sort } from 'ramda'
 
+import * as C from 'services/AlertService'
 import * as A from './actions'
 import * as actions from '../../actions'
 import { selectors } from '../../index'
 import settings from 'config'
 import { Types } from 'blockchain-wallet-v4/src'
-import * as C from 'services/AlertService'
 import { promptForInput } from 'services/SagaService'
 
 export default ({ api }) => {
@@ -122,7 +122,6 @@ export default ({ api }) => {
 
   const editAddressLabel = function * (action) {
     const { accountIndex, walletIndex, addressIndex } = action.payload
-
     try {
       yield put(A.editAddressLabelLoading(accountIndex))
       let newLabel = yield call(promptForInput, { title: 'Rename Address Label' })
@@ -131,9 +130,11 @@ export default ({ api }) => {
       yield put(A.editAddressLabelSuccess(walletIndex))
       yield put(actions.alerts.displaySuccess(C.UPDATE_ADDRESS_LABEL_SUCCESS))
     } catch (e) {
-      yield put(A.editAddressLabelError(walletIndex, e))
-      yield put(actions.logs.logErrorMessage(logLocation, 'editAddressLabel', e))
-      yield put(actions.alerts.displayError(C.UPDATE_ADDRESS_LABEL_ERROR))
+      if (e.message !== 'PROMPT_INPUT_CANCEL') {
+        yield put(A.editAddressLabelError(walletIndex, e))
+        yield put(actions.logs.logErrorMessage(logLocation, 'editAddressLabel', e))
+        yield put(actions.alerts.displayError(C.UPDATE_ADDRESS_LABEL_ERROR))
+      }
     }
   }
 
