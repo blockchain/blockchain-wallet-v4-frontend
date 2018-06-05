@@ -19,8 +19,12 @@ const checkboxShouldBeChecked = value => value ? undefined : 'You must agree to 
 
 const helpers = [
   {
-    question: <FormattedMessage id='sfoxsignup.create.helper1.question' defaultMessage='What is SFOX?' />,
-    answer: <FormattedMessage id='sfoxsignup.create.helper1.answer' defaultMessage='Answer placeholder' />
+    question: <FormattedMessage id='scenes.sfoxsignup.acceptterms.helper1.question' defaultMessage='What is SFOX?' />,
+    answer: <FormattedMessage id='scenes.sfoxsignup.acceptterms.helper1.answer' defaultMessage='SFOX (San Francisco Open Exchange) is a trading platform we’ve partnered with to bring you a harmonious buy & sell experience in your Blockchain wallet.' />
+  },
+  {
+    question: <FormattedMessage id='scenes.sfoxsignup.acceptterms.helper2.question' defaultMessage='How do I change my email address, phone number, or other personal information?' />,
+    answer: <FormattedMessage id='scenes.sfoxsignup.acceptterms.helper2.answer' defaultMessage='Personal information can be changed by submitting a request to support@sfox.com. Make sure you mention Blockchain in the subject and include the information you want to change. Changing your email or phone number within your Blockchain wallet will not impact your SFOX account.' />
   }
 ]
 
@@ -78,7 +82,7 @@ class AcceptTerms extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    const error = Remote.of(nextProps.errorStatus)
+    const error = Remote.of(nextProps.sfoxSignupStatus)
     if (error.data.error && error.data.error.message === 'user is already registered') this.props.updateUI({ uniqueEmail: false })
   }
 
@@ -89,11 +93,11 @@ class AcceptTerms extends Component {
   }
 
   render () {
-    const busy = this.props.errorStatus.cata({
-      Success: () => false,
-      Failure: (err) => err,
-      Loading: () => true,
-      NotAsked: () => false
+    const { busy, error } = this.props.sfoxSignupStatus.cata({
+      Success: () => ({ busy: false }),
+      Failure: (error) => ({ busy: false, error }),
+      Loading: () => ({ busy: true }),
+      NotAsked: () => ({ busy: false })
     })
 
     const { invalid, email, smsNumber, editEmail, editMobile, emailVerified, smsVerified, sfoxFrontendActions } = this.props
@@ -162,17 +166,17 @@ class AcceptTerms extends Component {
         <ColRight>
           <ColRightInner>
             <ButtonWrapper>
-              <Button uppercase type='submit' nature='primary' fullwidth disabled={invalid || busy || !smsNumber || !email}>
+              <Button uppercase type='submit' nature='primary' fullwidth disabled={invalid || busy || !smsNumber || !email || error}>
                 {
-                  !busy
-                    ? <span>Continue</span>
-                    : <HeartbeatLoader height='20px' width='20px' color='white' />
+                  busy
+                    ? <HeartbeatLoader height='20px' width='20px' color='white' />
+                    : <span>Continue</span>
                 }
               </Button>
             </ButtonWrapper>
             <ErrorWrapper>
               {
-                busy instanceof Error && busy.message.toLowerCase() === 'user is already registered'
+                error && error.message.toLowerCase() === 'user is already registered'
                   ? <InlineTextWrapper>
                     <Text size='12px' color='error' weight={300} >
                       <FormattedMessage id='sfoxexchangedata.create.accept.error' defaultMessage='Unfortunately this email is being used for another account.' />
@@ -184,7 +188,7 @@ class AcceptTerms extends Component {
                       <FormattedMessage id='sfoxexchangedata.create.accept.tochangeit' defaultMessage=' to change it.' />
                     </Text>
                   </InlineTextWrapper>
-                  : busy instanceof Error
+                  : error
                     ? <InlineTextWrapper>
                       <Text size='12px' color='error' weight={300}>
                         <FormattedMessage id='sfoxexchangedata.create.accept.unknownError' defaultMessage="We're sorry, but something unexpected went wrong. Please " />
@@ -220,7 +224,7 @@ AcceptTerms.propTypes = {
 const mapStateToProps = (state) => ({
   email: selectors.core.settings.getEmail(state).data,
   smsNumber: selectors.core.settings.getSmsNumber(state).data,
-  errorStatus: path(['sfoxSignup', 'sfoxBusy'], state)
+  sfoxSignupStatus: path(['sfoxSignup', 'sfoxBusy'], state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

@@ -1,5 +1,5 @@
 import React from 'react'
-import { gt, has, slice, toUpper } from 'ramda'
+import { gt, slice, toUpper, equals, path } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 
 export const getLimits = (limits, curr, effectiveBalance) => {
@@ -65,48 +65,27 @@ export const mockedLimits = {
 
 export const reviewOrder = {
   baseBtc: (q) => q.baseCurrency === 'BTC',
-  hasMedium: (paymentMediums, medium) => {
-    if (paymentMediums && has(medium, paymentMediums)) {
-      return medium
-    } else {
-      return medium === 'bank' ? 'card' : 'bank'
-    }
-  },
-  renderSummary: (q, type, medium) => {
+  renderFirstRow: (q, medium) => {
     const qAmt = Math.abs(q.quoteAmount)
     const bAmt = Math.abs(q.baseAmount)
-    const med = reviewOrder.hasMedium(q.paymentMediums, medium)
-    const fee = Math.abs(q.paymentMediums[med]['fee'])
-    const totalBase = Math.abs((q.paymentMediums[med]['total']).toFixed(2))
-    if (type === 'buy') {
-      if (reviewOrder.baseBtc(q)) {
-        return {
-          firstRow: `${bAmt / 1e8} BTC (${currencySymbolMap[q.quoteCurrency]}${qAmt.toFixed(2)})`,
-          fee: `${currencySymbolMap[q.quoteCurrency]}${fee.toFixed(2)}`,
-          total: `${currencySymbolMap[q.quoteCurrency]}${(qAmt + fee).toFixed(2)}`
-        }
-      } else {
-        return {
-          firstRow: `${qAmt / 1e8} BTC (${currencySymbolMap[q.baseCurrency]}${bAmt.toFixed(2)})`,
-          fee: `${currencySymbolMap[q.baseCurrency]}${fee.toFixed(2)}`,
-          total: `${currencySymbolMap[q.baseCurrency]}${totalBase}`
-        }
-      }
-    } else { // type = sell
-      if (reviewOrder.baseBtc(q)) {
-        return {
-          firstRow: `${bAmt / 1e8} BTC (${currencySymbolMap[q.quoteCurrency]}${qAmt.toFixed(2)})`,
-          fee: `${currencySymbolMap[q.quoteCurrency]}${fee.toFixed(2)}`,
-          total: `${currencySymbolMap[q.quoteCurrency]}${(qAmt + fee).toFixed(2)}`
-        }
-      } else {
-        return {
-          firstRow: `${qAmt / 1e8} BTC (${currencySymbolMap[q.baseCurrency]}${bAmt.toFixed(2)})`,
-          fee: `${currencySymbolMap[q.baseCurrency]}${fee.toFixed(2)}`,
-          total: `${currencySymbolMap[q.baseCurrency]}${totalBase}`
-        }
-      }
-    }
+    if (reviewOrder.baseBtc(q)) return `${bAmt / 1e8} BTC (${currencySymbolMap[q.quoteCurrency]}${qAmt.toFixed(2)})`
+    else return `${qAmt / 1e8} BTC (${currencySymbolMap[q.baseCurrency]}${bAmt.toFixed(2)})`
+  },
+  renderFeeRow: (q, medium, type) => {
+    const med = type === 'sell' ? 'bank' : medium
+    const fee = path(['paymentMediums', med], q) && Math.abs(q.paymentMediums[med]['fee'])
+    if (!fee) return `~`
+    if (reviewOrder.baseBtc(q)) return `${currencySymbolMap[q.quoteCurrency]}${fee.toFixed(2)}`
+    else return `${currencySymbolMap[q.baseCurrency]}${fee.toFixed(2)}`
+  },
+  renderTotalRow: (q, medium, type) => {
+    const med = type === 'sell' ? 'bank' : medium
+    const qAmt = Math.abs(q.quoteAmount)
+    const fee = path(['paymentMediums', med], q) && Math.abs(q.paymentMediums[med]['fee'])
+    const totalBase = path(['paymentMediums', med], q) && Math.abs((q.paymentMediums[med]['total']).toFixed(2))
+    if (!fee) return `~`
+    if (reviewOrder.baseBtc(q)) return `${currencySymbolMap[q.quoteCurrency]}${(qAmt + fee).toFixed(2)}`
+    else return `${currencySymbolMap[q.baseCurrency]}${totalBase}`
   }
 }
 
@@ -132,6 +111,24 @@ export const tradeDetails = {
 
 export const getCountryCodeFromIban = (iban) => toUpper(slice(0, 2, iban))
 
+export const canCancelTrade = (trade) => {
+  const { state } = trade
+  if (equals(state, 'awaiting_transfer_in')) return true
+  return false
+}
+
+export const checkoutButtonLimitsHelper = (quoteR, limits, type) => {
+  return quoteR.map(q => {
+    if (type === 'sell') {
+      if (q.baseCurrency !== 'BTC') return Math.abs(q.quoteAmount / 1e8) > limits.max || Math.abs(q.quoteAmount / 1e8) < limits.min || Math.abs(q.quoteAmount) > limits.effectiveMax
+      if (q.baseCurrency !== 'BTC') return Math.abs(q.baseAmount / 1e8) > limits.max || Math.abs(q.baseAmount / 1e8) < limits.min || Math.abs(q.baseAmount) > limits.effectiveMax
+    } else {
+      if (q.baseCurrency !== 'BTC') return Math.abs(q.baseAmount) > limits.max || Math.abs(q.baseAmount) < limits.min || Math.abs(q.quoteAmount) > limits.effectiveMax
+      if (q.baseCurrency === 'BTC') return Math.abs(q.quoteAmount) > limits.max || Math.abs(q.quoteAmount) < limits.min || Math.abs(q.baseAmount) > limits.effectiveMax
+    }
+  }).data
+}
+
 export const statusHelper = status => {
   switch (status) {
     case 'awaiting_transfer_in':
@@ -154,6 +151,7 @@ export const bodyStatusHelper = (status, isBuy) => {
       case 'rejected': return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.buy.rejected' defaultMessage='Your buy trade has been rejected. Please contact support.' /> }
       case 'failed': return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.buy.failed' defaultMessage='Your buy trade failed. Please contact support.' /> }
       case 'cancelled': return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.buy.cancelled' defaultMessage='Your buy trade was cancelled.' /> }
+      default: return { text: <FormattedMessage id='scenes.services.coinifyservice.busellorderhistory.list.orderstatusbody.buy.unknown' defaultMessage='There are issues with this trade, please contact support.' /> }
     }
   } else {
     switch (status) {
@@ -163,51 +161,57 @@ export const bodyStatusHelper = (status, isBuy) => {
       case 'rejected': return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.sell.rejected' defaultMessage='Your sell trade has been rejected. Please contact support.' /> }
       case 'failed': return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.sell.failed' defaultMessage='Your sell trade failed. Please contact support.' /> }
       case 'expired': return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.sell.expired' defaultMessage='Your sell trade expired.' /> }
+      default: return { text: <FormattedMessage id='scenes.services.coinifyservice.busellorderhistory.list.orderstatusbody.sell.unknown' defaultMessage='There are issues with this trade, please contact support.' /> }
     }
   }
-  return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.unknown' defaultMessage='There are issues with this trade. Please contact support.' /> }
 }
 
 export const kycBodyHelper = (status) => {
   switch (status) {
+    case 'reviewing':
+    case 'processing': return { text: <FormattedMessage id='scenes.coinify.details.kyc.reviewing' defaultMessage='Your request for authentication has been submitted and will be reviewed shortly. Coinify will email you a status updated within 48 business hours. If you have any questions about the status of your submission, feel free to reach out to Coinify directly at www.coinify.com/support' /> }
     case 'pending': return { text: <FormattedMessage id='scenes.coinify.detailsmodal.kyc.processing' defaultMessage='Your identity verification is processing.' /> }
     case 'completed': return { text: <FormattedMessage id='scenes.coinify.detailsmodal.kyc.completed' defaultMessage='Your identity verification is complete! Your limits have been raised.' /> }
     case 'rejected': return { text: <FormattedMessage id='scenes.coinify.detailsmodal.kyc.rejected' defaultMessage='There was an issue verifying your identity with the documents provided. Please try uploading different identification. Bank transfers are unavailable until we can successfully verify your identity.' /> }
     case 'failed': return { text: <FormattedMessage id='scenes.coinify.detailsmodal.kyc.failed' defaultMessage='Your identity verification has failed. Please contact support.' /> }
     case 'cancelled': return { text: <FormattedMessage id='scenes.coinify.detailsmodal.kyc.cancelled' defaultMessage='Your identity verification was cancelled. Please try again.' /> }
+    default: return { text: <FormattedMessage id='scenes.coinify.detailsmodal.kyc.cancelled.unknown' defaultMessage='Your identity verification status could not be determined, please contact support.' /> }
   }
 }
 
 export const kycHeaderHelper = (status) => {
   switch (status) {
     case 'reviewing':
-    case 'pending': return { color: 'transferred', text: <FormattedMessage id='scenes.coinify.detailsmodal.kyc.header.pending' defaultMessage='Identity Verification In Review' /> }
-    case 'completed': return { color: 'success', text: <FormattedMessage id='scenes.coinify.detailsmodal.kyc.header.completed' defaultMessage='Identity Verification Completed' /> }
-    case 'rejected': return { color: 'error', text: <FormattedMessage id='scenes.coinify.detailsmodal.kyc.header.rejected' defaultMessage='Identity Verification Denied' /> }
-    case 'failed': return { color: 'error', text: <FormattedMessage id='scenes.coinify.detailsmodal.kyc.header.failed' defaultMessage='Identity Verification Failed' /> }
-    case 'cancelled': return { color: 'error', text: <FormattedMessage id='scenes.coinify.detailsmodal.kyc.header.cancelled' defaultMessage='Identity Verification Cancelled' /> }
-    default: return { color: '', text: <FormattedMessage id='scenes.coinify.detailsmodal.kyc.header.unknown' defaultMessage='Unknown' /> }
+    case 'pending': return { color: 'transferred', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.pending' defaultMessage='Identity Verification In Review' /> }
+    case 'completed': return { color: 'success', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.completed' defaultMessage='Identity Verification Completed' /> }
+    case 'rejected': return { color: 'error', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.rejected' defaultMessage='Identity Verification Denied' /> }
+    case 'failed': return { color: 'error', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.failed' defaultMessage='Identity Verification Failed' /> }
+    case 'cancelled': return { color: 'error', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.cancelled' defaultMessage='Identity Verification Cancelled' /> }
+    case 'expired': return { color: 'error', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.expired' defaultMessage='Identity Verification Expired' /> }
+    default: return { color: '', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.unknown' defaultMessage='Unknown' /> }
   }
 }
 
 export const kycNotificationBodyHelper = (status) => {
   switch (status) {
     case 'reviewing':
-    case 'processing': return { text: <FormattedMessage id='scenes.services.coinifyservice.coinify.detailsmodal.kyc.processing' defaultMessage='Your request for authentication has been submitted and will be reviewed shortly. Conify will email you a status updated within 48 business hours. If you have any questions about the status of your submission, feel free to reach out to Coinify directly at www.coinify.com/support' /> }
-    case 'pending': return { text: <FormattedMessage id='scenes.services.coinifyservice.coinify.detailsmodal.kyc.pending' defaultMessage="It looks like you started your identity verification but didn't finish. Complete this process to link your bank account and/or increase your buy & sell limits." /> }
-    case 'completed': return { text: <FormattedMessage id='scenes.services.coinifyservice.coinify.detailsmodal.kyc.completed' defaultMessage='Your identity verification is complete! Your limits have been raised.' /> }
-    case 'rejected': return { text: <FormattedMessage id='scenes.services.coinifyservice.coinify.detailsmodal.kyc.rejected' defaultMessage='There was an issue verifying your identity with the documents provided. Please try uploading different identification. Bank transfers are unavailable until we can successfully verify your identity.' /> }
-    case 'failed': return { text: <FormattedMessage id='scenes.services.coinifyservice.coinify.detailsmodal.kyc.failed' defaultMessage='Your identity verification has failed. Please contact support.' /> }
-    case 'cancelled': return { text: <FormattedMessage id='scenes.services.coinifyservice.coinify.detailsmodal.kyc.cancelled' defaultMessage='Your identity verification was cancelled. Please try again.' /> }
-    default: return { color: '', text: <FormattedMessage id='scenes.services.coinifyservice.coinify.detailsmodal.kyc.header.unknown' defaultMessage='Unknown' /> }
+    case 'processing': return { text: <FormattedMessage id='scenes.coinify_details_modal.kyc.processing' defaultMessage='Your request for authentication has been submitted and will be reviewed shortly. Coinify will email you a status updated within 48 business hours. If you have any questions about the status of your submission, feel free to reach out to Coinify directly at www.coinify.com/support' /> }
+    case 'pending': return { text: <FormattedMessage id='scenes.coinify_details_modal.kyc.pending' defaultMessage="It looks like you started your identity verification but didn't finish. Complete this process to link your bank account and/or increase your buy & sell limits." /> }
+    case 'completed': return { text: <FormattedMessage id='scenes.coinify_details_modal.kyc.completed' defaultMessage='Your identity verification is complete! Your limits have been raised.' /> }
+    case 'rejected': return { text: <FormattedMessage id='scenes.coinify_details_modal.kyc.rejected' defaultMessage='There was an issue verifying your identity with the documents provided. Please try uploading different identification. Bank transfers are unavailable until we can successfully verify your identity.' /> }
+    case 'failed': return { text: <FormattedMessage id='scenes.coinify_details_modal.kyc.failed' defaultMessage='Your identity verification has failed. Please contact support.' /> }
+    case 'cancelled': return { text: <FormattedMessage id='scenes.coinify_details_modal.kyc.cancelled' defaultMessage='Your identity verification was cancelled. Please try again.' /> }
+    case 'expired': return { text: <FormattedMessage id='scenes.coinify_details_modal.kyc.expired' defaultMessage='Your identity verification request has expired. Please try again.' /> }
+    default: return { color: '', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.unknown' defaultMessage='Unknown' /> }
   }
 }
 
 export const kycNotificationButtonHelper = (status) => {
   switch (status) {
-    case 'pending': return { color: 'transferred', text: <FormattedMessage id='scenes.services.coinifyservice.buysell.kycnotification.complete' defaultMessage='Complete Verification' /> }
-    case 'rejected': return { color: 'error', text: <FormattedMessage id='scenes.services.coinifyservice.buysell.kycnotification.rejected' defaultMessage='Try Again' /> }
-    default: return { color: '', text: <FormattedMessage id='scenes.services.coinifyservice.coinifydetails.modal.kyc.header.unknown' defaultMessage='Unknown' /> }
+    case 'pending': return { color: 'transferred', text: <FormattedMessage id='scenes.buy_sell.kyc_notification.complete' defaultMessage='Complete Verification' /> }
+    case 'rejected': return { color: 'error', text: <FormattedMessage id='scenes.buy_sell.kyc_notification.rejected' defaultMessage='Try Again' /> }
+    case 'expired': return { color: 'error', text: <FormattedMessage id='scenes.buy_sell.kyc_notification.expired' defaultMessage='Try Again' /> }
+    default: return { color: '', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.unknown' defaultMessage='' /> }
   }
 }
 
