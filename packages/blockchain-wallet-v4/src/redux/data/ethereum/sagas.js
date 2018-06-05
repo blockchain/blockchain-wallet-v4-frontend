@@ -10,7 +10,7 @@ export default ({ api }) => {
   const fetchData = function * (action) {
     try {
       yield put(A.fetchDataLoading())
-      const { context } = action.payload
+      const context = yield select(selectors.core.kvStore.ethereum.getContext)
       const data = yield call(api.getEthereumData, context)
       const latestBlock = yield call(api.getEthereumLatestBlock)
       yield call(accountSaga, data, latestBlock)

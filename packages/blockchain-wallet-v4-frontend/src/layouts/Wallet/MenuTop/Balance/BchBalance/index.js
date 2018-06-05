@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
@@ -18,12 +17,12 @@ class BchBalance extends React.PureComponent {
 
   componentWillMount () {
     if (Remote.NotAsked.is(this.props.data)) {
-      this.props.actions.fetchSpendableBalance(this.props.context)
+      this.props.actions.fetchSpendableBalance()
     }
   }
 
   handleRefresh () {
-    this.props.actions.fetchSpendableBalance(this.props.context)
+    this.props.actions.fetchSpendableBalance()
   }
 
   render () {
@@ -36,10 +35,6 @@ class BchBalance extends React.PureComponent {
       NotAsked: () => <Loading />
     })
   }
-}
-
-BchBalance.propTypes = {
-  context: PropTypes.array.isRequired
 }
 
 const mapStateToProps = (state) => ({
