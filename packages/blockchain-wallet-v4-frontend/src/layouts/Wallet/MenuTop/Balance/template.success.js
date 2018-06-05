@@ -70,14 +70,14 @@ const SubItems = styled.div`
 `
 
 const Success = props => {
-  const { btcContext, ethContext, bchContext, btcUnspendableContext, bchUnspendableContext, path } = props
+  const { ethContext, btcUnspendableContext, bchUnspendableContext, path } = props
 
   const getComponentOrder = () => {
     switch (path) {
-      case '/btc/transactions': return [<BtcBalance large context={btcContext} />, <EthBalance context={ethContext} />, <BchBalance context={bchContext} />, <TotalBalance />]
-      case '/eth/transactions': return [<EthBalance large context={ethContext} />, <BtcBalance context={btcContext} />, <BchBalance context={bchContext} />, <TotalBalance />]
-      case '/bch/transactions': return [<BchBalance large context={bchContext} />, <BtcBalance context={btcContext} />, <EthBalance context={ethContext} />, <TotalBalance />]
-      default: return [<TotalBalance large />, <BtcBalance context={btcContext} />, <EthBalance context={ethContext} />, <BchBalance context={bchContext} />]
+      case '/btc/transactions': return [<BtcBalance large />, <EthBalance context={ethContext} />, <BchBalance />, <TotalBalance />]
+      case '/eth/transactions': return [<EthBalance large context={ethContext} />, <BtcBalance />, <BchBalance />, <TotalBalance />]
+      case '/bch/transactions': return [<BchBalance large />, <BtcBalance />, <EthBalance context={ethContext} />, <TotalBalance />]
+      default: return [<TotalBalance large />, <BtcBalance />, <EthBalance context={ethContext} />, <BchBalance />]
     }
   }
 

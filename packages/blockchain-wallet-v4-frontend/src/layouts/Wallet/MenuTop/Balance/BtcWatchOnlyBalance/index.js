@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
@@ -18,12 +17,12 @@ class BtcWatchOnlyBalance extends React.PureComponent {
 
   componentWillMount () {
     if (Remote.NotAsked.is(this.props.data)) {
-      this.props.actions.fetchUnspendableBalance(this.props.context)
+      this.props.actions.fetchUnspendableBalance()
     }
   }
 
   handleRefresh () {
-    this.props.actions.fetchUnspendableBalance(this.props.context)
+    this.props.actions.fetchUnspendableBalance()
   }
 
   render () {
@@ -36,10 +35,6 @@ class BtcWatchOnlyBalance extends React.PureComponent {
       NotAsked: () => <Loading />
     })
   }
-}
-
-BtcWatchOnlyBalance.propTypes = {
-  context: PropTypes.array.isRequired
 }
 
 const mapStateToProps = (state) => ({

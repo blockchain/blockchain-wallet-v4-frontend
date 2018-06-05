@@ -76,7 +76,7 @@ export const selectUnspendableAddrContext = compose(AddressMap.selectContext, Ad
 export const selectContext = w => selectAddrContext(w).concat(selectXpubsContext(w))
 export const selectHDAccounts = w => selectHdWallets(w).flatMap(HDWallet.selectAccounts)
 export const selectSpendableContext = w => selectSpendableAddrContext(w).concat(selectXpubsContext(w))
-export const selectUnspendableContext = w => selectUnspendableAddrContext(w).concat(selectXpubsContext(w))
+export const selectUnspendableContext = w => selectUnspendableAddrContext(w)
 
 const shiftWallet = compose(shiftIProp('keys', 'addresses'), shift)
 
