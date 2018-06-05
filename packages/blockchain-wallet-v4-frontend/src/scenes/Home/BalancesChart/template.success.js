@@ -106,10 +106,10 @@ const BalancesChart = (props) => {
           }
           {btcAccountsLength > 1 && btcBalance > 0
             ? <NavLink to='/settings/addresses' style={{ textDecoration: 'none' }}>
-                <ViewAllText weight={300} size='10px'>
-                  <FormattedMessage id='scenes.home.balanceschart.btc.viewall' defaultMessage='View All Balances' />
-                </ViewAllText>
-              </NavLink>
+              <ViewAllText weight={300} size='10px'>
+                <FormattedMessage id='scenes.home.balanceschart.btc.viewall' defaultMessage='View All Balances' />
+              </ViewAllText>
+            </NavLink>
             : null
           }
         </Column>
@@ -148,10 +148,10 @@ const BalancesChart = (props) => {
           }
           {bchAccountsLength > 1 && bchBalance > 0
             ? <NavLink to='/settings/addresses/bch' style={{ textDecoration: 'none' }}>
-                <ViewAllText weight={300} size='10px'>
-                  <FormattedMessage id='scenes.home.balanceschart.bch.viewall' defaultMessage='View All Balances' />
-                </ViewAllText>
-              </NavLink>
+              <ViewAllText weight={300} size='10px'>
+                <FormattedMessage id='scenes.home.balanceschart.bch.viewall' defaultMessage='View All Balances' />
+              </ViewAllText>
+            </NavLink>
             : null
           }
         </Column>
