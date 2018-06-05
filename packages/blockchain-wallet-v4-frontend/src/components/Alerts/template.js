@@ -109,6 +109,8 @@ const selectMessage = (message, data = undefined) => {
     case C.SEND_BTC_SUCCESS: return <FormattedMessage id='components.alerts.send_btc_success' defaultMessage='Your bitcoin transaction is now pending' />
     case C.SEND_ETH_ERROR: return <FormattedMessage id='components.alerts.send_eth_error' defaultMessage='Your ether transaction failed to send. Please try again.' />
     case C.SEND_ETH_SUCCESS: return <FormattedMessage id='components.alerts.send_eth_success' defaultMessage='Your ether transaction is now pending' />
+    case C.SMS_RESEND_ERROR: return <FormattedMessage id='components.alerts.sms_resend_error' defaultMessage='Error sending SMS verification code.' />
+    case C.SMS_RESEND_SUCCESS: return <FormattedMessage id='components.alerts.sms_resend_success' defaultMessage='A new SMS verification code has been sent to your phone.' />
     case C.SWEEP_ERROR: return <FormattedMessage id='components.alerts.sweep_error' defaultMessage='Could not sweep address' />
     case C.SWEEP_ERROR_EMPTY_ADDRESS: return <FormattedMessage id='components.alerts.sweep_error_empty_address' defaultMessage='The imported address does not have funds' />
     case C.SWEEP_SUCCESS: return <FormattedMessage id='components.alerts.sweep_success' defaultMessage='Swept address funds to {label}' values={data} />
