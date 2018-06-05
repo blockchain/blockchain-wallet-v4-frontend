@@ -15,7 +15,7 @@ export const getAccountsList = state => {
   return lift(a => map(key => a[key], keys(a)))(accountsObj)
 }
 
-export const getContext = (state, spendable) => {
+export const getContext = (state) => {
   const btcHDAccountContext = walletSelectors.getHDAccounts(state)
   const btcContext = btcHDAccountContext.map(x => x.xpub)
   try {
