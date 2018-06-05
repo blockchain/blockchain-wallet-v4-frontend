@@ -15,7 +15,7 @@ export default ({ coreSagas }) => {
       }
       yield put(actions.form.initialize('bchTransactions', initialValues))
       const bchTransactionsR = yield select(selectors.core.data.bch.getTransactions)
-      if (!Remote.Success.is(bchTransactionsR)) yield put(actions.core.data.bch.fetchData(defaultSource))
+      if (!Remote.Success.is(bchTransactionsR)) yield put(actions.core.data.bch.fetchData(defaultSource, true))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
     }
