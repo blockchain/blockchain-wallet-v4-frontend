@@ -37,10 +37,11 @@ const selectHeader = nature => {
 const selectMessage = (message, data = undefined) => {
   switch (message) {
     case C.ADDRESS_ADD_ERROR: return <FormattedMessage id='components.alerts.addresserroradd' defaultMessage='Error adding address.' />
+    case C.ADDRESS_DELETE_ERROR: return <FormattedMessage id='components.alerts.address_delete_error' defaultMessage='Failed to delete address label.' />
+    case C.ADDRESS_DELETE_SUCCESS: return <FormattedMessage id='components.alerts.address_delete_success' defaultMessage='Address deleted successfully.' />
     case C.ADDRESS_DOES_NOT_EXIST_ERROR: return <FormattedMessage id='components.alerts.address_does_not_exist_error' defaultMessage='This address already exists in your wallet.' />
     case C.ADDRESS_FORMAT_NOT_SUPPORTED_ERROR: return <FormattedMessage id='components.alerts.address_format_not_supported_error' defaultMessage='This address format is not supported.' />
-    case C.ADDRESS_LABEL_MAXIMUM_ERROR: return <FormattedMessage id='components.alerts.address_label_maximum_error' defaultMessage='You cannot label more than 15 unused addresses in a row; please send some bitcoins to at least one of them.' />
-    case C.ADDRESS_LABEL_UPDATE_SUCCESS: return <FormattedMessage id='components.alerts.address_label_update_success' defaultMessage='Address label updated.' />
+    case C.ADDRESS_LABEL_MAXIMUM_ERROR: return <FormattedMessage id='components.alerts.address_label_maximum_error' defaultMessage='You cannot have more than 15 unused addresses. Please send some Bitcoin to at least one of them.' />
     case C.AUTHORIZATION_REQUIRED_INFO: return <FormattedMessage id='components.alerts.authorization_required_info' defaultMessage='Authorization required. Please check your mailbox.' />
     case C.AUTOLOGOUT_UPDATE_ERROR: return <FormattedMessage id='components.alerts.autologout_update_error' defaultMessage='Failed to update auto logout' />
     case C.AUTOLOGOUT_UPDATE_SUCCESS: return <FormattedMessage id='components.alerts.autologout_update_success' defaultMessage='Auto logout has been successfully updated' />
@@ -58,6 +59,8 @@ const selectMessage = (message, data = undefined) => {
     case C.EXCHANGE_REFRESH_TRADES_ERROR: return <FormattedMessage id='components.alerts.exchange_refresh_trades_error' defaultMessage='Failed to refresh all trades statuses.' />
     case C.EXCHANGE_REFRESH_TRADE_ERROR: return <FormattedMessage id='components.alerts.exchange_refresh_trade_error' defaultMessage='Failed to refresh trade status.' />
     case C.EXCHANGE_TRANSACTION_ERROR: return <FormattedMessage id='components.alerts.exchange_transaction_error' defaultMessage='The transaction failed to send. Please try again later.' />
+    case C.FETCH_USED_ADDRESSES_ERROR: return <FormattedMessage id='components.alerts.fetch_used_addresses_error' defaultMessage='Failed to retrieve used addresses.' />
+    case C.FETCH_UNUSED_ADDRESSES_ERROR: return <FormattedMessage id='components.alerts.fetch_unused_addresses_error' defaultMessage='Failed to retrieve unused addresses.' />
     case C.GET_GOOGLEAUTH_SECRET_ERROR: return <FormattedMessage id='components.alerts.get_googleauth_secret_error' defaultMessage='Could not retrieve Google Authenticator secret.' />
     case C.GOOGLE_AUTH_VERIFY_ERROR: return <FormattedMessage id='components.alerts.google_auth_verify_error' defaultMessage='Failed to verify Google Authenticator code' />
     case C.GOOGLE_AUTH_VERIFY_SUCCESS: return <FormattedMessage id='components.alerts.google_auth_verify_success' defaultMessage='Google auth verified' />
@@ -89,6 +92,7 @@ const selectMessage = (message, data = undefined) => {
     case C.MOBILE_VERIFY_ERROR: return <FormattedMessage id='components.alerts.mobile_verify_error' defaultMessage='Failed to verify mobile number' />
     case C.MOBILE_VERIFY_SUCCESS: return <FormattedMessage id='components.alerts.mobile_verify_success' defaultMessage='Mobile number has been verified' />
     case C.NEW_WALLET_CREATE_ERROR: return <FormattedMessage id='components.alerts.new_wallet_create_error' defaultMessage='Failed to create new wallet' />
+    case C.NEW_ADDRESS_GENERATE_ERROR: return <FormattedMessage id='components.alerts.new_address_generate_error' defaultMessage='Failed to generate new address.' />
     case C.NEW_WALLET_CREATE_SUCCESS: return <FormattedMessage id='components.alerts.new_wallet_create_success' defaultMessage='Successfully created new wallet' />
     case C.PBKDF2_UPDATE_SUCCESS: return <FormattedMessage id='components.alerts.pbkdf2_update_success' defaultMessage='PBKDF2 iterations changed successfully' />
     case C.REGISTER_ERROR: return <FormattedMessage id='components.alerts.register_error' defaultMessage='Wallet could not be created' />
@@ -130,13 +134,15 @@ const selectMessage = (message, data = undefined) => {
     case C.TWOFA_UPDATE_SUCCESS: return <FormattedMessage id='components.alerts.twofa_update_success' defaultMessage='2FA has been successfully updated' />
     case C.TWOFA_YUBIKEY_ENABLE_ERROR: return <FormattedMessage id='components.alerts.yubikey_enable_error' defaultMessage='Failed to update Yubikey 2FA' />
     case C.TWOFA_YUBIKEY_ENABLE_SUCCESS: return <FormattedMessage id='components.alerts.yubikey_enable_success' defaultMessage='2FA (Yubikey) has been successfully enabled' />
+    case C.UPDATE_ADDRESS_LABEL_SUCCESS: return <FormattedMessage id='components.alerts.update_address_label_success' defaultMessage='Address label updated.' />
+    case C.UPDATE_ADDRESS_LABEL_ERROR: return <FormattedMessage id='components.alerts.update_address_label_error' defaultMessage='Failed to update address label.' />
     case C.WALLET_LOADING_ERROR: return <FormattedMessage id='components.alerts.wallet_loading_error' defaultMessage='Could not retrieve essential data. Try again later.' />
     case C.WALLET_SESSION_ERROR: return <FormattedMessage id='components.alerts.wallet_session_error' defaultMessage='Error establishing the session' />
     case C.WALLET_UPGRADE_ERROR: return <FormattedMessage id='components.alerts.wallet_upgrade_error' defaultMessage='Failed to upgrade to HD and save wallet.' />
     case C.YUBIKEY_VERIFY_ERROR: return <FormattedMessage id='components.alerts.yubikey_verify_error' defaultMessage='Failed to verify Yubikey' />
     case C.YUBIKEY_VERIFY_SUCCESS: return <FormattedMessage id='components.alerts.yubikey_verify_success' defaultMessage='Yubikey verified' />
     case C.CAPTCHA_CODE_INCORRECT: return <FormattedMessage id='components.alerts.captcha_code_incorrect' defaultMessage='The captcha you provided was incorrect, please try again' />
-    default: return <FormattedMessage id='components.alerts.uknown_error' defaultMessage='An error has occurred.' />
+    default: return <FormattedMessage id='components.alerts.unknown_error' defaultMessage='An error has occurred.' />
   }
 }
 

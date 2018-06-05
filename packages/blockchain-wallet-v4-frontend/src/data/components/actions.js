@@ -13,7 +13,7 @@ import * as sendBch from './sendBch/actions'
 import * as sendBtc from './sendBtc/actions'
 import * as sendEth from './sendEth/actions'
 import * as signMessage from './signMessage/actions'
-import * as usedAddresses from './usedAddresses/actions'
+import * as manageAddresses from './manageAddresses/actions'
 
 export {
   activityList,
@@ -31,5 +31,5 @@ export {
   sendBtc,
   sendEth,
   signMessage,
-  usedAddresses
+  manageAddresses
 }
