@@ -1,6 +1,5 @@
-import { call, fork, put, select, take } from 'redux-saga/effects'
+import { call, fork, put, select } from 'redux-saga/effects'
 import { indexBy, length, path, prop, last } from 'ramda'
-import * as AT from './actionTypes'
 import * as A from './actions'
 import * as S from './selectors'
 import * as selectors from '../../selectors'
