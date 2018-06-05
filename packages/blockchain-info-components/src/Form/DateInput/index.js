@@ -305,7 +305,6 @@ DateInput.propTypes = {
 }
 
 DateInput.defaultProps = {
-  open: true,
   dateFormat: true,
   timeFormat: false,
   input: true,
