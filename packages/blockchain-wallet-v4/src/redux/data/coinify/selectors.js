@@ -9,6 +9,8 @@ export const getRateQuote = path([dataPath, 'coinify', 'rateQuote'])
 
 export const getTrades = path([dataPath, 'coinify', 'trades'])
 
+export const getSubscriptions = path([dataPath, 'coinify', 'subscriptions'])
+
 export const getProfile = path([dataPath, 'coinify', 'profile'])
 
 export const getMediums = path([dataPath, 'coinify', 'mediums'])

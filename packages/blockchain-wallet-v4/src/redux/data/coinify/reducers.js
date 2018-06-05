@@ -10,6 +10,7 @@ const INITIAL_STATE = {
   mediums: Remote.NotAsked,
   rateQuote: Remote.NotAsked,
   kycs: Remote.NotAsked,
+  subscriptions: Remote.NotAsked,
   nextAddress: null
 }
 
@@ -52,6 +53,15 @@ const coinifyReducer = (state = INITIAL_STATE, action) => {
     }
     case AT.COINIFY_FETCH_TRADES_FAILURE: {
       return assoc('trades', Remote.Failure(payload), state)
+    }
+    case AT.COINIFY_FETCH_SUBSCRIPTIONS_LOADING: {
+      return assoc('subscriptions', Remote.Loading, state)
+    }
+    case AT.COINIFY_FETCH_SUBSCRIPTIONS_SUCCESS: {
+      return assoc('subscriptions', Remote.Success(payload), state)
+    }
+    case AT.COINIFY_FETCH_SUBSCRIPTIONS_FAILURE: {
+      return assoc('subscriptions', Remote.Failure(payload), state)
     }
     case AT.HANDLE_TRADE_LOADING: {
       return assoc('trade', Remote.Loading, state)

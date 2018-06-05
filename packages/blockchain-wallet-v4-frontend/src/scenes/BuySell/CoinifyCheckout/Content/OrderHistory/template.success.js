@@ -26,8 +26,10 @@ const isPending = (t) => t.state === 'processing' || t.state === 'awaiting_trans
 const isCompleted = (t) => contains(t.state, ['completed', 'rejected', 'cancelled', 'expired'])
 
 const OrderHistory = (props) => {
-  const { showModal, finishTrade, cancelTrade, trades, step, trade, status, cancelTradeId, changeTab, canTrade } = props
+  const { showModal, finishTrade, cancelTrade, step, status, cancelTradeId, trade, changeTab, canTrade, value } = props
+  const { trades, subscriptions } = value
   const pendingTrades = filter(isPending, trades)
+  console.log('OrderHistory template', props)
   if (step === 'isx') {
     return (
       <ISignThis
