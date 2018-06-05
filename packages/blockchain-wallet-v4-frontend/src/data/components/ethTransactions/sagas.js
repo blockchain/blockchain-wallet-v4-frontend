@@ -13,7 +13,7 @@ export default ({ coreSagas }) => {
       yield put(actions.form.initialize('ethTransactions', initialValues))
       const ethTransactions = yield select(selectors.core.data.ethereum.getTransactions)
       // Add context here
-      if (isEmpty(ethTransactions)) yield put(actions.core.data.ethereum.fetchTransactions())
+      if (isEmpty(ethTransactions)) yield put(actions.core.data.ethereum.fetchData())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
     }
@@ -27,7 +27,7 @@ export default ({ coreSagas }) => {
       const { yMax, yOffset } = action.payload
 
       if (yMax - yOffset < threshold) {
-        yield put(actions.core.data.ethereum.fetchTransactions())
+        yield put(actions.core.data.ethereum.fetchData())
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'scrollUpdated', e))
@@ -41,7 +41,7 @@ export default ({ coreSagas }) => {
       if (!equals('ethTransactions', form)) return
       switch (field) {
         case 'source':
-          yield put(actions.core.data.ethereum.fetchTransactions())
+          yield put(actions.core.data.ethereum.fetchData())
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))

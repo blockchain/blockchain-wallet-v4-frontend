@@ -1,4 +1,4 @@
-import { call, put, select, take } from 'redux-saga/effects'
+import { call, fork, put, select, take } from 'redux-saga/effects'
 import { indexBy, length, path, prop, last } from 'ramda'
 import * as AT from './actionTypes'
 import * as A from './actions'
@@ -6,17 +6,6 @@ import * as S from './selectors'
 import * as selectors from '../../selectors'
 
 export default ({ api }) => {
-  const fetchData = function * (action) {
-    try {
-      yield put(A.fetchDataLoading())
-      const { context } = action.payload
-      const data = yield call(api.fetchBchData, context, { n: 1 })
-      yield call(multiaddrSaga, data)
-    } catch (e) {
-      yield put(A.fetchDataFailure(e.message))
-    }
-  }
-
   const fetchFee = function * () {
     try {
       yield put(A.fetchFeeLoading())
@@ -37,14 +26,7 @@ export default ({ api }) => {
     }
   }
 
-  const watchTransactions = function * () {
-    while (true) {
-      const action = yield take(AT.FETCH_BCH_TRANSACTIONS)
-      yield call(fetchTransactions, action)
-    }
-  }
-
-  const fetchTransactions = function * ({ type, payload }) {
+  const fetchData = function * ({ payload }) {
     const { address, reset } = payload
     const TX_PER_PAGE = 10
     const BCH_FORK_TIME = 1501590000
@@ -57,13 +39,15 @@ export default ({ api }) => {
       const context = yield select(selectors.kvStore.bch.getContext)
       const data = yield call(api.fetchBchData, context, { n: TX_PER_PAGE, onlyShow: address, offset })
       yield call(multiaddrSaga, data)
+      yield fork(fetchSpendableBalance)
+      yield fork(fetchUnspendableBalance)
       yield put(A.fetchTransactionsSuccess(data.txs.filter(tx => tx.time > BCH_FORK_TIME), reset))
     } catch (e) {
       yield put(A.fetchTransactionsFailure(e.message))
     }
   }
 
-  const fetchTransactionHistory = function * ({ type, payload }) {
+  const fetchTransactionHistory = function * ({ payload }) {
     const { address, start, end } = payload
     try {
       yield put(A.fetchTransactionHistoryLoading())
@@ -133,7 +117,6 @@ export default ({ api }) => {
     fetchData,
     fetchRates,
     fetchUnspent,
-    watchTransactions,
     fetchSpendableBalance,
     fetchUnspendableBalance,
     fetchTransactionHistory

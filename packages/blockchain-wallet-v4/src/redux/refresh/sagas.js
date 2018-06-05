@@ -5,13 +5,9 @@ import * as ethActions from '../data/ethereum/actions'
 
 export default () => {
   const refresh = function * () {
-    yield put(btcActions.fetchUnspendableBalance())
-    yield put(bchActions.fetchUnspendableBalance())
-    yield put(btcActions.fetchSpendableBalance())
-    yield put(bchActions.fetchSpendableBalance())
-    yield put(btcActions.fetchTransactions('', true))
-    yield put(bchActions.fetchTransactions('', true))
-    yield put(ethActions.fetchTransactions(true))
+    yield put(btcActions.fetchData('', true))
+    yield put(bchActions.fetchData('', true))
+    yield put(ethActions.fetchData(true))
     yield put(btcActions.fetchRates())
     yield put(bchActions.fetchRates())
     yield put(ethActions.fetchRates())
