@@ -74,7 +74,7 @@ export default ({ api }) => {
         }
       }, labeledAddrs)
 
-      yield put(A.fetchUnusedAddressesSuccess(walletIndex, sort((a, b) => { return a.derivationIndex - b.derivationIndex }, unusedAddresses)))
+      yield put(A.fetchUnusedAddressesSuccess(walletIndex, sort((a, b) => { return b.derivationIndex - a.derivationIndex }, unusedAddresses)))
     } catch (e) {
       yield put(A.fetchUnusedAddressesError(walletIndex, e))
       yield put(actions.logs.logErrorMessage(logLocation, 'fetchUnusedAddresses', e))
