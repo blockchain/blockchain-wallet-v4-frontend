@@ -97,7 +97,7 @@ export default ({ api }) => {
 
   const fetchSpendableBalance = function * (action) {
     try {
-      const { context } = action.payload
+      const context = yield select(selectors.kvStore.bch.getSpendableContext)
       yield put(A.fetchSpendableBalanceLoading())
       const data = yield call(api.fetchBchData, context)
       const balance = data.wallet ? data.wallet.final_balance : 0
@@ -109,7 +109,7 @@ export default ({ api }) => {
 
   const fetchUnspendableBalance = function * (action) {
     try {
-      const { context } = action.payload
+      const context = yield select(selectors.kvStore.bch.getUnspendableContext)
       yield put(A.fetchUnspendableBalanceLoading())
       const data = yield call(api.fetchBchData, context)
       const balance = data.wallet ? data.wallet.final_balance : 0

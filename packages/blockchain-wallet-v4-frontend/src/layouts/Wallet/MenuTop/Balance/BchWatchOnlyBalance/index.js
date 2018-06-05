@@ -39,7 +39,7 @@ class BchWatchOnlyBalance extends React.PureComponent {
 }
 
 BchWatchOnlyBalance.propTypes = {
-  context: PropTypes.string.isRequired
+  context: PropTypes.array.isRequired
 }
 
 const mapStateToProps = (state) => ({

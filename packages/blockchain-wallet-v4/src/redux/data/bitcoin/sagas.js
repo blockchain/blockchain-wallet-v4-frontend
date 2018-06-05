@@ -107,7 +107,7 @@ export default ({ api }) => {
 
   const fetchSpendableBalance = function * (action) {
     try {
-      const { context } = action.payload
+      const context = yield select(selectors.wallet.getSpendableContext)
       yield put(A.fetchSpendableBalanceLoading())
       const data = yield call(api.fetchBlockchainData, context)
       const balance = data.wallet ? data.wallet.final_balance : 0
@@ -119,7 +119,7 @@ export default ({ api }) => {
 
   const fetchUnspendableBalance = function * (action) {
     try {
-      const { context } = action.payload
+      const context = yield select(selectors.wallet.getUnspendableContext)
       yield put(A.fetchUnspendableBalanceLoading())
       const data = yield call(api.fetchBlockchainData, context)
       const balance = data.wallet ? data.wallet.final_balance : 0
