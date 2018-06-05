@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { spacing } from 'services/StyleService'
 import Helper from 'components/BuySell/FAQ'
 import { StepTransition } from 'components/Utilities/Stepper'
-import { path } from 'ramda'
+import { path, head } from 'ramda'
 
 import { Button, HeartbeatLoader, Link } from 'blockchain-info-components'
 import { Form, CancelWrapper, ColLeft, ColRight, ColRightInner, InputWrapper, PartnerHeader, PartnerSubHeader } from 'components/BuySell/Signup'
@@ -42,10 +42,12 @@ const isCardDisabled = (q, l) => {
 }
 
 const Payment = (props) => {
-  const { value, busy, handlePaymentClick, medium, triggerKyc } = props
-  const { limits, quote, level, kycs } = value
-  const kycState = kycs.length && kycs[0]['state']
-  const cardDisabled = isCardDisabled(quote, limits)
+  const { value, busy, handlePaymentClick, medium, triggerKyc, openPendingKyc, quote } = props
+  const { limits, level, kycs } = value
+  const quoteData = path(['data'], quote)
+  const kyc = head(kycs)
+  const kycState = kycs.length && path(['state'], kyc)
+  const cardDisabled = isCardDisabled(quoteData, limits)
   const bankDisabled = kycState === 'reviewing' || kycState === 'pending' || kycState === 'processing'
   if (bankDisabled) handlePaymentClick('card')
 
@@ -64,8 +66,8 @@ const Payment = (props) => {
             </PartnerSubHeader>
           </InputWrapper>
           <PaymentWrapper>
-            { bankOptionHelper(quote, limits, isChecked('bank'), handlePaymentClick, bankDisabled) }
-            { cardOptionHelper(quote, limits, isChecked('card'), handlePaymentClick, cardDisabled) }
+            { bankOptionHelper(quoteData, limits, isChecked('bank'), handlePaymentClick, bankDisabled, openPendingKyc, kyc) }
+            { cardOptionHelper(quoteData, limits, isChecked('card'), handlePaymentClick, cardDisabled) }
           </PaymentWrapper>
         </BorderBox>
       </ColLeft>
