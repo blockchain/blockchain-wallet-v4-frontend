@@ -22,6 +22,7 @@ import halfBitcoincash from './img/half-bitcoincash.svg'
 import halfEther from './img/half-ether.svg'
 import landingPageBannerOverlay from './img/landing-page-banner-overlay.jpg'
 import landingPageBannerSmOverlay from './img/landing-page-banner-sm-overlay.jpg'
+import microDepositsWhole from './img/micro-deposits-whole.svg'
 import printer from './img/printer.svg'
 import qrCode from './img/qr-code.png'
 import rocket from './img/rocket.gif'
@@ -61,6 +62,7 @@ export default {
   'half-ether': halfEther,
   'landing-page-banner-overlay': landingPageBannerOverlay,
   'landing-page-banner-sm-overlay': landingPageBannerSmOverlay,
+  'micro-deposits-whole': microDepositsWhole,
   'printer': printer,
   'qr-code': qrCode,
   'rocket': rocket,

@@ -11,6 +11,7 @@ export const getTrade = (state) => {
 
 export const getData = (state) => ({
   data: selectors.core.data.coinify.getTrades(state),
+  canTrade: selectors.core.data.coinify.canTrade(state).getOrElse(true),
   trade: getTrade(state),
   step: path(['coinify', 'checkoutStep'], state),
   busy: path(['coinify', 'coinifyBusy'], state),
