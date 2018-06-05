@@ -8,14 +8,15 @@ export default ({ coreSagas }) => {
 
   const initialized = function * () {
     try {
+      const defaultSource = ''
       const initialValues = {
-        source: '',
+        source: defaultSource,
         status: '',
         search: ''
       }
       yield put(actions.form.initialize('btcTransactions', initialValues))
       const btcTransactionsR = yield select(selectors.core.data.bitcoin.getTransactions)
-      if (!Remote.Success.is(btcTransactionsR)) yield put(actions.core.data.bitcoin.fetchData())
+      if (!Remote.Success.is(btcTransactionsR)) yield put(actions.core.data.bitcoin.fetchData(defaultSource, true))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
     }
