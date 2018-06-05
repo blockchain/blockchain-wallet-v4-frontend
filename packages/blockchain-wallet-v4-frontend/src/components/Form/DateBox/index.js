@@ -9,8 +9,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: flex-end;
   align-items: flex-start;
-  width: 100%;
-  height: 40px;
+  width: auto;
 `
 const Error = styled(Text)`
   position: absolute;
@@ -28,7 +27,7 @@ const DateBox = (field) => {
 
   return (
     <Container>
-      <DateInput {...field.input} errorState={errorState} placeholder={field.placeholder} />
+      <DateInput {...field.input} errorState={errorState} />
       {field.meta.touched && field.meta.error && <Error size='12px' weight={300} color='error'>{field.meta.error}</Error>}
     </Container>
   )

@@ -2,15 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 
-import { Modal, ModalHeader, ModalBody, Tooltip } from 'blockchain-info-components'
+import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
 
 const TransactionReport = props => (
-  <Modal size='xlarge' position={props.position} total={props.total}>
-    <ModalHeader icon='bitcoin-receipt' onClose={props.closeAll}>
-      <FormattedMessage id='modals.transactionreport.title' defaultMessage='Export History' />
-      <Tooltip>
-        <FormattedMessage id='modals.firststep.transactionreport.help' defaultMessage='Export the transaction history of your addresses in CSV format' />
-      </Tooltip>
+  <Modal size='medium' position={props.position} total={props.total}>
+    <ModalHeader onClose={props.closeAll}>
+      <FormattedMessage id='modals.transactionreport.title' defaultMessage='Export Transactions History' />
     </ModalHeader>
     <ModalBody>
       {props.children}

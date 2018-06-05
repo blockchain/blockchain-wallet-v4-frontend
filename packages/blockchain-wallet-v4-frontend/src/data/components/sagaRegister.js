@@ -13,6 +13,7 @@ import sendBch from './sendBch/sagaRegister'
 import sendBtc from './sendBtc/sagaRegister'
 import sendEth from './sendEth/sagaRegister'
 import signMessage from './signMessage/sagaRegister'
+import transactionReport from './transactionReport/sagaRegister'
 import usedAddresses from './usedAddresses/sagaRegister'
 
 export default ({ api, coreSagas }) => function * () {
@@ -30,5 +31,6 @@ export default ({ api, coreSagas }) => function * () {
   yield fork(sendBtc({ api, coreSagas }))
   yield fork(sendEth({ api, coreSagas }))
   yield fork(signMessage({ coreSagas }))
+  yield fork(transactionReport({ api, coreSagas }))
   yield fork(usedAddresses({ coreSagas }))
 }

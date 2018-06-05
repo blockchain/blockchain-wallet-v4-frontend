@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { compose } from 'redux'
 
 import wizardProvider from 'providers/WizardProvider'
@@ -13,15 +14,23 @@ class TransactionReportContainer extends React.PureComponent {
   }
 
   render () {
-    const { step, position, total, closeAll, ...rest } = this.props
+    const { step, position, total, closeAll, coin } = this.props
 
     return (
       <TransactionReport position={position} total={total} closeAll={closeAll}>
-        {step === 1 && <FirstStep {...rest} />}
-        {step === 2 && <SecondStep {...rest} />}
+        {step === 1 && <FirstStep coin={coin} />}
+        {step === 2 && <SecondStep coin={coin} />}
       </TransactionReport>
     )
   }
+}
+
+TransactionReportContainer.propTypes = {
+  coin: PropTypes.oneOf(['BTC', 'BCH'])
+}
+
+TransactionReportContainer.defaultProps = {
+  coin: 'BTC'
 }
 
 const enhance = compose(
