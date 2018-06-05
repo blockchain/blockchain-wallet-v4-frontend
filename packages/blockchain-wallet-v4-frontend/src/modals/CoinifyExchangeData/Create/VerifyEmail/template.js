@@ -15,7 +15,7 @@ const EmailInput = styled.div`
 `
 
 const VerifyEmail = (props) => {
-  const { emailVerifiedError, invalid, onSubmit, resendCode, ui, updateUI } = props
+  const { emailVerifiedError, invalid, onSubmit, resendCode, ui, updateUI, email } = props
 
   const emailHelper = () => {
     switch (true) {
@@ -30,10 +30,10 @@ const VerifyEmail = (props) => {
       <ColLeft>
         <InputWrapper>
           <PartnerHeader>
-            <FormattedMessage id='coinifyexchangedata.create.verifyemail.partner.header.whatsyouremail' defaultMessage="What's your email?" />
+            <FormattedMessage id='coinifyexchangedata.create.verifyemail.partner.header.verifyemail' defaultMessage='Verify Your Email' />
           </PartnerHeader>
           <PartnerSubHeader>
-            <FormattedMessage id='coinifyexchangedata.create.verifyemail.partner.subheader.enteremail' defaultMessage="Enter the email address you would like to use with your Coinify account. We'll send you a verification code to make sure it's yours." />
+            <FormattedMessage id='coinifyexchangedata.create.verifyemail.partner.subheader.enteremail' defaultMessage='We sent a verification code to {email}. Enter the code to begin creating your account.' values={{ email }} />
           </PartnerSubHeader>
           {
             ui.create === 'enter_email_code'
