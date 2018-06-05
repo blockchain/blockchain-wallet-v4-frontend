@@ -104,12 +104,13 @@ const BalancesChart = (props) => {
                 <FormattedMessage id='scenes.home.balanceschart.requestbtc' defaultMessage='Request Bitcoin' />
               </Link>
           }
-          {btcAccountsLength > 1 &&
-            <NavLink to='/settings/addresses' style={{ textDecoration: 'none' }}>
-              <ViewAllText weight={300} size='10px'>
-                <FormattedMessage id='scenes.home.balanceschart.btc.viewall' defaultMessage='View All Balances' />
-              </ViewAllText>
-            </NavLink>
+          {btcAccountsLength > 1 && btcBalance > 0
+            ? <NavLink to='/settings/addresses' style={{ textDecoration: 'none' }}>
+                <ViewAllText weight={300} size='10px'>
+                  <FormattedMessage id='scenes.home.balanceschart.btc.viewall' defaultMessage='View All Balances' />
+                </ViewAllText>
+              </NavLink>
+              : null
           }
         </Column>
         <Column>
@@ -120,7 +121,7 @@ const BalancesChart = (props) => {
           <CoinBalance onClick={handleCoinDisplay}>
             <SwitchableDisplay coin='ETH' cursor='pointer' size='14px' weight={200}>{ethBalance}</SwitchableDisplay>
           </CoinBalance>
-          { btcBalance > 0 || bchBalance > 0
+          { ethBalance <= 0
             ? <WalletLink to='/exchange' size='10px' weight={300}>
               <FormattedMessage id='scenes.home.balanceschart.getstarted' defaultMessage='Get Started' />
             </WalletLink>
@@ -137,7 +138,7 @@ const BalancesChart = (props) => {
           <CoinBalance onClick={handleCoinDisplay}>
             <SwitchableDisplay coin='BCH' cursor='pointer' size='14px' weight={200}>{bchBalance}</SwitchableDisplay>
           </CoinBalance>
-          { btcBalance > 0 || ethBalance > 0
+          { bchBalance <= 0
             ? <WalletLink to='/exchange' size='10px' weight={300}>
               <FormattedMessage id='scenes.home.balanceschart.getstarted' defaultMessage='Get Started' />
             </WalletLink>
@@ -145,12 +146,13 @@ const BalancesChart = (props) => {
               <FormattedMessage id='scenes.home.balanceschart.requestbch' defaultMessage='Request Bitcoin Cash' />
             </Link>
           }
-          {bchAccountsLength > 1 &&
-            <NavLink to='/settings/addresses/bch' style={{ textDecoration: 'none' }}>
-              <ViewAllText weight={300} size='10px'>
-                <FormattedMessage id='scenes.home.balanceschart.bch.viewall' defaultMessage='View All Balances' />
-              </ViewAllText>
-            </NavLink>
+          {bchAccountsLength > 1 && bchBalance > 0
+            ? <NavLink to='/settings/addresses/bch' style={{ textDecoration: 'none' }}>
+                <ViewAllText weight={300} size='10px'>
+                  <FormattedMessage id='scenes.home.balanceschart.bch.viewall' defaultMessage='View All Balances' />
+                </ViewAllText>
+              </NavLink>
+            : null
           }
         </Column>
       </ChartInfo>
