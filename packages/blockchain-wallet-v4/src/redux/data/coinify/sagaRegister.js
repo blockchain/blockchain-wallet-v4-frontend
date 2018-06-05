@@ -10,6 +10,7 @@ export default ({ api, options }) => {
     yield takeLatest(actionTypes.kvStore.buySell.FETCH_METADATA_BUYSELL_SUCCESS, coinifySagas.init)
     yield takeLatest(AT.COINIFY_FETCH_PROFILE, coinifySagas.coinifyFetchProfile)
     yield takeLatest(AT.COINIFY_FETCH_TRADES, coinifySagas.fetchTrades)
+    yield takeLatest(AT.COINIFY_FETCH_SUBSCRIPTIONS, coinifySagas.fetchSubscriptions)
     yield takeLatest(AT.COINIFY_FETCH_QUOTE, coinifySagas.fetchQuote)
     yield takeLatest(AT.COINIFY_FETCH_RATE_QUOTE, coinifySagas.fetchRateQuote)
     yield takeLatest(AT.RESET_PROFILE, coinifySagas.resetProfile)

@@ -290,6 +290,16 @@ export default ({ api, options }) => {
     }
   }
 
+  const fetchSubscriptions = function * () {
+    try {
+      yield put(A.fetchSubscriptionsLoading())
+      const subs = yield apply(coinify, coinify.getSubscriptions)
+      yield put(A.fetchSubscriptionsSuccess(subs))
+    } catch (e) {
+      yield put(A.fetchSubscriptionsFailure(e))
+    }
+  }
+
   return {
     signup,
     buy,
@@ -297,6 +307,7 @@ export default ({ api, options }) => {
     init,
     coinifyFetchProfile,
     fetchTrades,
+    fetchSubscriptions,
     fetchQuote,
     fetchRateQuote,
     resetProfile,

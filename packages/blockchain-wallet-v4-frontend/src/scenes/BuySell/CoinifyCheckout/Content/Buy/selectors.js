@@ -16,6 +16,14 @@ export const getTrades = (state) => {
   }
 }
 
+export const getSubscriptions = (state) => {
+  try {
+    return selectors.core.data.coinify.getSubscriptions(state).data
+  } catch (e) {
+    return null
+  }
+}
+
 export const getRateQuote = (state) => {
   try {
     return selectors.core.data.coinify.getRateQuote(state)
@@ -63,6 +71,7 @@ export const getData = (state) => ({
   buyQuoteR: getQuote(state),
   rateQuoteR: getRateQuote(state),
   trades: getTrades(state),
+  subscriptions: getSubscriptions(state),
   trade: getTrade(state),
   errors: getErrors(state),
   currency: formValueSelector('coinifyCheckoutBuy')(state, 'currency'),
