@@ -23,6 +23,8 @@ const DetailsRow = styled.div`
 const BankTransferDetailsWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 30px;
+  border: 1px solid #EAEAEA;
 `
 
 const BankTransferDetails = ({ trade }) => {
