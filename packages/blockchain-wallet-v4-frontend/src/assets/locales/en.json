@@ -90,7 +90,7 @@
   "components.alerts.twofa_mobile_verify_error": "Failed to verify mobile number.",
   "components.alerts.twofa_mobile_verify_success": "Your mobile number is now your two-factor authentication method.",
   "components.alerts.twofa_remember_update_success": "2FA remember has been successfully updated.",
-  "components.alerts.twofa_required_info": "2FA required",
+  "components.alerts.twofa_required_info": "2FA required for login.",
   "components.alerts.twofa_reset_error": "Error resetting two-step authentication.",
   "components.alerts.twofa_success_error": "Failed to update 2FA setting",
   "components.alerts.twofa_update_success": "2FA has been successfully updated",

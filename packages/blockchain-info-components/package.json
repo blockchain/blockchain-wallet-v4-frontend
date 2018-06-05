@@ -1,6 +1,6 @@
 {
   "name": "blockchain-info-components",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A shared UI components library for blockchain.info applications.",
   "license": "ISC",
   "author": {
@@ -54,9 +54,10 @@
   "dependencies": {
     "polished": "1.9.0",
     "react-onclickoutside": "6.7.1",
-    "prop-types": "15.6.1",
-    "react": "16.3.0",
     "styled-components": "3.2.4",
-    "ramda": "0.25.0"
+    "ramda": "0.25.0",
+    "react": "16.3.0",
+    "react-datetime": "2.14.0",
+    "prop-types": "15.6.1"
   }
 }

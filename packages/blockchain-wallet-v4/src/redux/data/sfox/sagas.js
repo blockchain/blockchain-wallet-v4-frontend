@@ -1,12 +1,13 @@
-import ExchangeDelegate from '../../../exchange/delegate'
 import { apply, fork, call, put, select, take } from 'redux-saga/effects'
+import { path, prepend } from 'ramda'
+
+import ExchangeDelegate from '../../../exchange/delegate'
 import * as S from './selectors'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import * as buySellA from '../../kvStore/buySell/actions'
 import { sfoxService } from '../../../exchange/service'
-import { prepend } from 'ramda'
 
 let sfox
 
@@ -22,7 +23,7 @@ export default ({ api, options }) => {
   const init = function * () {
     try {
       const value = yield select(buySellSelectors.getMetadata)
-      if (!value.data.value.sfox.account_token) return
+      if (!path(['data', 'value', 'sfox', 'account_token'], value)) return
       yield call(refreshSFOX)
     } catch (e) {
       throw new Error(e)
