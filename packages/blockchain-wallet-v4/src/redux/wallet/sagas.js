@@ -132,8 +132,7 @@ export default ({ api }) => {
   }
 
   const refetchContextData = function * () {
-    const walletContext = yield select(S.getWalletContext)
-    yield put(fetchData(walletContext))
+    yield put(fetchData())
   }
 
   return {

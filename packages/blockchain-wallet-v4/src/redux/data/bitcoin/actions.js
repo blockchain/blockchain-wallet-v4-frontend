@@ -3,7 +3,7 @@ import * as AT from './actionTypes'
 export const setBitcoinLatestBlock = (block_index, hash, height, time) => ({ type: AT.SET_BITCOIN_LATEST_BLOCK, payload: { block_index, hash, height, time } })
 
 // FETCH_BITCOIN_DATA
-export const fetchData = (context) => ({ type: AT.FETCH_BITCOIN_DATA, payload: { context } })
+export const fetchData = (address, reset) => ({ type: AT.FETCH_BITCOIN_DATA, payload: { address, reset } })
 export const fetchDataLoading = () => ({ type: AT.FETCH_BITCOIN_DATA_LOADING })
 export const fetchDataSuccess = (data) => ({ type: AT.FETCH_BITCOIN_DATA_SUCCESS, payload: data })
 export const fetchDataFailure = (error) => ({ type: AT.FETCH_BITCOIN_DATA_FAILURE, payload: error })
@@ -27,7 +27,6 @@ export const fetchRatesSuccess = (data) => ({ type: AT.FETCH_BITCOIN_RATES_SUCCE
 export const fetchRatesFailure = (error) => ({ type: AT.FETCH_BITCOIN_RATES_FAILURE, payload: error })
 
 // FETCH_BITCOIN_TRANSACTIONS
-export const fetchTransactions = (address, reset) => ({ type: AT.FETCH_BITCOIN_TRANSACTIONS, payload: { address, reset } })
 export const fetchTransactionsLoading = (reset) => ({ type: AT.FETCH_BITCOIN_TRANSACTIONS_LOADING, payload: { reset } })
 export const fetchTransactionsSuccess = (transactions, reset) => ({ type: AT.FETCH_BITCOIN_TRANSACTIONS_SUCCESS, payload: {transactions, reset} })
 export const fetchTransactionsFailure = (error) => ({ type: AT.FETCH_BITCOIN_TRANSACTIONS_FAILURE, payload: error })
