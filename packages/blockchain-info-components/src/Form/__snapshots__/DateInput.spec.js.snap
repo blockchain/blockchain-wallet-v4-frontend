@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`DateInput component default renders correctly 1`] = `
-<styled.input
-  borderColor="red"
-/>
-`;

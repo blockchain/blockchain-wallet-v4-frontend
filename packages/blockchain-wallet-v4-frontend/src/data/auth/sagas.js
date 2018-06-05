@@ -248,6 +248,22 @@ export default ({ api, coreSagas }) => {
     })
   }
 
+  const resendSmsLoginCode = function * (action) {
+    try {
+      const { guid } = action.payload
+      const sessionToken = yield select(selectors.session.getSession, guid)
+      const response = yield call(coreSagas.wallet.resendSmsLoginCode, { guid, sessionToken })
+      if (response.initial_error) {
+        throw new Error(response)
+      } else {
+        yield put(actions.alerts.displaySuccess(C.SMS_RESEND_SUCCESS))
+      }
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'resendSmsLoginCode', e))
+      yield put(actions.alerts.displayError(C.SMS_RESEND_ERROR))
+    }
+  }
+
   const logoutRoutine = function * () {
     yield call(logout)
   }
@@ -261,13 +277,14 @@ export default ({ api, coreSagas }) => {
 
   return {
     login,
+    logout,
     loginRoutineSaga,
     mobileLogin,
     register,
-    restore,
     remindGuid,
-    logout,
     reset2fa,
+    resendSmsLoginCode,
+    restore,
     upgradeWallet
   }
 }
