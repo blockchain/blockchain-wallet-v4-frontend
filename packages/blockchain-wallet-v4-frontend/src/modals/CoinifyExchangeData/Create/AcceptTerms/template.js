@@ -6,8 +6,9 @@ import { Field, reduxForm } from 'redux-form'
 import Helper from 'components/BuySell/FAQ'
 import { CheckBox } from 'components/Form'
 import Terms from 'components/Terms'
-import { Button, HeartbeatLoader, Text, TextGroup } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Text, TextGroup, Link, Icon } from 'blockchain-info-components'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ErrorWrapper, ColRightInner } from 'components/BuySell/Signup'
+import { spacing } from 'services/StyleService'
 
 const AcceptTermsContainer = styled.div`
   display: flex;
@@ -20,9 +21,36 @@ const AcceptTermsContainer = styled.div`
   }
   * { cursor: pointer; }
 `
+const FieldsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+`
+const FieldContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+`
+const VerifiedContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`
+const FieldBox = styled.div`
+  border: 1px solid #DDDDDD;
+  padding: 5px 15px;
+  display: flex;
+  flex-direction: row;
+  width: 85%;
+  justify-content: space-between;
+`
+const IconContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+`
 
 const AcceptTerms = (props) => {
-  const { busy, email, invalid, onSubmit, signupError, updateUI } = props
+  const { busy, email, invalid, onSubmit, signupError, updateUI, emailVerified, editEmail } = props
 
   const checkboxShouldBeChecked = value => value ? undefined : 'You must agree to the terms and conditions'
 
@@ -45,6 +73,26 @@ const AcceptTerms = (props) => {
           <PartnerSubHeader>
             <FormattedMessage id='coinifyexchangedata.create.accept.partner.header.enter_email_code' defaultMessage='We teamed up with Coinify’s exchange platform to offer buy and sell to our customers in Europe. We just sent a verification code to your {email} email address.' values={{ email: email }} />
           </PartnerSubHeader>
+          <FieldsContainer>
+            <FieldContainer>
+              <Text size='14px' style={spacing('mb-10')}>
+                <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.verifiedemail' defaultMessage='Verified Email Address' />
+              </Text>
+              <VerifiedContainer>
+                <FieldBox>
+                  <Text size='14px' weight={300}>
+                    { email }
+                  </Text>
+                  <Link onClick={editEmail} size='14px' weight={300}>
+                    <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.edit' defaultMessage='edit' />
+                  </Link>
+                </FieldBox>
+                <IconContainer>
+                  { emailVerified ? <Icon name='checkmark-in-circle-filled' color='success' size='20px' /> : null }
+                </IconContainer>
+              </VerifiedContainer>
+            </FieldContainer>
+          </FieldsContainer>
           <AcceptTermsContainer>
             <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox}>
               <Terms company='coinify' />
