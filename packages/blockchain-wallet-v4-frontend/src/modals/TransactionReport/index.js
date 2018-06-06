@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 
 import { actions } from 'data'
-import { getBtcData, getBchData } from './selectors'
+import { getData } from './selectors'
 import modalEnhancer from 'providers/ModalEnhancer'
 import TransactionReport from './template'
 
@@ -18,13 +18,17 @@ class TransactionReportContainer extends React.PureComponent {
   }
 
   render () {
+    const { position, total, closeAll, coin, csvData, isValidStartDate, isValidEndDate } = this.props
+
     return <TransactionReport
-      coin={this.props.coin}
-      csvData={this.props.csvData}
-      onSubmit={() => this.props.actions.submitClicked(this.props.coin)}
-      closeAll={this.props.closeAll}
-      position={this.props.position}
-      total={this.props.total}
+      coin={coin}
+      csvData={csvData}
+      isValidStartDate={isValidStartDate}
+      isValidEndDate={isValidEndDate}
+      onSubmit={() => this.props.actions.submitClicked(coin)}
+      closeAll={closeAll}
+      position={position}
+      total={total}
     />
   }
 }
@@ -37,9 +41,7 @@ TransactionReportContainer.defaultProps = {
   coin: 'BTC'
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  csvData: ownProps.coin === 'BTC' ? getBtcData(state) : getBchData(state)
-})
+const mapStateToProps = (state, ownProps) => getData(ownProps.coin, state)
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.transactionReport, dispatch)

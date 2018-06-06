@@ -16,11 +16,12 @@ const Error = styled(Text)`
   position: absolute;
   display: block;
   height: 15px;
-  top: ${props => props.errorBottom ? '40px' : '-20px'};
+  top: 40px;
   right: 0;
+  width: 200px;
 `
 const getErrorState = (meta) => {
-  return meta.touched && meta.invalid ? 'invalid' : 'initial'
+  return meta.dirty && meta.invalid ? 'invalid' : 'initial'
 }
 
 class DateBoxDebounced extends React.Component {
@@ -63,7 +64,7 @@ class DateBoxDebounced extends React.Component {
   }
 
   render () {
-    const { meta, disabled, placeholder } = this.props
+    const { meta, ...rest } = this.props
     const { value, open } = this.state
     const errorState = getErrorState(meta)
 
@@ -72,17 +73,16 @@ class DateBoxDebounced extends React.Component {
         <DateInput
           value={value}
           errorState={errorState}
-          disabled={disabled}
-          placeholder={placeholder}
           onChange={this.handleChange}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
           closeOnSelect={false}
           closeOnTab={false}
           open={open}
+          {...rest}
         />
-        {meta.touched && meta.error && <Error size='12px' weight={300} color='error'>{meta.error}</Error>}
-        {meta.touched && !meta.error && meta.warning && <Error size='12px' weight={300} color='sent'>{meta.warning}</Error>}
+        {meta.dirty && meta.error && <Error size='12px' weight={300} color='error'>{meta.error}</Error>}
+        {meta.dirty && !meta.error && meta.warning && <Error size='12px' weight={300} color='sent'>{meta.warning}</Error>}
       </Container>
     )
   }
