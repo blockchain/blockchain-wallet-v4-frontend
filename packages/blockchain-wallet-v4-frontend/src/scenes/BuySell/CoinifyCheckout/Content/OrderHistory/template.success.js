@@ -25,6 +25,7 @@ const OrderHistoryContent = styled.div`
 `
 const isPending = (t) => t.state === 'processing' || t.state === 'awaiting_transfer_in'
 const isCompleted = (t) => contains(t.state, ['completed', 'rejected', 'cancelled', 'expired'])
+const isPartOfSubscription = (t) => t.tradeSubscriptionId
 
 const OrderHistory = (props) => {
   const { showModal, finishTrade, cancelTrade, step, status, cancelTradeId, trade, changeTab, canTrade, value } = props
@@ -74,6 +75,14 @@ const OrderHistory = (props) => {
             </Text>
             <RecurringOrderHistoryTable
               subscriptions={subscriptions}
+              trades={filter(isPartOfSubscription, trades)}
+              conversion={conversion}
+              handleFinishTrade={trade => finishTrade(trade)}
+              handleDetailsClick={trade => showModal('CoinifyTradeDetails', { trade })}
+              handleTradeCancel={cancelTrade}
+              status={status}
+              canTrade={canTrade}
+              cancelTradeId={cancelTradeId}
             />
           </OrderHistoryContent>
         }
