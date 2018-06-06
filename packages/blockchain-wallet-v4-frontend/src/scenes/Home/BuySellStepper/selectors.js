@@ -11,6 +11,6 @@ export const getData = createDeepEqualSelector(
     selectors.core.data.sfox.getVerificationStatus
   ], (bsMetadata, profile, accounts, vStatus) => {
     const transform = lift((bsMetadata, profile, accounts, vStatus) => ({ bsMetadata, profile, accounts, vStatus }))
-    return { data: transform(bsMetadata, profile, accounts, vStatus) }
+    return transform(bsMetadata, profile, accounts, vStatus)
   }
 )

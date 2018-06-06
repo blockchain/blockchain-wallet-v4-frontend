@@ -1,7 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import ReactHighcharts from 'react-highcharts'
+import { connect } from 'react-redux'
 
+import { selectors } from 'data'
 import ActivityList from './ActivityList'
 import DidYouKnow from './DidYouKnow'
 import PriceChart from './PriceChart'
@@ -48,20 +50,30 @@ const ColumnRight = styled(Column)`
   @media(max-width: 992px) { padding-top: 15px; }
 `
 
-const Home = () => (
-  <Wrapper>
-    <BuySellStepper />
-    <ColumnWrapper>
-      <ColumnLeft>
-        <BalancesChartContainer />
-        <ActivityList />
-      </ColumnLeft>
-      <ColumnRight>
-        <PriceChart />
-        <DidYouKnow />
-      </ColumnRight>
-    </ColumnWrapper>
-  </Wrapper>
-)
+class Home extends React.PureComponent {
+  render () {
+    const { buySellKv } = this.props
 
-export default Home
+    return (
+      <Wrapper>
+        { buySellKv.cata({ Success: () => <BuySellStepper/>, Failure: () => <div/>, Loading: () => <div/>, NotAsked: () => <div/> }) }
+        <ColumnWrapper>
+          <ColumnLeft>
+            <BalancesChartContainer/>
+            <ActivityList/>
+          </ColumnLeft>
+          <ColumnRight>
+            <PriceChart/>
+            <DidYouKnow/>
+          </ColumnRight>
+        </ColumnWrapper>
+      </Wrapper>
+    )
+  }
+}
+
+const mapStateToProps = (state) => ({
+  buySellKv: selectors.core.kvStore.buySell.getMetadata(state)
+})
+
+export default connect(mapStateToProps)(Home)
