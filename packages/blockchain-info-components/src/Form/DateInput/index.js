@@ -78,7 +78,7 @@ const BaseDateInput = styled(ReactDatetime)`
   }
   .rdtPicker td.rdtOld,
   .rdtPicker td.rdtNew {
-    color: ${props => props.theme['gray-2']};
+    color: ${props => props.theme['gray-3']};
   }
   .rdtPicker td.rdtToday {
     position: relative;
@@ -108,17 +108,17 @@ const BaseDateInput = styled(ReactDatetime)`
   .rdtPicker td.rdtDisabled,
   .rdtPicker td.rdtDisabled:hover {
     background: none;
-    color: ${props => props.theme['error']};
+    color: ${props => props.theme['gray-1']};
     cursor: not-allowed;
   }
 
   .rdtPicker td span.rdtOld {
-    color: ${props => props.theme['gray-2']};
+    color: ${props => props.theme['gray-3']};
   }
   .rdtPicker td span.rdtDisabled,
   .rdtPicker td span.rdtDisabled:hover {
     background: none;
-    color: ${props => props.theme['gray-2']};
+    color: ${props => props.theme['gray-1']};
     cursor: not-allowed;
   }
   .rdtPicker th {
@@ -131,6 +131,7 @@ const BaseDateInput = styled(ReactDatetime)`
     font-family: 'Montserrat', Helvetica, sans-serif;
     font-size: 14px;
     font-weight: 300;
+    color: ${props => props.theme['gray-5']};
   }
   .rdtPicker th.rdtSwitch {
     width: 100px;
@@ -168,7 +169,7 @@ const BaseDateInput = styled(ReactDatetime)`
   .rdtPicker th.rdtDisabled,
   .rdtPicker th.rdtDisabled:hover {
     background: none;
-    color: ${props => props.theme['gray-2']};
+    color: ${props => props.theme['gray-1']};
     cursor: not-allowed;
   }
   .rdtPicker thead tr:first-child th {
