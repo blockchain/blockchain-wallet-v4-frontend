@@ -21,6 +21,7 @@ const CheckoutWrapper = styled.div`
 
 const Sell = props => {
   const {
+    canTrade,
     fetchSellQuote,
     refreshQuote,
     sellQuoteR,
@@ -43,6 +44,7 @@ const Sell = props => {
 
   const profile = value.profile || { _limits: service.mockedLimits, _level: { currency: 'EUR' } }
   const kyc = value.kycs.length && head(value.kycs)
+  console.log(kyc)
   const defaultCurrency = currency || 'EUR' // profile._level.currency
   const symbol = service.currencySymbolMap[defaultCurrency]
 
@@ -73,8 +75,8 @@ const Sell = props => {
             </div>
             <div>
               {
-                value.kycs.length
-                  ? <KYCNotification kyc={kyc} limits={limits.sell} symbol={symbol} onTrigger={(kyc) => handleKycAction(kyc)} type='sell' />
+                path(['kycs', 'length'], value)
+                  ? <KYCNotification kyc={kyc} limits={limits.sell} symbol={symbol} onTrigger={(kyc) => handleKycAction(kyc)} type='sell' canTrade={canTrade} />
                   : null
               }
             </div>
