@@ -40,7 +40,7 @@ const RefreshIcon = styled(Icon)`
   &:hover { cursor: pointer; }
 `
 const getErrorState = (meta) => {
-  return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')
+  return meta.touched && meta.invalid ? 'invalid' : 'initial'
 }
 
 const CaptchaBox = (field) => {
