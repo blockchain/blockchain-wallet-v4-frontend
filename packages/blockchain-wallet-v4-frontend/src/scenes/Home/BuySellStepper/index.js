@@ -7,6 +7,7 @@ import { actions } from 'data'
 import { determineStep } from 'services/SfoxService'
 import { getData } from './selectors'
 import BuySellStepper from './template.js'
+import { selectors } from '../../../data'
 
 class BuySellStepperContainer extends React.PureComponent {
   constructor (props) {
@@ -27,11 +28,8 @@ class BuySellStepperContainer extends React.PureComponent {
   renderStepper (data) {
     let currentStep = 0
 
-    // if (path(['value', 'sfox', 'account_token'], data.bsMetadata)) {
-    //  console.log('now wut')
-    // } else {
+    if (data.canTrade === 'sfox') {
       const step = determineStep(data.profile, data.vStatus, data.accounts)
-      console.info('stepFromService', step)
       switch (step) {
         case 'account':
           currentStep = 1
@@ -49,7 +47,7 @@ class BuySellStepperContainer extends React.PureComponent {
           break
         }
       }
-    // }
+    }
 
     return currentStep > 0
       ? (<BuySellStepper currentStep={currentStep - 1} goToBuySell={this.goToBuySell}/>)

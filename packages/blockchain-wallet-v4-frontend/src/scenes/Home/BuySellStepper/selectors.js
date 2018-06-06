@@ -8,9 +8,12 @@ export const getData = createDeepEqualSelector(
     selectors.core.kvStore.buySell.getMetadata,
     selectors.core.data.sfox.getProfile,
     selectors.core.data.sfox.getAccounts,
-    selectors.core.data.sfox.getVerificationStatus
-  ], (bsMetadata, profile, accounts, vStatus) => {
-    const transform = lift((bsMetadata, profile, accounts, vStatus) => ({ bsMetadata, profile, accounts, vStatus }))
-    return transform(bsMetadata, profile, accounts, vStatus)
+    selectors.core.data.sfox.getVerificationStatus,
+    selectors.exchange.getCanTrade
+  ], (kvBuySellMetadata, profile, accounts, vStatus, canTrade) => {
+    const transform = lift((kvBuySellMetadata, profile, accounts, vStatus, canTrade) => ({
+      kvBuySellMetadata, profile, accounts, vStatus, canTrade
+    }))
+    return transform(kvBuySellMetadata, profile, accounts, vStatus, canTrade)
   }
 )

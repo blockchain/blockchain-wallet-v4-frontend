@@ -16,8 +16,8 @@ const Header = styled.div`
   *:hover {
     cursor: pointer;
   }
-  -webkit-animation: fadeIn 1.25s ease-in 1 forwards;
-  animation: fadeIn 1.25s ease-in 1 forwards;
+  -webkit-animation: fadeIn .75s ease-in 1 forwards;
+  animation: fadeIn .75s ease-in 1 forwards;
   opacity: 0;
   @-webkit-keyframes fadeIn {
     to {
