@@ -17,6 +17,10 @@ export const getTransactionHistory = path([dataPath, 'bitcoin', 'transaction_his
 
 export const getCoins = path([dataPath, 'bitcoin', 'payment', 'coins'])
 
+export const getSpendableBalance = path([dataPath, 'bitcoin', 'spendable_balance'])
+
+export const getUnspendableBalance = path([dataPath, 'bitcoin', 'unspendable_balance'])
+
 // Specific
 export const getChangeIndex = curry((xpub, state) => getAddresses(state).map(path([xpub, 'change_index'])))
 
