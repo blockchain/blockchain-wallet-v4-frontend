@@ -108,7 +108,7 @@ const BaseDateInput = styled(ReactDatetime)`
   .rdtPicker td.rdtDisabled,
   .rdtPicker td.rdtDisabled:hover {
     background: none;
-    color: ${props => props.theme['gray-2']};
+    color: ${props => props.theme['error']};
     cursor: not-allowed;
   }
 

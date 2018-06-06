@@ -43,12 +43,12 @@ const Footer = styled.div`
 `
 
 const FirstStep = (props) => {
-  const { coin, csvData, position, total, closeAll, submitting, invalid, handleSubmit } = props
+  const { coin, csvData, position, total, closeAll, submitting, invalid, handleSubmit, isValidStartDate, isValidEndDate } = props
 
   return (
     <Modal size='medium' position={position} total={total}>
       <ModalHeader onClose={closeAll}>
-        <FormattedMessage id='modals.transactionreport.export' defaultMessage='Export transactions history' />
+        <FormattedMessage id='modals.transactionreport.export' defaultMessage='Export {coin} transactions history' values={{ coin }} />
       </ModalHeader>
       <ModalBody>
         <Form onSubmit={handleSubmit}>
@@ -68,9 +68,9 @@ const FirstStep = (props) => {
             </Row>
             <Row margin='30px'>
               <TimeContainer>
-                <Field name='start' validate={[required]} component={DateBoxDebounced} />
+                <Field name='start' validate={[required]} component={DateBoxDebounced} isValidDate={isValidStartDate} />
                 <Icon name='right-arrow' size='30px' />
-                <Field name='end' validate={[required]} component={DateBoxDebounced} />
+                <Field name='end' validate={[required]} component={DateBoxDebounced} isValidDate={isValidEndDate} />
               </TimeContainer>
             </Row>
           </Container>
