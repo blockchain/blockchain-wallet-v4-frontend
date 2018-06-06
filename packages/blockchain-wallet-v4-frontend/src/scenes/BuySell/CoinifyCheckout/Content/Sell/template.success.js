@@ -44,7 +44,6 @@ const Sell = props => {
 
   const profile = value.profile || { _limits: service.mockedLimits, _level: { currency: 'EUR' } }
   const kyc = value.kycs.length && head(value.kycs)
-  console.log(kyc)
   const defaultCurrency = currency || 'EUR' // profile._level.currency
   const symbol = service.currencySymbolMap[defaultCurrency]
 
