@@ -14,6 +14,7 @@ import sendEth from './sendEth/sagas'
 import signMessage from './signMessage/sagas'
 import transactionReport from './transactionReport/sagas'
 import usedAddresses from './usedAddresses/sagas'
+import manageAddresses from './manageAddresses/sagas'
 
 export default ({ api, coreSagas }) => ({
   activityList: activityList({ api, coreSagas }),
@@ -31,5 +32,6 @@ export default ({ api, coreSagas }) => ({
   sendEth: sendEth({ api, coreSagas }),
   signMessage: signMessage({ coreSagas }),
   transactionReport: transactionReport({ api, coreSagas }),
-  usedAddresses: usedAddresses({ coreSagas })
+  usedAddresses: usedAddresses({ coreSagas }),
+  manageAddresses: manageAddresses({ api, coreSagas })
 })

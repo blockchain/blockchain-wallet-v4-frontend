@@ -15,6 +15,7 @@ import * as sendEth from './sendEth/actionTypes'
 import * as signMessage from './signMessage/actionTypes'
 import * as transactionReport from './transactionReport/actionTypes'
 import * as usedAddresses from './usedAddresses/actionTypes'
+import * as manageAddresses from './manageAddresses/actionTypes'
 
 export {
   activityList,
@@ -33,5 +34,6 @@ export {
   sendEth,
   signMessage,
   transactionReport,
-  usedAddresses
+  usedAddresses,
+  manageAddresses
 }

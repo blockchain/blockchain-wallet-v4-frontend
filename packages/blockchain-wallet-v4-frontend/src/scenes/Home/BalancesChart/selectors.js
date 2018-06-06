@@ -6,7 +6,7 @@ import { createDeepEqualSelector } from 'services/ReselectHelper'
 
 export const getBtcBalances = createDeepEqualSelector(
   [
-    selectors.core.data.bitcoin.getBalance,
+    selectors.core.data.bitcoin.getSpendableBalance,
     selectors.core.data.bitcoin.getRates,
     selectors.core.settings.getCurrency
   ],
@@ -21,7 +21,7 @@ export const getBtcBalances = createDeepEqualSelector(
 
 export const getBchBalances = createDeepEqualSelector(
   [
-    selectors.core.data.bch.getBalance,
+    selectors.core.data.bch.getSpendableBalance,
     selectors.core.data.bch.getRates,
     selectors.core.settings.getCurrency
   ],
@@ -54,7 +54,7 @@ export const getData = createDeepEqualSelector(
     getBtcBalances,
     getBchBalances,
     getEthBalances,
-    selectors.core.common.bitcoin.getActiveHDAccounts,
+    selectors.core.common.btc.getActiveHDAccounts,
     selectors.core.kvStore.bch.getAccounts
   ],
   (btcBalancesR, bchBalancesR, ethBalancesR, btcAccountsR, bchAccountsR) => {

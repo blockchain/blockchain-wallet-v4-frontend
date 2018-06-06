@@ -54,4 +54,4 @@ export const getData = createDeepEqualSelector(
   }
 )
 
-export const getBtcData = selectors.core.common.bitcoin.getHDAccounts
+export const getBtcData = selectors.core.common.btc.getHDAccounts

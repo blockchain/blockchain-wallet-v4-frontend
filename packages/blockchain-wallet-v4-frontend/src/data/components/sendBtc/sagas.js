@@ -22,7 +22,7 @@ export default ({ coreSagas }) => {
       yield put(A.sendBtcPaymentUpdated(Remote.Loading))
       let payment = coreSagas.payment.btc.create(({network: settings.NETWORK_BITCOIN}))
       payment = yield payment.init()
-      const accountsR = yield select(selectors.core.common.bitcoin.getAccountsBalances)
+      const accountsR = yield select(selectors.core.common.btc.getAccountsBalances)
       const defaultIndex = yield select(selectors.core.wallet.getDefaultAccountIndex)
       const defaultAccountR = accountsR.map(nth(defaultIndex))
       const defaultFeePerByte = path(['fees', feeType || 'regular'], payment.value())
@@ -214,7 +214,7 @@ export default ({ coreSagas }) => {
       payment = yield payment.sign(password)
       payment = yield payment.publish()
       yield put(A.sendBtcPaymentUpdated(Remote.of(payment.value())))
-      yield put(actions.core.data.bitcoin.fetchTransactions('', true))
+      yield put(actions.core.data.bitcoin.fetchData('', true))
       if (path(['description', 'length'], payment.value())) {
         yield put(actions.core.wallet.setTransactionNote(payment.value().txId, payment.value().description))
       }

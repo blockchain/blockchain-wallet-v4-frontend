@@ -15,6 +15,7 @@ import sendEth from './sendEth/sagaRegister'
 import signMessage from './signMessage/sagaRegister'
 import transactionReport from './transactionReport/sagaRegister'
 import usedAddresses from './usedAddresses/sagaRegister'
+import manageAddresses from './manageAddresses/sagaRegister'
 
 export default ({ api, coreSagas }) => function * () {
   yield fork(activityList({ api, coreSagas }))
@@ -33,4 +34,5 @@ export default ({ api, coreSagas }) => function * () {
   yield fork(signMessage({ coreSagas }))
   yield fork(transactionReport({ api, coreSagas }))
   yield fork(usedAddresses({ coreSagas }))
+  yield fork(manageAddresses({ api, coreSagas }))
 }

@@ -30,18 +30,17 @@ export default ({ api, btcSocket }) => {
         const oldChecksum = Wrapper.selectPayloadChecksum(wrapper)
         if (oldChecksum !== newChecksum) {
           yield call(refreshWrapper)
-          const walletContext = yield select(walletSelectors.getWalletContext)
-          yield put(btcActions.fetchData(walletContext))
+          yield put(btcActions.fetchData())
         }
         break
       case 'utx':
-        yield put(btcActions.fetchTransactions('', true))
+        yield put(btcActions.fetchData('', true))
         const transactions = yield take(btcAT.FETCH_BITCOIN_TRANSACTIONS_SUCCESS)
         for (let i in transactions.payload.transactions) {
           const tx = transactions.payload.transactions[i]
           if (tx.hash === message.x.hash) {
             if (tx.result > 0) {
-              yield put(A.webSocket.bitcoin.paymentReceived('You\'ve just received a bitcoin payment.'))
+              yield put(A.webSocket.bitcoin.paymentReceived("You've just received a bitcoin payment."))
             }
             break
           }

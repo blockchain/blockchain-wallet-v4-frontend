@@ -15,7 +15,7 @@ export default ({ coreSagas }) => {
       }
       yield put(actions.form.initialize('bchTransactions', initialValues))
       const bchTransactionsR = yield select(selectors.core.data.bch.getTransactions)
-      if (!Remote.Success.is(bchTransactionsR)) yield put(actions.core.data.bch.fetchTransactions(defaultSource))
+      if (!Remote.Success.is(bchTransactionsR)) yield put(actions.core.data.bch.fetchData(defaultSource, true))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
     }
@@ -38,7 +38,7 @@ export default ({ coreSagas }) => {
       const threshold = 250
       const { yMax, yOffset } = action.payload
       if (yMax - yOffset < threshold) {
-        yield put(actions.core.data.bch.fetchTransactions(source, false))
+        yield put(actions.core.data.bch.fetchData(source, false))
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'scrollUpdated', e))
@@ -55,7 +55,7 @@ export default ({ coreSagas }) => {
       switch (field) {
         case 'source':
           const onlyShow = equals(payload, 'all') ? '' : (payload.xpub || payload.address)
-          yield put(actions.core.data.bch.fetchTransactions(onlyShow, true))
+          yield put(actions.core.data.bch.fetchData(onlyShow, true))
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
