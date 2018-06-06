@@ -300,6 +300,16 @@ export default ({ api, options }) => {
     }
   }
 
+  const cancelSubscription = function * ({ id }) {
+    try {
+      yield call(refreshCoinify)
+      const cancelSub = yield apply(coinify, coinify.cancelSubscription, [id])
+      return cancelSub
+    } catch (e) {
+      console.warn(e)
+    }
+  }
+
   return {
     signup,
     buy,
@@ -318,6 +328,7 @@ export default ({ api, options }) => {
     deleteBankAccount,
     fetchQuoteAndMediums,
     cancelTrade,
+    cancelSubscription,
     triggerKYC,
     getKYCs,
     kycAsTrade,

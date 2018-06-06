@@ -28,10 +28,10 @@ const isCompleted = (t) => contains(t.state, ['completed', 'rejected', 'cancelle
 const isPartOfSubscription = (t) => t.tradeSubscriptionId
 
 const OrderHistory = (props) => {
-  const { showModal, finishTrade, cancelTrade, step, status, cancelTradeId, trade, changeTab, canTrade, value } = props
+  const { showModal, finishTrade, cancelTrade, step, status, cancelTradeId, trade, changeTab, canTrade, value, onCancelSubscription } = props
   const { trades, subscriptions } = value
   const pendingTrades = filter(isPending, trades)
-  console.log('OrderHistory template', props, subscriptions.length > 0)
+
   if (step === 'isx') {
     return (
       <ISignThis
@@ -83,6 +83,7 @@ const OrderHistory = (props) => {
               status={status}
               canTrade={canTrade}
               cancelTradeId={cancelTradeId}
+              handleCancelSubscription={onCancelSubscription}
             />
           </OrderHistoryContent>
         }
