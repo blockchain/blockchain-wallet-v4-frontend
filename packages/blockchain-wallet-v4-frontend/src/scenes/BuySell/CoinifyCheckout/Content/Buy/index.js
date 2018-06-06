@@ -14,6 +14,7 @@ class CoinifyBuyContainer extends React.Component {
   }
 
   componentDidMount () {
+    console.log('Buy did mount')
     this.props.coinifyActions.initializeCheckoutForm('buy')
     this.props.coinifyDataActions.fetchTrades()
     this.props.coinifyDataActions.getKycs()
