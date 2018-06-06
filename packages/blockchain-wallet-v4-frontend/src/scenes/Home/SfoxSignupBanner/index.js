@@ -6,10 +6,9 @@ import { bindActionCreators } from 'redux'
 import { actions } from 'data'
 import { determineStep } from 'services/SfoxService'
 import { getData } from './selectors'
-import BuySellStepper from './template.js'
-import { selectors } from '../../../data'
+import SfoxSignupBanner from './template.js'
 
-class BuySellStepperContainer extends React.PureComponent {
+class SfoxSignupBannerContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.renderStepper = this.renderStepper.bind(this)
@@ -50,7 +49,7 @@ class BuySellStepperContainer extends React.PureComponent {
     }
 
     return currentStep > 0
-      ? (<BuySellStepper currentStep={currentStep - 1} goToBuySell={this.goToBuySell}/>)
+      ? (<SfoxSignupBanner currentStep={currentStep - 1} goToBuySell={this.goToBuySell}/>)
       : null
   }
 
@@ -73,4 +72,4 @@ const mapDispatchToProps = dispatch => ({
   sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch)
 })
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(BuySellStepperContainer))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SfoxSignupBannerContainer))

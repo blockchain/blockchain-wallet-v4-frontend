@@ -8,7 +8,7 @@ import ActivityList from './ActivityList'
 import DidYouKnow from './DidYouKnow'
 import PriceChart from './PriceChart'
 import BalancesChartContainer from './BalancesChart'
-import BuySellStepper from './BuySellStepper'
+import SfoxSignupBanner from './SfoxSignupBanner'
 
 ReactHighcharts.Highcharts.setOptions({ lang: { thousandsSep: ',' } })
 
@@ -56,7 +56,7 @@ class Home extends React.PureComponent {
 
     return (
       <Wrapper>
-        { buySellKv.cata({ Success: () => <BuySellStepper/>, Failure: () => <div/>, Loading: () => <div/>, NotAsked: () => <div/> }) }
+        { buySellKv.cata({ Success: () => <SfoxSignupBanner/>, Failure: () => <div/>, Loading: () => <div/>, NotAsked: () => <div/> }) }
         <ColumnWrapper>
           <ColumnLeft>
             <BalancesChartContainer/>
