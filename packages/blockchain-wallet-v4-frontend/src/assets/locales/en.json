@@ -1103,7 +1103,7 @@
   "scenes.reset2fa.fourthstep.login": "Continue to Login",
   "scenes.reset2fa.secondstep.reset": "Reset 2FA",
   "scenes.reset2fa.secondstep.step2": "Step 2 of 3",
-  "scenes.reset2fa.secondstep.newEmail": "New email",
+  "scenes.reset2fa.secondstep.newEmail": "New Email (Optional)",
   "scenes.reset2fa.secondstep.back": "Go Back",
   "scenes.reset2fa.secondstep.continue": "Continue",
   "scenes.reset2fa.thirdstep.reset": "Reset",
