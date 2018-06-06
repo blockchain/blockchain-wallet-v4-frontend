@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
+import { path } from 'ramda'
 import ui from 'redux-ui'
 import { getData } from './selectors'
 import Success from './template.success'
@@ -19,8 +20,19 @@ class WalletRecoveryPhraseContainer extends React.PureComponent {
   }
 
   toggleNextStep () {
-    this.props.updateUI({ nextStepToggled: true })
-    this.props.handleEnable()
+    if (this.props.recoveryPhrase === undefined) {
+      this.props.settingsActions.showBackupRecovery()
+    } else {
+      this.props.updateUI({ nextStepToggled: true })
+      this.props.handleEnable()
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.recoveryPhrase && this.props.recoveryPhrase === undefined) {
+      this.props.updateUI({ nextStepToggled: true })
+      this.props.handleEnable()
+    }
   }
 
   closeSteps () {
@@ -49,7 +61,8 @@ class WalletRecoveryPhraseContainer extends React.PureComponent {
 }
 
 const mapStateToProps = (state) => ({
-  data: getData(state)
+  data: getData(state),
+  recoveryPhrase: path(['securityCenter', 'recovery_phrase'], state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

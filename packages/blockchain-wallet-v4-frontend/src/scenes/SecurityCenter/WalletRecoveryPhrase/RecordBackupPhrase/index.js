@@ -13,9 +13,6 @@ class RecoveryPhraseContainer extends React.PureComponent {
     this.props.resetStep()
   }
 
-  componentDidMount () {
-    this.props.settingsActions.showBackupRecovery()
-  }
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.step === 3 || (nextProps.step === 2 && this.props.step === 3)) this.props.triggerCopyChange()
