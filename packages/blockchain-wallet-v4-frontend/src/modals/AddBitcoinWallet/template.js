@@ -1,5 +1,5 @@
 import React from 'react'
-import { prop, map } from 'ramda'
+import { prop, map, trim } from 'ramda'
 import styled from 'styled-components'
 import { required } from 'services/FormHelper'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'blockchain-info-components'
@@ -22,7 +22,9 @@ const AddBitcoinWallet = (props) => {
   const { position, close, submitting, invalid, wallets, ...rest } = props
   const { onSubmit } = rest
 
-  const unique = (props) => map(prop('label'), wallets).indexOf(props) > -1 ? 'Wallet name is already taken.' : undefined
+  const unique = (value) => {
+    return map(prop('label'), wallets).indexOf(value) > -1 ? 'Wallet name is already taken.' : undefined
+  }
 
   return (
     <Modal size='large' position={position}>

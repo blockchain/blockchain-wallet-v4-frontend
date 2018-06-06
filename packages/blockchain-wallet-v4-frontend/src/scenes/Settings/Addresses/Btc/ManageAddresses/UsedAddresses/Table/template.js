@@ -65,7 +65,7 @@ const UsedAddressesTable = ({ usedAddresses, search, onEditLabel }) => (
         <UsedTableEntry key={i} address={address} search={search} />))}
       </UsedTable>)
       : (<Text weight={300} style={{ marginTop: 20, textAlign: 'center' }}>
-        <FormattedMessage id='scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.nousedmessage' defaultMessage='This wallet has no previously used addresses.'/>
+        <FormattedMessage id='scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.nousedmessage' defaultMessage='This wallet has no used addresses.'/>
       </Text>)
     }
   </React.Fragment>
