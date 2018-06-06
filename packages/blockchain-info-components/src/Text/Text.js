@@ -46,7 +46,7 @@ Text.defaultProps = {
   italic: false,
   color: 'gray-5',
   altFont: false,
-  cursor: 'default'
+  cursor: 'inherit'
 }
 
 export default Text
