@@ -187,7 +187,7 @@ class ISignThisContainer extends Component {
           id='isx-iframe'
         />
         <ButtonContainer>
-          <Button nature='empty-secondary' onClick={() => coinifyActions.cancelISX()}>
+          <Button nature='empty-secondary' fullwidth onClick={() => coinifyActions.cancelISX()}>
             <Text size='13px' weight={300} color='brand-secondary'>
               {
                 isxType && isxType === 'Trade'
