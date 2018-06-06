@@ -31,3 +31,4 @@ export const fetchTransactionHistory = (address, start, end) => ({ type: AT.FETC
 export const fetchTransactionHistoryLoading = () => ({ type: AT.FETCH_BCH_TRANSACTION_HISTORY_LOADING })
 export const fetchTransactionHistorySuccess = (data) => ({ type: AT.FETCH_BCH_TRANSACTION_HISTORY_SUCCESS, payload: data })
 export const fetchTransactionHistoryFailure = (error) => ({ type: AT.FETCH_BCH_TRANSACTION_HISTORY_FAILURE, payload: error })
+export const clearTransactionHistory = () => ({ type: AT.CLEAR_BCH_TRANSACTION_HISTORY })
