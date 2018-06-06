@@ -9,7 +9,7 @@ export default () => {
       let { accountIdx, addressIdx, message } = action.payload
       yield put(actions.core.wallet.setHdAddressLabel(accountIdx, addressIdx, message))
     } catch (error) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'editHdLabel', error))
+      yield put(actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', error))
     }
   }
 

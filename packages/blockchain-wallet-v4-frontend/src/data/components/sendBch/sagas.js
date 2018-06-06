@@ -139,7 +139,7 @@ export default ({ coreSagas }) => {
       if (path(['description', 'length'], payment.value())) {
         yield put(actions.core.kvStore.bch.setTxNotesBch(payment.value().txId, payment.value().description))
       }
-      yield put(actions.core.data.bch.fetchTransactions('', true))
+      yield put(actions.core.data.bch.fetchData('', true))
       yield put(actions.router.push('/bch/transactions'))
       yield put(actions.alerts.displaySuccess(C.SEND_BCH_SUCCESS))
     } catch (e) {
