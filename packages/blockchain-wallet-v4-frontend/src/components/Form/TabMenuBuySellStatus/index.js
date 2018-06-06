@@ -13,12 +13,13 @@ class TabMenuBuySellStatusContainer extends React.PureComponent {
   }
 
   render () {
-    return <TabMenuBuySellStatus value={this.props.input.value} handleClick={this.handleClick} />
+    return <TabMenuBuySellStatus partner={this.props.partner} value={this.props.input.value} handleClick={this.handleClick} />
   }
 }
 
 TabMenuBuySellStatusContainer.propTypes = {
-  input: PropTypes.object.isRequired
+  input: PropTypes.object.isRequired,
+  partner: PropTypes.string.isRequired
 }
 
 export default TabMenuBuySellStatusContainer
