@@ -7,25 +7,22 @@ import { Image, Link, TabMenu, TabMenuItem, Text, TextGroup } from 'blockchain-i
 
 const Wrapper = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
   width: 100%;
-  padding: 0 30px;
-  box-sizing: border-box;
-  background-color: ${props => props.theme['white-blue']};
-  border-bottom: 1px solid ${props => props.theme['gray-1']};
-
-  > div > span:first-child { padding-left: 0px; }
+  @media(min-width: 992px) {
+    flex-direction: row;
+    justify-content: space-between;
+  }
 `
 const Partner = styled(TextGroup)`
+  position: relative;
   display: flex;
   flex-direction: row;
-  padding-top: 11px;
-  align-self: flex-end;
+  justify-content: flex-end;
   align-items: center;
-  width: 170px;
-
+  width: 100%;
   @media(max-width: 992px) { display: none; }
 `
 
@@ -52,10 +49,10 @@ const TabMenuBuySellStatus = props => {
           </Text>
           {partner === 'sfox'
             ? <Link href='https://www.sfox.com' target='_blank'>
-              <Image name='sfoxLogo' width='60px' height='25px' />
+              <Image name='sfox-logo' width='60px' height='25px' />
             </Link>
             : <Link href='https://www.coinify.com' target='_blank'>
-              <Image name='coinifyLogo' width='60px' height='25px' />
+              <Image name='coinify-logo' width='60px' height='25px' />
             </Link>
           }
         </Partner>
