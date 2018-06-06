@@ -1,5 +1,5 @@
 import React from 'react'
-import { prop, map, trim } from 'ramda'
+import { prop, map } from 'ramda'
 import styled from 'styled-components'
 import { required } from 'services/FormHelper'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'blockchain-info-components'
