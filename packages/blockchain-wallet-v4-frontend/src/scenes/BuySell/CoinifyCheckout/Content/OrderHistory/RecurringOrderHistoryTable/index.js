@@ -10,8 +10,8 @@ class RecurringOrderHistoryTable extends React.PureComponent {
   }
 
   render () {
-    const { subscriptions, cancelSubscription } = this.props
-    console.log('RecurringOrderHistoryTable', subscriptions)
+    const { subscriptions, cancelSubscription, trades, ...rest } = this.props
+    // console.log('RecurringOrderHistoryTable', subscriptions)
     return (
       <Table>
         <TableHeader>
@@ -38,9 +38,11 @@ class RecurringOrderHistoryTable extends React.PureComponent {
           </TableCell>
         </TableHeader>
         {subscriptions.map((subscription, index) => <RecurringOrder // list of all recurring orders, trades will be inside these
+          {...rest}
           key={index}
           subscription={subscription}
           cancelSubscription={cancelSubscription}
+          matchedTrades={trades.filter(t => t.tradeSubscriptionId === subscription.id)}
         />)}
       </Table>
     )
