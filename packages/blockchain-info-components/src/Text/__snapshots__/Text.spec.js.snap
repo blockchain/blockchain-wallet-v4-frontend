@@ -7,7 +7,7 @@ exports[`Text component default renders correctly 1`] = `
   font-size: 16px;
   text-transform: none;
   font-style: normal;
-  cursor: default;
+  cursor: inherit;
   display: block;
   opacity: 1;
 }
@@ -15,7 +15,7 @@ exports[`Text component default renders correctly 1`] = `
 <div
   className="c0"
   color="gray-1"
-  cursor="default"
+  cursor="inherit"
   size="16px"
 >
   <span>
