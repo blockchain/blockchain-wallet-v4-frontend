@@ -25,12 +25,10 @@ export const getCurrency = (state) =>
   selectors.core.data.coinify.getLevel(state)
 
 export const getBase = (state) =>
-  state.form.exchangeCheckout && state.form.exchangeCheckout.active
+  path(['form', 'exchangeCheckout', 'active'], state)
 
-export const getErrors = (state) => {
-  const exchangeCheckoutForm = state.form && state.form.exchangeCheckout
-  return exchangeCheckoutForm && exchangeCheckoutForm.syncErrors
-}
+export const getErrors = (state) =>
+  path(['form', 'exchangeCheckout', 'syncErrors'], state)
 
 export const getData = (state) => ({
   base: getBase(state),
@@ -45,5 +43,6 @@ export const getData = (state) => ({
   paymentMedium: path(['coinify', 'medium'], state),
   step: path(['coinify', 'checkoutStep'], state),
   coinifyBusy: path(['coinify', 'coinifyBusy'], state),
-  checkoutError: path(['coinify', 'checkoutError'], state)
+  checkoutError: path(['coinify', 'checkoutError'], state),
+  canTrade: selectors.core.data.coinify.canTrade(state).getOrElse(false)
 })

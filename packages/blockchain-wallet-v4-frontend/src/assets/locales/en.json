@@ -1482,7 +1482,7 @@
   "scenes.coinify.detailsmodal.kyc.failed": "Your identity verification has failed. Please contact support.",
   "scenes.coinify.detailsmodal.kyc.cancelled": "Your identity verification was cancelled. Please try again.",
   "scenes.coinify.detailsmodal.kyc.cancelled.unknown": "Your identity verification status could not be determined, please contact support.",
-  "scenes.coinify_details_modal.kyc.header.pending": "Identity Verification In Review",
+  "scenes.coinify_details_modal.kyc.header.pending": "Identity Verification Incomplete",
   "scenes.coinify_details_modal.kyc.header.completed": "Identity Verification Completed",
   "scenes.coinify_details_modal.kyc.header.rejected": "Identity Verification Denied",
   "scenes.coinify_details_modal.kyc.header.failed": "Identity Verification Failed",
