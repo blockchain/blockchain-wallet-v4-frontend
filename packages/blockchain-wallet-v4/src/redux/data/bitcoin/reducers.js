@@ -99,6 +99,9 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
     case AT.FETCH_BITCOIN_TRANSACTION_HISTORY_FAILURE: {
       return assoc('transaction_history', Remote.Failure(payload), state)
     }
+    case AT.CLEAR_BITCOIN_TRANSACTION_HISTORY: {
+      return assoc('transaction_history', Remote.NotAsked, state)
+    }
     default:
       return state
   }
