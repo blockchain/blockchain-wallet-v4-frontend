@@ -37,6 +37,7 @@ const BaseCheckBoxInput = styled.input.attrs({
 const Label = styled.label`
   display: flex;
   cursor: pointer;
+  position: relative;
   align-items: center;
   &:before {
     content: '';
@@ -47,6 +48,15 @@ const Label = styled.label`
     border-radius: 2px;
     transition: background .2s;
     border: 1px solid ${props => props.theme['brand-secondary']};
+  }
+  &:after {
+    content: '\\e90a';
+    font-family: 'icomoon';
+    position: absolute;
+    color: ${props => props.theme['white']};
+    font-weight: 600;
+    font-size: 10px;
+    left: 2px;
   }
 `
 

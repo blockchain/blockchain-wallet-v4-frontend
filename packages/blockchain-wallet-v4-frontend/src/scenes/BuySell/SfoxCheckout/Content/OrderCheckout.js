@@ -8,6 +8,7 @@ import { StepTransition } from 'components/Utilities/Stepper'
 import QuoteInput from './QuoteInput'
 import FundingSource from 'components/BuySell/FundingSource'
 import { MethodContainer } from 'components/BuySell/styled.js'
+import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 
 const quoteInputSpec = {
   method: 'buy',
@@ -65,8 +66,8 @@ const OrderCheckout = ({ quoteR, account, onFetchQuote, reason, finishAccountSet
             {'@ '}
             {quoteR
               .map(q => {
-                if (q.baseCurrency.toLowerCase() === 'btc') return '$' + ((1 / (Math.abs(q.baseAmount / 1e8))) * Math.abs(q.quoteAmount)).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})
-                else return '$' + ((1 / (Math.abs(q.quoteAmount / 1e8))) * Math.abs(q.baseAmount)).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})
+                if (q.baseCurrency.toLowerCase() === 'btc') return '$' + Currency.formatFiat((1 / (Math.abs(q.baseAmount / 1e8))) * Math.abs(q.quoteAmount))
+                else return '$' + Currency.formatFiat((1 / (Math.abs(q.quoteAmount / 1e8))) * Math.abs(q.baseAmount))
               })
               .getOrElse(
                 <Fragment>

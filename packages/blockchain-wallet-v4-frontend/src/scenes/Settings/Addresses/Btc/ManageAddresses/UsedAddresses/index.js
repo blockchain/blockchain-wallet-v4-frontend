@@ -3,12 +3,11 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import { actions, selectors } from 'data'
-import UsedAddressesTemplate from './template'
+import UsedAddressesShowTemplate from './template'
 
 class UsedAddressesContainer extends React.PureComponent {
   constructor (props) {
     super(props)
-
     this.onShowUsedAddresses = this.onShowUsedAddresses.bind(this)
   }
 
@@ -21,17 +20,19 @@ class UsedAddressesContainer extends React.PureComponent {
   }
 
   render () {
-    return <UsedAddressesTemplate usedAddressesVisible={this.props.usedAddressesVisible} onShowUsedAddresses={this.onShowUsedAddresses} />
+    const { usedAddressesVisible, walletIndex } = this.props
+
+    return <UsedAddressesShowTemplate usedAddressesVisible={usedAddressesVisible} onShowUsedAddresses={this.onShowUsedAddresses} walletIndex={walletIndex} />
   }
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  usedAddressesVisible: selectors.components.usedAddresses.getWalletUsedAddressVisibility(state, ownProps.walletIndex)
+  usedAddressesVisible: selectors.components.manageAddresses.getWalletUsedAddressVisibility(state, ownProps.walletIndex)
 })
 
 const mapDispatchToProps = (dispatch) => ({
   modalsActions: bindActionCreators(actions.modals, dispatch),
-  componentActions: bindActionCreators(actions.components.usedAddresses, dispatch)
+  componentActions: bindActionCreators(actions.components.manageAddresses, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(UsedAddressesContainer)

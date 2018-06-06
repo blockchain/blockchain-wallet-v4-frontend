@@ -1,24 +1,11 @@
-import { call, put, select, take } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 import { dissoc, isNil, length, mapObjIndexed, path, sum, values } from 'ramda'
 import { convertFeeToWei } from '../../../utils/ethereum'
 import * as A from './actions'
 import * as S from './selectors'
-import * as AT from './actionTypes'
 import * as selectors from '../../selectors'
 
 export default ({ api }) => {
-  const fetchData = function * (action) {
-    try {
-      yield put(A.fetchDataLoading())
-      const { context } = action.payload
-      const data = yield call(api.getEthereumData, context)
-      const latestBlock = yield call(api.getEthereumLatestBlock)
-      yield call(accountSaga, data, latestBlock)
-    } catch (e) {
-      yield put(A.fetchDataFailure(e.message))
-    }
-  }
-
   const fetchFee = function * () {
     try {
       yield put(A.fetchFeeLoading())
@@ -50,14 +37,7 @@ export default ({ api }) => {
     }
   }
 
-  const watchTransactions = function * () {
-    while (true) {
-      const action = yield take(AT.FETCH_ETHEREUM_TRANSACTIONS)
-      yield call(fetchTransactions, action)
-    }
-  }
-
-  const fetchTransactions = function * (action) {
+  const fetchData = function * (action) {
     const { payload } = action
     const { reset } = payload
     try {
@@ -65,7 +45,7 @@ export default ({ api }) => {
       const address = defaultAccountR.getOrFail('Could not get ethereum context.')
       const pages = reset ? [] : yield select(S.getTransactions)
       const nextPage = length(pages)
-      yield put(A.fetchTransactionsLoading())
+      yield put(A.fetchTransactionsLoading(reset))
       const data = yield call(api.getEthereumTransactions, address, nextPage)
       const latestBlock = yield call(api.getEthereumLatestBlock)
       yield call(accountSaga, data, latestBlock)
@@ -104,8 +84,6 @@ export default ({ api }) => {
     fetchFee,
     fetchData,
     fetchRates,
-    fetchLatestBlock,
-    fetchTransactions,
-    watchTransactions
+    fetchLatestBlock
   }
 }

@@ -1,4 +1,4 @@
-// import { bitcoin } from '../../redux/common/selectors'
+// import { btc } from '../../redux/common/selectors'
 // import Bitcoin from 'bitcoinjs-lib'
 
 export class ExchangeDelegate {
@@ -86,7 +86,7 @@ export class ExchangeDelegate {
   }
 
   reserveReceiveAddress () {
-    // const receiveAddress = bitcoin.getNextAvailableReceiveAddress(Bitcoin.networks.bitcoin.NETWORK_BITCOIN, 0, this.state)
+    // const receiveAddress = btc.getNextAvailableReceiveAddress(Bitcoin.networks.bitcoin.NETWORK_BITCOIN, 0, this.state)
     return {
       receiveAddress: '2N7FwMpgyXQA85SaVXumm3UZowq2VKChehP', // receiveAddress.data for now testnet address used on staging
       // receiveAddress: receiveAddress.data,

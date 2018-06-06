@@ -34,8 +34,8 @@ export const getData = (state, ownProps) => {
       default:
         return sequence(Remote.of,
           [
-            selectors.core.common.bitcoin.getActiveAccountsBalances(state).map(excluded).map(toDropdown),
-            excludeImported ? Remote.of([]) : selectors.core.common.bitcoin.getAddressesBalances(state).map(toDropdown)
+            selectors.core.common.btc.getActiveAccountsBalances(state).map(excluded).map(toDropdown),
+            excludeImported ? Remote.of([]) : selectors.core.common.btc.getAddressesBalances(state).map(toDropdown)
           ]).map(([b1, b2]) => ({ data: concat(b1, b2) }))
     }
   }
