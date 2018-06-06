@@ -13,7 +13,7 @@ const filterTransactions = curry((status, criteria, transactions) => {
 export const getData = createSelector(
   [
     selectors.form.getFormValues('btcTransactions'),
-    selectors.core.common.bitcoin.getWalletTransactions
+    selectors.core.common.btc.getWalletTransactions
   ],
   (formValues, pages) => {
     const empty = (page) => isEmpty(page.data)

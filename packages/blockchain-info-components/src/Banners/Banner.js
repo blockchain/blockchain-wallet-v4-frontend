@@ -24,6 +24,7 @@ const Container = styled.div`
 const BannerContent = styled(Text)`
   display: flex;
   flex-direction: row;
+  white-space: nowrap;
   & a:last-of-type { margin-left: 5px; }
 `
 

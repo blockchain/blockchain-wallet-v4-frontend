@@ -16,7 +16,7 @@ const BaseText = styled.div`
   cursor: ${props => props.cursor};
   flex-direction: ${props => props.flexRow ? 'row' : null};
   display: ${props => props.flexRow ? 'flex' : 'block'};
-  opacity: ${props => props.opacity ? 0.5 : 1};
+  opacity: ${props => props.opacity};
 `
 
 const Text = ({ children, ...props }) => {
@@ -35,7 +35,8 @@ Text.propTypes = {
   italic: PropTypes.bool,
   color: PropTypes.oneOf(keysIn(Palette())),
   altFont: PropTypes.bool,
-  cursor: PropTypes.string
+  cursor: PropTypes.string,
+  opacity: PropTypes.number
 }
 
 Text.defaultProps = {
@@ -46,7 +47,8 @@ Text.defaultProps = {
   italic: false,
   color: 'gray-5',
   altFont: false,
-  cursor: 'default'
+  cursor: 'inherit',
+  opacity: 1
 }
 
 export default Text

@@ -35,17 +35,6 @@ export default ({ coreSagas }) => {
     yield put(actions.alerts.displaySuccess(C.MNEMONIC_VERIFY_SUCCESS))
   }
 
-  const editHdLabel = function * (action) {
-    try {
-      let { accountIdx, addressIdx } = action.payload
-      let newLabel = yield call(promptForInput, { title: 'Rename Address Label' })
-      yield put(actions.core.wallet.setHdAddressLabel(accountIdx, addressIdx, newLabel))
-      yield put(actions.alerts.displaySuccess(C.ADDRESS_LABEL_UPDATE_SUCCESS))
-    } catch (error) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'editHdLabel', error))
-    }
-  }
-
   const editBtcAccountLabel = function * (action) {
     try {
       let { index, label } = action.payload
@@ -67,7 +56,6 @@ export default ({ coreSagas }) => {
     toggleSecondPassword,
     updatePbkdf2Iterations,
     verifyMmenonic,
-    editHdLabel,
     editBtcAccountLabel,
     setMainPassword
   }
