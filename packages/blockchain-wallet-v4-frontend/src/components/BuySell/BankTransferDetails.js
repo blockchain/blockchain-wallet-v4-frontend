@@ -24,7 +24,7 @@ const BankTransferDetailsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 30px;
-  border: 1px solid #EAEAEA;
+  border: 1px solid ${props => props.theme['gray-1']};
 `
 
 const BankTransferDetails = ({ trade }) => {
