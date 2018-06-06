@@ -3,18 +3,15 @@ import { createDeepEqualSelector } from 'services/ReselectHelper'
 
 export const getData = createDeepEqualSelector(
   [
-    selectors.core.wallet.getWalletContext,
-    selectors.core.kvStore.bch.getContext,
-    selectors.core.kvStore.ethereum.getContext,
+    selectors.core.kvStore.bch.getUnspendableContext,
+    selectors.core.wallet.getUnspendableContext,
     selectors.router.getPathname
   ],
-  (btcContext, bchContext, ethContextR, path) => {
-    const transform = (ethContext) => ({
-      btcContext,
-      ethContext,
-      bchContext,
+  (bchUnspendableContext, btcUnspendableContext, path) => {
+    return {
+      bchUnspendableContext,
+      btcUnspendableContext,
       path
-    })
-    return ethContextR.map(transform)
+    }
   }
 )

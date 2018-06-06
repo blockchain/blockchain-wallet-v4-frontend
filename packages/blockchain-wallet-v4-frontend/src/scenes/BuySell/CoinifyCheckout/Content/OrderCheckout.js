@@ -8,6 +8,7 @@ import { StepTransition } from 'components/Utilities/Stepper'
 import QuoteInput from './QuoteInput'
 import { MethodContainer } from 'components/BuySell/styled.js'
 import { checkoutButtonLimitsHelper } from 'services/CoinifyService'
+import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 
 const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, limits, checkoutError,
   type, defaultCurrency, symbol, checkoutBusy, busy, setMax, setMin, increaseLimit, onOrderCheckoutSubmit }) => {
@@ -49,7 +50,7 @@ const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, limi
           <Text size='12px' weight={300}>
             {'@ '}
             {rateQuoteR
-              .map((quote) => `${symbol}${Math.abs(quote && quote.quoteAmount).toLocaleString()}`)
+              .map((quote) => `${symbol}${Currency.formatFiat(quote && quote.quoteAmount)}`)
               .getOrElse(
                 <Fragment>
                   <FormattedMessage id='scenes.buysell.coinifycheckout.content.ordercheckout.loading' defaultMessage='Loading' />
