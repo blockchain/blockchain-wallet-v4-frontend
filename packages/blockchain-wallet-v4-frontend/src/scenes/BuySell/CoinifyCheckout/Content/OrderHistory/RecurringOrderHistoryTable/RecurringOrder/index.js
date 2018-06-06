@@ -117,6 +117,7 @@ class RecurringOrder extends React.Component {
               {
                 sortedTrades.map((trade, index) => <TradeItem
                   border='none'
+                  padding='8px 5px'
                   key={index}
                   trade={trade}
                   conversion={conversion}
