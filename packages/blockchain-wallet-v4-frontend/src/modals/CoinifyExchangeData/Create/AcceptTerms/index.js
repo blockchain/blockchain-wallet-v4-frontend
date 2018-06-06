@@ -40,7 +40,9 @@ class AcceptTermsContainer extends Component {
       invalid={invalid}
       onSubmit={this.handleSignup}
       signupError={signupError}
-      updateUI={updateUI} />
+      updateUI={updateUI}
+      editEmail={() => { this.props.updateUI({ create: 'change_email' }) }}
+    />
   }
 }
 

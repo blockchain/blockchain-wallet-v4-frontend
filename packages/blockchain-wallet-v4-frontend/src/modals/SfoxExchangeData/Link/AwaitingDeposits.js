@@ -23,6 +23,11 @@ const RightCol = styled.div`
   display: flex;
   justify-content: center;
 `
+const ImageWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
 
 const AwaitingDeposits = ({ showModal }) => {
   return (
@@ -31,7 +36,9 @@ const AwaitingDeposits = ({ showModal }) => {
         <Text size='30px' weight={600}>
           <FormattedMessage id='modals.sfoxexchangedata.link.awaitingdeposits.title' defaultMessage='Verify Your Bank Account' />
         </Text>
-        <Image name='micro-deposits-whole' width='100%' />
+        <ImageWrapper>
+          <Image name='micro-deposits-whole' width='215px' />
+        </ImageWrapper>
         <Text size='13px' weight={300}>
           <FormattedMessage id='modals.sfoxexchangedata.link.awaitingdeposits.body' defaultMessage='To verify your bank details, SFOX will send two micro-deposits to your bank account for a few cents each. Once received, select Enter Deposit Details to finish setting up your account.' />
         </Text>
