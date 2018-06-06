@@ -7,7 +7,7 @@ const Wrapper = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  padding: 8px 15px;
+  padding: ${props => props.padding || '8px 15px'};
   box-sizing: border-box;
   border-left: 1px solid ${props => props.theme['gray-2']};
   border-top: 1px solid ${props => props.theme['gray-2']};
@@ -15,8 +15,8 @@ const Wrapper = styled.div`
   border: ${props => props.border}
 `
 
-const TableRow = ({ children, border }) => (
-  <Wrapper border>
+const TableRow = ({ children, border, padding }) => (
+  <Wrapper border padding>
     {children}
   </Wrapper>
 )

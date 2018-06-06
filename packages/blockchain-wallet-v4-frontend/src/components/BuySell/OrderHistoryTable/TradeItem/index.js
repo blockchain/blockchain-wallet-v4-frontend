@@ -12,13 +12,13 @@ import OrderStatus from '../OrderStatus'
 const tradeDateHelper = (trade) => moment(prop('createdAt', trade)).local().format('MMMM D YYYY @ h:mm A')
 
 const TradeItem = props => {
-  const { conversion, handleClick, handleFinish, handleTradeCancel, trade, status, cancelTradeId, canTrade, border } = props
+  const { conversion, handleClick, handleFinish, handleTradeCancel, trade, status, cancelTradeId, canTrade, border, padding } = props
   const receiveAmount = trade.isBuy ? trade.receiveAmount : Exchange.displayFiatToFiat({ value: trade.receiveAmount })
   const exchangeAmount = trade.isBuy ? Exchange.displayFiatToFiat({ value: trade.sendAmount / conversion.buy }) : trade.sendAmount / conversion.sell
   const canCancel = (canTrade && trade.isBuy) && canCancelTrade(trade)
 
   return (
-    <TableRow border={border}>
+    <TableRow border={border} padding={padding}>
       <TableCell width='15%'>
         <OrderStatus status={trade.state} isBuy={trade.isBuy} />
       </TableCell>
