@@ -16,6 +16,7 @@ exports[`Text component default renders correctly 1`] = `
   className="c0"
   color="gray-1"
   cursor="inherit"
+  opacity={1}
   size="16px"
 >
   <span>

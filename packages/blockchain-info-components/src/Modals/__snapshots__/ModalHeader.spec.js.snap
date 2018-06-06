@@ -19,6 +19,7 @@ exports[`ModalHeader component default renders correctly 1`] = `
       color="gray-5"
       cursor="inherit"
       italic={false}
+      opacity={1}
       size="20px"
       uppercase={false}
       weight={300}
