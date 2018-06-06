@@ -181,8 +181,8 @@ export const kycBodyHelper = (status) => {
 
 export const kycHeaderHelper = (status) => {
   switch (status) {
-    case 'reviewing':
-    case 'pending': return { color: 'transferred', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.pending' defaultMessage='Identity Verification In Review' /> }
+    case 'reviewing': return { color: 'transferred', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.reviewing' defaultMessage='Identity Verification In Review' /> }
+    case 'pending': return { color: 'transferred', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.pending' defaultMessage='Identity Verification Incomplete' /> }
     case 'completed': return { color: 'success', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.completed' defaultMessage='Identity Verification Completed' /> }
     case 'rejected': return { color: 'error', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.rejected' defaultMessage='Identity Verification Denied' /> }
     case 'failed': return { color: 'error', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.failed' defaultMessage='Identity Verification Failed' /> }
@@ -209,9 +209,9 @@ export const kycNotificationBodyHelper = (status) => {
 export const kycNotificationButtonHelper = (status) => {
   switch (status) {
     case 'pending': return { color: 'transferred', text: <FormattedMessage id='scenes.buy_sell.kyc_notification.complete' defaultMessage='Complete Verification' /> }
-    case 'rejected': return { color: 'error', text: <FormattedMessage id='scenes.buy_sell.kyc_notification.rejected' defaultMessage='Try Again' /> }
-    case 'expired': return { color: 'error', text: <FormattedMessage id='scenes.buy_sell.kyc_notification.expired' defaultMessage='Try Again' /> }
-    default: return { color: '', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.unknown' defaultMessage='Unknown' /> }
+    case 'expired':
+    case 'rejected': return { color: 'error', text: <FormattedMessage id='scenes.buy_sell.kyc_notification.tryagain' defaultMessage='Try Again' /> }
+    default: return { color: '', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.unknown' defaultMessage='' /> }
   }
 }
 
