@@ -22,7 +22,7 @@ class SettingsContainer extends React.PureComponent {
 }
 
 const mapStateToProps = (state) => ({
-  authTypeNeverSave: selectors.core.settings.getAuthTypeNeverSave(state)
+  authTypeNeverSave: selectors.core.settings.getAuthTypeNeverSave(state).getOrElse(0)
 })
 
 const mapDispatchToProps = (dispatch) => ({
