@@ -47,7 +47,7 @@ Text.defaultProps = {
   italic: false,
   color: 'gray-5',
   altFont: false,
-  cursor: 'inherit'
+  cursor: 'inherit',
   opacity: 1
 }
 
