@@ -7,6 +7,7 @@ import IPWhitelist from './IPWhitelist'
 import LoginIpRestriction from './LoginIpRestriction'
 import PasswordStretching from './PasswordStretching'
 import WalletAccessTor from './WalletAccessTor'
+import TwoStepVerificationRemember from './TwoStepVerificationRemember'
 // import PasswordHint from './PasswordHint'
 import WalletPassword from './WalletPassword'
 import SecondPasswordWallet from './SecondPasswordWallet'
@@ -39,6 +40,7 @@ export default class Advanced extends PureComponent {
         <WalletPassword />
         {/* <PasswordHint /> */}
         <SecondPasswordWallet />
+        <TwoStepVerificationRemember />
         <ActivityLogging />
         <IPWhitelist />
         <LoginIpRestriction />
