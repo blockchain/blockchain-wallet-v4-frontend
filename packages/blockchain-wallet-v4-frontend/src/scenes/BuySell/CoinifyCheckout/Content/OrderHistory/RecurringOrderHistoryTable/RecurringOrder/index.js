@@ -8,7 +8,7 @@ import { spacing } from 'services/StyleService'
 import TradeItem from 'components/BuySell/OrderHistoryTable/TradeItem'
 
 import { RecurringTableHeader } from '../components'
-import { TableCell, TableRow, Text, Link, Icon } from 'blockchain-info-components'
+import { TableCell, TableRow, Text, Link, Icon, Button } from 'blockchain-info-components'
 // import OrderStatus from '../OrderStatus'
 
 const rotate90 = keyframes`
@@ -34,6 +34,11 @@ const RecurringTableWrapper = styled.div`
   border-right: 1px solid ${props => props.theme['gray-2']};
   padding-bottom: 30px;
 `
+const RecurringCancelWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+`
 const dateFormat = 'MMMM D YYYY'
 const dateHelper = (subscription) => moment(prop('endTime', subscription)).local().format(dateFormat)
 const startDateHelper = (trade) => moment(prop('createdAt', trade)).local().format(dateFormat)
@@ -50,7 +55,7 @@ class RecurringOrder extends React.Component {
   }
 
   render () {
-    const { subscription, matchedTrades, conversion, handleFinishTrade, handleDetailsClick, handleTradeCancel, status, cancelTradeId, canTrade } = this.props
+    const { subscription, handleCancelSubscription, matchedTrades, conversion, handleFinishTrade, handleDetailsClick, handleTradeCancel, status, cancelTradeId, canTrade } = this.props
     const sortByCreated = sortBy(prop('createdAt'))
     const sortedTrades = reverse(sortByCreated(matchedTrades))
     const firstTrade = head(sortByCreated(matchedTrades))
@@ -61,9 +66,9 @@ class RecurringOrder extends React.Component {
         <TableRow>
           <TableCell width='13%'>
             <ToggleIcon name='down-arrow' onClick={this.toggleRow} toggled={this.state.toggled} />
-            <Text color={subscription.isActive ? 'success' : 'error'} size='13px' weight={300} style={spacing('ml-10')}>
+            <Text color={prop('isActive', subscription) ? 'success' : 'error'} size='13px' weight={300} style={spacing('ml-10')}>
               {
-                subscription.isActive
+                prop('isActive', subscription)
                   ? <FormattedMessage id='scenes.buysell.orderhistory.recurring.order.active' defaultMessage='Active' />
                   : <FormattedMessage id='scenes.buysell.orderhistory.recurring.order.inactive' defaultMessage='Inactive' />
               }
@@ -128,6 +133,17 @@ class RecurringOrder extends React.Component {
                   cancelTradeId={cancelTradeId}
                   canTrade={canTrade}
                 />)
+              }
+              {
+                prop('isActive', subscription)
+                  ? <RecurringCancelWrapper>
+                    <Button nature='logout' onClick={() => handleCancelSubscription(subscription)}>
+                      <Text size='13px' weight={300} color='white'>
+                        <FormattedMessage id='scenes.buysell.orderhistory.recurring.cancelorder' defaultMessage='Cancel Recurring Order' />
+                      </Text>
+                    </Button>
+                  </RecurringCancelWrapper>
+                  : null
               }
             </RecurringTableWrapper>
             : null

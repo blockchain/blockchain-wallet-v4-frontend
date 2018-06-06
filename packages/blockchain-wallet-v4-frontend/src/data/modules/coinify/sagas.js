@@ -315,19 +315,31 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const cancelSubscription = function * (data) {
+    const id = path(['payload', 'id'], data)
+    try {
+      yield put(A.coinifyLoading())
+      yield call(coreSagas.data.coinify.cancelSubscription, { id })
+      yield put(A.coinifySuccess())
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'cancelSubscription', e))
+    }
+  }
+
   return {
     buy,
+    cancelISX,
+    cancelSubscription,
+    cancelTrade,
     coinifySaveMedium,
     coinifySignup,
     deleteBankAccount,
+    finishTrade,
     fromISX,
     handleChange,
     initialized,
     openKYC,
     sell,
-    triggerKYC,
-    cancelISX,
-    finishTrade,
-    cancelTrade
+    triggerKYC
   }
 }

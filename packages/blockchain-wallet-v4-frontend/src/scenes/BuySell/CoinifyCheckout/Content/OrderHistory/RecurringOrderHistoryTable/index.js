@@ -11,7 +11,7 @@ class RecurringOrderHistoryTable extends React.PureComponent {
 
   render () {
     const { subscriptions, cancelSubscription, trades, ...rest } = this.props
-    // console.log('RecurringOrderHistoryTable', subscriptions)
+
     return (
       <Table>
         <TableHeader>
