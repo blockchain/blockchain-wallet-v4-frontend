@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { path, head } from 'ramda'
+import { path, prop, head } from 'ramda'
 
 import { Button } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
@@ -51,8 +51,8 @@ const CoinifyBuy = props => {
     canTrade
   } = props
 
-  const profile = Remote.of(props.value.profile).getOrElse({ _limits: service.mockedLimits, _level: { currency: 'EUR' } })
-  const kyc = value.kycs.length && head(value.kycs)
+  const profile = Remote.of(prop('profile', value)).getOrElse({ _limits: service.mockedLimits, _level: { currency: 'EUR' } })
+  const kyc = path(['kycs', 'length'], value) && head(value.kycs)
   const defaultCurrency = currency || 'EUR' // profile._level.currency
   const symbol = service.currencySymbolMap[defaultCurrency]
 
@@ -81,8 +81,8 @@ const CoinifyBuy = props => {
             </LeftContainer>
             <RightContainer>
               {
-                value.kycs.length && path(['state'], kyc)
-                  ? <KYCNotification kyc={kyc} limits={limits.buy} symbol={symbol} onTrigger={(kyc) => handleKycAction(kyc)} canTrade={canTrade.data} />
+                path(['kycs', 'length'], value) && path(['state'], kyc)
+                  ? <KYCNotification kyc={kyc} limits={limits.buy} symbol={symbol} onTrigger={(kyc) => handleKycAction(kyc)} canTrade={canTrade} />
                   : null
               }
             </RightContainer>
@@ -124,7 +124,7 @@ const CoinifyBuy = props => {
       <CheckoutWrapper>
         <BankTransferDetails trade={trade} />
         <RightContainer>
-          <Button nature='primary' onClick={() => { changeTab('order_history'); coinifyNextCheckoutStep('checkout') }}>
+          <Button nature='primary' width='85%' onClick={() => { changeTab('order_history'); coinifyNextCheckoutStep('checkout') }}>
             <FormattedMessage id='close' defaultMessage='Close' />
           </Button>
         </RightContainer>

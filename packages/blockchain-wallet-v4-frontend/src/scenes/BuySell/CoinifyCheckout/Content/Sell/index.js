@@ -14,6 +14,7 @@ class SellContainer extends React.Component {
   }
 
   componentDidMount () {
+    this.props.coinifyDataActions.getKycs()
     this.props.sendBtcActions.sendBtcInitialized({ feeType: 'priority' })
     this.props.coinifyActions.initializeCheckoutForm('sell')
   }
@@ -32,7 +33,7 @@ class SellContainer extends React.Component {
   render () {
     const { data, modalActions, coinifyActions, coinifyDataActions, formActions,
       rateQuoteR, sellQuoteR, currency, paymentMedium, trade, ...rest } = this.props
-    const { step, checkoutBusy, coinifyBusy, checkoutError } = rest
+    const { canTrade, step, checkoutBusy, coinifyBusy, checkoutError } = rest
     const { handleTrade, fetchQuote } = coinifyDataActions
     const { showModal } = modalActions
     const { coinifyNotAsked, openKYC } = coinifyActions
@@ -47,6 +48,7 @@ class SellContainer extends React.Component {
     return data.cata({
       Success: (value) => <Success
         value={value}
+        canTrade={canTrade}
         handleTrade={handleTrade}
         showModal={showModal}
         sellQuoteR={sellQuoteR}
