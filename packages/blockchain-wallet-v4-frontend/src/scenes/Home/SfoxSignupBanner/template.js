@@ -124,8 +124,9 @@ const getSfoxStepTitle = (step) => {
   }
 }
 
-const BuySellStepper = (props) => {
+const SfoxSignupBanner = (props) => {
   const { currentStep, goToBuySell } = props
+  const totalSteps = 4
 
   return (
     <Header onClick={() => { goToBuySell() }}>
@@ -136,7 +137,7 @@ const BuySellStepper = (props) => {
         </Text>
       </LeftColumn>
       <RightColumn>
-        {[...Array(4)].map((r, i) => {
+        {[...Array(totalSteps)].map((r, i) => {
           return (
             <React.Fragment key={i}>
               <Step>
@@ -157,9 +158,9 @@ const BuySellStepper = (props) => {
   )
 }
 
-BuySellStepper.propTypes = {
+SfoxSignupBanner.propTypes = {
   currentStep: PropTypes.number.isRequired,
   goToBuySell: PropTypes.func.isRequired
 }
 
-export default BuySellStepper
+export default SfoxSignupBanner
