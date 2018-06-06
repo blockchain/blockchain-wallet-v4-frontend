@@ -27,7 +27,7 @@ const UnusedAddressesTemplate = ({ account, currentReceiveIndex, unusedAddresses
 
   return unusedAddresses.length === 0
     ? (<Text weight={300} style={{ marginTop: 20, textAlign: 'center' }}>
-      <FormattedMessage id='scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.nousedmessage' defaultMessage='This wallet has no unused addresses.'/>
+      <FormattedMessage id='scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.nounusedmessage' defaultMessage='This wallet has no unused addresses.'/>
     </Text>)
     : (<Table>
       <TableHeader>
