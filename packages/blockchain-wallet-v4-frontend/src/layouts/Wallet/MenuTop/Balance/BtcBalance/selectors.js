@@ -1,3 +1,3 @@
 import { selectors } from 'data'
 
-export const getData = selectors.core.data.bitcoin.getBalance
+export const getData = selectors.core.data.bitcoin.getSpendableBalance
