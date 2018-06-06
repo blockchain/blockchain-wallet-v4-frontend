@@ -2,7 +2,6 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { path } from 'ramda'
 
 import { actions } from 'data'
 import { determineStep } from 'services/SfoxService'
@@ -16,9 +15,9 @@ class BuySellStepperContainer extends React.PureComponent {
     this.goToBuySell = this.goToBuySell.bind(this)
   }
 
-  componentDidMount () {
-    //this.props.sfoxActions.fetchProfile()
-    //this.props.sfoxActions.sfoxFetchAccounts()
+  componentWillMount () {
+    this.props.sfoxDataActions.fetchProfile()
+    this.props.sfoxDataActions.sfoxFetchAccounts()
   }
 
   goToBuySell () {
@@ -27,14 +26,12 @@ class BuySellStepperContainer extends React.PureComponent {
 
   renderStepper (data) {
     let currentStep = 0
-    console.info(data)
 
-    if (path(['value', 'sfox', 'account_token'], data.bsMetadata)) {
-      console.info('account_token found')
-      currentStep = 0 // ????
-    } else {
-      const step = determineStep(data.profile, data.vStatus.level, data.accounts)
-      console.info(step)
+    // if (path(['value', 'sfox', 'account_token'], data.bsMetadata)) {
+    //  console.log('now wut')
+    // } else {
+      const step = determineStep(data.profile, data.vStatus, data.accounts)
+      console.info('stepFromService', step)
       switch (step) {
         case 'account':
           currentStep = 1
@@ -52,10 +49,10 @@ class BuySellStepperContainer extends React.PureComponent {
           break
         }
       }
-    }
+    // }
 
     return currentStep > 0
-      ? (<BuySellStepper currentStep={currentStep} goToBuySell={this.goToBuySell}/>)
+      ? (<BuySellStepper currentStep={currentStep - 1} goToBuySell={this.goToBuySell}/>)
       : null
   }
 
@@ -71,9 +68,11 @@ class BuySellStepperContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => getData(state)
+const mapStateToProps = (state) => ({
+  data: getData(state)
+})
 const mapDispatchToProps = dispatch => ({
-  sfoxActions: bindActionCreators(actions.modules.sfox, dispatch)
+  sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch)
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(BuySellStepperContainer))
