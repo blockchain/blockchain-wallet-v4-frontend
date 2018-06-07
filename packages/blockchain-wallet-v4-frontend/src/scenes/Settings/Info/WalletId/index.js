@@ -4,7 +4,7 @@ import { Text } from 'blockchain-info-components'
 import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/Setting'
 import Settings from './Settings'
 
-const WalletId = (props) => {
+const WalletId = () => {
   return (
     <SettingContainer>
       <SettingSummary>

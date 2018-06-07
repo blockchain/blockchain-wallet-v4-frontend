@@ -13,7 +13,7 @@ const filterTransactions = curry((status, criteria, transactions) => {
 export const getData = createSelector(
   [
     selectors.form.getFormValues('ethTransactions'),
-    selectors.core.common.ethereum.getWalletTransactions
+    selectors.core.common.eth.getWalletTransactions
   ],
   (formValues, pages) => {
     const empty = (page) => isEmpty(page.data)

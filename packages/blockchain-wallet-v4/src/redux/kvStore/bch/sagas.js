@@ -2,7 +2,6 @@ import { call, put, select } from 'redux-saga/effects'
 import { compose, concat, gt, isNil, length, map, path, prop, range } from 'ramda'
 import { set } from 'ramda-lens'
 import * as A from './actions'
-import * as S from './selectors'
 import * as bchActions from '../../data/bch/actions'
 import { KVStoreEntry } from '../../../types'
 import { derivationMap, BCH } from '../config'
@@ -51,8 +50,7 @@ export default ({ api }) => {
   }
 
   const refetchContextData = function * () {
-    const bchContext = yield select(S.getContext)
-    yield put(bchActions.fetchData(bchContext))
+    yield put(bchActions.fetchData())
   }
 
   return {
