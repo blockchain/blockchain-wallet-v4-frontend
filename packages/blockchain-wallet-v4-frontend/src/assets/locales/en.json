@@ -391,7 +391,7 @@
   "coinifyexchangedata.payment.bank.unavailable": "Bank transfers are unavailable until Identity Verification has finished.",
   "coinifyexchangedata.payment.mediumhelpers.bank.detail1": "One time ID verification",
   "coinifyexchangedata.payment.mediumhelpers.bank.detail2": "Receive bitcoin in 2-3 days",
-  "coinifyexchangedata.payment.mediumhelpers.bank.detail3": "No payment fees",
+  "coinifyexchangedata.payment.mediumhelpers.bank.detail3": "0.25% Payment Fee",
   "coinify.payment.helper1.question": "Payment Medium placeholder 1?",
   "coinify.payment.helper1.answer": "Answer1 placeholder",
   "coinify.payment.helper2.question": "Payment Medium placeholder 2?",
