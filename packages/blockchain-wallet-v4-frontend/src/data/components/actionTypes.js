@@ -6,6 +6,7 @@ import * as exchange from './exchange/actionTypes'
 import * as exchangeHistory from './exchangeHistory/actionTypes'
 import * as importBtcAddress from './importBtcAddress/actionTypes'
 import * as layoutWallet from './layoutWallet/actionTypes'
+import * as manageAddresses from './manageAddresses/actionTypes'
 import * as priceChart from './priceChart/actionTypes'
 import * as priceTicker from './priceTicker/actionTypes'
 import * as requestBtc from './requestBtc/actionTypes'
@@ -14,8 +15,6 @@ import * as sendBtc from './sendBtc/actionTypes'
 import * as sendEth from './sendEth/actionTypes'
 import * as signMessage from './signMessage/actionTypes'
 import * as transactionReport from './transactionReport/actionTypes'
-import * as usedAddresses from './usedAddresses/actionTypes'
-import * as manageAddresses from './manageAddresses/actionTypes'
 
 export {
   activityList,
@@ -26,6 +25,7 @@ export {
   exchangeHistory,
   importBtcAddress,
   layoutWallet,
+  manageAddresses,
   priceChart,
   priceTicker,
   requestBtc,
@@ -33,7 +33,5 @@ export {
   sendBtc,
   sendEth,
   signMessage,
-  transactionReport,
-  usedAddresses,
-  manageAddresses
+  transactionReport
 }

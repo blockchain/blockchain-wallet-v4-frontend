@@ -5,6 +5,7 @@ import ethTransactions from './ethTransactions/sagas'
 import exchange from './exchange/sagas'
 import exchangeHistory from './exchangeHistory/sagas'
 import importBtcAddress from './importBtcAddress/sagas'
+import manageAddresses from './manageAddresses/sagas'
 import priceChart from './priceChart/sagas'
 import priceTicker from './priceTicker/sagas'
 import requestBtc from './requestBtc/sagas'
@@ -13,8 +14,6 @@ import sendBtc from './sendBtc/sagas'
 import sendEth from './sendEth/sagas'
 import signMessage from './signMessage/sagas'
 import transactionReport from './transactionReport/sagas'
-import usedAddresses from './usedAddresses/sagas'
-import manageAddresses from './manageAddresses/sagas'
 
 export default ({ api, coreSagas }) => ({
   activityList: activityList({ api, coreSagas }),
@@ -24,6 +23,7 @@ export default ({ api, coreSagas }) => ({
   exchange: exchange({ api, coreSagas }),
   exchangeHistory: exchangeHistory({ api, coreSagas }),
   importBtcAddress: importBtcAddress({ api, coreSagas }),
+  manageAddresses: manageAddresses({ api, coreSagas }),
   priceChart: priceChart({ coreSagas }),
   priceTicker: priceTicker({ coreSagas }),
   requestBtc: requestBtc(),
@@ -31,7 +31,5 @@ export default ({ api, coreSagas }) => ({
   sendBtc: sendBtc({ api, coreSagas }),
   sendEth: sendEth({ api, coreSagas }),
   signMessage: signMessage({ coreSagas }),
-  transactionReport: transactionReport({ api, coreSagas }),
-  usedAddresses: usedAddresses({ coreSagas }),
-  manageAddresses: manageAddresses({ api, coreSagas })
+  transactionReport: transactionReport({ api, coreSagas })
 })
