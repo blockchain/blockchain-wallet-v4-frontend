@@ -7,6 +7,7 @@ import { Button, Link, Modal, ModalHeader, ModalBody, ModalFooter, Text } from '
 import { Form, PhoneNumberBox } from 'components/Form'
 import { validMobileNumber, required } from 'services/FormHelper'
 import { spacing } from 'services/StyleService'
+import { path } from 'ramda'
 
 const MobileNumber = styled.div`
   display: flex;
@@ -35,7 +36,7 @@ const MobileNumberChange = (props) => {
             <Text size='14px' weight={300} style={spacing('pr-5')}>
               <FormattedMessage id='modals.mobilenumberchange.mobile' defaultMessage='Mobile number: ' />
             </Text>
-            <Field name='mobileNumber' validate={[validMobileNumber, required]} component={PhoneNumberBox} countryCode={countryCode} />
+            <Field name='mobileNumber' validate={[validMobileNumber, required]} component={PhoneNumberBox} countryCode={path(['data'], countryCode)} />
           </MobileNumber>
         </ModalBody>
         <ModalFooter align='spaced'>
