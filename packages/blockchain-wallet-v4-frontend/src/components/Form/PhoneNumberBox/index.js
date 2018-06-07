@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { prop, toLower } from 'ramda'
 
 import IntlTelInput from 'react-intl-tel-input'
 import 'react-intl-tel-input/dist/libphonenumber.js'
@@ -34,7 +35,8 @@ const PhoneNumberBox = (field) => {
   const handler = (status, value, countryData, number, id) => {
     field.input.onChange(number)
   }
-  const countryCode = field.countryCode && field.countryCode.data.toLowerCase()
+  const upperCountryCode = prop('countryCode', field).getOrElse('US')
+  const countryCode = upperCountryCode && toLower(upperCountryCode)
 
   return (
     <Container>
