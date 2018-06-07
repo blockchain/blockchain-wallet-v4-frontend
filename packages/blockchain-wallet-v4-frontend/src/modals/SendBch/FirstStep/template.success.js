@@ -56,7 +56,7 @@ const FirstStep = props => {
             <FormattedMessage id='modals.sendBch.firststep.to' defaultMessage='To:' />
           </FormLabel>
           <Row>
-            {toToggled && !destination && <Field name='to' component={SelectBoxBitcoinAddresses} opened includeAll={false} exclude={[from.label]} hideErrors coin='BCH' />}
+            {toToggled && !destination && <Field name='to' component={SelectBoxBitcoinAddresses} opened onFocus={() => handleToToggle()} includeAll={false} exclude={[from.label]} hideErrors coin='BCH' />}
             {toToggled && destination && <Field name='to' component={SelectBoxBitcoinAddresses} onFocus={() => handleToToggle()} includeAll={false} validate={[required]} exclude={[from.label]} hideArrow hideErrors coin='BCH' />}
             {!toToggled && <Field name='to' placeholder='Paste or scan an address, or select a destination' component={TextBox} validate={[required, validBitcoinCashAddress]} autoFocus />}
             {(!toToggled || destination) && <QRCodeCapture scanType='bchAddress' border={enableToggle ? ['top', 'bottom'] : ['top', 'bottom', 'right']} />}
