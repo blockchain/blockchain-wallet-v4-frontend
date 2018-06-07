@@ -54,7 +54,7 @@ const Help = (props) => {
       <Row>
         <Left>
           <Text size='14px' weight={500}>
-            <FormattedMessage id='scenes.help.guid' defaultMessage="I've Lost my Wallet ID" />
+            <FormattedMessage id='scenes.help.guid' defaultMessage="I've Lost My Wallet ID" />
           </Text>
           <Text size='13px' weight={300}>
             <FormattedMessage id='scenes.help.guid_explain' defaultMessage='Email me a reminder of my wallet ID' />
