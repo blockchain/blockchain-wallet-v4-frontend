@@ -28,7 +28,7 @@ const SelectAccounts = (props) => {
         <BorderBox>
           <InputWrapper style={spacing('mb-40')}>
             <PartnerHeader>
-              <FormattedMessage id='coinifyexchangedata.selectaccounts.header' defaultMessage='Select Accounts' />
+              <FormattedMessage id='coinifyexchangedata.selectaccounts.header' defaultMessage='Select Account' />
             </PartnerHeader>
             <PartnerSubHeader>
               <FormattedMessage id='coinifyexchangedata.selectaccounts.subheader' defaultMessage='Where would you like your funds sent? You have the following bank accounts linked: ' />
