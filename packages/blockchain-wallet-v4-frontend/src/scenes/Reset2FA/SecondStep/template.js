@@ -33,6 +33,10 @@ const Footer = styled(FormGroup)`
   align-items: center;
 `
 
+const validNullableEmail = emailVal => {
+  return emailVal && emailVal.length ? validEmail(emailVal) : undefined
+}
+
 const SecondStep = (props) => {
   const { previousStep, submitting, invalid, onSubmit } = props
 
@@ -51,9 +55,9 @@ const SecondStep = (props) => {
         <FormGroup>
           <FormItem>
             <FormLabel for='newEmail'>
-              <FormattedMessage id='scenes.reset2fa.secondstep.newEmail' defaultMessage='New email' />
+              <FormattedMessage id='scenes.reset2fa.secondstep.newEmail' defaultMessage='New Email (Optional)' />
             </FormLabel>
-            <Field name='newEmail' validate={[validEmail]} autoFocus component={TextBox} />
+            <Field name='newEmail' autoFocus validate={[validNullableEmail]} component={TextBox} />
             <InfoMsg size='12px' weight={300}>
               <FormattedMessage id='scenes.reset2fa.secondstep.newEmailExplain' defaultMessage="Enter your updated email if you've lost access to your previously verified email. If your 2FA reset request if approved, this will automatically be set as your wallet's new email address." />
             </InfoMsg>
