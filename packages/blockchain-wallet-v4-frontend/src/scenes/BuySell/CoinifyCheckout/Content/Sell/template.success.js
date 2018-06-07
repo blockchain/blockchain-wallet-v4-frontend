@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { head, path } from 'ramda'
+import { contains, head, path } from 'ramda'
 
 import * as service from 'services/CoinifyService'
 import Stepper, { StepView } from 'components/Utilities/Stepper'
@@ -44,7 +44,8 @@ const Sell = props => {
 
   const profile = value.profile || { _limits: service.mockedLimits, _level: { currency: 'EUR' } }
   const kyc = value.kycs.length && head(value.kycs)
-  const defaultCurrency = currency || 'EUR' // profile._level.currency
+  const sellCurrencies = ['EUR', 'DKK', 'GBP']
+  const defaultCurrency = contains(currency, sellCurrencies) ? currency : 'EUR' // profile._level.currency
   const symbol = service.currencySymbolMap[defaultCurrency]
 
   const limits = service.getLimits(profile._limits, defaultCurrency, path(['payment', 'effectiveBalance'], value))
