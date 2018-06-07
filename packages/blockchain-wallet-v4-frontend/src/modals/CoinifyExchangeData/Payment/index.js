@@ -7,6 +7,7 @@ import { getData, getQuote } from './selectors'
 import Success from './template.success'
 import { path } from 'ramda'
 import Loading from 'components/BuySell/Loading'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 class PaymentContainer extends Component {
   constructor (props) {
@@ -19,7 +20,7 @@ class PaymentContainer extends Component {
   }
 
   componentDidMount () {
-    this.props.coinifyDataActions.getPaymentMediums(this.props.quote.data)
+    if (Remote.Success.is(this.props.quote)) this.props.coinifyDataActions.getPaymentMediums(this.props.quote.data)
   }
 
   componentWillUnmount () {
@@ -37,7 +38,8 @@ class PaymentContainer extends Component {
   }
 
   render () {
-    const { data, coinifyBusy } = this.props
+    const { data, coinifyBusy, coinifyActions } = this.props
+    const { openKYC } = coinifyActions
 
     const busy = coinifyBusy.cata({
       Success: () => false,
@@ -56,10 +58,11 @@ class PaymentContainer extends Component {
           quote={this.props.quote}
           triggerKyc={this.triggerKyc}
           busy={busy}
+          openPendingKyc={openKYC}
         />,
       Failure: (msg) => <div>ERROR: {msg}</div>,
       Loading: () => <Loading />,
-      NotAsked: () => <div>Payment Medium Not asked...</div>
+      NotAsked: () => <Loading />
     })
   }
 }
