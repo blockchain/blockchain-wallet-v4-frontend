@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-import styled, { keyframes } from 'styled-components'
+import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { prop, path, sortBy, reverse, head } from 'ramda'
 import moment from 'moment'
@@ -10,19 +10,11 @@ import RecurringTradeItem from '../RecurringTrade'
 import { RecurringTableHeader } from '../components'
 import { TableCell, TableRow, Text, Link, Icon, Button } from 'blockchain-info-components'
 
-const rotate90 = keyframes`
-from {
-  transform: rotate(0deg);
-}
-
-to {
-  transform: rotate(90deg);
-}
-`
-
 const ToggleIcon = styled(Icon)`
-  animation: {rotate90} 2s linear infinite;
   cursor: pointer;
+  transform: rotate(-90deg);
+  transition: transform 0.5s;
+  transform: ${props => props.toggled && 'rotate(0deg)'};
 `
 const Frequency = styled(Text)`
   text-transform: capitalize;
