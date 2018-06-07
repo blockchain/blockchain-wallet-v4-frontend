@@ -3,9 +3,9 @@ import * as AT from './actionTypes'
 import sagas from './sagas'
 
 export default () => {
-  const usedAddressesSagas = sagas()
+  const preferencesSagas = sagas()
 
   return function * () {
-    yield takeLatest(AT.TOGGLE_USED_ADDRESSES, usedAddressesSagas.toggleUsedAddresses)
+    yield takeLatest(AT.SET_LANGUAGE, preferencesSagas.setLanguage)
   }
 }

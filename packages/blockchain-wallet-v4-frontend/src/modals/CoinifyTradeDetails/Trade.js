@@ -22,9 +22,10 @@ const StyledOrderDetailsTable = styled(OrderDetailsTable)`
   margin-bottom: 10px;
 `
 
-const Trade = ({ trade, close }) => {
-  const headerStatus = statusHelper(trade.state)
-  const bodyStatus = bodyStatusHelper(trade.state, trade.isBuy)
+const Trade = ({ trade, close, status }) => {
+  let tradeStatus = (status && status.toLowerCase()) || trade.state
+  const headerStatus = statusHelper(tradeStatus)
+  const bodyStatus = bodyStatusHelper(tradeStatus, trade.isBuy)
   const details = tradeDetails.renderDetails(trade)
   const date = moment(prop('createdAt', trade)).local().format('MMMM D YYYY @ h:mm A')
   const isPendingSell = any(equals(prop('state', trade)))(['awaiting_transfer_in', 'processing']) && !prop('isBuy', trade)

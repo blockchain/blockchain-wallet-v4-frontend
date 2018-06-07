@@ -5,9 +5,11 @@ import TotalBalance from './TotalBalance'
 import BtcBalance from './BtcBalance'
 import EthBalance from './EthBalance'
 import BchBalance from './BchBalance'
+import BtcWatchOnlyBalance from './BtcWatchOnlyBalance'
+import BchWatchOnlyBalance from './BchWatchOnlyBalance'
 
 import { FormattedMessage } from 'react-intl'
-import { ComponentDropdown, Text } from 'blockchain-info-components'
+import { ComponentDropdown, Separator, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -25,7 +27,6 @@ const BalanceText = styled(Text)`
     font-size: 16px;
   }
 `
-
 const BalanceDropdown = styled.div`
   margin-top: 4px;
   > div > ul {
@@ -34,7 +35,6 @@ const BalanceDropdown = styled.div`
     padding: 0;
     padding-top: 5px;
     position: absolute;
-    background: transparent;
     > li {
       padding: 0px 6px;
       text-align: right;
@@ -63,16 +63,21 @@ const BalanceDropdown = styled.div`
     position: relative;
   }
 `
+const SubItems = styled.div`
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+`
 
 const Success = props => {
-  const { btcContext, ethContext, bchContext, path } = props
+  const { ethContext, btcUnspendableContext, bchUnspendableContext, path } = props
 
   const getComponentOrder = () => {
     switch (path) {
-      case '/btc/transactions': return [<BtcBalance large context={btcContext} />, <EthBalance context={ethContext} />, <BchBalance context={bchContext} />, <TotalBalance />]
-      case '/eth/transactions': return [<EthBalance large context={ethContext} />, <BtcBalance context={btcContext} />, <BchBalance context={bchContext} />, <TotalBalance />]
-      case '/bch/transactions': return [<BchBalance large context={bchContext} />, <BtcBalance context={btcContext} />, <EthBalance context={ethContext} />, <TotalBalance />]
-      default: return [<TotalBalance large />, <BtcBalance context={btcContext} />, <EthBalance context={ethContext} />, <BchBalance context={bchContext} />]
+      case '/btc/transactions': return [<BtcBalance large />, <EthBalance context={ethContext} />, <BchBalance />, <TotalBalance />]
+      case '/eth/transactions': return [<EthBalance large context={ethContext} />, <BtcBalance />, <BchBalance />, <TotalBalance />]
+      case '/bch/transactions': return [<BchBalance large />, <BtcBalance />, <EthBalance context={ethContext} />, <TotalBalance />]
+      default: return [<TotalBalance large />, <BtcBalance />, <EthBalance context={ethContext} />, <BchBalance />]
     }
   }
 
@@ -83,6 +88,14 @@ const Success = props => {
       case '/bch/transactions': return <FormattedMessage id='scenes.wallet.menutop.balance.bchbalance' defaultMessage='Bitcoin Cash Balance' />
       default: return <FormattedMessage id='scenes.wallet.menutop.balance.totalbalance' defaultMessage='Total Balance' />
     }
+  }
+
+  const getSubBalances = () => {
+    return btcUnspendableContext.length || bchUnspendableContext.length ? <SubItems>
+      <Separator margin='0' />
+      <BtcWatchOnlyBalance context={btcUnspendableContext} />
+      <BchWatchOnlyBalance context={bchUnspendableContext} />
+    </SubItems> : null
   }
 
   return (
@@ -96,7 +109,7 @@ const Success = props => {
           forceSelected
           color={'gray-5'}
           selectedComponent={getComponentOrder()[0]}
-          components={getComponentOrder()}
+          components={getComponentOrder().concat(getSubBalances())}
           callback={() => {}} />
       </BalanceDropdown>
     </Wrapper>

@@ -27,8 +27,8 @@ const extractAccountIdx = (value) =>
     : Remote.NotAsked
 
 export const getData = state => {
-  const getReceive = index => selectors.core.common.bitcoin.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, index, state)
-  const getReceiveIdx = index => selectors.core.common.bitcoin.getNextAvailableReceiveIndex(settings.NETWORK_BITCOIN, index, state)
+  const getReceive = index => selectors.core.common.btc.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, index, state)
+  const getReceiveIdx = index => selectors.core.common.btc.getNextAvailableReceiveIndex(settings.NETWORK_BITCOIN, index, state)
   const message = formValueSelector('requestBitcoin')(state, 'message')
   const amount = formValueSelector('requestBitcoin')(state, 'amount')
   const coin = formValueSelector('requestBitcoin')(state, 'coin')
@@ -42,7 +42,7 @@ export const getData = state => {
 
 export const getInitialValues = state => {
   const toDropdown = map(x => ({ text: x.label, value: x }))
-  const balancesR = selectors.core.common.bitcoin.getAccountsBalances(state).map(toDropdown)
+  const balancesR = selectors.core.common.btc.getAccountsBalances(state).map(toDropdown)
   const xpub = selectors.core.wallet.getDefaultAccountXpub(state)
   const defaultElementR = balancesR.map(x => prop('value', head(filter(y => equals(y.value.xpub, xpub), x))))
   return defaultElementR.map(to => ({to, coin: 'BTC'}))
