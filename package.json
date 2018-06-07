@@ -1,6 +1,6 @@
 {
   "name": "blockchain-wallet-v4",
-  "version": "4.0.0-alpha10.1",
+  "version": "4.0.0-alpha11",
   "license": "ISC",
   "author": {
     "name": "Blockchain.info",
@@ -19,7 +19,7 @@
     "url": "https://github.com/blockchain/blockchain-wallet-v4-frontend/issues"
   },
   "engines": {
-    "node": ">= 9.5"
+    "node": ">= 10.4"
   },
   "scripts": {
     "analyze": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run analyze",

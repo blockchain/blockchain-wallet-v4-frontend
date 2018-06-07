@@ -56,7 +56,7 @@
     "react-onclickoutside": "6.7.1",
     "styled-components": "3.2.4",
     "ramda": "0.25.0",
-    "react": "16.3.0",
+    "react": "16.3.2",
     "react-datetime": "2.14.0",
     "prop-types": "15.6.1"
   }
