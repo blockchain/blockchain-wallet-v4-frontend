@@ -21,6 +21,7 @@ const CheckoutWrapper = styled.div`
 
 const Sell = props => {
   const {
+    canTrade,
     fetchSellQuote,
     refreshQuote,
     sellQuoteR,
@@ -73,8 +74,8 @@ const Sell = props => {
             </div>
             <div>
               {
-                value.kycs.length
-                  ? <KYCNotification kyc={kyc} limits={limits.sell} symbol={symbol} onTrigger={(kyc) => handleKycAction(kyc)} type='sell' />
+                path(['kycs', 'length'], value)
+                  ? <KYCNotification kyc={kyc} limits={limits.sell} symbol={symbol} onTrigger={(kyc) => handleKycAction(kyc)} type='sell' canTrade={canTrade} />
                   : null
               }
             </div>

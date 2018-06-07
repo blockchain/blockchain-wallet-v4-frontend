@@ -19,7 +19,7 @@ class BitcoinWalletsContainer extends React.Component {
   }
 
   handleRefresh () {
-    this.props.actions.fetchData(this.props.context)
+    this.props.actions.fetchData()
   }
 
   render () {

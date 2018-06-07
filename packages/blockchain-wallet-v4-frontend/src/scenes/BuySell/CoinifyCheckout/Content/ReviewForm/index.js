@@ -27,6 +27,7 @@ const ReviewForm = (props) => {
       <CenteredWrapper>
         <Button
           nature='primary'
+          fullwidth
           disabled={submitting || invalid || !Remote.Success.is(quoteR) || busy}
           onClick={onSubmit}>
           {
