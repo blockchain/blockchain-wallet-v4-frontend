@@ -835,7 +835,7 @@
   "coinifyexchangedata.addcustomerdetails.subheader": "Who owns this bank account?  This information should match the holder’s bank statement. ",
   "coinifyexchangedata.addcustomerdetails.": "Country",
   "coinifyexchangedata.addcustomerdetails.continue": "Continue",
-  "coinifyexchangedata.selectaccounts.header": "Select Accounts",
+  "coinifyexchangedata.selectaccounts.header": "Select Account",
   "coinifyexchangedata.selectaccounts.subheader": "Where would you like your funds sent? You have the following bank accounts linked: ",
   "coinifyexchangedata.selectaccounts.continue": "Continue",
   "scenes.buysell.exchangecheckout.enteramount": "Enter Amount:",
