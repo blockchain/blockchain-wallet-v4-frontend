@@ -40,6 +40,7 @@ const Menu = reduxForm({ form: 'buySellTabStatus' })(HorizontalMenu)
 class BuySellContainer extends React.PureComponent {
   constructor (props) {
     super(props)
+    this.state = { partner: '' }
     this.renderPartner = this.renderPartner.bind(this)
     this.submitEmail = this.submitEmail.bind(this)
   }
@@ -57,14 +58,18 @@ class BuySellContainer extends React.PureComponent {
 
   renderPartner (buySell, options, type) {
     if (path(['sfox', 'account_token'], buySell)) {
+      this.setState({ partner: 'sfox' })
       return <SfoxCheckout type={type} options={options} value={buySell} />
     }
     if (path(['unocoin', 'token'], buySell)) { // TODO replace token
+      this.setState({ partner: '' })
       return <span>Unocoin</span>
     }
     if (path(['coinify', 'offline_token'], buySell)) {
+      this.setState({ partner: 'coinify' })
       return <CoinifyCheckout type={type} options={options} value={buySell} />
     }
+    this.setState({ partner: '' })
     return <SelectPartner type={type} options={options} value={buySell}
       onSubmit={this.onSubmit} submitEmail={this.submitEmail} {...this.props} />
   }
@@ -77,7 +82,7 @@ class BuySellContainer extends React.PureComponent {
   render () {
     const { data, type } = this.props
 
-    let view = data.cata({
+    const view = data.cata({
       Success: (value) => this.renderPartner(path(['buySell', 'value'], value), value.options, type),
       Failure: (message) => <div>failure: {message}</div>,
       Loading: () => <Loading />,
@@ -89,7 +94,7 @@ class BuySellContainer extends React.PureComponent {
         {
           hasAccount(view.props.value)
             ? <Menu>
-              <Field name='status' component={TabMenuBuySellStatus} />
+              <Field name='status' component={TabMenuBuySellStatus} partner={this.state.partner} />
             </Menu>
             : null
         }

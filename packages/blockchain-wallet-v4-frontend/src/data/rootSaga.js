@@ -8,6 +8,7 @@ import alerts from './alerts/sagaRegister'
 import auth from './auth/sagaRegister'
 import components from './components/sagaRegister'
 import modules from './modules/sagaRegister'
+import preferences from './preferences/sagaRegister'
 import goals from './goals/sagaRegister'
 import wallet from './wallet/sagaRegister'
 
@@ -39,6 +40,7 @@ export default function * ({ api, btcSocket, ethSocket, bchSocket, options }) {
     fork(auth({ api, coreSagas })),
     fork(components({ api, coreSagas })),
     fork(modules({ coreSagas })),
+    fork(preferences()),
     fork(goals({ coreSagas })),
     fork(wallet({ coreSagas })),
     fork(websocketBitcoinFactory({ api, btcSocket })),

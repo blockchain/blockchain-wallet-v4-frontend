@@ -6,6 +6,7 @@ import { Text, Icon, Link } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
 import { required } from 'services/FormHelper'
 import { StepTransition } from 'components/Utilities/Stepper'
+import { equals, path } from 'ramda'
 
 const PaymentOptionContainer = styled.div`
   width: 50%;
@@ -36,6 +37,11 @@ const PaymentIcon = styled(Icon)`
 `
 const PaymentText = styled(Text)`
   color: ${props => props.isChecked ? 'white' : props.theme['brand-primary']}
+`
+const BankDisabledText = styled(Text)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `
 
 export const cardOptionHelper = (quote, limits, isChecked, handlePaymentClick, cardDisabled) => {
@@ -93,7 +99,7 @@ export const cardOptionHelper = (quote, limits, isChecked, handlePaymentClick, c
   }
 }
 
-export const bankOptionHelper = (quote, limits, isChecked, handlePaymentClick, bankDisabled) => {
+export const bankOptionHelper = (quote, limits, isChecked, handlePaymentClick, bankDisabled, openPendingKyc, kyc) => {
   const PaymentRadioBank = ({ isChecked, handlePaymentClick }) => (
     <PaymentOption isChecked={isChecked} onClick={() => handlePaymentClick('bank')} disabled={bankDisabled}>
       <input type='radio' name='inMedium' id='bank' value='bank' style={{display: 'none'}} />
@@ -111,13 +117,20 @@ export const bankOptionHelper = (quote, limits, isChecked, handlePaymentClick, b
       <Field name='inMedium' value='bank' isChecked={isChecked} handlePaymentClick={handlePaymentClick} component={PaymentRadioBank} validate={[required]} />
       {
         bankDisabled
-          ? <Text size='14px' weight={300} color='error' style={spacing('mt-25')}>
-            <FormattedMessage id='coinifyexchangedata.payment.bank.unavailable' defaultMessage='Bank transfers are unavailable until Identity Verification has finished.' />
-          </Text>
+          ? <BankDisabledText size='14px' weight={300} color='gray-2' style={spacing('mt-25')}>
+            <FormattedMessage id='scenes.buysell.coinifyexchangedata.payment.bank.unavailable' defaultMessage='Bank transfers are unavailable until Identity Verification has been finished.' />
+            {
+              equals(path(['state'], kyc), 'pending')
+                ? <Link size='12px' weight={300} style={spacing('mt-10')} onClick={() => openPendingKyc(kyc)}>
+                  <FormattedMessage id='scenes.buysell.coinifyexchangedata.payment.bank.finishkyc' defaultMessage='Finish Identity Verification' /><br />
+                </Link>
+                : null
+            }
+          </BankDisabledText>
           : <Text size='14px' weight={300} style={spacing('mt-25')}>
             <FormattedMessage id='coinifyexchangedata.payment.mediumhelpers.bank.detail1' defaultMessage='One time ID verification' /><br />
             <FormattedMessage id='coinifyexchangedata.payment.mediumhelpers.bank.detail2' defaultMessage='Receive bitcoin in 2-3 days' /><br />
-            <FormattedMessage id='coinifyexchangedata.payment.mediumhelpers.bank.detail3' defaultMessage='No payment fees' />
+            <FormattedMessage id='coinifyexchangedata.payment.mediumhelpers.bank.detail3' defaultMessage='0.25% Payment Fee' />
           </Text>
       }
     </PaymentOptionContainer>

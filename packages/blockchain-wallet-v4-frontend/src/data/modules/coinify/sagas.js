@@ -226,13 +226,14 @@ export default ({ coreSagas }) => {
         yield put(A.coinifySignupComplete())
         yield call(delay, 500)
         yield put(actions.modals.closeAllModals())
+      } else if (trade.data.constructor.name !== 'Trade') {
+        yield put(actions.form.change('buySellTabStatus', 'status', 'buy'))
       } else {
         yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
       }
-
       yield put(A.coinifyNextCheckoutStep('checkout'))
-      yield call(coreSagas.data.coinify.getKYCs)
       yield put(actions.modals.showModal('CoinifyTradeDetails', { trade: trade.data, status: status }))
+      yield call(coreSagas.data.coinify.getKYCs)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'fromISX', e))
     }
@@ -248,12 +249,15 @@ export default ({ coreSagas }) => {
   }
 
   const openKYC = function * (data) {
-    const kyc = data.payload
+    let kyc = data.payload
+    const inProgressKycs = yield select(selectors.core.data.coinify.getSortedKycs)
+    const recentKyc = head(inProgressKycs.data)
+
     try {
-      if (!data.payload) {
+      if (!data.payload && !equals(prop('state', recentKyc), 'pending')) {
         yield call(triggerKYC)
-      } else if (kyc.state === 'pending') {
-        yield call(coreSagas.data.coinify.kycAsTrade, { kyc })
+      } else if (equals(prop('state', kyc), 'pending') || equals(prop('state', recentKyc), 'pending')) {
+        yield call(coreSagas.data.coinify.kycAsTrade, { kyc: kyc || recentKyc }) // if no kyc was given, take the most recent
         yield put(A.coinifyNextCheckoutStep('isx'))
       } else {
         yield call(triggerKYC)

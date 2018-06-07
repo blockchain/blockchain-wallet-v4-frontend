@@ -8,6 +8,7 @@ import { StepTransition } from 'components/Utilities/Stepper'
 import QuoteInput from './QuoteInput'
 import { MethodContainer } from 'components/BuySell/styled.js'
 import { checkoutButtonLimitsHelper } from 'services/CoinifyService'
+import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 
 const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, limits, checkoutError,
   type, defaultCurrency, symbol, checkoutBusy, busy, setMax, setMin, increaseLimit, onOrderCheckoutSubmit }) => {
@@ -22,6 +23,25 @@ const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, limi
   const limitsHelper = (quoteR, limits) => {
     if (quoteR.error) return true
     return checkoutButtonLimitsHelper(quoteR, limits, type)
+  }
+
+  const rateHelper = () => {
+    let quote
+    if (Remote.NotAsked.is(quoteR)) quote = rateQuoteR
+    else quote = quoteR
+
+    return quote.map(q => {
+      let fiat = q.baseCurrency !== 'BTC' ? Math.abs(q.quoteAmount) : Math.abs(q.baseAmount)
+      let crypto = q.baseCurrency !== 'BTC' ? Math.abs(q.baseAmount) : Math.abs(q.quoteAmount)
+      let rate = +((1 / (fiat / 1e8)) * crypto)
+      let displayRate = Currency.formatFiat(rate)
+      return `${symbol}${displayRate}`
+    }).getOrElse(
+      <Fragment>
+        <FormattedMessage id='scenes.buysell.coinifycheckout.content.ordercheckout.loading' defaultMessage='Loading' />
+        {'...'}
+      </Fragment>
+    )
   }
 
   const submitButtonHelper = () => (
@@ -48,14 +68,7 @@ const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, limi
           <Text size='14px' weight={300} uppercase>Bitcoin</Text>
           <Text size='12px' weight={300}>
             {'@ '}
-            {rateQuoteR
-              .map((quote) => `${symbol}${Math.abs(quote && quote.quoteAmount).toLocaleString()}`)
-              .getOrElse(
-                <Fragment>
-                  <FormattedMessage id='scenes.buysell.coinifycheckout.content.ordercheckout.loading' defaultMessage='Loading' />
-                  {'...'}
-                </Fragment>
-              )}
+            {rateHelper()}
           </Text>
         </div>
       </MethodContainer>

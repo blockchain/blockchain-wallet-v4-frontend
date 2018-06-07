@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { canCancelTrade } from 'services/CoinifyService'
-import { prop } from 'ramda'
+import { equals, prop } from 'ramda'
 import moment from 'moment'
 
 import { TableCell, TableRow, Text, Link, Icon, HeartbeatLoader } from 'blockchain-info-components'
@@ -12,10 +12,11 @@ import OrderStatus from '../OrderStatus'
 const tradeDateHelper = (trade) => moment(prop('createdAt', trade)).local().format('MMMM D YYYY @ h:mm A')
 
 const TradeItem = props => {
-  const { conversion, handleClick, handleFinish, handleTradeCancel, trade, status, cancelTradeId, canTrade, border, padding } = props
+  const { conversion, handleClick, handleFinish, handleTradeCancel, trade, status, cancelTradeId } = props
   const receiveAmount = trade.isBuy ? trade.receiveAmount : Exchange.displayFiatToFiat({ value: trade.receiveAmount })
   const exchangeAmount = trade.isBuy ? Exchange.displayFiatToFiat({ value: trade.sendAmount / conversion.buy }) : trade.sendAmount / conversion.sell
-  const canCancel = (canTrade && trade.isBuy) && canCancelTrade(trade)
+  const canCancel = trade.isBuy && canCancelTrade(trade)
+  const getOpacity = (trade) => equals(prop('state', trade), 'processing') ? 0.5 : 1
 
   return (
     <TableRow border={border} padding={padding}>
@@ -34,14 +35,14 @@ const TradeItem = props => {
         }
       </TableCell>
       <TableCell width='30%'>
-        <Text opacity={trade.state === 'processing'} size='13px' weight={300}>{tradeDateHelper(trade)}</Text>
+        <Text opacity={getOpacity(trade)} size='13px' weight={300}>{tradeDateHelper(trade)}</Text>
       </TableCell>
       <TableCell width='20%'>
-        <Text opacity={trade.state === 'processing'} size='13px' weight={300}>{`${exchangeAmount} ${trade.inCurrency}`}</Text>
+        <Text opacity={getOpacity(trade)} size='13px' weight={300}>{`${exchangeAmount} ${prop('inCurrency', trade)}`}</Text>
       </TableCell>
       <TableCell width='20%'>
         <TableCell width='80%'>
-          <Text opacity={trade.state === 'processing'} size='13px' weight={300}>{`${receiveAmount} ${trade.outCurrency}`}</Text>
+          <Text opacity={getOpacity(trade)} size='13px' weight={300}>{`${receiveAmount} ${prop('outCurrency', trade)}`}</Text>
         </TableCell>
         <TableCell width='20%'>
           {

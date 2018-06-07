@@ -75,7 +75,7 @@ const FeePerByteContainer = styled.div`
 `
 
 const FirstStep = props => {
-  const { invalid, submitting, ...rest } = props
+  const { invalid, submitting, pristine, ...rest } = props
   const { from, watchOnly, addressMatchesPriv, destination, toToggled, enableToggle, feePerByteToggled, feePerByteElements, regularFeePerByte, priorityFeePerByte, isPriorityFeePerByte, totalFee, ...rest2 } = rest
   const { handleFeePerByteToggle, handleToToggle, handleSubmit } = rest2
 
@@ -107,7 +107,7 @@ const FirstStep = props => {
             <FormattedMessage id='modals.sendbtc.firststep.to' defaultMessage='To:' />
           </FormLabel>
           <Row>
-            {toToggled && !destination && <Field name='to' component={SelectBoxBitcoinAddresses} opened includeAll={false} exclude={[from.label]} hideErrors />}
+            {toToggled && !destination && <Field name='to' component={SelectBoxBitcoinAddresses} opened onFocus={() => handleToToggle()} includeAll={false} exclude={[from.label]} hideErrors />}
             {toToggled && destination && <Field name='to' component={SelectBoxBitcoinAddresses} onFocus={() => handleToToggle()} includeAll={false} validate={[required]} exclude={[from.label]} hideArrow hideErrors />}
             {!toToggled && <Field name='to' placeholder='Paste or scan an address, or select a destination' component={TextBox} validate={[required, validBitcoinAddress]} autoFocus />}
             {(!toToggled || destination) && <QRCodeCapture scanType='btcAddress' border={enableToggle ? ['top', 'bottom'] : ['top', 'bottom', 'right']} />}
@@ -171,7 +171,7 @@ const FirstStep = props => {
         </Text>
       </FormGroup>
       <FormGroup>
-        <Button type='submit' nature='primary' uppercase disabled={submitting || invalid}>
+        <Button type='submit' nature='primary' uppercase disabled={submitting || invalid || pristine}>
           <FormattedMessage id='modals.sendbtc.firststep.continue' defaultMessage='Continue' />
         </Button>
       </FormGroup>
