@@ -64,7 +64,7 @@ class DateBoxDebounced extends React.Component {
   }
 
   render () {
-    const { meta, ...rest } = this.props
+    const { meta, input, ...rest } = this.props
     const { value, open } = this.state
     const errorState = getErrorState(meta)
 
