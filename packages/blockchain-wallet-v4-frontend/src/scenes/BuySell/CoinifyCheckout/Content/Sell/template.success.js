@@ -75,7 +75,8 @@ const Sell = props => {
             <div>
               {
                 path(['kycs', 'length'], value)
-                  ? <KYCNotification kyc={kyc} limits={limits.sell} symbol={symbol} onTrigger={(kyc) => handleKycAction(kyc)} type='sell' canTrade={canTrade} />
+                  ? <KYCNotification kyc={kyc} limits={limits.sell} symbol={symbol}
+                    onTrigger={(kyc) => handleKycAction(kyc)} type='sell' canTrade={canTrade} />
                   : null
               }
             </div>
