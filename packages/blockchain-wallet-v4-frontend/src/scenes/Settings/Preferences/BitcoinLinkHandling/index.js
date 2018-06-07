@@ -18,7 +18,7 @@ class BitcoinLinkHandlingContainer extends React.PureComponent {
   }
 
   render () {
-    return <BitcoinLinkHandling {...this.props} warningDisplayed={this.props.ui.warningDisplayed} handleClick={this.handleClick}
+    return <BitcoinLinkHandling warningDisplayed={this.props.ui.warningDisplayed} handleClick={this.handleClick}
     />
   }
 }

@@ -20,7 +20,7 @@ export default ({ api, bchSocket }) => {
 
     switch (message.op) {
       case 'utx':
-        yield put(bchActions.fetchTransactions('', true))
+        yield put(bchActions.fetchData('', true))
         const transactions = yield take(bchAT.FETCH_BCH_TRANSACTIONS_SUCCESS)
         for (let i in transactions.payload.transactions) {
           const tx = transactions.payload.transactions[i]

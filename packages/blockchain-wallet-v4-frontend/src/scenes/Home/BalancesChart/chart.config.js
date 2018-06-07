@@ -38,8 +38,9 @@ export default (chartData, symbol, history) => {
       },
       tooltip: {
         enabled: total > 0,
-        valuePrefix: `${symbol}`,
-        pointFormat: '{point.y}'
+        pointFormatter: function () {
+          return symbol + Currency.formatFiat(this.y)
+        }
       },
       series: [{
         type: 'pie',

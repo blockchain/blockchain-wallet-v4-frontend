@@ -5,7 +5,7 @@ import { selectors } from 'data'
 import Settings from './template.js'
 
 const SettingsContainer = props => {
-  return <Settings {...props} />
+  return <Settings guid={props.guid} />
 }
 
 const mapStateToProps = (state) => {

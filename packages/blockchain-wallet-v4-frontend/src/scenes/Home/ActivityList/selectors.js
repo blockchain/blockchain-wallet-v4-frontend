@@ -20,7 +20,7 @@ export const getLogs = createDeepEqualSelector(
 )
 
 export const getBtcTransactions = createDeepEqualSelector(
-  [selectors.core.common.bitcoin.getWalletTransactions, getNumber],
+  [selectors.core.common.btc.getWalletTransactions, getNumber],
   (transactions, number) => Remote.Success.is(transactions[0]) && !isNil(transactions[0]) ? transactions[0].map(compose(take(number), map(transform('BTC')))) : Remote.of([])
 )
 
@@ -30,7 +30,7 @@ export const getBchTransactions = createDeepEqualSelector(
 )
 
 export const getEthTransactions = createDeepEqualSelector(
-  [selectors.core.common.ethereum.getWalletTransactions, getNumber],
+  [selectors.core.common.eth.getWalletTransactions, getNumber],
   (transactions, number) => Remote.Success.is(transactions[0]) && !isNil(transactions[0]) ? transactions[0].map(compose(take(number), map(transform('ETH')))) : Remote.of([])
 )
 

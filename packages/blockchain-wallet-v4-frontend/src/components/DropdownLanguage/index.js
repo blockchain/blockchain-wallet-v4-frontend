@@ -19,23 +19,23 @@ class DropdownLanguageContainer extends React.PureComponent {
   }
 
   render () {
-    const { currentCulture, languages } = this.props
+    const { currentLanguage, languages } = this.props
     const languageList = languages.map((lang) => {
       return {
         text: lang.name,
-        value: lang.cultureCode,
+        value: lang.language,
         language: lang.language
       }
     })
 
     return (
-      <SimpleDropdown color='white' items={languageList} selectedValue={currentCulture} callback={(selectedLanguage) => this.handleClick(selectedLanguage)} />
+      <SimpleDropdown color='white' items={languageList} selectedValue={currentLanguage} callback={(selectedLanguage) => this.handleClick(selectedLanguage)} />
     )
   }
 }
 
 const mapStateToProps = (state) => ({
-  currentCulture: selectors.preferences.getCulture(state),
+  currentLanguage: selectors.preferences.getLanguage(state),
   languages: languageService.languagesSortedByName
 })
 
