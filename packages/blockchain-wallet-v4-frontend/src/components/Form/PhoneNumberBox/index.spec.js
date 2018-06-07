@@ -12,7 +12,7 @@ jest.mock('react-intl-tel-input', () => jest.fn())
 
 describe('PhoneNumberBox', () => {
   it('renders correctly', () => {
-    const component = shallow(<PhoneNumberBox countryCode={Remote.Success('US')} />)
+    const component = shallow(<PhoneNumberBox countryCode={'US'} />)
     const tree = toJson(component)
     expect(tree).toMatchSnapshot()
   })
