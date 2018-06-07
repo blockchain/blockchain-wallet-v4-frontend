@@ -13,7 +13,9 @@ class TabMenuBuySellStatusContainer extends React.PureComponent {
   }
 
   handleClick (value) {
-    this.props.coinifyActions.coinifyNextCheckoutStep('checkout')
+    if (this.props.partner === 'coinify') {
+      this.props.coinifyActions.coinifyNextCheckoutStep('checkout')
+    }
     this.props.input.onChange(value)
   }
 
