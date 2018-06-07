@@ -75,7 +75,7 @@ const FeePerByteContainer = styled.div`
 `
 
 const FirstStep = props => {
-  const { invalid, submitting, ...rest } = props
+  const { invalid, submitting, pristine, ...rest } = props
   const { from, watchOnly, addressMatchesPriv, destination, toToggled, enableToggle, feePerByteToggled, feePerByteElements, regularFeePerByte, priorityFeePerByte, isPriorityFeePerByte, totalFee, ...rest2 } = rest
   const { handleFeePerByteToggle, handleToToggle, handleSubmit } = rest2
 
@@ -171,7 +171,7 @@ const FirstStep = props => {
         </Text>
       </FormGroup>
       <FormGroup>
-        <Button type='submit' nature='primary' uppercase disabled={submitting || invalid}>
+        <Button type='submit' nature='primary' uppercase disabled={submitting || invalid || pristine}>
           <FormattedMessage id='modals.sendbtc.firststep.continue' defaultMessage='Continue' />
         </Button>
       </FormGroup>
