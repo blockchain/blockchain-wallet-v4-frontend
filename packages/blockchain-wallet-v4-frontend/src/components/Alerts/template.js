@@ -144,6 +144,10 @@ const selectMessage = (message, data = undefined) => {
     case C.YUBIKEY_VERIFY_ERROR: return <FormattedMessage id='components.alerts.yubikey_verify_error' defaultMessage='Failed to verify Yubikey' />
     case C.YUBIKEY_VERIFY_SUCCESS: return <FormattedMessage id='components.alerts.yubikey_verify_success' defaultMessage='Yubikey verified' />
     case C.CAPTCHA_CODE_INCORRECT: return <FormattedMessage id='components.alerts.captcha_code_incorrect' defaultMessage='The captcha you provided was incorrect, please try again' />
+    case C.BTC_ADDRESS_INVALID: return <FormattedMessage id='components.alerts.btc_address_incorrect' defaultMessage='Invalid Bitcoin Address.' />
+    case C.BCH_ADDRESS_INVALID: return <FormattedMessage id='components.alerts.bch_address_incorrect' defaultMessage='Invalid Bitcoin Cash Address.' />
+    case C.ETH_ADDRESS_INVALID: return <FormattedMessage id='components.alerts.eth_address_incorrect' defaultMessage='Invalid Ethereum Address.' />
+    case C.PRIVATE_KEY_INVALID: return <FormattedMessage id='components.alerts.private_key_incorrect' defaultMessage='Invalid Private Key.' />
     default: return <FormattedMessage id='components.alerts.unknown_error' defaultMessage='An error has occurred.' />
   }
 }
