@@ -24,7 +24,7 @@ const SecurityIcon = styled(Icon)`
   height: 16px;
   width: 15px;
   color: white;
-  cursor: default;
+  cursor: inherit;
   margin-right: 5px;
 `
 

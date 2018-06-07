@@ -6,11 +6,13 @@ import Settings from './template.js'
 
 class SettingContainer extends React.PureComponent {
   render () {
+    const defaultData = { isEmailVerified: false, isMobileVerified: false }
+
     return this.props.data.cata({
       Success: value => <Settings data={value} />,
-      Failure: message => <Settings data={{ isEmailVerified: false, isMobileVerified: false }} />,
-      Loading: () => <Settings data={{isEmailVerified: false, isMobileVerified: false}} />,
-      NotAsked: () => <Settings data={{isEmailVerified: false, isMobileVerified: false}} />
+      Failure: message => <Settings data={defaultData} />,
+      Loading: () => <Settings data={defaultData} />,
+      NotAsked: () => <Settings data={defaultData} />
     })
   }
 }

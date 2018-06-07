@@ -8,7 +8,6 @@ import { TextBox } from 'components/Form'
 
 const Wrapper = styled.div`
   display: flex;
-  align-items: center;
   flex-direction: column;
   justify-content: flex-start;
   width: 100%;

@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
@@ -18,12 +17,12 @@ class EthBalance extends React.PureComponent {
 
   componentWillMount () {
     if (Remote.NotAsked.is(this.props.data)) {
-      this.props.actions.fetchData(this.props.context)
+      this.props.actions.fetchData()
     }
   }
 
   handleRefresh () {
-    this.props.actions.fetchData(this.props.context)
+    this.props.actions.fetchData()
   }
 
   render () {
@@ -36,10 +35,6 @@ class EthBalance extends React.PureComponent {
       NotAsked: () => <Loading />
     })
   }
-}
-
-EthBalance.propTypes = {
-  context: PropTypes.string.isRequired
 }
 
 const mapStateToProps = (state) => ({

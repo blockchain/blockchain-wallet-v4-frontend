@@ -45,7 +45,9 @@ class VerifyEmailContainer extends Component {
       onSubmit={this.onSubmit}
       resendCode={this.resendCode}
       ui={ui}
-      updateUI={updateUI} />
+      updateUI={updateUI}
+      email={this.props.oldEmail}
+    />
   }
 }
 
