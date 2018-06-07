@@ -8,13 +8,8 @@ export const getProfileData = (state) => {
   return lift((profile, kycs) => ({ profile, kycs }))(profile, kycs)
 }
 
-export const getTrades = (state) => {
-  try {
-    return selectors.core.data.coinify.getTrades(state).data
-  } catch (e) {
-    return null
-  }
-}
+export const getTrades = (state) =>
+  selectors.core.data.coinify.getTrades(state).getOrElse(null)
 
 export const getRateQuote = (state) => {
   try {
@@ -24,13 +19,8 @@ export const getRateQuote = (state) => {
   }
 }
 
-export const getTrade = (state) => {
-  try {
-    return selectors.core.data.coinify.getTrade(state).data
-  } catch (e) {
-    return null
-  }
-}
+export const getTrade = (state) =>
+  selectors.core.data.coinify.getTrade(state).getOrElse(null)
 
 export const getQuote = (state) => {
   try {
@@ -48,14 +38,11 @@ export const getCurrency = (state) => {
   }
 }
 
-export const getBase = (state) => {
-  return state.form.exchangeCheckout && state.form.exchangeCheckout.active
-}
+export const getBase = (state) =>
+  path(['form', 'exchangeCheckout', 'active'], state)
 
-export const getErrors = (state) => {
-  const exchangeCheckoutForm = state.form && state.form.exchangeCheckout
-  return exchangeCheckoutForm && exchangeCheckoutForm.syncErrors
-}
+export const getErrors = (state) =>
+  path(['form', 'exchangeCheckout', 'syncErrors'], state)
 
 export const getData = (state) => ({
   base: getBase(state),
@@ -71,5 +58,5 @@ export const getData = (state) => ({
   paymentMedium: path(['coinify', 'medium'], state),
   step: path(['coinify', 'checkoutStep'], state),
   coinifyBusy: path(['coinify', 'coinifyBusy'], state),
-  canTrade: selectors.core.data.coinify.canTrade(state)
+  canTrade: selectors.core.data.coinify.canTrade(state).getOrElse(false)
 })
