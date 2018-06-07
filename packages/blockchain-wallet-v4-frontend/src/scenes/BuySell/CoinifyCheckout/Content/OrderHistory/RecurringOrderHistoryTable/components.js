@@ -15,9 +15,25 @@ const Wrapper = styled.div`
   border-right: 1px solid ${props => props.theme['gray-2']};
   border-bottom: 1px solid ${props => props.theme['gray-2']};
 `
+const TableRowWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 8px 5px;
+  box-sizing: border-box;
+  border: none;
+`
 
 export const RecurringTableHeader = ({ children }) => (
   <Wrapper>
     {children}
   </Wrapper>
+)
+
+export const RecurringTableRow = ({ children }) => (
+  <TableRowWrapper>
+    {children}
+  </TableRowWrapper>
 )
