@@ -33,7 +33,7 @@ const VerifyEmail = (props) => {
             <FormattedMessage id='coinifyexchangedata.create.verifyemail.partner.header.verifyemail' defaultMessage='Verify Your Email' />
           </PartnerHeader>
           <PartnerSubHeader>
-            <FormattedMessage id='coinifyexchangedata.create.verifyemail.partner.subheader.enteremail' defaultMessage='We sent a verification code to {email}. Enter the code to begin creating your account.' values={{ email }} />
+            <FormattedMessage id='coinifyexchangedata.create.verifyemail.partner.subheader.enteremailaddress' defaultMessage="Enter the email address you would like to use with your Coinify account. We'll send you a verification code to make sure it's yours." />
           </PartnerSubHeader>
           {
             ui.create === 'enter_email_code'
