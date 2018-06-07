@@ -7,8 +7,8 @@ export const getData = createDeepEqualSelector(
     selectors.components.sendBtc.getToToggled,
     selectors.components.sendBtc.getFeePerByteToggled,
     selectors.components.sendBtc.getPayment,
-    selectors.core.common.bitcoin.getActiveHDAccounts,
-    selectors.core.common.bitcoin.getActiveAddresses,
+    selectors.core.common.btc.getActiveHDAccounts,
+    selectors.core.common.btc.getActiveAddresses,
     selectors.form.getFormValues('sendBtc')
   ],
   (toToggled, feePerByteToggled, paymentR, btcAccountsR, btcAddressesR, formValues) => {

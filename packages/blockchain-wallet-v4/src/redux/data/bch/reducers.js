@@ -91,6 +91,7 @@ const bchReducer = (state = INITIAL_STATE, action) => {
     }
     case AT.CLEAR_BCH_TRANSACTION_HISTORY: {
       return assoc('transaction_history', Remote.NotAsked, state)
+    }
     case AT.FETCH_BCH_SPENDABLE_BALANCE_LOADING: {
       return state
     }
