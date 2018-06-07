@@ -8,8 +8,9 @@ import { getData } from './selectors'
 import Success from './template'
 
 class KYCNotificationContainer extends React.Component {
-  componentDidMount () {
+  componentWillUnmount () {
     const { kyc, showKycCompleted } = this.props
+
     if (showKycCompleted && equals(prop('state', kyc), 'completed')) {
       this.props.preferencesActions.hideKycCompleted()
     }
@@ -18,7 +19,7 @@ class KYCNotificationContainer extends React.Component {
   render () {
     const { canTrade, kyc, limits, onTrigger, showKycCompleted, symbol, type } = this.props
 
-    return showKycCompleted || !equals(prop('state', kyc), 'completed')
+    return (showKycCompleted || !equals(prop('state', kyc), 'completed'))
       ? <Success kyc={kyc} canTrade={canTrade} limits={limits} onTrigger={onTrigger}
         showKycCompleted={showKycCompleted} symbol={symbol} type={type} />
       : null
