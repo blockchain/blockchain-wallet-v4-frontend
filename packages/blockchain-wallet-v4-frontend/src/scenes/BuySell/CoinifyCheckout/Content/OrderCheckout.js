@@ -34,7 +34,7 @@ const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, limi
       let fiat = q.baseCurrency !== 'BTC' ? Math.abs(q.quoteAmount) : Math.abs(q.baseAmount)
       let crypto = q.baseCurrency !== 'BTC' ? Math.abs(q.baseAmount) : Math.abs(q.quoteAmount)
       let rate = +((1 / (fiat / 1e8)) * crypto)
-      let displayRate = rate.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+      let displayRate = Currency.formatFiat(rate)
       return `${symbol}${displayRate}`
     }).getOrElse(
       <Fragment>
