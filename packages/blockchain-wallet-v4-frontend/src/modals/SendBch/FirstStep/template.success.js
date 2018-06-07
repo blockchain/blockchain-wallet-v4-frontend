@@ -32,7 +32,7 @@ const AddressButton = styled.div`
 `
 
 const FirstStep = props => {
-  const { from, enableToggle, destination, invalid, submitting, toToggled, handleToToggle, handleSubmit, totalFee } = props
+  const { from, enableToggle, destination, invalid, submitting, toToggled, handleToToggle, handleSubmit, totalFee, pristine } = props
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -92,7 +92,7 @@ const FirstStep = props => {
         </FormItem>
       </FormGroup>
       <FormGroup>
-        <Button type='submit' nature='primary' uppercase disabled={submitting || invalid}>
+        <Button type='submit' nature='primary' uppercase disabled={submitting || invalid || pristine}>
           <FormattedMessage id='modals.sendBch.firststep.continue' defaultMessage='Continue' />
         </Button>
       </FormGroup>

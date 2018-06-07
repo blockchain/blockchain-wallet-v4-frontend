@@ -35,7 +35,7 @@ const MobileNumberChange = (props) => {
             <Text size='14px' weight={300} style={spacing('pr-5')}>
               <FormattedMessage id='modals.mobilenumberchange.mobile' defaultMessage='Mobile number: ' />
             </Text>
-            <Field name='mobileNumber' validate={[validMobileNumber, required]} component={PhoneNumberBox} placeholder='+XX XXX XXX...' countryCode={countryCode} />
+            <Field name='mobileNumber' validate={[validMobileNumber, required]} component={PhoneNumberBox} countryCode={countryCode} />
           </MobileNumber>
         </ModalBody>
         <ModalFooter align='spaced'>

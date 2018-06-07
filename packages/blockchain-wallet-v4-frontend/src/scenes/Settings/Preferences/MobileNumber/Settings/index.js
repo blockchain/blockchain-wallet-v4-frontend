@@ -25,9 +25,13 @@ class SettingContainer extends Component {
   }
 
   render () {
+    const { modalActions, smsNumber, smsVerified } = this.props
+
     return <Settings
-      {...this.props}
+      smsNumber={smsNumber}
+      smsVerified={smsVerified}
       handleClick={this.handleClick}
+      modalActions={modalActions}
       showWarning={this.state.show2FAWarning}
       resetWarning={() => this.setState({ show2FAWarning: false })}
     />

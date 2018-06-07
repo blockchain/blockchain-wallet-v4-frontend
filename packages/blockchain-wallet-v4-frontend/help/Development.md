@@ -7,6 +7,7 @@
   * [components](#components)
   * [config](#config)
   * [data](#data)
+  * [forms](#forms)
   * [layouts](#layouts)
   * [middleware](#middleware)
   * [modals](#modals)
@@ -37,6 +38,36 @@ The **data** folder contains different redux modules specific to the front-end b
 It also encapsulates the redux modules available in the core.
 
 Don't forget to update the entry points at the core of this folder whenever you add/update modules
+
+### Forms
+
+We use <https://redux-form.com/> to handle forms in the project. It's important to correctly pass the submit handler to your template. Please follow the below pattern.
+
+in index.js:
+```
+onSubmit(){
+  // do not call e.preventDefault()
+  // do form submit stuff
+}
+
+---------
+
+render () {
+  return <Template 
+    onSubmit={this.onSubmit}
+  />
+}
+```
+
+in template.js, redux-form will convert `onSubmit` to `handleSubmit` so all you need to do is:
+```
+const { handleSubmit } = this.props
+
+<Form onSubmit={handleSubmit}>
+  // form markup
+  <Button type='submit'></Button>
+</Form>
+```
 
 ### Layouts
 

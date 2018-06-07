@@ -6,8 +6,8 @@ export const getData = state => {
   const toToggled = selectors.components.sendBtc.getToToggled(state)
   const feePerByteToggled = selectors.components.sendBtc.getFeePerByteToggled(state)
   const paymentR = selectors.components.sendBtc.getPayment(state)
-  const btcAccountsLength = length(selectors.core.common.bitcoin.getActiveHDAccounts(state).getOrElse([]))
-  const btcAddressesLength = length(selectors.core.common.bitcoin.getActiveAddresses(state).getOrElse([]))
+  const btcAccountsLength = length(selectors.core.common.btc.getActiveHDAccounts(state).getOrElse([]))
+  const btcAddressesLength = length(selectors.core.common.btc.getActiveAddresses(state).getOrElse([]))
   const enableToggle = btcAccountsLength + btcAddressesLength > 1
 
   const transform = payment => {
@@ -47,4 +47,4 @@ export const getData = state => {
   return paymentR.map(transform)
 }
 
-export const getBtcData = selectors.core.common.bitcoin.getHDAccounts
+export const getBtcData = selectors.core.common.btc.getHDAccounts

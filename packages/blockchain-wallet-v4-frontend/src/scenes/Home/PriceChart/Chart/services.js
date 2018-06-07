@@ -1,4 +1,5 @@
 import { Color } from 'blockchain-info-components'
+import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 
 export const getConfig = (start, interval, currency, data) => ({
   chart: {
@@ -13,7 +14,7 @@ export const getConfig = (start, interval, currency, data) => ({
     },
     labels: {
       formatter: function () {
-        return (currency + ' ' + this.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','))
+        return (currency + Currency.formatFiat(this.value))
       },
       style: {
         color: Color('black')
@@ -45,7 +46,7 @@ export const getConfig = (start, interval, currency, data) => ({
   },
   tooltip: {
     pointFormatter: function () {
-      return currency + ' ' + this.y.toLocaleString()
+      return currency + Currency.formatFiat(this.y)
     }
   },
   credits: {

@@ -117,7 +117,7 @@ export const bankOptionHelper = (quote, limits, isChecked, handlePaymentClick, b
           : <Text size='14px' weight={300} style={spacing('mt-25')}>
             <FormattedMessage id='coinifyexchangedata.payment.mediumhelpers.bank.detail1' defaultMessage='One time ID verification' /><br />
             <FormattedMessage id='coinifyexchangedata.payment.mediumhelpers.bank.detail2' defaultMessage='Receive bitcoin in 2-3 days' /><br />
-            <FormattedMessage id='coinifyexchangedata.payment.mediumhelpers.bank.detail3' defaultMessage='No payment fees' />
+            <FormattedMessage id='coinifyexchangedata.payment.mediumhelpers.bank.detail3' defaultMessage='0.25% Payment Fee' />
           </Text>
       }
     </PaymentOptionContainer>
