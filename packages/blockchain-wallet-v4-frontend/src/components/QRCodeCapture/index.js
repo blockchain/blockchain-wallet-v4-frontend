@@ -9,7 +9,7 @@ import bip21 from 'bip21'
 import { actions } from 'data'
 import QRCodeCapture from './template.js'
 import * as C from 'services/AlertService'
-import {utils} from '../../../../blockchain-wallet-v4/src'
+import {utils} from 'blockchain-wallet-v4/src'
 
 class QRCodeCaptureContainer extends React.PureComponent {
   constructor (props) {
