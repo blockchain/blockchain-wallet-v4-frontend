@@ -19,7 +19,7 @@ const TradeItem = props => {
   const getOpacity = (trade) => equals(prop('state', trade), 'processing') ? 0.5 : 1
 
   return (
-    <TableRow border={border} padding={padding}>
+    <TableRow>
       <TableCell width='15%'>
         <OrderStatus status={trade.state} isBuy={trade.isBuy} />
       </TableCell>
