@@ -37,7 +37,7 @@ const AddBitcoinWallet = (props) => {
                 <Label for='wallet'>
                   <FormattedMessage id='modals.addbitcoinwallet.wallet' defaultMessage='Wallet Name' />
                 </Label>
-                <Field name='wallet' validate={[required, unique]} component={TextBox} />
+                <Field name='wallet' autoFocus validate={[required, unique]} component={TextBox} />
               </FormItem>
             </FormGroup>
           </ModalBody>
