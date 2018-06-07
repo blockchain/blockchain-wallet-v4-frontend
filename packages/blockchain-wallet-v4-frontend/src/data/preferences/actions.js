@@ -13,3 +13,5 @@ export const setEtherWelcome = (displayed) => ({ type: AT.SET_ETHER_WELCOME, pay
 export const setBitcoinWelcome = (displayed) => ({ type: AT.SET_BITCOIN_WELCOME, payload: { displayed } })
 
 export const setBitcoinCashWelcome = (displayed) => ({ type: AT.SET_BITCOIN_CASH_WELCOME, payload: { displayed } })
+
+export const hideKycCompleted = () => ({ type: AT.HIDE_KYC_COMPLETED })
