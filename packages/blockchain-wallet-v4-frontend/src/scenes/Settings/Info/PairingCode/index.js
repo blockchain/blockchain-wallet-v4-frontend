@@ -12,7 +12,7 @@ const BadgesContainer = styled.div`
   & > * { display:inline; margin-right: 5px; }
 `
 
-const PairingCode = (props) => {
+const PairingCode = () => {
   return (
     <SettingContainer>
       <SettingSummary>

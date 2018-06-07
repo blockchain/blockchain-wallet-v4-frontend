@@ -54,6 +54,7 @@
     ]
   },
   "dependencies": {
+    "awesome-phonenumber": "2.2.5",
     "base-64": "0.1.0",
     "bignumber.js": "5.0.0",
     "bip21": "2.0.2",

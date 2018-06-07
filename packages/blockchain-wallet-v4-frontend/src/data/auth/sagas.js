@@ -216,6 +216,7 @@ export default ({ api, coreSagas }) => {
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'remindGuid', e))
       if (e.message === 'Captcha Code Incorrect') {
+        yield put(actions.core.data.misc.fetchCaptcha())
         yield put(actions.alerts.displayError(C.CAPTCHA_CODE_INCORRECT))
       } else {
         yield put(actions.alerts.displayError(C.GUID_SENT_ERROR))
