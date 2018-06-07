@@ -13,6 +13,7 @@ import buySellSellBtc from './img/buy-sell-sell-btc.svg'
 import buySellSellEth from './img/buy-sell-sell-eth.svg'
 import chartPlaceholder from './img/chart-placeholder.png'
 import checkHelper from './img/check-helper.svg'
+import coinifyLogo from './img/coinify-logo.svg'
 import emptySearch from './img/empty-search.svg'
 import emptyTx from './img/empty-tx.svg'
 import googleAuthenticator from './img/google-authenticator.png'
@@ -29,6 +30,7 @@ import rocket from './img/rocket.gif'
 import selectArrow from './img/select-arrow.png'
 import shapeshiftLogo from './img/shapeshift-logo.png'
 import smartphone from './img/smartphone.png'
+import sfoxLogo from './img/sfox-logo.png'
 import sophisticated from './img/sophisticated.svg'
 import v4Welcome from './img/v4-welcome.jpg'
 import walletV3Backup from './img/wallet-v3-backup.jpg'
@@ -53,6 +55,7 @@ export default {
   'buy-sell-sell-eth': buySellSellEth,
   'chart-placeholder': chartPlaceholder,
   'check-helper': checkHelper,
+  'coinify-logo': coinifyLogo,
   'empty-search': emptySearch,
   'empty-tx': emptyTx,
   'google-authenticator': googleAuthenticator,
@@ -67,6 +70,7 @@ export default {
   'qr-code': qrCode,
   'rocket': rocket,
   'select-arrow': selectArrow,
+  'sfox-logo': sfoxLogo,
   'shapeshiftLogo': shapeshiftLogo,
   'smartphone': smartphone,
   'sophisticated': sophisticated,
