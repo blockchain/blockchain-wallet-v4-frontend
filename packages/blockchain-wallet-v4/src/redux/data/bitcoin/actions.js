@@ -49,4 +49,3 @@ export const fetchUnspendableBalance = () => ({ type: AT.FETCH_BITCOIN_UNSPENDAB
 export const fetchUnspendableBalanceLoading = () => ({ type: AT.FETCH_BITCOIN_UNSPENDABLE_BALANCE_LOADING })
 export const fetchUnspendableBalanceSuccess = (data) => ({ type: AT.FETCH_BITCOIN_UNSPENDABLE_BALANCE_SUCCESS, payload: data })
 export const fetchUnspendableBalanceFailure = (error) => ({ type: AT.FETCH_BITCOIN_UNSPENDABLE_BALANCE_FAILURE, payload: error })
-
