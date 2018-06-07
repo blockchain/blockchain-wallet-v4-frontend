@@ -1513,7 +1513,7 @@
   "formhelper.invalidmobilenumber": "Invalid mobile number",
   "formhelper.invalidnumber": "Invalid number",
   "formhelper.invalidpassphrase": "Invalid passphrase",
-  "formhelper.invalidpasswordstretchingnumber": "Please ensure 1 < PBKDF2 <=20000",
+  "formhelper.invalidpasswordstretchingnumber": "PBKDF2 must be between 1 and 20000",
   "formhelper.invalidstrongpassword": "Your password is not strong enough",
   "formhelper.invalidwalletidentifier": "Invalid wallet identifier",
   "formhelper.requireddob": "Must be a valid date",
