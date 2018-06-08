@@ -34,7 +34,7 @@ class SellContainer extends React.Component {
     const { data, modalActions, coinifyActions, coinifyDataActions, formActions,
       rateQuoteR, sellQuoteR, currency, paymentMedium, trade, ...rest } = this.props
     const { canTrade, step, checkoutBusy, coinifyBusy, checkoutError } = rest
-    const { handleTrade, fetchQuote } = coinifyDataActions
+    const { handleTrade, fetchQuote, refreshSellQuote } = coinifyDataActions
     const { showModal } = modalActions
     const { coinifyNotAsked, openKYC } = coinifyActions
 
@@ -67,6 +67,7 @@ class SellContainer extends React.Component {
         onOrderCheckoutSubmit={this.submitQuote}
         checkoutError={checkoutError}
         handleKycAction={kyc => openKYC(kyc)}
+        refreshQuote={refreshSellQuote}
       />,
       Failure: (msg) => <div>Failure: {msg.error}</div>,
       Loading: () => <Loading />,
