@@ -12,7 +12,7 @@ import { formValueSelector } from 'redux-form'
 
 class TwoStepVerificationContainer extends React.PureComponent {
   static getDerivedStateFromProps (nextProps, prevState) {
-    const data = nextProps.data.data
+    const data = nextProps.data.getOrElse({})
     if (data.authType === 4) return { authName: 'Authenticator App' }
     if (data.authType === 5) return { authName: 'SMS Codes' }
     if (data.authType === 1 || data.authType === 2) return { authName: 'Yubikey' }
@@ -31,7 +31,9 @@ class TwoStepVerificationContainer extends React.PureComponent {
   }
 
   componentDidUpdate (prevProps) {
-    if (this.props.data.data.authType > 0 && prevProps.data.data.authType === 0) this.props.updateUI({ editing: true })
+    const next = this.props.data.getOrElse({})
+    const prev = prevProps.data.getOrElse({})
+    if (next.authType > 0 && prev.authType === 0) this.props.updateUI({ editing: true })
   }
 
   handleClick () {
@@ -40,12 +42,14 @@ class TwoStepVerificationContainer extends React.PureComponent {
   }
 
   handleDisableClick () {
-    if (this.props.data.data.authType > 0) this.props.modalActions.showModal('ConfirmDisable2FA', { authName: this.state.authName })
+    const next = this.props.data.getOrElse({})
+    if (next.authType > 0) this.props.modalActions.showModal('ConfirmDisable2FA', { authName: this.state.authName })
     else this.props.updateUI({ verifyToggled: !this.props.ui.verifyToggled, editing: true })
   }
 
   chooseMethod (method) {
-    if (this.props.data.data.smsVerified && method === 'sms') {
+    const next = this.props.data.getOrElse({})
+    if (next.smsVerified && method === 'sms') {
       this.props.securityCenterActions.setVerifiedMobileAsTwoFactor()
       this.props.updateUI({ verifyToggled: true })
     } else {
