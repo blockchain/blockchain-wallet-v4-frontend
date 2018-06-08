@@ -62,7 +62,7 @@ class VerifyMobile extends Component {
   }
 
   render () {
-    const { ui, invalid, mobileCode, mobileNumber, mobileVerifiedError, countryCode } = this.props
+    const { ui, invalid, mobileCode, mobileNumber, mobileVerifiedError } = this.props
 
     let smsHelper = () => {
       switch (true) {
