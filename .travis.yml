@@ -42,8 +42,8 @@ jobs:
 
     - stage: pull-request-build
       script:
-        - yarn lint && yarn ci:test && yarn ci:compile
+        - yarn lint && yarn ci:test # && yarn ci:compile # TODO: ci:compile hits travisCI timeouts :(
 
     - stage: master-commit-build
       script:
-        - yarn lint && yarn ci:test && yarn ci:compile
+        - yarn lint && yarn ci:test # && yarn ci:compile
