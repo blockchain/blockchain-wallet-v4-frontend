@@ -26,6 +26,7 @@
     "build": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run build:dev",
     "build:prod": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run build:prod",
     "bootstrap": "cross-env npm i && lerna bootstrap --hoist --ignore-scripts",
+    "ci:bootstrap": "cross-env npm ci && lerna bootstrap --hoist --ignore-scripts",
     "ci:compile": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run ci:compile",
     "ci:coverage": "lerna exec -- npm run test:build && lerna link && npm run coverage:components && npm run coverage:core && npm run coverage:frontend && istanbul report --root ./coverage --dir ./coverage/ lcov",
     "ci:test": "lerna exec -- npm run test:build && lerna link && npm run test:components && npm run test:core && npm run test:frontend",
