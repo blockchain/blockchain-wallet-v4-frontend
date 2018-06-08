@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { prop, toLower } from 'ramda'
-import { propTypes } from 'prop-types'
+import { PropTypes } from 'prop-types'
 
 import IntlTelInput from 'react-intl-tel-input'
 import 'react-intl-tel-input/dist/libphonenumber.js'
@@ -46,8 +46,8 @@ const PhoneNumberBox = (field) => {
   )
 }
 
-PhoneNumberBox.PropTypes = {
-  countryCode: propTypes.required
+PhoneNumberBox.propTypes = {
+  countryCode: PropTypes.object.isRequired
 }
 
 export default PhoneNumberBox
