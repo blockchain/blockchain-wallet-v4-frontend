@@ -14,7 +14,8 @@ export const getData = (state) => createDeepEqualSelector(
     selectors.core.settings.getCountryCode
   ],
   (currentNumber, defaultCode) => ({
-    mobileNumber: formValueSelector('mobileNumberChange')(state, 'mobileNumber'),
-    countryCode: lift(getCountryCode)(defaultCode, currentNumber)
+    smsNumberNew: formValueSelector('mobileNumberChange')(state, 'mobileNumber'),
+    countryCode: lift(getCountryCode)(defaultCode, currentNumber),
+    smsNumber: currentNumber.getOrElse('')
   })
 )(state)
