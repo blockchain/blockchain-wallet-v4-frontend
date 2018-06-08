@@ -1,4 +1,4 @@
-FROM docker-registry.service.consul:5000/blockchain_javascript@sha256:d603520a3b0454a86a6d0145d4cfa8f672b08c2b035ca9566ea67dd81b0169be
+FROM docker-registry.service.consul:5000/blockchain_node_10@sha256:7bcb42954e38ad413265e5d4b0c1e943cd85b06a95637c8c549ae978e55c51a7
 
 RUN chown -R blockchain /home/blockchain
 
