@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { prop, toLower } from 'ramda'
+import { propTypes } from 'prop-types'
 
 import IntlTelInput from 'react-intl-tel-input'
 import 'react-intl-tel-input/dist/libphonenumber.js'
@@ -43,6 +44,10 @@ const PhoneNumberBox = (field) => {
       <IntlTelInput defaultValue={field.defaultValue || ''} onPhoneNumberChange={handler} format defaultCountry={countryCode} preferredCountries={['us', 'gb']} css={['intl-tel-input', 'form-control']} utilsScript={'libphonenumber.js'} placeholder='555-555-5555' />
     </Container>
   )
+}
+
+PhoneNumberBox.PropTypes = {
+  countryCode: propTypes.required
 }
 
 export default PhoneNumberBox
