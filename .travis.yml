@@ -15,7 +15,7 @@ before_install:
   - npm install -g lerna yarn babel-cli rimraf cross-env
 
 install:
-  - yarn ci:bootstrap
+  - yarn bootstrap
 
 stages:
   - name: branch-commit-build
