@@ -9,7 +9,11 @@ import Success from './template.success'
 class Balance extends React.PureComponent {
   render () {
     const { data } = this.props
-    return <Success btcUnspendableContext={data.btcUnspendableContext} bchUnspendableContext={data.bchUnspendableContext} path={data.path} />
+    return <Success
+      btcUnspendableContext={data.btcUnspendableContext}
+      bchUnspendableContext={data.bchUnspendableContext}
+      path={data.path}
+    />
   }
 }
 

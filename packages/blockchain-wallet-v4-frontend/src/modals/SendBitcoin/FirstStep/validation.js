@@ -31,7 +31,12 @@ export const minimumFeePerByte = (value, allValues, props) => value >= props.min
 
 export const maximumFeePerByte = (value, allValues, props) => value <= props.maxFeePerByte ? undefined : <MaximumFeeMessage />
 
-export const shouldValidate = ({ values, nextProps, props, initialRender, structure }) => {
+export const shouldError = ({ values, nextProps, props, initialRender, structure }) => {
+  if (initialRender) { return true }
+  return initialRender || !structure.deepEqual(values, nextProps.values) || props.effectiveBalance !== nextProps.effectiveBalance
+}
+
+export const shouldWarn = ({ values, nextProps, props, initialRender, structure }) => {
   if (initialRender) { return true }
   return initialRender || !structure.deepEqual(values, nextProps.values) || props.effectiveBalance !== nextProps.effectiveBalance
 }

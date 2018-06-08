@@ -13,12 +13,16 @@ import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 export default ({ coreSagas }) => {
   const logLocation = 'components/sendEth/sagas'
 
-  const sendEthInitialized = function * (action) {
+  const initialized = function * (action) {
     try {
+      const from = path(['payload', 'from'], action)
+      const type = path(['payload', 'type'], action)
       yield put(A.sendEthPaymentUpdated(Remote.Loading))
       let payment = coreSagas.payment.eth.create(({ network: settings.NETWORK_ETHEREUM }))
       payment = yield payment.init()
-      payment = yield payment.from(action.payload.from, action.payload.type)
+      payment = from && type
+        ? yield payment.from(action.payload.from, action.payload.type)
+        : yield payment.from()
       const initialValues = { coin: 'ETH' }
       yield put(initialize('sendEth', initialValues))
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
@@ -26,6 +30,10 @@ export default ({ coreSagas }) => {
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'sendEthInitialized', e))
     }
+  }
+
+  const destroyed = function * () {
+    yield put(actions.form.destroy('sendEth'))
   }
 
   const firstStepSubmitClicked = function * () {
@@ -120,7 +128,8 @@ export default ({ coreSagas }) => {
   }
 
   return {
-    sendEthInitialized,
+    initialized,
+    destroyed,
     firstStepSubmitClicked,
     maximumAmountClicked,
     secondStepSubmitClicked,
