@@ -13,7 +13,8 @@ export default (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
-    case AT.SEND_BTC_INITIALIZED: {
+    case AT.SEND_BTC_INITIALIZED:
+    case AT.SEND_BTC_DESTROYED: {
       return INITIAL_STATE
     }
     case AT.SEND_BTC_FIRST_STEP_TO_TOGGLED: {
