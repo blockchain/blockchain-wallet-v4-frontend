@@ -11,7 +11,8 @@ export default (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
-    case AT.SEND_ETH_INITIALIZED: {
+    case AT.SEND_ETH_INITIALIZED:
+    case AT.SEND_ETH_DESTROYED: {
       return INITIAL_STATE
     }
     case AT.SEND_ETH_PAYMENT_UPDATED: {
