@@ -16,7 +16,7 @@ const DUST_BTC = '0.00000546'
 export default ({ coreSagas }) => {
   const logLocation = 'components/sendBtc/sagas'
 
-  const sendBtcInitialized = function * (action) {
+  const initialized = function * (action) {
     try {
       const { to, message, amount, feeType } = action.payload
       yield put(A.sendBtcPaymentUpdated(Remote.Loading))
@@ -42,6 +42,10 @@ export default ({ coreSagas }) => {
       yield put(A.sendBtcPaymentUpdated(Remote.Failure(e)))
       yield put(actions.logs.logErrorMessage(logLocation, 'sendBtcInitialized', e))
     }
+  }
+
+  const destroyed = function * () {
+    yield put(actions.form.destroy('sendBtc'))
   }
 
   const firstStepSubmitClicked = function * () {
@@ -223,7 +227,8 @@ export default ({ coreSagas }) => {
   }
 
   return {
-    sendBtcInitialized,
+    initialized,
+    destroyed,
     toToggled,
     minimumAmountClicked,
     maximumAmountClicked,

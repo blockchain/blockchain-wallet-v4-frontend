@@ -64,6 +64,16 @@ const Eth = styled.div`
 `
 
 class BuySellAnimation extends React.PureComponent {
+  constructor (props) {
+    super(props)
+    this.state = {
+      base: false,
+      btc: '',
+      bch: '',
+      eth: ''
+    }
+  }
+
   static getDerivedStateFromProps (nextProps) {
     const sfoxCountries = nextProps.options.platforms.web.sfox.countries
     const unocoinCountries = nextProps.options.platforms.web.unocoin.countries
@@ -98,16 +108,6 @@ class BuySellAnimation extends React.PureComponent {
           eth: 'buy sell'
         }
       }
-    }
-  }
-
-  constructor (props) {
-    super(props)
-    this.state = {
-      base: false,
-      btc: '',
-      bch: '',
-      eth: ''
     }
   }
 

@@ -8,7 +8,7 @@ import { required, validBitcoinCashAddress } from 'services/FormHelper'
 import { Button, Icon, Tooltip } from 'blockchain-info-components'
 import { FiatConvertor, Form, FormGroup, FormItem, FormLabel, SelectBoxBitcoinAddresses, SelectBoxCoin, TextBox, TextAreaDebounced } from 'components/Form'
 import ComboDisplay from 'components/Display/ComboDisplay'
-import { shouldValidate, insufficientFunds, maximumAmount, invalidAmount } from './validation'
+import { shouldError, insufficientFunds, maximumAmount, invalidAmount } from './validation'
 import QRCodeCapture from 'components/QRCodeCapture'
 
 const Row = styled.div`
@@ -109,4 +109,4 @@ FirstStep.propTypes = {
   totalFee: PropTypes.string.isRequired
 }
 
-export default reduxForm({ form: 'sendBch', destroyOnUnmount: false, shouldValidate })(FirstStep)
+export default reduxForm({ form: 'sendBch', destroyOnUnmount: false, shouldError })(FirstStep)

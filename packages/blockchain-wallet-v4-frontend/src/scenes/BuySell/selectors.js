@@ -1,17 +1,28 @@
-import { lift, path } from 'ramda'
+import { lift } from 'ramda'
 import { formValueSelector } from 'redux-form'
-
+import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { selectors } from 'data'
 
-export const getData = (state) => {
-  const optionsR = selectors.core.walletOptions.getOptions(state)
-  const buySellR = selectors.core.kvStore.buySell.getMetadata(state)
-  const countryCodeR = selectors.core.settings.getCountryCode(state)
-  const transform = lift((buySell, options, countryCode) => ({ buySell, options, countryCode }))
+export const getData = createDeepEqualSelector(
+  [
+    selectors.core.walletOptions.getOptions,
+    selectors.core.kvStore.buySell.getMetadata,
+    selectors.core.settings.getCountryCode
+  ],
+  (optionsR, buySellR, countryCodeR) => {
+    const transform = (options, buySell, countryCode) => {
+      return {
+        options,
+        buySell,
+        countryCode
+      }
+    }
+    return lift(transform)(optionsR, buySellR, countryCodeR)
+  }
+)
 
+export const getFields = (state) => {
   return {
-    data: transform(buySellR, optionsR, countryCodeR),
-    type: path(['form', 'buySellTabStatus', 'values', 'status'], state),
     country: formValueSelector('selectPartner')(state, 'country'),
     stateSelection: formValueSelector('selectPartner')(state, 'state'),
     email: formValueSelector('selectPartner')(state, 'email')
