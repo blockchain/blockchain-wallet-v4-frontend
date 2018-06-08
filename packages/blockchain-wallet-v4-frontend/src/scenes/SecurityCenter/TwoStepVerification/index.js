@@ -11,13 +11,6 @@ import Success from './template.success'
 import { formValueSelector } from 'redux-form'
 
 class TwoStepVerificationContainer extends React.PureComponent {
-  static getDerivedStateFromProps (nextProps, prevState) {
-    const data = nextProps.data.data
-    if (data.authType === 4) return { authName: 'Authenticator App' }
-    if (data.authType === 5) return { authName: 'SMS Codes' }
-    if (data.authType === 1 || data.authType === 2) return { authName: 'Yubikey' }
-    return prevState
-  }
   constructor (props) {
     super(props)
 
@@ -28,6 +21,14 @@ class TwoStepVerificationContainer extends React.PureComponent {
     this.pulseText = this.pulseText.bind(this)
 
     this.state = { authName: '', pulse: false }
+  }
+
+  static getDerivedStateFromProps (nextProps, prevState) {
+    const data = nextProps.data.data
+    if (data.authType === 4) return { authName: 'Authenticator App' }
+    if (data.authType === 5) return { authName: 'SMS Codes' }
+    if (data.authType === 1 || data.authType === 2) return { authName: 'Yubikey' }
+    return prevState
   }
 
   componentDidUpdate (prevProps) {
