@@ -11,7 +11,11 @@ import SecondStep from './SecondStep'
 
 class SendEtherContainer extends React.PureComponent {
   componentDidMount () {
-    this.props.actions.sendEthInitialized({})
+    this.props.actions.initialized()
+  }
+
+  componentWillUnmount () {
+    this.props.actions.destroyed()
   }
 
   render () {
