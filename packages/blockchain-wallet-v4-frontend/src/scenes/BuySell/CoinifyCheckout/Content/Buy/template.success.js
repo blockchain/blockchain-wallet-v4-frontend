@@ -36,7 +36,6 @@ const CoinifyBuy = props => {
     buyQuoteR,
     clearTradeError,
     currency,
-    rateQuoteR,
     checkoutBusy,
     setMax,
     setMin,
@@ -66,7 +65,6 @@ const CoinifyBuy = props => {
             <LeftContainer>
               <OrderCheckout
                 quoteR={buyQuoteR}
-                rateQuoteR={rateQuoteR}
                 onFetchQuote={fetchBuyQuote}
                 limits={limits.buy}
                 type={'buy'}
