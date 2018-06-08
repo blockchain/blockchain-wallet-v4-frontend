@@ -9,20 +9,10 @@ const getCountryCode = (defaultCode, currentNumber) =>
 
 export const getData = (state) => createDeepEqualSelector(
   [
-    selectors.core.settings.getAuthType,
     selectors.core.settings.getSmsNumber,
-    selectors.core.settings.getSmsVerified,
     selectors.core.settings.getCountryCode
   ],
-  (authTypeR, smsNumberR, smsVerifiedR, defaultCode) => {
-    const transform = (authType, smsNumber, smsVerified) => {
-      return {
-        countryCode: lift(getCountryCode)(defaultCode, smsNumberR),
-        authType: parseInt(authType),
-        smsVerified,
-        smsNumber
-      }
-    }
-    return lift(transform)(authTypeR, smsNumberR, smsVerifiedR)
-  }
+  (currentNumber, defaultCode) => ({
+    countryCode: lift(getCountryCode)(defaultCode, currentNumber)
+  })
 )(state)
