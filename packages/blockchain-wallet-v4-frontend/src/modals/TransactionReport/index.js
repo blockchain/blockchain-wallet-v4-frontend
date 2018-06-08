@@ -1,32 +1,55 @@
 import React from 'react'
-import { compose } from 'redux'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
 
-import wizardProvider from 'providers/WizardProvider'
+import { actions } from 'data'
+import { getData } from './selectors'
 import modalEnhancer from 'providers/ModalEnhancer'
 import TransactionReport from './template'
-import FirstStep from './FirstStep'
-import SecondStep from './SecondStep'
 
 class TransactionReportContainer extends React.PureComponent {
-  componentWillMount () {
-    this.props.resetStep()
+  componentDidMount () {
+    this.props.actions.initialized()
+  }
+
+  componentWillUnmount () {
+    this.props.actions.destroyed()
   }
 
   render () {
-    const { step, position, total, closeAll, ...rest } = this.props
+    const { position, total, closeAll, coin, csvData, isValidStartDate, isValidEndDate } = this.props
 
-    return (
-      <TransactionReport position={position} total={total} closeAll={closeAll}>
-        {step === 1 && <FirstStep {...rest} />}
-        {step === 2 && <SecondStep {...rest} />}
-      </TransactionReport>
-    )
+    return <TransactionReport
+      coin={coin}
+      csvData={csvData}
+      isValidStartDate={isValidStartDate}
+      isValidEndDate={isValidEndDate}
+      onSubmit={() => this.props.actions.submitClicked(coin)}
+      closeAll={closeAll}
+      position={position}
+      total={total}
+    />
   }
 }
 
+TransactionReportContainer.propTypes = {
+  coin: PropTypes.oneOf(['BTC', 'BCH'])
+}
+
+TransactionReportContainer.defaultProps = {
+  coin: 'BTC'
+}
+
+const mapStateToProps = (state, ownProps) => getData(ownProps.coin, state)
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(actions.components.transactionReport, dispatch)
+})
+
 const enhance = compose(
   modalEnhancer('TransactionReport'),
-  wizardProvider('transactionReport', 2)
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default enhance(TransactionReportContainer)

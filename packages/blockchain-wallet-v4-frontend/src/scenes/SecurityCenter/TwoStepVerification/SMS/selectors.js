@@ -1,13 +1,28 @@
-import { selectors } from 'data'
+import PhoneNumber from 'awesome-phonenumber'
 import { lift } from 'ramda'
 
-export const getData = state => {
-  const authType = selectors.core.settings.getAuthType(state)
-  const smsNumber = selectors.core.settings.getSmsNumber(state)
-  const smsVerified = selectors.core.settings.getSmsVerified(state)
-  const countryCode = selectors.core.settings.getCountryCode(state)
+import { selectors } from 'data'
+import { createDeepEqualSelector } from 'services/ReselectHelper'
 
-  const f = (a, n, v, c) => ({ authType: parseInt(a), smsNumber: n, smsVerified: v, countryCode: c })
+const getCountryCode = (defaultCode, currentNumber) =>
+  currentNumber ? PhoneNumber(currentNumber).getRegionCode() : defaultCode
 
-  return lift(f)(authType, smsNumber, smsVerified, countryCode)
-}
+export const getData = (state) => createDeepEqualSelector(
+  [
+    selectors.core.settings.getAuthType,
+    selectors.core.settings.getSmsNumber,
+    selectors.core.settings.getSmsVerified,
+    selectors.core.settings.getCountryCode
+  ],
+  (authTypeR, smsNumberR, smsVerifiedR, defaultCode) => {
+    const transform = (authType, smsNumber, smsVerified) => {
+      return {
+        countryCode: lift(getCountryCode)(defaultCode, smsNumberR),
+        authType: parseInt(authType),
+        smsVerified,
+        smsNumber
+      }
+    }
+    return lift(transform)(authTypeR, smsNumberR, smsVerifiedR)
+  }
+)(state)

@@ -13,7 +13,7 @@ import Loading from 'components/BuySell/Loading'
 import { hasAccount } from 'services/ExchangeService'
 import SfoxCheckout from './SfoxCheckout'
 import CoinifyCheckout from './CoinifyCheckout'
-import { getData } from './selectors'
+import { getData, getFields } from './selectors'
 import SelectPartner from './template.success'
 
 const Wrapper = styled.div`
@@ -80,10 +80,10 @@ class BuySellContainer extends React.PureComponent {
   }
 
   render () {
-    const { data, type } = this.props
+    const { data, type, fields } = this.props
 
     const view = data.cata({
-      Success: (value) => this.renderPartner(path(['buySell', 'value'], value), value.options, type),
+      Success: (value) => this.renderPartner(path(['buySell', 'value'], value), value.options, type, fields),
       Failure: (message) => <div>failure: {message}</div>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
@@ -106,7 +106,10 @@ class BuySellContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => getData(state)
+const mapStateToProps = state => ({
+  data: getData(state),
+  fields: getFields(state)
+})
 
 const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch),

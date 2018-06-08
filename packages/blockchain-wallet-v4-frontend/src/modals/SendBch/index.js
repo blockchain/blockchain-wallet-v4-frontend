@@ -11,7 +11,11 @@ import SecondStep from './SecondStep'
 
 class SendBchContainer extends React.PureComponent {
   componentDidMount () {
-    this.props.actions.sendBchInitialized()
+    this.props.actions.initialized()
+  }
+
+  componentWillUnmount () {
+    this.props.actions.destroyed()
   }
 
   render () {

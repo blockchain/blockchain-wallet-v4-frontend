@@ -1,8 +1,8 @@
 import * as AT from './actionTypes'
 
-export const sendBtcInitialized = payload => ({ type: AT.SEND_BTC_INITIALIZED, payload })
+export const initialized = payload => ({ type: AT.SEND_BTC_INITIALIZED, payload })
 
-export const sendBtcDestroyed = () => ({ type: AT.SEND_BTC_DESTROYED })
+export const destroyed = () => ({ type: AT.SEND_BTC_DESTROYED })
 
 export const sendBtcPaymentUpdated = payment => ({ type: AT.SEND_BTC_PAYMENT_UPDATED, payload: payment })
 
@@ -23,8 +23,6 @@ export const sendBtcFirstStepRegularFeeClicked = () => ({ type: AT.SEND_BTC_FIRS
 export const sendBtcFirstStepPriorityFeeClicked = () => ({ type: AT.SEND_BTC_FIRST_STEP_PRIORITY_FEE_CLICKED })
 
 export const sendBtcFirstStepSubmitClicked = () => ({ type: AT.SEND_BTC_FIRST_STEP_SUBMIT_CLICKED })
-
-export const sendBtcSecondStepInitialized = () => ({ type: AT.SEND_BTC_SECOND_STEP_INITIALIZED })
 
 export const sendBtcSecondStepSubmitClicked = () => ({ type: AT.SEND_BTC_SECOND_STEP_SUBMIT_CLICKED })
 

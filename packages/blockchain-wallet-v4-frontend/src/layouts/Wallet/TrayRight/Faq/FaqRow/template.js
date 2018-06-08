@@ -16,8 +16,8 @@ const FaqRow = ({ title, description, toggled, handleToggle, ...rest }) => {
 }
 
 FaqRow.propTypes = {
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  title: PropTypes.object.isRequired,
+  description: PropTypes.object.isRequired,
   toggled: PropTypes.bool.isRequired,
   handleToggle: PropTypes.func.isRequired
 }
