@@ -7,7 +7,6 @@ exports[`FormItem renders correctly 1`] = `
 
 <label
   className="c0"
-  htmlFor={undefined}
 >
   <text
     size="14px"

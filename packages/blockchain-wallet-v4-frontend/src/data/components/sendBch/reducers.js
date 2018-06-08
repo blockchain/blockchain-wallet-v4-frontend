@@ -12,7 +12,8 @@ export default (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
-    case AT.SEND_BCH_INITIALIZED: {
+    case AT.SEND_BCH_INITIALIZED:
+    case AT.SEND_BCH_DESTROYED: {
       return INITIAL_STATE
     }
     case AT.SEND_BCH_FIRST_STEP_TO_TOGGLED: {

@@ -24,7 +24,7 @@ const Error = styled.label`
 const SelectBox = (props) => {
   const { input, meta, hideErrors, ...rest } = props
   const { touched, invalid, error, pristine } = meta
-  const errorState = !touched ? 'initial' : (invalid ? 'invalid' : 'valid')
+  const errorState = touched && invalid ? 'invalid' : 'initial'
 
   return (
     <Container>

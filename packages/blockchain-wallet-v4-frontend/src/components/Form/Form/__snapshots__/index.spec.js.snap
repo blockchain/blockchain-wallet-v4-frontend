@@ -1,7 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Form renders correctly 1`] = `
-<Form__BaseForm
-  override={true}
-/>
-`;
+exports[`Form renders correctly 1`] = `<Form__BaseForm />`;
