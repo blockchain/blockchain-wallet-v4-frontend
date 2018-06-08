@@ -35,7 +35,7 @@ const Reminder = (props) => {
         <FormattedMessage id='scenes.reminder.remind' defaultMessage='Remind Me' />
       </Text>
       <Text size='14px' weight={300}>
-        <FormattedMessage id='scenes.reminder.explain' defaultMessage="Lost your Wallet Identifier? We'll send it to you via your email." />
+        <FormattedMessage id='scenes.reminder.explain' defaultMessage="Lost your wallet ID? We'll send it to you via your email." />
       </Text>
       <Separator />
       <Form onSubmit={onSubmit}>
