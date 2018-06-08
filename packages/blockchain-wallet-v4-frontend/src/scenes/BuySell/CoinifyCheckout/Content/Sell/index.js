@@ -15,7 +15,7 @@ class SellContainer extends React.Component {
 
   componentDidMount () {
     this.props.coinifyDataActions.getKycs()
-    this.props.sendBtcActions.sendBtcInitialized({ feeType: 'priority' })
+    this.props.sendBtcActions.initialized({ feeType: 'priority' })
     this.props.coinifyActions.initializeCheckoutForm('sell')
   }
 
