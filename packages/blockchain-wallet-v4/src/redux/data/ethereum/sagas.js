@@ -54,6 +54,7 @@ export default ({ api }) => {
       if (isNil(txs)) return
       yield put(A.fetchTransactionsSuccess(txs, reset))
     } catch (e) {
+      yield put(A.fetchDataFailure(e))
       yield put(A.fetchTransactionsFailure(e.message))
     }
   }
