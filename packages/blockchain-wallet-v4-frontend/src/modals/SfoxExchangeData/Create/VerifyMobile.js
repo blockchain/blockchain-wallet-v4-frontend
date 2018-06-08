@@ -62,7 +62,7 @@ class VerifyMobile extends Component {
   }
 
   render () {
-    const { ui, invalid, mobileCode, mobileNumber, mobileVerifiedError } = this.props
+    const { ui, invalid, mobileCode, mobileNumber, mobileVerifiedError, countryCode } = this.props
 
     let smsHelper = () => {
       switch (true) {
@@ -86,7 +86,7 @@ class VerifyMobile extends Component {
               <Text size='14px' weight={400} style={{'marginBottom': '5px'}}>
                 <FormattedMessage id='sfoxexchangedata.create.mobile.entermobilenumber' defaultMessage='Enter your digits here:' />
               </Text>
-              <Field name='mobileNumber' defaultValue={this.props.smsNumber} component={PhoneNumberBox} validate={[required, validMobileNumber]} normalize={normalizePhone} />
+              <Field name='mobileNumber' defaultValue={this.props.smsNumber} component={PhoneNumberBox} validate={[required, validMobileNumber]} normalize={normalizePhone} countryCode={countryCode} />
               {
                 ui.create === 'change_mobile' && <Button nature='primary' type='submit' disabled={!mobileNumber} style={spacing('mt-15')}>
                   <FormattedMessage id='sfoxexchangedata.create.mobile.sendmycode' defaultMessage='Send My Code' />
@@ -132,7 +132,8 @@ class VerifyMobile extends Component {
 const mapStateToProps = (state) => ({
   mobileNumber: formValueSelector('sfoxCreate')(state, 'mobileNumber'),
   mobileCode: formValueSelector('sfoxCreate')(state, 'mobileCode'),
-  smsNumber: selectors.core.settings.getSmsNumber(state).data
+  smsNumber: selectors.core.settings.getSmsNumber(state).data,
+  countryCode: selectors.core.settings.getCountryCode(state).getOrElse()
 })
 
 const mapDispatchToProps = (dispatch) => ({
