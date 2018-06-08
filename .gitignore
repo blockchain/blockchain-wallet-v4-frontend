@@ -14,10 +14,7 @@ npm-shrinkwrap.json
 # Yarn
 .yarnclean
 yarn-error.log
-
-# Lock Files
 yarn.lock
-package-lock.json
 
 # Generated Files
 *.log
