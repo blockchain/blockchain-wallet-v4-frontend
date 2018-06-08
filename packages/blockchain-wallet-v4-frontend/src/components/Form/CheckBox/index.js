@@ -22,7 +22,7 @@ const Error = styled(Text)`
   height: 15px;
 `
 const getErrorState = (meta) => {
-  return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')
+  return meta.touched && meta.invalid ? 'invalid' : 'initial'
 }
 
 const CheckBox = ({ children, ...field }) => {
