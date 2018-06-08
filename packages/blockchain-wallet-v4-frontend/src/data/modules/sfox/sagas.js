@@ -16,11 +16,16 @@ export default ({ coreSagas }) => {
 
   const setBankManually = function * (action) {
     try {
+      yield put(A.sfoxLoading())
       yield call(coreSagas.data.sfox.setBankManually, action.payload)
-
-      // TODO need to dispatch an action to make Link step go to awaiting deposits state
+      const accounts = yield select(selectors.core.data.sfox.getAccounts)
+      if (accounts.error) {
+        throw new Error(JSON.parse(accounts.error).error)
+      }
+      yield put(A.sfoxSuccess())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'setBankManually', e))
+      yield put(A.sfoxFailure(e))
     }
   }
 
@@ -30,8 +35,10 @@ export default ({ coreSagas }) => {
       yield call(coreSagas.data.sfox.signup)
       const profile = yield select(selectors.core.data.sfox.getProfile)
       if (!profile.error) {
+        yield put(A.sfoxSuccess())
         yield put(A.nextStep('verify'))
       } else {
+        yield put(A.sfoxNotAsked())
         throw new Error(JSON.parse(profile.error).error)
       }
     } catch (e) {
@@ -92,6 +99,7 @@ export default ({ coreSagas }) => {
         yield put(A.sfoxSuccess())
         yield put(modalActions.closeAllModals())
       } else {
+        yield put(A.sfoxNotAsked())
         throw new Error(result)
       }
     } catch (e) {

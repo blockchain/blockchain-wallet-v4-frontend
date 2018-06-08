@@ -151,7 +151,9 @@ export default ({ api, options }) => {
       yield call(fetchSfoxAccounts)
       return addedBankAccount
     } catch (e) {
+      yield put(A.setBankManuallyFailure(e))
       yield put(A.setBankAccountFailure(e))
+      return e
     }
   }
 
