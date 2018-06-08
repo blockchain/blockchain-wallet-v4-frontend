@@ -18,7 +18,7 @@ class MobileNumberChangeContainer extends React.PureComponent {
     const { smsNumberNew } = this.props
     this.props.settingsActions.updateMobile(smsNumberNew)
     this.props.modalActions.closeModal()
-    this.props.modalActions.showModal('MobileNumberVerify', { smsNumberNew })
+    this.props.modalActions.showModal('MobileNumberVerify', { mobileNumber: smsNumberNew })
   }
 
   render () {
