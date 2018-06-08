@@ -86,7 +86,7 @@ class VerifyMobile extends Component {
               <Text size='14px' weight={400} style={{'marginBottom': '5px'}}>
                 <FormattedMessage id='sfoxexchangedata.create.mobile.entermobilenumber' defaultMessage='Enter your digits here:' />
               </Text>
-              <Field name='mobileNumber' defaultValue={this.props.smsNumber} component={PhoneNumberBox} validate={[required, validMobileNumber]} normalize={normalizePhone} />
+              <Field name='mobileNumber' countryCode={this.props.countryCode} defaultValue={this.props.smsNumber} component={PhoneNumberBox} validate={[required, validMobileNumber]} normalize={normalizePhone} />
               {
                 ui.create === 'change_mobile' && <Button nature='primary' type='submit' disabled={!mobileNumber} style={spacing('mt-15')}>
                   <FormattedMessage id='sfoxexchangedata.create.mobile.sendmycode' defaultMessage='Send My Code' />
