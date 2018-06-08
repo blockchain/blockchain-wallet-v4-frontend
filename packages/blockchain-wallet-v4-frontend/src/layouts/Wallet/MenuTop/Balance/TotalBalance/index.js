@@ -1,17 +1,19 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { getData } from './selectors'
+
+import Error from './template.error'
+import Loading from './template.loading'
 import Success from './template.success'
 
 class TotalBalance extends React.PureComponent {
   render () {
-    const { data, large } = this.props
     return (
-      data.cata({
-        Success: (value) => <Success symbol={value.symbol} totalFiatBalance={value.totalFiatBalanceFormatted} large={large} />,
-        Failure: (msg) => <div>{msg}</div>,
-        Loading: () => <div>loading</div>,
-        NotAsked: () => <div>not asked</div>
+      this.props.data.cata({
+        Success: (value) => <Success totalBalance={value.totalBalance} large={this.props.large} />,
+        Failure: (msg) => <Error>{msg}</Error>,
+        Loading: () => <Loading />,
+        NotAsked: () => <Loading />
       })
     )
   }
