@@ -62,7 +62,7 @@ class VerifyMobile extends Component {
   }
 
   render () {
-    const { ui, invalid, mobileCode, mobileNumber, mobileVerifiedError } = this.props
+    const { ui, invalid, mobileCode, mobileNumber, mobileVerifiedError, countryCode } = this.props
 
     let smsHelper = () => {
       switch (true) {
@@ -132,7 +132,8 @@ class VerifyMobile extends Component {
 const mapStateToProps = (state) => ({
   mobileNumber: formValueSelector('sfoxCreate')(state, 'mobileNumber'),
   mobileCode: formValueSelector('sfoxCreate')(state, 'mobileCode'),
-  smsNumber: selectors.core.settings.getSmsNumber(state).data
+  smsNumber: selectors.core.settings.getSmsNumber(state).data,
+  countryCode: selectors.core.settings.getCountryCode(state).getOrElse()
 })
 
 const mapDispatchToProps = (dispatch) => ({

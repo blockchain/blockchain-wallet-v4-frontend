@@ -14,4 +14,6 @@ export const getShowBitcoinWelcome = path(['preferences', 'showBitcoinWelcome'])
 
 export const getShowBitcoinCashWelcome = path(['preferences', 'showBitcoinCashWelcome'])
 
+export const getShowKycCompleted = path(['preferences', 'showKycCompleted'])
+
 export const getPriceChart = path(['preferences', 'priceChart'])
