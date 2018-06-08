@@ -12,11 +12,9 @@ import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDeta
 import FundingSource from 'components/BuySell/FundingSource'
 import { CancelWrapper } from 'components/BuySell/Signup'
 import { StepTransition } from 'components/Utilities/Stepper'
+import Helper from 'components/BuySell/FAQ'
+import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 
-const StyledFaqRow = styled(FaqRow)`
-  padding: 20px 0px;
-  border-bottom: 1px solid ${props => props.theme['gray-1']};
-`
 const MethodContainer = styled.div`
   width: 100%;
   display: flex;
@@ -31,6 +29,22 @@ const ToolTipWrapper = styled.div`
     margin-right: 5px;
   }
 `
+
+const faqList = [
+  {
+    question: <FormattedMessage id='scenes.buysell.sfoxcheckout.orderreview.helper1.question' defaultMessage='What are the fees?' />,
+    answer: <FormattedMessage id='scenes.buysell.sfoxcheckout.orderreview.helper1.answer' defaultMessage='There is a trading fee that SFOX requires to execute a buy or sell trade. For sell trades specifically, there is an additional transaction fee that goes to network miners in order to send the amount you’re selling to SFOX.' />
+  },
+  {
+    question: <FormattedMessage id='scenes.buysell.sfoxcheckout.orderreview.helper2.question' defaultMessage='How long will it take to get my funds?' />,
+    answer: <FormattedMessage id='scenes.buysell.sfoxcheckout.orderreview.helper2.answer' defaultMessage='On average, it will take about a week for you to receive your funds from either a buy or sell trade.' />
+  },
+  {
+    question: <FormattedMessage id='scenes.buysell.sfoxcheckout.orderreview.helper3.question' defaultMessage='Can I cancel my trade?' />,
+    answer: <FormattedMessage id='scenes.buysell.sfoxcheckout.orderreview.helper3.answer' defaultMessage='Once you submit your trade here, it will move into a pending state, and cannot be reversed, cancelled or changed. Please be sure to verify the information here carefully before submitting.' />
+  }
+]
+const faqListHelper = () => faqList.map(el => <Helper question={el.question} answer={el.answer} />)
 
 export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
   <ExchangeCheckoutWrapper>
@@ -52,7 +66,10 @@ export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
         <FormattedMessage id='buy.sfoxcheckout.exchangerate' defaultMessage='Exchange Rate' />
       </Text>
       <Text size='12px' weight={300}>
-        1 BTC = {quoteR.map((quote) => `$${quote.rate}`).getOrElse('~')}
+        1 BTC = {quoteR.map((q) => {
+          if (q.baseCurrency.toLowerCase() === 'btc') return '$' + Currency.formatFiat((1 / (Math.abs(q.baseAmount / 1e8))) * Math.abs(q.quoteAmount))
+          else return '$' + Currency.formatFiat((1 / (Math.abs(q.quoteAmount / 1e8))) * Math.abs(q.baseAmount))
+        }).getOrElse('~')}
       </Text>
     </div>
     <OrderDetailsTable style={spacing('mt-10')}>
@@ -123,17 +140,6 @@ export const OrderSubmit = ({ quoteR, onSubmit, busy, clearTradeError }) => (
           </CancelWrapper>
         </Fragment>
     }
-    <StyledFaqRow
-      title={<FormattedMessage id='scenes.buysell.sfoxcheckout.orderreview.helper1.question' defaultMessage='What are the fees?' />}
-      description={<FormattedMessage id='scenes.buysell.sfoxcheckout.orderreview.helper1.answer' defaultMessage='There is a trading fee that SFOX requires to execute a buy or sell trade. For sell trades specifically, there is an additional transaction fee that goes to network miners in order to send the amount you’re selling to SFOX.' />}
-    />
-    <StyledFaqRow
-      title={<FormattedMessage id='scenes.buysell.sfoxcheckout.orderreview.helper2.question' defaultMessage='How long will it take to get my funds?' />}
-      description={<FormattedMessage id='scenes.buysell.sfoxcheckout.orderreview.helper2.answer' defaultMessage='On average, it will take about a week for you to receive your funds from either a buy or sell trade.' />}
-    />
-    <StyledFaqRow
-      title={<FormattedMessage id='scenes.buysell.sfoxcheckout.orderreview.helper3.question' defaultMessage='Can I cancel my trade?' />}
-      description={<FormattedMessage id='scenes.buysell.sfoxcheckout.orderreview.helper3.answer' defaultMessage='Once you submit your trade here, it will move into a pending state, and cannot be reversed, cancelled or changed. Please be sure to verify the information here carefully before submitting.' />}
-    />
+    { faqListHelper() }
   </Fragment>
 )
