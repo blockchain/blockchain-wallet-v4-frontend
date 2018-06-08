@@ -223,7 +223,7 @@ export const kycNotificationButtonHelper = (status) => {
     case 'pending': return { color: 'transferred', text: <FormattedMessage id='scenes.buy_sell.kyc_notification.complete' defaultMessage='Complete Verification' /> }
     case 'expired':
     case 'rejected': return { color: 'error', text: <FormattedMessage id='scenes.buy_sell.kyc_notification.tryagain' defaultMessage='Try Again' /> }
-    default: return { color: '', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.unknown' defaultMessage='' /> }
+    default: return { color: '', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.unknown' defaultMessage='Unknown' /> }
   }
 }
 
