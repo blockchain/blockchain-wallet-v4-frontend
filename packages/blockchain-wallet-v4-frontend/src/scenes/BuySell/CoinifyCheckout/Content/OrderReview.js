@@ -3,11 +3,10 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
 import { Text, Link } from 'blockchain-info-components'
-import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import FaqRow from 'layouts/Wallet/TrayRight/Faq/FaqRow'
 import CountdownTimer from 'components/Form/CountdownTimer'
 import { spacing } from 'services/StyleService'
-import { reviewOrder, currencySymbolMap } from 'services/CoinifyService'
+import { reviewOrder, getRateFromQuote } from 'services/CoinifyService'
 import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDetails'
 import { BorderBox, Row } from 'components/BuySell/Signup'
 import { StepTransition } from 'components/Utilities/Stepper'
@@ -26,15 +25,7 @@ const StyledFaqRow = styled(FaqRow)`
 `
 
 const rateHelper = (quoteR) =>
-  quoteR.map(q => {
-    const fiat = q.baseCurrency !== 'BTC' ? Math.abs(q.quoteAmount) : Math.abs(q.baseAmount)
-    const crypto = q.baseCurrency !== 'BTC' ? Math.abs(q.baseAmount) : Math.abs(q.quoteAmount)
-    const curr = q.baseCurrency !== 'BTC' ? q.baseCurrency : q.quoteCurrency
-
-    const rate = +((1 / (fiat / 1e8)) * crypto)
-    const displayRate = Currency.formatFiat(rate)
-    return `${currencySymbolMap[curr]}${displayRate}`
-  }).getOrElse(`~`)
+  quoteR.map(getRateFromQuote).getOrElse(`~`)
 
 export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
   <Row>

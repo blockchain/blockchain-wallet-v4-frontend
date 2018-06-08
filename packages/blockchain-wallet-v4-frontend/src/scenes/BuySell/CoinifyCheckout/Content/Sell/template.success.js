@@ -27,7 +27,6 @@ const Sell = props => {
     sellQuoteR,
     clearTradeError,
     currency,
-    rateQuoteR,
     checkoutBusy,
     setMax,
     setMin,
@@ -57,7 +56,6 @@ const Sell = props => {
             <div>
               <OrderCheckout
                 quoteR={sellQuoteR}
-                rateQuoteR={rateQuoteR}
                 onFetchQuote={fetchSellQuote}
                 limits={limits.sell}
                 type={'sell'}

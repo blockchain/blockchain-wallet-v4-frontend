@@ -7,10 +7,9 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { StepTransition } from 'components/Utilities/Stepper'
 import QuoteInput from './QuoteInput'
 import { MethodContainer } from 'components/BuySell/styled.js'
-import { checkoutButtonLimitsHelper } from 'services/CoinifyService'
-import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
+import { checkoutButtonLimitsHelper, getRateFromQuote } from 'services/CoinifyService'
 
-const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, limits, checkoutError,
+const OrderCheckout = ({ quoteR, account, onFetchQuote, reason, limits, checkoutError,
   type, defaultCurrency, symbol, checkoutBusy, busy, setMax, setMin, increaseLimit, onOrderCheckoutSubmit }) => {
   const quoteInputSpec = {
     method: type, // buy or sell
@@ -26,13 +25,7 @@ const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, limi
   }
 
   const rateHelper = () => {
-    return rateQuoteR.map(q => {
-      let fiat = q.baseCurrency !== 'BTC' ? Math.abs(q.quoteAmount) : Math.abs(q.baseAmount)
-      let crypto = q.baseCurrency !== 'BTC' ? Math.abs(q.baseAmount) : Math.abs(q.quoteAmount)
-      let rate = +((1 / (fiat / 1e8)) * crypto)
-      let displayRate = Currency.formatFiat(rate)
-      return `${symbol}${displayRate}`
-    }).getOrElse(
+    return quoteR.map(getRateFromQuote).getOrElse(
       <Fragment>
         <FormattedMessage id='scenes.buysell.coinifycheckout.content.ordercheckout.loading' defaultMessage='Loading' />
         {'...'}
