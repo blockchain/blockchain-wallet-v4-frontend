@@ -45,6 +45,7 @@ export default ({ api }) => {
       const address = defaultAccountR.getOrFail('Could not get ethereum context.')
       const pages = reset ? [] : yield select(S.getTransactions)
       const nextPage = length(pages)
+      yield put(A.fetchDataLoading())
       yield put(A.fetchTransactionsLoading(reset))
       const data = yield call(api.getEthereumTransactions, address, nextPage)
       const latestBlock = yield call(api.getEthereumLatestBlock)
