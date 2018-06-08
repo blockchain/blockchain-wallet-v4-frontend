@@ -26,11 +26,7 @@ const OrderCheckout = ({ quoteR, rateQuoteR, account, onFetchQuote, reason, limi
   }
 
   const rateHelper = () => {
-    let quote
-    if (Remote.NotAsked.is(quoteR)) quote = rateQuoteR
-    else quote = quoteR
-
-    return quote.map(q => {
+    return rateQuoteR.map(q => {
       let fiat = q.baseCurrency !== 'BTC' ? Math.abs(q.quoteAmount) : Math.abs(q.baseAmount)
       let crypto = q.baseCurrency !== 'BTC' ? Math.abs(q.baseAmount) : Math.abs(q.quoteAmount)
       let rate = +((1 / (fiat / 1e8)) * crypto)

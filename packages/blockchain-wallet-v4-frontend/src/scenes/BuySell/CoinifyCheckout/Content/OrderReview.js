@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
 import { Text, Link } from 'blockchain-info-components'
+import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import FaqRow from 'layouts/Wallet/TrayRight/Faq/FaqRow'
 import CountdownTimer from 'components/Form/CountdownTimer'
 import { spacing } from 'services/StyleService'
@@ -24,17 +25,16 @@ const StyledFaqRow = styled(FaqRow)`
   border-bottom: 1px solid ${props => props.theme['gray-1']};
 `
 
-const rateHelper = (quoteR) => {
-  return quoteR.map(q => {
-    let fiat = q.baseCurrency !== 'BTC' ? Math.abs(q.quoteAmount) : Math.abs(q.baseAmount)
-    let crypto = q.baseCurrency !== 'BTC' ? Math.abs(q.baseAmount) : Math.abs(q.quoteAmount)
-    let curr = q.baseCurrency !== 'BTC' ? q.baseCurrency : q.quoteCurrency
+const rateHelper = (quoteR) =>
+  quoteR.map(q => {
+    const fiat = q.baseCurrency !== 'BTC' ? Math.abs(q.quoteAmount) : Math.abs(q.baseAmount)
+    const crypto = q.baseCurrency !== 'BTC' ? Math.abs(q.baseAmount) : Math.abs(q.quoteAmount)
+    const curr = q.baseCurrency !== 'BTC' ? q.baseCurrency : q.quoteCurrency
 
-    let rate = +((1 / (fiat / 1e8)) * crypto)
-    let displayRate = rate.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+    const rate = +((1 / (fiat / 1e8)) * crypto)
+    const displayRate = Currency.formatFiat(rate)
     return `${currencySymbolMap[curr]}${displayRate}`
   }).getOrElse(`~`)
-}
 
 export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
   <Row>
