@@ -44,6 +44,7 @@ exports[`ListItemContainer renders correctly 1`] = `
     minConfirmations={3}
     preferencesActions={
       Object {
+        "hideKycCompleted": [Function],
         "setBitcoinCashWelcome": [Function],
         "setBitcoinWelcome": [Function],
         "setCulture": [Function],
