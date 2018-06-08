@@ -1,24 +1,27 @@
 import { lift } from 'ramda'
 import { selectors } from 'data'
-import { Exchange } from 'blockchain-wallet-v4/src'
+import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 
-export const getBchBalance = createDeepEqualSelector(
-  [
-    selectors.core.data.bch.getSpendableBalance,
-    selectors.core.data.bch.getRates,
-    selectors.core.settings.getCurrency
-  ],
-  (bchBalanceR, bchRatesR, currencyR) => {
-    const transform = (value, rates, toCurrency) => Exchange.convertBchToFiat({ value, fromUnit: 'SAT', toCurrency, rates }).value
-    return lift(transform)(bchBalanceR, bchRatesR, currencyR)
-  }
+export const getBtcBalance = createDeepEqualSelector(
+  [selectors.core.data.bitcoin.getSpendableBalance],
+  (btcBalanceR) => Remote.of(btcBalanceR.getOrElse(0))
 )
 
-export const getBtcBalance = createDeepEqualSelector(
+export const getBchBalance = createDeepEqualSelector(
+  [selectors.core.data.bch.getSpendableBalance],
+  (bchBalanceR) => Remote.of(bchBalanceR.getOrElse(0))
+)
+
+export const getEthBalance = createDeepEqualSelector(
+  [selectors.core.data.ethereum.getBalance],
+  (ethBalanceR) => Remote.of(ethBalanceR.getOrElse(0))
+)
+
+export const getBtcBalanceInfo = createDeepEqualSelector(
   [
-    selectors.core.data.bitcoin.getSpendableBalance,
+    getBtcBalance,
     selectors.core.data.bitcoin.getRates,
     selectors.core.settings.getCurrency
   ],
@@ -28,9 +31,21 @@ export const getBtcBalance = createDeepEqualSelector(
   }
 )
 
-export const getEthBalance = createDeepEqualSelector(
+export const getBchBalanceInfo = createDeepEqualSelector(
   [
-    selectors.core.data.ethereum.getBalance,
+    getBchBalance,
+    selectors.core.data.bch.getRates,
+    selectors.core.settings.getCurrency
+  ],
+  (bchBalanceR, bchRatesR, currencyR) => {
+    const transform = (value, rates, toCurrency) => Exchange.convertBchToFiat({ value, fromUnit: 'SAT', toCurrency, rates }).value
+    return lift(transform)(bchBalanceR, bchRatesR, currencyR)
+  }
+)
+
+export const getEthBalanceInfo = createDeepEqualSelector(
+  [
+    getEthBalance,
     selectors.core.data.ethereum.getRates,
     selectors.core.settings.getCurrency
   ],
@@ -42,18 +57,18 @@ export const getEthBalance = createDeepEqualSelector(
 
 export const getData = createDeepEqualSelector(
   [
-    getBchBalance,
-    getBtcBalance,
-    getEthBalance,
+    getBchBalanceInfo,
+    getBtcBalanceInfo,
+    getEthBalanceInfo,
     selectors.core.settings.getCurrency,
     selectors.router.getPathname
   ],
-  (btcBalanceR, bchBalanceR, ethBalanceR, currency, path) => {
+  (btcBalanceInfoR, bchBalanceInfoR, ethBalanceInfoR, currency, path) => {
     const transform = (bchBalance, btcBalance, ethBalance, currency) => {
       const total = Currency.formatFiat(Number(btcBalance) + Number(ethBalance) + Number(bchBalance))
       const totalBalance = `${Exchange.getSymbol(currency)}${total}`
       return ({ totalBalance, path })
     }
-    return lift(transform)(bchBalanceR, btcBalanceR, ethBalanceR, currency)
+    return lift(transform)(bchBalanceInfoR, btcBalanceInfoR, ethBalanceInfoR, currency)
   }
 )
