@@ -55,16 +55,16 @@ const KYCNotification = (props) => {
       }
       <ISXContainer>
         <Text size='13px' color='brand-primary' weight={400} style={spacing('mb-20')}>
-          { path(['text'], header) }
+          {path(['text'], header)}
         </Text>
         <Text size='13px' weight={300} style={spacing('mb-20')}>
-          { path(['text'], body) }
+          {path(['text'], body)}
         </Text>
         {
           status === 'pending' || status === 'rejected' || status === 'expired'
             ? <Button onClick={() => onTrigger(kyc)} nature='empty-secondary'>
               <Text size='13px' color='brand-secondary'>
-                { path(['text'], kycNotificationButtonHelper(status)) }
+                {path(['text'], kycNotificationButtonHelper(status))}
               </Text>
             </Button>
             : null

@@ -59,7 +59,7 @@ const FirstStep = (props) => {
       <Form onSubmit={handleSubmit}>
         <TextGroup>
           <Text size='13px' weight={300} color='error'>
-            <FormattedMessage id='scenes.recover.firststep.warning' defaultMessage='You should always pair or login if you have access to your Wallet ID and password. Recovering your funds will create a new Wallet ID.' />
+            <FormattedMessage id='scenes.recover.firststep.warning' defaultMessage='You should always pair or login if you have access to your wallet ID and password. Recovering your funds will create a new wallet ID.' />
           </Text>
         </TextGroup>
         <FormGroup>
