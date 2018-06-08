@@ -13,7 +13,8 @@ const INITIAL_STATE = {
   showEtherWelcome: true,
   showBitcoinWelcome: true,
   showBitcoinCashWelcome: true,
-  showLogoutSurvey: true
+  showLogoutSurvey: true,
+  showKycCompleted: true
 }
 
 const preferences = (state = INITIAL_STATE, action) => {
@@ -45,6 +46,9 @@ const preferences = (state = INITIAL_STATE, action) => {
     case AT.SET_BITCOIN_CASH_WELCOME: {
       const { displayed } = payload
       return assoc('showBitcoinCashWelcome', displayed, state)
+    }
+    case AT.HIDE_KYC_COMPLETED: {
+      return assoc('showKycCompleted', false, state)
     }
     case priceChartActionTypes.PRICE_CHART_COIN_CLICKED: {
       const { coin } = payload
