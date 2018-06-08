@@ -1,0 +1,34 @@
+{
+  "app_name": "Blockchain Wallet V4",
+  "logo": "https://avatars1.githubusercontent.com/u/1777722?s=200&v=4",
+  "repo_url": "https://github.com/blockchain/blockchain-wallet-v4-frontend",
+  "file": "CHANGELOG.md",
+  "template": "",
+  "sections": [
+    {
+      "title": "Bug Fixes",
+      "grep": "^fix"
+    }, {
+      "title": "Features",
+      "grep": "^feat"
+    }, {
+      "title": "Documentation",
+      "grep": "^docs"
+    }, {
+      "title": "Refactor",
+      "grep": "^refactor"
+    }, {
+      "title": "Style",
+      "grep": "^style"
+    }, {
+      "title": "Copy",
+      "grep": "^copy"
+    }, {
+      "title": "Test",
+      "grep": "^test"
+    }, {
+      "title": "Chore",
+      "grep": "^chore"
+    }
+  ]
+}
