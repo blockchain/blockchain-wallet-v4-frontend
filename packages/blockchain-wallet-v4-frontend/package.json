@@ -63,6 +63,8 @@
     "bitcoin-sfox-client": "0.4.0",
     "bitcoinforksjs-lib": "git://github.com/blockchain/bitcoinjs-lib.git#opt-in-bitcoincash-sighash",
     "bitcoinjs-lib": "3.1.1",
+    "blockchain-info-components": "0.0.4",
+    "blockchain-wallet-v4": "1.0.1",
     "bowser": "1.9.3",
     "connected-react-router": "4.3.0",
     "data.either": "1.5.1",
