@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import { Text, Button } from 'blockchain-info-components'
 import { FormGroup, FormItem, SelectBoxUSState, SelectBoxCountry, TextBox } from 'components/Form'
 import { spacing } from 'services/StyleService'
-import { required } from 'services/FormHelper'
+import { required, onPartnerCountryWhitelist } from 'services/FormHelper'
 import BuySellAnimation from './BuySellAnimation'
 
 const Row = styled.div`
@@ -64,7 +64,8 @@ const SubmittedWrapper = styled.span`
 `
 
 const SelectPartner = (props) => {
-  const { invalid, options, pristine, country, stateSelection, submitEmail, ui, email } = props
+  const { invalid, options, pristine, submitEmail, ui, fields } = props
+  const { country, stateSelection, email } = fields
   const sfoxStates = options.platforms.web.sfox.states
   const sfoxCountries = options.platforms.web.sfox.countries
   const unocoinCountries = options.platforms.web.unocoin.countries
@@ -72,7 +73,6 @@ const SelectPartner = (props) => {
   const countries = [sfoxCountries, coinifyCountries, unocoinCountries].join().split(',')
 
   const onSfoxWhitelist = usState => usState.code && sfoxStates.indexOf(usState.code) >= 0 ? undefined : 'This service is not yet available in your state.'
-  const onPartnerCountryWhitelist = val => val && countries.indexOf(val) >= 0 ? undefined : 'This service is not yet available in your country.'
 
   const onSubmit = (e) => {
     e.preventDefault()
@@ -85,7 +85,7 @@ const SelectPartner = (props) => {
   }
 
   const renderColLeft = () => {
-    if (!pristine && ((country && onPartnerCountryWhitelist(country)) || (stateSelection && onSfoxWhitelist(stateSelection)))) {
+    if (!pristine && ((country && onPartnerCountryWhitelist(country, null, null, null, countries)) || (stateSelection && onSfoxWhitelist(stateSelection)))) {
       return (
         <UnavailableContainer>
           <Text size='14px' weight={300} style={spacing('mb-15')}>
@@ -153,7 +153,8 @@ const SelectPartner = (props) => {
                 country === 'US'
                   ? <FormGroup style={spacing('mt-5')}>
                     <FormItem>
-                      <Field name='state' validate={[required, onSfoxWhitelist]} component={SelectBoxUSState} errorBottom />
+                      {/* onSfoxWhitelist */}
+                      <Field name='state' validate={[required]} component={SelectBoxUSState} errorBottom />
                     </FormItem>
                   </FormGroup>
                   : null
