@@ -1,6 +1,5 @@
 import PhoneNumber from 'awesome-phonenumber'
 import { lift } from 'ramda'
-import { formValueSelector } from 'redux-form'
 
 import { selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
@@ -14,8 +13,6 @@ export const getData = (state) => createDeepEqualSelector(
     selectors.core.settings.getCountryCode
   ],
   (currentNumber, defaultCode) => ({
-    smsNumberNew: formValueSelector('mobileNumberChange')(state, 'mobileNumber'),
-    countryCode: lift(getCountryCode)(defaultCode, currentNumber),
-    smsNumber: currentNumber.getOrElse('')
+    countryCode: lift(getCountryCode)(defaultCode, currentNumber)
   })
 )(state)
