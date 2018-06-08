@@ -46,15 +46,16 @@ class QuoteInput extends Component {
     side: 'input',
     input: this.props.initialAmount,
     output: '0',
-    lastQuoteId: this.props.initialQuoteId
+    lastQuoteId: this.props.initialQuoteId,
+    userInput: false
   }
   /* eslint-enable */
 
   static getDerivedStateFromProps (nextProps, lastState) {
     let { quoteR, spec } = nextProps
-    let { side } = lastState
+    let { side, userInput } = lastState
     return quoteR.map((quote) => {
-      if (quote && quote.id !== lastState.lastQuoteId) {
+      if (quote && quote.id !== lastState.lastQuoteId && userInput) {
         return {
           [side]: convert.to[spec[side]](quote.baseAmount),
           [otherSide(side)]: convert.to[spec[otherSide(side)]](quote.quoteAmount),
@@ -88,11 +89,13 @@ class QuoteInput extends Component {
   handleChangeLeft = (event) => {
     this.setState({ side: 'input', input: event.target.value })
     this.fetchQuoteDebounced()
+    this.setState({ userInput: true })
   }
 
   handleChangeRight = (event) => {
     this.setState({ side: 'output', output: event.target.value })
     this.fetchQuoteDebounced()
+    this.setState({ userInput: true })
   }
 
   fetchQuoteDebounced = () => {
@@ -102,12 +105,20 @@ class QuoteInput extends Component {
 
   fetchQuote = () => {
     let quote = this.getQuoteValues()
+    if (!this.state.userInput) {
+      this.setState({ input: '', output: '' })
+      quote = {
+        amt: 100000000,
+        baseCurrency: 'BTC',
+        quoteCurrency: 'USD'
+      }
+    }
     this.props.onFetchQuote(quote)
   }
 
   render () {
     let { spec, disabled, limits } = this.props
-    let { input, output, fiatAmount } = this.state
+    let { input, output, fiatAmount, userInput } = this.state
 
     if (fiatAmount > limits.max || fiatAmount < limits.min) this.props.disableButton()
     else this.props.enableButton()
@@ -122,6 +133,7 @@ class QuoteInput extends Component {
         onChangeRight={this.handleChangeRight}
         limits={this.props.limits}
         disabled={disabled}
+        userInput={userInput}
       />
     )
   }
