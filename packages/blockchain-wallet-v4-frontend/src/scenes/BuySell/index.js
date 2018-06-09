@@ -80,10 +80,10 @@ class BuySellContainer extends React.PureComponent {
   }
 
   render () {
-    const { data, type, fields } = this.props
+    const { data, fields } = this.props
 
     const view = data.cata({
-      Success: (value) => this.renderPartner(path(['buySell', 'value'], value), value.options, type, fields),
+      Success: (value) => this.renderPartner(path(['buySell', 'value'], value), value.options, path(['type'], fields), fields),
       Failure: (message) => <div>failure: {message}</div>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
