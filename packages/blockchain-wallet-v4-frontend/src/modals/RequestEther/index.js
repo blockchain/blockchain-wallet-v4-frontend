@@ -9,6 +9,8 @@ import { actions } from 'data'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
+import { FormattedMessage } from 'react-intl'
+import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
 
 class RequestEtherContainer extends React.PureComponent {
   constructor (props) {
@@ -39,7 +41,7 @@ class RequestEtherContainer extends React.PureComponent {
   render () {
     const { data, closeAll, selection, coins } = this.props
 
-    return data.cata({
+    const content = data.cata({
       Success: (val) => <Success
         {...this.props}
         address={val}
@@ -52,6 +54,15 @@ class RequestEtherContainer extends React.PureComponent {
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
+
+    return <Modal size='large' position={this.props.position} total={this.props.total}>
+      <ModalHeader icon='request' onClose={this.props.closeAll}>
+        <FormattedMessage id='modals.requestether.title' defaultMessage='Request Ether' />
+      </ModalHeader>
+      <ModalBody>
+        {content}
+      </ModalBody>
+    </Modal>
   }
 }
 

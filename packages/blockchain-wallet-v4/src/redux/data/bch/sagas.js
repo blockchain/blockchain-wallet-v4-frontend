@@ -43,6 +43,7 @@ export default ({ api }) => {
       yield fork(fetchUnspendableBalance)
       yield put(A.fetchTransactionsSuccess(data.txs.filter(tx => tx.time > BCH_FORK_TIME), reset))
     } catch (e) {
+      yield put(A.fetchDataFailure(e.message))
       yield put(A.fetchTransactionsFailure(e.message))
     }
   }
