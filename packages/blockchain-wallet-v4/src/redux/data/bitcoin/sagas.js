@@ -43,6 +43,7 @@ export default ({ api }) => {
       yield fork(fetchUnspendableBalance)
       yield put(A.fetchTransactionsSuccess(data.txs, reset))
     } catch (e) {
+      yield put(A.fetchDataFailure(e.message))
       yield put(A.fetchTransactionsFailure(e.message))
     }
   }
