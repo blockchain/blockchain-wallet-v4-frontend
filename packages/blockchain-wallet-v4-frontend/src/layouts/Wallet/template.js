@@ -14,6 +14,7 @@ import BchMenu from '../../scenes/Transactions/Bch/Menu'
 import EthMenu from '../../scenes/Transactions/Ether/Menu'
 import AddrMenu from '../../scenes/Settings/Addresses/Menu'
 import ExchangeMenu from '../Exchange'
+import ErrorBoundary from '../../scenes/ErrorBoundary'
 
 const Wrapper = styled.div`
   display: flex;
@@ -70,9 +71,11 @@ const WalletLayout = props => {
           { location.pathname === '/settings/addresses/bch' && <AddrMenu /> }
           { location.pathname === '/exchange' && <ExchangeMenu /> }
           { location.pathname === '/exchange/history' && <ExchangeMenu /> }
-          <Page>
-            {children}
-          </Page>
+          <ErrorBoundary currentPath={location.pathname}>
+            <Page>
+              {children}
+            </Page>
+          </ErrorBoundary>
         </Content>
       </Container>
     </Wrapper>
