@@ -12,9 +12,10 @@ const Wrapper = styled.div`
 `
 const Details = styled.details`
   white-space: pre-wrap;
-  height: calc(75%);
-  max-width: calc(75%);
-  overflow: auto;
+  > summary {
+    margin-bottom: 15px;
+    &:hover { cursor: pointer; }
+  }
 `
 
 const ErrorBoundary = (props) => {
@@ -24,7 +25,7 @@ const ErrorBoundary = (props) => {
     <Wrapper>
       <h2>Something went terribly wrong.</h2>
       <Details>
-        <summary>Show Stacktrace</summary>
+        <summary>Stacktrace</summary>
         {error && error.toString()}
         <br />
         {errorInfo.componentStack}
