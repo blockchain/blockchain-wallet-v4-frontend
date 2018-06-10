@@ -223,7 +223,7 @@ const FaqContent = [
         <br />
         <br />
         <FormattedMessage id='scenes.faq.group.coinify.answer2.two' defaultMessage='Begin your order by entering the amount you would like to buy, selecting your payment method, and entering your bank details. Bank transfers take between 2-3 days with no fees, whereas credit card orders are initiated immediately with a 3% convenience fee. When entering your bank information, be sure that the name on your bank account matches the name on your government issued ID. ' />
-        <FormattedMessage id='scenes.faq.group.coinify.answer2.three' defaultMessage='Once you’ve double checked your bank information, you’ll be taken to a confirmation screen to review your order details. Don’t forget, if you’ve chosen bank transfer as your payment method, the allotted funds must be sent to Coinfy’s bank within 48 hours for the trade to initiate.' />
+        <FormattedMessage id='scenes.faq.group.coinify.answer2.three' defaultMessage='Once you’ve double checked your bank information, you’ll be taken to a confirmation screen to review your order details. Don’t forget, if you’ve chosen bank transfer as your payment method, the allotted funds must be sent to Coinfy’s bank within 48 hours for the trade to initiate. ' />
         <FormattedMessage id='scenes.faq.group.coinify.answer2.four' defaultMessage='You will receive an email from Coinify once the transfer has been completed.' />
       </FaqDescription>
     }, {
@@ -266,7 +266,7 @@ const FaqContent = [
     }, {
       question: <FormattedMessage id='scenes.faq.group.coinify.question8' defaultMessage='How can I exchange cryptocurrencies within my Blockchain wallet?' />,
       answer: <FaqDescription>
-        <FormattedMessage id='scenes.faq.group.coinify.answer8.one' defaultMessage='We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, and BCH. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.' />
+        <FormattedMessage id='scenes.faq.group.coinify.answer8.one' defaultMessage='We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, and BCH. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete. ' />
         <FormattedMessage id='scenes.faq.group.coinify.answer8.two' defaultMessage='Pro tip: there are minimum and maximum buttons on the dashboard to quickly see your trading limits.' />
       </FaqDescription>
     }]
@@ -314,14 +314,14 @@ const FaqContent = [
       answer: <FaqDescription>
         <FormattedMessage id='scenes.faq.group.sfox.answer5.one' defaultMessage='If your account was rejected, it’s because SFOX’s risk engine found an issue with your identity verification. Please re-submit these details and triple check they match your uploaded documents. If you’re still having trouble with your trading limits, reach out to our' />
         <Link href='https://support.blockchain.com/hc/en-us/requests/new' target='_blank' size='13px' weight={200}>
-          <FormattedMessage id='scenes.faq.group.coinify.answer5.link' defaultMessage=' support team ' />
+          <FormattedMessage id='scenes.faq.group.coinify.answer5.link' defaultMessage=' support team' />
         </Link>
         <FormattedMessage id='scenes.faq.group.sfox.answer5.two' defaultMessage='.' />
       </FaqDescription>
     }, {
       question: <FormattedMessage id='scenes.faq.group.sfox.question6' defaultMessage='How can I exchange cryptocurrencies within my Blockchain wallet?' />,
       answer: <FaqDescription>
-        <FormattedMessage id='scenes.faq.group.sfox.answer6.one' defaultMessage='We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, and BCH. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.' />
+        <FormattedMessage id='scenes.faq.group.sfox.answer6.one' defaultMessage='We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, and BCH. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete. ' />
         <FormattedMessage id='scenes.faq.group.sfox.answer6.two' defaultMessage='Pro tip: there are minimum and maximum buttons on the dashboard to quickly see your trading limits.' />
       </FaqDescription>
     }]
@@ -336,7 +336,7 @@ const FaqContent = [
     }, {
       question: <FormattedMessage id='scenes.faq.group.noexchange.question2' defaultMessage='How can I exchange cryptocurrencies within my Blockchain wallet?' />,
       answer: <FaqDescription>
-        <FormattedMessage id='scenes.faq.group.noexchange.question6.one' defaultMessage='We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, and BCH. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.' />
+        <FormattedMessage id='scenes.faq.group.noexchange.question6.one' defaultMessage='We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, and BCH. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete. ' />
         <FormattedMessage id='scenes.faq.group.noexchange.answer6.two' defaultMessage='Pro tip: there are minimum and maximum buttons on the dashboard to quickly see your trading limits.' />
       </FaqDescription>
     }]
