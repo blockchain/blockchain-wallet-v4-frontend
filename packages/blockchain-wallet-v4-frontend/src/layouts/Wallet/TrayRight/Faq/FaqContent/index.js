@@ -314,7 +314,7 @@ const FaqContent = [
       answer: <FaqDescription>
         <FormattedMessage id='scenes.faq.group.sfox.answer5.one' defaultMessage='If your account was rejected, it’s because SFOX’s risk engine found an issue with your identity verification. Please re-submit these details and triple check they match your uploaded documents. If you’re still having trouble with your trading limits, reach out to our' />
         <Link href='https://support.blockchain.com/hc/en-us/requests/new' target='_blank' size='13px' weight={200}>
-          <FormattedMessage id='scenes.faq.group.coinify.answer5.link' defaultMessage=' support team' />
+          <FormattedMessage id='scenes.faq.group.sfox.answer5.link' defaultMessage=' support team' />
         </Link>
         <FormattedMessage id='scenes.faq.group.sfox.answer5.two' defaultMessage='.' />
       </FaqDescription>
