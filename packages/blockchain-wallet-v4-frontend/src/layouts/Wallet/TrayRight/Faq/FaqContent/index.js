@@ -205,7 +205,7 @@ const FaqContent = [
       </FaqDescription>
     }]
   }, {
-    groupTitleMsg: <FormattedMessage id='scenes.faq.group.coinify.title' defaultMessage='Exchange Services' />,
+    groupTitleMsg: <FormattedMessage id='scenes.faq.group.coinify.title' defaultMessage='Exchange Services (Coinify)' />,
     groupQuestions: [{
       answerId: '',
       question: <FormattedMessage id='scenes.faq.group.coinify.question1' defaultMessage='What can I buy and sell?' />,
@@ -266,7 +266,78 @@ const FaqContent = [
     }, {
       question: <FormattedMessage id='scenes.faq.group.coinify.question8' defaultMessage='How can I exchange cryptocurrencies within my Blockchain wallet?' />,
       answer: <FaqDescription>
-        <FormattedMessage id='scenes.faq.group.coinify.answer8' defaultMessage='We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, and BCH. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete. Pro tip: there are minimum and maximum buttons on the dashboard to quickly see your trading limits.' />
+        <FormattedMessage id='scenes.faq.group.coinify.answer8.one' defaultMessage='We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, and BCH. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.' />
+        <FormattedMessage id='scenes.faq.group.coinify.answer8.two' defaultMessage='Pro tip: there are minimum and maximum buttons on the dashboard to quickly see your trading limits.' />
+      </FaqDescription>
+    }]
+  }, {
+    groupTitleMsg: <FormattedMessage id='scenes.faq.group.sfox.title' defaultMessage='Exchange Services (SFOX)' />,
+    groupQuestions: [{
+      answerId: '',
+      question: <FormattedMessage id='scenes.faq.group.sfox.question1' defaultMessage='What can I buy and sell?' />,
+      answer: <FaqDescription>
+        <FormattedMessage id='scenes.faq.group.sfox.answer1.one' defaultMessage='We currently only support buying and selling bitcoin with fiat currency. We’re working on expanding to ether and bitcoin cash soon! In the meantime, you can exchange bitcoin for ether or bitcoin cash in the' />
+        <NavLink to='/exchange' style={{textDecoration: 'none', color: Color('brand-secondary')}} >
+          <FormattedMessage id='scenes.faq.group.coinify.answer1.navlink' defaultMessage=' Exchange tab ' />
+        </NavLink>
+        <FormattedMessage id='scenes.faq.group.sfox.answer1.two' defaultMessage='of your wallet.' />
+      </FaqDescription>
+    }, {
+      question: <FormattedMessage id='scenes.faq.group.sfox.question2' defaultMessage='How do I create a buy trade?' />,
+      answer: <FaqDescription>
+        <FormattedMessage id='scenes.faq.group.sfox.answer2.one' defaultMessage='To create a Buy trade, head over to the Buy & Sell tab in your wallet and select your place of residence. You’ll be prompted to verify your email addresses and phone number, if you haven’t already. Once verified, you will be asked to enter some identification details to set up your account. To make sure you can trade at your maximum limit— you’ll be instructed to upload your government issued ID' />
+        <FormattedMessage id='scenes.faq.group.sfox.answer2.two' defaultMessage='and proof of address. Please make sure your name and address matches what’s on your uploaded documents. If they don’t, your account may be rejected.' />
+        <br />
+        <br />
+        <FormattedMessage id='scenes.faq.group.sfox.answer2.one' defaultMessage='Once you’ve uploaded your documents, you may either sign into your bank account directly (a crowd favorite), or manually enter your account & routing number, which takes a little longer to process. Then comes the fun stuff. From the Buy dashboard, enter the amount you would like to purchase, confirm your order details, and let the magic happen.' />
+      </FaqDescription>
+    }, {
+      question: <FormattedMessage id='scenes.faq.group.sfox.question3' defaultMessage='How do I create a sell trade?' />,
+      answer: <FaqDescription>
+        <FormattedMessage id='scenes.faq.group.sfox.answer3.one' defaultMessage='Head over to the Buy & Sell tab in your wallet and select your place of residence to create a sell trade. You’ll be prompted to verify your email and phone number if you haven’t already. Once verified, you will be asked to enter some identification details to set up your account. To make sure you can trade at your maximum limit— you’ll be instructed to upload your government issued ID and proof of address.' />
+        <FormattedMessage id='scenes.faq.group.sfox.answer3.two' defaultMessage='To connect your bank account, you may either sign into your account directly, or manually enter your account & routing number, which takes a little longer to process. Then comes the fun stuff.' />
+        <br />
+        <br />
+        <FormattedMessage id='scenes.faq.group.sfox.answer3.three' defaultMessage='From the Sell dashboard, enter the amount you would like to sell, confirm your order details, and let the magic happen. Your bitcoin will be sent from your wallet automatically. You can view this transaction in your wallet’s ‘Bitcoin’ tab.' />
+      </FaqDescription>
+    }, {
+      question: <FormattedMessage id='scenes.faq.group.sfox.question4' defaultMessage='Where is my personal information stored?' />,
+      answer: <FaqDescription>
+        <FormattedMessage id='scenes.faq.group.sfox.answer4.one' defaultMessage='Your personal information is stored with SFOX, not in your Blockchain wallet. To read more about how your information is stored, visit SFOX’s' />
+        <Link href='https://www.sfox.com/privacy.html' target='_blank' size='13px' weight={200}>
+          <FormattedMessage id='scenes.faq.group.sfox.answer4.link' defaultMessage=' privay policy' />
+        </Link>
+        <FormattedMessage id='scenes.faq.group.sfox.answer4.two' defaultMessage='.' />
+      </FaqDescription>
+    }, {
+      question: <FormattedMessage id='scenes.faq.group.sfox.question5' defaultMessage='My account was rejected, what do I do now?' />,
+      answer: <FaqDescription>
+        <FormattedMessage id='scenes.faq.group.sfox.answer5.one' defaultMessage='If your account was rejected, it’s because SFOX’s risk engine found an issue with your identity verification. Please re-submit these details and triple check they match your uploaded documents. If you’re still having trouble with your trading limits, reach out to our' />
+        <Link href='https://support.blockchain.com/hc/en-us/requests/new' target='_blank' size='13px' weight={200}>
+          <FormattedMessage id='scenes.faq.group.coinify.answer5.link' defaultMessage=' support team ' />
+        </Link>
+        <FormattedMessage id='scenes.faq.group.sfox.answer5.two' defaultMessage='.' />
+      </FaqDescription>
+    }, {
+      question: <FormattedMessage id='scenes.faq.group.sfox.question6' defaultMessage='How can I exchange cryptocurrencies within my Blockchain wallet?' />,
+      answer: <FaqDescription>
+        <FormattedMessage id='scenes.faq.group.sfox.answer6.one' defaultMessage='We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, and BCH. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.' />
+        <FormattedMessage id='scenes.faq.group.sfox.answer6.two' defaultMessage='Pro tip: there are minimum and maximum buttons on the dashboard to quickly see your trading limits.' />
+      </FaqDescription>
+    }]
+  }, {
+    groupTitleMsg: <FormattedMessage id='scenes.faq.group.noexchange.title' defaultMessage='Exchange Services (not available)' />,
+    groupQuestions: [{
+      answerId: '',
+      question: <FormattedMessage id='scenes.faq.group.noexchange.question1' defaultMessage='Where can I buy and sell?' />,
+      answer: <FaqDescription>
+        <FormattedMessage id='scenes.faq.group.noexchange.answer1' defaultMessage='We partner with exchanges across the world to make buying and selling digital assets easier for you. If you’re located in select states across the US or SEPA, you can get started now by creating an account with one of our partners.' />
+      </FaqDescription>
+    }, {
+      question: <FormattedMessage id='scenes.faq.group.noexchange.question2' defaultMessage='How can I exchange cryptocurrencies within my Blockchain wallet?' />,
+      answer: <FaqDescription>
+        <FormattedMessage id='scenes.faq.group.noexchange.question6.one' defaultMessage='We support exchanging between currencies in most regions across the globe. If you are in a supported region, you can navigate to your Exchange dashboard where you will see an option to exchange between BTC, ETH, and BCH. Enter the amount you would like to exchange, confirm your trade details, and wait for the exchange to complete.' />
+        <FormattedMessage id='scenes.faq.group.noexchange.answer6.two' defaultMessage='Pro tip: there are minimum and maximum buttons on the dashboard to quickly see your trading limits.' />
       </FaqDescription>
     }]
   }]
