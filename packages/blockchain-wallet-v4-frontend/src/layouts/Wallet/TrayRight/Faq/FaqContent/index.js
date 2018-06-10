@@ -15,19 +15,19 @@ const FaqContent = [
     groupQuestions: [{
       question: <FormattedMessage id='scenes.faq.group.walletfunctionality.question1' defaultMessage='How do I receive/send funds?' />,
       answer: <FaqDescription>
-        <FormattedMessage id='scenes.faq.group.walletfunctionality.answer1.one' defaultMessage='To receive funds, the sender needs your address. Your wallet will automatically generate a new address for each bitcoin or bitcoin cash transaction you make. For all ether transactions, your address will remain the same.' />
+        <FormattedMessage id='scenes.faq.group.walletfunctionality.answer1.one' defaultMessage='To receive funds, the sender needs your address. Your wallet will automatically generate a new address for each bitcoin or bitcoin cash transaction you make. For all ether transactions, your address will remain the same. ' />
         <FormattedMessage id='scenes.faq.group.walletfunctionality.answer1.two' defaultMessage='Click on ‘Request’, select the currency you’d like to receive from the dropdown, and copy the address to share with the sender. To send funds, click ‘Send’, select the currency you want to send from the dropdown, enter the recipient’s address in the ‘To’ field and enter how much you would like to send.' />
       </FaqDescription>
     }, {
       question: <FormattedMessage id='scenes.faq.group.walletfunctionality.question2' defaultMessage='How much does it cost to send funds?' />,
       answer: <FaqDescription>
-        <FormattedMessage id='scenes.faq.group.walletfunctionality.answer2.one' defaultMessage='While our wallet is entirely free to use, the small fee included in your transaction goes to the miners, who help power the flow of transactions on the Bitcoin, Ethereum, and Bitcoin Cash networks.' />
+        <FormattedMessage id='scenes.faq.group.walletfunctionality.answer2.one' defaultMessage='While our wallet is entirely free to use, the small fee included in your transaction goes to the miners, who help power the flow of transactions on the Bitcoin, Ethereum, and Bitcoin Cash networks. ' />
         <FormattedMessage id='scenes.faq.group.walletfunctionality.answer2.two' defaultMessage='To ensure your transactions confirm consistently and reliably, your wallet will automatically include an appropriate fee based on your transaction’s size and the level of network traffic at the time. If you wish to specify your own fee for bitcoin transactions, you can do so under ‘Customize Fee’.' />'
       </FaqDescription>
     }, {
       question: <FormattedMessage id='scenes.faq.group.walletfunctionality.question3' defaultMessage='What is the difference between a wallet ID and an address?' />,
       answer: <FaqDescription>
-        <FormattedMessage id='scenes.faq.group.walletfunctionality.answer3.one' defaultMessage='You can think of your wallet ID as a username that contains numbers, letters, and dashes. It is only used to log into your wallet and should be kept private.' />
+        <FormattedMessage id='scenes.faq.group.walletfunctionality.answer3.one' defaultMessage='You can think of your wallet ID as a username that contains numbers, letters, and dashes. It is only used to log into your wallet and should be kept private. ' />
         <FormattedMessage id='scenes.faq.group.walletfunctionality.answer3.two' defaultMessage='Your wallet ID can be found in the welcome email we sent you when you created your wallet or in Settings -> General. Addresses are what you share with others when you want to receive funds. To find your bitcoin, ether, or bitcoin cash address click on ‘Request’.' />
       </FaqDescription>
     }, {
@@ -43,13 +43,13 @@ const FaqContent = [
         <FormattedMessage id='scenes.faq.group.walletfunctionality.answer6.two' defaultMessage=', a new address will automatically display under ‘Request’ once the previously displayed address receives a payment.' />
         <br />
         <br />
-        <FormattedMessage id='scenes.faq.group.walletfunctionality.answer6.three' defaultMessage='In Settings > Addresses, you can click on ‘Manage’ to the right of each wallet to view all of the labeled addresses that have been generated for that specific wallet. Clicking ‘Used Addresses’ allows you to see every receiving addressed ever generated within the wallet, as well as the current balance of each of these used addresses.' />
+        <FormattedMessage id='scenes.faq.group.walletfunctionality.answer6.three' defaultMessage='In Settings > Addresses, you can click on ‘Manage’ to the right of each wallet to view all of the labeled addresses that have been generated for that specific wallet. Clicking ‘Used Addresses’ allows you to see every receiving addressed ever generated within the wallet, as well as the current balance of each of these used addresses. ' />
         <FormattedMessage id='scenes.faq.group.walletfunctionality.answer6.four' defaultMessage="Please note that when you send funds, your Blockchain wallet automatically selects addresses to spend from. That's why the current balance of an address can be different from the total received value." />
       </FaqDescription>
     }, {
       question: <FormattedMessage id='scenes.faq.group.walletfunctionality.question7' defaultMessage='How do I know if a transaction has been successfully received/sent?' />,
       answer: <FaqDescription>
-        <FormattedMessage id='scenes.faq.group.walletfunctionality.answer7.one' defaultMessage='Transactions will appear almost instantly in your transaction feed. Each currency has its own feed, which you can find by clicking on the corresponding currency in the left navigation of your wallet. While your bitcoin and bitcoin cash transactions are considered complete once they have 3 network confirmations, your ether transactions will be considered complete after 12 confirmations.' />
+        <FormattedMessage id='scenes.faq.group.walletfunctionality.answer7.one' defaultMessage='Transactions will appear almost instantly in your transaction feed. Each currency has its own feed, which you can find by clicking on the corresponding currency in the left navigation of your wallet. While your bitcoin and bitcoin cash transactions are considered complete once they have 3 network confirmations, your ether transactions will be considered complete after 12 confirmations. ' />
         <FormattedMessage id='scenes.faq.group.walletfunctionality.answer7.two' defaultMessage='This typically takes about 30 minutes for bitcoin and bitcoin cash and 5 minutes for ether, but can vary. Until then, your transaction will show up as pending.' />
       </FaqDescription>
     }, {
@@ -82,8 +82,8 @@ const FaqContent = [
     }, {
       question: <FormattedMessage id='scenes.faq.group.walletfunctionality.question10' defaultMessage='What is a watch-only address?' />,
       answer: <FaqDescription>
-        <FormattedMessage id='scenes.faq.group.walletfunctionality.answer10.one' defaultMessage='A watch-only address is a public key that you’ve imported into your wallet by navigating to Settings > Addresses > Import. With every public key, there is a private key behind it, and you need this key in order to spend the funds attached to the account. You can think of this private key as the ‘password’ to your public key.' />
-        <FormattedMessage id='scenes.faq.group.walletfunctionality.answer10.two' defaultMessage='Watch-only addresses are a useful feature to monitor incoming and outgoing transactions or to keep track of an address for repeated payments like rent. Keep in mind— sending and receiving to the same address makes your transaction history easy to trace.' />
+        <FormattedMessage id='scenes.faq.group.walletfunctionality.answer10.one' defaultMessage='A watch-only address is a public key that you’ve imported into your wallet by navigating to Settings > Addresses > Import. With every public key, there is a private key behind it, and you need this key in order to spend the funds attached to the account. You can think of this private key as the ‘password’ to your public key. ' />
+        <FormattedMessage id='scenes.faq.group.walletfunctionality.answer10.two' defaultMessage='Watch-only addresses are a useful feature to monitor incoming and outgoing transactions or to keep track of an address for repeated payments like rent. Keep in mind— sending and receiving to the same address makes your transaction history easy to trace. ' />
         <FormattedMessage id='scenes.faq.group.walletfunctionality.answer10.three' defaultMessage='Alternatively, you can import a private key from a different wallet provider (which has your public key attached) and spend from it freely within your Blockchain wallet. Since your funds in these addresses are not backed up in your recovery phrase, we strongly recommend ‘transferring’ any funds from these addresses into your main accounts.' />
       </FaqDescription>
     }, {
@@ -105,7 +105,7 @@ const FaqContent = [
       question: <FormattedMessage id='scenes.faq.group.walletfunctionality.question12' defaultMessage='Why did my bitcoin cash address change?' />,
       answer: <FaqDescription>
         <FormattedMessage id='scenes.faq.group.walletfunctionality.answer12.one' defaultMessage='Since bitcoin cash is a fork of the bitcoin block chain, its address format previously looked nearly identical to that of bitcoin, which was very confusing to those using it. Now, when you want to send or receive bitcoin cash, you can immediately identify that you’re using the correct address thanks to the added prefix that looks like this: bitcoincash:qpm2qsznhks23z7629mms6s4cwef74vcwvy22gdx6a.' />
-        <FormattedMessage id='scenes.faq.group.walletfunctionality.answer12.one' defaultMessage='Although you can technically still transact to and from legacy BCH addresses, we strongly recommend adopting this new format to eliminate confusion.' />
+        <FormattedMessage id='scenes.faq.group.walletfunctionality.answer12.one' defaultMessage='Although you can technically still transact to and from legacy BCH addresses, we strongly recommend adopting this new format to eliminate confusion. ' />
       </FaqDescription>
     }]
   }, {
@@ -162,7 +162,7 @@ const FaqContent = [
       answerId: '',
       question: <FormattedMessage id='scenes.faq.group.educationalresources.question1' defaultMessage='What is block chain technology?' />,
       answer: <FaqDescription>
-        <FormattedMessage id='scenes.faq.group.educationalresources.answer1.one' defaultMessage='The block chain is a uniquely architected database for digital transactions. To break it down— a block contains a record of new transactions and once that block is full, it is added to a chain of other blocks of transactions; hence the name “block chain”. This information is publicly viewable on an explorer,' />
+        <FormattedMessage id='scenes.faq.group.educationalresources.answer1.one' defaultMessage='The block chain is a uniquely architected database for digital transactions. To break it down— a block contains a record of new transactions and once that block is full, it is added to a chain of other blocks of transactions; hence the name “block chain”. This information is publicly viewable on an explorer, ' />
         <FormattedMessage id='scenes.faq.group.educationalresources.answer1.two' defaultMessage='where eventually each transaction is approved or rejected by a network of computers (called miners). The block chain is considered immutable (meaning unchanging) because in order to alter a block, all previous blocks would have to also be altered. The vast majority of the community would have to agree on the change and be willing to update all subsequent blocks.' />
       </FaqDescription>
     }, {
@@ -294,7 +294,7 @@ const FaqContent = [
     }, {
       question: <FormattedMessage id='scenes.faq.group.sfox.question3' defaultMessage='How do I create a sell trade?' />,
       answer: <FaqDescription>
-        <FormattedMessage id='scenes.faq.group.sfox.answer3.one' defaultMessage='Head over to the Buy & Sell tab in your wallet and select your place of residence to create a sell trade. You’ll be prompted to verify your email and phone number if you haven’t already. Once verified, you will be asked to enter some identification details to set up your account. To make sure you can trade at your maximum limit— you’ll be instructed to upload your government issued ID and proof of address.' />
+        <FormattedMessage id='scenes.faq.group.sfox.answer3.one' defaultMessage='Head over to the Buy & Sell tab in your wallet and select your place of residence to create a sell trade. You’ll be prompted to verify your email and phone number if you haven’t already. Once verified, you will be asked to enter some identification details to set up your account. To make sure you can trade at your maximum limit— you’ll be instructed to upload your government issued ID and proof of address. ' />
         <FormattedMessage id='scenes.faq.group.sfox.answer3.two' defaultMessage='To connect your bank account, you may either sign into your account directly, or manually enter your account & routing number, which takes a little longer to process. Then comes the fun stuff.' />
         <br />
         <br />
