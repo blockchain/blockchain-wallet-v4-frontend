@@ -80,7 +80,7 @@ class RecurringOrder extends React.Component {
           </TableCell>
           <TableCell width='20%'>
             <TableCell width='100%'>
-              { dateHelper(subscription) }
+              { !path(['endTime'], subscription) ? <FormattedMessage id='scenes.buysell.orderhistory.recurring.order.untilcancel' defaultMessage='Until you cancel' /> : dateHelper(subscription) }
             </TableCell>
           </TableCell>
         </TableRow>
