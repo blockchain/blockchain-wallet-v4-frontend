@@ -11,6 +11,11 @@ const session = (state = INITIAL_STATE, action) => {
     case AT.SAVE_SESSION: {
       return merge(state, payload)
     }
+    case AT.REMOVE_SESSION: {
+      let copy = Object.assign({}, state)
+      delete copy[payload]
+      return copy
+    }
     default:
       return state
   }
