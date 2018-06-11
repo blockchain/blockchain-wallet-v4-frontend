@@ -1,5 +1,5 @@
 import React from 'react'
-import { gt, slice, toUpper, equals, path } from 'ramda'
+import { gt, slice, toUpper, equals, path, prop } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 
 export const getLimits = (limits, curr, effectiveBalance) => {
@@ -235,4 +235,22 @@ export const getReasonExplanation = (reason, time) => {
       return <FormattedMessage id='scenes.coinify.cannottradereason.afterfirsttrade' defaultMessage='Trading is disabled as our exchange partner verifies your payment info. This will happen only once, and you may resume trading in {days}.' values={{ days: days }} />
     default: return <FormattedMessage id='scenes.coinify.cannottradereason.unknown' defaultMessage='Trading is disabled.' />
   }
+}
+
+export const recurringTimeHelper = (sub) => {
+  let human = { 1: 'st', 2: 'nd', 3: 'rd', 21: 'st', 22: 'nd', 23: 'rd', 31: 'st' }
+  let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+
+  let getTimespan = (sub) => {
+    console.log('getTimespan', sub)
+    let frequency = prop('frequency', sub)
+    let freq = frequency.toLowerCase()
+    let date = new Date()
+
+    if (freq === 'hourly') return 'hour'
+    if (freq === 'daily') return '24 hours'
+    if (freq === 'weekly') return `${days[date.getDay()]}`
+    if (freq === 'monthly') return `${date.getDate() + (human[date.getDate()] || 'th')} of the month`
+  }
+  return getTimespan(sub)
 }
