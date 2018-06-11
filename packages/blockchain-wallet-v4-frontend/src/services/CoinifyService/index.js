@@ -242,7 +242,6 @@ export const recurringTimeHelper = (sub) => {
   let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
   let getTimespan = (sub) => {
-    console.log('getTimespan', sub)
     let frequency = prop('frequency', sub)
     let freq = frequency.toLowerCase()
     let date = new Date()

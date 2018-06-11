@@ -5,7 +5,7 @@ import { any, equals, prop, head } from 'ramda'
 import moment from 'moment'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 
-import { ModalHeader, ModalBody, Text, Button } from 'blockchain-info-components'
+import { ModalHeader, ModalBody, Text, Button, Tooltip } from 'blockchain-info-components'
 import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDetails'
 import { tradeDetails, statusHelper, bodyStatusHelper, recurringTimeHelper } from 'services/CoinifyService'
 
@@ -44,6 +44,16 @@ const RecurringKey = styled.div`
 const RecurringValue = styled.div`
   width: auto;
 `
+const HeaderWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  div:first-of-type {
+    margin-right: 5px;
+  }
+`
+
+const recurringFee = (trade) => `${Currency.formatFiat(((trade.sendAmount / 100) - (trade.inAmount / 100)))} ${prop('inCurrency', trade)}`
 
 const Trade = ({ trade, close, status, subscriptions }) => {
   let tradeStatus = (status && status.toLowerCase()) || trade.state
@@ -111,9 +121,14 @@ const Trade = ({ trade, close, status, subscriptions }) => {
         {
           trade.tradeSubscriptionId
             ? <RecurringTradeWrapper>
-              <Text color='brand-secondary' weight={400} size='14px'>
-                <FormattedMessage id='orderdetails.thisisrecurring' defaultMessage='This is a Recurring Order' />
-              </Text>
+              <HeaderWrapper>
+                <Text color='brand-secondary' weight={400} size='14px'>
+                  <FormattedMessage id='orderdetails.recurring.thisisrecurring' defaultMessage='This is a Recurring Order' />
+                </Text>
+                <Tooltip>
+                  <FormattedMessage id='orderdetails.recurring.tooltip' defaultMessage='Recurring orders will be placed automatically on a regular basis from your linked credit card.' />
+                </Tooltip>
+              </HeaderWrapper>
               <RecurringBox>
                 <RecurringRow>
                   <RecurringKey>
@@ -123,7 +138,7 @@ const Trade = ({ trade, close, status, subscriptions }) => {
                   </RecurringKey>
                   <RecurringValue>
                     <Text weight={300} size='13px'>
-                      { `${Currency.formatFiat(prop('inAmount', trade) / 100)} ${prop('inCurrency', trade)}` }
+                      { `${Currency.formatFiat(prop('inAmount', trade) / 100)} ${prop('inCurrency', trade)} (+ ${recurringFee(trade)} Payment Fee)` }
                     </Text>
                   </RecurringValue>
                 </RecurringRow>
