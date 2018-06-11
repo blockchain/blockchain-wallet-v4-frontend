@@ -63,7 +63,7 @@ const FirstStep = (props) => {
             </Row>
             <Row>
               <Text size='13px' weight={400} capitalize>
-                <FormattedMessage id='modals.transactionreport.selectwallet' defaultMessage='Select time range' />
+                <FormattedMessage id='modals.transactionreport.selectimerange' defaultMessage='Select time range' />
               </Text>
             </Row>
             <Row margin='30px'>
