@@ -19,7 +19,7 @@ export const maximumAmount = (value, allValues, props) => {
   return valueSatoshi <= props.effectiveBalance ? undefined : <MaximumAmountMessage />
 }
 
-export const shouldValidate = ({ values, nextProps, props, initialRender, structure }) => {
+export const shouldError = ({ values, nextProps, props, initialRender, structure }) => {
   if (initialRender) { return true }
   return initialRender || !structure.deepEqual(values, nextProps.values) || props.effectiveBalance !== nextProps.effectiveBalance
 }

@@ -7,18 +7,11 @@ import { actions } from 'data'
 import Loading from './template.loading'
 import Success from './template.success'
 import DataError from 'components/DataError'
-import { Remote } from 'blockchain-wallet-v4/src'
 
 class FirstStep extends React.Component {
   constructor (props) {
     super(props)
     this.handleRefresh = this.handleRefresh.bind(this)
-  }
-
-  componentDidUpdate (prevProps) {
-    if (!Remote.Success.is(prevProps.btcData) && Remote.Success.is(this.props.btcData)) {
-      this.props.actions.sendBtcInitialized({})
-    }
   }
 
   handleRefresh () {
@@ -49,8 +42,8 @@ class FirstStep extends React.Component {
         handleFeePerByteToggle={() => actions.sendBtcFirstStepFeePerByteToggled()}
         handleToToggle={(val) => actions.sendBtcFirstStepToToggled(val)}
       />,
-      NotAsked: () => <DataError onClick={this.handleRefresh} />,
-      Failure: () => <DataError onClick={this.handleRefresh} />,
+      Failure: () => <DataError onClick={() => this.handleRefresh} />,
+      NotAsked: () => <Loading />,
       Loading: () => <Loading />
     })
   }

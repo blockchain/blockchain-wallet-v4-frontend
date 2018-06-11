@@ -9,10 +9,6 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class FirstStep extends React.Component {
-  componentDidMount () {
-    this.props.actions.sendBchFirstStepInitialized()
-  }
-
   render () {
     const { data, actions } = this.props
 

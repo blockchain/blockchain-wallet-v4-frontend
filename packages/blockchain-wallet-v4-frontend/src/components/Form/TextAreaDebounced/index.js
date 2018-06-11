@@ -24,13 +24,6 @@ const getErrorState = (meta) => {
 }
 
 class TextAreaDebounced extends React.Component {
-  static getDerivedStateFromProps (nextProps, prevState) {
-    if (!equals(nextProps.input.value, prevState)) {
-      return { value: nextProps.input.value }
-    }
-    return null
-  }
-
   constructor (props) {
     super(props)
     this.state = { value: props.input.value }
@@ -38,6 +31,13 @@ class TextAreaDebounced extends React.Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleBlur = this.handleBlur.bind(this)
     this.handleFocus = this.handleFocus.bind(this)
+  }
+
+  static getDerivedStateFromProps (nextProps, prevState) {
+    if (!equals(nextProps.input.value, prevState)) {
+      return { value: nextProps.input.value }
+    }
+    return null
   }
 
   componentWillUnmount () {

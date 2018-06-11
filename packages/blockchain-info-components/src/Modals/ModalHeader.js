@@ -36,7 +36,7 @@ const ModalHeader = props => {
     <Wrapper paddingHorizontal={paddingHorizontal} closeButton={closeButton} {...props}>
       <Header>
         {icon && <HeaderIcon name={icon} size='28px' weight={300} color='gray-5' /> }
-        <Text size='20px' weight={300} color='gray-5'>
+        <Text size='20px' weight={300} color='gray-5' capitalize>
           { children }
         </Text>
       </Header>
