@@ -63,7 +63,7 @@ const BrowserWarning = styled.div`
 
 const Login = (props) => {
   const { submitting, invalid, busy, loginError, password, ...rest } = props
-  const { onSubmit, handleMobile, handleSmsResend, authType } = rest
+  const { handleSubmit, handleMobile, handleSmsResend, authType } = rest
 
   const guidError = loginError && loginError.toLowerCase().includes('unknown wallet id')
   const passwordError = loginError && loginError.toLowerCase().includes('wrong_wallet_password')
@@ -96,7 +96,7 @@ const Login = (props) => {
         <FormattedMessage id='scenes.login.explain' defaultMessage='Sign in to your wallet below' />
       </Text>
       <Separator />
-      <LoginForm onSubmit={onSubmit}>
+      <LoginForm onSubmit={handleSubmit}>
         { !isSupportedBrowser && <BrowserWarning>
           <Banner type='warning'>
             <FormattedMessage id='scenes.login.browserwarning' defaultMessage='Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, IE 11, or Opera ' />
