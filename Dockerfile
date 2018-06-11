@@ -1,6 +1,7 @@
 FROM docker-registry.service.consul:5000/blockchain_node_10@sha256:7bcb42954e38ad413265e5d4b0c1e943cd85b06a95637c8c549ae978e55c51a7
 
 RUN chown -R blockchain /home/blockchain
+RUN apt-get update && apt-get install -y python
 
 # pull build arguments from pipeline
 ARG environment
