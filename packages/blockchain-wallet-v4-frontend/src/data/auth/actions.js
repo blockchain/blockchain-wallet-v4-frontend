@@ -1,6 +1,7 @@
 import * as AT from './actionTypes'
 
 export const authenticate = () => ({ type: AT.AUTHENTICATE })
+export const deauthorizeBrowser = () => ({ type: AT.DEAUTHORIZE_BROWSER })
 export const login = (guid, password, code, sharedKey, mobileLogin) => ({ type: AT.LOGIN, payload: { guid, password, code, sharedKey, mobileLogin } })
 export const loginLoading = () => ({ type: AT.LOGIN_LOADING })
 export const loginSuccess = () => ({ type: AT.LOGIN_SUCCESS })
