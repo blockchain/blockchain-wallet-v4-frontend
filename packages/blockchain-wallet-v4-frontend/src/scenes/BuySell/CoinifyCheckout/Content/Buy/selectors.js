@@ -11,13 +11,7 @@ export const getProfileData = (state) => {
 export const getTrades = (state) =>
   selectors.core.data.coinify.getTrades(state).getOrElse(null)
 
-export const getSubscriptions = (state) => {
-  try {
-    return selectors.core.data.coinify.getSubscriptions(state).data
-  } catch (e) {
-    return null
-  }
-}
+export const getSubscriptions = (state) => selectors.core.data.coinify.getSubscriptions(state).getOrElse([])
 
 export const getRateQuote = (state) => {
   try {
