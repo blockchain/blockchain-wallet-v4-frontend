@@ -3,8 +3,6 @@ import { gt, slice, toUpper, equals, path, prop } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 
-import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
-
 export const getLimits = (limits, curr, effectiveBalance) => {
   const getMin = (limits, curr) => Math.min(limits.bank.minimumInAmounts[curr], limits.card.minimumInAmounts[curr])
   const getMax = (limits, curr) => Math.max(limits.bank.inRemaining[curr], limits.card.inRemaining[curr])
