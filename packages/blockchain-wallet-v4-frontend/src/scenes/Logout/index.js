@@ -26,7 +26,6 @@ class LogoutContainer extends React.PureComponent {
       secondsRemaining: this.state.secondsRemaining - 1
     })
     if (this.state.secondsRemaining <= 0) {
-      clearInterval(this.interval)
       this.props.routerActions.push('/login')
     }
   }
