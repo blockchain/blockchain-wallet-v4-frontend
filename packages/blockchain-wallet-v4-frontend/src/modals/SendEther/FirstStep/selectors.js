@@ -1,20 +1,23 @@
 import { prop } from 'ramda'
 import { selectors } from 'data'
+import { createDeepEqualSelector } from 'services/ReselectHelper'
 
-export const getData = state => {
-  const paymentR = selectors.components.sendEth.getPayment(state)
+export const getData = createDeepEqualSelector(
+  [
+    selectors.components.sendEth.getPayment
+  ],
+  (paymentR) => {
+    const transform = payment => {
+      const effectiveBalance = prop('effectiveBalance', payment) || '0'
+      const unconfirmedTx = prop('unconfirmedTx', payment)
+      const fee = prop('fee', payment) || '0'
 
-  const transform = payment => {
-    const effectiveBalance = prop('effectiveBalance', payment) || '0'
-    const unconfirmedTx = prop('unconfirmedTx', payment)
-    const fee = prop('fee', payment) || '0'
-
-    return {
-      effectiveBalance,
-      unconfirmedTx,
-      fee
+      return {
+        effectiveBalance,
+        unconfirmedTx,
+        fee
+      }
     }
+    return paymentR.map(transform)
   }
-
-  return paymentR.map(transform)
-}
+)

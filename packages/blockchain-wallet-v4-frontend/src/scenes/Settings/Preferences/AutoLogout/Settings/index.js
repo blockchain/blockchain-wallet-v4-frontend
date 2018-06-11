@@ -33,11 +33,11 @@ class SettingContainer extends React.PureComponent {
   }
 
   render () {
-    const { logoutTime, ui } = this.props
+    const { ui, logoutTime } = this.props
 
     return <Settings
-      logoutTime={logoutTime}
       updateToggled={ui.updateToggled}
+      logoutTime={logoutTime}
       handleToggle={this.handleToggle}
       handleClick={this.handleClick}
     />

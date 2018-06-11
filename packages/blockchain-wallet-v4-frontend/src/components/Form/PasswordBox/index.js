@@ -22,7 +22,7 @@ const Error = styled(Text)`
   padding: 5px 0px 5px 0px;
 `
 const getErrorState = (meta) => {
-  return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')
+  return meta.touched && meta.invalid ? 'invalid' : 'initial'
 }
 
 const PasswordBox = (field) => {

@@ -19,15 +19,15 @@ class YubikeyContainer extends React.PureComponent {
     this.state = { yubikeyCode: '' }
   }
 
-  componentWillReceiveProps (nextProps) {
-    const next = nextProps.data.data
-    const prev = this.props.data.data
+  componentDidUpdate (prevProps) {
+    const next = this.props.data.getOrElse({})
+    const prev = prevProps.data.getOrElse({})
     if (next.authType !== prev.authType) {
       this.props.updateUI({ successToggled: true })
       this.props.triggerSuccess()
       setTimeout(() => {
-        nextProps.handleGoBack()
-        nextProps.goBackOnSuccess()
+        this.props.handleGoBack()
+        this.props.goBackOnSuccess()
       }, 1500)
     }
   }

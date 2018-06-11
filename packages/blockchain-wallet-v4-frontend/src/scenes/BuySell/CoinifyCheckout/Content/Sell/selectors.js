@@ -34,7 +34,6 @@ export const getData = (state) => ({
   base: getBase(state),
   data: getUserData(state),
   sellQuoteR: getQuote(state),
-  rateQuoteR: getRateQuote(state),
   trade: getTrade(state),
   errors: getErrors(state),
   currency: formValueSelector('coinifyCheckoutSell')(state, 'currency'),

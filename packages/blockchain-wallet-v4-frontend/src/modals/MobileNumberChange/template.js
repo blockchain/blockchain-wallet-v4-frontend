@@ -18,7 +18,7 @@ const MobileNumber = styled.div`
 `
 
 const MobileNumberChange = (props) => {
-  const { position, total, close, closeAll, submitting, invalid, pristine, countryCode, ...rest } = props
+  const { position, total, close, closeAll, submitting, invalid, pristine, countryCode, smsNumber, ...rest } = props
   const { onSubmit } = rest
 
   return (
@@ -35,7 +35,7 @@ const MobileNumberChange = (props) => {
             <Text size='14px' weight={300} style={spacing('pr-5')}>
               <FormattedMessage id='modals.mobilenumberchange.mobile' defaultMessage='Mobile number: ' />
             </Text>
-            <Field name='mobileNumber' validate={[validMobileNumber, required]} component={PhoneNumberBox} countryCode={countryCode} />
+            <Field name='mobileNumber' validate={[validMobileNumber, required]} component={PhoneNumberBox} countryCode={countryCode} defaultValue={smsNumber} />
           </MobileNumber>
         </ModalBody>
         <ModalFooter align='spaced'>

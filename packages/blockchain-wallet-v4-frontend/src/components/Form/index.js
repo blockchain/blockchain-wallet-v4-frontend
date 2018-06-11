@@ -4,6 +4,7 @@ import CheckBox from './CheckBox'
 import CodeInputBoxes from './CodeInputBoxes'
 import CountdownTimer from './CountdownTimer'
 import DateBox from './DateBox'
+import DateBoxDebounced from './DateBoxDebounced'
 import FiatConvertor from './FiatConvertor'
 import Form from './Form'
 import FormError from './FormError'
@@ -38,6 +39,7 @@ export {
   CodeInputBoxes,
   CountdownTimer,
   DateBox,
+  DateBoxDebounced,
   FiatConvertor,
   Form,
   FormError,

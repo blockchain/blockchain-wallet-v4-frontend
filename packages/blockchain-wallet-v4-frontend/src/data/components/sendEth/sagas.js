@@ -1,8 +1,9 @@
-import { call, select, put } from 'redux-saga/effects'
+import { call, select, put, take } from 'redux-saga/effects'
 import { equals, identity, path, prop } from 'ramda'
 import * as A from './actions'
 import * as S from './selectors'
 import * as actions from '../../actions'
+import * as actionTypes from '../../actionTypes'
 import * as selectors from '../../selectors'
 import settings from 'config'
 import { initialize, change } from 'redux-form'
@@ -13,12 +14,16 @@ import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 export default ({ coreSagas }) => {
   const logLocation = 'components/sendEth/sagas'
 
-  const sendEthInitialized = function * (action) {
+  const initialized = function * (action) {
     try {
+      const from = path(['payload', 'from'], action)
+      const type = path(['payload', 'type'], action)
       yield put(A.sendEthPaymentUpdated(Remote.Loading))
       let payment = coreSagas.payment.eth.create(({ network: settings.NETWORK_ETHEREUM }))
       payment = yield payment.init()
-      payment = yield payment.from(action.payload.from, action.payload.type)
+      payment = from && type
+        ? yield payment.from(action.payload.from, action.payload.type)
+        : yield payment.from()
       const initialValues = { coin: 'ETH' }
       yield put(initialize('sendEth', initialValues))
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
@@ -26,6 +31,10 @@ export default ({ coreSagas }) => {
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'sendEthInitialized', e))
     }
+  }
+
+  const destroyed = function * () {
+    yield put(actions.form.destroy('sendEth'))
   }
 
   const firstStepSubmitClicked = function * () {
@@ -107,10 +116,12 @@ export default ({ coreSagas }) => {
       payment = yield payment.publish()
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
       yield put(actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(Date.now()))
+      yield take(actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS)
       yield put(actions.core.kvStore.ethereum.setLatestTxEthereum(payment.value().txId))
       yield put(actions.router.push('/eth/transactions'))
       yield put(actions.alerts.displaySuccess(C.SEND_ETH_SUCCESS))
       if (path(['description', 'length'], payment.value())) {
+        yield take(actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS)
         yield put(actions.core.kvStore.ethereum.setTxNotesEthereum(payment.value().txId, payment.value().description))
       }
     } catch (e) {
@@ -120,7 +131,8 @@ export default ({ coreSagas }) => {
   }
 
   return {
-    sendEthInitialized,
+    initialized,
+    destroyed,
     firstStepSubmitClicked,
     maximumAmountClicked,
     secondStepSubmitClicked,
