@@ -24,7 +24,7 @@ const OrderHistoryContent = styled.div`
   }
 `
 const isPending = (t) => (t.state === 'processing' || t.state === 'awaiting_transfer_in') && !t.tradeSubscriptionId
-const isCompleted = (t) => contains(t.state, ['completed', 'rejected', 'cancelled', 'expired'])
+const isCompleted = (t) => contains(t.state, ['completed', 'rejected', 'cancelled', 'expired']) && !t.tradeSubscriptionId
 const isPartOfSubscription = (t) => t.tradeSubscriptionId
 
 const OrderHistory = (props) => {
