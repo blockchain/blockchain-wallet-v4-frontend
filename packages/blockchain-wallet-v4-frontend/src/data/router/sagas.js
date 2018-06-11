@@ -2,7 +2,7 @@ import { put } from 'redux-saga/effects'
 import { actions } from 'data'
 
 export default () => {
-  const logLocation = 'modules/coinify/sagas'
+  const logLocation = 'modules/router/sagas'
 
   const changeLocation = function * () {
     try {
