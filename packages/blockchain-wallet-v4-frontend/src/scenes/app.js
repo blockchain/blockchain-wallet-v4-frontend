@@ -43,7 +43,7 @@ class App extends React.PureComponent {
           <ThemeProvider>
             <ConnectedRouter history={history}>
               <Switch>
-                <PublicLayout path='/a/:payload' component={Goals} />
+                <PublicLayout path='/open/:payload' component={Goals} />
                 <PublicLayout path='/login' component={Login} />
                 <PublicLayout path='/help' component={Help} />
                 <PublicLayout path='/open' component={Open} />
