@@ -30,14 +30,22 @@ const Footer = styled.div`
 `
 
 const Logout = (props) => {
-  const { onDeauthorizeBrowser } = props
+  const { onDeauthorizeBrowser, secondsRemaining } = props
 
   return (
     <Wrapper>
       <Header>
-        <Text size='24px' weight={300}>
+        <Text size='22px' weight={300}>
           <FormattedMessage id='scenes.logout.title' defaultMessage='You are now logged out!' />
         </Text>
+        { secondsRemaining >= 6
+          ? null
+          : (
+            <Text size='12px' weight={200}>
+              Refreshing in {secondsRemaining} seconds...
+            </Text>
+          )
+        }
       </Header>
       <Separator />
       <Text size='14px' weight={300}>
