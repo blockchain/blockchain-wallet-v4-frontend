@@ -273,10 +273,15 @@ export default ({ api, coreSagas }) => {
     yield put(actions.core.webSocket.bitcoin.stopSocket())
     yield put(actions.core.webSocket.ethereum.stopSocket())
     yield put(actions.core.webSocket.bch.stopSocket())
-    yield window.location.reload(true)
+    yield put(actions.router.push('/logout'))
+  }
+
+  const deauthorizeBrowser = function * () {
+    yield window.alert('DEAUTH')
   }
 
   return {
+    deauthorizeBrowser,
     login,
     logout,
     loginRoutineSaga,
