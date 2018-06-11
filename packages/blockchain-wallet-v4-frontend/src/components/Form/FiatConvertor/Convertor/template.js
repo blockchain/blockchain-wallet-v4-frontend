@@ -56,7 +56,7 @@ const Error = styled(Text)`
   right: 0;
 `
 const getErrorState = (meta) => {
-  return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')
+  return meta.touched && meta.invalid ? 'invalid' : 'initial'
 }
 
 const Convertor = props => {

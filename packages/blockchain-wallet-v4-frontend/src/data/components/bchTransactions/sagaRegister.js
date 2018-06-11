@@ -8,6 +8,7 @@ export default ({ coreSagas }) => {
 
   return function * () {
     yield takeEvery(AT.BCH_TRANSACTIONS_INITIALIZED, bchTransactionsSagas.initialized)
+    yield takeEvery(AT.BCH_TRANSACTIONS_REPORT_CLICKED, bchTransactionsSagas.reportClicked)
     yield takeEvery(actionTypes.form.CHANGE, bchTransactionsSagas.formChanged)
     yield takeEvery(actionTypes.scroll.UPDATE_SCROLL, bchTransactionsSagas.scrollUpdated)
   }

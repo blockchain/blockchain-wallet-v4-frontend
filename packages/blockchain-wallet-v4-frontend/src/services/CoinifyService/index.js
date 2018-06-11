@@ -2,6 +2,8 @@ import React from 'react'
 import { gt, slice, toUpper, equals, path } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 
+import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
+
 export const getLimits = (limits, curr, effectiveBalance) => {
   const getMin = (limits, curr) => Math.min(limits.bank.minimumInAmounts[curr], limits.card.minimumInAmounts[curr])
   const getMax = (limits, curr) => Math.max(limits.bank.inRemaining[curr], limits.card.inRemaining[curr])
@@ -61,6 +63,16 @@ export const mockedLimits = {
     inRemaining: { BTC: 0 },
     minimumInAmounts: { BTC: 0 }
   }
+}
+
+export const getRateFromQuote = (q) => {
+  const fiat = q.baseCurrency !== 'BTC' ? Math.abs(q.quoteAmount) : Math.abs(q.baseAmount)
+  const crypto = q.baseCurrency !== 'BTC' ? Math.abs(q.baseAmount) : Math.abs(q.quoteAmount)
+  const curr = q.baseCurrency !== 'BTC' ? q.baseCurrency : q.quoteCurrency
+
+  const rate = +((1 / (fiat / 1e8)) * crypto)
+  const displayRate = Currency.formatFiat(rate)
+  return `${currencySymbolMap[curr]}${displayRate}`
 }
 
 export const reviewOrder = {
@@ -211,7 +223,7 @@ export const kycNotificationButtonHelper = (status) => {
     case 'pending': return { color: 'transferred', text: <FormattedMessage id='scenes.buy_sell.kyc_notification.complete' defaultMessage='Complete Verification' /> }
     case 'expired':
     case 'rejected': return { color: 'error', text: <FormattedMessage id='scenes.buy_sell.kyc_notification.tryagain' defaultMessage='Try Again' /> }
-    default: return { color: '', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.unknown' defaultMessage='' /> }
+    default: return { color: '', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.unknown' defaultMessage='Unknown' /> }
   }
 }
 

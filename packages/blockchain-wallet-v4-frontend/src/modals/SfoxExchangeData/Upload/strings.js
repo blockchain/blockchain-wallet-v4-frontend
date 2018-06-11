@@ -48,8 +48,15 @@ const TitleStrings = (props) => (
       <IdInfo>
         <FormattedMessage id='sfoxexchangedata.upload.address.passport' defaultMessage='- First page of your bank statement' />
       </IdInfo>
-      <IdInfo style={spacing('mb-15')}>
+      <IdInfo>
         <FormattedMessage id='sfoxexchangedata.upload.address.govid' defaultMessage='- DMV or voter registration form' />
+      </IdInfo>
+      <IdInfo style={spacing('mt-10 mb-10')}>
+        <Banner type='warning'>
+          <Text size='12px'>
+            <FormattedMessage id='sfoxexchangedata.upload.addresswarning' defaultMessage="Uploading your passport or driver's license is not sufficient to verify your address." />
+          </Text>
+        </Banner>
       </IdInfo>
     </Fragment>
 )

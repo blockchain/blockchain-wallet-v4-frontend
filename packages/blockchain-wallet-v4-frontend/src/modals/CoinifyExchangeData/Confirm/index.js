@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector } from 'redux-form'
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import ui from 'redux-ui'
 import { path } from 'ramda'
 import Template from './template'
@@ -43,7 +43,6 @@ class ConfirmContainer extends Component {
           value={value}
           ui={ui}
           medium={medium}
-          rateQuote={this.props.rateQuote}
           onSubmit={this.onSubmit}
           editingAmount={editingAmount}
           toggleEdit={() => this.props.updateUI({ editing: !this.props.ui.editing })}
@@ -57,7 +56,6 @@ class ConfirmContainer extends Component {
 
 const mapStateToProps = (state) => ({
   data: getData(state),
-  rateQuote: selectors.core.data.coinify.getRateQuote(state),
   medium: path(['coinify', 'medium'], state),
   editingAmount: formValueSelector('coinifyConfirm')(state, 'amount')
 })

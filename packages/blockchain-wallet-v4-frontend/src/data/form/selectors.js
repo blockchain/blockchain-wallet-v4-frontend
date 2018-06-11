@@ -6,6 +6,7 @@ export {
   getFormAsyncErrors,
   getFormSyncWarnings,
   getFormSubmitErrors,
+  getFormError,
   getFormNames,
   isDirty,
   isPristine,
