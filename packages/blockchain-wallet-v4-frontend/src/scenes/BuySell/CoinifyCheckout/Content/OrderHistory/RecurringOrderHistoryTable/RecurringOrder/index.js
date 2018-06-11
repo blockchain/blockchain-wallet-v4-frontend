@@ -13,7 +13,7 @@ import { TableCell, TableRow, Text, Link, Icon, Button } from 'blockchain-info-c
 const ToggleIcon = styled(Icon)`
   cursor: pointer;
   transform: rotate(-90deg);
-  transition: transform 0.5s;
+  transition: transform 0.3s;
   transform: ${props => props.toggled && 'rotate(0deg)'};
 `
 const Frequency = styled(Text)`
