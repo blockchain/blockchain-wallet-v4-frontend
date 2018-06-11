@@ -103,7 +103,7 @@ const Success = props => {
           {status === 'complete' &&
             <Notice>
               <Text size='13px' weight={300}>
-                <FormattedMessage id='modals.exchange.shapeshift.explain3' defaultMessage='Your exchange is complete.' />
+                <FormattedMessage id='modals.exchange.shapeshift.explain3' defaultMessage='Your exchange is complete. ' />
                 <FormattedMessage id='modals.exchange.shapeshift.explain4' defaultMessage='It may take a few minutes for the funds to show in your balance.' />
               </Text>
             </Notice>
