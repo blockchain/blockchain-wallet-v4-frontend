@@ -277,7 +277,18 @@ export default ({ api, coreSagas }) => {
   }
 
   const deauthorizeBrowser = function * () {
-    yield window.alert('DEAUTH')
+    try {
+      const guid = yield select(selectors.core.wallet.getGuid)
+      const sessionToken = yield select(selectors.session.getSession, guid)
+      yield call(api.deauthorizeBrowser, sessionToken)
+      yield put(actions.alerts.displaySuccess(C.DEAUTHORIZE_BROWSER_SUCCESS))
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'deauthorizeBrowser', e))
+      yield put(actions.alerts.displayError(C.DEAUTHORIZE_BROWSER_ERROR))
+    } finally {
+      yield put(actions.router.push('/login'))
+      //yield window.location.reload(true)
+    }
   }
 
   return {
