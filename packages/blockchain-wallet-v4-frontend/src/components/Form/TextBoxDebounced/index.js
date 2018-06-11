@@ -52,7 +52,7 @@ class TextBoxDebounced extends React.Component {
     if (this.timeout) clearTimeout(this.timeout)
     this.timeout = setTimeout(() => {
       this.props.input.onChange(value)
-    }, 500)
+    }, 10)
   }
 
   handleBlur () {
