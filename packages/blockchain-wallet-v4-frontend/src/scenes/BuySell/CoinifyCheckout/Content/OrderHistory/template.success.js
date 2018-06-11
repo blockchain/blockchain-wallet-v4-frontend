@@ -23,7 +23,7 @@ const OrderHistoryContent = styled.div`
     margin-bottom: 20px;
   }
 `
-const isPending = (t) => t.state === 'processing' || t.state === 'awaiting_transfer_in'
+const isPending = (t) => (t.state === 'processing' || t.state === 'awaiting_transfer_in') && !t.tradeSubscriptionId
 const isCompleted = (t) => contains(t.state, ['completed', 'rejected', 'cancelled', 'expired'])
 const isPartOfSubscription = (t) => t.tradeSubscriptionId
 
