@@ -15,12 +15,12 @@ class LoginContainer extends React.PureComponent {
     this.handleMobile = this.handleMobile.bind(this)
     this.handleSmsResend = this.handleSmsResend.bind(this)
   }
+
   handleCode (val) {
     this.setState({ useCode: val })
   }
 
-  onSubmit (event) {
-    event.preventDefault()
+  onSubmit () {
     const { useCode } = this.state
     const { guid, password, code } = this.props
     let auth = useCode ? code : undefined
