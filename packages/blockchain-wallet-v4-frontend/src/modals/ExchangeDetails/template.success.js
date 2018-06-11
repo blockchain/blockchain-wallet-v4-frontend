@@ -65,7 +65,7 @@ const ExchangeDetails = props => {
         {status === 'complete' &&
           <Notice>
             <Text size='13px' weight={300}>
-              <FormattedMessage id='modals.exchangedetails.explain' defaultMessage='Your exchange is complete.' />
+              <FormattedMessage id='modals.exchangedetails.explain' defaultMessage='Your exchange is complete. ' />
               <FormattedMessage id='modals.exchangedetails.explain2' defaultMessage='It may take a few minutes for the funds to show in your balance.' />
             </Text>
           </Notice>
