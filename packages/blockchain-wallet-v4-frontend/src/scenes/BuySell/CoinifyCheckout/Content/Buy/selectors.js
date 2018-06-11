@@ -50,7 +50,6 @@ export const getData = (state) => ({
   base: getBase(state),
   data: getProfileData(state),
   buyQuoteR: getQuote(state),
-  rateQuoteR: getRateQuote(state),
   trades: getTrades(state),
   subscriptions: getSubscriptions(state),
   trade: getTrade(state),

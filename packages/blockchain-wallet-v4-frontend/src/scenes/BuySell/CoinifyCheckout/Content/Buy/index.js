@@ -28,7 +28,7 @@ class CoinifyBuyContainer extends React.Component {
   }
 
   render () {
-    const { data, modalActions, coinifyActions, coinifyDataActions, rateQuoteR, buyQuoteR, currency, paymentMedium, trade, formActions, canTrade, ...rest } = this.props
+    const { data, modalActions, coinifyActions, coinifyDataActions, buyQuoteR, currency, paymentMedium, trade, formActions, canTrade, ...rest } = this.props
     const { step, checkoutBusy, coinifyBusy, subscriptions, trades } = rest
     const { handleTrade, fetchQuote, refreshBuyQuote } = coinifyDataActions
     const { showModal } = modalActions
@@ -48,7 +48,6 @@ class CoinifyBuyContainer extends React.Component {
         handleTrade={handleTrade}
         showModal={showModal}
         buyQuoteR={buyQuoteR}
-        rateQuoteR={rateQuoteR}
         fetchBuyQuote={quote => fetchQuote({ quote, nextAddress: value.nextAddress })}
         refreshQuote={refreshBuyQuote}
         currency={currency}

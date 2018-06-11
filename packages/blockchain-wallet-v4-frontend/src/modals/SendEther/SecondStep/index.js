@@ -10,9 +10,7 @@ import Success from './template.success'
 
 class SecondStepContainer extends React.PureComponent {
   render () {
-    const { data, actions } = this.props
-
-    return data.cata({
+    return this.props.data.cata({
       Success: (value) => <Success
         coin='ETH'
         fromAddress={value.fromAddress}
@@ -21,8 +19,8 @@ class SecondStepContainer extends React.PureComponent {
         amount={value.amount}
         fee={value.fee}
         total={value.total}
-        handleBack={() => actions.sendEthSecondStepCancelClicked()}
-        handleSubmit={() => actions.sendEthSecondStepSubmitClicked()}
+        handleBack={() => this.props.actions.sendEthSecondStepCancelClicked()}
+        handleSubmit={() => this.props.actions.sendEthSecondStepSubmitClicked()}
       />,
       Error: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,

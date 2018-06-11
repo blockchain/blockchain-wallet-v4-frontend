@@ -63,8 +63,9 @@ class LinkContainer extends Component {
   }
 
   render () {
-    const { bankAccounts, accounts, ui } = this.props
+    const { bankAccounts, accounts, ui, linkStatus, sfoxFrontendActions } = this.props
     const { plaidBaseUrl, plaidPath, plaidEnv } = this.props
+    const { sfoxNotAsked } = sfoxFrontendActions
     const plaidUrl = `${plaidBaseUrl}/wallet-helper/plaid/#/key/${plaidPath}/env/${plaidEnv}`
     const { showModal } = this.props.modalActions
 
@@ -72,6 +73,13 @@ class LinkContainer extends Component {
     if (Remote.Success.is(accounts) && accounts.data) {
       awaitingDeposits = accounts.data[0] && accounts.data[0]['status'] === 'pending'
     }
+
+    const { sfoxBusy, err } = linkStatus.cata({
+      Success: () => ({ sfoxBusy: false }),
+      Loading: () => ({ sfoxBusy: true }),
+      Failure: (err) => ({ sfoxBusy: false, err }),
+      NotAsked: () => ({ sfoxBusy: false })
+    })
 
     return <Link
       onSubmit={this.onSubmit}
@@ -93,6 +101,9 @@ class LinkContainer extends Component {
       submitMicroDeposits={this.submitMicroDeposits}
       awaitingDeposits={awaitingDeposits}
       showModal={showModal}
+      busy={sfoxBusy}
+      setNotAsked={sfoxNotAsked}
+      linkError={err && path(['message'], err)}
     />
   }
 }
@@ -108,7 +119,8 @@ const mapStateToProps = (state) => ({
   bankAccounts: selectors.core.data.sfox.getBankAccounts(state),
   accounts: selectors.core.data.sfox.getAccounts(state),
   deposit1: formValueSelector('sfoxLink')(state, 'deposit1'),
-  deposit2: formValueSelector('sfoxLink')(state, 'deposit2')
+  deposit2: formValueSelector('sfoxLink')(state, 'deposit2'),
+  linkStatus: path(['sfoxSignup', 'sfoxBusy'], state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

@@ -23,7 +23,9 @@ class EmailAddressContainer extends React.PureComponent {
   }
 
   componentDidUpdate (prevProps) {
-    if (this.props.data.data.verified && !prevProps.data.data.verified) {
+    const next = this.props.data.getOrElse({})
+    const prev = prevProps.data.getOrElse({})
+    if (next.verified && !prev.verified) {
       this.props.updateUI({ successToggled: true })
       setTimeout(function () {
         prevProps.updateUI({ successToggled: false, verifyToggled: false })
@@ -38,7 +40,8 @@ class EmailAddressContainer extends React.PureComponent {
   }
 
   handleResend () {
-    this.props.securityCenterActions.sendConfirmationCodeEmail(this.props.data.data.email)
+    const { email } = this.props.data.getOrElse({})
+    this.props.securityCenterActions.sendConfirmationCodeEmail(email)
   }
 
   handleSubmitVerification (e) {
@@ -47,8 +50,8 @@ class EmailAddressContainer extends React.PureComponent {
   }
 
   handleChangeEmailView () {
+    const { email } = this.props.data.getOrElse({})
     this.props.updateUI({ changeEmailToggled: true })
-    const email = this.props.data.data.email
     this.props.formActions.change('securityEmailAddress', 'changeEmail', email)
   }
 
