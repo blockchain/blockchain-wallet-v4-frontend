@@ -10,6 +10,7 @@ import components from './components/sagaRegister'
 import modules from './modules/sagaRegister'
 import preferences from './preferences/sagaRegister'
 import goals from './goals/sagaRegister'
+import router from './router/sagaRegister'
 import wallet from './wallet/sagaRegister'
 
 const welcomeSaga = function * () {
@@ -46,6 +47,7 @@ export default function * ({ api, btcSocket, ethSocket, bchSocket, options }) {
     fork(websocketBitcoinFactory({ api, btcSocket })),
     fork(websocketEthereumFactory({ api, ethSocket })),
     fork(websocketBchFactory({ api, bchSocket })),
-    fork(coreRootSagaFactory({ api, options }))
+    fork(coreRootSagaFactory({ api, options })),
+    fork(router())
   ])
 }
