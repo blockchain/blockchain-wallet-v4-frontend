@@ -7,7 +7,7 @@ import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 
 import { ModalHeader, ModalBody, Text, Button, Tooltip } from 'blockchain-info-components'
 import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDetails'
-import { tradeDetails, statusHelper, bodyStatusHelper, recurringTimeHelper } from 'services/CoinifyService'
+import { tradeDetails, statusHelper, bodyStatusHelper, recurringTimeHelper, recurringFee } from 'services/CoinifyService'
 
 const TableTitle = styled(Text)`
   padding-top: 10px;
@@ -52,8 +52,6 @@ const HeaderWrapper = styled.div`
     margin-right: 5px;
   }
 `
-
-const recurringFee = (trade) => `${Currency.formatFiat(((trade.sendAmount / 100) - (trade.inAmount / 100)))} ${prop('inCurrency', trade)}`
 
 const Trade = ({ trade, close, status, subscriptions }) => {
   let tradeStatus = (status && status.toLowerCase()) || trade.state

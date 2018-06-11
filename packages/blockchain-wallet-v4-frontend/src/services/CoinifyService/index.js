@@ -1,6 +1,7 @@
 import React from 'react'
 import { gt, slice, toUpper, equals, path, prop } from 'ramda'
 import { FormattedMessage } from 'react-intl'
+import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 
 export const getLimits = (limits, curr, effectiveBalance) => {
   const getMin = (limits, curr) => Math.min(limits.bank.minimumInAmounts[curr], limits.card.minimumInAmounts[curr])
@@ -253,3 +254,5 @@ export const recurringTimeHelper = (sub) => {
   }
   return getTimespan(sub)
 }
+
+export const recurringFee = (trade) => `${Currency.formatFiat(((trade.sendAmount / 100) - (trade.inAmount / 100)))} ${prop('inCurrency', trade)}`
