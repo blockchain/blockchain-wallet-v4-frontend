@@ -136,7 +136,7 @@ export default ({ api }) => {
   }
 
   const refetchContextData = function * () {
-    yield put(fetchData())
+    yield put(fetchData('', true))
   }
 
   return {
