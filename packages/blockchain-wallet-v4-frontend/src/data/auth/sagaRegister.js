@@ -8,6 +8,7 @@ export default ({ api, coreSagas }) => {
   return function * () {
     yield takeLatest(AT.DEAUTHORIZE_BROWSER, authSagas.deauthorizeBrowser)
     yield takeLatest(AT.LOGIN, authSagas.login)
+    yield takeLatest(AT.LOGIN_CLEAR_REDUX_STORE, authSagas.loginClearReduxStore)
     yield takeLatest(AT.MOBILE_LOGIN, authSagas.mobileLogin)
     yield takeLatest(AT.REGISTER, authSagas.register)
     yield takeLatest(AT.RESTORE, authSagas.restore)
