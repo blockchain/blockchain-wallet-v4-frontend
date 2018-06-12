@@ -71,7 +71,7 @@ const WalletLayout = props => {
           { location.pathname === '/settings/addresses/bch' && <AddrMenu /> }
           { location.pathname === '/exchange' && <ExchangeMenu /> }
           { location.pathname === '/exchange/history' && <ExchangeMenu /> }
-          <ErrorBoundary currentPath={location.pathname}>
+          <ErrorBoundary>
             <Page>
               {children}
             </Page>
