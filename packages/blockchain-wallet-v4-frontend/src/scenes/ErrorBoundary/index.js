@@ -1,38 +1,51 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import { bindActionCreators } from 'redux'
 
 import Template from './template'
+import { actions } from 'data'
 
-class ErrorBoundary extends React.PureComponent {
+class ErrorBoundary extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
       error: null,
       errorInfo: null,
-      pathWithError: null
+      routingKey: null
     }
   }
 
-  componentDidCatch (error, errorInfo) {
-    // Display fallback UI
-    this.setState({
-      error: error,
-      errorInfo: errorInfo,
-      pathWithError: this.props.currentPath
-    })
-    // TODO: log the error to redux logger
-    // console.info(error, errorInfo)
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.location.key !== this.state.routingKey) {
+      this.setState({
+        error: null,
+        errorInfo: null,
+        routingKey: null
+      })
+    }
   }
 
-  componentWillUnmount () {
-    // TODO: figure out solution to this route always being flagged as error now...
+  componentDidCatch (eName, eInfo) {
+    const error = {
+      error: eName,
+      errorInfo: eInfo,
+      routingKey: this.props.location.key
+    }
+    this.setState(error)
+    this.props.logActions.logErrorMessage('scenes/ErrorBoundary', 'componentDidCatch', error)
   }
 
   render () {
-    if (this.state.errorInfo && this.props.currentPath === this.state.pathWithError) {
+    if (this.state.error && this.props.location.key === this.state.routingKey) {
       return <Template error={this.state.error} errorInfo={this.state.errorInfo} />
     }
     return this.props.children
   }
 }
 
-export default ErrorBoundary
+const mapDispatchToProps = (dispatch) => ({
+  logActions: bindActionCreators(actions.logs, dispatch)
+})
+
+export default withRouter(connect(null, mapDispatchToProps)(ErrorBoundary))

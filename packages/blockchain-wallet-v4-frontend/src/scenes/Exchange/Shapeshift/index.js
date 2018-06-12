@@ -14,6 +14,7 @@ class ShapeshiftContainer extends React.Component {
   }
 
   render () {
+    throw new Error('fuck')
     return this.props.data.cata({
       Success: (value) => <Success step={value.step}/>,
       Failure: () => <Error />,
