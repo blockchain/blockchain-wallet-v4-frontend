@@ -2,12 +2,12 @@ import * as AT from './actionTypes'
 
 export const authenticate = () => ({ type: AT.AUTHENTICATE })
 export const deauthorizeBrowser = () => ({ type: AT.DEAUTHORIZE_BROWSER })
-export const loginClearReduxStore = () => ({ type: AT.LOGIN_CLEAR_REDUX_STORE })
 export const login = (guid, password, code, sharedKey, mobileLogin) => ({ type: AT.LOGIN, payload: { guid, password, code, sharedKey, mobileLogin } })
 export const loginLoading = () => ({ type: AT.LOGIN_LOADING })
 export const loginSuccess = () => ({ type: AT.LOGIN_SUCCESS, payload: {} })
 export const loginFailure = (err) => ({ type: AT.LOGIN_FAILURE, payload: { err } })
 export const logout = () => ({ type: AT.LOGOUT })
+export const logoutClearReduxStore = () => ({ type: AT.LOGOUT_CLEAR_REDUX_STORE })
 export const mobileLogin = (data) => ({ type: AT.MOBILE_LOGIN, payload: { data } })
 export const register = (email, password) => ({ type: AT.REGISTER, payload: { email, password } })
 export const registerLoading = () => ({ type: AT.REGISTER_LOADING })

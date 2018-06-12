@@ -27,12 +27,12 @@ class LogoutContainer extends React.PureComponent {
       secondsRemaining: this.state.secondsRemaining - 1
     })
     if (this.state.secondsRemaining <= 0) {
-      this.props.authActions.loginClearReduxStore()
+      this.props.authActions.logoutClearReduxStore()
     }
   }
 
   onGoToLogin () {
-    this.props.authActions.loginClearReduxStore()
+    this.props.authActions.logoutClearReduxStore()
   }
 
   onDeauthorizeBrowser () {
