@@ -303,11 +303,11 @@ export default ({ api, coreSagas }) => {
       yield put(actions.logs.logErrorMessage(logLocation, 'deauthorizeBrowser', e))
       yield put(actions.alerts.displayError(C.DEAUTHORIZE_BROWSER_ERROR))
     } finally {
-      yield loginClearReduxStore()
+      yield logoutClearReduxStore()
     }
   }
 
-  const loginClearReduxStore = function * () {
+  const logoutClearReduxStore = function * () {
     yield window.history.pushState('', '', '/login')
     yield window.location.reload(true)
   }
@@ -315,8 +315,8 @@ export default ({ api, coreSagas }) => {
   return {
     deauthorizeBrowser,
     login,
-    loginClearReduxStore,
     logout,
+    logoutClearReduxStore,
     loginRoutineSaga,
     mobileLogin,
     register,
