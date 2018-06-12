@@ -27,7 +27,7 @@ const GoBackLink = styled(LinkContainer)`
 `
 
 const Reminder = (props) => {
-  const { onSubmit, timestamp, submitting, invalid } = props
+  const { handleSubmit, timestamp, submitting, invalid } = props
 
   return (
     <Wrapper>
@@ -38,7 +38,7 @@ const Reminder = (props) => {
         <FormattedMessage id='scenes.reminder.explain' defaultMessage="Lost your wallet ID? We'll send it to you via your email." />
       </Text>
       <Separator />
-      <Form onSubmit={onSubmit}>
+      <Form onSubmit={handleSubmit}>
         <FormGroup>
           <FormItem>
             <FormLabel for='email'>

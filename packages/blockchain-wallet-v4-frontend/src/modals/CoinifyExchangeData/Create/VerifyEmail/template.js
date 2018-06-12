@@ -15,7 +15,7 @@ const EmailInput = styled.div`
 `
 
 const VerifyEmail = (props) => {
-  const { emailVerifiedError, invalid, onSubmit, resendCode, ui, updateUI } = props
+  const { emailVerifiedError, invalid, handleSubmit, resendCode, ui, updateUI } = props
 
   const emailHelper = () => {
     switch (true) {
@@ -26,7 +26,7 @@ const VerifyEmail = (props) => {
   }
 
   return (
-    <Form onSubmit={onSubmit}>
+    <Form onSubmit={handleSubmit}>
       <ColLeft>
         <InputWrapper>
           <PartnerHeader>

@@ -24,8 +24,7 @@ class VerifyEmailContainer extends Component {
     this.props.securityCenterActions.sendConfirmationCodeEmail(this.props.emailAddress)
   }
 
-  onSubmit (e) {
-    e.preventDefault()
+  onSubmit () {
     if (this.props.ui.create === 'enter_email_code') {
       this.props.coinifyActions.coinifyClearSignupError()
       this.props.securityCenterActions.verifyEmailCode(this.props.emailCode)
