@@ -56,7 +56,7 @@ class NumberBoxDebounced extends React.Component {
     clearTimeout(this.timeout)
     this.timeout = setTimeout(() => {
       this.props.input.onChange(value)
-    }, 2000)
+    }, 500)
   }
 
   handleBlur () {
