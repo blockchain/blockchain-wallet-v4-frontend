@@ -8,7 +8,6 @@ import { Button, Text, Tooltip } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import Helper from 'components/BuySell/FAQ'
 import CountdownTimer from 'components/Form/CountdownTimer'
-import { spacing } from 'services/StyleService'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 
 const ISXContainer = styled.div`
