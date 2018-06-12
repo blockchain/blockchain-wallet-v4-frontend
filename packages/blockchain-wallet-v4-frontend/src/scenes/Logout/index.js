@@ -10,6 +10,7 @@ class LogoutContainer extends React.PureComponent {
     super(props)
     this.state = { secondsRemaining: 10 }
     this.onDeauthorizeBrowser = this.onDeauthorizeBrowser.bind(this)
+    this.onGoToLogin = this.onGoToLogin.bind(this)
     this.tick = this.tick.bind(this)
   }
 
@@ -26,8 +27,12 @@ class LogoutContainer extends React.PureComponent {
       secondsRemaining: this.state.secondsRemaining - 1
     })
     if (this.state.secondsRemaining <= 0) {
-      this.props.routerActions.push('/login')
+      this.props.authActions.logoutClearReduxStore()
     }
+  }
+
+  onGoToLogin () {
+    this.props.authActions.logoutClearReduxStore()
   }
 
   onDeauthorizeBrowser () {
@@ -35,7 +40,7 @@ class LogoutContainer extends React.PureComponent {
   }
 
   render () {
-    return <Logout onDeauthorizeBrowser={this.onDeauthorizeBrowser} secondsRemaining={this.state.secondsRemaining} />
+    return <Logout onDeauthorizeBrowser={this.onDeauthorizeBrowser} onGoToLogin={this.onGoToLogin} secondsRemaining={this.state.secondsRemaining} />
   }
 }
 
