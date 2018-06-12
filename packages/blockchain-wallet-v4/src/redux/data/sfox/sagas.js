@@ -131,12 +131,16 @@ export default ({ api, options }) => {
   }
 
   const getSfox = function * () {
-    const state = yield select()
-    const delegate = new ExchangeDelegate(state, api)
-    const value = yield select(buySellSelectors.getMetadata)
-    const walletOptions = state.walletOptionsPath.data
-    const sfox = sfoxService.refresh(value, delegate, walletOptions)
-    return sfox
+    try {
+      const state = yield select()
+      const delegate = new ExchangeDelegate(state, api)
+      const value = yield select(buySellSelectors.getMetadata)
+      const walletOptions = state.walletOptionsPath.data
+      const sfox = sfoxService.refresh(value, delegate, walletOptions)
+      return sfox
+    } catch (error) {
+      console.warn(error)
+    }
   }
 
   const setBankManually = function * (data) {
