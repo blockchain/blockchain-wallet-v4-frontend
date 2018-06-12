@@ -34,8 +34,11 @@ class TextAreaDebounced extends React.Component {
   }
 
   static getDerivedStateFromProps (nextProps, prevState) {
-    if (!equals(nextProps.input.value, prevState)) {
-      return { value: nextProps.input.value }
+    if (!equals(prevState.updatedValue, prevState.value)) {
+      return { updatedValue: prevState.updatedValue, value: prevState.updatedValue }
+    }
+    if (!equals(nextProps.input.value, prevState.value)) {
+      return { updatedValue: nextProps.input.value, value: nextProps.input.value }
     }
     return null
   }
@@ -47,7 +50,8 @@ class TextAreaDebounced extends React.Component {
   handleChange (e) {
     e.preventDefault()
     const value = e.target.value
-    this.setState({ value })
+    this.setState({ updatedValue: value })
+
     if (this.timeout) clearTimeout(this.timeout)
     this.timeout = setTimeout(() => {
       this.props.input.onChange(value)
