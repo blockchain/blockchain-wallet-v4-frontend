@@ -81,11 +81,6 @@ class AcceptTerms extends Component {
     this.handleSignup = this.handleSignup.bind(this)
   }
 
-  componentWillReceiveProps (nextProps) {
-    const error = Remote.of(nextProps.sfoxSignupStatus)
-    if (error.data.error && error.data.error.message === 'user is already registered') this.props.updateUI({ uniqueEmail: false })
-  }
-
   handleSignup (e) {
     e.preventDefault()
     this.props.sfoxFrontendActions.sfoxNotAsked()
@@ -100,7 +95,7 @@ class AcceptTerms extends Component {
       NotAsked: () => ({ busy: false })
     })
 
-    const { invalid, email, smsNumber, editEmail, editMobile, emailVerified, smsVerified, sfoxFrontendActions } = this.props
+    const { invalid, email, smsNumber, editEmail, editMobile, emailVerified, smsVerified, sfoxFrontendActions, needsChangeEmail } = this.props
     const { sfoxNotAsked } = sfoxFrontendActions
 
     const faqHelper = () => helpers.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
@@ -181,7 +176,7 @@ class AcceptTerms extends Component {
                     <Text size='12px' color='error' weight={300} >
                       <FormattedMessage id='sfoxexchangedata.create.accept.error' defaultMessage='Unfortunately this email is being used for another account.' />
                     </Text>
-                    <Link size='12px' weight={300} onClick={() => { sfoxNotAsked(); this.props.updateUI({ create: 'change_email' }) }} >
+                    <Link size='12px' weight={300} onClick={() => { sfoxNotAsked(); needsChangeEmail() }} >
                       <FormattedMessage id='clickhere' defaultMessage='Click here' />
                     </Link>
                     <Text size='12px' weight={300} color='error'>
