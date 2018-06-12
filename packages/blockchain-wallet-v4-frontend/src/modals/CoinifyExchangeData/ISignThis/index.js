@@ -234,7 +234,7 @@ class ISignThisContainer extends Component {
           }).getOrElse(null)}
         </TimerContainer>
         <ISXContainer>
-          <iframe style={{width: '65%', height: '400px'}}
+          <iframe style={{ width: '65%', height: '400px', border: '1px solid #EAEAEA' }}
             src={srcUrl}
             sandbox='allow-same-origin allow-scripts allow-forms'
             scrolling='yes'
