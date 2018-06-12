@@ -61,7 +61,7 @@ const Reminder = (props) => {
               <FormattedMessage id='scenes.reminder.back' defaultMessage='Go Back' />
             </Link>
           </GoBackLink>
-          <Button type='submit' nature='primary' uppercase disabled={submitting || invalid} onClick={onSubmit}>
+          <Button type='submit' nature='primary' uppercase disabled={submitting || invalid}>
             <FormattedMessage id='scenes.reminder.continue' defaultMessage='Continue' />
           </Button>
         </Footer>
