@@ -12,7 +12,6 @@ import { Button, HeartbeatLoader, Text, Link, Icon } from 'blockchain-info-compo
 import Helper from 'components/BuySell/FAQ'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ErrorWrapper, ColRightInner } from 'components/BuySell/Signup'
 import { spacing } from 'services/StyleService'
-import { Remote } from 'blockchain-wallet-v4/src'
 import Terms from 'components/Terms'
 
 const checkboxShouldBeChecked = value => value ? undefined : 'You must agree to the terms and conditions'
