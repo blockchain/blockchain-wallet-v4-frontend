@@ -133,7 +133,10 @@ const selectMessage = (message, data = undefined) => {
     case C.TWOFA_REMEMBER_UPDATE_ERROR: return <FormattedMessage id='components.alerts.twofa_remember_update_success' defaultMessage='Failed to update 2FA remember' />
     case C.TWOFA_REMEMBER_UPDATE_SUCCESS: return <FormattedMessage id='components.alerts.twofa_remember_update_success' defaultMessage='2FA remember has been successfully updated.' />
     case C.TWOFA_REQUIRED_INFO: return <FormattedMessage id='components.alerts.twofa_required_info' defaultMessage='2FA required for login.' />
+    case C.TWOFA_RESET_UNKNOWN_GUID_ERROR: return <FormattedMessage id='components.alerts.twofa_reset_unknown_guid_error' defaultMessage='Unknown Wallet ID.' />
     case C.TWOFA_RESET_ERROR: return <FormattedMessage id='components.alerts.twofa_reset_error' defaultMessage='Error resetting two-step authentication.' />
+    case C.TWOFA_RESET_NOT_ENABLED_ERROR: return <FormattedMessage id='components.alerts.twofa_reset_not_enabled_error' defaultMessage='2FA has not been enabled for this wallet.' />
+    case C.TWOFA_RESET_EMAIL_ERROR: return <FormattedMessage id='components.alerts.twofa_reset_email_error' defaultMessage='Email does not match the email address associated with this wallet.' />
     case C.TWOFA_UPDATE_ERROR: return <FormattedMessage id='components.alerts.twofa_success_error' defaultMessage='Failed to update 2FA setting' />
     case C.TWOFA_UPDATE_SUCCESS: return <FormattedMessage id='components.alerts.twofa_update_success' defaultMessage='2FA has been successfully updated' />
     case C.TWOFA_YUBIKEY_ENABLE_ERROR: return <FormattedMessage id='components.alerts.yubikey_enable_error' defaultMessage='Failed to update Yubikey 2FA' />
