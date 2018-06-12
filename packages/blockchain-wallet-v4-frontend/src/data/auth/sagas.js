@@ -56,6 +56,8 @@ export default ({ api, coreSagas }) => {
 
   const loginRoutineSaga = function * (mobileLogin, firstLogin) {
     try {
+      // Clear form
+      yield put(actions.form.destroy('login'))
       // If needed, the user should upgrade its wallet before being able to open the wallet
       let isHdWallet = yield select(selectors.core.wallet.isHdWallet)
       if (!isHdWallet) {
