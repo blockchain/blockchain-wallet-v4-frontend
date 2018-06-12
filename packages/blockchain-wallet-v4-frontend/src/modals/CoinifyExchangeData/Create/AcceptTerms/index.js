@@ -14,7 +14,7 @@ class AcceptTermsContainer extends Component {
       busy: false,
       acceptedTerms: false
     }
-    this.handleSignup = this.handleSignup.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {

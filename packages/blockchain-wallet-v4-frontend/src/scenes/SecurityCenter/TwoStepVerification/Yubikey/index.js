@@ -13,7 +13,7 @@ class YubikeyContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
     this.handleInput = this.handleInput.bind(this)
 
     this.state = { yubikeyCode: '' }
