@@ -12,8 +12,7 @@ class ReminderContainer extends React.PureComponent {
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  onSubmit (e) {
-    e.preventDefault()
+  onSubmit () {
     const { email, code, captcha, authActions } = this.props
     const { sessionToken } = captcha.getOrElse({})
 

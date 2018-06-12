@@ -38,7 +38,7 @@ const validNullableEmail = emailVal => {
 }
 
 const SecondStep = (props) => {
-  const { previousStep, submitting, invalid, onSubmit } = props
+  const { previousStep, submitting, invalid, handleSubmit } = props
 
   return (
     <Wrapper>
@@ -51,7 +51,7 @@ const SecondStep = (props) => {
         </Text>
       </Header>
       <Separator />
-      <Form onSubmit={onSubmit}>
+      <Form onSubmit={handleSubmit}>
         <FormGroup>
           <FormItem>
             <FormLabel for='newEmail'>

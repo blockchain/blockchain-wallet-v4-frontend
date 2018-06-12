@@ -24,8 +24,7 @@ class AcceptTermsContainer extends Component {
     }
   }
 
-  handleSignup (e) {
-    e.preventDefault()
+  onSubmit () {
     this.setState({ busy: true })
     this.props.coinifyFrontendActions.coinifySignup(this.props.country)
   }
@@ -38,7 +37,7 @@ class AcceptTermsContainer extends Component {
       busy={busy}
       email={email}
       invalid={invalid}
-      onSubmit={this.handleSignup}
+      onSubmit={this.onSubmit}
       signupError={signupError}
       updateUI={updateUI}
       editEmail={() => { this.props.updateUI({ create: 'change_email' }) }}
