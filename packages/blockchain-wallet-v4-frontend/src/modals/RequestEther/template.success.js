@@ -34,7 +34,7 @@ const ScanMessage = styled.div`
 
 const RequestEther = (props) => {
   const { position, total, closeAll, ...rest } = props
-  const { onSubmit, address } = rest
+  const { handleSubmit, address } = rest
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -42,7 +42,7 @@ const RequestEther = (props) => {
         <FormattedMessage id='modals.requestether.title' defaultMessage='Request Ether' />
       </ModalHeader>
       <ModalBody>
-        <Form onSubmit={onSubmit}>
+        <Form onSubmit={handleSubmit}>
           <CoinSelector margin={'20px'}>
             <FormItem>
               <FormLabel for='coin'>

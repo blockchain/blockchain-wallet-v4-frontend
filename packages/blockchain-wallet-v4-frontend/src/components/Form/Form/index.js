@@ -8,17 +8,17 @@ const BaseForm = styled(ReduxForm)`
 `
 
 const Form = props => {
-  const { children, onSubmit } = props
+  const { children, handleSubmit } = props
 
   return (
-    <BaseForm onSubmit={onSubmit}>
+    <BaseForm onSubmit={handleSubmit}>
       {children}
     </BaseForm>
   )
 }
 
 Form.propTypes = {
-  onSubmit: PropTypes.func.isRequired
+  handleSubmit: PropTypes.func.isRequired
 }
 
 export default Form

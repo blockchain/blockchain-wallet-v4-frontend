@@ -31,8 +31,7 @@ class RequestEtherContainer extends React.PureComponent {
     }
   }
 
-  onSubmit (e) {
-    e.preventDefault()
+  onSubmit () {
     this.props.modalActions.closeAllModals()
   }
 
