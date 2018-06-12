@@ -59,7 +59,6 @@ const TooltipBox = styled(TextGroup)`
     height: 0;
     border: 10px solid transparent;
     border-top-color: ${props => props.theme['gray-2']};
-    z-index: 999;
   }
 
   &:after {
@@ -72,7 +71,6 @@ const TooltipBox = styled(TextGroup)`
     height: 0;
     border: 9px solid transparent;
     border-top-color: ${props => props.theme['white-blue']};
-    z-index: 999;
   }
 `
 
