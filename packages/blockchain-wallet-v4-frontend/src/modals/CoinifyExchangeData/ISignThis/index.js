@@ -1,12 +1,15 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actions, selectors } from 'data'
 import { path } from 'ramda'
-import { Button, Text } from 'blockchain-info-components'
+import { Button, Text, Tooltip } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import Helper from 'components/BuySell/FAQ'
+import CountdownTimer from 'components/Form/CountdownTimer'
+import { spacing } from 'services/StyleService'
+import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 
 const ISXContainer = styled.div`
   display: flex;
@@ -16,6 +19,20 @@ const ButtonContainer = styled.div`
   margin-left: 5%;
   width: 20%;
 `
+const TimerContainer = styled.div`
+  width: 66%;
+  padding-bottom: 5px;
+  display: flex;
+  justify-content: flex-end;
+`
+const QuoteExpiredText = styled(Text)`
+  span {
+    margin-right: 5px;
+  }
+  span:first-of-type {
+    font-style: italic;
+  }
+`
 
 const helpers = [
   {
@@ -23,10 +40,16 @@ const helpers = [
     answer: <FormattedMessage id='scenes.buysell.coinify.isx.answer1' defaultMessage="Completing the identity verification process allows you to buy and sell at higher limits. If you don't submit this information, you will only be able to buy and sell up to €300." />
   }
 ]
-
+const getExpiredBtcValues = (q) => q.quoteCurrency === 'BTC' ? `${q.quoteAmount / 1e8}` : `${q.baseAmount / 1e8}`
+const getExpiredFiatValues = (q) => q.baseCurrency !== 'BTC' ? `${Currency.formatFiat(Math.abs(q.baseAmount))} ${q.baseCurrency}` : `${Currency.formatFiat(Math.abs(q.quoteAmount))} ${q.quoteCurrency}`
 const faqHelper = () => helpers.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
 
 class ISignThisContainer extends Component {
+  constructor (props) {
+    super(props)
+    this.state = { quoteExpired: false }
+    this.onQuoteExpiration = this.onQuoteExpiration.bind(this)
+  }
   componentDidMount () {
     window.addEventListener('message', function (e) {
     })
@@ -171,44 +194,78 @@ class ISignThisContainer extends Component {
       .publish()
   }
 
+  onQuoteExpiration () {
+    this.setState({ quoteExpired: true })
+  }
+
   render () {
-    const { options, iSignThisId, coinifyActions, trade } = this.props
+    const { options, iSignThisId, coinifyActions, trade, quoteR } = this.props
     const walletOpts = options || this.props.walletOptions.data
     const iSignThisDomain = path(['platforms', 'web', 'coinify', 'config', 'iSignThisDomain'], walletOpts)
     const srcUrl = `${iSignThisDomain}/landing/${iSignThisId}?embed=true`
     const isxType = path(['data', 'constructor', 'name'], trade)
 
     return (
-      <ISXContainer>
-        <iframe style={{width: '65%', height: '400px'}}
-          src={srcUrl}
-          sandbox='allow-same-origin allow-scripts allow-forms'
-          scrolling='yes'
-          id='isx-iframe'
-        />
-        <ButtonContainer>
-          <Button nature='empty-secondary' fullwidth onClick={() => coinifyActions.cancelISX()}>
-            <Text size='13px' weight={300} color='brand-secondary'>
-              {
-                isxType && isxType === 'Trade'
-                  ? <FormattedMessage id='scenes.buysell.coinify.isx.finishlater' defaultMessage='Finish later' />
-                  : <FormattedMessage id='scenes.buysell.coinify.isx.dolater' defaultMessage="I'll do this later" />
-              }
-            </Text>
-          </Button>
-          {
-            isxType && isxType !== 'Trade'
-              ? faqHelper()
-              : null
-          }
-        </ButtonContainer>
-      </ISXContainer>
+      <Fragment>
+        <TimerContainer>
+          {quoteR.map((q) => {
+            if (isxType && isxType !== 'Trade') return null
+            if (this.state.quoteExpired) {
+              return (
+                <Fragment>
+                  <QuoteExpiredText size='11px' weight={300}>
+                    <FormattedMessage id='scenes.buysell.coinify.isx.quoteexpiredbtc' defaultMessage='~{btcValue} BTC' values={{ btcValue: getExpiredBtcValues(q) }} />
+                    <FormattedMessage id='scenes.buysell.coinify.isx.quoteexpiredfiat' defaultMessage='({fiatValue})' values={{ fiatValue: getExpiredFiatValues(q) }} />
+                  </QuoteExpiredText>
+                  <Tooltip>
+                    <FormattedMessage id='scenes.buysell.coinify.isx.expiredtooltip' defaultMessage='This is an estimated quote. The original quote for this trade expired. The exact amount of bitcoin received depends on when the payment is received.' />
+                  </Tooltip>
+                </Fragment>
+              )
+            } else {
+              return (
+                <CountdownTimer
+                  expiryDate={q.expiresAt.getTime()}
+                  handleExpiry={this.onQuoteExpiration}
+                  tooltipExpiryTime='15 minutes'
+                  hideTooltip
+                />
+              )
+            }
+          }).getOrElse(null)}
+        </TimerContainer>
+        <ISXContainer>
+          <iframe style={{width: '65%', height: '400px'}}
+            src={srcUrl}
+            sandbox='allow-same-origin allow-scripts allow-forms'
+            scrolling='yes'
+            id='isx-iframe'
+          />
+          <ButtonContainer>
+            <Button nature='empty-secondary' fullwidth onClick={() => coinifyActions.cancelISX()}>
+              <Text size='13px' weight={300} color='brand-secondary'>
+                {
+                  isxType && isxType === 'Trade'
+                    ? <FormattedMessage id='scenes.buysell.coinify.isx.finishlater' defaultMessage='Finish later' />
+                    : <FormattedMessage id='scenes.buysell.coinify.isx.dolater' defaultMessage="I'll do this later" />
+                }
+              </Text>
+            </Button>
+            {
+              isxType && isxType !== 'Trade'
+                ? faqHelper()
+                : null
+            }
+          </ButtonContainer>
+        </ISXContainer>
+      </Fragment>
     )
   }
 }
 
 const mapStateToProps = (state) => ({
   walletOptions: path(['walletOptionsPath'], state),
+  quoteR: selectors.core.data.coinify.getQuote(state),
   trade: selectors.core.data.coinify.getTrade(state)
 })
 
