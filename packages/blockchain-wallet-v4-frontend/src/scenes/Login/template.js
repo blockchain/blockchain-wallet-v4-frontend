@@ -187,4 +187,4 @@ Login.propTypes = {
   handleSmsResend: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: 'login' })(Login)
+export default reduxForm({ form: 'login', destroyOnUnmount: false })(Login)
