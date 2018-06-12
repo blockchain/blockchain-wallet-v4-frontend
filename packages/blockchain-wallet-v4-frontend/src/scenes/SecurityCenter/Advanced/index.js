@@ -25,7 +25,8 @@ export default class Advanced extends PureComponent {
   componentDidMount () {
     if (!this.props.showTabs) {
       const button = document.getElementById('advanced-button')
-      button.scrollIntoView()
+      const alignToTop = false
+      button.scrollIntoView(alignToTop)
     }
   }
 
