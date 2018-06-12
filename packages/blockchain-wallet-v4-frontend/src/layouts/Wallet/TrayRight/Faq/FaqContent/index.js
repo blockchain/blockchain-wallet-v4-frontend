@@ -259,7 +259,7 @@ const FaqContent = [
       answer: <FaqDescription>
         <FormattedMessage id='scenes.faq.group.coinify.answer7.one' defaultMessage='Your personal information is stored with Coinify, not in your Blockchain wallet. To read more about how your information is stored, visit ' />
         <Link href='https://www.coinify.com/legal/' target='_blank' size='13px' weight={200}>
-          <FormattedMessage id='scenes.faq.group.coinify.answer7.link' defaultMessage=' privay policy' />
+          <FormattedMessage id='scenes.faq.group.coinify.answer7.link' defaultMessage=' privacy policy' />
         </Link>
         <FormattedMessage id='scenes.faq.group.coinify.answer7.two' defaultMessage='.' />
       </FaqDescription>
@@ -305,7 +305,7 @@ const FaqContent = [
       answer: <FaqDescription>
         <FormattedMessage id='scenes.faq.group.sfox.answer4.one' defaultMessage='Your personal information is stored with SFOX, not in your Blockchain wallet. To read more about how your information is stored, visit SFOX’s' />
         <Link href='https://www.sfox.com/privacy.html' target='_blank' size='13px' weight={200}>
-          <FormattedMessage id='scenes.faq.group.sfox.answer4.link' defaultMessage=' privay policy' />
+          <FormattedMessage id='scenes.faq.group.sfox.answer4.link' defaultMessage=' privacy policy' />
         </Link>
         <FormattedMessage id='scenes.faq.group.sfox.answer4.two' defaultMessage='.' />
       </FaqDescription>
