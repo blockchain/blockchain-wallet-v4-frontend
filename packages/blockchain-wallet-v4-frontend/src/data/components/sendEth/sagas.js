@@ -1,8 +1,9 @@
-import { call, select, put } from 'redux-saga/effects'
+import { call, select, put, take } from 'redux-saga/effects'
 import { equals, identity, path, prop } from 'ramda'
 import * as A from './actions'
 import * as S from './selectors'
 import * as actions from '../../actions'
+import * as actionTypes from '../../actionTypes'
 import * as selectors from '../../selectors'
 import settings from 'config'
 import { initialize, change } from 'redux-form'
@@ -115,10 +116,12 @@ export default ({ coreSagas }) => {
       payment = yield payment.publish()
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
       yield put(actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(Date.now()))
+      yield take(actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS)
       yield put(actions.core.kvStore.ethereum.setLatestTxEthereum(payment.value().txId))
       yield put(actions.router.push('/eth/transactions'))
       yield put(actions.alerts.displaySuccess(C.SEND_ETH_SUCCESS))
       if (path(['description', 'length'], payment.value())) {
+        yield take(actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS)
         yield put(actions.core.kvStore.ethereum.setTxNotesEthereum(payment.value().txId, payment.value().description))
       }
     } catch (e) {

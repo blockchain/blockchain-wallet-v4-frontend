@@ -36,9 +36,6 @@ describe('authSagas', () => {
       const { mobileLogin } = payload
       expect(gen.next().value).toEqual(call(loginRoutineSaga, mobileLogin))
     })
-    it('should put login success', () => {
-      expect(gen.next().value).toEqual(put(actions.auth.loginSuccess()))
-    })
     describe('catch', () => {
       let gen = login({ payload })
       gen.next()
