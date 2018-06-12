@@ -29,6 +29,7 @@ class CreateContainer extends Component {
       editMobile={() => { this.props.updateUI({ create: 'change_mobile' }); this.setState({ editVerifiedMobile: true }) }}
       editVerifiedEmail={this.state.editVerifiedEmail}
       editVerifiedMobile={this.state.editVerifiedMobile}
+      needsChangeEmail={() => this.props.updateUI({ create: 'change_email', uniqueEmail: false })}
       {...this.props}
     />
   }
