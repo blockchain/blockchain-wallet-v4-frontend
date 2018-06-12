@@ -30,8 +30,7 @@ const TooltipLabel = styled(Text)`
 const TooltipBox = styled(TextGroup)`
   position: absolute;
   bottom: 150%;
-  left: -115px;
-  text-align: initial;
+  left: ${props => props.left ? props.left : '-115px'};
   width: ${props => props.width === 'auto' || '250px'};
   display: ${props => props.displayed ? 'block' : 'none'};
   background-color: ${props => props.theme['white-blue']};
@@ -46,9 +45,8 @@ const TooltipBox = styled(TextGroup)`
   font-family: "Montserrat", sans serif;
   text-align: left;
 
-  > div,
-  > span {
-    margin-bottom: 0px;
+  > div, > span {
+    margin-bottom: 0;
   }
 
   &:before {
@@ -61,6 +59,7 @@ const TooltipBox = styled(TextGroup)`
     height: 0;
     border: 10px solid transparent;
     border-top-color: ${props => props.theme['gray-2']};
+    z-index: 999;
   }
 
   &:after {
@@ -73,11 +72,12 @@ const TooltipBox = styled(TextGroup)`
     height: 0;
     border: 9px solid transparent;
     border-top-color: ${props => props.theme['white-blue']};
+    z-index: 999;
   }
 `
 
 export const Tooltip = props => {
-  const { icon, width, label, displayed, handleClick, handleMouseEnter, handleMouseLeave } = props
+  const { icon, width, left, label, displayed, handleClick, handleMouseEnter, handleMouseLeave } = props
   return (
     <TooltipWrapper width={width}>
       {
@@ -85,7 +85,7 @@ export const Tooltip = props => {
           ? <TooltipLabel onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>{label}</TooltipLabel>
           : <TooltipIcon displayed={displayed} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={handleClick}>{icon}</TooltipIcon>
       }
-      <TooltipBox width={width} displayed={displayed} onClick={handleClick}>{props.children}</TooltipBox>
+      <TooltipBox width={width} left={left} displayed={displayed} onClick={handleClick}>{props.children}</TooltipBox>
     </TooltipWrapper>
   )
 }
@@ -93,6 +93,7 @@ export const Tooltip = props => {
 Tooltip.propTypes = {
   icon: PropTypes.string,
   width: PropTypes.string,
+  left: PropTypes.string,
   label: PropTypes.string,
   displayed: PropTypes.bool,
   handleClick: PropTypes.func,

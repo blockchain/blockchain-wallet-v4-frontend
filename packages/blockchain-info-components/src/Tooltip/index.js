@@ -35,6 +35,7 @@ class TooltipContainer extends React.PureComponent {
       <Tooltip
         icon={icon}
         width={this.props.width}
+        left={this.props.left}
         label={this.props.label}
         displayed={this.state.displayed}
         handleClick={this.handleClick}
