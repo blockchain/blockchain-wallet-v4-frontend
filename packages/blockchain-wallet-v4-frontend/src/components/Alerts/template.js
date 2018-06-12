@@ -51,6 +51,8 @@ const selectMessage = (message, data = undefined) => {
     case C.CURRENCY_UPDATE_ERROR: return <FormattedMessage id='components.alerts.currency_update_error' defaultMessage='Failed to update currency' />
     case C.CURRENCY_UPDATE_SUCCESS: return <FormattedMessage id='components.alerts.currency_update_success' defaultMessage='Currency has been successfully updated' />
     case C.DOCUMENT_UPLOAD_ERROR: return <FormattedMessage id='components.alerts.document_upload_error' defaultMessage='Failed to upload document.' />
+    case C.DEAUTHORIZE_BROWSER_SUCCESS: return <FormattedMessage id='components.alerts.deauthorize_browser_success' defaultMessage='Browser was successfully deauthorized.' />
+    case C.DEAUTHORIZE_BROWSER_ERROR: return <FormattedMessage id='components.alerts.deauthorize_browser_error' defaultMessage='Failed to deauthorize this browser.' />
     case C.EMAIL_CODE_SENT_SUCCESS: return <FormattedMessage id='components.alerts.email_code_sent_success' defaultMessage='Confirmation code has been sent.' />
     case C.EMAIL_UPDATE_ERROR: return <FormattedMessage id='components.alerts.email_update_error' defaultMessage='Failed to update email address.' />
     case C.EMAIL_UPDATE_SUCCESS: return <FormattedMessage id='components.alerts.email_update_success' defaultMessage='Your email has been updated and your confirmation code has been sent.' />
