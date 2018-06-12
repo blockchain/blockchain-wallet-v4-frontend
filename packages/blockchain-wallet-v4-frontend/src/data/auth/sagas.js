@@ -69,6 +69,10 @@ export default ({ api, coreSagas }) => {
       yield call(coreSagas.kvStore.ethereum.fetchMetadataEthereum)
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
       yield put(actions.router.push('/home'))
+      // reset auth type and clear previous login form state
+      yield put(actions.auth.setAuthType(0))
+      yield put(actions.form.destroy('login'))
+      yield put(actions.auth.loginSuccess())
       yield put(actions.auth.startLogoutTimer())
       yield put(actions.goals.runGoals())
       yield fork(transferEthSaga)
@@ -118,7 +122,6 @@ export default ({ api, coreSagas }) => {
       yield put(actions.auth.loginLoading())
       yield call(coreSagas.wallet.fetchWalletSaga, { guid, sharedKey, session, password, code })
       yield call(loginRoutineSaga, mobileLogin)
-      yield put(actions.auth.loginSuccess())
     } catch (error) {
       const initialError = safeParse(error).map(prop('initial_error'))
       const authRequired = safeParse(error).map(prop('authorization_required'))
@@ -273,10 +276,25 @@ export default ({ api, coreSagas }) => {
     yield put(actions.core.webSocket.bitcoin.stopSocket())
     yield put(actions.core.webSocket.ethereum.stopSocket())
     yield put(actions.core.webSocket.bch.stopSocket())
-    yield window.location.reload(true)
+    yield put(actions.router.push('/logout'))
+  }
+
+  const deauthorizeBrowser = function * () {
+    try {
+      const guid = yield select(selectors.core.wallet.getGuid)
+      const sessionToken = yield select(selectors.session.getSession, guid)
+      yield call(api.deauthorizeBrowser, sessionToken)
+      yield put(actions.alerts.displaySuccess(C.DEAUTHORIZE_BROWSER_SUCCESS))
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'deauthorizeBrowser', e))
+      yield put(actions.alerts.displayError(C.DEAUTHORIZE_BROWSER_ERROR))
+    } finally {
+      yield put(actions.router.push('/login'))
+    }
   }
 
   return {
+    deauthorizeBrowser,
     login,
     logout,
     loginRoutineSaga,
