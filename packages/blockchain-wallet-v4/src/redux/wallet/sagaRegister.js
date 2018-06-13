@@ -7,6 +7,7 @@ export default ({ api }) => {
   const walletSagas = sagas({ api })
 
   return function * () {
+    yield takeLatest(AT.SET_DEFAULT_ACCOUNT, walletSagas.refetchContextData)
     yield takeLatest(AT.SET_ADDRESS_ARCHIVED, walletSagas.refetchContextData)
     yield takeLatest(AT.SET_ACCOUNT_ARCHIVED, walletSagas.refetchContextData)
   }

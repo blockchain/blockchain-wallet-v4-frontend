@@ -237,14 +237,28 @@ export default ({ api, coreSagas }) => {
         yield put(actions.auth.reset2faSuccess())
         yield put(actions.alerts.displayInfo(C.RESET_TWOFA_INFO))
       } else {
-        yield put(actions.core.data.misc.fetchCaptcha())
-        yield put(actions.auth.reset2faFailure())
-        yield put(actions.alerts.displayError(response.message))
+        throw new Error(response.message)
       }
     } catch (e) {
+      yield put(actions.core.data.misc.fetchCaptcha())
       yield put(actions.auth.reset2faFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'reset2fa', e))
-      yield put(actions.alerts.displayError(C.TWOFA_RESET_ERROR))
+      switch (e.toString()) {
+        case 'Wallet Identifier Not Found': {
+          return yield put(actions.alerts.displayError(C.TWOFA_RESET_UNKNOWN_GUID_ERROR))
+        }
+        case 'Error: Two factor authentication not enabled.': {
+          return yield put(actions.alerts.displayError(C.TWOFA_RESET_NOT_ENABLED_ERROR))
+        }
+        case 'Error: Email entered does not match the email address associated with this wallet': {
+          return yield put(actions.alerts.displayError(C.TWOFA_RESET_EMAIL_ERROR))
+        }
+        case 'Error: Captcha Code Incorrect': {
+          return yield put(actions.alerts.displayError(C.CAPTCHA_CODE_INCORRECT))
+        }
+        default:
+          return yield put(actions.alerts.displayError(C.TWOFA_RESET_ERROR))
+      }
     }
   }
 
@@ -291,14 +305,20 @@ export default ({ api, coreSagas }) => {
       yield put(actions.logs.logErrorMessage(logLocation, 'deauthorizeBrowser', e))
       yield put(actions.alerts.displayError(C.DEAUTHORIZE_BROWSER_ERROR))
     } finally {
-      yield put(actions.router.push('/login'))
+      yield logoutClearReduxStore()
     }
+  }
+
+  const logoutClearReduxStore = function * () {
+    yield window.history.pushState('', '', '/login')
+    yield window.location.reload(true)
   }
 
   return {
     deauthorizeBrowser,
     login,
     logout,
+    logoutClearReduxStore,
     loginRoutineSaga,
     mobileLogin,
     register,

@@ -46,7 +46,6 @@ exports[`Tooltip component renders correctly 1`] = `
   position: absolute;
   bottom: 150%;
   left: -115px;
-  text-align: initial;
   width: 250px;
   display: none;
   border: 1px solid;
@@ -62,7 +61,7 @@ exports[`Tooltip component renders correctly 1`] = `
 
 .c2 > div,
 .c2 > span {
-  margin-bottom: 0px;
+  margin-bottom: 0;
 }
 
 .c2:before {
