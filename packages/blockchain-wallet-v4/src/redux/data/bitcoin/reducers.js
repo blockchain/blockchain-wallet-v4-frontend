@@ -78,7 +78,7 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
         : over(lensProp('transactions'), compose(append(Remote.Success(transactions)), dropLast(1)), state)
     }
     case AT.FETCH_BITCOIN_TRANSACTIONS_FAILURE: {
-      return over(lensProp('transactions'), dropLast(1), state)
+      return assoc('transactions', [Remote.Failure(payload)], state)
     }
     case AT.FETCH_BITCOIN_FIAT_AT_TIME_LOADING: {
       const { hash, currency } = payload

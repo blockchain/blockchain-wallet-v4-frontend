@@ -34,6 +34,7 @@ export default ({ api }) => {
       const lastPage = last(pages)
       if (!reset && lastPage && lastPage.map(length).getOrElse(0) === 0) { return }
       const offset = reset ? 0 : length(pages) * TX_PER_PAGE
+      yield put(A.fetchDataLoading(reset))
       yield put(A.fetchTransactionsLoading(reset))
       const context = yield select(selectors.wallet.getWalletContext)
       const data = yield call(api.fetchBlockchainData, context, { n: TX_PER_PAGE, onlyShow: address, offset })
@@ -42,6 +43,7 @@ export default ({ api }) => {
       yield fork(fetchUnspendableBalance)
       yield put(A.fetchTransactionsSuccess(data.txs, reset))
     } catch (e) {
+      yield put(A.fetchDataFailure(e.message))
       yield put(A.fetchTransactionsFailure(e.message))
     }
   }

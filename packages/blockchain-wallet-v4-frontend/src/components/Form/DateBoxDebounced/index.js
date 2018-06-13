@@ -35,8 +35,11 @@ class DateBoxDebounced extends React.Component {
   }
 
   static getDerivedStateFromProps (nextProps, prevState) {
-    if (!equals(nextProps.input.value, prevState)) {
-      return { value: nextProps.input.value }
+    if (!equals(prevState.updatedValue, prevState.value)) {
+      return { updatedValue: prevState.updatedValue, value: prevState.updatedValue }
+    }
+    if (!equals(nextProps.input.value, prevState.value)) {
+      return { updatedValue: nextProps.input.value, value: nextProps.input.value }
     }
     return null
   }
@@ -46,7 +49,8 @@ class DateBoxDebounced extends React.Component {
   }
 
   handleChange (value) {
-    this.setState({ value, open: false })
+    this.setState({ updatedValue: value, open: false })
+
     if (this.timeout) clearTimeout(this.timeout)
     this.timeout = setTimeout(() => {
       this.props.input.onChange(value)

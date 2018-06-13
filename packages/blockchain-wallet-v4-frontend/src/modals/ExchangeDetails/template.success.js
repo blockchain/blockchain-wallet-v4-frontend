@@ -44,6 +44,8 @@ const getModalHeader = (status) => {
       return <FormattedMessage id='modals.exchangedetails.title.success' defaultMessage='Exchange Completed' />
     case 'resolved':
       return <FormattedMessage id='modals.exchangedetails.title.refunded' defaultMessage='Trade Refunded' />
+    case 'failed':
+      return <FormattedMessage id='modals.exchangedetails.title.failed' defaultMessage='Trade Failed' />
     default:
       return <FormattedMessage id='modals.exchangedetails.title.inprogress' defaultMessage='Exchange in Progress' />
   }

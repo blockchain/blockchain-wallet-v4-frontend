@@ -101,7 +101,6 @@ export default ({ api, coreSagas }) => {
         case 'targetAmount': yield call(changeAmount, field); break
         case 'targetFiat': yield call(changeAmount, field); break
       }
-      yield call(validateForm)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'change', e))
     }
@@ -117,7 +116,7 @@ export default ({ api, coreSagas }) => {
       const newTarget = yield call(selectOtherAccount, targetCoin)
       yield put(actions.form.change2('exchange', 'target', newTarget))
     }
-    yield call(changeAmount)
+    yield call(resetForm)
   }
 
   const changeTarget = function * () {
@@ -130,7 +129,7 @@ export default ({ api, coreSagas }) => {
       const newSource = yield call(selectOtherAccount, sourceCoin)
       yield put(actions.form.change2('exchange', 'source', newSource))
     }
-    yield call(changeAmount)
+    yield call(resetForm)
   }
 
   const changeAmount = function * (type) {
@@ -140,6 +139,7 @@ export default ({ api, coreSagas }) => {
     yield put(actions.form.change2('exchange', 'sourceFiat', sourceFiat))
     yield put(actions.form.change2('exchange', 'targetAmount', targetAmount))
     yield put(actions.form.change2('exchange', 'targetFiat', targetFiat))
+    yield call(validateForm)
     yield put(A.firstStepEnabled())
   }
 
