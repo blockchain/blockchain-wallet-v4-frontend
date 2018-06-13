@@ -49,8 +49,7 @@ class LinkContainer extends Component {
     this.props.sfoxFrontendActions.submitMicroDeposits({ amount1, amount2 })
   }
 
-  onSubmit (e) {
-    e.preventDefault()
+  onSubmit () {
     if (this.props.ui.toggleManual && this.state.routingNumber && this.state.accountNumber) {
       this.props.updateUI({ busy: true })
       const { fullName, routingNumber, accountNumber, accountType } = this.state

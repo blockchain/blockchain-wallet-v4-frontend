@@ -12,8 +12,7 @@ class PromptContainer extends React.PureComponent {
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  onSubmit (e) {
-    e.preventDefault()
+  onSubmit () {
     this.props.actions.submitPromptInput(this.props.value)
   }
 

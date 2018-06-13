@@ -39,7 +39,7 @@ const Footer = styled(FormGroup)`
 `
 
 const ThirdStep = (props) => {
-  const { busy, previousStep, onSubmit, invalid } = props
+  const { busy, previousStep, handleSubmit, invalid } = props
 
   return (
     <Wrapper>
@@ -52,7 +52,7 @@ const ThirdStep = (props) => {
         </Text>
       </Header>
       <Separator />
-      <ThirdStepForm onSubmit={onSubmit}>
+      <ThirdStepForm onSubmit={handleSubmit}>
         <CaptchaText size='14px' weight={500}>
           <FormattedMessage id='scenes.reset2fa.thirdstep.captcha' defaultMessage='Captcha' />
         </CaptchaText>

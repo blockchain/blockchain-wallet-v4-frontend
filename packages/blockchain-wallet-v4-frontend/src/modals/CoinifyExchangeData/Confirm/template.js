@@ -41,7 +41,7 @@ const Unit = styled.div`
 `
 
 const Confirm = (props) => {
-  const { ui, value, onSubmit, busy, invalid, submitting, medium, toggleEdit, editingAmount } = props
+  const { ui, value, handleSubmit, busy, invalid, submitting, medium, toggleEdit, editingAmount } = props
   const { quote, mediums, limits } = value
   const { quoteAmount, baseAmount, baseCurrency } = quote
   const { total, fee } = mediums[medium]
@@ -64,7 +64,7 @@ const Confirm = (props) => {
   }
 
   return (
-    <Form onSubmit={onSubmit}>
+    <Form onSubmit={handleSubmit}>
       <ColLeft>
         <InputWrapper style={spacing('mb-20')}>
           <PartnerHeader>
