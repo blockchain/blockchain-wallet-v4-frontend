@@ -16,7 +16,6 @@ class ActionsContainer extends React.PureComponent {
 
   componentWillMount () {
     const { payload } = this.props.match.params
-
     try {
       if (startsWith('bitcoin', payload)) {
         // Special case to handle bitcoin bip21 link integration
