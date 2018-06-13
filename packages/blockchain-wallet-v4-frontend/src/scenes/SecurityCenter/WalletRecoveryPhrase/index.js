@@ -13,7 +13,6 @@ class WalletRecoveryPhraseContainer extends React.PureComponent {
     super(props)
 
     this.toggleNextStep = this.toggleNextStep.bind(this)
-    this.toggleBackupAgain = this.toggleBackupAgain.bind(this)
     this.closeSteps = this.closeSteps.bind(this)
     this.changeDescription = this.changeDescription.bind(this)
     this.state = {}
@@ -43,10 +42,6 @@ class WalletRecoveryPhraseContainer extends React.PureComponent {
     this.props.updateUI({ descriptionToggled: !this.props.ui.descriptionToggled })
   }
 
-  toggleBackupAgain () {
-    this.props.updateUI({ nextStepToggled: true })
-  }
-
   render () {
     const { data, ...rest } = this.props
     return <Success
@@ -55,7 +50,6 @@ class WalletRecoveryPhraseContainer extends React.PureComponent {
       toggleNextStep={this.toggleNextStep}
       handleClose={this.closeSteps}
       changeDescription={this.changeDescription}
-      toggleBackupAgain={this.toggleBackupAgain}
     />
   }
 }

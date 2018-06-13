@@ -42,10 +42,14 @@ const Unit = styled.span`
   position: absolute;
   color: ${props => props.theme['gray-4']};
 `
+const ArrowLeft = styled(Icon)`
+  margin-left: 10px;
+  color: #bbb;
+`
 const ArrowRight = styled(Icon)`
-  margin-left: 15px;
-  margin-right: 15px;
-  color: #5F5F5F;
+  margin-left: -10px;
+  margin-right: 10px;
+  color: #bbb;
 `
 const Error = styled(Text)`
   position: absolute;
@@ -148,7 +152,8 @@ const FiatConvertor = (props) => {
           <Field name='leftVal' component={NumberBoxDebounced} disabled={disabled || !canTrade} borderRightNone={1} />
           <Field name='currency' component={SelectBoxCoinifyCurrency} defaultDisplay={defaultCurrency} isSell={isSell} />
         </Container>
-        <ArrowRight weight={600} size='22px' name='right-arrow' />
+        <ArrowLeft size='16px' name='left-arrow' />
+        <ArrowRight size='16px' name='right-arrow' />
         <Container>
           <Field name='rightVal' component={NumberBoxDebounced} disabled={disabled || !canTrade} />
           <Unit>{currency}</Unit>
