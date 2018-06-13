@@ -139,6 +139,7 @@ const Success = props => {
                 onSubmit={submitBuyQuote}
                 busy={busy}
                 clearTradeError={clearTradeError}
+                account={accounts[0]}
               />
             </OrderSubmitWrapper>
           </div>
