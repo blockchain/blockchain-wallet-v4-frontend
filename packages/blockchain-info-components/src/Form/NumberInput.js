@@ -26,6 +26,11 @@ const BaseNumberInput = styled.input.attrs({
     color: ${props => props.theme['gray-3']};
     opacity: 0.4;
   }
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 `
 
 const selectBorderColor = (state) => {

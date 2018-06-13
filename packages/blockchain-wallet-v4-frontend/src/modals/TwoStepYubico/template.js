@@ -19,12 +19,11 @@ const Code = styled.div`
 `
 
 const TwoStepYubico = (props) => {
-  const { position, total, closeAll, close, submitting, invalid, ...rest } = props
-  const { handleClick } = rest
+  const { position, total, closeAll, close, submitting, invalid, handleSubmit } = props
 
   return (
     <Modal size='large' position={position} total={total}>
-      <Form onSubmit={handleClick}>
+      <Form onSubmit={handleSubmit}>
         <ModalHeader onClose={closeAll}>
           <FormattedMessage id='modals.twostepyubico.title' defaultMessage='Enable Two-Step Verification' />
         </ModalHeader>

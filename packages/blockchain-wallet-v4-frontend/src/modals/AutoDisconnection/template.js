@@ -8,11 +8,11 @@ import { Form } from 'components/Form'
 
 const AutoDisconnection = (props) => {
   const { duration, position, total, ...rest } = props
-  const { onSubmit, handleCancel } = rest
+  const { handleSubmit, handleCancel } = rest
 
   return (
     <Modal size='large' position={position} total={total}>
-      <Form onSubmit={onSubmit}>
+      <Form onSubmit={handleSubmit}>
         <ModalHeader onClose={handleCancel}>
           <FormattedMessage id='modals.autodisconnection.title' defaultMessage='Are you still there?' />
         </ModalHeader>

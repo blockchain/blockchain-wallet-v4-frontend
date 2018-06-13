@@ -15,7 +15,7 @@ class TransferEthContainer extends React.PureComponent {
   }
 
   componentDidMount () {
-    this.props.sendEthActions.sendEthInitialized({ from: this.props.addr, type: 'LEGACY' })
+    this.props.sendEthActions.initialized({ from: this.props.addr, type: 'LEGACY' })
   }
 
   componentDidUpdate (prevProps) {
