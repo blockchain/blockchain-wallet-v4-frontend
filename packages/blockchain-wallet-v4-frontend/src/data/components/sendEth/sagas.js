@@ -28,7 +28,7 @@ export default ({ coreSagas }) => {
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
       yield
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'sendEthInitialized', e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
     }
   }
 
