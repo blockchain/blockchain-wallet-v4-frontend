@@ -48,3 +48,5 @@ export const finishTrade = (trade) => ({ type: AT.FINISH_TRADE, payload: trade }
 export const cancelTrade = (trade) => ({ type: AT.CANCEL_TRADE, payload: trade })
 
 export const cancelSubscription = (subscription) => ({ type: AT.CANCEL_SUBSCRIPTION, payload: subscription })
+
+export const checkoutCardMax = (limits) => ({ type: AT.CHECKOUT_CARD_MAX, payload: limits })

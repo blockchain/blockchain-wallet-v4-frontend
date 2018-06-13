@@ -7,21 +7,22 @@ import { actions, selectors } from 'data'
 import Reminder from './template.js'
 
 class ReminderContainer extends React.PureComponent {
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
+    this.state = { submitted: false }
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  onSubmit (e) {
-    e.preventDefault()
+  onSubmit () {
     const { email, code, captcha, authActions } = this.props
     const { sessionToken } = captcha.getOrElse({})
 
     authActions.remindGuid(email, code, sessionToken)
+    this.setState({ submitted: true })
   }
 
   render () {
-    return <Reminder onSubmit={this.onSubmit} />
+    return <Reminder onSubmit={this.onSubmit} submitted={this.state.submitted} />
   }
 }
 

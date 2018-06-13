@@ -62,9 +62,9 @@ const getErrorState = (meta) => {
 const getLimitsError = (val, limits, disabledReason, fiat) => {
   if (limits.max < limits.min) return `Your limit of $${limits.max} is below the minimum allowed amount.`
   if (disabledReason === 'not_enough_funds') return `There are not enough funds to meet the sell minimum of $${limits.min.toLocaleString()}`
+  if (val && val > limits.max) return `Enter an amount under your $${limits.max.toLocaleString()} limit`
+  if (val && val < limits.min) return `Enter an amount above the $${limits.min.toLocaleString()} minimum`
   if (!val || !fiat) return
-  if (val > limits.max) return `Enter an amount under your $${limits.max.toLocaleString()} limit`
-  if (val < limits.min) return `Enter an amount above the $${limits.min.toLocaleString()} minimum`
   if ((fiat * 1e8) > limits.effectiveMax) return `Enter an amount less than your balance minus the priority fee (${limits.effectiveMax / 1e8} BTC)`
 }
 
