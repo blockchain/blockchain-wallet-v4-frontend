@@ -15,7 +15,7 @@ const Wrapper = styled.div`
 `
 
 const TableRow = ({ children }) => (
-  <Wrapper>
+  <Wrapper border padding>
     {children}
   </Wrapper>
 )

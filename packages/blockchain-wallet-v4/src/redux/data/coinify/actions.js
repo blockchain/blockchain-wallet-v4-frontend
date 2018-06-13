@@ -19,6 +19,11 @@ export const fetchTradesLoading = () => ({ type: AT.COINIFY_FETCH_TRADES_LOADING
 export const fetchTradesSuccess = (data) => ({ type: AT.COINIFY_FETCH_TRADES_SUCCESS, payload: data })
 export const fetchTradesFailure = (error) => ({ type: AT.COINIFY_FETCH_TRADES_FAILURE, payload: error })
 
+export const fetchSubscriptions = (data) => ({ type: AT.COINIFY_FETCH_SUBSCRIPTIONS, payload: data })
+export const fetchSubscriptionsLoading = () => ({ type: AT.COINIFY_FETCH_SUBSCRIPTIONS_LOADING })
+export const fetchSubscriptionsSuccess = (data) => ({ type: AT.COINIFY_FETCH_SUBSCRIPTIONS_SUCCESS, payload: data })
+export const fetchSubscriptionsFailure = (error) => ({ type: AT.COINIFY_FETCH_SUBSCRIPTIONS_FAILURE, payload: error })
+
 export const coinifyFetchProfile = () => ({ type: AT.COINIFY_FETCH_PROFILE })
 export const coinifyFetchProfileLoading = () => ({ type: AT.COINIFY_FETCH_PROFILE_LOADING })
 export const coinifyFetchProfileSuccess = (data) => ({ type: AT.COINIFY_FETCH_PROFILE_SUCCESS, payload: data })
