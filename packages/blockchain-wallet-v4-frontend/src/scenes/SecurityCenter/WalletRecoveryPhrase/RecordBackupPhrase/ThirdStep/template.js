@@ -33,10 +33,10 @@ const VerificationContainer = styled.div`
 
 const ThirdStep = (props) => {
   const { previousStep, showSuccess, submitting, invalid, ...rest } = props
-  const { indexes, onSubmit, isMnemonicVerified } = rest
+  const { indexes, handleSubmit, isMnemonicVerified } = rest
 
   return (
-    <Form onSubmit={onSubmit}>
+    <Form onSubmit={handleSubmit}>
       <SuccessOverlay success={showSuccess && isMnemonicVerified}>
         <Icon name='checkmark-in-circle' size='150px' color='success' />
         <Text size='14px' weight={300} color='success'>

@@ -18,12 +18,11 @@ const MobileNumber = styled.div`
 `
 
 const MobileNumberChange = (props) => {
-  const { position, total, close, closeAll, submitting, invalid, pristine, countryCode, smsNumber, ...rest } = props
-  const { onSubmit } = rest
+  const { position, total, close, closeAll, submitting, invalid, pristine, countryCode, smsNumber, handleSubmit } = props
 
   return (
     <Modal size='large' position={position} total={total}>
-      <Form onSubmit={onSubmit}>
+      <Form onSubmit={handleSubmit}>
         <ModalHeader icon='mobile' onClose={closeAll} >
           <FormattedMessage id='modals.mobilenumberchange.changenumbertitle' defaultMessage='Change Mobile Number' />
         </ModalHeader>

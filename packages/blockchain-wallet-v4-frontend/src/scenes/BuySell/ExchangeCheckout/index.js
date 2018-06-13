@@ -67,8 +67,8 @@ const belowMaxAmount = (value, allValues, props) => value > props.limits.max ? '
 const aboveMinAmount = (value, allValues, props) => value < props.limits.min ? 'min' : undefined
 
 class ExchangeCheckout extends React.PureComponent {
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
     this.state = {}
   }
 
