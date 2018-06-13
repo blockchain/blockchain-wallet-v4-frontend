@@ -34,7 +34,7 @@ const Trade = ({ trade, close, status }) => {
     <Fragment>
       <ModalHeader onClose={close}>
         <Text color={headerStatus.color}>
-          { trade.isBuy ? `Buy Order` : 'Sell Order' } {headerStatus.text}
+          { trade.isBuy ? `Buy Trade` : 'Sell Trade' } {headerStatus.text}
         </Text>
       </ModalHeader>
       <ModalBody>
