@@ -1,6 +1,7 @@
 import React from 'react'
 
 import ErrorBoundary from 'layouts/ErrorBoundary'
+
 import AddBitcoinWallet from './AddBitcoinWallet'
 import AutoDisconnection from './AutoDisconnection'
 import CoinifyDeleteBank from './CoinifyDeleteBank'
@@ -41,8 +42,8 @@ import UpgradeWallet from './UpgradeWallet'
 import Welcome from './Welcome'
 
 const Modals = props => (
-  <ErrorBoundary>
-    <div>
+  <div>
+    <ErrorBoundary modalLayout={true}>
       <AddBitcoinWallet />
       <AutoDisconnection />
       <CoinifyDeleteBank />
@@ -81,8 +82,8 @@ const Modals = props => (
       <TwoStepYubico />
       <UpgradeWallet />
       <Welcome />
-    </div>
-  </ErrorBoundary>
+    </ErrorBoundary>
+  </div>
 )
 
 export default Modals
