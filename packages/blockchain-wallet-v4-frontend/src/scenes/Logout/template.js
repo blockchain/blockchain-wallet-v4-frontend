@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { LinkContainer } from 'react-router-bootstrap'
 
 import { Button, Link, Separator, Text } from 'blockchain-info-components'
 
@@ -30,7 +29,7 @@ const Footer = styled.div`
 `
 
 const Logout = (props) => {
-  const { onDeauthorizeBrowser, secondsRemaining } = props
+  const { onDeauthorizeBrowser, onGoToLogin, secondsRemaining } = props
 
   return (
     <Wrapper>
@@ -55,11 +54,9 @@ const Logout = (props) => {
         <Button type='submit' nature='primary' onClick={onDeauthorizeBrowser}>
           <FormattedMessage id='scenes.logout.deauth' defaultMessage='De-Authorize Browser' />
         </Button>
-        <LinkContainer to='/login' style={{}}>
-          <Link size='13px' weight={300}>
-            <FormattedMessage id='scenes.logout.continue' defaultMessage='Continue to Login' />
-          </Link>
-        </LinkContainer>
+        <Link size='13px' weight={300} onClick={onGoToLogin}>
+          <FormattedMessage id='scenes.logout.continue' defaultMessage='Continue to Login' />
+        </Link>
       </Footer>
     </Wrapper>
   )

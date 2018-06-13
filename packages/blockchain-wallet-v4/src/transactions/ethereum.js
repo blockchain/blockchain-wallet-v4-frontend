@@ -1,5 +1,4 @@
 import { curry, contains, equals, lift, map, toLower } from 'ramda'
-import memoize from 'fast-memoize'
 import moment from 'moment'
 import BigNumber from 'bignumber.js'
 import { getDefaultAddress, getDefaultLabel, getEthereumTxNote } from '../redux/kvStore/ethereum/selectors.js'
@@ -51,4 +50,4 @@ export const _transformTx = curry((addresses, latestBlock, state, tx) => ({
   timeFormatted: getTime(tx)
 }))
 
-export const transformTx = memoize(_transformTx)
+export const transformTx = _transformTx
