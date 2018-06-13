@@ -1,13 +1,13 @@
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { any, equals, prop, head } from 'ramda'
+import { any, equals, prop } from 'ramda'
 import moment from 'moment'
-import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 
-import { ModalHeader, ModalBody, Text, Button, Tooltip } from 'blockchain-info-components'
+import Recurring from './Recurring'
+import { ModalHeader, ModalBody, Text, Button } from 'blockchain-info-components'
 import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDetails'
-import { tradeDetails, statusHelper, bodyStatusHelper, recurringTimeHelper, recurringFee } from 'services/CoinifyService'
+import { tradeDetails, statusHelper, bodyStatusHelper } from 'services/CoinifyService'
 
 const TableTitle = styled(Text)`
   padding-top: 10px;
@@ -21,36 +21,6 @@ const ButtonRow = styled.div`
 const StyledOrderDetailsTable = styled(OrderDetailsTable)`
   margin-top: 10px;
   margin-bottom: 10px;
-`
-const RecurringTradeWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-top: 15px;
-`
-const RecurringBox = styled.div`
-  border: 1px solid ${props => props.theme['brand-tertiary']};
-  padding: 8px;
-  background: ${props => props.theme['brand-quaternary']};
-  margin-top: 5px;
-`
-const RecurringRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  padding: 5px 8px;
-`
-const RecurringKey = styled.div`
-  width: 20%;
-`
-const RecurringValue = styled.div`
-  width: auto;
-`
-const HeaderWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  div:first-of-type {
-    margin-right: 5px;
-  }
 `
 
 const Trade = ({ trade, close, status, subscriptions }) => {
@@ -118,58 +88,7 @@ const Trade = ({ trade, close, status, subscriptions }) => {
         }
         {
           trade.tradeSubscriptionId
-            ? <RecurringTradeWrapper>
-              <HeaderWrapper>
-                <Text color='brand-secondary' weight={400} size='14px'>
-                  <FormattedMessage id='orderdetails.recurring.thisisrecurring' defaultMessage='This is a Recurring Order' />
-                </Text>
-                <Tooltip>
-                  <FormattedMessage id='orderdetails.recurring.tooltip' defaultMessage='Recurring orders will be placed automatically on a regular basis from your linked credit card.' />
-                </Tooltip>
-              </HeaderWrapper>
-              <RecurringBox>
-                <RecurringRow>
-                  <RecurringKey>
-                    <Text color='brand-secondary' weight={300} size='13px'>
-                      <FormattedMessage id='orderdetails.recurring.amount' defaultMessage='Amount:' />
-                    </Text>
-                  </RecurringKey>
-                  <RecurringValue>
-                    <Text weight={300} size='13px'>
-                      { `${Currency.formatFiat(prop('inAmount', trade) / 100)} ${prop('inCurrency', trade)} (+ ${recurringFee(trade)} Payment Fee)` }
-                    </Text>
-                  </RecurringValue>
-                </RecurringRow>
-                <RecurringRow>
-                  <RecurringKey>
-                    <Text color='brand-secondary' weight={300} size='13px'>
-                      <FormattedMessage id='orderdetails.recurring.frequency' defaultMessage='Frequency:' />
-                    </Text>
-                  </RecurringKey>
-                  <RecurringValue>
-                    <Text weight={300} size='13px'>
-                      {<FormattedMessage id='orderdetails.recurring.frequencybody' defaultMessage='Today and every {value}' values={{ value: recurringTimeHelper(head(subscription)) }} /> }
-                    </Text>
-                  </RecurringValue>
-                </RecurringRow>
-                <RecurringRow>
-                  <RecurringKey>
-                    <Text color='brand-secondary' weight={300} size='13px'>
-                      <FormattedMessage id='orderdetails.recurring.duration' defaultMessage='Duration:' />
-                    </Text>
-                  </RecurringKey>
-                  <RecurringValue>
-                    <Text weight={300} size='13px'>
-                      {
-                        prop('endTime', subscription)
-                          ? <FormattedMessage id='orderdetails.recurring.duration.endtime' defaultMessage='This order will repeat until {date}' values={{ date: new Date(prop('endTime', head(subscription))).toDateString() }} />
-                          : <FormattedMessage id='orderdetails.recurring.duration.noendtime' defaultMessage='Until you cancel or reach your limit, whichever happens first.' />
-                      }
-                    </Text>
-                  </RecurringValue>
-                </RecurringRow>
-              </RecurringBox>
-            </RecurringTradeWrapper>
+            ? <Recurring trade={trade} subscription={subscription} />
             : null
         }
         <ButtonRow>
