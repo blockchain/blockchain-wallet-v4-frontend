@@ -19,6 +19,8 @@ import localesNN from 'assets/locales/nn.json'
 import localesPL from 'assets/locales/pl.json'
 import localesPT from 'assets/locales/pt.json'
 import localesZH from 'assets/locales/zh.json'
+import localesES from 'assets/locales/es.json'
+import localesRU from 'assets/locales/ru.json'
 
 const importLocaleData = (language) => require(`react-intl/locale-data/${language}`)
 
@@ -44,7 +46,9 @@ function configureLocales (store) {
     nn: localesNN,
     pl: localesPL,
     pt: localesPT,
-    zh: localesZH
+    zh: localesZH,
+    es: localesES,
+    ru: localesRU
   }
 
   return { messages }
