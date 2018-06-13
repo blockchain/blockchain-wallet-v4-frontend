@@ -20,6 +20,12 @@ export const fetchLatestBlockLoading = () => ({ type: AT.FETCH_ETHEREUM_LATEST_B
 export const fetchLatestBlockSuccess = (data) => ({ type: AT.FETCH_ETHEREUM_LATEST_BLOCK_SUCCESS, payload: data })
 export const fetchLatestBlockFailure = (error) => ({ type: AT.FETCH_ETHEREUM_LATEST_BLOCK_FAILURE, payload: error })
 
+// FETCH_ETHEREUM_LEGACY_BALANCE
+export const fetchLegacyBalance = () => ({ type: AT.FETCH_ETHEREUM_LEGACY_BALANCE })
+export const fetchLegacyBalanceLoading = () => ({ type: AT.FETCH_ETHEREUM_LEGACY_BALANCE_LOADING })
+export const fetchLegacyBalanceSuccess = (balance) => ({ type: AT.FETCH_ETHEREUM_LEGACY_BALANCE_SUCCESS, payload: { balance } })
+export const fetchLegacyBalanceFailure = (error) => ({ type: AT.FETCH_ETHEREUM_LEGACY_BALANCE_FAILURE, payload: error })
+
 // FETCH_ETHEREUM_RATES
 export const fetchRates = () => ({ type: AT.FETCH_ETHEREUM_RATES })
 export const fetchRatesLoading = () => ({ type: AT.FETCH_ETHEREUM_RATES_LOADING })
