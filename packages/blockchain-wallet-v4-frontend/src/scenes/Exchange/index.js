@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 import Shapeshift from './Shapeshift'
 import Info from './Info'
+import ErrorBoundary from 'layouts/ErrorBoundary'
 
 const Wrapper = styled.section`
   display: flex;
@@ -42,14 +43,16 @@ const ColumnRight = styled(Column)`
   }
 `
 const Exchange = () => (
-  <Wrapper>
-    <ColumnLeft>
-      <Shapeshift />
-    </ColumnLeft>
-    <ColumnRight>
-      <Info />
-    </ColumnRight>
-  </Wrapper>
+  <ErrorBoundary>
+    <Wrapper>
+      <ColumnLeft>
+        <Shapeshift />
+      </ColumnLeft>
+      <ColumnRight>
+        <Info />
+      </ColumnRight>
+    </Wrapper>
+  </ErrorBoundary>
 )
 
 export default Exchange
