@@ -3,17 +3,17 @@ import PropTypes from 'prop-types'
 import modalEnhancer from 'providers/ModalEnhancer'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { path } from 'ramda'
+
 import StepIndicator from 'components/StepIndicator'
 import Tray from 'components/Tray'
 import Create from './Create'
 import Verify from './Verify'
 import Link from './Link'
-// import Upload from './Upload'
 import { ModalHeader, ModalBody } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
 import { actions } from 'data'
-import { path } from 'ramda'
 
 class SfoxExchangeData extends React.PureComponent {
   constructor () {
@@ -58,7 +58,7 @@ class SfoxExchangeData extends React.PureComponent {
     return (
       <Tray position={this.props.position} total={this.props.total} in={show} class='tray' onClose={this.handleClose.bind(this)}>
         <ModalHeader tray center onClose={this.handleClose.bind(this)}>
-          <StepIndicator step={this.getStepComponent(step)['step']} stepMap={this.stepMap} />
+          <StepIndicator adjuster={0.1} step={this.getStepComponent(step)['step']} stepMap={this.stepMap} />
         </ModalHeader>
         <ModalBody>
           { this.getStepComponent(step)['component'] }

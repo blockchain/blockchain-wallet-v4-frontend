@@ -15,6 +15,19 @@ exports[`ListItemContainer renders correctly 1`] = `
   }
 >
   <ListItemContainer
+    bchActions={
+      Object {
+        "createMetadataBch": [Function],
+        "fetchMetadataBch": [Function],
+        "fetchMetadataBchFailure": [Function],
+        "fetchMetadataBchLoading": [Function],
+        "fetchMetadataBchSuccess": [Function],
+        "setAccountArchived": [Function],
+        "setAccountLabel": [Function],
+        "setDefaultAccountIdx": [Function],
+        "setTxNotesBch": [Function],
+      }
+    }
     ethereumActions={
       Object {
         "createMetadataEthereum": [Function],
@@ -22,6 +35,8 @@ exports[`ListItemContainer renders correctly 1`] = `
         "fetchMetadataEthereumFailure": [Function],
         "fetchMetadataEthereumLoading": [Function],
         "fetchMetadataEthereumSuccess": [Function],
+        "setLatestTxEthereum": [Function],
+        "setLatestTxTimestampEthereum": [Function],
         "setTxNotesEthereum": [Function],
         "updateMetadataEthereum": [Function],
       }
@@ -29,6 +44,9 @@ exports[`ListItemContainer renders correctly 1`] = `
     minConfirmations={3}
     preferencesActions={
       Object {
+        "hideKycCompleted": [Function],
+        "setBitcoinCashWelcome": [Function],
+        "setBitcoinWelcome": [Function],
         "setCulture": [Function],
         "setEtherWelcome": [Function],
         "setLanguage": [Function],
@@ -68,11 +86,13 @@ exports[`ListItemContainer renders correctly 1`] = `
       }
     }
   >
-    <template
+    <Component
       handleCoinToggle={[Function]}
       handleEditDescription={[Function]}
       minConfirmations={3}
-    />
+    >
+      <div />
+    </Component>
   </ListItemContainer>
 </Connect(ListItemContainer)>
 `;

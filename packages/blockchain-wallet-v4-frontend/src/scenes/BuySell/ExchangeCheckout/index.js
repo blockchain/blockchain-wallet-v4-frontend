@@ -67,8 +67,8 @@ const belowMaxAmount = (value, allValues, props) => value > props.limits.max ? '
 const aboveMinAmount = (value, allValues, props) => value < props.limits.min ? 'min' : undefined
 
 class ExchangeCheckout extends React.PureComponent {
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
     this.state = {}
   }
 
@@ -88,13 +88,14 @@ class ExchangeCheckout extends React.PureComponent {
   }
 
   setMax () {
-    let field = this.props.fiatLimits ? 'fiat' : 'crypto'
-    let baseCurr = this.props.fiatLimits ? this.props.fiat : this.props.crypto
-    let quoteCurr = this.props.fiatLimits ? this.props.crypto : this.props.fiat
+    const { crypto, fiat, fiatLimits, type } = this.props
+    let field = fiatLimits ? 'fiat' : 'crypto'
+    let baseCurrency = fiatLimits ? fiat : crypto
+    let quoteCurrency = fiatLimits ? crypto : fiat
 
     this.props.dispatch(focus('exchangeCheckout', field))
     this.props.dispatch(change('exchangeCheckout', field, this.props.limits.max))
-    this.props.fetchQuote({ amt: this.props.limits.max * 100, baseCurr: baseCurr, quoteCurr: quoteCurr })
+    this.props.fetchQuote({ amt: this.props.limits.max * 100, baseCurrency: baseCurrency, quoteCurrency: quoteCurrency, type })
   }
 
   render () {
@@ -109,7 +110,7 @@ class ExchangeCheckout extends React.PureComponent {
         <Form onSubmit={onSubmit}>
           <LabelWrapper>
             <Label>
-              <FormattedMessage id='scenes.buysell.exchangecheckout.enter_amount' defaultMessage='Enter Amount:' />
+              <FormattedMessage id='scenes.buysell.exchangecheckout.enteramount' defaultMessage='Enter Amount:' />
             </Label>
             { rate && !minError &&
               <Rate>
@@ -123,7 +124,7 @@ class ExchangeCheckout extends React.PureComponent {
               minError &&
               <Rate>
                 <Text size='12px' color={'error'} weight={300} >
-                  <FormattedMessage id='scenes.buysell.exchangecheckout.synced' defaultMessage='Please enter an amount greater than {min} {curr}.' values={{ min: limits.min, curr: this.props.fiatLimits ? fiat : crypto }} />
+                  <FormattedMessage id='scenes.buysell.exchangecheckout.enteramount.details' defaultMessage='Please enter an amount greater than {min} {curr}.' values={{ min: limits.min, curr: this.props.fiatLimits ? fiat : crypto }} />
                 </Text>
               </Rate>
             }
@@ -135,7 +136,7 @@ class ExchangeCheckout extends React.PureComponent {
                 hideErrors
                 component={NumberBox}
                 validate={[belowMaxAmount, aboveMinAmount, required]}
-                onChange={event => fetchQuote({ amt: event.target.value * 100, baseCurr: fiat, quoteCurr: crypto })}
+                onChange={event => fetchQuote({ amt: event.target.value * 100, baseCurrency: fiat, quoteCurrency: crypto })}
               />
             </FormItem>
             <FormItem width='50%'>
@@ -144,7 +145,7 @@ class ExchangeCheckout extends React.PureComponent {
                 hideErrors
                 component={NumberBox}
                 validate={[required]}
-                onChange={event => fetchQuote({ amt: event.target.value * 1e8, baseCurr: crypto, quoteCurr: fiat })}
+                onChange={event => fetchQuote({ amt: event.target.value * 1e8, baseCurrency: crypto, quoteCurrency: fiat })}
               />
             </FormItem>
           </CheckoutInput>

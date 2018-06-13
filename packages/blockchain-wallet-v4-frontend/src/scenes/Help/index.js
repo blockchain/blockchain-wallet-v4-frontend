@@ -54,10 +54,10 @@ const Help = (props) => {
       <Row>
         <Left>
           <Text size='14px' weight={500}>
-            <FormattedMessage id='scenes.help.guid' defaultMessage="I've lost my Wallet ID" />
+            <FormattedMessage id='scenes.help.guid' defaultMessage="I've Lost My Wallet ID" />
           </Text>
           <Text size='13px' weight={300}>
-            <FormattedMessage id='scenes.help.guid_explain' defaultMessage='Email me a reminder with my Wallet ID to my email address' />
+            <FormattedMessage id='scenes.help.guid_explain' defaultMessage='Email me a reminder of my wallet ID' />
           </Text>
         </Left>
         <Right>
@@ -72,10 +72,10 @@ const Help = (props) => {
       <Row>
         <Left>
           <Text size='14px' weight={500}>
-            <FormattedMessage id='scenes.help.password' defaultMessage="I've lost my Wallet Password" />
+            <FormattedMessage id='scenes.help.password' defaultMessage="I've Lost My Wallet Password" />
           </Text>
           <Text size='13px' weight={300}>
-            <FormattedMessage id='scenes.help.password_explain' defaultMessage='Recover your funds with your 12 word backup phrase' />
+            <FormattedMessage id='scenes.help.passwor.explain' defaultMessage='Recover your wallet with your 12 word backup phrase' />
           </Text>
         </Left>
         <Right>
@@ -90,10 +90,10 @@ const Help = (props) => {
       <Row>
         <Left>
           <Text size='14px' weight={500}>
-            <FormattedMessage id='scenes.help.2fa' defaultMessage="I've lost my 2FA Device" />
+            <FormattedMessage id='scenes.help.2fa' defaultMessage="I've Lost My 2FA Device" />
           </Text>
           <Text size='13px' weight={300}>
-            <FormattedMessage id='scenes.help.2fa_explain' defaultMessage='Reset two factor authentication to regain access to your wallet' />
+            <FormattedMessage id='scenes.help.2fa.explain' defaultMessage='Regain access to your wallet by resetting 2FA, IP restrictions, or verified email' />
           </Text>
         </Left>
         <Right>

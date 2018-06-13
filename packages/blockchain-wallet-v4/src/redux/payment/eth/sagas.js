@@ -28,7 +28,7 @@ export default ({ api }) => {
       case 'ACCOUNT':
         return S.kvStore.ethereum.getAccountIndex(appState, prop('address', from)).getOrFail('Could not find ether account index')
       case 'LEGACY':
-        return 0
+        return 1
     }
   }
   // ///////////////////////////////////////////////////////////////////////////
@@ -43,7 +43,29 @@ export default ({ api }) => {
         const gasPrice = prop('regular', fees)
         const gasLimit = prop('gasLimit', fees)
         const fee = calculateFee(gasPrice, gasLimit)
-        return makePayment(merge(p, { fees, fee }))
+
+        const latestTxR = yield select(S.kvStore.ethereum.getLatestTx)
+        const latestTxTimestampR = yield select(S.kvStore.ethereum.getLatestTxTimestamp)
+
+        const latestTx = latestTxR.getOrElse(undefined)
+        const latestTxTimestamp = latestTxTimestampR.getOrElse(undefined)
+
+        let unconfirmedTx = false
+        if (latestTx) {
+          const ethOptionsR = yield select(S.walletOptions.getEthereumTxFuse)
+          const lastTxFuse = ethOptionsR.getOrElse(86400) * 1000
+          try {
+            const latestTxStatus = yield call(api.getEthereumTransaction, latestTx)
+            if (!latestTxStatus.blockNumber && latestTxTimestamp + lastTxFuse > Date.now()) {
+              unconfirmedTx = true
+            }
+          } catch (e) {
+            if (latestTxTimestamp + lastTxFuse > Date.now()) {
+              unconfirmedTx = true
+            }
+          }
+        }
+        return makePayment(merge(p, { fees, fee, unconfirmedTx }))
       },
 
       to (destination) {
@@ -57,7 +79,7 @@ export default ({ api }) => {
         return makePayment(merge(p, { amount }))
       },
 
-      * from (origin) {
+      * from (origin, type) {
         let account = origin
         if (origin === null || origin === undefined || origin === '') {
           const accountR = (yield select(S.kvStore.ethereum.getDefaultAddress))
@@ -67,14 +89,12 @@ export default ({ api }) => {
         const data = yield call(api.getEthereumBalances, account)
         const balance = path([account, 'balance'], data)
         const nonce = path([account, 'nonce'], data)
-
         const effectiveBalance = calculateEffectiveBalance(balance, prop('fee', p))
         const from = {
-          type: 'ACCOUNT',
+          type: type || 'ACCOUNT',
           address: account,
           nonce
         }
-        // let effectiveBalance = yield call(calculateEffectiveBalance, {coins, fee: p.fee})
         return makePayment(merge(p, { from, effectiveBalance }))
       },
 
@@ -111,6 +131,19 @@ export default ({ api }) => {
           return makePayment(merge(p, { signed }))
         } catch (e) {
           throw new Error('missing_mnemonic')
+        }
+      },
+
+      * signLegacy (password) {
+        try {
+          const appState = yield select(identity)
+          const seedHexT = S.wallet.getSeedHex(appState, password)
+          const seedHex = yield call(() => taskToPromise(seedHexT))
+          const signLegacy = data => taskToPromise(eth.signLegacy(network, seedHex, data))
+          const signed = yield call(signLegacy, p.raw)
+          return makePayment(merge(p, { signed }))
+        } catch (e) {
+          throw new Error('missing_seed_hex')
         }
       },
 

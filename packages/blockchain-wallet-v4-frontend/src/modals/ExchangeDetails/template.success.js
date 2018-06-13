@@ -38,17 +38,29 @@ const TableCell = styled.div`
   & > :first-child { margin-right: 5px; }
 `
 
-const ExchangeDetails = (props) => {
+const getModalHeader = (status) => {
+  switch (status) {
+    case 'complete':
+      return <FormattedMessage id='modals.exchangedetails.title.success' defaultMessage='Exchange Completed' />
+    case 'resolved':
+      return <FormattedMessage id='modals.exchangedetails.title.refunded' defaultMessage='Trade Refunded' />
+    case 'failed':
+      return <FormattedMessage id='modals.exchangedetails.title.failed' defaultMessage='Trade Failed' />
+    default:
+      return <FormattedMessage id='modals.exchangedetails.title.inprogress' defaultMessage='Exchange in Progress' />
+  }
+}
+
+const ExchangeDetails = props => {
   const { position, total, close, ...rest } = props
   const { status, sourceCoin, targetCoin, quotedRate, minerFee, orderId, depositAmount, withdrawalAmount } = rest
 
   return (
     <Modal size='large' position={position} total={total}>
       <ModalHeader closeButton={false}>
-        {status === 'complete'
-          ? <FormattedMessage id='modals.exchangedetails.title_success' defaultMessage='Success! Your exchange is complete' />
-          : <FormattedMessage id='modals.exchangedetails.title_inprogress' defaultMessage='Your exchange is in progress' />
-        }
+        <Text size='20px' weight={300} capitalize>
+          {getModalHeader(status)}
+        </Text>
       </ModalHeader>
       <ModalBody>
         <ExchangeTimeline status={status} />
@@ -56,6 +68,7 @@ const ExchangeDetails = (props) => {
           <Notice>
             <Text size='13px' weight={300}>
               <FormattedMessage id='modals.exchangedetails.explain' defaultMessage='Your exchange is complete.' />
+              <span>&nbsp;</span>
               <FormattedMessage id='modals.exchangedetails.explain2' defaultMessage='It may take a few minutes for the funds to show in your balance.' />
             </Text>
           </Notice>
@@ -64,7 +77,7 @@ const ExchangeDetails = (props) => {
           <TableRow>
             <TableCell>
               <Text size='13px' weight={400} capitalize>
-                <FormattedMessage id='modals.exchangedetails.deposited' defaultMessage='{coin} deposited:' values={{ coin: sourceCoin }} />
+                <FormattedMessage id='modals.exchangedetails.deposited' defaultMessage='{coin} Deposited' values={{ coin: sourceCoin }} />
               </Text>
             </TableCell>
             <TableCell>
@@ -76,7 +89,7 @@ const ExchangeDetails = (props) => {
           <TableRow>
             <TableCell>
               <Text size='13px' weight={400} capitalize>
-                <FormattedMessage id='modals.exchangedetails.received' defaultMessage='{coin} received:' values={{ coin: targetCoin }} />
+                <FormattedMessage id='modals.exchangedetails.received' defaultMessage='{coin} to be Received' values={{ coin: targetCoin }} />
               </Text>
             </TableCell>
             <TableCell>
@@ -87,8 +100,8 @@ const ExchangeDetails = (props) => {
           </TableRow>
           <TableRow>
             <TableCell>
-              <Text size='13px' weight={400}>
-                <FormattedMessage id='modals.exchangedetails.received' defaultMessage='Exchange rate:' />
+              <Text size='13px' weight={400} capitalize>
+                <FormattedMessage id='modals.exchangedetails.exchangerate' defaultMessage='Exchange rate' />
               </Text>
               <Tooltip>
                 <FormattedMessage id='modals.exchangedetails.exchangetooltip' defaultMessage='This rate may change depending on the market price at the time of your transaction.' />
@@ -102,8 +115,8 @@ const ExchangeDetails = (props) => {
           </TableRow>
           <TableRow>
             <TableCell>
-              <Text size='13px' weight={400}>
-                <FormattedMessage id='modals.exchangedetails.fee' defaultMessage='Transaction fee:' />
+              <Text size='13px' weight={400} capitalize>
+                <FormattedMessage id='modals.exchangedetails.fee' defaultMessage='Transaction fee' />
               </Text>
               <Tooltip>
                 <FormattedMessage id='modals.exchangedetails.feetooltip' defaultMessage='This fee is used to send the outgoing exchange funds to ShapeShift.' />
@@ -111,14 +124,14 @@ const ExchangeDetails = (props) => {
             </TableCell>
             <TableCell>
               <Text size='13px' weight={300} uppercase>
-                {`${minerFee} ${sourceCoin}`}
+                {`${minerFee} ${targetCoin}`}
               </Text>
             </TableCell>
           </TableRow>
           <TableRow>
             <TableCell>
               <Text size='13px' weight={400} capitalize>
-                <FormattedMessage id='modals.exchangedetails.orderid' defaultMessage='Order ID:' />
+                <FormattedMessage id='modals.exchangedetails.orderid' defaultMessage='Order ID' />
               </Text>
             </TableCell>
             <TableCell>
@@ -145,7 +158,7 @@ ExchangeDetails.propTypes = {
   quotedRate: PropTypes.string.isRequired,
   minerFee: PropTypes.string.isRequired,
   orderId: PropTypes.string.isRequired,
-  depositAmount: PropTypes.string.isRequired,
+  depositAmount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   withdrawalAmount: PropTypes.string.isRequired
 }
 

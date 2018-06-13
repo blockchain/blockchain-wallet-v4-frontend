@@ -9,18 +9,13 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class FirstStep extends React.PureComponent {
-  componentDidMount () {
-    this.props.actions.sendEthFirstStepInitialized()
-  }
-
   render () {
-    const { data, actions } = this.props
-
-    return data.cata({
+    return this.props.data.cata({
       Success: value => <Success
-        effectiveBalance={value.effectiveBalance}
         fee={value.fee}
-        handleSubmit={() => actions.sendEthFirstStepSubmitClicked()}
+        unconfirmedTx={value.unconfirmedTx}
+        effectiveBalance={value.effectiveBalance}
+        onSubmit={() => this.props.actions.sendEthFirstStepSubmitClicked()}
       />,
       Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,

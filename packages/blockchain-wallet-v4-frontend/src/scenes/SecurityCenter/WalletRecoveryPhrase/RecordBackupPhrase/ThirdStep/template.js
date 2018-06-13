@@ -3,8 +3,6 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
-import { contains, range } from 'ramda'
-
 import { Button, Link, Icon, Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
 import WordInput from './WordInput'
@@ -34,31 +32,29 @@ const VerificationContainer = styled.div`
 `
 
 const ThirdStep = (props) => {
-  const { previousStep, position, showSuccess, close, submitting, invalid, recoveryPhrase, goBackOnSuccess, inline, handleClose, ...rest } = props
-  const { indexes, onSubmit, isMnemonicVerified } = rest
+  const { previousStep, showSuccess, submitting, invalid, ...rest } = props
+  const { indexes, handleSubmit, isMnemonicVerified } = rest
 
   return (
-    <Form onSubmit={onSubmit}>
+    <Form onSubmit={handleSubmit}>
       <SuccessOverlay success={showSuccess && isMnemonicVerified}>
         <Icon name='checkmark-in-circle' size='150px' color='success' />
         <Text size='14px' weight={300} color='success'>
-          <FormattedMessage id='scenes.security.backupphrase.verified' defaultMessage="Congrats! You've successfully verified your Backup Phrase!" />
+          <FormattedMessage id='scenes.securitycenter.walletrecoveryphrase.thirdstep.verified' defaultMessage="Congrats! You've successfully verified your Backup Phrase!" />
         </Text>
       </SuccessOverlay>
       <VerificationContainer authType={showSuccess && isMnemonicVerified}>
         <Container>
-          {range(0, 11).map(
-            index => contains(index, indexes) && <WordInput index={index} />
-          )}
+          {indexes.map(index => <WordInput index={index} />)}
         </Container>
         <Buttons>
           <Button type='submit' nature='primary' disabled={submitting || invalid}>
-            <FormattedMessage id='modals.recoveryphrase.thirdstep.confirm' defaultMessage='Confirm' />
+            <FormattedMessage id='scenes.securitycenter.walletrecoveryphrase.thirdstep.confirm' defaultMessage='Confirm' />
           </Button>
           {
             invalid
               ? <Link size='12px' weight={300} onClick={previousStep}>
-                <FormattedMessage id='modals.recoveryphrase.thirdstep.doublecheck' defaultMessage='Double check your backup phrase' />
+                <FormattedMessage id='scenes.securitycenter.walletrecoveryphrase.thirdstep.doublecheck' defaultMessage='Double check your backup phrase' />
               </Link>
               : null
           }

@@ -17,10 +17,13 @@ const PATHS = {
 }
 let envConfig = {}
 let mockWalletOptions
+let iSignThisDomain
 
-// load, parse and log application configuration if not a CI build
+// only configure app if we will be using the webpack dev server
 if (!isCiBuild) {
   mockWalletOptions = require('./../../config/wallet-options-v4.json')
+  iSignThisDomain = mockWalletOptions.platforms.web.coinify.config.iSignThisDomain
+
   try {
     envConfig = require(PATHS.envConfig + process.env.NODE_ENV + '.js')
   } catch (e) {
@@ -31,7 +34,7 @@ if (!isCiBuild) {
     console.log(chalk.cyan('Root URL') + `: ${envConfig.ROOT_URL}`)
     console.log(chalk.cyan('API Domain') + `: ${envConfig.API_DOMAIN}`)
     console.log(chalk.cyan('Wallet Helper Domain') + ': ' + chalk.blue(envConfig.WALLET_HELPER_DOMAIN))
-    console.log(chalk.cyan('Web Socket URL') + ': ' + chalk.blue(envConfig.WEB_SOCKET_URL) + '\n')
+    console.log(chalk.cyan('Web Socket URL') + ': ' + chalk.blue(envConfig.WEB_SOCKET_URL))
   }
 }
 
@@ -190,14 +193,13 @@ module.exports = {
       errors: true
     },
     headers: {
-      'Content-Security-Policy': [
+      'Content-Security-Policy': isCiBuild ? [] : [
         "img-src 'self' data: blob:",
         "style-src 'self' 'unsafe-inline'",
-        'frame-src https://verify.isignthis.com/ https://wallet-helper.blockchain.info http://localhost:8081',
-        'child-src https://verify.isignthis.com/ https://wallet-helper.blockchain.info http://localhost:8081',
+        `frame-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN}`,
+        `child-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
         // 'unsafe-eval' is only used by webpack for development. It should not
         // be present on production!
-        "worker-src 'self' 'unsafe-eval' blob:",
         "script-src 'self' 'unsafe-eval'",
         // 'ws://localhost:8080' is only used by webpack for development and
         // should not be present on production.
@@ -206,10 +208,13 @@ module.exports = {
           "'self'",
           'ws://localhost:8080',
           envConfig.WEB_SOCKET_URL,
+          envConfig.WEB_SOCKET_URL.replace('/inv', '/eth/inv'),
+          envConfig.WEB_SOCKET_URL.replace('/inv', '/bch/inv'),
           envConfig.ROOT_URL,
           envConfig.API_DOMAIN,
           envConfig.WALLET_HELPER_DOMAIN,
           'https://app-api.coinify.com',
+          'https://app-api.sandbox.coinify.com',
           'https://api.sfox.com',
           'https://api.staging.sfox.com',
           'https://quotes.sfox.com',

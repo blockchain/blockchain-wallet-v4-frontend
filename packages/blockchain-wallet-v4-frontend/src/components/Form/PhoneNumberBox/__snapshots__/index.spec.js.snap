@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PhoneNumberBox renders correctly 1`] = `
+<PhoneNumberBox__Container>
+  <mockConstructor
+    css={
+      Array [
+        "intl-tel-input",
+        "form-control",
+      ]
+    }
+    defaultCountry="us"
+    defaultValue=""
+    format={true}
+    onPhoneNumberChange={[Function]}
+    placeholder="555-555-5555"
+    preferredCountries={
+      Array [
+        "us",
+        "gb",
+      ]
+    }
+    utilsScript="libphonenumber.js"
+  />
+</PhoneNumberBox__Container>
+`;

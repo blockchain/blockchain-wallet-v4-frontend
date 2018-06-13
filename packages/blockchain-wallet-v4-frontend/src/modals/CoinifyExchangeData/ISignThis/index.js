@@ -1,24 +1,64 @@
-import React, { Component } from 'react'
-// import PropTypes from 'prop-types'
+import React, { Component, Fragment } from 'react'
+import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { actions } from 'data'
-// import { path } from 'ramda'
-// import Template from './template'
+import { actions, selectors } from 'data'
+import { path } from 'ramda'
+import { Button, Text, Tooltip } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
+import Helper from 'components/BuySell/FAQ'
+import CountdownTimer from 'components/Form/CountdownTimer'
+import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
+
+const ISXContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`
+const ButtonContainer = styled.div`
+  margin-left: 5%;
+  width: 20%;
+`
+const TimerContainer = styled.div`
+  width: 66%;
+  padding-bottom: 5px;
+  display: flex;
+  justify-content: flex-end;
+`
+const QuoteExpiredText = styled(Text)`
+  span {
+    margin-right: 5px;
+  }
+  span:first-of-type {
+    font-style: italic;
+  }
+`
+
+const helpers = [
+  {
+    question: <FormattedMessage id='scenes.buysell.coinify.isx.question1' defaultMessage='Why do I have to do this?' />,
+    answer: <FormattedMessage id='scenes.buysell.coinify.isx.answer1' defaultMessage="Completing the identity verification process allows you to buy and sell at higher limits. If you don't submit this information, you will only be able to buy and sell up to €300." />
+  }
+]
+const getExpiredBtcValues = (q) => q.quoteCurrency === 'BTC' ? `${q.quoteAmount / 1e8}` : `${q.baseAmount / 1e8}`
+const getExpiredFiatValues = (q) => q.baseCurrency !== 'BTC' ? `${Currency.formatFiat(Math.abs(q.baseAmount))} ${q.baseCurrency}` : `${Currency.formatFiat(Math.abs(q.quoteAmount))} ${q.quoteCurrency}`
+const faqHelper = () => helpers.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
 
 class ISignThisContainer extends Component {
+  constructor (props) {
+    super(props)
+    this.state = { quoteExpired: false }
+    this.onQuoteExpiration = this.onQuoteExpiration.bind(this)
+  }
   componentDidMount () {
     window.addEventListener('message', function (e) {
-      console.log('addEventListener', e)
     })
 
     const onComplete = (e) => {
-      console.log('from onComplete', e)
+      this.props.coinifyActions.fromISX(e)
     }
 
     var e = document.getElementById('isx-iframe')
-    const iSignThisDomain = 'https://verify.isignthis.com'
-    // const iSignThisID = '6ae7fdad-4f3b-406a-9a59-f12c135c7709'
+    const iSignThisDomain = path(['platforms', 'web', 'coinify', 'config', 'iSignThisDomain'], this.props.walletOptions.data)
 
     var _isx = {
       transactionId: '',
@@ -38,66 +78,55 @@ class ISignThisContainer extends Component {
 
     _isx.setup = function (setup) {
       this.transactionId = setup.transaction_id
-
       this.configOptions = setup
 
-      console.log('_isx setup')
       return this
     }
 
     _isx.done = function (_completeListener) {
       this.completeListener = _completeListener
-      console.log('_isx done')
       return this
     }
 
     _isx.fail = function (_errorListener) {
       this.errorListener = _errorListener
-      console.log('_isx fail')
       return this
     }
 
     _isx.route = function (_routeListener) {
       this.routeListener = _routeListener
-      console.log('_isx route')
       return this
     }
 
     _isx.resized = function (_resizeListener) {
       this.resizeListener = _resizeListener
-      console.log('_isx resized')
       return this
     }
 
     _isx.publish = function () {
-      console.log('_isx publish')
       this.iframe = e
-
       // Create IE + others compatible event handler
-      var eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent'
-      var eventer = window[eventMethod]
-      var messageEvent = eventMethod === 'attachEvent' ? 'onmessage' : 'message'
-
-      var self = this
-      console.log('eventer', eventer, messageEvent)
+      let eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent'
+      let eventer = window[eventMethod]
+      let messageEvent = eventMethod === 'attachEvent' ? 'onmessage' : 'message'
+      let self = this
       // Listen to message from child window
       eventer(messageEvent, function (e) {
-        console.log('eventer called', e)
         // Check for the domain who sent the messageEvent
-        var origin = e.origin || e.originalEvent.origin
+        let origin = e.origin || e.originalEvent.origin
         if (origin !== iSignThisDomain) {
           // Event not generated from ISX, simply return
           return
         }
 
-        var frame = document.getElementById('isx-iframe')
+        let frame = document.getElementById('isx-iframe')
         if (e.source !== frame.contentWindow) {
           // Source of message isn't from the iframe
           return
         }
 
         try {
-          var d = JSON.parse(e.data.split('[ISX-Embed]')[1])
+          let d = JSON.parse(e.data.split('[ISX-Embed]')[1])
 
           if (d.event.toLowerCase() === 'complete') {
             if (self.completeListener) {
@@ -117,19 +146,18 @@ class ISignThisContainer extends Component {
             }
           }
         } catch (err) {
-          console.log('err caught:', err)
         }
       }, false)
 
       return this
     }
     var widget = {
-      transaction_id: '6ae7fdad-4f3b-406a-9a59-f12c135c7709',
+      transaction_id: this.props.iSignThisId,
       container_id: 'isx-iframe'
     }
 
     var setState = (state) => {
-      console.log('setState', state)
+      // console.log('V4 ISX_COMPONENT: setState', state)
       switch (state) {
         case 'SUCCESS':
           onComplete('processing')
@@ -154,42 +182,90 @@ class ISignThisContainer extends Component {
     _isx
       .setup(widget)
       .done(function (e) {
-        console.log('completed. e=', JSON.stringify(e))
-
         setState(e.state)
       })
       .fail(function (e) {
-        console.log('error. e=' + JSON.stringify(e))
       })
       .resized(function (e) {
-        console.log('resized. e=', JSON.stringify(e))
       })
       .route(function (e) {
-        console.log('route. e=' + JSON.stringify(e))
       })
       .publish()
   }
 
+  onQuoteExpiration () {
+    this.setState({ quoteExpired: true })
+  }
+
   render () {
+    const { options, iSignThisId, coinifyActions, trade, quoteR } = this.props
+    const walletOpts = options || this.props.walletOptions.data
+    const iSignThisDomain = path(['platforms', 'web', 'coinify', 'config', 'iSignThisDomain'], walletOpts)
+    const srcUrl = `${iSignThisDomain}/landing/${iSignThisId}?embed=true`
+    const isxType = path(['data', 'constructor', 'name'], trade)
+
     return (
-      <div>
-        <h3>iSignThis step</h3>
-
-        {/* <div style={{width: '80%'}} id='isx-container' /> */}
-
-        <iframe style={{width: '80%', height: '400px'}}
-          src="https://verify.isignthis.com/landing/6ae7fdad-4f3b-406a-9a59-f12c135c7709" // hardcode a trade
-          sandbox='allow-same-origin allow-scripts allow-forms'
-          scrolling='yes'
-          id='isx-iframe'
-        />
-      </div>
+      <Fragment>
+        <TimerContainer>
+          {quoteR.map((q) => {
+            if (isxType && isxType !== 'Trade') return null
+            if (this.state.quoteExpired) {
+              return (
+                <Fragment>
+                  <QuoteExpiredText size='11px' weight={300}>
+                    <FormattedMessage id='scenes.buysell.coinify.isx.quoteexpiredbtc' defaultMessage='~{btcValue} BTC' values={{ btcValue: getExpiredBtcValues(q) }} />
+                    <FormattedMessage id='scenes.buysell.coinify.isx.quoteexpiredfiat' defaultMessage='({fiatValue})' values={{ fiatValue: getExpiredFiatValues(q) }} />
+                  </QuoteExpiredText>
+                  <Tooltip>
+                    <FormattedMessage id='scenes.buysell.coinify.isx.expiredtooltip' defaultMessage='This is an estimated quote. The original quote for this trade expired. The exact amount of bitcoin received depends on when the payment is received.' />
+                  </Tooltip>
+                </Fragment>
+              )
+            } else {
+              return (
+                <CountdownTimer
+                  expiryDate={q.expiresAt.getTime()}
+                  handleExpiry={this.onQuoteExpiration}
+                  tooltipExpiryTime='15 minutes'
+                  hideTooltip
+                />
+              )
+            }
+          }).getOrElse(null)}
+        </TimerContainer>
+        <ISXContainer>
+          <iframe style={{ width: '65%', height: '400px', border: '1px solid #EAEAEA' }}
+            src={srcUrl}
+            sandbox='allow-same-origin allow-scripts allow-forms'
+            scrolling='yes'
+            id='isx-iframe'
+          />
+          <ButtonContainer>
+            <Button nature='empty-secondary' fullwidth onClick={() => coinifyActions.cancelISX()}>
+              <Text size='13px' weight={300} color='brand-secondary'>
+                {
+                  isxType && isxType === 'Trade'
+                    ? <FormattedMessage id='scenes.buysell.coinify.isx.finishlater' defaultMessage='Finish later' />
+                    : <FormattedMessage id='scenes.buysell.coinify.isx.dolater' defaultMessage="I'll do this later" />
+                }
+              </Text>
+            </Button>
+            {
+              isxType && isxType !== 'Trade'
+                ? faqHelper()
+                : null
+            }
+          </ButtonContainer>
+        </ISXContainer>
+      </Fragment>
     )
   }
 }
 
 const mapStateToProps = (state) => ({
-  hello: 'world'
+  walletOptions: path(['walletOptionsPath'], state),
+  quoteR: selectors.core.data.coinify.getQuote(state),
+  trade: selectors.core.data.coinify.getTrade(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

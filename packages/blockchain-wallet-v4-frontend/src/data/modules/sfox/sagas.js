@@ -7,31 +7,42 @@ import * as sendBtcActions from '../../components/sendBtc/actions'
 import * as sendBtcSelectors from '../../components/sendBtc/selectors'
 import settings from 'config'
 import { Remote } from 'blockchain-wallet-v4/src'
+import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
+import { path } from 'ramda'
 
 export default ({ coreSagas }) => {
+  const logLocation = 'modules/sfox/sagas'
+
   const setBankManually = function * (action) {
     try {
+      yield put(A.sfoxLoading())
       yield call(coreSagas.data.sfox.setBankManually, action.payload)
-      yield put(actions.alerts.displaySuccess('Bank has been added!'))
+      const accounts = yield select(selectors.core.data.sfox.getAccounts)
+      if (accounts.error) {
+        throw new Error(JSON.parse(accounts.error).error)
+      }
+      yield put(A.sfoxSuccess())
     } catch (e) {
-      console.warn(e)
-      yield put(actions.alerts.displayError('Could not add bank. Please try again.'))
-      // can dispatch an action here to set some kind of state
+      yield put(actions.logs.logErrorMessage(logLocation, 'setBankManually', e))
+      yield put(A.sfoxFailure(e))
     }
   }
 
   const sfoxSignup = function * () {
     try {
+      yield put(A.sfoxLoading())
       yield call(coreSagas.data.sfox.signup)
       const profile = yield select(selectors.core.data.sfox.getProfile)
       if (!profile.error) {
+        yield put(A.sfoxSuccess())
         yield put(A.nextStep('verify'))
       } else {
-        const error = JSON.parse(profile.error).error
-        throw new Error(error)
+        yield put(A.sfoxNotAsked())
+        throw new Error(JSON.parse(profile.error).error)
       }
     } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'sfoxSignup', e))
       yield put(A.sfoxFailure(e))
     }
   }
@@ -51,9 +62,8 @@ export default ({ coreSagas }) => {
         }
       }
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'setProfile', e))
       yield put(A.setVerifyError(e))
-      yield put(actions.alerts.displayError(`Error verifying profile: ${e}`))
     }
   }
 
@@ -66,75 +76,90 @@ export default ({ coreSagas }) => {
         yield put(A.nextStep('funding'))
       }
     } catch (e) {
-      yield put(actions.alerts.displayError('Error uploading'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'upload', e))
+      yield put(actions.alerts.displayError(C.DOCUMENT_UPLOAD_ERROR))
     }
   }
 
   const setBank = function * (payload) {
     try {
       yield call(coreSagas.data.sfox.setBankAccount, payload)
-      yield put(actions.alerts.displaySuccess('Bank account set successfully!'))
+      yield put(actions.alerts.displaySuccess(C.BANK_ACCOUNT_SET_SUCCESS))
       yield put(modalActions.closeAllModals())
     } catch (e) {
-      yield put(actions.alerts.displayError('Error setting bank'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'setBank', e))
     }
   }
 
   const submitMicroDeposits = function * (payload) {
     try {
-      yield call(coreSagas.data.sfox.verifyMicroDeposits, payload)
-      yield put(actions.alerts.displaySuccess('Bank Verified!'))
+      yield put(A.sfoxLoading())
+      const result = yield call(coreSagas.data.sfox.verifyMicroDeposits, payload)
+      if (result.status === 'active') {
+        yield put(A.sfoxSuccess())
+        yield put(modalActions.closeAllModals())
+      } else {
+        yield put(A.sfoxNotAsked())
+        throw new Error(result)
+      }
     } catch (e) {
-      yield put(actions.alerts.displayError('Unable to verify bank'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'submitMicroDeposits', e))
+      yield put(A.sfoxFailure(e))
     }
   }
 
   const submitQuote = function * (action) {
     try {
-      yield put(A.orderLoading())
-      yield call(coreSagas.data.sfox.handleTrade, action.payload)
-      yield put(A.orderSuccess())
+      yield put(A.sfoxLoading())
+      const trade = yield call(coreSagas.data.sfox.handleTrade, action.payload)
+      yield put(A.sfoxSuccess())
       yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
+      yield put(modalActions.showModal('SfoxTradeDetails', { trade }))
     } catch (e) {
       yield put(A.sfoxFailure(e))
-      console.warn('FE submitQuote failed', e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'submitQuote', e))
     }
   }
 
   const submitSellQuote = function * (action) {
     const q = action.payload
     try {
-      yield put(A.orderLoading())
+      yield put(A.sfoxLoading())
       const trade = yield call(coreSagas.data.sfox.handleSellTrade, q)
 
-      // TODO can refactor this to use payment.chain in the future for cleanliness
       let p = yield select(sendBtcSelectors.getPayment)
       let payment = yield coreSagas.payment.btc.create({ payment: p.getOrElse({}), network: settings.NETWORK_BITCOIN })
 
       payment = yield payment.amount(parseInt(trade.sendAmount))
 
-      payment = yield payment.fee('priority')
+      // QA Tool: manually set a "to" address on the payment object for testing sell
+      const qaState = yield select()
+      const qaAddress = path(['qa', 'qaSellAddress'], qaState)
 
-      payment = yield payment.to(trade.receiveAddress)
+      if (qaAddress) {
+        payment = yield payment.to(qaAddress)
+      } else {
+        payment = yield payment.to(trade.receiveAddress)
+      }
 
       payment = yield payment.description(`Exchange Trade SFX-${trade.id}`)
 
-      try { payment = yield payment.build() } catch (e) {}
-      yield put(sendBtcActions.sendBtcPaymentUpdated(Remote.of(payment.value())))
+      try {
+        payment = yield payment.build()
+      } catch (e) {
+        yield put(actions.logs.logErrorMessage(logLocation, 'submitSellQuote', e))
+      }
 
       const password = yield call(promptForSecondPassword)
       payment = yield payment.sign(password)
-
       payment = yield payment.publish()
 
       yield put(sendBtcActions.sendBtcPaymentUpdated(Remote.of(payment.value())))
-
-      yield put(A.orderSuccess())
-
+      yield put(A.sfoxSuccess())
       yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
     } catch (e) {
       yield put(A.sfoxFailure(e))
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'submitSellQuote', e))
     }
   }
 

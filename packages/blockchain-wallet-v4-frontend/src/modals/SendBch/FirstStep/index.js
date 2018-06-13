@@ -9,21 +9,19 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class FirstStep extends React.Component {
-  componentDidMount () {
-    this.props.actions.sendBchFirstStepInitialized()
-  }
-
   render () {
     const { data, actions } = this.props
 
     return data.cata({
       Success: value => <Success
+        from={value.from}
         toToggled={value.toToggled}
         destination={value.destination}
+        enableToggle={value.enableToggle}
         effectiveBalance={value.effectiveBalance}
         totalFee={value.totalFee}
-        handleSubmit={() => actions.sendBchFirstStepSubmitClicked()}
-        handleToToggle={() => actions.sendBchFirstStepToToggled()}
+        onSubmit={() => actions.sendBchFirstStepSubmitClicked()}
+        handleToToggle={(val) => actions.sendBchFirstStepToToggled(val)}
       />,
       Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,

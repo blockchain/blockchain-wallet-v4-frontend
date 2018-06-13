@@ -19,14 +19,12 @@ const Label = styled.label`
 `
 
 const AddBitcoinWallet = (props) => {
-  const { position, close, submitting, invalid, wallets, ...rest } = props
-  const { onSubmit } = rest
-
+  const { position, close, submitting, invalid, wallets, handleSubmit } = props
   const unique = (props) => map(prop('label'), wallets).indexOf(props) > -1 ? 'Wallet name is already taken.' : undefined
 
   return (
     <Modal size='large' position={position}>
-      <Form onSubmit={onSubmit}>
+      <Form onSubmit={handleSubmit}>
         <Wrapper>
           <ModalHeader icon='up-arrow-in-circle' onClose={close}>
             <FormattedMessage id='modals.addbitcoinwallet.title' defaultMessage='Add New Bitcoin Wallet' />
@@ -37,7 +35,7 @@ const AddBitcoinWallet = (props) => {
                 <Label for='wallet'>
                   <FormattedMessage id='modals.addbitcoinwallet.wallet' defaultMessage='Wallet Name' />
                 </Label>
-                <Field name='wallet' validate={[required, unique]} component={TextBox} />
+                <Field name='wallet' autoFocus validate={[required, unique]} component={TextBox} />
               </FormItem>
             </FormGroup>
           </ModalBody>

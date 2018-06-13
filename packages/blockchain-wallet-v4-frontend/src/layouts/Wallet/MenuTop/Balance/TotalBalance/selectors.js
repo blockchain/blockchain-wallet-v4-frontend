@@ -1,28 +1,74 @@
 import { lift } from 'ramda'
 import { selectors } from 'data'
-import { Exchange } from 'blockchain-wallet-v4/src'
+import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
+import { createDeepEqualSelector } from 'services/ReselectHelper'
 
-export const getData = (state) => {
-  const bitcoinBalanceR = selectors.core.data.bitcoin.getBalance(state)
-  const etherBalanceR = selectors.core.data.ethereum.getBalance(state)
-  const bchBalanceR = selectors.core.data.bch.getBalance(state)
-  const bitcoinBalance = bitcoinBalanceR.getOrElse(0)
-  const etherBalance = etherBalanceR.getOrElse(0)
-  const bchBalance = bchBalanceR.getOrElse(0)
-  const bitcoinRates = selectors.core.data.bitcoin.getRates(state)
-  const ethereumRates = selectors.core.data.ethereum.getRates(state)
-  const bchRates = selectors.core.data.bch.getRates(state)
-  const settings = selectors.core.settings.getSettings(state)
-  const path = state.router.location.pathname
+export const getBtcBalance = createDeepEqualSelector(
+  [selectors.core.data.bitcoin.getSpendableBalance],
+  (btcBalanceR) => Remote.of(btcBalanceR.getOrElse(0))
+)
 
-  const transform = (bitcoinRates, ethereumRates, bchRates, settings) => {
-    const bitcoinFiatBalance = Exchange.convertBitcoinToFiat({ value: bitcoinBalance, fromUnit: 'SAT', toCurrency: settings.currency, rates: bitcoinRates })
-    const etherFiatBalance = Exchange.convertEtherToFiat({ value: etherBalance, fromUnit: 'WEI', toCurrency: settings.currency, rates: ethereumRates })
-    const bchFiatBalance = Exchange.convertBchToFiat({ value: bchBalance, fromUnit: 'SAT', toCurrency: settings.currency, rates: bchRates })
-    const totalFiatBalance = Number(bitcoinFiatBalance.value) + Number(etherFiatBalance.value) + Number(bchFiatBalance.value)
-    const symbol = bitcoinRates[settings.currency].symbol
-    return ({ symbol, bitcoinBalance, etherBalance, bchBalance, bitcoinFiatBalance, etherFiatBalance, bchFiatBalance, totalFiatBalance, path })
+export const getBchBalance = createDeepEqualSelector(
+  [selectors.core.data.bch.getSpendableBalance],
+  (bchBalanceR) => Remote.of(bchBalanceR.getOrElse(0))
+)
+
+export const getEthBalance = createDeepEqualSelector(
+  [selectors.core.data.ethereum.getBalance],
+  (ethBalanceR) => Remote.of(ethBalanceR.getOrElse(0))
+)
+
+export const getBtcBalanceInfo = createDeepEqualSelector(
+  [
+    getBtcBalance,
+    selectors.core.data.bitcoin.getRates,
+    selectors.core.settings.getCurrency
+  ],
+  (btcBalanceR, btcRatesR, currencyR) => {
+    const transform = (value, rates, toCurrency) => Exchange.convertBitcoinToFiat({ value, fromUnit: 'SAT', toCurrency, rates }).value
+    return lift(transform)(btcBalanceR, btcRatesR, currencyR)
   }
+)
 
-  return lift(transform)(bitcoinRates, ethereumRates, bchRates, settings)
-}
+export const getBchBalanceInfo = createDeepEqualSelector(
+  [
+    getBchBalance,
+    selectors.core.data.bch.getRates,
+    selectors.core.settings.getCurrency
+  ],
+  (bchBalanceR, bchRatesR, currencyR) => {
+    const transform = (value, rates, toCurrency) => Exchange.convertBchToFiat({ value, fromUnit: 'SAT', toCurrency, rates }).value
+    return lift(transform)(bchBalanceR, bchRatesR, currencyR)
+  }
+)
+
+export const getEthBalanceInfo = createDeepEqualSelector(
+  [
+    getEthBalance,
+    selectors.core.data.ethereum.getRates,
+    selectors.core.settings.getCurrency
+  ],
+  (ethBalanceR, ethRatesR, currencyR) => {
+    const transform = (value, rates, toCurrency) => Exchange.convertEtherToFiat({ value, fromUnit: 'WEI', toCurrency, rates }).value
+    return lift(transform)(ethBalanceR, ethRatesR, currencyR)
+  }
+)
+
+export const getData = createDeepEqualSelector(
+  [
+    getBchBalanceInfo,
+    getBtcBalanceInfo,
+    getEthBalanceInfo,
+    selectors.core.settings.getCurrency,
+    selectors.router.getPathname
+  ],
+  (btcBalanceInfoR, bchBalanceInfoR, ethBalanceInfoR, currency, path) => {
+    const transform = (bchBalance, btcBalance, ethBalance, currency) => {
+      const total = Currency.formatFiat(Number(btcBalance) + Number(ethBalance) + Number(bchBalance))
+      const totalBalance = `${Exchange.getSymbol(currency)}${total}`
+      return ({ totalBalance, path })
+    }
+    return lift(transform)(bchBalanceInfoR, btcBalanceInfoR, ethBalanceInfoR, currency)
+  }
+)

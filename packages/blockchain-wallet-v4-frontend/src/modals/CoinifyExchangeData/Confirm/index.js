@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector } from 'redux-form'
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import ui from 'redux-ui'
 import { path } from 'ramda'
 import Template from './template'
@@ -21,13 +21,12 @@ class ConfirmContainer extends Component {
     }
   }
 
-  onSubmit (e) {
-    e.preventDefault()
+  onSubmit () {
     const medium = this.props.medium
     if (this.props.ui.editing) {
       const { baseCurrency, quoteCurrency } = this.props.data.data.quote
       const amt = +this.props.editingAmount * 100
-      this.props.coinifyDataActions.fetchQuoteAndMediums({ amt, baseCurrency, quoteCurrency, medium })
+      this.props.coinifyDataActions.fetchQuoteAndMediums({ amt, baseCurrency, quoteCurrency, medium, type: 'buy' })
     } else {
       const quote = this.props.data.data.quote
       this.props.coinifyActions.initiateBuy({ quote, medium })
@@ -43,12 +42,11 @@ class ConfirmContainer extends Component {
           value={value}
           ui={ui}
           medium={medium}
-          rateQuote={this.props.rateQuote}
           onSubmit={this.onSubmit}
           editingAmount={editingAmount}
           toggleEdit={() => this.props.updateUI({ editing: !this.props.ui.editing })}
         />,
-      Failure: (msg) => <div>ERROR: {console.warn('ERR', msg)}</div>,
+      Failure: (msg) => <div>ERROR: {msg}</div>,
       Loading: () => <div>Loading...</div>,
       NotAsked: () => <div>Not asked...</div>
     })
@@ -57,7 +55,6 @@ class ConfirmContainer extends Component {
 
 const mapStateToProps = (state) => ({
   data: getData(state),
-  rateQuote: selectors.core.data.coinify.getRateQuote(state),
   medium: path(['coinify', 'medium'], state),
   editingAmount: formValueSelector('coinifyConfirm')(state, 'amount')
 })

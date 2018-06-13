@@ -14,6 +14,7 @@ const BaseButton = styled.button.attrs({
   min-width: ${props => props.width ? props.width : '140px'};
   height: ${props => props.height};
   padding: ${props => props.padding ? props.padding : '10px 15px'};
+  margin: ${props => props.margin};
   box-sizing: border-box;
   user-select: none;
   text-align: center;
@@ -50,6 +51,7 @@ const selectColor = (nature, disabled) => {
 
   switch (nature) {
     case 'empty': return { color: 'gray-6', backgroundColor: 'white', borderColor: 'gray-2' }
+    case 'light': return { color: 'brand-secondary', backgroundColor: 'white', borderColor: 'brand-secondary' }
     case 'primary': return { color: 'white', backgroundColor: 'brand-secondary', borderColor: 'brand-secondary' }
     case 'secondary': return { color: 'white', backgroundColor: 'brand-primary', borderColor: 'brand-primary' }
     case 'copy': return { color: 'white', backgroundColor: 'success', borderColor: 'success' }
@@ -58,6 +60,7 @@ const selectColor = (nature, disabled) => {
     case 'transferred': return { color: 'white', backgroundColor: 'transferred', borderColor: 'transferred' }
     case 'logout': return { color: 'white', backgroundColor: 'error', borderColor: 'error' }
     case 'dark': return { color: 'white', backgroundColor: 'gray-6', borderColor: 'gray-6' }
+    case 'empty-secondary': return { color: 'white', backgroundColor: 'white', borderColor: 'brand-secondary' }
     default: return { color: 'gray-6', backgroundColor: 'white', borderColor: 'gray-2' }
   }
 }
@@ -79,7 +82,7 @@ const Button = (props) => {
 }
 
 Button.propTypes = {
-  nature: PropTypes.oneOf(['empty', 'primary', 'secondary', 'copy', 'received', 'sent', 'transferred', 'logout', 'dark']),
+  nature: PropTypes.oneOf(['empty', 'light', 'primary', 'secondary', 'copy', 'received', 'sent', 'transferred', 'logout', 'dark', 'empty-secondary']),
   fullwidth: PropTypes.bool,
   disabled: PropTypes.bool,
   rounded: PropTypes.bool,
@@ -87,7 +90,8 @@ Button.propTypes = {
   uppercase: PropTypes.bool,
   capitalize: PropTypes.bool,
   width: PropTypes.string,
-  padding: PropTypes.string
+  padding: PropTypes.string,
+  margin: PropTypes.string
 }
 
 Button.defaultProps = {

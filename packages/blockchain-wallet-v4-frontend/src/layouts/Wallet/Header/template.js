@@ -8,55 +8,51 @@ import WhatsNewIcon from './WhatsNewIcon'
 import RefreshIcon from './RefreshIcon'
 import Logout from './Logout'
 
-import { Image } from 'blockchain-info-components'
-import { Navbar, NavbarBrand, NavbarHeader, NavbarMenu, NavbarNav, NavbarNavItem, NavbarToggler } from 'components/Navbar'
+import { Icon, Image } from 'blockchain-info-components'
+import { Navbar, NavbarBrand, NavbarHeader, NavbarMenu, NavbarNav, NavbarNavItem } from 'components/Navbar'
 
-const MenuLeftToggler = styled(NavbarToggler)`
-  left: 20px;
+const BlockchainLogoImage = styled(Image)`
+  height: 16px;
+  display: block;
+  margin-left: 10px;
+  @media (min-width: 768px) {
+    height: 20px;
+    margin-left: 0px;
+  }
 `
 
-const Header = (props) => {
-  const { navigationToggled, handleToggleNavigation, handleTrayRightToggle, handleToggleMenuLeft, trayRightOpen, trayRightContent } = props
-
-  return (
-    <Navbar height='60px'>
-      <MenuLeftToggler onToggle={handleToggleMenuLeft} />
-      <NavbarHeader>
-        <NavbarBrand>
-          <NavLink to='/home'>
-            <Image name='blockchain-vector' height='20px' />
-          </NavLink>
-        </NavbarBrand>
-      </NavbarHeader>
-      <NavbarMenu toggled={navigationToggled}>
-        <div />
-        <NavbarNav>
-          <NavbarNavItem>
-            <FaqIcon trayRightContent={trayRightContent} handleTrayRightToggle={handleTrayRightToggle} trayRightOpen={trayRightOpen} />
-          </NavbarNavItem>
-          <NavbarNavItem>
-            <WhatsNewIcon trayRightContent={trayRightContent} handleTrayRightToggle={handleTrayRightToggle} trayRightOpen={trayRightOpen} />
-          </NavbarNavItem>
-          <NavbarNavItem>
-            <RefreshIcon />
-          </NavbarNavItem>
-          <NavbarNavItem>
-            <Logout />
-          </NavbarNavItem>
-        </NavbarNav>
-      </NavbarMenu>
-      <NavbarToggler onToggle={handleToggleNavigation} />
-    </Navbar>
-  )
-}
+const Header = props => (
+  <Navbar height='60px'>
+    <NavbarHeader>
+      <NavbarBrand>
+        <Icon name='hamburger-menu' color='white' size='16px' onClick={props.handleToggle} />
+        <NavLink to='/home'>
+          <BlockchainLogoImage name='blockchain-vector' />
+        </NavLink>
+      </NavbarBrand>
+    </NavbarHeader>
+    <NavbarMenu>
+      <div />
+      <NavbarNav>
+        <NavbarNavItem>
+          <FaqIcon />
+        </NavbarNavItem>
+        <NavbarNavItem>
+          <WhatsNewIcon />
+        </NavbarNavItem>
+        <NavbarNavItem>
+          <RefreshIcon />
+        </NavbarNavItem>
+        <NavbarNavItem>
+          <Logout />
+        </NavbarNavItem>
+      </NavbarNav>
+    </NavbarMenu>
+  </Navbar>
+)
 
 Header.propTypes = {
-  trayRightContent: PropTypes.string.isRequired,
-  handleToggleNavigation: PropTypes.func.isRequired,
-  handleToggleMenuLeft: PropTypes.func.isRequired,
-  handleTrayRightToggle: PropTypes.func.isRequired,
-  navigationToggled: PropTypes.bool.isRequired,
-  trayRightOpen: PropTypes.bool.isRequired
+  handleToggle: PropTypes.func.isRequired
 }
 
 export default Header

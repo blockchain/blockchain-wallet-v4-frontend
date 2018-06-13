@@ -45,18 +45,21 @@ const Step1 = props => (
   <Wrapper>
     <Circle>
       { props.status === 'active'
-        ? <AnimatedIcon name='paper-airplane' size='40px' color='brand-primary' />
-        : <Icon name='paper-airplane' size='40px' color='brand-primary' />
+        ? <AnimatedIcon name='paper-airplane-filled-2' size='40px' color='brand-primary' />
+        : <Icon name='paper-airplane-filled-2' size='40px' color='brand-primary' />
       }
     </Circle>
     <Text size='13px' weight={500} capitalize>
-      <FormattedMessage id='components.exchangetimeline.funds' defaultMessage='Funds sent' />
+      { props.status === 'active'
+        ? <FormattedMessage id='components.exchangetimeline.sendingfunds' defaultMessage='Sending funds' />
+        : <FormattedMessage id='components.exchangetimeline.funds' defaultMessage='Funds sent' />
+      }
     </Text>
   </Wrapper>
 )
 
 Step1.propTypes = {
-  status: PropTypes.oneOf(['active, inactive'])
+  status: PropTypes.oneOf(['active', 'inactive'])
 }
 
 Step1.defaultProps = {

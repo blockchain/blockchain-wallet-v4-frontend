@@ -6,13 +6,6 @@ import { convertFiatToCoin, convertCoinToFiat } from './services'
 import Convertor from './template'
 
 class ConvertorContainer extends React.PureComponent {
-  static getDerivedStateFromProps (nextProps, prevState) {
-    if (!equals(nextProps.value, prevState)) {
-      return nextProps.value
-    }
-    return undefined
-  }
-
   constructor (props) {
     super(props)
     this.state = { coin: '', fiat: '' }
@@ -20,6 +13,13 @@ class ConvertorContainer extends React.PureComponent {
     this.handleFiatChange = this.handleFiatChange.bind(this)
     this.handleBlur = this.handleBlur.bind(this)
     this.handleFocus = this.handleFocus.bind(this)
+  }
+
+  static getDerivedStateFromProps (nextProps, prevState) {
+    if (!equals(nextProps.value, prevState)) {
+      return nextProps.value
+    }
+    return null
   }
 
   handleCoinChange (e) {
@@ -30,7 +30,11 @@ class ConvertorContainer extends React.PureComponent {
 
   handleFiatChange (e) {
     const { unit, currency, btcRates, bchRates, ethRates } = this.props
-    const nextProps = convertFiatToCoin(e.target.value, unit, currency, bchRates, btcRates, ethRates)
+    const decimals = e.target.value.split('.')[1]
+    const needsFormatting = decimals && decimals.length > 2
+    const val = needsFormatting ? Number(e.target.value).toFixed(2) : e.target.value
+
+    const nextProps = convertFiatToCoin(val, unit, currency, bchRates, btcRates, ethRates)
     this.props.onChange(nextProps)
   }
 
@@ -44,12 +48,13 @@ class ConvertorContainer extends React.PureComponent {
 
   render () {
     const { coin, fiat } = this.state
-    const { unit, currency, meta } = this.props
+    const { disabled, unit, currency, meta } = this.props
 
     return <Convertor
       coin={coin}
       fiat={fiat}
       unit={unit}
+      disabled={disabled}
       currency={currency}
       meta={meta}
       handleBlur={this.handleBlur}

@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Text } from 'blockchain-info-components'
+import PropTypes from 'prop-types'
 
 const BankInfo = styled.div`
   display: flex;
@@ -61,5 +62,16 @@ const Bank = ({bank, onInputClick}) => (
     </BankLabel>
   </BankInfo>
 )
+
+Bank.propTypes = {
+  bank: PropTypes.shape({
+    institution_type: PropTypes.string,
+    _id: PropTypes.number,
+    meta: PropTypes.shape({
+      name: PropTypes.string,
+      number: PropTypes.number
+    })
+  })
+}
 
 export default Bank

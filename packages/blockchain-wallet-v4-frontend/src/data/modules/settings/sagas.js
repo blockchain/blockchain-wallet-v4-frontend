@@ -1,17 +1,20 @@
 import { put, call, select } from 'redux-saga/effects'
 import * as actions from '../../actions.js'
 import * as selectors from '../../selectors.js'
+import * as C from 'services/AlertService'
 import { askSecondPasswordEnhancer, promptForSecondPassword } from 'services/SagaService'
 import { Types, utils } from 'blockchain-wallet-v4/src'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
 export default ({ coreSagas }) => {
+  const logLocation = 'modules/settings/sagas'
+
   const initSettingsInfo = function * () {
     try {
       yield call(coreSagas.settings.fetchSettings)
     } catch (e) {
-      yield put(actions.alerts.displayError('Could not init settings info.'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'initSettingsInfo', e))
     }
   }
 
@@ -19,19 +22,11 @@ export default ({ coreSagas }) => {
     try {
       yield call(coreSagas.settings.fetchSettings)
     } catch (e) {
-      yield put(actions.alerts.displayError('Could not init settings security.'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'initSettingsPreferences', e))
     }
   }
 
-  // const initSettingsSecurity = function * () {
-  //   try {
-  //     yield call(coreSagas.settings.fetchSettings)
-  //   } catch (e) {
-  //     yield put(actions.alerts.displayError('Could not init settings security.'))
-  //   }
-  // }
-
-  const showBackupRecovery = function * (action) {
+  const showBackupRecovery = function * () {
     const recoverySaga = function * ({ password }) {
       const getMnemonic = s => selectors.core.wallet.getMnemonic(s, password)
       try {
@@ -40,36 +35,38 @@ export default ({ coreSagas }) => {
         const mnemonicArray = mnemonic.split(' ')
         yield put(actions.modules.settings.addMnemonic({ mnemonic: mnemonicArray }))
       } catch (e) {
-        yield put(actions.alerts.displayError('Could not read mnemonic.'))
+        yield put(actions.logs.logErrorMessage(logLocation, 'showBackupRecovery', e))
       }
     }
     yield call(askSecondPasswordEnhancer(recoverySaga), {})
   }
 
-  const showGoogleAuthenticatorSecretUrl = function * (action) {
+  const showGoogleAuthenticatorSecretUrl = function * () {
     try {
       const googleAuthenticatorSecretUrl = yield call(coreSagas.settings.requestGoogleAuthenticatorSecretUrl)
       yield put(actions.modals.showModal('TwoStepGoogleAuthenticator', { googleAuthenticatorSecretUrl }))
     } catch (e) {
-      yield put(actions.alerts.displayError('Could not fetch google authenticator secret.'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'showGoogleAuthenticatorSecretUrl', e))
     }
   }
 
   const updateMobile = function * (action) {
     try {
       yield call(coreSagas.settings.setMobile, action.payload)
-      yield put(actions.alerts.displaySuccess('Mobile number has been successfully updated. Verification SMS has been sent.'))
+      yield put(actions.alerts.displaySuccess(C.MOBILE_UPDATE_SUCCESS))
     } catch (e) {
-      yield put(actions.alerts.displayError('Could not update mobile number.'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'updateMobile', e))
+      yield put(actions.alerts.displayError(C.MOBILE_UPDATE_ERROR))
     }
   }
 
   const verifyMobile = function * (action) {
     try {
       yield call(coreSagas.settings.setMobileVerified, action.payload)
-      yield put(actions.alerts.displaySuccess('Mobile number has been verified!'))
+      yield put(actions.alerts.displaySuccess(C.MOBILE_VERIFY_SUCCESS))
     } catch (e) {
-      yield put(actions.alerts.displayError('Could not verify mobile number.'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'verifyMobile', e))
+      yield put(actions.alerts.displayError(C.MOBILE_VERIFY_ERROR))
       yield put(actions.modules.settings.verifyMobileFailure())
     }
   }
@@ -77,18 +74,20 @@ export default ({ coreSagas }) => {
   const updateLanguage = function * (action) {
     try {
       yield call(coreSagas.settings.setLanguage, action.payload)
-      yield put(actions.alerts.displaySuccess('Language has been successfully updated.'))
+      yield put(actions.alerts.displaySuccess(C.LANGUAGE_UPDATE_SUCCESS))
     } catch (e) {
-      yield put(actions.alerts.displayError('Could not update language.'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'updateLanguage', e))
+      yield put(actions.alerts.displayError(C.LANGUAGE_UPDATE_ERROR))
     }
   }
 
   const updateCurrency = function * (action) {
     try {
       yield call(coreSagas.settings.setCurrency, action.payload)
-      yield put(actions.alerts.displaySuccess('Currency has been successfully updated.'))
+      yield put(actions.alerts.displaySuccess(C.CURRENCY_UPDATE_SUCCESS))
     } catch (e) {
-      yield put(actions.alerts.displayError('Could not update currency.'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'updateCurrency', e))
+      yield put(actions.alerts.displayErrorC.CURRENCY_UPDATE_ERROR)
     }
   }
 
@@ -96,109 +95,120 @@ export default ({ coreSagas }) => {
     try {
       yield call(coreSagas.settings.setAutoLogout, action.payload)
       yield put(actions.auth.startLogoutTimer())
-      yield put(actions.alerts.displaySuccess('Auto logout has been successfully updated.'))
+      yield put(actions.alerts.displaySuccess(C.AUTOLOGOUT_UPDATE_SUCCESS))
     } catch (e) {
-      yield put(actions.alerts.displayError('Could not update auto logout.'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'updateAutoLogout', e))
+      yield put(actions.alerts.displayError(C.AUTOLOGOUT_UPDATE_ERROR))
     }
   }
 
   const updateLoggingLevel = function * (action) {
     try {
       yield call(coreSagas.settings.setLoggingLevel, action.payload)
-      yield put(actions.alerts.displaySuccess('Logging level has been successfully updated.'))
+      yield put(actions.alerts.displaySuccess(C.LOGGINGLEVEL_UPDATE_SUCCESS))
     } catch (e) {
-      yield put(actions.alerts.displayError('Could not update logging level.'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'updateLoggingLevel', e))
+      yield put(actions.alerts.displayError(C.LOGGINGLEVEL_UPDATE_ERROR))
     }
   }
 
   const updateIpLock = function * (action) {
     try {
       yield call(coreSagas.settings.setIpLock, action.payload)
-      yield put(actions.alerts.displaySuccess('IP whitelist has been successfully updated.'))
+      yield put(actions.alerts.displaySuccess(C.IPWHITELIST_UPDATE_SUCCESS))
     } catch (e) {
-      yield put(actions.alerts.displayError('Could not update IP whitelist.'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'updateIpLock', e))
+      yield put(actions.alerts.displayError(C.IPWHITELIST_UPDATE_ERROR))
     }
   }
 
   const updateIpLockOn = function * (action) {
     try {
       yield call(coreSagas.settings.setIpLockOn, action.payload)
-      yield put(actions.alerts.displaySuccess('IP restriction has been successfully updated.'))
+      yield put(actions.alerts.displaySuccess(C.IPRESTRICTION_UPDATE_SUCCESS))
     } catch (e) {
-      yield put(actions.alerts.displayError('Could not update IP restriction.'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'updateIpLockOn', e))
+      yield put(actions.alerts.displayError(C.IPRESTRICTION_UPDATE_ERROR))
     }
   }
 
   const updateBlockTorIps = function * (action) {
     try {
       yield call(coreSagas.settings.setBlockTorIps, action.payload)
-      yield put(actions.alerts.displaySuccess('TOR blocking has been successfully updated.'))
+      yield put(actions.alerts.displaySuccess(C.TOR_UPDATE_SUCCESS))
     } catch (e) {
-      yield put(actions.alerts.displayError('Could not update TOR blocking.'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'updateBlockTorIps', e))
+      yield put(actions.alerts.displayError(C.TOR_UPDATE_ERROR))
     }
   }
 
   const updateHint = function * (action) {
     try {
       yield call(coreSagas.settings.setHint, action.payload)
-      yield put(actions.alerts.displaySuccess('Hint has been successfully updated.'))
+      yield put(actions.alerts.displaySuccess(C.HINT_UPDATE_SUCCESS))
     } catch (e) {
-      yield put(actions.alerts.displayError('Could not update hint.'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'updateHint', e))
+      yield put(actions.alerts.displayError(C.HINT_UPDATE_ERROR))
     }
   }
 
   const updateTwoStepRemember = function * (action) {
     try {
       yield call(coreSagas.settings.setAuthTypeNeverSave, action.payload)
-      yield put(actions.alerts.displaySuccess('2FA remember has been successfully updated.'))
+      if (action.payload.authTypeNeverSave === 1) {
+        const guid = yield select(selectors.core.wallet.getGuid)
+        yield put(actions.session.removeSession(guid))
+      }
+      yield put(actions.alerts.displaySuccess(C.TWOFA_REMEMBER_UPDATE_SUCCESS))
     } catch (e) {
-      yield put(actions.alerts.displayError('Could not update 2FA remember.'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'updateTwoStepRemember', e))
+      yield put(actions.alerts.displayError(C.TWOFA_REMEMBER_UPDATE_ERROR))
     }
   }
 
   const enableTwoStepMobile = function * (action) {
     try {
       yield call(coreSagas.settings.setAuthType, action.payload)
-      yield put(actions.alerts.displaySuccess('2FA (Mobile) has been successfully enabled.'))
-      yield put(actions.modals.closeAllModals())
+      yield put(actions.alerts.displaySuccess(C.TWOFA_MOBILE_ENABLE_SUCCESS))
     } catch (e) {
-      yield put(actions.alerts.displayError('Could not update 2FA.'))
-      yield put(actions.modals.closeModal())
+      yield put(actions.logs.logErrorMessage(logLocation, 'enableTwoStepMobile', e))
+      yield put(actions.alerts.displayError(C.TWOFA_MOBILE_ENABLE_ERROR))
     }
+    yield put(actions.modals.closeModal())
   }
 
   const enableTwoStepGoogleAuthenticator = function * (action) {
     try {
       yield call(coreSagas.settings.setGoogleAuthenticator, action.payload)
-      yield put(actions.alerts.displaySuccess('2FA (Google Authenticator) has been successfully enabled.'))
-      yield put(actions.modals.closeAllModals())
+      yield put(actions.alerts.displaySuccess(C.TWOFA_GOOGLEAUTH_ENABLE_SUCCESS))
     } catch (e) {
-      yield put(actions.alerts.displayError('Could not update 2FA.'))
-      yield put(actions.modals.closeModal())
+      yield put(actions.logs.logErrorMessage(logLocation, 'enableTwoStepGoogleAuthenticator', e))
+      yield put(actions.alerts.displayError(C.TWOFA_GOOGLEAUTH_ENABLE_ERROR))
     }
+    yield put(actions.modals.closeModal())
   }
 
   const enableTwoStepYubikey = function * (action) {
     try {
       yield call(coreSagas.settings.setYubikey, action.payload)
-      yield put(actions.alerts.displaySuccess('2FA (Yubikey) has been successfully enabled.'))
-      yield put(actions.modals.closeAllModals())
+      yield put(actions.alerts.displaySuccess(C.TWOFA_YUBIKEY_ENABLE_SUCCESS))
     } catch (e) {
-      yield put(actions.alerts.displayError('Could not update 2FA.'))
-      yield put(actions.modals.closeModal())
+      yield put(actions.logs.logErrorMessage(logLocation, 'enableTwoStepYubikey', e))
+      yield put(actions.alerts.displayError(C.TWOFA_YUBIKEY_ENABLE_ERROR))
     }
+    yield put(actions.modals.closeModal())
   }
 
   const newHDAccount = function * (action) {
     try {
       yield call(askSecondPasswordEnhancer(coreSagas.wallet.newHDAccount), action.payload)
-      yield put(actions.core.kvStore.bch.addBchAccount())
-      yield put(actions.alerts.displaySuccess('Successfully created new wallet.'))
-      yield put(actions.modals.closeAllModals())
+      yield put(actions.core.kvStore.bch.fetchMetadataBch())
+      yield put(actions.alerts.displaySuccess(C.NEW_WALLET_CREATE_SUCCESS))
     } catch (e) {
-      yield put(actions.alerts.displayError(e.message || 'Could not create new wallet.'))
-      yield put(actions.modals.closeModal())
+      yield put(actions.logs.logErrorMessage(logLocation, 'newHDAccount', e))
+      yield put(actions.alerts.displayError(C.NEW_WALLET_CREATE_ERROR))
     }
+    yield put(actions.modals.closeModal())
   }
 
   const showBtcPrivateKey = function * (action) {
@@ -210,7 +220,7 @@ export default ({ coreSagas }) => {
       const priv = yield call(() => taskToPromise(privT))
       yield put(actions.modules.settings.addShownBtcPrivateKey(priv))
     } catch (e) {
-      yield put(actions.alerts.displayError('Could not show private key for address.'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'showBtcPrivateKey', e))
     }
   }
 
@@ -232,7 +242,7 @@ export default ({ coreSagas }) => {
         yield put(actions.modules.settings.addShownEthPrivateKey(priv))
       }
     } catch (e) {
-      yield put(actions.alerts.displayError('Could not derive private key.'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'showEthPrivateKey', e))
     }
   }
 

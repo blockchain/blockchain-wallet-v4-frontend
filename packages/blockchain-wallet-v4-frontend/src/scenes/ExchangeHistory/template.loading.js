@@ -1,21 +1,20 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { FlatLoader } from 'blockchain-info-components'
+import { BlockchainLoader } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
+  position: relative;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 5px;
-  box-sizing: border-box;
+  width: 100%;
+  margin-top: 100px;
 `
 
-export default (props) => {
-  return (
-    <Wrapper>
-      <FlatLoader width='50px' height='14px' />
-    </Wrapper>
-  )
-}
+export default (props) => (
+  <Wrapper>
+    <BlockchainLoader width='200px' height='200px' />
+  </Wrapper>
+)

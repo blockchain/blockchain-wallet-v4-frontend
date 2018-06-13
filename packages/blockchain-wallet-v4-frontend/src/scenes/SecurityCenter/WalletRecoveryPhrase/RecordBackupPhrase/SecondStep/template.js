@@ -9,7 +9,9 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 118%;
+  @media (min-width: 992px) {
+    width: 118%;
+  }
 `
 const Container = styled.div`
   display: flex;
@@ -58,12 +60,12 @@ const SecondStep = (props) => {
           step === 3
             ? <Button onClick={nextStep} nature='primary'>
               <Text color='white' weight={300} cursor='pointer'>
-                <FormattedMessage id='modals.recoveryphrase.firststep.finishandcheckphrase' defaultMessage='Finish & Verify' />
+                <FormattedMessage id='modals.recoveryphrase.secondstep.finishandcheckphrase' defaultMessage='Finish & Verify' />
               </Text>
             </Button>
             : <Button onClick={handleClickNext} nature='dark'>
               <Text color='white' weight={300} cursor='pointer'>
-                <FormattedMessage id='modals.recoveryphrase.firststep.nextfourwords' defaultMessage='Next 4 Words' />
+                <FormattedMessage id='modals.recoveryphrase.secondstep.nextfourwords' defaultMessage='Next 4 Words' />
               </Text>
             </Button>
         }

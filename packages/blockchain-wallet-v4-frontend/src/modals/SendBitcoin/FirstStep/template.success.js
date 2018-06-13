@@ -6,8 +6,8 @@ import { Field, reduxForm } from 'redux-form'
 
 import { required, validBitcoinAddress, validBitcoinPrivateKey } from 'services/FormHelper'
 import { Button, Icon, Link, Text, Tooltip } from 'blockchain-info-components'
-import { FiatConvertor, Form, FormGroup, FormItem, FormLabel, NumberBox, SelectBoxBitcoinAddresses, SelectBoxCoin, SelectBox, TextBox, TextArea } from 'components/Form'
-import { shouldValidate, isAddressDerivedFromPriv, emptyAccount, minimumAmount, maximumAmount, minimumFeePerByte, maximumFeePerByte } from './validation'
+import { FiatConvertor, Form, FormGroup, FormItem, FormLabel, NumberBoxDebounced, SelectBoxBitcoinAddresses, SelectBoxCoin, SelectBox, TextBox, TextAreaDebounced } from 'components/Form'
+import { shouldError, shouldWarn, isAddressDerivedFromPriv, insufficientFunds, minimumAmount, maximumAmount, minimumFeePerByte, maximumFeePerByte, invalidAmount } from './validation'
 import QRCodeCapture from 'components/QRCodeCapture'
 import RegularFeeLink from './RegularFeeLink'
 import PriorityFeeLink from './PriorityFeeLink'
@@ -71,13 +71,13 @@ const FeeOptionsContainer = styled.div`
   align-items: center;
 `
 const FeePerByteContainer = styled.div`
-  margin-top: 10px;
   width: 100%;
+  margin-top: 10px;
 `
 
 const FirstStep = props => {
-  const { invalid, submitting, ...rest } = props
-  const { watchOnly, addressMatchesPriv, destination, toToggled, feePerByteToggled, feePerByteElements, regularFeePerByte, priorityFeePerByte, isPriorityFeePerByte, totalFee, ...rest2 } = rest
+  const { invalid, submitting, pristine, ...rest } = props
+  const { from, watchOnly, addressMatchesPriv, destination, toToggled, enableToggle, feePerByteToggled, feePerByteElements, regularFeePerByte, priorityFeePerByte, isPriorityFeePerByte, totalFee, ...rest2 } = rest
   const { handleFeePerByteToggle, handleToToggle, handleSubmit } = rest2
 
   return (
@@ -93,7 +93,7 @@ const FirstStep = props => {
           <FormLabel for='from'>
             <FormattedMessage id='modals.sendbtc.firststep.from' defaultMessage='From:' />
           </FormLabel>
-          <Field name='from' component={SelectBoxBitcoinAddresses} validate={[required]} />
+          <Field name='from' component={SelectBoxBitcoinAddresses} validate={[required]} includeAll={false} />
           {watchOnly &&
             <Row>
               <Field name='priv' placeholder='Please enter your private key...' component={TextBox} validate={[required, validBitcoinPrivateKey, isAddressDerivedFromPriv]} autoFocus />
@@ -108,11 +108,11 @@ const FirstStep = props => {
             <FormattedMessage id='modals.sendbtc.firststep.to' defaultMessage='To:' />
           </FormLabel>
           <Row>
-            {toToggled && !destination && <Field name='to' component={SelectBoxBitcoinAddresses} opened includeAll={false} />}
-            {toToggled && destination && <Field name='to' component={SelectBoxBitcoinAddresses} onFocus={() => handleToToggle()} includeAll={false} validate={[required]} hideArrow />}
+            {toToggled && !destination && <Field name='to' component={SelectBoxBitcoinAddresses} opened onFocus={() => handleToToggle()} includeAll={false} exclude={[from.label]} hideErrors />}
+            {toToggled && destination && <Field name='to' component={SelectBoxBitcoinAddresses} onFocus={() => handleToToggle()} includeAll={false} validate={[required]} exclude={[from.label]} hideArrow hideErrors />}
             {!toToggled && <Field name='to' placeholder='Paste or scan an address, or select a destination' component={TextBox} validate={[required, validBitcoinAddress]} autoFocus />}
-            {(!toToggled || destination) && <QRCodeCapture scanType='btcAddress' border={['top', 'bottom']} />}
-            {(!toToggled || destination) && <AddressButton onClick={() => handleToToggle(true)}><Icon name='down-arrow' size='10px' cursor /></AddressButton>}
+            {(!toToggled || destination) && <QRCodeCapture scanType='btcAddress' border={enableToggle ? ['top', 'bottom'] : ['top', 'bottom', 'right']} />}
+            {(enableToggle && (!toToggled || destination)) && <AddressButton onClick={() => handleToToggle(true)}><Icon name='down-arrow' size='10px' cursor /></AddressButton>}
           </Row>
         </FormItem>
       </FormGroup>
@@ -121,21 +121,21 @@ const FirstStep = props => {
           <FormLabel for='amount'>
             <FormattedMessage id='modals.sendbtc.firststep.amount' defaultMessage='Enter Amount:' />
           </FormLabel>
-          <Field name='amount' component={FiatConvertor} validate={[required, emptyAccount, minimumAmount, maximumAmount]} coin='BTC' />
+          <Field name='amount' component={FiatConvertor} validate={[required, invalidAmount, insufficientFunds, minimumAmount, maximumAmount]} coin='BTC' />
         </FormItem>
       </FormGroup>
       <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel>
-            <FormattedMessage id='modals.sendbtc.firststep.description' defaultMessage='Description:&nbsp;' />
+            <FormattedMessage id='modals.sendbtc.firststep.description' defaultMessage='Description: ' />
             <Tooltip>
-              <FormattedMessage id='modals.sendbtc.firststep.share_tooltip' defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.' />
+              <FormattedMessage id='modals.sendbtc.firststep.sharetooltip' defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.' />
             </Tooltip>
           </FormLabel>
-          <Field name='description' component={TextArea} placeholder="What's this transaction for?" fullwidth />
+          <Field name='description' component={TextAreaDebounced} placeholder="What's this transaction for?" rows={3} />
         </FormItem>
       </FormGroup>
-      <FormGroup inline margin={'15px'}>
+      <FormGroup inline margin={'10px'}>
         <ColLeft>
           <FeeFormContainer toggled={feePerByteToggled}>
             <FeeFormLabel>
@@ -150,7 +150,7 @@ const FirstStep = props => {
             </FeeFormLabel>
             {feePerByteToggled &&
               <FeePerByteContainer>
-                <Field name='feePerByte' component={NumberBox} validate={[required, minimumFeePerByte, maximumFeePerByte]} />
+                <Field name='feePerByte' component={NumberBoxDebounced} validate={[required]} warn={[minimumFeePerByte, maximumFeePerByte]} />
               </FeePerByteContainer>
             }
           </FeeFormContainer>
@@ -165,14 +165,14 @@ const FirstStep = props => {
           </Link>
         </ColRight>
       </FormGroup>
-      <FormGroup>
+      <FormGroup margin={'15px'}>
         <Text size='13px' weight={300}>
           {!isPriorityFeePerByte && <FormattedMessage id='modals.sendbtc.firststep.estimated' defaultMessage='Estimated confirmation time 1+ hour' />}
           {isPriorityFeePerByte && <FormattedMessage id='modals.sendbtc.firststep.estimated2' defaultMessage='Estimated confirmation time 0-60 minutes' />}
         </Text>
       </FormGroup>
       <FormGroup>
-        <Button type='submit' nature='primary' uppercase disabled={submitting || invalid}>
+        <Button type='submit' nature='primary' uppercase disabled={submitting || invalid || pristine}>
           <FormattedMessage id='modals.sendbtc.firststep.continue' defaultMessage='Continue' />
         </Button>
       </FormGroup>
@@ -195,4 +195,4 @@ FirstStep.propTypes = {
   totalFee: PropTypes.number
 }
 
-export default reduxForm({ form: 'sendBtc', destroyOnUnmount: false, shouldValidate })(FirstStep)
+export default reduxForm({ form: 'sendBtc', destroyOnUnmount: false, shouldError, shouldWarn })(FirstStep)

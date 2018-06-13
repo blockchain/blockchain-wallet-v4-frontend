@@ -1,42 +1,33 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 
-import { actions } from 'data'
-import { getCurrency, getData } from './selectors'
+import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
-import { Remote } from 'blockchain-wallet-v4/src'
 
 class FiatAtTime extends React.PureComponent {
-  componentWillMount () {
-    const { currency, amount, time, hash } = this.props
-    if (Remote.NotAsked.is(this.props.data)) {
-      this.props.btcActions.fetchFiatAtTime(hash, amount, time * 1000, currency)
-    }
-  }
-
   render () {
-    const { data } = this.props
+    const { data, amount, hash, time, type } = this.props
 
     return data.cata({
-      Success: (value) => <Success currency={value.currency} fiatAtTime={value.fiatAtTime} type={this.props.type}/>,
+      Success: (value) => <Success
+        currency={value}
+        amount={amount}
+        hash={hash}
+        time={time}
+        type={type}
+      />,
       Failure: (message) => <Error>{message}</Error>,
-      Loading: () => <Loading type={this.props.type}/>,
-      NotAsked: () => <Loading type={this.props.type}/>
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
     })
   }
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  currency: getCurrency(state),
-  data: getData(state, ownProps.hash)
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  btcActions: bindActionCreators(actions.core.data.bitcoin, dispatch)
+  data: getData(state)
 })
 
 FiatAtTime.propTypes = {
@@ -46,4 +37,4 @@ FiatAtTime.propTypes = {
   type: PropTypes.string.isRequired
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FiatAtTime)
+export default connect(mapStateToProps)(FiatAtTime)

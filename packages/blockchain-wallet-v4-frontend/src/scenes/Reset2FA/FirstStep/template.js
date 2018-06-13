@@ -21,14 +21,21 @@ const Header = styled.div`
   justify-content: space-between;
   align-items: center;
 `
-const Footer = styled.div`
-  margin-top: 20px;
+const FirstStepForm = styled(Form)`
+  margin-top: 15px;
+`
+const Footer = styled(FormGroup)`
   display: flex;
-  align-items: start;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+`
+const GoBackLink = styled(LinkContainer)`
+  margin-right: 15px;
 `
 
 const FirstStep = (props) => {
-  const { submitting, invalid, onSubmit } = props
+  const { submitting, invalid, handleSubmit } = props
 
   return (
     <Wrapper>
@@ -40,16 +47,16 @@ const FirstStep = (props) => {
           <FormattedMessage id='scenes.reset2fa.firststep.step1' defaultMessage='Step 1 of 3' />
         </Text>
       </Header>
+      <Separator />
       <TextGroup>
         <Text size='13px' weight={300}>
-          <FormattedMessage id='scenes.reset2fa.firststep.explain' defaultMessage='Are you unable to gain access to your wallet because you lost your two factor authentication (2FA) device or are unable to access your email account?' />
+          <FormattedMessage id='scenes.reset2fa.firststep.explain' defaultMessage='Fill out the form below to regain access to your wallet by resetting your 2FA, restricted IP, and verified email.' />
         </Text>
         <Text size='13px' weight={300}>
-          <FormattedMessage id='scenes.reset2fa.firststep.explain2' defaultMessage='2FA reset requests are automatically approved after a certain time. Your IP address and browser information will be recorded on submission.' />
+          <FormattedMessage id='scenes.reset2fa.firststep.explain2' defaultMessage='Note: Your IP address and browser information will be recorded upon submission.' />
         </Text>
       </TextGroup>
-      <Separator />
-      <Form onSubmit={onSubmit}>
+      <FirstStepForm onSubmit={handleSubmit}>
         <FormGroup>
           <FormItem>
             <FormLabel for='guid'>
@@ -58,11 +65,11 @@ const FirstStep = (props) => {
             <Field name='guid' autoFocus validate={[required, validWalletId]} component={TextBox} placeholder='XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXX' />
             <TextGroup inline>
               <Text size='12px' weight={300}>
-                <FormattedMessage id='scenes.reset2fa.firststep.firststepform.guid_explain' defaultMessage='If you forgot your wallet identifier, please' />
+                <FormattedMessage id='scenes.reset2fa.firststep.firststepform.guidexplain' defaultMessage='If you forgot your wallet identifier, please' />
               </Text>
               <LinkContainer to='/reminder'>
                 <Link size='12px' weight={300}>
-                  <FormattedMessage id='scenes.reset2fa.2fafirstform.look' defaultMessage='look it up here.' />
+                  <FormattedMessage id='scenes.reset2fa.firststep.look' defaultMessage='look it up here.' />
                 </Link>
               </LinkContainer>
             </TextGroup>
@@ -75,22 +82,21 @@ const FirstStep = (props) => {
             </FormLabel>
             <Field name='email' validate={[required, validEmail]} component={TextBox} />
             <Text size='12px' weight={300}>
-              <FormattedMessage id='scenes.reset2fa.firststep.firststepform.email_explain' defaultMessage='Enter the email associated with your wallet. ' />
-              <FormattedMessage id='scenes.reset2fa.firststep.firststepform.email_explain2' defaultMessage='If you lost access to this email, please enter it regardless.' />
+              <FormattedMessage id='scenes.reset2fa.firststep.firststepform.emailexplain' defaultMessage="Enter the email associated with your wallet (even if you've lost access to it)." />
             </Text>
           </FormItem>
         </FormGroup>
-        <Button type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid} >
-          <FormattedMessage id='scenes.reset2fa.firststep.firststepform.continue' defaultMessage='Continue' />
-        </Button>
-      </Form>
-      <Footer>
-        <LinkContainer to='/help'>
-          <Link size='13px' weight={300}>
-            <FormattedMessage id='scenes.reset2fa.firststep.back' defaultMessage='Go Back' />
-          </Link>
-        </LinkContainer>
-      </Footer>
+        <Footer>
+          <GoBackLink to='/help'>
+            <Link size='13px' weight={300}>
+              <FormattedMessage id='scenes.reset2fa.firststep.back' defaultMessage='Go Back' />
+            </Link>
+          </GoBackLink>
+          <Button type='submit' nature='primary' uppercase disabled={submitting || invalid} >
+            <FormattedMessage id='scenes.reset2fa.firststep.firststepform.continue' defaultMessage='Continue' />
+          </Button>
+        </Footer>
+      </FirstStepForm>
     </Wrapper>
   )
 }

@@ -1,5 +1,7 @@
+import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
+
 export default (chartData, symbol, history) => {
-  const total = chartData.reduce((acc, item) => (acc + Number(item.fiat)), 0).toFixed(2)
+  const total = chartData.reduce((acc, item) => (acc + Number(item.fiat)), 0)
 
   return (
     {
@@ -10,7 +12,7 @@ export default (chartData, symbol, history) => {
         y: 5,
         align: 'center',
         verticalAlign: 'middle',
-        text: symbol + total
+        text: symbol + Currency.formatFiat(total)
       },
       plotOptions: {
         pie: {
@@ -36,8 +38,9 @@ export default (chartData, symbol, history) => {
       },
       tooltip: {
         enabled: total > 0,
-        valuePrefix: `${symbol}`,
-        pointFormat: '{point.y}'
+        pointFormatter: function () {
+          return symbol + Currency.formatFiat(this.y)
+        }
       },
       series: [{
         type: 'pie',

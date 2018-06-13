@@ -1,29 +1,32 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
 import modalEnhancer from 'providers/ModalEnhancer'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import StepIndicator from 'components/StepIndicator'
 import Tray from 'components/Tray'
+import { selectors } from 'data'
 import Create from './Create'
-import Order from './Order'
-import Payment from './Payment'
 import Confirm from './Confirm'
 import ISignThis from './ISignThis'
-import { ModalHeader, ModalBody } from 'blockchain-info-components'
+import { ModalHeader, ModalBody, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
 import { path } from 'ramda'
 
-class SfoxExchangeData extends React.PureComponent {
+const HeaderWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+`
+
+class CoinifyExchangeData extends React.PureComponent {
   constructor () {
     super()
     this.state = { show: false }
     this.stepMap = {
-      order: <FormattedMessage id='modals.coinifyexchangedata.steps.order' defaultMessage='Order' />,
-      verify: <FormattedMessage id='modals.coinifyexchangedata.steps.verify' defaultMessage='Verify' />,
-      payment: <FormattedMessage id='modals.coinifyexchangedata.steps.payment' defaultMessage='Payment' />,
-      submit: <FormattedMessage id='modals.coinifyexchangedata.steps.submit' defaultMessage='Submit' />
+      account: <FormattedMessage id='modals.coinifyexchangedata.steps.account' defaultMessage='Create Account' />,
+      isx: <FormattedMessage id='modals.coinifyexchangedata.steps.identityverify' defaultMessage='Identity Verification' />
     }
   }
 
@@ -40,11 +43,9 @@ class SfoxExchangeData extends React.PureComponent {
 
   getStepComponent (step) {
     switch (step) {
-      case 'account': return <Create />
-      case 'order': return <Order />
-      case 'payment': return <Payment />
+      case 'account': return <Create country={this.props.country} />
+      case 'isx': return <ISignThis iSignThisId={path(['iSignThisID'], this.props.trade.data)} />
       case 'confirm': return <Confirm />
-      case 'isx': return <ISignThis />
     }
   }
 
@@ -52,10 +53,19 @@ class SfoxExchangeData extends React.PureComponent {
     const { show } = this.state
     const step = this.props.signupStep || this.props.step
 
+    let adjuster
+    if (this.props.signupComplete) adjuster = 0.0
+    else if (step === 'account' || step === 'isx') adjuster = 0.25
+
     return (
       <Tray in={show} class='tray' onClose={this.handleClose.bind(this)}>
-        <ModalHeader tray center onClose={this.handleClose.bind(this)}>
-          <StepIndicator step={step} stepMap={this.stepMap} />
+        <ModalHeader tray paddingHorizontal='15%' onClose={this.handleClose.bind(this)}>
+          <HeaderWrapper>
+            <Text size='20px' weight={300}>
+              <FormattedMessage id='coinifyexchangedata.header.start' defaultMessage='Start buying and selling in two simple steps.' />
+            </Text>
+            <StepIndicator adjuster={adjuster} barFullWidth flexEnd minWidth='135px' maxWidth='135px' step={step} stepMap={this.stepMap} />
+          </HeaderWrapper>
         </ModalHeader>
         <ModalBody>
           { this.getStepComponent(step) }
@@ -65,14 +75,16 @@ class SfoxExchangeData extends React.PureComponent {
   }
 }
 
-SfoxExchangeData.propTypes = {
-  step: PropTypes.oneOf(['account', 'confirm', 'order', 'payment']),
+CoinifyExchangeData.propTypes = {
+  step: PropTypes.oneOf(['account', 'isx', 'confirm', 'order', 'payment']),
   close: PropTypes.function
 }
 
 const mapStateToProps = (state) => ({
   data: getData(state),
-  signupStep: path(['coinify', 'signupStep'], state)
+  signupStep: path(['coinify', 'signupStep'], state),
+  signupComplete: path(['coinify', 'signupComplete'], state),
+  trade: selectors.core.data.coinify.getTrade(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -84,4 +96,4 @@ const enhance = compose(
   modalEnhancer('CoinifyExchangeData')
 )
 
-export default enhance(SfoxExchangeData)
+export default enhance(CoinifyExchangeData)

@@ -6,7 +6,7 @@ import { Field, reduxForm } from 'redux-form'
 import QRCodeReact from 'qrcode.react'
 
 import { required } from 'services/FormHelper'
-import { Button, Modal, ModalHeader, ModalBody, Separator, Text, Tooltip } from 'blockchain-info-components'
+import { Button, Separator, Text, Tooltip } from 'blockchain-info-components'
 import { Form, FormGroup, FormItem, FormLabel, SelectBoxCoin } from 'components/Form'
 import CopyClipboard from 'components/CopyClipboard'
 
@@ -33,65 +33,55 @@ const ScanMessage = styled.div`
 `
 
 const RequestEther = (props) => {
-  const { position, total, closeAll, ...rest } = props
-  const { onSubmit, address } = rest
+  const { handleSubmit, address } = props
 
   return (
-    <Modal size='large' position={position} total={total}>
-      <ModalHeader icon='request' onClose={closeAll}>
-        <FormattedMessage id='modals.requestether.title' defaultMessage='Request Ether' />
-      </ModalHeader>
-      <ModalBody>
-        <Form onSubmit={onSubmit}>
-          <CoinSelector margin={'20px'}>
-            <FormItem>
-              <FormLabel for='coin'>
-                <FormattedMessage id='modals.requestether.coin' defaultMessage='Currency:' />
-              </FormLabel>
-              <Field name='coin' component={SelectBoxCoin} validate={[required]} />
-            </FormItem>
-          </CoinSelector>
-          <FormGroup>
-            <FormItem>
-              <FormLabel>
-                <FormattedMessage id='modals.requestether.share' defaultMessage='Copy & Share Address:' />
-                <Tooltip>
-                  <FormattedMessage id='modals.requestether.share_tooltip' defaultMessage='Share this address with others, and they can send you ETH directly to your wallet. Your request address will not change.' />
-                </Tooltip>
-              </FormLabel>
-            </FormItem>
-            <AddressContainer>
-              <CopyClipboard address={address} />
-            </AddressContainer>
-          </FormGroup>
-          <Separator margin={'20px 0'}>
-            <Text size='14px' weight={300} uppercase>
-              <FormattedMessage id='modals.requestether.or' defaultMessage='Or' />
-            </Text>
-          </Separator>
-          <QRCodeContainer>
-            <ScanMessage>
-              <Text size='14px'>
-                <FormattedMessage id='modals.requestether.scan' defaultMessage='Scan QR Code:' />
-                <Tooltip>
-                  <FormattedMessage id='modals.requestether.scan_tooltip' defaultMessage='Ask the sender to scan this QR code with their ether wallet' />
-                </Tooltip>
-              </Text>
-            </ScanMessage>
-            <QRCodeReact value={address} size={150} />
-          </QRCodeContainer>
-          <Button type='submit' nature='primary' fullwidth uppercase>
-            <FormattedMessage id='modals.requestether.done' defaultMessage='Done' />
-          </Button>
-        </Form>
-      </ModalBody>
-    </Modal>
+    <Form onSubmit={handleSubmit}>
+      <CoinSelector margin={'20px'}>
+        <FormItem>
+          <FormLabel for='coin'>
+            <FormattedMessage id='modals.requestether.coin' defaultMessage='Currency:' />
+          </FormLabel>
+          <Field name='coin' component={SelectBoxCoin} validate={[required]} />
+        </FormItem>
+      </CoinSelector>
+      <FormGroup>
+        <FormItem>
+          <FormLabel>
+            <FormattedMessage id='modals.requestether.share' defaultMessage='Copy & Share Address:' />
+            <Tooltip>
+              <FormattedMessage id='modals.requestether.sharetooltip' defaultMessage='Share this address with others, and they can send you ETH directly to your wallet. Your request address will not change.' />
+            </Tooltip>
+          </FormLabel>
+        </FormItem>
+        <AddressContainer>
+          <CopyClipboard address={address} />
+        </AddressContainer>
+      </FormGroup>
+      <Separator margin={'20px 0'}>
+        <Text size='14px' weight={300} uppercase>
+          <FormattedMessage id='modals.requestether.or' defaultMessage='Or' />
+        </Text>
+      </Separator>
+      <QRCodeContainer>
+        <ScanMessage>
+          <Text size='14px'>
+            <FormattedMessage id='modals.requestether.scan' defaultMessage='Scan QR Code:' />
+            <Tooltip>
+              <FormattedMessage id='modals.requestether.scan_tooltip' defaultMessage='Ask the sender to scan this QR code with their ether wallet' />
+            </Tooltip>
+          </Text>
+        </ScanMessage>
+        <QRCodeReact value={address} size={150} />
+      </QRCodeContainer>
+      <Button type='submit' nature='primary' fullwidth uppercase>
+        <FormattedMessage id='modals.requestether.done' defaultMessage='Done' />
+      </Button>
+    </Form>
   )
 }
 
 RequestEther.propTypes = {
-  position: PropTypes.number.isRequired,
-  closeAll: PropTypes.func.isRequired,
   address: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired
 }

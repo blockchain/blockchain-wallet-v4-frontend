@@ -1,21 +1,35 @@
 import React from 'react'
-import ui from 'redux-ui'
+import { connect } from 'react-redux'
+import { compose, bindActionCreators } from 'redux'
+import { withRouter } from 'react-router-dom'
 
+import { actions } from 'data'
+import { getData } from './selectors'
 import Navigation from './template.js'
 
 class NavigationContainer extends React.PureComponent {
   render () {
-    const { ui, updateUI, handleCloseMenuLeft } = this.props
     return (
       <Navigation
-        settingsToggled={ui.settingsToggled}
-        handleOpenSettings={() => { updateUI({ settingsToggled: true }); handleCloseMenuLeft() }}
-        handleCloseSettings={() => { updateUI({ settingsToggled: false }); handleCloseMenuLeft() }}
-        handleCloseMenuLeft={() => handleCloseMenuLeft()}
-        {...this.props}
+        canBuy={this.props.canBuy}
+        settingsOpened={this.props.settingsOpened}
+        menuOpened={this.props.menuOpened}
+        pathname={this.props.pathname}
+        handleCloseMenu={() => this.props.actions.layoutWalletMenuCloseClicked()}
       />
     )
   }
 }
 
-export default ui({ key: 'MenuLeft', persist: true, state: { settingsToggled: false } })(NavigationContainer)
+const mapStateToProps = state => getData(state)
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(actions.components.layoutWallet, dispatch)
+})
+
+const enhance = compose(
+  withRouter,
+  connect(mapStateToProps, mapDispatchToProps)
+)
+
+export default enhance(NavigationContainer)

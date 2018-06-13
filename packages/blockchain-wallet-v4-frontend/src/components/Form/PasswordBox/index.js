@@ -22,7 +22,7 @@ const Error = styled(Text)`
   padding: 5px 0px 5px 0px;
 `
 const getErrorState = (meta) => {
-  return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')
+  return meta.touched && meta.invalid ? 'invalid' : 'initial'
 }
 
 const PasswordBox = (field) => {
@@ -31,7 +31,7 @@ const PasswordBox = (field) => {
 
   return (
     <Container>
-      <PasswordInput {...field.input} controlledBorderColor={field.borderColor} errorState={errorState} />
+      <PasswordInput {...field.input} disabled={field.disabled} controlledBorderColor={field.borderColor} errorState={errorState} />
       { scoreVisible ? <PasswordScore value={field.input.value} /> : <div /> }
       {field.meta.touched && field.meta.error && <Error size='12px' weight={300} color='error'>{field.meta.error}</Error>}
     </Container>

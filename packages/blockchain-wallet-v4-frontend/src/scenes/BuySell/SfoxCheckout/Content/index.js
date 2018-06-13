@@ -4,27 +4,29 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { getBase, getData, getErrors, getQuote, getSellQuote, getTrades, getPayment } from './selectors'
 import Success from './template.success'
-import Loading from '../../template.loading'
+import Loading from 'components/BuySell/Loading'
 import { path } from 'ramda'
 
-class Checkout extends React.PureComponent {
-  componentWillMount () {
+class SfoxCheckout extends React.PureComponent {
+  constructor (props) {
+    super(props)
+    this.state = { buttonStatus: false }
+  }
+  componentDidMount () {
     this.props.sfoxDataActions.fetchTrades()
     this.props.sfoxDataActions.fetchProfile()
     this.props.sfoxDataActions.sfoxFetchAccounts()
-    this.props.sfoxDataActions.fetchQuote({quote: { amt: 1e8, baseCurr: 'BTC', quoteCurr: 'USD' }})
-    this.props.sfoxDataActions.fetchSellQuote({quote: { amt: 1e8, baseCurr: 'BTC', quoteCurr: 'USD' }})
-  }
-
-  componentDidMount () {
-    this.props.sendBtcActions.sendBtcInitialized({ feeType: 'priority' })
+    this.props.sfoxDataActions.fetchQuote({quote: { amt: 1e8, baseCurrency: 'BTC', quoteCurrency: 'USD' }})
+    this.props.sfoxDataActions.fetchSellQuote({quote: { amt: 1e8, baseCurrency: 'BTC', quoteCurrency: 'USD' }})
+    this.props.sendBtcActions.initialized({ feeType: 'priority' })
   }
 
   render () {
-    const { data, modalActions, sfoxActions, sfoxDataActions, payment, orderState } = this.props
-    const { handleTrade, fetchQuote, refreshQuote, fetchSellQuote } = sfoxDataActions
+    const { data, modalActions, sfoxActions, sfoxDataActions, payment, orderState, formActions } = this.props
+    const { handleTrade, fetchQuote, refreshQuote, refreshSellQuote, fetchSellQuote } = sfoxDataActions
     const { sfoxNotAsked } = sfoxActions
     const { showModal } = modalActions
+    const { change } = formActions
 
     const busy = orderState.cata({
       Success: () => false,
@@ -40,14 +42,19 @@ class Checkout extends React.PureComponent {
         showModal={showModal}
         fetchBuyQuote={(quote) => fetchQuote({ quote, nextAddress: value.nextAddress })}
         fetchSellQuote={(quote) => fetchSellQuote({ quote })}
-        refreshQuote={() => refreshQuote()}
+        refreshBuyQuote={() => refreshQuote()}
+        refreshSellQuote={() => refreshSellQuote()}
         submitBuyQuote={(quote) => { sfoxActions.submitQuote(quote); this.setState({ busy: true }) }}
         submitSellQuote={(quote) => { sfoxActions.submitSellQuote(quote); this.setState({ busy: true }) }}
         busy={busy}
         payment={payment}
         clearTradeError={() => sfoxNotAsked()}
+        changeTab={tab => change('buySellTabStatus', 'status', tab)}
+        disableButton={() => this.setState({ buttonStatus: false })}
+        enableButton={() => this.setState({ buttonStatus: true })}
+        buttonStatus={this.state.buttonStatus}
       />,
-      Failure: (msg) => <div>Failure: {msg.error}</div>,
+      Failure: (error) => <div>Failure: {error && error.message}</div>,
       Loading: () => <Loading />,
       NotAsked: () => <div>Not Asked</div>
     })
@@ -69,7 +76,8 @@ const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   sfoxActions: bindActionCreators(actions.modules.sfox, dispatch),
   sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch),
-  sendBtcActions: bindActionCreators(actions.components.sendBtc, dispatch)
+  sendBtcActions: bindActionCreators(actions.components.sendBtc, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Checkout)
+export default connect(mapStateToProps, mapDispatchToProps)(SfoxCheckout)

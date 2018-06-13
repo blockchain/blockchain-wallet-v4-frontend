@@ -17,6 +17,10 @@ export const getTransactionHistory = path([dataPath, 'bitcoin', 'transaction_his
 
 export const getCoins = path([dataPath, 'bitcoin', 'payment', 'coins'])
 
+export const getSpendableBalance = path([dataPath, 'bitcoin', 'spendable_balance'])
+
+export const getUnspendableBalance = path([dataPath, 'bitcoin', 'unspendable_balance'])
+
 // Specific
 export const getChangeIndex = curry((xpub, state) => getAddresses(state).map(path([xpub, 'change_index'])))
 
@@ -44,4 +48,6 @@ export const getSelection = path([dataPath, 'bitcoin', 'payment', 'selection'])
 
 export const getEffectiveBalance = path([dataPath, 'bitcoin', 'payment', 'effectiveBalance'])
 
-export const getFiatAtTime = (state, hash, currency) => path([dataPath, 'bitcoin', 'transactions_fiat', hash, currency], state)
+export const getFiatAtTime = curry((hash, currency, state) => path([dataPath, 'bitcoin', 'transactions_fiat', hash, currency], state))
+
+export const getAllFiatAtTime = path([dataPath, 'bitcoin', 'transactions_fiat'])

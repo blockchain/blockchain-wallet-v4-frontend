@@ -3,6 +3,7 @@
 exports[`Link component default renders correctly 1`] = `
 <styled.a
   bold={false}
+  capitalize={false}
   color="brand-secondary"
   size="16px"
   uppercase={false}

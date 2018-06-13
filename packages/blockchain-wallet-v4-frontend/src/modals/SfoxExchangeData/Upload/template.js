@@ -2,8 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
-import { Text, Button, IconButton, Link, Icon } from 'blockchain-info-components'
-import { } from 'services/FormHelper'
+import { Text, Button, Link, Icon } from 'blockchain-info-components'
 import { flex } from 'services/StyleService'
 import Dropzone from 'react-dropzone'
 
@@ -15,11 +14,7 @@ const LockIcon = styled(Icon)`
   font-size: 24px;
   margin-left: 7px;
 `
-
-const InputContainer = styled.div`
-  max-height: 300px;
-  height: 200px;
-`
+const InputContainer = styled.div``
 const InputForm = styled.form`
   display: flex;
   flex-direction: column;
@@ -110,7 +105,6 @@ const Upload = (props) => {
     )
   }
 
-  let camera = null
   return (
     <Row>
       <ColLeft>
@@ -128,27 +122,18 @@ const Upload = (props) => {
                 <SuccessText size='16px'>
                   <FormattedMessage id='sfoxexchangedata.upload.sentforreview' defaultMessage='Click submit to send the document for approval.' />
                 </SuccessText>
-                <img style={{ height: '180px' }} src={file.preview} alt='Your document' />
+                <img style={{ height: '180px', width: '300px' }} src={file.preview} alt='Your document' />
               </UploadSuccess>
               : photo
                 ? <UploadSuccess>
                   <SuccessText size='16px'>
                     <FormattedMessage id='sfoxexchangedata.upload.imgsentforreview' defaultMessage='Click submit to send the image for approval.' />
                   </SuccessText>
-                  <img style={{ height: '180px' }} src={photo} id='photo' alt='Your photo' />
+                  <img style={{ height: '180px', width: '300px' }} src={photo} id='photo' alt='Your photo' />
                 </UploadSuccess>
                 : showCamera
-                  ? <CameraContainer setPhoto={setPhoto} ref={instance => { camera = instance }} />
+                  ? <CameraContainer setPhoto={setPhoto} width={265} height={200} />
                   : renderInputOptions()
-          }
-          {
-            showCamera && !photo
-              ? <SubmitContainer>
-                <IconButton name='camera' fullwidth nature='primary' onClick={() => { camera.handleStartClick() }}>
-                  <FormattedMessage id='sfoxexchangedata.upload.capture' defaultMessage='Capture' />
-                </IconButton>
-              </SubmitContainer>
-              : null
           }
         </InputContainer>
       </ColLeft>

@@ -41,17 +41,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
   }).then(() => data.checksum)
 
   const fetchBlockchainData = (context, { n = 50, offset = 0, onlyShow } = {}) => {
-    const data = onlyShow ? {
-      active: (Array.isArray(context) ? context : [context]).join('|'),
-      onlyShow: onlyShow,
-      format: 'json',
-      offset: offset,
-      no_compact: true,
-      ct: new Date().getTime(),
-      n: n,
-      language: 'en',
-      no_buttons: true
-    } : {
+    const data = {
       active: (Array.isArray(context) ? context : [context]).join('|'),
       format: 'json',
       offset: offset,
@@ -64,7 +54,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     return post({
       url: rootUrl,
       endPoint: '/multiaddr',
-      data
+      data: onlyShow ? merge(data, { onlyShow }) : data
     })
   }
 
@@ -106,10 +96,24 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     data: { format: 'json', method: 'get', pin, key }
   })
 
+  const resendSmsLoginCode = (guid, sessionToken) => get({
+    url: rootUrl,
+    endPoint: `/wallet/${guid}`,
+    data: { format: 'json', resend_code: true },
+    sessionToken
+  })
+
   const remindGuid = (email, captcha, sessionToken) => post({
     url: rootUrl,
     endPoint: '/wallet',
     data: { method: 'recover-wallet', email, captcha },
+    sessionToken
+  })
+
+  const deauthorizeBrowser = (sessionToken) => get({
+    url: rootUrl,
+    endPoint: '/wallet/logout',
+    data: { format: 'plain' },
     sessionToken
   })
 
@@ -190,6 +194,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     authorizeLogin,
     createPayload,
     createPinEntry,
+    deauthorizeBrowser,
     fetchBlockchainData,
     fetchPayloadWithSession,
     fetchPayloadWithSharedKey,
@@ -197,16 +202,17 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     generateUUIDs,
     getPairingPassword,
     getPinValue,
+    handle2faReset,
+    incrementStat,
+    incrementSecPasswordStats,
+    incrementLoginViaQrStats,
+    incrementCurrencyUsageStats,
     obtainSessionToken,
     pollForSessionGUID,
     remindGuid,
+    resendSmsLoginCode,
     reset2fa,
     savePayload,
-    incrementStat,
-    handle2faReset,
-    verifyEmailToken,
-    incrementSecPasswordStats,
-    incrementLoginViaQrStats,
-    incrementCurrencyUsageStats
+    verifyEmailToken
   }
 }

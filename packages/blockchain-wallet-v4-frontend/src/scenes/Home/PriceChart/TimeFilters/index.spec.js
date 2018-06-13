@@ -1,9 +1,9 @@
-
 import React from 'react'
 import { shallow } from 'enzyme'
 import toJson from 'enzyme-to-json'
-import { testPropTypes } from 'utils/tests'
+import { testPropTypes } from 'utils/test.utils'
 import { TimeFiltersContainer } from './index'
+
 jest.mock('./template', () => 'template')
 jest.mock('data', () => ({ }))
 
@@ -16,10 +16,7 @@ describe('TimeFilters container', () => {
   })
 
   it('should accept a mandatory string for prop time', () => {
-    const testValues = [
-      ['all', '1day', '1week', '1month', '1year'],
-      [0, undefined, null, {}]
-    ]
-    testPropTypes(TimeFiltersContainer, 'time', testValues)
+    expect(testPropTypes(TimeFiltersContainer, 'time', ['all', '1day', '1week', '1month', '1year'], false)).toBeTruthy()
+    expect(testPropTypes(TimeFiltersContainer, 'time', [0, undefined, null, {}], true)).toBeTruthy()
   })
 })

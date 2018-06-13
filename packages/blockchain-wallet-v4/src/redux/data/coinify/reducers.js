@@ -3,16 +3,17 @@ import * as AT from './actionTypes.js'
 import Remote from '../../../remote'
 
 const INITIAL_STATE = {
-  trade: null,
+  trade: Remote.NotAsked,
   quote: Remote.NotAsked,
   trades: Remote.NotAsked,
   profile: Remote.NotAsked,
-  accounts: Remote.NotAsked,
   mediums: Remote.NotAsked,
+  kycs: Remote.NotAsked,
+  subscriptions: Remote.NotAsked,
   nextAddress: null
 }
 
-const sfoxReducer = (state = INITIAL_STATE, action) => {
+const coinifyReducer = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
@@ -34,15 +35,6 @@ const sfoxReducer = (state = INITIAL_STATE, action) => {
     case AT.COINIFY_FETCH_QUOTE_FAILURE: {
       return assoc('quote', Remote.Failure(payload), state)
     }
-    case AT.COINIFY_FETCH_RATE_QUOTE_LOADING: {
-      return assoc('rateQuote', null, state)
-    }
-    case AT.COINIFY_FETCH_RATE_QUOTE_SUCCESS: {
-      return assoc('rateQuote', payload, state)
-    }
-    case AT.COINIFY_FETCH_RATE_QUOTE_FAILURE: {
-      return assoc('rateQuote', payload, state)
-    }
     case AT.COINIFY_FETCH_TRADES_LOADING: {
       return assoc('trades', Remote.Loading, state)
     }
@@ -51,6 +43,15 @@ const sfoxReducer = (state = INITIAL_STATE, action) => {
     }
     case AT.COINIFY_FETCH_TRADES_FAILURE: {
       return assoc('trades', Remote.Failure(payload), state)
+    }
+    case AT.COINIFY_FETCH_SUBSCRIPTIONS_LOADING: {
+      return assoc('subscriptions', Remote.Loading, state)
+    }
+    case AT.COINIFY_FETCH_SUBSCRIPTIONS_SUCCESS: {
+      return assoc('subscriptions', Remote.Success(payload), state)
+    }
+    case AT.COINIFY_FETCH_SUBSCRIPTIONS_FAILURE: {
+      return assoc('subscriptions', Remote.Failure(payload), state)
     }
     case AT.HANDLE_TRADE_LOADING: {
       return assoc('trade', Remote.Loading, state)
@@ -67,18 +68,6 @@ const sfoxReducer = (state = INITIAL_STATE, action) => {
     case AT.SET_PROFILE_FAILURE: {
       return assoc('profile', Remote.Failure(payload), state)
     }
-    case AT.UPLOAD_SUCCESS: {
-      return state
-    }
-    case AT.UPLOAD_FAILURE: {
-      return state
-    }
-    case AT.SET_BANK_ACCOUNT_SUCCESS: {
-      return state
-    }
-    case AT.SET_BANK_ACCOUNT_FAILURE: {
-      return state
-    }
     case AT.COINIFY_SIGNUP_SUCCESS: {
       return assoc('profile', Remote.Success(payload), state)
     }
@@ -89,7 +78,7 @@ const sfoxReducer = (state = INITIAL_STATE, action) => {
       return assoc('nextAddress', payload, state)
     }
     case AT.RESET_PROFILE: {
-      return assoc('profile', null)
+      return assoc('profile', Remote.NotAsked)
     }
     case AT.GET_DELEGATE_TOKEN_SUCCESS: {
       return assoc('delegateToken', payload, state)
@@ -106,15 +95,21 @@ const sfoxReducer = (state = INITIAL_STATE, action) => {
     case AT.COINIFY_GET_PAYMENT_MEDIUMS_FAILURE: {
       return assoc('mediums', Remote.Failure(payload), state)
     }
-    case AT.COINIFY_GET_MEDIUM_ACCOUNTS_SUCCESS: {
-      return assoc('accounts', payload, state)
+    case AT.COINIFY_SET_BANK_ACCOUNT: {
+      return assoc('account', payload, state)
     }
-    case AT.COINIFY_GET_MEDIUM_ACCOUNTS_FAILURE: {
-      return assoc('accounts', payload, state)
+    case AT.GET_KYCS_LOADING: {
+      return assoc('kycs', Remote.Loading, state)
+    }
+    case AT.GET_KYCS_SUCCESS: {
+      return assoc('kycs', Remote.Success(payload), state)
+    }
+    case AT.GET_KYCS_FAILURE: {
+      return assoc('kycs', Remote.Failure(payload), state)
     }
     default:
       return state
   }
 }
 
-export default sfoxReducer
+export default coinifyReducer

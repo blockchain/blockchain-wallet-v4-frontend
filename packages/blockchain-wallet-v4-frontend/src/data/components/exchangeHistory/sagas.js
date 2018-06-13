@@ -1,10 +1,13 @@
-import { cancel, call, fork, put, select, takeEvery, takeLatest } from 'redux-saga/effects'
+import { cancel, call, fork, put, race, select, take } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import { equals, identity, path, prop } from 'ramda'
-import * as AT from './actionTypes'
-import { actions, selectors } from 'data'
+import { any, equals, identity, isNil, path, prop } from 'ramda'
+import { actions, actionTypes, selectors } from 'data'
+import * as C from 'services/AlertService'
 
 export default ({ api, coreSagas }) => {
+  const logLocation = 'components/exchangeHistory/sagas'
+  let pollingTradeStatusTask
+
   const updateTradeStatus = function * (depositAddress) {
     try {
       const appState = yield select(identity)
@@ -19,7 +22,7 @@ export default ({ api, coreSagas }) => {
         yield put(actions.core.kvStore.shapeShift.updateTradeStatusMetadataShapeshift(depositAddress, status))
       }
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'updateTradeStatus', e))
     }
   }
 
@@ -28,20 +31,29 @@ export default ({ api, coreSagas }) => {
       const { trades } = action.payload
       for (let i = 0; i < trades.length; i++) {
         const trade = trades[i]
-        const depositAddress = path(['quote', 'deposit'], trade)
-        const orderId = path(['quote', 'orderId'], trade)
         try {
-          yield fork(updateTradeStatus, depositAddress)
+          const depositAddress = path(['quote', 'deposit'], trade)
+          const status = prop('status', trade)
+          const quote = prop('quote', trade)
+          const depositAmount = prop('depositAmount', quote)
+          const withdrawalAmount = prop('withdrawalAmount', quote)
+          if (!equals('complete', status) || any(isNil)([depositAmount, withdrawalAmount])) {
+            yield call(coreSagas.kvStore.shapeShift.fetchShapeshiftTrade, depositAddress)
+            yield race({
+              success: take(actionTypes.core.kvStore.shapeShift.FETCH_METADATA_SHAPESHIFT_SUCCESS),
+              failure: take(actionTypes.core.kvStore.shapeShift.FETCH_METADATA_SHAPESHIFT_FAILURE)
+            })
+          }
         } catch (e) {
-          yield put(actions.alerts.displayError(`Could not fetch trade [${orderId}] status.`))
+          yield put(actions.alerts.displayError(C.EXCHANGE_REFRESH_TRADE_ERROR))
+          yield put(actions.logs.logErrorMessage(logLocation, 'exchangeHistoryInitialized', e))
         }
       }
     } catch (e) {
-      yield put(actions.alerts.displayError(`Could not fetch all trades statuses.`))
+      yield put(actions.alerts.displayError(C.EXCHANGE_REFRESH_TRADES_ERROR))
+      yield put(actions.logs.logErrorMessage(logLocation, 'exchangeHistoryInitialized', e))
     }
   }
-
-  let pollingTradeStatusTask
 
   const startPollingTradeStatus = function * (depositAddress) {
     try {
@@ -50,7 +62,8 @@ export default ({ api, coreSagas }) => {
         yield call(delay, 5000)
       }
     } catch (e) {
-      yield put(actions.alerts.displayError('Could not refresh trade status.'))
+      yield put(actions.alerts.displayError(C.EXCHANGE_REFRESH_TRADE_ERROR))
+      yield put(actions.logs.logErrorMessage(logLocation, 'startPollingTradeStatus', e))
     }
   }
 
@@ -59,21 +72,21 @@ export default ({ api, coreSagas }) => {
       const { depositAddress } = action.payload
       pollingTradeStatusTask = yield fork(startPollingTradeStatus, depositAddress)
     } catch (e) {
-      yield put(actions.alerts.displayError('Error fetching trade information'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'exchangeHistoryModalInitialized', e))
     }
   }
 
-  const exchangeHistoryModalDestroyed = function * (action) {
+  const exchangeHistoryModalDestroyed = function * () {
     try {
       yield cancel(pollingTradeStatusTask)
     } catch (e) {
-      yield put(actions.alerts.displayError('Error fetching trade information'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'exchangeHistoryModalDestroyed', e))
     }
   }
 
-  return function * () {
-    yield takeEvery(AT.EXCHANGE_HISTORY_INITIALIZED, exchangeHistoryInitialized)
-    yield takeLatest(AT.EXCHANGE_HISTORY_MODAL_INITIALIZED, exchangeHistoryModalInitialized)
-    yield takeLatest(AT.EXCHANGE_HISTORY_MODAL_DESTROYED, exchangeHistoryModalDestroyed)
+  return {
+    exchangeHistoryInitialized,
+    exchangeHistoryModalInitialized,
+    exchangeHistoryModalDestroyed
   }
 }

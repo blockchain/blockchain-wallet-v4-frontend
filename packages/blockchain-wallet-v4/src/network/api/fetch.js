@@ -27,11 +27,9 @@ const encodeData = (contentType, data) => {
 
 export default ({ apiKey }) => {
   // Generic request object
-  const request = ({ method, url, endPoint, data, sessionToken, contentType = 'application/x-www-form-urlencoded' }) => {
+  const request = ({ method, url, endPoint, data, sessionToken, ignoreKey, contentType = 'application/x-www-form-urlencoded' }) => {
     const defaultHeaders = { 'Content-Type': contentType }
-
     const formEncodedData = encodeData(contentType, { ...data, 'api_code': apiKey, ct: Date.now() })
-
     const finalHeaders = isNil(sessionToken)
       ? defaultHeaders
       : merge({ 'Authorization': `Bearer ${sessionToken}` }, defaultHeaders)
@@ -47,7 +45,7 @@ export default ({ apiKey }) => {
       body: formEncodedData
     }
 
-    const finalUrl = method === 'GET'
+    const finalUrl = method === 'GET' && !ignoreKey
       ? `${url}${endPoint}?${formEncodedData}`
       : `${url}${endPoint}`
 
@@ -55,7 +53,7 @@ export default ({ apiKey }) => {
   }
 
   // Get request
-  const get = ({ url, endPoint, data, sessionToken, contentType }) => request({ method: 'GET', url, endPoint, data, sessionToken, contentType })
+  const get = ({ url, endPoint, data, sessionToken, ignoreKey, contentType }) => request({ method: 'GET', url, endPoint, data, sessionToken, ignoreKey, contentType })
 
   // Post request
   const post = ({ url, endPoint, data, sessionToken, contentType }) => request({ method: 'POST', url, endPoint, data, sessionToken, contentType })

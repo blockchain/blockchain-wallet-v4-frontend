@@ -18,9 +18,12 @@ const TransactionRowContainer = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  padding: 15px 30px;
+  padding: 10px;
   box-sizing: border-box;
   border-bottom: 1px solid ${props => props.theme['gray-2']};
+  @media (min-width: 320px){
+    padding: 15px 30px;
+  }
 `
 const TransactionRow = styled.div`
   display: flex;
@@ -98,8 +101,8 @@ const TransactionListItem = (props) => {
           <Text size='13px' weight={300}>{transaction.timeFormatted}</Text>
           { (transaction.fromWatchOnly || transaction.toWatchOnly) && (
             <BannerWrapper>
-              <Banner type='informational' label>
-                <FormattedMessage id='components.txlistitem.watch_only' defaultMessage='Watch Only' />
+              <Banner type='informational'>
+                <FormattedMessage id='components.txlistitem.watchonly' defaultMessage='Non-Spendable' />
               </Banner>
             </BannerWrapper>
           )}
@@ -113,7 +116,7 @@ const TransactionListItem = (props) => {
         </ConfirmationColumn>
         <AmountColumn>
           <ToggleButton nature={transaction.type} onClick={handleCoinToggle}>
-            <SwitchableDisplay coin={coin} size='16px' weight={300} color='white' cursor='pointer'>{transaction.amount}</SwitchableDisplay>
+            <SwitchableDisplay mobileSize='12px' coin={coin} size='16px' weight={300} color='white' cursor='pointer'>{transaction.amount}</SwitchableDisplay>
           </ToggleButton>
           <TransactionValues>
             { coin === 'BTC' && <FiatAtTime amount={transaction.amount} hash={transaction.hash} time={transaction.time} type={transaction.type} /> }

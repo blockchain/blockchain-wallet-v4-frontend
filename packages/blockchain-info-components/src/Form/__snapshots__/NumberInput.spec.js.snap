@@ -3,5 +3,9 @@
 exports[`NumberInput component default renders correctly 1`] = `
 <styled.input
   borderColor="red"
+  disabled={false}
+  height="40px"
+  minHeight="40px"
+  step="0.01"
 />
 `;

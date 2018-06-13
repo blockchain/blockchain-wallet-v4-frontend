@@ -16,6 +16,7 @@ const Row = styled.div`
 
   & > * { width: 150px; }
   & > :last-child { width: 100%; }
+  &:first-child { padding-top: 0px; }
 `
 const Summary = styled.div`
   display: flex;
@@ -26,7 +27,7 @@ const Summary = styled.div`
   padding: 10px 0;
   margin: 5px 0;
   margin-bottom: 25px;
-  
+
   & > * { padding: 10px 0; }
 `
 const Footer = styled.div`
@@ -36,7 +37,7 @@ const Footer = styled.div`
   align-items: center;
   width: 100%;
 
-  & > :first-child { margin-bottom: 5px; }
+  & > :first-child { margin-bottom: 15px; }
 `
 
 const Success = props => {
@@ -82,7 +83,7 @@ const Success = props => {
       </Row>
       <Summary>
         <Text size='16px' weight={300} color='sent'>
-          <FormattedMessage id='modals.sendbtc.total' defaultMessage='Total' />
+          <FormattedMessage id='modals.sendbtc.secontstep.total' defaultMessage='Total' />
         </Text>
         <CoinDisplay coin={coin} size='30px' weight={600} color='sent'>{total}</CoinDisplay>
         <FiatDisplay coin={coin} size='20px' weight={300} color='sent'>{total}</FiatDisplay>

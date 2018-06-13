@@ -9,14 +9,12 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  width: 100%;
 `
 const Container = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  width: 100%;
 `
 const Error = styled(Text)`
   position: absolute;
@@ -26,7 +24,7 @@ const Error = styled(Text)`
   height: 15px;
 `
 const getErrorState = (meta) => {
-  return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')
+  return meta.touched && meta.invalid ? 'invalid' : 'initial'
 }
 
 const RadioButton = ({ children, ...field }) => {

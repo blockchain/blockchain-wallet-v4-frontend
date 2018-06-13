@@ -1,21 +1,33 @@
 import { lift } from 'ramda'
 import { selectors } from 'data'
+import { createDeepEqualSelector } from 'services/ReselectHelper'
 
-export const getData = (state) => {
-  const profile = selectors.core.data.coinify.getProfile(state)
-  const limits = selectors.core.data.coinify.getLimits(state)
-  const level = selectors.core.data.coinify.getLevel(state)
-  const mediums = selectors.core.data.coinify.getMediums(state)
-  const kycs = selectors.core.data.coinify.getKycs(state)
-  const quote = selectors.core.data.coinify.getQuote(state)
-
-  return lift((profile, limits, level, mediums, kycs, quote) => ({ profile, limits, level, mediums, kycs, quote }))(profile, limits, level, mediums, kycs, quote)
-}
-
-export const getMediums = (state) => {
-  try {
-    return selectors.core.data.coinify.getMediums(state)
-  } catch (e) {
-    return null
+export const getData = createDeepEqualSelector(
+  [
+    selectors.core.data.coinify.getProfile,
+    selectors.core.data.coinify.getLimits,
+    selectors.core.data.coinify.getLevel,
+    selectors.core.data.coinify.getMediums,
+    selectors.core.data.coinify.getKycs
+  ],
+  (profileR, limitsR, levelR, mediumsR, kycsR) => {
+    const transform = (profile, limits, level, mediums, kycs) => {
+      return {
+        profile,
+        limits,
+        level,
+        mediums,
+        kycs
+      }
+    }
+    return lift(transform)(profileR, limitsR, levelR, mediumsR, kycsR)
   }
-}
+)
+
+export const getQuote = createDeepEqualSelector(
+  [selectors.core.data.coinify.getQuote],
+  (quoteR) => {
+    const transform = quote => quote
+    return lift(transform)(quoteR)
+  }
+)

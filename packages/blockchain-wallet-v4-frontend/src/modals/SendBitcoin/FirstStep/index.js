@@ -2,15 +2,20 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { getData } from './selectors'
+import { getData, getBtcData } from './selectors'
 import { actions } from 'data'
-import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
+import DataError from 'components/DataError'
 
 class FirstStep extends React.Component {
-  componentDidMount () {
-    this.props.actions.sendBtcFirstStepInitialized()
+  constructor (props) {
+    super(props)
+    this.handleRefresh = this.handleRefresh.bind(this)
+  }
+
+  handleRefresh () {
+    this.props.refreshActions.refresh()
   }
 
   render () {
@@ -18,8 +23,10 @@ class FirstStep extends React.Component {
 
     return data.cata({
       Success: value => <Success
+        from={value.from}
         watchOnly={value.watchOnly}
         addressMatchesPriv={value.addressMatchesPriv}
+        enableToggle={value.enableToggle}
         toToggled={value.toToggled}
         destination={value.destination}
         feePerByteToggled={value.feePerByteToggled}
@@ -31,22 +38,24 @@ class FirstStep extends React.Component {
         priorityFeePerByte={value.priorityFeePerByte}
         isPriorityFeePerByte={value.isPriorityFeePerByte}
         totalFee={value.totalFee}
-        handleSubmit={() => actions.sendBtcFirstStepSubmitClicked()}
+        onSubmit={() => actions.sendBtcFirstStepSubmitClicked()}
         handleFeePerByteToggle={() => actions.sendBtcFirstStepFeePerByteToggled()}
         handleToToggle={(val) => actions.sendBtcFirstStepToToggled(val)}
       />,
-      Failure: (message) => <Error>{message}</Error>,
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />
+      Failure: () => <DataError onClick={() => this.handleRefresh} />,
+      NotAsked: () => <Loading />,
+      Loading: () => <Loading />
     })
   }
 }
 
 const mapStateToProps = state => ({
-  data: getData(state)
+  data: getData(state),
+  btcData: getBtcData(state)
 })
 
 const mapDispatchToProps = dispatch => ({
+  refreshActions: bindActionCreators(actions.core.refresh, dispatch),
   actions: bindActionCreators(actions.components.sendBtc, dispatch)
 })
 

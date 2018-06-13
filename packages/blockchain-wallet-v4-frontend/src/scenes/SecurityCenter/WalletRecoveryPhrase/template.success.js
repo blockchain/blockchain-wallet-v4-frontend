@@ -13,7 +13,9 @@ const SecurityGridContainer = SecurityContainer.extend`
 `
 const IconAndHeaderContainer = styled.div`
   display: grid;
-  grid-template-columns: 15% 85%;
+  @media(min-width: 480px) {
+    grid-template-columns: 15% 85%;
+  }
   `
 
 const WalletRecoveryPhrase = (props) => {
@@ -28,7 +30,7 @@ const WalletRecoveryPhrase = (props) => {
     )
     if (!ui.nextStepToggled) {
       if (!alone && isMnemonicVerified) {
-        const againBtn = <Button nature='primary' onClick={props.toggleBackupAgain} >
+        const againBtn = <Button nature='primary' onClick={props.toggleNextStep} >
           <FormattedMessage id='scenes.securitysettings.basicsecurity.walletrecovery.settings.backupagain' defaultMessage='Backup Again' />
         </Button>
         return securityComponent(againBtn)

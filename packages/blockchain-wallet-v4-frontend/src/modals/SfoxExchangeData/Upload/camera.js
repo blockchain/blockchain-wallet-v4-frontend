@@ -1,111 +1,59 @@
-import React, { Component } from 'react'
+import React from 'react'
 import styled from 'styled-components'
+import Webcam from 'react-webcam'
+import PropTypes from 'prop-types'
 
-// const CamHelp = styled.span`
-//   left: 0px;
-//   bottom: 0px;
-//   width: 100%;
-//   color: white;
-//   height: 35px;
-//   position: absolute;
-//   background: rgba(0, 0, 0, 0.44);
-// `
+import { IconButton } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
+
 const VideoContainer = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
+  flex-direction: column;
   justify-content: center;
 `
+const SubmitContainer = styled.div`
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
 
-const Camera = (props) => (
-  <VideoContainer>
-    <video id='video' />
-    {/* <CamHelp>Help text here</CamHelp> */}
-  </VideoContainer>
-)
-
-class CameraContainer extends Component {
+class CameraContainer extends React.Component {
   constructor (props) {
     super(props)
-
-    this.state = {
-      constraints: { audio: false, video: { width: 400, height: 200 } },
-      stream: false
-    }
-
-    this.handleStartClick = this.handleStartClick.bind(this)
-    this.takePicture = this.takePicture.bind(this)
-    this.clearPhoto = this.clearPhoto.bind(this)
+    this.setRef = this.setRef.bind(this)
+    this.capture = this.capture.bind(this)
   }
 
-  componentDidMount () {
-    const constraints = this.state.constraints
-    const getUserMedia = (params) => (
-      new Promise((resolve, reject) => {
-        navigator.webkitGetUserMedia(params, resolve, reject)
-      })
-    )
-
-    getUserMedia(constraints)
-      .then((stream) => {
-        this.setState({ stream })
-        const video = document.querySelector('video')
-        const vendorURL = window.URL || window.webkitURL
-
-        video.src = vendorURL.createObjectURL(this.state.stream)
-        video.play()
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+  setRef (webcam) {
+    this.webcam = webcam
   }
 
-  componentWillUnmount () {
-    if (this.state.stream.stop) this.state.stream.stop()
-    else {
-      this.state.stream.getVideoTracks().map(track => track.stop())
-    }
-  }
-
-  clearPhoto () {
-    const canvas = document.querySelector('canvas')
-    const photo = document.getElementById('photo')
-    const context = canvas.getContext('2d')
-    const { width, height } = this.state.constraints.video
-    context.fillStyle = '#FFF'
-    context.fillRect(0, 0, width, height)
-
-    const data = canvas.toDataURL('image/png')
-    photo.setAttribute('src', data)
-  }
-
-  handleStartClick () {
-    this.takePicture()
-  }
-
-  takePicture () {
-    const canvas = document.querySelector('canvas')
-    const context = canvas.getContext('2d')
-    const video = document.querySelector('video')
-    const { width, height } = this.state.constraints.video
-
-    canvas.width = width
-    canvas.height = height
-    context.drawImage(video, 0, 0, width, height)
-
-    const data = canvas.toDataURL('image/png')
-    this.props.setPhoto(data)
-  }
+  capture () {
+    const imageSrc = this.webcam.getScreenshot()
+    this.props.setPhoto(imageSrc)
+  };
 
   render () {
     return (
-      <span>
-        <Camera handleStartClick={this.handleStartClick} />
-        <canvas id='canvas' hidden />
-      </span>
+      <VideoContainer>
+        <Webcam ref={this.setRef} height={this.props.height} width={this.props.width} />
+        <SubmitContainer>
+          <IconButton name='camera' fullwidth nature='primary' onClick={this.capture}>
+            <FormattedMessage id='sfoxexchangedata.upload.capture' defaultMessage='Capture' />
+          </IconButton>
+        </SubmitContainer>
+      </VideoContainer>
     )
   }
+}
+
+CameraContainer.propTypes = {
+  height: PropTypes.number.isRequired,
+  width: PropTypes.number.isRequired
 }
 
 export default CameraContainer

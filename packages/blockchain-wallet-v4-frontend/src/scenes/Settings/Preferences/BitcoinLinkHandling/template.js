@@ -10,24 +10,24 @@ const BitcoinLinkHandling = (props) => {
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <FormattedMessage id='scenes.preferences.link.title' defaultMessage='Bitcoin Link Handling' />
+          <FormattedMessage id='scenes.settings.preferences.bitcoinlinkhandling.title' defaultMessage='Bitcoin Link Handling' />
         </SettingHeader>
         <SettingDescription>
-          <FormattedMessage id='scenes.preferences.link.description' defaultMessage='Enable this to allow your Blockchain Wallet to handle bitcoin payment links in the web browser.' />
-          <FormattedMessage id='scenes.preferences.link.description2' defaultMessage='This will make your experience more convenient when transacting online.' />
+          <FormattedMessage id='scenes.settings.preferences.bitcoinlinkhandling.description' defaultMessage='Enable this to allow your Blockchain Wallet to handle bitcoin payment links in the web browser.' />
+          <FormattedMessage id='scenes.settings.preferences.bitcoinlinkhandling.description2' defaultMessage='This will make your experience more convenient when transacting online.' />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
         <Button nature='primary' onClick={handleClick}>
-          <FormattedMessage id='scenes.preferences.link.enable' defaultMessage='Enable' />
+          <FormattedMessage id='scenes.settings.preferences.bitcoinlinkhandling.enable' defaultMessage='Enable' />
         </Button>
         { warningDisplayed &&
           <TextGroup inline>
             <Text size='14px' weight={300} color='error'>
-              <FormattedMessage id='scenes.preferences.link.unknownstatus' defaultMessage="We can't detect whether or not handling of bitcoin links has been enabled." />
+              <FormattedMessage id='scenes.settings.preferences.bitcoinlinkhandling.unknownstatus' defaultMessage="We can't detect whether or not handling of bitcoin links has been enabled." />
             </Text>
             <Text size='14px' weight={300} color='error'>
-              <FormattedMessage id='scenes.preferences.link.unknownstatus2' defaultMessage='If it has already been enabled, nothing will happen.' />
+              <FormattedMessage id='scenes.settings.preferences.bitcoinlinkhandling.unknownstatus2' defaultMessage='If it has already been enabled, nothing will happen.' />
             </Text>
           </TextGroup>
         }

@@ -17,6 +17,7 @@ const Row = styled.div`
 
   & > * { width: 150px; }
   & > :last-child { width: 100%; }
+  &:first-child { padding-top: 0px; }
 `
 const Summary = styled.div`
   display: flex;
@@ -37,7 +38,7 @@ const Footer = styled.div`
   align-items: center;
   width: 100%;
 
-  & > :first-child { margin-bottom: 5px; }
+  & > :first-child { margin-bottom: 15px; }
 `
 
 const Success = props => {
@@ -93,7 +94,7 @@ const Success = props => {
           <FormattedMessage id='modals.sendeth.secondstep.send' defaultMessage='Send Ether' />
         </Button>
         <Link onClick={handleBack} size='13px' weight={300}>
-          <FormattedMessage id='scenes.sendconfirm.back' defaultMessage='Go Back' />
+          <FormattedMessage id='modals.sendeth.sendconfirm.back' defaultMessage='Go Back' />
         </Link>
       </Footer>
     </Wrapper>

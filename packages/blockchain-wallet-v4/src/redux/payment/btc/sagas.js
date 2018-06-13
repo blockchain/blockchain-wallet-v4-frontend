@@ -37,14 +37,14 @@ export default ({ api }) => {
 
     // if address or account index
     if (isValidAddressOrIndex(destinations)) {
-      return [toOutput(network, appState, destinations)]
+      return [toOutput('BTC', network, appState, destinations)]
     }
 
     // if non-empty array of addresses or account indexes
     if (Array.isArray(destinations) &&
         destinations.length > 0 &&
         destinations.every(isValidAddressOrIndex(wallet))) {
-      return map(toOutput(network, appState), destinations)
+      return map(toOutput('BTC', network, appState), destinations)
     }
 
     throw new Error('no_destination_set')
@@ -84,7 +84,7 @@ export default ({ api }) => {
 
     // Single account index
     if (isPositiveInteger(origin)) {
-      return fromAccount(network, appState, origin)
+      return fromAccount(network, appState, origin, 'BTC')
     }
 
     // From private key (watch only: compressed / uncompressed, external)

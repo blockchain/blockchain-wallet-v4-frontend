@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
@@ -11,10 +10,19 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class BchBalance extends React.PureComponent {
+  constructor (props) {
+    super(props)
+    this.handleRefresh = this.handleRefresh.bind(this)
+  }
+
   componentWillMount () {
     if (Remote.NotAsked.is(this.props.data)) {
-      this.props.actions.fetchData(this.props.context)
+      this.props.actions.fetchSpendableBalance()
     }
+  }
+
+  handleRefresh () {
+    this.props.actions.fetchSpendableBalance()
   }
 
   render () {
@@ -22,15 +30,11 @@ class BchBalance extends React.PureComponent {
 
     return data.cata({
       Success: (value) => <Success balance={value} large={large} />,
-      Failure: (message) => <Error>{message}</Error>,
+      Failure: (message) => <Error onRefresh={this.handleRefresh} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
   }
-}
-
-BchBalance.propTypes = {
-  context: PropTypes.string.isRequired
 }
 
 const mapStateToProps = (state) => ({

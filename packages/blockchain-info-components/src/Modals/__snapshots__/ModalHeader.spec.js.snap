@@ -15,10 +15,11 @@ exports[`ModalHeader component default renders correctly 1`] = `
     />
     <Text
       altFont={false}
-      capitalize={false}
+      capitalize={true}
       color="gray-5"
-      cursor="default"
+      cursor="inherit"
       italic={false}
+      opacity={1}
       size="20px"
       uppercase={false}
       weight={300}

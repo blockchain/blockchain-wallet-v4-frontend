@@ -5,8 +5,8 @@ import * as S from './selectors'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
 import settings from 'config'
-
 import { initialize, change } from 'redux-form'
+import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 
@@ -14,19 +14,20 @@ const DUST = 546
 const DUST_BTC = '0.00000546'
 
 export default ({ coreSagas }) => {
-  const sendBtcInitialized = function * (action) {
+  const logLocation = 'components/sendBtc/sagas'
+
+  const initialized = function * (action) {
     try {
       const { to, message, amount, feeType } = action.payload
       yield put(A.sendBtcPaymentUpdated(Remote.Loading))
       let payment = coreSagas.payment.btc.create(({network: settings.NETWORK_BITCOIN}))
       payment = yield payment.init()
-      const accountsR = yield select(selectors.core.common.bitcoin.getAccountsBalances)
+      const accountsR = yield select(selectors.core.common.btc.getAccountsBalances)
       const defaultIndex = yield select(selectors.core.wallet.getDefaultAccountIndex)
       const defaultAccountR = accountsR.map(nth(defaultIndex))
       const defaultFeePerByte = path(['fees', feeType || 'regular'], payment.value())
       payment = yield payment.from(defaultIndex)
       payment = yield payment.fee(defaultFeePerByte)
-      // TODO :: Redesign account dropdown
       const initialValues = {
         to: to,
         coin: 'BTC',
@@ -38,11 +39,16 @@ export default ({ coreSagas }) => {
       yield put(initialize('sendBtc', initialValues))
       yield put(A.sendBtcPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
-      console.log('error: ', e)
+      yield put(A.sendBtcPaymentUpdated(Remote.Failure(e)))
+      yield put(actions.logs.logErrorMessage(logLocation, 'sendBtcInitialized', e))
     }
   }
 
-  const firstStepSubmitClicked = function * (action) {
+  const destroyed = function * () {
+    yield put(actions.form.destroy('sendBtc'))
+  }
+
+  const firstStepSubmitClicked = function * () {
     try {
       let p = yield select(S.getPayment)
       yield put(A.sendBtcPaymentUpdated(Remote.Loading))
@@ -50,7 +56,7 @@ export default ({ coreSagas }) => {
       payment = yield payment.build()
       yield put(A.sendBtcPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', e))
     }
   }
 
@@ -66,13 +72,20 @@ export default ({ coreSagas }) => {
 
       switch (field) {
         case 'coin':
-          yield put(actions.modals.closeAllModals())
           switch (payload) {
-            case 'ETH': yield put(actions.modals.showModal('SendEther')); break
-            case 'BCH': yield put(actions.modals.showModal('SendBch')); break
+            case 'ETH': {
+              yield put(actions.modals.closeAllModals())
+              yield put(actions.modals.showModal('SendEther'))
+              break
+            }
+            case 'BCH': {
+              yield put(actions.modals.closeAllModals())
+              yield put(actions.modals.showModal('SendBch'))
+            }
           }
           break
         case 'from':
+          yield put(A.sendBtcFirstStepToToggled(false))
           const source = prop('address', payload) || prop('index', payload)
           if (!prop('watchOnly', payload)) {
             payment = yield payment.from(source)
@@ -100,10 +113,14 @@ export default ({ coreSagas }) => {
           payment = yield payment.fee(parseInt(payload))
           break
       }
-      try { payment = yield payment.build() } catch (e) {}
+      try {
+        payment = yield payment.build()
+      } catch (e) {
+        yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
+      }
       yield put(A.sendBtcPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
     }
   }
 
@@ -111,7 +128,7 @@ export default ({ coreSagas }) => {
     try {
       yield put(change('sendBtc', 'to', ''))
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'toToggled', e))
     }
   }
 
@@ -124,7 +141,7 @@ export default ({ coreSagas }) => {
       const fiat = Exchange.convertBitcoinToFiat({ value: DUST, fromUnit: 'SAT', toCurrency: currency, rates: btcRates }).value
       yield put(change('sendBtc', 'amount', { coin, fiat }))
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'minimumAmountClicked', e))
     }
   }
 
@@ -140,7 +157,7 @@ export default ({ coreSagas }) => {
       const fiat = Exchange.convertBitcoinToFiat({ value: effectiveBalance, fromUnit: 'SAT', toCurrency: currency, rates: btcRates }).value
       yield put(change('sendBtc', 'amount', { coin, fiat }))
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'maximumAmountClicked', e))
     }
   }
 
@@ -151,7 +168,7 @@ export default ({ coreSagas }) => {
       const minFeePerByte = path(['fees', 'limits', 'min'], payment)
       yield put(change('sendBtc', 'feePerByte', minFeePerByte))
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'minimumFeeClicked', e))
     }
   }
 
@@ -162,7 +179,7 @@ export default ({ coreSagas }) => {
       const maxFeePerByte = path(['fees', 'limits', 'max'], payment)
       yield put(change('sendBtc', 'feePerByte', maxFeePerByte))
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'maximumFeeClicked', e))
     }
   }
 
@@ -173,7 +190,7 @@ export default ({ coreSagas }) => {
       const regularFeePerByte = path(['fees', 'regular'], payment)
       yield put(change('sendBtc', 'feePerByte', regularFeePerByte))
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'regularFeeClicked', e))
     }
   }
 
@@ -184,7 +201,7 @@ export default ({ coreSagas }) => {
       const priorityFeePerByte = path(['fees', 'priority'], payment)
       yield put(change('sendBtc', 'feePerByte', priorityFeePerByte))
     } catch (e) {
-      console.log(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'priorityFeeClicked', e))
     }
   }
 
@@ -193,23 +210,25 @@ export default ({ coreSagas }) => {
       let p = yield select(S.getPayment)
       let payment = coreSagas.payment.btc.create({ payment: p.getOrElse({}), network: settings.NETWORK_BITCOIN })
       const password = yield call(promptForSecondPassword)
+      yield put(actions.modals.closeAllModals())
       payment = yield payment.sign(password)
       payment = yield payment.publish()
       yield put(A.sendBtcPaymentUpdated(Remote.of(payment.value())))
+      yield put(actions.core.data.bitcoin.fetchData('', true))
       if (path(['description', 'length'], payment.value())) {
         yield put(actions.core.wallet.setTransactionNote(payment.value().txId, payment.value().description))
       }
-      yield put(actions.modals.closeAllModals())
       yield put(actions.router.push('/btc/transactions'))
-      yield put(actions.alerts.displaySuccess('Your bitcoin has been sent!'))
+      yield put(actions.alerts.displaySuccess(C.SEND_BTC_SUCCESS))
     } catch (e) {
-      console.log(e)
-      yield put(actions.alerts.displayError('Failed to send Bitcoin.'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e))
+      yield put(actions.alerts.displayError(C.SEND_BTC_ERROR))
     }
   }
 
   return {
-    sendBtcInitialized,
+    initialized,
+    destroyed,
     toToggled,
     minimumAmountClicked,
     maximumAmountClicked,

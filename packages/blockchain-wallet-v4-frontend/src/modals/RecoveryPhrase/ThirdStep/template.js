@@ -17,11 +17,11 @@ const Container = styled.div`
 
 const ThirdStep = (props) => {
   const { previousStep, position, total, close, submitting, invalid, ...rest } = props
-  const { indexes, mnemonic, onSubmit } = rest
+  const { indexes, mnemonic, handleSubmit } = rest
 
   return (
     <Modal size='large' position={position} total={total}>
-      <Form onSubmit={onSubmit}>
+      <Form onSubmit={handleSubmit}>
         <ModalHeader icon='bell' onClose={close}>
           <FormattedMessage id='modals.recoveryphrase.title' defaultMessage='Backup recovery phrase' />
         </ModalHeader>

@@ -1,6 +1,7 @@
-import * as effects from 'redux-saga/effects'
+import { put, select } from 'redux-saga/effects'
 import * as S from './selectors'
 import * as actions from '../../actions'
+import * as selectors from '../../selectors'
 import { calculateStart, calculateScale } from 'services/ChartService'
 
 /**
@@ -8,6 +9,8 @@ import { calculateStart, calculateScale } from 'services/ChartService'
  * @return {Object} price chart sagas
  */
 export default ({ coreSagas }) => {
+  const logLocation = 'components/priceChart/sagas'
+
   /**
    * @desc initialize priceChart component and fetches price data based on coin and time
    * @property {action} foo this is description.
@@ -15,14 +18,12 @@ export default ({ coreSagas }) => {
   const initialized = function * (action) {
     try {
       const { coin, time } = action.payload
-      const currency = 'USD'
+      const currencyR = yield select(selectors.core.settings.getCurrency)
       const start = calculateStart(coin, time)
       const scale = calculateScale(coin, time)
-      yield effects.put(actions.core.data.misc.fetchPriceIndexSeries(coin, currency, start, scale))
+      yield put(actions.core.data.misc.fetchPriceIndexSeries(coin, currencyR.getOrElse('USD'), start, scale))
     } catch (e) {
-      // TODO: create error wrapper!
-      console.log('Error in initialized saga')
-      // yield put(actions.alerts.displayError('Price index series chart could not be initialized.'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
     }
   }
 
@@ -33,15 +34,13 @@ export default ({ coreSagas }) => {
   const coinClicked = function * (action) {
     try {
       const { coin } = action.payload
-      const currency = 'USD'
-      yield effects.select(S.getTime)
-      const start = calculateStart(coin, 'tt')
-      const scale = calculateScale(coin, '')
-      yield effects.put(actions.core.data.misc.fetchPriceIndexSeries(coin, currency, start, scale))
+      const currencyR = yield select(selectors.core.settings.getCurrency)
+      const time = yield select(S.getTime)
+      const start = calculateStart(coin, time)
+      const scale = calculateScale(coin, time)
+      yield put(actions.core.data.misc.fetchPriceIndexSeries(coin, currencyR.getOrElse('USD'), start, scale))
     } catch (e) {
-      // TODO: create error wrapper!
-      console.log('Error in coinClicked saga')
-      // yield put(actions.alerts.displayError('Price index series chart could not be initialized.'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'coinClicked', e))
     }
   }
 
@@ -52,13 +51,13 @@ export default ({ coreSagas }) => {
   const timeClicked = function * (action) {
     try {
       const { time } = action.payload
-      const currency = 'USD'
-      const coin = yield effects.select(S.getCoin)
+      const currencyR = yield select(selectors.core.settings.getCurrency)
+      const coin = yield select(S.getCoin)
       const start = calculateStart(coin, time)
       const scale = calculateScale(coin, time)
-      yield effects.put(actions.core.data.misc.fetchPriceIndexSeries(coin, currency, start, scale))
+      yield put(actions.core.data.misc.fetchPriceIndexSeries(coin, currencyR.getOrElse('USD'), start, scale))
     } catch (e) {
-      // yield put(actions.alerts.displayError('Price index series chart could not be initialized.'))
+      yield put(actions.logs.logErrorMessage(logLocation, 'timeClicked', e))
     }
   }
 

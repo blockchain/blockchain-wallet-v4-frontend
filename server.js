@@ -5,14 +5,7 @@
 const express = require('express')
 const compression = require('compression')
 const path = require('path')
-
-let isLocal
-let localWalletOptions
-let environment
-let rootURL
-let webSocketURL
-let apiDomain
-let walletHelperDomain
+let isLocal, localWalletOptions, environment, rootURL, apiDomain, walletHelperDomain, webSocketURL
 
 // store configs and build server configuration
 if (process.env.LOCAL_PROD) {
@@ -26,10 +19,10 @@ if (process.env.LOCAL_PROD) {
   apiDomain = prodConfig.API_DOMAIN
   walletHelperDomain = prodConfig.WALLET_HELPER_DOMAIN
   localWalletOptions.domains = {
-    'root': prodConfig.ROOT_URL,
-    'api': prodConfig.API_DOMAIN,
-    'webSocket': prodConfig.WEB_SOCKET_URL,
-    'walletHelper': prodConfig.WALLET_HELPER_DOMAIN
+    'root': rootURL,
+    'api': apiDomain,
+    'webSocket': webSocketURL,
+    'walletHelper': walletHelperDomain
   }
 } else {
   // production config
@@ -49,7 +42,7 @@ console.log('\n** Configuration **')
 console.log(`Environment: ${environment}`)
 console.log(`Listening Port: ${port}`)
 console.log(`Root URL: ${rootURL}`)
-console.log(`Web Socket URL: ${webSocketURL}`)
+console.log(`BTC Web Socket URL: ${webSocketURL}`)
 console.log(`API Domain: ${apiDomain}`)
 console.log(`Wallet Helper Domain: ${walletHelperDomain}`)
 console.log(`iSignThis Domain: ${iSignThisDomain}\n`)
@@ -68,10 +61,9 @@ app.use(compression())
 app.use(function (req, res, next) {
   let cspHeader = ([
     "img-src 'self' " + rootURL + ' data: blob: android-webview-video-poster:',
+    `child-src ${iSignThisDomain} ${walletHelperDomain} blob:`,
+    `frame-src ${iSignThisDomain} ${walletHelperDomain}`,
     "style-src 'self' 'unsafe-inline'",
-    `child-src ${iSignThisDomain} ${walletHelperDomain} http://localhost:8081`,
-    `frame-src ${iSignThisDomain} ${walletHelperDomain} http://localhost:8081`,
-    "worker-src 'self' 'unsafe-eval' blob:",
     "script-src 'self' 'unsafe-eval'",
     'connect-src ' + [
       "'self'",
