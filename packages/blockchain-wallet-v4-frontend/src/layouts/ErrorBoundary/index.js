@@ -1,6 +1,9 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
 import Template from './template'
+import { actions } from '../../data'
 
 class ErrorBoundary extends React.Component {
   constructor (props) {
@@ -9,6 +12,7 @@ class ErrorBoundary extends React.Component {
       error: null,
       errorInfo: null
     }
+    this.onGoToLogin = this.onGoToLogin.bind(this)
   }
 
   componentDidCatch (error, info) {
@@ -17,6 +21,7 @@ class ErrorBoundary extends React.Component {
       errorInfo: info
     })
   }
+
   componentWillUnmount () {
     this.setState({
       error: null,
@@ -24,12 +29,21 @@ class ErrorBoundary extends React.Component {
     })
   }
 
+  onGoToLogin () {
+    this.props.authActions.logoutClearReduxStore()
+  }
+
   render () {
+    const { publicLayout } = this.props
     if (this.state.error) {
-      return <Template error={this.state.error} errorInfo={this.state.errorInfo} />
+      return <Template publicLayout={publicLayout} onGoToLogin={this.onGoToLogin} error={this.state.error} errorInfo={this.state.errorInfo} />
     }
     return this.props.children
   }
 }
 
-export default ErrorBoundary
+const mapDispatchToProps = (dispatch) => ({
+  authActions: bindActionCreators(actions.auth, dispatch)
+})
+
+export default connect(null, mapDispatchToProps)(ErrorBoundary)
