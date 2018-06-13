@@ -155,6 +155,10 @@ export default ({ coreSagas }) => {
   const updateTwoStepRemember = function * (action) {
     try {
       yield call(coreSagas.settings.setAuthTypeNeverSave, action.payload)
+      if (action.payload.authTypeNeverSave === 1) {
+        const guid = yield select(selectors.core.wallet.getGuid)
+        yield put(actions.session.removeSession(guid))
+      }
       yield put(actions.alerts.displaySuccess(C.TWOFA_REMEMBER_UPDATE_SUCCESS))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'updateTwoStepRemember', e))

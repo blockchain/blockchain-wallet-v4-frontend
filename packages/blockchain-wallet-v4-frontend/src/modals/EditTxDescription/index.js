@@ -16,8 +16,7 @@ class EditTxDescriptionContainer extends React.PureComponent {
     this.props.formActions.initialize('editTransactionDescription', { description: this.props.value })
   }
 
-  onSubmit (e) {
-    e.preventDefault()
+  onSubmit () {
     this.props.close()
     this.props.handleConfirm(this.props.description)
   }

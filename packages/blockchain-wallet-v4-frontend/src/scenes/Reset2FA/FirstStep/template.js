@@ -35,7 +35,7 @@ const GoBackLink = styled(LinkContainer)`
 `
 
 const FirstStep = (props) => {
-  const { submitting, invalid, onSubmit } = props
+  const { submitting, invalid, handleSubmit } = props
 
   return (
     <Wrapper>
@@ -56,7 +56,7 @@ const FirstStep = (props) => {
           <FormattedMessage id='scenes.reset2fa.firststep.explain2' defaultMessage='Note: Your IP address and browser information will be recorded upon submission.' />
         </Text>
       </TextGroup>
-      <FirstStepForm onSubmit={onSubmit}>
+      <FirstStepForm onSubmit={handleSubmit}>
         <FormGroup>
           <FormItem>
             <FormLabel for='guid'>

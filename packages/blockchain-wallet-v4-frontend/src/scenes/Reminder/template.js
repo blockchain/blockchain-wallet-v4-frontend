@@ -30,11 +30,11 @@ const SuccessMessages = styled(TextGroup)`
 `
 
 const Reminder = (props) => {
-  const { onSubmit, timestamp, submitting, invalid, submitted } = props
+  const { handleSubmit, timestamp, submitting, invalid, submitted } = props
 
   const renderForm = () => {
     return (
-      <Form onSubmit={onSubmit}>
+      <Form onSubmit={handleSubmit}>
         <FormGroup>
           <FormItem>
             <FormLabel for='email'>
@@ -57,7 +57,7 @@ const Reminder = (props) => {
               <FormattedMessage id='scenes.reminder.back' defaultMessage='Go Back' />
             </Link>
           </GoBackLink>
-          <Button type='submit' nature='primary' uppercase disabled={submitting || invalid} onClick={onSubmit}>
+          <Button type='submit' nature='primary' uppercase disabled={submitting || invalid}>
             <FormattedMessage id='scenes.reminder.continue' defaultMessage='Continue' />
           </Button>
         </Footer>

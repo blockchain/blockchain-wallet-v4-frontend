@@ -50,7 +50,7 @@ const IconContainer = styled.div`
 `
 
 const AcceptTerms = (props) => {
-  const { busy, email, invalid, onSubmit, signupError, updateUI, emailVerified, editEmail } = props
+  const { busy, email, invalid, handleSubmit, signupError, updateUI, emailVerified, editEmail } = props
 
   const checkboxShouldBeChecked = value => value ? undefined : 'You must agree to the terms and conditions'
 
@@ -64,7 +64,7 @@ const AcceptTerms = (props) => {
   const faqHelper = () => helpers.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
 
   return (
-    <Form onSubmit={onSubmit}>
+    <Form onSubmit={handleSubmit}>
       <ColLeft>
         <InputWrapper>
           <PartnerHeader>
