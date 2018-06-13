@@ -2,7 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import Template from './template'
+import PublicTemplate from './template.public'
+import ModalTemplate from './template.modal'
+import WalletTemplate from './template.wallet'
 import { actions } from '../../data'
 
 class ErrorBoundary extends React.Component {
@@ -34,9 +36,11 @@ class ErrorBoundary extends React.Component {
   }
 
   render () {
-    const { publicLayout } = this.props
+    const { publicLayout, modalLayout } = this.props
     if (this.state.error) {
-      return <Template publicLayout={publicLayout} onGoToLogin={this.onGoToLogin} error={this.state.error} errorInfo={this.state.errorInfo} />
+      if (publicLayout) return <PublicTemplate publicLayout={publicLayout} onGoToLogin={this.onGoToLogin} error={this.state.error} errorInfo={this.state.errorInfo} />
+      if (modalLayout) return <ModalTemplate error={this.state.error} errorInfo={this.state.errorInfo} />
+      return <WalletTemplate error={this.state.error} errorInfo={this.state.errorInfo} />
     }
     return this.props.children
   }
