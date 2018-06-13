@@ -92,6 +92,26 @@ export default ({ api, options }) => {
     }
   }
 
+  const refreshSellQuote = function * () {
+    try {
+      const quote = yield select(S.getQuote)
+      const qData = path(['data'], quote)
+
+      let quotePayload = {
+        baseCurrency: qData.baseCurrency,
+        quoteCurrency: qData.quoteCurrency,
+        type: 'sell'
+      }
+
+      if (qData.baseCurrency !== 'BTC') quotePayload['amount'] = qData.baseAmount * 100
+      else quotePayload['amount'] = qData.baseAmount / 1e8
+      const refreshedQuote = yield call(fetchQuote, { quote: quotePayload })
+      yield call(getPaymentMediums, { payload: refreshedQuote })
+    } catch (e) {
+      yield put(A.fetchQuoteFailure(e))
+    }
+  }
+
   const fetchQuoteAndMediums = function * (data) {
     try {
       const { amt, baseCurrency, quoteCurrency, medium, type } = data.payload
@@ -111,13 +131,13 @@ export default ({ api, options }) => {
 
   const fetchRateQuote = function * (data) {
     try {
-      yield put(A.fetchRateQuoteLoading())
+      yield put(A.fetchQuoteLoading())
       const { currency, type } = data.payload
       const getQuote = type === 'sell' ? coinify.getSellQuote : coinify.getBuyQuote
       const quote = yield apply(coinify, getQuote, [-1e8, 'BTC', currency])
-      yield put(A.fetchRateQuoteSuccess(quote))
+      yield put(A.fetchQuoteSuccess(quote))
     } catch (e) {
-      yield put(A.fetchRateQuoteFailure(e))
+      yield put(A.fetchQuoteFailure(e))
     }
   }
 
@@ -310,6 +330,7 @@ export default ({ api, options }) => {
     triggerKYC,
     getKYCs,
     kycAsTrade,
-    refreshBuyQuote
+    refreshBuyQuote,
+    refreshSellQuote
   }
 }

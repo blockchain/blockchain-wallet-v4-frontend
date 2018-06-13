@@ -12,7 +12,7 @@ export const getData = (state) => {
   const iban = insertSpaces(formValueSelector('coinifyAddBankDetails')(state, 'iban'))
   const account = {
     account: {
-      currency: selectors.core.data.coinify.getBaseCurrency(state).getOrElse(null),
+      currency: selectors.core.data.coinify.getFiatCurrency(state).getOrElse(null),
       bic: formValueSelector('coinifyAddBankDetails')(state, 'bic'),
       number: iban
     },

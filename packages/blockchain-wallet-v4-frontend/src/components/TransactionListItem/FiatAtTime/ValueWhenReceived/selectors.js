@@ -6,5 +6,5 @@ import { selectors } from 'data'
 
 export const getData = curry((hash, currency, state) => createSelector(
   [state => selectors.core.data.bitcoin.getFiatAtTime(hash, currency)(state)],
-  (fiatR) => (fiatR || Remote.NotAsked).map(value => Currency.fiatToString({ value, unit: { currency, symbol: Exchange.getSymbol(currency) } }))
+  (fiatR) => (fiatR || Remote.NotAsked).map(value => Currency.fiatToString({ value: value.split(',').join(''), unit: { currency, symbol: Exchange.getSymbol(currency) } }))
 )(state))

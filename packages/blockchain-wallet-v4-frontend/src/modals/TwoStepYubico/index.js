@@ -10,16 +10,15 @@ import TwoStepYubico from './template.js'
 class TwoStepYubicoContainer extends React.PureComponent {
   constructor (props) {
     super(props)
-    this.handleClick = this.handleClick.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
   }
 
-  handleClick (e) {
-    e.preventDefault()
+  onSubmit () {
     this.props.settingsActions.enableTwoStepYubikey(this.props.code)
   }
 
   render () {
-    return <TwoStepYubico {...this.props} handleClick={this.handleClick} />
+    return <TwoStepYubico {...this.props} handleClick={this.onSubmit} />
   }
 }
 

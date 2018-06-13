@@ -13,7 +13,7 @@ class GoogleAuthContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
   }
 
   componentWillMount () {
@@ -21,8 +21,8 @@ class GoogleAuthContainer extends React.PureComponent {
   }
 
   componentDidUpdate (prevProps) {
-    const next = this.props.data.data
-    const prev = prevProps.data.data
+    const next = this.props.data.getOrElse({})
+    const prev = prevProps.data.getOrElse({})
     if (next.authType !== prev.authType) {
       this.props.updateUI({ successToggled: true })
       this.props.triggerSuccess()
@@ -37,8 +37,7 @@ class GoogleAuthContainer extends React.PureComponent {
     this.props.modalActions.showModal('TwoStepSetup')
   }
 
-  handleSubmit (e) {
-    e.preventDefault()
+  onSubmit () {
     this.props.securityCenterActions.verifyGoogleAuthenticator(this.props.authCode)
   }
 
@@ -49,11 +48,10 @@ class GoogleAuthContainer extends React.PureComponent {
       Success: (value) => <Google
         data={value}
         handleClick={this.handleClick}
-        handleSubmit={this.handleSubmit}
+        onSubmit={this.onSubmit}
         ui={ui}
       />,
-      Failure: (message) => <Error {...rest}
-        message={message} />,
+      Failure: (message) => <Error {...rest} message={message} />,
       Loading: () => <Loading {...rest} />,
       NotAsked: () => <Loading {...rest} />
     })

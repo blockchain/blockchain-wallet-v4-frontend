@@ -33,10 +33,10 @@ const ScanMessage = styled.div`
 `
 
 const RequestEther = (props) => {
-  const { onSubmit, address } = props
+  const { handleSubmit, address } = props
 
   return (
-    <Form onSubmit={onSubmit}>
+    <Form onSubmit={handleSubmit}>
       <CoinSelector margin={'20px'}>
         <FormItem>
           <FormLabel for='coin'>

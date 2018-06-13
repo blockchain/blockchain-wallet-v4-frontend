@@ -17,7 +17,7 @@ class SmsAuthContainer extends React.PureComponent {
   }
 
   componentDidMount () {
-    const { smsVerified, smsNumber } = this.props.data.data
+    const { smsVerified, smsNumber } = this.props.data.getOrElse({})
     if ((smsNumber && smsNumber.length) && !smsVerified) {
       this.props.securityCenterActions.sendMobileVerificationCode(smsNumber)
       this.props.updateUI({ changeNumberToggled: false })
@@ -25,8 +25,8 @@ class SmsAuthContainer extends React.PureComponent {
   }
 
   componentDidUpdate (prevProps) {
-    const next = this.props.data.data
-    const prev = prevProps.data.data
+    const next = this.props.data.getOrElse({})
+    const prev = prevProps.data.getOrElse({})
     if (next.authType !== prev.authType) {
       this.props.updateUI({ successToggled: true })
       this.props.triggerSuccess()
@@ -41,9 +41,10 @@ class SmsAuthContainer extends React.PureComponent {
     this.props.modalActions.showModal('TwoStepSetup')
   }
 
-  onSubmit (e) {
-    e.preventDefault()
-    if (this.props.ui.changeNumberToggled || (!this.props.data.data.smsNumber && !this.props.data.data.smsVerified)) {
+  onSubmit () {
+    const { smsNumber, smsVerified } = this.props.data.getOrElse({})
+
+    if (this.props.ui.changeNumberToggled || (!smsNumber && !smsVerified)) {
       this.props.securityCenterActions.sendMobileVerificationCode(this.props.mobileNumber)
       this.props.updateUI({ changeNumberToggled: false })
     } else {

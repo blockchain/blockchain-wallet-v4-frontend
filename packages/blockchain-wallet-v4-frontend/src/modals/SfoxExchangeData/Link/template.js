@@ -2,12 +2,13 @@ import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
-import { Button, HeartbeatLoader, Link } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import BankAccounts from './BankAccounts'
 import AddManually from './AddManually'
 import MicroDeposits from './MicroDeposits'
 import PlaidFrame from './iframe.js'
 import AwaitingDeposits from './AwaitingDeposits'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 import Helper from 'components/BuySell/FAQ'
 import { ColLeft, ColRight, PartnerHeader, PartnerSubHeader, ColRightInner } from 'components/BuySell/Signup'
@@ -96,7 +97,7 @@ const BankLink = (props) => {
     onSetBankAccount,
     ui,
     toggleManual,
-    onSubmit,
+    handleSubmit,
     invalid,
     pristine,
     handleBankSelection,
@@ -109,6 +110,9 @@ const BankLink = (props) => {
     goToMicroDepositStep,
     submitMicroDeposits,
     showModal,
+    busy,
+    linkError,
+    setNotAsked,
     awaitingDeposits } = props
 
   const titleHelper = () => {
@@ -187,15 +191,26 @@ const BankLink = (props) => {
     }
     return (
       <Fragment>
-        <Button type='submit' nature='primary' uppercase fullwidth disabled={ui.busy || invalid || pristine} >
-          {
-            ui.busy
-              ? <HeartbeatLoader height='20px' width='20px' color='white' />
-              : <FormattedMessage id='sfoxexchangedata.link.continue' defaultMessage='continue' />
-          }
-        </Button>
         {
-          ui.toggleManual
+          linkError
+            ? <Fragment>
+              <Text size='13px' weight={300} color='error'>
+                {linkError}
+              </Text>
+              <Link size='13px' weight={300} onClick={() => { toggleManual(); setNotAsked() }}>
+                <FormattedMessage id='sfoxexchangedata.link.tryagain' defaultMessage='Try again.' />
+              </Link>
+            </Fragment>
+            : <Button type='submit' nature='primary' uppercase fullwidth disabled={busy || invalid || pristine} >
+              {
+                Remote.Loading.is(busy)
+                  ? <HeartbeatLoader height='20px' width='20px' color='white' />
+                  : <FormattedMessage id='sfoxexchangedata.link.continue' defaultMessage='continue' />
+              }
+            </Button>
+        }
+        {
+          ui.toggleManual && !linkError
             ? <GoBackLink onClick={toggleManual}>
               <FormattedMessage id='sfoxexchangedata.link.goback' defaultMessage='Go Back' />
             </GoBackLink>
@@ -210,7 +225,7 @@ const BankLink = (props) => {
   }
 
   return (
-    <Form onSubmit={onSubmit}>
+    <Form onSubmit={handleSubmit}>
       <ColLeft>
         <HeaderContainer>
           <PartnerHeader>

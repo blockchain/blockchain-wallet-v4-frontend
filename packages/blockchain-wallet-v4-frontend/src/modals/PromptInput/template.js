@@ -12,9 +12,9 @@ const Wrapper = styled.div`
   font-family: 'Montserrat', Helvetica, sans-serif;
 `
 
-const PromptTemplate = ({ position, total, close, submitting, invalid, title, secret = false, onSubmit }) => (
+const PromptTemplate = ({ position, total, close, submitting, invalid, title, secret = false, handleSubmit }) => (
   <Modal size='large' position={position} total={total}>
-    <Form onSubmit={onSubmit}>
+    <Form onSubmit={handleSubmit}>
       <Wrapper>
         <ModalHeader icon='pencil' onClose={close}>
           {title}

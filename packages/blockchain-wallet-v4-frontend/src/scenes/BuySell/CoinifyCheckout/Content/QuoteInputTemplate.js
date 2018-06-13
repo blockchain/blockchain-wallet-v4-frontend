@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
-import { SelectBoxCoinifyCurrency, TextBoxDebounced } from 'components/Form'
+import { SelectBoxCoinifyCurrency, NumberBoxDebounced } from 'components/Form'
 import { Field, reduxForm } from 'redux-form'
 import { head } from 'ramda'
 import { getReasonExplanation } from 'services/CoinifyService'
@@ -42,10 +42,14 @@ const Unit = styled.span`
   position: absolute;
   color: ${props => props.theme['gray-4']};
 `
+const ArrowLeft = styled(Icon)`
+  margin-left: 10px;
+  color: #bbb;
+`
 const ArrowRight = styled(Icon)`
-  margin-left: 15px;
-  margin-right: 15px;
-  color: #5F5F5F;
+  margin-left: -10px;
+  margin-right: 10px;
+  color: #bbb;
 `
 const Error = styled(Text)`
   position: absolute;
@@ -145,12 +149,13 @@ const FiatConvertor = (props) => {
     <Wrapper>
       <FiatConvertorInput>
         <Container>
-          <Field name='leftVal' component={TextBoxDebounced} disabled={disabled || !canTrade} borderRightNone={1} />
+          <Field name='leftVal' component={NumberBoxDebounced} disabled={disabled || !canTrade} borderRightNone={1} />
           <Field name='currency' component={SelectBoxCoinifyCurrency} defaultDisplay={defaultCurrency} isSell={isSell} />
         </Container>
-        <ArrowRight weight={600} size='22px' name='right-arrow' />
+        <ArrowLeft size='16px' name='left-arrow' />
+        <ArrowRight size='16px' name='right-arrow' />
         <Container>
-          <Field name='rightVal' component={TextBoxDebounced} disabled={disabled || !canTrade} />
+          <Field name='rightVal' component={NumberBoxDebounced} disabled={disabled || !canTrade} />
           <Unit>{currency}</Unit>
         </Container>
       </FiatConvertorInput>
