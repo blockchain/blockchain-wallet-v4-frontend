@@ -97,7 +97,7 @@ const BankLink = (props) => {
     onSetBankAccount,
     ui,
     toggleManual,
-    onSubmit,
+    handleSubmit,
     invalid,
     pristine,
     handleBankSelection,
@@ -225,7 +225,7 @@ const BankLink = (props) => {
   }
 
   return (
-    <Form onSubmit={onSubmit}>
+    <Form onSubmit={handleSubmit}>
       <ColLeft>
         <HeaderContainer>
           <PartnerHeader>

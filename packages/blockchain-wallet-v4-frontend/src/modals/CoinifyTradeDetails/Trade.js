@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { any, equals, prop } from 'ramda'
 import moment from 'moment'
 
+import Recurring from './Recurring'
 import { ModalHeader, ModalBody, Text, Button } from 'blockchain-info-components'
 import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDetails'
 import { tradeDetails, statusHelper, bodyStatusHelper } from 'services/CoinifyService'
@@ -22,13 +23,14 @@ const StyledOrderDetailsTable = styled(OrderDetailsTable)`
   margin-bottom: 10px;
 `
 
-const Trade = ({ trade, close, status }) => {
+const Trade = ({ trade, close, status, subscriptions }) => {
   let tradeStatus = (status && status.toLowerCase()) || trade.state
   const headerStatus = statusHelper(tradeStatus)
   const bodyStatus = bodyStatusHelper(tradeStatus, trade.isBuy)
   const details = tradeDetails.renderDetails(trade)
   const date = moment(prop('createdAt', trade)).local().format('MMMM D YYYY @ h:mm A')
   const isPendingSell = any(equals(prop('state', trade)))(['awaiting_transfer_in', 'processing']) && !prop('isBuy', trade)
+  const subscription = subscriptions.filter(sub => equals(sub.id, trade.tradeSubscriptionId))
 
   return (
     <Fragment>
@@ -83,6 +85,11 @@ const Trade = ({ trade, close, status }) => {
           <Text size='12px' weight={300}>
             <FormattedMessage id='orderdetails.footnote' defaultMessage='*Please note: depending on your bank’s tranfers policies, you will see the funds reflected in your account within 1-2 days from the transfer. ' />
           </Text>
+        }
+        {
+          trade.tradeSubscriptionId
+            ? <Recurring trade={trade} subscription={subscription} />
+            : null
         }
         <ButtonRow>
           <Button width='100px' onClick={close} nature='primary'>

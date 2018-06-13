@@ -53,7 +53,7 @@ class TextBoxDebounced extends React.Component {
     const value = e.target.value
     this.setState({ updatedValue: value })
 
-    clearTimeout(this.timeout)
+    if (this.timeout) clearTimeout(this.timeout)
     this.timeout = setTimeout(() => {
       this.props.input.onChange(value)
     }, 500)

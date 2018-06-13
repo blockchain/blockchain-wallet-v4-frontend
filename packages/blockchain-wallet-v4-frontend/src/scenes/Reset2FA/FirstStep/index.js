@@ -7,8 +7,7 @@ class FirstStepContainer extends React.PureComponent {
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  onSubmit (event) {
-    event.preventDefault()
+  onSubmit () {
     this.props.nextStep()
   }
 

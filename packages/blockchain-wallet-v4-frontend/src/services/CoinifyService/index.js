@@ -1,7 +1,6 @@
 import React from 'react'
-import { gt, slice, toUpper, equals, path } from 'ramda'
+import { gt, slice, toUpper, equals, path, prop } from 'ramda'
 import { FormattedMessage } from 'react-intl'
-
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 
 export const getLimits = (limits, curr, effectiveBalance) => {
@@ -161,8 +160,9 @@ export const bodyStatusHelper = (status, isBuy) => {
       case 'processing': return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.buy.processing' defaultMessage='Your purchase is currently being processed. Our exchange partner will send a status update your way within 1 business day.' /> }
       case 'completed': return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.buy.completed' defaultMessage='Your buy trade is complete!' /> }
       case 'rejected': return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.buy.rejected' defaultMessage='Your buy trade has been rejected. Please contact support.' /> }
-      case 'failed': return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.buy.failed' defaultMessage='Your buy trade failed. Please contact support.' /> }
-      case 'cancelled': return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.buy.cancelled' defaultMessage='Your buy trade was cancelled.' /> }
+      case 'expired':
+      case 'failed':
+      case 'cancelled': return { text: '' }
       default: return { text: <FormattedMessage id='scenes.services.coinifyservice.busellorderhistory.list.orderstatusbody.buy.unknown' defaultMessage='There are issues with this trade, please contact support.' /> }
     }
   } else {
@@ -171,8 +171,9 @@ export const bodyStatusHelper = (status, isBuy) => {
       case 'processing': return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.sell.coinify.processing' defaultMessage='Coinify will issue the owed sale amount directly to your bank account within 2 business days. You will receive an email from Coinify to confirm the transfer, as soon as they issue the funds to your account.' /> }
       case 'completed': return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.sell.completed' defaultMessage='Your sell trade is complete!' /> }
       case 'rejected': return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.sell.rejected' defaultMessage='Your sell trade has been rejected. Please contact support.' /> }
-      case 'failed': return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.sell.failed' defaultMessage='Your sell trade failed. Please contact support.' /> }
-      case 'expired': return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.sell.expired' defaultMessage='Your sell trade expired.' /> }
+      case 'failed':
+      case 'expired':
+      case 'cancelled': return { text: '' }
       default: return { text: <FormattedMessage id='scenes.services.coinifyservice.busellorderhistory.list.orderstatusbody.sell.unknown' defaultMessage='There are issues with this trade, please contact support.' /> }
     }
   }
@@ -246,3 +247,22 @@ export const getReasonExplanation = (reason, time) => {
     default: return <FormattedMessage id='scenes.coinify.cannottradereason.unknown' defaultMessage='Trading is disabled.' />
   }
 }
+
+export const recurringTimeHelper = (sub) => {
+  let human = { 1: 'st', 2: 'nd', 3: 'rd', 21: 'st', 22: 'nd', 23: 'rd', 31: 'st' }
+  let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+
+  let getTimespan = (sub) => {
+    let frequency = prop('frequency', sub)
+    let freq = frequency.toLowerCase()
+    let date = new Date()
+
+    if (freq === 'hourly') return 'hour'
+    if (freq === 'daily') return '24 hours'
+    if (freq === 'weekly') return `${days[date.getDay()]}`
+    if (freq === 'monthly') return `${date.getDate() + (human[date.getDate()] || 'th')} of the month`
+  }
+  return getTimespan(sub)
+}
+
+export const recurringFee = (trade) => `${Currency.formatFiat(((trade.sendAmount / 100) - (trade.inAmount / 100)))} ${prop('inCurrency', trade)}`

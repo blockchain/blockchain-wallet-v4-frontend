@@ -17,8 +17,12 @@ export const getData = state => {
   const getReceive = index => selectors.core.common.bch.getNextAvailableReceiveAddress(settings.NETWORK_BCH, index, state)
   const coin = formValueSelector('requestBch')(state, 'coin')
   const to = formValueSelector('requestBch')(state, 'to')
+
+  const initialValuesR = getInitialValues(state)
   const receiveAddressR = extractAddress(getReceive, to).map(addr => addr && utils.bch.toCashAddr(addr, true))
-  return receiveAddressR.map(receiveAddress => ({ coin, receiveAddress }))
+
+  const transform = (receiveAddress, initialValues) => ({ coin, receiveAddress, initialValues })
+  return lift(transform)(receiveAddressR, initialValuesR)
 }
 
 export const getInitialValues = state => {

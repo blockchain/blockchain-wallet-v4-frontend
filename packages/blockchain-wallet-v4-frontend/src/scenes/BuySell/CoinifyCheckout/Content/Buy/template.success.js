@@ -13,12 +13,13 @@ import { OrderDetails, OrderSubmit } from '../OrderReview'
 import Payment from 'modals/CoinifyExchangeData/Payment'
 import ISignThis from 'modals/CoinifyExchangeData/ISignThis'
 import KYCNotification from '../KYCNotification'
+import NextSubscription from '../NextSubscription'
 import BankTransferDetails from 'components/BuySell/BankTransferDetails'
 
 const CheckoutWrapper = styled.div`
   display: grid;
-  grid-template-columns: 55% 35%;
-  grid-gap: 10%;
+  grid-template-columns: 55% 40%;
+  grid-gap: 5%;
 `
 const OrderSubmitWrapper = styled.div`
   display: flex;
@@ -47,7 +48,9 @@ const CoinifyBuy = props => {
     handleKycAction,
     changeTab,
     coinifyNextCheckoutStep,
-    canTrade
+    canTrade,
+    subscriptions,
+    trades
   } = props
 
   const profile = Remote.of(prop('profile', value)).getOrElse({ _limits: service.mockedLimits, _level: { currency: 'EUR' } })
@@ -55,6 +58,7 @@ const CoinifyBuy = props => {
   const buyCurrencies = ['EUR', 'DKK', 'GBP', 'USD']
   const defaultCurrency = contains(currency, buyCurrencies) ? currency : 'EUR' // profile._level.currency
   const symbol = service.currencySymbolMap[defaultCurrency]
+  const activeSubscriptions = subscriptions.filter(s => s.isActive)
 
   const limits = service.getLimits(profile._limits, defaultCurrency)
 
@@ -79,6 +83,11 @@ const CoinifyBuy = props => {
               />
             </LeftContainer>
             <RightContainer>
+              {
+                activeSubscriptions.length > 0
+                  ? <NextSubscription subscriptions={subscriptions} trades={trades.filter(t => t.tradeSubscriptionId)} manageOrder={() => changeTab('order_history')} />
+                  : null
+              }
               {
                 path(['kycs', 'length'], value) && path(['state'], kyc)
                   ? <KYCNotification kyc={kyc} limits={limits.buy} symbol={symbol} onTrigger={(kyc) => handleKycAction(kyc)} canTrade={canTrade} />

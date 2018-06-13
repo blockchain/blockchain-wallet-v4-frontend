@@ -41,9 +41,9 @@ class SmsAuthContainer extends React.PureComponent {
     this.props.modalActions.showModal('TwoStepSetup')
   }
 
-  onSubmit (e) {
-    e.preventDefault()
+  onSubmit () {
     const { smsNumber, smsVerified } = this.props.data.getOrElse({})
+
     if (this.props.ui.changeNumberToggled || (!smsNumber && !smsVerified)) {
       this.props.securityCenterActions.sendMobileVerificationCode(this.props.mobileNumber)
       this.props.updateUI({ changeNumberToggled: false })
