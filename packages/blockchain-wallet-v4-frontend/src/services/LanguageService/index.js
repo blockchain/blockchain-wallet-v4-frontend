@@ -2,23 +2,31 @@ import Maybe from 'data.maybe'
 import { isNil, find, propEq, sortBy, prop } from 'ramda'
 
 const languages = [
-  { cultureCode: 'bg-BG', language: 'bg', name: 'Bulgarian' },
-  { cultureCode: 'da-DK', language: 'da', name: 'Danish' },
   { cultureCode: 'de-DE', language: 'de', name: 'German' },
+  { cultureCode: 'hi-IN', language: 'hi', name: 'Hindi' },
+  { cultureCode: 'nn-NO', language: 'nn', name: 'Norwegian' },
+  { language: 'ru', name: 'Russian' },
+  { cultureCode: 'pt-PT', language: 'pt', name: 'Portuguese' },
+  { cultureCode: 'bg-BG', language: 'bg', name: 'Bulgarian' },
+  { cultureCode: 'fr-FR', language: 'fr', name: 'French' },
+  { cultureCode: 'zh-CN', language: 'zh', name: 'Chinese (simplified)' },
+  { cultureCode: 'hu-HU', language: 'hu', name: 'Hungarian' },
+  { language: 'sl', name: 'Slovenian' },
+  { cultureCode: 'id-ID', language: 'id', name: 'Indonesian' },
+  { language: 'sv', name: 'Swedish' },
+  { cultureCode: 'ko-KR', language: 'ko', name: 'Korean' },
   { cultureCode: 'el-GR', language: 'el', name: 'Greek' },
   { cultureCode: 'en-GB', language: 'en', name: 'English' },
-  { cultureCode: 'fr-FR', language: 'fr', name: 'French' },
-  { cultureCode: 'hi-IN', language: 'hi', name: 'Hindi' },
-  { cultureCode: 'hu-HU', language: 'hu', name: 'Hungarian' },
-  { cultureCode: 'id-ID', language: 'id', name: 'Indonesian' },
   { cultureCode: 'it-IT', language: 'it', name: 'Italian' },
+  { cultureCode: 'es-ES', language: 'es', name: 'Spanish' },
+  { language: 'vi', name: 'Vietnamese' },
+  { language: 'th', name: 'Thai' },
   { cultureCode: 'ja-JP', language: 'ja', name: 'Japanese' },
-  { cultureCode: 'ko-KR', language: 'ko', name: 'Korean' },
-  { cultureCode: 'nl-NL', language: 'nl', name: 'Dutch' },
-  { cultureCode: 'nn-NO', language: 'nn', name: 'Norwegian' },
   { cultureCode: 'pl-PL', language: 'pl', name: 'Polish' },
-  { cultureCode: 'pt-PT', language: 'pt', name: 'Portuguese' },
-  { cultureCode: 'zh-CN', language: 'zh', name: 'Chinese (simplified)' }
+  { cultureCode: 'da-DK', language: 'da', name: 'Danish' },
+  { language: 'ro', name: 'Romanian' },
+  { cultureCode: 'nl-NL', language: 'nl', name: 'Dutch' },
+  { language: 'tr', name: 'Turkish' }
 ]
 
 const languagesSortedByName = sortBy(prop('name'))(languages)

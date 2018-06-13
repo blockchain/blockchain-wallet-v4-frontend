@@ -79,7 +79,7 @@ const SelectPartner = (props) => {
       props.modalActions.showModal('SfoxExchangeData', { step: 'account' })
     }
     if (coinifyCountries.indexOf(country) >= 0) {
-      props.modalActions.showModal('CoinifyExchangeData', { step: 'account', country: props.country })
+      props.modalActions.showModal('CoinifyExchangeData', { step: 'account', country })
     }
   }
 

@@ -1,6 +1,5 @@
 import { HDWallet, HDAccountList, HDAccount } from '../../../types'
 import { prop, compose, assoc, length, map, path, curry, split, take, values, sequence, lift, indexOf } from 'ramda'
-import memoize from 'fast-memoize'
 import { getAddresses, getChangeIndex, getReceiveIndex, getHeight, getTransactions } from '../../data/bch/selectors.js'
 import * as transactions from '../../../transactions'
 import * as walletSelectors from '../../wallet/selectors'
@@ -9,7 +8,7 @@ import { getAccountsList, getBchTxNote } from '../../kvStore/bch/selectors.js'
 import { toCashAddr } from '../../../utils/bch'
 import { isValidBitcoinAddress } from '../../../utils/bitcoin'
 
-const mTransformTx = memoize(transactions.bitcoin.transformTx)
+const mTransformTx = transactions.bitcoin.transformTx
 
 // getActiveHDAccounts :: state -> Remote ([hdacountsWithInfo])
 export const getActiveHDAccounts = state => {
@@ -106,7 +105,7 @@ const addFromToBch = (wallet, bchAccounts, txList) => {
 }
 
 // getWalletTransactions :: state -> [Page]
-export const getWalletTransactions = memoize(state => {
+export const getWalletTransactions = state => {
   // Page == Remote ([Tx])
   // Remote(wallet)
   const walletR = Remote.of(walletSelectors.getWallet(state))
@@ -126,7 +125,7 @@ export const getWalletTransactions = memoize(state => {
   const ProcessPage = lift(ProcessTxs)(walletR, blockHeightR)
   const txs = map(ProcessPage, pages)
   return map(txListR => lift(addFromToBch)(walletR, getAccountsList(state), txListR), txs)
-})
+}
 
 // path is: accountIndex/chainIndex/addressIndex
 const getAddress = curry((network, path, state) => {

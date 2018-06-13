@@ -171,7 +171,7 @@ export default ({ api }) => {
   const setAuthTypeNeverSave = function * ({ authTypeNeverSave }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
-    const response = yield call(api.updateAuthTypeNeverSave, guid, sharedKey, String(authTypeNeverSave))
+    const response = yield call(api.updateAuthTypeNeverSave, guid, sharedKey, String(Boolean(authTypeNeverSave)))
     if (!contains('Success', response)) { throw new Error(response) }
     yield put(actions.setAuthTypeNeverSave(authTypeNeverSave))
   }
