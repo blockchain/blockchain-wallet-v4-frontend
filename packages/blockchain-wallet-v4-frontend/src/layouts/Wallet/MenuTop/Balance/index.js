@@ -4,16 +4,12 @@ import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
 import { getData } from './selectors'
-import Success from './template.success'
+import Template from './template'
 
 class Balance extends React.PureComponent {
   render () {
     const { data } = this.props
-    return <Success
-      btcUnspendableContext={data.btcUnspendableContext}
-      bchUnspendableContext={data.bchUnspendableContext}
-      path={data.path}
-    />
+    return <Template btcUnspendableContext={data.btcUnspendableContext} bchUnspendableContext={data.bchUnspendableContext} path={data.path} />
   }
 }
 
