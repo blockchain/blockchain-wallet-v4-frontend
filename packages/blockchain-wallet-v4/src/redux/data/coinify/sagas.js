@@ -141,9 +141,11 @@ export default ({ api, options }) => {
     }
   }
 
-  const fetchTrades = function * () {
+  const fetchTrades = function * (coinifyObj) {
     try {
-      const coinify = yield call(getCoinify)
+      const payload = prop('payload', coinifyObj)
+      const coinify = !payload ? yield call(getCoinify) : payload
+
       const trades = yield apply(coinify, coinify.getTrades)
       yield put(A.fetchTradesSuccess(trades))
     } catch (e) {
@@ -238,8 +240,8 @@ export default ({ api, options }) => {
       const accounts = yield apply(mediums[medium], mediums[medium].getAccounts)
       const buyResult = yield apply(accounts[0], accounts[0].buy)
       yield put(A.handleTradeSuccess(buyResult))
-      yield put(A.fetchTrades())
-      yield call(getCoinify)
+      const coinifyObj = yield call(getCoinify)
+      yield put(A.fetchTrades(coinifyObj))
       return buyResult
     } catch (e) {
       console.warn('buy failed in core', e)
