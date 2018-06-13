@@ -42,7 +42,7 @@ const isCardDisabled = (q, l) => {
 }
 
 const Payment = (props) => {
-  const { value, busy, handlePaymentClick, medium, triggerKyc, openPendingKyc, quote } = props
+  const { value, busy, handlePaymentClick, medium, triggerKyc, openPendingKyc, quote, handlePrefillCardMax } = props
   const { limits, level, kycs } = value
   const quoteData = path(['data'], quote)
   const kyc = head(kycs)
@@ -50,6 +50,7 @@ const Payment = (props) => {
   const cardDisabled = isCardDisabled(quoteData, limits)
   const bankDisabled = kycState === 'reviewing' || kycState === 'pending' || kycState === 'processing'
   if (bankDisabled) handlePaymentClick('card')
+  const prefillCardMax = (limits) => handlePrefillCardMax(limits)
 
   const isChecked = (type) => medium === type
 
@@ -67,7 +68,7 @@ const Payment = (props) => {
           </InputWrapper>
           <PaymentWrapper>
             { bankOptionHelper(quoteData, limits, isChecked('bank'), handlePaymentClick, bankDisabled, openPendingKyc, kyc) }
-            { cardOptionHelper(quoteData, limits, isChecked('card'), handlePaymentClick, cardDisabled) }
+            { cardOptionHelper(quoteData, limits, isChecked('card'), handlePaymentClick, cardDisabled, prefillCardMax) }
           </PaymentWrapper>
         </BorderBox>
       </ColLeft>

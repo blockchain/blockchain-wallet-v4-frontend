@@ -46,3 +46,5 @@ export const setCancelTradeId = (id) => ({ type: AT.SET_CANCEL_TRADE_ID, payload
 export const finishTrade = (trade) => ({ type: AT.FINISH_TRADE, payload: trade })
 
 export const cancelTrade = (trade) => ({ type: AT.CANCEL_TRADE, payload: trade })
+
+export const checkoutCardMax = (limits) => ({ type: AT.CHECKOUT_CARD_MAX, payload: limits })
