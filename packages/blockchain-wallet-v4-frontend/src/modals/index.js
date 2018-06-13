@@ -2,7 +2,9 @@ import React from 'react'
 
 import AddBitcoinWallet from './AddBitcoinWallet'
 import AutoDisconnection from './AutoDisconnection'
+import CoinifyDeleteBank from './CoinifyDeleteBank'
 import CoinifyExchangeData from './CoinifyExchangeData'
+import CoinifyTradeDetails from './CoinifyTradeDetails'
 import ConfirmDisable2FA from './ConfirmDisable2FA'
 import EditTxDescription from './EditTxDescription'
 import ExchangeDetails from './ExchangeDetails'
@@ -22,14 +24,15 @@ import SendBch from './SendBch'
 import SendBitcoin from './SendBitcoin'
 import SendEther from './SendEther'
 import SfoxExchangeData from './SfoxExchangeData'
+import SfoxTradeDetails from './SfoxTradeDetails'
+import SfoxEnterMicroDeposits from './SfoxEnterMicroDeposits'
 import ShowBtcPrivateKey from './ShowBtcPrivateKey'
 import ShowEthPrivateKey from './ShowEthPrivateKey'
 import ShowUsedAddresses from './ShowUsedAddresses'
 import SignMessage from './SignMessage'
 import ShowXPub from './ShowXPub'
-import SfoxTradeDetails from './SfoxTradeDetails'
 import TransactionReport from './TransactionReport'
-import TransferEther from './TransferEther'
+import TransferEth from './TransferEth'
 import TwoStepGoogleAuthenticator from './TwoStepGoogleAuthenticator'
 import TwoStepSetup from './TwoStepSetup'
 import TwoStepYubico from './TwoStepYubico'
@@ -40,7 +43,9 @@ const Modals = props => (
   <div>
     <AddBitcoinWallet />
     <AutoDisconnection />
+    <CoinifyDeleteBank />
     <CoinifyExchangeData />
+    <CoinifyTradeDetails />
     <ConfirmDisable2FA />
     <EditTxDescription />
     <ExchangeDetails />
@@ -59,15 +64,16 @@ const Modals = props => (
     <SendBch />
     <SendBitcoin />
     <SendEther />
-    <SfoxExchangeData />
     <ShowBtcPrivateKey />
     <ShowEthPrivateKey />
     <ShowUsedAddresses />
     <SignMessage />
     <ShowXPub />
+    <SfoxExchangeData />
     <SfoxTradeDetails />
+    <SfoxEnterMicroDeposits />
     <TransactionReport />
-    <TransferEther />
+    <TransferEth />
     <TwoStepGoogleAuthenticator />
     <TwoStepSetup />
     <TwoStepYubico />

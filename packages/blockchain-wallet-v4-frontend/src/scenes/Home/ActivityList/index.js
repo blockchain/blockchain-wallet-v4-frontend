@@ -2,28 +2,37 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { actions } from 'data'
-import { getData, getEthereumContext } from './selectors'
+import { actions, selectors } from 'data'
+import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
-import { Remote } from 'blockchain-wallet-v4/src'
 
 class ActivityListContainer extends React.PureComponent {
-  componentWillMount () {
-    this.props.miscActions.fetchLogs()
-    this.props.btcActions.fetchTransactions('', true)
-    if (Remote.Success.is(this.props.ethContext)) {
-      this.props.ethContext.map(x => this.props.ethActions.fetchData(x))
-    }
-    this.props.bchActions.fetchTransactions('', true)
+  constructor (props) {
+    super(props)
+    this.handleLink = this.handleLink.bind(this)
+    this.handleRequest = this.handleRequest.bind(this)
+  }
+
+  componentDidMount () {
+    this.props.actions.initialized()
+  }
+
+  handleRequest () {
+    this.props.modalActions.showModal('RequestBitcoin')
+  }
+
+  handleLink (path) {
+    this.props.routerActions.push(path)
   }
 
   render () {
-    const { data } = this.props
+    const { data, canBuy } = this.props
+    const partner = canBuy.cata({ Success: (val) => val, Loading: () => false, Failure: () => false, NotAsked: () => false })
 
     return data.cata({
-      Success: (value) => <Success activities={value} />,
+      Success: (value) => <Success activities={value} partner={partner} handleRequest={this.handleRequest} handleLink={this.handleLink} />,
       Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
@@ -32,15 +41,14 @@ class ActivityListContainer extends React.PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  data: getData(state, 8),
-  ethContext: getEthereumContext(state)
+  data: getData(state),
+  canBuy: selectors.exchange.getCanTrade(state, 'Buy')
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  miscActions: bindActionCreators(actions.core.data.misc, dispatch),
-  btcActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
-  ethActions: bindActionCreators(actions.core.data.ethereum, dispatch),
-  bchActions: bindActionCreators(actions.core.data.bch, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  routerActions: bindActionCreators(actions.router, dispatch),
+  actions: bindActionCreators(actions.components.activityList, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ActivityListContainer)

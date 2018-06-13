@@ -1,28 +1,17 @@
-import { assoc, assocPath, merge, lensProp, over, prop, head, append, compose, dropLast } from 'ramda'
+import { assoc, assocPath, merge, lensProp, over, append, compose, dropLast } from 'ramda'
 import * as AT from './actionTypes'
-import { descentDraw, ascentDraw, singleRandomDraw, branchAndBound, selectAll } from '../../../coinSelection'
-import * as Coin from '../../../coinSelection/coin'
 import Remote from '../../../remote'
-
-const EMPTY_SELECTION = {
-  fee: undefined,
-  inputs: [],
-  outputs: []
-}
 
 const INITIAL_STATE = {
   addresses: Remote.NotAsked,
   fee: Remote.NotAsked,
   info: Remote.NotAsked,
   latest_block: Remote.NotAsked,
-  payment: {
-    coins: Remote.NotAsked,
-    selection: EMPTY_SELECTION,
-    effectiveBalance: undefined
-  },
   rates: Remote.NotAsked,
   transactions: [],
   transactions_fiat: {},
+  spendable_balance: Remote.NotAsked,
+  unspendable_balance: Remote.NotAsked,
   transaction_history: Remote.NotAsked
 }
 
@@ -32,27 +21,6 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
   switch (type) {
     case AT.SET_BITCOIN_LATEST_BLOCK: {
       return assocPath(['latest_block'], Remote.Success(payload), state)
-    }
-    case AT.REFRESH_BITCOIN_EFFECTIVE_BALANCE: {
-      const { coins, feePerByte } = payload
-      const { outputs } = selectAll(feePerByte, coins)
-      const effectiveBalance = prop('value', head(outputs)) || 0
-      return assocPath(['payment', 'effectiveBalance'], effectiveBalance, state)
-    }
-    case AT.REFRESH_BITCOIN_SELECTION: {
-      const { feePerByte, coins, amount, receive, change, algorithm, seed } = payload
-      const target = Coin.fromJS({ address: receive, value: amount })
-
-      let selection
-      switch (algorithm) {
-        case 'ascentDraw': selection = ascentDraw([target], feePerByte, coins, change); break
-        case 'descentDraw': selection = descentDraw([target], feePerByte, coins, change); break
-        case 'singleRandomDraw': selection = singleRandomDraw([target], feePerByte, coins, change, seed); break
-        case 'branchAndBound': selection = branchAndBound([target], feePerByte, coins, change, seed); break
-        case 'selectAll': selection = selectAll(5, coins, target.address); break
-        default: selection = EMPTY_SELECTION
-      }
-      return assocPath(['payment', 'selection'], selection, state)
     }
     case AT.FETCH_BITCOIN_DATA_LOADING: {
       const data = {
@@ -72,11 +40,10 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
       return merge(state, data)
     }
     case AT.FETCH_BITCOIN_DATA_FAILURE: {
-      const { addresses, info, latest_block } = payload
       const data = {
-        addresses: Remote.Failure(addresses),
-        info: Remote.Failure(info),
-        latest_block: Remote.Failure(latest_block)
+        addresses: Remote.Failure(payload),
+        info: Remote.Failure(payload),
+        latest_block: Remote.Failure(payload)
       }
       return merge(state, data)
     }
@@ -111,7 +78,7 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
         : over(lensProp('transactions'), compose(append(Remote.Success(transactions)), dropLast(1)), state)
     }
     case AT.FETCH_BITCOIN_TRANSACTIONS_FAILURE: {
-      return over(lensProp('transactions'), dropLast(1), state)
+      return assoc('transactions', [Remote.Failure(payload)], state)
     }
     case AT.FETCH_BITCOIN_FIAT_AT_TIME_LOADING: {
       const { hash, currency } = payload
@@ -134,14 +101,26 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
     case AT.FETCH_BITCOIN_TRANSACTION_HISTORY_FAILURE: {
       return assoc('transaction_history', Remote.Failure(payload), state)
     }
-    case AT.FETCH_BITCOIN_UNSPENT_LOADING: {
-      return assocPath(['payment', 'coins'], Remote.Loading, state)
+    case AT.CLEAR_BITCOIN_TRANSACTION_HISTORY: {
+      return assoc('transaction_history', Remote.NotAsked, state)
     }
-    case AT.FETCH_BITCOIN_UNSPENT_SUCCESS: {
-      return assocPath(['payment', 'coins'], Remote.Success(payload), state)
+    case AT.FETCH_BITCOIN_SPENDABLE_BALANCE_LOADING: {
+      return state
     }
-    case AT.FETCH_BITCOIN_UNSPENT_FAILURE: {
-      return assocPath(['payment', 'coins'], Remote.Failure(payload), state)
+    case AT.FETCH_BITCOIN_SPENDABLE_BALANCE_SUCCESS: {
+      return assoc('spendable_balance', Remote.Success(payload), state)
+    }
+    case AT.FETCH_BITCOIN_SPENDABLE_BALANCE_FAILURE: {
+      return assoc('spendable_balance', Remote.Failure(payload), state)
+    }
+    case AT.FETCH_BITCOIN_UNSPENDABLE_BALANCE_LOADING: {
+      return state
+    }
+    case AT.FETCH_BITCOIN_UNSPENDABLE_BALANCE_SUCCESS: {
+      return assoc('unspendable_balance', Remote.Success(payload), state)
+    }
+    case AT.FETCH_BITCOIN_UNSPENDABLE_BALANCE_FAILURE: {
+      return assoc('unspendable_balance', Remote.Failure(payload), state)
     }
     default:
       return state

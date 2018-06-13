@@ -9,6 +9,8 @@ export const getInfo = path([dataPath, 'ethereum', 'info'])
 
 export const getLatestBlock = path([dataPath, 'ethereum', 'latest_block'])
 
+export const getLegacyBalance = path([dataPath, 'ethereum', 'legacy_balance'])
+
 export const getRates = path([dataPath, 'ethereum', 'rates'])
 
 export const getTransactions = path([dataPath, 'ethereum', 'transactions'])
@@ -29,5 +31,3 @@ export const getAddress = (state, address) => getAddresses(state).map(prop(addre
 export const getHeight = state => getLatestBlock(state).map(path(['number']))
 
 export const getNonce = (state, address) => getAddresses(state).map(path([address, 'nonce']))
-
-export const getTransactionsByAddress = (state, address) => getTransactions(state).map(prop(address))

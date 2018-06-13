@@ -10,7 +10,7 @@ const BaseIcon = styled.span`
   font-size: ${props => props.size};
   color: ${props => props.theme[props.color]};
   -webkit-font-smoothing: antialiased;
-  cursor: ${props => props.cursorEnabled ? 'pointer' : 'default'};
+  cursor: ${props => props.cursorEnabled ? 'pointer' : 'inherit'};
   display: flex;
 
   &:before {

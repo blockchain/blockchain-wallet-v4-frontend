@@ -15,7 +15,10 @@ import { spacing } from 'services/StyleService'
 const pulseAnimation = keyframes`${pulse}`
 
 const SecuritySummaryChoice = styled(SecuritySummary)`
-  width: 120%;
+  width: 100%;
+  @media(min-width: 992px) {
+    width: 120%;
+  }
 `
 const SecurityTwoStepContainer = SecurityContainer.extend`
   border-bottom-left-radius: 0px;
@@ -23,9 +26,11 @@ const SecurityTwoStepContainer = SecurityContainer.extend`
   grid-template-columns: 85% 15%;
 `
 const IconAndHeaderContainer = styled.div`
-  display: grid;
-  grid-template-columns: 15% 85%;
   opacity: ${props => props.success ? 0.3 : 1};
+  @media(min-width: 480px) {
+    display: grid;
+    grid-template-columns: 15% 85%;
+}
 `
 const DisableContainer = styled.div`
   width: 100%;
@@ -59,12 +64,25 @@ const DisableLinkText = styled(Text)`
   }
   animation: 0.5s ${props => props.pulse ? pulseAnimation : null};
 `
+const TwoStepButton = styled(Button)`
+  width: 100px;
+  font-size: 12px;
+  min-width: 0px;
+  @media (min-width: 400px) and (max-width: 991px) {
+    font-size: 14px;
+    width: 140px;
+  }
+  @media (min-width: 1224px) {
+    width: 140px;
+    min-width: 0px;
+    font-size: 14px;
+  }
+`
 const Header = SecurityHeader.extend`
   justify-content: flex-start;
   align-items: center;
 `
 const TipText = styled(Text)`
-text-align: justify;
 display: inline;
 font-size: 12px;
 
@@ -116,7 +134,7 @@ const TwoStepVerification = (props) => {
                 <FormattedMessage id='scenes.security.2fa.sms.success' defaultMessage='Two-factor authentication is set up with {authName} for number {number}.' values={{ authName: <span className='heavy'>{props.authName}</span>, number: <span className='heavy'>{smsNumber}</span> }} />
               </Text>
               <DisableLinkText size='14px' weight={300} flexRow='true' pulse={props.pulse}>
-                <FormattedMessage id='scenes.security.2fa.disablefirst' defaultMessage='To change your two-step verification method,{link} SMS codes first.' values={{ link: <a onClick={props.handleTwoFactorChange}>disable</a> }} />
+                <FormattedMessage id='scenes.security.2fa.sms.disablefirst' defaultMessage='To change your two-step verification method,{link} SMS codes first.' values={{ link: <a onClick={props.handleTwoFactorChange}>disable</a> }} />
               </DisableLinkText>
             </DisableContainer>
           </React.Fragment>
@@ -165,7 +183,7 @@ const TwoStepVerification = (props) => {
         </React.Fragment>
       )
     }
-    return <FormattedMessage id='scenes.security.email.unverifiedtitle' defaultMessage='Two-Step Verification' />
+    return <FormattedMessage id='scenes.security.email.unverified.title' defaultMessage='Two-Step Verification' />
   }
 
   const renderChoices = () => !ui.verifyToggled && !props.alone ? null : renderVerificationChoice()
@@ -192,12 +210,12 @@ const TwoStepVerification = (props) => {
             ? <SecurityComponent>
               {
                 !twoFAEnabled
-                  ? <Button nature='primary' onClick={props.handleClick} >
+                  ? <TwoStepButton nature='primary' onClick={props.handleClick} >
                     <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.enable' defaultMessage='Enable' />
-                  </Button>
-                  : <Button nature='primary' onClick={props.handleDisableClick} >
+                  </TwoStepButton>
+                  : <TwoStepButton nature='primary' onClick={props.handleDisableClick} >
                     <FormattedMessage id='scenes.securitysettings.basicsecurity.twostepverification.settings.disable' defaultMessage='Disable' />
-                  </Button>
+                  </TwoStepButton>
               }
             </SecurityComponent>
             : <div />

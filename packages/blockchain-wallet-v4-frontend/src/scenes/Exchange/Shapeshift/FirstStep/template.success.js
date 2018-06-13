@@ -5,12 +5,11 @@ import { Field, reduxForm } from 'redux-form'
 
 import { isEmpty } from 'ramda'
 import { Button, HeartbeatLoader, Icon, Link, Text, TextGroup, Tooltip } from 'blockchain-info-components'
-import { Form } from 'components/Form'
+import { Form, NumberBoxDebounced } from 'components/Form'
 import MinimumAmountLink from './MinimumAmountLink'
 import MaximumAmountLink from './MaximumAmountLink'
-import NumberBox from './NumberBox'
 import SelectBox from './SelectBox'
-import { MaximumAmountMessage, MinimumAmountMessage, InsufficientAmountMessage } from './validationMessages'
+import { MaximumAmountMessage, MinimumAmountMessage, InsufficientAmountMessage, InvalidAmountMessage } from './validationMessages'
 
 const Wrapper = styled.div`
   display: flex;
@@ -54,7 +53,8 @@ const AmountContainer = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-`
+  ${props => props.hasNoBottomBorder && '& input { border-bottom: none; }'}
+ `
 const CurrencyBox = styled(Text)`
   position: absolute;
   right: 5px;
@@ -68,11 +68,14 @@ const CurrencyBox = styled(Text)`
   font-size: 13px;
   font-weight: 300;
   transform: uppercase;
-  background-color: ${props => props.theme['white']};
+  background-color: ${props => props.disabled ? props.theme['gray-1'] : props.theme['white']};
+`
+const ShapeshiftIcon = styled(Icon)`
+  &:hover { color: ${props => props.theme['brand-secondary']}; }
 `
 
 const Success = props => {
-  const { elements, enabled, currency, sourceCoin, targetCoin, formError, handleSwap, handleSubmit, dirty } = props
+  const { elements, disabled, hasOneAccount, currency, sourceCoin, targetCoin, formError, handleSwap, handleSubmit, dirty } = props
 
   return (
     <Wrapper>
@@ -97,13 +100,13 @@ const Success = props => {
         </Row>
         <Row height='50px' spaced>
           <Cell>
-            <Field name='source' component={SelectBox} elements={elements} />
+            <Field name='source' component={SelectBox} elements={elements} hasOneAccount={hasOneAccount} disabled={disabled} />
           </Cell>
           <Cell size='small'>
-            <Icon name='exchange-2' size='24px' weight={500} cursor onClick={handleSwap} />
+            <ShapeshiftIcon name='shapeshift-switch' size='28px' weight={500} cursor onClick={() => { if (!disabled) handleSwap() }} />
           </Cell>
           <Cell>
-            <Field name='target' component={SelectBox} elements={elements} />
+            <Field name='target' component={SelectBox} elements={elements} hasOneAccount={hasOneAccount} disabled={disabled} />
           </Cell>
         </Row>
         <Row justify='space-between'>
@@ -119,55 +122,58 @@ const Success = props => {
             </TextGroup>
           </Tooltip>
         </Row>
-        <Row>
-          <Text size='12px' weight={300} color='error'>
-            {formError && formError === 'minimum' && <MinimumAmountMessage />}
-            {formError && formError === 'maximum' && <MaximumAmountMessage />}
-            {formError && formError === 'insufficient' && <InsufficientAmountMessage />}
-          </Text>
-        </Row>
         <Row height='80px'>
           <Cell>
-            <AmountContainer>
-              <Field name='sourceAmount' component={NumberBox} />
-              <CurrencyBox>{sourceCoin}</CurrencyBox>
+            <AmountContainer hasNoBottomBorder>
+              <Field name='sourceAmount' component={NumberBoxDebounced} disabled={disabled} step='0.00000001' />
+              <CurrencyBox disabled={disabled}>{sourceCoin}</CurrencyBox>
             </AmountContainer>
             <AmountContainer>
-              <Field name='sourceFiat' component={NumberBox} />
-              <CurrencyBox>{currency}</CurrencyBox>
+              <Field name='sourceFiat' component={NumberBoxDebounced} disabled={disabled} />
+              <CurrencyBox disabled={disabled}>{currency}</CurrencyBox>
             </AmountContainer>
           </Cell>
           <Cell size='small'>
-            {enabled
-              ? <Icon name='right-arrow' size='24px' weight={500} cursor />
-              : <HeartbeatLoader width='20px' height='20px' />
+            {disabled
+              ? <HeartbeatLoader width='20px' height='20px' />
+              : <Icon name='right-arrow' size='24px' weight={500} />
             }
           </Cell>
           <Cell>
-            <AmountContainer>
-              <Field name='targetAmount' component={NumberBox} />
-              <CurrencyBox>{targetCoin}</CurrencyBox>
+            <AmountContainer hasNoBottomBorder>
+              <Field name='targetAmount' component={NumberBoxDebounced} disabled={disabled} step='0.00000001' />
+              <CurrencyBox disabled={disabled}>{targetCoin}</CurrencyBox>
             </AmountContainer>
             <AmountContainer>
-              <Field name='targetFiat' component={NumberBox} />
-              <CurrencyBox>{currency}</CurrencyBox>
+              <Field name='targetFiat' component={NumberBoxDebounced} disabled={disabled} />
+              <CurrencyBox disabled={disabled}>{currency}</CurrencyBox>
             </AmountContainer>
           </Cell>
         </Row>
+        {formError &&
         <Row spaced>
-          <OptionsContainer>
-            <Text weight={300} size='12px'>
-              <FormattedMessage id='scenes.exchangebox.firststep.use1' defaultMessage='Use' />
-            </Text>
-            <MinimumAmountLink />
-            <Text weight={300} size='12px'>
-              <FormattedMessage id='scenes.exchangebox.firststep.use2' defaultMessage='| Use' />
-            </Text>
-            <MaximumAmountLink />
-          </OptionsContainer>
+          {formError === 'minimum' && <MinimumAmountMessage />}
+          {formError === 'maximum' && <MaximumAmountMessage />}
+          {formError === 'insufficient' && <InsufficientAmountMessage />}
+          {formError === 'invalid' && <InvalidAmountMessage />}
         </Row>
+        }
+        {(!formError || formError === 'initial') &&
+          <Row spaced>
+            <OptionsContainer>
+              <Text weight={300} size='12px'>
+                <FormattedMessage id='scenes.exchangebox.firststep.use1' defaultMessage='Use' />
+              </Text>
+              <MinimumAmountLink />
+              <Text weight={300} size='12px'>
+                <FormattedMessage id='scenes.exchangebox.firststep.use2' defaultMessage='| Use' />
+              </Text>
+              <MaximumAmountLink />
+            </OptionsContainer>
+          </Row>
+        }
         <Row spaced>
-          <Button type='submit' nature='primary' fullwidth disabled={!dirty || !enabled || (dirty && !isEmpty(formError))}>
+          <Button type='submit' nature='primary' fullwidth disabled={!dirty || disabled || (dirty && !isEmpty(formError))}>
             <FormattedMessage id='scenes.exchange.shapeshift.firststep.next' defaultMessage='Next' />
           </Button>
         </Row>

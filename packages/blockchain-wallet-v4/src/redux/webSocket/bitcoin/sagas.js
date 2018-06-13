@@ -1,17 +1,15 @@
-import { takeEvery, call, put, select } from 'redux-saga/effects'
-import { delay } from 'redux-saga'
+import { call, put, select, take } from 'redux-saga/effects'
 import { compose } from 'ramda'
 import * as A from '../../actions'
-import * as AT from './actionTypes'
 import { Wrapper } from '../../../types/index'
 import * as walletSelectors from '../../wallet/selectors'
 import { Socket } from '../../../network/index'
 import * as btcActions from '../../data/bitcoin/actions'
+import * as btcAT from '../../data/bitcoin/actionTypes'
 
 // TO REVIEW
-export default ({ api, socket }) => {
-  const send = socket.send.bind(socket)
-  let lastPongTimestamp = 0
+export default ({ api, btcSocket }) => {
+  const send = btcSocket.send.bind(btcSocket)
 
   const onOpen = function * () {
     const subscribeInfo = yield select(walletSelectors.getInitialSocketContext)
@@ -32,27 +30,27 @@ export default ({ api, socket }) => {
         const oldChecksum = Wrapper.selectPayloadChecksum(wrapper)
         if (oldChecksum !== newChecksum) {
           yield call(refreshWrapper)
-          const walletContext = yield select(walletSelectors.getWalletContext)
-          yield put(btcActions.fetchData(walletContext))
+          yield put(btcActions.fetchData())
         }
         break
       case 'utx':
-        const walletContext = yield select(walletSelectors.getWalletContext)
-        yield put(btcActions.fetchData(walletContext))
-        yield put(btcActions.fetchTransactions('', true))
+        yield put(btcActions.fetchData('', true))
+        const transactions = yield take(btcAT.FETCH_BITCOIN_TRANSACTIONS_SUCCESS)
+        for (let i in transactions.payload.transactions) {
+          const tx = transactions.payload.transactions[i]
+          if (tx.hash === message.x.hash) {
+            if (tx.result > 0) {
+              yield put(A.webSocket.bitcoin.paymentReceived("You've just received a bitcoin payment."))
+            }
+            break
+          }
+        }
         break
       case 'block':
         const newBlock = message.x
         yield put(A.data.bitcoin.setBitcoinLatestBlock(newBlock.blockIndex, newBlock.hash, newBlock.height, newBlock.time))
-        yield put(btcActions.fetchTransactions('', true))
         break
       case 'pong':
-        lastPongTimestamp = Date.now()
-        yield call(delay, 120000)
-        if (lastPongTimestamp < Date.now() - 120000) {
-          yield put(A.webSocket.bitcoin.stopSocket())
-          yield put(A.webSocket.bitcoin.startSocket())
-        }
         break
       case 'email_verified':
         yield put(A.settings.setEmailVerified())
@@ -82,9 +80,9 @@ export default ({ api, socket }) => {
     }
   }
 
-  return function * () {
-    yield takeEvery(AT.OPEN_SOCKET, onOpen)
-    yield takeEvery(AT.MESSAGE_SOCKET, onMessage)
-    yield takeEvery(AT.CLOSE_SOCKET, onClose)
+  return {
+    onOpen,
+    onMessage,
+    onClose
   }
 }

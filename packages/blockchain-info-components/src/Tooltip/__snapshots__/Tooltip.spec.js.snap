@@ -1,29 +1,105 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Tooltip component renders correctly 1`] = `
-<styled.div>
-  <styled.div
-    colors={
-      Object {
-        "backgroundColor": "white",
-        "borderColor": "gray-2",
-        "foreColor": "gray-5",
-      }
-    }
-    displayed={false}
-    onClick={[Function]}
-    onMouseEnter={[Function]}
-    onMouseLeave={[Function]}
-  >
-    ?
-  </styled.div>
-  <Styled(TextGroup)
-    displayed={false}
-    onClick={[Function]}
+.c3 > * {
+  white-space: normal;
+}
+
+.c3 > * {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.c0 {
+  width: 22px;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  position: relative;
+}
+
+.c1 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 16px;
+  height: 16px;
+  font-size: 12px;
+  font-weight: 300;
+}
+
+.c1 > span {
+  cursor: pointer;
+}
+
+.c2 {
+  position: absolute;
+  bottom: 150%;
+  left: -115px;
+  width: 250px;
+  display: none;
+  border: 1px solid;
+  border-radius: 5px;
+  padding: 10px 10px;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 300;
+  font-family: "Montserrat",sans serif;
+  text-align: left;
+}
+
+.c2 > div,
+.c2 > span {
+  margin-bottom: 0;
+}
+
+.c2:before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 115px;
+  top: 100%;
+  width: 0;
+  height: 0;
+  border: 10px solid transparent;
+}
+
+.c2:after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 116px;
+  top: 100%;
+  width: 0;
+  height: 0;
+  border: 9px solid transparent;
+}
+
+<div
+  className="c0"
+  width={100}
+>
+  <div
+    className="c1"
+  />
+  <div
+    className="c2 c3"
+    width={100}
   >
     <span>
       Default
     </span>
-  </Styled(TextGroup)>
-</styled.div>
+  </div>
+</div>
 `;

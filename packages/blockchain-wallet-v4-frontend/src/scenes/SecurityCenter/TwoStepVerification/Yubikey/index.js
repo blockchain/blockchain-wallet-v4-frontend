@@ -13,21 +13,21 @@ class YubikeyContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
     this.handleInput = this.handleInput.bind(this)
 
     this.state = { yubikeyCode: '' }
   }
 
-  componentWillReceiveProps (nextProps) {
-    const next = nextProps.data.data
-    const prev = this.props.data.data
+  componentDidUpdate (prevProps) {
+    const next = this.props.data.getOrElse({})
+    const prev = prevProps.data.getOrElse({})
     if (next.authType !== prev.authType) {
       this.props.updateUI({ successToggled: true })
       this.props.triggerSuccess()
       setTimeout(() => {
-        nextProps.handleGoBack()
-        nextProps.goBackOnSuccess()
+        this.props.handleGoBack()
+        this.props.goBackOnSuccess()
       }, 1500)
     }
   }
@@ -36,8 +36,7 @@ class YubikeyContainer extends React.PureComponent {
     this.props.modalActions.showModal('TwoStepSetup')
   }
 
-  handleSubmit (e) {
-    e.preventDefault()
+  onSubmit () {
     this.props.securityCenterActions.setYubikey(this.state.yubikeyCode)
   }
 
@@ -53,7 +52,7 @@ class YubikeyContainer extends React.PureComponent {
       Success: (value) => <Yubikey
         data={value}
         handleClick={this.handleClick}
-        handleSubmit={this.handleSubmit}
+        onSubmit={this.onSubmit}
         goBack={this.props.goBack}
         handleInput={this.handleInput}
         value={this.state.yubikeyCode}

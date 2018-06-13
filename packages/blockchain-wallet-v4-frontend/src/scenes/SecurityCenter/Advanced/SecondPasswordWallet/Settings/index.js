@@ -11,14 +11,13 @@ import Settings from './template.js'
 class SettingsContainer extends React.PureComponent {
   constructor (props) {
     super(props)
-    this.handleClick = this.handleClick.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
     this.handleToggle = this.handleToggle.bind(this)
   }
 
-  handleClick (e) {
-    e.preventDefault()
-    const { secondPasswordValue } = this.props
-    this.props.walletActions.toggleSecondPassword(secondPasswordValue)
+  onSubmit () {
+    const { secondPasswordValue, secondPasswordEnabled } = this.props
+    this.props.walletActions.toggleSecondPassword(secondPasswordValue, secondPasswordEnabled)
     this.handleToggle()
   }
 
@@ -31,9 +30,9 @@ class SettingsContainer extends React.PureComponent {
 
     return <Settings
       {...rest}
+      onSubmit={this.onSubmit}
       updateToggled={ui.updateToggled}
       handleToggle={this.handleToggle}
-      handleClick={this.handleClick}
       handleCancel={() => { this.props.formActions.reset('settingSecondPassword'); this.handleToggle() }}
     />
   }
@@ -42,7 +41,8 @@ class SettingsContainer extends React.PureComponent {
 const mapStateToProps = (state) => ({
   mainPassword: selectors.core.wallet.getMainPassword(state),
   secondPasswordEnabled: selectors.core.wallet.isSecondPasswordOn(state),
-  secondPasswordValue: formValueSelector('settingSecondPassword')(state, 'secondPassword')
+  secondPasswordValue: formValueSelector('settingSecondPassword')(state, 'secondPassword'),
+  wallet: selectors.core.wallet.getWallet(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

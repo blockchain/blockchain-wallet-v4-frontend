@@ -1,3 +1,5 @@
+import * as AT from './actionTypes'
+
 export {
   arrayInsert,
   arrayMove,
@@ -14,13 +16,13 @@ export {
   change,
   clearAsyncError,
   clearFields,
-  clearSubmit,
   clearSubmitErrors,
   destroy,
   focus,
   initialize,
   registerField,
   reset,
+  resetSection,
   setSubmitFailed,
   setSubmitSucceeded,
   startAsyncValidation,
@@ -30,7 +32,7 @@ export {
   submit,
   touch,
   unregisterField,
-  untouch,
-  updateSyncErrors,
-  updateSyncWarnings
+  untouch
 } from 'redux-form'
+
+export const change2 = (form, field, value) => ({ type: AT.CHANGE2, payload: { form, field, value } })

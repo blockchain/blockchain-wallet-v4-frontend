@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 
 import { Text } from 'blockchain-info-components'
+import ValueWhenReceived from './ValueWhenReceived'
 
 const Wrapper = styled.div`
   display: flex;
@@ -16,16 +17,25 @@ const Wrapper = styled.div`
 const Success = props => (
   <Wrapper>
     <Text size='12px' weight={300}>
-      <FormattedMessage id='scenes.transactions.bitcoin.content.list.listitem.initial' defaultMessage={`Value when ${props.type}: `} />
+      {props.type === 'sent'
+        ? <FormattedMessage id='components.transactionlistitem.fiatattime.valuewhensent' defaultMessage='Value when sent: ' />
+        : <FormattedMessage id='components.transactionlistitem.fiatattime.valuewhenreceived' defaultMessage='Value when received: ' />
+      }
     </Text>
-    <Text size='12px' weight={200}>{`${props.currency}${props.fiatAtTime}`}</Text>
+    <ValueWhenReceived
+      currency={props.currency}
+      amount={props.amount}
+      hash={props.hash}
+      time={props.time}
+    />
   </Wrapper>
 )
 
 Success.propTypes = {
   currency: PropTypes.string.isRequired,
-  fiatAtTime: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired
+  amount: PropTypes.number.isRequired,
+  hash: PropTypes.string.isRequired,
+  time: PropTypes.number.isRequired
 }
 
 export default Success

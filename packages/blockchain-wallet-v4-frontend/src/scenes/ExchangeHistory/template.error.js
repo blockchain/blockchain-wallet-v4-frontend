@@ -4,12 +4,13 @@ import styled from 'styled-components'
 import { Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
+  position: relative;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 5px;
-  box-sizing: border-box;
+  width: 100%;
+  margin-top: 100px;
 `
 
 export default (props) => (

@@ -1,9 +1,19 @@
 import React from 'react'
 import { prop } from 'ramda'
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { AddressMatchesPriv, MaximumAmountMessage, MaximumFeeMessage, MinimumAmountMessage, MinimumFeeMessage, EmptyAccount } from './validationMessages'
+import { AddressMatchesPriv, MaximumAmountMessage, MaximumFeeMessage, MinimumAmountMessage, MinimumFeeMessage, InsufficientFundsMessage, InvalidAmountMessage } from './validationMessages'
 
 const DUST = 546
+
+export const insufficientFunds = (value, allValues, props) => {
+  return props.effectiveBalance > 0 && DUST <= props.effectiveBalance ? undefined : <InsufficientFundsMessage />
+}
+
+export const invalidAmount = (value, allValues, props) => {
+  const valueBtc = prop('coin', value)
+  const valueSatoshi = Exchange.convertBitcoinToBitcoin({ value: valueBtc, fromUnit: 'BTC', toUnit: 'SAT' }).value
+  return valueSatoshi > 0 ? undefined : <InvalidAmountMessage />
+}
 
 export const minimumAmount = (value, allValues, props) => {
   const valueBtc = prop('coin', value)
@@ -21,10 +31,12 @@ export const minimumFeePerByte = (value, allValues, props) => value >= props.min
 
 export const maximumFeePerByte = (value, allValues, props) => value <= props.maxFeePerByte ? undefined : <MaximumFeeMessage />
 
-export const emptyAccount = (value, allValues, props) =>
-  props.effectiveBalance > 0 ? undefined : <EmptyAccount />
+export const shouldError = ({ values, nextProps, props, initialRender, structure }) => {
+  if (initialRender) { return true }
+  return initialRender || !structure.deepEqual(values, nextProps.values) || props.effectiveBalance !== nextProps.effectiveBalance
+}
 
-export const shouldValidate = ({ values, nextProps, props, initialRender, structure }) => {
+export const shouldWarn = ({ values, nextProps, props, initialRender, structure }) => {
   if (initialRender) { return true }
   return initialRender || !structure.deepEqual(values, nextProps.values) || props.effectiveBalance !== nextProps.effectiveBalance
 }

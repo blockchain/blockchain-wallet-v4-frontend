@@ -17,7 +17,7 @@ export const selectAccount = curry((index, as) => pipe(HDAccountList.guard, view
 export const selectByXpub = curry((xpub, as) => pipe(HDAccountList.guard, xs => xs.find(HDAccount.isXpub(xpub)))(as))
 
 export const selectContext = pipe(HDAccountList.guard, (accList) => {
-  return map(HDAccount.selectXpub, accList)
+  return map(HDAccount.selectXpub, filter(HDAccount.isActive, accList))
 })
 
 export const selectActive = pipe(HDAccountList.guard, filter(HDAccount.isActive))

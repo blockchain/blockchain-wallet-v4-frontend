@@ -32,6 +32,10 @@ class VerifyMobile extends Component {
     this.updateMobileNumber = this.updateMobileNumber.bind(this)
   }
 
+  componentDidMount () {
+    this.props.sfoxFrontendActions.sfoxNotAsked()
+  }
+
   componentDidUpdate (prevProps) {
     if (this.props.smsVerified && !prevProps.smsVerified) this.props.updateUI({ create: 'create_account' })
     if (this.props.smsVerified && !this.props.editVerifiedMobile) this.props.updateUI({ create: 'create_account' })
@@ -58,11 +62,11 @@ class VerifyMobile extends Component {
   }
 
   render () {
-    const { ui, invalid, mobileCode, mobileNumber, mobileVerifiedError } = this.props
+    const { ui, invalid, mobileCode, mobileNumber, mobileVerifiedError, countryCode, smsNumber } = this.props
 
     let smsHelper = () => {
       switch (true) {
-        case mobileVerifiedError: return <FormattedMessage id='coinifyexchangedata.create.mobile.helper.error' defaultMessage="That code doesn't match. {resend} or {changeNumber}." values={{ resend: <a onClick={this.resendCode}>Resend</a>, changeNumber: <a onClick={() => this.props.updateUI({ create: 'change_mobile' })}>change number</a> }} />
+        case mobileVerifiedError: return <FormattedMessage id='sfoxexchangedata.create.mobile.helper.error' defaultMessage="That code doesn't match. {resend} or {changeNumber}." values={{ resend: <a onClick={this.resendCode}>Resend</a>, changeNumber: <a onClick={() => this.props.updateUI({ create: 'change_mobile' })}>change number</a> }} />
         case ui.smsCodeResent: return <FormattedMessage id='sfoxexchangedata.create.mobile.helper.sentanothercode' defaultMessage='Another code has been sent!' />
         case !ui.smsCodeResent: return <FormattedMessage id='sfoxexchangedata.create.mobile.helper.didntreceive' defaultMessage="Didn't get our text? {resend}." values={{ resend: <a onClick={this.resendCode}>Resend</a> }} />
       }
@@ -80,12 +84,12 @@ class VerifyMobile extends Component {
             </PartnerSubHeader>
             <MobileInput>
               <Text size='14px' weight={400} style={{'marginBottom': '5px'}}>
-                <FormattedMessage id='sfoxexchangedata.create.mobile.number' defaultMessage='Enter your digits here:' />
+                <FormattedMessage id='sfoxexchangedata.create.mobile.entermobilenumber' defaultMessage='Enter your digits here:' />
               </Text>
-              <Field name='mobileNumber' defaultValue={this.props.smsNumber} component={PhoneNumberBox} validate={[required, validMobileNumber]} normalize={normalizePhone} />
+              <Field name='mobileNumber' defaultValue={smsNumber} component={PhoneNumberBox} validate={[required, validMobileNumber]} normalize={normalizePhone} countryCode={countryCode} />
               {
                 ui.create === 'change_mobile' && <Button nature='primary' type='submit' disabled={!mobileNumber} style={spacing('mt-15')}>
-                  <FormattedMessage id='sfoxexchangedata.create.mobile.number' defaultMessage='Send My Code' />
+                  <FormattedMessage id='sfoxexchangedata.create.mobile.sendmycode' defaultMessage='Send My Code' />
                 </Button>
               }
             </MobileInput>
@@ -128,7 +132,8 @@ class VerifyMobile extends Component {
 const mapStateToProps = (state) => ({
   mobileNumber: formValueSelector('sfoxCreate')(state, 'mobileNumber'),
   mobileCode: formValueSelector('sfoxCreate')(state, 'mobileCode'),
-  smsNumber: selectors.core.settings.getSmsNumber(state).data
+  smsNumber: selectors.core.settings.getSmsNumber(state).data,
+  countryCode: selectors.core.settings.getCountryCode(state).getOrElse()
 })
 
 const mapDispatchToProps = (dispatch) => ({

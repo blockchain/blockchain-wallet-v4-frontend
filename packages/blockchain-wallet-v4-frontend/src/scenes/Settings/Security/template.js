@@ -8,8 +8,11 @@ import BasicSecurity from './BasicSecurity'
 import AdvancedSecurity from './AdvancedSecurity'
 
 const Wrapper = styled.section`
-  padding: 30px;
+  padding: 20px;
   box-sizing: border-box;
+  @media (min-width: 480px) {
+    padding: 30px;
+  }
 `
 const ButtonContainer = styled.div`
   padding: 10px 0;
@@ -23,7 +26,7 @@ const Security = (props) => {
       <BasicSecurity />
       <ButtonContainer>
         <Button onClick={handleToggle}>
-          <FormattedMessage id='scenes.securitysettings.title' defaultMessage='Advanced settings' />
+          <FormattedMessage id='scenes.settings.security.advanced.title' defaultMessage='Advanced settings' />
         </Button>
       </ButtonContainer>
       { toggled ? <AdvancedSecurity /> : <div /> }

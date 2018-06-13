@@ -29,14 +29,18 @@ const MnemonicLabel = styled(FormLabel)`
     margin-bottom: 10px;
   }
 `
-const Footer = styled.div`
-  margin-top: 20px;
+const Footer = styled(FormGroup)`
   display: flex;
-  align-items: start;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+`
+const GoBackLink = styled(LinkContainer)`
+  margin-right: 15px;
 `
 
 const FirstStep = (props) => {
-  const { nextStep, submitting, invalid } = props
+  const { submitting, invalid, handleSubmit } = props
 
   return (
     <Wrapper>
@@ -52,34 +56,34 @@ const FirstStep = (props) => {
         <FormattedMessage id='scenes.recover.firststep.explain' defaultMessage='Recover funds from your lost wallet' />
       </Text>
       <Separator />
-      <Form onSubmit={nextStep}>
+      <Form onSubmit={handleSubmit}>
         <TextGroup>
           <Text size='13px' weight={300} color='error'>
-            <FormattedMessage id='scenes.recover.firststep.warning' defaultMessage='You should always pair or login if you have access to your Wallet ID and password. Recovering your funds will create a new Wallet ID.' />
+            <FormattedMessage id='scenes.recover.firststep.warning' defaultMessage='You should always pair or login if you have access to your wallet ID and password. Recovering your funds will create a new wallet ID.' />
           </Text>
         </TextGroup>
         <FormGroup>
           <FormItem>
             <MnemonicLabel for='mnemonic'>
-              <FormattedMessage id='scenes.recover.firststep.mnemonic' defaultMessage='Your backup phrase' />
+              <FormattedMessage id='scenes.recover.firststep.mnemonic' defaultMessage='Your Backup Phrase' />
             </MnemonicLabel>
             <Text size='12px' weight={300}>
-              <FormattedMessage id='scenes.recover.firststep.mnemonic_explain' defaultMessage='Enter your 12 word phrase, with spaces between each, to recover your funds & transactions.' />
+              <FormattedMessage id='scenes.recover.firststep.mnemonic_explain' defaultMessage='Enter your 12 word phrase, lowercase, with spaces between each word, to recover your funds & transactions.' />
             </Text>
             <Field name='mnemonic' autoFocus validate={[required, validMnemonic]} component={TextBox} />
           </FormItem>
         </FormGroup>
-        <Button type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid}>
-          <FormattedMessage id='scenes.recover.firststep.continue' defaultMessage='Continue' />
-        </Button>
+        <Footer>
+          <GoBackLink to='/help'>
+            <Link size='13px' weight={300}>
+              <FormattedMessage id='scenes.recover.firststep.back' defaultMessage='Go Back' />
+            </Link>
+          </GoBackLink>
+          <Button type='submit' nature='primary' uppercase disabled={submitting || invalid}>
+            <FormattedMessage id='scenes.recover.firststep.continue' defaultMessage='Continue' />
+          </Button>
+        </Footer>
       </Form>
-      <Footer>
-        <LinkContainer to='/help'>
-          <Link size='13px' weight={300}>
-            <FormattedMessage id='scenes.recover.firststep.back' defaultMessage='Go Back' />
-          </Link>
-        </LinkContainer>
-      </Footer>
     </Wrapper>
 
   )

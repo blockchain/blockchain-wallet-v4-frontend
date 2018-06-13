@@ -28,8 +28,9 @@ const TextBox = (field) => {
 
   return (
     <Container>
-      <TextInput {...field.input} autoFocus={field.autoFocus} errorState={errorState} initial={field.meta.initial} placeholder={field.placeholder} center={field.center} />
+      <TextInput {...field.input} borderRightNone={field.borderRightNone} disabled={field.disabled} autoFocus={field.autoFocus} errorState={errorState} initial={field.meta.initial} placeholder={field.placeholder} center={field.center} />
       {field.meta.touched && field.meta.error && <Error size='12px' weight={300} color='error' errorBottom={field.errorBottom}>{field.meta.error}</Error>}
+      {field.meta.touched && !field.meta.error && field.meta.warning && <Error size='12px' weight={300} color='sent' errorBottom={field.errorBottom}>{field.meta.warning}</Error>}
     </Container>
   )
 }

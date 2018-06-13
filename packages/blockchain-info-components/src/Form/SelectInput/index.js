@@ -26,7 +26,7 @@ class SelectInputContainer extends React.PureComponent {
   }
 
   handleClick (item) {
-    this.setState({ value: item.value, expanded: false })
+    this.setState({ value: item.value, expanded: false, search: '' })
     if (this.props.onChange) { this.props.onChange(item.value) }
   }
 
@@ -35,7 +35,7 @@ class SelectInputContainer extends React.PureComponent {
   }
 
   handleBlur () {
-    this.setState({ expanded: false })
+    this.setState({ expanded: false, search: '' })
     if (this.props.onBlur) { this.props.onBlur() }
     if (this.props.onChange) { this.props.onChange(this.state.value) }
   }
@@ -46,7 +46,7 @@ class SelectInputContainer extends React.PureComponent {
   }
 
   handleClickOutside () {
-    this.setState({ expanded: false })
+    this.setState({ expanded: false, search: '' })
   }
 
   transform (elements, search) {
@@ -94,16 +94,13 @@ class SelectInputContainer extends React.PureComponent {
 SelectInputContainer.propTypes = {
   elements: PropTypes.arrayOf(PropTypes.shape({
     group: PropTypes.string.isRequired,
-    items: PropTypes.arrayOf(PropTypes.shape({
-      text: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.object.isRequired]).isRequired,
-      value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired, PropTypes.object.isRequired])
-    })).isRequired
+    items: PropTypes.array.isRequired
   })).isRequired,
   label: PropTypes.string,
   searchEnabled: PropTypes.bool,
   opened: PropTypes.bool,
   disabled: PropTypes.bool,
-  value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired, PropTypes.object.isRequired]),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object]).isRequired,
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
   onFocus: PropTypes.func,

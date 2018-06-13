@@ -22,14 +22,14 @@ const Error = styled.label`
 `
 
 const SelectBox = (props) => {
-  const { input, meta, ...rest } = props
+  const { input, meta, hideErrors, ...rest } = props
   const { touched, invalid, error, pristine } = meta
-  const errorState = !touched ? 'initial' : (invalid ? 'invalid' : 'valid')
+  const errorState = touched && invalid ? 'invalid' : 'initial'
 
   return (
     <Container>
       <SelectInput {...input} {...meta} {...rest} errorState={errorState} />
-      {(touched || !pristine) && error && <Error>{error}</Error>}
+      {(touched || !pristine) && error && !hideErrors && <Error>{error}</Error>}
     </Container>
   )
 }
@@ -39,12 +39,12 @@ SelectBox.propTypes = {
     onBlur: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
     onFocus: PropTypes.func.isRequired,
-    value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired, PropTypes.object.isRequired])
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object])
   }).isRequired,
   elements: PropTypes.arrayOf(PropTypes.shape({
     group: PropTypes.string.isRequired,
     items: PropTypes.arrayOf(PropTypes.shape({
-      text: PropTypes.object.isRequired,
+      text: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired, PropTypes.object.isRequired]),
       value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired, PropTypes.object.isRequired])
     })).isRequired
   })).isRequired,

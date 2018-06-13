@@ -26,6 +26,12 @@ class PageContainer extends React.Component {
     ReactDOM.findDOMNode(this.refs.page).addEventListener('scroll', this.debounce(this.updateScroll.bind(this), 1000))
   }
 
+  componentDidUpdate (prevProps) {
+    if (prevProps.children.props.computedMatch.url !== this.props.children.props.computedMatch.url) {
+      ReactDOM.findDOMNode(this).scrollTop = 0
+    }
+  }
+
   componentWillUnmount () {
     if (this.timeout) { clearTimeout(this.timeout) }
     ReactDOM.findDOMNode(this.refs.page).removeEventListener('scroll', this.debounce(this.updateScroll.bind(this), 1000))

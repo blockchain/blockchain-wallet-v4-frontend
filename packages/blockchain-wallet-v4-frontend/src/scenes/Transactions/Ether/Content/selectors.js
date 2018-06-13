@@ -1,6 +1,6 @@
-import { formValueSelector } from 'redux-form'
+import { createSelector } from 'reselect'
 import { selectors } from 'data'
-import { curry, propSatisfies, toUpper, prop, allPass, anyPass, compose, contains, map, filter, length, lift } from 'ramda'
+import { all, curry, isEmpty, propSatisfies, toUpper, prop, allPass, anyPass, compose, contains, map, filter } from 'ramda'
 
 const filterTransactions = curry((status, criteria, transactions) => {
   const isOfType = curry((filter, tx) => propSatisfies(x => filter === '' || toUpper(x) === toUpper(filter), 'type', tx))
@@ -10,13 +10,23 @@ const filterTransactions = curry((status, criteria, transactions) => {
   return filter(fullPredicate, transactions)
 })
 
-export const getData = (state) => {
-  const status = formValueSelector('etherTransaction')(state, 'status') || ''
-  const search = formValueSelector('etherTransaction')(state, 'search') || ''
-  const transactions = selectors.core.common.ethereum.getTransactions(state)
-  const filtered = transactions.map(filterTransactions(status, search))
-  const total = transactions.map(length)
-  return lift((transactions, total) => ({ transactions, total }))(filtered, total)
-}
+export const getData = createSelector(
+  [
+    selectors.form.getFormValues('ethTransactions'),
+    selectors.core.common.eth.getWalletTransactions
+  ],
+  (formValues, pages) => {
+    const empty = (page) => isEmpty(page.data)
+    const search = prop('search', formValues) || ''
+    const status = prop('status', formValues) || ''
+    const filteredPages = !isEmpty(pages)
+      ? pages.map(map(filterTransactions(status, search)))
+      : []
 
-export const getContext = selectors.core.kvStore.ethereum.getContext
+    return {
+      pages: filteredPages,
+      empty: all(empty)(filteredPages),
+      search: search.length > 0 || status !== ''
+    }
+  }
+)

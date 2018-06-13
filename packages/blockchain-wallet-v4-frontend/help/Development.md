@@ -1,35 +1,27 @@
 # Dream Wallet Front-End - Development guidelines
 
-## IMPORTANT
-- Styling _should_ be abstracted from components at all but the most basic level (ui elements like Button, Text, etc)
-- Layout components will be imported from _reactstrap_, which uses bootstrap 4 internally
-- Components with highly-customized styles (Wallet layout, most angular 1.5 components, etc) will use styled-components
-- General components will use _existing css_ where possible in the interest of speed, staying lean, and maintaining design backward-compatibility (Button, bootstrap Modal, etc)
-
-
-## Structure
+## Project structure
 
 * `src`
   * [assets](#assets)
   * [components](#components)
   * [config](#config)
   * [data](#data)
+  * [forms](#forms)
   * [layouts](#layouts)
-  * [legacy](#legacy)
   * [middleware](#middleware)
   * [modals](#modals)
   * [providers](#providers)
   * [scenes](#scenes)
   * [services](#services)
   * [store](#store)
-  * [themes](#themes)
 
 ### Assets
 
 This  directory contains locale resources like locales and sass
 
+* `images`
 * `locales`
-* `sass`
 
 ### Components
 
@@ -37,9 +29,7 @@ This directory contains shared/reusable components accross the project.
 
 ### Config
 
-The **config** folder contains the settings for the development/production builds
-
-You can switch the development build to *testnet*, *live* or *staging* endpoints by commenting out the non necessary configs.
+The **config** folder contains the settings that are not retrieved from wallet-options
 
 ### Data
 
@@ -49,20 +39,44 @@ It also encapsulates the redux modules available in the core.
 
 Don't forget to update the entry points at the core of this folder whenever you add/update modules
 
+### Forms
+
+We use <https://redux-form.com/> to handle forms in the project. It's important to correctly pass the submit handler to your template. Please follow the below pattern.
+
+in index.js:
+```
+onSubmit(){
+  // do not call e.preventDefault()
+  // do form submit stuff
+}
+
+---------
+
+render () {
+  return <Template 
+    onSubmit={this.onSubmit}
+  />
+}
+```
+
+in template.js, redux-form will convert `onSubmit` to `handleSubmit` so all you need to do is:
+```
+const { handleSubmit } = this.props
+
+<Form onSubmit={handleSubmit}>
+  // form markup
+  <Button type='submit'></Button>
+</Form>
+```
+
 ### Layouts
 
 This directory contains different layouts used by the different scenes.
 
 * `Public`
   * used by *Login*, *Register*, *Help*, ... pages
-* `Landing`
-  * used by *Landing* page
 * `Wallet`
   * used by all *Wallet* pages
-
-### Legacy ##
-
-This directory contains some components using blockchain-css style
 
 ### Middleware
 
@@ -79,6 +93,7 @@ This directory contains different modals
 * `RequestBitcoin`
 * `SecondPassword`
 * `SendBitcoin`
+* ....
 
 ### Providers
 
@@ -100,8 +115,3 @@ This direction contains different useful services that encapsulates business log
 ### Store
 
 This directory contains the redux store configuration and the different middleware plugged in the pipeline.
-
-### Themes
-
-This directory contains the theme class (to discuss)
-

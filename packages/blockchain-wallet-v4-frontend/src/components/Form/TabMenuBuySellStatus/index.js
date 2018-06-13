@@ -1,5 +1,9 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
+
+import { actions } from 'data'
 import TabMenuBuySellStatus from './template.js'
 
 class TabMenuBuySellStatusContainer extends React.PureComponent {
@@ -9,16 +13,24 @@ class TabMenuBuySellStatusContainer extends React.PureComponent {
   }
 
   handleClick (value) {
+    if (this.props.partner === 'coinify') {
+      this.props.coinifyActions.coinifyNextCheckoutStep('checkout')
+    }
     this.props.input.onChange(value)
   }
 
   render () {
-    return <TabMenuBuySellStatus value={this.props.input.value} handleClick={this.handleClick} />
+    return <TabMenuBuySellStatus partner={this.props.partner} value={this.props.input.value} handleClick={this.handleClick} />
   }
 }
 
 TabMenuBuySellStatusContainer.propTypes = {
-  input: PropTypes.object.isRequired
+  input: PropTypes.object.isRequired,
+  partner: PropTypes.string.isRequired
 }
 
-export default TabMenuBuySellStatusContainer
+const mapDispatchToProps = (dispatch) => ({
+  coinifyActions: bindActionCreators(actions.modules.coinify, dispatch)
+})
+
+export default connect(undefined, mapDispatchToProps)(TabMenuBuySellStatusContainer)

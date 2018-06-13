@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, Link, Text } from 'blockchain-info-components'
+import { Banner, Button, Link, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import ComboDisplay from 'components/Display/ComboDisplay'
@@ -16,6 +16,7 @@ const Row = styled.div`
 
   & > * { width: 150px; }
   & > :last-child { width: 100%; }
+  &:first-child { padding-top: 0px; }
 `
 const Summary = styled.div`
   display: flex;
@@ -25,9 +26,11 @@ const Summary = styled.div`
   background-color: ${props => props.theme['gray-1']};
   padding: 10px 0;
   margin: 5px 0;
-  margin-bottom: 25px;
-  
+  margin-bottom: 20px;
   & > * { padding: 10px 0; }
+`
+const WarningBanner = styled.div`
+  margin-bottom: 20px;
 `
 const Footer = styled.div`
   display: flex;
@@ -36,11 +39,11 @@ const Footer = styled.div`
   align-items: center;
   width: 100%;
 
-  & > :first-child { margin-bottom: 5px; }
+  & > :first-child { margin-bottom: 15px; }
 `
 
 const Success = props => {
-  const { message, fromAddress, toAddress, amount, fee, total, coin, handleSubmit, handleBack } = props
+  const { message, fromAddress, toAddress, amount, fee, total, coin, handleSubmit, handleBack, isLegacy } = props
 
   return (
     <div>
@@ -87,12 +90,19 @@ const Success = props => {
         <CoinDisplay coin={coin} size='30px' weight={600} color='sent'>{total}</CoinDisplay>
         <FiatDisplay coin={coin} size='20px' weight={300} color='sent'>{total}</FiatDisplay>
       </Summary>
+      {isLegacy &&
+        <WarningBanner>
+          <Banner type='caution'>
+            <FormattedMessage id='modals.sendbch.secondstep.legacy_addr_warning' defaultMessage='Are you sure this is a Bitcoin Cash Address? Sending funds to bitcoin address by accident will result in loss of funds.' />
+          </Banner>
+        </WarningBanner>
+      }
       <Footer>
         <Button onClick={handleSubmit} nature='primary' fullwidth uppercase>
           <FormattedMessage id='modals.sendbch.secondstep.send' defaultMessage='Send Bitcoin Cash' />
         </Button>
         <Link onClick={handleBack} size='13px' weight={300}>
-          <FormattedMessage id='scenes.sendconfirm.back' defaultMessage='Go back' />
+          <FormattedMessage id='modals.sendbch.secondstep.back' defaultMessage='Go back' />
         </Link>
       </Footer>
     </div>

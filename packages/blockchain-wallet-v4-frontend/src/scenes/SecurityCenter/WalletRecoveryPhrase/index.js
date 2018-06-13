@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
+import { path } from 'ramda'
 import ui from 'redux-ui'
 import { getData } from './selectors'
 import Success from './template.success'
@@ -12,15 +13,25 @@ class WalletRecoveryPhraseContainer extends React.PureComponent {
     super(props)
 
     this.toggleNextStep = this.toggleNextStep.bind(this)
-    this.toggleBackupAgain = this.toggleBackupAgain.bind(this)
     this.closeSteps = this.closeSteps.bind(this)
     this.changeDescription = this.changeDescription.bind(this)
     this.state = {}
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.recoveryPhrase && this.props.recoveryPhrase === undefined) {
+      this.props.updateUI({ nextStepToggled: true })
+      this.props.handleEnable()
+    }
+  }
+
   toggleNextStep () {
-    this.props.updateUI({ nextStepToggled: true })
-    this.props.handleEnable()
+    if (this.props.recoveryPhrase === undefined) {
+      this.props.settingsActions.showBackupRecovery()
+    } else {
+      this.props.updateUI({ nextStepToggled: true })
+      this.props.handleEnable()
+    }
   }
 
   closeSteps () {
@@ -31,10 +42,6 @@ class WalletRecoveryPhraseContainer extends React.PureComponent {
     this.props.updateUI({ descriptionToggled: !this.props.ui.descriptionToggled })
   }
 
-  toggleBackupAgain () {
-    this.props.updateUI({ nextStepToggled: true })
-  }
-
   render () {
     const { data, ...rest } = this.props
     return <Success
@@ -43,13 +50,13 @@ class WalletRecoveryPhraseContainer extends React.PureComponent {
       toggleNextStep={this.toggleNextStep}
       handleClose={this.closeSteps}
       changeDescription={this.changeDescription}
-      toggleBackupAgain={this.toggleBackupAgain}
     />
   }
 }
 
 const mapStateToProps = (state) => ({
-  data: getData(state)
+  data: getData(state),
+  recoveryPhrase: path(['securityCenter', 'recovery_phrase'], state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

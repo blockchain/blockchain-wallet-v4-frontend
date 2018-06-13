@@ -29,7 +29,7 @@ const Circle = styled.div`
   border: 1px solid ${props => props.theme['gray-2']};
   border-radius: 100%;
   text-align: center;
-  z-index: 10;
+  z-index: 7;
 `
 const Info = styled.div`
   display: flex;
@@ -40,22 +40,22 @@ const Info = styled.div`
   padding: 10px 20px;
   box-sizing: border-box;
 
-  & > * { 
-    padding: 0 5px; 
+  & > * {
+    cursor: ${props => props.cursor ? 'pointer' : ''};
+    padding: 0 5px;
     width: 50%;
   }
-  
+
   div:nth-child(2) {
     text-align: center;
   }
-  
+
   div:last-child {
     > div {
       justify-content: flex-end;
     }
   }
 `
-
 const selectIcon = type => {
   switch (type) {
     case 'log': return 'settings'
@@ -65,14 +65,23 @@ const selectIcon = type => {
 
 const selectColor = action => {
   switch (action) {
-    case 'received': return 'received'
     case 'sent': return 'sent'
+    case 'received': return 'received'
+    case 'transferred': return 'transferred'
     default: return 'gray-5'
   }
 }
 
+const RecentActivityText = styled(Text)`
+  font-size: 12px;
+  font-weight: 300;
+  @media (min-width: 480px) {
+    font-size: 14px;
+  }
+`
+
 const ActivityListItem = (props) => {
-  const { action, time, type, amount, coin } = props
+  const { action, time, type, amount, path, coin, handleLink } = props
   const timeFormatted = moment(time).format('ll')
   const iconName = selectIcon(type)
   const visibility = coin ? 'visible' : 'hidden'
@@ -82,10 +91,10 @@ const ActivityListItem = (props) => {
       <Circle>
         <Icon name={iconName} color='brand-primary' />
       </Circle>
-      <Info>
-        <Text size='14px' weight={300} capitalize color={selectColor(action)}>{action} {coin}</Text>
-        <Text size='14px' weight={300}>{timeFormatted}</Text>
-        <Text style={{visibility: visibility}} ><SwitchableDisplay size='14px' weight={300} visibility={'hidden'} coin={coin}>{amount}</SwitchableDisplay></Text>
+      <Info cursor={coin} onClick={() => path && handleLink(path)}>
+        <RecentActivityText capitalize color={selectColor(action)}>{action} {coin}</RecentActivityText>
+        <RecentActivityText>{timeFormatted}</RecentActivityText>
+        <RecentActivityText style={{visibility: visibility}} ><SwitchableDisplay mobileSize='12px' size='14px' visibility={'hidden'} coin={coin}>{amount}</SwitchableDisplay></RecentActivityText>
       </Info>
     </Container>
   )

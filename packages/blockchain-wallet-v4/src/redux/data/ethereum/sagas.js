@@ -1,40 +1,12 @@
-import { call, put } from 'redux-saga/effects'
-import { compose, dissoc, mapObjIndexed, negate, prop, sortBy, sum, values } from 'ramda'
+import { call, put, select } from 'redux-saga/effects'
+import { dissoc, isNil, length, mapObjIndexed, path, sum, values } from 'ramda'
 import { convertFeeToWei } from '../../../utils/ethereum'
 import * as A from './actions'
+import * as S from './selectors'
+import * as selectors from '../../selectors'
+import * as kvStoreSelectors from '../../kvStore/ethereum/selectors'
 
 export default ({ api }) => {
-  const fetchData = function * (action) {
-    try {
-      yield put(A.fetchDataLoading())
-      const { context } = action.payload
-      const data = yield call(api.getEthereumData, context)
-      const latestBlock = yield call(api.getEthereumLatestBlock)
-      // Accounts treatments
-      const finalBalance = sum(values(data).map(obj => obj.balance))
-      const totalReceived = sum(values(data).map(obj => obj.totalReceived))
-      const totalSent = sum(values(data).map(obj => obj.totalSent))
-      const nTx = sum(values(data).map(obj => obj.txn_count))
-      const addresses = mapObjIndexed((num, key, obj) => dissoc('txns', num), data)
-      const transactions = mapObjIndexed((num, key, obj) => sortBy(compose(negate, prop('timeStamp')), prop('txns', num)), data)
-
-      const ethereumData = {
-        addresses,
-        info: {
-          n_tx: nTx,
-          total_received: totalReceived,
-          total_sent: totalSent,
-          final_balance: finalBalance
-        },
-        latest_block: latestBlock,
-        transactions
-      }
-      yield put(A.fetchDataSuccess(ethereumData))
-    } catch (e) {
-      yield put(A.fetchDataFailure(e.message))
-    }
-  }
-
   const fetchFee = function * () {
     try {
       yield put(A.fetchFeeLoading())
@@ -66,21 +38,69 @@ export default ({ api }) => {
     }
   }
 
-  const fetchTransactions = function * ({ address }) {
+  const fetchData = function * (action) {
+    const { payload } = action
+    const { reset } = payload
     try {
-      yield put(A.fetchTransactionsLoading())
-      const data = yield call(api.getEthereumData, address)
-      yield put(A.fetchTransactionsSuccess(data))
+      const defaultAccountR = yield select(selectors.kvStore.ethereum.getContext)
+      const address = defaultAccountR.getOrFail('Could not get ethereum context.')
+      const pages = reset ? [] : yield select(S.getTransactions)
+      const nextPage = length(pages)
+      yield put(A.fetchDataLoading())
+      yield put(A.fetchTransactionsLoading(reset))
+      const data = yield call(api.getEthereumTransactions, address, nextPage)
+      const latestBlock = yield call(api.getEthereumLatestBlock)
+      yield call(accountSaga, data, latestBlock)
+      const txs = path([address, 'txns'], data)
+      if (isNil(txs)) return
+      yield put(A.fetchTransactionsSuccess(txs, reset))
     } catch (e) {
+      yield put(A.fetchDataFailure(e))
       yield put(A.fetchTransactionsFailure(e.message))
     }
   }
 
+  const fetchLegacyBalance = function * () {
+    try {
+      yield put(A.fetchLegacyBalanceLoading())
+      const addrR = yield select(kvStoreSelectors.getLegacyAccountAddress)
+      const addr = addrR.getOrElse('')
+      const balances = yield call(api.getEthereumBalances, addr)
+      const balance = path([addr, 'balance'], balances)
+      yield put(A.fetchLegacyBalanceSuccess(balance))
+    } catch (e) {
+      yield put(A.fetchLegacyBalanceFailure())
+    }
+  }
+
+  const accountSaga = function * (data, latestBlock) {
+    // Accounts treatments
+    const finalBalance = sum(values(data).map(obj => obj.balance))
+    const totalReceived = sum(values(data).map(obj => obj.totalReceived))
+    const totalSent = sum(values(data).map(obj => obj.totalSent))
+    const nTx = sum(values(data).map(obj => obj.txn_count))
+    const addresses = mapObjIndexed((num, key, obj) => dissoc('txns', num), data)
+    // const transactions = mapObjIndexed((num, key, obj) => sortBy(compose(negate, prop('timeStamp')), prop('txns', num)), data)
+
+    const ethereumData = {
+      addresses,
+      info: {
+        n_tx: nTx,
+        total_received: totalReceived,
+        total_sent: totalSent,
+        final_balance: finalBalance
+      },
+      latest_block: latestBlock
+      // transactions
+    }
+    yield put(A.fetchDataSuccess(ethereumData))
+  }
+
   return {
-    fetchData,
     fetchFee,
-    fetchLatestBlock,
+    fetchData,
+    fetchLegacyBalance,
     fetchRates,
-    fetchTransactions
+    fetchLatestBlock
   }
 }

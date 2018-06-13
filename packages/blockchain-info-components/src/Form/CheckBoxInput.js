@@ -37,16 +37,26 @@ const BaseCheckBoxInput = styled.input.attrs({
 const Label = styled.label`
   display: flex;
   cursor: pointer;
+  position: relative;
   align-items: center;
   &:before {
     content: '';
-    min-width: 15px;
-    min-height: 15px;
+    min-width: 12px;
+    min-height: 12px;
     margin-right: 5px;
     background: white;
     border-radius: 2px;
     transition: background .2s;
     border: 1px solid ${props => props.theme['brand-secondary']};
+  }
+  &:after {
+    content: '\\e90a';
+    font-family: 'icomoon';
+    position: absolute;
+    color: ${props => props.theme['white']};
+    font-weight: 600;
+    font-size: 10px;
+    left: 2px;
   }
 `
 
@@ -65,7 +75,7 @@ const CheckBoxInput = props => {
 
 CheckBoxInput.propTypes = {
   name: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   checked: PropTypes.bool,
   disabled: PropTypes.string
 }

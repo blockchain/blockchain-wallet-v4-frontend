@@ -13,17 +13,21 @@ class LoginContainer extends React.PureComponent {
     this.onSubmit = this.onSubmit.bind(this)
     this.handleCode = this.handleCode.bind(this)
     this.handleMobile = this.handleMobile.bind(this)
+    this.handleSmsResend = this.handleSmsResend.bind(this)
   }
+
   handleCode (val) {
     this.setState({ useCode: val })
   }
 
-  onSubmit (event) {
-    event.preventDefault()
+  onSubmit () {
     const { useCode } = this.state
     const { guid, password, code } = this.props
-    const auth = useCode ? code && code.toUpperCase() : undefined
-
+    let auth = useCode ? code : undefined
+    // only uppercase if authType is not Yubikey
+    if (auth && this.props.authType !== 1) {
+      auth = auth.toUpperCase()
+    }
     this.props.authActions.login(guid, password, auth)
   }
 
@@ -31,10 +35,12 @@ class LoginContainer extends React.PureComponent {
     this.props.modalActions.showModal('MobileLogin')
   }
 
+  handleSmsResend () {
+    this.props.authActions.resendSmsCode(this.props.guid)
+  }
+
   render () {
-    const valid = localStorage.getItem('ls.guid') !== 'undefined'
-    const guid = valid && JSON.parse(localStorage.getItem('ls.guid'))
-    const { authType, data } = this.props
+    const { authType, data, lastGuid } = this.props
 
     const { busy, error } = data.cata({
       Success: () => ({ error: null, busy: false }),
@@ -43,15 +49,19 @@ class LoginContainer extends React.PureComponent {
       NotAsked: () => ({ error: null, busy: false })
     })
 
-    return <Login {...this.props}
-      busy={busy}
-      loginError={error}
-      initialValues={{ guid }}
-      authType={authType}
-      onSubmit={this.onSubmit}
-      handleCode={this.handleCode}
-      handleMobile={this.handleMobile}
-    />
+    const loginProps = {
+      busy,
+      authType,
+      loginError: error,
+      onSubmit: this.onSubmit,
+      handleCode: this.handleCode,
+      handleMobile: this.handleMobile,
+      handleSmsResend: this.handleSmsResend
+    }
+
+    return lastGuid
+      ? <Login {...this.props} initialValues={{ guid: lastGuid }} {...loginProps} />
+      : <Login {...this.props} {...loginProps} />
   }
 }
 
@@ -60,6 +70,7 @@ const mapStateToProps = (state) => ({
   password: formValueSelector('login')(state, 'password'),
   code: formValueSelector('login')(state, 'code'),
   authType: selectors.auth.getAuthType(state),
+  lastGuid: selectors.cache.getLastGuid(state),
   data: selectors.auth.getLogin(state)
 })
 

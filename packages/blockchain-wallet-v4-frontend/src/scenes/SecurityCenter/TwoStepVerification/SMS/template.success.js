@@ -10,9 +10,12 @@ import { required } from 'services/FormHelper'
 import { SuccessOverlay } from 'components/Security'
 
 const AuthenticatorSummary = styled.div`
-  width: 110%;
+  width: 100%;
   padding: 0px 20px;
   opacity: ${props => props.verified ? 0.3 : 1};
+  @media (min-width: 992px) {
+    width: 110%;
+  }
 `
 const SmsAuthContainer = styled.div`
   margin-top: 25px;
@@ -37,11 +40,11 @@ const QRInputWrapper = styled.div`
 `
 
 const SmsAuth = props => {
-  const { data, ui, onSubmit, changeMobileNumber, invalid, code } = props
-  const { smsVerified, smsNumber } = data
+  const { data, ui, handleSubmit, changeMobileNumber, invalid, code } = props
+  const { smsVerified, smsNumber, countryCode } = data
 
   return (
-    <Form onSubmit={onSubmit}>
+    <Form onSubmit={handleSubmit}>
       <SuccessOverlay success={ui.successToggled}>
         <Icon name='checkmark-in-circle' size='150px' color='success' />
         <Text size='14px' weight={300} color='success'>
@@ -57,7 +60,7 @@ const SmsAuth = props => {
                   <FormattedMessage id='scenes.security.twostepverification.sms.entermobile' defaultMessage='Enter your mobile number and click Get Code. A verification code will be sent.' />
                 </Text>
                 <QRInputWrapper>
-                  <Field name='mobileNumber' component={PhoneNumberBox} validate={[required]} placeholder='212-555-5555' />
+                  <Field name='mobileNumber' component={PhoneNumberBox} validate={[required]} countryCode={countryCode} defaultValue={smsNumber} placeholder='212-555-5555' />
                   <Button type='submit' nature='primary' disabled={invalid}>Get Verification Code</Button>
                 </QRInputWrapper>
               </Fragment>

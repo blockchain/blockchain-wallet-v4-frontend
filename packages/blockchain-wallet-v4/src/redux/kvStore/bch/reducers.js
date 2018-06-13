@@ -39,11 +39,11 @@ export default (state = INITIAL_STATE, action) => {
       const setDefaultAccount = assoc('default_account_idx', index)
       return over(valueLens, setDefaultAccount, state)
     }
-    case AT.ADD_BCH_ACCOUNT_COMPLETE: {
-      const { bchAccounts } = action.payload
-      const valueLens = compose(mapped, KVStoreEntry.value)
-      const setBchAccounts = assoc('accounts', bchAccounts)
-      return over(valueLens, setBchAccounts, state)
+    case AT.SET_TRANSACTION_NOTE_BCH: {
+      const {txHash, txNote} = action.payload
+      let valueLens = compose(mapped, KVStoreEntry.value)
+      let setNote = assocPath(['tx_notes', txHash], txNote)
+      return over(valueLens, setNote, state)
     }
 
     default:

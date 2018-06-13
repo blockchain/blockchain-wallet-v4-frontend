@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { selectors } from 'data'
 
+import { getData } from './selectors'
 import SecurityCenter from './template.js'
 
 class SecurityCenterContainer extends React.PureComponent {
@@ -52,10 +52,6 @@ class SecurityCenterContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
-  authType: selectors.core.settings.getAuthType(state),
-  emailVerified: selectors.core.settings.getEmailVerified(state),
-  isMnemonicVerified: selectors.core.wallet.isMnemonicVerified(state)
-})
+const mapStateToProps = (state) => getData(state)
 
 export default connect(mapStateToProps, undefined)(SecurityCenterContainer)

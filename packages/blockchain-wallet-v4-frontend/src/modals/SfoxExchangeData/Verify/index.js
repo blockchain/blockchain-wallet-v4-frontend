@@ -15,22 +15,24 @@ import Identity from './Identity'
 
 const faqCopy = [
   {
-    question: <FormattedMessage id='sfoxsignup.verify.address.helper1.question' defaultMessage='Why do you need this information?' />,
-    answer: <FormattedMessage id='sfoxsignup.verify.address.helper1.answer' defaultMessage='Answer1 placeholder' />
+    question: <FormattedMessage id='scenes.buysell.sfoxsignup.verify.address.helper1.question' defaultMessage='Why do you need this personal information?' />,
+    answer: <FormattedMessage id='scenes.buysell.sfoxsignup.verify.address.helper1.answer' defaultMessage='SFOX needs this information to verify your identity and to comply with government regulated anti-money laundering laws.' />
   },
   {
-    question: <FormattedMessage id='sfoxsignup.verify.address.helper2.question' defaultMessage='Where is my information stored?' />,
-    answer: <FormattedMessage id='sfoxsignup.verify.address.helper2.answer' defaultMessage='Answer2 placeholder' />
+    question: <FormattedMessage id='scenes.buysell.sfoxsignup.verify.address.helper2.question' defaultMessage='Where is this information stored?' />,
+    answer: <FormattedMessage id='scenes.buysell.sfoxsignup.verify.address.helper2.answer' defaultMessage='We know this information is personal. Don’t worry, it will be securely sent to SFOX and not stored in your Blockchain wallet.' />
   }
 ]
 
-const faqHelper = () => faqCopy.map(el => <Helper question={el.question} answer={el.answer} />)
+const faqHelper = () => faqCopy.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
 
 class VerifyContainer extends Component {
   constructor (props) {
     super(props)
     this.handleReset = this.handleReset.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+
+    this.state = { viewSSN: false }
   }
 
   componentWillReceiveProps (nextProps) {
@@ -54,7 +56,7 @@ class VerifyContainer extends Component {
   render () {
     if (this.props.step === 'upload') return <Upload />
     if (this.props.ui.verify === 'address') return <Address {...this.props} faqs={faqHelper} />
-    if (this.props.ui.verify === 'identity') return <Identity {...this.props} faqs={faqHelper} handleSubmit={this.handleSubmit} handleReset={this.handleReset} />
+    if (this.props.ui.verify === 'identity') return <Identity {...this.props} toggleSSN={() => this.setState({ viewSSN: !this.state.viewSSN })} viewSSN={this.state.viewSSN} faqs={faqHelper} handleSubmit={this.handleSubmit} handleReset={this.handleReset} />
   }
 }
 

@@ -11,12 +11,12 @@
   "module": "src/index.js",
   "scripts": {
     "compile": "babel --presets es2015,stage-2 -d lib/ --ignore spec.js src/ --copy-files",
-    "coverage": "./../../node_modules/.bin/jest --coverage",
+    "coverage": "cross-env ./../../node_modules/.bin/jest --coverage",
     "start": "babel-node src/index.js",
-    "test": "./../../node_modules/.bin/jest",
+    "test": "cross-env ./../../node_modules/.bin/jest",
     "test:build": "npm run compile",
-    "test:debug": "node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
-    "test:watch": "./../../node_modules/.bin/jest --watchAll"
+    "test:debug": "cross-env node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
+    "test:watch": "cross-env ./../../node_modules/.bin/jest --watchAll"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -49,7 +49,7 @@
     "bignumber.js": "5.0.0",
     "bip39": "2.3.1",
     "bitcoin-coinify-client": "0.7.6",
-    "bitcoin-sfox-client": "0.3.2",
+    "bitcoin-sfox-client": "0.4.0",
     "bitcoinforksjs-lib": "git://github.com/blockchain/bitcoinjs-lib.git#opt-in-bitcoincash-sighash",
     "bitcoinjs-lib": "3.1.1",
     "bitcoinjs-message": "2.0.0",
@@ -62,10 +62,10 @@
     "data.task": "3.1.1",
     "es6-promise": "4.1.0",
     "ethereumjs-tx": "1.3.3",
-    "ethereumjs-util": "5.1.2",
+    "ethereumjs-util": "5.1.3",
     "ethereumjs-wallet": "0.6.0",
     "extendable-immutable": "1.3.3",
-    "fast-memoize": "2.2.8",
+    "fast-memoize": "2.4.0",
     "fisher-yates": "1.0.3",
     "futurize": "1.2.0",
     "immutable": "3.8.1",

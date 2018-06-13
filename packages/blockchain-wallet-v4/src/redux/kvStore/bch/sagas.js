@@ -2,10 +2,11 @@ import { call, put, select } from 'redux-saga/effects'
 import { compose, concat, gt, isNil, length, map, path, prop, range } from 'ramda'
 import { set } from 'ramda-lens'
 import * as A from './actions'
+import * as bchActions from '../../data/bch/actions'
 import { KVStoreEntry } from '../../../types'
+import { derivationMap, BCH } from '../config'
 import { getMetadataXpriv } from '../root/selectors'
 import { getHDAccounts } from '../../wallet/selectors'
-import { derivationMap, BCH } from '../config'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
@@ -27,6 +28,7 @@ export default ({ api }) => {
 
     const newkv = set(KVStoreEntry.value, newBchEntry, kv)
     yield put(A.createMetadataBch(newkv))
+    yield refetchContextData()
   }
 
   const fetchMetadataBch = function * () {
@@ -47,7 +49,12 @@ export default ({ api }) => {
     }
   }
 
+  const refetchContextData = function * () {
+    yield put(bchActions.fetchData())
+  }
+
   return {
-    fetchMetadataBch
+    fetchMetadataBch,
+    refetchContextData
   }
 }

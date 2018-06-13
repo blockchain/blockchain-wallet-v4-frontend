@@ -7,7 +7,7 @@ import { actions } from 'data'
 import { Link } from 'blockchain-info-components'
 
 const MinimumAmountLink = props => (
-  <Link size='12px' weight={300} onClick={() => props.actions.firstStepMinimumClicked()}>
+  <Link size='12px' weight={300} onClick={() => { if (!props.disabled) props.actions.firstStepMinimumClicked() }}>
     <FormattedMessage id='scenes.exchange.firststep.minimumamountlink.minimum' defaultMessage='minimum' />
   </Link>
 )

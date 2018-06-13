@@ -6,6 +6,7 @@ import { spacing } from 'services/StyleService'
 
 import { Button, HeartbeatLoader, Text, Link } from 'blockchain-info-components'
 import { Form, ColLeft, InputWrapper, PartnerHeader, PartnerSubHeader, ColRight } from 'components/BuySell/Signup'
+import { getRateFromQuote } from 'services/CoinifyService'
 
 const SummaryWrapper = styled.div`
   display: flex;
@@ -40,7 +41,7 @@ const Unit = styled.div`
 `
 
 const Confirm = (props) => {
-  const { ui, value, onSubmit, busy, invalid, submitting, medium, toggleEdit, editingAmount, rateQuote } = props
+  const { ui, value, handleSubmit, busy, invalid, submitting, medium, toggleEdit, editingAmount } = props
   const { quote, mediums, limits } = value
   const { quoteAmount, baseAmount, baseCurrency } = quote
   const { total, fee } = mediums[medium]
@@ -63,7 +64,7 @@ const Confirm = (props) => {
   }
 
   return (
-    <Form onSubmit={onSubmit}>
+    <Form onSubmit={handleSubmit}>
       <ColLeft>
         <InputWrapper style={spacing('mb-20')}>
           <PartnerHeader>
@@ -74,7 +75,7 @@ const Confirm = (props) => {
           </PartnerSubHeader>
         </InputWrapper>
         <RateContainer style={spacing('mb-10')}>
-          { rateQuote ? <Text size='12px' weight={300}>1 BTC = {rateQuote.quoteAmount} {rateQuote.quoteCurrency}</Text> : <span>Loading...</span> }
+          { quote ? <Text size='12px' weight={300}>{getRateFromQuote(quote)}</Text> : <span>Loading...</span> }
         </RateContainer>
         <SummaryWrapper>
           <SummaryRow borderBottom>
@@ -131,7 +132,7 @@ const Confirm = (props) => {
             !busy && !editing
               ? <FormattedMessage id='coinifyexchangedata.confirm.confirm' defaultMessage='confirm' />
               : editing
-                ? <FormattedMessage id='coinifyexchangedata.confirm.confirm' defaultMessage='update' />
+                ? <FormattedMessage id='coinifyexchangedata.confirm.update' defaultMessage='update' />
                 : <HeartbeatLoader height='20px' width='20px' color='white' />
           }
         </Button>

@@ -4,19 +4,12 @@ import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
 import { getData } from './selectors'
-import Error from './template.error'
-import Loading from './template.loading'
-import Success from './template.success'
+import Template from './template'
 
 class Balance extends React.PureComponent {
   render () {
     const { data } = this.props
-    return data.cata({
-      Success: (value) => <Success bitcoinContext={value.bitcoinContext} etherContext={value.etherContext} bchContext={value.bchContext} path={value.path} />,
-      Failure: (message) => <Error>{message}</Error>,
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />
-    })
+    return <Template btcUnspendableContext={data.btcUnspendableContext} bchUnspendableContext={data.bchUnspendableContext} path={data.path} />
   }
 }
 

@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 import { reduxForm, Field } from 'redux-form'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { Text, Button } from 'blockchain-info-components'
 import { FormGroup, FormItem, SelectBoxUSState, SelectBoxCountry, TextBox } from 'components/Form'
 import { spacing } from 'services/StyleService'
-import { required } from 'services/FormHelper'
+import { required, onPartnerCountryWhitelist } from 'services/FormHelper'
 import BuySellAnimation from './BuySellAnimation'
 
 const Row = styled.div`
@@ -47,7 +47,7 @@ const Intro = styled.div`
   width: 100%;
 `
 const SelectionContainer = Intro.extend`
-  margin-top: 15px;
+  margin-top: 25px;
 `
 const FieldWrapper = Intro.extend`
   margin-top: 5px;
@@ -64,31 +64,27 @@ const SubmittedWrapper = styled.span`
 `
 
 const SelectPartner = (props) => {
-  const { invalid, options, pristine, country, stateSelection, submitEmail, ui, email } = props
+  const { invalid, options, pristine, submitEmail, ui, fields } = props
+  const { country, stateSelection, email } = fields
   const sfoxStates = options.platforms.web.sfox.states
   const sfoxCountries = options.platforms.web.sfox.countries
   const unocoinCountries = options.platforms.web.unocoin.countries
   const coinifyCountries = options.platforms.web.coinify.countries
   const countries = [sfoxCountries, coinifyCountries, unocoinCountries].join().split(',')
 
-  const onSfoxWhitelist = val => val && sfoxStates.indexOf(val) >= 0 ? undefined : 'state not supported'
-  const onPartnerCountryWhitelist = val => val && countries.indexOf(val) >= 0 ? undefined : 'country not supported'
+  const onSfoxWhitelist = usState => usState.code && sfoxStates.indexOf(usState.code) >= 0 ? undefined : 'This service is not yet available in your state.'
 
-  const onSubmit = (e) => {
-    e.preventDefault()
+  const onSubmit = () => {
     if (sfoxCountries.indexOf(country) >= 0) {
       props.modalActions.showModal('SfoxExchangeData', { step: 'account' })
     }
-    if (unocoinCountries.indexOf(country) >= 0) {
-      console.log('start unocoin')
-    }
     if (coinifyCountries.indexOf(country) >= 0) {
-      props.modalActions.showModal('CoinifyExchangeData', { step: 'account' })
+      props.modalActions.showModal('CoinifyExchangeData', { step: 'account', country })
     }
   }
 
   const renderColLeft = () => {
-    if (!pristine && ((country && onPartnerCountryWhitelist(country)) || (stateSelection && onSfoxWhitelist(stateSelection)))) {
+    if (!pristine && ((country && onPartnerCountryWhitelist(country, null, null, null, countries)) || (stateSelection && onSfoxWhitelist(stateSelection)))) {
       return (
         <UnavailableContainer>
           <Text size='14px' weight={300} style={spacing('mb-15')}>
@@ -111,7 +107,7 @@ const SelectPartner = (props) => {
                   <FormattedMessage id='selectpartner.unavailable.thanks' defaultMessage='Thanks!' />
                 </Text>
                 <Text size='14px' weight={300}>
-                  <FormattedHTMLMessage id='selectpartner.unavailable.sendemail' defaultMessage='We will send an email to <strong>{email}</strong> once buy & sell are available for your area.' values={{email: email}} />
+                  <FormattedMessage id='selectpartner.unavailable.sendemail' defaultMessage='We will send an email to {email} once buy & sell are available for your area.' values={{ email: <strong>{email}</strong> }} />
                 </Text>
               </SubmittedWrapper>
           }
@@ -154,11 +150,13 @@ const SelectPartner = (props) => {
               </FormGroup>
               {
                 country === 'US'
-                  ? <FormGroup style={spacing('mt-5')}>
-                    <FormItem>
-                      <Field name='state' validate={[required, onSfoxWhitelist]} component={SelectBoxUSState} errorBottom />
-                    </FormItem>
-                  </FormGroup>
+                  ? (
+                    <FormGroup style={spacing('mt-5')}>
+                      <FormItem>
+                        <Field name='state' validate={[required]} component={SelectBoxUSState} errorBottom />
+                      </FormItem>
+                    </FormGroup>
+                  )
                   : null
               }
               <Button nature='primary' uppercase type='submit' disabled={invalid || pristine} style={spacing('mt-15')}>

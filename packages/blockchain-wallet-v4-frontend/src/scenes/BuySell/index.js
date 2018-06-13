@@ -1,17 +1,20 @@
 import React from 'react'
 import styled from 'styled-components'
-import { getData } from './selectors'
-import { actions } from 'data'
 import { connect } from 'react-redux'
-import SfoxCheckout from './SfoxCheckout'
-import CoinifyCheckout from './CoinifyCheckout'
 import { bindActionCreators, compose } from 'redux'
-import { Field, reduxForm, formValueSelector } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
+import ui from 'redux-ui'
+import { path, prop } from 'ramda'
+
+import { actions } from 'data'
 import { TabMenuBuySellStatus } from 'components/Form'
 import HorizontalMenu from 'components/HorizontalMenu'
+import Loading from 'components/BuySell/Loading'
+import { hasAccount } from 'services/ExchangeService'
+import SfoxCheckout from './SfoxCheckout'
+import CoinifyCheckout from './CoinifyCheckout'
+import { getData, getFields } from './selectors'
 import SelectPartner from './template.success'
-import Loading from './template.loading'
-import ui from 'redux-ui'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -28,38 +31,54 @@ const CheckoutWrapper = styled.div`
   font-family: 'Montserrat', Helvetica, sans-serif;
   flex-direction: row;
   display: flex;
+  @media(min-height: 800px) {
+    height: 70%;
+  }
 `
 const Menu = reduxForm({ form: 'buySellTabStatus' })(HorizontalMenu)
 
 class BuySellContainer extends React.PureComponent {
   constructor (props) {
     super(props)
-    this.renderPartner = this.renderPartner.bind(this)
+    this.selectPartner = this.selectPartner.bind(this)
     this.submitEmail = this.submitEmail.bind(this)
   }
 
   componentDidMount () {
-    this.props.kvStoreBuySellActions.fetchMetadataBuySell()
     this.props.formActions.initialize('buySellTabStatus', { status: 'buy' })
+    this.props.data.map(data => this.props.formActions.change('selectPartner', 'country', data.countryCode))
   }
 
   /**
-   * The idea here is that we will call .cata which passes a metadata value to a renderPartner method.
+   * The idea here is that we will call .cata which passes a metadata value to a selectPartner method.
    * If there is a token (evidence of signup), show the Checkout view.
    * If not, open the tray and send user through the signup flow.
    */
 
-  renderPartner (buySell, options, type) {
-    if (buySell.sfox.account_token) {
-      return <SfoxCheckout type={type} options={options} value={buySell} />
+  selectPartner (buySell, options, type) {
+    if (path(['sfox', 'account_token'], buySell)) {
+      return {
+        component: <SfoxCheckout type={type} options={options} value={buySell} />,
+        partner: 'sfox'
+      }
     }
-    if (buySell.unocoin.token) { // TODO replace token
-      return <span>Unocoin</span>
+    if (path(['unocoin', 'token'], buySell)) { // TODO replace token
+      return {
+        component: <span>Unocoin</span>,
+        partner: ''
+      }
     }
-    if (buySell.coinify.offline_token) {
-      return <CoinifyCheckout type={type} options={options} value={buySell} />
+    if (path(['coinify', 'offline_token'], buySell)) {
+      return {
+        component: <CoinifyCheckout type={type} options={options} value={buySell} />,
+        partner: 'coinify'
+      }
     }
-    return <SelectPartner type={type} options={options} value={buySell} onSubmit={this.onSubmit} submitEmail={this.submitEmail} {...this.props} />
+    return {
+      component: <SelectPartner type={type} options={options} value={buySell}
+        onSubmit={this.onSubmit} submitEmail={this.submitEmail} {...this.props} />,
+      partner: ''
+    }
   }
 
   submitEmail () {
@@ -68,22 +87,26 @@ class BuySellContainer extends React.PureComponent {
   }
 
   render () {
-    const { data, type } = this.props
+    const { data, fields } = this.props
 
-    let view = data.cata({
-      Success: (value) => this.renderPartner(value.buySell.value, value.options, type),
+    const view = data.cata({
+      Success: (value) => this.selectPartner(path(['buySell', 'value'], value), value.options, path(['type'], fields), fields),
       Failure: (message) => <div>failure: {message}</div>,
       Loading: () => <Loading />,
-      NotAsked: () => <div>not asked...</div>
+      NotAsked: () => <Loading />
     })
 
     return (
       <Wrapper>
-        <Menu>
-          <Field name='status' component={TabMenuBuySellStatus} />
-        </Menu>
+        {
+          hasAccount(path(['component', 'props', 'value'], view))
+            ? <Menu>
+              <Field name='status' component={TabMenuBuySellStatus} partner={prop('partner', view)} />
+            </Menu>
+            : null
+        }
         <CheckoutWrapper>
-          {view}
+          {prop('component', view)}
         </CheckoutWrapper>
       </Wrapper>
     )
@@ -92,15 +115,11 @@ class BuySellContainer extends React.PureComponent {
 
 const mapStateToProps = state => ({
   data: getData(state),
-  type: state.form.buySellTabStatus && state.form.buySellTabStatus.values.status,
-  country: formValueSelector('selectPartner')(state, 'country'),
-  stateSelection: formValueSelector('selectPartner')(state, 'state'),
-  email: formValueSelector('selectPartner')(state, 'email')
+  fields: getFields(state)
 })
 
 const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch),
-  kvStoreBuySellActions: bindActionCreators(actions.core.kvStore.buySell, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 

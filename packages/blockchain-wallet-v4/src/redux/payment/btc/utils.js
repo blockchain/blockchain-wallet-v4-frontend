@@ -1,4 +1,4 @@
-import { converge, or, assoc, drop, curry, set, always, compose } from 'ramda'
+import { converge, equals, or, assoc, drop, curry, set, always, compose } from 'ramda'
 import * as Coin from '../../../coinSelection/coin'
 import { Wallet, HDAccount, Address } from '../../../types'
 import { isPositiveInteger } from '../../../utils/checks'
@@ -50,12 +50,16 @@ export const fromExternal = (addrComp, addrUncomp, wifComp, wifUncomp) => ({
 })
 
 // fromAccount :: Network -> ReduxState -> Object
-export const fromAccount = (network, state, index) => {
+
+export const fromAccount = (network, state, index, coin) => {
   const wallet = S.wallet.getWallet(state)
   let account = Wallet.getAccount(index, wallet).get()
-  let changeAddress = S.data.bitcoin.getChangeIndex(account.xpub, state)
-    .map((index) => HDAccount.getChangeAddress(account, index, network))
-    .getOrFail(new Error('missing_change_address'))
+
+  let changeIndex = equals(coin, 'BTC')
+    ? S.data.bitcoin.getChangeIndex(account.xpub, state)
+    : S.data.bch.getChangeIndex(account.xpub, state)
+  let changeAddress = changeIndex.map((index) => HDAccount.getChangeAddress(account, index, network)).getOrFail('missing_change_address')
+
   return {
     fromType: FROM.ACCOUNT,
     from: [account.xpub],
@@ -101,12 +105,14 @@ export const toOutputAccount = (address, accountIndex, addressIndex) =>
   ({type: TO.ACCOUNT, address, accountIndex, addressIndex})
 
 // toOutputAccount :: Network -> ReduxState -> String|Integer -> Object
-export const toOutput = curry((network, state, addressOrIndex) => {
+export const toOutput = curry((coin, network, state, addressOrIndex) => {
   let wallet = S.wallet.getWallet(state)
   if (isPositiveInteger(addressOrIndex)) {
     let account = Wallet.getAccount(addressOrIndex, wallet).get() // throw if nothing
-    let receiveIndex = S.data.bitcoin.getReceiveIndex(account.xpub, state)
-      .getOrFail(new Error('missing_receive_address'))
+    let receiveIndexR = coin === 'BTC'
+      ? S.data.bitcoin.getReceiveIndex(account.xpub, state)
+      : S.data.bch.getReceiveIndex(account.xpub, state)
+    let receiveIndex = receiveIndexR.getOrFail(new Error('missing_receive_address'))
     let address = HDAccount.getReceiveAddress(account, receiveIndex, network)
     return toOutputAccount(address, addressOrIndex, receiveIndex)
   } else {

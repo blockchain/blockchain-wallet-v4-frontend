@@ -1,10 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import ExchangeLayout from 'layouts/Exchange'
 import Shapeshift from './Shapeshift'
 import Info from './Info'
-import Support from './Support'
 
 const Wrapper = styled.section`
   display: flex;
@@ -44,17 +42,14 @@ const ColumnRight = styled(Column)`
   }
 `
 const Exchange = () => (
-  <ExchangeLayout>
-    <Wrapper>
-      <ColumnLeft>
-        <Shapeshift />
-        <Support />
-      </ColumnLeft>
-      <ColumnRight>
-        <Info />
-      </ColumnRight>
-    </Wrapper>
-  </ExchangeLayout>
+  <Wrapper>
+    <ColumnLeft>
+      <Shapeshift />
+    </ColumnLeft>
+    <ColumnRight>
+      <Info />
+    </ColumnRight>
+  </Wrapper>
 )
 
 export default Exchange

@@ -9,6 +9,7 @@ jest.mock('./template.success', () => 'template.success')
 jest.mock('./template.error', () => 'template.error')
 jest.mock('./template.loading', () => 'template.loading')
 jest.mock('data', () => ({}))
+jest.mock('./selectors', () => jest.fn())
 
 const localStorageMock = {
   getItem: jest.fn(),
@@ -19,7 +20,7 @@ const localStorageMock = {
 global.localStorage = localStorageMock
 
 describe('Chart container', () => {
-  const props = { data: Remote.Success(''), actions: { initialized: jest.fn() } }
+  const props = { data: Remote.Success(''), priceChartActions: { initialized: jest.fn() } }
 
   it('renders correctly (Success)', () => {
     const component = shallow(<ChartContainer {...props} />)

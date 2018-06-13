@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Text } from 'blockchain-info-components'
+import { Text, Banner } from 'blockchain-info-components'
 import { Info, PartnerSubHeader } from 'components/BuySell/Signup'
 import { spacing } from 'services/StyleService'
 
@@ -21,8 +21,15 @@ const TitleStrings = (props) => (
       <IdInfo>
         <FormattedMessage id='sfoxexchangedata.upload.passport' defaultMessage='- Passport' />
       </IdInfo>
-      <IdInfo style={spacing('mb-15')}>
+      <IdInfo>
         <FormattedMessage id='sfoxexchangedata.upload.govid' defaultMessage='- State or government-issued identification card' />
+      </IdInfo>
+      <IdInfo style={spacing('mt-10 mb-10')}>
+        <Banner type='warning'>
+          <Text size='12px'>
+            <FormattedMessage id='sfoxexchangedata.upload.selfieswarning' defaultMessage='Selfies are not a valid form of ID Verification' />
+          </Text>
+        </Banner>
       </IdInfo>
     </Fragment>
     : <Fragment>
@@ -41,8 +48,15 @@ const TitleStrings = (props) => (
       <IdInfo>
         <FormattedMessage id='sfoxexchangedata.upload.address.passport' defaultMessage='- First page of your bank statement' />
       </IdInfo>
-      <IdInfo style={spacing('mb-15')}>
+      <IdInfo>
         <FormattedMessage id='sfoxexchangedata.upload.address.govid' defaultMessage='- DMV or voter registration form' />
+      </IdInfo>
+      <IdInfo style={spacing('mt-10 mb-10')}>
+        <Banner type='warning'>
+          <Text size='12px'>
+            <FormattedMessage id='sfoxexchangedata.upload.addresswarning' defaultMessage="Uploading your passport or driver's license is not sufficient to verify your address." />
+          </Text>
+        </Banner>
       </IdInfo>
     </Fragment>
 )

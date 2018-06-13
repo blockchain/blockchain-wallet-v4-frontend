@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RadioButton renders correctly 1`] = `
+<RadioButton__Wrapper>
+  <RadioButton__Container>
+    <mockConstructor
+      errorState="initial"
+      props={
+        Object {
+          "id": undefined,
+        }
+      }
+    />
+  </RadioButton__Container>
+</RadioButton__Wrapper>
+`;

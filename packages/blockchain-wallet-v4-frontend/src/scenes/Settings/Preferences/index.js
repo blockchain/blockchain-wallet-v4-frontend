@@ -12,6 +12,7 @@ import AutoLogout from './AutoLogout'
 import Themes from './Themes'
 
 const Wrapper = styled.section`
+  width: 100%;
   padding: 30px;
   margin-bottom: 80px;
   box-sizing: border-box;
@@ -21,7 +22,7 @@ const Preferences = () => {
   return (
     <Wrapper>
       <InfoWell>
-        <FormattedMessage id='scenes.preferences.explain' defaultMessage='Customize your wallet experience.' />
+        <FormattedMessage id='scenes.settings.preferences.explain' defaultMessage='Customize your wallet experience.' />
       </InfoWell>
       <MobileNumber />
       <WalletLanguage />

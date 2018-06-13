@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import Modals from 'modals'
@@ -9,6 +8,12 @@ import MenuLeft from './MenuLeft'
 import MenuTop from './MenuTop'
 import TrayRight from './TrayRight'
 import Page from './Page'
+
+import BtcMenu from '../../scenes/Transactions/Bitcoin/Menu'
+import BchMenu from '../../scenes/Transactions/Bch/Menu'
+import EthMenu from '../../scenes/Transactions/Ether/Menu'
+import AddrMenu from '../../scenes/Settings/Addresses/Menu'
+import ExchangeMenu from '../Exchange'
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,28 +28,6 @@ const Container = styled.div`
 const Nav = styled.div`
   flex: 0 0 60px;
   background-color: ${props => props.theme['brand-primary']};
-`
-const Left = styled.div`
-  display: flex;
-  position: absolute;
-
-  left: ${props => props.toggled ? '0' : '-270px'};
-  width: 270px;
-  height: 100%;
-  padding: 15px;
-  box-sizing: border-box;
-  background: ${props => props.theme['white-blue']};
-  border-right: 1px solid ${props => props.theme['gray-1']};
-  z-index: 2;
-  transition: left .3s ease-in-out;
-
-  @media(min-width: 768px) {
-    display: flex;
-    flex: 0 0 270px;
-    position: relative;
-    top: initial;
-    left: initial;
-  }
 `
 const Content = styled.div`
   position: relative;
@@ -64,24 +47,29 @@ const Top = styled.div`
 `
 
 const WalletLayout = props => {
-  const { location, menuLeftToggled, trayRightOpen, handleTrayRightToggle, handleToggleMenuLeft, handleCloseMenuLeft, children, trayRightContent } = props
+  const { location, children } = props
 
   return (
     <Wrapper>
       <Alerts />
       <Modals />
       <Nav>
-        <Header trayRightContent={trayRightContent} handleToggleMenuLeft={handleToggleMenuLeft} handleTrayRightToggle={handleTrayRightToggle} trayRightOpen={trayRightOpen}/>
+        <Header />
       </Nav>
       <Container>
-        <Left toggled={menuLeftToggled}>
-          <MenuLeft location={location} handleToggleMenuLeft={handleToggleMenuLeft} handleCloseMenuLeft={handleCloseMenuLeft} />
-        </Left>
-        <TrayRight isOpen={trayRightOpen} class='tray' handleTrayRightToggle={handleTrayRightToggle} trayRightContent={trayRightContent} />
+        <MenuLeft location={location} />
+        <TrayRight />
         <Content>
           <Top>
             <MenuTop />
           </Top>
+          { location.pathname === '/btc/transactions' && <BtcMenu /> }
+          { location.pathname === '/bch/transactions' && <BchMenu /> }
+          { location.pathname === '/eth/transactions' && <EthMenu /> }
+          { location.pathname === '/settings/addresses' && <AddrMenu /> }
+          { location.pathname === '/settings/addresses/bch' && <AddrMenu /> }
+          { location.pathname === '/exchange' && <ExchangeMenu /> }
+          { location.pathname === '/exchange/history' && <ExchangeMenu /> }
           <Page>
             {children}
           </Page>
@@ -89,16 +77,6 @@ const WalletLayout = props => {
       </Container>
     </Wrapper>
   )
-}
-
-WalletLayout.propTypes = {
-  location: PropTypes.object.isRequired,
-  menuLeftToggled: PropTypes.bool.isRequired,
-  trayRightOpen: PropTypes.bool.isRequired,
-  trayRightContent: PropTypes.string.isRequired,
-  handleTrayRightToggle: PropTypes.func.isRequired,
-  handleToggleMenuLeft: PropTypes.func.isRequired,
-  handleCloseMenuLeft: PropTypes.func.isRequired
 }
 
 export default WalletLayout

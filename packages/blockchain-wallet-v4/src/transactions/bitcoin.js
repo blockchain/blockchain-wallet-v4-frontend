@@ -1,12 +1,11 @@
 import {
   Wallet, HDWallet, HDWalletList, HDAccountList, AddressMap,
-  TXNotes, Address, HDAccount, AddressBook, AddressBookEntry
+  Address, HDAccount, AddressBook, AddressBookEntry
 } from '../types'
 import {
   prop, compose, curry, mapAccum, isNil, not, findIndex, view, allPass,
   propSatisfies, ifElse, always, propEq, propOr, find, over, lensProp, lensIndex, equals, toLower
 } from 'ramda'
-import memoize from 'fast-memoize'
 import moment from 'moment'
 
 const unpackInput = prop('prev_out')
@@ -160,8 +159,14 @@ const CoinBaseData = total => ({
   change: 0
 })
 
+export const getTime = tx => {
+  const date = moment.unix(tx.time).local()
+  return equals(date.year(), moment().year())
+    ? date.format('MMMM D @ h:mm A')
+    : date.format('MMMM D YYYY @ h:mm A')
+}
+
 export const _transformTx = (wallet, currentBlockHeight, tx) => {
-  const txNotes = Wallet.selectTxNotes(wallet)
   const conf = currentBlockHeight - tx.block_height + 1
   const confirmations = conf > 0 ? conf : 0
   const type = txtype(tx.result, tx.fee)
@@ -176,35 +181,23 @@ export const _transformTx = (wallet, currentBlockHeight, tx) => {
   const [outputData, outputs] = findLegacyChanges(inputs, inputData, outs, oData)
   const { from, to } = selectFromAndto(inputs, outputs, type)
 
-  const formattedDate = time => {
-    const date = moment.utc(time * 1000)
-
-    return equals(date.year(), moment().year())
-      ? date.format('MMMM D @ h:mm A')
-      : date.format('MMMM D YYYY @ h:mm A')
-  }
-
   return ({
     double_spend: tx.double_spend,
     hash: tx.hash,
     amount: computeAmount(type, inputData, outputData),
     type: toLower(type),
-    description: TXNotes.selectNote(tx.hash, txNotes) || '',
+    description: tx.description,
     time: tx.time,
-    timeFormatted: formattedDate(tx.time),
+    timeFormatted: getTime(tx),
     fee: tx.fee,
     confirmations: confirmations,
     inputs: inputs,
     outputs: outputs,
     fromWatchOnly: inputData.isWatchOnly,
     toWatchOnly: outputData.isWatchOnly,
-    from: from, // based on inputs
-    to: to, // based on outputs
-
-    // properties that frontend should compute
-    status: null, // based on confirmations
-    initial_value: null // when the user opens the modal
+    from,
+    to
   })
 }
 
-export const transformTx = memoize(_transformTx)
+export const transformTx = _transformTx

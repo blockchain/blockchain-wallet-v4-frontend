@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
-import { Button, HeartbeatLoader } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import BankAccounts from './BankAccounts'
 import AddManually from './AddManually'
 import MicroDeposits from './MicroDeposits'
 import PlaidFrame from './iframe.js'
+import AwaitingDeposits from './AwaitingDeposits'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 import Helper from 'components/BuySell/FAQ'
 import { ColLeft, ColRight, PartnerHeader, PartnerSubHeader, ColRightInner } from 'components/BuySell/Signup'
@@ -54,31 +56,38 @@ const OrText = styled.p`
     margin-left: 15px;
   }
 `
+const GoBackLink = styled(Link)`
+  font-weight: 300;
+  font-size: 13px;
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+`
 
 const selectBankFaqs = [
   {
-    question: <FormattedMessage id='sfoxsignup.link.helper3.question' defaultMessage='How will this account be used?' />,
-    answer: <FormattedMessage id='sfoxsignup.link.helper3.answer' defaultMessage='Answer3 placeholder' />
+    question: <FormattedMessage id='scenes.buysell.sfoxsignup.link.helper3.question' defaultMessage='How will this account be used?' />,
+    answer: <FormattedMessage id='scenes.buysell.sfoxsignup.link.helper3.answer' defaultMessage='This will be the primary account you buy or sell assets with.' />
   },
   {
-    question: <FormattedMessage id='sfoxsignup.link.helper4.question' defaultMessage='Can I change this later?' />,
-    answer: <FormattedMessage id='sfoxsignup.link.helper4.answer' defaultMessage='Answer4 placeholder' />
+    question: <FormattedMessage id='scenes.buysell.sfoxsignup.link.helper4.question' defaultMessage='What if I need to change my linked bank account?' />,
+    answer: <FormattedMessage id='scenes.buysell.sfoxsignup.link.helper4.answer' defaultMessage='To change account information, or link a new account, please submit a request to support@sfox.com. Make sure you mention Blockchain in the subject and include the information you want to change.' />
   }
 ]
 
 const faqList = [
   {
-    question: <FormattedMessage id='sfoxsignup.link.helper1.question' defaultMessage='How is my payment method used?' />,
-    answer: <FormattedMessage id='sfoxsignup.link.helper1.answer' defaultMessage='Answer1 placeholder' />
+    question: <FormattedMessage id='scenes.buysell.sfoxsignup.link.helper1.question' defaultMessage='Can I change my bank account once it’s linked?' />,
+    answer: <FormattedMessage id='scenes.buysell.sfoxsignup.link.helper1.answer' defaultMessage='Yes, you can change your bank account by emailing support@sfox.com. Make sure you mention Blockchain in the subject and include the information you want to change.' />
   },
   {
-    question: <FormattedMessage id='sfoxsignup.link.helper2.question' defaultMessage='Are there transaction fees?' />,
-    answer: <FormattedMessage id='sfoxsignup.link.helper2.answer' defaultMessage='Answer2 placeholder' />
+    question: <FormattedMessage id='scenes.buysell.sfoxsignup.link.helper2.question' defaultMessage='Which method of linking my bank takes longer?' />,
+    answer: <FormattedMessage id='scenes.buysell.sfoxsignup.link.helper2.answer' defaultMessage='Adding your account details manually. In order to verify these details belong to you, SFOX sends 2 micro-deposits to your account. This process can take up to 5 days in itself, so we recommend signing directly into your bank if you would like to buy & sell immediately.' />
   }
 ]
 
-const selectBankFaqHelper = () => selectBankFaqs.map(el => <Helper question={el.question} answer={el.answer} />)
-const faqListHelper = () => faqList.map(el => <Helper question={el.question} answer={el.answer} />)
+const selectBankFaqHelper = () => selectBankFaqs.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
+const faqListHelper = () => faqList.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
 
 const BankLink = (props) => {
   const {
@@ -88,7 +97,7 @@ const BankLink = (props) => {
     onSetBankAccount,
     ui,
     toggleManual,
-    onSubmit,
+    handleSubmit,
     invalid,
     pristine,
     handleBankSelection,
@@ -99,7 +108,12 @@ const BankLink = (props) => {
     handleAccountType,
     microStep,
     goToMicroDepositStep,
-    submitMicroDeposits } = props
+    submitMicroDeposits,
+    showModal,
+    busy,
+    linkError,
+    setNotAsked,
+    awaitingDeposits } = props
 
   const titleHelper = () => {
     switch (true) {
@@ -112,7 +126,7 @@ const BankLink = (props) => {
   const subtitleHelper = () => {
     switch (true) {
       case ui.microDeposits: return null
-      case ui.selectBank: return <FormattedMessage id='sfoxexchangedata.link.subtitle2' defaultMessage="Please select which bank account you'd like to have synced with your SFOX profile. Please note: Once this account has been added, you will not be able to change it." />
+      case ui.selectBank: return <FormattedMessage id='sfoxexchangedata.link.subtitle2' defaultMessage="Please select which bank account you'd like to have synced with your SFOX profile." />
       case !ui.selectBank: return <FormattedMessage id='sfoxexchangedata.link.subtitle1' defaultMessage='There are two ways to go about this: Sync your bank account using your login details (a crowd favorite), or manually enter your routing and account number (this may take a couple days).' />
     }
   }
@@ -176,18 +190,42 @@ const BankLink = (props) => {
       )
     }
     return (
-      <Button type='submit' nature='primary' uppercase fullwidth disabled={ui.busy || invalid || pristine} >
+      <Fragment>
         {
-          ui.busy
-            ? <HeartbeatLoader height='20px' width='20px' color='white' />
-            : <FormattedMessage id='sfoxexchangedata.link.continue' defaultMessage='continue' />
+          linkError
+            ? <Fragment>
+              <Text size='13px' weight={300} color='error'>
+                {linkError}
+              </Text>
+              <Link size='13px' weight={300} onClick={() => { toggleManual(); setNotAsked() }}>
+                <FormattedMessage id='sfoxexchangedata.link.tryagain' defaultMessage='Try again.' />
+              </Link>
+            </Fragment>
+            : <Button type='submit' nature='primary' uppercase fullwidth disabled={busy || invalid || pristine} >
+              {
+                Remote.Loading.is(busy)
+                  ? <HeartbeatLoader height='20px' width='20px' color='white' />
+                  : <FormattedMessage id='sfoxexchangedata.link.continue' defaultMessage='continue' />
+              }
+            </Button>
         }
-      </Button>
+        {
+          ui.toggleManual && !linkError
+            ? <GoBackLink onClick={toggleManual}>
+              <FormattedMessage id='sfoxexchangedata.link.goback' defaultMessage='Go Back' />
+            </GoBackLink>
+            : null
+        }
+      </Fragment>
     )
   }
 
+  if (awaitingDeposits) {
+    return <AwaitingDeposits showModal={showModal} />
+  }
+
   return (
-    <Form onSubmit={onSubmit}>
+    <Form onSubmit={handleSubmit}>
       <ColLeft>
         <HeaderContainer>
           <PartnerHeader>

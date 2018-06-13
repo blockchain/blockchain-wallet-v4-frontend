@@ -5,7 +5,7 @@ import { Field, reduxForm } from 'redux-form'
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { required, validEmail } from 'services/FormHelper'
-import { Button, Link, Separator, Text } from 'blockchain-info-components'
+import { Button, Link, Separator, Text, TextGroup } from 'blockchain-info-components'
 import { CaptchaBox, Form, FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
 
 const Wrapper = styled.div`
@@ -17,24 +17,24 @@ const Wrapper = styled.div`
   @media(min-width: 768px) { width: 550px; }
 `
 const Footer = styled.div`
-  margin-top: 20px;
   display: flex;
-  align-items: start;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+`
+const GoBackLink = styled(LinkContainer)`
+  margin-right: 15px;
+`
+const SuccessMessages = styled(TextGroup)`
+  margin: 25px 0;
 `
 
 const Reminder = (props) => {
-  const { onSubmit, timestamp, submitting, invalid } = props
+  const { handleSubmit, timestamp, submitting, invalid, submitted } = props
 
-  return (
-    <Wrapper>
-      <Text size='24px' weight={300}>
-        <FormattedMessage id='scenes.reminder.remind' defaultMessage='Remind Me' />
-      </Text>
-      <Text size='14px' weight={300}>
-        <FormattedMessage id='scenes.reminder.explain' defaultMessage="Lost your Wallet Identifier? We'll send it to you via your email." />
-      </Text>
-      <Separator />
-      <Form onSubmit={onSubmit}>
+  const renderForm = () => {
+    return (
+      <Form onSubmit={handleSubmit}>
         <FormGroup>
           <FormItem>
             <FormLabel for='email'>
@@ -51,21 +51,51 @@ const Reminder = (props) => {
             <Field name='code' validate={[required]} component={CaptchaBox} props={{ timestamp: timestamp }} />
           </FormItem>
         </FormGroup>
-        <FormGroup>
-          <FormItem>
-            <Button type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid} onClick={onSubmit}>
-              <FormattedMessage id='scenes.reminder.continue' defaultMessage='Continue' />
-            </Button>
-          </FormItem>
-        </FormGroup>
+        <Footer>
+          <GoBackLink to='/help'>
+            <Link size='13px' weight={300}>
+              <FormattedMessage id='scenes.reminder.back' defaultMessage='Go Back' />
+            </Link>
+          </GoBackLink>
+          <Button type='submit' nature='primary' uppercase disabled={submitting || invalid}>
+            <FormattedMessage id='scenes.reminder.continue' defaultMessage='Continue' />
+          </Button>
+        </Footer>
       </Form>
-      <Footer>
-        <LinkContainer to='/help'>
-          <Link size='13px' weight={300}>
-            <FormattedMessage id='scenes.reminder.back' defaultMessage='Go Back' />
-          </Link>
+    )
+  }
+
+  const renderReminder = () => {
+    return (
+      <React.Fragment>
+        <SuccessMessages>
+          <Text size='13px' weight={300}>
+            <FormattedMessage id='scenes.reminder.thanks' defaultMessage='Thank you for submitting your request. If a wallet ID associated with this email address exists, you will receive an email with your ID shortly.' />
+          </Text>
+        </SuccessMessages>
+        <LinkContainer to='/login'>
+          <Button nature='primary' fullwidth uppercase>
+            <FormattedMessage id='scenes.reminder.login' defaultMessage='Continue to Login' />
+          </Button>
         </LinkContainer>
-      </Footer>
+      </React.Fragment>
+    )
+  }
+
+  return (
+    <Wrapper>
+      <Text size='24px' weight={300}>
+        <FormattedMessage id='scenes.reminder.remind' defaultMessage='Remind Me' />
+      </Text>
+      <Text size='14px' weight={300}>
+        <FormattedMessage id='scenes.reminder.explain' defaultMessage="Lost your wallet ID? We'll send it to you via your email." />
+      </Text>
+      <Separator />
+      { submitted
+        ? renderReminder()
+        : renderForm()
+      }
+
     </Wrapper>
   )
 }

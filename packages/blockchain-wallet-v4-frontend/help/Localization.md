@@ -1,4 +1,4 @@
-# Dream Wallet Front-end - Localization guidelines
+# Wallet V4 - Localization guidelines
 
 ## Introduction
 * The project is using the popular **react-intl** package for localization
@@ -32,7 +32,7 @@ Two components can be used for translations:
 * **FormattedHtmlMessage** 
     * **FORBIDDEN**
     *  it is using internally React `setDangerousHtml` and we should not render any html with potential malicious injections
-    *  if you need to style the translations, just use a surrounding div
+    *  if you need to style the translations you can use `<SanitizedFormattedHTMLMessage>`
 
 ### Examples
 
@@ -66,8 +66,7 @@ Two components can be used for translations:
 <FormattedMessage id='scenes.landing.main.walletsamount' defaultMessage='{nbWallets} Million+' values={{nbWallets: 14}} />
 ```
 
-## Dates
-TODO
-
-## Currencies
-TODO
+*Example 6: translation with inner html (only span, or a tags allowed)*
+```
+<FormattedMessage id='scenes.home' defaultMessage='Welcome <span>Back!</span> Click <a>here</a> to leave.' />
+```

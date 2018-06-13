@@ -19,24 +19,17 @@ const Wrapper = styled.div`
   }
 `
 
-const Success = props => {
-  const amount = <span>{props.symbol + props.totalFiatBalance.toFixed(2)}</span>
-  if (!props.large) {
-    return (
-      <LinkContainer to='/home'>
-        <Wrapper>
-          <FormattedMessage id='scenes.wallet.menutop.balance.totalbalance' defaultMessage='Total Balance' />
-          { amount }
-        </Wrapper>
-      </LinkContainer>
-    )
-  } else {
-    return (
-      <Wrapper large>
-        { amount }
-      </Wrapper>
-    )
-  }
-}
-
+const Success = props => props.large
+  ? (
+    <Wrapper large>
+      {props.totalBalance}
+    </Wrapper>
+  ) : (
+    <LinkContainer to='/home'>
+      <Wrapper>
+        <FormattedMessage id='scenes.wallet.menutop.balance.totalbalance' defaultMessage='Total Balance' />
+        {props.totalBalance}
+      </Wrapper >
+    </LinkContainer >
+  )
 export default Success

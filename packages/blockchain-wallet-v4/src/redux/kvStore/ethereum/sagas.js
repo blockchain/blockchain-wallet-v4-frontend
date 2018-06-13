@@ -32,7 +32,7 @@ export default ({ api } = {}) => {
       const addr = eth.deriveAddress(mnemonic, defaultIndex)
       const ethereum = {
         has_seen: true,
-        default_account_index: defaultIndex,
+        default_account_idx: defaultIndex,
         accounts: [{
           label: 'My Ether Wallet',
           archived: false,
@@ -40,8 +40,9 @@ export default ({ api } = {}) => {
           addr
         }],
         tx_notes: {},
+        last_tx: null,
         legacy_account: null,
-        last_tx: undefined
+        last_tx_timestamp: null
       }
       const newkv = set(KVStoreEntry.value, { ethereum }, kv)
       yield put(A.createMetadataEthereum(newkv))
