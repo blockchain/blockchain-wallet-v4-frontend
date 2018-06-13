@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import ErrorBoundary from 'layouts/ErrorBoundary'
+import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import AddressesLayout from 'layouts/Addresses'
 import Wallets from './Wallets'
 import ImportedAddresses from './ImportedAddresses'

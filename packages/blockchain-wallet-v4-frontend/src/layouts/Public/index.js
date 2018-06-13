@@ -4,7 +4,6 @@ import styled from 'styled-components'
 
 import Header from './Header'
 import Footer from './Footer'
-import ErrorBoundary from 'layouts/ErrorBoundary'
 import Alerts from 'components/Alerts'
 import Container from 'components/Container'
 
@@ -66,9 +65,7 @@ const PublicLayout = ({component: Component, ...rest}) => {
           <Header />
         </HeaderContainer>
         <ContentContainer>
-          <ErrorBoundary publicLayout={true}>
-            <Component {...matchProps} />
-          </ErrorBoundary>
+          <Component {...matchProps} />
         </ContentContainer>
         <FooterContainer>
           <Container>

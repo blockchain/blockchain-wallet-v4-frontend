@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import Shapeshift from './Shapeshift'
 import Info from './Info'
-import ErrorBoundary from 'layouts/ErrorBoundary'
+import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 
 const Wrapper = styled.section`
   display: flex;
