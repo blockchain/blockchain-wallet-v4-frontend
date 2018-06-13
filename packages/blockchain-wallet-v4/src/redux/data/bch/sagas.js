@@ -34,6 +34,7 @@ export default ({ api }) => {
       const lastPage = last(pages)
       if (!reset && lastPage && lastPage.map(length).getOrElse(0) === 0) { return }
       const offset = reset ? 0 : length(pages) * TX_PER_PAGE
+      yield put(A.fetchDataLoading())
       yield put(A.fetchTransactionsLoading(reset))
       const context = yield select(selectors.kvStore.bch.getContext)
       const data = yield call(api.fetchBchData, context, { n: TX_PER_PAGE, onlyShow: address, offset })
@@ -42,6 +43,7 @@ export default ({ api }) => {
       yield fork(fetchUnspendableBalance)
       yield put(A.fetchTransactionsSuccess(data.txs.filter(tx => tx.time > BCH_FORK_TIME), reset))
     } catch (e) {
+      yield put(A.fetchDataFailure(e.message))
       yield put(A.fetchTransactionsFailure(e.message))
     }
   }
