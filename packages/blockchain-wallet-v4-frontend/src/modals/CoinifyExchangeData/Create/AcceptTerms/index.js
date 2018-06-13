@@ -14,7 +14,7 @@ class AcceptTermsContainer extends Component {
       busy: false,
       acceptedTerms: false
     }
-    this.handleSignup = this.handleSignup.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -24,8 +24,7 @@ class AcceptTermsContainer extends Component {
     }
   }
 
-  handleSignup (e) {
-    e.preventDefault()
+  onSubmit () {
     this.setState({ busy: true })
     this.props.coinifyFrontendActions.coinifySignup(this.props.country)
   }
@@ -38,7 +37,7 @@ class AcceptTermsContainer extends Component {
       busy={busy}
       email={email}
       invalid={invalid}
-      onSubmit={this.handleSignup}
+      onSubmit={this.onSubmit}
       signupError={signupError}
       updateUI={updateUI}
       editEmail={() => { this.props.updateUI({ create: 'change_email' }) }}

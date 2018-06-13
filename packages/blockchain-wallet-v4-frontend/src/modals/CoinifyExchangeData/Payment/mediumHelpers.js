@@ -44,7 +44,7 @@ const BankDisabledText = styled(Text)`
   align-items: center;
 `
 
-export const cardOptionHelper = (quote, limits, isChecked, handlePaymentClick, cardDisabled) => {
+export const cardOptionHelper = (quote, limits, isChecked, handlePaymentClick, cardDisabled, prefillCardMax) => {
   const PaymentRadioCard = ({ isChecked, handlePaymentClick }) => (
     <PaymentOption isChecked={isChecked} onClick={() => !cardDisabled && handlePaymentClick('card')} disabled={cardDisabled} >
       <input type='radio' name='inMedium' id='card' value='card' style={{display: 'none'}} />
@@ -76,7 +76,7 @@ export const cardOptionHelper = (quote, limits, isChecked, handlePaymentClick, c
       <Text size='14px' weight={300} style={spacing('mt-25 mb-15')}>
         <FormattedMessage id='coinifyexchangedata.payment.mediumhelpers.card.abovecardlimit' defaultMessage='{amount} {currency} is above your daily credit card limit of {limit} {currency}. Please use a bank transfer or lower your purchase amount.' values={{ currency: currency, amount: amount, limit: limit }} />
       </Text>
-      <StepTransition prev Component={Link} size='13px' weight={300}>
+      <StepTransition prev Component={Link} size='13px' weight={300} onClick={() => prefillCardMax(limits)}>
         <FormattedMessage id='coinifyexchangedata.payment.mediumhelpers.card.usecreditdebit' defaultMessage='Use Credit/Debit card' />
       </StepTransition>
     </PaymentOptionContainer>

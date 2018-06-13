@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import { Modal } from 'blockchain-info-components'
 
@@ -11,14 +11,14 @@ import Kyc from './Kyc'
 
 class CoinifyTradeDetails extends React.PureComponent {
   render () {
-    const { trade, status } = this.props
+    const { trade, status, subscriptions } = this.props
 
     const renderComponent = (trade) => {
       if (trade.constructor.name === 'Trade') {
         if (trade.medium === 'bank' && trade.state === 'awaiting_transfer_in') {
           return <BankTransfer trade={trade} close={this.props.close} />
         } else {
-          return <Trade status={status} trade={trade} close={this.props.close} />
+          return <Trade status={status} trade={trade} close={this.props.close} subscriptions={subscriptions} />
         }
       } else {
         return <Kyc status={status} close={this.props.close} />
@@ -34,7 +34,8 @@ class CoinifyTradeDetails extends React.PureComponent {
 }
 
 const mapStateToProps = (state) => ({
-  account: undefined
+  account: undefined,
+  subscriptions: selectors.core.data.coinify.getSubscriptions(state).getOrElse([])
 })
 
 const mapDispatchToProps = (dispatch) => ({

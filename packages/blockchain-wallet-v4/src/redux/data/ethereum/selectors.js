@@ -9,6 +9,8 @@ export const getInfo = path([dataPath, 'ethereum', 'info'])
 
 export const getLatestBlock = path([dataPath, 'ethereum', 'latest_block'])
 
+export const getLegacyBalance = path([dataPath, 'ethereum', 'legacy_balance'])
+
 export const getRates = path([dataPath, 'ethereum', 'rates'])
 
 export const getTransactions = path([dataPath, 'ethereum', 'transactions'])
