@@ -47,23 +47,25 @@ const QRInputWrapper = styled.div`
 `
 
 const Google = props => {
-  const { data, invalid } = props
-  const { googleSecret } = data
+  const { data, invalid, handleSubmit, ui } = props
+
   return (
-    <form onSubmit={props.handleSubmit}>
-      <SuccessOverlay success={props.ui.successToggled}>
+    <form onSubmit={handleSubmit}>
+      <SuccessOverlay success={ui.successToggled}>
         <Icon name='checkmark-in-circle' size='150px' color='success' />
         <Text size='14px' weight={300} color='success'>
           <FormattedMessage id='scenes.security.twostepverification.authenticator.success' defaultMessage="Congrats! You've successfully set up 2FA with your authenticator app." />
         </Text>
       </SuccessOverlay>
-      <AuthenticatorSummary success={props.ui.successToggled}>
+      <AuthenticatorSummary success={ui.successToggled}>
         <QRCodeContainer>
           {
-            googleSecret
-              ? <QRCode>
-                <QRCodeReact value={googleSecret} size={115} />
-              </QRCode>
+            data.googleSecret
+              ? (
+                <QRCode>
+                  <QRCodeReact value={data.googleSecret} size={115} />
+                </QRCode>
+              )
               : null
           }
           <QRCodeCopy>
@@ -76,7 +78,7 @@ const Google = props => {
           </QRCodeCopy>
           <QRInputWrapper>
             <Field name='authCode' component={TextBox} validate={[required]} placeholder='111 222' />
-            <Button nature='primary' onClick={props.handleSubmit} disabled={invalid}>Verify Code</Button>
+            <Button type='submit' nature='primary' disabled={invalid}>Verify Code</Button>
           </QRInputWrapper>
         </QRCodeContainer>
       </AuthenticatorSummary>

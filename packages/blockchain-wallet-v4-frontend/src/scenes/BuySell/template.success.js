@@ -74,8 +74,7 @@ const SelectPartner = (props) => {
 
   const onSfoxWhitelist = usState => usState.code && sfoxStates.indexOf(usState.code) >= 0 ? undefined : 'This service is not yet available in your state.'
 
-  const onSubmit = (e) => {
-    e.preventDefault()
+  const onSubmit = () => {
     if (sfoxCountries.indexOf(country) >= 0) {
       props.modalActions.showModal('SfoxExchangeData', { step: 'account' })
     }
@@ -151,12 +150,13 @@ const SelectPartner = (props) => {
               </FormGroup>
               {
                 country === 'US'
-                  ? <FormGroup style={spacing('mt-5')}>
-                    <FormItem>
-                      {/* onSfoxWhitelist */}
-                      <Field name='state' validate={[required]} component={SelectBoxUSState} errorBottom />
-                    </FormItem>
-                  </FormGroup>
+                  ? (
+                    <FormGroup style={spacing('mt-5')}>
+                      <FormItem>
+                        <Field name='state' validate={[required]} component={SelectBoxUSState} errorBottom />
+                      </FormItem>
+                    </FormGroup>
+                  )
                   : null
               }
               <Button nature='primary' uppercase type='submit' disabled={invalid || pristine} style={spacing('mt-15')}>
