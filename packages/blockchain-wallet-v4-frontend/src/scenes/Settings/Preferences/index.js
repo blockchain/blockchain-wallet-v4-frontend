@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
+import ErrorBoundary from 'layouts/ErrorBoundary'
 import InfoWell from 'components/InfoWell'
 import MobileNumber from './MobileNumber'
 import WalletLanguage from './WalletLanguage'
@@ -20,18 +21,20 @@ const Wrapper = styled.section`
 
 const Preferences = () => {
   return (
-    <Wrapper>
-      <InfoWell>
-        <FormattedMessage id='scenes.settings.preferences.explain' defaultMessage='Customize your wallet experience.' />
-      </InfoWell>
-      <MobileNumber />
-      <WalletLanguage />
-      <LocalCurrency />
-      <Notifications />
-      <BitcoinLinkHandling />
-      <AutoLogout />
-      <Themes />
-    </Wrapper>
+    <ErrorBoundary>
+      <Wrapper>
+        <InfoWell>
+          <FormattedMessage id='scenes.settings.preferences.explain' defaultMessage='Customize your wallet experience.' />
+        </InfoWell>
+        <MobileNumber />
+        <WalletLanguage />
+        <LocalCurrency />
+        <Notifications />
+        <BitcoinLinkHandling />
+        <AutoLogout />
+        <Themes />
+      </Wrapper>
+    </ErrorBoundary>
   )
 }
 

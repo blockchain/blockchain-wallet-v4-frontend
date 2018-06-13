@@ -1,5 +1,6 @@
 import React from 'react'
 
+import ErrorBoundary from 'layouts/ErrorBoundary'
 import AddBitcoinWallet from './AddBitcoinWallet'
 import AutoDisconnection from './AutoDisconnection'
 import CoinifyDeleteBank from './CoinifyDeleteBank'
@@ -40,46 +41,48 @@ import UpgradeWallet from './UpgradeWallet'
 import Welcome from './Welcome'
 
 const Modals = props => (
-  <div>
-    <AddBitcoinWallet />
-    <AutoDisconnection />
-    <CoinifyDeleteBank />
-    <CoinifyExchangeData />
-    <CoinifyTradeDetails />
-    <ConfirmDisable2FA />
-    <EditTxDescription />
-    <ExchangeDetails />
-    <ImportBtcAddress />
-    <MobileNumberChange />
-    <MobileNumberVerify />
-    <MobileLogin />
-    <PairingCode />
-    <PromptInput />
-    <QRCode />
-    <RecoveryPhrase />
-    <RequestBch />
-    <RequestBitcoin />
-    <RequestEther />
-    <SecondPassword />
-    <SendBch />
-    <SendBitcoin />
-    <SendEther />
-    <ShowBtcPrivateKey />
-    <ShowEthPrivateKey />
-    <ShowUsedAddresses />
-    <SignMessage />
-    <ShowXPub />
-    <SfoxExchangeData />
-    <SfoxTradeDetails />
-    <SfoxEnterMicroDeposits />
-    <TransactionReport />
-    <TransferEth />
-    <TwoStepGoogleAuthenticator />
-    <TwoStepSetup />
-    <TwoStepYubico />
-    <UpgradeWallet />
-    <Welcome />
-  </div>
+  <ErrorBoundary>
+    <div>
+      <AddBitcoinWallet />
+      <AutoDisconnection />
+      <CoinifyDeleteBank />
+      <CoinifyExchangeData />
+      <CoinifyTradeDetails />
+      <ConfirmDisable2FA />
+      <EditTxDescription />
+      <ExchangeDetails />
+      <ImportBtcAddress />
+      <MobileNumberChange />
+      <MobileNumberVerify />
+      <MobileLogin />
+      <PairingCode />
+      <PromptInput />
+      <QRCode />
+      <RecoveryPhrase />
+      <RequestBch />
+      <RequestBitcoin />
+      <RequestEther />
+      <SecondPassword />
+      <SendBch />
+      <SendBitcoin />
+      <SendEther />
+      <ShowBtcPrivateKey />
+      <ShowEthPrivateKey />
+      <ShowUsedAddresses />
+      <SignMessage />
+      <ShowXPub />
+      <SfoxExchangeData />
+      <SfoxTradeDetails />
+      <SfoxEnterMicroDeposits />
+      <TransactionReport />
+      <TransferEth />
+      <TwoStepGoogleAuthenticator />
+      <TwoStepSetup />
+      <TwoStepYubico />
+      <UpgradeWallet />
+      <Welcome />
+    </div>
+  </ErrorBoundary>
 )
 
 export default Modals

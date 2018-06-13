@@ -1,7 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { getData } from './selectors'
 import styled from 'styled-components'
+
+import ErrorBoundary from 'layouts/ErrorBoundary'
+import { getData } from './selectors'
 import AddressesLayout from 'layouts/Addresses'
 import Wallets from './Wallets'
 import ArchivedAddresses from './ArchivedAddresses'
@@ -16,13 +18,15 @@ const Wrapper = styled.section`
 class BtcAddressesContainer extends React.PureComponent {
   render () {
     return (
-      <AddressesLayout>
-        <Wrapper>
-          <Wallets context={this.props.data} />
-          <ImportedAddresses />
-          <ArchivedAddresses />
-        </Wrapper>
-      </AddressesLayout>
+      <ErrorBoundary>
+        <AddressesLayout>
+          <Wrapper>
+            <Wallets context={this.props.data} />
+            <ImportedAddresses />
+            <ArchivedAddresses />
+          </Wrapper>
+        </AddressesLayout>
+      </ErrorBoundary>
     )
   }
 }
