@@ -1,6 +1,6 @@
 
 import * as AT from './actionTypes'
-import { merge } from 'ramda'
+import { merge, dissoc } from 'ramda'
 
 const INITIAL_STATE = {}
 
@@ -12,9 +12,7 @@ const session = (state = INITIAL_STATE, action) => {
       return merge(state, payload)
     }
     case AT.REMOVE_SESSION: {
-      let copy = Object.assign({}, state)
-      delete copy[payload]
-      return copy
+      return dissoc(payload, state)
     }
     default:
       return state
