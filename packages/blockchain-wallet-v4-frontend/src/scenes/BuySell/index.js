@@ -15,6 +15,7 @@ import SfoxCheckout from './SfoxCheckout'
 import CoinifyCheckout from './CoinifyCheckout'
 import { getData, getFields } from './selectors'
 import SelectPartner from './template.success'
+import ErrorBoundary from 'layouts/ErrorBoundary'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -97,18 +98,20 @@ class BuySellContainer extends React.PureComponent {
     })
 
     return (
-      <Wrapper>
-        {
-          hasAccount(path(['component', 'props', 'value'], view))
-            ? <Menu>
-              <Field name='status' component={TabMenuBuySellStatus} partner={prop('partner', view)} />
-            </Menu>
-            : null
-        }
-        <CheckoutWrapper>
-          {prop('component', view)}
-        </CheckoutWrapper>
-      </Wrapper>
+      <ErrorBoundary>
+        <Wrapper>
+          {
+            hasAccount(path(['component', 'props', 'value'], view))
+              ? <Menu>
+                <Field name='status' component={TabMenuBuySellStatus} partner={prop('partner', view)} />
+              </Menu>
+              : null
+          }
+          <CheckoutWrapper>
+            {prop('component', view)}
+          </CheckoutWrapper>
+        </Wrapper>
+      </ErrorBoundary>
     )
   }
 }
