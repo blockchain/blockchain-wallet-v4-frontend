@@ -110,6 +110,13 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     sessionToken
   })
 
+  const deauthorizeBrowser = (sessionToken) => get({
+    url: rootUrl,
+    endPoint: '/wallet/logout',
+    data: { format: 'plain' },
+    sessionToken
+  })
+
   const reset2fa = (guid, email, newEmail, secretPhrase, message, code, sessionToken) => post({
     url: rootUrl,
     endPoint: '/wallet',
@@ -187,6 +194,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     authorizeLogin,
     createPayload,
     createPinEntry,
+    deauthorizeBrowser,
     fetchBlockchainData,
     fetchPayloadWithSession,
     fetchPayloadWithSharedKey,
@@ -194,17 +202,17 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     generateUUIDs,
     getPairingPassword,
     getPinValue,
-    obtainSessionToken,
-    pollForSessionGUID,
-    remindGuid,
-    reset2fa,
-    savePayload,
-    incrementStat,
     handle2faReset,
-    verifyEmailToken,
+    incrementStat,
     incrementSecPasswordStats,
     incrementLoginViaQrStats,
     incrementCurrencyUsageStats,
-    resendSmsLoginCode
+    obtainSessionToken,
+    pollForSessionGUID,
+    remindGuid,
+    resendSmsLoginCode,
+    reset2fa,
+    savePayload,
+    verifyEmailToken
   }
 }

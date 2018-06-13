@@ -15,7 +15,7 @@ class SellContainer extends React.Component {
 
   componentDidMount () {
     this.props.coinifyDataActions.getKycs()
-    this.props.sendBtcActions.sendBtcInitialized({ feeType: 'priority' })
+    this.props.sendBtcActions.initialized({ feeType: 'priority' })
     this.props.coinifyActions.initializeCheckoutForm('sell')
   }
 
@@ -32,9 +32,9 @@ class SellContainer extends React.Component {
 
   render () {
     const { data, modalActions, coinifyActions, coinifyDataActions, formActions,
-      rateQuoteR, sellQuoteR, currency, paymentMedium, trade, ...rest } = this.props
+      sellQuoteR, currency, paymentMedium, trade, ...rest } = this.props
     const { canTrade, step, checkoutBusy, coinifyBusy, checkoutError } = rest
-    const { handleTrade, fetchQuote } = coinifyDataActions
+    const { handleTrade, fetchQuote, refreshSellQuote } = coinifyDataActions
     const { showModal } = modalActions
     const { coinifyNotAsked, openKYC } = coinifyActions
 
@@ -52,7 +52,6 @@ class SellContainer extends React.Component {
         handleTrade={handleTrade}
         showModal={showModal}
         sellQuoteR={sellQuoteR}
-        rateQuoteR={rateQuoteR}
         fetchSellQuote={(quote) => fetchQuote({ quote, nextAddress: value.nextAddress })}
         currency={currency}
         checkoutBusy={checkoutBusy}
@@ -67,6 +66,7 @@ class SellContainer extends React.Component {
         onOrderCheckoutSubmit={this.submitQuote}
         checkoutError={checkoutError}
         handleKycAction={kyc => openKYC(kyc)}
+        refreshQuote={refreshSellQuote}
       />,
       Failure: (msg) => <div>Failure: {msg.error}</div>,
       Loading: () => <Loading />,

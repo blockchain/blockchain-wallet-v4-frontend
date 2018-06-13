@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { FormGroup, FormItem, TextBox, SelectBoxUSState } from 'components/Form'
-import { Text, Button, HeartbeatLoader } from 'blockchain-info-components'
+import { Text, Button, HeartbeatLoader, Banner } from 'blockchain-info-components'
 
 import { required, requiredUsZipcode, normalizeUSZipcode } from 'services/FormHelper'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ColRightInner } from 'components/BuySell/Signup'
@@ -16,6 +16,9 @@ const AddressLabel = styled(Text)`
     margin-left: 3px;
     color: ${props => props.theme['gray-3']};
   }
+`
+const BannerWrapper = styled.div`
+  margin-top: 10px;
 `
 
 const Address = (props) => {
@@ -37,6 +40,13 @@ const Address = (props) => {
           <PartnerSubHeader>
             <FormattedMessage id='sfoxexchangedata.verify.partner.subheader' defaultMessage="There's so much we'd love to know about you, but we only need a few things. Fear not, all of your personal information will be sent directly to SFOX, not saved in your Blockchain wallet." />
           </PartnerSubHeader>
+          <BannerWrapper>
+            <Banner type='warning'>
+              <Text size='12px'>
+                <FormattedMessage id='sfoxexchangedata.verify.poboxwarning' defaultMessage='P.O. boxes cannot be used to verify your address.' />
+              </Text>
+            </Banner>
+          </BannerWrapper>
           <FormContainer>
             <FormGroup inline>
               <FormItem>

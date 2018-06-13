@@ -40,11 +40,11 @@ const QRInputWrapper = styled.div`
 `
 
 const SmsAuth = props => {
-  const { data, ui, onSubmit, changeMobileNumber, invalid, code } = props
+  const { data, ui, handleSubmit, changeMobileNumber, invalid, code } = props
   const { smsVerified, smsNumber, countryCode } = data
 
   return (
-    <Form onSubmit={onSubmit}>
+    <Form onSubmit={handleSubmit}>
       <SuccessOverlay success={ui.successToggled}>
         <Icon name='checkmark-in-circle' size='150px' color='success' />
         <Text size='14px' weight={300} color='success'>
@@ -60,7 +60,7 @@ const SmsAuth = props => {
                   <FormattedMessage id='scenes.security.twostepverification.sms.entermobile' defaultMessage='Enter your mobile number and click Get Code. A verification code will be sent.' />
                 </Text>
                 <QRInputWrapper>
-                  <Field name='mobileNumber' component={PhoneNumberBox} validate={[required]} placeholder='212-555-5555' countryCode={countryCode} />
+                  <Field name='mobileNumber' component={PhoneNumberBox} validate={[required]} countryCode={countryCode} defaultValue={smsNumber} placeholder='212-555-5555' />
                   <Button type='submit' nature='primary' disabled={invalid}>Get Verification Code</Button>
                 </QRInputWrapper>
               </Fragment>

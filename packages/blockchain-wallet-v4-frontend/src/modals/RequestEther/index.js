@@ -46,8 +46,7 @@ class RequestEtherContainer extends React.PureComponent {
     this.props.formActions.initialize('requestEther', this.props.initialValues)
   }
 
-  onSubmit (e) {
-    e.preventDefault()
+  onSubmit () {
     this.props.modalActions.closeAllModals()
   }
 

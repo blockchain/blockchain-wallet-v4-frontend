@@ -6,7 +6,7 @@ import { Text, Link } from 'blockchain-info-components'
 import FaqRow from 'layouts/Wallet/TrayRight/Faq/FaqRow'
 import CountdownTimer from 'components/Form/CountdownTimer'
 import { spacing } from 'services/StyleService'
-import { reviewOrder, currencySymbolMap } from 'services/CoinifyService'
+import { reviewOrder, getRateFromQuote } from 'services/CoinifyService'
 import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDetails'
 import { BorderBox, Row } from 'components/BuySell/Signup'
 import { StepTransition } from 'components/Utilities/Stepper'
@@ -24,17 +24,8 @@ const StyledFaqRow = styled(FaqRow)`
   border-bottom: 1px solid ${props => props.theme['gray-1']};
 `
 
-const rateHelper = (quoteR) => {
-  return quoteR.map(q => {
-    let fiat = q.baseCurrency !== 'BTC' ? Math.abs(q.quoteAmount) : Math.abs(q.baseAmount)
-    let crypto = q.baseCurrency !== 'BTC' ? Math.abs(q.baseAmount) : Math.abs(q.quoteAmount)
-    let curr = q.baseCurrency !== 'BTC' ? q.baseCurrency : q.quoteCurrency
-
-    let rate = +((1 / (fiat / 1e8)) * crypto)
-    let displayRate = rate.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-    return `${currencySymbolMap[curr]}${displayRate}`
-  }).getOrElse(`~`)
-}
+const rateHelper = (quoteR) =>
+  quoteR.map(getRateFromQuote).getOrElse(`~`)
 
 export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
   <Row>

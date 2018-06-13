@@ -7,7 +7,6 @@ import { Button, Link, Modal, ModalHeader, ModalBody, ModalFooter, Text } from '
 import { Form, PhoneNumberBox } from 'components/Form'
 import { validMobileNumber, required } from 'services/FormHelper'
 import { spacing } from 'services/StyleService'
-import { path } from 'ramda'
 
 const MobileNumber = styled.div`
   display: flex;
@@ -19,12 +18,11 @@ const MobileNumber = styled.div`
 `
 
 const MobileNumberChange = (props) => {
-  const { position, total, close, closeAll, submitting, invalid, pristine, countryCode, ...rest } = props
-  const { onSubmit } = rest
+  const { position, total, close, closeAll, submitting, invalid, pristine, countryCode, smsNumber, handleSubmit } = props
 
   return (
     <Modal size='large' position={position} total={total}>
-      <Form onSubmit={onSubmit}>
+      <Form onSubmit={handleSubmit}>
         <ModalHeader icon='mobile' onClose={closeAll} >
           <FormattedMessage id='modals.mobilenumberchange.changenumbertitle' defaultMessage='Change Mobile Number' />
         </ModalHeader>
@@ -36,7 +34,7 @@ const MobileNumberChange = (props) => {
             <Text size='14px' weight={300} style={spacing('pr-5')}>
               <FormattedMessage id='modals.mobilenumberchange.mobile' defaultMessage='Mobile number: ' />
             </Text>
-            <Field name='mobileNumber' validate={[validMobileNumber, required]} component={PhoneNumberBox} countryCode={path(['data'], countryCode)} />
+            <Field name='mobileNumber' validate={[validMobileNumber, required]} component={PhoneNumberBox} countryCode={countryCode} defaultValue={smsNumber} />
           </MobileNumber>
         </ModalBody>
         <ModalFooter align='spaced'>
