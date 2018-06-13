@@ -27,7 +27,7 @@ const ReviewForm = (props) => {
   return (
     <OrderSubmitForm>
       <TermsWrapper>
-        <Field name='terms' validate={[required]} component={CheckBox} />
+        <Field name='terms' validate={[required]} component={CheckBox} hideErrors />
         <TermsLabel htmlFor='terms'>
           <Text size='11px' weight={300}>
             <FormattedMessage id='scenes.buysell.coinify.sell.orderreview.checkboxtext' defaultMessage='I accept that Coinify will process my order upon completion of the bitcoin transaction, and that bitcoin will be traded at the available exchange rate at the time, which may differ from the displayed rate.' />
