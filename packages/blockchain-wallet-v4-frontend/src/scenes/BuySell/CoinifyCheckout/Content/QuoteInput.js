@@ -9,6 +9,10 @@ import { getQuoteInputData } from './selectors'
 import Loading from 'components/BuySell/Loading'
 
 class QuoteInput extends Component {
+  componentDidMount () {
+    this.props.actions.initializeCheckoutForm(this.props.type)
+  }
+
   render () {
     const { data, symbol, setMax, setMin, checkoutError, increaseLimit, defaultCurrency, limits, disabled, type } = this.props
     return data.cata({
