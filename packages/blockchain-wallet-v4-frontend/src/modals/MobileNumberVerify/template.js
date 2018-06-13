@@ -24,11 +24,11 @@ const OptionsText = styled(Text)`
 `
 const MobileNumberVerify = (props) => {
   const { position, total, close, closeAll, submitting, invalid, ...rest } = props
-  const { onSubmit, handleChange, handleResend } = rest
+  const { handleSubmit, handleChange, handleResend } = rest
 
   return (
     <Modal size='large' position={position} total={total}>
-      <Form onSubmit={onSubmit}>
+      <Form onSubmit={handleSubmit}>
         <ModalHeader icon='mobile' onClose={closeAll} >
           <FormattedMessage id='modals.mobilenumberverify.title' defaultMessage='Verify Mobile Number' />
         </ModalHeader>

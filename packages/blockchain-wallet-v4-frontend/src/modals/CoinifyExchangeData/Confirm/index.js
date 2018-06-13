@@ -21,8 +21,7 @@ class ConfirmContainer extends Component {
     }
   }
 
-  onSubmit (e) {
-    e.preventDefault()
+  onSubmit () {
     const medium = this.props.medium
     if (this.props.ui.editing) {
       const { baseCurrency, quoteCurrency } = this.props.data.data.quote

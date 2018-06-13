@@ -21,5 +21,6 @@ export default ({ coreSagas }) => {
     yield takeLatest(AT.FINISH_TRADE, coinifySagas.finishTrade)
     yield takeLatest(AT.CANCEL_TRADE, coinifySagas.cancelTrade)
     yield takeLatest(AT.CANCEL_SUBSCRIPTION, coinifySagas.cancelSubscription)
+    yield takeLatest(AT.CHECKOUT_CARD_MAX, coinifySagas.checkoutCardMax)
   }
 }

@@ -59,15 +59,17 @@ const YubikeyInput = styled.input`
 `
 
 const Yubikey = props => {
+  const { ui, handleSubmit, handleInput, value } = props
+
   return (
-    <form onSubmit={props.handleSubmit}>
-      <SuccessOverlay success={props.ui.successToggled}>
+    <form onSubmit={handleSubmit}>
+      <SuccessOverlay success={ui.successToggled}>
         <Icon name='checkmark-in-circle' size='150px' color='success' />
         <Text size='14px' weight={300} color='success'>
           <FormattedMessage id='scenes.security.twostepverification.yubi.success' defaultMessage="Congrats! You've successfully set up your Yubikey!" />
         </Text>
       </SuccessOverlay>
-      <AuthenticatorSummary success={props.ui.successToggled}>
+      <AuthenticatorSummary success={ui.successToggled}>
         <YubikeyContainer>
           <YubikeyCopy>
             <Text size='14px' weight={200}>
@@ -78,7 +80,7 @@ const Yubikey = props => {
             </Text>
           </YubikeyCopy>
           <YubikeyInputWrapper>
-            <YubikeyInput type='password' name='yubikeyCode' value={props.value} onChange={props.handleInput} />
+            <YubikeyInput type='password' name='yubikeyCode' value={value} onChange={handleInput} />
           </YubikeyInputWrapper>
           <Button nature='primary' type='submit'>
             <FormattedMessage id='scenes.security.twostepverification.yubi.submit' defaultMessage='Submit' />
@@ -93,6 +95,4 @@ Yubikey.propTypes = {
   handleSubmit: PropTypes.func.isRequired
 }
 
-export default reduxForm({
-  form: 'securityYubikey'
-})(Yubikey)
+export default reduxForm({ form: 'securityYubikey' })(Yubikey)
