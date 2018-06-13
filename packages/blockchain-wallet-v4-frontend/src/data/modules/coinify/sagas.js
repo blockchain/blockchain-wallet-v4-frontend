@@ -298,7 +298,6 @@ export default ({ coreSagas }) => {
     const trade = yield select(selectors.core.data.coinify.getTrade)
 
     if (path(['type'], head(modals)) === 'CoinifyExchangeData') {
-      yield put(A.initializeCheckoutForm('buy'))
       yield put(actions.modals.closeAllModals())
     } else if (trade.data.state === 'awaiting_transfer_in') {
       yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
