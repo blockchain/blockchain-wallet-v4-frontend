@@ -13,7 +13,7 @@ class ShowEthPrivateKeyContainer extends Component {
       this.props.ethActions.fetchLegacyBalance()
     }
   }
-  
+
   componentWillUnmount () {
     this.props.actions.clearShownEthPrivateKey()
   }
