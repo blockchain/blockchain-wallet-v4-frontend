@@ -12,8 +12,7 @@ class ThirdStepContainer extends React.PureComponent {
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  onSubmit (event) {
-    event.preventDefault()
+  onSubmit () {
     const { guid, email, newEmail, secretPhrase, message, code, captcha } = this.props
     const { sessionToken } = captcha.getOrElse({})
 

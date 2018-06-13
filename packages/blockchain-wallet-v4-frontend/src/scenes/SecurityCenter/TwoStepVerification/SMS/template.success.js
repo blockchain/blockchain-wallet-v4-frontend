@@ -40,11 +40,11 @@ const QRInputWrapper = styled.div`
 `
 
 const SmsAuth = props => {
-  const { data, ui, onSubmit, changeMobileNumber, invalid, code } = props
+  const { data, ui, handleSubmit, changeMobileNumber, invalid, code } = props
   const { smsVerified, smsNumber, countryCode } = data
 
   return (
-    <Form onSubmit={onSubmit}>
+    <Form onSubmit={handleSubmit}>
       <SuccessOverlay success={ui.successToggled}>
         <Icon name='checkmark-in-circle' size='150px' color='success' />
         <Text size='14px' weight={300} color='success'>

@@ -27,11 +27,11 @@ const Code = styled.div`
 
 const TwoStepGoogleAuthenticator = (props) => {
   const { position, total, closeAll, close, submitting, invalid, ...rest } = props
-  const { onSubmit, googleAuthenticatorSecretUrl } = rest
+  const { handleSubmit, googleAuthenticatorSecretUrl } = rest
 
   return (
     <Modal size='large' position={position} total={total}>
-      <Form onSubmit={onSubmit}>
+      <Form onSubmit={handleSubmit}>
         <ModalHeader onClose={closeAll}>
           <FormattedMessage id='modals.twostepgoogleauthenticator.title' defaultMessage='Enable Two-Step Verification' />
         </ModalHeader>

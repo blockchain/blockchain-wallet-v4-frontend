@@ -78,7 +78,7 @@ const bchReducer = (state = INITIAL_STATE, action) => {
         : over(lensProp('transactions'), compose(append(Remote.Success(transactions)), dropLast(1)), state)
     }
     case AT.FETCH_BCH_TRANSACTIONS_FAILURE: {
-      return over(lensProp('transactions'), dropLast(1), state)
+      return assoc('transactions', [Remote.Failure(payload)], state)
     }
     case AT.FETCH_BCH_TRANSACTION_HISTORY_LOADING: {
       return assoc('transaction_history', Remote.Loading, state)

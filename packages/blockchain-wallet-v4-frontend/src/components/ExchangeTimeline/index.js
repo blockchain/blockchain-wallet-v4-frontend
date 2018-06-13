@@ -26,6 +26,8 @@ const Row = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  padding: 5px 0;
+  box-sizing: border-box;
 `
 const RowLine = styled.div`
   position: absolute;

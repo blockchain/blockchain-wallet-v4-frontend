@@ -30,7 +30,7 @@ const WalletRecoveryPhrase = (props) => {
     )
     if (!ui.nextStepToggled) {
       if (!alone && isMnemonicVerified) {
-        const againBtn = <Button nature='primary' onClick={props.toggleBackupAgain} >
+        const againBtn = <Button nature='primary' onClick={props.toggleNextStep} >
           <FormattedMessage id='scenes.securitysettings.basicsecurity.walletrecovery.settings.backupagain' defaultMessage='Backup Again' />
         </Button>
         return securityComponent(againBtn)

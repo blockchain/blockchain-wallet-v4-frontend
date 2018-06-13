@@ -310,6 +310,26 @@ export default ({ api, options }) => {
     }
   }
 
+  const fetchSubscriptions = function * () {
+    try {
+      yield put(A.fetchSubscriptionsLoading())
+      const subs = yield apply(coinify, coinify.getSubscriptions)
+      yield put(A.fetchSubscriptionsSuccess(subs))
+    } catch (e) {
+      yield put(A.fetchSubscriptionsFailure(e))
+    }
+  }
+
+  const cancelSubscription = function * ({ id }) {
+    try {
+      yield call(refreshCoinify)
+      const cancelSub = yield apply(coinify, coinify.cancelSubscription, [id])
+      return cancelSub
+    } catch (e) {
+      console.warn(e)
+    }
+  }
+
   return {
     signup,
     buy,
@@ -317,6 +337,7 @@ export default ({ api, options }) => {
     init,
     coinifyFetchProfile,
     fetchTrades,
+    fetchSubscriptions,
     fetchQuote,
     fetchRateQuote,
     resetProfile,
@@ -327,6 +348,7 @@ export default ({ api, options }) => {
     deleteBankAccount,
     fetchQuoteAndMediums,
     cancelTrade,
+    cancelSubscription,
     triggerKYC,
     getKYCs,
     kycAsTrade,

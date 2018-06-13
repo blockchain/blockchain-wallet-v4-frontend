@@ -17,12 +17,11 @@ const Label = styled.label`
 `
 
 const EditTxDescription = (props) => {
-  const { position, close, submitting, invalid, value, ...rest } = props
-  const { onSubmit } = rest
+  const { position, close, submitting, handleSubmit, invalid } = props
 
   return (
     <Modal size='large' position={position}>
-      <Form onSubmit={onSubmit}>
+      <Form onSubmit={handleSubmit}>
         <Wrapper>
           <ModalHeader icon='pencil' onClose={close}>
             <FormattedMessage id='modals.edittransactiondesc.title' defaultMessage='Edit Transaction Description' />
