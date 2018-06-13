@@ -7,7 +7,7 @@ import { Link } from 'blockchain-info-components'
 import { actions } from 'data'
 
 const FaqLink = props => (
-  <Link size='13px' weight={300} onClick={() => props.actions.layoutWalletFaqOpenClicked()}>
+  <Link size='13px' weight={300} onClick={() => props.actions.layoutWalletFaqClicked()}>
     <FormattedMessage id='layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore' defaultMessage='Learn More' />
   </Link>
 )
