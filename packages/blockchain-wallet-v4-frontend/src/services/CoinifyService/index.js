@@ -96,7 +96,7 @@ export const reviewOrder = {
     const totalBase = path(['paymentMediums', med], q) && Math.abs((q.paymentMediums[med]['total']).toFixed(2))
     if (!fee) return `~`
     if (reviewOrder.baseBtc(q)) return `${currencySymbolMap[q.quoteCurrency]}${(qAmt + fee).toFixed(2)}`
-    else return `${currencySymbolMap[q.baseCurrency]}${totalBase}`
+    else return `${currencySymbolMap[q.baseCurrency]}${Currency.formatFiat(totalBase)}`
   }
 }
 
@@ -107,13 +107,11 @@ export const tradeDetails = {
     if (trade.isBuy) {
       return {
         btcAmount: `${trade.receiveAmount} BTC (${symbol}${(trade.inAmount / 100).toFixed(2)})`,
-        // fee: `${symbol}${((trade.sendAmount / 100) - (trade.inAmount / 100)).toFixed(2)}`,
         total: `${symbol}${(trade.sendAmount / 100).toFixed(2)}`
       }
     } else {
       return {
         btcAmount: `${trade.sendAmount / 1e8} BTC (${symbol}${(trade.outAmountExpected / 100).toFixed(2)})`,
-        // fee: `${symbol}${((trade.outAmountExpected / 100) - trade.receiveAmount).toFixed(2)}`,
         total: `${symbol}${(trade.receiveAmount).toFixed(2)}`
       }
     }
