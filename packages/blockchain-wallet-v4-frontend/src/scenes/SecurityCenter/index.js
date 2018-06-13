@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import ErrorBoundary from 'layouts/ErrorBoundary'
+import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import { getData } from './selectors'
 import SecurityCenter from './template.js'
 

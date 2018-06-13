@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import ErrorBoundary from 'layouts/ErrorBoundary'
+import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import InfoWell from 'components/InfoWell'
 import WalletId from './WalletId'
 import PairingCode from './PairingCode'

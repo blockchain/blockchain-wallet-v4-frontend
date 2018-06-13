@@ -1,7 +1,5 @@
 import React from 'react'
 
-import ErrorBoundary from 'layouts/ErrorBoundary'
-
 import AddBitcoinWallet from './AddBitcoinWallet'
 import AutoDisconnection from './AutoDisconnection'
 import CoinifyDeleteBank from './CoinifyDeleteBank'
@@ -9,6 +7,7 @@ import CoinifyExchangeData from './CoinifyExchangeData'
 import CoinifyTradeDetails from './CoinifyTradeDetails'
 import ConfirmDisable2FA from './ConfirmDisable2FA'
 import EditTxDescription from './EditTxDescription'
+import ErrorBoundary from './ErrorBoundary'
 import ExchangeDetails from './ExchangeDetails'
 import ImportBtcAddress from './ImportBtcAddress'
 import MobileNumberChange from './MobileNumberChange'
@@ -43,46 +42,45 @@ import Welcome from './Welcome'
 
 const Modals = props => (
   <div>
-    <ErrorBoundary modalLayout={true}>
-      <AddBitcoinWallet />
-      <AutoDisconnection />
-      <CoinifyDeleteBank />
-      <CoinifyExchangeData />
-      <CoinifyTradeDetails />
-      <ConfirmDisable2FA />
-      <EditTxDescription />
-      <ExchangeDetails />
-      <ImportBtcAddress />
-      <MobileNumberChange />
-      <MobileNumberVerify />
-      <MobileLogin />
-      <PairingCode />
-      <PromptInput />
-      <QRCode />
-      <RecoveryPhrase />
-      <RequestBch />
-      <RequestBitcoin />
-      <RequestEther />
-      <SecondPassword />
-      <SendBch />
-      <SendBitcoin />
-      <SendEther />
-      <ShowBtcPrivateKey />
-      <ShowEthPrivateKey />
-      <ShowUsedAddresses />
-      <SignMessage />
-      <ShowXPub />
-      <SfoxExchangeData />
-      <SfoxTradeDetails />
-      <SfoxEnterMicroDeposits />
-      <TransactionReport />
-      <TransferEth />
-      <TwoStepGoogleAuthenticator />
-      <TwoStepSetup />
-      <TwoStepYubico />
-      <UpgradeWallet />
-      <Welcome />
-    </ErrorBoundary>
+    <AddBitcoinWallet />
+    <AutoDisconnection />
+    <CoinifyDeleteBank />
+    <CoinifyExchangeData />
+    <CoinifyTradeDetails />
+    <ConfirmDisable2FA />
+    <EditTxDescription />
+    <ErrorBoundary />
+    <ExchangeDetails />
+    <ImportBtcAddress />
+    <MobileNumberChange />
+    <MobileNumberVerify />
+    <MobileLogin />
+    <PairingCode />
+    <PromptInput />
+    <QRCode />
+    <RecoveryPhrase />
+    <RequestBch />
+    <RequestBitcoin />
+    <RequestEther />
+    <SecondPassword />
+    <SendBch />
+    <SendBitcoin />
+    <SendEther />
+    <ShowBtcPrivateKey />
+    <ShowEthPrivateKey />
+    <ShowUsedAddresses />
+    <SignMessage />
+    <ShowXPub />
+    <SfoxExchangeData />
+    <SfoxTradeDetails />
+    <SfoxEnterMicroDeposits />
+    <TransactionReport />
+    <TransferEth />
+    <TwoStepGoogleAuthenticator />
+    <TwoStepSetup />
+    <TwoStepYubico />
+    <UpgradeWallet />
+    <Welcome />
   </div>
 )
 

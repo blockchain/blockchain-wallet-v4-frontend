@@ -15,7 +15,7 @@ import SfoxCheckout from './SfoxCheckout'
 import CoinifyCheckout from './CoinifyCheckout'
 import { getData, getFields } from './selectors'
 import SelectPartner from './template.success'
-import ErrorBoundary from 'layouts/ErrorBoundary'
+import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 
 const Wrapper = styled.div`
   width: 100%;

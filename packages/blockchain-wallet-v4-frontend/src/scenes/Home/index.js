@@ -9,7 +9,7 @@ import DidYouKnow from './DidYouKnow'
 import PriceChart from './PriceChart'
 import BalancesChartContainer from './BalancesChart'
 import SfoxSignupBanner from './SfoxSignupBanner'
-import ErrorBoundary from 'layouts/ErrorBoundary'
+import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 
 ReactHighcharts.Highcharts.setOptions({ lang: { thousandsSep: ',' } })
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import ui from 'redux-ui'
 
-import ErrorBoundary from 'layouts/ErrorBoundary'
+import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import SecuritySettings from './template.js'
 
 class SecurityContainer extends React.PureComponent {
