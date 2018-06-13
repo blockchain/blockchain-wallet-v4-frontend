@@ -30,6 +30,7 @@ export const canTrade = (settings, options, buySell, type) => {
   // check if user is invited to location match => 'partner'
   const { invited } = settings
 
+  // v2 -> v3 upgrades do not have invited object
   if (!invited) return false
 
   switch (match) {
