@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Icon, Text } from 'blockchain-info-components'
-import { SelectBoxCoinifyCurrency, TextBoxDebounced } from 'components/Form'
+import { SelectBoxCoinifyCurrency, NumberBoxDebounced } from 'components/Form'
 import { Field, reduxForm } from 'redux-form'
 import { head } from 'ramda'
 import { getReasonExplanation } from 'services/CoinifyService'
@@ -149,13 +149,13 @@ const FiatConvertor = (props) => {
     <Wrapper>
       <FiatConvertorInput>
         <Container>
-          <Field name='leftVal' component={TextBoxDebounced} disabled={disabled || !canTrade} borderRightNone={1} />
+          <Field name='leftVal' component={NumberBoxDebounced} disabled={disabled || !canTrade} borderRightNone={1} />
           <Field name='currency' component={SelectBoxCoinifyCurrency} defaultDisplay={defaultCurrency} isSell={isSell} />
         </Container>
         <ArrowLeft size='16px' name='left-arrow' />
         <ArrowRight size='16px' name='right-arrow' />
         <Container>
-          <Field name='rightVal' component={TextBoxDebounced} disabled={disabled || !canTrade} />
+          <Field name='rightVal' component={NumberBoxDebounced} disabled={disabled || !canTrade} />
           <Unit>{currency}</Unit>
         </Container>
       </FiatConvertorInput>

@@ -103,6 +103,7 @@ export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
     {quoteR.map((quote) => (
       <CountdownTimer
         style={spacing('mt-20')}
+        createdDate={quote.timeOfRequest.getTime()}
         expiryDate={quote.expiresAt.getTime()}
         handleExpiry={onRefreshQuote}
         tooltipExpiryTime='30 seconds'
