@@ -194,6 +194,7 @@ export const kycBodyHelper = (status) => {
 
 export const kycHeaderHelper = (status) => {
   switch (status) {
+    case 'processing': return { color: 'transferred', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.processing' defaultMessage='Identity Verification Processing' /> }
     case 'reviewing': return { color: 'transferred', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.reviewing' defaultMessage='Identity Verification In Review' /> }
     case 'pending': return { color: 'transferred', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.pending' defaultMessage='Identity Verification Incomplete' /> }
     case 'completed': return { color: 'success', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.completed' defaultMessage='Identity Verification Completed' /> }
