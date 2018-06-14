@@ -29,7 +29,7 @@ const ErrorBoundary = (props) => {
   const { error, errorInfo, handleSubmit } = props
 
   return (
-    <Modal size='large'>
+    <Modal size='large' style={{zIndex: 999}}>
       <Form onSubmit={handleSubmit}>
         <ModalHeader>
           <TitleGroup inline>

@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom'
 
 import modalEnhancer from 'providers/ModalEnhancer'
 import ErrorBoundaryTemplate from './template'
-import { actions } from 'data/index'
+import { actions, selectors } from 'data'
 
 class ErrorBoundary extends React.PureComponent {
   constructor (props) {
@@ -15,7 +15,12 @@ class ErrorBoundary extends React.PureComponent {
 
   onSubmit () {
     this.props.modalActions.closeModal()
-    this.props.history.push('/home')
+    if (this.props.isAuthenticated) {
+      this.props.history.push('/home')
+    } else {
+      this.props.history.push('/login')
+      window.location.reload(true)
+    }
   }
 
   render () {
@@ -23,6 +28,10 @@ class ErrorBoundary extends React.PureComponent {
     return <ErrorBoundaryTemplate error={error} errorInfo={errorInfo} onSubmit={this.onSubmit} />
   }
 }
+
+const mapStateToProps = (state) => ({
+  isAuthenticated: selectors.auth.isAuthenticated(state)
+})
 
 const mapDispatchToProps = (dispatch) => ({
   authActions: bindActionCreators(actions.auth, dispatch),
@@ -32,7 +41,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   modalEnhancer('ErrorBoundary'),
-  connect(null, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default withRouter(enhance(ErrorBoundary))

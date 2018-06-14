@@ -39,7 +39,7 @@ const validatePasswordsMatch = values => {
 const Register = (props) => {
   const { onSubmit, busy, invalid } = props
   const checkboxShouldBeChecked = value => value ? undefined : 'You must agree to the terms and conditions'
-
+  throw new Error('gds')
   return (
     <Wrapper>
       <Header>
