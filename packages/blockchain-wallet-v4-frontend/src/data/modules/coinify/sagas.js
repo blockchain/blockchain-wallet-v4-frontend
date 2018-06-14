@@ -122,6 +122,7 @@ export default ({ coreSagas }) => {
         yield put(actions.form.initialize('coinifyCheckoutSell', initialValues))
       }
       yield put(actions.core.data.coinify.fetchRateQuote(currencyR.getOrElse('EUR'), type))
+      yield put(A.setCoinifyCheckoutError(false))
       yield put(A.coinifyCheckoutBusyOn())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
