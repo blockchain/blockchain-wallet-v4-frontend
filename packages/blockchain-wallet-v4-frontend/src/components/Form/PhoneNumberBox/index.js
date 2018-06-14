@@ -36,7 +36,8 @@ const PhoneNumberBox = (field) => {
   const handler = (status, value, countryData, number, id) => {
     field.input.onChange(number)
   }
-  const upperCountryCode = prop('countryCode', field) || 'US'
+
+  const upperCountryCode = prop('countryCode', field).getOrElse('US')
   const countryCode = upperCountryCode && toLower(upperCountryCode)
 
   return (
