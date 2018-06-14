@@ -360,17 +360,21 @@ export const getHDPrivateKeyWIF = curry((keypath, secondPassword, network, walle
 })
 
 // TODO :: find a proper place for that
-const fromBase58toKey = (string, network) =>
-  new Bitcoin.ECPair(Bigi.fromBuffer(Base58.decode(string)), null, { network })
+const fromBase58toKey = (string, address, network) => {
+  var key = new Bitcoin.ECPair(Bigi.fromBuffer(Base58.decode(string)), null, {network})
+  if (key.getAddress() === address) return key
+  key.compressed = !key.compressed
+  return key
+}
 
 export const getLegacyPrivateKey = curry((address, secondPassword, network, wallet) => {
   let priv = compose(Address.selectPriv, AddressMap.selectAddress(address), selectAddresses)(wallet)
   if (isDoubleEncrypted(wallet)) {
     return validateSecondPwd(Task.of, Task.rejected)(secondPassword, wallet)
       .chain(() => crypto.decryptSecPass(selectSharedKey(wallet), selectIterations(wallet), secondPassword, priv))
-      .map(pk => fromBase58toKey(pk, network))
+      .map(pk => fromBase58toKey(pk, address, network))
   } else {
-    return Task.of(priv).map(pk => fromBase58toKey(pk, network))
+    return Task.of(priv).map(pk => fromBase58toKey(pk, address, network))
   }
 })
 
