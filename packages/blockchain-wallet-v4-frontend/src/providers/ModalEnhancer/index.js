@@ -29,14 +29,14 @@ export default (type) => (Component) => enhance(
 
     handleClick (e) {
       const modalContainer = ReactDOM.findDOMNode(this.node)
-      if (modalContainer && equals(modalContainer.children[0], e.target)) {
+      if (modalContainer && equals(modalContainer.children[0], e.target) && !this.props.blockOnOutsideClick) {
         this.props.close()
       }
     }
 
     onKeyPressed (evt) {
       const event = evt || window.event
-      if (event.keyCode === 27) {
+      if (event.keyCode === 27 && !this.props.blockEscKeypress) {
         this.props.close()
       }
     }
@@ -54,8 +54,7 @@ export default (type) => (Component) => enhance(
       return filtered.length ? (
         <div>
           {filtered.map((modal, i) => (
-            <div key={`${type}:${i}`} onKeyDown={this.onKeyPressed}
-              onMouseDown={this.handleClick} ref={setRef} tabIndex='0'>
+            <div key={`${type}:${i}`} onKeyDown={this.onKeyPressed} onMouseDown={this.handleClick} ref={setRef} tabIndex='0'>
               <Component ref={this.node}
                 position={modals.indexOf(modal) + 1}
                 total={modals.length}
