@@ -26,7 +26,7 @@ const Wrapper = styled.div`
       fill: ${props => props.theme['gray-5']} !important;
     }
     .highcharts-color-0 {
-      fill: ${props => props.theme['brand-primary']} !important;
+      fill: ${props => props.btcBalance > 0 ? props.theme['brand-primary'] : props.theme['gray-2']} !important;
     }
     .highcharts-color-1 {
       fill: ${props => props.theme['brand-secondary']} !important;
@@ -78,7 +78,7 @@ const BalancesChart = (props) => {
   const { btcBalance, ethBalance, bchBalance, chartData, symbol, btcAccountsLength, bchAccountsLength } = balances
 
   return (
-    <Wrapper className={'ignore-react-onclickoutside'}>
+    <Wrapper className={'ignore-react-onclickoutside'} btcBalance={btcBalance}>
       <Text uppercase color='brand-primary' weight={300} size='24px'>
         <FormattedMessage id='scenes.home.balanceschart.yourbalances' defaultMessage='Your Balances' />
       </Text>
