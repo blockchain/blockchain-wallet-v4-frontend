@@ -111,13 +111,30 @@ export default ({ coreSagas }) => {
   const submitQuote = function * (action) {
     try {
       yield put(A.sfoxLoading())
-      const trade = yield call(coreSagas.data.sfox.handleTrade, action.payload)
+      const nextAddressData = yield call(prepareAddress)
+      const trade = yield call(coreSagas.data.sfox.handleTrade, action.payload, nextAddressData)
       yield put(A.sfoxSuccess())
       yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
       yield put(modalActions.showModal('SfoxTradeDetails', { trade }))
     } catch (e) {
       yield put(A.sfoxFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'submitQuote', e))
+    }
+  }
+
+  const prepareAddress = function * () {
+    try {
+      const state = yield select()
+      const defaultIdx = yield select(selectors.core.wallet.getDefaultAccountIndex)
+      const receiveR = selectors.core.common.btc.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, defaultIdx, state)
+      const receiveIdxR = selectors.core.common.btc.getNextAvailableReceiveIndex(settings.NETWORK_BITCOIN, defaultIdx, state)
+      return {
+        address: receiveR.getOrElse(),
+        index: receiveIdxR.getOrElse(),
+        accountIndex: defaultIdx
+      }
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'prepareAddress', e))
     }
   }
 
@@ -164,13 +181,14 @@ export default ({ coreSagas }) => {
   }
 
   return {
+    prepareAddress,
     setBankManually,
     setBank,
     sfoxSignup,
     setProfile,
-    upload,
     submitMicroDeposits,
     submitQuote,
-    submitSellQuote
+    submitSellQuote,
+    upload
   }
 }
