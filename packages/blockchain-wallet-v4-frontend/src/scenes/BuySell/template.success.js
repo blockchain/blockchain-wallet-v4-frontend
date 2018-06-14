@@ -74,8 +74,7 @@ const SelectPartner = (props) => {
 
   const onSfoxWhitelist = usState => usState.code && sfoxStates.indexOf(usState.code) >= 0 ? undefined : 'This service is not yet available in your state.'
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
+  const onSubmit = () => {
     if (sfoxCountries.indexOf(country) >= 0) {
       props.modalActions.showModal('SfoxExchangeData', { step: 'account' })
     }
@@ -143,7 +142,7 @@ const SelectPartner = (props) => {
             <FormattedMessage id='selectpartner.selectcountry' defaultMessage='Select your country:' />
           </Text>
           <FieldWrapper>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={onSubmit}>
               <FormGroup>
                 <FormItem>
                   <Field name='country' validate={[required, onPartnerCountryWhitelist]} component={SelectBoxCountry} errorBottom />
