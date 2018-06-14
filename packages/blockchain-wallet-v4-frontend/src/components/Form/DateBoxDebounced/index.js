@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import locale from 'browser-locale'
 
 import { equals } from 'ramda'
 import { Text, DateInput } from 'blockchain-info-components'
@@ -18,7 +19,6 @@ const Error = styled(Text)`
   height: 15px;
   top: 40px;
   right: 0;
-  width: 200px;
 `
 const getErrorState = (meta) => {
   return meta.dirty && meta.invalid ? 'invalid' : 'initial'
@@ -79,6 +79,7 @@ class DateBoxDebounced extends React.Component {
           closeOnSelect={false}
           closeOnTab={false}
           open={open}
+          locale={locale()}
           {...rest}
         />
         {meta.dirty && meta.error && <Error size='12px' weight={300} color='error'>{meta.error}</Error>}

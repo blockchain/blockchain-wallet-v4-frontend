@@ -1,6 +1,6 @@
 import { select, put } from 'redux-saga/effects'
 import { prop } from 'ramda'
-import moment from 'moment'
+import moment from 'services/MomentHelper'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
 
@@ -30,7 +30,8 @@ export default ({ coreSagas }) => {
   const submitClicked = function * (action) {
     try {
       const { coin } = action.payload
-      const language = yield select(selectors.preferences.getLanguage)
+      const language = window.navigator.userLanguage || window.navigator.language
+      // const language = yield select(selectors.preferences.getLanguage)
       moment.locale(language)
       const formValues = yield select(selectors.form.getFormValues('transactionReport'))
       const from = prop('from', formValues)
