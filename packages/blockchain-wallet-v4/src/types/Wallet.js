@@ -361,7 +361,7 @@ export const getHDPrivateKeyWIF = curry((keypath, secondPassword, network, walle
 
 // TODO :: find a proper place for that
 const fromBase58toKey = (string, address, network) => {
-  var key = new Bitcoin.ECPair(Bigi.fromBuffer(Base58.decode(string)), null, { network})
+  var key = new Bitcoin.ECPair(Bigi.fromBuffer(Base58.decode(string)), null, {network})
   if (key.getAddress() === address) return key
   key.compressed = !key.compressed
   return key
