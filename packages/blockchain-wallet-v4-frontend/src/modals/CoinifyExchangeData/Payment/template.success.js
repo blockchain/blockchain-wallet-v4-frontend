@@ -49,7 +49,7 @@ const Payment = (props) => {
   const kycState = kycs.length && path(['state'], kyc)
   const cardDisabled = isCardDisabled(quoteData, limits)
   const bankDisabled = kycState === 'reviewing' || kycState === 'pending' || kycState === 'processing'
-  if (bankDisabled) handlePaymentClick('card')
+  if (bankDisabled && medium !== 'card') handlePaymentClick('card')
   const prefillCardMax = (limits) => handlePrefillCardMax(limits)
 
   const isChecked = (type) => medium === type
