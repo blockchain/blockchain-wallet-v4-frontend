@@ -93,7 +93,9 @@ const Success = props => {
       {isLegacy &&
         <WarningBanner>
           <Banner type='caution'>
-            <FormattedMessage id='modals.sendbch.secondstep.legacy_addr_warning' defaultMessage='Are you sure this is a Bitcoin Cash Address? Sending funds to bitcoin address by accident will result in loss of funds.' />
+            <Text size='12px'>
+              <FormattedMessage id='modals.sendbch.secondstep.legacy_addr_warning' defaultMessage='Are you sure this is a Bitcoin Cash Address? Sending funds to bitcoin address by accident will result in loss of funds.' />
+            </Text>
           </Banner>
         </WarningBanner>
       }
