@@ -1,6 +1,7 @@
 import { call, put, select, take } from 'redux-saga/effects'
 import { compose } from 'ramda'
 import * as A from '../../actions'
+import * as C from 'services/AlertService'
 import * as walletSelectors from '../../wallet/selectors'
 import { Socket } from '../../../network/index'
 import * as bchActions from '../../data/bch/actions'
@@ -26,7 +27,7 @@ export default ({ api, bchSocket }) => {
           const tx = transactions.payload.transactions[i]
           if (tx.hash === message.x.hash) {
             if (tx.result > 0) {
-              yield put(A.webSocket.bitcoin.paymentReceived('You\'ve just received a bitcoin payment.'))
+              yield put(A.webSocket.bch.paymentReceived(C.RECEIVE_BTC_SUCCESS))
             }
             break
           }
