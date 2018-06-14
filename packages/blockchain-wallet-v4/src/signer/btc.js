@@ -45,8 +45,7 @@ export const signWithWIF = curry((network, selection) =>
 )
 
 export const signMessage = (priv, addr, message) => {
-  const keyPair = privateKeyStringToKey(priv, 'base58')
+  const keyPair = privateKeyStringToKey(priv, 'base58', null, addr)
   const privateKey = keyPair.d.toBuffer(32)
-  keyPair.compressed = keyPair.getAddress() === addr
   return BitcoinMessage.sign(message, privateKey, keyPair.compressed).toString('base64')
 }
