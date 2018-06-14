@@ -31,7 +31,7 @@ const ErrorBoundary = (props) => {
   return (
     <Modal size='large' style={{zIndex: 999}}>
       <Form onSubmit={handleSubmit}>
-        <ModalHeader>
+        <ModalHeader closeButton={false}>
           <TitleGroup inline>
             <Icon name='alert-filled' size='28px' color='brand-primary' />
             <Text weight={300} size={'22px'} color='brand-primary' style={{ paddingLeft: '8px' }}>
