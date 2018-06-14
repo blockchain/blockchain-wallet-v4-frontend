@@ -13,8 +13,8 @@ export default ({ coreSagas }) => {
       moment.locale(language)
       const initialValues = {
         from: '',
-        start: moment().subtract(7, 'day'),
-        end: moment()
+        start: moment().startOf('day').subtract(7, 'day'),
+        end: moment().startOf('day')
       }
       yield put(actions.form.initialize('transactionReport', initialValues))
     } catch (e) {
@@ -30,9 +30,6 @@ export default ({ coreSagas }) => {
   const submitClicked = function * (action) {
     try {
       const { coin } = action.payload
-      const language = window.navigator.userLanguage || window.navigator.language
-      // const language = yield select(selectors.preferences.getLanguage)
-      moment.locale(language)
       const formValues = yield select(selectors.form.getFormValues('transactionReport'))
       const from = prop('from', formValues)
       const start = prop('start', formValues)
