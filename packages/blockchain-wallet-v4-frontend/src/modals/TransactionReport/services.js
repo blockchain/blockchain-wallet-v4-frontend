@@ -16,14 +16,18 @@ export const isDateAnterior = (date1, date2) => {
   return moment(date2).diff(moment(date1), 'day') > 0
 }
 
+export const isDatePosterior = (date1, date2) => {
+  return moment(date2).diff(moment(date1), 'day') < 0
+}
+
 export const isValidBtcStartDate = (selectedDate, endDate) =>
   isDatePosteriorToBtcGenesis(selectedDate) && isDateAnterior(selectedDate, endDate)
 
 export const isValidBtcEndDate = (selectedDate, startDate) =>
-  isDatePosteriorToBtcGenesis(selectedDate) && isDateAnterior(startDate, selectedDate)
+  isDatePosteriorToBtcGenesis(selectedDate) && isDatePosterior(selectedDate, startDate)
 
 export const isValidBchStartDate = (selectedDate, endDate) =>
   isDatePosteriorToBchGenesis(selectedDate) && isDateAnterior(selectedDate, endDate)
 
 export const isValidBchEndDate = (selectedDate, startDate) =>
-  isDatePosteriorToBchGenesis(selectedDate) && isDateAnterior(startDate, selectedDate)
+  isDatePosteriorToBchGenesis(selectedDate) && isDatePosterior(selectedDate, startDate)
