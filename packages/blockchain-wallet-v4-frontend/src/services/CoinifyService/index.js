@@ -95,7 +95,10 @@ export const reviewOrder = {
     const fee = path(['paymentMediums', med], q) && Math.abs(q.paymentMediums[med]['fee'])
     const totalBase = path(['paymentMediums', med], q) && Math.abs((q.paymentMediums[med]['total']).toFixed(2))
     if (!fee) return `~`
-    if (reviewOrder.baseBtc(q)) return `${currencySymbolMap[q.quoteCurrency]}${(qAmt + fee).toFixed(2)}`
+    if (reviewOrder.baseBtc(q)) {
+      const quoteTotal = type === 'sell' ? qAmt - fee : qAmt + fee
+      return `${currencySymbolMap[q.quoteCurrency]}${quoteTotal.toFixed(2)}`
+    }
     else return `${currencySymbolMap[q.baseCurrency]}${totalBase}`
   }
 }
