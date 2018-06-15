@@ -251,6 +251,7 @@ export default ({ api, options }) => {
     } catch (e) {
       console.warn(e)
       yield put(A.handleTradeFailure(e))
+      return e
     }
   }
 
