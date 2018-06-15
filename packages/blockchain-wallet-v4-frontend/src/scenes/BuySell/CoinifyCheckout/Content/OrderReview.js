@@ -79,7 +79,7 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
 )
 
 export const OrderSubmit = (props) => {
-  const { busy, clearTradeError, onSubmit, quoteR, type } = props
+  const { busy, clearTradeError, onSubmit, quoteR } = props
 
   return (
     <Fragment>
@@ -96,7 +96,7 @@ export const OrderSubmit = (props) => {
               </StepTransition>
             </span>
           </div>
-          : <ReviewForm busy={busy} onSubmit={onSubmit} quoteR={quoteR} type={type} />
+          : <ReviewForm busy={busy} onSubmit={onSubmit} quoteR={quoteR} />
       }
       <StyledFaqRow
         title={<FormattedMessage id='faq.how_long_to_receive_q' defaultMessage='How long does it take to get my funds?' />}
