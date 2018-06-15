@@ -139,7 +139,9 @@ export const checkoutButtonLimitsHelper = (quoteR, limits, type) => {
 }
 
 export const statusHelper = status => {
+  console.log('Status helper', status)
   switch (status) {
+    case 'reviewing':
     case 'awaiting_transfer_in':
     case 'processing': return { color: 'transferred', text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatus.processing' defaultMessage='Pending' /> }
     case 'completed': return { color: 'success', text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatus.completed' defaultMessage='Completed' /> }
@@ -152,8 +154,10 @@ export const statusHelper = status => {
 }
 
 export const bodyStatusHelper = (status, isBuy) => {
+  console.log('body status helper', status)
   if (isBuy) {
     switch (status) {
+      case 'reviewing':
       case 'awaiting_transfer_in':
       case 'processing': return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.buy.processing' defaultMessage='Your purchase is currently being processed. Our exchange partner will send a status update your way within 1 business day.' /> }
       case 'completed': return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.buy.completed' defaultMessage='Your buy trade is complete!' /> }
