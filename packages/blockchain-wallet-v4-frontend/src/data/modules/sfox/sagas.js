@@ -9,7 +9,7 @@ import settings from 'config'
 import { Remote } from 'blockchain-wallet-v4/src'
 import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
-import { path } from 'ramda'
+import { path, prop } from 'ramda'
 
 export default ({ coreSagas }) => {
   const logLocation = 'modules/sfox/sagas'
@@ -112,6 +112,12 @@ export default ({ coreSagas }) => {
     try {
       yield put(A.sfoxLoading())
       const trade = yield call(coreSagas.data.sfox.handleTrade, action.payload)
+      if (prop('message', trade) || prop('name', trade) === 'AssertionError') {
+        if (trade.message === 'QUOTE_EXPIRED') {
+          throw new Error("The quote has expired. If this continues to happen, we recommend automatically setting your computer's date & time.")
+        }
+        throw new Error(trade.message)
+      }
       yield put(A.sfoxSuccess())
       yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
       yield put(modalActions.showModal('SfoxTradeDetails', { trade }))
