@@ -139,7 +139,6 @@ export const checkoutButtonLimitsHelper = (quoteR, limits, type) => {
 }
 
 export const statusHelper = status => {
-  console.log('Status helper', status)
   switch (status) {
     case 'reviewing':
     case 'awaiting_transfer_in':
@@ -154,7 +153,6 @@ export const statusHelper = status => {
 }
 
 export const bodyStatusHelper = (status, isBuy) => {
-  console.log('body status helper', status)
   if (isBuy) {
     switch (status) {
       case 'reviewing':
