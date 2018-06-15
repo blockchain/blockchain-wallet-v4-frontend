@@ -125,7 +125,7 @@ export default ({ coreSagas }) => {
   const prepareAddress = function * () {
     try {
       const state = yield select()
-      const defaultIdx = yield select(selectors.core.wallet.getDefaultAccountIndex)
+      const defaultIdx = selectors.core.wallet.getDefaultAccountIndex(state)
       const receiveR = selectors.core.common.btc.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, defaultIdx, state)
       const receiveIdxR = selectors.core.common.btc.getNextAvailableReceiveIndex(settings.NETWORK_BITCOIN, defaultIdx, state)
       return {
