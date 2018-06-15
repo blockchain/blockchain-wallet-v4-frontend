@@ -189,7 +189,6 @@ export default ({ api }) => {
     const value = enabled ? 2 : 0
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
-    console.log('enableNotifications', guid, sharedKey, value)
     const response = yield call(api.enableNotifications, guid, sharedKey, value)
     if (!contains('updated', response)) { throw new Error(response) }
     yield put(actions.setNotificationsOn(value))
@@ -201,7 +200,6 @@ export default ({ api }) => {
     if (prop('mobile', types)) { type = type + 32 }
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
-    console.log('updateNotificationsType', guid, sharedKey, type)
     const response = yield call(api.updateNotificationsType, guid, sharedKey, type)
     if (!contains('updated', response)) { throw new Error(response) }
     yield put(actions.setNotificationsType(type))
