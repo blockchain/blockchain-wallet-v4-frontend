@@ -71,13 +71,13 @@ export default ({ coreSagas }) => {
     }
   }
 
+  // We prefer local storage language and update this in background for
+  // things like emails and external communication with the user
   const updateLanguage = function * (action) {
     try {
       yield call(coreSagas.settings.setLanguage, action.payload)
-      yield put(actions.alerts.displaySuccess(C.LANGUAGE_UPDATE_SUCCESS))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'updateLanguage', e))
-      yield put(actions.alerts.displayError(C.LANGUAGE_UPDATE_ERROR))
     }
   }
 
