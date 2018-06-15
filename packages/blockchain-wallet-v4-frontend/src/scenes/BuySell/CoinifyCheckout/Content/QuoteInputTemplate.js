@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
 import { Field, reduxForm } from 'redux-form'
-import { head } from 'ramda'
+import { head, equals } from 'ramda'
 
 import { Icon, Link, Text } from 'blockchain-info-components'
 import { SelectBoxCoinifyCurrency, NumberBoxDebounced } from 'components/Form'
@@ -141,7 +141,7 @@ const FiatConvertor = (props) => {
     } else if (checkoutError) {
       return (
         <Error size='13px' weight={300} color='error'>
-          {getLimitsError(checkoutError, limits, curr, setMin, changeTab) }
+          {getLimitsError(checkoutError, limits, curr, setMax, setMin, changeTab) }
         </Error>
       )
     } else {
@@ -164,17 +164,19 @@ const FiatConvertor = (props) => {
     }
   }
 
+  const inputsDisabled = disabled || !canTrade || equals(checkoutError, 'effective_max_under_min')
+
   return (
     <Wrapper>
       <FiatConvertorInput>
         <Container>
-          <Field name='leftVal' component={NumberBoxDebounced} disabled={disabled || !canTrade} borderRightNone={1} />
+          <Field name='leftVal' component={NumberBoxDebounced} disabled={inputsDisabled} borderRightNone={1} />
           <Field name='currency' component={SelectBoxCoinifyCurrency} defaultDisplay={defaultCurrency} isSell={isSell} />
         </Container>
         <ArrowLeft size='16px' name='left-arrow' />
         <ArrowRight size='16px' name='right-arrow' />
         <Container>
-          <Field name='rightVal' component={NumberBoxDebounced} disabled={disabled || !canTrade} />
+          <Field name='rightVal' component={NumberBoxDebounced} disabled={inputsDisabled} />
           <Unit>{currency}</Unit>
         </Container>
       </FiatConvertorInput>

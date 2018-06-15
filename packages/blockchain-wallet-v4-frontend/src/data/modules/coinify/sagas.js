@@ -186,7 +186,6 @@ export default ({ coreSagas }) => {
             const payment = yield select(sendBtcSelectors.getPayment)
             const effectiveBalance = prop('effectiveBalance', payment.getOrElse(undefined))
             const overEffectiveMaxError = service.getOverEffectiveMaxError(amount, limits.data, values.currency, effectiveBalance)
-            console.log(overEffectiveMaxError)
             if (overEffectiveMaxError) {
               yield put(A.setCoinifyCheckoutError(overEffectiveMaxError))
             } else {
