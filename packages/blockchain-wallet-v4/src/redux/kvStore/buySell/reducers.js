@@ -46,7 +46,10 @@ export default (state = INITIAL_STATE, action) => {
     case AT.COINIFY_SET_PROFILE_BUYSELL: {
       let valueLens = compose(mapped, KVStoreEntry.value)
       let setProfile = assocPath(['coinify', 'offline_token'], payload.offlineToken)
-      return over(valueLens, setProfile, state)
+      let setUser = assocPath(['coinify', 'user'], payload.trader.id)
+      let setAll = compose(setProfile, setUser)
+
+      return over(valueLens, setAll, state)
     }
     case AT.WIPE_EXTERNAL: {
       let valueLens = compose(mapped, KVStoreEntry.value)
