@@ -28,6 +28,7 @@ const Success = props => props.large
     <LinkContainer to='/home'>
       <Wrapper>
         <FormattedMessage id='scenes.wallet.menutop.balance.totalbalance' defaultMessage='Total Balance' />
+        <span>&nbsp;</span>
         {props.totalBalance}
       </Wrapper >
     </LinkContainer >
