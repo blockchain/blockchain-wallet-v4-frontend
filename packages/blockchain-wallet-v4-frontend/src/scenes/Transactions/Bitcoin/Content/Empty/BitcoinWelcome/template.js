@@ -51,6 +51,12 @@ const CloseArrow = styled(Icon)`
   width: 30px;
   margin-top: 20px;
 `
+const LearnMoreLink = styled(Link)`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+`
 const BitcoinWelcome = props => {
   const { displayed, handleClick, handleRequest, partner, exchange } = props
 
@@ -63,10 +69,10 @@ const BitcoinWelcome = props => {
             <Text size='24px' weight={300} color='brand-primary' uppercase>
               <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.welcome' defaultMessage='Welcome to Bitcoin' />
             </Text>
-            <Link href='https://blockchain.info/wallet/bitcoin-faq' size='16px' target='_blank' weight={300} uppercase>
+            <LearnMoreLink href='https://blockchain.info/wallet/bitcoin-faq' size='16px' target='_blank' weight={300} uppercase>
               <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.learnmore' defaultMessage='Learn More' />
               <Icon name='right-arrow' color='brand-secondary' />
-            </Link>
+            </LearnMoreLink>
           </Cell>
           <Cell>
             <Text weight={300} color='brand-primary' uppercase>

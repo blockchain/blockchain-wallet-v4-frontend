@@ -23,23 +23,37 @@ export const getLimits = (limits, curr, effectiveBalance) => {
 
 export const getLimitsError = (amt, userLimits, curr, type) => {
   const limits = getLimits(userLimits, curr)
-
-  if (type === 'buy') {
-    if (limits.buy.max < limits.buy.min) return 'max_below_min'
-    if (amt > limits.buy.max) return 'over_max'
-    if (amt < limits.buy.min) return 'under_min'
+  const { max, min } = prop(type, limits)
+  switch (type) {
+    case 'buy':
+      if (max < min) return 'max_below_min'
+      if (amt > max) return 'over_max'
+      if (amt < min) return 'under_min'
+    case 'sell':
+      if (max < min) return 'max_below_min'
+      if (amt > max) return 'over_max'
+      if (amt < min) return 'under_min'
+    default:
+      return false
   }
-  if (type === 'sell') {
-    if (limits.sell.max < limits.sell.min) return 'max_below_min'
-    if (amt > limits.sell.max) return 'over_max'
-    if (amt < limits.sell.min) return 'under_min'
-  }
-
-  return false
 }
 
-export const isOverEffectiveMax = (amount, effectiveBalance) =>
-  gt(amount, effectiveBalance)
+export const isMinOverEffectiveMax = (userLimits, effectiveBalance) => {
+  const limits = getLimits(userLimits, curr)
+  const { min } = prop('sell', limits)
+  const minSatoshis = min * 1e8
+  return gt(minSatoshis, effectiveBalance)
+}
+
+export const getOverEffectiveMaxError = (amount, userLimits, curr, effectiveBalance) => {
+  if (isMinOverEffectiveMax(userLimits, effectiveBalance)) {
+    return 'effective_max_under_min'
+  }
+  if (gt(amount, effectiveBalance)) {
+    return 'over_effective_max'
+  }
+  return false
+}
 
 export const currencySymbolMap = {
   GBP: '£',
