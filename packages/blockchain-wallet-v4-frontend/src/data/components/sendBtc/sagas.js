@@ -8,7 +8,7 @@ import settings from 'config'
 import { initialize, change } from 'redux-form'
 import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { Exchange } from 'blockchain-wallet-v4/src'
 
 const DUST = 546
 const DUST_BTC = '0.00000546'

@@ -29,10 +29,12 @@ export const getLimitsError = (amt, userLimits, curr, type) => {
       if (max < min) return 'max_below_min'
       if (amt > max) return 'over_max'
       if (amt < min) return 'under_min'
+      break
     case 'sell':
       if (max < min) return 'max_below_min'
       if (amt > max) return 'over_max'
       if (amt < min) return 'under_min'
+      break
     default:
       return false
   }
