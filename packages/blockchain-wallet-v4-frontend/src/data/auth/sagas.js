@@ -56,8 +56,6 @@ export default ({ api, coreSagas }) => {
 
   const loginRoutineSaga = function * (mobileLogin, firstLogin) {
     try {
-      // Clear form
-      yield put(actions.form.destroy('login'))
       // If needed, the user should upgrade its wallet before being able to open the wallet
       let isHdWallet = yield select(selectors.core.wallet.isHdWallet)
       if (!isHdWallet) {
@@ -71,9 +69,6 @@ export default ({ api, coreSagas }) => {
       yield call(coreSagas.kvStore.ethereum.fetchMetadataEthereum)
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
       yield put(actions.router.push('/home'))
-      // reset auth type and clear previous login form state
-      yield put(actions.auth.setAuthType(0))
-      yield put(actions.form.destroy('login'))
       yield put(actions.auth.loginSuccess())
       yield put(actions.auth.startLogoutTimer())
       yield put(actions.goals.runGoals())
@@ -88,6 +83,10 @@ export default ({ api, coreSagas }) => {
       yield put(actions.logs.logErrorMessage(logLocation, 'loginRoutineSaga', e))
       // Redirect to error page instead of notification
       yield put(actions.alerts.displayError(C.WALLET_LOADING_ERROR))
+    } finally {
+      // reset auth type and clear previous login form state
+      yield put(actions.auth.setAuthType(0))
+      yield put(actions.form.destroy('login'))
     }
   }
 
