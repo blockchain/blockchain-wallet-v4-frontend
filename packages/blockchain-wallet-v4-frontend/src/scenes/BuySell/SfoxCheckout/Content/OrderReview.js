@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
-import { Text, Button, Icon, HeartbeatLoader, Link, Tooltip } from 'blockchain-info-components'
-import { Remote } from 'blockchain-wallet-v4/src'
+import { Text, Icon, Link, Tooltip } from 'blockchain-info-components'
 import CountdownTimer from 'components/Form/CountdownTimer'
 import { Wrapper as ExchangeCheckoutWrapper } from '../../ExchangeCheckout'
 import { flex, spacing } from 'services/StyleService'
@@ -9,10 +8,10 @@ import { reviewOrder } from 'services/SfoxService'
 import { FormattedMessage } from 'react-intl'
 import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDetails'
 import FundingSource from 'components/BuySell/FundingSource'
-import { CancelWrapper } from 'components/BuySell/Signup'
 import { StepTransition } from 'components/Utilities/Stepper'
 import Helper from 'components/BuySell/FAQ'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
+import ReviewForm from './orderReviewForm'
 
 const MethodContainer = styled.div`
   width: 100%;
@@ -112,7 +111,7 @@ export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
   </ExchangeCheckoutWrapper>
 )
 
-export const OrderSubmit = ({ quoteR, onSubmit, busy, clearTradeError }) => (
+export const OrderSubmit = ({ quoteR, onSubmit, busy, clearTradeError, account }) => (
   <Fragment>
     {
       busy instanceof Error
@@ -122,23 +121,7 @@ export const OrderSubmit = ({ quoteR, onSubmit, busy, clearTradeError }) => (
           </Text>
           <span onClick={() => clearTradeError()}><StepTransition prev Component={Link} weight={300} size='13px'><FormattedMessage id='try_again' defaultMessage='Try again' /></StepTransition></span>
         </div>
-        : <Fragment>
-          <Button
-            nature='primary'
-            disabled={!Remote.Success.is(quoteR)}
-            onClick={quoteR.map((quote) => () => onSubmit(quote)).getOrElse(null)}>
-            {
-              busy
-                ? <HeartbeatLoader height='20px' width='20px' color='white' />
-                : <FormattedMessage id='buysell.sfoxcheckout.orderreview.submit' defaultMessage='Submit' />
-            }
-          </Button>
-          <CancelWrapper>
-            <StepTransition prev Component={Link}>
-              <FormattedMessage id='buysell.sfoxcheckout.orderreview.cancel' defaultMessage='Cancel' />
-            </StepTransition>
-          </CancelWrapper>
-        </Fragment>
+        : <ReviewForm busy={busy} onSubmit={onSubmit} quoteR={quoteR} account={account} />
     }
     { faqListHelper() }
   </Fragment>
