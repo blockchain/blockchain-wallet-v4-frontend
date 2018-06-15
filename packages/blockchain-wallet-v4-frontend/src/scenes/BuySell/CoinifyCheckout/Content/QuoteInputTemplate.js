@@ -2,10 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Icon, Text } from 'blockchain-info-components'
-import { SelectBoxCoinifyCurrency, NumberBoxDebounced } from 'components/Form'
+import { NavLink } from 'react-router-dom'
 import { Field, reduxForm } from 'redux-form'
 import { head } from 'ramda'
+
+import { Icon, Link, Text } from 'blockchain-info-components'
+import { SelectBoxCoinifyCurrency, NumberBoxDebounced } from 'components/Form'
 import { getReasonExplanation } from 'services/CoinifyService'
 
 const Wrapper = styled.div`
@@ -80,21 +82,38 @@ const LimitsHelper = styled.div`
   }
 `
 
-const getLimitsError = (errorType, limits, curr, setMin) => {
+const getLimitsError = (errorType, limits, curr, setMax, setMin, changeTab) => {
   switch (errorType) {
-    case 'below_min':
+    case 'max_below_min':
       return <FormattedMessage id='buy.quote_input.below_min' defaultMessage='Your limit of {curr}{max} is below the minimum allowed amount.' values={{ curr, max: limits.max }} />
     case 'over_max':
-      return <FormattedMessage id='buy.quote_input.over_max' defaultMessage='Enter an amount under your {curr}{max} limit' values={{ curr, max: limits.max }} />
+      return <FormattedMessage id='buy.quote_input.over_max' defaultMessage='Enter an amount under your {setMax} limit' values={{ setMax: <a onClick={() => setMax(limits.max)}>{curr}{limits.max}</a> }} />
     case 'under_min':
       return <FormattedMessage id='buy.quote_input.under_min' defaultMessage='Enter an amount above the {setMin} minimum' values={{ setMin: <a onClick={() => setMin(limits.min)}>{curr}{limits.min}</a> }} />
     case 'over_effective_max':
       return <FormattedMessage id='buy.quote_input.over_effective_max' defaultMessage='Enter an amount less than your balance minus the priority fee ({effectiveMax} BTC)' values={{ effectiveMax: limits.effectiveMax / 1e8 }} />
+    case 'effective_max_under_min':
+      const buyLink = (
+        <Link size='13px' weight={300} onClick={() => changeTab('buy')} >
+          <FormattedMessage id='buy.quote_input.effective_max_under_min3' defaultMessage='buying' />
+        </Link>
+      )
+      const exchangeLink = (
+        <NavLink to='/exchange' style={{ textDecoration: 'none' }}>
+          <FormattedMessage id='buy.quote_input.effective_max_under_min5' defaultMessage='exchanging' />
+        </NavLink>
+      )
+      return (
+        <div>
+          <FormattedMessage id='buy.quote_input.effective_max_under_min1' defaultMessage='Your balance is less than the minimum sell amount minus priority fee {min}. ' values={{ min: limits.min }} />
+          <FormattedMessage id='buy.quote_input.effective_max_under_min2' defaultMessage='Fund your wallet by {buyLink} or {exchangeLink} before selling.' values={{ buyLink, exchangeLink }} />
+        </div>
+      )
   }
 }
 
 const FiatConvertor = (props) => {
-  const { val, disabled, setMax, setMin, limits, checkoutError, defaultCurrency, symbol, increaseLimit, form } = props
+  const { val, changeTab, disabled, setMax, setMin, limits, checkoutError, defaultCurrency, symbol, increaseLimit, form } = props
   const currency = 'BTC'
   const level = val.level || { name: 1 }
   const kyc = val.kycs.length && head(val.kycs)
@@ -122,7 +141,7 @@ const FiatConvertor = (props) => {
     } else if (checkoutError) {
       return (
         <Error size='13px' weight={300} color='error'>
-          { getLimitsError(checkoutError, limits, curr, setMin) }
+          {getLimitsError(checkoutError, limits, curr, setMin, changeTab) }
         </Error>
       )
     } else {
