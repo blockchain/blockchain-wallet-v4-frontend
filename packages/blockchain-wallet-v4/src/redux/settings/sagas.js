@@ -1,5 +1,5 @@
 import { call, put, select } from 'redux-saga/effects'
-import { contains, toLower } from 'ramda'
+import { contains, prop, toLower } from 'ramda'
 import * as actions from './actions'
 import * as selectors from '../selectors'
 import * as walletActions from '../wallet/actions'
@@ -37,14 +37,6 @@ export default ({ api }) => {
     yield put(actions.setGoogleAuthenticatorSecretUrl(response))
     // return response
   }
-
-  // SETTERS
-  // const fetchSettings = function * () {
-  //   const guid = yield select(wS.getGuid)
-  //   const sharedKey = yield select(wS.getSharedKey)
-  //   const response = yield call(api.getSettings, guid, sharedKey)
-  //   yield put(actions.setSettings(response))
-  // }
 
   const setEmail = function * ({ email }) {
     const guid = yield select(wS.getGuid)
@@ -193,6 +185,28 @@ export default ({ api }) => {
     yield put(actions.setYubikey())
   }
 
+  const setNotificationsOn = function * ({ enabled }) {
+    const value = enabled ? 2 : 0
+    const guid = yield select(wS.getGuid)
+    const sharedKey = yield select(wS.getSharedKey)
+    console.log('enableNotifications', guid, sharedKey, value)
+    const response = yield call(api.enableNotifications, guid, sharedKey, value)
+    if (!contains('updated', response)) { throw new Error(response) }
+    yield put(actions.setNotificationsOn(value))
+  }
+
+  const setNotificationsType = function * ({ types }) {
+    let type = 0
+    if (prop('email', types)) { type = type + 1 }
+    if (prop('mobile', types)) { type = type + 32 }
+    const guid = yield select(wS.getGuid)
+    const sharedKey = yield select(wS.getSharedKey)
+    console.log('updateNotificationsType', guid, sharedKey, type)
+    const response = yield call(api.updateNotificationsType, guid, sharedKey, type)
+    if (!contains('updated', response)) { throw new Error(response) }
+    yield put(actions.setNotificationsType(type))
+  }
+
   return {
     decodePairingCode,
     requestGoogleAuthenticatorSecretUrl,
@@ -214,6 +228,8 @@ export default ({ api }) => {
     setGoogleAuthenticator,
     setYubikey,
     sendConfirmationCodeEmail,
-    verifyEmailCode
+    verifyEmailCode,
+    setNotificationsOn,
+    setNotificationsType
   }
 }

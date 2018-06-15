@@ -1,24 +1,35 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+
+import { actions } from 'data'
 import { getData } from './selectors'
-import Settings from './template.js'
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
 
 class SettingContainer extends React.PureComponent {
-  render () {
-    const defaultData = { isEmailVerified: false, isMobileVerified: false }
+  componentDidMount () {
+    this.props.actions.notificationsInitialized()
+  }
 
+  render () {
     return this.props.data.cata({
-      Success: value => <Settings data={value} />,
-      Failure: message => <Settings data={defaultData} />,
-      Loading: () => <Settings data={defaultData} />,
-      NotAsked: () => <Settings data={defaultData} />
+      Success: value => <Success {...value} />,
+      Failure: message => <Error>{message}</Error>,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
     })
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   data: getData(state)
 })
 
-export default connect(mapStateToProps)(SettingContainer)
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(actions.components.settings, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(SettingContainer)
