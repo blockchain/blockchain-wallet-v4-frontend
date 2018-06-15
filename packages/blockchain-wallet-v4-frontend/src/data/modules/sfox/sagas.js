@@ -154,7 +154,7 @@ export default ({ coreSagas }) => {
       payment = yield payment.sign(password)
       payment = yield payment.publish()
 
-      yield put(sendBtcActions.sendBtcPaymentUpdated(Remote.of(payment.value())))
+      yield put(sendBtcActions.sendBtcPaymentUpdatedSuccess(payment.value()))
       yield put(A.sfoxSuccess())
       yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
     } catch (e) {

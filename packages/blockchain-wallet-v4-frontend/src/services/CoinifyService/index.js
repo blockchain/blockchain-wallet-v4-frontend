@@ -38,7 +38,7 @@ export const getLimitsError = (amt, userLimits, curr, type) => {
   }
 }
 
-export const isMinOverEffectiveMax = (userLimits, effectiveBalance) => {
+export const isMinOverEffectiveMax = (userLimits, effectiveBalance, curr) => {
   const limits = getLimits(userLimits, curr)
   const { min } = prop('sell', limits)
   const minSatoshis = min * 1e8
@@ -46,7 +46,7 @@ export const isMinOverEffectiveMax = (userLimits, effectiveBalance) => {
 }
 
 export const getOverEffectiveMaxError = (amount, userLimits, curr, effectiveBalance) => {
-  if (isMinOverEffectiveMax(userLimits, effectiveBalance)) {
+  if (isMinOverEffectiveMax(userLimits, effectiveBalance, curr)) {
     return 'effective_max_under_min'
   }
   if (gt(amount, effectiveBalance)) {

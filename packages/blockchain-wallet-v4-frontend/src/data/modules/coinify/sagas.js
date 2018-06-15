@@ -1,4 +1,4 @@
-import { put, call, select } from 'redux-saga/effects'
+import { put, call, select, take } from 'redux-saga/effects'
 import { any, merge, path, prop, equals, head } from 'ramda'
 import { delay } from 'redux-saga'
 import * as A from './actions'
@@ -7,9 +7,9 @@ import * as selectors from '../../selectors.js'
 import * as C from 'services/AlertService'
 import * as service from 'services/CoinifyService'
 import * as sendBtcActions from '../../components/sendBtc/actions'
+import * as sendBtcActionTypes from '../../components/sendBtc/actionTypes'
 import * as sendBtcSelectors from '../../components/sendBtc/selectors'
 import settings from 'config'
-import { Remote } from 'blockchain-wallet-v4/src'
 import { promptForSecondPassword } from 'services/SagaService'
 
 export default ({ coreSagas }) => {
@@ -90,11 +90,11 @@ export default ({ coreSagas }) => {
       payment = yield payment.description(`Exchange Trade COINIFY=${trade.id}`)
       payment = yield payment.build()
 
-      yield put(sendBtcActions.sendBtcPaymentUpdated(Remote.of(payment.value())))
+      yield put(sendBtcActions.sendBtcPaymentUpdatedSuccess(payment.value()))
       const password = yield call(promptForSecondPassword)
       payment = yield payment.sign(password)
       payment = yield payment.publish()
-      yield put(sendBtcActions.sendBtcPaymentUpdated(Remote.of(payment.value())))
+      yield put(sendBtcActions.sendBtcPaymentUpdatedSuccess(payment.value()))
       yield put(A.coinifySuccess())
       yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
       yield put(actions.modals.showModal('CoinifyTradeDetails', { trade }))
@@ -108,12 +108,12 @@ export default ({ coreSagas }) => {
     try {
       const { type } = action.payload
       const level = yield select(selectors.core.data.coinify.getLevel)
-      const currencyR = level.map(l => l.currency)
+      const currency = level.map(l => l.currency).getOrElse('EUR')
 
       const initialValues = {
         leftVal: '',
         rightVal: '',
-        currency: currencyR.getOrElse('EUR')
+        currency: currency
       }
 
       let error = false
@@ -123,13 +123,15 @@ export default ({ coreSagas }) => {
       } else {
         yield put(actions.form.initialize('coinifyCheckoutSell', initialValues))
         const limits = yield select(selectors.core.data.coinify.getLimits)
+        yield take(sendBtcActionTypes.SEND_BTC_PAYMENT_UPDATED_SUCCESS)
         const payment = yield select(sendBtcSelectors.getPayment)
         const effectiveBalance = prop('effectiveBalance', payment.getOrElse(undefined))
-        if (service.isMinOverEffectiveMax(limits.data, effectiveBalance)) {
+        const isMinOverEffectiveMax = service.isMinOverEffectiveMax(limits.getOrElse(undefined), effectiveBalance, currency)
+        if (isMinOverEffectiveMax) {
           error = 'effective_max_under_min'
         }
       }
-      yield put(actions.core.data.coinify.fetchRateQuote(currencyR.getOrElse('EUR'), type))
+      yield put(actions.core.data.coinify.fetchRateQuote(currency, type))
       yield put(A.setCoinifyCheckoutError(error))
       yield put(A.coinifyCheckoutBusyOn())
     } catch (e) {
@@ -184,6 +186,7 @@ export default ({ coreSagas }) => {
             const payment = yield select(sendBtcSelectors.getPayment)
             const effectiveBalance = prop('effectiveBalance', payment.getOrElse(undefined))
             const overEffectiveMaxError = service.getOverEffectiveMaxError(amount, limits.data, values.currency, effectiveBalance)
+            console.log(overEffectiveMaxError)
             if (overEffectiveMaxError) {
               yield put(A.setCoinifyCheckoutError(overEffectiveMaxError))
             } else {
@@ -201,6 +204,14 @@ export default ({ coreSagas }) => {
           break
         case 'rightVal':
           if (isSell) {
+            const payment = yield select(sendBtcSelectors.getPayment)
+            const effectiveBalance = prop('effectiveBalance', payment.getOrElse(undefined))
+            const overEffectiveMaxError = service.getOverEffectiveMaxError(payload * 1e8, limits.data, values.currency, effectiveBalance)
+            if (overEffectiveMaxError) {
+              yield put(A.setCoinifyCheckoutError(overEffectiveMaxError))
+              return
+            }
+
             const rightLimitsError = service.getLimitsError(payload, limits.data, values.currency, type)
             if (rightLimitsError) {
               yield put(A.setCoinifyCheckoutError(rightLimitsError))
@@ -214,13 +225,6 @@ export default ({ coreSagas }) => {
             { quote: { amount: Math.round((payload * 1e8) * -1), baseCurrency: 'BTC', quoteCurrency: values.currency, type } })
           const fiatAmount = Math.abs(rightResult.quoteAmount)
 
-          const payment = yield select(sendBtcSelectors.getPayment)
-          const effectiveBalance = prop('effectiveBalance', payment.getOrElse(undefined))
-          if (type === 'sell') {
-            const overEffectiveMaxError = service.getOverEffectiveMaxError(payload * 1e8, limits.data, values.currency, effectiveBalance)
-            yield put(A.setCoinifyCheckoutError(overEffectiveMaxError))
-            return
-          }
           const amt = isSell ? payload : fiatAmount
           const rightLimitsError = service.getLimitsError(amt, limits.data, values.currency, type)
           if (rightLimitsError) {
