@@ -261,7 +261,7 @@ export default ({ api, options }) => {
       trade._receive_index = addressData.index
       const id = trade.tradeSubscriptionId || trade.id
 
-      yield put(walletActions.setHdAddressLabel(addressData.accountIndex, addressData.index, `Exchange order #${id}`))
+      yield put(walletActions.setHdAddressLabel(addressData.accountIndex, addressData.index, `SFOX order #${id}`))
     } catch (e) {
       console.warn('err in labelAddressForBuy', e)
       yield put(A.handleTradeFailure(e))
