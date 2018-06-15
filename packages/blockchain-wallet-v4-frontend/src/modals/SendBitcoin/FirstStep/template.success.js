@@ -7,7 +7,7 @@ import { Field, reduxForm } from 'redux-form'
 import { required, validBitcoinAddress, validBitcoinPrivateKey } from 'services/FormHelper'
 import { Button, Icon, Link, Text, Tooltip } from 'blockchain-info-components'
 import { FiatConvertor, Form, FormGroup, FormItem, FormLabel, NumberBoxDebounced, SelectBoxBitcoinAddresses, SelectBoxCoin, SelectBox, TextBox, TextAreaDebounced } from 'components/Form'
-import { shouldError, shouldWarn, isAddressDerivedFromPriv, insufficientFunds, minimumAmount, maximumAmount, minimumFeePerByte, maximumFeePerByte, invalidAmount } from './validation'
+import { shouldError, shouldWarn, isAddressDerivedFromPriv, insufficientFunds, minimumAmount, maximumAmount, minimumFeePerByte, maximumFeePerByte, minimumOneSatoshi, invalidAmount } from './validation'
 import QRCodeCapture from 'components/QRCodeCapture'
 import RegularFeeLink from './RegularFeeLink'
 import PriorityFeeLink from './PriorityFeeLink'
@@ -68,7 +68,7 @@ const FeeOptionsContainer = styled.div`
 `
 const FeePerByteContainer = styled.div`
   width: 100%;
-  margin-top: 10px;
+  margin-top: 15px;
 `
 
 const FirstStep = props => {
@@ -146,7 +146,7 @@ const FirstStep = props => {
             </FeeFormLabel>
             {feePerByteToggled &&
               <FeePerByteContainer>
-                <Field name='feePerByte' component={NumberBoxDebounced} validate={[required]} warn={[minimumFeePerByte, maximumFeePerByte]} />
+                <Field name='feePerByte' component={NumberBoxDebounced} validate={[required, minimumOneSatoshi]} warn={[minimumFeePerByte, maximumFeePerByte]} />
               </FeePerByteContainer>
             }
           </FeeFormContainer>
