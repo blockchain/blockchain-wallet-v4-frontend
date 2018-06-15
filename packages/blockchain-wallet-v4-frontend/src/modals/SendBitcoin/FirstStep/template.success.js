@@ -27,12 +27,8 @@ const ColLeft = styled.div`
   align-items: flex-start;
   width: 50%;
 `
-const ColRight = ColLeft.extend`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+const ColRight = styled(ColLeft)`
   align-items: flex-end;
-  width: 50%;
 `
 const AddressButton = styled.div`
   display: flex;
@@ -192,7 +188,7 @@ FirstStep.propTypes = {
   handleFeePerByteToggle: PropTypes.func.isRequired,
   handleToToggle: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  totalFee: PropTypes.number
+  totalFee: PropTypes.string
 }
 
 export default reduxForm({ form: 'sendBtc', destroyOnUnmount: false, shouldError, shouldWarn })(FirstStep)
