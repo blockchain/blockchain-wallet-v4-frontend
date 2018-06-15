@@ -49,7 +49,7 @@ const Modals = props => (
     <CoinifyTradeDetails />
     <ConfirmDisable2FA />
     <EditTxDescription />
-    <ErrorBoundary blockOnOutsideClick={true} blockEscKeypress={true}/>
+    <ErrorBoundary />
     <ExchangeDetails />
     <ImportBtcAddress />
     <MobileNumberChange />
