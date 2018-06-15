@@ -74,7 +74,6 @@ const selectTitle = (number) => {
     case 19: return <FormattedMessage id='scenes.home.didyouknow.title19' defaultMessage='Where are my private keys?' />
     case 20: return <FormattedMessage id='scenes.home.didyouknow.title20' defaultMessage='What makes a password secure?' />
     case 21: return <FormattedMessage id='scenes.home.didyouknow.title22' defaultMessage='How do fees work in my wallet?' />
-    case 22:
     default: return <FormattedMessage id='scenes.home.didyouknow.title23' defaultMessage='How often do I have to back up my wallet? ' />
   }
 }
@@ -94,7 +93,7 @@ const selectContent = (number) => {
     case 4: return (<DidYouKnowWrapper>
       <FormattedMessage id='scenes.home.didyouknow.content4.one' defaultMessage='All the code related to our wallet is open source. Go to our' />
       <Link href='https://github.com/blockchain/blockchain-wallet-v4-frontend/' target='_blank' size='14px' weight={200}>
-        <FormattedMessage id='scenes.faq.group.walletfunctionality.answer6.link' defaultMessage='Github repo' />
+        <FormattedMessage id='scenes.faq.group.walletfunctionality.content4.link' defaultMessage='Github repo' />
       </Link>
       <FormattedMessage id='scenes.home.didyouknow.content4.one' defaultMessage='to contribute to the development of our wallet.' />
     </DidYouKnowWrapper>)
@@ -149,7 +148,6 @@ const selectContent = (number) => {
     </DidYouKnowWrapper>)
     case 20: return <FormattedMessage id='scenes.home.didyouknow.content20' defaultMessage='Your passwords are considered secure as long as they are 16 characters minimum, unique, and include a diverse range of letters, numbers, and symbols. ' />
     case 21: return <FormattedMessage id='scenes.home.didyouknow.content22' defaultMessage='Our wallet uses a dynamic fee structure. This means that when you send bitcoin, fees adjust based on network conditions & your transaction size.' />
-    case 22:
     default: return <FormattedMessage id='scenes.home.didyouknow.content23' defaultMessage='You only have to write down your Wallet Backup Phrase *once* to make sure all funds (except Imported Addresses) are backed up. To make sure your imported addresses are backed up too, transfer your funds to your wallet by using Send.' />
   }
 }
