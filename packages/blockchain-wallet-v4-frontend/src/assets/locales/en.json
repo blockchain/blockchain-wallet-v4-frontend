@@ -375,7 +375,7 @@
   "scenes.faq.group.educationalresources.answer10.one": "We refer to “mining nodes” as miners. Mining nodes group pending transactions into blocks and add them to the block chain. They do this by solving complex mathematical puzzles that come with the software, and include the answer into each block before adding it to the chain of other blocks. When funds are sent, every computer running a mining node receives the same transaction,",
   "scenes.faq.group.educationalresources.answer10.two": "and multiple people go to approve or deny it. If miners disagree on a transaction, the network automatically rejects the transaction that doesn’t match the rest: preventing fraud. It’s impossible for scammers to manipulate the system this way, since their copy of the block chain wouldn’t match the others, and each transaction has to be agreed upon.",
   "layouts.wallet.trayright.faq": "Frequently Asked Questions",
-  "layouts.wallet.trayright.whatsnew": "Whats New",
+  "layouts.wallet.trayright.whatsnew": "What’s New",
   "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore": "Learn More",
   "layouts.wallet.header.whatsnew.whatsnew.learnmore": "Learn More",
   "layouts.wallet.header.whatsnew.whatsnew.title11": "New Bitcoin Cash Address Format",
