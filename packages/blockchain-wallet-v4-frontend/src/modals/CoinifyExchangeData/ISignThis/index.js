@@ -33,15 +33,22 @@ const QuoteExpiredText = styled(Text)`
   }
 `
 
-const helpers = [
+const kycHelper = [
   {
-    question: <FormattedMessage id='scenes.buysell.coinify.isx.question1' defaultMessage='Why do I have to do this?' />,
-    answer: <FormattedMessage id='scenes.buysell.coinify.isx.answer1' defaultMessage="Completing the identity verification process allows you to buy and sell at higher limits. If you don't submit this information, you will only be able to buy and sell up to €300." />
+    question: <FormattedMessage id='scenes.coinify.isx.question1' defaultMessage='Why do you need this information?' />,
+    answer: <FormattedMessage id='scenes.coinify.isx.answer1' defaultMessage='Government anti-money laundering regulations require this verification of identity. The purpose of fulfilling these regulations is to provide you with a secure, smooth, and customized experience.' />
+  }
+]
+const tradeHelper = [
+  {
+    question: <FormattedMessage id='scenes.coinify.isx.question2' defaultMessage='How is my payment method used?' />,
+    answer: <FormattedMessage id='scenes.coinify.isx.answer2' defaultMessage="Bitcoin is delivered to your Blockchain wallet by using the information you' ve provided.With that in mind, please double check that your submitted details are error-free.If you pay by credit / debit card, your bitcoin will be delivered within a couple of hours after the transaction is completed, depending on your bank’s transfer policies.If you pay by bank transfer, your bitcoin will be delivered after Coinify has processed your order, which usually takes between 2-3 days." />
   }
 ]
 const getExpiredBtcValues = (q) => q.quoteCurrency === 'BTC' ? `${q.quoteAmount / 1e8}` : `${q.baseAmount / 1e8}`
 const getExpiredFiatValues = (q) => q.baseCurrency !== 'BTC' ? `${Currency.formatFiat(Math.abs(q.baseAmount))} ${q.baseCurrency}` : `${Currency.formatFiat(Math.abs(q.quoteAmount))} ${q.quoteCurrency}`
-const faqHelper = () => helpers.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
+const kycFaqHelper = () => kycHelper.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
+const tradeFaqHelper = () => tradeHelper.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
 
 class ISignThisContainer extends Component {
   constructor (props) {
@@ -252,8 +259,8 @@ class ISignThisContainer extends Component {
             </Button>
             {
               isxType && isxType !== 'Trade'
-                ? faqHelper()
-                : null
+                ? tradeFaqHelper()
+                : kycFaqHelper()
             }
           </ButtonContainer>
         </ISXContainer>
