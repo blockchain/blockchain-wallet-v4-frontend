@@ -53,22 +53,22 @@ const PaddedIcon = styled(Icon)`
 `
 const selectTitle = (number) => {
   switch (number) {
-    case 1: return <FormattedMessage id='scenes.home.didyouknow.title1' defaultMessage='Passwords are not shared or stored with us' />
+    case 1: return <FormattedMessage id='scenes.home.didyouknow.title1' defaultMessage='We don’t store your password' />
     case 2: return <FormattedMessage id='scenes.home.didyouknow.title2' defaultMessage='How It Works' />
-    case 3: return <FormattedMessage id='scenes.home.didyouknow.title3' defaultMessage='Why does my balance keep changing?' />
-    case 4: return <FormattedMessage id='scenes.home.didyouknow.title4' defaultMessage='Our Wallet is Open Source' />
-    case 5: return <FormattedMessage id='scenes.home.didyouknow.title5' defaultMessage='Set Your Own Fees' />
-    case 6: return <FormattedMessage id='scenes.home.didyouknow.title6' defaultMessage='Blockchain Optimizes Your Fees' />
-    case 7: return <FormattedMessage id='scenes.home.didyouknow.title7' defaultMessage='Transaction Fees' />
-    case 8: return <FormattedMessage id='scenes.home.didyouknow.title8' defaultMessage='Use Your Blockchain Wallet on Mobile' />
-    case 9: return <FormattedMessage id='scenes.home.didyouknow.title9' defaultMessage='Top Security Tips' />
+    case 3: return <FormattedMessage id='scenes.home.didyouknow.title3' defaultMessage='Why does my balance change?' />
+    case 4: return <FormattedMessage id='scenes.home.didyouknow.title4' defaultMessage='Our wallet is open source' />
+    case 5: return <FormattedMessage id='scenes.home.didyouknow.title5' defaultMessage='Set your own fees' />
+    case 6: return <FormattedMessage id='scenes.home.didyouknow.title6' defaultMessage='Blockchain optimizes your fees' />
+    case 7: return <FormattedMessage id='scenes.home.didyouknow.title7' defaultMessage='Transaction fees' />
+    case 8: return <FormattedMessage id='scenes.home.didyouknow.title8' defaultMessage='Use Your Blockchain wallet on mobile' />
+    case 9: return <FormattedMessage id='scenes.home.didyouknow.title9' defaultMessage='Top security tips' />
     case 10: return <FormattedMessage id='scenes.home.didyouknow.title10' defaultMessage='Your wallet ID cannot be used to send/receive funds' />
     case 11: return <FormattedMessage id='scenes.home.didyouknow.title11' defaultMessage='Report Phishing Sites' />
     case 12: return <FormattedMessage id='scenes.home.didyouknow.title12' defaultMessage='Identifying SSL Protection' />
     case 13: return <FormattedMessage id='scenes.home.didyouknow.title13' defaultMessage="We Can' t Suspend or Lock Your Wallet" />
     case 14: return <FormattedMessage id='scenes.home.didyouknow.title14' defaultMessage='What are phishing scams?' />
     case 15: return <FormattedMessage id='scenes.home.didyouknow.title15' defaultMessage="Scam Warning: Bitcoins Can't Be Doubled" />
-    case 16: return <FormattedMessage id='scenes.home.didyouknow.title16' defaultMessage='Get the word out about bitcoin investment scams' />
+    case 16: return <FormattedMessage id='scenes.home.didyouknow.title16' defaultMessage='Investment Scams' />
     case 17: return <FormattedMessage id='scenes.home.didyouknow.title17' defaultMessage='How can I spot an investment scam?' />
     case 18: return <FormattedMessage id='scenes.home.didyouknow.title18' defaultMessage='What are private keys?' />
     case 19: return <FormattedMessage id='scenes.home.didyouknow.title19' defaultMessage='Where are my private keys?' />
@@ -82,11 +82,11 @@ const selectContent = (number) => {
   switch (number) {
     case 1: return (
       <DidYouKnowWrapper>
-        <FormattedMessage id='scenes.home.didyouknow.content1.one' defaultMessage='We never see or store your password, which means if you forget it we cannot reset it. Be sure to record your backup recovery phrase to ensure you never lose access to your funds. Find out how by visiting the' />
+        <FormattedMessage id='scenes.home.didyouknow.content1.one' defaultMessage='We never see or store your password, which means if you forget it, we cannot reset it. Be sure to record your 12-word backup phrase in the' />
         <NavLink to='/security-center' style={{textDecoration: 'none', color: Color('brand-secondary')}} >
-          <FormattedMessage id='scenes.home.didyouknow.content1.navlink' defaultMessage=' Security Center' />
+          <FormattedMessage id='scenes.home.didyouknow.content1.navlink' defaultMessage=' Security Center ' />
         </NavLink>
-        <FormattedMessage id='scenes.home.didyouknow.content1.two' defaultMessage='.' />
+        <FormattedMessage id='scenes.home.didyouknow.content1.two' defaultMessage='to ensure you never lose access to your funds.' />
       </DidYouKnowWrapper>)
     case 2: return <FormattedMessage id='scenes.home.didyouknow.content2' defaultMessage='Client side encryption keeps you firmly in control of your funds. Not even we have access. Your wallet is encrypted within your browser before it’s sent to our servers.' />
     case 3: return <FormattedMessage id='scenes.home.didyouknow.content3' defaultMessage='Your bitcoin, ether, and bitcoin cash balances will never change. However, as their exchange rates fluctuate, you will see changes in the local currency estimation of your wallet balance. Simply click the balance to switch between bitcoin, ether, or bitcoin cash and your local currency.' />
@@ -97,9 +97,9 @@ const selectContent = (number) => {
       </Link>
       <FormattedMessage id='scenes.home.didyouknow.content4.one' defaultMessage='to contribute to the development of our wallet.' />
     </DidYouKnowWrapper>)
-    case 5: return <FormattedMessage id='scenes.home.didyouknow.content5' defaultMessage="Want to set your own bitcoin fees? You can! Just click on 'Customize Fee' in the Send screen." />
-    case 6: return <FormattedMessage id='scenes.home.didyouknow.content6' defaultMessage='We adjust your fees dynamically depending on network conditions and the size of your transaction.' />
-    case 7: return <FormattedMessage id='scenes.home.didyouknow.content7' defaultMessage='Transaction fees are needed for sending any funds, and are collected by their networks of miners. To assure your transaction is confirmed, we automatically include an appropriate fee based on network standards.' />
+    case 5: return <FormattedMessage id='scenes.home.didyouknow.content5' defaultMessage="Want to set your own bitcoin fees? You can! Just click on 'Customize Fee' in the send screen." />
+    case 6: return <FormattedMessage id='scenes.home.didyouknow.content6' defaultMessage='We adjust your fees dynamically depending on network conditions and the size of your transaction to ensure your transaction gets confirmed quickly.' />
+    case 7: return <FormattedMessage id='scenes.home.didyouknow.content7' defaultMessage='Transaction fees are needed for sending any funds, and are collected by the network of miners of each currency. To assure your transaction is confirmed, we automatically include an appropriate fee based on network standards.' />
     case 8: return (<DidYouKnowWrapper>
       <FormattedMessage id='scenes.home.didyouknow.content8.one' defaultMessage='Download our mobile app on your' />
       <Link href='https://play.google.com/store/apps/details?id=piuk.blockchain.android' target='_blank' size='14px' weight={200}>
