@@ -32,7 +32,7 @@ const Identity = (props) => {
       <ColLeft>
         <InputWrapper>
           <IconHeader>
-            <FormattedMessage id='sfoxexchangedata.verify.partner.header' defaultMessage='The Hidden Details' />
+            <FormattedMessage id='sfoxexchangedata.verify.partner.header' defaultMessage='Let’s Get to Know You' />
             <LockIcon name='lock-filled' />
           </IconHeader>
           <PartnerSubHeader>
