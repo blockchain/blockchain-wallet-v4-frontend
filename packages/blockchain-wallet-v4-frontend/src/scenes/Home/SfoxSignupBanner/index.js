@@ -11,7 +11,7 @@ import { actions } from 'data'
 class SfoxSignupBannerContainer extends React.PureComponent {
   constructor (props) {
     super(props)
-    this.state({ step: null })
+    this.state = { step: null }
     this.renderStepper = this.renderStepper.bind(this)
     this.goToBuySell = this.goToBuySell.bind(this)
   }
@@ -65,8 +65,8 @@ class SfoxSignupBannerContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
-  data: getData(state)
+const mapStateToProps = (state, ownProps) => ({
+  data: getData(state, ownProps)
 })
 
 const mapDispatchToProps = dispatch => ({
