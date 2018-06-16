@@ -92,9 +92,11 @@ const selectContent = (number) => {
     case 3: return <FormattedMessage id='scenes.home.didyouknow.content3' defaultMessage='Your bitcoin, ether, and bitcoin cash balances will never change. However, as their exchange rates fluctuate, you will see changes in the local currency estimation of your wallet balance. Simply click the balance to switch between bitcoin, ether, or bitcoin cash and your local currency.' />
     case 4: return (<DidYouKnowWrapper>
       <FormattedMessage id='scenes.home.didyouknow.content4.one' defaultMessage='All the code related to our wallet is open source. Go to our' />
+      <span>&nbsp;</span>
       <Link href='https://github.com/blockchain/blockchain-wallet-v4-frontend/' target='_blank' size='14px' weight={200}>
         <FormattedMessage id='scenes.faq.group.walletfunctionality.content4.link' defaultMessage='Github repo' />
       </Link>
+      <span>&nbsp;</span>
       <FormattedMessage id='scenes.home.didyouknow.content4.two' defaultMessage='to contribute to the development of our wallet.' />
     </DidYouKnowWrapper>)
     case 5: return <FormattedMessage id='scenes.home.didyouknow.content5' defaultMessage='Want to set your own bitcoin fees? You can! Just click on ‘Customize Fee’ in the send screen.' />
@@ -102,17 +104,21 @@ const selectContent = (number) => {
     case 7: return <FormattedMessage id='scenes.home.didyouknow.content7' defaultMessage='Transaction fees are needed for sending any funds, and are collected by the network of miners of each currency. To assure your transaction is confirmed, we automatically include an appropriate fee based on network standards.' />
     case 8: return (<DidYouKnowWrapper>
       <FormattedMessage id='scenes.home.didyouknow.content8.one' defaultMessage='Download our mobile app on your' />
+      <span>&nbsp;</span>
       <Link href='https://play.google.com/store/apps/details?id=piuk.blockchain.android' target='_blank' size='14px' weight={200}>
-        <FormattedMessage id='scenes.faq.group.didyouknow.content8.linkone' defaultMessage=' Android ' />
+        <FormattedMessage id='scenes.faq.group.didyouknow.content8.linkone' defaultMessage='Android' />
       </Link>
+      <span>&nbsp;</span>
       <FormattedMessage id='scenes.home.didyouknow.content8.two' defaultMessage='or' />
+      <span>&nbsp;</span>
       <Link href='https://itunes.apple.com/us/app/blockchain-bitcoin-wallet/id493253309' target='_blank' size='14px' weight={200}>
-        <FormattedMessage id='scenes.home.didyouknow.content8.linktwo' defaultMessage=' iOS ' />
+        <FormattedMessage id='scenes.home.didyouknow.content8.linktwo' defaultMessage='iOS' />
       </Link>
+      <span>&nbsp;</span>
       <FormattedMessage id='scenes.home.didyouknow.content8.three' defaultMessage='device to use your wallet on the go.' />
     </DidYouKnowWrapper>)
     case 9: return <FormattedMessage id='scenes.home.didyouknow.content9' defaultMessage='Keep your wallet safe and secure by visiting the Security Center to record your backup phrase and enabling 2-step Verification. We also recommend using a unique, random password that’s at least 16 characters or more!' />
-    case 10: return <FormattedMessage id='scenes.home.didyouknow.content10' defaultMessage='It‘s like a username, and you only use it to log in to your wallet. To send/receive any digital currencies you need an address. To find your address, click Request, and select a digital asset in the currency dropdown.' />
+    case 10: return <FormattedMessage id='scenes.home.didyouknow.content10' defaultMessage='It‘s like a username, and you only use it to log in to your wallet. To send/receive any digital currencies, you need an address. To find your address, click Request, and select a digital asset in the currency dropdown.' />
     case 11: return (<DidYouKnowWrapper>
       <FormattedMessage id='scenes.home.didyouknow.content11' defaultMessage='Did you know you can help us take down phishing sites? Report them directly to Google using' />
       <span>&nbsp;</span>
@@ -144,7 +150,7 @@ const selectContent = (number) => {
     case 17: return <FormattedMessage id='scenes.home.didyouknow.content17' defaultMessage='Legitimate investing platforms do exist, but their scheming counterparts present some serious red flags: they’ll contact you through an unsolicited email, and they’ll guarantee profits. Before investing with any platform, always do your research about the company’s reputation, location, and contact details.' />
     case 18: return <FormattedMessage id='scenes.home.didyouknow.content18' defaultMessage='Every address has an accompanying private key, which is what indicates ownership or control over funds at that particular address. In other words, whoever has the private key can spend those funds.' />
     case 19: return (<DidYouKnowWrapper>
-      <FormattedMessage id='scenes.home.didyouknow.content19.one' defaultMessage='Your Blockchain wallet backup phrase serves as the copy of your private keys, you can find this phrase in your' />
+      <FormattedMessage id='scenes.home.didyouknow.content19.one' defaultMessage='Your Blockchain wallet backup phrase serves as the copy of your private keys. You can find this phrase in your' />
       <span>&nbsp;</span>
       <NavLink to='/security-center' style={{textDecoration: 'none', color: Color('brand-secondary')}} >
         <FormattedMessage id='scenes.home.didyouknow.content19.navlink' defaultMessage='Security Center' />
