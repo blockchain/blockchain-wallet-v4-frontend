@@ -99,6 +99,9 @@ const selectMessage = (message, data = undefined) => {
     case C.PBKDF2_UPDATE_SUCCESS: return <FormattedMessage id='components.alerts.pbkdf2_update_success' defaultMessage='PBKDF2 iterations changed successfully' />
     case C.REGISTER_ERROR: return <FormattedMessage id='components.alerts.register_error' defaultMessage='Wallet could not be created' />
     case C.REGISTER_SUCCESS: return <FormattedMessage id='components.alerts.register_successful' defaultMessage='Wallet successfully created' />
+    case C.RECEIVE_BCH_SUCCESS: return <FormattedMessage id='components.alerts.receive_bch_success' defaultMessage='You have received a bitcoin cash payment.' />
+    case C.RECEIVE_BTC_SUCCESS: return <FormattedMessage id='components.alerts.receive_btc_success' defaultMessage='You have received a bitcoin payment.' />
+    case C.RECEIVE_ETH_SUCCESS: return <FormattedMessage id='components.alerts.receive_eth_success' defaultMessage='You have received an ether payment.' />
     case C.RENAME_BCH_WALLET_ERROR: return <FormattedMessage id='components.alerts.rename_bch_wallet_error' defaultMessage='Failed to update Bitcoin Cash account label' />
     case C.RENAME_BCH_WALLET_SUCCESS: return <FormattedMessage id='components.alerts.rename_bch_wallet_success' defaultMessage='BCH wallet name updated' />
     case C.RENAME_BTC_WALLET_SUCCESS: return <FormattedMessage id='components.alerts.rename_btc_wallet_success' defaultMessage='BTC wallet name updated' />
@@ -110,11 +113,11 @@ const selectMessage = (message, data = undefined) => {
     case C.SECOND_PASSWORD_ENABLED_SUCCESS: return <FormattedMessage id='components.alerts.second_password_enabled_success' defaultMessage='Second password enabled' />
     case C.SECOND_PASSWORD_DISABLED_SUCCESS: return <FormattedMessage id='components.alerts.second_password_disabled_success' defaultMessage='Second password disabled' />
     case C.SEND_BCH_ERROR: return <FormattedMessage id='components.alerts.send_bch_error' defaultMessage='Your bitcoin cash transaction failed to send. Please try again.' />
-    case C.SEND_BCH_SUCCESS: return <FormattedMessage id='components.alerts.send_bch_success' defaultMessage='Your bitcoin cash transaction is now pending' />
+    case C.SEND_BCH_SUCCESS: return <FormattedMessage id='components.alerts.send_bch_success' defaultMessage='Your bitcoin cash transaction is now pending.' />
     case C.SEND_BTC_ERROR: return <FormattedMessage id='components.alerts.send_btc_error' defaultMessage='Your bitcoin transaction failed to send. Please try again.' />
-    case C.SEND_BTC_SUCCESS: return <FormattedMessage id='components.alerts.send_btc_success' defaultMessage='Your bitcoin transaction is now pending' />
+    case C.SEND_BTC_SUCCESS: return <FormattedMessage id='components.alerts.send_btc_success' defaultMessage='Your bitcoin transaction is now pending.' />
     case C.SEND_ETH_ERROR: return <FormattedMessage id='components.alerts.send_eth_error' defaultMessage='Your ether transaction failed to send. Please try again.' />
-    case C.SEND_ETH_SUCCESS: return <FormattedMessage id='components.alerts.send_eth_success' defaultMessage='Your ether transaction is now pending' />
+    case C.SEND_ETH_SUCCESS: return <FormattedMessage id='components.alerts.send_eth_success' defaultMessage='Your ether transaction is now pending.' />
     case C.SMS_RESEND_ERROR: return <FormattedMessage id='components.alerts.sms_resend_error' defaultMessage='Error sending SMS verification code.' />
     case C.SMS_RESEND_SUCCESS: return <FormattedMessage id='components.alerts.sms_resend_success' defaultMessage='A new SMS verification code has been sent to your phone.' />
     case C.SWEEP_ERROR: return <FormattedMessage id='components.alerts.sweep_error' defaultMessage='Could not sweep address' />
@@ -149,10 +152,6 @@ const selectMessage = (message, data = undefined) => {
     case C.YUBIKEY_VERIFY_ERROR: return <FormattedMessage id='components.alerts.yubikey_verify_error' defaultMessage='Failed to verify Yubikey' />
     case C.YUBIKEY_VERIFY_SUCCESS: return <FormattedMessage id='components.alerts.yubikey_verify_success' defaultMessage='Yubikey verified' />
     case C.CAPTCHA_CODE_INCORRECT: return <FormattedMessage id='components.alerts.captcha_code_incorrect' defaultMessage='The captcha you provided was incorrect, please try again' />
-    case C.BTC_ADDRESS_INVALID: return <FormattedMessage id='components.alerts.btc_address_incorrect' defaultMessage='Invalid Bitcoin Address.' />
-    case C.BCH_ADDRESS_INVALID: return <FormattedMessage id='components.alerts.bch_address_incorrect' defaultMessage='Invalid Bitcoin Cash Address.' />
-    case C.ETH_ADDRESS_INVALID: return <FormattedMessage id='components.alerts.eth_address_incorrect' defaultMessage='Invalid Ethereum Address.' />
-    case C.PRIVATE_KEY_INVALID: return <FormattedMessage id='components.alerts.private_key_incorrect' defaultMessage='Invalid Private Key.' />
     default: return <FormattedMessage id='components.alerts.unknown_error' defaultMessage='An error has occurred.' />
   }
 }

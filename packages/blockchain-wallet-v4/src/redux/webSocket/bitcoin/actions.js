@@ -7,4 +7,4 @@ export const openSocket = () => ({ type: T.OPEN_SOCKET })
 export const messageSocket = (payload) => ({ type: T.MESSAGE_SOCKET, payload })
 export const closeSocket = () => ({ type: T.CLOSE_SOCKET })
 
-export const paymentReceived = (message) => ({type: T.PAYMENT_RECEIVED, message})
+export const btcPaymentReceived = (message) => ({type: T.BTC_PAYMENT_RECEIVED, message})
