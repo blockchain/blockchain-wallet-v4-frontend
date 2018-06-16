@@ -13,7 +13,7 @@ const LogoutLink = styled(Link)`
   }
   @media (min-width: 768px) {
     > span:first-child {
-      display: initial;
+      display: flex;
     }
     > span:last-child {
       display: none;
