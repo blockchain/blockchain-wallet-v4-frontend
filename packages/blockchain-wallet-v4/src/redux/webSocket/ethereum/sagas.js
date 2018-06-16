@@ -1,6 +1,5 @@
 import { call, put, select, take } from 'redux-saga/effects'
 import * as A from '../../actions'
-import * as C from 'services/AlertService'
 import * as ethAT from '../../kvStore/ethereum/actionTypes'
 import * as ethSelectors from '../../kvStore/ethereum/selectors'
 import * as ethActions from '../../data/ethereum/actions'
@@ -29,7 +28,7 @@ export default ({ api, ethSocket }) => {
           break
         }
         if (message.tx.to === message.account) {
-          yield put(A.webSocket.ethereum.paymentReceived(C.RECEIVE_ETH_SUCCESS))
+          yield put(A.webSocket.ethereum.paymentReceived())
         }
         const context = yield select(ethSelectors.getContext)
         yield put(ethActions.fetchData(context.data))
