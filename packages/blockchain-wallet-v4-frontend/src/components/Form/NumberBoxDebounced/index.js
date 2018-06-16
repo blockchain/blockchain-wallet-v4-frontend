@@ -3,7 +3,6 @@ import styled from 'styled-components'
 
 import { equals } from 'ramda'
 import { Text, NumberInput } from 'blockchain-info-components'
-import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 
 const Container = styled.div`
   position: relative;
