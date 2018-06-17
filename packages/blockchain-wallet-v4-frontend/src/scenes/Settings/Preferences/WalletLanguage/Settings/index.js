@@ -15,6 +15,7 @@ class SettingsContainer extends React.PureComponent {
   componentWillReceiveProps (nextProps) {
     const { language, newLanguage } = this.props
     if (!isNil(nextProps.newLanguage) && !equals(language, nextProps.newLanguage) && !equals(newLanguage, nextProps.newLanguage)) {
+      this.props.settingsActions.updateLanguage(nextProps.newLanguage)
       this.props.preferencesActions.setLanguage(nextProps.newLanguage)
     }
   }
@@ -29,6 +30,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  settingsActions: bindActionCreators(actions.modules.settings, dispatch),
   preferencesActions: bindActionCreators(actions.preferences, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })

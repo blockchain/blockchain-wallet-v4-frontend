@@ -37,7 +37,7 @@ const validatePasswordsMatch = values => {
 }
 
 const Register = (props) => {
-  const { onSubmit, busy, invalid } = props
+  const { handleSubmit, busy, invalid } = props
   const checkboxShouldBeChecked = value => value ? undefined : 'You must agree to the terms and conditions'
 
   return (
@@ -61,7 +61,7 @@ const Register = (props) => {
         <FormattedMessage id='scenes.register.explain' defaultMessage='Sign up for a free wallet below' />
       </Text>
       <Separator />
-      <RegisterForm override onSubmit={onSubmit}>
+      <RegisterForm override onSubmit={handleSubmit}>
         { !isSupportedBrowser && <BrowserWarning>
           <Banner type='warning'>
             <FormattedMessage id='scenes.register.browserwarning' defaultMessage='Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, IE 11, or Opera ' />
