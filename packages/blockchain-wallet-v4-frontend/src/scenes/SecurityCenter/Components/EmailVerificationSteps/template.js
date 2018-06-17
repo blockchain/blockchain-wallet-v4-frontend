@@ -1,11 +1,11 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Link, Button, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
-import { SecuritySummary } from 'components/Security'
 import { Field } from 'redux-form'
-import { TextBox } from 'components/Form'
 
+import { Link, Button, Text, TextGroup } from 'blockchain-info-components'
+import { SecuritySummary } from 'components/Security'
+import { TextBox } from 'components/Form'
 import { validEmailCode, required } from 'services/FormHelper'
 
 const EmailCodeWrapper = styled.form`
@@ -15,6 +15,13 @@ const EmailCodeWrapper = styled.form`
   button {
     margin-left: 25px;
   }
+`
+const ErrorMessage = styled(TextGroup)`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  margin-top: 10px;
 `
 
 const Wrapper = styled(SecuritySummary)`
@@ -35,12 +42,13 @@ function EmailVerificationSteps (props) {
       {
         failed
           ? (
-            <React.Fragment>
-              <Text size='12px' weight={300} color='red' style={{marginTop: '8px'}}>
+            <ErrorMessage inline>
+              <Text size='12px' weight={300} color='red'>
                 <FormattedMessage id='scenes.security.email.verificationwrong' defaultMessage='Your verification code is incorrect. Please double check your email and try again.' />
               </Text>
-              <Link size='11px' onClick={handleResend}>Get a new verification code</Link>
-            </React.Fragment>
+              <span>&nbsp;</span>
+              <Link size='12px' onClick={handleResend}>Get a new verification code</Link>
+            </ErrorMessage>
           )
           : null
       }
