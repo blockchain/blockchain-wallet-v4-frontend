@@ -9,19 +9,13 @@ const LearnMore = () => <FormattedMessage id='layouts.wallet.header.whatsnew.wha
 
 const Announcements = [
   {
-    title: <FormattedMessage id='layouts.wallet.header.whatsnew.whatsnew.title12' defaultMessage='Import Funds from MyEtherWallet' />,
-    desc: <FormattedMessage id='layouts.wallet.header.whatsnew.whatsnew.desc12' defaultMessage='You can now import your ether from your MyEtherWallet backup directly into your Blockchain wallet.' />,
-    date: 'February 10, 2018',
-    link: <LinkContainer to='/settings/info'><Link size='13px' weight={300}><LearnMore /></Link></LinkContainer>
-
-  }, {
     title: <FormattedMessage id='layouts.wallet.header.whatsnew.whatsnew.title11' defaultMessage='New Bitcoin Cash Address Format' />,
     desc: <FormattedMessage id='layouts.wallet.header.whatsnew.whatsnew.desc11' defaultMessage='Bitcoin Cash addresses now follow the CashAddr format.' />,
     date: 'January 18, 2018',
     link: <FaqLink />
   }, {
     title: <FormattedMessage id='layouts.wallet.header.whatsnew.whatsnew.title10' defaultMessage='Bitcoin Cash' />,
-    desc: <FormattedMessage id='layouts.wallet.header.whatsnew.whatsnew.desc10' defaultMessage='If you had bitcoin in your wallet before August 1, 2017, you can now access Bitcoin Cash via Settings > General.' />,
+    desc: <FormattedMessage id='layouts.wallet.header.whatsnew.whatsnew.desc10' defaultMessage='If you had bitcoin in your wallet before August 1, 2017, you can now access Bitcoin Cash in your Blockchain wallet.' />,
     date: 'October 3, 2017',
     link: <LinkContainer to='/bch/transactions'><Link size='13px' weight={300}><LearnMore /></Link></LinkContainer>
   }, {
