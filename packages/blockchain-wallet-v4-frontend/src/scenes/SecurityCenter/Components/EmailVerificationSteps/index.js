@@ -8,6 +8,7 @@ import Template from './template'
 class EmailVerificationSteps extends React.PureComponent {
   componentWillUnmount () {
     this.props.coreSettingsActions.setEmailVerifiedFailedStatus(false)
+    this.props.formActions.destroy('securityEmailAddress')
   }
 
   render () {
@@ -16,7 +17,8 @@ class EmailVerificationSteps extends React.PureComponent {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  coreSettingsActions: bindActionCreators(actions.core.settings, dispatch)
+  coreSettingsActions: bindActionCreators(actions.core.settings, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 export default connect(null, mapDispatchToProps)(EmailVerificationSteps)
