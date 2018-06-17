@@ -23,20 +23,16 @@ const settingsReducer = (state = INITIAL_STATE, action) => {
   const { type, payload } = action
 
   switch (type) {
-    // case AT.SET_SETTINGS: {
-    //   const { data } = payload
-    //   return data
-    // }
     case AT.SET_EMAIL: {
       const { email } = payload
-      // return Object.assign({}, state, { email: email, email_verified: 0 })
       return state.map(compose(assoc('email', email), assoc('email_verified', 0)))
     }
     case AT.SET_EMAIL_VERIFIED: {
       return state.map(compose(assoc('email_verified', 1), assoc('email_verified_failed', 0)))
     }
-    case AT.SET_EMAIL_VERIFIED_FAILED: {
-      return state.map(assoc('email_verified_failed', 1))
+    case AT.SET_EMAIL_VERIFIED_FAILED_STATUS: {
+      const { isFailed } = payload
+      return state.map(assoc('email_verified_failed', isFailed))
     }
     case AT.SET_MOBILE: {
       const { mobile } = payload
