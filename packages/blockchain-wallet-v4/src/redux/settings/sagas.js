@@ -38,14 +38,6 @@ export default ({ api }) => {
     // return response
   }
 
-  // SETTERS
-  // const fetchSettings = function * () {
-  //   const guid = yield select(wS.getGuid)
-  //   const sharedKey = yield select(wS.getSharedKey)
-  //   const response = yield call(api.getSettings, guid, sharedKey)
-  //   yield put(actions.setSettings(response))
-  // }
-
   const setEmail = function * ({ email }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
@@ -67,7 +59,7 @@ export default ({ api }) => {
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.verifyEmail, guid, sharedKey, code)
     if (!response.success) {
-      yield put(actions.setEmailVerifiedFailed())
+      yield put(actions.setEmailVerifiedFailedStatus(true))
       throw new Error(response)
     }
     yield put(actions.setEmailVerified())
