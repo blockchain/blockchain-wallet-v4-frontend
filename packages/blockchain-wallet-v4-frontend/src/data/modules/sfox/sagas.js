@@ -6,7 +6,6 @@ import * as modalActions from '../../modals/actions'
 import * as sendBtcActions from '../../components/sendBtc/actions'
 import * as sendBtcSelectors from '../../components/sendBtc/selectors'
 import settings from 'config'
-import { Remote } from 'blockchain-wallet-v4/src'
 import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
 import { path, prop } from 'ramda'
@@ -160,7 +159,7 @@ export default ({ coreSagas }) => {
       payment = yield payment.sign(password)
       payment = yield payment.publish()
 
-      yield put(sendBtcActions.sendBtcPaymentUpdated(Remote.of(payment.value())))
+      yield put(sendBtcActions.sendBtcPaymentUpdatedSuccess(payment.value()))
       yield put(A.sfoxSuccess())
       yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
     } catch (e) {
