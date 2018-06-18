@@ -22,6 +22,7 @@ const CheckoutWrapper = styled.div`
 const Sell = props => {
   const {
     canTrade,
+    changeTab,
     fetchSellQuote,
     refreshQuote,
     sellQuoteR,
@@ -56,6 +57,7 @@ const Sell = props => {
           <CheckoutWrapper>
             <div>
               <OrderCheckout
+                changeTab={changeTab}
                 quoteR={sellQuoteR}
                 onFetchQuote={fetchSellQuote}
                 limits={limits.sell}

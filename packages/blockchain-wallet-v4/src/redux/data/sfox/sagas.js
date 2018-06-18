@@ -62,7 +62,7 @@ export default ({ api, options }) => {
       const { amt, baseCurrency, quoteCurrency } = data.payload.quote
       const quote = yield apply(sfox, sfox.getSellQuote, [amt, baseCurrency, quoteCurrency])
       yield put(A.fetchSellQuoteSuccess(quote))
-      yield fork(waitForRefreshSellQuote, data.payload, quote)
+      yield fork(waitForRefreshSellQuote, data.payload)
     } catch (e) {
       yield put(A.fetchSellQuoteFailure(e))
     }
@@ -73,22 +73,9 @@ export default ({ api, options }) => {
     yield put(A.fetchQuote(quotePayload))
   }
 
-  const waitForRefreshSellQuote = function * (sellQuotePayload, quote) {
+  const waitForRefreshSellQuote = function * (sellQuotePayload) {
     yield take(AT.REFRESH_SELL_QUOTE)
-    let sellQuote
-    if (quote.baseCurrency !== 'BTC') {
-      sellQuote = {
-        quote: {
-          amt: quote.quoteAmount,
-          baseCurrency: 'BTC',
-          quoteCurrency: 'USD'
-        }
-      }
-    } else {
-      sellQuote = sellQuotePayload
-    }
-
-    yield put(A.fetchSellQuote(sellQuote))
+    yield put(A.fetchSellQuote(sellQuotePayload))
   }
 
   const fetchTrades = function * () {
@@ -264,6 +251,7 @@ export default ({ api, options }) => {
     } catch (e) {
       console.warn(e)
       yield put(A.handleTradeFailure(e))
+      return e
     }
   }
 
