@@ -86,7 +86,7 @@ class TrayRightContainer extends React.PureComponent {
         <Header>
           <Text size='20px' weight={300}>
             {content === 'faq' && <FormattedMessage id='layouts.wallet.trayright.faq' defaultMessage='Frequently Asked Questions' />}
-            {content === 'whatsnew' && <FormattedMessage id='layouts.wallet.trayright.whatsnew' defaultMessage='Whats New' />}
+            {content === 'whatsnew' && <FormattedMessage id='layouts.wallet.trayright.whatsnew' defaultMessage='What’s New' />}
           </Text>
           <Icon size='20px' name='close' cursor onClick={this.handleClose} />
         </Header>

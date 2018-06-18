@@ -59,7 +59,7 @@ const SecondStep = ({ addr, balance, priv, format, formats, onChangeFormat }) =>
           <FormattedMessage id='modals.showbtcpriv.priv_key' defaultMessage='Private Key' />
         </DetailRowText>
         {':'}&nbsp;
-        {utils.bitcoin.formatPrivateKeyString(priv, format).fold(
+        {utils.bitcoin.formatPrivateKeyString(priv, format, addr).fold(
           error => (<Text size='14px' weight={300} color='error'>{error.message}</Text>),
           keyString => (<Text size='14px' weight={300}>{keyString}</Text>)
         )}

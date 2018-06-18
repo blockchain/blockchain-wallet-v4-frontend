@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import { check } from 'bowser'
+import { check, msie } from 'bowser'
 
 import { required } from 'services/FormHelper'
 import { Banner, Button, Link, Separator, Text, TextGroup, HeartbeatLoader } from 'blockchain-info-components'
@@ -99,9 +99,18 @@ const Login = (props) => {
       <LoginForm onSubmit={handleSubmit}>
         { !isSupportedBrowser && <BrowserWarning>
           <Banner type='warning'>
-            <FormattedMessage id='scenes.login.browserwarning' defaultMessage='Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, IE 11, or Opera ' />
+            <FormattedMessage id='scenes.login.browserwarning' defaultMessage='Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, IE 11, or Opera.' />
           </Banner>
         </BrowserWarning> }
+        {
+          isSupportedBrowser && msie && <BrowserWarning>
+            <Banner type='caution'>
+              <Text size='12px'>
+                <FormattedMessage id='scenes.login.msiewarning' defaultMessage='We recommend that you login using a more secure browser like Chrome or Firefox.' />
+              </Text>
+            </Banner>
+          </BrowserWarning>
+        }
         <FormGroup>
           <FormItem>
             <FormLabel for='guid'>
