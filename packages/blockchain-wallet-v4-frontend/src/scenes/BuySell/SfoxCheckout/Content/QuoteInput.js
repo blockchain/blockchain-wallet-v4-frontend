@@ -85,11 +85,19 @@ class QuoteInput extends Component {
 
   handleChangeLeft = (event) => {
     this.setState({ side: 'input', input: event.target.value, userInput: true })
+    if (!event.target.value) {
+      this.setState({ input: '', output: '' })
+      return null
+    }
     this.fetchQuoteDebounced()
   }
 
   handleChangeRight = (event) => {
     this.setState({ side: 'output', output: event.target.value, userInput: true })
+    if (!event.target.value) {
+      this.setState({ input: '', output: '' })
+      return null
+    }
     this.fetchQuoteDebounced()
   }
 
@@ -100,9 +108,6 @@ class QuoteInput extends Component {
 
   fetchQuote = () => {
     let quote = this.getQuoteValues()
-    if (!this.state.userInput) {
-      this.setState({ input: '', output: '' })
-    }
     this.props.onFetchQuote(quote)
   }
 
