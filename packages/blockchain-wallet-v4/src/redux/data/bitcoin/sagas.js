@@ -1,10 +1,27 @@
-import { call, fork, put, select } from 'redux-saga/effects'
-import { indexBy, length, path, prop, last } from 'ramda'
+import { call, put, select, take } from 'redux-saga/effects'
+import { indexBy, length, last, path, prop } from 'ramda'
 import * as A from './actions'
+import * as AT from './actionTypes'
 import * as S from './selectors'
 import * as selectors from '../../selectors'
 
 export default ({ api }) => {
+  const fetchData = function * () {
+    try {
+      yield put(A.fetchDataLoading())
+      const context = yield select(selectors.wallet.getContext)
+      const data = yield call(api.fetchBlockchainData, context, { n: 1 })
+      const bitcoinData = {
+        addresses: indexBy(prop('address'), prop('addresses', data)),
+        info: path(['wallet'], data),
+        latest_block: path(['info', 'latest_block'], data)
+      }
+      yield put(A.fetchDataSuccess(bitcoinData))
+    } catch (e) {
+      yield put(A.fetchDataFailure(e.message))
+    }
+  }
+
   const fetchFee = function * () {
     try {
       yield put(A.fetchFeeLoading())
@@ -25,25 +42,27 @@ export default ({ api }) => {
     }
   }
 
-  const fetchData = function * (action) {
-    const { payload } = action
-    const { address, reset } = payload
-    const TX_PER_PAGE = 10
+  const watchTransactions = function * () {
+    while (true) {
+      const action = yield take(AT.FETCH_BITCOIN_TRANSACTIONS)
+      yield call(fetchTransactions, action)
+    }
+  }
+
+  const fetchTransactions = function * (action) {
     try {
+      const { payload } = action
+      const { address, reset } = payload
+      const TX_PER_PAGE = 10
       const pages = yield select(S.getTransactions)
       const lastPage = last(pages)
       if (!reset && lastPage && lastPage.map(length).getOrElse(0) === 0) { return }
       const offset = reset ? 0 : length(pages) * TX_PER_PAGE
-      yield put(A.fetchDataLoading(reset))
       yield put(A.fetchTransactionsLoading(reset))
       const context = yield select(selectors.wallet.getWalletContext)
       const data = yield call(api.fetchBlockchainData, context, { n: TX_PER_PAGE, onlyShow: address, offset })
-      yield call(multiaddrSaga, data)
-      yield fork(fetchSpendableBalance)
-      yield fork(fetchUnspendableBalance)
       yield put(A.fetchTransactionsSuccess(data.txs, reset))
     } catch (e) {
-      yield put(A.fetchDataFailure(e.message))
       yield put(A.fetchTransactionsFailure(e.message))
     }
   }
@@ -78,60 +97,12 @@ export default ({ api }) => {
     }
   }
 
-  const fetchUnspent = function * (action) {
-    try {
-      // source can be the hd account index / or a legacy address
-      const { source } = action.payload
-      yield put(A.fetchUnspentLoading())
-      const wrapper = yield select(selectors.wallet.getWrapper)
-      const data = yield call(api.getBTCWalletUnspents, wrapper, source)
-      yield put(A.fetchUnspentSuccess(data))
-    } catch (e) {
-      yield put(A.fetchUnspentSuccess([]))
-    }
-  }
-
-  const fetchSpendableBalance = function * () {
-    try {
-      const context = yield select(selectors.wallet.getSpendableContext)
-      yield put(A.fetchSpendableBalanceLoading())
-      const data = yield call(api.fetchBlockchainData, context)
-      const balance = data.wallet ? data.wallet.final_balance : 0
-      yield put(A.fetchSpendableBalanceSuccess(balance))
-    } catch (e) {
-      yield put(A.fetchSpendableBalanceFailure(e))
-    }
-  }
-
-  const fetchUnspendableBalance = function * () {
-    try {
-      const context = yield select(selectors.wallet.getUnspendableContext)
-      yield put(A.fetchUnspendableBalanceLoading())
-      const data = yield call(api.fetchBlockchainData, context)
-      const balance = data.wallet ? data.wallet.final_balance : 0
-      yield put(A.fetchUnspendableBalanceSuccess(balance))
-    } catch (e) {
-      yield put(A.fetchUnspendableBalanceFailure(e))
-    }
-  }
-
-  const multiaddrSaga = function * (data) {
-    const btcData = {
-      addresses: indexBy(prop('address'), prop('addresses', data)),
-      info: path(['wallet'], data),
-      latest_block: path(['info', 'latest_block'], data)
-    }
-    yield put(A.fetchDataSuccess(btcData))
-  }
-
   return {
     fetchFee,
     fetchData,
     fetchRates,
-    fetchUnspent,
     fetchFiatAtTime,
-    fetchSpendableBalance,
-    fetchUnspendableBalance,
-    fetchTransactionHistory
+    fetchTransactionHistory,
+    watchTransactions
   }
 }
