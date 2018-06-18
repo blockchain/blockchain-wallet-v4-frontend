@@ -632,7 +632,7 @@
   "modals.sencbtc.maximumfeemessage": "Unnecessarily high fee. Use",
   "modals.sencbtc.minimumamountmessage": "Below minimum amount. Use",
   "modals.sencbtc.minimumfeemessage": "Low fee not recommended. Use",
-  "modals.sencbtc.minimumonesatoshimessage": "Invalid (< 1sat/b)",
+  "modals.sencbtc.minimumonesatoshimessage": "Invalid {sat}",
   "modals.sendbtc.insufficientfundsmessage": "Insufficient funds",
   "modals.sencbtc.addressprivmismatch": "This private key does not match the watch only address above",
   "modals.sendbtc.secondstep.from": "From:",
