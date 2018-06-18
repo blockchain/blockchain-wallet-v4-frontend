@@ -4,7 +4,8 @@ import { Remote } from 'blockchain-wallet-v4/src'
 
 const INITIAL_STATE = {
   sfoxBusy: Remote.NotAsked,
-  qaSellAddress: null
+  qaSellAddress: null,
+  siftScienceEnabled: false
 }
 
 const sfoxSignup = (state = INITIAL_STATE, action) => {
@@ -28,6 +29,12 @@ const sfoxSignup = (state = INITIAL_STATE, action) => {
     }
     case AT.SFOX_FAILURE: {
       return assoc('sfoxBusy', Remote.Failure(payload), state)
+    }
+    case AT.ENABLE_SIFT_SCIENCE: {
+      return assoc('siftScienceEnabled', true, state)
+    }
+    case AT.DISABLE_SIFT_SCIENCE: {
+      return assoc('siftScienceEnabled', false, state)
     }
     default:
       return state
