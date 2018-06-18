@@ -98,8 +98,7 @@ export const reviewOrder = {
     if (reviewOrder.baseBtc(q)) {
       const quoteTotal = type === 'sell' ? qAmt - fee : qAmt + fee
       return `${currencySymbolMap[q.quoteCurrency]}${quoteTotal.toFixed(2)}`
-    }
-    else {
+    } else {
       return `${currencySymbolMap[q.baseCurrency]}${totalBase}`
     }
   }
