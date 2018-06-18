@@ -15,8 +15,9 @@ const settingsReducer = (state = INITIAL_STATE, action) => {
     case AT.SET_EMAIL_VERIFIED: {
       return state.map(compose(assoc('email_verified', 1), assoc('email_verified_failed', 0)))
     }
-    case AT.SET_EMAIL_VERIFIED_FAILED: {
-      return state.map(assoc('email_verified_failed', 1))
+    case AT.SET_EMAIL_VERIFIED_FAILED_STATUS: {
+      const { isFailed } = payload
+      return state.map(assoc('email_verified_failed', isFailed))
     }
     case AT.SET_MOBILE: {
       const { mobile } = payload
