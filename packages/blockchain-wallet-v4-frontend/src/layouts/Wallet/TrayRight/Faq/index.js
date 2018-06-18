@@ -5,12 +5,15 @@ import { any, assoc, contains, curry, filter, map, path, toLower } from 'ramda'
 
 import FaqContent from './FaqContent'
 import { getData } from './selectors'
+import { selectors } from 'data'
 import Faq from './template.js'
 
 class FaqContainer extends React.PureComponent {
   render () {
-    const { data, handleTrayRightToggle } = this.props
+    const { data, canTrade, handleTrayRightToggle } = this.props
     const { search } = data
+
+    const partner = canTrade.cata({ Success: (val) => val || 'n/a', Loading: () => false, Failure: () => false, NotAsked: () => false })
 
     // Search for matching messages in the component subtree starting
     const containsRecursive = curry((search, x) => {
@@ -23,6 +26,10 @@ class FaqContainer extends React.PureComponent {
       }
     })
 
+    const whitelistContent = (contentPart) => {
+      return contentPart.whitelist ? contentPart.whitelist.includes(partner) : true
+    }
+
     const filterContent = (contentPart) => {
       if (search) {
         const filteredGroupQuestions = filter(q =>
@@ -34,14 +41,18 @@ class FaqContainer extends React.PureComponent {
       }
     }
 
+    const whitelistedContent = filter(whitelistContent, FaqContent)
+    const filteredContent = map(filterContent, whitelistedContent)
+
     return (
-      <Faq filteredContent={map(filterContent, FaqContent)} handleTrayRightToggle={handleTrayRightToggle} />
+      <Faq filteredContent={filteredContent} handleTrayRightToggle={handleTrayRightToggle} />
     )
   }
 }
 
 const mapStateToProps = (state) => ({
-  data: getData(state)
+  data: getData(state),
+  canTrade: selectors.exchange.getCanTrade(state)
 })
 
 FaqContainer.contextTypes = {
