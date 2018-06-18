@@ -1,5 +1,6 @@
 import { curry, path } from 'ramda'
 import { dataPath } from '../../paths'
+import Remote from '../../../remote'
 
 export const getAddresses = path([dataPath, 'bitcoin', 'addresses'])
 
@@ -17,9 +18,9 @@ export const getTransactionHistory = path([dataPath, 'bitcoin', 'transaction_his
 
 export const getCoins = path([dataPath, 'bitcoin', 'payment', 'coins'])
 
-export const getSpendableBalance = path([dataPath, 'bitcoin', 'spendable_balance'])
+export const getSpendableBalance = () => Remote.of(0)
 
-export const getUnspendableBalance = path([dataPath, 'bitcoin', 'unspendable_balance'])
+export const getUnspendableBalance = () => Remote.of(0)
 
 // Specific
 export const getChangeIndex = curry((xpub, state) => getAddresses(state).map(path([xpub, 'change_index'])))
@@ -27,6 +28,8 @@ export const getChangeIndex = curry((xpub, state) => getAddresses(state).map(pat
 export const getReceiveIndex = curry((xpub, state) => getAddresses(state).map(path([xpub, 'account_index'])))
 
 export const getTotalTxPerAccount = curry((xpubOrAddress, state) => getAddresses(state).map(path([xpubOrAddress, 'n_tx'])))
+
+export const getFinalBalance = curry((address, state) => getAddresses(state).map(path([address, 'final_balance'])).map(x => x || 0))
 
 export const getFeeRegular = state => getFee(state).map(path(['regular']))
 
