@@ -39,7 +39,7 @@ class SecurityCenterContainer extends React.PureComponent {
 
   render () {
     return (
-      <ErrorBoundary>
+
         <SecurityCenter progress={this.determineProgress()}
           data={this.props}
           editing={this.state.editing}
@@ -50,7 +50,7 @@ class SecurityCenterContainer extends React.PureComponent {
           setView={this.setView}
           isMnemonicVerified={this.props.isMnemonicVerified}
         />
-      </ErrorBoundary>
+
     )
   }
 }
