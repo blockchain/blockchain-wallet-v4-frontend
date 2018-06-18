@@ -21,9 +21,6 @@ const CancelText = styled(Text)`
   margin-top: 5px;
 `
 const CustomBannerWrapper = styled.div`
-  div > div > span {
-    color: ${props => props.theme['gray-4']};
-  }
   margin: 10px 0px;
 `
 const ButtonContainer = styled.div`
@@ -50,7 +47,9 @@ function ChangeEmailSteps (props) {
       </ChangeEmailWrapper>
       <CustomBannerWrapper>
         <Banner type='caution' size='20px' weight={200}>
-          <FormattedMessage id='scenes.security.email.changeemail.description' defaultMessage="This will change your wallet's email address. The email address you use to buy or sell with will remain the same." />
+          <Text size='12px'>
+            <FormattedMessage id='scenes.security.email.changeemail.description' defaultMessage="This will change your wallet's email address. The email address you use to buy or sell with will remain the same." />
+          </Text>
         </Banner>
       </CustomBannerWrapper>
     </SecuritySummary>

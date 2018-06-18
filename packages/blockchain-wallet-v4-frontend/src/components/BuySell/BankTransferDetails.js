@@ -23,19 +23,23 @@ const DetailsRow = styled.div`
 const BankTransferDetailsWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 30px;
-  border: 1px solid ${props => props.theme['gray-1']};
+  padding: ${props => props.inModal ? `0px` : `30px`};
+  border: ${props => props.inModal ? `none` : `1px solid ${props.theme['gray-1']}`};
 `
 
-const BankTransferDetails = ({ trade }) => {
+const BankTransferDetails = ({ trade, inModal }) => {
   const holderAddress = trade.bankAccount.holderAddress
   const bankAddress = trade.bankAccount.bankAddress
 
   return (
-    <BankTransferDetailsWrapper>
-      <Text size='30px' weight={400} style={spacing('mb-10')}>
-        <FormattedMessage id='coinify.banktransferdetails.header' defaultMessage='Bank Transfer Order Details' />
-      </Text>
+    <BankTransferDetailsWrapper inModal>
+      {
+        !inModal
+          ? <Text size='30px' weight={400} style={spacing('mb-10')}>
+            <FormattedMessage id='coinify.banktransferdetails.header' defaultMessage='Bank Transfer Order Details' />
+          </Text>
+          : null
+      }
       <Text size='14px' weight={300} style={spacing('mb-15')}>
         <FormattedMessage id='coinify.banktransferdetails.sendamount' defaultMessage="Please send {amount} {currency} to Coinify's bank account below {within}." values={{ amount: <span style={{fontWeight: '400'}}>{trade.sendAmount / 100}</span>, currency: <span style={{fontWeight: '400'}}>{trade.inCurrency}</span>, within: <span style={{fontWeight: '400'}}>within the next 48 hours</span> }} />
       </Text>
