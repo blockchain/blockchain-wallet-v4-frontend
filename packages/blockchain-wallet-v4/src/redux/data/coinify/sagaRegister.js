@@ -25,5 +25,6 @@ export default ({ api, options }) => {
     yield takeLatest(AT.GET_KYCS, coinifySagas.getKYCs)
     yield takeLatest(AT.COINIFY_REFRESH_BUY_QUOTE, coinifySagas.refreshBuyQuote)
     yield takeLatest(AT.COINIFY_REFRESH_SELL_QUOTE, coinifySagas.refreshSellQuote)
+    yield takeLatest(AT.POLL_KYCS_PENDING, coinifySagas.pollKYCsPending)
   }
 }

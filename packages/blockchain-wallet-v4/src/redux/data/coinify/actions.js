@@ -77,3 +77,5 @@ export const getKycs = () => ({ type: AT.GET_KYCS })
 export const getKYCsLoading = () => ({ type: AT.GET_KYCS_LOADING })
 export const getKYCsSuccess = (kycs) => ({ type: AT.GET_KYCS_SUCCESS, payload: kycs })
 export const getKYCsFailure = (error) => ({ type: AT.GET_KYCS_FAILURE, payload: error })
+
+export const pollKYCsPending = () => ({ type: AT.POLL_KYCS_PENDING })

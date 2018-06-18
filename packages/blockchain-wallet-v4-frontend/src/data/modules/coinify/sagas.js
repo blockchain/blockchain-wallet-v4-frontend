@@ -264,6 +264,7 @@ export default ({ coreSagas }) => {
       yield put(A.coinifyNextCheckoutStep('checkout'))
       yield put(actions.modals.showModal('CoinifyTradeDetails', { trade: trade.data, status: status }))
       yield call(coreSagas.data.coinify.getKYCs)
+      yield put(actions.core.data.coinify.pollKYCsPending())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'fromISX', e))
     }

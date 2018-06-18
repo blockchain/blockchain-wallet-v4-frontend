@@ -1,11 +1,12 @@
 import ExchangeDelegate from '../../../exchange/delegate'
+import { delay } from 'redux-saga'
 import { apply, call, put, select } from 'redux-saga/effects'
 import * as A from './actions'
 import * as S from './selectors'
 import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import { coinifyService } from '../../../exchange/service'
 import * as buySellA from '../../kvStore/buySell/actions'
-import { prop, sort, path } from 'ramda'
+import { equals, prop, sort, path } from 'ramda'
 
 export default ({ api, options }) => {
   const getCoinify = function * () {
@@ -303,6 +304,27 @@ export default ({ api, options }) => {
     }
   }
 
+  const pollKYCsPending = function * () {
+    try {
+      const kycs = yield select(S.getKycs)
+      console.log(kycs)
+      const statusPath = x => path(['0', 'state'], x)
+      let status = kycs.map(kycs => statusPath(kycs)).getOrElse('pending')
+      while (equals(status, 'pending')) {
+        yield call(delay, 1000)
+        const coinify = yield call(getCoinify)
+        const kycs = yield apply(coinify, coinify.getKYCs)
+        const byTime = (a, b) => b.createdAt - a.createdAt
+        const sortedKYCs = sort(byTime, kycs)
+        status = statusPath(sortedKYCs)
+        yield put(A.getKYCsSuccess(sortedKYCs))
+      }
+    } catch (e) {
+      console.log('pollKYCsPending failure', e)
+      yield put(A.getKYCsFailure(e))
+    }
+  }
+
   const kycAsTrade = function * (data) {
     const { kyc } = data
     try {
@@ -355,6 +377,7 @@ export default ({ api, options }) => {
     triggerKYC,
     getKYCs,
     kycAsTrade,
+    pollKYCsPending,
     refreshBuyQuote,
     refreshSellQuote
   }
