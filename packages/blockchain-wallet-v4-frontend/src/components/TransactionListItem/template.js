@@ -49,6 +49,7 @@ const DetailsColumn = styled.div`
   white-space: nowrap;
   width: 35%;
 
+
   @media(min-width: 992px) { display: flex; }
 `
 const ConfirmationColumn = styled.div`
@@ -58,7 +59,6 @@ const ConfirmationColumn = styled.div`
   align-items: flex-start;
   width: 20%;
 
-  * { white-space: nowrap; }
   @media(min-width: 1200px) { width: 15%; }
 `
 const AmountColumn = styled.div`
