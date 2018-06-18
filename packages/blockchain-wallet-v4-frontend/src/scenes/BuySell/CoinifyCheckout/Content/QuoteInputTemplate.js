@@ -170,7 +170,7 @@ const FiatConvertor = (props) => {
     <Wrapper>
       <FiatConvertorInput>
         <Container>
-          <Field name='leftVal' component={NumberBoxDebounced} disabled={inputsDisabled} borderRightNone={1} />
+          <Field name='leftVal' component={NumberBoxDebounced} disabled={inputsDisabled} borderRightNone={1} currency />
           <Field name='currency' component={SelectBoxCoinifyCurrency} defaultDisplay={defaultCurrency} isSell={isSell} />
         </Container>
         <ArrowLeft size='16px' name='left-arrow' />
