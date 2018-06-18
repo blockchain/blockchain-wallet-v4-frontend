@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import { Text, Icon, Button } from 'blockchain-info-components'
 import styled from 'styled-components'
 import { reduxForm } from 'redux-form'
+
+import { Text, Button } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
 
 const AuthenticatorSummary = styled.div`

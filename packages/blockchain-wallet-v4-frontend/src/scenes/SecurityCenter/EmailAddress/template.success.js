@@ -1,10 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
-import { Button, Link, Text, Icon } from 'blockchain-info-components'
-import { spacing } from 'services/StyleService'
-
 import { reduxForm } from 'redux-form'
+import { Button, Link, Text } from 'blockchain-info-components'
 import { SecurityComponent, SecurityContainer, SecurityDescription, SecurityHeader, SecurityIcon, SecuritySummary, IconContainer } from 'components/Security'
 
 import ChangeEmailSteps from '../Components/ChangeEmailSteps'
