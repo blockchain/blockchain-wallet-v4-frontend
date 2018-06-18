@@ -15,7 +15,7 @@ const EmailInput = styled.div`
 `
 
 const VerifyEmail = (props) => {
-  const { emailVerifiedError, invalid, handleSubmit, resendCode, ui, updateUI } = props
+  const { emailVerifiedError, invalid, handleSubmit, resendCode, ui, updateUI, newEmail } = props
 
   const emailHelper = () => {
     switch (true) {
@@ -33,7 +33,11 @@ const VerifyEmail = (props) => {
             <FormattedMessage id='coinifyexchangedata.create.verifyemail.partner.header.verifyemail' defaultMessage='Verify Your Email' />
           </PartnerHeader>
           <PartnerSubHeader>
-            <FormattedMessage id='coinifyexchangedata.create.verifyemail.partner.subheader.enteremailaddress' defaultMessage="Enter the email address you would like to use with your Coinify account. We'll send you a verification code to make sure it's yours." />
+            {
+              ui.create === 'enter_email_code'
+                ? <FormattedMessage id='coinifyexchangedata.create.verifyemail.partner.subheader.enteremailcode' defaultMessage='We teamed up with Coinify’s exchange platform to offer buy and sell to our customers in Europe. We just sent a verification code to your {email} email address.' values={{ email: newEmail }} />
+                : <FormattedMessage id='coinifyexchangedata.create.verifyemail.partner.subheader.enteremailaddress' defaultMessage="Enter the email address you would like to use with your Coinify account. We'll send you a verification code to make sure it's yours." />
+            }
           </PartnerSubHeader>
           {
             ui.create === 'enter_email_code'

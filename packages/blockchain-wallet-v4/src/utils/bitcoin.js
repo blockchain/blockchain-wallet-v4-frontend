@@ -107,7 +107,7 @@ export const detectPrivateKeyFormat = key => {
   return null
 }
 
-export const privateKeyStringToKey = function (value, format, network = networks.bitcoin) {
+export const privateKeyStringToKey = function (value, format, network = networks.bitcoin, addr) {
   if (format === 'sipa' || format === 'compsipa') {
     return ECPair.fromWIF(value, networks.bitcoin)
   } else {
@@ -128,14 +128,20 @@ export const privateKeyStringToKey = function (value, format, network = networks
     }
 
     var d = BigInteger.fromBuffer(keyBuffer)
-    return new ECPair(d, null, { network: network })
+    var keyPair = new ECPair(d, null, { network: network })
+
+    if (addr && keyPair.getAddress() !== addr) {
+      keyPair.compressed = false
+    }
+
+    return keyPair
   }
 }
 
 // formatPrivateKeyString :: String -> String -> String
-export const formatPrivateKeyString = (keyString, format) => {
+export const formatPrivateKeyString = (keyString, format, addr) => {
   let keyFormat = detectPrivateKeyFormat(keyString)
-  let eitherKey = Either.try(privateKeyStringToKey)(keyString, keyFormat)
+  let eitherKey = Either.try(privateKeyStringToKey)(keyString, keyFormat, null, addr)
   return eitherKey.chain(key => {
     if (format === 'wif') return Either.of(key.toWIF())
     if (format === 'base58') return Either.of(Base58.encode(key.d.toBuffer(32)))
