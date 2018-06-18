@@ -59,7 +59,7 @@ export default ({ api }) => {
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.verifyEmail, guid, sharedKey, code)
     if (!response.success) {
-      yield put(actions.setEmailVerifiedFailed())
+      yield put(actions.setEmailVerifiedFailedStatus(true))
       throw new Error(response)
     }
     yield put(actions.setEmailVerified())
