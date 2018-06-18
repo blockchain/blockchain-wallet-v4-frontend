@@ -8,7 +8,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
   const updateSettings = (guid, sharedKey, method, payload, querystring = '') => post({
     url: rootUrl,
     endPoint: querystring ? `/wallet?${querystring}` : '/wallet',
-    data: { guid, sharedKey, method, payload, length: payload.length }
+    data: { guid, sharedKey, method, payload, length: (payload + '').length }
   })
 
   const updateEmail = (guid, sharedKey, email) => updateSettings(guid, sharedKey, 'update-email', email)
@@ -47,6 +47,10 @@ export default ({ rootUrl, apiUrl, get, post }) => {
 
   const enableYubikey = (guid, sharedKey, code) => updateSettings(guid, sharedKey, 'update-yubikey', code)
 
+  const enableNotifications = (guid, sharedKey, value) => updateSettings(guid, sharedKey, 'update-notifications-on', value)
+
+  const updateNotificationsType = (guid, sharedKey, value) => updateSettings(guid, sharedKey, 'update-notifications-type', value)
+
   return {
     getSettings,
     updateEmail,
@@ -66,6 +70,8 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     getGoogleAuthenticatorSecretUrl,
     enableGoogleAuthenticator,
     enableYubikey,
-    sendConfirmationCodeEmail
+    sendConfirmationCodeEmail,
+    enableNotifications,
+    updateNotificationsType
   }
 }
