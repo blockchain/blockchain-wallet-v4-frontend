@@ -8,6 +8,7 @@ import { CSVDownload } from 'react-csv'
 import { Button, Icon, Link, Modal, ModalHeader, ModalBody, Text } from 'blockchain-info-components'
 import { DateBoxDebounced, SelectBoxBitcoinAddresses, Form } from 'components/Form'
 import { required } from 'services/FormHelper'
+import { validStartDate, validEndDate } from './validation'
 
 const Container = styled.div`
   display: flex;
@@ -68,9 +69,9 @@ const FirstStep = (props) => {
             </Row>
             <Row margin='30px'>
               <TimeContainer>
-                <Field name='start' validate={[required]} component={DateBoxDebounced} isValidDate={isValidStartDate} />
+                <Field name='start' validate={[required, validStartDate]} component={DateBoxDebounced} isValidDate={isValidStartDate} />
                 <Icon name='right-arrow' size='30px' />
-                <Field name='end' validate={[required]} component={DateBoxDebounced} isValidDate={isValidEndDate} />
+                <Field name='end' validate={[required, validEndDate]} component={DateBoxDebounced} isValidDate={isValidEndDate} />
               </TimeContainer>
             </Row>
           </Container>
