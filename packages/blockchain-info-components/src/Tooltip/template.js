@@ -93,7 +93,7 @@ export const Tooltip = props => {
 }
 
 Tooltip.propTypes = {
-  icon: PropTypes.string,
+  icon: PropTypes.any,
   width: PropTypes.string,
   left: PropTypes.string,
   label: PropTypes.string,

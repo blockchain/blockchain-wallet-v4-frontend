@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
+import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import { getData } from './selectors'
 import SecurityCenter from './template.js'
 
@@ -38,16 +39,18 @@ class SecurityCenterContainer extends React.PureComponent {
 
   render () {
     return (
-      <SecurityCenter progress={this.determineProgress()}
-        data={this.props}
-        editing={this.state.editing}
-        enabling={this.state.enabling}
-        handleEnable={this.handleEnable}
-        onClose={this.onClose}
-        viewing={this.state.viewing}
-        setView={this.setView}
-        isMnemonicVerified={this.props.isMnemonicVerified}
-      />
+      <ErrorBoundary>
+        <SecurityCenter progress={this.determineProgress()}
+          data={this.props}
+          editing={this.state.editing}
+          enabling={this.state.enabling}
+          handleEnable={this.handleEnable}
+          onClose={this.onClose}
+          viewing={this.state.viewing}
+          setView={this.setView}
+          isMnemonicVerified={this.props.isMnemonicVerified}
+        />
+      </ErrorBoundary>
     )
   }
 }
