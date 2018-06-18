@@ -20,6 +20,12 @@ const Answer = styled.div`
   font-size: 12px;
   padding: 0px 10px;
 `
+const ToggleIcon = styled(Icon)`
+  cursor: pointer;
+  transform: rotate(0deg);
+  transition: transform 0.3s;
+  transform: ${props => props.toggled && 'rotate(180deg)'};
+`
 
 export default class Helper extends React.PureComponent {
   constructor (props) {
@@ -32,7 +38,7 @@ export default class Helper extends React.PureComponent {
       <Container>
         <Question onClick={() => this.setState({ open: !this.state.open })}>
           { this.props.question }
-          { this.state.open ? <Icon name='up-arrow-filled' color='brand-secondary' /> : <Icon name='down-arrow-filled' /> }
+          <ToggleIcon name='up-arrow-filled' color='brand-secondary' toggled={this.state.open} />
         </Question>
         { this.state.open ? <Answer> { this.props.answer } </Answer> : null }
       </Container>
