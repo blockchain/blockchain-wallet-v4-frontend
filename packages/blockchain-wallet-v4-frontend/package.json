@@ -66,6 +66,7 @@
     "blockchain-info-components": "0.0.4",
     "blockchain-wallet-v4": "1.0.1",
     "bowser": "1.9.3",
+    "browser-locale": "1.0.3",
     "connected-react-router": "4.3.0",
     "data.either": "1.5.1",
     "data.maybe": "1.2.2",

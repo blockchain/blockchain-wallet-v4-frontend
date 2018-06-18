@@ -8,6 +8,7 @@ import * as AT from './actionTypes'
 import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import * as buySellA from '../../kvStore/buySell/actions'
 import { sfoxService } from '../../../exchange/service'
+import * as walletActions from '../../wallet/actions'
 
 let sfox
 
@@ -228,7 +229,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const handleTrade = function * (quote) {
+  const handleTrade = function * (quote, addressData) {
     try {
       yield put(A.handleTradeLoading())
       const accounts = yield select(S.getAccounts)
@@ -246,10 +247,24 @@ export default ({ api, options }) => {
 
       // set new trades to metadata
       yield put(buySellA.setSfoxTradesBuySell(newTrades))
-
+      yield call(labelAddressForBuy, trade, addressData)
       return trade
     } catch (e) {
       console.warn(e)
+      yield put(A.handleTradeFailure(e))
+      return e
+    }
+  }
+
+  const labelAddressForBuy = function * (trade, addressData) {
+    try {
+      trade._account_index = addressData.accountIndex
+      trade._receive_index = addressData.index
+      const id = trade.tradeSubscriptionId || trade.id
+
+      yield put(walletActions.setHdAddressLabel(addressData.accountIndex, addressData.index, `SFOX order #${id}`))
+    } catch (e) {
+      console.warn('err in labelAddressForBuy', e)
       yield put(A.handleTradeFailure(e))
     }
   }
@@ -292,6 +307,7 @@ export default ({ api, options }) => {
     setBankAccount,
     verifyMicroDeposits,
     handleTrade,
-    handleSellTrade
+    handleSellTrade,
+    labelAddressForBuy
   }
 }
