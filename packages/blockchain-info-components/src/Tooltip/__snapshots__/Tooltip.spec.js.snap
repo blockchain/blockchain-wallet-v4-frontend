@@ -98,13 +98,9 @@ exports[`Tooltip component renders correctly 1`] = `
 >
   <div
     className="c1"
-    onClick={undefined}
-    onMouseEnter={undefined}
-    onMouseLeave={undefined}
   />
   <div
     className="c2 c3"
-    onClick={undefined}
     width={100}
   >
     <span>
