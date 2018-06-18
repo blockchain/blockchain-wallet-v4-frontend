@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { Field } from 'redux-form'
@@ -6,7 +6,7 @@ import { Text, Icon, Link } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
 import { required } from 'services/FormHelper'
 import { StepTransition } from 'components/Utilities/Stepper'
-import { equals, path } from 'ramda'
+import { equals, path, prop } from 'ramda'
 
 const PaymentOptionContainer = styled.div`
   width: 50%;
@@ -99,7 +99,7 @@ export const cardOptionHelper = (quote, limits, isChecked, handlePaymentClick, c
   }
 }
 
-export const bankOptionHelper = (quote, limits, isChecked, handlePaymentClick, bankDisabled, openPendingKyc, kyc) => {
+export const bankOptionHelper = (quote, limits, isChecked, handlePaymentClick, bankDisabled, openPendingKyc, kyc, level) => {
   const PaymentRadioBank = ({ isChecked, handlePaymentClick }) => (
     <PaymentOption isChecked={isChecked} onClick={() => handlePaymentClick('bank')} disabled={bankDisabled}>
       <input type='radio' name='inMedium' id='bank' value='bank' style={{display: 'none'}} />
@@ -128,7 +128,11 @@ export const bankOptionHelper = (quote, limits, isChecked, handlePaymentClick, b
             }
           </BankDisabledText>
           : <Text size='14px' weight={300} style={spacing('mt-25')}>
-            <FormattedMessage id='coinifyexchangedata.payment.mediumhelpers.bank.detail1' defaultMessage='One time ID verification' /><br />
+            {
+              prop('name', level) < 2
+                ? <Fragment><FormattedMessage id='coinifyexchangedata.payment.mediumhelpers.bank.detail1' defaultMessage='One time ID verification' /> <br /></Fragment>
+                : null
+            }
             <FormattedMessage id='coinifyexchangedata.payment.mediumhelpers.bank.detail2' defaultMessage='Receive bitcoin in 2-3 days' /><br />
             <FormattedMessage id='coinifyexchangedata.payment.mediumhelpers.bank.detail3' defaultMessage='0.25% Payment Fee' />
           </Text>

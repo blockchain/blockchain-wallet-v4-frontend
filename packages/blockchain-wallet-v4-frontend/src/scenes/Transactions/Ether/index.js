@@ -2,16 +2,19 @@ import React from 'react'
 import styled from 'styled-components'
 
 import Content from './Content'
+import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 
 const Wrapper = styled.div`
   width: 100%;
 `
 
-const EtherTransactionsContainer = (props) => {
+const EtherTransactionsContainer = () => {
   return (
-    <Wrapper>
-      <Content />
-    </Wrapper>
+    <ErrorBoundary>
+      <Wrapper>
+        <Content />
+      </Wrapper>
+    </ErrorBoundary>
   )
 }
 

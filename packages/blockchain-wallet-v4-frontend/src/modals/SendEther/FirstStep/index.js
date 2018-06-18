@@ -13,6 +13,7 @@ class FirstStep extends React.PureComponent {
     return this.props.data.cata({
       Success: value => <Success
         fee={value.fee}
+        isContract={value.isContract}
         unconfirmedTx={value.unconfirmedTx}
         effectiveBalance={value.effectiveBalance}
         onSubmit={() => this.props.actions.sendEthFirstStepSubmitClicked()}

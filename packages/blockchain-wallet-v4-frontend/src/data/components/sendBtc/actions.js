@@ -4,7 +4,9 @@ export const initialized = payload => ({ type: AT.SEND_BTC_INITIALIZED, payload 
 
 export const destroyed = () => ({ type: AT.SEND_BTC_DESTROYED })
 
-export const sendBtcPaymentUpdated = payment => ({ type: AT.SEND_BTC_PAYMENT_UPDATED, payload: payment })
+export const sendBtcPaymentUpdatedSuccess = payment => ({ type: AT.SEND_BTC_PAYMENT_UPDATED_SUCCESS, payload: payment })
+export const sendBtcPaymentUpdatedLoading = () => ({ type: AT.SEND_BTC_PAYMENT_UPDATED_LOADING })
+export const sendBtcPaymentUpdatedFailure = (err) => ({ type: AT.SEND_BTC_PAYMENT_UPDATED_FAILURE, payload: err })
 
 export const sendBtcFirstStepToToggled = (val) => ({ type: AT.SEND_BTC_FIRST_STEP_TO_TOGGLED, payload: val })
 

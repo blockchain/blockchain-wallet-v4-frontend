@@ -12,6 +12,7 @@ import DidYouKnow from './DidYouKnow'
 import PriceChart from './PriceChart'
 import BalancesChartContainer from './BalancesChart'
 import SfoxSignupBanner from './SfoxSignupBanner'
+import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 
 ReactHighcharts.Highcharts.setOptions({ lang: { thousandsSep: ',' } })
 
@@ -77,24 +78,26 @@ class Home extends React.PureComponent {
     }
 
     return (
-      <Wrapper>
-        { buySellKv.cata({
-          Success: (data) => renderSfoxBanner(data),
-          Failure: () => <div/>,
-          Loading: () => <div/>,
-          NotAsked: () => <div/> })
-        }
-        <ColumnWrapper>
-          <ColumnLeft>
-            <BalancesChartContainer/>
-            <ActivityList/>
-          </ColumnLeft>
-          <ColumnRight>
-            <PriceChart/>
-            <DidYouKnow/>
-          </ColumnRight>
-        </ColumnWrapper>
-      </Wrapper>
+      <ErrorBoundary>
+        <Wrapper>
+          { buySellKv.cata({
+            Success: (data) => renderSfoxBanner(data),
+            Failure: () => <div/>,
+            Loading: () => <div/>,
+            NotAsked: () => <div/> })
+          }
+          <ColumnWrapper>
+            <ColumnLeft>
+              <BalancesChartContainer/>
+              <ActivityList/>
+            </ColumnLeft>
+            <ColumnRight>
+              <PriceChart/>
+              <DidYouKnow/>
+            </ColumnRight>
+          </ColumnWrapper>
+        </Wrapper>
+      </ErrorBoundary>
     )
   }
 }
