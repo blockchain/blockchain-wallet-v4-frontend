@@ -22,9 +22,6 @@ describe('authSagas', () => {
     it('should put saveSession', () => {
       expect(gen.next('sessionToken').value).toEqual(put(actions.session.saveSession({'123abc456def': 'sessionToken'})))
     })
-    it('should cache guid', () => {
-      expect(gen.next('123abc456def').value).toEqual(put(actions.cache.guidEntered('123abc456def')))
-    })
     it('should put login loading', () => {
       expect(gen.next().value).toEqual(put(actions.auth.loginLoading()))
     })
@@ -41,7 +38,6 @@ describe('authSagas', () => {
       gen.next()
       gen.next()
       gen.next('sessionToken')
-      gen.next('123abc456def')
       expect(gen.next().value).toEqual(put(actions.auth.loginLoading()))
       expect(gen.throw({ message: 'error' }).value).toEqual(put(actions.auth.loginFailure('error')))
     })
