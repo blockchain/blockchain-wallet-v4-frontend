@@ -9,11 +9,9 @@ import { TextBox } from 'components/Form'
 import { required } from 'services/FormHelper'
 import { spacing } from 'services/StyleService'
 
-import { SuccessOverlay } from 'components/Security'
-
 const AuthenticatorSummary = styled.div`
   width: 100%;
-  padding: 0px 20px;
+  padding: 0 20px;
   opacity: ${props => props.success ? 0.3 : 1};
   @media (min-width: 992px) {
     width: 110%;
@@ -40,7 +38,7 @@ const QRInputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 20px 0px;
+  margin: 20px 0;
   button {
     margin-top: 10px;
   }
@@ -51,22 +49,15 @@ const Google = props => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <SuccessOverlay success={ui.successToggled}>
-        <Icon name='checkmark-in-circle' size='150px' color='success' />
-        <Text size='14px' weight={300} color='success'>
-          <FormattedMessage id='scenes.security.twostepverification.authenticator.success' defaultMessage="Congrats! You've successfully set up 2FA with your authenticator app." />
-        </Text>
-      </SuccessOverlay>
       <AuthenticatorSummary success={ui.successToggled}>
         <QRCodeContainer>
-          {
-            data.googleSecret
-              ? (
-                <QRCode>
-                  <QRCodeReact value={data.googleSecret} size={115} />
-                </QRCode>
-              )
-              : null
+          { data.googleSecret
+            ? (
+              <QRCode>
+                <QRCodeReact value={data.googleSecret} size={115} />
+              </QRCode>
+            )
+            : null
           }
           <QRCodeCopy>
             <Text size='14px' weight={200}>

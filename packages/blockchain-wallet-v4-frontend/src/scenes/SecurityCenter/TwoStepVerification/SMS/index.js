@@ -30,10 +30,8 @@ class SmsAuthContainer extends React.PureComponent {
     if (next.authType !== prev.authType) {
       this.props.updateUI({ successToggled: true })
       this.props.triggerSuccess()
-      setTimeout(() => {
-        this.props.handleGoBack()
-        this.props.goBackOnSuccess()
-      }, 1500)
+      this.props.handleGoBack()
+      this.props.goBackOnSuccess()
     }
   }
 
