@@ -6,8 +6,6 @@ import styled from 'styled-components'
 import { reduxForm } from 'redux-form'
 import { spacing } from 'services/StyleService'
 
-import { SuccessOverlay } from 'components/Security'
-
 const AuthenticatorSummary = styled.div`
   width: 100%;
   padding: 0px 20px;
@@ -63,12 +61,6 @@ const Yubikey = props => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <SuccessOverlay success={ui.successToggled}>
-        <Icon name='checkmark-in-circle' size='150px' color='success' />
-        <Text size='14px' weight={300} color='success'>
-          <FormattedMessage id='scenes.security.twostepverification.yubi.success' defaultMessage="Congrats! You've successfully set up your Yubikey!" />
-        </Text>
-      </SuccessOverlay>
       <AuthenticatorSummary success={ui.successToggled}>
         <YubikeyContainer>
           <YubikeyCopy>
