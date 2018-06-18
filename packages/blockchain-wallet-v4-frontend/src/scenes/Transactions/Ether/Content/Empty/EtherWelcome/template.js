@@ -53,6 +53,12 @@ const CloseArrow = styled(Icon)`
   width: 30px;
   margin-top: 20px;
 `
+const LearnMoreLink = styled(Link)`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+`
 const EtherWelcome = props => {
   const { displayed, handleClick, handleRequest, exchange } = props
 
@@ -68,10 +74,10 @@ const EtherWelcome = props => {
             <Text size='24px' weight={300} color='brand-primary' uppercase>
               <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.welcome2' defaultMessage='Ether' />
             </Text>
-            <Link href='https://www.blockchain.com/ether-basics' target='_blank' size='16px' weight={300} uppercase>
+            <LearnMoreLink href='https://www.blockchain.com/ether-basics' target='_blank' size='16px' weight={300} uppercase>
               <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.learnmore' defaultMessage='Learn More' />
               <Icon name='right-arrow' color='brand-secondary' />
-            </Link>
+            </LearnMoreLink>
           </Cell>
           <Cell>
             <Text weight={300} color='brand-primary' uppercase>

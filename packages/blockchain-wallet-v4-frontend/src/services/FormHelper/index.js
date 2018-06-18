@@ -7,7 +7,7 @@ import { isValidNumber } from 'libphonenumber-js'
 import zxcvbn from 'zxcvbn'
 import { utils } from 'blockchain-wallet-v4/src'
 import * as M from './validationMessages'
-import { path } from 'ramda'
+import { concat, path, takeWhile } from 'ramda'
 
 const required = value => value ? undefined : <M.RequiredMessage />
 
@@ -62,13 +62,12 @@ const requiredUsZipcode = value => isUsZipcode(value) ? undefined : <M.RequiredU
 const normalizePhone = (val, prevVal) => formatPhone(val, prevVal)
 
 const onPartnerCountryWhitelist = (val, allVals, props, name, countries) => {
-  let options = path(['options', 'platforms', 'web'], props)
-  const sfoxCountries = options && options.sfox.countries
-  const unocoinCountries = options && options.unocoin.countries
-  const coinifyCountries = options && options.coinify.countries
-  const allCountries = countries || [sfoxCountries, coinifyCountries, unocoinCountries].join().split(',')
-  if (val && allCountries.indexOf(val) >= 0) return undefined
-  else return true
+  const country = val && takeWhile(x => x !== '-', val)
+  const options = path(['options', 'platforms', 'web'], props)
+  const sfoxCountries = path(['sfox', 'countries'], options)
+  const coinifyCountries = path(['coinify', 'countries'], options)
+  const allCountries = countries || concat(sfoxCountries, coinifyCountries)
+  return (country && allCountries.includes(country)) ? undefined : true
 }
 
 export {

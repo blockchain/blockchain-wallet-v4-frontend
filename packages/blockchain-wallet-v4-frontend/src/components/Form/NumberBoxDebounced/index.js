@@ -3,7 +3,6 @@ import styled from 'styled-components'
 
 import { equals } from 'ramda'
 import { Text, NumberInput } from 'blockchain-info-components'
-import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 
 const Container = styled.div`
   position: relative;
@@ -56,7 +55,7 @@ class NumberBoxDebounced extends React.Component {
 
     clearTimeout(this.timeout)
     this.timeout = setTimeout(() => {
-      let val = this.props.currency ? Currency.formatFiat(value) : value
+      let val = this.props.currency ? parseFloat(value).toFixed(2) : value
       this.props.input.onChange(val)
     }, 500)
   }
