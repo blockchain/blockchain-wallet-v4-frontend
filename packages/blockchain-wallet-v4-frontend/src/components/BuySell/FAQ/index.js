@@ -7,6 +7,7 @@ const Container = styled.div`
   padding: 20px 0px;
   font-size: 13px;
   font-weight: 300;
+  opacity: 0.7;
 `
 const Question = styled.div`
   display: flex;
