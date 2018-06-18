@@ -50,7 +50,7 @@
   "components.alerts.login_failed": "Login failed",
   "components.alerts.login_successful": "Login successful",
   "components.alerts.message_sign_error": "Failed to sign message.",
-  "components.alerts.mnemonic_verify_success": "Your mnemonic has been verified!",
+  "components.alerts.mnemonic_verify_success": "Your backup phrase has been verified!",
   "components.alerts.mobile_code_sent_error": "Mobile verification code sent",
   "components.alerts.mobile_code_sent_success": "Mobile verification code sent",
   "components.alerts.mobile_login_error": "Error logging into your wallet",
