@@ -1,13 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import { actions } from 'data'
-import SmsAuth from './template.success'
-import { getData } from './selectors'
-import Error from './template.error'
-import Loading from './template.loading'
 import ui from 'redux-ui'
 import { formValueSelector } from 'redux-form'
+
+import { getData } from './selectors'
+import { actions } from 'data'
+import Success from './template.success'
+import Error from './template.error'
+import Loading from './template.loading'
 
 class SmsAuthContainer extends React.PureComponent {
   constructor (props) {
@@ -54,7 +55,7 @@ class SmsAuthContainer extends React.PureComponent {
     const { data, ui, verificationCode, goBack, ...rest } = this.props
 
     return data.cata({
-      Success: (value) => <SmsAuth
+      Success: (value) => <Success
         data={value}
         handleClick={this.handleClick}
         onSubmit={this.onSubmit}

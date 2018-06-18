@@ -1,13 +1,13 @@
-
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
+import ui from 'redux-ui'
+
 import { actions } from 'data'
-import Yubikey from './template.success'
 import { getData } from './selectors'
+import Success from './template.success'
 import Error from './template.error'
 import Loading from './template.loading'
-import ui from 'redux-ui'
 
 class YubikeyContainer extends React.PureComponent {
   constructor (props) {
@@ -47,7 +47,7 @@ class YubikeyContainer extends React.PureComponent {
     const { data, ui, ...rest } = this.props
 
     return data.cata({
-      Success: (value) => <Yubikey
+      Success: (value) => <Success
         data={value}
         handleClick={this.handleClick}
         onSubmit={this.onSubmit}

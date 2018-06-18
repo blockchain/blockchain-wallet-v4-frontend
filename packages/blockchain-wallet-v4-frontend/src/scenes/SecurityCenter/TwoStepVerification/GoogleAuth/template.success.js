@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import { Button, Text, Icon } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 import QRCodeReact from 'qrcode.react'
 import { Field, reduxForm } from 'redux-form'
