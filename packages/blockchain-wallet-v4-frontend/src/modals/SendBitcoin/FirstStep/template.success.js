@@ -72,7 +72,7 @@ const FeeOptionsContainer = styled.div`
 `
 const FeePerByteContainer = styled.div`
   width: 100%;
-  margin-top: 10px;
+  margin-top: 20px;
 `
 
 const FirstStep = props => {
