@@ -17,20 +17,18 @@ const PaymentWrapper = styled.div`
   display: flex;
   flex-direction: row;
 `
-
 const BorderBox = styled.div`
   border: 1px solid ${props => props.theme['gray-1']};
   padding: 30px;
 `
+const FaqWrapper = styled.div`
+  margin-top: 30px;
+`
 
 const helpers = [
   {
-    question: <FormattedMessage id='coinify.payment.helper1.question' defaultMessage='Payment Medium placeholder 1?' />,
-    answer: <FormattedMessage id='coinify.payment.helper1.answer' defaultMessage='Answer1 placeholder' />
-  },
-  {
-    question: <FormattedMessage id='coinify.payment.helper2.question' defaultMessage='Payment Medium placeholder 2?' />,
-    answer: <FormattedMessage id='coinify.payment.helper2.answer' defaultMessage='Answer2 placeholder' />
+    question: <FormattedMessage id='coinifyexchangedata.payment.helper1.question' defaultMessage='Are there transaction fees?' />,
+    answer: <FormattedMessage id='coinifyexchangedata.payment.helper1.answer' defaultMessage='There is a 3% convenience fee when buying bitcoin with a credit card in order to expedite the transaction. Buying or selling through a bank transfer does not include a convenience fee, although there is a small trading fee (0.25%) that Coinify requires in order to mitigate risk.' />
   }
 ]
 
@@ -88,7 +86,9 @@ const Payment = (props) => {
               <FormattedMessage id='coinifyexchangedata.payment.cancel' defaultMessage='Cancel' />
             </StepTransition>
           </CancelWrapper>
-          { faqHelper() }
+          <FaqWrapper>
+            { faqHelper() }
+          </FaqWrapper>
         </ColRightInner>
       </ColRight>
     </Form>
