@@ -1,10 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import styled from 'styled-components'
 import { bindActionCreators } from 'redux'
 import { actions, selectors } from 'data'
-import { path } from 'ramda'
+import { path, head, sortBy, prop, reverse } from 'ramda'
 
-class ISignThisContainer extends Component {
+const SiftScienceIframe = styled.iframe`
+  display: none;
+`
+
+class SiftScience extends Component {
   constructor (props) {
     super(props)
     this.state = { enabled: false }
@@ -24,27 +29,30 @@ class ISignThisContainer extends Component {
         default:
           return null
       }
-
-    };
+    }
     window.addEventListener('message', receiveMessage, false)
   }
 
   render () {
-    const { options, userId, siftScienceEnabled } = this.props
+    const { options, userId, siftScienceEnabled, trades } = this.props
+
+    const sortByCreated = sortBy(prop('createdAt'))
+    const sortedTrades = reverse(sortByCreated(trades))
+    const tradeId = path(['id'], head(sortedTrades))
     const walletOptions = options || path(['data'], this.props.walletOptions)
     const helperDomain = path(['domains', 'walletHelper'], walletOptions)
     const sfoxSiftScience = path(['platforms', 'web', 'sfox', 'config', 'siftScience'], walletOptions)
 
     let url = `${helperDomain}/wallet-helper/sift-science/#/key/${sfoxSiftScience}/user/${userId}`
-    // url += scope.tradeId ? `/trade/${scope.tradeId}` : '';
+    url += tradeId ? `/trade/${tradeId}` : ''
 
-    if (userId) {
+    if (!userId) {
       return null
     }
 
     if (siftScienceEnabled) {
       return (
-        <iframe
+        <SiftScienceIframe
           src={url}
           sandbox='allow-same-origin allow-scripts'
           scrolling='no'
@@ -58,11 +66,12 @@ class ISignThisContainer extends Component {
 const mapStateToProps = (state) => ({
   walletOptions: path(['walletOptionsPath'], state),
   userId: selectors.core.kvStore.buySell.getSfoxUser(state),
-  siftScienceEnabled: path(['sfoxSignup', 'siftScienceEnabled'], state)
+  siftScienceEnabled: path(['sfoxSignup', 'siftScienceEnabled'], state),
+  trades: selectors.core.data.sfox.getTrades(state).getOrElse([])
 })
 
 const mapDispatchToProps = (dispatch) => ({
   sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ISignThisContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(SiftScience)
