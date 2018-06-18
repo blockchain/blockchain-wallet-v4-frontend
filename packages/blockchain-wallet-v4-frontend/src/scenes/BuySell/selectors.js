@@ -1,4 +1,4 @@
-import { lift, path } from 'ramda'
+import { lift, path, takeWhile } from 'ramda'
 import { formValueSelector } from 'redux-form'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { selectors } from 'data'
@@ -22,9 +22,10 @@ export const getData = createDeepEqualSelector(
 )
 
 export const getFields = (state) => {
+  const country = formValueSelector('selectPartner')(state, 'country')
   return {
     type: path(['form', 'buySellTabStatus', 'values', 'status'], state) || 'buy',
-    country: formValueSelector('selectPartner')(state, 'country'),
+    country: country && takeWhile(x => x !== '-', country),
     stateSelection: formValueSelector('selectPartner')(state, 'state'),
     email: formValueSelector('selectPartner')(state, 'email')
   }

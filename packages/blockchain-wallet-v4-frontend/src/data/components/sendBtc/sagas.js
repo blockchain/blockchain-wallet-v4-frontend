@@ -8,7 +8,7 @@ import settings from 'config'
 import { initialize, change } from 'redux-form'
 import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { Exchange } from 'blockchain-wallet-v4/src'
 
 const DUST = 546
 const DUST_BTC = '0.00000546'
@@ -19,7 +19,7 @@ export default ({ coreSagas }) => {
   const initialized = function * (action) {
     try {
       const { to, message, amount, feeType } = action.payload
-      yield put(A.sendBtcPaymentUpdated(Remote.Loading))
+      yield put(A.sendBtcPaymentUpdatedLoading())
       let payment = coreSagas.payment.btc.create(({network: settings.NETWORK_BITCOIN}))
       payment = yield payment.init()
       const accountsR = yield select(selectors.core.common.btc.getAccountsBalances)
@@ -37,9 +37,9 @@ export default ({ coreSagas }) => {
         feePerByte: defaultFeePerByte
       }
       yield put(initialize('sendBtc', initialValues))
-      yield put(A.sendBtcPaymentUpdated(Remote.of(payment.value())))
+      yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
-      yield put(A.sendBtcPaymentUpdated(Remote.Failure(e)))
+      yield put(A.sendBtcPaymentUpdatedFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'sendBtcInitialized', e))
     }
   }
@@ -51,10 +51,10 @@ export default ({ coreSagas }) => {
   const firstStepSubmitClicked = function * () {
     try {
       let p = yield select(S.getPayment)
-      yield put(A.sendBtcPaymentUpdated(Remote.Loading))
+      yield put(A.sendBtcPaymentUpdatedLoading())
       let payment = coreSagas.payment.btc.create({ payment: p.getOrElse({}), network: settings.NETWORK_BITCOIN })
       payment = yield payment.build()
-      yield put(A.sendBtcPaymentUpdated(Remote.of(payment.value())))
+      yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', e))
     }
@@ -118,7 +118,7 @@ export default ({ coreSagas }) => {
       } catch (e) {
         yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
       }
-      yield put(A.sendBtcPaymentUpdated(Remote.of(payment.value())))
+      yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
     }
@@ -213,7 +213,7 @@ export default ({ coreSagas }) => {
       yield put(actions.modals.closeAllModals())
       payment = yield payment.sign(password)
       payment = yield payment.publish()
-      yield put(A.sendBtcPaymentUpdated(Remote.of(payment.value())))
+      yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
       yield put(actions.core.data.bitcoin.fetchData())
       if (path(['description', 'length'], payment.value())) {
         yield put(actions.core.wallet.setTransactionNote(payment.value().txId, payment.value().description))
