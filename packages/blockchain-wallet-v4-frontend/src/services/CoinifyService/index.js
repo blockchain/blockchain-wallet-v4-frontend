@@ -96,7 +96,7 @@ export const reviewOrder = {
     const totalBase = path(['paymentMediums', med], q) && Math.abs((q.paymentMediums[med]['total']).toFixed(2))
     if (!fee) return `~`
     if (reviewOrder.baseBtc(q)) return `${currencySymbolMap[q.quoteCurrency]}${(qAmt + fee).toFixed(2)}`
-    else return `${currencySymbolMap[q.baseCurrency]}${totalBase}`
+    else return `${currencySymbolMap[q.baseCurrency]}${Currency.formatFiat(totalBase)}`
   }
 }
 
@@ -107,13 +107,11 @@ export const tradeDetails = {
     if (trade.isBuy) {
       return {
         btcAmount: `${trade.receiveAmount} BTC (${symbol}${(trade.inAmount / 100).toFixed(2)})`,
-        // fee: `${symbol}${((trade.sendAmount / 100) - (trade.inAmount / 100)).toFixed(2)}`,
         total: `${symbol}${(trade.sendAmount / 100).toFixed(2)}`
       }
     } else {
       return {
         btcAmount: `${trade.sendAmount / 1e8} BTC (${symbol}${(trade.outAmountExpected / 100).toFixed(2)})`,
-        // fee: `${symbol}${((trade.outAmountExpected / 100) - trade.receiveAmount).toFixed(2)}`,
         total: `${symbol}${(trade.receiveAmount).toFixed(2)}`
       }
     }
@@ -142,6 +140,7 @@ export const checkoutButtonLimitsHelper = (quoteR, limits, type) => {
 
 export const statusHelper = status => {
   switch (status) {
+    case 'reviewing':
     case 'awaiting_transfer_in':
     case 'processing': return { color: 'transferred', text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatus.processing' defaultMessage='Pending' /> }
     case 'completed': return { color: 'success', text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatus.completed' defaultMessage='Completed' /> }
@@ -156,6 +155,7 @@ export const statusHelper = status => {
 export const bodyStatusHelper = (status, isBuy) => {
   if (isBuy) {
     switch (status) {
+      case 'reviewing':
       case 'awaiting_transfer_in':
       case 'processing': return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.buy.processing' defaultMessage='Your purchase is currently being processed. Our exchange partner will send a status update your way within 1 business day.' /> }
       case 'completed': return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.buy.completed' defaultMessage='Your buy trade is complete!' /> }
@@ -194,6 +194,7 @@ export const kycBodyHelper = (status) => {
 
 export const kycHeaderHelper = (status) => {
   switch (status) {
+    case 'processing': return { color: 'transferred', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.processing' defaultMessage='Identity Verification Processing' /> }
     case 'reviewing': return { color: 'transferred', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.reviewing' defaultMessage='Identity Verification In Review' /> }
     case 'pending': return { color: 'transferred', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.pending' defaultMessage='Identity Verification Incomplete' /> }
     case 'completed': return { color: 'success', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.completed' defaultMessage='Identity Verification Completed' /> }

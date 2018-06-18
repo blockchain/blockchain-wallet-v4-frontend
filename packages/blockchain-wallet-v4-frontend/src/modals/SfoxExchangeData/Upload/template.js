@@ -110,7 +110,7 @@ const Upload = (props) => {
       <ColLeft>
         <ColLeftInner>
           <PartnerHeader style={{ ...flex('row align/center') }}>
-            <FormattedMessage id='sfoxexchangedata.upload.title' defaultMessage='The Hidden Details' />
+            <FormattedMessage id='sfoxexchangedata.upload.title' defaultMessage='Let’s Get to Know You' />
             <LockIcon name='lock-filled' />
           </PartnerHeader>
           <TitleStrings idType={idType} />
