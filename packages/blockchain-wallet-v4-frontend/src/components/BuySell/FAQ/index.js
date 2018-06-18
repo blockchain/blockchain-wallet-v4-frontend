@@ -25,6 +25,7 @@ const ToggleIcon = styled(Icon)`
   transform: rotate(0deg);
   transition: transform 0.3s;
   transform: ${props => props.toggled && 'rotate(180deg)'};
+  color: ${props => props.toggled ? props.theme['brand-secondary'] : props.theme['gray-5']};
 `
 
 export default class Helper extends React.PureComponent {
@@ -38,7 +39,7 @@ export default class Helper extends React.PureComponent {
       <Container>
         <Question onClick={() => this.setState({ open: !this.state.open })}>
           { this.props.question }
-          <ToggleIcon name='up-arrow-filled' color='brand-secondary' toggled={this.state.open} />
+          <ToggleIcon name='up-arrow-filled' toggled={this.state.open} />
         </Question>
         { this.state.open ? <Answer> { this.props.answer } </Answer> : null }
       </Container>
