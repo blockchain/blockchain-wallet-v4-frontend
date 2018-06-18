@@ -297,7 +297,7 @@ export default ({ coreSagas }) => {
 
   const openKYC = function * (data) {
     let kyc = data.payload
-    const inProgressKycs = yield select(selectors.core.data.coinify.getSortedKycs)
+    const inProgressKycs = yield select(selectors.core.data.coinify.getKycs)
     const recentKyc = head(inProgressKycs.data)
 
     try {
