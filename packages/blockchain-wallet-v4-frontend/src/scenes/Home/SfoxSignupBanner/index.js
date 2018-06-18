@@ -23,26 +23,10 @@ class SfoxSignupBannerContainer extends React.PureComponent {
 
   renderStepper (sfoxData) {
     const step = determineStep(sfoxData.sfoxProfile, sfoxData.verificationStatus, sfoxData.sfoxAccounts)
-    let currentStep = 0
-    this.setState({ step: step })
+    const steps = {'account': 1, 'verify': 2, 'upload': 3, 'funding': 4}
+    const currentStep = steps[step] || 0
 
-    switch (step) {
-      case 'account':
-        currentStep = 1
-        break
-      case 'verify':
-        currentStep = 2
-        break
-      case 'upload':
-        currentStep = 3
-        break
-      case 'funding':
-        currentStep = 4
-        break
-      default: {
-        break
-      }
-    }
+    this.setState({ step: step })
 
     return currentStep > 0
       ? (<SfoxSignupBanner currentStep={currentStep - 1} goToBuySell={this.goToBuySell}/>)
