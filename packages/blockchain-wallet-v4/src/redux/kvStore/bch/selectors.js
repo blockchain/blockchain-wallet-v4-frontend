@@ -1,9 +1,8 @@
-import { curry, keys, filter, reject, lift, map, path } from 'ramda'
+import { concat, curry, indexOf, keys, keysIn, filter, not, lift, map, path, prop } from 'ramda'
 import { BCH } from '../config'
 import { kvStorePath } from '../../paths'
 import * as walletSelectors from '../../wallet/selectors'
 
-const isSpendable = (a) => a.priv
 export const getMetadata = path([kvStorePath, BCH])
 
 // Attention: returns an object with index as keys, not an array
@@ -16,36 +15,54 @@ export const getAccountsList = state => {
 }
 
 export const getContext = (state) => {
-  const btcHDAccountContext = walletSelectors.getHDAccounts(state)
-  const btcContext = btcHDAccountContext.map(x => x.xpub)
-  try {
-    const accountsObj = getAccounts(state)
-    const xpubs = filter(x => x.includes('xpub'), btcContext)
-    const btcAddressesContext = walletSelectors.getAddressContext(state)
+  const btcHDAccounts = walletSelectors.getHDAccounts(state)
+  const metadataAccountsR = getAccounts(state)
 
-    return xpubs.filter((xpub, i) => !accountsObj.data[i].archived).concat(btcAddressesContext)
-  } catch (e) {
-    return btcContext
+  const transform = metadataAccounts => {
+    const activeAccounts = filter(account => {
+      const index = prop('index', account)
+      const metadataAccount = indexOf(index, metadataAccounts)
+      return not(prop('archived', metadataAccount))
+    }, btcHDAccounts)
+    return map(prop('xpub'), activeAccounts)
   }
+  const activeAccounts = metadataAccountsR.map(transform).getOrElse([])
+  const addresses = keysIn(walletSelectors.getActiveAddresses(state))
+  return concat(activeAccounts, addresses)
 }
 
 export const getSpendableContext = (state) => {
-  const btcHDAccountContext = walletSelectors.getHDAccounts(state)
-  const btcContext = btcHDAccountContext.map(x => x.xpub)
-  try {
-    const accountsObj = getAccounts(state)
-    const xpubs = filter(x => x.includes('xpub'), btcContext)
-    const btcAddressesContext = filter(isSpendable, walletSelectors.getAddressContext(state))
+  const btcHDAccounts = walletSelectors.getHDAccounts(state)
+  const metadataAccountsR = getAccounts(state)
 
-    return xpubs.filter((xpub, i) => !accountsObj.data[i].archived).concat(btcAddressesContext)
-  } catch (e) {
-    return btcContext
+  const transform = metadataAccounts => {
+    const activeAccounts = filter(account => {
+      const index = prop('index', account)
+      const metadataAccount = indexOf(index, metadataAccounts)
+      return not(prop('archived', metadataAccount))
+    }, btcHDAccounts)
+    return map(prop('xpub'), activeAccounts)
   }
+  const activeAccounts = metadataAccountsR.map(transform).getOrElse([])
+  const spendableAddresses = keysIn(walletSelectors.getSpendableAddresses(state))
+  return concat(activeAccounts, spendableAddresses)
 }
 
 export const getUnspendableContext = (state) => {
-  const btcAddressesContext = walletSelectors.getAddressContext(state)
-  return reject(isSpendable, btcAddressesContext)
+  const btcHDAccounts = walletSelectors.getHDAccounts(state)
+  const metadataAccountsR = getAccounts(state)
+
+  const transform = metadataAccounts => {
+    const activeAccounts = filter(account => {
+      const index = prop('index', account)
+      const metadataAccount = indexOf(index, metadataAccounts)
+      return not(prop('archived', metadataAccount))
+    }, btcHDAccounts)
+    return map(prop('xpub'), activeAccounts)
+  }
+  const activeAccounts = metadataAccountsR.map(transform).getOrElse([])
+  const unspendableAddresses = keysIn(walletSelectors.getUnspendableAddresses(state))
+  return concat(activeAccounts, unspendableAddresses)
 }
 
 export const getDefaultAccountIndex = state => getMetadata(state).map(path(['value', 'default_account_idx']))

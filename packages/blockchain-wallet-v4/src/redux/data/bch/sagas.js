@@ -9,7 +9,7 @@ export default ({ api }) => {
   const fetchData = function * () {
     try {
       yield put(A.fetchDataLoading())
-      const context = yield select(selectors.wallet.getContext)
+      const context = yield select(selectors.kvStore.bch.getContext)
       const data = yield call(api.fetchBchData, context, { n: 1 })
       const bchData = {
         addresses: indexBy(prop('address'), prop('addresses', data)),
