@@ -56,8 +56,8 @@ const AcceptTerms = (props) => {
 
   const helpers = [
     {
-      question: <FormattedMessage id='coinifysignup.create.helper1.question' defaultMessage='What is Coinify?' />,
-      answer: <FormattedMessage id='coinifysignup.create.helper1.answer' defaultMessage='Answer placeholder' />
+      question: <FormattedMessage id='coinifysignup.acceptterms.helper1.question' defaultMessage='What is Coinify?' />,
+      answer: <FormattedMessage id='coinifysignup.acceptterms.helper1.answer' defaultMessage='Coinify is a trading platform we’ve partnered with to bring you a harmonious buy & sell experience in your Blockchain wallet' />
     }
   ]
 
