@@ -1,6 +1,7 @@
 import React from 'react'
 import ui from 'redux-ui'
 
+import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import SecuritySettings from './template.js'
 
 class SecurityContainer extends React.PureComponent {
@@ -14,7 +15,11 @@ class SecurityContainer extends React.PureComponent {
   }
 
   render () {
-    return <SecuritySettings toggled={this.props.ui.toggled} handleToggle={this.handleToggle} />
+    return (
+      <ErrorBoundary>
+        <SecuritySettings toggled={this.props.ui.toggled} handleToggle={this.handleToggle} />
+      </ErrorBoundary>
+    )
   }
 }
 

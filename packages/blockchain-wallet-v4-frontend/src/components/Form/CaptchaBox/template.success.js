@@ -33,6 +33,10 @@ const Error = styled(Text)`
   height: 15px;
 `
 const RefreshLink = styled(Link)`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
   margin: 4px 0;
 `
 const RefreshIcon = styled(Icon)`
