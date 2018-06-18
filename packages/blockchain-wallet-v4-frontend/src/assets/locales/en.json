@@ -479,6 +479,7 @@
   "modals.edittransactiondesc.title": "Edit Transaction Description",
   "modals.edittransactiondesc.description": "Description",
   "modals.edittransactiondesc.button": "Change Description",
+  "modal.errorboundary.continue": "Continue",
   "modals.exchangedetails.title.success": "Exchange Completed",
   "modals.exchangedetails.title.refunded": "Trade Refunded",
   "modals.exchangedetails.title.failed": "Trade Failed",
