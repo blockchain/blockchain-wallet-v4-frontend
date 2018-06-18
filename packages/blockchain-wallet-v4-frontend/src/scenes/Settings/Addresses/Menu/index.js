@@ -37,7 +37,7 @@ const SearchIcon = styled(Icon)`
   right: 10px;
 `
 
-const MenuTop = (props) => (
+const MenuTop = () => (
   <Wrapper>
     <Controls>
       <TabMenu>

@@ -136,12 +136,12 @@ export const toEncJSON = wrapper => {
     .map((r) => assoc('checksum', hash(view(plens, r)), r))
 }
 
-export const js = (password, guid, sharedKey, label, mnemonic, xpub, nAccounts = 1, network) => ({
+export const js = (password, guid, sharedKey, label, mnemonic, xpub, language, nAccounts = 1, network) => ({
   sync_pubkeys: false,
   payload_checksum: '',
   storage_token: '',
   version: 3,
-  language: 'en',
+  language: language,
   wallet: Wallet.js(guid, sharedKey, label, mnemonic, xpub, nAccounts, network),
   war_checksum: '',
   password: password,
@@ -153,8 +153,8 @@ export const setBothPbkdf2Iterations = curry((iterations, wrapper) => compose(
   set(pbkdf2Iterations, iterations)
 )(wrapper))
 
-export const createNew = (guid, password, sharedKey, mnemonic, firstAccountName = 'My Bitcoin Wallet', nAccounts = 1) =>
-  fromJS(js(password, guid, sharedKey, firstAccountName, mnemonic, undefined, nAccounts))
+export const createNew = (guid, password, sharedKey, mnemonic, language, firstAccountName = 'My Bitcoin Wallet', nAccounts = 1) =>
+  fromJS(js(password, guid, sharedKey, firstAccountName, mnemonic, undefined, language, nAccounts))
 
 export const createNewReadOnly = (xpub, firstAccountName = 'My read-only Wallet') =>
   fromJS(js('', '', '', firstAccountName, undefined, xpub, 1))
