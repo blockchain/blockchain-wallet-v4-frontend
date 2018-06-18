@@ -37,6 +37,7 @@ class SellContainer extends React.Component {
     const { handleTrade, fetchQuote, refreshSellQuote } = coinifyDataActions
     const { showModal } = modalActions
     const { coinifyNotAsked, openKYC } = coinifyActions
+    const { change } = formActions
 
     const busy = coinifyBusy.cata({
       Success: () => false,
@@ -49,14 +50,15 @@ class SellContainer extends React.Component {
       Success: (value) => <Success
         value={value}
         canTrade={canTrade}
+        changeTab={tab => change('buySellTabStatus', 'status', tab)}
         handleTrade={handleTrade}
         showModal={showModal}
         sellQuoteR={sellQuoteR}
         fetchSellQuote={(quote) => fetchQuote({ quote, nextAddress: value.nextAddress })}
         currency={currency}
         checkoutBusy={checkoutBusy}
-        setMax={(btcAmt) => formActions.change('coinifyCheckoutSell', 'rightVal', btcAmt)}
-        setMin={(btcAmt) => formActions.change('coinifyCheckoutSell', 'rightVal', btcAmt)}
+        setMax={(btcAmt) => change('coinifyCheckoutSell', 'rightVal', btcAmt)}
+        setMin={(btcAmt) => change('coinifyCheckoutSell', 'rightVal', btcAmt)}
         paymentMedium={paymentMedium}
         initiateSell={this.startSell}
         step={step}

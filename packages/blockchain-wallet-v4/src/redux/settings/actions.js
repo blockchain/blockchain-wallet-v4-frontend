@@ -24,6 +24,8 @@ export const setAuthType = (authType) => ({ type: AT.SET_AUTH_TYPE, payload: { a
 export const setAuthTypeNeverSave = (authTypeNeverSave) => ({ type: AT.SET_AUTH_TYPE_NEVER_SAVE, payload: { authTypeNeverSave } })
 export const setGoogleAuthenticator = () => ({ type: AT.SET_GOOGLE_AUTHENTICATOR })
 export const setYubikey = () => ({ type: AT.SET_YUBIKEY })
+export const setNotificationsOn = (enabled) => ({ type: AT.SET_NOTIFICATIONS_ON, payload: { enabled } })
+export const setNotificationsType = (types) => ({ type: AT.SET_NOTIFICATIONS_TYPE, payload: { types } })
 
 // FETCH_SETTINGS
 export const fetchSettings = () => ({ type: AT.FETCH_SETTINGS })
