@@ -90,7 +90,7 @@ export default (state = INITIAL_STATE, action) => {
         : over(lensProp('transactions'), compose(append(Remote.Success(transactions)), dropLast(1)), state)
     }
     case AT.FETCH_ETHEREUM_TRANSACTIONS_FAILURE: {
-      return over(lensProp('transactions'), compose(append(Remote.Failure(payload)), dropLast(1)), state)
+      return assoc('transactions', [Remote.Failure(payload)], state)
     }
     default:
       return state
