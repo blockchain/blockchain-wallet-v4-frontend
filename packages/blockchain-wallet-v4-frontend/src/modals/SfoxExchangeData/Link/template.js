@@ -149,6 +149,11 @@ const BankLink = (props) => {
         {...props}
       />
     } else if (bankAccounts) {
+      if (busy) {
+        return (
+          <HeartbeatLoader height='40px' width='40px' color='brand-secondary' />
+        )
+      }
       return <BankAccounts data={bankAccounts.data} onSetBankAccount={onSetBankAccount} onBankSelection={handleBankSelection} handleNameChange={onNameChange} />
     } else if (ui.microDeposits) {
       return <MicroDeposits onStep={microStep} />
