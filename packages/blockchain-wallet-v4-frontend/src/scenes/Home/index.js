@@ -2,8 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import ReactHighcharts from 'react-highcharts'
 import { connect } from 'react-redux'
+import { path } from 'ramda'
+import { bindActionCreators } from 'redux'
 
-import { selectors } from 'data'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { actions, selectors } from 'data'
 import ActivityList from './ActivityList'
 import DidYouKnow from './DidYouKnow'
 import PriceChart from './PriceChart'
@@ -52,13 +55,37 @@ const ColumnRight = styled(Column)`
 `
 
 class Home extends React.PureComponent {
+  componentDidUpdate (prevProps) {
+    if (!Remote.Success.is(prevProps.buySellKv) && Remote.Success.is(this.props.buySellKv)) {
+      const token = path(['data', 'value', 'sfox', 'account_token'], this.props.buySellKv)
+      if (token) {
+        this.props.sfoxDataActions.fetchProfile()
+        this.props.sfoxDataActions.sfoxFetchAccounts()
+      }
+    }
+  }
+
   render () {
-    const { buySellKv } = this.props
+    const { buySellKv, canTrade } = this.props
+
+    const renderSfoxBanner = (kvStore) => {
+      const sfoxKvData = path(['value', 'sfox'], kvStore)
+      if (sfoxKvData.trades.length || canTrade.getOrElse('') !== 'sfox') {
+        return null
+      } else {
+        return <SfoxSignupBanner sfoxKvData={sfoxKvData} />
+      }
+    }
 
     return (
       <ErrorBoundary>
         <Wrapper>
-          { buySellKv.cata({ Success: () => <SfoxSignupBanner/>, Failure: () => <div/>, Loading: () => <div/>, NotAsked: () => <div/> }) }
+          { buySellKv.cata({
+            Success: (data) => renderSfoxBanner(data),
+            Failure: () => <div/>,
+            Loading: () => <div/>,
+            NotAsked: () => <div/> })
+          }
           <ColumnWrapper>
             <ColumnLeft>
               <BalancesChartContainer/>
@@ -76,7 +103,12 @@ class Home extends React.PureComponent {
 }
 
 const mapStateToProps = (state) => ({
-  buySellKv: selectors.core.kvStore.buySell.getMetadata(state)
+  buySellKv: selectors.core.kvStore.buySell.getMetadata(state),
+  canTrade: selectors.exchange.getCanTrade(state)
 })
 
-export default connect(mapStateToProps)(Home)
+const mapDispatchToProps = dispatch => ({
+  sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)

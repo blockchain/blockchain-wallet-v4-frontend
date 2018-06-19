@@ -247,6 +247,7 @@ export default ({ api, coreSagas }) => {
           return yield put(actions.alerts.displayError(C.TWOFA_RESET_UNKNOWN_GUID_ERROR))
         }
         case 'Error: Two factor authentication not enabled.': {
+          yield put(actions.router.push('/login'))
           return yield put(actions.alerts.displayError(C.TWOFA_RESET_NOT_ENABLED_ERROR))
         }
         case 'Error: Email entered does not match the email address associated with this wallet': {
