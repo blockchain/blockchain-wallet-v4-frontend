@@ -27,6 +27,7 @@ const ToggleIcon = styled(Icon)`
   transition: transform 0.3s;
   transform: ${props => props.toggled && 'rotate(180deg)'};
   color: ${props => props.toggled ? props.theme['brand-secondary'] : props.theme['gray-5']};
+  max-height: min-content;
 `
 
 export default class Helper extends React.PureComponent {
