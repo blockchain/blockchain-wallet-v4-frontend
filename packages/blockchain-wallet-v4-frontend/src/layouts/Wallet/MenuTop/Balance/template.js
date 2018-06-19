@@ -105,7 +105,7 @@ const Success = props => (
         down
         forceSelected
         color={'gray-5'}
-        selectedComponent={getComponentOrder()[0]}
+        selectedComponent={getComponentOrder(props.path)[0]}
         components={getComponentOrder().concat(getSubBalances())}
         callback={() => {}} />
     </BalanceDropdown>
