@@ -97,8 +97,8 @@ export default ({ coreSagas }) => {
       const result = yield call(coreSagas.data.sfox.verifyMicroDeposits, payload)
       if (result.status === 'active') {
         yield put(A.sfoxSuccess())
-        yield call(delay, 1000)
-        // yield put(modalActions.closeAllModals())
+        yield call(delay, 1500)
+        yield put(modalActions.closeAllModals())
       } else {
         yield put(A.sfoxNotAsked())
         throw new Error(result)
