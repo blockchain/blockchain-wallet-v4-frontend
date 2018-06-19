@@ -20,6 +20,20 @@ const IconAndHeaderContainer = styled.div`
     grid-template-columns: 15% 85%;
   }
   `
+const BackupButton = styled(Button)`
+  width: 100px;
+  font-size: 12px;
+  min-width: 0px;
+  @media (min-width: 400px) and (max-width: 991px) {
+    font-size: 14px;
+    width: 140px;
+  }
+  @media (min-width: 1224px) {
+    width: 140px;
+    min-width: 0px;
+    font-size: 14px;
+  }
+`
 
 const WalletRecoveryPhrase = (props) => {
   const { ui, recoveryPhrase, changeDescription, data, alone } = props
@@ -33,14 +47,14 @@ const WalletRecoveryPhrase = (props) => {
     )
     if (!ui.nextStepToggled) {
       if (!alone && isMnemonicVerified) {
-        const againBtn = <Button nature='primary' onClick={props.toggleNextStep} >
+        const againBtn = <BackupButton nature='primary' onClick={props.toggleNextStep} >
           <FormattedMessage id='scenes.securitysettings.basicsecurity.walletrecovery.settings.backupagain' defaultMessage='Backup Again' />
-        </Button>
+        </BackupButton>
         return securityComponent(againBtn)
       } else if (!alone) {
-        const backupBtn = <Button nature='primary' onClick={props.toggleNextStep} >
+        const backupBtn = <BackupButton nature='primary' onClick={props.toggleNextStep} >
           <FormattedMessage id='scenes.securitysettings.basicsecurity.walletrecovery.settings.backupfunds' defaultMessage='Backup Funds' />
-        </Button>
+        </BackupButton>
         return securityComponent(backupBtn)
       }
     }
