@@ -40,7 +40,7 @@ export default class Helper extends React.PureComponent {
       <Container>
         <Question onClick={() => this.setState({ open: !this.state.open })}>
           { this.props.question }
-          <ToggleIcon name='up-arrow-filled' toggled={this.state.open} />
+          <ToggleIcon name='down-arrow-filled' toggled={this.state.open} />
         </Question>
         { this.state.open ? <Answer> { this.props.answer } </Answer> : null }
       </Container>
