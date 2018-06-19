@@ -1,3 +1,3 @@
-import { selectors } from 'data'
+import { getEthBalance } from '../selectors'
 
-export const getData = selectors.core.data.ethereum.getBalance
+export const getData = getEthBalance

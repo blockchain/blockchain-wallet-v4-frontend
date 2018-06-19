@@ -98,8 +98,8 @@ export default ({ api }) => {
   }
 
   return {
-    fetchFee,
     fetchData,
+    fetchFee,
     fetchRates,
     fetchFiatAtTime,
     fetchTransactionHistory,

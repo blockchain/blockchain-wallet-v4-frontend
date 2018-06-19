@@ -105,8 +105,8 @@ export default ({ api }) => {
     }
   }
   return {
-    fetchFee,
     fetchData,
+    fetchFee,
     fetchLegacyBalance,
     fetchRates,
     fetchLatestBlock,

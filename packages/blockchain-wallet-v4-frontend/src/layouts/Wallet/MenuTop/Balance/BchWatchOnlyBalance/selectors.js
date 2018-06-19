@@ -1,15 +1,18 @@
 import { selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
-import { add, traverse, reduce } from 'ramda'
-import { Remote } from 'blockchain-wallet-v4/src'
+import { add, contains, filter, reduce, prop, values } from 'ramda'
 
-export const getData = state => createDeepEqualSelector(
+export const getData = createDeepEqualSelector(
   [
-    selectors.core.kvStore.bch.getUnspendableContext
+    selectors.core.kvStore.bch.getUnspendableContext,
+    selectors.core.data.bch.getAddresses
   ],
-  (context) => {
-    const getBalance = address => selectors.core.data.bch.getFinalBalance(address, state)
-    const balancesR = traverse(Remote.of, getBalance, context)
-    return balancesR.map(xs => reduce(add, 0, xs))
+  (context, addressesR) => {
+    const transform = addresses => {
+      const filteredAddresses = filter(x => contains(prop('address', x), context), values(addresses))
+      const filteredBalances = filteredAddresses.map(prop('final_balance'))
+      return reduce(add, 0, filteredBalances)
+    }
+    return addressesR.map(transform)
   }
-)(state)
+)
