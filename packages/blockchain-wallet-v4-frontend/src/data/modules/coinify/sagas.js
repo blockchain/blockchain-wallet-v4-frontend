@@ -39,7 +39,8 @@ export default ({ coreSagas }) => {
 
   const buy = function * (payload) {
     try {
-      const buyTrade = yield call(coreSagas.data.coinify.buy, payload)
+      const nextAddressData = yield call(prepareAddress)
+      const buyTrade = yield call(coreSagas.data.coinify.buy, payload, nextAddressData)
 
       if (!buyTrade) {
         const trade = yield select(selectors.core.data.coinify.getTrade)
@@ -57,6 +58,22 @@ export default ({ coreSagas }) => {
       yield put(A.coinifyNotAsked())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'buy', e))
+    }
+  }
+
+  const prepareAddress = function * () {
+    try {
+      const state = yield select()
+      const defaultIdx = selectors.core.wallet.getDefaultAccountIndex(state)
+      const receiveR = selectors.core.common.btc.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, defaultIdx, state)
+      const receiveIdxR = selectors.core.common.btc.getNextAvailableReceiveIndex(settings.NETWORK_BITCOIN, defaultIdx, state)
+      return {
+        address: receiveR.getOrElse(),
+        index: receiveIdxR.getOrElse(),
+        accountIndex: defaultIdx
+      }
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'prepareAddress', e))
     }
   }
 
@@ -281,7 +298,7 @@ export default ({ coreSagas }) => {
 
   const openKYC = function * (data) {
     let kyc = data.payload
-    const inProgressKycs = yield select(selectors.core.data.coinify.getSortedKycs)
+    const inProgressKycs = yield select(selectors.core.data.coinify.getKycs)
     const recentKyc = head(inProgressKycs.data)
 
     try {
