@@ -29,6 +29,14 @@ const ButtonContainer = styled.div`
   width: 75%;
   margin-top: 20px;
 `
+const BusyWrapper = styled.div`
+  display: ${props => !props.show ? 'flex' : 'none'};
+  flex-direction: column;
+`
+const LoaderWrapper = styled.div`
+  display: ${props => props.show ? 'flex' : 'none'};
+  justify-content: center;
+`
 const OrText = styled.p`
   color: rgba(151,151,151,0.5);
   margin: 10px 0px 15px 0px;
@@ -147,13 +155,18 @@ const BankLink = (props) => {
     } else {
       return (
         <ButtonContainer>
-          <PlaidFrame enablePlaid={enablePlaid} plaidUrl={plaidUrl} />
-          <OrText>
-            <FormattedMessage id='sfoxexchangedata.link.or' defaultMessage='or' />
-          </OrText>
-          <Button onClick={toggleManual}>
-            <FormattedMessage id='sfoxexchangedata.link.userouting' defaultMessage='Use Routing and Account Number' />
-          </Button>
+          <LoaderWrapper show={busy}>
+            <HeartbeatLoader height='40px' width='40px' color='brand-secondary' />
+          </LoaderWrapper>
+          <BusyWrapper show={busy}>
+            <PlaidFrame enablePlaid={enablePlaid} plaidUrl={plaidUrl} />
+            <OrText>
+              <FormattedMessage id='sfoxexchangedata.link.or' defaultMessage='or' />
+            </OrText>
+            <Button onClick={toggleManual}>
+              <FormattedMessage id='sfoxexchangedata.link.userouting' defaultMessage='Use Routing and Account Number' />
+            </Button>
+          </BusyWrapper>
         </ButtonContainer>
       )
     }
