@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { touch } from 'redux-form'
 
 import { getData, getBtcData } from './selectors'
 import { actions } from 'data'
@@ -21,7 +20,7 @@ class FirstStep extends React.Component {
   }
 
   handleToToggle (val) {
-    this.props.dispatch(touch('sendBtc', 'to'))
+    this.props.formActions.touch('sendBtc', 'to')
     this.props.actions.sendBtcFirstStepToToggled(val)
   }
 
@@ -64,7 +63,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   refreshActions: bindActionCreators(actions.core.refresh, dispatch),
   actions: bindActionCreators(actions.components.sendBtc, dispatch),
-  dispatch: dispatch
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FirstStep)
