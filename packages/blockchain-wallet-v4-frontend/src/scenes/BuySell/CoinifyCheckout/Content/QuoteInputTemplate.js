@@ -105,7 +105,7 @@ const getLimitsError = (errorType, limits, curr, setMax, setMin, changeTab) => {
       )
       return (
         <div>
-          <FormattedMessage id='buy.quote_input.effective_max_under_min1' defaultMessage='Your balance is less than the minimum sell amount minus priority fee {min}. ' values={{ min: limits.min }} />
+          <FormattedMessage id='buy.quote_input.effective_max_under_min1' defaultMessage='Your balance is less than the minimum sell amount minus priority fee {min} BTC. ' values={{ min: limits.min }} />
           <FormattedMessage id='buy.quote_input.effective_max_under_min2' defaultMessage='Fund your wallet by {buyLink} or {exchangeLink} before selling.' values={{ buyLink, exchangeLink }} />
         </div>
       )
