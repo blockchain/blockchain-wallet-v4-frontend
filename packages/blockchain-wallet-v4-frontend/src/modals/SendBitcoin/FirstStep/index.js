@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { touch } from 'redux-form'
 
 import { getData, getBtcData } from './selectors'
 import { actions } from 'data'
@@ -12,10 +13,16 @@ class FirstStep extends React.Component {
   constructor (props) {
     super(props)
     this.handleRefresh = this.handleRefresh.bind(this)
+    this.handleToToggle = this.handleToToggle.bind(this)
   }
 
   handleRefresh () {
     this.props.refreshActions.refresh()
+  }
+
+  handleToToggle (val) {
+    this.props.dispatch(touch('sendBtc', 'to'))
+    this.props.actions.sendBtcFirstStepToToggled(val)
   }
 
   render () {
@@ -40,7 +47,7 @@ class FirstStep extends React.Component {
         totalFee={value.totalFee}
         onSubmit={() => actions.sendBtcFirstStepSubmitClicked()}
         handleFeePerByteToggle={() => actions.sendBtcFirstStepFeePerByteToggled()}
-        handleToToggle={(val) => actions.sendBtcFirstStepToToggled(val)}
+        handleToToggle={this.handleToToggle}
       />,
       Failure: () => <DataError onClick={() => this.handleRefresh} />,
       NotAsked: () => <Loading />,
@@ -56,7 +63,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   refreshActions: bindActionCreators(actions.core.refresh, dispatch),
-  actions: bindActionCreators(actions.components.sendBtc, dispatch)
+  actions: bindActionCreators(actions.components.sendBtc, dispatch),
+  dispatch: dispatch
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FirstStep)
