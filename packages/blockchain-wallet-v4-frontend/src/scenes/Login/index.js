@@ -15,6 +15,9 @@ class LoginContainer extends React.PureComponent {
     this.handleMobile = this.handleMobile.bind(this)
     this.handleSmsResend = this.handleSmsResend.bind(this)
   }
+  componentWillUnmount () {
+    this.props.formActions.destroy('login')
+  }
 
   handleCode (val) {
     this.setState({ useCode: val })
@@ -77,6 +80,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   authActions: bindActionCreators(actions.auth, dispatch),
   alertActions: bindActionCreators(actions.alerts, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
