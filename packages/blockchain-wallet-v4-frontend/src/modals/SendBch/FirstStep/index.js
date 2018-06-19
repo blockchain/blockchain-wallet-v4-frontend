@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { touch } from 'redux-form'
 
 import { getData } from './selectors'
 import { actions } from 'data'
@@ -9,6 +10,16 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class FirstStep extends React.Component {
+  constructor (props) {
+    super(props)
+    this.handleToToggle = this.handleToToggle.bind(this)
+  }
+
+  handleToToggle (val) {
+    this.props.dispatch(touch('sendBch', 'to'))
+    this.props.actions.sendBchFirstStepToToggled(val)
+  }
+
   render () {
     const { data, actions } = this.props
 
@@ -21,7 +32,7 @@ class FirstStep extends React.Component {
         effectiveBalance={value.effectiveBalance}
         totalFee={value.totalFee}
         onSubmit={() => actions.sendBchFirstStepSubmitClicked()}
-        handleToToggle={(val) => actions.sendBchFirstStepToToggled(val)}
+        handleToToggle={this.handleToToggle}
       />,
       Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
@@ -35,7 +46,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.components.sendBch, dispatch)
+  actions: bindActionCreators(actions.components.sendBch, dispatch),
+  dispatch: dispatch
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FirstStep)
