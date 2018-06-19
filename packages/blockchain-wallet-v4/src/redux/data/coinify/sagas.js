@@ -288,16 +288,19 @@ export default ({ api, options }) => {
     }
   }
 
+  const sortKycs = function * () {
+    const coinify = yield call(getCoinify)
+    const kycs = yield apply(coinify, coinify.getKYCs)
+    const byTime = (a, b) => prop('createdAt', b) - prop('createdAt', a)
+    return sort(byTime, kycs)
+  }
+
   const getKYCs = function * () {
     try {
       yield put(A.getKYCsLoading())
-      const coinify = yield call(getCoinify)
-      const kycs = yield apply(coinify, coinify.getKYCs)
-      const byTime = (a, b) => b.createdAt - a.createdAt
-      const sortedKYCs = sort(byTime, kycs)
-
+      const sortedKYCs = yield call(sortKycs)
       yield put(A.getKYCsSuccess(sortedKYCs))
-      return kycs
+      return sortedKYCs
     } catch (e) {
       console.log('getKYCs failure', e)
       yield put(A.getKYCsFailure(e))
@@ -307,15 +310,11 @@ export default ({ api, options }) => {
   const pollKYCsPending = function * () {
     try {
       const kycs = yield select(S.getKycs)
-      console.log(kycs)
-      const statusPath = x => path(['0', 'state'], x)
-      let status = kycs.map(kycs => statusPath(kycs)).getOrElse('pending')
+      const statusPath = path(['0', 'state'])
+      let status = kycs.map(statusPath).getOrElse(undefined)
       while (equals(status, 'pending')) {
         yield call(delay, 1000)
-        const coinify = yield call(getCoinify)
-        const kycs = yield apply(coinify, coinify.getKYCs)
-        const byTime = (a, b) => b.createdAt - a.createdAt
-        const sortedKYCs = sort(byTime, kycs)
+        const sortedKYCs = yield call(sortKycs)
         status = statusPath(sortedKYCs)
         yield put(A.getKYCsSuccess(sortedKYCs))
       }
