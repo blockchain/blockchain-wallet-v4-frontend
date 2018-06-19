@@ -18,6 +18,7 @@ class SettingsContainer extends React.PureComponent {
   onSubmit () {
     const { secondPasswordValue, secondPasswordEnabled } = this.props
     this.props.walletActions.toggleSecondPassword(secondPasswordValue, secondPasswordEnabled)
+    this.props.formActions.reset('settingSecondPassword')
     this.handleToggle()
   }
 
@@ -33,7 +34,10 @@ class SettingsContainer extends React.PureComponent {
       onSubmit={this.onSubmit}
       updateToggled={ui.updateToggled}
       handleToggle={this.handleToggle}
-      handleCancel={() => { this.props.formActions.reset('settingSecondPassword'); this.handleToggle() }}
+      handleCancel={() => {
+        this.props.formActions.reset('settingSecondPassword')
+        this.handleToggle()
+      }}
     />
   }
 }
