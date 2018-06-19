@@ -7,6 +7,7 @@ export default ({ api }) => {
 
   return function * () {
     yield takeLatest(AT.FETCH_BCH_DATA, dataBchSagas.fetchData)
+    // yield fork(dataBchSagas.watchData)
     yield takeLatest(AT.FETCH_BCH_FEE, dataBchSagas.fetchFee)
     yield takeLatest(AT.FETCH_BCH_RATES, dataBchSagas.fetchRates)
     yield fork(dataBchSagas.watchTransactions)
