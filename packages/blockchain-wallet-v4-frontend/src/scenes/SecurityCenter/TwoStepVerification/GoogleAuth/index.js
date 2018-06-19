@@ -1,13 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import { actions } from 'data'
-import Google from './template.success'
-import { getData } from './selectors'
-import Error from './template.error'
-import Loading from './template.loading'
 import ui from 'redux-ui'
 import { formValueSelector } from 'redux-form'
+
+import { actions } from 'data'
+import { getData } from './selectors'
+import Success from './template.success'
+import Error from './template.error'
+import Loading from './template.loading'
 
 class GoogleAuthContainer extends React.PureComponent {
   constructor (props) {
@@ -26,10 +27,8 @@ class GoogleAuthContainer extends React.PureComponent {
     if (next.authType !== prev.authType) {
       this.props.updateUI({ successToggled: true })
       this.props.triggerSuccess()
-      setTimeout(() => {
-        this.props.goBackOnSuccess()
-        this.props.handleGoBack()
-      }, 1500)
+      this.props.goBackOnSuccess()
+      this.props.handleGoBack()
     }
   }
 
@@ -45,7 +44,7 @@ class GoogleAuthContainer extends React.PureComponent {
     const { data, ui, ...rest } = this.props
 
     return data.cata({
-      Success: (value) => <Google
+      Success: (value) => <Success
         data={value}
         handleClick={this.handleClick}
         onSubmit={this.onSubmit}
