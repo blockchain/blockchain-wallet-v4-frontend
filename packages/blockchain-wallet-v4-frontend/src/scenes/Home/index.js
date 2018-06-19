@@ -7,7 +7,7 @@ import { selectors } from 'data'
 import ActivityList from './ActivityList'
 import DidYouKnow from './DidYouKnow'
 import PriceChart from './PriceChart'
-import BalancesChartContainer from './BalancesChart'
+import BalancesChart from './BalancesChart'
 import SfoxSignupBanner from './SfoxSignupBanner'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 
@@ -61,12 +61,12 @@ class Home extends React.PureComponent {
           { buySellKv.cata({ Success: () => <SfoxSignupBanner/>, Failure: () => <div/>, Loading: () => <div/>, NotAsked: () => <div/> }) }
           <ColumnWrapper>
             <ColumnLeft>
-              <BalancesChartContainer/>
-              <ActivityList/>
+              <BalancesChart />
+              <ActivityList />
             </ColumnLeft>
             <ColumnRight>
-              <PriceChart/>
-              <DidYouKnow/>
+              <PriceChart />
+              <DidYouKnow />
             </ColumnRight>
           </ColumnWrapper>
         </Wrapper>
