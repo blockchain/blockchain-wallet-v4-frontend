@@ -36,6 +36,9 @@ class LinkContainer extends Component {
       }
     }
     window.addEventListener('message', receiveMessage, false)
+
+    this.props.sfoxFrontendActions.sfoxLoading()
+    document.getElementById('plaid').onload = (e) => this.props.sfoxFrontendActions.sfoxSuccess()
   }
 
   onSetBankAccount (data) {
