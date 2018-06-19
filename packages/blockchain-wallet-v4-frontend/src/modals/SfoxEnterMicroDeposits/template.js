@@ -23,6 +23,23 @@ const ErrorText = styled(Text)`
 const MicroDeposits = (props) => {
   const { handleSubmit, close, position, total, invalid, status, tryAgain } = props
 
+  if (status === 'success') {
+    return (
+      <Modal size='medium' position={position} total={total}>
+        {/* <ModalHeader onClose={close}>
+          <Text>
+            <FormattedMessage id='sfoxmicrodeposits.header' defaultMessage='Verify Bank Deposits' />
+          </Text>
+        </ModalHeader> */}
+        <ModalBody>
+          <Text size='28px' weight={300}>
+            <FormattedMessage id='sfoxmicrodeposits.success' defaultMessage='YOU ARE NOW READY TO BUY & SELL' />
+          </Text>
+        </ModalBody>
+      </Modal>
+    )
+  }
+
   return (
     <Modal size='medium' position={position} total={total}>
       <ModalHeader onClose={close}>
