@@ -40,7 +40,8 @@ class SfoxEnterMicroDeposits extends React.PureComponent {
 const mapStateToProps = (state) => ({
   deposit1: formValueSelector('sfoxMicroDeposits')(state, 'deposit1'),
   deposit2: formValueSelector('sfoxMicroDeposits')(state, 'deposit2'),
-  status: path(['sfoxSignup', 'sfoxBusy'], state)
+  status: path(['sfoxSignup', 'sfoxBusy'], state),
+  options: path(['walletOptionsPath'], state).getOrElse({})
 })
 
 const mapDispatchToProps = (dispatch) => ({
