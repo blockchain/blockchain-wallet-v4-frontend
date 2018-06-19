@@ -18,18 +18,18 @@ const IconAndHeaderContainer = styled.div`
   }
   `
 const BackupButton = styled(Button)`
-width: 100px;
-font-size: 12px;
-min-width: 0px;
-@media (min-width: 400px) and (max-width: 991px) {
-  font-size: 14px;
-  width: 140px;
-}
-@media (min-width: 1224px) {
-  width: 140px;
+  width: 100px;
+  font-size: 12px;
   min-width: 0px;
-  font-size: 14px;
-}
+  @media (min-width: 400px) and (max-width: 991px) {
+    font-size: 14px;
+    width: 140px;
+  }
+  @media (min-width: 1224px) {
+    width: 140px;
+    min-width: 0px;
+    font-size: 14px;
+  }
 `
 
 const WalletRecoveryPhrase = (props) => {
