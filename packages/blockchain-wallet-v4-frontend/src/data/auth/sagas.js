@@ -294,7 +294,7 @@ export default ({ api, coreSagas }) => {
     yield put(actions.core.webSocket.bitcoin.stopSocket())
     yield put(actions.core.webSocket.ethereum.stopSocket())
     yield put(actions.core.webSocket.bch.stopSocket())
-    // only should browser deauth to verified users
+    // only show browser de-auth page to accounts with verified email
     isEmailVerified.data
       ? yield put(actions.router.push('/logout'))
       : yield logoutClearReduxStore()
