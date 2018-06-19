@@ -1,4 +1,4 @@
-import { equals, path, prop } from 'ramda'
+import { equals, head, path, prop } from 'ramda'
 import { dataPath } from '../../paths'
 
 export const getCoinify = path([dataPath, 'coinify'])
@@ -28,7 +28,7 @@ export const getLevel = state => getProfile(state).map(path(['_level']))
 
 export const getCurrentLimits = state => getProfile(state).map(path(['currentLimits']))
 
-export const getKycs = path([dataPath, 'coinify', 'kycs'])
+export const getKyc = path([dataPath, 'coinify', 'kyc'])
 
 export const getDefaultCurrency = path([dataPath, 'coinify', '_default_currency'])
 

@@ -7,7 +7,7 @@ import * as walletActions from '../../wallet/actions'
 import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import { coinifyService } from '../../../exchange/service'
 import * as buySellA from '../../kvStore/buySell/actions'
-import { equals, prop, sort, path } from 'ramda'
+import { equals, head, prop, sort, path } from 'ramda'
 
 export default ({ api, options }) => {
   const getCoinify = function * () {
@@ -295,7 +295,7 @@ export default ({ api, options }) => {
       const coinify = yield call(getCoinify)
       const kyc = yield apply(coinify, coinify.triggerKYC)
       yield put(A.handleTradeSuccess(kyc))
-      yield put(A.getKycs())
+      yield put(A.getKyc())
       return kyc
     } catch (e) {
       yield put(A.handleTradeFailure(e))
@@ -303,39 +303,43 @@ export default ({ api, options }) => {
     }
   }
 
-  const sortKycs = function * () {
-    const coinify = yield call(getCoinify)
+  const getLastKyc = function * (coinify) {
     const kycs = yield apply(coinify, coinify.getKYCs)
     const byTime = (a, b) => prop('createdAt', b) - prop('createdAt', a)
-    return sort(byTime, kycs)
+    return head(sort(byTime, kycs))
   }
 
-  const getKYCs = function * () {
+  const getKYC = function * () {
     try {
-      yield put(A.getKYCsLoading())
-      const sortedKYCs = yield call(sortKycs)
-      yield put(A.getKYCsSuccess(sortedKYCs))
-      return sortedKYCs
+      yield put(A.getKYCLoading())
+      const coinify = yield call(getCoinify)
+      const kyc = yield call(getLastKyc, coinify)
+      yield put(A.getKYCSuccess(kyc))
+      return kyc
     } catch (e) {
-      console.log('getKYCs failure', e)
-      yield put(A.getKYCsFailure(e))
+      console.log('getKYCfailure', e)
+      yield put(A.getKYCFailure(e))
     }
   }
 
-  const pollKYCsPending = function * () {
+  const pollKYCPending = function * () {
     try {
-      const kycs = yield select(S.getKycs)
-      const statusPath = path(['0', 'state'])
-      let status = kycs.map(statusPath).getOrElse(undefined)
+      const kyc = yield select(S.getKyc)
+      let status = kyc.map(prop('state')).getOrElse(undefined)
       while (equals(status, 'pending')) {
         yield call(delay, 1000)
-        const sortedKYCs = yield call(sortKycs)
-        status = statusPath(sortedKYCs)
-        yield put(A.getKYCsSuccess(sortedKYCs))
+        const kycR = yield select(S.getKyc)
+        const kyc = kycR.getOrElse(undefined)
+        if (!kyc) {
+          return
+        }
+        yield apply(kyc, kyc.refresh)
+        status = prop('state', kyc)
+        yield put(A.getKYCSuccess(kyc))
       }
     } catch (e) {
-      console.log('pollKYCsPending failure', e)
-      yield put(A.getKYCsFailure(e))
+      console.log('pollKYCPending failure', e)
+      yield put(A.getKYCFailure(e))
     }
   }
 
@@ -389,9 +393,9 @@ export default ({ api, options }) => {
     cancelTrade,
     cancelSubscription,
     triggerKYC,
-    getKYCs,
+    getKYC,
     kycAsTrade,
-    pollKYCsPending,
+    pollKYCPending,
     refreshBuyQuote,
     refreshSellQuote
   }
