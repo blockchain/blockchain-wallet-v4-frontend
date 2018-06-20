@@ -23,7 +23,7 @@ export default ({ coreSagas }) => {
         yield call(coreSagas.data.coinify.triggerKYC)
         yield put(A.coinifyNextStep('isx'))
       } else {
-        yield put(A.coinifySignupFailure(profile.error))
+        yield put(A.coinifySignupFailure(JSON.parse(profile.error)))
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'coinifySignup', e))
