@@ -21,8 +21,12 @@ class SfoxCheckout extends React.PureComponent {
     this.props.sendBtcActions.initialized({ feeType: 'priority' })
   }
 
+  componentWillUnmount () {
+    this.props.sfoxActions.disableSiftScience()
+  }
+
   render () {
-    const { data, modalActions, sfoxActions, sfoxDataActions, payment, orderState, formActions } = this.props
+    const { data, modalActions, sfoxActions, sfoxDataActions, payment, orderState, formActions, siftScienceEnabled } = this.props
     const { handleTrade, fetchQuote, refreshQuote, refreshSellQuote, fetchSellQuote } = sfoxDataActions
     const { sfoxNotAsked } = sfoxActions
     const { showModal } = modalActions
@@ -53,6 +57,7 @@ class SfoxCheckout extends React.PureComponent {
         disableButton={() => this.setState({ buttonStatus: false })}
         enableButton={() => this.setState({ buttonStatus: true })}
         buttonStatus={this.state.buttonStatus}
+        siftScienceEnabled={siftScienceEnabled}
       />,
       Failure: (error) => <div>Failure: {error && error.message}</div>,
       Loading: () => <Loading />,
@@ -69,7 +74,8 @@ const mapStateToProps = state => ({
   trades: getTrades(state),
   errors: getErrors(state),
   payment: getPayment(state),
-  orderState: path(['sfoxSignup', 'sfoxBusy'], state)
+  orderState: path(['sfoxSignup', 'sfoxBusy'], state),
+  siftScienceEnabled: path(['sfoxSignup', 'siftScienceEnabled'], state)
 })
 
 const mapDispatchToProps = dispatch => ({

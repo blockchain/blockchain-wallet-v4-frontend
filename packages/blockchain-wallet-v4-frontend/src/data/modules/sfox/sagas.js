@@ -36,6 +36,7 @@ export default ({ coreSagas }) => {
       const profile = yield select(selectors.core.data.sfox.getProfile)
       if (!profile.error) {
         yield put(A.sfoxSuccess())
+        yield put(A.enableSiftScience())
         yield put(A.nextStep('verify'))
       } else {
         yield put(A.sfoxNotAsked())
@@ -121,6 +122,7 @@ export default ({ coreSagas }) => {
         throw new Error(trade.message)
       }
       yield put(A.sfoxSuccess())
+      yield put(A.enableSiftScience())
       yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
       yield put(modalActions.showModal('SfoxTradeDetails', { trade }))
     } catch (e) {
