@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import { map, prop } from 'ramda'
-import { getBtcStartDates, getBtcEndDates, getBchStartDates, getBchEndDates } from './services'
 import { selectors } from 'data'
+import { isValidBtcStartDate, isValidBchStartDate, isValidBtcEndDate, isValidBchEndDate } from './services'
 
 export const getData = (coin, state) => {
   switch (coin) {
@@ -26,8 +26,8 @@ export const getBtcData = createSelector(
     const end = prop('end', formValues)
     return {
       csvData: dataR.map(transform).getOrElse(undefined),
-      isValidStartDate: (selectedDate) => getBtcStartDates(selectedDate, end),
-      isValidEndDate: (selectedDate) => getBtcEndDates(selectedDate, start)
+      isValidStartDate: (date) => isValidBtcStartDate(date, end),
+      isValidEndDate: (date) => isValidBtcEndDate(date, start)
     }
   }
 )
@@ -47,8 +47,8 @@ export const getBchData = createSelector(
     const end = prop('end', formValues)
     return {
       csvData: dataR.map(transform).getOrElse(undefined),
-      isValidStartDate: (selectedDate) => getBchStartDates(selectedDate, end),
-      isValidEndDate: (selectedDate) => getBchEndDates(selectedDate, start)
+      isValidStartDate: (date) => isValidBchStartDate(date, end),
+      isValidEndDate: (date) => isValidBchEndDate(date, start)
     }
   }
 )

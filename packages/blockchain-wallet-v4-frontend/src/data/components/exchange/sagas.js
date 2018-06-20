@@ -1,9 +1,10 @@
-import { cancel, cancelled, call, fork, select, put } from 'redux-saga/effects'
+import { cancel, cancelled, call, fork, select, put, take } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import { equals, has, path, prop } from 'ramda'
 import * as A from './actions'
 import * as S from './selectors'
 import * as actions from '../../actions'
+import * as actionTypes from '../../actionTypes'
 import * as selectors from '../../selectors'
 import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
@@ -249,6 +250,11 @@ export default ({ api, coreSagas }) => {
       outgoingPayment = yield outgoingPayment.publish()
       const paymentValue = outgoingPayment.value()
       const { txId } = paymentValue
+      if (order.pair.startsWith('eth')) {
+        yield put(actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(Date.now()))
+        yield take(actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS)
+        yield put(actions.core.kvStore.ethereum.setLatestTxEthereum(txId))
+      }
       // Save the trade in metadata
       const trade = {
         hashIn: txId,
