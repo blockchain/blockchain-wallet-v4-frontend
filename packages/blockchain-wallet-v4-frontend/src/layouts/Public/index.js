@@ -63,7 +63,6 @@ const PublicLayout = ({component: Component, ...rest}) => {
     <Route {...rest} render={matchProps => (
       <Wrapper>
         <Alerts />
-        <Modals />
         <HeaderContainer>
           <Header />
         </HeaderContainer>

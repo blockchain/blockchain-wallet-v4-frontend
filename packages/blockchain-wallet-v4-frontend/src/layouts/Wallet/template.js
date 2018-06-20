@@ -8,6 +8,7 @@ import MenuLeft from './MenuLeft'
 import MenuTop from './MenuTop'
 import TrayRight from './TrayRight'
 import Page from './Page'
+import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 
 import BtcMenu from '../../scenes/Transactions/Bitcoin/Menu'
 import BchMenu from '../../scenes/Transactions/Bch/Menu'
@@ -52,7 +53,9 @@ const WalletLayout = props => {
   return (
     <Wrapper>
       <Alerts />
-      <Modals />
+      <ErrorBoundary>
+        <Modals />
+      </ErrorBoundary>
       <Nav>
         <Header />
       </Nav>
