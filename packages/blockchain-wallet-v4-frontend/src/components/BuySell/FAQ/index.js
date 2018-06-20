@@ -7,6 +7,7 @@ const Container = styled.div`
   padding: 20px 0px;
   font-size: 13px;
   font-weight: 300;
+  opacity: 0.7;
 `
 const Question = styled.div`
   display: flex;
@@ -20,6 +21,14 @@ const Answer = styled.div`
   font-size: 12px;
   padding: 0px 10px;
 `
+const ToggleIcon = styled(Icon)`
+  cursor: pointer;
+  transform: rotate(0deg);
+  transition: transform 0.3s;
+  transform: ${props => props.toggled && 'rotate(180deg)'};
+  color: ${props => props.toggled ? props.theme['brand-secondary'] : props.theme['gray-5']};
+  max-height: min-content;
+`
 
 export default class Helper extends React.PureComponent {
   constructor (props) {
@@ -32,7 +41,7 @@ export default class Helper extends React.PureComponent {
       <Container>
         <Question onClick={() => this.setState({ open: !this.state.open })}>
           { this.props.question }
-          { this.state.open ? <Icon name='up-arrow-filled' color='brand-secondary' /> : <Icon name='down-arrow-filled' /> }
+          <ToggleIcon name='down-arrow-filled' toggled={this.state.open} />
         </Question>
         { this.state.open ? <Answer> { this.props.answer } </Answer> : null }
       </Container>
