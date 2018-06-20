@@ -1,7 +1,14 @@
-import { concat, curry, indexOf, keys, keysIn, filter, not, lift, map, path, prop } from 'ramda'
+import { concat, curry, equals, keys, keysIn, filter, not, lift, map, path, prop } from 'ramda'
 import { BCH } from '../config'
 import { kvStorePath } from '../../paths'
 import * as walletSelectors from '../../wallet/selectors'
+import { createSelectorCreator, defaultMemoize } from 'reselect'
+
+// TODO: Move to appropriate location (to define)
+export const createDeepEqualSelector = createSelectorCreator(
+  defaultMemoize,
+  equals
+)
 
 export const getMetadata = path([kvStorePath, BCH])
 
@@ -14,56 +21,68 @@ export const getAccountsList = state => {
   return lift(a => map(key => a[key], keys(a)))(accountsObj)
 }
 
-export const getContext = (state) => {
-  const btcHDAccounts = walletSelectors.getHDAccounts(state)
-  const metadataAccountsR = getAccounts(state)
-
-  const transform = metadataAccounts => {
-    const activeAccounts = filter(account => {
-      const index = prop('index', account)
-      const metadataAccount = indexOf(index, metadataAccounts)
-      return not(prop('archived', metadataAccount))
-    }, btcHDAccounts)
-    return map(prop('xpub'), activeAccounts)
+export const getContext = createDeepEqualSelector(
+  [
+    walletSelectors.getHDAccounts,
+    walletSelectors.getActiveAddresses,
+    getAccounts
+  ],
+  (btcHDAccounts, activeAddresses, metadataAccountsR) => {
+    const transform = metadataAccounts => {
+      const activeAccounts = filter(account => {
+        const index = prop('index', account)
+        const metadataAccount = metadataAccounts[index]
+        return not(prop('archived', metadataAccount))
+      }, btcHDAccounts)
+      return map(prop('xpub'), activeAccounts)
+    }
+    const activeAccounts = metadataAccountsR.map(transform).getOrElse([])
+    const addresses = keysIn(activeAddresses)
+    return concat(activeAccounts, addresses)
   }
-  const activeAccounts = metadataAccountsR.map(transform).getOrElse([])
-  const addresses = keysIn(walletSelectors.getActiveAddresses(state))
-  return concat(activeAccounts, addresses)
-}
+)
 
-export const getSpendableContext = (state) => {
-  const btcHDAccounts = walletSelectors.getHDAccounts(state)
-  const metadataAccountsR = getAccounts(state)
-
-  const transform = metadataAccounts => {
-    const activeAccounts = filter(account => {
-      const index = prop('index', account)
-      const metadataAccount = indexOf(index, metadataAccounts)
-      return not(prop('archived', metadataAccount))
-    }, btcHDAccounts)
-    return map(prop('xpub'), activeAccounts)
+export const getSpendableContext = createDeepEqualSelector(
+  [
+    walletSelectors.getHDAccounts,
+    walletSelectors.getSpendableAddresses,
+    getAccounts
+  ],
+  (btcHDAccounts, spendableAddresses, metadataAccountsR) => {
+    const transform = metadataAccounts => {
+      const activeAccounts = filter(account => {
+        const index = prop('index', account)
+        const metadataAccount = metadataAccounts[index]
+        return not(prop('archived', metadataAccount))
+      }, btcHDAccounts)
+      return map(prop('xpub'), activeAccounts)
+    }
+    const activeAccounts = metadataAccountsR.map(transform).getOrElse([])
+    const addresses = keysIn(spendableAddresses)
+    return concat(activeAccounts, addresses)
   }
-  const activeAccounts = metadataAccountsR.map(transform).getOrElse([])
-  const spendableAddresses = keysIn(walletSelectors.getSpendableAddresses(state))
-  return concat(activeAccounts, spendableAddresses)
-}
+)
 
-export const getUnspendableContext = (state) => {
-  const btcHDAccounts = walletSelectors.getHDAccounts(state)
-  const metadataAccountsR = getAccounts(state)
-
-  const transform = metadataAccounts => {
-    const activeAccounts = filter(account => {
-      const index = prop('index', account)
-      const metadataAccount = indexOf(index, metadataAccounts)
-      return not(prop('archived', metadataAccount))
-    }, btcHDAccounts)
-    return map(prop('xpub'), activeAccounts)
+export const getUnspendableContext = createDeepEqualSelector(
+  [
+    walletSelectors.getHDAccounts,
+    walletSelectors.getUnspendableAddresses,
+    getAccounts
+  ],
+  (btcHDAccounts, unspendableAddresses, metadataAccountsR) => {
+    const transform = metadataAccounts => {
+      const activeAccounts = filter(account => {
+        const index = prop('index', account)
+        const metadataAccount = metadataAccounts[index]
+        return not(prop('archived', metadataAccount))
+      }, btcHDAccounts)
+      return map(prop('xpub'), activeAccounts)
+    }
+    const activeAccounts = metadataAccountsR.map(transform).getOrElse([])
+    const addresses = keysIn(unspendableAddresses)
+    return concat(activeAccounts, addresses)
   }
-  const activeAccounts = metadataAccountsR.map(transform).getOrElse([])
-  const unspendableAddresses = keysIn(walletSelectors.getUnspendableAddresses(state))
-  return concat(activeAccounts, unspendableAddresses)
-}
+)
 
 export const getDefaultAccountIndex = state => getMetadata(state).map(path(['value', 'default_account_idx']))
 
