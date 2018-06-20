@@ -8,19 +8,19 @@ export const getData = createDeepEqualSelector(
     selectors.core.data.coinify.getLimits,
     selectors.core.data.coinify.getLevel,
     selectors.core.data.coinify.getMediums,
-    selectors.core.data.coinify.getKycs
+    selectors.core.data.coinify.getKyc
   ],
-  (profileR, limitsR, levelR, mediumsR, kycsR) => {
-    const transform = (profile, limits, level, mediums, kycs) => {
+  (profileR, limitsR, levelR, mediumsR, kycR) => {
+    const transform = (profile, limits, level, mediums, kyc) => {
       return {
         profile,
         limits,
         level,
         mediums,
-        kycs
+        kyc
       }
     }
-    return lift(transform)(profileR, limitsR, levelR, mediumsR, kycsR)
+    return lift(transform)(profileR, limitsR, levelR, mediumsR, kycR)
   }
 )
 
