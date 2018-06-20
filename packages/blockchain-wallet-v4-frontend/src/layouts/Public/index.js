@@ -41,10 +41,23 @@ const ContentContainer = styled.div`
   justify-content: center;
   align-items: center;
   overflow-y: auto;
-  padding: 0 25px;
+  margin: 0 25px;
+  z-index: 10;
+
   @media (min-width: 768px) {
-    padding: 0;
     height: 100%;
+  }
+  
+  @media (min-height: 1000px) {
+    height: 100%;
+    margin-top: 200px;
+    justify-content: flex-start;
+  }
+  
+   @media (min-height: 1400px) {
+    height: 100%;
+    margin-top: 500px;
+    justify-content: flex-start;
   }
 `
 const FooterContainer = styled.div`
@@ -59,6 +72,19 @@ const FooterContainer = styled.div`
   }
 `
 
+const AnnouncementWrapper = styled.div`
+  margin: 0 auto 20px auto;
+  width: 100%;
+  
+  @media (min-width: 992px) {
+    width: 960px;
+  }
+  
+  @media (min-width: 1200px) {
+    width: 1140px;
+  }
+`
+
 const PublicLayout = ({component: Component, ...rest}) => {
   return (
     <Route {...rest} render={matchProps => (
@@ -67,9 +93,11 @@ const PublicLayout = ({component: Component, ...rest}) => {
         <Modals />
         <HeaderContainer>
           <Header />
-          <ServiceAnnouncement />
         </HeaderContainer>
         <ContentContainer>
+          <AnnouncementWrapper>
+            <ServiceAnnouncement />
+          </AnnouncementWrapper>
           <ErrorBoundary>
             <Component {...matchProps} />
           </ErrorBoundary>
