@@ -12,12 +12,13 @@ const Container = styled.div`
 `
 const Error = styled.label`
   position: absolute;
-  top: ${props => props.errorBottom ? '40px' : '-18px'};
+  top: ${props => props.errorBottom ? '40px' : '-20px'};
   right: 0;
   display: block;
   height: 15px;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 300;
+  font-family: 'Montserrat', Helvetica, sans-serif;
   color: ${props => props.theme['error']};
 `
 
