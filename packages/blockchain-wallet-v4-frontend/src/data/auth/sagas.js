@@ -247,6 +247,7 @@ export default ({ api, coreSagas }) => {
           return yield put(actions.alerts.displayError(C.TWOFA_RESET_UNKNOWN_GUID_ERROR))
         }
         case 'Error: Two factor authentication not enabled.': {
+          yield put(actions.router.push('/login'))
           return yield put(actions.alerts.displayError(C.TWOFA_RESET_NOT_ENABLED_ERROR))
         }
         case 'Error: Email entered does not match the email address associated with this wallet': {
@@ -272,7 +273,7 @@ export default ({ api, coreSagas }) => {
       const { guid } = action.payload
       const sessionToken = yield select(selectors.session.getSession, guid)
       const response = yield call(coreSagas.wallet.resendSmsLoginCode, { guid, sessionToken })
-      if (response.initial_error) {
+      if (response.initial_error && !response.initial_error.includes('login attempts left')) {
         throw new Error(response)
       } else {
         yield put(actions.alerts.displaySuccess(C.SMS_RESEND_SUCCESS))

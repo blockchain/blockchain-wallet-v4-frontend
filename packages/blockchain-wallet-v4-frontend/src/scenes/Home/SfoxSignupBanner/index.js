@@ -3,50 +3,30 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { actions } from 'data'
-import { determineStep } from 'services/SfoxService'
 import { getData } from './selectors'
 import SfoxSignupBanner from './template.js'
+import { determineStep } from 'services/SfoxService'
+import { actions } from 'data'
 
 class SfoxSignupBannerContainer extends React.PureComponent {
   constructor (props) {
     super(props)
+    this.state = { step: null }
     this.renderStepper = this.renderStepper.bind(this)
     this.goToBuySell = this.goToBuySell.bind(this)
   }
 
-  componentWillMount () {
-    this.props.sfoxDataActions.fetchProfile()
-    this.props.sfoxDataActions.sfoxFetchAccounts()
-  }
-
   goToBuySell () {
     this.props.history.push('/buy-sell')
+    this.props.modalActions.showModal('SfoxExchangeData', { step: this.state.step })
   }
 
-  renderStepper (data) {
-    let currentStep = 0
+  renderStepper (sfoxData) {
+    const step = determineStep(sfoxData.sfoxProfile, sfoxData.verificationStatus, sfoxData.sfoxAccounts)
+    const steps = {'account': 1, 'verify': 2, 'upload': 3, 'funding': 4}
+    const currentStep = steps[step] || 0
 
-    if (data.canTrade === 'sfox') {
-      const step = determineStep(data.profile, data.vStatus, data.accounts)
-      switch (step) {
-        case 'account':
-          currentStep = 1
-          break
-        case 'verify':
-          currentStep = 2
-          break
-        case 'upload':
-          currentStep = 3
-          break
-        case 'funding':
-          currentStep = 4
-          break
-        default: {
-          break
-        }
-      }
-    }
+    this.setState({ step: step })
 
     return currentStep > 0
       ? (<SfoxSignupBanner currentStep={currentStep - 1} goToBuySell={this.goToBuySell}/>)
@@ -56,20 +36,25 @@ class SfoxSignupBannerContainer extends React.PureComponent {
   render () {
     const { data } = this.props
 
-    return data.cata({
-      Success: (value) => this.renderStepper(value),
-      Failure: () => <div/>,
-      Loading: () => <div/>,
-      NotAsked: () => <div/>
-    })
+    if (data.cata) {
+      return data.cata({
+        Success: (sfoxData) => this.renderStepper(sfoxData),
+        Failure: () => <div/>,
+        Loading: () => <div/>,
+        NotAsked: () => <div/>
+      })
+    } else {
+      return null
+    }
   }
 }
 
-const mapStateToProps = (state) => ({
-  data: getData(state)
+const mapStateToProps = (state, ownProps) => ({
+  data: getData(state, ownProps)
 })
+
 const mapDispatchToProps = dispatch => ({
-  sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SfoxSignupBannerContainer))

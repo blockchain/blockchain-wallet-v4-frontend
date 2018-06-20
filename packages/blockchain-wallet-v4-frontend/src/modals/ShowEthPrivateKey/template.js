@@ -15,9 +15,14 @@ const DetailRow = styled.div`
   display: flex;
   align-items: center;
   flex-direction: row;
+  flex-wrap: wrap;
 `
 const DetailRowText = styled(Text)`
   white-space: nowrap;
+`
+const DataRowText = styled(Text)`
+  min-width: 0;
+  word-wrap: break-word;
 `
 
 const FirstStep = () => (
@@ -51,14 +56,14 @@ const SecondStep = ({ addr, balance, priv }) => (
           <FormattedMessage id='modals.showethpriv.address' defaultMessage='Address' />
         </DetailRowText>
         {':'}&nbsp;
-        <Text size='14px' weight={300}>{addr}</Text>
+        <DataRowText size='14px' weight={300}>{addr}</DataRowText>
       </DetailRow>
       <DetailRow>
         <DetailRowText size='14px' weight={400}>
           <FormattedMessage id='modals.showethpriv.priv_key' defaultMessage='Private Key' />
         </DetailRowText>
         {':'}&nbsp;
-        <Text size='14px' weight={300}>{priv}</Text>
+        <DataRowText size='14px' weight={300}>{priv}</DataRowText>
       </DetailRow>
     </DetailTable>
   </div>
