@@ -51,7 +51,7 @@ export default ({ api } = {}) => {
     }
   }
 
-  const fetchMetadataEthereum = function * () {
+  const fetchMetadataEthereum = function * (secondPasswordSagaEnhancer) {
     // TODO:
     // - Ether creation should handle sweep legacy account
     // - Handle when second password is on (maybe the frontend needs to create a saga wrapping the fetchMetadataEther to use the saga enhancer)
@@ -63,7 +63,7 @@ export default ({ api } = {}) => {
       yield put(A.fetchMetadataEthereumLoading())
       const newkv = yield callTask(api.fetchKVStore(kv))
       if (isNil(newkv.value)) { // handle has_seen: false ??
-        yield call(createEthereum, { kv })
+        yield call(secondPasswordSagaEnhancer(createEthereum), { kv })
       } else {
         yield put(A.fetchMetadataEthereumSuccess(newkv))
       }
