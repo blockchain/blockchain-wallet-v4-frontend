@@ -29,7 +29,7 @@ const ErrorBoundary = (props) => {
   const { error, errorInfo, handleSubmit } = props
 
   return (
-    <Modal size='large' style={{zIndex: 999}}>
+    <Modal size='large'>
       <Form onSubmit={handleSubmit}>
         <ModalHeader closeButton={false}>
           <TitleGroup inline>
@@ -55,7 +55,7 @@ const ErrorBoundary = (props) => {
           </Text>
         </ModalBody>
         <ModalFooter align='right'>
-          <Button type='submit' nature='primary' onClick={() => { }}>
+          <Button type='submit' nature='primary'>
             <FormattedMessage id='modal.errorboundary.continue' defaultMessage='Continue' />
           </Button>
         </ModalFooter>

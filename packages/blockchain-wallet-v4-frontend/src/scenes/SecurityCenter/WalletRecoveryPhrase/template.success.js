@@ -7,9 +7,12 @@ import RecordBackupPhrase from './RecordBackupPhrase'
 import styled from 'styled-components'
 
 const SecurityGridContainer = SecurityContainer.extend`
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
   grid-template-columns: 85% 15%;
+`
+const SecurityTipContainer = SecurityTip.extend`
+  width: auto;
 `
 const IconAndHeaderContainer = styled.div`
   display: grid;
@@ -90,14 +93,16 @@ const WalletRecoveryPhrase = (props) => {
       </SecurityGridContainer>
       {
         alone
-          ? <SecurityTip>
-            <Text color='brand-primary' size='12px' weight={500}>
-              <FormattedMessage id='scenes.securitysettings.basicsecurity.walletrecovery.settings.securitytip' defaultMessage='Security Tip' />
-            </Text>
-            <Text weight={200} size='12px'>
-              <FormattedMessage id='scenes.securitysettings.basicsecurity.walletrecovery.settings.donotstore' defaultMessage='Do not store your backup phrase on your computer or anywhere online. It is very important to keep your backup phrase offline in a private place. As a reminder: anyone with access to your backup phrase can access your funds.' />
-            </Text>
-          </SecurityTip>
+          ? (
+            <SecurityTipContainer>
+              <Text color='brand-primary' size='14px' weight={500} style={{marginBottom: '4px'}}>
+                <FormattedMessage id='scenes.securitysettings.basicsecurity.walletrecovery.settings.securitytip' defaultMessage='Security Tip' />
+              </Text>
+              <Text weight={200} size='12px'>
+                <FormattedMessage id='scenes.securitysettings.basicsecurity.walletrecovery.settings.donotstore' defaultMessage='Do not store your backup phrase on your computer or anywhere online. It is very important to keep your backup phrase offline in a private place. As a reminder: anyone with access to your backup phrase can access your funds.' />
+              </Text>
+            </SecurityTipContainer>
+          )
           : null
       }
     </React.Fragment>

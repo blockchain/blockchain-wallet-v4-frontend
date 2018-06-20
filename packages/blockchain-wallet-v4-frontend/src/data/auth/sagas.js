@@ -273,7 +273,7 @@ export default ({ api, coreSagas }) => {
       const { guid } = action.payload
       const sessionToken = yield select(selectors.session.getSession, guid)
       const response = yield call(coreSagas.wallet.resendSmsLoginCode, { guid, sessionToken })
-      if (response.initial_error) {
+      if (response.initial_error && !response.initial_error.includes('login attempts left')) {
         throw new Error(response)
       } else {
         yield put(actions.alerts.displaySuccess(C.SMS_RESEND_SUCCESS))
@@ -289,10 +289,15 @@ export default ({ api, coreSagas }) => {
   }
 
   const logout = function * () {
+    const isEmailVerified = yield select(selectors.core.settings.getEmailVerified)
+
     yield put(actions.core.webSocket.bitcoin.stopSocket())
     yield put(actions.core.webSocket.ethereum.stopSocket())
     yield put(actions.core.webSocket.bch.stopSocket())
-    yield put(actions.router.push('/logout'))
+    // only show browser de-auth page to accounts with verified email
+    isEmailVerified.data
+      ? yield put(actions.router.push('/logout'))
+      : yield logoutClearReduxStore()
   }
 
   const deauthorizeBrowser = function * () {
