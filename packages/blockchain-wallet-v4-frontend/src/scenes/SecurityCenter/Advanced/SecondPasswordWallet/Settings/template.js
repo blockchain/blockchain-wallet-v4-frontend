@@ -14,7 +14,11 @@ const SecondPasswordWrapper = styled(SettingWrapper)`
   width: ${props => props.toggled ? '150%' : 'initial'};
 `
 const ButtonWrapper = styled(ButtonGroup)`
-  margin-top: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 10px;
   & > :first-child {
     margin-right: 5px;
   }

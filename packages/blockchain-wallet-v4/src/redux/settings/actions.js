@@ -9,7 +9,7 @@ export const setEmail = (email) => ({ type: AT.SET_EMAIL, payload: { email } })
 export const sentConfirmationCodeSuccess = (email) => ({ type: AT.SENT_CONFIRMATION_CODE_SUCCESS, payload: { email } })
 export const verifyEmailCodeSuccess = (code) => ({ type: AT.VERIFY_EMAIL_CODE_SUCCESS, payload: { code } })
 export const setEmailVerified = () => ({ type: AT.SET_EMAIL_VERIFIED })
-export const setEmailVerifiedFailed = () => ({ type: AT.SET_EMAIL_VERIFIED_FAILED })
+export const setEmailVerifiedFailedStatus = (isFailed) => ({ type: AT.SET_EMAIL_VERIFIED_FAILED_STATUS, payload: { isFailed } })
 export const setMobile = (mobile) => ({ type: AT.SET_MOBILE, payload: { mobile } })
 export const setMobileVerified = () => ({ type: AT.SET_MOBILE_VERIFIED })
 export const setLanguage = (language) => ({ type: AT.SET_LANGUAGE, payload: { language } })
@@ -24,6 +24,8 @@ export const setAuthType = (authType) => ({ type: AT.SET_AUTH_TYPE, payload: { a
 export const setAuthTypeNeverSave = (authTypeNeverSave) => ({ type: AT.SET_AUTH_TYPE_NEVER_SAVE, payload: { authTypeNeverSave } })
 export const setGoogleAuthenticator = () => ({ type: AT.SET_GOOGLE_AUTHENTICATOR })
 export const setYubikey = () => ({ type: AT.SET_YUBIKEY })
+export const setNotificationsOn = (enabled) => ({ type: AT.SET_NOTIFICATIONS_ON, payload: { enabled } })
+export const setNotificationsType = (types) => ({ type: AT.SET_NOTIFICATIONS_TYPE, payload: { types } })
 
 // FETCH_SETTINGS
 export const fetchSettings = () => ({ type: AT.FETCH_SETTINGS })

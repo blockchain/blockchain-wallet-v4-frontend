@@ -23,7 +23,7 @@ const Wrapper = styled.div`
 const Container = styled.div`
   display: flex;
   width: 100%;
-  height: 100%;
+  height: calc(100% - 60px);
 `
 const Nav = styled.div`
   flex: 0 0 60px;

@@ -2,65 +2,87 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { reduxForm } from 'redux-form'
-import { Button, Link, Icon, Text } from 'blockchain-info-components'
-import { Form } from 'components/Form'
-import WordInput from './WordInput'
-import { SuccessOverlay } from 'components/Security'
+import { reduxForm, Field } from 'redux-form'
 
+import { Button, Link, Text } from 'blockchain-info-components'
+import { Form, TextBox } from 'components/Form'
+import { required } from 'services/FormHelper'
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  @media (min-width: 992px) {
+    width: 118%;
+  }
+`
 const Container = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  width: 75%;
-  margin: 0 auto;
+  width: 100%;
+  padding: 25px 0;
 `
 const Buttons = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 20px;
-  button {
-    margin-bottom: 20px;
+  margin: 15px 0;
+`
+
+const WordContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: 60px;
+  width: 125px;
+`
+
+const languageHelper = (num) => {
+  switch (num) {
+    case 0: return `${num + 1}st`
+    case 1: return `${num + 1}nd`
+    case 2: return `${num + 1}rd`
+    default: return `${num + 1}th`
   }
-`
-const VerificationContainer = styled.div`
-  width: 118%;
-  opacity: ${props => props.authType ? 0.3 : 1};
-`
+}
 
 const ThirdStep = (props) => {
-  const { previousStep, showSuccess, submitting, invalid, ...rest } = props
-  const { indexes, handleSubmit, isMnemonicVerified } = rest
+  const { previousStep, submitting, invalid, hasError, ...rest } = props
+  const { indexes, handleSubmit } = rest
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <SuccessOverlay success={showSuccess && isMnemonicVerified}>
-        <Icon name='checkmark-in-circle' size='150px' color='success' />
-        <Text size='14px' weight={300} color='success'>
-          <FormattedMessage id='scenes.securitycenter.walletrecoveryphrase.thirdstep.verified' defaultMessage="Congrats! You've successfully verified your Backup Phrase!" />
-        </Text>
-      </SuccessOverlay>
-      <VerificationContainer authType={showSuccess && isMnemonicVerified}>
+    <Wrapper>
+      { hasError
+        ? (
+          <Link size='14px' weight={300} onClick={previousStep} style={{ margin: '10px 0' }}>
+            <FormattedMessage id='scenes.securitycenter.walletrecoveryphrase.thirdstep.reviewPhrase' defaultMessage='Review your backup phrase' />
+          </Link>
+        )
+        : null
+      }
+      <Form onSubmit={handleSubmit}>
         <Container>
-          {indexes.map(index => <WordInput index={index} />)}
+          {indexes.map(index =>
+            <WordContainer key={index}>
+              <Text size='14px' weight={300} style={{ marginBottom: '4px' }}>
+                {`${languageHelper(index)} word`}
+              </Text>
+              <Field name={`w${index}`} component={TextBox} validate={[required]} errorBottom />
+            </WordContainer>
+          )}
         </Container>
         <Buttons>
           <Button type='submit' nature='primary' disabled={submitting || invalid}>
             <FormattedMessage id='scenes.securitycenter.walletrecoveryphrase.thirdstep.confirm' defaultMessage='Confirm' />
           </Button>
-          {
-            invalid
-              ? <Link size='12px' weight={300} onClick={previousStep}>
-                <FormattedMessage id='scenes.securitycenter.walletrecoveryphrase.thirdstep.doublecheck' defaultMessage='Double check your backup phrase' />
-              </Link>
-              : null
-          }
         </Buttons>
-      </VerificationContainer>
-    </Form>
+      </Form>
+    </Wrapper>
   )
 }
 

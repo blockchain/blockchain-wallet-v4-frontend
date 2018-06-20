@@ -109,13 +109,13 @@ export const reviewOrder = {
     const med = type === 'sell' ? 'bank' : medium
     const qAmt = Math.abs(q.quoteAmount)
     const fee = path(['paymentMediums', med], q) && Math.abs(q.paymentMediums[med]['fee'])
-    const totalBase = path(['paymentMediums', med], q) && Math.abs((q.paymentMediums[med]['total']).toFixed(2))
+    const totalBase = path(['paymentMediums', med], q) && Math.abs((q.paymentMediums[med]['total']))
     if (!fee) return `~`
     if (reviewOrder.baseBtc(q)) {
       const quoteTotal = type === 'sell' ? qAmt - fee : qAmt + fee
-      return `${currencySymbolMap[q.quoteCurrency]}${quoteTotal.toFixed(2)}`
+      return `${currencySymbolMap[q.quoteCurrency]}${Currency.formatFiat(quoteTotal)}`
     } else {
-      return `${currencySymbolMap[q.baseCurrency]}${totalBase}`
+      return `${currencySymbolMap[q.baseCurrency]}${Currency.formatFiat(totalBase)}`
     }
   }
 }
