@@ -117,7 +117,7 @@ const selectContent = (number) => {
       <span>&nbsp;</span>
       <FormattedMessage id='scenes.home.didyouknow.content8.three' defaultMessage='device to use your wallet on the go.' />
     </DidYouKnowWrapper>)
-    case 9: return <FormattedMessage id='scenes.home.didyouknow.content9' defaultMessage='Keep your wallet safe and secure by visiting the Security Center to record your backup phrase and enabling 2-step Verification. We also recommend using a unique, random password that’s at least 16 characters or more!' />
+    case 9: return <FormattedMessage id='scenes.home.didyouknow.content9' defaultMessage='Keep your wallet safe and secure by visiting the Security Center to record your backup phrase and enable 2-step Verification. We also recommend using a unique, random password that’s at least 16 characters or more!' />
     case 10: return <FormattedMessage id='scenes.home.didyouknow.content10' defaultMessage='It‘s like a username, and you only use it to log in to your wallet. To send/receive any digital currencies, you need an address. To find your address, click Request, and select a digital asset in the currency dropdown.' />
     case 11: return (<DidYouKnowWrapper>
       <FormattedMessage id='scenes.home.didyouknow.content11' defaultMessage='Did you know you can help us take down phishing sites? Report them directly to Google using' />
@@ -150,7 +150,7 @@ const selectContent = (number) => {
     case 17: return <FormattedMessage id='scenes.home.didyouknow.content17' defaultMessage='Legitimate investing platforms do exist, but their scheming counterparts present some serious red flags: they’ll contact you through an unsolicited email, and they’ll guarantee profits. Before investing with any platform, always do your research about the company’s reputation, location, and contact details.' />
     case 18: return <FormattedMessage id='scenes.home.didyouknow.content18' defaultMessage='Every address has an accompanying private key, which is what indicates ownership or control over funds at that particular address. In other words, whoever has the private key can spend those funds.' />
     case 19: return (<DidYouKnowWrapper>
-      <FormattedMessage id='scenes.home.didyouknow.content19.one' defaultMessage='Your Blockchain wallet backup phrase serves as the copy of your private keys. You can find this phrase in your' />
+      <FormattedMessage id='scenes.home.didyouknow.content19.one' defaultMessage='Your Blockchain Wallet backup phrase serves as the copy of your private keys. You can find this phrase in your' />
       <span>&nbsp;</span>
       <NavLink to='/security-center' style={{textDecoration: 'none', color: Color('brand-secondary')}} >
         <FormattedMessage id='scenes.home.didyouknow.content19.navlink' defaultMessage='Security Center' />
