@@ -8,7 +8,6 @@ import CoinifyTradeDetails from './CoinifyTradeDetails'
 import ConfirmDisable2FA from './ConfirmDisable2FA'
 import DeleteAddressLabel from './DeleteAddressLabel'
 import EditTxDescription from './EditTxDescription'
-import ErrorBoundary from './ErrorBoundary'
 import ExchangeDetails from './ExchangeDetails'
 import ImportBtcAddress from './ImportBtcAddress'
 import MobileNumberChange from './MobileNumberChange'
@@ -51,7 +50,6 @@ const Modals = props => (
     <ConfirmDisable2FA />
     <DeleteAddressLabel />
     <EditTxDescription />
-    <ErrorBoundary />
     <ExchangeDetails />
     <ImportBtcAddress />
     <MobileNumberChange />
