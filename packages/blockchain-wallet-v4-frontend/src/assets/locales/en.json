@@ -1226,7 +1226,7 @@
   "scenes.reset2fa.secondstep.back": "Go Back",
   "scenes.reset2fa.secondstep.continue": "Continue",
   "scenes.reset2fa.thirdstep.reset": "Reset",
-  "scenes.reset2fa.thirdstep.step3": "Step 2 of 2",
+  "scenes.reset2fa.thirdstep.step2": "Step 2 of 2",
   "scenes.reset2fa.thirdstep.captcha": "Captcha",
   "scenes.reset2fa.thirdstep.back": "Go Back",
   "scenes.reset2fatoken.error": "<span>Uh Oh. Something went wrong. Error: </span> {error}",
