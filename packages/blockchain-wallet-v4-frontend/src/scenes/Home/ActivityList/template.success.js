@@ -40,7 +40,9 @@ const Header = styled.div`
 const Content = styled.div`
   width: 100%;
   height: 100%;
+  overflow-y: auto;
   margin-top: 10px;
+
   > div:first-child {
     border-left: none;
     position: relative;
