@@ -1,4 +1,5 @@
 import { put, call, select } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
 import * as A from './actions'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors.js'
@@ -96,6 +97,7 @@ export default ({ coreSagas }) => {
       const result = yield call(coreSagas.data.sfox.verifyMicroDeposits, payload)
       if (result.status === 'active') {
         yield put(A.sfoxSuccess())
+        yield call(delay, 1500)
         yield put(modalActions.closeAllModals())
       } else {
         yield put(A.sfoxNotAsked())
