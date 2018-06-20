@@ -7,7 +7,7 @@ import { concat, equals, path, prop } from 'ramda'
 import { Text, Button } from 'blockchain-info-components'
 import { FormGroup, FormItem, SelectBoxUSState, SelectBoxCountry, TextBox } from 'components/Form'
 import { spacing } from 'services/StyleService'
-import { required, onPartnerCountryWhitelist } from 'services/FormHelper'
+import { required, onPartnerCountryWhitelist, onPartnerStateWhitelist, validEmail } from 'services/FormHelper'
 import BuySellAnimation from './BuySellAnimation'
 
 const Row = styled.div`
@@ -89,18 +89,22 @@ const SelectPartner = (props) => {
     if (!pristine && ((country && onPartnerCountryWhitelist(country, null, null, null, countries)) || (stateSelection && onSfoxWhitelist(stateSelection)))) {
       return (
         <UnavailableContainer>
-          <Text size='14px' weight={300} style={spacing('mb-15')}>
-            {
-              equals(country, 'US')
-                ? <FormattedMessage id='selectpartner.unavailable.unfortunatelystate' defaultMessage='Unfortunately buy & sell is not available in your state at this time. To be notified when we expand to your location, sign up below.' />
-                : <FormattedMessage id='selectpartner.unavailable.unfortunatelycountry' defaultMessage='Unfortunately buy & sell is not available in your country at this time. To be notified when we expand to your location, sign up below.' />
-            }
-          </Text>
+          {
+            !ui.submittedEmail
+              ? <Text size='14px' weight={300} style={spacing('mb-15')}>
+                {
+                  equals(country, 'US')
+                    ? <FormattedMessage id='selectpartner.unavailable.unfortunatelystate' defaultMessage='Unfortunately buy & sell is not available in your state at this time. To be notified when we expand to your location, sign up below.' />
+                    : <FormattedMessage id='selectpartner.unavailable.unfortunatelycountry' defaultMessage='Unfortunately buy & sell is not available in your country at this time. To be notified when we expand to your location, sign up below.' />
+                }
+              </Text>
+              : null
+          }
           {
             !ui.submittedEmail
               ? <span>
-                <Field name='email' component={TextBox} placeholder='Add your email here' />
-                <Button style={spacing('mt-15')} nature='primary' onClick={submitEmail}>
+                <Field name='email' validate={validEmail} component={TextBox} placeholder='Add your email here' />
+                <Button style={spacing('mt-15')} nature='primary' onClick={submitEmail} disabled={validEmail(email)}>
                   <FormattedMessage id='selectpartner.unavailable.notifyme' defaultMessage='Notify Me When This Becomes Available' />
                 </Button>
               </span>
@@ -155,7 +159,7 @@ const SelectPartner = (props) => {
                   ? (
                     <FormGroup style={spacing('mt-5')}>
                       <FormItem>
-                        <Field name='state' validate={[required]} component={SelectBoxUSState} errorBottom />
+                        <Field name='state' validate={[required, onPartnerStateWhitelist]} component={SelectBoxUSState} errorBottom />
                       </FormItem>
                     </FormGroup>
                   )
