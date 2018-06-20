@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { transparentize } from 'polished'
 
-import { Icon } from '../Icons'
-import { Text } from '../Text'
+import { Icon } from '../../Icons/index'
+import { Text } from '../../Text/index'
 
 const Container = styled.div`
   display: flex;
@@ -28,6 +28,13 @@ const BannerContent = styled(Text)`
   & a:last-of-type { margin-left: 5px; }
 `
 
+const DismissIcon = styled(Icon)`
+  margin-left: 20px;
+  &:hover {
+    cursor: pointer;
+  }
+`
+
 const selectStyle = type => {
   switch (type) {
     case 'success': return { color: 'success', uppercase: false, icon: 'checkmark-in-circle' }
@@ -39,25 +46,20 @@ const selectStyle = type => {
   }
 }
 
-const Banner = props => {
-  const { type, children, inline, label, width } = props
+const Template = props => {
+  const { type, children, inline, label, width, dismissible, handleDismiss } = props
   const style = selectStyle(type)
   const { color, uppercase, icon } = style
 
   return (
     <Container color={color} width={width} inline={inline} label={label}>
-      { icon && <Icon name={icon} size='18px' weight={700} color={color} /> }
+      { icon && <Icon name={icon} size='18px' weight={600} color={color} /> }
       <BannerContent size='12px' weight={400} color={color} uppercase={uppercase} inline={inline}>
         { children }
       </BannerContent>
+      { dismissible && <DismissIcon name='close' size='14px' weight={600} onClick={handleDismiss} /> }
     </Container>
   )
 }
 
-Banner.propTypes = {
-  type: PropTypes.oneOf(['success', 'warning', 'alert', 'caution', 'informational']),
-  children: PropTypes.node.isRequired,
-  width: PropTypes.string
-}
-
-export default Banner
+export default Template
