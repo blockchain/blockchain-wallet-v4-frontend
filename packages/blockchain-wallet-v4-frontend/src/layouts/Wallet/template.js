@@ -52,32 +52,32 @@ const WalletLayout = props => {
 
   return (
     <Wrapper>
-      <Alerts />
       <ErrorBoundary>
+        <Alerts />
         <Modals />
+        <Nav>
+          <Header />
+        </Nav>
+        <Container>
+          <MenuLeft location={location} />
+          <TrayRight />
+          <Content>
+            <Top>
+              <MenuTop />
+            </Top>
+            { location.pathname === '/btc/transactions' && <BtcMenu /> }
+            { location.pathname === '/bch/transactions' && <BchMenu /> }
+            { location.pathname === '/eth/transactions' && <EthMenu /> }
+            { location.pathname === '/settings/addresses' && <AddrMenu /> }
+            { location.pathname === '/settings/addresses/bch' && <AddrMenu /> }
+            { location.pathname === '/exchange' && <ExchangeMenu /> }
+            { location.pathname === '/exchange/history' && <ExchangeMenu /> }
+            <Page>
+              {children}
+            </Page>
+          </Content>
+        </Container>
       </ErrorBoundary>
-      <Nav>
-        <Header />
-      </Nav>
-      <Container>
-        <MenuLeft location={location} />
-        <TrayRight />
-        <Content>
-          <Top>
-            <MenuTop />
-          </Top>
-          { location.pathname === '/btc/transactions' && <BtcMenu /> }
-          { location.pathname === '/bch/transactions' && <BchMenu /> }
-          { location.pathname === '/eth/transactions' && <EthMenu /> }
-          { location.pathname === '/settings/addresses' && <AddrMenu /> }
-          { location.pathname === '/settings/addresses/bch' && <AddrMenu /> }
-          { location.pathname === '/exchange' && <ExchangeMenu /> }
-          { location.pathname === '/exchange/history' && <ExchangeMenu /> }
-          <Page>
-            {children}
-          </Page>
-        </Content>
-      </Container>
     </Wrapper>
   )
 }
