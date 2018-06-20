@@ -12,6 +12,7 @@ import requestBtc from './requestBtc/sagas'
 import sendBch from './sendBch/sagas'
 import sendBtc from './sendBtc/sagas'
 import sendEth from './sendEth/sagas'
+import settings from './settings/sagas'
 import signMessage from './signMessage/sagas'
 import transactionReport from './transactionReport/sagas'
 
@@ -30,6 +31,7 @@ export default ({ api, coreSagas }) => ({
   sendBch: sendBch({ api, coreSagas }),
   sendBtc: sendBtc({ api, coreSagas }),
   sendEth: sendEth({ api, coreSagas }),
+  settings: settings({ api, coreSagas }),
   signMessage: signMessage({ coreSagas }),
   transactionReport: transactionReport({ api, coreSagas })
 })
