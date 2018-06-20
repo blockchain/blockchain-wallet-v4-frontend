@@ -1,6 +1,6 @@
 {
   "name": "blockchain-info-components",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "A shared UI components library for blockchain.info applications.",
   "license": "ISC",
   "author": {
