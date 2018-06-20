@@ -1,6 +1,6 @@
 {
   "name": "blockchain-info-components",
-  "version": "0.0.5",
+  "version": "0.0.10",
   "description": "A shared UI components library for blockchain.info applications.",
   "license": "ISC",
   "author": {
@@ -11,7 +11,7 @@
   "module": "src/index.js",
   "scripts": {
     "coverage": "cross-env ./../../node_modules/.bin/jest --coverage",
-    "publish": "cross-env rimraf lib && babel --out-dir lib --ignore spec.js --copy-files src",
+    "publish": "rm -rf lib && babel --out-dir lib --ignore spec.js --copy-files src",
     "storybook:build": "build-storybook",
     "storybook:serve": "start-storybook -p 6006",
     "test": "cross-env ./../../node_modules/.bin/jest",
@@ -53,12 +53,11 @@
   },
   "dependencies": {
     "polished": "1.9.0",
-    "universal-cookie": "2.2.0",
-    "react-onclickoutside": "6.7.1",
-    "styled-components": "3.3.2",
+    "prop-types": "15.6.1",
     "ramda": "0.25.0",
     "react": "16.4.0",
     "react-datetime": "2.14.0",
-    "prop-types": "15.6.1"
+    "react-onclickoutside": "6.7.1",
+    "styled-components": "3.3.2"
   }
 }

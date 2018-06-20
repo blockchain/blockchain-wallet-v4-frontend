@@ -203,6 +203,9 @@ const BlueLogo = styled(Image)`
 
 class Footer extends PureComponent {
   render () {
+    let { base } = this.props
+    base = base || 'https://blockchain.com'
+
     return (
       <GlobalFooter>
         <Container>
@@ -211,7 +214,7 @@ class Footer extends PureComponent {
               <h5>Products</h5>
               <ul>
                 <li>
-                  <a href='/wallet'>Wallet</a>
+                  <a href={base + '/wallet'}>Wallet</a>
                 </li>
                 <li>
                   <a href='https://bps.blockchain.com/'>Principal Strategies</a>
@@ -243,13 +246,13 @@ class Footer extends PureComponent {
               <h5>Learn</h5>
               <ul>
                 <li>
-                  <a href='/learning-portal/bitcoin-faq'>What is Bitcoin</a>
+                  <a href={base + '/learning-portal/bitcoin-faq'}>What is Bitcoin</a>
                 </li>
                 <li>
-                  <a href='/learning-portal/ether-basics'>What is Ethereum</a>
+                  <a href={base + '/learning-portal/ether-basics'}>What is Ethereum</a>
                 </li>
                 <li>
-                  <a href='/learning-portal'>Getting Started</a>
+                  <a href={base + '/learning-portal'}>Getting Started</a>
                 </li>
                 <li>
                   <a href='https://blog.blockchain.com'>Blog</a>
@@ -261,17 +264,17 @@ class Footer extends PureComponent {
               <h5>Company</h5>
               <ul>
                 <li>
-                  <a href='/about'>About</a>
+                  <a href={base + '/about'}>About</a>
                 </li>
                 <li>
-                  <a href='/team'>Team</a>
+                  <a href={base + '/team'}>Team</a>
                 </li>
                 <li>
-                  <a href='/careers'>Careers</a>
+                  <a href={base + '/careers'}>Careers</a>
                   <NavBadge>Hiring</NavBadge>
                 </li>
                 <li>
-                  <a href='/legal'>Legal</a>
+                  <a href={base + '/legal'}>Legal</a>
                 </li>
               </ul>
             </Column>
@@ -280,16 +283,13 @@ class Footer extends PureComponent {
               <h5>Contact Us</h5>
               <ul>
                 <li>
-                  <a href='/press'>Press</a>
+                  <a href={base + '/press'}>Press</a>
                 </li>
                 <li>
                   <a href='https://support.blockchain.com'>Support</a>
                 </li>
                 <li>
-                  <a href='/legal/terms'>Status</a>
-                </li>
-                <li>
-                  <a href=' '>support@blockchain.com</a>
+                  <a href={base + '/legal/terms'}>Status</a>
                 </li>
               </ul>
             </Column>
@@ -303,8 +303,8 @@ class Footer extends PureComponent {
           </SiteNav>
           <LangNav>
             <Select transparent
-              value={this.lang}
-              onChange={this.handleDropdown}
+              value={this.props.lang}
+              onChange={this.props.handleDropdown}
               items={this.props.langItems || []}
             />
             <SocialLinksWrap>
