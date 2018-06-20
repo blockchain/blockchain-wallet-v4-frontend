@@ -34,7 +34,7 @@ const ReviewForm = (props) => {
         <Field name='terms' validate={[required]} component={CheckBox} hideErrors />
         <TermsLabel htmlFor='terms'>
           <Text size='11px' weight={300}>
-            <FormattedMessage id='scenes.buysell.sfox.orderreview.checkboxtext' defaultMessage='I authorize SFOX, Inc. to debit my linked bank account ending in {account} via ACH and acknowledge that all transactions to/from my bank account comply with the SFOX {ToS}, and are in accordance with the US law and standard banking guidelines.' values={{ account: prop('accountNumber', account), ToS: <ToSLink rel='noopener noreferrer' target='_blank' href='https://www.sfox.com/terms.html'>Terms of Service</ToSLink> }} />
+            <FormattedMessage id='scenes.buysell.sfox.orderreview.checkboxtext' defaultMessage='I authorize SFOX, Inc. to debit my linked bank account ending in {account} and comply with the SFOX {ToS}.' values={{ account: prop('accountNumber', account), ToS: <ToSLink rel='noopener noreferrer' target='_blank' href='https://www.sfox.com/terms.html'>Terms of Service</ToSLink> }} />
           </Text>
         </TermsLabel>
       </TermsWrapper>
