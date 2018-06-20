@@ -8,6 +8,7 @@ import Footer from './Footer'
 import Modals from 'modals'
 import Alerts from 'components/Alerts'
 import Container from 'components/Container'
+import ServiceAnnouncement from 'components/ServiceAnnouncement'
 
 const Wrapper = styled.div`
   background-color: ${props => props.theme['brand-primary']};
@@ -66,6 +67,7 @@ const PublicLayout = ({component: Component, ...rest}) => {
         <Modals />
         <HeaderContainer>
           <Header />
+          <ServiceAnnouncement />
         </HeaderContainer>
         <ContentContainer>
           <ErrorBoundary>

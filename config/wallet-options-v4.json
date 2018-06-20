@@ -9,8 +9,48 @@
         "fraction": 1,
         "countries": "*",
         "states": "*",
-        "config": {
-          "announcements": ["Partial service from 16/11/2017 4:00PM to 17/11/2017 4:00PM due to SegWit2X"]
+        "announcements": {
+          "public": {
+            "type": "info",
+            "header": {
+              "en": "We’re packing our bags and preparing to move...domains!"
+            },
+            "sections": [{
+              "title": {
+                "en": ""
+              },
+              "body": {
+                "en": "To make way for our new and exciting products coming this year, we’re saying hello to our new home. Your Blockchain Wallet will soon be changing URLs as it's combined with our company site, blockchain.com. Read more about what to expect"
+              }
+            }],
+            "action": {
+              "title": {
+                "en": "Read more about what to expect."
+              },
+              "link": "https://blog.blockchain.com/2018/06/19/blockchain-infos-moving-domains/"
+            }
+          },
+          "wallet": {
+            "type": "info",
+            "hideType": "collapse",
+            "header": {
+              "en": "We’re packing our bags and preparing to move...domains!"
+            },
+            "sections": [{
+              "title": {
+                "en": ""
+              },
+              "body": {
+                "en": "To make way for our new and exciting products coming this year, we’re saying hello to our new home. Your Blockchain Wallet will soon be changing URLs as it's combined with our company site, blockchain.com. Read more about what to expect"
+              }
+            }],
+            "action": {
+              "title": {
+                "en": "Read more about what to expect."
+              },
+              "link": "https://blog.blockchain.com/2018/06/19/blockchain-infos-moving-domains/"
+            }
+          }
         }
       },
       "bitcoin": {
@@ -150,3 +190,5 @@
     "walletHelper": "https://wallet-helper.blockchain.info"
   }
 }
+
+
