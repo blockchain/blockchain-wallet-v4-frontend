@@ -20,7 +20,7 @@ class SendBchContainer extends React.PureComponent {
 
   render () {
     const { step, position, total, closeAll } = this.props
-    throw new Error('sfds')
+
     return (
       <SendBch position={position} total={total} closeAll={closeAll}>
         {step === 1 && <FirstStep />}

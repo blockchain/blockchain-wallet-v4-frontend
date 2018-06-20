@@ -2,12 +2,11 @@ import React from 'react'
 import { Route } from 'react-router-dom'
 import styled from 'styled-components'
 
-import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import Header from './Header'
 import Footer from './Footer'
-import Modals from 'modals'
 import Alerts from 'components/Alerts'
 import Container from 'components/Container'
+import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 
 const Wrapper = styled.div`
   background-color: ${props => props.theme['brand-primary']};
@@ -62,20 +61,20 @@ const PublicLayout = ({component: Component, ...rest}) => {
   return (
     <Route {...rest} render={matchProps => (
       <Wrapper>
-        <Alerts />
-        <HeaderContainer>
-          <Header />
-        </HeaderContainer>
-        <ContentContainer>
-          <ErrorBoundary>
+        <ErrorBoundary>
+          <Alerts />
+          <HeaderContainer>
+            <Header />
+          </HeaderContainer>
+          <ContentContainer>
             <Component {...matchProps} />
-          </ErrorBoundary>
-        </ContentContainer>
-        <FooterContainer>
-          <Container>
-            <Footer />
-          </Container>
-        </FooterContainer>
+          </ContentContainer>
+          <FooterContainer>
+            <Container>
+              <Footer />
+            </Container>
+          </FooterContainer>
+        </ErrorBoundary>
       </Wrapper>
     )} />
   )
