@@ -2,13 +2,12 @@ import React from 'react'
 import { Route } from 'react-router-dom'
 import styled from 'styled-components'
 
-import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import Header from './Header'
 import Footer from './Footer'
-import Modals from 'modals'
 import Alerts from 'components/Alerts'
 import Container from 'components/Container'
 import ServiceAnnouncement from 'components/ServiceAnnouncement'
+import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 
 const Wrapper = styled.div`
   background-color: ${props => props.theme['brand-primary']};
@@ -47,13 +46,13 @@ const ContentContainer = styled.div`
   @media (min-width: 768px) {
     height: 100%;
   }
-  
+
   @media (min-height: 1000px) {
     height: 100%;
     margin-top: 200px;
     justify-content: flex-start;
   }
-  
+
    @media (min-height: 1400px) {
     height: 100%;
     margin-top: 500px;
@@ -75,11 +74,11 @@ const FooterContainer = styled.div`
 const AnnouncementWrapper = styled.div`
   margin: 0 auto 20px auto;
   width: 100%;
-  
+
   @media (min-width: 992px) {
     width: 960px;
   }
-  
+
   @media (min-width: 1200px) {
     width: 1140px;
   }
@@ -89,24 +88,23 @@ const PublicLayout = ({component: Component, ...rest}) => {
   return (
     <Route {...rest} render={matchProps => (
       <Wrapper>
-        <Alerts />
-        <Modals />
-        <HeaderContainer>
-          <Header />
-        </HeaderContainer>
-        <ContentContainer>
-          <AnnouncementWrapper>
-            <ServiceAnnouncement />
-          </AnnouncementWrapper>
-          <ErrorBoundary>
+        <ErrorBoundary>
+          <Alerts />
+          <HeaderContainer>
+            <Header />
+          </HeaderContainer>
+          <ContentContainer>
+            <AnnouncementWrapper>
+              <ServiceAnnouncement />
+            </AnnouncementWrapper>
             <Component {...matchProps} />
-          </ErrorBoundary>
-        </ContentContainer>
-        <FooterContainer>
-          <Container>
-            <Footer />
-          </Container>
-        </FooterContainer>
+          </ContentContainer>
+          <FooterContainer>
+            <Container>
+              <Footer />
+            </Container>
+          </FooterContainer>
+        </ErrorBoundary>
       </Wrapper>
     )} />
   )
