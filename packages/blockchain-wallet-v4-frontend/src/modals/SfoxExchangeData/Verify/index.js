@@ -41,6 +41,10 @@ class VerifyContainer extends Component {
     }
   }
 
+  componentWillUnmount () {
+    this.props.formActions.destroy('sfoxAddress')
+  }
+
   handleSubmit (e) {
     e.preventDefault()
     this.props.updateUI({ busy: true })
