@@ -83,7 +83,7 @@ const selectMessage = (message, data = undefined) => {
     case C.LOGIN_ERROR: return <FormattedMessage id='components.alerts.login_failed' defaultMessage='Login failed' />
     case C.LOGIN_SUCCESS: return <FormattedMessage id='components.alerts.login_successful' defaultMessage='Login successful' />
     case C.MESSAGE_SIGN_ERROR: return <FormattedMessage id='components.alerts.message_sign_error' defaultMessage='Failed to sign message.' />
-    case C.MNEMONIC_VERIFY_SUCCESS: return <FormattedMessage id='components.alerts.mnemonic_verify_success' defaultMessage='Your mnemonic has been verified!' />
+    case C.MNEMONIC_VERIFY_SUCCESS: return <FormattedMessage id='components.alerts.mnemonic_verify_success' defaultMessage='Your backup phrase has been verified!' />
     case C.MOBILE_CODE_SENT_ERROR: return <FormattedMessage id='components.alerts.mobile_code_sent_error' defaultMessage='Mobile verification code sent' />
     case C.MOBILE_CODE_SENT_SUCCESS: return <FormattedMessage id='components.alerts.mobile_code_sent_success' defaultMessage='Mobile verification code sent' />
     case C.MOBILE_LOGIN_ERROR: return <FormattedMessage id='components.alerts.mobile_login_error' defaultMessage='Error logging into your wallet' />

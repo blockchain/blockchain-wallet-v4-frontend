@@ -70,8 +70,6 @@ const Login = (props) => {
   const twoFactorError = loginError && loginError.toLowerCase().includes('authentication code')
   const accountLocked = loginError && (loginError.toLowerCase().includes('this account has been locked') || loginError.toLowerCase().includes('account is locked'))
 
-  const handlePasswordChange = () => { passwordError && props.handleCode(false) }
-
   return (
     <Wrapper>
       <Modals>
@@ -143,7 +141,7 @@ const Login = (props) => {
             <FormLabel for='password'>
               <FormattedMessage id='scenes.login.password' defaultMessage='Password' />
             </FormLabel>
-            <Field name='password' validate={[required]} component={PasswordBox} onChange={handlePasswordChange} borderColor={passwordError ? 'invalid' : undefined} disabled={!isSupportedBrowser} />
+            <Field name='password' validate={[required]} component={PasswordBox} borderColor={passwordError ? 'invalid' : undefined} disabled={!isSupportedBrowser} />
             { passwordError && <FormError position={authType > 0 ? 'relative' : 'absolute'}><FormattedMessage id='scenes.login.wrong_password' defaultMessage='Error decrypting wallet. Wrong password' /></FormError> }
             { accountLocked && <FormError position={authType > 0 || passwordError ? 'relative' : 'absolute'}>{loginError}</FormError> }
           </FormItem>

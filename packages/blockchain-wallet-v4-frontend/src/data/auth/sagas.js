@@ -273,7 +273,7 @@ export default ({ api, coreSagas }) => {
       const { guid } = action.payload
       const sessionToken = yield select(selectors.session.getSession, guid)
       const response = yield call(coreSagas.wallet.resendSmsLoginCode, { guid, sessionToken })
-      if (response.initial_error) {
+      if (response.initial_error && !response.initial_error.includes('login attempts left')) {
         throw new Error(response)
       } else {
         yield put(actions.alerts.displaySuccess(C.SMS_RESEND_SUCCESS))
