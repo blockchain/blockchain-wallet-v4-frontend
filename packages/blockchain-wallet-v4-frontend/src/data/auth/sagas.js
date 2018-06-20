@@ -10,8 +10,12 @@ import * as C from 'services/AlertService'
 import { askSecondPasswordEnhancer, promptForSecondPassword, forceSyncWallet } from 'services/SagaService'
 import { Types } from 'blockchain-wallet-v4/src'
 
+export const logLocation = 'auth/sagas'
+export const defaultLoginErrorMessage = 'Error logging into your wallet'
+// TODO: make this a global error constant
+export const wrongWalletPassErrorMessage = 'wrong_wallet_password'
+
 export default ({ api, coreSagas }) => {
-  const logLocation = 'auth/sagas'
   const upgradeWallet = function * () {
     try {
       let password = yield call(promptForSecondPassword)
@@ -136,14 +140,14 @@ export default ({ api, coreSagas }) => {
           try {
             yield call(coreSagas.wallet.fetchWalletSaga, { guid, session, password })
             yield call(loginRoutineSaga, mobileLogin)
-          } catch (e) {
-            if (e.auth_type > 0) {
-              yield put(actions.auth.setAuthType(e.auth_type))
+          } catch (error) {
+            if (error && error.auth_type > 0) {
+              yield put(actions.auth.setAuthType(error.auth_type))
               yield put(actions.alerts.displayInfo(C.TWOFA_REQUIRED_INFO))
               yield put(actions.auth.loginFailure())
             } else {
-              yield put(actions.auth.loginFailure('wrong_wallet_password'))
-              yield put(actions.logs.logErrorMessage(logLocation, 'login', e))
+              yield put(actions.auth.loginFailure(wrongWalletPassErrorMessage))
+              yield put(actions.logs.logErrorMessage(logLocation, 'login', error))
             }
           }
         } else {
@@ -152,17 +156,16 @@ export default ({ api, coreSagas }) => {
       } else if (initialError.isRight && initialError.value) {
         // general error
         yield put(actions.auth.loginFailure(initialError.value))
+      } else if (error && error.auth_type > 0) {
+        // 2fa required
+        // dispatch state change to show form
+        yield put(actions.auth.loginFailure())
+        yield put(actions.auth.setAuthType(error.auth_type))
+        yield put(actions.alerts.displayInfo(C.TWOFA_REQUIRED_INFO))
       } else {
-        if (error.auth_type > 0) { // 2FA required
-          // dispatch state change to show form
-          yield put(actions.auth.loginFailure())
-          yield put(actions.auth.setAuthType(error.auth_type))
-          yield put(actions.alerts.displayInfo(C.TWOFA_REQUIRED_INFO))
-        } else if (error.message) { // 2FA errors
-          yield put(actions.auth.loginFailure(error.message))
-        } else {
-          yield put(actions.auth.loginFailure(error || 'Error logging into your wallet'))
-        }
+        const errorMessage =
+          prop('message', error) || error || defaultLoginErrorMessage
+        yield put(actions.auth.loginFailure(errorMessage))
       }
     }
   }
@@ -326,6 +329,7 @@ export default ({ api, coreSagas }) => {
     logoutClearReduxStore,
     loginRoutineSaga,
     mobileLogin,
+    pollingSession,
     register,
     remindGuid,
     reset2fa,
