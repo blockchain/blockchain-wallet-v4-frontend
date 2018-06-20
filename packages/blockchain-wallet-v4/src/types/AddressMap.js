@@ -1,4 +1,4 @@
-import { allPass, indexBy, map, prop, compose, is, pipe, curry, filter, reject } from 'ramda'
+import { indexBy, map, prop, compose, is, pipe, curry, filter, reject } from 'ramda'
 import { view } from 'ramda-lens'
 import Type from './Type'
 import * as Address from './Address'
