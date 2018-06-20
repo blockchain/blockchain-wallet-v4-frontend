@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { equals } from 'ramda'
+import { equals, isNil } from 'ramda'
 import { Text, NumberInput } from 'blockchain-info-components'
 
 const Container = styled.div`
@@ -27,7 +27,7 @@ const getErrorState = (meta) => {
 class NumberBoxDebounced extends React.Component {
   constructor (props) {
     super(props)
-    this.state = { value: props.input.value }
+    this.state = { updatedValue: props.input.value, value: props.input.value }
     this.timeout = undefined
     this.handleChange = this.handleChange.bind(this)
     this.handleBlur = this.handleBlur.bind(this)
@@ -35,6 +35,9 @@ class NumberBoxDebounced extends React.Component {
   }
 
   static getDerivedStateFromProps (nextProps, prevState) {
+    if (isNil(prevState)) {
+      return { updatedValue: nextProps.input.value, value: nextProps.input.value }
+    }
     if (!equals(prevState.updatedValue, prevState.value)) {
       return { updatedValue: prevState.updatedValue, value: prevState.updatedValue }
     }

@@ -27,10 +27,8 @@ class EmailAddressContainer extends React.PureComponent {
     const prev = prevProps.data.getOrElse({})
     if (next.verified && !prev.verified) {
       this.props.updateUI({ successToggled: true })
-      setTimeout(function () {
-        prevProps.updateUI({ successToggled: false, verifyToggled: false })
-        prevProps.goBackOnSuccess()
-      }, 1500)
+      prevProps.updateUI({ successToggled: false, verifyToggled: false })
+      prevProps.goBackOnSuccess()
     }
   }
 

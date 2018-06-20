@@ -27,11 +27,12 @@ const getErrorState = (meta) => {
 
 const CheckBox = ({ children, ...field }) => {
   const errorState = getErrorState(field.meta)
+  const checked = field.input.value || false
 
   return (
     <Wrapper>
       <Container>
-        <CheckBoxInput {...field.input} errorState={errorState}>
+        <CheckBoxInput {...field.input} checked={checked} errorState={errorState}>
           { children }
         </CheckBoxInput>
       </Container>

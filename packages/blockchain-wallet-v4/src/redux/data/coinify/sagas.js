@@ -6,6 +6,7 @@ import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import { coinifyService } from '../../../exchange/service'
 import * as buySellA from '../../kvStore/buySell/actions'
 import { prop, sort, path } from 'ramda'
+import * as walletActions from '../../wallet/actions'
 
 export default ({ api, options }) => {
   const getCoinify = function * () {
@@ -232,7 +233,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const buy = function * (data) {
+  const buy = function * (data, addressData) {
     const { quote, medium } = data.payload
     try {
       yield put(A.handleTradeLoading())
@@ -242,9 +243,23 @@ export default ({ api, options }) => {
       yield put(A.handleTradeSuccess(buyResult))
       const coinifyObj = yield call(getCoinify)
       yield put(A.fetchTrades(coinifyObj))
+      yield call(labelAddressForBuy, buyResult, addressData)
       return buyResult
     } catch (e) {
       console.warn('buy failed in core', e)
+      yield put(A.handleTradeFailure(e))
+    }
+  }
+
+  const labelAddressForBuy = function * (trade, addressData) {
+    try {
+      trade._account_index = addressData.accountIndex
+      trade._receive_index = addressData.index
+      const id = trade.tradeSubscriptionId || trade.id
+
+      yield put(walletActions.setHdAddressLabel(addressData.accountIndex, addressData.index, `Coinify order #${id}`))
+    } catch (e) {
+      console.warn('err in labelAddressForBuy', e)
       yield put(A.handleTradeFailure(e))
     }
   }
