@@ -1,11 +1,44 @@
 import React, { PureComponent } from 'react'
-import styled from 'styled-components'
-import Cookies from 'universal-cookie'
+import styled, { injectGlobal } from 'styled-components'
 
-import BlueLogo from '../Images/img/logomark.svg'
+import { Image } from '../Images'
 import { Select } from '../Select'
+import Normalize8 from '../Normalize.js'
+
+injectGlobal`
+    :root {
+        --textBlack: #030E26;
+        --shark: #24292E;
+        --porcelain: #F4F6F7;
+        --silver: #cecece;
+        --whiteAlpha75: rgba(255,255,255,0.75);
+        --whiteAlpha10: rgba(255,255,255,0.1);
+        --blackAlpha75: rgba(0,0,0,0.75);
+        --blackAlpha05: rgba(0,0,0,0.05);
+
+        /* blues */
+        --cerulean: #10ADE4;
+        --azure: #3558A8;
+        --biscay: #222D38;
+        --orient: #004A7C;
+        --powderBlue: #B2D5E5;
+        --blueWood: #27324B;
+
+        --siteMaxWidth: 75rem;
+        --contentMaxWidth: 62rem;
+        --copyMaxWidth: 42rem;
+
+        --smScreen: 48rem;
+        --mdScreen: 62rem;
+        --lgScreen: 75rem;
+
+        --smBorderRadius: 2px;
+        --lgBorderRadius: 4px;
+    }
+`
 
 const GlobalFooter = styled.div`
+  ${Normalize8}
   background: var(--porcelain);
   position: relative;
   padding-top: 4rem;
@@ -24,6 +57,7 @@ const Container = styled.div.attrs({
     max-width: var(--siteMaxWidth);
     padding: 1.25rem 2rem;
     color: var(--textBlack);
+    margin: 0 auto;
 
     a {
         transition: color .5s, opacity: .5s;
@@ -133,7 +167,7 @@ const SocialLinks = styled.a.attrs({
   height: 2.5rem;
   width: 2.5rem;
   border-radius: 100%;
-  background: var(--silver);
+  background-color: var(--silver) !important;
   color: white;
   transition: all 0.5s;
   margin-right: 0.75rem;
@@ -144,7 +178,7 @@ const SocialLinks = styled.a.attrs({
   }
 
   &:hover {
-    background: var(--azure);
+    background: var(--azure) !important;
 
     .social-icons {
       opacity: 1;
@@ -162,33 +196,12 @@ const SocialLinks = styled.a.attrs({
   }
 `
 
+const BlueLogo = styled(Image)`
+  float: right;
+  margin-bottom: 20px;
+`
+
 class Footer extends PureComponent {
-  constructor (props) {
-    super(props)
-    this.cookies = new Cookies()
-    const { intl, router } = this.props
-
-    this.lang = this.cookies.get('blockchainlang')
-
-    if (intl) {
-      this.lang = this.lang || intl.locale
-    } else {
-      this.lang = this.lang || 'en'
-    }
-
-    // let langPathMatch = router.asPath.match(/^\/([a-z]{2})\//)
-    // let langPath = langPathMatch && langPathMatch[1]
-    // if (langPath && langPath in publicRuntimeConfig.supportedLanguages) {
-    //   this.lang = langPath
-    // }
-  }
-
-  handleDropdown (value) {
-    this.cookies.set('blockchainlang', value, { path: '/' })
-    // trigger page refresh
-    window.location = window.location
-  }
-
   render () {
     return (
       <GlobalFooter>
@@ -282,7 +295,7 @@ class Footer extends PureComponent {
             </Column>
 
             <Column>
-              {BlueLogo}
+              <BlueLogo name='blue-logo' height='50px' />
               <Copyright>
                 © {new Date().getFullYear()} BLOCKCHAIN LUXEMBOURG S.A.
               </Copyright>
@@ -296,13 +309,13 @@ class Footer extends PureComponent {
             />
             <SocialLinksWrap>
               <SocialLinks href='https://twitter.com/blockchain'>
-                <img src='/static/img/footer/twitter.svg' />
+                <Image name='twitter-white' />
               </SocialLinks>
               <SocialLinks href='https://www.linkedin.com/company/blockchain/'>
-                <img src='/static/img/footer/linkedin.svg' />
+                <Image name='linkedin-white' />
               </SocialLinks>
               <SocialLinks href='https://www.facebook.com/blockchain/'>
-                <img src='/static/img/footer/facebook.svg' />
+                <Image name='facebook-white' />
               </SocialLinks>
             </SocialLinksWrap>
           </LangNav>
