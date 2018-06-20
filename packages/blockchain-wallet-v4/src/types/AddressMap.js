@@ -20,8 +20,6 @@ export const selectActive = pipe(AddressMap.guard, filter(Address.isActive))
 export const selectArchived = pipe(AddressMap.guard, filter(Address.isArchived))
 export const selectSpendable = pipe(AddressMap.guard, reject(Address.isWatchOnly))
 export const selectUnspendable = pipe(AddressMap.guard, filter(Address.isWatchOnly))
-export const selectActiveSpendable = pipe(AddressMap.guard, filter(allPass([Address.isActive, Address.isNotWatchOnly])))
-export const selectActiveUnspendable = pipe(AddressMap.guard, filter(allPass([Address.isActive, Address.isWatchOnly])))
 
 export const deleteAddress = curry((string, addressMap) =>
   pipe(AddressMap.guard, amap => amap.delete(string))(addressMap)

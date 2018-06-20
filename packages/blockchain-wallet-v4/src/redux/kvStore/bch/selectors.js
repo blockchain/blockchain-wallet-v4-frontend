@@ -45,7 +45,7 @@ export const getContext = createDeepEqualSelector(
 export const getSpendableContext = createDeepEqualSelector(
   [
     walletSelectors.getHDAccounts,
-    walletSelectors.getActiveSpendableAddresses,
+    walletSelectors.getSpendableContext,
     getAccounts
   ],
   (btcHDAccounts, spendableAddresses, metadataAccountsR) => {
@@ -63,7 +63,7 @@ export const getSpendableContext = createDeepEqualSelector(
   }
 )
 
-export const getUnspendableContext = state => keys(walletSelectors.getActiveUnspendableAddresses(state))
+export const getUnspendableContext = state => keys(walletSelectors.getUnspendableContext(state))
 
 export const getDefaultAccountIndex = state => getMetadata(state).map(path(['value', 'default_account_idx']))
 
