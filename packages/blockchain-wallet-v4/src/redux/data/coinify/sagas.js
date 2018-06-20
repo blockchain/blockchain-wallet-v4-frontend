@@ -303,17 +303,13 @@ export default ({ api, options }) => {
     }
   }
 
-  const getLastKyc = function * (coinify) {
-    const kycs = yield apply(coinify, coinify.getKYCs)
-    const byTime = (a, b) => prop('createdAt', b) - prop('createdAt', a)
-    return head(sort(byTime, kycs))
-  }
-
   const getKYC = function * () {
     try {
       yield put(A.getKYCLoading())
       const coinify = yield call(getCoinify)
-      const kyc = yield call(getLastKyc, coinify)
+      const kycs = yield apply(coinify, coinify.getKYCs)
+      const byTime = (a, b) => prop('createdAt', b) - prop('createdAt', a)
+      const kyc = head(sort(byTime, kycs))
       yield put(A.getKYCSuccess(kyc))
       return kyc
     } catch (e) {

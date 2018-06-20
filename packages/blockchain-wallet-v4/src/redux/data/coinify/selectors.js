@@ -1,4 +1,4 @@
-import { equals, head, path, prop } from 'ramda'
+import { equals, path, prop } from 'ramda'
 import { dataPath } from '../../paths'
 
 export const getCoinify = path([dataPath, 'coinify'])
