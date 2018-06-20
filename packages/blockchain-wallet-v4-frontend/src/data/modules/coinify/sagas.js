@@ -279,7 +279,8 @@ export default ({ coreSagas }) => {
       }
       yield put(A.coinifyNextCheckoutStep('checkout'))
       yield put(actions.modals.showModal('CoinifyTradeDetails', { trade: trade.data, status: status }))
-      yield call(coreSagas.data.coinify.getKYCs)
+      yield call(coreSagas.data.coinify.getKYC)
+      yield put(actions.core.data.coinify.pollKYCPending())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'fromISX', e))
     }
@@ -296,8 +297,8 @@ export default ({ coreSagas }) => {
 
   const openKYC = function * (data) {
     let kyc = data.payload
-    const inProgressKycs = yield select(selectors.core.data.coinify.getKycs)
-    const recentKyc = head(inProgressKycs.data)
+    const recentKycR = yield select(selectors.core.data.coinify.getKyc)
+    const recentKyc = recentKycR.getOrElse(undefined)
 
     try {
       if (!data.payload && !equals(prop('state', recentKyc), 'pending')) {

@@ -25,3 +25,6 @@ export const sfoxNotAsked = () => ({ type: AT.SFOX_NOT_ASKED })
 export const sfoxLoading = () => ({ type: AT.SFOX_LOADING })
 export const sfoxSuccess = () => ({ type: AT.SFOX_SUCCESS })
 export const sfoxFailure = (error) => ({ type: AT.SFOX_FAILURE, payload: error })
+
+export const enableSiftScience = () => ({ type: AT.ENABLE_SIFT_SCIENCE })
+export const disableSiftScience = () => ({ type: AT.DISABLE_SIFT_SCIENCE })

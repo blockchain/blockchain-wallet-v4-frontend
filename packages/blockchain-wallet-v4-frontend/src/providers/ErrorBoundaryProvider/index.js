@@ -1,8 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { withRouter } from 'react-router-dom'
 
 import { actions } from 'data'
+import ErrorModal from './template'
+import { selectors } from '../../data'
 
 class ErrorBoundary extends React.Component {
   constructor (props) {
@@ -11,6 +14,7 @@ class ErrorBoundary extends React.Component {
       error: null,
       errorInfo: null
     }
+    this.onSubmit = this.onSubmit.bind(this)
   }
 
   componentDidCatch (error, info) {
@@ -20,24 +24,31 @@ class ErrorBoundary extends React.Component {
     })
   }
 
-  componentWillUnmount () {
-    this.setState({
-      error: null,
-      errorInfo: null
-    })
+  onSubmit () {
+    this.setState({ error: null, errorInfo: null })
+    if (this.props.isAuthenticated) {
+      this.props.history.push('/home')
+    } else {
+      this.props.history.push('/login')
+      window.location.reload(true)
+    }
   }
 
   render () {
     if (this.state.error) {
-      this.props.modalActions.showModal('ErrorBoundary', { error: this.state.error, errorInfo: this.state.errorInfo })
-      return <div/>
+      return <ErrorModal error={this.state.error} errorInfo={this.state.errorInfo} onSubmit={this.onSubmit} />
     }
     return this.props.children
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch)
+const mapStateToProps = (state) => ({
+  isAuthenticated: selectors.auth.isAuthenticated(state)
 })
 
-export default connect(null, mapDispatchToProps)(ErrorBoundary)
+const mapDispatchToProps = (dispatch) => ({
+  authActions: bindActionCreators(actions.auth, dispatch),
+  routerActions: bindActionCreators(actions.router, dispatch)
+})
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ErrorBoundary))

@@ -4,8 +4,8 @@ import { selectors } from 'data'
 
 export const getProfileData = (state) => {
   const profile = selectors.core.data.coinify.getProfile(state)
-  const kycs = selectors.core.data.coinify.getKycs(state)
-  return lift((profile, kycs) => ({ profile, kycs }))(profile, kycs)
+  const kyc = selectors.core.data.coinify.getKyc(state)
+  return lift((profile, kyc) => ({ profile, kyc }))(profile, kyc)
 }
 
 export const getTrades = (state) =>
