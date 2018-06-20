@@ -27,6 +27,8 @@ export const getActiveAddresses = compose(ImtoJS, map(Address.toJS), AddressMap.
 export const getArchivedAddresses = compose(ImtoJS, map(Address.toJS), AddressMap.selectArchived, Wallet.selectAddresses, getWallet)
 export const getSpendableAddresses = compose(ImtoJS, map(Address.toJS), AddressMap.selectSpendable, Wallet.selectAddresses, getWallet)
 export const getUnspendableAddresses = compose(ImtoJS, map(Address.toJS), AddressMap.selectUnspendable, Wallet.selectAddresses, getWallet)
+export const getActiveSpendableAddresses = compose(ImtoJS, map(Address.toJS), AddressMap.selectActiveSpendable, Wallet.selectAddresses, getWallet)
+export const getActiveUnspendableAddresses = compose(ImtoJS, map(Address.toJS), AddressMap.selectActiveUnspendable, Wallet.selectAddresses, getWallet)
 export const getHDAccounts = compose(ImtoJS, map(HDAccount.toJSwithIndex), Wallet.selectHDAccounts, getWallet)
 export const getSeedHex = curry((state, password) => compose(Wallet.getSeedHex(password), getWallet)(state))
 export const getMnemonic = curry((state, password) => compose(Wallet.getMnemonic(password), getWallet)(state))
