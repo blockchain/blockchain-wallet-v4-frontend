@@ -37,7 +37,8 @@ export default ({ coreSagas }) => {
       const { yMax, yOffset } = action.payload
 
       if (yMax - yOffset < threshold) {
-        yield put(actions.core.data.bitcoin.fetchTransactions(source, false))
+        const onlyShow = equals(source, 'all') ? '' : (source.xpub || source.address)
+        yield put(actions.core.data.bitcoin.fetchTransactions(onlyShow, false))
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'scrollUpdated', e))
