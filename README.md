@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/blockchain/blockchain-wallet-v4-frontend.svg?branch=master)](https://travis-ci.org/blockchain/blockchain-wallet-v4-frontend)
 [![Coverage Status](https://coveralls.io/repos/github/blockchain/blockchain-wallet-v4-frontend/badge.svg?branch=development)](https://coveralls.io/github/blockchain/blockchain-wallet-v4-frontend?branch=development)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 
 # Blockchain Wallet v4
 Be Your Own Bank at [blockchain.info/wallet](https://blockchain.info/wallet).
@@ -16,7 +17,7 @@ This repo contains the three codebases/packages listed below that are combined i
 
 
 ## Local Development
-1. Ensure Node version >= 8.0 is installed
+1. Ensure Node version >= 8.0 and npm version >= 6 are installed
 2. Run the following command to install necessary global packages: `npm install -g lerna yarn babel-cli rimraf cross-env`
 3. Install, link and hoist packages: `yarn bootstrap`
 4. Start the application in development mode: `yarn start`

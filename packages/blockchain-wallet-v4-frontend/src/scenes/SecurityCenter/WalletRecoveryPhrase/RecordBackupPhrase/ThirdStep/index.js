@@ -1,14 +1,18 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
+import { SubmissionError } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
 import ui from 'redux-ui'
-import { take, map, sortBy, prop, range } from 'ramda'
+import { take, map, sortBy, prop, range, keysIn, forEach, split } from 'ramda'
+
 import { actions } from 'data'
 import ThirdStep from './template.js'
 
 class ThirdStepContainer extends React.PureComponent {
   constructor (props) {
     super(props)
+    this.state = { hasError: false }
     this.onSubmit = this.onSubmit.bind(this)
   }
 
@@ -20,20 +24,27 @@ class ThirdStepContainer extends React.PureComponent {
     updateUI({ indexes })
   }
 
-  onSubmit () {
-    this.props.walletActions.verifyMnemonic()
-    setTimeout(() => {
-      this.props.updateUI({ showSuccess: true })
-    }, 100)
-    setTimeout(() => {
-      this.props.inline ? this.props.handleClose() : this.props.goBackOnSuccess()
-    }, 1500)
+  onSubmit (values, disptach, props) {
+    const errors = {}
+    compose(forEach(word => {
+      if (values[word] !== props.recoveryPhrase[split('w', word)[1]]) {
+        errors[word] = <FormattedMessage id='scenes.securitycenter.walletrecoveryphrase.thirdstep.incorrectword' defaultMessage='Incorrect Word' />
+      }
+    }), keysIn)(values)
+
+    if (keysIn(errors).length) {
+      this.setState({ hasError: true })
+      throw new SubmissionError(errors)
+    } else {
+      this.props.walletActions.verifyMnemonic()
+      this.props.goBackOnSuccess()
+    }
   }
 
   render () {
     const { ui, ...rest } = this.props
     return (
-      <ThirdStep {...rest} indexes={ui.indexes} onSubmit={this.onSubmit} showSuccess={ui.showSuccess} />
+      <ThirdStep {...rest} indexes={ui.indexes} onSubmit={this.onSubmit} hasError={this.state.hasError} />
     )
   }
 }
@@ -43,7 +54,7 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const enhance = compose(
-  ui({ key: 'RecoveryPhraseVerification', state: { indexes: [], showSuccess: false } }),
+  ui({ key: 'RecoveryPhraseVerification', state: { indexes: [] } }),
   connect(undefined, mapDispatchToProps)
 )
 

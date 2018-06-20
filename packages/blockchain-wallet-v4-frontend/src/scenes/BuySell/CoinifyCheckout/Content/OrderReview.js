@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
 import { Text, Link } from 'blockchain-info-components'
-import FaqRow from 'layouts/Wallet/TrayRight/Faq/FaqRow'
+import Helper from 'components/BuySell/FAQ'
 import CountdownTimer from 'components/Form/CountdownTimer'
 import { spacing } from 'services/StyleService'
 import { reviewOrder, getRateFromQuote } from 'services/CoinifyService'
@@ -11,6 +11,7 @@ import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDeta
 import { BorderBox, Row } from 'components/BuySell/Signup'
 import { StepTransition } from 'components/Utilities/Stepper'
 import ReviewForm from './ReviewForm'
+import { update } from 'ramda'
 
 const ExchangeRateWrapper = styled.div`
   display: flex;
@@ -18,10 +19,6 @@ const ExchangeRateWrapper = styled.div`
   align-items: center;
   justify-content: flex-end;
   margin-top: 20px;
-`
-const StyledFaqRow = styled(FaqRow)`
-  padding: 20px 0px;
-  border-bottom: 1px solid ${props => props.theme['gray-1']};
 `
 
 const rateHelper = (quoteR) =>
@@ -79,7 +76,31 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
 )
 
 export const OrderSubmit = (props) => {
-  const { busy, clearTradeError, onSubmit, quoteR } = props
+  const { busy, clearTradeError, onSubmit, quoteR, type } = props
+
+  let helpers = [
+    {
+      question: <FormattedMessage id='coinifyexchangedata.cyo.helper1.question' defaultMessage='How long will the buy order take?' />,
+      answer: <FormattedMessage id='coinifyexchangedata.cyo.helper1.answer' defaultMessage='How long a buy order takes depends on your chosen payment method, which can always be changed. If buying through bank transfer, you will receive bitcoin within 2-3 days. If you chose to pay with a credit or debit card, you can plan to receive your bitcoin within 24 hours (depending on your bank’s transfer policies).' />
+    },
+    {
+      question: <FormattedMessage id='coinifyexchangedata.cyo.helper2.question' defaultMessage='Why does the exchange rate change?' />,
+      answer: <FormattedMessage id='coinifyexchangedata.cyo.helper2.answer' defaultMessage="When you choose to create a trade through bank transfer, Coinify will show you an exchange rate that may differ from the actual rate due to price fluctuations in bitcoin. Any issues that increase your order' s processing time will have an effect on the final exchange rate used for that order. Once your order is ready, Coinify processes the trade and locks in the exchange rate." />
+    },
+    {
+      question: <FormattedMessage id='coinifyexchangedata.cyo.helper3.question' defaultMessage='The small print' />,
+      answer: <FormattedMessage id='coinifyexchangedata.cyo.helper3.answer' defaultMessage='To read more about how Coinify stores your information and keeps it safe, please visit their [Terms and Conditions] and [Privacy Policy]. For help with or questions about your Blockchain wallet, please reach out to our support team [here].' />
+    }
+  ]
+
+  let sellFaq = {
+    question: <FormattedMessage id='coinifyexchangedata.cyo.helper4.question' defaultMessage='How long will the sell order take?' />,
+    answer: <FormattedMessage id='coinifyexchangedata.cyo.helper4.answer' defaultMessage='If the Bitcoin transaction of your sell order is broadcast and confirmed within the 15 minute time period for which Coinify guarantees the rate, the system will lock the exchange rate and your order will begin processing. This means that within 2 bank days we will send the funds to your bank account, as long as all details are correct and complete. Remember: you can only use a bank account registered in your own name to receive the payout.' />
+  }
+
+  const faqHelper = () => helpers.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
+
+  if (type === 'sell') helpers = update(0, sellFaq, helpers)
 
   return (
     <Fragment>
@@ -98,24 +119,7 @@ export const OrderSubmit = (props) => {
           </div>
           : <ReviewForm busy={busy} onSubmit={onSubmit} quoteR={quoteR} />
       }
-      <StyledFaqRow
-        title={<FormattedMessage id='faq.how_long_to_receive_q' defaultMessage='How long does it take to get my funds?' />}
-        description={
-          <div>
-            <FormattedMessage id='faq.how_long_to_receive_a1' defaultMessage='The quote expires within 15 minutes of placing the order. If the transaction is not broadcasted during that time the order will not be processed.' />
-            <FormattedMessage id='faq.how_long_to_receive_a2' defaultMessage='Coinify will contact you with intructions on how to receive a BTC refund if they are received after the quote expires, and if the amount received is higher or lower that the one specified in the order.' />
-            <FormattedMessage id='faq.how_long_to_receive_a3' defaultMessage='Coinify won’t be refunding the bitcoin transaction fee.' />
-          </div>
-        }
-      />
-      <StyledFaqRow
-        title={<FormattedMessage id='faq.exchange_rate_q' defaultMessage='What is the exchange rate?' />}
-        description={<FormattedMessage id='faq.exchange_rate_a' defaultMessage='The exchange rate varies from minute to minute.' />}
-      />
-      <StyledFaqRow
-        title={<FormattedMessage id='faq.exchange_fees_q' defaultMessage='What are the fees?' />}
-        description={<FormattedMessage id='faq.exchange_fees_a' defaultMessage='Each exchange takes a small percentage of the total amount as a fee.' />}
-      />
+      { faqHelper() }
     </Fragment>
   )
 }
