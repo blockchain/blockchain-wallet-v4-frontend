@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { LinkContainer } from 'react-router-bootstrap'
-import { check } from 'bowser'
+import { check, msie } from 'bowser'
 
 import { validStrongPassword, required, validEmail } from 'services/FormHelper'
 import { Banner, Button, Link, HeartbeatLoader, Separator, Text, TextGroup } from 'blockchain-info-components'
@@ -67,6 +67,15 @@ const Register = (props) => {
             <FormattedMessage id='scenes.register.browserwarning' defaultMessage='Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, IE 11, or Opera ' />
           </Banner>
         </BrowserWarning> }
+        {
+          isSupportedBrowser && msie && <BrowserWarning>
+            <Banner type='caution'>
+              <Text size='12px'>
+                <FormattedMessage id='scenes.register.msiewarning' defaultMessage='We recommend that you use a more secure browser like Chrome or Firefox.' />
+              </Text>
+            </Banner>
+          </BrowserWarning>
+        }
         <FormGroup>
           <FormItem>
             <FormLabel for='email'>

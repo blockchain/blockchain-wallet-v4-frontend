@@ -1,10 +1,11 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
-
-import Header from './Header'
-import Footer from './Footer'
 import styled from 'styled-components'
 
+import ErrorBoundary from 'providers/ErrorBoundaryProvider'
+import Header from './Header'
+import Footer from './Footer'
+import Modals from 'modals'
 import Alerts from 'components/Alerts'
 import Container from 'components/Container'
 
@@ -41,7 +42,7 @@ const ContentContainer = styled.div`
   overflow-y: auto;
   padding: 0 25px;
   @media (min-width: 768px) {
-    padding: 0px;
+    padding: 0;
     height: 100%;
   }
 `
@@ -62,11 +63,14 @@ const PublicLayout = ({component: Component, ...rest}) => {
     <Route {...rest} render={matchProps => (
       <Wrapper>
         <Alerts />
+        <Modals />
         <HeaderContainer>
           <Header />
         </HeaderContainer>
         <ContentContainer>
-          <Component {...matchProps} />
+          <ErrorBoundary>
+            <Component {...matchProps} />
+          </ErrorBoundary>
         </ContentContainer>
         <FooterContainer>
           <Container>

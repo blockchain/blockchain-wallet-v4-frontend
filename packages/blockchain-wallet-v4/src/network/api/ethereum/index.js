@@ -1,6 +1,6 @@
 
 export default ({ rootUrl, apiUrl, get, post }) => {
-  const checkContract = (address) => ({
+  const checkContract = (address) => get({
     url: apiUrl,
     endPoint: `/eth/account/${address}/isContract`
   })

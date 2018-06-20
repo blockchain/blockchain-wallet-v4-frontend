@@ -54,10 +54,6 @@ describe('authSagas', () => {
     })
 
     it('should cache guid', () => {
-      saga.next().put(actions.cache.guidEntered(guid))
-    })
-
-    it('should change login loading state', () => {
       saga.next().put(actions.auth.loginLoading())
     })
 

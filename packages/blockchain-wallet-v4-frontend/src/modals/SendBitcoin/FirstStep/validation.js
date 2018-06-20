@@ -1,7 +1,7 @@
 import React from 'react'
 import { prop } from 'ramda'
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { AddressMatchesPriv, MaximumAmountMessage, MaximumFeeMessage, MinimumAmountMessage, MinimumFeeMessage, InsufficientFundsMessage, InvalidAmountMessage } from './validationMessages'
+import { AddressMatchesPriv, MaximumAmountMessage, MaximumFeeMessage, MinimumAmountMessage, MinimumFeeMessage, MinimumOneSatoshiMessage, InsufficientFundsMessage, InvalidAmountMessage } from './validationMessages'
 
 const DUST = 546
 
@@ -27,9 +27,11 @@ export const maximumAmount = (value, allValues, props) => {
   return valueSatoshi <= props.effectiveBalance ? undefined : <MaximumAmountMessage />
 }
 
-export const minimumFeePerByte = (value, allValues, props) => value >= props.minFeePerByte ? undefined : <MinimumFeeMessage />
+export const minimumFeePerByte = (value, allValues, props) => value && parseInt(value) > props.minFeePerByte ? undefined : <MinimumFeeMessage />
 
-export const maximumFeePerByte = (value, allValues, props) => value <= props.maxFeePerByte ? undefined : <MaximumFeeMessage />
+export const minimumOneSatoshi = (value, allValues, props) => value >= 1 ? undefined : <MinimumOneSatoshiMessage />
+
+export const maximumFeePerByte = (value, allValues, props) => value && parseInt(value) < props.maxFeePerByte ? undefined : <MaximumFeeMessage />
 
 export const shouldError = ({ values, nextProps, props, initialRender, structure }) => {
   if (initialRender) { return true }

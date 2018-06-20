@@ -44,9 +44,13 @@ export const MinimumAmountMessage = () => (
 
 export const MinimumFeeMessage = () => (
   <Wrapper>
-    <FormattedMessage id='modals.sencbtc.minimumfeemessage' defaultMessage='Low custom fee not recommended. Use' />
+    <FormattedMessage id='modals.sencbtc.minimumfeemessage' defaultMessage='Low fee not recommended. Use' />
     <MinimumFeeLink />
   </Wrapper>
+)
+
+export const MinimumOneSatoshiMessage = () => (
+  <FormattedMessage id='modals.sencbtc.minimumonesatoshimessage' defaultMessage='Invalid {sat}' values={{ sat: '(< 1sat/b)' }} />
 )
 
 export const InsufficientFundsMessage = () => (
