@@ -39,8 +39,8 @@ const serializer = {
         case 'TXNames': return TXNames.reviver(data)
         case 'Options': return Options.reviver(data)
         case 'KVStoreEntry': return KVStoreEntry.reviver(data)
-        case 'Success': return Remote.Success(data)
-        case 'Failure': return Remote.Failure(data)
+        case 'Success': return Remote.Success(data.__remote)
+        case 'Failure': return Remote.Failure(data.__remote)
         case 'Loading': return Remote.Loading
         case 'NotAsked': return Remote.NotAsked
         default: return data
