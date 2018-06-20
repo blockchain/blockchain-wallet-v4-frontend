@@ -289,10 +289,15 @@ export default ({ api, coreSagas }) => {
   }
 
   const logout = function * () {
+    const isEmailVerified = yield select(selectors.core.settings.getEmailVerified)
+
     yield put(actions.core.webSocket.bitcoin.stopSocket())
     yield put(actions.core.webSocket.ethereum.stopSocket())
     yield put(actions.core.webSocket.bch.stopSocket())
-    yield put(actions.router.push('/logout'))
+    // only show browser de-auth page to accounts with verified email
+    isEmailVerified.data
+      ? yield put(actions.router.push('/logout'))
+      : yield logoutClearReduxStore()
   }
 
   const deauthorizeBrowser = function * () {
