@@ -9,7 +9,11 @@ import * as actions from '../actions.js'
 import authSagas, {
   defaultLoginErrorMessage,
   logLocation,
-  wrongWalletPassErrorMessage
+  wrongWalletPassErrorMessage,
+  guidNotFound2faErrorMessage,
+  notEnabled2faErrorMessage,
+  emailMismatch2faErrorMessage,
+  wrongCaptcha2faErrorMessage
 } from './sagas'
 import * as C from 'services/AlertService'
 
@@ -547,6 +551,230 @@ describe('authSagas', () => {
         saga
           .next()
           .put(actions.alerts.displayError(C.RESTORE_ERROR))
+      })
+    })
+  })
+
+  describe('reset 2fa flow', () => {
+    const { reset2fa } = authSagas({
+      api,
+      coreSagas
+    })
+    const guid = 'guid'
+    const email = 'stub@mail.com'
+    const newEmail = 'new@mail.com'
+    const secretPhrase = '1 2 3 4 5 6 7 8 9 10 11 12'
+    const message = 'message'
+    const code = 'code'
+    const sessionToken = 'sessionToken'
+    const payload = {
+      guid,
+      email,
+      newEmail,
+      secretPhrase,
+      message,
+      code,
+      sessionToken
+    }
+
+    const saga = testSaga(reset2fa, { payload })
+    const beforeResponse = 'beforeResponse'
+
+    it('should trigger reset 2fa action', () => {
+      saga.next().put(actions.auth.reset2faLoading())
+    })
+
+    it('should pass payload to core resetWallet2fa saga', () => {
+      saga.next().call(coreSagas.wallet.resetWallet2fa, payload).save(beforeResponse)
+    })
+
+    it('should trigger reset 2fa success action if response is successsul', () => {
+      const response = {
+        success: true
+      }
+      saga.next(response).put(actions.auth.reset2faSuccess())
+    })
+
+    it('should display reset 2a success alert if response is successsul', () => {
+      saga
+        .next()
+        .put(actions.alerts.displayInfo(C.RESET_TWOFA_INFO))
+        .next()
+        .isDone()
+    })
+
+    it('should throw an error if response is not successful', () => {
+      const response = {
+        success: false
+      }
+      saga
+        .restore(beforeResponse)
+        .next(response)
+        // First yield in catch block
+        .put(actions.core.data.misc.fetchCaptcha())
+    })
+
+    describe('error handling', () => {
+      const error = {}
+
+      it('should trigger fetch capcha action', () => {
+        saga
+          .restart()
+          .next()
+          .throw(error)
+          .put(actions.core.data.misc.fetchCaptcha())
+      })
+
+      it('should trigger reset2fa failure action', () => {
+        saga.next().put(actions.auth.reset2faFailure())
+      })
+
+      it('should log error', () => {
+        saga.next().put(actions.logs.logErrorMessage(logLocation, 'reset2fa', error))
+      })
+
+      it('should display guid not found error', () => {
+        const guidNotFound2faError = {
+          toString: () => guidNotFound2faErrorMessage
+        }
+        expectSaga(reset2fa, { payload })
+          .provide({
+            call (effect, next) {
+              if (effect.fn === coreSagas.wallet.resetWallet2fa) {
+                throw guidNotFound2faError
+              }
+
+              return next()
+            }
+          })
+          .put(actions.alerts.displayError(C.TWOFA_RESET_UNKNOWN_GUID_ERROR))
+          .run()
+      })
+
+      it('should display 2fa not enabled error and redirect to /login', () => {
+        const notEnabled2faResponse = {
+          message: notEnabled2faErrorMessage.replace(/^Error: /, '')
+        }
+        expectSaga(reset2fa, { payload })
+          .provide([
+            [call.fn(coreSagas.wallet.resetWallet2fa), notEnabled2faResponse]
+          ])
+          .put(actions.router.push('/login'))
+          .put(actions.alerts.displayError(C.TWOFA_RESET_NOT_ENABLED_ERROR))
+          .run()
+      })
+
+      it('should display 2fa email reset error', () => {
+        const emailMismatch2faResponse = {
+          message: emailMismatch2faErrorMessage.replace(/^Error: /, '')
+        }
+        expectSaga(reset2fa, { payload })
+          .provide([
+            [call.fn(coreSagas.wallet.resetWallet2fa), emailMismatch2faResponse]
+          ])
+          .put(actions.alerts.displayError(C.TWOFA_RESET_EMAIL_ERROR))
+          .run()
+      })
+
+      it('should display wrong captcha 2fa email', () => {
+        const wrongCaptcha2faResponse = {
+          message: wrongCaptcha2faErrorMessage.replace(/^Error: /, '')
+        }
+        expectSaga(reset2fa, { payload })
+          .provide([
+            [call.fn(coreSagas.wallet.resetWallet2fa), wrongCaptcha2faResponse]
+          ])
+          .put(actions.alerts.displayError(C.CAPTCHA_CODE_INCORRECT))
+          .run()
+      })
+
+      it('should display wrong captcha 2fa reset error', () => {
+        const otherErrorResponse = {
+          message: ''
+        }
+        expectSaga(reset2fa, { payload })
+          .provide([
+            [call.fn(coreSagas.wallet.resetWallet2fa), otherErrorResponse]
+          ])
+          .put(actions.alerts.displayError(C.TWOFA_RESET_ERROR))
+          .run()
+      })
+    })
+  })
+
+  describe('resend sms login code flow', () => {
+    const { resendSmsLoginCode } = authSagas({
+      api,
+      coreSagas
+    })
+    const guid = 'guid'
+    const payload = { guid }
+
+    const saga = testSaga(resendSmsLoginCode, { payload })
+    const beforeResponse = 'beforeResponse'
+
+    it('should select session token by guid from session', () => {
+      saga.next().select(selectors.session.getSession, guid)
+    })
+
+    it('should call resendSmsLoginCode core saga with guid and session token', () => {
+      const sessionToken = 'sessionToken'
+      saga
+        .next(sessionToken)
+        .call(coreSagas.wallet.resendSmsLoginCode, { guid, sessionToken })
+    })
+
+    it('should throw upon initial_error response and it doesn\'t include login attempts left', () => {
+      const initialErrorResponse = {
+        initial_error: '123'
+      }
+      saga
+        .save(beforeResponse)
+        .next(initialErrorResponse)
+        // Initial error handling step
+        .put(actions.logs.logErrorMessage(logLocation, 'resendSmsLoginCode', new Error(initialErrorResponse)))
+    })
+
+    it('should display success if response has no error', () => {
+      const response = {
+      }
+      saga
+        .restore(beforeResponse)
+        .save(beforeResponse)
+        .next(response)
+        .put(actions.alerts.displaySuccess(C.SMS_RESEND_SUCCESS))
+        .next()
+        .isDone()
+    })
+
+    it('should display success if initial_error includes login attempts left message', () => {
+      const initialErrorResponse = {
+        initial_error: '10 login attempts left'
+      }
+      saga
+        .restore(beforeResponse)
+        .save(beforeResponse)
+        .next(initialErrorResponse)
+        .put(actions.alerts.displaySuccess(C.SMS_RESEND_SUCCESS))
+        .next()
+        .isDone()
+    })
+
+    describe('error handling', () => {
+      it('should log resend sms login code error message', () => {
+        const error = {}
+        saga
+          .restore(beforeResponse)
+          .throw(error)
+          .put(actions.logs.logErrorMessage(logLocation, 'resendSmsLoginCode', error))
+      })
+
+      it('should display sms login code error alert', () => {
+        saga
+          .next()
+          .put(actions.alerts.displayError(C.SMS_RESEND_ERROR))
+          .next()
+          .isDone()
       })
     })
   })
