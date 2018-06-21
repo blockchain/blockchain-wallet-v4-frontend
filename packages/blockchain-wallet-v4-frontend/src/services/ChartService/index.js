@@ -25,12 +25,11 @@ const start = {
 }
 
 export const calculateStart = (coin, time) => {
-  const now = moment()
   const coinStart = prop(coin, start)
-  const dayStart = now.subtract(1, 'day').format('X')
-  const weekStart = now.subtract(7, 'day').format('X')
-  const monthStart = now.subtract(1, 'month').format('X')
-  const yearStart = now.subtract(1, 'year').format('X')
+  const dayStart = moment().subtract(1, 'day').format('X')
+  const weekStart = moment().subtract(7, 'day').format('X')
+  const monthStart = moment().subtract(1, 'month').format('X')
+  const yearStart = moment().subtract(1, 'year').format('X')
 
   switch (time) {
     case '1year': return yearStart > coinStart ? yearStart : coinStart
