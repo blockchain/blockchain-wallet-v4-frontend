@@ -15,7 +15,6 @@ import SfoxCheckout from './SfoxCheckout'
 import CoinifyCheckout from './CoinifyCheckout'
 import { getData, getFields } from './selectors'
 import SelectPartner from './template.success'
-import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -83,8 +82,12 @@ class BuySellContainer extends React.PureComponent {
   }
 
   submitEmail () {
-    // TODO: submit the email address somewhere
     this.props.updateUI({ submittedEmail: true })
+    let email = encodeURIComponent(path(['fields', 'email'], this.props))
+    let country = path(['fields', 'country'], this.props)
+    let state = path(['fields', 'country'], this.props) === 'US' ? path(['fields', 'stateSelection', 'name'], this.props) : undefined
+    let url = 'https://docs.google.com/forms/d/e/1FAIpQLSeYiTe7YsqEIvaQ-P1NScFLCSPlxRh24zv06FFpNcxY_Hs0Ow/viewform?entry.1192956638=' + email + '&entry.644018680=' + country + '&entry.387129390=' + state
+    window.open(url, '_blank')
   }
 
   render () {
@@ -98,20 +101,18 @@ class BuySellContainer extends React.PureComponent {
     })
 
     return (
-      <ErrorBoundary>
-        <Wrapper>
-          {
-            hasAccount(path(['component', 'props', 'value'], view))
-              ? <Menu>
-                <Field name='status' component={TabMenuBuySellStatus} partner={prop('partner', view)} />
-              </Menu>
-              : null
-          }
-          <CheckoutWrapper>
-            {prop('component', view)}
-          </CheckoutWrapper>
-        </Wrapper>
-      </ErrorBoundary>
+      <Wrapper>
+        {
+          hasAccount(path(['component', 'props', 'value'], view))
+            ? <Menu>
+              <Field name='status' component={TabMenuBuySellStatus} partner={prop('partner', view)} />
+            </Menu>
+            : null
+        }
+        <CheckoutWrapper>
+          {prop('component', view)}
+        </CheckoutWrapper>
+      </Wrapper>
     )
   }
 }

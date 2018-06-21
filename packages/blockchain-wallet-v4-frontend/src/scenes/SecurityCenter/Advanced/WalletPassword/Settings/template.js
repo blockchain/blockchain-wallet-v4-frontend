@@ -42,7 +42,7 @@ const Settings = (props) => {
             </FormItem>
             <FormItem style={{marginTop: '5px'}}>
               <FormLabel for='walletPasswordConfirmation'>
-                <FormattedMessage id='scenes.securitysettings.advanced.walletpassword.settings.confirm' defaultMessage='Current Password:' />
+                <FormattedMessage id='scenes.securitysettings.advanced.walletpassword.settings.confirm' defaultMessage='Confirm Password:' />
               </FormLabel>
               <Field name='walletPasswordConfirmation' validate={(value, allValues) => (value === allValues['newPassword']) ? undefined : 'Passwords do not match'} component={PasswordBox} />
             </FormItem>

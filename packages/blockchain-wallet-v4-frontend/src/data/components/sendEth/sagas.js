@@ -118,7 +118,6 @@ export default ({ coreSagas }) => {
       yield put(actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(Date.now()))
       yield take(actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS)
       yield put(actions.core.kvStore.ethereum.setLatestTxEthereum(payment.value().txId))
-      yield put(actions.router.push('/eth/transactions'))
       yield put(actions.alerts.displaySuccess(C.SEND_ETH_SUCCESS))
       if (path(['description', 'length'], payment.value())) {
         yield take(actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS)

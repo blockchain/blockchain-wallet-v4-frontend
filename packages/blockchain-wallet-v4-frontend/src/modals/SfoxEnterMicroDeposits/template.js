@@ -6,6 +6,7 @@ import { Field, reduxForm } from 'redux-form'
 import { Form, FormGroup, FormItem, NumberBox } from 'components/Form'
 import { required } from 'services/FormHelper'
 import PropTypes from 'prop-types'
+import BuySellAnimation from '../../scenes/BuySell/BuySellAnimation'
 
 const ButtonRow = styled.div`
   display: flex;
@@ -19,9 +20,29 @@ const ErrorText = styled(Text)`
     display: inline;
   }
 `
+const TextWrapper = styled.div`
+  margin-bottom: 50px;
+  padding-bottom: 30px;
+  text-align: center;
+`
 
 const MicroDeposits = (props) => {
-  const { handleSubmit, close, position, total, invalid, status, tryAgain } = props
+  const { handleSubmit, close, position, total, invalid, status, tryAgain, options } = props
+
+  if (status === 'success') {
+    return (
+      <Modal size='medium' position={position} total={total}>
+        <ModalBody>
+          <TextWrapper>
+            <Text size='22px' weight={300}>
+              <FormattedMessage id='sfoxmicrodeposits.success' defaultMessage='YOU ARE NOW READY TO BUY & SELL' />
+            </Text>
+          </TextWrapper>
+          <BuySellAnimation country={'US'} options={options} />
+        </ModalBody>
+      </Modal>
+    )
+  }
 
   return (
     <Modal size='medium' position={position} total={total}>

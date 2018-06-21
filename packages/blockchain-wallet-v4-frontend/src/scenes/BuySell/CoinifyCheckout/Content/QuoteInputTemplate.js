@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
 import { Field, reduxForm } from 'redux-form'
-import { head, equals } from 'ramda'
+import { equals, prop } from 'ramda'
 
 import { Icon, Link, Text } from 'blockchain-info-components'
 import { SelectBoxCoinifyCurrency, NumberBoxDebounced } from 'components/Form'
@@ -105,7 +105,7 @@ const getLimitsError = (errorType, limits, curr, setMax, setMin, changeTab) => {
       )
       return (
         <div>
-          <FormattedMessage id='buy.quote_input.effective_max_under_min1' defaultMessage='Your balance is less than the minimum sell amount minus priority fee {min}. ' values={{ min: limits.min }} />
+          <FormattedMessage id='buy.quote_input.effective_max_under_min1' defaultMessage='Your balance is less than the minimum sell amount minus priority fee {min} BTC. ' values={{ min: limits.min }} />
           <FormattedMessage id='buy.quote_input.effective_max_under_min2' defaultMessage='Fund your wallet by {buyLink} or {exchangeLink} before selling.' values={{ buyLink, exchangeLink }} />
         </div>
       )
@@ -116,7 +116,7 @@ const FiatConvertor = (props) => {
   const { val, changeTab, disabled, setMax, setMin, limits, checkoutError, defaultCurrency, symbol, increaseLimit, form } = props
   const currency = 'BTC'
   const level = val.level || { name: 1 }
-  const kyc = val.kycs.length && head(val.kycs)
+  const kyc = prop('kyc', val)
   const { canTrade, cannotTradeReason, profile } = val
   const { canTradeAfter } = profile
   const isSell = form === 'coinifyCheckoutSell'
@@ -153,7 +153,7 @@ const FiatConvertor = (props) => {
               : getSellLimits()
           }
           {
-            level.name < 2 && kyc.state !== 'reviewing'
+            level.name < 2 && !equals(prop('state', kyc), 'reviewing')
               ? <a onClick={() => increaseLimit()}>
                 <FormattedMessage id='buysell.quote_input.increase_limits' defaultMessage=' Increase your limit.' />
               </a>

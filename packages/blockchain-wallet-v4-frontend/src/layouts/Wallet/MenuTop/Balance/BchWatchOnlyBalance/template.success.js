@@ -22,14 +22,12 @@ const Wrapper = styled.div`
 `
 
 const Success = props => {
-  const { balance } = props
-
-  return (
+  return props.balance === 0 ? < div /> : (
     <LinkContainer to='/bch/transactions'>
       <Wrapper>
         <Text size='10px' weight={300}>BCH</Text>
         <Banner inline type='informational'>
-          <FiatDisplay coin='BCH' cursor='pointer' size='10px' weight={300}>{balance}</FiatDisplay>
+          <FiatDisplay coin='BCH' cursor='pointer' size='10px' weight={300}>{props.balance}</FiatDisplay>
           <span>&nbsp;</span>
           <Text size='10px' weight={300}>
             <FormattedMessage id='scenes.wallet.menutop.balance.watchonlybchbalance' defaultMessage='Non-Spendable' />
