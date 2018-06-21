@@ -12,6 +12,7 @@
         "announcements": {
           "public": {
             "type": "info",
+            "hideType": "dismiss",
             "header": {
               "en": "We’re packing our bags and preparing to move...domains!"
             },

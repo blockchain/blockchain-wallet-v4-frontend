@@ -31,7 +31,11 @@ class ServiceAnnouncement extends React.PureComponent {
   render () {
     const { announcements, type } = this.props
 
-    return this.state.visible && <Announcement announcement={announcements.data[type]} collapsed={this.state.collapsed} handleDismiss={this.handleDismiss} toggleCollapse={this.toggleCollapse} />
+    return this.state.visible && <Announcement
+      announcement={announcements.data[type]}
+      collapsed={this.state.collapsed}
+      handleDismiss={this.handleDismiss}
+      toggleCollapse={this.toggleCollapse} />
   }
 }
 
