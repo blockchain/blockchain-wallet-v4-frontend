@@ -20,9 +20,17 @@
                 "en": ""
               },
               "body": {
-                "en": "To make way for our new and exciting products coming this year, we’re saying hello to our new home. Your Blockchain Wallet will soon be changing URLs as it's combined with our company site, blockchain.com. Read more about what to expect"
+                "en": "To make way for our new and exciting products coming this year, we’re saying hello to our new home. blockchain.info will soon be changing URLs as it's combined with our company site, blockchain.com."
               }
-            }],
+            }, {
+              "title": {
+                "en": ""
+              },
+              "body": {
+                "en": "This is part two of a super annoying announcement that people wont read."
+              }
+            }
+            ],
             "action": {
               "title": {
                 "en": "Read more about what to expect."
@@ -42,6 +50,13 @@
               },
               "body": {
                 "en": "To make way for our new and exciting products coming this year, we’re saying hello to our new home. Your Blockchain Wallet will soon be changing URLs as it's combined with our company site, blockchain.com. Read more about what to expect"
+              }
+            }, {
+              "title": {
+                "en": ""
+              },
+              "body": {
+                "en": "This is part two of a super annoying announcement that people wont read."
               }
             }],
             "action": {

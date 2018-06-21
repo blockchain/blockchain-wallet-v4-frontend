@@ -7,20 +7,22 @@ import Announcement from './template.js'
 class ServiceAnnouncement extends React.PureComponent {
   constructor (props) {
     super(props)
-    this.handleClose = this.handleClose.bind(this)
+    this.handleDismiss = this.handleDismiss.bind(this)
   }
 
-  handleClose (id) {
+  handleDismiss (id) {
+    // TODO: write to local storage that user dismissed
     this.props.alertActions.dismissAlert(id)
   }
 
   render () {
-    return <Announcement alerts={this.props.alerts} handleClose={this.handleClose} />
+    const { announcements, type } = this.props
+    return <Announcement announcement={announcements.data[type]} handleDismiss={this.handleDismiss} />
   }
 }
 
 const mapStateToProps = (state) => ({
-  alerts: selectors.alerts.selectAlerts(state)
+  announcements: selectors.core.walletOptions.getAnnouncements(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

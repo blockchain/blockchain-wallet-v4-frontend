@@ -6,7 +6,6 @@ import Header from './Header'
 import Footer from './Footer'
 import Alerts from 'components/Alerts'
 import Container from 'components/Container'
-import ServiceAnnouncement from 'components/ServiceAnnouncement'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 
 const Wrapper = styled.div`
@@ -41,7 +40,6 @@ const ContentContainer = styled.div`
   align-items: center;
   overflow-y: auto;
   margin: 0 25px;
-  z-index: 10;
 
   @media (min-width: 768px) {
     height: 100%;
@@ -71,19 +69,6 @@ const FooterContainer = styled.div`
   }
 `
 
-const AnnouncementWrapper = styled.div`
-  margin: 0 auto 20px auto;
-  width: 100%;
-
-  @media (min-width: 992px) {
-    width: 960px;
-  }
-
-  @media (min-width: 1200px) {
-    width: 1140px;
-  }
-`
-
 const PublicLayout = ({component: Component, ...rest}) => {
   return (
     <Route {...rest} render={matchProps => (
@@ -94,9 +79,6 @@ const PublicLayout = ({component: Component, ...rest}) => {
             <Header />
           </HeaderContainer>
           <ContentContainer>
-            <AnnouncementWrapper>
-              <ServiceAnnouncement />
-            </AnnouncementWrapper>
             <Component {...matchProps} />
           </ContentContainer>
           <FooterContainer>

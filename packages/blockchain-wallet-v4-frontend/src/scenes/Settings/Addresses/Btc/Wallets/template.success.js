@@ -30,7 +30,7 @@ const Success = ({ wallets, handleClick, onUnarchive, search }) => {
         <WalletTableCell width='50%' style={{ display: 'flex' }}>
           <LabelCell size='13px'>{wallet.label}</LabelCell>
           {wallet.default && <Banner label><FormattedMessage id='scenes.settings.addresses.btc.wallets.defaultlabel' defaultMessage='Default' /></Banner>}
-          {wallet.archived && <Banner label type='informational'><FormattedMessage id='scenes.settings.addresses.btc.wallets.archivedlabel' defaultMessage='Archived' /></Banner>}
+          {wallet.archived && <Banner label type='info'><FormattedMessage id='scenes.settings.addresses.btc.wallets.archivedlabel' defaultMessage='Archived' /></Banner>}
         </WalletTableCell>
         <TableCell width='30%'>
           {!wallet.archived && <SwitchableDisplay size='13px' coin='BTC'>{wallet.balance}</SwitchableDisplay>}

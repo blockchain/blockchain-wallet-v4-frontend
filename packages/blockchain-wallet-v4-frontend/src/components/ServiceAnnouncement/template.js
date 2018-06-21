@@ -2,31 +2,40 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Banner, Text, TextGroup } from 'blockchain-info-components'
+import { Banner, Link, Text, TextGroup } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
+  z-index: 99;
   background-color: pink;
-  z-index: 10;
 `
 
 const Announcement = props => {
-  const {  } = props
-
+  const { announcement } = props
   return (
     <Wrapper>
-      <Banner type='warning' dismissible={true}>
+      <Banner type={announcement.type} dismissible={true} collapsible={true}>
         <TextGroup style={{ padding: '0 10px'}}>
-          <Text size='18px'>We’re packing our bags and preparing to move... domains!</Text>
-          <Text size='12px'>To make way for our new and exciting products coming this year, we’re saying hello to our new home. Your Blockchain Wallet will soon be changing URLs as it's combined with our company site, blockchain.com. Read more about what to expect</Text>
+          <Text size='20px'>{announcement.header.en}</Text>
+          {
+            announcement.sections.map(section => {
+              return <Text size='12px'>{section.body.en}</Text>
+            })
+          }
+          <Link href={announcement.action.link} target='_blank' style={{marginLeft: 0}}>
+            <Text size='14px'>{announcement.action.title.en}</Text>
+          </Link>
         </TextGroup>
       </Banner>
     </Wrapper>
   )
 }
 
-Announcement.propTypes = {}
+Announcement.propTypes = {
+  announcement: PropTypes.object.isRequired,
+  handleDismiss: PropTypes.func.isRequired
+}
 
 export default Announcement
