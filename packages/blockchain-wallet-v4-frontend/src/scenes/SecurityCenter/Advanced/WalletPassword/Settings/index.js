@@ -25,11 +25,19 @@ class SettingsContainer extends React.PureComponent {
     this.props.updateUI({ updateToggled: !this.props.ui.updateToggled })
   }
 
+  validateCurrentPassword = (value) =>
+    value === this.props.currentWalletPassword ? undefined : 'Incorrect password'
+
+  validatePasswordConfirmation = (value, allValues) =>
+    (value === allValues.newPassword) ? undefined : 'Passwords do not match'
+
   render () {
-    const { ui, ...rest } = this.props
+    const { ui, currentWalletPassword, ...rest } = this.props
 
     return <Settings
       {...rest}
+      validateCurrentPassword={this.validateCurrentPassword}
+      validatePasswordConfirmation={this.validatePasswordConfirmation}
       updateToggled={ui.updateToggled}
       handleToggle={this.handleToggle}
       onSubmit={this.onSubmit}

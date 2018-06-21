@@ -17,7 +17,17 @@ const ButtonWrapper = styled(ButtonGroup)`
 `
 
 const Settings = (props) => {
-  const { updateToggled, handleToggle, handleSubmit, submitting, invalid, currentWalletPassword, handleCancel } = props
+  const {
+    updateToggled,
+    handleToggle,
+    handleSubmit,
+    submitting,
+    invalid,
+    validateCurrentPassword,
+    validatePasswordConfirmation,
+    handleCancel
+  } = props
+
   return (
     <SettingWrapper>
       { !updateToggled &&
@@ -32,7 +42,7 @@ const Settings = (props) => {
               <FormLabel for='currentPassword'>
                 <FormattedMessage id='scenes.securitysettings.advanced.walletpassword.settings.current' defaultMessage='Current Password:' />
               </FormLabel>
-              <Field name='currentPassword' component={PasswordBox} validate={(value) => (value === currentWalletPassword ? undefined : 'Incorrect password')} />
+              <Field name='currentPassword' component={PasswordBox} validate={[validateCurrentPassword]} />
             </FormItem>
             <FormItem style={{marginTop: '5px'}}>
               <FormLabel for='newPassword'>
@@ -44,7 +54,7 @@ const Settings = (props) => {
               <FormLabel for='walletPasswordConfirmation'>
                 <FormattedMessage id='scenes.securitysettings.advanced.walletpassword.settings.confirm' defaultMessage='Confirm Password:' />
               </FormLabel>
-              <Field name='walletPasswordConfirmation' validate={(value, allValues) => (value === allValues['newPassword']) ? undefined : 'Passwords do not match'} component={PasswordBox} />
+              <Field name='walletPasswordConfirmation' validate={[validatePasswordConfirmation]} component={PasswordBox} />
             </FormItem>
           </FormGroup>
           <ButtonWrapper>
@@ -64,7 +74,9 @@ const Settings = (props) => {
 Settings.propTypes = {
   updateToggled: PropTypes.bool.isRequired,
   handleToggle: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired
+  handleSubmit: PropTypes.func.isRequired,
+  validateCurrentPassword: PropTypes.func.isRequired,
+  validatePasswordConfirmation: PropTypes.func.isRequired
 }
 
 export default reduxForm({ form: 'settingWalletPassword' })(Settings)
