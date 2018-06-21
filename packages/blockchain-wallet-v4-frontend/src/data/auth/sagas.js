@@ -63,7 +63,7 @@ export default ({ api, coreSagas }) => {
       // If needed, the user should upgrade its wallet before being able to open the wallet
       let isHdWallet = yield select(selectors.core.wallet.isHdWallet)
       if (!isHdWallet) {
-        yield upgradeWalletSaga()
+        yield call(upgradeWalletSaga)
       }
       yield put(actions.auth.authenticate())
       yield put(actions.core.webSocket.bitcoin.startSocket())
@@ -195,7 +195,7 @@ export default ({ api, coreSagas }) => {
       yield call(loginRoutineSaga, false, true)
       yield put(actions.auth.registerSuccess())
     } catch (e) {
-      yield put(actions.auth.registerFailure(e))
+      yield put(actions.auth.registerFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'register', e))
       yield put(actions.alerts.displayError(C.REGISTER_ERROR))
     }
@@ -323,6 +323,7 @@ export default ({ api, coreSagas }) => {
     logout,
     logoutClearReduxStore,
     loginRoutineSaga,
+    logoutRoutine,
     mobileLogin,
     pollingSession,
     register,
@@ -330,6 +331,11 @@ export default ({ api, coreSagas }) => {
     reset2fa,
     resendSmsLoginCode,
     restore,
-    upgradeWallet
+    reportStats,
+    setLogoutEventListener,
+    transferEthSaga,
+    upgradeWallet,
+    upgradeWalletSaga,
+    welcomeSaga
   }
 }
