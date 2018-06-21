@@ -15,8 +15,8 @@ const Container = styled.div`
   border-radius: 4px;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
+  margin: 0 auto;
   width: ${props => props.width ? props.width : `initial`};
-  margin-left: ${props => props.inline && !props.label ? '5px' : '0px'};
   padding: ${props => props.inline || props.label ? '3px 5px' : '5px 10px'};
   & > span:first-child { margin-right: ${props => props.inline ? '3px' : '5px'} };
 `
@@ -28,7 +28,7 @@ const BannerContent = styled(Text)`
   & a:last-of-type { margin-left: 5px; }
 `
 
-const DismissIcon = styled(Icon)`
+const ActionIcon = styled(Icon)`
   margin-left: 20px;
   &:hover {
     cursor: pointer;
@@ -41,13 +41,13 @@ const selectStyle = type => {
     case 'warning': return { color: 'error', uppercase: true, icon: 'alert' }
     case 'alert': return { color: 'brand-secondary', uppercase: false, icon: 'bell' }
     case 'caution': return { color: 'brand-yellow', uppercase: false, icon: 'alert' }
-    case 'informational': return { color: 'gray-5', uppercase: false, icon: null }
+    case 'info': return { color: 'gray-5', uppercase: false, icon: null }
     default: return { color: 'brand-secondary', uppercase: false, icon: null }
   }
 }
 
 const Template = props => {
-  const { type, children, inline, label, width, dismissible, handleDismiss } = props
+  const { type, children, inline, label, width, dismissible, collapsible, collapsed, handleDismiss, toggleCollapse } = props
   const style = selectStyle(type)
   const { color, uppercase, icon } = style
 
@@ -57,7 +57,8 @@ const Template = props => {
       <BannerContent size='12px' weight={400} color={color} uppercase={uppercase} inline={inline}>
         { children }
       </BannerContent>
-      { dismissible && <DismissIcon name='close' size='14px' weight={600} onClick={handleDismiss} /> }
+      { dismissible && <ActionIcon name='close' size='14px' weight={600} onClick={handleDismiss} /> }
+      { collapsible && <ActionIcon name={collapsed ? 'down-arrow' : 'up-arrow'} size='14px' weight={600} onClick={toggleCollapse} /> }
     </Container>
   )
 }
