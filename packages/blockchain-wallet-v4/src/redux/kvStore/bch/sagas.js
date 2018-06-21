@@ -41,7 +41,7 @@ export default ({ api }) => {
       const hdAccounts = yield select(getHDAccounts)
       const bchAccounts = prop('accounts', newkv.value) || []
       if (isNil(newkv.value) || gt(length(hdAccounts), length(bchAccounts))) {
-        yield call(createBch, newkv, hdAccounts, bchAccounts)
+        return yield call(createBch, newkv, hdAccounts, bchAccounts)
       }
       yield put(A.fetchMetadataBchSuccess(newkv))
     } catch (e) {
