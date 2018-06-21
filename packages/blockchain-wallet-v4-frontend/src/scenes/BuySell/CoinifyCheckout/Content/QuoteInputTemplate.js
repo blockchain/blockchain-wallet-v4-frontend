@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
 import { Field, reduxForm } from 'redux-form'
-import { equals, gt, head, not, prop } from 'ramda'
+import { equals, gt, not, prop } from 'ramda'
 
 import { Icon, Link, Text } from 'blockchain-info-components'
 import { SelectBoxCoinifyCurrency, NumberBoxDebounced } from 'components/Form'
