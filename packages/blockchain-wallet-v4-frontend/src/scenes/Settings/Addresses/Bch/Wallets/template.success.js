@@ -44,7 +44,7 @@ const Success = (props) => {
         <WalletTableCell width='50%'>
           <LabelCell size='13px'>{wallet.label}</LabelCell>
           {isDefault && <Banner label><FormattedMessage id='scenes.settings.addresses.bch.wallets.defaultlabel' defaultMessage='Default' /></Banner>}
-          {isArchived && <Banner label type='info'><FormattedMessage id='scenes.settings.addresses.bch.wallets.archivedlabel' defaultMessage='Archived' /></Banner>}
+          {isArchived && <Banner label type='informational'><FormattedMessage id='scenes.settings.addresses.bch.wallets.archivedlabel' defaultMessage='Archived' /></Banner>}
         </WalletTableCell>
         <TableCell width='30%'>
           {!isArchived && <SwitchableDisplay size='13px' coin='BCH'>{wallet.value.balance}</SwitchableDisplay>}

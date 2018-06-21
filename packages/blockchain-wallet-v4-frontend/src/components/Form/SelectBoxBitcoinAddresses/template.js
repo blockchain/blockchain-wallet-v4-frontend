@@ -48,7 +48,7 @@ const renderItem = item => {
         </BalanceContainer>
       }
       {path(['value', 'watchOnly'], item) &&
-        <Banner type='info' inline>
+        <Banner type='informational' inline>
           <FormattedMessage id='components.selectboxbitcoin.watchonly' defaultMessage='Non-Spendable' />
         </Banner>}
     </ItemWrapper>

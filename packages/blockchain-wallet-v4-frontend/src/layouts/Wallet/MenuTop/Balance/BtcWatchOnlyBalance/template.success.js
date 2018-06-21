@@ -28,7 +28,7 @@ const Success = props => {
     <LinkContainer to='/btc/transactions'>
       <Wrapper>
         <Text size='10px' weight={300}>BTC</Text>
-        <Banner inline type='info'>
+        <Banner inline type='informational'>
           <FiatDisplay coin='BTC' cursor='pointer' size='10px' weight={300}>{balance}</FiatDisplay>
           <span>&nbsp;</span>
           <Text size='10px' weight={300}>

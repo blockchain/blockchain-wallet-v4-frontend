@@ -101,7 +101,7 @@ const TransactionListItem = (props) => {
           <Text size='13px' weight={300}>{transaction.timeFormatted}</Text>
           { (transaction.fromWatchOnly || transaction.toWatchOnly) && (
             <BannerWrapper>
-              <Banner type='info'>
+              <Banner type='informational'>
                 <FormattedMessage id='components.txlistitem.watchonly' defaultMessage='Non-Spendable' />
               </Banner>
             </BannerWrapper>
