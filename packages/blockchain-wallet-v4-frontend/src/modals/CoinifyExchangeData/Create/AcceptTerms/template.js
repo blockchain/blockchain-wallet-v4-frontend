@@ -9,6 +9,7 @@ import Terms from 'components/Terms'
 import { Button, HeartbeatLoader, Text, TextGroup, Link, Icon } from 'blockchain-info-components'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ErrorWrapper, ColRightInner } from 'components/BuySell/Signup'
 import { spacing } from 'services/StyleService'
+import { prop } from 'ramda'
 
 const AcceptTermsContainer = styled.div`
   display: flex;
@@ -48,11 +49,10 @@ const IconContainer = styled.div`
   align-items: center;
   margin-left: 10px;
 `
+const checkboxShouldBeChecked = value => value ? undefined : 'You must agree to the terms and conditions'
 
 const AcceptTerms = (props) => {
-  const { busy, email, invalid, handleSubmit, signupError, updateUI, emailVerified, editEmail } = props
-
-  const checkboxShouldBeChecked = value => value ? undefined : 'You must agree to the terms and conditions'
+  const { busy, email, invalid, handleSubmit, signupError, updateUI, emailVerified, editEmail, clearError } = props
 
   const helpers = [
     {
@@ -113,18 +113,35 @@ const AcceptTerms = (props) => {
           </ButtonWrapper>
           <ErrorWrapper>
             {
-              signupError && <TextGroup inline>
-                <Text size='12px' color='error' weight={300}>
-                  <FormattedMessage id='coinifyexchangedata.create.accept.error1' defaultMessage='Unfortunately this email is being used for another account. ' />
-                </Text>
-                <Text size='12px' color='brand-secondary' cursor='pointer' weight={300} onClick={() => updateUI({ create: 'change_email' })}>
-                  <FormattedMessage id='coinifyexchangedata.create.accept.error2' defaultMessage='Click here ' />
-                </Text>
-                <Text size='12px' color='error' weight={300}>
-                  <FormattedMessage id='coinifyexchangedata.create.accept.error3' defaultMessage='to change it.' />
+              signupError && prop('error', signupError) === 'email_address_in_use'
+                ? <TextGroup inline>
+                  <Text size='12px' color='error' weight={300}>
+                    <FormattedMessage id='coinifyexchangedata.create.accept.error1' defaultMessage='Unfortunately this email is being used for another account. ' />
+                  </Text>
+                  <Text size='12px' color='brand-secondary' cursor='pointer' weight={300} onClick={() => updateUI({ create: 'change_email' })}>
+                    <FormattedMessage id='coinifyexchangedata.create.accept.error2' defaultMessage='Click here ' />
+                  </Text>
+                  <Text size='12px' color='error' weight={300}>
+                    <FormattedMessage id='coinifyexchangedata.create.accept.error3' defaultMessage='to change it.' />
 
-                </Text>
-              </TextGroup>
+                  </Text>
+                </TextGroup>
+                : signupError
+                  ? <TextGroup inline>
+                    <Text size='12px' color='error' weight={300}>
+                      <FormattedMessage id='coinifyexchangedata.create.accept.unknownError' defaultMessage="We're sorry, but something unexpected went wrong. Please " />
+                    </Text>
+                    <Link size='12px' weight={300} onClick={() => clearError()}>
+                      <FormattedMessage id='tryagain' defaultMessage='try again' />
+                    </Link>
+                    <Text size='12px' color='error' weight={300}>
+                      <FormattedMessage id='or' defaultMessage='or' />
+                    </Text>
+                    <Link target='_blank' href='https://support.blockchain.com' size='12px' weight={300}>
+                      <FormattedMessage id='contactsupport' defaultMessage='contact support.' />
+                    </Link>
+                  </TextGroup>
+                  : null
             }
           </ErrorWrapper>
           {faqHelper()}
