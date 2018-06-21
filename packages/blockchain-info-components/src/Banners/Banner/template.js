@@ -9,13 +9,15 @@ import { Text } from '../../Text/index'
 const Container = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   background: ${props => transparentize(0.9, (props.theme[props.color]))};
   border: 1px solid ${props => transparentize(0.8, (props.theme[props.color]))};
   border-radius: 4px;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   margin: 0 auto;
+  overflow: hidden;
+  height: ${props => props.collapsed ? '28px' : ''};
   width: ${props => props.width ? props.width : `initial`};
   padding: ${props => props.inline || props.label ? '3px 5px' : '5px 10px'};
   & > span:first-child { margin-right: ${props => props.inline ? '3px' : '5px'} };
@@ -52,13 +54,13 @@ const Template = props => {
   const { color, uppercase, icon } = style
 
   return (
-    <Container color={color} width={width} inline={inline} label={label}>
+    <Container color={color} width={width} inline={inline} label={label} collapsed={collapsed}>
       { icon && <Icon name={icon} size='18px' weight={600} color={color} /> }
       <BannerContent size='12px' weight={400} color={color} uppercase={uppercase} inline={inline}>
         { children }
       </BannerContent>
-      { dismissible && <ActionIcon name='close' size='14px' weight={600} onClick={handleDismiss} /> }
       { collapsible && <ActionIcon name={collapsed ? 'down-arrow' : 'up-arrow'} size='14px' weight={600} onClick={toggleCollapse} /> }
+      { dismissible && <ActionIcon name='close' size='14px' weight={600} onClick={handleDismiss} /> }
     </Container>
   )
 }
