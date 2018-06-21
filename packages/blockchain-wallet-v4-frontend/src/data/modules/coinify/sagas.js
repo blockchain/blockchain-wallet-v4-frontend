@@ -1,4 +1,4 @@
-import { put, call, select, take } from 'redux-saga/effects'
+import { put, call, select } from 'redux-saga/effects'
 import { any, merge, path, prop, equals, head } from 'ramda'
 import { delay } from 'redux-saga'
 import * as A from './actions'
@@ -7,7 +7,6 @@ import * as selectors from '../../selectors.js'
 import * as C from 'services/AlertService'
 import * as service from 'services/CoinifyService'
 import * as sendBtcActions from '../../components/sendBtc/actions'
-import * as sendBtcActionTypes from '../../components/sendBtc/actionTypes'
 import * as sendBtcSelectors from '../../components/sendBtc/selectors'
 import settings from 'config'
 import { promptForSecondPassword } from 'services/SagaService'
@@ -24,7 +23,7 @@ export default ({ coreSagas }) => {
         yield call(coreSagas.data.coinify.triggerKYC)
         yield put(A.coinifyNextStep('isx'))
       } else {
-        yield put(A.coinifySignupFailure(profile.error))
+        yield put(A.coinifySignupFailure(JSON.parse(profile.error)))
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'coinifySignup', e))
@@ -140,9 +139,9 @@ export default ({ coreSagas }) => {
       } else {
         yield put(actions.form.initialize('coinifyCheckoutSell', initialValues))
         const limits = yield select(selectors.core.data.coinify.getLimits)
-        yield take(sendBtcActionTypes.SEND_BTC_PAYMENT_UPDATED_SUCCESS)
-        const payment = yield select(sendBtcSelectors.getPayment)
-        const effectiveBalance = prop('effectiveBalance', payment.getOrElse(undefined))
+        const defaultIndex = yield select(selectors.core.wallet.getDefaultAccountIndex)
+        const payment = yield coreSagas.payment.btc.create({ network: settings.NETWORK_BITCOIN }).chain().init().fee('priority').from(defaultIndex).done()
+        const effectiveBalance = prop('effectiveBalance', payment.value())
         const isMinOverEffectiveMax = service.isMinOverEffectiveMax(limits.getOrElse(undefined), effectiveBalance, currency)
         if (isMinOverEffectiveMax) {
           error = 'effective_max_under_min'
@@ -280,7 +279,8 @@ export default ({ coreSagas }) => {
       }
       yield put(A.coinifyNextCheckoutStep('checkout'))
       yield put(actions.modals.showModal('CoinifyTradeDetails', { trade: trade.data, status: status }))
-      yield call(coreSagas.data.coinify.getKYCs)
+      yield call(coreSagas.data.coinify.getKYC)
+      yield put(actions.core.data.coinify.pollKYCPending())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'fromISX', e))
     }
@@ -297,8 +297,8 @@ export default ({ coreSagas }) => {
 
   const openKYC = function * (data) {
     let kyc = data.payload
-    const inProgressKycs = yield select(selectors.core.data.coinify.getKycs)
-    const recentKyc = head(inProgressKycs.data)
+    const recentKycR = yield select(selectors.core.data.coinify.getKyc)
+    const recentKyc = recentKycR.getOrElse(undefined)
 
     try {
       if (!data.payload && !equals(prop('state', recentKyc), 'pending')) {

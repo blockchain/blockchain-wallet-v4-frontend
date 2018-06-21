@@ -44,7 +44,7 @@ const SelectAccounts = (props) => {
             </Row>
           )}
           <StepTransition next Component={Button} style={spacing('mt-45')} nature='light' fullwidth disabled={submitting || invalid}>
-            <FormattedMessage id='coinifyexchangedata.selectaccounts.continue' defaultMessage='Add new account' />
+            <FormattedMessage id='coinifyexchangedata.selectaccounts.addaccount' defaultMessage='Add new account' />
           </StepTransition>
         </BorderBox>
       </ColLeft>

@@ -1100,6 +1100,7 @@
   "scenes.reset2fa.secondstep.continue": "Continuer",
   "scenes.reset2fa.thirdstep.reset": "Réinitialiser",
   "scenes.reset2fa.thirdstep.step3": "Étape 3/3",
+  "scenes.reset2fa.thirdstep.step2": "",
   "scenes.reset2fa.thirdstep.captcha": "Captcha",
   "scenes.reset2fa.thirdstep.back": "Précédent",
   "scenes.reset2fatoken.error": "<span>Mhhh. Une erreur s'est produite. Erreur : </span> {error}",

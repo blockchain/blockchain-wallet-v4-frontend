@@ -1,12 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import { Text, Icon, Button } from 'blockchain-info-components'
 import styled from 'styled-components'
 import { reduxForm } from 'redux-form'
-import { spacing } from 'services/StyleService'
 
-import { SuccessOverlay } from 'components/Security'
+import { Text, Button } from 'blockchain-info-components'
+import { spacing } from 'services/StyleService'
 
 const AuthenticatorSummary = styled.div`
   width: 100%;
@@ -63,12 +62,6 @@ const Yubikey = props => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <SuccessOverlay success={ui.successToggled}>
-        <Icon name='checkmark-in-circle' size='150px' color='success' />
-        <Text size='14px' weight={300} color='success'>
-          <FormattedMessage id='scenes.security.twostepverification.yubi.success' defaultMessage="Congrats! You've successfully set up your Yubikey!" />
-        </Text>
-      </SuccessOverlay>
       <AuthenticatorSummary success={ui.successToggled}>
         <YubikeyContainer>
           <YubikeyCopy>
