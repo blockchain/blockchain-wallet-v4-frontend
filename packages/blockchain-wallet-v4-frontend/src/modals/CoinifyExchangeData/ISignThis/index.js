@@ -16,7 +16,7 @@ const ISXContainer = styled.div`
 `
 const ButtonContainer = styled.div`
   margin-left: 5%;
-  width: 20%;
+  width: 25%;
 `
 const TimerContainer = styled.div`
   width: 66%;
@@ -35,14 +35,14 @@ const QuoteExpiredText = styled(Text)`
 
 const kycHelper = [
   {
-    question: <FormattedMessage id='scenes.coinify.isx.question1' defaultMessage='Why do you need this information?' />,
-    answer: <FormattedMessage id='scenes.coinify.isx.answer1' defaultMessage='Government anti-money laundering regulations require this verification of identity. The purpose of fulfilling these regulations is to provide you with a secure, smooth, and customized experience.' />
+    question: <FormattedMessage id='scenes.coinify.isx.kycquestion' defaultMessage='Why do you need this information?' />,
+    answer: <FormattedMessage id='scenes.coinify.isx.kycanswer' defaultMessage='Government anti-money laundering regulations require this verification of identity. The purpose of fulfilling these regulations is to provide you with a secure, smooth, and customized experience.' />
   }
 ]
 const tradeHelper = [
   {
-    question: <FormattedMessage id='scenes.coinify.isx.question2' defaultMessage='How is my payment method used?' />,
-    answer: <FormattedMessage id='scenes.coinify.isx.answer2' defaultMessage="Bitcoin is delivered to your Blockchain wallet by using the information you' ve provided.With that in mind, please double check that your submitted details are error-free.If you pay by credit / debit card, your bitcoin will be delivered within a couple of hours after the transaction is completed, depending on your bank’s transfer policies.If you pay by bank transfer, your bitcoin will be delivered after Coinify has processed your order, which usually takes between 2-3 days." />
+    question: <FormattedMessage id='scenes.coinify.isx.tradequestion' defaultMessage='How is my payment method used?' />,
+    answer: <FormattedMessage id='scenes.coinify.isx.tradeanswer' defaultMessage="Bitcoin is delivered to your Blockchain wallet by using the information you've provided. With that in mind, please double check that your submitted details are error-free. If you pay by credit / debit card, your bitcoin will be delivered within a couple of hours after the transaction is completed, depending on your bank’s transfer policies. If you pay by bank transfer, your bitcoin will be delivered after Coinify has processed your order, which usually takes between 2-3 days." />
   }
 ]
 const getExpiredBtcValues = (q) => q.quoteCurrency === 'BTC' ? `${q.quoteAmount / 1e8}` : `${q.baseAmount / 1e8}`
@@ -258,7 +258,7 @@ class ISignThisContainer extends Component {
               </Text>
             </Button>
             {
-              isxType && isxType !== 'Trade'
+              isxType && isxType === 'Trade'
                 ? tradeFaqHelper()
                 : kycFaqHelper()
             }
