@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { spacing } from 'services/StyleService'
 import Helper from 'components/BuySell/FAQ'
 import { StepTransition } from 'components/Utilities/Stepper'
-import { path, head } from 'ramda'
+import { equals, path } from 'ramda'
 
 import { Button, HeartbeatLoader, Link } from 'blockchain-info-components'
 import { Form, CancelWrapper, ColLeft, ColRight, ColRightInner, InputWrapper, PartnerHeader, PartnerSubHeader } from 'components/BuySell/Signup'
@@ -41,12 +41,11 @@ const isCardDisabled = (q, l) => {
 
 const Payment = (props) => {
   const { value, busy, handlePaymentClick, medium, triggerKyc, openPendingKyc, quote, handlePrefillCardMax } = props
-  const { limits, level, kycs } = value
+  const { limits, level, kyc } = value
   const quoteData = path(['data'], quote)
-  const kyc = head(kycs)
-  const kycState = kycs.length && path(['state'], kyc)
+  const kycState = path(['state'], kyc)
   const cardDisabled = isCardDisabled(quoteData, limits)
-  const bankDisabled = kycState === 'reviewing' || kycState === 'pending' || kycState === 'processing'
+  const bankDisabled = equals(kycState, 'reviewing') || equals(kycState, 'pending') || equals(kycState, 'processing')
   if (bankDisabled && medium !== 'card') handlePaymentClick('card')
   const prefillCardMax = (limits) => handlePrefillCardMax(limits)
 
