@@ -30,16 +30,12 @@ class LinkContainer extends Component {
       if (e.data.command === 'enablePlaid') this.setState({ enablePlaid: true })
       if (e.data.command === 'disablePlaid') this.setState({ enablePlaid: false })
       if (e.data.command === 'getBankAccounts' && e.data.msg) {
-        this.props.sfoxFrontendActions.sfoxLoading()
         this.props.sfoxDataActions.getBankAccounts(e.data.msg)
         this.setState({ enablePlaid: false, token: e.data.msg })
         this.props.updateUI({ selectBank: true })
       }
     }
     window.addEventListener('message', receiveMessage, false)
-
-    this.props.sfoxFrontendActions.sfoxLoading()
-    document.getElementById('plaid').onload = (e) => this.props.sfoxFrontendActions.sfoxSuccess()
   }
 
   componentDidUpdate () {
