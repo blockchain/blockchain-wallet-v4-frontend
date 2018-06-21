@@ -70,7 +70,7 @@ StateRegistrationStep.propTypes = {
 }
 
 export default reduxForm({
-  form: 'exchange',
+  form: 'shapeshiftStateRegistration',
   validate: (values, props) => {
     return values.state && values.state.code && props.stateWhitelist.indexOf(values.state.code) >= 0
       ? {}
