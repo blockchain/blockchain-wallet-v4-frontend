@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
 
 import SelectBox from '../SelectBox'
 
@@ -8,7 +9,10 @@ class SelectBoxUSState extends React.PureComponent {
     const { states, ...rest } = this.props
     const elements = [{ group: '', items: states }]
 
-    return <SelectBox label='Select state' elements={elements} {...rest} />
+    return <SelectBox
+      label={<FormattedMessage id='components.selectboxstate.label' defaultMessage='Select country' />}
+      elements={elements}
+      {...rest} />
   }
 }
 
