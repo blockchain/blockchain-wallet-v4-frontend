@@ -40,7 +40,9 @@ const Header = styled.div`
 const Content = styled.div`
   width: 100%;
   height: 100%;
+  overflow-y: auto;
   margin-top: 10px;
+
   > div:first-child {
     border-left: none;
     position: relative;
@@ -77,7 +79,7 @@ const Success = props => (
     <Content>
       { (props.activities.length === 0)
         ? <Empty partner={props.partner} handleRequest={props.handleRequest} />
-        : props.activities.map((activity, index) => <ListItem handleLink={props.handleLink} activity={activity} key={index} />)
+        : props.activities.map((activity, index) => <ListItem key={index} handleLink={props.handleLink} {...activity} />)
       }
     </Content>
   </Wrapper>
