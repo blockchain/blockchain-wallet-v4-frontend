@@ -70,7 +70,8 @@ export default ({ api, coreSagas }) => {
       yield put(actions.core.webSocket.ethereum.startSocket())
       yield put(actions.core.webSocket.bch.startSocket())
       yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
-      yield call(coreSagas.kvStore.ethereum.fetchMetadataEthereum)
+      // If there was no ethereum metadata kv store entry, we need to create one and that requires the second password.
+      yield call(coreSagas.kvStore.ethereum.fetchMetadataEthereum, askSecondPasswordEnhancer)
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
       yield put(actions.router.push('/home'))
       yield put(actions.auth.loginSuccess())
