@@ -363,6 +363,7 @@ export default ({ api, options }) => {
     try {
       yield call(refreshCoinify)
       const cancelSub = yield apply(coinify, coinify.cancelSubscription, [id])
+      yield call(fetchSubscriptions)
       return cancelSub
     } catch (e) {
       console.warn(e)
