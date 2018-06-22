@@ -1,3 +1,3 @@
 import * as AT from './actionTypes'
 
-export const refresh = () => ({ type: AT.REFRESH_DATA })
+export const refreshClicked = () => ({ type: AT.REFRESH_CLICKED })
