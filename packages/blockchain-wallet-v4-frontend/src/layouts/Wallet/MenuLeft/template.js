@@ -24,8 +24,8 @@ const Wrapper = styled.div`
     display: flex;
     flex: 0 0 270px;
     position: relative;
-    top: initial;
-    left: initial;
+    top: 0px;
+    left: 0px;
   }
 `
 

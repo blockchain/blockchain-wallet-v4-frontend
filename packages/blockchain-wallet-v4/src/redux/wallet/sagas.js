@@ -47,10 +47,10 @@ export default ({ api }) => {
     yield refetchContextData()
   }
 
-  const createWalletSaga = function * ({ password, email }) {
+  const createWalletSaga = function * ({ password, email, language }) {
     const mnemonic = yield call(generateMnemonic, api)
     const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
-    const wrapper = Wrapper.createNew(guid, password, sharedKey, mnemonic)
+    const wrapper = Wrapper.createNew(guid, password, sharedKey, mnemonic, language)
     yield call(api.createWallet, email, wrapper)
     yield put(A.refreshWrapper(wrapper))
   }
@@ -91,13 +91,13 @@ export default ({ api }) => {
     }
   }
 
-  const restoreWalletSaga = function * ({ mnemonic, email, password, network }) {
+  const restoreWalletSaga = function * ({ mnemonic, email, password, language, network }) {
     const seed = BIP39.mnemonicToSeed(mnemonic)
     const masterNode = Bitcoin.HDNode.fromSeedBuffer(seed, network)
     const node = masterNode.deriveHardened(44).deriveHardened(0)
     const nAccounts = yield call(findUsedAccounts, {batch: 10, node: node, usedAccounts: []})
     const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
-    const wrapper = Wrapper.createNew(guid, password, sharedKey, mnemonic, undefined, nAccounts)
+    const wrapper = Wrapper.createNew(guid, password, sharedKey, mnemonic, language, undefined, nAccounts)
     yield call(api.createWallet, email, wrapper)
     yield put(A.refreshWrapper(wrapper))
   }
@@ -136,7 +136,7 @@ export default ({ api }) => {
   }
 
   const refetchContextData = function * () {
-    yield put(fetchData('', true))
+    yield put(fetchData())
   }
 
   return {

@@ -28,15 +28,15 @@ class WalletLayoutContainer extends React.PureComponent {
 }
 
 const mapStateToProps = (state) => ({
+  language: selectors.preferences.getLanguage(state),
   isAuthenticated: selectors.auth.isAuthenticated(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
   kvStoreShapeshiftActions: bindActionCreators(actions.core.kvStore.shapeShift, dispatch),
-  kvStoreEthereumActions: bindActionCreators(actions.core.kvStore.ethereum, dispatch),
   kvStoreWhatsNewActions: bindActionCreators(actions.core.kvStore.whatsNew, dispatch),
   kvStoreBuySellActions: bindActionCreators(actions.core.kvStore.buySell, dispatch),
-  optionsActions: bindActionCreators(actions.core.walletOptions, dispatch),
+  moduleSettingsActions: bindActionCreators(actions.modules.settings, dispatch),
   settingsActions: bindActionCreators(actions.core.settings, dispatch)
 })
 

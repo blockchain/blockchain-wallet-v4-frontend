@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { getData } from './selectors'
 import styled from 'styled-components'
+
+import { getData } from './selectors'
 import AddressesLayout from 'layouts/Addresses'
 import Wallets from './Wallets'
 import ArchivedAddresses from './ArchivedAddresses'

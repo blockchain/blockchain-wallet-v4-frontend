@@ -12,10 +12,9 @@ class RegisterContainer extends React.PureComponent {
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  onSubmit (e) {
-    e.preventDefault()
-    const { email, password } = this.props
-    this.props.authActions.register(email, password)
+  onSubmit () {
+    const { email, password, language } = this.props
+    this.props.authActions.register(email, password, language)
   }
 
   render () {
@@ -30,6 +29,7 @@ class RegisterContainer extends React.PureComponent {
 
 const mapStateToProps = (state) => ({
   data: selectors.auth.getRegistering(state),
+  language: selectors.preferences.getLanguage(state),
   email: formValueSelector('register')(state, 'email'),
   password: formValueSelector('register')(state, 'password')
 })

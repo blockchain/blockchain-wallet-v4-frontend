@@ -8,6 +8,7 @@ import PairingCode from './PairingCode'
 
 const Wrapper = styled.section`
   padding: 30px;
+  width: 100%;
   box-sizing: border-box;
 `
 

@@ -9,7 +9,7 @@ import QuoteInput from './QuoteInput'
 import { MethodContainer } from 'components/BuySell/styled.js'
 import { checkoutButtonLimitsHelper, getRateFromQuote } from 'services/CoinifyService'
 
-const OrderCheckout = ({ quoteR, account, onFetchQuote, reason, limits, checkoutError,
+const OrderCheckout = ({ changeTab, quoteR, account, onFetchQuote, reason, limits, checkoutError,
   type, defaultCurrency, symbol, checkoutBusy, busy, setMax, setMin, increaseLimit, onOrderCheckoutSubmit }) => {
   const quoteInputSpec = {
     method: type, // buy or sell
@@ -69,6 +69,7 @@ const OrderCheckout = ({ quoteR, account, onFetchQuote, reason, limits, checkout
             </Text>
             <div style={spacing('mt-10')}>
               <QuoteInput
+                changeTab={changeTab}
                 quoteR={quoteR}
                 initialQuoteId={quoteR.map(quote => quote.id).getOrElse(null)}
                 debounce={500}

@@ -68,11 +68,12 @@ export default ({ api }) => {
         return makePayment(merge(p, { fees, fee, unconfirmedTx }))
       },
 
-      to (destination) {
+      * to (destination) {
         if (!EthUtil.isValidAddress(destination)) {
           throw new Error('Invalid address')
         }
-        return makePayment(merge(p, { to: destination }))
+        const isContract = yield call(api.checkContract, destination)
+        return makePayment(merge(p, { to: destination, isContract: isContract.contract }))
       },
 
       amount (amount) {

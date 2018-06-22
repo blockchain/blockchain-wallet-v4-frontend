@@ -63,7 +63,7 @@ const SubMenuItem = styled.li`
 `
 
 const Navigation = props => {
-  const { menuOpened, settingsOpened, handleCloseMenu, canBuy, pathname, ...rest } = props
+  const { menuOpened, settingsOpened, handleCloseMenu, canTrade, pathname, ...rest } = props
 
   return (
     <Wrapper {...rest}>
@@ -102,7 +102,7 @@ const Navigation = props => {
         <MenuItem>
           <Separator />
         </MenuItem>
-        {canBuy && (
+        {canTrade && (
           <LinkContainer to='/buy-sell' activeClassName='active'>
             <MenuItem>
               <Icon name='cart-filled' />
@@ -156,7 +156,7 @@ const Navigation = props => {
 Navigation.propTypes = {
   menuOpened: PropTypes.bool.isRequired,
   settingsOpened: PropTypes.bool.isRequired,
-  canBuy: PropTypes.bool.isRequired,
+  canTrade: PropTypes.bool.isRequired,
   pathname: PropTypes.string.isRequired,
   handleCloseMenu: PropTypes.func.isRequired
 }

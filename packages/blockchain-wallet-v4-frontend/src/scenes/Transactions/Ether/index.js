@@ -7,7 +7,7 @@ const Wrapper = styled.div`
   width: 100%;
 `
 
-const EtherTransactionsContainer = (props) => {
+const EtherTransactionsContainer = () => {
   return (
     <Wrapper>
       <Content />

@@ -53,12 +53,14 @@ const TooltipBox = styled(TextGroup)`
     content: '';
     display: block;
     position: absolute;
-    left: 115px;
+    left: 114px;
     top: 100%;
     width: 0;
     height: 0;
-    border: 10px solid transparent;
-    border-top-color: ${props => props.theme['gray-2']};
+    z-index: 0;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    border-top: 8px solid ${props => props.theme['gray-2']};
   }
 
   &:after {
@@ -69,8 +71,10 @@ const TooltipBox = styled(TextGroup)`
     top: 100%;
     width: 0;
     height: 0;
-    border: 9px solid transparent;
-    border-top-color: ${props => props.theme['white-blue']};
+    z-index: 0;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 7px solid ${props => props.theme['white-blue']};
   }
 `
 
@@ -89,10 +93,10 @@ export const Tooltip = props => {
 }
 
 Tooltip.propTypes = {
-  icon: PropTypes.string,
+  icon: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   width: PropTypes.string,
   left: PropTypes.string,
-  label: PropTypes.string,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   displayed: PropTypes.bool,
   handleClick: PropTypes.func,
   handleMouseEnter: PropTypes.func,
