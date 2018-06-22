@@ -1,8 +1,9 @@
-import { put, call, select } from 'redux-saga/effects'
+import { put, call, select, take } from 'redux-saga/effects'
 import { any, merge, path, prop, equals, head } from 'ramda'
 import { delay } from 'redux-saga'
 import * as A from './actions'
 import * as actions from '../../actions'
+import * as actionTypes from '../../actionTypes'
 import * as selectors from '../../selectors.js'
 import * as C from 'services/AlertService'
 import * as service from 'services/CoinifyService'
@@ -328,6 +329,7 @@ export default ({ coreSagas }) => {
     const tradeToFinish = data.payload
     try {
       if (tradeToFinish.state === 'awaiting_transfer_in') {
+        yield put(actions.core.data.coinify.handleTradeSuccess(tradeToFinish))
         if (tradeToFinish.medium === 'card') {
           yield call(coreSagas.data.coinify.kycAsTrade, { kyc: tradeToFinish }) // core expects obj key to be 'kyc'
           yield put(A.coinifyNextCheckoutStep('isx'))
