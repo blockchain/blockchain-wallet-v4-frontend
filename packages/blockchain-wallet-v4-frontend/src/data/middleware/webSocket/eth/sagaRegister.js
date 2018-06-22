@@ -3,7 +3,7 @@ import * as AT from './actionTypes'
 import sagas from './sagas'
 
 export default ({ api, ethSocket }) => {
-  const ethSocketSagas = sagas({api, ethSocket})
+  const ethSocketSagas = sagas({ api, ethSocket })
 
   return function * () {
     yield takeEvery(AT.OPEN_SOCKET, ethSocketSagas.onOpen)

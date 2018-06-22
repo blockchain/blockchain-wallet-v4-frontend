@@ -3,7 +3,7 @@ import * as AT from './actionTypes'
 import sagas from './sagas'
 
 export default ({ api, bchSocket }) => {
-  const bchSocketSagas = sagas({api, bchSocket})
+  const bchSocketSagas = sagas({ api, bchSocket })
 
   return function * () {
     yield takeEvery(AT.OPEN_SOCKET, bchSocketSagas.onOpen)

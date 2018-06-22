@@ -3,7 +3,7 @@ import * as AT from './actionTypes'
 import sagas from './sagas'
 
 export default ({ api, btcSocket }) => {
-  const btcSocketSagas = sagas({api, btcSocket})
+  const btcSocketSagas = sagas({ api, btcSocket })
 
   return function * () {
     yield takeEvery(AT.OPEN_SOCKET, btcSocketSagas.onOpen)
