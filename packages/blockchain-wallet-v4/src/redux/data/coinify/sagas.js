@@ -80,13 +80,14 @@ export default ({ api, options }) => {
       const qData = path(['data'], quote)
 
       let quotePayload = {
+        amount: qData.baseCurrency === 'BTC'
+          ? (qData.baseAmount * -1) / 1e8
+          : (qData.baseAmount * -1) * 100,
         baseCurrency: qData.baseCurrency,
         quoteCurrency: qData.quoteCurrency,
         type: 'buy'
       }
 
-      if (qData.baseCurrency !== 'BTC') quotePayload['amount'] = (qData.baseAmount * -1) * 100
-      else quotePayload['amount'] = (qData.baseAmount * -1) / 1e8
       const refreshedQuote = yield call(fetchQuote, {quote: quotePayload})
       yield call(getPaymentMediums, {payload: refreshedQuote})
     } catch (e) {
@@ -116,6 +117,7 @@ export default ({ api, options }) => {
 
   const fetchQuoteAndMediums = function * (data) {
     try {
+      console.log('Fetch quote and mediums')
       const { amt, baseCurrency, quoteCurrency, medium, type } = data.payload
       const getQuote = type === 'sell'
         ? coinify.data.getSellQuote
@@ -134,6 +136,7 @@ export default ({ api, options }) => {
   const fetchRateQuote = function * (data) {
     try {
       yield put(A.fetchQuoteLoading())
+      console.log('Fetch rate quote')
       const { currency, type } = data.payload
       const getQuote = type === 'sell' ? coinify.getSellQuote : coinify.getBuyQuote
       const quote = yield apply(coinify, getQuote, [-1e8, 'BTC', currency])

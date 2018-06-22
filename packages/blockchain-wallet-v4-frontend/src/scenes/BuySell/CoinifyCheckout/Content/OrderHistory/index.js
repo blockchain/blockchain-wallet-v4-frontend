@@ -19,11 +19,17 @@ class OrderHistoryContainer extends React.Component {
   }
 
   render () {
-    const { data, modalActions, coinifyActions, formActions, step, trade, busy, cancelTradeId, canTrade } = this.props
+    const { data, modalActions, coinifyActions, formActions, step,
+      trade, busy, cancelTradeId, canTrade } = this.props
     const { showModal } = modalActions
     const { finishTrade, cancelTrade, cancelSubscription } = coinifyActions
     const { change } = formActions
-    const status = busy.cata({ Success: () => false, Failure: (err) => err, Loading: () => true, NotAsked: () => false })
+    const status = busy.cata({
+      Success: () => false,
+      Failure: (err) => err,
+      Loading: () => true,
+      NotAsked: () => false
+    })
 
     return data.cata({
       Success: (value) => <Success

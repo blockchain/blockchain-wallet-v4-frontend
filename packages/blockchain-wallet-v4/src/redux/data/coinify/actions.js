@@ -29,7 +29,6 @@ export const coinifyFetchProfileLoading = () => ({ type: AT.COINIFY_FETCH_PROFIL
 export const coinifyFetchProfileSuccess = (data) => ({ type: AT.COINIFY_FETCH_PROFILE_SUCCESS, payload: data })
 export const coinifyFetchProfileFailure = (error) => ({ type: AT.COINIFY_FETCH_PROFILE_FAILURE, payload: error })
 
-export const handleTrade = (data) => ({ type: AT.HANDLE_TRADE, payload: data })
 export const handleTradeLoading = () => ({ type: AT.HANDLE_TRADE_LOADING })
 export const handleTradeSuccess = (data) => ({ type: AT.HANDLE_TRADE_SUCCESS, payload: data })
 export const handleTradeFailure = (error) => ({ type: AT.HANDLE_TRADE_FAILURE, payload: error })
