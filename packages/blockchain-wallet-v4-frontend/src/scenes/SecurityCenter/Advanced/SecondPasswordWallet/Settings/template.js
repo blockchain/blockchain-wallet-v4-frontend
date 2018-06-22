@@ -8,7 +8,7 @@ import { Button, ButtonGroup, Text, TextGroup } from 'blockchain-info-components
 import { Types } from 'blockchain-wallet-v4'
 import { FormGroup, FormItem, FormLabel, PasswordBox } from 'components/Form'
 import { SettingForm, SettingWrapper } from 'components/Setting'
-import { required } from 'services/FormHelper'
+import { required, validPasswordConfirmation } from 'services/FormHelper'
 
 const SecondPasswordWrapper = styled(SettingWrapper)`
   width: ${props => props.toggled ? '150%' : 'initial'};
@@ -24,12 +24,20 @@ const ButtonWrapper = styled(ButtonGroup)`
   }
 `
 
-const validateSecondPassword = (value, allValues, props) => {
-  return Types.Wallet.isValidSecondPwd(value, props.wallet) ? undefined : 'Second password invalid'
+const validatePasswordConfirmation = validPasswordConfirmation('secondPassword')
+
+const validateSecondPassword = (value, allValues, { wallet }) => {
+  return Types.Wallet.isValidSecondPwd(value, wallet)
+    ? null
+    : <FormattedMessage id='scenes.securitysettings.advanced.secondpasswordwallet.settings.invalidsecondpassword' defaultMessage="Second password invalid" />
 }
+
+const isMainPassword = (value, allValues, { mainPassword }) => mainPassword !== value
+  ? null
+  : <FormattedMessage id='scenes.securitysettings.advanced.secondpasswordwallet.settings.samepassword' defaultMessage="You can't use your main password as your second password" />
+
 const Settings = (props) => {
-  const { updateToggled, handleToggle, handleSubmit, mainPassword, submitting, invalid, secondPasswordEnabled, handleCancel } = props
-  const isMainPassword = (props) => mainPassword !== props ? null : "You can't use your main password as your second password."
+  const { updateToggled, handleToggle, handleSubmit, submitting, invalid, secondPasswordEnabled, handleCancel } = props
   if (secondPasswordEnabled) {
     return (
       <SettingWrapper>
@@ -82,13 +90,13 @@ const Settings = (props) => {
                 <FormLabel for='secondPassword'>
                   <FormattedMessage id='scenes.securitysettings.advanced.secondpasswordwallet.settings.label2' defaultMessage='Second Password' />
                 </FormLabel>
-                <Field name='secondPassword' validate={[isMainPassword]} component={PasswordBox} />
+                <Field name='secondPassword' validate={[validateSecondPassword, isMainPassword]} component={PasswordBox} />
               </FormItem>
               <FormItem style={{'margin-top': '10px'}}>
                 <FormLabel for='secondPasswordConfirmation'>
                   <FormattedMessage id='scenes.securitysettings.advanced.secondpasswordwallet.settings.explain' defaultMessage='Confirm Second Password' />
                 </FormLabel>
-                <Field name='secondPasswordConfirmation' validate={(value, allValues) => (value === allValues['secondPassword']) ? undefined : 'Passwords do not match'} component={PasswordBox} />
+                <Field name='secondPasswordConfirmation' validate={[validatePasswordConfirmation]} component={PasswordBox} />
               </FormItem>
             </FormGroup>
             <ButtonWrapper>
