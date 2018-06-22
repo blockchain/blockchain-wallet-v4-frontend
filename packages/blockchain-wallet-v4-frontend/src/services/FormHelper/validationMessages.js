@@ -16,6 +16,8 @@ export const InvalidPasswordStretchingNumberMessage = () => <FormattedMessage id
 export const InvalidStrongPasswordMessage = () => <FormattedMessage id='formhelper.invalidstrongpassword' defaultMessage='Your password is not strong enough' />
 export const InvalidWalletIdMessage = () => <FormattedMessage id='formhelper.invalidwalletidentifier' defaultMessage='Invalid wallet identifier' />
 export const PartnerCountryWhitelist = () => <FormattedMessage id='formhelper.partnercountrywhitelist' defaultMessage='Country not available for buy & sell' />
+export const PasswordsDoNotMatch = () => <FormattedMessage id='formhelper.passwordsdonotmatch' defaultMessage='Passwords do not match' />
+export const IncorrectPassword = () => <FormattedMessage id='formhelper.incorrectpassword' defaultMessage='Incorrect password' />
 export const RequiredDOBMessage = () => <FormattedMessage id='formhelper.requireddob' defaultMessage='Must be a valid date' />
 export const RequiredMessage = () => <FormattedMessage id='formhelper.required' defaultMessage='Required' />
 export const RequiredNumberMessage = () => <FormattedMessage id='formhelper.requirednumber' defaultMessage='Invalid number' />
