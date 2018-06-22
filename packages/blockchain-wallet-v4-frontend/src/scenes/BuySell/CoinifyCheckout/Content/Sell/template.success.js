@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { contains, head, path } from 'ramda'
+import { contains, path, prop } from 'ramda'
 
 import * as service from 'services/CoinifyService'
 import Stepper, { StepView } from 'components/Utilities/Stepper'
@@ -22,6 +22,7 @@ const CheckoutWrapper = styled.div`
 const Sell = props => {
   const {
     canTrade,
+    changeTab,
     fetchSellQuote,
     refreshQuote,
     sellQuoteR,
@@ -42,7 +43,7 @@ const Sell = props => {
   } = props
 
   const profile = value.profile || { _limits: service.mockedLimits, _level: { currency: 'EUR' } }
-  const kyc = value.kycs.length && head(value.kycs)
+  const kyc = prop('kyc', value)
   const sellCurrencies = ['EUR', 'DKK', 'GBP']
   const defaultCurrency = contains(currency, sellCurrencies) ? currency : 'EUR' // profile._level.currency
   const symbol = service.currencySymbolMap[defaultCurrency]
@@ -56,6 +57,7 @@ const Sell = props => {
           <CheckoutWrapper>
             <div>
               <OrderCheckout
+                changeTab={changeTab}
                 quoteR={sellQuoteR}
                 onFetchQuote={fetchSellQuote}
                 limits={limits.sell}
@@ -73,7 +75,7 @@ const Sell = props => {
             </div>
             <div>
               {
-                path(['kycs', 'length'], value)
+                kyc
                   ? <KYCNotification kyc={kyc} limits={limits.sell} symbol={symbol}
                     onTrigger={(kyc) => handleKycAction(kyc)} type='sell' canTrade={canTrade} />
                   : null

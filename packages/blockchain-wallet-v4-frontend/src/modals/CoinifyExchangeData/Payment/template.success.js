@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { spacing } from 'services/StyleService'
 import Helper from 'components/BuySell/FAQ'
 import { StepTransition } from 'components/Utilities/Stepper'
-import { path, head } from 'ramda'
+import { equals, path } from 'ramda'
 
 import { Button, HeartbeatLoader, Link } from 'blockchain-info-components'
 import { Form, CancelWrapper, ColLeft, ColRight, ColRightInner, InputWrapper, PartnerHeader, PartnerSubHeader } from 'components/BuySell/Signup'
@@ -17,20 +17,18 @@ const PaymentWrapper = styled.div`
   display: flex;
   flex-direction: row;
 `
-
 const BorderBox = styled.div`
   border: 1px solid ${props => props.theme['gray-1']};
   padding: 30px;
 `
+const FaqWrapper = styled.div`
+  margin-top: 30px;
+`
 
 const helpers = [
   {
-    question: <FormattedMessage id='coinify.payment.helper1.question' defaultMessage='Payment Medium placeholder 1?' />,
-    answer: <FormattedMessage id='coinify.payment.helper1.answer' defaultMessage='Answer1 placeholder' />
-  },
-  {
-    question: <FormattedMessage id='coinify.payment.helper2.question' defaultMessage='Payment Medium placeholder 2?' />,
-    answer: <FormattedMessage id='coinify.payment.helper2.answer' defaultMessage='Answer2 placeholder' />
+    question: <FormattedMessage id='coinifyexchangedata.payment.helper1.question' defaultMessage='Are there transaction fees?' />,
+    answer: <FormattedMessage id='coinifyexchangedata.payment.helper1.answer' defaultMessage='There is a 3% convenience fee when buying bitcoin with a credit card in order to expedite the transaction. Buying or selling through a bank transfer does not include a convenience fee, although there is a small trading fee (0.25%) that Coinify requires in order to mitigate risk.' />
   }
 ]
 
@@ -43,13 +41,12 @@ const isCardDisabled = (q, l) => {
 
 const Payment = (props) => {
   const { value, busy, handlePaymentClick, medium, triggerKyc, openPendingKyc, quote, handlePrefillCardMax } = props
-  const { limits, level, kycs } = value
+  const { limits, level, kyc } = value
   const quoteData = path(['data'], quote)
-  const kyc = head(kycs)
-  const kycState = kycs.length && path(['state'], kyc)
+  const kycState = path(['state'], kyc)
   const cardDisabled = isCardDisabled(quoteData, limits)
-  const bankDisabled = kycState === 'reviewing' || kycState === 'pending' || kycState === 'processing'
-  if (bankDisabled) handlePaymentClick('card')
+  const bankDisabled = equals(kycState, 'reviewing') || equals(kycState, 'pending') || equals(kycState, 'processing')
+  if (bankDisabled && medium !== 'card') handlePaymentClick('card')
   const prefillCardMax = (limits) => handlePrefillCardMax(limits)
 
   const isChecked = (type) => medium === type
@@ -67,7 +64,7 @@ const Payment = (props) => {
             </PartnerSubHeader>
           </InputWrapper>
           <PaymentWrapper>
-            { bankOptionHelper(quoteData, limits, isChecked('bank'), handlePaymentClick, bankDisabled, openPendingKyc, kyc) }
+            { bankOptionHelper(quoteData, limits, isChecked('bank'), handlePaymentClick, bankDisabled, openPendingKyc, kyc, level) }
             { cardOptionHelper(quoteData, limits, isChecked('card'), handlePaymentClick, cardDisabled, prefillCardMax) }
           </PaymentWrapper>
         </BorderBox>
@@ -88,7 +85,9 @@ const Payment = (props) => {
               <FormattedMessage id='coinifyexchangedata.payment.cancel' defaultMessage='Cancel' />
             </StepTransition>
           </CancelWrapper>
-          { faqHelper() }
+          <FaqWrapper>
+            { faqHelper() }
+          </FaqWrapper>
         </ColRightInner>
       </ColRight>
     </Form>

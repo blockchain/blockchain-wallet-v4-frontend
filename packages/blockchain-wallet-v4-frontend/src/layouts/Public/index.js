@@ -1,12 +1,12 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
+import styled from 'styled-components'
 
 import Header from './Header'
 import Footer from './Footer'
-import styled from 'styled-components'
-
 import Alerts from 'components/Alerts'
 import Container from 'components/Container'
+import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 
 const Wrapper = styled.div`
   background-color: ${props => props.theme['brand-primary']};
@@ -41,7 +41,7 @@ const ContentContainer = styled.div`
   overflow-y: auto;
   padding: 0 25px;
   @media (min-width: 768px) {
-    padding: 0px;
+    padding: 0;
     height: 100%;
   }
 `
@@ -61,18 +61,20 @@ const PublicLayout = ({component: Component, ...rest}) => {
   return (
     <Route {...rest} render={matchProps => (
       <Wrapper>
-        <Alerts />
-        <HeaderContainer>
-          <Header />
-        </HeaderContainer>
-        <ContentContainer>
-          <Component {...matchProps} />
-        </ContentContainer>
-        <FooterContainer>
-          <Container>
-            <Footer />
-          </Container>
-        </FooterContainer>
+        <ErrorBoundary>
+          <Alerts />
+          <HeaderContainer>
+            <Header />
+          </HeaderContainer>
+          <ContentContainer>
+            <Component {...matchProps} />
+          </ContentContainer>
+          <FooterContainer>
+            <Container>
+              <Footer />
+            </Container>
+          </FooterContainer>
+        </ErrorBoundary>
       </Wrapper>
     )} />
   )

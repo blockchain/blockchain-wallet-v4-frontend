@@ -20,7 +20,7 @@ const Row = styled.div`
 `
 
 const FirstStep = props => {
-  const { pristine, invalid, submitting, fee, handleSubmit, unconfirmedTx } = props
+  const { pristine, invalid, submitting, fee, handleSubmit, unconfirmedTx, isContract } = props
   return (
     <Form onSubmit={handleSubmit}>
       <FormGroup inline margin={'15px'}>
@@ -42,6 +42,9 @@ const FirstStep = props => {
           </Row>
           { unconfirmedTx && <Text color='error' size='12px' weight={300}>
             <FormattedMessage id='modals.sendeth.unconfirmedtransactionmessage' defaultMessage='Please wait until your previous transaction confirms.' />
+          </Text>}
+          { isContract && <Text color='error' size='12px' weight={300}>
+            <FormattedMessage id='modals.sendeth.contractaddr' defaultMessage='Sending to contract addresses is disabled.' />
           </Text>}
         </FormItem>
       </FormGroup>
@@ -73,7 +76,7 @@ const FirstStep = props => {
         </FormItem>
       </FormGroup>
       <FormGroup>
-        <Button type='submit' nature='primary' uppercase disabled={pristine || submitting || invalid}>
+        <Button type='submit' nature='primary' uppercase disabled={pristine || submitting || invalid || isContract}>
           <FormattedMessage id='modals.sendether.firststep.continue' defaultMessage='Continue' />
         </Button>
       </FormGroup>

@@ -2,10 +2,12 @@ import React from 'react'
 import styled from 'styled-components'
 import { reduxForm, Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
+import { concat, equals, path, prop } from 'ramda'
+
 import { Text, Button } from 'blockchain-info-components'
 import { FormGroup, FormItem, SelectBoxUSState, SelectBoxCountry, TextBox } from 'components/Form'
 import { spacing } from 'services/StyleService'
-import { required, onPartnerCountryWhitelist } from 'services/FormHelper'
+import { required, onPartnerCountryWhitelist, onPartnerStateWhitelist, validEmail } from 'services/FormHelper'
 import BuySellAnimation from './BuySellAnimation'
 
 const Row = styled.div`
@@ -66,20 +68,19 @@ const SubmittedWrapper = styled.span`
 const SelectPartner = (props) => {
   const { invalid, options, pristine, submitEmail, ui, fields } = props
   const { country, stateSelection, email } = fields
-  const sfoxStates = options.platforms.web.sfox.states
-  const sfoxCountries = options.platforms.web.sfox.countries
-  const unocoinCountries = options.platforms.web.unocoin.countries
-  const coinifyCountries = options.platforms.web.coinify.countries
-  const countries = [sfoxCountries, coinifyCountries, unocoinCountries].join().split(',')
+  const sfoxStates = path(['platforms', 'web', 'sfox', 'states'], options)
+  const sfoxCountries = path(['platforms', 'web', 'sfox', 'countries'], options)
+  const coinifyCountries = path(['platforms', 'web', 'coinify', 'countries'], options)
+  const countries = concat(sfoxCountries, coinifyCountries)
 
-  const onSfoxWhitelist = usState => usState.code && sfoxStates.indexOf(usState.code) >= 0 ? undefined : 'This service is not yet available in your state.'
+  const onSfoxWhitelist = usState => prop('code', usState) && sfoxStates.includes(usState.code) ? undefined : 'This service is not yet available in your state.'
 
   const handleSubmit = (e) => {
     e.preventDefault()
     if (sfoxCountries.indexOf(country) >= 0) {
       props.modalActions.showModal('SfoxExchangeData', { step: 'account' })
     }
-    if (coinifyCountries.indexOf(country) >= 0) {
+    if (coinifyCountries.includes(country)) {
       props.modalActions.showModal('CoinifyExchangeData', { step: 'account', country })
     }
   }
@@ -88,18 +89,22 @@ const SelectPartner = (props) => {
     if (!pristine && ((country && onPartnerCountryWhitelist(country, null, null, null, countries)) || (stateSelection && onSfoxWhitelist(stateSelection)))) {
       return (
         <UnavailableContainer>
-          <Text size='14px' weight={300} style={spacing('mb-15')}>
-            {
-              country === 'US'
-                ? <FormattedMessage id='selectpartner.unavailable.unfortunatelystate' defaultMessage='Unfortunately buy & sell is not available in your state at this time. To be notified when we expand to your location, sign up below.' />
-                : <FormattedMessage id='selectpartner.unavailable.unfortunatelycountry' defaultMessage='Unfortunately buy & sell is not available in your country at this time. To be notified when we expand to your location, sign up below.' />
-            }
-          </Text>
+          {
+            !ui.submittedEmail
+              ? <Text size='14px' weight={300} style={spacing('mb-15')}>
+                {
+                  equals(country, 'US')
+                    ? <FormattedMessage id='selectpartner.unavailable.unfortunatelystate' defaultMessage='Unfortunately buy & sell is not available in your state at this time. To be notified when we expand to your location, sign up below.' />
+                    : <FormattedMessage id='selectpartner.unavailable.unfortunatelycountry' defaultMessage='Unfortunately buy & sell is not available in your country at this time. To be notified when we expand to your location, sign up below.' />
+                }
+              </Text>
+              : null
+          }
           {
             !ui.submittedEmail
               ? <span>
-                <Field name='email' component={TextBox} placeholder='Add your email here' />
-                <Button style={spacing('mt-15')} nature='primary' onClick={submitEmail}>
+                <Field name='email' validate={validEmail} component={TextBox} placeholder='Add your email here' />
+                <Button style={spacing('mt-15')} nature='primary' onClick={submitEmail} disabled={validEmail(email)}>
                   <FormattedMessage id='selectpartner.unavailable.notifyme' defaultMessage='Notify Me When This Becomes Available' />
                 </Button>
               </span>
@@ -150,11 +155,11 @@ const SelectPartner = (props) => {
                 </FormItem>
               </FormGroup>
               {
-                country === 'US'
+                equals(country, 'US')
                   ? (
                     <FormGroup style={spacing('mt-5')}>
                       <FormItem>
-                        <Field name='state' validate={[required]} component={SelectBoxUSState} errorBottom />
+                        <Field name='state' validate={[required, onPartnerStateWhitelist]} component={SelectBoxUSState} errorBottom />
                       </FormItem>
                     </FormGroup>
                   )

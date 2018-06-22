@@ -16,9 +16,14 @@ const DetailRow = styled.div`
   display: flex;
   align-items: center;
   flex-direction: row;
+  flex-wrap: wrap;
 `
 const DetailRowText = styled(Text)`
   white-space: nowrap;
+`
+const KeyText = styled(Text)`
+  min-width: 0;
+  word-wrap: break-word;
 `
 
 const FirstStep = () => (
@@ -59,9 +64,9 @@ const SecondStep = ({ addr, balance, priv, format, formats, onChangeFormat }) =>
           <FormattedMessage id='modals.showbtcpriv.priv_key' defaultMessage='Private Key' />
         </DetailRowText>
         {':'}&nbsp;
-        {utils.bitcoin.formatPrivateKeyString(priv, format).fold(
+        {utils.bitcoin.formatPrivateKeyString(priv, format, addr).fold(
           error => (<Text size='14px' weight={300} color='error'>{error.message}</Text>),
-          keyString => (<Text size='14px' weight={300}>{keyString}</Text>)
+          keyString => (<KeyText size='14px' weight={300}>{keyString}</KeyText>)
         )}
       </DetailRow>
       <DetailRow>

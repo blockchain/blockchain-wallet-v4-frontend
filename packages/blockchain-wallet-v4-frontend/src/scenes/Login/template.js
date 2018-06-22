@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import { check } from 'bowser'
+import { check, msie } from 'bowser'
 
 import { required } from 'services/FormHelper'
 import { Banner, Button, Link, Separator, Text, TextGroup, HeartbeatLoader } from 'blockchain-info-components'
@@ -70,8 +70,6 @@ const Login = (props) => {
   const twoFactorError = loginError && loginError.toLowerCase().includes('authentication code')
   const accountLocked = loginError && (loginError.toLowerCase().includes('this account has been locked') || loginError.toLowerCase().includes('account is locked'))
 
-  const handlePasswordChange = () => { passwordError && props.handleCode(false) }
-
   return (
     <Wrapper>
       <Modals>
@@ -99,9 +97,18 @@ const Login = (props) => {
       <LoginForm onSubmit={handleSubmit}>
         { !isSupportedBrowser && <BrowserWarning>
           <Banner type='warning'>
-            <FormattedMessage id='scenes.login.browserwarning' defaultMessage='Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, IE 11, or Opera ' />
+            <FormattedMessage id='scenes.login.browserwarning' defaultMessage='Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, IE 11, or Opera.' />
           </Banner>
         </BrowserWarning> }
+        {
+          isSupportedBrowser && msie && <BrowserWarning>
+            <Banner type='caution'>
+              <Text size='12px'>
+                <FormattedMessage id='scenes.login.msiewarning' defaultMessage='We recommend that you login using a more secure browser like Chrome or Firefox.' />
+              </Text>
+            </Banner>
+          </BrowserWarning>
+        }
         <FormGroup>
           <FormItem>
             <FormLabel for='guid'>
@@ -134,7 +141,7 @@ const Login = (props) => {
             <FormLabel for='password'>
               <FormattedMessage id='scenes.login.password' defaultMessage='Password' />
             </FormLabel>
-            <Field name='password' validate={[required]} component={PasswordBox} onChange={handlePasswordChange} borderColor={passwordError ? 'invalid' : undefined} disabled={!isSupportedBrowser} />
+            <Field name='password' validate={[required]} component={PasswordBox} borderColor={passwordError ? 'invalid' : undefined} disabled={!isSupportedBrowser} />
             { passwordError && <FormError position={authType > 0 ? 'relative' : 'absolute'}><FormattedMessage id='scenes.login.wrong_password' defaultMessage='Error decrypting wallet. Wrong password' /></FormError> }
             { accountLocked && <FormError position={authType > 0 || passwordError ? 'relative' : 'absolute'}>{loginError}</FormError> }
           </FormItem>

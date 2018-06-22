@@ -12,6 +12,7 @@ import OrderCheckout from './OrderCheckout'
 import { OrderDetails, OrderSubmit } from './OrderReview'
 import Helper from 'components/BuySell/FAQ'
 import EmptyOrderHistoryContainer from 'components/BuySell/EmptyOrderHistory'
+import SiftScience from 'modals/SfoxExchangeData/sift-science.js'
 
 const CheckoutWrapper = styled.div`
   width: 50%;
@@ -56,7 +57,6 @@ const isCompleted = (t) => t.state !== 'processing'
 
 const Success = props => {
   const {
-    changeBuySellTabStatus,
     fetchBuyQuote,
     fetchSellQuote,
     refreshBuyQuote,
@@ -69,6 +69,7 @@ const Success = props => {
     base,
     errors,
     showModal,
+    siftScienceEnabled,
     handleTradeDetailsClick,
     clearTradeError,
     changeTab,
@@ -139,10 +140,12 @@ const Success = props => {
                 onSubmit={submitBuyQuote}
                 busy={busy}
                 clearTradeError={clearTradeError}
+                account={accounts[0]}
               />
             </OrderSubmitWrapper>
           </div>
         </StepView>
+        {siftScienceEnabled ? <SiftScience /> : null}
       </Stepper>
     )
   } else if (type === 'sell') {
@@ -184,6 +187,7 @@ const Success = props => {
             </OrderSubmitWrapper>
           </div>
         </StepView>
+        {siftScienceEnabled ? <SiftScience /> : null}
       </Stepper>
     )
   } else if (trades) {
@@ -209,6 +213,7 @@ const Success = props => {
             </Text>
             <OrderHistoryTable trades={filter(isCompleted, trades)} conversion={conversion} handleDetailsClick={trade => showModal('SfoxTradeDetails', { trade })} />
           </OrderHistoryContent>
+          {siftScienceEnabled ? <SiftScience /> : null}
         </OrderHistoryWrapper>
       )
     }

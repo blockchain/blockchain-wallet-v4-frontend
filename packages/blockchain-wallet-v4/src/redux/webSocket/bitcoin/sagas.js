@@ -34,7 +34,7 @@ export default ({ api, btcSocket }) => {
         }
         break
       case 'utx':
-        yield put(btcActions.fetchData('', true))
+        yield put(btcActions.fetchTransactions('', true))
         const transactions = yield take(btcAT.FETCH_BITCOIN_TRANSACTIONS_SUCCESS)
         for (let i in transactions.payload.transactions) {
           const tx = transactions.payload.transactions[i]

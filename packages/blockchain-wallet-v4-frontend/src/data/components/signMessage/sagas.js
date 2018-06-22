@@ -18,7 +18,7 @@ export default ({ coreSagas }) => {
       const password = yield call(promptForSecondPassword)
       const wallet = yield select(selectors.core.wallet.getWallet)
       const signedT = Types.Wallet.getPrivateKeyForAddress(wallet, password, addr)
-        .map(priv => signer.btc.signMessage(priv, message))
+        .map(priv => signer.btc.signMessage(priv, addr, message))
       const signed = yield call(() => taskToPromise(signedT))
       yield put(A.messageSigned(signed))
     } catch (e) {

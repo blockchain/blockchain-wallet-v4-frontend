@@ -82,8 +82,12 @@ class BuySellContainer extends React.PureComponent {
   }
 
   submitEmail () {
-    // TODO: submit the email address somewhere
     this.props.updateUI({ submittedEmail: true })
+    let email = encodeURIComponent(path(['fields', 'email'], this.props))
+    let country = path(['fields', 'country'], this.props)
+    let state = path(['fields', 'country'], this.props) === 'US' ? path(['fields', 'stateSelection', 'name'], this.props) : undefined
+    let url = 'https://docs.google.com/forms/d/e/1FAIpQLSeYiTe7YsqEIvaQ-P1NScFLCSPlxRh24zv06FFpNcxY_Hs0Ow/viewform?entry.1192956638=' + email + '&entry.644018680=' + country + '&entry.387129390=' + state
+    window.open(url, '_blank')
   }
 
   render () {

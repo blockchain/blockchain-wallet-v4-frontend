@@ -1,4 +1,5 @@
 import { put, call, select } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
 import * as A from './actions'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors.js'
@@ -6,10 +7,9 @@ import * as modalActions from '../../modals/actions'
 import * as sendBtcActions from '../../components/sendBtc/actions'
 import * as sendBtcSelectors from '../../components/sendBtc/selectors'
 import settings from 'config'
-import { Remote } from 'blockchain-wallet-v4/src'
 import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
-import { path } from 'ramda'
+import { path, prop } from 'ramda'
 
 export default ({ coreSagas }) => {
   const logLocation = 'modules/sfox/sagas'
@@ -36,6 +36,7 @@ export default ({ coreSagas }) => {
       const profile = yield select(selectors.core.data.sfox.getProfile)
       if (!profile.error) {
         yield put(A.sfoxSuccess())
+        yield put(A.enableSiftScience())
         yield put(A.nextStep('verify'))
       } else {
         yield put(A.sfoxNotAsked())
@@ -97,6 +98,7 @@ export default ({ coreSagas }) => {
       const result = yield call(coreSagas.data.sfox.verifyMicroDeposits, payload)
       if (result.status === 'active') {
         yield put(A.sfoxSuccess())
+        yield call(delay, 1500)
         yield put(modalActions.closeAllModals())
       } else {
         yield put(A.sfoxNotAsked())
@@ -111,13 +113,37 @@ export default ({ coreSagas }) => {
   const submitQuote = function * (action) {
     try {
       yield put(A.sfoxLoading())
-      const trade = yield call(coreSagas.data.sfox.handleTrade, action.payload)
+      const nextAddressData = yield call(prepareAddress)
+      const trade = yield call(coreSagas.data.sfox.handleTrade, action.payload, nextAddressData)
+      if (prop('message', trade) || prop('name', trade) === 'AssertionError') {
+        if (trade.message === 'QUOTE_EXPIRED') {
+          throw new Error("The quote has expired. If this continues to happen, we recommend automatically setting your computer's date & time.")
+        }
+        throw new Error(trade.message)
+      }
       yield put(A.sfoxSuccess())
+      yield put(A.enableSiftScience())
       yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
       yield put(modalActions.showModal('SfoxTradeDetails', { trade }))
     } catch (e) {
       yield put(A.sfoxFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'submitQuote', e))
+    }
+  }
+
+  const prepareAddress = function * () {
+    try {
+      const state = yield select()
+      const defaultIdx = selectors.core.wallet.getDefaultAccountIndex(state)
+      const receiveR = selectors.core.common.btc.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, defaultIdx, state)
+      const receiveIdxR = selectors.core.common.btc.getNextAvailableReceiveIndex(settings.NETWORK_BITCOIN, defaultIdx, state)
+      return {
+        address: receiveR.getOrElse(),
+        index: receiveIdxR.getOrElse(),
+        accountIndex: defaultIdx
+      }
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'prepareAddress', e))
     }
   }
 
@@ -154,7 +180,7 @@ export default ({ coreSagas }) => {
       payment = yield payment.sign(password)
       payment = yield payment.publish()
 
-      yield put(sendBtcActions.sendBtcPaymentUpdated(Remote.of(payment.value())))
+      yield put(sendBtcActions.sendBtcPaymentUpdatedSuccess(payment.value()))
       yield put(A.sfoxSuccess())
       yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
     } catch (e) {
@@ -164,13 +190,14 @@ export default ({ coreSagas }) => {
   }
 
   return {
+    prepareAddress,
     setBankManually,
     setBank,
     sfoxSignup,
     setProfile,
-    upload,
     submitMicroDeposits,
     submitQuote,
-    submitSellQuote
+    submitSellQuote,
+    upload
   }
 }

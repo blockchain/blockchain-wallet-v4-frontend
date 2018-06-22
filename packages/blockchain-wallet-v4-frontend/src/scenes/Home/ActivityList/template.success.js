@@ -21,7 +21,11 @@ const Wrapper = styled.div`
   @media (max-height: 800px), (max-width: 992px) {
     height: 300px;
     display: block;
-    overflow: hidden;
+    overflow: scroll;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+      width: 0 !important;
+    }
   }
   @media (max-height: 800px) {
     margin-bottom: 30px;
@@ -36,12 +40,9 @@ const Header = styled.div`
 const Content = styled.div`
   width: 100%;
   height: 100%;
+  overflow-y: auto;
   margin-top: 10px;
-  overflow: scroll;
-  -ms-overflow-style: none;
-  &::-webkit-scrollbar {
-    width: 0 !important;
-  }
+
   > div:first-child {
     border-left: none;
     position: relative;
@@ -78,7 +79,7 @@ const Success = props => (
     <Content>
       { (props.activities.length === 0)
         ? <Empty partner={props.partner} handleRequest={props.handleRequest} />
-        : props.activities.map((activity, index) => <ListItem handleLink={props.handleLink} action={activity.action} type={activity.type} amount={activity.amount} time={activity.time} coin={activity.coin} path={activity.path} key={index} />)
+        : props.activities.map((activity, index) => <ListItem key={index} handleLink={props.handleLink} {...activity} />)
       }
     </Content>
   </Wrapper>

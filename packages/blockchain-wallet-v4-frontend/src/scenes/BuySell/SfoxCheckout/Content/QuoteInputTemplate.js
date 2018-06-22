@@ -1,12 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { StepTransition } from 'components/Utilities/Stepper'
+import { spacing } from 'services/StyleService'
+import { FormattedMessage } from 'react-intl'
+import { Remote } from 'blockchain-wallet-v4/src'
 
-import { Icon, TextInput, Text } from 'blockchain-info-components'
+import { Icon, TextInput, Text, Button } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 40px;
   display: flex;
   position: relative;
   flex-direction: column;
@@ -55,21 +58,32 @@ const Error = styled(Text)`
   top: 42px;
   right: 0;
 `
+const ButtonWrapper = styled.div`
+  width: 100%;
+`
 const getErrorState = (meta) => {
   return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')
 }
 
-const getLimitsError = (val, limits, disabledReason, fiat) => {
+const getLimitsError = (val, limits, disabledReason, fiat, cryptoMax) => {
   if (limits.max < limits.min) return `Your limit of $${limits.max} is below the minimum allowed amount.`
   if (disabledReason === 'not_enough_funds') return `There are not enough funds to meet the sell minimum of $${limits.min.toLocaleString()}`
-  if (val && val > limits.max) return `Enter an amount under your $${limits.max.toLocaleString()} limit`
+  if ((val && val > limits.max) || (fiat > cryptoMax)) return `Enter an amount under your $${limits.max.toLocaleString()} limit`
   if (val && val < limits.min) return `Enter an amount above the $${limits.min.toLocaleString()} minimum`
   if (!val || !fiat) return
   if ((fiat * 1e8) > limits.effectiveMax) return `Enter an amount less than your balance minus the priority fee (${limits.effectiveMax / 1e8} BTC)`
 }
 
+const limitsHelper = (quoteR, limits) => {
+  if (quoteR.error) return true
+  return quoteR.map(q => {
+    if (q.baseCurrency === 'USD') return +q.baseAmount > limits.max || +q.baseAmount < limits.min || +q.quoteAmount > limits.effectiveMax
+    if (q.baseCurrency === 'BTC') return +q.quoteAmount > limits.max || +q.quoteAmount < limits.min || +q.baseAmount > limits.effectiveMax
+  }).data
+}
+
 const FiatConvertor = (props) => {
-  const { value, fiat, disabled, handleBlur, handleCoinChange, handleFiatChange, handleFocus, handleErrorClick, meta, limits } = props
+  const { value, fiat, disabled, handleBlur, handleCoinChange, handleFiatChange, handleFocus, handleErrorClick, meta, limits, quoteR, reason, cryptoMax } = props
   const { currency, unit } = props.data.data
   const errorState = getErrorState(meta)
   const disabledReason = disabled()
@@ -91,8 +105,17 @@ const FiatConvertor = (props) => {
       {meta.touched && meta.error && <Error onClick={handleErrorClick} size='13px' weight={300} color='error'>{meta.error}</Error>}
       {
         limits && <Error size='13px' weight={300} color='error'>
-          { getLimitsError(value, limits, disabledReason, fiat) }
+          { getLimitsError(value, limits, disabledReason, fiat, cryptoMax) }
         </Error>
+      }
+      {
+        reason.indexOf('has_remaining') > -1
+          ? <ButtonWrapper>
+            <StepTransition next Component={Button} style={spacing('mt-35')} nature='primary' fullwidth disabled={!Remote.Success.is(quoteR) || !value || !fiat || limitsHelper(quoteR, limits) || getLimitsError(value, limits, disabledReason, fiat, cryptoMax)}>
+              <FormattedMessage id='buy.sfoxcheckout.revieworder' defaultMessage='Review Order' />
+            </StepTransition>
+          </ButtonWrapper>
+          : null
       }
     </Wrapper>
   )

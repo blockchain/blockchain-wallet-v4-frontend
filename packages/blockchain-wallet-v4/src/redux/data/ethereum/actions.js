@@ -3,7 +3,7 @@ import * as AT from './actionTypes'
 // export const setEthereumTransactions = (address, txs) => ({ type: AT.SET_ETHEREUM_TRANSACTIONS, payload: { address, txs } })
 
 // FETCH_ETHEREUM_DATA
-export const fetchData = (reset) => ({ type: AT.FETCH_ETHEREUM_DATA, payload: { reset } })
+export const fetchData = () => ({ type: AT.FETCH_ETHEREUM_DATA })
 export const fetchDataLoading = () => ({ type: AT.FETCH_ETHEREUM_DATA_LOADING })
 export const fetchDataSuccess = (data) => ({ type: AT.FETCH_ETHEREUM_DATA_SUCCESS, payload: data })
 export const fetchDataFailure = (error) => ({ type: AT.FETCH_ETHEREUM_DATA_FAILURE, payload: error })
@@ -33,6 +33,7 @@ export const fetchRatesSuccess = (data) => ({ type: AT.FETCH_ETHEREUM_RATES_SUCC
 export const fetchRatesFailure = (error) => ({ type: AT.FETCH_ETHEREUM_RATES_FAILURE, payload: error })
 
 // FETCH_ETHEREUM_TRANSACTIONS
+export const fetchTransactions = () => ({ type: AT.FETCH_ETHEREUM_TRANSACTIONS })
 export const fetchTransactionsLoading = (reset) => ({ type: AT.FETCH_ETHEREUM_TRANSACTIONS_LOADING, payload: { reset } })
 export const fetchTransactionsSuccess = (transactions, reset) => ({ type: AT.FETCH_ETHEREUM_TRANSACTIONS_SUCCESS, payload: { transactions, reset } })
 export const fetchTransactionsFailure = (error) => ({ type: AT.FETCH_ETHEREUM_TRANSACTIONS_FAILURE, payload: error })
