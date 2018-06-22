@@ -11,7 +11,8 @@ class SanitizedFormattedHTMLMessage extends React.Component {
   render () {
     const { id, defaultMessage } = this.props
     const clean = this.clean(defaultMessage)
-    return clean ? <FormattedHTMLMessage id={id} defaultMessage={clean} /> : null
+    return clean
+    // return clean ? <FormattedHTMLMessage id={id} defaultMessage={clean} /> : null
   }
 }
 

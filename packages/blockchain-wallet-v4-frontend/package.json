@@ -16,7 +16,6 @@
     "build:testnet": "cross-env-shell NODE_ENV=testnet webpack-cli --config webpack.config.js --progress --colors",
     "ci:compile": "cross-env-shell NODE_ENV=production CI_BUILD=true webpack-cli --config webpack.config.js --display-error-details",
     "coverage": "cross-env ./../../node_modules/.bin/jest --coverage",
-    "generate": "babel-node ./tools/generateDefaultLocale.js",
     "run:prod": "cross-env npm run ci:compile && cross-env-shell LOCAL_PROD=true node ./../../server.js",
     "start:dev": "cross-env-shell NODE_ENV=development webpack-dev-server --config webpack.config.js --progress --colors --watch",
     "start:prod": "cross-env-shell NODE_ENV=production webpack-dev-server --config webpack.config.js --progress --colors --watch",
@@ -25,7 +24,8 @@
     "test": "cross-env ./../../node_modules/.bin/jest",
     "test:build": "echo 'No precomplilation required for tests to execute.'",
     "test:debug": "cross-env node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
-    "test:watch": "cross-env ./../../node_modules/.bin/jest --watchAll"
+    "test:watch": "cross-env ./../../node_modules/.bin/jest --watchAll",
+    "manage:translations": "babel-node ./translationRunner.js"
   },
   "jest": {
     "automock": false,
