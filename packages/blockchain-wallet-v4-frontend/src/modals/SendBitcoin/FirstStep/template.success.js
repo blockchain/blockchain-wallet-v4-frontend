@@ -92,7 +92,7 @@ const FirstStep = props => {
           <Field name='from' component={SelectBoxBitcoinAddresses} validate={[required]} includeAll={false} />
           {watchOnly &&
             <Row>
-              <Field name='priv' placeholder='Please enter your private key...' component={TextBox} validate={[required, validBitcoinPrivateKey, isAddressDerivedFromPriv]} autoFocus />
+              <Field name='priv' placeholder='Pleas enter your private key...' component={TextBox} validate={[required, validBitcoinPrivateKey, isAddressDerivedFromPriv]} autoFocus errorBottom />
               <QRCodeCapture scanType='btcPriv' border={['top', 'bottom']} />
             </Row>
           }
