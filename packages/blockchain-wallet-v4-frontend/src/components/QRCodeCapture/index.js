@@ -62,6 +62,11 @@ class QRCodeCaptureContainer extends React.PureComponent {
       this.props.updateUI({ bchAddress: { toggled: false } })
     } catch (e) {
       try {
+        if (utils.bch.isCashAddr(data)) {
+          this.props.formActions.change('sendBch', 'to', data)
+          this.props.updateUI({bchAddress: {toggled: false}})
+          return
+        }
         const {address, options} = bip21.decode(data)
         const {amount, message} = options
         this.props.formActions.change('sendBch', 'to', address)
