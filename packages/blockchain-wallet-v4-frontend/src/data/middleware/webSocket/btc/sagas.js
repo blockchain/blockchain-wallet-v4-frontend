@@ -1,16 +1,22 @@
-import { call, put, select, take } from 'redux-saga/effects'
-import { compose } from 'ramda'
-import * as A from './actions'
+import { call, put, select } from 'redux-saga/effects'
+import { compose, equals, prop } from 'ramda'
 import * as actions from '../../../actions'
-import * as actionTypes from '../../../actionTypes'
+import * as selectors from '../../../selectors'
+import * as T from 'services/AlertService'
 import { Wrapper } from 'blockchain-wallet-v4/src/types'
 import { Socket } from 'blockchain-wallet-v4/src/network'
 
 // TO REVIEW
 export default ({ api, btcSocket }) => {
+  const send = btcSocket.send.bind(btcSocket)
+
   const onOpen = function * () {
-    const subscribeInfo = yield select(actions.core.wallet.getInitialSocketContext)
-    yield call(compose(btcSocket, Socket.onOpenMessage), subscribeInfo)
+    try {
+      const subscribeInfo = yield select(selectors.core.wallet.getInitialSocketContext)
+      yield call(compose(send, Socket.onOpenMessage), subscribeInfo)
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage('middleware/webSocket/btc/sagas', 'onOpen', e.message))
+    }
   }
 
   const dispatchLogoutEvent = function * () {
@@ -18,49 +24,62 @@ export default ({ api, btcSocket }) => {
   }
 
   const onMessage = function * (action) {
-    const message = action.payload
+    try {
+      const message = action.payload
 
-    switch (message.op) {
-      case 'on_change':
-        const newChecksum = message.x.checksum
-        const wrapper = yield select(actions.core.wallet.getWrapper)
-        const oldChecksum = Wrapper.selectPayloadChecksum(wrapper)
-        if (oldChecksum !== newChecksum) {
-          yield call(refreshWrapper)
-          yield put(actions.core.data.bitcoin.fetchData())
-        }
-        break
-      case 'utx':
-        // TODO !!!!!!!!!!!!!!!!!
-        yield put(actions.core.data.bitcoin.fetchTransactions('', true))
-
-        const transactions = yield take(actionTypes.core.data.bitcoin.FETCH_BITCOIN_TRANSACTIONS_SUCCESS)
-        for (let i in transactions.payload.transactions) {
-          const tx = transactions.payload.transactions[i]
-          if (tx.hash === message.x.hash) {
-            if (tx.result > 0) {
-              yield put(A.paymentReceived("You've just received a bitcoin payment."))
-            }
-            break
+      switch (message.op) {
+        case 'on_change':
+          const newChecksum = message.x.checksum
+          const wrapper = yield select(selectors.core.wallet.getWrapper)
+          const oldChecksum = Wrapper.selectPayloadChecksum(wrapper)
+          if (oldChecksum !== newChecksum) {
+            yield call(refreshWrapper)
+            yield put(actions.core.data.bitcoin.fetchData())
           }
-        }
-        break
-      case 'block':
-        const newBlock = message.x
-        yield put(actions.core.data.bitcoin.setBitcoinLatestBlock(newBlock.blockIndex, newBlock.hash, newBlock.height, newBlock.time))
-        break
-      case 'pong':
-        break
-      case 'email_verified':
-        yield put(actions.core.settings.setEmailVerified())
-        break
-      case 'wallet_logout':
-        yield call(dispatchLogoutEvent)
-        break
-
-      default:
-        console.log('unknown type for ', message)
-        break
+          break
+        case 'utx':
+          // Find out if the transaction is sent/received to show a notification
+          const context = yield select(selectors.core.wallet.getContext)
+          const data = yield call(api.fetchBlockchainData, context, { n: 50, offset: 0 })
+          const transactions = data.txs || []
+          for (let i in transactions) {
+            const transaction = transactions[i]
+            if (equals(transaction.hash, message.x.hash)) {
+              if (transaction.result > 0) {
+                yield put(actions.alerts.displaySuccess(T.PAYMENT_RECEIVED_BTC))
+              }
+              break
+            }
+          }
+          // Refresh data
+          yield put(actions.core.data.bch.fetchData())
+          // If we are on the transaction page, fetch transactions related to the selected account
+          const pathname = yield select(selectors.router.getPathname)
+          if (equals(pathname, '/btc/transactions')) {
+            const formValues = yield select(selectors.form.getFormValues('btcTransactions'))
+            const source = prop('source', formValues)
+            const onlyShow = equals(source, 'all') ? '' : (source.xpub || source.address)
+            yield put(actions.core.data.bitcoin.fetchTransactions(onlyShow, true))
+          }
+          break
+        case 'block':
+          const newBlock = message.x
+          yield put(actions.core.data.bitcoin.setBitcoinLatestBlock(newBlock.blockIndex, newBlock.hash, newBlock.height, newBlock.time))
+          break
+        case 'pong':
+          break
+        case 'email_verified':
+          yield put(actions.core.settings.setEmailVerified())
+          break
+        case 'wallet_logout':
+          yield call(dispatchLogoutEvent)
+          break
+        default:
+          console.log('unknown type for ', message)
+          break
+      }
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage('middleware/webSocket/btc/sagas', 'onMessage', e.message))
     }
   }
 
@@ -75,7 +94,7 @@ export default ({ api, btcSocket }) => {
       const newWrapper = yield call(api.fetchWallet, guid, skey, undefined, password)
       yield put(actions.wallet.refreshWrapper(newWrapper))
     } catch (e) {
-      console.log('REFRESH WRAPPER FAILED (WEBSOCKET) :: should dispatch error action ?')
+      yield put(actions.logs.logErrorMessage('middleware/webSocket/btc/sagas', 'onMessage', 'REFRESH WRAPPER FAILED (WEBSOCKET)'))
     }
   }
 

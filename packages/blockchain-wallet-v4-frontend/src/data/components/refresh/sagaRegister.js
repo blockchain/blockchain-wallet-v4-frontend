@@ -6,6 +6,6 @@ export default () => {
   const refreshSagas = sagas()
 
   return function * () {
-    yield takeLatest(AT.REFRESH, refreshSagas.refresh)
+    yield takeLatest(AT.REFRESH_CLICKED, refreshSagas.refreshClicked)
   }
 }

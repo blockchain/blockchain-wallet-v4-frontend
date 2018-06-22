@@ -9,6 +9,7 @@ import * as layoutWallet from './layoutWallet/actionTypes'
 import * as manageAddresses from './manageAddresses/actionTypes'
 import * as priceChart from './priceChart/actionTypes'
 import * as priceTicker from './priceTicker/actionTypes'
+import * as refresh from './refresh/actionTypes'
 import * as requestBtc from './requestBtc/actionTypes'
 import * as sendBch from './sendBch/actionTypes'
 import * as sendBtc from './sendBtc/actionTypes'
@@ -29,6 +30,7 @@ export {
   manageAddresses,
   priceChart,
   priceTicker,
+  refresh,
   requestBtc,
   sendBch,
   sendBtc,
