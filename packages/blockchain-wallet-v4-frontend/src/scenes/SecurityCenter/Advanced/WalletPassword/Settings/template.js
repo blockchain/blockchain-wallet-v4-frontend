@@ -7,7 +7,13 @@ import styled from 'styled-components'
 import { Button, ButtonGroup } from 'blockchain-info-components'
 import { Form, FormGroup, FormItem, FormLabel, PasswordBox } from 'components/Form'
 import { SettingWrapper } from 'components/Setting'
-import { required, validStrongPassword, validPasswordConfirmation, validCurrentPassword } from 'services/FormHelper'
+import {
+  required,
+  validStrongPassword,
+  validPasswordConfirmation,
+  validCurrentPassword,
+  isNotCurrentPassword
+} from 'services/FormHelper'
 
 const ButtonWrapper = styled(ButtonGroup)`
   margin-top: 5px;
@@ -48,7 +54,7 @@ const Settings = (props) => {
               <FormLabel for='newPassword'>
                 <FormattedMessage id='scenes.securitysettings.advanced.walletpassword.settings.new' defaultMessage='New Password:' />
               </FormLabel>
-              <Field name='newPassword' component={PasswordBox} validate={[validStrongPassword]} score />
+              <Field name='newPassword' component={PasswordBox} validate={[validStrongPassword, isNotCurrentPassword]} score />
             </FormItem>
             <FormItem style={{marginTop: '5px'}}>
               <FormLabel for='walletPasswordConfirmation'>
@@ -74,7 +80,7 @@ const Settings = (props) => {
 Settings.propTypes = {
   updateToggled: PropTypes.bool.isRequired,
   handleToggle: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired
 }
 
 export default reduxForm({ form: 'settingWalletPassword' })(Settings)

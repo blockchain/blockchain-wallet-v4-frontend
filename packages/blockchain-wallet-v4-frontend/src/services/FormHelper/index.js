@@ -33,6 +33,8 @@ const validPasswordConfirmation = (passwordFieldName) => (value, allValues) => (
 
 const validCurrentPassword = (value, allValues, { currentWalletPassword }) => value === currentWalletPassword ? undefined : <M.IncorrectPassword />
 
+const isNotCurrentPassword = (value, allValues, { currentWalletPassword }) => value !== currentWalletPassword ? undefined : <M.SamePasswordAsCurrent />
+
 const validPasswordStretchingNumber = value => (value > 1 && value <= 20000) ? undefined : <M.InvalidPasswordStretchingNumberMessage />
 
 const validEtherAddress = value => utils.ethereum.isValidAddress(value) ? undefined : <M.InvalidEtherAddressMessage />
@@ -101,6 +103,7 @@ export {
   validIpList,
   validPasswordConfirmation,
   validCurrentPassword,
+  isNotCurrentPassword,
   validPasswordStretchingNumber,
   validBitcoinAddress,
   validBitcoinCashAddress,
