@@ -36,11 +36,18 @@ export const InputWrapper = styled.div`
 export const PartnerHeader = styled.div`
   font-size: 30px;
   font-weight: 600;
+  @media (max-width: 480px){
+    font-size: 20px;
+    font-weight: 500;
+  }
 `
 
 export const PartnerSubHeader = styled.div`
   margin-top: 5px;
   font-size: 16px;
+  @media (max-width: 480px){
+    font-size: 14px;
+  }
 `
 
 export const ButtonWrapper = styled.div`

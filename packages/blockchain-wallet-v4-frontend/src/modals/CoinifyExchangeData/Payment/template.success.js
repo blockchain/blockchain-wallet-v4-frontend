@@ -13,9 +13,23 @@ import { Form, CancelWrapper, ColLeft, ColRight, ColRightInner, InputWrapper, Pa
 
 import { cardOptionHelper, bankOptionHelper } from './mediumHelpers'
 
+const PaymentForm = styled(Form)`
+  @media (max-width: 480px) {
+    flex-direction: column;
+  }
+`
+const PaymentColLeft = styled(ColLeft)`
+  @media (max-width: 480px) {
+    width: 100%;
+  }
+`
 const PaymentWrapper = styled.div`
   display: flex;
   flex-direction: row;
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `
 const BorderBox = styled.div`
   border: 1px solid ${props => props.theme['gray-1']};
@@ -52,8 +66,8 @@ const Payment = (props) => {
   const isChecked = (type) => medium === type
 
   return (
-    <Form>
-      <ColLeft>
+    <PaymentForm>
+      <PaymentColLeft>
         <BorderBox>
           <InputWrapper style={spacing('mb-40')}>
             <PartnerHeader>
@@ -68,7 +82,7 @@ const Payment = (props) => {
             { cardOptionHelper(quoteData, limits, isChecked('card'), handlePaymentClick, cardDisabled, prefillCardMax) }
           </PaymentWrapper>
         </BorderBox>
-      </ColLeft>
+      </PaymentColLeft>
       <ColRight>
         <ColRightInner>
           {
@@ -90,7 +104,7 @@ const Payment = (props) => {
           </FaqWrapper>
         </ColRightInner>
       </ColRight>
-    </Form>
+    </PaymentForm>
   )
 }
 
