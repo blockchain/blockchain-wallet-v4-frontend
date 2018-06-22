@@ -28,8 +28,8 @@ const isCompleted = (t) => contains(t.state, ['completed', 'rejected', 'cancelle
 const isPartOfSubscription = (t) => t.tradeSubscriptionId
 
 const OrderHistory = (props) => {
-  const { showModal, finishTrade, cancelTrade, step, status, cancelTradeId, trade, changeTab, canTrade, value, onCancelSubscription } = props
-  const { trades, subscriptions } = value
+  const { showModal, finishTrade, cancelTrade, step, status, cancelTradeId, trade, changeTab, value, onCancelSubscription } = props
+  const { trades, subscriptions, canTrade } = value
   const pendingTrades = filter(isPending, trades)
 
   if (step === 'isx') {

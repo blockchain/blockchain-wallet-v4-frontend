@@ -284,6 +284,9 @@ export default ({ api, options }) => {
     try {
       yield apply(trade, trade.cancel)
       yield call(fetchTrades)
+      if (prop('tradeSubscriptionId', trade)) {
+        yield call(fetchSubscriptions)
+      }
     } catch (e) {
       console.log('issue cancelling trade', e)
     }
