@@ -1,21 +1,16 @@
 import { call, put, select, take } from 'redux-saga/effects'
-import * as A from '../../actions'
-import * as ethAT from '../../kvStore/ethereum/actionTypes'
-import * as ethSelectors from '../../kvStore/ethereum/selectors'
-import * as ethActions from '../../data/ethereum/actions'
-
+import * as actions from '../../../actions'
+import * as selectors from '../../../selectors'
 const ACCOUNT_SUB = 'account_sub'
 const BLOCK_SUB = 'block_sub'
 
 // TO REVIEW
 export default ({ api, ethSocket }) => {
-  const send = ethSocket.send.bind(ethSocket)
-
   const onOpen = function * () {
-    yield call(send, JSON.stringify({op: BLOCK_SUB}))
-    const metadata = yield take(ethAT.FETCH_METADATA_ETHEREUM_SUCCESS)
+    yield call(ethSocket, JSON.stringify({op: BLOCK_SUB}))
+    const metadata = yield take(actions.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS)
     for (let i in metadata.payload.value.ethereum.accounts) {
-      yield call(send, JSON.stringify({op: ACCOUNT_SUB, account: metadata.payload.value.ethereum.accounts[i].addr}))
+      yield call(ethSocket, JSON.stringify({op: ACCOUNT_SUB, account: metadata.payload.value.ethereum.accounts[i].addr}))
     }
   }
 
@@ -28,13 +23,13 @@ export default ({ api, ethSocket }) => {
           break
         }
         if (message.tx.to === message.account) {
-          yield put(A.webSocket.bitcoin.paymentReceived('You\'ve just received an Ethereum payment.'))
+          yield put(actions.middleware.webSocket.btc.paymentReceived('You\'ve just received an Ethereum payment.'))
         }
-        const context = yield select(ethSelectors.getContext)
-        yield put(ethActions.fetchData(context.data))
+        const context = yield select(selectors.core.kvStore.ethereum.getContext)
+        yield put(actions.core.data.ethereum.fetchData(context.data))
         break
       case BLOCK_SUB:
-        yield put(ethActions.fetchLatestBlock())
+        yield put(actions.core.data.ethereum.fetchLatestBlock())
         break
       case 'pong':
         break

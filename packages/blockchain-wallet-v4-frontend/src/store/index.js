@@ -8,7 +8,7 @@ import { coreMiddleware } from 'blockchain-wallet-v4/src'
 import { createWalletApi, Socket } from 'blockchain-wallet-v4/src/network'
 import { serializer } from 'blockchain-wallet-v4/src/types'
 import { rootSaga, rootReducer, selectors } from 'data'
-import { autoDisconnection } from '../middleware'
+import { autoDisconnection, webSocketBch, webSocketBtc, webSocketEth } from '../middleware'
 
 const devToolsConfig = {
   maxAge: 1000,
@@ -41,9 +41,9 @@ const configureStore = () => {
     .then(res => res.json())
     .then(options => {
       const apiKey = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
+      const bchSocket = new Socket({ options, socketType: '/bch' })
       const btcSocket = new Socket({ options, socketType: '' })
       const ethSocket = new Socket({ options, socketType: '/eth' })
-      const bchSocket = new Socket({ options, socketType: '/bch' })
       const api = createWalletApi({ options, apiKey })
 
       const store = createStore(
@@ -53,9 +53,9 @@ const configureStore = () => {
             sagaMiddleware,
             routerMiddleware(history),
             coreMiddleware.kvStore({ isAuthenticated, api, kvStorePath }),
-            coreMiddleware.socket.bitcoin(btcSocket, walletPath, isAuthenticated),
-            coreMiddleware.socket.ethereum(ethSocket, walletPath, isAuthenticated),
-            coreMiddleware.socket.bch(bchSocket, walletPath, isAuthenticated),
+            webSocketBch(bchSocket),
+            webSocketEth(ethSocket),
+            webSocketBtc(btcSocket),
             coreMiddleware.walletSync({ isAuthenticated, api, walletPath }),
             autoDisconnection()
           ),
@@ -63,7 +63,7 @@ const configureStore = () => {
         )
       )
       persistStore(store, { whitelist: ['session', 'preferences', 'cache'] })
-      sagaMiddleware.run(rootSaga, { api, btcSocket, ethSocket, bchSocket, options })
+      sagaMiddleware.run(rootSaga, { api, bchSocket, btcSocket, ethSocket, options })
 
       return {
         store,

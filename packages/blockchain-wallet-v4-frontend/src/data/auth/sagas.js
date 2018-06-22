@@ -66,9 +66,9 @@ export default ({ api, coreSagas }) => {
         yield upgradeWalletSaga()
       }
       yield put(actions.auth.authenticate())
-      yield put(actions.core.webSocket.bitcoin.startSocket())
-      yield put(actions.core.webSocket.ethereum.startSocket())
-      yield put(actions.core.webSocket.bch.startSocket())
+      yield put(actions.middleware.webSocket.bch.startSocket())
+      yield put(actions.middleware.webSocket.btc.startSocket())
+      yield put(actions.middleware.webSocket.eth.startSocket())
       yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
       // If there was no ethereum metadata kv store entry, we need to create one and that requires the second password.
       yield call(coreSagas.kvStore.ethereum.fetchMetadataEthereum, askSecondPasswordEnhancer)
@@ -294,10 +294,9 @@ export default ({ api, coreSagas }) => {
 
   const logout = function * () {
     const isEmailVerified = yield select(selectors.core.settings.getEmailVerified)
-
-    yield put(actions.core.webSocket.bitcoin.stopSocket())
-    yield put(actions.core.webSocket.ethereum.stopSocket())
-    yield put(actions.core.webSocket.bch.stopSocket())
+    yield put(actions.middleware.webSocket.bch.stopSocket())
+    yield put(actions.middleware.webSocket.btc.stopSocket())
+    yield put(actions.middleware.webSocket.eth.stopSocket())
     // only show browser de-auth page to accounts with verified email
     isEmailVerified.data
       ? yield put(actions.router.push('/logout'))
