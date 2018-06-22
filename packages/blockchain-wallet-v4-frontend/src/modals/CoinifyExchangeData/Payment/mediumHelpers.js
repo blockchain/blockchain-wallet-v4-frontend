@@ -14,6 +14,16 @@ const PaymentOptionContainer = styled.div`
   flex-direction: column;
   align-items: center;
   text-align: center;
+  div:nth-child(2) {
+    margin-top: 25px;
+  }
+  @media (max-width: 480px) {
+    width: 85%;
+    div:nth-child(2) {
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+  }
 `
 const PaymentOption = styled.div`
   display: flex;
@@ -62,7 +72,7 @@ export const cardOptionHelper = (quote, limits, isChecked, handlePaymentClick, c
   const renderContainer = (isChecked, handlePaymentClick) => (
     <PaymentOptionContainer>
       { renderField() }
-      <Text size='14px' weight={300} style={spacing('mt-25')}>
+      <Text size='14px' weight={300}>
         <FormattedMessage id='coinifyexchangedata.payment.mediumhelpers.card.detail1' defaultMessage='Receive bitcoin instantly' /><br />
         <FormattedMessage id='coinifyexchangedata.payment.mediumhelpers.card.detail2' defaultMessage='3% convenience fee' /><br />
         <FormattedMessage id='coinifyexchangedata.payment.mediumhelpers.card.detail3' defaultMessage='Visa or Mastercard' />
@@ -127,7 +137,7 @@ export const bankOptionHelper = (quote, limits, isChecked, handlePaymentClick, b
                 : null
             }
           </BankDisabledText>
-          : <Text size='14px' weight={300} style={spacing('mt-25')}>
+          : <Text size='14px' weight={300}>
             {
               prop('name', level) < 2
                 ? <Fragment><FormattedMessage id='coinifyexchangedata.payment.mediumhelpers.bank.detail1' defaultMessage='One time ID verification' /> <br /></Fragment>
