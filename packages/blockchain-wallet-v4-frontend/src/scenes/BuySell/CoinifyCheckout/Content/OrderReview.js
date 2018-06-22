@@ -91,9 +91,9 @@ export const OrderSubmit = (props) => {
       question: <FormattedMessage id='coinifyexchangedata.cyo.helper3.question' defaultMessage='The small print' />,
       answer: <FormattedMessage id='coinifyexchangedata.cyo.helper3.answer' defaultMessage='To read more about how Coinify stores your information and keeps it safe, please visit their {tos} and {privacyPolicy}. For help with, or questions about your Blockchain wallet, please reach out to our support team {supportLink}.'
         values={{
-          tos: <Link size='12px' weight={300} href='https://www.coinify.com/legal' target='_blank'><FormattedMessage id='tos' defaultMessage='Terms of Service' /></Link>,
-          privacyPolicy: <Link size='12px' weight={300} href='https://www.coinify.com/legal/policy' target='_blank'><FormattedMessage id='privacypolicy' defaultMessage='Privacy Policy' /></Link>,
-          supportLink: <Link target='_blank' href='https://support.blockchain.com' size='12px' weight={300}><FormattedMessage id='contactsupport' defaultMessage='contact support' /></Link>
+          tos: <Link size='12px' weight={300} href='https://www.coinify.com/legal' target='_blank' rel='noreferrer noopener'><FormattedMessage id='tos' defaultMessage='Terms of Service' /></Link>,
+          privacyPolicy: <Link size='12px' weight={300} href='https://www.coinify.com/legal/policy' target='_blank' rel='noreferrer noopener'><FormattedMessage id='privacypolicy' defaultMessage='Privacy Policy' /></Link>,
+          supportLink: <Link target='_blank' rel='noreferrer noopener' href='https://support.blockchain.com' size='12px' weight={300}><FormattedMessage id='contactsupport' defaultMessage='contact support' /></Link>
         }} />
     }
   ]
