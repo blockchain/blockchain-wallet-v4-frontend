@@ -19,6 +19,9 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: flex-start;
   font-family: 'Montserrat', Helvetica, sans-serif;
+  @media (max-width: 480px){
+    height: 100px;
+  }
 `
 const FiatConvertorInput = styled.div`
   display: flex;
@@ -27,6 +30,9 @@ const FiatConvertorInput = styled.div`
   width: 100%;
   height: 100%;
   margin-bottom: 0px;
+  @media (max-width: 480px){
+    flex-direction: column;
+  }
 `
 const Container = styled.div`
   position: relative;
@@ -47,11 +53,17 @@ const Unit = styled.span`
 const ArrowLeft = styled(Icon)`
   margin-left: 10px;
   color: #bbb;
+  @media (max-width: 480px) {
+    display: none;
+  }
 `
 const ArrowRight = styled(Icon)`
   margin-left: -10px;
   margin-right: 10px;
   color: #bbb;
+  @media (max-width: 480px) {
+    display: none;
+  }
 `
 const Error = styled(Text)`
   position: absolute;
@@ -64,6 +76,9 @@ const Error = styled(Text)`
   a {
     color: ${props => props.theme['brand-secondary']};
     cursor: pointer;
+  }
+  @media (max-width: 480px){
+    top: 100px;
   }
 `
 const LimitsHelper = styled.div`
@@ -79,6 +94,9 @@ const LimitsHelper = styled.div`
   }
   span:first-of-type {
     padding-right: 5px;
+  }
+  @media (max-width: 480px){
+    top: 100px;
   }
 `
 
