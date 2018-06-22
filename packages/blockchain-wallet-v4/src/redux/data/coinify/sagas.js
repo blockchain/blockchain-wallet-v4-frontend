@@ -117,7 +117,6 @@ export default ({ api, options }) => {
 
   const fetchQuoteAndMediums = function * (data) {
     try {
-      console.log('Fetch quote and mediums')
       const { amt, baseCurrency, quoteCurrency, medium, type } = data.payload
       const getQuote = type === 'sell'
         ? coinify.data.getSellQuote
@@ -136,7 +135,6 @@ export default ({ api, options }) => {
   const fetchRateQuote = function * (data) {
     try {
       yield put(A.fetchQuoteLoading())
-      console.log('Fetch rate quote')
       const { currency, type } = data.payload
       const getQuote = type === 'sell' ? coinify.getSellQuote : coinify.getBuyQuote
       const quote = yield apply(coinify, getQuote, [-1e8, 'BTC', currency])
@@ -206,7 +204,6 @@ export default ({ api, options }) => {
       yield put(A.setBankAccount(bankAccount))
     } catch (e) {
       console.log(e)
-      // yield put(A.addBankAccountFailure(e))
     }
   }
 
@@ -250,7 +247,6 @@ export default ({ api, options }) => {
       yield call(labelAddressForBuy, buyResult, addressData)
       return buyResult
     } catch (e) {
-      console.warn('buy failed in core', e)
       yield put(A.handleTradeFailure(e))
     }
   }
@@ -263,7 +259,6 @@ export default ({ api, options }) => {
 
       yield put(walletActions.setHdAddressLabel(addressData.accountIndex, addressData.index, `Coinify order #${id}`))
     } catch (e) {
-      console.warn('err in labelAddressForBuy', e)
       yield put(A.handleTradeFailure(e))
     }
   }
@@ -278,7 +273,6 @@ export default ({ api, options }) => {
       yield call(getCoinify)
       return sellResult
     } catch (e) {
-      console.warn('sell failed in core', e)
       yield put(A.handleTradeFailure(e))
     }
   }
@@ -302,7 +296,6 @@ export default ({ api, options }) => {
       return kyc
     } catch (e) {
       yield put(A.handleTradeFailure(e))
-      console.log('failed to trigger KYC in core', e)
     }
   }
 
@@ -316,7 +309,6 @@ export default ({ api, options }) => {
       yield put(A.getKYCSuccess(kyc))
       return kyc
     } catch (e) {
-      console.log('getKYCfailure', e)
       yield put(A.getKYCFailure(e))
     }
   }
@@ -337,7 +329,6 @@ export default ({ api, options }) => {
         yield put(A.getKYCSuccess(kyc))
       }
     } catch (e) {
-      console.log('pollKYCPending failure', e)
       yield put(A.getKYCFailure(e))
     }
   }
@@ -347,7 +338,7 @@ export default ({ api, options }) => {
     try {
       yield put(A.handleTradeSuccess(kyc))
     } catch (e) {
-      console.log('kycAsTrade failure', e)
+      yield put(A.handleTradeFailure(e))
     }
   }
 

@@ -203,7 +203,6 @@ class ISignThisContainer extends Component {
   }
 
   onQuoteExpiration () {
-    console.log('Quote expired')
     this.setState({ quoteExpired: true })
   }
 
@@ -232,7 +231,6 @@ class ISignThisContainer extends Component {
                 </Fragment>
               )
             } else {
-              console.log(q.expiresAt, q.expiresAt.getTime())
               return (
                 <CountdownTimer
                   expiryDate={trade.map(prop('quoteExpireTime')).getOrElse(q.expiresAt.getTime())}
