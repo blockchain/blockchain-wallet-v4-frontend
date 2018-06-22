@@ -20,6 +20,10 @@ const CheckoutWrapper = styled.div`
   display: grid;
   grid-template-columns: 55% 40%;
   grid-gap: 5%;
+  @media (max-width: 480px){
+    display: flex;
+    flex-direction: column;
+  }
 `
 const OrderSubmitWrapper = styled.div`
   display: flex;
