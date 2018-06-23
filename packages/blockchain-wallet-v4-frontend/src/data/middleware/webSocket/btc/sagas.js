@@ -6,7 +6,6 @@ import * as T from 'services/AlertService'
 import { Wrapper } from 'blockchain-wallet-v4/src/types'
 import { Socket } from 'blockchain-wallet-v4/src/network'
 
-// TO REVIEW
 export default ({ api, btcSocket }) => {
   const send = btcSocket.send.bind(btcSocket)
 
@@ -52,7 +51,7 @@ export default ({ api, btcSocket }) => {
             }
           }
           // Refresh data
-          yield put(actions.core.data.bch.fetchData())
+          yield put(actions.core.data.bitcoin.fetchData())
           // If we are on the transaction page, fetch transactions related to the selected account
           const pathname = yield select(selectors.router.getPathname)
           if (equals(pathname, '/btc/transactions')) {

@@ -3,11 +3,10 @@ import * as actions from '../../../actions'
 import * as actionTypes from '../../../actionTypes'
 import * as selectors from '../../../selectors'
 import * as T from 'services/AlertService'
-import { equals, prop } from 'ramda'
+import { equals } from 'ramda'
 const ACCOUNT_SUB = 'account_sub'
 const BLOCK_SUB = 'block_sub'
 
-// TO REVIEW
 export default ({ api, ethSocket }) => {
   const send = ethSocket.send.bind(ethSocket)
 

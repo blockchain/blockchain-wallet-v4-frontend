@@ -26,13 +26,13 @@ export default ({ api, bchSocket }) => {
         case 'utx':
           // Find out if the transaction is sent/received to show a notification
           const context = yield select(selectors.core.wallet.getContext)
-          const data = yield call(api.fetchBlockchainData, context, { n: 50, offset: 0 })
+          const data = yield call(api.fetchBchData, context, { n: 50, offset: 0 })
           const transactions = data.txs || []
           for (let i in transactions) {
             const transaction = transactions[i]
             if (equals(transaction.hash, message.x.hash)) {
               if (transaction.result > 0) {
-                yield put(actions.alerts.displaySuccess(T.PAYMENT_RECEIVED_BTC))
+                yield put(actions.alerts.displaySuccess(T.PAYMENT_RECEIVED_BCH))
               }
               break
             }
