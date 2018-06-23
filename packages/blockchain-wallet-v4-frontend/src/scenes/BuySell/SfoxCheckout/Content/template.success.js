@@ -16,10 +16,16 @@ import SiftScience from 'modals/SfoxExchangeData/sift-science.js'
 
 const CheckoutWrapper = styled.div`
   width: 50%;
+  @media (max-width: 480px) {
+    width: 100%;
+  }
 `
 const OrderSubmitWrapper = CheckoutWrapper.extend`
   width: 35%;
   padding: 30px 30px 30px 10%;
+  @media (max-width: 480px) {
+    padding: 0px;
+  }
 `
 const OrderHistoryWrapper = styled.div`
   width: 100%;
@@ -33,6 +39,13 @@ const OrderHistoryContent = styled.div`
   }
   > div:last-child {
     margin-bottom: 20px;
+  }
+`
+const SfoxBuySellContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  @media (max-width: 480px) {
+    flex-direction: column;
   }
 `
 const faqList = [
@@ -104,7 +117,7 @@ const Success = props => {
     return (
       <Stepper key='BuyStepper' initialStep={0}>
         <StepView step={0}>
-          <div style={flex('row')}>
+          <SfoxBuySellContainer>
             <CheckoutWrapper>
               <OrderCheckout
                 quoteR={buyQuoteR}
@@ -122,10 +135,10 @@ const Success = props => {
             <OrderSubmitWrapper>
               {faqListHelper()}
             </OrderSubmitWrapper>
-          </div>
+          </SfoxBuySellContainer>
         </StepView>
         <StepView step={1}>
-          <div style={flex('row')}>
+          <SfoxBuySellContainer>
             <CheckoutWrapper>
               <OrderDetails
                 quoteR={buyQuoteR}
@@ -143,7 +156,7 @@ const Success = props => {
                 account={accounts[0]}
               />
             </OrderSubmitWrapper>
-          </div>
+          </SfoxBuySellContainer>
         </StepView>
         {siftScienceEnabled ? <SiftScience /> : null}
       </Stepper>
@@ -168,7 +181,7 @@ const Success = props => {
           </CheckoutWrapper>
         </StepView>
         <StepView step={1}>
-          <div style={flex('row')}>
+          <SfoxBuySellContainer>
             <CheckoutWrapper>
               <OrderDetails
                 quoteR={sellQuoteR}
@@ -185,7 +198,7 @@ const Success = props => {
                 clearTradeError={clearTradeError}
               />
             </OrderSubmitWrapper>
-          </div>
+          </SfoxBuySellContainer>
         </StepView>
         {siftScienceEnabled ? <SiftScience /> : null}
       </Stepper>

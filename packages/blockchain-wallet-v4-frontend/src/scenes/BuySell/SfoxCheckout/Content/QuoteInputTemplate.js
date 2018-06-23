@@ -24,6 +24,12 @@ const FiatConvertorInput = styled.div`
   width: 100%;
   height: 100%;
   margin-bottom: 0px;
+  @media (max-width: 480px) {
+    flex-direction: column;
+    div:first-of-type {
+      margin-bottom: 25px;
+    }
+  }
 `
 const Container = styled.div`
   position: relative;
@@ -44,11 +50,17 @@ const Unit = styled.span`
 const ArrowLeft = styled(Icon)`
   margin-left: 10px;
   color: #bbb;
+  @media (max-width: 480px) {
+    display: none;
+  }
 `
 const ArrowRight = styled(Icon)`
   margin-left: -10px;
   margin-right: 10px;
   color: #bbb;
+  @media (max-width: 480px) {
+    display: none;
+  }
 `
 const Error = styled(Text)`
   position: absolute;
