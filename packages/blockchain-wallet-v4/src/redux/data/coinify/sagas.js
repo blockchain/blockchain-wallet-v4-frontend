@@ -281,6 +281,9 @@ export default ({ api, options }) => {
     try {
       yield apply(trade, trade.cancel)
       yield call(fetchTrades)
+      if (prop('tradeSubscriptionId', trade)) {
+        yield call(fetchSubscriptions)
+      }
     } catch (e) {
       console.log('issue cancelling trade', e)
     }
@@ -357,6 +360,7 @@ export default ({ api, options }) => {
     try {
       yield call(refreshCoinify)
       const cancelSub = yield apply(coinify, coinify.cancelSubscription, [id])
+      yield call(fetchSubscriptions)
       return cancelSub
     } catch (e) {
       console.warn(e)

@@ -8,15 +8,17 @@ export const getTrade = (state) =>
 export const getData = createDeepEqualSelector(
   [
     selectors.core.data.coinify.getTrades,
-    selectors.core.data.coinify.getSubscriptions
+    selectors.core.data.coinify.getSubscriptions,
+    selectors.core.data.coinify.canTrade
   ],
-  (tradesR, subscriptionsR, tradeR) => {
-    const transform = (trades, subscriptions) => {
+  (tradesR, subscriptionsR, canTradeR) => {
+    const transform = (trades, subscriptions, canTrade) => {
       return {
         trades,
-        subscriptions
+        subscriptions,
+        canTrade
       }
     }
-    return lift(transform)(tradesR, subscriptionsR)
+    return lift(transform)(tradesR, subscriptionsR, canTradeR)
   }
 )
