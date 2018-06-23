@@ -51,7 +51,7 @@ export default ({ api, ethSocket }) => {
         case 'pong':
           break
         default:
-          console.log('unknown type for ', message)
+          yield put(actions.logs.logErrorMessage('middleware/webSocket/eth/sagas', 'onMessage', 'unknown type for ' + message))
           break
       }
     } catch (e) {
