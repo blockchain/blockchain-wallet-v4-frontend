@@ -41,6 +41,9 @@ const TrayModal = styled(Modal)`
     overflow: auto;
     padding: 60px 15%;
     height: calc(100% - 160px);
+    @media (max-width: 480px) {
+      padding-top: 20px;
+    }
   }
   @media (max-width: 767px) {
     width: 100%;

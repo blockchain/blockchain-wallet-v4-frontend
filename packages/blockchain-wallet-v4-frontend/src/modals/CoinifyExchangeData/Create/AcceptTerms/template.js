@@ -26,6 +26,9 @@ const FieldsContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 20px;
+  @media (max-width: 480px) {
+    margin-top: 10px;
+  }
 `
 const FieldContainer = styled.div`
   display: flex;
@@ -43,11 +46,22 @@ const FieldBox = styled.div`
   flex-direction: row;
   width: 85%;
   justify-content: space-between;
+  @media (max-width: 480px) {
+    border: none;
+    width: 100%;
+    padding: 0px;
+    flex-direction: column;
+  }
 `
 const IconContainer = styled.div`
   display: flex;
   align-items: center;
   margin-left: 10px;
+`
+const AcceptTermsForm = styled(Form)`
+  @media (max-width: 480px) {
+    flex-direction: column;
+  }
 `
 const checkboxShouldBeChecked = value => value ? undefined : 'You must agree to the terms and conditions'
 
@@ -64,7 +78,7 @@ const AcceptTerms = (props) => {
   const faqHelper = () => helpers.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <AcceptTermsForm onSubmit={handleSubmit}>
       <ColLeft>
         <InputWrapper>
           <PartnerHeader>
@@ -147,7 +161,7 @@ const AcceptTerms = (props) => {
           {faqHelper()}
         </ColRightInner>
       </ColRight>
-    </Form>
+    </AcceptTermsForm>
   )
 }
 

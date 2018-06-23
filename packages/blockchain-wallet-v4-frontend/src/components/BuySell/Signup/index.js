@@ -14,6 +14,9 @@ export const Row = styled.div`
 
 export const ColLeft = styled.div`
   width: 50%;
+  @media (max-width: 480px) {
+    width: 100%;
+  }
 `
 
 export const ColLeftInner = styled.div`
@@ -22,6 +25,9 @@ export const ColLeftInner = styled.div`
 
 export const ColRight = styled.div`
   width: 50%;
+  @media (max-width: 480px) {
+    width: 100%;
+  }
 `
 
 export const Info = styled.div`
@@ -79,6 +85,10 @@ export const ColRightInner = styled.div`
   flex-direction: column;
   width: 80%;
   padding-left: 20%;
+  @media (max-width: 480px) {
+    width: 100%;
+    padding-left: 0px;
+  }
 `
 
 export const EmailHelper = styled.span`

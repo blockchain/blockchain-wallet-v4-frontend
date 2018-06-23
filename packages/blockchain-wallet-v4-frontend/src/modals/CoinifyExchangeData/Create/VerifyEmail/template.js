@@ -13,6 +13,11 @@ const EmailInput = styled.div`
   margin-top: 25px;
   flex-direction: column;
 `
+const CreateForm = styled(Form)`
+  @media (max-width: 480px) {
+    flex-direction: column;
+  }
+`
 
 const VerifyEmail = (props) => {
   const { emailVerifiedError, invalid, handleSubmit, resendCode, ui, updateUI, newEmail } = props
@@ -26,7 +31,7 @@ const VerifyEmail = (props) => {
   }
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <CreateForm onSubmit={handleSubmit}>
       <ColLeft>
         <InputWrapper>
           <PartnerHeader>
@@ -76,7 +81,7 @@ const VerifyEmail = (props) => {
           }
         </ColRightInner>
       </ColRight>
-    </Form>
+    </CreateForm>
   )
 }
 

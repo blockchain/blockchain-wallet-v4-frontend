@@ -38,6 +38,9 @@ const ColRight = styled.div`
 const PartnerHeader = styled.div`
   font-size: 30px;
   font-weight: 600;
+  @media (max-width: 480px) {
+    font-size: 20px;
+  }
 `
 const PartnerSubHeader = styled.div`
   margin-top: 5px;

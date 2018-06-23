@@ -18,6 +18,15 @@ import { path } from 'ramda'
 const HeaderWrapper = styled.div`
   display: flex;
   flex-direction: row;
+  @media (max-width: 480px) {
+    flex-direction: column;
+  }
+`
+const HeaderText = styled(Text)`
+  font-size: 20px;
+  @media (max-width: 480px) {
+    display: none;
+  }
 `
 
 class CoinifyExchangeData extends React.PureComponent {
@@ -61,9 +70,9 @@ class CoinifyExchangeData extends React.PureComponent {
       <Tray in={show} class='tray' onClose={this.handleClose.bind(this)}>
         <ModalHeader tray paddingHorizontal='15%' onClose={this.handleClose.bind(this)}>
           <HeaderWrapper>
-            <Text size='20px' weight={300}>
+            <HeaderText size='20px' weight={300}>
               <FormattedMessage id='coinifyexchangedata.header.start' defaultMessage='Start buying and selling in two simple steps.' />
-            </Text>
+            </HeaderText>
             <StepIndicator adjuster={adjuster} barFullWidth flexEnd minWidth='135px' maxWidth='135px' step={step} stepMap={this.stepMap} />
           </HeaderWrapper>
         </ModalHeader>
