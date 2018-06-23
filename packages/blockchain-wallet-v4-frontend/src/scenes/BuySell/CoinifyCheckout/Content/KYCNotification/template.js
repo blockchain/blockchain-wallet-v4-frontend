@@ -20,6 +20,9 @@ const LimitsNotice = styled.div`
   background-color: #FFE6B4;
   padding: 12px 15px;
   margin-bottom: 20px;
+  @media (max-width: 480px) {
+    margin: 10px 0px;
+  }
 `
 
 const KYCNotification = (props) => {

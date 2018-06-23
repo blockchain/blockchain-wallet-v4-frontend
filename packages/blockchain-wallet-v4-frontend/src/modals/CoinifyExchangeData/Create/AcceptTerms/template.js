@@ -63,6 +63,20 @@ const AcceptTermsForm = styled(Form)`
     flex-direction: column;
   }
 `
+const EditLink = styled(Link)`
+  font-size: 12px;
+  @media (max-width: 480px) {
+    margin-top: 5px;
+    font-size: 12px;
+  }
+`
+const VerifiedText = styled(Text)`
+  font-size: 14px;
+  margin-bottom: 10px;
+  @media (max-width: 480px) {
+    margin-bottom: 5px;
+  }
+`
 const checkboxShouldBeChecked = value => value ? undefined : 'You must agree to the terms and conditions'
 
 const AcceptTerms = (props) => {
@@ -89,17 +103,21 @@ const AcceptTerms = (props) => {
           </PartnerSubHeader>
           <FieldsContainer>
             <FieldContainer>
-              <Text size='14px' style={spacing('mb-10')}>
+              <VerifiedText>
                 <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.verifiedemail' defaultMessage='Verified Email Address' />
-              </Text>
+              </VerifiedText>
               <VerifiedContainer>
                 <FieldBox>
                   <Text size='14px' weight={300}>
                     { email }
                   </Text>
-                  <Link onClick={editEmail} size='14px' weight={300}>
-                    <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.edit' defaultMessage='edit' />
-                  </Link>
+                  <EditLink onClick={editEmail} weight={300}>
+                    {
+                      window.outerWidth > 480
+                        ? <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.edit' defaultMessage='edit' />
+                        : <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.editemail' defaultMessage='edit email' />
+                    }
+                  </EditLink>
                 </FieldBox>
                 <IconContainer>
                   { emailVerified ? <Icon name='checkmark-in-circle-filled' color='success' size='20px' /> : null }

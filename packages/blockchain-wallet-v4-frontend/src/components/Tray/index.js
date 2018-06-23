@@ -42,7 +42,7 @@ const TrayModal = styled(Modal)`
     padding: 60px 15%;
     height: calc(100% - 160px);
     @media (max-width: 480px) {
-      padding-top: 20px;
+      padding: 20px 10%;
     }
   }
   @media (max-width: 767px) {
