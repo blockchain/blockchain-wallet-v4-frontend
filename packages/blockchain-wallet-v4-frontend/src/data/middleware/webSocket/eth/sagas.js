@@ -36,7 +36,7 @@ export default ({ api, ethSocket }) => {
             yield put(actions.alerts.displaySuccess(T.PAYMENT_RECEIVED_ETH))
             // If we are on the transaction page, fetch transactions related to the default eth account
             const pathname = yield select(selectors.router.getPathname)
-            if (equals(pathname, '/etc/transactions')) {
+            if (equals(pathname, '/eth/transactions')) {
               yield put(actions.core.data.ethereum.fetchTransactions(true))
             }
           }
