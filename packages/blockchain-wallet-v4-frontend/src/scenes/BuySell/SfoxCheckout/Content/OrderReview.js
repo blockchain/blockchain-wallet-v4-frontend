@@ -8,6 +8,7 @@ import { reviewOrder } from 'services/SfoxService'
 import { FormattedMessage } from 'react-intl'
 import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDetails'
 import FundingSource from 'components/BuySell/FundingSource'
+import { PartnerHeader, PartnerSubHeader } from 'components/BuySell/Signup'
 import { StepTransition } from 'components/Utilities/Stepper'
 import Helper from 'components/BuySell/FAQ'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
@@ -46,12 +47,12 @@ const faqListHelper = () => faqList.map(el => <Helper question={el.question} ans
 
 export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
   <ExchangeCheckoutWrapper>
-    <Text size='32px' weight={600} style={spacing('mb-10')}>
+    <PartnerHeader size='32px' weight={600} style={spacing('mb-10')}>
       <FormattedMessage id='buy.sfoxcheckout.almostthere' defaultMessage="You're almost there" />
-    </Text>
-    <Text size='14px' weight={300} style={spacing('mb-20')}>
+    </PartnerHeader>
+    <PartnerSubHeader size='14px' weight={300} style={spacing('mb-20')}>
       <FormattedMessage id='buy.sfoxcheckout.revieworder.subtext' defaultMessage='Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order.' />
-    </Text>
+    </PartnerSubHeader>
     <Text size='14px' weight={300} style={spacing('mt-20')}>
       <FormattedMessage id='buy.sfoxcheckout.connectedaccount' defaultMessage='Your Connected Account' />:
     </Text>
