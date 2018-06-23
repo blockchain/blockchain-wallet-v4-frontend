@@ -17,6 +17,10 @@ const CheckoutWrapper = styled.div`
   display: grid;
   grid-template-columns: 55% 35%;
   grid-gap: 10%;
+  @media (max-width: 480px){
+    display: flex;
+    flex-direction: column;
+  }
 `
 
 const Sell = props => {
