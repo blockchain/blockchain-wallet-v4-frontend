@@ -39,7 +39,6 @@ export const getLabel = (address, state) => {
 
 export const _transformTx = curry((addresses, latestBlock, state, tx) => {
   const fee = getFee(tx)
-  debugger
   return {
     type: toLower(getType(tx, addresses)),
     hash: tx.hash,
