@@ -30,7 +30,7 @@ export const MaximumAmountMessage = () => (
 
 export const MaximumFeeMessage = () => (
   <Wrapper>
-    <FormattedMessage id='modals.sencbtc.maximumfeemessage' defaultMessage='Unnecessarily high fee. Use' />
+    <FormattedMessage id='modals.sencbtc.maximumfeemessage' defaultMessage='Unnecessarily high fee. Use our' />
     <MaximumFeeLink />
   </Wrapper>
 )

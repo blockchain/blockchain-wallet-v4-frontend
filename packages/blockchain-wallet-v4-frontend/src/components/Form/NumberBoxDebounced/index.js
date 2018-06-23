@@ -14,11 +14,13 @@ const Container = styled.div`
   height: 40px;
 `
 const Error = styled(Text)`
+  white-space: nowrap;
   position: absolute;
   display: block;
   height: 15px;
+  right: ${props => props.errorLeft ? 'auto' : 0};
+  left: ${props => props.errorLeft ? '-2px' : 'auto'};
   top: ${props => props.errorBottom ? '40px' : '-20px'};
-  right: 0;
 `
 const getErrorState = (meta) => {
   return meta.touched && meta.invalid ? 'invalid' : 'initial'
@@ -72,7 +74,7 @@ class NumberBoxDebounced extends React.Component {
   }
 
   render () {
-    const { disabled, errorBottom, meta, placeholder, ...rest } = this.props
+    const { disabled, errorBottom, errorLeft, meta, placeholder, ...rest } = this.props
     const errorState = getErrorState(meta)
 
     return (
@@ -87,8 +89,8 @@ class NumberBoxDebounced extends React.Component {
           onBlur={this.handleBlur}
           {...rest}
         />
-        {meta.touched && meta.error && <Error size='12px' weight={300} color='error' errorBottom={errorBottom}>{meta.error}</Error>}
-        {meta.touched && !meta.error && meta.warning && <Error size='12px' weight={300} color='sent' errorBottom={errorBottom}>{meta.warning}</Error>}
+        {meta.touched && meta.error && <Error size='12px' weight={300} color='error' errorBottom={errorBottom} errorLeft={errorLeft}>{meta.error}</Error>}
+        {meta.touched && !meta.error && meta.warning && <Error size='12px' weight={300} color='sent' errorBottom={errorBottom} errorLeft={errorLeft}>{meta.warning}</Error>}
       </Container>
     )
   }

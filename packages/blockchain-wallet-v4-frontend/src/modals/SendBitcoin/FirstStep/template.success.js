@@ -148,7 +148,7 @@ const FirstStep = props => {
             </FeeFormLabel>
             {feePerByteToggled &&
               <FeePerByteContainer>
-                <Field name='feePerByte' component={NumberBoxDebounced} validate={[required, minimumOneSatoshi]} warn={[minimumFeePerByte, maximumFeePerByte]} errorBottom />
+                <Field name='feePerByte' component={NumberBoxDebounced} validate={[required, minimumOneSatoshi]} warn={[minimumFeePerByte, maximumFeePerByte]} errorBottom errorLeft />
               </FeePerByteContainer>
             }
           </FeeFormContainer>
