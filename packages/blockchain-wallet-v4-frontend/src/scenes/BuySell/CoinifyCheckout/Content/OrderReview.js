@@ -22,7 +22,7 @@ const ExchangeRateWrapper = styled.div`
 `
 const OrderReviewHeader = styled(Text)`
   font-size: 32px;
-  @media (max-width: 428px) {
+  @media (max-width: 480px) {
     font-size: 20px;
   }
 `

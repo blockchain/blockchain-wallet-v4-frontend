@@ -13,10 +13,18 @@ import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 const ISXContainer = styled.div`
   display: flex;
   flex-direction: row;
+  @media (max-width: 480px) {
+    flex-direction: column;
+  }
 `
 const ButtonContainer = styled.div`
   margin-left: 5%;
   width: 20%;
+  @media (max-width: 480px) {
+    width: 100%;
+    margin-left: 0%;
+    margin-top: 20px;
+  }
 `
 const TimerContainer = styled.div`
   width: 66%;
@@ -30,6 +38,14 @@ const QuoteExpiredText = styled(Text)`
   }
   span:first-of-type {
     font-style: italic;
+  }
+`
+const ISignThisIframe = styled.iframe`
+  width: 65%;
+  height: 400px;
+  border: ${props => `1px solid ${props.theme['gray-1']}`}
+  @media (max-width: 480px) {
+    width: 100%;
   }
 `
 
@@ -241,7 +257,7 @@ class ISignThisContainer extends Component {
           }).getOrElse(null)}
         </TimerContainer>
         <ISXContainer>
-          <iframe style={{ width: '65%', height: '400px', border: '1px solid #EAEAEA' }}
+          <ISignThisIframe
             src={srcUrl}
             sandbox='allow-same-origin allow-scripts allow-forms'
             scrolling='yes'
