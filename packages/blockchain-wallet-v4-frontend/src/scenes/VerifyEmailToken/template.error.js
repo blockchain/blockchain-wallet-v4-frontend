@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Icon, Text } from 'blockchain-info-components'
-import SanitizedFormattedHTMLMessage from 'components/SanitizedFormattedHTMLMessage'
+import { FormattedHTMLMessage } from 'react-intl'
 
 const Wrapper = styled.div`
   display: flex;
@@ -20,7 +20,7 @@ const Error = props => {
     <Wrapper>
       <Icon name='alert-filled' color='red' size='40px' />
       <ErrorText size='16px' weight={300} color='red' style={{ 'margin-top': '25px' }}>
-        <SanitizedFormattedHTMLMessage id='scenes.verifyemailtoken.error' defaultMessage='<span>Uh Oh. Something went wrong. Error: </span> {error}' values={{error: props.value}} />
+        <FormattedHTMLMessage id='scenes.verifyemailtoken.error' defaultMessage='<span>Uh Oh. Something went wrong. Error: </span> {error}' values={{error: props.value}} />
       </ErrorText>
     </Wrapper>
   )
