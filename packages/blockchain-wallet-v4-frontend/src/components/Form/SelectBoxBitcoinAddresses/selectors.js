@@ -3,7 +3,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
 
 export const getData = (state, ownProps) => {
-  const { coin, exclude = [], excludeImported, noBchWatchOnly } = ownProps
+  const { coin, exclude = [], excludeImported, excludeWatchOnly } = ownProps
   const isActive = filter(x => !x.archived)
   const excluded = filter(x => !exclude.includes(x.label))
   const toDropdown = map(x => ({ text: x.label, value: x }))
@@ -27,7 +27,7 @@ export const getData = (state, ownProps) => {
       case 'BCH':
         const importedAddresses = selectors.core.common.bch.getActiveAddresses(state)
         const filterRelevantAddresses = addrs =>
-          noBchWatchOnly ? filter(addr => not(isNil(prop('priv', addr))), addrs) : addrs
+          excludeWatchOnly ? filter(addr => not(isNil(prop('priv', addr))), addrs) : addrs
         const relevantAddresses = lift(filterRelevantAddresses)(importedAddresses)
 
         return sequence(Remote.of,

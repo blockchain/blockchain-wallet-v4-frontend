@@ -47,7 +47,7 @@ const FirstStep = props => {
           <FormLabel for='from'>
             <FormattedMessage id='modals.sendBch.firststep.from' defaultMessage='From:' />
           </FormLabel>
-          <Field name='from' component={SelectBoxBitcoinAddresses} includeAll={false} noBchWatchOnly validate={[required]} coin='BCH' />
+          <Field name='from' component={SelectBoxBitcoinAddresses} includeAll={false} excludeWatchOnly validate={[required]} coin='BCH' />
         </FormItem>
       </FormGroup>
       <FormGroup margin={'15px'}>
