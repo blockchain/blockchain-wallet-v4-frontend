@@ -2,13 +2,15 @@ import React, { Component, Fragment } from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { actions, selectors } from 'data'
-import { path } from 'ramda'
+import { actions } from 'data'
+import { path, prop } from 'ramda'
 import { Button, Text, Tooltip } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
+
 import Helper from 'components/BuySell/FAQ'
 import CountdownTimer from 'components/Form/CountdownTimer'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
+import { getData } from './selectors'
 
 const ISXContainer = styled.div`
   display: flex;
@@ -127,7 +129,7 @@ class ISignThisContainer extends Component {
         }
 
         let frame = document.getElementById('isx-iframe')
-        if (e.source !== frame.contentWindow) {
+        if (e.source !== prop('contentWindow', frame)) {
           // Source of message isn't from the iframe
           return
         }
@@ -231,7 +233,7 @@ class ISignThisContainer extends Component {
             } else {
               return (
                 <CountdownTimer
-                  expiryDate={q.expiresAt.getTime()}
+                  expiryDate={trade.map(prop('quoteExpireTime')).getOrElse(q.expiresAt.getTime())}
                   handleExpiry={this.onQuoteExpiration}
                   tooltipExpiryTime='15 minutes'
                   hideTooltip
@@ -269,11 +271,7 @@ class ISignThisContainer extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  walletOptions: path(['walletOptionsPath'], state),
-  quoteR: selectors.core.data.coinify.getQuote(state),
-  trade: selectors.core.data.coinify.getTrade(state)
-})
+const mapStateToProps = (state) => getData(state)
 
 const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
