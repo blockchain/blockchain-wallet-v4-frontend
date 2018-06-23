@@ -11,7 +11,6 @@ import priceChart from './priceChart/sagaRegister'
 import priceTicker from './priceTicker/sagaRegister'
 import refresh from './refresh/sagaRegister'
 import requestBtc from './requestBtc/sagaRegister'
-import requestEth from './requestEth/sagaRegister'
 import sendBch from './sendBch/sagaRegister'
 import sendBtc from './sendBtc/sagaRegister'
 import sendEth from './sendEth/sagaRegister'
@@ -32,7 +31,6 @@ export default ({ api, coreSagas }) => function * () {
   yield fork(priceTicker({ coreSagas }))
   yield fork(refresh())
   yield fork(requestBtc())
-  yield fork(requestEth())
   yield fork(sendBch({ api, coreSagas }))
   yield fork(sendBtc({ api, coreSagas }))
   yield fork(sendEth({ api, coreSagas }))
