@@ -23,6 +23,11 @@ const PaymentColLeft = styled(ColLeft)`
     width: 100%;
   }
 `
+const PaymentColRight = styled(ColRight)`
+  @media (max-width: 480px) {
+    width: 100%;
+  }
+`
 const PaymentWrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -34,9 +39,18 @@ const PaymentWrapper = styled.div`
 const BorderBox = styled.div`
   border: 1px solid ${props => props.theme['gray-1']};
   padding: 30px;
+  @media (max-width: 480px) {
+    padding: 20px;
+  }
 `
 const FaqWrapper = styled.div`
   margin-top: 30px;
+`
+const ButtonContainer = styled.div`
+  margin-top: 45px;
+  @media (max-width: 480px) {
+    margin-top: 20px;
+  }
 `
 
 const helpers = [
@@ -83,17 +97,19 @@ const Payment = (props) => {
           </PaymentWrapper>
         </BorderBox>
       </PaymentColLeft>
-      <ColRight>
+      <PaymentColRight>
         <ColRightInner>
-          {
-            path(['name'], level) < 2 && medium === 'bank'
-              ? <Button nature='primary' fullwidth style={spacing('mt-45')} onClick={triggerKyc} disabled={!medium || busy}>
-                { busyHelper(busy) }
-              </Button>
-              : <StepTransition next Component={Button} style={spacing('mt-45')} nature='primary' fullwidth disabled={!medium || busy}>
-                { busyHelper(busy) }
-              </StepTransition>
-          }
+          <ButtonContainer>
+            {
+              path(['name'], level) < 2 && medium === 'bank'
+                ? <Button nature='primary' fullwidth onClick={triggerKyc} disabled={!medium || busy}>
+                  {busyHelper(busy)}
+                </Button>
+                : <StepTransition next Component={Button} nature='primary' fullwidth disabled={!medium || busy}>
+                  {busyHelper(busy)}
+                </StepTransition>
+            }
+          </ButtonContainer>
           <CancelWrapper>
             <StepTransition prev Component={Link}>
               <FormattedMessage id='coinifyexchangedata.payment.cancel' defaultMessage='Cancel' />
@@ -103,7 +119,7 @@ const Payment = (props) => {
             { faqHelper() }
           </FaqWrapper>
         </ColRightInner>
-      </ColRight>
+      </PaymentColRight>
     </PaymentForm>
   )
 }
