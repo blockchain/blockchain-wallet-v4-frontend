@@ -58,7 +58,7 @@ export default ({ api, bchSocket }) => {
         case 'pong':
           break
         default:
-          console.log('unknown type for ', message)
+          yield put(actions.logs.logErrorMessage('middleware/webSocket/bch/sagas', 'onMessage', 'unknown type for ' + message))
           break
       }
     } catch (e) {

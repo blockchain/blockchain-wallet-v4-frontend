@@ -74,7 +74,7 @@ export default ({ api, btcSocket }) => {
           yield call(dispatchLogoutEvent)
           break
         default:
-          console.log('unknown type for ', message)
+          yield put(actions.logs.logErrorMessage('middleware/webSocket/btc/sagas', 'onMessage', 'unknown type for ' + message))
           break
       }
     } catch (e) {
