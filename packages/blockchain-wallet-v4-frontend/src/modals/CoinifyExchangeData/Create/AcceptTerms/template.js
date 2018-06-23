@@ -8,7 +8,6 @@ import { CheckBox } from 'components/Form'
 import Terms from 'components/Terms'
 import { Button, HeartbeatLoader, Text, TextGroup, Link, Icon } from 'blockchain-info-components'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ErrorWrapper, ColRightInner } from 'components/BuySell/Signup'
-import { spacing } from 'services/StyleService'
 import { prop } from 'ramda'
 
 const AcceptTermsContainer = styled.div`
