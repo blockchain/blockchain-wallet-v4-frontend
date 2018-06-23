@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
-import { required, validEmail } from 'services/FormHelper'
+import { required, validEmail, validPasswordConfirmation, validStrongPassword } from 'services/FormHelper'
 import { Button, Link, HeartbeatLoader, Separator, Text } from 'blockchain-info-components'
 import { CheckBox, Form, FormGroup, FormLabel, PasswordBox, TextBox } from 'components/Form'
 import Terms from 'components/Terms'
@@ -31,13 +31,12 @@ const GoBackLink = styled(Link)`
   margin-right: 15px;
 `
 
-const validatePasswordsMatch = values => {
-  return values.password === values.confirmationPassword ? {} : { confirmationPassword: 'Passwords must match' }
-}
+const validatePasswordConfirmation = validPasswordConfirmation('password')
+
+const checkboxShouldBeChecked = value => value ? undefined : 'You must agree to the terms and conditions'
 
 const SecondStep = (props) => {
   const { busy, invalid, handleSubmit, previousStep } = props
-  const checkboxShouldBeChecked = value => value ? undefined : 'You must agree to the terms and conditions'
 
   return (
     <Wrapper>
@@ -64,13 +63,13 @@ const SecondStep = (props) => {
           <FormLabel for='password'>
             <FormattedMessage id='scenes.recover.secondstep.password' defaultMessage='Password' />
           </FormLabel>
-          <Field name='password' validate={[required]} component={PasswordBox} score />
+          <Field name='password' validate={[required, validStrongPassword]} component={PasswordBox} score />
         </FormGroup>
         <FormGroup>
           <FormLabel for='confirmationPassword'>
             <FormattedMessage id='scenes.recover.secondstep.confirmapassword' defaultMessage='Confirm Password' />
           </FormLabel>
-          <Field name='confirmationPassword' validate={[required]} component={PasswordBox} />
+          <Field name='confirmationPassword' validate={[required, validatePasswordConfirmation]} component={PasswordBox} />
         </FormGroup>
         <FormGroup>
           <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox}>
@@ -95,6 +94,5 @@ const SecondStep = (props) => {
 
 export default reduxForm({
   form: 'recover',
-  destroyOnUnmount: false,
-  validate: validatePasswordsMatch
+  destroyOnUnmount: false
 })(SecondStep)
