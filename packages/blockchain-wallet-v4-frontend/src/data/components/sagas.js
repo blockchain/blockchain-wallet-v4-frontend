@@ -8,7 +8,9 @@ import importBtcAddress from './importBtcAddress/sagas'
 import manageAddresses from './manageAddresses/sagas'
 import priceChart from './priceChart/sagas'
 import priceTicker from './priceTicker/sagas'
+import requestBch from './requestBch/sagas'
 import requestBtc from './requestBtc/sagas'
+import requestEth from './requestEth/sagas'
 import sendBch from './sendBch/sagas'
 import sendBtc from './sendBtc/sagas'
 import sendEth from './sendEth/sagas'
@@ -27,7 +29,9 @@ export default ({ api, coreSagas }) => ({
   manageAddresses: manageAddresses({ api, coreSagas }),
   priceChart: priceChart({ coreSagas }),
   priceTicker: priceTicker({ coreSagas }),
+  requestBch: requestBch(),
   requestBtc: requestBtc(),
+  requestEth: requestEth(),
   sendBch: sendBch({ api, coreSagas }),
   sendBtc: sendBtc({ api, coreSagas }),
   sendEth: sendEth({ api, coreSagas }),

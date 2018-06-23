@@ -28,7 +28,7 @@ export default ({ api, ethSocket }) => {
           break
         }
         if (message.tx.to === message.account) {
-          yield put(A.webSocket.bitcoin.paymentReceived('You\'ve just received an Ethereum payment.'))
+          yield put(A.webSocket.ethereum.paymentReceived())
         }
         const context = yield select(ethSelectors.getContext)
         yield put(ethActions.fetchData(context.data))
