@@ -50,7 +50,7 @@ export const MinimumFeeMessage = () => (
 )
 
 export const MinimumOneSatoshiMessage = () => (
-  <FormattedMessage id='modals.sencbtc.minimumonesatoshimessage' defaultMessage='Invalid {sat}' values={{ sat: '(< 1sat/b)' }} />
+  <FormattedMessage id='modals.sencbtc.minimumonesatoshimessage' defaultMessage='Minimum {sat} required' values={{ sat: '1 sat/byte' }} />
 )
 
 export const InsufficientFundsMessage = () => (

@@ -72,7 +72,7 @@ class NumberBoxDebounced extends React.Component {
   }
 
   render () {
-    const { meta, disabled, placeholder, ...rest } = this.props
+    const { disabled, errorBottom, meta, placeholder, ...rest } = this.props
     const errorState = getErrorState(meta)
 
     return (
@@ -87,8 +87,8 @@ class NumberBoxDebounced extends React.Component {
           onBlur={this.handleBlur}
           {...rest}
         />
-        {meta.touched && meta.error && <Error size='12px' weight={300} color='error'>{meta.error}</Error>}
-        {meta.touched && !meta.error && meta.warning && <Error size='12px' weight={300} color='sent'>{meta.warning}</Error>}
+        {meta.touched && meta.error && <Error size='12px' weight={300} color='error' errorBottom={errorBottom}>{meta.error}</Error>}
+        {meta.touched && !meta.error && meta.warning && <Error size='12px' weight={300} color='sent' errorBottom={errorBottom}>{meta.warning}</Error>}
       </Container>
     )
   }
