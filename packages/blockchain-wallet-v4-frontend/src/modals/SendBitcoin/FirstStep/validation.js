@@ -31,7 +31,7 @@ export const minimumFeePerByte = (value, allValues, props) => value && parseInt(
 
 export const minimumOneSatoshi = (value, allValues, props) => value >= 1 ? undefined : <MinimumOneSatoshiMessage />
 
-export const maximumFeePerByte = (value, allValues, props) => value && parseInt(value) < props.maxFeePerByte ? undefined : <MaximumFeeMessage />
+export const maximumFeePerByte = (value, allValues, props) => value && parseInt(value) <= props.maxFeePerByte ? undefined : <MaximumFeeMessage />
 
 export const shouldError = ({ values, nextProps, props, initialRender, structure }) => {
   if (initialRender) { return true }

@@ -8,7 +8,7 @@ import { Link } from 'blockchain-info-components'
 
 const MaximumFeeLink = props => (
   <Link size='12px' weight={300} onClick={() => props.actions.sendBtcFirstStepMaximumFeeClicked()}>
-    <FormattedMessage id='modals.sendbtc.maximumfeelink.maximum' defaultMessage='maximum' />
+    <FormattedMessage id='modals.sendbtc.maximumfeelink.rec_upper_limit' defaultMessage='recommended upper limit' />
   </Link>
 )
 
