@@ -2542,6 +2542,14 @@
         "id": "modals.importbtcaddress.importtype"
       },
       {
+        "defaultMessage": "Existing address generated in <span>this wallet</span>.",
+        "id": "modals.importbtcaddress.generated_in_wallet"
+      },
+      {
+        "defaultMessage": "Existing address generated <span>outside this wallet</span>.",
+        "id": "modals.importbtcaddress.generated_outside_wallet"
+      },
+      {
         "defaultMessage": "Import",
         "id": "modals.importbtcaddress.button"
       }
@@ -4471,6 +4479,15 @@
       }
     ],
     "path": "src/providers/ErrorBoundaryProvider/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "<span>Uh Oh. Something went wrong. Error: </span> {error}",
+        "id": "scenes.authorizelogin.loading"
+      }
+    ],
+    "path": "src/scenes/AuthorizeLogin/template.error.json"
   },
   {
     "descriptors": [
@@ -6437,6 +6454,15 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "<span>Uh Oh. Something went wrong. Error: </span> {error}",
+        "id": "scenes.reset2fatoken.error"
+      }
+    ],
+    "path": "src/scenes/Reset2FAToken/template.error.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "We're handling your Two-Step Verification reset request. Please wait...",
         "id": "scenes.reset2fatoken.loading"
       }
@@ -8236,11 +8262,29 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "<span>Uh Oh. Something went wrong. Error: </span> {error}",
+        "id": "scenes.verifyemailtoken.error"
+      }
+    ],
+    "path": "src/scenes/VerifyEmailToken/template.error.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "We're verifying your email address. Please wait...",
         "id": "scenes.verifyemailtoken.loading"
       }
     ],
     "path": "src/scenes/VerifyEmailToken/template.loading.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "You've succesfully verified your email address! <span>Return to the previous tab to view your wallet.</span>",
+        "id": "scenes.verifyemailtoken.success"
+      }
+    ],
+    "path": "src/scenes/VerifyEmailToken/template.success.json"
   },
   {
     "descriptors": [
