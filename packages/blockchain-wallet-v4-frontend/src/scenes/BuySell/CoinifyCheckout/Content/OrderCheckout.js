@@ -24,14 +24,13 @@ const OrderCheckout = ({ changeTab, quoteR, account, onFetchQuote, reason, limit
     return checkoutButtonLimitsHelper(quoteR, limits, type)
   }
 
-  const rateHelper = () => {
-    return quoteR.map(getRateFromQuote).getOrElse(
+  const rateHelper = () =>
+    quoteR.map(getRateFromQuote).getOrElse(
       <Fragment>
         <FormattedMessage id='scenes.buysell.coinifycheckout.content.ordercheckout.loading' defaultMessage='Loading' />
         {'...'}
       </Fragment>
     )
-  }
 
   const submitButtonHelper = () => (
     reason.indexOf('has_remaining') > -1

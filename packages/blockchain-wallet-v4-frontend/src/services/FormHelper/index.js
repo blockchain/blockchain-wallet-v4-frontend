@@ -73,14 +73,14 @@ const onPartnerCountryWhitelist = (val, allVals, props, name, countries) => {
   const sfoxCountries = path(['sfox', 'countries'], options)
   const coinifyCountries = path(['coinify', 'countries'], options)
   const allCountries = countries || concat(sfoxCountries, coinifyCountries)
-  return (country && allCountries.includes(country)) ? undefined : true
+  return (country && allCountries.includes(country)) ? undefined : <M.PartnerCountryWhitelist />
 }
 
 const onPartnerStateWhitelist = (val, allVals, props, name, states) => {
   const usState = prop('code', val)
   const options = path(['options', 'platforms', 'web'], props)
   const sfoxStates = path(['sfox', 'states'], options)
-  return (usState && sfoxStates.includes(usState)) ? undefined : true
+  return (usState && sfoxStates.includes(usState)) ? undefined : <M.PartnerStateWhitelist />
 }
 
 export {

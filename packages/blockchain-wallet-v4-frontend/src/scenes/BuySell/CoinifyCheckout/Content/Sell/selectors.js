@@ -12,9 +12,6 @@ export const getUserData = (state) => {
 export const getTrades = (state) =>
   selectors.core.data.coinify.getTrades(state).getOrElse(null)
 
-export const getRateQuote = (state) =>
-  selectors.core.data.coinify.getRateQuote(state)
-
 export const getTrade = (state) =>
   selectors.core.data.coinify.getTrade(state).getOrElse(null)
 

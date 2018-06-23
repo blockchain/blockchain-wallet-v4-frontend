@@ -49,7 +49,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
 
   handleScanBchAddress (data) {
     try {
-      if (utils.bitcoin.isValidBitcoinAddress(data)) {
+      if (utils.bch.isCashAddr(data) || utils.bitcoin.isValidBitcoinAddress(data)) {
         this.props.formActions.change('sendBch', 'to', data)
         this.props.updateUI({ bchAddress: { toggled: false } })
         return
@@ -88,6 +88,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
   handleScanBtcPriv (data) {
     if (utils.bitcoin.isValidBitcoinPrivateKey(data)) {
       this.props.formActions.change('sendBtc', 'priv', data)
+      this.props.formActions.touch('sendBtc', 'priv')
       this.props.updateUI({ btcPriv: { toggled: false } })
     } else {
       this.props.alertActions.displayError(C.PRIVATE_KEY_INVALID)
