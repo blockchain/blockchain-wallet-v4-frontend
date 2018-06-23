@@ -37,17 +37,21 @@ export const getLabel = (address, state) => {
   return labelR.getOrElse(address)
 }
 
-export const _transformTx = curry((addresses, latestBlock, state, tx) => ({
-  type: toLower(getType(tx, addresses)),
-  hash: tx.hash,
-  amount: parseInt(tx.value),
-  to: getLabel(tx.to, state),
-  from: getLabel(tx.from, state),
-  confirmations: getConfirmations(tx.blockNumber, latestBlock),
-  fee: getFee(tx),
-  description: getEthereumTxNote(state, tx.hash).data || '',
-  time: tx.timeStamp,
-  timeFormatted: getTime(tx)
-}))
+export const _transformTx = curry((addresses, latestBlock, state, tx) => {
+  const fee = getFee(tx)
+  debugger
+  return {
+    type: toLower(getType(tx, addresses)),
+    hash: tx.hash,
+    amount: parseInt(tx.value) + parseInt(fee),
+    to: getLabel(tx.to, state),
+    from: getLabel(tx.from, state),
+    confirmations: getConfirmations(tx.blockNumber, latestBlock),
+    fee: fee,
+    description: getEthereumTxNote(state, tx.hash).data || '',
+    time: tx.timeStamp,
+    timeFormatted: getTime(tx)
+  }
+})
 
 export const transformTx = _transformTx
