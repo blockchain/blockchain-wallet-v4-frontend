@@ -8,7 +8,7 @@ import CountdownTimer from 'components/Form/CountdownTimer'
 import { spacing } from 'services/StyleService'
 import { reviewOrder, getRateFromQuote } from 'services/CoinifyService'
 import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDetails'
-import { BorderBox, Row } from 'components/BuySell/Signup'
+import { BorderBox, Row, PartnerHeader, PartnerSubHeader } from 'components/BuySell/Signup'
 import { StepTransition } from 'components/Utilities/Stepper'
 import ReviewForm from './ReviewForm'
 import { update } from 'ramda'
@@ -20,12 +20,6 @@ const ExchangeRateWrapper = styled.div`
   justify-content: flex-end;
   margin-top: 20px;
 `
-const OrderReviewHeader = styled(Text)`
-  font-size: 32px;
-  @media (max-width: 480px) {
-    font-size: 20px;
-  }
-`
 
 const rateHelper = (quoteR) =>
   quoteR.map(getRateFromQuote).getOrElse(`~`)
@@ -33,12 +27,12 @@ const rateHelper = (quoteR) =>
 export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
   <Row>
     <BorderBox>
-      <OrderReviewHeader size='32px' weight={600} style={spacing('mb-10')}>
+      <PartnerHeader weight={600} style={spacing('mb-10')}>
         <FormattedMessage id='scenes.buysell.coinifycheckout.content.orderreview.buy.almostthere' defaultMessage="You're almost there" />
-      </OrderReviewHeader>
-      <Text size='14px' weight={300} style={spacing('mb-20')}>
-        <FormattedMessage id='scenes.buysell.coinifycheckout.content.orderreview.buy.revieworder.subtext' defaultMessage='Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order.' />
-      </Text>
+      </PartnerHeader>
+      <PartnerSubHeader weight={300} style={spacing('mb-20')}>
+        <FormattedMessage id='scenes.buysell.coinifycheckout.content.orderreview.buy.revieworder.subPartnerSubHeader' defaultMessage='Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order.' />
+      </PartnerSubHeader>
       <ExchangeRateWrapper>
         <Text size='12px' weight={500} style={spacing('mr-10')}>
           <FormattedMessage id='scenes.buysell.coinifycheckout.content.orderreview.exchangerate' defaultMessage='Exchange Rate' />
