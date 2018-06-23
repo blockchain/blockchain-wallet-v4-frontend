@@ -30,7 +30,7 @@ class CoinifyBuyContainer extends React.Component {
   render () {
     const { data, modalActions, coinifyActions, coinifyDataActions, buyQuoteR, currency, paymentMedium, trade, formActions, canTrade, ...rest } = this.props
     const { step, checkoutBusy, coinifyBusy, subscriptions, trades } = rest
-    const { handleTrade, fetchQuote, refreshBuyQuote } = coinifyDataActions
+    const { fetchQuote, refreshBuyQuote } = coinifyDataActions
     const { showModal } = modalActions
     const { coinifyNotAsked, openKYC, coinifyNextCheckoutStep } = coinifyActions
     const { change } = formActions
@@ -45,7 +45,6 @@ class CoinifyBuyContainer extends React.Component {
     return data.cata({
       Success: (value) => <Success
         value={value}
-        handleTrade={handleTrade}
         showModal={showModal}
         buyQuoteR={buyQuoteR}
         fetchBuyQuote={quote => fetchQuote({ quote, nextAddress: value.nextAddress })}
