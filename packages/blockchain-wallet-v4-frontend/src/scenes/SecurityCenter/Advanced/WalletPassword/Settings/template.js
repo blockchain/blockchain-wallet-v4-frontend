@@ -7,7 +7,13 @@ import styled from 'styled-components'
 import { Button, ButtonGroup } from 'blockchain-info-components'
 import { Form, FormGroup, FormItem, FormLabel, PasswordBox } from 'components/Form'
 import { SettingWrapper } from 'components/Setting'
-import { validStrongPassword } from 'services/FormHelper'
+import {
+  required,
+  validStrongPassword,
+  validPasswordConfirmation,
+  validCurrentPassword,
+  isNotCurrentPassword
+} from 'services/FormHelper'
 
 const ButtonWrapper = styled(ButtonGroup)`
   margin-top: 5px;
@@ -16,8 +22,18 @@ const ButtonWrapper = styled(ButtonGroup)`
   }
 `
 
+const validatePasswordConfirmation = validPasswordConfirmation('newPassword')
+
 const Settings = (props) => {
-  const { updateToggled, handleToggle, handleSubmit, submitting, invalid, currentWalletPassword, handleCancel } = props
+  const {
+    updateToggled,
+    handleToggle,
+    handleSubmit,
+    submitting,
+    invalid,
+    handleCancel
+  } = props
+
   return (
     <SettingWrapper>
       { !updateToggled &&
@@ -32,19 +48,19 @@ const Settings = (props) => {
               <FormLabel for='currentPassword'>
                 <FormattedMessage id='scenes.securitysettings.advanced.walletpassword.settings.current' defaultMessage='Current Password:' />
               </FormLabel>
-              <Field name='currentPassword' component={PasswordBox} validate={(value) => (value === currentWalletPassword ? undefined : 'Incorrect password')} />
+              <Field name='currentPassword' component={PasswordBox} validate={[validCurrentPassword]} />
             </FormItem>
             <FormItem style={{marginTop: '5px'}}>
               <FormLabel for='newPassword'>
                 <FormattedMessage id='scenes.securitysettings.advanced.walletpassword.settings.new' defaultMessage='New Password:' />
               </FormLabel>
-              <Field name='newPassword' component={PasswordBox} validate={[validStrongPassword]} score />
+              <Field name='newPassword' component={PasswordBox} validate={[validStrongPassword, isNotCurrentPassword]} score />
             </FormItem>
             <FormItem style={{marginTop: '5px'}}>
               <FormLabel for='walletPasswordConfirmation'>
                 <FormattedMessage id='scenes.securitysettings.advanced.walletpassword.settings.confirm' defaultMessage='Confirm Password:' />
               </FormLabel>
-              <Field name='walletPasswordConfirmation' validate={(value, allValues) => (value === allValues['newPassword']) ? undefined : 'Passwords do not match'} component={PasswordBox} />
+              <Field name='walletPasswordConfirmation' validate={[required, validatePasswordConfirmation]} component={PasswordBox} />
             </FormItem>
           </FormGroup>
           <ButtonWrapper>

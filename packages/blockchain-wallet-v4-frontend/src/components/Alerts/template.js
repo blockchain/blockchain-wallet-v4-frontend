@@ -100,6 +100,9 @@ const selectMessage = (message, data = undefined) => {
     case C.PAYMENT_RECEIVED_BTC: return <FormattedMessage id='components.alerts.payment_received_btc' defaultMessage="You've just received a Bitcoin payment" />
     case C.PAYMENT_RECEIVED_ETH: return <FormattedMessage id='components.alerts.payment_received_eth' defaultMessage="You've just received an Ethereum payment" />
     case C.PBKDF2_UPDATE_SUCCESS: return <FormattedMessage id='components.alerts.pbkdf2_update_success' defaultMessage='PBKDF2 iterations changed successfully' />
+    case C.RECEIVE_BCH_SUCCESS: return <FormattedMessage id='components.alerts.receive_bch_success' defaultMessage='You have received a bitcoin cash payment.' />
+    case C.RECEIVE_BTC_SUCCESS: return <FormattedMessage id='components.alerts.receive_btc_success' defaultMessage='You have received a bitcoin payment.' />
+    case C.RECEIVE_ETH_SUCCESS: return <FormattedMessage id='components.alerts.receive_eth_success' defaultMessage='You have received an ether payment.' />
     case C.REGISTER_ERROR: return <FormattedMessage id='components.alerts.register_error' defaultMessage='Wallet could not be created' />
     case C.REGISTER_SUCCESS: return <FormattedMessage id='components.alerts.register_successful' defaultMessage='Wallet successfully created' />
     case C.RENAME_BCH_WALLET_ERROR: return <FormattedMessage id='components.alerts.rename_bch_wallet_error' defaultMessage='Failed to update Bitcoin Cash account label' />
