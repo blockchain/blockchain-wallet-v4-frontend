@@ -41,8 +41,8 @@ const configureStore = () => {
     .then(res => res.json())
     .then(options => {
       const apiKey = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
-      const bchSocket = new Socket({ options, socketType: '/bch' })
       const btcSocket = new Socket({ options, socketType: '' })
+      const bchSocket = new Socket({ options, socketType: '/bch' })
       const ethSocket = new Socket({ options, socketType: '/eth' })
       const api = createWalletApi({ options, apiKey })
 
@@ -53,9 +53,9 @@ const configureStore = () => {
             sagaMiddleware,
             routerMiddleware(history),
             coreMiddleware.kvStore({ isAuthenticated, api, kvStorePath }),
+            webSocketBtc(btcSocket),
             webSocketBch(bchSocket),
             webSocketEth(ethSocket),
-            webSocketBtc(btcSocket),
             coreMiddleware.walletSync({ isAuthenticated, api, walletPath }),
             autoDisconnection()
           ),
