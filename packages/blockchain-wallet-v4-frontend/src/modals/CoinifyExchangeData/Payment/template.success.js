@@ -52,6 +52,12 @@ const ButtonContainer = styled.div`
     margin-top: 20px;
   }
 `
+const PaymentColRightInner = styled(ColRightInner)`
+  @media (max-width: 480px) {
+    width: 100%;
+    padding-left: 0px;
+  }
+`
 
 const helpers = [
   {
@@ -98,7 +104,7 @@ const Payment = (props) => {
         </BorderBox>
       </PaymentColLeft>
       <PaymentColRight>
-        <ColRightInner>
+        <PaymentColRightInner>
           <ButtonContainer>
             {
               path(['name'], level) < 2 && medium === 'bank'
@@ -118,7 +124,7 @@ const Payment = (props) => {
           <FaqWrapper>
             { faqHelper() }
           </FaqWrapper>
-        </ColRightInner>
+        </PaymentColRightInner>
       </PaymentColRight>
     </PaymentForm>
   )

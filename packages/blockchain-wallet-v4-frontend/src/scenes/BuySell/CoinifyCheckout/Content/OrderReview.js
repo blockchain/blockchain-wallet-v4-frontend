@@ -20,6 +20,12 @@ const ExchangeRateWrapper = styled.div`
   justify-content: flex-end;
   margin-top: 20px;
 `
+const OrderReviewHeader = styled(Text)`
+  font-size: 32px;
+  @media (max-width: 428px) {
+    font-size: 20px;
+  }
+`
 
 const rateHelper = (quoteR) =>
   quoteR.map(getRateFromQuote).getOrElse(`~`)
@@ -27,9 +33,9 @@ const rateHelper = (quoteR) =>
 export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
   <Row>
     <BorderBox>
-      <Text size='32px' weight={600} style={spacing('mb-10')}>
+      <OrderReviewHeader size='32px' weight={600} style={spacing('mb-10')}>
         <FormattedMessage id='scenes.buysell.coinifycheckout.content.orderreview.buy.almostthere' defaultMessage="You're almost there" />
-      </Text>
+      </OrderReviewHeader>
       <Text size='14px' weight={300} style={spacing('mb-20')}>
         <FormattedMessage id='scenes.buysell.coinifycheckout.content.orderreview.buy.revieworder.subtext' defaultMessage='Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order.' />
       </Text>
