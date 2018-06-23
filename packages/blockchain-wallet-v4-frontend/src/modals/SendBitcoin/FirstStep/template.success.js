@@ -68,7 +68,7 @@ const FeeOptionsContainer = styled.div`
 `
 const FeePerByteContainer = styled.div`
   width: 100%;
-  margin-top: 20px;
+  margin-bottom: 10px;
 `
 
 const FirstStep = props => {
@@ -141,13 +141,14 @@ const FirstStep = props => {
               {feePerByteToggled &&
                 <FeeOptionsContainer>
                   <RegularFeeLink fee={regularFeePerByte} />
+                  <span>&nbsp;</span>
                   <PriorityFeeLink fee={priorityFeePerByte} />
                 </FeeOptionsContainer>
               }
             </FeeFormLabel>
             {feePerByteToggled &&
               <FeePerByteContainer>
-                <Field name='feePerByte' component={NumberBoxDebounced} validate={[required, minimumOneSatoshi]} warn={[minimumFeePerByte, maximumFeePerByte]} />
+                <Field name='feePerByte' component={NumberBoxDebounced} validate={[required, minimumOneSatoshi]} warn={[minimumFeePerByte, maximumFeePerByte]} errorBottom />
               </FeePerByteContainer>
             }
           </FeeFormContainer>
