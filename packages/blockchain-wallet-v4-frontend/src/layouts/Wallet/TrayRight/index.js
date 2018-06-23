@@ -30,6 +30,11 @@ const AnimationWrapper = styled.div`
     width: calc(100%);
     right: ${props => props.opened ? '0' : 'calc(-110%)'};
   }
+  @media (max-width: 480px) {
+    width: calc(100%);
+    right: ${props => props.opened ? '0' : 'calc(-110%)'};
+    display: ${props => props.opened ? 'inline' : 'none'};
+  }
 `
 const Header = styled.div`
   display: flex;
