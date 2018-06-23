@@ -1,15 +1,32 @@
 import React from 'react'
+import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { canCancelTrade } from 'services/CoinifyService'
 import { equals, prop } from 'ramda'
 import moment from 'moment'
-
 import { TableCell, TableRow, Text, Link, Icon, HeartbeatLoader } from 'blockchain-info-components'
 import OrderStatus from '../OrderStatus'
 
-const tradeDateHelper = (trade) => moment(prop('createdAt', trade)).local().format('MMMM D YYYY @ h:mm A')
+export const OrderHistoryText = styled(Text)`
+  font-size: 13px;
+  @media (max-width: 480px) {
+    font-size: 12px;
+  }
+`
+export const OrderHistoryLink = styled(Link)`
+  font-size: 13px;
+  @media (max-width: 480px) {
+    font-size: 12px;
+  }
+`
+
+const tradeDateHelper = (trade) => {
+  let timeFormat = 'MMMM D YYYY @ h:mm A'
+  if (window.outerWidth <= 480) timeFormat = 'DD/MM'
+  return moment(prop('createdAt', trade)).local().format(timeFormat)
+}
 
 const TradeItem = props => {
   const { conversion, handleClick, handleFinish, handleTradeCancel, trade, status, cancelTradeId } = props
@@ -20,29 +37,29 @@ const TradeItem = props => {
 
   return (
     <TableRow>
-      <TableCell width='15%'>
+      <TableCell width='15%' mobileWidth='25%'>
         <OrderStatus status={trade.state} isBuy={trade.isBuy} />
       </TableCell>
-      <TableCell width='15%'>
+      <TableCell width='15%' mobileWidth='20%'>
         {
           trade.state === 'awaiting_transfer_in' && trade.medium === 'card'
-            ? <Link size='13px' weight={300} capitalize onClick={() => handleFinish(trade)}>
+            ? <OrderHistoryLink weight={300} capitalize onClick={() => handleFinish(trade)}>
               <FormattedMessage id='buysell.orderhistory.finishtrade' defaultMessage='Finish Trade' />
-            </Link>
-            : <Link size='13px' weight={300} capitalize onClick={() => handleClick(trade)}>
+            </OrderHistoryLink>
+            : <OrderHistoryLink weight={300} capitalize onClick={() => handleClick(trade)}>
               <FormattedMessage id='buysell.orderhistory.list.details' defaultMessage='View details' />
-            </Link>
+            </OrderHistoryLink>
         }
       </TableCell>
-      <TableCell width='30%'>
-        <Text opacity={getOpacity(trade)} size='13px' weight={300}>{tradeDateHelper(trade)}</Text>
+      <TableCell width='30%' mobileWidth='20%'>
+        <OrderHistoryText opacity={getOpacity(trade)} weight={300}>{tradeDateHelper(trade)}</OrderHistoryText>
       </TableCell>
-      <TableCell width='20%'>
-        <Text opacity={getOpacity(trade)} size='13px' weight={300}>{`${exchangeAmount} ${prop('inCurrency', trade)}`}</Text>
+      <TableCell width='20%' hideMobile>
+        <OrderHistoryText opacity={getOpacity(trade)} weight={300}>{`${exchangeAmount} ${prop('inCurrency', trade)}`}</OrderHistoryText>
       </TableCell>
-      <TableCell width='20%'>
+      <TableCell width='20%' mobileWidth='35%'>
         <TableCell width='80%'>
-          <Text opacity={getOpacity(trade)} size='13px' weight={300}>{`${receiveAmount} ${prop('outCurrency', trade)}`}</Text>
+          <OrderHistoryText opacity={getOpacity(trade)} weight={300}>{`${receiveAmount} ${prop('outCurrency', trade)}`}</OrderHistoryText>
         </TableCell>
         <TableCell width='20%'>
           {
