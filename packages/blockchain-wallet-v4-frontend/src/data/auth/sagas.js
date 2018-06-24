@@ -222,9 +222,12 @@ export default ({ api, coreSagas }) => {
 
   const remindGuid = function * (action) {
     try {
+      yield put(actions.auth.remindGuidLoading())
       yield call(coreSagas.wallet.remindWalletGuidSaga, action.payload)
       yield put(actions.alerts.displaySuccess(C.GUID_SENT_SUCCESS))
+      yield put(actions.auth.remindGuidSuccess())
     } catch (e) {
+      yield put(actions.auth.remindGuidFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'remindGuid', e))
       if (e.message === 'Captcha Code Incorrect') {
         yield put(actions.core.data.misc.fetchCaptcha())
