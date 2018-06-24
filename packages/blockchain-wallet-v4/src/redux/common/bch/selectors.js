@@ -112,15 +112,12 @@ export const getWalletTransactions = state => {
   // Remote(blockHeight)
   const blockHeightR = getHeight(state)
   // [Remote([tx])] == [Page] == Pages
-  const addDescription = (tx) => {
-    tx.description = getBchTxNote(state, tx.hash).data || ''
-    return tx
-  }
-  const pages = getTransactions(state).map(map(map(addDescription)))
+  const getDescription = (hash) => getBchTxNote(state, hash).getOrElse('')
+  const pages = getTransactions(state)
   // mTransformTx :: wallet -> blockHeight -> Tx
   // ProcessPage :: wallet -> blockHeight -> [Tx] -> [Tx]
   const ProcessTxs = (wallet, block, txList) =>
-    map(mTransformTx.bind(undefined, wallet, block), txList)
+    map(mTransformTx.bind(undefined, wallet, block, getDescription), txList)
   // ProcessRemotePage :: Page -> Page
   const ProcessPage = lift(ProcessTxs)(walletR, blockHeightR)
   const txs = map(ProcessPage, pages)

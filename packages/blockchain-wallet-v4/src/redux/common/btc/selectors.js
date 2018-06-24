@@ -4,6 +4,7 @@ import memoize from 'fast-memoize'
 import { getAddresses, getChangeIndex, getReceiveIndex, getHeight, getTransactions } from '../../data/bitcoin/selectors.js'
 import * as transactions from '../../../transactions'
 import * as walletSelectors from '../../wallet/selectors'
+import { getAddressLabel } from '../../addressLabels/selectors'
 import Remote from '../../../remote'
 
 const mTransformTx = memoize(transactions.bitcoin.transformTx)
@@ -110,16 +111,13 @@ export const getWalletTransactions = state => {
   // Remote(blockHeight)
   const blockHeightR = getHeight(state)
   // [Remote([tx])] == [Page] == Pages
-  const txNotes = Wallet.selectTxNotes(wallet)
-  const addDescription = (tx) => {
-    tx.description = TXNotes.selectNote(tx.hash, txNotes) || ''
-    return tx
-  }
-  const pages = getTransactions(state).map(map(map(addDescription)))
+  const getDescription = (hash, to) => TXNotes.selectNote(hash, Wallet.selectTxNotes(wallet)) || getAddressLabel(to)(state) || ''
+
+  const pages = getTransactions(state)
   // mTransformTx :: wallet -> blockHeight -> Tx
   // ProcessPage :: wallet -> blockHeight -> [Tx] -> [Tx]
   const ProcessTxs = (wallet, block, txList) =>
-    map(mTransformTx.bind(undefined, wallet, block), txList)
+    map(mTransformTx.bind(undefined, wallet, block, getDescription), txList)
   // ProcessRemotePage :: Page -> Page
   const ProcessPage = lift(ProcessTxs)(walletR, blockHeightR)
   return map(ProcessPage, pages)

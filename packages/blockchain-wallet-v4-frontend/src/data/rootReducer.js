@@ -42,7 +42,7 @@ const rootReducer = combineReducers({
   [paths.settingsPath]: coreReducers.settings,
   [paths.walletOptionsPath]: coreReducers.walletOptions,
   [paths.kvStorePath]: coreReducers.kvStore,
-  [paths.addressLabels] : coreReducers.addressLabels
+  [paths.addressLabels]: coreReducers.addressLabels
 })
 
 export default rootReducer
