@@ -262,6 +262,18 @@
         "id": "components.alerts.pbkdf2_update_success"
       },
       {
+        "defaultMessage": "You have received a bitcoin cash payment.",
+        "id": "components.alerts.receive_bch_success"
+      },
+      {
+        "defaultMessage": "You have received a bitcoin payment.",
+        "id": "components.alerts.receive_btc_success"
+      },
+      {
+        "defaultMessage": "You have received an ether payment.",
+        "id": "components.alerts.receive_eth_success"
+      },
+      {
         "defaultMessage": "Wallet could not be created",
         "id": "components.alerts.register_error"
       },
@@ -2154,19 +2166,19 @@
     "descriptors": [
       {
         "defaultMessage": "Why do you need this information?",
-        "id": "scenes.coinify.isx.question1"
+        "id": "scenes.coinify.isx.kycquestion"
       },
       {
         "defaultMessage": "Government anti-money laundering regulations require this verification of identity. The purpose of fulfilling these regulations is to provide you with a secure, smooth, and customized experience.",
-        "id": "scenes.coinify.isx.answer1"
+        "id": "scenes.coinify.isx.kycanswer"
       },
       {
         "defaultMessage": "How is my payment method used?",
-        "id": "scenes.coinify.isx.question2"
+        "id": "scenes.coinify.isx.tradequestion"
       },
       {
-        "defaultMessage": "Bitcoin is delivered to your Blockchain wallet by using the information you' ve provided.With that in mind, please double check that your submitted details are error-free.If you pay by credit / debit card, your bitcoin will be delivered within a couple of hours after the transaction is completed, depending on your bank’s transfer policies.If you pay by bank transfer, your bitcoin will be delivered after Coinify has processed your order, which usually takes between 2-3 days.",
-        "id": "scenes.coinify.isx.answer2"
+        "defaultMessage": "Bitcoin is delivered to your Blockchain wallet by using the information you've provided. With that in mind, please double check that your submitted details are error-free. If you pay by credit / debit card, your bitcoin will be delivered within a couple of hours after the transaction is completed, depending on your bank’s transfer policies. If you pay by bank transfer, your bitcoin will be delivered after Coinify has processed your order, which usually takes between 2-3 days.",
+        "id": "scenes.coinify.isx.tradeanswer"
       },
       {
         "defaultMessage": "~{btcValue} BTC",
@@ -4766,7 +4778,7 @@
         "id": "coinifyexchangedata.cyo.helper2.question"
       },
       {
-        "defaultMessage": "When you choose to create a trade through bank transfer, Coinify will show you an exchange rate that may differ from the actual rate due to price fluctuations in bitcoin. Any issues that increase your order' s processing time will have an effect on the final exchange rate used for that order. Once your order is ready, Coinify processes the trade and locks in the exchange rate.",
+        "defaultMessage": "When you choose to create a trade through bank transfer, Coinify will show you an exchange rate that may differ from the actual rate due to price fluctuations in bitcoin. Any issues that increase your order's processing time will have an effect on the final exchange rate used for that order. Once your order is ready, Coinify processes the trade and locks in the exchange rate.",
         "id": "coinifyexchangedata.cyo.helper2.answer"
       },
       {
@@ -4774,8 +4786,20 @@
         "id": "coinifyexchangedata.cyo.helper3.question"
       },
       {
-        "defaultMessage": "To read more about how Coinify stores your information and keeps it safe, please visit their [Terms and Conditions] and [Privacy Policy]. For help with or questions about your Blockchain wallet, please reach out to our support team [here].",
+        "defaultMessage": "To read more about how Coinify stores your information and keeps it safe, please visit their {tos} and {privacyPolicy}. For help with, or questions about your Blockchain wallet, please reach out to our support team {supportLink}.",
         "id": "coinifyexchangedata.cyo.helper3.answer"
+      },
+      {
+        "defaultMessage": "Terms of Service",
+        "id": "tos"
+      },
+      {
+        "defaultMessage": "Privacy Policy",
+        "id": "privacypolicy"
+      },
+      {
+        "defaultMessage": "contact support",
+        "id": "contactsupport"
       },
       {
         "defaultMessage": "How long will the sell order take?",
@@ -5434,10 +5458,6 @@
       {
         "defaultMessage": "Continue",
         "id": "scenes.exchange.shapeshift.stateregistration.continue"
-      },
-      {
-        "defaultMessage": "This service is not yet available in your state.",
-        "id": "scenes.exchange.shapeshift.stateregistration.unavailable"
       }
     ],
     "path": "src/scenes/Exchange/Shapeshift/StateRegistrationStep/template.json"
@@ -6640,6 +6660,14 @@
   },
   {
     "descriptors": [
+      {
+        "defaultMessage": "Second password invalid",
+        "id": "scenes.securitysettings.advanced.secondpasswordwallet.settings.invalidsecondpassword"
+      },
+      {
+        "defaultMessage": "You can't use your main password as your second password",
+        "id": "scenes.securitysettings.advanced.secondpasswordwallet.settings.samepassword"
+      },
       {
         "defaultMessage": "Remove Second Password",
         "id": "scenes.securitysettings.advanced.secondpasswordwallet.settings.remove"
@@ -8524,6 +8552,22 @@
       {
         "defaultMessage": "Country not available for buy & sell",
         "id": "formhelper.partnercountrywhitelist"
+      },
+      {
+        "defaultMessage": "State not available for buy & sell",
+        "id": "formhelper.partnerstatewhitelist"
+      },
+      {
+        "defaultMessage": "Passwords do not match",
+        "id": "formhelper.passwordsdonotmatch"
+      },
+      {
+        "defaultMessage": "Incorrect password",
+        "id": "formhelper.incorrectpassword"
+      },
+      {
+        "defaultMessage": "Password is the same as current",
+        "id": "formhelper.samepasswordascurrent"
       },
       {
         "defaultMessage": "Must be a valid date",
