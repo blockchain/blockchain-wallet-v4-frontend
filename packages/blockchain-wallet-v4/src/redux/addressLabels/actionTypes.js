@@ -1,0 +1,1 @@
+export const ADD_ADDRESS_LABEL = '@CORE.ADD_ADDRESS_LABEL'
