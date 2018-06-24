@@ -29,6 +29,12 @@ const validStrongPassword = value => (value !== undefined && zxcvbn(value).score
 
 const validIpList = value => isIpList(value) ? undefined : <M.InvalidIpListMessage />
 
+const validPasswordConfirmation = (passwordFieldName) => (value, allValues) => (value === allValues[passwordFieldName]) ? undefined : <M.PasswordsDoNotMatch />
+
+const validCurrentPassword = (value, allValues, { currentWalletPassword }) => value === currentWalletPassword ? undefined : <M.IncorrectPassword />
+
+const isNotCurrentPassword = (value, allValues, { currentWalletPassword }) => value !== currentWalletPassword ? undefined : <M.SamePasswordAsCurrent />
+
 const validPasswordStretchingNumber = value => (value > 1 && value <= 20000) ? undefined : <M.InvalidPasswordStretchingNumberMessage />
 
 const validEtherAddress = value => utils.ethereum.isValidAddress(value) ? undefined : <M.InvalidEtherAddressMessage />
@@ -67,14 +73,14 @@ const onPartnerCountryWhitelist = (val, allVals, props, name, countries) => {
   const sfoxCountries = path(['sfox', 'countries'], options)
   const coinifyCountries = path(['coinify', 'countries'], options)
   const allCountries = countries || concat(sfoxCountries, coinifyCountries)
-  return (country && allCountries.includes(country)) ? undefined : true
+  return (country && allCountries.includes(country)) ? undefined : <M.PartnerCountryWhitelist />
 }
 
 const onPartnerStateWhitelist = (val, allVals, props, name, states) => {
   const usState = prop('code', val)
   const options = path(['options', 'platforms', 'web'], props)
   const sfoxStates = path(['sfox', 'states'], options)
-  return (usState && sfoxStates.includes(usState)) ? undefined : true
+  return (usState && sfoxStates.includes(usState)) ? undefined : <M.PartnerStateWhitelist />
 }
 
 export {
@@ -95,6 +101,9 @@ export {
   validMobileNumber,
   validStrongPassword,
   validIpList,
+  validPasswordConfirmation,
+  validCurrentPassword,
+  isNotCurrentPassword,
   validPasswordStretchingNumber,
   validBitcoinAddress,
   validBitcoinCashAddress,

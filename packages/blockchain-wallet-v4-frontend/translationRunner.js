@@ -1,5 +1,5 @@
 import manageTranslations from 'react-intl-translations-manager'
-import bcManageTranslations from 'bc-react-intl-translations-manager'
+import bcManageTranslations from 'react-intl-translations-manager-bc'
 
 // TODO: fork and publish version of react-intl-translations-manager
 

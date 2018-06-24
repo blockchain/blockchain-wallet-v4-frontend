@@ -54,7 +54,8 @@ module.exports = {
   output: {
     path: isCiBuild ? (PATHS.dist) : (PATHS.lib),
     chunkFilename: '[name].[chunkhash:10].js',
-    publicPath: '/'
+    publicPath: '/',
+    crossOriginLoading: 'anonymous'
   },
   module: {
     rules: [
@@ -193,6 +194,7 @@ module.exports = {
       errors: true
     },
     headers: {
+      'Access-Control-Allow-Origin': '*',
       'Content-Security-Policy': isCiBuild ? [] : [
         "img-src 'self' data: blob:",
         "style-src 'self' 'unsafe-inline'",
