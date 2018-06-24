@@ -83,6 +83,9 @@ export default ({ api, coreSagas }) => {
       // reset auth type and clear previous login form state
       yield put(actions.auth.setAuthType(0))
       yield put(actions.form.destroy('login'))
+      // set payload language to settings language
+      const language = yield select(selectors.preferences.getLanguage)
+      yield put(actions.modules.settings.updateLanguage(language))
       yield fork(transferEthSaga)
       yield fork(welcomeSaga, firstLogin)
       yield fork(reportStats, mobileLogin)

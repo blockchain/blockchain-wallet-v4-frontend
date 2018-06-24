@@ -5,7 +5,7 @@ import { Field, reduxForm } from 'redux-form'
 import { LinkContainer } from 'react-router-bootstrap'
 import { check, msie } from 'bowser'
 
-import { validStrongPassword, required, validEmail } from 'services/FormHelper'
+import { validPasswordConfirmation, validStrongPassword, required, validEmail } from 'services/FormHelper'
 import { Banner, Button, Link, HeartbeatLoader, Separator, Text, TextGroup } from 'blockchain-info-components'
 import { CheckBox, Form, FormGroup, FormItem, FormLabel, PasswordBox, TextBox } from 'components/Form'
 import Terms from 'components/Terms'
@@ -32,13 +32,12 @@ const BrowserWarning = styled.div`
   margin-bottom: 10px;
 `
 
-const validatePasswordsMatch = values => {
-  return values.password === values.confirmationPassword ? {} : { confirmationPassword: 'Passwords must match' }
-}
+const validatePasswordConfirmation = validPasswordConfirmation('password')
+
+const checkboxShouldBeChecked = value => value ? undefined : 'You must agree to the terms and conditions'
 
 const Register = (props) => {
   const { handleSubmit, busy, invalid } = props
-  const checkboxShouldBeChecked = value => value ? undefined : 'You must agree to the terms and conditions'
 
   return (
     <Wrapper>
@@ -97,7 +96,7 @@ const Register = (props) => {
             <FormLabel for='confirmationPassword'>
               <FormattedMessage id='scenes.register.confirmpassword' defaultMessage='Confirm Password' />
             </FormLabel>
-            <Field name='confirmationPassword' validate={[required]} component={PasswordBox} disabled={!isSupportedBrowser} />
+            <Field name='confirmationPassword' validate={[required, validatePasswordConfirmation]} component={PasswordBox} disabled={!isSupportedBrowser} />
           </FormItem>
         </FormGroup>
         <FormGroup>
@@ -120,4 +119,4 @@ const Register = (props) => {
   )
 }
 
-export default reduxForm({form: 'register', validate: validatePasswordsMatch})(Register)
+export default reduxForm({ form: 'register' })(Register)

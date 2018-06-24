@@ -29,7 +29,6 @@ export const coinifyFetchProfileLoading = () => ({ type: AT.COINIFY_FETCH_PROFIL
 export const coinifyFetchProfileSuccess = (data) => ({ type: AT.COINIFY_FETCH_PROFILE_SUCCESS, payload: data })
 export const coinifyFetchProfileFailure = (error) => ({ type: AT.COINIFY_FETCH_PROFILE_FAILURE, payload: error })
 
-export const handleTrade = (data) => ({ type: AT.HANDLE_TRADE, payload: data })
 export const handleTradeLoading = () => ({ type: AT.HANDLE_TRADE_LOADING })
 export const handleTradeSuccess = (data) => ({ type: AT.HANDLE_TRADE_SUCCESS, payload: data })
 export const handleTradeFailure = (error) => ({ type: AT.HANDLE_TRADE_FAILURE, payload: error })
@@ -61,8 +60,6 @@ export const getMediumAccountsFailure = (error) => ({ type: AT.COINIFY_GET_MEDIU
 export const getMediumsWithBankAccounts = (quote) => ({ type: AT.COINIFY_GET_BANK_ACCOUNTS, payload: quote })
 
 export const addBankAccount = (medium, account) => ({ type: AT.COINIFY_ADD_BANK_ACCOUNT, payload: { medium, account } })
-export const addBankAccountFailure = (error) => ({ type: AT.COINIFY_ADD_BANK_ACCOUNT_FAILURE, payload: error })
-export const addBankAccountLoading = () => ({ type: AT.COINIFY_ADD_BANK_ACCOUNT_LOADING })
 export const addBankAccountSuccess = (account) => ({ type: AT.COINIFY_ADD_BANK_ACCOUNT_SUCCESS, payload: account })
 
 export const setBankAccount = (account) => ({ type: AT.COINIFY_SET_BANK_ACCOUNT, payload: account })

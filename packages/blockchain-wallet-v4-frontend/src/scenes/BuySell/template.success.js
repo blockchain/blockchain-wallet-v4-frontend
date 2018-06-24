@@ -165,7 +165,7 @@ const SelectPartner = (props) => {
                   )
                   : null
               }
-              <Button nature='primary' uppercase type='submit' disabled={invalid || pristine} style={spacing('mt-15')}>
+              <Button nature='primary' uppercase type='submit' disabled={invalid || pristine} style={spacing('mt-35')}>
                 <FormattedMessage id='selectpartner.getstarted' defaultMessage='get started' />
               </Button>
             </form>
