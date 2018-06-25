@@ -4,7 +4,7 @@ import { isNil, find, propEq, sortBy, prop } from 'ramda'
 const languages = [
   { cultureCode: 'de-DE', language: 'de', name: 'German' },
   { cultureCode: 'hi-IN', language: 'hi', name: 'Hindi' },
-  { cultureCode: 'nn-NO', language: 'nn', name: 'Norwegian' },
+  { cultureCode: 'nn-NO', language: 'no', name: 'Norwegian' },
   { language: 'ru', name: 'Russian' },
   { cultureCode: 'pt-PT', language: 'pt', name: 'Portuguese' },
   { cultureCode: 'bg-BG', language: 'bg', name: 'Bulgarian' },
