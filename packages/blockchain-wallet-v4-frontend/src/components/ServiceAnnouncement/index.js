@@ -24,7 +24,7 @@ class ServiceAnnouncement extends React.PureComponent {
 
   render () {
     const { alertArea, data } = this.props
-    return data.visible || data.announcements[alertArea].hideType === 'collapse'
+    return data && (data.visible || data.announcements[alertArea].hideType === 'collapse')
       ? (<Announcement
         announcement={data.announcements[alertArea]}
         language={data.language}
