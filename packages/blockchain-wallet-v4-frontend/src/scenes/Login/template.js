@@ -95,19 +95,12 @@ const Login = (props) => {
       </Text>
       <Separator />
       <LoginForm onSubmit={handleSubmit}>
-        { !isSupportedBrowser && <BrowserWarning>
-          <Banner type='warning'>
-            <FormattedMessage id='scenes.login.browserwarning' defaultMessage='Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, IE 11, or Opera.' />
-          </Banner>
-        </BrowserWarning> }
-        {
-          isSupportedBrowser && msie && <BrowserWarning>
-            <Banner type='caution'>
-              <Text size='12px'>
-                <FormattedMessage id='scenes.login.msiewarning' defaultMessage='We recommend that you login using a more secure browser like Chrome or Firefox.' />
-              </Text>
+        { !isSupportedBrowser &&
+          (<BrowserWarning>
+            <Banner type='warning'>
+              <FormattedMessage id='scenes.login.browserwarning' defaultMessage='Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, Edge, or Opera.' />
             </Banner>
-          </BrowserWarning>
+          </BrowserWarning>)
         }
         <FormGroup>
           <FormItem>

@@ -6142,10 +6142,6 @@
         "id": "scenes.login.browserwarning"
       },
       {
-        "defaultMessage": "We recommend that you login using a more secure browser like Chrome or Firefox.",
-        "id": "scenes.login.msiewarning"
-      },
-      {
         "defaultMessage": "Wallet ID",
         "id": "scenes.login.guid"
       },
