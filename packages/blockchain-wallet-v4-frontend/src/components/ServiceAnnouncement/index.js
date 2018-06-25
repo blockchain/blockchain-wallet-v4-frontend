@@ -10,49 +10,41 @@ import Announcement from './template.js'
 class ServiceAnnouncement extends React.PureComponent {
   constructor (props) {
     super(props)
-    this.state = { collapsed: false, visible: true }
     this.handleDismiss = this.handleDismiss.bind(this)
     this.toggleCollapse = this.toggleCollapse.bind(this)
   }
 
-  componentWillMount () {}
-
-  componentWillUnmount () {}
-
   handleDismiss (id) {
-    this.setState({ visible: false })
-    // TODO: write to local storage that user dismissed
-    this.props.alertActions.dismissAlert(id)
+    this.props.cacheActions.announcementDismissed(id)
   }
 
-  toggleCollapse () {
-    this.setState({ collapsed: !this.state.collapsed })
+  toggleCollapse (id) {
+    this.props.cacheActions.announcementToggled(id, !this.props.data.collapsed)
   }
 
   render () {
     const { alertArea, data } = this.props
-
-    return this.state.visible
+    return data.visible || data.announcements[alertArea].hideType === 'collapse'
       ? (<Announcement
         announcement={data.announcements[alertArea]}
         language={data.language}
-        collapsed={this.state.collapsed}
+        collapsed={data.collapsed}
         handleDismiss={this.handleDismiss}
         toggleCollapse={this.toggleCollapse} />)
       : null
   }
 }
 
-const mapStateToProps = (state) => ({
-  data: getData(state)
+const mapStateToProps = (state, ownProps) => ({
+  data: getData(state, ownProps)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  alertActions: bindActionCreators(actions.alerts, dispatch)
+  cacheActions: bindActionCreators(actions.cache, dispatch)
 })
 
 ServiceAnnouncement.propTypes = {
-  alertArea: PropTypes.oneOf(['global', 'wallet']).isRequired
+  alertArea: PropTypes.oneOf(['public', 'global']).isRequired
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ServiceAnnouncement)
