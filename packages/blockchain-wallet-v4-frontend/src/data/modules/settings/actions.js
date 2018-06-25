@@ -55,3 +55,5 @@ export const addShownEthPrivateKey = (priv) => ({ type: AT.ADD_SHOWN_ETH_PRIV_KE
 export const clearShownBtcPrivateKey = (priv) => ({ type: AT.CLEAR_SHOWN_BTC_PRIV_KEY, payload: {} })
 
 export const clearShownEthPrivateKey = (priv) => ({ type: AT.CLEAR_SHOWN_ETH_PRIV_KEY, payload: {} })
+
+export const removeRecoveryPhrase = () => ({type: AT.REMOVE_RECOVERY_PHRASE})
