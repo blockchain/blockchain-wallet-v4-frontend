@@ -5,12 +5,12 @@ import { bindActionCreators } from 'redux'
 import { actions } from 'data'
 import Refresh from './template.js'
 
-const RefreshContainer = ({ coreActions }) => (
-  <Refresh handleRefresh={coreActions.refresh} />
+const RefreshContainer = props => (
+  <Refresh handleRefresh={() => props.actions.refreshClicked()} />
 )
 
 const mapDispatchToProps = dispatch => ({
-  coreActions: bindActionCreators(actions.core.refresh, dispatch)
+  actions: bindActionCreators(actions.components.refresh, dispatch)
 })
 
 export default connect(undefined, mapDispatchToProps)(RefreshContainer)

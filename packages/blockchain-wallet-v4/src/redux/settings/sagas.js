@@ -1,5 +1,5 @@
 import { call, put, select } from 'redux-saga/effects'
-import { contains, prop, toLower } from 'ramda'
+import { contains, prop, toLower, sum } from 'ramda'
 import * as actions from './actions'
 import * as selectors from '../selectors'
 import * as walletActions from '../wallet/actions'
@@ -195,14 +195,16 @@ export default ({ api }) => {
   }
 
   const setNotificationsType = function * ({ types }) {
-    let type = 0
-    if (prop('email', types)) { type = type + 1 }
-    if (prop('mobile', types)) { type = type + 32 }
+    const typesState = []
+    const emailVerified = yield select(selectors.settings.getEmailVerified)
+    const smsVerified = yield select(selectors.settings.getSmsVerified)
+    if (prop('email', types) && emailVerified.data) { typesState.push(1) }
+    if (prop('mobile', types) && smsVerified.data) { typesState.push(32) }
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
-    const response = yield call(api.updateNotificationsType, guid, sharedKey, type)
+    const response = yield call(api.updateNotificationsType, guid, sharedKey, sum(typesState))
     if (!contains('updated', response)) { throw new Error(response) }
-    yield put(actions.setNotificationsType(type))
+    yield put(actions.setNotificationsType(typesState))
   }
 
   return {

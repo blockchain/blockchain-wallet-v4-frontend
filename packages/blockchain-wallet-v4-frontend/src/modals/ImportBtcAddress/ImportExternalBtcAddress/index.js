@@ -13,6 +13,8 @@ const Label = styled.label`
   margin-bottom: 5px;
 `
 
+const validBitcoinPrivateKeyOptional = optional(validBitcoinPrivateKey)
+
 class ImportExternalBitcoinAddress extends React.PureComponent {
   render () {
     return (
@@ -35,7 +37,7 @@ class ImportExternalBitcoinAddress extends React.PureComponent {
             <Label for='private-key'>
               <FormattedMessage id='modals.importbtcaddress.importexternalbitcoinaddress.prvkey' defaultMessage='Enter Private Key' />
             </Label>
-            <Field name='priv' validate={[optional(validBitcoinPrivateKey)]} component={TextBox} />
+            <Field name='priv' validate={[validBitcoinPrivateKeyOptional]} component={TextBox} />
           </FormItem>
           <FormItem style={spacing('mt-10')} width={'50%'} >
             <Label for='wallets'>

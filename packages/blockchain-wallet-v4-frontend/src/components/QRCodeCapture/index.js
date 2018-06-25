@@ -48,12 +48,8 @@ class QRCodeCaptureContainer extends React.PureComponent {
   }
 
   handleScanBchAddress (data) {
+    // try bitcoincash:qruaxzyr4wcxyuxg2qnteajhgnq2nsmzccuc6d4r5u
     try {
-      if (utils.bitcoin.isValidBitcoinAddress(data)) {
-        this.props.formActions.change('sendBch', 'to', data)
-        this.props.updateUI({ bchAddress: { toggled: false } })
-        return
-      }
       const {address, options} = bip21.decode(data, 'bitcoincash')
       const {amount, message} = options
       this.props.formActions.change('sendBch', 'to', address)
@@ -62,12 +58,20 @@ class QRCodeCaptureContainer extends React.PureComponent {
       this.props.updateUI({ bchAddress: { toggled: false } })
     } catch (e) {
       try {
-        const {address, options} = bip21.decode(data)
-        const {amount, message} = options
-        this.props.formActions.change('sendBch', 'to', address)
-        this.props.formActions.change('sendBch', 'amount', amount)
-        this.props.formActions.change('sendBch', 'message', message)
-        this.props.updateUI({ bchAddress: { toggled: false } })
+        // try qruaxzyr4wcxyuxg2qnteajhgnq2nsmzccuc6d4r5u
+        if (utils.bch.isCashAddr(data)) {
+          this.props.formActions.change('sendBch', 'to', data)
+          this.props.updateUI({ bchAddress: { toggled: false } })
+          return
+        }
+        // try legacy addr
+        if (utils.bitcoin.isValidBitcoinAddress(data)) {
+          this.props.formActions.change('sendBch', 'to', data)
+          this.props.updateUI({ bchAddress: { toggled: false } })
+          return
+        }
+        // throw error
+        throw Error('invalid_bch_addr')
       } catch (e) {
         this.props.alertActions.displayError(C.BCH_ADDRESS_INVALID)
         this.props.updateUI({bchAddress: {toggled: false}})
@@ -88,6 +92,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
   handleScanBtcPriv (data) {
     if (utils.bitcoin.isValidBitcoinPrivateKey(data)) {
       this.props.formActions.change('sendBtc', 'priv', data)
+      this.props.formActions.touch('sendBtc', 'priv')
       this.props.updateUI({ btcPriv: { toggled: false } })
     } else {
       this.props.alertActions.displayError(C.PRIVATE_KEY_INVALID)

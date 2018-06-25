@@ -10,7 +10,7 @@ class MenuContainer extends React.PureComponent {
   render () {
     return this.props.data.cata({
       Success: (value) => <Menu accounts={value.data} handleClickReporting={() => this.props.actions.reportClicked()} />,
-      Failure: (message) => <div>{message}</div>,
+      Failure: (message) => <div />,
       Loading: () => <div />,
       NotAsked: () => <div />
     })
