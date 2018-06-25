@@ -23,7 +23,7 @@ export default ({ coreSagas }) => {
         yield call(coreSagas.data.coinify.triggerKYC)
         yield put(A.coinifyNextStep('isx'))
       } else {
-        yield put(A.coinifySignupFailure(profile.error))
+        yield put(A.coinifySignupFailure(JSON.parse(profile.error)))
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'coinifySignup', e))
@@ -328,6 +328,7 @@ export default ({ coreSagas }) => {
     const tradeToFinish = data.payload
     try {
       if (tradeToFinish.state === 'awaiting_transfer_in') {
+        yield put(actions.core.data.coinify.handleTradeSuccess(tradeToFinish))
         if (tradeToFinish.medium === 'card') {
           yield call(coreSagas.data.coinify.kycAsTrade, { kyc: tradeToFinish }) // core expects obj key to be 'kyc'
           yield put(A.coinifyNextCheckoutStep('isx'))

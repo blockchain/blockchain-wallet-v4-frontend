@@ -23,14 +23,14 @@ const Error = styled.label`
 `
 
 const SelectBox = (props) => {
-  const { input, meta, hideErrors, ...rest } = props
+  const { input, meta, hideErrors, errorBottom, ...rest } = props
   const { touched, invalid, error, pristine } = meta
   const errorState = touched && invalid ? 'invalid' : 'initial'
 
   return (
     <Container>
       <SelectInput {...input} {...meta} {...rest} errorState={errorState} />
-      {(touched || !pristine) && error && !hideErrors && <Error>{error}</Error>}
+      {(touched || !pristine) && error && !hideErrors && <Error errorBottom>{error}</Error>}
     </Container>
   )
 }
@@ -49,7 +49,7 @@ SelectBox.propTypes = {
       value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired, PropTypes.object.isRequired])
     })).isRequired
   })).isRequired,
-  label: PropTypes.string,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   searchEnabled: PropTypes.bool,
   opened: PropTypes.bool
 }

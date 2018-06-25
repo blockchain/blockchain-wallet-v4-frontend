@@ -96,7 +96,7 @@ SelectInputContainer.propTypes = {
     group: PropTypes.string.isRequired,
     items: PropTypes.array.isRequired
   })).isRequired,
-  label: PropTypes.string,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   searchEnabled: PropTypes.bool,
   opened: PropTypes.bool,
   disabled: PropTypes.bool,
