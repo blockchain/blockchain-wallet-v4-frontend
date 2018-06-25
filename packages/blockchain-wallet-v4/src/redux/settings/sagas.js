@@ -5,6 +5,7 @@ import * as selectors from '../selectors'
 import * as walletActions from '../wallet/actions'
 import * as wS from '../wallet/selectors'
 import * as pairing from '../../pairing'
+import { forceSync } from '../walletSync/actions'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -204,6 +205,7 @@ export default ({ api }) => {
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.updateNotificationsType, guid, sharedKey, sum(typesState))
     if (!contains('updated', response)) { throw new Error(response) }
+    yield put(forceSync())
     yield put(actions.setNotificationsType(typesState))
   }
 
