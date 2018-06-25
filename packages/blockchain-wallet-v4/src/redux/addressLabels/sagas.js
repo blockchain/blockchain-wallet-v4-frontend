@@ -1,6 +1,6 @@
 import { put, fork, call } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import * as actions from './actions'
+import * as actions from '../actions'
 import * as Types from '../../types'
 
 export default () => {
@@ -22,7 +22,7 @@ export default () => {
     }).flatten().toArray()
 
     for (let i in addressLabels) {
-      yield put(actions.addAddressLabel(addressLabels[i].address, addressLabels[i].label))
+      yield put(actions.data.bitcoin.addAddressLabel(addressLabels[i].address, addressLabels[i].label))
     }
   }
 
