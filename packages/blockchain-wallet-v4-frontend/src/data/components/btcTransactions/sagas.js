@@ -7,13 +7,14 @@ export default ({ coreSagas }) => {
 
   const initialized = function * () {
     try {
+      const defaultSource = ''
       const initialValues = {
-        source: '',
+        source: defaultSource,
         status: '',
         search: ''
       }
       yield put(actions.form.initialize('btcTransactions', initialValues))
-      yield put(actions.core.data.bitcoin.fetchTransactions(initialValues.source))
+      yield put(actions.core.data.bitcoin.fetchTransactions(defaultSource, true))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
     }
@@ -35,7 +36,6 @@ export default ({ coreSagas }) => {
       const source = prop('source', formValues)
       const threshold = 250
       const { yMax, yOffset } = action.payload
-
       if (yMax - yOffset < threshold) {
         const onlyShow = equals(source, 'all') ? '' : (source.xpub || source.address)
         yield put(actions.core.data.bitcoin.fetchTransactions(onlyShow, false))

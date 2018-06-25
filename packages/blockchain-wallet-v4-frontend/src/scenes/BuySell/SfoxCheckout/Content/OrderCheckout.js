@@ -1,8 +1,10 @@
 import React, { Fragment } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { equals } from 'ramda'
+
 import { Text, Icon, Button } from 'blockchain-info-components'
 import { Wrapper as ExchangeCheckoutWrapper } from '../../ExchangeCheckout'
 import { flex, spacing } from 'services/StyleService'
-import { FormattedMessage } from 'react-intl'
 import QuoteInput from './QuoteInput'
 import FundingSource from 'components/BuySell/FundingSource'
 import { MethodContainer } from 'components/BuySell/styled.js'
@@ -23,19 +25,21 @@ const getCryptoMax = (q, max) => {
 const OrderCheckout = ({ quoteR, account, onFetchQuote, reason, finishAccountSetup, limits, type, disableButton, enableButton, buttonStatus }) => {
   const disableInputs = () => {
     if (limits.max < limits.min) return 'max_below_min'
-    if (reason.indexOf('has_remaining') < 0 && reason) return 'no_remaining'
+    if (!reason.includes('has_remaining') && reason) return 'no_remaining'
     if (limits.effectiveMax < limits.min) return 'not_enough_funds'
   }
 
-  const wantToHelper = () => type === 'buy'
+  const isBuy = equals(type, 'buy')
+
+  const wantToHelper = () => isBuy
     ? <FormattedMessage id='buy.sfoxcheckout.outputmethod.title.buy' defaultMessage='I want to buy' />
     : <FormattedMessage id='buy.sfoxcheckout.title.sell' defaultMessage='I want to sell' />
-  const payWithHelper = () => type === 'buy'
+  const payWithHelper = () => isBuy
     ? <FormattedMessage id='buy.sfoxcheckout.inputmethod.title.buywith' defaultMessage='I will pay with' />
     : <FormattedMessage id='buy.sfoxcheckout.outputmethod.title.sellwith' defaultMessage='I will receive funds into' />
 
   const submitButtonHelper = () => (
-    reason.indexOf('has_remaining') > -1
+    reason.includes('has_remaining')
       ? null
       : <div style={{ ...flex('col'), ...spacing('mt-15') }}>
         <Text size='14px' weight={300}>
@@ -82,7 +86,7 @@ const OrderCheckout = ({ quoteR, account, onFetchQuote, reason, finishAccountSet
         <FundingSource account={account} />
       </MethodContainer>
       {
-        reason.indexOf('has_remaining') > -1
+        reason.includes('has_remaining')
           ? <Fragment>
             <Text style={spacing('ml-10')} size='16px' weight={600}>
               <FormattedMessage id='buy.sfoxcheckout.amount' defaultMessage='Amount' />
