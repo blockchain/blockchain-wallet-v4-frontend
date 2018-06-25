@@ -29,7 +29,6 @@ export default ({ api, options }) => {
     const state = yield select()
     const delegate = new ExchangeDelegate(state, api)
     const value = yield select(buySellSelectors.getMetadata)
-
     const walletOptions = state.walletOptionsPath.data
     coinify = yield apply(coinifyService, coinifyService.refresh,
       [value, delegate, walletOptions])
