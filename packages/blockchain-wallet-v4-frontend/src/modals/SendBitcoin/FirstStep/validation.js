@@ -27,11 +27,11 @@ export const maximumAmount = (value, allValues, props) => {
   return valueSatoshi <= props.effectiveBalance ? undefined : <MaximumAmountMessage />
 }
 
-export const minimumFeePerByte = (value, allValues, props) => value && parseInt(value) > props.minFeePerByte ? undefined : <MinimumFeeMessage />
+export const minimumFeePerByte = (value, allValues, props) => value && parseInt(value) >= props.minFeePerByte ? undefined : <MinimumFeeMessage />
 
 export const minimumOneSatoshi = (value, allValues, props) => value >= 1 ? undefined : <MinimumOneSatoshiMessage />
 
-export const maximumFeePerByte = (value, allValues, props) => value && parseInt(value) < props.maxFeePerByte ? undefined : <MaximumFeeMessage />
+export const maximumFeePerByte = (value, allValues, props) => value && parseInt(value) <= props.maxFeePerByte ? undefined : <MaximumFeeMessage />
 
 export const shouldError = ({ values, nextProps, props, initialRender, structure }) => {
   if (initialRender) { return true }

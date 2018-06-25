@@ -5,7 +5,7 @@ import { Field, reduxForm } from 'redux-form'
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { required, validEmail } from 'services/FormHelper'
-import { Button, Link, Separator, Text, TextGroup } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Link, Separator, Text, TextGroup } from 'blockchain-info-components'
 import { CaptchaBox, Form, FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
 
 const Wrapper = styled.div`
@@ -30,7 +30,7 @@ const SuccessMessages = styled(TextGroup)`
 `
 
 const Reminder = (props) => {
-  const { handleSubmit, timestamp, submitting, invalid, submitted } = props
+  const { handleSubmit, timestamp, submitting, invalid, success, loading } = props
 
   const renderForm = () => {
     return (
@@ -57,8 +57,11 @@ const Reminder = (props) => {
               <FormattedMessage id='scenes.reminder.back' defaultMessage='Go Back' />
             </Link>
           </GoBackLink>
-          <Button type='submit' nature='primary' uppercase disabled={submitting || invalid}>
-            <FormattedMessage id='scenes.reminder.continue' defaultMessage='Continue' />
+          <Button type='submit' nature='primary' uppercase disabled={submitting || invalid || loading}>
+            { loading
+              ? <HeartbeatLoader height='20px' width='20px' color='white' />
+              : <FormattedMessage id='scenes.reminder.continue' defaultMessage='Continue' />
+            }
           </Button>
         </Footer>
       </Form>
@@ -91,7 +94,7 @@ const Reminder = (props) => {
         <FormattedMessage id='scenes.reminder.explain' defaultMessage="Lost your wallet ID? We'll send it to you via your email." />
       </Text>
       <Separator />
-      { submitted
+      { success
         ? renderReminder()
         : renderForm()
       }

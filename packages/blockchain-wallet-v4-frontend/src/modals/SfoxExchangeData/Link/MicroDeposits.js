@@ -40,7 +40,7 @@ class MicroDeposits extends Component {
                   <FormattedMessage id='sfoxexchangedata.link.micro.bear' defaultMessage='Bear with us:' />
                 </Text>
                 <Text size='13px' weight={300} >
-                  <FormattedMessage id='sfoxexchangedata.link.micro.description' defaultMessage='receiving these deposits can take up to 5 business days.' />
+                  <FormattedMessage id='sfoxexchangedata.link.micro.description2' defaultMessage='receiving these deposits can take up to 5 business days.' />
                 </Text>
               </TextGroup>
             </Fragment>
