@@ -1,7 +1,8 @@
 import React from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import ErrorBoundary from 'providers/ErrorBoundaryProvider'
+import { actions } from 'data'
 import { getData } from './selectors'
 import SecurityCenter from './template.js'
 
@@ -21,6 +22,9 @@ class SecurityCenterContainer extends React.PureComponent {
   }
 
   onClose () {
+    if (this.state.enabling === 'recovery') {
+      this.props.settingsActions.removeRecoveryPhrase()
+    }
     this.setState({ enabling: false })
   }
 
@@ -39,22 +43,24 @@ class SecurityCenterContainer extends React.PureComponent {
 
   render () {
     return (
-      <ErrorBoundary>
-        <SecurityCenter progress={this.determineProgress()}
-          data={this.props}
-          editing={this.state.editing}
-          enabling={this.state.enabling}
-          handleEnable={this.handleEnable}
-          onClose={this.onClose}
-          viewing={this.state.viewing}
-          setView={this.setView}
-          isMnemonicVerified={this.props.isMnemonicVerified}
-        />
-      </ErrorBoundary>
+      <SecurityCenter progress={this.determineProgress()}
+        data={this.props}
+        editing={this.state.editing}
+        enabling={this.state.enabling}
+        handleEnable={this.handleEnable}
+        onClose={this.onClose}
+        viewing={this.state.viewing}
+        setView={this.setView}
+        isMnemonicVerified={this.props.isMnemonicVerified}
+      />
     )
   }
 }
 
 const mapStateToProps = (state) => getData(state)
 
-export default connect(mapStateToProps, undefined)(SecurityCenterContainer)
+const mapDispatchToProps = (dispatch) => ({
+  settingsActions: bindActionCreators(actions.modules.settings, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(SecurityCenterContainer)

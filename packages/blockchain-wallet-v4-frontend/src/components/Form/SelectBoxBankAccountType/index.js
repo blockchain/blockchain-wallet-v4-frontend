@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
 
 import SelectBox from '../SelectBox'
 
@@ -13,8 +14,15 @@ class SelectBoxBankAccountType extends React.PureComponent {
 
 const mapStateToProps = (state, ownProps) => ({
   accountTypes: [
-    { text: 'Checking', value: 'checking' },
-    { text: 'Savings', value: 'savings' }
+    {
+      text: <FormattedMessage id='components.form.selectboxbankaccounttype.checking' defaultMessage='Checking' />,
+      value: 'checking'
+    },
+
+    {
+      text: <FormattedMessage id='components.form.selectboxbankaccounttype.savings' defaultMessage='Savings' />,
+      value: 'savings'
+    }
   ]
 })
 

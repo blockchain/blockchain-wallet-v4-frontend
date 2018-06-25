@@ -88,7 +88,7 @@ export default ({ api, coreSagas }) => {
       case 'sourceFiat': {
         const sourceFiat = prop('sourceFiat', form)
         if (isUndefinedOrEqualsToZero(sourceFiat)) return defaultResult
-        const sourceAmount = convertFiatToCoin(sourceFiat, 'USD', sourceCoin, sourceCoin, sourceRates).value
+        const sourceAmount = convertFiatToCoin(sourceFiat, currency, sourceCoin, sourceCoin, sourceRates).value
         const quotation = yield call(api.createQuote, sourceAmount, pair, true)
         const targetAmount = path(['success', 'withdrawalAmount'], quotation) || 0
         const targetFiat = convertCoinToFiat(targetAmount, targetCoin, targetCoin, currency, targetRates).value
