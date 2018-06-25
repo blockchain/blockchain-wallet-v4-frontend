@@ -17,6 +17,9 @@ const BaseText = styled.div`
   flex-direction: ${props => props.flexRow ? 'row' : null};
   display: ${props => props.flexRow ? 'flex' : 'block'};
   opacity: ${props => props.opacity};
+  @media (max-width: 480px) {
+    ${props => props.size || '14px'};
+  }
 `
 
 const Text = ({ children, ...props }) => {
