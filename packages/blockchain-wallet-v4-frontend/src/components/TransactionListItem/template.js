@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
+import moment from 'moment'
 import { Banner, Button, Text } from 'blockchain-info-components'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import { FormattedMessage } from 'react-intl'
@@ -10,6 +11,8 @@ import Description from './Description'
 import Confirmations from './Confirmations'
 import FiatAtTime from './FiatAtTime'
 import Status from './Status'
+import media from 'services/ResponsiveService'
+import { prop } from 'ramda'
 
 const TransactionRowContainer = styled.div`
   position: relative;
@@ -18,12 +21,12 @@ const TransactionRowContainer = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  padding: 10px;
   box-sizing: border-box;
   border-bottom: 1px solid ${props => props.theme['gray-2']};
-  @media (min-width: 320px){
-    padding: 15px 30px;
-  }
+  padding: 15px 30px;
+  ${media.mobile`
+    padding: 10px;
+  `}
 `
 const TransactionRow = styled.div`
   display: flex;
@@ -37,6 +40,9 @@ const StatusColumn = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 15%;
+  ${media.mobile`
+    width: 28%;
+  `}
 `
 const BannerWrapper = styled.div`
   margin-top: 5px;
@@ -67,6 +73,9 @@ const AmountColumn = styled.div`
   justify-content: flex-end;
   width: 20%;
   min-width: 200px;
+  ${media.mobile`
+    min-width: 170px;
+  `}
 `
 const TransactionValues = styled.div`
   display: flex;
@@ -78,8 +87,10 @@ const TransactionValues = styled.div`
 `
 const ToggleButton = styled(Button)`
   align-self: flex-end;
+  ${media.mobile`
+    min-width: 120px;
+  `}
 `
-
 const FeeWrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -88,17 +99,27 @@ const FeeWrapper = styled.div`
   > *:first-child {
     margin-right: 3px;
   }
+  ${media.mobile`
+    flex-direction: column;
+    align-items: flex-end;
+  `}
 `
+
+const dateHelper = (time) => {
+  let timeFormat = 'MMMM D YYYY @ h:mm A'
+  if (window.outerWidth <= 480) timeFormat = 'MM/DD/YY @ h:mm a'
+  return moment(time).local().format(timeFormat)
+}
 
 const TransactionListItem = (props) => {
   const { handleCoinToggle, transaction, handleEditDescription, coin, minConfirmations } = props
-
+  console.log('transactionlistitem', transaction)
   return (
     <TransactionRowContainer>
       <TransactionRow>
         <StatusColumn>
           <Status type={transaction.type} />
-          <Text size='13px' weight={300}>{transaction.timeFormatted}</Text>
+          <Text size='13px' weight={300}>{dateHelper(prop('time', transaction) * 1000)}</Text>
           { (transaction.fromWatchOnly || transaction.toWatchOnly) && (
             <BannerWrapper>
               <Banner type='informational'>
