@@ -12,7 +12,7 @@ import { Form, FormError, FormGroup, FormItem, FormLabel, PasswordBox, TextBox }
 import Modals from 'modals'
 import MobileLogin from 'modals/MobileLogin'
 
-const isSupportedBrowser = check({msie: '11', safari: '8', chrome: '45', firefox: '45', opera: '20'})
+const isSupportedBrowser = check({safari: '8', chrome: '45', firefox: '45', opera: '20'}) && !msie
 
 const Wrapper = styled.div`
   width: 100%;
