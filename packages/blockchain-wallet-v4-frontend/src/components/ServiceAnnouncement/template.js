@@ -24,6 +24,7 @@ const ActionLink = styled(Link)`
   text-decoration: underline;
 `
 const ActionIcon = styled(Icon)`
+margin-top: 5px;
   &:hover {
     cursor: pointer;
   }
@@ -55,18 +56,18 @@ const Announcement = props => {
         <Text weight={300} size='20px' uppercase={uppercase} style={{margin: '6px 0'}}>{announcement.header[language]}</Text>
         <TextGroup style={{ display: collapsed ? 'none' : '' }}>
           {
-            announcement.sections.map(section => {
-              return <Text size='13px' style={{marginBottom: '2px'}}>{section.body[language]}</Text>
+            announcement.sections.map((section, i) => {
+              return <Text key={i} size='13px' style={{marginBottom: '2px'}}>{section.body[language]}</Text>
             })
           }
           <ActionLink href={announcement.action.link} target='_blank'>
-            <Text color='brand-primary' size='14px'>{announcement.action.title[language]}</Text>
+            <Text color='brand-primary' size='13px'>{announcement.action.title[language]}</Text>
           </ActionLink>
         </TextGroup>
       </div>
       <IconContainer>
-        { announcement.hideType === 'collapse' && <ActionIcon name={collapsed ? 'down-arrow' : 'up-arrow'} size='18px' weight={600} onClick={toggleCollapse} /> }
-        { announcement.hideType === 'dismiss' && <ActionIcon name='close' size='18px' weight={600} onClick={handleDismiss} /> }
+        { announcement.hideType === 'collapse' && <ActionIcon name={collapsed ? 'down-arrow' : 'up-arrow'} size='18px' weight={600} onClick={() => { toggleCollapse(announcement.id) }} /> }
+        { announcement.hideType === 'dismiss' && <ActionIcon name='close' size='18px' weight={600} onClick={() => { handleDismiss(announcement.id) }} /> }
       </IconContainer>
     </Container>
   )
