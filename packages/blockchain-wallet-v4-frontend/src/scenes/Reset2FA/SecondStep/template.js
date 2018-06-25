@@ -45,7 +45,7 @@ const SecondStep = (props) => {
     <Wrapper>
       <Header>
         <Text size='30px' weight={300}>
-          <FormattedMessage id='scenes.reset2fa.secondstep.reset' defaultMessage='Reset 2FA' />
+          <FormattedMessage id='scenes.reset2fa.secondstep.reset2fa' defaultMessage='Reset 2FA' />
         </Text>
         <Text size='10px'>
           <FormattedMessage id='scenes.reset2fa.secondstep.step3' defaultMessage='Step 2 of 2' />
