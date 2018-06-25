@@ -31,10 +31,10 @@ const Container = styled.div`
 const Row = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
   box-sizing: border-box;
+  justify-content: space-between;
+  width: ${props => props.width || '100%'};
+  align-items: ${props => props.alignItems || 'center'};
   @media(min-width: 1200px) {
     flex-direction: row;
   }
@@ -69,49 +69,51 @@ const BitcoinCashWelcome = props => {
               <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.welcome' defaultMessage='Welcome to' />
             </Text>
             <Text size='24px' weight={300} color='brand-primary' uppercase>
-              <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.welcome2' defaultMessage='Bitcoin Cash' />
+              Bitcoin Cash
             </Text>
             <LearnMoreLink href='https://support.blockchain.com/hc/en-us/sections/115001633403-Bitcoin-Cash-FAQ' size='16px' target='_blank' weight={300} uppercase>
               <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.learnmore' defaultMessage='Learn More' />
               <Icon name='right-arrow' color='brand-secondary' />
             </LearnMoreLink>
           </Cell>
-          <Cell>
-            <Text weight={300} color='brand-primary' uppercase>
-              <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.what' defaultMessage='What is Bitcoin Cash?' />
-            </Text>
-            <Separator />
-            <TextGroup inline>
-              <Text size='12px' weight={300}>
-                <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.currency' defaultMessage='Bitcoin Cash is a form of peer-to-peer electronic cash that was created after a fork of the Bitcoin block chain in August 2017.' />
+          <Row alignItems='flex-start' width='auto'>
+            <Cell>
+              <Text weight={300} color='brand-primary' uppercase>
+                <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.what' defaultMessage='What is Bitcoin Cash?' />
               </Text>
-              <Text size='12px' weight={300}>
-                <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.top' defaultMessage='Bitcoin Cash has since grown to be one of the top cryptocurrencies, along with bitcoin and ether.' />
+              <Separator />
+              <TextGroup inline>
+                <Text size='12px' weight={300}>
+                  <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.currency' defaultMessage='Bitcoin Cash is a form of peer-to-peer electronic cash that was created after a fork of the Bitcoin block chain in August 2017.' />
+                </Text>
+                <Text size='12px' weight={300}>
+                  <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.top' defaultMessage='Bitcoin Cash has since grown to be one of the top cryptocurrencies, along with bitcoin and ether.' />
+                </Text>
+              </TextGroup>
+            </Cell>
+            <Cell>
+              <Text weight={300} color='brand-primary' uppercase>
+                <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.why' defaultMessage='How do I get Bitcoin Cash?' />
               </Text>
-            </TextGroup>
-          </Cell>
-          <Cell>
-            <Text weight={300} color='brand-primary' uppercase>
-              <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.why' defaultMessage='How do I get Bitcoin Cash?' />
-            </Text>
-            <Separator />
-            <TextGroup inline>
-              <Text size='12px' weight={300}>
-                <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.fork' defaultMessage='If you had bitcoin in your Blockchain wallet before the fork in August, you already have Bitcoin Cash.' />
-              </Text>
-              <Text size='12px' weight={300}>
-                <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.exchange' defaultMessage='If you’re new to Blockchain, you can get started with Bitcoin Cash by exchanging bitcoin or ether.' />
-              </Text>
-            </TextGroup>
-          </Cell>
+              <Separator />
+              <TextGroup inline>
+                <Text size='12px' weight={300}>
+                  <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.fork' defaultMessage='If you had bitcoin in your Blockchain wallet before the fork in August, you already have Bitcoin Cash.' />
+                </Text>
+                <Text size='12px' weight={300}>
+                  <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.exchange' defaultMessage='If you’re new to Blockchain, you can get started with Bitcoin Cash by exchanging bitcoin or ether.' />
+                </Text>
+              </TextGroup>
+            </Cell>
+          </Row>
         </Row>
         <Row>
           {
             exchange ? <LinkContainer to='/exchange'>
-              <Button nature='primary' fullwidth uppercase>
+              <Button nature='primary' margin='20px' fullwidth uppercase>
                 <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.getstarted.exchange' defaultMessage='Get started with Bitcoin Cash' />
               </Button>
-            </LinkContainer> : <Button nature='primary' onClick={handleRequest} fullwidth uppercase>
+            </LinkContainer> : <Button nature='primary' margin='20px' onClick={handleRequest} fullwidth uppercase>
               <FormattedMessage id='scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.getstarted.request' defaultMessage='Get started with Bitcoin Cash' />
             </Button>
           }
