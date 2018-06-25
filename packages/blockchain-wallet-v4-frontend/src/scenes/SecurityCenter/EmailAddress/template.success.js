@@ -31,6 +31,10 @@ const EmailButton = styled(Button)`
   width: 100px;
   font-size: 12px;
   min-width: 0px;
+  height: auto;
+  span {
+    white-space: initial;
+  }
   @media (min-width: 320px) and (max-width: 991px) {
     font-size: 14px;
     width: 140px;

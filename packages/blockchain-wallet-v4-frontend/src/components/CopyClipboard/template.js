@@ -30,7 +30,7 @@ const AddressBox = styled.span`
   background-color: ${props => props.theme['gray-1']};
 `
 const CopyButton = styled(Button)`
-  width: 100px;
+  width: 160px;
   min-width: 0;
   height: 100%;
   border-radius: 0;
