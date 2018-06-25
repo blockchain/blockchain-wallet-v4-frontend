@@ -3,7 +3,7 @@ import { expectSaga, testSaga } from 'redux-saga-test-plan'
 import { fork, call } from 'redux-saga-test-plan/matchers'
 
 import { askSecondPasswordEnhancer } from 'services/SagaService'
-import { coreSagasFactory } from 'blockchain-wallet-v4/src'
+import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import * as selectors from '../selectors.js'
 import * as actions from '../actions.js'
 import authSagas, {
@@ -27,11 +27,17 @@ const api = {
 describe('authSagas', () => {
   // Mocking Math.random() to have identical popup ids for action testing
   const originalMath = Object.create(Math)
+  let pushStateSpy
+  let locationReloadSpy
   beforeAll(() => {
     Math.random = () => 0.5
+    pushStateSpy = jest.spyOn(window.history, 'pushState').mockImplementation(() => {})
+    locationReloadSpy = jest.spyOn(window.location, 'reload').mockImplementation(() => {})
   })
   afterAll(() => {
     global.Math = originalMath
+    pushStateSpy.restore()
+    locationReloadSpy.restore()
   })
 
   describe('login flow', () => {
@@ -310,7 +316,7 @@ describe('authSagas', () => {
     })
 
     it('should fetch ethereum metadata', () => {
-      saga.next().call(coreSagas.kvStore.ethereum.fetchMetadataEthereum)
+      saga.next().call(coreSagas.kvStore.ethereum.fetchMetadataEthereum, askSecondPasswordEnhancer)
     })
 
     it('should fetch bitcoin cash metadata', () => {
@@ -348,6 +354,15 @@ describe('authSagas', () => {
 
     it('should clear login form', () => {
       saga.next().put(actions.form.destroy('login'))
+    })
+
+    it('should select current language', () => {
+      saga.next().select(selectors.preferences.getLanguage)
+    })
+
+    it('should trigger update language aciton with selected language', () => {
+      const language = 'en'
+      saga.next(language).put(actions.modules.settings.updateLanguage(language))
     })
 
     it('should launch transferEth saga', () => {
@@ -637,7 +652,7 @@ describe('authSagas', () => {
         const guidNotFound2faError = {
           toString: () => guidNotFound2faErrorMessage
         }
-        expectSaga(reset2fa, { payload })
+        return expectSaga(reset2fa, { payload })
           .provide({
             call (effect, next) {
               if (effect.fn === coreSagas.wallet.resetWallet2fa) {
@@ -655,7 +670,7 @@ describe('authSagas', () => {
         const notEnabled2faResponse = {
           message: notEnabled2faErrorMessage.replace(/^Error: /, '')
         }
-        expectSaga(reset2fa, { payload })
+        return expectSaga(reset2fa, { payload })
           .provide([
             [call.fn(coreSagas.wallet.resetWallet2fa), notEnabled2faResponse]
           ])
@@ -864,13 +879,31 @@ describe('authSagas', () => {
       coreSagas
     })
 
-    it('should stop sockets and redirect to logout', () => {
-      expectSaga(logout)
+    it('should stop sockets and redirect to logout if email is verified', () => {
+      return expectSaga(logout)
+        .provide([
+          [select(selectors.core.settings.getEmailVerified), Remote.of(true)]
+        ])
         .put(actions.core.webSocket.bitcoin.stopSocket())
         .put(actions.core.webSocket.ethereum.stopSocket())
         .put(actions.core.webSocket.bch.stopSocket())
         .put(actions.router.push('/logout'))
         .run()
+    })
+
+    it('should stop sockets and clear redux store if email is not verified', async () => {
+      return expectSaga(logout)
+        .provide([
+          [select(selectors.core.settings.getEmailVerified), Remote.of(false)]
+        ])
+        .put(actions.core.webSocket.bitcoin.stopSocket())
+        .put(actions.core.webSocket.ethereum.stopSocket())
+        .put(actions.core.webSocket.bch.stopSocket())
+        .run()
+        .then(() => {
+          expect(pushStateSpy).toHaveBeenCalledTimes(1)
+          expect(pushStateSpy).toHaveBeenCalledWith('', '', '/login')
+        })
     })
   })
 
@@ -881,17 +914,6 @@ describe('authSagas', () => {
     })
     const saga = testSaga(deauthorizeBrowser)
     const beforeCatch = 'beforeCatch'
-
-    let pushStateSpy
-    let locationReloadSpy
-    beforeAll(() => {
-      pushStateSpy = jest.spyOn(window.history, 'pushState').mockImplementation(() => {})
-      locationReloadSpy = jest.spyOn(window.location, 'reload').mockImplementation(() => {})
-    })
-    afterAll(() => {
-      pushStateSpy.restore()
-      locationReloadSpy.restore()
-    })
 
     const pageReloadTest = () =>
       it('should push login to url to history and reload window', () => {
