@@ -1,3 +1,4 @@
+import * as addressLabels from './addressLabels/actions.js'
 import * as data from './data/actions.js'
 import * as wallet from './wallet/actions.js'
 import * as settings from './settings/actions.js'
@@ -8,6 +9,7 @@ import * as kvStore from './kvStore/actions.js'
 import * as refresh from './refresh/actions.js'
 
 export {
+  addressLabels,
   data,
   kvStore,
   settings,

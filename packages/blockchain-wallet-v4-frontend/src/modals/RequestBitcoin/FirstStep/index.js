@@ -54,7 +54,7 @@ class FirstStepContainer extends React.PureComponent {
   handleSubmit (e) {
     e.preventDefault()
     const { accountIdx, addressIdx, message, receiveAddress } = this.props.data.getOrElse({})
-    this.props.requestBtcActions.firstStepSubmitClicked({ accountIdx, addressIdx, message })
+    this.props.requestBtcActions.firstStepSubmitClicked({ accountIdx, addressIdx, receiveAddress, message })
     this.props.setReceiveAddress(receiveAddress)
     this.props.nextStep()
   }
