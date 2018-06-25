@@ -7,6 +7,7 @@ import { spacing } from 'services/StyleService'
 import { required } from 'services/FormHelper'
 import { StepTransition } from 'components/Utilities/Stepper'
 import { equals, path, prop } from 'ramda'
+import media from 'services/ResponsiveService'
 
 const PaymentOptionContainer = styled.div`
   width: 50%;
@@ -17,13 +18,13 @@ const PaymentOptionContainer = styled.div`
   div:nth-child(2) {
     margin-top: 25px;
   }
-  @media (max-width: 480px) {
+  ${media.mobile`
     width: 85%;
     div:nth-child(2) {
       margin-top: 10px;
       margin-bottom: 20px;
     }
-  }
+  `}
 `
 const PaymentOption = styled.div`
   display: flex;

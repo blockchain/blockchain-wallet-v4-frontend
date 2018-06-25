@@ -8,6 +8,7 @@ import { spacing } from 'services/StyleService'
 
 import { requiredSSN, requiredDOB, normalizeSocialSecurity, normalizeDateOfBirth, ageOverEighteen } from 'services/FormHelper'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ErrorWrapper, ColRightInner } from 'components/BuySell/Signup'
+import media from 'services/ResponsiveService'
 
 const LockIcon = styled(Icon)`
   display: flex;
@@ -23,12 +24,12 @@ const IconHeader = styled(PartnerHeader)`
   flex-direction: row;
 `
 const IdentityForm = styled(Form)`
-  media (max-width: 480px) {
+  ${media.mobile`
     flex-direction: column;
     div:last-of-type {
       margin-bottom: 15px;
     }
-  }
+  `}
 `
 
 const Identity = (props) => {

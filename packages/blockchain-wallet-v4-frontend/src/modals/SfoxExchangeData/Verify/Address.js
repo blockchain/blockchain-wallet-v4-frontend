@@ -7,6 +7,7 @@ import { Text, Button, HeartbeatLoader, Banner } from 'blockchain-info-component
 
 import { required, requiredUsZipcode, normalizeUSZipcode } from 'services/FormHelper'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ColRightInner } from 'components/BuySell/Signup'
+import media from 'services/ResponsiveService'
 
 const FormContainer = styled.div`
   margin-top: 25px;
@@ -21,12 +22,12 @@ const BannerWrapper = styled.div`
   margin-top: 10px;
 `
 const AddressForm = styled(Form)`
-  @media (max-width: 480px) {
+  ${media.mobile`
     flex-direction: column;
-  }
+  `}
 `
 const AddressFormGroup = styled(FormGroup)`
-  @media (max-width: 480px) {
+  ${media.mobile`
     flex-direction: column;
     div:first-of-type {
       margin-bottom: 10px;
@@ -36,7 +37,7 @@ const AddressFormGroup = styled(FormGroup)`
         margin-bottom: 15px;
       }
     }
-  }
+  `}
 `
 
 const Address = (props) => {

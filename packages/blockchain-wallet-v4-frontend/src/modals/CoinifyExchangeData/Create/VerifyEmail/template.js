@@ -7,6 +7,7 @@ import { Text, Button } from 'blockchain-info-components'
 import { TextBox } from 'components/Form'
 import { required } from 'services/FormHelper'
 import { Form, ColLeft, ColRight, ColRightInner, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, EmailHelper } from 'components/BuySell/Signup'
+import media from 'services/ResponsiveService'
 
 const EmailInput = styled.div`
   display: flex;
@@ -14,9 +15,9 @@ const EmailInput = styled.div`
   flex-direction: column;
 `
 const CreateForm = styled(Form)`
-  @media (max-width: 480px) {
+  ${media.mobile`
     flex-direction: column;
-  }
+  `}
 `
 
 const VerifyEmail = (props) => {

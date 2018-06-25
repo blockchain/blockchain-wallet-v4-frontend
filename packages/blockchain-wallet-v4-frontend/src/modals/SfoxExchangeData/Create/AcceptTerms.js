@@ -13,6 +13,7 @@ import Helper from 'components/BuySell/FAQ'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ErrorWrapper, ColRightInner } from 'components/BuySell/Signup'
 import { spacing } from 'services/StyleService'
 import Terms from 'components/Terms'
+import media from 'services/ResponsiveService'
 
 const checkboxShouldBeChecked = value => value ? undefined : 'You must agree to the terms and conditions'
 
@@ -59,21 +60,21 @@ const FieldBox = styled.div`
   flex-direction: row;
   width: 85%;
   justify-content: space-between;
-  @media (max-width: 480px) {
+  ${media.mobile`
     border: none;
     width: 100%;
     padding: 0px;
     flex-direction: column;
     width: fit-content;
-  }
+  `}
 `
 const IconContainer = styled.div`
   display: flex;
   align-items: center;
   margin-left: 10px;
-  @media (max-width: 480px) {
+  ${media.mobile`
     align-items: flex-start;
-  }
+  `}
 `
 const InlineTextWrapper = styled.div`
   & > * {
@@ -82,16 +83,16 @@ const InlineTextWrapper = styled.div`
   }
 `
 const AcceptTermsForm = styled(Form)`
-  @media (max-width 480px) {
+  ${media.mobile`
     flex-direction: column;
-  }
+  `}  
 `
 const EditLink = styled(Link)`
   font-size: 12px;
-  @media (max-width: 480px) {
+  ${media.mobile`
     margin-top: 5px;
     font-size: 12px;
-  }
+  `}
 `
 
 class AcceptTerms extends Component {

@@ -8,18 +8,19 @@ import { equals, prop } from 'ramda'
 import moment from 'moment'
 import { TableCell, TableRow, Text, Link, Icon, HeartbeatLoader } from 'blockchain-info-components'
 import OrderStatus from '../OrderStatus'
+import media from 'services/ResponsiveService'
 
 export const OrderHistoryText = styled(Text)`
   font-size: 13px;
-  @media (max-width: 480px) {
+  ${media.mobile`
     font-size: 12px;
-  }
+  `}
 `
 export const OrderHistoryLink = styled(Link)`
   font-size: 13px;
-  @media (max-width: 480px) {
+  ${media.mobile`
     font-size: 12px;
-  }
+  `}
 `
 
 const tradeDateHelper = (trade) => {
