@@ -32,7 +32,7 @@ const CheckBox = ({ children, ...field }) => {
   return (
     <Wrapper>
       <Container>
-        <CheckBoxInput {...field.input} checked={checked} errorState={errorState}>
+        <CheckBoxInput {...field.input} disabled={field.disabled} checked={checked} errorState={errorState}>
           { children }
         </CheckBoxInput>
       </Container>
