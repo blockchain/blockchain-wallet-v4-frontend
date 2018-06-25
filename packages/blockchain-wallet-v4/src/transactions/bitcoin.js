@@ -125,7 +125,7 @@ const selectFromAndto = (inputs, outputs, type) => {
   )(outputs) || outputs[0]
   return {
     from: inputs[0].label || inputs[0].address,
-    to: myOutput.label || myOutput.addres,
+    to: myOutput.label || myOutput.address,
     toAddress: myOutput.address
   }
 }

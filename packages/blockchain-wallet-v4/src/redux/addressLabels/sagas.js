@@ -1,9 +1,15 @@
-import { put } from 'redux-saga/effects'
+import { put, fork, call } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
 import * as actions from './actions'
 import * as Types from '../../types'
 
 export default () => {
   const generateAddressLabels = function * ({payload}) {
+    yield fork(generateAddressesNonBlocking, payload)
+  }
+
+  const generateAddressesNonBlocking = function * (payload) {
+    yield call(delay, 4000)
     const accounts = Types.Wallet.selectHDAccounts(payload.wallet)
 
     let addressLabels = accounts.map((account) => {
