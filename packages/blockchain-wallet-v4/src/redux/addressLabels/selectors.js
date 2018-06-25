@@ -1,4 +1,4 @@
 import { path } from 'ramda'
-import {settingsPath} from '../paths'
+import {addressLabelsPath} from '../paths'
 
-export const getAddressLabel = (address) => path([settingsPath, address])
+export const getAddressLabel = (address) => path([addressLabelsPath, address])
