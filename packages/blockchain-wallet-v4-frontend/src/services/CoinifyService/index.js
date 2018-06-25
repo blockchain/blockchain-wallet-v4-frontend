@@ -1,5 +1,5 @@
 import React from 'react'
-import { gt, slice, toUpper, equals, path, prop } from 'ramda'
+import { any, gt, slice, toUpper, equals, path, prop, toLower } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 
@@ -95,8 +95,11 @@ export const reviewOrder = {
   renderFirstRow: (q, medium) => {
     const qAmt = Math.abs(q.quoteAmount)
     const bAmt = Math.abs(q.baseAmount)
-    if (reviewOrder.baseBtc(q)) return `${bAmt / 1e8} BTC (${currencySymbolMap[q.quoteCurrency]}${qAmt.toFixed(2)})`
-    else return `${qAmt / 1e8} BTC (${currencySymbolMap[q.baseCurrency]}${bAmt.toFixed(2)})`
+    if (reviewOrder.baseBtc(q)) {
+      return `${bAmt / 1e8} BTC (${currencySymbolMap[q.quoteCurrency]}${qAmt.toFixed(2)})`
+    } else {
+      return `${qAmt / 1e8} BTC (${currencySymbolMap[q.baseCurrency]}${bAmt.toFixed(2)})`
+    }
   },
   renderFeeRow: (q, medium, type) => {
     const med = type === 'sell' ? 'bank' : medium
@@ -140,20 +143,24 @@ export const tradeDetails = {
 
 export const getCountryCodeFromIban = (iban) => toUpper(slice(0, 2, iban))
 
-export const canCancelTrade = (trade) => {
-  const { state } = trade
-  if (equals(state, 'awaiting_transfer_in')) return true
-  return false
-}
+export const canCancelTrade = (trade) =>
+  equals(prop('state', trade), 'awaiting_transfer_in')
 
 export const checkoutButtonLimitsHelper = (quoteR, limits, type) => {
   return quoteR.map(q => {
+    const isBaseBtc = equals(prop('baseCurrency', q), 'BTC')
     if (type === 'sell') {
-      if (q.baseCurrency !== 'BTC') return Math.abs(q.quoteAmount / 1e8) > limits.max || Math.abs(q.quoteAmount / 1e8) < limits.min || Math.abs(q.quoteAmount) > limits.effectiveMax
-      if (q.baseCurrency !== 'BTC') return Math.abs(q.baseAmount / 1e8) > limits.max || Math.abs(q.baseAmount / 1e8) < limits.min || Math.abs(q.baseAmount) > limits.effectiveMax
+      if (isBaseBtc) {
+        return Math.abs(q.baseAmount / 1e8) > limits.max || Math.abs(q.baseAmount / 1e8) < limits.min || Math.abs(q.baseAmount) > limits.effectiveMax
+      } else {
+        return Math.abs(q.quoteAmount / 1e8) > limits.max || Math.abs(q.quoteAmount / 1e8) < limits.min || Math.abs(q.quoteAmount) > limits.effectiveMax
+      }
     } else {
-      if (q.baseCurrency !== 'BTC') return Math.abs(q.baseAmount) > limits.max || Math.abs(q.baseAmount) < limits.min || Math.abs(q.quoteAmount) > limits.effectiveMax
-      if (q.baseCurrency === 'BTC') return Math.abs(q.quoteAmount) > limits.max || Math.abs(q.quoteAmount) < limits.min || Math.abs(q.baseAmount) > limits.effectiveMax
+      if (isBaseBtc) {
+        return Math.abs(q.quoteAmount) > limits.max || Math.abs(q.quoteAmount) < limits.min || Math.abs(q.baseAmount) > limits.effectiveMax
+      } else {
+        return Math.abs(q.baseAmount) > limits.max || Math.abs(q.baseAmount) < limits.min || Math.abs(q.quoteAmount) > limits.effectiveMax
+      }
     }
   }).data
 }
@@ -249,16 +256,13 @@ export const kycNotificationButtonHelper = (status) => {
   }
 }
 
-export const showKycStatus = (state) => {
-  if (state === 'pending') return state
-  if (state === 'rejected') return state
-  return false
-}
+export const showKycStatus = (state) =>
+  any(equals(state), ['pending', 'rejected']) ? state : false
 
 export const getReasonExplanation = (reason, time) => {
   const ONE_DAY_MS = 86400000
-  let canTradeAfter = time
-  let days = isNaN(canTradeAfter) ? `1 day` : `${Math.ceil((canTradeAfter - Date.now()) / ONE_DAY_MS)} days`
+  const canTradeAfter = time
+  const days = isNaN(canTradeAfter) ? `1 day` : `${Math.ceil((canTradeAfter - Date.now()) / ONE_DAY_MS)} days`
 
   switch (reason) {
     case 'awaiting_first_trade_completion':
@@ -270,20 +274,26 @@ export const getReasonExplanation = (reason, time) => {
 }
 
 export const recurringTimeHelper = (sub) => {
-  let human = { 1: 'st', 2: 'nd', 3: 'rd', 21: 'st', 22: 'nd', 23: 'rd', 31: 'st' }
-  let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+  const human = { 1: 'st', 2: 'nd', 3: 'rd', 21: 'st', 22: 'nd', 23: 'rd', 31: 'st' }
+  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
-  let getTimespan = (sub) => {
-    let frequency = prop('frequency', sub)
-    let freq = frequency.toLowerCase()
-    let date = new Date()
+  const getTimespan = (sub) => {
+    const freq = toLower(prop('frequency', sub))
+    const date = new Date()
 
-    if (freq === 'hourly') return 'hour'
-    if (freq === 'daily') return '24 hours'
-    if (freq === 'weekly') return `${days[date.getDay()]}`
-    if (freq === 'monthly') return `${date.getDate() + (human[date.getDate()] || 'th')} of the month`
+    switch (freq) {
+      case 'hourly':
+        return 'hour'
+      case 'daily':
+        return '24 hours'
+      case 'weekly':
+        return `${days[date.getDay()]}`
+      case 'monthly':
+        return `${date.getDate() + (human[date.getDate()] || 'th')} of the month`
+    }
   }
   return getTimespan(sub)
 }
 
-export const recurringFee = (trade) => `${Currency.formatFiat(((trade.sendAmount / 100) - (trade.inAmount / 100)))} ${prop('inCurrency', trade)}`
+export const recurringFee = (trade) =>
+  `${Currency.formatFiat(((trade.sendAmount / 100) - (trade.inAmount / 100)))} ${prop('inCurrency', trade)}`

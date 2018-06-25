@@ -40,6 +40,11 @@ const Unit = styled.div`
   height: 20px;
 `
 
+const withinLimits = (val, allValues, { medium, value: { limits, quote } }) => {
+  const curr = quote.baseCurrency
+  return val >= limits[medium].minimumInAmounts[curr] && val <= limits[medium].inRemaining[curr] ? undefined : 'nope'
+}
+
 const Confirm = (props) => {
   const { ui, value, handleSubmit, busy, invalid, submitting, medium, toggleEdit, editingAmount } = props
   const { quote, mediums, limits } = value
@@ -56,11 +61,6 @@ const Confirm = (props) => {
       return <Text color='error'><FormattedMessage id='coinifyexchangedata.confirm.overlimit' defaultMessage='Over the limit' /></Text>
     }
     return <FormattedMessage id='coinifyexchangedata.confirm.subheader' defaultMessage='Please confirm your order details before we redirect you to our secure payment provider.' />
-  }
-
-  const withinLimits = (val) => {
-    const curr = quote.baseCurrency
-    return val >= limits[medium].minimumInAmounts[curr] && val <= limits[medium].inRemaining[curr] ? undefined : 'nope'
   }
 
   return (

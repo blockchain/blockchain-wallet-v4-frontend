@@ -9,7 +9,9 @@ import importBtcAddress from './importBtcAddress/sagaRegister'
 import manageAddresses from './manageAddresses/sagaRegister'
 import priceChart from './priceChart/sagaRegister'
 import priceTicker from './priceTicker/sagaRegister'
+import requestBch from './requestBch/sagaRegister'
 import requestBtc from './requestBtc/sagaRegister'
+import requestEth from './requestEth/sagaRegister'
 import sendBch from './sendBch/sagaRegister'
 import sendBtc from './sendBtc/sagaRegister'
 import sendEth from './sendEth/sagaRegister'
@@ -28,7 +30,9 @@ export default ({ api, coreSagas }) => function * () {
   yield fork(manageAddresses({ api, coreSagas }))
   yield fork(priceChart({ coreSagas }))
   yield fork(priceTicker({ coreSagas }))
+  yield fork(requestBch())
   yield fork(requestBtc())
+  yield fork(requestEth())
   yield fork(sendBch({ api, coreSagas }))
   yield fork(sendBtc({ api, coreSagas }))
   yield fork(sendEth({ api, coreSagas }))

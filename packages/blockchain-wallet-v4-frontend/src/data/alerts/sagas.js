@@ -9,7 +9,3 @@ export const handleTimer = function * (action) {
   yield call(delay, DISMISS_AFTER)
   yield put(actions.dismissAlert(id))
 }
-
-export const paymentReceived = function * (action) {
-  yield put(actions.displaySuccess(action.message))
-}
