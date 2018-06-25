@@ -14,19 +14,20 @@ import { ModalHeader, ModalBody, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
 import { path } from 'ramda'
+import media from 'services/ResponsiveService'
 
 const HeaderWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  @media (max-width: 480px) {
+  ${media.mobile`
     flex-direction: column;
-  }
+  `}
 `
 const HeaderText = styled(Text)`
   font-size: 20px;
-  @media (max-width: 480px) {
+  ${media.mobile`
     display: none;
-  }
+  `}
 `
 
 class CoinifyExchangeData extends React.PureComponent {

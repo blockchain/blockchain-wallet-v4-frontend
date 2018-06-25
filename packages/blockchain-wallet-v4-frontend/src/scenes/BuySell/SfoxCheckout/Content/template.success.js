@@ -14,19 +14,20 @@ import { OrderDetails, OrderSubmit } from './OrderReview'
 import Helper from 'components/BuySell/FAQ'
 import EmptyOrderHistoryContainer from 'components/BuySell/EmptyOrderHistory'
 import SiftScience from 'modals/SfoxExchangeData/sift-science.js'
+import media from 'services/ResponsiveService'
 
 const CheckoutWrapper = styled.div`
   width: 50%;
-  @media (max-width: 480px) {
+  ${media.mobile`
     width: 100%;
-  }
+  `}
 `
 const OrderSubmitWrapper = CheckoutWrapper.extend`
   width: 35%;
   padding: 30px 30px 30px 10%;
-  @media (max-width: 480px) {
+  ${media.mobile`
     padding: 0px;
-  }
+  `}
 `
 const OrderHistoryWrapper = styled.div`
   width: 100%;
@@ -45,9 +46,9 @@ const OrderHistoryContent = styled.div`
 const SfoxBuySellContainer = styled.div`
   display: flex;
   flex-direction: row;
-  @media (max-width: 480px) {
+  ${media.mobile`
     flex-direction: column;
-  }
+  `}
 `
 const faqList = [
   {
