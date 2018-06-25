@@ -40,34 +40,41 @@ const darkTheme = {
 
 injectGlobal`
     :root {
-        --textBlack: #030E26;
-        --shark: #24292E;
-        --porcelain: #F4F6F7;
-        --silver: #cecece;
-        --whiteAlpha75: rgba(255,255,255,0.75);
-        --whiteAlpha10: rgba(255,255,255,0.1);
-        --blackAlpha75: rgba(0,0,0,0.75);
-        --blackAlpha05: rgba(0,0,0,0.05);
+      --textBlack: #030E26;
+      --shark: #24292E;
+      --porcelain: #F4F6F7;
+      --silver: #cecece;
+      --whiteAlpha75: rgba(255,255,255,0.75);
+      --whiteAlpha10: rgba(255,255,255,0.1);
+      --blackAlpha75: rgba(0,0,0,0.75);
+      --blackAlpha05: rgba(0,0,0,0.05);
 
-        /* blues */
-        --cerulean: #10ADE4;
-        --azure: #3558A8;
-        --biscay: #222D38;
-        --orient: #004A7C;
-        --powderBlue: #B2D5E5;
-        --blueWood: #27324B;
+      /* blues */
+      --cerulean: #10ADE4;
+      --azure: #3558A8;
+      --biscay: #222D38;
+      --orient: #004A7C;
+      --powderBlue: #B2D5E5;
+      --blueWood: #27324B;
 
-        --siteMaxWidth: 75rem;
-        --contentMaxWidth: 62rem;
-        --copyMaxWidth: 42rem;
+      --siteMaxWidth: 75rem;
+      --contentMaxWidth: 62rem;
+      --copyMaxWidth: 42rem;
 
-        --smScreen: 48rem;
-        --mdScreen: 62rem;
-        --lgScreen: 75rem;
+      --smScreen: 48rem;
+      --mdScreen: 62rem;
+      --lgScreen: 75rem;
 
-        --smBorderRadius: 2px;
-        --lgBorderRadius: 4px;
+      --smBorderRadius: 2px;
+      --lgBorderRadius: 4px;
     }
+    .flex-container {
+      display: flex;
+      margin: 0px auto;
+      width: 100%;
+      min-height: 2rem;
+    } 
+}
 `
 
 const GlobalNav = styled.div.attrs({
