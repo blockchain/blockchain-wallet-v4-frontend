@@ -7,6 +7,7 @@ import { SecurityComponent, SecurityContainer, SecurityDescription, SecurityHead
 
 import ChangeEmailSteps from '../Components/ChangeEmailSteps'
 import EmailVerificationSteps from '../Components/EmailVerificationSteps'
+import media from 'services/ResponsiveService'
 
 const EmailExplanation = styled.div`
 `
@@ -43,17 +44,24 @@ const EmailButton = styled(Button)`
 `
 const IconAndHeaderContainer = styled.div`
   opacity: ${props => props.success ? 0.3 : 1};
-  @media(min-width: 320px) {
-    display: grid;
-    grid-template-columns: 15% 85%;
-  }
+  display: grid;
+  grid-template-columns: 15% 85%;
+  ${media.mobile`
+    display: flex;
+  `}
 `
 const GridContainer = styled(SecurityContainer)`
   grid-template-columns: 85% 15%;
+  ${media.mobile`
+    padding: 0px;
+  `}
 `
 const FieldsContainer = styled.div`
   display: grid;
   grid-template-columns: 15% 85%;
+  ${media.mobile`
+    display: flex;
+  `}
 `
 const ResendContainer = styled.div`
   display: flex;
@@ -62,7 +70,15 @@ const ResendContainer = styled.div`
   div:first-of-type {
     margin-right: 5px;
   }
-
+  ${media.mobile`
+    flex-direction: column;
+    margin-top: 15px;
+  `}
+`
+const EmailSecuritySummary = styled(SecuritySummary)`
+  ${media.mobile`
+    display: inline;
+  `}
 `
 const EmailAddress = (props) => {
   const { data, ui, handleSubmitVerification, handleResend, invalid, code } = props
@@ -134,14 +150,14 @@ const EmailAddress = (props) => {
         <IconContainer>
           <SecurityIcon name='email' enabled={isVerified} />
         </IconContainer>
-        <SecuritySummary>
+        <EmailSecuritySummary>
           <SecurityHeader>
             { securityHeaderHelper() }
           </SecurityHeader>
           <SecurityDescription>
             { securityDescriptionHelper() }
           </SecurityDescription>
-        </SecuritySummary>
+        </EmailSecuritySummary>
       </IconAndHeaderContainer>
       <EmailSecurityComponent>
         {
