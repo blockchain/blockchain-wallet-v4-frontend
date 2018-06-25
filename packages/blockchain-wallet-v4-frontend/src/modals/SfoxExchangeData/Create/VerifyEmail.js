@@ -14,6 +14,7 @@ import { Text, Button } from 'blockchain-info-components'
 import { required } from 'services/FormHelper'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ColRightInner, EmailHelper } from 'components/BuySell/Signup'
 import { spacing } from 'services/StyleService'
+import media from 'services/ResponsiveService'
 
 const EmailInput = styled.div`
   display: flex;
@@ -21,9 +22,9 @@ const EmailInput = styled.div`
   flex-direction: column;
 `
 const VerifyEmailForm = styled(Form)`
-  @media (max-width: 480px) {
+  ${media.mobile`
     flex-direction: column;
-  }
+  `}
 `
 
 class VerifyEmail extends Component {

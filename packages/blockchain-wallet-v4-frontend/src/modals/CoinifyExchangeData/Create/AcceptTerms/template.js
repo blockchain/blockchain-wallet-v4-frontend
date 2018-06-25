@@ -9,6 +9,7 @@ import Terms from 'components/Terms'
 import { Button, HeartbeatLoader, Text, TextGroup, Link, Icon } from 'blockchain-info-components'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ErrorWrapper, ColRightInner } from 'components/BuySell/Signup'
 import { prop } from 'ramda'
+import media from 'services/ResponsiveService'
 
 const AcceptTermsContainer = styled.div`
   display: flex;
@@ -25,9 +26,9 @@ const FieldsContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 20px;
-  @media (max-width: 480px) {
+  ${media.mobile`
     margin-top: 10px;
-  }
+  `}
 `
 const FieldContainer = styled.div`
   display: flex;
@@ -45,13 +46,13 @@ const FieldBox = styled.div`
   flex-direction: row;
   width: 85%;
   justify-content: space-between;
-  @media (max-width: 480px) {
+  ${media.mobile`
     border: none;
     width: 100%;
     padding: 0px;
     flex-direction: column;
     width: fit-content;
-  }
+  `}
 `
 const IconContainer = styled.div`
   display: flex;
@@ -59,23 +60,23 @@ const IconContainer = styled.div`
   margin-left: 10px;
 `
 const AcceptTermsForm = styled(Form)`
-  @media (max-width: 480px) {
+  ${media.mobile`
     flex-direction: column;
-  }
+  `}
 `
 const EditLink = styled(Link)`
   font-size: 12px;
-  @media (max-width: 480px) {
+  ${media.mobile`
     margin-top: 5px;
     font-size: 12px;
-  }
+  `}
 `
 const VerifiedText = styled(Text)`
   font-size: 14px;
   margin-bottom: 10px;
-  @media (max-width: 480px) {
+  ${media.mobile`
     margin-bottom: 5px;
-  }
+  `}
 `
 const checkboxShouldBeChecked = value => value ? undefined : 'You must agree to the terms and conditions'
 

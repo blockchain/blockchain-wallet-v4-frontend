@@ -9,6 +9,7 @@ import { equals, prop } from 'ramda'
 import { Icon, Link, Text } from 'blockchain-info-components'
 import { SelectBoxCoinifyCurrency, NumberBoxDebounced } from 'components/Form'
 import { getReasonExplanation } from 'services/CoinifyService'
+import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -19,9 +20,9 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: flex-start;
   font-family: 'Montserrat', Helvetica, sans-serif;
-  @media (max-width: 480px){
+  ${media.mobile`
     height: 100px;
-  }
+  `}
 `
 const FiatConvertorInput = styled.div`
   display: flex;
@@ -30,9 +31,9 @@ const FiatConvertorInput = styled.div`
   width: 100%;
   height: 100%;
   margin-bottom: 0px;
-  @media (max-width: 480px){
+  ${media.mobile`
     flex-direction: column;
-  }
+  `}
 `
 const Container = styled.div`
   position: relative;
@@ -53,17 +54,17 @@ const Unit = styled.span`
 const ArrowLeft = styled(Icon)`
   margin-left: 10px;
   color: #bbb;
-  @media (max-width: 480px) {
+  ${media.mobile`
     display: none;
-  }
+  `}
 `
 const ArrowRight = styled(Icon)`
   margin-left: -10px;
   margin-right: 10px;
   color: #bbb;
-  @media (max-width: 480px) {
+  ${media.mobile`
     display: none;
-  }
+  `}
 `
 const Error = styled(Text)`
   position: absolute;
@@ -77,9 +78,9 @@ const Error = styled(Text)`
     color: ${props => props.theme['brand-secondary']};
     cursor: pointer;
   }
-  @media (max-width: 480px){
+  ${media.mobile`
     top: 100px;
-  }
+  `}
 `
 const LimitsHelper = styled.div`
   position: absolute;
@@ -95,9 +96,9 @@ const LimitsHelper = styled.div`
   span:first-of-type {
     padding-right: 5px;
   }
-  @media (max-width: 480px){
+  ${media.mobile`
     top: 100px;
-  }
+  `}
 `
 
 const getLimitsError = (errorType, limits, curr, setMax, setMin, changeTab) => {

@@ -9,22 +9,23 @@ import { FormattedMessage } from 'react-intl'
 import Helper from 'components/BuySell/FAQ'
 import CountdownTimer from 'components/Form/CountdownTimer'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
+import media from 'services/ResponsiveService'
 
 const ISXContainer = styled.div`
   display: flex;
   flex-direction: row;
-  @media (max-width: 480px) {
+  ${media.mobile`
     flex-direction: column;
-  }
+  `}
 `
 const ButtonContainer = styled.div`
   margin-left: 5%;
   width: 20%;
-  @media (max-width: 480px) {
+  ${media.mobile`
     width: 100%;
     margin-left: 0%;
     margin-top: 20px;
-  }
+  `}
 `
 const TimerContainer = styled.div`
   width: 66%;
@@ -44,9 +45,9 @@ const ISignThisIframe = styled.iframe`
   width: 65%;
   height: 400px;
   border: ${props => `1px solid ${props.theme['gray-1']}`}
-  @media (max-width: 480px) {
+  ${media.mobile`
     width: 100%;
-  }
+  `}
 `
 
 const kycHelper = [

@@ -12,6 +12,7 @@ import { Text, Button } from 'blockchain-info-components'
 import { required, normalizePhone, validMobileNumber } from 'services/FormHelper'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ColRightInner, EmailHelper } from 'components/BuySell/Signup'
 import { spacing } from 'services/StyleService'
+import media from 'services/ResponsiveService'
 
 const MobileInput = styled.div`
   display: flex;
@@ -22,10 +23,10 @@ const MobileCodeContainer = MobileInput.extend`
   margin-top: 25px;
 `
 const VerifyMobileForm = styled(Form)`
-  @media (max-width: 480px) {
+  ${media.mobile`
     flex-direction: column;
     height: 100vh;
-  }
+  `}
 `
 
 class VerifyMobile extends Component {
