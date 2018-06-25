@@ -70,6 +70,7 @@
     "@storybook/addon-links": "4.0.0-alpha.8",
     "@storybook/cli": "^4.0.0-alpha.8",
     "@storybook/react": "^4.0.0-alpha.8",
+    "@svgr/webpack": "^2.0.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "7.2.3",
