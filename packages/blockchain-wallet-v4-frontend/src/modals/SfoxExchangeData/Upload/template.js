@@ -10,6 +10,8 @@ import CameraContainer from './camera'
 import TitleStrings from './strings'
 import { Row, ColLeft, ColRight, ColLeftInner, PartnerHeader } from 'components/BuySell/Signup'
 
+import media from 'services/ResponsiveService'
+
 const LockIcon = styled(Icon)`
   font-size: 24px;
   margin-left: 7px;
@@ -70,6 +72,17 @@ const CameraLink = styled(Link)`
   font-weight: 300;
   margin-top: 15px;
 `
+const UploadRow = styled(Row)`
+  ${media.mobile`
+    flex-direction: column;
+    height: 100vh;
+  `}
+`
+const UploadColLeftInner = styled(ColLeftInner)`
+  ${media.mobile`
+    width: 100%;
+  `}
+`
 
 const Upload = (props) => {
   const { onDrop,
@@ -106,15 +119,15 @@ const Upload = (props) => {
   }
 
   return (
-    <Row>
+    <UploadRow>
       <ColLeft>
-        <ColLeftInner>
+        <UploadColLeftInner>
           <PartnerHeader style={{ ...flex('row align/center') }}>
             <FormattedMessage id='sfoxexchangedata.upload.title' defaultMessage='Let’s Get to Know You' />
             <LockIcon name='lock-filled' />
           </PartnerHeader>
           <TitleStrings idType={idType} />
-        </ColLeftInner>
+        </UploadColLeftInner>
         <InputContainer>
           {
             file
@@ -147,7 +160,7 @@ const Upload = (props) => {
           </Link>
         </SubmitContainer>
       </ColRight>
-    </Row>
+    </UploadRow>
   )
 }
 
