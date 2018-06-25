@@ -4,7 +4,7 @@ import { actions, actionTypes, selectors } from 'data'
 let timer, counter, interval
 // Actions that won't refresh the autodisconnection timer
 let blackListedActivityTypes = [
-  actionTypes.core.webSocket.ethereum.MESSAGE_SOCKET,
+  actionTypes.middleware.webSocket.eth.MESSAGE_SOCKET,
   actionTypes.core.data.ethereum.FETCH_ETHEREUM_LATEST_BLOCK_SUCCESS,
   actionTypes.core.data.ethereum.FETCH_ETHEREUM_LATEST_BLOCK_LOADING,
   actionTypes.core.data.ethereum.FETCH_ETHEREUM_LATEST_BLOCK_FAILURE,
@@ -13,7 +13,7 @@ let blackListedActivityTypes = [
   actionTypes.core.data.ethereum.FETCH_ETHEREUM_DATA_LOADING,
   actionTypes.core.data.ethereum.FETCH_ETHEREUM_DATA_FAILURE,
   actionTypes.core.data.ethereum.FETCH_ETHEREUM_DATA,
-  actionTypes.core.webSocket.bitcoin.MESSAGE_SOCKET,
+  actionTypes.middleware.webSocket.btc.MESSAGE_SOCKET,
   actionTypes.core.data.bitcoin.SET_BITCOIN_LATEST_BLOCK,
   actionTypes.core.data.bitcoin.FETCH_BITCOIN_TRANSACTIONS,
   actionTypes.core.data.bitcoin.FETCH_BITCOIN_TRANSACTIONS_LOADING,
@@ -23,7 +23,7 @@ let blackListedActivityTypes = [
   actionTypes.core.data.bitcoin.FETCH_BITCOIN_DATA_LOADING,
   actionTypes.core.data.bitcoin.FETCH_BITCOIN_DATA_SUCCESS,
   actionTypes.core.data.bitcoin.FETCH_BITCOIN_DATA_FAILURE,
-  actionTypes.core.webSocket.bch.MESSAGE_SOCKET,
+  actionTypes.middleware.webSocket.bch.MESSAGE_SOCKET,
   actionTypes.core.data.bch.SET_BCH_LATEST_BLOCK,
   actionTypes.core.data.bch.FETCH_BCH_TRANSACTIONS,
   actionTypes.core.data.bch.FETCH_BCH_TRANSACTIONS_LOADING,
