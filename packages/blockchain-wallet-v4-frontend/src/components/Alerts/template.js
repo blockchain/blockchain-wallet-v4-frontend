@@ -96,6 +96,9 @@ const selectMessage = (message, data = undefined) => {
     case C.NEW_WALLET_CREATE_ERROR: return <FormattedMessage id='components.alerts.new_wallet_create_error' defaultMessage='Failed to create new wallet' />
     case C.NEW_ADDRESS_GENERATE_ERROR: return <FormattedMessage id='components.alerts.new_address_generate_error' defaultMessage='Failed to generate new address.' />
     case C.NEW_WALLET_CREATE_SUCCESS: return <FormattedMessage id='components.alerts.new_wallet_create_success' defaultMessage='Successfully created new wallet' />
+    case C.PAYMENT_RECEIVED_BCH: return <FormattedMessage id='components.alerts.payment_received_bch' defaultMessage="You've just received a Bitcoin cash payment" />
+    case C.PAYMENT_RECEIVED_BTC: return <FormattedMessage id='components.alerts.payment_received_btc' defaultMessage="You've just received a Bitcoin payment" />
+    case C.PAYMENT_RECEIVED_ETH: return <FormattedMessage id='components.alerts.payment_received_eth' defaultMessage="You've just received an Ethereum payment" />
     case C.PBKDF2_UPDATE_SUCCESS: return <FormattedMessage id='components.alerts.pbkdf2_update_success' defaultMessage='PBKDF2 iterations changed successfully' />
     case C.RECEIVE_BCH_SUCCESS: return <FormattedMessage id='components.alerts.receive_bch_success' defaultMessage='You have received a bitcoin cash payment.' />
     case C.RECEIVE_BTC_SUCCESS: return <FormattedMessage id='components.alerts.receive_btc_success' defaultMessage='You have received a bitcoin payment.' />

@@ -5,6 +5,7 @@ import { sfoxService } from 'services/SfoxService'
 import { coinifyService } from 'services/CoinifyService'
 import * as auth from './auth/sagas'
 import * as components from './components/sagas'
+import * as middleware from './middleware/sagas'
 import * as modules from './modules/sagas'
 import * as preferences from './preferences/sagas'
 import * as router from './router/sagas'
@@ -15,6 +16,7 @@ const core = coreSagasFactory({ api, socket, sfoxService, coinifyService })
 export {
   auth,
   components,
+  middleware,
   modules,
   preferences,
   core,

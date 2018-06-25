@@ -1,9 +1,39 @@
-import { lift } from 'ramda'
+import { add, lift, reduce } from 'ramda'
 import { selectors } from 'data'
-import { Exchange } from 'blockchain-wallet-v4/src'
+import { Remote, Exchange } from 'blockchain-wallet-v4/src'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
-import { getBchBalance, getBtcBalance, getEthBalance } from '../selectors'
+
+export const getBtcBalance = state => createDeepEqualSelector(
+  [
+    selectors.core.wallet.getSpendableContext
+  ],
+  (context) => {
+    const getBalance = address => selectors.core.data.bitcoin.getFinalBalance(address, state)
+    const balancesR = context.map(x => getBalance(x).getOrElse(0))
+    return Remote.of(reduce(add, 0, balancesR))
+  }
+)(state)
+
+export const getBchBalance = state => createDeepEqualSelector(
+  [
+    selectors.core.kvStore.bch.getSpendableContext
+  ],
+  (context) => {
+    const getBalance = address => selectors.core.data.bch.getFinalBalance(address, state)
+    const balancesR = context.map(x => getBalance(x).getOrElse(0))
+    return Remote.of(reduce(add, 0, balancesR))
+  }
+)(state)
+
+export const getEthBalance = state => createDeepEqualSelector(
+  [
+    selectors.core.data.ethereum.getBalance
+  ],
+  (balance) => {
+    return Remote.of(balance.getOrElse(0))
+  }
+)(state)
 
 export const getBtcBalanceInfo = createDeepEqualSelector(
   [
