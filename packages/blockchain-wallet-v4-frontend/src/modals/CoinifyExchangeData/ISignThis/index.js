@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actions } from 'data'
-import { path, prop } from 'ramda'
+import { equals, path, prop } from 'ramda'
 import { Button, Text, Tooltip } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 
@@ -253,14 +253,14 @@ class ISignThisContainer extends Component {
             <Button nature='empty-secondary' fullwidth onClick={() => coinifyActions.cancelISX()}>
               <Text size='13px' weight={300} color='brand-secondary'>
                 {
-                  isxType && isxType === 'Trade'
+                  equals(isxType, 'Trade')
                     ? <FormattedMessage id='scenes.buysell.coinify.isx.finishlater' defaultMessage='Finish later' />
                     : <FormattedMessage id='scenes.buysell.coinify.isx.dolater' defaultMessage="I'll do this later" />
                 }
               </Text>
             </Button>
             {
-              isxType && isxType === 'Trade'
+              equals(isxType, 'Trade')
                 ? tradeFaqHelper()
                 : kycFaqHelper()
             }
