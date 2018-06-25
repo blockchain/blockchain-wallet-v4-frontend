@@ -20,7 +20,7 @@ const Container = styled.div`
 const ActionLink = styled(Link)`
   margin-left: 0;
   margin-top: 0;
-  color: blue;
+  color: ${props => props.theme['marketing-secondary']};
   text-decoration: underline;
 `
 const ActionIcon = styled(Icon)`
@@ -34,33 +34,33 @@ const IconContainer = styled.div`
 
 const selectStyle = type => {
   switch (type) {
-    case 'danger': return { color: 'brand-yellow', uppercase: true, icon: 'alert' }
-    case 'info': return { color: 'brand-tertiary', uppercase: false, icon: null }
-    case 'warning': return { color: 'error', uppercase: false, icon: 'alert' }
-    default: return { color: 'brand-tertiary', uppercase: false, icon: null }
+    case 'danger': return { color: 'warn', uppercase: true, icon: 'alert-filled', iconColor: 'error' }
+    case 'info': return { color: 'brand-tertiary', uppercase: false, icon: false, iconColor: null }
+    case 'warning': return { color: 'brand-yellow-lighter', uppercase: false, icon: 'alert-filled', iconColor: 'sent' }
+    default: return { color: 'brand-tertiary', uppercase: false, icon: false, iconColor: null }
   }
 }
 
 const Announcement = props => {
-  const { announcement, collapsed, handleDismiss, toggleCollapse } = props
+  const { announcement, collapsed, language, handleDismiss, toggleCollapse } = props
   const style = selectStyle(announcement.type)
-  const { color, uppercase, icon } = style
+  const { color, icon, iconColor, uppercase } = style
 
   return (
     <Container color={color} collapsed={collapsed}>
       <IconContainer>
-        { icon && <Icon name={icon} size='24px' weight={600} color={color} /> }
+        { icon && <Icon name={icon} size='34px' weight={600} color={iconColor} /> }
       </IconContainer>
       <div style={{width: '100%'}}>
-        <Text weight={300} size='20px' uppercase={uppercase} style={{margin: '6px 0'}}>{announcement.header.en}</Text>
+        <Text weight={300} size='20px' uppercase={uppercase} style={{margin: '6px 0'}}>{announcement.header[language]}</Text>
         <TextGroup style={{ display: collapsed ? 'none' : '' }}>
           {
             announcement.sections.map(section => {
-              return <Text size='13px' style={{marginBottom: '2px'}}>{section.body.en}</Text>
+              return <Text size='13px' style={{marginBottom: '2px'}}>{section.body[language]}</Text>
             })
           }
           <ActionLink href={announcement.action.link} target='_blank'>
-            <Text color='brand-primary' size='14px'>{announcement.action.title.en}</Text>
+            <Text color='brand-primary' size='14px'>{announcement.action.title[language]}</Text>
           </ActionLink>
         </TextGroup>
       </div>
@@ -74,6 +74,7 @@ const Announcement = props => {
 
 Announcement.propTypes = {
   announcement: PropTypes.object.isRequired,
+  language: PropTypes.string.isRequired,
   handleDismiss: PropTypes.func.isRequired
 }
 

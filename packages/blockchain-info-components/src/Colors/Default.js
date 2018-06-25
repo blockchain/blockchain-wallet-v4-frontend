@@ -24,6 +24,8 @@ export default {
   'gray-4': '#757679',
   'gray-5': '#545456',
   'gray-6': '#383838',
+  // Announcements
+  'warn': '#FF9F90',
   // New Color
   'white': '#FFFFFF',
   'white-blue': '#F5F7F9',

@@ -50,7 +50,7 @@ const Header = props => (
         </NavbarNav>
       </NavbarMenu>
     </Navbar>
-    <ServiceAnnouncement type='wallet' />
+    <ServiceAnnouncement alertArea='wallet' />
   </React.Fragment>
 )
 

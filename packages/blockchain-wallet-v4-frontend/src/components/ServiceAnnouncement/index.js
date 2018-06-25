@@ -3,7 +3,8 @@ import { bindActionCreators } from 'redux'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { actions, selectors } from 'data'
+import { actions } from 'data'
+import { getData } from './selectors'
 import Announcement from './template.js'
 
 class ServiceAnnouncement extends React.PureComponent {
@@ -29,18 +30,23 @@ class ServiceAnnouncement extends React.PureComponent {
   }
 
   render () {
-    const { announcements, type } = this.props
+    const { alertArea, data } = this.props
+    console.info(alertArea)
+    console.info(data.announcements[alertArea])
 
-    return this.state.visible && <Announcement
-      announcement={announcements.data[type]}
-      collapsed={this.state.collapsed}
-      handleDismiss={this.handleDismiss}
-      toggleCollapse={this.toggleCollapse} />
+    return this.state.visible
+      ? (<Announcement
+        announcement={data.announcements[alertArea]}
+        language={data.language}
+        collapsed={this.state.collapsed}
+        handleDismiss={this.handleDismiss}
+        toggleCollapse={this.toggleCollapse} />)
+      : null
   }
 }
 
 const mapStateToProps = (state) => ({
-  announcements: selectors.core.walletOptions.getAnnouncements(state)
+  data: getData(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -48,7 +54,7 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 ServiceAnnouncement.propTypes = {
-  type: PropTypes.oneOf(['global', 'wallet']).isRequired
+  alertArea: PropTypes.oneOf(['global', 'wallet']).isRequired
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ServiceAnnouncement)
