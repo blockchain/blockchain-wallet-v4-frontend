@@ -6,7 +6,8 @@ export const getData = (state) => {
   const profile = selectors.core.data.sfox.getProfile(state)
   const accounts = selectors.core.data.sfox.getAccounts(state)
   const verificationStatus = selectors.core.data.sfox.getVerificationStatus(state).data
-  const nextAddress = selectors.core.common.btc.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, 0, state)
+  const defaultIndex = selectors.core.wallet.getDefaultAccountIndex(state)
+  const nextAddress = selectors.core.common.btc.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, defaultIndex, state)
   return lift((profile, accounts, nextAddress) => ({ profile, accounts, verificationStatus, nextAddress }))(profile, accounts, nextAddress)
 }
 
