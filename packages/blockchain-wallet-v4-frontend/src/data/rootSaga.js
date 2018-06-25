@@ -1,12 +1,10 @@
 import { all, call, fork, put } from 'redux-saga/effects'
 import { coreSagasFactory, coreRootSagaFactory } from 'blockchain-wallet-v4/src'
-import websocketBitcoinFactory from 'blockchain-wallet-v4/src/redux/webSocket/bitcoin/sagaRegister'
-import websocketEthereumFactory from 'blockchain-wallet-v4/src/redux/webSocket/ethereum/sagaRegister'
-import websocketBchFactory from 'blockchain-wallet-v4/src/redux/webSocket/bch/sagaRegister'
 import * as actions from './actions'
 import alerts from './alerts/sagaRegister'
 import auth from './auth/sagaRegister'
 import components from './components/sagaRegister'
+import middleware from './middleware/sagaRegister'
 import modules from './modules/sagaRegister'
 import preferences from './preferences/sagaRegister'
 import goals from './goals/sagaRegister'
@@ -32,7 +30,7 @@ const welcomeSaga = function * () {
   }
 }
 
-export default function * ({ api, btcSocket, ethSocket, bchSocket, options }) {
+export default function * ({ api, bchSocket, btcSocket, ethSocket, options }) {
   const coreSagas = coreSagasFactory({ api })
 
   yield all([
@@ -44,9 +42,7 @@ export default function * ({ api, btcSocket, ethSocket, bchSocket, options }) {
     fork(preferences()),
     fork(goals({ coreSagas })),
     fork(wallet({ coreSagas })),
-    fork(websocketBitcoinFactory({ api, btcSocket })),
-    fork(websocketEthereumFactory({ api, ethSocket })),
-    fork(websocketBchFactory({ api, bchSocket })),
+    fork(middleware({ api, bchSocket, btcSocket, ethSocket })),
     fork(coreRootSagaFactory({ api, options })),
     fork(router())
   ])
