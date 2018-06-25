@@ -1,4 +1,4 @@
-import { lift } from 'ramda'
+import { lift, path } from 'ramda'
 import settings from 'config'
 import { selectors } from 'data'
 
@@ -10,31 +10,20 @@ export const getData = (state) => {
   return lift((profile, accounts, nextAddress) => ({ profile, accounts, verificationStatus, nextAddress }))(profile, accounts, nextAddress)
 }
 
-export const getQuote = (state) => {
-  return selectors.core.data.sfox.getQuote(state)
-}
+export const getQuote = (state) =>
+  selectors.core.data.sfox.getQuote(state)
 
-export const getSellQuote = (state) => {
-  return selectors.core.data.sfox.getSellQuote(state)
-}
+export const getSellQuote = (state) =>
+  selectors.core.data.sfox.getSellQuote(state)
 
-export const getTrades = (state) => {
-  try {
-    return selectors.core.data.sfox.getTrades(state).data
-  } catch (e) {
-    return null
-  }
-}
+export const getTrades = (state) =>
+  selectors.core.data.sfox.getTrades(state).getOrElse(null)
 
-export const getBase = (state) => {
-  return state.form.exchangeCheckout && state.form.exchangeCheckout.active
-}
+export const getBase = (state) =>
+  path(['form', 'exchangeCheckout', 'active'], state)
 
-export const getErrors = (state) => {
-  const exchangeCheckoutForm = state.form && state.form.exchangeCheckout
-  return exchangeCheckoutForm && exchangeCheckoutForm.syncErrors
-}
+export const getErrors = (state) =>
+  path(['form', 'exchangeCheckout', 'syncErrors'], state)
 
-export const getPayment = (state) => {
-  return selectors.components.sendBtc.getPayment(state).data
-}
+export const getPayment = (state) =>
+  selectors.components.sendBtc.getPayment(state).getOrElse(null)
