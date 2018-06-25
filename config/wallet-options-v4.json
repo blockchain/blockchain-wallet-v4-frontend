@@ -11,6 +11,7 @@
         "states": "*",
         "announcements": {
           "public": {
+            "id": "1",
             "type": "info",
             "hideType": "dismiss",
             "header": {
@@ -32,6 +33,7 @@
             }
           },
           "wallet": {
+            "id": "2",
             "type": "info",
             "hideType": "collapse",
             "header": {
