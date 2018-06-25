@@ -9,7 +9,54 @@
         "fraction": 1,
         "countries": "*",
         "states": "*",
-        "announcements": {}
+        "announcements": {
+          "public": {
+            "id": "domain-move",
+            "type": "info",
+            "hideType": "dismiss",
+            "header": {
+              "en": "We’re packing our bags and preparing to move...domains!"
+            },
+            "sections": [{
+              "title": {
+                "en": ""
+              },
+              "body": {
+                "en": "To make way for our new and exciting products coming this year, we’re saying hello to our new home. blockchain.info will soon be changing URLs as it's combined with our company site, blockchain.com."
+              }
+            }],
+            "action": {
+              "title": {
+                "en": "Read more about what to expect."
+              },
+              "link": "https://blog.blockchain.com/2018/06/19/blockchain-infos-moving-domains/"
+            }
+          },
+          "wallet": {
+            "id": "privacy-policy-update",
+            "type": "info",
+            "hideType": "dismiss",
+            "header": {
+              "en": "Updates to Privacy Policy and Cookie Policy"
+            },
+            "sections": [
+              {
+                "title": {
+                  "en": ""
+                },
+                "body": {
+                  "en": "We’re updating our Privacy Policy and Cookie Policy to make it easier for you to understand the limited information we collect and why we collect it. We thrive on collecting the least amount of data on our users. Please review our updated policies."
+                }
+              }
+            ],
+            "action": {
+              "title": {
+                "en": "More details."
+              },
+              "link": "https://www.blockchain.com/privacy"
+            }
+          }
+        }
       },
       "bitcoin": {
         "availability": {
