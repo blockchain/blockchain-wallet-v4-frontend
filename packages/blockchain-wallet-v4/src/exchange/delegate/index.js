@@ -1,4 +1,5 @@
 import { btc } from '../../redux/common/selectors'
+import { getDefaultAccountIndex } from '../../redux/wallet/selectors'
 import Bitcoin from 'bitcoinjs-lib'
 
 export class ExchangeDelegate {
@@ -86,9 +87,11 @@ export class ExchangeDelegate {
   }
 
   reserveReceiveAddress () {
-    const receiveAddress = btc.getNextAvailableReceiveAddress(Bitcoin.networks.bitcoin.NETWORK_BITCOIN, 0, this.state)
+    const defaultIndex = getDefaultAccountIndex(this.state)
+    const receiveAddress = btc.getNextAvailableReceiveAddress(Bitcoin.networks.bitcoin.NETWORK_BITCOIN, defaultIndex, this.state)
+
     return {
-      receiveAddress: receiveAddress.data,
+      receiveAddress: receiveAddress.getOrElse(),
       commit: (trade) => {}
     }
   }
