@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, injectIntl } from 'react-intl'
 
 import { required } from 'services/FormHelper'
 import { Button, Text } from 'blockchain-info-components'
@@ -31,10 +31,7 @@ const SubmitButton = styled(Button)`
 `
 
 const StateRegistrationStep = (props) => {
-  const { handleSubmit, invalid, pristine, stateWhitelist } = props
-  const onShapeshiftWhitelist = (state) => {
-    return state.code && stateWhitelist.indexOf(state.code) >= 0 ? undefined : 'This service is not yet available in your state.'
-  }
+  const { handleSubmit, invalid, pristine } = props
 
   return (
     <Wrapper>
@@ -55,7 +52,7 @@ const StateRegistrationStep = (props) => {
               <FormLabel for='state'>
                 <FormattedMessage id='scenes.exchange.shapeshift.stateregistration.selectstate' defaultMessage='Select your state of residency:' />
               </FormLabel>
-              <Field name='state' validate={[required, onShapeshiftWhitelist]} component={SelectBoxUSState} />
+              <Field name='state' validate={[required]} component={SelectBoxUSState} />
             </FormItem>
           </FormGroup>
           <SubmitButton nature='primary' uppercase fullwidth type='submit' disabled={invalid || pristine}>
@@ -72,4 +69,16 @@ StateRegistrationStep.propTypes = {
   stateWhitelist: PropTypes.array.isRequired
 }
 
-export default reduxForm({ form: 'exchange' })(StateRegistrationStep)
+export default injectIntl(reduxForm({
+  form: 'shapeshiftStateRegistration',
+  validate: (values, props) => {
+    return values.state && values.state.code && props.stateWhitelist.indexOf(values.state.code) >= 0
+      ? {}
+      : {
+        state: props.intl.formatMessage({
+          id: 'scenes.exchange.shapeshift.stateregistration.unavailable',
+          defaultMessage: 'This service is not yet available in your state.'
+        })
+      }
+  }
+})(StateRegistrationStep))

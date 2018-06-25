@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { filter, contains, path } from 'ramda'
+import { filter, contains, path, prop } from 'ramda'
 import { Text } from 'blockchain-info-components'
 import ISignThis from 'modals/CoinifyExchangeData/ISignThis'
 
@@ -23,13 +23,15 @@ const OrderHistoryContent = styled.div`
     margin-bottom: 20px;
   }
 `
-const isPending = (t) => (t.state === 'processing' || t.state === 'awaiting_transfer_in') && !t.tradeSubscriptionId
-const isCompleted = (t) => contains(t.state, ['completed', 'rejected', 'cancelled', 'expired']) && !t.tradeSubscriptionId
-const isPartOfSubscription = (t) => t.tradeSubscriptionId
+const isPending = (t) =>
+  contains(prop('state', t), ['processing', 'awaiting_transfer_in']) && !prop('tradeSubscriptionId', t)
+const isCompleted = (t) =>
+  contains(prop('state', t), ['completed', 'rejected', 'cancelled', 'expired']) && !prop('tradeSubscriptionId', t)
+const isPartOfSubscription = (t) => prop('tradeSubscriptionId', t)
 
 const OrderHistory = (props) => {
-  const { showModal, finishTrade, cancelTrade, step, status, cancelTradeId, trade, changeTab, canTrade, value, onCancelSubscription } = props
-  const { trades, subscriptions } = value
+  const { showModal, finishTrade, cancelTrade, step, status, cancelTradeId, trade, changeTab, value, onCancelSubscription } = props
+  const { trades, subscriptions, canTrade } = value
   const pendingTrades = filter(isPending, trades)
 
   if (step === 'isx') {
@@ -91,7 +93,10 @@ const OrderHistory = (props) => {
           <Text size='15px' weight={400}>
             <FormattedMessage id='scenes.buysell.coinifycheckout.trades.completed' defaultMessage='Completed Orders' />
           </Text>
-          <OrderHistoryTable trades={filter(isCompleted, trades)} conversion={conversion} handleDetailsClick={trade => showModal('CoinifyTradeDetails', { trade })} />
+          <OrderHistoryTable
+            trades={filter(isCompleted, trades)}
+            conversion={conversion}
+            handleDetailsClick={trade => showModal('CoinifyTradeDetails', { trade })} />
         </OrderHistoryContent>
       </OrderHistoryWrapper>
     )

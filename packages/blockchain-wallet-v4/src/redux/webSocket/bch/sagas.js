@@ -20,13 +20,13 @@ export default ({ api, bchSocket }) => {
 
     switch (message.op) {
       case 'utx':
-        yield put(bchActions.fetchData('', true))
+        yield put(bchActions.fetchTransactions('', true))
         const transactions = yield take(bchAT.FETCH_BCH_TRANSACTIONS_SUCCESS)
         for (let i in transactions.payload.transactions) {
           const tx = transactions.payload.transactions[i]
           if (tx.hash === message.x.hash) {
             if (tx.result > 0) {
-              yield put(A.webSocket.bitcoin.paymentReceived('You\'ve just received a bitcoin payment.'))
+              yield put(A.webSocket.bch.paymentReceived())
             }
             break
           }

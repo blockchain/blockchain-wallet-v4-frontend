@@ -1,23 +1,9 @@
 import { lift } from 'ramda'
 import { selectors } from 'data'
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { Exchange } from 'blockchain-wallet-v4/src'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
-
-export const getBtcBalance = createDeepEqualSelector(
-  [selectors.core.data.bitcoin.getSpendableBalance],
-  (btcBalanceR) => Remote.of(btcBalanceR.getOrElse(0))
-)
-
-export const getBchBalance = createDeepEqualSelector(
-  [selectors.core.data.bch.getSpendableBalance],
-  (bchBalanceR) => Remote.of(bchBalanceR.getOrElse(0))
-)
-
-export const getEthBalance = createDeepEqualSelector(
-  [selectors.core.data.ethereum.getBalance],
-  (ethBalanceR) => Remote.of(ethBalanceR.getOrElse(0))
-)
+import { getBchBalance, getBtcBalance, getEthBalance } from '../selectors'
 
 export const getBtcBalanceInfo = createDeepEqualSelector(
   [
