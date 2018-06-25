@@ -299,16 +299,16 @@ describe('authSagas', () => {
       saga.next(true).put(actions.auth.authenticate())
     })
 
+    it('should put action to start bitcoin cash socket', () => {
+      saga.next().put(actions.middleware.webSocket.bch.startSocket())
+    })
+
     it('should put action to start bitcoin socket', () => {
-      saga.next().put(actions.core.webSocket.bitcoin.startSocket())
+      saga.next().put(actions.middleware.webSocket.btc.startSocket())
     })
 
     it('should put action to start ethereum socket', () => {
-      saga.next().put(actions.core.webSocket.ethereum.startSocket())
-    })
-
-    it('should put action to start bitcoin cash socket', () => {
-      saga.next().put(actions.core.webSocket.bch.startSocket())
+      saga.next().put(actions.middleware.webSocket.eth.startSocket())
     })
 
     it('should fetch root', () => {
@@ -806,30 +806,41 @@ describe('authSagas', () => {
 
     const saga = testSaga(remindGuid, { payload })
 
+    it('should trigger a remind guid loading action', () => {
+      saga.next().put(actions.auth.remindGuidLoading())
+    })
+
     it('should pass payload to core remindWalletGuidSaga', () => {
       saga.next().call(coreSagas.wallet.remindWalletGuidSaga, payload)
     })
 
     it('should show successful guid send alert', () => {
+      saga.next().put(actions.alerts.displaySuccess(C.GUID_SENT_SUCCESS))
+    })
+
+    it('should put remind guid success action', () => {
       saga
         .next()
-        .put(actions.alerts.displaySuccess(C.GUID_SENT_SUCCESS))
+        .put(actions.auth.remindGuidSuccess())
         .next()
         .isDone()
     })
 
     describe('error handling', () => {
       describe('Other errors', () => {
+        const error = {}
         beforeAll(() => {
           saga.restart().next()
         })
 
-        it('should log an error message', () => {
-          const error = {}
-
+        it('trigger remind guid failure action', () => {
           saga
             .throw(error)
-            .put(actions.logs.logErrorMessage(logLocation, 'remindGuid', error))
+            .put(actions.auth.remindGuidFailure())
+        })
+
+        it('should log an error message', () => {
+          saga.next().put(actions.logs.logErrorMessage(logLocation, 'remindGuid', error))
         })
 
         it('should display error alert', () => {
@@ -842,18 +853,21 @@ describe('authSagas', () => {
       })
 
       describe('Captcha error', () => {
+        const captchaError = {
+          message: 'Captcha Code Incorrect'
+        }
         beforeAll(() => {
           saga.restart().next()
         })
 
-        it('should log an error message', () => {
-          const captchaError = {
-            message: 'Captcha Code Incorrect'
-          }
-
+        it('trigger remind guid failure action', () => {
           saga
             .throw(captchaError)
-            .put(actions.logs.logErrorMessage(logLocation, 'remindGuid', captchaError))
+            .put(actions.auth.remindGuidFailure())
+        })
+
+        it('should log an error message', () => {
+          saga.next().put(actions.logs.logErrorMessage(logLocation, 'remindGuid', captchaError))
         })
 
         it('should refetch captcha in case of incorrect captcha', () => {
@@ -884,9 +898,9 @@ describe('authSagas', () => {
         .provide([
           [select(selectors.core.settings.getEmailVerified), Remote.of(true)]
         ])
-        .put(actions.core.webSocket.bitcoin.stopSocket())
-        .put(actions.core.webSocket.ethereum.stopSocket())
-        .put(actions.core.webSocket.bch.stopSocket())
+        .put(actions.middleware.webSocket.bch.stopSocket())
+        .put(actions.middleware.webSocket.btc.stopSocket())
+        .put(actions.middleware.webSocket.eth.stopSocket())
         .put(actions.router.push('/logout'))
         .run()
     })
@@ -896,9 +910,9 @@ describe('authSagas', () => {
         .provide([
           [select(selectors.core.settings.getEmailVerified), Remote.of(false)]
         ])
-        .put(actions.core.webSocket.bitcoin.stopSocket())
-        .put(actions.core.webSocket.ethereum.stopSocket())
-        .put(actions.core.webSocket.bch.stopSocket())
+        .put(actions.middleware.webSocket.bch.stopSocket())
+        .put(actions.middleware.webSocket.btc.stopSocket())
+        .put(actions.middleware.webSocket.eth.stopSocket())
         .run()
         .then(() => {
           expect(pushStateSpy).toHaveBeenCalledTimes(1)
