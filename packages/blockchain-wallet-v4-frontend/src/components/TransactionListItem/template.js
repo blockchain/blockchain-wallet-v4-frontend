@@ -113,7 +113,7 @@ const dateHelper = (time) => {
 
 const TransactionListItem = (props) => {
   const { handleCoinToggle, transaction, handleEditDescription, coin, minConfirmations } = props
-  console.log('transactionlistitem', transaction)
+
   return (
     <TransactionRowContainer>
       <TransactionRow>
