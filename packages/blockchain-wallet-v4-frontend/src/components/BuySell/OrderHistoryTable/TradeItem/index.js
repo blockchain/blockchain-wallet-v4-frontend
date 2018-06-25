@@ -24,7 +24,7 @@ export const OrderHistoryLink = styled(Link)`
 
 const tradeDateHelper = (trade) => {
   let timeFormat = 'MMMM D YYYY @ h:mm A'
-  if (window.outerWidth <= 480) timeFormat = 'DD/MM'
+  if (window.outerWidth <= 480) timeFormat = 'DD MMM'
   return moment(prop('createdAt', trade)).local().format(timeFormat)
 }
 

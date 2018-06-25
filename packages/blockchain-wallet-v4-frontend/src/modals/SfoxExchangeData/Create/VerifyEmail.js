@@ -20,6 +20,11 @@ const EmailInput = styled.div`
   margin-top: 25px;
   flex-direction: column;
 `
+const VerifyEmailForm = styled(Form)`
+  @media (max-width: 480px) {
+    flex-direction: column;
+  }
+`
 
 class VerifyEmail extends Component {
   constructor (props) {
@@ -71,7 +76,7 @@ class VerifyEmail extends Component {
     }
 
     return (
-      <Form onSubmit={this.onSubmit}>
+      <VerifyEmailForm onSubmit={this.onSubmit}>
         <ColLeft>
           <InputWrapper>
             <PartnerHeader>
@@ -112,7 +117,7 @@ class VerifyEmail extends Component {
             </ButtonWrapper>
           </ColRightInner>
         </ColRight>
-      </Form>
+      </VerifyEmailForm>
     )
   }
 }

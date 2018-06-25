@@ -50,6 +50,7 @@ const FieldBox = styled.div`
     width: 100%;
     padding: 0px;
     flex-direction: column;
+    width: fit-content;
   }
 `
 const IconContainer = styled.div`
