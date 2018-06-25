@@ -15,6 +15,7 @@ export { BlockchainLoader, FlatLoader, FlatLoader2, HeartbeatLoader } from './Lo
 export { TabMenu, TabMenuItem } from './Menus'
 export { Modal, ModalHeader, ModalBody, ModalFooter } from './Modals'
 export { Pagination, PaginationItem } from './Paginations'
+export { Select } from './Select'
 export { Separator } from './Separators'
 export { SimpleSlider } from './Sliders'
 export { SkeletonCircle, SkeletonRectangle } from './Skeletons'
