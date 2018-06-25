@@ -2,16 +2,17 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { BlockchainLoader } from '../Loaders'
+import media from 'services/ResponsiveService'
 
 const BaseModalBody = styled.div`
   position: relative;
   width: 100%;
   padding: ${props => props.tray ? '60px 15%' : '25px 30px'};
   box-sizing: border-box;
-  @media (max-width: 480px) {
+  ${media.mobile`
     padding-top: 20px;
     padding-bottom: 20px;
-  }
+  `}
 `
 const SplashScreen = styled.div`
   position: absolute;

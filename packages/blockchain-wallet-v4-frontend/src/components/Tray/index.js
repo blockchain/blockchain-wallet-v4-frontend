@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Modal } from 'blockchain-info-components'
 import Transition from 'react-transition-group/Transition'
+import media from 'services/ResponsiveService'
 
 // TODO: refactor to not use react-transition-group. then remove that dependency all together
 const duration = 500
@@ -36,10 +37,10 @@ const TrayModal = styled(Modal)`
       padding: 50px;
       justify-content: center;
     }
-    @media (max-width: 480px) {
+    ${media.mobile`
       padding-top: 20px;
       padding-bottom: 20px;
-    }
+    `}
   }
   > div:last-child {
     overflow: auto;
@@ -49,10 +50,10 @@ const TrayModal = styled(Modal)`
       padding: 20px 10%;
     }
   }
-  @media (max-width: 767px) {
+  ${media.tablet`
     width: 100%;
     left: 0px;
-  }
+  `}
 `
 
 class Tray extends React.PureComponent {
