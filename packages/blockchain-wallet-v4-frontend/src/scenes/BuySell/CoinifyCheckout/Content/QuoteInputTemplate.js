@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
 import { Field, reduxForm } from 'redux-form'
-import { equals, prop } from 'ramda'
+import { equals, gt, not, prop } from 'ramda'
 
 import { Icon, Link, Text } from 'blockchain-info-components'
 import { SelectBoxCoinifyCurrency, NumberBoxDebounced } from 'components/Form'
@@ -132,7 +132,7 @@ const FiatConvertor = (props) => {
   }
 
   const renderErrorsAndLimits = () => {
-    if (!canTrade) {
+    if (!isSell && !canTrade) {
       return (
         <Error size='13px' weight={300} color='error'>
           { reasonExplanation }
@@ -148,12 +148,12 @@ const FiatConvertor = (props) => {
       return (
         <LimitsHelper>
           {
-            form === 'coinifyCheckoutBuy'
-              ? <FormattedMessage id='buy.quote_input.remaining_buy_limit' defaultMessage='Your remaining buy limit is {max}' values={{ max: <a onClick={() => setMax(limits.max)}>{curr}{limits.max}</a> }} />
-              : getSellLimits()
+            isSell
+              ? getSellLimits()
+              : <FormattedMessage id='buy.quote_input.remaining_buy_limit' defaultMessage='Your remaining buy limit is {max}' values={{ max: <a onClick={() => setMax(limits.max)}>{curr}{limits.max}</a> }} />
           }
           {
-            level.name < 2 && !equals(prop('state', kyc), 'reviewing')
+            gt(2, prop('name', level)) && not(equals(prop('state', kyc), 'reviewing'))
               ? <a onClick={() => increaseLimit()}>
                 <FormattedMessage id='buysell.quote_input.increase_limits' defaultMessage=' Increase your limit.' />
               </a>
@@ -164,7 +164,7 @@ const FiatConvertor = (props) => {
     }
   }
 
-  const inputsDisabled = disabled || !canTrade || equals(checkoutError, 'effective_max_under_min')
+  const inputsDisabled = disabled || (!canTrade && !isSell) || equals(checkoutError, 'effective_max_under_min')
 
   return (
     <Wrapper>
