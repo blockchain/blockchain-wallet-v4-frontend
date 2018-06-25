@@ -19,7 +19,7 @@ class FirstStepContainer extends React.Component {
   }
 
   handleRefresh () {
-    this.props.refreshActions.refresh()
+    this.props.actions.firstStepInitialized()
   }
 
   render () {
@@ -52,7 +52,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  refreshActions: bindActionCreators(actions.core.refresh, dispatch),
   actions: bindActionCreators(actions.components.exchange, dispatch)
 })
 

@@ -4,6 +4,7 @@ import { actions, selectors } from 'data'
 
 export default ({ coreSagas }) => {
   const logLocation = 'components/bchTransactions/sagas'
+
   const initialized = function * () {
     try {
       const defaultSource = ''
