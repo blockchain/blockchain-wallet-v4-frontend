@@ -70,7 +70,8 @@ export default ({ api, coreSagas }) => {
       yield put(actions.core.webSocket.ethereum.startSocket())
       yield put(actions.core.webSocket.bch.startSocket())
       yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
-      yield call(coreSagas.kvStore.ethereum.fetchMetadataEthereum)
+      // If there was no ethereum metadata kv store entry, we need to create one and that requires the second password.
+      yield call(coreSagas.kvStore.ethereum.fetchMetadataEthereum, askSecondPasswordEnhancer)
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
       yield put(actions.router.push('/home'))
       yield put(actions.auth.loginSuccess())
@@ -82,6 +83,9 @@ export default ({ api, coreSagas }) => {
       // reset auth type and clear previous login form state
       yield put(actions.auth.setAuthType(0))
       yield put(actions.form.destroy('login'))
+      // set payload language to settings language
+      const language = yield select(selectors.preferences.getLanguage)
+      yield put(actions.modules.settings.updateLanguage(language))
       yield fork(transferEthSaga)
       yield fork(welcomeSaga, firstLogin)
       yield fork(reportStats, mobileLogin)

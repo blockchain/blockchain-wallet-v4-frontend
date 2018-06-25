@@ -1,10 +1,27 @@
-import { call, fork, put, select } from 'redux-saga/effects'
-import { indexBy, length, path, prop, last } from 'ramda'
+import { call, put, select, take } from 'redux-saga/effects'
+import { indexBy, last, length, path, prop } from 'ramda'
 import * as A from './actions'
+import * as AT from './actionTypes'
 import * as S from './selectors'
 import * as selectors from '../../selectors'
 
 export default ({ api }) => {
+  const fetchData = function * () {
+    try {
+      yield put(A.fetchDataLoading())
+      const context = yield select(selectors.kvStore.bch.getContext)
+      const data = yield call(api.fetchBchData, context, { n: 1 })
+      const bchData = {
+        addresses: indexBy(prop('address'), prop('addresses', data)),
+        info: path(['wallet'], data),
+        latest_block: path(['info', 'latest_block'], data)
+      }
+      yield put(A.fetchDataSuccess(bchData))
+    } catch (e) {
+      yield put(A.fetchDataFailure(e.message))
+    }
+  }
+
   const fetchFee = function * () {
     try {
       yield put(A.fetchFeeLoading())
@@ -25,7 +42,14 @@ export default ({ api }) => {
     }
   }
 
-  const fetchData = function * ({ payload }) {
+  const watchTransactions = function * () {
+    while (true) {
+      const action = yield take(AT.FETCH_BCH_TRANSACTIONS)
+      yield call(fetchTransactions, action)
+    }
+  }
+
+  const fetchTransactions = function * ({ type, payload }) {
     const { address, reset } = payload
     const TX_PER_PAGE = 10
     const BCH_FORK_TIME = 1501590000
@@ -34,16 +58,11 @@ export default ({ api }) => {
       const lastPage = last(pages)
       if (!reset && lastPage && lastPage.map(length).getOrElse(0) === 0) { return }
       const offset = reset ? 0 : length(pages) * TX_PER_PAGE
-      yield put(A.fetchDataLoading())
       yield put(A.fetchTransactionsLoading(reset))
-      const context = yield select(selectors.kvStore.bch.getContext)
+      const context = yield select(selectors.wallet.getWalletContext)
       const data = yield call(api.fetchBchData, context, { n: TX_PER_PAGE, onlyShow: address, offset })
-      yield call(multiaddrSaga, data)
-      yield fork(fetchSpendableBalance)
-      yield fork(fetchUnspendableBalance)
       yield put(A.fetchTransactionsSuccess(data.txs.filter(tx => tx.time > BCH_FORK_TIME), reset))
     } catch (e) {
-      yield put(A.fetchDataFailure(e.message))
       yield put(A.fetchTransactionsFailure(e.message))
     }
   }
@@ -67,59 +86,11 @@ export default ({ api }) => {
     }
   }
 
-  const fetchUnspent = function * (action) {
-    try {
-      // source can be the hd account index / or a legacy address
-      const { source } = action.payload
-      yield put(A.fetchUnspentLoading())
-      const wrapper = yield select(selectors.wallet.getWrapper)
-      const data = yield call(api.getBCHWalletUnspents, wrapper, source)
-      yield put(A.fetchUnspentSuccess(data))
-    } catch (e) {
-      yield put(A.fetchUnspentSuccess([]))
-    }
-  }
-
-  const fetchSpendableBalance = function * (action) {
-    try {
-      const context = yield select(selectors.kvStore.bch.getSpendableContext)
-      yield put(A.fetchSpendableBalanceLoading())
-      const data = yield call(api.fetchBchData, context)
-      const balance = data.wallet ? data.wallet.final_balance : 0
-      yield put(A.fetchSpendableBalanceSuccess(balance))
-    } catch (e) {
-      yield put(A.fetchSpendableBalanceFailure(e))
-    }
-  }
-
-  const fetchUnspendableBalance = function * (action) {
-    try {
-      const context = yield select(selectors.kvStore.bch.getUnspendableContext)
-      yield put(A.fetchUnspendableBalanceLoading())
-      const data = yield call(api.fetchBchData, context)
-      const balance = data.wallet ? data.wallet.final_balance : 0
-      yield put(A.fetchUnspendableBalanceSuccess(balance))
-    } catch (e) {
-      yield put(A.fetchUnspendableBalanceFailure(e))
-    }
-  }
-
-  const multiaddrSaga = function * (data) {
-    const bchData = {
-      addresses: indexBy(prop('address'), prop('addresses', data)),
-      info: path(['wallet'], data),
-      latest_block: path(['info', 'latest_block'], data)
-    }
-    yield put(A.fetchDataSuccess(bchData))
-  }
-
   return {
-    fetchFee,
     fetchData,
+    fetchFee,
     fetchRates,
-    fetchUnspent,
-    fetchSpendableBalance,
-    fetchUnspendableBalance,
-    fetchTransactionHistory
+    fetchTransactionHistory,
+    watchTransactions
   }
 }

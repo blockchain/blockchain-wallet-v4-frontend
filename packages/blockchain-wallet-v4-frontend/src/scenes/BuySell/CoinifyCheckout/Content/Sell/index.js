@@ -34,7 +34,7 @@ class SellContainer extends React.Component {
     const { data, modalActions, coinifyActions, coinifyDataActions, formActions,
       sellQuoteR, currency, paymentMedium, trade, ...rest } = this.props
     const { canTrade, step, checkoutBusy, coinifyBusy, checkoutError } = rest
-    const { handleTrade, fetchQuote, refreshSellQuote } = coinifyDataActions
+    const { fetchQuote, refreshSellQuote } = coinifyDataActions
     const { showModal } = modalActions
     const { coinifyNotAsked, openKYC } = coinifyActions
     const { change } = formActions
@@ -51,7 +51,6 @@ class SellContainer extends React.Component {
         value={value}
         canTrade={canTrade}
         changeTab={tab => change('buySellTabStatus', 'status', tab)}
-        handleTrade={handleTrade}
         showModal={showModal}
         sellQuoteR={sellQuoteR}
         fetchSellQuote={(quote) => fetchQuote({ quote, nextAddress: value.nextAddress })}
