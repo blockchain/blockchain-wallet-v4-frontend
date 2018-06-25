@@ -43,13 +43,16 @@ const QuoteExpiredText = styled(Text)`
     font-style: italic;
   }
 `
-const ISignThisIframe = styled.iframe`
+const IframeWrapper = styled.div`
   width: 65%;
-  height: 400px;
-  border: ${props => `1px solid ${props.theme['gray-1']}`}
   ${media.mobile`
     width: 100%;
   `}
+`
+const ISignThisIframe = styled.iframe`
+  width: 100%;
+  height: 400px;
+  border: ${props => `1px solid ${props.theme['gray-1']}`}
 `
 
 const kycHelper = [
@@ -260,12 +263,14 @@ class ISignThisContainer extends Component {
           }).getOrElse(null)}
         </TimerContainer>
         <ISXContainer>
-          <ISignThisIframe
-            src={srcUrl}
-            sandbox='allow-same-origin allow-scripts allow-forms'
-            scrolling='yes'
-            id='isx-iframe'
-          />
+          <IframeWrapper>
+            <ISignThisIframe
+              src={srcUrl}
+              sandbox='allow-same-origin allow-scripts allow-forms'
+              scrolling='yes'
+              id='isx-iframe'
+            />
+          </IframeWrapper>
           <ButtonContainer>
             <Button nature='empty-secondary' fullwidth onClick={() => coinifyActions.cancelISX()}>
               <Text size='13px' weight={300} color='brand-secondary'>
