@@ -31,8 +31,9 @@ const Terms = (props) => {
             <FormattedMessage id='buysellexchangedata.create.accept.terms' defaultMessage="I accept Blockchain's " />
           </Text>
           <Link size='12px' weight={300} href='https://www.blockchain.com/terms/index.html' target='_blank'>
-            <FormattedMessage id='tos' defaultMessage='Terms of Service,' />
+            <FormattedMessage id='tos' defaultMessage='Terms of Service' />
           </Link>
+          <span>,</span>
           <Text size='12px' weight={300}>
             {`Coinify's`}
           </Text>
@@ -53,8 +54,9 @@ const Terms = (props) => {
             <FormattedMessage id='buysellexchangedata.create.accept.terms' defaultMessage="I accept Blockchain's " />
           </Text>
           <Link size='12px' weight={300} href='https://www.blockchain.com/terms/index.html' target='_blank'>
-            <FormattedMessage id='tos' defaultMessage='Terms of Service,' />
+            <FormattedMessage id='tos' defaultMessage='Terms of Service' />
           </Link>
+          <span>,</span>
           <Text size='12px' weight={300}>
             {`SFOX's`}
           </Text>

@@ -37,7 +37,7 @@ Remote.prototype.ap = function (that) {
 }
 
 Remote.prototype.toJSON = function () {
-  return { data: this['@@values'][0] || [], __serializedType__: this['@@tag'] }
+  return { data: { __remote: this['@@values'][0] || [] }, __serializedType__: this['@@tag'] }
 }
 
 Remote.prototype.chain = function (f) {

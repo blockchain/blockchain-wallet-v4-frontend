@@ -93,10 +93,10 @@ export const Tooltip = props => {
 }
 
 Tooltip.propTypes = {
-  icon: PropTypes.string,
+  icon: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   width: PropTypes.string,
   left: PropTypes.string,
-  label: PropTypes.string,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   displayed: PropTypes.bool,
   handleClick: PropTypes.func,
   handleMouseEnter: PropTypes.func,

@@ -10,6 +10,7 @@ import Tray from 'components/Tray'
 import Create from './Create'
 import Verify from './Verify'
 import Link from './Link'
+import SiftScience from './sift-science'
 import { ModalHeader, ModalBody } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
@@ -62,6 +63,7 @@ class SfoxExchangeData extends React.PureComponent {
         </ModalHeader>
         <ModalBody>
           { this.getStepComponent(step)['component'] }
+          { this.props.siftScienceEnabled ? <SiftScience /> : null }
         </ModalBody>
       </Tray>
     )
@@ -75,7 +77,8 @@ SfoxExchangeData.propTypes = {
 
 const mapStateToProps = (state) => ({
   data: getData(state),
-  signupStep: path(['sfoxSignup', 'signupStep'], state)
+  signupStep: path(['sfoxSignup', 'signupStep'], state),
+  siftScienceEnabled: path(['sfoxSignup', 'siftScienceEnabled'], state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

@@ -8,6 +8,7 @@ import MenuLeft from './MenuLeft'
 import MenuTop from './MenuTop'
 import TrayRight from './TrayRight'
 import Page from './Page'
+import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 
 import BtcMenu from '../../scenes/Transactions/Bitcoin/Menu'
 import BchMenu from '../../scenes/Transactions/Bch/Menu'
@@ -23,7 +24,7 @@ const Wrapper = styled.div`
 const Container = styled.div`
   display: flex;
   width: 100%;
-  height: 100%;
+  height: calc(100% - 60px);
 `
 const Nav = styled.div`
   flex: 0 0 60px;
@@ -51,30 +52,32 @@ const WalletLayout = props => {
 
   return (
     <Wrapper>
-      <Alerts />
-      <Modals />
-      <Nav>
-        <Header />
-      </Nav>
-      <Container>
-        <MenuLeft location={location} />
-        <TrayRight />
-        <Content>
-          <Top>
-            <MenuTop />
-          </Top>
-          { location.pathname === '/btc/transactions' && <BtcMenu /> }
-          { location.pathname === '/bch/transactions' && <BchMenu /> }
-          { location.pathname === '/eth/transactions' && <EthMenu /> }
-          { location.pathname === '/settings/addresses' && <AddrMenu /> }
-          { location.pathname === '/settings/addresses/bch' && <AddrMenu /> }
-          { location.pathname === '/exchange' && <ExchangeMenu /> }
-          { location.pathname === '/exchange/history' && <ExchangeMenu /> }
-          <Page>
-            {children}
-          </Page>
-        </Content>
-      </Container>
+      <ErrorBoundary>
+        <Alerts />
+        <Modals />
+        <Nav>
+          <Header />
+        </Nav>
+        <Container>
+          <MenuLeft location={location} />
+          <TrayRight />
+          <Content>
+            <Top>
+              <MenuTop />
+            </Top>
+            { location.pathname === '/btc/transactions' && <BtcMenu /> }
+            { location.pathname === '/bch/transactions' && <BchMenu /> }
+            { location.pathname === '/eth/transactions' && <EthMenu /> }
+            { location.pathname === '/settings/addresses' && <AddrMenu /> }
+            { location.pathname === '/settings/addresses/bch' && <AddrMenu /> }
+            { location.pathname === '/exchange' && <ExchangeMenu /> }
+            { location.pathname === '/exchange/history' && <ExchangeMenu /> }
+            <Page>
+              {children}
+            </Page>
+          </Content>
+        </Container>
+      </ErrorBoundary>
     </Wrapper>
   )
 }

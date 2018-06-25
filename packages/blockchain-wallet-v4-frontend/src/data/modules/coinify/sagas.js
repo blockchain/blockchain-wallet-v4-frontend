@@ -1,4 +1,4 @@
-import { put, call, select, take } from 'redux-saga/effects'
+import { put, call, select } from 'redux-saga/effects'
 import { any, merge, path, prop, equals, head } from 'ramda'
 import { delay } from 'redux-saga'
 import * as A from './actions'
@@ -7,7 +7,6 @@ import * as selectors from '../../selectors.js'
 import * as C from 'services/AlertService'
 import * as service from 'services/CoinifyService'
 import * as sendBtcActions from '../../components/sendBtc/actions'
-import * as sendBtcActionTypes from '../../components/sendBtc/actionTypes'
 import * as sendBtcSelectors from '../../components/sendBtc/selectors'
 import settings from 'config'
 import { promptForSecondPassword } from 'services/SagaService'
@@ -24,7 +23,7 @@ export default ({ coreSagas }) => {
         yield call(coreSagas.data.coinify.triggerKYC)
         yield put(A.coinifyNextStep('isx'))
       } else {
-        yield put(A.coinifySignupFailure(profile.error))
+        yield put(A.coinifySignupFailure(JSON.parse(profile.error)))
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'coinifySignup', e))
@@ -39,7 +38,8 @@ export default ({ coreSagas }) => {
 
   const buy = function * (payload) {
     try {
-      const buyTrade = yield call(coreSagas.data.coinify.buy, payload)
+      const nextAddressData = yield call(prepareAddress)
+      const buyTrade = yield call(coreSagas.data.coinify.buy, payload, nextAddressData)
 
       if (!buyTrade) {
         const trade = yield select(selectors.core.data.coinify.getTrade)
@@ -57,6 +57,22 @@ export default ({ coreSagas }) => {
       yield put(A.coinifyNotAsked())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'buy', e))
+    }
+  }
+
+  const prepareAddress = function * () {
+    try {
+      const state = yield select()
+      const defaultIdx = selectors.core.wallet.getDefaultAccountIndex(state)
+      const receiveR = selectors.core.common.btc.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, defaultIdx, state)
+      const receiveIdxR = selectors.core.common.btc.getNextAvailableReceiveIndex(settings.NETWORK_BITCOIN, defaultIdx, state)
+      return {
+        address: receiveR.getOrElse(),
+        index: receiveIdxR.getOrElse(),
+        accountIndex: defaultIdx
+      }
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'prepareAddress', e))
     }
   }
 
@@ -123,9 +139,9 @@ export default ({ coreSagas }) => {
       } else {
         yield put(actions.form.initialize('coinifyCheckoutSell', initialValues))
         const limits = yield select(selectors.core.data.coinify.getLimits)
-        yield take(sendBtcActionTypes.SEND_BTC_PAYMENT_UPDATED_SUCCESS)
-        const payment = yield select(sendBtcSelectors.getPayment)
-        const effectiveBalance = prop('effectiveBalance', payment.getOrElse(undefined))
+        const defaultIndex = yield select(selectors.core.wallet.getDefaultAccountIndex)
+        const payment = yield coreSagas.payment.btc.create({ network: settings.NETWORK_BITCOIN }).chain().init().fee('priority').from(defaultIndex).done()
+        const effectiveBalance = prop('effectiveBalance', payment.value())
         const isMinOverEffectiveMax = service.isMinOverEffectiveMax(limits.getOrElse(undefined), effectiveBalance, currency)
         if (isMinOverEffectiveMax) {
           error = 'effective_max_under_min'
@@ -263,7 +279,8 @@ export default ({ coreSagas }) => {
       }
       yield put(A.coinifyNextCheckoutStep('checkout'))
       yield put(actions.modals.showModal('CoinifyTradeDetails', { trade: trade.data, status: status }))
-      yield call(coreSagas.data.coinify.getKYCs)
+      yield call(coreSagas.data.coinify.getKYC)
+      yield put(actions.core.data.coinify.pollKYCPending())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'fromISX', e))
     }
@@ -280,8 +297,8 @@ export default ({ coreSagas }) => {
 
   const openKYC = function * (data) {
     let kyc = data.payload
-    const inProgressKycs = yield select(selectors.core.data.coinify.getSortedKycs)
-    const recentKyc = head(inProgressKycs.data)
+    const recentKycR = yield select(selectors.core.data.coinify.getKyc)
+    const recentKyc = recentKycR.getOrElse(undefined)
 
     try {
       if (!data.payload && !equals(prop('state', recentKyc), 'pending')) {
@@ -311,6 +328,7 @@ export default ({ coreSagas }) => {
     const tradeToFinish = data.payload
     try {
       if (tradeToFinish.state === 'awaiting_transfer_in') {
+        yield put(actions.core.data.coinify.handleTradeSuccess(tradeToFinish))
         if (tradeToFinish.medium === 'card') {
           yield call(coreSagas.data.coinify.kycAsTrade, { kyc: tradeToFinish }) // core expects obj key to be 'kyc'
           yield put(A.coinifyNextCheckoutStep('isx'))

@@ -1,6 +1,7 @@
 import React from 'react'
-import { filter } from 'ramda'
+import { equals, filter, prop } from 'ramda'
 import styled from 'styled-components'
+
 import OrderHistoryTable from 'components/BuySell/OrderHistoryTable'
 import { Text } from 'blockchain-info-components'
 import { determineStep, determineReason } from 'services/SfoxService'
@@ -12,6 +13,7 @@ import OrderCheckout from './OrderCheckout'
 import { OrderDetails, OrderSubmit } from './OrderReview'
 import Helper from 'components/BuySell/FAQ'
 import EmptyOrderHistoryContainer from 'components/BuySell/EmptyOrderHistory'
+import SiftScience from 'modals/SfoxExchangeData/sift-science.js'
 
 const CheckoutWrapper = styled.div`
   width: 50%;
@@ -51,12 +53,11 @@ const faqList = [
 
 const faqListHelper = () => faqList.map(el => <Helper question={el.question} answer={el.answer} />)
 
-const isPending = (t) => t.state === 'processing'
-const isCompleted = (t) => t.state !== 'processing'
+const isPending = (t) => equals(prop('state', t), 'processing')
+const isCompleted = (t) => !isPending(t)
 
 const Success = props => {
   const {
-    changeBuySellTabStatus,
     fetchBuyQuote,
     fetchSellQuote,
     refreshBuyQuote,
@@ -69,6 +70,7 @@ const Success = props => {
     base,
     errors,
     showModal,
+    siftScienceEnabled,
     handleTradeDetailsClick,
     clearTradeError,
     changeTab,
@@ -144,6 +146,7 @@ const Success = props => {
             </OrderSubmitWrapper>
           </div>
         </StepView>
+        {siftScienceEnabled ? <SiftScience /> : null}
       </Stepper>
     )
   } else if (type === 'sell') {
@@ -185,6 +188,7 @@ const Success = props => {
             </OrderSubmitWrapper>
           </div>
         </StepView>
+        {siftScienceEnabled ? <SiftScience /> : null}
       </Stepper>
     )
   } else if (trades) {
@@ -202,14 +206,17 @@ const Success = props => {
             <Text size='15px' weight={400}>
               <FormattedMessage id='scenes.buysell.sfoxcheckout.trades.pending' defaultMessage='Pending Orders' />
             </Text>
-            <OrderHistoryTable trades={filter(isPending, trades)} conversion={conversion} handleDetailsClick={trade => showModal('SfoxTradeDetails', { trade })} />
+            <OrderHistoryTable trades={filter(isPending, trades)} conversion={conversion}
+              handleDetailsClick={trade => showModal('SfoxTradeDetails', { trade })} />
           </OrderHistoryContent>
           <OrderHistoryContent>
             <Text size='15px' weight={400}>
               <FormattedMessage id='scenes.buysell.sfoxcheckout.trades.completed' defaultMessage='Completed Orders' />
             </Text>
-            <OrderHistoryTable trades={filter(isCompleted, trades)} conversion={conversion} handleDetailsClick={trade => showModal('SfoxTradeDetails', { trade })} />
+            <OrderHistoryTable trades={filter(isCompleted, trades)} conversion={conversion}
+              handleDetailsClick={trade => showModal('SfoxTradeDetails', { trade })} />
           </OrderHistoryContent>
+          {siftScienceEnabled ? <SiftScience /> : null}
         </OrderHistoryWrapper>
       )
     }

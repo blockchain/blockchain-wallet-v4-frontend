@@ -38,6 +38,12 @@ class LinkContainer extends Component {
     window.addEventListener('message', receiveMessage, false)
   }
 
+  componentDidUpdate () {
+    if (Remote.Success.is(this.props.bankAccounts) && Remote.Loading.is(this.props.linkStatus)) {
+      this.props.sfoxFrontendActions.sfoxSuccess()
+    }
+  }
+
   onSetBankAccount (data) {
     const bankChoice = merge(data, {token: this.state.token})
     this.props.sfoxFrontendActions.setBankAccount(bankChoice)
