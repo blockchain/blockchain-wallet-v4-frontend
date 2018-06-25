@@ -31,8 +31,6 @@ class ServiceAnnouncement extends React.PureComponent {
 
   render () {
     const { alertArea, data } = this.props
-    console.info(alertArea)
-    console.info(data.announcements[alertArea])
 
     return this.state.visible
       ? (<Announcement
