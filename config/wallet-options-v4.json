@@ -9,59 +9,7 @@
         "fraction": 1,
         "countries": "*",
         "states": "*",
-        "announcements": {
-          "public": {
-            "id": "1",
-            "type": "info",
-            "hideType": "dismiss",
-            "header": {
-              "en": "We’re packing our bags and preparing to move...domains!"
-            },
-            "sections": [{
-              "title": {
-                "en": ""
-              },
-              "body": {
-                "en": "To make way for our new and exciting products coming this year, we’re saying hello to our new home. blockchain.info will soon be changing URLs as it's combined with our company site, blockchain.com."
-              }
-            }],
-            "action": {
-              "title": {
-                "en": "Read more about what to expect."
-              },
-              "link": "https://blog.blockchain.com/2018/06/19/blockchain-infos-moving-domains/"
-            }
-          },
-          "wallet": {
-            "id": "2",
-            "type": "info",
-            "hideType": "collapse",
-            "header": {
-              "en": "We’re packing our bags and preparing to move...domains!"
-            },
-            "sections": [{
-              "title": {
-                "en": ""
-              },
-              "body": {
-                "en": "To make way for our new and exciting products coming this year, we’re saying hello to our new home. Your Blockchain Wallet will soon be changing URLs as it's combined with our company site, blockchain.com. Read more about what to expect"
-              }
-            }, {
-              "title": {
-                "en": ""
-              },
-              "body": {
-                "en": "This is part two of a super annoying announcement that people wont read."
-              }
-            }],
-            "action": {
-              "title": {
-                "en": "Read more about what to expect."
-              },
-              "link": "https://blog.blockchain.com/2018/06/19/blockchain-infos-moving-domains/"
-            }
-          }
-        }
+        "announcements": {}
       },
       "bitcoin": {
         "availability": {
@@ -76,7 +24,8 @@
         "states": "*",
         "config": {
           "network": "bitcoin"
-        }
+        },
+        "announcements": {}
       },
       "buysell": {
         "availability": {
@@ -87,7 +36,8 @@
         "fraction": 1,
         "countries": ["GB", "NL", "DE", "US"],
         "states": "*",
-        "config": {}
+        "config": {},
+        "announcements": {}
       },
       "coinify": {
         "fraction": 1,
@@ -110,7 +60,8 @@
             "https://blockchain.co1.qualtrics.com/jfe/form/SV_9u8XxkrkiUUy6z3",
             "https://blockchain.co1.qualtrics.com/jfe/form/SV_9ysiGRC4rkMFwFv"
           ]
-        }
+        },
+        "announcements": {}
       },
       "ethereum": {
         "availability": {
@@ -125,7 +76,8 @@
         "lastTxFuse": 86400,
         "config": {
           "network": "mainnet"
-        }
+        },
+        "announcements": {}
       },
       "sfox": {
         "fraction": 1,
@@ -152,7 +104,8 @@
               "send_to_miner": true
             }
           }
-        }
+        },
+        "announcements": {}
       },
       "shapeshift": {
         "availability": {
@@ -170,7 +123,8 @@
             "https://blockchain.co1.qualtrics.com/jfe/form/SV_1MuVnVEtWhiVIQl",
             "https://blockchain.co1.qualtrics.com/jfe/form/SV_3QV1OgysGUC0hXD"
           ]
-        }
+        },
+        "announcements": {}
       },
       "unocoin": {
         "fraction": 0,
@@ -187,7 +141,8 @@
             "https://blockchain.co1.qualtrics.com/jfe/form/SV_87YRZx6LVdaF4kR",
             "https://blockchain.co1.qualtrics.com/jfe/form/SV_bBDOyGwj5WOb0hL"
           ]
-        }
+        },
+        "announcements": {}
       }
     },
     "ios": {},
