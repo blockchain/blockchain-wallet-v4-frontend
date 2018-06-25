@@ -108,6 +108,10 @@ export class ExchangeDelegate {
     trade._account_index = obj.account_index
     trade._receive_index = obj.receive_index
   }
+
+  toJSON () {
+    return ''
+  }
 }
 
 module.exports = ExchangeDelegate
