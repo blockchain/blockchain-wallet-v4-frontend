@@ -75,7 +75,7 @@ const CameraLink = styled(Link)`
 const UploadRow = styled(Row)`
   ${media.mobile`
     flex-direction: column;
-    height: 100vh;
+    height: 130vh;
   `}
 `
 const UploadColLeftInner = styled(ColLeftInner)`

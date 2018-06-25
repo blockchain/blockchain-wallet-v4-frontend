@@ -36,6 +36,10 @@ const TrayModal = styled(Modal)`
       padding: 50px;
       justify-content: center;
     }
+    @media (max-width: 480px) {
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
   }
   > div:last-child {
     overflow: auto;
