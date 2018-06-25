@@ -30,9 +30,9 @@ Two components can be used for translations:
         * Can contain some details about this translation that we could transfer to the translation agency
 
 * **FormattedHtmlMessage** 
-    * **FORBIDDEN**
+    * **USE WITH CAUTION**
     *  it is using internally React `setDangerousHtml` and we should not render any html with potential malicious injections
-    *  if you need to style the translations you can use `<SanitizedFormattedHTMLMessage>`
+    *  if you need to style the translations you can use `<FormattedHTMLMessage>`
 
 ### Examples
 
@@ -68,5 +68,5 @@ Two components can be used for translations:
 
 *Example 6: translation with inner html (only span, or a tags allowed)*
 ```
-<FormattedMessage id='scenes.home' defaultMessage='Welcome <span>Back!</span> Click <a>here</a> to leave.' />
+<FormattedHTMLMessage id='scenes.home' defaultMessage='Welcome <span>Back!</span> Click <a>here</a> to leave.' />
 ```

@@ -85,11 +85,16 @@ export const OrderSubmit = (props) => {
     },
     {
       question: <FormattedMessage id='coinifyexchangedata.cyo.helper2.question' defaultMessage='Why does the exchange rate change?' />,
-      answer: <FormattedMessage id='coinifyexchangedata.cyo.helper2.answer' defaultMessage="When you choose to create a trade through bank transfer, Coinify will show you an exchange rate that may differ from the actual rate due to price fluctuations in bitcoin. Any issues that increase your order' s processing time will have an effect on the final exchange rate used for that order. Once your order is ready, Coinify processes the trade and locks in the exchange rate." />
+      answer: <FormattedMessage id='coinifyexchangedata.cyo.helper2.answer' defaultMessage="When you choose to create a trade through bank transfer, Coinify will show you an exchange rate that may differ from the actual rate due to price fluctuations in bitcoin. Any issues that increase your order's processing time will have an effect on the final exchange rate used for that order. Once your order is ready, Coinify processes the trade and locks in the exchange rate." />
     },
     {
       question: <FormattedMessage id='coinifyexchangedata.cyo.helper3.question' defaultMessage='The small print' />,
-      answer: <FormattedMessage id='coinifyexchangedata.cyo.helper3.answer' defaultMessage='To read more about how Coinify stores your information and keeps it safe, please visit their [Terms and Conditions] and [Privacy Policy]. For help with or questions about your Blockchain wallet, please reach out to our support team [here].' />
+      answer: <FormattedMessage id='coinifyexchangedata.cyo.helper3.answer' defaultMessage='To read more about how Coinify stores your information and keeps it safe, please visit their {tos} and {privacyPolicy}. For help with, or questions about your Blockchain wallet, please reach out to our support team {supportLink}.'
+        values={{
+          tos: <Link size='12px' weight={300} href='https://www.coinify.com/legal' target='_blank' rel='noreferrer noopener'><FormattedMessage id='tos' defaultMessage='Terms of Service' /></Link>,
+          privacyPolicy: <Link size='12px' weight={300} href='https://www.coinify.com/legal/policy' target='_blank' rel='noreferrer noopener'><FormattedMessage id='privacypolicy' defaultMessage='Privacy Policy' /></Link>,
+          supportLink: <Link target='_blank' rel='noreferrer noopener' href='https://support.blockchain.com' size='12px' weight={300}><FormattedMessage id='contactsupport' defaultMessage='contact support' /></Link>
+        }} />
     }
   ]
 

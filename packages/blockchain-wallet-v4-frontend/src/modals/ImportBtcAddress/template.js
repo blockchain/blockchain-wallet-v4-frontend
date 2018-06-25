@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'blockchain-info-components'
-import SanitizedFormattedHTMLMessage from 'components/SanitizedFormattedHTMLMessage'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { RadioButton, Form } from 'components/Form'
 import ImportInternalBtcAddress from './ImportInternalBtcAddress'
@@ -40,12 +39,12 @@ const ImportBtcAddress = (props) => {
             </Title>
             <RadioContainer>
               <Field name='address-type' value='internal' props={{id: 'internal', value: 'internal'}} validate={[]} component={RadioButton}>
-                <SanitizedFormattedHTMLMessage id='modals.importbtcaddress.generated_in_wallet' defaultMessage='Existing address generated in <span>this wallet</span>.' />
+                <FormattedHTMLMessage id='modals.importbtcaddress.generated_in_wallet' defaultMessage='Existing address generated in <span>this wallet</span>.' />
               </Field>
             </RadioContainer>
             <RadioContainer>
               <Field name='address-type' value='external' props={{id: 'external', value: 'external'}} validate={[]} component={RadioButton}>
-                <SanitizedFormattedHTMLMessage id='modals.importbtcaddress.generated_outside_wallet' defaultMessage='Existing address generated <span>outside this wallet</span>.' />
+                <FormattedHTMLMessage id='modals.importbtcaddress.generated_outside_wallet' defaultMessage='Existing address generated <span>outside this wallet</span>.' />
               </Field>
             </RadioContainer>
             { isAddressInternal && <ImportInternalBtcAddress /> }

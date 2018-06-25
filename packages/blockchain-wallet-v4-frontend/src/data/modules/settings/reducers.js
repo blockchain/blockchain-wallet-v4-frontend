@@ -10,6 +10,9 @@ const settings = (state = INITIAL_STATE, action) => {
     case AT.ADD_MNEMONIC: {
       return assoc('recovery_phrase', payload.phrase.mnemonic, state)
     }
+    case AT.REMOVE_RECOVERY_PHRASE: {
+      return dissoc('recovery_phrase', state)
+    }
     case AT.ADD_SHOWN_BTC_PRIV_KEY: {
       return assoc('shownBtcPrivKey', payload.priv, state)
     }
