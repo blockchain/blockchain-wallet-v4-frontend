@@ -11,7 +11,8 @@ const INITIAL_STATE = {
   transactions: [],
   transactions_fiat: {},
   unspendable_balance: Remote.NotAsked,
-  transaction_history: Remote.NotAsked
+  transaction_history: Remote.NotAsked,
+  address_labels: {}
 }
 
 const bitcoinReducer = (state = INITIAL_STATE, action) => {
@@ -111,6 +112,10 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
     }
     case AT.FETCH_BITCOIN_UNSPENDABLE_BALANCE_FAILURE: {
       return assoc('unspendable_balance', Remote.Failure(payload), state)
+    }
+    case AT.ADD_ADDRESS_LABEL: {
+      const { address, label } = payload
+      return assocPath(['address_labels', address], label, state)
     }
     default:
       return state

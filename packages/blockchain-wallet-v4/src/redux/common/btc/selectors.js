@@ -1,10 +1,9 @@
 import { Wallet, HDWallet, HDAccountList, HDAccount, TXNotes } from '../../../types'
 import { keys, compose, assoc, isNil, map, max, path, prop, curry, split, values, sequence, lift } from 'ramda'
 import memoize from 'fast-memoize'
-import { getAddresses, getChangeIndex, getReceiveIndex, getHeight, getTransactions } from '../../data/bitcoin/selectors.js'
+import { getAddresses, getChangeIndex, getReceiveIndex, getHeight, getTransactions, getAddressLabel } from '../../data/bitcoin/selectors.js'
 import * as transactions from '../../../transactions'
 import * as walletSelectors from '../../wallet/selectors'
-import { getAddressLabel } from '../../addressLabels/selectors'
 import Remote from '../../../remote'
 
 const mTransformTx = memoize(transactions.bitcoin.transformTx)

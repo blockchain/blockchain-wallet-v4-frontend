@@ -49,3 +49,5 @@ export const getEffectiveBalance = path([dataPath, 'bitcoin', 'payment', 'effect
 export const getFiatAtTime = curry((hash, currency, state) => path([dataPath, 'bitcoin', 'transactions_fiat', hash, currency], state))
 
 export const getAllFiatAtTime = path([dataPath, 'bitcoin', 'transactions_fiat'])
+
+export const getAddressLabel = (address) => path([dataPath, 'bitcoin', 'address_labels', address])
