@@ -31,6 +31,7 @@ export const MaximumAmountMessage = () => (
 export const MaximumFeeMessage = () => (
   <Wrapper>
     <FormattedMessage id='modals.sendbtc.maximumfeemessage' defaultMessage='Unnecessarily high fee.' />
+    <span>&nbsp;</span>
     <MaximumFeeLink />
   </Wrapper>
 )
