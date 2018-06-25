@@ -14,7 +14,7 @@ const Header = () => {
           </Link>
         </NavbarBrand>
       </Navbar>
-      <ServiceAnnouncement type='public' />
+      <ServiceAnnouncement alertArea='public' />
     </React.Fragment>
   )
 }
