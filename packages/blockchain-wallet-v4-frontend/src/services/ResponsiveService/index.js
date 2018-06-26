@@ -1,27 +1,9 @@
-// const sizes = {
-//   mobile: '425px',
-//   tablet: '768px',
-//   laptop: '1024px',
-//   laptopL: '1440px',
-//   desktop: '2560px'
-// }
-
-// const device = {
-//   mobile: `(max-width: ${sizes.mobile})`,
-//   tablet: `(max-width: ${sizes.tablet})`,
-//   laptop: `(max-width: ${sizes.laptop})`,
-//   laptopL: `(max-width: ${sizes.laptopL})`,
-//   desktop: `(max-width: ${sizes.desktop})`
-// }
-
-// export default device
-
 import { css } from 'styled-components'
 
 const sizes = {
-  mobile: 425,
-  tablet: 768,
-  laptop: 1024,
+  mobile: 479,
+  tablet: 767,
+  laptop: 1023,
   laptopL: 1440,
   desktop: 2560
 }
