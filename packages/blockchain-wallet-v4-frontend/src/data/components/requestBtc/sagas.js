@@ -9,7 +9,7 @@ export default () => {
     try {
       let { accountIdx, addressIdx, receiveAddress, message } = action.payload
       yield put(actions.core.wallet.setHdAddressLabel(accountIdx, addressIdx, message))
-      yield put(actions.core.data.bitcoin.addAddressLabel(receiveAddress, message))
+      yield put(actions.core.kvStore.btc.addAddressLabel(receiveAddress, message))
     } catch (error) {
       yield put(actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', error))
     }

@@ -38,5 +38,3 @@ export const fetchTransactionHistoryLoading = () => ({ type: AT.FETCH_BITCOIN_TR
 export const fetchTransactionHistorySuccess = (data) => ({ type: AT.FETCH_BITCOIN_TRANSACTION_HISTORY_SUCCESS, payload: data })
 export const fetchTransactionHistoryFailure = (error) => ({ type: AT.FETCH_BITCOIN_TRANSACTION_HISTORY_FAILURE, payload: error })
 export const clearTransactionHistory = () => ({ type: AT.CLEAR_BITCOIN_TRANSACTION_HISTORY })
-
-export const addAddressLabel = (address, label) => ({type: AT.ADD_ADDRESS_LABEL, payload: {address, label}})
