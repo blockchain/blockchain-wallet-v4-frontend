@@ -3,6 +3,9 @@ import { any, gt, slice, toUpper, equals, path, prop, toLower } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 
+const abs = (x) => Math.abs(x)
+const ff = (x) => Currency.formatFiat(x)
+
 export const getLimits = (limits, curr, effectiveBalance) => {
   const getMin = (limits, curr) => Math.min(limits.bank.minimumInAmounts[curr], limits.card.minimumInAmounts[curr])
   const getMax = (limits, curr) => Math.max(limits.bank.inRemaining[curr], limits.card.inRemaining[curr])
@@ -83,44 +86,52 @@ export const mockedLimits = {
 }
 
 export const getRateFromQuote = (q) => {
-  const fiat = q.baseCurrency !== 'BTC' ? Math.abs(q.quoteAmount) : Math.abs(q.baseAmount)
-  const crypto = q.baseCurrency !== 'BTC' ? Math.abs(q.baseAmount) : Math.abs(q.quoteAmount)
+  const fiat = q.baseCurrency !== 'BTC' ? abs(q.quoteAmount) : abs(q.baseAmount)
+  const crypto = q.baseCurrency !== 'BTC' ? abs(q.baseAmount) : abs(q.quoteAmount)
   const curr = q.baseCurrency !== 'BTC' ? q.baseCurrency : q.quoteCurrency
 
   const rate = +((1 / (fiat / 1e8)) * crypto)
-  const displayRate = Currency.formatFiat(rate)
+  const displayRate = ff(rate)
   return `${currencySymbolMap[curr]}${displayRate}`
 }
 
 export const reviewOrder = {
   baseBtc: (q) => q.baseCurrency === 'BTC',
-  renderFirstRow: (q, medium) => {
-    const qAmt = Math.abs(q.quoteAmount)
-    const bAmt = Math.abs(q.baseAmount)
-    if (reviewOrder.baseBtc(q)) {
-      return `${bAmt / 1e8} BTC (${currencySymbolMap[q.quoteCurrency]}${qAmt.toFixed(2)})`
-    } else {
-      return `${qAmt / 1e8} BTC (${currencySymbolMap[q.baseCurrency]}${bAmt.toFixed(2)})`
-    }
+  getMinerFee: (q, med) => path(['paymentMediums', med, 'outFixedFees', 'BTC'], q),
+  renderFirstRow: (q) => reviewOrder.baseBtc(q) ? `${q.baseAmount / 1e8} BTC` : `${q.quoteAmount / 1e8} BTC`,
+  renderMinerFeeRow: (q, medium, type) => {
+    const med = type === 'sell' ? 'bank' : medium
+    const minerFee = reviewOrder.getMinerFee(q, med)
+    if (!minerFee) return `~`
+    return minerFee
   },
+  renderBtcToBeReceived: (q, medium, type) => {
+    const med = type === 'sell' ? 'bank' : medium
+    const minerFee = reviewOrder.getMinerFee(q, med)
+    const quotedBtcAmount = reviewOrder.baseBtc(q) ? abs(q.baseAmount) / 1e8 : abs(q.quoteAmount) / 1e8
+    if (!minerFee || !quotedBtcAmount) return `~`
+    const finalAmount = quotedBtcAmount - minerFee
+    return finalAmount.toFixed(8)
+  },
+  renderAmountRow: (q) => reviewOrder.baseBtc(q) ? `${currencySymbolMap[q.quoteCurrency]}${ff(abs(q.quoteAmount))}` : `${currencySymbolMap[q.baseCurrency]}${ff(abs(q.baseAmount))}`,
   renderFeeRow: (q, medium, type) => {
     const med = type === 'sell' ? 'bank' : medium
-    const fee = path(['paymentMediums', med], q) && Math.abs(q.paymentMediums[med]['fee'])
+    const fee = path(['paymentMediums', med], q) && abs(q.paymentMediums[med]['fee'])
     if (!fee) return `~`
     if (reviewOrder.baseBtc(q)) return `${currencySymbolMap[q.quoteCurrency]}${fee.toFixed(2)}`
     else return `${currencySymbolMap[q.baseCurrency]}${fee.toFixed(2)}`
   },
   renderTotalRow: (q, medium, type) => {
     const med = type === 'sell' ? 'bank' : medium
-    const qAmt = Math.abs(q.quoteAmount)
-    const fee = path(['paymentMediums', med], q) && Math.abs(q.paymentMediums[med]['fee'])
-    const totalBase = path(['paymentMediums', med], q) && Math.abs((q.paymentMediums[med]['total']))
+    const qAmt = abs(q.quoteAmount)
+    const fee = path(['paymentMediums', med], q) && abs(q.paymentMediums[med]['fee'])
+    const totalBase = path(['paymentMediums', med], q) && abs((q.paymentMediums[med]['total']))
     if (!fee) return `~`
     if (reviewOrder.baseBtc(q)) {
       const quoteTotal = type === 'sell' ? qAmt - fee : qAmt + fee
-      return `${currencySymbolMap[q.quoteCurrency]}${Currency.formatFiat(quoteTotal)}`
+      return `${currencySymbolMap[q.quoteCurrency]}${ff(quoteTotal)}`
     } else {
-      return `${currencySymbolMap[q.baseCurrency]}${Currency.formatFiat(totalBase)}`
+      return `${currencySymbolMap[q.baseCurrency]}${ff(totalBase)}`
     }
   }
 }
@@ -153,15 +164,15 @@ export const checkoutButtonLimitsHelper = (quoteR, limits, type) => {
     const isBaseBtc = equals(prop('baseCurrency', q), 'BTC')
     if (type === 'sell') {
       if (isBaseBtc) {
-        return Math.abs(q.baseAmount / 1e8) > limits.max || Math.abs(q.baseAmount / 1e8) < limits.min || Math.abs(q.baseAmount) > limits.effectiveMax
+        return abs(q.baseAmount / 1e8) > limits.max || abs(q.baseAmount / 1e8) < limits.min || abs(q.baseAmount) > limits.effectiveMax
       } else {
-        return Math.abs(q.quoteAmount / 1e8) > limits.max || Math.abs(q.quoteAmount / 1e8) < limits.min || Math.abs(q.quoteAmount) > limits.effectiveMax
+        return abs(q.quoteAmount / 1e8) > limits.max || abs(q.quoteAmount / 1e8) < limits.min || abs(q.quoteAmount) > limits.effectiveMax
       }
     } else {
       if (isBaseBtc) {
-        return Math.abs(q.quoteAmount) > limits.max || Math.abs(q.quoteAmount) < limits.min || Math.abs(q.baseAmount) > limits.effectiveMax
+        return abs(q.quoteAmount) > limits.max || abs(q.quoteAmount) < limits.min || abs(q.baseAmount) > limits.effectiveMax
       } else {
-        return Math.abs(q.baseAmount) > limits.max || Math.abs(q.baseAmount) < limits.min || Math.abs(q.quoteAmount) > limits.effectiveMax
+        return abs(q.baseAmount) > limits.max || abs(q.baseAmount) < limits.min || abs(q.quoteAmount) > limits.effectiveMax
       }
     }
   }).data
@@ -298,4 +309,4 @@ export const recurringTimeHelper = (sub) => {
 }
 
 export const recurringFee = (trade) =>
-  `${Currency.formatFiat(((trade.sendAmount / 100) - (trade.inAmount / 100)))} ${prop('inCurrency', trade)}`
+  `${ff(((trade.sendAmount / 100) - (trade.inAmount / 100)))} ${prop('inCurrency', trade)}`
