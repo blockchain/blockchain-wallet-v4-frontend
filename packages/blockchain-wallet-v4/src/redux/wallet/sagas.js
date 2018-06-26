@@ -141,28 +141,6 @@ export default ({ api }) => {
     yield put(fetchData())
   }
 
-  const generateAddressLabels = function * ({payload}) {
-    yield fork(generateAddressesNonBlocking, payload)
-  }
-
-  const generateAddressesNonBlocking = function * (payload) {
-    yield call(delay, 4000)
-    const accounts = Wallet.selectHDAccounts(payload.wallet)
-
-    let addressLabels = accounts.map((account) => {
-      const hd = accounts.get(account.index)
-      return account.address_labels.map((label) => ({
-        address: HDAccount.getReceiveAddress(hd, label.index),
-        label: label.label,
-        index: label.index
-      }))
-    }).flatten().toArray()
-
-    for (let i in addressLabels) {
-      yield put(actions.data.bitcoin.addAddressLabel(addressLabels[i].address, addressLabels[i].label))
-    }
-  }
-
   return {
     toggleSecondPassword,
     createWalletSaga,
@@ -175,7 +153,6 @@ export default ({ api }) => {
     upgradeToHd,
     resetWallet2fa,
     refetchContextData,
-    resendSmsLoginCode,
-    generateAddressLabels
+    resendSmsLoginCode
   }
 }
