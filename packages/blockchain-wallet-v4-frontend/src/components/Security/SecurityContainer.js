@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import media from 'services/ResponsiveService'
 
 const SecurityContainer = styled.div`
   display: grid;
@@ -10,6 +11,9 @@ const SecurityContainer = styled.div`
       display: block;
       width: auto;
     }
+  ${media.mobile`
+    padding: 0px;
+  `}
 `
 
 export default SecurityContainer
