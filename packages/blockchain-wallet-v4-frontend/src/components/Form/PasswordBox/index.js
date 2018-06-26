@@ -21,8 +21,8 @@ const Error = styled(Text)`
   right: 0;
   padding: 5px 0px 5px 0px;
 `
-const getErrorState = (meta) => {
-  return meta.touched && meta.invalid ? 'invalid' : 'initial'
+const getErrorState = ({ touched, invalid }) => {
+  return touched && invalid ? 'invalid' : 'initial'
 }
 
 const PasswordBox = (field) => {
