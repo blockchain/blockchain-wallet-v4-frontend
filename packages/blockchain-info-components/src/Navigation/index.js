@@ -5,7 +5,7 @@ import { IntlProvider, FormattedMessage } from "react-intl"
 import Button from "./Button"
 import ButtonGroup from "./ButtonGroup"
 import MenuButton from "./MenuButton"
-import * as Color from "../Colors"
+import * as Color from "./Colors"
 import { trackEvent } from "./Events"
 import Logomark from "./Logomark"
 import { Image } from '../Images'
@@ -80,6 +80,7 @@ injectGlobal`
 const GlobalNav = styled.div.attrs({
   className: "flex-container"
 })`
+  background-color: ${props => props.backgroundColor ? props.backgroundColor : "transparent"};
   position: fixed;
   z-index: 100;
 
@@ -503,12 +504,13 @@ class Header extends PureComponent {
     let navVisibility = this.state.showNav ? "visible" : "hidden"
     let navScrollUp = this.state.scrollUp ? "scrollup" : ""
     let navClasses = [navVisibility, navScrollUp].join(" ")
+    let backgroundColor = Color.azure
 
     return (
       <ThemeProvider theme={themeObj}>
         <IntlProvider>
           <div>
-            <GlobalNav className={navClasses} navColor={themeObj.headerScroll}>
+            <GlobalNav className={navClasses} backgroundColor={backgroundColor} navColor={themeObj.headerScroll}>
               <NavWrapper>
                 <NavInner>
                   <Link href="/" event="header_logo">
