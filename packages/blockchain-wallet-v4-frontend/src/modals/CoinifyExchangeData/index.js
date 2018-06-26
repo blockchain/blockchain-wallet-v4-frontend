@@ -92,8 +92,8 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  modalEnhancer('CoinifyExchangeData')
+  modalEnhancer('CoinifyExchangeData'),
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default enhance(CoinifyExchangeData)
