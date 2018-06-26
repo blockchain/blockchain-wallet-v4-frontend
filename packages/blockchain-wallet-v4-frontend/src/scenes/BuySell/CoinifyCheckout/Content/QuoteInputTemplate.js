@@ -154,7 +154,7 @@ const FiatConvertor = (props) => {
           {
             isSell
               ? getSellLimits()
-              : equals(level, 1)
+              : equals(prop('name', level), '1')
                 ? <FormattedMessage id='buy.quote_input.remaining_buy_limit' defaultMessage='Your remaining buy limit is {max}' values={{ max: <a onClick={() => setMax(limits.max)}>{curr}{limits.max}</a> }} />
                 : <LimitsWrapper size='12px' weight={300}>
                   <FormattedMessage id='buy.quote_input.remaining_card_buy_limit' defaultMessage='Your remaining card buy limit is {cardMax}' values={{ cardMax: <a onClick={() => setMax(limits.cardMax)}>{curr}{limits.cardMax}</a> }} />
