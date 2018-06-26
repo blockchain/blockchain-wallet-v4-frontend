@@ -72,7 +72,7 @@ const LimitsHelper = styled.div`
   height: 15px;
   font-size: 13px;
   top: 42px;
-  padding-top: 3px;
+  padding-top: 2px;
   a {
     color: ${props => props.theme['brand-secondary']};
     cursor: pointer;
@@ -80,6 +80,10 @@ const LimitsHelper = styled.div`
   span:first-of-type {
     padding-right: 5px;
   }
+`
+const LimitsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
 `
 
 const getLimitsError = (errorType, limits, curr, setMax, setMin, changeTab) => {
@@ -150,7 +154,12 @@ const FiatConvertor = (props) => {
           {
             isSell
               ? getSellLimits()
-              : <FormattedMessage id='buy.quote_input.remaining_buy_limit' defaultMessage='Your remaining buy limit is {max}' values={{ max: <a onClick={() => setMax(limits.max)}>{curr}{limits.max}</a> }} />
+              : equals(level, 1)
+                ? <FormattedMessage id='buy.quote_input.remaining_buy_limit' defaultMessage='Your remaining buy limit is {max}' values={{ max: <a onClick={() => setMax(limits.max)}>{curr}{limits.max}</a> }} />
+                : <LimitsWrapper size='12px' weight={300}>
+                  <FormattedMessage id='buy.quote_input.remaining_card_buy_limit' defaultMessage='Your remaining card buy limit is {cardMax}' values={{ cardMax: <a onClick={() => setMax(limits.cardMax)}>{curr}{limits.cardMax}</a> }} />
+                  <FormattedMessage id='buy.quote_input.remaining_bank_buy_limit' defaultMessage='Your remaining bank buy limit is {bankMax}' values={{ bankMax: <a onClick={() => setMax(limits.bankMax)}>{curr}{limits.bankMax}</a> }} />
+                </LimitsWrapper>
           }
           {
             gt(2, prop('name', level)) && not(equals(prop('state', kyc), 'reviewing'))

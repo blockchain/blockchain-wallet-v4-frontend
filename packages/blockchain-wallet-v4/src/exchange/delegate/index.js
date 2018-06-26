@@ -91,7 +91,8 @@ export class ExchangeDelegate {
     const receiveAddress = btc.getNextAvailableReceiveAddress(Bitcoin.networks.bitcoin.NETWORK_BITCOIN, defaultIndex, this.state)
 
     return {
-      receiveAddress: receiveAddress.getOrElse(),
+      receiveAddress: 'mwE8jUqBJ2BvRiF8sDrUFDfLSLV1DsXtBN',
+      // receiveAddress: receiveAddress.getOrElse(),
       commit: (trade) => {}
     }
   }
