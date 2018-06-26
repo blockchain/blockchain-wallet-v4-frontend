@@ -11,9 +11,9 @@ import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
 import { path, prop } from 'ramda'
 
-export default ({ coreSagas }) => {
-  const logLocation = 'modules/sfox/sagas'
+export const logLocation = 'modules/sfox/sagas'
 
+export default ({ coreSagas }) => {
   const setBankManually = function * (action) {
     try {
       yield put(A.sfoxLoading())
