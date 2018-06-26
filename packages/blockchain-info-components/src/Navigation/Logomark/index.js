@@ -1,9 +1,9 @@
 import React from "react"
 import styled from "styled-components"
 
-import BlockchainLogotypeVector from "./logotype.inline.svg"
+import BCLogo from "./logotype.component.svg"
 
-const Logo = styled(BlockchainLogotypeVector)`
+const Logo = styled(BCLogo)`
   margin-right: 2rem;
 
   height: ${props => (props.height ? props.height : "1.2rem")};
