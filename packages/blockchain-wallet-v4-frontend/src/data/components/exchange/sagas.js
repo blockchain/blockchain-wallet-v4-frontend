@@ -161,7 +161,7 @@ export default ({ api, coreSagas, options }) => {
       const minimum = getMinimum(source.coin, pair.minimum)
       const maximum = getMaximum(source.coin, pair.maximum, effectiveBalance)
       const sourceAmountBase = convertStandardToBase(source.coin, sourceAmount)
-      const upperLimit = path(['platforms', 'web', 'shapeshift', 'config', 'upperLimit'], options)
+      const upperLimit = path(['platforms', 'web', 'shapeshift', 'config', 'upperLimit'], options) || 500
       if (isMinimumGreaterThanMaximum(minimum, maximum)) {
         yield put(A.firstStepFormUnvalidated('insufficient'))
       } else if (isAmountBelowMinimum(sourceAmountBase, minimum)) {
