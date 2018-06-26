@@ -5,6 +5,7 @@ import { Text, Button } from 'blockchain-info-components'
 import { kycHeaderHelper, kycNotificationBodyHelper, kycNotificationButtonHelper } from 'services/CoinifyService'
 import { spacing } from 'services/StyleService'
 import { path } from 'ramda'
+import media from 'services/ResponsiveService'
 
 const ISXContainer = styled.div`
   display: flex;
@@ -20,6 +21,9 @@ const LimitsNotice = styled.div`
   background-color: #FFE6B4;
   padding: 12px 15px;
   margin-bottom: 20px;
+  ${media.mobile`
+    margin: 10px 0px;
+  `}
 `
 
 const KYCNotification = (props) => {
