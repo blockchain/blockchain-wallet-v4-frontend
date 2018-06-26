@@ -42,7 +42,7 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
         </Text>
       </ExchangeRateWrapper>
       <OrderDetailsTable style={spacing('mt-10')}>
-        <OrderDetailsRow noBorderBottom>
+        <OrderDetailsRow short noBorderBottom>
           {
             type === 'buy'
               ? <Text size='13px' weight={300}><FormattedMessage id='orderdetails.amounttopurchase' defaultMessage='BTC Amount to Purchase' /></Text>
@@ -52,7 +52,7 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
         </OrderDetailsRow>
         {
           type === 'buy'
-            ? <OrderDetailsRow noBorderBottom>
+            ? <OrderDetailsRow short noBorderBottom>
               <Text size='13px' weight={300}><FormattedMessage id='orderdetails.btctransactionfee' defaultMessage='BTC Transaction Fee' /></Text>
               <Text size='13px' weight={300}>-{quoteR.map(q => reviewOrder.renderMinerFeeRow(q, medium, type)).getOrElse('~')} BTC</Text>
             </OrderDetailsRow>
@@ -60,21 +60,21 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
         }
         {
           type === 'buy'
-            ? <OrderDetailsRow>
+            ? <OrderDetailsRow short>
               <Text size='13px' weight={300}><FormattedMessage id='orderdetails.btctobereceived' defaultMessage='BTC to be Received' /></Text>
               <Text size='13px' weight={300} color='success'>{quoteR.map(q => reviewOrder.renderBtcToBeReceived(q, medium, type)).getOrElse('~')} BTC</Text>
             </OrderDetailsRow>
             : null
         }
-        <OrderDetailsRow noBorderBottom>
+        <OrderDetailsRow short noBorderBottom>
           <Text size='13px' weight={300}><FormattedMessage id='orderdetails.amount' defaultMessage='Amount' /></Text>
           <Text size='13px' weight={300}>{quoteR.map(q => reviewOrder.renderAmountRow(q)).getOrElse('~')}</Text>
         </OrderDetailsRow>
-        <OrderDetailsRow noBorderBottom>
+        <OrderDetailsRow short noBorderBottom>
           <Text size='13px' weight={300}><FormattedMessage id='orderdetails.tradingfee' defaultMessage='Trading Fee' /></Text>
           <Text size='13px' weight={300}>{quoteR.map(q => reviewOrder.renderFeeRow(q, medium, type)).getOrElse('~')}</Text>
         </OrderDetailsRow>
-        <OrderDetailsRow>
+        <OrderDetailsRow short>
           {
             type === 'buy'
               ? <Text size='13px' weight={400}><FormattedMessage id='orderdetails.totalcost' defaultMessage='Total Cost' /></Text>

@@ -15,6 +15,6 @@ export const OrderDetailsRow = styled.div`
   justify-content: space-between;
   align-items: center;
   margin: 0px 15px;
-  padding: 10px 0px;
+  padding: ${props => props.short ? `10px 0px` : `15px 0px`};
   border-bottom: ${props => props.noBorderBottom ? 'none' : `1px solid ${props.theme['gray-2']}`};
 `
