@@ -11,7 +11,9 @@ export const getLimits = (limits, curr, effectiveBalance) => {
   return {
     buy: {
       min: getMin(limits, curr),
-      max: getMax(limits, curr)
+      max: getMax(limits, curr),
+      bankMax: path(['bank', 'inRemaining', curr], limits),
+      cardMax: path(['card', 'inRemaining', curr], limits)
     },
     sell: {
       min: getSellMin(limits, 'BTC'),
