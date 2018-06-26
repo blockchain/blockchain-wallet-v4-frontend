@@ -52,6 +52,7 @@ const StepText = styled(Text)`
   max-width: 86px;
   margin-left: 5px;
   margin-right: 5px;
+  word-break: break-word;
   color: ${props => props.success ? props.theme['white'] : props.theme['brand-primary']};
 `
 

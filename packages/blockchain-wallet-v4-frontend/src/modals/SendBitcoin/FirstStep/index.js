@@ -16,7 +16,7 @@ class FirstStep extends React.Component {
   }
 
   handleRefresh () {
-    this.props.refreshActions.refresh()
+    this.props.actions.initialized()
   }
 
   handleToToggle (val) {
@@ -61,7 +61,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  refreshActions: bindActionCreators(actions.core.refresh, dispatch),
   actions: bindActionCreators(actions.components.sendBtc, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })

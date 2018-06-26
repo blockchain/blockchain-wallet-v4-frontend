@@ -17,16 +17,14 @@ export const getTransactionHistory = path([dataPath, 'bitcoin', 'transaction_his
 
 export const getCoins = path([dataPath, 'bitcoin', 'payment', 'coins'])
 
-export const getSpendableBalance = path([dataPath, 'bitcoin', 'spendable_balance'])
-
-export const getUnspendableBalance = path([dataPath, 'bitcoin', 'unspendable_balance'])
-
 // Specific
 export const getChangeIndex = curry((xpub, state) => getAddresses(state).map(path([xpub, 'change_index'])))
 
 export const getReceiveIndex = curry((xpub, state) => getAddresses(state).map(path([xpub, 'account_index'])))
 
 export const getTotalTxPerAccount = curry((xpubOrAddress, state) => getAddresses(state).map(path([xpubOrAddress, 'n_tx'])))
+
+export const getFinalBalance = curry((address, state) => getAddresses(state).map(path([address, 'final_balance'])).map(x => x || 0))
 
 export const getFeeRegular = state => getFee(state).map(path(['regular']))
 

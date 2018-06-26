@@ -2,12 +2,11 @@ import React from 'react'
 import { Route } from 'react-router-dom'
 import styled from 'styled-components'
 
-import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import Header from './Header'
 import Footer from './Footer'
-import Modals from 'modals'
 import Alerts from 'components/Alerts'
 import Container from 'components/Container'
+import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 
 const Wrapper = styled.div`
   background-color: ${props => props.theme['brand-primary']};
@@ -40,10 +39,22 @@ const ContentContainer = styled.div`
   justify-content: center;
   align-items: center;
   overflow-y: auto;
-  padding: 0 25px;
+  margin: 0 25px;
+
   @media (min-width: 768px) {
-    padding: 0;
     height: 100%;
+  }
+
+  @media (min-height: 1000px) {
+    height: 100%;
+    margin-top: 200px;
+    justify-content: flex-start;
+  }
+
+   @media (min-height: 1400px) {
+    height: 100%;
+    margin-top: 500px;
+    justify-content: flex-start;
   }
 `
 const FooterContainer = styled.div`
@@ -62,21 +73,20 @@ const PublicLayout = ({component: Component, ...rest}) => {
   return (
     <Route {...rest} render={matchProps => (
       <Wrapper>
-        <Alerts />
-        <Modals />
-        <HeaderContainer>
-          <Header />
-        </HeaderContainer>
-        <ContentContainer>
-          <ErrorBoundary>
+        <ErrorBoundary>
+          <Alerts />
+          <HeaderContainer>
+            <Header />
+          </HeaderContainer>
+          <ContentContainer>
             <Component {...matchProps} />
-          </ErrorBoundary>
-        </ContentContainer>
-        <FooterContainer>
-          <Container>
-            <Footer />
-          </Container>
-        </FooterContainer>
+          </ContentContainer>
+          <FooterContainer>
+            <Container>
+              <Footer />
+            </Container>
+          </FooterContainer>
+        </ErrorBoundary>
       </Wrapper>
     )} />
   )

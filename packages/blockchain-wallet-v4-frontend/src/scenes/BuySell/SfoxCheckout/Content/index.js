@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import { getBase, getData, getErrors, getQuote, getSellQuote, getTrades, getPayment } from './selectors'
 import Success from './template.success'
 import Loading from 'components/BuySell/Loading'
-import { path } from 'ramda'
+import { path, prop } from 'ramda'
 
 class SfoxCheckout extends React.PureComponent {
   constructor (props) {
@@ -21,8 +21,12 @@ class SfoxCheckout extends React.PureComponent {
     this.props.sendBtcActions.initialized({ feeType: 'priority' })
   }
 
+  componentWillUnmount () {
+    this.props.sfoxActions.disableSiftScience()
+  }
+
   render () {
-    const { data, modalActions, sfoxActions, sfoxDataActions, payment, orderState, formActions } = this.props
+    const { data, modalActions, sfoxActions, sfoxDataActions, payment, orderState, formActions, siftScienceEnabled } = this.props
     const { handleTrade, fetchQuote, refreshQuote, refreshSellQuote, fetchSellQuote } = sfoxDataActions
     const { sfoxNotAsked } = sfoxActions
     const { showModal } = modalActions
@@ -53,8 +57,9 @@ class SfoxCheckout extends React.PureComponent {
         disableButton={() => this.setState({ buttonStatus: false })}
         enableButton={() => this.setState({ buttonStatus: true })}
         buttonStatus={this.state.buttonStatus}
+        siftScienceEnabled={siftScienceEnabled}
       />,
-      Failure: (error) => <div>Failure: {error && error.message}</div>,
+      Failure: (error) => <div>Failure: {prop('message', error)}</div>,
       Loading: () => <Loading />,
       NotAsked: () => <div>Not Asked</div>
     })
@@ -69,7 +74,8 @@ const mapStateToProps = state => ({
   trades: getTrades(state),
   errors: getErrors(state),
   payment: getPayment(state),
-  orderState: path(['sfoxSignup', 'sfoxBusy'], state)
+  orderState: path(['sfoxSignup', 'sfoxBusy'], state),
+  siftScienceEnabled: path(['sfoxSignup', 'siftScienceEnabled'], state)
 })
 
 const mapDispatchToProps = dispatch => ({
