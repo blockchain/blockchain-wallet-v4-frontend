@@ -11,8 +11,8 @@ const DropdownContainer = styled.div`
   padding: 0.75rem 1.5rem;
   background-color: #fff;
   position: absolute;
-  top: 0;
   left: 0;
+  top: ${props => props.dropdownTop}px;
   transform: translateX(${props => props.x}px) translateY(${props => props.y}px);
   transition: all 0.3s ease-in-out;
   border-radius: var(--lgBorderRadius);
@@ -27,7 +27,7 @@ const Dropdown = props => {
     let component = props.map[props.kind].component
 
     return (
-      <DropdownContainer x={props.x || 0} y={props.y || 0}>
+      <DropdownContainer dropdownTop={props.dropdownTop} x={props.x || 0} y={props.y || 0}>
         {typeof component === "object"
           ? component
           : React.createElement(component)}
@@ -139,12 +139,13 @@ class MenuDropdown extends PureComponent {
     let dropX = 0
     let dropY = 0
     let dropdownTip = null
+    let dropdownTop = this.props.dropdownTop
 
     if (this.state.dropDown !== null) {
       let kind = this.state.dropDown
       dropX = this.state[kind].left
       dropY = this.state[kind].top + this.state[kind].height + 10
-      dropdownTip = <DropdownTip x={dropX + 24} y={dropY - 4} />
+      dropdownTip = <DropdownTip dropdownTop={dropdownTop} x={dropX + 24} y={dropY - 4} />
     }
 
     return (
@@ -161,6 +162,7 @@ class MenuDropdown extends PureComponent {
         <Dropdown
           x={dropX}
           y={dropY}
+          dropdownTop={dropdownTop}
           kind={this.state.dropDown}
           map={this.props.map}
         />

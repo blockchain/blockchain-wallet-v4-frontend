@@ -10,6 +10,7 @@ import { trackEvent } from "./Events"
 import Logomark from "./Logomark"
 import { Image } from '../Images'
 import Link from "./Link"
+import Normalize8 from '../Normalize.js'
 
 import MenuDropdown from "./MenuDropdown"
 
@@ -80,8 +81,9 @@ injectGlobal`
 const GlobalNav = styled.div.attrs({
   className: "flex-container"
 })`
+  ${Normalize8}
   background-color: ${props => props.backgroundColor ? props.backgroundColor : "transparent"};
-  position: fixed;
+  position: ${props => props.position};
   z-index: 100;
 
   &.hidden {
@@ -504,13 +506,15 @@ class Header extends PureComponent {
     let navVisibility = this.state.showNav ? "visible" : "hidden"
     let navScrollUp = this.state.scrollUp ? "scrollup" : ""
     let navClasses = [navVisibility, navScrollUp].join(" ")
+    let position = this.props.position || 'fixed'
+    let dropdownTop = this.props.dropdownTop || 0
     let backgroundColor = Color.azure
 
     return (
       <ThemeProvider theme={themeObj}>
         <IntlProvider>
           <div>
-            <GlobalNav className={navClasses} backgroundColor={backgroundColor} navColor={themeObj.headerScroll}>
+            <GlobalNav className={navClasses} backgroundColor={backgroundColor} navColor={themeObj.headerScroll} position={position}>
               <NavWrapper>
                 <NavInner>
                   <Link href="/" event="header_logo">
@@ -519,7 +523,7 @@ class Header extends PureComponent {
                 </NavInner>
 
                 <NavInner>
-                  <MenuDropdown map={dropdownMap} />
+                  <MenuDropdown dropdownTop={dropdownTop} map={dropdownMap} />
                 </NavInner>
 
                 <NavInner
@@ -569,7 +573,7 @@ class Header extends PureComponent {
                 </MenuButtonWrap>
               </NavWrapper>
             </GlobalNav>
-            <Spacer />
+            { position === 'fixed' && <Spacer /> }
           </div>
         </IntlProvider>
       </ThemeProvider>

@@ -2,11 +2,11 @@ import React from "react"
 import styled from "styled-components"
 
 const DropdownTipContainer = styled.div`
-  position: absolute;
-  top: 0;
   left: 0;
+  top: ${props => props.dropdownTop}px;
   transform: translateX(${props => props.x}px) translateY(${props => props.y}px);
   transition: all 0.35s ease-in-out;
+  position: absolute;
   z-index: 1001;
 `
 
@@ -19,7 +19,7 @@ const DropdownTip = styled.div`
 `
 
 export default props => (
-  <DropdownTipContainer x={props.x} y={props.y}>
+  <DropdownTipContainer dropdownTop={props.dropdownTop} x={props.x} y={props.y}>
     <DropdownTip />
   </DropdownTipContainer>
 )
