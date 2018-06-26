@@ -98,7 +98,7 @@ export const getRateFromQuote = (q) => {
 export const reviewOrder = {
   baseBtc: (q) => q.baseCurrency === 'BTC',
   getMinerFee: (q, med) => path(['paymentMediums', med, 'outFixedFees', 'BTC'], q),
-  renderFirstRow: (q) => reviewOrder.baseBtc(q) ? `${q.baseAmount / 1e8} BTC` : `${q.quoteAmount / 1e8} BTC`,
+  renderFirstRow: (q) => reviewOrder.baseBtc(q) ? `${abs(q.baseAmount) / 1e8} BTC` : `${abs(q.quoteAmount) / 1e8} BTC`,
   renderMinerFeeRow: (q, medium, type) => {
     const med = type === 'sell' ? 'bank' : medium
     const minerFee = reviewOrder.getMinerFee(q, med)
