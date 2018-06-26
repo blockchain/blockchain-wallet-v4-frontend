@@ -1,5 +1,5 @@
 import { selectors } from 'data'
-import { curry, filter, head, length, lift, prop, propEq } from 'ramda'
+import { curry, filter, head, length, lift, prop, propEq, propOr } from 'ramda'
 import { formValueSelector } from 'redux-form'
 
 export const format = acc => ({ text: prop('label', acc), value: acc })
@@ -35,8 +35,8 @@ export const getData = state => {
   const formError = selectors.components.exchange.getError(state)
   const source = formValueSelector('exchange')(state, 'source')
   const target = formValueSelector('exchange')(state, 'target')
-  const sourceCoin = prop('coin', source) || 'BTC'
-  const targetCoin = prop('coin', target) || 'ETH'
+  const sourceCoin = propOr('BTC', 'coin', source)
+  const targetCoin = propOr('ETH', 'coin', target)
 
   const transform = (btcAccounts, bchAccounts, ethAccounts, currency) => {
     const isActive = propEq('archived', false)
