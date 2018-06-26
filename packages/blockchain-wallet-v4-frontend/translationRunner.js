@@ -36,7 +36,6 @@ bcManageTranslations({
     'ja',
     'ko',
     'nl',
-    'nn',
     'no',
     'pl',
     'pt',

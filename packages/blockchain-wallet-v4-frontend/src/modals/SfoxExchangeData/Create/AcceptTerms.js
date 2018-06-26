@@ -13,6 +13,7 @@ import Helper from 'components/BuySell/FAQ'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ErrorWrapper, ColRightInner } from 'components/BuySell/Signup'
 import { spacing } from 'services/StyleService'
 import Terms from 'components/Terms'
+import media from 'services/ResponsiveService'
 
 const checkboxShouldBeChecked = value => value ? undefined : 'You must agree to the terms and conditions'
 
@@ -59,17 +60,39 @@ const FieldBox = styled.div`
   flex-direction: row;
   width: 85%;
   justify-content: space-between;
+  ${media.mobile`
+    border: none;
+    width: 100%;
+    padding: 0px;
+    flex-direction: column;
+    width: fit-content;
+  `}
 `
 const IconContainer = styled.div`
   display: flex;
   align-items: center;
   margin-left: 10px;
+  ${media.mobile`
+    align-items: flex-start;
+  `}
 `
 const InlineTextWrapper = styled.div`
   & > * {
     display: inline-block;
     margin-right: 3px;
   }
+`
+const AcceptTermsForm = styled(Form)`
+  ${media.mobile`
+    flex-direction: column;
+  `}  
+`
+const EditLink = styled(Link)`
+  font-size: 12px;
+  ${media.mobile`
+    margin-top: 5px;
+    font-size: 12px;
+  `}
 `
 
 class AcceptTerms extends Component {
@@ -100,7 +123,7 @@ class AcceptTerms extends Component {
     const faqHelper = () => helpers.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
 
     return (
-      <Form onSubmit={this.handleSignup}>
+      <AcceptTermsForm onSubmit={this.handleSignup}>
         <ColLeft>
           <InputWrapper>
             <PartnerHeader>
@@ -122,9 +145,13 @@ class AcceptTerms extends Component {
                     <Text size='14px' weight={300}>
                       { email }
                     </Text>
-                    <Link onClick={editEmail} size='14px' weight={300}>
-                      <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.edit' defaultMessage='edit' />
-                    </Link>
+                    <EditLink onClick={editEmail} size='14px' weight={300}>
+                      {
+                        window.outerWidth > 480
+                          ? <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.edit' defaultMessage='edit' />
+                          : <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.editemail' defaultMessage='edit email' />
+                      }
+                    </EditLink>
                   </FieldBox>
                   <IconContainer>
                     { emailVerified ? <Icon name='checkmark-in-circle-filled' color='success' size='20px' /> : null }
@@ -140,9 +167,13 @@ class AcceptTerms extends Component {
                     <Text size='14px' weight={300}>
                       { smsNumber }
                     </Text>
-                    <Link onClick={editMobile} size='14px' weight={300}>
-                      <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.edit' defaultMessage='edit' />
-                    </Link>
+                    <EditLink onClick={editMobile} size='14px' weight={300}>
+                      {
+                        window.outerWidth > 480
+                          ? <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.edit' defaultMessage='edit' />
+                          : <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.editmobile' defaultMessage='edit mobile' />
+                      }
+                    </EditLink>
                   </FieldBox>
                   <IconContainer>
                     { smsVerified ? <Icon name='checkmark-in-circle-filled' color='success' size='20px' /> : null }
@@ -203,7 +234,7 @@ class AcceptTerms extends Component {
             { faqHelper() }
           </ColRightInner>
         </ColRight>
-      </Form>
+      </AcceptTermsForm>
     )
   }
 }
