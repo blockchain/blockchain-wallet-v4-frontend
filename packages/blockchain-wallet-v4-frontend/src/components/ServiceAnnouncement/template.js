@@ -53,15 +53,23 @@ const Announcement = props => {
         { icon && <Icon name={icon} size='34px' weight={600} color={iconColor} /> }
       </IconContainer>
       <div style={{width: '100%'}}>
-        <Text weight={300} size='20px' uppercase={uppercase} style={{margin: '6px 0'}}>{announcement.header[language]}</Text>
+        <Text weight={300} size='20px' uppercase={uppercase} style={{margin: '6px 0'}}>
+          { announcement.header[language] ? announcement.header[language] : announcement.header.en }
+        </Text>
         <TextGroup style={{ display: collapsed ? 'none' : '' }}>
           {
             announcement.sections.map((section, i) => {
-              return <Text key={i} size='13px' style={{marginBottom: '2px'}}>{section.body[language]}</Text>
+              return (
+                <Text key={i} size='13px' style={{marginBottom: '2px'}}>
+                  { section.body[language] ? section.body[language] : section.body.en }
+                </Text>
+              )
             })
           }
           <ActionLink href={announcement.action.link} target='_blank'>
-            <Text color='brand-primary' size='13px'>{announcement.action.title[language]}</Text>
+            <Text color='brand-primary' size='13px'>
+              { announcement.action.title[language] ? announcement.action.title[language] : announcement.action.title.en }
+            </Text>
           </ActionLink>
         </TextGroup>
       </div>
