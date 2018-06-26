@@ -1,6 +1,8 @@
+import Bitcoin from 'bitcoinjs-lib'
+import { and, lift, path, prop } from 'ramda'
+
 import { btc } from '../../redux/common/selectors'
 import { getDefaultAccountIndex } from '../../redux/wallet/selectors'
-import Bitcoin from 'bitcoinjs-lib'
 
 export class ExchangeDelegate {
   constructor (state, api) {
@@ -87,11 +89,22 @@ export class ExchangeDelegate {
   }
 
   reserveReceiveAddress () {
-    const defaultIndex = getDefaultAccountIndex(this.state)
-    const receiveAddress = btc.getNextAvailableReceiveAddress(Bitcoin.networks.bitcoin.NETWORK_BITCOIN, defaultIndex, this.state)
+    const getProdFlag = partner =>
+      prop('walletOptionsPath', this.state).map(path(['platforms', 'web', partner, 'config', 'production']))
+
+    const isProd = lift(and)(getProdFlag('coinify'), getProdFlag('sfox'))
+      .getOrFail('Missing coinify or sfox production flag in walletOptions')
+
+    let receiveAddress
+    if (isProd) {
+      const defaultIndex = getDefaultAccountIndex(this.state)
+      receiveAddress = btc.getNextAvailableReceiveAddress(Bitcoin.networks.bitcoin.NETWORK_BITCOIN, defaultIndex, this.state).getOrElse()
+    } else {
+      receiveAddress = '2N7FwMpgyXQA85SaVXumm3UZowq2VKChehP' // testnet address used on staging
+    }
 
     return {
-      receiveAddress: receiveAddress.getOrElse(),
+      receiveAddress,
       commit: (trade) => {}
     }
   }
