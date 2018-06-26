@@ -50,14 +50,8 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   modalEnhancer('SfoxEnterMicroDeposits'),
+  reduxForm({ form: 'sfoxMicroDeposits', asyncBlurFields: [] }),
   connect(mapStateToProps, mapDispatchToProps)
 )
 
-// component export style pulled from a redux-form issue on github for an asyncValidate error on blur
-// https://github.com/erikras/redux-form/issues/2420
-let FormContainer = enhance(SfoxEnterMicroDeposits)
-FormContainer = reduxForm({
-  form: 'sfoxMicroDeposits',
-  asyncBlurFields: []
-})(FormContainer)
-export default FormContainer
+export default enhance(SfoxEnterMicroDeposits)
