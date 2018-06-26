@@ -17,9 +17,9 @@ import MenuDropdown from "./MenuDropdown"
 import throttle from "./throttle.js"
 
 const publicRuntimeConfig = {
-  headerSearchURL: '/',
-  walletLoginURL: 'login.blockchain.com',
-  walletSignupURL: 'login.blockchain.com/signup'
+  headerSearchURL: 'https://blockchain.com/search',
+  walletLoginURL: 'https://login.blockchain.com',
+  walletSignupURL: 'https://login.blockchain.com/signup'
 }
 const SEARCH_URL = publicRuntimeConfig.headerSearchURL
 const HIDE_HEADER_MIN_WIDTH = 768
@@ -103,7 +103,7 @@ const GlobalNav = styled.div.attrs({
   }
 
   @media only screen and (max-width: 48rem) {
-    position: relative;
+    position: ${props => props.position};
   }
 `
 
@@ -226,7 +226,7 @@ const productsList = [
   {
     title: <FormattedMessage id="header.products.wallet" defaultMessage="Wallet"/>,
     desc: <FormattedMessage id="header.products.wallet-desc" defaultMessage="Buy and Sell Crypto"/>,
-    link: "/wallet",
+    link: "https://blockchain.com/wallet",
     event: "header_wallet"
   },
   {
@@ -238,7 +238,7 @@ const productsList = [
   {
     title: <FormattedMessage id="header.products.developers" defaultMessage="Developers"/>,
     desc: <FormattedMessage id="header.products.developers-desc" defaultMessage="Access our API"/>,
-    link: "/api",
+    link: "https://blockchain.com/api",
     event: "header_developers"
   }
 ]
@@ -247,19 +247,19 @@ const dataList = [
   {
     title: <FormattedMessage id="header.data.explorer" defaultMessage="Explorer"/>,
     desc: <FormattedMessage id="header.data.explorer-desc" defaultMessage="Search and Verify Transactions"/>,
-    link: "/explorer",
+    link: "https://blockchain.com/explorer",
     event: "header_explorer"
   },
   {
     title: <FormattedMessage id="header.data.markets" defaultMessage="Markets"/>,
     desc: <FormattedMessage id="header.data.markets-desc" defaultMessage="Prices, Quotes, and More"/>,
-    link: "/markets",
+    link: "https://blockchain.com/markets",
     event: "header_markets"
   },
   {
     title: <FormattedMessage id="header.data.charts" defaultMessage="Charts"/>,
     desc: <FormattedMessage id="header.data.charts-desc" defaultMessage="Stats and Network Activity"/>,
-    link: "/charts",
+    link: "https://blockchain.com/charts",
     event: "header_charts"
   }
 ]
@@ -517,7 +517,7 @@ class Header extends PureComponent {
             <GlobalNav className={navClasses} backgroundColor={backgroundColor} navColor={themeObj.headerScroll} position={position}>
               <NavWrapper>
                 <NavInner>
-                  <Link href="/" event="header_logo">
+                  <Link href="https://blockchain.com" event="header_logo">
                     <Logomark color="white" />
                   </Link>
                 </NavInner>

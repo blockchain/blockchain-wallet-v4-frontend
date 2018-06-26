@@ -3,9 +3,10 @@ import styled from "styled-components"
 
 const ButtonGroup = styled.div`
     a {
+        padding: 0 !important;
+        color: white !important;
         transition: opacity: .5s;
         font-weight: 500;
-        color: ${props => props.theme.main};
         padding: 0 1rem;
         font-size: 1.125rem;
         margin-right: 1rem;
@@ -16,7 +17,8 @@ const ButtonGroup = styled.div`
     }
 
     ul > li {
-        display: inline-block;
+      padding: 0px 1rem;
+      display: inline-block;
     }
 
     button {

@@ -217,10 +217,14 @@ class Footer extends PureComponent {
                   <a href={base + '/wallet'}>Wallet</a>
                 </li>
                 <li>
+                  <a href={base + '/explorer'}>Explorer</a>
+                  <NavBadge>Info</NavBadge>
+                </li>
+                <li>
                   <a href='https://bps.blockchain.com/'>Principal Strategies</a>
                 </li>
                 <li>
-                  <a href='http://tsukemen.io/slate/'>Developers</a>
+                  <a href={base + '/api'}>Developers</a>
                 </li>
               </ul>
             </Column>
@@ -229,15 +233,11 @@ class Footer extends PureComponent {
               <h5>Data</h5>
               <ul>
                 <li>
-                  <a href='https://blockchain.info/markets'>Markets</a>
+                  <a href={base + '/markets'}>Markets</a>
                   <NavBadge>New</NavBadge>
                 </li>
                 <li>
-                  <a href='https://blockchain.info/charts/'>Charts</a>
-                </li>
-                <li>
-                  <a href='https://blockchain.info'>Explorer</a>
-                  <NavBadge>Info</NavBadge>
+                  <a href={base + '/charts'}>Charts</a>
                 </li>
               </ul>
             </Column>
@@ -289,7 +289,7 @@ class Footer extends PureComponent {
                   <a href='https://support.blockchain.com'>Support</a>
                 </li>
                 <li>
-                  <a href={base + '/legal/terms'}>Status</a>
+                  <a href='https://www.blockchain-status.com/'>Status</a>
                 </li>
               </ul>
             </Column>
