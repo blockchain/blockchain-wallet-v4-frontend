@@ -166,6 +166,10 @@ export default ({ api, coreSagas }) => {
         yield put(actions.auth.loginFailure())
         yield put(actions.auth.setAuthType(error.auth_type))
         yield put(actions.alerts.displayInfo(C.TWOFA_REQUIRED_INFO))
+      } else if (error && error.includes(wrongWalletPassErrorMessage)) {
+        yield put(actions.form.clearFields('login', false, true, 'password'))
+        yield put(actions.form.focus('login', 'password'))
+        yield put(actions.auth.loginFailure(error))
       } else {
         const errorMessage =
           prop('message', error) || error || defaultLoginErrorMessage
