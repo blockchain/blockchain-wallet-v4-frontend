@@ -118,13 +118,19 @@ export const bankOptionHelper = (quote, limits, isChecked, handlePaymentClick, b
       {
         bankDisabled
           ? <BankDisabledText size='14px' weight={300} color='gray-2' style={spacing('mt-25')}>
-            <FormattedMessage id='scenes.buysell.coinifyexchangedata.payment.bank.unavailable' defaultMessage='Bank transfers are unavailable until Identity Verification has been finished.' />
             {
-              equals(path(['state'], kyc), 'pending')
-                ? <Link size='12px' weight={300} style={spacing('mt-10')} onClick={() => openPendingKyc(kyc)}>
-                  <FormattedMessage id='scenes.buysell.coinifyexchangedata.payment.bank.finishkyc' defaultMessage='Finish Identity Verification' /><br />
-                </Link>
-                : null
+              equals(bankDisabled, 'disable_limits')
+                ? <FormattedMessage id='scenes.buysell.coinifyexchangedata.payment.bank.unavailable_limits' defaultMessage='The quoted amount is more than your current bank limit.' />
+                : <Fragment>
+                  <FormattedMessage id='scenes.buysell.coinifyexchangedata.payment.bank.unavailable_kyc' defaultMessage='Bank transfers are unavailable until Identity Verification has been finished.' />
+                  {
+                    equals(path(['state'], kyc), 'pending')
+                      ? <Link size='12px' weight={300} style={spacing('mt-10')} onClick={() => openPendingKyc(kyc)}>
+                        <FormattedMessage id='scenes.buysell.coinifyexchangedata.payment.bank.finishkyc' defaultMessage='Finish Identity Verification' /><br />
+                      </Link>
+                      : null
+                  }
+                </Fragment>
             }
           </BankDisabledText>
           : <Text size='14px' weight={300} style={spacing('mt-25')}>
