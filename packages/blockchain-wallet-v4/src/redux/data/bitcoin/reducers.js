@@ -12,7 +12,6 @@ const INITIAL_STATE = {
   transactions_fiat: {},
   unspendable_balance: Remote.NotAsked,
   transaction_history: Remote.NotAsked,
-  address_labels: {}
 }
 
 const bitcoinReducer = (state = INITIAL_STATE, action) => {

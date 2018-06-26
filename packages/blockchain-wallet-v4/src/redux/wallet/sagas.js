@@ -1,5 +1,4 @@
-import { call, put, select, fork } from 'redux-saga/effects'
-import { delay } from 'redux-saga'
+import { call, put, select } from 'redux-saga/effects'
 import BIP39 from 'bip39'
 import Bitcoin from 'bitcoinjs-lib'
 import { prop, compose, endsWith, repeat, range, map, propSatisfies,
@@ -9,9 +8,8 @@ import Task from 'data.task'
 import * as A from './actions'
 import * as S from './selectors'
 import { fetchData } from '../data/bitcoin/actions'
-import * as actions from '../actions'
 
-import { Wrapper, Wallet, HDAccount } from '../../types'
+import { Wrapper, Wallet } from '../../types'
 import { generateMnemonic } from '../../walletCrypto'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
