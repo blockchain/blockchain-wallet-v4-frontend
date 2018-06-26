@@ -1,6 +1,6 @@
 import { call, put, select, take, fork } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import { path, prop, assoc } from 'ramda'
+import { path, prop, assoc, is } from 'ramda'
 import Either from 'data.either'
 
 import * as actions from '../actions.js'
@@ -166,7 +166,7 @@ export default ({ api, coreSagas }) => {
         yield put(actions.auth.loginFailure())
         yield put(actions.auth.setAuthType(error.auth_type))
         yield put(actions.alerts.displayInfo(C.TWOFA_REQUIRED_INFO))
-      } else if (error && error.includes(wrongWalletPassErrorMessage)) {
+      } else if (error && is(String, error) && error.includes(wrongWalletPassErrorMessage)) {
         yield put(actions.form.clearFields('login', false, true, 'password'))
         yield put(actions.form.focus('login', 'password'))
         yield put(actions.auth.loginFailure(error))
