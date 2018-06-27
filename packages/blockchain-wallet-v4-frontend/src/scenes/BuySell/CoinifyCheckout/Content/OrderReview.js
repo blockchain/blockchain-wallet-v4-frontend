@@ -42,25 +42,45 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
         </Text>
       </ExchangeRateWrapper>
       <OrderDetailsTable style={spacing('mt-10')}>
-        <OrderDetailsRow>
+        <OrderDetailsRow short noBorderBottom>
           {
             type === 'buy'
               ? <Text size='13px' weight={300}><FormattedMessage id='orderdetails.amounttopurchase' defaultMessage='BTC Amount to Purchase' /></Text>
               : <Text size='13px' weight={300}><FormattedMessage id='orderdetails.amounttosell' defaultMessage='BTC Amount to Sell' /></Text>
           }
-          <Text size='13px' weight={300}>{quoteR.map(q => reviewOrder.renderFirstRow(q, medium)).getOrElse('~')}</Text>
+          <Text size='13px' weight={300}>{quoteR.map(q => reviewOrder.renderFirstRow(q)).getOrElse('~')}</Text>
         </OrderDetailsRow>
-        <OrderDetailsRow>
+        {
+          type === 'buy'
+            ? <OrderDetailsRow short noBorderBottom>
+              <Text size='13px' weight={300}><FormattedMessage id='orderdetails.btctransactionfee' defaultMessage='BTC Transaction Fee' /></Text>
+              <Text size='13px' weight={300}>-{quoteR.map(q => reviewOrder.renderMinerFeeRow(q, medium, type)).getOrElse('~')} BTC</Text>
+            </OrderDetailsRow>
+            : null
+        }
+        {
+          type === 'buy'
+            ? <OrderDetailsRow short>
+              <Text size='13px' weight={300}><FormattedMessage id='orderdetails.btctobereceived' defaultMessage='BTC to be Received' /></Text>
+              <Text size='13px' weight={300} color='success'>{quoteR.map(q => reviewOrder.renderBtcToBeReceived(q, medium, type)).getOrElse('~')} BTC</Text>
+            </OrderDetailsRow>
+            : null
+        }
+        <OrderDetailsRow short noBorderBottom>
+          <Text size='13px' weight={300}><FormattedMessage id='orderdetails.amount' defaultMessage='Amount' /></Text>
+          <Text size='13px' weight={300}>{quoteR.map(q => reviewOrder.renderAmountRow(q)).getOrElse('~')}</Text>
+        </OrderDetailsRow>
+        <OrderDetailsRow short noBorderBottom>
           <Text size='13px' weight={300}><FormattedMessage id='orderdetails.tradingfee' defaultMessage='Trading Fee' /></Text>
           <Text size='13px' weight={300}>{quoteR.map(q => reviewOrder.renderFeeRow(q, medium, type)).getOrElse('~')}</Text>
         </OrderDetailsRow>
-        <OrderDetailsRow>
+        <OrderDetailsRow short>
           {
             type === 'buy'
-              ? <Text size='13px' weight={300}><FormattedMessage id='orderdetails.totalcost' defaultMessage='Total Cost' /></Text>
-              : <Text size='13px' weight={300}><FormattedMessage id='orderdetails.totaltobereceived' defaultMessage='Total to be Received' /></Text>
+              ? <Text size='13px' weight={400}><FormattedMessage id='orderdetails.totalcost' defaultMessage='Total Cost' /></Text>
+              : <Text size='13px' weight={400} color='success'><FormattedMessage id='orderdetails.totaltobereceived' defaultMessage='Total to be Received' /></Text>
           }
-          <Text size='13px' weight={300} color='success'>{quoteR.map(q => reviewOrder.renderTotalRow(q, medium, type)).getOrElse('~')}</Text>
+          <Text size='13px' weight={400} color={type !== 'buy' && 'success'}>{quoteR.map(q => reviewOrder.renderTotalRow(q, medium, type)).getOrElse('~')}</Text>
         </OrderDetailsRow>
       </OrderDetailsTable>
       {quoteR.map((q) => (
