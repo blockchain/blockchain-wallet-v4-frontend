@@ -74,7 +74,16 @@ export default ({ api, coreSagas }) => {
       yield call(coreSagas.kvStore.ethereum.fetchMetadataEthereum, askSecondPasswordEnhancer)
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
       yield put(actions.router.push('/home'))
-      yield call(coreSagas.kvStore.btc.fetchMetadataBtc)
+      const addressLabelSize = yield call(coreSagas.kvStore.btc.fetchMetadataBtc)
+      if (addressLabelSize > 100) {
+        yield put(actions.modals.showModal('UpgradeAddressLabels', {duration: addressLabelSize / 20}))
+      }
+      if (addressLabelSize) {
+        yield call(coreSagas.kvStore.btc.createMetadataBtc)
+      }
+      if (addressLabelSize > 100) {
+        yield put(actions.modals.closeModal())
+      }
       yield put(actions.auth.loginSuccess())
       yield put(actions.auth.startLogoutTimer())
       yield put(actions.goals.runGoals())
