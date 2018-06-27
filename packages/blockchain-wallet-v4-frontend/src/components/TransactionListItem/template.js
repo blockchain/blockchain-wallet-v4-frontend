@@ -112,7 +112,8 @@ const dateHelper = (time) => {
 }
 
 const TransactionListItem = (props) => {
-  const { handleCoinToggle, transaction, handleEditDescription, coin, minConfirmations } = props
+  const { handleCoinToggle, transaction, handleEditDescription, coin, minConfirmations, shiftTrades } = props
+  if (transaction.description === 'sstx') console.log('TX:', transaction, shiftTrades)
 
   return (
     <TransactionRowContainer>
