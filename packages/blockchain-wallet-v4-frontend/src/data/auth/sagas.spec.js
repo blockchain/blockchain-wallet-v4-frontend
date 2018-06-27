@@ -18,7 +18,7 @@ import authSagas, {
 import * as C from 'services/AlertService'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
-const coreSagas = coreSagasFactory()
+const coreSagas = coreSagasFactory({ api: {} })
 const api = {
   obtainSessionToken: jest.fn(),
   deauthorizeBrowser: jest.fn()
