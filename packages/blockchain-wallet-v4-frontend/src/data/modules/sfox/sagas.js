@@ -151,6 +151,7 @@ export default ({ coreSagas }) => {
     const q = action.payload
     try {
       yield put(A.sfoxLoading())
+      const password = yield call(promptForSecondPassword)
       const trade = yield call(coreSagas.data.sfox.handleSellTrade, q)
 
       let p = yield select(sendBtcSelectors.getPayment)
@@ -176,7 +177,6 @@ export default ({ coreSagas }) => {
         yield put(actions.logs.logErrorMessage(logLocation, 'submitSellQuote', e))
       }
 
-      const password = yield call(promptForSecondPassword)
       payment = yield payment.sign(password)
       payment = yield payment.publish()
 
