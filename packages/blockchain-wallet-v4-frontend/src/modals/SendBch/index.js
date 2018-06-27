@@ -46,8 +46,8 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  modalEnhancer('SendBch')
+  modalEnhancer('SendBch'),
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default enhance(SendBchContainer)

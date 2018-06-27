@@ -258,6 +258,18 @@
         "id": "components.alerts.new_wallet_create_success"
       },
       {
+        "defaultMessage": "You've just received a Bitcoin cash payment",
+        "id": "components.alerts.payment_received_bch"
+      },
+      {
+        "defaultMessage": "You've just received a Bitcoin payment",
+        "id": "components.alerts.payment_received_btc"
+      },
+      {
+        "defaultMessage": "You've just received an Ethereum payment",
+        "id": "components.alerts.payment_received_eth"
+      },
+      {
         "defaultMessage": "PBKDF2 iterations changed successfully",
         "id": "components.alerts.pbkdf2_update_success"
       },
@@ -1885,6 +1897,19 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "🎉 You're all caught up!",
+        "id": "layouts.wallet.header.whatsnew.whatsnew.empty"
+      },
+      {
+        "defaultMessage": "Our team is always working on new features, but if there's something we can improve please let us know about it <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>here<a/>.",
+        "id": "layouts.wallet.header.whatsnew.whatsnew.in_progress"
+      }
+    ],
+    "path": "src/layouts/Wallet/TrayRight/WhatsNew/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Learn More",
         "id": "layouts.wallet.header.whatsnew.whatsnew.learnmore"
       },
@@ -3143,8 +3168,8 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "maximum",
-        "id": "modals.sendbtc.maximumfeelink.maximum"
+        "defaultMessage": "Use our recommended upper limit.",
+        "id": "modals.sendbtc.maximumfeelink.userecupperlimit"
       }
     ],
     "path": "src/modals/SendBitcoin/FirstStep/MaximumFeeLink/index.json"
@@ -3259,23 +3284,23 @@
       },
       {
         "defaultMessage": "Not enough funds. Use",
-        "id": "modals.sencbtc.maximumamountmessage"
+        "id": "modals.sendbtc.maximumamountmessage"
       },
       {
-        "defaultMessage": "Unnecessarily high fee. Use",
-        "id": "modals.sencbtc.maximumfeemessage"
+        "defaultMessage": "Unnecessarily high fee.",
+        "id": "modals.sendbtc.maximumfeemessage"
       },
       {
         "defaultMessage": "Below minimum amount. Use",
-        "id": "modals.sencbtc.minimumamountmessage"
+        "id": "modals.sendbtc.minimumamountmessage"
       },
       {
         "defaultMessage": "Low fee not recommended. Use",
-        "id": "modals.sencbtc.minimumfeemessage"
+        "id": "modals.sendbtc.minimumfeemessage"
       },
       {
-        "defaultMessage": "Invalid {sat}",
-        "id": "modals.sencbtc.minimumonesatoshimessage"
+        "defaultMessage": "Minimum {sat} required",
+        "id": "modals.sendbtc.minimumonesatoshimessage"
       },
       {
         "defaultMessage": "Insufficient funds",
@@ -3283,7 +3308,7 @@
       },
       {
         "defaultMessage": "This private key does not match the watch only address above",
-        "id": "modals.sencbtc.addressprivmismatch"
+        "id": "modals.sendbtc.addressprivmismatch"
       }
     ],
     "path": "src/modals/SendBitcoin/FirstStep/validationMessages.json"
@@ -6117,10 +6142,6 @@
         "id": "scenes.login.browserwarning"
       },
       {
-        "defaultMessage": "We recommend that you login using a more secure browser like Chrome or Firefox.",
-        "id": "scenes.login.msiewarning"
-      },
-      {
         "defaultMessage": "Wallet ID",
         "id": "scenes.login.guid"
       },
@@ -8071,10 +8092,6 @@
         "id": "scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.welcome"
       },
       {
-        "defaultMessage": "Bitcoin Cash",
-        "id": "scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.welcome2"
-      },
-      {
         "defaultMessage": "Learn More",
         "id": "scenes.transaction.bitcoincash.content.empty.bitcoincashwelcome.learnmore"
       },
@@ -8137,7 +8154,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Welcome to Bitcoin",
+        "defaultMessage": "Welcome to",
         "id": "scenes.transaction.bitcoin.content.empty.bitcoinwelcome.welcome"
       },
       {
@@ -8205,10 +8222,6 @@
       {
         "defaultMessage": "Welcome to",
         "id": "scenes.transaction.ether.content.empty.etherwelcome.welcome"
-      },
-      {
-        "defaultMessage": "Ether",
-        "id": "scenes.transaction.ether.content.empty.etherwelcome.welcome2"
       },
       {
         "defaultMessage": "Learn More",

@@ -39,10 +39,22 @@ const ContentContainer = styled.div`
   justify-content: center;
   align-items: center;
   overflow-y: auto;
-  padding: 0 25px;
+  margin: 0 25px;
+
   @media (min-width: 768px) {
-    padding: 0;
     height: 100%;
+  }
+
+  @media (min-height: 1000px) {
+    height: 100%;
+    margin-top: 200px;
+    justify-content: flex-start;
+  }
+
+   @media (min-height: 1400px) {
+    height: 100%;
+    margin-top: 500px;
+    justify-content: flex-start;
   }
 `
 const FooterContainer = styled.div`

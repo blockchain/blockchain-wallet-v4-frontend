@@ -86,8 +86,8 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  modalEnhancer('SfoxExchangeData')
+  modalEnhancer('SfoxExchangeData'),
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default enhance(SfoxExchangeData)
