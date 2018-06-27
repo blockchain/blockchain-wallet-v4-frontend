@@ -9,8 +9,53 @@
         "fraction": 1,
         "countries": "*",
         "states": "*",
-        "config": {
-          "announcements": ["Partial service from 16/11/2017 4:00PM to 17/11/2017 4:00PM due to SegWit2X"]
+        "announcements": {
+          "public": {
+            "id": "domain-move",
+            "type": "info",
+            "hideType": "dismiss",
+            "header": {
+              "en": "We’re packing our bags and preparing to move...domains!"
+            },
+            "sections": [{
+              "title": {
+                "en": ""
+              },
+              "body": {
+                "en": "To make way for our new and exciting products coming this year, we’re saying hello to our new home. blockchain.info will soon be changing URLs as it's combined with our company site, blockchain.com."
+              }
+            }],
+            "action": {
+              "title": {
+                "en": "Read more about what to expect."
+              },
+              "link": "https://blog.blockchain.com/2018/06/19/blockchain-infos-moving-domains/"
+            }
+          },
+          "wallet": {
+            "id": "privacy-policy-update",
+            "type": "info",
+            "hideType": "dismiss",
+            "header": {
+              "en": "Updates to Privacy Policy and Cookie Policy"
+            },
+            "sections": [
+              {
+                "title": {
+                  "en": ""
+                },
+                "body": {
+                  "en": "We’re updating our Privacy Policy and Cookie Policy to make it easier for you to understand the limited information we collect and why we collect it. We thrive on collecting the least amount of data on our users. Please review our updated policies."
+                }
+              }
+            ],
+            "action": {
+              "title": {
+                "en": "More details."
+              },
+              "link": "https://www.blockchain.com/privacy"
+            }
+          }
         }
       },
       "bitcoin": {
@@ -26,7 +71,8 @@
         "states": "*",
         "config": {
           "network": "bitcoin"
-        }
+        },
+        "announcements": {}
       },
       "buysell": {
         "availability": {
@@ -37,7 +83,8 @@
         "fraction": 1,
         "countries": ["GB", "NL", "DE", "US"],
         "states": "*",
-        "config": {}
+        "config": {},
+        "announcements": {}
       },
       "coinify": {
         "fraction": 1,
@@ -60,7 +107,8 @@
             "https://blockchain.co1.qualtrics.com/jfe/form/SV_9u8XxkrkiUUy6z3",
             "https://blockchain.co1.qualtrics.com/jfe/form/SV_9ysiGRC4rkMFwFv"
           ]
-        }
+        },
+        "announcements": {}
       },
       "ethereum": {
         "availability": {
@@ -75,7 +123,8 @@
         "lastTxFuse": 86400,
         "config": {
           "network": "mainnet"
-        }
+        },
+        "announcements": {}
       },
       "sfox": {
         "fraction": 1,
@@ -102,7 +151,8 @@
               "send_to_miner": true
             }
           }
-        }
+        },
+        "announcements": {}
       },
       "shapeshift": {
         "availability": {
@@ -120,7 +170,8 @@
             "https://blockchain.co1.qualtrics.com/jfe/form/SV_1MuVnVEtWhiVIQl",
             "https://blockchain.co1.qualtrics.com/jfe/form/SV_3QV1OgysGUC0hXD"
           ]
-        }
+        },
+        "announcements": {}
       },
       "unocoin": {
         "fraction": 0,
@@ -137,7 +188,8 @@
             "https://blockchain.co1.qualtrics.com/jfe/form/SV_87YRZx6LVdaF4kR",
             "https://blockchain.co1.qualtrics.com/jfe/form/SV_bBDOyGwj5WOb0hL"
           ]
-        }
+        },
+        "announcements": {}
       }
     },
     "ios": {},
@@ -150,3 +202,5 @@
     "walletHelper": "https://wallet-helper.blockchain.info"
   }
 }
+
+

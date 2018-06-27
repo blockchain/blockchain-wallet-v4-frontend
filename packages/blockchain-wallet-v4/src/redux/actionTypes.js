@@ -3,7 +3,6 @@ import * as wallet from './wallet/actionTypes.js'
 import * as settings from './settings/actionTypes.js'
 import * as walletSync from './walletSync/actionTypes.js'
 import * as walletOptions from './walletOptions/actionTypes.js'
-import * as webSocket from './webSocket/actionTypes.js'
 import * as kvStore from './kvStore/actionTypes.js'
 
 export {
@@ -12,6 +11,5 @@ export {
   settings,
   wallet,
   walletSync,
-  walletOptions,
-  webSocket
+  walletOptions
 }

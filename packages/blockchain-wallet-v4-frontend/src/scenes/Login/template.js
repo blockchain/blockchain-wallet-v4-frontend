@@ -12,7 +12,7 @@ import { Form, FormError, FormGroup, FormItem, FormLabel, PasswordBox, TextBox }
 import Modals from 'modals'
 import MobileLogin from 'modals/MobileLogin'
 
-const isSupportedBrowser = check({msie: '11', safari: '8', chrome: '45', firefox: '45', opera: '20'})
+const isSupportedBrowser = check({safari: '8', chrome: '45', firefox: '45', opera: '20'}) && !msie
 
 const Wrapper = styled.div`
   width: 100%;
@@ -95,19 +95,12 @@ const Login = (props) => {
       </Text>
       <Separator />
       <LoginForm onSubmit={handleSubmit}>
-        { !isSupportedBrowser && <BrowserWarning>
-          <Banner type='warning'>
-            <FormattedMessage id='scenes.login.browserwarning' defaultMessage='Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, IE 11, or Opera.' />
-          </Banner>
-        </BrowserWarning> }
-        {
-          isSupportedBrowser && msie && <BrowserWarning>
-            <Banner type='caution'>
-              <Text size='12px'>
-                <FormattedMessage id='scenes.login.msiewarning' defaultMessage='We recommend that you login using a more secure browser like Chrome or Firefox.' />
-              </Text>
+        { !isSupportedBrowser &&
+          (<BrowserWarning>
+            <Banner type='warning'>
+              <FormattedMessage id='scenes.login.browserwarning' defaultMessage='Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, Edge, or Opera.' />
             </Banner>
-          </BrowserWarning>
+          </BrowserWarning>)
         }
         <FormGroup>
           <FormItem>

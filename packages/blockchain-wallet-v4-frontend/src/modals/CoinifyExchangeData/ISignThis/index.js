@@ -3,22 +3,31 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actions } from 'data'
-import { path, prop } from 'ramda'
+import { equals, path, prop } from 'ramda'
 import { Button, Text, Tooltip } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 
 import Helper from 'components/BuySell/FAQ'
 import CountdownTimer from 'components/Form/CountdownTimer'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
+import media from 'services/ResponsiveService'
 import { getData } from './selectors'
 
 const ISXContainer = styled.div`
   display: flex;
   flex-direction: row;
+  ${media.mobile`
+    flex-direction: column;
+  `}
 `
 const ButtonContainer = styled.div`
   margin-left: 5%;
-  width: 25%;
+  width: 20%;
+  ${media.mobile`
+    width: 100%;
+    margin-left: 0%;
+    margin-top: 20px;
+  `}
 `
 const TimerContainer = styled.div`
   width: 66%;
@@ -33,6 +42,17 @@ const QuoteExpiredText = styled(Text)`
   span:first-of-type {
     font-style: italic;
   }
+`
+const IframeWrapper = styled.div`
+  width: 65%;
+  ${media.mobile`
+    width: 100%;
+  `}
+`
+const ISignThisIframe = styled.iframe`
+  width: 100%;
+  height: 400px;
+  border: ${props => `1px solid ${props.theme['gray-1']}`}
 `
 
 const kycHelper = [
@@ -243,24 +263,26 @@ class ISignThisContainer extends Component {
           }).getOrElse(null)}
         </TimerContainer>
         <ISXContainer>
-          <iframe style={{ width: '65%', height: '400px', border: '1px solid #EAEAEA' }}
-            src={srcUrl}
-            sandbox='allow-same-origin allow-scripts allow-forms'
-            scrolling='yes'
-            id='isx-iframe'
-          />
+          <IframeWrapper>
+            <ISignThisIframe
+              src={srcUrl}
+              sandbox='allow-same-origin allow-scripts allow-forms'
+              scrolling='yes'
+              id='isx-iframe'
+            />
+          </IframeWrapper>
           <ButtonContainer>
             <Button nature='empty-secondary' fullwidth onClick={() => coinifyActions.cancelISX()}>
               <Text size='13px' weight={300} color='brand-secondary'>
                 {
-                  isxType && isxType === 'Trade'
+                  equals(isxType, 'Trade')
                     ? <FormattedMessage id='scenes.buysell.coinify.isx.finishlater' defaultMessage='Finish later' />
                     : <FormattedMessage id='scenes.buysell.coinify.isx.dolater' defaultMessage="I'll do this later" />
                 }
               </Text>
             </Button>
             {
-              isxType && isxType === 'Trade'
+              equals(isxType, 'Trade')
                 ? tradeFaqHelper()
                 : kycFaqHelper()
             }
