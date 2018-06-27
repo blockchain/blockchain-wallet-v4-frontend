@@ -21,8 +21,9 @@ const Wrapper = styled.div`
   }
 `
 const ActionButton = styled(IconButton)`
-  ${media.mobile`
-    padding: 10px 10px;
+  ${media.tablet`
+    height: 30px;
+    padding: 5px 10px;
     div:last-of-type {
       font-size: 13px;
     }

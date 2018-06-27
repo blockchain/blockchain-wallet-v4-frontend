@@ -87,13 +87,20 @@ const getBalanceMessage = path => {
   }
 }
 
-const getSubBalances = props => (
-  <SubItems>
-    <Separator margin='0' />
-    <BtcWatchOnlyBalance />
-    <BchWatchOnlyBalance />
-  </SubItems>
-)
+const getSubBalances = (props) => {
+  const { hasBchSubBalance, hasBtcSubBalance, btcSubBalance, bchSubBalance } = props
+  return (
+    <SubItems>
+      {
+        !btcSubBalance && !bchSubBalance
+          ? null
+          : <Separator margin='0' />
+      }
+      <BtcWatchOnlyBalance hasBtcSubBalance={hasBtcSubBalance} />
+      <BchWatchOnlyBalance hasBchSubBalance={hasBchSubBalance} />
+    </SubItems>
+  )
+}
 
 const Success = props => (
   <Wrapper>
@@ -106,7 +113,7 @@ const Success = props => (
         forceSelected
         color={'gray-5'}
         selectedComponent={getComponentOrder(props.path)[0]}
-        components={getComponentOrder(props.path).concat(getSubBalances())}
+        components={getComponentOrder(props.path).concat(getSubBalances(props))}
         callback={() => {}} />
     </BalanceDropdown>
   </Wrapper>

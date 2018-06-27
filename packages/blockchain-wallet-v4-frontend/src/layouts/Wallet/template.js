@@ -47,7 +47,7 @@ const Top = styled.div`
   display: flex;
   height: 115px;
   width: 100%;
-  ${media.mobile`
+  ${media.laptop`
     height: 150px;
   `}
 `

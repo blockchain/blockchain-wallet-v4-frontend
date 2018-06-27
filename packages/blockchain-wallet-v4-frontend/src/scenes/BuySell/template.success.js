@@ -16,7 +16,7 @@ const Row = styled.div`
   align-items: center;
   flex-direction: row;
   width: 100%;
-  ${media.laptop`
+  ${media.tablet`
     align-items: flex-start;
   `}
 `
@@ -24,14 +24,14 @@ const ColLeft = styled.div`
   width: 50%;
   margin-right: 5%;
   margin-top: -28px;
-  ${media.laptop`
+  ${media.tablet`
     display: none;
   `}
 `
 const ColRight = styled.div`
   width: 40%;
   margin-top: -56px;
-  ${media.laptop`
+  ${media.tablet`
     width: 100%;
     margin-top: 30px;
   `}

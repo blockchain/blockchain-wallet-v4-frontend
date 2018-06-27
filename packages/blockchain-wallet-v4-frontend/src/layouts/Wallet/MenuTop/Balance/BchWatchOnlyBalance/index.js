@@ -18,6 +18,10 @@ class BchWatchOnlyBalance extends React.PureComponent {
     this.props.actions.fetchData()
   }
 
+  componentDidUpdate () {
+    this.props.data.getOrElse() && this.props.hasBchSubBalance()
+  }
+
   handleRefresh () {
     this.props.actions.fetchData()
   }
