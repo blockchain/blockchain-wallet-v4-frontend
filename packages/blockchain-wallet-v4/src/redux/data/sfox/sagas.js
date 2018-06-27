@@ -41,6 +41,11 @@ export default ({ api, options }) => {
     }
   }
 
+  const refetchProfile = function * () {
+    const profile = yield apply(sfox, sfox.fetchProfile)
+    yield put(A.fetchProfileSuccess(profile))
+  }
+
   const fetchQuote = function * (data) {
     try {
       yield put(A.fetchQuoteLoading())
@@ -308,6 +313,7 @@ export default ({ api, options }) => {
     verifyMicroDeposits,
     handleTrade,
     handleSellTrade,
-    labelAddressForBuy
+    labelAddressForBuy,
+    refetchProfile
   }
 }
