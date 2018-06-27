@@ -9,7 +9,7 @@ import BtcWatchOnlyBalance from './BtcWatchOnlyBalance'
 import BchWatchOnlyBalance from './BchWatchOnlyBalance'
 
 import { FormattedMessage } from 'react-intl'
-import { ComponentDropdown, Separator, Text } from 'blockchain-info-components'
+import { ComponentDropdown, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
