@@ -10,6 +10,7 @@ import BchWatchOnlyBalance from './BchWatchOnlyBalance'
 
 import { FormattedMessage } from 'react-intl'
 import { ComponentDropdown, Separator, Text } from 'blockchain-info-components'
+import { path } from 'ramda'
 
 const Wrapper = styled.div`
   display: flex;
@@ -88,16 +89,17 @@ const getBalanceMessage = path => {
 }
 
 const getSubBalances = (props) => {
-  const { hasBchSubBalance, hasBtcSubBalance, btcSubBalance, bchSubBalance } = props
+  const btc = path(['val', 'btc'], props)
+  const bch = path(['val', 'bch'], props)
   return (
     <SubItems>
       {
-        !btcSubBalance && !bchSubBalance
+        !btc && !bch
           ? null
           : <Separator margin='0' />
       }
-      <BtcWatchOnlyBalance hasBtcSubBalance={hasBtcSubBalance} />
-      <BchWatchOnlyBalance hasBchSubBalance={hasBchSubBalance} />
+      <BtcWatchOnlyBalance />
+      <BchWatchOnlyBalance />
     </SubItems>
   )
 }

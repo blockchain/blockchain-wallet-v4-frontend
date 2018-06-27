@@ -18,10 +18,6 @@ class BtcWatchOnlyBalance extends React.PureComponent {
     this.props.actions.fetchData()
   }
 
-  componentDidUpdate () {
-    this.props.data.getOrElse() && this.props.hasBtcSubBalance()
-  }
-
   handleRefresh () {
     this.props.actions.fetchData()
   }
