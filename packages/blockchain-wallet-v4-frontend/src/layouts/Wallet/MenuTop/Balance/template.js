@@ -10,6 +10,7 @@ import BchWatchOnlyBalance from './BchWatchOnlyBalance'
 
 import { FormattedMessage } from 'react-intl'
 import { ComponentDropdown, Separator, Text } from 'blockchain-info-components'
+import { path } from 'ramda'
 
 const Wrapper = styled.div`
   display: flex;
@@ -87,13 +88,21 @@ const getBalanceMessage = path => {
   }
 }
 
-const getSubBalances = props => (
-  <SubItems>
-    <Separator margin='0' />
-    <BtcWatchOnlyBalance />
-    <BchWatchOnlyBalance />
-  </SubItems>
-)
+const getSubBalances = (props) => {
+  const btc = path(['val', 'btc'], props)
+  const bch = path(['val', 'bch'], props)
+  return (
+    <SubItems>
+      {
+        !btc && !bch
+          ? null
+          : <Separator margin='0' />
+      }
+      <BtcWatchOnlyBalance />
+      <BchWatchOnlyBalance />
+    </SubItems>
+  )
+}
 
 const Success = props => (
   <Wrapper>
@@ -106,7 +115,7 @@ const Success = props => (
         forceSelected
         color={'gray-5'}
         selectedComponent={getComponentOrder(props.path)[0]}
-        components={getComponentOrder(props.path).concat(getSubBalances())}
+        components={getComponentOrder(props.path).concat(getSubBalances(props))}
         callback={() => {}} />
     </BalanceDropdown>
   </Wrapper>

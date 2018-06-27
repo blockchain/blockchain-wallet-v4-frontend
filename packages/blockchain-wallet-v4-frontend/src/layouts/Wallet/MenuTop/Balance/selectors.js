@@ -28,3 +28,25 @@ export const getBchBalance = createDeepEqualSelector(
 )
 
 export const getEthBalance = selectors.core.data.ethereum.getBalance
+
+export const getWatchOnlyBalances = createDeepEqualSelector(
+  [
+    selectors.core.wallet.getUnspendableContext,
+    selectors.core.data.bitcoin.getAddresses,
+    selectors.core.kvStore.bch.getUnspendableContext,
+    selectors.core.data.bch.getAddresses
+  ],
+  (btcContext, btcAddressesR, bchContext, bchAddressesR) => {
+    const btcContextToBalances = (context, balances) => context.map(a => pathOr(0, [a, 'final_balance'], balances))
+    const bchContextToBalances = (context, balances) => context.map(a => pathOr(0, [a, 'final_balance'], balances))
+    const btcBalancesR = lift(btcContextToBalances)(Remote.of(btcContext), btcAddressesR)
+    const bchBalancesR = lift(bchContextToBalances)(Remote.of(bchContext), bchAddressesR)
+    const transform = (btcBal, bchBal) => {
+      return {
+        btc: btcBal.reduce(add, 0),
+        bch: bchBal.reduce(add, 0)
+      }
+    }
+    return lift(transform)(btcBalancesR, bchBalancesR)
+  }
+)
