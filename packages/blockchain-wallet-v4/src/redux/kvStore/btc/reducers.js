@@ -1,5 +1,8 @@
+import { assocPath, compose } from 'ramda'
+import { mapped, over } from 'ramda-lens'
 import * as AT from './actionTypes'
 import Remote from '../../../remote'
+import {KVStoreEntry} from '../../../types'
 
 // initial state should be a kvstore object
 const INITIAL_STATE = Remote.NotAsked
@@ -21,7 +24,9 @@ export default (state = INITIAL_STATE, action) => {
 
     case AT.ADD_ADDRESS_LABEL: {
       const { address, label } = payload
-      return assocPath(['address_labels', address], label, state)
+      const valueLens = compose(mapped, KVStoreEntry.value)
+      let setLabel = assocPath(['address_labels', address], label)
+      return over(valueLens, setLabel, state)
     }
 
     default:
