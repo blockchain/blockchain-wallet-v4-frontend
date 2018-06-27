@@ -1,5 +1,5 @@
 // FETCH_METADATA_BTC
-import * as AT from '../bch/actionTypes'
+import * as AT from './actionTypes'
 
 export const fetchMetadataBtc = () => ({ type: AT.FETCH_METADATA_BTC })
 export const fetchMetadataBtcLoading = () => ({ type: AT.FETCH_METADATA_BTC_LOADING })

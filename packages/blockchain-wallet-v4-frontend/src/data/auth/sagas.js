@@ -74,6 +74,7 @@ export default ({ api, coreSagas }) => {
       yield call(coreSagas.kvStore.ethereum.fetchMetadataEthereum, askSecondPasswordEnhancer)
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
       yield put(actions.router.push('/home'))
+      yield call(coreSagas.kvStore.btc.fetchMetadataBtc)
       yield put(actions.auth.loginSuccess())
       yield put(actions.auth.startLogoutTimer())
       yield put(actions.goals.runGoals())
