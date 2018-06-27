@@ -12,7 +12,9 @@ export const getLimits = (profileLimits, curr, effectiveBalance) => {
   return {
     buy: {
       min: getMin(limits, curr),
-      max: getMax(limits, curr)
+      max: getMax(limits, curr),
+      bankMax: path(['bank', 'inRemaining', curr], limits),
+      cardMax: path(['card', 'inRemaining', curr], limits)
     },
     sell: {
       min: getSellMin(limits, 'BTC'),
@@ -93,15 +95,23 @@ export const getRateFromQuote = (q) => {
 
 export const reviewOrder = {
   baseBtc: (q) => q.baseCurrency === 'BTC',
-  renderFirstRow: (q, medium) => {
-    const qAmt = Math.abs(q.quoteAmount)
-    const bAmt = Math.abs(q.baseAmount)
-    if (reviewOrder.baseBtc(q)) {
-      return `${bAmt / 1e8} BTC (${currencySymbolMap[q.quoteCurrency]}${qAmt.toFixed(2)})`
-    } else {
-      return `${qAmt / 1e8} BTC (${currencySymbolMap[q.baseCurrency]}${bAmt.toFixed(2)})`
-    }
+  getMinerFee: (q, med) => path(['paymentMediums', med, 'outFixedFees', 'BTC'], q),
+  renderFirstRow: (q) => reviewOrder.baseBtc(q) ? `${Math.abs(q.baseAmount) / 1e8} BTC` : `${Math.abs(q.quoteAmount) / 1e8} BTC`,
+  renderMinerFeeRow: (q, medium, type) => {
+    const med = type === 'sell' ? 'bank' : medium
+    const minerFee = reviewOrder.getMinerFee(q, med)
+    if (!minerFee) return `~`
+    return minerFee
   },
+  renderBtcToBeReceived: (q, medium, type) => {
+    const med = type === 'sell' ? 'bank' : medium
+    const minerFee = reviewOrder.getMinerFee(q, med)
+    const quotedBtcAmount = reviewOrder.baseBtc(q) ? Math.abs(q.baseAmount) / 1e8 : Math.abs(q.quoteAmount) / 1e8
+    if (!minerFee || !quotedBtcAmount) return `~`
+    const finalAmount = quotedBtcAmount - minerFee
+    return finalAmount.toFixed(8)
+  },
+  renderAmountRow: (q) => reviewOrder.baseBtc(q) ? `${currencySymbolMap[q.quoteCurrency]}${Currency.formatFiat(Math.abs(q.quoteAmount))}` : `${currencySymbolMap[q.baseCurrency]}${Currency.formatFiat(Math.abs(q.baseAmount))}`,
   renderFeeRow: (q, medium, type) => {
     const med = type === 'sell' ? 'bank' : medium
     const fee = path(['paymentMediums', med], q) && Math.abs(q.paymentMediums[med]['fee'])

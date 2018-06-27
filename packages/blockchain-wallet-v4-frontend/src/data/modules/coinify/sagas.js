@@ -79,6 +79,7 @@ export default ({ coreSagas }) => {
   const sell = function * () {
     try {
       yield put(A.coinifyLoading())
+      const password = yield call(promptForSecondPassword)
       const trade = yield call(coreSagas.data.coinify.sell)
 
       if (!trade) {
@@ -107,7 +108,6 @@ export default ({ coreSagas }) => {
       payment = yield payment.build()
 
       yield put(sendBtcActions.sendBtcPaymentUpdatedSuccess(payment.value()))
-      const password = yield call(promptForSecondPassword)
       payment = yield payment.sign(password)
       payment = yield payment.publish()
       yield put(sendBtcActions.sendBtcPaymentUpdatedSuccess(payment.value()))
