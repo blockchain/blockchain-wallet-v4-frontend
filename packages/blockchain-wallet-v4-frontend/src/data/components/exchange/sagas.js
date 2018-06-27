@@ -14,7 +14,7 @@ import { getCoinFromPair, getPairFromCoin, getMinimum, getMaximum,
 import { selectReceiveAddress } from '../utils/sagas'
 import utils from './sagas.utils'
 
-export default ({ api, coreSagas }) => {
+export default ({ api, coreSagas, options }) => {
   const logLocation = 'components/exchange/sagas'
   const {
     calculateEffectiveBalance,
@@ -25,7 +25,7 @@ export default ({ api, coreSagas }) => {
     selectOtherAccount,
     selectLabel,
     resetForm
-  } = utils({ api, coreSagas })
+  } = utils({ api, coreSagas, options })
 
   let pollingTradeStatusTask
 
@@ -147,10 +147,11 @@ export default ({ api, coreSagas }) => {
   const validateForm = function * () {
     try {
       yield put(A.firstStepDisabled())
-      const form = yield select(selectors.form.getFormValues('exchange'))
-      const source = prop('source', form)
-      const target = prop('target', form)
-      const sourceAmount = prop('sourceAmount', form)
+      const formValues = yield select(selectors.form.getFormValues('exchange'))
+      const source = prop('source', formValues)
+      const target = prop('target', formValues)
+      const sourceAmount = prop('sourceAmount', formValues)
+      const sourceFiat = prop('sourceFiat', formValues)
       if (isUndefinedOrEqualsToZero(sourceAmount)) {
         yield put(A.firstStepFormUnvalidated('invalid'))
         return yield put(A.firstStepEnabled())
@@ -160,11 +161,12 @@ export default ({ api, coreSagas }) => {
       const minimum = getMinimum(source.coin, pair.minimum)
       const maximum = getMaximum(source.coin, pair.maximum, effectiveBalance)
       const sourceAmountBase = convertStandardToBase(source.coin, sourceAmount)
+      const upperLimit = path(['platforms', 'web', 'shapeshift', 'config', 'upperLimit'], options) || 500
       if (isMinimumGreaterThanMaximum(minimum, maximum)) {
         yield put(A.firstStepFormUnvalidated('insufficient'))
       } else if (isAmountBelowMinimum(sourceAmountBase, minimum)) {
         yield put(A.firstStepFormUnvalidated('minimum'))
-      } else if (isAmountAboveMaximum(sourceAmountBase, maximum)) {
+      } else if (isAmountAboveMaximum(sourceAmountBase, maximum) || isAmountAboveMaximum(sourceFiat, upperLimit)) {
         yield put(A.firstStepFormUnvalidated('maximum'))
       } else {
         yield put(A.firstStepFormValidated())

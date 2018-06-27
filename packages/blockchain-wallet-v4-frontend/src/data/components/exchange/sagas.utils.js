@@ -6,7 +6,7 @@ import settings from 'config'
 import { getPairFromCoin, convertFiatToCoin, convertCoinToFiat, isUndefinedOrEqualsToZero } from './services'
 import { selectRates } from '../utils/sagas'
 
-export default ({ api, coreSagas }) => {
+export default ({ api, coreSagas, options }) => {
   const logLocation = 'components/exchange/sagas.utils'
 
   const calculateEffectiveBalance = function * (source) {
