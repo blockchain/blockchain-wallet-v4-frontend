@@ -14,9 +14,6 @@ class LoginContainer extends React.PureComponent {
     this.handleMobile = this.handleMobile.bind(this)
     this.handleSmsResend = this.handleSmsResend.bind(this)
   }
-  componentWillUnmount () {
-    this.props.formActions.destroy('login')
-  }
 
   onSubmit () {
     const { guid, password, code } = this.props
