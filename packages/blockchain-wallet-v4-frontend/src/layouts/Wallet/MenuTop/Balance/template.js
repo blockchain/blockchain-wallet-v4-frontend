@@ -65,8 +65,21 @@ const BalanceDropdown = styled.div`
 `
 const SubItems = styled.div`
   display: flex;
+  position: relative;
   align-items: flex-end;
   flex-direction: column;
+  > div:first-child {
+    margin-top: 12px;
+    &:before {
+      content: '';
+      left: 0;
+      top: 3px;
+      height: 1px;
+      width: 100%;
+      position: absolute;
+      background-color: ${props => props.theme['gray-1']};
+    }
+  }
 `
 
 const getComponentOrder = path => {
@@ -89,7 +102,6 @@ const getBalanceMessage = path => {
 
 const getSubBalances = props => (
   <SubItems>
-    <Separator margin='0' />
     <BtcWatchOnlyBalance />
     <BchWatchOnlyBalance />
   </SubItems>
