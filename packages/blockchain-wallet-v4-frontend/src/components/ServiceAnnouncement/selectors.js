@@ -1,4 +1,4 @@
-import { keys } from 'ramda'
+import { keys, prop } from 'ramda'
 import { selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 
@@ -10,7 +10,7 @@ export const getData = (state, ownProps) => createDeepEqualSelector(
   ],
   (announcementsR, announcementCachedState, language) => {
     const announcements = announcementsR.getOrElse({})
-    const announcement = announcements[ownProps.alertArea]
+    const announcement = prop(ownProps.alertArea, announcements)
     if (keys(announcement).length) {
       const announcement = announcements[ownProps.alertArea]
       const cachedState = announcementCachedState && announcementCachedState[announcement.id]

@@ -9,6 +9,7 @@ import { equals, gt, not, prop } from 'ramda'
 import { Icon, Link, Text } from 'blockchain-info-components'
 import { SelectBoxCoinifyCurrency, NumberBoxDebounced } from 'components/Form'
 import { getReasonExplanation } from 'services/CoinifyService'
+import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -19,6 +20,9 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: flex-start;
   font-family: 'Montserrat', Helvetica, sans-serif;
+  ${media.mobile`
+    height: 100px;
+  `}
 `
 const FiatConvertorInput = styled.div`
   display: flex;
@@ -27,6 +31,9 @@ const FiatConvertorInput = styled.div`
   width: 100%;
   height: 100%;
   margin-bottom: 0px;
+  ${media.mobile`
+    flex-direction: column;
+  `}
 `
 const Container = styled.div`
   position: relative;
@@ -47,11 +54,17 @@ const Unit = styled.span`
 const ArrowLeft = styled(Icon)`
   margin-left: 10px;
   color: #bbb;
+  ${media.mobile`
+    display: none;
+  `}
 `
 const ArrowRight = styled(Icon)`
   margin-left: -10px;
   margin-right: 10px;
   color: #bbb;
+  ${media.mobile`
+    display: none;
+  `}
 `
 const Error = styled(Text)`
   position: absolute;
@@ -65,6 +78,9 @@ const Error = styled(Text)`
     color: ${props => props.theme['brand-secondary']};
     cursor: pointer;
   }
+  ${media.mobile`
+    top: 100px;
+  `}
 `
 const LimitsHelper = styled.div`
   position: absolute;
@@ -80,6 +96,9 @@ const LimitsHelper = styled.div`
   span:first-of-type {
     padding-right: 5px;
   }
+  ${media.mobile`
+    top: 100px;
+  `}
 `
 const LimitsWrapper = styled.div`
   display: flex;
@@ -154,7 +173,7 @@ const FiatConvertor = (props) => {
           {
             isSell
               ? getSellLimits()
-              : equals(level, 1)
+              : equals(prop('name', level), '1')
                 ? <FormattedMessage id='buy.quote_input.remaining_buy_limit' defaultMessage='Your remaining buy limit is {max}' values={{ max: <a onClick={() => setMax(limits.max)}>{curr}{limits.max}</a> }} />
                 : <LimitsWrapper size='12px' weight={300}>
                   <FormattedMessage id='buy.quote_input.remaining_card_buy_limit' defaultMessage='Your remaining card buy limit is {cardMax}' values={{ cardMax: <a onClick={() => setMax(limits.cardMax)}>{curr}{limits.cardMax}</a> }} />
