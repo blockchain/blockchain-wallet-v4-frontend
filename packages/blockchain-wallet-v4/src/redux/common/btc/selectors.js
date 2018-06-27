@@ -111,7 +111,7 @@ export const getWalletTransactions = state => {
   // Remote(blockHeight)
   const blockHeightR = getHeight(state)
   // [Remote([tx])] == [Page] == Pages
-  const getDescription = (hash, to) => TXNotes.selectNote(hash, Wallet.selectTxNotes(wallet)) || getAddressLabel(to)(state) || ''
+  const getDescription = (hash, to) => TXNotes.selectNote(hash, Wallet.selectTxNotes(wallet)) || getAddressLabel(to, state).getOrElse('')
 
   const pages = getTransactions(state)
   // mTransformTx :: wallet -> blockHeight -> Tx
