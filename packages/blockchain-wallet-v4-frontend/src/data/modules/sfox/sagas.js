@@ -152,8 +152,8 @@ export default ({ coreSagas }) => {
   const submitSellQuote = function * (action) {
     const q = action.payload
     try {
-      yield put(A.sfoxLoading())
       const password = yield call(promptForSecondPassword)
+      yield put(A.sfoxLoading())
       const trade = yield call(coreSagas.data.sfox.handleSellTrade, q)
 
       let p = yield select(sendBtcSelectors.getPayment)
