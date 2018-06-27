@@ -10,19 +10,53 @@ import { equals, path } from 'ramda'
 
 import { Button, HeartbeatLoader, Link } from 'blockchain-info-components'
 import { Form, CancelWrapper, ColLeft, ColRight, ColRightInner, InputWrapper, PartnerHeader, PartnerSubHeader } from 'components/BuySell/Signup'
-
 import { cardOptionHelper, bankOptionHelper } from './mediumHelpers'
+import media from 'services/ResponsiveService'
 
+const PaymentForm = styled(Form)`
+  ${media.mobile`
+    flex-direction: column;
+  `}
+`
+const PaymentColLeft = styled(ColLeft)`
+  ${media.mobile`
+    width: 100%;
+  `}
+`
+const PaymentColRight = styled(ColRight)`
+  ${media.mobile`
+    width: 100%;
+  `}
+`
 const PaymentWrapper = styled.div`
   display: flex;
   flex-direction: row;
+  ${media.mobile`
+    flex-direction: column;
+    align-items: center;
+  `}
 `
 const BorderBox = styled.div`
   border: 1px solid ${props => props.theme['gray-1']};
   padding: 30px;
+  ${media.mobile`
+    padding: 20px;
+  `}
 `
 const FaqWrapper = styled.div`
   margin-top: 30px;
+`
+const ButtonContainer = styled.div`
+  margin-top: 45px;
+  ${media.mobile`
+    margin-top: 20px;
+  `}
+`
+const PaymentColRightInner = styled(ColRightInner)`
+  ${media.mobile`
+    width: 100%;
+    padding-left: 0px;
+  `}  
 `
 
 const helpers = [
@@ -38,6 +72,15 @@ const isCardDisabled = (q, l) => {
   if (q.baseCurrency === 'BTC') return Math.abs(q.quoteAmount) > l.card.inRemaining[q.quoteCurrency]
   else return Math.abs(q.baseAmount) > l.card.inRemaining[q.baseCurrency]
 }
+const isBankDisabled = (q, l, kyc) => {
+  const disableForKyc = equals(kyc, 'reviewing') || equals(kyc, 'pending') || equals(kyc, 'processing')
+  const disableForLimits = q.baseCurrency === 'BTC'
+    ? Math.abs(q.quoteAmount) > path(['bank', 'inRemaining', q.quoteCurrency], l)
+    : Math.abs(q.baseAmount) > path(['bank', 'inRemaining', q.baseCurrency], l)
+
+  if (disableForKyc) return 'disable_kyc'
+  if (disableForLimits) return 'disable_limits'
+}
 
 const Payment = (props) => {
   const { value, busy, handlePaymentClick, medium, triggerKyc, openPendingKyc, quote, handlePrefillCardMax } = props
@@ -45,15 +88,15 @@ const Payment = (props) => {
   const quoteData = path(['data'], quote)
   const kycState = path(['state'], kyc)
   const cardDisabled = isCardDisabled(quoteData, limits)
-  const bankDisabled = equals(kycState, 'reviewing') || equals(kycState, 'pending') || equals(kycState, 'processing')
+  const bankDisabled = isBankDisabled(quoteData, limits, kycState)
   if (bankDisabled && medium !== 'card') handlePaymentClick('card')
   const prefillCardMax = (limits) => handlePrefillCardMax(limits)
 
   const isChecked = (type) => medium === type
 
   return (
-    <Form>
-      <ColLeft>
+    <PaymentForm>
+      <PaymentColLeft>
         <BorderBox>
           <InputWrapper style={spacing('mb-40')}>
             <PartnerHeader>
@@ -68,18 +111,20 @@ const Payment = (props) => {
             { cardOptionHelper(quoteData, limits, isChecked('card'), handlePaymentClick, cardDisabled, prefillCardMax) }
           </PaymentWrapper>
         </BorderBox>
-      </ColLeft>
-      <ColRight>
-        <ColRightInner>
-          {
-            path(['name'], level) < 2 && medium === 'bank'
-              ? <Button nature='primary' fullwidth style={spacing('mt-45')} onClick={triggerKyc} disabled={!medium || busy}>
-                { busyHelper(busy) }
-              </Button>
-              : <StepTransition next Component={Button} style={spacing('mt-45')} nature='primary' fullwidth disabled={!medium || busy}>
-                { busyHelper(busy) }
-              </StepTransition>
-          }
+      </PaymentColLeft>
+      <PaymentColRight>
+        <PaymentColRightInner>
+          <ButtonContainer>
+            {
+              path(['name'], level) < 2 && medium === 'bank'
+                ? <Button nature='primary' fullwidth onClick={triggerKyc} disabled={!medium || busy}>
+                  {busyHelper(busy)}
+                </Button>
+                : <StepTransition next Component={Button} nature='primary' fullwidth disabled={!medium || busy}>
+                  {busyHelper(busy)}
+                </StepTransition>
+            }
+          </ButtonContainer>
           <CancelWrapper>
             <StepTransition prev Component={Link}>
               <FormattedMessage id='coinifyexchangedata.payment.cancel' defaultMessage='Cancel' />
@@ -88,9 +133,9 @@ const Payment = (props) => {
           <FaqWrapper>
             { faqHelper() }
           </FaqWrapper>
-        </ColRightInner>
-      </ColRight>
-    </Form>
+        </PaymentColRightInner>
+      </PaymentColRight>
+    </PaymentForm>
   )
 }
 

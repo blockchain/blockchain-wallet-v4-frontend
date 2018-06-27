@@ -24,7 +24,7 @@ const getErrorState = ({ touched, invalid }) => {
 }
 
 const TextBox = (field) => {
-  const { meta, input, disabled, placeholder, center, errorBottom, borderRightNone } = field
+  const { autoComplete, meta, input, disabled, placeholder, center, errorBottom, borderRightNone } = field
   const { initial, active, touched, error, warning } = meta
   const errorState = getErrorState(meta)
 
@@ -32,6 +32,7 @@ const TextBox = (field) => {
     <Container>
       <TextInput
         {...input}
+        autoComplete={autoComplete}
         borderRightNone={borderRightNone}
         active={active}
         disabled={disabled}

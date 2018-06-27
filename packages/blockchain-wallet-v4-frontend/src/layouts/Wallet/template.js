@@ -16,6 +16,8 @@ import EthMenu from '../../scenes/Transactions/Ether/Menu'
 import AddrMenu from '../../scenes/Settings/Addresses/Menu'
 import ExchangeMenu from '../Exchange'
 
+import media from 'services/ResponsiveService'
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -45,6 +47,9 @@ const Top = styled.div`
   display: flex;
   height: 115px;
   width: 100%;
+  ${media.mobile`
+    height: 150px;
+  `}
 `
 
 const WalletLayout = props => {

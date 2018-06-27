@@ -97,8 +97,8 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  modalEnhancer('RequestEther')
+  modalEnhancer('RequestEther'),
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default enhance(RequestEtherContainer)
