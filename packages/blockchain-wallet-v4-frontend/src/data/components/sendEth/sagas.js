@@ -80,7 +80,7 @@ export default ({ coreSagas }) => {
           const weiAmount = Exchange.convertEtherToEther({ value: ethAmount, fromUnit: 'ETH', toUnit: 'WEI' }).value
           payment = yield payment.amount(weiAmount)
           break
-        case 'message':
+        case 'description':
           payment = yield payment.description(payload)
           break
       }
