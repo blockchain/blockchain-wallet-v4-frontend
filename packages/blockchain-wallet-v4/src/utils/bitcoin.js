@@ -1,6 +1,6 @@
 import { selectAll } from '../coinSelection'
 import { address, networks, ECPair, Transaction } from 'bitcoinjs-lib'
-import { equals, head, or, prop, compose } from 'ramda'
+import { equals, head, or, propOr, compose } from 'ramda'
 import { decode, fromWords } from 'bech32'
 import { compile } from 'bitcoinjs-lib/src/script'
 import * as OP from 'bitcoin-ops'
@@ -160,7 +160,7 @@ export const isValidBitcoinPrivateKey = value => {
 
 export const calculateBalanceSatoshi = (coins, feePerByte) => {
   const { outputs, fee } = selectAll(feePerByte, coins)
-  const effectiveBalance = prop('value', head(outputs)) || 0
+  const effectiveBalance = propOr(0, 'value', head(outputs))
   const balance = new BigNumber(effectiveBalance).add(new BigNumber(fee))
   return { balance, fee, effectiveBalance }
 }
