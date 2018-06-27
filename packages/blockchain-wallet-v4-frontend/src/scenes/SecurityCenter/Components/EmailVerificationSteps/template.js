@@ -7,6 +7,7 @@ import { Link, Button, Text, TextGroup } from 'blockchain-info-components'
 import { SecuritySummary } from 'components/Security'
 import { TextBox } from 'components/Form'
 import { validEmailCode, required } from 'services/FormHelper'
+import media from 'services/ResponsiveService'
 
 const EmailCodeWrapper = styled.form`
   width: 100%;
@@ -15,6 +16,9 @@ const EmailCodeWrapper = styled.form`
   button {
     margin-left: 25px;
   }
+  ${media.mobile`
+    margin-bottom: 15px;
+  `}
 `
 const ErrorMessage = styled(TextGroup)`
   width: 100%;

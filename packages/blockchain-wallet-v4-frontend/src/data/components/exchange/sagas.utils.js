@@ -1,5 +1,5 @@
 import { call, put, select } from 'redux-saga/effects'
-import { equals, filter, identity, head, lift, path, prop, propEq } from 'ramda'
+import { equals, filter, identity, head, lift, path, pathOr, prop, propEq } from 'ramda'
 import * as selectors from '../../selectors'
 import * as actions from '../../actions'
 import settings from 'config'
@@ -90,7 +90,7 @@ export default ({ api, coreSagas, options }) => {
         if (isUndefinedOrEqualsToZero(sourceFiat)) return defaultResult
         const sourceAmount = convertFiatToCoin(sourceFiat, currency, sourceCoin, sourceCoin, sourceRates).value
         const quotation = yield call(api.createQuote, sourceAmount, pair, true)
-        const targetAmount = path(['success', 'withdrawalAmount'], quotation) || 0
+        const targetAmount = pathOr(0, ['success', 'withdrawalAmount'], quotation)
         const targetFiat = convertCoinToFiat(targetAmount, targetCoin, targetCoin, currency, targetRates).value
         return { sourceAmount, sourceFiat, targetAmount, targetFiat }
       }
@@ -98,7 +98,7 @@ export default ({ api, coreSagas, options }) => {
         const targetAmount = prop('targetAmount', form)
         if (isUndefinedOrEqualsToZero(targetAmount)) return defaultResult
         const quotation = yield call(api.createQuote, targetAmount, pair, false)
-        const sourceAmount = path(['success', 'depositAmount'], quotation) || 0
+        const sourceAmount = pathOr(0, ['success', 'depositAmount'], quotation)
         const sourceFiat = convertCoinToFiat(sourceAmount, sourceCoin, sourceCoin, currency, sourceRates).value
         const targetFiat = convertCoinToFiat(targetAmount, targetCoin, targetCoin, currency, targetRates).value
         return { sourceAmount, sourceFiat, targetAmount, targetFiat }
@@ -108,7 +108,7 @@ export default ({ api, coreSagas, options }) => {
         if (isUndefinedOrEqualsToZero(targetFiat)) return defaultResult
         const targetAmount = convertFiatToCoin(targetFiat, currency, targetCoin, targetCoin, targetRates).value
         const quotation = yield call(api.createQuote, targetAmount, pair, false)
-        const sourceAmount = path(['success', 'depositAmount'], quotation) || 0
+        const sourceAmount = pathOr(0, ['success', 'depositAmount'], quotation)
         const sourceFiat = convertCoinToFiat(sourceAmount, sourceCoin, sourceCoin, currency, sourceRates).value
         return { sourceAmount, sourceFiat, targetAmount, targetFiat }
       }
@@ -117,7 +117,7 @@ export default ({ api, coreSagas, options }) => {
         const sourceAmount = prop('sourceAmount', form)
         if (isUndefinedOrEqualsToZero(sourceAmount)) return defaultResult
         const quotation = yield call(api.createQuote, sourceAmount, pair, true)
-        const targetAmount = path(['success', 'withdrawalAmount'], quotation) || 0
+        const targetAmount = pathOr(0, ['success', 'withdrawalAmount'], quotation)
         const sourceFiat = convertCoinToFiat(sourceAmount, sourceCoin, sourceCoin, currency, sourceRates).value
         const targetFiat = convertCoinToFiat(targetAmount, targetCoin, targetCoin, currency, targetRates).value
         return { sourceAmount, sourceFiat, targetAmount, targetFiat }
