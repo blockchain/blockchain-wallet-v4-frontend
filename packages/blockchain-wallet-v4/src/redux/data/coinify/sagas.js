@@ -12,7 +12,7 @@ import { equals, head, prop, sort, path } from 'ramda'
 export default ({ api, options }) => {
   const getCoinify = function * () {
     const state = yield select()
-    const delegate = new ExchangeDelegate(state, api)
+    const delegate = new ExchangeDelegate(state, api, 'coinify')
     const value = yield select(buySellSelectors.getMetadata)
     const walletOptions = state.walletOptionsPath.data
     let coinify = yield apply(coinifyService, coinifyService.refresh,
@@ -27,7 +27,7 @@ export default ({ api, options }) => {
   const refreshCoinify = function * () {
     yield put(A.coinifyFetchProfileLoading())
     const state = yield select()
-    const delegate = new ExchangeDelegate(state, api)
+    const delegate = new ExchangeDelegate(state, api, 'coinify')
     const value = yield select(buySellSelectors.getMetadata)
 
     const walletOptions = state.walletOptionsPath.data

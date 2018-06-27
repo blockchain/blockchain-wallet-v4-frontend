@@ -1,16 +1,17 @@
 import Bitcoin from 'bitcoinjs-lib'
-import { and, lift, path, prop } from 'ramda'
+import { path, prop } from 'ramda'
 
 import { btc } from '../../redux/common/selectors'
 import { getDefaultAccountIndex } from '../../redux/wallet/selectors'
 
 export class ExchangeDelegate {
-  constructor (state, api) {
+  constructor (state, api, partner) {
     this._trades = []
     this._debug = false
     this.labelBase = 'Exchange order'
     this._state = state
     this._api = api
+    this._partner = partner
   }
 
   get state () {
@@ -23,6 +24,10 @@ export class ExchangeDelegate {
 
   get api () {
     return this._api
+  }
+
+  get partner () {
+    return this._partner
   }
 
   save () {
@@ -89,11 +94,9 @@ export class ExchangeDelegate {
   }
 
   reserveReceiveAddress () {
-    const getProdFlag = partner =>
-      prop('walletOptionsPath', this.state).map(path(['platforms', 'web', partner, 'config', 'production']))
-
-    const isProd = lift(and)(getProdFlag('coinify'), getProdFlag('sfox'))
-      .getOrFail('Missing coinify or sfox production flag in walletOptions')
+    const isProd = prop('walletOptionsPath', this.state)
+      .map(path(['platforms', 'web', this.partner, 'config', 'production']))
+      .getOrFail(`Missing ${this.partner} production flag in walletOptions`)
 
     let receiveAddress
     if (isProd) {
