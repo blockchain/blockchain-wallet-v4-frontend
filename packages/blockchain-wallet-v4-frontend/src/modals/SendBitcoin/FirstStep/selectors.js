@@ -26,7 +26,7 @@ export const getData = createDeepEqualSelector(
       const priorityFeePerByte = path(['fees', 'priority'], payment)
       const minFeePerByte = path(['fees', 'limits', 'min'], payment)
       const maxFeePerByte = path(['fees', 'limits', 'max'], payment)
-      const totalFee = pathOr(0, ['selection', 'fee'], payment)
+      const totalFee = pathOr('0', ['selection', 'fee'], payment)
       const effectiveBalance = prop('effectiveBalance', payment)
       const feePerByteElements =
       [{ group: '',
