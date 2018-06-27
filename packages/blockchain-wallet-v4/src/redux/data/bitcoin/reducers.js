@@ -11,7 +11,7 @@ const INITIAL_STATE = {
   transactions: [],
   transactions_fiat: {},
   unspendable_balance: Remote.NotAsked,
-  transaction_history: Remote.NotAsked,
+  transaction_history: Remote.NotAsked
 }
 
 const bitcoinReducer = (state = INITIAL_STATE, action) => {
@@ -30,11 +30,11 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
       return merge(state, data)
     }
     case AT.FETCH_BITCOIN_DATA_SUCCESS: {
-      const { addresses, info, latest_block } = payload
+      const { addresses, info, latestBlock } = payload
       const data = {
         addresses: Remote.Success(addresses),
         info: Remote.Success(info),
-        latest_block: Remote.Success(latest_block)
+        latest_block: Remote.Success(latestBlock)
       }
       return merge(state, data)
     }

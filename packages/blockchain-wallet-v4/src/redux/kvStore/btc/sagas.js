@@ -2,9 +2,10 @@ import { call, put, select } from 'redux-saga/effects'
 import { compose, isNil } from 'ramda'
 import { set } from 'ramda-lens'
 import * as A from './actions'
-import { KVStoreEntry } from '../../../types'
+import { KVStoreEntry, HDAccount, Wallet } from '../../../types'
 import { derivationMap, BTC } from '../config'
 import { getMetadataXpriv } from '../root/selectors'
+import { getWallet } from '../../wallet/selectors'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
@@ -12,30 +13,29 @@ export default ({ api }) => {
   const callTask = function * (task) {
     return yield call(compose(taskToPromise, () => task))
   }
-  
+
   const createBtc = function * (kv) {
-    const newBtcEntry = {
+    const addressLabels = {
     }
-    //const accounts = Wallet.selectHDAccounts(payload.wallet)
-    //
-    //let addressLabels = accounts.map((account) => {
-    //  const hd = accounts.get(account.index)
-    //  return account.address_labels.map((label) => ({
-    //    address: HDAccount.getReceiveAddress(hd, label.index),
-    //    label: label.label,
-    //    index: label.index
-    //  }))
-    //}).flatten().toArray()
-    //
-    //for (let i in addressLabels) {
-    //  yield put(actions.data.bitcoin.addAddressLabel(addressLabels[i].address, addressLabels[i].label))
-    //}
+
+    const wallet = yield select(getWallet)
+    const accounts = Wallet.selectHDAccounts(wallet)
+
+    accounts.map((account) => {
+      const hd = accounts.get(account.index)
+      account.address_labels.map((label) => {
+        addressLabels[HDAccount.getReceiveAddress(hd, label.index)] = label.label
+      })
+    })
+
+    const newBtcEntry = {
+      'address_labels': addressLabels
+    }
 
     const newkv = set(KVStoreEntry.value, newBtcEntry, kv)
     yield put(A.createMetadataBtc(newkv))
-    yield refetchContextData()
   }
-  
+
   const fetchMetadataBtc = function * () {
     try {
       const typeId = derivationMap[BTC]
@@ -51,13 +51,8 @@ export default ({ api }) => {
       yield put(A.fetchMetadataBtcFailure(e.message))
     }
   }
-  
-  const refetchContextData = function * () {
-    yield put(A.fetchData())
-  }
-  
+
   return {
-    fetchMetadataBtc,
-    refetchContextData
+    fetchMetadataBtc
   }
 }
