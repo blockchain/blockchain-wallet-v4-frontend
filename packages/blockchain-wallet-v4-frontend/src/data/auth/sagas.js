@@ -1,6 +1,6 @@
 import { call, put, select, take, fork } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import { path, prop, assoc } from 'ramda'
+import { path, prop, assoc, is } from 'ramda'
 import Either from 'data.either'
 
 import * as actions from '../actions.js'
@@ -14,6 +14,7 @@ export const logLocation = 'auth/sagas'
 export const defaultLoginErrorMessage = 'Error logging into your wallet'
 // TODO: make this a global error constant
 export const wrongWalletPassErrorMessage = 'wrong_wallet_password'
+export const wrongAuthCodeErrorMessage = 'Authentication code is incorrect'
 
 export default ({ api, coreSagas }) => {
   const upgradeWallet = function * () {
@@ -166,6 +167,16 @@ export default ({ api, coreSagas }) => {
         yield put(actions.auth.loginFailure())
         yield put(actions.auth.setAuthType(error.auth_type))
         yield put(actions.alerts.displayInfo(C.TWOFA_REQUIRED_INFO))
+      // Wrong password error
+      } else if (error && is(String, error) && error.includes(wrongWalletPassErrorMessage)) {
+        yield put(actions.form.clearFields('login', false, true, 'password'))
+        yield put(actions.form.focus('login', 'password'))
+        yield put(actions.auth.loginFailure(error))
+      // Wrong 2fa code error
+      } else if (error && is(String, error) && error.includes(wrongAuthCodeErrorMessage)) {
+        yield put(actions.form.clearFields('login', false, true, 'code'))
+        yield put(actions.form.focus('login', 'code'))
+        yield put(actions.auth.loginFailure(error))
       } else {
         const errorMessage =
           prop('message', error) || error || defaultLoginErrorMessage
