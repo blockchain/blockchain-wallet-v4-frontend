@@ -27,6 +27,7 @@ import microDepositsWhole from './img/micro-deposits-whole.svg'
 import printer from './img/printer.svg'
 import qrCode from './img/qr-code.png'
 import rocket from './img/rocket.gif'
+import search from './img/search.svg'
 import selectArrow from './img/select-arrow.png'
 import shapeshiftLogo from './img/shapeshift-logo.png'
 import smartphone from './img/smartphone.png'
@@ -70,6 +71,7 @@ export default {
   'printer': printer,
   'qr-code': qrCode,
   'rocket': rocket,
+  'search': search,
   'select-arrow': selectArrow,
   'sfox-logo': sfoxLogo,
   'shapeshiftLogo': shapeshiftLogo,

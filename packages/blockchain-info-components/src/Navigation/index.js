@@ -225,13 +225,19 @@ const DropdownWrap = styled.div`
 const productsList = [
   {
     title: <FormattedMessage id="header.products.wallet" defaultMessage="Wallet"/>,
-    desc: <FormattedMessage id="header.products.wallet-desc" defaultMessage="Buy and Sell Crypto"/>,
+    desc: <FormattedMessage id="header.products.wallet-desc" defaultMessage="Send, Receive, and Trade"/>,
     link: "https://blockchain.com/wallet",
     event: "header_wallet"
   },
   {
+    title: <FormattedMessage id="header.data.explorer" defaultMessage="Explorer"/>,
+    desc: <FormattedMessage id="header.data.explorer-desc" defaultMessage="Search and Verify Transactions"/>,
+    link: "https://blockchain.com/explorer",
+    event: "header_explorer"
+  },
+  {
     title: <FormattedMessage id="header.products.bps" defaultMessage="Principal Strategies"/>,
-    desc: <FormattedMessage id="header.products.bps-desc" defaultMessage="Crypto for Institutions"/>,
+    desc: <FormattedMessage id="header.products.bps-desc" defaultMessage="Institutional Portal"/>,
     link: "https://bps.blockchain.com",
     event: "header_principal"
   },
@@ -244,12 +250,6 @@ const productsList = [
 ]
 
 const dataList = [
-  {
-    title: <FormattedMessage id="header.data.explorer" defaultMessage="Explorer"/>,
-    desc: <FormattedMessage id="header.data.explorer-desc" defaultMessage="Search and Verify Transactions"/>,
-    link: "https://blockchain.com/explorer",
-    event: "header_explorer"
-  },
   {
     title: <FormattedMessage id="header.data.markets" defaultMessage="Markets"/>,
     desc: <FormattedMessage id="header.data.markets-desc" defaultMessage="Prices, Quotes, and More"/>,
@@ -530,7 +530,7 @@ class Header extends PureComponent {
                   textColor={themeObj.main}
                   placeholderColor={themeObj.placeholder}
                   className="search-default">
-                  <Image name='search' />
+                  <Image name='search' height='20px' width='20px' />
                   <input
                     onFocus={this.handleSearchFocus}
                     onBlur={this.handleSearchBlur}
