@@ -10,22 +10,24 @@ import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
 import { getCoinFromPair, getPairFromCoin, getMinimum, getMaximum,
   convertStandardToBase, isAmountBelowMinimum, isAmountAboveMaximum, isMinimumGreaterThanMaximum, calculateFinalAmount, selectFee,
-  isUndefinedOrEqualsToZero, getMinimumStandard, getMaximumStandard } from './services'
+  isUndefinedOrEqualsToZero, convertBaseToStandard } from './services'
 import { selectReceiveAddress } from '../utils/sagas'
 import utils from './sagas.utils'
 
-export default ({ api, coreSagas }) => {
+export default ({ api, coreSagas, options }) => {
   const logLocation = 'components/exchange/sagas'
   const {
     calculateEffectiveBalance,
     createPayment,
     resumePayment,
-    getShapeShiftLimits,
+    getShapeshiftMaximum,
+    getShapeshiftMinimum,
+    getRegulationLimit,
     convertValues,
     selectOtherAccount,
     selectLabel,
     resetForm
-  } = utils({ api, coreSagas })
+  } = utils({ api, coreSagas, options })
 
   let pollingTradeStatusTask
 
@@ -63,12 +65,14 @@ export default ({ api, coreSagas }) => {
 
   const minimumClicked = function * () {
     try {
-      const form = yield select(selectors.form.getFormValues('exchange'))
-      const source = prop('source', form)
-      const target = prop('target', form)
-      const pair = yield call(getShapeShiftLimits, source, target)
-      const minimum = getMinimumStandard(prop('minimum', pair))
-      yield put(actions.form.change('exchange', 'sourceAmount', minimum))
+      const formValues = yield select(selectors.form.getFormValues('exchange'))
+      const source = prop('source', formValues)
+      const target = prop('target', formValues)
+      const sourceCoin = prop('coin', source)
+      const shapeshiftMinimum = yield call(getShapeshiftMinimum, source, target)
+      const minimum = getMinimum(shapeshiftMinimum)
+      const minimumValue = convertBaseToStandard(sourceCoin, minimum)
+      yield put(actions.form.change('exchange', 'sourceAmount', minimumValue))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'minimumClicked', e))
     }
@@ -79,11 +83,13 @@ export default ({ api, coreSagas }) => {
       const form = yield select(selectors.form.getFormValues('exchange'))
       const source = prop('source', form)
       const target = prop('target', form)
-      const coin = prop('coin', source)
+      const sourceCoin = prop('coin', source)
       const effectiveBalance = yield call(calculateEffectiveBalance, source)
-      const pair = yield call(getShapeShiftLimits, source, target)
-      const maximum = getMaximumStandard(coin, prop('maximum', pair), effectiveBalance)
-      yield put(actions.form.change('exchange', 'sourceAmount', maximum))
+      const shapeshiftMaximum = yield call(getShapeshiftMaximum, source, target)
+      const regulationLimit = yield call(getRegulationLimit, source)
+      const maximum = getMaximum(shapeshiftMaximum, effectiveBalance, regulationLimit)
+      const maximumValue = convertBaseToStandard(sourceCoin, maximum)
+      yield put(actions.form.change('exchange', 'sourceAmount', maximumValue))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'maximumClicked', e))
     }
@@ -147,23 +153,28 @@ export default ({ api, coreSagas }) => {
   const validateForm = function * () {
     try {
       yield put(A.firstStepDisabled())
-      const form = yield select(selectors.form.getFormValues('exchange'))
-      const source = prop('source', form)
-      const target = prop('target', form)
-      const sourceAmount = prop('sourceAmount', form)
+      const formValues = yield select(selectors.form.getFormValues('exchange'))
+      const source = prop('source', formValues)
+      const target = prop('target', formValues)
+      const sourceAmount = prop('sourceAmount', formValues)
       if (isUndefinedOrEqualsToZero(sourceAmount)) {
         yield put(A.firstStepFormUnvalidated('invalid'))
         return yield put(A.firstStepEnabled())
       }
       const effectiveBalance = yield call(calculateEffectiveBalance, source)
-      const pair = yield call(getShapeShiftLimits, source, target)
-      const minimum = getMinimum(source.coin, pair.minimum)
-      const maximum = getMaximum(source.coin, pair.maximum, effectiveBalance)
+      const shapeshiftMinimum = yield call(getShapeshiftMinimum, source, target)
+      const shapeshiftMaximum = yield call(getShapeshiftMaximum, source, target)
+      const regulationLimit = yield call(getRegulationLimit, source)
+      const minimum = getMinimum(shapeshiftMinimum)
+      const maximum = getMaximum(shapeshiftMaximum, effectiveBalance, regulationLimit)
       const sourceAmountBase = convertStandardToBase(source.coin, sourceAmount)
+
       if (isMinimumGreaterThanMaximum(minimum, maximum)) {
         yield put(A.firstStepFormUnvalidated('insufficient'))
       } else if (isAmountBelowMinimum(sourceAmountBase, minimum)) {
         yield put(A.firstStepFormUnvalidated('minimum'))
+      } else if (isAmountAboveMaximum(sourceAmountBase, regulationLimit)) {
+        yield put(A.firstStepFormUnvalidated('regulationlimit'))
       } else if (isAmountAboveMaximum(sourceAmountBase, maximum)) {
         yield put(A.firstStepFormUnvalidated('maximum'))
       } else {
