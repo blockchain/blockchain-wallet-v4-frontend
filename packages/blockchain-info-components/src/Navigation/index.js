@@ -18,8 +18,8 @@ import throttle from "./throttle.js"
 
 const publicRuntimeConfig = {
   headerSearchURL: 'https://blockchain.com/search',
-  walletLoginURL: 'https://login.blockchain.com',
-  walletSignupURL: 'https://login.blockchain.com/signup'
+  walletLoginURL: 'https://login.blockchain.com/#/login',
+  walletSignupURL: 'https://login.blockchain.com/#/signup'
 }
 const SEARCH_URL = publicRuntimeConfig.headerSearchURL
 const HIDE_HEADER_MIN_WIDTH = 768
