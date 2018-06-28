@@ -64,7 +64,7 @@ describe('kvstore bch selectors', () => {
 
   it('getDefaultAccountIndex should return loading', () => {
     const expectedResult = Remote.Loading
-    expect(selectors.getAccounts(loadingState)).toEqual(expectedResult)
+    expect(selectors.getDefaultAccountIndex(loadingState)).toEqual(expectedResult)
   })
 
   it('getAccountLabel should return loading', () => {
