@@ -31,7 +31,7 @@ export const getMnemonic = curry((state, password) => compose(Wallet.getMnemonic
 export const getDefaultAccount = compose(HDWallet.selectDefaultAccount, getDefaultHDWallet)
 export const getDefaultAccountIndex = compose(HDWallet.selectDefaultAccountIdx, getDefaultHDWallet)
 export const getAccount = curry((index, state) => compose(HDWallet.selectAccount(index), getDefaultHDWallet)(state))
-export const getAccountXpub = curry((state, index) => compose(HDAccount.selectXpub, HDWallet.selectAccount(index), getDefaultHDWallet)(state))
+export const getAccountXpub = curry((index, state) => compose(HDAccount.selectXpub, HDWallet.selectAccount(index), getDefaultHDWallet)(state))
 export const getAccountLabel = curry((state, index) => compose(HDAccount.selectLabel, HDWallet.selectAccount(index), getDefaultHDWallet)(state))
 export const getLegacyAddressLabel = curry((state, address) => compose(ifElse(isNil, always(undefined), Address.selectLabel), AddressMap.selectAddress(address), Wallet.selectAddresses, getWallet)(state))
 export const getDefaultAccountXpub = state => getAccountXpub(state, getDefaultAccountIndex(state))

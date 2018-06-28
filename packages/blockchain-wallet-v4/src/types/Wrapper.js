@@ -1,4 +1,4 @@
-import { is, curry, lensProp, pipe, compose, assoc, dissoc, prop, map } from 'ramda'
+import { is, curry, lensProp, pipe, compose, assoc, dissoc, prop } from 'ramda'
 import { traverseOf, view, over, set } from 'ramda-lens'
 import Either from 'data.either'
 import Task from 'data.task'
@@ -7,8 +7,6 @@ import * as crypto from '../walletCrypto'
 import Type from './Type'
 import * as Wallet from './Wallet'
 import * as Options from './Options'
-import * as Address from './Address'
-import * as AddressMap from './AddressMap'
 
 /* Wrapper :: {
   wallet             :: Wallet
@@ -129,8 +127,7 @@ export const toEncJSON = wrapper => {
     sharedKey: compose(Wallet.selectSharedKey, selectWallet)(wrapper),
     payload: selectWallet(wrapper),
     old_checksum: selectPayloadChecksum(wrapper),
-    language: selectLanguage(wrapper),
-    active: 'put active from v3 wallet here'
+    language: selectLanguage(wrapper)
   }
   const encrypt = Wallet.toEncryptedPayload(selectPassword(wrapper), selectPbkdf2Iterations(wrapper) || 5000)
   const hash = (x) => crypto.sha256(x).toString('hex')
