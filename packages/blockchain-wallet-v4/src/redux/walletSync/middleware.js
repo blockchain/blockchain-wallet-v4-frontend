@@ -1,18 +1,44 @@
 import { futurizeP } from 'futurize'
 import Task from 'data.task'
-import { compose } from 'ramda'
+import { compose, assoc, join, pipe, curry, map, range, identity, converge, add, keysIn } from 'ramda'
+import { networks } from 'bitcoinjs-lib'
 
 import * as A from '../actions'
 import * as T from '../actionTypes'
-import { Wrapper } from '../../types'
+import { Wrapper, HDAccount, Wallet } from '../../types'
 import * as selectors from '../selectors'
 
+const getHDAccountAddresses = curry((state, account) => {
+  const xpub = selectors.wallet.getAccountXpub(account.index, state)
+  return selectors.data.bitcoin.getReceiveIndex(xpub, state)
+    .map(pipe(
+      converge(range, [identity, add(20)]),
+      map((index) => HDAccount.getReceiveAddress(
+        account,
+        index,
+        networks.bitcoin.NETWORK_BITCOIN
+      ))
+    ))
+    .getOrElse([])
+})
+
+const getWalletAddresses = state => {
+  const activeAddresses = keysIn(selectors.wallet.getActiveAddresses(state))
+  const hdAccounts = compose(Wallet.selectHDAccounts, selectors.wallet.getWallet)(state)
+  const hdAddresses = hdAccounts.flatMap(getHDAccountAddresses(state)).toJS()
+
+  return activeAddresses.concat(hdAddresses)
+}
+
 const walletSync = ({ isAuthenticated, api } = {}) => (store) => (next) => (action) => {
-  const prevWallet = selectors.wallet.getWrapper(store.getState())
-  const wasAuth = isAuthenticated(store.getState())
+  const prevState = store.getState()
+  const prevWallet = selectors.wallet.getWrapper(prevState)
+  const wasAuth = isAuthenticated(prevState)
   const result = next(action)
-  const nextWallet = selectors.wallet.getWrapper(store.getState())
-  const isAuth = isAuthenticated(store.getState())
+
+  const state = store.getState()
+  const nextWallet = selectors.wallet.getWrapper(state)
+  const isAuth = isAuthenticated(state)
   const promiseToTask = futurizeP(Task)
 
   // Easily know when to sync, because of ✨immutable✨ data
@@ -26,6 +52,7 @@ const walletSync = ({ isAuthenticated, api } = {}) => (store) => (next) => (acti
 
   const sync = (apiCall) =>
     Wrapper.toEncJSON(nextWallet)
+      .map(assoc('active', join('|', getWalletAddresses(state))))
       .map(handleChecksum)
       .chain(promiseToTask(apiCall))
       .fork(
