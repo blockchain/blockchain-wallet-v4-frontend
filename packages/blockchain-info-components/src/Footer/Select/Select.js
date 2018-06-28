@@ -34,9 +34,10 @@ const SelectElement = styled.select`
 `
 
 class Select extends PureComponent {
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
     this.state = { value: null }
+    this.onChange = this.onChange.bind(this)
   }
 
   static getDerivedStateFromProps (nextProps, prevState) {
@@ -76,7 +77,7 @@ class Select extends PureComponent {
     return (
       <SelectElement transparent={this.props.transparent}
         value={this.state.value || this.props.value}
-        onChange={this.onChange}>
+        onChange={this.onChange.bind(this)}>
         {options}
       </SelectElement>
     )

@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react'
 import styled, { injectGlobal } from 'styled-components'
+import Cookies from 'universal-cookie'
 
 import { Image } from '../Images'
-import { Select } from '../Select'
+import { Select } from './Select'
 import Normalize8 from '../Normalize.js'
 
 injectGlobal`
@@ -201,7 +202,52 @@ const BlueLogo = styled(Image)`
   margin-bottom: 20px;
 `
 
+let supportedLanguages = {
+  'da': 'Danish',
+  'de': 'German',
+  'en': 'English',
+  'es': 'Spanish',
+  'fr': 'French'
+}
+
+let langItems = Object.keys(supportedLanguages).map(
+  langKey => {
+    return {
+      text: supportedLanguages[langKey],
+      value: langKey
+    }
+  }
+)
+
 class Footer extends PureComponent {
+  constructor (props) {
+    super(props)
+    this.cookies = new Cookies()
+
+    this.lang = this.cookies.get('clang')
+
+    let langPathMatch = window.location.pathname.match(/^\/([a-z]{2})\//)
+    let langPath = langPathMatch && langPathMatch[1]
+    if (langPath && langPath in supportedLanguages) {
+      this.lang = langPath
+    }
+
+    this.handleDropdown = this.handleDropdown.bind(this)
+  }
+
+  handleDropdown (value) {
+    let toLocation = window.location
+    let langPathMatch = window.location.pathname.match(/^\/([a-z]{2})\/(.*)/)
+    let langPath = langPathMatch && langPathMatch[1]
+    if (langPath && langPath in supportedLanguages) {
+      toLocation = '/' + value + '/' + langPathMatch[2]
+    }
+    window.setTimeout(() => {
+      // trigger page refresh
+      window.location.href = toLocation
+    }, 1)
+  }
+
   render () {
     let { base } = this.props
     base = base || 'https://blockchain.com'
@@ -303,9 +349,9 @@ class Footer extends PureComponent {
           </SiteNav>
           <LangNav>
             <Select transparent
-              value={this.props.lang}
-              onChange={this.props.handleDropdown}
-              items={this.props.langItems || []}
+              items={langItems}
+              value={this.lang}
+              onChange={this.handleDropdown}
             />
             <SocialLinksWrap>
               <SocialLinks href='https://twitter.com/blockchain'>
