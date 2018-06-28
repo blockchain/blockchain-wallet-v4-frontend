@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect'
 import { selectors } from 'data'
 import { all, curry, isEmpty, propSatisfies, toUpper, prop, allPass, anyPass, compose, contains, map, filter, propOr } from 'ramda'
+import { hasAccount } from 'services/ExchangeService'
 
 const filterTransactions = curry((status, criteria, transactions) => {
   const isOfType = curry((filter, tx) => propSatisfies(x => filter === '' || toUpper(x) === toUpper(filter), 'type', tx))
@@ -14,21 +15,26 @@ export const getData = createSelector(
   [
     selectors.form.getFormValues('btcTransactions'),
     selectors.core.common.btc.getWalletTransactions,
-    selectors.core.kvStore.shapeShift.getTrades
+    selectors.core.kvStore.shapeShift.getTrades,
+    selectors.core.kvStore.buySell.getSfoxTrades,
+    selectors.core.kvStore.buySell.getMetadata
   ],
-  (formValues, pages, trades) => {
+  (formValues, pages, trades, sfoxTrades, buysellMetadata) => {
     const empty = (page) => isEmpty(page.data)
     const search = propOr('', 'search', formValues)
     const status = propOr('', 'status', formValues)
     const filteredPages = !isEmpty(pages)
       ? pages.map(map(filterTransactions(status, search)))
       : []
+    const partnerData = prop('value', buysellMetadata.getOrElse())
 
     return {
       pages: filteredPages,
       empty: all(empty)(filteredPages),
       search: search.length > 0 || status !== '',
-      shiftTrades: trades.getOrElse([])
+      shiftTrades: trades.getOrElse([]),
+      buysellTrades: sfoxTrades,
+      buysellPartner: hasAccount(partnerData)
     }
   }
 )
