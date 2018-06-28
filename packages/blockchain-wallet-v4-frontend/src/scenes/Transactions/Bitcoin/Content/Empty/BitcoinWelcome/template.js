@@ -66,7 +66,7 @@ const BitcoinWelcome = props => {
         <Row>
           <Cell small>
             <Text size='24px' weight={300} color='brand-primary' uppercase>
-              <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.welcome' defaultMessage='Welcome to' />
+              <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.welcometo' defaultMessage='Welcome to' />
             </Text>
             <Text size='24px' weight={300} color='brand-primary' uppercase>
               Bitcoin

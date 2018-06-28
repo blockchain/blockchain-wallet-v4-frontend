@@ -2095,6 +2095,10 @@
         "id": "sfoxexchangedata.create.createaccount.partner.edit"
       },
       {
+        "defaultMessage": "edit email",
+        "id": "sfoxexchangedata.create.createaccount.partner.editemail"
+      },
+      {
         "defaultMessage": "Unfortunately this email is being used for another account.",
         "id": "coinifyexchangedata.create.accept.error1"
       },
@@ -2259,8 +2263,12 @@
         "id": "coinifyexchangedata.payment.mediumhelpers.bank"
       },
       {
+        "defaultMessage": "The quoted amount is more than your current bank limit.",
+        "id": "scenes.buysell.coinifyexchangedata.payment.bank.unavailable_limits"
+      },
+      {
         "defaultMessage": "Bank transfers are unavailable until Identity Verification has been finished.",
-        "id": "scenes.buysell.coinifyexchangedata.payment.bank.unavailable"
+        "id": "scenes.buysell.coinifyexchangedata.payment.bank.unavailable_kyc"
       },
       {
         "defaultMessage": "Finish Identity Verification",
@@ -3548,8 +3556,16 @@
         "id": "sfoxexchangedata.create.createaccount.partner.edit"
       },
       {
+        "defaultMessage": "edit email",
+        "id": "sfoxexchangedata.create.createaccount.partner.editemail"
+      },
+      {
         "defaultMessage": "Verified Phone Number",
         "id": "sfoxexchangedata.create.createaccount.partner.verifiedmobile"
+      },
+      {
+        "defaultMessage": "edit mobile",
+        "id": "sfoxexchangedata.create.createaccount.partner.editmobile"
       },
       {
         "defaultMessage": "Unfortunately this email is being used for another account.",
@@ -4764,7 +4780,7 @@
       },
       {
         "defaultMessage": "Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order.",
-        "id": "scenes.buysell.coinifycheckout.content.orderreview.buy.revieworder.subtext"
+        "id": "scenes.buysell.coinifycheckout.content.orderreview.buy.revieworder.subPartnerSubHeader"
       },
       {
         "defaultMessage": "Exchange Rate",
@@ -4777,6 +4793,18 @@
       {
         "defaultMessage": "BTC Amount to Sell",
         "id": "orderdetails.amounttosell"
+      },
+      {
+        "defaultMessage": "BTC Transaction Fee",
+        "id": "orderdetails.btctransactionfee"
+      },
+      {
+        "defaultMessage": "BTC to be Received",
+        "id": "orderdetails.btctobereceived"
+      },
+      {
+        "defaultMessage": "Amount",
+        "id": "orderdetails.amount"
       },
       {
         "defaultMessage": "Trading Fee",
@@ -4886,6 +4914,14 @@
       {
         "defaultMessage": "Your remaining buy limit is {max}",
         "id": "buy.quote_input.remaining_buy_limit"
+      },
+      {
+        "defaultMessage": "Your remaining card buy limit is {cardMax}",
+        "id": "buy.quote_input.remaining_card_buy_limit"
+      },
+      {
+        "defaultMessage": "Your remaining bank buy limit is {bankMax}",
+        "id": "buy.quote_input.remaining_bank_buy_limit"
       },
       {
         "defaultMessage": "Increase your limit.",
@@ -6138,7 +6174,7 @@
         "id": "scenes.login.explain"
       },
       {
-        "defaultMessage": "Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, IE 11, or Opera.",
+        "defaultMessage": "Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, Edge, or Opera.",
         "id": "scenes.login.browserwarning"
       },
       {
@@ -7050,6 +7086,10 @@
   },
   {
     "descriptors": [
+      {
+        "defaultMessage": "Verified Email",
+        "id": "scenes.securitycenter.steps.step1mobile"
+      },
       {
         "defaultMessage": "Verified Email Address",
         "id": "scenes.securitycenter.steps.step1"
@@ -8155,7 +8195,7 @@
     "descriptors": [
       {
         "defaultMessage": "Welcome to",
-        "id": "scenes.transaction.bitcoin.content.empty.bitcoinwelcome.welcome"
+        "id": "scenes.transaction.bitcoin.content.empty.bitcoinwelcome.welcometo"
       },
       {
         "defaultMessage": "Learn More",

@@ -16,6 +16,12 @@ const Wrapper = styled.div`
   > * { margin-left: 2px; }
 `
 
+export const AboveRegulationLimitMessage = (regulationLimit) => (
+  <Text size='12px' weight={300} color='error'>
+    <FormattedMessage id='modals.exchange.abovelimitmessage' defaultMessage='Please enter an amount less than the limit.' />
+  </Text>
+)
+
 export const MaximumAmountMessage = () => (
   <Wrapper>
     <Text size='12px' weight={300} color='error'>
