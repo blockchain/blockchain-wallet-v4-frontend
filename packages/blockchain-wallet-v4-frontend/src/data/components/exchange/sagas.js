@@ -173,6 +173,8 @@ export default ({ api, coreSagas, options }) => {
         yield put(A.firstStepFormUnvalidated('insufficient'))
       } else if (isAmountBelowMinimum(sourceAmountBase, minimum)) {
         yield put(A.firstStepFormUnvalidated('minimum'))
+      } else if (isAmountAboveMaximum(sourceAmountBase, regulationLimit)) {
+        yield put(A.firstStepFormUnvalidated('regulationlimit'))
       } else if (isAmountAboveMaximum(sourceAmountBase, maximum)) {
         yield put(A.firstStepFormUnvalidated('maximum'))
       } else {
