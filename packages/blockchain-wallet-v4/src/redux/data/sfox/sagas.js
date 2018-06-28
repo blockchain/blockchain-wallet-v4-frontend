@@ -89,7 +89,7 @@ export default ({ api, options }) => {
       yield put(A.fetchTradesLoading())
 
       const kvTrades = yield select(buySellSelectors.getSfoxTrades)
-      const numberOfTrades = kvTrades.length
+      const numberOfTrades = kvTrades.getOrElse([]).length
       const trades = yield apply(sfox, sfox.getTrades, [numberOfTrades])
       yield put(A.fetchTradesSuccess(trades))
     } catch (e) {
@@ -248,7 +248,7 @@ export default ({ api, options }) => {
       const kvTrades = yield select(buySellSelectors.getSfoxTrades)
 
       // prepend new trade
-      const newTrades = prepend(trade, kvTrades)
+      const newTrades = prepend(trade, kvTrades.getOrElse([]))
 
       // set new trades to metadata
       yield put(buySellA.setSfoxTradesBuySell(newTrades))
@@ -286,7 +286,7 @@ export default ({ api, options }) => {
 
       // get current kvstore trades, add new trade and set new trades to metadata
       const kvTrades = yield select(buySellSelectors.getSfoxTrades)
-      const newTrades = prepend(trade, kvTrades)
+      const newTrades = prepend(trade, kvTrades.getOrElse([]))
       yield put(buySellA.setSfoxTradesBuySell(newTrades))
 
       return trade

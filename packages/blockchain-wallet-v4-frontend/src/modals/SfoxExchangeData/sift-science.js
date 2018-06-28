@@ -36,19 +36,19 @@ class SiftScience extends Component {
   render () {
     const { options, userId, siftScienceEnabled, trades } = this.props
 
+    if (!userId) {
+      return null
+    }
+
     const sortByCreated = sortBy(prop('createdAt'))
     const sortedTrades = reverse(sortByCreated(trades))
-    const tradeId = path(['id'], head(sortedTrades))
-    const walletOptions = options || path(['data'], this.props.walletOptions)
+    const tradeId = prop('id', head(sortedTrades))
+    const walletOptions = options || prop('data', this.props.walletOptions)
     const helperDomain = path(['domains', 'walletHelper'], walletOptions)
     const sfoxSiftScience = path(['platforms', 'web', 'sfox', 'config', 'siftScience'], walletOptions)
 
     let url = `${helperDomain}/wallet-helper/sift-science/#/key/${sfoxSiftScience}/user/${userId}`
     url += tradeId ? `/trade/${tradeId}` : ''
-
-    if (!userId) {
-      return null
-    }
 
     if (siftScienceEnabled) {
       return (
@@ -65,7 +65,7 @@ class SiftScience extends Component {
 
 const mapStateToProps = (state) => ({
   walletOptions: path(['walletOptionsPath'], state),
-  userId: selectors.core.kvStore.buySell.getSfoxUser(state),
+  userId: selectors.core.kvStore.buySell.getSfoxUser(state).getOrElse(undefined),
   siftScienceEnabled: path(['sfoxSignup', 'siftScienceEnabled'], state),
   trades: selectors.core.data.sfox.getTrades(state).getOrElse([])
 })
