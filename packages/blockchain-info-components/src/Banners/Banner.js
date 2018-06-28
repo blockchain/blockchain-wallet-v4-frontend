@@ -17,7 +17,7 @@ const Container = styled.div`
   -webkit-font-smoothing: antialiased;
   width: ${props => props.width ? props.width : `initial`};
   margin-left: ${props => props.inline && !props.label ? '5px' : '0px'};
-  padding: ${props => props.inline || props.label ? '3px 5px' : '5px 10px'};
+  padding: ${props => props.inline || props.label || props.partnerLabel ? '3px 5px' : '5px 10px'};
   & > span:first-child { margin-right: ${props => props.inline ? '3px' : '5px'} };
 `
 
@@ -40,12 +40,12 @@ const selectStyle = type => {
 }
 
 const Banner = props => {
-  const { type, children, inline, label, width } = props
+  const { type, children, inline, label, partnerLabel, width } = props
   const style = selectStyle(type)
   const { color, uppercase, icon } = style
 
   return (
-    <Container color={color} width={width} inline={inline} label={label}>
+    <Container color={color} width={width} inline={inline} label={label} partnerLabel={partnerLabel}>
       { icon && <Icon name={icon} size='18px' weight={700} color={color} /> }
       <BannerContent size='12px' weight={400} color={color} uppercase={uppercase} inline={inline}>
         { children }

@@ -11,6 +11,7 @@ import Description from './Description'
 import Confirmations from './Confirmations'
 import FiatAtTime from './FiatAtTime'
 import Status from './Status'
+import PartnerLabel from './PartnerLabel'
 import media from 'services/ResponsiveService'
 import { prop } from 'ramda'
 
@@ -128,6 +129,7 @@ const TransactionListItem = (props) => {
               </Banner>
             </BannerWrapper>
           )}
+          <PartnerLabel txHash={transaction.hash} shiftTrades={shiftTrades} />
         </StatusColumn>
         <DetailsColumn>
           <Addresses to={transaction.to} from={transaction.from} inputs={transaction.inputs} outputs={transaction.outputs} coin={coin} />
