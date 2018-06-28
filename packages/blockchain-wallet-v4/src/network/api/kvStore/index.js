@@ -12,7 +12,7 @@ export default ({ apiUrl }) => {
       } else if (method === 'GET' && response.status === 404) {
         return null
       } else {
-        return response.json().then(Promise.reject.bind(Promise))
+        return response.text().then(Promise.reject.bind(Promise))
       }
     }
 
