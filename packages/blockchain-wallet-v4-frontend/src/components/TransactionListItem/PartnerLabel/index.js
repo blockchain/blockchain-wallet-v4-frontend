@@ -17,7 +17,7 @@ const PartnerLabel = props => {
     if (trade.hashOut === txHash) return 'shift-receive'
   })
   const isShift = (match) => match === 'shift-deposit' || match === 'shift-receive'
-  console.log('shiftMatch', isShift, shiftMatch)
+
   if (any(isShift)(shiftMatch)) {
     return (
       <LabelContainer mobileSize='14px' size='16px' weight={500} color={props.type} uppercase>

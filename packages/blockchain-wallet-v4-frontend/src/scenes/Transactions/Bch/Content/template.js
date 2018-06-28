@@ -17,7 +17,7 @@ const Success = props => {
     <Wrapper>
       {props.empty
         ? props.search ? <EmptyTx /> : <Empty />
-        : props.pages.map((value, index) => <Pages key={index} data={value} onRefresh={props.onRefresh} />)
+        : props.pages.map((value, index) => <Pages key={index} data={value} onRefresh={props.onRefresh} shiftTrades={props.shiftTrades} />)
       }
     </Wrapper>
   )
