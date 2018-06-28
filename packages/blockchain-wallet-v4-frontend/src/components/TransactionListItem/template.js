@@ -113,8 +113,8 @@ const dateHelper = (time) => {
 }
 
 const TransactionListItem = (props) => {
-  const { handleCoinToggle, transaction, handleEditDescription, coin, minConfirmations, shiftTrades } = props
-  if (transaction.description === 'should be shift') console.log('TX:', transaction, shiftTrades)
+  const { handleCoinToggle, transaction, handleEditDescription, coin, minConfirmations, shiftTrades, buysellTrades, buysellPartner } = props
+  const hasLabel = prop('length', shiftTrades) || prop('length', buysellTrades)
 
   return (
     <TransactionRowContainer>
@@ -129,7 +129,11 @@ const TransactionListItem = (props) => {
               </Banner>
             </BannerWrapper>
           )}
-          <PartnerLabel txHash={transaction.hash} shiftTrades={shiftTrades} />
+          {
+            hasLabel
+              ? <PartnerLabel txHash={transaction.hash} txType={transaction.type} shiftTrades={shiftTrades} buysellTrades={buysellTrades} buysellPartner={buysellPartner} />
+              : null
+          }
         </StatusColumn>
         <DetailsColumn>
           <Addresses to={transaction.to} from={transaction.from} inputs={transaction.inputs} outputs={transaction.outputs} coin={coin} />
