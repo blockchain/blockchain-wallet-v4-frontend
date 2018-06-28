@@ -44,6 +44,11 @@ class LinkContainer extends Component {
     }
   }
 
+  componentWillUnmount () {
+    this.props.updateUI({ toggleManual: false, selectBank: false, microDeposits: false, microStep: 'welcome', busy: false })
+    this.props.sfoxDataActions.wipeBankAccounts()
+  }
+
   onSetBankAccount (data) {
     const bankChoice = merge(data, {token: this.state.token})
     this.props.sfoxFrontendActions.setBankAccount(bankChoice)
