@@ -1,4 +1,4 @@
-import { call, put, select, fork } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 import { compose, isNil } from 'ramda'
 import { delay } from 'redux-saga'
 import { set } from 'ramda-lens'
@@ -29,11 +29,6 @@ export default ({ api }) => {
         addressLabels[HDAccount.getReceiveAddress(hd, label.index)] = label.label
       })
     })
-    
-    //let a = []
-    //for (let i =0; i <200; i++ ) {
-    //  a.push(HDAccount.getReceiveAddress(accounts.get(0), i))
-    //}
 
     const newBtcEntry = {
       'address_labels': addressLabels
@@ -54,9 +49,8 @@ export default ({ api }) => {
     accounts.map((account) => account.address_labels).map((l) => {
       labelSize += l.size
     })
-    
-    // return labelSize
-    return labelSize + 100
+
+    return labelSize
   }
 
   const fetchMetadataBtc = function * () {
@@ -66,9 +60,9 @@ export default ({ api }) => {
       const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId)
       yield put(A.fetchMetadataBtcLoading())
       const newkv = yield callTask(api.fetchKVStore(kv))
-      //if (isNil(newkv.value)) {
+      if (isNil(newkv.value)) {
         return yield call(getAddressLabelSize)
-      //}
+      }
       yield put(A.fetchMetadataBtcSuccess(newkv))
       return false
     } catch (e) {
