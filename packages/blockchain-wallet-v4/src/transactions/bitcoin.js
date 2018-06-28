@@ -167,7 +167,7 @@ export const getTime = tx => {
     : date.format('MMMM D YYYY @ h:mm A')
 }
 
-export const _transformTx = (wallet, currentBlockHeight, getDescription, tx) => {
+export const _transformTx = (wallet, currentBlockHeight, getDescription, meta, tx) => {
   const conf = currentBlockHeight - tx.block_height + 1
   const confirmations = conf > 0 ? conf : 0
   const type = txtype(tx.result, tx.fee)

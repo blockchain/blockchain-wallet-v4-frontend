@@ -117,7 +117,7 @@ export const getWalletTransactions = state => {
   // mTransformTx :: wallet -> blockHeight -> Tx
   // ProcessPage :: wallet -> blockHeight -> [Tx] -> [Tx]
   const ProcessTxs = (wallet, block, txList) =>
-    map(mTransformTx.bind(undefined, wallet, block, getDescription), txList)
+    map(mTransformTx.bind(undefined, wallet, block, getDescription, undefined), txList)
   // ProcessRemotePage :: Page -> Page
   const ProcessPage = lift(ProcessTxs)(walletR, blockHeightR)
   const txs = map(ProcessPage, pages)
