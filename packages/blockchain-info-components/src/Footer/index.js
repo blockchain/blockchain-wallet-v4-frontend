@@ -238,9 +238,10 @@ class Footer extends PureComponent {
   handleDropdown (value) {
     let toLocation = window.location
     let langPathMatch = window.location.pathname.match(/^\/([a-z]{2})\/(.*)/)
-    let langPath = langPathMatch && langPathMatch[1]
-    if (langPath && langPath in supportedLanguages) {
+    if (langPathMatch && langPathMatch[1] in supportedLanguages) {
       toLocation = '/' + value + '/' + langPathMatch[2]
+    } else {
+      toLocation = '/' + value
     }
     window.setTimeout(() => {
       // trigger page refresh
