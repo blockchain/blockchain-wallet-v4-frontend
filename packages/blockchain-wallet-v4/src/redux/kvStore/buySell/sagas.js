@@ -34,7 +34,7 @@ export default ({ api }) => {
       }
     }
     const newkv = set(KVStoreEntry.value, newBuysellEntry, kv)
-    yield put(A.createMetadataBuysell(newkv))
+    yield put(A.createMetadataBuySell(newkv))
   }
 
   const fetchMetadataBuySell = function * () {
