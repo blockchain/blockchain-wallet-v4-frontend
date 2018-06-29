@@ -9,6 +9,9 @@ import { Banner } from 'blockchain-info-components'
 const LabelContainer = styled.div`
   margin-top: 5px;
 `
+const PartnerBanner = styled(Banner)`
+  padding: 3px 5px;
+`
 
 const PartnerLabel = props => {
   const { txHash, txType, shiftTrades, buysellTrades, buysellPartner } = props
@@ -19,7 +22,7 @@ const PartnerLabel = props => {
   })
   const isShift = (match) => match === 'shift-deposit' || match === 'shift-receive'
 
-  const buysellMatch = buysellTrades.map(trade => {
+  const buysellMatch = buysellTrades && buysellTrades.map(trade => {
     if (trade.tx_hash === txHash) {
       if (txType === 'sent') return 'sold-via'
       if (txType === 'received') return 'bought-via'
@@ -30,18 +33,18 @@ const PartnerLabel = props => {
   if (any(isShift)(shiftMatch)) {
     return (
       <LabelContainer mobileSize='14px' size='16px' weight={500} color={props.type} uppercase>
-        <Banner partnerLabel>
+        <PartnerBanner>
           {
             contains('shift-deposit', shiftMatch)
               ? <FormattedMessage id='components.txlistitem.partnerlabel.depositedshapeshift' defaultMessage='ShapeShift Deposit' />
               : <FormattedMessage id='components.txlistitem.partnerlabel.receivedshapeshift' defaultMessage='Received from ShapeShift' />
           }
-        </Banner>
+        </PartnerBanner>
       </LabelContainer>
     )
   }
 
-  if (any(isBuysell)(buysellMatch)) {
+  if (buysellTrades && any(isBuysell)(buysellMatch)) {
     return (
       <LabelContainer mobileSize='14px' size='16px' weight={500} color={props.type} uppercase>
         <Banner partnerLabel>
