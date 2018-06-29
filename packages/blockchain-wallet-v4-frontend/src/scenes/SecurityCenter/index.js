@@ -17,6 +17,10 @@ class SecurityCenterContainer extends React.PureComponent {
     this.state = { enabling: false, editing: false, viewing: 'security' }
   }
 
+  componentWillUnmount () {
+    this.onClose()
+  }
+
   handleEnable (step) {
     this.setState({ enabling: step })
   }

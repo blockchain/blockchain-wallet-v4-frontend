@@ -1,6 +1,6 @@
 import { call, put, select, take, fork } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import { path, prop, assoc } from 'ramda'
+import { path, prop, assoc, is } from 'ramda'
 import Either from 'data.either'
 
 import * as actions from '../actions.js'
@@ -14,6 +14,11 @@ export const logLocation = 'auth/sagas'
 export const defaultLoginErrorMessage = 'Error logging into your wallet'
 // TODO: make this a global error constant
 export const wrongWalletPassErrorMessage = 'wrong_wallet_password'
+export const guidNotFound2faErrorMessage = 'Wallet Identifier Not Found'
+export const notEnabled2faErrorMessage = 'Error: Two factor authentication not enabled.'
+export const emailMismatch2faErrorMessage = 'Error: Email entered does not match the email address associated with this wallet'
+export const wrongCaptcha2faErrorMessage = 'Error: Captcha Code Incorrect'
+export const wrongAuthCodeErrorMessage = 'Authentication code is incorrect'
 
 export default ({ api, coreSagas }) => {
   const upgradeWallet = function * () {
@@ -63,7 +68,7 @@ export default ({ api, coreSagas }) => {
       // If needed, the user should upgrade its wallet before being able to open the wallet
       let isHdWallet = yield select(selectors.core.wallet.isHdWallet)
       if (!isHdWallet) {
-        yield upgradeWalletSaga()
+        yield call(upgradeWalletSaga)
       }
       yield put(actions.auth.authenticate())
       yield put(actions.middleware.webSocket.bch.startSocket())
@@ -166,6 +171,16 @@ export default ({ api, coreSagas }) => {
         yield put(actions.auth.loginFailure())
         yield put(actions.auth.setAuthType(error.auth_type))
         yield put(actions.alerts.displayInfo(C.TWOFA_REQUIRED_INFO))
+      // Wrong password error
+      } else if (error && is(String, error) && error.includes(wrongWalletPassErrorMessage)) {
+        yield put(actions.form.clearFields('login', false, true, 'password'))
+        yield put(actions.form.focus('login', 'password'))
+        yield put(actions.auth.loginFailure(error))
+      // Wrong 2fa code error
+      } else if (error && is(String, error) && error.includes(wrongAuthCodeErrorMessage)) {
+        yield put(actions.form.clearFields('login', false, true, 'code'))
+        yield put(actions.form.focus('login', 'code'))
+        yield put(actions.auth.loginFailure(error))
       } else {
         const errorMessage =
           prop('message', error) || error || defaultLoginErrorMessage
@@ -199,7 +214,7 @@ export default ({ api, coreSagas }) => {
       yield call(loginRoutineSaga, false, true)
       yield put(actions.auth.registerSuccess())
     } catch (e) {
-      yield put(actions.auth.registerFailure(e))
+      yield put(actions.auth.registerFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'register', e))
       yield put(actions.alerts.displayError(C.REGISTER_ERROR))
     }
@@ -253,17 +268,17 @@ export default ({ api, coreSagas }) => {
       yield put(actions.auth.reset2faFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'reset2fa', e))
       switch (e.toString()) {
-        case 'Wallet Identifier Not Found': {
+        case guidNotFound2faErrorMessage: {
           return yield put(actions.alerts.displayError(C.TWOFA_RESET_UNKNOWN_GUID_ERROR))
         }
-        case 'Error: Two factor authentication not enabled.': {
+        case notEnabled2faErrorMessage: {
           yield put(actions.router.push('/login'))
           return yield put(actions.alerts.displayError(C.TWOFA_RESET_NOT_ENABLED_ERROR))
         }
-        case 'Error: Email entered does not match the email address associated with this wallet': {
+        case emailMismatch2faErrorMessage: {
           return yield put(actions.alerts.displayError(C.TWOFA_RESET_EMAIL_ERROR))
         }
-        case 'Error: Captcha Code Incorrect': {
+        case wrongCaptcha2faErrorMessage: {
           return yield put(actions.alerts.displayError(C.CAPTCHA_CODE_INCORRECT))
         }
         default:
@@ -334,6 +349,7 @@ export default ({ api, coreSagas }) => {
     logout,
     logoutClearReduxStore,
     loginRoutineSaga,
+    logoutRoutine,
     mobileLogin,
     pollingSession,
     register,
@@ -341,6 +357,11 @@ export default ({ api, coreSagas }) => {
     reset2fa,
     resendSmsLoginCode,
     restore,
-    upgradeWallet
+    reportStats,
+    setLogoutEventListener,
+    transferEthSaga,
+    upgradeWallet,
+    upgradeWalletSaga,
+    welcomeSaga
   }
 }
