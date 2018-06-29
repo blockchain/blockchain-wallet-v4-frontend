@@ -5,11 +5,11 @@ import { prop, compose, endsWith, repeat, range, map, propSatisfies,
   length, dropLastWhile, not, concat, propEq, is, find, isEmpty } from 'ramda'
 import { set } from 'ramda-lens'
 import Task from 'data.task'
-import * as A from './actions'
+import * as A from '../actions'
 import * as S from './selectors'
 import { fetchData } from '../data/bitcoin/actions'
 
-import { Wrapper, Wallet } from '../../types'
+import { Wrapper, Wallet, HDAccount } from '../../types'
 import { generateMnemonic } from '../../walletCrypto'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -139,6 +139,14 @@ export default ({ api }) => {
     yield put(fetchData())
   }
 
+  const setHDAddressLabel = function * ({ accountIdx, addressIdx, message }) {
+    yield put(A.wallet.setHdAddressLabel(accountIdx, addressIdx, message))
+    const wallet = yield select(S.getWallet)
+    const accounts = Wallet.selectHDAccounts(wallet)
+    const receiveAddress = HDAccount.getReceiveAddress(accounts.get(accountIdx), addressIdx)
+    yield put(A.kvStore.btc.addAddressLabel(receiveAddress, message))
+  }
+
   return {
     toggleSecondPassword,
     createWalletSaga,
@@ -151,6 +159,7 @@ export default ({ api }) => {
     upgradeToHd,
     resetWallet2fa,
     refetchContextData,
-    resendSmsLoginCode
+    resendSmsLoginCode,
+    setHDAddressLabel
   }
 }
