@@ -5385,6 +5385,10 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Please enter an amount less than the limit.",
+        "id": "modals.exchange.abovelimitmessage"
+      },
+      {
         "defaultMessage": "Not enough funds.",
         "id": "modals.exchange.maximumamountmessage"
       },
@@ -6360,10 +6364,6 @@
       {
         "defaultMessage": "Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, IE 11, or Opera",
         "id": "scenes.register.browserwarning"
-      },
-      {
-        "defaultMessage": "We recommend that you use a more secure browser like Chrome or Firefox.",
-        "id": "scenes.register.msiewarning"
       },
       {
         "defaultMessage": "Email",
