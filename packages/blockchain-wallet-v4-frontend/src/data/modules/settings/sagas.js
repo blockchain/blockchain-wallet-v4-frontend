@@ -2,7 +2,7 @@ import { put, call, select } from 'redux-saga/effects'
 import * as actions from '../../actions.js'
 import * as selectors from '../../selectors.js'
 import * as C from 'services/AlertService'
-import { updateLangUrlNoReload } from 'services/LanguageService'
+import { addLanguageToUrl } from 'services/LanguageService'
 import { askSecondPasswordEnhancer, promptForSecondPassword } from 'services/SagaService'
 import { Types, utils } from 'blockchain-wallet-v4/src'
 
@@ -77,7 +77,7 @@ export default ({ coreSagas }) => {
   const updateLanguage = function * (action) {
     try {
       yield call(coreSagas.settings.setLanguage, action.payload)
-      updateLangUrlNoReload(action.payload.language)
+      addLanguageToUrl(action.payload.language)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'updateLanguage', e))
     }
