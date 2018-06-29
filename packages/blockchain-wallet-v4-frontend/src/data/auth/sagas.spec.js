@@ -277,7 +277,8 @@ describe('authSagas', () => {
       setLogoutEventListener,
       transferEthSaga,
       upgradeWalletSaga,
-      welcomeSaga
+      welcomeSaga,
+      upgradeAddressLabelsSaga
     } = authSagas({
       api,
       coreSagas
@@ -325,6 +326,10 @@ describe('authSagas', () => {
 
     it('should redirect to home route', () => {
       saga.next().put(actions.router.push('/home'))
+    })
+
+    it('should call upgrade address labels saga', () => {
+      saga.next().call(upgradeAddressLabelsSaga)
     })
 
     it('should trigger login success action', () => {
@@ -412,7 +417,7 @@ describe('authSagas', () => {
           [call.fn(setLogoutEventListener), jest.fn],
           [fork.fn(logoutRoutine), jest.fn]
         ])
-        .put(actions.alerts.displaySuccess(C.LOGIN_SUCCESS))
+        .not.put(actions.alerts.displaySuccess(C.LOGIN_SUCCESS))
         .run()
     })
 
