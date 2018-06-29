@@ -30,11 +30,13 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
       return merge(state, data)
     }
     case AT.FETCH_BITCOIN_DATA_SUCCESS: {
-      const { addresses, info, latestBlock } = payload
+      /* eslint-disable */
+      const { addresses, info, latest_block } = payload
+      /* eslint-enable */
       const data = {
         addresses: Remote.Success(addresses),
         info: Remote.Success(info),
-        latest_block: Remote.Success(latestBlock)
+        latest_block: Remote.Success(latest_block)
       }
       return merge(state, data)
     }
