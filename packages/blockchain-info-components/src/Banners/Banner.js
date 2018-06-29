@@ -17,7 +17,7 @@ const Container = styled.div`
   -webkit-font-smoothing: antialiased;
   width: ${props => props.width ? props.width : `initial`};
   margin-left: ${props => props.inline && !props.label ? '5px' : '0px'};
-  padding: ${props => props.inline || props.label || props.partnerLabel ? '3px 5px' : '5px 10px'};
+  padding: ${props => props.inline || props.label ? '3px 5px' : '5px 10px'};
   & > span:first-child { margin-right: ${props => props.inline ? '3px' : '5px'} };
 `
 
