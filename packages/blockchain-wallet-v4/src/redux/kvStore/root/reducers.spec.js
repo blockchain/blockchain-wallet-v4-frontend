@@ -1,5 +1,4 @@
-import { assoc, assocPath, compose, set } from 'ramda'
-import { mapped, over } from 'ramda-lens'
+import { set } from 'ramda'
 import Remote from '../../../remote'
 import { KVStoreEntry } from '../../../types'
 import { derivationMap, ROOT } from '../config'
