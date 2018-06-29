@@ -1,7 +1,6 @@
 import { futurizeP } from 'futurize'
 import Task from 'data.task'
-import { compose, assoc, join, pipe, curry, map, range,
-  identity, converge, add, keysIn, ifElse } from 'ramda'
+import { compose, assoc, join, curry, range, keysIn } from 'ramda'
 import { networks } from 'bitcoinjs-lib'
 
 import * as A from '../actions'
@@ -15,6 +14,10 @@ import * as selectors from '../selectors'
  */
 export const unusedAddressesCount = 10
 
+export const toAsync = (fn) => new Promise(
+  (resolve) => setTimeout(() => resolve(fn()), 0)
+)
+
 /**
  * Launches derivation of future addresses for target HDAccount
  * @curried
@@ -24,31 +27,19 @@ export const unusedAddressesCount = 10
  */
 export const getHDAccountAddressPromises = curry((state, account) => {
   const xpub = selectors.wallet.getAccountXpub(account.index, state)
-  return selectors.data.bitcoin.getReceiveIndex(xpub, state)
-    .map(pipe(
-      /**
-       * Get the range of address indexes
-       * (receiveIndex, receiveIndex + unusedAddressesCount)
-       */
-      converge(range, [identity, add(unusedAddressesCount)]),
 
-      /**
-       * Get each address within separate event queue entry
-       * in order to unblock the UI during heavy scripting
-       * setTimeout runs infrequently and is less blocking
-       * requestAnimation frame blocks UI heavier
-       */
-      map((index) => new Promise((resolve) => setTimeout(() =>
-        resolve(
-          HDAccount.getReceiveAddress(
-            account,
-            index,
-            networks.bitcoin.NETWORK_BITCOIN
-          )
-        ), 0)
-      ))
-    ))
+  /**
+   * Get each address within separate event queue entry
+   * in order to unblock the UI during heavy scripting
+   * setTimeout runs infrequently and is less blocking
+   * requestAnimation frame blocks UI heavier
+   */
+  const asyncDerive = index => toAsync(() =>
+    HDAccount.getReceiveAddress(account, index, networks.bitcoin.NETWORK_BITCOIN))
+  return selectors.data.bitcoin.getReceiveIndex(xpub, state)
+    .map((receiveIndex) => range(receiveIndex, receiveIndex + unusedAddressesCount))
     .getOrElse([])
+    .map(asyncDerive)
 })
 
 /**
@@ -95,23 +86,23 @@ const walletSync = ({ isAuthenticated, api } = {}) => (store) => (next) => (acti
     return encrypted
   }
 
-  const sync = async (apiCall) =>
-    Wrapper.toEncJSON(nextWallet)
+  const sync = async (apiCall) => {
+    let encryptedWallet = Wrapper.toEncJSON(nextWallet)
+    if (syncPubKeys) {
       /**
        * To get notifications working you have to add list of unused addresses
        * For each of the wallet's accounts
-       * Only allowed if syncPubKeys is true
        */
-      .map(ifElse(
-        () => syncPubKeys,
-        assoc('active', join('|', await getWalletAddresses(state))),
-        identity
-      ))
+      const addresses = await getWalletAddresses(state)
+      encryptedWallet = encryptedWallet.map(assoc('active', join('|', addresses)))
+    }
+    return encryptedWallet
       .map(handleChecksum)
       .chain(promiseToTask(apiCall))
       .fork(
         compose(store.dispatch, A.walletSync.syncError),
         compose(store.dispatch, A.walletSync.syncSuccess))
+  }
 
   switch (true) {
     case (action.type === T.walletSync.FORCE_SYNC):
