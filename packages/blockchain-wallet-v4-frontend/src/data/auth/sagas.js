@@ -353,7 +353,7 @@ export default ({ api, coreSagas }) => {
   }
 
   const logoutClearReduxStore = function * () {
-    yield window.history.pushState('', '', '/login')
+    yield window.history.pushState('', '', '#')
     yield window.location.reload(true)
   }
 
