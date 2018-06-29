@@ -7,3 +7,5 @@ export const getMetadata = path([kvStorePath, BUYSELL])
 export const getSfoxTrades = path([kvStorePath, BUYSELL, 'data', 'value', 'sfox', 'trades'])
 
 export const getSfoxUser = path([kvStorePath, BUYSELL, 'data', 'value', 'sfox', 'user'])
+
+export const getCoinifyTrades = state => getMetadata(state).map(path(['value', 'coinify', 'trades']))
