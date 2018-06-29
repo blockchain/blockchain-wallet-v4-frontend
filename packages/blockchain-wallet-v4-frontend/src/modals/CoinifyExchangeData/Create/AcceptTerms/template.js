@@ -8,8 +8,8 @@ import { CheckBox } from 'components/Form'
 import Terms from 'components/Terms'
 import { Button, HeartbeatLoader, Text, TextGroup, Link, Icon } from 'blockchain-info-components'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ErrorWrapper, ColRightInner } from 'components/BuySell/Signup'
-import { spacing } from 'services/StyleService'
 import { prop } from 'ramda'
+import media from 'services/ResponsiveService'
 
 const AcceptTermsContainer = styled.div`
   display: flex;
@@ -26,6 +26,9 @@ const FieldsContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 20px;
+  ${media.mobile`
+    margin-top: 10px;
+  `}
 `
 const FieldContainer = styled.div`
   display: flex;
@@ -43,11 +46,37 @@ const FieldBox = styled.div`
   flex-direction: row;
   width: 85%;
   justify-content: space-between;
+  ${media.mobile`
+    border: none;
+    width: 100%;
+    padding: 0px;
+    flex-direction: column;
+    width: fit-content;
+  `}
 `
 const IconContainer = styled.div`
   display: flex;
   align-items: center;
   margin-left: 10px;
+`
+const AcceptTermsForm = styled(Form)`
+  ${media.mobile`
+    flex-direction: column;
+  `}
+`
+const EditLink = styled(Link)`
+  font-size: 12px;
+  ${media.mobile`
+    margin-top: 5px;
+    font-size: 12px;
+  `}
+`
+const VerifiedText = styled(Text)`
+  font-size: 14px;
+  margin-bottom: 10px;
+  ${media.mobile`
+    margin-bottom: 5px;
+  `}
 `
 const checkboxShouldBeChecked = value => value ? undefined : 'You must agree to the terms and conditions'
 
@@ -64,7 +93,7 @@ const AcceptTerms = (props) => {
   const faqHelper = () => helpers.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <AcceptTermsForm onSubmit={handleSubmit}>
       <ColLeft>
         <InputWrapper>
           <PartnerHeader>
@@ -75,17 +104,21 @@ const AcceptTerms = (props) => {
           </PartnerSubHeader>
           <FieldsContainer>
             <FieldContainer>
-              <Text size='14px' style={spacing('mb-10')}>
+              <VerifiedText>
                 <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.verifiedemail' defaultMessage='Verified Email Address' />
-              </Text>
+              </VerifiedText>
               <VerifiedContainer>
                 <FieldBox>
                   <Text size='14px' weight={300}>
                     { email }
                   </Text>
-                  <Link onClick={editEmail} size='14px' weight={300}>
-                    <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.edit' defaultMessage='edit' />
-                  </Link>
+                  <EditLink onClick={editEmail} weight={300}>
+                    {
+                      window.outerWidth > 480
+                        ? <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.edit' defaultMessage='edit' />
+                        : <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.editemail' defaultMessage='edit email' />
+                    }
+                  </EditLink>
                 </FieldBox>
                 <IconContainer>
                   { emailVerified ? <Icon name='checkmark-in-circle-filled' color='success' size='20px' /> : null }
@@ -147,7 +180,7 @@ const AcceptTerms = (props) => {
           {faqHelper()}
         </ColRightInner>
       </ColRight>
-    </Form>
+    </AcceptTermsForm>
   )
 }
 
