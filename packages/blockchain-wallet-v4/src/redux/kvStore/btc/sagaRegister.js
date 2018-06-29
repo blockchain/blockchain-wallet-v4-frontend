@@ -7,6 +7,5 @@ export default ({ api }) => {
 
   return function * () {
     yield takeLatest(AT.FETCH_METADATA_BTC, kvStoreBtcSagas.fetchMetadataBtc)
-    yield takeLatest(AT.CREATE_METADATA_BTC, kvStoreBtcSagas.createMetadataBtc)
   }
 }
