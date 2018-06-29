@@ -10,6 +10,9 @@ import preferences from './preferences/sagaRegister'
 import goals from './goals/sagaRegister'
 import router from './router/sagaRegister'
 import wallet from './wallet/sagaRegister'
+import { tryParseLanguageFromUrl } from 'services/LanguageService'
+
+const logLocation = 'data/rootSaga'
 
 const welcomeSaga = function * () {
   try {
@@ -26,7 +29,21 @@ const welcomeSaga = function * () {
     console.log('%c it is a scam and will give them access to your money!', style2)
     /* eslint-enable */
   } catch (e) {
-    yield put(actions.logs.logErrorMessage('data/rootSaga', 'welcomeSaga', e))
+    yield put(actions.logs.logErrorMessage(logLocation, 'welcomeSaga', e))
+  }
+}
+
+const languageInitSaga = function * () {
+  try {
+    const lang = tryParseLanguageFromUrl()
+    if (lang.language) {
+      console.info('LANG FOUND IN URL', lang.language)
+      // TODO: figure out how to update settings and page....
+      yield put(actions.modules.settings.updateLanguage(lang.language))
+      yield put(actions.preferences.setLanguage(lang.language))
+    }
+  } catch (e) {
+    yield put(actions.logs.logErrorMessage(logLocation, 'languageInitSaga', e))
   }
 }
 
@@ -35,6 +52,7 @@ export default function * ({ api, bchSocket, btcSocket, ethSocket, options }) {
 
   yield all([
     call(welcomeSaga),
+    call(languageInitSaga),
     fork(alerts),
     fork(auth({ api, coreSagas })),
     fork(components({ api, coreSagas, options })),
