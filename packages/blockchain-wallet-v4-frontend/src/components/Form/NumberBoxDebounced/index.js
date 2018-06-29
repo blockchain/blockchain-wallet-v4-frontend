@@ -60,8 +60,7 @@ class NumberBoxDebounced extends React.Component {
 
     clearTimeout(this.timeout)
     this.timeout = setTimeout(() => {
-      let val = this.props.currency ? parseFloat(value).toFixed(2) : value
-      this.props.input.onChange(val)
+      this.props.input.onChange(value)
     }, 500)
   }
 

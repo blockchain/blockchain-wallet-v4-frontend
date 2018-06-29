@@ -6,6 +6,7 @@ import { FormattedMessage } from 'react-intl'
 import { Text, Link } from 'blockchain-info-components'
 import configure from './chart.config.js'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
+import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -43,6 +44,11 @@ const ChartInfo = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  ${media.mobile`
+    > div:last-of-type {
+      width: 28%;
+    }
+  `}
 `
 const Column = styled.div`
   display: flex;

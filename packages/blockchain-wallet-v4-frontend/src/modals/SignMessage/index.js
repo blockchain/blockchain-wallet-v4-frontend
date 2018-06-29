@@ -47,8 +47,8 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  modalEnhancer('SignMessage')
+  modalEnhancer('SignMessage'),
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default enhance(SignMessageContainer)
