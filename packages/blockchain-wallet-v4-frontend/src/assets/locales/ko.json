@@ -670,6 +670,7 @@
   "modals.twostepyubico.enable": "2FA 사용 설정",
   "modals.twostepyubico.explain": null,
   "modals.twostepyubico.title": null,
+  "modals.upgradeaddresslabels.explain": null,
   "modals.upgradewallet.continue": "계속",
   "modals.upgradewallet.title": "블록체인 지갑에 오신 것을 환영합니다.",
   "modals.upgradewallet.title1": "완전히 업데이트 된 디자인과 사용자 체험",
