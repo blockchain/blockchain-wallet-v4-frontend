@@ -76,6 +76,8 @@ export default ({ coreSagas }) => {
   const updateLanguage = function * (action) {
     try {
       yield call(coreSagas.settings.setLanguage, action.payload)
+      // update url with new language without forcing browser reload
+      window.history.pushState({}, '', `/${action.payload}/${window.location.hash}`)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'updateLanguage', e))
     }
