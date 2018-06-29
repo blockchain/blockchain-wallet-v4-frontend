@@ -1,7 +1,7 @@
 import { futurizeP } from 'futurize'
 import Task from 'data.task'
 import { compose, assoc, join, pipe, curry, map, range,
-  identity, converge, add, keysIn } from 'ramda'
+  identity, converge, add, keysIn, ifElse } from 'ramda'
 import { networks } from 'bitcoinjs-lib'
 
 import * as A from '../actions'
@@ -82,6 +82,7 @@ const walletSync = ({ isAuthenticated, api } = {}) => (store) => (next) => (acti
 
   const state = store.getState()
   const nextWallet = selectors.wallet.getWrapper(state)
+  const syncPubKeys = selectors.wallet.shouldSyncPubKeys(state)
   const isAuth = isAuthenticated(state)
   const promiseToTask = futurizeP(Task)
 
@@ -99,8 +100,13 @@ const walletSync = ({ isAuthenticated, api } = {}) => (store) => (next) => (acti
       /**
        * To get notifications working you have to add list of unused addresses
        * For each of the wallet's accounts
+       * Only allowed if syncPubKeys is true
        */
-      .map(assoc('active', join('|', await getWalletAddresses(state))))
+      .map(ifElse(
+        () => syncPubKeys,
+        assoc('active', join('|', await getWalletAddresses(state))),
+        identity
+      ))
       .map(handleChecksum)
       .chain(promiseToTask(apiCall))
       .fork(
