@@ -315,9 +315,10 @@ export default ({ api, coreSagas, options }) => {
           break
         }
         const data = yield call(api.getTradeStatus, depositAddress)
-        const shapeshiftStatus = prop('status', data)
-        if (!equals(shapeshiftStatus, currentStatus)) {
-          yield put(actions.core.kvStore.shapeShift.updateTradeStatusMetadataShapeshift(depositAddress, shapeshiftStatus))
+        const status = prop('status', data)
+        const hashOut = prop('transaction', data)
+        if (!equals(status, currentStatus)) {
+          yield put(actions.core.kvStore.shapeShift.updateTradeMetadataShapeshift(depositAddress, status, hashOut))
         }
         yield call(delay, 5000)
       }
