@@ -44,6 +44,19 @@ export default ({ api, coreSagas }) => {
     yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
   }
 
+  const upgradeAddressLabelsSaga = function * () {
+    const addressLabelSize = yield call(coreSagas.kvStore.btc.fetchMetadataBtc)
+    if (addressLabelSize > 100) {
+      yield put(actions.modals.showModal('UpgradeAddressLabels', {duration: addressLabelSize / 20}))
+    }
+    if (addressLabelSize >= 0) {
+      yield call(coreSagas.kvStore.btc.createMetadataBtc)
+    }
+    if (addressLabelSize > 100) {
+      yield put(actions.modals.closeModal())
+    }
+  }
+
   const transferEthSaga = function * () {
     const legacyAccountR = yield select(selectors.core.kvStore.ethereum.getLegacyAccount)
     const legacyAccount = legacyAccountR.getOrElse(null)
@@ -74,16 +87,7 @@ export default ({ api, coreSagas }) => {
       yield call(coreSagas.kvStore.ethereum.fetchMetadataEthereum, askSecondPasswordEnhancer)
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
       yield put(actions.router.push('/home'))
-      const addressLabelSize = yield call(coreSagas.kvStore.btc.fetchMetadataBtc)
-      if (addressLabelSize > 100) {
-        yield put(actions.modals.showModal('UpgradeAddressLabels', {duration: addressLabelSize / 20}))
-      }
-      if (addressLabelSize >= 0) {
-        yield call(coreSagas.kvStore.btc.createMetadataBtc)
-      }
-      if (addressLabelSize > 100) {
-        yield put(actions.modals.closeModal())
-      }
+      yield call(upgradeAddressLabelsSaga)
       yield put(actions.auth.loginSuccess())
       yield put(actions.auth.startLogoutTimer())
       yield put(actions.goals.runGoals())
