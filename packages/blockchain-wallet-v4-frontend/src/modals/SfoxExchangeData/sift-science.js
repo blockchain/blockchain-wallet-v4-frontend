@@ -43,10 +43,10 @@ class SiftScience extends Component {
     const helperDomain = path(['domains', 'walletHelper'], walletOptions)
     const sfoxSiftScience = path(['platforms', 'web', 'sfox', 'config', 'siftScience'], walletOptions)
 
-    let url = `${helperDomain}/wallet-helper/sift-science/#/key/${sfoxSiftScience}/user/${userId}`
+    let url = `${helperDomain}/wallet-helper/sift-science/#/key/${sfoxSiftScience}/user/${userId.getOrElse()}`
     url += tradeId ? `/trade/${tradeId}` : ''
 
-    if (!userId) {
+    if (!userId.getOrElse(null)) {
       return null
     }
 

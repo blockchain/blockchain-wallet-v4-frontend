@@ -17,9 +17,10 @@ export const getData = createSelector(
     selectors.core.common.btc.getWalletTransactions,
     selectors.core.kvStore.shapeShift.getTrades,
     selectors.core.kvStore.buySell.getSfoxTrades,
+    selectors.core.kvStore.buySell.getCoinifyTrades,
     selectors.core.kvStore.buySell.getMetadata
   ],
-  (formValues, pages, trades, sfoxTrades, buysellMetadata) => {
+  (formValues, pages, trades, sfoxTrades, coinifyTrades, buysellMetadata) => {
     const empty = (page) => isEmpty(page.data)
     const search = propOr('', 'search', formValues)
     const status = propOr('', 'status', formValues)
@@ -33,7 +34,7 @@ export const getData = createSelector(
       empty: all(empty)(filteredPages),
       search: search.length > 0 || status !== '',
       shiftTrades: trades.getOrElse([]),
-      buysellTrades: sfoxTrades,
+      buysellTrades: sfoxTrades.getOrElse([]).concat(coinifyTrades.getOrElse([])),
       buysellPartner: hasAccount(partnerData)
     }
   }
