@@ -49,14 +49,10 @@ export default (state = INITIAL_STATE, action) => {
           case 'no_deposits':
           case 'received':
           case 'failed':
-            const result1 = set(compose(lensTrades, lensIndex(i), lensProp('status')), status, trades)
-            console.log('1', result1)
-            return result1
+            return set(compose(lensTrades, lensIndex(i), lensProp('status')), status, trades)
           case 'complete':
             const updateStatusAndHashOut = compose(assoc('status', status), assoc('hashOut', hashOut))
-            const result2 = over(compose(lensTrades, lensIndex(i)), updateStatusAndHashOut, trades)
-            console.log('2', result2)
-            return result2
+            return over(compose(lensTrades, lensIndex(i)), updateStatusAndHashOut, trades)
           default:
             return state
         }
