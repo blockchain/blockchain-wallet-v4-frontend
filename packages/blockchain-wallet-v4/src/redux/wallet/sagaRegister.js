@@ -10,5 +10,6 @@ export default ({ api }) => {
     yield takeLatest(AT.SET_DEFAULT_ACCOUNT, walletSagas.refetchContextData)
     yield takeLatest(AT.SET_ADDRESS_ARCHIVED, walletSagas.refetchContextData)
     yield takeLatest(AT.SET_ACCOUNT_ARCHIVED, walletSagas.refetchContextData)
+    yield takeLatest(AT.SET_HD_ADDRESS_LABEL, walletSagas.setHDAddressLabel)
   }
 }
