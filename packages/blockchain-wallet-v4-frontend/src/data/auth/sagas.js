@@ -78,7 +78,7 @@ export default ({ api, coreSagas }) => {
       if (addressLabelSize > 100) {
         yield put(actions.modals.showModal('UpgradeAddressLabels', {duration: addressLabelSize / 20}))
       }
-      if (addressLabelSize) {
+      if (addressLabelSize >= 0) {
         yield call(coreSagas.kvStore.btc.createMetadataBtc)
       }
       if (addressLabelSize > 100) {
