@@ -1,4 +1,4 @@
-import { assoc, assocPath, compose, set } from 'ramda'
+import { assocPath, compose, set } from 'ramda'
 import { mapped, over } from 'ramda-lens'
 import Remote from '../../../remote'
 import { KVStoreEntry } from '../../../types'
@@ -8,7 +8,7 @@ import * as actions from './actions'
 
 const INITIAL_STATE = Remote.NotAsked
 
-describe('kvStore bch reducers', () => {
+describe('kvStore ethereum reducers', () => {
   const typeId = derivationMap[ETHEREUM]
   const ethereumObject = {
     ethereum: {
@@ -45,7 +45,7 @@ describe('kvStore bch reducers', () => {
   })
 
   it('should handle FETCH_METADATA_ETHEREUM_FAILURE', () => {
-    const error = 'Cannot load bch metadata'
+    const error = 'Cannot load ethereum metadata'
     const action = actions.fetchMetadataEthereumFailure(error)
     const expectedState = Remote.Failure(error)
     expect(reducer(undefined, action)).toEqual(expectedState)
