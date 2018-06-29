@@ -34,7 +34,7 @@ export const getAccount = curry((index, state) => compose(HDWallet.selectAccount
 export const getAccountXpub = curry((index, state) => compose(HDAccount.selectXpub, HDWallet.selectAccount(index), getDefaultHDWallet)(state))
 export const getAccountLabel = curry((state, index) => compose(HDAccount.selectLabel, HDWallet.selectAccount(index), getDefaultHDWallet)(state))
 export const getLegacyAddressLabel = curry((state, address) => compose(ifElse(isNil, always(undefined), Address.selectLabel), AddressMap.selectAddress(address), Wallet.selectAddresses, getWallet)(state))
-export const getDefaultAccountXpub = state => getAccountXpub(state, getDefaultAccountIndex(state))
+export const getDefaultAccountXpub = state => getAccountXpub(getDefaultAccountIndex(state), state)
 export const getInitialSocketContext = state => ({ guid: getGuid(state), addresses: getAddressContext(state), xpubs: getWalletContext(state) })
 export const getLogoutTime = compose(Options.selectLogoutTime, Wallet.selectOptions, getWallet)
 export const isSecondPasswordOn = compose(Wallet.isDoubleEncrypted, getWallet)
