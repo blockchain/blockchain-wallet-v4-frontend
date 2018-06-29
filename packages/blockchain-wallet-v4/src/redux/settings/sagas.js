@@ -97,6 +97,8 @@ export default ({ api }) => {
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.updateLanguage, guid, sharedKey, language)
     if (!contains('successfully', toLower(response))) { throw new Error(response) }
+    // update url with new language without forcing browser reload
+    window.history.pushState({}, '', `/${language}/${window.location.hash}`)
     yield put(actions.setLanguage(language))
   }
 
