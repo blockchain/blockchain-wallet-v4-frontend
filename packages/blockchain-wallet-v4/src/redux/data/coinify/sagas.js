@@ -244,13 +244,9 @@ export default ({ api, options }) => {
       const coinifyObj = yield call(getCoinify)
       yield put(A.fetchTrades(coinifyObj))
 
-      // get current kvstore trades
+      // save trades to metadata
       const kvTrades = yield select(buySellSelectors.getCoinifyTrades)
-
-      // prepend new trade
-      const newTrades = prepend(buyResult, kvTrades)
-
-      // set new trades to metadata
+      const newTrades = prepend(buyResult, kvTrades.getOrElse([]))
       yield put(buySellA.setCoinifyTradesBuySell(newTrades))
 
       yield call(labelAddressForBuy, buyResult, addressData)
