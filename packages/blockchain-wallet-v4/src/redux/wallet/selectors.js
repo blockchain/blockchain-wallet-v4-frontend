@@ -44,3 +44,4 @@ export const getPbkdf2Iterations = compose(Wrapper.selectPbkdf2Iterations, getWr
 export const isHdWallet = compose(wallets => wallets.size > 0, Wallet.selectHdWallets, getWallet)
 export const getSpendableActiveAddresses = compose(Wallet.getSpendableActiveAddresses, getWallet)
 export const getAddress = curry((address, state) => compose(Wallet.getAddress(address), getWallet)(state))
+export const shouldSyncPubKeys = compose(Wrapper.selectSyncPubKeys, getWrapper)

@@ -5,7 +5,6 @@ import * as selectors from '../selectors'
 import * as walletActions from '../wallet/actions'
 import * as wS from '../wallet/selectors'
 import * as pairing from '../../pairing'
-import { forceSync } from '../walletSync/actions'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -203,9 +202,10 @@ export default ({ api }) => {
     if (prop('mobile', types) && smsVerified.data) { typesState.push(32) }
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
-    const response = yield call(api.updateNotificationsType, guid, sharedKey, sum(typesState))
+    const notificationsType = sum(typesState)
+    const response = yield call(api.updateNotificationsType, guid, sharedKey, notificationsType)
     if (!contains('updated', response)) { throw new Error(response) }
-    yield put(forceSync())
+    yield put(walletActions.setSyncPubKeys(notificationsType > 0))
     yield put(actions.setNotificationsType(typesState))
   }
 
