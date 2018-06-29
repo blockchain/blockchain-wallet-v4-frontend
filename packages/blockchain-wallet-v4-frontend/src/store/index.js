@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import { persistStore, autoRehydrate } from 'redux-persist'
-import { createBrowserHistory } from 'history'
+import { createHashHistory } from 'history'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import appConfig from 'config'
 import { coreMiddleware } from 'blockchain-wallet-v4/src'
@@ -29,7 +29,7 @@ const devToolsConfig = {
 }
 
 const configureStore = () => {
-  const history = createBrowserHistory()
+  const history = createHashHistory()
   const sagaMiddleware = createSagaMiddleware()
   // TODO: should these tools be allowed in upper environments!?
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(devToolsConfig) : compose
