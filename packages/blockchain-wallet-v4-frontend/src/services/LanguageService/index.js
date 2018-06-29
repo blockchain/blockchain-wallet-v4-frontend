@@ -52,10 +52,16 @@ function convertCultureCodeToLanguage (cultureCode) {
   return Maybe.Just(selectedLanguage.language)
 }
 
+// update url with new language without forcing browser reload
+function updateLangUrlNoReload (language) {
+  window.history.pushState({}, '', `/${language}/${window.location.hash}`)
+}
+
 export {
+  convertCultureCodeToLanguage,
+  convertLanguageToCultureCode,
+  getLanguageName,
   languages,
   languagesSortedByName,
-  getLanguageName,
-  convertCultureCodeToLanguage,
-  convertLanguageToCultureCode
+  updateLangUrlNoReload
 }
