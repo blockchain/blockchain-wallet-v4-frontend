@@ -37,7 +37,8 @@ export default ({ api }) => {
     const typeId = derivationMap[BTC]
     const mxpriv = yield select(getMetadataXpriv)
     const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId)
-    const newkv = set(KVStoreEntry.value, newBtcEntry, kv)
+    const kvFetched = yield callTask(api.fetchKVStore(kv))
+    const newkv = set(KVStoreEntry.value, newBtcEntry, kvFetched)
     yield put(A.createMetadataBtc(newkv))
   }
 
