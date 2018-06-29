@@ -8,7 +8,7 @@ import * as actions from './actions'
 
 const INITIAL_STATE = Remote.NotAsked
 
-describe('kvStore bch reducers', () => {
+describe('kvStore buysell reducers', () => {
   const typeId = derivationMap[BUYSELL]
   const buySellObject = {
     sfox: {
@@ -37,7 +37,7 @@ describe('kvStore bch reducers', () => {
   })
 
   it('should handle FETCH_METADATA_BUYSELL_FAILURE', () => {
-    const error = 'Cannot load bch metadata'
+    const error = 'Cannot load buysell metadata'
     const action = actions.fetchMetadataBuySellFailure(error)
     const expectedState = Remote.Failure(error)
     expect(reducer(undefined, action)).toEqual(expectedState)

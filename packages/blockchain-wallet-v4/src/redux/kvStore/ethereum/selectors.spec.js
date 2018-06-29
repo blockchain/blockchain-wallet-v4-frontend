@@ -1,4 +1,3 @@
-import { assocPath } from 'ramda'
 import Remote from '../../../remote'
 import * as selectors from './selectors'
 
