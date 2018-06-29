@@ -64,10 +64,10 @@ export default ({ api }) => {
         return yield call(getAddressLabelSize)
       }
       yield put(A.fetchMetadataBtcSuccess(newkv))
-      return false
+      return -1
     } catch (e) {
       yield put(A.fetchMetadataBtcFailure(e.message))
-      return false
+      return -1
     }
   }
 
