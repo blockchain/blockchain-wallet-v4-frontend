@@ -7,7 +7,7 @@ import * as walletActions from '../../wallet/actions'
 import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import { coinifyService } from '../../../exchange/service'
 import * as buySellA from '../../kvStore/buySell/actions'
-import { equals, head, prop, sort, path } from 'ramda'
+import { equals, head, prop, sort, path, prepend } from 'ramda'
 
 export default ({ api, options }) => {
   const getCoinify = function * () {
@@ -243,6 +243,12 @@ export default ({ api, options }) => {
       yield put(A.handleTradeSuccess(buyResult))
       const coinifyObj = yield call(getCoinify)
       yield put(A.fetchTrades(coinifyObj))
+
+      // save trades to metadata
+      const kvTrades = yield select(buySellSelectors.getCoinifyTrades)
+      const newTrades = prepend(buyResult, kvTrades.getOrElse([]))
+      yield put(buySellA.setCoinifyTradesBuySell(newTrades))
+
       yield call(labelAddressForBuy, buyResult, addressData)
       return buyResult
     } catch (e) {
