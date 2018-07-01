@@ -7,6 +7,7 @@ import Remote from '../../../remote'
 import { getAccountsList, getBchTxNote } from '../../kvStore/bch/selectors.js'
 import { toCashAddr } from '../../../utils/bch'
 import { isValidBitcoinAddress } from '../../../utils/bitcoin'
+import { getShapeshiftTxHashMatch } from '../../kvStore/shapeShift/selectors'
 
 const mTransformTx = transactions.bitcoin.transformTx
 
@@ -114,10 +115,11 @@ export const getWalletTransactions = state => {
   // [Remote([tx])] == [Page] == Pages
   const getDescription = (hash) => getBchTxNote(state, hash).getOrElse('')
   const pages = getTransactions(state)
+  const getPartnerLabel = hash => getShapeshiftTxHashMatch(state, hash)
   // mTransformTx :: wallet -> blockHeight -> Tx
   // ProcessPage :: wallet -> blockHeight -> [Tx] -> [Tx]
   const ProcessTxs = (wallet, block, txList) =>
-    map(mTransformTx.bind(undefined, wallet, block, getDescription, undefined), txList)
+    map(mTransformTx.bind(undefined, wallet, block, getDescription, getPartnerLabel), txList)
   // ProcessRemotePage :: Page -> Page
   const ProcessPage = lift(ProcessTxs)(walletR, blockHeightR)
   const txs = map(ProcessPage, pages)
