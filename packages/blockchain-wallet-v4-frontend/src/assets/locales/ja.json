@@ -670,6 +670,7 @@
   "modals.twostepyubico.enable": "2段階認証を有効にする",
   "modals.twostepyubico.explain": null,
   "modals.twostepyubico.title": null,
+  "modals.upgradeaddresslabels.explain": null,
   "modals.upgradewallet.continue": "続行",
   "modals.upgradewallet.title": "ブロックチェーンウォレットにようこそ",
   "modals.upgradewallet.title1": "完全に更新されたデザインとユーザーエクスペリエンス",

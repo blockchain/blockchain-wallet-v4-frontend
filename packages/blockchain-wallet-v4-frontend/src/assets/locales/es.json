@@ -670,6 +670,7 @@
   "modals.twostepyubico.enable": "Activar autenticación 2FA",
   "modals.twostepyubico.explain": "Emparejar con su YubiKey:",
   "modals.twostepyubico.title": "Activar doble verificación",
+  "modals.upgradeaddresslabels.explain": null,
   "modals.upgradewallet.continue": "Continuar",
   "modals.upgradewallet.title": "¡Bienvenido a su monedero de Blockchain!",
   "modals.upgradewallet.title1": "Diseño y experiencia de usuario totalmente actualizados",

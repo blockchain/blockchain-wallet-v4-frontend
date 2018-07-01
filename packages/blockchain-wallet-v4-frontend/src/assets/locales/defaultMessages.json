@@ -4473,6 +4473,15 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Upgrading your wallet. This should take around {duration} seconds.",
+        "id": "modals.upgradeaddresslabels.explain"
+      }
+    ],
+    "path": "src/modals/UpgradeAddressLabels/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Welcome to your Blockchain Wallet!",
         "id": "modals.upgradewallet.title"
       },
