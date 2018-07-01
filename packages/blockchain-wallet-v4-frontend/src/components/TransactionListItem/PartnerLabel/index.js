@@ -10,6 +10,7 @@ const LabelContainer = styled.div`
 const PartnerBanner = styled(Banner)`
   padding: 3px 5px;
 `
+const capitalize = (text) => text[0].toUpperCase() + text.substring(1)
 
 const PartnerLabel = props => {
   const { txType, partnerLabel, buysellPartner } = props
@@ -34,8 +35,8 @@ const PartnerLabel = props => {
         <PartnerBanner partnerLabel>
           {
             txType === 'sent'
-              ? <FormattedMessage id='components.txlistitem.partnerlabel.soldvia' defaultMessage='Sold via {partner}' values={{ partner: buysellPartner }} />
-              : <FormattedMessage id='components.txlistitem.partnerlabel.boughtvia' defaultMessage='Bought via {partner}' values={{ partner: buysellPartner }} />
+              ? <FormattedMessage id='components.txlistitem.partnerlabel.soldvia' defaultMessage='Sold via {partner}' values={{ partner: capitalize(buysellPartner) }} />
+              : <FormattedMessage id='components.txlistitem.partnerlabel.boughtvia' defaultMessage='Bought via {partner}' values={{ partner: capitalize(buysellPartner) }} />
           }
         </PartnerBanner>
       </LabelContainer>

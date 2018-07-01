@@ -40,8 +40,6 @@ class ListItemContainer extends React.PureComponent {
       transaction={this.props.transaction}
       handleCoinToggle={this.handleCoinToggle}
       handleEditDescription={this.handleEditDescription}
-      shiftTrades={this.props.shiftTrades}
-      buysellTrades={this.props.buysellTrades}
       buysellPartner={this.props.buysellPartner}
     />
   }

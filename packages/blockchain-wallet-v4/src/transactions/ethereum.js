@@ -37,7 +37,7 @@ export const getLabel = (address, state) => {
   return labelR.getOrElse(address)
 }
 
-export const _transformTx = curry((addresses, latestBlock, state, getPartnerLabel, tx) => {
+export const _transformTx = curry((addresses, latestBlock, getPartnerLabel, state, tx) => {
   const fee = getFee(tx)
   const type = toLower(getType(tx, addresses))
   const amount = type === 'sent' ? parseInt(tx.value) + parseInt(fee) : parseInt(tx.value)
