@@ -13,8 +13,7 @@ const filterTransactions = curry((status, criteria, transactions) => {
 export const getData = createSelector(
   [
     selectors.form.getFormValues('bchTransactions'),
-    selectors.core.common.bch.getWalletTransactions,
-    selectors.core.kvStore.shapeShift.getTrades
+    selectors.core.common.bch.getWalletTransactions
   ],
   (formValues, pages, trades) => {
     const empty = (page) => isEmpty(page.data)
@@ -27,8 +26,7 @@ export const getData = createSelector(
     return {
       pages: filteredPages,
       empty: all(empty)(filteredPages),
-      search: search.length > 0 || status !== '',
-      shiftTrades: trades.getOrElse([])
+      search: search.length > 0 || status !== ''
     }
   }
 )

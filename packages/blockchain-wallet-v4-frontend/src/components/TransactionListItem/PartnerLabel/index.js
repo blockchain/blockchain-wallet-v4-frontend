@@ -2,8 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
-import { contains, any } from 'ramda'
-
 import { Banner } from 'blockchain-info-components'
 
 const LabelContainer = styled.div`
@@ -14,28 +12,14 @@ const PartnerBanner = styled(Banner)`
 `
 
 const PartnerLabel = props => {
-  const { txHash, txType, shiftTrades, buysellTrades, buysellPartner } = props
+  const { txType, partnerLabel, buysellPartner } = props
 
-  const shiftMatch = shiftTrades.map(trade => {
-    if (trade.hashIn === txHash) return 'shift-deposit'
-    if (trade.hashOut === txHash) return 'shift-receive'
-  })
-  const isShift = (match) => match === 'shift-deposit' || match === 'shift-receive'
-
-  const buysellMatch = buysellTrades && buysellTrades.map(trade => {
-    if (trade.tx_hash === txHash) {
-      if (txType === 'sent') return 'sold-via'
-      if (txType === 'received') return 'bought-via'
-    }
-  })
-  const isBuysell = (match) => match === 'sold-via' || match === 'bought-via'
-
-  if (any(isShift)(shiftMatch)) {
+  if (partnerLabel === 'shift') {
     return (
       <LabelContainer mobileSize='14px' size='16px' weight={500} color={props.type} uppercase>
         <PartnerBanner>
           {
-            contains('shift-deposit', shiftMatch)
+            txType === 'sent'
               ? <FormattedMessage id='components.txlistitem.partnerlabel.depositedshapeshift' defaultMessage='ShapeShift Deposit' />
               : <FormattedMessage id='components.txlistitem.partnerlabel.receivedshapeshift' defaultMessage='Received from ShapeShift' />
           }
@@ -44,16 +28,16 @@ const PartnerLabel = props => {
     )
   }
 
-  if (buysellTrades && any(isBuysell)(buysellMatch)) {
+  if (partnerLabel === 'buy-sell' && buysellPartner) {
     return (
       <LabelContainer mobileSize='14px' size='16px' weight={500} color={props.type} uppercase>
-        <Banner partnerLabel>
+        <PartnerBanner partnerLabel>
           {
-            contains('sold-via', buysellMatch)
+            txType === 'sent'
               ? <FormattedMessage id='components.txlistitem.partnerlabel.soldvia' defaultMessage='Sold via {partner}' values={{ partner: buysellPartner }} />
               : <FormattedMessage id='components.txlistitem.partnerlabel.boughtvia' defaultMessage='Bought via {partner}' values={{ partner: buysellPartner }} />
           }
-        </Banner>
+        </PartnerBanner>
       </LabelContainer>
     )
   }

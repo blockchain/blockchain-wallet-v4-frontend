@@ -113,8 +113,7 @@ const dateHelper = (time) => {
 }
 
 const TransactionListItem = (props) => {
-  const { handleCoinToggle, transaction, handleEditDescription, coin, minConfirmations, shiftTrades, buysellTrades, buysellPartner } = props
-  const hasLabel = prop('length', shiftTrades) || prop('length', buysellTrades)
+  const { handleCoinToggle, transaction, handleEditDescription, coin, minConfirmations, buysellPartner } = props
 
   return (
     <TransactionRowContainer>
@@ -130,8 +129,8 @@ const TransactionListItem = (props) => {
             </BannerWrapper>
           )}
           {
-            hasLabel
-              ? <PartnerLabel txHash={transaction.hash} txType={transaction.type} shiftTrades={shiftTrades} buysellTrades={buysellTrades} buysellPartner={buysellPartner} />
+            prop('partnerLabel', transaction)
+              ? <PartnerLabel txType={prop('type', transaction)} partnerLabel={prop('partnerLabel', transaction)} buysellPartner={buysellPartner} />
               : null
           }
         </StatusColumn>

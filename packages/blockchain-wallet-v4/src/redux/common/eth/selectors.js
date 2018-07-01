@@ -2,6 +2,7 @@ import { lift, map, path, prop } from 'ramda'
 import { getAddresses, getTransactions, getHeight } from '../../data/ethereum/selectors.js'
 import { getAccounts } from '../../kvStore/ethereum/selectors.js'
 import * as transactions from '../../../transactions'
+import { getShapeshiftTxHashMatch } from '../../kvStore/shapeShift/selectors'
 
 export const getAccountBalances = (state) => {
   const digest = (addresses, account) => ({
@@ -30,8 +31,9 @@ export const getWalletTransactions = (state) => {
   const blockHeightR = getHeight(state)
   const addressesR = accountsR.map(map(prop('addr')))
   const pages = getTransactions(state)
+  const getPartnerLabel = hash => getShapeshiftTxHashMatch(state, hash)
   const ProcessTxs = (addresses, blockHeight, txList) => {
-    return map(mTransformTx(addresses, blockHeight, state), txList)
+    return map(mTransformTx(addresses, blockHeight, state, getPartnerLabel), txList)
   }
   const ProcessPage = lift(ProcessTxs)(addressesR, blockHeightR)
   return map(ProcessPage, pages)

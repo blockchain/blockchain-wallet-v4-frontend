@@ -15,7 +15,7 @@ const Wrapper = styled.div`
 const Success = props => {
   return (
     <Wrapper>
-      {props.transactions.map((transaction, index) => <TransactionListItem key={transaction.hash} transaction={transaction} coin='ETH' minConfirmations={12} shiftTrades={props.shiftTrades} />)}
+      {props.transactions.map((transaction, index) => <TransactionListItem key={transaction.hash} transaction={transaction} coin='ETH' minConfirmations={12} />)}
     </Wrapper>
   )
 }

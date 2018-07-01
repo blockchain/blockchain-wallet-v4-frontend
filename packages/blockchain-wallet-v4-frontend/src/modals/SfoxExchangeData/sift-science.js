@@ -47,12 +47,8 @@ class SiftScience extends Component {
     const helperDomain = path(['domains', 'walletHelper'], walletOptions)
     const sfoxSiftScience = path(['platforms', 'web', 'sfox', 'config', 'siftScience'], walletOptions)
 
-    let url = `${helperDomain}/wallet-helper/sift-science/#/key/${sfoxSiftScience}/user/${userId.getOrElse()}`
+    let url = `${helperDomain}/wallet-helper/sift-science/#/key/${sfoxSiftScience}/user/${userId}`
     url += tradeId ? `/trade/${tradeId}` : ''
-
-    if (!userId.getOrElse(null)) {
-      return null
-    }
 
     if (siftScienceEnabled) {
       return (
@@ -69,7 +65,7 @@ class SiftScience extends Component {
 
 const mapStateToProps = (state) => ({
   walletOptions: path(['walletOptionsPath'], state),
-  userId: selectors.core.kvStore.buySell.getSfoxUser(state).getOrElse(undefined),
+  userId: selectors.core.kvStore.buySell.getSfoxUser(state).getOrElse(null),
   siftScienceEnabled: path(['sfoxSignup', 'siftScienceEnabled'], state),
   trades: selectors.core.data.sfox.getTrades(state).getOrElse([])
 })
