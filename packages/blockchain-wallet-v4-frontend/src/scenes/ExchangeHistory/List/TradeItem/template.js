@@ -6,7 +6,7 @@ import moment from 'moment'
 
 import { TableCell, TableRow, Text, Link } from 'blockchain-info-components'
 import OrderStatus from './OrderStatus'
-import media from 'services/ResponsiveService'
+import media, { isMobile } from 'services/ResponsiveService'
 
 const StatusContainer = styled(TableCell)`
   display: flex;
@@ -16,7 +16,7 @@ const StatusContainer = styled(TableCell)`
   `}
 `
 
-const tradeDateHelper = (date, isMobile) => {
+const tradeDateHelper = (date) => {
   let timeFormat = 'MMMM D YYYY @ h:mm A'
   if (isMobile) timeFormat = 'DD MMM'
   return moment(date).local().format(timeFormat)
@@ -24,7 +24,6 @@ const tradeDateHelper = (date, isMobile) => {
 
 const TradeItem = props => {
   const { status, date, sourceCoin, targetCoin, depositAmount, withdrawalAmount, handleClick } = props
-  const isMobile = window.outerWidth <= 480
 
   return (
     <TableRow>
@@ -39,7 +38,7 @@ const TradeItem = props => {
         </TableCell>
       </StatusContainer>
       <TableCell width='30%' mobileWidth='18%'>
-        <Text size={isMobile ? '12px' : '14px'} weight={300}>{tradeDateHelper(date, isMobile)}</Text>
+        <Text size={isMobile ? '12px' : '14px'} weight={300}>{tradeDateHelper(date)}</Text>
       </TableCell>
       <TableCell width='20%' mobileWidth='30%'>
         <Text size={isMobile ? '12px' : '14px'} weight={300}>{`${depositAmount} ${sourceCoin}`}</Text>
