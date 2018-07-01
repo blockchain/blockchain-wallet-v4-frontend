@@ -670,6 +670,7 @@
   "modals.twostepyubico.enable": "Ενεργοποίηση Επαλήθευσης Δύο Παραγόντων",
   "modals.twostepyubico.explain": "Αντιστοίχηση με το yubikey σας:",
   "modals.twostepyubico.title": "Ενεργοποίηση Επαλήθευσης Δύο Βημάτων",
+  "modals.upgradeaddresslabels.explain": null,
   "modals.upgradewallet.continue": "Συνέχεια",
   "modals.upgradewallet.title": "Καλωσορίσατε στο Blockchain Πορτοφόλι σας!",
   "modals.upgradewallet.title1": "Εντελώς ενημερωμένος σχεδιασμός και εμπειρία χρήστη",

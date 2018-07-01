@@ -670,6 +670,7 @@
   "modals.twostepyubico.enable": "Enable 2FA",
   "modals.twostepyubico.explain": "Pair with your yubikey:",
   "modals.twostepyubico.title": "Enable Two-Step Verification",
+  "modals.upgradeaddresslabels.explain": "Upgrading your wallet. This should take around {duration} seconds.",
   "modals.upgradewallet.continue": "Continue",
   "modals.upgradewallet.title": "Welcome to your Blockchain Wallet!",
   "modals.upgradewallet.title1": "Completely updated design and user experience",
