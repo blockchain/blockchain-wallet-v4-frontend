@@ -11,6 +11,7 @@ import Description from './Description'
 import Confirmations from './Confirmations'
 import FiatAtTime from './FiatAtTime'
 import Status from './Status'
+import PartnerLabel from './PartnerLabel'
 import media from 'services/ResponsiveService'
 import { prop } from 'ramda'
 
@@ -112,7 +113,7 @@ const dateHelper = (time) => {
 }
 
 const TransactionListItem = (props) => {
-  const { handleCoinToggle, transaction, handleEditDescription, coin, minConfirmations } = props
+  const { handleCoinToggle, transaction, handleEditDescription, coin, minConfirmations, buysellPartner } = props
 
   return (
     <TransactionRowContainer>
@@ -127,6 +128,11 @@ const TransactionListItem = (props) => {
               </Banner>
             </BannerWrapper>
           )}
+          {
+            prop('partnerLabel', transaction)
+              ? <PartnerLabel txType={prop('type', transaction)} partnerLabel={prop('partnerLabel', transaction)} buysellPartner={buysellPartner} />
+              : null
+          }
         </StatusColumn>
         <DetailsColumn>
           <Addresses to={transaction.to} from={transaction.from} inputs={transaction.inputs} outputs={transaction.outputs} coin={coin} />

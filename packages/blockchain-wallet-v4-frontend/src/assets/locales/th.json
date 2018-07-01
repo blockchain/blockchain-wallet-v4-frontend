@@ -670,6 +670,7 @@
   "modals.twostepyubico.enable": "เปิดใช้งาน 2FA",
   "modals.twostepyubico.explain": null,
   "modals.twostepyubico.title": null,
+  "modals.upgradeaddresslabels.explain": null,
   "modals.upgradewallet.continue": "ดำเนินการต่อ",
   "modals.upgradewallet.title": "ยินดีต้อนรับสู่กระเป๋าเงิน Blockchain ของคุณ",
   "modals.upgradewallet.title1": "การออกแบบและประสบการณ์ผู้ใช้ได้รับการปรับปรุงให้ทันสมัยทั้งหมด",

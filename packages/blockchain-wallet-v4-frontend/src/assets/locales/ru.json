@@ -670,6 +670,7 @@
   "modals.twostepyubico.enable": "Активировать 2ФА",
   "modals.twostepyubico.explain": "Выполните сопряжение с yubikey:",
   "modals.twostepyubico.title": "Активировать 2-этапную верификацию",
+  "modals.upgradeaddresslabels.explain": null,
   "modals.upgradewallet.continue": "Продолжить",
   "modals.upgradewallet.title": "Добро пожаловать в кошелек Blockchain",
   "modals.upgradewallet.title1": "Полностью обновленный дизайн и интерфейс",

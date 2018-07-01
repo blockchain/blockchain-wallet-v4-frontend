@@ -9,10 +9,11 @@ import { Wrapper, Wallet, HDAccount } from '../../types'
 import * as selectors from '../selectors'
 
 /**
- * Number of unused addresses for each HD Account
- * to sync with platform
+ * Number of addresses for each HD Account to sync with platform
+ * This includes labeled addresses and future ones
+ * Labaled addreses have higher priority
  */
-export const unusedAddressesCount = 10
+export const addressLookaheadCount = 10
 
 export const toAsync = (fn) => new Promise(
   (resolve) => setTimeout(() => resolve(fn()), 0)
@@ -37,15 +38,15 @@ export const getHDAccountAddressPromises = curry((state, account) => {
   const asyncDerive = index => toAsync(() =>
     HDAccount.getReceiveAddress(account, index, networks.bitcoin.NETWORK_BITCOIN))
   return selectors.data.bitcoin.getReceiveIndex(xpub, state)
-    .map((receiveIndex) => range(receiveIndex, receiveIndex + unusedAddressesCount))
+    .map((receiveIndex) => range(receiveIndex, receiveIndex + addressLookaheadCount))
     .getOrElse([])
     .map(asyncDerive)
 })
 
 /**
- * Derives wallet's unused addresses
+ * Derives wallet's lookahead addresses
  * @param {any} state redux state
- * @returns {Promise<String[]>} unused wallet addresses
+ * @returns {Promise<String[]>} lookahead wallet addresses
  */
 export const getWalletAddresses = async state => {
   const activeAddresses = keysIn(selectors.wallet.getActiveAddresses(state))
@@ -90,7 +91,7 @@ const walletSync = ({ isAuthenticated, api } = {}) => (store) => (next) => (acti
     let encryptedWallet = Wrapper.toEncJSON(nextWallet)
     if (syncPubKeys) {
       /**
-       * To get notifications working you have to add list of unused addresses
+       * To get notifications working you have to add list of lookahead addresses
        * For each of the wallet's accounts
        */
       const addresses = await getWalletAddresses(state)
