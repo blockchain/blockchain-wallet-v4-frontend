@@ -1,5 +1,5 @@
 import { map, range } from 'ramda'
-import { unusedAddressesCount, getHDAccountAddressPromises } from './middleware'
+import { addressLookaheadCount, getHDAccountAddressPromises } from './middleware'
 import { getReceiveAddress } from '../../types/HDAccount'
 import { getAccountXpub } from '../wallet/selectors'
 import { getReceiveIndex } from '../data/bitcoin/selectors'
@@ -47,22 +47,22 @@ describe('getHDAccountAddressPromises', () => {
     expect(getReceiveIndex).toHaveBeenCalledWith(xpub, state)
   })
 
-  it(`should call getRecieveAddress ${unusedAddressesCount} times
-      with indexes from range (max(receiveIndex, receiveIndex + ${unusedAddressesCount})`, () => {
+  it(`should call getRecieveAddress ${addressLookaheadCount} times
+      with indexes from range (max(receiveIndex, receiveIndex + ${addressLookaheadCount})`, () => {
     getHDAccountAddressPromises(state, account)
     jest.runAllTimers()
 
-    expect(getReceiveAddress).toHaveBeenCalledTimes(unusedAddressesCount)
+    expect(getReceiveAddress).toHaveBeenCalledTimes(addressLookaheadCount)
     expect(getReceiveAddress.mock.calls).toEqual(map(
       (index) => [account, index, networks.bitcoin.NETWORK_BITCOIN],
-      range(receiveIndex, receiveIndex + unusedAddressesCount)
+      range(receiveIndex, receiveIndex + addressLookaheadCount)
     ))
   })
 
   it('should return array of Promises resolving with getReceiveAddress values', async () => {
     const expectedResult = map(
       (index) => mockDerivation(account, index, networks.bitcoin.NETWORK_BITCOIN),
-      range(receiveIndex, receiveIndex + unusedAddressesCount)
+      range(receiveIndex, receiveIndex + addressLookaheadCount)
     )
 
     const promise = Promise.all(getHDAccountAddressPromises(state, account))
