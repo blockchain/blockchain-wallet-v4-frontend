@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { Icon, Text } from 'blockchain-info-components'
-import media from 'services/ResponsiveService'
+import media, { isMobile } from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   display: flex;
@@ -90,7 +90,12 @@ const SecuritySteps = (props) => {
           {twoFactorSuccess && <Icon name='checkmark' color='success' size={mobile ? '15px' : '30px'} />}
         </Circle>
         <StepText success={twoFactorSuccess} size='12px' weight={300}>
-          <FormattedMessage id='scenes.securitycenter.steps.step2' defaultMessage='Two-Step Verification' />
+          {
+            isMobile
+              ? <FormattedMessage id='scenes.securitycenter.steps.step2mobile' defaultMessage='2 Factor Auth' />
+              : <FormattedMessage id='scenes.securitycenter.steps.step2' defaultMessage='Two-Step Verification' />
+            
+          }
         </StepText>
       </TwoStepSection>
       <BackupSection success={isMnemonicVerified} radius={isMnemonicVerified && twoFactorSuccess}>

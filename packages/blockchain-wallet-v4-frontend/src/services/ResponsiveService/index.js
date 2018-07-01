@@ -1,5 +1,7 @@
 import { css } from 'styled-components'
 
+export const isMobile = window.outerWidth <= 480
+
 const sizes = {
   mobile: 479,
   tablet: 767,
