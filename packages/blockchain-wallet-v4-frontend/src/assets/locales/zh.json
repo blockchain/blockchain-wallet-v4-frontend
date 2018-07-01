@@ -670,6 +670,7 @@
   "modals.twostepyubico.enable": "启用2FA",
   "modals.twostepyubico.explain": "与您的Yubikey配对：",
   "modals.twostepyubico.title": "启用两步验证",
+  "modals.upgradeaddresslabels.explain": null,
   "modals.upgradewallet.continue": "继续",
   "modals.upgradewallet.title": "欢迎使用您的Blockchain钱包!",
   "modals.upgradewallet.title1": "全新的设计和使用体验。",

@@ -670,6 +670,7 @@
   "modals.twostepyubico.enable": "Activer l'authentification à deux facteurs",
   "modals.twostepyubico.explain": "Associer avec votre yubikey :",
   "modals.twostepyubico.title": "Activer la vérification à deux facteurs",
+  "modals.upgradeaddresslabels.explain": null,
   "modals.upgradewallet.continue": "Continuer",
   "modals.upgradewallet.title": "Bienvenue sur votre portefeuille Blockchain",
   "modals.upgradewallet.title1": "Conception et expérience utilisateur entièrement mises à jour",

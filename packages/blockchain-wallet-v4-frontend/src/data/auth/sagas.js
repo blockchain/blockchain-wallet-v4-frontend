@@ -376,6 +376,7 @@ export default ({ api, coreSagas }) => {
     transferEthSaga,
     upgradeWallet,
     upgradeWalletSaga,
+    upgradeAddressLabelsSaga,
     welcomeSaga
   }
 }
