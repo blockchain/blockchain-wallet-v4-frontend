@@ -244,14 +244,11 @@ export default ({ api, options }) => {
       yield put(A.fetchProfile())
       yield put(A.fetchTrades())
 
-      // get current kvstore trades
+      // save trades to metadata
       const kvTrades = yield select(buySellSelectors.getSfoxTrades)
-
-      // prepend new trade
       const newTrades = prepend(trade, kvTrades.getOrElse([]))
-
-      // set new trades to metadata
       yield put(buySellA.setSfoxTradesBuySell(newTrades))
+
       yield call(labelAddressForBuy, trade, addressData)
       return trade
     } catch (e) {
