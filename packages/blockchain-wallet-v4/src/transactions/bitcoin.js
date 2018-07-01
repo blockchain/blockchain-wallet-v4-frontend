@@ -188,7 +188,7 @@ export const _transformTx = (wallet, currentBlockHeight, getDescription, getPart
     amount: computeAmount(type, inputData, outputData),
     type: toLower(type),
     description: getDescription(tx.hash, toAddress),
-    partnerLabel: typeof getPartnerLabel === 'function' && getPartnerLabel(tx.hash),
+    partnerLabel: getPartnerLabel(tx.hash),
     time: tx.time,
     timeFormatted: getTime(tx),
     fee: tx.fee,

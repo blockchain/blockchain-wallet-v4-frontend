@@ -8,8 +8,9 @@ import { getAccountsList, getBchTxNote } from '../../kvStore/bch/selectors.js'
 import { toCashAddr } from '../../../utils/bch'
 import { isValidBitcoinAddress } from '../../../utils/bitcoin'
 import { getShapeshiftTxHashMatch } from '../../kvStore/shapeShift/selectors'
+import memoize from 'fast-memoize'
 
-const mTransformTx = transactions.bitcoin.transformTx
+const mTransformTx = memoize(transactions.bitcoin.transformTx)
 
 // getActiveHDAccounts :: state -> Remote ([hdacountsWithInfo])
 export const getActiveHDAccounts = state => {
