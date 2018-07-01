@@ -1532,7 +1532,6 @@
   "scenes.settings.preferences.bitcoinlinkhandling.title": "Bitcoin Link Handling",
   "scenes.settings.preferences.bitcoinlinkhandling.unknownstatus": "We can't detect whether or not handling of bitcoin links has been enabled.",
   "scenes.settings.preferences.bitcoinlinkhandling.unknownstatus2": "If it has already been enabled, nothing will happen.",
-  "scenes.settings.preferences.explain": "Customize your wallet experience.",
   "scenes.settings.preferences.localcurrency.error.description": "Select your local currency.",
   "scenes.settings.preferences.localcurrency.error.title": "Local Currency",
   "scenes.settings.preferences.localcurrency.loading.description": "Select your local currency.",
