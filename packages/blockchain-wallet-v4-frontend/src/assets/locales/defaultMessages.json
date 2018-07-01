@@ -7933,15 +7933,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Customize your wallet experience.",
-        "id": "scenes.settings.preferences.explain"
-      }
-    ],
-    "path": "src/scenes/Settings/Preferences/index.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "Local Currency",
         "id": "scenes.settings.preferences.localcurrency.error.title"
       },
