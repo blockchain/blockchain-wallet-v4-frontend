@@ -340,10 +340,6 @@ describe('authSagas', () => {
       saga.next().put(actions.auth.startLogoutTimer())
     })
 
-    it('should run goals', () => {
-      saga.next().put(actions.goals.runGoals())
-    })
-
     it('should select guid from state', () => {
       saga.next().select(selectors.core.wallet.getGuid)
     })
@@ -380,6 +376,10 @@ describe('authSagas', () => {
 
     it('should launch reportStats saga', () => {
       saga.next().fork(reportStats, mobileLogin)
+    })
+
+    it('should run goals', () => {
+      saga.next().put(actions.goals.runGoals())
     })
 
     it('should start listening for logout event', () => {
