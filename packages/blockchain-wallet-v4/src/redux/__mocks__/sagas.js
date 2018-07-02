@@ -28,6 +28,16 @@ export default () => ({
       handleTrade: jest.fn(),
       setProfile: jest.fn(),
       verifyMicroDeposits: jest.fn()
+    },
+    coinify: {
+      signup: jest.fn(),
+      buy: jest.fn(),
+      initialized: jest.fn(),
+      getKYC: jest.fn(),
+      triggerKYC: jest.fn(),
+      cancelTrade: jest.fn(),
+      cancelSubscription: jest.fn(),
+      
     }
   }
 })
