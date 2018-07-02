@@ -1,19 +1,15 @@
 import { select } from 'redux-saga/effects'
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
-import { fork, call } from 'redux-saga-test-plan/matchers'
-import { initialize, change } from 'redux-form'
+import { initialize } from 'redux-form'
 import { prop } from 'ramda'
 
 import rootReducer from '../../rootReducer'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import * as A from './actions'
-import * as S from './selectors'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
 import sendBtcSagas, { logLocation } from './sagas'
-import * as C from 'services/AlertService'
 import settings from 'config'
-import { HDAccount } from '../../../../../blockchain-wallet-v4/src/types';
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 const api = {
