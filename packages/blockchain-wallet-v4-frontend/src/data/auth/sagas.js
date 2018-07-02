@@ -95,7 +95,6 @@ export default ({ api, coreSagas }) => {
       yield call(upgradeAddressLabelsSaga)
       yield put(actions.auth.loginSuccess())
       yield put(actions.auth.startLogoutTimer())
-      yield put(actions.goals.runGoals())
       // store guid in cache for future logins
       const guid = yield select(selectors.core.wallet.getGuid)
       yield put(actions.cache.guidEntered(guid))
@@ -108,6 +107,8 @@ export default ({ api, coreSagas }) => {
       yield fork(transferEthSaga)
       yield fork(welcomeSaga, firstLogin)
       yield fork(reportStats, mobileLogin)
+      // check for and run goals/payment requests
+      yield put(actions.goals.runGoals())
       yield fork(logoutRoutine, yield call(setLogoutEventListener))
       if (!firstLogin) {
         yield put(actions.alerts.displaySuccess(C.LOGIN_SUCCESS))
