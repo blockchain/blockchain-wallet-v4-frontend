@@ -30,8 +30,9 @@ const tradeDateHelper = (trade) => {
 }
 
 const TradeItem = props => {
-  const { conversion, handleClick, handleFinish, handleTradeCancel, trade, status, cancelTradeId } = props
-  const receiveAmount = trade.isBuy ? trade.receiveAmount : Exchange.displayFiatToFiat({ value: trade.receiveAmount })
+  const { conversion, handleClick, handleFinish, handleTradeCancel, trade, status, cancelTradeId, partner } = props
+  const tradeReceiveAmount = partner === 'sfox' ? trade.receiveAmount - trade.feeAmount : trade.receiveAmount
+  const receiveAmount = trade.isBuy ? trade.receiveAmount : Exchange.displayFiatToFiat({ value: tradeReceiveAmount })
   const exchangeAmount = trade.isBuy ? Exchange.displayFiatToFiat({ value: trade.sendAmount / conversion.buy }) : trade.sendAmount / conversion.sell
   const canCancel = trade.isBuy && canCancelTrade(trade)
   const getOpacity = (trade) => equals(prop('state', trade), 'processing') ? 0.5 : 1
