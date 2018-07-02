@@ -7,7 +7,7 @@ import * as walletActions from '../../wallet/actions'
 import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import { coinifyService } from '../../../exchange/service'
 import * as buySellA from '../../kvStore/buySell/actions'
-import { equals, head, prop, sort, path, prepend } from 'ramda'
+import { equals, head, prop, sort, path } from 'ramda'
 
 export default ({ api, options }) => {
   const getCoinify = function * () {
