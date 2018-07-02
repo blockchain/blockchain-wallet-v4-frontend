@@ -1,4 +1,4 @@
-import { assoc, assocPath, compose, set } from 'ramda'
+import { assoc, assocPath, compose, lensPath, prepend, set } from 'ramda'
 import { mapped, over } from 'ramda-lens'
 import Remote from '../../../remote'
 import { KVStoreEntry } from '../../../types'
@@ -69,11 +69,11 @@ describe('kvStore buysell reducers', () => {
     expect(reducer(buySellMetadataSuccess, action)).toEqual(expectedState)
   })
 
-  it('should handle SET_COINIFY_TRADES_BUYSELL true', () => {
-    const trades = [5, 4, 0]
-    const action = actions.setCoinifyTradesBuySell(trades)
-    const setCoinifyTrades = assocPath(['coinify', 'trades'], trades)
-    const expectedState = over(valueLens, setCoinifyTrades, buySellMetadataSuccess)
+  it('should handle ADD_COINIFY_TRADE_BUYSELL true', () => {
+    const newTrade = 5
+    const action = actions.addCoinifyTradeBuySell(newTrade)
+    const tradesLens = compose(valueLens, lensPath(['coinify', 'trades']))
+    const expectedState = over(tradesLens, prepend(newTrade), buySellMetadataSuccess)
     expect(reducer(buySellMetadataSuccess, action)).toEqual(expectedState)
   })
 
