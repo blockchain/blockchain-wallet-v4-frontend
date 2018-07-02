@@ -22,7 +22,7 @@ const Wrapper = styled.div`
 `
 
 const Success = props => {
-  return props.balance === 0 ? <div /> : (
+  return props.balance === 0 ? null : (
     <LinkContainer to='/bch/transactions'>
       <Wrapper>
         <Text size='10px' weight={300}>BCH</Text>

@@ -83,7 +83,7 @@ export default ({ api }) => {
       const defaultAccountR = yield select(selectors.kvStore.ethereum.getContext)
       const address = defaultAccountR.getOrFail('Could not get ethereum context.')
       const pages = yield select(S.getTransactions)
-      const nextPage = length(pages)
+      const nextPage = reset ? 0 : length(pages)
       yield put(A.fetchTransactionsLoading(reset))
       const data = yield call(api.getEthereumTransactions, address, nextPage)
       const txs = path([address, 'txns'], data)

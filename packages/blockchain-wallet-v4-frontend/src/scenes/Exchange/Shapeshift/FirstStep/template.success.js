@@ -9,7 +9,7 @@ import { Form, NumberBoxDebounced } from 'components/Form'
 import MinimumAmountLink from './MinimumAmountLink'
 import MaximumAmountLink from './MaximumAmountLink'
 import SelectBox from './SelectBox'
-import { MaximumAmountMessage, MinimumAmountMessage, InsufficientAmountMessage, InvalidAmountMessage } from './validationMessages'
+import { AboveRegulationLimitMessage, MaximumAmountMessage, MinimumAmountMessage, InsufficientAmountMessage, InvalidAmountMessage } from './validationMessages'
 
 const Wrapper = styled.div`
   display: flex;
@@ -155,6 +155,7 @@ const Success = props => {
           {formError === 'minimum' && <MinimumAmountMessage />}
           {formError === 'maximum' && <MaximumAmountMessage />}
           {formError === 'insufficient' && <InsufficientAmountMessage />}
+          {formError === 'regulationlimit' && <AboveRegulationLimitMessage />}
           {formError === 'invalid' && <InvalidAmountMessage />}
         </Row>
         }

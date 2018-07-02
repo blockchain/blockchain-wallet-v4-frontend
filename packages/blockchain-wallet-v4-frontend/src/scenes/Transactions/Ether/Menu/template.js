@@ -5,6 +5,7 @@ import { Field, reduxForm } from 'redux-form'
 
 import { ComponentDropdown, Icon, Link, Text } from 'blockchain-info-components'
 import { TextBox, TabMenuTransactionStatus } from 'components/Form'
+import media, { isMobile } from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -31,17 +32,26 @@ const Status = styled.div`
     padding-left: 0px;
   }
   @media(min-width: 1200px) { width: 360px; }
+  ${media.mobile`
+    width: 75%;
+  `}
 `
 const PrivateKeysWrapper = styled.div`
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
   margin-right: 15px;
+  ${media.mobile`
+    margin-right: 0px;
+  `}
 `
 const Search = styled.div`
   position: relative;
   width: 60%;
   @media(min-width: 1200px) { width: auto; }
+  ${media.mobile`
+    width: auto;
+  `}
 `
 const SearchIcon = styled(Icon)`
   position: absolute;
@@ -90,12 +100,24 @@ const Menu = (props) => {
                 ].filter(x => x)} /> : <Link size={'12px'} weight={300} onClick={() => onShowPrivateKey(false)}><FormattedMessage id='scenes.transactions.ether.export.privatekey' defaultMessage='Export Private Key' /></Link>
             }
           </PrivateKeysWrapper>
-          <Search>
+          {
+            isMobile
+              ? null
+              : <Search>
+                <Field name='search' component={TextBox} />
+                <SearchIcon name='search' size='20px' />
+              </Search>
+          }
+        </MenuRight>
+      </Container>
+      {
+        isMobile
+          ? <Search>
             <Field name='search' component={TextBox} />
             <SearchIcon name='search' size='20px' />
           </Search>
-        </MenuRight>
-      </Container>
+          : null
+      }
     </Wrapper>
   )
 }
