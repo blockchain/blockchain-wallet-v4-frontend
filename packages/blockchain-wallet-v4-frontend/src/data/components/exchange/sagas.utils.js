@@ -3,7 +3,7 @@ import { equals, filter, identity, head, lift, path, pathOr, prop, propEq } from
 import * as selectors from '../../selectors'
 import * as actions from '../../actions'
 import settings from 'config'
-import { getPairFromCoin, convertFiatToCoin, convertCoinToFiat, isUndefinedOrEqualsToZero } from './services'
+import { getPairFromCoin, convertFiatToCoin, convertCoinToFiat, convertStandardToBase, isUndefinedOrEqualsToZero } from './services'
 import { selectRates } from '../utils/sagas'
 
 export default ({ api, coreSagas, options }) => {
@@ -60,16 +60,35 @@ export default ({ api, coreSagas, options }) => {
     }
   }
 
-  const getShapeShiftLimits = function * (source, target) {
+  const getShapeshiftMinimum = function * (source, target) {
     const coinSource = prop('coin', source)
     const coinTarget = prop('coin', target)
     const pair = getPairFromCoin(coinSource, coinTarget)
     const shapeshiftPairR = yield select(selectors.core.data.shapeShift.getPair(pair))
     const shapeshiftPair = shapeshiftPairR.getOrFail('Could not find shapeshift pair.')
+    const minimumStandard = prop('minimum', shapeshiftPair)
+    return convertStandardToBase(coinSource, minimumStandard)
+  }
 
-    return {
-      minimum: prop('minimum', shapeshiftPair),
-      maximum: prop('limit', shapeshiftPair)
+  const getShapeshiftMaximum = function * (source, target) {
+    const coinSource = prop('coin', source)
+    const coinTarget = prop('coin', target)
+    const pair = getPairFromCoin(coinSource, coinTarget)
+    const shapeshiftPairR = yield select(selectors.core.data.shapeShift.getPair(pair))
+    const shapeshiftPair = shapeshiftPairR.getOrFail('Could not find shapeshift pair.')
+    const maximumStandard = prop('limit', shapeshiftPair)
+    return convertStandardToBase(coinSource, maximumStandard)
+  }
+
+  const getRegulationLimit = function * (source) {
+    const sourceCoin = prop('coin', source)
+    const sourceRates = yield call(selectRates, sourceCoin)
+    const upperLimit = path(['platforms', 'web', 'shapeshift', 'config', 'upperLimit'], options) || 500
+    switch (sourceCoin) {
+      case 'BCH': return convertFiatToCoin(upperLimit, 'USD', 'BCH', 'SAT', sourceRates).value
+      case 'BTC': return convertFiatToCoin(upperLimit, 'USD', 'BTC', 'SAT', sourceRates).value
+      case 'ETH': return convertFiatToCoin(upperLimit, 'USD', 'ETH', 'WEI', sourceRates).value
+      default: throw new Error('getRegulationLimit: coin not found.')
     }
   }
 
@@ -211,7 +230,9 @@ export default ({ api, coreSagas, options }) => {
     calculateEffectiveBalance,
     createPayment,
     resumePayment,
-    getShapeShiftLimits,
+    getShapeshiftMinimum,
+    getShapeshiftMaximum,
+    getRegulationLimit,
     convertValues,
     getDefaultBtcAccountValue,
     getDefaultEthAccountValue,
