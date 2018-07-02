@@ -125,7 +125,8 @@ const selectFromAndto = (inputs, outputs, type) => {
   )(outputs) || outputs[0]
   return {
     from: inputs[0].label || inputs[0].address,
-    to: myOutput.label || myOutput.address
+    to: myOutput.label || myOutput.address,
+    toAddress: myOutput.address
   }
 }
 
@@ -166,7 +167,7 @@ export const getTime = tx => {
     : date.format('MMMM D YYYY @ h:mm A')
 }
 
-export const _transformTx = (wallet, currentBlockHeight, tx) => {
+export const _transformTx = (wallet, currentBlockHeight, getDescription, getPartnerLabel, tx) => {
   const conf = currentBlockHeight - tx.block_height + 1
   const confirmations = conf > 0 ? conf : 0
   const type = txtype(tx.result, tx.fee)
@@ -179,14 +180,15 @@ export const _transformTx = (wallet, currentBlockHeight, tx) => {
     t => mapAccum(appender(inputTagger), init, prop('inputs', t))
   )(tx)
   const [outputData, outputs] = findLegacyChanges(inputs, inputData, outs, oData)
-  const { from, to } = selectFromAndto(inputs, outputs, type)
+  const { from, to, toAddress } = selectFromAndto(inputs, outputs, type)
 
   return ({
     double_spend: tx.double_spend,
     hash: tx.hash,
     amount: computeAmount(type, inputData, outputData),
     type: toLower(type),
-    description: tx.description,
+    description: getDescription(tx.hash, toAddress),
+    partnerLabel: getPartnerLabel(tx.hash),
     time: tx.time,
     timeFormatted: getTime(tx),
     fee: tx.fee,

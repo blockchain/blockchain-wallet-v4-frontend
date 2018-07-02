@@ -6,6 +6,7 @@ import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import { SettingDescription, SettingHeader } from 'components/Setting'
 import { Banner, Table, TableHeader, TableCell, TableRow, Text, IconButton, Link } from 'blockchain-info-components'
 import { filter } from 'ramda'
+import media from 'services/ResponsiveService'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
@@ -14,8 +15,15 @@ const BitcoinWalletsAddressesSettingHeader = SettingHeader.extend`
   justify-content: flex-start;
 `
 const WalletTableCell = styled(TableCell)`
+  display: flex;
+  flex-direction: row;
   align-items: center;
   min-height: 23px;
+
+  ${media.mobile`
+    flex-direction: column;
+    align-items: flex-start;
+  `}
 `
 const LabelCell = styled(Text)`
   margin-right: 6px;
@@ -27,7 +35,7 @@ const Success = ({ wallets, handleClick, onUnarchive, search }) => {
   const walletTableRows = filter(isMatch, wallets).map((wallet) => {
     return (
       <TableRow key={wallet.index}>
-        <WalletTableCell width='50%' style={{ display: 'flex' }}>
+        <WalletTableCell width='50%'>
           <LabelCell size='13px'>{wallet.label}</LabelCell>
           {wallet.default && <Banner label><FormattedMessage id='scenes.settings.addresses.btc.wallets.defaultlabel' defaultMessage='Default' /></Banner>}
           {wallet.archived && <Banner label type='informational'><FormattedMessage id='scenes.settings.addresses.btc.wallets.archivedlabel' defaultMessage='Archived' /></Banner>}

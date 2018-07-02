@@ -1012,6 +1012,27 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "ShapeShift Deposit",
+        "id": "components.txlistitem.partnerlabel.depositedshapeshift"
+      },
+      {
+        "defaultMessage": "Received from ShapeShift",
+        "id": "components.txlistitem.partnerlabel.receivedshapeshift"
+      },
+      {
+        "defaultMessage": "Sold via {partner}",
+        "id": "components.txlistitem.partnerlabel.soldvia"
+      },
+      {
+        "defaultMessage": "Bought via {partner}",
+        "id": "components.txlistitem.partnerlabel.boughtvia"
+      }
+    ],
+    "path": "src/components/TransactionListItem/PartnerLabel/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Sent",
         "id": "scenes.transactions.bitcoin.content.list.listitem.status.sent"
       },
@@ -2095,6 +2116,10 @@
         "id": "sfoxexchangedata.create.createaccount.partner.edit"
       },
       {
+        "defaultMessage": "edit email",
+        "id": "sfoxexchangedata.create.createaccount.partner.editemail"
+      },
+      {
         "defaultMessage": "Unfortunately this email is being used for another account.",
         "id": "coinifyexchangedata.create.accept.error1"
       },
@@ -2259,8 +2284,12 @@
         "id": "coinifyexchangedata.payment.mediumhelpers.bank"
       },
       {
+        "defaultMessage": "The quoted amount is more than your current bank limit.",
+        "id": "scenes.buysell.coinifyexchangedata.payment.bank.unavailable_limits"
+      },
+      {
         "defaultMessage": "Bank transfers are unavailable until Identity Verification has been finished.",
-        "id": "scenes.buysell.coinifyexchangedata.payment.bank.unavailable"
+        "id": "scenes.buysell.coinifyexchangedata.payment.bank.unavailable_kyc"
       },
       {
         "defaultMessage": "Finish Identity Verification",
@@ -2941,10 +2970,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Request",
-        "id": "modals.requestbitcoin.secondstep.title"
-      },
-      {
         "defaultMessage": "Send the link below to your friend or contact and they will be able to send bitcoin directly to your wallet.",
         "id": "modals.requestbitcoin.secondstep.explain"
       },
@@ -3548,8 +3573,16 @@
         "id": "sfoxexchangedata.create.createaccount.partner.edit"
       },
       {
+        "defaultMessage": "edit email",
+        "id": "sfoxexchangedata.create.createaccount.partner.editemail"
+      },
+      {
         "defaultMessage": "Verified Phone Number",
         "id": "sfoxexchangedata.create.createaccount.partner.verifiedmobile"
+      },
+      {
+        "defaultMessage": "edit mobile",
+        "id": "sfoxexchangedata.create.createaccount.partner.editmobile"
       },
       {
         "defaultMessage": "Unfortunately this email is being used for another account.",
@@ -4457,6 +4490,15 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Upgrading your wallet. This should take around {duration} seconds.",
+        "id": "modals.upgradeaddresslabels.explain"
+      }
+    ],
+    "path": "src/modals/UpgradeAddressLabels/template.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Welcome to your Blockchain Wallet!",
         "id": "modals.upgradewallet.title"
       },
@@ -4764,7 +4806,7 @@
       },
       {
         "defaultMessage": "Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order.",
-        "id": "scenes.buysell.coinifycheckout.content.orderreview.buy.revieworder.subtext"
+        "id": "scenes.buysell.coinifycheckout.content.orderreview.buy.revieworder.subPartnerSubHeader"
       },
       {
         "defaultMessage": "Exchange Rate",
@@ -4777,6 +4819,18 @@
       {
         "defaultMessage": "BTC Amount to Sell",
         "id": "orderdetails.amounttosell"
+      },
+      {
+        "defaultMessage": "BTC Transaction Fee",
+        "id": "orderdetails.btctransactionfee"
+      },
+      {
+        "defaultMessage": "BTC to be Received",
+        "id": "orderdetails.btctobereceived"
+      },
+      {
+        "defaultMessage": "Amount",
+        "id": "orderdetails.amount"
       },
       {
         "defaultMessage": "Trading Fee",
@@ -4886,6 +4940,14 @@
       {
         "defaultMessage": "Your remaining buy limit is {max}",
         "id": "buy.quote_input.remaining_buy_limit"
+      },
+      {
+        "defaultMessage": "Your remaining card buy limit is {cardMax}",
+        "id": "buy.quote_input.remaining_card_buy_limit"
+      },
+      {
+        "defaultMessage": "Your remaining bank buy limit is {bankMax}",
+        "id": "buy.quote_input.remaining_bank_buy_limit"
       },
       {
         "defaultMessage": "Increase your limit.",
@@ -5348,6 +5410,10 @@
   },
   {
     "descriptors": [
+      {
+        "defaultMessage": "Please enter an amount less than the limit.",
+        "id": "modals.exchange.abovelimitmessage"
+      },
       {
         "defaultMessage": "Not enough funds.",
         "id": "modals.exchange.maximumamountmessage"
@@ -6138,7 +6204,7 @@
         "id": "scenes.login.explain"
       },
       {
-        "defaultMessage": "Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, IE 11, or Opera.",
+        "defaultMessage": "Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, Edge, or Opera.",
         "id": "scenes.login.browserwarning"
       },
       {
@@ -6324,10 +6390,6 @@
       {
         "defaultMessage": "Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, IE 11, or Opera",
         "id": "scenes.register.browserwarning"
-      },
-      {
-        "defaultMessage": "We recommend that you use a more secure browser like Chrome or Firefox.",
-        "id": "scenes.register.msiewarning"
       },
       {
         "defaultMessage": "Email",
@@ -7051,8 +7113,16 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Verified Email",
+        "id": "scenes.securitycenter.steps.step1mobile"
+      },
+      {
         "defaultMessage": "Verified Email Address",
         "id": "scenes.securitycenter.steps.step1"
+      },
+      {
+        "defaultMessage": "2 Factor Auth",
+        "id": "scenes.securitycenter.steps.step2mobile"
       },
       {
         "defaultMessage": "Two-Step Verification",
@@ -8155,7 +8225,7 @@
     "descriptors": [
       {
         "defaultMessage": "Welcome to",
-        "id": "scenes.transaction.bitcoin.content.empty.bitcoinwelcome.welcome"
+        "id": "scenes.transaction.bitcoin.content.empty.bitcoinwelcome.welcometo"
       },
       {
         "defaultMessage": "Learn More",
