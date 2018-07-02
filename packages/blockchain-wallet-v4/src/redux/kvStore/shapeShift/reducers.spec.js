@@ -92,13 +92,14 @@ describe('kvStore shapeshift reducers', () => {
     expect(reducer(shapeshiftMetadataSuccess, action)).toEqual(expectedState)
   })
 
-  it('should handle UPDATE_TRADE_STATUS_METADATA_SHAPESHIFT', () => {
-    const action = actions.updateTradeStatusMetadataShapeshift('my deposit address', 'complete')
+  it('should handle UPDATE_TRADE_METADATA_SHAPESHIFT', () => {
+    const action = actions.updateTradeMetadataShapeshift('my deposit address', 'complete', 'my hashOut')
     const expectedState = Remote.Success(set(
       KVStoreEntry.value,
       assocPath(['trades', 0], {
         quote: { deposit: 'my deposit address' },
-        status: 'complete'
+        status: 'complete',
+        hashOut: 'my hashOut'
       }, shapeshiftObject),
       KVStoreEntry.createEmpty(typeId)))
     expect(reducer(shapeshiftMetadataSuccess, action)).toEqual(expectedState)
