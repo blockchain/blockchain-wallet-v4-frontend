@@ -20,5 +20,14 @@ export default () => ({
     bch: {
       fetchMetadataBch: jest.fn()
     }
+  },
+  data: {
+    sfox: {
+      signup: jest.fn(),
+      setBankAccount: jest.fn(),
+      handleTrade: jest.fn(),
+      setProfile: jest.fn(),
+      verifyMicroDeposits: jest.fn()
+    }
   }
 })
