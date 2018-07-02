@@ -3,6 +3,8 @@ import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 import ReactHighcharts from 'react-highcharts'
 import { FormattedMessage } from 'react-intl'
+import { gt, gte } from 'ramda'
+
 import { Text, Link } from 'blockchain-info-components'
 import configure from './chart.config.js'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
@@ -27,7 +29,7 @@ const Wrapper = styled.div`
       fill: ${props => props.theme['gray-5']} !important;
     }
     .highcharts-color-0 {
-      fill: ${props => props.btcBalance > 0 ? props.theme['brand-primary'] : props.theme['gray-2']} !important;
+      fill: ${props => gt(props.btcBalance, 0) ? props.theme['brand-primary'] : props.theme['gray-2']} !important;
     }
     .highcharts-color-1 {
       fill: ${props => props.theme['brand-secondary']} !important;
@@ -96,21 +98,27 @@ const BalancesChart = (props) => {
             <FormattedMessage id='scenes.home.balanceschart.btc' defaultMessage='Bitcoin' />
           </Text>
           <CoinBalance onClick={handleCoinDisplay}>
-            <SwitchableDisplay coin='BTC' cursor='pointer' size='14px' weight={200}>{btcBalance}</SwitchableDisplay>
+            {
+              !gte(btcBalance, 0)
+                ? <Text size='14px' weight={200}>
+                  <FormattedMessage id='scenes.home.balanceschart.btc.unkown' defaultMessage='Unknown amount' />
+                </Text>
+                : <SwitchableDisplay coin='BTC' cursor='pointer' size='14px' weight={200}>{btcBalance}</SwitchableDisplay>
+            }
           </CoinBalance>
           { partner
-            ? btcBalance <= 0 && <WalletLink to='/buy-sell' size='10px' weight={300}>
+            ? gt(0, btcBalance) && <WalletLink to='/buy-sell' size='10px' weight={300}>
               <FormattedMessage id='scenes.home.balanceschart.buybtc' defaultMessage='Buy Bitcoin' />
             </WalletLink>
-            : ethBalance > 0 || bchBalance > 0
+            : gt(ethBalance, 0) || gt(bchBalance, 0)
               ? <WalletLink to='/exchange' size='10px' weight={300}>
                 <FormattedMessage id='scenes.home.balanceschart.getstarted' defaultMessage='Get Started' />
               </WalletLink>
-              : btcBalance <= 0 && <Link size='10px' weight={300} onClick={() => modalsActions.showModal('RequestBitcoin')}>
+              : gt(0, btcBalance) && <Link size='10px' weight={300} onClick={() => modalsActions.showModal('RequestBitcoin')}>
                 <FormattedMessage id='scenes.home.balanceschart.requestbtc' defaultMessage='Request Bitcoin' />
               </Link>
           }
-          {btcAccountsLength > 1 && btcBalance > 0
+          {btcAccountsLength > 1 && gt(btcBalance, 0)
             ? <NavLink to='/settings/addresses' style={{ textDecoration: 'none' }}>
               <ViewAllText weight={300} size='10px'>
                 <FormattedMessage id='scenes.home.balanceschart.btc.viewall' defaultMessage='View All Balances' />
@@ -125,13 +133,19 @@ const BalancesChart = (props) => {
             <FormattedMessage id='scenes.home.balanceschart.eth' defaultMessage='Ether' />
           </Text>
           <CoinBalance onClick={handleCoinDisplay}>
-            <SwitchableDisplay coin='ETH' cursor='pointer' size='14px' weight={200}>{ethBalance}</SwitchableDisplay>
+            {
+              !gte(ethBalance, 0)
+                ? <Text size='14px' weight={200}>
+                  <FormattedMessage id='scenes.home.balanceschart.eth.unkown' defaultMessage='Unknown amount' />
+                </Text>
+                : <SwitchableDisplay coin='ETH' cursor='pointer' size='14px' weight={200}>{ethBalance}</SwitchableDisplay>
+            }
           </CoinBalance>
-          { (btcBalance > 0 || bchBalance > 0) && ethBalance <= 0
+          { (gt(btcBalance, 0) || gt(bchBalance, 0)) && !gt(ethBalance, 0)
             ? <WalletLink to='/exchange' size='10px' weight={300}>
               <FormattedMessage id='scenes.home.balanceschart.getstarted' defaultMessage='Get Started' />
             </WalletLink>
-            : ethBalance <= 0 && <Link size='10px' weight={300} onClick={() => modalsActions.showModal('RequestEther')}>
+            : gt(0, ethBalance) && <Link size='10px' weight={300} onClick={() => modalsActions.showModal('RequestEther')}>
               <FormattedMessage id='scenes.home.balanceschart.requesteth' defaultMessage='Request Ether' />
             </Link>
           }
@@ -142,17 +156,23 @@ const BalancesChart = (props) => {
             <FormattedMessage id='scenes.home.balanceschart.bch' defaultMessage='Bitcoin Cash' />
           </Text>
           <CoinBalance onClick={handleCoinDisplay}>
-            <SwitchableDisplay coin='BCH' cursor='pointer' size='14px' weight={200}>{bchBalance}</SwitchableDisplay>
+            {
+              !gte(bchBalance, 0)
+                ? <Text size='14px' weight={200}>
+                  <FormattedMessage id='scenes.home.balanceschart.bch.unkown' defaultMessage='Unknown amount' />
+                </Text>
+                : <SwitchableDisplay coin='BCH' cursor='pointer' size='14px' weight={200}>{bchBalance}</SwitchableDisplay>
+            }
           </CoinBalance>
-          { (btcBalance > 0 || ethBalance > 0) && bchBalance <= 0
+          { (gt(btcBalance, 0) || gt(ethBalance, 0)) && !gt(bchBalance, 0)
             ? <WalletLink to='/exchange' size='10px' weight={300}>
               <FormattedMessage id='scenes.home.balanceschart.getstarted' defaultMessage='Get Started' />
             </WalletLink>
-            : bchBalance <= 0 && <Link size='10px' weight={300} onClick={() => modalsActions.showModal('RequestBch')}>
+            : gt(0, bchBalance) && <Link size='10px' weight={300} onClick={() => modalsActions.showModal('RequestBch')}>
               <FormattedMessage id='scenes.home.balanceschart.requestbch' defaultMessage='Request Bitcoin Cash' />
             </Link>
           }
-          {bchAccountsLength > 1 && bchBalance > 0
+          {bchAccountsLength > 1 && gt(bchBalance, 0)
             ? <NavLink to='/settings/addresses/bch' style={{ textDecoration: 'none' }}>
               <ViewAllText weight={300} size='10px'>
                 <FormattedMessage id='scenes.home.balanceschart.bch.viewall' defaultMessage='View All Balances' />
