@@ -17,6 +17,11 @@ export default () => {
         case '/bch/transactions': yield call(refreshBchTransactions); break
         case '/btc/transactions': yield call(refreshBtcTransactions); break
         case '/eth/transactions': yield call(refreshEthTransactions); break
+        case '/home': {
+          yield put(actions.core.data.bitcoin.fetchTransactions('', true))
+          yield put(actions.core.data.ethereum.fetchTransactions(true))
+          yield put(actions.core.data.bch.fetchTransactions('', true))
+        }
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage('components/refresh/sagas', 'refresh', 'Refresh failed.'))
