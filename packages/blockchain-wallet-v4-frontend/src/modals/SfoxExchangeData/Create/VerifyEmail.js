@@ -14,11 +14,17 @@ import { Text, Button } from 'blockchain-info-components'
 import { required } from 'services/FormHelper'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ColRightInner, EmailHelper } from 'components/BuySell/Signup'
 import { spacing } from 'services/StyleService'
+import media from 'services/ResponsiveService'
 
 const EmailInput = styled.div`
   display: flex;
   margin-top: 25px;
   flex-direction: column;
+`
+const VerifyEmailForm = styled(Form)`
+  ${media.mobile`
+    flex-direction: column;
+  `}
 `
 
 class VerifyEmail extends Component {
@@ -71,7 +77,7 @@ class VerifyEmail extends Component {
     }
 
     return (
-      <Form onSubmit={this.onSubmit}>
+      <VerifyEmailForm onSubmit={this.onSubmit}>
         <ColLeft>
           <InputWrapper>
             <PartnerHeader>
@@ -112,7 +118,7 @@ class VerifyEmail extends Component {
             </ButtonWrapper>
           </ColRightInner>
         </ColRight>
-      </Form>
+      </VerifyEmailForm>
     )
   }
 }

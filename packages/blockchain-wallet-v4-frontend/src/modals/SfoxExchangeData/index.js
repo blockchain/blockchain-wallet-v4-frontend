@@ -37,6 +37,7 @@ class SfoxExchangeData extends React.PureComponent {
   handleClose () {
     this.setState({ show: false })
     setTimeout(this.props.close, 500)
+    this.props.sfoxFrontendActions.handleModalClose()
   }
 
   getStepComponent (step) {
@@ -82,12 +83,13 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch),
   sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch)
 })
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  modalEnhancer('SfoxExchangeData')
+  modalEnhancer('SfoxExchangeData'),
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default enhance(SfoxExchangeData)

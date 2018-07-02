@@ -23,7 +23,8 @@ class ShowUsedAddressesContainer extends React.PureComponent {
 
   render () {
     return (
-      <ShowUsedAddresses {...this.props} busy={this.state.busy} handleContinue={this.handleContinue} />
+      <ShowUsedAddresses {...this.props} busy={this.state.busy}
+        handleContinue={this.handleContinue} />
     )
   }
 }

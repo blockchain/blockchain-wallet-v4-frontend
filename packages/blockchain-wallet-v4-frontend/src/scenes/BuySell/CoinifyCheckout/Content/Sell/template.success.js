@@ -12,11 +12,16 @@ import SelectAccounts from './SelectAccounts'
 import ISignThis from 'modals/CoinifyExchangeData/ISignThis'
 import KYCNotification from '../KYCNotification'
 import { ColLeft, ColRight, ColRightInner, Row } from 'components/BuySell/Signup'
+import media from 'services/ResponsiveService'
 
 const CheckoutWrapper = styled.div`
   display: grid;
   grid-template-columns: 55% 35%;
   grid-gap: 10%;
+  ${media.mobile`
+    display: flex;
+    flex-direction: column;
+  `}
 `
 
 const Sell = props => {

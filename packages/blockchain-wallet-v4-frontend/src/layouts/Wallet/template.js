@@ -16,6 +16,8 @@ import EthMenu from '../../scenes/Transactions/Ether/Menu'
 import AddrMenu from '../../scenes/Settings/Addresses/Menu'
 import ExchangeMenu from '../Exchange'
 
+import media from 'services/ResponsiveService'
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -23,6 +25,7 @@ const Wrapper = styled.div`
 `
 const Container = styled.div`
   display: flex;
+  position: relative;
   width: 100%;
   height: calc(100% - 60px);
 `
@@ -42,9 +45,11 @@ const Content = styled.div`
   @media(max-width: 768px) { width: 100%; }
 `
 const Top = styled.div`
-  display: flex;
   height: 115px;
   width: 100%;
+  ${media.mobile`
+    height: 150px;
+  `}
 `
 
 const WalletLayout = props => {
