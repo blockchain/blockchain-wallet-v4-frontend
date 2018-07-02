@@ -31,7 +31,7 @@ const tradeDateHelper = (trade) => {
 
 const TradeItem = props => {
   const { conversion, handleClick, handleFinish, handleTradeCancel, trade, status, cancelTradeId, partner } = props
-  const tradeReceiveAmount = partner === 'sfox' ? trade.receiveAmount - trade.feeAmount : trade.receiveAmount
+  const tradeReceiveAmount = partner === 'sfox' ? prop('receiveAmount', trade) - prop('feeAmount', trade) : prop('receiveAmount', trade)
   const receiveAmount = trade.isBuy ? trade.receiveAmount : Exchange.displayFiatToFiat({ value: tradeReceiveAmount })
   const exchangeAmount = trade.isBuy ? Exchange.displayFiatToFiat({ value: trade.sendAmount / conversion.buy }) : trade.sendAmount / conversion.sell
   const canCancel = trade.isBuy && canCancelTrade(trade)
