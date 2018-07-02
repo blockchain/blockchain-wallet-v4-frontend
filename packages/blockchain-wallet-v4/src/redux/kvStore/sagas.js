@@ -1,5 +1,6 @@
 // import whatsNew from './whatsNew/sagas'
 import bch from './bch/sagas'
+import btc from './btc/sagas'
 import ethereum from './ethereum/sagas'
 import shapeShift from './shapeShift/sagas'
 import buySell from './buySell/sagas'
@@ -13,5 +14,6 @@ export default ({ api }) => ({
   ethereum: ethereum({ api }),
   shapeShift: shapeShift({ api }),
   buySell: buySell({ api }),
-  contacts: contacts({ api })
+  contacts: contacts({ api }),
+  btc: btc({ api })
 })

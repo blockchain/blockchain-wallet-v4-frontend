@@ -21,6 +21,7 @@ export const fetchProfile = (data) => ({ type: AT.FETCH_PROFILE, payload: data }
 export const fetchProfileLoading = () => ({ type: AT.FETCH_PROFILE_LOADING })
 export const fetchProfileSuccess = (data) => ({ type: AT.FETCH_PROFILE_SUCCESS, payload: data })
 export const fetchProfileFailure = (error) => ({ type: AT.FETCH_PROFILE_FAILURE, payload: error })
+export const refetchProfile = () => ({ type: AT.REFETCH_PROFILE })
 
 export const sfoxFetchAccounts = () => ({ type: AT.SFOX_FETCH_ACCOUNTS, payload: {} })
 export const sfoxFetchAccountsLoading = () => ({ type: AT.SFOX_FETCH_ACCOUNTS_LOADING })
@@ -43,6 +44,7 @@ export const uploadFailure = (error) => ({ type: AT.UPLOAD_FAILURE, payload: err
 export const getBankAccounts = (token) => ({ type: AT.GET_BANK_ACCOUNTS, payload: token })
 export const getBankAccountsSuccess = (accounts) => ({ type: AT.GET_BANK_ACCOUNTS_SUCCESS, payload: accounts })
 export const getBankAccountsFailure = (error) => ({ type: AT.GET_BANK_ACCOUNTS_FAILURE, payload: error })
+export const wipeBankAccounts = () => ({ type: AT.WIPE_BANK_ACCOUNTS })
 
 export const setBankAccount = (data) => ({ type: AT.SET_BANK_ACCOUNT, payload: data })
 export const setBankAccountSuccess = () => ({ type: AT.SET_BANK_ACCOUNT_SUCCESS })

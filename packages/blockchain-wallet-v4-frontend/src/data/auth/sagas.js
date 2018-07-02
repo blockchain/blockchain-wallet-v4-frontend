@@ -1,6 +1,6 @@
 import { call, put, select, take, fork } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import { path, prop, assoc } from 'ramda'
+import { path, prop, assoc, is } from 'ramda'
 import Either from 'data.either'
 
 import * as actions from '../actions.js'
@@ -18,6 +18,7 @@ export const guidNotFound2faErrorMessage = 'Wallet Identifier Not Found'
 export const notEnabled2faErrorMessage = 'Error: Two factor authentication not enabled.'
 export const emailMismatch2faErrorMessage = 'Error: Email entered does not match the email address associated with this wallet'
 export const wrongCaptcha2faErrorMessage = 'Error: Captcha Code Incorrect'
+export const wrongAuthCodeErrorMessage = 'Authentication code is incorrect'
 
 export default ({ api, coreSagas }) => {
   const upgradeWallet = function * () {
@@ -46,6 +47,19 @@ export default ({ api, coreSagas }) => {
   const upgradeWalletSaga = function * () {
     yield put(actions.modals.showModal('UpgradeWallet'))
     yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
+  }
+
+  const upgradeAddressLabelsSaga = function * () {
+    const addressLabelSize = yield call(coreSagas.kvStore.btc.fetchMetadataBtc)
+    if (addressLabelSize > 100) {
+      yield put(actions.modals.showModal('UpgradeAddressLabels', {duration: addressLabelSize / 20}))
+    }
+    if (addressLabelSize >= 0) {
+      yield call(coreSagas.kvStore.btc.createMetadataBtc)
+    }
+    if (addressLabelSize > 100) {
+      yield put(actions.modals.closeModal())
+    }
   }
 
   const transferEthSaga = function * () {
@@ -78,6 +92,7 @@ export default ({ api, coreSagas }) => {
       yield call(coreSagas.kvStore.ethereum.fetchMetadataEthereum, askSecondPasswordEnhancer)
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
       yield put(actions.router.push('/home'))
+      yield call(upgradeAddressLabelsSaga)
       yield put(actions.auth.loginSuccess())
       yield put(actions.auth.startLogoutTimer())
       yield put(actions.goals.runGoals())
@@ -170,6 +185,16 @@ export default ({ api, coreSagas }) => {
         yield put(actions.auth.loginFailure())
         yield put(actions.auth.setAuthType(error.auth_type))
         yield put(actions.alerts.displayInfo(C.TWOFA_REQUIRED_INFO))
+      // Wrong password error
+      } else if (error && is(String, error) && error.includes(wrongWalletPassErrorMessage)) {
+        yield put(actions.form.clearFields('login', false, true, 'password'))
+        yield put(actions.form.focus('login', 'password'))
+        yield put(actions.auth.loginFailure(error))
+      // Wrong 2fa code error
+      } else if (error && is(String, error) && error.includes(wrongAuthCodeErrorMessage)) {
+        yield put(actions.form.clearFields('login', false, true, 'code'))
+        yield put(actions.form.focus('login', 'code'))
+        yield put(actions.auth.loginFailure(error))
       } else {
         const errorMessage =
           prop('message', error) || error || defaultLoginErrorMessage
@@ -351,6 +376,7 @@ export default ({ api, coreSagas }) => {
     transferEthSaga,
     upgradeWallet,
     upgradeWalletSaga,
+    upgradeAddressLabelsSaga,
     welcomeSaga
   }
 }

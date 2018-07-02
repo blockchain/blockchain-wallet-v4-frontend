@@ -12,7 +12,7 @@ import { equals, head, prop, sort, path } from 'ramda'
 export default ({ api, options }) => {
   const getCoinify = function * () {
     const state = yield select()
-    const delegate = new ExchangeDelegate(state, api)
+    const delegate = new ExchangeDelegate(state, api, 'coinify')
     const value = yield select(buySellSelectors.getMetadata)
     const walletOptions = state.walletOptionsPath.data
     let coinify = yield apply(coinifyService, coinifyService.refresh,
@@ -27,9 +27,8 @@ export default ({ api, options }) => {
   const refreshCoinify = function * () {
     yield put(A.coinifyFetchProfileLoading())
     const state = yield select()
-    const delegate = new ExchangeDelegate(state, api)
+    const delegate = new ExchangeDelegate(state, api, 'coinify')
     const value = yield select(buySellSelectors.getMetadata)
-
     const walletOptions = state.walletOptionsPath.data
     coinify = yield apply(coinifyService, coinifyService.refresh,
       [value, delegate, walletOptions])
@@ -244,6 +243,10 @@ export default ({ api, options }) => {
       yield put(A.handleTradeSuccess(buyResult))
       const coinifyObj = yield call(getCoinify)
       yield put(A.fetchTrades(coinifyObj))
+
+      // save trade to metadata
+      yield put(buySellA.addCoinifyTradeBuySell(buyResult))
+
       yield call(labelAddressForBuy, buyResult, addressData)
       return buyResult
     } catch (e) {
@@ -271,6 +274,7 @@ export default ({ api, options }) => {
       yield put(A.handleTradeSuccess(sellResult))
       yield put(A.fetchTrades())
       yield call(getCoinify)
+      yield put(buySellA.addCoinifyTradeBuySell(sellResult))
       return sellResult
     } catch (e) {
       yield put(A.handleTradeFailure(e))

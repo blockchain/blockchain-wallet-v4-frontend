@@ -15,7 +15,7 @@ let sfox
 export default ({ api, options }) => {
   const refreshSFOX = function * () {
     const state = yield select()
-    const delegate = new ExchangeDelegate(state, api)
+    const delegate = new ExchangeDelegate(state, api, 'sfox')
     const value = yield select(buySellSelectors.getMetadata)
     const walletOptions = state.walletOptionsPath.data
     sfox = sfoxService.refresh(value, delegate, walletOptions)
@@ -39,6 +39,11 @@ export default ({ api, options }) => {
     } catch (e) {
       yield put(A.fetchProfileFailure(e))
     }
+  }
+
+  const refetchProfile = function * () {
+    const profile = yield apply(sfox, sfox.fetchProfile)
+    yield put(A.fetchProfileSuccess(profile))
   }
 
   const fetchQuote = function * (data) {
@@ -84,7 +89,7 @@ export default ({ api, options }) => {
       yield put(A.fetchTradesLoading())
 
       const kvTrades = yield select(buySellSelectors.getSfoxTrades)
-      const numberOfTrades = kvTrades.length
+      const numberOfTrades = kvTrades.getOrElse([]).length
       const trades = yield apply(sfox, sfox.getTrades, [numberOfTrades])
       yield put(A.fetchTradesSuccess(trades))
     } catch (e) {
@@ -121,7 +126,7 @@ export default ({ api, options }) => {
   const getSfox = function * () {
     try {
       const state = yield select()
-      const delegate = new ExchangeDelegate(state, api)
+      const delegate = new ExchangeDelegate(state, api, 'sfox')
       const value = yield select(buySellSelectors.getMetadata)
       const walletOptions = state.walletOptionsPath.data
       const sfox = sfoxService.refresh(value, delegate, walletOptions)
@@ -239,14 +244,11 @@ export default ({ api, options }) => {
       yield put(A.fetchProfile())
       yield put(A.fetchTrades())
 
-      // get current kvstore trades
+      // save trades to metadata
       const kvTrades = yield select(buySellSelectors.getSfoxTrades)
-
-      // prepend new trade
-      const newTrades = prepend(trade, kvTrades)
-
-      // set new trades to metadata
+      const newTrades = prepend(trade, kvTrades.getOrElse([]))
       yield put(buySellA.setSfoxTradesBuySell(newTrades))
+
       yield call(labelAddressForBuy, trade, addressData)
       return trade
     } catch (e) {
@@ -281,7 +283,7 @@ export default ({ api, options }) => {
 
       // get current kvstore trades, add new trade and set new trades to metadata
       const kvTrades = yield select(buySellSelectors.getSfoxTrades)
-      const newTrades = prepend(trade, kvTrades)
+      const newTrades = prepend(trade, kvTrades.getOrElse([]))
       yield put(buySellA.setSfoxTradesBuySell(newTrades))
 
       return trade
@@ -308,6 +310,7 @@ export default ({ api, options }) => {
     verifyMicroDeposits,
     handleTrade,
     handleSellTrade,
-    labelAddressForBuy
+    labelAddressForBuy,
+    refetchProfile
   }
 }

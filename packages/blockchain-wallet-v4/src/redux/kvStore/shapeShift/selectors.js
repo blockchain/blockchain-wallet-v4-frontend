@@ -1,4 +1,4 @@
-import { compose, curry, filter, head, path, reverse } from 'ramda'
+import { compose, curry, filter, head, path, reverse, contains } from 'ramda'
 import { SHAPESHIFT } from '../config'
 import { kvStorePath } from '../../paths'
 
@@ -7,3 +7,16 @@ export const getUsState = state => getMetadata(state).map(path(['value', 'USASta
 export const getTrades = state => getMetadata(state).map(path(['value', 'trades'])).map(trades => reverse(trades))
 export const getTrade = curry((address, state) => getTrades(state)
   .map(compose(head, filter(x => path(['quote', 'deposit'], x) === address))))
+
+export const getShapeshiftTxHashMatch = (state, hash) => getMetadata(state).map(data => {
+  const trades = getTrades(state).getOrElse([])
+
+  const tradesHashIn = trades.map(t => t.hashIn)
+  const tradesHashOut = trades.map(t => t.hashOut)
+
+  const hasHashInLabel = contains(hash, tradesHashIn)
+  const hasHashOutLabel = contains(hash, tradesHashOut)
+
+  if (hasHashInLabel || hasHashOutLabel) return 'shift'
+  return null
+}).getOrElse(false)
