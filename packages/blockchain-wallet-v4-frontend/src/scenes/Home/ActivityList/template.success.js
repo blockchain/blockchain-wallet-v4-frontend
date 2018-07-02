@@ -34,14 +34,16 @@ const Wrapper = styled.div`
     margin-bottom: 0px;
   }
 `
+const headerHeight = '29px'
 const Header = styled.div`
   width: 100%;
+  height: ${headerHeight};
 `
 const Content = styled.div`
   width: 100%;
-  height: 100%;
+  height: calc(100% - ${headerHeight});
   overflow-y: auto;
-  margin-top: 10px;
+  padding-top: 10px;
 
   > div:first-child {
     border-left: none;
