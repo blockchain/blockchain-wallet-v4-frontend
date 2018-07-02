@@ -165,6 +165,7 @@ module.exports = {
     }
   },
   devServer: {
+    disableHostCheck: true,
     contentBase: PATHS.src,
     host: 'localhost',
     port: 8080,

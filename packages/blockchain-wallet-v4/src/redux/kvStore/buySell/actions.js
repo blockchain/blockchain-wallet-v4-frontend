@@ -4,6 +4,7 @@ export const setSfoxTradesBuySell = (payload) => ({ type: AT.SET_SFOX_TRADES_BUY
 export const updateMetadataBuySell = (payload = {}) => ({ type: AT.UPDATE_METADATA_BUYSELL, payload })
 
 export const setCoinifyTradesBuySell = (payload) => ({ type: AT.SET_COINIFY_TRADES_BUYSELL, payload })
+
 // FETCH_METADATA_BUYSELL
 export const fetchMetadataBuySell = () => ({ type: AT.FETCH_METADATA_BUYSELL })
 export const fetchMetadataBuySellLoading = () => ({ type: AT.FETCH_METADATA_BUYSELL_LOADING })

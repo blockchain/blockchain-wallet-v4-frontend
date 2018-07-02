@@ -4,12 +4,14 @@ import * as A from './actions'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors.js'
 import * as modalActions from '../../modals/actions'
+import * as modalSelectors from '../../modals/selectors'
 import * as sendBtcActions from '../../components/sendBtc/actions'
 import * as sendBtcSelectors from '../../components/sendBtc/selectors'
 import settings from 'config'
 import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
-import { path, prop } from 'ramda'
+import { path, prop, equals, head } from 'ramda'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 export const logLocation = 'modules/sfox/sagas'
 
@@ -150,6 +152,7 @@ export default ({ coreSagas }) => {
   const submitSellQuote = function * (action) {
     const q = action.payload
     try {
+      const password = yield call(promptForSecondPassword)
       yield put(A.sfoxLoading())
       const trade = yield call(coreSagas.data.sfox.handleSellTrade, q)
 
@@ -176,7 +179,6 @@ export default ({ coreSagas }) => {
         yield put(actions.logs.logErrorMessage(logLocation, 'submitSellQuote', e))
       }
 
-      const password = yield call(promptForSecondPassword)
       payment = yield payment.sign(password)
       payment = yield payment.publish()
 
@@ -189,7 +191,16 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const checkForProfileFailure = function * () {
+    const profile = yield select(selectors.core.data.sfox.getProfile)
+    const modals = yield select(modalSelectors.getModals)
+    if (Remote.Failure.is(profile) && equals('SfoxExchangeData', prop('type', head(modals)))) {
+      yield call(coreSagas.data.sfox.refetchProfile)
+    }
+  }
+
   return {
+    checkForProfileFailure,
     prepareAddress,
     setBankManually,
     setBank,

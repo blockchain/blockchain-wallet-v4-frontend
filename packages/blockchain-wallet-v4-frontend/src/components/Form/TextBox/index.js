@@ -19,18 +19,30 @@ const Error = styled(Text)`
   top: ${props => props.errorBottom ? '40px' : '-20px'};
   right: 0;
 `
-const getErrorState = (meta) => {
-  return meta.touched && meta.invalid ? 'invalid' : 'initial'
+const getErrorState = ({ touched, invalid }) => {
+  return touched && invalid ? 'invalid' : 'initial'
 }
 
 const TextBox = (field) => {
-  const errorState = getErrorState(field.meta)
+  const { autoComplete, meta, input, disabled, placeholder, center, errorBottom, borderRightNone } = field
+  const { initial, active, touched, error, warning } = meta
+  const errorState = getErrorState(meta)
 
   return (
     <Container>
-      <TextInput {...field.input} borderRightNone={field.borderRightNone} disabled={field.disabled} errorState={errorState} initial={field.meta.initial} placeholder={field.placeholder} center={field.center} />
-      {field.meta.touched && field.meta.error && <Error size='12px' weight={300} color='error' errorBottom={field.errorBottom}>{field.meta.error}</Error>}
-      {field.meta.touched && !field.meta.error && field.meta.warning && <Error size='12px' weight={300} color='sent' errorBottom={field.errorBottom}>{field.meta.warning}</Error>}
+      <TextInput
+        {...input}
+        autoComplete={autoComplete}
+        borderRightNone={borderRightNone}
+        active={active}
+        disabled={disabled}
+        errorState={errorState}
+        initial={initial}
+        placeholder={placeholder}
+        center={center}
+      />
+      {touched && error && <Error size='12px' weight={300} color='error' errorBottom={errorBottom}>{error}</Error>}
+      {touched && !error && warning && <Error size='12px' weight={300} color='sent' errorBottom={errorBottom}>{warning}</Error>}
     </Container>
   )
 }
