@@ -244,10 +244,8 @@ export default ({ api, options }) => {
       const coinifyObj = yield call(getCoinify)
       yield put(A.fetchTrades(coinifyObj))
 
-      // save trades to metadata
-      const kvTrades = yield select(buySellSelectors.getCoinifyTrades)
-      const newTrades = prepend(buyResult, kvTrades.getOrElse([]))
-      yield put(buySellA.setCoinifyTradesBuySell(newTrades))
+      // save trade to metadata
+      yield put(buySellA.addCoinifyTradeBuySell(buyResult))
 
       yield call(labelAddressForBuy, buyResult, addressData)
       return buyResult
@@ -276,6 +274,7 @@ export default ({ api, options }) => {
       yield put(A.handleTradeSuccess(sellResult))
       yield put(A.fetchTrades())
       yield call(getCoinify)
+      yield put(buySellA.addCoinifyTradeBuySell(sellResult))
       return sellResult
     } catch (e) {
       yield put(A.handleTradeFailure(e))
