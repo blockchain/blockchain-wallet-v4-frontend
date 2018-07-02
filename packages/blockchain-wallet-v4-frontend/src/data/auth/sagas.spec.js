@@ -404,7 +404,7 @@ describe('authSagas', () => {
     })
 
     it('should not display success if it\'s first login', () => {
-      const firstLogin = false
+      const firstLogin = true
       return expectSaga(loginRoutineSaga, mobileLogin, firstLogin)
         .provide([
           // Every async or value returning yield has to be mocked
