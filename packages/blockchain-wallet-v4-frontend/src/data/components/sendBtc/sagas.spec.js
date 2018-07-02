@@ -2,7 +2,9 @@ import { select } from 'redux-saga/effects'
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
 import { fork, call } from 'redux-saga-test-plan/matchers'
 import { initialize, change } from 'redux-form'
+import { prop } from 'ramda'
 
+import rootReducer from '../../rootReducer'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import * as A from './actions'
 import * as S from './selectors'
@@ -11,6 +13,7 @@ import * as selectors from '../../selectors'
 import sendBtcSagas, { logLocation } from './sagas'
 import * as C from 'services/AlertService'
 import settings from 'config'
+import { HDAccount } from '../../../../../blockchain-wallet-v4/src/types';
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 const api = {
@@ -19,7 +22,7 @@ const api = {
 }
 const coreSagas = coreSagasFactory({ api })
 
-describe('authSagas', () => {
+describe('sendBtc sagas', () => {
   // Mocking Math.random() to have identical popup ids for action testing
   const originalMath = Object.create(Math)
   let pushStateSpy
@@ -49,25 +52,25 @@ describe('authSagas', () => {
 
     const saga = testSaga(initialized, { payload })
 
-    const paymentMock = {
-      value: jest.fn(),
-      init: jest.fn(),
-      to: jest.fn(),
-      amount: jest.fn(),
-      from: jest.fn(),
-      fee: jest.fn(),
-      build: jest.fn(),
-      buildSweep: jest.fn(),
-      sign: jest.fn(),
-      publish: jest.fn(),
-      description: jest.fn(),
-      chain: jest.fn()
-    }
     const feePerByte = 1
     const value = {
       fees: {
         [feeType]: feePerByte
       }
+    }
+    const paymentMock = {
+      value: jest.fn(),
+      init: jest.fn(() => paymentMock),
+      to: jest.fn(() => paymentMock),
+      amount: jest.fn(() => paymentMock),
+      from: jest.fn(() => paymentMock),
+      fee: jest.fn(() => paymentMock),
+      build: jest.fn(() => paymentMock),
+      buildSweep: jest.fn(() => paymentMock),
+      sign: jest.fn(() => paymentMock),
+      publish: jest.fn(() => paymentMock),
+      description: jest.fn(() => paymentMock),
+      chain: jest.fn()
     }
     paymentMock.value.mockReturnValue(value)
 
@@ -150,6 +153,57 @@ describe('authSagas', () => {
           .put(actions.logs.logErrorMessage(logLocation, 'sendBtcInitialized', error))
           .next()
           .isDone()
+      })
+    })
+
+    describe('integrational tests', () => {
+      const xpub = 'xpub'
+      const label = 'my wallet'
+      const balance = 1
+      const defaultIndex = 1
+      const defaultAccount = {
+        xpub,
+        label,
+        balance,
+        index: defaultIndex
+      }
+      const stubAccounts = Remote.of([
+        {
+          xpub: '',
+          label: '',
+          balance: 0,
+          index: 0
+        },
+        defaultAccount
+      ])
+      let resultingState = {}
+
+      beforeEach(async () => {
+        resultingState = await expectSaga(initialized, { payload })
+          .withReducer(rootReducer)
+          .provide([
+            [select(selectors.core.common.btc.getAccountsBalances), stubAccounts],
+            [select(selectors.core.wallet.getDefaultAccountIndex), defaultIndex]
+          ])
+          .run()
+          .then(prop('storeState'))
+      })
+
+      it('should produce correct form state', () => {
+        expect(resultingState.form.sendBtc.initial).toEqual(resultingState.form.sendBtc.values)
+        expect(resultingState.form.sendBtc.initial).toEqual({
+          feePerByte,
+          coin: 'BTC',
+          amount,
+          message,
+          to,
+          from: defaultAccount
+        })
+      })
+
+      it('should produce correct sendBtc payment state', () => {
+        expect(resultingState.components.sendBtc.payment)
+          .toEqual(Remote.Success(value))
       })
     })
   })
