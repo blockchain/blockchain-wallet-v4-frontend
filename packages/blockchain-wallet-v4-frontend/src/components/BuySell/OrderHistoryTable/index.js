@@ -11,7 +11,7 @@ class OrderHistoryTable extends React.PureComponent {
   }
 
   render () {
-    const { conversion, trades, handleTradeCancel, handleFinishTrade, handleDetailsClick, status, cancelTradeId, canTrade } = this.props
+    const { conversion, trades, handleTradeCancel, handleFinishTrade, handleDetailsClick, status, cancelTradeId, canTrade, partner } = this.props
 
     const isValid = (t) => t.createdAt
     const validTrades = filter(isValid, trades)
@@ -53,6 +53,7 @@ class OrderHistoryTable extends React.PureComponent {
           status={status}
           cancelTradeId={cancelTradeId}
           canTrade={canTrade}
+          partner={partner}
         />)}
       </Table>
     )
