@@ -1,5 +1,6 @@
-import { all, select, call, put } from 'redux-saga/effects'
+import { all, select, takeLatest, put } from 'redux-saga/effects'
 import * as actions from '../actions'
+import * as actionTypes from '../actionTypes'
 import * as selectors from '../selectors'
 import { Exchange } from 'blockchain-wallet-v4/src'
 
@@ -21,7 +22,7 @@ export default ({ coreSagas }) => {
 
     yield all(goals.map((goal) => {
       switch (goal.name) {
-        case 'payment': return call(sendBtcGoalSaga, goal)
+        case 'payment': return takeLatest(actionTypes.core.data.bitcoin.FETCH_BITCOIN_DATA_SUCCESS, sendBtcGoalSaga, goal)
       }
     }))
   }
