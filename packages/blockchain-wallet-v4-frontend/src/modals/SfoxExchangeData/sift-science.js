@@ -65,7 +65,7 @@ class SiftScience extends Component {
 
 const mapStateToProps = (state) => ({
   walletOptions: path(['walletOptionsPath'], state),
-  userId: selectors.core.kvStore.buySell.getSfoxUser(state).getOrElse(undefined),
+  userId: selectors.core.kvStore.buySell.getSfoxUser(state).getOrElse(null),
   siftScienceEnabled: path(['sfoxSignup', 'siftScienceEnabled'], state),
   trades: selectors.core.data.sfox.getTrades(state).getOrElse([])
 })
