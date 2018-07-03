@@ -1,6 +1,6 @@
 import { futurizeP } from 'futurize'
 import Task from 'data.task'
-import { compose, assoc, join, curry, range, keysIn } from 'ramda'
+import { compose, assoc, join, curry, range, keysIn, isNil } from 'ramda'
 import { networks } from 'bitcoinjs-lib'
 
 import * as A from '../actions'
@@ -37,9 +37,13 @@ export const getHDAccountAddressPromises = curry((state, account) => {
    */
   const asyncDerive = index => toAsync(() =>
     HDAccount.getReceiveAddress(account, index, networks.bitcoin.NETWORK_BITCOIN))
-  return selectors.data.bitcoin.getReceiveIndex(xpub, state)
-    .map((receiveIndex) => range(receiveIndex, receiveIndex + addressLookaheadCount))
-    .getOrElse([])
+
+  const receiveIndex = selectors.data.bitcoin
+    .getReceiveIndex(xpub, state)
+    .getOrElse(null)
+  if (isNil(receiveIndex)) return []
+
+  return range(receiveIndex, receiveIndex + addressLookaheadCount)
     .map(asyncDerive)
 })
 
