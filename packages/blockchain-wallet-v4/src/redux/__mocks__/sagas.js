@@ -37,7 +37,7 @@ export default () => ({
       triggerKYC: jest.fn(),
       cancelTrade: jest.fn(),
       cancelSubscription: jest.fn(),
-      
+      kycAsTrade: jest.fn()
     }
   }
 })
