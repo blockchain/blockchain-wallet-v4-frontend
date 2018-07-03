@@ -314,4 +314,27 @@ describe('coinifySagas', () => {
       saga.next().put(coinifyActions.coinifyCheckoutBusyOn())
     })
   })
+
+  describe('handle change', () => {
+    let { handleChange } = coinifySagas({
+      coreSagas
+    })
+    const action = {
+      payload: 10,
+      meta: {
+        form: 'coinifyCheckoutBuy',
+        field: 'leftVal'
+      }
+    }
+
+    let saga = testSaga(handleChange, action)
+
+    it('triggers busy state', () => {
+      saga.next().put(coinifyActions.coinifyCheckoutBusyOn())
+    })
+
+    it('selects the limits', () => {
+      saga.next().select(selectors.core.data.coinify.getLimits)
+    })
+  })
 })
