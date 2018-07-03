@@ -340,10 +340,6 @@ describe('authSagas', () => {
       saga.next().put(actions.auth.startLogoutTimer())
     })
 
-    it('should run goals', () => {
-      saga.next().put(actions.goals.runGoals())
-    })
-
     it('should select guid from state', () => {
       saga.next().select(selectors.core.wallet.getGuid)
     })
