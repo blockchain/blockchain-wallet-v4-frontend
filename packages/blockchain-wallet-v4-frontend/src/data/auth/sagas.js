@@ -95,7 +95,6 @@ export default ({ api, coreSagas }) => {
       yield call(upgradeAddressLabelsSaga)
       yield put(actions.auth.loginSuccess())
       yield put(actions.auth.startLogoutTimer())
-      yield put(actions.goals.runGoals())
       // store guid in cache for future logins
       const guid = yield select(selectors.core.wallet.getGuid)
       yield put(actions.cache.guidEntered(guid))
