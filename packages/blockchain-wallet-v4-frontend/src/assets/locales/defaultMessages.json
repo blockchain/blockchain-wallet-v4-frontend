@@ -1012,6 +1012,27 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "ShapeShift Deposit",
+        "id": "components.txlistitem.partnerlabel.depositedshapeshift"
+      },
+      {
+        "defaultMessage": "Received from ShapeShift",
+        "id": "components.txlistitem.partnerlabel.receivedshapeshift"
+      },
+      {
+        "defaultMessage": "Sold via {partner}",
+        "id": "components.txlistitem.partnerlabel.soldvia"
+      },
+      {
+        "defaultMessage": "Bought via {partner}",
+        "id": "components.txlistitem.partnerlabel.boughtvia"
+      }
+    ],
+    "path": "src/components/TransactionListItem/PartnerLabel/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Sent",
         "id": "scenes.transactions.bitcoin.content.list.listitem.status.sent"
       },
@@ -2949,10 +2970,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "Request",
-        "id": "modals.requestbitcoin.secondstep.title"
-      },
-      {
         "defaultMessage": "Send the link below to your friend or contact and they will be able to send bitcoin directly to your wallet.",
         "id": "modals.requestbitcoin.secondstep.explain"
       },
@@ -4469,6 +4486,15 @@
       }
     ],
     "path": "src/modals/TwoStepYubico/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Upgrading your wallet. This should take around {duration} seconds.",
+        "id": "modals.upgradeaddresslabels.explain"
+      }
+    ],
+    "path": "src/modals/UpgradeAddressLabels/template.json"
   },
   {
     "descriptors": [
@@ -7093,6 +7119,10 @@
       {
         "defaultMessage": "Verified Email Address",
         "id": "scenes.securitycenter.steps.step1"
+      },
+      {
+        "defaultMessage": "2 Factor Auth",
+        "id": "scenes.securitycenter.steps.step2mobile"
       },
       {
         "defaultMessage": "Two-Step Verification",

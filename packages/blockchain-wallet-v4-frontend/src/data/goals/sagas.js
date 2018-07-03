@@ -1,7 +1,7 @@
 import { all, select, takeLatest, put } from 'redux-saga/effects'
 import * as actions from '../actions'
-import * as selectors from '../selectors'
 import * as actionTypes from '../actionTypes'
+import * as selectors from '../selectors'
 import { Exchange } from 'blockchain-wallet-v4/src'
 
 export default ({ coreSagas }) => {

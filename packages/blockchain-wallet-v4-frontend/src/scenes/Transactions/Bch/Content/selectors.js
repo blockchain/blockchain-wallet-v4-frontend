@@ -15,7 +15,7 @@ export const getData = createSelector(
     selectors.form.getFormValues('bchTransactions'),
     selectors.core.common.bch.getWalletTransactions
   ],
-  (formValues, pages) => {
+  (formValues, pages, trades) => {
     const empty = (page) => isEmpty(page.data)
     const search = propOr('', 'search', formValues)
     const status = propOr('', 'status', formValues)
