@@ -2,14 +2,17 @@ import { select } from 'redux-saga/effects'
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
 import { initialize } from 'redux-form'
 import { prop } from 'ramda'
+import { call } from 'redux-saga-test-plan/matchers'
 
 import rootReducer from '../../rootReducer'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import * as A from './actions'
 import * as S from './selectors'
+import * as C from 'services/AlertService'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
 import sendBtcSagas, { logLocation } from './sagas'
+import { promptForSecondPassword } from 'services/SagaService'
 import settings from 'config'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
@@ -34,7 +37,8 @@ describe('sendBtc sagas', () => {
     pushStateSpy.restore()
     locationReloadSpy.restore()
   })
-  const { initialized, firstStepSubmitClicked } = sendBtcSagas({ api, coreSagas })
+  const { initialized, firstStepSubmitClicked,
+    secondStepSubmitClicked } = sendBtcSagas({ api, coreSagas })
 
   const feeType = 'regular'
   const feePerByte = 1
@@ -255,6 +259,107 @@ describe('sendBtc sagas', () => {
           .next()
           .isDone()
       })
+    })
+  })
+
+  describe('btc send second step submit', () => {
+    const saga = testSaga(secondStepSubmitClicked)
+    const secondPassword = 'password'
+    const description = 'description'
+    const txId = 'txId'
+    const beforeError = 'beforeError'
+    beforeAll(() => {
+      paymentMock.value.mockReturnValue({ ...value, description, txId })
+      coreSagas.payment.btc.create.mockClear()
+      paymentMock.sign.mockClear()
+      paymentMock.publish.mockClear()
+    })
+
+    it('should select payment', () => {
+      saga.next().select(S.getPayment)
+    })
+
+    it('should prompt for second password', () => {
+      saga.next(Remote.of(paymentMock)).call(promptForSecondPassword)
+    })
+
+    it('should create payment from state value', () => {
+      expect(coreSagas.payment.btc.create).toHaveBeenCalledTimes(1)
+      expect(coreSagas.payment.btc.create).toHaveBeenCalledWith({
+        payment: paymentMock,
+        network: settings.NETWORK_BITCOIN
+      })
+    })
+
+    it('should put action to close all modals', () => {
+      saga.next(secondPassword).put(actions.modals.closeAllModals())
+    })
+
+    it('should sign payment with second passowrd', () => {
+      saga.next()
+      expect(paymentMock.sign).toHaveBeenCalledTimes(1)
+      expect(paymentMock.sign).toHaveBeenCalledWith(secondPassword)
+    })
+
+    it('should publish payment', () => {
+      saga.next(paymentMock)
+      expect(paymentMock.publish).toHaveBeenCalledTimes(1)
+    })
+
+    it('should put btc payment updated success action', () => {
+      saga.next(paymentMock).put(A.sendBtcPaymentUpdatedSuccess(paymentMock.value()))
+    })
+
+    it('should put btc fetch data action', () => {
+      saga.next(paymentMock)
+        .put(actions.core.data.bitcoin.fetchData())
+    })
+
+    it('should set transaction note if transaction has description', () => {
+      saga
+        .next()
+        .put(actions.core.wallet.setTransactionNote(txId, description))
+    })
+
+    it('should route to btc transactions', () => {
+      saga.next().put(actions.router.push('/btc/transactions'))
+    })
+
+    it('should display succcess message', () => {
+      saga.next()
+        .put(actions.alerts.displaySuccess(C.SEND_BTC_SUCCESS))
+        .save(beforeError)
+        .next()
+        .isDone()
+    })
+
+    describe('error handling', () => {
+      const error = {}
+      it('should log error', () => {
+        saga
+          .restore(beforeError)
+          .throw(error)
+          .put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', error))
+      })
+
+      it('should display success message', () => {
+        saga
+          .next()
+          .put(actions.alerts.displayError(C.SEND_BTC_ERROR))
+          .next()
+          .isDone()
+      })
+    })
+
+    it('should not set transaction not if payment has no description', () => {
+      paymentMock.value.mockReturnValue({ ...value, description: '', txId })
+      return expectSaga(secondStepSubmitClicked)
+        .provide([
+          [select(S.getPayment), Remote.of(paymentMock)],
+          [call.fn(promptForSecondPassword), null]
+        ])
+        .not.put(actions.core.wallet.setTransactionNote(txId, description))
+        .run()
     })
   })
 })
