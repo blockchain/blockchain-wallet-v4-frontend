@@ -74,11 +74,11 @@ const SecuritySteps = (props) => {
     <Wrapper>
       <EmailSection success={emailSuccess} radius={emailSuccess && twoFactorSuccess}>
         <Circle>
-          {emailSuccess && <Icon name='checkmark' color='success' size={isMobile ? '15px' : '30px'} />}
+          {emailSuccess && <Icon name='checkmark' color='success' size={isMobile() ? '15px' : '30px'} />}
         </Circle>
         <StepText success={emailSuccess} size='12px' weight={300}>
           {
-            isMobile
+            isMobile()
               ? <FormattedMessage id='scenes.securitycenter.steps.step1mobile' defaultMessage='Verified Email' />
               : <FormattedMessage id='scenes.securitycenter.steps.step1' defaultMessage='Verified Email Address' />
           }
@@ -86,11 +86,11 @@ const SecuritySteps = (props) => {
       </EmailSection>
       <TwoStepSection success={twoFactorSuccess} leftRadius={twoFactorSuccess && emailSuccess} rightRadius={twoFactorSuccess && isMnemonicVerified}>
         <Circle>
-          {twoFactorSuccess && <Icon name='checkmark' color='success' size={isMobile ? '15px' : '30px'} />}
+          {twoFactorSuccess && <Icon name='checkmark' color='success' size={isMobile() ? '15px' : '30px'} />}
         </Circle>
         <StepText success={twoFactorSuccess} size='12px' weight={300}>
           {
-            isMobile
+            isMobile()
               ? <FormattedMessage id='scenes.securitycenter.steps.step2mobile' defaultMessage='2 Factor Auth' />
               : <FormattedMessage id='scenes.securitycenter.steps.step2' defaultMessage='Two-Step Verification' />
           }
@@ -98,7 +98,7 @@ const SecuritySteps = (props) => {
       </TwoStepSection>
       <BackupSection success={isMnemonicVerified} radius={isMnemonicVerified && twoFactorSuccess}>
         <Circle>
-          {isMnemonicVerified && <Icon name='checkmark' color='success' size={isMobile ? '15px' : '30px'} />}
+          {isMnemonicVerified && <Icon name='checkmark' color='success' size={isMobile() ? '15px' : '30px'} />}
         </Circle>
         <StepText success={isMnemonicVerified} size='12px' weight={300}>
           <FormattedMessage id='scenes.securitycenter.steps.step3' defaultMessage='Backup Phrase' />

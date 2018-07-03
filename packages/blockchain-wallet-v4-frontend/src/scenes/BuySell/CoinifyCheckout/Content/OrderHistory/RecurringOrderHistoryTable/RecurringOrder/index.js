@@ -47,7 +47,7 @@ const StatusContainer = styled(TableCell)`
     width: 25%;
   `}
 `
-const dateFormat = isMobile ? 'DD MMM' : 'MMMM D YYYY'
+const dateFormat = isMobile() ? 'DD MMM' : 'MMMM D YYYY'
 const dateHelper = (subscription) => moment(prop('endTime', subscription)).local().format(dateFormat)
 const startDateHelper = (trade) => moment(prop('createdAt', trade)).local().format(dateFormat)
 
@@ -85,7 +85,7 @@ class RecurringOrder extends React.Component {
             <TableCell width='50%'>
               <Link size='13px' weight={400} onClick={this.toggleRow}>
                 {
-                  isMobile
+                  isMobile()
                     ? <FormattedMessage id='scenes.buysell.orderhistory.recurring.order.manage2' defaultMessage='Manage' />
                     : <FormattedMessage id='scenes.buysell.orderhistory.recurring.order.manage' defaultMessage='Manage This Order' />
                 }

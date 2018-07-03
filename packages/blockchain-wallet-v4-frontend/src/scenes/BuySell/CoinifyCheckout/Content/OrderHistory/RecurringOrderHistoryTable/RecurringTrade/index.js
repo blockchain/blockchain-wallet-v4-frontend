@@ -19,7 +19,7 @@ const StatusContainer = styled(TableCell)`
   `}
 `
 
-const tradeDateHelper = (trade) => moment(prop('createdAt', trade)).local().format(isMobile ? 'DD MMM' : 'MMMM D YYYY @ h:mm A')
+const tradeDateHelper = (trade) => moment(prop('createdAt', trade)).local().format(isMobile() ? 'DD MMM' : 'MMMM D YYYY @ h:mm A')
 
 const RecurringTradeItem = props => {
   const { conversion, handleClick, handleFinish, handleTradeCancel, trade, status, cancelTradeId, canTrade, border, padding } = props
