@@ -392,6 +392,7 @@ export default ({ coreSagas }) => {
     handleChange,
     initialized,
     openKYC,
+    prepareAddress,
     sell,
     triggerKYC
   }
