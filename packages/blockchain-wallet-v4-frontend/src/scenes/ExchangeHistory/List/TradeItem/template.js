@@ -18,7 +18,7 @@ const StatusContainer = styled(TableCell)`
 
 const tradeDateHelper = (date) => {
   let timeFormat = 'MMMM D YYYY @ h:mm A'
-  if (isMobile) timeFormat = 'DD MMM'
+  if (isMobile()) timeFormat = 'DD MMM'
   return moment(date).local().format(timeFormat)
 }
 
@@ -29,22 +29,22 @@ const TradeItem = props => {
     <TableRow>
       <StatusContainer width='30%' mobileWidth='25%'>
         <TableCell width='30%'>
-          <OrderStatus status={status} size={isMobile ? '12px' : '14px'} />
+          <OrderStatus status={status} size={isMobile() ? '12px' : '14px'} />
         </TableCell>
         <TableCell width='70%'>
-          <Link size={isMobile ? '12px' : '14px'} weight={300} capitalize onClick={handleClick}>
+          <Link size={isMobile() ? '12px' : '14px'} weight={300} capitalize onClick={handleClick}>
             <FormattedMessage id='scenes.exchangehistory.list.tradeitem.viewdetails' defaultMessage='View details' />
           </Link>
         </TableCell>
       </StatusContainer>
       <TableCell width='30%' mobileWidth='18%'>
-        <Text size={isMobile ? '12px' : '14px'} weight={300}>{tradeDateHelper(date)}</Text>
+        <Text size={isMobile() ? '12px' : '14px'} weight={300}>{tradeDateHelper(date)}</Text>
       </TableCell>
       <TableCell width='20%' mobileWidth='30%'>
-        <Text size={isMobile ? '12px' : '14px'} weight={300}>{`${depositAmount} ${sourceCoin}`}</Text>
+        <Text size={isMobile() ? '12px' : '14px'} weight={300}>{`${depositAmount} ${sourceCoin}`}</Text>
       </TableCell>
       <TableCell width='20%'>
-        <Text size={isMobile ? '12px' : '14px'} weight={300} color={status === 'complete' ? 'gray-5' : 'gray-2'}>{`${withdrawalAmount} ${targetCoin}`}</Text>
+        <Text size={isMobile() ? '12px' : '14px'} weight={300} color={status === 'complete' ? 'gray-5' : 'gray-2'}>{`${withdrawalAmount} ${targetCoin}`}</Text>
       </TableCell>
     </TableRow>
   )

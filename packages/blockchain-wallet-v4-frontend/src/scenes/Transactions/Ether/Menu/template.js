@@ -101,7 +101,7 @@ const Menu = (props) => {
             }
           </PrivateKeysWrapper>
           {
-            isMobile
+            isMobile()
               ? null
               : <Search>
                 <Field name='search' component={TextBox} />
@@ -111,7 +111,7 @@ const Menu = (props) => {
         </MenuRight>
       </Container>
       {
-        isMobile
+        isMobile()
           ? <Search>
             <Field name='search' component={TextBox} />
             <SearchIcon name='search' size='20px' />
