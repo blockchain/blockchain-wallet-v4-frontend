@@ -6,6 +6,7 @@ import { prop } from 'ramda'
 import rootReducer from '../../rootReducer'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import * as A from './actions'
+import * as S from './selectors'
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
 import sendBtcSagas, { logLocation } from './sagas'
@@ -33,42 +34,45 @@ describe('sendBtc sagas', () => {
     pushStateSpy.restore()
     locationReloadSpy.restore()
   })
+  const { initialized, firstStepSubmitClicked } = sendBtcSagas({ api, coreSagas })
+
+  const feeType = 'regular'
+  const feePerByte = 1
+  const value = {
+    fees: {
+      [feeType]: feePerByte
+    }
+  }
+  const paymentMock = {
+    value: jest.fn(),
+    init: jest.fn(() => paymentMock),
+    to: jest.fn(() => paymentMock),
+    amount: jest.fn(() => paymentMock),
+    from: jest.fn(() => paymentMock),
+    fee: jest.fn(() => paymentMock),
+    build: jest.fn(() => paymentMock),
+    buildSweep: jest.fn(() => paymentMock),
+    sign: jest.fn(() => paymentMock),
+    publish: jest.fn(() => paymentMock),
+    description: jest.fn(() => paymentMock),
+    chain: jest.fn()
+  }
+  paymentMock.value.mockReturnValue(value)
+
+  coreSagas.payment.btc.create.mockImplementation(() => {
+    return paymentMock
+  })
 
   describe('btc send form intialize', () => {
-    const { initialized } = sendBtcSagas({ api, coreSagas })
-
     const to = 'btcaddress'
     const message = 'message'
     const amount = {
       coin: 1,
       fiat: 10000
     }
-    const feeType = 'regular'
     const payload = { to, message, amount, feeType }
 
     const saga = testSaga(initialized, { payload })
-
-    const feePerByte = 1
-    const value = {
-      fees: {
-        [feeType]: feePerByte
-      }
-    }
-    const paymentMock = {
-      value: jest.fn(),
-      init: jest.fn(() => paymentMock),
-      to: jest.fn(() => paymentMock),
-      amount: jest.fn(() => paymentMock),
-      from: jest.fn(() => paymentMock),
-      fee: jest.fn(() => paymentMock),
-      build: jest.fn(() => paymentMock),
-      buildSweep: jest.fn(() => paymentMock),
-      sign: jest.fn(() => paymentMock),
-      publish: jest.fn(() => paymentMock),
-      description: jest.fn(() => paymentMock),
-      chain: jest.fn()
-    }
-    paymentMock.value.mockReturnValue(value)
 
     const defaultIndex = 0
     const defaultAccount = 'account1'
@@ -81,10 +85,6 @@ describe('sendBtc sagas', () => {
       from: defaultAccount,
       feePerByte: feePerByte
     }
-
-    coreSagas.payment.btc.create.mockImplementation(() => {
-      return paymentMock
-    })
 
     const beforeEnd = 'beforeEnd'
 
@@ -152,7 +152,7 @@ describe('sendBtc sagas', () => {
       })
     })
 
-    describe('integrational tests', () => {
+    describe('state change', () => {
       const xpub = 'xpub'
       const label = 'my wallet'
       const balance = 1
@@ -200,6 +200,60 @@ describe('sendBtc sagas', () => {
       it('should produce correct sendBtc payment state', () => {
         expect(resultingState.components.sendBtc.payment)
           .toEqual(Remote.Success(value))
+      })
+    })
+  })
+
+  describe('btc send first step submit', () => {
+    beforeAll(() => {
+      coreSagas.payment.btc.create.mockClear()
+      paymentMock.build.mockClear()
+    })
+
+    const saga = testSaga(firstStepSubmitClicked)
+
+    const beforeError = 'beforeError'
+
+    it('should select payment', () => {
+      saga.next().select(S.getPayment)
+    })
+
+    it('should put loading action', () => {
+      saga.next(Remote.of(paymentMock)).put(A.sendBtcPaymentUpdatedLoading())
+    })
+
+    it('should create payment from state value', () => {
+      saga.next()
+      expect(coreSagas.payment.btc.create).toHaveBeenCalledTimes(1)
+      expect(coreSagas.payment.btc.create).toHaveBeenCalledWith({
+        payment: paymentMock,
+        network: settings.NETWORK_BITCOIN
+      })
+    })
+
+    it('should build payment', () => {
+      expect(paymentMock.build).toHaveBeenCalledTimes(1)
+    })
+
+    it('should put update success action', () => {
+      saga
+        .next(paymentMock)
+        .put(A.sendBtcPaymentUpdatedSuccess(paymentMock.value()))
+        .save(beforeError)
+        .next()
+        .isDone()
+        .restore(beforeError)
+    })
+
+    describe('error handling', () => {
+      const error = {}
+
+      it('should log error', () => {
+        saga
+          .throw(error)
+          .put(actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', error))
+          .next()
+          .isDone()
       })
     })
   })
