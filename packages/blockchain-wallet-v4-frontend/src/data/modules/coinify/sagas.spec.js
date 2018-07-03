@@ -261,4 +261,57 @@ describe('coinifySagas', () => {
         .put(coinifyActions.coinifyNotAsked())
     })
   })
+
+  describe('coinify prepareAddress', () => {
+    const { prepareAddress } = coinifySagas({
+      coreSagas
+    })
+
+    const saga = testSaga(prepareAddress)
+
+    it('should select the state', () => {
+      saga.next().select()
+    })
+  })
+
+  describe('initialized', () => {
+    let { initialized } = coinifySagas({
+      coreSagas
+    })
+    const action = {
+      payload: {
+        type: 'buy'
+      }
+    }
+
+    let saga = testSaga(initialized, action)
+
+    it('selects the level', () => {
+      saga.next().select(selectors.core.data.coinify.getLevel)
+    })
+
+    it('intializes if type is buy', () => {
+      const level = { currency: 'EUR' }
+      const initialValues = {
+        leftVal: '',
+        rightVal: '',
+        currency: level.currency
+      }
+      saga.next(Remote.of(level)).put(actions.form.initialize('coinifyCheckoutBuy', initialValues))
+    })
+
+    it('fetches a rate quote', () => {
+      const currency = 'EUR'
+      const type = 'buy'
+      saga.next().put(actions.core.data.coinify.fetchRateQuote(currency, type))
+    })
+
+    it('sets coinifyCheckoutError', () => {
+      saga.next().put(coinifyActions.setCoinifyCheckoutError(false))
+    })
+
+    it('sets busy on', () => {
+      saga.next().put(coinifyActions.coinifyCheckoutBusyOn())
+    })
+  })
 })
