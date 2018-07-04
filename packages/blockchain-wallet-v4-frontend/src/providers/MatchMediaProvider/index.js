@@ -15,20 +15,23 @@ export class MediaContextProvider extends React.Component {
   constructor (props) {
     super(props)
 
+    this.updateHandlers = {}
     this.state = {
       media: startingMedia
     }
   }
 
   componentDidMount () {
-    forEachObjIndexed((matcher, matcherName) =>
-      matcher.addListener(this.updateMedia.bind(this, matcherName))
-      , mediaMatchers
-    )
+    forEachObjIndexed((matcher, matcherName) => {
+      const updateHandler = this.updateMedia.bind(this, matcherName)
+      this.updateHandlers[matcherName] = updateHandler
+      matcher.addListener(updateHandler)
+    }, mediaMatchers)
   }
 
   componentWillUnmount () {
-    forEachObjIndexed((matcher) => matcher.removeListener(this.updateMedia), mediaMatchers)
+    forEachObjIndexed((matcher, matcherName) =>
+      matcher.removeListener(this.updateHandlers[matcherName]), mediaMatchers)
   }
 
   updateMedia (matcherName, { matches }) {
