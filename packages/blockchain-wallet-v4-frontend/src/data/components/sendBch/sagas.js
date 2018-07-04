@@ -10,9 +10,11 @@ import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 
-export default ({ coreSagas }) => {
-  const logLocation = 'components/sendBch/sagas'
+export const logLocation = 'components/sendBch/sagas'
+// TODO: Check how to retrieve Bitcoin cash default fee
+export const bchDefaultFee = 2
 
+export default ({ coreSagas }) => {
   const initialized = function * () {
     try {
       yield put(A.sendBchPaymentUpdated(Remote.Loading))
@@ -23,8 +25,7 @@ export default ({ coreSagas }) => {
       const defaultIndex = defaultIndexR.getOrElse(0)
       const defaultAccountR = accountsR.map(nth(defaultIndex))
       payment = yield payment.from(defaultIndex)
-      // TODO: Check how to retrieve Bitcoin cash default fee
-      payment = yield payment.fee(2)
+      payment = yield payment.fee(bchDefaultFee)
       const initialValues = {
         coin: 'BCH',
         from: defaultAccountR.getOrElse()
