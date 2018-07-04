@@ -7,6 +7,7 @@ import { bch } from '../../../signer'
 import * as CoinSelection from '../../../coinSelection'
 import * as Coin from '../../../coinSelection/coin'
 import { isValidBitcoinAddress, privateKeyStringToKey, detectPrivateKeyFormat } from '../../../utils/bitcoin'
+import { isCashAddr, fromCashAddr } from '../../../utils/bch'
 import { futurizeP } from 'futurize'
 import { isString, isPositiveNumber, isPositiveInteger } from '../../../utils/checks'
 import { FROM, toCoin, isValidAddressOrIndex, toOutput, fromLegacy, fromLegacyList, fromAccount, fromPrivateKey } from '../btc/utils'
@@ -74,6 +75,11 @@ export default ({ api }) => {
     if (origin === null || origin === undefined || origin === '') {
       let spendableActiveAddresses = yield select(S.wallet.getSpendableActiveAddresses)
       return fromLegacyList(spendableActiveAddresses)
+    }
+
+    if (isCashAddr(origin)) {
+      console.log(fromCashAddr(origin))
+      return fromLegacy(fromCashAddr(origin))
     }
 
     // Single bitcoin address (they must be legacy addresses)

@@ -14,6 +14,7 @@ export const getData = (state, ownProps) => {
       a => assoc('text', prop('addr', addressData), a),
       a => assocPath(['value', 'balance'], path(['info', 'final_balance'], addressData), a),
       a => assocPath(['value', 'coin'], coin, a),
+      a => assocPath(['value', 'address'], prop('addr', addressData), a),
       a => assoc('value', prop('info', addressData), a)
     )(formattedAddress)
   }
