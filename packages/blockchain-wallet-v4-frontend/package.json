@@ -75,6 +75,7 @@
     "ibantools": "2.0.0",
     "libphonenumber-js": "0.4.40",
     "lodash.debounce": "4.0.8",
+    "matchmedia-polyfill": "^0.3.1",
     "moment": "2.22.2",
     "prop-types": "15.6.1",
     "qrcode.react": "0.8.0",
@@ -106,6 +107,5 @@
     "sanitize-html": "1.18.2",
     "styled-components": "3.3.2",
     "zxcvbn": "4.4.2"
-  },
-  "devDependencies": {}
+  }
 }
