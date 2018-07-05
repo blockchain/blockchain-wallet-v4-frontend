@@ -162,6 +162,10 @@
         "id": "components.alerts.incorrect_bip38_password_error"
       },
       {
+        "defaultMessage": "You must add at least one IP address to the whitelist to enable Login IP Restriction",
+        "id": "components.alerts.iprestriction_no_whitelist_error"
+      },
+      {
         "defaultMessage": "Failed to update IP restriction",
         "id": "components.alerts.iprestriction_update_error"
       },
