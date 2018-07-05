@@ -11,10 +11,12 @@
 node_modules
 npm-shrinkwrap.json
 
+# npm
+package-lock.json
+
 # Yarn
 .yarnclean
 yarn-error.log
-yarn.lock
 
 # Generated Files
 *.log
