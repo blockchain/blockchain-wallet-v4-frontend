@@ -9,7 +9,8 @@ import moment from 'moment'
 import { RecurringTableRow } from '../components'
 import { TableCell, Text, Link, Icon, HeartbeatLoader } from 'blockchain-info-components'
 import OrderStatus from 'components/BuySell/OrderHistoryTable/OrderStatus'
-import media, { isMobile } from 'services/ResponsiveService'
+import media from 'services/ResponsiveService'
+import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 
 const StatusContainer = styled(TableCell)`
   display: flex;
@@ -19,7 +20,7 @@ const StatusContainer = styled(TableCell)`
   `}
 `
 
-const tradeDateHelper = (trade) => moment(prop('createdAt', trade)).local().format(isMobile() ? 'DD MMM' : 'MMMM D YYYY @ h:mm A')
+const tradeDateHelper = (trade, isMobile) => moment(prop('createdAt', trade)).local().format(isMobile ? 'DD MMM' : 'MMMM D YYYY @ h:mm A')
 
 const RecurringTradeItem = props => {
   const { conversion, handleClick, handleFinish, handleTradeCancel, trade, status, cancelTradeId, canTrade, border, padding } = props
@@ -46,7 +47,13 @@ const RecurringTradeItem = props => {
         </TableCell>
       </StatusContainer>
       <TableCell width='30%' mobileWidth='20%'>
-        <Text opacity={trade.state === 'processing'} size='13px' weight={300}>{tradeDateHelper(trade)}</Text>
+        <MediaContextConsumer>
+          {({ mobile }) =>
+            <Text opacity={trade.state === 'processing'} size='13px' weight={300}>
+              {tradeDateHelper(trade, mobile)}
+            </Text>
+          }
+        </MediaContextConsumer>
       </TableCell>
       <TableCell width='20%' mobileWidth='25%'>
         <Text opacity={trade.state === 'processing'} size='13px' weight={300}>{`${exchangeAmount} ${trade.inCurrency}`}</Text>
