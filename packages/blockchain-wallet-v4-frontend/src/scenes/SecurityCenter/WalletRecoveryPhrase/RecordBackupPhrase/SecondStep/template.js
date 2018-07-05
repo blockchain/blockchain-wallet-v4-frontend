@@ -60,28 +60,28 @@ const SecondStep = (props) => {
         }
       </Container>
       <Buttons>
-          {
-            step === 1
-              ? null
-              : <Button onClick={handleClickPrevious} nature='empty'>
-                <Text weight={300} cursor='pointer'>
-                  <FormattedMessage id='modals.recoveryphrase.secondstep.prevfourwords' defaultMessage='Previous 4 Words' />
-                </Text>
-              </Button>
-          }
-          {
-            step === 3
-              ? <Button onClick={nextStep} style={spacing('ml-15')} nature='primary'>
-                <Text color='white' weight={300} cursor='pointer'>
-                  <FormattedMessage id='modals.recoveryphrase.secondstep.finishandcheckphrase' defaultMessage='Finish & Verify' />
-                </Text>
-              </Button>
-              : <Button onClick={handleClickNext} style={spacing('ml-15')} nature='dark'>
-                <Text color='white' weight={300} cursor='pointer'>
-                  <FormattedMessage id='modals.recoveryphrase.secondstep.nextfourwords' defaultMessage='Next 4 Words' />
-                </Text>
-              </Button>
-          }
+        {
+          step === 1
+            ? null
+            : <Button onClick={handleClickPrevious} nature='empty'>
+              <Text weight={300} cursor='pointer'>
+                <FormattedMessage id='modals.recoveryphrase.secondstep.prevfourwords' defaultMessage='Previous 4 Words' />
+              </Text>
+            </Button>
+        }
+        {
+          step === 3
+            ? <Button onClick={nextStep} style={spacing('ml-15')} nature='primary'>
+              <Text color='white' weight={300} cursor='pointer'>
+                <FormattedMessage id='modals.recoveryphrase.secondstep.finishandcheckphrase' defaultMessage='Finish & Verify' />
+              </Text>
+            </Button>
+            : <Button onClick={handleClickNext} style={spacing('ml-15')} nature='dark'>
+              <Text color='white' weight={300} cursor='pointer'>
+                <FormattedMessage id='modals.recoveryphrase.secondstep.nextfourwords' defaultMessage='Next 4 Words' />
+              </Text>
+            </Button>
+        }
       </Buttons>
     </Wrapper>
   )
