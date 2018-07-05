@@ -1,5 +1,5 @@
 import { selectAll } from '../coinSelection'
-import { address, networks, ECPair, Transaction } from 'bitcoinjs-lib'
+import { address, networks, ECPair, Transaction, crypto } from 'bitcoinjs-lib'
 import { equals, head, or, propOr, compose } from 'ramda'
 import { decode, fromWords } from 'bech32'
 import { compile } from 'bitcoinjs-lib/src/script'
@@ -104,7 +104,26 @@ export const detectPrivateKeyFormat = key => {
   if (/^6P[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{56}$/.test(key)) {
     return 'bip38'
   }
+
+  if (/^S[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{21}$/.test(key) ||
+    /^S[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{25}$/.test(key) ||
+    /^S[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{29}$/.test(key) ||
+    /^S[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{30}$/.test(key)) {
+    var testBytes = crypto.sha256(key + '?')
+
+    if (testBytes[0] === 0x00 || testBytes[0] === 0x01) {
+      return 'mini'
+    }
+  }
   return null
+}
+
+const parseMiniKey = function (miniKey) {
+  var check = crypto.sha256(miniKey + '?')
+  if (check[0] !== 0x00) {
+    throw new Error('Invalid mini key')
+  }
+  return crypto.sha256(miniKey)
 }
 
 export const privateKeyStringToKey = function (value, format, network = networks.bitcoin, addr) {
@@ -122,6 +141,9 @@ export const privateKeyStringToKey = function (value, format, network = networks
         break
       case 'hex':
         keyBuffer = Buffer.from(value, 'hex')
+        break
+      case 'mini':
+        keyBuffer = parseMiniKey(value)
         break
       default:
         throw new Error('Unsupported Key Format')
