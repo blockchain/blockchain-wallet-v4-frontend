@@ -34,7 +34,7 @@ if (process.env.LOCAL_PROD) {
 }
 
 const port = 8080
-const isProduction = environment === 'production'
+const isProduction = environment === 'prod'
 const iSignThisDomain = isProduction ? 'https://verify.isignthis.com/' : 'https://stage-verify.isignthis.com/'
 
 // log server configuration
