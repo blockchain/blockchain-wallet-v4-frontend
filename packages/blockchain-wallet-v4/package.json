@@ -14,7 +14,7 @@
     "coverage": "cross-env ./../../node_modules/.bin/jest --coverage",
     "start": "babel-node src/index.js",
     "test": "cross-env ./../../node_modules/.bin/jest",
-    "test:build": "npm run compile",
+    "test:build": "yarn compile",
     "test:debug": "cross-env node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
     "test:watch": "cross-env ./../../node_modules/.bin/jest --watchAll"
   },
