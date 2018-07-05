@@ -1,5 +1,5 @@
 import { selectors } from 'data'
-import { add, length, lift, reduce } from 'ramda'
+import { add, lift, reduce } from 'ramda'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { Color } from 'blockchain-info-components'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
@@ -84,14 +84,9 @@ export const getData = createDeepEqualSelector(
   [
     getBtcBalanceInfo,
     getBchBalanceInfo,
-    getEthBalanceInfo,
-    selectors.core.common.btc.getActiveHDAccounts,
-    selectors.core.kvStore.bch.getAccounts
+    getEthBalanceInfo
   ],
-  (btcBalanceInfoR, bchBalanceInfoR, ethBalanceInfoR, btcAccountsR, bchAccountsR) => {
-    const btcAccountsLength = length(btcAccountsR.getOrElse([]))
-    const bchAccountsLength = length(bchAccountsR.getOrElse([]))
-
+  (btcBalanceInfoR, bchBalanceInfoR, ethBalanceInfoR) => {
     const transform = (btcBalances, bchBalances, ethBalances) => {
       const symbol = btcBalances.fiat.unit.symbol
       const btcBalance = btcBalances.coin
@@ -123,9 +118,7 @@ export const getData = createDeepEqualSelector(
         ethBalance,
         bchBalance,
         chartData,
-        symbol,
-        btcAccountsLength,
-        bchAccountsLength
+        symbol
       }
     }
     return lift(transform)(btcBalanceInfoR, bchBalanceInfoR, ethBalanceInfoR)
