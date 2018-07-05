@@ -32,12 +32,20 @@ export default () => ({
     coinify: {
       signup: jest.fn(),
       buy: jest.fn(),
+      sell: jest.fn(),
       initialized: jest.fn(),
       getKYC: jest.fn(),
       triggerKYC: jest.fn(),
       cancelTrade: jest.fn(),
       cancelSubscription: jest.fn(),
-      kycAsTrade: jest.fn()
+      kycAsTrade: jest.fn(),
+      deleteBankAccount: jest.fn(),
+      getMediumsWithBankAccounts: jest.fn()
+    }
+  },
+  payment: {
+    btc: {
+      create: jest.fn()
     }
   }
 })
