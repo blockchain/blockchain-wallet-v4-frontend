@@ -120,7 +120,7 @@ const TransactionListItem = (props) => {
           <Status type={transaction.type} />
           <MediaContextConsumer>
             {({ mobile }) =>
-              <Text size='13px' weight={300}>{dateHelper(prop('time', transaction) * 1000, mobile)}</Text>   
+              <Text size='13px' weight={300}>{dateHelper(prop('time', transaction) * 1000, mobile)}</Text>
             }
           </MediaContextConsumer>
           { (transaction.fromWatchOnly || transaction.toWatchOnly) && (
