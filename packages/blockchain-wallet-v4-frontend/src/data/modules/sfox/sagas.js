@@ -5,8 +5,6 @@ import * as actions from '../../actions'
 import * as selectors from '../../selectors.js'
 import * as modalActions from '../../modals/actions'
 import * as modalSelectors from '../../modals/selectors'
-import * as sendBtcActions from '../../components/sendBtc/actions'
-import * as sendBtcSelectors from '../../components/sendBtc/selectors'
 import settings from 'config'
 import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
@@ -156,15 +154,15 @@ export default ({ coreSagas }) => {
       yield put(A.sfoxLoading())
       const trade = yield call(coreSagas.data.sfox.handleSellTrade, q)
 
-      let p = yield select(sendBtcSelectors.getPayment)
+      const state = yield select()
+
+      let p = path(['sfoxSignup', 'payment'], state)
       let payment = yield coreSagas.payment.btc.create({ payment: p.getOrElse({}), network: settings.NETWORK_BITCOIN })
 
       payment = yield payment.amount(parseInt(trade.sendAmount))
 
       // QA Tool: manually set a "to" address on the payment object for testing sell
-      const qaState = yield select()
-      const qaAddress = path(['qa', 'qaSellAddress'], qaState)
-
+      const qaAddress = path(['qa', 'qaSellAddress'], state)
       if (qaAddress) {
         payment = yield payment.to(qaAddress)
       } else {
@@ -182,10 +180,13 @@ export default ({ coreSagas }) => {
       payment = yield payment.sign(password)
       payment = yield payment.publish()
 
-      yield put(sendBtcActions.sendBtcPaymentUpdatedSuccess(payment.value()))
+      yield put(actions.core.data.bitcoin.fetchData())
+      yield put(actions.core.wallet.setTransactionNote(payment.value().txId, payment.value().description))
+
       yield put(A.sfoxSuccess())
       yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
       yield put(modalActions.showModal('SfoxTradeDetails', { trade }))
+      yield call(initializePayment)
     } catch (e) {
       yield put(A.sfoxFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'submitSellQuote', e))
@@ -200,30 +201,18 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const initializePayment = function * (action) {
+  const initializePayment = function * () {
     try {
-      const { feeType } = action.payload
-      yield put(A.sendBtcPaymentUpdatedLoading())
+      yield put(A.sfoxSellBtcPaymentUpdatedLoading())
       let payment = coreSagas.payment.btc.create(({ network: settings.NETWORK_BITCOIN }))
       payment = yield payment.init()
-      // const accountsR = yield select(selectors.core.common.btc.getAccountsBalances)
       const defaultIndex = yield select(selectors.core.wallet.getDefaultAccountIndex)
-      // const defaultAccountR = accountsR.map(nth(defaultIndex))
-      const defaultFeePerByte = path(['fees', feeType || 'regular'], payment.value())
+      const defaultFeePerByte = path(['fees', 'priority'], payment.value())
       payment = yield payment.from(defaultIndex)
       payment = yield payment.fee(defaultFeePerByte)
-      // const initialValues = {
-      //   to: to,
-      //   coin: 'BTC',
-      //   amount: amount,
-      //   message: message,
-      //   from: defaultAccountR.getOrElse(),
-      //   feePerByte: defaultFeePerByte
-      // }
-      // yield put(initialize('sendBtc', initialValues))
-      yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
+      yield put(A.sfoxSellBtcPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
-      yield put(A.sendBtcPaymentUpdatedFailure(e))
+      yield put(A.sfoxSellBtcPaymentUpdatedFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'initializePayment', e))
     }
   }

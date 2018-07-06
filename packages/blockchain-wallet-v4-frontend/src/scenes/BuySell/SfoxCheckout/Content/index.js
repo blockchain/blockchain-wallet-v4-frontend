@@ -18,8 +18,7 @@ class SfoxCheckout extends React.PureComponent {
     this.props.sfoxDataActions.sfoxFetchAccounts()
     this.props.sfoxDataActions.fetchQuote({quote: { amt: 1e8, baseCurrency: 'BTC', quoteCurrency: 'USD' }})
     this.props.sfoxDataActions.fetchSellQuote({quote: { amt: 1e8, baseCurrency: 'BTC', quoteCurrency: 'USD' }})
-    // this.props.sendBtcActions.initialized({ feeType: 'priority' })
-    this.props.sfoxActions.initializePayment({ feeType: 'priority' })
+    this.props.sfoxActions.initializePayment()
   }
 
   componentWillUnmount () {
