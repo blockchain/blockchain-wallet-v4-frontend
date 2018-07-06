@@ -2,11 +2,22 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
 
-import { Button, ButtonGroup } from 'blockchain-info-components'
+import { Button, ButtonGroup, Text } from 'blockchain-info-components'
 import { NumberBox, FormGroup, FormItem } from 'components/Form'
 import { SettingForm, SettingWrapper } from 'components/Setting'
+import { spacing } from 'services/StyleService'
 import { isValidAutoLogoutTime } from './validation'
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+
+  & > * { padding: 10px 0; }
+`
 
 const Settings = (props) => {
   const { handleToggle, handleClick, submitting, invalid } = props
@@ -15,9 +26,14 @@ const Settings = (props) => {
     <SettingWrapper>
       <SettingForm onSubmit={handleClick}>
         <FormGroup>
-          <FormItem>
-            <Field name='autoLogoutTime' component={NumberBox} validate={[isValidAutoLogoutTime]} />
-          </FormItem>
+          <Wrapper>
+            <FormItem>
+              <Field name='autoLogoutTime' component={NumberBox} validate={[isValidAutoLogoutTime]} />
+            </FormItem>
+            <Text size='14' weight={300} style={spacing('pl-10')}>
+              <FormattedMessage id='scenes.settings.preferences.autologout.updateform.minutes' defaultMessage='Minutes' />
+            </Text>
+          </Wrapper>
         </FormGroup>
         <ButtonGroup>
           <Button nature='empty' capitalize onClick={handleToggle}>
