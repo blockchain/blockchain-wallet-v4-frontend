@@ -8,6 +8,7 @@ import Success from './template.success'
 import { path } from 'ramda'
 import Loading from 'components/BuySell/Loading'
 import { Remote } from 'blockchain-wallet-v4/src'
+import Failure from 'components/BuySell/Failure'
 
 class PaymentContainer extends Component {
   constructor (props) {
@@ -61,7 +62,7 @@ class PaymentContainer extends Component {
           openPendingKyc={openKYC}
           handlePrefillCardMax={(limits) => checkoutCardMax(limits)}
         />,
-      Failure: (msg) => <div>ERROR: {msg}</div>,
+      Failure: (msg) => <Failure error={msg} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
