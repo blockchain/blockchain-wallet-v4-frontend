@@ -5,7 +5,8 @@ import { Field, reduxForm } from 'redux-form'
 
 import { ComponentDropdown, Icon, Link, Text } from 'blockchain-info-components'
 import { TextBox, TabMenuTransactionStatus } from 'components/Form'
-import media, { isMobile } from 'services/ResponsiveService'
+import media from 'services/ResponsiveService'
+import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -49,7 +50,7 @@ const Search = styled.div`
   position: relative;
   width: 60%;
   @media(min-width: 1200px) { width: auto; }
-  ${media.mobile`
+  ${media.laptop`
     width: auto;
   `}
 `
@@ -77,48 +78,52 @@ const PrivateKeys = () => (
 const Menu = (props) => {
   const { hasLegacyAccount, onShowPrivateKey } = props
   return (
-    <Wrapper>
-      <Container>
-        <Status>
-          <Field name='status' statuses={['', 'sent', 'received']} component={TabMenuTransactionStatus} />
-        </Status>
-        <MenuRight>
-          <PrivateKeysWrapper>
-            {
-              hasLegacyAccount ? <ComponentDropdown
-                down
-                forceSelected
-                color={'gray-5'}
-                selectedComponent={<PrivateKeys />}
-                components={[
-                  <ClickableText size='small' onClick={() => onShowPrivateKey(false)}>
-                    <FormattedMessage id='scenes.transactions.ether.export.privatekey' defaultMessage='Export Private Key' />
-                  </ClickableText>,
-                  <ClickableText size='small' onClick={() => onShowPrivateKey(true)}>
-                    <FormattedMessage id='scenes.transactions.ether.export.archived' defaultMessage='Export Archived Private Key' />
-                  </ClickableText>
-                ].filter(x => x)} /> : <Link size={'12px'} weight={300} onClick={() => onShowPrivateKey(false)}><FormattedMessage id='scenes.transactions.ether.export.privatekey' defaultMessage='Export Private Key' /></Link>
-            }
-          </PrivateKeysWrapper>
+    <MediaContextConsumer>
+      {({ laptop }) =>
+        <Wrapper>
+          <Container>
+            <Status>
+              <Field name='status' statuses={['', 'sent', 'received']} component={TabMenuTransactionStatus} />
+            </Status>
+            <MenuRight>
+              <PrivateKeysWrapper>
+                {
+                  hasLegacyAccount ? <ComponentDropdown
+                    down
+                    forceSelected
+                    color={'gray-5'}
+                    selectedComponent={<PrivateKeys />}
+                    components={[
+                      <ClickableText size='small' onClick={() => onShowPrivateKey(false)}>
+                        <FormattedMessage id='scenes.transactions.ether.export.privatekey' defaultMessage='Export Private Key' />
+                      </ClickableText>,
+                      <ClickableText size='small' onClick={() => onShowPrivateKey(true)}>
+                        <FormattedMessage id='scenes.transactions.ether.export.archived' defaultMessage='Export Archived Private Key' />
+                      </ClickableText>
+                    ].filter(x => x)} /> : <Link size={'12px'} weight={300} onClick={() => onShowPrivateKey(false)}><FormattedMessage id='scenes.transactions.ether.export.privatekey' defaultMessage='Export Private Key' /></Link>
+                }
+              </PrivateKeysWrapper>
+              {
+                laptop
+                  ? null
+                  : <Search>
+                    <Field name='search' component={TextBox} />
+                    <SearchIcon name='search' size='20px' />
+                  </Search>
+              }
+            </MenuRight>
+          </Container>
           {
-            isMobile
-              ? null
-              : <Search>
+            laptop
+              ? <Search>
                 <Field name='search' component={TextBox} />
                 <SearchIcon name='search' size='20px' />
               </Search>
+              : null
           }
-        </MenuRight>
-      </Container>
-      {
-        isMobile
-          ? <Search>
-            <Field name='search' component={TextBox} />
-            <SearchIcon name='search' size='20px' />
-          </Search>
-          : null
+        </Wrapper>
       }
-    </Wrapper>
+    </MediaContextConsumer>
   )
 }
 
