@@ -153,8 +153,8 @@ const BankLink = (props) => {
         handleAccountType={handleAccountType}
         {...props}
       />
-    } else if (bankAccounts) {
-      return <BankAccounts data={bankAccounts.data} onSetBankAccount={onSetBankAccount} onBankSelection={handleBankSelection} handleNameChange={onNameChange} />
+    } else if (Remote.Success.is(bankAccounts)) {
+      return <BankAccounts data={bankAccounts.getOrElse([])} onSetBankAccount={onSetBankAccount} onBankSelection={handleBankSelection} handleNameChange={onNameChange} />
     } else if (ui.microDeposits) {
       return <MicroDeposits onStep={microStep} />
     } else {

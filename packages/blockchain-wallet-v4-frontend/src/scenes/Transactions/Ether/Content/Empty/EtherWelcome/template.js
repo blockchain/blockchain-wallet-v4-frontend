@@ -71,7 +71,7 @@ const EtherWelcome = props => {
             <Text size='24px' weight={300} color='brand-primary' uppercase>
               Ether
             </Text>
-            <LearnMoreLink href='https://www.blockchain.com/ether-basics' target='_blank' size='16px' weight={300} uppercase>
+            <LearnMoreLink href='https://www.blockchain.com/learning-portal/ether-basics' target='_blank' size='16px' weight={300} uppercase>
               <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.learnmore' defaultMessage='Learn More' />
               <Icon name='right-arrow' color='brand-secondary' />
             </LearnMoreLink>
