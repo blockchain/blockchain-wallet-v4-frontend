@@ -6,6 +6,7 @@ import { getData, getTrade } from './selectors'
 import Success from './template.success.js'
 import Loading from 'components/BuySell/Loading'
 import { path } from 'ramda'
+import Failure from 'components/BuySell/Failure'
 
 class OrderHistoryContainer extends React.Component {
   componentDidMount () {
@@ -43,7 +44,7 @@ class OrderHistoryContainer extends React.Component {
         onCancelSubscription={cancelSubscription}
         changeTab={tab => change('buySellTabStatus', 'status', tab)}
       />,
-      Failure: (msg) => <div>Failure: {msg.error}</div>,
+      Failure: (msg) => <Failure error={msg} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })

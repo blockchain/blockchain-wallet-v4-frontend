@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import { getData } from './selectors'
 import Success from './template.success'
 import Loading from 'components/BuySell/Loading'
+import Failure from 'components/BuySell/Failure'
 
 class SellContainer extends React.Component {
   constructor (props) {
@@ -41,7 +42,7 @@ class SellContainer extends React.Component {
 
     const busy = coinifyBusy.cata({
       Success: () => false,
-      Failure: (err) => err,
+      Failure: (err) => <Failure error={err} />,
       Loading: () => true,
       NotAsked: () => false
     })

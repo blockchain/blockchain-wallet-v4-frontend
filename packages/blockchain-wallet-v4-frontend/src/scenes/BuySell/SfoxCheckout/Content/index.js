@@ -5,7 +5,8 @@ import { bindActionCreators } from 'redux'
 import { getBase, getData, getErrors, getQuote, getSellQuote, getTrades, getPayment } from './selectors'
 import Success from './template.success'
 import Loading from 'components/BuySell/Loading'
-import { path, prop } from 'ramda'
+import { path } from 'ramda'
+import Failure from 'components/BuySell/Failure'
 
 class SfoxCheckout extends React.PureComponent {
   constructor (props) {
@@ -59,7 +60,7 @@ class SfoxCheckout extends React.PureComponent {
         buttonStatus={this.state.buttonStatus}
         siftScienceEnabled={siftScienceEnabled}
       />,
-      Failure: (error) => <div>Failure: {prop('message', error)}</div>,
+      Failure: (error) => <Failure error={error} />,
       Loading: () => <Loading />,
       NotAsked: () => <div>Not Asked</div>
     })
