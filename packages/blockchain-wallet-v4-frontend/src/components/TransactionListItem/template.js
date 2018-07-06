@@ -14,6 +14,7 @@ import Status from './Status'
 import PartnerLabel from './PartnerLabel'
 import media from 'services/ResponsiveService'
 import { prop } from 'ramda'
+import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 
 const TransactionRowContainer = styled.div`
   position: relative;
@@ -106,11 +107,8 @@ const FeeWrapper = styled.div`
   `}
 `
 
-const dateHelper = (time) => {
-  let timeFormat = 'MMMM D YYYY @ h:mm A'
-  if (window.outerWidth <= 480) timeFormat = 'MM/DD/YY @ h:mm a'
-  return moment(time).local().format(timeFormat)
-}
+const dateHelper = (time, isMobile) =>
+  moment(time).local().format(isMobile ? 'MM/DD/YY @ h:mm a' : 'MMMM D YYYY @ h:mm A')
 
 const TransactionListItem = (props) => {
   const { handleCoinToggle, transaction, handleEditDescription, coin, minConfirmations, buysellPartner } = props
@@ -120,7 +118,11 @@ const TransactionListItem = (props) => {
       <TransactionRow>
         <StatusColumn>
           <Status type={transaction.type} />
-          <Text size='13px' weight={300}>{dateHelper(prop('time', transaction) * 1000)}</Text>
+          <MediaContextConsumer>
+            {({ mobile }) =>
+              <Text size='13px' weight={300}>{dateHelper(prop('time', transaction) * 1000, mobile)}</Text>   
+            }
+          </MediaContextConsumer>
           { (transaction.fromWatchOnly || transaction.toWatchOnly) && (
             <BannerWrapper>
               <Banner type='informational'>
