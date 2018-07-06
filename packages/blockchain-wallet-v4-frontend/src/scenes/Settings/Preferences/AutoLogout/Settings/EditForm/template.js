@@ -15,8 +15,6 @@ const Wrapper = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-
-  & > * { padding: 10px 0; }
 `
 
 const Settings = (props) => {
@@ -34,6 +32,9 @@ const Settings = (props) => {
               <FormattedMessage id='scenes.settings.preferences.autologout.updateform.minutes' defaultMessage='Minutes' />
             </Text>
           </Wrapper>
+          <Text size='12px' color='gray-3' weight={300}>
+            <FormattedMessage id='scenes.preferences.autologout.settings.updateform.bounds' defaultMessage='Must be between 1 and 1440 minutes.' />
+          </Text>
         </FormGroup>
         <ButtonGroup>
           <Button nature='empty' capitalize onClick={handleToggle}>
