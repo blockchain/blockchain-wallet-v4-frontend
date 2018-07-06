@@ -200,8 +200,37 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const initializePayment = function * (action) {
+    try {
+      const { feeType } = action.payload
+      yield put(A.sendBtcPaymentUpdatedLoading())
+      let payment = coreSagas.payment.btc.create(({ network: settings.NETWORK_BITCOIN }))
+      payment = yield payment.init()
+      // const accountsR = yield select(selectors.core.common.btc.getAccountsBalances)
+      const defaultIndex = yield select(selectors.core.wallet.getDefaultAccountIndex)
+      // const defaultAccountR = accountsR.map(nth(defaultIndex))
+      const defaultFeePerByte = path(['fees', feeType || 'regular'], payment.value())
+      payment = yield payment.from(defaultIndex)
+      payment = yield payment.fee(defaultFeePerByte)
+      // const initialValues = {
+      //   to: to,
+      //   coin: 'BTC',
+      //   amount: amount,
+      //   message: message,
+      //   from: defaultAccountR.getOrElse(),
+      //   feePerByte: defaultFeePerByte
+      // }
+      // yield put(initialize('sendBtc', initialValues))
+      yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
+    } catch (e) {
+      yield put(A.sendBtcPaymentUpdatedFailure(e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'initializePayment', e))
+    }
+  }
+
   return {
     checkForProfileFailure,
+    initializePayment,
     prepareAddress,
     setBankManually,
     setBank,

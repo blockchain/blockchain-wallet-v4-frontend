@@ -30,3 +30,5 @@ export const enableSiftScience = () => ({ type: AT.ENABLE_SIFT_SCIENCE })
 export const disableSiftScience = () => ({ type: AT.DISABLE_SIFT_SCIENCE })
 
 export const handleModalClose = () => ({ type: AT.HANDLE_MODAL_CLOSE })
+
+export const initializePayment = payload => ({ type: AT.SFOX_INITIALIZE_PAYMENT, payload })
