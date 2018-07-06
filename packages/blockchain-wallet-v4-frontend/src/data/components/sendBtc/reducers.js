@@ -30,7 +30,7 @@ export default (state = INITIAL_STATE, action) => {
       return assoc('payment', Remote.Loading, state)
     }
     case AT.SEND_BTC_PAYMENT_UPDATED_FAILURE: {
-      return assoc('payment', Remote.Failure, state)
+      return assoc('payment', Remote.Failure(payload), state)
     }
     case AT.SEND_BTC_FIRST_STEP_SUBMIT_CLICKED: {
       return assoc('step', 2, state)
