@@ -27,7 +27,9 @@ export default () => ({
       setBankAccount: jest.fn(),
       handleTrade: jest.fn(),
       setProfile: jest.fn(),
-      verifyMicroDeposits: jest.fn()
+      verifyMicroDeposits: jest.fn(),
+      uploadDoc: jest.fn(),
+      setBankManually: jest.fn()
     },
     coinify: {
       signup: jest.fn(),
