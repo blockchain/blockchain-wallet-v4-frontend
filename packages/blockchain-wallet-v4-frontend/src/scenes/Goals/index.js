@@ -22,8 +22,9 @@ class ActionsContainer extends React.PureComponent {
         const decodedPayload = decodeURIComponent(payload)
         const bip21Payload = bip21.decode(decodedPayload)
         const { address } = bip21Payload
-        const { amount, label } = bip21Payload.options || {}
-        const data = { address, amount, message: label }
+        const { amount, message } = bip21Payload.options || {}
+        console.log(message)
+        const data = { address, amount, message }
         this.props.goalsActions.saveGoal('payment', data)
       } else {
         // Other scenarios with actions encoded in base64

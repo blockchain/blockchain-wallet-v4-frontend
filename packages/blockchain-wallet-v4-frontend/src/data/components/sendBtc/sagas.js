@@ -32,7 +32,7 @@ export default ({ coreSagas }) => {
         to: to,
         coin: 'BTC',
         amount: amount,
-        message: message,
+        description: message,
         from: defaultAccountR.getOrElse(),
         feePerByte: defaultFeePerByte
       }
