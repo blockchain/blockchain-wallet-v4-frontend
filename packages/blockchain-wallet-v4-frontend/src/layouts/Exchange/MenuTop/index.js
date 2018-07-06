@@ -16,7 +16,7 @@ const Wrapper = styled.div`
   background-color: ${props => props.theme['white-blue']};
   border-bottom: 1px solid ${props => props.theme['gray-1']};
 
-  > div > span:first-child { padding-left: 0px; }
+  > div > span:first-child { padding-left: 0; }
 `
 const Shapeshift = styled(TextGroup)`
   display: flex;
@@ -29,7 +29,7 @@ const Shapeshift = styled(TextGroup)`
   @media(max-width: 992px) { display: none; }
 `
 
-const MenuTop = (props) => (
+const MenuTop = () => (
   <Wrapper>
     <TabMenu>
       <LinkContainer to='/exchange' activeClassName='active' exact>
