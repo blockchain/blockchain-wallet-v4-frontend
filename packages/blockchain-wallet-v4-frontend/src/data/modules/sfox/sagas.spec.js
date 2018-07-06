@@ -265,4 +265,80 @@ describe('sfoxSagas', () => {
         .put(sfoxActions.sfoxFailure(response))
     })
   })
+
+  describe('sfox upload', () => {
+    const { upload } = sfoxSagas({
+      coreSagas
+    })
+
+    const data = {}
+
+    const saga = testSaga(upload, data)
+
+    it('should call the core', () => {
+      saga.next().call(coreSagas.data.sfox.uploadDoc, data)
+    })
+    it('should select the profile', () => {
+      saga.next().select(selectors.core.data.sfox.getProfile)
+    })
+    it('should go to funding if no required docs', () => {
+      const profile = { data: { verificationStatus: { required_docs: [] } } }
+
+      saga.next(profile).put(sfoxActions.nextStep('funding'))
+    })
+    it('should handle errors', () => {
+      const error = new Error()
+
+      saga
+        .restart()
+        .next()
+        .throw(error)
+        .put(actions.logs.logErrorMessage(logLocation, 'upload', error))
+        .next()
+        .put(actions.alerts.displayError(C.DOCUMENT_UPLOAD_ERROR))
+    })
+  })
+
+  describe('sfox setBankManually', () => {
+    const { setBankManually } = sfoxSagas({
+      coreSagas
+    })
+
+    const action = {
+      payload: {
+        id: 1,
+        number: 10510
+      }
+    }
+
+    const saga = testSaga(setBankManually, action)
+
+    it('should trigger loading', () => {
+      saga.next().put(sfoxActions.sfoxLoading())
+    })
+    it('should call the core to set the bank', () => {
+      saga.next().call(coreSagas.data.sfox.setBankManually, action.payload)
+    })
+    it('should select the accounts', () => {
+      saga.next().select(selectors.core.data.sfox.getAccounts)
+    })
+    it('should set success', () => {
+      const accounts = [{ id: 1 }]
+
+      saga.next(accounts).put(sfoxActions.sfoxSuccess())
+    })
+    it('should handle an error', () => {
+      const accounts = { error: '{"error": "set_bank_error"}' }
+
+      saga
+        .restart()
+        .next().put(sfoxActions.sfoxLoading())
+        .next().call(coreSagas.data.sfox.setBankManually, action.payload)
+        .next().select(selectors.core.data.sfox.getAccounts)
+        .next(accounts)
+        .put(actions.logs.logErrorMessage(logLocation, 'setBankManually', new Error('set_bank_error')))
+        .next()
+        .put(sfoxActions.sfoxFailure(new Error('set_bank_error')))
+    })
+  })
 })
