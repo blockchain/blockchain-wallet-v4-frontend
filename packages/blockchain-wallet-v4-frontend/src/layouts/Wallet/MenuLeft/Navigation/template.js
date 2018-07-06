@@ -10,6 +10,7 @@ import { Icon, Separator, Text } from 'blockchain-info-components'
 const Wrapper = styled.div`
   height: 100%;
   position: relative;
+  overflow: auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
