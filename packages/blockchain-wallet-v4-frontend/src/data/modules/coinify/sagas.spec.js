@@ -1,8 +1,6 @@
 import { select } from 'redux-saga/effects'
 import { promptForSecondPassword } from 'services/SagaService'
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
-import * as matchers from 'redux-saga-test-plan/matchers'
-import { throwError } from 'redux-saga-test-plan/providers'
 import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import * as actions from '../../actions'
 import * as coinifyActions from './actions.js'
@@ -142,7 +140,6 @@ describe('coinifySagas', () => {
         .put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
         .run()
     })
-
   })
 
   describe('openKYC', () => {
