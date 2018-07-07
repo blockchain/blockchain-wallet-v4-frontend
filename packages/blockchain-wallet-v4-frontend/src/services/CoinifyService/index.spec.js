@@ -53,9 +53,11 @@ describe('CoinifyService', () => {
     quoteAmount: 10
   }
 
+  const effectiveBalance = 0.5
+
   describe('getLimits()', () => {
     it('should return the correct limits', () => {
-      expect(CoinifyService.getLimits(mockedLimits(100, 0), 'EUR', 0.5)).toEqual(correctLimits)
+      expect(CoinifyService.getLimits(mockedLimits(100, 0), 'EUR', effectiveBalance)).toEqual(correctLimits)
     })
   })
   describe('getLimitsError', () => {
@@ -71,7 +73,7 @@ describe('CoinifyService', () => {
   })
   describe('isMinOverEffectiveMax', () => {
     it('should return false', () => {
-      expect(CoinifyService.isMinOverEffectiveMax(mockedLimits(100, 10), 0.5, 'EUR')).toEqual(false)
+      expect(CoinifyService.isMinOverEffectiveMax(mockedLimits(100, 10), effectiveBalance, 'EUR')).toEqual(false)
     })
   })
   describe('getRateFromQuote', () => {

@@ -76,7 +76,7 @@ describe('sfoxSagas', () => {
     let { setBank } = sfoxSagas({
       coreSagas
     })
-    // let saga = testSaga(setBank)
+
     it('should call core setBankAccount and display success', () => {
       let fakeBank = { id: 5, name: 'Bitcoin Bank' }
       return expectSaga(setBank)
