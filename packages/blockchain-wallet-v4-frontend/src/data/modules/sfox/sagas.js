@@ -11,6 +11,8 @@ import { promptForSecondPassword } from 'services/SagaService'
 import { path, prop, equals, head } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 
+export const sellDescription = `Exchange Trade SFX-`
+
 export default ({ coreSagas }) => {
   const logLocation = 'modules/sfox/sagas'
 
@@ -169,12 +171,12 @@ export default ({ coreSagas }) => {
         payment = yield payment.to(trade.receiveAddress)
       }
 
-      payment = yield payment.description(`Exchange Trade SFX-${trade.id}`)
+      payment = yield payment.description(`${sellDescription}${trade.id}`)
 
       try {
         payment = yield payment.build()
       } catch (e) {
-        yield put(actions.logs.logErrorMessage(logLocation, 'submitSellQuote', e))
+        throw new Error('could not build payment')
       }
 
       payment = yield payment.sign(password)
@@ -186,7 +188,7 @@ export default ({ coreSagas }) => {
       yield put(A.sfoxSuccess())
       yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
       yield put(modalActions.showModal('SfoxTradeDetails', { trade }))
-      yield call(initializePayment)
+      yield put(A.initializePayment())
     } catch (e) {
       yield put(A.sfoxFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'submitSellQuote', e))

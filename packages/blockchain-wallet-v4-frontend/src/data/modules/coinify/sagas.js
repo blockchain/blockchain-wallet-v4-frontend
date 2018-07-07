@@ -9,6 +9,8 @@ import * as service from 'services/CoinifyService'
 import settings from 'config'
 import { promptForSecondPassword } from 'services/SagaService'
 
+export const sellDescription = `Exchange Trade CNY-`
+
 export default ({ coreSagas }) => {
   const logLocation = 'modules/coinify/sagas'
 
@@ -102,11 +104,11 @@ export default ({ coreSagas }) => {
         payment = yield payment.to(path(['transferIn', 'details', 'account'], trade))
       }
 
-      payment = yield payment.description(`Exchange Trade CNY-${trade.id}`)
+      payment = yield payment.description(`${sellDescription}${trade.id}`)
       try {
         payment = yield payment.build()
       } catch (e) {
-        yield put(actions.logs.logErrorMessage(logLocation, 'sell', e))
+        throw new Error('could not build payment')
       }
 
       payment = yield payment.sign(password)
@@ -118,7 +120,7 @@ export default ({ coreSagas }) => {
       yield put(A.coinifySuccess())
       yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
       yield put(actions.modals.showModal('CoinifyTradeDetails', { trade }))
-      yield call(initializePayment)
+      yield put(A.initializePayment())
     } catch (e) {
       yield put(A.coinifyFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'sell', e))
