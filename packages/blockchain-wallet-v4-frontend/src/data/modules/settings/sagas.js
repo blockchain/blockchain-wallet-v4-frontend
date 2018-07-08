@@ -7,6 +7,8 @@ import { Types, utils } from 'blockchain-wallet-v4/src'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
 
+export const ipRestrictionError = 'You must add at least 1 ip address to the whitelist'
+
 export default ({ coreSagas }) => {
   const logLocation = 'modules/settings/sagas'
 
@@ -128,7 +130,11 @@ export default ({ coreSagas }) => {
       yield put(actions.alerts.displaySuccess(C.IPRESTRICTION_UPDATE_SUCCESS))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'updateIpLockOn', e))
-      yield put(actions.alerts.displayError(C.IPRESTRICTION_UPDATE_ERROR))
+      if (e === ipRestrictionError) {
+        yield put(actions.alerts.displayError(C.IPRESTRICTION_NO_WHITELIST_ERROR))
+      } else {
+        yield put(actions.alerts.displayError(C.IPRESTRICTION_UPDATE_ERROR))
+      }
     }
   }
 
