@@ -16,6 +16,9 @@ npm-shrinkwrap.json
 yarn-error.log
 yarn.lock
 
+# Eslint
+.eslintcache
+
 # Generated Files
 *.log
 *.lerna_backup
