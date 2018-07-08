@@ -164,6 +164,7 @@
   "components.alerts.hint_update_success": "Hint has been successfully updated",
   "components.alerts.import_legacy_success": "Address added successfully",
   "components.alerts.incorrect_bip38_password_error": "Incorrect BIP38 password.",
+  "components.alerts.iprestriction_no_whitelist_error": "You must add at least one IP address to the whitelist to enable Login IP Restriction",
   "components.alerts.iprestriction_update_error": "Failed to update IP restriction",
   "components.alerts.iprestriction_update_success": "IP restriction has been successfully updated",
   "components.alerts.ipwhitelist_update_error": "Failed to update IP whitelist",
