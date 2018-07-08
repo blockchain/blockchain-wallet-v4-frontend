@@ -1,5 +1,5 @@
 import { selectors } from 'data'
-import { add, length, lift, reduce } from 'ramda'
+import { add, lift, reduce } from 'ramda'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { Color } from 'blockchain-info-components'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
@@ -10,7 +10,7 @@ export const getBtcBalance = state => createDeepEqualSelector(
   ],
   (context) => {
     const getBalance = address => selectors.core.data.bitcoin.getFinalBalance(address, state)
-    const balancesR = context.map(x => getBalance(x).getOrElse(0))
+    const balancesR = context.map(x => getBalance(x).getOrElse(undefined))
     return Remote.of(reduce(add, 0, balancesR))
   }
 )(state)
@@ -21,7 +21,7 @@ export const getBchBalance = state => createDeepEqualSelector(
   ],
   (context) => {
     const getBalance = address => selectors.core.data.bch.getFinalBalance(address, state)
-    const balancesR = context.map(x => getBalance(x).getOrElse(0))
+    const balancesR = context.map(x => getBalance(x).getOrElse(undefined))
     return Remote.of(reduce(add, 0, balancesR))
   }
 )(state)
@@ -31,7 +31,7 @@ export const getEthBalance = state => createDeepEqualSelector(
     selectors.core.data.ethereum.getBalance
   ],
   (balance) => {
-    return Remote.of(balance.getOrElse(0))
+    return Remote.of(balance.getOrElse(undefined))
   }
 )(state)
 
@@ -84,14 +84,9 @@ export const getData = createDeepEqualSelector(
   [
     getBtcBalanceInfo,
     getBchBalanceInfo,
-    getEthBalanceInfo,
-    selectors.core.common.btc.getActiveHDAccounts,
-    selectors.core.kvStore.bch.getAccounts
+    getEthBalanceInfo
   ],
-  (btcBalanceInfoR, bchBalanceInfoR, ethBalanceInfoR, btcAccountsR, bchAccountsR) => {
-    const btcAccountsLength = length(btcAccountsR.getOrElse([]))
-    const bchAccountsLength = length(bchAccountsR.getOrElse([]))
-
+  (btcBalanceInfoR, bchBalanceInfoR, ethBalanceInfoR) => {
     const transform = (btcBalances, bchBalances, ethBalances) => {
       const symbol = btcBalances.fiat.unit.symbol
       const btcBalance = btcBalances.coin
@@ -123,9 +118,7 @@ export const getData = createDeepEqualSelector(
         ethBalance,
         bchBalance,
         chartData,
-        symbol,
-        btcAccountsLength,
-        bchAccountsLength
+        symbol
       }
     }
     return lift(transform)(btcBalanceInfoR, bchBalanceInfoR, ethBalanceInfoR)
