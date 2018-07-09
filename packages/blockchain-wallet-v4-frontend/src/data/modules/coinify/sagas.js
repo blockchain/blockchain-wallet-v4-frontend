@@ -78,8 +78,8 @@ export default ({ coreSagas }) => {
 
   const sell = function * () {
     try {
-      yield put(A.coinifyLoading())
       const password = yield call(promptForSecondPassword)
+      yield put(A.coinifyLoading())
       const trade = yield call(coreSagas.data.coinify.sell)
 
       if (!trade) {

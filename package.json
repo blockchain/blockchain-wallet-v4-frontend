@@ -1,6 +1,6 @@
 {
   "name": "blockchain-wallet-v4",
-  "version": "4.0.0-alpha16.2",
+  "version": "4.0.0-alpha17.5",
   "license": "ISC",
   "author": {
     "name": "Blockchain.info",
@@ -10,6 +10,7 @@
   "keywords": [
     "blockchain",
     "blockchain.info",
+    "blockchain.com",
     "react",
     "redux",
     "wallet"
@@ -34,7 +35,7 @@
     "coverage:components": "lerna exec --scope blockchain-info-components -- npm run coverage",
     "coverage:core": "lerna exec --scope blockchain-wallet-v4 -- npm run coverage",
     "coverage:frontend": "lerna exec --scope blockchain-wallet-v4-frontend -- npm run coverage",
-    "lint": "eslint './packages/*/src/**/*.js'",
+    "lint": "eslint --cache './packages/*/src/**/*.js'",
     "lint:components": "eslint './packages/blockchain-info-components/src/**/*.js'",
     "lint:core": "eslint './packages/blockchain-wallet-v4/src/**/*.js'",
     "lint:fix": "eslint './packages/*/src/**/*.js' --fix",
