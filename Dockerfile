@@ -1,4 +1,4 @@
-ARG REGISTRY=docker-registry.internal.blockchain.info
+ARG REGISTRY=docker-registry.service.consul:5000
 ARG NGINX_IMAGE=blockchain_nginx
 ARG NGINX_SHA=06c5efe75cedf639e5393a70380ba0d38300fa1ce56e59adb25918b15afe25a1
 ARG NODE_IMAGE=blockchain_node_10
