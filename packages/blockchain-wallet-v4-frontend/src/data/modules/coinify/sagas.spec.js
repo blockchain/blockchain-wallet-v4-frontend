@@ -31,8 +31,8 @@ describe('coinifySagas', () => {
         minimumInAmounts: { EUR: 0, USD: 0, GBP: 0, DKK: 0 }
       },
       blockchain: {
-        inRemaining: { BTC: 0 },
-        minimumInAmounts: { BTC: 0 }
+        inRemaining: { BTC: 0.5 },
+        minimumInAmounts: { BTC: 0.0001 }
       }
     }
   }
@@ -213,15 +213,62 @@ describe('coinifySagas', () => {
       }
     }
 
-    it('should select a kyc', () => {
-      const kyc = { id: 1, state: 'pending' }
-      let dataKyc = data.payload
-      return expectSaga(openKYC, data)
-        .provide([
-          [select(selectors.core.data.coinify.getKyc), Remote.of(kyc)]
-        ])
-        .call(coreSagas.data.coinify.kycAsTrade, { kyc: dataKyc })
-        .run()
+    let saga = testSaga(openKYC, data)
+
+    const saveToRestore = 'saveToRestore'
+
+    it('should select kyc', () => {
+      saga
+        .next()
+        .select(selectors.core.data.coinify.getKyc)
+    })
+
+    it('should call the core kycAsTrade', () => {
+      const recentKyc = Remote.of({ state: 'pending' })
+      saga
+        .next(recentKyc)
+        .call(coreSagas.data.coinify.kycAsTrade, { kyc: data.payload })
+        .save(saveToRestore)
+    })
+
+    it('should go to isx step', () => {
+      saga
+        .next()
+        .put(coinifyActions.coinifyNextCheckoutStep('isx'))
+    })
+
+    describe('error handling', () => {
+      const error = 'ERROR'
+      it('should log the error', () => {
+        saga
+          .restore(saveToRestore)
+          .throw(error)
+          .put(actions.logs.logErrorMessage(logLocation, 'openKYC', error))
+      })
+    })
+  })
+
+  describe('openKYC - empty payload', () => {
+    let { openKYC, triggerKYC } = coinifySagas({
+      coreSagas
+    })
+
+    const data = {
+      payload: null
+    }
+
+    let saga = testSaga(openKYC, data)
+
+    it('should select kyc', () => {
+      saga
+        .next()
+        .select(selectors.core.data.coinify.getKyc)
+    })
+
+    it('should trigger KYC', () => {
+      saga
+        .next(Remote.of({ state: 'completed' }))
+        .call(triggerKYC)
     })
   })
 
@@ -235,17 +282,28 @@ describe('coinifySagas', () => {
     }
 
     let saga = testSaga(finishTrade, data)
+    let saveToRestore = 'saveToRestore'
 
     it('should call handleTradeSuccess if trade state is awaiting_trasnfer_in', () => {
       saga.next(data.payload).put(actions.core.data.coinify.handleTradeSuccess(data.payload))
     })
 
     it('should call core kycAsTrade', () => {
-      saga.next(data.payload).call(coreSagas.data.coinify.kycAsTrade, { kyc: data.payload })
+      saga.next(data.payload).call(coreSagas.data.coinify.kycAsTrade, { kyc: data.payload }).save(saveToRestore)
     })
 
     it('should go to next step isx', () => {
       saga.next().put(coinifyActions.coinifyNextCheckoutStep('isx'))
+    })
+
+    describe('error handling', () => {
+      const error = 'ERROR'
+      it('should log the error', () => {
+        saga
+          .restore(saveToRestore)
+          .throw(error)
+          .put(actions.logs.logErrorMessage(logLocation, 'finishTrade', error))
+      })
     })
   })
 
@@ -315,6 +373,16 @@ describe('coinifySagas', () => {
         .next()
         .put(coinifyActions.coinifyNotAsked())
     })
+
+    describe('error handling', () => {
+      const error = 'ERROR'
+      it('should log the error', () => {
+        saga
+          .restore(beforeResponse)
+          .throw(error)
+          .put(actions.logs.logErrorMessage(logLocation, 'buy', error))
+      })
+    })
   })
 
   describe('coinify prepareAddress', () => {
@@ -326,6 +394,15 @@ describe('coinifySagas', () => {
 
     it('should select the state', () => {
       saga.next().select()
+    })
+
+    describe('error handling', () => {
+      const error = 'ERROR'
+      it('should log the error', () => {
+        saga
+          .throw(error)
+          .put(actions.logs.logErrorMessage(logLocation, 'prepareAddress', error))
+      })
     })
   })
 
@@ -340,6 +417,8 @@ describe('coinifySagas', () => {
     }
 
     let saga = testSaga(initialized, action)
+
+    let saveToRestore = 'saveToRestore'
 
     it('should select the level', () => {
       saga.next().select(selectors.core.data.coinify.getLevel)
@@ -358,7 +437,7 @@ describe('coinifySagas', () => {
     it('should fetch a rate quote', () => {
       const currency = 'EUR'
       const type = 'buy'
-      saga.next().put(actions.core.data.coinify.fetchRateQuote(currency, type))
+      saga.next().put(actions.core.data.coinify.fetchRateQuote(currency, type)).save(saveToRestore)
     })
 
     it('should set coinifyCheckoutError', () => {
@@ -367,6 +446,15 @@ describe('coinifySagas', () => {
 
     it('should set busy on', () => {
       saga.next().put(coinifyActions.coinifyCheckoutBusyOn())
+    })
+    describe('error handling', () => {
+      const error = 'ERROR'
+      it('should log the error', () => {
+        saga
+          .restore(saveToRestore)
+          .throw(error)
+          .put(actions.logs.logErrorMessage(logLocation, 'initialized', error))
+      })
     })
   })
 
@@ -402,6 +490,47 @@ describe('coinifySagas', () => {
 
     it('should get the default account index', () => {
       saga.next().select(selectors.core.wallet.getDefaultAccountIndex)
+    })
+  })
+
+  describe('handle currency change', () => {
+    let { handleChange } = coinifySagas({
+      coreSagas
+    })
+    const action = {
+      payload: 'GBP',
+      meta: {
+        form: 'coinifyCheckoutBuy',
+        field: 'currency'
+      }
+    }
+
+    let saga = testSaga(handleChange, action)
+
+    it('should trigger busy state', () => {
+      saga.next().put(coinifyActions.coinifyCheckoutBusyOn())
+    })
+
+    it('should select the limits', () => {
+      saga.next().select(selectors.core.data.coinify.getLimits)
+    })
+
+    it('should select the form values', () => {
+      const limits = mockedLimits
+      saga.next(limits)
+    })
+
+    it('should dispatch an action to fetch a rate quote with the new currency', () => {
+      const values = { currency: 'GBP' }
+      saga.next(values).put(actions.core.data.coinify.fetchRateQuote('GBP'))
+    })
+
+    it('should initialize the form with no values', () => {
+      saga.next().put(actions.form.initialize('coinifyCheckoutBuy', merge({ currency: 'GBP' }, { 'leftVal': '', 'rightVal': '' })))
+    })
+
+    it('should set busy on', () => {
+      saga.next().put(coinifyActions.coinifyCheckoutBusyOn()).next().isDone()
     })
   })
 
@@ -456,11 +585,67 @@ describe('coinifySagas', () => {
     })
 
     it('should trigger busy off', () => {
-      saga.next().put(coinifyActions.coinifyCheckoutBusyOff())
+      saga.next().put(coinifyActions.coinifyCheckoutBusyOff()).next().isDone()
     })
   })
 
-  fdescribe('handle fiat (leftVal) change - Sell', () => {
+  describe('handle crypto (rightVal) change - Buy', () => {
+    let { handleChange } = coinifySagas({
+      coreSagas
+    })
+    const action = {
+      payload: 100,
+      meta: {
+        form: 'coinifyCheckoutBuy',
+        field: 'rightVal'
+      }
+    }
+
+    let saga = testSaga(handleChange, action)
+
+    it('should trigger busy state', () => {
+      saga.next().put(coinifyActions.coinifyCheckoutBusyOn())
+    })
+
+    it('should select the limits', () => {
+      saga.next().select(selectors.core.data.coinify.getLimits)
+    })
+
+    it('should select the form values', () => {
+      const limits = mockedLimits
+      saga.next(limits)
+    })
+
+    it('should fetch a quote', () => {
+      const values = { currency: 'EUR' }
+      saga.next(values).call(coreSagas.data.coinify.fetchQuote,
+        {
+          quote: {
+            amount: Math.round((action.payload * 1e8) * -1),
+            baseCurrency: 'BTC',
+            quoteCurrency: 'EUR',
+            type: 'buy'
+          }
+        }
+      )
+    })
+
+    it('should clear any checkout error', () => {
+      const rightResult = { quoteAmount: 100 }
+      saga.next(rightResult).put(coinifyActions.clearCoinifyCheckoutError())
+    })
+
+    it('should initialize the form with the new values', () => {
+      const leftResult = { quoteAmount: 200000 }
+      saga.next(leftResult).put(actions.form.initialize('coinifyCheckoutBuy', merge({ currency: 'EUR' }, { 'leftVal': 100 })))
+    })
+
+    it('should trigger busy off', () => {
+      saga.next().put(coinifyActions.coinifyCheckoutBusyOff()).next().isDone()
+    })
+  })
+
+  describe('handle fiat (leftVal) change - Sell', () => {
     let { handleChange } = coinifySagas({
       coreSagas
     })
@@ -487,11 +672,6 @@ describe('coinifySagas', () => {
       saga.next(limits)
     })
 
-    // it('should clear coinifyCheckoutError', () => {
-    //   const values = { currency: 'EUR' }
-    //   saga.next(values).put(coinifyActions.clearCoinifyCheckoutError())
-    // })
-
     it('should fetch a quote', () => {
       const values = { currency: 'EUR' }
       saga.next(values).call(coreSagas.data.coinify.fetchQuote,
@@ -506,14 +686,82 @@ describe('coinifySagas', () => {
       )
     })
 
-    // it('should initialize the form with the new values', () => {
-    //   const leftResult = { quoteAmount: 200000 }
-    //   saga.next(leftResult).put(actions.form.initialize('coinifyCheckoutBuy', merge({ currency: 'EUR' }, { 'rightVal': leftResult.quoteAmount / 1e8 })))
-    // })
+    it('should select the payment', () => {
+      const leftResult = { quoteAmount: 200000 }
+      saga.next(leftResult).select(sendBtcSelectors.getPayment)
+    })
 
-    // it('should trigger busy off', () => {
-    //   saga.next().put(coinifyActions.coinifyCheckoutBusyOff())
-    // })
+    it('should clear any checkout error', () => {
+      const payment = Remote.of({ effectiveBalance: 250000000 })
+      saga.next(payment).put(coinifyActions.clearCoinifyCheckoutError())
+    })
+
+    it('should initialize the form with the new values', () => {
+      const leftResult = { quoteAmount: 200000 }
+      saga.next(leftResult).put(actions.form.initialize('coinifyCheckoutSell', merge({ currency: 'EUR' }, { 'rightVal': leftResult.quoteAmount / 1e8 })))
+    })
+
+    it('should trigger busy off', () => {
+      saga.next().put(coinifyActions.coinifyCheckoutBusyOff())
+    })
+  })
+
+  describe('handle crypto (rightVal) change - Sell', () => {
+    let { handleChange } = coinifySagas({
+      coreSagas
+    })
+    const action = {
+      payload: 0.000005,
+      meta: {
+        form: 'coinifyCheckoutSell',
+        field: 'rightVal'
+      }
+    }
+
+    let saga = testSaga(handleChange, action)
+
+    const saveToRestore = 'saveToRestore'
+
+    it('should trigger busy state', () => {
+      saga.next().put(coinifyActions.coinifyCheckoutBusyOn())
+    })
+
+    it('should select the limits', () => {
+      saga.next().select(selectors.core.data.coinify.getLimits)
+    })
+
+    it('should select the form values', () => {
+      const limits = mockedLimits
+      saga.next(limits)
+    })
+
+    it('should select the payment', () => {
+      const values = { currency: 'EUR' }
+      saga.next(values).select(sendBtcSelectors.getPayment).save(saveToRestore)
+    })
+
+    it('should clear checkout error', () => {
+      const payment = Remote.of({ effectiveBalance: 250000000 })
+      saga.next(payment).put(coinifyActions.setCoinifyCheckoutError('under_min'))
+    })
+
+    it('should set limits error', () => {
+      const payment = Remote.of({ effectiveBalance: 0.0123 })
+      saga
+        .restore(saveToRestore)
+        .next(payment)
+        .put(coinifyActions.setCoinifyCheckoutError('effective_max_under_min'))
+    })
+
+    describe('error handling', () => {
+      const error = 'ERROR'
+      it('should log the error', () => {
+        saga
+          .restore(saveToRestore)
+          .throw(error)
+          .put(actions.logs.logErrorMessage(logLocation, 'handleChange', error))
+      })
+    })
   })
 
   describe('cancelISX', () => {
@@ -551,6 +799,19 @@ describe('coinifySagas', () => {
         .next()
         .put(coinifyActions.coinifyNextCheckoutStep('checkout'))
     })
+
+    it('should go to checkout if trade state is not awaiting_transfer_in', () => {
+      const trade = { data: { state: 'processing' } }
+      const modals = []
+      saga
+        .restart()
+        .next()
+        .select(selectors.modals.getModals)
+        .next(modals)
+        .select(selectors.core.data.coinify.getTrade)
+        .next(trade)
+        .put(coinifyActions.coinifyNextCheckoutStep('checkout'))
+    })
   })
 
   describe('cancelTrade', () => {
@@ -564,13 +825,14 @@ describe('coinifySagas', () => {
     }
 
     let saga = testSaga(cancelTrade, data)
+    let saveToRestore = 'saveToRestore'
 
     it('should setCancelTradeId', () => {
       saga.next().put(coinifyActions.setCancelTradeId(data.payload.id))
     })
 
     it('should trigger loading', () => {
-      saga.next().put(coinifyActions.coinifyLoading())
+      saga.next().put(coinifyActions.coinifyLoading()).save(saveToRestore)
     })
 
     it('should call the core to cancel the trade', () => {
@@ -580,6 +842,16 @@ describe('coinifySagas', () => {
 
     it('should trigger success', () => {
       saga.next().put(coinifyActions.coinifySuccess())
+    })
+
+    describe('error handling', () => {
+      const error = 'ERROR'
+      it('should log the error', () => {
+        saga
+          .restore(saveToRestore)
+          .throw(error)
+          .put(actions.logs.logErrorMessage(logLocation, 'cancelTrade', error))
+      })
     })
   })
 
@@ -594,9 +866,10 @@ describe('coinifySagas', () => {
     }
 
     let saga = testSaga(cancelSubscription, data)
+    let saveToRestore = 'saveToRestore'
 
     it('should trigger loading', () => {
-      saga.next().put(coinifyActions.coinifyLoading())
+      saga.next().put(coinifyActions.coinifyLoading()).save(saveToRestore)
     })
 
     it('should call the core to cancel the subscription', () => {
@@ -606,6 +879,16 @@ describe('coinifySagas', () => {
 
     it('should trigger success', () => {
       saga.next().put(coinifyActions.coinifySuccess())
+    })
+
+    describe('error handling', () => {
+      const error = 'ERROR'
+      it('should log the error', () => {
+        saga
+          .restore(saveToRestore)
+          .throw(error)
+          .put(actions.logs.logErrorMessage(logLocation, 'cancelSubscription', error))
+      })
     })
   })
 
@@ -618,18 +901,29 @@ describe('coinifySagas', () => {
     }
 
     let saga = testSaga(deleteBankAccount, payload)
+    let saveToRestore = 'saveToRestore'
 
     it('should call the core to delete the account', () => {
       saga.next().call(coreSagas.data.coinify.deleteBankAccount, payload)
     })
 
     it('should select the quote', () => {
-      saga.next().select(selectors.core.data.coinify.getQuote)
+      saga.next().select(selectors.core.data.coinify.getQuote).save(saveToRestore)
     })
 
     it('should call the core to get mediums and accounts', () => {
       const quote = { data: { amount: 100 } }
       saga.next(quote).put(actions.core.data.coinify.getMediumsWithBankAccounts(quote.data))
+    })
+
+    describe('error handling', () => {
+      const error = 'ERROR'
+      it('should log the error', () => {
+        saga
+          .restore(saveToRestore)
+          .throw(error)
+          .put(actions.logs.logErrorMessage(logLocation, 'deleteBankAccount', error))
+      })
     })
   })
 
@@ -644,14 +938,25 @@ describe('coinifySagas', () => {
     }
 
     let saga = testSaga(checkoutCardMax, action)
+    let saveToRestore = 'saveToRestore'
 
     it('should select the level', () => {
-      saga.next().select(selectors.core.data.coinify.getLevel)
+      saga.next().select(selectors.core.data.coinify.getLevel).save(saveToRestore)
     })
 
     it('should change the form to use max', () => {
       const level = { currency: 'EUR' }
       saga.next(Remote.of(level)).put(actions.form.change('coinifyCheckoutBuy', 'leftVal', 300))
+    })
+
+    describe('error handling', () => {
+      const error = 'ERROR'
+      it('should log the error', () => {
+        saga
+          .restore(saveToRestore)
+          .throw(error)
+          .put(actions.logs.logErrorMessage(logLocation, 'checkoutCardMax', error))
+      })
     })
   })
 
