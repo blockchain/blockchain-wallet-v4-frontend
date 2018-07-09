@@ -37,7 +37,6 @@ const Column = styled.div`
   height: 100%;
   width: 100%;
   display: flex;
-  margin-top: 15px;
   box-sizing: border-box;
   @media (max-height: 800px), (max-width: 992px) {
     height: auto;
@@ -45,12 +44,11 @@ const Column = styled.div`
   }
 `
 const ColumnLeft = styled(Column)`
-  padding: 0 10px 10px 0;
-  @media(max-width: 992px) { padding: 0 }
+  padding: 15px 10px 10px 0;
+  @media(max-width: 992px) { padding: 15px 0 0 0; }
 `
 const ColumnRight = styled(Column)`
-  padding: 0 0 10px 0;
-  @media(max-width: 992px) { padding-top: 15px; }
+  padding: 15px 0 10px 0;
 `
 
 class Home extends React.PureComponent {
