@@ -26,7 +26,7 @@ const getErrorState = (meta) => {
 class TextAreaDebounced extends React.Component {
   constructor (props) {
     super(props)
-    this.state = { value: props.input.value }
+    this.state = { value: props.input.value, init: true }
     this.timeout = undefined
     this.handleChange = this.handleChange.bind(this)
     this.handleBlur = this.handleBlur.bind(this)
@@ -34,7 +34,10 @@ class TextAreaDebounced extends React.Component {
   }
 
   static getDerivedStateFromProps (nextProps, prevState) {
-    if (!equals(prevState.updatedValue, prevState.value)) {
+    if (prevState.init) {
+      return { init: false }
+    }
+    if (!equals(prevState.updatedValue, prevState.value) && !prevState.init) {
       return { updatedValue: prevState.updatedValue, value: prevState.updatedValue }
     }
     if (!equals(nextProps.input.value, prevState.value)) {
