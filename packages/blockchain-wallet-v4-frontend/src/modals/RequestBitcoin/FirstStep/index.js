@@ -60,6 +60,9 @@ class FirstStepContainer extends React.PureComponent {
   }
 
   handleRefresh () {
+    const { bitcoinDataActions, initialValues } = this.props
+    if (!Remote.Success.is(initialValues)) return bitcoinDataActions.fetchData()
+
     this.init()
   }
 
