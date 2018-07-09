@@ -55,6 +55,9 @@ class RequestBchContainer extends React.PureComponent {
   }
 
   handleRefresh () {
+    const { bchDataActions, initialValues } = this.props
+    if (!Remote.Success.is(initialValues)) return bchDataActions.fetchData()
+
     this.init()
   }
 
