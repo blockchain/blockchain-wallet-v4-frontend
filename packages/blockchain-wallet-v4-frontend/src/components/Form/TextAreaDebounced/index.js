@@ -37,7 +37,7 @@ class TextAreaDebounced extends React.Component {
     if (prevState.init) {
       return { init: false }
     }
-    if (!equals(prevState.updatedValue, prevState.value) && !prevState.init) {
+    if (!equals(prevState.updatedValue, prevState.value)) {
       return { updatedValue: prevState.updatedValue, value: prevState.updatedValue }
     }
     if (!equals(nextProps.input.value, prevState.value)) {
