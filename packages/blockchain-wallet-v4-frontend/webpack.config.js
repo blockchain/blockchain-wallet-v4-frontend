@@ -5,6 +5,7 @@ const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const Webpack = require('webpack')
+const path = require('path')
 
 const isCiBuild = !!process.env.CI_BUILD
 const runBundleAnalyzer = process.env.ANALYZE
@@ -183,6 +184,20 @@ module.exports = {
 
         res.json(mockWalletOptions)
       })
+
+      // TODO:: DEPRECATE
+      // This is to locally test transferring cookies from transfer_stored_values.html
+      app.get('/Resources/transfer_stored_values.html', function (req, res) {
+        res.sendFile(path.join(__dirname, '/../../config/transfer_stored_values.html'))
+      })
+
+      app.get('/Resources/wallet-options.json', function (req, res) {
+        mockWalletOptions.domains = {
+          'comWalletApp': 'http://localhost:8080'
+        }
+
+        res.json(mockWalletOptions)
+      })
     },
     proxy: [{
       path: /\/a\/.*/,
@@ -199,7 +214,7 @@ module.exports = {
       'Content-Security-Policy': isCiBuild ? [] : [
         "img-src 'self' data: blob:",
         "style-src 'self' 'unsafe-inline'",
-        `frame-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN}`,
+        `frame-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN} ${envConfig.ROOT_URL}`,
         `child-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
         // 'unsafe-eval' is only used by webpack for development. It should not
         // be present on production!
