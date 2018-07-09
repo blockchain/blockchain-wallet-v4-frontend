@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
 import { required } from 'services/FormHelper'
+import { invalidAmountMin, invalidAmountMax } from './validation'
 import { Button, Separator, Text, Tooltip } from 'blockchain-info-components'
 import { FiatConvertor, Form, FormGroup, FormItem, FormLabel, SelectBoxBitcoinAddresses, TextArea, SelectBoxCoin } from 'components/Form'
 import CopyClipboard from 'components/CopyClipboard'
@@ -71,7 +72,7 @@ const FirstStep = props => {
           <FormLabel for='amount'>
             <FormattedMessage id='modals.requestbitcoin.firststep.amount' defaultMessage='Enter Amount:' />
           </FormLabel>
-          <Field name='amount' component={FiatConvertor} validate={[required]} coin='BTC' />
+          <Field name='amount' component={FiatConvertor} validate={[required, invalidAmountMin, invalidAmountMax]} coin='BTC' />
         </FormItem>
       </FormGroup>
       <FormGroup margin={'15px'}>

@@ -37,19 +37,22 @@ export const getLabel = (address, state) => {
   return labelR.getOrElse(address)
 }
 
-export const _transformTx = curry((addresses, latestBlock, state, tx) => {
+export const _transformTx = curry((addresses, latestBlock, getPartnerLabel, state, tx) => {
   const fee = getFee(tx)
+  const type = toLower(getType(tx, addresses))
+  const amount = type === 'sent' ? parseInt(tx.value) + parseInt(fee) : parseInt(tx.value)
   return {
-    type: toLower(getType(tx, addresses)),
+    type,
+    fee,
+    amount,
     hash: tx.hash,
-    amount: parseInt(tx.value) + parseInt(fee),
     to: getLabel(tx.to, state),
     from: getLabel(tx.from, state),
-    confirmations: getConfirmations(tx.blockNumber, latestBlock),
-    fee: fee,
     description: getEthereumTxNote(state, tx.hash).data || '',
-    time: tx.timeStamp,
-    timeFormatted: getTime(tx)
+    partnerLabel: getPartnerLabel && getPartnerLabel(tx.hash),
+    confirmations: getConfirmations(tx.blockNumber, latestBlock),
+    timeFormatted: getTime(tx),
+    time: tx.timeStamp
   }
 })
 

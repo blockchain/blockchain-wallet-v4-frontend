@@ -17,10 +17,14 @@ const Transactions = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items : center;
-  margin-top: 50px;
+  margin: 50px 10px 0 10px;
 `
 const ExchangeIcon = styled(Icon)`
   justify-content: center;
+`
+
+const CenteredTextGroup = styled(TextGroup)`
+  text-align: center;
 `
 
 const Empty = () => (
@@ -30,7 +34,7 @@ const Empty = () => (
         <ExchangeIcon name='exchange' size='24px' />
         <FormattedMessage id='scenes.exchangehistory.empty.history' defaultMessage='Your order history' />
       </Text>
-      <TextGroup inline>
+      <CenteredTextGroup inline>
         <Text size='13px' weight={500}>
           <FormattedMessage id='scenes.exchangehistory.empty.exchange' defaultMessage="You haven't made any exchanges yet," />
         </Text>
@@ -39,7 +43,7 @@ const Empty = () => (
             <FormattedMessage id='scenes.exchangehistory.empty.start' defaultMessage='click here to start.' />
           </Link>
         </LinkContainer>
-      </TextGroup>
+      </CenteredTextGroup>
       <Separator />
     </Transactions>
   </Wrapper>
