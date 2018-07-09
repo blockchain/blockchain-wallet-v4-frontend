@@ -1,4 +1,3 @@
-# image/registry settings
 ARG REGISTRY=docker-registry.internal.blockchain.info
 ARG NGINX_IMAGE=blockchain_nginx
 ARG NGINX_SHA=06c5efe75cedf639e5393a70380ba0d38300fa1ce56e59adb25918b15afe25a1
@@ -40,6 +39,9 @@ WORKDIR /home/blockchain
 ## copy code
 COPY . .
 
+# update CSP headers in NGINX config
+RUN sed -e "s|_apiDomain_|$API_DOMAIN|g" -e "s|_rootURL_|$ROOT_URL|g" -e "s|_iSignThisDomain_|$I_SIGN_THIS_DOMAIN|g" -e "s|_walletHelperDomain_|$WALLET_HELPER_DOMAIN|g" -e "s|_webSocketURL_|$WEB_SOCKET_URL|g" -i nginx.conf
+
 # build assets
 RUN npm install lerna yarn babel-cli rimraf cross-env
 RUN yarn bootstrap
@@ -49,12 +51,8 @@ RUN yarn ci:compile
 FROM ${REGISTRY}/${NGINX_IMAGE}@sha256:${NGINX_SHA}
 
 # copy built application assets to nginx layer
-COPY --from=BUILDER /home/blockchain/dist /var/www/
-
-# update CSP headers in NGINX config
-RUN sed -e "s|_apiDomain_|$API_DOMAIN|g" -e "s|_rootURL_|$ROOT_URL|g" -e "s|_iSignThisDomain_|$I_SIGN_THIS_DOMAIN|g" -e "s|_walletHelperDomain_|$WALLET_HELPER_DOMAIN|g" -e "s|_webSocketURL_|$WEB_SOCKET_URL|g" -i nginx.conf
-
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY --from=BUILDER /home/blockchain/packages /var/www/
+COPY --from=BUILDER /home/blockchain/nginx.conf /etc/nginx/nginx.conf
 
 RUN chown -R www-data:www-data /var/www/
 
