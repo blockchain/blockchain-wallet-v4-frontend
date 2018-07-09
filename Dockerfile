@@ -51,7 +51,7 @@ RUN yarn ci:compile
 FROM ${REGISTRY}/${NGINX_IMAGE}@sha256:${NGINX_SHA}
 
 # copy built application assets to nginx layer
-COPY --from=BUILDER /home/blockchain/packages /var/www/
+COPY --from=BUILDER /home/blockchain/dist /var/www/
 COPY --from=BUILDER /home/blockchain/nginx.conf /etc/nginx/nginx.conf
 
 RUN chown -R www-data:www-data /var/www/
