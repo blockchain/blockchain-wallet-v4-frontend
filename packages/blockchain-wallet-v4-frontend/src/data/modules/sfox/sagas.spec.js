@@ -11,6 +11,8 @@ import sfoxSagas, { logLocation } from './sagas'
 import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
 import * as sendBtcSelectors from '../../components/sendBtc/selectors'
+import * as sendBtcActions from '../../components/sendBtc/actions'
+import settings from 'config'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 const coreSagas = coreSagasFactory()
@@ -18,6 +20,36 @@ const coreSagas = coreSagasFactory()
 describe('sfoxSagas', () => {
   beforeAll(() => {
     Math.random = () => 0.5
+  })
+
+  const tradeReceiveAddress = '1FVKW4rp5rN23dqFVk2tYGY4niAXMB8eZC'
+  const secondPassword = 'secondPassword'
+  const mockSellTrade = { sendAmount: 100, receiveAddress: tradeReceiveAddress, id: 12345 }
+  const feeType = 'regular'
+  const feePerByte = 1
+  const value = {
+    fees: {
+      [feeType]: feePerByte
+    }
+  }
+  const paymentMock = {
+    value: jest.fn(),
+    init: jest.fn(() => paymentMock),
+    to: jest.fn(() => paymentMock),
+    amount: jest.fn(() => paymentMock),
+    from: jest.fn(() => paymentMock),
+    fee: jest.fn(() => paymentMock),
+    build: jest.fn(() => paymentMock),
+    buildSweep: jest.fn(() => paymentMock),
+    sign: jest.fn(() => paymentMock),
+    publish: jest.fn(() => paymentMock),
+    description: jest.fn(() => paymentMock),
+    chain: jest.fn()
+  }
+  paymentMock.value.mockReturnValue(value)
+
+  coreSagas.payment.btc.create.mockImplementation(() => {
+    return paymentMock
   })
 
   describe('sfox signup', () => {
@@ -377,6 +409,8 @@ describe('sfoxSagas', () => {
       }
     }
 
+    const beforeEnd = 'beforeEnd'
+
     const saga = testSaga(submitSellQuote, action)
 
     it('should prompt for second password', () => {
@@ -384,17 +418,99 @@ describe('sfoxSagas', () => {
     })
 
     it('should set loading', () => {
-      saga.next().put(sfoxActions.sfoxLoading())
+      const password = secondPassword
+      saga.next(password).put(sfoxActions.sfoxLoading())
     })
 
     it('should call the core to sell', () => {
-      const trade = { id: 1, quoteAmount: 100 }
-      saga.next(trade).call(coreSagas.data.sfox.handleSellTrade, trade)
+      const quote = { id: 1, quoteAmount: 100 }
+      saga.next(quote).call(coreSagas.data.sfox.handleSellTrade, quote)
     })
 
     it('should select the payment', () => {
-      const trade = { id: 1, amount: 100 }
+      const trade = mockSellTrade
       saga.next(trade).select(sendBtcSelectors.getPayment)
     })
+
+    it('should create payment', () => {
+      const p = Remote.of(null)
+      saga.next(p)
+      expect(coreSagas.payment.btc.create).toHaveBeenCalledTimes(1)
+      expect(coreSagas.payment.btc.create).toHaveBeenCalledWith({ payment: p.getOrElse({}), network: settings.NETWORK_BITCOIN })
+    })
+
+    it('should update the payment amount', () => {
+      saga.next(paymentMock)
+
+      expect(paymentMock.amount).toHaveBeenCalledTimes(1)
+      expect(paymentMock.amount).toHaveBeenCalledWith(100)
+    })
+
+    it('should select the state to check for a qa address', () => {
+      saga.next(paymentMock).select()
+    })
+
+    it('should set payment.to to the trade receiveAddress', () => {
+      const state = {}
+      saga.next(state)
+
+      expect(paymentMock.to).toHaveBeenCalledTimes(1)
+      expect(paymentMock.to).toHaveBeenCalledWith(tradeReceiveAddress)
+    })
+
+    it('should set a description', () => {
+      saga.next(paymentMock)
+
+      expect(paymentMock.description).toHaveBeenCalledTimes(1)
+      expect(paymentMock.description).toHaveBeenCalledWith('Exchange Trade SFX-12345')
+    })
+
+    it('should call payment.build', () => {
+      saga.next(paymentMock)
+
+      expect(paymentMock.build).toHaveBeenCalledTimes(1)
+    })
+
+    it('should call payment.sign with the second password', () => {
+      saga.next(paymentMock)
+
+      expect(paymentMock.sign).toHaveBeenCalledTimes(1)
+      expect(paymentMock.sign).toHaveBeenCalledWith(secondPassword)
+    })
+
+    it('should call payment.publish', () => {
+      saga.next(paymentMock)
+
+      expect(paymentMock.publish).toHaveBeenCalledTimes(1)
+    })
+
+    it('should update payment success', () => {
+      saga.next(paymentMock).put(sendBtcActions.sendBtcPaymentUpdatedSuccess(paymentMock.value()))
+    })
+
+    it('should set success state', () => {
+      saga.next().put(sfoxActions.sfoxSuccess())
+    })
+
+    it('should change the form to order_history', () => {
+      saga.next().put(actions.form.change('buySellTabStatus', 'status', 'order_history')).save(beforeEnd)
+    })
+
+    it('should show the trade details modal', () => {
+      saga.next().put(actions.modals.showModal('SfoxTradeDetails', { trade: mockSellTrade }))
+    })
+
+    describe('error handling', () => {
+      const error = 'ERROR'
+      it('should set failure and log the error', () => {
+        saga
+          .restore(beforeEnd)
+          .throw(error)
+          .put(sfoxActions.sfoxFailure(error))
+          .next()
+          .put(actions.logs.logErrorMessage(logLocation, 'submitSellQuote', error))
+      })
+    })
   })
+
 })
