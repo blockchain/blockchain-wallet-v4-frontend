@@ -18,7 +18,7 @@ const Container = styled.div`
 
 const link = <Link href='https://support.blockchain.com/hc/en-us/requests/new' target='_blank' size='16px' weight={300}><FormattedMessage id='buysell.general.failure.here' defaultMessage='here.' /></Link>
 
-const Loading = (e) => (
+const Failure = (e) => (
   <Container>
     <Text weight={300} size='16px'>
       <FormattedMessage id='buysell.general.failure.message' defaultMessage='Sorry, an error has occurred while connecting to your exchange partner.' />
@@ -32,4 +32,4 @@ const Loading = (e) => (
   </Container>
 )
 
-export default Loading
+export default Failure
