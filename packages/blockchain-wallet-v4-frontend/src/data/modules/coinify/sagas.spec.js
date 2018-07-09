@@ -6,9 +6,11 @@ import * as actions from '../../actions'
 import * as coinifyActions from './actions.js'
 import * as selectors from '../../selectors.js'
 import * as sendBtcSelectors from '../../components/sendBtc/selectors'
-
+import settings from 'config'
 import coinifySagas, { logLocation } from './sagas'
 import * as C from 'services/AlertService'
+import * as sendBtcActions from '../../components/sendBtc/actions'
+import { merge } from 'ramda'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 const coreSagas = coreSagasFactory()
@@ -16,6 +18,61 @@ const coreSagas = coreSagasFactory()
 describe('coinifySagas', () => {
   beforeAll(() => {
     Math.random = () => 0.5
+  })
+
+  const mockedLimits = {
+    data: {
+      bank: {
+        inRemaining: { EUR: 150, USD: 150, GBP: 150, DKK: 150 },
+        minimumInAmounts: { EUR: 0, USD: 0, GBP: 0, DKK: 0 }
+      },
+      card: {
+        inRemaining: { EUR: 150, USD: 150, GBP: 150, DKK: 150 },
+        minimumInAmounts: { EUR: 0, USD: 0, GBP: 0, DKK: 0 }
+      },
+      blockchain: {
+        inRemaining: { BTC: 0 },
+        minimumInAmounts: { BTC: 0 }
+      }
+    }
+  }
+  const tradeReceiveAddress = '1FVKW4rp5rN23dqFVk2tYGY4niAXMB8eZC'
+  const secondPassword = 'secondPassword'
+  const mockSellTrade = {
+    sendAmount: 500,
+    receiveAddress: tradeReceiveAddress,
+    id: 56789,
+    transferIn: {
+      details: {
+        account: tradeReceiveAddress
+      }
+    }
+  }
+  const feeType = 'regular'
+  const feePerByte = 1
+  const value = {
+    fees: {
+      [feeType]: feePerByte
+    }
+  }
+  const paymentMock = {
+    value: jest.fn(),
+    init: jest.fn(() => paymentMock),
+    to: jest.fn(() => paymentMock),
+    amount: jest.fn(() => paymentMock),
+    from: jest.fn(() => paymentMock),
+    fee: jest.fn(() => paymentMock),
+    build: jest.fn(() => paymentMock),
+    buildSweep: jest.fn(() => paymentMock),
+    sign: jest.fn(() => paymentMock),
+    publish: jest.fn(() => paymentMock),
+    description: jest.fn(() => paymentMock),
+    chain: jest.fn()
+  }
+  paymentMock.value.mockReturnValue(value)
+
+  coreSagas.payment.btc.create.mockImplementation(() => {
+    return paymentMock
   })
 
   describe('coinify signup', () => {
@@ -348,12 +405,12 @@ describe('coinifySagas', () => {
     })
   })
 
-  describe('handle change', () => {
+  describe('handle fiat (leftVal) change - Buy', () => {
     let { handleChange } = coinifySagas({
       coreSagas
     })
     const action = {
-      payload: 10,
+      payload: 100,
       meta: {
         form: 'coinifyCheckoutBuy',
         field: 'leftVal'
@@ -369,6 +426,94 @@ describe('coinifySagas', () => {
     it('should select the limits', () => {
       saga.next().select(selectors.core.data.coinify.getLimits)
     })
+
+    it('should select the form values', () => {
+      const limits = mockedLimits
+      saga.next(limits)
+    })
+
+    it('should clear coinifyCheckoutError', () => {
+      const values = { currency: 'EUR' }
+      saga.next(values).put(coinifyActions.clearCoinifyCheckoutError())
+    })
+
+    it('should fetch a quote', () => {
+      saga.next().call(coreSagas.data.coinify.fetchQuote,
+        {
+          quote: {
+            amount: action.payload * 100,
+            baseCurrency: 'EUR',
+            quoteCurrency: 'BTC',
+            type: 'buy'
+          }
+        }
+      )
+    })
+
+    it('should initialize the form with the new values', () => {
+      const leftResult = { quoteAmount: 200000 }
+      saga.next(leftResult).put(actions.form.initialize('coinifyCheckoutBuy', merge({ currency: 'EUR' }, { 'rightVal': leftResult.quoteAmount / 1e8 })))
+    })
+
+    it('should trigger busy off', () => {
+      saga.next().put(coinifyActions.coinifyCheckoutBusyOff())
+    })
+  })
+
+  fdescribe('handle fiat (leftVal) change - Sell', () => {
+    let { handleChange } = coinifySagas({
+      coreSagas
+    })
+    const action = {
+      payload: 100,
+      meta: {
+        form: 'coinifyCheckoutSell',
+        field: 'leftVal'
+      }
+    }
+
+    let saga = testSaga(handleChange, action)
+
+    it('should trigger busy state', () => {
+      saga.next().put(coinifyActions.coinifyCheckoutBusyOn())
+    })
+
+    it('should select the limits', () => {
+      saga.next().select(selectors.core.data.coinify.getLimits)
+    })
+
+    it('should select the form values', () => {
+      const limits = mockedLimits
+      saga.next(limits)
+    })
+
+    // it('should clear coinifyCheckoutError', () => {
+    //   const values = { currency: 'EUR' }
+    //   saga.next(values).put(coinifyActions.clearCoinifyCheckoutError())
+    // })
+
+    it('should fetch a quote', () => {
+      const values = { currency: 'EUR' }
+      saga.next(values).call(coreSagas.data.coinify.fetchQuote,
+        {
+          quote: {
+            amount: action.payload * 100,
+            baseCurrency: 'EUR',
+            quoteCurrency: 'BTC',
+            type: 'sell'
+          }
+        }
+      )
+    })
+
+    // it('should initialize the form with the new values', () => {
+    //   const leftResult = { quoteAmount: 200000 }
+    //   saga.next(leftResult).put(actions.form.initialize('coinifyCheckoutBuy', merge({ currency: 'EUR' }, { 'rightVal': leftResult.quoteAmount / 1e8 })))
+    // })
+
+    // it('should trigger busy off', () => {
+    //   saga.next().put(coinifyActions.coinifyCheckoutBusyOff())
+    // })
   })
 
   describe('cancelISX', () => {
@@ -517,22 +662,108 @@ describe('coinifySagas', () => {
 
     let saga = testSaga(sell)
 
+    const beforeEnd = 'beforeEnd'
+
     it('should prompt for second password', () => {
       saga.next().call(promptForSecondPassword)
     })
 
     it('should set loading', () => {
-      saga.next().put(coinifyActions.coinifyLoading())
+      const password = secondPassword
+      saga.next(password).put(coinifyActions.coinifyLoading())
     })
 
     it('should call the core to sell', () => {
-      const trade = { id: 1, amount: 50 }
-      saga.next(trade).call(coreSagas.data.coinify.sell)
+      saga.next().call(coreSagas.data.coinify.sell)
     })
 
     it('should select the payment', () => {
-      const trade = { id: 1, amount: 50 }
+      const trade = mockSellTrade
       saga.next(trade).select(sendBtcSelectors.getPayment)
+    })
+
+    it('should create payment', () => {
+      const p = Remote.of(null)
+      saga.next(p)
+      expect(coreSagas.payment.btc.create).toHaveBeenCalledTimes(1)
+      expect(coreSagas.payment.btc.create).toHaveBeenCalledWith({ payment: p.getOrElse({}), network: settings.NETWORK })
+    })
+
+    it('should update the payment amount', () => {
+      saga.next(paymentMock)
+
+      expect(paymentMock.amount).toHaveBeenCalledTimes(1)
+      expect(paymentMock.amount).toHaveBeenCalledWith(500)
+    })
+
+    it('should select the state to check for a qa address', () => {
+      saga.next(paymentMock).select()
+    })
+
+    it('should set payment.to to the trade receiveAddress', () => {
+      const state = {}
+      saga.next(state)
+
+      expect(paymentMock.to).toHaveBeenCalledTimes(1)
+      expect(paymentMock.to).toHaveBeenCalledWith(tradeReceiveAddress)
+    })
+
+    it('should set a description', () => {
+      saga.next(paymentMock)
+
+      expect(paymentMock.description).toHaveBeenCalledTimes(1)
+      expect(paymentMock.description).toHaveBeenCalledWith('Exchange Trade COINIFY=56789')
+    })
+
+    it('should call payment.build', () => {
+      saga.next(paymentMock)
+
+      expect(paymentMock.build).toHaveBeenCalledTimes(1)
+    })
+
+    it('should update payment success', () => {
+      saga.next(paymentMock).put(sendBtcActions.sendBtcPaymentUpdatedSuccess(paymentMock.value()))
+    })
+
+    it('should call payment.sign with the second password', () => {
+      saga.next(paymentMock)
+
+      expect(paymentMock.sign).toHaveBeenCalledTimes(1)
+      expect(paymentMock.sign).toHaveBeenCalledWith(secondPassword)
+    })
+
+    it('should call payment.publish', () => {
+      saga.next(paymentMock)
+
+      expect(paymentMock.publish).toHaveBeenCalledTimes(1)
+    })
+
+    it('should update payment success again', () => {
+      saga.next(paymentMock).put(sendBtcActions.sendBtcPaymentUpdatedSuccess(paymentMock.value()))
+    })
+
+    it('should set success state', () => {
+      saga.next().put(coinifyActions.coinifySuccess())
+    })
+
+    it('should change the form to order_history', () => {
+      saga.next().put(actions.form.change('buySellTabStatus', 'status', 'order_history')).save(beforeEnd)
+    })
+
+    it('should show the trade details modal', () => {
+      saga.next().put(actions.modals.showModal('CoinifyTradeDetails', { trade: mockSellTrade }))
+    })
+
+    describe('error handling', () => {
+      const error = 'ERROR'
+      it('should set failure and log the error', () => {
+        saga
+          .restore(beforeEnd)
+          .throw(error)
+          .put(coinifyActions.coinifyFailure(error))
+          .next()
+          .put(actions.logs.logErrorMessage(logLocation, 'sell', error))
+      })
     })
   })
 })

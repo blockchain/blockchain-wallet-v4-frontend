@@ -44,7 +44,8 @@ export default () => ({
       cancelSubscription: jest.fn(),
       kycAsTrade: jest.fn(),
       deleteBankAccount: jest.fn(),
-      getMediumsWithBankAccounts: jest.fn()
+      getMediumsWithBankAccounts: jest.fn(),
+      fetchQuote: jest.fn()
     }
   },
   payment: {

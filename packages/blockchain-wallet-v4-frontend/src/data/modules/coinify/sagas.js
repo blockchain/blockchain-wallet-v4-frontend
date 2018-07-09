@@ -213,7 +213,7 @@ export default ({ coreSagas }) => {
               }
             }
           }
-
+          console.log('end of case', form, values, amount)
           yield put(actions.form.initialize(form, merge(values, { 'rightVal': amount / 1e8 })))
           yield put(A.coinifyCheckoutBusyOff())
           break
