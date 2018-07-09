@@ -3,13 +3,14 @@ import { select } from 'redux-saga/effects'
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
-import { coreSagasFactory } from 'blockchain-wallet-v4/src'
+import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import * as actions from '../../actions'
 import * as sfoxActions from './actions.js'
 import * as selectors from '../../selectors.js'
-
 import sfoxSagas, { logLocation } from './sagas'
 import * as C from 'services/AlertService'
+import { promptForSecondPassword } from 'services/SagaService'
+import * as sendBtcSelectors from '../../components/sendBtc/selectors'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 const coreSagas = coreSagasFactory()
@@ -339,6 +340,61 @@ describe('sfoxSagas', () => {
         .put(actions.logs.logErrorMessage(logLocation, 'setBankManually', new Error('set_bank_error')))
         .next()
         .put(sfoxActions.sfoxFailure(new Error('set_bank_error')))
+    })
+  })
+
+  describe('sfox checkForProfileFailure', () => {
+    const { checkForProfileFailure } = sfoxSagas({
+      coreSagas
+    })
+
+    const saga = testSaga(checkForProfileFailure)
+
+    it('should select the profile', () => {
+      saga.next().select(selectors.core.data.sfox.getProfile)
+    })
+
+    it('should select modals', () => {
+      const profile = Remote.Failure({})
+      saga.next(profile).select(selectors.modals.getModals)
+    })
+
+    it('should refetch profile', () => {
+      const modals = [{ type: 'SfoxExchangeData' }]
+      saga.next(modals).call(coreSagas.data.sfox.refetchProfile)
+    })
+  })
+
+  describe('sfox submitSellQuote', () => {
+    const { submitSellQuote } = sfoxSagas({
+      coreSagas
+    })
+
+    const action = {
+      payload: {
+        id: 1,
+        quoteAmount: 100
+      }
+    }
+
+    const saga = testSaga(submitSellQuote, action)
+
+    it('should prompt for second password', () => {
+      saga.next().call(promptForSecondPassword)
+    })
+
+    it('should set loading', () => {
+      saga.next().put(sfoxActions.sfoxLoading())
+    })
+
+    it('should call the core to sell', () => {
+      const trade = { id: 1, quoteAmount: 100 }
+      saga.next(trade).call(coreSagas.data.sfox.handleSellTrade, trade)
+    })
+
+    it('should select the payment', () => {
+      const trade = { id: 1, amount: 100 }
+      saga.next(trade).select(sendBtcSelectors.getPayment)
     })
   })
 })
