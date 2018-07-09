@@ -23,7 +23,7 @@ RUN : "${environment:? build argument is not set!}" \
   : "${wallet_helper_domain:? build argument is not set!}" \
   : "${i_sign_this_domain:? build argument is not set!}"
 
-# set build args as environment variables for future commands
+# set build args as environment variables for sed command
 ENV ENVIRONMENT=$environment
 ENV ROOT_URL=$root_url
 ENV WEB_SOCKET_URL=$web_socket_url
@@ -36,7 +36,7 @@ RUN apt-get update && apt-get install -y python
 
 WORKDIR /home/blockchain
 
-## copy code
+# copy code
 COPY . .
 
 # update CSP headers in NGINX config
