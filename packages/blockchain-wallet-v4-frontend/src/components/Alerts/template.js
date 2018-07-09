@@ -72,6 +72,7 @@ const selectMessage = (message, data = undefined) => {
     case C.HINT_UPDATE_SUCCESS: return <FormattedMessage id='components.alerts.hint_update_success' defaultMessage='Hint has been successfully updated' />
     case C.IMPORT_LEGACY_SUCCESS: return <FormattedMessage id='components.alerts.import_legacy_success' defaultMessage='Address added successfully' />
     case C.INCORRECT_BIP38_PASSWORD_ERROR: return <FormattedMessage id='components.alerts.incorrect_bip38_password_error' defaultMessage='Incorrect BIP38 password.' />
+    case C.IPRESTRICTION_NO_WHITELIST_ERROR: return <FormattedMessage id='components.alerts.iprestriction_no_whitelist_error' defaultMessage='You must add at least one IP address to the whitelist to enable Login IP Restriction' />
     case C.IPRESTRICTION_UPDATE_ERROR: return <FormattedMessage id='components.alerts.iprestriction_update_error' defaultMessage='Failed to update IP restriction' />
     case C.IPRESTRICTION_UPDATE_SUCCESS: return <FormattedMessage id='components.alerts.iprestriction_update_success' defaultMessage='IP restriction has been successfully updated' />
     case C.IPWHITELIST_UPDATE_ERROR: return <FormattedMessage id='components.alerts.ipwhitelist_update_error' defaultMessage='Failed to update IP whitelist' />
