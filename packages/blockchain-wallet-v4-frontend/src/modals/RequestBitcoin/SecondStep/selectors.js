@@ -1,6 +1,5 @@
 import { formValueSelector } from 'redux-form'
 import { Remote, Exchange } from 'blockchain-wallet-v4/src'
-import bip21 from 'bip21'
 
 export const getData = (state, ownProps) => {
   const { receiveAddress } = ownProps
