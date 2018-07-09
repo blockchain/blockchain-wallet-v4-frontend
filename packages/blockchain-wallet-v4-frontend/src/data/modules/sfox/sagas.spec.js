@@ -512,5 +512,4 @@ describe('sfoxSagas', () => {
       })
     })
   })
-
 })
