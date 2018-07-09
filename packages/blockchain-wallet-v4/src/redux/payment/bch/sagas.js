@@ -78,7 +78,6 @@ export default ({ api }) => {
     }
 
     if (isCashAddr(origin)) {
-      console.log(fromCashAddr(origin))
       return fromLegacy(fromCashAddr(origin))
     }
 
