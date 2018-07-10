@@ -1,16 +1,26 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { canCancelTrade } from 'services/CoinifyService'
 import { prop } from 'ramda'
 import moment from 'moment'
 import { RecurringTableRow } from '../components'
-
 import { TableCell, Text, Link, Icon, HeartbeatLoader } from 'blockchain-info-components'
 import OrderStatus from 'components/BuySell/OrderHistoryTable/OrderStatus'
+import media from 'services/ResponsiveService'
+import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 
-const tradeDateHelper = (trade) => moment(prop('createdAt', trade)).local().format('MMMM D YYYY @ h:mm A')
+const StatusContainer = styled(TableCell)`
+  display: flex;
+  flex-basis: 30%;
+  ${media.mobile`
+    flex-direction: column;
+  `}
+`
+
+const tradeDateHelper = (trade, isMobile) => moment(prop('createdAt', trade)).local().format(isMobile ? 'DD MMM' : 'MMMM D YYYY @ h:mm A')
 
 const RecurringTradeItem = props => {
   const { conversion, handleClick, handleFinish, handleTradeCancel, trade, status, cancelTradeId, canTrade, border, padding } = props
@@ -20,24 +30,32 @@ const RecurringTradeItem = props => {
 
   return (
     <RecurringTableRow border={border} padding={padding}>
-      <TableCell width='15%'>
-        <OrderStatus status={trade.state} isBuy={trade.isBuy} />
+      <StatusContainer>
+        <TableCell width='15%'>
+          <OrderStatus status={trade.state} isBuy={trade.isBuy} />
+        </TableCell>
+        <TableCell width='15%'>
+          {
+            trade.state === 'awaiting_transfer_in' && trade.medium === 'card'
+              ? <Link size='13px' weight={300} capitalize onClick={() => handleFinish(trade)}>
+                <FormattedMessage id='buysell.orderhistory.finishtrade' defaultMessage='Finish Trade' />
+              </Link>
+              : <Link size='13px' weight={300} capitalize onClick={() => handleClick(trade)}>
+                <FormattedMessage id='buysell.orderhistory.list.details' defaultMessage='View details' />
+              </Link>
+          }
+        </TableCell>
+      </StatusContainer>
+      <TableCell width='30%' mobileWidth='20%'>
+        <MediaContextConsumer>
+          {({ mobile }) =>
+            <Text opacity={trade.state === 'processing'} size='13px' weight={300}>
+              {tradeDateHelper(trade, mobile)}
+            </Text>
+          }
+        </MediaContextConsumer>
       </TableCell>
-      <TableCell width='15%'>
-        {
-          trade.state === 'awaiting_transfer_in' && trade.medium === 'card'
-            ? <Link size='13px' weight={300} capitalize onClick={() => handleFinish(trade)}>
-              <FormattedMessage id='buysell.orderhistory.finishtrade' defaultMessage='Finish Trade' />
-            </Link>
-            : <Link size='13px' weight={300} capitalize onClick={() => handleClick(trade)}>
-              <FormattedMessage id='buysell.orderhistory.list.details' defaultMessage='View details' />
-            </Link>
-        }
-      </TableCell>
-      <TableCell width='30%'>
-        <Text opacity={trade.state === 'processing'} size='13px' weight={300}>{tradeDateHelper(trade)}</Text>
-      </TableCell>
-      <TableCell width='20%'>
+      <TableCell width='20%' mobileWidth='25%'>
         <Text opacity={trade.state === 'processing'} size='13px' weight={300}>{`${exchangeAmount} ${trade.inCurrency}`}</Text>
       </TableCell>
       <TableCell width='20%'>
