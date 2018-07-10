@@ -10,8 +10,6 @@ import * as selectors from '../../selectors.js'
 import sfoxSagas, { logLocation } from './sagas'
 import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
-import * as sendBtcSelectors from '../../components/sendBtc/selectors'
-import * as sendBtcActions from '../../components/sendBtc/actions'
 import settings from 'config'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
@@ -427,16 +425,20 @@ describe('sfoxSagas', () => {
       saga.next(quote).call(coreSagas.data.sfox.handleSellTrade, quote)
     })
 
-    it('should select the payment', () => {
+    it('should select the state', () => {
       const trade = mockSellTrade
-      saga.next(trade).select(sendBtcSelectors.getPayment)
+      saga.next(trade).select()
     })
 
     it('should create payment', () => {
-      const p = Remote.of(null)
-      saga.next(p)
+      const state = {
+        sfoxSignup: {
+          payment: Remote.of(null)
+        }
+      }
+      saga.next(state)
       expect(coreSagas.payment.btc.create).toHaveBeenCalledTimes(1)
-      expect(coreSagas.payment.btc.create).toHaveBeenCalledWith({ payment: p.getOrElse({}), network: settings.NETWORK_BITCOIN })
+      expect(coreSagas.payment.btc.create).toHaveBeenCalledWith({ payment: state.sfoxSignup.payment.getOrElse({}), network: settings.NETWORK_BITCOIN })
     })
 
     it('should update the payment amount', () => {
@@ -446,13 +448,8 @@ describe('sfoxSagas', () => {
       expect(paymentMock.amount).toHaveBeenCalledWith(100)
     })
 
-    it('should select the state to check for a qa address', () => {
-      saga.next(paymentMock).select()
-    })
-
     it('should set payment.to to the trade receiveAddress', () => {
-      const state = {}
-      saga.next(state)
+      saga.next(paymentMock)
 
       expect(paymentMock.to).toHaveBeenCalledTimes(1)
       expect(paymentMock.to).toHaveBeenCalledWith(tradeReceiveAddress)
@@ -484,8 +481,12 @@ describe('sfoxSagas', () => {
       expect(paymentMock.publish).toHaveBeenCalledTimes(1)
     })
 
-    it('should update payment success', () => {
-      saga.next(paymentMock).put(sendBtcActions.sendBtcPaymentUpdatedSuccess(paymentMock.value()))
+    it('should fetch btc data', () => {
+      saga.next(paymentMock).put(actions.core.data.bitcoin.fetchData())
+    })
+
+    it('should set a tx note', () => {
+      saga.next(paymentMock).put(actions.core.wallet.setTransactionNote(paymentMock.value().txId, paymentMock.value().description))
     })
 
     it('should set success state', () => {

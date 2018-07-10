@@ -26,5 +26,4 @@ export const getBase = (state) =>
 export const getErrors = (state) =>
   path(['form', 'exchangeCheckout', 'syncErrors'], state)
 
-export const getPayment = (state) =>
-  selectors.components.sendBtc.getPayment(state).getOrElse(null)
+export const getPayment = path(['sfoxSignup', 'payment'])
