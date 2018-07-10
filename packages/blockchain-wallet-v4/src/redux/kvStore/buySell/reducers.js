@@ -23,6 +23,7 @@ export default (state = INITIAL_STATE, action) => {
       const valueLens = compose(mapped, KVStoreEntry.value)
       const setTrades = assocPath(['coinify', 'trades'], payload)
       return over(valueLens, setTrades, state)
+    }
     case AT.ADD_COINIFY_TRADE_BUYSELL: {
       let valueLens = compose(mapped, KVStoreEntry.value, lensPath(['coinify', 'trades']))
       return over(valueLens, prepend(payload), state)
