@@ -6,7 +6,8 @@ import * as actions from './actions'
 const INITIAL_STATE = {
   sfoxBusy: Remote.NotAsked,
   qaSellAddress: null,
-  siftScienceEnabled: false
+  siftScienceEnabled: false,
+  payment: Remote.NotAsked
 }
 
 describe('sfox reducers', () => {

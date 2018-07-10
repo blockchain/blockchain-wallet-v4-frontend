@@ -9,7 +9,8 @@ const INITIAL_STATE = {
   coinifyBusy: Remote.NotAsked,
   step: null,
   checkoutStep: 'checkout',
-  signupComplete: null
+  signupComplete: null,
+  payment: Remote.NotAsked
 }
 
 const ERROR = 'error'
