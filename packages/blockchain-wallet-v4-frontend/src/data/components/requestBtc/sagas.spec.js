@@ -1,7 +1,4 @@
-import { put } from 'redux-saga/effects'
-import { expectSaga, testSaga } from 'redux-saga-test-plan';
-import { throwError } from 'redux-saga-test-plan/providers';
-import * as matchers from 'redux-saga-test-plan/matchers';
+import { expectSaga, testSaga } from 'redux-saga-test-plan'
 
 import * as actions from '../../actions.js'
 import * as C from 'services/AlertService'
@@ -11,8 +8,8 @@ const requestBtcSagas = sagas()
 
 describe('requestBtc sagas', () => {
   const mockMath = Object.create(global.Math)
-  mockMath.random = () => 0.5;
-  global.Math = mockMath;
+  mockMath.random = () => 0.5
+  global.Math = mockMath
 
   describe('firstStepSubmitClicked', () => {
     const accountIdx = 0
