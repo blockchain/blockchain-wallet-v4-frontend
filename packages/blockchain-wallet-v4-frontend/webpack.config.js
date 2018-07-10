@@ -216,7 +216,7 @@ module.exports = {
       'Content-Security-Policy': isCiBuild ? [] : [
         "img-src 'self' data: blob:",
         "style-src 'self' 'unsafe-inline'",
-        `frame-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN} ${envConfig.ROOT_URL}`,
+        `frame-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN} ${envConfig.ROOT_URL} http://localhost:8080`,
         `child-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
         // 'unsafe-eval' is only used by webpack for development. It should not
         // be present on production!

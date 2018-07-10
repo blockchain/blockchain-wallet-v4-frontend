@@ -20,7 +20,7 @@ export default () => {
 
         const windowChannel = function () {
           return eventChannel((emitter) => {
-            window.addEventListener('message', function (event) {
+            const cookieTransfer = function (event) {
               if (event.data.type === 'cookie') {
                 const cookie = event.data.payload
                 window.localStorage.setItem(cookie.id, tryJsonParse(cookie.data))
@@ -34,11 +34,9 @@ export default () => {
                 emitter({ lastGuid, session })
                 emitter(END)
               }
-            })
-
-            return () => {
-              window.removeEventListener('message')
             }
+            window.addEventListener('message', cookieTransfer)
+            return () => window.removeEventListener('message', cookieTransfer)
           })
         }
 
@@ -51,7 +49,7 @@ export default () => {
             yield put(actions.session.saveSession(assoc(lastGuid, session, {})))
           }
         } finally {
-          chan.unsubscribe()
+          chan.close()
         }
       }
     } catch (e) {
