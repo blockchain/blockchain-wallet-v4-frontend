@@ -5,11 +5,11 @@ import { prop, compose, endsWith, repeat, range, map, propSatisfies,
   length, dropLastWhile, not, concat, propEq, is, find, isEmpty } from 'ramda'
 import { set } from 'ramda-lens'
 import Task from 'data.task'
-import * as A from './actions'
+import * as A from '../actions'
 import * as S from './selectors'
 import { fetchData } from '../data/bitcoin/actions'
 
-import { Wrapper, Wallet } from '../../types'
+import { Wrapper, Wallet, HDAccount } from '../../types'
 import { generateMnemonic } from '../../walletCrypto'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -25,10 +25,10 @@ export default ({ api }) => {
     const isEncrypted = yield select(S.isSecondPasswordOn)
     if (isEncrypted) {
       const task = Wrapper.traverseWallet(Task.of, Wallet.decrypt(password), wrapper)
-      yield call(runTask, task, A.setWrapper)
+      yield call(runTask, task, A.wallet.setWrapper)
     } else {
       const task = Wrapper.traverseWallet(Task.of, Wallet.encrypt(password), wrapper)
-      yield call(runTask, task, A.setWrapper)
+      yield call(runTask, task, A.wallet.setWrapper)
     }
   }
 
@@ -37,13 +37,13 @@ export default ({ api }) => {
     const wrapper = yield select(S.getWrapper)
     const walletT = Wallet.importLegacyAddress(wallet, key, Date.now(), password, bipPass, { network, api })
     const wrapperT = walletT.map(wallet => set(Wrapper.wallet, wallet, wrapper))
-    yield call(runTask, wrapperT, A.setWrapper)
+    yield call(runTask, wrapperT, A.wallet.setWrapper)
   }
 
   const newHDAccount = function * ({label, password}) {
     let wrapper = yield select(S.getWrapper)
     let nextWrapper = Wrapper.traverseWallet(Task.of, Wallet.newHDAccount(label, password), wrapper)
-    yield call(runTask, nextWrapper, A.setWrapper)
+    yield call(runTask, nextWrapper, A.wallet.setWrapper)
     yield refetchContextData()
   }
 
@@ -52,12 +52,12 @@ export default ({ api }) => {
     const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
     const wrapper = Wrapper.createNew(guid, password, sharedKey, mnemonic, language)
     yield call(api.createWallet, email, wrapper)
-    yield put(A.refreshWrapper(wrapper))
+    yield put(A.wallet.refreshWrapper(wrapper))
   }
 
   const fetchWalletSaga = function * ({ guid, sharedKey, session, password, code }) {
     const wrapper = yield call(api.fetchWallet, guid, sharedKey, session, password, code)
-    yield put(A.setWrapper(wrapper))
+    yield put(A.wallet.setWrapper(wrapper))
   }
 
   const upgradeToHd = function * ({ password }) {
@@ -68,7 +68,7 @@ export default ({ api }) => {
       let mnemonic = yield call(generateMnemonic, api)
       let upgradeWallet = Wallet.upgradeToHd(mnemonic, 'My Bitcoin Wallet', password)
       let nextWrapper = Wrapper.traverseWallet(Task.of, upgradeWallet, wrapper)
-      yield call(runTask, nextWrapper, A.setWrapper)
+      yield call(runTask, nextWrapper, A.wallet.setWrapper)
     } else {
       throw new Error('Already an HD wallet')
     }
@@ -99,7 +99,7 @@ export default ({ api }) => {
     const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
     const wrapper = Wrapper.createNew(guid, password, sharedKey, mnemonic, language, undefined, nAccounts)
     yield call(api.createWallet, email, wrapper)
-    yield put(A.refreshWrapper(wrapper))
+    yield put(A.wallet.refreshWrapper(wrapper))
   }
 
   const updatePbkdf2Iterations = function * ({iterations, password}) {
@@ -113,10 +113,10 @@ export default ({ api }) => {
           .chain(Wrapper.traverseWallet(Task.of, Wallet.decrypt(password)))
           .map(Wrapper.setBothPbkdf2Iterations(iterations))
           .chain(Wrapper.traverseWallet(Task.of, Wallet.encrypt(password)))
-        yield call(runTask, task, A.setWrapper)
+        yield call(runTask, task, A.wallet.setWrapper)
       } else {
         const newWrapper = Wrapper.setBothPbkdf2Iterations(iterations, wrapper)
-        yield put(A.setWrapper(newWrapper))
+        yield put(A.wallet.setWrapper(newWrapper))
       }
     }
   }
@@ -139,6 +139,13 @@ export default ({ api }) => {
     yield put(fetchData())
   }
 
+  const setHDAddressLabel = function * ({ payload }) {
+    const wallet = yield select(S.getWallet)
+    const accounts = Wallet.selectHDAccounts(wallet)
+    const receiveAddress = HDAccount.getReceiveAddress(accounts.get(payload.accountIdx), payload.addressIdx)
+    yield put(A.kvStore.btc.addAddressLabel(receiveAddress, payload.label))
+  }
+
   return {
     toggleSecondPassword,
     createWalletSaga,
@@ -151,6 +158,7 @@ export default ({ api }) => {
     upgradeToHd,
     resetWallet2fa,
     refetchContextData,
-    resendSmsLoginCode
+    resendSmsLoginCode,
+    setHDAddressLabel
   }
 }

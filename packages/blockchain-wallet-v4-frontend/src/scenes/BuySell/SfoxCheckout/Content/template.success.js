@@ -220,8 +220,12 @@ const Success = props => {
             <Text size='15px' weight={400}>
               <FormattedMessage id='scenes.buysell.sfoxcheckout.trades.pending' defaultMessage='Pending Orders' />
             </Text>
-            <OrderHistoryTable trades={filter(isPending, trades)} conversion={conversion}
-              handleDetailsClick={trade => showModal('SfoxTradeDetails', { trade })} />
+            <OrderHistoryTable
+              trades={filter(isPending, trades)}
+              conversion={conversion}
+              handleDetailsClick={trade => showModal('SfoxTradeDetails', { trade })}
+              partner='sfox'
+            />
           </OrderHistoryContent>
           <OrderHistoryContent>
             <Text size='15px' weight={400}>

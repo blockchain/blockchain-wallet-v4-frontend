@@ -31,7 +31,7 @@ export const password = Wrapper.define('password')
 export const version = Wrapper.define('version')
 export const payloadChecksum = Wrapper.define('payload_checksum')
 export const language = Wrapper.define('language')
-export const syncPubkeys = Wrapper.define('sync_pubkeys')
+export const syncPubKeys = Wrapper.define('sync_pubkeys')
 export const warChecksum = Wrapper.define('war_checksum')
 export const authType = Wrapper.define('auth_type')
 export const realAuthType = Wrapper.define('real_auth_type')
@@ -46,6 +46,7 @@ export const selectSyncWarChecksum = view(warChecksum)
 export const selectAuthType = view(authType)
 export const selectRealAuthType = view(realAuthType)
 export const selectWallet = view(wallet)
+export const selectSyncPubKeys = view(syncPubKeys)
 
 // traverseWallet :: Monad m => (a -> m a) -> (Wallet -> m Wallet) -> Wrapper
 export const traverseWallet = curry(

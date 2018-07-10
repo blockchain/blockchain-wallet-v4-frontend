@@ -10,7 +10,7 @@ import { Banner, Button, Link, HeartbeatLoader, Separator, Text, TextGroup } fro
 import { CheckBox, Form, FormGroup, FormItem, FormLabel, PasswordBox, TextBox } from 'components/Form'
 import Terms from 'components/Terms'
 
-const isSupportedBrowser = check({msie: '11', safari: '8', chrome: '45', firefox: '45', opera: '20'})
+const isSupportedBrowser = check({safari: '8', chrome: '45', firefox: '45', opera: '20'}) && !msie
 
 const Wrapper = styled.div`
   width: 100%;
@@ -66,15 +66,6 @@ const Register = (props) => {
             <FormattedMessage id='scenes.register.browserwarning' defaultMessage='Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, IE 11, or Opera ' />
           </Banner>
         </BrowserWarning> }
-        {
-          isSupportedBrowser && msie && <BrowserWarning>
-            <Banner type='caution'>
-              <Text size='12px'>
-                <FormattedMessage id='scenes.register.msiewarning' defaultMessage='We recommend that you use a more secure browser like Chrome or Firefox.' />
-              </Text>
-            </Banner>
-          </BrowserWarning>
-        }
         <FormGroup>
           <FormItem>
             <FormLabel for='email'>

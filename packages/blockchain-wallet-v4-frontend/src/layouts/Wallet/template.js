@@ -25,6 +25,7 @@ const Wrapper = styled.div`
 `
 const Container = styled.div`
   display: flex;
+  position: relative;
   width: 100%;
   height: calc(100% - 60px);
 `
@@ -44,7 +45,6 @@ const Content = styled.div`
   @media(max-width: 768px) { width: 100%; }
 `
 const Top = styled.div`
-  display: flex;
   height: 115px;
   width: 100%;
   ${media.mobile`

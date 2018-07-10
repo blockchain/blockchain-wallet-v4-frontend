@@ -9,7 +9,7 @@ const UnusedAddressesTemplate = ({ account, currentReceiveIndex, unusedAddresses
   const addresses = filter(isMatch, unusedAddresses).map((entry, i) => {
     return (
       <TableRow key={i}>
-        <TableCell width='40%'>
+        <TableCell width='40%' style={{ wordBreak: 'break-all' }}>
           <Link href={`https://blockchain.info/address/${entry.address}`} size='small' weight={300} target='_blank'>
             {entry.address}
           </Link>

@@ -11,9 +11,9 @@ import * as sendBtcSelectors from '../../components/sendBtc/selectors'
 import settings from 'config'
 import { promptForSecondPassword } from 'services/SagaService'
 
-export default ({ coreSagas }) => {
-  const logLocation = 'modules/coinify/sagas'
+export const logLocation = 'modules/coinify/sagas'
 
+export default ({ coreSagas }) => {
   const coinifySignup = function * (data) {
     const country = data.payload
     try {
@@ -78,8 +78,8 @@ export default ({ coreSagas }) => {
 
   const sell = function * () {
     try {
-      yield put(A.coinifyLoading())
       const password = yield call(promptForSecondPassword)
+      yield put(A.coinifyLoading())
       const trade = yield call(coreSagas.data.coinify.sell)
 
       if (!trade) {
@@ -392,6 +392,7 @@ export default ({ coreSagas }) => {
     handleChange,
     initialized,
     openKYC,
+    prepareAddress,
     sell,
     triggerKYC
   }

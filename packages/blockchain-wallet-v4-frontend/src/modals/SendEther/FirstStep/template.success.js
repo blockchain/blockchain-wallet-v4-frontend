@@ -58,13 +58,13 @@ const FirstStep = props => {
       </FormGroup>
       <FormGroup margin={'15px'}>
         <FormItem>
-          <FormLabel for='message'>
+          <FormLabel for='description'>
             <FormattedMessage id='modals.sendether.firststep.description' defaultMessage='Description: ' />
             <Tooltip>
               <FormattedMessage id='modals.sendether.firststep.sharetooltip' defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.' />
             </Tooltip>
           </FormLabel>
-          <Field name='message' component={TextAreaDebounced} placeholder="What's this transaction for?" fullwidth />
+          <Field name='description' component={TextAreaDebounced} placeholder="What's this transaction for?" fullwidth />
         </FormItem>
       </FormGroup>
       <FormGroup margin={'30px'}>

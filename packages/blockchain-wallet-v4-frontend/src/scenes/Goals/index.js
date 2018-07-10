@@ -38,6 +38,11 @@ class ActionsContainer extends React.PureComponent {
     }
   }
 
+  componentWillUnmount () {
+    // goals are saved, start event listeners for each goal
+    this.props.goalsActions.runGoals()
+  }
+
   render () {
     return <Actions error={this.state.error} />
   }

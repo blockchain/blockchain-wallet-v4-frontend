@@ -9,6 +9,7 @@ import moment from 'moment'
 import { TableCell, TableRow, Text, Link, Icon, HeartbeatLoader } from 'blockchain-info-components'
 import OrderStatus from '../OrderStatus'
 import media from 'services/ResponsiveService'
+import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 
 export const OrderHistoryText = styled(Text)`
   font-size: 13px;
@@ -23,15 +24,13 @@ export const OrderHistoryLink = styled(Link)`
   `}
 `
 
-const tradeDateHelper = (trade) => {
-  let timeFormat = 'MMMM D YYYY @ h:mm A'
-  if (window.outerWidth <= 480) timeFormat = 'DD MMM'
-  return moment(prop('createdAt', trade)).local().format(timeFormat)
-}
+const tradeDateHelper = (trade, isMobile) =>
+  moment(prop('createdAt', trade)).local().format(isMobile ? 'DD MMM' : 'MMMM D YYYY @ h:mm A')
 
 const TradeItem = props => {
-  const { conversion, handleClick, handleFinish, handleTradeCancel, trade, status, cancelTradeId } = props
-  const receiveAmount = trade.isBuy ? trade.receiveAmount : Exchange.displayFiatToFiat({ value: trade.receiveAmount })
+  const { conversion, handleClick, handleFinish, handleTradeCancel, trade, status, cancelTradeId, partner } = props
+  const tradeReceiveAmount = partner === 'sfox' ? prop('receiveAmount', trade) - prop('feeAmount', trade) : prop('receiveAmount', trade)
+  const receiveAmount = trade.isBuy ? trade.receiveAmount : Exchange.displayFiatToFiat({ value: tradeReceiveAmount })
   const exchangeAmount = trade.isBuy ? Exchange.displayFiatToFiat({ value: trade.sendAmount / conversion.buy }) : trade.sendAmount / conversion.sell
   const canCancel = trade.isBuy && canCancelTrade(trade)
   const getOpacity = (trade) => equals(prop('state', trade), 'processing') ? 0.5 : 1
@@ -53,7 +52,11 @@ const TradeItem = props => {
         }
       </TableCell>
       <TableCell width='30%' mobileWidth='20%'>
-        <OrderHistoryText opacity={getOpacity(trade)} weight={300}>{tradeDateHelper(trade)}</OrderHistoryText>
+        <MediaContextConsumer>
+          {({ mobile }) =>
+            <OrderHistoryText opacity={getOpacity(trade)} weight={300}>{tradeDateHelper(trade, mobile)}</OrderHistoryText>
+          }
+        </MediaContextConsumer>
       </TableCell>
       <TableCell width='20%' hideMobile>
         <OrderHistoryText opacity={getOpacity(trade)} weight={300}>{`${exchangeAmount} ${prop('inCurrency', trade)}`}</OrderHistoryText>

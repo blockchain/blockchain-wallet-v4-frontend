@@ -30,7 +30,8 @@ const kvStoreMiddleware = ({ isAuthenticated, api } = {}) => (store) => (next) =
               T.contacts.FETCH_METADATA_CONTACTS_SUCCESS,
               T.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS,
               T.shapeShift.FETCH_METADATA_SHAPESHIFT_SUCCESS,
-              T.bch.FETCH_METADATA_BCH_SUCCESS
+              T.bch.FETCH_METADATA_BCH_SUCCESS,
+              T.btc.FETCH_METADATA_BTC_SUCCESS
             ]) &&
           any(identity, values(changes))):
 
@@ -41,7 +42,8 @@ const kvStoreMiddleware = ({ isAuthenticated, api } = {}) => (store) => (next) =
         [C.CONTACTS]: A.contacts.fetchMetadataContactsSuccess,
         [C.ETHEREUM]: A.ethereum.fetchMetadataEthereumSuccess,
         [C.SHAPESHIFT]: A.shapeShift.fetchMetadataShapeshiftSuccess,
-        [C.BCH]: A.bch.fetchMetadataBchSuccess
+        [C.BCH]: A.bch.fetchMetadataBchSuccess,
+        [C.BTC]: A.btc.fetchMetadataBtcSuccess
       }
 
       const saveTasks = (value, key) => {
