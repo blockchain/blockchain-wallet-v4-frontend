@@ -6,6 +6,7 @@ import { FormattedMessage } from 'react-intl'
 import { Table, TableCell, TableHeader, Text } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
 import TradeItem from './TradeItem'
+import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   display: flex;
@@ -17,6 +18,10 @@ const Wrapper = styled.div`
   box-sizing: border-box;
 
   & > :first-child { margin-bottom: 20px; }
+
+  ${media.mobile`
+    padding: 10px
+  `}
 `
 const Container = styled.div`
   width: 100%;
