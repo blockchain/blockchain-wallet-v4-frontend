@@ -85,7 +85,7 @@ describe('sendBtc sagas', () => {
       to: to,
       coin: 'BTC',
       amount: amount,
-      message: message,
+      description: message,
       from: defaultAccount,
       feePerByte: feePerByte
     }
@@ -195,7 +195,7 @@ describe('sendBtc sagas', () => {
           feePerByte,
           coin: 'BTC',
           amount,
-          message,
+          description: message,
           to,
           from: defaultAccount
         })
