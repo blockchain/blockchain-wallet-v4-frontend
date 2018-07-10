@@ -56,16 +56,19 @@ export const getEffectiveBalance = (effectiveBalance) => {
   return new BigNumber(effectiveBalance).toString()
 }
 
-export const getMinimum = (coin, minimum) => {
-  const minimumBase = convertStandardToBase(coin, minimum)
-  return new BigNumber(minimumBase).toString()
-}
+export const getMinimum = shapeshiftMinimum => new BigNumber(shapeshiftMinimum).toString()
 
-export const getMaximum = (coin, maximum, effectiveBalance) => {
-  const maximumBase = convertStandardToBase(coin, maximum)
+export const getMaximum = (shapeshiftMaximum, effectiveBalance, regulationLimit) => {
+  const shapeshiftMaximumB = new BigNumber(shapeshiftMaximum)
   const effectiveBalanceB = new BigNumber(effectiveBalance)
-  const maximumB = new BigNumber(maximumBase)
-  return maximumB.lessThanOrEqualTo(effectiveBalanceB) ? maximumB.toString() : effectiveBalanceB.toString()
+  const regulationLimitB = new BigNumber(regulationLimit)
+  if (shapeshiftMaximumB.lessThanOrEqualTo(effectiveBalanceB) && shapeshiftMaximumB.lessThanOrEqualTo(regulationLimitB)) {
+    return shapeshiftMaximumB.toString()
+  } else if (effectiveBalanceB.lessThanOrEqualTo(shapeshiftMaximumB) && effectiveBalanceB.lessThanOrEqualTo(regulationLimitB)) {
+    return effectiveBalanceB.toString()
+  } else {
+    return regulationLimitB.toString()
+  }
 }
 
 export const getMinimumStandard = (minimum) => {

@@ -10,8 +10,8 @@ const Wrapper = styled.section`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  padding: 30px;
   box-sizing: border-box;
+  padding: 0px 30px 30px 30px;
 `
 
 export default () => (

@@ -18,12 +18,12 @@ import settings from './settings/sagaRegister'
 import signMessage from './signMessage/sagaRegister'
 import transactionReport from './transactionReport/sagaRegister'
 
-export default ({ api, coreSagas }) => function * () {
+export default ({ api, coreSagas, options }) => function * () {
   yield fork(activityList({ api, coreSagas }))
   yield fork(bchTransactions({ api, coreSagas }))
   yield fork(btcTransactions({ api, coreSagas }))
   yield fork(ethTransactions({ api, coreSagas }))
-  yield fork(exchange({ api, coreSagas }))
+  yield fork(exchange({ api, coreSagas, options }))
   yield fork(exchangeHistory({ api, coreSagas }))
   yield fork(importBtcAddress({ api, coreSagas }))
   yield fork(manageAddresses({ api, coreSagas }))

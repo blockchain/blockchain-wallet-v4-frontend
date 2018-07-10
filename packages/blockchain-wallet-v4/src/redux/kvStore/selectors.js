@@ -5,6 +5,7 @@ import * as buySell from './buySell/selectors.js'
 import * as contacts from './contacts/selectors.js'
 import * as root from './root/selectors.js'
 import * as bch from './bch/selectors.js'
+import * as btc from './btc/selectors.js'
 
 export {
   root,
@@ -13,5 +14,6 @@ export {
   shapeShift,
   buySell,
   contacts,
-  bch
+  bch,
+  btc
 }

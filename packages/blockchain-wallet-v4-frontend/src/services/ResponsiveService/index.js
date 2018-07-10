@@ -1,6 +1,8 @@
 import { css } from 'styled-components'
 
-const sizes = {
+export const isMobile = () => window.outerWidth <= 479
+
+export const sizes = {
   mobile: 479,
   tablet: 767,
   laptop: 1023,

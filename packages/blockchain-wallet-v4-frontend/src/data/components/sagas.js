@@ -17,12 +17,12 @@ import settings from './settings/sagas'
 import signMessage from './signMessage/sagas'
 import transactionReport from './transactionReport/sagas'
 
-export default ({ api, coreSagas }) => ({
+export default ({ api, coreSagas, options }) => ({
   activityList: activityList({ api, coreSagas }),
   bchTransactions: bchTransactions({ api, coreSagas }),
   btcTransactions: btcTransactions({ api, coreSagas }),
   ethTransactions: ethTransactions({ api, coreSagas }),
-  exchange: exchange({ api, coreSagas }),
+  exchange: exchange({ api, coreSagas, options }),
   exchangeHistory: exchangeHistory({ api, coreSagas }),
   importBtcAddress: importBtcAddress({ api, coreSagas }),
   manageAddresses: manageAddresses({ api, coreSagas }),

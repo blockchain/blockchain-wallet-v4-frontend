@@ -12,6 +12,7 @@ import QRCodeCapture from 'components/QRCodeCapture'
 import RegularFeeLink from './RegularFeeLink'
 import PriorityFeeLink from './PriorityFeeLink'
 import ComboDisplay from 'components/Display/ComboDisplay'
+import media from 'services/ResponsiveService'
 
 const Row = styled.div`
   display: flex;
@@ -26,6 +27,9 @@ const ColLeft = styled.div`
   justify-content: center;
   align-items: flex-start;
   width: 50%;
+  ${media.mobile`
+    width: 100%;
+  `}
 `
 const ColRight = styled(ColLeft)`
   align-items: flex-end;
@@ -48,6 +52,11 @@ const FeeFormContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
+`
+const FeeFormGroup = styled(FormGroup)`
+  ${media.mobile`
+    flex-direction: column;
+  `}
 `
 const FeeFormLabel = styled(FormLabel)`
   width: 100%;
@@ -131,7 +140,7 @@ const FirstStep = props => {
           <Field name='description' component={TextAreaDebounced} placeholder="What's this transaction for?" rows={3} />
         </FormItem>
       </FormGroup>
-      <FormGroup inline margin={'10px'}>
+      <FeeFormGroup inline margin={'10px'}>
         <ColLeft>
           <FeeFormContainer toggled={feePerByteToggled}>
             <FeeFormLabel>
@@ -162,7 +171,7 @@ const FirstStep = props => {
             }
           </Link>
         </ColRight>
-      </FormGroup>
+      </FeeFormGroup>
       <FormGroup margin={'15px'}>
         <Text size='13px' weight={300}>
           {!isPriorityFeePerByte && <FormattedMessage id='modals.sendbtc.firststep.estimated' defaultMessage='Estimated confirmation time 1+ hour' />}

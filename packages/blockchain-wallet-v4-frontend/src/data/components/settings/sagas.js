@@ -31,9 +31,7 @@ export default ({ coreSagas }) => {
         email: emailEnabled,
         mobile: mobileEnabled
       }
-      const enabled = emailEnabled || mobileEnabled
       yield call(coreSagas.settings.setNotificationsType, { types })
-      yield call(coreSagas.settings.setNotificationsOn, { enabled })
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'notificationsFormChanged', e))
     }

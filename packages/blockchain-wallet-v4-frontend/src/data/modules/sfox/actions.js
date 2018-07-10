@@ -28,3 +28,5 @@ export const sfoxFailure = (error) => ({ type: AT.SFOX_FAILURE, payload: error }
 
 export const enableSiftScience = () => ({ type: AT.ENABLE_SIFT_SCIENCE })
 export const disableSiftScience = () => ({ type: AT.DISABLE_SIFT_SCIENCE })
+
+export const handleModalClose = () => ({ type: AT.HANDLE_MODAL_CLOSE })
