@@ -35,7 +35,7 @@ jobs:
   include:
     - stage: branch-commit-build
       script:
-        - travis_wait 15 yarn lint && yarn ci:test
+        - yarn lint && travis_wait 15 yarn ci:test
 
     - stage: test-coverage-build
       script:
@@ -43,8 +43,8 @@ jobs:
 
     - stage: pull-request-build
       script:
-        - travis_wait 20 yarn lint && yarn ci:test && yarn ci:compile
+        - yarn lint && travis_wait 15 yarn ci:test && travis_wait 20 yarn ci:compile
 
     - stage: master-commit-build
       script:
-        - travis_wait 20 yarn lint && yarn ci:test && yarn ci:compile
+        - yarn lint && travis_wait 15 yarn ci:test && travis_wait 20 yarn ci:compile
