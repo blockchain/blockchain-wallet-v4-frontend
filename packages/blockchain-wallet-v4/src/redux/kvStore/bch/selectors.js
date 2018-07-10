@@ -1,4 +1,4 @@
-import { concat, curry, equals, keys, keysIn, filter, not, lift, map, path, prop, values } from 'ramda'
+import { concat, curry, equals, keysIn, filter, not, lift, map, path, prop, values } from 'ramda'
 import { BCH } from '../config'
 import { kvStorePath } from '../../paths'
 import * as walletSelectors from '../../wallet/selectors'
