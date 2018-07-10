@@ -1,4 +1,5 @@
 import { all, call, fork, put } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
 import { coreSagasFactory, coreRootSagaFactory } from 'blockchain-wallet-v4/src'
 import * as actions from './actions'
 import alerts from './alerts/sagaRegister'
@@ -35,12 +36,11 @@ const welcomeSaga = function * () {
 
 const languageInitSaga = function * () {
   try {
+    yield call(delay, 250)
     const lang = tryParseLanguageFromUrl()
     if (lang.language) {
-      console.info('LANG FOUND IN URL', lang.language)
-      // TODO: figure out how to update settings and page....
-      yield put(actions.modules.settings.updateLanguage(lang.language))
-      yield put(actions.preferences.setLanguage(lang.language))
+      yield put(actions.preferences.setLanguage(lang.language, false))
+      if (lang.cultureCode) yield put(actions.preferences.setCulture(lang.cultureCode))
     }
   } catch (e) {
     yield put(actions.logs.logErrorMessage(logLocation, 'languageInitSaga', e))
@@ -52,7 +52,6 @@ export default function * ({ api, bchSocket, btcSocket, ethSocket, options }) {
 
   yield all([
     call(welcomeSaga),
-    call(languageInitSaga),
     fork(alerts),
     fork(auth({ api, coreSagas })),
     fork(components({ api, coreSagas, options })),
@@ -62,6 +61,7 @@ export default function * ({ api, bchSocket, btcSocket, ethSocket, options }) {
     fork(wallet({ coreSagas })),
     fork(middleware({ api, bchSocket, btcSocket, ethSocket })),
     fork(coreRootSagaFactory({ api, options })),
-    fork(router())
+    fork(router()),
+    call(languageInitSaga)
   ])
 }

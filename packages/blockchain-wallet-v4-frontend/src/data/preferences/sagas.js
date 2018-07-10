@@ -7,9 +7,10 @@ export default () => {
   const logLocation = 'preferences/sagas'
 
   const setLanguage = function * (action) {
+    const { language, showAlert } = action.payload
     try {
-      addLanguageToUrl(action.payload.language)
-      yield put(actions.alerts.displaySuccess(C.LANGUAGE_UPDATE_SUCCESS))
+      addLanguageToUrl(language)
+      if (showAlert) yield put(actions.alerts.displaySuccess(C.LANGUAGE_UPDATE_SUCCESS))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'updateLanguage', e))
       yield put(actions.alerts.displayError(C.LANGUAGE_UPDATE_ERROR))
