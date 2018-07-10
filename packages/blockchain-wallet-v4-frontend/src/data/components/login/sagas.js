@@ -36,7 +36,9 @@ export default () => {
               }
             })
 
-            return () => {}
+            return () => {
+              window.removeEventListener('message')
+            }
           })
         }
 
@@ -48,7 +50,9 @@ export default () => {
             yield put(actions.cache.guidEntered(lastGuid))
             yield put(actions.session.saveSession(assoc(lastGuid, session, {})))
           }
-        } finally {}
+        } finally {
+          chan.unsubscribe()
+        }
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage('components/login/sagas', 'initialized', e))
