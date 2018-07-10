@@ -14,6 +14,7 @@ ARG api_domain
 ARG wallet_helper_domain
 ARG i_sign_this_domain
 ARG sfox_url
+ARG sfox_quote_url
 ARG sfox_kyc_url
 ARG shapeshift_url
 ARG coinify_url
@@ -25,6 +26,7 @@ RUN : "${root_url:? build argument is not set!}" \
   : "${wallet_helper_domain:? build argument is not set!}" \
   : "${i_sign_this_domain:? build argument is not set!}" \
   : "${sfox_url:? build argument is not set!}" \
+  : "${sfox_quote_url:? build argument is not set!}" \
   : "${sfox_kyc_url:? build argument is not set!}" \
   : "${shapeshift_url:? build argument is not set!}" \
   : "${coinify_url:? build argument is not set!}"
@@ -37,6 +39,7 @@ ENV API_DOMAIN=$api_domain
 ENV WALLET_HELPER_DOMAIN=$wallet_helper_domain
 ENV I_SIGN_THIS_DOMAIN=$i_sign_this_domain
 ENV SFOX_URL=$sfox_url
+ENV SFOX_QUOTE_URL=$sfox_quote_url
 ENV SFOX_KYC_URL=$sfox_kyc_url
 ENV SHAPESHIFT_URL=$shapeshift_url
 ENV COINIFY_URL=$coinify_url
@@ -50,7 +53,7 @@ WORKDIR /home/blockchain
 COPY . .
 
 # update CSP headers in NGINX config
-RUN sed -e "s|_apiDomain_|$API_DOMAIN|g" -e "s|_rootURL_|$ROOT_URL|g" -e "s|_iSignThisDomain_|$I_SIGN_THIS_DOMAIN|g" -e "s|_walletHelperDomain_|$WALLET_HELPER_DOMAIN|g" -e "s|_webSocketURL_|$WEB_SOCKET_URL|g" -e "s|_sfoxURL_|$SFOX_URL|g" -e "s|_sfoxKycURL_|$SFOX_KYC_URL|g" -e "s|_shapeshiftURL_|$SHAPESHIFT_URL|g" -e "s|_coinifyURL_|$COINIFY_URL|g" -i nginx.conf
+RUN sed -e "s|_apiDomain_|$API_DOMAIN|g" -e "s|_rootURL_|$ROOT_URL|g" -e "s|_iSignThisDomain_|$I_SIGN_THIS_DOMAIN|g" -e "s|_walletHelperDomain_|$WALLET_HELPER_DOMAIN|g" -e "s|_webSocketURL_|$WEB_SOCKET_URL|g" -e "s|_sfoxURL_|$SFOX_URL|g" -e "s|_sfoxQuoteURL_|$SFOX_QUOTE_URL|g" -e "s|_sfoxKycURL_|$SFOX_KYC_URL|g" -e "s|_shapeshiftURL_|$SHAPESHIFT_URL|g" -e "s|_coinifyURL_|$COINIFY_URL|g" -i nginx.conf
 
 # build assets
 RUN npm install lerna yarn babel-cli rimraf cross-env
