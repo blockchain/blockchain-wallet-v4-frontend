@@ -2,6 +2,7 @@
   "platforms": {
     "web": {
       "application": {
+        "enableDomainMigrationRedirects": true,
         "availability": {
           "adverts": true,
           "mobile_login": true
@@ -197,8 +198,10 @@
   },
   "domains": {
     "root": "https://blockchain.info",
+    "comRoot": "https://blockchain.com",
     "api": "https://api.blockchain.info",
     "webSocket": "wss://ws.blockchain.info/inv",
+    "comWalletApp": "https://login.blockchain.com",
     "walletHelper": "https://wallet-helper.blockchain.info"
   }
 }
