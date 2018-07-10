@@ -1,24 +1,17 @@
+import { map, mapObjIndexed } from 'ramda'
 
-// TODO: remake mock to be based on actual sagas:
-// If they cease to exist mocks must also break
-export default () => ({
-  wallet: {
-    createWalletSaga: jest.fn(),
-    fetchWalletSaga: jest.fn(),
-    remindWalletGuidSaga: jest.fn(),
-    resendSmsLoginCode: jest.fn(),
-    resetWallet2fa: jest.fn(),
-    restoreWalletSaga: jest.fn()
-  },
-  kvStore: {
-    root: {
-      fetchRoot: jest.fn()
-    },
-    ethereum: {
-      fetchMetadataEthereum: jest.fn()
-    },
-    bch: {
-      fetchMetadataBch: jest.fn()
-    }
-  }
-})
+const createSagas = require.requireActual('../sagas').default
+
+const mockFunctionsDeep = (attr) => {
+  // Mock
+  if (typeof attr === 'function') return jest.fn()
+
+  // Go deeper
+  if (Array.isArray(attr)) return map(mockFunctionsDeep, attr)
+  if (attr.toString() === '[object Object]') return mapObjIndexed(mockFunctionsDeep, attr)
+
+  // Return value in case of literals
+  return attr
+}
+
+export default ({ api } = { api: {} }) => mockFunctionsDeep(createSagas({ api }))

@@ -6,6 +6,7 @@ import * as exchange from './exchange/actionTypes'
 import * as exchangeHistory from './exchangeHistory/actionTypes'
 import * as importBtcAddress from './importBtcAddress/actionTypes'
 import * as layoutWallet from './layoutWallet/actionTypes'
+import * as login from './login/actionTypes'
 import * as manageAddresses from './manageAddresses/actionTypes'
 import * as priceChart from './priceChart/actionTypes'
 import * as priceTicker from './priceTicker/actionTypes'
@@ -27,6 +28,7 @@ export {
   exchangeHistory,
   importBtcAddress,
   layoutWallet,
+  login,
   manageAddresses,
   priceChart,
   priceTicker,

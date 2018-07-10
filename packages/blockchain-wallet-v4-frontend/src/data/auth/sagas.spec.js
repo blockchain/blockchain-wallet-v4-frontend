@@ -18,7 +18,7 @@ import authSagas, {
 import * as C from 'services/AlertService'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
-const coreSagas = coreSagasFactory()
+const coreSagas = coreSagasFactory({ api: {} })
 const api = {
   obtainSessionToken: jest.fn(),
   deauthorizeBrowser: jest.fn()
@@ -400,7 +400,7 @@ describe('authSagas', () => {
     })
 
     it('should not display success if it\'s first login', () => {
-      const firstLogin = false
+      const firstLogin = true
       return expectSaga(loginRoutineSaga, mobileLogin, firstLogin)
         .provide([
           // Every async or value returning yield has to be mocked
