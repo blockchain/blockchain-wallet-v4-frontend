@@ -20,6 +20,12 @@ export const signSelection = curry((network, selection) => {
   return { txHex: signedTx.toHex(), txId: signedTx.getId() }
 })
 
+export const sortSelection = (selection) => ({
+  ...selection,
+  inputs: Coin.bip69SortInputs(selection.inputs),
+  outputs: Coin.bip69SortOutputs(selection.outputs)
+})
+
 // signHDWallet :: network -> password -> wrapper -> selection -> Task selection
 export const signHDWallet = curry((network, secondPassword, wrapper, selection) =>
   addHDWalletWIFS(network, secondPassword, wrapper, selection)
@@ -41,7 +47,7 @@ export const wifToKeys = curry((network, selection) =>
 
 // signWithWIF :: network -> selection -> selection
 export const signWithWIF = curry((network, selection) =>
-  compose(signSelection(network), wifToKeys(network))(selection)
+  compose(signSelection(network), sortSelection, wifToKeys(network))(selection)
 )
 
 export const signMessage = (priv, addr, message) => {
