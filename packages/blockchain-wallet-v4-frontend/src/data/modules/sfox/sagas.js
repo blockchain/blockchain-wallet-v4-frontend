@@ -12,10 +12,9 @@ import { path, prop, equals, head } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 export const sellDescription = `Exchange Trade SFX-`
+export const logLocation = 'modules/sfox/sagas'
 
 export default ({ coreSagas }) => {
-  const logLocation = 'modules/sfox/sagas'
-
   const setBankManually = function * (action) {
     try {
       yield put(A.sfoxLoading())

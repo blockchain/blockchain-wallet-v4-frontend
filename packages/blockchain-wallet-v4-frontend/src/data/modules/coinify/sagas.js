@@ -10,10 +10,9 @@ import settings from 'config'
 import { promptForSecondPassword } from 'services/SagaService'
 
 export const sellDescription = `Exchange Trade CNY-`
+export const logLocation = 'modules/coinify/sagas'
 
 export default ({ coreSagas }) => {
-  const logLocation = 'modules/coinify/sagas'
-
   const coinifySignup = function * (data) {
     const country = data.payload
     try {
@@ -417,6 +416,7 @@ export default ({ coreSagas }) => {
     initialized,
     initializePayment,
     openKYC,
+    prepareAddress,
     sell,
     triggerKYC
   }
