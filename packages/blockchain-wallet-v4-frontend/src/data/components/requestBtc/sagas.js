@@ -20,6 +20,7 @@ export default () => {
 
   return {
     firstStepSubmitClicked,
-    btcPaymentReceived
+    btcPaymentReceived,
+    logLocation
   }
 }
