@@ -37,7 +37,7 @@ const languageInitSaga = function * () {
   try {
     const lang = tryParseLanguageFromUrl()
     if (lang.language) {
-      // console.info('LANG FOUND IN URL', lang.language)
+      console.info('LANG FOUND IN URL', lang.language)
       // TODO: figure out how to update settings and page....
       yield put(actions.modules.settings.updateLanguage(lang.language))
       yield put(actions.preferences.setLanguage(lang.language))
