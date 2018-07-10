@@ -179,7 +179,9 @@ module.exports = {
           'root': envConfig.ROOT_URL,
           'api': envConfig.API_DOMAIN,
           'webSocket': envConfig.WEB_SOCKET_URL,
-          'walletHelper': envConfig.WALLET_HELPER_DOMAIN
+          'walletHelper': envConfig.WALLET_HELPER_DOMAIN,
+          'comWalletApp': envConfig.COM_WALLET_APP,
+          'comRoot': envConfig.COM_ROOT
         }
 
         res.json(mockWalletOptions)

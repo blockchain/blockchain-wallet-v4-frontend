@@ -55,6 +55,7 @@ class App extends React.PureComponent {
                   <PublicLayout path='/verify-email-token' component={VerifyEmailToken} />
                   <PublicLayout path='/signup' component={Register} />
                   <PublicLayout path='/authorize-approve' component={AuthorizeLogin} />
+                  <PublicLayout path='/wallet' component={Login} />
                   <WalletLayout path='/home' component={Home} />
                   <WalletLayout path='/btc/transactions' component={BitcoinTransactions} />
                   <WalletLayout path='/eth/transactions' component={EtherTransactions} />
