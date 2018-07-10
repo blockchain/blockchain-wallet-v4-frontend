@@ -13,9 +13,9 @@ import { promptForSecondPassword } from 'services/SagaService'
 import { path, prop, equals, head } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 
-export default ({ coreSagas }) => {
-  const logLocation = 'modules/sfox/sagas'
+export const logLocation = 'modules/sfox/sagas'
 
+export default ({ coreSagas }) => {
   const setBankManually = function * (action) {
     try {
       yield put(A.sfoxLoading())

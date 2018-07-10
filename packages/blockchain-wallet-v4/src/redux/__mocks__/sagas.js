@@ -14,4 +14,4 @@ const mockFunctionsDeep = (attr) => {
   return attr
 }
 
-export default ({ api }) => mockFunctionsDeep(createSagas({ api }))
+export default ({ api } = { api: {} }) => mockFunctionsDeep(createSagas({ api }))
