@@ -7,6 +7,7 @@ import ui from 'redux-ui'
 import { path } from 'ramda'
 import Template from './template'
 import { getData } from './selectors'
+import Failure from 'components/BuySell/Failure'
 
 class ConfirmContainer extends Component {
   constructor (props) {
@@ -46,7 +47,7 @@ class ConfirmContainer extends Component {
           editingAmount={editingAmount}
           toggleEdit={() => this.props.updateUI({ editing: !this.props.ui.editing })}
         />,
-      Failure: (msg) => <div>ERROR: {msg}</div>,
+      Failure: (msg) => <Failure error={msg} />,
       Loading: () => <div>Loading...</div>,
       NotAsked: () => <div>Not asked...</div>
     })

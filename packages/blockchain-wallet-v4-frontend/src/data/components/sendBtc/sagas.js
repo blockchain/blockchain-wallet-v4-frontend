@@ -12,10 +12,9 @@ import { Exchange } from 'blockchain-wallet-v4/src'
 
 const DUST = 546
 const DUST_BTC = '0.00000546'
+export const logLocation = 'components/sendBtc/sagas'
 
 export default ({ coreSagas }) => {
-  const logLocation = 'components/sendBtc/sagas'
-
   const initialized = function * (action) {
     try {
       const { to, message, amount, feeType } = action.payload

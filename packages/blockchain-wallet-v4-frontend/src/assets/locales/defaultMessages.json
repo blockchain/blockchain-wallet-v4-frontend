@@ -162,6 +162,10 @@
         "id": "components.alerts.incorrect_bip38_password_error"
       },
       {
+        "defaultMessage": "You must add at least one IP address to the whitelist to enable Login IP Restriction",
+        "id": "components.alerts.iprestriction_no_whitelist_error"
+      },
+      {
         "defaultMessage": "Failed to update IP restriction",
         "id": "components.alerts.iprestriction_update_error"
       },
@@ -2970,6 +2974,19 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Must be greater than 0",
+        "id": "modals.requestbtc.amountnotminmessage"
+      },
+      {
+        "defaultMessage": "Cannot exceed 21,000,000",
+        "id": "modals.requestbtc.amountnotmaxmessage"
+      }
+    ],
+    "path": "src/modals/RequestBitcoin/FirstStep/validationMessages.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Send the link below to your friend or contact and they will be able to send bitcoin directly to your wallet.",
         "id": "modals.requestbitcoin.secondstep.explain"
       },
@@ -4738,6 +4755,10 @@
         "id": "scenes.buysell.orderhistory.recurring.order.inactive"
       },
       {
+        "defaultMessage": "Manage",
+        "id": "scenes.buysell.orderhistory.recurring.order.manage2"
+      },
+      {
         "defaultMessage": "Manage This Order",
         "id": "scenes.buysell.orderhistory.recurring.order.manage"
       },
@@ -5827,6 +5848,93 @@
       }
     ],
     "path": "src/scenes/Home/ActivityList/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Bitcoin Cash",
+        "id": "scenes.home.balanceschart.bch"
+      },
+      {
+        "defaultMessage": "Unknown amount",
+        "id": "scenes.home.balanceschart.bch.unkown"
+      },
+      {
+        "defaultMessage": "Refresh",
+        "id": "scenes.home.balanceschart.bch.refresh"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "scenes.home.balanceschart.getstarted"
+      },
+      {
+        "defaultMessage": "Request Bitcoin Cash",
+        "id": "scenes.home.balanceschart.requestbch"
+      },
+      {
+        "defaultMessage": "View All Balances",
+        "id": "scenes.home.balanceschart.bch.viewall"
+      }
+    ],
+    "path": "src/scenes/Home/BalancesChart/BchBalance/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Bitcoin",
+        "id": "scenes.home.balanceschart.btc"
+      },
+      {
+        "defaultMessage": "Unknown amount",
+        "id": "scenes.home.balanceschart.btc.unkown"
+      },
+      {
+        "defaultMessage": "Refresh",
+        "id": "scenes.home.balanceschart.btc.refresh"
+      },
+      {
+        "defaultMessage": "Buy Bitcoin",
+        "id": "scenes.home.balanceschart.buybtc"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "scenes.home.balanceschart.getstarted"
+      },
+      {
+        "defaultMessage": "Request Bitcoin",
+        "id": "scenes.home.balanceschart.requestbtc"
+      },
+      {
+        "defaultMessage": "View All Balances",
+        "id": "scenes.home.balanceschart.btc.viewall"
+      }
+    ],
+    "path": "src/scenes/Home/BalancesChart/BtcBalance/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Ether",
+        "id": "scenes.home.balanceschart.eth"
+      },
+      {
+        "defaultMessage": "Unknown amount",
+        "id": "scenes.home.balanceschart.eth.unkown"
+      },
+      {
+        "defaultMessage": "Refresh",
+        "id": "scenes.home.balanceschart.btc.refresh"
+      },
+      {
+        "defaultMessage": "Get Started",
+        "id": "scenes.home.balanceschart.getstarted"
+      },
+      {
+        "defaultMessage": "Request Ether",
+        "id": "scenes.home.balanceschart.requesteth"
+      }
+    ],
+    "path": "src/scenes/Home/BalancesChart/EthBalance/template.success.json"
   },
   {
     "descriptors": [

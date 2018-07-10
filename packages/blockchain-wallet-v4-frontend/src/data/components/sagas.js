@@ -5,6 +5,7 @@ import ethTransactions from './ethTransactions/sagas'
 import exchange from './exchange/sagas'
 import exchangeHistory from './exchangeHistory/sagas'
 import importBtcAddress from './importBtcAddress/sagas'
+import login from './login/sagas'
 import manageAddresses from './manageAddresses/sagas'
 import priceChart from './priceChart/sagas'
 import priceTicker from './priceTicker/sagas'
@@ -25,6 +26,7 @@ export default ({ api, coreSagas, options }) => ({
   exchange: exchange({ api, coreSagas, options }),
   exchangeHistory: exchangeHistory({ api, coreSagas }),
   importBtcAddress: importBtcAddress({ api, coreSagas }),
+  login: login(),
   manageAddresses: manageAddresses({ api, coreSagas }),
   priceChart: priceChart({ coreSagas }),
   priceTicker: priceTicker({ coreSagas }),
