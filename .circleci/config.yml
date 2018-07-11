@@ -1,0 +1,71 @@
+version: 2.0
+
+jobs:
+  install:
+    docker:
+     - image: circleci/node:10.6-jessie-browsers
+    working_directory: ~/blockchain-wallet-v4-frontend
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: Install
+          command: npm install -g yarn babel-cli rimraf cross-env && yarn
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+  lint:
+    docker:
+      - image: circleci/node:10.6-jessie-browsers
+    working_directory: ~/blockchain-wallet-v4-frontend
+    steps:
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: Lint
+          command: yarn lint
+  test:
+      docker:
+        - image: circleci/node:10.6-jessie-browsers
+      working_directory: ~/blockchain-wallet-v4-frontend
+      steps:
+        - restore_cache:
+            key: dependency-cache-{{ checksum "package.json" }}
+        - run:
+            name: Test
+            command: yarn ci:test
+  coverage:
+      docker:
+        - image: circleci/node:10.6-jessie-browsers
+      working_directory: ~/blockchain-wallet-v4-frontend
+      steps:
+        - restore_cache:
+            key: dependency-cache-{{ checksum "package.json" }}
+        - run:
+            name: Coverage
+            command: yarn coverage
+
+workflows:
+  version: 2.0
+  pull_request:
+    jobs:
+      - install
+      - lint:
+          requires:
+            - install
+      - test:
+          requires:
+            - install
+  test_coverage:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only:
+                - development
+    jobs:
+      - install
+      - coverage
