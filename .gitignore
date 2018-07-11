@@ -23,11 +23,10 @@ yarn-error.log
 
 # Generated Files
 *.log
-*.lerna_backup
+CHANGELOG.md
 coverage/
 dist/
 lib/
-CHANGELOG.md
 
 # Package Files
 packages/blockchain-info-components/lib

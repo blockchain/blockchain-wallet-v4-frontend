@@ -2,26 +2,14 @@
   "name": "blockchain-wallet-v4",
   "version": "4.0.0-beta1",
   "license": "ISC",
-  "author": {
-    "name": "Blockchain.info",
-    "url": "https://blockchain.info"
-  },
-  "description": "The frontend wallet application built with React/Redux.",
-  "keywords": [
-    "blockchain",
-    "blockchain.info",
-    "blockchain.com",
-    "react",
-    "redux",
-    "wallet"
-  ],
+  "private": true,
+  "author": { "name": "Blockchain.info", "url": "https://blockchain.info" },
   "homepage": "https://github.com/blockchain/blockchain-wallet-v4-frontend",
-  "bugs": {
-    "url": "https://github.com/blockchain/blockchain-wallet-v4-frontend/issues"
-  },
-  "engines": {
-    "node": ">= 10.4"
-  },
+  "bugs": { "url": "https://github.com/blockchain/blockchain-wallet-v4-frontend/issues" },
+  "description": "The frontend wallet application built with React/Redux.",
+  "keywords": ["blockchain", "blockchain.info", "blockchain.com", "react", "redux", "wallet"],
+  "engines": { "node": ">= 10.4" },
+  "workspaces": ["packages/*"],
   "scripts": {
     "analyze": "yarn workspace blockchain-wallet-v4-frontend analyze",
     "build": "yarn workspace blockchain-wallet-v4-frontend build:dev",
@@ -46,7 +34,7 @@
     "start:testnet": "yarn workspace blockchain-wallet-v4-frontend start:testnet",
     "storybook:build": "yarn workspace blockchain-info-components storybook:build",
     "storybook:serve": "yarn workspace blockchain-info-components storybook:serve",
-    "test": "cross-env  yarn wsrun test:build --fast-exit && yarn wsrun test",
+    "test": "cross-env yarn wsrun test:build --fast-exit && yarn wsrun test",
     "test:components": "yarn workspace blockchain-info-components test",
     "test:components:debug": "yarn workspace blockchain-info-components test:debug",
     "test:components:update": "yarn workspace blockchain-info-components test -- -u",
@@ -64,6 +52,7 @@
     "vet:frontend": "cross-env yarn lint:frontend && yarn test:frontend",
     "manage:translations": "yarn workspace blockchain-wallet-v4-frontend manage:translations"
   },
+  "dependencies": {},
   "devDependencies": {
     "@storybook/addon-actions": "^4.0.0-alpha.8",
     "@storybook/addon-info": "^4.0.0-alpha.8",
@@ -140,10 +129,5 @@
     "webpack-cli": "^3.0.3",
     "webpack-dev-server": "^3.1.1",
     "wsrun": "^2.2.1"
-  },
-  "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
-  "dependencies": {}
+  }
 }
