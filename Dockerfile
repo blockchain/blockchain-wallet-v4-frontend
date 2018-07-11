@@ -56,8 +56,8 @@ COPY . .
 RUN sed -e "s|_apiDomain_|$API_DOMAIN|g" -e "s|_rootURL_|$ROOT_URL|g" -e "s|_iSignThisDomain_|$I_SIGN_THIS_DOMAIN|g" -e "s|_walletHelperDomain_|$WALLET_HELPER_DOMAIN|g" -e "s|_webSocketURL_|$WEB_SOCKET_URL|g" -e "s|_sfoxURL_|$SFOX_URL|g" -e "s|_sfoxQuoteURL_|$SFOX_QUOTE_URL|g" -e "s|_sfoxKycURL_|$SFOX_KYC_URL|g" -e "s|_shapeshiftURL_|$SHAPESHIFT_URL|g" -e "s|_coinifyURL_|$COINIFY_URL|g" -i nginx.conf
 
 # build assets
-RUN npm install lerna yarn babel-cli rimraf cross-env
-RUN yarn bootstrap
+RUN npm install yarn babel-cli rimraf cross-env
+RUN yarn
 RUN yarn ci:compile
 
 # use NGINX image

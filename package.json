@@ -27,10 +27,10 @@
     "build": "yarn workspace blockchain-wallet-v4-frontend build:dev",
     "build:prod": "yarn workspace blockchain-wallet-v4-frontend build:prod",
     "ci:compile": "yarn workspace blockchain-wallet-v4-frontend ci:compile",
-    "ci:coverage": "lerna exec -- yarn test:build && lerna link && yarn coverage:components && yarn coverage:core && yarn coverage:frontend && istanbul report --root ./coverage --dir ./coverage/ lcov",
-    "ci:test": "lerna exec -- yarn test:build && lerna link && yarn test:components && yarn test:core && yarn test:frontend",
-    "clean": "cross-env rimraf node_modules && rimraf build && rimraf coverage && rimraf dist && rimraf *.log && rimraf *.lerna_backup && lerna clean --yes",
-    "coverage": "cross-env rimraf coverage && lerna exec -- yarn coverage && istanbul report --root ./coverage --dir ./coverage/ text-summary html",
+    "ci:coverage": "yarn wsrun test:build --serial && yarn wsrun coverage --serial && istanbul report --root ./coverage --dir ./coverage/ lcov",
+    "ci:test": "yarn wsrun test:build --serial && yarn wsrun test --serial",
+    "clean": "cross-env rimraf node_modules && rimraf build && rimraf coverage && rimraf dist && rimraf *.log",
+    "coverage": "cross-env rimraf coverage && yarn wsrun coverage --fast-exit && istanbul report --root ./coverage --dir ./coverage/ text-summary html",
     "coverage:components": "yarn workspace blockchain-info-components coverage",
     "coverage:core": "yarn workspace blockchain-wallet-v4 coverage",
     "coverage:frontend": "yarn workspace blockchain-wallet-v4-frontend coverage",
@@ -46,7 +46,7 @@
     "start:testnet": "yarn workspace blockchain-wallet-v4-frontend start:testnet",
     "storybook:build": "yarn workspace blockchain-info-components storybook:build",
     "storybook:serve": "yarn workspace blockchain-info-components storybook:serve",
-    "test": "cross-env  lerna exec -- yarn test:build && lerna link && lerna exec -- yarn test",
+    "test": "cross-env  yarn wsrun test:build --fast-exit && yarn wsrun test",
     "test:components": "yarn workspace blockchain-info-components test",
     "test:components:debug": "yarn workspace blockchain-info-components test:debug",
     "test:components:update": "yarn workspace blockchain-info-components test -- -u",
@@ -123,7 +123,6 @@
     "jest-css-modules": "^1.1.0",
     "jest-fetch-mock": "^1.6.3",
     "jest-styled-components": "^5.0.1",
-    "lerna": "^2.11.0",
     "mock-socket": "^7.1.0",
     "npm-watch": "^0.3.0",
     "react-hot-loader": "^4.0.1",
@@ -139,9 +138,12 @@
     "webpack": "^4.12.0",
     "webpack-bundle-analyzer": "^2.11.1",
     "webpack-cli": "^3.0.3",
-    "webpack-dev-server": "^3.1.1"
+    "webpack-dev-server": "^3.1.1",
+    "wsrun": "^2.2.1"
   },
   "private": true,
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "packages/*"
+  ],
   "dependencies": {}
 }
