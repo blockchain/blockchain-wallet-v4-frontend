@@ -56,7 +56,6 @@ export default ({ api }) => {
       const TX_PER_PAGE = 10
       const pages = yield select(S.getTransactions)
       const lastPage = last(pages)
-      console.log(pages)
       if (!reset && lastPage && lastPage.map(length).getOrElse(0) === 0) { return }
       const offset = reset ? 0 : length(pages) * TX_PER_PAGE
       yield put(A.fetchTransactionsLoading(reset))
