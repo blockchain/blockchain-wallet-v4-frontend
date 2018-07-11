@@ -13,10 +13,10 @@ cache:
     - .eslintcache
 
 before_install:
-  - npm install -g lerna yarn babel-cli rimraf cross-env
+  - npm install -g yarn babel-cli rimraf cross-env
 
 install:
-  - yarn bootstrap
+  - yarn
 
 stages:
   - name: branch-commit-build
