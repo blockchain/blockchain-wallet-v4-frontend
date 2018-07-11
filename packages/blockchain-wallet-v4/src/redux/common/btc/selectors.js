@@ -7,9 +7,8 @@ import { getShapeshiftTxHashMatch } from '../../kvStore/shapeShift/selectors'
 import * as transactions from '../../../transactions'
 import * as walletSelectors from '../../wallet/selectors'
 import Remote from '../../../remote'
-import memoize from 'fast-memoize'
 
-const mTransformTx = memoize(transactions.bitcoin.transformTx)
+const transformTx = transactions.bitcoin.transformTx
 
 const _getAccounts = selector => state => {
   const balancesR = getAddresses(state)
@@ -121,10 +120,10 @@ export const getWalletTransactions = state => {
   // Remote(metadata)
   getMetadata(state)
 
-  // mTransformTx :: wallet -> blockHeight -> Tx
+  // transformTx :: wallet -> blockHeight -> Tx
   // ProcessPage :: wallet -> blockHeight -> [Tx] -> [Tx]
   const ProcessTxs = (wallet, block, txList) =>
-    map(mTransformTx.bind(undefined, wallet, block, getDescription, getPartnerLabel), txList)
+    map(transformTx.bind(undefined, wallet, block, getDescription, getPartnerLabel), txList)
   // ProcessRemotePage :: Page -> Page
   const ProcessPage = lift(ProcessTxs)(walletR, blockHeightR)
   return map(ProcessPage, pages)
