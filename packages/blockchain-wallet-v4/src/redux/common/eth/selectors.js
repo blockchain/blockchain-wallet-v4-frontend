@@ -3,9 +3,8 @@ import { getAddresses, getTransactions, getHeight } from '../../data/ethereum/se
 import { getAccounts } from '../../kvStore/ethereum/selectors.js'
 import * as transactions from '../../../transactions'
 import { getShapeshiftTxHashMatch } from '../../kvStore/shapeShift/selectors'
-import memoize from 'fast-memoize'
 
-const mTransformTx = memoize(transactions.ethereum.transformTx)
+const transformTx = transactions.ethereum.transformTx
 
 export const getAccountBalances = (state) => {
   const digest = (addresses, account) => ({
@@ -34,7 +33,7 @@ export const getWalletTransactions = (state) => {
   const pages = getTransactions(state)
   const getPartnerLabel = hash => getShapeshiftTxHashMatch(state, hash)
   const ProcessTxs = (addresses, blockHeight, txList) => {
-    return map(mTransformTx(addresses, blockHeight, getPartnerLabel, state), txList)
+    return map(transformTx(addresses, blockHeight, getPartnerLabel, state), txList)
   }
   const ProcessPage = lift(ProcessTxs)(addressesR, blockHeightR)
   return map(ProcessPage, pages)
