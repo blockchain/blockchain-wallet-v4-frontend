@@ -1,4 +1,4 @@
-ARG REGISTRY=docker-registry.internal.blockchain.info
+ARG REGISTRY=docker-registry.service.consul:5000
 ARG NGINX_IMAGE=blockchain_nginx
 ARG NGINX_SHA=06c5efe75cedf639e5393a70380ba0d38300fa1ce56e59adb25918b15afe25a1
 ARG NODE_IMAGE=blockchain_node_10
@@ -20,16 +20,16 @@ ARG shapeshift_url
 ARG coinify_url
 
 # ensure required build arguments are set
-#RUN : "${root_url:? build argument is not set!}" \
-#  : "${web_socket_url:? build argument is not set!}" \
-#  : "${api_domain:? build argument is not set!}" \
-#  : "${wallet_helper_domain:? build argument is not set!}" \
-#  : "${i_sign_this_domain:? build argument is not set!}" \
-#  : "${sfox_url:? build argument is not set!}" \
-#  : "${sfox_quote_url:? build argument is not set!}" \
-#  : "${sfox_kyc_url:? build argument is not set!}" \
-#  : "${shapeshift_url:? build argument is not set!}" \
-#  : "${coinify_url:? build argument is not set!}"
+RUN : "${root_url:? build argument is not set!}" \
+  : "${web_socket_url:? build argument is not set!}" \
+  : "${api_domain:? build argument is not set!}" \
+  : "${wallet_helper_domain:? build argument is not set!}" \
+  : "${i_sign_this_domain:? build argument is not set!}" \
+  : "${sfox_url:? build argument is not set!}" \
+  : "${sfox_quote_url:? build argument is not set!}" \
+  : "${sfox_kyc_url:? build argument is not set!}" \
+  : "${shapeshift_url:? build argument is not set!}" \
+  : "${coinify_url:? build argument is not set!}"
 
 # set build args as environment variables for sed command
 ENV ENVIRONMENT=$environment
