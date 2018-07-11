@@ -1,5 +1,5 @@
 import Reducers from './reducers'
-import { ALERTS_CLEAR, ALERTS_SHOW, ALERTS_DISMISS } from './actionTypes'
+import { ALERTS_CLEAR } from './actionTypes'
 
 describe('Alerts Reducers', () => {
   it('should return empty state', () => {
