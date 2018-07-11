@@ -1,5 +1,5 @@
 import Maybe from 'data.maybe'
-import { isNil, find, propEq, sortBy, prop } from 'ramda'
+import { isNil, find, findIndex, propEq, sortBy, prop } from 'ramda'
 
 const languages = [
   { cultureCode: 'de-DE', language: 'de', name: 'German' },
@@ -52,10 +52,25 @@ function convertCultureCodeToLanguage (cultureCode) {
   return Maybe.Just(selectedLanguage.language)
 }
 
+// update url with new language without forcing browser reload
+function addLanguageToUrl (language) {
+  window.history.pushState({}, '', `/${language}/${window.location.hash}`)
+}
+
+function tryParseLanguageFromUrl () {
+  const path = window.location.pathname.replace(/\//g, '')
+
+  if (path && path.length) {
+    return languages[findIndex(propEq('language', path))(languages)]
+  }
+}
+
 export {
+  addLanguageToUrl,
+  convertCultureCodeToLanguage,
+  convertLanguageToCultureCode,
+  getLanguageName,
   languages,
   languagesSortedByName,
-  getLanguageName,
-  convertCultureCodeToLanguage,
-  convertLanguageToCultureCode
+  tryParseLanguageFromUrl
 }

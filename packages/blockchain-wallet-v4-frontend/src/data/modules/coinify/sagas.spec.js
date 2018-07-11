@@ -5,11 +5,9 @@ import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import * as actions from '../../actions'
 import * as coinifyActions from './actions.js'
 import * as selectors from '../../selectors.js'
-import * as sendBtcSelectors from '../../components/sendBtc/selectors'
 import settings from 'config'
-import coinifySagas, { logLocation } from './sagas'
+import coinifySagas, { logLocation, sellDescription } from './sagas'
 import * as C from 'services/AlertService'
-import * as sendBtcActions from '../../components/sendBtc/actions'
 import { merge } from 'ramda'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
@@ -520,6 +518,11 @@ describe('coinifySagas', () => {
       saga.next(limits)
     })
 
+    it('should select the state', () => {
+      const values = { currency: 'GBP' }
+      saga.next(values).select()
+    })
+
     it('should dispatch an action to fetch a rate quote with the new currency', () => {
       const values = { currency: 'GBP' }
       saga.next(values).put(actions.core.data.coinify.fetchRateQuote('GBP'))
@@ -559,6 +562,11 @@ describe('coinifySagas', () => {
     it('should select the form values', () => {
       const limits = mockedLimits
       saga.next(limits)
+    })
+
+    it('should select the state', () => {
+      const values = { currency: 'EUR' }
+      saga.next(values).select()
     })
 
     it('should clear coinifyCheckoutError', () => {
@@ -614,6 +622,11 @@ describe('coinifySagas', () => {
     it('should select the form values', () => {
       const limits = mockedLimits
       saga.next(limits)
+    })
+
+    it('should select the state', () => {
+      const values = { currency: 'EUR' }
+      saga.next(values).select()
     })
 
     it('should fetch a quote', () => {
@@ -672,9 +685,18 @@ describe('coinifySagas', () => {
       saga.next(limits)
     })
 
-    it('should fetch a quote', () => {
+    it('should select the state', () => {
       const values = { currency: 'EUR' }
-      saga.next(values).call(coreSagas.data.coinify.fetchQuote,
+      saga.next(values).select()
+    })
+
+    it('should fetch a quote', () => {
+      const state = {
+        coinify: {
+          payment: Remote.of({ effectiveBalance: 250000000 })
+        }
+      }
+      saga.next(state).call(coreSagas.data.coinify.fetchQuote,
         {
           quote: {
             amount: action.payload * 100,
@@ -686,14 +708,9 @@ describe('coinifySagas', () => {
       )
     })
 
-    it('should select the payment', () => {
-      const leftResult = { quoteAmount: 200000 }
-      saga.next(leftResult).select(sendBtcSelectors.getPayment)
-    })
-
     it('should clear any checkout error', () => {
-      const payment = Remote.of({ effectiveBalance: 250000000 })
-      saga.next(payment).put(coinifyActions.clearCoinifyCheckoutError())
+      const leftResult = { quoteAmount: 200000 }
+      saga.next(leftResult).put(coinifyActions.clearCoinifyCheckoutError())
     })
 
     it('should initialize the form with the new values', () => {
@@ -735,21 +752,29 @@ describe('coinifySagas', () => {
       saga.next(limits)
     })
 
-    it('should select the payment', () => {
+    it('should select the state', () => {
       const values = { currency: 'EUR' }
-      saga.next(values).select(sendBtcSelectors.getPayment).save(saveToRestore)
+      saga.next(values).select().save(saveToRestore)
     })
 
     it('should clear checkout error', () => {
-      const payment = Remote.of({ effectiveBalance: 250000000 })
-      saga.next(payment).put(coinifyActions.setCoinifyCheckoutError('under_min'))
+      const state = {
+        coinify: {
+          payment: Remote.of({ effectiveBalance: 250000000 })
+        }
+      }
+      saga.next(state).put(coinifyActions.setCoinifyCheckoutError('under_min'))
     })
 
     it('should set limits error', () => {
-      const payment = Remote.of({ effectiveBalance: 0.0123 })
+      const state = {
+        coinify: {
+          payment: Remote.of({ effectiveBalance: 0.0123 })
+        }
+      }
       saga
         .restore(saveToRestore)
-        .next(payment)
+        .next(state)
         .put(coinifyActions.setCoinifyCheckoutError('effective_max_under_min'))
     })
 
@@ -982,16 +1007,20 @@ describe('coinifySagas', () => {
       saga.next().call(coreSagas.data.coinify.sell)
     })
 
-    it('should select the payment', () => {
+    it('should select the state', () => {
       const trade = mockSellTrade
-      saga.next(trade).select(sendBtcSelectors.getPayment)
+      saga.next(trade).select()
     })
 
     it('should create payment', () => {
-      const p = Remote.of(null)
-      saga.next(p)
+      const state = {
+        coinify: {
+          payment: Remote.of(null)
+        }
+      }
+      saga.next(state)
       expect(coreSagas.payment.btc.create).toHaveBeenCalledTimes(1)
-      expect(coreSagas.payment.btc.create).toHaveBeenCalledWith({ payment: p.getOrElse({}), network: settings.NETWORK })
+      expect(coreSagas.payment.btc.create).toHaveBeenCalledWith({ payment: state.coinify.payment.getOrElse({}), network: settings.NETWORK })
     })
 
     it('should update the payment amount', () => {
@@ -1001,13 +1030,8 @@ describe('coinifySagas', () => {
       expect(paymentMock.amount).toHaveBeenCalledWith(500)
     })
 
-    it('should select the state to check for a qa address', () => {
-      saga.next(paymentMock).select()
-    })
-
     it('should set payment.to to the trade receiveAddress', () => {
-      const state = {}
-      saga.next(state)
+      saga.next(paymentMock)
 
       expect(paymentMock.to).toHaveBeenCalledTimes(1)
       expect(paymentMock.to).toHaveBeenCalledWith(tradeReceiveAddress)
@@ -1017,17 +1041,13 @@ describe('coinifySagas', () => {
       saga.next(paymentMock)
 
       expect(paymentMock.description).toHaveBeenCalledTimes(1)
-      expect(paymentMock.description).toHaveBeenCalledWith('Exchange Trade COINIFY=56789')
+      expect(paymentMock.description).toHaveBeenCalledWith(`${sellDescription}56789`)
     })
 
     it('should call payment.build', () => {
       saga.next(paymentMock)
 
       expect(paymentMock.build).toHaveBeenCalledTimes(1)
-    })
-
-    it('should update payment success', () => {
-      saga.next(paymentMock).put(sendBtcActions.sendBtcPaymentUpdatedSuccess(paymentMock.value()))
     })
 
     it('should call payment.sign with the second password', () => {
@@ -1043,8 +1063,12 @@ describe('coinifySagas', () => {
       expect(paymentMock.publish).toHaveBeenCalledTimes(1)
     })
 
-    it('should update payment success again', () => {
-      saga.next(paymentMock).put(sendBtcActions.sendBtcPaymentUpdatedSuccess(paymentMock.value()))
+    it('should fetch btc data', () => {
+      saga.next(paymentMock).put(actions.core.data.bitcoin.fetchData())
+    })
+
+    it('should set a tx note', () => {
+      saga.next(paymentMock).put(actions.core.wallet.setTransactionNote(paymentMock.value().txId, paymentMock.value().description))
     })
 
     it('should set success state', () => {
