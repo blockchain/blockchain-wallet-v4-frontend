@@ -3,7 +3,6 @@
 .vscode
 .eslintcache
 *.log
-*.lerna_backup
 node_modules/
 coverage/
 dist/

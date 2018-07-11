@@ -8,7 +8,7 @@ Be Your Own Bank at [blockchain.info/wallet](https://blockchain.info/wallet).
 Please [contact support](https://support.blockchain.com) if you have any issues using the wallet.
 
 ## About
-This repo contains the three codebases/packages listed below that are combined into one via [Lerna](https://github.com/lerna/lerna).
+This repo contains the three codebases/packages listed below.
 
 ### Packages
  * [blockchain-info-components](./packages/blockchain-info-components) The shared UI components library.
@@ -18,7 +18,7 @@ This repo contains the three codebases/packages listed below that are combined i
 
 ## Local Development
 1. Ensure Node version >= 8.0 and npm version >= 6 are installed
-2. Run the following command to install necessary global packages: `npm install -g lerna yarn babel-cli rimraf cross-env`
+2. Run the following command to install necessary global packages: `npm install -g yarn babel-cli rimraf cross-env`
 3. Install, link and hoist packages: `yarn`
 4. Start the application in development mode: `yarn start`
 5. The frontend application will now be accessible via browser at `localhost:8080`
