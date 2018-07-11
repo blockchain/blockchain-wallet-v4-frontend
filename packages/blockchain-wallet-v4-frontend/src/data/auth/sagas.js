@@ -352,7 +352,8 @@ export default ({ api, coreSagas }) => {
   }
 
   const logoutClearReduxStore = function * () {
-    yield window.history.pushState('', '', '/login')
+    // router will fallback to /login route
+    yield window.history.pushState('', '', '#')
     yield window.location.reload(true)
   }
 

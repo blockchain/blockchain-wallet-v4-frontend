@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 import { getData } from './selectors'
 import Success from './template.success'
 import Loading from 'components/BuySell/Loading'
+import Failure from 'components/BuySell/Failure'
 
 class CoinifyBuyContainer extends React.Component {
   constructor (props) {
@@ -66,7 +67,7 @@ class CoinifyBuyContainer extends React.Component {
         subscriptions={subscriptions}
         trades={trades}
       />,
-      Failure: (msg) => <div>Failure: {msg.error}</div>,
+      Failure: (e) => <Failure error={e} />,
       Loading: () => <Loading />,
       NotAsked: () => <div>Not Asked</div>
     })

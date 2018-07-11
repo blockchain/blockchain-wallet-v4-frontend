@@ -1,5 +1,5 @@
 import { call, put, select } from 'redux-saga/effects'
-import { compose, isNil } from 'ramda'
+import { compose, isNil, isEmpty } from 'ramda'
 import { delay } from 'redux-saga'
 import { set } from 'ramda-lens'
 import * as A from './actions'
@@ -61,7 +61,7 @@ export default ({ api }) => {
       const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId)
       yield put(A.fetchMetadataBtcLoading())
       const newkv = yield callTask(api.fetchKVStore(kv))
-      if (isNil(newkv.value)) {
+      if (isNil(newkv.value) || isEmpty(newkv.value)) {
         return yield call(getAddressLabelSize)
       }
       yield put(A.fetchMetadataBtcSuccess(newkv))

@@ -10,7 +10,7 @@ export default (state = {}, action) => {
       return assocPath([payload.walletIndex, 'usedAddressesVisible'], payload.visible, state)
     }
     case AT.FETCH_UNUSED_ADDRESSES_ERROR: {
-      return assocPath([payload.walletIndex, 'unusedAddresses'], Remote.Failure, state)
+      return assocPath([payload.walletIndex, 'unusedAddresses'], Remote.Failure(payload.message), state)
     }
     case AT.FETCH_UNUSED_ADDRESSES_LOADING: {
       return assocPath([payload.walletIndex, 'unusedAddresses'], Remote.Loading, state)
@@ -19,7 +19,7 @@ export default (state = {}, action) => {
       return assocPath([payload.walletIndex, 'unusedAddresses'], Remote.Success(payload.unusedAddresses), state)
     }
     case AT.FETCH_USED_ADDRESSES_ERROR: {
-      return assocPath([payload.walletIndex, 'usedAddresses'], Remote.Failure, state)
+      return assocPath([payload.walletIndex, 'usedAddresses'], Remote.Failure(payload.message), state)
     }
     case AT.FETCH_USED_ADDRESSES_LOADING: {
       return assocPath([payload.walletIndex, 'usedAddresses'], Remote.Loading, state)

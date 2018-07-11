@@ -1,4 +1,4 @@
-import { concat, curry, equals, keys, keysIn, filter, not, lift, map, path, prop } from 'ramda'
+import { concat, curry, equals, keysIn, filter, not, lift, map, path, prop, values } from 'ramda'
 import { BCH } from '../config'
 import { kvStorePath } from '../../paths'
 import * as walletSelectors from '../../wallet/selectors'
@@ -18,7 +18,7 @@ export const getAccounts = state => getMetadata(state).map(path(['value', 'accou
 // This one returns an array of accounts
 export const getAccountsList = state => {
   const accountsObj = getAccounts(state)
-  return lift(a => map(key => a[key], keys(a)))(accountsObj)
+  return lift(values)(accountsObj)
 }
 
 export const getContext = createDeepEqualSelector(
