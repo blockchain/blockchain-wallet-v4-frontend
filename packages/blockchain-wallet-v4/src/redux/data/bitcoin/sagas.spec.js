@@ -1,5 +1,5 @@
-import { call, put, select, take } from 'redux-saga/effects'
-import { indexBy, length, last, path, prop } from 'ramda'
+import { select } from 'redux-saga/effects'
+import { indexBy, path, prop } from 'ramda'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
@@ -9,15 +9,15 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
 import sagas from './sagas'
 
-const blockchainData = { wallet: {}, info: {}}
-const transactionHistory = { address: {}, sent: {} , received: {}}
+const blockchainData = { wallet: {}, info: {} }
+const transactionHistory = { address: {}, sent: {}, received: {} }
 
 const api = {
   fetchBlockchainData: jest.fn(() => blockchainData),
   getBitcoinFee: jest.fn(),
   getBitcoinFiatAtTime: jest.fn(),
   getBitcoinTicker: jest.fn(),
-  getTransactionHistory: jest.fn(() => transactionHistory),
+  getTransactionHistory: jest.fn(() => transactionHistory)
 }
 
 describe('bitcoin data sagas', () => {
@@ -150,12 +150,12 @@ describe('bitcoin data sagas', () => {
     })
 
     // Try again
-    it('should fetch tx', () => {
+    it('should fetch tx again', () => {
       saga.next()
         .take(AT.FETCH_BITCOIN_TRANSACTIONS)
     })
 
-    it('should call fetchTransactions', () => {
+    it('should call fetchTransactions again', () => {
       saga.next(action)
         .call(dataBtcSagas.fetchTransactions, action)
     })
@@ -177,16 +177,15 @@ describe('bitcoin data sagas', () => {
     }
     const payload = { address: 'address', reset: false }
     const saga = testSaga(dataBtcSagas.fetchTransactions, { payload })
-    const action = {}
-    const page = Remote.of(Array({hash: '93j0j32jadsfoiejwrpok'}, {hash: '3ija09sfj029j29012j'}, {hash: 'asdf092j0391jflkajsdf'}))
+    const page = Remote.of([{ hash: '93j0j32jadsfoiejwrpok' }, { hash: '3ija09sfj029j29012j' }, { hash: 'asdf092j0391jflkajsdf' }])
     const blankPage = Remote.of([])
-    const pages = Array(page)
+    const pages = [page]
     const conditional = 'conditional'
 
     it('should get transactions', () => {
       saga.next()
         .select(S.getTransactions)
-      
+
       saga.save(conditional)
     })
 
@@ -233,7 +232,7 @@ describe('bitcoin data sagas', () => {
   })
 
   describe('fetchTransactionHistory', () => {
-    const payload = { address: 'asdf912j039j12', start: '01/01/2018', end: '01/06/2018'}
+    const payload = { address: 'asdf912j039j12', start: '01/01/2018', end: '01/06/2018' }
     const saga = testSaga(dataBtcSagas.fetchTransactionHistory, { payload })
     const currency = Remote.of('EUR')
     const beforeGettingHistory = 'beforeGettingHistory'
@@ -259,8 +258,8 @@ describe('bitcoin data sagas', () => {
         .put(A.fetchTransactionHistorySuccess(transactionHistory))
     })
 
-    const payloadNoAddr = { start: '01/01/2018', end: '01/06/2018'}
-    const mockContext = ['xpub6BvQUYyon9wcJUgBUjhQ7E5iSSHVzsraSqmqiRLKUXoXE4PkFZ2h8x','xpub6BvQUYyokJ9j301jd09slQEWhlk21j3JKlwLKUXoXE4PkFZ2h8x']
+    const payloadNoAddr = { start: '01/01/2018', end: '01/06/2018' }
+    const mockContext = ['xpub6BvQUYyon9wcJUgBUjhQ7E5iSSHVzsraSqmqiRLKUXoXE4PkFZ2h8x', 'xpub6BvQUYyokJ9j301jd09slQEWhlk21j3JKlwLKUXoXE4PkFZ2h8x']
     const active = mockContext.join('|')
 
     it('should get transaction data with context if no address present', () => {
@@ -322,17 +321,3 @@ describe('bitcoin data sagas', () => {
     })
   })
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
