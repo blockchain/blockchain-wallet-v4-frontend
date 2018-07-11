@@ -4,7 +4,7 @@ import { selectors } from 'data'
 
 export const getUserData = (state) => {
   const profile = selectors.core.data.coinify.getProfile(state)
-  const payment = selectors.components.sendBtc.getPayment(state)
+  const payment = path(['coinify', 'payment'], state)
   const kyc = selectors.core.data.coinify.getKyc(state)
   return lift((profile, payment, kyc) => ({ profile, payment, kyc }))(profile, payment, kyc)
 }
