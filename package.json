@@ -8,7 +8,7 @@
   "bugs": { "url": "https://github.com/blockchain/blockchain-wallet-v4-frontend/issues" },
   "description": "The frontend wallet application built with React/Redux.",
   "keywords": ["blockchain", "blockchain.info", "blockchain.com", "react", "redux", "wallet"],
-  "engines": { "node": ">= 10.4" },
+  "engines": { "node": ">= 10.2" },
   "workspaces": ["packages/*"],
   "scripts": {
     "analyze": "yarn workspace blockchain-wallet-v4-frontend analyze",
