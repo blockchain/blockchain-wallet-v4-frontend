@@ -1,5 +1,5 @@
 import { call, put, select } from 'redux-saga/effects'
-import { compose, isNil } from 'ramda'
+import { compose, isNil, isEmpty } from 'ramda'
 import { set } from 'ramda-lens'
 import * as A from './actions'
 import { KVStoreEntry } from '../../../types'
@@ -26,7 +26,7 @@ export default ({ api }) => {
       const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId)
       yield put(A.fetchMetadataWhatsnewLoading())
       const newkv = yield callTask(api.fetchKVStore(kv))
-      if (isNil(newkv.value)) {
+      if (isNil(newkv.value) || isEmpty(newkv.value)) {
         yield call(createWhatsNew, newkv)
       } else {
         yield put(A.fetchMetadataWhatsnewSuccess(newkv))

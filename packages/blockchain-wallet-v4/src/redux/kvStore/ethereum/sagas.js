@@ -1,5 +1,5 @@
 import { call, put, select } from 'redux-saga/effects'
-import { compose, isNil } from 'ramda'
+import { compose, isNil, isEmpty } from 'ramda'
 import { set } from 'ramda-lens'
 import * as A from './actions'
 import { KVStoreEntry } from '../../../types'
@@ -62,7 +62,7 @@ export default ({ api } = {}) => {
       const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId)
       yield put(A.fetchMetadataEthereumLoading())
       const newkv = yield callTask(api.fetchKVStore(kv))
-      if (isNil(newkv.value)) { // handle has_seen: false ??
+      if (isNil(newkv.value) || isEmpty(newkv.value)) { // handle has_seen: false ??
         yield call(secondPasswordSagaEnhancer(createEthereum), { kv })
       } else {
         yield put(A.fetchMetadataEthereumSuccess(newkv))

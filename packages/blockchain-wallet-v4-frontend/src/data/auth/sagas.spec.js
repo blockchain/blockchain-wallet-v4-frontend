@@ -917,7 +917,7 @@ describe('authSagas', () => {
         .run()
         .then(() => {
           expect(pushStateSpy).toHaveBeenCalledTimes(1)
-          expect(pushStateSpy).toHaveBeenCalledWith('', '', '/login')
+          expect(pushStateSpy).toHaveBeenCalledWith('', '', '#')
         })
     })
   })
@@ -941,7 +941,7 @@ describe('authSagas', () => {
             // Inside the called saga
             gen.next()
             expect(pushStateSpy).toHaveBeenCalledTimes(1)
-            expect(pushStateSpy).toHaveBeenCalledWith('', '', '/login')
+            expect(pushStateSpy).toHaveBeenCalledWith('', '', '#')
 
             gen.next()
             expect(locationReloadSpy).toHaveBeenCalledTimes(1)
