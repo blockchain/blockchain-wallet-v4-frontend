@@ -179,11 +179,15 @@ describe('bitcoin data sagas', () => {
     const saga = testSaga(dataBtcSagas.fetchTransactions, { payload })
     const action = {}
     const page = Remote.of(Array({hash: '93j0j32jadsfoiejwrpok'}, {hash: '3ija09sfj029j29012j'}, {hash: 'asdf092j0391jflkajsdf'}))
+    const blankPage = Remote.of([])
     const pages = Array(page)
+    const conditional = 'conditional'
 
     it('should get transactions', () => {
       saga.next()
         .select(S.getTransactions)
+      
+      saga.save(conditional)
     })
 
     it('should put loading state', () => {
@@ -207,6 +211,13 @@ describe('bitcoin data sagas', () => {
 
     it('should finish', () => {
       saga.next().isDone()
+    })
+
+    it('should break if reset is false and no last page', () => {
+      saga.restore(conditional)
+      saga.next([blankPage])
+        .next()
+        .isDone()
     })
 
     it('should handle errors', () => {
