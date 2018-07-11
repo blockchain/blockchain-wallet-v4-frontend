@@ -8,7 +8,7 @@ Be Your Own Bank at [blockchain.info/wallet](https://blockchain.info/wallet).
 Please [contact support](https://support.blockchain.com) if you have any issues using the wallet.
 
 ## About
-This repo contains the three codebases/packages listed below that are combined into one via [Lerna](https://github.com/lerna/lerna).
+This repo contains the three codebases/packages listed below.
 
 ### Packages
  * [blockchain-info-components](./packages/blockchain-info-components) The shared UI components library.
@@ -17,9 +17,9 @@ This repo contains the three codebases/packages listed below that are combined i
 
 
 ## Local Development
-1. Ensure Node version >= 8.0 and npm version >= 6 are installed
-2. Run the following command to install necessary global packages: `npm install -g lerna yarn babel-cli rimraf cross-env`
-3. Install, link and hoist packages: `yarn bootstrap`
+1. Ensure Node version >= 10.2 and npm version >= 6 are installed
+2. Run the following command to install necessary global packages: `npm install -g yarn babel-cli rimraf cross-env`
+3. Install, link and hoist packages: `yarn`
 4. Start the application in development mode: `yarn start`
 5. The frontend application will now be accessible via browser at `localhost:8080`
 
@@ -31,7 +31,7 @@ To ensure proper support for Windows, please take the following actions before r
 
 ### Tips & Useful Commands
 1. To completely remove all dependencies and artifacts run `yarn clean`
-2. After installing or uninstalling a NPM package, run `yarn bootstrap` to re-init the project
+2. To add/remove an NPM package run `yarn add` or `yarn remove` in the package folder. After installing or uninstalling a NPM package, run `yarn` in the root folder to re-init the project
 3. All development specific dependencies should be installed as a `dev-dependency` in the top level `package.json` via `yarn i --save-dev [package-name]`
 4. All application specific dependencies should be installed in the specific packages `package.json` via `yarn i --save [package-name]`
 
