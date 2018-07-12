@@ -109,10 +109,10 @@ workflows:
       - install_deps:
           requires:
             - checkout_code
-      - lint:
+      - lint_code:
           requires:
             - install_deps
-      - test:
+      - test_code:
           requires:
             - install_deps
   test_coverage:
