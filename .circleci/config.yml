@@ -13,7 +13,7 @@ jobs:
             - npm-deps-
       - run:
           name: Install
-          command: npm install -g yarn babel-cli rimraf cross-env && yarn
+          command: npm install yarn babel-cli rimraf cross-env && yarn
       - save_cache:
           key: npm-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
