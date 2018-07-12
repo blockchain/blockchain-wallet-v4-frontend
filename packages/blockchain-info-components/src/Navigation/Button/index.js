@@ -69,7 +69,7 @@ const SecondaryButton = DefaultButton.extend`
   color: white;
 `
 
-export default props => {
+const Button = (props) => {
   let { href, target, download, rel } = props
   if (href) {
     return (
@@ -102,3 +102,5 @@ export default props => {
     </DefaultButton>
   )
 }
+
+export default Button

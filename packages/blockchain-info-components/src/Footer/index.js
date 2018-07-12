@@ -224,7 +224,7 @@ class Footer extends PureComponent {
     super(props)
     this.cookies = new Cookies()
 
-    this.lang = this.cookies.get('clang')
+    this.lang = this.cookies.get('clang') || 'en'
 
     let langPathMatch = window.location.pathname.match(/^\/([a-z]{2})\//)
     let langPath = langPathMatch && langPathMatch[1]
@@ -241,7 +241,7 @@ class Footer extends PureComponent {
     if (langPathMatch && langPathMatch[1] in supportedLanguages) {
       toLocation = '/' + value + '/' + langPathMatch[2]
     } else {
-      toLocation = '/' + value
+      toLocation = '/' + value + '/'
     }
     window.setTimeout(() => {
       // trigger page refresh

@@ -1,7 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 
-const DropdownTipContainer = styled.div`
+const Container = styled.div`
   left: 0;
   top: ${props => props.dropdownTop}px;
   transform: translateX(${props => props.x}px) translateY(${props => props.y}px);
@@ -18,8 +18,10 @@ const DropdownTip = styled.div`
   border-radius: var(--smBorderRadius);
 `
 
-export default props => (
-  <DropdownTipContainer dropdownTop={props.dropdownTop} x={props.x} y={props.y}>
+const DropdownTipContainer = (props) => (
+  <Container dropdownTop={props.dropdownTop} x={props.x} y={props.y}>
     <DropdownTip />
-  </DropdownTipContainer>
+  </Container>
 )
+
+export default DropdownTipContainer
