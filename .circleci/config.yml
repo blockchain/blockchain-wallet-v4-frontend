@@ -1,94 +1,80 @@
 version: 2
 
-jobs:
-  checkout_code:
+references:
+  workspace_root: &workspace_root
+      /home/circleci/blockchain-wallet-v4-frontend
+
+  attach_workspace: &attach_workspace
+    attach_workspace:
+      at: *workspace_root
+
+  container_config: &container_config
+    working_directory: /home/circleci/blockchain-wallet-v4-frontend
     docker:
       - image: circleci/node:10.6-jessie-browsers
-    working_directory: ~/blockchain-wallet-v4-frontend
+
+  npm_cache_key: &npm_cache_key
+    v1-dependency-npm-{{ checksum "yarn.lock" }}
+  npm_backup_cache_key: &npm_backup_cache_key
+    v1-dependency-npm
+
+  restore_node_modules: &restore_node_modules
+    restore_cache:
+      keys:
+        - *npm_cache_key
+        - *npm_backup_cache_key
+
+  restore_repo: &restore_repo
+      restore_cache:
+        keys:
+          - v1-repo-{{ .Branch }}-{{ .Revision }}
+          - v1-repo-{{ .Branch }}
+          - v1-repo
+
+jobs:
+  checkout_code:
+    <<: *container_config
     steps:
+      - *restore_repo
       - checkout
       - save_cache:
-          key: repo-{{ .Environment.CIRCLE_SHA1 }}
+          key: v1-repo-{{ .Branch }}-{{ .Revision }}
           paths:
-            - ~/blockchain-wallet-v4-frontend
+            - .
   install_deps:
-    docker:
-     - image: circleci/node:10.6-jessie-browsers
-    working_directory: ~/blockchain-wallet-v4-frontend
+    <<: *container_config
     steps:
-      - restore_cache:
-          keys:
-            - repo-{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          keys:
-            - yarn-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - yarn-cache-{{ .Branch }}-
-            - yarn-cache-
-      - restore_cache:
-          keys:
-            - npm-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - npm-deps-{{ .Branch }}-
-            - npm-deps-
+      - *restore_repo
+      - *restore_node_modules
       - run:
           name: Install Dependencies
           command: npm install yarn babel-cli rimraf cross-env && yarn
       - save_cache:
-          key: yarn-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: *npm_cache_key
           paths:
-            - ~/blockchain-wallet-v4-frontend/.cache/yarn
-      - save_cache:
-          key: npm-deps-{{ checksum "yarn.lock" }}
+            - /home/circleci/blockchain-wallet-v4-frontend/node_modules
+      - persist_to_workspace:
+          root: /home/circleci
           paths:
-            - ~/blockchain-wallet-v4-frontend/node_modules
+            - blockchain-wallet-v4-frontend
   lint_code:
-    docker:
-      - image: circleci/node:10.6-jessie-browsers
-    working_directory: ~/blockchain-wallet-v4-frontend
+    <<: *container_config
     steps:
-      - restore_cache:
-          keys:
-            - repo-{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          keys:
-            - yarn-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - yarn-cache-{{ .Branch }}-
-            - yarn-cache-
-      - restore_cache:
-          keys:
-            - npm-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - npm-deps-{{ .Branch }}-
-            - npm-deps-
-      - run: yarn
+      - *attach_workspace
       - run:
           name: Lint Code
           command: yarn lint
   test_code:
-    docker:
-      - image: circleci/node:10.6-jessie-browsers
-    working_directory: ~/blockchain-wallet-v4-frontend
+    <<: *container_config
     steps:
-      - restore_cache:
-          keys:
-            - repo-{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          keys:
-            - yarn-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - yarn-cache-{{ .Branch }}-
-            - yarn-cache-
-      - restore_cache:
-          keys:
-            - npm-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - npm-deps-{{ .Branch }}-
-            - npm-deps-
-      - run: yarn
+      - *attach_workspace
       - run:
           name: Test Code
           command: yarn ci:test
   coverage:
-    docker:
-      - image: circleci/node:10.6-jessie-browsers
-    working_directory: ~/blockchain-wallet-v4-frontend
+    <<: *container_config
     steps:
+      - *attach_workspace
       - run:
           name: Code Coverage
           command: yarn coverage
