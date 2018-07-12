@@ -22,6 +22,7 @@ jobs:
     docker:
       - image: circleci/node:10.6-jessie-browsers
     steps:
+      - checkout
       - run:
           name: Lint
           command: yarn lint
@@ -29,6 +30,7 @@ jobs:
     docker:
       - image: circleci/node:10.6-jessie-browsers
     steps:
+      - checkout
       - run:
           name: Test
           command: yarn ci:test
