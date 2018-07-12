@@ -13,10 +13,13 @@ references:
     docker:
       - image: circleci/node:10.6-jessie-browsers
 
+  npm_cache_key: &npm_cache_key
+      v1-dependency-npm-{{ checksum "yarn.json" }}
+
   restore_node_modules: &restore_node_modules
     restore_cache:
       keys:
-        - v1-dependency-npm-{{ checksum "yarn.lock" }}
+        - *npm_cache_key
         - v1-dependency-npm
 
   restore_repo: &restore_repo
@@ -27,7 +30,7 @@ references:
           - v1-repo
 
 jobs:
-   pull_code:
+  pull_code:
     <<: *container_config
     steps:
       - *restore_repo
@@ -36,7 +39,6 @@ jobs:
           key: v1-repo-{{ .Branch }}-{{ .Revision }}
           paths:
             - .
-
   npm_install:
     <<: *container_config
     steps:
@@ -53,7 +55,6 @@ jobs:
           root: /home/circleci
           paths:
             - blockchain-wallet-v4-frontend
-
   lint:
     <<: *container_config
     steps:
@@ -61,7 +62,6 @@ jobs:
       - run:
           name: Lint Code
           command: yarn lint
-
   unit_tests:
     <<: *container_config
     steps:
@@ -69,7 +69,6 @@ jobs:
       - run:
           name: Test Code
           command: yarn ci:test
-
   code_coverage:
     <<: *container_config
     steps:
