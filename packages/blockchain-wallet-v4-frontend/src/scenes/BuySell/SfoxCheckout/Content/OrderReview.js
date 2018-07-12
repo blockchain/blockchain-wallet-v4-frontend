@@ -8,9 +8,9 @@ import { reviewOrder } from 'services/SfoxService'
 import { FormattedMessage } from 'react-intl'
 import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDetails'
 import FundingSource from 'components/BuySell/FundingSource'
-import { PartnerHeader, PartnerSubHeader } from 'components/BuySell/Signup'
+import { PartnerHeader, PartnerSubHeader } from 'components/IdentityVerification'
 import { StepTransition } from 'components/Utilities/Stepper'
-import Helper from 'components/BuySell/FAQ'
+import renderFaq from 'components/FaqDropdown'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import ReviewForm from './orderReviewForm'
 
@@ -29,7 +29,7 @@ const ToolTipWrapper = styled.div`
   }
 `
 
-const faqList = [
+const faqQuestions = [
   {
     question: <FormattedMessage id='scenes.buysell.sfoxcheckout.orderreview.helper1.question' defaultMessage='What are the fees?' />,
     answer: <FormattedMessage id='scenes.buysell.sfoxcheckout.orderreview.helper1.answer' defaultMessage='There is a trading fee that SFOX requires to execute a buy or sell trade. For sell trades specifically, there is an additional transaction fee that goes to network miners in order to send the amount you’re selling to SFOX.' />
@@ -43,7 +43,6 @@ const faqList = [
     answer: <FormattedMessage id='scenes.buysell.sfoxcheckout.orderreview.helper3.answer' defaultMessage='Once you submit your trade here, it will move into a pending state, and cannot be reversed, cancelled or changed. Please be sure to verify the information here carefully before submitting.' />
   }
 ]
-const faqListHelper = () => faqList.map(el => <Helper question={el.question} answer={el.answer} />)
 
 export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
   <ExchangeCheckoutWrapper>
@@ -123,6 +122,6 @@ export const OrderSubmit = ({ quoteR, onSubmit, busy, clearTradeError, account }
         </div>
         : <ReviewForm busy={busy} onSubmit={onSubmit} quoteR={quoteR} account={account} />
     }
-    { faqListHelper() }
+    { renderFaq(faqQuestions) }
   </Fragment>
 )

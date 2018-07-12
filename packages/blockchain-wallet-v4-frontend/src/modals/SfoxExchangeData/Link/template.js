@@ -10,8 +10,8 @@ import PlaidFrame from './iframe.js'
 import AwaitingDeposits from './AwaitingDeposits'
 import { Remote } from 'blockchain-wallet-v4/src'
 
-import Helper from 'components/BuySell/FAQ'
-import { ColLeft, ColRight, PartnerHeader, PartnerSubHeader, ColRightInner } from 'components/BuySell/Signup'
+import renderFaq from 'components/FaqDropdown'
+import { ColLeft, ColRight, PartnerHeader, PartnerSubHeader, ColRightInner } from 'components/IdentityVerification'
 import media from 'services/ResponsiveService'
 
 const Form = styled.form`
@@ -77,7 +77,7 @@ const GoBackLink = styled(Link)`
   justify-content: center;
 `
 
-const selectBankFaqs = [
+const selectBankQuestions = [
   {
     question: <FormattedMessage id='scenes.buysell.sfoxsignup.link.helper3.question' defaultMessage='How will this account be used?' />,
     answer: <FormattedMessage id='scenes.buysell.sfoxsignup.link.helper3.answer' defaultMessage='This will be the primary account you buy or sell assets with.' />
@@ -88,7 +88,7 @@ const selectBankFaqs = [
   }
 ]
 
-const faqList = [
+const faqQuestions = [
   {
     question: <FormattedMessage id='scenes.buysell.sfoxsignup.link.helper1.question' defaultMessage='Can I change my bank account once it’s linked?' />,
     answer: <FormattedMessage id='scenes.buysell.sfoxsignup.link.helper1.answer' defaultMessage='Yes, you can change your bank account by emailing support@sfox.com. Make sure you mention Blockchain in the subject and include the information you want to change.' />
@@ -99,8 +99,7 @@ const faqList = [
   }
 ]
 
-const selectBankFaqHelper = () => selectBankFaqs.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
-const faqListHelper = () => faqList.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
+const selectBankFaqHelper = () => selectBankQuestions.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
 
 const BankLink = (props) => {
   const {
@@ -176,13 +175,13 @@ const BankLink = (props) => {
     if (ui.selectBank) {
       return (
         <React.Fragment>
-          { selectBankFaqHelper() }
+          { renderFaq(selectBankQuestions) }
         </React.Fragment>
       )
     }
     return (
       <React.Fragment>
-        { faqListHelper() }
+        { renderFaq(faqQuestions) }
       </React.Fragment>
     )
   }

@@ -8,7 +8,7 @@ import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
 import { RadioButton } from 'components/Form'
 import { StepTransition } from 'components/Utilities/Stepper'
-import { BorderBox, Form, CancelWrapper, ColLeft, InputWrapper, PartnerHeader, PartnerSubHeader, ColRight, ColRightInner, Row } from 'components/BuySell/Signup'
+import { BorderBox, Form, CancelWrapper, ColLeft, InputWrapper, PartnerHeader, PartnerSubHeader, ColRight, ColRightInner, Row } from 'components/IdentityVerification'
 
 const RowContent = styled(Row)`
   padding-left: 10px;

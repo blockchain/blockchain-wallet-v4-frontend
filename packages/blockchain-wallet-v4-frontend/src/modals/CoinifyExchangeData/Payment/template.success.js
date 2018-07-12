@@ -4,12 +4,12 @@ import { reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { spacing } from 'services/StyleService'
-import Helper from 'components/BuySell/FAQ'
+import renderFaq from 'components/FaqDropdown'
 import { StepTransition } from 'components/Utilities/Stepper'
 import { equals, path } from 'ramda'
 
 import { Button, HeartbeatLoader, Link } from 'blockchain-info-components'
-import { Form, CancelWrapper, ColLeft, ColRight, ColRightInner, InputWrapper, PartnerHeader, PartnerSubHeader } from 'components/BuySell/Signup'
+import { Form, CancelWrapper, ColLeft, ColRight, ColRightInner, InputWrapper, PartnerHeader, PartnerSubHeader } from 'components/IdentityVerification'
 import { cardOptionHelper, bankOptionHelper } from './mediumHelpers'
 import media from 'services/ResponsiveService'
 
@@ -59,14 +59,13 @@ const PaymentColRightInner = styled(ColRightInner)`
   `}  
 `
 
-const helpers = [
+const faqQuestions = [
   {
     question: <FormattedMessage id='coinifyexchangedata.payment.helper1.question' defaultMessage='Are there transaction fees?' />,
     answer: <FormattedMessage id='coinifyexchangedata.payment.helper1.answer' defaultMessage='There is a 3% convenience fee when buying bitcoin with a credit card in order to expedite the transaction. Buying or selling through a bank transfer does not include a convenience fee, although there is a small trading fee (0.25%) that Coinify requires in order to mitigate risk.' />
   }
 ]
 
-const faqHelper = () => helpers.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
 const busyHelper = (busy) => !busy ? <FormattedMessage id='coinifyexchangedata.payment.continue' defaultMessage='Continue' /> : <HeartbeatLoader height='20px' width='20px' color='white' />
 const isCardDisabled = (q, l) => {
   if (q.baseCurrency === 'BTC') return Math.abs(q.quoteAmount) > l.card.inRemaining[q.quoteCurrency]
@@ -131,7 +130,7 @@ const Payment = (props) => {
             </StepTransition>
           </CancelWrapper>
           <FaqWrapper>
-            { faqHelper() }
+            { renderFaq(faqQuestions) }
           </FaqWrapper>
         </PaymentColRightInner>
       </PaymentColRight>

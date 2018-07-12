@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { Text, Button } from 'blockchain-info-components'
 import { TextBox } from 'components/Form'
 import { required } from 'services/FormHelper'
-import { Form, ColLeft, ColRight, ColRightInner, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, EmailHelper } from 'components/BuySell/Signup'
+import { Form, ColLeft, ColRight, ColRightInner, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, EmailHelper } from 'components/IdentityVerification'
 import media from 'services/ResponsiveService'
 
 const EmailInput = styled.div`

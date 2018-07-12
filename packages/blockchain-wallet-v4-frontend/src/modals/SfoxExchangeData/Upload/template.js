@@ -8,7 +8,7 @@ import Dropzone from 'react-dropzone'
 
 import CameraContainer from './camera'
 import TitleStrings from './strings'
-import { Row, ColLeft, ColRight, ColLeftInner, PartnerHeader } from 'components/BuySell/Signup'
+import { Row, ColLeft, ColRight, ColLeftInner, PartnerHeader } from 'components/IdentityVerification'
 
 import media from 'services/ResponsiveService'
 

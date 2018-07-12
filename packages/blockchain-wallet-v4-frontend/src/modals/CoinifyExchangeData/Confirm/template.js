@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { spacing } from 'services/StyleService'
 
 import { Button, HeartbeatLoader, Text, Link } from 'blockchain-info-components'
-import { Form, ColLeft, InputWrapper, PartnerHeader, PartnerSubHeader, ColRight } from 'components/BuySell/Signup'
+import { Form, ColLeft, InputWrapper, PartnerHeader, PartnerSubHeader, ColRight } from 'components/IdentityVerification'
 import { getRateFromQuote } from 'services/CoinifyService'
 
 const SummaryWrapper = styled.div`

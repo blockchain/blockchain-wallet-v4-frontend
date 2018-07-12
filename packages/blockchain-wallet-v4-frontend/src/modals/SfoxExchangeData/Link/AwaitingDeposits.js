@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { Image, Text, Button } from 'blockchain-info-components'
 import PropTypes from 'prop-types'
 import media from 'services/ResponsiveService'
-import { PartnerHeader } from 'components/BuySell/Signup'
+import { PartnerHeader } from 'components/IdentityVerification'
 
 const Container = styled.div`
   height: 100%;

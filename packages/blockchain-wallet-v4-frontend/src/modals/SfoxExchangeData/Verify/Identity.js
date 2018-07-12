@@ -7,7 +7,7 @@ import { Button, HeartbeatLoader, Icon, Text, Link } from 'blockchain-info-compo
 import { spacing } from 'services/StyleService'
 
 import { requiredSSN, requiredDOB, normalizeSocialSecurity, normalizeDateOfBirth, ageOverEighteen } from 'services/FormHelper'
-import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ErrorWrapper, ColRightInner } from 'components/BuySell/Signup'
+import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ErrorWrapper, ColRightInner } from 'components/IdentityVerification'
 import media from 'services/ResponsiveService'
 
 const LockIcon = styled(Icon)`
@@ -97,7 +97,7 @@ const Identity = (props) => {
               </Text>
             }
           </ErrorWrapper>
-          { props.faqs() }
+          { props.faqs }
         </ColRightInner>
       </ColRight>
     </IdentityForm>

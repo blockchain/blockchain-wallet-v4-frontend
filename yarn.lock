@@ -3310,6 +3310,10 @@ cosmiconfig@^4.0.0:
     parse-json "^4.0.0"
     require-from-string "^2.0.1"
 
+country-region-data@^1.4.4:
+  version "1.4.4"
+  resolved "https://registry.yarnpkg.com/country-region-data/-/country-region-data-1.4.4.tgz#88cdfc64a180109581dcaa41714e659030e763ec"
+
 coveralls@^2.11.2:
   version "2.13.3"
   resolved "https://registry.yarnpkg.com/coveralls/-/coveralls-2.13.3.tgz#9ad7c2ae527417f361e8b626483f48ee92dd2bc7"
