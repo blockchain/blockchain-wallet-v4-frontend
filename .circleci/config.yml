@@ -5,7 +5,6 @@ jobs:
     docker:
      - image: circleci/node:10.6-jessie-browsers
     steps:
-      - checkout
       - restore_cache:
           keys:
             - npm-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
@@ -59,6 +58,7 @@ workflows:
   version: 2
   pull_request:
     jobs:
+      - checkout
       - install
       - lint:
           requires:
@@ -75,5 +75,6 @@ workflows:
               only:
                 - development
     jobs:
+      - checkout
       - install
       - coverage
