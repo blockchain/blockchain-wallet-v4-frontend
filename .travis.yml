@@ -16,7 +16,7 @@ before_install:
   - npm install -g yarn babel-cli rimraf cross-env
 
 install:
-  - travis_wait yarn
+  - travis_wait 30 yarn
 
 stages:
   - name: branch-commit-build
