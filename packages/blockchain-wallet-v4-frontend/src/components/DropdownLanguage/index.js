@@ -15,7 +15,7 @@ class DropdownLanguageContainer extends React.PureComponent {
 
   handleClick (selectedLanguage) {
     this.props.preferencesActions.setCulture(selectedLanguage.value)
-    this.props.preferencesActions.setLanguage(selectedLanguage.language)
+    this.props.preferencesActions.setLanguage(selectedLanguage.language, true)
   }
 
   render () {

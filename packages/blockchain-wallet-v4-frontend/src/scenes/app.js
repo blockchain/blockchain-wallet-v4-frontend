@@ -50,9 +50,9 @@ class App extends React.PureComponent {
                   <PublicLayout path='/help' component={Help} />
                   <PublicLayout path='/recover' component={Recover} />
                   <PublicLayout path='/reminder' component={Reminder} />
-                  <PublicLayout path='/reset2fa' component={Reset2FA} />
-                  <PublicLayout path='/reset2fa-token' component={Reset2FAToken} />
-                  <PublicLayout path='/verify-email-token' component={VerifyEmailToken} />
+                  <PublicLayout path='/reset-2fa' component={Reset2FA} />
+                  <PublicLayout path='/reset-two-factor' component={Reset2FAToken} />
+                  <PublicLayout path='/verify-email' component={VerifyEmailToken} />
                   <PublicLayout path='/signup' component={Register} />
                   <PublicLayout path='/authorize-approve' component={AuthorizeLogin} />
                   <PublicLayout path='/wallet' component={Login} />
