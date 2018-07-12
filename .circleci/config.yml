@@ -5,6 +5,7 @@ jobs:
     docker:
      - image: circleci/node:10.6-jessie-browsers
     steps:
+      - checkout
       - restore_cache:
           keys:
             - npm-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
@@ -21,11 +22,6 @@ jobs:
     docker:
       - image: circleci/node:10.6-jessie-browsers
     steps:
-      - restore_cache:
-          keys:
-            - npm-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - npm-deps-{{ .Branch }}-
-            - npm-deps-
       - run:
           name: Lint
           command: yarn lint
@@ -33,11 +29,6 @@ jobs:
     docker:
       - image: circleci/node:10.6-jessie-browsers
     steps:
-      - restore_cache:
-          keys:
-            - npm-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - npm-deps-{{ .Branch }}-
-            - npm-deps-
       - run:
           name: Test
           command: yarn ci:test
@@ -45,11 +36,6 @@ jobs:
     docker:
       - image: circleci/node:10.6-jessie-browsers
     steps:
-      - restore_cache:
-          keys:
-            - npm-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - npm-deps-{{ .Branch }}-
-            - npm-deps-
       - run:
           name: Coverage
           command: yarn coverage
@@ -58,7 +44,6 @@ workflows:
   version: 2
   pull_request:
     jobs:
-      - checkout
       - install
       - lint:
           requires:
@@ -75,6 +60,5 @@ workflows:
               only:
                 - development
     jobs:
-      - checkout
       - install
       - coverage
