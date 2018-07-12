@@ -1,46 +1,46 @@
-import * as AT from './actionTypes'
-import { assoc, dissoc } from 'ramda'
+import * as AT from "./actionTypes";
+import { assoc, dissoc } from "ramda";
 
-const INITIAL_STATE = {}
+const INITIAL_STATE = {};
 
 const settings = (state = INITIAL_STATE, action) => {
-  const { type, payload } = action
+  const { type, payload } = action;
 
   switch (type) {
     case AT.ADD_MNEMONIC: {
-      return assoc('recovery_phrase', payload.phrase.mnemonic, state)
+      return assoc("recovery_phrase", payload.phrase.mnemonic, state);
     }
     case AT.REMOVE_RECOVERY_PHRASE: {
-      return dissoc('recovery_phrase', state)
+      return dissoc("recovery_phrase", state);
     }
     case AT.ADD_SHOWN_BTC_PRIV_KEY: {
-      return assoc('shownBtcPrivKey', payload.priv, state)
+      return assoc("shownBtcPrivKey", payload.priv, state);
     }
     case AT.ADD_SHOWN_ETH_PRIV_KEY: {
-      return assoc('shownEthPrivKey', payload.priv, state)
+      return assoc("shownEthPrivKey", payload.priv, state);
     }
     case AT.CLEAR_SHOWN_BTC_PRIV_KEY: {
-      return dissoc('shownBtcPrivKey', state)
+      return dissoc("shownBtcPrivKey", state);
     }
     case AT.CLEAR_SHOWN_ETH_PRIV_KEY: {
-      return dissoc('shownEthPrivKey', state)
+      return dissoc("shownEthPrivKey", state);
     }
     case AT.VERIFY_EMAIL_CODE_FAILURE: {
-      return assoc('emailVerifiedError', true, state)
+      return assoc("emailVerifiedError", true, state);
     }
     case AT.CLEAR_EMAIL_CODE_FAILURE: {
-      return assoc('emailVerifiedError', state)
+      return assoc("emailVerifiedError", state);
     }
     case AT.VERIFY_MOBILE_FAILURE: {
-      return assoc('mobileVerifiedError', true, state)
+      return assoc("mobileVerifiedError", true, state);
     }
     case AT.CLEAR_MOBILE_FAILURE: {
-      return assoc('mobileVerifiedError', state)
+      return assoc("mobileVerifiedError", state);
     }
     default: {
-      return state
+      return state;
     }
   }
-}
+};
 
-export default settings
+export default settings;

@@ -1,10 +1,15 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import React from "react";
+import PropTypes from "prop-types";
+import styled from "styled-components";
 
-import { FormattedMessage } from 'react-intl'
-import { Icon, SkeletonCircle, Text, Tooltip } from 'blockchain-info-components'
-import SwitchableDisplay from 'components/Display/SwitchableDisplay'
+import { FormattedMessage } from "react-intl";
+import {
+  Icon,
+  SkeletonCircle,
+  Text,
+  Tooltip
+} from "blockchain-info-components";
+import SwitchableDisplay from "components/Display/SwitchableDisplay";
 
 const Container = styled.div`
   position: relative;
@@ -14,9 +19,9 @@ const Container = styled.div`
   width: calc(100% - 30px);
   height: 60px;
   margin: 0 20px;
-  border-left: 1px solid ${props => props.theme['gray-2']};
-  border-bottom: 1px solid ${props => props.theme['gray-2']};
-`
+  border-left: 1px solid ${props => props.theme["gray-2"]};
+  border-bottom: 1px solid ${props => props.theme["gray-2"]};
+`;
 const Circle = styled.div`
   position: absolute;
   left: -16px;
@@ -25,12 +30,12 @@ const Circle = styled.div`
   align-items: center;
   width: 30px;
   height: 30px;
-  background-color: ${props => props.theme['white']};
-  border: 1px solid ${props => props.theme['gray-2']};
+  background-color: ${props => props.theme["white"]};
+  border: 1px solid ${props => props.theme["gray-2"]};
   border-radius: 100%;
   text-align: center;
   z-index: 7;
-`
+`;
 const Info = styled.div`
   display: flex;
   justify-content: center;
@@ -41,7 +46,7 @@ const Info = styled.div`
   box-sizing: border-box;
 
   & > * {
-    cursor: ${props => props.cursor ? 'pointer' : ''};
+    cursor: ${props => (props.cursor ? "pointer" : "")};
     padding: 0 5px;
     width: 50%;
   }
@@ -55,7 +60,7 @@ const Info = styled.div`
       justify-content: flex-end;
     }
   }
-`
+`;
 
 const RecentActivityText = styled(Text)`
   font-size: 12px;
@@ -63,7 +68,7 @@ const RecentActivityText = styled(Text)`
   @media (min-width: 480px) {
     font-size: 14px;
   }
-`
+`;
 
 const WatchOnly = styled.span`
   z-index: 11;
@@ -75,47 +80,69 @@ const WatchOnly = styled.span`
       padding: 2px 4px;
     }
   }
-`
+`;
 
 const selectIcon = type => {
   switch (type) {
-    case 'log': return 'settings'
-    default: return 'transactions'
+    case "log":
+      return "settings";
+    default:
+      return "transactions";
   }
-}
+};
 
 const selectColor = action => {
   switch (action) {
-    case 'sent': return 'sent'
-    case 'received': return 'received'
-    case 'transferred': return 'transferred'
-    default: return 'gray-5'
+    case "sent":
+      return "sent";
+    case "received":
+      return "received";
+    case "transferred":
+      return "transferred";
+    default:
+      return "gray-5";
   }
-}
+};
 
 const ActivityListItem = props => (
   <Container>
     <Circle>
-      <Icon name={selectIcon(props.type)} color='brand-primary' />
+      <Icon name={selectIcon(props.type)} color="brand-primary" />
     </Circle>
-    <Info cursor={props.coin} onClick={() => props.path && props.handleLink(props.path)}>
+    <Info
+      cursor={props.coin}
+      onClick={() => props.path && props.handleLink(props.path)}
+    >
       <RecentActivityText capitalize color={selectColor(props.action)}>
         {props.action} {props.coin}
-        {props.watchOnly && <WatchOnly>
-          <Tooltip width='200px' label={<SkeletonCircle bgColor='gray-2' width='10px' height='10px' />} hover>
-            <FormattedMessage id='scenes.home.activitylist.watchonly' defaultMessage='This transaction involves a watch only address.' />
-          </Tooltip>
-        </WatchOnly> }
+        {props.watchOnly && (
+          <WatchOnly>
+            <Tooltip
+              width="200px"
+              label={
+                <SkeletonCircle bgColor="gray-2" width="10px" height="10px" />
+              }
+              hover
+            >
+              <FormattedMessage
+                id="scenes.home.activitylist.watchonly"
+                defaultMessage="This transaction involves a watch only address."
+              />
+            </Tooltip>
+          </WatchOnly>
+        )}
       </RecentActivityText>
       <RecentActivityText>{props.timeFormatted}</RecentActivityText>
-      {props.coin &&
+      {props.coin && (
         <RecentActivityText>
-          <SwitchableDisplay mobileSize='12px' size='14px' coin={props.coin}>{props.amount}</SwitchableDisplay>
+          <SwitchableDisplay mobileSize="12px" size="14px" coin={props.coin}>
+            {props.amount}
+          </SwitchableDisplay>
         </RecentActivityText>
-      }
+      )}
     </Info>
   </Container>
-)
+);
 
 ActivityListItem.propTypes = {
   type: PropTypes.string,
@@ -126,10 +153,10 @@ ActivityListItem.propTypes = {
   amount: PropTypes.number,
   coin: PropTypes.string,
   action: PropTypes.string
-}
+};
 
 ActivityListItem.defaultProps = {
-  type: 'log'
-}
+  type: "log"
+};
 
-export default ActivityListItem
+export default ActivityListItem;

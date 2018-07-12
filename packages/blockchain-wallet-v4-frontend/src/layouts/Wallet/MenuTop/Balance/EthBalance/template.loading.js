@@ -1,7 +1,7 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from "react";
+import styled from "styled-components";
 
-import { FlatLoader } from 'blockchain-info-components'
+import { FlatLoader } from "blockchain-info-components";
 
 const Wrapper = styled.div`
   display: flex;
@@ -10,12 +10,12 @@ const Wrapper = styled.div`
   align-items: center;
   padding: 5px;
   box-sizing: border-box;
-`
+`;
 
-export default (props) => {
+export default props => {
   return (
     <Wrapper>
-      <FlatLoader width='50px' height='14px' />
+      <FlatLoader width="50px" height="14px" />
     </Wrapper>
-  )
-}
+  );
+};

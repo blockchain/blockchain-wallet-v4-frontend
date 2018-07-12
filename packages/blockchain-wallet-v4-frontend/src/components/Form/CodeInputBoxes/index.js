@@ -1,5 +1,5 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from "react";
+import styled from "styled-components";
 // import { Text } from 'blockchain-info-components'
 
 const Container = styled.div`
@@ -10,7 +10,7 @@ const Container = styled.div`
   align-items: flex-start;
   width: 100%;
   height: 40px;
-`
+`;
 // const Error = styled(Text)`
 //   position: absolute;
 //   display: block;
@@ -22,7 +22,7 @@ const Container = styled.div`
 //   return !meta.touched ? 'initial' : (meta.invalid ? 'invalid' : 'valid')
 // }
 
-const CodeInputBoxes = (field) => {
+const CodeInputBoxes = field => {
   // const errorState = getErrorState(field.meta)
 
   return (
@@ -31,7 +31,7 @@ const CodeInputBoxes = (field) => {
       {/* <TextInput {...field.input} errorState={errorState} placeholder={field.placeholder} /> */}
       {/* {field.meta.touched && field.meta.error && <Error size='12px' weight={300} color='error'>{field.meta.error}</Error>} */}
     </Container>
-  )
-}
+  );
+};
 
-export default CodeInputBoxes
+export default CodeInputBoxes;

@@ -1,26 +1,34 @@
-import React from 'react'
-import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-import { Field, reduxForm } from 'redux-form'
-import { LinkContainer } from 'react-router-bootstrap'
+import React from "react";
+import styled from "styled-components";
+import { FormattedMessage } from "react-intl";
+import { Field, reduxForm } from "redux-form";
+import { LinkContainer } from "react-router-bootstrap";
 
-import { required, validMnemonic } from 'services/FormHelper'
-import { Button, Link, Separator, Text, TextGroup } from 'blockchain-info-components'
-import { Form, FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
+import { required, validMnemonic } from "services/FormHelper";
+import {
+  Button,
+  Link,
+  Separator,
+  Text,
+  TextGroup
+} from "blockchain-info-components";
+import { Form, FormGroup, FormItem, FormLabel, TextBox } from "components/Form";
 
 const Wrapper = styled.div`
   width: 100%;
   padding: 40px;
   box-sizing: border-box;
-  background-color: ${props => props.theme['white']};
+  background-color: ${props => props.theme["white"]};
 
-  @media(min-width: 768px) { width: 550px; }
-`
+  @media (min-width: 768px) {
+    width: 550px;
+  }
+`;
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`
+`;
 const MnemonicLabel = styled(FormLabel)`
   > div {
     margin-bottom: 0px;
@@ -28,65 +36,101 @@ const MnemonicLabel = styled(FormLabel)`
   + div {
     margin-bottom: 10px;
   }
-`
+`;
 const Footer = styled(FormGroup)`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
-`
+`;
 const GoBackLink = styled(LinkContainer)`
   margin-right: 15px;
-`
+`;
 
-const FirstStep = (props) => {
-  const { submitting, invalid, handleSubmit } = props
+const FirstStep = props => {
+  const { submitting, invalid, handleSubmit } = props;
 
   return (
     <Wrapper>
       <Header>
-        <Text size='24px' weight={300}>
-          <FormattedMessage id='scenes.recover.firststep.funds' defaultMessage='Recover Funds' />
+        <Text size="24px" weight={300}>
+          <FormattedMessage
+            id="scenes.recover.firststep.funds"
+            defaultMessage="Recover Funds"
+          />
         </Text>
-        <Text size='10px'>
-          <FormattedMessage id='scenes.recover.firststep.step1' defaultMessage='Step 1 of 2: Enter 12 word passphrase' />
+        <Text size="10px">
+          <FormattedMessage
+            id="scenes.recover.firststep.step1"
+            defaultMessage="Step 1 of 2: Enter 12 word passphrase"
+          />
         </Text>
       </Header>
-      <Text size='14px' weight={300}>
-        <FormattedMessage id='scenes.recover.firststep.explain' defaultMessage='Recover funds from your lost wallet' />
+      <Text size="14px" weight={300}>
+        <FormattedMessage
+          id="scenes.recover.firststep.explain"
+          defaultMessage="Recover funds from your lost wallet"
+        />
       </Text>
       <Separator />
       <Form onSubmit={handleSubmit}>
         <TextGroup>
-          <Text size='13px' weight={300} color='error'>
-            <FormattedMessage id='scenes.recover.firststep.warning' defaultMessage='You should always pair or login if you have access to your wallet ID and password. Recovering your funds will create a new wallet ID.' />
+          <Text size="13px" weight={300} color="error">
+            <FormattedMessage
+              id="scenes.recover.firststep.warning"
+              defaultMessage="You should always pair or login if you have access to your wallet ID and password. Recovering your funds will create a new wallet ID."
+            />
           </Text>
         </TextGroup>
         <FormGroup>
           <FormItem>
-            <MnemonicLabel for='mnemonic'>
-              <FormattedMessage id='scenes.recover.firststep.mnemonic' defaultMessage='Your Backup Phrase' />
+            <MnemonicLabel for="mnemonic">
+              <FormattedMessage
+                id="scenes.recover.firststep.mnemonic"
+                defaultMessage="Your Backup Phrase"
+              />
             </MnemonicLabel>
-            <Text size='12px' weight={300}>
-              <FormattedMessage id='scenes.recover.firststep.mnemonic_explain' defaultMessage='Enter your 12 word phrase, lowercase, with spaces between each word, to recover your funds & transactions.' />
+            <Text size="12px" weight={300}>
+              <FormattedMessage
+                id="scenes.recover.firststep.mnemonic_explain"
+                defaultMessage="Enter your 12 word phrase, lowercase, with spaces between each word, to recover your funds & transactions."
+              />
             </Text>
-            <Field name='mnemonic' autoFocus validate={[required, validMnemonic]} component={TextBox} autoComplete="off" />
+            <Field
+              name="mnemonic"
+              autoFocus
+              validate={[required, validMnemonic]}
+              component={TextBox}
+              autoComplete="off"
+            />
           </FormItem>
         </FormGroup>
         <Footer>
-          <GoBackLink to='/help'>
-            <Link size='13px' weight={300}>
-              <FormattedMessage id='scenes.recover.firststep.back' defaultMessage='Go Back' />
+          <GoBackLink to="/help">
+            <Link size="13px" weight={300}>
+              <FormattedMessage
+                id="scenes.recover.firststep.back"
+                defaultMessage="Go Back"
+              />
             </Link>
           </GoBackLink>
-          <Button type='submit' nature='primary' uppercase disabled={submitting || invalid}>
-            <FormattedMessage id='scenes.recover.firststep.continue' defaultMessage='Continue' />
+          <Button
+            type="submit"
+            nature="primary"
+            uppercase
+            disabled={submitting || invalid}
+          >
+            <FormattedMessage
+              id="scenes.recover.firststep.continue"
+              defaultMessage="Continue"
+            />
           </Button>
         </Footer>
       </Form>
     </Wrapper>
+  );
+};
 
-  )
-}
-
-export default reduxForm({ form: 'recover', destroyOnUnmount: false })(FirstStep)
+export default reduxForm({ form: "recover", destroyOnUnmount: false })(
+  FirstStep
+);

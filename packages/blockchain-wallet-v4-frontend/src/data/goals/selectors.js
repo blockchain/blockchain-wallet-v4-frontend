@@ -1,3 +1,3 @@
-import { path } from 'ramda'
+import { path } from "ramda";
 
-export const getGoals = path(['goals'])
+export const getGoals = path(["goals"]);

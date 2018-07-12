@@ -1,20 +1,20 @@
-import bitcoin from './bitcoin'
-import delegate from './delegate'
-import ethereum from './ethereum'
-import bch from './bch'
-import kvStore from './kvStore'
-import misc from './misc'
-import settings from './settings'
-import shapeShift from './shapeShift'
-import sfox from './sfox'
-import wallet from './wallet'
-import fetchService from './fetch'
+import bitcoin from "./bitcoin";
+import delegate from "./delegate";
+import ethereum from "./ethereum";
+import bch from "./bch";
+import kvStore from "./kvStore";
+import misc from "./misc";
+import settings from "./settings";
+import shapeShift from "./shapeShift";
+import sfox from "./sfox";
+import wallet from "./wallet";
+import fetchService from "./fetch";
 
 export default ({ options, apiKey } = {}) => {
-  const { get, post } = fetchService({ apiKey })
-  const apiUrl = options.domains.api
-  const rootUrl = options.domains.root
-  const shapeShiftApiKey = options.platforms.web.shapeshift.config.apiKey
+  const { get, post } = fetchService({ apiKey });
+  const apiUrl = options.domains.api;
+  const rootUrl = options.domains.root;
+  const shapeShiftApiKey = options.platforms.web.shapeshift.config.apiKey;
 
   return {
     ...bitcoin({ rootUrl, apiUrl, get, post }),
@@ -27,5 +27,5 @@ export default ({ options, apiKey } = {}) => {
     ...settings({ rootUrl, apiUrl, get, post }),
     ...shapeShift({ shapeShiftApiKey }),
     ...wallet({ rootUrl, apiUrl, get, post })
-  }
-}
+  };
+};

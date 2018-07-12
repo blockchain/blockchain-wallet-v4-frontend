@@ -1,5 +1,5 @@
-import { Color } from 'blockchain-info-components'
-import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
+import { Color } from "blockchain-info-components";
+import * as Currency from "blockchain-wallet-v4/src/exchange/currency";
 
 export const getConfig = (start, interval, currency, data) => ({
   chart: {
@@ -13,28 +13,28 @@ export const getConfig = (start, interval, currency, data) => ({
       text: null
     },
     labels: {
-      formatter: function () {
-        return (currency + Currency.formatFiat(this.value))
+      formatter: function() {
+        return currency + Currency.formatFiat(this.value);
       },
       style: {
-        color: Color('black')
+        color: Color("black")
       }
     },
     lineWidth: 1,
     gridLineWidth: 0
   },
   xAxis: {
-    type: 'datetime',
+    type: "datetime",
     tickWidth: 0,
     labels: {
       style: {
-        color: Color('black')
+        color: Color("black")
       }
     }
   },
   plotOptions: {
     series: {
-      color: Color('brand-secondary'),
+      color: Color("brand-secondary"),
       pointStart: start,
       pointInterval: interval
     },
@@ -45,8 +45,8 @@ export const getConfig = (start, interval, currency, data) => ({
     }
   },
   tooltip: {
-    pointFormatter: function () {
-      return currency + Currency.formatFiat(this.y)
+    pointFormatter: function() {
+      return currency + Currency.formatFiat(this.y);
     }
   },
   credits: {
@@ -55,8 +55,10 @@ export const getConfig = (start, interval, currency, data) => ({
   legend: {
     enabled: false
   },
-  series: [{
-    name: 'Price',
-    data: data
-  }]
-})
+  series: [
+    {
+      name: "Price",
+      data: data
+    }
+  ]
+});

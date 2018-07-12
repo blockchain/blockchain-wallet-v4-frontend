@@ -1,32 +1,31 @@
-export default
-{
-  base: 'SAT',
-  code: 'BCH',
-  trade: 'BCH',
+export default {
+  base: "SAT",
+  code: "BCH",
+  trade: "BCH",
   units: {
     SAT: {
-      rate: '1',
-      symbol: 'SAT',
+      rate: "1",
+      symbol: "SAT",
       decimal_digits: 0,
-      currency: 'BCH'
+      currency: "BCH"
     },
     UBC: {
-      rate: '100',
-      symbol: 'μBCH',
+      rate: "100",
+      symbol: "μBCH",
       decimal_digits: 2,
-      currency: 'BCH'
+      currency: "BCH"
     },
     MBC: {
-      rate: '100000',
-      symbol: 'mBCH',
+      rate: "100000",
+      symbol: "mBCH",
       decimal_digits: 5,
-      currency: 'BCH'
+      currency: "BCH"
     },
     BCH: {
-      rate: '100000000',
-      symbol: 'BCH',
+      rate: "100000000",
+      symbol: "BCH",
       decimal_digits: 8,
-      currency: 'BCH'
+      currency: "BCH"
     }
   }
-}
+};

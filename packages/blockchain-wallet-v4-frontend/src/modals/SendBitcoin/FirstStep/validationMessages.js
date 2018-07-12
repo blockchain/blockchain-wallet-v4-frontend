@@ -1,12 +1,11 @@
+import React from "react";
+import styled from "styled-components";
+import { FormattedMessage } from "react-intl";
 
-import React from 'react'
-import styled from 'styled-components'
-import { FormattedMessage } from 'react-intl'
-
-import MaximumAmountLink from './MaximumAmountLink'
-import MaximumFeeLink from './MaximumFeeLink'
-import MinimumAmountLink from './MinimumAmountLink'
-import MinimumFeeLink from './MinimumFeeLink'
+import MaximumAmountLink from "./MaximumAmountLink";
+import MaximumFeeLink from "./MaximumFeeLink";
+import MinimumAmountLink from "./MinimumAmountLink";
+import MinimumFeeLink from "./MinimumFeeLink";
 
 const Wrapper = styled.div`
   display: flex;
@@ -14,50 +13,77 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
 
-  > * { margin: 0 0 0 2px; }
-`
+  > * {
+    margin: 0 0 0 2px;
+  }
+`;
 
 export const InvalidAmountMessage = () => (
-  <FormattedMessage id='modals.sendbtc.amountnotzeromessage' defaultMessage='Invalid amount' />
-)
+  <FormattedMessage
+    id="modals.sendbtc.amountnotzeromessage"
+    defaultMessage="Invalid amount"
+  />
+);
 
 export const MaximumAmountMessage = () => (
   <Wrapper>
-    <FormattedMessage id='modals.sendbtc.maximumamountmessage' defaultMessage='Not enough funds. Use' />
+    <FormattedMessage
+      id="modals.sendbtc.maximumamountmessage"
+      defaultMessage="Not enough funds. Use"
+    />
     <MaximumAmountLink />
   </Wrapper>
-)
+);
 
 export const MaximumFeeMessage = () => (
   <Wrapper>
-    <FormattedMessage id='modals.sendbtc.maximumfeemessage' defaultMessage='Unnecessarily high fee.' />
+    <FormattedMessage
+      id="modals.sendbtc.maximumfeemessage"
+      defaultMessage="Unnecessarily high fee."
+    />
     <span>&nbsp;</span>
     <MaximumFeeLink />
   </Wrapper>
-)
+);
 
 export const MinimumAmountMessage = () => (
   <Wrapper>
-    <FormattedMessage id='modals.sendbtc.minimumamountmessage' defaultMessage='Below minimum amount. Use' />
+    <FormattedMessage
+      id="modals.sendbtc.minimumamountmessage"
+      defaultMessage="Below minimum amount. Use"
+    />
     <MinimumAmountLink />
   </Wrapper>
-)
+);
 
 export const MinimumFeeMessage = () => (
   <Wrapper>
-    <FormattedMessage id='modals.sendbtc.minimumfeemessage' defaultMessage='Low fee not recommended. Use' />
+    <FormattedMessage
+      id="modals.sendbtc.minimumfeemessage"
+      defaultMessage="Low fee not recommended. Use"
+    />
     <MinimumFeeLink />
   </Wrapper>
-)
+);
 
 export const MinimumOneSatoshiMessage = () => (
-  <FormattedMessage id='modals.sendbtc.minimumonesatoshimessage' defaultMessage='Minimum {sat} required' values={{ sat: '1 sat/byte' }} />
-)
+  <FormattedMessage
+    id="modals.sendbtc.minimumonesatoshimessage"
+    defaultMessage="Minimum {sat} required"
+    values={{ sat: "1 sat/byte" }}
+  />
+);
 
 export const InsufficientFundsMessage = () => (
-  <FormattedMessage id='modals.sendbtc.insufficientfundsmessage' defaultMessage='Insufficient funds' />
-)
+  <FormattedMessage
+    id="modals.sendbtc.insufficientfundsmessage"
+    defaultMessage="Insufficient funds"
+  />
+);
 
 export const AddressMatchesPriv = () => (
-  <FormattedMessage id='modals.sendbtc.addressprivmismatch' defaultMessage='This private key does not match the watch only address above' />
-)
+  <FormattedMessage
+    id="modals.sendbtc.addressprivmismatch"
+    defaultMessage="This private key does not match the watch only address above"
+  />
+);

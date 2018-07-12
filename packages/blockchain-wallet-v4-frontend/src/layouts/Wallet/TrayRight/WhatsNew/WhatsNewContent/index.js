@@ -16,6 +16,6 @@ const Announcements = [
   //   date: 'January 18, 2018',
   //   link: <FaqLink />
   // }
-]
+];
 
-export default Announcements
+export default Announcements;

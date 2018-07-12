@@ -1,5 +1,5 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from "react";
+import styled from "styled-components";
 
 const Wrapper = styled.div`
   display: flex;
@@ -7,16 +7,12 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-`
+`;
 
 const AddressesLayout = props => {
-  const { location, children } = props
+  const { location, children } = props;
 
-  return (
-    <Wrapper location={location}>
-      {children}
-    </Wrapper>
-  )
-}
+  return <Wrapper location={location}>{children}</Wrapper>;
+};
 
-export default AddressesLayout
+export default AddressesLayout;

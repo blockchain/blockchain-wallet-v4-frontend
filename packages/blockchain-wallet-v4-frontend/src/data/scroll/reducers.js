@@ -1,25 +1,25 @@
-import * as AT from './actionTypes'
+import * as AT from "./actionTypes";
 
 const INITIAL_STATE = {
   xOffset: 0,
   yOffset: 0,
   xMax: 0,
   yMax: 0
-}
+};
 
 const scroll = (state = INITIAL_STATE, action) => {
-  const { type, payload } = action
+  const { type, payload } = action;
 
   switch (type) {
     case AT.UPDATE_SCROLL: {
-      return payload
+      return payload;
     }
     case AT.RESET_SCROLL: {
-      return INITIAL_STATE
+      return INITIAL_STATE;
     }
     default:
-      return state
+      return state;
   }
-}
+};
 
-export default scroll
+export default scroll;

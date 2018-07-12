@@ -1,22 +1,22 @@
-import { HDWallet, serializer } from './index'
+import { HDWallet, serializer } from "./index";
 
-const walletFixture = require('./__mocks__/wallet.v3')
+const walletFixture = require("./__mocks__/wallet.v3");
 
-describe('HDWallet', () => {
-  const hdWalletFixture = walletFixture.hd_wallets[0]
-  const hdWallet = HDWallet.fromJS(hdWalletFixture)
+describe("HDWallet", () => {
+  const hdWalletFixture = walletFixture.hd_wallets[0];
+  const hdWallet = HDWallet.fromJS(hdWalletFixture);
 
-  describe('toJS', () => {
-    it('should return the correct object', () => {
-      expect(HDWallet.toJS(hdWallet)).toEqual(hdWalletFixture)
-    })
-  })
+  describe("toJS", () => {
+    it("should return the correct object", () => {
+      expect(HDWallet.toJS(hdWallet)).toEqual(hdWalletFixture);
+    });
+  });
 
-  describe('properties', () => {
-    it('should have a seedHex', () => {
-      expect(hdWallet.seedHex).toEqual(hdWalletFixture.seed_hex)
-    })
-  })
+  describe("properties", () => {
+    it("should have a seedHex", () => {
+      expect(hdWallet.seedHex).toEqual(hdWalletFixture.seed_hex);
+    });
+  });
 
   // describe('createNew', () => {
   //   const { wallet, mnemonic } = walletNewFixture
@@ -40,17 +40,17 @@ describe('HDWallet', () => {
   //   })
   // })
 
-  describe('serializer', () => {
-    it('compose(reviver, replacer) should be identity', () => {
-      const string = JSON.stringify(hdWallet)
-      const newHDWallet = JSON.parse(string, serializer.reviver)
-      expect(newHDWallet).toEqual(hdWallet)
-    })
-    it('compose(replacer, reviver) should be identity', () => {
-      const string = JSON.stringify(hdWallet)
-      const newHDWallet = JSON.parse(string, serializer.reviver)
-      const string2 = JSON.stringify(newHDWallet)
-      expect(string2).toEqual(string)
-    })
-  })
-})
+  describe("serializer", () => {
+    it("compose(reviver, replacer) should be identity", () => {
+      const string = JSON.stringify(hdWallet);
+      const newHDWallet = JSON.parse(string, serializer.reviver);
+      expect(newHDWallet).toEqual(hdWallet);
+    });
+    it("compose(replacer, reviver) should be identity", () => {
+      const string = JSON.stringify(hdWallet);
+      const newHDWallet = JSON.parse(string, serializer.reviver);
+      const string2 = JSON.stringify(newHDWallet);
+      expect(string2).toEqual(string);
+    });
+  });
+});

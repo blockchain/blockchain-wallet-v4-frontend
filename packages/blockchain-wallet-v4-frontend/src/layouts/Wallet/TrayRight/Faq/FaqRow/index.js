@@ -1,18 +1,18 @@
-import React from 'react'
-import FaqRow from './template.js'
+import React from "react";
+import FaqRow from "./template.js";
 
 class FaqRowContainer extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.handleToggle = this.handleToggle.bind(this)
-    this.state = { toggled: false }
+  constructor(props) {
+    super(props);
+    this.handleToggle = this.handleToggle.bind(this);
+    this.state = { toggled: false };
   }
 
-  handleToggle () {
-    this.setState({ toggled: !this.state.toggled })
+  handleToggle() {
+    this.setState({ toggled: !this.state.toggled });
   }
 
-  render () {
+  render() {
     return (
       <FaqRow
         title={this.props.title}
@@ -20,8 +20,8 @@ class FaqRowContainer extends React.PureComponent {
         toggled={this.state.toggled}
         handleToggle={this.handleToggle}
       />
-    )
+    );
   }
 }
 
-export default FaqRowContainer
+export default FaqRowContainer;

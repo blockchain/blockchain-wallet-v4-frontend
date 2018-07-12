@@ -1,7 +1,7 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from "react";
+import styled from "styled-components";
 
-import MenuTop from './MenuTop'
+import MenuTop from "./MenuTop";
 
 const Wrapper = styled.div`
   display: flex;
@@ -9,17 +9,17 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-`
+`;
 
 const ExchangeLayout = props => {
-  const { location, children } = props
+  const { location, children } = props;
 
   return (
     <Wrapper location={location}>
       <MenuTop />
       {children}
     </Wrapper>
-  )
-}
+  );
+};
 
-export default ExchangeLayout
+export default ExchangeLayout;

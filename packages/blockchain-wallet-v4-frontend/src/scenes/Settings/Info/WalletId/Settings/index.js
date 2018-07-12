@@ -1,17 +1,17 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React from "react";
+import { connect } from "react-redux";
 
-import { selectors } from 'data'
-import Settings from './template.js'
+import { selectors } from "data";
+import Settings from "./template.js";
 
 const SettingsContainer = props => {
-  return <Settings guid={props.guid} />
-}
+  return <Settings guid={props.guid} />;
+};
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     guid: selectors.core.wallet.getGuid(state)
-  }
-}
+  };
+};
 
-export default connect(mapStateToProps)(SettingsContainer)
+export default connect(mapStateToProps)(SettingsContainer);

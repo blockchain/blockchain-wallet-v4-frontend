@@ -1,9 +1,9 @@
-import { selectors } from 'data'
-import { lift } from 'ramda'
-import { createDeepEqualSelector } from 'services/ReselectHelper'
+import { selectors } from "data";
+import { lift } from "ramda";
+import { createDeepEqualSelector } from "services/ReselectHelper";
 
-export const getTrade = (state) =>
-  selectors.core.data.coinify.getTrade(state).getOrElse(null)
+export const getTrade = state =>
+  selectors.core.data.coinify.getTrade(state).getOrElse(null);
 
 export const getData = createDeepEqualSelector(
   [
@@ -17,8 +17,8 @@ export const getData = createDeepEqualSelector(
         trades,
         subscriptions,
         canTrade
-      }
-    }
-    return lift(transform)(tradesR, subscriptionsR, canTradeR)
+      };
+    };
+    return lift(transform)(tradesR, subscriptionsR, canTradeR);
   }
-)
+);

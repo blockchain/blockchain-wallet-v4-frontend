@@ -1,8 +1,8 @@
-import React from 'react'
-import styled from 'styled-components'
-import PropTypes from 'prop-types'
+import React from "react";
+import styled from "styled-components";
+import PropTypes from "prop-types";
 
-import TransactionListItem from 'components/TransactionListItem'
+import TransactionListItem from "components/TransactionListItem";
 
 const Wrapper = styled.div`
   display: flex;
@@ -10,18 +10,25 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-`
+`;
 
 const Success = props => {
   return (
     <Wrapper>
-      {props.transactions.map((transaction, index) => <TransactionListItem key={transaction.hash} transaction={transaction} coin='ETH' minConfirmations={12} />)}
+      {props.transactions.map((transaction, index) => (
+        <TransactionListItem
+          key={transaction.hash}
+          transaction={transaction}
+          coin="ETH"
+          minConfirmations={12}
+        />
+      ))}
     </Wrapper>
-  )
-}
+  );
+};
 
 Success.propTypes = {
   transactions: PropTypes.array.isRequired
-}
+};
 
-export default Success
+export default Success;

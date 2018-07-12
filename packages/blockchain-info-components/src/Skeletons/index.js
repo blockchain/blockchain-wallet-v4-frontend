@@ -1,4 +1,4 @@
-import SkeletonCircle from './SkeletonCircle'
-import SkeletonRectangle from './SkeletonRectangle'
+import SkeletonCircle from "./SkeletonCircle";
+import SkeletonRectangle from "./SkeletonRectangle";
 
-export { SkeletonCircle, SkeletonRectangle }
+export { SkeletonCircle, SkeletonRectangle };

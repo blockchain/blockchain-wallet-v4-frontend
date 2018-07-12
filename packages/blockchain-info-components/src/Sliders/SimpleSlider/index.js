@@ -1,9 +1,8 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import React from "react";
+import PropTypes from "prop-types";
+import styled from "styled-components";
 
-const BaseSlider = styled.input.attrs({ type: 'range' })`
-
+const BaseSlider = styled.input.attrs({ type: "range" })`
   -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
   width: 100%; /* Specific width is required for Firefox. */
   background: transparent; /* Otherwise white in Chrome */
@@ -13,7 +12,7 @@ const BaseSlider = styled.input.attrs({ type: 'range' })`
     height: 18px;
     width: 18px;
     border-radius: 9px;
-    background: ${props => props.theme['brand-secondary']};
+    background: ${props => props.theme["brand-secondary"]};
     cursor: pointer;
     margin-top: -8px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
   }
@@ -22,7 +21,7 @@ const BaseSlider = styled.input.attrs({ type: 'range' })`
     height: 18px;
     width: 18px;
     border-radius: 9px;
-    background: ${props => props.theme['brand-secondary']};
+    background: ${props => props.theme["brand-secondary"]};
     cursor: pointer;
   }
 
@@ -30,7 +29,7 @@ const BaseSlider = styled.input.attrs({ type: 'range' })`
     height: 18px;
     width: 18px;
     border-radius: 9px;
-    background: ${props => props.theme['brand-secondary']};
+    background: ${props => props.theme["brand-secondary"]};
     cursor: pointer;
   }
 
@@ -42,23 +41,23 @@ const BaseSlider = styled.input.attrs({ type: 'range' })`
     width: 100%;
     height: 3px;
     cursor: pointer;
-    background: #FFFFFF;
+    background: #ffffff;
     border-radius: 1.3px;
-    border: 0.1px solid ${props => props.theme['gray-2']};
+    border: 0.1px solid ${props => props.theme["gray-2"]};
   }
 
   &::-ms-track {
     width: 100%;
     cursor: pointer;
-    background: transparent; 
+    background: transparent;
     border-color: transparent;
     color: transparent;
   }
-`
+`;
 
 const SimpleSlider = props => {
-  return <BaseSlider {...props} />
-}
+  return <BaseSlider {...props} />;
+};
 
 SimpleSlider.propTypes = {
   value: PropTypes.number.isRequired,
@@ -66,6 +65,6 @@ SimpleSlider.propTypes = {
   max: PropTypes.number.isRequired,
   onInput: PropTypes.func.isRequired,
   step: PropTypes.number.isRequired
-}
+};
 
-export default SimpleSlider
+export default SimpleSlider;

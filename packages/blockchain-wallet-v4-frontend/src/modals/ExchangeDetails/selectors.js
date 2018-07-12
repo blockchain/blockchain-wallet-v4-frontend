@@ -1,13 +1,23 @@
-import { selectors } from 'data'
-import { getCoinFromPair } from 'services/ShapeshiftService'
+import { selectors } from "data";
+import { getCoinFromPair } from "services/ShapeshiftService";
 
 export const getData = (depositAddress, state) => {
-  const tradeR = selectors.core.kvStore.shapeShift.getTrade(depositAddress, state)
+  const tradeR = selectors.core.kvStore.shapeShift.getTrade(
+    depositAddress,
+    state
+  );
 
   const transform = trade => {
-    const { status, quote } = trade
-    const { pair, quotedRate, minerFee, orderId, depositAmount, withdrawalAmount } = quote
-    const { sourceCoin, targetCoin } = getCoinFromPair(pair)
+    const { status, quote } = trade;
+    const {
+      pair,
+      quotedRate,
+      minerFee,
+      orderId,
+      depositAmount,
+      withdrawalAmount
+    } = quote;
+    const { sourceCoin, targetCoin } = getCoinFromPair(pair);
 
     return {
       sourceCoin,
@@ -18,8 +28,8 @@ export const getData = (depositAddress, state) => {
       orderId,
       depositAmount,
       withdrawalAmount
-    }
-  }
+    };
+  };
 
-  return tradeR.map(transform)
-}
+  return tradeR.map(transform);
+};

@@ -1,3 +1,3 @@
-import { path } from 'ramda'
+import { path } from "ramda";
 
-export const getModals = path(['modals'])
+export const getModals = path(["modals"]);

@@ -1,11 +1,11 @@
-import { assoc, assocPath } from 'ramda'
-import * as AT from './actionTypes'
-import * as priceChartActionTypes from '../components/priceChart/actionTypes'
+import { assoc, assocPath } from "ramda";
+import * as AT from "./actionTypes";
+import * as priceChartActionTypes from "../components/priceChart/actionTypes";
 
 const INITIAL_STATE = {
-  culture: 'en-GB',
-  language: 'en',
-  theme: 'default',
+  culture: "en-GB",
+  language: "en",
+  theme: "default",
   coinDisplayed: true,
   showBackupReminder: true,
   showBuyAlert: true,
@@ -15,52 +15,52 @@ const INITIAL_STATE = {
   showBitcoinCashWelcome: true,
   showLogoutSurvey: true,
   showKycCompleted: true
-}
+};
 
 const preferences = (state = INITIAL_STATE, action) => {
-  const { type, payload } = action
+  const { type, payload } = action;
   switch (type) {
     case AT.SET_CULTURE: {
-      const { culture } = payload
-      return assoc('culture', culture, state)
+      const { culture } = payload;
+      return assoc("culture", culture, state);
     }
     case AT.SET_LANGUAGE: {
-      const { language } = payload
-      return assoc('language', language, state)
+      const { language } = payload;
+      return assoc("language", language, state);
     }
     case AT.SET_THEME: {
-      const { theme } = payload
-      return assoc('theme', theme, state)
+      const { theme } = payload;
+      return assoc("theme", theme, state);
     }
     case AT.TOGGLE_COIN_DISPLAY: {
-      return assoc('coinDisplayed', !state.coinDisplayed, state)
+      return assoc("coinDisplayed", !state.coinDisplayed, state);
     }
     case AT.SET_ETHER_WELCOME: {
-      const { displayed } = payload
-      return assoc('showEtherWelcome', displayed, state)
+      const { displayed } = payload;
+      return assoc("showEtherWelcome", displayed, state);
     }
     case AT.SET_BITCOIN_WELCOME: {
-      const { displayed } = payload
-      return assoc('showBitcoinWelcome', displayed, state)
+      const { displayed } = payload;
+      return assoc("showBitcoinWelcome", displayed, state);
     }
     case AT.SET_BITCOIN_CASH_WELCOME: {
-      const { displayed } = payload
-      return assoc('showBitcoinCashWelcome', displayed, state)
+      const { displayed } = payload;
+      return assoc("showBitcoinCashWelcome", displayed, state);
     }
     case AT.HIDE_KYC_COMPLETED: {
-      return assoc('showKycCompleted', false, state)
+      return assoc("showKycCompleted", false, state);
     }
     case priceChartActionTypes.PRICE_CHART_COIN_CLICKED: {
-      const { coin } = payload
-      return assocPath(['priceChart', 'coin'], coin, state)
+      const { coin } = payload;
+      return assocPath(["priceChart", "coin"], coin, state);
     }
     case priceChartActionTypes.PRICE_CHART_TIME_CLICKED: {
-      const { time } = payload
-      return assocPath(['priceChart', 'time'], time, state)
+      const { time } = payload;
+      return assocPath(["priceChart", "time"], time, state);
     }
     default:
-      return state
+      return state;
   }
-}
+};
 
-export default preferences
+export default preferences;

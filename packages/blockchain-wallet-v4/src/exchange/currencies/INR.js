@@ -1,20 +1,19 @@
-export default
-{
-  code: 'INR',
-  base: 'CENT',
-  trade: 'INR',
+export default {
+  code: "INR",
+  base: "CENT",
+  trade: "INR",
   units: {
     CENT: {
-      rate: '1',
-      symbol: '¢₹',
+      rate: "1",
+      symbol: "¢₹",
       decimal_digits: 0,
-      currency: 'INR'
+      currency: "INR"
     },
     INR: {
-      rate: '100',
-      symbol: '₹',
+      rate: "100",
+      symbol: "₹",
       decimal_digits: 2,
-      currency: 'INR'
+      currency: "INR"
     }
   }
-}
+};

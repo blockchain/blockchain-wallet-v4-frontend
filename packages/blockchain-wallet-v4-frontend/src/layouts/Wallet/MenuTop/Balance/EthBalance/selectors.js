@@ -1,3 +1,3 @@
-import { getEthBalance } from '../selectors'
+import { getEthBalance } from "../selectors";
 
-export const getData = getEthBalance
+export const getData = getEthBalance;

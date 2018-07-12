@@ -1,10 +1,22 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { toUpper, path } from 'ramda'
-import FiatConvertor from './QuoteInputTemplate'
-import { Remote } from 'blockchain-wallet-v4/src'
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { toUpper, path } from "ramda";
+import FiatConvertor from "./QuoteInputTemplate";
+import { Remote } from "blockchain-wallet-v4/src";
 
-const WrappedFiatConverter = ({ leftVal, leftUnit, rightVal, rightUnit, disabled, onChangeLeft, onChangeRight, limits, reason, quoteR, cryptoMax }) => (
+const WrappedFiatConverter = ({
+  leftVal,
+  leftUnit,
+  rightVal,
+  rightUnit,
+  disabled,
+  onChangeLeft,
+  onChangeRight,
+  limits,
+  reason,
+  quoteR,
+  cryptoMax
+}) => (
   <FiatConvertor
     value={leftVal}
     fiat={rightVal}
@@ -15,8 +27,8 @@ const WrappedFiatConverter = ({ leftVal, leftUnit, rightVal, rightUnit, disabled
     disabled={disabled}
     handleCoinChange={onChangeLeft}
     handleFiatChange={onChangeRight}
-    unit={'__required__'}
-    currency={'__required__'}
+    unit={"__required__"}
+    currency={"__required__"}
     handleBlur={() => {}}
     handleFocus={() => {}}
     handleErrorClick={() => {}}
@@ -26,99 +38,113 @@ const WrappedFiatConverter = ({ leftVal, leftUnit, rightVal, rightUnit, disabled
     reason={reason}
     cryptoMax={cryptoMax}
   />
-)
+);
 
 const convert = {
   from: {
-    btc: (value) => Math.floor(parseFloat(value) * 1e8),
-    usd: (value) => Math.floor(parseFloat(value) * 100)
+    btc: value => Math.floor(parseFloat(value) * 1e8),
+    usd: value => Math.floor(parseFloat(value) * 100)
   },
   to: {
-    btc: (value) => (value / 1e8).toFixed(8).replace(/\.?0+$/, ''),
-    usd: (value) => String(value).replace(/\.?0+$/, '')
+    btc: value => (value / 1e8).toFixed(8).replace(/\.?0+$/, ""),
+    usd: value => String(value).replace(/\.?0+$/, "")
   }
-}
+};
 
-const otherSide = (side) => {
-  return side === 'input' ? 'output' : 'input'
-}
+const otherSide = side => {
+  return side === "input" ? "output" : "input";
+};
 
 class QuoteInput extends Component {
-  constructor (props) {
-    super(props)
+  constructor(props) {
+    super(props);
     this.state = {
-      side: 'input',
+      side: "input",
       input: this.props.initialAmount,
-      output: '',
+      output: "",
       lastQuoteId: this.props.initialQuoteId,
       userInput: false
-    }
+    };
 
-    this.updateFields = this.updateFields.bind(this)
+    this.updateFields = this.updateFields.bind(this);
   }
 
-  componentDidUpdate (prevProps) {
-    if (prevProps.type !== this.props.type) this.fetchQuoteDebounced()
+  componentDidUpdate(prevProps) {
+    if (prevProps.type !== this.props.type) this.fetchQuoteDebounced();
     this.props.quoteR.map(quote => {
-      if (quote.id !== path(['quoteR', 'data', 'id'], prevProps)) {
-        this.updateFields(quote)
+      if (quote.id !== path(["quoteR", "data", "id"], prevProps)) {
+        this.updateFields(quote);
       }
-    })
+    });
   }
 
-  updateFields (quote) {
-    if (!this.state.userInput) return null
-    let fiat = this.state.side === 'input' ? this.state.input : quote.quoteAmount
-    let crypto = this.state.side === 'output' ? quote.baseAmount / 1e8 : quote.quoteAmount / 1e8
+  updateFields(quote) {
+    if (!this.state.userInput) return null;
+    let fiat =
+      this.state.side === "input" ? this.state.input : quote.quoteAmount;
+    let crypto =
+      this.state.side === "output"
+        ? quote.baseAmount / 1e8
+        : quote.quoteAmount / 1e8;
     this.setState({
       input: fiat,
       output: crypto
-    })
+    });
   }
 
   getQuoteValues = () => {
-    let { spec } = this.props
-    let { side } = this.state
+    let { spec } = this.props;
+    let { side } = this.state;
     return {
       amt: convert.from[spec[side]](this.state[side]),
       baseCurrency: toUpper(spec[side]),
       quoteCurrency: toUpper(spec[otherSide(side)])
-    }
-  }
+    };
+  };
 
-  handleChangeLeft = (event) => {
-    this.setState({ side: 'input', input: event.target.value, userInput: true })
+  handleChangeLeft = event => {
+    this.setState({
+      side: "input",
+      input: event.target.value,
+      userInput: true
+    });
     if (!event.target.value) {
-      this.setState({ input: '', output: '' })
-      return null
+      this.setState({ input: "", output: "" });
+      return null;
     }
-    this.fetchQuoteDebounced()
-  }
+    this.fetchQuoteDebounced();
+  };
 
-  handleChangeRight = (event) => {
-    this.setState({ side: 'output', output: event.target.value, userInput: true })
+  handleChangeRight = event => {
+    this.setState({
+      side: "output",
+      output: event.target.value,
+      userInput: true
+    });
     if (!event.target.value) {
-      this.setState({ input: '', output: '' })
-      return null
+      this.setState({ input: "", output: "" });
+      return null;
     }
-    this.fetchQuoteDebounced()
-  }
+    this.fetchQuoteDebounced();
+  };
 
   fetchQuoteDebounced = () => {
-    clearTimeout(this.fetchQuoteTimeout)
-    this.fetchQuoteTimeout = setTimeout(this.fetchQuote, this.props.debounce)
-  }
+    clearTimeout(this.fetchQuoteTimeout);
+    this.fetchQuoteTimeout = setTimeout(this.fetchQuote, this.props.debounce);
+  };
 
   fetchQuote = () => {
-    let quote = this.getQuoteValues()
-    if (quote.baseCurrency === 'BTC' && (quote.amt / 1e8) > this.props.cryptoMax) return null
-    if (quote.baseCurrency === 'USD' && (quote.amt / 100) > this.props.limits.max) return null
-    this.props.onFetchQuote(quote)
-  }
+    let quote = this.getQuoteValues();
+    if (quote.baseCurrency === "BTC" && quote.amt / 1e8 > this.props.cryptoMax)
+      return null;
+    if (quote.baseCurrency === "USD" && quote.amt / 100 > this.props.limits.max)
+      return null;
+    this.props.onFetchQuote(quote);
+  };
 
-  render () {
-    let { spec, disabled } = this.props
-    let { input, output, userInput } = this.state
+  render() {
+    let { spec, disabled } = this.props;
+    let { input, output, userInput } = this.state;
 
     return (
       <WrappedFiatConverter
@@ -135,7 +161,7 @@ class QuoteInput extends Component {
         reason={this.props.reason}
         cryptoMax={this.props.cryptoMax}
       />
-    )
+    );
   }
 }
 
@@ -150,12 +176,12 @@ QuoteInput.propTypes = {
   }).isRequired,
   onFetchQuote: PropTypes.func.isRequired,
   initialQuoteId: PropTypes.string
-}
+};
 
 QuoteInput.defaultProps = {
-  initialAmount: '',
+  initialAmount: "",
   debounce: 500,
   initialQuoteId: null
-}
+};
 
-export default QuoteInput
+export default QuoteInput;

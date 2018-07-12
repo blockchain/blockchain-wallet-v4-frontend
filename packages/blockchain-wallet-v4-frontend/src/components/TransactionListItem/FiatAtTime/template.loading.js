@@ -1,7 +1,7 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from "react";
+import styled from "styled-components";
 
-import { SkeletonRectangle } from 'blockchain-info-components'
+import { SkeletonRectangle } from "blockchain-info-components";
 
 const Wrapper = styled.div`
   display: flex;
@@ -10,10 +10,10 @@ const Wrapper = styled.div`
   align-items: center;
   padding: 5px 0;
   box-sizing: border-box;
-`
+`;
 
-export default (props) => (
+export default props => (
   <Wrapper>
-    <SkeletonRectangle width='200px' height='15px' />
+    <SkeletonRectangle width="200px" height="15px" />
   </Wrapper>
-)
+);
