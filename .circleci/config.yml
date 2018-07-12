@@ -1,11 +1,29 @@
 version: 2
 
 jobs:
-  install:
+  checkout_code:
     docker:
-     - image: circleci/node:10.6-jessie-browsers
+      - image: circleci/node:10.6-jessie-browsers
+    working_directory: ~/blockchain-wallet-v4-frontend
     steps:
       - checkout
+      - save_cache:
+          key: repo-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ~/blockchain-wallet-v4-frontend
+  install_deps:
+    docker:
+     - image: circleci/node:10.6-jessie-browsers
+    working_directory: ~/blockchain-wallet-v4-frontend
+    steps:
+      - restore_cache:
+          keys:
+            - repo-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          keys:
+            - yarn-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-cache-{{ .Branch }}-
+            - yarn-cache-
       - restore_cache:
           keys:
             - npm-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
@@ -15,27 +33,55 @@ jobs:
           name: Install
           command: npm install yarn babel-cli rimraf cross-env && yarn
       - save_cache:
-          key: npm-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: yarn-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
-            - ~/.cache/yarn
-  lint:
+            - ~/blockchain-wallet-v4-frontend/.cache/yarn
+      - save_cache:
+          key: npm-deps-{{ checksum "yarn.lock" }}
+          paths: - ~/blockchain-wallet-v4-frontend/node_modules
+  lint_code:
     docker:
       - image: circleci/node:10.6-jessie-browsers
+    working_directory: ~/blockchain-wallet-v4-frontend
     steps:
-      - checkout
+      - restore_cache:
+          keys:
+            - repo-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          keys:
+            - yarn-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-cache-{{ .Branch }}-
+            - yarn-cache-
       - restore_cache:
           keys:
             - npm-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
             - npm-deps-{{ .Branch }}-
             - npm-deps-
+      - restore_cache:
+          keys:
+            - eslint-cache-{{ .Branch }}-{{ checksum ".eslintcache" }}
+            - eslint-cache-{{ .Branch }}-
+            - eslint-cache-
       - run:
           name: Lint
           command: yarn lint
-  test:
+      - save_cache:
+          key: eslint-cache-{{ .Branch }}-{{ checksum ".eslintcache" }}
+          paths: - ~/blockchain-wallet-v4-frontend/.eslintcache
+
+  test_code:
     docker:
       - image: circleci/node:10.6-jessie-browsers
+    working_directory: ~/blockchain-wallet-v4-frontend
     steps:
-      - checkout
+      - restore_cache:
+          keys:
+            - repo-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          keys:
+            - yarn-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-cache-{{ .Branch }}-
+            - yarn-cache-
       - restore_cache:
           keys:
             - npm-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
@@ -47,6 +93,7 @@ jobs:
   coverage:
     docker:
       - image: circleci/node:10.6-jessie-browsers
+    working_directory: ~/blockchain-wallet-v4-frontend
     steps:
       - run:
           name: Coverage
@@ -56,13 +103,16 @@ workflows:
   version: 2
   pull_request:
     jobs:
-      - install
+      - checkout_code
+      - install_deps:
+          requires:
+            - checkout_code
       - lint:
           requires:
-            - install
+            - install_deps
       - test:
           requires:
-            - install
+            - install_deps
   test_coverage:
     triggers:
       - schedule:
