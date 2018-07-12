@@ -326,13 +326,11 @@ describe("coinifySagas", () => {
 
     it("should open the trade details modal if bank", () => {
       const tradeToFinish = data.payload;
-      saga
-        .next(tradeToFinish)
-        .put(
-          actions.modals.showModal("CoinifyTradeDetails", {
-            trade: tradeToFinish
-          })
-        );
+      saga.next(tradeToFinish).put(
+        actions.modals.showModal("CoinifyTradeDetails", {
+          trade: tradeToFinish
+        })
+      );
     });
   });
 
@@ -1194,13 +1192,11 @@ describe("coinifySagas", () => {
     });
 
     it("should show the trade details modal", () => {
-      saga
-        .next()
-        .put(
-          actions.modals.showModal("CoinifyTradeDetails", {
-            trade: mockSellTrade
-          })
-        );
+      saga.next().put(
+        actions.modals.showModal("CoinifyTradeDetails", {
+          trade: mockSellTrade
+        })
+      );
     });
 
     describe("error handling", () => {

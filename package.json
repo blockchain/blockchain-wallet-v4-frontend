@@ -28,8 +28,7 @@
   ],
   "husky": {
     "hooks": {
-      "pre-commit": "prettier --no-config --write './packages/*/src/**/*.js'",
-      "pre-push": "npm test"
+      "pre-push": "prettier --no-config --write './packages/*/src/**/*.js'"
     }
   },
   "scripts": {
