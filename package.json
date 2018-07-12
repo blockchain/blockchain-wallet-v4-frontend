@@ -3,13 +3,29 @@
   "version": "4.0.0-beta1",
   "license": "ISC",
   "private": true,
-  "author": { "name": "Blockchain.info", "url": "https://blockchain.info" },
+  "author": {
+    "name": "Blockchain.info",
+    "url": "https://blockchain.info"
+  },
   "homepage": "https://github.com/blockchain/blockchain-wallet-v4-frontend",
-  "bugs": { "url": "https://github.com/blockchain/blockchain-wallet-v4-frontend/issues" },
+  "bugs": {
+    "url": "https://github.com/blockchain/blockchain-wallet-v4-frontend/issues"
+  },
   "description": "The frontend wallet application built with React/Redux.",
-  "keywords": ["blockchain", "blockchain.info", "blockchain.com", "react", "redux", "wallet"],
-  "engines": { "node": ">= 10.2" },
-  "workspaces": ["packages/*"],
+  "keywords": [
+    "blockchain",
+    "blockchain.info",
+    "blockchain.com",
+    "react",
+    "redux",
+    "wallet"
+  ],
+  "engines": {
+    "node": ">= 10.2"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "analyze": "yarn workspace blockchain-wallet-v4-frontend analyze",
     "build": "yarn workspace blockchain-wallet-v4-frontend build:dev",
@@ -92,6 +108,7 @@
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.3.4",
     "eslint": "^4.19.1",
+    "eslint-config-prettier": "^2.9.0",
     "eslint-config-standard": "^11.0.0",
     "eslint-loader": "^2.0.0",
     "eslint-plugin-babel": "^5.0.0",
@@ -114,6 +131,7 @@
     "jest-styled-components": "^5.0.1",
     "mock-socket": "^7.1.0",
     "npm-watch": "^0.3.0",
+    "prettier": "^1.13.7",
     "react-hot-loader": "^4.0.1",
     "react-intl-translations-manager": "^5.0.3",
     "react-intl-translations-manager-bc": "^5.0.3",
