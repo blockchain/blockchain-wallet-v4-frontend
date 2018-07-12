@@ -22,7 +22,6 @@ class ActionsContainer extends React.PureComponent {
         const decodedPayload = decodeURIComponent(payload)
         const bip21Payload = bip21.decode(decodedPayload)
         const { address } = bip21Payload
-        console.log(bip21Payload.options)
         const { amount, message } = bip21Payload.options || {}
         const data = { address, amount, description: message }
         this.props.goalsActions.saveGoal('payment', data)
