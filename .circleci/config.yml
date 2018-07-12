@@ -1,63 +1,98 @@
-version: 2.0
+version: 2
 
-jobs:
-  install:
-    docker:
-     - image: circleci/node:10.6-jessie-browsers
-    working_directory: ~/blockchain-wallet-v4-frontend
-    steps:
-      - checkout
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-      - run:
-          name: Install
-          command: npm install -g yarn babel-cli rimraf cross-env && yarn
-      - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-          paths:
-            - node_modules
-  lint:
+references:
+  workspace_root: &workspace_root
+    /home/circleci
+
+  attach_workspace: &attach_workspace
+    attach_workspace:
+      at: *workspace_root
+
+  container_config: &container_config
+    working_directory: /home/circleci/blockchain-wallet-v4-frontend
     docker:
       - image: circleci/node:10.6-jessie-browsers
-    working_directory: ~/blockchain-wallet-v4-frontend
+
+  npm_cache_key: &npm_cache_key
+      v1-dependency-npm-{{ checksum "yarn.lock" }}
+
+  restore_node_modules: &restore_node_modules
+    restore_cache:
+      keys:
+        - *npm_cache_key
+        - v1-dependency-npm
+
+  restore_repo: &restore_repo
+      restore_cache:
+        keys:
+          - v1-repo-{{ .Branch }}-{{ .Revision }}
+          - v1-repo-{{ .Branch }}
+          - v1-repo
+
+jobs:
+  pull_code:
+    <<: *container_config
     steps:
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+      - *restore_repo
+      - checkout
+      - save_cache:
+          key: v1-repo-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - .
+  npm_install:
+    <<: *container_config
+    steps:
+      - *restore_repo
+      - *restore_node_modules
       - run:
-          name: Lint
+          name: Install Dependencies
+          command: npm install yarn babel-cli rimraf cross-env && yarn
+      - save_cache:
+          key: *npm_cache_key
+          paths:
+            - ./node_modules
+      - persist_to_workspace:
+          root: /home/circleci
+          paths:
+            - blockchain-wallet-v4-frontend
+  lint:
+    <<: *container_config
+    steps:
+      - *attach_workspace
+      - run:
+          name: Lint Code
           command: yarn lint
-  test:
-      docker:
-        - image: circleci/node:10.6-jessie-browsers
-      working_directory: ~/blockchain-wallet-v4-frontend
-      steps:
-        - restore_cache:
-            key: dependency-cache-{{ checksum "package.json" }}
-        - run:
-            name: Test
-            command: yarn ci:test
-  coverage:
-      docker:
-        - image: circleci/node:10.6-jessie-browsers
-      working_directory: ~/blockchain-wallet-v4-frontend
-      steps:
-        - restore_cache:
-            key: dependency-cache-{{ checksum "package.json" }}
-        - run:
-            name: Coverage
-            command: yarn coverage
+  unit_tests:
+    <<: *container_config
+    steps:
+      - *attach_workspace
+      - run:
+          name: Test Code
+          command: yarn ci:test
+  code_coverage:
+    <<: *container_config
+    steps:
+      - *attach_workspace
+      - run:
+          name: Code Coverage
+          command: yarn coverage
 
 workflows:
-  version: 2.0
+  version: 2
+
   pull_request:
     jobs:
-      - install
+      - pull_code
+      - npm_install:
+          requires:
+            - pull_code
       - lint:
           requires:
-            - install
-      - test:
+            - npm_install
+      - unit_tests:
           requires:
-            - install
+            - npm_install
+
   test_coverage:
     triggers:
       - schedule:
@@ -67,5 +102,6 @@ workflows:
               only:
                 - development
     jobs:
-      - install
-      - coverage
+      - pull_code
+      - npm_install
+      - code_coverage
