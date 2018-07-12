@@ -6,8 +6,6 @@ export const getData = (state, ownProps) => {
   const amount = formValueSelector('requestBitcoin')(state, 'amount')
   const message = formValueSelector('requestBitcoin')(state, 'message')
   const satoshis = Exchange.convertBitcoinToBitcoin({ value: amount.coin, fromUnit: 'BTC', toUnit: 'SAT' }).value
-  const payload = `bitcoin:${receiveAddress}?message=${message}&amount=${amount.coin}`
-  const encodedPayload = encodeURIComponent(payload)
-  const link = `https://blockchain.com/open/${encodedPayload}`
+  const link = `https://blockchain.info/payment_request?address=${receiveAddress}&amount=${amount.coin}&message=${message}`
   return Remote.of({ satoshis, link, amount, message, receiveAddress })
 }
