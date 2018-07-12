@@ -9594,6 +9594,15 @@ react-intl-tel-input@5.0.5:
     react-style-proptype "^3.0.0"
     underscore.deferred "^0.4.0"
 
+react-intl-translations-manager-bc@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.npmjs.org/react-intl-translations-manager-bc/-/react-intl-translations-manager-bc-5.0.3.tgz#54d57129cf82c16b5c7b3cb170a2d1e1d9ca718b"
+  dependencies:
+    chalk "^2.3.2"
+    glob "^7.1.2"
+    json-stable-stringify "^1.0.1"
+    mkdirp "^0.5.1"
+
 react-intl-translations-manager@^5.0.3:
   version "5.0.3"
   resolved "https://registry.yarnpkg.com/react-intl-translations-manager/-/react-intl-translations-manager-5.0.3.tgz#aee010ecf35975673e033ca5d7d3f4147894324d"
