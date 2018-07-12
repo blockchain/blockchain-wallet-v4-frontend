@@ -30,7 +30,7 @@ jobs:
             - npm-deps-{{ .Branch }}-
             - npm-deps-
       - run:
-          name: Install
+          name: Install Dependencies
           command: npm install yarn babel-cli rimraf cross-env && yarn
       - save_cache:
           key: yarn-cache-{{ .Branch }}-{{ checksum "yarn.lock" }}
@@ -60,7 +60,7 @@ jobs:
             - npm-deps-
       - run: yarn
       - run:
-          name: Lint
+          name: Lint Code
           command: yarn lint
   test_code:
     docker:
@@ -82,7 +82,7 @@ jobs:
             - npm-deps-
       - run: yarn
       - run:
-          name: Test
+          name: Test Code
           command: yarn ci:test
   coverage:
     docker:
@@ -90,7 +90,7 @@ jobs:
     working_directory: ~/blockchain-wallet-v4-frontend
     steps:
       - run:
-          name: Coverage
+          name: Code Coverage
           command: yarn coverage
 
 workflows:
