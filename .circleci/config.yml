@@ -38,7 +38,8 @@ jobs:
             - ~/blockchain-wallet-v4-frontend/.cache/yarn
       - save_cache:
           key: npm-deps-{{ checksum "yarn.lock" }}
-          paths: - ~/blockchain-wallet-v4-frontend/node_modules
+          paths:
+            - ~/blockchain-wallet-v4-frontend/node_modules
   lint_code:
     docker:
       - image: circleci/node:10.6-jessie-browsers
@@ -67,7 +68,8 @@ jobs:
           command: yarn lint
       - save_cache:
           key: eslint-cache-{{ .Branch }}-{{ checksum ".eslintcache" }}
-          paths: - ~/blockchain-wallet-v4-frontend/.eslintcache
+          paths:
+            - ~/blockchain-wallet-v4-frontend/.eslintcache
 
   test_code:
     docker:
