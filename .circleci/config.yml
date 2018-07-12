@@ -1,4 +1,4 @@
-version: 2.0
+version: 2
 
 jobs:
   install:
@@ -48,7 +48,7 @@ jobs:
             command: yarn coverage
 
 workflows:
-  version: 2.0
+  version: 2
   pull_request:
     jobs:
       - install
