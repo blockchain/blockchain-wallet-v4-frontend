@@ -17,7 +17,7 @@ import MenuDropdown from "./MenuDropdown"
 import throttle from "./throttle.js"
 
 const publicRuntimeConfig = {
-  headerSearchURL: 'https://blockchain.com/search',
+  headerSearchURL: 'https://blockchain.com/search?search=',
   walletLoginURL: 'https://login.blockchain.com/#/login',
   walletSignupURL: 'https://login.blockchain.com/#/signup'
 }
