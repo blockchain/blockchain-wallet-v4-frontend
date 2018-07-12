@@ -23,6 +23,11 @@ jobs:
       - image: circleci/node:10.6-jessie-browsers
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - npm-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - npm-deps-{{ .Branch }}-
+            - npm-deps-
       - run:
           name: Lint
           command: yarn lint
@@ -31,6 +36,11 @@ jobs:
       - image: circleci/node:10.6-jessie-browsers
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - npm-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - npm-deps-{{ .Branch }}-
+            - npm-deps-
       - run:
           name: Test
           command: yarn ci:test
