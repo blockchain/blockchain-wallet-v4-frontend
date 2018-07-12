@@ -1,5 +1,5 @@
 import { call, put, select } from 'redux-saga/effects'
-import { compose, isNil } from 'ramda'
+import { compose, isNil, isEmpty } from 'ramda'
 import { set } from 'ramda-lens'
 import * as A from './actions'
 import { KVStoreEntry } from '../../../types'
@@ -46,7 +46,7 @@ export default ({ api }) => {
       yield put(A.fetchMetadataShapeshiftLoading())
       const newkv = yield callTask(api.fetchKVStore(kv))
       yield put(A.fetchMetadataShapeshiftSuccess(newkv))
-      if (isNil(newkv.value)) {
+      if (isNil(newkv.value) || isEmpty(newkv.value)) {
         yield call(createShapeshift, newkv)
       } else {
         yield put(A.fetchMetadataShapeshiftSuccess(newkv))
