@@ -4,48 +4,56 @@ jobs:
   install:
     docker:
      - image: circleci/node:10.6-jessie-browsers
-    working_directory: ~/blockchain-wallet-v4-frontend
     steps:
       - checkout
       - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+          keys:
+            - npm-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - npm-deps-{{ .Branch }}-
+            - npm-deps-
       - run:
           name: Install
           command: npm install -g yarn babel-cli rimraf cross-env && yarn
       - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+          key: npm-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
-            - node_modules
+            - ~/.cache/yarn
   lint:
     docker:
       - image: circleci/node:10.6-jessie-browsers
-    working_directory: ~/blockchain-wallet-v4-frontend
     steps:
       - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+          keys:
+            - npm-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - npm-deps-{{ .Branch }}-
+            - npm-deps-
       - run:
           name: Lint
           command: yarn lint
   test:
-      docker:
-        - image: circleci/node:10.6-jessie-browsers
-      working_directory: ~/blockchain-wallet-v4-frontend
-      steps:
-        - restore_cache:
-            key: dependency-cache-{{ checksum "package.json" }}
-        - run:
-            name: Test
-            command: yarn ci:test
+    docker:
+      - image: circleci/node:10.6-jessie-browsers
+    steps:
+      - restore_cache:
+          keys:
+            - npm-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - npm-deps-{{ .Branch }}-
+            - npm-deps-
+      - run:
+          name: Test
+          command: yarn ci:test
   coverage:
-      docker:
-        - image: circleci/node:10.6-jessie-browsers
-      working_directory: ~/blockchain-wallet-v4-frontend
-      steps:
-        - restore_cache:
-            key: dependency-cache-{{ checksum "package.json" }}
-        - run:
-            name: Coverage
-            command: yarn coverage
+    docker:
+      - image: circleci/node:10.6-jessie-browsers
+    steps:
+      - restore_cache:
+          keys:
+            - npm-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - npm-deps-{{ .Branch }}-
+            - npm-deps-
+      - run:
+          name: Coverage
+          command: yarn coverage
 
 workflows:
   version: 2
