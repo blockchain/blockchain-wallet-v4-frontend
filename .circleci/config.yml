@@ -56,7 +56,7 @@ jobs:
       - persist_to_workspace:
           root: /home/circleci
           paths:
-            - blockchain-wallet-v4-frontend
+            - .
   lint_code:
     <<: *container_config
     steps:
