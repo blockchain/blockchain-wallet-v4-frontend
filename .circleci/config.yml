@@ -2,7 +2,7 @@ version: 2
 
 references:
   workspace_root: &workspace_root
-      /home/circleci/blockchain-wallet-v4-frontend
+      /home/circleci
 
   attach_workspace: &attach_workspace
     attach_workspace:
@@ -56,7 +56,7 @@ jobs:
       - persist_to_workspace:
           root: /home/circleci
           paths:
-            - .
+            - blockchain-wallet-v4-frontend
   lint_code:
     <<: *container_config
     steps:
