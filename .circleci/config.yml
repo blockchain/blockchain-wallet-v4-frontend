@@ -58,19 +58,9 @@ jobs:
             - npm-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
             - npm-deps-{{ .Branch }}-
             - npm-deps-
-      - restore_cache:
-          keys:
-            - eslint-cache-{{ .Branch }}-{{ checksum ".eslintcache" }}
-            - eslint-cache-{{ .Branch }}-
-            - eslint-cache-
       - run:
           name: Lint
           command: yarn lint
-      - save_cache:
-          key: eslint-cache-{{ .Branch }}-{{ checksum ".eslintcache" }}
-          paths:
-            - ~/blockchain-wallet-v4-frontend/.eslintcache
-
   test_code:
     docker:
       - image: circleci/node:10.6-jessie-browsers
