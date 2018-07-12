@@ -1,5 +1,5 @@
 import { call, put, select } from 'redux-saga/effects'
-import { compose, concat, gt, isNil, length, map, pathOr, propOr, range } from 'ramda'
+import { compose, concat, gt, isNil, length, map, pathOr, propOr, range, isEmpty } from 'ramda'
 import { set } from 'ramda-lens'
 import * as A from './actions'
 import * as bchActions from '../../data/bch/actions'
@@ -40,7 +40,7 @@ export default ({ api }) => {
       const newkv = yield callTask(api.fetchKVStore(kv))
       const hdAccounts = yield select(getHDAccounts)
       const bchAccounts = propOr([], 'accounts', newkv.value)
-      if (isNil(newkv.value) || gt(length(hdAccounts), length(bchAccounts))) {
+      if ((isNil(newkv.value) || isEmpty(newkv.value)) || gt(length(hdAccounts), length(bchAccounts))) {
         return yield call(createBch, newkv, hdAccounts, bchAccounts)
       }
       yield put(A.fetchMetadataBchSuccess(newkv))
