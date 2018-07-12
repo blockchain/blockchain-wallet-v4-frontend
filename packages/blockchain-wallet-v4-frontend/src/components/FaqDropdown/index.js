@@ -30,7 +30,7 @@ const ToggleIcon = styled(Icon)`
   max-height: min-content;
 `
 
-export default class Helper extends React.PureComponent {
+export class FaqDropdown extends React.PureComponent {
   constructor (props) {
     super(props)
     this.state = {open: false}
@@ -48,3 +48,9 @@ export default class Helper extends React.PureComponent {
     )
   }
 }
+
+const renderFaq = (faqQuestions) => faqQuestions.map((el, i) =>
+  <FaqDropdown key={i} question={el.question} answer={el.answer} />
+)
+
+export default renderFaq

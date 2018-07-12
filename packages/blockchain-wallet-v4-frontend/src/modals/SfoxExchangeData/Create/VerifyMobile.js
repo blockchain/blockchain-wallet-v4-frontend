@@ -10,7 +10,7 @@ import { formValueSelector, Field } from 'redux-form'
 import { PhoneNumberBox, TextBox } from 'components/Form'
 import { Text, Button } from 'blockchain-info-components'
 import { required, normalizePhone, validMobileNumber } from 'services/FormHelper'
-import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ColRightInner, EmailHelper } from 'components/BuySell/Signup'
+import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ColRightInner, EmailHelper } from 'components/IdentityVerification'
 import { spacing } from 'services/StyleService'
 import media from 'services/ResponsiveService'
 

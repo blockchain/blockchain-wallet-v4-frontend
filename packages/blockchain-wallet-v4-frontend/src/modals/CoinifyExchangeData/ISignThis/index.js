@@ -7,7 +7,7 @@ import { equals, path, prop } from 'ramda'
 import { Button, Text, Tooltip } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 
-import Helper from 'components/BuySell/FAQ'
+import renderFaq from 'components/FaqDropdown'
 import CountdownTimer from 'components/Form/CountdownTimer'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import media from 'services/ResponsiveService'
@@ -55,13 +55,13 @@ const ISignThisIframe = styled.iframe`
   border: ${props => `1px solid ${props.theme['gray-1']}`}
 `
 
-const kycHelper = [
+const kycQuestions = [
   {
     question: <FormattedMessage id='scenes.coinify.isx.kycquestion' defaultMessage='Why do you need this information?' />,
     answer: <FormattedMessage id='scenes.coinify.isx.kycanswer' defaultMessage='Government anti-money laundering regulations require this verification of identity. The purpose of fulfilling these regulations is to provide you with a secure, smooth, and customized experience.' />
   }
 ]
-const tradeHelper = [
+const tradeQuestions = [
   {
     question: <FormattedMessage id='scenes.coinify.isx.tradequestion' defaultMessage='How is my payment method used?' />,
     answer: <FormattedMessage id='scenes.coinify.isx.tradeanswer' defaultMessage="Bitcoin is delivered to your Blockchain wallet by using the information you've provided. With that in mind, please double check that your submitted details are error-free. If you pay by credit / debit card, your bitcoin will be delivered within a couple of hours after the transaction is completed, depending on your bank’s transfer policies. If you pay by bank transfer, your bitcoin will be delivered after Coinify has processed your order, which usually takes between 2-3 days." />
@@ -69,8 +69,6 @@ const tradeHelper = [
 ]
 const getExpiredBtcValues = (q) => q.quoteCurrency === 'BTC' ? `${q.quoteAmount / 1e8}` : `${q.baseAmount / 1e8}`
 const getExpiredFiatValues = (q) => q.baseCurrency !== 'BTC' ? `${Currency.formatFiat(Math.abs(q.baseAmount))} ${q.baseCurrency}` : `${Currency.formatFiat(Math.abs(q.quoteAmount))} ${q.quoteCurrency}`
-const kycFaqHelper = () => kycHelper.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
-const tradeFaqHelper = () => tradeHelper.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
 
 class ISignThisContainer extends Component {
   constructor (props) {
@@ -283,8 +281,8 @@ class ISignThisContainer extends Component {
             </Button>
             {
               equals(isxType, 'Trade')
-                ? tradeFaqHelper()
-                : kycFaqHelper()
+                ? renderFaq(tradeQuestions)
+                : renderFaq(kycQuestions)
             }
           </ButtonContainer>
         </ISXContainer>

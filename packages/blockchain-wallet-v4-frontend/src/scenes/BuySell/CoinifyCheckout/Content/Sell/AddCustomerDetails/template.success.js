@@ -8,7 +8,7 @@ import { required } from 'services/FormHelper'
 import { spacing } from 'services/StyleService'
 import { StepTransition } from 'components/Utilities/Stepper'
 import { BorderBox, Form, CancelWrapper, ColLeft, ColRight,
-  ColRightInner, InputWrapper, PartnerHeader, PartnerSubHeader } from 'components/BuySell/Signup'
+  ColRightInner, InputWrapper, PartnerHeader, PartnerSubHeader } from 'components/IdentityVerification'
 import { SelectBoxCountry, TextBox } from 'components/Form'
 
 const SpaceRow = styled.div`

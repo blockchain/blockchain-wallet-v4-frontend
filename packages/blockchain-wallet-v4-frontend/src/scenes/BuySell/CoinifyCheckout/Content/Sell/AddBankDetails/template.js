@@ -8,7 +8,7 @@ import { Button, Link, Text } from 'blockchain-info-components'
 import { required, validIban, validBIC } from 'services/FormHelper'
 import { spacing } from 'services/StyleService'
 import { StepTransition } from 'components/Utilities/Stepper'
-import { BorderBox, Form, ColLeft, InputWrapper, PartnerHeader, PartnerSubHeader, ColRight, ColRightInner } from 'components/BuySell/Signup'
+import { BorderBox, Form, ColLeft, InputWrapper, PartnerHeader, PartnerSubHeader, ColRight, ColRightInner } from 'components/IdentityVerification'
 import { TextBox } from 'components/Form'
 
 const CancelWrapper = styled.div`

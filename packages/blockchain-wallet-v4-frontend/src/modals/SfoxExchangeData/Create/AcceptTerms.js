@@ -9,15 +9,16 @@ import { actions, selectors } from 'data'
 import { CheckBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
 import { Button, HeartbeatLoader, Text, Link, Icon } from 'blockchain-info-components'
-import Helper from 'components/BuySell/FAQ'
-import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ErrorWrapper, ColRightInner } from 'components/BuySell/Signup'
+import renderFaq from 'components/FaqDropdown'
+import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, FieldMimic,
+  ButtonWrapper, ErrorWrapper, ColRightInner } from 'components/IdentityVerification'
 import { spacing } from 'services/StyleService'
 import Terms from 'components/Terms'
 import media from 'services/ResponsiveService'
 
 const checkboxShouldBeChecked = value => value ? undefined : 'You must agree to the terms and conditions'
 
-const helpers = [
+const faqQuestions = [
   {
     question: <FormattedMessage id='scenes.sfoxsignup.acceptterms.helper1.question' defaultMessage='What is SFOX?' />,
     answer: <FormattedMessage id='scenes.sfoxsignup.acceptterms.helper1.answer' defaultMessage='SFOX (San Francisco Open Exchange) is a trading platform we’ve partnered with to bring you a harmonious buy & sell experience in your Blockchain wallet.' />
@@ -52,21 +53,6 @@ const FieldContainer = styled.div`
 const VerifiedContainer = styled.div`
   display: flex;
   flex-direction: row;
-`
-const FieldBox = styled.div`
-  border: 1px solid #DDDDDD;
-  padding: 5px 15px;
-  display: flex;
-  flex-direction: row;
-  width: 85%;
-  justify-content: space-between;
-  ${media.mobile`
-    border: none;
-    width: 100%;
-    padding: 0px;
-    flex-direction: column;
-    width: fit-content;
-  `}
 `
 const IconContainer = styled.div`
   display: flex;
@@ -120,8 +106,6 @@ class AcceptTerms extends Component {
     const { invalid, email, smsNumber, editEmail, editMobile, emailVerified, smsVerified, sfoxFrontendActions, needsChangeEmail } = this.props
     const { sfoxNotAsked } = sfoxFrontendActions
 
-    const faqHelper = () => helpers.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
-
     return (
       <AcceptTermsForm onSubmit={this.handleSignup}>
         <ColLeft>
@@ -141,7 +125,7 @@ class AcceptTerms extends Component {
                   <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.verifiedemail' defaultMessage='Verified Email Address' />
                 </Text>
                 <VerifiedContainer>
-                  <FieldBox>
+                  <FieldMimic>
                     <Text size='14px' weight={300}>
                       { email }
                     </Text>
@@ -152,7 +136,7 @@ class AcceptTerms extends Component {
                           : <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.editemail' defaultMessage='edit email' />
                       }
                     </EditLink>
-                  </FieldBox>
+                  </FieldMimic>
                   <IconContainer>
                     { emailVerified ? <Icon name='checkmark-in-circle-filled' color='success' size='20px' /> : null }
                   </IconContainer>
@@ -163,7 +147,7 @@ class AcceptTerms extends Component {
                   <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.verifiedmobile' defaultMessage='Verified Phone Number' />
                 </Text>
                 <VerifiedContainer>
-                  <FieldBox>
+                  <FieldMimic>
                     <Text size='14px' weight={300}>
                       { smsNumber }
                     </Text>
@@ -174,7 +158,7 @@ class AcceptTerms extends Component {
                           : <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.editmobile' defaultMessage='edit mobile' />
                       }
                     </EditLink>
-                  </FieldBox>
+                  </FieldMimic>
                   <IconContainer>
                     { smsVerified ? <Icon name='checkmark-in-circle-filled' color='success' size='20px' /> : null }
                   </IconContainer>
@@ -231,7 +215,7 @@ class AcceptTerms extends Component {
                     : null
               }
             </ErrorWrapper>
-            { faqHelper() }
+            { renderFaq(faqQuestions) }
           </ColRightInner>
         </ColRight>
       </AcceptTermsForm>

@@ -67,6 +67,7 @@
     "bowser": "1.9.3",
     "browser-locale": "1.0.3",
     "connected-react-router": "4.3.0",
+    "country-region-data": "^1.4.4",
     "data.either": "1.5.1",
     "data.maybe": "1.2.2",
     "es6-promise": "4.1.0",

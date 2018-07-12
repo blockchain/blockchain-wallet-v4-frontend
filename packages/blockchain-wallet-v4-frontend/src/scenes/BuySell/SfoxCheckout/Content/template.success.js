@@ -11,7 +11,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import Stepper, { StepView } from 'components/Utilities/Stepper'
 import OrderCheckout from './OrderCheckout'
 import { OrderDetails, OrderSubmit } from './OrderReview'
-import Helper from 'components/BuySell/FAQ'
+import renderFaq from 'components/FaqDropdown'
 import EmptyOrderHistoryContainer from 'components/BuySell/EmptyOrderHistory'
 import SiftScience from 'modals/SfoxExchangeData/sift-science.js'
 import media from 'services/ResponsiveService'
@@ -50,7 +50,7 @@ const SfoxBuySellContainer = styled.div`
     flex-direction: column;
   `}
 `
-const faqList = [
+const faqQuestions = [
   {
     question: <FormattedMessage id='scenes.buysell.sfoxcheckout.cyo.helper1.question' defaultMessage='What are the fees?' />,
     answer: <FormattedMessage id='scenes.buysell.sfoxcheckout.cyo.helper1.answer' defaultMessage='There is a trading fee that SFOX requires to execute a buy or sell trade. For sell trades specifically, there is an additional transaction fee that goes to network miners in order to send the amount you’re selling to SFOX.' />
@@ -64,8 +64,6 @@ const faqList = [
     answer: <FormattedMessage id='scenes.buysell.sfoxcheckout.cyo.helper3.answer' defaultMessage='Daily limits are determined by how much information has been submitted to, and verified by, SFOX— the highest daily limit being $10,000. Keep in mind: Your daily buy and sell limits directly impact each other (for example, If your limit is $10,000 and you decide to sell $5,000, you will have a limit to buy $5,000).' />
   }
 ]
-
-const faqListHelper = () => faqList.map(el => <Helper question={el.question} answer={el.answer} />)
 
 const isPending = (t) => equals(prop('state', t), 'processing')
 const isCompleted = (t) => !isPending(t)
@@ -135,7 +133,7 @@ const Success = props => {
               />
             </CheckoutWrapper>
             <OrderSubmitWrapper>
-              {faqListHelper()}
+              {renderFaq(faqQuestions)}
             </OrderSubmitWrapper>
           </SfoxBuySellContainer>
         </StepView>

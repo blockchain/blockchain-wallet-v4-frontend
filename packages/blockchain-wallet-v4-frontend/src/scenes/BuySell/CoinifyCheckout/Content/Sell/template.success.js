@@ -11,7 +11,7 @@ import AddCustomerDetails from './AddCustomerDetails'
 import SelectAccounts from './SelectAccounts'
 import ISignThis from 'modals/CoinifyExchangeData/ISignThis'
 import KYCNotification from '../KYCNotification'
-import { ColLeft, ColRight, ColRightInner, Row } from 'components/BuySell/Signup'
+import { ColLeft, ColRight, ColRightInner, Row } from 'components/IdentityVerification'
 import media from 'services/ResponsiveService'
 
 const CheckoutWrapper = styled.div`

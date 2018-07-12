@@ -6,7 +6,7 @@ import { FormGroup, FormItem, TextBox, SelectBoxUSState } from 'components/Form'
 import { Text, Button, HeartbeatLoader, Banner } from 'blockchain-info-components'
 
 import { required, requiredUsZipcode, normalizeUSZipcode } from 'services/FormHelper'
-import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ColRightInner } from 'components/BuySell/Signup'
+import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ColRightInner } from 'components/IdentityVerification'
 import media from 'services/ResponsiveService'
 
 const FormContainer = styled.div`
@@ -132,7 +132,7 @@ const Address = (props) => {
                 : <HeartbeatLoader height='20px' width='20px' color='white' />
             }
           </Button>
-          { props.faqs() }
+          { props.faqs }
         </ColRightInner>
       </ColRight>
     </AddressForm>
