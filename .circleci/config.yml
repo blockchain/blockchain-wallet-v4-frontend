@@ -2,7 +2,7 @@ version: 2
 
 references:
   workspace_root: &workspace_root
-      /home/circleci
+    /home/circleci
 
   attach_workspace: &attach_workspace
     attach_workspace:
@@ -13,16 +13,11 @@ references:
     docker:
       - image: circleci/node:10.6-jessie-browsers
 
-  npm_cache_key: &npm_cache_key
-    v1-dependency-npm-{{ checksum "yarn.lock" }}
-  npm_backup_cache_key: &npm_backup_cache_key
-    v1-dependency-npm
-
   restore_node_modules: &restore_node_modules
     restore_cache:
       keys:
-        - *npm_cache_key
-        - *npm_backup_cache_key
+        - v1-dependency-npm-{{ checksum "yarn.lock" }}
+        - v1-dependency-npm
 
   restore_repo: &restore_repo
       restore_cache:
@@ -32,7 +27,7 @@ references:
           - v1-repo
 
 jobs:
-  checkout_code:
+   pull_code:
     <<: *container_config
     steps:
       - *restore_repo
@@ -41,7 +36,8 @@ jobs:
           key: v1-repo-{{ .Branch }}-{{ .Revision }}
           paths:
             - .
-  install_deps:
+
+  npm_install:
     <<: *container_config
     steps:
       - *restore_repo
@@ -52,26 +48,29 @@ jobs:
       - save_cache:
           key: *npm_cache_key
           paths:
-            - /home/circleci/blockchain-wallet-v4-frontend/node_modules
+            - ./node_modules
       - persist_to_workspace:
           root: /home/circleci
           paths:
             - blockchain-wallet-v4-frontend
-  lint_code:
+
+  lint:
     <<: *container_config
     steps:
       - *attach_workspace
       - run:
           name: Lint Code
           command: yarn lint
-  test_code:
+
+  unit_tests:
     <<: *container_config
     steps:
       - *attach_workspace
       - run:
           name: Test Code
           command: yarn ci:test
-  coverage:
+
+  code_coverage:
     <<: *container_config
     steps:
       - *attach_workspace
@@ -81,18 +80,20 @@ jobs:
 
 workflows:
   version: 2
+
   pull_request:
     jobs:
-      - checkout_code
-      - install_deps:
+      - pull_code
+      - npm_install:
           requires:
-            - checkout_code
-      - lint_code:
+            - pull_code
+      - lint:
           requires:
-            - install_deps
-      - test_code:
+            - npm_install
+      - unit_tests:
           requires:
-            - install_deps
+            - npm_install
+
   test_coverage:
     triggers:
       - schedule:
@@ -102,5 +103,6 @@ workflows:
               only:
                 - development
     jobs:
-      - install
-      - coverage
+      - pull_code
+      - npm_install
+      - code_coverage
