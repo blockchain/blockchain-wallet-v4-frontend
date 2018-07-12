@@ -2,7 +2,7 @@ import * as AT from './actionTypes'
 
 export const setCulture = (culture) => ({ type: AT.SET_CULTURE, payload: { culture } })
 
-export const setLanguage = (language) => ({ type: AT.SET_LANGUAGE, payload: { language } })
+export const setLanguage = (language, showAlert) => ({ type: AT.SET_LANGUAGE, payload: { language, showAlert } })
 
 export const setTheme = (theme) => ({ type: AT.SET_THEME, payload: { theme } })
 
