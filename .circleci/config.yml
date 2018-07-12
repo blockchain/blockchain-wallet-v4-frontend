@@ -58,6 +58,7 @@ jobs:
             - npm-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
             - npm-deps-{{ .Branch }}-
             - npm-deps-
+      - run: yarn
       - run:
           name: Lint
           command: yarn lint
@@ -79,6 +80,7 @@ jobs:
             - npm-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
             - npm-deps-{{ .Branch }}-
             - npm-deps-
+      - run: yarn
       - run:
           name: Test
           command: yarn ci:test
