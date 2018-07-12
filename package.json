@@ -28,7 +28,7 @@
   ],
   "husky": {
     "hooks": {
-      "pre-push": "prettier --no-config --write './packages/*/src/**/*.js'"
+      "pre-push": "yarn vet"
     }
   },
   "scripts": {
@@ -48,6 +48,11 @@
     "lint:core": "eslint './packages/blockchain-wallet-v4/src/**/*.js'",
     "lint:fix": "eslint './packages/*/src/**/*.js' --fix",
     "lint:frontend": "eslint './packages/blockchain-wallet-v4-frontend/src/**/*.js'",
+    "prettier": "prettier './packages/*/src/**/*.js' --no-config",
+    "prettier:components": "prettier './packages/blockchain-info-components/src/**/*.js' --no-config",
+    "prettier:core": "prettier './packages/blockchain-wallet-v4/src/**/*.js' --no-config",
+    "prettier:fix": "prettier './packages/*/src/**/*.js' --no-config --write",
+    "prettier:frontend": "prettier './packages/blockchain-wallet-v4-frontend/src/**/*.js' --no-config",
     "start": "yarn workspace blockchain-wallet-v4-frontend start:dev",
     "start:dev": "yarn workspace blockchain-wallet-v4-frontend start:dev",
     "start:prod": "yarn workspace blockchain-wallet-v4-frontend start:prod",
@@ -67,10 +72,11 @@
     "test:frontend:debug": "yarn workspace blockchain-wallet-v4-frontend test:debug",
     "test:frontend:update": "yarn workspace blockchain-wallet-v4-frontend test -- -u",
     "test:frontend:watch": "yarn workspace blockchain-wallet-v4-frontend test:watch",
-    "vet": "cross-env yarn lint && yarn test",
-    "vet:components": "cross-env yarn lint:components && yarn test:components",
-    "vet:core": "cross-env yarn lint:core && yarn test:core",
-    "vet:frontend": "cross-env yarn lint:frontend && yarn test:frontend",
+    "vet": "cross-env yarn lint && yarn prettier && yarn test",
+    "vet:components": "cross-env yarn lint:components && prettier:components && yarn test:components",
+    "vet:core": "cross-env yarn lint:core && prettier:core && yarn test:core",
+    "vet:fix": "cross-env yarn lint:fix && yarn prettier:fix && yarn test",
+    "vet:frontend": "cross-env yarn lint:frontend && prettier:frontend && yarn test:frontend",
     "manage:translations": "yarn workspace blockchain-wallet-v4-frontend manage:translations"
   },
   "dependencies": {},
