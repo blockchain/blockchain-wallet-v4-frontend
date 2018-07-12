@@ -11,9 +11,9 @@ import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 
-export default ({ coreSagas }) => {
-  const logLocation = 'components/sendEth/sagas'
+export const logLocation = 'components/sendEth/sagas'
 
+export default ({ coreSagas }) => {
   const initialized = function * (action) {
     try {
       const from = path(['payload', 'from'], action)
@@ -27,9 +27,8 @@ export default ({ coreSagas }) => {
       const initialValues = { coin: 'ETH' }
       yield put(initialize('sendEth', initialValues))
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
-      yield
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'sendEthInitialized', e))
     }
   }
 
@@ -80,7 +79,7 @@ export default ({ coreSagas }) => {
           const weiAmount = Exchange.convertEtherToEther({ value: ethAmount, fromUnit: 'ETH', toUnit: 'WEI' }).value
           payment = yield payment.amount(weiAmount)
           break
-        case 'message':
+        case 'description':
           payment = yield payment.description(payload)
           break
       }

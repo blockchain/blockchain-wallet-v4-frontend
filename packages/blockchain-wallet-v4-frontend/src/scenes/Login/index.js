@@ -14,8 +14,13 @@ class LoginContainer extends React.PureComponent {
     this.handleMobile = this.handleMobile.bind(this)
     this.handleSmsResend = this.handleSmsResend.bind(this)
   }
+
+  componentDidMount () {
+    this.props.loginActions.initialized()
+  }
+
   componentWillUnmount () {
-    this.props.formActions.destroy('login')
+    this.props.formActions.reset('login')
   }
 
   onSubmit () {
@@ -74,6 +79,7 @@ const mapDispatchToProps = (dispatch) => ({
   authActions: bindActionCreators(actions.auth, dispatch),
   alertActions: bindActionCreators(actions.alerts, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
+  loginActions: bindActionCreators(actions.components.login, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 

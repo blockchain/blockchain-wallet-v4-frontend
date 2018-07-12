@@ -16,7 +16,6 @@
     "build:testnet": "cross-env-shell NODE_ENV=testnet webpack-cli --config webpack.config.js --progress --colors",
     "ci:compile": "cross-env-shell NODE_ENV=production CI_BUILD=true webpack-cli --config webpack.config.js --display-error-details",
     "coverage": "cross-env ./../../node_modules/.bin/jest --coverage",
-    "run:prod": "cross-env npm run ci:compile && cross-env-shell LOCAL_PROD=true node ./../../server.js",
     "start:dev": "cross-env-shell NODE_ENV=development webpack-dev-server --config webpack.config.js --progress --colors --watch --devtool cheap-module-source-map",
     "start:prod": "cross-env-shell NODE_ENV=production webpack-dev-server --config webpack.config.js --progress --colors --watch --devtool cheap-module-source-map",
     "start:staging": "cross-env-shell NODE_ENV=staging webpack-dev-server --config webpack.config.js --progress --colors --watch --devtool cheap-module-source-map",
@@ -31,7 +30,16 @@
     "automock": false,
     "collectCoverageFrom": [
       "src/**/*.js",
-      "!src/**/rootSaga.js"
+      "!src/**/rootSaga.js",
+      "!src/data/*/actions.js",
+      "!src/data/*/actionTypes.js",
+      "!src/data/*/sagaRegister.js",
+      "!src/data/actions.js",
+      "!src/data/actionTypes.js",
+      "!src/data/rootReducer.js",
+      "!src/data/sagas.js",
+      "!src/data/sagaRegister.js",
+      "!src/data/selectors.js"
     ],
     "coverageDirectory": "<rootDir>/../../coverage/blockchain-wallet-v4-frontend",
     "coverageReporters": [
@@ -75,6 +83,7 @@
     "ibantools": "2.0.0",
     "libphonenumber-js": "0.4.40",
     "lodash.debounce": "4.0.8",
+    "matchmedia-polyfill": "0.3.1",
     "moment": "2.22.2",
     "prop-types": "15.6.1",
     "qrcode.react": "0.8.0",
@@ -106,6 +115,5 @@
     "sanitize-html": "1.18.2",
     "styled-components": "3.3.2",
     "zxcvbn": "4.4.2"
-  },
-  "devDependencies": {}
+  }
 }

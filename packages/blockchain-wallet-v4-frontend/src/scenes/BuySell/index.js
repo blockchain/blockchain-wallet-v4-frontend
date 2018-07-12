@@ -34,6 +34,9 @@ const CheckoutWrapper = styled.div`
   @media(min-height: 800px) {
     height: 70%;
   }
+  @media (max-width: 480px) {
+    padding: 20px;
+  }
 `
 const Menu = reduxForm({ form: 'buySellTabStatus' })(HorizontalMenu)
 

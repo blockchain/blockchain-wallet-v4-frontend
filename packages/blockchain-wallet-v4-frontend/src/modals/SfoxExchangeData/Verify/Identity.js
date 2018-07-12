@@ -8,6 +8,7 @@ import { spacing } from 'services/StyleService'
 
 import { requiredSSN, requiredDOB, normalizeSocialSecurity, normalizeDateOfBirth, ageOverEighteen } from 'services/FormHelper'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ErrorWrapper, ColRightInner } from 'components/BuySell/Signup'
+import media from 'services/ResponsiveService'
 
 const LockIcon = styled(Icon)`
   display: flex;
@@ -22,13 +23,21 @@ const IconHeader = styled(PartnerHeader)`
   display: flex;
   flex-direction: row;
 `
+const IdentityForm = styled(Form)`
+  ${media.mobile`
+    flex-direction: column;
+    div:last-of-type {
+      margin-bottom: 15px;
+    }
+  `}
+`
 
 const Identity = (props) => {
   const { handleReset, handleSubmit, invalid, pristine, submitting, verificationError, viewSSN, toggleSSN } = props
   const { busy } = props.ui
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <IdentityForm onSubmit={handleSubmit}>
       <ColLeft>
         <InputWrapper>
           <IconHeader>
@@ -91,7 +100,7 @@ const Identity = (props) => {
           { props.faqs() }
         </ColRightInner>
       </ColRight>
-    </Form>
+    </IdentityForm>
   )
 }
 

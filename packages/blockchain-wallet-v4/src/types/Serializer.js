@@ -18,6 +18,13 @@ import * as KVStoreEntry from './KVStoreEntry'
 import Remote from '../remote'
 
 const serializer = {
+  // Remove all functions from the state
+  replacer: function (key, value) {
+    if (value && typeof value === 'function') {
+      return ''
+    }
+    return value
+  },
   reviver: function (key, value) {
     if (typeof value === 'object' && value !== null && '__serializedType__' in value) {
       var data = value.data

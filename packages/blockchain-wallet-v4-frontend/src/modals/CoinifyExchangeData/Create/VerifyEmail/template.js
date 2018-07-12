@@ -7,11 +7,17 @@ import { Text, Button } from 'blockchain-info-components'
 import { TextBox } from 'components/Form'
 import { required } from 'services/FormHelper'
 import { Form, ColLeft, ColRight, ColRightInner, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, EmailHelper } from 'components/BuySell/Signup'
+import media from 'services/ResponsiveService'
 
 const EmailInput = styled.div`
   display: flex;
   margin-top: 25px;
   flex-direction: column;
+`
+const CreateForm = styled(Form)`
+  ${media.mobile`
+    flex-direction: column;
+  `}
 `
 
 const VerifyEmail = (props) => {
@@ -26,7 +32,7 @@ const VerifyEmail = (props) => {
   }
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <CreateForm onSubmit={handleSubmit}>
       <ColLeft>
         <InputWrapper>
           <PartnerHeader>
@@ -76,7 +82,7 @@ const VerifyEmail = (props) => {
           }
         </ColRightInner>
       </ColRight>
-    </Form>
+    </CreateForm>
   )
 }
 

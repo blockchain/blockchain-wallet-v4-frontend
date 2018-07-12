@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import media from 'services/ResponsiveService'
 
 export const Form = styled.form`
   width: 100%;
@@ -14,6 +15,9 @@ export const Row = styled.div`
 
 export const ColLeft = styled.div`
   width: 50%;
+  ${media.mobile`
+    width: 100%;
+  `}
 `
 
 export const ColLeftInner = styled.div`
@@ -22,6 +26,9 @@ export const ColLeftInner = styled.div`
 
 export const ColRight = styled.div`
   width: 50%;
+  ${media.mobile`
+    width: 100%;
+  `}
 `
 
 export const Info = styled.div`
@@ -36,11 +43,18 @@ export const InputWrapper = styled.div`
 export const PartnerHeader = styled.div`
   font-size: 30px;
   font-weight: 600;
+  ${media.mobile`
+    font-size: 20px;
+    font-weight: 500;
+  `}
 `
 
 export const PartnerSubHeader = styled.div`
   margin-top: 5px;
   font-size: 16px;
+  ${media.mobile`
+    font-size: 14px;
+  `}
 `
 
 export const ButtonWrapper = styled.div`
@@ -72,6 +86,10 @@ export const ColRightInner = styled.div`
   flex-direction: column;
   width: 80%;
   padding-left: 20%;
+  ${media.mobile`
+    width: 100%;
+    padding-left: 0px;
+  `}
 `
 
 export const EmailHelper = styled.span`

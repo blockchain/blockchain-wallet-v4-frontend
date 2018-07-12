@@ -8,7 +8,7 @@ import CountdownTimer from 'components/Form/CountdownTimer'
 import { spacing } from 'services/StyleService'
 import { reviewOrder, getRateFromQuote } from 'services/CoinifyService'
 import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDetails'
-import { BorderBox, Row } from 'components/BuySell/Signup'
+import { BorderBox, Row, PartnerHeader, PartnerSubHeader } from 'components/BuySell/Signup'
 import { StepTransition } from 'components/Utilities/Stepper'
 import ReviewForm from './ReviewForm'
 import { update } from 'ramda'
@@ -27,12 +27,12 @@ const rateHelper = (quoteR) =>
 export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
   <Row>
     <BorderBox>
-      <Text size='32px' weight={600} style={spacing('mb-10')}>
+      <PartnerHeader weight={600} style={spacing('mb-10')}>
         <FormattedMessage id='scenes.buysell.coinifycheckout.content.orderreview.buy.almostthere' defaultMessage="You're almost there" />
-      </Text>
-      <Text size='14px' weight={300} style={spacing('mb-20')}>
-        <FormattedMessage id='scenes.buysell.coinifycheckout.content.orderreview.buy.revieworder.subtext' defaultMessage='Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order.' />
-      </Text>
+      </PartnerHeader>
+      <PartnerSubHeader weight={300} style={spacing('mb-20')}>
+        <FormattedMessage id='scenes.buysell.coinifycheckout.content.orderreview.buy.revieworder.subPartnerSubHeader' defaultMessage='Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order.' />
+      </PartnerSubHeader>
       <ExchangeRateWrapper>
         <Text size='12px' weight={500} style={spacing('mr-10')}>
           <FormattedMessage id='scenes.buysell.coinifycheckout.content.orderreview.exchangerate' defaultMessage='Exchange Rate' />
@@ -42,25 +42,45 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
         </Text>
       </ExchangeRateWrapper>
       <OrderDetailsTable style={spacing('mt-10')}>
-        <OrderDetailsRow>
+        <OrderDetailsRow short noBorderBottom>
           {
             type === 'buy'
               ? <Text size='13px' weight={300}><FormattedMessage id='orderdetails.amounttopurchase' defaultMessage='BTC Amount to Purchase' /></Text>
               : <Text size='13px' weight={300}><FormattedMessage id='orderdetails.amounttosell' defaultMessage='BTC Amount to Sell' /></Text>
           }
-          <Text size='13px' weight={300}>{quoteR.map(q => reviewOrder.renderFirstRow(q, medium)).getOrElse('~')}</Text>
+          <Text size='13px' weight={300}>{quoteR.map(q => reviewOrder.renderFirstRow(q)).getOrElse('~')}</Text>
         </OrderDetailsRow>
-        <OrderDetailsRow>
+        {
+          type === 'buy'
+            ? <OrderDetailsRow short noBorderBottom>
+              <Text size='13px' weight={300}><FormattedMessage id='orderdetails.btctransactionfee' defaultMessage='BTC Transaction Fee' /></Text>
+              <Text size='13px' weight={300}>-{quoteR.map(q => reviewOrder.renderMinerFeeRow(q, medium, type)).getOrElse('~')} BTC</Text>
+            </OrderDetailsRow>
+            : null
+        }
+        {
+          type === 'buy'
+            ? <OrderDetailsRow short>
+              <Text size='13px' weight={300}><FormattedMessage id='orderdetails.btctobereceived' defaultMessage='BTC to be Received' /></Text>
+              <Text size='13px' weight={300} color='success'>{quoteR.map(q => reviewOrder.renderBtcToBeReceived(q, medium, type)).getOrElse('~')} BTC</Text>
+            </OrderDetailsRow>
+            : null
+        }
+        <OrderDetailsRow short noBorderBottom>
+          <Text size='13px' weight={300}><FormattedMessage id='orderdetails.amount' defaultMessage='Amount' /></Text>
+          <Text size='13px' weight={300}>{quoteR.map(q => reviewOrder.renderAmountRow(q)).getOrElse('~')}</Text>
+        </OrderDetailsRow>
+        <OrderDetailsRow short noBorderBottom>
           <Text size='13px' weight={300}><FormattedMessage id='orderdetails.tradingfee' defaultMessage='Trading Fee' /></Text>
           <Text size='13px' weight={300}>{quoteR.map(q => reviewOrder.renderFeeRow(q, medium, type)).getOrElse('~')}</Text>
         </OrderDetailsRow>
-        <OrderDetailsRow>
+        <OrderDetailsRow short>
           {
             type === 'buy'
-              ? <Text size='13px' weight={300}><FormattedMessage id='orderdetails.totalcost' defaultMessage='Total Cost' /></Text>
-              : <Text size='13px' weight={300}><FormattedMessage id='orderdetails.totaltobereceived' defaultMessage='Total to be Received' /></Text>
+              ? <Text size='13px' weight={400}><FormattedMessage id='orderdetails.totalcost' defaultMessage='Total Cost' /></Text>
+              : <Text size='13px' weight={400} color='success'><FormattedMessage id='orderdetails.totaltobereceived' defaultMessage='Total to be Received' /></Text>
           }
-          <Text size='13px' weight={300} color='success'>{quoteR.map(q => reviewOrder.renderTotalRow(q, medium, type)).getOrElse('~')}</Text>
+          <Text size='13px' weight={400} color={type !== 'buy' && 'success'}>{quoteR.map(q => reviewOrder.renderTotalRow(q, medium, type)).getOrElse('~')}</Text>
         </OrderDetailsRow>
       </OrderDetailsTable>
       {quoteR.map((q) => (

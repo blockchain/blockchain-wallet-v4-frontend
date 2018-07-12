@@ -28,7 +28,8 @@ export default (state = INITIAL_STATE, action) => {
     case '@@router/LOCATION_CHANGE': {
       const pathname = path(['location', 'pathname'], payload)
       const settingsOpened = pathname && pathname.indexOf('/settings') > -1
-      return merge(state, { trayOpened: false, trayContent: '', menuOpened: false, settingsOpened })
+      const shouldOpenSettings = !state.settingsOpened && settingsOpened
+      return merge(state, { trayOpened: false, trayContent: '', menuOpened: shouldOpenSettings, settingsOpened })
     }
     case AT.LAYOUT_WALLET_MENU_TOGGLE_CLICKED: {
       return merge(state, { menuOpened: !state.menuOpened })

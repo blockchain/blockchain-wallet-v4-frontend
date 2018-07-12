@@ -14,13 +14,20 @@ import { OrderDetails, OrderSubmit } from './OrderReview'
 import Helper from 'components/BuySell/FAQ'
 import EmptyOrderHistoryContainer from 'components/BuySell/EmptyOrderHistory'
 import SiftScience from 'modals/SfoxExchangeData/sift-science.js'
+import media from 'services/ResponsiveService'
 
 const CheckoutWrapper = styled.div`
   width: 50%;
+  ${media.mobile`
+    width: 100%;
+  `}
 `
 const OrderSubmitWrapper = CheckoutWrapper.extend`
   width: 35%;
   padding: 30px 30px 30px 10%;
+  ${media.mobile`
+    padding: 0px;
+  `}
 `
 const OrderHistoryWrapper = styled.div`
   width: 100%;
@@ -35,6 +42,13 @@ const OrderHistoryContent = styled.div`
   > div:last-child {
     margin-bottom: 20px;
   }
+`
+const SfoxBuySellContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  ${media.mobile`
+    flex-direction: column;
+  `}
 `
 const faqList = [
   {
@@ -82,7 +96,7 @@ const Success = props => {
   const accounts = Remote.of(props.value.accounts).getOrElse([])
   const profile = Remote.of(props.value.profile).getOrElse({ account: { verification_status: {} }, limits: { buy: 0, sell: 0 } })
   const verificationStatus = Remote.of(props.value.verificationStatus).getOrElse({ level: 'unverified', required_docs: [] })
-  const payment = Remote.of(props.payment).getOrElse({ effectiveBalance: 0 })
+  const payment = props.payment.getOrElse({ effectiveBalance: 0 })
 
   const { trades, type, busy } = rest
   const step = determineStep(profile, verificationStatus, accounts)
@@ -105,7 +119,7 @@ const Success = props => {
     return (
       <Stepper key='BuyStepper' initialStep={0}>
         <StepView step={0}>
-          <div style={flex('row')}>
+          <SfoxBuySellContainer>
             <CheckoutWrapper>
               <OrderCheckout
                 quoteR={buyQuoteR}
@@ -123,10 +137,10 @@ const Success = props => {
             <OrderSubmitWrapper>
               {faqListHelper()}
             </OrderSubmitWrapper>
-          </div>
+          </SfoxBuySellContainer>
         </StepView>
         <StepView step={1}>
-          <div style={flex('row')}>
+          <SfoxBuySellContainer>
             <CheckoutWrapper>
               <OrderDetails
                 quoteR={buyQuoteR}
@@ -144,7 +158,7 @@ const Success = props => {
                 account={accounts[0]}
               />
             </OrderSubmitWrapper>
-          </div>
+          </SfoxBuySellContainer>
         </StepView>
         {siftScienceEnabled ? <SiftScience /> : null}
       </Stepper>
@@ -169,7 +183,7 @@ const Success = props => {
           </CheckoutWrapper>
         </StepView>
         <StepView step={1}>
-          <div style={flex('row')}>
+          <SfoxBuySellContainer>
             <CheckoutWrapper>
               <OrderDetails
                 quoteR={sellQuoteR}
@@ -186,7 +200,7 @@ const Success = props => {
                 clearTradeError={clearTradeError}
               />
             </OrderSubmitWrapper>
-          </div>
+          </SfoxBuySellContainer>
         </StepView>
         {siftScienceEnabled ? <SiftScience /> : null}
       </Stepper>
@@ -206,8 +220,12 @@ const Success = props => {
             <Text size='15px' weight={400}>
               <FormattedMessage id='scenes.buysell.sfoxcheckout.trades.pending' defaultMessage='Pending Orders' />
             </Text>
-            <OrderHistoryTable trades={filter(isPending, trades)} conversion={conversion}
-              handleDetailsClick={trade => showModal('SfoxTradeDetails', { trade })} />
+            <OrderHistoryTable
+              trades={filter(isPending, trades)}
+              conversion={conversion}
+              handleDetailsClick={trade => showModal('SfoxTradeDetails', { trade })}
+              partner='sfox'
+            />
           </OrderHistoryContent>
           <OrderHistoryContent>
             <Text size='15px' weight={400}>

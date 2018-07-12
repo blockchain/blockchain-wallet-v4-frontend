@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
 import { selectors } from 'data'
-import { all, curry, isEmpty, propSatisfies, toUpper, prop, allPass, anyPass, compose, contains, map, filter } from 'ramda'
+import { all, curry, isEmpty, propSatisfies, toUpper, prop, allPass, anyPass, compose, contains, map, filter, propOr } from 'ramda'
 
 const filterTransactions = curry((status, criteria, transactions) => {
   const isOfType = curry((filter, tx) => propSatisfies(x => filter === '' || toUpper(x) === toUpper(filter), 'type', tx))
@@ -17,8 +17,8 @@ export const getData = createSelector(
   ],
   (formValues, pages) => {
     const empty = (page) => isEmpty(page.data)
-    const search = prop('search', formValues) || ''
-    const status = prop('status', formValues) || ''
+    const search = propOr('', 'search', formValues)
+    const status = propOr('', 'status', formValues)
     const filteredPages = !isEmpty(pages)
       ? pages.map(map(filterTransactions(status, search)))
       : []

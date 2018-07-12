@@ -10,12 +10,13 @@ cache:
     - packages/blockchain-info-components/node_modules
     - packages/blockchain-wallet-v4/node_modules
     - packages/blockchain-wallet-v4-frontend/node_modules
+    - .eslintcache
 
 before_install:
-  - npm install -g lerna yarn babel-cli rimraf cross-env
+  - npm install -g yarn babel-cli rimraf cross-env
 
 install:
-  - yarn bootstrap
+  - yarn
 
 stages:
   - name: branch-commit-build

@@ -8,6 +8,7 @@ import { spacing } from 'services/StyleService'
 import { FormattedMessage } from 'react-intl'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { Icon, TextInput, Text, Button } from 'blockchain-info-components'
+import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -25,6 +26,12 @@ const FiatConvertorInput = styled.div`
   width: 100%;
   height: 100%;
   margin-bottom: 0px;
+  ${media.mobile`
+    flex-direction: column;
+    div:first-of-type {
+      margin-bottom: 25px;
+    }
+  `}
 `
 const Container = styled.div`
   position: relative;
@@ -45,11 +52,17 @@ const Unit = styled.span`
 const ArrowLeft = styled(Icon)`
   margin-left: 10px;
   color: #bbb;
+  ${media.mobile`
+    display: none;
+  `}
 `
 const ArrowRight = styled(Icon)`
   margin-left: -10px;
   margin-right: 10px;
   color: #bbb;
+  ${media.mobile`
+    display: none;
+  `}
 `
 const Error = styled(Text)`
   position: absolute;

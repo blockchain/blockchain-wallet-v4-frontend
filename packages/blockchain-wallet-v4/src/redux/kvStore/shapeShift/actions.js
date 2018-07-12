@@ -7,7 +7,7 @@ export const addStateMetadataShapeshift = (usState) => ({ type: AT.ADD_STATE_MET
 export const addTradeMetadataShapeshift = (trade) => ({ type: AT.ADD_TRADE_METADATA_SHAPESHIFT, payload: { trade } })
 
 // UPDATE_TRADE_METADATA_SHAPESHIFT
-export const updateTradeStatusMetadataShapeshift = (depositAddress, status) => ({ type: AT.UPDATE_TRADE_STATUS_METADATA_SHAPESHIFT, payload: { depositAddress, status } })
+export const updateTradeMetadataShapeshift = (depositAddress, status, hashOut) => ({ type: AT.UPDATE_TRADE_METADATA_SHAPESHIFT, payload: { depositAddress, status, hashOut } })
 
 // FETCH_METADATA_SHAPESHIFT
 export const fetchMetadataShapeshift = () => ({ type: AT.FETCH_METADATA_SHAPESHIFT })

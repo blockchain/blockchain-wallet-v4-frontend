@@ -42,23 +42,35 @@ const selectBorderColor = (state) => {
   }
 }
 
-const TextInput = props => {
-  const { errorState, disabled, ...rest } = props
-  const borderColor = selectBorderColor(errorState)
+class TextInput extends React.Component {
+  static propTypes = {
+    disabled: PropTypes.bool,
+    height: PropTypes.string,
+    minHeight: PropTypes.string
+  }
 
-  return <BaseTextInput borderColor={borderColor} disabled={disabled} {...rest} />
-}
+  static defaultProps = {
+    disabled: false,
+    height: '40px',
+    minHeight: '40px'
+  }
 
-TextInput.propTypes = {
-  disabled: PropTypes.bool,
-  height: PropTypes.string,
-  minHeight: PropTypes.string
-}
+  componentDidUpdate (prevProps) {
+    if (this.props.active && !prevProps.active && this.input) {
+      this.input.focus()
+    }
+  }
 
-TextInput.defaultProps = {
-  disabled: false,
-  height: '40px',
-  minHeight: '40px'
+  refInput = (input) => {
+    this.input = input
+  }
+
+  render () {
+    const { errorState, disabled, ...rest } = this.props
+    const borderColor = selectBorderColor(errorState)
+
+    return <BaseTextInput innerRef={this.refInput} borderColor={borderColor} disabled={disabled} {...rest} />
+  }
 }
 
 export default TextInput

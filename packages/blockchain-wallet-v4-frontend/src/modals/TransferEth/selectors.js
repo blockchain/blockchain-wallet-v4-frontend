@@ -1,5 +1,5 @@
 import { selectors } from 'data'
-import { lift, head, prop } from 'ramda'
+import { lift, head, prop, propOr } from 'ramda'
 
 const extractAddress = addr => prop('addr', head(addr))
 
@@ -8,8 +8,8 @@ export const getData = state => {
   const defaultAccountR = selectors.core.kvStore.ethereum.getAccounts(state).map(extractAddress)
 
   const transform = (defaultAccount, payment) => {
-    const effectiveBalance = prop('effectiveBalance', payment) || '0'
-    const fee = prop('fee', payment) || '0'
+    const effectiveBalance = propOr('0', 'effectiveBalance', payment)
+    const fee = propOr('0', 'fee', payment)
 
     return {
       to: defaultAccount,

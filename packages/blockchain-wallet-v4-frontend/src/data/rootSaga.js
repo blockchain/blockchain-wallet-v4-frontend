@@ -1,4 +1,5 @@
 import { all, call, fork, put } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
 import { coreSagasFactory, coreRootSagaFactory } from 'blockchain-wallet-v4/src'
 import * as actions from './actions'
 import alerts from './alerts/sagaRegister'
@@ -10,6 +11,9 @@ import preferences from './preferences/sagaRegister'
 import goals from './goals/sagaRegister'
 import router from './router/sagaRegister'
 import wallet from './wallet/sagaRegister'
+import { tryParseLanguageFromUrl } from 'services/LanguageService'
+
+const logLocation = 'data/rootSaga'
 
 const welcomeSaga = function * () {
   try {
@@ -26,7 +30,20 @@ const welcomeSaga = function * () {
     console.log('%c it is a scam and will give them access to your money!', style2)
     /* eslint-enable */
   } catch (e) {
-    yield put(actions.logs.logErrorMessage('data/rootSaga', 'welcomeSaga', e))
+    yield put(actions.logs.logErrorMessage(logLocation, 'welcomeSaga', e))
+  }
+}
+
+const languageInitSaga = function * () {
+  try {
+    yield call(delay, 250)
+    const lang = tryParseLanguageFromUrl()
+    if (lang.language) {
+      yield put(actions.preferences.setLanguage(lang.language, false))
+      if (lang.cultureCode) yield put(actions.preferences.setCulture(lang.cultureCode))
+    }
+  } catch (e) {
+    yield put(actions.logs.logErrorMessage(logLocation, 'languageInitSaga', e))
   }
 }
 
@@ -37,13 +54,14 @@ export default function * ({ api, bchSocket, btcSocket, ethSocket, options }) {
     call(welcomeSaga),
     fork(alerts),
     fork(auth({ api, coreSagas })),
-    fork(components({ api, coreSagas })),
+    fork(components({ api, coreSagas, options })),
     fork(modules({ coreSagas })),
     fork(preferences()),
     fork(goals({ coreSagas })),
     fork(wallet({ coreSagas })),
     fork(middleware({ api, bchSocket, btcSocket, ethSocket })),
     fork(coreRootSagaFactory({ api, options })),
-    fork(router())
+    fork(router()),
+    call(languageInitSaga)
   ])
 }

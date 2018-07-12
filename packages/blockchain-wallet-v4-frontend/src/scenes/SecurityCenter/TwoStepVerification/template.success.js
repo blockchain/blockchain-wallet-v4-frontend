@@ -11,6 +11,7 @@ import SmsAuth from './SMS'
 import { pulse } from 'react-animations'
 import Choices from '../Components/Choices/index'
 import { spacing } from 'services/StyleService'
+import media from 'services/ResponsiveService'
 
 const pulseAnimation = keyframes`${pulse}`
 
@@ -24,6 +25,9 @@ const SecurityTwoStepContainer = SecurityContainer.extend`
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
   grid-template-columns: 85% 15%;
+  ${media.mobile`
+    padding: 0px;
+  `}
 `
 const IconAndHeaderContainer = styled.div`
   opacity: ${props => props.success ? 0.3 : 1};

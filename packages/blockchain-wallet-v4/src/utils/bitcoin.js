@@ -1,6 +1,6 @@
 import { selectAll } from '../coinSelection'
-import { address, networks, ECPair, Transaction } from 'bitcoinjs-lib'
-import { equals, head, or, prop, compose } from 'ramda'
+import { address, networks, ECPair, Transaction, crypto } from 'bitcoinjs-lib'
+import { equals, head, or, propOr, compose } from 'ramda'
 import { decode, fromWords } from 'bech32'
 import { compile } from 'bitcoinjs-lib/src/script'
 import * as OP from 'bitcoin-ops'
@@ -71,25 +71,25 @@ export const scriptToAddress = (script, network) => {
 export const detectPrivateKeyFormat = key => {
   let isTestnet = false
   // 51 characters base58, always starts with 5 (or 9, for testnet)
-  var sipaRegex = isTestnet
-    ? (/^[9][123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{50}$/)
-    : (/^[5][123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{50}$/)
+  const sipaRegex = isTestnet
+    ? (/^[9][1-9A-HJ-Za-km-z]{50}$/)
+    : (/^[5][1-9A-HJ-Za-km-z]{50}$/)
 
   if (sipaRegex.test(key)) {
     return 'sipa'
   }
 
   // 52 character compressed starts with L or K (or c, for testnet)
-  var compsipaRegex = isTestnet
-    ? (/^[c][123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{51}$/)
-    : (/^[LK][123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{51}$/)
+  const compsipaRegex = isTestnet
+    ? (/^[c][1-9A-HJ-Za-km-z]{51}$/)
+    : (/^[LK][1-9A-HJ-Za-km-z]{51}$/)
 
   if (compsipaRegex.test(key)) {
     return 'compsipa'
   }
 
   // 40-44 characters base58
-  if (/^[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{40,44}$/.test(key)) {
+  if (/^[1-9A-HJ-Za-km-z]{40,44}$/.test(key)) {
     return 'base58'
   }
 
@@ -101,17 +101,36 @@ export const detectPrivateKeyFormat = key => {
     return 'base64'
   }
 
-  if (/^6P[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{56}$/.test(key)) {
+  if (/^6P[1-9A-HJ-Za-km-z]{56}$/.test(key)) {
     return 'bip38'
   }
+
+  if (/^S[1-9A-HJ-Za-km-z]{21}$/.test(key) ||
+    /^S[1-9A-HJ-Za-km-z]{25}$/.test(key) ||
+    /^S[1-9A-HJ-Za-km-z]{29}$/.test(key) ||
+    /^S[1-9A-HJ-Za-km-z]{30}$/.test(key)) {
+    const testBytes = crypto.sha256(key + '?')
+
+    if (testBytes[0] === 0x00 || testBytes[0] === 0x01) {
+      return 'mini'
+    }
+  }
   return null
+}
+
+const parseMiniKey = function (miniKey) {
+  const check = crypto.sha256(miniKey + '?')
+  if (check[0] !== 0x00) {
+    throw new Error('Invalid mini key')
+  }
+  return crypto.sha256(miniKey)
 }
 
 export const privateKeyStringToKey = function (value, format, network = networks.bitcoin, addr) {
   if (format === 'sipa' || format === 'compsipa') {
     return ECPair.fromWIF(value, networks.bitcoin)
   } else {
-    var keyBuffer = null
+    let keyBuffer = null
 
     switch (format) {
       case 'base58':
@@ -123,12 +142,15 @@ export const privateKeyStringToKey = function (value, format, network = networks
       case 'hex':
         keyBuffer = Buffer.from(value, 'hex')
         break
+      case 'mini':
+        keyBuffer = parseMiniKey(value)
+        break
       default:
         throw new Error('Unsupported Key Format')
     }
 
-    var d = BigInteger.fromBuffer(keyBuffer)
-    var keyPair = new ECPair(d, null, { network: network })
+    const d = BigInteger.fromBuffer(keyBuffer)
+    let keyPair = new ECPair(d, null, { network: network })
 
     if (addr && keyPair.getAddress() !== addr) {
       keyPair.compressed = false
@@ -160,7 +182,7 @@ export const isValidBitcoinPrivateKey = value => {
 
 export const calculateBalanceSatoshi = (coins, feePerByte) => {
   const { outputs, fee } = selectAll(feePerByte, coins)
-  const effectiveBalance = prop('value', head(outputs)) || 0
+  const effectiveBalance = propOr(0, 'value', head(outputs))
   const balance = new BigNumber(effectiveBalance).add(new BigNumber(fee))
   return { balance, fee, effectiveBalance }
 }

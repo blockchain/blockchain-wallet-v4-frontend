@@ -17,6 +17,9 @@ const BaseTabMenuItem = styled.span`
     text-decoration: underline;
     color: ${props => props.theme['gray-5']};
   }
+  @media (max-width: 480px) {
+    font-size: 13px;
+  }
 `
 
 const TabMenuItem = (props) => {

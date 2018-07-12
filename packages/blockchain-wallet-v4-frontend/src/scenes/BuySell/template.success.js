@@ -9,35 +9,39 @@ import { FormGroup, FormItem, SelectBoxUSState, SelectBoxCountry, TextBox } from
 import { spacing } from 'services/StyleService'
 import { required, onPartnerCountryWhitelist, onPartnerStateWhitelist, validEmail } from 'services/FormHelper'
 import BuySellAnimation from './BuySellAnimation'
+import media from 'services/ResponsiveService'
 
 const Row = styled.div`
   display: flex;
   align-items: center;
   flex-direction: row;
   width: 100%;
-  @media (max-width: 993px) {
+  ${media.laptop`
     align-items: flex-start;
-  }
+  `}
 `
 const ColLeft = styled.div`
   width: 50%;
   margin-right: 5%;
   margin-top: -28px;
-  @media (max-width: 993px) {
+  ${media.laptop`
     display: none;
-  }
+  `}
 `
 const ColRight = styled.div`
   width: 40%;
   margin-top: -56px;
-  @media (max-width: 993px) {
+  ${media.laptop`
     width: 100%;
     margin-top: 30px;
-  }
+  `}
 `
 const PartnerHeader = styled.div`
   font-size: 30px;
   font-weight: 600;
+  ${media.mobile`
+    font-size: 20px;
+  `}
 `
 const PartnerSubHeader = styled.div`
   margin-top: 5px;

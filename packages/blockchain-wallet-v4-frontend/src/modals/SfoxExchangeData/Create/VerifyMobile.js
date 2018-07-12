@@ -12,6 +12,7 @@ import { Text, Button } from 'blockchain-info-components'
 import { required, normalizePhone, validMobileNumber } from 'services/FormHelper'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ColRightInner, EmailHelper } from 'components/BuySell/Signup'
 import { spacing } from 'services/StyleService'
+import media from 'services/ResponsiveService'
 
 const MobileInput = styled.div`
   display: flex;
@@ -20,6 +21,12 @@ const MobileInput = styled.div`
 `
 const MobileCodeContainer = MobileInput.extend`
   margin-top: 25px;
+`
+const VerifyMobileForm = styled(Form)`
+  ${media.mobile`
+    flex-direction: column;
+    height: 100vh;
+  `}
 `
 
 class VerifyMobile extends Component {
@@ -62,7 +69,7 @@ class VerifyMobile extends Component {
   }
 
   render () {
-    const { ui, invalid, mobileCode, mobileNumber, mobileVerifiedError, countryCode, smsNumber } = this.props
+    const { ui, mobileCode, mobileNumber, mobileVerifiedError, countryCode, smsNumber } = this.props
 
     let smsHelper = () => {
       switch (true) {
@@ -73,7 +80,7 @@ class VerifyMobile extends Component {
     }
 
     return (
-      <Form onSubmit={this.onSubmit}>
+      <VerifyMobileForm onSubmit={this.onSubmit}>
         <ColLeft>
           <InputWrapper>
             <PartnerHeader>
@@ -98,7 +105,7 @@ class VerifyMobile extends Component {
                 <Text size='14px' weight={400} style={{'marginBottom': '5px'}}>
                   <FormattedMessage id='sfoxexchangedata.create.mobile.entercode' defaultMessage='Enter the code we just sent to your phone:' />
                 </Text>
-                <Field name='mobileCode' component={TextBox} validate={[required]} />
+                <Field name='mobileCode' component={TextBox} validate={[required]} errorBottom />
                 <EmailHelper error={mobileVerifiedError}>
                   { smsHelper() }
                 </EmailHelper>
@@ -109,22 +116,17 @@ class VerifyMobile extends Component {
         <ColRight>
           <ColRightInner>
             {
-              ui.create === 'enter_mobile_code' && <ButtonWrapper>
-                <Button uppercase type='submit' nature='primary' fullwidth disabled={!mobileCode}>
-                  Continue
-                </Button>
-              </ButtonWrapper>
-            }
-            {
-              ui.create !== 'enter_mobile_code' && <ButtonWrapper>
-                <Button type='submit' nature='primary' fullwidth disabled={invalid || !mobileCode}>
-                  <FormattedMessage id='sfoxexchangedata.create.mobile.continue' defaultMessage='Continue' />
-                </Button>
-              </ButtonWrapper>
+              ui.create !== 'enter_mobile_code'
+                ? null
+                : <ButtonWrapper>
+                  <Button type='submit' nature='primary' fullwidth disabled={!mobileCode}>
+                    <FormattedMessage id='sfoxexchangedata.create.mobile.continue' defaultMessage='Continue' />
+                  </Button>
+                </ButtonWrapper>
             }
           </ColRightInner>
         </ColRight>
-      </Form>
+      </VerifyMobileForm>
     )
   }
 }

@@ -1,4 +1,4 @@
-import { mapObjIndexed, any, identity, values, sequence } from 'ramda'
+import { mapObjIndexed, any, equals, identity, values, sequence } from 'ramda'
 import Task from 'data.task'
 
 // import { Wallet, KVStoreEntry } from '../../types'
@@ -22,13 +22,17 @@ const kvStoreMiddleware = ({ isAuthenticated, api } = {}) => (store) => (next) =
 
   switch (true) {
     case (wasAuth && isAuth &&
-          action.type !== T.root.FETCH_METADATA_ROOT_SUCCESS &&
-          action.type !== T.whatsNew.FETCH_METADATA_WHATSNEW_SUCCESS &&
-          action.type !== T.buySell.FETCH_METADATA_BUYSELL_SUCCESS &&
-          action.type !== T.contacts.FETCH_METADATA_CONTACTS_SUCCESS &&
-          action.type !== T.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS &&
-          action.type !== T.shapeShift.FETCH_METADATA_SHAPESHIFT_SUCCESS &&
-          action.type !== T.bch.FETCH_METADATA_BCH_SUCCESS &&
+          !any(equals(action.type),
+            [
+              T.root.FETCH_METADATA_ROOT_SUCCESS,
+              T.whatsNew.FETCH_METADATA_WHATSNEW_SUCCESS,
+              T.buySell.FETCH_METADATA_BUYSELL_SUCCESS,
+              T.contacts.FETCH_METADATA_CONTACTS_SUCCESS,
+              T.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS,
+              T.shapeShift.FETCH_METADATA_SHAPESHIFT_SUCCESS,
+              T.bch.FETCH_METADATA_BCH_SUCCESS,
+              T.btc.FETCH_METADATA_BTC_SUCCESS
+            ]) &&
           any(identity, values(changes))):
 
       const actionCreators = {
@@ -38,7 +42,8 @@ const kvStoreMiddleware = ({ isAuthenticated, api } = {}) => (store) => (next) =
         [C.CONTACTS]: A.contacts.fetchMetadataContactsSuccess,
         [C.ETHEREUM]: A.ethereum.fetchMetadataEthereumSuccess,
         [C.SHAPESHIFT]: A.shapeShift.fetchMetadataShapeshiftSuccess,
-        [C.BCH]: A.bch.fetchMetadataBchSuccess
+        [C.BCH]: A.bch.fetchMetadataBchSuccess,
+        [C.BTC]: A.btc.fetchMetadataBtcSuccess
       }
 
       const saveTasks = (value, key) => {
