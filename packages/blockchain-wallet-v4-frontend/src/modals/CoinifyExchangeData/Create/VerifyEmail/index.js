@@ -1,53 +1,63 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import { bindActionCreators, compose } from 'redux'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { bindActionCreators, compose } from "redux";
 
-import { actions } from 'data'
-import { getData } from './selectors'
-import VerifyEmail from './template'
+import { actions } from "data";
+import { getData } from "./selectors";
+import VerifyEmail from "./template";
 
 class VerifyEmailContainer extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {}
-    this.onSubmit = this.onSubmit.bind(this)
-    this.resendCode = this.resendCode.bind(this)
+  constructor(props) {
+    super(props);
+    this.state = {};
+    this.onSubmit = this.onSubmit.bind(this);
+    this.resendCode = this.resendCode.bind(this);
   }
 
-  componentDidMount () {
-    this.props.formActions.change('coinifyVerifyEmail', 'emailAddress', this.props.oldEmail)
+  componentDidMount() {
+    this.props.formActions.change(
+      "coinifyVerifyEmail",
+      "emailAddress",
+      this.props.oldEmail
+    );
   }
 
-  resendCode () {
-    this.props.updateUI({ codeSent: true })
-    this.props.securityCenterActions.sendConfirmationCodeEmail(this.props.emailAddress)
+  resendCode() {
+    this.props.updateUI({ codeSent: true });
+    this.props.securityCenterActions.sendConfirmationCodeEmail(
+      this.props.emailAddress
+    );
   }
 
-  onSubmit () {
-    if (this.props.ui.create === 'enter_email_code') {
-      this.props.coinifyActions.coinifyClearSignupError()
-      this.props.securityCenterActions.verifyEmailCode(this.props.emailCode)
+  onSubmit() {
+    if (this.props.ui.create === "enter_email_code") {
+      this.props.coinifyActions.coinifyClearSignupError();
+      this.props.securityCenterActions.verifyEmailCode(this.props.emailCode);
     } else {
-      this.props.updateUI({ create: 'enter_email_code' })
-      this.props.securityCenterActions.updateEmail(this.props.emailAddress)
-      this.props.securityCenterActions.sendConfirmationCodeEmail(this.props.emailAddress)
+      this.props.updateUI({ create: "enter_email_code" });
+      this.props.securityCenterActions.updateEmail(this.props.emailAddress);
+      this.props.securityCenterActions.sendConfirmationCodeEmail(
+        this.props.emailAddress
+      );
     }
   }
 
-  render () {
-    const { emailVerifiedError, invalid, ui, updateUI } = this.props
+  render() {
+    const { emailVerifiedError, invalid, ui, updateUI } = this.props;
 
-    return <VerifyEmail
-      emailVerifiedError={emailVerifiedError}
-      invalid={invalid}
-      onSubmit={this.onSubmit}
-      resendCode={this.resendCode}
-      ui={ui}
-      updateUI={updateUI}
-      email={this.props.oldEmail}
-      newEmail={this.props.emailAddress}
-    />
+    return (
+      <VerifyEmail
+        emailVerifiedError={emailVerifiedError}
+        invalid={invalid}
+        onSubmit={this.onSubmit}
+        resendCode={this.resendCode}
+        ui={ui}
+        updateUI={updateUI}
+        email={this.props.oldEmail}
+        newEmail={this.props.emailAddress}
+      />
+    );
   }
 }
 
@@ -59,18 +69,24 @@ VerifyEmailContainer.propTypes = {
   formActions: PropTypes.object,
   emailCode: PropTypes.string,
   oldEmail: PropTypes.string
-}
+};
 
-const mapStateToProps = (state) => getData(state)
+const mapStateToProps = state => getData(state);
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch),
   coinifyActions: bindActionCreators(actions.modules.coinify, dispatch),
-  securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch)
-})
+  securityCenterActions: bindActionCreators(
+    actions.modules.securityCenter,
+    dispatch
+  )
+});
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps)
-)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
+);
 
-export default enhance(VerifyEmailContainer)
+export default enhance(VerifyEmailContainer);

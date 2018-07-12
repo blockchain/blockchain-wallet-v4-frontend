@@ -1,11 +1,11 @@
-import { selectors } from 'data'
-import { lift } from 'ramda'
+import { selectors } from "data";
+import { lift } from "ramda";
 
 export const getData = (state, ownProps) => {
-  const currencyR = selectors.core.settings.getCurrency(state)
-  const btcRatesR = selectors.core.data.bitcoin.getRates(state)
-  const ethRatesR = selectors.core.data.ethereum.getRates(state)
-  const bchRatesR = selectors.core.data.bch.getRates(state)
+  const currencyR = selectors.core.settings.getCurrency(state);
+  const btcRatesR = selectors.core.data.bitcoin.getRates(state);
+  const ethRatesR = selectors.core.data.ethereum.getRates(state);
+  const bchRatesR = selectors.core.data.bch.getRates(state);
 
   const transform = (currency, btcRates, ethRates, bchRates) => ({
     unit: ownProps.coin,
@@ -13,7 +13,7 @@ export const getData = (state, ownProps) => {
     btcRates,
     ethRates,
     bchRates
-  })
+  });
 
-  return lift(transform)(currencyR, btcRatesR, ethRatesR, bchRatesR)
-}
+  return lift(transform)(currencyR, btcRatesR, ethRatesR, bchRatesR);
+};

@@ -1,69 +1,90 @@
-import { put, select } from 'redux-saga/effects'
-import * as S from './selectors'
-import * as actions from '../../actions'
-import * as selectors from '../../selectors'
-import { calculateStart, calculateScale } from 'services/ChartService'
+import { put, select } from "redux-saga/effects";
+import * as S from "./selectors";
+import * as actions from "../../actions";
+import * as selectors from "../../selectors";
+import { calculateStart, calculateScale } from "services/ChartService";
 
 /**
  * Price Chart Sagas
  * @return {Object} price chart sagas
  */
 export default ({ coreSagas }) => {
-  const logLocation = 'components/priceChart/sagas'
+  const logLocation = "components/priceChart/sagas";
 
   /**
    * @desc initialize priceChart component and fetches price data based on coin and time
    * @property {action} foo this is description.
    */
-  const initialized = function * (action) {
+  const initialized = function*(action) {
     try {
-      const { coin, time } = action.payload
-      const currencyR = yield select(selectors.core.settings.getCurrency)
-      const start = calculateStart(coin, time)
-      const scale = calculateScale(coin, time)
-      yield put(actions.core.data.misc.fetchPriceIndexSeries(coin, currencyR.getOrElse('USD'), start, scale))
+      const { coin, time } = action.payload;
+      const currencyR = yield select(selectors.core.settings.getCurrency);
+      const start = calculateStart(coin, time);
+      const scale = calculateScale(coin, time);
+      yield put(
+        actions.core.data.misc.fetchPriceIndexSeries(
+          coin,
+          currencyR.getOrElse("USD"),
+          start,
+          scale
+        )
+      );
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
+      yield put(actions.logs.logErrorMessage(logLocation, "initialized", e));
     }
-  }
+  };
 
   /**
    * @desc click handler for priceChart component that fetches price data for new coin
    * @property {action} foo this is description.
    */
-  const coinClicked = function * (action) {
+  const coinClicked = function*(action) {
     try {
-      const { coin } = action.payload
-      const currencyR = yield select(selectors.core.settings.getCurrency)
-      const time = yield select(S.getTime)
-      const start = calculateStart(coin, time)
-      const scale = calculateScale(coin, time)
-      yield put(actions.core.data.misc.fetchPriceIndexSeries(coin, currencyR.getOrElse('USD'), start, scale))
+      const { coin } = action.payload;
+      const currencyR = yield select(selectors.core.settings.getCurrency);
+      const time = yield select(S.getTime);
+      const start = calculateStart(coin, time);
+      const scale = calculateScale(coin, time);
+      yield put(
+        actions.core.data.misc.fetchPriceIndexSeries(
+          coin,
+          currencyR.getOrElse("USD"),
+          start,
+          scale
+        )
+      );
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'coinClicked', e))
+      yield put(actions.logs.logErrorMessage(logLocation, "coinClicked", e));
     }
-  }
+  };
 
   /**
    * @desc click handler for priceChart component that fetches price data for when time is changed
    * @property {action} foo this is description.
    */
-  const timeClicked = function * (action) {
+  const timeClicked = function*(action) {
     try {
-      const { time } = action.payload
-      const currencyR = yield select(selectors.core.settings.getCurrency)
-      const coin = yield select(S.getCoin)
-      const start = calculateStart(coin, time)
-      const scale = calculateScale(coin, time)
-      yield put(actions.core.data.misc.fetchPriceIndexSeries(coin, currencyR.getOrElse('USD'), start, scale))
+      const { time } = action.payload;
+      const currencyR = yield select(selectors.core.settings.getCurrency);
+      const coin = yield select(S.getCoin);
+      const start = calculateStart(coin, time);
+      const scale = calculateScale(coin, time);
+      yield put(
+        actions.core.data.misc.fetchPriceIndexSeries(
+          coin,
+          currencyR.getOrElse("USD"),
+          start,
+          scale
+        )
+      );
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'timeClicked', e))
+      yield put(actions.logs.logErrorMessage(logLocation, "timeClicked", e));
     }
-  }
+  };
 
   return {
     initialized,
     coinClicked,
     timeClicked
-  }
-}
+  };
+};

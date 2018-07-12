@@ -1,21 +1,21 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Modal } from 'blockchain-info-components'
-import Transition from 'react-transition-group/Transition'
-import media from 'services/ResponsiveService'
+import React from "react";
+import styled from "styled-components";
+import { Modal } from "blockchain-info-components";
+import Transition from "react-transition-group/Transition";
+import media from "services/ResponsiveService";
 
 // TODO: refactor to not use react-transition-group. then remove that dependency all together
-const duration = 500
+const duration = 500;
 
 const defaultStyle = {
   transition: `top ${duration}ms`,
-  top: '100%'
-}
+  top: "100%"
+};
 
 const transitionStyles = {
-  entering: { top: '100%' },
-  entered: { top: '0px' }
-}
+  entering: { top: "100%" },
+  entered: { top: "0px" }
+};
 
 const TrayModal = styled(Modal)`
   left: 0px;
@@ -24,8 +24,8 @@ const TrayModal = styled(Modal)`
   position: absolute;
   width: 100%;
   height: 100vh;
-  color: ${props => props.theme['gray-5']};
-  font-family: 'Montserrat', Helvetica, sans-serif;
+  color: ${props => props.theme["gray-5"]};
+  font-family: "Montserrat", Helvetica, sans-serif;
   > div:first-child {
     padding: 60px 40px 60px 60px;
     > span:last-child {
@@ -40,7 +40,7 @@ const TrayModal = styled(Modal)`
     ${media.mobile`
       padding-top: 20px;
       padding-bottom: 20px;
-    `}
+    `};
   }
   > div:last-child {
     overflow: auto;
@@ -53,27 +53,31 @@ const TrayModal = styled(Modal)`
   ${media.tablet`
     width: 100%;
     left: 0px;
-  `}
-`
+  `};
+`;
 
 class Tray extends React.PureComponent {
-  handleClickOutside () {
-    this.props.onClose()
+  handleClickOutside() {
+    this.props.onClose();
     // TODO: may need to check something about the modal stack here
   }
 
-  render () {
-    const { children, ...rest } = this.props
+  render() {
+    const { children, ...rest } = this.props;
     return (
       <Transition in={this.props.in} timeout={0}>
-        {(status) => (
-          <TrayModal {...rest} type={'tray'} style={{...defaultStyle, ...transitionStyles[status]}}>
+        {status => (
+          <TrayModal
+            {...rest}
+            type={"tray"}
+            style={{ ...defaultStyle, ...transitionStyles[status] }}
+          >
             {children}
           </TrayModal>
         )}
       </Transition>
-    )
+    );
   }
 }
 
-export default Tray
+export default Tray;

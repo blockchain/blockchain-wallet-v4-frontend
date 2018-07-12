@@ -1,3 +1,3 @@
-import { path } from 'ramda'
+import { path } from "ramda";
 
-export const selectScroll = path(['scroll'])
+export const selectScroll = path(["scroll"]);

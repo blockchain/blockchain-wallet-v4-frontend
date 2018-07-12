@@ -1,20 +1,19 @@
-export default
-{
-  code: 'SEK',
-  base: 'CENT',
-  trade: 'SEK',
+export default {
+  code: "SEK",
+  base: "CENT",
+  trade: "SEK",
   units: {
     CENT: {
-      rate: '1',
-      symbol: '¢kr',
+      rate: "1",
+      symbol: "¢kr",
       decimal_digits: 0,
-      currency: 'SEK'
+      currency: "SEK"
     },
     SEK: {
-      rate: '100',
-      symbol: 'kr',
+      rate: "100",
+      symbol: "kr",
       decimal_digits: 2,
-      currency: 'SEK'
+      currency: "SEK"
     }
   }
-}
+};

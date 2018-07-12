@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 const SettingSummary = styled.div`
   display: flex;
@@ -12,6 +12,6 @@ const SettingSummary = styled.div`
   @media (min-width: 992px) {
     width: 50%;
   }
-`
+`;
 
-export default SettingSummary
+export default SettingSummary;

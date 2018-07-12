@@ -1,11 +1,11 @@
 // import whatsNew from './whatsNew/sagas'
-import bch from './bch/sagas'
-import btc from './btc/sagas'
-import ethereum from './ethereum/sagas'
-import shapeShift from './shapeShift/sagas'
-import buySell from './buySell/sagas'
-import contacts from './contacts/sagas'
-import root from './root/sagas'
+import bch from "./bch/sagas";
+import btc from "./btc/sagas";
+import ethereum from "./ethereum/sagas";
+import shapeShift from "./shapeShift/sagas";
+import buySell from "./buySell/sagas";
+import contacts from "./contacts/sagas";
+import root from "./root/sagas";
 
 export default ({ api }) => ({
   root: root({ api }),
@@ -16,4 +16,4 @@ export default ({ api }) => ({
   buySell: buySell({ api }),
   contacts: contacts({ api }),
   btc: btc({ api })
-})
+});

@@ -2,9 +2,9 @@
 // import * as actions from '../../actions'
 // import * as chartService from 'services/ChartService'
 
-jest.mock('./selectors')
+jest.mock("./selectors");
 
-describe('priceChart sagas', () => {
+describe("priceChart sagas", () => {
   // let calcScaleSpy
   // let calcStartSpy
   // let fetchPriceActionSpy
@@ -19,8 +19,8 @@ describe('priceChart sagas', () => {
   //  jest.restoreAllMocks()
   // })
 
-  describe('initialized saga', () => {
-    it('should run correct routine', () => {
+  describe("initialized saga", () => {
+    it("should run correct routine", () => {
       //    // arrange
       //    const saga = sagas({}).initialized({type: '', payload: {coin: 'BTC', time: 'all'}})
       //
@@ -34,21 +34,21 @@ describe('priceChart sagas', () => {
       //    expect(calcScaleSpy).toHaveBeenCalledWith('BTC', 'all')
       //    expect(fetchPriceActionSpy).toHaveBeenCalledTimes(1)
       //    expect(fetchPriceActionSpy).toHaveBeenCalledWith('BTC', 'USD', 'test', 'test')
-    })
-  //
-  //  it('should handle errors', () => {
-  //    // arrange
-  //    fetchPriceActionSpy = jest.spyOn(actions.core.data.misc, 'fetchPriceIndexSeries').mockImplementation(() => { throw new Error('') })
-  //    const saga = sagas({}).initialized({type: '', payload: {coin: 'BTC', time: 'all'}})
-  //
-  //    // act
-  //    saga.next()
-  //
-  //    // assert
-  //    expect(fetchPriceActionSpy).toHaveBeenCalledTimes(1)
-  //    expect(errorSpy).toHaveBeenCalledWith('Error in initialized saga')
-  //  })
-  })
+    });
+    //
+    //  it('should handle errors', () => {
+    //    // arrange
+    //    fetchPriceActionSpy = jest.spyOn(actions.core.data.misc, 'fetchPriceIndexSeries').mockImplementation(() => { throw new Error('') })
+    //    const saga = sagas({}).initialized({type: '', payload: {coin: 'BTC', time: 'all'}})
+    //
+    //    // act
+    //    saga.next()
+    //
+    //    // assert
+    //    expect(fetchPriceActionSpy).toHaveBeenCalledTimes(1)
+    //    expect(errorSpy).toHaveBeenCalledWith('Error in initialized saga')
+    //  })
+  });
 
   // describe('coinClicked saga', () => {
   //   it('should run correct routine', () => {
@@ -100,4 +100,4 @@ describe('priceChart sagas', () => {
   //     expect(errorSpy).toHaveBeenCalledWith('Error in Initialized Price Chart Saga')
   //   })
   // })
-})
+});

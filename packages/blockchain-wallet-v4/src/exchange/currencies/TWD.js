@@ -1,20 +1,19 @@
-export default
-{
-  code: 'TWD',
-  base: 'CENT',
-  trade: 'TWD',
+export default {
+  code: "TWD",
+  base: "CENT",
+  trade: "TWD",
   units: {
     CENT: {
-      rate: '1',
-      symbol: '¢‎NT$',
+      rate: "1",
+      symbol: "¢‎NT$",
       decimal_digits: 0,
-      currency: 'TWD'
+      currency: "TWD"
     },
     TWD: {
-      rate: '100',
-      symbol: '‎NT$',
+      rate: "100",
+      symbol: "‎NT$",
       decimal_digits: 2,
-      currency: 'TWD'
+      currency: "TWD"
     }
   }
-}
+};

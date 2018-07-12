@@ -1,20 +1,19 @@
-export default
-{
-  code: 'GBP',
-  base: 'CENT',
-  trade: 'GBP',
+export default {
+  code: "GBP",
+  base: "CENT",
+  trade: "GBP",
   units: {
     CENT: {
-      rate: '1',
-      symbol: '¢£',
+      rate: "1",
+      symbol: "¢£",
       decimal_digits: 0,
-      currency: 'GBP'
+      currency: "GBP"
     },
     GBP: {
-      rate: '100',
-      symbol: '£',
+      rate: "100",
+      symbol: "£",
       decimal_digits: 2,
-      currency: 'GBP'
+      currency: "GBP"
     }
   }
-}
+};

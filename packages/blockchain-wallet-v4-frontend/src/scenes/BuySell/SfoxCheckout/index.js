@@ -1,20 +1,20 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from "react";
+import styled from "styled-components";
 
-import Content from './Content'
+import Content from "./Content";
 
 const Wrapper = styled.div`
   width: 100%;
-`
+`;
 
-const SfoxCheckoutContainer = (props) => {
-  const { type, options, value } = props
+const SfoxCheckoutContainer = props => {
+  const { type, options, value } = props;
 
   return (
     <Wrapper>
       <Content type={type} options={options} value={value} />
     </Wrapper>
-  )
-}
+  );
+};
 
-export default SfoxCheckoutContainer
+export default SfoxCheckoutContainer;

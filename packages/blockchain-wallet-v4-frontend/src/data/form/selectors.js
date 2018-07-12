@@ -15,4 +15,4 @@ export {
   isSubmitting,
   hasSubmitSucceeded,
   hasSubmitFailed
-} from 'redux-form'
+} from "redux-form";

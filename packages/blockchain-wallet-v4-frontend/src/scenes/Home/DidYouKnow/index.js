@@ -1,16 +1,14 @@
-import React from 'react'
+import React from "react";
 
-import DidYouKnow from './template.js'
+import DidYouKnow from "./template.js";
 
 class DidYouKnowContainer extends React.PureComponent {
-  componentWillMount () {
-    this.number = Math.trunc((Math.random() * 21) + 1)
+  componentWillMount() {
+    this.number = Math.trunc(Math.random() * 21 + 1);
   }
-  render () {
-    return (
-      <DidYouKnow number={this.number} />
-    )
+  render() {
+    return <DidYouKnow number={this.number} />;
   }
 }
 
-export default DidYouKnowContainer
+export default DidYouKnowContainer;

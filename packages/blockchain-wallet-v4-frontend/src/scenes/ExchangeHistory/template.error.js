@@ -1,7 +1,7 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from "react";
+import styled from "styled-components";
 
-import { Text } from 'blockchain-info-components'
+import { Text } from "blockchain-info-components";
 
 const Wrapper = styled.div`
   position: relative;
@@ -11,12 +11,12 @@ const Wrapper = styled.div`
   align-items: center;
   width: 100%;
   margin-top: 100px;
-`
+`;
 
-export default (props) => (
+export default props => (
   <Wrapper>
-    <Text size='12px' weight={300} color='red'>
+    <Text size="12px" weight={300} color="red">
       {props.children}
     </Text>
   </Wrapper>
-)
+);

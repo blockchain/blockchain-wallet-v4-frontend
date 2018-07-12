@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 const SettingComponent = styled.div`
   display: flex;
@@ -13,6 +13,6 @@ const SettingComponent = styled.div`
     align-items: flex-end;
     width: 30%;
   }
-`
+`;
 
-export default SettingComponent
+export default SettingComponent;

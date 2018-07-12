@@ -1,12 +1,11 @@
-
-import { takeLatest } from 'redux-saga/effects'
-import * as AT from './actionTypes'
-import sagas from './sagas'
+import { takeLatest } from "redux-saga/effects";
+import * as AT from "./actionTypes";
+import sagas from "./sagas";
 
 export default ({ api }) => {
-  const settingsSagas = sagas({ api })
+  const settingsSagas = sagas({ api });
 
-  return function * () {
-    yield takeLatest(AT.FETCH_SETTINGS, settingsSagas.fetchSettings)
-  }
-}
+  return function*() {
+    yield takeLatest(AT.FETCH_SETTINGS, settingsSagas.fetchSettings);
+  };
+};

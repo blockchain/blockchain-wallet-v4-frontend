@@ -1,12 +1,10 @@
-import React from 'react'
+import React from "react";
 
-import { Text } from 'blockchain-info-components'
+import { Text } from "blockchain-info-components";
 
-const Hint = (props) => {
-  const { message } = props
-  return (
-    <Text>{message}</Text>
-  )
-}
+const Hint = props => {
+  const { message } = props;
+  return <Text>{message}</Text>;
+};
 
-export default Hint
+export default Hint;

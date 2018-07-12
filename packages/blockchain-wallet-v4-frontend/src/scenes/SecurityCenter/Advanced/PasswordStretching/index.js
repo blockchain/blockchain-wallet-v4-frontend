@@ -1,11 +1,11 @@
-import React from 'react'
+import React from "react";
 
-import PasswordStretching from './template.js'
+import PasswordStretching from "./template.js";
 
 class PasswordStretchingContainer extends React.PureComponent {
-  render () {
-    return <PasswordStretching {...this.props} />
+  render() {
+    return <PasswordStretching {...this.props} />;
   }
 }
 
-export default PasswordStretchingContainer
+export default PasswordStretchingContainer;

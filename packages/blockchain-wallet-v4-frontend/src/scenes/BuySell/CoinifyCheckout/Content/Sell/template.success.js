@@ -1,18 +1,23 @@
-import React from 'react'
-import styled from 'styled-components'
-import { contains, path, prop } from 'ramda'
+import React from "react";
+import styled from "styled-components";
+import { contains, path, prop } from "ramda";
 
-import * as service from 'services/CoinifyService'
-import Stepper, { StepView } from 'components/Utilities/Stepper'
-import OrderCheckout from '../OrderCheckout'
-import { OrderDetails, OrderSubmit } from '../OrderReview'
-import AddBankDetails from './AddBankDetails'
-import AddCustomerDetails from './AddCustomerDetails'
-import SelectAccounts from './SelectAccounts'
-import ISignThis from 'modals/CoinifyExchangeData/ISignThis'
-import KYCNotification from '../KYCNotification'
-import { ColLeft, ColRight, ColRightInner, Row } from 'components/BuySell/Signup'
-import media from 'services/ResponsiveService'
+import * as service from "services/CoinifyService";
+import Stepper, { StepView } from "components/Utilities/Stepper";
+import OrderCheckout from "../OrderCheckout";
+import { OrderDetails, OrderSubmit } from "../OrderReview";
+import AddBankDetails from "./AddBankDetails";
+import AddCustomerDetails from "./AddCustomerDetails";
+import SelectAccounts from "./SelectAccounts";
+import ISignThis from "modals/CoinifyExchangeData/ISignThis";
+import KYCNotification from "../KYCNotification";
+import {
+  ColLeft,
+  ColRight,
+  ColRightInner,
+  Row
+} from "components/BuySell/Signup";
+import media from "services/ResponsiveService";
 
 const CheckoutWrapper = styled.div`
   display: grid;
@@ -21,8 +26,8 @@ const CheckoutWrapper = styled.div`
   ${media.mobile`
     display: flex;
     flex-direction: column;
-  `}
-`
+  `};
+`;
 
 const Sell = props => {
   const {
@@ -45,17 +50,24 @@ const Sell = props => {
     onOrderCheckoutSubmit,
     checkoutError,
     handleKycAction
-  } = props
+  } = props;
 
-  const profile = value.profile || { _limits: service.mockedLimits, _level: { currency: 'EUR' } }
-  const kyc = prop('kyc', value)
-  const sellCurrencies = ['EUR', 'DKK', 'GBP']
-  const defaultCurrency = contains(currency, sellCurrencies) ? currency : 'EUR' // profile._level.currency
-  const symbol = service.currencySymbolMap[defaultCurrency]
+  const profile = value.profile || {
+    _limits: service.mockedLimits,
+    _level: { currency: "EUR" }
+  };
+  const kyc = prop("kyc", value);
+  const sellCurrencies = ["EUR", "DKK", "GBP"];
+  const defaultCurrency = contains(currency, sellCurrencies) ? currency : "EUR"; // profile._level.currency
+  const symbol = service.currencySymbolMap[defaultCurrency];
 
-  const limits = service.getLimits(profile._limits, defaultCurrency, path(['payment', 'effectiveBalance'], value))
+  const limits = service.getLimits(
+    profile._limits,
+    defaultCurrency,
+    path(["payment", "effectiveBalance"], value)
+  );
 
-  if (step !== 'isx') {
+  if (step !== "isx") {
     return (
       <Stepper initialStep={0}>
         <StepView step={0}>
@@ -66,8 +78,8 @@ const Sell = props => {
                 quoteR={sellQuoteR}
                 onFetchQuote={fetchSellQuote}
                 limits={limits.sell}
-                type={'sell'}
-                reason={'has_remaining'} // placeholder for now - coinify does not require a reason
+                type={"sell"}
+                reason={"has_remaining"} // placeholder for now - coinify does not require a reason
                 defaultCurrency={defaultCurrency}
                 symbol={symbol}
                 checkoutBusy={checkoutBusy}
@@ -79,12 +91,16 @@ const Sell = props => {
               />
             </div>
             <div>
-              {
-                kyc
-                  ? <KYCNotification kyc={kyc} limits={limits.sell} symbol={symbol}
-                    onTrigger={(kyc) => handleKycAction(kyc)} type='sell' canTrade={canTrade} />
-                  : null
-              }
+              {kyc ? (
+                <KYCNotification
+                  kyc={kyc}
+                  limits={limits.sell}
+                  symbol={symbol}
+                  onTrigger={kyc => handleKycAction(kyc)}
+                  type="sell"
+                  canTrade={canTrade}
+                />
+              ) : null}
             </div>
           </CheckoutWrapper>
         </StepView>
@@ -103,7 +119,7 @@ const Sell = props => {
               <OrderDetails
                 quoteR={sellQuoteR}
                 onRefreshQuote={refreshQuote}
-                type={'sell'}
+                type={"sell"}
                 medium={paymentMedium}
               />
             </ColLeft>
@@ -113,7 +129,7 @@ const Sell = props => {
                   quoteR={sellQuoteR}
                   onSubmit={initiateSell}
                   busy={busy}
-                  type='sell'
+                  type="sell"
                   clearTradeError={clearTradeError}
                 />
               </ColRightInner>
@@ -121,15 +137,15 @@ const Sell = props => {
           </Row>
         </StepView>
       </Stepper>
-    )
-  } else if (step === 'isx') {
+    );
+  } else if (step === "isx") {
     return (
       <ISignThis
-        iSignThisId={path(['iSignThisID'], trade)}
+        iSignThisId={path(["iSignThisID"], trade)}
         options={props.options}
       />
-    )
+    );
   }
-}
+};
 
-export default Sell
+export default Sell;

@@ -1,3 +1,5 @@
-import { path, curry } from 'ramda'
+import { path, curry } from "ramda";
 
-export const getSession = curry((state, guid) => path(['session', guid], state))
+export const getSession = curry((state, guid) =>
+  path(["session", guid], state)
+);

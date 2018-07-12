@@ -1,7 +1,7 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from "react";
+import styled from "styled-components";
 
-import { BlockchainLoader } from 'blockchain-info-components'
+import { BlockchainLoader } from "blockchain-info-components";
 
 const Wrapper = styled.div`
   display: flex;
@@ -12,12 +12,12 @@ const Wrapper = styled.div`
   height: 400px;
   padding: 5px;
   box-sizing: border-box;
-`
+`;
 
-export default (props) => {
+export default props => {
   return (
     <Wrapper>
-      <BlockchainLoader width='200px' height='200px' />
+      <BlockchainLoader width="200px" height="200px" />
     </Wrapper>
-  )
-}
+  );
+};

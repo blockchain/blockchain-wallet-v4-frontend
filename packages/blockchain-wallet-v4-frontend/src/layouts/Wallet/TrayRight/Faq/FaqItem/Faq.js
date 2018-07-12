@@ -1,5 +1,5 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from "react";
+import styled from "styled-components";
 
 const Wrapper = styled.div`
   display: flex;
@@ -10,12 +10,8 @@ const Wrapper = styled.div`
   padding: 0;
   margin-bottom: 5px;
   box-sizing: border-box;
-`
+`;
 
-const Faq = (props) => (
-  <Wrapper {...props}>
-    {props.children}
-  </Wrapper>
-)
+const Faq = props => <Wrapper {...props}>{props.children}</Wrapper>;
 
-export default Faq
+export default Faq;
