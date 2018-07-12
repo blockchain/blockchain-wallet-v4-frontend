@@ -1,5 +1,5 @@
-import { propEq, propSatisfies, isNil, not, compose } from "ramda";
-import * as crypto from "../walletCrypto";
+import { propEq, propSatisfies, isNil, not, compose } from "ramda"
+import * as crypto from "../walletCrypto"
 import Task from "data.task";
 
 const isNotNil = compose(
