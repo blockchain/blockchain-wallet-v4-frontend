@@ -1,10 +1,12 @@
-import { all, select, takeLatest, put } from 'redux-saga/effects'
+import { select, put, take, call } from 'redux-saga/effects'
 import * as actions from '../actions'
 import * as actionTypes from '../actionTypes'
 import * as selectors from '../selectors'
 import { Exchange } from 'blockchain-wallet-v4/src'
 
 export default ({ coreSagas }) => {
+  const logLocation = 'goals/sagas'
+
   const sendBtcGoalSaga = function * (goal) {
     const { id, data } = goal
     const { amount, address, description } = data
@@ -19,12 +21,18 @@ export default ({ coreSagas }) => {
 
   const runGoals = function * () {
     const goals = yield select(selectors.goals.getGoals)
-
-    yield all(goals.map((goal) => {
-      switch (goal.name) {
-        case 'payment': return takeLatest(actionTypes.core.data.bitcoin.FETCH_BITCOIN_DATA_SUCCESS, sendBtcGoalSaga, goal)
-      }
-    }))
+    try {
+      yield * goals.map(function * (goal) {
+        switch (goal.name) {
+          case 'payment':
+            yield take(actionTypes.core.data.bitcoin.FETCH_BITCOIN_DATA_SUCCESS)
+            yield call(sendBtcGoalSaga, goal)
+            break
+        }
+      })
+    } catch (error) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'runGoals', error))
+    }
   }
 
   return {
