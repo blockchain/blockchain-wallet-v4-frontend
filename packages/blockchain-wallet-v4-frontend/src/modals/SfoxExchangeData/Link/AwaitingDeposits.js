@@ -1,10 +1,10 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { Image, Text, Button } from "blockchain-info-components"
-import PropTypes from "prop-types"
-import media from "services/ResponsiveService"
-import { PartnerHeader } from "components/BuySell/Signup"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { Image, Text, Button } from 'blockchain-info-components'
+import PropTypes from 'prop-types'
+import media from 'services/ResponsiveService'
+import { PartnerHeader } from 'components/BuySell/Signup'
 
 const Container = styled.div`
   height: 100%;
@@ -78,7 +78,7 @@ const AwaitingDeposits = ({ showModal }) => {
           uppercase
           width="80%"
           nature="primary"
-          onClick={() => showModal("SfoxEnterMicroDeposits")}
+          onClick={() => showModal('SfoxEnterMicroDeposits')}
         >
           <FormattedMessage
             id="awaiting_deposits.enter"

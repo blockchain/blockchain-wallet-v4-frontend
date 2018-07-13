@@ -1,18 +1,18 @@
-import React from "react"
-import { actions } from "data"
-import { connect } from "react-redux"
-import { getData } from "./selectors"
-import styled from "styled-components"
-import { bindActionCreators } from "redux"
-import Loading from "./template.loading"
-import Success from "./template.success"
-import Error from "./template.error"
+import React from 'react'
+import { actions } from 'data'
+import { connect } from 'react-redux'
+import { getData } from './selectors'
+import styled from 'styled-components'
+import { bindActionCreators } from 'redux'
+import Loading from './template.loading'
+import Success from './template.success'
+import Error from './template.error'
 
 const Wrapper = styled.div`
   width: 100%;
   padding: 35px;
   box-sizing: border-box;
-  background-color: ${props => props.theme["white"]};
+  background-color: ${props => props.theme['white']};
 
   @media (min-width: 768px) {
     width: 550px;
@@ -24,7 +24,7 @@ class VerifyEmailToken extends React.PureComponent {
     super(props)
     this.state = {
       token: decodeURIComponent(
-        props.location.pathname.split("/verify-email-token/")[1]
+        props.location.pathname.split('/verify-email-token/')[1]
       )
     }
   }

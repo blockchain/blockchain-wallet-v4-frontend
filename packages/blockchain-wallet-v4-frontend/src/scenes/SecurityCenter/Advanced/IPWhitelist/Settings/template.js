@@ -1,13 +1,13 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { FormattedMessage } from "react-intl"
-import { Field, reduxForm } from "redux-form"
-import styled from "styled-components"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
 
-import { Button, ButtonGroup, Text } from "blockchain-info-components"
-import { TextBox } from "components/Form"
-import { validIpList } from "services/FormHelper"
-import { SettingForm, SettingWrapper } from "components/Setting"
+import { Button, ButtonGroup, Text } from 'blockchain-info-components'
+import { TextBox } from 'components/Form'
+import { validIpList } from 'services/FormHelper'
+import { SettingForm, SettingWrapper } from 'components/Setting'
 
 const ButtonWrapper = styled(ButtonGroup)`
   margin-top: 5px;
@@ -79,4 +79,4 @@ Settings.propTypes = {
   handleSubmit: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: "settingIPWhitelist" })(Settings)
+export default reduxForm({ form: 'settingIPWhitelist' })(Settings)

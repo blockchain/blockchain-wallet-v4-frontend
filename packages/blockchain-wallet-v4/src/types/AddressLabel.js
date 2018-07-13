@@ -1,7 +1,7 @@
-import { is, pipe } from "ramda"
-import { view, set } from "ramda-lens"
-import { iToJS } from "./util"
-import Type from "./Type"
+import { is, pipe } from 'ramda'
+import { view, set } from 'ramda-lens'
+import { iToJS } from './util'
+import Type from './Type'
 
 /* AddressLabel :: {
   index :: Number
@@ -12,8 +12,8 @@ export class AddressLabel extends Type {}
 
 export const isAddressLabel = is(AddressLabel)
 
-export const index = AddressLabel.define("index")
-export const label = AddressLabel.define("label")
+export const index = AddressLabel.define('index')
+export const label = AddressLabel.define('label')
 
 export const selectIndex = view(index)
 export const selectLabel = view(label)

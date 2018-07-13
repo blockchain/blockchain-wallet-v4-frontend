@@ -1,9 +1,9 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import { actions, selectors } from "data"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { actions, selectors } from 'data'
 
-import ActivityLogging from "./template.js"
+import ActivityLogging from './template.js'
 
 class ActivityLoggingContainer extends React.PureComponent {
   constructor(props) {

@@ -1,6 +1,6 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 
 import {
   SettingComponent,
@@ -9,8 +9,8 @@ import {
   SettingHeader,
   SettingSummary,
   SettingStatus
-} from "components/Setting"
-import Settings from "./Settings"
+} from 'components/Setting'
+import Settings from './Settings'
 
 const TwoStepVerificationRemember = props => {
   const { authTypeNeverSave } = props

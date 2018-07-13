@@ -1,5 +1,5 @@
-import React from "react"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
 
 import {
   Button,
@@ -9,7 +9,7 @@ import {
   ModalBody,
   ModalFooter,
   Text
-} from "blockchain-info-components"
+} from 'blockchain-info-components'
 
 const CoinifyDeleteBank = props => {
   const { close, position, total, ...rest } = props

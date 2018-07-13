@@ -1,23 +1,23 @@
-import { fork } from "redux-saga/effects"
-import activityList from "./activityList/sagaRegister"
-import bchTransactions from "./bchTransactions/sagaRegister"
-import btcTransactions from "./btcTransactions/sagaRegister"
-import ethTransactions from "./ethTransactions/sagaRegister"
-import exchange from "./exchange/sagaRegister"
-import exchangeHistory from "./exchangeHistory/sagaRegister"
-import importBtcAddress from "./importBtcAddress/sagaRegister"
-import login from "./login/sagaRegister"
-import manageAddresses from "./manageAddresses/sagaRegister"
-import priceChart from "./priceChart/sagaRegister"
-import priceTicker from "./priceTicker/sagaRegister"
-import refresh from "./refresh/sagaRegister"
-import requestBtc from "./requestBtc/sagaRegister"
-import sendBch from "./sendBch/sagaRegister"
-import sendBtc from "./sendBtc/sagaRegister"
-import sendEth from "./sendEth/sagaRegister"
-import settings from "./settings/sagaRegister"
-import signMessage from "./signMessage/sagaRegister"
-import transactionReport from "./transactionReport/sagaRegister"
+import { fork } from 'redux-saga/effects'
+import activityList from './activityList/sagaRegister'
+import bchTransactions from './bchTransactions/sagaRegister'
+import btcTransactions from './btcTransactions/sagaRegister'
+import ethTransactions from './ethTransactions/sagaRegister'
+import exchange from './exchange/sagaRegister'
+import exchangeHistory from './exchangeHistory/sagaRegister'
+import importBtcAddress from './importBtcAddress/sagaRegister'
+import login from './login/sagaRegister'
+import manageAddresses from './manageAddresses/sagaRegister'
+import priceChart from './priceChart/sagaRegister'
+import priceTicker from './priceTicker/sagaRegister'
+import refresh from './refresh/sagaRegister'
+import requestBtc from './requestBtc/sagaRegister'
+import sendBch from './sendBch/sagaRegister'
+import sendBtc from './sendBtc/sagaRegister'
+import sendEth from './sendEth/sagaRegister'
+import settings from './settings/sagaRegister'
+import signMessage from './signMessage/sagaRegister'
+import transactionReport from './transactionReport/sagaRegister'
 
 export default ({ api, coreSagas, options }) =>
   function*() {

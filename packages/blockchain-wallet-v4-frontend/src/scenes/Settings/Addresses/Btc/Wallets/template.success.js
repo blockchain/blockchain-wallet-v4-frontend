@@ -1,9 +1,9 @@
-import React from "react"
-import { FormattedMessage } from "react-intl"
-import styled from "styled-components"
-import { LinkContainer } from "react-router-bootstrap"
-import SwitchableDisplay from "components/Display/SwitchableDisplay"
-import { SettingDescription, SettingHeader } from "components/Setting"
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+import { LinkContainer } from 'react-router-bootstrap'
+import SwitchableDisplay from 'components/Display/SwitchableDisplay'
+import { SettingDescription, SettingHeader } from 'components/Setting'
 import {
   Banner,
   Table,
@@ -13,9 +13,9 @@ import {
   Text,
   IconButton,
   Link
-} from "blockchain-info-components"
-import { filter } from "ramda"
-import media from "services/ResponsiveService"
+} from 'blockchain-info-components'
+import { filter } from 'ramda'
+import media from 'services/ResponsiveService'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
@@ -73,7 +73,7 @@ const Success = ({ wallets, handleClick, onUnarchive, search }) => {
         </TableCell>
         <TableCell
           width="20%"
-          style={{ display: "flex", justifyContent: "flex-end" }}
+          style={{ display: 'flex', justifyContent: 'flex-end' }}
         >
           {wallet.archived ? (
             <Link
@@ -135,7 +135,7 @@ const Success = ({ wallets, handleClick, onUnarchive, search }) => {
           </TableCell>
           <TableCell
             width="20%"
-            style={{ display: "flex", justifyContent: "flex-end" }}
+            style={{ display: 'flex', justifyContent: 'flex-end' }}
           >
             <Text size="13px" weight={500}>
               <FormattedMessage

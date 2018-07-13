@@ -1,6 +1,6 @@
-import React from "react"
+import React from 'react'
 
-import { Text } from "blockchain-info-components"
+import { Text } from 'blockchain-info-components'
 
 const Hint = props => {
   const { message } = props

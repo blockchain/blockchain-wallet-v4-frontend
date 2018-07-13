@@ -1,9 +1,9 @@
-import { call, put, select, take } from "redux-saga/effects"
-import { indexBy, length, last, path, prop } from "ramda"
-import * as A from "./actions"
-import * as AT from "./actionTypes"
-import * as S from "./selectors"
-import * as selectors from "../../selectors"
+import { call, put, select, take } from 'redux-saga/effects'
+import { indexBy, length, last, path, prop } from 'ramda'
+import * as A from './actions'
+import * as AT from './actionTypes'
+import * as S from './selectors'
+import * as selectors from '../../selectors'
 
 export default ({ api }) => {
   const fetchData = function*() {
@@ -12,9 +12,9 @@ export default ({ api }) => {
       const context = yield select(selectors.wallet.getContext)
       const data = yield call(api.fetchBlockchainData, context, { n: 1 })
       const bitcoinData = {
-        addresses: indexBy(prop("address"), prop("addresses", data)),
-        info: path(["wallet"], data),
-        latest_block: path(["info", "latest_block"], data)
+        addresses: indexBy(prop('address'), prop('addresses', data)),
+        info: path(['wallet'], data),
+        latest_block: path(['info', 'latest_block'], data)
       }
       yield put(A.fetchDataSuccess(bitcoinData))
     } catch (e) {
@@ -81,21 +81,21 @@ export default ({ api }) => {
       if (address) {
         const data = yield call(
           api.getTransactionHistory,
-          "BTC",
+          'BTC',
           address,
-          currency.getOrElse("USD"),
+          currency.getOrElse('USD'),
           start,
           end
         )
         yield put(A.fetchTransactionHistorySuccess(data))
       } else {
         const context = yield select(selectors.wallet.getWalletContext)
-        const active = context.join("|")
+        const active = context.join('|')
         const data = yield call(
           api.getTransactionHistory,
-          "BTC",
+          'BTC',
           active,
-          currency.getOrElse("USD"),
+          currency.getOrElse('USD'),
           start,
           end
         )

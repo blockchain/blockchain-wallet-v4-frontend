@@ -1,28 +1,28 @@
-import React, { Fragment } from "react"
-import styled from "styled-components"
-import { Text, Icon, Link, Tooltip } from "blockchain-info-components"
-import CountdownTimer from "components/Form/CountdownTimer"
-import { Wrapper as ExchangeCheckoutWrapper } from "../../ExchangeCheckout"
-import { flex, spacing } from "services/StyleService"
-import { reviewOrder } from "services/SfoxService"
-import { FormattedMessage } from "react-intl"
+import React, { Fragment } from 'react'
+import styled from 'styled-components'
+import { Text, Icon, Link, Tooltip } from 'blockchain-info-components'
+import CountdownTimer from 'components/Form/CountdownTimer'
+import { Wrapper as ExchangeCheckoutWrapper } from '../../ExchangeCheckout'
+import { flex, spacing } from 'services/StyleService'
+import { reviewOrder } from 'services/SfoxService'
+import { FormattedMessage } from 'react-intl'
 import {
   OrderDetailsTable,
   OrderDetailsRow
-} from "components/BuySell/OrderDetails"
-import FundingSource from "components/BuySell/FundingSource"
-import { PartnerHeader, PartnerSubHeader } from "components/BuySell/Signup"
-import { StepTransition } from "components/Utilities/Stepper"
-import Helper from "components/BuySell/FAQ"
-import * as Currency from "blockchain-wallet-v4/src/exchange/currency"
-import ReviewForm from "./orderReviewForm"
+} from 'components/BuySell/OrderDetails'
+import FundingSource from 'components/BuySell/FundingSource'
+import { PartnerHeader, PartnerSubHeader } from 'components/BuySell/Signup'
+import { StepTransition } from 'components/Utilities/Stepper'
+import Helper from 'components/BuySell/FAQ'
+import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
+import ReviewForm from './orderReviewForm'
 
 const MethodContainer = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
   height: 42px;
-  border: 1px solid ${props => props.theme["gray-2"]};
+  border: 1px solid ${props => props.theme['gray-2']};
 `
 const ToolTipWrapper = styled.div`
   display: flex;
@@ -81,62 +81,63 @@ const faqListHelper = () =>
 
 export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
   <ExchangeCheckoutWrapper>
-    <PartnerHeader size="32px" weight={600} style={spacing("mb-10")}>
+    <PartnerHeader size="32px" weight={600} style={spacing('mb-10')}>
       <FormattedMessage
         id="buy.sfoxcheckout.almostthere"
         defaultMessage="You're almost there"
       />
     </PartnerHeader>
-    <PartnerSubHeader size="14px" weight={300} style={spacing("mb-20")}>
+    <PartnerSubHeader size="14px" weight={300} style={spacing('mb-20')}>
       <FormattedMessage
         id="buy.sfoxcheckout.revieworder.subtext"
         defaultMessage="Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order."
       />
     </PartnerSubHeader>
-    <Text size="14px" weight={300} style={spacing("mt-20")}>
+    <Text size="14px" weight={300} style={spacing('mt-20')}>
       <FormattedMessage
         id="buy.sfoxcheckout.connectedaccount"
         defaultMessage="Your Connected Account"
       />:
     </Text>
-    <MethodContainer style={spacing("mt-10")}>
-      <Icon style={spacing("ml-15")} name="bank-filled" size="26px" />
+    <MethodContainer style={spacing('mt-10')}>
+      <Icon style={spacing('ml-15')} name="bank-filled" size="26px" />
       <FundingSource account={account} />
     </MethodContainer>
     <div
-      style={{ ...flex("row align/center justify/end"), ...spacing("mt-20") }}
+      style={{ ...flex('row align/center justify/end'), ...spacing('mt-20') }}
     >
-      <Text size="12px" weight={500} style={spacing("mr-10")}>
+      <Text size="12px" weight={500} style={spacing('mr-10')}>
         <FormattedMessage
           id="buy.sfoxcheckout.exchangerate"
           defaultMessage="Exchange Rate"
         />
       </Text>
       <Text size="12px" weight={300}>
-        1 BTC ={" "}
+        1 BTC ={' '}
         {quoteR
           .map(q => {
-            if (q.baseCurrency.toLowerCase() === "btc")
+            if (q.baseCurrency.toLowerCase() === 'btc') {
               return (
-                "$" +
+                '$' +
                 Currency.formatFiat(
                   (1 / Math.abs(q.baseAmount / 1e8)) * Math.abs(q.quoteAmount)
                 )
               )
-            else
+            } else {
               return (
-                "$" +
+                '$' +
                 Currency.formatFiat(
                   (1 / Math.abs(q.quoteAmount / 1e8)) * Math.abs(q.baseAmount)
                 )
               )
+            }
           })
-          .getOrElse("~")}
+          .getOrElse('~')}
       </Text>
     </div>
-    <OrderDetailsTable style={spacing("mt-10")}>
+    <OrderDetailsTable style={spacing('mt-10')}>
       <OrderDetailsRow>
-        {type === "buy" ? (
+        {type === 'buy' ? (
           <Text size="13px" weight={300}>
             <FormattedMessage
               id="orderdetails.amounttopurchase"
@@ -154,7 +155,7 @@ export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
         <Text size="13px" weight={300}>
           {quoteR
             .map(quote => reviewOrder.renderFirstRow(quote, type))
-            .getOrElse("~")}
+            .getOrElse('~')}
         </Text>
       </OrderDetailsRow>
       <OrderDetailsRow>
@@ -175,11 +176,11 @@ export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
         <Text size="13px" weight={300}>
           {quoteR
             .map(quote => `$${(+quote.feeAmount).toFixed(2)}`)
-            .getOrElse("~")}
+            .getOrElse('~')}
         </Text>
       </OrderDetailsRow>
       <OrderDetailsRow>
-        {type === "buy" ? (
+        {type === 'buy' ? (
           <Text size="13px" weight={300}>
             <FormattedMessage
               id="orderdetails.totalcost"
@@ -197,14 +198,14 @@ export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
         <Text size="13px" weight={300} color="success">
           {quoteR
             .map(quote => reviewOrder.renderTotal(quote, type))
-            .getOrElse("~")}
+            .getOrElse('~')}
         </Text>
       </OrderDetailsRow>
     </OrderDetailsTable>
     {quoteR
       .map(quote => (
         <CountdownTimer
-          style={spacing("mt-20")}
+          style={spacing('mt-20')}
           expiryDate={quote.expiresAt.getTime()}
           handleExpiry={onRefreshQuote}
           tooltipExpiryTime="30 seconds"

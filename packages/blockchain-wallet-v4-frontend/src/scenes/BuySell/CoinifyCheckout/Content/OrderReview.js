@@ -1,25 +1,25 @@
-import React, { Fragment } from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
+import React, { Fragment } from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { Text, Link } from "blockchain-info-components"
-import Helper from "components/BuySell/FAQ"
-import CountdownTimer from "components/Form/CountdownTimer"
-import { spacing } from "services/StyleService"
-import { reviewOrder, getRateFromQuote } from "services/CoinifyService"
+import { Text, Link } from 'blockchain-info-components'
+import Helper from 'components/BuySell/FAQ'
+import CountdownTimer from 'components/Form/CountdownTimer'
+import { spacing } from 'services/StyleService'
+import { reviewOrder, getRateFromQuote } from 'services/CoinifyService'
 import {
   OrderDetailsTable,
   OrderDetailsRow
-} from "components/BuySell/OrderDetails"
+} from 'components/BuySell/OrderDetails'
 import {
   BorderBox,
   Row,
   PartnerHeader,
   PartnerSubHeader
-} from "components/BuySell/Signup"
-import { StepTransition } from "components/Utilities/Stepper"
-import ReviewForm from "./ReviewForm"
-import { update } from "ramda"
+} from 'components/BuySell/Signup'
+import { StepTransition } from 'components/Utilities/Stepper'
+import ReviewForm from './ReviewForm'
+import { update } from 'ramda'
 
 const ExchangeRateWrapper = styled.div`
   display: flex;
@@ -34,20 +34,20 @@ const rateHelper = quoteR => quoteR.map(getRateFromQuote).getOrElse(`~`)
 export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
   <Row>
     <BorderBox>
-      <PartnerHeader weight={600} style={spacing("mb-10")}>
+      <PartnerHeader weight={600} style={spacing('mb-10')}>
         <FormattedMessage
           id="scenes.buysell.coinifycheckout.content.orderreview.buy.almostthere"
           defaultMessage="You're almost there"
         />
       </PartnerHeader>
-      <PartnerSubHeader weight={300} style={spacing("mb-20")}>
+      <PartnerSubHeader weight={300} style={spacing('mb-20')}>
         <FormattedMessage
           id="scenes.buysell.coinifycheckout.content.orderreview.buy.revieworder.subPartnerSubHeader"
           defaultMessage="Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order."
         />
       </PartnerSubHeader>
       <ExchangeRateWrapper>
-        <Text size="12px" weight={500} style={spacing("mr-10")}>
+        <Text size="12px" weight={500} style={spacing('mr-10')}>
           <FormattedMessage
             id="scenes.buysell.coinifycheckout.content.orderreview.exchangerate"
             defaultMessage="Exchange Rate"
@@ -57,9 +57,9 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
           1 BTC = {rateHelper(quoteR)}
         </Text>
       </ExchangeRateWrapper>
-      <OrderDetailsTable style={spacing("mt-10")}>
+      <OrderDetailsTable style={spacing('mt-10')}>
         <OrderDetailsRow short noBorderBottom>
-          {type === "buy" ? (
+          {type === 'buy' ? (
             <Text size="13px" weight={300}>
               <FormattedMessage
                 id="orderdetails.amounttopurchase"
@@ -75,10 +75,10 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
             </Text>
           )}
           <Text size="13px" weight={300}>
-            {quoteR.map(q => reviewOrder.renderFirstRow(q)).getOrElse("~")}
+            {quoteR.map(q => reviewOrder.renderFirstRow(q)).getOrElse('~')}
           </Text>
         </OrderDetailsRow>
-        {type === "buy" ? (
+        {type === 'buy' ? (
           <OrderDetailsRow short noBorderBottom>
             <Text size="13px" weight={300}>
               <FormattedMessage
@@ -89,12 +89,12 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
             <Text size="13px" weight={300}>
               -{quoteR
                 .map(q => reviewOrder.renderMinerFeeRow(q, medium, type))
-                .getOrElse("~")}{" "}
+                .getOrElse('~')}{' '}
               BTC
             </Text>
           </OrderDetailsRow>
         ) : null}
-        {type === "buy" ? (
+        {type === 'buy' ? (
           <OrderDetailsRow short>
             <Text size="13px" weight={300}>
               <FormattedMessage
@@ -105,7 +105,7 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
             <Text size="13px" weight={300} color="success">
               {quoteR
                 .map(q => reviewOrder.renderBtcToBeReceived(q, medium, type))
-                .getOrElse("~")}{" "}
+                .getOrElse('~')}{' '}
               BTC
             </Text>
           </OrderDetailsRow>
@@ -118,7 +118,7 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
             />
           </Text>
           <Text size="13px" weight={300}>
-            {quoteR.map(q => reviewOrder.renderAmountRow(q)).getOrElse("~")}
+            {quoteR.map(q => reviewOrder.renderAmountRow(q)).getOrElse('~')}
           </Text>
         </OrderDetailsRow>
         <OrderDetailsRow short noBorderBottom>
@@ -131,11 +131,11 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
           <Text size="13px" weight={300}>
             {quoteR
               .map(q => reviewOrder.renderFeeRow(q, medium, type))
-              .getOrElse("~")}
+              .getOrElse('~')}
           </Text>
         </OrderDetailsRow>
         <OrderDetailsRow short>
-          {type === "buy" ? (
+          {type === 'buy' ? (
             <Text size="13px" weight={400}>
               <FormattedMessage
                 id="orderdetails.totalcost"
@@ -150,17 +150,17 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
               />
             </Text>
           )}
-          <Text size="13px" weight={400} color={type !== "buy" && "success"}>
+          <Text size="13px" weight={400} color={type !== 'buy' && 'success'}>
             {quoteR
               .map(q => reviewOrder.renderTotalRow(q, medium, type))
-              .getOrElse("~")}
+              .getOrElse('~')}
           </Text>
         </OrderDetailsRow>
       </OrderDetailsTable>
       {quoteR
         .map(q => (
           <CountdownTimer
-            style={spacing("mt-20")}
+            style={spacing('mt-20')}
             expiryDate={q.expiresAt.getTime()}
             handleExpiry={onRefreshQuote}
             tooltipExpiryTime="15 minutes"
@@ -280,13 +280,13 @@ export const OrderSubmit = props => {
       <Helper key={i} question={el.question} answer={el.answer} />
     ))
 
-  if (type === "sell") helpers = update(0, sellFaq, helpers)
+  if (type === 'sell') helpers = update(0, sellFaq, helpers)
 
   return (
     <Fragment>
       {busy.error ? (
         <div onClick={() => clearTradeError()}>
-          <Text weight={300} color="error" size="13px" style={spacing("mb-5")}>
+          <Text weight={300} color="error" size="13px" style={spacing('mb-5')}>
             <FormattedMessage
               id="scenes.buysell.orderreview.wrong"
               defaultMessage="Sorry, something went wrong with your trade:"

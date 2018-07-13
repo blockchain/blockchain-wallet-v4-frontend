@@ -1,9 +1,9 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { filter, take } from "ramda"
-import SwitchableDisplay from "components/Display/SwitchableDisplay"
-import { SettingDescription, SettingHeader } from "components/Setting"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { filter, take } from 'ramda'
+import SwitchableDisplay from 'components/Display/SwitchableDisplay'
+import { SettingDescription, SettingHeader } from 'components/Setting'
 import {
   Banner,
   ComponentDropdown,
@@ -13,8 +13,8 @@ import {
   TableCell,
   TableRow,
   Text
-} from "blockchain-info-components"
-import media from "services/ResponsiveService"
+} from 'blockchain-info-components'
+import media from 'services/ResponsiveService'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
@@ -99,12 +99,12 @@ const Success = props => {
         </TableCell>
         <TableCell
           width="20%"
-          style={{ display: "flex", justifyContent: "flex-end" }}
+          style={{ display: 'flex', justifyContent: 'flex-end' }}
         >
           <ComponentDropdown
             down
             forceSelected
-            color={"gray-5"}
+            color={'gray-5'}
             selectedComponent={<Manage />}
             components={[
               <ClickableText
@@ -202,7 +202,7 @@ const Success = props => {
           </TableCell>
           <TableCell
             width="20%"
-            style={{ display: "flex", justifyContent: "flex-end" }}
+            style={{ display: 'flex', justifyContent: 'flex-end' }}
           >
             <Text size="13px" weight={500}>
               <FormattedMessage

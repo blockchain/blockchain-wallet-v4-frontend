@@ -1,8 +1,8 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
-import TransactionListItem from "components/TransactionListItem"
+import TransactionListItem from 'components/TransactionListItem'
 
 const Wrapper = styled.div`
   display: flex;

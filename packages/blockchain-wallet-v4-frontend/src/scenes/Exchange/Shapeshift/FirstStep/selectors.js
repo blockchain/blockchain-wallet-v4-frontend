@@ -1,8 +1,8 @@
-import { selectors } from "data"
-import { curry, filter, head, length, lift, prop, propEq } from "ramda"
-import { createDeepEqualSelector } from "services/ReselectHelper"
+import { selectors } from 'data'
+import { curry, filter, head, length, lift, prop, propEq } from 'ramda'
+import { createDeepEqualSelector } from 'services/ReselectHelper'
 
-export const format = acc => ({ text: prop("label", acc), value: acc })
+export const format = acc => ({ text: prop('label', acc), value: acc })
 
 export const formatDefault = curry((coin, acc) => ({ text: coin, value: acc }))
 
@@ -14,22 +14,22 @@ export const generateGroup = (
 ) => {
   if (hasOneAccount) {
     const accounts = [
-      btcAccounts.map(formatDefault("Bitcoin")),
-      bchAccounts.map(formatDefault("Bitcoin Cash")),
-      ethAccounts.map(formatDefault("Ether"))
+      btcAccounts.map(formatDefault('Bitcoin')),
+      bchAccounts.map(formatDefault('Bitcoin Cash')),
+      ethAccounts.map(formatDefault('Ether'))
     ]
 
     return [
       {
-        group: "",
+        group: '',
         items: accounts.reduce((a, b) => a.concat(b))
       }
     ]
   }
   return [
-    { group: "Bitcoin", items: btcAccounts.map(format) },
-    { group: "Bitcoin Cash", items: bchAccounts.map(format) },
-    { group: "Ether", items: ethAccounts.map(format) }
+    { group: 'Bitcoin', items: btcAccounts.map(format) },
+    { group: 'Bitcoin Cash', items: bchAccounts.map(format) },
+    { group: 'Ether', items: ethAccounts.map(format) }
   ]
 }
 
@@ -42,16 +42,16 @@ const getBchAccounts = createDeepEqualSelector(
   (bchAccounts, bchDataR, bchMetadataR) => {
     const transform = (bchData, bchMetadata) =>
       bchAccounts.map(acc => {
-        const index = prop("index", acc)
-        const data = prop(prop("xpub", acc), bchData)
+        const index = prop('index', acc)
+        const data = prop(prop('xpub', acc), bchData)
         const metadata = bchMetadata[index]
 
         return {
-          archived: prop("archived", metadata),
-          coin: "BCH",
-          label: prop("label", metadata) || prop("xpub", acc),
+          archived: prop('archived', metadata),
+          coin: 'BCH',
+          label: prop('label', metadata) || prop('xpub', acc),
           address: index,
-          balance: prop("final_balance", data)
+          balance: prop('final_balance', data)
         }
       })
 
@@ -67,11 +67,11 @@ const getBtcAccounts = createDeepEqualSelector(
   (btcAccounts, btcDataR) => {
     const transform = btcData => {
       return btcAccounts.map(acc => ({
-        archived: prop("archived", acc),
-        coin: "BTC",
-        label: prop("label", acc) || prop("xpub", acc),
-        address: prop("index", acc),
-        balance: prop("final_balance", prop(prop("xpub", acc), btcData))
+        archived: prop('archived', acc),
+        coin: 'BTC',
+        label: prop('label', acc) || prop('xpub', acc),
+        address: prop('index', acc),
+        balance: prop('final_balance', prop(prop('xpub', acc), btcData))
       }))
     }
 
@@ -87,14 +87,14 @@ const getEthAccounts = createDeepEqualSelector(
   (ethDataR, ethMetadataR) => {
     const transform = (ethData, ethMetadata) =>
       ethMetadata.map(acc => {
-        const data = prop(prop("addr", acc), ethData)
+        const data = prop(prop('addr', acc), ethData)
 
         return {
-          archived: prop("archived", acc),
-          coin: "ETH",
-          label: prop("label", acc) || prop("addr", acc),
-          address: prop("addr", acc),
-          balance: prop("balance", data)
+          archived: prop('archived', acc),
+          coin: 'ETH',
+          label: prop('label', acc) || prop('addr', acc),
+          address: prop('addr', acc),
+          balance: prop('balance', data)
         }
       })
 
@@ -110,7 +110,7 @@ export const getData = createDeepEqualSelector(
     selectors.core.settings.getCurrency,
     selectors.components.exchange.getFirstStepEnabled,
     selectors.components.exchange.getError,
-    selectors.form.getFormValues("exchange")
+    selectors.form.getFormValues('exchange')
   ],
   (
     btcAccountsR,
@@ -121,13 +121,13 @@ export const getData = createDeepEqualSelector(
     formError,
     formValues
   ) => {
-    const source = prop("source", formValues)
-    const target = prop("target", formValues)
-    const sourceCoin = prop("coin", source) || "BTC"
-    const targetCoin = prop("coin", target) || "ETH"
+    const source = prop('source', formValues)
+    const target = prop('target', formValues)
+    const sourceCoin = prop('coin', source) || 'BTC'
+    const targetCoin = prop('coin', target) || 'ETH'
 
     const transform = (btcAccounts, bchAccounts, ethAccounts, currency) => {
-      const isActive = propEq("archived", false)
+      const isActive = propEq('archived', false)
       const activeBtcAccounts = filter(isActive, btcAccounts)
       const activeBchAccounts = filter(isActive, bchAccounts)
       const activeEthAccounts = filter(isActive, ethAccounts)

@@ -1,7 +1,7 @@
-import { map } from "ramda"
+import { map } from 'ramda'
 
-import { selectors } from "data"
-import { Types } from "blockchain-wallet-v4"
+import { selectors } from 'data'
+import { Types } from 'blockchain-wallet-v4'
 
 export const getData = state => {
   const defaultId = Types.HDWallet.selectDefaultAccountIdx(

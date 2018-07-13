@@ -1,8 +1,8 @@
-import React from "react"
-import styled from "styled-components"
+import React from 'react'
+import styled from 'styled-components'
 
-import { equals, isNil } from "ramda"
-import { Text, NumberInput } from "blockchain-info-components"
+import { equals, isNil } from 'ramda'
+import { Text, NumberInput } from 'blockchain-info-components'
 
 const Container = styled.div`
   position: relative;
@@ -18,12 +18,12 @@ const Error = styled(Text)`
   position: absolute;
   display: block;
   height: 15px;
-  right: ${props => (props.errorLeft ? "auto" : 0)};
-  left: ${props => (props.errorLeft ? "-2px" : "auto")};
-  top: ${props => (props.errorBottom ? "40px" : "-20px")};
+  right: ${props => (props.errorLeft ? 'auto' : 0)};
+  left: ${props => (props.errorLeft ? '-2px' : 'auto')};
+  top: ${props => (props.errorBottom ? '40px' : '-20px')};
 `
 const getErrorState = meta => {
-  return meta.touched && meta.invalid ? "invalid" : "initial"
+  return meta.touched && meta.invalid ? 'invalid' : 'initial'
 }
 
 class NumberBoxDebounced extends React.Component {

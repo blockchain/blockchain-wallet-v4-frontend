@@ -1,5 +1,5 @@
-import { contains } from "ramda"
-import { actions, actionTypes, selectors } from "data"
+import { contains } from 'ramda'
+import { actions, actionTypes, selectors } from 'data'
 
 let timer, counter, interval
 // Actions that won't refresh the autodisconnection timer
@@ -68,7 +68,7 @@ const refreshTimer = store => {
       clearInterval(interval)
     }
     store.dispatch(
-      actions.modals.showModal("AutoDisconnection", { duration: timer / 60 })
+      actions.modals.showModal('AutoDisconnection', { duration: timer / 60 })
     )
   }
   counter--

@@ -1,16 +1,16 @@
-import React from "react"
-import PropTypes from "prop-types"
-import onClickOutside from "react-onclickoutside"
-import { equals, head, isEmpty, isNil, contains, toUpper, filter } from "ramda"
+import React from 'react'
+import PropTypes from 'prop-types'
+import onClickOutside from 'react-onclickoutside'
+import { equals, head, isEmpty, isNil, contains, toUpper, filter } from 'ramda'
 
-import SelectInput from "./template.js"
+import SelectInput from './template.js'
 
 class SelectInputContainer extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
       expanded: this.props.opened,
-      search: "",
+      search: '',
       value: this.props.value
     }
     this.handleBlur = this.handleBlur.bind(this)
@@ -26,7 +26,7 @@ class SelectInputContainer extends React.PureComponent {
   }
 
   handleClick(item) {
-    this.setState({ value: item.value, expanded: false, search: "" })
+    this.setState({ value: item.value, expanded: false, search: '' })
     if (this.props.onChange) {
       this.props.onChange(item.value)
     }
@@ -37,7 +37,7 @@ class SelectInputContainer extends React.PureComponent {
   }
 
   handleBlur() {
-    this.setState({ expanded: false, search: "" })
+    this.setState({ expanded: false, search: '' })
     if (this.props.onBlur) {
       this.props.onBlur()
     }
@@ -54,13 +54,13 @@ class SelectInputContainer extends React.PureComponent {
   }
 
   handleClickOutside() {
-    this.setState({ expanded: false, search: "" })
+    this.setState({ expanded: false, search: '' })
   }
 
   transform(elements, search) {
     let items = []
     elements.map(element => {
-      if (!search && element.group !== "") {
+      if (!search && element.group !== '') {
         items.push({ text: element.group })
       }
       element.items.map(item => {
@@ -129,7 +129,7 @@ SelectInputContainer.propTypes = {
 }
 
 SelectInputContainer.defaultProps = {
-  label: "Select a value",
+  label: 'Select a value',
   searchEnabled: true,
   opened: false,
   disabled: false

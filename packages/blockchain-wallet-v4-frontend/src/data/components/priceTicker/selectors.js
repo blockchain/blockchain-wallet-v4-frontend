@@ -1,14 +1,14 @@
-import { lift } from "ramda"
-import { Exchange, Remote } from "blockchain-wallet-v4/src"
-import * as selectors from "../../selectors"
+import { lift } from 'ramda'
+import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import * as selectors from '../../selectors'
 
 const selectRates = (coin, state) => {
   switch (coin) {
-    case "BCH":
+    case 'BCH':
       return selectors.core.data.bch.getRates(state)
-    case "BTC":
+    case 'BTC':
       return selectors.core.data.bitcoin.getRates(state)
-    case "ETH":
+    case 'ETH':
       return selectors.core.data.ethereum.getRates(state)
     default:
       return Remote.Failure(`Could not find rates for coin ${coin}.`)
@@ -17,24 +17,24 @@ const selectRates = (coin, state) => {
 
 const convertCoinToFiat = (coin, rates, currency) => {
   switch (coin) {
-    case "BCH":
+    case 'BCH':
       return Exchange.displayBchToFiat({
         value: 1,
-        fromUnit: "BCH",
+        fromUnit: 'BCH',
         toCurrency: currency,
         rates
       })
-    case "BTC":
+    case 'BTC':
       return Exchange.displayBitcoinToFiat({
         value: 1,
-        fromUnit: "BTC",
+        fromUnit: 'BTC',
         toCurrency: currency,
         rates
       })
-    case "ETH":
+    case 'ETH':
       return Exchange.displayEtherToFiat({
         value: 1,
-        fromUnit: "ETH",
+        fromUnit: 'ETH',
         toCurrency: currency,
         rates
       })

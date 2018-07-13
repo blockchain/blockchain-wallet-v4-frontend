@@ -1,11 +1,11 @@
-import React from "react"
-import { shallow } from "enzyme"
-import toJson from "enzyme-to-json"
+import React from 'react'
+import { shallow } from 'enzyme'
+import toJson from 'enzyme-to-json'
 
-import Carousel from "./template"
+import Carousel from './template'
 
-describe("Carousel component", () => {
-  it("default renders correctly", () => {
+describe('Carousel component', () => {
+  it('default renders correctly', () => {
     const component = shallow(
       <Carousel
         height={12}

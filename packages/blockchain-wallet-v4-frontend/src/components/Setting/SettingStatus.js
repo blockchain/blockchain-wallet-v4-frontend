@@ -1,5 +1,5 @@
-import styled from "styled-components"
-import PropTypes from "prop-types"
+import styled from 'styled-components'
+import PropTypes from 'prop-types'
 
 const SettingStatus = styled.div`
   display: block;
@@ -7,8 +7,8 @@ const SettingStatus = styled.div`
   box-sizing: border-box;
   border-radius: 3px;
   background-color: ${props =>
-    props.active ? props.theme["success"] : props.theme["error"]};
-  color: ${props => props.theme["white"]};
+    props.active ? props.theme['success'] : props.theme['error']};
+  color: ${props => props.theme['white']};
   font-size: 12px;
   font-weight: 400;
   text-transform: capitalize;

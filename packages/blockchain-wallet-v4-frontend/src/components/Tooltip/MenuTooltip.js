@@ -1,10 +1,10 @@
-import React from "react"
-import styled from "styled-components"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import { actions } from "data"
+import React from 'react'
+import styled from 'styled-components'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { actions } from 'data'
 
-import { Icon, Text, TextGroup } from "blockchain-info-components"
+import { Icon, Text, TextGroup } from 'blockchain-info-components'
 
 const MenuTooltipWrapper = styled.div`
   display: inline-flex;
@@ -17,9 +17,9 @@ const MenuTooltipIcon = styled(Icon)`
   align-items: center;
   display: inline-flex;
   justify-content: center;
-  color: ${props => props.theme["white"]};
-  background-color: ${props => props.theme["brand-primary"]};
-  border: 1px solid ${props => props.theme["brand-primary"]};
+  color: ${props => props.theme['white']};
+  background-color: ${props => props.theme['brand-primary']};
+  border: 1px solid ${props => props.theme['brand-primary']};
 `
 const MenuTooltipBox = styled(TextGroup)`
   position: absolute;
@@ -27,18 +27,18 @@ const MenuTooltipBox = styled(TextGroup)`
   top: 150%;
   left: -115px;
   width: 250px;
-  display: ${props => (props.displayed ? "block" : "none")};
-  background-color: ${props => props.theme["white"]};
-  color: ${props => props.theme["gray-5"]};
-  border: 1px solid ${props => props.theme["gray-2"]};
+  display: ${props => (props.displayed ? 'block' : 'none')};
+  background-color: ${props => props.theme['white']};
+  color: ${props => props.theme['gray-5']};
+  border: 1px solid ${props => props.theme['gray-2']};
   border-radius: 5px;
   box-sizing: border-box;
   font-size: 11px;
   font-weight: 300;
-  font-family: "Montserrat", sans serif;
+  font-family: 'Montserrat', sans serif;
 
   &:before {
-    content: "";
+    content: '';
     display: block;
     position: absolute;
     left: 115px;
@@ -46,11 +46,11 @@ const MenuTooltipBox = styled(TextGroup)`
     width: 0;
     height: 0;
     border: 10px solid transparent;
-    border-bottom-color: ${props => props.theme["gray-2"]};
+    border-bottom-color: ${props => props.theme['gray-2']};
   }
 
   &:after {
-    content: "";
+    content: '';
     display: block;
     position: absolute;
     left: 116px;
@@ -58,7 +58,7 @@ const MenuTooltipBox = styled(TextGroup)`
     width: 0;
     height: 0;
     border: 9px solid transparent;
-    border-bottom-color: ${props => props.theme["gray-1"]};
+    border-bottom-color: ${props => props.theme['gray-1']};
   }
 `
 
@@ -76,11 +76,11 @@ const NewLabel = styled.div`
   top: 3px;
   width: 10px;
   height: 10px;
-  background-color: ${props => props.theme["error"]};
+  background-color: ${props => props.theme['error']};
   border-radius: 100%;
 `
 const MenuTooltipTitle = styled(Text)`
-  background-color: ${props => props.theme["gray-1"]};
+  background-color: ${props => props.theme['gray-1']};
   padding: 8px 14px;
 `
 const TextContainer = styled.div`
@@ -136,7 +136,7 @@ class MenuTooltip extends React.PureComponent {
 }
 
 MenuTooltip.defaultProps = {
-  icon: "bell-filled"
+  icon: 'bell-filled'
 }
 
 const mapDispatchToProps = dispatch => ({

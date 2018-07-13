@@ -1,9 +1,9 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { connect } from "react-redux"
-import { selectors } from "data"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { selectors } from 'data'
 
-import SwitchableDisplay from "./template.js"
+import SwitchableDisplay from './template.js'
 
 class SwitchableDisplayContainer extends React.PureComponent {
   render() {
@@ -13,7 +13,7 @@ class SwitchableDisplayContainer extends React.PureComponent {
 
 SwitchableDisplay.propTypes = {
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  coin: PropTypes.oneOf(["BTC", "ETH", "BCH"]).isRequired,
+  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH']).isRequired,
   coinDisplayed: PropTypes.bool.isRequired
 }
 

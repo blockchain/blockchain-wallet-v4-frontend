@@ -1,6 +1,6 @@
-import { takeLatest } from "redux-saga/effects"
-import * as AT from "./actionTypes"
-import sagas from "./sagas"
+import { takeLatest } from 'redux-saga/effects'
+import * as AT from './actionTypes'
+import sagas from './sagas'
 
 export default () => {
   const refreshSagas = sagas()

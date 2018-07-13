@@ -1,6 +1,6 @@
-import React from "react"
+import React from 'react'
 
-import IPWhitelist from "./template.js"
+import IPWhitelist from './template.js'
 
 class IPWhitelistContainer extends React.PureComponent {
   render() {

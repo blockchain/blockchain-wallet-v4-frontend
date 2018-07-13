@@ -1,8 +1,8 @@
-import React from "react"
-import TradeItem from "./TradeItem"
-import { FormattedMessage } from "react-intl"
-import { filter, prop, reverse, sortBy } from "ramda"
-import { Table, TableCell, TableHeader, Text } from "blockchain-info-components"
+import React from 'react'
+import TradeItem from './TradeItem'
+import { FormattedMessage } from 'react-intl'
+import { filter, prop, reverse, sortBy } from 'ramda'
+import { Table, TableCell, TableHeader, Text } from 'blockchain-info-components'
 
 class OrderHistoryTable extends React.PureComponent {
   constructor() {
@@ -25,7 +25,7 @@ class OrderHistoryTable extends React.PureComponent {
 
     const isValid = t => t.createdAt
     const validTrades = filter(isValid, trades)
-    const sortByCreated = sortBy(prop("createdAt"))
+    const sortByCreated = sortBy(prop('createdAt'))
     const sortedTrades = reverse(sortByCreated(validTrades))
 
     return (

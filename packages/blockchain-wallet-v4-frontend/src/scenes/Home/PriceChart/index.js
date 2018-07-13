@@ -1,11 +1,11 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { Text } from "blockchain-info-components"
-import Chart from "./Chart"
-import CoinFilters from "./CoinFilters"
-import TimeFilters from "./TimeFilters"
+import { Text } from 'blockchain-info-components'
+import Chart from './Chart'
+import CoinFilters from './CoinFilters'
+import TimeFilters from './TimeFilters'
 
 const Wrapper = styled.div`
   display: flex;
@@ -16,7 +16,7 @@ const Wrapper = styled.div`
   height: 380px;
   padding: 15px;
   box-sizing: border-box;
-  border: 1px solid ${props => props.theme["gray-1"]};
+  border: 1px solid ${props => props.theme['gray-1']};
   & > * {
     margin-bottom: 10px;
   }

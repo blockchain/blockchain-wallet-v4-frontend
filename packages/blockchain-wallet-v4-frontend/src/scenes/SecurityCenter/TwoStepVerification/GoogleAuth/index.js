@@ -1,14 +1,14 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators, compose } from "redux"
-import ui from "redux-ui"
-import { formValueSelector } from "redux-form"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import ui from 'redux-ui'
+import { formValueSelector } from 'redux-form'
 
-import { actions } from "data"
-import { getData } from "./selectors"
-import Success from "./template.success"
-import Error from "./template.error"
-import Loading from "./template.loading"
+import { actions } from 'data'
+import { getData } from './selectors'
+import Success from './template.success'
+import Error from './template.error'
+import Loading from './template.loading'
 
 class GoogleAuthContainer extends React.PureComponent {
   constructor(props) {
@@ -33,7 +33,7 @@ class GoogleAuthContainer extends React.PureComponent {
   }
 
   handleClick() {
-    this.props.modalActions.showModal("TwoStepSetup")
+    this.props.modalActions.showModal('TwoStepSetup')
   }
 
   onSubmit() {
@@ -62,7 +62,7 @@ class GoogleAuthContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  authCode: formValueSelector("securityGoogleAuthenticator")(state, "authCode"),
+  authCode: formValueSelector('securityGoogleAuthenticator')(state, 'authCode'),
   data: getData(state)
 })
 
@@ -81,7 +81,7 @@ const enhance = compose(
     mapDispatchToProps
   ),
   ui({
-    key: "Security_TwoFactor",
+    key: 'Security_TwoFactor',
     state: { updateToggled: false, successToggled: false }
   })
 )

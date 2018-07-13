@@ -1,11 +1,11 @@
-import Remote from "../../../remote"
-import * as selectors from "./selectors"
+import Remote from '../../../remote'
+import * as selectors from './selectors'
 
-describe("kvstore root selectors", () => {
+describe('kvstore root selectors', () => {
   const rootMetadata = {
     value: {
-      mdid: "mdid value",
-      metadata: "my xpriv"
+      mdid: 'mdid value',
+      metadata: 'my xpriv'
     }
   }
 
@@ -15,8 +15,8 @@ describe("kvstore root selectors", () => {
     }
   }
 
-  it("getMetadataXpriv should return success of metadata xpriv in success state", () => {
-    const expectedResult = "my xpriv"
+  it('getMetadataXpriv should return success of metadata xpriv in success state', () => {
+    const expectedResult = 'my xpriv'
     expect(selectors.getMetadataXpriv(successState)).toEqual(expectedResult)
   })
 
@@ -26,18 +26,18 @@ describe("kvstore root selectors", () => {
     }
   }
 
-  it("getMetadataXpriv should return null in loading state", () => {
+  it('getMetadataXpriv should return null in loading state', () => {
     const expectedResult = null
     expect(selectors.getMetadataXpriv(loadingState)).toEqual(expectedResult)
   })
 
   const failureState = {
     kvStorePath: {
-      root: Remote.Failure("Error loading root metadata")
+      root: Remote.Failure('Error loading root metadata')
     }
   }
 
-  it("getMetadataXpriv should return null in failure state", () => {
+  it('getMetadataXpriv should return null in failure state', () => {
     const expectedResult = null
     expect(selectors.getMetadataXpriv(failureState)).toEqual(expectedResult)
   })

@@ -1,7 +1,7 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { ThemeProvider } from "styled-components"
-import { Palette } from "../Colors"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { ThemeProvider } from 'styled-components'
+import { Palette } from '../Colors'
 
 const Themes = props => {
   const { theme, children } = props
@@ -15,6 +15,6 @@ Themes.propTypes = {
 }
 
 Themes.defaultProps = {
-  theme: "default"
+  theme: 'default'
 }
 export { Themes }

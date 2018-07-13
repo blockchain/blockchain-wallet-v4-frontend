@@ -1,14 +1,14 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { NavLink } from "react-router-dom"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { NavLink } from 'react-router-dom'
 
-import { Icon, Image } from "blockchain-info-components"
-import FaqIcon from "./FaqIcon"
-import WhatsNewIcon from "./WhatsNewIcon"
-import RefreshIcon from "./RefreshIcon"
-import Logout from "./Logout"
-import ServiceAnnouncement from "components/ServiceAnnouncement"
+import { Icon, Image } from 'blockchain-info-components'
+import FaqIcon from './FaqIcon'
+import WhatsNewIcon from './WhatsNewIcon'
+import RefreshIcon from './RefreshIcon'
+import Logout from './Logout'
+import ServiceAnnouncement from 'components/ServiceAnnouncement'
 import {
   Navbar,
   NavbarBrand,
@@ -16,7 +16,7 @@ import {
   NavbarMenu,
   NavbarNav,
   NavbarNavItem
-} from "components/Navbar"
+} from 'components/Navbar'
 
 const BlockchainLogoImage = styled(Image)`
   height: 16px;

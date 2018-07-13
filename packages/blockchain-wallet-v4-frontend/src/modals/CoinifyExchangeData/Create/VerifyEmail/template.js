@@ -1,11 +1,11 @@
-import React from "react"
-import { FormattedMessage } from "react-intl"
-import { Field, reduxForm } from "redux-form"
-import styled from "styled-components"
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
 
-import { Text, Button } from "blockchain-info-components"
-import { TextBox } from "components/Form"
-import { required } from "services/FormHelper"
+import { Text, Button } from 'blockchain-info-components'
+import { TextBox } from 'components/Form'
+import { required } from 'services/FormHelper'
 import {
   Form,
   ColLeft,
@@ -16,8 +16,8 @@ import {
   PartnerSubHeader,
   ButtonWrapper,
   EmailHelper
-} from "components/BuySell/Signup"
-import media from "services/ResponsiveService"
+} from 'components/BuySell/Signup'
+import media from 'services/ResponsiveService'
 
 const EmailInput = styled.div`
   display: flex;
@@ -51,7 +51,7 @@ const VerifyEmail = props => {
             values={{
               resend: <a onClick={resendCode}>Resend</a>,
               changeEmail: (
-                <a onClick={() => updateUI({ create: "change_email" })}>
+                <a onClick={() => updateUI({ create: 'change_email' })}>
                   change email
                 </a>
               )
@@ -73,7 +73,7 @@ const VerifyEmail = props => {
             values={{
               resend: <a onClick={resendCode}>Resend</a>,
               changeEmail: (
-                <a onClick={() => updateUI({ create: "change_email" })}>
+                <a onClick={() => updateUI({ create: 'change_email' })}>
                   change email
                 </a>
               )
@@ -94,7 +94,7 @@ const VerifyEmail = props => {
             />
           </PartnerHeader>
           <PartnerSubHeader>
-            {ui.create === "enter_email_code" ? (
+            {ui.create === 'enter_email_code' ? (
               <FormattedMessage
                 id="coinifyexchangedata.create.verifyemail.partner.subheader.enteremailcode"
                 defaultMessage="We teamed up with Coinify’s exchange platform to offer buy and sell to our customers in Europe. We just sent a verification code to your {email} email address."
@@ -107,9 +107,9 @@ const VerifyEmail = props => {
               />
             )}
           </PartnerSubHeader>
-          {ui.create === "enter_email_code" ? (
+          {ui.create === 'enter_email_code' ? (
             <EmailInput>
-              <Text size="14px" weight={400} style={{ "margin-bottom": "5px" }}>
+              <Text size="14px" weight={400} style={{ 'margin-bottom': '5px' }}>
                 <FormattedMessage
                   id="coinifyexchangedata.create.verifyemail.code"
                   defaultMessage="Enter your verification code:"
@@ -127,7 +127,7 @@ const VerifyEmail = props => {
             </EmailInput>
           ) : (
             <EmailInput>
-              <Text size="14px" weight={400} style={{ "margin-bottom": "5px" }}>
+              <Text size="14px" weight={400} style={{ 'margin-bottom': '5px' }}>
                 <FormattedMessage
                   id="coinifyexchangedata.create.verifyemail.enteremail.youwouldlike"
                   defaultMessage="Enter the email address you'd like to verify:"
@@ -144,7 +144,7 @@ const VerifyEmail = props => {
       </ColLeft>
       <ColRight>
         <ColRightInner>
-          {ui.create === "enter_email_code" ? (
+          {ui.create === 'enter_email_code' ? (
             <ButtonWrapper>
               <Button
                 uppercase
@@ -180,4 +180,4 @@ const VerifyEmail = props => {
   )
 }
 
-export default reduxForm({ form: "coinifyVerifyEmail" })(VerifyEmail)
+export default reduxForm({ form: 'coinifyVerifyEmail' })(VerifyEmail)

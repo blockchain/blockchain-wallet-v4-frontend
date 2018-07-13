@@ -1,11 +1,11 @@
-import { assoc, merge } from "ramda"
-import * as AT from "./actionTypes"
-import { Remote } from "blockchain-wallet-v4/src"
+import { assoc, merge } from 'ramda'
+import * as AT from './actionTypes'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 const INITIAL_STATE = {
   step: 1,
   secondStep: Remote.NotAsked,
-  error: "initial",
+  error: 'initial',
   payment: {},
   order: {},
   firstStepEnabled: true
@@ -16,34 +16,34 @@ export default (state = INITIAL_STATE, action) => {
 
   switch (type) {
     case AT.EXCHANGE_ORDER_UPDATED: {
-      return assoc("order", payload, state)
+      return assoc('order', payload, state)
     }
     case AT.EXCHANGE_PAYMENT_UPDATED: {
-      return assoc("payment", payload, state)
+      return assoc('payment', payload, state)
     }
     case AT.EXCHANGE_FIRST_STEP_ENABLED: {
-      return assoc("firstStepEnabled", true, state)
+      return assoc('firstStepEnabled', true, state)
     }
     case AT.EXCHANGE_FIRST_STEP_DISABLED: {
-      return assoc("firstStepEnabled", false, state)
+      return assoc('firstStepEnabled', false, state)
     }
     case AT.EXCHANGE_FIRST_STEP_FORM_VALIDATED: {
-      return assoc("error", "", state)
+      return assoc('error', '', state)
     }
     case AT.EXCHANGE_FIRST_STEP_FORM_UNVALIDATED: {
-      return assoc("error", payload, state)
+      return assoc('error', payload, state)
     }
     case AT.EXCHANGE_FIRST_STEP_SUBMIT_CLICKED: {
-      return assoc("step", 2, state)
+      return assoc('step', 2, state)
     }
     case AT.EXCHANGE_SECOND_STEP_INITIALIZED: {
-      return assoc("secondStep", Remote.Loading, state)
+      return assoc('secondStep', Remote.Loading, state)
     }
     case AT.EXCHANGE_SECOND_STEP_SUCCESS: {
-      return assoc("secondStep", Remote.Success(payload), state)
+      return assoc('secondStep', Remote.Success(payload), state)
     }
     case AT.EXCHANGE_SECOND_STEP_FAILURE: {
-      return assoc("secondStep", Remote.Failure(payload), state)
+      return assoc('secondStep', Remote.Failure(payload), state)
     }
     case AT.EXCHANGE_SECOND_STEP_ORDER_EXPIRED:
     case AT.EXCHANGE_SECOND_STEP_CANCEL_CLICKED: {

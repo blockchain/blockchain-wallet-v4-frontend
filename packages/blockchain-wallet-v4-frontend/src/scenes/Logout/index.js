@@ -1,9 +1,9 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import Logout from "./template.js"
-import { actions } from "data"
+import Logout from './template.js'
+import { actions } from 'data'
 
 class LogoutContainer extends React.PureComponent {
   constructor(props) {

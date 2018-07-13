@@ -1,16 +1,16 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { Palette } from "../Colors"
-import Icomoon from "./Icomoon"
-import { keysIn } from "ramda"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { Palette } from '../Colors'
+import Icomoon from './Icomoon'
+import { keysIn } from 'ramda'
 
 const BaseIcon = styled.span`
   font-weight: ${props => props.weight};
   font-size: ${props => props.size};
   color: ${props => props.theme[props.color]};
   -webkit-font-smoothing: antialiased;
-  cursor: ${props => (props.cursorEnabled ? "pointer" : "inherit")};
+  cursor: ${props => (props.cursorEnabled ? 'pointer' : 'inherit')};
   display: flex;
 
   &:before {
@@ -36,8 +36,8 @@ Icon.propTypes = {
 
 Icon.defaultProps = {
   weight: 400,
-  size: "16px",
-  color: "gray-5",
+  size: '16px',
+  color: 'gray-5',
   cursor: false
 }
 

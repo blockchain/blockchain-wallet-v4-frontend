@@ -1,8 +1,8 @@
-import React from "react"
-import { connect } from "react-redux"
+import React from 'react'
+import { connect } from 'react-redux'
 
-import { getData } from "./selectors"
-import MenuLeft from "./template"
+import { getData } from './selectors'
+import MenuLeft from './template'
 
 class MenuLeftContainer extends React.PureComponent {
   render() {

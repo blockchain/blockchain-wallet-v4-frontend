@@ -1,19 +1,19 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import CoinDisplay from "components/Display/CoinDisplay"
-import FiatDisplay from "components/Display/FiatDisplay"
-import { LinkContainer } from "react-router-bootstrap"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import CoinDisplay from 'components/Display/CoinDisplay'
+import FiatDisplay from 'components/Display/FiatDisplay'
+import { LinkContainer } from 'react-router-bootstrap'
 
 const Wrapper = styled.div`
   display: inline-flex;
   flex-direction: row;
   padding-left: 5px;
-  padding-right: ${props => (props.large ? "15px" : "25px")};
+  padding-right: ${props => (props.large ? '15px' : '25px')};
   > div:last-child {
     margin-left: 10px;
     > div {
-      color: ${props => props.theme["gray-3"]};
+      color: ${props => props.theme['gray-3']};
     }
   }
 `
@@ -27,7 +27,7 @@ const Success = props => {
         <CoinDisplay
           coin="BCH"
           cursor="pointer"
-          size={large ? "20px" : "12px"}
+          size={large ? '20px' : '12px'}
           mobileSize="14px"
           weight={large ? 200 : 300}
         >
@@ -36,7 +36,7 @@ const Success = props => {
         <FiatDisplay
           coin="BCH"
           cursor="pointer"
-          size={large ? "20px" : "12px"}
+          size={large ? '20px' : '12px'}
           mobileSize="14px"
           weight={large ? 200 : 300}
         >

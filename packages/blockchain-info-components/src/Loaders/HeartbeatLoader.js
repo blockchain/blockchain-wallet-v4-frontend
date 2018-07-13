@@ -1,9 +1,9 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled, { keyframes } from "styled-components"
-import { keysIn } from "ramda"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled, { keyframes } from 'styled-components'
+import { keysIn } from 'ramda'
 
-import { Palette } from "../Colors"
+import { Palette } from '../Colors'
 
 const bounceAnimation = keyframes`
   0%, 100% { transform: scale(0.0); }
@@ -47,9 +47,9 @@ HeartbeatLoader.propTypes = {
 }
 
 HeartbeatLoader.defaultProps = {
-  width: "40px",
-  height: "40px",
-  color: "brand-secondary"
+  width: '40px',
+  height: '40px',
+  color: 'brand-secondary'
 }
 
 export default HeartbeatLoader

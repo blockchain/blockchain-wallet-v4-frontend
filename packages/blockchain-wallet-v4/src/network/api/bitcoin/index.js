@@ -1,41 +1,41 @@
-import { toUpper } from "ramda"
+import { toUpper } from 'ramda'
 
 export default ({ rootUrl, apiUrl, get, post }) => {
   const getBitcoinTicker = () =>
     get({
       url: apiUrl,
-      endPoint: "/ticker",
-      data: { base: "BTC" }
+      endPoint: '/ticker',
+      data: { base: 'BTC' }
     })
 
   const getBitcoinUnspents = (fromAddresses, confirmations = 0) =>
     get({
       url: rootUrl,
-      endPoint: "/unspent",
+      endPoint: '/unspent',
       data: {
-        active: fromAddresses.join("|"),
+        active: fromAddresses.join('|'),
         confirmations: Math.max(confirmations, -1),
-        format: "json"
+        format: 'json'
       }
     })
 
   const getBitcoinFee = () =>
     get({
       url: apiUrl,
-      endPoint: "/mempool/fees"
+      endPoint: '/mempool/fees'
     })
 
   const pushBitcoinTx = txHex =>
     post({
       url: rootUrl,
-      endPoint: "/pushtx",
-      data: { tx: txHex, format: "plain" }
+      endPoint: '/pushtx',
+      data: { tx: txHex, format: 'plain' }
     })
 
   const getBitcoinFiatAtTime = (amount, currency, time) =>
     get({
       url: apiUrl,
-      endPoint: "/frombtc",
+      endPoint: '/frombtc',
       data: {
         value: amount,
         currency: toUpper(currency),
@@ -48,22 +48,22 @@ export default ({ rootUrl, apiUrl, get, post }) => {
   const getLatestBlock = () =>
     get({
       url: rootUrl,
-      endPoint: "/latestblock"
+      endPoint: '/latestblock'
     })
 
   const getRawTx = txHex =>
     get({
       url: rootUrl,
-      endPoint: "/rawtx/" + txHex
+      endPoint: '/rawtx/' + txHex
     })
 
   const getBalances = addresses =>
     post({
       url: rootUrl,
-      endPoint: "/balance",
+      endPoint: '/balance',
       data: {
-        active: addresses.join("|"),
-        format: "json"
+        active: addresses.join('|'),
+        format: 'json'
       }
     })
 

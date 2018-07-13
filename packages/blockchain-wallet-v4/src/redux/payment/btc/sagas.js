@@ -1,22 +1,22 @@
-import { call, select } from "redux-saga/effects"
-import { merge, zip, prop, map, identity, isNil, isEmpty } from "ramda"
-import Task from "data.task"
+import { call, select } from 'redux-saga/effects'
+import { merge, zip, prop, map, identity, isNil, isEmpty } from 'ramda'
+import Task from 'data.task'
 
-import * as S from "../../selectors"
-import { btc } from "../../../signer"
-import * as CoinSelection from "../../../coinSelection"
-import * as Coin from "../../../coinSelection/coin"
+import * as S from '../../selectors'
+import { btc } from '../../../signer'
+import * as CoinSelection from '../../../coinSelection'
+import * as Coin from '../../../coinSelection/coin'
 import {
   isValidBitcoinAddress,
   privateKeyStringToKey,
   detectPrivateKeyFormat
-} from "../../../utils/bitcoin"
-import { futurizeP } from "futurize"
+} from '../../../utils/bitcoin'
+import { futurizeP } from 'futurize'
 import {
   isString,
   isPositiveNumber,
   isPositiveInteger
-} from "../../../utils/checks"
+} from '../../../utils/checks'
 import {
   FROM,
   toCoin,
@@ -26,7 +26,7 @@ import {
   fromLegacyList,
   fromAccount,
   fromPrivateKey
-} from "./utils"
+} from './utils'
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
@@ -47,7 +47,7 @@ export default ({ api }) => {
   const getWalletUnspent = (network, fromData) =>
     api
       .getBitcoinUnspents(fromData.from, -1)
-      .then(prop("unspent_outputs"))
+      .then(prop('unspent_outputs'))
       .then(map(toCoin(network, fromData)))
 
   const calculateTo = function*(destinations, network) {
@@ -56,7 +56,7 @@ export default ({ api }) => {
 
     // if address or account index
     if (isValidAddressOrIndex(destinations)) {
-      return [toOutput("BTC", network, appState, destinations)]
+      return [toOutput('BTC', network, appState, destinations)]
     }
 
     // if non-empty array of addresses or account indexes
@@ -65,10 +65,10 @@ export default ({ api }) => {
       destinations.length > 0 &&
       destinations.every(isValidAddressOrIndex(wallet))
     ) {
-      return map(toOutput("BTC", network, appState), destinations)
+      return map(toOutput('BTC', network, appState), destinations)
     }
 
-    throw new Error("no_destination_set")
+    throw new Error('no_destination_set')
   }
 
   const calculateAmount = function(amounts) {
@@ -84,7 +84,7 @@ export default ({ api }) => {
       return amounts
     }
 
-    throw new Error("no_amount_set")
+    throw new Error('no_amount_set')
   }
 
   const calculateFrom = function*(origin, network) {
@@ -92,7 +92,7 @@ export default ({ api }) => {
     const wallet = S.wallet.getWallet(appState)
 
     // No origin => assume origin = all the legacy addresses (non - watchOnly)
-    if (isNil(origin) || origin === "") {
+    if (isNil(origin) || origin === '') {
       let spendableActiveAddresses = yield select(
         S.wallet.getSpendableActiveAddresses
       )
@@ -115,7 +115,7 @@ export default ({ api }) => {
 
     // Single account index
     if (isPositiveInteger(origin)) {
-      return fromAccount(network, appState, origin, "BTC")
+      return fromAccount(network, appState, origin, 'BTC')
     }
 
     // From private key (watch only: compressed / uncompressed, external)
@@ -126,7 +126,7 @@ export default ({ api }) => {
       return fromPrivateKey(network, wallet, key)
     }
 
-    throw new Error("no_origin_set")
+    throw new Error('no_origin_set')
   }
 
   const calculateFee = function(fee, fees) {
@@ -134,11 +134,11 @@ export default ({ api }) => {
       return fee
     }
 
-    if (["regular", "priority"].indexOf(fee) > -1) {
+    if (['regular', 'priority'].indexOf(fee) > -1) {
       return fees[fee]
     }
 
-    throw new Error("no_fee_set")
+    throw new Error('no_fee_set')
   }
 
   const calculateSelection = function({
@@ -150,27 +150,27 @@ export default ({ api }) => {
     effectiveBalance
   }) {
     if (!to) {
-      throw new Error("missing_to")
+      throw new Error('missing_to')
     }
 
     if (!amount) {
-      throw new Error("missing_amount")
+      throw new Error('missing_amount')
     }
 
     if (!isPositiveInteger(fee)) {
-      throw new Error("missing_fee_per_byte")
+      throw new Error('missing_fee_per_byte')
     }
 
     if (isNil(coins)) {
-      throw new Error("missing_coins")
+      throw new Error('missing_coins')
     }
 
     if (isEmpty(coins) || effectiveBalance <= 0) {
-      throw new Error("empty_addresses")
+      throw new Error('empty_addresses')
     }
 
     if (!change) {
-      throw new Error("missing_change_address")
+      throw new Error('missing_change_address')
     }
 
     let targets = zip(to, amount).map(([target, value]) =>
@@ -186,23 +186,23 @@ export default ({ api }) => {
     effectiveBalance
   }) {
     if (!to) {
-      throw new Error("missing_to")
+      throw new Error('missing_to')
     }
 
     if (to.length !== 1) {
-      throw new Error("can_only_sweep_to_one_target")
+      throw new Error('can_only_sweep_to_one_target')
     }
 
     if (!isPositiveInteger(fee)) {
-      throw new Error("missing_fee_per_byte")
+      throw new Error('missing_fee_per_byte')
     }
 
     if (isNil(coins)) {
-      throw new Error("missing_coins")
+      throw new Error('missing_coins')
     }
 
     if (isEmpty(coins) || effectiveBalance <= 0) {
-      throw new Error("empty_addresses")
+      throw new Error('empty_addresses')
     }
 
     return CoinSelection.selectAll(fee, coins, to[0].address)
@@ -213,7 +213,7 @@ export default ({ api }) => {
       const { outputs } = CoinSelection.selectAll(
         fee,
         coins,
-        "fake-target-address"
+        'fake-target-address'
       )
       return outputs[0].value
     } else {
@@ -223,7 +223,7 @@ export default ({ api }) => {
 
   const calculateSignature = function*(network, password, fromType, selection) {
     if (!selection) {
-      throw new Error("missing_selection")
+      throw new Error('missing_selection')
     }
     const wrapper = yield select(S.wallet.getWrapper)
     switch (fromType) {
@@ -239,13 +239,13 @@ export default ({ api }) => {
       case FROM.EXTERNAL:
         return btc.signWithWIF(network, selection)
       default:
-        throw new Error("unknown_from")
+        throw new Error('unknown_from')
     }
   }
 
   const calculatePublish = function*(txHex) {
     if (!txHex) {
-      throw new Error("missing_signed_tx")
+      throw new Error('missing_signed_tx')
     }
     return yield call(() => taskToPromise(pushBitcoinTx(txHex)))
   }

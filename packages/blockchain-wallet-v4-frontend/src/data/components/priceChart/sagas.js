@@ -1,15 +1,15 @@
-import { put, select } from "redux-saga/effects"
-import * as S from "./selectors"
-import * as actions from "../../actions"
-import * as selectors from "../../selectors"
-import { calculateStart, calculateScale } from "services/ChartService"
+import { put, select } from 'redux-saga/effects'
+import * as S from './selectors'
+import * as actions from '../../actions'
+import * as selectors from '../../selectors'
+import { calculateStart, calculateScale } from 'services/ChartService'
 
 /**
  * Price Chart Sagas
  * @return {Object} price chart sagas
  */
 export default ({ coreSagas }) => {
-  const logLocation = "components/priceChart/sagas"
+  const logLocation = 'components/priceChart/sagas'
 
   /**
    * @desc initialize priceChart component and fetches price data based on coin and time
@@ -24,13 +24,13 @@ export default ({ coreSagas }) => {
       yield put(
         actions.core.data.misc.fetchPriceIndexSeries(
           coin,
-          currencyR.getOrElse("USD"),
+          currencyR.getOrElse('USD'),
           start,
           scale
         )
       )
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, "initialized", e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
     }
   }
 
@@ -48,13 +48,13 @@ export default ({ coreSagas }) => {
       yield put(
         actions.core.data.misc.fetchPriceIndexSeries(
           coin,
-          currencyR.getOrElse("USD"),
+          currencyR.getOrElse('USD'),
           start,
           scale
         )
       )
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, "coinClicked", e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'coinClicked', e))
     }
   }
 
@@ -72,13 +72,13 @@ export default ({ coreSagas }) => {
       yield put(
         actions.core.data.misc.fetchPriceIndexSeries(
           coin,
-          currencyR.getOrElse("USD"),
+          currencyR.getOrElse('USD'),
           start,
           scale
         )
       )
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, "timeClicked", e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'timeClicked', e))
     }
   }
 

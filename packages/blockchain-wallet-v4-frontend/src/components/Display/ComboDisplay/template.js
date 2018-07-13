@@ -1,10 +1,10 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
-import { Text } from "blockchain-info-components"
-import CoinDisplay from "components/Display/CoinDisplay"
-import FiatDisplay from "components/Display/FiatDisplay"
+import { Text } from 'blockchain-info-components'
+import CoinDisplay from 'components/Display/CoinDisplay'
+import FiatDisplay from 'components/Display/FiatDisplay'
 
 const Wrapper = styled.div`
   display: flex;
@@ -34,7 +34,7 @@ const ComboDisplay = props => {
 }
 
 ComboDisplay.propTypes = {
-  coin: PropTypes.oneOf(["BTC", "ETH", "BCH"]).isRequired,
+  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH']).isRequired,
   children: PropTypes.string.isRequired
 }
 

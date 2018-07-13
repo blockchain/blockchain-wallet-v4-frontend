@@ -1,13 +1,13 @@
-import React, { Component } from "react"
-import { connect } from "react-redux"
-import { bindActionCreators, compose } from "redux"
-import { formValueSelector } from "redux-form"
-import { actions } from "data"
-import ui from "redux-ui"
-import { path } from "ramda"
-import Template from "./template"
-import { getData } from "./selectors"
-import Failure from "components/BuySell/Failure"
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import { formValueSelector } from 'redux-form'
+import { actions } from 'data'
+import ui from 'redux-ui'
+import { path } from 'ramda'
+import Template from './template'
+import { getData } from './selectors'
+import Failure from 'components/BuySell/Failure'
 
 class ConfirmContainer extends Component {
   constructor(props) {
@@ -22,8 +22,9 @@ class ConfirmContainer extends Component {
       if (
         nextProps.data.data.quote.baseAmount !==
         this.props.data.data.quote.baseAmount
-      )
+      ) {
         this.props.updateUI({ editing: false })
+      }
     }
   }
 
@@ -37,7 +38,7 @@ class ConfirmContainer extends Component {
         baseCurrency,
         quoteCurrency,
         medium,
-        type: "buy"
+        type: 'buy'
       })
     } else {
       const quote = this.props.data.data.quote
@@ -70,8 +71,8 @@ class ConfirmContainer extends Component {
 
 const mapStateToProps = state => ({
   data: getData(state),
-  medium: path(["coinify", "medium"], state),
-  editingAmount: formValueSelector("coinifyConfirm")(state, "amount")
+  medium: path(['coinify', 'medium'], state),
+  editingAmount: formValueSelector('coinifyConfirm')(state, 'amount')
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -85,7 +86,7 @@ const enhance = compose(
     mapStateToProps,
     mapDispatchToProps
   ),
-  ui({ state: { editing: false, limitsError: "" } })
+  ui({ state: { editing: false, limitsError: '' } })
 )
 
 export default enhance(ConfirmContainer)

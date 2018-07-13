@@ -1,9 +1,9 @@
-import React, { PureComponent } from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
+import React, { PureComponent } from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import { actions } from "data"
-import EthBalance from "./template.success"
+import { actions } from 'data'
+import EthBalance from './template.success'
 
 export class EthBalanceContainer extends PureComponent {
   constructor(props) {

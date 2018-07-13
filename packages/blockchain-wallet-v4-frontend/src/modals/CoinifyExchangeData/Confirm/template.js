@@ -1,10 +1,10 @@
-import React from "react"
-import { reduxForm, Field } from "redux-form"
-import { FormattedMessage } from "react-intl"
-import styled from "styled-components"
-import { spacing } from "services/StyleService"
+import React from 'react'
+import { reduxForm, Field } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+import { spacing } from 'services/StyleService'
 
-import { Button, HeartbeatLoader, Text, Link } from "blockchain-info-components"
+import { Button, HeartbeatLoader, Text, Link } from 'blockchain-info-components'
 import {
   Form,
   ColLeft,
@@ -12,21 +12,21 @@ import {
   PartnerHeader,
   PartnerSubHeader,
   ColRight
-} from "components/BuySell/Signup"
-import { getRateFromQuote } from "services/CoinifyService"
+} from 'components/BuySell/Signup'
+import { getRateFromQuote } from 'services/CoinifyService'
 
 const SummaryWrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 10px;
-  background-color: ${props => props.theme["white-blue"]};
+  background-color: ${props => props.theme['white-blue']};
   border: 0.5px solid #dddddd;
 `
 const SummaryRow = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  border-bottom: ${props => (props.borderBottom ? "1px solid #DDDDDD" : "")};
+  border-bottom: ${props => (props.borderBottom ? '1px solid #DDDDDD' : '')};
   padding: 9px;
 `
 const RateContainer = styled.div`
@@ -52,7 +52,7 @@ const withinLimits = (val, allValues, { medium, value: { limits, quote } }) => {
   return val >= limits[medium].minimumInAmounts[curr] &&
     val <= limits[medium].inRemaining[curr]
     ? undefined
-    : "nope"
+    : 'nope'
 }
 
 const Confirm = props => {
@@ -105,7 +105,7 @@ const Confirm = props => {
   return (
     <Form onSubmit={handleSubmit}>
       <ColLeft>
-        <InputWrapper style={spacing("mb-20")}>
+        <InputWrapper style={spacing('mb-20')}>
           <PartnerHeader>
             <FormattedMessage
               id="coinifyexchangedata.confirm.header"
@@ -114,7 +114,7 @@ const Confirm = props => {
           </PartnerHeader>
           <PartnerSubHeader>{subHeaderHelper()}</PartnerSubHeader>
         </InputWrapper>
-        <RateContainer style={spacing("mb-10")}>
+        <RateContainer style={spacing('mb-10')}>
           {quote ? (
             <Text size="12px" weight={300}>
               {getRateFromQuote(quote)}
@@ -178,7 +178,7 @@ const Confirm = props => {
             </Text>
           </SummaryRow>
         </SummaryWrapper>
-        <EditContainer style={spacing("mt-10")}>
+        <EditContainer style={spacing('mt-10')}>
           <Link size="12px" weight={300} onClick={toggleEdit}>
             {!editing ? (
               <FormattedMessage
@@ -228,4 +228,4 @@ const Confirm = props => {
   )
 }
 
-export default reduxForm({ form: "coinifyConfirm" })(Confirm)
+export default reduxForm({ form: 'coinifyConfirm' })(Confirm)

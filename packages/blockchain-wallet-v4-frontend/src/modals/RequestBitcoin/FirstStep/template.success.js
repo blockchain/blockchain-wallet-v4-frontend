@@ -1,12 +1,12 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { Field, reduxForm } from "redux-form"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
 
-import { required } from "services/FormHelper"
-import { invalidAmountMin, invalidAmountMax } from "./validation"
-import { Button, Separator, Text, Tooltip } from "blockchain-info-components"
+import { required } from 'services/FormHelper'
+import { invalidAmountMin, invalidAmountMax } from './validation'
+import { Button, Separator, Text, Tooltip } from 'blockchain-info-components'
 import {
   FiatConvertor,
   Form,
@@ -16,8 +16,8 @@ import {
   SelectBoxBitcoinAddresses,
   TextArea,
   SelectBoxCoin
-} from "components/Form"
-import CopyClipboard from "components/CopyClipboard"
+} from 'components/Form'
+import CopyClipboard from 'components/CopyClipboard'
 
 const AddressContainer = styled.div`
   display: flex;
@@ -51,7 +51,7 @@ const FirstStep = props => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <CoinSelector margin={"20px"}>
+      <CoinSelector margin={'20px'}>
         <FormItem>
           <FormLabel for="coin">
             <FormattedMessage
@@ -62,7 +62,7 @@ const FirstStep = props => {
           <Field name="coin" component={SelectBoxCoin} validate={[required]} />
         </FormItem>
       </CoinSelector>
-      <FormGroup margin={"5px"}>
+      <FormGroup margin={'5px'}>
         <FormItem>
           <AddressFormLabel>
             <div>
@@ -94,7 +94,7 @@ const FirstStep = props => {
           </AddressContainer>
         </FormItem>
       </FormGroup>
-      <Separator margin={"20px 0"}>
+      <Separator margin={'20px 0'}>
         <Text size="14px" weight={300} uppercase>
           <FormattedMessage
             id="modals.requestbitcoin.firststep.or"
@@ -102,7 +102,7 @@ const FirstStep = props => {
           />
         </Text>
       </Separator>
-      <FormGroup margin={"15px"}>
+      <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel for="amount">
             <FormattedMessage
@@ -118,7 +118,7 @@ const FirstStep = props => {
           />
         </FormItem>
       </FormGroup>
-      <FormGroup margin={"15px"}>
+      <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel for="to">
             <FormattedMessage
@@ -134,7 +134,7 @@ const FirstStep = props => {
           />
         </FormItem>
       </FormGroup>
-      <FormGroup margin={"20px"}>
+      <FormGroup margin={'20px'}>
         <FormItem>
           <FormLabel for="message">
             <FormattedMessage
@@ -176,6 +176,6 @@ FirstStep.propTypes = {
   handleClickQRCode: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: "requestBitcoin", destroyOnUnmount: false })(
+export default reduxForm({ form: 'requestBitcoin', destroyOnUnmount: false })(
   FirstStep
 )

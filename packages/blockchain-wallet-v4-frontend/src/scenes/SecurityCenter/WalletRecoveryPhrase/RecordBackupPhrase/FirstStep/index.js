@@ -1,10 +1,10 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { Button, Image, Link, Text } from "blockchain-info-components"
-import { spacing } from "services/StyleService"
-import recoveryPdf from "./recovery.pdf"
+import { Button, Image, Link, Text } from 'blockchain-info-components'
+import { spacing } from 'services/StyleService'
+import recoveryPdf from './recovery.pdf'
 
 const PrintContainer = styled.div`
   display: flex;
@@ -70,7 +70,7 @@ const FirstStep = props => {
               name="printer"
               height="20px"
               width="20px"
-              style={spacing("mr-5")}
+              style={spacing('mr-5')}
             />
             <FormattedMessage
               id="modals.recoveryphrase.firststep.print"

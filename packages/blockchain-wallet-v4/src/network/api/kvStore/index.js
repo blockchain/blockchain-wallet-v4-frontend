@@ -1,6 +1,6 @@
-import Task from "data.task"
-import { compose, set, curry, prop } from "ramda"
-import * as KV from "../../../types/KVStoreEntry"
+import Task from 'data.task'
+import { compose, set, curry, prop } from 'ramda'
+import * as KV from '../../../types/KVStoreEntry'
 
 const eitherToTask = e => e.fold(Task.rejected, Task.of)
 
@@ -9,21 +9,21 @@ export default ({ apiUrl }) => {
     const checkStatus = response => {
       if (response.status >= 200 && response.status < 300) {
         return response.json()
-      } else if (method === "GET" && response.status === 404) {
+      } else if (method === 'GET' && response.status === 404) {
         return null
       } else {
         return response.text().then(Promise.reject.bind(Promise))
       }
     }
 
-    let url = apiUrl + "/metadata/" + endpoint
+    let url = apiUrl + '/metadata/' + endpoint
     let options = {
       method,
-      headers: { "Content-Type": "application/json" },
-      credentials: "omit"
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'omit'
     }
 
-    if (method !== "GET") {
+    if (method !== 'GET') {
       options.body = JSON.stringify(data)
     }
 
@@ -55,13 +55,13 @@ export default ({ apiUrl }) => {
 
     let body = {
       version: kv.VERSION,
-      payload: encPayloadBuffer.toString("base64"),
-      signature: signatureBuffer.toString("base64"),
-      prev_magic_hash: kv.magicHash ? kv.magicHash.toString("hex") : null,
+      payload: encPayloadBuffer.toString('base64'),
+      signature: signatureBuffer.toString('base64'),
+      prev_magic_hash: kv.magicHash ? kv.magicHash.toString('hex') : null,
       type_id: kv.typeId
     }
 
-    return request("PUT", kv.address, body).map(res => {
+    return request('PUT', kv.address, body).map(res => {
       let magicHash = KV.magic(encPayloadBuffer, kv.magicHash)
       return set(KV.magicHash, magicHash, kv)
     })
@@ -71,13 +71,13 @@ export default ({ apiUrl }) => {
     let setKvFromResponse = curry((currentKv, res) => {
       if (res === null) return set(KV.value, null, currentKv)
       let setFromResponse = compose(
-        set(KV.magicHash, prop("compute_new_magic_hash", res)),
+        set(KV.magicHash, prop('compute_new_magic_hash', res)),
         set(KV.value, KV.extractResponse(kv.encKeyBuffer, res))
       )
       return setFromResponse(currentKv)
     })
 
-    return request("GET", kv.address)
+    return request('GET', kv.address)
       .map(KV.verifyResponse(kv.address))
       .chain(eitherToTask)
       .map(setKvFromResponse(kv))
@@ -86,7 +86,7 @@ export default ({ apiUrl }) => {
           `Failed to fetch metadata entry ${kv.typeId} at ${kv.address}:`,
           e
         )
-        return new Error("METADATA_FETCH_FAILED")
+        return new Error('METADATA_FETCH_FAILED')
       })
   }
 

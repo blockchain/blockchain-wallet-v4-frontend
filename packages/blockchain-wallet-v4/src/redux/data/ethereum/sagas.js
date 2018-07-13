@@ -1,18 +1,18 @@
-import { call, put, select, take } from "redux-saga/effects"
-import { dissoc, isNil, length, mapObjIndexed, path, sum, values } from "ramda"
-import { convertFeeToWei } from "../../../utils/ethereum"
-import * as A from "./actions"
-import * as AT from "./actionTypes"
-import * as S from "./selectors"
-import * as selectors from "../../selectors"
-import * as kvStoreSelectors from "../../kvStore/ethereum/selectors"
+import { call, put, select, take } from 'redux-saga/effects'
+import { dissoc, isNil, length, mapObjIndexed, path, sum, values } from 'ramda'
+import { convertFeeToWei } from '../../../utils/ethereum'
+import * as A from './actions'
+import * as AT from './actionTypes'
+import * as S from './selectors'
+import * as selectors from '../../selectors'
+import * as kvStoreSelectors from '../../kvStore/ethereum/selectors'
 
 export default ({ api }) => {
   const fetchData = function*(action) {
     try {
       yield put(A.fetchDataLoading())
       const contextR = yield select(kvStoreSelectors.getContext)
-      const context = contextR.getOrFail("ethereum_context")
+      const context = contextR.getOrFail('ethereum_context')
       const data = yield call(api.getEthereumData, context)
       const latestBlock = yield call(api.getEthereumLatestBlock)
       // Accounts treatments
@@ -21,7 +21,7 @@ export default ({ api }) => {
       const totalSent = sum(values(data).map(obj => obj.totalSent))
       const nTx = sum(values(data).map(obj => obj.txn_count))
       const addresses = mapObjIndexed(
-        (num, key, obj) => dissoc("txns", num),
+        (num, key, obj) => dissoc('txns', num),
         data
       )
 
@@ -87,13 +87,13 @@ export default ({ api }) => {
         selectors.kvStore.ethereum.getContext
       )
       const address = defaultAccountR.getOrFail(
-        "Could not get ethereum context."
+        'Could not get ethereum context.'
       )
       const pages = yield select(S.getTransactions)
       const nextPage = reset ? 0 : length(pages)
       yield put(A.fetchTransactionsLoading(reset))
       const data = yield call(api.getEthereumTransactions, address, nextPage)
-      const txs = path([address, "txns"], data)
+      const txs = path([address, 'txns'], data)
       if (isNil(txs)) return
       yield put(A.fetchTransactionsSuccess(txs, reset))
     } catch (e) {
@@ -105,9 +105,9 @@ export default ({ api }) => {
     try {
       yield put(A.fetchLegacyBalanceLoading())
       const addrR = yield select(kvStoreSelectors.getLegacyAccountAddress)
-      const addr = addrR.getOrElse("")
+      const addr = addrR.getOrElse('')
       const balances = yield call(api.getEthereumBalances, addr)
-      const balance = path([addr, "balance"], balances)
+      const balance = path([addr, 'balance'], balances)
       yield put(A.fetchLegacyBalanceSuccess(balance))
     } catch (e) {
       yield put(A.fetchLegacyBalanceFailure())

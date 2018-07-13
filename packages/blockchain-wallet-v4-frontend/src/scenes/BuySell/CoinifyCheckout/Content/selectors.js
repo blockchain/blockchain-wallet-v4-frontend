@@ -1,6 +1,6 @@
-import { lift } from "ramda"
+import { lift } from 'ramda'
 
-import { selectors } from "data"
+import { selectors } from 'data'
 
 export const getQuoteInputData = state => {
   const level = selectors.core.data.coinify.getLevel(state)

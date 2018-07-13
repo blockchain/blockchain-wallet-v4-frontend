@@ -1,13 +1,13 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { compose, bindActionCreators } from "redux"
-import { connect } from "react-redux"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { compose, bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 
-import modalEnhancer from "providers/ModalEnhancer"
-import { actions, selectors } from "data"
-import SendBch from "./template"
-import FirstStep from "./FirstStep"
-import SecondStep from "./SecondStep"
+import modalEnhancer from 'providers/ModalEnhancer'
+import { actions, selectors } from 'data'
+import SendBch from './template'
+import FirstStep from './FirstStep'
+import SecondStep from './SecondStep'
 
 class SendBchContainer extends React.PureComponent {
   componentDidMount() {
@@ -46,7 +46,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer("SendBch"),
+  modalEnhancer('SendBch'),
   connect(
     mapStateToProps,
     mapDispatchToProps

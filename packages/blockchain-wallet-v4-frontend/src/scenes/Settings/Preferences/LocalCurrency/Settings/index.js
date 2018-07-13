@@ -1,15 +1,15 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import { formValueSelector } from "redux-form"
-import { isNil, equals } from "ramda"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { formValueSelector } from 'redux-form'
+import { isNil, equals } from 'ramda'
 
-import { actions } from "data"
-import Settings from "./template.js"
+import { actions } from 'data'
+import Settings from './template.js'
 
 class SettingsContainer extends React.PureComponent {
   componentWillMount() {
-    this.props.formActions.initialize("settingCurrency", {
+    this.props.formActions.initialize('settingCurrency', {
       currency: this.props.currency
     })
   }
@@ -31,7 +31,7 @@ class SettingsContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  newCurrency: formValueSelector("settingCurrency")(state, "currency")
+  newCurrency: formValueSelector('settingCurrency')(state, 'currency')
 })
 
 const mapDispatchToProps = dispatch => ({

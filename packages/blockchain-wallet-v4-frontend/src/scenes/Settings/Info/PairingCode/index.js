@@ -1,16 +1,16 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { Badge, Text } from "blockchain-info-components"
+import { Badge, Text } from 'blockchain-info-components'
 import {
   SettingComponent,
   SettingContainer,
   SettingDescription,
   SettingHeader,
   SettingSummary
-} from "components/Setting"
-import Settings from "./Settings"
+} from 'components/Setting'
+import Settings from './Settings'
 
 const BadgesContainer = styled.div`
   display: block;

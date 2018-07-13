@@ -1,5 +1,5 @@
-import React from "react"
-import bip39 from "bip39"
+import React from 'react'
+import bip39 from 'bip39'
 import {
   isNumeric,
   isEmail,
@@ -14,18 +14,18 @@ import {
   isOverEighteen,
   isSSN,
   formatPhone
-} from "./../ValidationHelper"
-import { isValidIBAN, isValidBIC } from "ibantools"
-import { isValidNumber } from "libphonenumber-js"
-import zxcvbn from "zxcvbn"
-import { utils } from "blockchain-wallet-v4/src"
-import * as M from "./validationMessages"
-import { concat, path, takeWhile, prop } from "ramda"
+} from './../ValidationHelper'
+import { isValidIBAN, isValidBIC } from 'ibantools'
+import { isValidNumber } from 'libphonenumber-js'
+import zxcvbn from 'zxcvbn'
+import { utils } from 'blockchain-wallet-v4/src'
+import * as M from './validationMessages'
+import { concat, path, takeWhile, prop } from 'ramda'
 
 const required = value => (value ? undefined : <M.RequiredMessage />)
 
 const optional = validator => value =>
-  value === undefined || value === "" ? undefined : validator(value)
+  value === undefined || value === '' ? undefined : validator(value)
 
 const validNumber = value =>
   isNumeric(value) ? undefined : <M.InvalidNumberMessage />
@@ -102,9 +102,9 @@ const validBitcoinPrivateKey = value =>
     <M.InvalidBitcoinPrivateKeyMessage />
   )
 
-const validIban = value => (isValidIBAN(value) ? undefined : "Invalid IBAN")
+const validIban = value => (isValidIBAN(value) ? undefined : 'Invalid IBAN')
 
-const validBIC = value => (isValidBIC(value) ? undefined : "Invalid BIC")
+const validBIC = value => (isValidBIC(value) ? undefined : 'Invalid BIC')
 
 const normalizeSocialSecurity = (val, prevVal) => formatSSN(val, prevVal)
 
@@ -127,10 +127,10 @@ const requiredUsZipcode = value =>
 const normalizePhone = (val, prevVal) => formatPhone(val, prevVal)
 
 const onPartnerCountryWhitelist = (val, allVals, props, name, countries) => {
-  const country = val && takeWhile(x => x !== "-", val)
-  const options = path(["options", "platforms", "web"], props)
-  const sfoxCountries = path(["sfox", "countries"], options)
-  const coinifyCountries = path(["coinify", "countries"], options)
+  const country = val && takeWhile(x => x !== '-', val)
+  const options = path(['options', 'platforms', 'web'], props)
+  const sfoxCountries = path(['sfox', 'countries'], options)
+  const coinifyCountries = path(['coinify', 'countries'], options)
   const allCountries = countries || concat(sfoxCountries, coinifyCountries)
   return country && allCountries.includes(country) ? (
     undefined
@@ -140,9 +140,9 @@ const onPartnerCountryWhitelist = (val, allVals, props, name, countries) => {
 }
 
 const onPartnerStateWhitelist = (val, allVals, props, name, states) => {
-  const usState = prop("code", val)
-  const options = path(["options", "platforms", "web"], props)
-  const sfoxStates = path(["sfox", "states"], options)
+  const usState = prop('code', val)
+  const options = path(['options', 'platforms', 'web'], props)
+  const sfoxStates = path(['sfox', 'states'], options)
   return usState && sfoxStates.includes(usState) ? (
     undefined
   ) : (

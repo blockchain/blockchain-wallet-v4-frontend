@@ -1,4 +1,4 @@
-import * as AT from "./actionTypes"
+import * as AT from './actionTypes'
 
 export const createMetadataShapeshift = data => ({
   type: AT.CREATE_METADATA_SHAPESHIFT,

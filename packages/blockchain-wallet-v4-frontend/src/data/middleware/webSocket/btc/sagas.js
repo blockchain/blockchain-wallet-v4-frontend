@@ -1,10 +1,10 @@
-import { call, put, select } from "redux-saga/effects"
-import { compose, equals, prop } from "ramda"
-import * as actions from "../../../actions"
-import * as selectors from "../../../selectors"
-import * as T from "services/AlertService"
-import { Wrapper } from "blockchain-wallet-v4/src/types"
-import { Socket } from "blockchain-wallet-v4/src/network"
+import { call, put, select } from 'redux-saga/effects'
+import { compose, equals, prop } from 'ramda'
+import * as actions from '../../../actions'
+import * as selectors from '../../../selectors'
+import * as T from 'services/AlertService'
+import { Wrapper } from 'blockchain-wallet-v4/src/types'
+import { Socket } from 'blockchain-wallet-v4/src/network'
 
 export default ({ api, btcSocket }) => {
   const send = btcSocket.send.bind(btcSocket)
@@ -24,8 +24,8 @@ export default ({ api, btcSocket }) => {
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(
-          "middleware/webSocket/btc/sagas",
-          "onOpen",
+          'middleware/webSocket/btc/sagas',
+          'onOpen',
           e.message
         )
       )
@@ -33,7 +33,7 @@ export default ({ api, btcSocket }) => {
   }
 
   const dispatchLogoutEvent = function*() {
-    yield window.dispatchEvent(new window.Event("wallet.core.logout"))
+    yield window.dispatchEvent(new window.Event('wallet.core.logout'))
   }
 
   const onMessage = function*(action) {
@@ -41,7 +41,7 @@ export default ({ api, btcSocket }) => {
       const message = action.payload
 
       switch (message.op) {
-        case "on_change":
+        case 'on_change':
           const newChecksum = message.x.checksum
           const wrapper = yield select(selectors.core.wallet.getWrapper)
           const oldChecksum = Wrapper.selectPayloadChecksum(wrapper)
@@ -50,7 +50,7 @@ export default ({ api, btcSocket }) => {
             yield put(actions.core.data.bitcoin.fetchData())
           }
           break
-        case "utx":
+        case 'utx':
           // Find out if the transaction is sent/received to show a notification
           const context = yield select(selectors.core.wallet.getContext)
           const data = yield call(api.fetchBlockchainData, context, {
@@ -71,20 +71,20 @@ export default ({ api, btcSocket }) => {
           yield put(actions.core.data.bitcoin.fetchData())
           // If we are on the transaction page, fetch transactions related to the selected account
           const pathname = yield select(selectors.router.getPathname)
-          if (equals(pathname, "/btc/transactions")) {
+          if (equals(pathname, '/btc/transactions')) {
             const formValues = yield select(
-              selectors.form.getFormValues("btcTransactions")
+              selectors.form.getFormValues('btcTransactions')
             )
-            const source = prop("source", formValues)
-            const onlyShow = equals(source, "all")
-              ? ""
+            const source = prop('source', formValues)
+            const onlyShow = equals(source, 'all')
+              ? ''
               : source.xpub || source.address
             yield put(
               actions.core.data.bitcoin.fetchTransactions(onlyShow, true)
             )
           }
           break
-        case "block":
+        case 'block':
           const newBlock = message.x
           yield put(
             actions.core.data.bitcoin.setBitcoinLatestBlock(
@@ -95,20 +95,20 @@ export default ({ api, btcSocket }) => {
             )
           )
           break
-        case "pong":
+        case 'pong':
           break
-        case "email_verified":
+        case 'email_verified':
           yield put(actions.core.settings.setEmailVerified())
           break
-        case "wallet_logout":
+        case 'wallet_logout':
           yield call(dispatchLogoutEvent)
           break
         default:
           yield put(
             actions.logs.logErrorMessage(
-              "middleware/webSocket/btc/sagas",
-              "onMessage",
-              "unknown type for " + message
+              'middleware/webSocket/btc/sagas',
+              'onMessage',
+              'unknown type for ' + message
             )
           )
           break
@@ -116,8 +116,8 @@ export default ({ api, btcSocket }) => {
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(
-          "middleware/webSocket/btc/sagas",
-          "onMessage",
+          'middleware/webSocket/btc/sagas',
+          'onMessage',
           e.message
         )
       )
@@ -142,9 +142,9 @@ export default ({ api, btcSocket }) => {
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(
-          "middleware/webSocket/btc/sagas",
-          "onMessage",
-          "REFRESH WRAPPER FAILED (WEBSOCKET)"
+          'middleware/webSocket/btc/sagas',
+          'onMessage',
+          'REFRESH WRAPPER FAILED (WEBSOCKET)'
         )
       )
     }

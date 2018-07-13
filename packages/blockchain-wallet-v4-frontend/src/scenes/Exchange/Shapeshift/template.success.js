@@ -1,10 +1,10 @@
-import React from "react"
-import PropTypes from "prop-types"
+import React from 'react'
+import PropTypes from 'prop-types'
 
-import StateRegistrationStep from "./StateRegistrationStep"
-import FirstStep from "./FirstStep"
-import SecondStep from "./SecondStep"
-import ThirdStep from "./ThirdStep"
+import StateRegistrationStep from './StateRegistrationStep'
+import FirstStep from './FirstStep'
+import SecondStep from './SecondStep'
+import ThirdStep from './ThirdStep'
 
 const Shapeshift = props => {
   switch (props.step) {

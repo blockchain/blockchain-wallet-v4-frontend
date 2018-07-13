@@ -1,12 +1,12 @@
-import React, { Fragment } from "react"
-import { FormattedMessage } from "react-intl"
-import { Text } from "blockchain-info-components"
-import { flex, spacing } from "services/StyleService"
+import React, { Fragment } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Text } from 'blockchain-info-components'
+import { flex, spacing } from 'services/StyleService'
 
 const capitalize = s => s[0].toUpperCase() + s.slice(1)
 
 const FundingSource = ({ account }) => (
-  <div style={{ ...flex("col"), ...spacing("ml-20") }}>
+  <div style={{ ...flex('col'), ...spacing('ml-20') }}>
     {!account ? (
       <Text size="12px" weight={300}>
         Account Needed
@@ -19,7 +19,7 @@ const FundingSource = ({ account }) => (
             id="buy.accountendingwith"
             defaultMessage="ending with"
           />
-          {" " + account.accountNumber}
+          {' ' + account.accountNumber}
         </Text>
         <Text size="12px" weight={300}>
           {account.name}

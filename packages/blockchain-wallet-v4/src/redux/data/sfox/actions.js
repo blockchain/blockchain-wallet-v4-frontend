@@ -1,4 +1,4 @@
-import * as AT from "./actionTypes"
+import * as AT from './actionTypes'
 
 export const fetchQuote = data => ({
   type: AT.SFOX_FETCH_QUOTE,

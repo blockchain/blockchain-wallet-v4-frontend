@@ -1,8 +1,8 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import QRReader from "components/QRReader"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import QRReader from 'components/QRReader'
 
 import {
   Badge,
@@ -12,7 +12,7 @@ import {
   ModalBody,
   ModalFooter,
   Text
-} from "blockchain-info-components"
+} from 'blockchain-info-components'
 
 const Container = styled.div`
   display: flex;
@@ -51,10 +51,10 @@ const InstructionList = styled.ol`
   padding-left: 10px;
 `
 const Instruction = styled.li`
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-size: 13px;
   font-weight: 300;
-  color: ${props => props.theme["gray-6"]};
+  color: ${props => props.theme['gray-6']};
 `
 const BadgesContainer = styled.div`
   display: flex;

@@ -1,6 +1,6 @@
-import React from "react"
-import styled from "styled-components"
-import { Text } from "blockchain-info-components"
+import React from 'react'
+import styled from 'styled-components'
+import { Text } from 'blockchain-info-components'
 
 const Label = styled.label`
   > div {
@@ -13,7 +13,7 @@ const FormLabel = props => {
 
   return (
     <Label {...rest} htmlFor={props.for}>
-      <Text size={"14px"} weight={400}>
+      <Text size={'14px'} weight={400}>
         {children}
       </Text>
     </Label>

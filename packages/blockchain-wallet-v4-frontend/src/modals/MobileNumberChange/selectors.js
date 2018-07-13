@@ -1,9 +1,9 @@
-import PhoneNumber from "awesome-phonenumber"
-import { lift } from "ramda"
-import { formValueSelector } from "redux-form"
+import PhoneNumber from 'awesome-phonenumber'
+import { lift } from 'ramda'
+import { formValueSelector } from 'redux-form'
 
-import { selectors } from "data"
-import { createDeepEqualSelector } from "services/ReselectHelper"
+import { selectors } from 'data'
+import { createDeepEqualSelector } from 'services/ReselectHelper'
 
 const getCountryCode = (defaultCode, currentNumber) =>
   currentNumber ? PhoneNumber(currentNumber).getRegionCode() : defaultCode
@@ -15,11 +15,11 @@ export const getData = state =>
       selectors.core.settings.getCountryCode
     ],
     (currentNumber, defaultCode) => ({
-      smsNumberNew: formValueSelector("mobileNumberChange")(
+      smsNumberNew: formValueSelector('mobileNumberChange')(
         state,
-        "mobileNumber"
+        'mobileNumber'
       ),
       countryCode: lift(getCountryCode)(defaultCode, currentNumber),
-      smsNumber: currentNumber.getOrElse("")
+      smsNumber: currentNumber.getOrElse('')
     })
   )(state)

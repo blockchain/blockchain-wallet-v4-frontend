@@ -1,4 +1,4 @@
-import * as AT from "./actionTypes"
+import * as AT from './actionTypes'
 
 export const toggleSecondPassword = (password, secondPasswordEnabled) => ({
   type: AT.TOGGLE_SECOND_PASSWORD,

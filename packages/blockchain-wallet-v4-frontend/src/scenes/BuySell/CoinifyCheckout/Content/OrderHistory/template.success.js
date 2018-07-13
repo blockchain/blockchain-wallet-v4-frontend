@@ -1,13 +1,13 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { filter, contains, path, prop } from "ramda"
-import { Text } from "blockchain-info-components"
-import ISignThis from "modals/CoinifyExchangeData/ISignThis"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { filter, contains, path, prop } from 'ramda'
+import { Text } from 'blockchain-info-components'
+import ISignThis from 'modals/CoinifyExchangeData/ISignThis'
 
-import OrderHistoryTable from "components/BuySell/OrderHistoryTable"
-import RecurringOrderHistoryTable from "./RecurringOrderHistoryTable"
-import EmptyOrderHistoryContainer from "components/BuySell/EmptyOrderHistory"
+import OrderHistoryTable from 'components/BuySell/OrderHistoryTable'
+import RecurringOrderHistoryTable from './RecurringOrderHistoryTable'
+import EmptyOrderHistoryContainer from 'components/BuySell/EmptyOrderHistory'
 
 const OrderHistoryWrapper = styled.div`
   width: 100%;
@@ -24,16 +24,16 @@ const OrderHistoryContent = styled.div`
   }
 `
 const isPending = t =>
-  contains(prop("state", t), ["processing", "awaiting_transfer_in"]) &&
-  !prop("tradeSubscriptionId", t)
+  contains(prop('state', t), ['processing', 'awaiting_transfer_in']) &&
+  !prop('tradeSubscriptionId', t)
 const isCompleted = t =>
-  contains(prop("state", t), [
-    "completed",
-    "rejected",
-    "cancelled",
-    "expired"
-  ]) && !prop("tradeSubscriptionId", t)
-const isPartOfSubscription = t => prop("tradeSubscriptionId", t)
+  contains(prop('state', t), [
+    'completed',
+    'rejected',
+    'cancelled',
+    'expired'
+  ]) && !prop('tradeSubscriptionId', t)
+const isPartOfSubscription = t => prop('tradeSubscriptionId', t)
 
 const OrderHistory = props => {
   const {
@@ -51,10 +51,10 @@ const OrderHistory = props => {
   const { trades, subscriptions, canTrade } = value
   const pendingTrades = filter(isPending, trades)
 
-  if (step === "isx") {
+  if (step === 'isx') {
     return (
       <ISignThis
-        iSignThisId={path(["iSignThisID"], trade)}
+        iSignThisId={path(['iSignThisID'], trade)}
         options={props.options}
       />
     )
@@ -81,7 +81,7 @@ const OrderHistory = props => {
               conversion={conversion}
               handleFinishTrade={trade => finishTrade(trade)}
               handleDetailsClick={trade =>
-                showModal("CoinifyTradeDetails", { trade })
+                showModal('CoinifyTradeDetails', { trade })
               }
               handleTradeCancel={cancelTrade}
               status={status}
@@ -104,7 +104,7 @@ const OrderHistory = props => {
               conversion={conversion}
               handleFinishTrade={trade => finishTrade(trade)}
               handleDetailsClick={trade =>
-                showModal("CoinifyTradeDetails", { trade })
+                showModal('CoinifyTradeDetails', { trade })
               }
               handleTradeCancel={cancelTrade}
               status={status}
@@ -125,7 +125,7 @@ const OrderHistory = props => {
             trades={filter(isCompleted, trades)}
             conversion={conversion}
             handleDetailsClick={trade =>
-              showModal("CoinifyTradeDetails", { trade })
+              showModal('CoinifyTradeDetails', { trade })
             }
           />
         </OrderHistoryContent>

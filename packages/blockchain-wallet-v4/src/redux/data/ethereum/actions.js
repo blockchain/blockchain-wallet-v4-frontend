@@ -1,4 +1,4 @@
-import * as AT from "./actionTypes"
+import * as AT from './actionTypes'
 
 // export const setEthereumTransactions = (address, txs) => ({ type: AT.SET_ETHEREUM_TRANSACTIONS, payload: { address, txs } })
 

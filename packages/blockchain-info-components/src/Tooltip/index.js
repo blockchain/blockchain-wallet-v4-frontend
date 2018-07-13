@@ -1,7 +1,7 @@
-import React from "react"
-import onClickOutside from "react-onclickoutside"
-import Tooltip from "./template.js"
-import { Icon } from "../Icons"
+import React from 'react'
+import onClickOutside from 'react-onclickoutside'
+import Tooltip from './template.js'
+import { Icon } from '../Icons'
 
 class TooltipContainer extends React.PureComponent {
   constructor(props) {

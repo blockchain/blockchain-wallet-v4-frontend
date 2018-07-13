@@ -1,13 +1,13 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators, compose } from "redux"
-import { SubmissionError } from "redux-form"
-import { FormattedMessage } from "react-intl"
-import ui from "redux-ui"
-import { take, map, sortBy, prop, range, keysIn, forEach, split } from "ramda"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import { SubmissionError } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+import ui from 'redux-ui'
+import { take, map, sortBy, prop, range, keysIn, forEach, split } from 'ramda'
 
-import { actions } from "data"
-import ThirdStep from "./template.js"
+import { actions } from 'data'
+import ThirdStep from './template.js'
 
 class ThirdStepContainer extends React.PureComponent {
   constructor(props) {
@@ -33,7 +33,7 @@ class ThirdStepContainer extends React.PureComponent {
     const errors = {}
     compose(
       forEach(word => {
-        if (values[word] !== props.recoveryPhrase[split("w", word)[1]]) {
+        if (values[word] !== props.recoveryPhrase[split('w', word)[1]]) {
           errors[word] = (
             <FormattedMessage
               id="scenes.securitycenter.walletrecoveryphrase.thirdstep.incorrectword"
@@ -72,7 +72,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  ui({ key: "RecoveryPhraseVerification", state: { indexes: [] } }),
+  ui({ key: 'RecoveryPhraseVerification', state: { indexes: [] } }),
   connect(
     undefined,
     mapDispatchToProps

@@ -1,4 +1,4 @@
-import { call, put, select } from "redux-saga/effects"
+import { call, put, select } from 'redux-saga/effects'
 import {
   compose,
   concat,
@@ -10,14 +10,14 @@ import {
   propOr,
   range,
   isEmpty
-} from "ramda"
-import { set } from "ramda-lens"
-import * as A from "./actions"
-import * as bchActions from "../../data/bch/actions"
-import { KVStoreEntry } from "../../../types"
-import { derivationMap, BCH } from "../config"
-import { getMetadataXpriv } from "../root/selectors"
-import { getHDAccounts } from "../../wallet/selectors"
+} from 'ramda'
+import { set } from 'ramda-lens'
+import * as A from './actions'
+import * as bchActions from '../../data/bch/actions'
+import { KVStoreEntry } from '../../../types'
+import { derivationMap, BCH } from '../config'
+import { getMetadataXpriv } from '../root/selectors'
+import { getHDAccounts } from '../../wallet/selectors'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -34,8 +34,8 @@ export default ({ api }) => {
 
   const createBch = function*(kv, hdAccounts, bchAccounts) {
     const createAccountEntry = x => ({
-      label: `My Bitcoin Cash Wallet${x > 0 ? ` ${x + 1}` : ""}`,
-      archived: pathOr(false, [x, "archived"], hdAccounts)
+      label: `My Bitcoin Cash Wallet${x > 0 ? ` ${x + 1}` : ''}`,
+      archived: pathOr(false, [x, 'archived'], hdAccounts)
     })
 
     const newBchEntry = {
@@ -59,7 +59,7 @@ export default ({ api }) => {
       yield put(A.fetchMetadataBchLoading())
       const newkv = yield callTask(api.fetchKVStore(kv))
       const hdAccounts = yield select(getHDAccounts)
-      const bchAccounts = propOr([], "accounts", newkv.value)
+      const bchAccounts = propOr([], 'accounts', newkv.value)
       if (
         isNil(newkv.value) ||
         isEmpty(newkv.value) ||

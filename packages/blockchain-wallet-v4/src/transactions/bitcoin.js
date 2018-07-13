@@ -8,7 +8,7 @@ import {
   HDAccount,
   AddressBook,
   AddressBookEntry
-} from "../types"
+} from '../types'
 import {
   prop,
   compose,
@@ -30,24 +30,24 @@ import {
   lensIndex,
   equals,
   toLower
-} from "ramda"
-import moment from "moment"
+} from 'ramda'
+import moment from 'moment'
 
-const unpackInput = prop("prev_out")
+const unpackInput = prop('prev_out')
 const isLegacy = (wallet, coin) =>
   compose(
     not,
     isNil,
-    AddressMap.selectAddress(prop("addr", coin)),
+    AddressMap.selectAddress(prop('addr', coin)),
     Wallet.selectAddresses
   )(wallet)
 const isAccount = coin => !!coin.xpub
-const isAccountChange = x => isAccount(x) && x.xpub.path.split("/")[1] === "1"
+const isAccountChange = x => isAccount(x) && x.xpub.path.split('/')[1] === '1'
 const accountPath = (index, coin) => index + coin.xpub.path.substr(1)
 const receiveIndex = coin => {
   if (!coin || !coin.xpub || !coin.xpub.path) return
-  if (!coin.xpub.path.split("/").length === 3) return
-  return parseInt(coin.xpub.path.substr(1).split("/")[2])
+  if (!coin.xpub.path.split('/').length === 3) return
+  return parseInt(coin.xpub.path.substr(1).split('/')[2])
 }
 const isCoinBase = inputs => inputs.length === 1 && inputs[0].prev_out == null
 
@@ -62,7 +62,7 @@ const tagCoin = curry((wallet, coin) => {
         address: coin.addr,
         amount: coin.value,
         change: false,
-        coinType: "legacy",
+        coinType: 'legacy',
         label: Address.selectLabel(address),
         isWatchOnly: Address.isWatchOnly(address)
       }
@@ -93,7 +93,7 @@ const tagCoin = curry((wallet, coin) => {
         address: coin.addr,
         amount: coin.value,
         change: false,
-        coinType: "external",
+        coinType: 'external',
         label: bookEntry ? AddressBookEntry.selectLabel(bookEntry) : null,
         isWatchOnly: false
       }
@@ -104,13 +104,13 @@ const txtype = (result, fee) => {
   const impact = result + fee
   switch (true) {
     case impact === 0:
-      return "Transferred"
+      return 'Transferred'
     case result < 0:
-      return "Sent"
+      return 'Sent'
     case result > 0:
-      return "Received"
+      return 'Received'
     default:
-      return "Unknown"
+      return 'Unknown'
   }
 }
 
@@ -118,19 +118,19 @@ const txtype = (result, fee) => {
 // result is internalreceive - internalspend
 const computeAmount = (type, inputData, outputData) => {
   switch (type) {
-    case "Transferred":
-      return propOr(0, "internal", outputData) - propOr(0, "change", outputData)
-    case "Sent":
+    case 'Transferred':
+      return propOr(0, 'internal', outputData) - propOr(0, 'change', outputData)
+    case 'Sent':
       return (
-        -propOr(0, "internal", outputData) + propOr(0, "internal", inputData)
+        -propOr(0, 'internal', outputData) + propOr(0, 'internal', inputData)
       )
-    case "Received":
+    case 'Received':
       return (
-        propOr(0, "internal", outputData) - propOr(0, "internal", inputData)
+        propOr(0, 'internal', outputData) - propOr(0, 'internal', inputData)
       )
     default:
       return (
-        propOr(0, "internal", outputData) - propOr(0, "internal", inputData)
+        propOr(0, 'internal', outputData) - propOr(0, 'internal', inputData)
       )
   }
 }
@@ -144,12 +144,12 @@ const init = {
 
 // internalAmount :: taggedCoin -> Integer
 const internalAmount = ifElse(
-  propSatisfies(x => x !== "external", "coinType"),
-  prop("amount"),
+  propSatisfies(x => x !== 'external', 'coinType'),
+  prop('amount'),
   always(0)
 )
 
-const changeAmount = ifElse(propEq("change", true), prop("amount"), always(0))
+const changeAmount = ifElse(propEq('change', true), prop('amount'), always(0))
 
 const reduceCoins = (acc, taggedCoin) => {
   return {
@@ -168,15 +168,15 @@ var appender = curry((tagger, acc, coin) => {
 const selectFromAndto = (inputs, outputs, type) => {
   const preceived = compose(
     not,
-    propEq("coinType", "external")
+    propEq('coinType', 'external')
   )
   const psent = compose(
     not,
-    propEq("address", inputs[0].address)
+    propEq('address', inputs[0].address)
   )
-  const predicate = type === "Sent" ? psent : preceived
+  const predicate = type === 'Sent' ? psent : preceived
   const myOutput =
-    find(allPass([propEq("change", false), predicate]))(outputs) || outputs[0]
+    find(allPass([propEq('change', false), predicate]))(outputs) || outputs[0]
   return {
     from: inputs[0].label || inputs[0].address,
     to: myOutput.label || myOutput.address,
@@ -187,16 +187,16 @@ const selectFromAndto = (inputs, outputs, type) => {
 const findLegacyChanges = (inputs, inputData, outputs, outputData) => {
   if (
     inputs &&
-    inputs[0].coinType === "legacy" &&
+    inputs[0].coinType === 'legacy' &&
     inputData.internal === inputData.total
   ) {
     const address = inputs[0].address
-    const index = findIndex(propEq("address", address))(outputs)
+    const index = findIndex(propEq('address', address))(outputs)
     if (index < 0) return [outputData, outputs] // no change
     const newOutputs = over(
       compose(
         lensIndex(index),
-        lensProp("change")
+        lensProp('change')
       ),
       not,
       outputs
@@ -204,11 +204,11 @@ const findLegacyChanges = (inputs, inputData, outputs, outputData) => {
     const change = view(
       compose(
         lensIndex(index),
-        lensProp("amount")
+        lensProp('amount')
       ),
       outputs
     )
-    const newOutputData = over(lensProp("change"), c => c + change, outputData)
+    const newOutputData = over(lensProp('change'), c => c + change, outputData)
     return [newOutputData, newOutputs]
   } else {
     return [outputData, outputs]
@@ -216,11 +216,11 @@ const findLegacyChanges = (inputs, inputData, outputs, outputData) => {
 }
 
 const CoinbaseCoin = total => ({
-  address: "Coinbase",
+  address: 'Coinbase',
   amount: total,
   change: false,
-  coinType: "external",
-  label: "Coinbase",
+  coinType: 'external',
+  label: 'Coinbase',
   isWatchOnly: false
 })
 
@@ -234,8 +234,8 @@ const CoinBaseData = total => ({
 export const getTime = tx => {
   const date = moment.unix(tx.time).local()
   return equals(date.year(), moment().year())
-    ? date.format("MMMM D @ h:mm A")
-    : date.format("MMMM D YYYY @ h:mm A")
+    ? date.format('MMMM D @ h:mm A')
+    : date.format('MMMM D YYYY @ h:mm A')
 }
 
 export const _transformTx = (
@@ -253,14 +253,14 @@ export const _transformTx = (
     unpackInput
   )
   const outputTagger = tagCoin(wallet)
-  const [oData, outs] = mapAccum(appender(outputTagger), init, prop("out", tx))
+  const [oData, outs] = mapAccum(appender(outputTagger), init, prop('out', tx))
   const [inputData, inputs] = ifElse(
     compose(
       isCoinBase,
-      prop("inputs")
+      prop('inputs')
     ),
     always([CoinBaseData(oData.total), [CoinbaseCoin(oData.total)]]),
-    t => mapAccum(appender(inputTagger), init, prop("inputs", t))
+    t => mapAccum(appender(inputTagger), init, prop('inputs', t))
   )(tx)
   const [outputData, outputs] = findLegacyChanges(
     inputs,

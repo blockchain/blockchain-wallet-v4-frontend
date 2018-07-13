@@ -1,11 +1,11 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import MaximumAmountLink from "./MaximumAmountLink"
-import MaximumFeeLink from "./MaximumFeeLink"
-import MinimumAmountLink from "./MinimumAmountLink"
-import MinimumFeeLink from "./MinimumFeeLink"
+import MaximumAmountLink from './MaximumAmountLink'
+import MaximumFeeLink from './MaximumFeeLink'
+import MinimumAmountLink from './MinimumAmountLink'
+import MinimumFeeLink from './MinimumFeeLink'
 
 const Wrapper = styled.div`
   display: flex;
@@ -70,7 +70,7 @@ export const MinimumOneSatoshiMessage = () => (
   <FormattedMessage
     id="modals.sendbtc.minimumonesatoshimessage"
     defaultMessage="Minimum {sat} required"
-    values={{ sat: "1 sat/byte" }}
+    values={{ sat: '1 sat/byte' }}
   />
 )
 

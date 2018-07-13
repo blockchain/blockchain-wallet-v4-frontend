@@ -1,8 +1,8 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { Icon, Text, TextGroup } from "blockchain-info-components"
+import { Icon, Text, TextGroup } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 170px;
-  background-color: ${props => props.theme["white"]};
+  background-color: ${props => props.theme['white']};
 
   & > :first-child { margin-bottom 20px; }
   & > :last-child { height: 40px; }
@@ -24,7 +24,7 @@ const Circle = styled.div`
   width: 80px;
   height: 80px;
   border-radius: 40px;
-  border: 1px solid ${props => props.theme["error"]};
+  border: 1px solid ${props => props.theme['error']};
   box-sizing: border-box;
   overflow: hidden;
 `

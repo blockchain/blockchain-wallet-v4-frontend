@@ -1,13 +1,13 @@
-import React from "react"
+import React from 'react'
 
-import SecurityTabs from "./template.js"
+import SecurityTabs from './template.js'
 
 class SecurityTabsContainer extends React.PureComponent {
   constructor(props) {
     super(props)
 
     this.setActive = this.setActive.bind(this)
-    this.state = { active: "security" }
+    this.state = { active: 'security' }
   }
 
   setActive(active) {

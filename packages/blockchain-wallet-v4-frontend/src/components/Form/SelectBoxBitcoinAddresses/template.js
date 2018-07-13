@@ -1,11 +1,11 @@
-import React from "react"
-import { FormattedMessage } from "react-intl"
-import styled from "styled-components"
-import { has, path, prop } from "ramda"
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+import { has, path, prop } from 'ramda'
 
-import { Banner, Text } from "blockchain-info-components"
-import { SelectBox } from "components/Form"
-import SwitchableDisplay from "components/Display/SwitchableDisplay"
+import { Banner, Text } from 'blockchain-info-components'
+import { SelectBox } from 'components/Form'
+import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 
 const ItemWrapper = styled.div`
   display: flex;
@@ -22,8 +22,8 @@ const ItemWrapper = styled.div`
     margin-left: 5px;
   }
   &:hover {
-    color: ${props => props.theme["gray-4"]};
-    background-color: ${props => props.theme["gray-1"]};
+    color: ${props => props.theme['gray-4']};
+    background-color: ${props => props.theme['gray-1']};
   }
   -ms-overflow-style: none;
   &::-webkit-scrollbar {
@@ -42,7 +42,7 @@ const renderItem = item => {
       <Text weight={300} size="12px">
         {item.text}
       </Text>
-      {has("balance", prop("value", item)) && (
+      {has('balance', prop('value', item)) && (
         <BalanceContainer>
           <Text weight={300} size="12px">
             (
@@ -55,7 +55,7 @@ const renderItem = item => {
           </Text>
         </BalanceContainer>
       )}
-      {path(["value", "watchOnly"], item) && (
+      {path(['value', 'watchOnly'], item) && (
         <Banner type="informational" inline>
           <FormattedMessage
             id="components.selectboxbitcoin.watchonly"

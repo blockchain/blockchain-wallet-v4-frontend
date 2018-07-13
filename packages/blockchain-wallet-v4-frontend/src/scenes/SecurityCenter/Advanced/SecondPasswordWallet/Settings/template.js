@@ -1,22 +1,22 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { FormattedMessage } from "react-intl"
-import { Field, reduxForm } from "redux-form"
-import styled from "styled-components"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
 
 import {
   Button,
   ButtonGroup,
   Text,
   TextGroup
-} from "blockchain-info-components"
-import { Types } from "blockchain-wallet-v4"
-import { FormGroup, FormItem, FormLabel, PasswordBox } from "components/Form"
-import { SettingForm, SettingWrapper } from "components/Setting"
-import { required, validPasswordConfirmation } from "services/FormHelper"
+} from 'blockchain-info-components'
+import { Types } from 'blockchain-wallet-v4'
+import { FormGroup, FormItem, FormLabel, PasswordBox } from 'components/Form'
+import { SettingForm, SettingWrapper } from 'components/Setting'
+import { required, validPasswordConfirmation } from 'services/FormHelper'
 
 const SecondPasswordWrapper = styled(SettingWrapper)`
-  width: ${props => (props.toggled ? "150%" : "initial")};
+  width: ${props => (props.toggled ? '150%' : 'initial')};
 `
 const ButtonWrapper = styled(ButtonGroup)`
   display: flex;
@@ -29,7 +29,7 @@ const ButtonWrapper = styled(ButtonGroup)`
   }
 `
 
-const validatePasswordConfirmation = validPasswordConfirmation("secondPassword")
+const validatePasswordConfirmation = validPasswordConfirmation('secondPassword')
 
 const validateSecondPassword = (value, allValues, { wallet }) => {
   return Types.Wallet.isValidSecondPwd(value, wallet) ? null : (
@@ -118,7 +118,7 @@ const Settings = props => {
         )}
         {updateToggled && (
           <SettingForm onSubmit={handleSubmit}>
-            <TextGroup inline style={{ "margin-bottom": "10px" }}>
+            <TextGroup inline style={{ 'margin-bottom': '10px' }}>
               <Text size="14px" weight={300} color="error">
                 <FormattedMessage
                   id="scenes.securitysettings.advanced.secondpasswordwallet.settings.warning"
@@ -152,7 +152,7 @@ const Settings = props => {
                   component={PasswordBox}
                 />
               </FormItem>
-              <FormItem style={{ "margin-top": "10px" }}>
+              <FormItem style={{ 'margin-top': '10px' }}>
                 <FormLabel for="secondPasswordConfirmation">
                   <FormattedMessage
                     id="scenes.securitysettings.advanced.secondpasswordwallet.settings.explain"
@@ -198,4 +198,4 @@ Settings.propTypes = {
   onSubmit: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: "settingSecondPassword" })(Settings)
+export default reduxForm({ form: 'settingSecondPassword' })(Settings)

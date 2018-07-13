@@ -1,9 +1,9 @@
-import React from "react"
-import styled from "styled-components"
-import locale from "browser-locale"
+import React from 'react'
+import styled from 'styled-components'
+import locale from 'browser-locale'
 
-import { equals } from "ramda"
-import { Text, DateInput } from "blockchain-info-components"
+import { equals } from 'ramda'
+import { Text, DateInput } from 'blockchain-info-components'
 
 const Container = styled.div`
   position: relative;
@@ -21,7 +21,7 @@ const Error = styled(Text)`
   right: 0;
 `
 const getErrorState = meta => {
-  return meta.dirty && meta.invalid ? "invalid" : "initial"
+  return meta.dirty && meta.invalid ? 'invalid' : 'initial'
 }
 
 class DateBoxDebounced extends React.Component {

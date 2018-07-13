@@ -1,13 +1,13 @@
-import React from "react"
-import styled from "styled-components"
-import PropTypes from "prop-types"
-import { FormattedMessage } from "react-intl"
-import moment from "moment"
+import React from 'react'
+import styled from 'styled-components'
+import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
+import moment from 'moment'
 
-import { TableCell, TableRow, Text, Link } from "blockchain-info-components"
-import OrderStatus from "./OrderStatus"
-import media from "services/ResponsiveService"
-import { MediaContextConsumer } from "providers/MatchMediaProvider"
+import { TableCell, TableRow, Text, Link } from 'blockchain-info-components'
+import OrderStatus from './OrderStatus'
+import media from 'services/ResponsiveService'
+import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 
 const StatusContainer = styled(TableCell)`
   display: flex;
@@ -18,8 +18,8 @@ const StatusContainer = styled(TableCell)`
 `
 
 const tradeDateHelper = (date, isMobile = false) => {
-  let timeFormat = "MMMM D YYYY @ h:mm A"
-  if (isMobile) timeFormat = "DD MMM"
+  let timeFormat = 'MMMM D YYYY @ h:mm A'
+  if (isMobile) timeFormat = 'DD MMM'
   return moment(date)
     .local()
     .format(timeFormat)
@@ -42,11 +42,11 @@ const TradeItem = props => {
         <TableRow>
           <StatusContainer width="30%" mobileWidth="25%">
             <TableCell width="30%">
-              <OrderStatus status={status} size={mobile ? "12px" : "14px"} />
+              <OrderStatus status={status} size={mobile ? '12px' : '14px'} />
             </TableCell>
             <TableCell width="70%">
               <Link
-                size={mobile ? "12px" : "14px"}
+                size={mobile ? '12px' : '14px'}
                 weight={300}
                 capitalize
                 onClick={handleClick}
@@ -59,21 +59,21 @@ const TradeItem = props => {
             </TableCell>
           </StatusContainer>
           <TableCell width="30%" mobileWidth="18%">
-            <Text size={mobile ? "12px" : "14px"} weight={300}>
+            <Text size={mobile ? '12px' : '14px'} weight={300}>
               {tradeDateHelper(date, mobile)}
             </Text>
           </TableCell>
           <TableCell width="20%" mobileWidth="30%">
             <Text
-              size={mobile ? "12px" : "14px"}
+              size={mobile ? '12px' : '14px'}
               weight={300}
             >{`${depositAmount} ${sourceCoin}`}</Text>
           </TableCell>
           <TableCell width="20%">
             <Text
-              size={mobile ? "12px" : "14px"}
+              size={mobile ? '12px' : '14px'}
               weight={300}
-              color={status === "complete" ? "gray-5" : "gray-2"}
+              color={status === 'complete' ? 'gray-5' : 'gray-2'}
             >{`${withdrawalAmount} ${targetCoin}`}</Text>
           </TableCell>
         </TableRow>

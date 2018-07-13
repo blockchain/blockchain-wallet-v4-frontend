@@ -1,6 +1,6 @@
-import { call, put } from "redux-saga/effects"
-import { has, prop } from "ramda"
-import * as A from "./actions"
+import { call, put } from 'redux-saga/effects'
+import { has, prop } from 'ramda'
+import * as A from './actions'
 
 export default ({ api } = {}) => {
   const fetchTradeStatus = function*(address) {
@@ -29,10 +29,10 @@ export default ({ api } = {}) => {
         returnAddress,
         withdrawal
       )
-      if (has("error", data)) {
-        yield put(A.fetchOrderFailure(prop("error", data)))
+      if (has('error', data)) {
+        yield put(A.fetchOrderFailure(prop('error', data)))
       } else {
-        yield put(A.fetchOrderSuccess(prop("success", data)))
+        yield put(A.fetchOrderSuccess(prop('success', data)))
       }
     } catch (e) {
       yield put(A.fetchOrderFailure(e.message))
@@ -51,10 +51,10 @@ export default ({ api } = {}) => {
       const { amount, pair, isDeposit } = action.payload
       yield put(A.fetchQuotationLoading())
       const data = yield call(api.createQuote, amount, pair, isDeposit)
-      if (has("error", data)) {
-        yield put(A.fetchQuotationFailure(prop("error", data)))
+      if (has('error', data)) {
+        yield put(A.fetchQuotationFailure(prop('error', data)))
       } else {
-        yield put(A.fetchQuotationSuccess(prop("success", data)))
+        yield put(A.fetchQuotationSuccess(prop('success', data)))
       }
     } catch (e) {
       yield put(A.fetchQuotationFailure(e.message))

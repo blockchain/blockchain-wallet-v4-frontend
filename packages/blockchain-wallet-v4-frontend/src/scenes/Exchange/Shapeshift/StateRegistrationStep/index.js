@@ -1,10 +1,10 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import { lift } from "ramda"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { lift } from 'ramda'
 
-import Template from "./template"
-import { actions, selectors } from "data"
+import Template from './template'
+import { actions, selectors } from 'data'
 
 class StateRegistrationStep extends React.Component {
   constructor(props) {

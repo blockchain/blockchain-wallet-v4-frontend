@@ -1,13 +1,13 @@
-import React from "react"
-import { FormattedMessage } from "react-intl"
-import styled from "styled-components"
-import { Text, Link } from "blockchain-info-components"
-import { prop, head } from "ramda"
-import * as Currency from "blockchain-wallet-v4/src/exchange/currency"
-import { recurringTimeHelper, recurringFee } from "services/CoinifyService"
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+import { Text, Link } from 'blockchain-info-components'
+import { prop, head } from 'ramda'
+import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
+import { recurringTimeHelper, recurringFee } from 'services/CoinifyService'
 
 const NextRecurringWrapper = styled.div`
-  background: ${props => props.theme["brand-quaternary"]};
+  background: ${props => props.theme['brand-quaternary']};
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -31,7 +31,7 @@ const LinkContainer = styled.div`
 
 const NextSubscription = ({ subscriptions, trades, manageOrder }) => {
   let matchedTrades = trades.filter(
-    t => prop("tradeSubscriptionId", t) === prop("id", head(subscriptions))
+    t => prop('tradeSubscriptionId', t) === prop('id', head(subscriptions))
   )
   let trade = matchedTrades.sort((a, b) => a.createdAt < b.createdAt)
   let nextTrade = head(trade)
@@ -52,8 +52,8 @@ const NextSubscription = ({ subscriptions, trades, manageOrder }) => {
           />
         </Text>
         <Text weight={200} size="13px">
-          {`${Currency.formatFiat(prop("inAmount", nextTrade) / 100)} ${prop(
-            "inCurrency",
+          {`${Currency.formatFiat(prop('inAmount', nextTrade) / 100)} ${prop(
+            'inCurrency',
             nextTrade
           )} (+ ${recurringFee(nextTrade)} Payment Fee)`}
         </Text>

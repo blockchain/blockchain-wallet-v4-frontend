@@ -1,9 +1,9 @@
-import React, { Component } from "react"
-import { connect } from "react-redux"
-import styled from "styled-components"
-import { bindActionCreators } from "redux"
-import { actions, selectors } from "data"
-import { path, head, sortBy, prop, reverse } from "ramda"
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import styled from 'styled-components'
+import { bindActionCreators } from 'redux'
+import { actions, selectors } from 'data'
+import { path, head, sortBy, prop, reverse } from 'ramda'
 
 const SiftScienceIframe = styled.iframe`
   display: none;
@@ -17,15 +17,15 @@ class SiftScience extends Component {
   componentDidMount() {
     let receiveMessage = e => {
       const helperDomain = path(
-        ["domains", "walletHelper"],
+        ['domains', 'walletHelper'],
         this.propswalletOptions
       )
       if (!e.data.command) return
-      if (e.data.from !== "sift-science") return
-      if (e.data.to !== "exchange") return
+      if (e.data.from !== 'sift-science') return
+      if (e.data.to !== 'exchange') return
       if (e.origin !== helperDomain) return
       switch (e.data.command) {
-        case "done":
+        case 'done':
           // Remove Sift Science iframe:
           this.props.sfoxFrontendActions.disableSiftScience()
           break
@@ -33,7 +33,7 @@ class SiftScience extends Component {
           return null
       }
     }
-    window.addEventListener("message", receiveMessage, false)
+    window.addEventListener('message', receiveMessage, false)
   }
 
   render() {
@@ -43,18 +43,18 @@ class SiftScience extends Component {
       return null
     }
 
-    const sortByCreated = sortBy(prop("createdAt"))
+    const sortByCreated = sortBy(prop('createdAt'))
     const sortedTrades = reverse(sortByCreated(trades))
-    const tradeId = prop("id", head(sortedTrades))
-    const walletOptions = options || prop("data", this.props.walletOptions)
-    const helperDomain = path(["domains", "walletHelper"], walletOptions)
+    const tradeId = prop('id', head(sortedTrades))
+    const walletOptions = options || prop('data', this.props.walletOptions)
+    const helperDomain = path(['domains', 'walletHelper'], walletOptions)
     const sfoxSiftScience = path(
-      ["platforms", "web", "sfox", "config", "siftScience"],
+      ['platforms', 'web', 'sfox', 'config', 'siftScience'],
       walletOptions
     )
 
     let url = `${helperDomain}/wallet-helper/sift-science/#/key/${sfoxSiftScience}/user/${userId}`
-    url += tradeId ? `/trade/${tradeId}` : ""
+    url += tradeId ? `/trade/${tradeId}` : ''
 
     if (siftScienceEnabled) {
       return (
@@ -70,9 +70,9 @@ class SiftScience extends Component {
 }
 
 const mapStateToProps = state => ({
-  walletOptions: path(["walletOptionsPath"], state),
+  walletOptions: path(['walletOptionsPath'], state),
   userId: selectors.core.kvStore.buySell.getSfoxUser(state).getOrElse(null),
-  siftScienceEnabled: path(["sfoxSignup", "siftScienceEnabled"], state),
+  siftScienceEnabled: path(['sfoxSignup', 'siftScienceEnabled'], state),
   trades: selectors.core.data.sfox.getTrades(state).getOrElse([])
 })
 

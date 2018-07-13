@@ -1,6 +1,6 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { Text } from "blockchain-info-components"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Text } from 'blockchain-info-components'
 
 export const Success = props => (
   <Text size="12px" weight={200}>
@@ -13,7 +13,7 @@ Success.propTypes = {
 }
 
 Success.defaultProps = {
-  fiatAtTime: "N/A"
+  fiatAtTime: 'N/A'
 }
 
 export default Success

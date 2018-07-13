@@ -1,20 +1,20 @@
-import React from "react"
-import styled from "styled-components"
-import { Field, reduxForm } from "redux-form"
+import React from 'react'
+import styled from 'styled-components'
+import { Field, reduxForm } from 'redux-form'
 
-import { Icon } from "blockchain-info-components"
+import { Icon } from 'blockchain-info-components'
 import {
   SelectBoxBitcoinAddresses,
   TextBox,
   TabMenuTransactionStatus
-} from "components/Form"
+} from 'components/Form'
 
 const Wrapper = styled.div`
   width: 100%;
   padding: 8px 30px;
   box-sizing: border-box;
-  background-color: ${props => props.theme["white-blue"]};
-  border-bottom: 1px solid ${props => props.theme["gray-1"]};
+  background-color: ${props => props.theme['white-blue']};
+  border-bottom: 1px solid ${props => props.theme['gray-1']};
 `
 const Container = styled.div`
   display: flex;
@@ -40,10 +40,10 @@ const Controls = styled.div`
     margin-left: 5px;
   }
   & input {
-    border: 1px solid ${props => props.theme["gray-2"]}!important;
+    border: 1px solid ${props => props.theme['gray-2']}!important;
   }
   & button {
-    border: 1px solid ${props => props.theme["gray-2"]}!important;
+    border: 1px solid ${props => props.theme['gray-2']}!important;
   }
 
   @media (min-width: 1200px) {
@@ -99,14 +99,14 @@ const Menu = props => {
               <Field
                 name="source"
                 component={SelectBoxBitcoinAddresses}
-                props={{ coin: "BTC" }}
+                props={{ coin: 'BTC' }}
               />
             </Addresses>
           )}
           <Status>
             <Field
               name="status"
-              statuses={["", "sent", "received", "transferred"]}
+              statuses={['', 'sent', 'received', 'transferred']}
               component={TabMenuTransactionStatus}
             />
           </Status>
@@ -128,4 +128,4 @@ const Menu = props => {
   )
 }
 
-export default reduxForm({ form: "btcTransactions" })(Menu)
+export default reduxForm({ form: 'btcTransactions' })(Menu)

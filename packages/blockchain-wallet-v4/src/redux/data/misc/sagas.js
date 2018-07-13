@@ -1,9 +1,9 @@
-import { call, put, select } from "redux-saga/effects"
-import readBlob from "read-blob"
-import * as A from "./actions"
-import * as selectors from "../../selectors"
-import * as wS from "../../wallet/selectors"
-import * as pairing from "../../../pairing"
+import { call, put, select } from 'redux-saga/effects'
+import readBlob from 'read-blob'
+import * as A from './actions'
+import * as selectors from '../../selectors'
+import * as wS from '../../wallet/selectors'
+import * as pairing from '../../../pairing'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -15,7 +15,7 @@ export default ({ api }) => {
       const sessionToken = yield call(api.obtainSessionToken)
       yield put(A.fetchCaptchaLoading())
       const data = yield call(api.getCaptchaImage, timestamp, sessionToken)
-      const url = yield call(readBlob, data, "dataurl")
+      const url = yield call(readBlob, data, 'dataurl')
       yield put(A.fetchCaptchaSuccess({ url, sessionToken }))
     } catch (e) {
       yield put(A.fetchCaptchaFailure(e.message))

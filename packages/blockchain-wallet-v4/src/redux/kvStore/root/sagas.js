@@ -1,14 +1,14 @@
-import { call, put, select } from "redux-saga/effects"
-import { prop, compose, isNil } from "ramda"
-import * as A from "./actions"
-import BIP39 from "bip39"
-import { KVStoreEntry } from "../../../types"
+import { call, put, select } from 'redux-saga/effects'
+import { prop, compose, isNil } from 'ramda'
+import * as A from './actions'
+import BIP39 from 'bip39'
+import { KVStoreEntry } from '../../../types'
 import {
   getMnemonic,
   getGuid,
   getMainPassword,
   getSharedKey
-} from "../../wallet/selectors"
+} from '../../wallet/selectors'
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
@@ -35,7 +35,7 @@ export default ({ api }) => {
       const metadata = metadataNode.toBase58()
       yield put(A.updateMetadataRoot({ metadata }))
     } catch (e) {
-      throw new Error("create root Metadata :: Error decrypting mnemonic")
+      throw new Error('create root Metadata :: Error decrypting mnemonic')
     }
   }
 
@@ -48,7 +48,7 @@ export default ({ api }) => {
       const kv = KVStoreEntry.fromCredentials(guid, sharedKey, mainPassword)
       const newkv = yield callTask(api.fetchKVStore(kv))
       yield put(A.fetchMetadataRootSuccess(newkv))
-      if (isNil(prop("metadata", newkv.value))) {
+      if (isNil(prop('metadata', newkv.value))) {
         // no metadata node saved
         const createRootenhanced = secondPasswordSagaEnhancer(createRoot)
         yield call(createRootenhanced, {})

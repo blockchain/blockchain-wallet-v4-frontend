@@ -1,8 +1,8 @@
-import React from "react"
-import { connect } from "react-redux"
+import React from 'react'
+import { connect } from 'react-redux'
 
-import { selectors } from "data"
-import Settings from "./template.js"
+import { selectors } from 'data'
+import Settings from './template.js'
 
 const SettingsContainer = props => {
   return <Settings guid={props.guid} />

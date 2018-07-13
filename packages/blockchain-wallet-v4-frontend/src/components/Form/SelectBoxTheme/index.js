@@ -1,14 +1,14 @@
-import React from "react"
-import { connect } from "react-redux"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import { connect } from 'react-redux'
+import { FormattedMessage } from 'react-intl'
 
-import { selectors } from "data"
-import SelectBox from "../SelectBox"
+import { selectors } from 'data'
+import SelectBox from '../SelectBox'
 
 class SelectBoxTheme extends React.PureComponent {
   render() {
     const { themes, ...rest } = this.props
-    const elements = [{ group: "", items: themes }]
+    const elements = [{ group: '', items: themes }]
 
     return <SelectBox elements={elements} {...rest} />
   }
@@ -24,7 +24,7 @@ const mapStateToProps = (state, ownProps) => ({
           defaultMessage="Default"
         />
       ),
-      value: "default"
+      value: 'default'
     },
     {
       text: (
@@ -33,7 +33,7 @@ const mapStateToProps = (state, ownProps) => ({
           defaultMessage="Complement"
         />
       ),
-      value: "complement"
+      value: 'complement'
     },
     {
       text: (
@@ -42,7 +42,7 @@ const mapStateToProps = (state, ownProps) => ({
           defaultMessage="Grayscale"
         />
       ),
-      value: "grayscale"
+      value: 'grayscale'
     },
     {
       text: (
@@ -51,7 +51,7 @@ const mapStateToProps = (state, ownProps) => ({
           defaultMessage="Invert"
         />
       ),
-      value: "invert"
+      value: 'invert'
     }
   ]
 })

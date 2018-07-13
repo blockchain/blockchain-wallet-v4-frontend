@@ -1,29 +1,29 @@
-import { put, call, select } from "redux-saga/effects"
-import * as actions from "../../actions.js"
-import * as selectors from "../../selectors.js"
-import * as C from "services/AlertService"
-import { addLanguageToUrl } from "services/LanguageService"
+import { put, call, select } from 'redux-saga/effects'
+import * as actions from '../../actions.js'
+import * as selectors from '../../selectors.js'
+import * as C from 'services/AlertService'
+import { addLanguageToUrl } from 'services/LanguageService'
 import {
   askSecondPasswordEnhancer,
   promptForSecondPassword
-} from "services/SagaService"
-import { Types, utils } from "blockchain-wallet-v4/src"
+} from 'services/SagaService'
+import { Types, utils } from 'blockchain-wallet-v4/src'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
 export const ipRestrictionError =
-  "You must add at least 1 ip address to the whitelist"
+  'You must add at least 1 ip address to the whitelist'
 
 export default ({ coreSagas }) => {
-  const logLocation = "modules/settings/sagas"
+  const logLocation = 'modules/settings/sagas'
 
   const initSettingsInfo = function*() {
     try {
       yield call(coreSagas.settings.fetchSettings)
     } catch (e) {
       yield put(
-        actions.logs.logErrorMessage(logLocation, "initSettingsInfo", e)
+        actions.logs.logErrorMessage(logLocation, 'initSettingsInfo', e)
       )
     }
   }
@@ -33,7 +33,7 @@ export default ({ coreSagas }) => {
       yield call(coreSagas.settings.fetchSettings)
     } catch (e) {
       yield put(
-        actions.logs.logErrorMessage(logLocation, "initSettingsPreferences", e)
+        actions.logs.logErrorMessage(logLocation, 'initSettingsPreferences', e)
       )
     }
   }
@@ -44,13 +44,13 @@ export default ({ coreSagas }) => {
       try {
         const mnemonicT = yield select(getMnemonic)
         const mnemonic = yield call(() => taskToPromise(mnemonicT))
-        const mnemonicArray = mnemonic.split(" ")
+        const mnemonicArray = mnemonic.split(' ')
         yield put(
           actions.modules.settings.addMnemonic({ mnemonic: mnemonicArray })
         )
       } catch (e) {
         yield put(
-          actions.logs.logErrorMessage(logLocation, "showBackupRecovery", e)
+          actions.logs.logErrorMessage(logLocation, 'showBackupRecovery', e)
         )
       }
     }
@@ -63,7 +63,7 @@ export default ({ coreSagas }) => {
         coreSagas.settings.requestGoogleAuthenticatorSecretUrl
       )
       yield put(
-        actions.modals.showModal("TwoStepGoogleAuthenticator", {
+        actions.modals.showModal('TwoStepGoogleAuthenticator', {
           googleAuthenticatorSecretUrl
         })
       )
@@ -71,7 +71,7 @@ export default ({ coreSagas }) => {
       yield put(
         actions.logs.logErrorMessage(
           logLocation,
-          "showGoogleAuthenticatorSecretUrl",
+          'showGoogleAuthenticatorSecretUrl',
           e
         )
       )
@@ -83,7 +83,7 @@ export default ({ coreSagas }) => {
       yield call(coreSagas.settings.setMobile, action.payload)
       yield put(actions.alerts.displaySuccess(C.MOBILE_UPDATE_SUCCESS))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, "updateMobile", e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'updateMobile', e))
       yield put(actions.alerts.displayError(C.MOBILE_UPDATE_ERROR))
     }
   }
@@ -93,7 +93,7 @@ export default ({ coreSagas }) => {
       yield call(coreSagas.settings.setMobileVerified, action.payload)
       yield put(actions.alerts.displaySuccess(C.MOBILE_VERIFY_SUCCESS))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, "verifyMobile", e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'verifyMobile', e))
       yield put(actions.alerts.displayError(C.MOBILE_VERIFY_ERROR))
       yield put(actions.modules.settings.verifyMobileFailure())
     }
@@ -106,7 +106,7 @@ export default ({ coreSagas }) => {
       yield call(coreSagas.settings.setLanguage, action.payload)
       addLanguageToUrl(action.payload.language)
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, "updateLanguage", e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'updateLanguage', e))
     }
   }
 
@@ -115,7 +115,7 @@ export default ({ coreSagas }) => {
       yield call(coreSagas.settings.setCurrency, action.payload)
       yield put(actions.alerts.displaySuccess(C.CURRENCY_UPDATE_SUCCESS))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, "updateCurrency", e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'updateCurrency', e))
       yield put(actions.alerts.displayErrorC.CURRENCY_UPDATE_ERROR)
     }
   }
@@ -127,7 +127,7 @@ export default ({ coreSagas }) => {
       yield put(actions.alerts.displaySuccess(C.AUTOLOGOUT_UPDATE_SUCCESS))
     } catch (e) {
       yield put(
-        actions.logs.logErrorMessage(logLocation, "updateAutoLogout", e)
+        actions.logs.logErrorMessage(logLocation, 'updateAutoLogout', e)
       )
       yield put(actions.alerts.displayError(C.AUTOLOGOUT_UPDATE_ERROR))
     }
@@ -139,7 +139,7 @@ export default ({ coreSagas }) => {
       yield put(actions.alerts.displaySuccess(C.LOGGINGLEVEL_UPDATE_SUCCESS))
     } catch (e) {
       yield put(
-        actions.logs.logErrorMessage(logLocation, "updateLoggingLevel", e)
+        actions.logs.logErrorMessage(logLocation, 'updateLoggingLevel', e)
       )
       yield put(actions.alerts.displayError(C.LOGGINGLEVEL_UPDATE_ERROR))
     }
@@ -150,7 +150,7 @@ export default ({ coreSagas }) => {
       yield call(coreSagas.settings.setIpLock, action.payload)
       yield put(actions.alerts.displaySuccess(C.IPWHITELIST_UPDATE_SUCCESS))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, "updateIpLock", e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'updateIpLock', e))
       yield put(actions.alerts.displayError(C.IPWHITELIST_UPDATE_ERROR))
     }
   }
@@ -160,7 +160,7 @@ export default ({ coreSagas }) => {
       yield call(coreSagas.settings.setIpLockOn, action.payload)
       yield put(actions.alerts.displaySuccess(C.IPRESTRICTION_UPDATE_SUCCESS))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, "updateIpLockOn", e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'updateIpLockOn', e))
       if (e === ipRestrictionError) {
         yield put(
           actions.alerts.displayError(C.IPRESTRICTION_NO_WHITELIST_ERROR)
@@ -177,7 +177,7 @@ export default ({ coreSagas }) => {
       yield put(actions.alerts.displaySuccess(C.TOR_UPDATE_SUCCESS))
     } catch (e) {
       yield put(
-        actions.logs.logErrorMessage(logLocation, "updateBlockTorIps", e)
+        actions.logs.logErrorMessage(logLocation, 'updateBlockTorIps', e)
       )
       yield put(actions.alerts.displayError(C.TOR_UPDATE_ERROR))
     }
@@ -188,7 +188,7 @@ export default ({ coreSagas }) => {
       yield call(coreSagas.settings.setHint, action.payload)
       yield put(actions.alerts.displaySuccess(C.HINT_UPDATE_SUCCESS))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, "updateHint", e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'updateHint', e))
       yield put(actions.alerts.displayError(C.HINT_UPDATE_ERROR))
     }
   }
@@ -203,7 +203,7 @@ export default ({ coreSagas }) => {
       yield put(actions.alerts.displaySuccess(C.TWOFA_REMEMBER_UPDATE_SUCCESS))
     } catch (e) {
       yield put(
-        actions.logs.logErrorMessage(logLocation, "updateTwoStepRemember", e)
+        actions.logs.logErrorMessage(logLocation, 'updateTwoStepRemember', e)
       )
       yield put(actions.alerts.displayError(C.TWOFA_REMEMBER_UPDATE_ERROR))
     }
@@ -215,7 +215,7 @@ export default ({ coreSagas }) => {
       yield put(actions.alerts.displaySuccess(C.TWOFA_MOBILE_ENABLE_SUCCESS))
     } catch (e) {
       yield put(
-        actions.logs.logErrorMessage(logLocation, "enableTwoStepMobile", e)
+        actions.logs.logErrorMessage(logLocation, 'enableTwoStepMobile', e)
       )
       yield put(actions.alerts.displayError(C.TWOFA_MOBILE_ENABLE_ERROR))
     }
@@ -232,7 +232,7 @@ export default ({ coreSagas }) => {
       yield put(
         actions.logs.logErrorMessage(
           logLocation,
-          "enableTwoStepGoogleAuthenticator",
+          'enableTwoStepGoogleAuthenticator',
           e
         )
       )
@@ -247,7 +247,7 @@ export default ({ coreSagas }) => {
       yield put(actions.alerts.displaySuccess(C.TWOFA_YUBIKEY_ENABLE_SUCCESS))
     } catch (e) {
       yield put(
-        actions.logs.logErrorMessage(logLocation, "enableTwoStepYubikey", e)
+        actions.logs.logErrorMessage(logLocation, 'enableTwoStepYubikey', e)
       )
       yield put(actions.alerts.displayError(C.TWOFA_YUBIKEY_ENABLE_ERROR))
     }
@@ -263,7 +263,7 @@ export default ({ coreSagas }) => {
       yield put(actions.core.kvStore.bch.fetchMetadataBch())
       yield put(actions.alerts.displaySuccess(C.NEW_WALLET_CREATE_SUCCESS))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, "newHDAccount", e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'newHDAccount', e))
       yield put(actions.alerts.displayError(C.NEW_WALLET_CREATE_ERROR))
     }
     yield put(actions.modals.closeModal())
@@ -279,7 +279,7 @@ export default ({ coreSagas }) => {
       yield put(actions.modules.settings.addShownBtcPrivateKey(priv))
     } catch (e) {
       yield put(
-        actions.logs.logErrorMessage(logLocation, "showBtcPrivateKey", e)
+        actions.logs.logErrorMessage(logLocation, 'showBtcPrivateKey', e)
       )
     }
   }
@@ -295,19 +295,19 @@ export default ({ coreSagas }) => {
         const seedHex = yield call(() => taskToPromise(seedHexT))
         const legPriv = utils.ethereum
           .getLegacyPrivateKey(seedHex)
-          .toString("hex")
+          .toString('hex')
         yield put(actions.modules.settings.addShownEthPrivateKey(legPriv))
       } else {
         const getMnemonic = state =>
           selectors.core.wallet.getMnemonic(state, password)
         const mnemonicT = yield select(getMnemonic)
         const mnemonic = yield call(() => taskToPromise(mnemonicT))
-        let priv = utils.ethereum.getPrivateKey(mnemonic, 0).toString("hex")
+        let priv = utils.ethereum.getPrivateKey(mnemonic, 0).toString('hex')
         yield put(actions.modules.settings.addShownEthPrivateKey(priv))
       }
     } catch (e) {
       yield put(
-        actions.logs.logErrorMessage(logLocation, "showEthPrivateKey", e)
+        actions.logs.logErrorMessage(logLocation, 'showEthPrivateKey', e)
       )
     }
   }

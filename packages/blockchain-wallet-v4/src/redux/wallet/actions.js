@@ -1,4 +1,4 @@
-import * as T from "./actionTypes"
+import * as T from './actionTypes'
 
 // setters
 export const setWrapper = payload => ({

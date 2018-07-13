@@ -1,4 +1,4 @@
-import * as AT from "./actionTypes"
+import * as AT from './actionTypes'
 
 // FETCH_SETTINGS
 export const fetchOptions = () => ({ type: AT.FETCH_OPTIONS })

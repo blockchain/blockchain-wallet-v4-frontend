@@ -1,4 +1,4 @@
-import { over, mapped, set, view } from "ramda-lens"
+import { over, mapped, set, view } from 'ramda-lens'
 import {
   append,
   assoc,
@@ -8,11 +8,11 @@ import {
   equals,
   lensIndex,
   toLower
-} from "ramda"
-import * as AT from "./actionTypes"
-import Remote from "../../../remote"
-import { lensProp } from "../../../types/util"
-import { value } from "../../../types/KVStoreEntry"
+} from 'ramda'
+import * as AT from './actionTypes'
+import Remote from '../../../remote'
+import { lensProp } from '../../../types/util'
+import { value } from '../../../types/KVStoreEntry'
 
 // initial state should be a kvstore object
 const INITIAL_STATE = Remote.NotAsked
@@ -37,7 +37,7 @@ export default (state = INITIAL_STATE, action) => {
         compose(
           mapped,
           value,
-          lensProp("USAState")
+          lensProp('USAState')
         ),
         {
           Code: payload.usState.code,
@@ -51,8 +51,8 @@ export default (state = INITIAL_STATE, action) => {
       return over(
         compose(
           mapped,
-          lensProp("value"),
-          lensProp("trades")
+          lensProp('value'),
+          lensProp('trades')
         ),
         append(trade),
         state
@@ -63,34 +63,34 @@ export default (state = INITIAL_STATE, action) => {
 
       return state.map(trades => {
         const lensTrades = compose(
-          lensProp("value"),
-          lensProp("trades")
+          lensProp('value'),
+          lensProp('trades')
         )
 
         const i = findIndex(
           compose(
             equals(depositAddress),
-            path(["quote", "deposit"])
+            path(['quote', 'deposit'])
           )
         )(view(lensTrades, trades))
 
         switch (status) {
-          case "no_deposits":
-          case "received":
-          case "failed":
+          case 'no_deposits':
+          case 'received':
+          case 'failed':
             return set(
               compose(
                 lensTrades,
                 lensIndex(i),
-                lensProp("status")
+                lensProp('status')
               ),
               status,
               trades
             )
-          case "complete":
+          case 'complete':
             const updateStatusAndHashOut = compose(
-              assoc("status", status),
-              assoc("hashOut", hashOut)
+              assoc('status', status),
+              assoc('hashOut', hashOut)
             )
             return over(
               compose(
@@ -117,13 +117,13 @@ export default (state = INITIAL_STATE, action) => {
 
       return state.map(trades => {
         const lensTrades = compose(
-          lensProp("value"),
-          lensProp("trades")
+          lensProp('value'),
+          lensProp('trades')
         )
         const i = findIndex(
           compose(
             equals(address),
-            path(["quote", "deposit"])
+            path(['quote', 'deposit'])
           )
         )(view(lensTrades, trades))
 
@@ -142,19 +142,19 @@ export default (state = INITIAL_STATE, action) => {
             compose(
               lensTrades,
               lensIndex(i),
-              lensProp("quote"),
+              lensProp('quote'),
               lensProp(prop)
             ),
             value
           )
 
-        if (equals(status, "complete")) {
+        if (equals(status, 'complete')) {
           return compose(
-            setTradePropValue("status", status),
-            setQuotePropValue("depositAmount", incomingCoin),
-            setQuotePropValue("withdrawalAmount", outgoingCoin),
+            setTradePropValue('status', status),
+            setQuotePropValue('depositAmount', incomingCoin),
+            setQuotePropValue('withdrawalAmount', outgoingCoin),
             setQuotePropValue(
-              "pair",
+              'pair',
               `${toLower(incomingType)}_${toLower(outgoingType)}`
             )
           )(trades)

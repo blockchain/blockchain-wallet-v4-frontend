@@ -1,18 +1,18 @@
-import React, { PureComponent } from "react"
-import styled from "styled-components"
+import React, { PureComponent } from 'react'
+import styled from 'styled-components'
 
-import ActivityLogging from "./ActivityLogging"
-import APIAccess from "./APIAccess"
-import IPWhitelist from "./IPWhitelist"
-import LoginIpRestriction from "./LoginIpRestriction"
-import PasswordStretching from "./PasswordStretching"
-import WalletAccessTor from "./WalletAccessTor"
-import TwoStepVerificationRemember from "./TwoStepVerificationRemember"
+import ActivityLogging from './ActivityLogging'
+import APIAccess from './APIAccess'
+import IPWhitelist from './IPWhitelist'
+import LoginIpRestriction from './LoginIpRestriction'
+import PasswordStretching from './PasswordStretching'
+import WalletAccessTor from './WalletAccessTor'
+import TwoStepVerificationRemember from './TwoStepVerificationRemember'
 // import PasswordHint from './PasswordHint'
-import WalletPassword from "./WalletPassword"
-import SecondPasswordWallet from "./SecondPasswordWallet"
-import { IconButton } from "blockchain-info-components"
-import { FormattedMessage } from "react-intl"
+import WalletPassword from './WalletPassword'
+import SecondPasswordWallet from './SecondPasswordWallet'
+import { IconButton } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
 
 const AdvancedContainer = styled.div`
   margin-top: 0 !important;
@@ -24,7 +24,7 @@ const BackButton = styled(IconButton)`
 export default class Advanced extends PureComponent {
   componentDidMount() {
     if (!this.props.showTabs) {
-      const button = document.getElementById("advanced-button")
+      const button = document.getElementById('advanced-button')
       const alignToTop = false
       button.scrollIntoView(alignToTop)
     }
@@ -37,7 +37,7 @@ export default class Advanced extends PureComponent {
           <BackButton
             name="left-arrow"
             nature="empty"
-            onClick={() => this.props.setView("security")}
+            onClick={() => this.props.setView('security')}
             id="advanced-button"
           >
             <FormattedMessage

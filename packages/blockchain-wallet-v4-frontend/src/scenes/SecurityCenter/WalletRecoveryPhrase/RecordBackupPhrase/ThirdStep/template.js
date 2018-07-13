@@ -1,12 +1,12 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { reduxForm, Field } from "redux-form"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { reduxForm, Field } from 'redux-form'
 
-import { Button, Link, Text } from "blockchain-info-components"
-import { Form, TextBox } from "components/Form"
-import { required } from "services/FormHelper"
+import { Button, Link, Text } from 'blockchain-info-components'
+import { Form, TextBox } from 'components/Form'
+import { required } from 'services/FormHelper'
 
 const Wrapper = styled.div`
   display: flex;
@@ -66,7 +66,7 @@ const ThirdStep = props => {
           size="14px"
           weight={300}
           onClick={previousStep}
-          style={{ margin: "10px 0" }}
+          style={{ margin: '10px 0' }}
         >
           <FormattedMessage
             id="scenes.securitycenter.walletrecoveryphrase.thirdstep.reviewPhrase"
@@ -78,7 +78,7 @@ const ThirdStep = props => {
         <Container>
           {indexes.map(index => (
             <WordContainer key={index}>
-              <Text size="14px" weight={300} style={{ marginBottom: "4px" }}>
+              <Text size="14px" weight={300} style={{ marginBottom: '4px' }}>
                 {`${languageHelper(index)} word`}
               </Text>
               <Field
@@ -117,4 +117,4 @@ ThirdStep.propTypes = {
   inline: PropTypes.bool.isRequired
 }
 
-export default reduxForm({ form: "recoveryPhrase" })(ThirdStep)
+export default reduxForm({ form: 'recoveryPhrase' })(ThirdStep)

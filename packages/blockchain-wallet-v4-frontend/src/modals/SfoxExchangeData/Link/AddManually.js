@@ -1,12 +1,12 @@
-import React, { Component } from "react"
-import styled from "styled-components"
-import { reduxForm, Field } from "redux-form"
-import { FormattedMessage } from "react-intl"
-import { TextBox, SelectBoxBankAccountType, Form } from "components/Form"
-import { required } from "services/FormHelper"
-import { Image, Text } from "blockchain-info-components"
-import { spacing } from "services/StyleService"
-import PropTypes from "prop-types"
+import React, { Component } from 'react'
+import styled from 'styled-components'
+import { reduxForm, Field } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+import { TextBox, SelectBoxBankAccountType, Form } from 'components/Form'
+import { required } from 'services/FormHelper'
+import { Image, Text } from 'blockchain-info-components'
+import { spacing } from 'services/StyleService'
+import PropTypes from 'prop-types'
 
 const Container = styled.div`
   display: flex;
@@ -41,7 +41,7 @@ class AddManually extends Component {
       <Form>
         <Container>
           <InputContainer>
-            <Text size="14px" weight={500} style={spacing("mb-10")}>
+            <Text size="14px" weight={500} style={spacing('mb-10')}>
               <FormattedMessage
                 id="sfoxexchangedata.link.addmanually.accountholdername"
                 defaultMessage="Full Name of Primary Account Holder"
@@ -56,7 +56,7 @@ class AddManually extends Component {
             />
           </InputContainer>
           <InputContainer>
-            <Text size="14px" weight={500} style={spacing("mb-10")}>
+            <Text size="14px" weight={500} style={spacing('mb-10')}>
               <FormattedMessage
                 id="sfoxexchangedata.link.addmanually.bankaccountinformation"
                 defaultMessage="Bank Account Information"
@@ -79,7 +79,7 @@ class AddManually extends Component {
             />
           </InputContainer>
           <InputContainer>
-            <Text size="14px" weight={500} style={spacing("mb-10")}>
+            <Text size="14px" weight={500} style={spacing('mb-10')}>
               <FormattedMessage
                 id="sfoxexchangedata.link.addmanually.accounttype"
                 defaultMessage="Account Type"
@@ -105,4 +105,4 @@ AddManually.propTypes = {
   handleAccountType: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: "sfoxLink" })(AddManually)
+export default reduxForm({ form: 'sfoxLink' })(AddManually)

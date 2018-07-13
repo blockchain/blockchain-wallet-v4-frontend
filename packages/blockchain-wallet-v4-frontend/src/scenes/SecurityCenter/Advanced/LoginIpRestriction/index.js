@@ -1,9 +1,9 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import { actions, selectors } from "data"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { actions, selectors } from 'data'
 
-import LoginIpRestriction from "./template.js"
+import LoginIpRestriction from './template.js'
 
 class LoginIpRestrictionContainer extends React.PureComponent {
   constructor(props) {

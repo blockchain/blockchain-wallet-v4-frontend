@@ -1,4 +1,4 @@
-import * as AT from "./actionTypes"
+import * as AT from './actionTypes'
 
 export const setStep = (name, step) => ({
   type: AT.SET_STEP,

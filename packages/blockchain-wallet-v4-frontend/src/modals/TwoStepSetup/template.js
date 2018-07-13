@@ -1,6 +1,6 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
 import {
   Button,
@@ -12,7 +12,7 @@ import {
   ModalFooter,
   Text,
   TextGroup
-} from "blockchain-info-components"
+} from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -32,7 +32,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: ${props => props.theme["white"]};
+  background-color: ${props => props.theme['white']};
   width: 100%;
   cursor: pointer;
   text-align: center;
@@ -44,7 +44,7 @@ const Container = styled.div`
     margin-bottom: 10px;
   }
   &:hover {
-    background-color: ${props => props.theme["gray-1"]};
+    background-color: ${props => props.theme['gray-1']};
   }
 
   @media (min-width: 540px) {

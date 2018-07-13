@@ -1,6 +1,6 @@
-import { selectors } from "data"
-import { ethFromLabel } from "services/PaymentHelper"
-import { utils } from "blockchain-wallet-v4/src"
+import { selectors } from 'data'
+import { ethFromLabel } from 'services/PaymentHelper'
+import { utils } from 'blockchain-wallet-v4/src'
 
 export const getData = state => {
   const paymentR = selectors.components.sendEth.getPayment(state)

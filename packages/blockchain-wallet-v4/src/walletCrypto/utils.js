@@ -1,5 +1,5 @@
-import * as crypto from "crypto"
-import assert from "assert"
+import * as crypto from 'crypto'
+import assert from 'assert'
 
 export const SUPPORTED_ENCRYPTION_VERSION = 3
 export const SALT_BYTES = 16
@@ -33,8 +33,8 @@ export const ZeroPadding = {
   },
 
   unpad: function(dataBytes) {
-    let unpaddedHex = dataBytes.toString("hex").replace(/(00)+$/, "")
-    return Buffer.from(unpaddedHex, "hex")
+    let unpaddedHex = dataBytes.toString('hex').replace(/(00)+$/, '')
+    return Buffer.from(unpaddedHex, 'hex')
   }
 }
 
@@ -75,9 +75,9 @@ export const Iso97971 = {
 }
 
 export const AES = {
-  CBC: "aes-256-cbc",
-  OFB: "aes-256-ofb",
-  ECB: "aes-256-ecb",
+  CBC: 'aes-256-cbc',
+  OFB: 'aes-256-ofb',
+  ECB: 'aes-256-ecb',
 
   /*
   *   Encrypt / Decrypt with aes-256
@@ -87,18 +87,19 @@ export const AES = {
 
   encrypt: function(dataBytes, key, salt, options) {
     options = options || {}
-    assert(Buffer.isBuffer(dataBytes), "expected `dataBytes` to be a Buffer")
-    assert(Buffer.isBuffer(key), "expected `key` to be a Buffer")
+    assert(Buffer.isBuffer(dataBytes), 'expected `dataBytes` to be a Buffer')
+    assert(Buffer.isBuffer(key), 'expected `key` to be a Buffer')
     assert(
       Buffer.isBuffer(salt) || salt === null,
-      "expected `salt` to be a Buffer or null"
+      'expected `salt` to be a Buffer or null'
     )
 
-    let cipher = crypto.createCipheriv(options.mode || AES.CBC, key, salt || "")
+    let cipher = crypto.createCipheriv(options.mode || AES.CBC, key, salt || '')
     cipher.setAutoPadding(!options.padding)
 
-    if (options.padding)
+    if (options.padding) {
       dataBytes = options.padding.pad(dataBytes, BLOCK_BIT_LEN / 8)
+    }
     let encryptedBytes = Buffer.concat([
       cipher.update(dataBytes),
       cipher.final()
@@ -109,17 +110,17 @@ export const AES = {
 
   decrypt: function(dataBytes, key, salt, options) {
     options = options || {}
-    assert(Buffer.isBuffer(dataBytes), "expected `dataBytes` to be a Buffer")
-    assert(Buffer.isBuffer(key), "expected `key` to be a Buffer")
+    assert(Buffer.isBuffer(dataBytes), 'expected `dataBytes` to be a Buffer')
+    assert(Buffer.isBuffer(key), 'expected `key` to be a Buffer')
     assert(
       Buffer.isBuffer(salt) || salt === null,
-      "expected `salt` to be a Buffer or null"
+      'expected `salt` to be a Buffer or null'
     )
 
     let decipher = crypto.createDecipheriv(
       options.mode || AES.CBC,
       key,
-      salt || ""
+      salt || ''
     )
     decipher.setAutoPadding(!options.padding)
 

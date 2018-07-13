@@ -1,4 +1,4 @@
-import * as AT from "./actionTypes"
+import * as AT from './actionTypes'
 
 export const updateEmail = email => ({
   type: AT.UPDATE_EMAIL,
@@ -43,7 +43,7 @@ export const verifyMobile = code => ({
 
 export const disableTwoStep = () => ({
   type: AT.DISABLE_TWO_STEP,
-  payload: { authType: "0" }
+  payload: { authType: '0' }
 })
 
 export const setVerifiedMobileAsTwoFactor = () => ({

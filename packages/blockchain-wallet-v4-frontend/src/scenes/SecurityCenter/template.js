@@ -1,16 +1,16 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { Text, Icon, Button } from "blockchain-info-components"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { Text, Icon, Button } from 'blockchain-info-components'
 
-import SecuritySteps from "./SecuritySteps"
-import SecurityTabs from "./SecurityTabs"
-import EmailAddress from "./EmailAddress"
-import TwoStepVerification from "./TwoStepVerification"
-import WalletRecoveryPhrase from "./WalletRecoveryPhrase"
-import { spacing } from "services/StyleService"
+import SecuritySteps from './SecuritySteps'
+import SecurityTabs from './SecurityTabs'
+import EmailAddress from './EmailAddress'
+import TwoStepVerification from './TwoStepVerification'
+import WalletRecoveryPhrase from './WalletRecoveryPhrase'
+import { spacing } from 'services/StyleService'
 
-import Advanced from "./Advanced"
+import Advanced from './Advanced'
 
 const Wrapper = styled.div`
   padding: 30px;
@@ -31,7 +31,7 @@ const IntroContainer = styled.div`
   width: 100%;
 
   @media (min-width: 992px) {
-    width: ${props => (props.progress === 3 ? "100%" : "40%")};
+    width: ${props => (props.progress === 3 ? '100%' : '40%')};
   }
 `
 const BodyContainer = styled.div`
@@ -76,47 +76,50 @@ const SecurityCenter = props => {
   const showTabs = props.progress === 3
 
   const renderSteps = () => {
-    if (enabling === "email")
+    if (enabling === 'email') {
       return (
         <BodyContainer>
           <EmailAddress alone={1} goBackOnSuccess={props.onClose} />
         </BodyContainer>
       )
-    if (enabling === "2fa")
+    }
+    if (enabling === '2fa') {
       return (
         <BodyContainer>
           <TwoStepVerification alone={1} goBackOnSuccess={props.onClose} />
         </BodyContainer>
       )
-    if (enabling === "recovery")
+    }
+    if (enabling === 'recovery') {
       return (
         <BodyContainer>
           <WalletRecoveryPhrase alone={1} goBackOnSuccess={props.onClose} />
         </BodyContainer>
       )
+    }
     return (
       <BodyContainer>
         <EmailAddress
-          handleEnable={() => props.handleEnable("email")}
+          handleEnable={() => props.handleEnable('email')}
           goBackOnSuccess={props.onClose}
         />
         <TwoStepVerification
-          handleEnable={() => props.handleEnable("2fa")}
+          handleEnable={() => props.handleEnable('2fa')}
           goBackOnSuccess={props.onClose}
         />
         <WalletRecoveryPhrase
-          handleEnable={() => props.handleEnable("recovery")}
+          handleEnable={() => props.handleEnable('recovery')}
           goBackOnSuccess={props.onClose}
         />
         {!showTabs && (
           <ButtonContainer>
-            <Button nature="empty" onClick={() => props.setView("advanced")}>
+            <Button nature="empty" onClick={() => props.setView('advanced')}>
               <FormattedMessage
                 id="scenes.securitycenter.introadvancedbutton"
                 defaultMessage="Advanced Settings"
               />
             </Button>
-            <Text size="14px" weight={300} style={spacing("pl-15")}>
+            <Text size="14px" weight={300} style={spacing('pl-15')}>
               <FormattedMessage
                 id="scenes.securitycenter.introadvancedexplainer"
                 defaultMessage="We recommend you complete these 3 steps before moving into the advanced security settings."
@@ -131,7 +134,7 @@ const SecurityCenter = props => {
   return (
     <PageContainer>
       {showTabs && <SecurityTabs data={props.data} setView={setView} />}
-      {props.viewing === "security" ? (
+      {props.viewing === 'security' ? (
         <Wrapper>
           {enabling && (
             <IconContainer>

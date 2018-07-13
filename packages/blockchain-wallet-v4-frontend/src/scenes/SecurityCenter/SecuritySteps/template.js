@@ -1,9 +1,9 @@
-import React from "react"
-import { FormattedMessage } from "react-intl"
-import styled from "styled-components"
-import { Icon, Text } from "blockchain-info-components"
-import media from "services/ResponsiveService"
-import { MediaContextConsumer } from "providers/MatchMediaProvider"
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+import { Icon, Text } from 'blockchain-info-components'
+import media from 'services/ResponsiveService'
+import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 
 const Wrapper = styled.div`
   display: flex;
@@ -11,13 +11,13 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   height: 50%;
-  background-color: ${props => props.theme["gray-2"]};
+  background-color: ${props => props.theme['gray-2']};
   border-radius: 50px;
 `
 const StepSection = styled.div`
   width: 34%;
   background-color: ${props =>
-    props.success ? props.theme["brand-primary"] : props.theme["gray-2"]};
+    props.success ? props.theme['brand-primary'] : props.theme['gray-2']};
   border-radius: 50px;
   display: flex;
   flex-direction: row;
@@ -27,18 +27,18 @@ const StepSection = styled.div`
   `};
 `
 const EmailSection = StepSection.extend`
-  border-top-right-radius: ${props => (props.radius ? "0px" : "50px")};
-  border-bottom-right-radius: ${props => (props.radius ? "0px" : "50px")};
+  border-top-right-radius: ${props => (props.radius ? '0px' : '50px')};
+  border-bottom-right-radius: ${props => (props.radius ? '0px' : '50px')};
 `
 const TwoStepSection = StepSection.extend`
-  border-top-right-radius: ${props => (props.rightRadius ? "0px" : "50px")};
-  border-bottom-right-radius: ${props => (props.rightRadius ? "0px" : "50px")};
-  border-top-left-radius: ${props => (props.leftRadius ? "0px" : "50px")};
-  border-bottom-left-radius: ${props => (props.leftRadius ? "0px" : "50px")};
+  border-top-right-radius: ${props => (props.rightRadius ? '0px' : '50px')};
+  border-bottom-right-radius: ${props => (props.rightRadius ? '0px' : '50px')};
+  border-top-left-radius: ${props => (props.leftRadius ? '0px' : '50px')};
+  border-bottom-left-radius: ${props => (props.leftRadius ? '0px' : '50px')};
 `
 const BackupSection = StepSection.extend`
-  border-top-left-radius: ${props => (props.radius ? "0px" : "50px")};
-  border-bottom-left-radius: ${props => (props.radius ? "0px" : "50px")};
+  border-top-left-radius: ${props => (props.radius ? '0px' : '50px')};
+  border-bottom-left-radius: ${props => (props.radius ? '0px' : '50px')};
 `
 
 const Circle = styled.div`
@@ -48,7 +48,7 @@ const Circle = styled.div`
   width: 50px;
   height: 50px;
   background-color: white;
-  border: 5px solid ${props => props.theme["brand-primary"]};
+  border: 5px solid ${props => props.theme['brand-primary']};
   border-radius: 50px;
   ${media.mobile`
     width: 35px;
@@ -64,7 +64,7 @@ const StepText = styled(Text)`
   margin-right: 5px;
   word-break: break-word;
   color: ${props =>
-    props.success ? props.theme["white"] : props.theme["brand-primary"]};
+    props.success ? props.theme['white'] : props.theme['brand-primary']};
 `
 
 const SecuritySteps = props => {
@@ -85,7 +85,7 @@ const SecuritySteps = props => {
                 <Icon
                   name="checkmark"
                   color="success"
-                  size={mobile ? "15px" : "30px"}
+                  size={mobile ? '15px' : '30px'}
                 />
               )}
             </Circle>
@@ -113,7 +113,7 @@ const SecuritySteps = props => {
                 <Icon
                   name="checkmark"
                   color="success"
-                  size={mobile ? "15px" : "30px"}
+                  size={mobile ? '15px' : '30px'}
                 />
               )}
             </Circle>
@@ -140,7 +140,7 @@ const SecuritySteps = props => {
                 <Icon
                   name="checkmark"
                   color="success"
-                  size={mobile ? "15px" : "30px"}
+                  size={mobile ? '15px' : '30px'}
                 />
               )}
             </Circle>

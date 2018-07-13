@@ -1,16 +1,16 @@
-import { call, put, select } from "redux-saga/effects"
-import { filter, findIndex, forEach, pluck, propEq, sort } from "ramda"
+import { call, put, select } from 'redux-saga/effects'
+import { filter, findIndex, forEach, pluck, propEq, sort } from 'ramda'
 
-import * as C from "services/AlertService"
-import * as A from "./actions"
-import * as actions from "../../actions"
-import { selectors } from "../../index"
-import settings from "config"
-import { Types } from "blockchain-wallet-v4/src"
-import { promptForInput } from "services/SagaService"
+import * as C from 'services/AlertService'
+import * as A from './actions'
+import * as actions from '../../actions'
+import { selectors } from '../../index'
+import settings from 'config'
+import { Types } from 'blockchain-wallet-v4/src'
+import { promptForInput } from 'services/SagaService'
 
 export default ({ api }) => {
-  const logLocation = "components/manageAddresses/sagas"
+  const logLocation = 'components/manageAddresses/sagas'
 
   const toggleUsedAddresses = function*() {
     yield put(actions.modals.closeAllModals())
@@ -50,7 +50,7 @@ export default ({ api }) => {
         actions.core.wallet.setHdAddressLabel(
           account.index,
           Math.max(receiveIndex.data, lastLabeledIndex + 1),
-          "New Address"
+          'New Address'
         )
       )
       yield put(A.fetchUnusedAddresses(walletIndex))
@@ -60,7 +60,7 @@ export default ({ api }) => {
       yield put(
         actions.logs.logErrorMessage(
           logLocation,
-          "generateNextReceiveAddress",
+          'generateNextReceiveAddress',
           e
         )
       )
@@ -92,7 +92,7 @@ export default ({ api }) => {
       // fetch blockchain data for each address
       const labeledAddrsFull = yield call(
         api.fetchBlockchainData,
-        pluck("address", labeledAddrs)
+        pluck('address', labeledAddrs)
       )
       // filter only addresses with 0 txs
       const unusedAddresses = filter(
@@ -102,7 +102,7 @@ export default ({ api }) => {
 
       // map labels back to unused addresses
       forEach(labeledAddr => {
-        let idx = findIndex(propEq("address", labeledAddr.address))(
+        let idx = findIndex(propEq('address', labeledAddr.address))(
           unusedAddresses
         )
         if (idx !== -1) {
@@ -122,7 +122,7 @@ export default ({ api }) => {
     } catch (e) {
       yield put(A.fetchUnusedAddressesError(walletIndex, e))
       yield put(
-        actions.logs.logErrorMessage(logLocation, "fetchUnusedAddresses", e)
+        actions.logs.logErrorMessage(logLocation, 'fetchUnusedAddresses', e)
       )
       yield put(actions.alerts.displayError(C.FETCH_UNUSED_ADDRESSES_ERROR))
     }
@@ -162,7 +162,7 @@ export default ({ api }) => {
 
       // map labels back to used addresses
       forEach(labeledAddr => {
-        let idx = findIndex(propEq("address", labeledAddr.address))(
+        let idx = findIndex(propEq('address', labeledAddr.address))(
           usedAddresses
         )
         if (idx !== -1) {
@@ -174,7 +174,7 @@ export default ({ api }) => {
     } catch (e) {
       yield put(A.fetchUsedAddressesError(walletIndex, e))
       yield put(
-        actions.logs.logErrorMessage(logLocation, "fetchUsedAddresses", e)
+        actions.logs.logErrorMessage(logLocation, 'fetchUsedAddresses', e)
       )
       yield put(actions.alerts.displayError(C.FETCH_USED_ADDRESSES_ERROR))
     }
@@ -185,7 +185,7 @@ export default ({ api }) => {
     try {
       yield put(A.editAddressLabelLoading(accountIndex))
       let newLabel = yield call(promptForInput, {
-        title: "Rename Address Label"
+        title: 'Rename Address Label'
       })
       yield put(
         actions.core.wallet.setHdAddressLabel(
@@ -198,10 +198,10 @@ export default ({ api }) => {
       yield put(A.editAddressLabelSuccess(walletIndex))
       yield put(actions.alerts.displaySuccess(C.UPDATE_ADDRESS_LABEL_SUCCESS))
     } catch (e) {
-      if (e.message !== "PROMPT_INPUT_CANCEL") {
+      if (e.message !== 'PROMPT_INPUT_CANCEL') {
         yield put(A.editAddressLabelError(walletIndex, e))
         yield put(
-          actions.logs.logErrorMessage(logLocation, "editAddressLabel", e)
+          actions.logs.logErrorMessage(logLocation, 'editAddressLabel', e)
         )
         yield put(actions.alerts.displayError(C.UPDATE_ADDRESS_LABEL_ERROR))
       }
@@ -232,7 +232,7 @@ export default ({ api }) => {
     } catch (e) {
       yield put(A.deleteAddressLabelError(walletIdx, e))
       yield put(
-        actions.logs.logErrorMessage(logLocation, "deleteAddressLabel", e)
+        actions.logs.logErrorMessage(logLocation, 'deleteAddressLabel', e)
       )
       yield put(actions.alerts.displayError(C.ADDRESS_DELETE_ERROR))
     }

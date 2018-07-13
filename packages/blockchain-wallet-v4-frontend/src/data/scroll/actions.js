@@ -1,4 +1,4 @@
-import * as AT from "./actionTypes"
+import * as AT from './actionTypes'
 
 export const updateScroll = (xOffset, yOffset, xMax, yMax) => ({
   type: AT.UPDATE_SCROLL,

@@ -1,12 +1,12 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { connect } from "react-redux"
-import { bindActionCreators, compose } from "redux"
-import { formValueSelector } from "redux-form"
-import ui from "redux-ui"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import { formValueSelector } from 'redux-form'
+import ui from 'redux-ui'
 
-import { actions, selectors } from "data"
-import Settings from "./template.js"
+import { actions, selectors } from 'data'
+import Settings from './template.js'
 
 class SettingsContainer extends React.PureComponent {
   constructor(props) {
@@ -42,9 +42,9 @@ class SettingsContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  passwordStretchingValue: formValueSelector("settingPasswordStretching")(
+  passwordStretchingValue: formValueSelector('settingPasswordStretching')(
     state,
-    "passwordStretching"
+    'passwordStretching'
   ),
   currentStretch: selectors.core.wallet.getPbkdf2Iterations(state)
 })
@@ -59,7 +59,7 @@ const enhance = compose(
     mapStateToProps,
     mapDispatchToProps
   ),
-  ui({ key: "Setting_PasswordStretching", state: { updateToggled: false } })
+  ui({ key: 'Setting_PasswordStretching', state: { updateToggled: false } })
 )
 
 SettingsContainer.propTypes = {

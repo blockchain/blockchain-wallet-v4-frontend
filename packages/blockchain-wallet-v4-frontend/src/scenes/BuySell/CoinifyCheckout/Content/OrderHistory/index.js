@@ -1,12 +1,12 @@
-import React from "react"
-import { actions } from "data"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import { getData, getTrade } from "./selectors"
-import Success from "./template.success.js"
-import Loading from "components/BuySell/Loading"
-import { path } from "ramda"
-import Failure from "components/BuySell/Failure"
+import React from 'react'
+import { actions } from 'data'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { getData, getTrade } from './selectors'
+import Success from './template.success.js'
+import Loading from 'components/BuySell/Loading'
+import { path } from 'ramda'
+import Failure from 'components/BuySell/Failure'
 
 class OrderHistoryContainer extends React.Component {
   componentDidMount() {
@@ -54,7 +54,7 @@ class OrderHistoryContainer extends React.Component {
           status={status}
           cancelTradeId={cancelTradeId}
           onCancelSubscription={cancelSubscription}
-          changeTab={tab => change("buySellTabStatus", "status", tab)}
+          changeTab={tab => change('buySellTabStatus', 'status', tab)}
         />
       ),
       Failure: msg => <Failure error={msg} />,
@@ -67,9 +67,9 @@ class OrderHistoryContainer extends React.Component {
 const mapStateToProps = state => ({
   data: getData(state),
   trade: getTrade(state),
-  step: path(["coinify", "checkoutStep"], state),
-  busy: path(["coinify", "coinifyBusy"], state),
-  cancelTradeId: path(["coinify", "cancelTradeId"], state)
+  step: path(['coinify', 'checkoutStep'], state),
+  busy: path(['coinify', 'coinifyBusy'], state),
+  cancelTradeId: path(['coinify', 'cancelTradeId'], state)
 })
 
 const mapDispatchToProps = dispatch => ({

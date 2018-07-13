@@ -1,4 +1,4 @@
-import * as AT from "./actionTypes"
+import * as AT from './actionTypes'
 
 const INITIAL_STATE = {
   xOffset: 0,

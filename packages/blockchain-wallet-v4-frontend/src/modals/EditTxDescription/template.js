@@ -1,20 +1,20 @@
-import React from "react"
-import styled from "styled-components"
+import React from 'react'
+import styled from 'styled-components'
 import {
   Button,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter
-} from "blockchain-info-components"
-import { FormattedMessage } from "react-intl"
-import { Field, reduxForm } from "redux-form"
-import { Form, FormGroup, FormItem, TextBox } from "components/Form"
+} from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
+import { Form, FormGroup, FormItem, TextBox } from 'components/Form'
 
 const Wrapper = styled.div`
   font-weight: 300;
-  color: ${props => props.theme["gray-5"]};
-  font-family: "Montserrat", Helvetica, sans-serif;
+  color: ${props => props.theme['gray-5']};
+  font-family: 'Montserrat', Helvetica, sans-serif;
 `
 const Label = styled.label`
   display: block;
@@ -67,6 +67,6 @@ const EditTxDescription = props => {
   )
 }
 
-export default reduxForm({ form: "editTransactionDescription" })(
+export default reduxForm({ form: 'editTransactionDescription' })(
   EditTxDescription
 )

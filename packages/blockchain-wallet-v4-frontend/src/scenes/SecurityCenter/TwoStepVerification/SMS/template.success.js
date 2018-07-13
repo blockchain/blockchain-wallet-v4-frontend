@@ -1,12 +1,12 @@
-import React, { Fragment } from "react"
-import PropTypes from "prop-types"
-import { FormattedMessage } from "react-intl"
-import styled from "styled-components"
-import { Field, reduxForm } from "redux-form"
+import React, { Fragment } from 'react'
+import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+import { Field, reduxForm } from 'redux-form'
 
-import { Button, Text, Link } from "blockchain-info-components"
-import { TextBox, PhoneNumberBox, Form } from "components/Form"
-import { required } from "services/FormHelper"
+import { Button, Text, Link } from 'blockchain-info-components'
+import { TextBox, PhoneNumberBox, Form } from 'components/Form'
+import { required } from 'services/FormHelper'
 
 const AuthenticatorSummary = styled.div`
   width: 100%;
@@ -107,5 +107,5 @@ SmsAuth.propTypes = {
 }
 
 export default reduxForm({
-  form: "securitySms"
+  form: 'securitySms'
 })(SmsAuth)

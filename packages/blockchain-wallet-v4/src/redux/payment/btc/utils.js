@@ -8,12 +8,12 @@ import {
   set,
   always,
   compose
-} from "ramda"
-import * as Coin from "../../../coinSelection/coin"
-import { Wallet, HDAccount, Address } from "../../../types"
-import { isPositiveInteger } from "../../../utils/checks"
-import { isValidBitcoinAddress, getWifAddress } from "../../../utils/bitcoin"
-import * as S from "../../selectors"
+} from 'ramda'
+import * as Coin from '../../../coinSelection/coin'
+import { Wallet, HDAccount, Address } from '../../../types'
+import { isPositiveInteger } from '../../../utils/checks'
+import { isValidBitcoinAddress, getWifAddress } from '../../../utils/bitcoin'
+import * as S from '../../selectors'
 
 // /////////////////////////////////////////////////////////////////////////////
 // Validations
@@ -32,10 +32,10 @@ export const isValidAddressOrIndex = curry((wallet, candidate) =>
 // /////////////////////////////////////////////////////////////////////////////
 // From
 export const FROM = {
-  ACCOUNT: "FROM.ACCOUNT",
-  LEGACY: "FROM.LEGACY",
-  WATCH_ONLY: "FROM.WATCH_ONLY",
-  EXTERNAL: "FROM.EXTERNAL"
+  ACCOUNT: 'FROM.ACCOUNT',
+  LEGACY: 'FROM.LEGACY',
+  WATCH_ONLY: 'FROM.WATCH_ONLY',
+  EXTERNAL: 'FROM.EXTERNAL'
 }
 
 // fromLegacy :: String -> Object
@@ -77,12 +77,12 @@ export const fromAccount = (network, state, index, coin) => {
   const wallet = S.wallet.getWallet(state)
   let account = Wallet.getAccount(index, wallet).get()
 
-  let changeIndex = equals(coin, "BTC")
+  let changeIndex = equals(coin, 'BTC')
     ? S.data.bitcoin.getChangeIndex(account.xpub, state)
     : S.data.bch.getChangeIndex(account.xpub, state)
   let changeAddress = changeIndex
     .map(index => HDAccount.getChangeAddress(account, index, network))
-    .getOrFail("missing_change_address")
+    .getOrFail('missing_change_address')
 
   return {
     fromType: FROM.ACCOUNT,
@@ -118,8 +118,8 @@ export const fromPrivateKey = (network, wallet, key) => {
 // /////////////////////////////////////////////////////////////////////////////
 // To
 export const TO = {
-  ACCOUNT: "TO.ACCOUNT",
-  ADDRESS: "TO.ADDRESS"
+  ACCOUNT: 'TO.ACCOUNT',
+  ADDRESS: 'TO.ADDRESS'
 }
 
 // toOutputAddress :: String -> Object
@@ -139,11 +139,11 @@ export const toOutput = curry((coin, network, state, addressOrIndex) => {
   if (isPositiveInteger(addressOrIndex)) {
     let account = Wallet.getAccount(addressOrIndex, wallet).get() // throw if nothing
     let receiveIndexR =
-      coin === "BTC"
+      coin === 'BTC'
         ? S.data.bitcoin.getReceiveIndex(account.xpub, state)
         : S.data.bch.getReceiveIndex(account.xpub, state)
     let receiveIndex = receiveIndexR.getOrFail(
-      new Error("missing_receive_address")
+      new Error('missing_receive_address')
     )
     let address = HDAccount.getReceiveAddress(account, receiveIndex, network)
     return toOutputAccount(address, addressOrIndex, receiveIndex)
@@ -160,16 +160,16 @@ export const toCoin = curry((network, fromData, input) => {
       let path = input.xpub
         ? `${fromData.fromAccountIdx}${drop(1, input.xpub.path)}`
         : undefined
-      return Coin.fromJS(assoc("path", path, input), network)
+      return Coin.fromJS(assoc('path', path, input), network)
     case FROM.LEGACY:
       return Coin.fromJS(input, network)
     case FROM.WATCH_ONLY:
-      return Coin.fromJS(assoc("priv", fromData.wifKeys[0], input), network)
+      return Coin.fromJS(assoc('priv', fromData.wifKeys[0], input), network)
     case FROM.EXTERNAL:
       let coin = Coin.fromJS(input, network)
       let address = Coin.selectAddress(coin)
       return set(Coin.priv, fromData.wifKeys[address], coin)
     default:
-      throw new Error("fromType_not_recognized")
+      throw new Error('fromType_not_recognized')
   }
 })

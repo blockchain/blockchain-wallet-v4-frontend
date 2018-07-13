@@ -1,6 +1,6 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
 const Container = styled.div`
   display: flex;
@@ -14,7 +14,7 @@ const Bar = styled.div`
   display: flex;
   flex-grow: 1;
   height: 15px;
-  border: 1px solid ${props => props.theme["black"]};
+  border: 1px solid ${props => props.theme['black']};
   box-sizing: border-box;
   background-color: ${props => props.theme[props.color]};
 `
@@ -22,13 +22,13 @@ const Bar = styled.div`
 const selectColor = nbConfirmations => {
   switch (nbConfirmations) {
     case 1:
-      return "brand-yellow-lighter"
+      return 'brand-yellow-lighter'
     case 2:
-      return "brand-yellow"
+      return 'brand-yellow'
     case 3:
-      return "success"
+      return 'success'
     default:
-      return "white"
+      return 'white'
   }
 }
 

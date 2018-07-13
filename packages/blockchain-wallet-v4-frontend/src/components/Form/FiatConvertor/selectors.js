@@ -1,5 +1,5 @@
-import { selectors } from "data"
-import { lift } from "ramda"
+import { selectors } from 'data'
+import { lift } from 'ramda'
 
 export const getData = (state, ownProps) => {
   const currencyR = selectors.core.settings.getCurrency(state)

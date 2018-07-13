@@ -1,12 +1,12 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators, compose } from "redux"
-import { isNil, isEmpty } from "ramda"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import { isNil, isEmpty } from 'ramda'
 
-import * as C from "services/AlertService"
-import { actions } from "data"
-import modalEnhancer from "providers/ModalEnhancer"
-import MobileLogin from "./template.js"
+import * as C from 'services/AlertService'
+import { actions } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
+import MobileLogin from './template.js'
 
 class MobileLoginContainer extends React.PureComponent {
   constructor(props) {
@@ -45,7 +45,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer("MobileLogin"),
+  modalEnhancer('MobileLogin'),
   connect(
     undefined,
     mapDispatchToProps

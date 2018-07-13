@@ -1,13 +1,13 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
-import { calculateAnimation } from "./services"
-import Step1 from "./Step1"
-import Step2 from "./Step2"
-import Step3 from "./Step3"
-import Line from "./Line"
-import Error from "./Error"
+import { calculateAnimation } from './services'
+import Step1 from './Step1'
+import Step2 from './Step2'
+import Step3 from './Step3'
+import Line from './Line'
+import Error from './Error'
 
 const Wrapper = styled.div`
   position: relative;
@@ -43,7 +43,7 @@ const RowLine = styled.div`
 const ExchangeTimeline = props => {
   const { step1, line1, step2, line2, step3 } = calculateAnimation(props.status)
 
-  return props.status !== "failed" ? (
+  return props.status !== 'failed' ? (
     <Wrapper>
       <Row>
         <Step1 status={step1} />
@@ -66,16 +66,16 @@ const ExchangeTimeline = props => {
 
 ExchangeTimeline.propTypes = {
   status: PropTypes.oneOf([
-    "no_deposits",
-    "received",
-    "resolved",
-    "complete",
-    "failed"
+    'no_deposits',
+    'received',
+    'resolved',
+    'complete',
+    'failed'
   ])
 }
 
 ExchangeTimeline.defaultProps = {
-  status: "no_deposits"
+  status: 'no_deposits'
 }
 
 export default ExchangeTimeline

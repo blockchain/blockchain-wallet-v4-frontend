@@ -1,12 +1,12 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { connect } from "react-redux"
-import { bindActionCreators, compose } from "redux"
-import { formValueSelector } from "redux-form"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import { formValueSelector } from 'redux-form'
 
-import { actions } from "data"
-import modalEnhancer from "providers/ModalEnhancer"
-import MobileNumberVerify from "./template.js"
+import { actions } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
+import MobileNumberVerify from './template.js'
 
 class MobileNumberVerifyContainer extends React.PureComponent {
   constructor(props) {
@@ -27,7 +27,7 @@ class MobileNumberVerifyContainer extends React.PureComponent {
 
   handleChange() {
     this.props.modalActions.closeModal()
-    this.props.modalActions.showModal("MobileNumberChange")
+    this.props.modalActions.showModal('MobileNumberChange')
   }
 
   render() {
@@ -47,7 +47,7 @@ MobileNumberVerifyContainer.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  code: formValueSelector("mobileNumberVerify")(state, "code")
+  code: formValueSelector('mobileNumberVerify')(state, 'code')
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -56,7 +56,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer("MobileNumberVerify"),
+  modalEnhancer('MobileNumberVerify'),
   connect(
     mapStateToProps,
     mapDispatchToProps

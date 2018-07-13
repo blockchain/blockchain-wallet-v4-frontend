@@ -1,10 +1,10 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import FiatDisplay from "components/Display/FiatDisplay"
-import { LinkContainer } from "react-router-bootstrap"
-import { FormattedMessage } from "react-intl"
-import { Banner, Text } from "blockchain-info-components"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import FiatDisplay from 'components/Display/FiatDisplay'
+import { LinkContainer } from 'react-router-bootstrap'
+import { FormattedMessage } from 'react-intl'
+import { Banner, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: inline-flex;
@@ -12,11 +12,11 @@ const Wrapper = styled.div`
   align-items: center;
   padding-left: 5px;
   margin-bottom: 10px;
-  padding-right: ${props => (props.large ? "15px" : "25px")};
+  padding-right: ${props => (props.large ? '15px' : '25px')};
   > div:last-child {
     margin-left: 10px;
     > div {
-      color: ${props => props.theme["gray-3"]};
+      color: ${props => props.theme['gray-3']};
     }
   }
 `

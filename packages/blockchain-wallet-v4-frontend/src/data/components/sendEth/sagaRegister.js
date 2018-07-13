@@ -1,7 +1,7 @@
-import { takeLatest } from "redux-saga/effects"
-import * as AT from "./actionTypes"
-import { actionTypes } from "redux-form"
-import sagas from "./sagas"
+import { takeLatest } from 'redux-saga/effects'
+import * as AT from './actionTypes'
+import { actionTypes } from 'redux-form'
+import sagas from './sagas'
 
 export default ({ coreSagas }) => {
   const sendEthSagas = sagas({ coreSagas })

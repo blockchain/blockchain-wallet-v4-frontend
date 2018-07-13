@@ -1,10 +1,10 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import { formValueSelector } from "redux-form"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { formValueSelector } from 'redux-form'
 
-import { actions } from "data"
-import FirstStep from "./template"
+import { actions } from 'data'
+import FirstStep from './template'
 
 class FirstStepContainer extends React.PureComponent {
   render() {
@@ -24,7 +24,7 @@ class FirstStepContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  message: formValueSelector("signMessage")(state, "message")
+  message: formValueSelector('signMessage')(state, 'message')
 })
 
 const mapDispatchToProps = dispatch => ({

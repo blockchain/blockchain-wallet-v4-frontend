@@ -1,7 +1,7 @@
-import { call, put, select } from "redux-saga/effects"
-import { equals, prop } from "ramda"
-import * as actions from "../../actions"
-import * as selectors from "../../selectors"
+import { call, put, select } from 'redux-saga/effects'
+import { equals, prop } from 'ramda'
+import * as actions from '../../actions'
+import * as selectors from '../../selectors'
 
 export default () => {
   const refreshClicked = function*() {
@@ -14,27 +14,27 @@ export default () => {
       yield put(actions.core.data.ethereum.fetchRates())
       const pathname = yield select(selectors.router.getPathname)
       switch (pathname) {
-        case "/bch/transactions":
+        case '/bch/transactions':
           yield call(refreshBchTransactions)
           break
-        case "/btc/transactions":
+        case '/btc/transactions':
           yield call(refreshBtcTransactions)
           break
-        case "/eth/transactions":
+        case '/eth/transactions':
           yield call(refreshEthTransactions)
           break
-        case "/home": {
-          yield put(actions.core.data.bitcoin.fetchTransactions("", true))
+        case '/home': {
+          yield put(actions.core.data.bitcoin.fetchTransactions('', true))
           yield put(actions.core.data.ethereum.fetchTransactions(true))
-          yield put(actions.core.data.bch.fetchTransactions("", true))
+          yield put(actions.core.data.bch.fetchTransactions('', true))
         }
       }
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(
-          "components/refresh/sagas",
-          "refresh",
-          "Refresh failed."
+          'components/refresh/sagas',
+          'refresh',
+          'Refresh failed.'
         )
       )
     }
@@ -42,19 +42,19 @@ export default () => {
 
   const refreshBchTransactions = function*() {
     const formValues = yield select(
-      selectors.form.getFormValues("bchTransactions")
+      selectors.form.getFormValues('bchTransactions')
     )
-    const source = prop("source", formValues)
-    const onlyShow = equals(source, "all") ? "" : source.xpub || source.address
+    const source = prop('source', formValues)
+    const onlyShow = equals(source, 'all') ? '' : source.xpub || source.address
     yield put(actions.core.data.bch.fetchTransactions(onlyShow, true))
   }
 
   const refreshBtcTransactions = function*() {
     const formValues = yield select(
-      selectors.form.getFormValues("btcTransactions")
+      selectors.form.getFormValues('btcTransactions')
     )
-    const source = prop("source", formValues)
-    const onlyShow = equals(source, "all") ? "" : source.xpub || source.address
+    const source = prop('source', formValues)
+    const onlyShow = equals(source, 'all') ? '' : source.xpub || source.address
     yield put(actions.core.data.bitcoin.fetchTransactions(onlyShow, true))
   }
 

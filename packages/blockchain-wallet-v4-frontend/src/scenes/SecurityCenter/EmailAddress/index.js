@@ -1,14 +1,14 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators, compose } from "redux"
-import { actions } from "data"
-import ui from "redux-ui"
-import { formValueSelector } from "redux-form"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import { actions } from 'data'
+import ui from 'redux-ui'
+import { formValueSelector } from 'redux-form'
 
-import { getData } from "./selectors"
-import Error from "./template.error"
-import Loading from "./template.loading"
-import Success from "./template.success"
+import { getData } from './selectors'
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
 
 class EmailAddressContainer extends React.PureComponent {
   constructor(props) {
@@ -50,7 +50,7 @@ class EmailAddressContainer extends React.PureComponent {
   handleChangeEmailView() {
     const { email } = this.props.data.getOrElse({})
     this.props.updateUI({ changeEmailToggled: true })
-    this.props.formActions.change("securityEmailAddress", "changeEmail", email)
+    this.props.formActions.change('securityEmailAddress', 'changeEmail', email)
   }
 
   handleEmailChangeCancel() {
@@ -87,8 +87,8 @@ class EmailAddressContainer extends React.PureComponent {
 
 const mapStateToProps = state => ({
   data: getData(state),
-  code: formValueSelector("securityEmailAddress")(state, "emailCode"),
-  updatedEmail: formValueSelector("securityEmailAddress")(state, "changeEmail")
+  code: formValueSelector('securityEmailAddress')(state, 'emailCode'),
+  updatedEmail: formValueSelector('securityEmailAddress')(state, 'changeEmail')
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -106,7 +106,7 @@ const enhance = compose(
     mapDispatchToProps
   ),
   ui({
-    key: "Security_EmailAddress",
+    key: 'Security_EmailAddress',
     state: {
       updateToggled: false,
       verifyToggled: false,

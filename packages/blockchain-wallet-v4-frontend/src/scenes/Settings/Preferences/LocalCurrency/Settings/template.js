@@ -1,8 +1,8 @@
-import React from "react"
-import { Field, reduxForm } from "redux-form"
+import React from 'react'
+import { Field, reduxForm } from 'redux-form'
 
-import { SelectBoxCurrency } from "components/Form"
-import { SettingSelectBoxWrapper } from "components/Setting"
+import { SelectBoxCurrency } from 'components/Form'
+import { SettingSelectBoxWrapper } from 'components/Setting'
 
 const Settings = () => (
   <SettingSelectBoxWrapper>
@@ -10,4 +10,4 @@ const Settings = () => (
   </SettingSelectBoxWrapper>
 )
 
-export default reduxForm({ form: "settingCurrency" })(Settings)
+export default reduxForm({ form: 'settingCurrency' })(Settings)

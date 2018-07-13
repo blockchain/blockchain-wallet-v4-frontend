@@ -1,7 +1,7 @@
-import { connect } from "react-redux"
-import { selectors } from "data"
-import { Themes } from "blockchain-info-components"
-import { createDeepEqualSelector } from "services/ReselectHelper"
+import { connect } from 'react-redux'
+import { selectors } from 'data'
+import { Themes } from 'blockchain-info-components'
+import { createDeepEqualSelector } from 'services/ReselectHelper'
 
 const mapStateToProps = createDeepEqualSelector(
   [selectors.preferences.getTheme],

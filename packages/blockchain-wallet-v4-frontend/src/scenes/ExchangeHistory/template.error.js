@@ -1,7 +1,7 @@
-import React from "react"
-import styled from "styled-components"
+import React from 'react'
+import styled from 'styled-components'
 
-import { Text } from "blockchain-info-components"
+import { Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   position: relative;

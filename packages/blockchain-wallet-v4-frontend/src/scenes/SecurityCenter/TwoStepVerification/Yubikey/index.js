@@ -1,13 +1,13 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators, compose } from "redux"
-import ui from "redux-ui"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import ui from 'redux-ui'
 
-import { actions } from "data"
-import { getData } from "./selectors"
-import Success from "./template.success"
-import Error from "./template.error"
-import Loading from "./template.loading"
+import { actions } from 'data'
+import { getData } from './selectors'
+import Success from './template.success'
+import Error from './template.error'
+import Loading from './template.loading'
 
 class YubikeyContainer extends React.PureComponent {
   constructor(props) {
@@ -16,7 +16,7 @@ class YubikeyContainer extends React.PureComponent {
     this.onSubmit = this.onSubmit.bind(this)
     this.handleInput = this.handleInput.bind(this)
 
-    this.state = { yubikeyCode: "" }
+    this.state = { yubikeyCode: '' }
   }
 
   componentDidUpdate(prevProps) {
@@ -31,7 +31,7 @@ class YubikeyContainer extends React.PureComponent {
   }
 
   handleClick() {
-    this.props.modalActions.showModal("TwoStepSetup")
+    this.props.modalActions.showModal('TwoStepSetup')
   }
 
   onSubmit() {
@@ -84,7 +84,7 @@ const enhance = compose(
     mapDispatchToProps
   ),
   ui({
-    key: "Security_TwoFactor",
+    key: 'Security_TwoFactor',
     state: { updateToggled: false, successToggled: false }
   })
 )

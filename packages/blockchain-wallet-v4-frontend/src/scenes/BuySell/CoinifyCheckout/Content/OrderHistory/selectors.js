@@ -1,6 +1,6 @@
-import { selectors } from "data"
-import { lift } from "ramda"
-import { createDeepEqualSelector } from "services/ReselectHelper"
+import { selectors } from 'data'
+import { lift } from 'ramda'
+import { createDeepEqualSelector } from 'services/ReselectHelper'
 
 export const getTrade = state =>
   selectors.core.data.coinify.getTrade(state).getOrElse(null)

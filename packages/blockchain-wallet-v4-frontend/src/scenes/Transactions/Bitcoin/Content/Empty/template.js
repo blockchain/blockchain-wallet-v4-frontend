@@ -1,9 +1,9 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { Icon, IconButton, Separator, Text } from "blockchain-info-components"
-import BitcoinWelcome from "./BitcoinWelcome"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { Icon, IconButton, Separator, Text } from 'blockchain-info-components'
+import BitcoinWelcome from './BitcoinWelcome'
 
 const Wrapper = styled.div`
   display: flex;

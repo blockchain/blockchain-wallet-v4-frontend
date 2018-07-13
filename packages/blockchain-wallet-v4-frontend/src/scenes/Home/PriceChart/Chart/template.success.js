@@ -1,25 +1,25 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import ReactHighcharts from "react-highcharts"
-import { calculateStart, calculateInterval } from "services/ChartService"
-import { getConfig } from "./services"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import ReactHighcharts from 'react-highcharts'
+import { calculateStart, calculateInterval } from 'services/ChartService'
+import { getConfig } from './services'
 
 const Wrapper = styled.div`
   width: 100%;
   svg {
-    font-family: "Montserrat", Helvetica, sans-serif !important;
+    font-family: 'Montserrat', Helvetica, sans-serif !important;
     .highcharts-background {
-      fill: ${props => props.theme["white"]} !important;
+      fill: ${props => props.theme['white']} !important;
     }
     .highcharts-axis-labels {
       text {
-        fill: ${props => props.theme["gray-5"]} !important;
+        fill: ${props => props.theme['gray-5']} !important;
       }
     }
     .highcharts-series {
       path:first-child {
-        stroke: ${props => props.theme["brand-secondary"]} !important;
+        stroke: ${props => props.theme['brand-secondary']} !important;
       }
     }
   }

@@ -1,10 +1,10 @@
-import { call, put } from "redux-saga/effects"
-import * as actions from "../actions.js"
-import * as C from "services/AlertService"
-import { askSecondPasswordEnhancer, promptForInput } from "services/SagaService"
+import { call, put } from 'redux-saga/effects'
+import * as actions from '../actions.js'
+import * as C from 'services/AlertService'
+import { askSecondPasswordEnhancer, promptForInput } from 'services/SagaService'
 
 export default ({ coreSagas }) => {
-  const logLocation = "wallet/sagas"
+  const logLocation = 'wallet/sagas'
 
   const updatePbkdf2Iterations = function*(action) {
     const saga = askSecondPasswordEnhancer(
@@ -17,7 +17,7 @@ export default ({ coreSagas }) => {
       yield put(
         actions.logs.logErrorMessage(
           logLocation,
-          "updatePbkdf2Iterations",
+          'updatePbkdf2Iterations',
           error
         )
       )
@@ -39,7 +39,7 @@ export default ({ coreSagas }) => {
       }
     } catch (error) {
       yield put(
-        actions.logs.logErrorMessage(logLocation, "toggleSecondPassword", error)
+        actions.logs.logErrorMessage(logLocation, 'toggleSecondPassword', error)
       )
     }
   }
@@ -53,14 +53,14 @@ export default ({ coreSagas }) => {
     try {
       let { index, label } = action.payload
       let newLabel = yield call(promptForInput, {
-        title: "Rename Bitcoin Wallet",
+        title: 'Rename Bitcoin Wallet',
         initial: label
       })
       yield put(actions.core.wallet.setAccountLabel(index, newLabel))
       yield put(actions.alerts.displaySuccess(C.RENAME_BTC_WALLET_SUCCESS))
     } catch (error) {
       yield put(
-        actions.logs.logErrorMessage(logLocation, "editBtcAccountLabel", error)
+        actions.logs.logErrorMessage(logLocation, 'editBtcAccountLabel', error)
       )
     }
   }

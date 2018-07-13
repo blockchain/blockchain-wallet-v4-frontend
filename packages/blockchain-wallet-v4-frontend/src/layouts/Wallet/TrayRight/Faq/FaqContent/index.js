@@ -1,9 +1,9 @@
-import React from "react"
-import { FormattedMessage } from "react-intl"
-import { NavLink } from "react-router-dom"
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { NavLink } from 'react-router-dom'
 
-import styled from "styled-components"
-import { Link, Color } from "blockchain-info-components"
+import styled from 'styled-components'
+import { Link, Color } from 'blockchain-info-components'
 
 const FaqDescription = styled.div`
   & > * {
@@ -19,10 +19,10 @@ const FaqContent = [
         defaultMessage="Exchange Services (Coinify)"
       />
     ),
-    whitelist: ["coinify"],
+    whitelist: ['coinify'],
     groupQuestions: [
       {
-        answerId: "",
+        answerId: '',
         question: (
           <FormattedMessage
             id="scenes.faq.group.coinify.question1"
@@ -39,8 +39,8 @@ const FaqContent = [
             <NavLink
               to="/exchange"
               style={{
-                textDecoration: "none",
-                color: Color("brand-secondary")
+                textDecoration: 'none',
+                color: Color('brand-secondary')
               }}
             >
               <FormattedMessage
@@ -242,10 +242,10 @@ const FaqContent = [
         defaultMessage="Exchange Services (SFOX)"
       />
     ),
-    whitelist: ["sfox"],
+    whitelist: ['sfox'],
     groupQuestions: [
       {
-        answerId: "",
+        answerId: '',
         question: (
           <FormattedMessage
             id="scenes.faq.group.sfox.question1"
@@ -262,8 +262,8 @@ const FaqContent = [
             <NavLink
               to="/exchange"
               style={{
-                textDecoration: "none",
-                color: Color("brand-secondary")
+                textDecoration: 'none',
+                color: Color('brand-secondary')
               }}
             >
               <FormattedMessage
@@ -427,10 +427,10 @@ const FaqContent = [
         defaultMessage="Exchange Services"
       />
     ),
-    whitelist: ["n/a"],
+    whitelist: ['n/a'],
     groupQuestions: [
       {
-        answerId: "",
+        answerId: '',
         question: (
           <FormattedMessage
             id="scenes.faq.group.noexchange.question1"
@@ -817,8 +817,8 @@ const FaqContent = [
             <NavLink
               to="/security-center"
               style={{
-                textDecoration: "none",
-                color: Color("brand-secondary")
+                textDecoration: 'none',
+                color: Color('brand-secondary')
               }}
             >
               <FormattedMessage
@@ -864,8 +864,8 @@ const FaqContent = [
             <NavLink
               to="/security-center"
               style={{
-                textDecoration: "none",
-                color: Color("brand-secondary")
+                textDecoration: 'none',
+                color: Color('brand-secondary')
               }}
             >
               <span>&nbsp;</span>
@@ -899,8 +899,8 @@ const FaqContent = [
             <NavLink
               to="/security-center"
               style={{
-                textDecoration: "none",
-                color: Color("brand-secondary")
+                textDecoration: 'none',
+                color: Color('brand-secondary')
               }}
             >
               <FormattedMessage
@@ -917,8 +917,8 @@ const FaqContent = [
             <NavLink
               to="/settings/preferences"
               style={{
-                textDecoration: "none",
-                color: Color("brand-secondary")
+                textDecoration: 'none',
+                color: Color('brand-secondary')
               }}
             >
               <FormattedMessage
@@ -973,7 +973,7 @@ const FaqContent = [
     ),
     groupQuestions: [
       {
-        answerId: "",
+        answerId: '',
         question: (
           <FormattedMessage
             id="scenes.faq.group.educationalresources.question1"
@@ -1097,8 +1097,8 @@ const FaqContent = [
             <NavLink
               to="/security-center"
               style={{
-                textDecoration: "none",
-                color: Color("brand-secondary")
+                textDecoration: 'none',
+                color: Color('brand-secondary')
               }}
             >
               <FormattedMessage

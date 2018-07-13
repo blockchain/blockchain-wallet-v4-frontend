@@ -1,21 +1,21 @@
-import React from "react"
-import { isNil } from "ramda"
-import styled from "styled-components"
-import { Field } from "redux-form"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import { isNil } from 'ramda'
+import styled from 'styled-components'
+import { Field } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
 import {
   SelectBoxBitcoinAddresses,
   FormGroup,
   FormItem,
   TextBox
-} from "components/Form"
+} from 'components/Form'
 import {
   optional,
   validBitcoinAddress,
   validBitcoinPrivateKey
-} from "services/FormHelper"
-import { spacing } from "services/StyleService"
-import { Banner } from "blockchain-info-components"
+} from 'services/FormHelper'
+import { spacing } from 'services/StyleService'
+import { Banner } from 'blockchain-info-components'
 
 const Label = styled.label`
   font-size: 12px;
@@ -28,7 +28,7 @@ class ImportExternalBitcoinAddress extends React.PureComponent {
   render() {
     return (
       <div>
-        <div style={spacing("mb-15")}>
+        <div style={spacing('mb-15')}>
           <Banner type="alert">
             <FormattedMessage
               id="modals.importbtcaddress.importexternalbitcoinaddress.advanced.message"
@@ -52,7 +52,7 @@ class ImportExternalBitcoinAddress extends React.PureComponent {
           </FormItem>
         </FormGroup>
         <FormGroup>
-          <FormItem width={"100%"}>
+          <FormItem width={'100%'}>
             <Label for="private-key">
               <FormattedMessage
                 id="modals.importbtcaddress.importexternalbitcoinaddress.prvkey"
@@ -65,7 +65,7 @@ class ImportExternalBitcoinAddress extends React.PureComponent {
               component={TextBox}
             />
           </FormItem>
-          <FormItem style={spacing("mt-10")} width={"50%"}>
+          <FormItem style={spacing('mt-10')} width={'50%'}>
             <Label for="wallets">
               <FormattedMessage
                 id="modals.importbtcaddress.importexternalbitcoinaddress.transfer"

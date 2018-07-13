@@ -1,12 +1,12 @@
-import { Wrapper, serializer } from "./index"
+import { Wrapper, serializer } from './index'
 
-const wrapperFixture = require("./__mocks__/wrapper.v3")
+const wrapperFixture = require('./__mocks__/wrapper.v3')
 
-describe("Wrapper", () => {
+describe('Wrapper', () => {
   const myWrapper = Wrapper.fromJS(wrapperFixture)
 
-  describe("serializer", () => {
-    it("compose(replacer, reviver) should be identity", () => {
+  describe('serializer', () => {
+    it('compose(replacer, reviver) should be identity', () => {
       const string = JSON.stringify(myWrapper)
       const newWrapper = JSON.parse(string, serializer.reviver)
       const string2 = JSON.stringify(newWrapper)

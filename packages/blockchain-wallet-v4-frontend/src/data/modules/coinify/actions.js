@@ -1,4 +1,4 @@
-import * as AT from "./actionTypes"
+import * as AT from './actionTypes'
 
 export const coinifySignup = country => ({ type: AT.SIGNUP, payload: country })
 export const coinifySignupComplete = () => ({

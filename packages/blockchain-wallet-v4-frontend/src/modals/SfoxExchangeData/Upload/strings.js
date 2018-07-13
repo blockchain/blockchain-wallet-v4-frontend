@@ -1,15 +1,15 @@
-import React, { Fragment } from "react"
-import { FormattedMessage } from "react-intl"
-import { Text, Banner } from "blockchain-info-components"
-import { Info, PartnerSubHeader } from "components/BuySell/Signup"
-import { spacing } from "services/StyleService"
+import React, { Fragment } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Text, Banner } from 'blockchain-info-components'
+import { Info, PartnerSubHeader } from 'components/BuySell/Signup'
+import { spacing } from 'services/StyleService'
 
 const IdInfo = Info.extend`
   margin-bottom: 3px;
 `
 
 const TitleStrings = props =>
-  props.idType === "id" ? (
+  props.idType === 'id' ? (
     <Fragment>
       <PartnerSubHeader>
         <FormattedMessage
@@ -17,7 +17,7 @@ const TitleStrings = props =>
           defaultMessage="To further confirm your identity and ensure that you can trade at the maximum limit, we need a picture of your government issued ID. Make sure that your legal name and date of birth are clearly visible."
         />
       </PartnerSubHeader>
-      <Text weight={400} style={spacing("mt-15")}>
+      <Text weight={400} style={spacing('mt-15')}>
         <FormattedMessage
           id="sfoxexchangedata.upload.id.info"
           defaultMessage="1. Photo ID Verification"
@@ -41,7 +41,7 @@ const TitleStrings = props =>
           defaultMessage="- State or government-issued identification card"
         />
       </IdInfo>
-      <IdInfo style={spacing("mt-10 mb-10")}>
+      <IdInfo style={spacing('mt-10 mb-10')}>
         <Banner type="warning">
           <Text size="12px">
             <FormattedMessage
@@ -60,13 +60,13 @@ const TitleStrings = props =>
           defaultMessage="The document must be dated within the last 6 months, and should clearly display your address."
         />
       </PartnerSubHeader>
-      <Text weight={400} style={spacing("mt-15")}>
+      <Text weight={400} style={spacing('mt-15')}>
         <FormattedMessage
           id="sfoxexchangedata.upload.address.id"
           defaultMessage="2. Proof of Address Verification"
         />
       </Text>
-      <Text weight={300} size="14px" style={spacing("mt-15")}>
+      <Text weight={300} size="14px" style={spacing('mt-15')}>
         <FormattedMessage
           id="sfoxexchangedata.upload.address.info"
           defaultMessage="- Utility bill (mobile phone bills not accepted)"
@@ -90,7 +90,7 @@ const TitleStrings = props =>
           defaultMessage="- DMV or voter registration form"
         />
       </IdInfo>
-      <IdInfo style={spacing("mt-10 mb-10")}>
+      <IdInfo style={spacing('mt-10 mb-10')}>
         <Banner type="warning">
           <Text size="12px">
             <FormattedMessage

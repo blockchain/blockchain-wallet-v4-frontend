@@ -1,12 +1,12 @@
-import { is, curry, lensProp, pipe, compose, assoc, dissoc, prop } from "ramda"
-import { traverseOf, view, over, set } from "ramda-lens"
-import Either from "data.either"
-import Task from "data.task"
+import { is, curry, lensProp, pipe, compose, assoc, dissoc, prop } from 'ramda'
+import { traverseOf, view, over, set } from 'ramda-lens'
+import Either from 'data.either'
+import Task from 'data.task'
 
-import * as crypto from "../walletCrypto"
-import Type from "./Type"
-import * as Wallet from "./Wallet"
-import * as Options from "./Options"
+import * as crypto from '../walletCrypto'
+import Type from './Type'
+import * as Wallet from './Wallet'
+import * as Options from './Options'
 
 /* Wrapper :: {
   wallet             :: Wallet
@@ -26,16 +26,16 @@ export class Wrapper extends Type {}
 
 export const isWrapper = is(Wrapper)
 
-export const pbkdf2Iterations = Wrapper.define("pbkdf2_iterations")
-export const password = Wrapper.define("password")
-export const version = Wrapper.define("version")
-export const payloadChecksum = Wrapper.define("payload_checksum")
-export const language = Wrapper.define("language")
-export const syncPubKeys = Wrapper.define("sync_pubkeys")
-export const warChecksum = Wrapper.define("war_checksum")
-export const authType = Wrapper.define("auth_type")
-export const realAuthType = Wrapper.define("real_auth_type")
-export const wallet = Wrapper.define("wallet")
+export const pbkdf2Iterations = Wrapper.define('pbkdf2_iterations')
+export const password = Wrapper.define('password')
+export const version = Wrapper.define('version')
+export const payloadChecksum = Wrapper.define('payload_checksum')
+export const language = Wrapper.define('language')
+export const syncPubKeys = Wrapper.define('sync_pubkeys')
+export const warChecksum = Wrapper.define('war_checksum')
+export const authType = Wrapper.define('auth_type')
+export const realAuthType = Wrapper.define('real_auth_type')
+export const wallet = Wrapper.define('wallet')
 
 export const selectPbkdf2Iterations = view(pbkdf2Iterations)
 export const selectPassword = view(password)
@@ -77,27 +77,27 @@ export const reviver = jsObject => {
 
 // computeChecksum :: encJSON -> String
 export const computeChecksum = compose(
-  payload => crypto.sha256(payload).toString("hex"),
-  prop("payload")
+  payload => crypto.sha256(payload).toString('hex'),
+  prop('payload')
 )
 
 // fromEncJSON :: String -> JSON -> Task Error Wrapper
 export const fromEncJSON = curry((password, json) => {
-  let payloadL = lensProp("payload")
+  let payloadL = lensProp('payload')
   let payloadJsonE = Either.try(JSON.parse)(json.payload)
 
   // assocIterations :: Number -> Wrapper
   let assocIterations = wrapper =>
     payloadJsonE
       .map(payload =>
-        assoc("pbkdf2_iterations", payload.pbkdf2_iterations, wrapper)
+        assoc('pbkdf2_iterations', payload.pbkdf2_iterations, wrapper)
       )
       .getOrElse(wrapper)
 
   // assocVersion :: Wrapper -> Wrapper
   let assocVersion = wrapper =>
     payloadJsonE
-      .map(payload => assoc("version", payload.version, wrapper))
+      .map(payload => assoc('version', payload.version, wrapper))
       .getOrElse(wrapper)
 
   return traverseOf(
@@ -108,14 +108,14 @@ export const fromEncJSON = curry((password, json) => {
   )
     .map(assocVersion)
     .map(assocIterations)
-    .map(o => assoc("wallet", o.payload, o))
-    .map(dissoc("payload"))
-    .map(assoc("password", password))
-    .map(dissoc("extra_seed"))
-    .map(dissoc("symbol_btc"))
-    .map(dissoc("symbol_local"))
-    .map(dissoc("guid"))
-    .map(dissoc("initial_success"))
+    .map(o => assoc('wallet', o.payload, o))
+    .map(dissoc('payload'))
+    .map(assoc('password', password))
+    .map(dissoc('extra_seed'))
+    .map(dissoc('symbol_btc'))
+    .map(dissoc('symbol_local'))
+    .map(dissoc('guid'))
+    .map(dissoc('initial_success'))
     .map(fromJS)
 })
 
@@ -123,23 +123,23 @@ export const fromEncJSON = curry((password, json) => {
 // fromEncPayload :: String -> JSON -> Task Error Wrapper
 export const fromEncPayload = curry((password, payload) => {
   const temp = JSON.parse(payload)
-  const pbkdf2Iterations = prop("pbkdf2_iterations", temp)
-  const version = prop("version", temp)
+  const pbkdf2Iterations = prop('pbkdf2_iterations', temp)
+  const version = prop('version', temp)
   const wrapper = { password, payload, pbkdf2Iterations, version }
   return traverseOf(
-    lensProp("payload"),
+    lensProp('payload'),
     Task.of,
     Wallet.fromEncryptedPayload(password),
     wrapper
   )
-    .map(o => assoc("wallet", o.payload, o))
-    .map(dissoc("payload"))
+    .map(o => assoc('wallet', o.payload, o))
+    .map(dissoc('payload'))
     .map(fromJS)
 })
 
 // toEncJSON :: Wrapper -> Either Error JSON
 export const toEncJSON = wrapper => {
-  const plens = lensProp("payload")
+  const plens = lensProp('payload')
   const response = {
     guid: compose(
       Wallet.selectGuid,
@@ -157,10 +157,10 @@ export const toEncJSON = wrapper => {
     selectPassword(wrapper),
     selectPbkdf2Iterations(wrapper) || 5000
   )
-  const hash = x => crypto.sha256(x).toString("hex")
+  const hash = x => crypto.sha256(x).toString('hex')
   return traverseOf(plens, Task.of, encrypt, response)
-    .map(r => assoc("length", view(plens, r).length, r))
-    .map(r => assoc("checksum", hash(view(plens, r)), r))
+    .map(r => assoc('length', view(plens, r).length, r))
+    .map(r => assoc('checksum', hash(view(plens, r)), r))
 }
 
 export const js = (
@@ -175,12 +175,12 @@ export const js = (
   network
 ) => ({
   sync_pubkeys: false,
-  payload_checksum: "",
-  storage_token: "",
+  payload_checksum: '',
+  storage_token: '',
   version: 3,
   language: language,
   wallet: Wallet.js(guid, sharedKey, label, mnemonic, xpub, nAccounts, network),
-  war_checksum: "",
+  war_checksum: '',
   password: password,
   pbkdf2_iterations: 5000
 })
@@ -205,7 +205,7 @@ export const createNew = (
   sharedKey,
   mnemonic,
   language,
-  firstAccountName = "My Bitcoin Wallet",
+  firstAccountName = 'My Bitcoin Wallet',
   nAccounts = 1
 ) =>
   fromJS(
@@ -223,5 +223,5 @@ export const createNew = (
 
 export const createNewReadOnly = (
   xpub,
-  firstAccountName = "My read-only Wallet"
-) => fromJS(js("", "", "", firstAccountName, undefined, xpub, 1))
+  firstAccountName = 'My read-only Wallet'
+) => fromJS(js('', '', '', firstAccountName, undefined, xpub, 1))

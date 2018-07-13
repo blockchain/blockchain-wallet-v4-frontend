@@ -1,7 +1,7 @@
-import "isomorphic-fetch"
-import Promise from "es6-promise"
-import queryString from "query-string"
-import { isNil, merge } from "ramda"
+import 'isomorphic-fetch'
+import Promise from 'es6-promise'
+import queryString from 'query-string'
+import { isNil, merge } from 'ramda'
 
 Promise.polyfill()
 
@@ -12,12 +12,12 @@ const checkStatus = r =>
 // extractData :: Response -> Promise (JSON | BLOB | TEXT)
 const extractData = r => {
   const responseOfType = t =>
-    r.headers.get("content-type") &&
-    r.headers.get("content-type").indexOf(t) > -1
+    r.headers.get('content-type') &&
+    r.headers.get('content-type').indexOf(t) > -1
   switch (true) {
-    case responseOfType("application/json"):
+    case responseOfType('application/json'):
       return r.json()
-    case responseOfType("image/jpeg"):
+    case responseOfType('image/jpeg'):
       return r.blob()
     default:
       return r.text()
@@ -26,7 +26,7 @@ const extractData = r => {
 
 const encodeData = (contentType, data) => {
   switch (contentType) {
-    case "application/json":
+    case 'application/json':
       return JSON.stringify(data)
     default:
       return queryString.stringify(data)
@@ -42,9 +42,9 @@ export default ({ apiKey }) => {
     data,
     sessionToken,
     ignoreKey,
-    contentType = "application/x-www-form-urlencoded"
+    contentType = 'application/x-www-form-urlencoded'
   }) => {
-    const defaultHeaders = { "Content-Type": contentType }
+    const defaultHeaders = { 'Content-Type': contentType }
     const formEncodedData = encodeData(contentType, {
       ...data,
       api_code: apiKey,
@@ -55,21 +55,21 @@ export default ({ apiKey }) => {
       : merge({ Authorization: `Bearer ${sessionToken}` }, defaultHeaders)
 
     const finalOptions =
-      method === "GET"
+      method === 'GET'
         ? {
             method,
             headers: finalHeaders,
-            credentials: "omit"
+            credentials: 'omit'
           }
         : {
             method,
             headers: finalHeaders,
-            credentials: "omit",
+            credentials: 'omit',
             body: formEncodedData
           }
 
     const finalUrl =
-      method === "GET" && !ignoreKey
+      method === 'GET' && !ignoreKey
         ? `${url}${endPoint}?${formEncodedData}`
         : `${url}${endPoint}`
 
@@ -81,7 +81,7 @@ export default ({ apiKey }) => {
   // Get request
   const get = ({ url, endPoint, data, sessionToken, ignoreKey, contentType }) =>
     request({
-      method: "GET",
+      method: 'GET',
       url,
       endPoint,
       data,
@@ -92,7 +92,7 @@ export default ({ apiKey }) => {
 
   // Post request
   const post = ({ url, endPoint, data, sessionToken, contentType }) =>
-    request({ method: "POST", url, endPoint, data, sessionToken, contentType })
+    request({ method: 'POST', url, endPoint, data, sessionToken, contentType })
 
   return {
     get,

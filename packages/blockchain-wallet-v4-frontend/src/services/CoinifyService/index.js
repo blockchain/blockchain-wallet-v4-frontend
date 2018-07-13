@@ -1,7 +1,7 @@
-import React from "react"
-import { any, gt, slice, toUpper, equals, path, prop, toLower } from "ramda"
-import { FormattedMessage } from "react-intl"
-import * as Currency from "blockchain-wallet-v4/src/exchange/currency"
+import React from 'react'
+import { any, gt, slice, toUpper, equals, path, prop, toLower } from 'ramda'
+import { FormattedMessage } from 'react-intl'
+import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 
 export const getLimits = (profileLimits, curr, effectiveBalance) => {
   const limits = profileLimits || mockedLimits
@@ -18,12 +18,12 @@ export const getLimits = (profileLimits, curr, effectiveBalance) => {
     buy: {
       min: getMin(limits, curr),
       max: getMax(limits, curr),
-      bankMax: path(["bank", "inRemaining", curr], limits),
-      cardMax: path(["card", "inRemaining", curr], limits)
+      bankMax: path(['bank', 'inRemaining', curr], limits),
+      cardMax: path(['card', 'inRemaining', curr], limits)
     },
     sell: {
-      min: getSellMin(limits, "BTC"),
-      max: getSellMax(limits, "BTC"),
+      min: getSellMin(limits, 'BTC'),
+      max: getSellMax(limits, 'BTC'),
       effectiveMax: effectiveBalance
     }
   }
@@ -33,15 +33,15 @@ export const getLimitsError = (amt, userLimits, curr, type) => {
   const limits = getLimits(userLimits, curr)
   const { max, min } = prop(type, limits)
   switch (type) {
-    case "buy":
-      if (max < min) return "max_below_min"
-      if (amt > max) return "over_max"
-      if (amt < min) return "under_min"
+    case 'buy':
+      if (max < min) return 'max_below_min'
+      if (amt > max) return 'over_max'
+      if (amt < min) return 'under_min'
       break
-    case "sell":
-      if (max < min) return "max_below_min"
-      if (amt > max) return "over_max"
-      if (amt < min) return "under_min"
+    case 'sell':
+      if (max < min) return 'max_below_min'
+      if (amt > max) return 'over_max'
+      if (amt < min) return 'under_min'
       break
     default:
       return false
@@ -50,7 +50,7 @@ export const getLimitsError = (amt, userLimits, curr, type) => {
 
 export const isMinOverEffectiveMax = (userLimits, effectiveBalance, curr) => {
   const limits = getLimits(userLimits, curr)
-  const { min } = prop("sell", limits)
+  const { min } = prop('sell', limits)
   const minSatoshis = min * 1e8
   return gt(minSatoshis, effectiveBalance)
 }
@@ -62,20 +62,20 @@ export const getOverEffectiveMaxError = (
   effectiveBalance
 ) => {
   if (isMinOverEffectiveMax(userLimits, effectiveBalance, curr)) {
-    return "effective_max_under_min"
+    return 'effective_max_under_min'
   }
   if (gt(amount, effectiveBalance)) {
-    return "over_effective_max"
+    return 'over_effective_max'
   }
   return false
 }
 
 export const currencySymbolMap = {
-  GBP: "£",
-  USD: "$",
-  EUR: "€",
-  DKK: "kr. ",
-  BTC: "BTC "
+  GBP: '£',
+  USD: '$',
+  EUR: '€',
+  DKK: 'kr. ',
+  BTC: 'BTC '
 }
 
 export const mockedLimits = {
@@ -95,10 +95,10 @@ export const mockedLimits = {
 
 export const getRateFromQuote = q => {
   const fiat =
-    q.baseCurrency !== "BTC" ? Math.abs(q.quoteAmount) : Math.abs(q.baseAmount)
+    q.baseCurrency !== 'BTC' ? Math.abs(q.quoteAmount) : Math.abs(q.baseAmount)
   const crypto =
-    q.baseCurrency !== "BTC" ? Math.abs(q.baseAmount) : Math.abs(q.quoteAmount)
-  const curr = q.baseCurrency !== "BTC" ? q.baseCurrency : q.quoteCurrency
+    q.baseCurrency !== 'BTC' ? Math.abs(q.baseAmount) : Math.abs(q.quoteAmount)
+  const curr = q.baseCurrency !== 'BTC' ? q.baseCurrency : q.quoteCurrency
 
   const rate = +((1 / (fiat / 1e8)) * crypto)
   const displayRate = Currency.formatFiat(rate)
@@ -106,21 +106,21 @@ export const getRateFromQuote = q => {
 }
 
 export const reviewOrder = {
-  baseBtc: q => q.baseCurrency === "BTC",
+  baseBtc: q => q.baseCurrency === 'BTC',
   getMinerFee: (q, med) =>
-    path(["paymentMediums", med, "outFixedFees", "BTC"], q),
+    path(['paymentMediums', med, 'outFixedFees', 'BTC'], q),
   renderFirstRow: q =>
     reviewOrder.baseBtc(q)
       ? `${Math.abs(q.baseAmount) / 1e8} BTC`
       : `${Math.abs(q.quoteAmount) / 1e8} BTC`,
   renderMinerFeeRow: (q, medium, type) => {
-    const med = type === "sell" ? "bank" : medium
+    const med = type === 'sell' ? 'bank' : medium
     const minerFee = reviewOrder.getMinerFee(q, med)
     if (!minerFee) return `~`
     return minerFee
   },
   renderBtcToBeReceived: (q, medium, type) => {
-    const med = type === "sell" ? "bank" : medium
+    const med = type === 'sell' ? 'bank' : medium
     const minerFee = reviewOrder.getMinerFee(q, med)
     const quotedBtcAmount = reviewOrder.baseBtc(q)
       ? Math.abs(q.baseAmount) / 1e8
@@ -138,25 +138,25 @@ export const reviewOrder = {
           Math.abs(q.baseAmount)
         )}`,
   renderFeeRow: (q, medium, type) => {
-    const med = type === "sell" ? "bank" : medium
+    const med = type === 'sell' ? 'bank' : medium
     const fee =
-      path(["paymentMediums", med], q) && Math.abs(q.paymentMediums[med]["fee"])
-    if (!fee) return `~`
-    if (reviewOrder.baseBtc(q))
-      return `${currencySymbolMap[q.quoteCurrency]}${fee.toFixed(2)}`
-    else return `${currencySymbolMap[q.baseCurrency]}${fee.toFixed(2)}`
-  },
-  renderTotalRow: (q, medium, type) => {
-    const med = type === "sell" ? "bank" : medium
-    const qAmt = Math.abs(q.quoteAmount)
-    const fee =
-      path(["paymentMediums", med], q) && Math.abs(q.paymentMediums[med]["fee"])
-    const totalBase =
-      path(["paymentMediums", med], q) &&
-      Math.abs(q.paymentMediums[med]["total"])
+      path(['paymentMediums', med], q) && Math.abs(q.paymentMediums[med]['fee'])
     if (!fee) return `~`
     if (reviewOrder.baseBtc(q)) {
-      const quoteTotal = type === "sell" ? qAmt - fee : qAmt + fee
+      return `${currencySymbolMap[q.quoteCurrency]}${fee.toFixed(2)}`
+    } else return `${currencySymbolMap[q.baseCurrency]}${fee.toFixed(2)}`
+  },
+  renderTotalRow: (q, medium, type) => {
+    const med = type === 'sell' ? 'bank' : medium
+    const qAmt = Math.abs(q.quoteAmount)
+    const fee =
+      path(['paymentMediums', med], q) && Math.abs(q.paymentMediums[med]['fee'])
+    const totalBase =
+      path(['paymentMediums', med], q) &&
+      Math.abs(q.paymentMediums[med]['total'])
+    if (!fee) return `~`
+    if (reviewOrder.baseBtc(q)) {
+      const quoteTotal = type === 'sell' ? qAmt - fee : qAmt + fee
       return `${currencySymbolMap[q.quoteCurrency]}${Currency.formatFiat(
         quoteTotal
       )}`
@@ -171,7 +171,7 @@ export const reviewOrder = {
 export const tradeDetails = {
   renderDetails: trade => {
     const fiat =
-      trade.inCurrency !== "BTC" ? trade.inCurrency : trade.outCurrency
+      trade.inCurrency !== 'BTC' ? trade.inCurrency : trade.outCurrency
     const symbol = currencySymbolMap[fiat]
     if (trade.isBuy) {
       return {
@@ -194,12 +194,12 @@ export const tradeDetails = {
 export const getCountryCodeFromIban = iban => toUpper(slice(0, 2, iban))
 
 export const canCancelTrade = trade =>
-  equals(prop("state", trade), "awaiting_transfer_in")
+  equals(prop('state', trade), 'awaiting_transfer_in')
 
 export const checkoutButtonLimitsHelper = (quoteR, limits, type) => {
   return quoteR.map(q => {
-    const isBaseBtc = equals(prop("baseCurrency", q), "BTC")
-    if (type === "sell") {
+    const isBaseBtc = equals(prop('baseCurrency', q), 'BTC')
+    if (type === 'sell') {
       if (isBaseBtc) {
         return (
           Math.abs(q.baseAmount / 1e8) > limits.max ||
@@ -233,11 +233,11 @@ export const checkoutButtonLimitsHelper = (quoteR, limits, type) => {
 
 export const statusHelper = status => {
   switch (status) {
-    case "reviewing":
-    case "awaiting_transfer_in":
-    case "processing":
+    case 'reviewing':
+    case 'awaiting_transfer_in':
+    case 'processing':
       return {
-        color: "transferred",
+        color: 'transferred',
         text: (
           <FormattedMessage
             id="scenes.services.coinifyservice.buysellorderhistory.list.orderstatus.processing"
@@ -245,9 +245,9 @@ export const statusHelper = status => {
           />
         )
       }
-    case "completed":
+    case 'completed':
       return {
-        color: "success",
+        color: 'success',
         text: (
           <FormattedMessage
             id="scenes.services.coinifyservice.buysellorderhistory.list.orderstatus.completed"
@@ -255,9 +255,9 @@ export const statusHelper = status => {
           />
         )
       }
-    case "rejected":
+    case 'rejected':
       return {
-        color: "error",
+        color: 'error',
         text: (
           <FormattedMessage
             id="scenes.services.coinifyservice.buysellorderhistory.list.orderstatus.rejected"
@@ -265,9 +265,9 @@ export const statusHelper = status => {
           />
         )
       }
-    case "failed":
+    case 'failed':
       return {
-        color: "error",
+        color: 'error',
         text: (
           <FormattedMessage
             id="scenes.services.coinifyservice.buysellorderhistory.list.orderstatus.failed"
@@ -275,9 +275,9 @@ export const statusHelper = status => {
           />
         )
       }
-    case "cancelled":
+    case 'cancelled':
       return {
-        color: "error",
+        color: 'error',
         text: (
           <FormattedMessage
             id="scenes.services.coinifyservice.buysellorderhistory.list.orderstatus.cancelled"
@@ -285,9 +285,9 @@ export const statusHelper = status => {
           />
         )
       }
-    case "expired":
+    case 'expired':
       return {
-        color: "error",
+        color: 'error',
         text: (
           <FormattedMessage
             id="scenes.services.coinifyservice.buysellorderhistory.list.orderstatus.expired"
@@ -297,7 +297,7 @@ export const statusHelper = status => {
       }
     default:
       return {
-        color: "gray-5",
+        color: 'gray-5',
         text: (
           <FormattedMessage
             id="scenes.services.coinifyservice.buysellorderhistory.list.orderstatus.unknown"
@@ -311,9 +311,9 @@ export const statusHelper = status => {
 export const bodyStatusHelper = (status, isBuy) => {
   if (isBuy) {
     switch (status) {
-      case "reviewing":
-      case "awaiting_transfer_in":
-      case "processing":
+      case 'reviewing':
+      case 'awaiting_transfer_in':
+      case 'processing':
         return {
           text: (
             <FormattedMessage
@@ -322,7 +322,7 @@ export const bodyStatusHelper = (status, isBuy) => {
             />
           )
         }
-      case "completed":
+      case 'completed':
         return {
           text: (
             <FormattedMessage
@@ -331,7 +331,7 @@ export const bodyStatusHelper = (status, isBuy) => {
             />
           )
         }
-      case "rejected":
+      case 'rejected':
         return {
           text: (
             <FormattedMessage
@@ -340,10 +340,10 @@ export const bodyStatusHelper = (status, isBuy) => {
             />
           )
         }
-      case "expired":
-      case "failed":
-      case "cancelled":
-        return { text: "" }
+      case 'expired':
+      case 'failed':
+      case 'cancelled':
+        return { text: '' }
       default:
         return {
           text: (
@@ -356,8 +356,8 @@ export const bodyStatusHelper = (status, isBuy) => {
     }
   } else {
     switch (status) {
-      case "awaiting_transfer_in":
-      case "processing":
+      case 'awaiting_transfer_in':
+      case 'processing':
         return {
           text: (
             <FormattedMessage
@@ -366,7 +366,7 @@ export const bodyStatusHelper = (status, isBuy) => {
             />
           )
         }
-      case "completed":
+      case 'completed':
         return {
           text: (
             <FormattedMessage
@@ -375,7 +375,7 @@ export const bodyStatusHelper = (status, isBuy) => {
             />
           )
         }
-      case "rejected":
+      case 'rejected':
         return {
           text: (
             <FormattedMessage
@@ -384,10 +384,10 @@ export const bodyStatusHelper = (status, isBuy) => {
             />
           )
         }
-      case "failed":
-      case "expired":
-      case "cancelled":
-        return { text: "" }
+      case 'failed':
+      case 'expired':
+      case 'cancelled':
+        return { text: '' }
       default:
         return {
           text: (
@@ -403,8 +403,8 @@ export const bodyStatusHelper = (status, isBuy) => {
 
 export const kycBodyHelper = status => {
   switch (status) {
-    case "reviewing":
-    case "processing":
+    case 'reviewing':
+    case 'processing':
       return {
         text: (
           <FormattedMessage
@@ -413,7 +413,7 @@ export const kycBodyHelper = status => {
           />
         )
       }
-    case "pending":
+    case 'pending':
       return {
         text: (
           <FormattedMessage
@@ -422,7 +422,7 @@ export const kycBodyHelper = status => {
           />
         )
       }
-    case "completed":
+    case 'completed':
       return {
         text: (
           <FormattedMessage
@@ -431,7 +431,7 @@ export const kycBodyHelper = status => {
           />
         )
       }
-    case "rejected":
+    case 'rejected':
       return {
         text: (
           <FormattedMessage
@@ -440,7 +440,7 @@ export const kycBodyHelper = status => {
           />
         )
       }
-    case "failed":
+    case 'failed':
       return {
         text: (
           <FormattedMessage
@@ -449,7 +449,7 @@ export const kycBodyHelper = status => {
           />
         )
       }
-    case "cancelled":
+    case 'cancelled':
       return {
         text: (
           <FormattedMessage
@@ -472,9 +472,9 @@ export const kycBodyHelper = status => {
 
 export const kycHeaderHelper = status => {
   switch (status) {
-    case "processing":
+    case 'processing':
       return {
-        color: "transferred",
+        color: 'transferred',
         text: (
           <FormattedMessage
             id="scenes.coinify_details_modal.kyc.header.processing"
@@ -482,9 +482,9 @@ export const kycHeaderHelper = status => {
           />
         )
       }
-    case "reviewing":
+    case 'reviewing':
       return {
-        color: "transferred",
+        color: 'transferred',
         text: (
           <FormattedMessage
             id="scenes.coinify_details_modal.kyc.header.reviewing"
@@ -492,9 +492,9 @@ export const kycHeaderHelper = status => {
           />
         )
       }
-    case "pending":
+    case 'pending':
       return {
-        color: "transferred",
+        color: 'transferred',
         text: (
           <FormattedMessage
             id="scenes.coinify_details_modal.kyc.header.pending"
@@ -502,9 +502,9 @@ export const kycHeaderHelper = status => {
           />
         )
       }
-    case "completed":
+    case 'completed':
       return {
-        color: "success",
+        color: 'success',
         text: (
           <FormattedMessage
             id="scenes.coinify_details_modal.kyc.header.completed"
@@ -512,9 +512,9 @@ export const kycHeaderHelper = status => {
           />
         )
       }
-    case "rejected":
+    case 'rejected':
       return {
-        color: "error",
+        color: 'error',
         text: (
           <FormattedMessage
             id="scenes.coinify_details_modal.kyc.header.rejected"
@@ -522,9 +522,9 @@ export const kycHeaderHelper = status => {
           />
         )
       }
-    case "failed":
+    case 'failed':
       return {
-        color: "error",
+        color: 'error',
         text: (
           <FormattedMessage
             id="scenes.coinify_details_modal.kyc.header.failed"
@@ -532,9 +532,9 @@ export const kycHeaderHelper = status => {
           />
         )
       }
-    case "cancelled":
+    case 'cancelled':
       return {
-        color: "error",
+        color: 'error',
         text: (
           <FormattedMessage
             id="scenes.coinify_details_modal.kyc.header.cancelled"
@@ -542,9 +542,9 @@ export const kycHeaderHelper = status => {
           />
         )
       }
-    case "expired":
+    case 'expired':
       return {
-        color: "error",
+        color: 'error',
         text: (
           <FormattedMessage
             id="scenes.coinify_details_modal.kyc.header.expired"
@@ -554,7 +554,7 @@ export const kycHeaderHelper = status => {
       }
     default:
       return {
-        color: "",
+        color: '',
         text: (
           <FormattedMessage
             id="scenes.coinify_details_modal.kyc.header.unknown"
@@ -567,8 +567,8 @@ export const kycHeaderHelper = status => {
 
 export const kycNotificationBodyHelper = status => {
   switch (status) {
-    case "reviewing":
-    case "processing":
+    case 'reviewing':
+    case 'processing':
       return {
         text: (
           <FormattedMessage
@@ -577,7 +577,7 @@ export const kycNotificationBodyHelper = status => {
           />
         )
       }
-    case "pending":
+    case 'pending':
       return {
         text: (
           <FormattedMessage
@@ -586,7 +586,7 @@ export const kycNotificationBodyHelper = status => {
           />
         )
       }
-    case "completed":
+    case 'completed':
       return {
         text: (
           <FormattedMessage
@@ -595,7 +595,7 @@ export const kycNotificationBodyHelper = status => {
           />
         )
       }
-    case "rejected":
+    case 'rejected':
       return {
         text: (
           <FormattedMessage
@@ -604,7 +604,7 @@ export const kycNotificationBodyHelper = status => {
           />
         )
       }
-    case "failed":
+    case 'failed':
       return {
         text: (
           <FormattedMessage
@@ -613,7 +613,7 @@ export const kycNotificationBodyHelper = status => {
           />
         )
       }
-    case "cancelled":
+    case 'cancelled':
       return {
         text: (
           <FormattedMessage
@@ -622,7 +622,7 @@ export const kycNotificationBodyHelper = status => {
           />
         )
       }
-    case "expired":
+    case 'expired':
       return {
         text: (
           <FormattedMessage
@@ -633,7 +633,7 @@ export const kycNotificationBodyHelper = status => {
       }
     default:
       return {
-        color: "",
+        color: '',
         text: (
           <FormattedMessage
             id="scenes.coinify_details_modal.kyc.header.unknown"
@@ -646,9 +646,9 @@ export const kycNotificationBodyHelper = status => {
 
 export const kycNotificationButtonHelper = status => {
   switch (status) {
-    case "pending":
+    case 'pending':
       return {
-        color: "transferred",
+        color: 'transferred',
         text: (
           <FormattedMessage
             id="scenes.buy_sell.kyc_notification.complete"
@@ -656,10 +656,10 @@ export const kycNotificationButtonHelper = status => {
           />
         )
       }
-    case "expired":
-    case "rejected":
+    case 'expired':
+    case 'rejected':
       return {
-        color: "error",
+        color: 'error',
         text: (
           <FormattedMessage
             id="scenes.buy_sell.kyc_notification.tryagain"
@@ -669,7 +669,7 @@ export const kycNotificationButtonHelper = status => {
       }
     default:
       return {
-        color: "",
+        color: '',
         text: (
           <FormattedMessage
             id="scenes.coinify_details_modal.kyc.header.unknown"
@@ -681,7 +681,7 @@ export const kycNotificationButtonHelper = status => {
 }
 
 export const showKycStatus = state =>
-  any(equals(state), ["pending", "rejected"]) ? state : false
+  any(equals(state), ['pending', 'rejected']) ? state : false
 
 export const getReasonExplanation = (reason, time) => {
   const ONE_DAY_MS = 86400000
@@ -691,14 +691,14 @@ export const getReasonExplanation = (reason, time) => {
     : `${Math.ceil((canTradeAfter - Date.now()) / ONE_DAY_MS)} days`
 
   switch (reason) {
-    case "awaiting_first_trade_completion":
+    case 'awaiting_first_trade_completion':
       return (
         <FormattedMessage
           id="scenes.coinify.cannottradereason.firsttradecompletion"
           defaultMessage="Trading is disabled because your first trade has not completed yet."
         />
       )
-    case "after_first_trade":
+    case 'after_first_trade':
       return (
         <FormattedMessage
           id="scenes.coinify.cannottradereason.afterfirsttrade"
@@ -718,38 +718,38 @@ export const getReasonExplanation = (reason, time) => {
 
 export const recurringTimeHelper = sub => {
   const human = {
-    1: "st",
-    2: "nd",
-    3: "rd",
-    21: "st",
-    22: "nd",
-    23: "rd",
-    31: "st"
+    1: 'st',
+    2: 'nd',
+    3: 'rd',
+    21: 'st',
+    22: 'nd',
+    23: 'rd',
+    31: 'st'
   }
   const days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday"
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday'
   ]
 
   const getTimespan = sub => {
-    const freq = toLower(prop("frequency", sub))
+    const freq = toLower(prop('frequency', sub))
     const date = new Date()
 
     switch (freq) {
-      case "hourly":
-        return "hour"
-      case "daily":
-        return "24 hours"
-      case "weekly":
+      case 'hourly':
+        return 'hour'
+      case 'daily':
+        return '24 hours'
+      case 'weekly':
         return `${days[date.getDay()]}`
-      case "monthly":
+      case 'monthly':
         return `${date.getDate() +
-          (human[date.getDate()] || "th")} of the month`
+          (human[date.getDate()] || 'th')} of the month`
     }
   }
   return getTimespan(sub)
@@ -757,6 +757,6 @@ export const recurringTimeHelper = sub => {
 
 export const recurringFee = trade =>
   `${Currency.formatFiat(trade.sendAmount / 100 - trade.inAmount / 100)} ${prop(
-    "inCurrency",
+    'inCurrency',
     trade
   )}`

@@ -1,9 +1,9 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import { actions, selectors } from "data"
-import EtherWelcome from "./template.js"
+import { actions, selectors } from 'data'
+import EtherWelcome from './template.js'
 
 class EtherWelcomeContainer extends React.PureComponent {
   constructor(props) {
@@ -17,7 +17,7 @@ class EtherWelcomeContainer extends React.PureComponent {
   }
 
   handleRequest() {
-    this.props.modalActions.showModal("RequestEther")
+    this.props.modalActions.showModal('RequestEther')
   }
 
   render() {

@@ -11,9 +11,9 @@ import {
   path,
   prop,
   sequence
-} from "ramda"
-import { Remote } from "blockchain-wallet-v4/src"
-import { selectors } from "data"
+} from 'ramda'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { selectors } from 'data'
 
 export const getData = (state, ownProps) => {
   const { coin, exclude = [], excludeImported, excludeWatchOnly } = ownProps
@@ -24,16 +24,16 @@ export const getData = (state, ownProps) => {
   const formatAddress = addressData => {
     const formattedAddress = {}
     return compose(
-      a => assoc("text", prop("addr", addressData), a),
+      a => assoc('text', prop('addr', addressData), a),
       a =>
         assocPath(
-          ["value", "balance"],
-          path(["info", "final_balance"], addressData),
+          ['value', 'balance'],
+          path(['info', 'final_balance'], addressData),
           a
         ),
-      a => assocPath(["value", "coin"], coin, a),
-      a => assocPath(["value", "address"], prop("addr", addressData), a),
-      a => assoc("value", prop("info", addressData), a)
+      a => assocPath(['value', 'coin'], coin, a),
+      a => assocPath(['value', 'address'], prop('addr', addressData), a),
+      a => assoc('value', prop('info', addressData), a)
     )(formattedAddress)
   }
 
@@ -43,13 +43,13 @@ export const getData = (state, ownProps) => {
 
   const getAddressesData = () => {
     switch (coin) {
-      case "BCH":
+      case 'BCH':
         const importedAddresses = selectors.core.common.bch.getActiveAddresses(
           state
         )
         const filterRelevantAddresses = addrs =>
           excludeWatchOnly
-            ? filter(addr => not(isNil(prop("priv", addr))), addrs)
+            ? filter(addr => not(isNil(prop('priv', addr))), addrs)
             : addrs
         const relevantAddresses = lift(filterRelevantAddresses)(
           importedAddresses

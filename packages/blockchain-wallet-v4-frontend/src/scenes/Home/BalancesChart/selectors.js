@@ -1,8 +1,8 @@
-import { selectors } from "data"
-import { add, lift, reduce } from "ramda"
-import { Exchange, Remote } from "blockchain-wallet-v4/src"
-import { Color } from "blockchain-info-components"
-import { createDeepEqualSelector } from "services/ReselectHelper"
+import { selectors } from 'data'
+import { add, lift, reduce } from 'ramda'
+import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { Color } from 'blockchain-info-components'
+import { createDeepEqualSelector } from 'services/ReselectHelper'
 
 export const getBtcBalance = state =>
   createDeepEqualSelector(
@@ -45,7 +45,7 @@ export const getBtcBalanceInfo = createDeepEqualSelector(
       coin: btcBalance,
       fiat: Exchange.convertBitcoinToFiat({
         value: btcBalance,
-        fromUnit: "SAT",
+        fromUnit: 'SAT',
         toCurrency: currency,
         rates: btcRates
       })
@@ -65,7 +65,7 @@ export const getBchBalanceInfo = createDeepEqualSelector(
       coin: bchBalance,
       fiat: Exchange.convertBchToFiat({
         value: bchBalance,
-        fromUnit: "SAT",
+        fromUnit: 'SAT',
         toCurrency: currency,
         rates: bchRates
       })
@@ -85,7 +85,7 @@ export const getEthBalanceInfo = createDeepEqualSelector(
       coin: ethBalance,
       fiat: Exchange.convertEtherToFiat({
         value: ethBalance,
-        fromUnit: "WEI",
+        fromUnit: 'WEI',
         toCurrency: currency,
         rates: ethRates
       })
@@ -106,24 +106,24 @@ export const getData = createDeepEqualSelector(
       const chartData = [
         {
           y: Number(btcBalances.fiat.value),
-          color: Color("brand-primary"),
+          color: Color('brand-primary'),
           fiat: btcBalances.fiat.value,
-          name: "Bitcoin",
-          id: "btc"
+          name: 'Bitcoin',
+          id: 'btc'
         },
         {
           y: Number(ethBalances.fiat.value),
-          color: Color("brand-secondary"),
+          color: Color('brand-secondary'),
           fiat: ethBalances.fiat.value,
-          name: "Ether",
-          id: "eth"
+          name: 'Ether',
+          id: 'eth'
         },
         {
           y: Number(bchBalances.fiat.value),
-          color: Color("brand-tertiary"),
+          color: Color('brand-tertiary'),
           fiat: bchBalances.fiat.value,
-          name: "Bitcoin Cash",
-          id: "bch"
+          name: 'Bitcoin Cash',
+          id: 'bch'
         }
       ]
 

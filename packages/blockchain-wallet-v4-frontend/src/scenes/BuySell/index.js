@@ -1,20 +1,20 @@
-import React from "react"
-import styled from "styled-components"
-import { connect } from "react-redux"
-import { bindActionCreators, compose } from "redux"
-import { Field, reduxForm } from "redux-form"
-import ui from "redux-ui"
-import { path, prop } from "ramda"
+import React from 'react'
+import styled from 'styled-components'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import { Field, reduxForm } from 'redux-form'
+import ui from 'redux-ui'
+import { path, prop } from 'ramda'
 
-import { actions } from "data"
-import { TabMenuBuySellStatus } from "components/Form"
-import HorizontalMenu from "components/HorizontalMenu"
-import Loading from "components/BuySell/Loading"
-import { hasAccount } from "services/ExchangeService"
-import SfoxCheckout from "./SfoxCheckout"
-import CoinifyCheckout from "./CoinifyCheckout"
-import { getData, getFields } from "./selectors"
-import SelectPartner from "./template.success"
+import { actions } from 'data'
+import { TabMenuBuySellStatus } from 'components/Form'
+import HorizontalMenu from 'components/HorizontalMenu'
+import Loading from 'components/BuySell/Loading'
+import { hasAccount } from 'services/ExchangeService'
+import SfoxCheckout from './SfoxCheckout'
+import CoinifyCheckout from './CoinifyCheckout'
+import { getData, getFields } from './selectors'
+import SelectPartner from './template.success'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -27,8 +27,8 @@ const CheckoutWrapper = styled.div`
   padding: 30px 30px;
   box-sizing: border-box;
   height: calc(100% - 56px);
-  color: ${props => props.theme["gray-5"]};
-  font-family: "Montserrat", Helvetica, sans-serif;
+  color: ${props => props.theme['gray-5']};
+  font-family: 'Montserrat', Helvetica, sans-serif;
   flex-direction: row;
   display: flex;
   @media (min-height: 800px) {
@@ -38,7 +38,7 @@ const CheckoutWrapper = styled.div`
     padding: 20px;
   }
 `
-const Menu = reduxForm({ form: "buySellTabStatus" })(HorizontalMenu)
+const Menu = reduxForm({ form: 'buySellTabStatus' })(HorizontalMenu)
 
 class BuySellContainer extends React.PureComponent {
   constructor(props) {
@@ -48,11 +48,11 @@ class BuySellContainer extends React.PureComponent {
   }
 
   componentDidMount() {
-    this.props.formActions.initialize("buySellTabStatus", { status: "buy" })
+    this.props.formActions.initialize('buySellTabStatus', { status: 'buy' })
     this.props.data.map(data =>
       this.props.formActions.change(
-        "selectPartner",
-        "country",
+        'selectPartner',
+        'country',
         data.countryCode
       )
     )
@@ -65,27 +65,27 @@ class BuySellContainer extends React.PureComponent {
    */
 
   selectPartner(buySell, options, type) {
-    if (path(["sfox", "account_token"], buySell)) {
+    if (path(['sfox', 'account_token'], buySell)) {
       return {
         component: (
           <SfoxCheckout type={type} options={options} value={buySell} />
         ),
-        partner: "sfox"
+        partner: 'sfox'
       }
     }
-    if (path(["unocoin", "token"], buySell)) {
+    if (path(['unocoin', 'token'], buySell)) {
       // TODO replace token
       return {
         component: <span>Unocoin</span>,
-        partner: ""
+        partner: ''
       }
     }
-    if (path(["coinify", "offline_token"], buySell)) {
+    if (path(['coinify', 'offline_token'], buySell)) {
       return {
         component: (
           <CoinifyCheckout type={type} options={options} value={buySell} />
         ),
-        partner: "coinify"
+        partner: 'coinify'
       }
     }
     return {
@@ -99,26 +99,26 @@ class BuySellContainer extends React.PureComponent {
           {...this.props}
         />
       ),
-      partner: ""
+      partner: ''
     }
   }
 
   submitEmail() {
     this.props.updateUI({ submittedEmail: true })
-    let email = encodeURIComponent(path(["fields", "email"], this.props))
-    let country = path(["fields", "country"], this.props)
+    let email = encodeURIComponent(path(['fields', 'email'], this.props))
+    let country = path(['fields', 'country'], this.props)
     let state =
-      path(["fields", "country"], this.props) === "US"
-        ? path(["fields", "stateSelection", "name"], this.props)
+      path(['fields', 'country'], this.props) === 'US'
+        ? path(['fields', 'stateSelection', 'name'], this.props)
         : undefined
     let url =
-      "https://docs.google.com/forms/d/e/1FAIpQLSeYiTe7YsqEIvaQ-P1NScFLCSPlxRh24zv06FFpNcxY_Hs0Ow/viewform?entry.1192956638=" +
+      'https://docs.google.com/forms/d/e/1FAIpQLSeYiTe7YsqEIvaQ-P1NScFLCSPlxRh24zv06FFpNcxY_Hs0Ow/viewform?entry.1192956638=' +
       email +
-      "&entry.644018680=" +
+      '&entry.644018680=' +
       country +
-      "&entry.387129390=" +
+      '&entry.387129390=' +
       state
-    window.open(url, "_blank")
+    window.open(url, '_blank')
   }
 
   render() {
@@ -127,9 +127,9 @@ class BuySellContainer extends React.PureComponent {
     const view = data.cata({
       Success: value =>
         this.selectPartner(
-          path(["buySell", "value"], value),
+          path(['buySell', 'value'], value),
           value.options,
-          path(["type"], fields),
+          path(['type'], fields),
           fields
         ),
       Failure: message => <div>failure: {message}</div>,
@@ -139,16 +139,16 @@ class BuySellContainer extends React.PureComponent {
 
     return (
       <Wrapper>
-        {hasAccount(path(["component", "props", "value"], view)) ? (
+        {hasAccount(path(['component', 'props', 'value'], view)) ? (
           <Menu>
             <Field
               name="status"
               component={TabMenuBuySellStatus}
-              partner={prop("partner", view)}
+              partner={prop('partner', view)}
             />
           </Menu>
         ) : null}
-        <CheckoutWrapper>{prop("component", view)}</CheckoutWrapper>
+        <CheckoutWrapper>{prop('component', view)}</CheckoutWrapper>
       </Wrapper>
     )
   }

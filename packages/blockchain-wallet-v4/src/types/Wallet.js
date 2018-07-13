@@ -1,11 +1,11 @@
-import Bigi from "bigi"
-import Base58 from "bs58"
-import Either from "data.either"
-import Task from "data.task"
-import Maybe from "data.maybe"
-import Bitcoin from "bitcoinjs-lib"
-import memoize from "fast-memoize"
-import BIP39 from "bip39"
+import Bigi from 'bigi'
+import Base58 from 'bs58'
+import Either from 'data.either'
+import Task from 'data.task'
+import Maybe from 'data.maybe'
+import Bitcoin from 'bitcoinjs-lib'
+import memoize from 'fast-memoize'
+import BIP39 from 'bip39'
 import {
   compose,
   curry,
@@ -17,22 +17,22 @@ import {
   split,
   isNil,
   flip
-} from "ramda"
-import { traversed, traverseOf, over, view, set } from "ramda-lens"
-import * as crypto from "../walletCrypto"
-import { shift, shiftIProp } from "./util"
-import Type from "./Type"
-import * as HDWallet from "./HDWallet"
-import * as HDAccount from "./HDAccount"
-import * as Address from "./Address"
-import * as AddressMap from "./AddressMap"
-import * as AddressLabelMap from "./AddressLabelMap"
-import * as HDWalletList from "./HDWalletList"
-import * as HDAccountList from "./HDAccountList"
-import * as AddressBook from "./AddressBook"
-import * as TXNames from "./TXNames"
-import * as TXNotes from "./TXNotes"
-import * as Options from "./Options"
+} from 'ramda'
+import { traversed, traverseOf, over, view, set } from 'ramda-lens'
+import * as crypto from '../walletCrypto'
+import { shift, shiftIProp } from './util'
+import Type from './Type'
+import * as HDWallet from './HDWallet'
+import * as HDAccount from './HDAccount'
+import * as Address from './Address'
+import * as AddressMap from './AddressMap'
+import * as AddressLabelMap from './AddressLabelMap'
+import * as HDWalletList from './HDWalletList'
+import * as HDAccountList from './HDAccountList'
+import * as AddressBook from './AddressBook'
+import * as TXNames from './TXNames'
+import * as TXNotes from './TXNotes'
+import * as Options from './Options'
 
 /* Wallet :: {
   guid :: String
@@ -51,17 +51,17 @@ export class Wallet extends Type {}
 
 export const isWallet = is(Wallet)
 
-export const guid = Wallet.define("guid")
-export const sharedKey = Wallet.define("sharedKey")
-export const doubleEncryption = Wallet.define("double_encryption")
-export const metadataHDNode = Wallet.define("metadataHDNode")
-export const options = Wallet.define("options")
-export const addresses = Wallet.define("addresses")
-export const dpasswordhash = Wallet.define("dpasswordhash")
-export const hdWallets = Wallet.define("hd_wallets")
-export const txNotes = Wallet.define("tx_notes")
-export const txNames = Wallet.define("tx_names")
-export const addressBook = Wallet.define("address_book")
+export const guid = Wallet.define('guid')
+export const sharedKey = Wallet.define('sharedKey')
+export const doubleEncryption = Wallet.define('double_encryption')
+export const metadataHDNode = Wallet.define('metadataHDNode')
+export const options = Wallet.define('options')
+export const addresses = Wallet.define('addresses')
+export const dpasswordhash = Wallet.define('dpasswordhash')
+export const hdWallets = Wallet.define('hd_wallets')
+export const txNotes = Wallet.define('tx_notes')
+export const txNames = Wallet.define('tx_names')
+export const addressBook = Wallet.define('address_book')
 
 export const hdwallet = compose(
   hdWallets,
@@ -126,7 +126,7 @@ export const selectSpendableContext = w =>
 export const selectUnspendableContext = w => selectUnspendableAddrContext(w)
 
 const shiftWallet = compose(
-  shiftIProp("keys", "addresses"),
+  shiftIProp('keys', 'addresses'),
   shift
 )
 
@@ -203,7 +203,7 @@ export const isValidSecondPwd = curry((password, wallet) => {
     let storedHash = view(dpasswordhash, wallet)
     let computedHash = crypto
       .hashNTimes(iter, concat(sk, password))
-      .toString("hex")
+      .toString('hex')
     return storedHash === computedHash
   } else {
     return true
@@ -246,7 +246,7 @@ const applyCipher = curry((wallet, password, f, value) => {
     case isValidSecondPwd(password, wallet):
       return f(it, sk, password, value)
     default:
-      return Task.rejected(new Error("INVALID_SECOND_PASSWORD"))
+      return Task.rejected(new Error('INVALID_SECOND_PASSWORD'))
   }
 })
 
@@ -259,7 +259,7 @@ export const importLegacyAddress = curry(
           existing =>
             Address.isWatchOnly(existing) && !Address.isWatchOnly(address)
               ? Task.of(existing)
-              : Task.rejected(new Error("present_in_wallet"))
+              : Task.rejected(new Error('present_in_wallet'))
         )
         .map(aE => aE.map(set(Address.priv, address.priv)))
         .getOrElse(Task.of(address))
@@ -469,7 +469,7 @@ export const encryptMonadic = curry((of, cipher, password, wallet) => {
     let enc = cipher(wallet.sharedKey, iter, password)
     let hash = crypto
       .hashNTimes(iter, concat(wallet.sharedKey, password))
-      .toString("hex")
+      .toString('hex')
     let setFlag = over(doubleEncryption, () => true)
     let setHash = over(dpasswordhash, () => hash)
     return traverseKeyValues(of, enc, wallet).map(
@@ -491,7 +491,7 @@ export const decryptMonadic = curry((of, cipher, verify, password, wallet) => {
     let dec = cipher(wallet.sharedKey, iter, password)
 
     let setFlag = over(doubleEncryption, () => false)
-    let setHash = over(Wallet.lens, x => x.delete("dpasswordhash"))
+    let setHash = over(Wallet.lens, x => x.delete('dpasswordhash'))
 
     return verify(password, wallet)
       .chain(traverseKeyValues(of, dec))
@@ -511,7 +511,7 @@ const validateSecondPwd = curry(
   (pass, fail, password, wallet) =>
     isValidSecondPwd(password, wallet)
       ? pass(wallet)
-      : fail(new Error("INVALID_SECOND_PASSWORD"))
+      : fail(new Error('INVALID_SECOND_PASSWORD'))
 )
 
 // decrypt :: String -> Wallet -> Task Error Wallet
@@ -530,9 +530,9 @@ export const derivePrivateKey = memoize(_derivePrivateKey)
 
 export const getHDPrivateKeyWIF = curry(
   (keypath, secondPassword, network, wallet) => {
-    let [accId, chain, index] = map(parseInt, split("/", keypath))
+    let [accId, chain, index] = map(parseInt, split('/', keypath))
     if (isNil(accId) || isNil(chain) || isNil(index)) {
-      return Task.rejected("WRONG_PATH_KEY")
+      return Task.rejected('WRONG_PATH_KEY')
     }
     let xpriv = compose(
       HDAccount.selectXpriv,

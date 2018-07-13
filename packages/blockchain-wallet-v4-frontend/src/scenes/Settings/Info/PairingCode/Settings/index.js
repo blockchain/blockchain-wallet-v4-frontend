@@ -1,9 +1,9 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import { actions } from "data"
-import Settings from "./template.js"
+import { actions } from 'data'
+import Settings from './template.js'
 
 class SettingsContainer extends React.PureComponent {
   constructor(props) {
@@ -12,7 +12,7 @@ class SettingsContainer extends React.PureComponent {
   }
 
   handleClick() {
-    this.props.actions.showModal("PairingCode")
+    this.props.actions.showModal('PairingCode')
   }
 
   render() {

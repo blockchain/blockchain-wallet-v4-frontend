@@ -1,12 +1,12 @@
-import React from "react"
-import { FormattedMessage } from "react-intl"
-import { Link } from "blockchain-info-components"
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Link } from 'blockchain-info-components'
 import {
   SettingContainer,
   SettingDescription,
   SettingHeader,
   SettingSummary
-} from "components/Setting"
+} from 'components/Setting'
 
 const APIAccess = props => {
   return (

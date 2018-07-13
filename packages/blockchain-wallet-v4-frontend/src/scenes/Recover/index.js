@@ -1,12 +1,12 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import { compose } from "ramda"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { compose } from 'ramda'
 
-import wizardProvider from "providers/WizardProvider"
-import FirstStep from "./FirstStep"
-import SecondStep from "./SecondStep"
-import { actions } from "../../data"
+import wizardProvider from 'providers/WizardProvider'
+import FirstStep from './FirstStep'
+import SecondStep from './SecondStep'
+import { actions } from '../../data'
 
 class RecoverContainer extends React.PureComponent {
   componentWillMount() {
@@ -14,7 +14,7 @@ class RecoverContainer extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    this.props.formActions.destroy("recover")
+    this.props.formActions.destroy('recover')
   }
 
   render() {
@@ -40,7 +40,7 @@ const enhance = compose(
     null,
     mapDispatchToProps
   ),
-  wizardProvider("recover", 2)
+  wizardProvider('recover', 2)
 )
 
 export default enhance(RecoverContainer)

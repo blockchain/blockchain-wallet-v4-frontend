@@ -1,12 +1,12 @@
-import { call, put, select } from "redux-saga/effects"
-import { compose, isNil, isEmpty } from "ramda"
-import { set } from "ramda-lens"
-import * as A from "./actions"
-import { KVStoreEntry } from "../../../types"
-import { getMetadataXpriv } from "../root/selectors"
-import { derivationMap, ETHEREUM } from "../config"
-import * as eth from "../../../utils/ethereum"
-import { getMnemonic } from "../../wallet/selectors"
+import { call, put, select } from 'redux-saga/effects'
+import { compose, isNil, isEmpty } from 'ramda'
+import { set } from 'ramda-lens'
+import * as A from './actions'
+import { KVStoreEntry } from '../../../types'
+import { getMetadataXpriv } from '../root/selectors'
+import { derivationMap, ETHEREUM } from '../config'
+import * as eth from '../../../utils/ethereum'
+import { getMnemonic } from '../../wallet/selectors'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -41,7 +41,7 @@ export default ({ api } = {}) => {
         default_account_idx: defaultIndex,
         accounts: [
           {
-            label: "My Ether Wallet",
+            label: 'My Ether Wallet',
             archived: false,
             correct: true,
             addr
@@ -56,7 +56,7 @@ export default ({ api } = {}) => {
       yield put(A.createMetadataEthereum(newkv))
     } catch (e) {
       throw new Error(
-        "[NOT IMPLEMENTED] MISSING_SECOND_PASSWORD in core.createEthereum saga"
+        '[NOT IMPLEMENTED] MISSING_SECOND_PASSWORD in core.createEthereum saga'
       )
     }
   }

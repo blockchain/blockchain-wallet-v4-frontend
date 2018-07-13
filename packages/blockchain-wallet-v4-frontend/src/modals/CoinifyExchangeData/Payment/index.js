@@ -1,14 +1,14 @@
-import React, { Component } from "react"
-import PropTypes from "prop-types"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import { actions } from "data"
-import { getData, getQuote } from "./selectors"
-import Success from "./template.success"
-import { path } from "ramda"
-import Loading from "components/BuySell/Loading"
-import { Remote } from "blockchain-wallet-v4/src"
-import Failure from "components/BuySell/Failure"
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { actions } from 'data'
+import { getData, getQuote } from './selectors'
+import Success from './template.success'
+import { path } from 'ramda'
+import Loading from 'components/BuySell/Loading'
+import { Remote } from 'blockchain-wallet-v4/src'
+import Failure from 'components/BuySell/Failure'
 
 class PaymentContainer extends Component {
   constructor(props) {
@@ -17,12 +17,13 @@ class PaymentContainer extends Component {
     this.handlePaymentClick = this.handlePaymentClick.bind(this)
     this.triggerKyc = this.triggerKyc.bind(this)
 
-    this.state = { medium: "" }
+    this.state = { medium: '' }
   }
 
   componentDidMount() {
-    if (Remote.Success.is(this.props.quote))
+    if (Remote.Success.is(this.props.quote)) {
       this.props.coinifyDataActions.getPaymentMediums(this.props.quote.data)
+    }
   }
 
   componentWillUnmount() {
@@ -78,7 +79,7 @@ PaymentContainer.propTypes = {
 const mapStateToProps = state => ({
   data: getData(state),
   quote: getQuote(state),
-  coinifyBusy: path(["coinify", "coinifyBusy"], state)
+  coinifyBusy: path(['coinify', 'coinifyBusy'], state)
 })
 
 const mapDispatchToProps = dispatch => ({

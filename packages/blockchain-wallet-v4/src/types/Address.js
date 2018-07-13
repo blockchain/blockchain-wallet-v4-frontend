@@ -1,14 +1,14 @@
-import { compose, is, equals, not, pipe, curry, isNil } from "ramda"
-import { view, set, traverseOf } from "ramda-lens"
-import Base58 from "bs58"
-import { ECPair } from "bitcoinjs-lib"
-import * as crypto from "../walletCrypto"
-import { parseBIP38toECPair } from "../walletCrypto/importExport"
-import Either from "data.either"
-import Task from "data.task"
-import Type from "./Type"
-import { iToJS } from "./util"
-import * as utils from "../utils"
+import { compose, is, equals, not, pipe, curry, isNil } from 'ramda'
+import { view, set, traverseOf } from 'ramda-lens'
+import Base58 from 'bs58'
+import { ECPair } from 'bitcoinjs-lib'
+import * as crypto from '../walletCrypto'
+import { parseBIP38toECPair } from '../walletCrypto/importExport'
+import Either from 'data.either'
+import Task from 'data.task'
+import Type from './Type'
+import { iToJS } from './util'
+import * as utils from '../utils'
 
 const eitherToTask = e => e.fold(Task.rejected, Task.of)
 const wrapPromiseInTask = fP =>
@@ -28,13 +28,13 @@ export class Address extends Type {}
 
 export const isAddress = is(Address)
 
-export const priv = Address.define("priv")
-export const addr = Address.define("addr")
-export const label = Address.define("label")
-export const tag = Address.define("tag")
-export const createdTime = Address.define("created_time")
-export const createdDeviceName = Address.define("created_device_name")
-export const createdDeviceVersion = Address.define("created_device_version")
+export const priv = Address.define('priv')
+export const addr = Address.define('addr')
+export const label = Address.define('label')
+export const tag = Address.define('tag')
+export const createdTime = Address.define('created_time')
+export const createdDeviceName = Address.define('created_device_name')
+export const createdDeviceVersion = Address.define('created_device_version')
 
 export const selectPriv = view(priv)
 export const selectAddr = view(addr)
@@ -105,8 +105,8 @@ export const importAddress = (key, createdTime, label, network) => {
     label: label,
     tag: 0,
     created_time: createdTime,
-    created_device_name: "wallet-web",
-    created_device_version: "v4"
+    created_device_name: 'wallet-web',
+    created_device_version: 'v4'
   }
 
   switch (true) {
@@ -124,7 +124,7 @@ export const importAddress = (key, createdTime, label, network) => {
       object.priv = Base58.encode(key.d.toBuffer(32))
       break
     default:
-      throw new Error("unsupported_address_import_format")
+      throw new Error('unsupported_address_import_format')
   }
 
   return fromJS(object)
@@ -142,17 +142,17 @@ export const fromString = (
     return Task.of(importAddress(keyOrAddr, createdTime, label, network))
   } else {
     let format = utils.bitcoin.detectPrivateKeyFormat(keyOrAddr)
-    let okFormats = ["base58", "base64", "hex", "mini", "sipa", "compsipa"]
-    if (format === "bip38") {
-      if (bipPass == null || bipPass === "") {
-        return Task.rejected(new Error("needs_bip38"))
+    let okFormats = ['base58', 'base64', 'hex', 'mini', 'sipa', 'compsipa']
+    if (format === 'bip38') {
+      if (bipPass == null || bipPass === '') {
+        return Task.rejected(new Error('needs_bip38'))
       }
       let tryParseBIP38toECPair = Either.try(parseBIP38toECPair)
       let keyE = tryParseBIP38toECPair(keyOrAddr, bipPass, network)
       return eitherToTask(keyE).map(key =>
         importAddress(key, createdTime, label, network)
       )
-    } else if (format === "mini" || format === "base58") {
+    } else if (format === 'mini' || format === 'base58') {
       let key
       try {
         key = utils.bitcoin.privateKeyStringToKey(keyOrAddr, format)
@@ -179,7 +179,7 @@ export const fromString = (
       let key = utils.bitcoin.privateKeyStringToKey(keyOrAddr, format)
       return Task.of(importAddress(key, createdTime, label, network))
     } else {
-      return Task.rejected(new Error("unknown_key_format"))
+      return Task.rejected(new Error('unknown_key_format'))
     }
   }
 }

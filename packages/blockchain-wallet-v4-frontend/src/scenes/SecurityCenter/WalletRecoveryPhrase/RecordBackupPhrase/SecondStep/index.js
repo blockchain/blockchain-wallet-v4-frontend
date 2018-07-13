@@ -1,7 +1,7 @@
-import React from "react"
-import ui from "redux-ui"
-import SecondStep from "./template.js"
-import { compose, values, pickAll } from "ramda"
+import React from 'react'
+import ui from 'redux-ui'
+import SecondStep from './template.js'
+import { compose, values, pickAll } from 'ramda'
 
 const SecondStepContainer = props => {
   const { ui, updateUI } = props
@@ -38,6 +38,6 @@ const SecondStepContainer = props => {
   )
 }
 
-export default ui({ key: "RecoveryPhraseMnemonic", state: { step: 1 } })(
+export default ui({ key: 'RecoveryPhraseMnemonic', state: { step: 1 } })(
   SecondStepContainer
 )

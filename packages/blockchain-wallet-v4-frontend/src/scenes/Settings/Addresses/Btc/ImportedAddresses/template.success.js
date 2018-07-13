@@ -1,7 +1,7 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { SettingDescription, SettingHeader } from "components/Setting"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { SettingDescription, SettingHeader } from 'components/Setting'
 import {
   Icon,
   IconButton,
@@ -9,10 +9,10 @@ import {
   TableHeader,
   TableCell,
   Text
-} from "blockchain-info-components"
-import { spacing } from "services/StyleService"
-import AddressRow from "../AddressRow"
-import { filter } from "ramda"
+} from 'blockchain-info-components'
+import { spacing } from 'services/StyleService'
+import AddressRow from '../AddressRow'
+import { filter } from 'ramda'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
@@ -96,12 +96,12 @@ const Success = ({
           defaultMessage="Imported Bitcoin Addresses"
         />
       </ImportedAddressesSettingHeader>
-      <SettingDescription style={spacing("mb-10")}>
+      <SettingDescription style={spacing('mb-10')}>
         <WarningWrapper>
           <Icon
             name="alert-filled"
             size="22px"
-            className={"warning-icon"}
+            className={'warning-icon'}
             color="brand-yellow"
           />
           <FormattedMessage
@@ -131,7 +131,7 @@ const Success = ({
             </TableCell>
             <TableCell
               width="20%"
-              style={{ display: "flex", justifyContent: "flex-end" }}
+              style={{ display: 'flex', justifyContent: 'flex-end' }}
             >
               <Text size="13px" weight={500}>
                 <FormattedMessage
@@ -144,7 +144,7 @@ const Success = ({
           {importedAddressesTableRows}
         </Table>
       )}
-      <div style={spacing("mt-10")}>
+      <div style={spacing('mt-10')}>
         <IconButton name="plus" onClick={onClickImport}>
           <FormattedMessage
             id="scenes.settings.addresses.btc.importedaddresses.success.importbitcoinaddress"

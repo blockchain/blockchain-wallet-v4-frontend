@@ -1,8 +1,8 @@
-import BigNumber from "bignumber.js"
-import EthereumTx from "ethereumjs-tx"
-import * as eth from "../utils/ethereum"
-import Task from "data.task"
-import { curry } from "ramda"
+import BigNumber from 'bignumber.js'
+import EthereumTx from 'ethereumjs-tx'
+import * as eth from '../utils/ethereum'
+import Task from 'data.task'
+import { curry } from 'ramda'
 
 // /////////////////////////////////////////////////////////////////////////////
 const isOdd = str => str.length % 2 !== 0
@@ -26,7 +26,7 @@ export const sign = curry((network = 1, mnemonic, data) => {
   }
   const tx = new EthereumTx(txParams)
   tx.sign(privateKey)
-  const rawTx = "0x" + tx.serialize().toString("hex")
+  const rawTx = '0x' + tx.serialize().toString('hex')
   return Task.of(rawTx)
 })
 
@@ -44,6 +44,6 @@ export const signLegacy = curry((network = 1, seedHex, data) => {
 
   const tx = new EthereumTx(txParams)
   tx.sign(privateKey)
-  const rawTx = "0x" + tx.serialize().toString("hex")
+  const rawTx = '0x' + tx.serialize().toString('hex')
   return Task.of(rawTx)
 })

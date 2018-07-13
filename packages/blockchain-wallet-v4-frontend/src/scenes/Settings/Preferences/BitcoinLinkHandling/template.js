@@ -1,13 +1,13 @@
-import React from "react"
-import { FormattedMessage } from "react-intl"
-import { Button, Text, TextGroup } from "blockchain-info-components"
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Button, Text, TextGroup } from 'blockchain-info-components'
 import {
   SettingComponent,
   SettingContainer,
   SettingDescription,
   SettingHeader,
   SettingSummary
-} from "components/Setting"
+} from 'components/Setting'
 
 const BitcoinLinkHandling = props => {
   const { warningDisplayed, handleClick } = props

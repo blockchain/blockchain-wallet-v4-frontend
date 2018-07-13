@@ -1,16 +1,16 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { Field, reduxForm } from "redux-form"
-import { LinkContainer } from "react-router-bootstrap"
-import { check, msie } from "bowser"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
+import { LinkContainer } from 'react-router-bootstrap'
+import { check, msie } from 'bowser'
 
 import {
   validPasswordConfirmation,
   validStrongPassword,
   required,
   validEmail
-} from "services/FormHelper"
+} from 'services/FormHelper'
 import {
   Banner,
   Button,
@@ -19,7 +19,7 @@ import {
   Separator,
   Text,
   TextGroup
-} from "blockchain-info-components"
+} from 'blockchain-info-components'
 import {
   CheckBox,
   Form,
@@ -28,17 +28,17 @@ import {
   FormLabel,
   PasswordBox,
   TextBox
-} from "components/Form"
-import Terms from "components/Terms"
+} from 'components/Form'
+import Terms from 'components/Terms'
 
 const isSupportedBrowser =
-  check({ safari: "8", chrome: "45", firefox: "45", opera: "20" }) && !msie
+  check({ safari: '8', chrome: '45', firefox: '45', opera: '20' }) && !msie
 
 const Wrapper = styled.div`
   width: 100%;
   padding: 35px;
   box-sizing: border-box;
-  background-color: ${props => props.theme["white"]};
+  background-color: ${props => props.theme['white']};
 
   @media (min-width: 768px) {
     width: 550px;
@@ -56,10 +56,10 @@ const BrowserWarning = styled.div`
   margin-bottom: 10px;
 `
 
-const validatePasswordConfirmation = validPasswordConfirmation("password")
+const validatePasswordConfirmation = validPasswordConfirmation('password')
 
 const checkboxShouldBeChecked = value =>
-  value ? undefined : "You must agree to the terms and conditions"
+  value ? undefined : 'You must agree to the terms and conditions'
 
 const Register = props => {
   const { handleSubmit, busy, invalid } = props
@@ -190,4 +190,4 @@ const Register = props => {
   )
 }
 
-export default reduxForm({ form: "register" })(Register)
+export default reduxForm({ form: 'register' })(Register)

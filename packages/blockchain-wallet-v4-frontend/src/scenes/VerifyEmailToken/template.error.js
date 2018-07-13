@@ -1,7 +1,7 @@
-import React from "react"
-import styled from "styled-components"
-import { Icon, Text } from "blockchain-info-components"
-import { FormattedHTMLMessage } from "react-intl"
+import React from 'react'
+import styled from 'styled-components'
+import { Icon, Text } from 'blockchain-info-components'
+import { FormattedHTMLMessage } from 'react-intl'
 
 const Wrapper = styled.div`
   display: flex;
@@ -11,7 +11,7 @@ const Wrapper = styled.div`
 `
 const ErrorText = styled(Text)`
   > span > span {
-    color: ${props => props.theme["gray-5"]};
+    color: ${props => props.theme['gray-5']};
   }
 `
 
@@ -23,7 +23,7 @@ const Error = props => {
         size="16px"
         weight={300}
         color="red"
-        style={{ "margin-top": "25px" }}
+        style={{ 'margin-top': '25px' }}
       >
         <FormattedHTMLMessage
           id="scenes.verifyemailtoken.error"

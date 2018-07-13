@@ -1,9 +1,9 @@
-import { put } from "redux-saga/effects"
-import * as actions from "../../actions.js"
-import * as C from "services/AlertService"
+import { put } from 'redux-saga/effects'
+import * as actions from '../../actions.js'
+import * as C from 'services/AlertService'
 
 export default () => {
-  const logLocation = "components/requestBtc/sagas"
+  const logLocation = 'components/requestBtc/sagas'
 
   const firstStepSubmitClicked = function*(action) {
     try {
@@ -15,7 +15,7 @@ export default () => {
       yield put(
         actions.logs.logErrorMessage(
           logLocation,
-          "firstStepSubmitClicked",
+          'firstStepSubmitClicked',
           error
         )
       )

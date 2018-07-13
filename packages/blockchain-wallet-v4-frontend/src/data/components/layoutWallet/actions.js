@@ -1,4 +1,4 @@
-import * as AT from "./actionTypes"
+import * as AT from './actionTypes'
 
 export const layoutWalletFaqClicked = () => ({
   type: AT.LAYOUT_WALLET_HEADER_FAQ_CLICKED

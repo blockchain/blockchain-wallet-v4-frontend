@@ -1,8 +1,8 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { spacing } from "services/StyleService"
+import { spacing } from 'services/StyleService'
 import {
   Button,
   HeartbeatLoader,
@@ -12,7 +12,7 @@ import {
   ModalBody,
   ModalFooter,
   Text
-} from "blockchain-info-components"
+} from 'blockchain-info-components'
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -38,7 +38,7 @@ const ShowUsedAddresses = props => {
           <Icon
             name="alert-filled"
             size="26px"
-            className={"warning-icon"}
+            className={'warning-icon'}
             color="brand-yellow"
           />
           <FormattedMessage
@@ -59,7 +59,7 @@ const ShowUsedAddresses = props => {
         <CancelBtn
           size="small"
           weight={300}
-          style={spacing("mr-15")}
+          style={spacing('mr-15')}
           onClick={close}
         >
           <FormattedMessage

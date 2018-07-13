@@ -1,4 +1,4 @@
-import * as AT from "./actionTypes"
+import * as AT from './actionTypes'
 
 // UNUSED ADDRESSES
 export const deleteAddressLabel = (accountIdx, walletIdx, addressIdx) => ({

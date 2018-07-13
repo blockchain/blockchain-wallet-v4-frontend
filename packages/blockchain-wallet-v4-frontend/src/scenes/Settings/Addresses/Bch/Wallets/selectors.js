@@ -1,5 +1,5 @@
-import { lift, map } from "ramda"
-import { selectors } from "data"
+import { lift, map } from 'ramda'
+import { selectors } from 'data'
 
 export const getData = state => {
   const formatAccounts = map(x => ({ label: x.label, value: x }))

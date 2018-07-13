@@ -1,7 +1,7 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { Field, reduxForm } from "redux-form"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
 
 import {
   Button,
@@ -11,9 +11,9 @@ import {
   ModalBody,
   ModalFooter,
   Text
-} from "blockchain-info-components"
-import { Form, TextBox } from "components/Form"
-import { required } from "services/FormHelper"
+} from 'blockchain-info-components'
+import { Form, TextBox } from 'components/Form'
+import { required } from 'services/FormHelper'
 
 const Code = styled.div`
   display: flex;
@@ -84,4 +84,4 @@ const TwoStepYubico = props => {
   )
 }
 
-export default reduxForm({ form: "twoStepYubico" })(TwoStepYubico)
+export default reduxForm({ form: 'twoStepYubico' })(TwoStepYubico)

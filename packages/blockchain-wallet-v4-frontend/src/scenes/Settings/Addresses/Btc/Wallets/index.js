@@ -1,12 +1,12 @@
-import React from "react"
-import { actions } from "data"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import { getData } from "./selectors"
-import Success from "./template.success"
-import { Remote } from "blockchain-wallet-v4/src"
-import { formValueSelector } from "redux-form"
-import DataError from "components/DataError"
+import React from 'react'
+import { actions } from 'data'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { getData } from './selectors'
+import Success from './template.success'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { formValueSelector } from 'redux-form'
+import DataError from 'components/DataError'
 
 class BitcoinWalletsContainer extends React.Component {
   constructor(props) {
@@ -32,7 +32,7 @@ class BitcoinWalletsContainer extends React.Component {
           search={search && search.toLowerCase()}
           onUnarchive={i => this.props.coreActions.setAccountArchived(i, false)}
           handleClick={() =>
-            this.props.modalActions.showModal("AddBitcoinWallet", {
+            this.props.modalActions.showModal('AddBitcoinWallet', {
               wallets: value
             })
           }
@@ -56,7 +56,7 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = state => ({
   data: getData(state),
-  search: formValueSelector("settingsAddresses")(state, "search")
+  search: formValueSelector('settingsAddresses')(state, 'search')
 })
 
 export default connect(

@@ -1,11 +1,11 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import { actions } from "data"
-import { getData } from "./selectors"
-import Success from "./template.success"
-import { formValueSelector } from "redux-form"
-import { Remote } from "blockchain-wallet-v4/src"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { actions } from 'data'
+import { getData } from './selectors'
+import Success from './template.success'
+import { formValueSelector } from 'redux-form'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 class BchWalletsContainer extends React.Component {
   shouldComponentUpdate(nextProps) {
@@ -25,7 +25,7 @@ class BchWalletsContainer extends React.Component {
     const onEditBchAccountLabel = account =>
       addressesBchActions.editBchAccountLabel(account.index, account.label)
     const onShowXPub = account =>
-      modalsActions.showModal("ShowXPub", { xpub: account.xpub })
+      modalsActions.showModal('ShowXPub', { xpub: account.xpub })
     const onMakeDefault = account =>
       kvStoreBchActions.setDefaultAccountIdx(account.index)
 
@@ -58,7 +58,7 @@ class BchWalletsContainer extends React.Component {
 
 const mapStateToProps = state => ({
   data: getData(state),
-  search: formValueSelector("settingsAddresses")(state, "search")
+  search: formValueSelector('settingsAddresses')(state, 'search')
 })
 
 const mapDispatchToProps = dispatch => ({

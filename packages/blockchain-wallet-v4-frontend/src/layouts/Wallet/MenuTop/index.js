@@ -1,9 +1,9 @@
-import React from "react"
-import styled from "styled-components"
+import React from 'react'
+import styled from 'styled-components'
 
-import { Text } from "blockchain-info-components"
-import Actions from "./Actions"
-import Balance from "./Balance"
+import { Text } from 'blockchain-info-components'
+import Actions from './Actions'
+import Balance from './Balance'
 
 const Wrapper = styled.div`
   display: flex;
@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   height: 100%;
   padding: 15px 30px;
   box-sizing: border-box;
-  border-bottom: 1px solid ${props => props.theme["gray-1"]};
+  border-bottom: 1px solid ${props => props.theme['gray-1']};
   z-index: 10;
 
   @media (min-width: 850px) {

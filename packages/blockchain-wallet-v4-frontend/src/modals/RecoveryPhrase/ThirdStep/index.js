@@ -1,10 +1,10 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators, compose } from "redux"
-import ui from "redux-ui"
-import { take, map, sortBy, prop, range } from "ramda"
-import { actions } from "data"
-import ThirdStep from "./template.js"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import ui from 'redux-ui'
+import { take, map, sortBy, prop, range } from 'ramda'
+import { actions } from 'data'
+import ThirdStep from './template.js'
 
 class ThirdStepContainer extends React.PureComponent {
   constructor(props) {
@@ -41,7 +41,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  ui({ key: "RecoveryPhraseVerification", state: { indexes: [] } }),
+  ui({ key: 'RecoveryPhraseVerification', state: { indexes: [] } }),
   connect(
     undefined,
     mapDispatchToProps

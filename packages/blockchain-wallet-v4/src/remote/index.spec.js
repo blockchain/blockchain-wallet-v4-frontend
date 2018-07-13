@@ -1,43 +1,43 @@
-import Remote from "./index"
-import { map, compose, identity, add, multiply, toUpper, lift } from "ramda"
+import Remote from './index'
+import { map, compose, identity, add, multiply, toUpper, lift } from 'ramda'
 
-describe("Remote", () => {
-  describe("Constructors", () => {
-    it("should construct a Remote.Success", () => {
-      let r = Remote.Success("value")
+describe('Remote', () => {
+  describe('Constructors', () => {
+    it('should construct a Remote.Success', () => {
+      let r = Remote.Success('value')
       expect(Remote.Success.is(r)).toEqual(true)
-      expect(r.data).toEqual("value")
+      expect(r.data).toEqual('value')
     })
-    it("should construct a Remote.Failure", () => {
-      let r = Remote.Failure("error")
-      expect(r.error).toEqual("error")
+    it('should construct a Remote.Failure', () => {
+      let r = Remote.Failure('error')
+      expect(r.error).toEqual('error')
       expect(Remote.Failure.is(r)).toEqual(true)
     })
-    it("should construct a Remote.Loading", () => {
+    it('should construct a Remote.Loading', () => {
       let r = Remote.Loading
       expect(Remote.Loading.is(r)).toEqual(true)
     })
-    it("should construct a Remote.NotAsked", () => {
+    it('should construct a Remote.NotAsked', () => {
       let r = Remote.NotAsked
       expect(Remote.NotAsked.is(r)).toEqual(true)
     })
   })
 
-  describe("Functor laws", () => {
+  describe('Functor laws', () => {
     let options = [
       Remote.Success(2),
-      Remote.Failure("OMG"),
+      Remote.Failure('OMG'),
       Remote.Loading,
       Remote.NotAsked
     ]
 
-    it("i) identity: map(id) == id", () => {
+    it('i) identity: map(id) == id', () => {
       let left = map(identity)
       let right = identity
       expect(map(left, options)).toEqual(map(right, options))
     })
 
-    it("ii) composition: map(g . f) == map(g) . map(f)", () => {
+    it('ii) composition: map(g . f) == map(g) . map(f)', () => {
       let f = add(3)
       let g = multiply(5)
       let left = compose(
@@ -54,11 +54,11 @@ describe("Remote", () => {
     })
   })
 
-  describe("Applicative Functor laws", () => {
-    it("i) identity: A.of(id).ap(r) == id(r)", () => {
+  describe('Applicative Functor laws', () => {
+    it('i) identity: A.of(id).ap(r) == id(r)', () => {
       let opt = [
         Remote.Success(2),
-        Remote.Failure("OMG"),
+        Remote.Failure('OMG'),
         Remote.Loading,
         Remote.NotAsked
       ]
@@ -67,17 +67,17 @@ describe("Remote", () => {
       expect(map(left, opt)).toEqual(map(right, opt))
     })
 
-    it("ii) homomorphism: A.of(f).ap(A.of(x)) = A.of(f(x))", () => {
+    it('ii) homomorphism: A.of(f).ap(A.of(x)) = A.of(f(x))', () => {
       let f = toUpper
       let left = x => Remote.of(f).ap(Remote.of(x))
       let right = x => Remote.of(f(x))
-      expect(left("hello")).toEqual(right("hello"))
+      expect(left('hello')).toEqual(right('hello'))
     })
 
-    it("iii) interchange: r.ap(A.of(x)) = A.of(f => f(x)).ap(r)", () => {
+    it('iii) interchange: r.ap(A.of(x)) = A.of(f => f(x)).ap(r)', () => {
       let opt = [
         Remote.Success(x => x * x),
-        Remote.Failure("OMG"),
+        Remote.Failure('OMG'),
         Remote.Loading,
         Remote.NotAsked
       ]
@@ -87,22 +87,22 @@ describe("Remote", () => {
       expect(map(left, opt)).toEqual(map(right, opt))
     })
 
-    it("iv) composotion: A.of(compose).ap(r).ap(s).ap(t) = r.ap(s.ap(t))", () => {
+    it('iv) composotion: A.of(compose).ap(r).ap(s).ap(t) = r.ap(s.ap(t))', () => {
       let opt1 = [
         Remote.Success(x => x + 5),
-        Remote.Failure("OMG"),
+        Remote.Failure('OMG'),
         Remote.Loading,
         Remote.NotAsked
       ]
       let opt2 = [
         Remote.Success(x => x * 5),
-        Remote.Failure("OMG"),
+        Remote.Failure('OMG'),
         Remote.Loading,
         Remote.NotAsked
       ]
       let opt3 = [
         Remote.Success(3),
-        Remote.Failure("OMG"),
+        Remote.Failure('OMG'),
         Remote.Loading,
         Remote.NotAsked
       ]
@@ -118,8 +118,8 @@ describe("Remote", () => {
     })
   })
 
-  describe("Monoid", () => {
-    it("combination table", () => {
+  describe('Monoid', () => {
+    it('combination table', () => {
       let addR = Remote.of(x => y => x + y)
       expect(
         Remote.Success.is(addR.ap(Remote.Success(1)).ap(Remote.Success(2)))

@@ -1,18 +1,18 @@
-import React from "react"
-import styled from "styled-components"
-import { Text } from "blockchain-info-components"
-import PropTypes from "prop-types"
+import React from 'react'
+import styled from 'styled-components'
+import { Text } from 'blockchain-info-components'
+import PropTypes from 'prop-types'
 
 const BankInfo = styled.div`
   display: flex;
   flex-direction: row;
   padding: 25px 30px;
   border: 1px solid #ddd;
-  input[type="radio"] {
+  input[type='radio'] {
     display: none;
   }
-  input[type="radio"]:checked + label:before {
-    content: "";
+  input[type='radio']:checked + label:before {
+    content: '';
     width: 16px;
     height: 16px;
     background-color: #004a7c;
@@ -28,7 +28,7 @@ const BankLabel = styled.label`
   flex-direction: row;
   cursor: pointer;
   ::before {
-    content: "";
+    content: '';
     width: 16px;
     height: 16px;
     min-width: 16px;

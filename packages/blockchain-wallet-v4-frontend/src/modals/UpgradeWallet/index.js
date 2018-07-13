@@ -1,10 +1,10 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators, compose } from "redux"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
 
-import { actions } from "data"
-import modalEnhancer from "providers/ModalEnhancer"
-import UpgradeWallet from "./template.js"
+import { actions } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
+import UpgradeWallet from './template.js'
 
 class UpgradeWizardContainer extends React.PureComponent {
   constructor(props) {
@@ -29,7 +29,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer("UpgradeWallet"),
+  modalEnhancer('UpgradeWallet'),
   connect(
     undefined,
     mapDispatchToProps

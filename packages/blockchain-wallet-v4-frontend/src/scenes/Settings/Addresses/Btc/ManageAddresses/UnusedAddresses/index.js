@@ -1,16 +1,16 @@
-import React from "react"
-import { bindActionCreators } from "redux"
-import { connect } from "react-redux"
-import { length } from "ramda"
-import PropTypes from "prop-types"
-import { formValueSelector } from "redux-form"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { length } from 'ramda'
+import PropTypes from 'prop-types'
+import { formValueSelector } from 'redux-form'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import * as C from "services/AlertService"
-import { actions, selectors } from "data"
-import { Types } from "blockchain-wallet-v4"
-import UnusedAddressesTemplate from "./template.success"
+import * as C from 'services/AlertService'
+import { actions, selectors } from 'data'
+import { Types } from 'blockchain-wallet-v4'
+import UnusedAddressesTemplate from './template.success'
 
 import {
   Banner,
@@ -19,7 +19,7 @@ import {
   Link,
   IconButton,
   Text
-} from "blockchain-info-components"
+} from 'blockchain-info-components'
 
 const WalletLabelCell = styled.div`
   display: flex;
@@ -62,7 +62,7 @@ class UnusedAddressesContainer extends React.PureComponent {
         i
       )
     const onDeleteLabel = i =>
-      modalsActions.showModal("DeleteAddressLabel", {
+      modalsActions.showModal('DeleteAddressLabel', {
         accountIdx: account.index,
         walletIdx: this.props.walletIndex,
         addressIdx: i
@@ -70,7 +70,7 @@ class UnusedAddressesContainer extends React.PureComponent {
     const onEditBtcAccountLabel = () =>
       walletActions.editBtcAccountLabel(account.index, account.label)
     const onShowXPub = () =>
-      modalsActions.showModal("ShowXPub", { xpub: account.xpub })
+      modalsActions.showModal('ShowXPub', { xpub: account.xpub })
     const onMakeDefault = () => coreActions.setDefaultAccountIdx(account.index)
     const onGenerateNextAddress = () => {
       if (length(this.props.unusedAddresses.getOrElse([])) >= 15) {
@@ -83,7 +83,7 @@ class UnusedAddressesContainer extends React.PureComponent {
     }
     const onSetArchived = () => {
       coreActions.setAccountArchived(account.index, true)
-      routerActions.push("/settings/addresses")
+      routerActions.push('/settings/addresses')
     }
     const props = {
       account,
@@ -104,9 +104,9 @@ class UnusedAddressesContainer extends React.PureComponent {
       <React.Fragment>
         <div
           style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between"
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between'
           }}
         >
           <WalletLabelCell>
@@ -125,7 +125,7 @@ class UnusedAddressesContainer extends React.PureComponent {
           <ComponentDropdown
             down
             forceSelected
-            color={"gray-5"}
+            color={'gray-5'}
             selectedComponent={<MoreOptions />}
             components={[
               <ClickableText size="small" onClick={onEditBtcAccountLabel}>
@@ -184,7 +184,7 @@ class UnusedAddressesContainer extends React.PureComponent {
               Failure: () => <div />,
               Loading: () => (
                 <FlatLoader
-                  style={{ margin: "25px auto" }}
+                  style={{ margin: '25px auto' }}
                   width="100px"
                   height="12px"
                 />
@@ -227,7 +227,7 @@ const mapStateToProps = (state, ownProps) => {
     account.xpub,
     state
   )
-  const search = formValueSelector("manageAddresses")(state, "search")
+  const search = formValueSelector('manageAddresses')(state, 'search')
 
   return { account, isDefault, currentReceiveIndex, unusedAddresses, search }
 }

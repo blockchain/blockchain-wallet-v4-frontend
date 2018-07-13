@@ -1,12 +1,12 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators, compose } from "redux"
-import { path } from "ramda"
-import ui from "redux-ui"
-import { getData } from "./selectors"
-import Success from "./template.success"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import { path } from 'ramda'
+import ui from 'redux-ui'
+import { getData } from './selectors'
+import Success from './template.success'
 
-import { actions } from "data"
+import { actions } from 'data'
 
 class WalletRecoveryPhraseContainer extends React.PureComponent {
   constructor(props) {
@@ -60,7 +60,7 @@ class WalletRecoveryPhraseContainer extends React.PureComponent {
 
 const mapStateToProps = state => ({
   data: getData(state),
-  recoveryPhrase: path(["securityCenter", "recovery_phrase"], state)
+  recoveryPhrase: path(['securityCenter', 'recovery_phrase'], state)
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -78,7 +78,7 @@ const enhance = compose(
     mapDispatchToProps
   ),
   ui({
-    key: "Security_TwoStep",
+    key: 'Security_TwoStep',
     state: { nextStepToggled: false, descriptionToggled: false }
   })
 )

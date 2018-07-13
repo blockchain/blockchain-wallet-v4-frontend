@@ -1,4 +1,4 @@
-const createSagas = require.requireActual("../sagas").default
+const createSagas = require.requireActual('../sagas').default
 
 const mockCreate = ({ create }) => ({
   create: ({ netwotk, payment }) => ({

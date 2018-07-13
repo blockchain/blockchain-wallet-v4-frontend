@@ -1,10 +1,10 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators, compose } from "redux"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
 
-import { actions } from "data"
-import modalEnhancer from "providers/ModalEnhancer"
-import DeleteAddressLabel from "./template.js"
+import { actions } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
+import DeleteAddressLabel from './template.js'
 
 class DeleteAddressLabelContainer extends React.PureComponent {
   constructor(props) {
@@ -41,7 +41,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer("DeleteAddressLabel"),
+  modalEnhancer('DeleteAddressLabel'),
   connect(
     undefined,
     mapDispatchToProps

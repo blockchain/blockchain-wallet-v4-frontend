@@ -1,10 +1,10 @@
-import { formValueSelector } from "redux-form"
-import { lift, path } from "ramda"
-import { selectors } from "data"
+import { formValueSelector } from 'redux-form'
+import { lift, path } from 'ramda'
+import { selectors } from 'data'
 
 export const getUserData = state => {
   const profile = selectors.core.data.coinify.getProfile(state)
-  const payment = path(["coinify", "payment"], state)
+  const payment = path(['coinify', 'payment'], state)
   const kyc = selectors.core.data.coinify.getKyc(state)
   return lift((profile, payment, kyc) => ({ profile, payment, kyc }))(
     profile,
@@ -24,10 +24,10 @@ export const getQuote = state => selectors.core.data.coinify.getQuote(state)
 export const getCurrency = state => selectors.core.data.coinify.getLevel(state)
 
 export const getBase = state =>
-  path(["form", "exchangeCheckout", "active"], state)
+  path(['form', 'exchangeCheckout', 'active'], state)
 
 export const getErrors = state =>
-  path(["form", "exchangeCheckout", "syncErrors"], state)
+  path(['form', 'exchangeCheckout', 'syncErrors'], state)
 
 export const getData = state => ({
   base: getBase(state),
@@ -35,12 +35,12 @@ export const getData = state => ({
   sellQuoteR: getQuote(state),
   trade: getTrade(state),
   errors: getErrors(state),
-  currency: formValueSelector("coinifyCheckoutSell")(state, "currency"),
+  currency: formValueSelector('coinifyCheckoutSell')(state, 'currency'),
   defaultCurrency: getCurrency(state),
-  checkoutBusy: path(["coinify", "checkoutBusy"], state),
-  paymentMedium: path(["coinify", "medium"], state),
-  step: path(["coinify", "checkoutStep"], state),
-  coinifyBusy: path(["coinify", "coinifyBusy"], state),
-  checkoutError: path(["coinify", "checkoutError"], state),
+  checkoutBusy: path(['coinify', 'checkoutBusy'], state),
+  paymentMedium: path(['coinify', 'medium'], state),
+  step: path(['coinify', 'checkoutStep'], state),
+  coinifyBusy: path(['coinify', 'coinifyBusy'], state),
+  checkoutError: path(['coinify', 'checkoutError'], state),
   canTrade: selectors.core.data.coinify.canTrade(state).getOrElse(false)
 })

@@ -1,5 +1,5 @@
-import { createSelector } from "reselect"
-import { selectors } from "data"
+import { createSelector } from 'reselect'
+import { selectors } from 'data'
 import {
   all,
   curry,
@@ -14,26 +14,26 @@ import {
   map,
   filter,
   propOr
-} from "ramda"
+} from 'ramda'
 
 const filterTransactions = curry((status, criteria, transactions) => {
   const isOfType = curry((filter, tx) =>
     propSatisfies(
-      x => filter === "" || toUpper(x) === toUpper(filter),
-      "type",
+      x => filter === '' || toUpper(x) === toUpper(filter),
+      'type',
       tx
     )
   )
   const search = curry((text, property, tx) =>
     compose(
-      contains(toUpper(text || "")),
+      contains(toUpper(text || '')),
       toUpper,
       String,
       prop(property)
     )(tx)
   )
   const searchPredicate = anyPass(
-    map(search(criteria), ["description", "from", "to"])
+    map(search(criteria), ['description', 'from', 'to'])
   )
   const fullPredicate = allPass([isOfType(status), searchPredicate])
   return filter(fullPredicate, transactions)
@@ -41,13 +41,13 @@ const filterTransactions = curry((status, criteria, transactions) => {
 
 export const getData = createSelector(
   [
-    selectors.form.getFormValues("ethTransactions"),
+    selectors.form.getFormValues('ethTransactions'),
     selectors.core.common.eth.getWalletTransactions
   ],
   (formValues, pages) => {
     const empty = page => isEmpty(page.data)
-    const search = propOr("", "search", formValues)
-    const status = propOr("", "status", formValues)
+    const search = propOr('', 'search', formValues)
+    const status = propOr('', 'status', formValues)
     const filteredPages = !isEmpty(pages)
       ? pages.map(map(filterTransactions(status, search)))
       : []
@@ -55,7 +55,7 @@ export const getData = createSelector(
     return {
       pages: filteredPages,
       empty: all(empty)(filteredPages),
-      search: search.length > 0 || status !== ""
+      search: search.length > 0 || status !== ''
     }
   }
 )

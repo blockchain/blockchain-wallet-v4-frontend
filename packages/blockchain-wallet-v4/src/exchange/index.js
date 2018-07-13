@@ -1,21 +1,21 @@
-import { path, prop } from "ramda"
-import * as Currency from "./currency"
-import * as Pairs from "./pairs"
-import * as Currencies from "./currencies"
+import { path, prop } from 'ramda'
+import * as Currency from './currency'
+import * as Pairs from './pairs'
+import * as Currencies from './currencies'
 
 const { BCH, BTC, ETH } = Currencies
 
 const DefaultConversion = {
-  value: "0",
+  value: '0',
   unit: {
-    rate: "0",
-    symbol: "N/A",
+    rate: '0',
+    symbol: 'N/A',
     decimal_digits: 0,
-    currency: "N/A"
+    currency: 'N/A'
   }
 }
 
-const DefaultDisplay = "N/A"
+const DefaultDisplay = 'N/A'
 
 // =====================================================================
 // ============================ CALCULATION ============================
@@ -23,9 +23,9 @@ const DefaultDisplay = "N/A"
 const transformFiatToBitcoin = ({ value, fromCurrency, toUnit, rates }) => {
   const pairs = Pairs.create(BTC.code, rates)
   const sourceCurrency = prop(fromCurrency, Currencies)
-  const sourceCurrencyCode = prop("code", sourceCurrency)
-  const sourceCurrencyUnit = path(["units", sourceCurrencyCode], sourceCurrency)
-  const targetUnit = path(["units", toUnit], BTC)
+  const sourceCurrencyCode = prop('code', sourceCurrency)
+  const sourceCurrencyUnit = path(['units', sourceCurrencyCode], sourceCurrency)
+  const targetUnit = path(['units', toUnit], BTC)
   return Currency.fromUnit({ value: value, unit: sourceCurrencyUnit })
     .chain(Currency.convert(pairs, BTC))
     .chain(Currency.toUnit(targetUnit))
@@ -34,9 +34,9 @@ const transformFiatToBitcoin = ({ value, fromCurrency, toUnit, rates }) => {
 const transformBitcoinToFiat = ({ value, fromUnit, toCurrency, rates }) => {
   const pairs = Pairs.create(BTC.code, rates)
   const targetCurrency = prop(toCurrency, Currencies)
-  const targetCurrencyCode = prop("code", targetCurrency)
-  const targetCurrencyUnit = path(["units", targetCurrencyCode], targetCurrency)
-  const sourceUnit = path(["units", fromUnit], BTC)
+  const targetCurrencyCode = prop('code', targetCurrency)
+  const targetCurrencyUnit = path(['units', targetCurrencyCode], targetCurrency)
+  const sourceUnit = path(['units', fromUnit], BTC)
   return Currency.fromUnit({ value, unit: sourceUnit })
     .chain(Currency.convert(pairs, targetCurrency))
     .chain(Currency.toUnit(targetCurrencyUnit))
@@ -49,8 +49,8 @@ const transformBitcoinToEther = ({
   rate,
   reverse
 }) => {
-  const targetUnit = path(["units", toUnit], ETH)
-  const sourceUnit = path(["units", fromUnit], BTC)
+  const targetUnit = path(['units', toUnit], ETH)
+  const sourceUnit = path(['units', fromUnit], BTC)
   return Currency.fromUnit({ value, unit: sourceUnit })
     .chain(Currency.convertWithRate(ETH, rate, reverse))
     .chain(Currency.toUnit(targetUnit))
@@ -63,16 +63,16 @@ const transformEtherToBitcoin = ({
   rate,
   reverse
 }) => {
-  const targetUnit = path(["units", toUnit], BTC)
-  const sourceUnit = path(["units", fromUnit], ETH)
+  const targetUnit = path(['units', toUnit], BTC)
+  const sourceUnit = path(['units', fromUnit], ETH)
   return Currency.fromUnit({ value, unit: sourceUnit })
     .chain(Currency.convertWithRate(BTC, rate, reverse))
     .chain(Currency.toUnit(targetUnit))
 }
 
 const transformBitcoinToBitcoin = ({ value, fromUnit, toUnit }) => {
-  const sourceUnit = path(["units", fromUnit], BTC)
-  const targetUnit = path(["units", toUnit], BTC)
+  const sourceUnit = path(['units', fromUnit], BTC)
+  const targetUnit = path(['units', toUnit], BTC)
   return Currency.fromUnit({ value, unit: sourceUnit }).chain(
     Currency.toUnit(targetUnit)
   )
@@ -81,9 +81,9 @@ const transformBitcoinToBitcoin = ({ value, fromUnit, toUnit }) => {
 const transformFiatToEther = ({ value, fromCurrency, toUnit, rates }) => {
   const pairs = Pairs.create(ETH.code, rates)
   const sourceCurrency = prop(fromCurrency, Currencies)
-  const sourceCurrencyCode = prop("code", sourceCurrency)
-  const sourceCurrencyUnit = path(["units", sourceCurrencyCode], sourceCurrency)
-  const targetUnit = path(["units", toUnit], ETH)
+  const sourceCurrencyCode = prop('code', sourceCurrency)
+  const sourceCurrencyUnit = path(['units', sourceCurrencyCode], sourceCurrency)
+  const targetUnit = path(['units', toUnit], ETH)
   return Currency.fromUnit({ value: value, unit: sourceCurrencyUnit })
     .chain(Currency.convert(pairs, ETH))
     .chain(Currency.toUnit(targetUnit))
@@ -92,33 +92,33 @@ const transformFiatToEther = ({ value, fromCurrency, toUnit, rates }) => {
 const transformEtherToFiat = ({ value, fromUnit, toCurrency, rates }) => {
   const pairs = Pairs.create(ETH.code, rates)
   const targetCurrency = prop(toCurrency, Currencies)
-  const targetCurrencyCode = prop("code", targetCurrency)
-  const targetCurrencyUnit = path(["units", targetCurrencyCode], targetCurrency)
-  const sourceUnit = path(["units", fromUnit], ETH)
+  const targetCurrencyCode = prop('code', targetCurrency)
+  const targetCurrencyUnit = path(['units', targetCurrencyCode], targetCurrency)
+  const sourceUnit = path(['units', fromUnit], ETH)
   return Currency.fromUnit({ value, unit: sourceUnit })
     .chain(Currency.convert(pairs, targetCurrency))
     .chain(Currency.toUnit(targetCurrencyUnit))
 }
 
 const transformEtherToEther = ({ value, fromUnit, toUnit }) => {
-  const sourceUnit = path(["units", fromUnit], ETH)
-  const targetUnit = path(["units", toUnit], ETH)
+  const sourceUnit = path(['units', fromUnit], ETH)
+  const targetUnit = path(['units', toUnit], ETH)
   return Currency.fromUnit({ value, unit: sourceUnit }).chain(
     Currency.toUnit(targetUnit)
   )
 }
 
 const transformBitcoinToBch = ({ value, fromUnit, toUnit, rate, reverse }) => {
-  const targetUnit = path(["units", toUnit], BCH)
-  const sourceUnit = path(["units", fromUnit], BTC)
+  const targetUnit = path(['units', toUnit], BCH)
+  const sourceUnit = path(['units', fromUnit], BTC)
   return Currency.fromUnit({ value, unit: sourceUnit })
     .chain(Currency.convertWithRate(BCH, rate, reverse))
     .chain(Currency.toUnit(targetUnit))
 }
 
 const transformBchToBitcoin = ({ value, fromUnit, toUnit, rate, reverse }) => {
-  const targetUnit = path(["units", toUnit], BTC)
-  const sourceUnit = path(["units", fromUnit], BCH)
+  const targetUnit = path(['units', toUnit], BTC)
+  const sourceUnit = path(['units', fromUnit], BCH)
   return Currency.fromUnit({ value, unit: sourceUnit })
     .chain(Currency.convertWithRate(BTC, rate, reverse))
     .chain(Currency.toUnit(targetUnit))
@@ -127,9 +127,9 @@ const transformBchToBitcoin = ({ value, fromUnit, toUnit, rate, reverse }) => {
 const transformFiatToBch = ({ value, fromCurrency, toUnit, rates }) => {
   const pairs = Pairs.create(BCH.code, rates)
   const sourceCurrency = prop(fromCurrency, Currencies)
-  const sourceCurrencyCode = prop("code", sourceCurrency)
-  const sourceCurrencyUnit = path(["units", sourceCurrencyCode], sourceCurrency)
-  const targetUnit = path(["units", toUnit], BCH)
+  const sourceCurrencyCode = prop('code', sourceCurrency)
+  const sourceCurrencyUnit = path(['units', sourceCurrencyCode], sourceCurrency)
+  const targetUnit = path(['units', toUnit], BCH)
   return Currency.fromUnit({ value: value, unit: sourceCurrencyUnit })
     .chain(Currency.convert(pairs, BCH))
     .chain(Currency.toUnit(targetUnit))
@@ -138,17 +138,17 @@ const transformFiatToBch = ({ value, fromCurrency, toUnit, rates }) => {
 const transformBchToFiat = ({ value, fromUnit, toCurrency, rates }) => {
   const pairs = Pairs.create(BCH.code, rates)
   const targetCurrency = prop(toCurrency, Currencies)
-  const targetCurrencyCode = prop("code", targetCurrency)
-  const targetCurrencyUnit = path(["units", targetCurrencyCode], targetCurrency)
-  const sourceUnit = path(["units", fromUnit], BCH)
+  const targetCurrencyCode = prop('code', targetCurrency)
+  const targetCurrencyUnit = path(['units', targetCurrencyCode], targetCurrency)
+  const sourceUnit = path(['units', fromUnit], BCH)
   return Currency.fromUnit({ value, unit: sourceUnit })
     .chain(Currency.convert(pairs, targetCurrency))
     .chain(Currency.toUnit(targetCurrencyUnit))
 }
 
 const transformBchToBch = ({ value, fromUnit, toUnit }) => {
-  const sourceUnit = path(["units", fromUnit], BCH)
-  const targetUnit = path(["units", toUnit], BCH)
+  const sourceUnit = path(['units', fromUnit], BCH)
+  const targetUnit = path(['units', toUnit], BCH)
   return Currency.fromUnit({ value, unit: sourceUnit }).chain(
     Currency.toUnit(targetUnit)
   )
@@ -259,18 +259,18 @@ const convertBchToBitcoin = ({ value, fromUnit, toUnit, rate, reverse }) => {
 
 const convertCoinToCoin = ({ value, coin, baseToStandard }) => {
   switch (coin) {
-    case "BTC":
+    case 'BTC':
       return baseToStandard
-        ? convertBitcoinToBitcoin({ value, fromUnit: "SAT", toUnit: "BTC" })
-        : convertBitcoinToBitcoin({ value, fromUnit: "BTC", toUnit: "SAT" })
-    case "ETH":
+        ? convertBitcoinToBitcoin({ value, fromUnit: 'SAT', toUnit: 'BTC' })
+        : convertBitcoinToBitcoin({ value, fromUnit: 'BTC', toUnit: 'SAT' })
+    case 'ETH':
       return baseToStandard
-        ? convertEtherToEther({ value, fromUnit: "WEI", toUnit: "ETH" })
-        : convertEtherToEther({ value, fromUnit: "ETH", toUnit: "WEI" })
-    case "BCH":
+        ? convertEtherToEther({ value, fromUnit: 'WEI', toUnit: 'ETH' })
+        : convertEtherToEther({ value, fromUnit: 'ETH', toUnit: 'WEI' })
+    case 'BCH':
       return baseToStandard
-        ? convertBchToBch({ value, fromUnit: "SAT", toUnit: "BCH" })
-        : convertBchToBch({ value, fromUnit: "BCH", toUnit: "SAT" })
+        ? convertBchToBch({ value, fromUnit: 'SAT', toUnit: 'BCH' })
+        : convertBchToBch({ value, fromUnit: 'BCH', toUnit: 'SAT' })
   }
 }
 
@@ -357,18 +357,18 @@ const displayBchToBitcoin = ({ value, fromUnit, toUnit, rate, reverse }) => {
 
 const displayCoinToCoin = ({ value, coin, baseToStandard }) => {
   switch (coin) {
-    case "BTC":
+    case 'BTC':
       return baseToStandard
-        ? displayBitcoinToBitcoin({ value, fromUnit: "SAT", toUnit: "BTC" })
-        : displayBitcoinToBitcoin({ value, fromUnit: "BTC", toUnit: "SAT" })
-    case "ETH":
+        ? displayBitcoinToBitcoin({ value, fromUnit: 'SAT', toUnit: 'BTC' })
+        : displayBitcoinToBitcoin({ value, fromUnit: 'BTC', toUnit: 'SAT' })
+    case 'ETH':
       return baseToStandard
-        ? displayEtherToEther({ value, fromUnit: "WEI", toUnit: "ETH" })
-        : displayEtherToEther({ value, fromUnit: "ETH", toUnit: "WEI" })
-    case "BCH":
+        ? displayEtherToEther({ value, fromUnit: 'WEI', toUnit: 'ETH' })
+        : displayEtherToEther({ value, fromUnit: 'ETH', toUnit: 'WEI' })
+    case 'BCH':
       return baseToStandard
-        ? displayBchToBch({ value, fromUnit: "SAT", toUnit: "BCH" })
-        : displayBchToBch({ value, fromUnit: "BCH", toUnit: "SAT" })
+        ? displayBchToBch({ value, fromUnit: 'SAT', toUnit: 'BCH' })
+        : displayBchToBch({ value, fromUnit: 'BCH', toUnit: 'SAT' })
   }
 }
 
@@ -380,11 +380,11 @@ const displayCoinToFiat = ({
   rates
 }) => {
   switch (fromCoin) {
-    case "BTC":
+    case 'BTC':
       return displayBitcoinToFiat({ value, fromUnit, toCurrency, rates })
-    case "ETH":
+    case 'ETH':
       return displayEtherToFiat({ value, fromUnit, toCurrency, rates })
-    case "BCH":
+    case 'BCH':
       return displayBchToFiat({ value, fromUnit, toCurrency, rates })
   }
 }
@@ -395,8 +395,8 @@ const displayFiatToFiat = ({ value }) => {
 
 const getSymbol = currency => {
   const data = Currencies[currency]
-  const tradeUnit = prop("trade", data)
-  return path(["units", tradeUnit, "symbol"], data)
+  const tradeUnit = prop('trade', data)
+  return path(['units', tradeUnit, 'symbol'], data)
 }
 
 export {

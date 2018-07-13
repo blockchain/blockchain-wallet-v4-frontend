@@ -1,16 +1,16 @@
-import React from "react"
-import styled from "styled-components"
-import PropTypes from "prop-types"
-import { Palette } from "../Colors"
-import { keysIn } from "ramda"
+import React from 'react'
+import styled from 'styled-components'
+import PropTypes from 'prop-types'
+import { Palette } from '../Colors'
+import { keysIn } from 'ramda'
 
 const BaseLink = styled.a`
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-size: ${props => props.size};
   font-weight: ${props => props.weight};
   color: ${props => props.theme[props.color]};
   text-transform: ${props =>
-    props.uppercase ? "uppercase" : props.capitalize ? "capitalize" : "none"};
+    props.uppercase ? 'uppercase' : props.capitalize ? 'capitalize' : 'none'};
   text-decoration: none;
   cursor: pointer;
 
@@ -40,8 +40,8 @@ Link.propTypes = {
 
 Link.defaultProps = {
   weight: 400,
-  size: "16px",
-  color: "brand-secondary",
+  size: '16px',
+  color: 'brand-secondary',
   uppercase: false,
   capitalize: false,
   bold: false

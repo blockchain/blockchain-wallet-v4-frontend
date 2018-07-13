@@ -1,10 +1,10 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import { formValueSelector } from "redux-form"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { formValueSelector } from 'redux-form'
 
-import { actions, selectors } from "data"
-import Reminder from "./template.js"
+import { actions, selectors } from 'data'
+import Reminder from './template.js'
 
 class ReminderContainer extends React.PureComponent {
   constructor(props) {
@@ -39,8 +39,8 @@ class ReminderContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  email: formValueSelector("reminder")(state, "email"),
-  code: formValueSelector("reminder")(state, "code"),
+  email: formValueSelector('reminder')(state, 'email'),
+  code: formValueSelector('reminder')(state, 'code'),
   captcha: selectors.core.data.misc.getCaptcha(state),
   remindGuid: selectors.auth.getRemindGuid(state)
 })

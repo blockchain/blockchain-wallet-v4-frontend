@@ -1,22 +1,22 @@
-import React from "react"
-import styled from "styled-components"
+import React from 'react'
+import styled from 'styled-components'
 import {
   Button,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter
-} from "blockchain-info-components"
-import { FormattedMessage, FormattedHTMLMessage } from "react-intl"
-import { Field, reduxForm } from "redux-form"
-import { RadioButton, Form } from "components/Form"
-import ImportInternalBtcAddress from "./ImportInternalBtcAddress"
-import ImportExternalBtcAddress from "./ImportExternalBtcAddress"
+} from 'blockchain-info-components'
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
+import { RadioButton, Form } from 'components/Form'
+import ImportInternalBtcAddress from './ImportInternalBtcAddress'
+import ImportExternalBtcAddress from './ImportExternalBtcAddress'
 
 const Wrapper = styled.div`
   font-weight: 300;
-  color: ${props => props.theme["gray-5"]};
-  font-family: "Montserrat", Helvetica, sans-serif;
+  color: ${props => props.theme['gray-5']};
+  font-family: 'Montserrat', Helvetica, sans-serif;
 `
 const Title = styled.div`
   font-size: 14px;
@@ -64,7 +64,7 @@ const ImportBtcAddress = props => {
               <Field
                 name="address-type"
                 value="internal"
-                props={{ id: "internal", value: "internal" }}
+                props={{ id: 'internal', value: 'internal' }}
                 validate={[]}
                 component={RadioButton}
               >
@@ -78,7 +78,7 @@ const ImportBtcAddress = props => {
               <Field
                 name="address-type"
                 value="external"
-                props={{ id: "external", value: "external" }}
+                props={{ id: 'external', value: 'external' }}
                 validate={[]}
                 component={RadioButton}
               >
@@ -113,6 +113,6 @@ const ImportBtcAddress = props => {
 }
 
 export default reduxForm({
-  form: "importBtcAddress",
-  initialValues: { "address-type": "" }
+  form: 'importBtcAddress',
+  initialValues: { 'address-type': '' }
 })(ImportBtcAddress)

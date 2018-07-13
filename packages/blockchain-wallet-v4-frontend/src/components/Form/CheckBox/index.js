@@ -1,7 +1,7 @@
-import React from "react"
-import styled from "styled-components"
+import React from 'react'
+import styled from 'styled-components'
 
-import { CheckBoxInput, Text } from "blockchain-info-components"
+import { CheckBoxInput, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   position: relative;
@@ -22,7 +22,7 @@ const Error = styled(Text)`
   height: 15px;
 `
 const getErrorState = meta => {
-  return meta.touched && meta.invalid ? "invalid" : "initial"
+  return meta.touched && meta.invalid ? 'invalid' : 'initial'
 }
 
 const CheckBox = ({ children, ...field }) => {

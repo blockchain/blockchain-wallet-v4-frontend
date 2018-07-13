@@ -1,10 +1,10 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 
-import { Button, Text } from "blockchain-info-components"
-import { SettingWrapper } from "components/Setting"
-import EditForm from "./EditForm"
+import { Button, Text } from 'blockchain-info-components'
+import { SettingWrapper } from 'components/Setting'
+import EditForm from './EditForm'
 
 const Settings = props => {
   const { updateToggled, handleToggle, handleClick, logoutTime } = props

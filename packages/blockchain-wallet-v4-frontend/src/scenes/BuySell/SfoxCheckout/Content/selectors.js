@@ -1,6 +1,6 @@
-import { lift, path } from "ramda"
-import settings from "config"
-import { selectors } from "data"
+import { lift, path } from 'ramda'
+import settings from 'config'
+import { selectors } from 'data'
 
 export const getData = state => {
   const profile = selectors.core.data.sfox.getProfile(state)
@@ -31,9 +31,9 @@ export const getTrades = state =>
   selectors.core.data.sfox.getTrades(state).getOrElse(null)
 
 export const getBase = state =>
-  path(["form", "exchangeCheckout", "active"], state)
+  path(['form', 'exchangeCheckout', 'active'], state)
 
 export const getErrors = state =>
-  path(["form", "exchangeCheckout", "syncErrors"], state)
+  path(['form', 'exchangeCheckout', 'syncErrors'], state)
 
-export const getPayment = path(["sfoxSignup", "payment"])
+export const getPayment = path(['sfoxSignup', 'payment'])

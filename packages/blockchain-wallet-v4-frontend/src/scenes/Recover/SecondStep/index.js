@@ -1,11 +1,11 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import { formValueSelector } from "redux-form"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { formValueSelector } from 'redux-form'
 
-import settings from "config"
-import Recover from "./template.js"
-import { actions, selectors } from "data"
+import settings from 'config'
+import Recover from './template.js'
+import { actions, selectors } from 'data'
 
 class RecoverContainer extends React.PureComponent {
   constructor() {
@@ -40,9 +40,9 @@ class RecoverContainer extends React.PureComponent {
 
 const mapStateToProps = state => ({
   data: selectors.auth.getRegistering(state),
-  email: formValueSelector("recover")(state, "email"),
-  mnemonic: formValueSelector("recover")(state, "mnemonic"),
-  password: formValueSelector("recover")(state, "password"),
+  email: formValueSelector('recover')(state, 'email'),
+  mnemonic: formValueSelector('recover')(state, 'mnemonic'),
+  password: formValueSelector('recover')(state, 'password'),
   language: selectors.preferences.getLanguage(state)
 })
 

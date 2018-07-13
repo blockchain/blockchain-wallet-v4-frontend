@@ -1,9 +1,9 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import { actions, selectors } from "data"
-import Settings from "./template.js"
+import { actions, selectors } from 'data'
+import Settings from './template.js'
 
 class SettingsContainer extends React.PureComponent {
   constructor(props) {

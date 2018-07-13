@@ -1,7 +1,7 @@
-import React from "react"
-import PropTypes from "prop-types"
+import React from 'react'
+import PropTypes from 'prop-types'
 
-import CopyClipboard from "./template.js"
+import CopyClipboard from './template.js'
 
 class CopyClipboardContainer extends React.PureComponent {
   constructor(props) {

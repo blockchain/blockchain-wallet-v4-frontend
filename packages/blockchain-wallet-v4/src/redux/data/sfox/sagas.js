@@ -1,21 +1,21 @@
-import { apply, fork, call, put, select, take } from "redux-saga/effects"
-import { path, prepend } from "ramda"
+import { apply, fork, call, put, select, take } from 'redux-saga/effects'
+import { path, prepend } from 'ramda'
 
-import ExchangeDelegate from "../../../exchange/delegate"
-import * as S from "./selectors"
-import * as A from "./actions"
-import * as AT from "./actionTypes"
-import * as buySellSelectors from "../../kvStore/buySell/selectors"
-import * as buySellA from "../../kvStore/buySell/actions"
-import { sfoxService } from "../../../exchange/service"
-import * as walletActions from "../../wallet/actions"
+import ExchangeDelegate from '../../../exchange/delegate'
+import * as S from './selectors'
+import * as A from './actions'
+import * as AT from './actionTypes'
+import * as buySellSelectors from '../../kvStore/buySell/selectors'
+import * as buySellA from '../../kvStore/buySell/actions'
+import { sfoxService } from '../../../exchange/service'
+import * as walletActions from '../../wallet/actions'
 
 let sfox
 
 export default ({ api, options }) => {
   const refreshSFOX = function*() {
     const state = yield select()
-    const delegate = new ExchangeDelegate(state, api, "sfox")
+    const delegate = new ExchangeDelegate(state, api, 'sfox')
     const value = yield select(buySellSelectors.getMetadata)
     const walletOptions = state.walletOptionsPath.data
     sfox = sfoxService.refresh(value, delegate, walletOptions)
@@ -24,7 +24,7 @@ export default ({ api, options }) => {
   const init = function*() {
     try {
       const value = yield select(buySellSelectors.getMetadata)
-      if (!path(["data", "value", "sfox", "account_token"], value)) return
+      if (!path(['data', 'value', 'sfox', 'account_token'], value)) return
       yield call(refreshSFOX)
     } catch (e) {
       throw new Error(e)
@@ -138,7 +138,7 @@ export default ({ api, options }) => {
   const getSfox = function*() {
     try {
       const state = yield select()
-      const delegate = new ExchangeDelegate(state, api, "sfox")
+      const delegate = new ExchangeDelegate(state, api, 'sfox')
       const value = yield select(buySellSelectors.getMetadata)
       const walletOptions = state.walletOptionsPath.data
       const sfox = sfoxService.refresh(value, delegate, walletOptions)
@@ -298,7 +298,7 @@ export default ({ api, options }) => {
         )
       )
     } catch (e) {
-      console.warn("err in labelAddressForBuy", e)
+      console.warn('err in labelAddressForBuy', e)
       yield put(A.handleTradeFailure(e))
     }
   }

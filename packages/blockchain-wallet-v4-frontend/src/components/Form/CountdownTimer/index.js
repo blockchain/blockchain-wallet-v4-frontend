@@ -1,7 +1,7 @@
-import React from "react"
-import PropTypes from "prop-types"
-import moment from "moment"
-import CountdownTimer from "./template"
+import React from 'react'
+import PropTypes from 'prop-types'
+import moment from 'moment'
+import CountdownTimer from './template'
 
 class CountdownTimerContainer extends React.PureComponent {
   constructor(props) {
@@ -26,7 +26,7 @@ class CountdownTimerContainer extends React.PureComponent {
     const { expiryDate, handleExpiry } = this.props
     const remaining = moment.duration(moment(expiryDate).diff(moment()))
 
-    if (remaining.as("seconds") < 1) {
+    if (remaining.as('seconds') < 1) {
       // If we reach the end of the timer, we execute the expiry callback
       if (handleExpiry) {
         handleExpiry()
@@ -38,8 +38,8 @@ class CountdownTimerContainer extends React.PureComponent {
 
   render() {
     const timeLeft = moment
-      .utc(this.state.remaining.as("milliseconds"))
-      .format("mm:ss")
+      .utc(this.state.remaining.as('milliseconds'))
+      .format('mm:ss')
 
     return <CountdownTimer {...this.props} timeLeft={timeLeft} />
   }
@@ -50,7 +50,7 @@ CountdownTimerContainer.propTypes = {
 }
 
 CountdownTimerContainer.defaultProps = {
-  expiryDate: moment().add(1, "minutes")
+  expiryDate: moment().add(1, 'minutes')
 }
 
 export default CountdownTimerContainer

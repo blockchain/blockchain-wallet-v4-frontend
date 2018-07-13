@@ -1,14 +1,14 @@
-import React from "react"
-import styled from "styled-components"
-import { Field, reduxForm } from "redux-form"
-import { FormattedMessage } from "react-intl"
-import { Button, HeartbeatLoader, Link, Text } from "blockchain-info-components"
-import { Remote } from "blockchain-wallet-v4/src"
+import React from 'react'
+import styled from 'styled-components'
+import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
+import { Remote } from 'blockchain-wallet-v4/src'
 
-import { CancelWrapper, CenteredWrapper } from "components/BuySell/Signup"
-import { CheckBox } from "components/Form"
-import { StepTransition } from "components/Utilities/Stepper"
-import { required } from "services/FormHelper"
+import { CancelWrapper, CenteredWrapper } from 'components/BuySell/Signup'
+import { CheckBox } from 'components/Form'
+import { StepTransition } from 'components/Utilities/Stepper'
+import { required } from 'services/FormHelper'
 
 const OrderSubmitForm = styled.form`
   margin-bottom: 30px;
@@ -65,4 +65,4 @@ const ReviewForm = props => {
   )
 }
 
-export default reduxForm({ form: "reviewForm" })(ReviewForm)
+export default reduxForm({ form: 'reviewForm' })(ReviewForm)

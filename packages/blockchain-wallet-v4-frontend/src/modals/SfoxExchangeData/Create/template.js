@@ -1,11 +1,11 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { reduxForm } from "redux-form"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { reduxForm } from 'redux-form'
 
-import AcceptTerms from "./AcceptTerms"
-import VerifyEmail from "./VerifyEmail"
-import VerifyMobile from "./VerifyMobile"
-import { Row } from "components/BuySell/Signup"
+import AcceptTerms from './AcceptTerms'
+import VerifyEmail from './VerifyEmail'
+import VerifyMobile from './VerifyMobile'
+import { Row } from 'components/BuySell/Signup'
 
 const Create = props => {
   const { ui } = props
@@ -14,7 +14,7 @@ const Create = props => {
 
   const determineStep = () => {
     switch (create) {
-      case "create_account":
+      case 'create_account':
         return (
           <AcceptTerms
             handleSignup={handleSignup}
@@ -23,12 +23,12 @@ const Create = props => {
           />
         )
 
-      case "change_email":
-      case "enter_email_code":
+      case 'change_email':
+      case 'enter_email_code':
         return <VerifyEmail {...props} />
 
-      case "change_mobile":
-      case "enter_mobile_code":
+      case 'change_mobile':
+      case 'enter_mobile_code':
         return <VerifyMobile {...props} />
     }
   }
@@ -42,4 +42,4 @@ Create.propTypes = {
   smsNumber: PropTypes.string
 }
 
-export default reduxForm({ form: "sfoxCreate" })(Create)
+export default reduxForm({ form: 'sfoxCreate' })(Create)

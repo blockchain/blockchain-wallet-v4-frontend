@@ -1,21 +1,21 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { Field, reduxForm } from "redux-form"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
 
 import {
   required,
   validEmail,
   validPasswordConfirmation,
   validStrongPassword
-} from "services/FormHelper"
+} from 'services/FormHelper'
 import {
   Button,
   Link,
   HeartbeatLoader,
   Separator,
   Text
-} from "blockchain-info-components"
+} from 'blockchain-info-components'
 import {
   CheckBox,
   Form,
@@ -23,14 +23,14 @@ import {
   FormLabel,
   PasswordBox,
   TextBox
-} from "components/Form"
-import Terms from "components/Terms"
+} from 'components/Form'
+import Terms from 'components/Terms'
 
 const Wrapper = styled.div`
   width: 100%;
   padding: 40px;
   box-sizing: border-box;
-  background-color: ${props => props.theme["white"]};
+  background-color: ${props => props.theme['white']};
 
   @media (min-width: 768px) {
     width: 550px;
@@ -51,10 +51,10 @@ const GoBackLink = styled(Link)`
   margin-right: 15px;
 `
 
-const validatePasswordConfirmation = validPasswordConfirmation("password")
+const validatePasswordConfirmation = validPasswordConfirmation('password')
 
 const checkboxShouldBeChecked = value =>
-  value ? undefined : "You must agree to the terms and conditions"
+  value ? undefined : 'You must agree to the terms and conditions'
 
 const SecondStep = props => {
   const { busy, invalid, handleSubmit, previousStep } = props
@@ -161,6 +161,6 @@ const SecondStep = props => {
 }
 
 export default reduxForm({
-  form: "recover",
+  form: 'recover',
   destroyOnUnmount: false
 })(SecondStep)

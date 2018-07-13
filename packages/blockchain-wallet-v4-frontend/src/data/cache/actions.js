@@ -1,4 +1,4 @@
-import * as AT from "./actionTypes"
+import * as AT from './actionTypes'
 
 export const announcementDismissed = id => ({
   type: AT.ANNOUNCEMENT_DISMISSED,

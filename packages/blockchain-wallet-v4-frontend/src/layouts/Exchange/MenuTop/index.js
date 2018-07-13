@@ -1,8 +1,8 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { LinkContainer } from "react-router-bootstrap"
+import { LinkContainer } from 'react-router-bootstrap'
 import {
   Image,
   Link,
@@ -10,7 +10,7 @@ import {
   TabMenuItem,
   Text,
   TextGroup
-} from "blockchain-info-components"
+} from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -20,8 +20,8 @@ const Wrapper = styled.div`
   width: 100%;
   padding: 0 30px;
   box-sizing: border-box;
-  background-color: ${props => props.theme["white-blue"]};
-  border-bottom: 1px solid ${props => props.theme["gray-1"]};
+  background-color: ${props => props.theme['white-blue']};
+  border-bottom: 1px solid ${props => props.theme['gray-1']};
 
   > div > span:first-child {
     padding-left: 0;

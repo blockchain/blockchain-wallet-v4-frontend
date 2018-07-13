@@ -1,11 +1,11 @@
-import SecurityComponent from "./SecurityComponent"
-import SecurityContainer from "./SecurityContainer"
-import SecurityDescription from "./SecurityDescription"
-import SecurityHeader from "./SecurityHeader"
-import SecurityIcon from "./SecurityIcon"
-import SecuritySummary from "./SecuritySummary"
+import SecurityComponent from './SecurityComponent'
+import SecurityContainer from './SecurityContainer'
+import SecurityDescription from './SecurityDescription'
+import SecurityHeader from './SecurityHeader'
+import SecurityIcon from './SecurityIcon'
+import SecuritySummary from './SecuritySummary'
 
-import styled from "styled-components"
+import styled from 'styled-components'
 
 export const SecurityTip = styled.div`
   border-left: 1px solid #cccccc;

@@ -1,9 +1,9 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { Icon, Text } from "blockchain-info-components"
+import { Icon, Text } from 'blockchain-info-components'
 
 const Header = styled.div`
   display: flex;
@@ -11,8 +11,8 @@ const Header = styled.div`
   width: 100%;
   height: 100px;
   margin-top: 15px;
-  background-color: ${props => props.theme["brand-quaternary"]};
-  border: 1px solid ${props => props.theme["gray-1"]};
+  background-color: ${props => props.theme['brand-quaternary']};
+  border: 1px solid ${props => props.theme['gray-1']};
   *:hover {
     cursor: pointer;
   }
@@ -73,16 +73,16 @@ const ArrowWrapper = styled.div`
 `
 const Arrow = styled.div`
   width: 100%;
-  border-top: 1px solid ${props => props.theme["gray-5"]};
+  border-top: 1px solid ${props => props.theme['gray-5']};
   position: absolute;
   top: 20px;
   left: 0;
 
   &:before {
-    content: "";
+    content: '';
     position: absolute;
     right: -2px;
-    background: ${props => props.theme["gray-5"]};
+    background: ${props => props.theme['gray-5']};
     height: 1px;
     width: 12px;
     top: -5px;
@@ -90,10 +90,10 @@ const Arrow = styled.div`
   }
 
   &:after {
-    content: "";
+    content: '';
     position: absolute;
     right: -2px;
-    background: ${props => props.theme["gray-5"]};
+    background: ${props => props.theme['gray-5']};
     height: 1px;
     width: 12px;
     top: 3px;
@@ -105,12 +105,12 @@ const Circle = styled.div`
   height: 30px;
   line-height: 30px;
   border-radius: 15px;
-  background: ${props => props.theme["gray-5"]};
+  background: ${props => props.theme['gray-5']};
   margin-bottom: 10px;
   flex-wrap: nowrap;
 
   &.step-complete {
-    background: ${props => props.theme["brand-secondary"]};
+    background: ${props => props.theme['brand-secondary']};
   }
 
   & > span:first-child {
@@ -182,7 +182,7 @@ const SfoxSignupBanner = props => {
           return (
             <React.Fragment key={i}>
               <Step>
-                <Circle className={currentStep >= i ? "step-complete" : ""}>
+                <Circle className={currentStep >= i ? 'step-complete' : ''}>
                   {currentStep > i && (
                     <Icon
                       name="checkmark"
@@ -200,7 +200,7 @@ const SfoxSignupBanner = props => {
                 <Text
                   size="12px"
                   weight={300}
-                  color={currentStep >= i ? "brand-secondary" : "gray-5"}
+                  color={currentStep >= i ? 'brand-secondary' : 'gray-5'}
                 >
                   {getSfoxStepTitle(i + 1)}
                 </Text>

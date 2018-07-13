@@ -1,9 +1,9 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { Toast } from "blockchain-info-components"
-import * as C from "services/AlertService"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { Toast } from 'blockchain-info-components'
+import * as C from 'services/AlertService'
 
 const Wrapper = styled.div`
   position: absolute;
@@ -29,18 +29,18 @@ const Wrapper = styled.div`
 
 const selectHeader = nature => {
   switch (nature) {
-    case "info":
+    case 'info':
       return (
         <FormattedMessage id="components.alerts.alert" defaultMessage="Alert" />
       )
-    case "success":
+    case 'success':
       return (
         <FormattedMessage
           id="components.alerts.success"
           defaultMessage="Success"
         />
       )
-    case "error":
+    case 'error':
       return (
         <FormattedMessage id="components.alerts.error" defaultMessage="Error" />
       )
@@ -957,7 +957,7 @@ Alerts.propTypes = {
   alerts: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
-      nature: PropTypes.oneOf(["info", "error", "success"]),
+      nature: PropTypes.oneOf(['info', 'error', 'success']),
       message: PropTypes.string.isRequired,
       data: PropTypes.object
     })

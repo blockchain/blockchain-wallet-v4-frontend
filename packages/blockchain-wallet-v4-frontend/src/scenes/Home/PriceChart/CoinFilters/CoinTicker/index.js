@@ -1,12 +1,12 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import { actions, selectors } from "data"
-import Error from "./template.error"
-import Loading from "./template.loading"
-import Success from "./template.success"
+import { actions, selectors } from 'data'
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
 
 export class CoinTickerContainer extends React.PureComponent {
   componentDidMount() {
@@ -36,7 +36,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 CoinTickerContainer.propTypes = {
-  coin: PropTypes.oneOf(["BCH", "BTC", "ETH"]).isRequired,
+  coin: PropTypes.oneOf(['BCH', 'BTC', 'ETH']).isRequired,
   handleClick: PropTypes.func.isRequired,
   selected: PropTypes.bool.isRequired
 }

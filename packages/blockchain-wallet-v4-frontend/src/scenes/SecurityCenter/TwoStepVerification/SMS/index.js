@@ -1,14 +1,14 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators, compose } from "redux"
-import ui from "redux-ui"
-import { formValueSelector } from "redux-form"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import ui from 'redux-ui'
+import { formValueSelector } from 'redux-form'
 
-import { getData } from "./selectors"
-import { actions } from "data"
-import Success from "./template.success"
-import Error from "./template.error"
-import Loading from "./template.loading"
+import { getData } from './selectors'
+import { actions } from 'data'
+import Success from './template.success'
+import Error from './template.error'
+import Loading from './template.loading'
 
 class SmsAuthContainer extends React.PureComponent {
   constructor(props) {
@@ -37,7 +37,7 @@ class SmsAuthContainer extends React.PureComponent {
   }
 
   handleClick() {
-    this.props.modalActions.showModal("TwoStepSetup")
+    this.props.modalActions.showModal('TwoStepSetup')
   }
 
   onSubmit() {
@@ -80,8 +80,8 @@ class SmsAuthContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  mobileNumber: formValueSelector("securitySms")(state, "mobileNumber"),
-  verificationCode: formValueSelector("securitySms")(state, "verificationCode"),
+  mobileNumber: formValueSelector('securitySms')(state, 'mobileNumber'),
+  verificationCode: formValueSelector('securitySms')(state, 'verificationCode'),
   data: getData(state)
 })
 
@@ -100,7 +100,7 @@ const enhance = compose(
     mapDispatchToProps
   ),
   ui({
-    key: "Security_TwoFactor",
+    key: 'Security_TwoFactor',
     state: {
       changeNumberToggled: false,
       verifyMobileNumberStep: false,

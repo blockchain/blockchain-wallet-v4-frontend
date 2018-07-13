@@ -1,12 +1,12 @@
-import React from "react"
-import { compose, bindActionCreators } from "redux"
-import { connect } from "react-redux"
-import wizardProvider from "providers/WizardProvider"
-import { actions } from "data"
-import { path } from "ramda"
-import FirstStep from "./FirstStep"
-import SecondStep from "./SecondStep"
-import ThirdStep from "./ThirdStep"
+import React from 'react'
+import { compose, bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import wizardProvider from 'providers/WizardProvider'
+import { actions } from 'data'
+import { path } from 'ramda'
+import FirstStep from './FirstStep'
+import SecondStep from './SecondStep'
+import ThirdStep from './ThirdStep'
 
 class RecoveryPhraseContainer extends React.PureComponent {
   componentWillMount() {
@@ -14,8 +14,12 @@ class RecoveryPhraseContainer extends React.PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.step === 3 || (nextProps.step === 2 && this.props.step === 3))
+    if (
+      nextProps.step === 3 ||
+      (nextProps.step === 2 && this.props.step === 3)
+    ) {
       this.props.triggerCopyChange()
+    }
   }
 
   onClose() {
@@ -37,7 +41,7 @@ class RecoveryPhraseContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  recoveryPhrase: path(["securityCenter", "recovery_phrase"], state)
+  recoveryPhrase: path(['securityCenter', 'recovery_phrase'], state)
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -49,7 +53,7 @@ const enhance = compose(
     mapStateToProps,
     mapDispatchToProps
   ),
-  wizardProvider("recoveryPhrase", 3)
+  wizardProvider('recoveryPhrase', 3)
 )
 
 export default enhance(RecoveryPhraseContainer)

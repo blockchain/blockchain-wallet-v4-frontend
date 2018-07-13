@@ -1,12 +1,12 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { Field, reduxForm } from "redux-form"
-import QRCodeReact from "qrcode.react"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
+import QRCodeReact from 'qrcode.react'
 
-import { required } from "services/FormHelper"
-import { Button, Separator, Text, Tooltip } from "blockchain-info-components"
+import { required } from 'services/FormHelper'
+import { Button, Separator, Text, Tooltip } from 'blockchain-info-components'
 import {
   Form,
   FormGroup,
@@ -14,8 +14,8 @@ import {
   FormLabel,
   SelectBoxBitcoinAddresses,
   SelectBoxCoin
-} from "components/Form"
-import CopyClipboard from "components/CopyClipboard"
+} from 'components/Form'
+import CopyClipboard from 'components/CopyClipboard'
 
 const AddressContainer = styled.div`
   display: flex;
@@ -41,7 +41,7 @@ const RequestBch = props => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <FormGroup inline margin={"20px"}>
+      <FormGroup inline margin={'20px'}>
         <FormItem>
           <FormLabel for="coin">
             <FormattedMessage
@@ -86,7 +86,7 @@ const RequestBch = props => {
           </AddressContainer>
         </FormItem>
       </FormGroup>
-      <Separator margin={"20px 0"}>
+      <Separator margin={'20px 0'}>
         <Text size="14px" weight={300} uppercase>
           <FormattedMessage id="modals.requestbch.or" defaultMessage="Or" />
         </Text>
@@ -128,6 +128,6 @@ RequestBch.propTypes = {
   handleSubmit: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: "requestBch", destroyOnUnmount: false })(
+export default reduxForm({ form: 'requestBch', destroyOnUnmount: false })(
   RequestBch
 )

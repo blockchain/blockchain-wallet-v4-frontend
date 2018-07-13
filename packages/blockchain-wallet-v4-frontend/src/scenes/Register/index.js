@@ -1,10 +1,10 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import { formValueSelector } from "redux-form"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { formValueSelector } from 'redux-form'
 
-import Register from "./template.js"
-import { actions, selectors } from "data"
+import Register from './template.js'
+import { actions, selectors } from 'data'
 
 class RegisterContainer extends React.PureComponent {
   constructor() {
@@ -33,8 +33,8 @@ class RegisterContainer extends React.PureComponent {
 const mapStateToProps = state => ({
   data: selectors.auth.getRegistering(state),
   language: selectors.preferences.getLanguage(state),
-  email: formValueSelector("register")(state, "email"),
-  password: formValueSelector("register")(state, "password")
+  email: formValueSelector('register')(state, 'email'),
+  password: formValueSelector('register')(state, 'password')
 })
 
 const mapDispatchToProps = dispatch => ({

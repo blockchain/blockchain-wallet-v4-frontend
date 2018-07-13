@@ -1,14 +1,14 @@
-import { shift, shiftIProp } from "./util"
-import { pipe, compose, curry, is, range, map } from "ramda"
-import { view, over, traverseOf, traversed } from "ramda-lens"
-import Bitcoin from "bitcoinjs-lib"
-import BIP39 from "bip39"
-import * as crypto from "../walletCrypto"
-import Task from "data.task"
+import { shift, shiftIProp } from './util'
+import { pipe, compose, curry, is, range, map } from 'ramda'
+import { view, over, traverseOf, traversed } from 'ramda-lens'
+import Bitcoin from 'bitcoinjs-lib'
+import BIP39 from 'bip39'
+import * as crypto from '../walletCrypto'
+import Task from 'data.task'
 
-import Type from "./Type"
-import * as HDAccountList from "./HDAccountList"
-import * as HDAccount from "./HDAccount"
+import Type from './Type'
+import * as HDAccountList from './HDAccountList'
+import * as HDAccount from './HDAccount'
 
 /* HDWallet :: {
   seed_hex :: String
@@ -19,10 +19,10 @@ export class HDWallet extends Type {}
 
 export const isHDWallet = is(HDWallet)
 
-export const seedHex = HDWallet.define("seedHex")
-export const accounts = HDWallet.define("accounts")
-export const defaultAccountIdx = HDWallet.define("default_account_idx")
-export const mnemonicVerified = HDWallet.define("mnemonic_verified")
+export const seedHex = HDWallet.define('seedHex')
+export const accounts = HDWallet.define('accounts')
+export const defaultAccountIdx = HDWallet.define('default_account_idx')
+export const mnemonicVerified = HDWallet.define('mnemonic_verified')
 
 export const selectSeedHex = view(seedHex)
 export const selectAccounts = view(accounts)
@@ -45,7 +45,7 @@ export const selectContext = compose(
 )
 
 const shiftHDWallet = compose(
-  shiftIProp("seed_hex", "seedHex"),
+  shiftIProp('seed_hex', 'seedHex'),
   shift
 )
 
@@ -127,16 +127,16 @@ export const decrypt = curry((iterations, sharedKey, password, hdWallet) => {
 
 export const createNew = mnemonic =>
   fromJS({
-    seed_hex: mnemonic ? BIP39.mnemonicToEntropy(mnemonic) : "",
-    passphrase: "",
+    seed_hex: mnemonic ? BIP39.mnemonicToEntropy(mnemonic) : '',
+    passphrase: '',
     mnemonic_verified: false,
     default_account_idx: 0,
     accounts: []
   })
 
 export const js = (label, mnemonic, xpub, nAccounts, network) => {
-  const seed = mnemonic ? BIP39.mnemonicToSeed(mnemonic) : ""
-  const seedHex = mnemonic ? BIP39.mnemonicToEntropy(mnemonic) : ""
+  const seed = mnemonic ? BIP39.mnemonicToSeed(mnemonic) : ''
+  const seedHex = mnemonic ? BIP39.mnemonicToEntropy(mnemonic) : ''
   const masterNode = mnemonic
     ? Bitcoin.HDNode.fromSeedBuffer(seed, network)
     : undefined
@@ -145,10 +145,10 @@ export const js = (label, mnemonic, xpub, nAccounts, network) => {
     : undefined
   const node = i => (mnemonic ? parentNode.deriveHardened(i) : undefined)
   const account = i =>
-    HDAccount.js(`${label}${i > 0 ? ` ${i + 1}` : ""}`, node(i), xpub)
+    HDAccount.js(`${label}${i > 0 ? ` ${i + 1}` : ''}`, node(i), xpub)
   return {
     seed_hex: seedHex,
-    passphrase: "",
+    passphrase: '',
     mnemonic_verified: false,
     default_account_idx: 0,
     // accounts: [HDAccount.js(label, node, xpub)]

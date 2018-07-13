@@ -1,8 +1,8 @@
-import { indexBy, map, prop, compose, is, pipe, curry } from "ramda"
-import { view } from "ramda-lens"
-import Type from "./Type"
-import * as AddressLabel from "./AddressLabel"
-import { iLensProp } from "./util"
+import { indexBy, map, prop, compose, is, pipe, curry } from 'ramda'
+import { view } from 'ramda-lens'
+import Type from './Type'
+import * as AddressLabel from './AddressLabel'
+import { iLensProp } from './util'
 
 export class AddressLabelMap extends Type {}
 
@@ -44,7 +44,7 @@ export const fromJS = (labels = []) => {
     return labels
   } else {
     const addressLabels = compose(
-      indexBy(prop("index")),
+      indexBy(prop('index')),
       map(AddressLabel.fromJS)
     )(labels)
     return new AddressLabelMap(addressLabels)

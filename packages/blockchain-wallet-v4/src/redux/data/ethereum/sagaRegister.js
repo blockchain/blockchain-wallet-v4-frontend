@@ -1,6 +1,6 @@
-import { fork, takeLatest } from "redux-saga/effects"
-import * as AT from "./actionTypes"
-import sagas from "./sagas"
+import { fork, takeLatest } from 'redux-saga/effects'
+import * as AT from './actionTypes'
+import sagas from './sagas'
 
 export default ({ api }) => {
   const dataEthereumSagas = sagas({ api })

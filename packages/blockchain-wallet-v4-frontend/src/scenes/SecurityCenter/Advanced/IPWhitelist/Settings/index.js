@@ -1,13 +1,13 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { connect } from "react-redux"
-import { bindActionCreators, compose } from "redux"
-import { formValueSelector } from "redux-form"
-import ui from "redux-ui"
-import { equals, isEmpty } from "ramda"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import { formValueSelector } from 'redux-form'
+import ui from 'redux-ui'
+import { equals, isEmpty } from 'ramda'
 
-import { actions, selectors } from "data"
-import Settings from "./template.js"
+import { actions, selectors } from 'data'
+import Settings from './template.js'
 
 class SettingsContainer extends React.PureComponent {
   constructor(props) {
@@ -18,7 +18,7 @@ class SettingsContainer extends React.PureComponent {
 
   componentWillMount() {
     if (!isEmpty(this.props.currentWhitelist)) {
-      this.props.formActions.initialize("settingIPWhitelist", {
+      this.props.formActions.initialize('settingIPWhitelist', {
         IPWhitelist: this.props.currentWhitelist.data
       })
     }
@@ -48,7 +48,7 @@ class SettingsContainer extends React.PureComponent {
         updateToggled={ui.updateToggled}
         handleToggle={this.handleToggle}
         handleCancel={() => {
-          this.props.formActions.reset("settingIPWhitelist")
+          this.props.formActions.reset('settingIPWhitelist')
           this.handleToggle()
         }}
       />
@@ -58,7 +58,7 @@ class SettingsContainer extends React.PureComponent {
 
 const mapStateToProps = state => ({
   currentWhitelist: selectors.core.settings.getIpLock(state),
-  IPWhitelist: formValueSelector("settingIPWhitelist")(state, "IPWhitelist")
+  IPWhitelist: formValueSelector('settingIPWhitelist')(state, 'IPWhitelist')
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -72,7 +72,7 @@ const enhance = compose(
     mapDispatchToProps
   ),
   ui({
-    key: "Setting_IPWhitelist",
+    key: 'Setting_IPWhitelist',
     state: { updateToggled: false, verifyToggled: false }
   })
 )

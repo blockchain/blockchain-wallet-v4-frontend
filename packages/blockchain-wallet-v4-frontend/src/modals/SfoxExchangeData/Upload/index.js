@@ -1,11 +1,11 @@
-import React, { Component } from "react"
-import { connect } from "react-redux"
-import { bindActionCreators, compose } from "redux"
-import Upload from "./template"
-import { actions } from "data"
-import { getData } from "./selectors"
-import ui from "redux-ui"
-import Failure from "components/BuySell/Failure"
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import Upload from './template'
+import { actions } from 'data'
+import { getData } from './selectors'
+import ui from 'redux-ui'
+import Failure from 'components/BuySell/Failure'
 
 class UploadContainer extends Component {
   constructor(props) {
@@ -22,7 +22,7 @@ class UploadContainer extends Component {
     this.state = {
       file: null,
       camera: false,
-      photo: ""
+      photo: ''
     }
   }
 
@@ -47,7 +47,7 @@ class UploadContainer extends Component {
   }
 
   resetUpload() {
-    this.setState({ file: null, camera: false, photo: "" })
+    this.setState({ file: null, camera: false, photo: '' })
   }
 
   handleStartClick(e) {

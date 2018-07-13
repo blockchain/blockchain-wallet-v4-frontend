@@ -1,8 +1,8 @@
-import React from "react"
-import { FormattedMessage } from "react-intl"
-import { Text, Icon, Image } from "blockchain-info-components"
-import styled from "styled-components"
-import media from "services/ResponsiveService"
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Text, Icon, Image } from 'blockchain-info-components'
+import styled from 'styled-components'
+import media from 'services/ResponsiveService'
 
 const Choice = styled.div`
   display: flex;
@@ -68,7 +68,7 @@ function Choices(props) {
         onClick={
           editing && authType > 0
             ? () => props.pulseText()
-            : () => props.chooseMethod("google")
+            : () => props.chooseMethod('google')
         }
       >
         <SecurityIcon name="lock" size="18px" weight={400} />
@@ -93,7 +93,7 @@ function Choices(props) {
         onClick={
           editing && authType > 0
             ? () => props.pulseText()
-            : () => props.chooseMethod("yubikey")
+            : () => props.chooseMethod('yubikey')
         }
       >
         <YubikeyWrapper>
@@ -120,7 +120,7 @@ function Choices(props) {
         onClick={
           editing && authType > 0
             ? () => props.pulseText()
-            : () => props.chooseMethod("sms")
+            : () => props.chooseMethod('sms')
         }
       >
         <SecurityIcon name="mobile" size="18px" weight={400} />

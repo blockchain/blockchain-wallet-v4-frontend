@@ -1,21 +1,21 @@
-import React from "react"
-import { FormattedMessage } from "react-intl"
-import { OrderHistoryText } from "../TradeItem"
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { OrderHistoryText } from '../TradeItem'
 
 const selectStyle = status => {
   switch (status) {
-    case "processing":
-      return { color: "transferred" }
-    case "completed":
-      return { color: "success" }
-    case "rejected":
-      return { color: "error" }
-    case "failed":
-      return { color: "error" }
-    case "cancelled":
-      return { color: "error" }
-    case "expired":
-      return { color: "error" }
+    case 'processing':
+      return { color: 'transferred' }
+    case 'completed':
+      return { color: 'success' }
+    case 'rejected':
+      return { color: 'error' }
+    case 'failed':
+      return { color: 'error' }
+    case 'cancelled':
+      return { color: 'error' }
+    case 'expired':
+      return { color: 'error' }
   }
 }
 
@@ -23,8 +23,8 @@ const selectStyle = status => {
 
 const renderStatus = (status, isBuy) => {
   switch (status) {
-    case "awaiting_transfer_in":
-    case "processing":
+    case 'awaiting_transfer_in':
+    case 'processing':
       return isBuy ? (
         <FormattedMessage
           id="scenes.buysellorderhistory.list.orderstatus.processingbuy"
@@ -36,7 +36,7 @@ const renderStatus = (status, isBuy) => {
           defaultMessage="Pending Sell"
         />
       )
-    case "completed":
+    case 'completed':
       return isBuy ? (
         <FormattedMessage
           id="scenes.buysellorderhistory.list.orderstatus.completedbuy"
@@ -48,28 +48,28 @@ const renderStatus = (status, isBuy) => {
           defaultMessage="Completed Sell"
         />
       )
-    case "rejected":
+    case 'rejected':
       return (
         <FormattedMessage
           id="scenes.buysellorderhistory.list.orderstatus.rejected"
           defaultMessage="Rejected"
         />
       )
-    case "failed":
+    case 'failed':
       return (
         <FormattedMessage
           id="scenes.buysellorderhistory.list.orderstatus.failed"
           defaultMessage="Failed"
         />
       )
-    case "cancelled":
+    case 'cancelled':
       return (
         <FormattedMessage
           id="scenes.buysellorderhistory.list.orderstatus.cancelled"
           defaultMessage="Cancelled"
         />
       )
-    case "expired":
+    case 'expired':
       return (
         <FormattedMessage
           id="scenes.buysellorderhistory.list.orderstatus.expired"

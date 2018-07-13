@@ -1,4 +1,4 @@
-import * as AT from "./actionTypes"
+import * as AT from './actionTypes'
 
 export const initialized = coin => ({
   type: AT.PRICE_TICKER_INITIALIZED,

@@ -1,13 +1,13 @@
-import React from "react"
-import Tooltip from "./template.js"
-import renderer from "react-test-renderer"
-import "jest-styled-components"
+import React from 'react'
+import Tooltip from './template.js'
+import renderer from 'react-test-renderer'
+import 'jest-styled-components'
 
-describe("Tooltip component", () => {
-  it("renders correctly", () => {
+describe('Tooltip component', () => {
+  it('renders correctly', () => {
     const component = renderer.create(
       <Tooltip
-        colors={"primary"}
+        colors={'primary'}
         width={100}
         onMouseEnter={jest.fn()}
         onMouseLeave={jest.fn()}

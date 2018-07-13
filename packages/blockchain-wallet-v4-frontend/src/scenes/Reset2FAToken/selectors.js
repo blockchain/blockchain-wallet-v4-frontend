@@ -1,3 +1,3 @@
-import { selectors } from "data"
+import { selectors } from 'data'
 
 export const getData = selectors.core.data.misc.handle2FAReset

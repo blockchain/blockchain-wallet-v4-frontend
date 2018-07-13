@@ -1,9 +1,9 @@
-import React, { Fragment } from "react"
-import PropTypes from "prop-types"
-import { FormattedMessage } from "react-intl"
+import React, { Fragment } from 'react'
+import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 
-import { Button, Text } from "blockchain-info-components"
-import { SettingWrapper } from "components/Setting"
+import { Button, Text } from 'blockchain-info-components'
+import { SettingWrapper } from 'components/Setting'
 
 const Setting = props => {
   const {
@@ -29,8 +29,8 @@ const Setting = props => {
             nature="primary"
             onClick={() => {
               resetWarning()
-              modalActions.showModal("ConfirmDisable2FA", {
-                authName: "2FA using SMS",
+              modalActions.showModal('ConfirmDisable2FA', {
+                authName: '2FA using SMS',
                 extraCopy: (
                   <FormattedMessage
                     id="scenes.settings.preferences.mobilenumber.settings.reenableseccenter"

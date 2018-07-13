@@ -1,7 +1,7 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { spacing, flex } from "services/StyleService"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { spacing, flex } from 'services/StyleService'
 
 import {
   Button,
@@ -12,17 +12,17 @@ import {
   ModalFooter,
   Text,
   ButtonGroup
-} from "blockchain-info-components"
+} from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
-  justify-content: ${props => (props.extraCopy ? null : "center")};
+  justify-content: ${props => (props.extraCopy ? null : 'center')};
 `
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: ${props => (props.extraCopy ? null : "center")};
-  align-items: ${props => (props.extraCopy ? null : "center")};
+  justify-content: ${props => (props.extraCopy ? null : 'center')};
+  align-items: ${props => (props.extraCopy ? null : 'center')};
   height: 100%;
   padding: 0;
   box-sizing: border-box;
@@ -52,8 +52,8 @@ const ConfirmDisable2FA = props => {
   return (
     <Modal size="large" position={position} total={total}>
       <ModalHeader onClose={close}>
-        <div style={flex("row align/center")}>
-          <Icon name="lock" size="20px" style={spacing("pr-5")} />
+        <div style={flex('row align/center')}>
+          <Icon name="lock" size="20px" style={spacing('pr-5')} />
           <FormattedMessage
             id="modals.disable2fa.title"
             defaultMessage="Disable Two-Step"
@@ -71,7 +71,7 @@ const ConfirmDisable2FA = props => {
               {` ${authName}?`}
             </Text>
             {extraCopy ? (
-              <Text style={spacing("mt-10")} size="14px" weight={300}>
+              <Text style={spacing('mt-10')} size="14px" weight={300}>
                 {extraCopy}
               </Text>
             ) : (

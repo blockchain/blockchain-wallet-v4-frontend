@@ -1,17 +1,17 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { Field, reduxForm } from "redux-form"
-import { LinkContainer } from "react-router-bootstrap"
-import { Icon, TabMenu, TabMenuItem } from "blockchain-info-components"
-import { TextBox } from "components/Form"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
+import { LinkContainer } from 'react-router-bootstrap'
+import { Icon, TabMenu, TabMenuItem } from 'blockchain-info-components'
+import { TextBox } from 'components/Form'
 
 const Wrapper = styled.div`
   width: 100%;
   padding: 8px 30px;
   box-sizing: border-box;
-  background-color: ${props => props.theme["white-blue"]};
-  border-bottom: 1px solid ${props => props.theme["gray-1"]};
+  background-color: ${props => props.theme['white-blue']};
+  border-bottom: 1px solid ${props => props.theme['gray-1']};
 `
 const Container = styled.div`
   display: flex;
@@ -79,4 +79,4 @@ const MenuTop = () => (
   </Wrapper>
 )
 
-export default reduxForm({ form: "settingsAddresses" })(MenuTop)
+export default reduxForm({ form: 'settingsAddresses' })(MenuTop)

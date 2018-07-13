@@ -1,24 +1,24 @@
-import React, { Fragment } from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { reduxForm } from "redux-form"
-import { Button, HeartbeatLoader, Link, Text } from "blockchain-info-components"
-import BankAccounts from "./BankAccounts"
-import AddManually from "./AddManually"
-import MicroDeposits from "./MicroDeposits"
-import PlaidFrame from "./iframe.js"
-import AwaitingDeposits from "./AwaitingDeposits"
-import { Remote } from "blockchain-wallet-v4/src"
+import React, { Fragment } from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { reduxForm } from 'redux-form'
+import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
+import BankAccounts from './BankAccounts'
+import AddManually from './AddManually'
+import MicroDeposits from './MicroDeposits'
+import PlaidFrame from './iframe.js'
+import AwaitingDeposits from './AwaitingDeposits'
+import { Remote } from 'blockchain-wallet-v4/src'
 
-import Helper from "components/BuySell/FAQ"
+import Helper from 'components/BuySell/FAQ'
 import {
   ColLeft,
   ColRight,
   PartnerHeader,
   PartnerSubHeader,
   ColRightInner
-} from "components/BuySell/Signup"
-import media from "services/ResponsiveService"
+} from 'components/BuySell/Signup'
+import media from 'services/ResponsiveService'
 
 const Form = styled.form`
   width: 100%;
@@ -59,7 +59,7 @@ const OrText = styled.p`
   }
   span:before,
   span:after {
-    content: "";
+    content: '';
     position: absolute;
     height: 5px;
     border-bottom: 1px solid rgba(151, 151, 151, 0.5);
@@ -275,7 +275,7 @@ const BankLink = props => {
 
   const buttonHelper = () => {
     if (ui.microDeposits) {
-      if (microStep === "amounts") {
+      if (microStep === 'amounts') {
         return (
           <Button
             nature="primary"
@@ -296,7 +296,7 @@ const BankLink = props => {
           nature="primary"
           uppercase
           fullwidth
-          onClick={() => goToMicroDepositStep("amounts")}
+          onClick={() => goToMicroDepositStep('amounts')}
         >
           <FormattedMessage
             id="sfoxexchangedata.link.microdeposits.enter"
@@ -379,4 +379,4 @@ const BankLink = props => {
   )
 }
 
-export default reduxForm({ form: "sfoxLink" })(BankLink)
+export default reduxForm({ form: 'sfoxLink' })(BankLink)

@@ -1,10 +1,10 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { range } from "ramda"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { range } from 'ramda'
 
-import { Color } from "../../Colors"
-import { Icon } from "../../Icons"
+import { Color } from '../../Colors'
+import { Icon } from '../../Icons'
 
 const Wrapper = styled.div`
   display: flex;
@@ -53,27 +53,27 @@ const Control = styled.div`
   margin: 0 10px;
   border-radius: 5px;
   background-color: ${props =>
-    props.active ? props.theme["brand-secondary"] : props.theme["gray-4"]};
+    props.active ? props.theme['brand-secondary'] : props.theme['gray-4']};
   cursor: pointer;
   z-index: ;
 `
 const Arrow = styled(Icon).attrs({
-  name: "down-arrow",
-  size: "24px",
+  name: 'down-arrow',
+  size: '24px',
   weight: 700,
-  color: "gray-6"
+  color: 'gray-6'
 })`
   position: absolute;
   top: 50%;
   margin-top: -18px;
-  left: ${props => (props.left ? "10px" : "initial")};
-  right: ${props => (!props.left ? "10px" : "initial")};
-  transform: ${props => (props.left ? "rotate(90deg)" : "rotate(-90deg)")};
+  left: ${props => (props.left ? '10px' : 'initial')};
+  right: ${props => (!props.left ? '10px' : 'initial')};
+  transform: ${props => (props.left ? 'rotate(90deg)' : 'rotate(-90deg)')};
   cursor: pointer;
   z-index: 1;
 
   &:hover {
-    color: ${Color("brand-secondary")}!important;
+    color: ${Color('brand-secondary')}!important;
   }
 `
 

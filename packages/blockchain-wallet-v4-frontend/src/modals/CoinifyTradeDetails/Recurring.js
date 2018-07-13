@@ -1,11 +1,11 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { prop, head } from "ramda"
-import media from "services/ResponsiveService"
-import { Text, Tooltip } from "blockchain-info-components"
-import { recurringTimeHelper, recurringFee } from "services/CoinifyService"
-import * as Currency from "blockchain-wallet-v4/src/exchange/currency"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { prop, head } from 'ramda'
+import media from 'services/ResponsiveService'
+import { Text, Tooltip } from 'blockchain-info-components'
+import { recurringTimeHelper, recurringFee } from 'services/CoinifyService'
+import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 
 const RecurringTradeWrapper = styled.div`
   display: flex;
@@ -13,9 +13,9 @@ const RecurringTradeWrapper = styled.div`
   margin-top: 15px;
 `
 const RecurringBox = styled.div`
-  border: 1px solid ${props => props.theme["brand-tertiary"]};
+  border: 1px solid ${props => props.theme['brand-tertiary']};
   padding: 8px;
-  background: ${props => props.theme["brand-quaternary"]};
+  background: ${props => props.theme['brand-quaternary']};
   margin-top: 5px;
 `
 const RecurringRow = styled.div`
@@ -70,8 +70,8 @@ const Recurring = ({ trade, subscription }) => {
           </RecurringKey>
           <RecurringValue>
             <Text weight={300} size="13px">
-              {`${Currency.formatFiat(prop("inAmount", trade) / 100)} ${prop(
-                "inCurrency",
+              {`${Currency.formatFiat(prop('inAmount', trade) / 100)} ${prop(
+                'inCurrency',
                 trade
               )} (+ ${recurringFee(trade)} Payment Fee)`}
             </Text>
@@ -109,13 +109,13 @@ const Recurring = ({ trade, subscription }) => {
           </RecurringKey>
           <RecurringValue>
             <Text weight={300} size="13px">
-              {prop("endTime", subscription) ? (
+              {prop('endTime', subscription) ? (
                 <FormattedMessage
                   id="orderdetails.recurring.duration.endtime"
                   defaultMessage="This order will repeat until {date}"
                   values={{
                     date: new Date(
-                      prop("endTime", head(subscription))
+                      prop('endTime', head(subscription))
                     ).toDateString()
                   }}
                 />

@@ -1,8 +1,8 @@
-import React from "react"
-import { connect } from "react-redux"
+import React from 'react'
+import { connect } from 'react-redux'
 
-import { selectors } from "data"
-import Template from "./template"
+import { selectors } from 'data'
+import Template from './template'
 
 class Balance extends React.PureComponent {
   render() {

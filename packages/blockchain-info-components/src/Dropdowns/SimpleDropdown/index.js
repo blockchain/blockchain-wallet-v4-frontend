@@ -1,10 +1,10 @@
-import React from "react"
-import PropTypes from "prop-types"
-import onClickOutside from "react-onclickoutside"
+import React from 'react'
+import PropTypes from 'prop-types'
+import onClickOutside from 'react-onclickoutside'
 
-import Dropdown from "./template.js"
-import { Palette } from "../../"
-import { keysIn } from "ramda"
+import Dropdown from './template.js'
+import { Palette } from '../../'
+import { keysIn } from 'ramda'
 
 class SimpleDropdown extends React.PureComponent {
   constructor(props) {
@@ -51,7 +51,7 @@ class SimpleDropdown extends React.PureComponent {
 }
 
 SimpleDropdown.defaultProps = {
-  color: "brand-secondary",
+  color: 'brand-secondary',
   opened: false,
   selectedValue: 0,
   uppercase: true,

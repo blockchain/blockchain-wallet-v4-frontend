@@ -1,6 +1,6 @@
-import React from "react"
-import PropTypes from "prop-types"
-import CarouselTemplate from "./template.js"
+import React from 'react'
+import PropTypes from 'prop-types'
+import CarouselTemplate from './template.js'
 
 class Carousel extends React.PureComponent {
   constructor(props) {

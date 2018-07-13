@@ -1,10 +1,10 @@
-import { curry, compose, lensProp, forEach, addIndex, over } from "ramda"
-import { mapped } from "ramda-lens"
-import BitcoinCash from "bitcoinforksjs-lib"
-import * as Coin from "../coinSelection/coin.js"
+import { curry, compose, lensProp, forEach, addIndex, over } from 'ramda'
+import { mapped } from 'ramda-lens'
+import BitcoinCash from 'bitcoinforksjs-lib'
+import * as Coin from '../coinSelection/coin.js'
 // import { isFromAccount } from '../coinSelection'
-import { fromCashAddr, isCashAddr } from "../utils/bch"
-import { addHDWalletWIFS, addLegacyWIFS } from "./wifs.js"
+import { fromCashAddr, isCashAddr } from '../utils/bch'
+import { addHDWalletWIFS, addLegacyWIFS } from './wifs.js'
 
 export const signSelection = curry((network, selection) => {
   const hashType =
@@ -55,7 +55,7 @@ export const signLegacy = curry((network, secondPassword, wrapper, selection) =>
 export const wifToKeys = curry((network, selection) =>
   over(
     compose(
-      lensProp("inputs"),
+      lensProp('inputs'),
       mapped,
       Coin.priv
     ),

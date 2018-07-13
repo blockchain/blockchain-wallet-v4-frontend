@@ -1,13 +1,13 @@
-import React from "react"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import {
   SettingComponent,
   SettingContainer,
   SettingDescription,
   SettingHeader,
   SettingSummary
-} from "components/Setting"
-import Settings from "./Settings"
+} from 'components/Setting'
+import Settings from './Settings'
 
 const WalletPassword = props => {
   return (

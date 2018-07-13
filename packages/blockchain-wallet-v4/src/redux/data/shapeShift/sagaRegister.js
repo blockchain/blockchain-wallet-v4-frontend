@@ -1,6 +1,6 @@
-import { takeEvery, takeLatest } from "redux-saga/effects"
-import * as AT from "./actionTypes"
-import sagas from "./sagas"
+import { takeEvery, takeLatest } from 'redux-saga/effects'
+import * as AT from './actionTypes'
+import sagas from './sagas'
 
 export default ({ api } = {}) => {
   const dataShapeshiftSagas = sagas({ api })

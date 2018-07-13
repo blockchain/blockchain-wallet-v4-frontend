@@ -1,18 +1,18 @@
-import ExchangeDelegate from "../../../exchange/delegate"
-import { delay } from "redux-saga"
-import { apply, call, put, select } from "redux-saga/effects"
-import * as A from "./actions"
-import * as S from "./selectors"
-import * as walletActions from "../../wallet/actions"
-import * as buySellSelectors from "../../kvStore/buySell/selectors"
-import { coinifyService } from "../../../exchange/service"
-import * as buySellA from "../../kvStore/buySell/actions"
-import { equals, head, prop, sort, path } from "ramda"
+import ExchangeDelegate from '../../../exchange/delegate'
+import { delay } from 'redux-saga'
+import { apply, call, put, select } from 'redux-saga/effects'
+import * as A from './actions'
+import * as S from './selectors'
+import * as walletActions from '../../wallet/actions'
+import * as buySellSelectors from '../../kvStore/buySell/selectors'
+import { coinifyService } from '../../../exchange/service'
+import * as buySellA from '../../kvStore/buySell/actions'
+import { equals, head, prop, sort, path } from 'ramda'
 
 export default ({ api, options }) => {
   const getCoinify = function*() {
     const state = yield select()
-    const delegate = new ExchangeDelegate(state, api, "coinify")
+    const delegate = new ExchangeDelegate(state, api, 'coinify')
     const value = yield select(buySellSelectors.getMetadata)
     const walletOptions = state.walletOptionsPath.data
     let coinify = yield apply(coinifyService, coinifyService.refresh, [
@@ -30,7 +30,7 @@ export default ({ api, options }) => {
   const refreshCoinify = function*() {
     yield put(A.coinifyFetchProfileLoading())
     const state = yield select()
-    const delegate = new ExchangeDelegate(state, api, "coinify")
+    const delegate = new ExchangeDelegate(state, api, 'coinify')
     const value = yield select(buySellSelectors.getMetadata)
     const walletOptions = state.walletOptionsPath.data
     coinify = yield apply(coinifyService, coinifyService.refresh, [
@@ -45,7 +45,7 @@ export default ({ api, options }) => {
   const init = function*() {
     try {
       const val = yield select(buySellSelectors.getMetadata)
-      if (!path(["data", "value", "coinify", "offline_token"], val)) return
+      if (!path(['data', 'value', 'coinify', 'offline_token'], val)) return
       yield call(refreshCoinify)
     } catch (e) {
       console.warn(e)
@@ -68,7 +68,7 @@ export default ({ api, options }) => {
       yield put(A.fetchQuoteLoading())
       const { amount, baseCurrency, quoteCurrency, type } = data.quote
       const getQuote =
-        type === "sell" ? coinify.data.getSellQuote : coinify.data.getBuyQuote
+        type === 'sell' ? coinify.data.getSellQuote : coinify.data.getBuyQuote
       const quote = yield apply(coinify.data, getQuote, [
         Math.floor(amount),
         baseCurrency,
@@ -84,16 +84,16 @@ export default ({ api, options }) => {
   const refreshBuyQuote = function*() {
     try {
       const quote = yield select(S.getQuote)
-      const qData = path(["data"], quote)
+      const qData = path(['data'], quote)
 
       let quotePayload = {
         amount:
-          qData.baseCurrency === "BTC"
+          qData.baseCurrency === 'BTC'
             ? (qData.baseAmount * -1) / 1e8
             : qData.baseAmount * -1 * 100,
         baseCurrency: qData.baseCurrency,
         quoteCurrency: qData.quoteCurrency,
-        type: "buy"
+        type: 'buy'
       }
 
       const refreshedQuote = yield call(fetchQuote, { quote: quotePayload })
@@ -106,17 +106,17 @@ export default ({ api, options }) => {
   const refreshSellQuote = function*() {
     try {
       const quote = yield select(S.getQuote)
-      const qData = path(["data"], quote)
+      const qData = path(['data'], quote)
 
       let quotePayload = {
         baseCurrency: qData.baseCurrency,
         quoteCurrency: qData.quoteCurrency,
-        type: "sell"
+        type: 'sell'
       }
 
-      if (qData.baseCurrency !== "BTC")
-        quotePayload["amount"] = qData.baseAmount * 100
-      else quotePayload["amount"] = qData.baseAmount / 1e8
+      if (qData.baseCurrency !== 'BTC') {
+        quotePayload['amount'] = qData.baseAmount * 100
+      } else quotePayload['amount'] = qData.baseAmount / 1e8
       const refreshedQuote = yield call(fetchQuote, { quote: quotePayload })
       yield call(getPaymentMediums, { payload: refreshedQuote })
     } catch (e) {
@@ -128,7 +128,7 @@ export default ({ api, options }) => {
     try {
       const { amt, baseCurrency, quoteCurrency, medium, type } = data.payload
       const getQuote =
-        type === "sell" ? coinify.data.getSellQuote : coinify.data.getBuyQuote
+        type === 'sell' ? coinify.data.getSellQuote : coinify.data.getBuyQuote
       const quote = yield apply(coinify, getQuote, [
         amt,
         baseCurrency,
@@ -149,8 +149,8 @@ export default ({ api, options }) => {
       yield put(A.fetchQuoteLoading())
       const { currency, type } = data.payload
       const getQuote =
-        type === "sell" ? coinify.getSellQuote : coinify.getBuyQuote
-      const quote = yield apply(coinify, getQuote, [-1e8, "BTC", currency])
+        type === 'sell' ? coinify.getSellQuote : coinify.getBuyQuote
+      const quote = yield apply(coinify, getQuote, [-1e8, 'BTC', currency])
       yield put(A.fetchQuoteSuccess(quote))
     } catch (e) {
       yield put(A.fetchQuoteFailure(e))
@@ -159,7 +159,7 @@ export default ({ api, options }) => {
 
   const fetchTrades = function*(coinifyObj) {
     try {
-      const payload = prop("payload", coinifyObj)
+      const payload = prop('payload', coinifyObj)
       const coinify = !payload ? yield call(getCoinify) : payload
 
       const trades = yield apply(coinify, coinify.getTrades)
@@ -201,7 +201,7 @@ export default ({ api, options }) => {
       const quote = data.payload
       yield put(A.getPaymentMediumsLoading())
       const mediums = yield apply(quote, quote.getPaymentMediums)
-      const medium = prop("bank", mediums)
+      const medium = prop('bank', mediums)
       yield apply(medium, medium.getBankAccounts)
       yield put(A.getPaymentMediumsSuccess(mediums))
     } catch (e) {
@@ -233,9 +233,9 @@ export default ({ api, options }) => {
     const countryCode = data
     let fiatCurrency
 
-    if (countryCode === "DK") fiatCurrency = "DKK"
-    else if (countryCode === "GB") fiatCurrency = "GBP"
-    else fiatCurrency = "EUR"
+    if (countryCode === 'DK') fiatCurrency = 'DKK'
+    else if (countryCode === 'GB') fiatCurrency = 'GBP'
+    else fiatCurrency = 'EUR'
 
     try {
       const coinify = yield call(getCoinify)
@@ -308,11 +308,11 @@ export default ({ api, options }) => {
     try {
       yield apply(trade, trade.cancel)
       yield call(fetchTrades)
-      if (prop("tradeSubscriptionId", trade)) {
+      if (prop('tradeSubscriptionId', trade)) {
         yield call(fetchSubscriptions)
       }
     } catch (e) {
-      console.log("issue cancelling trade", e)
+      console.log('issue cancelling trade', e)
     }
   }
 
@@ -334,7 +334,7 @@ export default ({ api, options }) => {
       yield put(A.getKYCLoading())
       const coinify = yield call(getCoinify)
       const kycs = yield apply(coinify, coinify.getKYCs)
-      const byTime = (a, b) => prop("createdAt", b) - prop("createdAt", a)
+      const byTime = (a, b) => prop('createdAt', b) - prop('createdAt', a)
       const kyc = head(sort(byTime, kycs))
       yield put(A.getKYCSuccess(kyc))
       return kyc
@@ -346,8 +346,8 @@ export default ({ api, options }) => {
   const pollKYCPending = function*() {
     try {
       const kyc = yield select(S.getKyc)
-      let status = kyc.map(prop("state")).getOrElse(undefined)
-      while (equals(status, "pending")) {
+      let status = kyc.map(prop('state')).getOrElse(undefined)
+      while (equals(status, 'pending')) {
         yield call(delay, 1000)
         const kycR = yield select(S.getKyc)
         const kyc = kycR.getOrElse(undefined)
@@ -355,7 +355,7 @@ export default ({ api, options }) => {
           return
         }
         yield apply(kyc, kyc.refresh)
-        status = prop("state", kyc)
+        status = prop('state', kyc)
         yield put(A.getKYCSuccess(kyc))
       }
     } catch (e) {

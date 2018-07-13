@@ -1,5 +1,5 @@
-import { lift } from "ramda"
-import { selectors } from "data"
+import { lift } from 'ramda'
+import { selectors } from 'data'
 
 export const getData = state => {
   const limits = selectors.core.data.coinify.getLimits(state)

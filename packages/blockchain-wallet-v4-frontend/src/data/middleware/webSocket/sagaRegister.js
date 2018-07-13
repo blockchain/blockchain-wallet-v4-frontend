@@ -1,7 +1,7 @@
-import { fork } from "redux-saga/effects"
-import bch from "./bch/sagaRegister"
-import btc from "./btc/sagaRegister"
-import eth from "./eth/sagaRegister"
+import { fork } from 'redux-saga/effects'
+import bch from './bch/sagaRegister'
+import btc from './btc/sagaRegister'
+import eth from './eth/sagaRegister'
 
 export default ({ api, bchSocket, btcSocket, ethSocket }) =>
   function*() {

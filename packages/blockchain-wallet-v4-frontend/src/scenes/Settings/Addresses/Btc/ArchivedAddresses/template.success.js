@@ -1,11 +1,11 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { SettingDescription, SettingHeader } from "components/Setting"
-import { Table, TableHeader, TableCell, Text } from "blockchain-info-components"
-import { spacing } from "services/StyleService"
-import AddressRow from "../AddressRow"
-import { filter } from "ramda"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { SettingDescription, SettingHeader } from 'components/Setting'
+import { Table, TableHeader, TableCell, Text } from 'blockchain-info-components'
+import { spacing } from 'services/StyleService'
+import AddressRow from '../AddressRow'
+import { filter } from 'ramda'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
@@ -53,7 +53,7 @@ const Success = ({ archivedAddresses, onToggleArchived, onDelete, search }) => {
           defaultMessage="Archived Bitcoin Addresses"
         />
       </ArchivedAddressesContainer>
-      <SettingDescription style={spacing("mb-10")}>
+      <SettingDescription style={spacing('mb-10')}>
         <FormattedMessage
           id="scenes.settings.addresses.btc.archivedaddresses.description"
           defaultMessage="Archived addresses are addresses you may not need anymore that are hidden from the main view but still a part of your wallet. You can unarchive them any time."
@@ -79,7 +79,7 @@ const Success = ({ archivedAddresses, onToggleArchived, onDelete, search }) => {
           </TableCell>
           <TableCell
             width="20%"
-            style={{ display: "flex", justifyContent: "flex-end" }}
+            style={{ display: 'flex', justifyContent: 'flex-end' }}
           >
             <Text size="13px" weight={500}>
               <FormattedMessage

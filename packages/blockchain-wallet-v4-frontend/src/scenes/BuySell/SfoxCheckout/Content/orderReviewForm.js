@@ -1,14 +1,14 @@
-import React from "react"
-import styled from "styled-components"
-import { Field, reduxForm } from "redux-form"
-import { FormattedMessage } from "react-intl"
-import { Button, HeartbeatLoader, Link, Text } from "blockchain-info-components"
-import { Remote } from "blockchain-wallet-v4/src"
-import { prop } from "ramda"
-import { CancelWrapper } from "components/BuySell/Signup"
-import { CheckBox } from "components/Form"
-import { StepTransition } from "components/Utilities/Stepper"
-import { required } from "services/FormHelper"
+import React from 'react'
+import styled from 'styled-components'
+import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { prop } from 'ramda'
+import { CancelWrapper } from 'components/BuySell/Signup'
+import { CheckBox } from 'components/Form'
+import { StepTransition } from 'components/Utilities/Stepper'
+import { required } from 'services/FormHelper'
 
 const OrderSubmitForm = styled.form`
   margin-bottom: 30px;
@@ -22,7 +22,7 @@ const TermsLabel = styled.label`
 `
 const ToSLink = styled.a`
   text-decoration: none;
-  color: ${props => props.theme["brand-secondary"]};
+  color: ${props => props.theme['brand-secondary']};
 `
 
 const ReviewForm = props => {
@@ -43,7 +43,7 @@ const ReviewForm = props => {
               id="scenes.buysell.sfox.orderreview.checkboxtext"
               defaultMessage="I authorize SFOX, Inc. to debit my linked bank account ending in {account} and comply with the SFOX {ToS}."
               values={{
-                account: prop("accountNumber", account),
+                account: prop('accountNumber', account),
                 ToS: (
                   <ToSLink
                     rel="noopener noreferrer"
@@ -85,4 +85,4 @@ const ReviewForm = props => {
   )
 }
 
-export default reduxForm({ form: "reviewForm" })(ReviewForm)
+export default reduxForm({ form: 'reviewForm' })(ReviewForm)

@@ -1,14 +1,14 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { transparentize, darken } from "polished"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { transparentize, darken } from 'polished'
 
-import { Icon } from "../Icons"
+import { Icon } from '../Icons'
 
 const Wrapper = styled.div`
   height: 65px;
   width: 100%;
-  background-color: ${props => props.theme["white"]};
+  background-color: ${props => props.theme['white']};
 
   @media (min-width: 768px) {
     width: 500px;
@@ -26,7 +26,7 @@ const Container = styled.div`
   box-sizing: border-box;
   background: ${props => transparentize(0.9, props.theme[props.color])};
   color: ${props => props.theme[props.color]};
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   font-weight: 400;
   border-top: 6px solid
@@ -62,14 +62,14 @@ const Close = styled(Icon)`
 
 const selectColor = type => {
   switch (type) {
-    case "success":
-      return "success"
-    case "error":
-      return "error"
-    case "info":
-      return "brand-secondary"
+    case 'success':
+      return 'success'
+    case 'error':
+      return 'error'
+    case 'info':
+      return 'brand-secondary'
     default:
-      return "brand-secondary"
+      return 'brand-secondary'
   }
 }
 
@@ -95,13 +95,13 @@ const Toast = props => {
 }
 
 Toast.propTypes = {
-  nature: PropTypes.oneOf(["success", "error", "info"]),
+  nature: PropTypes.oneOf(['success', 'error', 'info']),
   onClose: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired
 }
 
 Toast.defaultProps = {
-  nature: "info"
+  nature: 'info'
 }
 
 export default Toast

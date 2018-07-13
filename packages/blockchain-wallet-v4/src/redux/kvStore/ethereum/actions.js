@@ -1,4 +1,4 @@
-import * as AT from "./actionTypes"
+import * as AT from './actionTypes'
 
 export const updateMetadataEthereum = (payload = {}) => ({
   type: AT.UPDATE_METADATA_ETHEREUM,

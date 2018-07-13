@@ -1,4 +1,4 @@
-import * as AT from "./actionTypes"
+import * as AT from './actionTypes'
 
 // Remove the last modal added in the stack
 export const closeModal = () => ({ type: AT.CLOSE_MODAL })

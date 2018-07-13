@@ -1,13 +1,13 @@
-import React from "react"
-import styled from "styled-components"
-import { LinkContainer } from "react-router-bootstrap"
-import { Field, reduxForm } from "redux-form"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import styled from 'styled-components'
+import { LinkContainer } from 'react-router-bootstrap'
+import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
 
-import { TextBox } from "components/Form"
-import { Icon, IconButton } from "blockchain-info-components"
-import UnusedAddresses from "./UnusedAddresses"
-import UsedAddresses from "./UsedAddresses"
+import { TextBox } from 'components/Form'
+import { Icon, IconButton } from 'blockchain-info-components'
+import UnusedAddresses from './UnusedAddresses'
+import UsedAddresses from './UsedAddresses'
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,8 +23,8 @@ const MenuWrapper = styled.div`
   width: 100%;
   padding: 8px 30px;
   box-sizing: border-box;
-  background-color: ${props => props.theme["white-blue"]};
-  border-bottom: 1px solid ${props => props.theme["gray-1"]};
+  background-color: ${props => props.theme['white-blue']};
+  border-bottom: 1px solid ${props => props.theme['gray-1']};
 
   @media (min-width: 1200px) {
     flex-direction: row;
@@ -80,4 +80,4 @@ class ManageAddressesContainer extends React.PureComponent {
   }
 }
 
-export default reduxForm({ form: "manageAddresses" })(ManageAddressesContainer)
+export default reduxForm({ form: 'manageAddresses' })(ManageAddressesContainer)

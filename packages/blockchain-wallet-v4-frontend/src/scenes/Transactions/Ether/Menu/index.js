@@ -1,10 +1,10 @@
-import React from "react"
-import { isNil } from "ramda"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import { actions } from "data"
-import Menu from "./template.js"
-import { getLegacyAccountAddress } from "./selectors"
+import React from 'react'
+import { isNil } from 'ramda'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { actions } from 'data'
+import Menu from './template.js'
+import { getLegacyAccountAddress } from './selectors'
 
 class MenuContainer extends React.Component {
   constructor(props) {
@@ -13,7 +13,7 @@ class MenuContainer extends React.Component {
   }
 
   onShowPrivateKey(isLegacy) {
-    this.props.modalActions.showModal("ShowEthPrivateKey", { isLegacy })
+    this.props.modalActions.showModal('ShowEthPrivateKey', { isLegacy })
   }
 
   render() {

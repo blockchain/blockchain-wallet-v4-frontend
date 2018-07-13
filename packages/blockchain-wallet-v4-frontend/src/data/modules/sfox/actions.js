@@ -1,4 +1,4 @@
-import * as AT from "./actionTypes"
+import * as AT from './actionTypes'
 
 export const setBankManually = (routing, account, name, type) => ({
   type: AT.SET_BANK_MANUALLY,

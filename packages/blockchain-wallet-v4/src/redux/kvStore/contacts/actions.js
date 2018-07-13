@@ -1,4 +1,4 @@
-import * as AT from "./actionTypes"
+import * as AT from './actionTypes'
 
 // FETCH_METADATA_CONTACTS
 export const fetchMetadataContacts = () => ({

@@ -1,7 +1,7 @@
-import Sagas from "./sagas"
+import Sagas from './sagas'
 
-describe("Component Sagas", () => {
-  it("should export correct sagas", () => {
+describe('Component Sagas', () => {
+  it('should export correct sagas', () => {
     const sagas = Sagas({ api: {}, coreSagas: {}, options: {} })
 
     expect(sagas.activityList).toBeDefined()

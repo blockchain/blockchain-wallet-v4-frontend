@@ -1,8 +1,8 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
-import { Link, Icon, Text, TextGroup } from "blockchain-info-components"
+import { Link, Icon, Text, TextGroup } from 'blockchain-info-components'
 
 const Container = styled.div`
   display: flex;
@@ -14,13 +14,13 @@ const Container = styled.div`
   -webkit-font-smoothing: antialiased;
   margin: 0 auto;
   overflow: hidden;
-  height: ${props => (props.collapsed ? "35px" : "")};
+  height: ${props => (props.collapsed ? '35px' : '')};
   width: 100%;
 `
 const ActionLink = styled(Link)`
   margin-left: 0;
   margin-top: 0;
-  color: ${props => props.theme["marketing-secondary"]};
+  color: ${props => props.theme['marketing-secondary']};
   text-decoration: underline;
 `
 const ActionIcon = styled(Icon)`
@@ -35,30 +35,30 @@ const IconContainer = styled.div`
 
 const selectStyle = type => {
   switch (type) {
-    case "danger":
+    case 'danger':
       return {
-        color: "warn",
+        color: 'warn',
         uppercase: true,
-        icon: "alert-filled",
-        iconColor: "error"
+        icon: 'alert-filled',
+        iconColor: 'error'
       }
-    case "info":
+    case 'info':
       return {
-        color: "brand-tertiary",
+        color: 'brand-tertiary',
         uppercase: false,
         icon: false,
         iconColor: null
       }
-    case "warning":
+    case 'warning':
       return {
-        color: "brand-yellow-lighter",
+        color: 'brand-yellow-lighter',
         uppercase: false,
-        icon: "alert-filled",
-        iconColor: "sent"
+        icon: 'alert-filled',
+        iconColor: 'sent'
       }
     default:
       return {
-        color: "brand-tertiary",
+        color: 'brand-tertiary',
         uppercase: false,
         icon: false,
         iconColor: null
@@ -84,21 +84,21 @@ const Announcement = props => {
           <Icon name={icon} size="34px" weight={600} color={iconColor} />
         )}
       </IconContainer>
-      <div style={{ width: "100%" }}>
+      <div style={{ width: '100%' }}>
         <Text
           weight={300}
           size="20px"
           uppercase={uppercase}
-          style={{ margin: "6px 0" }}
+          style={{ margin: '6px 0' }}
         >
           {announcement.header[language]
             ? announcement.header[language]
             : announcement.header.en}
         </Text>
-        <TextGroup style={{ display: collapsed ? "none" : "" }}>
+        <TextGroup style={{ display: collapsed ? 'none' : '' }}>
           {announcement.sections.map((section, i) => {
             return (
-              <Text key={i} size="13px" style={{ marginBottom: "2px" }}>
+              <Text key={i} size="13px" style={{ marginBottom: '2px' }}>
                 {section.body[language]
                   ? section.body[language]
                   : section.body.en}
@@ -115,9 +115,9 @@ const Announcement = props => {
         </TextGroup>
       </div>
       <IconContainer>
-        {announcement.hideType === "collapse" && (
+        {announcement.hideType === 'collapse' && (
           <ActionIcon
-            name={collapsed ? "down-arrow" : "up-arrow"}
+            name={collapsed ? 'down-arrow' : 'up-arrow'}
             size="18px"
             weight={600}
             onClick={() => {
@@ -125,7 +125,7 @@ const Announcement = props => {
             }}
           />
         )}
-        {announcement.hideType === "dismiss" && (
+        {announcement.hideType === 'dismiss' && (
           <ActionIcon
             name="close"
             size="18px"

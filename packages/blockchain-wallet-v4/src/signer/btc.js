@@ -1,6 +1,6 @@
-import Bitcoin from "bitcoinjs-lib"
-import BitcoinMessage from "bitcoinjs-message"
-import { mapped } from "ramda-lens"
+import Bitcoin from 'bitcoinjs-lib'
+import BitcoinMessage from 'bitcoinjs-message'
+import { mapped } from 'ramda-lens'
 import {
   curry,
   forEach,
@@ -9,11 +9,11 @@ import {
   over,
   compose,
   lensProp
-} from "ramda"
+} from 'ramda'
 
-import { privateKeyStringToKey } from "../utils/bitcoin"
-import * as Coin from "../coinSelection/coin.js"
-import { addHDWalletWIFS, addLegacyWIFS } from "./wifs.js"
+import { privateKeyStringToKey } from '../utils/bitcoin'
+import * as Coin from '../coinSelection/coin.js'
+import { addHDWalletWIFS, addLegacyWIFS } from './wifs.js'
 
 export const signSelection = curry((network, selection) => {
   const tx = new Bitcoin.TransactionBuilder(network)
@@ -52,7 +52,7 @@ export const signLegacy = curry((network, secondPassword, wrapper, selection) =>
 export const wifToKeys = curry((network, selection) =>
   over(
     compose(
-      lensProp("inputs"),
+      lensProp('inputs'),
       mapped,
       Coin.priv
     ),
@@ -71,9 +71,9 @@ export const signWithWIF = curry((network, selection) =>
 )
 
 export const signMessage = (priv, addr, message) => {
-  const keyPair = privateKeyStringToKey(priv, "base58", null, addr)
+  const keyPair = privateKeyStringToKey(priv, 'base58', null, addr)
   const privateKey = keyPair.d.toBuffer(32)
   return BitcoinMessage.sign(message, privateKey, keyPair.compressed).toString(
-    "base64"
+    'base64'
   )
 }

@@ -1,8 +1,8 @@
-import React from "react"
-import PropTypes from "prop-types"
-import QrReader from "react-qr-reader"
-import { Banner } from "blockchain-info-components"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import PropTypes from 'prop-types'
+import QrReader from 'react-qr-reader'
+import { Banner } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
 
 const hasWebcam =
   (navigator.getUserMedia ||

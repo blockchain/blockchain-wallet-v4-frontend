@@ -1,15 +1,15 @@
-import React, { Fragment } from "react"
-import { FormattedMessage } from "react-intl"
-import styled from "styled-components"
-import { Text, Button } from "blockchain-info-components"
+import React, { Fragment } from 'react'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+import { Text, Button } from 'blockchain-info-components'
 import {
   kycHeaderHelper,
   kycNotificationBodyHelper,
   kycNotificationButtonHelper
-} from "services/CoinifyService"
-import { spacing } from "services/StyleService"
-import { path } from "ramda"
-import media from "services/ResponsiveService"
+} from 'services/CoinifyService'
+import { spacing } from 'services/StyleService'
+import { path } from 'ramda'
+import media from 'services/ResponsiveService'
 
 const ISXContainer = styled.div`
   display: flex;
@@ -33,7 +33,7 @@ const LimitsNotice = styled.div`
 const KYCNotification = props => {
   const { kyc, onTrigger, symbol, limits, type, canTrade } = props
 
-  const status = path(["state"], kyc)
+  const status = path(['state'], kyc)
   const header = kycHeaderHelper(status)
   const body = kycNotificationBodyHelper(status)
 
@@ -42,10 +42,10 @@ const KYCNotification = props => {
 
   return (
     <Wrapper>
-      {(status === "pending" || status === "reviewing") && canTrade ? (
+      {(status === 'pending' || status === 'reviewing') && canTrade ? (
         <LimitsNotice>
           <Text size="12px" weight={300}>
-            {type === "sell" ? (
+            {type === 'sell' ? (
               <Fragment>
                 <FormattedMessage
                   id="scenes.buysell.coinifycheckout.content.kycnotification.limitsnotice.sell"
@@ -71,19 +71,19 @@ const KYCNotification = props => {
           size="13px"
           color="brand-primary"
           weight={400}
-          style={spacing("mb-20")}
+          style={spacing('mb-20')}
         >
-          {path(["text"], header)}
+          {path(['text'], header)}
         </Text>
-        <Text size="13px" weight={300} style={spacing("mb-20")}>
-          {path(["text"], body)}
+        <Text size="13px" weight={300} style={spacing('mb-20')}>
+          {path(['text'], body)}
         </Text>
-        {status === "pending" ||
-        status === "rejected" ||
-        status === "expired" ? (
+        {status === 'pending' ||
+        status === 'rejected' ||
+        status === 'expired' ? (
           <Button onClick={() => onTrigger(kyc)} nature="empty-secondary">
             <Text size="13px" color="brand-secondary">
-              {path(["text"], kycNotificationButtonHelper(status))}
+              {path(['text'], kycNotificationButtonHelper(status))}
             </Text>
           </Button>
         ) : null}

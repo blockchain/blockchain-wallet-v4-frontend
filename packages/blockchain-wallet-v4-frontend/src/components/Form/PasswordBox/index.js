@@ -1,9 +1,9 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
-import { Text, PasswordInput } from "blockchain-info-components"
-import PasswordScore from "./PasswordScore"
+import { Text, PasswordInput } from 'blockchain-info-components'
+import PasswordScore from './PasswordScore'
 
 const Container = styled.div`
   position: relative;
@@ -22,7 +22,7 @@ const Error = styled(Text)`
   padding: 5px 0px 5px 0px;
 `
 const getErrorState = ({ touched, invalid }) => {
-  return touched && invalid ? "invalid" : "initial"
+  return touched && invalid ? 'invalid' : 'initial'
 }
 
 const PasswordBox = field => {

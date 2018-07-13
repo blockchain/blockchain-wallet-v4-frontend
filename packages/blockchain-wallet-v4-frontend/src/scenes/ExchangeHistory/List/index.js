@@ -1,10 +1,10 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import { concat } from "ramda"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { concat } from 'ramda'
 
-import { actions } from "data"
-import List from "./template"
+import { actions } from 'data'
+import List from './template'
 
 class ListContainer extends React.PureComponent {
   componentDidMount() {

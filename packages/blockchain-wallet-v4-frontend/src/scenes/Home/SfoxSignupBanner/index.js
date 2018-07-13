@@ -1,12 +1,12 @@
-import React from "react"
-import { withRouter } from "react-router-dom"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
+import React from 'react'
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import { getData } from "./selectors"
-import SfoxSignupBanner from "./template.js"
-import { determineStep } from "services/SfoxService"
-import { actions } from "data"
+import { getData } from './selectors'
+import SfoxSignupBanner from './template.js'
+import { determineStep } from 'services/SfoxService'
+import { actions } from 'data'
 
 class SfoxSignupBannerContainer extends React.PureComponent {
   constructor(props) {
@@ -17,8 +17,8 @@ class SfoxSignupBannerContainer extends React.PureComponent {
   }
 
   goToBuySell() {
-    this.props.history.push("/buy-sell")
-    this.props.modalActions.showModal("SfoxExchangeData", {
+    this.props.history.push('/buy-sell')
+    this.props.modalActions.showModal('SfoxExchangeData', {
       step: this.state.step
     })
   }

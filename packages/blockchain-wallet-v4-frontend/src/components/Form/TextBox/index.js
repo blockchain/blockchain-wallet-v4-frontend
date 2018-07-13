@@ -1,7 +1,7 @@
-import React from "react"
-import styled from "styled-components"
+import React from 'react'
+import styled from 'styled-components'
 
-import { Text, TextInput } from "blockchain-info-components"
+import { Text, TextInput } from 'blockchain-info-components'
 
 const Container = styled.div`
   position: relative;
@@ -16,11 +16,11 @@ const Error = styled(Text)`
   position: absolute;
   display: block;
   height: 15px;
-  top: ${props => (props.errorBottom ? "40px" : "-20px")};
+  top: ${props => (props.errorBottom ? '40px' : '-20px')};
   right: 0;
 `
 const getErrorState = ({ touched, invalid }) => {
-  return touched && invalid ? "invalid" : "initial"
+  return touched && invalid ? 'invalid' : 'initial'
 }
 
 const TextBox = field => {

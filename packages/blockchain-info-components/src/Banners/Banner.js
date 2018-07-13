@@ -1,10 +1,10 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { transparentize } from "polished"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { transparentize } from 'polished'
 
-import { Icon } from "../Icons"
-import { Text } from "../Text"
+import { Icon } from '../Icons'
+import { Text } from '../Text'
 
 const Container = styled.div`
   display: flex;
@@ -16,17 +16,17 @@ const Container = styled.div`
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   width: ${props => (props.width ? props.width : `initial`)};
-  margin-left: ${props => (props.inline && !props.label ? "5px" : "0px")};
-  padding: ${props => (props.inline || props.label ? "3px 5px" : "5px 10px")};
+  margin-left: ${props => (props.inline && !props.label ? '5px' : '0px')};
+  padding: ${props => (props.inline || props.label ? '3px 5px' : '5px 10px')};
   & > span:first-child {
-    margin-right: ${props => (props.inline ? "3px" : "5px")};
+    margin-right: ${props => (props.inline ? '3px' : '5px')};
   }
 `
 
 const BannerContent = styled(Text)`
   display: flex;
   flex-direction: row;
-  white-space: ${props => (props.inline ? "nowrap" : "initial")};
+  white-space: ${props => (props.inline ? 'nowrap' : 'initial')};
   & a:last-of-type {
     margin-left: 5px;
   }
@@ -34,22 +34,22 @@ const BannerContent = styled(Text)`
 
 const selectStyle = type => {
   switch (type) {
-    case "success":
+    case 'success':
       return {
-        color: "success",
+        color: 'success',
         uppercase: false,
-        icon: "checkmark-in-circle"
+        icon: 'checkmark-in-circle'
       }
-    case "warning":
-      return { color: "error", uppercase: true, icon: "alert" }
-    case "alert":
-      return { color: "brand-secondary", uppercase: false, icon: "bell" }
-    case "caution":
-      return { color: "brand-yellow", uppercase: false, icon: "alert" }
-    case "informational":
-      return { color: "gray-5", uppercase: false, icon: null }
+    case 'warning':
+      return { color: 'error', uppercase: true, icon: 'alert' }
+    case 'alert':
+      return { color: 'brand-secondary', uppercase: false, icon: 'bell' }
+    case 'caution':
+      return { color: 'brand-yellow', uppercase: false, icon: 'alert' }
+    case 'informational':
+      return { color: 'gray-5', uppercase: false, icon: null }
     default:
-      return { color: "brand-secondary", uppercase: false, icon: null }
+      return { color: 'brand-secondary', uppercase: false, icon: null }
   }
 }
 
@@ -76,11 +76,11 @@ const Banner = props => {
 
 Banner.propTypes = {
   type: PropTypes.oneOf([
-    "success",
-    "warning",
-    "alert",
-    "caution",
-    "informational"
+    'success',
+    'warning',
+    'alert',
+    'caution',
+    'informational'
   ]),
   children: PropTypes.node.isRequired,
   width: PropTypes.string

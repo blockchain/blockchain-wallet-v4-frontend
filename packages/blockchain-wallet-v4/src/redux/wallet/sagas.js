@@ -1,6 +1,6 @@
-import { call, put, select } from "redux-saga/effects"
-import BIP39 from "bip39"
-import Bitcoin from "bitcoinjs-lib"
+import { call, put, select } from 'redux-saga/effects'
+import BIP39 from 'bip39'
+import Bitcoin from 'bitcoinjs-lib'
 import {
   prop,
   compose,
@@ -17,15 +17,15 @@ import {
   is,
   find,
   isEmpty
-} from "ramda"
-import { set } from "ramda-lens"
-import Task from "data.task"
-import * as A from "../actions"
-import * as S from "./selectors"
-import { fetchData } from "../data/bitcoin/actions"
+} from 'ramda'
+import { set } from 'ramda-lens'
+import Task from 'data.task'
+import * as A from '../actions'
+import * as S from './selectors'
+import { fetchData } from '../data/bitcoin/actions'
 
-import { Wrapper, Wallet, HDAccount } from "../../types"
-import { generateMnemonic } from "../../walletCrypto"
+import { Wrapper, Wallet, HDAccount } from '../../types'
+import { generateMnemonic } from '../../walletCrypto'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -131,13 +131,13 @@ export default ({ api }) => {
       let mnemonic = yield call(generateMnemonic, api)
       let upgradeWallet = Wallet.upgradeToHd(
         mnemonic,
-        "My Bitcoin Wallet",
+        'My Bitcoin Wallet',
         password
       )
       let nextWrapper = Wrapper.traverseWallet(Task.of, upgradeWallet, wrapper)
       yield call(runTask, nextWrapper, A.wallet.setWrapper)
     } else {
-      throw new Error("Already an HD wallet")
+      throw new Error('Already an HD wallet')
     }
   }
 
@@ -152,16 +152,16 @@ export default ({ api }) => {
           .deriveHardened(i)
           .neutered()
           .toBase58()
-      const isUsed = a => propSatisfies(n => n > 0, "n_tx", a)
+      const isUsed = a => propSatisfies(n => n > 0, 'n_tx', a)
       const xpubs = map(getxpub, range(l, l + batch))
       const result = yield call(api.fetchBlockchainData, xpubs, {
         n: 1,
         offset: 0,
-        onlyShow: ""
+        onlyShow: ''
       })
-      const search = xpub => find(propEq("address", xpub))
+      const search = xpub => find(propEq('address', xpub))
       const accounts = map(
-        xpub => search(xpub)(prop("addresses", result)),
+        xpub => search(xpub)(prop('addresses', result)),
         xpubs
       )
       const flags = map(isUsed, accounts)
@@ -204,7 +204,7 @@ export default ({ api }) => {
 
   const updatePbkdf2Iterations = function*({ iterations, password }) {
     if (not(is(Number, iterations))) {
-      throw new Error("PBKDF2_ITERATIONS_NOT_A_NUMBER")
+      throw new Error('PBKDF2_ITERATIONS_NOT_A_NUMBER')
     } else {
       const wrapper = yield select(S.getWrapper)
       const isEncrypted = yield select(S.isSecondPasswordOn)

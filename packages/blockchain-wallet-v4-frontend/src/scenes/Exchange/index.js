@@ -1,9 +1,9 @@
-import React from "react"
-import styled from "styled-components"
+import React from 'react'
+import styled from 'styled-components'
 
-import media from "services/ResponsiveService"
-import Shapeshift from "./Shapeshift"
-import Info from "./Info"
+import media from 'services/ResponsiveService'
+import Shapeshift from './Shapeshift'
+import Info from './Info'
 
 const Wrapper = styled.section`
   display: flex;

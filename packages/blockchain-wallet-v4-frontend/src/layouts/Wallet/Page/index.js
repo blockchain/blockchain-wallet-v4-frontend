@@ -1,10 +1,10 @@
-import React from "react"
-import styled from "styled-components"
-import ReactDOM from "react-dom"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
+import React from 'react'
+import styled from 'styled-components'
+import ReactDOM from 'react-dom'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import { actions } from "data"
+import { actions } from 'data'
 
 const Wrapper = styled.div`
   position: relative;
@@ -24,7 +24,7 @@ const Wrapper = styled.div`
 class PageContainer extends React.Component {
   componentDidMount() {
     ReactDOM.findDOMNode(this.refs.page).addEventListener(
-      "scroll",
+      'scroll',
       this.debounce(this.updateScroll.bind(this), 1000)
     )
   }
@@ -43,7 +43,7 @@ class PageContainer extends React.Component {
       clearTimeout(this.timeout)
     }
     ReactDOM.findDOMNode(this.refs.page).removeEventListener(
-      "scroll",
+      'scroll',
       this.debounce(this.updateScroll.bind(this), 1000)
     )
   }

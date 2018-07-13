@@ -1,12 +1,12 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { Table, TableCell, TableHeader, Text } from "blockchain-info-components"
-import { spacing } from "services/StyleService"
-import TradeItem from "./TradeItem"
-import media from "services/ResponsiveService"
+import { Table, TableCell, TableHeader, Text } from 'blockchain-info-components'
+import { spacing } from 'services/StyleService'
+import TradeItem from './TradeItem'
+import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   display: flex;
@@ -80,7 +80,7 @@ const List = props => {
       )}
       {showComplete && (
         <Container>
-          <Text style={spacing("mb-15")} size="16px" weight={500} capitalize>
+          <Text style={spacing('mb-15')} size="16px" weight={500} capitalize>
             <FormattedMessage
               padding-bottom="10px"
               id="scenes.exchangehistory.list.complete.exchanges"

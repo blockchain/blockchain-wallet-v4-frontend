@@ -1,11 +1,11 @@
-import React from "react"
-import { connect } from "react-redux"
-import { compose, bindActionCreators } from "redux"
-import ui from "redux-ui"
+import React from 'react'
+import { connect } from 'react-redux'
+import { compose, bindActionCreators } from 'redux'
+import ui from 'redux-ui'
 
-import * as languageService from "services/LanguageService"
-import { SimpleDropdown } from "blockchain-info-components/src/Dropdowns"
-import { actions, selectors } from "data"
+import * as languageService from 'services/LanguageService'
+import { SimpleDropdown } from 'blockchain-info-components/src/Dropdowns'
+import { actions, selectors } from 'data'
 
 class DropdownLanguageContainer extends React.PureComponent {
   constructor(props) {

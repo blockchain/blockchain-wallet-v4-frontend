@@ -1,6 +1,6 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled, { keyframes } from "styled-components"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled, { keyframes } from 'styled-components'
 
 const scaleDelay = keyframes`
   0%, 50%, 100% { transform: scale3D(1, 1, 1); }
@@ -27,19 +27,19 @@ const Square = styled.div`
   animation: ${scaleDelay} 3s infinite ease-in-out;
 `
 const SquareMarketingSecondary = Square.extend`
-  background-color: ${props => props.theme["marketing-secondary"]};
+  background-color: ${props => props.theme['marketing-secondary']};
 `
 const SquareTransferred = Square.extend`
-  background-color: ${props => props.theme["transferred"]};
+  background-color: ${props => props.theme['transferred']};
 `
 const SquareMarketingPrimary = Square.extend`
-  background-color: ${props => props.theme["marketing-primary"]};
+  background-color: ${props => props.theme['marketing-primary']};
 `
 const SquareBrandTertiary = Square.extend`
-  background-color: ${props => props.theme["brand-tertiary"]};
+  background-color: ${props => props.theme['brand-tertiary']};
 `
 const SquareBrandSecondary = Square.extend`
-  background-color: ${props => props.theme["brand-secondary"]};
+  background-color: ${props => props.theme['brand-secondary']};
 `
 
 const Square1 = SquareMarketingSecondary.extend`
@@ -160,8 +160,8 @@ BlockchainLoader.propTypes = {
 }
 
 BlockchainLoader.defaultProps = {
-  width: "150px",
-  height: "150px"
+  width: '150px',
+  height: '150px'
 }
 
 export default BlockchainLoader

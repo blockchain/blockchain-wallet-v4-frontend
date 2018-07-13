@@ -1,8 +1,8 @@
-import { formValueSelector } from "redux-form"
-import { lift, head, map } from "ramda"
-import settings from "config"
-import { selectors } from "data"
-import { Remote, utils } from "blockchain-wallet-v4/src"
+import { formValueSelector } from 'redux-form'
+import { lift, head, map } from 'ramda'
+import settings from 'config'
+import { selectors } from 'data'
+import { Remote, utils } from 'blockchain-wallet-v4/src'
 
 // extractAddress :: (Int -> Remote(String)) -> Int -> Remote(String)
 const extractAddress = (selectorFunction, value) => {
@@ -20,8 +20,8 @@ export const getData = state => {
       index,
       state
     )
-  const coin = formValueSelector("requestBch")(state, "coin")
-  const to = formValueSelector("requestBch")(state, "to")
+  const coin = formValueSelector('requestBch')(state, 'coin')
+  const to = formValueSelector('requestBch')(state, 'to')
 
   const initialValuesR = getInitialValues(state)
   const receiveAddressR = extractAddress(getReceive, to).map(
@@ -46,7 +46,7 @@ export const getInitialValues = state => {
     const defaultElement = head(
       balances.filter(x => x.value.index === defaultIndex)
     )
-    return { to: defaultElement.value, coin: "BCH" }
+    return { to: defaultElement.value, coin: 'BCH' }
   }
   return lift(transform)(defaultIndexR)(balancesR)
 }

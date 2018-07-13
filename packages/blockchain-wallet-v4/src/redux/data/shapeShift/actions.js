@@ -1,4 +1,4 @@
-import * as AT from "./actionTypes"
+import * as AT from './actionTypes'
 
 // FETCH_PAIR
 export const fetchPair = pair => ({ type: AT.FETCH_PAIR, payload: { pair } })

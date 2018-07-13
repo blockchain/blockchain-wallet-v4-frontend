@@ -1,8 +1,8 @@
-import { add, lift, reduce } from "ramda"
-import { selectors } from "data"
-import { Remote, Exchange } from "blockchain-wallet-v4/src"
-import * as Currency from "blockchain-wallet-v4/src/exchange/currency"
-import { createDeepEqualSelector } from "services/ReselectHelper"
+import { add, lift, reduce } from 'ramda'
+import { selectors } from 'data'
+import { Remote, Exchange } from 'blockchain-wallet-v4/src'
+import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
+import { createDeepEqualSelector } from 'services/ReselectHelper'
 
 export const getBtcBalance = state =>
   createDeepEqualSelector(
@@ -44,7 +44,7 @@ export const getBtcBalanceInfo = createDeepEqualSelector(
     const transform = (value, rates, toCurrency) =>
       Exchange.convertBitcoinToFiat({
         value,
-        fromUnit: "SAT",
+        fromUnit: 'SAT',
         toCurrency,
         rates
       }).value
@@ -60,7 +60,7 @@ export const getBchBalanceInfo = createDeepEqualSelector(
   ],
   (bchBalanceR, bchRatesR, currencyR) => {
     const transform = (value, rates, toCurrency) =>
-      Exchange.convertBchToFiat({ value, fromUnit: "SAT", toCurrency, rates })
+      Exchange.convertBchToFiat({ value, fromUnit: 'SAT', toCurrency, rates })
         .value
     return lift(transform)(bchBalanceR, bchRatesR, currencyR)
   }
@@ -74,7 +74,7 @@ export const getEthBalanceInfo = createDeepEqualSelector(
   ],
   (ethBalanceR, ethRatesR, currencyR) => {
     const transform = (value, rates, toCurrency) =>
-      Exchange.convertEtherToFiat({ value, fromUnit: "WEI", toCurrency, rates })
+      Exchange.convertEtherToFiat({ value, fromUnit: 'WEI', toCurrency, rates })
         .value
     return lift(transform)(ethBalanceR, ethRatesR, currencyR)
   }

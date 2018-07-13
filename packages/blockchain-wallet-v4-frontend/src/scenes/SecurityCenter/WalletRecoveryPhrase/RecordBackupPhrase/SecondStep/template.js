@@ -1,9 +1,9 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { Button, Text } from "blockchain-info-components"
-import { spacing } from "services/StyleService"
+import { Button, Text } from 'blockchain-info-components'
+import { spacing } from 'services/StyleService'
 
 const Wrapper = styled.div`
   display: flex;
@@ -65,7 +65,7 @@ const SecondStep = props => {
           </Button>
         )}
         {step === 3 ? (
-          <Button onClick={nextStep} style={spacing("ml-15")} nature="primary">
+          <Button onClick={nextStep} style={spacing('ml-15')} nature="primary">
             <Text color="white" weight={300} cursor="pointer">
               <FormattedMessage
                 id="modals.recoveryphrase.secondstep.finishandcheckphrase"
@@ -76,7 +76,7 @@ const SecondStep = props => {
         ) : (
           <Button
             onClick={handleClickNext}
-            style={spacing("ml-15")}
+            style={spacing('ml-15')}
             nature="dark"
           >
             <Text color="white" weight={300} cursor="pointer">

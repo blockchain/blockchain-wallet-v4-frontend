@@ -12,12 +12,12 @@ import {
   clamp,
   sort,
   length
-} from "ramda"
-import memoize from "fast-memoize"
-import shuffle from "fisher-yates"
-import { List } from "immutable-ext"
-import seedrandom from "seedrandom"
-import * as Coin from "./coin.js"
+} from 'ramda'
+import memoize from 'fast-memoize'
+import shuffle from 'fisher-yates'
+import { List } from 'immutable-ext'
+import seedrandom from 'seedrandom'
+import * as Coin from './coin.js'
 
 // isFromAccount :: selection -> boolean
 export const isFromAccount = selection =>

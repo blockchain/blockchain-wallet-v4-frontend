@@ -1,9 +1,9 @@
-import React, { Fragment } from "react"
-import PropTypes from "prop-types"
-import { FormattedMessage } from "react-intl"
-import { Text, Button, Link } from "blockchain-info-components"
-import styled, { keyframes } from "styled-components"
-import { reduxForm } from "redux-form"
+import React, { Fragment } from 'react'
+import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
+import { Text, Button, Link } from 'blockchain-info-components'
+import styled, { keyframes } from 'styled-components'
+import { reduxForm } from 'redux-form'
 import {
   SecurityComponent,
   SecurityContainer,
@@ -13,14 +13,14 @@ import {
   SecuritySummary,
   SecurityTip,
   IconContainer
-} from "components/Security"
-import GoogleAuth from "./GoogleAuth"
-import Yubikey from "./Yubikey"
-import SmsAuth from "./SMS"
-import { pulse } from "react-animations"
-import Choices from "../Components/Choices/index"
-import { spacing } from "services/StyleService"
-import media from "services/ResponsiveService"
+} from 'components/Security'
+import GoogleAuth from './GoogleAuth'
+import Yubikey from './Yubikey'
+import SmsAuth from './SMS'
+import { pulse } from 'react-animations'
+import Choices from '../Components/Choices/index'
+import { spacing } from 'services/StyleService'
+import media from 'services/ResponsiveService'
 
 const pulseAnimation = keyframes`${pulse}`
 
@@ -58,7 +58,7 @@ const DisableContainer = styled.div`
   }
   a.link {
     cursor: pointer;
-    color: ${props => props.theme["brand-secondary"]};
+    color: ${props => props.theme['brand-secondary']};
   }
 `
 const DisableLinkContainer = styled.div`
@@ -71,7 +71,7 @@ const DisableLinkText = styled(Text)`
   margin-bottom: 30px;
   margin-top: 10px;
   a {
-    color: ${props => props.theme["brand-secondary"]};
+    color: ${props => props.theme['brand-secondary']};
     cursor: pointer;
     padding-left: 3px;
   }
@@ -110,13 +110,13 @@ const TwoStepVerification = props => {
   const twoFAEnabled = authType > 0
 
   const renderVerificationChoice = () => {
-    if (twoStepChoice === "google") {
+    if (twoStepChoice === 'google') {
       return <GoogleAuth {...rest} />
     }
-    if (twoStepChoice === "yubikey") {
+    if (twoStepChoice === 'yubikey') {
       return <Yubikey {...rest} />
     }
-    if (twoStepChoice === "sms") {
+    if (twoStepChoice === 'sms') {
       return <SmsAuth {...rest} />
     }
     return (
@@ -137,7 +137,7 @@ const TwoStepVerification = props => {
         return (
           <React.Fragment>
             <div />
-            <DisableLinkContainer style={spacing("pl-25")}>
+            <DisableLinkContainer style={spacing('pl-25')}>
               <DisableLinkText
                 size="14px"
                 weight={300}
@@ -164,7 +164,7 @@ const TwoStepVerification = props => {
         return (
           <React.Fragment>
             <div />
-            <DisableContainer style={spacing("pl-25")}>
+            <DisableContainer style={spacing('pl-25')}>
               <Text weight={200} size="14px">
                 <FormattedMessage
                   id="scenes.security.2fa.sms.success"
@@ -223,7 +223,7 @@ const TwoStepVerification = props => {
   }
 
   const renderHeader = () => {
-    if (twoStepChoice === "google") {
+    if (twoStepChoice === 'google') {
       return (
         <React.Fragment>
           <FormattedMessage
@@ -236,7 +236,7 @@ const TwoStepVerification = props => {
         </React.Fragment>
       )
     }
-    if (twoStepChoice === "yubikey") {
+    if (twoStepChoice === 'yubikey') {
       return (
         <React.Fragment>
           <FormattedMessage
@@ -249,7 +249,7 @@ const TwoStepVerification = props => {
         </React.Fragment>
       )
     }
-    if (twoStepChoice === "sms") {
+    if (twoStepChoice === 'sms') {
       return (
         <React.Fragment>
           <FormattedMessage
@@ -363,5 +363,5 @@ TwoStepVerification.propTypes = {
 }
 
 export default reduxForm({
-  form: "twoStepVerification"
+  form: 'twoStepVerification'
 })(TwoStepVerification)

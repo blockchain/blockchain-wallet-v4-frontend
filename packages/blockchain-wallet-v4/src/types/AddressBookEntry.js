@@ -1,7 +1,7 @@
-import { is, pipe } from "ramda"
-import { view, set } from "ramda-lens"
-import Type from "./Type"
-import { iToJS } from "./util"
+import { is, pipe } from 'ramda'
+import { view, set } from 'ramda-lens'
+import Type from './Type'
+import { iToJS } from './util'
 
 /* AddressBookEntry :: {
   addr :: String
@@ -12,8 +12,8 @@ export class AddressBookEntry extends Type {}
 
 export const isAddressBookEntry = is(AddressBookEntry)
 
-export const addr = AddressBookEntry.define("addr")
-export const label = AddressBookEntry.define("label")
+export const addr = AddressBookEntry.define('addr')
+export const label = AddressBookEntry.define('label')
 
 export const selectAddr = view(addr)
 export const selectLabel = view(label)

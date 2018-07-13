@@ -1,4 +1,4 @@
-import * as AT from "./actionTypes"
+import * as AT from './actionTypes'
 
 export const initialized = () => ({ type: AT.EXCHANGE_INITIALIZED })
 export const destroyed = () => ({ type: AT.EXCHANGE_DESTROYED })

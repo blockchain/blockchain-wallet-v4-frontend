@@ -1,11 +1,11 @@
-import { cancel, call, fork, put, race, select, take } from "redux-saga/effects"
-import { delay } from "redux-saga"
-import { any, equals, identity, isNil, path, prop } from "ramda"
-import { actions, actionTypes, selectors } from "data"
-import * as C from "services/AlertService"
+import { cancel, call, fork, put, race, select, take } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
+import { any, equals, identity, isNil, path, prop } from 'ramda'
+import { actions, actionTypes, selectors } from 'data'
+import * as C from 'services/AlertService'
 
 export default ({ api, coreSagas }) => {
-  const logLocation = "components/exchangeHistory/sagas"
+  const logLocation = 'components/exchangeHistory/sagas'
   let pollingTradeStatusTask
   let fetchingTradesTask
 
@@ -14,17 +14,17 @@ export default ({ api, coreSagas }) => {
       const appState = yield select(identity)
       const currentTrade = selectors.core.kvStore.shapeShift
         .getTrade(depositAddress, appState)
-        .getOrFail("Could not find trade.")
-      const currentStatus = prop("status", currentTrade)
+        .getOrFail('Could not find trade.')
+      const currentStatus = prop('status', currentTrade)
       if (
-        equals("complete", currentStatus) ||
-        equals("failed", currentStatus)
+        equals('complete', currentStatus) ||
+        equals('failed', currentStatus)
       ) {
         return
       }
       const data = yield call(api.getTradeStatus, depositAddress)
-      const status = prop("status", data)
-      const hashOut = prop("transaction", data)
+      const status = prop('status', data)
+      const hashOut = prop('transaction', data)
       if (!equals(status, currentStatus)) {
         yield put(
           actions.core.kvStore.shapeShift.updateTradeMetadataShapeshift(
@@ -35,7 +35,7 @@ export default ({ api, coreSagas }) => {
         )
       }
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, "updateTrade", e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'updateTrade', e))
     }
   }
 
@@ -43,13 +43,13 @@ export default ({ api, coreSagas }) => {
     for (let i = 0; i < trades.length; i++) {
       const trade = trades[i]
       try {
-        const depositAddress = path(["quote", "deposit"], trade)
-        const status = prop("status", trade)
-        const quote = prop("quote", trade)
-        const depositAmount = prop("depositAmount", quote)
-        const withdrawalAmount = prop("withdrawalAmount", quote)
+        const depositAddress = path(['quote', 'deposit'], trade)
+        const status = prop('status', trade)
+        const quote = prop('quote', trade)
+        const depositAmount = prop('depositAmount', quote)
+        const withdrawalAmount = prop('withdrawalAmount', quote)
         if (
-          !equals("complete", status) ||
+          !equals('complete', status) ||
           any(isNil)([depositAmount, withdrawalAmount])
         ) {
           yield call(
@@ -70,7 +70,7 @@ export default ({ api, coreSagas }) => {
       } catch (e) {
         yield put(actions.alerts.displayError(C.EXCHANGE_REFRESH_TRADE_ERROR))
         yield put(
-          actions.logs.logErrorMessage(logLocation, "startFetchingTrades", e)
+          actions.logs.logErrorMessage(logLocation, 'startFetchingTrades', e)
         )
       }
     }
@@ -85,7 +85,7 @@ export default ({ api, coreSagas }) => {
       yield put(
         actions.logs.logErrorMessage(
           logLocation,
-          "exchangeHistoryInitialized",
+          'exchangeHistoryInitialized',
           e
         )
       )
@@ -97,7 +97,7 @@ export default ({ api, coreSagas }) => {
       yield cancel(fetchingTradesTask)
     } catch (e) {
       yield put(
-        actions.logs.logErrorMessage(logLocation, "exchangeHistoryDestroyed", e)
+        actions.logs.logErrorMessage(logLocation, 'exchangeHistoryDestroyed', e)
       )
     }
   }
@@ -111,7 +111,7 @@ export default ({ api, coreSagas }) => {
     } catch (e) {
       yield put(actions.alerts.displayError(C.EXCHANGE_REFRESH_TRADE_ERROR))
       yield put(
-        actions.logs.logErrorMessage(logLocation, "startPollingTradeStatus", e)
+        actions.logs.logErrorMessage(logLocation, 'startPollingTradeStatus', e)
       )
     }
   }
@@ -127,7 +127,7 @@ export default ({ api, coreSagas }) => {
       yield put(
         actions.logs.logErrorMessage(
           logLocation,
-          "exchangeHistoryModalInitialized",
+          'exchangeHistoryModalInitialized',
           e
         )
       )
@@ -141,7 +141,7 @@ export default ({ api, coreSagas }) => {
       yield put(
         actions.logs.logErrorMessage(
           logLocation,
-          "exchangeHistoryModalDestroyed",
+          'exchangeHistoryModalDestroyed',
           e
         )
       )

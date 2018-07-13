@@ -1,14 +1,14 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import { actions } from "data"
-import { getData } from "./selectors"
-import Error from "./template.error"
-import Loading from "./template.loading"
-import NotAsked from "./template.notasked"
-import Success from "./template.success"
+import { actions } from 'data'
+import { getData } from './selectors'
+import Error from './template.error'
+import Loading from './template.loading'
+import NotAsked from './template.notasked'
+import Success from './template.success'
 
 class ValueWhenReceived extends React.PureComponent {
   render() {

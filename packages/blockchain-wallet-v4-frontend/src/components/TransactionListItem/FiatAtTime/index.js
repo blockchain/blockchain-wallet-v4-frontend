@@ -1,11 +1,11 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { connect } from "react-redux"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
-import { getData } from "./selectors"
-import Error from "./template.error"
-import Loading from "./template.loading"
-import Success from "./template.success"
+import { getData } from './selectors'
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
 
 class FiatAtTime extends React.PureComponent {
   render() {

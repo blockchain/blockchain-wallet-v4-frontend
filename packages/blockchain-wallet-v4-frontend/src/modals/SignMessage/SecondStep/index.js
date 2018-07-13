@@ -1,10 +1,10 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import { formValueSelector } from "redux-form"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { formValueSelector } from 'redux-form'
 
-import { actions, selectors } from "data"
-import SecondStep from "./template"
+import { actions, selectors } from 'data'
+import SecondStep from './template'
 
 class SecondStepContainer extends React.PureComponent {
   render() {
@@ -29,7 +29,7 @@ class SecondStepContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  message: formValueSelector("signMessage")(state, "message"),
+  message: formValueSelector('signMessage')(state, 'message'),
   signedMessage: selectors.components.signMessage.getSignedMessage(state)
 })
 

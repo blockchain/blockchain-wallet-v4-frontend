@@ -1,11 +1,11 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators, compose } from "redux"
-import { formValueSelector } from "redux-form"
-import ui from "redux-ui"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import { formValueSelector } from 'redux-form'
+import ui from 'redux-ui'
 
-import { actions, selectors } from "data"
-import Settings from "./template.js"
+import { actions, selectors } from 'data'
+import Settings from './template.js'
 
 class SettingContainer extends React.PureComponent {
   constructor(props) {
@@ -16,7 +16,7 @@ class SettingContainer extends React.PureComponent {
 
   componentWillMount() {
     const { logoutTime } = this.props
-    this.props.formActions.initialize("settingAutoLogoutTime", {
+    this.props.formActions.initialize('settingAutoLogoutTime', {
       autoLogoutTime: logoutTime
     })
     this.props.updateUI({ updateToggled: false })
@@ -51,7 +51,7 @@ class SettingContainer extends React.PureComponent {
 
 const mapStateToProps = state => ({
   autoLogoutTime: parseInt(
-    formValueSelector("settingAutoLogoutTime")(state, "autoLogoutTime")
+    formValueSelector('settingAutoLogoutTime')(state, 'autoLogoutTime')
   ),
   logoutTime: parseInt(selectors.core.wallet.getLogoutTime(state) / 60000)
 })
@@ -66,7 +66,7 @@ const enhance = compose(
     mapStateToProps,
     mapDispatchToProps
   ),
-  ui({ key: "Setting_AutoLogoutTime", state: { updateToggled: false } })
+  ui({ key: 'Setting_AutoLogoutTime', state: { updateToggled: false } })
 )
 
 export default enhance(SettingContainer)

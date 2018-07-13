@@ -1,5 +1,5 @@
-import * as AT from "./actionTypes"
-import { insert } from "ramda"
+import * as AT from './actionTypes'
+import { insert } from 'ramda'
 
 const INITIAL_STATE = []
 
@@ -18,10 +18,10 @@ const logger = (state = INITIAL_STATE, action) => {
 
   switch (type) {
     case AT.LOG_ERROR_MSG: {
-      return insert(0, createLog("ERROR", payload), state)
+      return insert(0, createLog('ERROR', payload), state)
     }
     case AT.LOG_INFO_MSG: {
-      return insert(0, createLog("INFO", payload), state)
+      return insert(0, createLog('INFO', payload), state)
     }
     default:
       return state

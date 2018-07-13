@@ -1,11 +1,11 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { Text, IconButton } from "blockchain-info-components"
-import { spacing } from "services/StyleService"
-import media from "services/ResponsiveService"
+import { Text, IconButton } from 'blockchain-info-components'
+import { spacing } from 'services/StyleService'
+import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   display: flex;
@@ -43,7 +43,7 @@ const Actions = props => {
         </Text>
       </ActionButton>
       <ActionButton
-        style={spacing("ml-15")}
+        style={spacing('ml-15')}
         name="request-filled"
         onClick={handleRequest}
         min="100px"

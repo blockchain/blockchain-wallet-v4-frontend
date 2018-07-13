@@ -1,8 +1,8 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 
-import { Modal, ModalHeader, ModalBody } from "blockchain-info-components"
+import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
 
 const SendEther = props => (
   <Modal size="large" position={props.position} total={props.total}>

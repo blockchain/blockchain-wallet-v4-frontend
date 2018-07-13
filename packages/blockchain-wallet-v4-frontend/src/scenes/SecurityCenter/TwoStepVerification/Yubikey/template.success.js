@@ -1,11 +1,11 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { FormattedMessage } from "react-intl"
-import styled from "styled-components"
-import { reduxForm } from "redux-form"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+import { reduxForm } from 'redux-form'
 
-import { Text, Button } from "blockchain-info-components"
-import { spacing } from "services/StyleService"
+import { Text, Button } from 'blockchain-info-components'
+import { spacing } from 'services/StyleService'
 
 const AuthenticatorSummary = styled.div`
   width: 100%;
@@ -45,15 +45,15 @@ const YubikeyInput = styled.input`
   font-size: 14px;
   font-weight: 300;
   line-height: 1.42;
-  color: ${props => props.theme["gray-5"]};
-  background-color: ${props => props.theme["white"]};
+  color: ${props => props.theme['gray-5']};
+  background-color: ${props => props.theme['white']};
   background-image: none;
   outline-width: 0;
   user-select: text;
   border: 1px solid ${props => props.theme[props.borderColor]};
 
   &::-webkit-input-placeholder {
-    color: ${props => props.theme["gray-2"]};
+    color: ${props => props.theme['gray-2']};
   }
 `
 
@@ -71,7 +71,7 @@ const Yubikey = props => {
                 defaultMessage="1. Insert the Yubikey into your computer's USB port."
               />
             </Text>
-            <Text size="14px" weight={200} style={spacing("mt-5")}>
+            <Text size="14px" weight={200} style={spacing('mt-5')}>
               <FormattedMessage
                 id="scenes.security.twostepverification.yubi.step2"
                 defaultMessage="2. Pair your Yubikey."
@@ -102,4 +102,4 @@ Yubikey.propTypes = {
   handleSubmit: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: "securityYubikey" })(Yubikey)
+export default reduxForm({ form: 'securityYubikey' })(Yubikey)

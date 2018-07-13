@@ -1,16 +1,16 @@
-import React, { Fragment } from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { prop } from "ramda"
+import React, { Fragment } from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { prop } from 'ramda'
 
 import {
   ModalHeader,
   ModalBody,
   Text,
   Button
-} from "blockchain-info-components"
-import { kycBodyHelper, kycHeaderHelper } from "services/CoinifyService"
-import { spacing } from "services/StyleService"
+} from 'blockchain-info-components'
+import { kycBodyHelper, kycHeaderHelper } from 'services/CoinifyService'
+import { spacing } from 'services/StyleService'
 
 const ButtonRow = styled.div`
   display: flex;
@@ -34,11 +34,11 @@ const Kyc = ({ close, status }) => {
         </Text>
       </ModalHeader>
       <ModalBody>
-        <Text color={kycHeader.color} style={spacing("mb-10")}>
-          {prop("text", kycHeader)}
+        <Text color={kycHeader.color} style={spacing('mb-10')}>
+          {prop('text', kycHeader)}
         </Text>
         <Text size="13px" weight={300}>
-          {prop("text", kycBody)}
+          {prop('text', kycBody)}
         </Text>
         <ButtonRow>
           <Button width="100px" onClick={close} nature="primary">

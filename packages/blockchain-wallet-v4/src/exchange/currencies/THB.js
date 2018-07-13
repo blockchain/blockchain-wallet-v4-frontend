@@ -1,19 +1,19 @@
 export default {
-  code: "THB",
-  base: "CENT",
-  trade: "THB",
+  code: 'THB',
+  base: 'CENT',
+  trade: 'THB',
   units: {
     CENT: {
-      rate: "1",
-      symbol: "¢฿",
+      rate: '1',
+      symbol: '¢฿',
       decimal_digits: 0,
-      currency: "THB"
+      currency: 'THB'
     },
     THB: {
-      rate: "100",
-      symbol: "฿",
+      rate: '100',
+      symbol: '฿',
       decimal_digits: 2,
-      currency: "THB"
+      currency: 'THB'
     }
   }
 }

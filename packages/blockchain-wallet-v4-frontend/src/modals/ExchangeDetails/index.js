@@ -1,14 +1,14 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { connect } from "react-redux"
-import { compose, bindActionCreators } from "redux"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { compose, bindActionCreators } from 'redux'
 
-import { getData } from "./selectors"
-import { actions } from "data"
-import modalEnhancer from "providers/ModalEnhancer"
-import Error from "./template.error"
-import Loading from "./template.loading"
-import Success from "./template.success"
+import { getData } from './selectors'
+import { actions } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
 
 class ExchangeDetailsContainer extends React.PureComponent {
   componentDidMount() {
@@ -46,7 +46,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer("ExchangeDetails"),
+  modalEnhancer('ExchangeDetails'),
   connect(
     mapStateToProps,
     mapDispatchToProps

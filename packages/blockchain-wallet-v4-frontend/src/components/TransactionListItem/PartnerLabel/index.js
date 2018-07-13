@@ -1,8 +1,8 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { FormattedMessage } from "react-intl"
-import styled from "styled-components"
-import { Banner } from "blockchain-info-components"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+import { Banner } from 'blockchain-info-components'
 
 const LabelContainer = styled.div`
   margin-top: 5px;
@@ -15,7 +15,7 @@ const capitalize = text => text[0].toUpperCase() + text.substring(1)
 const PartnerLabel = props => {
   const { txType, partnerLabel, buysellPartner } = props
 
-  if (partnerLabel === "shift") {
+  if (partnerLabel === 'shift') {
     return (
       <LabelContainer
         mobileSize="14px"
@@ -25,7 +25,7 @@ const PartnerLabel = props => {
         uppercase
       >
         <PartnerBanner>
-          {txType === "sent" ? (
+          {txType === 'sent' ? (
             <FormattedMessage
               id="components.txlistitem.partnerlabel.depositedshapeshift"
               defaultMessage="ShapeShift Deposit"
@@ -41,7 +41,7 @@ const PartnerLabel = props => {
     )
   }
 
-  if (partnerLabel === "buy-sell" && buysellPartner) {
+  if (partnerLabel === 'buy-sell' && buysellPartner) {
     return (
       <LabelContainer
         mobileSize="14px"
@@ -51,7 +51,7 @@ const PartnerLabel = props => {
         uppercase
       >
         <PartnerBanner partnerLabel>
-          {txType === "sent" ? (
+          {txType === 'sent' ? (
             <FormattedMessage
               id="components.txlistitem.partnerlabel.soldvia"
               defaultMessage="Sold via {partner}"

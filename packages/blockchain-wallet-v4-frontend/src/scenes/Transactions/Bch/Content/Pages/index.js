@@ -1,8 +1,8 @@
-import React from "react"
+import React from 'react'
 
-import DataError from "components/DataError"
-import Loading from "./template.loading"
-import Success from "./template.success"
+import DataError from 'components/DataError'
+import Loading from './template.loading'
+import Success from './template.success'
 
 class Pages extends React.PureComponent {
   render() {
