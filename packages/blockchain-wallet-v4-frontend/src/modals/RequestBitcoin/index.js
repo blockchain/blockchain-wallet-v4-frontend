@@ -1,16 +1,16 @@
-import React from "react"
-import { compose } from "redux"
+import React from 'react'
+import { compose } from 'redux'
 
-import wizardProvider from "providers/WizardProvider"
-import modalEnhancer from "providers/ModalEnhancer"
-import RequestBitcoin from "./template"
-import FirstStep from "./FirstStep"
-import SecondStep from "./SecondStep"
+import wizardProvider from 'providers/WizardProvider'
+import modalEnhancer from 'providers/ModalEnhancer'
+import RequestBitcoin from './template'
+import FirstStep from './FirstStep'
+import SecondStep from './SecondStep'
 
 class RequestBitcoinContainer extends React.PureComponent {
   constructor(props) {
     super(props)
-    this.state = { receiveAddress: "" }
+    this.state = { receiveAddress: '' }
     this.setReceiveAddress = this.setReceiveAddress.bind(this)
   }
 
@@ -38,8 +38,8 @@ class RequestBitcoinContainer extends React.PureComponent {
 }
 
 const enhance = compose(
-  modalEnhancer("RequestBitcoin"),
-  wizardProvider("requestBitcoin", 2)
+  modalEnhancer('RequestBitcoin'),
+  wizardProvider('requestBitcoin', 2)
 )
 
 export default enhance(RequestBitcoinContainer)

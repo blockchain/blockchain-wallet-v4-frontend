@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
 export const Form = styled.form`
   width: 100%;
@@ -63,7 +63,7 @@ export const ErrorWrapper = styled.div`
   margin-top: 5px;
   a {
     cursor: pointer;
-    color: ${props => props.theme["brand-secondary"]};
+    color: ${props => props.theme['brand-secondary']};
   }
 `
 

@@ -1,11 +1,11 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { reduxForm, Field } from "redux-form"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { reduxForm, Field } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
 
-import { Text } from "blockchain-info-components"
-import { CheckBox } from "components/Form"
+import { Text } from 'blockchain-info-components'
+import { CheckBox } from 'components/Form'
 
 const Wrapper = styled.div`
   display: flex;
@@ -61,4 +61,4 @@ Setting.propTypes = {
   mobileDisabled: PropTypes.bool
 }
 
-export default reduxForm({ form: "settingsNotifications" })(Setting)
+export default reduxForm({ form: 'settingsNotifications' })(Setting)

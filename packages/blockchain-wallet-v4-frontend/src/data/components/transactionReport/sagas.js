@@ -1,26 +1,26 @@
-import { select, put } from "redux-saga/effects"
-import { prop } from "ramda"
-import moment from "services/MomentHelper"
-import * as actions from "../../actions"
-import * as selectors from "../../selectors"
+import { select, put } from 'redux-saga/effects'
+import { prop } from 'ramda'
+import moment from 'services/MomentHelper'
+import * as actions from '../../actions'
+import * as selectors from '../../selectors'
 
 export default ({ coreSagas }) => {
-  const logLocation = "components/transactionReport/sagas"
+  const logLocation = 'components/transactionReport/sagas'
 
   const initialized = function*(action) {
     try {
       const language = yield select(selectors.preferences.getLanguage)
       moment.locale(language)
       const initialValues = {
-        from: "",
+        from: '',
         start: moment()
-          .startOf("day")
-          .subtract(7, "day"),
-        end: moment().startOf("day")
+          .startOf('day')
+          .subtract(7, 'day'),
+        end: moment().startOf('day')
       }
-      yield put(actions.form.initialize("transactionReport", initialValues))
+      yield put(actions.form.initialize('transactionReport', initialValues))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, "initialized", e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
     }
   }
 
@@ -33,16 +33,16 @@ export default ({ coreSagas }) => {
     try {
       const { coin } = action.payload
       const formValues = yield select(
-        selectors.form.getFormValues("transactionReport")
+        selectors.form.getFormValues('transactionReport')
       )
-      const from = prop("from", formValues)
-      const start = prop("start", formValues)
-      const end = prop("end", formValues)
+      const from = prop('from', formValues)
+      const start = prop('start', formValues)
+      const end = prop('end', formValues)
       const address = from && (from.xpub || from.address)
-      const startDate = moment(start).format("DD/MM/YYYY")
-      const endDate = moment(end).format("DD/MM/YYYY")
+      const startDate = moment(start).format('DD/MM/YYYY')
+      const endDate = moment(end).format('DD/MM/YYYY')
       switch (coin) {
-        case "BCH":
+        case 'BCH':
           return yield put(
             actions.core.data.bch.fetchTransactionHistory(
               address,
@@ -50,7 +50,7 @@ export default ({ coreSagas }) => {
               endDate
             )
           )
-        case "BTC":
+        case 'BTC':
           return yield put(
             actions.core.data.bitcoin.fetchTransactionHistory(
               address,
@@ -68,7 +68,7 @@ export default ({ coreSagas }) => {
           )
       }
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, "submitClicked", e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'submitClicked', e))
     }
   }
 

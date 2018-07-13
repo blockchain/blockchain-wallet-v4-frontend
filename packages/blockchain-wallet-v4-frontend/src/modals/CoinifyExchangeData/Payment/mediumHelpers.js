@@ -1,13 +1,13 @@
-import React, { Fragment } from "react"
-import { FormattedMessage } from "react-intl"
-import styled from "styled-components"
-import { Field } from "redux-form"
-import { Text, Icon, Link } from "blockchain-info-components"
-import { spacing } from "services/StyleService"
-import { required } from "services/FormHelper"
-import { StepTransition } from "components/Utilities/Stepper"
-import { equals, path, prop } from "ramda"
-import media from "services/ResponsiveService"
+import React, { Fragment } from 'react'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+import { Field } from 'redux-form'
+import { Text, Icon, Link } from 'blockchain-info-components'
+import { spacing } from 'services/StyleService'
+import { required } from 'services/FormHelper'
+import { StepTransition } from 'components/Utilities/Stepper'
+import { equals, path, prop } from 'ramda'
+import media from 'services/ResponsiveService'
 
 const PaymentOptionContainer = styled.div`
   width: 50%;
@@ -33,9 +33,9 @@ const PaymentOption = styled.div`
   padding: 15px;
   border-radius: 4px;
   width: 130px;
-  cursor: ${props => (props.disabled ? "not-allowed" : "pointer")};
+  cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
   background-color: ${props =>
-    props.isChecked ? props.theme["brand-primary"] : "white"};
+    props.isChecked ? props.theme['brand-primary'] : 'white'};
   opacity: ${props => (props.disabled ? 0.3 : 1)};
 `
 const OptionLabel = styled.label`
@@ -45,10 +45,10 @@ const OptionLabel = styled.label`
   cursor: pointer;
 `
 const PaymentIcon = styled(Icon)`
-  color: ${props => (props.isChecked ? "white" : props.theme["brand-primary"])};
+  color: ${props => (props.isChecked ? 'white' : props.theme['brand-primary'])};
 `
 const PaymentText = styled(Text)`
-  color: ${props => (props.isChecked ? "white" : props.theme["brand-primary"])};
+  color: ${props => (props.isChecked ? 'white' : props.theme['brand-primary'])};
 `
 const BankDisabledText = styled(Text)`
   display: flex;
@@ -67,7 +67,7 @@ export const cardOptionHelper = (
   const PaymentRadioCard = ({ isChecked, handlePaymentClick }) => (
     <PaymentOption
       isChecked={isChecked}
-      onClick={() => !cardDisabled && handlePaymentClick("card")}
+      onClick={() => !cardDisabled && handlePaymentClick('card')}
       disabled={cardDisabled}
     >
       <input
@@ -75,7 +75,7 @@ export const cardOptionHelper = (
         name="inMedium"
         id="card"
         value="card"
-        style={{ display: "none" }}
+        style={{ display: 'none' }}
       />
       <OptionLabel htmlFor="card">
         <PaymentIcon
@@ -130,7 +130,7 @@ export const cardOptionHelper = (
   const renderText = (currency, amount, limit) => (
     <PaymentOptionContainer>
       {renderField()}
-      <Text size="14px" weight={300} style={spacing("mt-25 mb-15")}>
+      <Text size="14px" weight={300} style={spacing('mt-25 mb-15')}>
         <FormattedMessage
           id="coinifyexchangedata.payment.mediumhelpers.card.abovecardlimit"
           defaultMessage="{amount} {currency} is above your daily credit card limit of {limit} {currency}. Please use a bank transfer or lower your purchase amount."
@@ -154,7 +154,7 @@ export const cardOptionHelper = (
 
   const { baseCurrency, quoteAmount, quoteCurrency, baseAmount } = quote
 
-  if (quote.baseCurrency === "BTC") {
+  if (quote.baseCurrency === 'BTC') {
     if (Math.abs(quoteAmount) <= limits.card.inRemaining[quoteCurrency]) {
       return renderContainer(isChecked, handlePaymentClick)
     } else {
@@ -190,7 +190,7 @@ export const bankOptionHelper = (
   const PaymentRadioBank = ({ isChecked, handlePaymentClick }) => (
     <PaymentOption
       isChecked={isChecked}
-      onClick={() => handlePaymentClick("bank")}
+      onClick={() => handlePaymentClick('bank')}
       disabled={bankDisabled}
     >
       <input
@@ -198,7 +198,7 @@ export const bankOptionHelper = (
         name="inMedium"
         id="bank"
         value="bank"
-        style={{ display: "none" }}
+        style={{ display: 'none' }}
       />
       <OptionLabel htmlFor="bank">
         <PaymentIcon
@@ -232,9 +232,9 @@ export const bankOptionHelper = (
           size="14px"
           weight={300}
           color="gray-2"
-          style={spacing("mt-25")}
+          style={spacing('mt-25')}
         >
-          {equals(bankDisabled, "disable_limits") ? (
+          {equals(bankDisabled, 'disable_limits') ? (
             <FormattedMessage
               id="scenes.buysell.coinifyexchangedata.payment.bank.unavailable_limits"
               defaultMessage="The quoted amount is more than your current bank limit."
@@ -245,11 +245,11 @@ export const bankOptionHelper = (
                 id="scenes.buysell.coinifyexchangedata.payment.bank.unavailable_kyc"
                 defaultMessage="Bank transfers are unavailable until Identity Verification has been finished."
               />
-              {equals(path(["state"], kyc), "pending") ? (
+              {equals(path(['state'], kyc), 'pending') ? (
                 <Link
                   size="12px"
                   weight={300}
-                  style={spacing("mt-10")}
+                  style={spacing('mt-10')}
                   onClick={() => openPendingKyc(kyc)}
                 >
                   <FormattedMessage
@@ -264,12 +264,12 @@ export const bankOptionHelper = (
         </BankDisabledText>
       ) : (
         <Text size="14px" weight={300}>
-          {prop("name", level) < 2 ? (
+          {prop('name', level) < 2 ? (
             <Fragment>
               <FormattedMessage
                 id="coinifyexchangedata.payment.mediumhelpers.bank.detail1"
                 defaultMessage="One time ID verification"
-              />{" "}
+              />{' '}
               <br />
             </Fragment>
           ) : null}
@@ -293,7 +293,7 @@ export const bankOptionHelper = (
     </PaymentOptionContainer>
   )
 
-  if (quote.baseCurrency === "BTC") {
+  if (quote.baseCurrency === 'BTC') {
     if (
       Math.abs(quote.quoteAmount) >=
       limits.bank.minimumInAmounts[quote.quoteCurrency]

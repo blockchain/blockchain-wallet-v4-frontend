@@ -1,16 +1,16 @@
-import React, { Fragment } from "react"
-import { Text, Icon, Button, HeartbeatLoader } from "blockchain-info-components"
-import { Wrapper as ExchangeCheckoutWrapper } from "../../ExchangeCheckout"
-import { flex, spacing } from "services/StyleService"
-import { FormattedMessage } from "react-intl"
-import { Remote } from "blockchain-wallet-v4/src"
-import { StepTransition } from "components/Utilities/Stepper"
-import QuoteInput from "./QuoteInput"
-import { MethodContainer } from "components/BuySell/styled.js"
+import React, { Fragment } from 'react'
+import { Text, Icon, Button, HeartbeatLoader } from 'blockchain-info-components'
+import { Wrapper as ExchangeCheckoutWrapper } from '../../ExchangeCheckout'
+import { flex, spacing } from 'services/StyleService'
+import { FormattedMessage } from 'react-intl'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { StepTransition } from 'components/Utilities/Stepper'
+import QuoteInput from './QuoteInput'
+import { MethodContainer } from 'components/BuySell/styled.js'
 import {
   checkoutButtonLimitsHelper,
   getRateFromQuote
-} from "services/CoinifyService"
+} from 'services/CoinifyService'
 
 const OrderCheckout = ({
   changeTab,
@@ -33,14 +33,14 @@ const OrderCheckout = ({
   const quoteInputSpec = {
     method: type, // buy or sell
     input: defaultCurrency,
-    output: "btc"
+    output: 'btc'
   }
   const disableInputs =
     limits.max < limits.min ||
-    (reason.indexOf("has_remaining") < 0 && reason) ||
+    (reason.indexOf('has_remaining') < 0 && reason) ||
     limits.effectiveMax < limits.min
   const wantToHelper = () =>
-    type === "buy" ? (
+    type === 'buy' ? (
       <FormattedMessage
         id="buy.output_method.title.buy"
         defaultMessage="I want to buy"
@@ -64,17 +64,17 @@ const OrderCheckout = ({
           id="scenes.buysell.coinifycheckout.content.ordercheckout.loading"
           defaultMessage="Loading"
         />
-        {"..."}
+        {'...'}
       </Fragment>
     )
 
   const submitButtonHelper = () =>
-    reason.indexOf("has_remaining") > -1 ? (
+    reason.indexOf('has_remaining') > -1 ? (
       <StepTransition
         next
         Component={Button}
         onClick={onOrderCheckoutSubmit}
-        style={spacing("mt-45")}
+        style={spacing('mt-45')}
         nature="primary"
         fullwidth
         disabled={
@@ -97,7 +97,7 @@ const OrderCheckout = ({
 
   return (
     <ExchangeCheckoutWrapper>
-      <Text style={spacing("ml-10")} size="16px" weight={600}>
+      <Text style={spacing('ml-10')} size="16px" weight={600}>
         {wantToHelper()}
       </Text>
       <MethodContainer>
@@ -106,25 +106,25 @@ const OrderCheckout = ({
           color="bitcoin-orange"
           size="30px"
         />
-        <div style={{ ...flex("col"), ...spacing("ml-20") }}>
+        <div style={{ ...flex('col'), ...spacing('ml-20') }}>
           <Text size="14px" weight={300} uppercase>
             Bitcoin
           </Text>
           <Text size="12px" weight={300}>
-            {"@ "}
+            {'@ '}
             {rateHelper()}
           </Text>
         </div>
       </MethodContainer>
-      {reason.indexOf("has_remaining") > -1 ? (
+      {reason.indexOf('has_remaining') > -1 ? (
         <Fragment>
-          <Text style={spacing("ml-10")} size="16px" weight={600}>
+          <Text style={spacing('ml-10')} size="16px" weight={600}>
             <FormattedMessage
               id="scenes.buysell.coinifycheckout.content.ordercheckout.amount"
               defaultMessage="Amount"
             />
           </Text>
-          <div style={spacing("mt-10")}>
+          <div style={spacing('mt-10')}>
             <QuoteInput
               changeTab={changeTab}
               quoteR={quoteR}

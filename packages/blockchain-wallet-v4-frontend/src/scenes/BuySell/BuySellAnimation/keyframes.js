@@ -1,4 +1,4 @@
-import { keyframes } from "styled-components"
+import { keyframes } from 'styled-components'
 
 export const flight = keyframes`
   0% { left: calc(100%); }

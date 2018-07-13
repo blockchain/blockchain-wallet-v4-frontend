@@ -1,22 +1,22 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators, compose } from "redux"
-import { getData } from "./selectors"
-import { actions } from "data"
-import Error from "./template.error"
-import Loading from "./template.loading"
-import Success from "./template.success"
-import { FormattedMessage } from "react-intl"
-import styled from "styled-components"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import { getData } from './selectors'
+import { actions } from 'data'
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
 import {
   Button,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter
-} from "blockchain-info-components"
+} from 'blockchain-info-components'
 
-import modalEnhancer from "providers/ModalEnhancer"
+import modalEnhancer from 'providers/ModalEnhancer'
 
 const QRCodeContainer = styled.div`
   display: flex;
@@ -76,7 +76,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer("PairingCode"),
+  modalEnhancer('PairingCode'),
   connect(
     mapStateToProps,
     mapDispatchToProps

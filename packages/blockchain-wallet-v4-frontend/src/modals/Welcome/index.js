@@ -1,6 +1,6 @@
-import React from "react"
-import modalEnhancer from "providers/ModalEnhancer"
-import Welcome from "./template.js"
+import React from 'react'
+import modalEnhancer from 'providers/ModalEnhancer'
+import Welcome from './template.js'
 
 class WelcomeContainer extends React.PureComponent {
   render() {
@@ -8,4 +8,4 @@ class WelcomeContainer extends React.PureComponent {
   }
 }
 
-export default modalEnhancer("Welcome")(WelcomeContainer)
+export default modalEnhancer('Welcome')(WelcomeContainer)

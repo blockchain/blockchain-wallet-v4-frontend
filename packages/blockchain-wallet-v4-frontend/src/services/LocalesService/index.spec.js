@@ -1,7 +1,7 @@
-import configureLocales from "./index.js"
+import configureLocales from './index.js'
 
-describe("LocalesService", () => {
-  it("should configure all locales in the store", () => {
+describe('LocalesService', () => {
+  it('should configure all locales in the store', () => {
     let mockStore = configureLocales({})
     expect(mockStore.messages.bg).toBeDefined()
     expect(mockStore.messages.da).toBeDefined()

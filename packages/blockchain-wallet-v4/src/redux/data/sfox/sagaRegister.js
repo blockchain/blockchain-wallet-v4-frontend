@@ -1,7 +1,7 @@
-import { takeLatest } from "redux-saga/effects"
-import * as AT from "./actionTypes"
-import * as actionTypes from "../../actionTypes"
-import sagas from "./sagas"
+import { takeLatest } from 'redux-saga/effects'
+import * as AT from './actionTypes'
+import * as actionTypes from '../../actionTypes'
+import sagas from './sagas'
 
 export default ({ api, options }) => {
   const dataSfoxSagas = sagas({ api, options })

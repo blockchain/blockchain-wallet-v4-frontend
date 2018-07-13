@@ -1,4 +1,4 @@
-import * as AT from "./actionTypes"
+import * as AT from './actionTypes'
 
 export const startSocket = () => ({ type: AT.START_SOCKET })
 export const stopSocket = () => ({ type: AT.STOP_SOCKET })

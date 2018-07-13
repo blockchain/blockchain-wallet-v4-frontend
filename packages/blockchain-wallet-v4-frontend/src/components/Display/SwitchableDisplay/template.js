@@ -1,8 +1,8 @@
-import React from "react"
-import PropTypes from "prop-types"
+import React from 'react'
+import PropTypes from 'prop-types'
 
-import CoinDisplay from "../CoinDisplay"
-import FiatDisplay from "../FiatDisplay"
+import CoinDisplay from '../CoinDisplay'
+import FiatDisplay from '../FiatDisplay'
 
 const SwitchableDisplay = props => {
   const { coinDisplayed, children, ...rest } = props

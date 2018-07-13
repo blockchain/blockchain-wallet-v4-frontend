@@ -1,4 +1,4 @@
-import * as AT from "./actionTypes"
+import * as AT from './actionTypes'
 
 export const decodePairingCode = data => ({
   type: AT.DECODE_PAIRING_CODE,

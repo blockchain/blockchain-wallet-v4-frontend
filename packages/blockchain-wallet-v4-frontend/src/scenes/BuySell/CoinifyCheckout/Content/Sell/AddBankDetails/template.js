@@ -1,13 +1,13 @@
-import React from "react"
-import { reduxForm, Field } from "redux-form"
-import { FormattedMessage } from "react-intl"
-import styled from "styled-components"
-import { any, equals, prop } from "ramda"
+import React from 'react'
+import { reduxForm, Field } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+import { any, equals, prop } from 'ramda'
 
-import { Button, Link, Text } from "blockchain-info-components"
-import { required, validIban, validBIC } from "services/FormHelper"
-import { spacing } from "services/StyleService"
-import { StepTransition } from "components/Utilities/Stepper"
+import { Button, Link, Text } from 'blockchain-info-components'
+import { required, validIban, validBIC } from 'services/FormHelper'
+import { spacing } from 'services/StyleService'
+import { StepTransition } from 'components/Utilities/Stepper'
 import {
   BorderBox,
   Form,
@@ -17,8 +17,8 @@ import {
   PartnerSubHeader,
   ColRight,
   ColRightInner
-} from "components/BuySell/Signup"
-import { TextBox } from "components/Form"
+} from 'components/BuySell/Signup'
+import { TextBox } from 'components/Form'
 
 const CancelWrapper = styled.div`
   display: flex;
@@ -41,9 +41,9 @@ const FieldWrapper = styled.div`
 
 const AddBankDetails = props => {
   const { invalid, submitting, quote } = props
-  const isCurrencyDKK = any(equals("DKK"))([
-    prop("baseCurrency", quote),
-    prop("quoteCurrency", quote)
+  const isCurrencyDKK = any(equals('DKK'))([
+    prop('baseCurrency', quote),
+    prop('quoteCurrency', quote)
   ])
 
   return (
@@ -120,7 +120,7 @@ const AddBankDetails = props => {
           <StepTransition
             next
             Component={Button}
-            style={spacing("mt-45")}
+            style={spacing('mt-45')}
             nature="primary"
             fullwidth
             disabled={submitting || invalid}
@@ -142,6 +142,6 @@ const AddBankDetails = props => {
 }
 
 export default reduxForm({
-  form: "coinifyAddBankDetails",
+  form: 'coinifyAddBankDetails',
   destroyOnUnmount: false
 })(AddBankDetails)

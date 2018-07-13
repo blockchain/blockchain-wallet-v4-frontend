@@ -1,4 +1,4 @@
-import * as AT from "./actionTypes"
+import * as AT from './actionTypes'
 
 export const showGoogleAuthenticatorSecretUrl = () => ({
   type: AT.SHOW_GOOGLE_AUTHENTICATOR_SECRET_URL

@@ -1,66 +1,66 @@
-import * as Conversion from "./index"
-import { bitcoinRates } from "./conversion.textures"
+import * as Conversion from './index'
+import { bitcoinRates } from './conversion.textures'
 
-describe("displayFiatToBitcoin", () => {
-  it("should return correct value", () => {
+describe('displayFiatToBitcoin', () => {
+  it('should return correct value', () => {
     const input = {
       value: 1,
-      fromCurrency: "USD",
-      toUnit: "BTC",
+      fromCurrency: 'USD',
+      toUnit: 'BTC',
       rates: bitcoinRates
     }
-    const expectedOutput = "0.00015174 BTC"
+    const expectedOutput = '0.00015174 BTC'
     const result = Conversion.displayFiatToBitcoin(input)
     expect(result).toEqual(expectedOutput)
   })
 
-  it("should return value 0 if value is undefined ", () => {
+  it('should return value 0 if value is undefined ', () => {
     const input = {
-      fromCurrency: "USD",
-      toUnit: "BTC",
+      fromCurrency: 'USD',
+      toUnit: 'BTC',
       rates: bitcoinRates
     }
-    const expectedOutput = "0 BTC"
+    const expectedOutput = '0 BTC'
     const result = Conversion.displayFiatToBitcoin(input)
     expect(result).toEqual(expectedOutput)
   })
 
-  it("should return default if currency is undefined", () => {
+  it('should return default if currency is undefined', () => {
     const input = {
       value: 1,
-      toUnit: "BTC",
+      toUnit: 'BTC',
       rates: bitcoinRates
     }
     const result = Conversion.convertFiatToBitcoin(input)
     expect(result).toEqual(Conversion.DefaultConversion)
   })
 
-  it("should return default if currency does not exist", () => {
+  it('should return default if currency does not exist', () => {
     const input = {
       value: 1,
-      fromCurrency: "USDDDD",
-      toUnit: "BTC",
+      fromCurrency: 'USDDDD',
+      toUnit: 'BTC',
       rates: bitcoinRates
     }
     const result = Conversion.convertFiatToBitcoin(input)
     expect(result).toEqual(Conversion.DefaultConversion)
   })
 
-  it("should return default if unit is undefined", () => {
+  it('should return default if unit is undefined', () => {
     const input = {
       value: 1,
-      fromCurrency: "USD",
+      fromCurrency: 'USD',
       rates: bitcoinRates
     }
     const result = Conversion.convertFiatToBitcoin(input)
     expect(result).toEqual(Conversion.DefaultConversion)
   })
 
-  it("should return default if unit does not exist", () => {
+  it('should return default if unit does not exist', () => {
     const input = {
       value: 1,
-      fromCurrency: "USD",
-      toUnit: "BTCCCC",
+      fromCurrency: 'USD',
+      toUnit: 'BTCCCC',
       rates: bitcoinRates
     }
     const result = Conversion.convertFiatToBitcoin(input)

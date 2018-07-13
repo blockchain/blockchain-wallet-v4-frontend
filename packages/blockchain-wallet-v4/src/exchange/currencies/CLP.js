@@ -1,19 +1,19 @@
 export default {
-  code: "CLP",
-  base: "CENT",
-  trade: "CLP",
+  code: 'CLP',
+  base: 'CENT',
+  trade: 'CLP',
   units: {
     CENT: {
-      rate: "1",
-      symbol: "¢Ch$",
+      rate: '1',
+      symbol: '¢Ch$',
       decimal_digits: 0,
-      currency: "CLP"
+      currency: 'CLP'
     },
     CLP: {
-      rate: "100",
-      symbol: "Ch$",
+      rate: '100',
+      symbol: 'Ch$',
       decimal_digits: 2,
-      currency: "CLP"
+      currency: 'CLP'
     }
   }
 }

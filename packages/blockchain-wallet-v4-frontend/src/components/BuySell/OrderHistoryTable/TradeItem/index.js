@@ -1,11 +1,11 @@
-import React from "react"
-import styled from "styled-components"
-import PropTypes from "prop-types"
-import { FormattedMessage } from "react-intl"
-import { Exchange } from "blockchain-wallet-v4/src"
-import { canCancelTrade } from "services/CoinifyService"
-import { equals, prop } from "ramda"
-import moment from "moment"
+import React from 'react'
+import styled from 'styled-components'
+import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
+import { Exchange } from 'blockchain-wallet-v4/src'
+import { canCancelTrade } from 'services/CoinifyService'
+import { equals, prop } from 'ramda'
+import moment from 'moment'
 import {
   TableCell,
   TableRow,
@@ -13,10 +13,10 @@ import {
   Link,
   Icon,
   HeartbeatLoader
-} from "blockchain-info-components"
-import OrderStatus from "../OrderStatus"
-import media from "services/ResponsiveService"
-import { MediaContextConsumer } from "providers/MatchMediaProvider"
+} from 'blockchain-info-components'
+import OrderStatus from '../OrderStatus'
+import media from 'services/ResponsiveService'
+import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 
 export const OrderHistoryText = styled(Text)`
   font-size: 13px;
@@ -32,9 +32,9 @@ export const OrderHistoryLink = styled(Link)`
 `
 
 const tradeDateHelper = (trade, isMobile) =>
-  moment(prop("createdAt", trade))
+  moment(prop('createdAt', trade))
     .local()
-    .format(isMobile ? "DD MMM" : "MMMM D YYYY @ h:mm A")
+    .format(isMobile ? 'DD MMM' : 'MMMM D YYYY @ h:mm A')
 
 const TradeItem = props => {
   const {
@@ -48,9 +48,9 @@ const TradeItem = props => {
     partner
   } = props
   const tradeReceiveAmount =
-    partner === "sfox"
-      ? prop("receiveAmount", trade) - prop("feeAmount", trade)
-      : prop("receiveAmount", trade)
+    partner === 'sfox'
+      ? prop('receiveAmount', trade) - prop('feeAmount', trade)
+      : prop('receiveAmount', trade)
   const receiveAmount = trade.isBuy
     ? trade.receiveAmount
     : Exchange.displayFiatToFiat({ value: tradeReceiveAmount })
@@ -59,7 +59,7 @@ const TradeItem = props => {
     : trade.sendAmount / conversion.sell
   const canCancel = trade.isBuy && canCancelTrade(trade)
   const getOpacity = trade =>
-    equals(prop("state", trade), "processing") ? 0.5 : 1
+    equals(prop('state', trade), 'processing') ? 0.5 : 1
 
   return (
     <TableRow>
@@ -67,7 +67,7 @@ const TradeItem = props => {
         <OrderStatus status={trade.state} isBuy={trade.isBuy} />
       </TableCell>
       <TableCell width="15%" mobileWidth="20%">
-        {trade.state === "awaiting_transfer_in" && trade.medium === "card" ? (
+        {trade.state === 'awaiting_transfer_in' && trade.medium === 'card' ? (
           <OrderHistoryLink
             weight={300}
             capitalize
@@ -104,14 +104,14 @@ const TradeItem = props => {
         <OrderHistoryText
           opacity={getOpacity(trade)}
           weight={300}
-        >{`${exchangeAmount} ${prop("inCurrency", trade)}`}</OrderHistoryText>
+        >{`${exchangeAmount} ${prop('inCurrency', trade)}`}</OrderHistoryText>
       </TableCell>
       <TableCell width="20%" mobileWidth="35%">
         <TableCell width="80%">
           <OrderHistoryText
             opacity={getOpacity(trade)}
             weight={300}
-          >{`${receiveAmount} ${prop("outCurrency", trade)}`}</OrderHistoryText>
+          >{`${receiveAmount} ${prop('outCurrency', trade)}`}</OrderHistoryText>
         </TableCell>
         <TableCell width="20%">
           {canCancel && status && cancelTradeId === trade.id ? (

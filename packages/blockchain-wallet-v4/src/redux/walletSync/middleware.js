@@ -1,5 +1,5 @@
-import { futurizeP } from "futurize"
-import Task from "data.task"
+import { futurizeP } from 'futurize'
+import Task from 'data.task'
 import {
   compose,
   assoc,
@@ -12,13 +12,13 @@ import {
   filter,
   propEq,
   uniq
-} from "ramda"
-import { networks } from "bitcoinjs-lib"
+} from 'ramda'
+import { networks } from 'bitcoinjs-lib'
 
-import * as A from "../actions"
-import * as T from "../actionTypes"
-import { Wrapper, Wallet, HDAccount } from "../../types"
-import * as selectors from "../selectors"
+import * as A from '../actions'
+import * as T from '../actionTypes'
+import { Wrapper, Wallet, HDAccount } from '../../types'
+import * as selectors from '../selectors'
 
 /**
  * Number of addresses for each HD Account to sync with platform
@@ -73,8 +73,8 @@ export const getUnusedLabeledAddresses = async (state, api) => {
     selectors.kvStore.btc.getAddressLabels(state)
   )
   return compose(
-    pluck("address"),
-    filter(propEq("n_tx", 0))
+    pluck('address'),
+    filter(propEq('n_tx', 0))
   )(labeledAddresses.addresses)
 }
 
@@ -140,7 +140,7 @@ const walletSync = ({
       try {
         const addresses = await getWalletAddresses(state, api)
         encryptedWallet = encryptedWallet.map(
-          assoc("active", join("|", addresses))
+          assoc('active', join('|', addresses))
         )
       } catch (error) {
         return store.dispatch(A.walletSync.syncError(error))

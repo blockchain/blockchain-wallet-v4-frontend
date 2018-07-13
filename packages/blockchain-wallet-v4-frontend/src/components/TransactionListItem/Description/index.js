@@ -1,9 +1,9 @@
-import React from "react"
-import { actions } from "data"
-import PropTypes from "prop-types"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import EditDescription from "./template"
+import React from 'react'
+import { actions } from 'data'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import EditDescription from './template'
 
 class EditDescriptionContainer extends React.PureComponent {
   constructor(props) {
@@ -21,7 +21,7 @@ class EditDescriptionContainer extends React.PureComponent {
 
   handleChange(e) {
     const { value } = this.props
-    this.props.modalActions.showModal("EditTxDescription", {
+    this.props.modalActions.showModal('EditTxDescription', {
       handleConfirm: this.handleConfirm,
       value
     })

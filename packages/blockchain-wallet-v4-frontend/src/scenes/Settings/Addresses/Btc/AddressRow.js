@@ -1,7 +1,7 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import SwitchableDisplay from "components/Display/SwitchableDisplay"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import {
   Banner,
   TableCell,
@@ -9,8 +9,8 @@ import {
   Text,
   Link,
   ComponentDropdown
-} from "blockchain-info-components"
-import media from "services/ResponsiveService"
+} from 'blockchain-info-components'
+import media from 'services/ResponsiveService'
 
 const AddressTableCell = styled(TableCell)`
   display: flex;
@@ -53,20 +53,20 @@ const AddressRow = ({ address, archived, coin, renderOptions }) => {
       </AddressTableCell>
       <TableCell width="30%">
         {!archived && (
-          <SwitchableDisplay size="13px" coin={coin || "BTC"}>
+          <SwitchableDisplay size="13px" coin={coin || 'BTC'}>
             {address.info && address.info.final_balance}
           </SwitchableDisplay>
         )}
       </TableCell>
       <TableCell
         width="20%"
-        style={{ display: "flex", justifyContent: "flex-end" }}
+        style={{ display: 'flex', justifyContent: 'flex-end' }}
       >
         {renderOptions && (
           <ComponentDropdown
             down
             forceSelected
-            color={"gray-5"}
+            color={'gray-5'}
             selectedComponent={<MoreOptions />}
             components={renderOptions()}
           />

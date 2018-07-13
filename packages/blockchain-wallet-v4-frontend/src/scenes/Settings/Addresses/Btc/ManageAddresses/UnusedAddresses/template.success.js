@@ -1,6 +1,6 @@
-import React from "react"
-import { FormattedMessage } from "react-intl"
-import { filter } from "ramda"
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { filter } from 'ramda'
 
 import {
   Text,
@@ -10,7 +10,7 @@ import {
   TableCell,
   Icon,
   Link
-} from "blockchain-info-components"
+} from 'blockchain-info-components'
 
 const UnusedAddressesTemplate = ({
   account,
@@ -33,7 +33,7 @@ const UnusedAddressesTemplate = ({
   const addresses = filter(isMatch, unusedAddresses).map((entry, i) => {
     return (
       <TableRow key={i}>
-        <TableCell width="40%" style={{ wordBreak: "break-all" }}>
+        <TableCell width="40%" style={{ wordBreak: 'break-all' }}>
           <Link
             href={`https://blockchain.info/address/${entry.address}`}
             size="small"
@@ -48,7 +48,7 @@ const UnusedAddressesTemplate = ({
         </TableCell>
         <TableCell
           width="20%"
-          style={{ display: "flex", justifyContent: "flex-end" }}
+          style={{ display: 'flex', justifyContent: 'flex-end' }}
         >
           <Icon
             cursor
@@ -67,7 +67,7 @@ const UnusedAddressesTemplate = ({
   })
 
   return unusedAddresses.length === 0 ? (
-    <Text weight={300} style={{ marginTop: 20, textAlign: "center" }}>
+    <Text weight={300} style={{ marginTop: 20, textAlign: 'center' }}>
       <FormattedMessage
         id="scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.nounusedmessage"
         defaultMessage="This wallet has no unused addresses."
@@ -94,7 +94,7 @@ const UnusedAddressesTemplate = ({
         </TableCell>
         <TableCell
           width="20%"
-          style={{ display: "flex", justifyContent: "flex-end" }}
+          style={{ display: 'flex', justifyContent: 'flex-end' }}
         >
           <Text size="13px" weight={500}>
             <FormattedMessage

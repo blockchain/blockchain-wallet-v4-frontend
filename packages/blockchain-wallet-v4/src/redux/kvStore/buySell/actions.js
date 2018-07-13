@@ -1,4 +1,4 @@
-import * as AT from "./actionTypes"
+import * as AT from './actionTypes'
 
 export const setSfoxTradesBuySell = payload => ({
   type: AT.SET_SFOX_TRADES_BUYSELL,

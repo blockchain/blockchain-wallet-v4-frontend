@@ -1,12 +1,12 @@
-import { delay } from "redux-saga"
-import { call, put } from "redux-saga/effects"
+import { delay } from 'redux-saga'
+import { call, put } from 'redux-saga/effects'
 
-import * as actions from "./actions.js"
-import * as sagas from "./sagas"
+import * as actions from './actions.js'
+import * as sagas from './sagas'
 
-describe("Alert Sagas", () => {
-  describe("handleTimer", () => {
-    it("should dismiss alert when timeout expires", () => {
+describe('Alert Sagas', () => {
+  describe('handleTimer', () => {
+    it('should dismiss alert when timeout expires', () => {
       let id = 1
       let gen = sagas.handleTimer({ payload: { id: id } })
 

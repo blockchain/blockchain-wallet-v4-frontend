@@ -1,25 +1,25 @@
-import { call, select, put } from "redux-saga/effects"
-import { identity, prop } from "ramda"
-import { formValueSelector } from "redux-form"
-import * as actions from "../../actions"
-import * as C from "services/AlertService"
-import { promptForSecondPassword, promptForInput } from "services/SagaService"
-import settings from "config"
-import { utils } from "blockchain-wallet-v4/src"
+import { call, select, put } from 'redux-saga/effects'
+import { identity, prop } from 'ramda'
+import { formValueSelector } from 'redux-form'
+import * as actions from '../../actions'
+import * as C from 'services/AlertService'
+import { promptForSecondPassword, promptForInput } from 'services/SagaService'
+import settings from 'config'
+import { utils } from 'blockchain-wallet-v4/src'
 
 export default ({ api, coreSagas }) => {
-  const logLocation = "components/importBtcAddress/sagas"
+  const logLocation = 'components/importBtcAddress/sagas'
 
   const importBtcAddressSubmitClicked = function*() {
     const appState = yield select(identity)
-    const address = formValueSelector("importBtcAddress")(appState, "address")
-    const priv = formValueSelector("importBtcAddress")(appState, "priv")
-    const to = formValueSelector("importBtcAddress")(appState, "to")
+    const address = formValueSelector('importBtcAddress')(appState, 'address')
+    const priv = formValueSelector('importBtcAddress')(appState, 'priv')
+    const to = formValueSelector('importBtcAddress')(appState, 'to')
     yield call(importLegacyAddress, address, priv, null, null, to)
   }
 
   const sweepImportedToAccount = function*(priv, to, password) {
-    const index = prop("index", to)
+    const index = prop('index', to)
     if (utils.checks.isPositiveInteger(index) && priv) {
       try {
         yield coreSagas.payment.btc
@@ -27,9 +27,9 @@ export default ({ api, coreSagas }) => {
           .chain()
           .init()
           .from(priv)
-          .fee("regular")
+          .fee('regular')
           .to(index)
-          .description("Imported address swept")
+          .description('Imported address swept')
           .buildSweep()
           .sign(password)
           .publish()
@@ -41,11 +41,11 @@ export default ({ api, coreSagas }) => {
         yield put(
           actions.logs.logErrorMessage(
             logLocation,
-            "sweepImportedToAccount",
+            'sweepImportedToAccount',
             error
           )
         )
-        if (error.message === "empty_addresses") {
+        if (error.message === 'empty_addresses') {
           yield put(actions.alerts.displaySuccess(C.SWEEP_ERROR_EMPTY_ADDRESS))
         } else {
           yield put(actions.alerts.displayError(C.SWEEP_ERROR))
@@ -77,22 +77,22 @@ export default ({ api, coreSagas }) => {
         )
       )
       switch (error.message) {
-        case "present_in_wallet":
+        case 'present_in_wallet':
           yield put(actions.alerts.displayError(C.ADDRESS_DOES_NOT_EXIST_ERROR))
           break
-        case "unknown_key_format":
+        case 'unknown_key_format':
           yield put(
             actions.alerts.displayError(C.ADDRESS_FORMAT_NOT_SUPPORTED_ERROR)
           )
           break
-        case "wrong_bip38_pass":
+        case 'wrong_bip38_pass':
           yield put(
             actions.alerts.displayError(C.INCORRECT_BIP38_PASSWORD_ERROR)
           )
           break
-        case "needs_bip38":
+        case 'needs_bip38':
           let bipPass = yield call(promptForInput, {
-            title: "Enter BIP38 Password",
+            title: 'Enter BIP38 Password',
             secret: true
           })
           yield call(importLegacyAddress, address, priv, password, bipPass, to)

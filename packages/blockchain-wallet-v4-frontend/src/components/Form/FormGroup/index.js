@@ -1,13 +1,13 @@
-import React from "react"
-import styled from "styled-components"
+import React from 'react'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   width: 100%;
   display: flex;
-  flex-direction: ${props => (props.inline ? "row" : "column")};
-  margin-bottom: ${props => (props.margin ? props.margin : "10px")};
+  flex-direction: ${props => (props.inline ? 'row' : 'column')};
+  margin-bottom: ${props => (props.margin ? props.margin : '10px')};
   > div {
-    margin-right: ${props => (props.inline ? "15px" : "0px")};
+    margin-right: ${props => (props.inline ? '15px' : '0px')};
     &:last-child {
       margin-right: 0px;
     }

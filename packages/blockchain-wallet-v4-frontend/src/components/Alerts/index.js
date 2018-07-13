@@ -1,8 +1,8 @@
-import React from "react"
-import { bindActionCreators } from "redux"
-import { connect } from "react-redux"
-import { actions, selectors } from "data"
-import Alerts from "./template.js"
+import React from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { actions, selectors } from 'data'
+import Alerts from './template.js'
 
 class AlertsContainer extends React.PureComponent {
   constructor(props) {

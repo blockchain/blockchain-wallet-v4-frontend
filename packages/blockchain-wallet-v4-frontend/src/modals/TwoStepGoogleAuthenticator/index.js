@@ -1,11 +1,11 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators, compose } from "redux"
-import { formValueSelector } from "redux-form"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import { formValueSelector } from 'redux-form'
 
-import { actions } from "data"
-import modalEnhancer from "providers/ModalEnhancer"
-import TwoStepGoogleAuthenticator from "./template.js"
+import { actions } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
+import TwoStepGoogleAuthenticator from './template.js'
 
 class TwoStepGoogleAuthenticatorContainer extends React.PureComponent {
   constructor(props) {
@@ -25,7 +25,7 @@ class TwoStepGoogleAuthenticatorContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  code: formValueSelector("twoStepGoogleAuthenticator")(state, "code")
+  code: formValueSelector('twoStepGoogleAuthenticator')(state, 'code')
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -34,7 +34,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer("TwoStepGoogleAuthenticator"),
+  modalEnhancer('TwoStepGoogleAuthenticator'),
   connect(
     mapStateToProps,
     mapDispatchToProps

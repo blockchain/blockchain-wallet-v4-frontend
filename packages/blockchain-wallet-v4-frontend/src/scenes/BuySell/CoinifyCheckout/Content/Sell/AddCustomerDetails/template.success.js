@@ -1,12 +1,12 @@
-import React from "react"
-import { reduxForm, Field } from "redux-form"
-import { FormattedMessage } from "react-intl"
-import styled from "styled-components"
-import { Button, Link, Text } from "blockchain-info-components"
+import React from 'react'
+import { reduxForm, Field } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+import { Button, Link, Text } from 'blockchain-info-components'
 
-import { required } from "services/FormHelper"
-import { spacing } from "services/StyleService"
-import { StepTransition } from "components/Utilities/Stepper"
+import { required } from 'services/FormHelper'
+import { spacing } from 'services/StyleService'
+import { StepTransition } from 'components/Utilities/Stepper'
 import {
   BorderBox,
   Form,
@@ -17,8 +17,8 @@ import {
   InputWrapper,
   PartnerHeader,
   PartnerSubHeader
-} from "components/BuySell/Signup"
-import { SelectBoxCountry, TextBox } from "components/Form"
+} from 'components/BuySell/Signup'
+import { SelectBoxCountry, TextBox } from 'components/Form'
 
 const SpaceRow = styled.div`
   width: 100%;
@@ -40,7 +40,7 @@ const AddBankDetails = props => {
     <Form>
       <ColLeft>
         <BorderBox>
-          <InputWrapper style={spacing("mb-40")}>
+          <InputWrapper style={spacing('mb-40')}>
             <PartnerHeader>
               <FormattedMessage
                 id="coinifyexchangedata.addcustomerdetails.header"
@@ -110,7 +110,7 @@ const AddBankDetails = props => {
           <StepTransition
             next
             Component={Button}
-            style={spacing("mt-45")}
+            style={spacing('mt-45')}
             nature="primary"
             fullwidth
             disabled={submitting || invalid}
@@ -133,6 +133,6 @@ const AddBankDetails = props => {
 }
 
 export default reduxForm({
-  form: "coinifyAddCustomerDetails",
+  form: 'coinifyAddCustomerDetails',
   destroyOnUnmount: false
 })(AddBankDetails)

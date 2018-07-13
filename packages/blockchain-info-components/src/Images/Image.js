@@ -1,8 +1,8 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
-import Images from "./Images"
+import Images from './Images'
 
 const BaseImage = styled.img`
   width: ${props => props.width};
@@ -21,9 +21,9 @@ const Image = props => {
 }
 
 Image.defaultProps = {
-  width: "auto",
-  height: "auto",
-  color: "auto"
+  width: 'auto',
+  height: 'auto',
+  color: 'auto'
 }
 
 Image.propTypes = {

@@ -1,12 +1,12 @@
-import React from "react"
-import { bindActionCreators } from "redux"
-import { connect } from "react-redux"
-import { prop } from "ramda"
+import React from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { prop } from 'ramda'
 
-import { actions } from "data"
-import { getData } from "./selectors.js"
-import Success from "./template.success.js"
-import Loading from "components/BuySell/Loading"
+import { actions } from 'data'
+import { getData } from './selectors.js'
+import Success from './template.success.js'
+import Loading from 'components/BuySell/Loading'
 
 class SelectAccountsContainer extends React.PureComponent {
   constructor(props) {
@@ -20,7 +20,7 @@ class SelectAccountsContainer extends React.PureComponent {
   }
 
   deleteBankAccount(bankAccount) {
-    this.props.modalActions.showModal("CoinifyDeleteBank", { bankAccount })
+    this.props.modalActions.showModal('CoinifyDeleteBank', { bankAccount })
   }
 
   render() {

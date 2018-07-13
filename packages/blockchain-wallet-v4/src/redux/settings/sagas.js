@@ -1,10 +1,10 @@
-import { call, put, select } from "redux-saga/effects"
-import { contains, prop, toLower, sum } from "ramda"
-import * as actions from "./actions"
-import * as selectors from "../selectors"
-import * as walletActions from "../wallet/actions"
-import * as wS from "../wallet/selectors"
-import * as pairing from "../../pairing"
+import { call, put, select } from 'redux-saga/effects'
+import { contains, prop, toLower, sum } from 'ramda'
+import * as actions from './actions'
+import * as selectors from '../selectors'
+import * as walletActions from '../wallet/actions'
+import * as wS from '../wallet/selectors'
+import * as pairing from '../../pairing'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -41,7 +41,7 @@ export default ({ api }) => {
       guid,
       sharedKey
     )
-    if (!contains("secret", response)) {
+    if (!contains('secret', response)) {
       throw new Error(response)
     }
     yield put(actions.setGoogleAuthenticatorSecretUrl(response))
@@ -52,7 +52,7 @@ export default ({ api }) => {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.updateEmail, guid, sharedKey, email)
-    if (!contains("updated", toLower(response))) {
+    if (!contains('updated', toLower(response))) {
       throw new Error(response)
     }
     yield put(actions.setEmail(email))
@@ -88,7 +88,7 @@ export default ({ api }) => {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.updateMobile, guid, sharedKey, mobile)
-    if (!contains("successfully", toLower(response))) {
+    if (!contains('successfully', toLower(response))) {
       throw new Error(response)
     }
     yield put(actions.setMobile(mobile))
@@ -98,7 +98,7 @@ export default ({ api }) => {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.verifyMobile, guid, sharedKey, code)
-    if (!contains("successfully", toLower(response))) {
+    if (!contains('successfully', toLower(response))) {
       throw new Error(response)
     }
     yield put(actions.setMobileVerified())
@@ -108,12 +108,12 @@ export default ({ api }) => {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.verifyMobile, guid, sharedKey, code)
-    if (!contains("successfully", toLower(response))) {
+    if (!contains('successfully', toLower(response))) {
       throw new Error(response)
     }
     yield put(actions.setMobileVerified())
-    const updateAuthCall = yield call(api.updateAuthType, guid, sharedKey, "5")
-    if (!contains("updated", updateAuthCall)) {
+    const updateAuthCall = yield call(api.updateAuthType, guid, sharedKey, '5')
+    if (!contains('updated', updateAuthCall)) {
       throw new Error(updateAuthCall)
     }
     yield put(actions.setAuthType(5))
@@ -123,7 +123,7 @@ export default ({ api }) => {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.updateLanguage, guid, sharedKey, language)
-    if (!contains("successfully", toLower(response))) {
+    if (!contains('successfully', toLower(response))) {
       throw new Error(response)
     }
     yield put(actions.setLanguage(language))
@@ -133,7 +133,7 @@ export default ({ api }) => {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.updateCurrency, guid, sharedKey, currency)
-    if (!contains("successfully", toLower(response))) {
+    if (!contains('successfully', toLower(response))) {
       throw new Error(response)
     }
     yield put(actions.setCurrency(currency))
@@ -152,7 +152,7 @@ export default ({ api }) => {
       sharedKey,
       String(loggingLevel)
     )
-    if (!contains("Logging level updated.", response)) {
+    if (!contains('Logging level updated.', response)) {
       throw new Error(response)
     }
     yield put(actions.setLoggingLevel(loggingLevel))
@@ -167,7 +167,7 @@ export default ({ api }) => {
       sharedKey,
       String(ipLock)
     )
-    if (!contains("Ip Addresses Updated", response)) {
+    if (!contains('Ip Addresses Updated', response)) {
       throw new Error(response)
     }
     yield put(actions.setIpLock(ipLock))
@@ -182,7 +182,7 @@ export default ({ api }) => {
       sharedKey,
       String(Boolean(ipLockOn))
     )
-    if (!contains("Updated IP Lock Settings", response)) {
+    if (!contains('Updated IP Lock Settings', response)) {
       throw new Error(response)
     }
     yield put(actions.setIpLockOn(ipLockOn))
@@ -197,7 +197,7 @@ export default ({ api }) => {
       sharedKey,
       String(blockTorIps)
     )
-    if (!contains("Tor IP address settings updated.", response)) {
+    if (!contains('Tor IP address settings updated.', response)) {
       throw new Error(response)
     }
     yield put(actions.setBlockTorIps(blockTorIps))
@@ -207,7 +207,7 @@ export default ({ api }) => {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.updateHint, guid, sharedKey, hint)
-    if (!contains("Updated Password Hint", response)) {
+    if (!contains('Updated Password Hint', response)) {
       throw new Error(response)
     }
     yield put(actions.setHint(hint))
@@ -217,7 +217,7 @@ export default ({ api }) => {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.updateAuthType, guid, sharedKey, authType)
-    if (!contains("updated", response)) {
+    if (!contains('updated', response)) {
       throw new Error(response)
     }
     yield put(actions.setAuthType(authType))
@@ -232,7 +232,7 @@ export default ({ api }) => {
       sharedKey,
       String(Boolean(authTypeNeverSave))
     )
-    if (!contains("Success", response)) {
+    if (!contains('Success', response)) {
       throw new Error(response)
     }
     yield put(actions.setAuthTypeNeverSave(authTypeNeverSave))
@@ -247,7 +247,7 @@ export default ({ api }) => {
       sharedKey,
       code
     )
-    if (!contains("updated", response)) {
+    if (!contains('updated', response)) {
       throw new Error(response)
     }
     yield put(actions.setGoogleAuthenticator())
@@ -257,8 +257,8 @@ export default ({ api }) => {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.enableYubikey, guid, sharedKey, code)
-    yield call(api.updateAuthType, guid, sharedKey, "1")
-    if (!contains("updated", response)) {
+    yield call(api.updateAuthType, guid, sharedKey, '1')
+    if (!contains('updated', response)) {
       throw new Error(response)
     }
     yield put(actions.setYubikey())
@@ -269,7 +269,7 @@ export default ({ api }) => {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.enableNotifications, guid, sharedKey, value)
-    if (!contains("updated", response)) {
+    if (!contains('updated', response)) {
       throw new Error(response)
     }
     yield put(actions.setNotificationsOn(value))
@@ -279,10 +279,10 @@ export default ({ api }) => {
     const typesState = []
     const emailVerified = yield select(selectors.settings.getEmailVerified)
     const smsVerified = yield select(selectors.settings.getSmsVerified)
-    if (prop("email", types) && emailVerified.data) {
+    if (prop('email', types) && emailVerified.data) {
       typesState.push(1)
     }
-    if (prop("mobile", types) && smsVerified.data) {
+    if (prop('mobile', types) && smsVerified.data) {
       typesState.push(32)
     }
     const guid = yield select(wS.getGuid)
@@ -294,7 +294,7 @@ export default ({ api }) => {
       sharedKey,
       notificationsType
     )
-    if (!contains("updated", response)) {
+    if (!contains('updated', response)) {
       throw new Error(response)
     }
     yield put(walletActions.setSyncPubKeys(notificationsType > 0))

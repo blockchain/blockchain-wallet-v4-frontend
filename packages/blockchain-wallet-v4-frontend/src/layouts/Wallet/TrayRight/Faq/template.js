@@ -1,11 +1,11 @@
-import React from "react"
-import styled from "styled-components"
-import PropTypes from "prop-types"
-import { Field, reduxForm } from "redux-form"
+import React from 'react'
+import styled from 'styled-components'
+import PropTypes from 'prop-types'
+import { Field, reduxForm } from 'redux-form'
 
-import { Icon } from "blockchain-info-components"
-import { TextBox } from "components/Form"
-import FaqGroup from "./FaqGroup"
+import { Icon } from 'blockchain-info-components'
+import { TextBox } from 'components/Form'
+import FaqGroup from './FaqGroup'
 
 const Wrapper = styled.div`
   display: flex;
@@ -64,4 +64,4 @@ Faq.propTypes = {
   filteredContent: PropTypes.array.isRequired
 }
 
-export default reduxForm({ form: "faq", initialValues: { search: "" } })(Faq)
+export default reduxForm({ form: 'faq', initialValues: { search: '' } })(Faq)

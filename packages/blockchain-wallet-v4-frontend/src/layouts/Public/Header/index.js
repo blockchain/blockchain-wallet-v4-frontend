@@ -1,8 +1,8 @@
-import React from "react"
+import React from 'react'
 
-import ServiceAnnouncement from "components/ServiceAnnouncement"
-import { Image, Link } from "blockchain-info-components"
-import { Navbar, NavbarBrand } from "components/Navbar"
+import ServiceAnnouncement from 'components/ServiceAnnouncement'
+import { Image, Link } from 'blockchain-info-components'
+import { Navbar, NavbarBrand } from 'components/Navbar'
 
 const Header = () => {
   return (

@@ -1,5 +1,5 @@
-import Task from "data.task"
-import Either from "data.either"
+import Task from 'data.task'
+import Either from 'data.either'
 import {
   assoc,
   compose,
@@ -12,13 +12,13 @@ import {
   is,
   ifElse,
   contains
-} from "ramda"
-import { mapped } from "ramda-lens"
-import Promise from "es6-promise"
-import { Wrapper, Wallet, HDWalletList, HDWallet, HDAccount } from "../types"
-import { futurizeP } from "futurize"
-import createApi from "./api"
-import * as Coin from "../coinSelection/coin.js"
+} from 'ramda'
+import { mapped } from 'ramda-lens'
+import Promise from 'es6-promise'
+import { Wrapper, Wallet, HDWalletList, HDWallet, HDAccount } from '../types'
+import { futurizeP } from 'futurize'
+import createApi from './api'
+import * as Coin from '../coinSelection/coin.js'
 
 const createWalletApi = ({ options, apiKey } = {}, returnType) => {
   // ////////////////////////////////////////////////////////////////
@@ -29,12 +29,12 @@ const createWalletApi = ({ options, apiKey } = {}, returnType) => {
   const promiseToTask = futurizeP(Task)
   const future = returnType ? futurizeP(returnType) : identity
   const is2FAEnabled = ifElse(
-    propSatisfies(x => x > 0, "auth_type"),
+    propSatisfies(x => x > 0, 'auth_type'),
     Task.rejected,
     Task.of
   )
   const is2FACodeValid = ifElse(
-    x => contains("incorrect", x),
+    x => contains('incorrect', x),
     Task.rejected,
     Task.of
   )
@@ -93,7 +93,7 @@ const createWalletApi = ({ options, apiKey } = {}, returnType) => {
         return fetchWalletWithSession(guid, session, password)
       }
     }
-    return Promise.reject(new Error("MISSING_CREDENTIALS"))
+    return Promise.reject(new Error('MISSING_CREDENTIALS'))
   }
   // ////////////////////////////////////////////////////////////////
   const saveWalletTask = wrapper =>
@@ -132,22 +132,22 @@ const createWalletApi = ({ options, apiKey } = {}, returnType) => {
       )
       return eitherToTask(selectXpub(wrapper))
         .chain(xpub => promiseToTask(getCoinUnspents)([xpub], confirmations))
-        .map(prop("unspent_outputs"))
+        .map(prop('unspent_outputs'))
         .map(
           over(
             compose(
               mapped,
-              lensProp("xpub")
+              lensProp('xpub')
             ),
-            assoc("index", source)
+            assoc('index', source)
           )
         )
         .map(map(Coin.fromJS))
     } else {
       // legacy address
       return promiseToTask(getCoinUnspents)([source], confirmations)
-        .map(prop("unspent_outputs"))
-        .map(over(mapped, assoc("priv", source)))
+        .map(prop('unspent_outputs'))
+        .map(over(mapped, assoc('priv', source)))
         .map(map(Coin.fromJS))
     }
   }

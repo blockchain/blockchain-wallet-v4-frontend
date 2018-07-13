@@ -1,10 +1,10 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import { actions } from "data"
-import { getData } from "./selectors"
-import FaqIcon from "./template"
+import { actions } from 'data'
+import { getData } from './selectors'
+import FaqIcon from './template'
 
 class FaqIconContainer extends React.PureComponent {
   render() {

@@ -1,9 +1,9 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { Image, Link } from "blockchain-info-components"
-import DropdownLanguage from "components/DropdownLanguage"
+import { Image, Link } from 'blockchain-info-components'
+import DropdownLanguage from 'components/DropdownLanguage'
 
 const Wrapper = styled.footer`
   display: flex;

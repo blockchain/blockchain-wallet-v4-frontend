@@ -1,9 +1,9 @@
-import { call, put, select } from "redux-saga/effects"
-import * as actions from "../../actions.js"
-import * as selectors from "./selectors"
-import * as C from "services/AlertService"
-import { promptForSecondPassword } from "services/SagaService"
-import settings from "config"
+import { call, put, select } from 'redux-saga/effects'
+import * as actions from '../../actions.js'
+import * as selectors from './selectors'
+import * as C from 'services/AlertService'
+import { promptForSecondPassword } from 'services/SagaService'
+import settings from 'config'
 
 export default ({ coreSagas }) => {
   const confirmTransferEth = function*(action) {
@@ -21,7 +21,7 @@ export default ({ coreSagas }) => {
       payment = yield payment.signLegacy(password)
       yield payment.publish()
       yield put(actions.modals.closeAllModals())
-      yield put(actions.router.push("/eth/transactions"))
+      yield put(actions.router.push('/eth/transactions'))
       yield put(actions.alerts.displaySuccess(C.SEND_ETH_SUCCESS))
     } catch (e) {
       yield put(actions.alerts.displayError(C.SEND_ETH_ERROR))

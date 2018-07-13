@@ -1,11 +1,11 @@
-import { over, set } from "ramda-lens"
-import { compose } from "ramda"
+import { over, set } from 'ramda-lens'
+import { compose } from 'ramda'
 
-import * as T from "./actionTypes.js"
-import { Wrapper, Wallet, Options, HDWallet, HDWalletList } from "../../types"
+import * as T from './actionTypes.js'
+import { Wrapper, Wallet, Options, HDWallet, HDWalletList } from '../../types'
 
 export const WRAPPER_INITIAL_STATE = Wrapper.fromJS(
-  Wrapper.createNewReadOnly("", "")
+  Wrapper.createNewReadOnly('', '')
 )
 
 export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {

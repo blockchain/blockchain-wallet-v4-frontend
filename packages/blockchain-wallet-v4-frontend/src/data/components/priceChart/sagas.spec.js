@@ -2,9 +2,9 @@
 // import * as actions from '../../actions'
 // import * as chartService from 'services/ChartService'
 
-jest.mock("./selectors")
+jest.mock('./selectors')
 
-describe("priceChart sagas", () => {
+describe('priceChart sagas', () => {
   // let calcScaleSpy
   // let calcStartSpy
   // let fetchPriceActionSpy
@@ -19,8 +19,8 @@ describe("priceChart sagas", () => {
   //  jest.restoreAllMocks()
   // })
 
-  describe("initialized saga", () => {
-    it("should run correct routine", () => {
+  describe('initialized saga', () => {
+    it('should run correct routine', () => {
       //    // arrange
       //    const saga = sagas({}).initialized({type: '', payload: {coin: 'BTC', time: 'all'}})
       //

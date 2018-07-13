@@ -1,8 +1,8 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { Link, Text } from "blockchain-info-components"
+import { Link, Text } from 'blockchain-info-components'
 
 const TermsContainer = styled.div`
   & > * {
@@ -13,7 +13,7 @@ const TermsContainer = styled.div`
 const Terms = props => {
   const { company } = props
   switch (company) {
-    case "shapeshift":
+    case 'shapeshift':
       return (
         <TermsContainer>
           <Text size="12px" weight={300}>
@@ -35,7 +35,7 @@ const Terms = props => {
           </Link>
         </TermsContainer>
       )
-    case "coinify":
+    case 'coinify':
       return (
         <TermsContainer>
           <Text size="12px" weight={300}>
@@ -79,7 +79,7 @@ const Terms = props => {
           </Link>
         </TermsContainer>
       )
-    case "sfox":
+    case 'sfox':
       return (
         <TermsContainer>
           <Text size="12px" weight={300}>

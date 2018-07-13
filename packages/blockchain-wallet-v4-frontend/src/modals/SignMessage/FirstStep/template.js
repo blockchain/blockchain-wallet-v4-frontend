@@ -1,12 +1,12 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { Field, reduxForm } from "redux-form"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
 
-import { required } from "services/FormHelper"
-import { Button, Text } from "blockchain-info-components"
-import { Form, FormGroup, FormItem, FormLabel, TextArea } from "components/Form"
+import { required } from 'services/FormHelper'
+import { Button, Text } from 'blockchain-info-components'
+import { Form, FormGroup, FormItem, FormLabel, TextArea } from 'components/Form'
 
 const DetailRow = styled.div`
   display: flex;
@@ -44,8 +44,8 @@ const FirstStep = props => {
           {address}
         </Text>
       </DetailRow>
-      <FormGroup inline margin={"15px"}>
-        <FormItem width={"100%"}>
+      <FormGroup inline margin={'15px'}>
+        <FormItem width={'100%'}>
           <FormLabel for="message">
             <FormattedMessage
               id="modals.signmessage.firststep.message"
@@ -92,6 +92,6 @@ FirstStep.propTypes = {
   handleSubmit: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: "signMessage", destroyOnUnmount: false })(
+export default reduxForm({ form: 'signMessage', destroyOnUnmount: false })(
   FirstStep
 )

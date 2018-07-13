@@ -1,6 +1,6 @@
-import { is, curry, identity, reduceRight, compose, prop, assoc } from "ramda"
-import { lens } from "ramda-lens"
-import { Map } from "immutable"
+import { is, curry, identity, reduceRight, compose, prop, assoc } from 'ramda'
+import { lens } from 'ramda-lens'
+import { Map } from 'immutable'
 
 export const iRename = curry((from, to, i) =>
   i.set(to, i.get(from)).delete(from)
@@ -36,10 +36,10 @@ export const error = e => {
 
 export const typeError = (T, val) =>
   new TypeError(
-    "Expected " +
+    'Expected ' +
       T.name +
-      " but received " +
-      (val == null ? val : val.constructor.name + ": " + val)
+      ' but received ' +
+      (val == null ? val : val.constructor.name + ': ' + val)
   )
 
 export const typeGuard = curry(

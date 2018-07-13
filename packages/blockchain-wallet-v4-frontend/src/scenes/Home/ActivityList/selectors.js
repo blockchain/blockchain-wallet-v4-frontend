@@ -11,16 +11,16 @@ import {
   reduce,
   sort,
   unapply
-} from "ramda"
-import moment from "moment"
-import { selectors } from "data"
-import { Remote } from "blockchain-wallet-v4/src"
-import { createDeepEqualSelector } from "services/ReselectHelper"
+} from 'ramda'
+import moment from 'moment'
+import { selectors } from 'data'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { createDeepEqualSelector } from 'services/ReselectHelper'
 
 export const transform = curry((coin, transaction) => ({
-  type: "transaction",
+  type: 'transaction',
   time: transaction.time * 1000,
-  timeFormatted: moment(transaction.time * 1000).format("ll"),
+  timeFormatted: moment(transaction.time * 1000).format('ll'),
   path: `/${coin.toLowerCase()}/transactions`,
   watchOnly: transaction.fromWatchOnly || transaction.toWatchOnly,
   amount: transaction.amount,
@@ -47,7 +47,7 @@ export const getBtcTransactions = createDeepEqualSelector(
       ? transactions[0].map(
           compose(
             take(number),
-            map(transform("BTC"))
+            map(transform('BTC'))
           )
         )
       : Remote.of([])
@@ -60,7 +60,7 @@ export const getBchTransactions = createDeepEqualSelector(
       ? transactions[0].map(
           compose(
             take(number),
-            map(transform("BCH"))
+            map(transform('BCH'))
           )
         )
       : Remote.of([])
@@ -73,7 +73,7 @@ export const getEthTransactions = createDeepEqualSelector(
       ? transactions[0].map(
           compose(
             take(number),
-            map(transform("ETH"))
+            map(transform('ETH'))
           )
         )
       : Remote.of([])
@@ -92,7 +92,7 @@ export const getData = createDeepEqualSelector(
   (logs, btc, bch, eth, number) => {
     const transform = (logs, btc, bch, eth) => {
       const allActivities = concatAll(logs, btc, bch, eth)
-      const filterByTime = sort(descend(prop("time")))
+      const filterByTime = sort(descend(prop('time')))
       const take8 = take(8)
       return compose(
         take8,

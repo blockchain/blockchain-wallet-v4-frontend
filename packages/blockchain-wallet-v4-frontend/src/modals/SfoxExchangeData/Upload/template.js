@@ -1,22 +1,22 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { reduxForm } from "redux-form"
-import { Text, Button, Link, Icon } from "blockchain-info-components"
-import { flex } from "services/StyleService"
-import Dropzone from "react-dropzone"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { reduxForm } from 'redux-form'
+import { Text, Button, Link, Icon } from 'blockchain-info-components'
+import { flex } from 'services/StyleService'
+import Dropzone from 'react-dropzone'
 
-import CameraContainer from "./camera"
-import TitleStrings from "./strings"
+import CameraContainer from './camera'
+import TitleStrings from './strings'
 import {
   Row,
   ColLeft,
   ColRight,
   ColLeftInner,
   PartnerHeader
-} from "components/BuySell/Signup"
+} from 'components/BuySell/Signup'
 
-import media from "services/ResponsiveService"
+import media from 'services/ResponsiveService'
 
 const LockIcon = styled(Icon)`
   font-size: 24px;
@@ -115,7 +115,7 @@ const Upload = props => {
           <InputForm>
             <ButtonContainer>
               <InnerDropzone
-                style={{ border: "none", height: "initial" }}
+                style={{ border: 'none', height: 'initial' }}
                 onDrop={onDrop}
               >
                 <Text color="gray-3" size="14px" weight={300}>
@@ -136,11 +136,11 @@ const Upload = props => {
         </CustomDropzone>
         {!showCamera ? (
           <CameraLink onClick={toggleCamera}>
-            {" "}
+            {' '}
             <FormattedMessage
               id="sfoxexchangedata.upload.usecamera"
               defaultMessage="Use Camera Instead"
-            />{" "}
+            />{' '}
           </CameraLink>
         ) : null}
       </Wrapper>
@@ -151,7 +151,7 @@ const Upload = props => {
     <UploadRow>
       <ColLeft>
         <UploadColLeftInner>
-          <PartnerHeader style={{ ...flex("row align/center") }}>
+          <PartnerHeader style={{ ...flex('row align/center') }}>
             <FormattedMessage
               id="sfoxexchangedata.upload.title"
               defaultMessage="Let’s Get to Know You"
@@ -170,7 +170,7 @@ const Upload = props => {
                 />
               </SuccessText>
               <img
-                style={{ height: "180px", width: "300px" }}
+                style={{ height: '180px', width: '300px' }}
                 src={file.preview}
                 alt="Your document"
               />
@@ -184,7 +184,7 @@ const Upload = props => {
                 />
               </SuccessText>
               <img
-                style={{ height: "180px", width: "300px" }}
+                style={{ height: '180px', width: '300px' }}
                 src={photo}
                 id="photo"
                 alt="Your photo"
@@ -222,4 +222,4 @@ const Upload = props => {
   )
 }
 
-export default reduxForm({ form: "sfoxUpload" })(Upload)
+export default reduxForm({ form: 'sfoxUpload' })(Upload)

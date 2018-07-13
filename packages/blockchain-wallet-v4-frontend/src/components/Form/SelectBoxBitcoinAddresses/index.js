@@ -1,20 +1,20 @@
-import React from "react"
-import { connect } from "react-redux"
-import { concat } from "ramda"
-import PropTypes from "prop-types"
+import React from 'react'
+import { connect } from 'react-redux'
+import { concat } from 'ramda'
+import PropTypes from 'prop-types'
 
-import { getData } from "./selectors"
-import SelectBoxBitcoin from "./template"
+import { getData } from './selectors'
+import SelectBoxBitcoin from './template'
 
 class SelectBoxBitcoinAddresses extends React.PureComponent {
   getLabel(coin) {
     return this.props.optional
-      ? "N/A"
-      : `All Bitcoin${coin === "BCH" ? " Cash" : ""} Wallets`
+      ? 'N/A'
+      : `All Bitcoin${coin === 'BCH' ? ' Cash' : ''} Wallets`
   }
   concatAll(coin) {
     return concat([
-      { group: "", items: [{ value: "all", text: this.getLabel(coin) }] }
+      { group: '', items: [{ value: 'all', text: this.getLabel(coin) }] }
     ])
   }
   render() {
@@ -24,7 +24,7 @@ class SelectBoxBitcoinAddresses extends React.PureComponent {
       Success: value => {
         const wallets = [
           {
-            group: "",
+            group: '',
             items: value.data
           }
         ]

@@ -1,4 +1,4 @@
-import * as AT from "./actionTypes"
+import * as AT from './actionTypes'
 
 export const fetchQuote = data => ({ type: AT.COINIFY_FETCH_QUOTE, data })
 export const fetchQuoteLoading = () => ({

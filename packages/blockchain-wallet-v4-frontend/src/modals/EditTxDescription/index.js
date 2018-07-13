@@ -1,10 +1,10 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators, compose } from "redux"
-import { actions } from "data"
-import { formValueSelector } from "redux-form"
-import modalEnhancer from "providers/ModalEnhancer"
-import EditTxDescription from "./template.js"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import { actions } from 'data'
+import { formValueSelector } from 'redux-form'
+import modalEnhancer from 'providers/ModalEnhancer'
+import EditTxDescription from './template.js'
 
 class EditTxDescriptionContainer extends React.PureComponent {
   constructor(props) {
@@ -13,7 +13,7 @@ class EditTxDescriptionContainer extends React.PureComponent {
   }
 
   componentDidMount() {
-    this.props.formActions.initialize("editTransactionDescription", {
+    this.props.formActions.initialize('editTransactionDescription', {
       description: this.props.value
     })
   }
@@ -29,9 +29,9 @@ class EditTxDescriptionContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  description: formValueSelector("editTransactionDescription")(
+  description: formValueSelector('editTransactionDescription')(
     state,
-    "description"
+    'description'
   )
 })
 
@@ -41,7 +41,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer("EditTxDescription"),
+  modalEnhancer('EditTxDescription'),
   connect(
     mapStateToProps,
     mapDispatchToProps

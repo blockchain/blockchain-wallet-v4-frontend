@@ -1,7 +1,7 @@
-import React from "react"
-import styled from "styled-components"
+import React from 'react'
+import styled from 'styled-components'
 
-import { Text } from "blockchain-info-components"
+import { Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   height: 400px;
   padding: 5px;
   box-sizing: border-box;
-  border: 1px solid ${prop => prop.theme["error"]};
+  border: 1px solid ${prop => prop.theme['error']};
 `
 
 export default props => (

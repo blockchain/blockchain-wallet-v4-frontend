@@ -1,7 +1,7 @@
-import React from "react"
-import styled from "styled-components"
+import React from 'react'
+import styled from 'styled-components'
 
-import { Text } from "blockchain-info-components"
+import { Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 400px;
-  border: 1px solid ${props => props.theme["gray-2"]};
+  border: 1px solid ${props => props.theme['gray-2']};
 `
 
 export default props => (

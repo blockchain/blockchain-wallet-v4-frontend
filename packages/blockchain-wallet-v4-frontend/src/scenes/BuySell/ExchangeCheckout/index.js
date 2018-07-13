@@ -1,25 +1,25 @@
-import React from "react"
-import { equals } from "ramda"
-import styled from "styled-components"
-import { required } from "services/FormHelper"
-import { FormattedMessage } from "react-intl"
-import { change, Field, reduxForm, focus } from "redux-form"
-import { Button, Icon, Text, Tooltip } from "blockchain-info-components"
-import { Form, FormGroup, FormItem, NumberBox } from "components/Form"
+import React from 'react'
+import { equals } from 'ramda'
+import styled from 'styled-components'
+import { required } from 'services/FormHelper'
+import { FormattedMessage } from 'react-intl'
+import { change, Field, reduxForm, focus } from 'redux-form'
+import { Button, Icon, Text, Tooltip } from 'blockchain-info-components'
+import { Form, FormGroup, FormItem, NumberBox } from 'components/Form'
 
 export const Wrapper = styled.div`
   padding: 30px;
-  border: 1px solid ${props => props.theme["gray-1"]};
+  border: 1px solid ${props => props.theme['gray-1']};
 `
 const RequiredMessage = styled.div`
   padding: 15px 0;
-  border-top: 1px solid ${props => props.theme["gray-1"]};
+  border-top: 1px solid ${props => props.theme['gray-1']};
 `
 const ReasonMessage = styled.div`
   margin-top: 3px;
   .link {
     cursor: pointer;
-    color: ${props => props.theme["brand-secondary"]};
+    color: ${props => props.theme['brand-secondary']};
   }
 `
 const AccountsContainer = styled.div`
@@ -33,7 +33,7 @@ const Account = styled.div`
   display: flex;
   padding: 5px 10px;
   align-items: center;
-  border: 1px solid ${props => props.theme["gray-1"]};
+  border: 1px solid ${props => props.theme['gray-1']};
 `
 const AccountDetails = styled.div`
   display: flex;
@@ -66,9 +66,9 @@ const Amount = styled.span`
 `
 
 const belowMaxAmount = (value, allValues, props) =>
-  value > props.limits.max ? "max" : undefined
+  value > props.limits.max ? 'max' : undefined
 const aboveMinAmount = (value, allValues, props) =>
-  value < props.limits.min ? "min" : undefined
+  value < props.limits.min ? 'min' : undefined
 
 class ExchangeCheckout extends React.PureComponent {
   constructor(props) {
@@ -80,8 +80,8 @@ class ExchangeCheckout extends React.PureComponent {
     const { base, quote } = nextProps
 
     if (quote && !equals(this.props.quote, quote)) {
-      if (base === "fiat") {
-        this.props.change("crypto", parseFloat(quote.quoteAmount / 1e8))
+      if (base === 'fiat') {
+        this.props.change('crypto', parseFloat(quote.quoteAmount / 1e8))
         this.setState({
           rate: +(
             (1 / (Math.abs(quote.quoteAmount) / 1e8)) *
@@ -89,8 +89,8 @@ class ExchangeCheckout extends React.PureComponent {
           ).toFixed(2)
         })
       }
-      if (base === "crypto") {
-        this.props.change("fiat", parseFloat(quote.quoteAmount))
+      if (base === 'crypto') {
+        this.props.change('fiat', parseFloat(quote.quoteAmount))
         this.setState({
           rate: +(
             (1 / (Math.abs(quote.baseAmount) / 1e8)) *
@@ -103,13 +103,13 @@ class ExchangeCheckout extends React.PureComponent {
 
   setMax() {
     const { crypto, fiat, fiatLimits, type } = this.props
-    let field = fiatLimits ? "fiat" : "crypto"
+    let field = fiatLimits ? 'fiat' : 'crypto'
     let baseCurrency = fiatLimits ? fiat : crypto
     let quoteCurrency = fiatLimits ? crypto : fiat
 
-    this.props.dispatch(focus("exchangeCheckout", field))
+    this.props.dispatch(focus('exchangeCheckout', field))
     this.props.dispatch(
-      change("exchangeCheckout", field, this.props.limits.max)
+      change('exchangeCheckout', field, this.props.limits.max)
     )
     this.props.fetchQuote({
       amt: this.props.limits.max * 100,
@@ -136,11 +136,11 @@ class ExchangeCheckout extends React.PureComponent {
     } = this.props
 
     const minError =
-      (errors && errors.fiat && errors.fiat === "min") ||
-      (errors && errors.crypto && errors.crypto === "min")
+      (errors && errors.fiat && errors.fiat === 'min') ||
+      (errors && errors.crypto && errors.crypto === 'min')
     const maxError =
-      (errors && errors.fiat && errors.fiat === "max") ||
-      (errors && errors.crypto && errors.crypto === "max")
+      (errors && errors.fiat && errors.fiat === 'max') ||
+      (errors && errors.crypto && errors.crypto === 'max')
 
     return (
       <Wrapper>
@@ -168,7 +168,7 @@ class ExchangeCheckout extends React.PureComponent {
               )}
             {minError && (
               <Rate>
-                <Text size="12px" color={"error"} weight={300}>
+                <Text size="12px" color={'error'} weight={300}>
                   <FormattedMessage
                     id="scenes.buysell.exchangecheckout.enteramount.details"
                     defaultMessage="Please enter an amount greater than {min} {curr}."
@@ -214,7 +214,7 @@ class ExchangeCheckout extends React.PureComponent {
             </FormItem>
           </CheckoutInput>
           <ReasonMessage onClick={this.setMax.bind(this)}>
-            <Text size="12px" weight={300} color={maxError ? "error" : ""}>
+            <Text size="12px" weight={300} color={maxError ? 'error' : ''}>
               {reasonMsg}
             </Text>
           </ReasonMessage>
@@ -223,7 +223,7 @@ class ExchangeCheckout extends React.PureComponent {
           )}
           {accounts && accounts.length > 0 ? (
             <AccountsContainer>
-              <Text size="14px" weight={300} style={{ "margin-bottom": "5px" }}>
+              <Text size="14px" weight={300} style={{ 'margin-bottom': '5px' }}>
                 <FormattedMessage
                   id="scenes.buysell.exchangecheckout.synced"
                   defaultMessage="Synced Bank Account:"
@@ -253,4 +253,4 @@ class ExchangeCheckout extends React.PureComponent {
   }
 }
 
-export default reduxForm({ form: "exchangeCheckout" })(ExchangeCheckout)
+export default reduxForm({ form: 'exchangeCheckout' })(ExchangeCheckout)

@@ -1,11 +1,11 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators, compose } from "redux"
-import { actions } from "data"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import { actions } from 'data'
 
-import modalEnhancer from "providers/ModalEnhancer"
-import ImportBtcAddress from "./template.js"
-import { getData } from "./selectors"
+import modalEnhancer from 'providers/ModalEnhancer'
+import ImportBtcAddress from './template.js'
+import { getData } from './selectors'
 
 class ImportBtcAddressContainer extends React.PureComponent {
   render() {
@@ -42,7 +42,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer("ImportBtcAddress"),
+  modalEnhancer('ImportBtcAddress'),
   connect(
     mapStateToProps,
     mapDispatchToProps

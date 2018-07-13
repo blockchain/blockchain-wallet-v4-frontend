@@ -1,10 +1,10 @@
-import { call, put, select } from "redux-saga/effects"
-import { compose, isNil, isEmpty } from "ramda"
-import { set } from "ramda-lens"
-import * as A from "./actions"
-import { KVStoreEntry } from "../../../types"
-import { getMetadataXpriv } from "../root/selectors"
-import { derivationMap, BUYSELL } from "../config"
+import { call, put, select } from 'redux-saga/effects'
+import { compose, isNil, isEmpty } from 'ramda'
+import { set } from 'ramda-lens'
+import * as A from './actions'
+import { KVStoreEntry } from '../../../types'
+import { getMetadataXpriv } from '../root/selectors'
+import { derivationMap, BUYSELL } from '../config'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))

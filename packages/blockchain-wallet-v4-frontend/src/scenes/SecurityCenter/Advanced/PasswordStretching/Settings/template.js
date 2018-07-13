@@ -1,13 +1,13 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { FormattedMessage } from "react-intl"
-import { Field, reduxForm } from "redux-form"
-import styled from "styled-components"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
 
-import { Button, ButtonGroup, Text } from "blockchain-info-components"
-import { NumberBox } from "components/Form"
-import { SettingForm, SettingWrapper } from "components/Setting"
-import { validPasswordStretchingNumber } from "services/FormHelper"
+import { Button, ButtonGroup, Text } from 'blockchain-info-components'
+import { NumberBox } from 'components/Form'
+import { SettingForm, SettingWrapper } from 'components/Setting'
+import { validPasswordStretchingNumber } from 'services/FormHelper'
 
 const ButtonWrapper = styled(ButtonGroup)`
   margin-top: 5px;
@@ -74,4 +74,4 @@ Settings.propTypes = {
   handleSubmit: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: "settingPasswordStretching" })(Settings)
+export default reduxForm({ form: 'settingPasswordStretching' })(Settings)

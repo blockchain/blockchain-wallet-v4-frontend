@@ -1,10 +1,10 @@
-import React from "react"
-import styled from "styled-components"
-import PropTypes from "prop-types"
-import { Text, TextGroup } from "../Text"
+import React from 'react'
+import styled from 'styled-components'
+import PropTypes from 'prop-types'
+import { Text, TextGroup } from '../Text'
 
 const TooltipWrapper = styled.div`
-  width: ${props => (props.width === "auto" ? "auto" : "22px")};
+  width: ${props => (props.width === 'auto' ? 'auto' : '22px')};
   display: inline-flex;
   position: relative;
 `
@@ -19,7 +19,7 @@ const TooltipIcon = styled.div`
   > span {
     cursor: pointer;
     &:before {
-      color: ${props => props.displayed && props.theme["brand-primary"]};
+      color: ${props => props.displayed && props.theme['brand-primary']};
     }
   }
 `
@@ -30,19 +30,19 @@ const TooltipLabel = styled(Text)`
 const TooltipBox = styled(TextGroup)`
   position: absolute;
   bottom: 150%;
-  left: ${props => (props.left ? props.left : "-115px")};
-  width: ${props => props.width === "auto" || "250px"};
-  display: ${props => (props.displayed ? "block" : "none")};
-  background-color: ${props => props.theme["white-blue"]};
-  color: ${props => props.theme["gray-5"]};
-  border: 1px solid ${props => props.theme["gray-2"]};
+  left: ${props => (props.left ? props.left : '-115px')};
+  width: ${props => props.width === 'auto' || '250px'};
+  display: ${props => (props.displayed ? 'block' : 'none')};
+  background-color: ${props => props.theme['white-blue']};
+  color: ${props => props.theme['gray-5']};
+  border: 1px solid ${props => props.theme['gray-2']};
   border-radius: 5px;
   padding: 10px 10px;
   box-sizing: border-box;
   cursor: pointer;
   font-size: 11px;
   font-weight: 300;
-  font-family: "Montserrat", sans serif;
+  font-family: 'Montserrat', sans serif;
   text-align: left;
 
   > div,
@@ -51,7 +51,7 @@ const TooltipBox = styled(TextGroup)`
   }
 
   &:before {
-    content: "";
+    content: '';
     display: block;
     position: absolute;
     left: 114px;
@@ -61,11 +61,11 @@ const TooltipBox = styled(TextGroup)`
     z-index: 0;
     border-left: 9px solid transparent;
     border-right: 9px solid transparent;
-    border-top: 8px solid ${props => props.theme["gray-2"]};
+    border-top: 8px solid ${props => props.theme['gray-2']};
   }
 
   &:after {
-    content: "";
+    content: '';
     display: block;
     position: absolute;
     left: 116px;
@@ -75,7 +75,7 @@ const TooltipBox = styled(TextGroup)`
     z-index: 0;
     border-left: 7px solid transparent;
     border-right: 7px solid transparent;
-    border-top: 7px solid ${props => props.theme["white-blue"]};
+    border-top: 7px solid ${props => props.theme['white-blue']};
   }
 `
 

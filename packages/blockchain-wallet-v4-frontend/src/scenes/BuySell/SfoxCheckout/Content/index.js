@@ -1,7 +1,7 @@
-import React from "react"
-import { actions } from "data"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
+import React from 'react'
+import { actions } from 'data'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import {
   getBase,
   getData,
@@ -10,11 +10,11 @@ import {
   getSellQuote,
   getTrades,
   getPayment
-} from "./selectors"
-import Success from "./template.success"
-import Loading from "components/BuySell/Loading"
-import { path } from "ramda"
-import Failure from "components/BuySell/Failure"
+} from './selectors'
+import Success from './template.success'
+import Loading from 'components/BuySell/Loading'
+import { path } from 'ramda'
+import Failure from 'components/BuySell/Failure'
 
 class SfoxCheckout extends React.PureComponent {
   constructor(props) {
@@ -26,10 +26,10 @@ class SfoxCheckout extends React.PureComponent {
     this.props.sfoxDataActions.fetchProfile()
     this.props.sfoxDataActions.sfoxFetchAccounts()
     this.props.sfoxDataActions.fetchQuote({
-      quote: { amt: 1e8, baseCurrency: "BTC", quoteCurrency: "USD" }
+      quote: { amt: 1e8, baseCurrency: 'BTC', quoteCurrency: 'USD' }
     })
     this.props.sfoxDataActions.fetchSellQuote({
-      quote: { amt: 1e8, baseCurrency: "BTC", quoteCurrency: "USD" }
+      quote: { amt: 1e8, baseCurrency: 'BTC', quoteCurrency: 'USD' }
     })
     this.props.sfoxActions.initializePayment()
   }
@@ -91,7 +91,7 @@ class SfoxCheckout extends React.PureComponent {
           busy={busy}
           payment={payment}
           clearTradeError={() => sfoxNotAsked()}
-          changeTab={tab => change("buySellTabStatus", "status", tab)}
+          changeTab={tab => change('buySellTabStatus', 'status', tab)}
           disableButton={() => this.setState({ buttonStatus: false })}
           enableButton={() => this.setState({ buttonStatus: true })}
           buttonStatus={this.state.buttonStatus}
@@ -113,8 +113,8 @@ const mapStateToProps = state => ({
   trades: getTrades(state),
   errors: getErrors(state),
   payment: getPayment(state),
-  orderState: path(["sfoxSignup", "sfoxBusy"], state),
-  siftScienceEnabled: path(["sfoxSignup", "siftScienceEnabled"], state)
+  orderState: path(['sfoxSignup', 'sfoxBusy'], state),
+  siftScienceEnabled: path(['sfoxSignup', 'siftScienceEnabled'], state)
 })
 
 const mapDispatchToProps = dispatch => ({

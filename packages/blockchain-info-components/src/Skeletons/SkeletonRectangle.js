@@ -1,6 +1,6 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   border-radius: 3px;
@@ -14,7 +14,7 @@ const SkeletonRectangle = props => (
 )
 
 SkeletonRectangle.defaultProps = {
-  bgColor: "gray-1"
+  bgColor: 'gray-1'
 }
 
 SkeletonRectangle.propTypes = {

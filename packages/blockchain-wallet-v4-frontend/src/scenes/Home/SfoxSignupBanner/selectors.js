@@ -1,8 +1,8 @@
-import { lift } from "ramda"
+import { lift } from 'ramda'
 
-import { Remote } from "blockchain-wallet-v4/src"
-import { createDeepEqualSelector } from "services/ReselectHelper"
-import { selectors } from "data"
+import { Remote } from 'blockchain-wallet-v4/src'
+import { createDeepEqualSelector } from 'services/ReselectHelper'
+import { selectors } from 'data'
 
 export const getData = (state, ownProps) =>
   createDeepEqualSelector(

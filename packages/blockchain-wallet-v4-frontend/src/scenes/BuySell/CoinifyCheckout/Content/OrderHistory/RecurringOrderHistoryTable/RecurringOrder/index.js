@@ -1,13 +1,13 @@
-import React, { Fragment } from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { prop, path, sortBy, reverse, head } from "ramda"
-import moment from "moment"
-import RecurringTradeItem from "../RecurringTrade"
-import media from "services/ResponsiveService"
-import { MediaContextConsumer } from "providers/MatchMediaProvider"
-import { RecurringTableHeader } from "../components"
+import React, { Fragment } from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { prop, path, sortBy, reverse, head } from 'ramda'
+import moment from 'moment'
+import RecurringTradeItem from '../RecurringTrade'
+import media from 'services/ResponsiveService'
+import { MediaContextConsumer } from 'providers/MatchMediaProvider'
+import { RecurringTableHeader } from '../components'
 import {
   TableCell,
   TableRow,
@@ -15,13 +15,13 @@ import {
   Link,
   Icon,
   Button
-} from "blockchain-info-components"
+} from 'blockchain-info-components'
 
 const ToggleIcon = styled(Icon)`
   cursor: pointer;
   transform: rotate(-90deg);
   transition: transform 0.3s;
-  transform: ${props => props.toggled && "rotate(0deg)"};
+  transform: ${props => props.toggled && 'rotate(0deg)'};
   ${media.mobile`
     display: none;
   `};
@@ -32,8 +32,8 @@ const Frequency = styled(Text)`
 const RecurringTableWrapper = styled.div`
   width: calc(100% - 22px);
   padding: 5px 10px;
-  border-left: 1px solid ${props => props.theme["gray-2"]};
-  border-right: 1px solid ${props => props.theme["gray-2"]};
+  border-left: 1px solid ${props => props.theme['gray-2']};
+  border-right: 1px solid ${props => props.theme['gray-2']};
   padding-bottom: 30px;
 `
 const RecurringCancelWrapper = styled.div`
@@ -58,7 +58,7 @@ const StatusContainer = styled(TableCell)`
 const dateHelper = (date, isMobile) =>
   moment(date)
     .local()
-    .format(isMobile ? "DD MMM" : "MMMM D YYYY")
+    .format(isMobile ? 'DD MMM' : 'MMMM D YYYY')
 
 class RecurringOrder extends React.Component {
   constructor(props) {
@@ -84,7 +84,7 @@ class RecurringOrder extends React.Component {
       cancelTradeId,
       canTrade
     } = this.props
-    const sortByCreated = sortBy(prop("createdAt"))
+    const sortByCreated = sortBy(prop('createdAt'))
     const sortedTrades = reverse(sortByCreated(matchedTrades))
     const firstTrade = head(sortByCreated(matchedTrades))
 
@@ -97,11 +97,11 @@ class RecurringOrder extends React.Component {
                 <TableCell onClick={this.toggleRow} width="35%">
                   <ToggleIcon name="down-arrow" toggled={this.state.toggled} />
                   <StatusText
-                    color={prop("isActive", subscription) ? "success" : "error"}
+                    color={prop('isActive', subscription) ? 'success' : 'error'}
                     size="13px"
                     weight={300}
                   >
-                    {prop("isActive", subscription) ? (
+                    {prop('isActive', subscription) ? (
                       <FormattedMessage
                         id="scenes.buysell.orderhistory.recurring.order.active"
                         defaultMessage="Active"
@@ -132,21 +132,21 @@ class RecurringOrder extends React.Component {
               </StatusContainer>
               <TableCell width="30%">
                 <Frequency size="13px" weight={300}>
-                  {path(["frequency"], subscription)}
+                  {path(['frequency'], subscription)}
                 </Frequency>
               </TableCell>
               <TableCell width="20%">
-                {dateHelper(prop("createdAt", firstTrade), mobile)}
+                {dateHelper(prop('createdAt', firstTrade), mobile)}
               </TableCell>
               <TableCell width="20%">
                 <TableCell width="100%">
-                  {!path(["endTime"], subscription) ? (
+                  {!path(['endTime'], subscription) ? (
                     <FormattedMessage
                       id="scenes.buysell.orderhistory.recurring.order.untilcancel"
                       defaultMessage="Until you cancel"
                     />
                   ) : (
-                    dateHelper(prop("endTime", subscription), mobile)
+                    dateHelper(prop('endTime', subscription), mobile)
                   )}
                 </TableCell>
               </TableCell>
@@ -206,7 +206,7 @@ class RecurringOrder extends React.Component {
                 canTrade={canTrade}
               />
             ))}
-            {prop("isActive", subscription) ? (
+            {prop('isActive', subscription) ? (
               <RecurringCancelWrapper>
                 <Button
                   nature="logout"

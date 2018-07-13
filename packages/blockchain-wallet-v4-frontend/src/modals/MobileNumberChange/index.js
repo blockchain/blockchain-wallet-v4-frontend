@@ -1,11 +1,11 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators, compose } from "redux"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
 
-import { actions } from "data"
-import modalEnhancer from "providers/ModalEnhancer"
-import { getData } from "./selectors"
-import MobileNumberChange from "./template.js"
+import { actions } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
+import { getData } from './selectors'
+import MobileNumberChange from './template.js'
 
 class MobileNumberChangeContainer extends React.PureComponent {
   constructor(props) {
@@ -17,7 +17,7 @@ class MobileNumberChangeContainer extends React.PureComponent {
     const { smsNumberNew } = this.props
     this.props.settingsActions.updateMobile(smsNumberNew)
     this.props.modalActions.closeModal()
-    this.props.modalActions.showModal("MobileNumberVerify", {
+    this.props.modalActions.showModal('MobileNumberVerify', {
       mobileNumber: smsNumberNew
     })
   }
@@ -43,7 +43,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer("MobileNumberChange"),
+  modalEnhancer('MobileNumberChange'),
   connect(
     mapStateToProps,
     mapDispatchToProps

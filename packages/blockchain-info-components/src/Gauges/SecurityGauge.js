@@ -1,8 +1,8 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { Icon } from "../Icons"
-import { Color } from "../Colors"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { Icon } from '../Icons'
+import { Color } from '../Colors'
 
 const Empty = styled.div`
   height: 13px;
@@ -20,7 +20,7 @@ const Progress = styled.div`
 `
 const SecurityIcon = styled(Icon)`
   border-radius: 50%;
-  background: ${Color("success")};
+  background: ${Color('success')};
   height: 16px;
   width: 15px;
   color: white;

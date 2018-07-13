@@ -1,5 +1,5 @@
-import React from "react"
-import styled from "styled-components"
+import React from 'react'
+import styled from 'styled-components'
 
 const BaseNavItem = styled.li`
   box-sizing: border-box;
@@ -12,13 +12,13 @@ const BaseNavItem = styled.li`
   & > a {
     font-size: 14px;
     font-weight: 400;
-    color: ${props => props.theme["white"]};
+    color: ${props => props.theme['white']};
     text-transform: uppercase;
     text-decoration: none;
     cursor: pointer;
 
     &:hover {
-      color: ${props => props.theme["white"]};
+      color: ${props => props.theme['white']};
     }
   }
 `

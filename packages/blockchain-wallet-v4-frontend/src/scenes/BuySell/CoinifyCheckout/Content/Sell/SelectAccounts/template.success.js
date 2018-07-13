@@ -1,13 +1,13 @@
-import React from "react"
-import { reduxForm, Field } from "redux-form"
-import { FormattedMessage } from "react-intl"
-import styled from "styled-components"
-import { equals, isNil, or, path } from "ramda"
-import { Button, Icon, Link, Text } from "blockchain-info-components"
+import React from 'react'
+import { reduxForm, Field } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+import { equals, isNil, or, path } from 'ramda'
+import { Button, Icon, Link, Text } from 'blockchain-info-components'
 
-import { spacing } from "services/StyleService"
-import { RadioButton } from "components/Form"
-import { StepTransition } from "components/Utilities/Stepper"
+import { spacing } from 'services/StyleService'
+import { RadioButton } from 'components/Form'
+import { StepTransition } from 'components/Utilities/Stepper'
 import {
   BorderBox,
   Form,
@@ -19,7 +19,7 @@ import {
   ColRight,
   ColRightInner,
   Row
-} from "components/BuySell/Signup"
+} from 'components/BuySell/Signup'
 
 const RowContent = styled(Row)`
   padding-left: 10px;
@@ -40,14 +40,14 @@ const SelectAccounts = props => {
   } = props
   const noRadioButtonSelected = or(
     isNil(radioButtonSelected),
-    equals(radioButtonSelected, "")
+    equals(radioButtonSelected, '')
   )
 
   return (
     <Form>
       <ColLeft>
         <BorderBox>
-          <InputWrapper style={spacing("mb-40")}>
+          <InputWrapper style={spacing('mb-40')}>
             <PartnerHeader>
               <FormattedMessage
                 id="coinifyexchangedata.selectaccounts.header"
@@ -70,7 +70,7 @@ const SelectAccounts = props => {
                   props={{ id: `iban${index}`, value: index }}
                 />
                 <RowContent>
-                  <Text weight={300}>{path(["_account", "_number"], b)}</Text>
+                  <Text weight={300}>{path(['_account', '_number'], b)}</Text>
                   <ClickableIcon
                     name="trash"
                     onClick={() => deleteBankAccount(b)}
@@ -81,7 +81,7 @@ const SelectAccounts = props => {
           <StepTransition
             next
             Component={Button}
-            style={spacing("mt-45")}
+            style={spacing('mt-45')}
             nature="light"
             fullwidth
             disabled={submitting || invalid}
@@ -98,7 +98,7 @@ const SelectAccounts = props => {
           <StepTransition
             to={4}
             Component={Button}
-            style={spacing("mt-45")}
+            style={spacing('mt-45')}
             nature="primary"
             onClick={setBankAccount}
             fullwidth
@@ -120,4 +120,4 @@ const SelectAccounts = props => {
   )
 }
 
-export default reduxForm({ form: "radioButtonSelected" })(SelectAccounts)
+export default reduxForm({ form: 'radioButtonSelected' })(SelectAccounts)

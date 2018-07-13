@@ -1,11 +1,11 @@
-import React from "react"
-import { compose } from "redux"
+import React from 'react'
+import { compose } from 'redux'
 
-import wizardProvider from "providers/WizardProvider"
-import modalEnhancer from "providers/ModalEnhancer"
-import FirstStep from "./FirstStep"
-import SecondStep from "./SecondStep"
-import ThirdStep from "./ThirdStep"
+import wizardProvider from 'providers/WizardProvider'
+import modalEnhancer from 'providers/ModalEnhancer'
+import FirstStep from './FirstStep'
+import SecondStep from './SecondStep'
+import ThirdStep from './ThirdStep'
 
 class RecoveryPhraseContainer extends React.PureComponent {
   componentWillMount() {
@@ -27,8 +27,8 @@ class RecoveryPhraseContainer extends React.PureComponent {
 }
 
 const enhance = compose(
-  modalEnhancer("RecoveryPhrase"),
-  wizardProvider("recoveryPhrase", 3)
+  modalEnhancer('RecoveryPhrase'),
+  wizardProvider('recoveryPhrase', 3)
 )
 
 export default enhance(RecoveryPhraseContainer)

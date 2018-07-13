@@ -1,19 +1,19 @@
-import React from "react"
-import styled from "styled-components"
-import ReactHighcharts from "react-highcharts"
-import { connect } from "react-redux"
-import { path } from "ramda"
-import { bindActionCreators } from "redux"
+import React from 'react'
+import styled from 'styled-components'
+import ReactHighcharts from 'react-highcharts'
+import { connect } from 'react-redux'
+import { path } from 'ramda'
+import { bindActionCreators } from 'redux'
 
-import { Remote } from "blockchain-wallet-v4/src"
-import { actions, selectors } from "data"
-import ActivityList from "./ActivityList"
-import DidYouKnow from "./DidYouKnow"
-import PriceChart from "./PriceChart"
-import BalancesChart from "./BalancesChart"
-import SfoxSignupBanner from "./SfoxSignupBanner"
+import { Remote } from 'blockchain-wallet-v4/src'
+import { actions, selectors } from 'data'
+import ActivityList from './ActivityList'
+import DidYouKnow from './DidYouKnow'
+import PriceChart from './PriceChart'
+import BalancesChart from './BalancesChart'
+import SfoxSignupBanner from './SfoxSignupBanner'
 
-ReactHighcharts.Highcharts.setOptions({ lang: { thousandsSep: "," } })
+ReactHighcharts.Highcharts.setOptions({ lang: { thousandsSep: ',' } })
 
 const Wrapper = styled.div`
   width: 100%;
@@ -68,7 +68,7 @@ class Home extends React.PureComponent {
       Remote.Success.is(this.props.buySellKv)
     ) {
       const token = path(
-        ["data", "value", "sfox", "account_token"],
+        ['data', 'value', 'sfox', 'account_token'],
         this.props.buySellKv
       )
       if (token) {
@@ -82,8 +82,8 @@ class Home extends React.PureComponent {
     const { buySellKv, canTrade } = this.props
 
     const renderSfoxBanner = kvStore => {
-      const sfoxKvData = path(["value", "sfox"], kvStore)
-      if (sfoxKvData.trades.length || canTrade.getOrElse("") !== "sfox") {
+      const sfoxKvData = path(['value', 'sfox'], kvStore)
+      if (sfoxKvData.trades.length || canTrade.getOrElse('') !== 'sfox') {
         return null
       } else {
         return <SfoxSignupBanner sfoxKvData={sfoxKvData} />

@@ -1,17 +1,17 @@
-import { path } from "ramda"
+import { path } from 'ramda'
 
-export const getTrayOpened = path(["components", "layoutWallet", "trayOpened"])
+export const getTrayOpened = path(['components', 'layoutWallet', 'trayOpened'])
 
 export const getTrayContent = path([
-  "components",
-  "layoutWallet",
-  "trayContent"
+  'components',
+  'layoutWallet',
+  'trayContent'
 ])
 
-export const getMenuOpened = path(["components", "layoutWallet", "menuOpened"])
+export const getMenuOpened = path(['components', 'layoutWallet', 'menuOpened'])
 
 export const getSettingsOpened = path([
-  "components",
-  "layoutWallet",
-  "settingsOpened"
+  'components',
+  'layoutWallet',
+  'settingsOpened'
 ])

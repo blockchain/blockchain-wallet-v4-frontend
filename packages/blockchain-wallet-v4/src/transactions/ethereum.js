@@ -1,24 +1,24 @@
-import { curry, contains, equals, lift, map, toLower } from "ramda"
-import moment from "moment"
-import BigNumber from "bignumber.js"
+import { curry, contains, equals, lift, map, toLower } from 'ramda'
+import moment from 'moment'
+import BigNumber from 'bignumber.js'
 import {
   getDefaultAddress,
   getDefaultLabel,
   getEthereumTxNote
-} from "../redux/kvStore/ethereum/selectors.js"
+} from '../redux/kvStore/ethereum/selectors.js'
 
 // getType :: TX -> [String] -> String
 const getType = (tx, addresses) => {
   const lowerAddresses = map(toLower, addresses)
   switch (true) {
     case contains(tx.from, lowerAddresses) && contains(tx.to, lowerAddresses):
-      return "Transferred"
+      return 'Transferred'
     case contains(tx.from, lowerAddresses):
-      return "Sent"
+      return 'Sent'
     case contains(tx.to, lowerAddresses):
-      return "Received"
+      return 'Received'
     default:
-      return "Unknown"
+      return 'Unknown'
   }
 }
 
@@ -30,8 +30,8 @@ export const getConfirmations = (blockNumber, latestBlockHeight) => {
 export const getTime = tx => {
   const date = moment.unix(tx.timeStamp).local()
   return equals(date.year(), moment().year())
-    ? date.format("MMMM D @ h:mm A")
-    : date.format("MMMM D YYYY @ h:mm A")
+    ? date.format('MMMM D @ h:mm A')
+    : date.format('MMMM D YYYY @ h:mm A')
 }
 
 export const getFee = tx =>
@@ -51,7 +51,7 @@ export const _transformTx = curry(
     const fee = getFee(tx)
     const type = toLower(getType(tx, addresses))
     const amount =
-      type === "sent" ? parseInt(tx.value) + parseInt(fee) : parseInt(tx.value)
+      type === 'sent' ? parseInt(tx.value) + parseInt(fee) : parseInt(tx.value)
     return {
       type,
       fee,
@@ -59,7 +59,7 @@ export const _transformTx = curry(
       hash: tx.hash,
       to: getLabel(tx.to, state),
       from: getLabel(tx.from, state),
-      description: getEthereumTxNote(state, tx.hash).data || "",
+      description: getEthereumTxNote(state, tx.hash).data || '',
       partnerLabel: getPartnerLabel && getPartnerLabel(tx.hash),
       confirmations: getConfirmations(tx.blockNumber, latestBlock),
       timeFormatted: getTime(tx),

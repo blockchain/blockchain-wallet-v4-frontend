@@ -1,9 +1,9 @@
-import Bitcoin from "bitcoinjs-lib"
-import memoize from "fast-memoize"
-import { is, pipe, ifElse } from "ramda"
-import { view } from "ramda-lens"
-import Type from "./Type"
-import { iToJS } from "./util"
+import Bitcoin from 'bitcoinjs-lib'
+import memoize from 'fast-memoize'
+import { is, pipe, ifElse } from 'ramda'
+import { view } from 'ramda-lens'
+import Type from './Type'
+import { iToJS } from './util'
 
 /* AddressLabel :: {
   index :: Number
@@ -14,8 +14,8 @@ export class Cache extends Type {}
 
 export const isCache = is(Cache)
 
-export const receiveAccount = Cache.define("receiveAccount")
-export const changeAccount = Cache.define("changeAccount")
+export const receiveAccount = Cache.define('receiveAccount')
+export const changeAccount = Cache.define('changeAccount')
 
 export const selectReceiveAccount = view(receiveAccount)
 export const selectChangeAccount = view(changeAccount)
@@ -64,12 +64,12 @@ export const js = node => {
         .derive(0)
         .neutered()
         .toBase58()
-    : ""
+    : ''
   const changeAccount = node
     ? node
         .derive(1)
         .neutered()
         .toBase58()
-    : ""
+    : ''
   return { receiveAccount, changeAccount }
 }

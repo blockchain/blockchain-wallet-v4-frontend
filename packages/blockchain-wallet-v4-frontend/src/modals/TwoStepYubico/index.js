@@ -1,11 +1,11 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators, compose } from "redux"
-import { formValueSelector } from "redux-form"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import { formValueSelector } from 'redux-form'
 
-import { actions } from "data"
-import modalEnhancer from "providers/ModalEnhancer"
-import TwoStepYubico from "./template.js"
+import { actions } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
+import TwoStepYubico from './template.js'
 
 class TwoStepYubicoContainer extends React.PureComponent {
   constructor(props) {
@@ -23,7 +23,7 @@ class TwoStepYubicoContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  code: formValueSelector("twoStepYubico")(state, "code")
+  code: formValueSelector('twoStepYubico')(state, 'code')
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -31,7 +31,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer("TwoStepYubico"),
+  modalEnhancer('TwoStepYubico'),
   connect(
     mapStateToProps,
     mapDispatchToProps

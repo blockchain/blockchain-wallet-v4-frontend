@@ -1,12 +1,12 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { Field, reduxForm } from "redux-form"
-import { FormattedMessage } from "react-intl"
-import { LinkContainer } from "react-router-bootstrap"
-import { check, msie } from "bowser"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
+import { check, msie } from 'bowser'
 
-import { required } from "services/FormHelper"
+import { required } from 'services/FormHelper'
 import {
   Banner,
   Button,
@@ -15,7 +15,7 @@ import {
   Text,
   TextGroup,
   HeartbeatLoader
-} from "blockchain-info-components"
+} from 'blockchain-info-components'
 import {
   Form,
   FormError,
@@ -24,18 +24,18 @@ import {
   FormLabel,
   PasswordBox,
   TextBox
-} from "components/Form"
-import Modals from "modals"
-import MobileLogin from "modals/MobileLogin"
+} from 'components/Form'
+import Modals from 'modals'
+import MobileLogin from 'modals/MobileLogin'
 
 const isSupportedBrowser =
-  check({ safari: "8", chrome: "45", firefox: "45", opera: "20" }) && !msie
+  check({ safari: '8', chrome: '45', firefox: '45', opera: '20' }) && !msie
 
 const Wrapper = styled.div`
   width: 100%;
   padding: 35px;
   box-sizing: border-box;
-  background-color: ${props => props.theme["white"]};
+  background-color: ${props => props.theme['white']};
 
   @media (min-width: 768px) {
     width: 550px;
@@ -85,15 +85,15 @@ const Login = props => {
   const { handleSubmit, handleMobile, handleSmsResend, authType } = rest
 
   const guidError =
-    loginError && loginError.toLowerCase().includes("unknown wallet id")
+    loginError && loginError.toLowerCase().includes('unknown wallet id')
   const passwordError =
-    loginError && loginError.toLowerCase().includes("wrong_wallet_password")
+    loginError && loginError.toLowerCase().includes('wrong_wallet_password')
   const twoFactorError =
-    loginError && loginError.toLowerCase().includes("authentication code")
+    loginError && loginError.toLowerCase().includes('authentication code')
   const accountLocked =
     loginError &&
-    (loginError.toLowerCase().includes("this account has been locked") ||
-      loginError.toLowerCase().includes("account is locked"))
+    (loginError.toLowerCase().includes('this account has been locked') ||
+      loginError.toLowerCase().includes('account is locked'))
 
   return (
     <Wrapper>
@@ -151,7 +151,7 @@ const Login = props => {
               name="guid"
               validate={[required]}
               component={TextBox}
-              borderColor={guidError ? "invalid" : undefined}
+              borderColor={guidError ? 'invalid' : undefined}
               disabled={!isSupportedBrowser}
             />
           </FormItem>
@@ -206,11 +206,11 @@ const Login = props => {
               name="password"
               validate={[required]}
               component={PasswordBox}
-              borderColor={passwordError ? "invalid" : undefined}
+              borderColor={passwordError ? 'invalid' : undefined}
               disabled={!isSupportedBrowser}
             />
             {passwordError && (
-              <FormError position={authType > 0 ? "relative" : "absolute"}>
+              <FormError position={authType > 0 ? 'relative' : 'absolute'}>
                 <FormattedMessage
                   id="scenes.login.wrong_password"
                   defaultMessage="Error decrypting wallet. Wrong password"
@@ -220,7 +220,7 @@ const Login = props => {
             {accountLocked && (
               <FormError
                 position={
-                  authType > 0 || passwordError ? "relative" : "absolute"
+                  authType > 0 || passwordError ? 'relative' : 'absolute'
                 }
               >
                 {loginError}
@@ -255,7 +255,7 @@ const Login = props => {
                 name="code"
                 validate={[required]}
                 component={authType === 1 ? PasswordBox : TextBox}
-                borderColor={twoFactorError ? "invalid" : undefined}
+                borderColor={twoFactorError ? 'invalid' : undefined}
               />
               {authType === 5 && (
                 <ResendSmsLink
@@ -270,7 +270,7 @@ const Login = props => {
                 </ResendSmsLink>
               )}
               {twoFactorError && (
-                <FormError position={"absolute"}>{loginError}</FormError>
+                <FormError position={'absolute'}>{loginError}</FormError>
               )}
             </FormItem>
           </FormGroup>
@@ -329,4 +329,4 @@ Login.propTypes = {
   handleSmsResend: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: "login", destroyOnUnmount: false })(Login)
+export default reduxForm({ form: 'login', destroyOnUnmount: false })(Login)

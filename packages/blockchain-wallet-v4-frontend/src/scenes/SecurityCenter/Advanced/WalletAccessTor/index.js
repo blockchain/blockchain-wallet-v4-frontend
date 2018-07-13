@@ -1,9 +1,9 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import { actions, selectors } from "data"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { actions, selectors } from 'data'
 
-import WalletAccessTor from "./template.js"
+import WalletAccessTor from './template.js'
 
 class WalletAccessTorContainer extends React.PureComponent {
   constructor(props) {

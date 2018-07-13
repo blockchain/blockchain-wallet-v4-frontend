@@ -1,6 +1,6 @@
-import { formValueSelector } from "redux-form"
-import { lift, path } from "ramda"
-import { selectors } from "data"
+import { formValueSelector } from 'redux-form'
+import { lift, path } from 'ramda'
+import { selectors } from 'data'
 
 export const getProfileData = state => {
   const profile = selectors.core.data.coinify.getProfile(state)
@@ -22,10 +22,10 @@ export const getQuote = state => selectors.core.data.coinify.getQuote(state)
 export const getCurrency = state => selectors.core.data.coinify.getLevel(state)
 
 export const getBase = state =>
-  path(["form", "exchangeCheckout", "active"], state)
+  path(['form', 'exchangeCheckout', 'active'], state)
 
 export const getErrors = state =>
-  path(["form", "exchangeCheckout", "syncErrors"], state)
+  path(['form', 'exchangeCheckout', 'syncErrors'], state)
 
 export const getData = state => ({
   base: getBase(state),
@@ -35,11 +35,11 @@ export const getData = state => ({
   subscriptions: getSubscriptions(state),
   trade: getTrade(state),
   errors: getErrors(state),
-  currency: formValueSelector("coinifyCheckoutBuy")(state, "currency"),
+  currency: formValueSelector('coinifyCheckoutBuy')(state, 'currency'),
   defaultCurrency: getCurrency(state),
-  checkoutBusy: path(["coinify", "checkoutBusy"], state),
-  paymentMedium: path(["coinify", "medium"], state),
-  step: path(["coinify", "checkoutStep"], state),
-  coinifyBusy: path(["coinify", "coinifyBusy"], state),
+  checkoutBusy: path(['coinify', 'checkoutBusy'], state),
+  paymentMedium: path(['coinify', 'medium'], state),
+  step: path(['coinify', 'checkoutStep'], state),
+  coinifyBusy: path(['coinify', 'coinifyBusy'], state),
   canTrade: selectors.core.data.coinify.canTrade(state).getOrElse(false)
 })

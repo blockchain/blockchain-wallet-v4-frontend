@@ -1,8 +1,8 @@
-import React from "react"
-import styled from "styled-components"
+import React from 'react'
+import styled from 'styled-components'
 
-import { equals } from "ramda"
-import { Text, TextAreaInput } from "blockchain-info-components"
+import { equals } from 'ramda'
+import { Text, TextAreaInput } from 'blockchain-info-components'
 
 const Container = styled.div`
   position: relative;
@@ -16,11 +16,11 @@ const Error = styled(Text)`
   position: absolute;
   display: block;
   height: 15px;
-  top: ${props => (props.errorBottom ? "40px" : "-20px")};
+  top: ${props => (props.errorBottom ? '40px' : '-20px')};
   right: 0;
 `
 const getErrorState = meta => {
-  return meta.touched && meta.invalid ? "invalid" : "initial"
+  return meta.touched && meta.invalid ? 'invalid' : 'initial'
 }
 
 class TextAreaDebounced extends React.Component {

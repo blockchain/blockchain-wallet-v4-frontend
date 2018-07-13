@@ -1,12 +1,12 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { connect } from "react-redux"
-import { any, assoc, contains, curry, filter, map, path, toLower } from "ramda"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { any, assoc, contains, curry, filter, map, path, toLower } from 'ramda'
 
-import FaqContent from "./FaqContent"
-import { getData } from "./selectors"
-import { selectors } from "data"
-import Faq from "./template.js"
+import FaqContent from './FaqContent'
+import { getData } from './selectors'
+import { selectors } from 'data'
+import Faq from './template.js'
 
 class FaqContainer extends React.PureComponent {
   render() {
@@ -14,7 +14,7 @@ class FaqContainer extends React.PureComponent {
     const { search } = data
 
     const partner = canTrade.cata({
-      Success: val => val || "n/a",
+      Success: val => val || 'n/a',
       Loading: () => false,
       Failure: () => false,
       NotAsked: () => false
@@ -22,15 +22,15 @@ class FaqContainer extends React.PureComponent {
 
     // Search for matching messages in the component subtree starting
     const containsRecursive = curry((search, x) => {
-      if (path(["props", "defaultMessage"], x)) {
+      if (path(['props', 'defaultMessage'], x)) {
         return contains(
           toLower(search),
           toLower(
             this.context.intl.messages[x.props.id] || x.props.defaultMessage
           )
         )
-      } else if (path(["props", "children"], x)) {
-        return any(containsRecursive(search), path(["props", "children"], x))
+      } else if (path(['props', 'children'], x)) {
+        return any(containsRecursive(search), path(['props', 'children'], x))
       } else {
         return false
       }
@@ -50,7 +50,7 @@ class FaqContainer extends React.PureComponent {
             containsRecursive(search, q.answer) ||
             containsRecursive(search, contentPart.groupTitleMsg)
         )(contentPart.groupQuestions)
-        return assoc("groupQuestions", filteredGroupQuestions, contentPart)
+        return assoc('groupQuestions', filteredGroupQuestions, contentPart)
       } else {
         return contentPart
       }

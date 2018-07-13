@@ -1,22 +1,22 @@
-import React from "react"
-import { prop, map } from "ramda"
-import styled from "styled-components"
-import { required } from "services/FormHelper"
+import React from 'react'
+import { prop, map } from 'ramda'
+import styled from 'styled-components'
+import { required } from 'services/FormHelper'
 import {
   Button,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter
-} from "blockchain-info-components"
-import { FormattedMessage } from "react-intl"
-import { Field, reduxForm } from "redux-form"
-import { Form, FormGroup, FormItem, TextBox } from "components/Form"
+} from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
+import { Form, FormGroup, FormItem, TextBox } from 'components/Form'
 
 const Wrapper = styled.div`
   font-weight: 300;
-  color: ${props => props.theme["gray-5"]};
-  font-family: "Montserrat", Helvetica, sans-serif;
+  color: ${props => props.theme['gray-5']};
+  font-family: 'Montserrat', Helvetica, sans-serif;
 `
 const Label = styled.label`
   display: block;
@@ -25,8 +25,8 @@ const Label = styled.label`
 `
 
 const unique = (value, allValues, { wallets }) =>
-  map(prop("label"), wallets).indexOf(value) > -1
-    ? "Wallet name is already taken."
+  map(prop('label'), wallets).indexOf(value) > -1
+    ? 'Wallet name is already taken.'
     : undefined
 
 const AddBitcoinWallet = props => {
@@ -79,4 +79,4 @@ const AddBitcoinWallet = props => {
   )
 }
 
-export default reduxForm({ form: "addBitcoinWallet" })(AddBitcoinWallet)
+export default reduxForm({ form: 'addBitcoinWallet' })(AddBitcoinWallet)

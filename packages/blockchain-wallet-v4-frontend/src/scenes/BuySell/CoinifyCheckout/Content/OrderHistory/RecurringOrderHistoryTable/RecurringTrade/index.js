@@ -1,22 +1,22 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { Exchange } from "blockchain-wallet-v4/src"
-import { canCancelTrade } from "services/CoinifyService"
-import { prop } from "ramda"
-import moment from "moment"
-import { RecurringTableRow } from "../components"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { Exchange } from 'blockchain-wallet-v4/src'
+import { canCancelTrade } from 'services/CoinifyService'
+import { prop } from 'ramda'
+import moment from 'moment'
+import { RecurringTableRow } from '../components'
 import {
   TableCell,
   Text,
   Link,
   Icon,
   HeartbeatLoader
-} from "blockchain-info-components"
-import OrderStatus from "components/BuySell/OrderHistoryTable/OrderStatus"
-import media from "services/ResponsiveService"
-import { MediaContextConsumer } from "providers/MatchMediaProvider"
+} from 'blockchain-info-components'
+import OrderStatus from 'components/BuySell/OrderHistoryTable/OrderStatus'
+import media from 'services/ResponsiveService'
+import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 
 const StatusContainer = styled(TableCell)`
   display: flex;
@@ -27,9 +27,9 @@ const StatusContainer = styled(TableCell)`
 `
 
 const tradeDateHelper = (trade, isMobile) =>
-  moment(prop("createdAt", trade))
+  moment(prop('createdAt', trade))
     .local()
-    .format(isMobile ? "DD MMM" : "MMMM D YYYY @ h:mm A")
+    .format(isMobile ? 'DD MMM' : 'MMMM D YYYY @ h:mm A')
 
 const RecurringTradeItem = props => {
   const {
@@ -59,7 +59,7 @@ const RecurringTradeItem = props => {
           <OrderStatus status={trade.state} isBuy={trade.isBuy} />
         </TableCell>
         <TableCell width="15%">
-          {trade.state === "awaiting_transfer_in" && trade.medium === "card" ? (
+          {trade.state === 'awaiting_transfer_in' && trade.medium === 'card' ? (
             <Link
               size="13px"
               weight={300}
@@ -90,7 +90,7 @@ const RecurringTradeItem = props => {
         <MediaContextConsumer>
           {({ mobile }) => (
             <Text
-              opacity={trade.state === "processing"}
+              opacity={trade.state === 'processing'}
               size="13px"
               weight={300}
             >
@@ -101,7 +101,7 @@ const RecurringTradeItem = props => {
       </TableCell>
       <TableCell width="20%" mobileWidth="25%">
         <Text
-          opacity={trade.state === "processing"}
+          opacity={trade.state === 'processing'}
           size="13px"
           weight={300}
         >{`${exchangeAmount} ${trade.inCurrency}`}</Text>
@@ -109,7 +109,7 @@ const RecurringTradeItem = props => {
       <TableCell width="20%">
         <TableCell width="80%">
           <Text
-            opacity={trade.state === "processing"}
+            opacity={trade.state === 'processing'}
             size="13px"
             weight={300}
           >{`${receiveAmount} ${trade.outCurrency}`}</Text>

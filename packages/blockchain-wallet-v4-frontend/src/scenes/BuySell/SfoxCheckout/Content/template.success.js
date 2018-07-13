@@ -1,20 +1,20 @@
-import React from "react"
-import { equals, filter, prop } from "ramda"
-import styled from "styled-components"
+import React from 'react'
+import { equals, filter, prop } from 'ramda'
+import styled from 'styled-components'
 
-import OrderHistoryTable from "components/BuySell/OrderHistoryTable"
-import { Text } from "blockchain-info-components"
-import { determineStep, determineReason } from "services/SfoxService"
-import { flex } from "services/StyleService"
-import { FormattedMessage } from "react-intl"
-import { Remote } from "blockchain-wallet-v4/src"
-import Stepper, { StepView } from "components/Utilities/Stepper"
-import OrderCheckout from "./OrderCheckout"
-import { OrderDetails, OrderSubmit } from "./OrderReview"
-import Helper from "components/BuySell/FAQ"
-import EmptyOrderHistoryContainer from "components/BuySell/EmptyOrderHistory"
-import SiftScience from "modals/SfoxExchangeData/sift-science.js"
-import media from "services/ResponsiveService"
+import OrderHistoryTable from 'components/BuySell/OrderHistoryTable'
+import { Text } from 'blockchain-info-components'
+import { determineStep, determineReason } from 'services/SfoxService'
+import { flex } from 'services/StyleService'
+import { FormattedMessage } from 'react-intl'
+import { Remote } from 'blockchain-wallet-v4/src'
+import Stepper, { StepView } from 'components/Utilities/Stepper'
+import OrderCheckout from './OrderCheckout'
+import { OrderDetails, OrderSubmit } from './OrderReview'
+import Helper from 'components/BuySell/FAQ'
+import EmptyOrderHistoryContainer from 'components/BuySell/EmptyOrderHistory'
+import SiftScience from 'modals/SfoxExchangeData/sift-science.js'
+import media from 'services/ResponsiveService'
 
 const CheckoutWrapper = styled.div`
   width: 50%;
@@ -98,7 +98,7 @@ const faqList = [
 const faqListHelper = () =>
   faqList.map(el => <Helper question={el.question} answer={el.answer} />)
 
-const isPending = t => equals(prop("state", t), "processing")
+const isPending = t => equals(prop('state', t), 'processing')
 const isCompleted = t => !isPending(t)
 
 const Success = props => {
@@ -132,13 +132,13 @@ const Success = props => {
   })
   const verificationStatus = Remote.of(
     props.value.verificationStatus
-  ).getOrElse({ level: "unverified", required_docs: [] })
+  ).getOrElse({ level: 'unverified', required_docs: [] })
   const payment = props.payment.getOrElse({ effectiveBalance: 0 })
 
   const { trades, type, busy } = rest
   const step = determineStep(profile, verificationStatus, accounts)
   const reason = determineReason(type, profile, verificationStatus, accounts)
-  const finishAccountSetup = () => showModal("SfoxExchangeData", { step })
+  const finishAccountSetup = () => showModal('SfoxExchangeData', { step })
 
   const limits = {
     buy: {
@@ -152,7 +152,7 @@ const Success = props => {
     }
   }
 
-  if (type === "buy" || !type) {
+  if (type === 'buy' || !type) {
     return (
       <Stepper key="BuyStepper" initialStep={0}>
         <StepView step={0}>
@@ -168,7 +168,7 @@ const Success = props => {
                 buttonStatus={buttonStatus}
                 finishAccountSetup={finishAccountSetup}
                 limits={limits.buy}
-                type={"buy"}
+                type={'buy'}
               />
             </CheckoutWrapper>
             <OrderSubmitWrapper>{faqListHelper()}</OrderSubmitWrapper>
@@ -181,10 +181,10 @@ const Success = props => {
                 quoteR={buyQuoteR}
                 account={accounts[0]}
                 onRefreshQuote={refreshBuyQuote}
-                type={"buy"}
+                type={'buy'}
               />
             </CheckoutWrapper>
-            <OrderSubmitWrapper style={{ ...flex("col") }}>
+            <OrderSubmitWrapper style={{ ...flex('col') }}>
               <OrderSubmit
                 quoteR={buyQuoteR}
                 onSubmit={submitBuyQuote}
@@ -198,7 +198,7 @@ const Success = props => {
         {siftScienceEnabled ? <SiftScience /> : null}
       </Stepper>
     )
-  } else if (type === "sell") {
+  } else if (type === 'sell') {
     return (
       <Stepper key="SellStepper" initialStep={0}>
         <StepView step={0}>
@@ -213,7 +213,7 @@ const Success = props => {
               buttonStatus={buttonStatus}
               finishAccountSetup={finishAccountSetup}
               limits={limits.sell}
-              type={"sell"}
+              type={'sell'}
             />
           </CheckoutWrapper>
         </StepView>
@@ -224,10 +224,10 @@ const Success = props => {
                 quoteR={sellQuoteR}
                 account={accounts[0]}
                 onRefreshQuote={refreshSellQuote}
-                type={"sell"}
+                type={'sell'}
               />
             </CheckoutWrapper>
-            <OrderSubmitWrapper style={{ ...flex("col") }}>
+            <OrderSubmitWrapper style={{ ...flex('col') }}>
               <OrderSubmit
                 quoteR={sellQuoteR}
                 onSubmit={submitSellQuote}
@@ -262,7 +262,7 @@ const Success = props => {
               trades={filter(isPending, trades)}
               conversion={conversion}
               handleDetailsClick={trade =>
-                showModal("SfoxTradeDetails", { trade })
+                showModal('SfoxTradeDetails', { trade })
               }
               partner="sfox"
             />
@@ -278,7 +278,7 @@ const Success = props => {
               trades={filter(isCompleted, trades)}
               conversion={conversion}
               handleDetailsClick={trade =>
-                showModal("SfoxTradeDetails", { trade })
+                showModal('SfoxTradeDetails', { trade })
               }
             />
           </OrderHistoryContent>

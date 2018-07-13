@@ -1,10 +1,10 @@
-import { taggedSum } from "daggy"
+import { taggedSum } from 'daggy'
 
-const Remote = taggedSum("Remote", {
+const Remote = taggedSum('Remote', {
   NotAsked: [],
   Loading: [],
-  Failure: ["error"],
-  Success: ["data"]
+  Failure: ['error'],
+  Success: ['data']
 })
 Remote.of = Remote.Success
 
@@ -40,8 +40,8 @@ Remote.prototype.ap = function(that) {
 
 Remote.prototype.toJSON = function() {
   return {
-    data: { __remote: this["@@values"][0] || [] },
-    __serializedType__: this["@@tag"]
+    data: { __remote: this['@@values'][0] || [] },
+    __serializedType__: this['@@tag']
   }
 }
 

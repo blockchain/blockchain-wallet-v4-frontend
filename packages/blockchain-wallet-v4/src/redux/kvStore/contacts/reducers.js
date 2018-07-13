@@ -1,7 +1,7 @@
 // import { set } from 'ramda-lens'
 // import { KVStoreEntry } from '../../../types'
-import * as AT from "./actionTypes"
-import Remote from "../../../remote"
+import * as AT from './actionTypes'
+import Remote from '../../../remote'
 
 // initial state should be a kvstore object
 const INITIAL_STATE = Remote.NotAsked

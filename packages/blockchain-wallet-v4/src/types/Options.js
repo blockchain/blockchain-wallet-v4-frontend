@@ -1,15 +1,15 @@
-import { is, pipe } from "ramda"
-import { view, set } from "ramda-lens"
-import Type from "./Type"
+import { is, pipe } from 'ramda'
+import { view, set } from 'ramda-lens'
+import Type from './Type'
 
 export class Options extends Type {}
 
 export const isOptions = is(Options)
 
-export const pbkdf2Iterations = Options.define("pbkdf2_iterations")
-export const feePerKb = Options.define("fee_per_kb")
-export const html5Notifications = Options.define("html5_notifications")
-export const logoutTime = Options.define("logout_time")
+export const pbkdf2Iterations = Options.define('pbkdf2_iterations')
+export const feePerKb = Options.define('fee_per_kb')
+export const html5Notifications = Options.define('html5_notifications')
+export const logoutTime = Options.define('logout_time')
 
 export const selectPbkdf2Iterations = view(pbkdf2Iterations)
 export const selectFeePerKb = view(feePerKb)

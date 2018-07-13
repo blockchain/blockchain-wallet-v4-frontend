@@ -1,11 +1,11 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { Field, reduxForm } from "redux-form"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
 
-import { required, validBitcoinCashAddress } from "services/FormHelper"
-import { Button, Icon, Tooltip } from "blockchain-info-components"
+import { required, validBitcoinCashAddress } from 'services/FormHelper'
+import { Button, Icon, Tooltip } from 'blockchain-info-components'
 import {
   FiatConvertor,
   Form,
@@ -16,15 +16,15 @@ import {
   SelectBoxCoin,
   TextBox,
   TextAreaDebounced
-} from "components/Form"
-import ComboDisplay from "components/Display/ComboDisplay"
+} from 'components/Form'
+import ComboDisplay from 'components/Display/ComboDisplay'
 import {
   shouldError,
   insufficientFunds,
   maximumAmount,
   invalidAmount
-} from "./validation"
-import QRCodeCapture from "components/QRCodeCapture"
+} from './validation'
+import QRCodeCapture from 'components/QRCodeCapture'
 
 const Row = styled.div`
   display: flex;
@@ -41,10 +41,10 @@ const AddressButton = styled.div`
   width: 40px;
   height: 40px;
   box-sizing: border-box;
-  border: 1px solid ${props => props.theme["gray-2"]};
+  border: 1px solid ${props => props.theme['gray-2']};
 
   &:hover {
-    background-color: ${props => props.theme["gray-1"]};
+    background-color: ${props => props.theme['gray-1']};
   }
 `
 
@@ -64,8 +64,8 @@ const FirstStep = props => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <FormGroup inline margin={"15px"}>
-        <FormItem width={"40%"}>
+      <FormGroup inline margin={'15px'}>
+        <FormItem width={'40%'}>
           <FormLabel for="coin">
             <FormattedMessage
               id="modals.sendBch.firststep.coin"
@@ -74,7 +74,7 @@ const FirstStep = props => {
           </FormLabel>
           <Field name="coin" component={SelectBoxCoin} validate={[required]} />
         </FormItem>
-        <FormItem width={"60%"}>
+        <FormItem width={'60%'}>
           <FormLabel for="from">
             <FormattedMessage
               id="modals.sendBch.firststep.from"
@@ -91,7 +91,7 @@ const FirstStep = props => {
           />
         </FormItem>
       </FormGroup>
-      <FormGroup margin={"15px"}>
+      <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel for="to">
             <FormattedMessage
@@ -141,7 +141,7 @@ const FirstStep = props => {
               <QRCodeCapture
                 scanType="bchAddress"
                 border={
-                  enableToggle ? ["top", "bottom"] : ["top", "bottom", "right"]
+                  enableToggle ? ['top', 'bottom'] : ['top', 'bottom', 'right']
                 }
               />
             )}
@@ -154,7 +154,7 @@ const FirstStep = props => {
           </Row>
         </FormItem>
       </FormGroup>
-      <FormGroup margin={"15px"}>
+      <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel for="amount">
             <FormattedMessage
@@ -175,7 +175,7 @@ const FirstStep = props => {
           />
         </FormItem>
       </FormGroup>
-      <FormGroup margin={"15px"}>
+      <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel>
             <FormattedMessage
@@ -197,7 +197,7 @@ const FirstStep = props => {
           />
         </FormItem>
       </FormGroup>
-      <FormGroup inline margin={"30px"}>
+      <FormGroup inline margin={'30px'}>
         <FormItem>
           <FormLabel>
             <FormattedMessage
@@ -235,7 +235,7 @@ FirstStep.propTypes = {
 }
 
 export default reduxForm({
-  form: "sendBch",
+  form: 'sendBch',
   destroyOnUnmount: false,
   shouldError
 })(FirstStep)

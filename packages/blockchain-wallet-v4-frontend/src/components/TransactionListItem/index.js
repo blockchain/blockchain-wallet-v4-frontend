@@ -1,9 +1,9 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import { actions } from "data"
-import TransactionListItem from "./template.js"
+import { actions } from 'data'
+import TransactionListItem from './template.js'
 
 class ListItemContainer extends React.PureComponent {
   constructor(props) {
@@ -18,21 +18,21 @@ class ListItemContainer extends React.PureComponent {
 
   handleEditDescription(value) {
     switch (this.props.coin) {
-      case "ETH": {
+      case 'ETH': {
         this.props.ethereumActions.setTxNotesEthereum(
           this.props.transaction.hash,
           value
         )
         break
       }
-      case "BTC": {
+      case 'BTC': {
         this.props.walletActions.setTransactionNote(
           this.props.transaction.hash,
           value
         )
         break
       }
-      case "BCH": {
+      case 'BCH': {
         this.props.bchActions.setTxNotesBch(this.props.transaction.hash, value)
         break
       }

@@ -1,4 +1,4 @@
-import * as AT from "./actionTypes"
+import * as AT from './actionTypes'
 
 export const signMessageInitialized = () => ({
   type: AT.SIGN_MESSAGE_INITIALIZED

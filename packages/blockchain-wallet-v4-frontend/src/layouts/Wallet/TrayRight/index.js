@@ -1,40 +1,40 @@
-import React from "react"
-import ReactDOM from "react-dom"
-import styled from "styled-components"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import { FormattedMessage } from "react-intl"
-import { contains } from "ramda"
+import React from 'react'
+import ReactDOM from 'react-dom'
+import styled from 'styled-components'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { FormattedMessage } from 'react-intl'
+import { contains } from 'ramda'
 
-import { Icon, Text } from "blockchain-info-components"
-import Faq from "./Faq"
-import WhatsNew from "./WhatsNew"
-import { actions } from "data"
-import { getData } from "./selectors"
-import media from "services/ResponsiveService"
+import { Icon, Text } from 'blockchain-info-components'
+import Faq from './Faq'
+import WhatsNew from './WhatsNew'
+import { actions } from 'data'
+import { getData } from './selectors'
+import media from 'services/ResponsiveService'
 
 const AnimationWrapper = styled.div`
   position: absolute;
   width: calc(33%);
-  right: ${props => (props.opened ? "0" : "calc(-50%)")};
+  right: ${props => (props.opened ? '0' : 'calc(-50%)')};
   height: calc(100vh - 60px);
   transition: right 0.4s linear;
-  box-shadow: -5px 5px 20px ${props => props.theme["gray-4"]};
+  box-shadow: -5px 5px 20px ${props => props.theme['gray-4']};
   z-index: 20;
 
   @media (max-width: 991px) {
     width: calc(50%);
-    right: ${props => (props.opened ? "0" : "calc(-75%)")};
+    right: ${props => (props.opened ? '0' : 'calc(-75%)')};
   }
 
   ${media.tablet`
     width: calc(100%);
-    right: ${props => (props.opened ? "0" : "calc(-110%)")};
-    display: ${props => (props.opened ? "inline" : "none")};
+    right: ${props => (props.opened ? '0' : 'calc(-110%)')};
+    display: ${props => (props.opened ? 'inline' : 'none')};
   `} ${media.mobile`
     width: calc(100%);
-    right: ${props => (props.opened ? "0" : "calc(-110%)")};
-    display: ${props => (props.opened ? "inline" : "none")};
+    right: ${props => (props.opened ? '0' : 'calc(-110%)')};
+    display: ${props => (props.opened ? 'inline' : 'none')};
   `};
 `
 const Header = styled.div`
@@ -46,12 +46,12 @@ const Header = styled.div`
   height: 40px;
   padding: 30px;
   box-sizing: border-box;
-  background-color: ${props => props.theme["white-blue"]};
+  background-color: ${props => props.theme['white-blue']};
 `
 const Content = styled.div`
   width: 100%;
   height: calc(100% - 40px);
-  background-color: ${props => props.theme["white"]};
+  background-color: ${props => props.theme['white']};
 `
 
 class TrayRightContainer extends React.PureComponent {
@@ -62,16 +62,16 @@ class TrayRightContainer extends React.PureComponent {
   }
 
   componentDidMount() {
-    document.addEventListener("mousedown", this.handleClick)
+    document.addEventListener('mousedown', this.handleClick)
   }
 
   componentWillUnmount() {
-    document.removeEventListener("mousedown", this.handleClick)
+    document.removeEventListener('mousedown', this.handleClick)
   }
 
   handleClick(e) {
     const trayContainer = ReactDOM.findDOMNode(this.node)
-    const blacklist = ["faq-icon", "whatsnew-icon"]
+    const blacklist = ['faq-icon', 'whatsnew-icon']
     if (
       trayContainer &&
       !trayContainer.contains(e.target) &&
@@ -100,13 +100,13 @@ class TrayRightContainer extends React.PureComponent {
       >
         <Header>
           <Text size="20px" weight={300}>
-            {content === "faq" && (
+            {content === 'faq' && (
               <FormattedMessage
                 id="layouts.wallet.trayright.faq"
                 defaultMessage="Frequently Asked Questions"
               />
             )}
-            {content === "whatsnew" && (
+            {content === 'whatsnew' && (
               <FormattedMessage
                 id="layouts.wallet.trayright.whatsnew"
                 defaultMessage="What’s New"
@@ -116,8 +116,8 @@ class TrayRightContainer extends React.PureComponent {
           <Icon size="20px" name="close" cursor onClick={this.handleClose} />
         </Header>
         <Content>
-          {content === "faq" && <Faq />}
-          {content === "whatsnew" && <WhatsNew />}
+          {content === 'faq' && <Faq />}
+          {content === 'whatsnew' && <WhatsNew />}
         </Content>
       </AnimationWrapper>
     )

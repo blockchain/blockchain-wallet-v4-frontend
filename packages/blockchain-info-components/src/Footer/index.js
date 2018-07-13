@@ -1,16 +1,16 @@
-import React, { Component } from "react"
-import styled from "styled-components"
-import footerLogo from "../Images/img/bc-name-and-logo-dark-blue.svg"
-import androidFooterLogo from "../Images/img/android-footer-logo.svg"
-import appleFooterLogo from "../Images/img/apple-footer-logo.svg"
-import facebookFooterLogo from "../Images/img/facebook-footer-logo.svg"
-import linkedinFooterLogo from "../Images/img/linkedin-footer-logo.svg"
-import twitterFooterLogo from "../Images/img/twitter-footer-logo.svg"
+import React, { Component } from 'react'
+import styled from 'styled-components'
+import footerLogo from '../Images/img/bc-name-and-logo-dark-blue.svg'
+import androidFooterLogo from '../Images/img/android-footer-logo.svg'
+import appleFooterLogo from '../Images/img/apple-footer-logo.svg'
+import facebookFooterLogo from '../Images/img/facebook-footer-logo.svg'
+import linkedinFooterLogo from '../Images/img/linkedin-footer-logo.svg'
+import twitterFooterLogo from '../Images/img/twitter-footer-logo.svg'
 
 const Container = styled.footer`
-  background: ${props => props.theme["white-blue"]};
-  color: ${props => props.theme["brand-primary"]};
-  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background: ${props => props.theme['white-blue']};
+  color: ${props => props.theme['brand-primary']};
+  font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 12px;
   line-height: normal;
   padding: 30px 0;
@@ -29,7 +29,7 @@ const Container = styled.footer`
   a:active,
   a:hover,
   a:visited {
-    color: ${props => props.theme["brand-primary"]};
+    color: ${props => props.theme['brand-primary']};
   }
   .flex-container {
     display: flex;
@@ -81,7 +81,7 @@ const Container = styled.footer`
         }
       }
       h6 {
-        color: ${props => props.theme["brand-primary"]};
+        color: ${props => props.theme['brand-primary']};
         font-size: 12px;
         font-weight: 600;
         line-height: normal;
@@ -113,7 +113,7 @@ const Container = styled.footer`
           }
           &:first-of-type,
           &:nth-of-type(6) {
-            border-top: 1px solid ${props => props.theme["brand-primary"]};
+            border-top: 1px solid ${props => props.theme['brand-primary']};
             margin-top: 3px;
             padding-top: 8px;
             @media screen and (max-width: 768px) {
@@ -174,7 +174,7 @@ const Container = styled.footer`
     }
     .copyright {
       align-self: flex-end;
-      color: ${props => props.theme["brand-primary"]};
+      color: ${props => props.theme['brand-primary']};
       flex-grow: 1;
       font-size: 10px;
       margin-right: 0;

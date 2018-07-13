@@ -1,14 +1,14 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import { actions } from "data"
-import Template from "./template"
+import { actions } from 'data'
+import Template from './template'
 
 class EmailVerificationSteps extends React.PureComponent {
   componentWillUnmount() {
     this.props.coreSettingsActions.setEmailVerifiedFailedStatus(false)
-    this.props.formActions.destroy("securityEmailAddress")
+    this.props.formActions.destroy('securityEmailAddress')
   }
 
   render() {

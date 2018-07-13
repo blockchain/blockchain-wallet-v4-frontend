@@ -1,12 +1,12 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators, compose } from "redux"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
 
-import { actions } from "data"
-import modalEnhancer from "providers/ModalEnhancer"
-import Success from "./template.success.js"
-import { getData } from "./selectors.js"
-import { Remote } from "blockchain-wallet-v4/src"
+import { actions } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
+import Success from './template.success.js'
+import { getData } from './selectors.js'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 class TransferEthContainer extends React.PureComponent {
   constructor(props) {
@@ -17,15 +17,16 @@ class TransferEthContainer extends React.PureComponent {
   componentDidMount() {
     this.props.sendEthActions.initialized({
       from: this.props.addr,
-      type: "LEGACY"
+      type: 'LEGACY'
     })
   }
 
   componentDidUpdate(prevProps) {
     if (Remote.Success.is(this.props.data)) {
       const { fee, effectiveBalance } = this.props.data.getOrElse({})
-      if (parseFloat(fee) > parseFloat(effectiveBalance))
+      if (parseFloat(fee) > parseFloat(effectiveBalance)) {
         this.props.modalActions.closeAllModals()
+      }
     }
   }
 
@@ -65,7 +66,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer("TransferEth"),
+  modalEnhancer('TransferEth'),
   connect(
     mapStateToProps,
     mapDispatchToProps

@@ -1,6 +1,6 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { Text } from "blockchain-info-components"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Text } from 'blockchain-info-components'
 
 const Settings = props => {
   const { guid } = props

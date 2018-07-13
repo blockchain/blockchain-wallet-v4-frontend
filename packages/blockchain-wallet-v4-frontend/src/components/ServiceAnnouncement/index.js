@@ -1,11 +1,11 @@
-import React from "react"
-import { bindActionCreators } from "redux"
-import PropTypes from "prop-types"
-import { connect } from "react-redux"
+import React from 'react'
+import { bindActionCreators } from 'redux'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
-import { actions } from "data"
-import { getData } from "./selectors"
-import Announcement from "./template.js"
+import { actions } from 'data'
+import { getData } from './selectors'
+import Announcement from './template.js'
 
 class ServiceAnnouncement extends React.PureComponent {
   constructor(props) {
@@ -26,7 +26,7 @@ class ServiceAnnouncement extends React.PureComponent {
     const { alertArea, data } = this.props
     return data &&
       (data.visible ||
-        data.announcements[alertArea].hideType === "collapse") ? (
+        data.announcements[alertArea].hideType === 'collapse') ? (
       <Announcement
         announcement={data.announcements[alertArea]}
         language={data.language}
@@ -47,7 +47,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 ServiceAnnouncement.propTypes = {
-  alertArea: PropTypes.oneOf(["public", "wallet"]).isRequired
+  alertArea: PropTypes.oneOf(['public', 'wallet']).isRequired
 }
 
 export default connect(

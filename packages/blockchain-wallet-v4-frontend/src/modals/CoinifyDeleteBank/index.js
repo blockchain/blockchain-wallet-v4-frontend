@@ -1,9 +1,9 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators, compose } from "redux"
-import { actions } from "data"
-import modalEnhancer from "providers/ModalEnhancer"
-import CoinifyDeleteBank from "./template.js"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import { actions } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
+import CoinifyDeleteBank from './template.js'
 
 class CoinifyDeleteBankContainer extends React.PureComponent {
   constructor(props) {
@@ -28,7 +28,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer("CoinifyDeleteBank"),
+  modalEnhancer('CoinifyDeleteBank'),
   connect(
     undefined,
     mapDispatchToProps

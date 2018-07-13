@@ -1,6 +1,6 @@
-import React from "react"
-import QRCodeReact from "qrcode.react"
-import styled from "styled-components"
+import React from 'react'
+import QRCodeReact from 'qrcode.react'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   canvas {

@@ -1,5 +1,5 @@
-import * as AT from "./actionTypes"
-import { insert, filter } from "ramda"
+import * as AT from './actionTypes'
+import { insert, filter } from 'ramda'
 
 const INITIAL_STATE = []
 

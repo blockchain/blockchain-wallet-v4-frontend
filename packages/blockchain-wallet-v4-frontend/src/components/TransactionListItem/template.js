@@ -1,20 +1,20 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
-import moment from "moment"
-import { Banner, Button, Text } from "blockchain-info-components"
-import SwitchableDisplay from "components/Display/SwitchableDisplay"
-import { FormattedMessage } from "react-intl"
-import Addresses from "./Addresses"
-import Description from "./Description"
-import Confirmations from "./Confirmations"
-import FiatAtTime from "./FiatAtTime"
-import Status from "./Status"
-import PartnerLabel from "./PartnerLabel"
-import media from "services/ResponsiveService"
-import { prop } from "ramda"
-import { MediaContextConsumer } from "providers/MatchMediaProvider"
+import moment from 'moment'
+import { Banner, Button, Text } from 'blockchain-info-components'
+import SwitchableDisplay from 'components/Display/SwitchableDisplay'
+import { FormattedMessage } from 'react-intl'
+import Addresses from './Addresses'
+import Description from './Description'
+import Confirmations from './Confirmations'
+import FiatAtTime from './FiatAtTime'
+import Status from './Status'
+import PartnerLabel from './PartnerLabel'
+import media from 'services/ResponsiveService'
+import { prop } from 'ramda'
+import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 
 const TransactionRowContainer = styled.div`
   position: relative;
@@ -24,7 +24,7 @@ const TransactionRowContainer = styled.div`
   align-items: flex-start;
   width: 100%;
   box-sizing: border-box;
-  border-bottom: 1px solid ${props => props.theme["gray-2"]};
+  border-bottom: 1px solid ${props => props.theme['gray-2']};
   padding: 15px 30px;
   ${media.mobile`
     padding: 10px;
@@ -115,7 +115,7 @@ const FeeWrapper = styled.div`
 const dateHelper = (time, isMobile) =>
   moment(time)
     .local()
-    .format(isMobile ? "MM/DD/YY @ h:mm a" : "MMMM D YYYY @ h:mm A")
+    .format(isMobile ? 'MM/DD/YY @ h:mm a' : 'MMMM D YYYY @ h:mm A')
 
 const TransactionListItem = props => {
   const {
@@ -135,7 +135,7 @@ const TransactionListItem = props => {
           <MediaContextConsumer>
             {({ mobile }) => (
               <Text size="13px" weight={300}>
-                {dateHelper(prop("time", transaction) * 1000, mobile)}
+                {dateHelper(prop('time', transaction) * 1000, mobile)}
               </Text>
             )}
           </MediaContextConsumer>
@@ -149,10 +149,10 @@ const TransactionListItem = props => {
               </Banner>
             </BannerWrapper>
           )}
-          {prop("partnerLabel", transaction) ? (
+          {prop('partnerLabel', transaction) ? (
             <PartnerLabel
-              txType={prop("type", transaction)}
-              partnerLabel={prop("partnerLabel", transaction)}
+              txType={prop('type', transaction)}
+              partnerLabel={prop('partnerLabel', transaction)}
               buysellPartner={buysellPartner}
             />
           ) : null}
@@ -192,7 +192,7 @@ const TransactionListItem = props => {
             </SwitchableDisplay>
           </ToggleButton>
           <TransactionValues>
-            {coin === "BTC" && (
+            {coin === 'BTC' && (
               <FiatAtTime
                 amount={transaction.amount}
                 hash={transaction.hash}
@@ -200,7 +200,7 @@ const TransactionListItem = props => {
                 type={transaction.type}
               />
             )}
-            {transaction.type !== "received" && (
+            {transaction.type !== 'received' && (
               <FeeWrapper>
                 <Text size="12px" weight={300}>
                   <FormattedMessage

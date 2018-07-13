@@ -1,15 +1,15 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { Field, reduxForm } from "redux-form"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
 
 import {
   required,
   validBitcoinAddress,
   validBitcoinPrivateKey
-} from "services/FormHelper"
-import { Button, Icon, Link, Text, Tooltip } from "blockchain-info-components"
+} from 'services/FormHelper'
+import { Button, Icon, Link, Text, Tooltip } from 'blockchain-info-components'
 import {
   FiatConvertor,
   Form,
@@ -22,7 +22,7 @@ import {
   SelectBox,
   TextBox,
   TextAreaDebounced
-} from "components/Form"
+} from 'components/Form'
 import {
   shouldError,
   shouldWarn,
@@ -34,12 +34,12 @@ import {
   maximumFeePerByte,
   minimumOneSatoshi,
   invalidAmount
-} from "./validation"
-import QRCodeCapture from "components/QRCodeCapture"
-import RegularFeeLink from "./RegularFeeLink"
-import PriorityFeeLink from "./PriorityFeeLink"
-import ComboDisplay from "components/Display/ComboDisplay"
-import media from "services/ResponsiveService"
+} from './validation'
+import QRCodeCapture from 'components/QRCodeCapture'
+import RegularFeeLink from './RegularFeeLink'
+import PriorityFeeLink from './PriorityFeeLink'
+import ComboDisplay from 'components/Display/ComboDisplay'
+import media from 'services/ResponsiveService'
 
 const Row = styled.div`
   display: flex;
@@ -69,15 +69,15 @@ const AddressButton = styled.div`
   width: 40px;
   height: 40px;
   box-sizing: border-box;
-  border: 1px solid ${props => props.theme["gray-2"]};
+  border: 1px solid ${props => props.theme['gray-2']};
 
   &:hover {
-    background-color: ${props => props.theme["gray-1"]};
+    background-color: ${props => props.theme['gray-1']};
   }
 `
 const FeeFormContainer = styled.div`
   display: flex;
-  flex-direction: ${props => (props.toggled ? "column" : "row")};
+  flex-direction: ${props => (props.toggled ? 'column' : 'row')};
   align-items: center;
   justify-content: space-between;
   width: 100%;
@@ -130,8 +130,8 @@ const FirstStep = props => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <FormGroup inline margin={"15px"}>
-        <FormItem width={"40%"}>
+      <FormGroup inline margin={'15px'}>
+        <FormItem width={'40%'}>
           <FormLabel for="coin">
             <FormattedMessage
               id="modals.sendbtc.firststep.coin"
@@ -140,7 +140,7 @@ const FirstStep = props => {
           </FormLabel>
           <Field name="coin" component={SelectBoxCoin} validate={[required]} />
         </FormItem>
-        <FormItem width={"60%"}>
+        <FormItem width={'60%'}>
           <FormLabel for="from">
             <FormattedMessage
               id="modals.sendbtc.firststep.from"
@@ -167,12 +167,12 @@ const FirstStep = props => {
                 autoFocus
                 errorBottom
               />
-              <QRCodeCapture scanType="btcPriv" border={["top", "bottom"]} />
+              <QRCodeCapture scanType="btcPriv" border={['top', 'bottom']} />
             </Row>
           )}
         </FormItem>
       </FormGroup>
-      <FormGroup margin={"15px"}>
+      <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel for="to">
             <FormattedMessage
@@ -220,7 +220,7 @@ const FirstStep = props => {
               <QRCodeCapture
                 scanType="btcAddress"
                 border={
-                  enableToggle ? ["top", "bottom"] : ["top", "bottom", "right"]
+                  enableToggle ? ['top', 'bottom'] : ['top', 'bottom', 'right']
                 }
               />
             )}
@@ -233,7 +233,7 @@ const FirstStep = props => {
           </Row>
         </FormItem>
       </FormGroup>
-      <FormGroup margin={"15px"}>
+      <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel for="amount">
             <FormattedMessage
@@ -255,7 +255,7 @@ const FirstStep = props => {
           />
         </FormItem>
       </FormGroup>
-      <FormGroup margin={"15px"}>
+      <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel>
             <FormattedMessage
@@ -277,7 +277,7 @@ const FirstStep = props => {
           />
         </FormItem>
       </FormGroup>
-      <FeeFormGroup inline margin={"10px"}>
+      <FeeFormGroup inline margin={'10px'}>
         <ColLeft>
           <FeeFormContainer toggled={feePerByteToggled}>
             <FeeFormLabel>
@@ -339,7 +339,7 @@ const FirstStep = props => {
           </Link>
         </ColRight>
       </FeeFormGroup>
-      <FormGroup margin={"15px"}>
+      <FormGroup margin={'15px'}>
         <Text size="13px" weight={300}>
           {!isPriorityFeePerByte && (
             <FormattedMessage
@@ -388,7 +388,7 @@ FirstStep.propTypes = {
 }
 
 export default reduxForm({
-  form: "sendBtc",
+  form: 'sendBtc',
   destroyOnUnmount: false,
   shouldError,
   shouldWarn

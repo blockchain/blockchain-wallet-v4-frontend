@@ -1,20 +1,20 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import { actions } from "data"
-import { path, pathOr, toUpper } from "ramda"
-import { getData } from "./selectors"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { actions } from 'data'
+import { path, pathOr, toUpper } from 'ramda'
+import { getData } from './selectors'
 
-import Error from "./template.error"
-import Loading from "./template.loading"
-import Success from "./template.success"
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
 
 export class ChartContainer extends React.PureComponent {
   componentDidMount() {
-    const coin = path(["cache", "coin"], this.props)
+    const coin = path(['cache', 'coin'], this.props)
       ? toUpper(this.props.cache.coin)
-      : "BTC"
-    const time = pathOr("1month", ["cache", "time"], this.props)
+      : 'BTC'
+    const time = pathOr('1month', ['cache', 'time'], this.props)
     this.props.priceChartActions.initialized(coin, time)
   }
 

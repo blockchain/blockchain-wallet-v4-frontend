@@ -1,10 +1,10 @@
-import React, { Fragment } from "react"
-import { FormattedMessage } from "react-intl"
-import { gt, gte } from "ramda"
+import React, { Fragment } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { gt, gte } from 'ramda'
 
-import { Link, Text } from "blockchain-info-components"
-import { CoinBalance, ColourBar, WalletLink } from "components/BalancesChart"
-import SwitchableDisplay from "components/Display/SwitchableDisplay"
+import { Link, Text } from 'blockchain-info-components'
+import { CoinBalance, ColourBar, WalletLink } from 'components/BalancesChart'
+import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 
 const EthBalance = props => {
   const {
@@ -65,7 +65,7 @@ const EthBalance = props => {
           <Link
             size="10px"
             weight={300}
-            onClick={() => modalsActions.showModal("RequestEther")}
+            onClick={() => modalsActions.showModal('RequestEther')}
           >
             <FormattedMessage
               id="scenes.home.balanceschart.requesteth"

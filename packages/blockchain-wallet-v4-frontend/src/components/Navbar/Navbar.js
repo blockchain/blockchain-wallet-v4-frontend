@@ -1,12 +1,12 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   width: 100%;
   height: ${props => props.height};
   margin: 0 auto;
-  background-color: ${props => props.theme["brand-primary"]};
+  background-color: ${props => props.theme['brand-primary']};
 `
 
 const BaseNavbar = styled.div`
@@ -37,7 +37,7 @@ Navbar.propTypes = {
 
 Navbar.defaultProps = {
   fluid: false,
-  height: "60px"
+  height: '60px'
 }
 
 export default Navbar

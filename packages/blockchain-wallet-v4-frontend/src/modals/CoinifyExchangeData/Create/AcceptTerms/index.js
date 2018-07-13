@@ -1,11 +1,11 @@
-import React, { Component } from "react"
-import PropTypes from "prop-types"
-import { connect } from "react-redux"
-import { bindActionCreators, compose } from "redux"
-import { actions } from "data"
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import { actions } from 'data'
 
-import { getData } from "./selectors"
-import AcceptTerms from "./template"
+import { getData } from './selectors'
+import AcceptTerms from './template'
 
 class AcceptTermsContainer extends Component {
   constructor(props) {
@@ -49,7 +49,7 @@ class AcceptTermsContainer extends Component {
         signupError={signupError}
         updateUI={updateUI}
         editEmail={() => {
-          this.props.updateUI({ create: "change_email" })
+          this.props.updateUI({ create: 'change_email' })
         }}
         clearError={() => coinifyClearSignupError()}
       />

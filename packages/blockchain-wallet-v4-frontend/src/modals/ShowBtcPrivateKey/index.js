@@ -1,21 +1,21 @@
-import React, { Component } from "react"
-import { compose, bindActionCreators } from "redux"
-import { connect } from "react-redux"
-import modalEnhancer from "providers/ModalEnhancer"
-import { actions } from "data"
-import ShowBtcPrivateKeyTemplate from "./template"
+import React, { Component } from 'react'
+import { compose, bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import modalEnhancer from 'providers/ModalEnhancer'
+import { actions } from 'data'
+import ShowBtcPrivateKeyTemplate from './template'
 
 const formats = [
   {
-    group: "",
-    items: [{ text: "WIF", value: "wif" }, { text: "Base-58", value: "base58" }]
+    group: '',
+    items: [{ text: 'WIF', value: 'wif' }, { text: 'Base-58', value: 'base58' }]
   }
 ]
 
 class ShowBtcPrivateKeyContainer extends Component {
   constructor(props) {
     super(props)
-    this.state = { format: "wif" }
+    this.state = { format: 'wif' }
     this.handleChangeFormat = this.handleChangeFormat.bind(this)
   }
 
@@ -52,7 +52,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer("ShowBtcPrivateKey"),
+  modalEnhancer('ShowBtcPrivateKey'),
   connect(
     mapStateToProps,
     mapDispatchToProps

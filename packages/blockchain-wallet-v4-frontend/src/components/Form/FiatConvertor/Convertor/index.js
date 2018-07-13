@@ -1,14 +1,14 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { equals } from "ramda"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { equals } from 'ramda'
 
-import { convertFiatToCoin, convertCoinToFiat } from "./services"
-import Convertor from "./template"
+import { convertFiatToCoin, convertCoinToFiat } from './services'
+import Convertor from './template'
 
 class ConvertorContainer extends React.PureComponent {
   constructor(props) {
     super(props)
-    this.state = { coin: "", fiat: "" }
+    this.state = { coin: '', fiat: '' }
     this.handleCoinChange = this.handleCoinChange.bind(this)
     this.handleFiatChange = this.handleFiatChange.bind(this)
     this.handleBlur = this.handleBlur.bind(this)
@@ -37,7 +37,7 @@ class ConvertorContainer extends React.PureComponent {
 
   handleFiatChange(e) {
     const { unit, currency, btcRates, bchRates, ethRates } = this.props
-    const decimals = e.target.value.split(".")[1]
+    const decimals = e.target.value.split('.')[1]
     const needsFormatting = decimals && decimals.length > 2
     const val = needsFormatting
       ? Number(e.target.value).toFixed(2)
@@ -84,7 +84,7 @@ class ConvertorContainer extends React.PureComponent {
 }
 
 ConvertorContainer.propTypes = {
-  unit: PropTypes.oneOf(["BTC", "ETH", "BCH"]).isRequired,
+  unit: PropTypes.oneOf(['BTC', 'ETH', 'BCH']).isRequired,
   currency: PropTypes.string.isRequired,
   btcRates: PropTypes.object.isRequired,
   bchRates: PropTypes.object.isRequired,

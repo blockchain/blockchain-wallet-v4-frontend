@@ -1,16 +1,16 @@
-import React, { Fragment } from "react"
-import { FormattedMessage } from "react-intl"
-import { NavLink } from "react-router-dom"
-import { gt, gte } from "ramda"
+import React, { Fragment } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { NavLink } from 'react-router-dom'
+import { gt, gte } from 'ramda'
 
-import { Link, Text } from "blockchain-info-components"
+import { Link, Text } from 'blockchain-info-components'
 import {
   CoinBalance,
   ColourBar,
   ViewAllText,
   WalletLink
-} from "components/BalancesChart"
-import SwitchableDisplay from "components/Display/SwitchableDisplay"
+} from 'components/BalancesChart'
+import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 
 const BchBalance = props => {
   const {
@@ -72,7 +72,7 @@ const BchBalance = props => {
           <Link
             size="10px"
             weight={300}
-            onClick={() => modalsActions.showModal("RequestBch")}
+            onClick={() => modalsActions.showModal('RequestBch')}
           >
             <FormattedMessage
               id="scenes.home.balanceschart.requestbch"
@@ -84,7 +84,7 @@ const BchBalance = props => {
       {bchAccountsLength > 1 && gt(bchBalance, 0) ? (
         <NavLink
           to="/settings/addresses/bch"
-          style={{ textDecoration: "none" }}
+          style={{ textDecoration: 'none' }}
         >
           <ViewAllText weight={300} size="10px">
             <FormattedMessage

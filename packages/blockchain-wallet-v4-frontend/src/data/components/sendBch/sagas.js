@@ -1,16 +1,16 @@
-import { call, select, put } from "redux-saga/effects"
-import { equals, path, prop, nth, is, identity } from "ramda"
-import * as A from "./actions"
-import * as S from "./selectors"
-import * as actions from "../../actions"
-import * as selectors from "../../selectors"
-import settings from "config"
-import { initialize, change } from "redux-form"
-import * as C from "services/AlertService"
-import { promptForSecondPassword } from "services/SagaService"
-import { Exchange, Remote } from "blockchain-wallet-v4/src"
+import { call, select, put } from 'redux-saga/effects'
+import { equals, path, prop, nth, is, identity } from 'ramda'
+import * as A from './actions'
+import * as S from './selectors'
+import * as actions from '../../actions'
+import * as selectors from '../../selectors'
+import settings from 'config'
+import { initialize, change } from 'redux-form'
+import * as C from 'services/AlertService'
+import { promptForSecondPassword } from 'services/SagaService'
+import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 
-export const logLocation = "components/sendBch/sagas"
+export const logLocation = 'components/sendBch/sagas'
 // TODO: Check how to retrieve Bitcoin cash default fee
 export const bchDefaultFee = 2
 
@@ -33,20 +33,20 @@ export default ({ coreSagas }) => {
       payment = yield payment.from(defaultIndex)
       payment = yield payment.fee(bchDefaultFee)
       const initialValues = {
-        coin: "BCH",
+        coin: 'BCH',
         from: defaultAccountR.getOrElse()
       }
-      yield put(initialize("sendBch", initialValues))
+      yield put(initialize('sendBch', initialValues))
       yield put(A.sendBchPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
       yield put(
-        actions.logs.logErrorMessage(logLocation, "sendBchInitialized", e)
+        actions.logs.logErrorMessage(logLocation, 'sendBchInitialized', e)
       )
     }
   }
 
   const destroyed = function*() {
-    yield put(actions.form.destroy("sendBch"))
+    yield put(actions.form.destroy('sendBch'))
   }
 
   const firstStepSubmitClicked = function*() {
@@ -61,17 +61,17 @@ export default ({ coreSagas }) => {
       yield put(A.sendBchPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
       yield put(
-        actions.logs.logErrorMessage(logLocation, "firstStepSubmitClicked", e)
+        actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', e)
       )
     }
   }
 
   const formChanged = function*(action) {
     try {
-      const form = path(["meta", "form"], action)
-      const field = path(["meta", "field"], action)
-      const payload = prop("payload", action)
-      if (!equals("sendBch", form)) return
+      const form = path(['meta', 'form'], action)
+      const field = path(['meta', 'field'], action)
+      const payload = prop('payload', action)
+      if (!equals('sendBch', form)) return
 
       let p = yield select(S.getPayment)
       let payment = coreSagas.payment.bch.create({
@@ -80,40 +80,40 @@ export default ({ coreSagas }) => {
       })
 
       switch (field) {
-        case "coin":
+        case 'coin':
           switch (payload) {
-            case "BTC": {
+            case 'BTC': {
               yield put(actions.modals.closeAllModals())
-              yield put(actions.modals.showModal("SendBitcoin"))
+              yield put(actions.modals.showModal('SendBitcoin'))
               break
             }
-            case "ETH": {
+            case 'ETH': {
               yield put(actions.modals.closeAllModals())
-              yield put(actions.modals.showModal("SendEther"))
+              yield put(actions.modals.showModal('SendEther'))
             }
           }
           break
-        case "from":
+        case 'from':
           yield put(A.sendBchFirstStepToToggled(false))
-          const source = prop("address", payload) || prop("index", payload)
+          const source = prop('address', payload) || prop('index', payload)
           payment = yield payment.from(source)
           break
-        case "to":
+        case 'to':
           const target = is(String, payload)
             ? payload
-            : prop("address", payload) || prop("index", payload)
+            : prop('address', payload) || prop('index', payload)
           payment = yield payment.to(target)
           break
-        case "amount":
-          const bchAmount = prop("coin", payload)
+        case 'amount':
+          const bchAmount = prop('coin', payload)
           const satAmount = Exchange.convertBchToBch({
             value: bchAmount,
-            fromUnit: "BCH",
-            toUnit: "SAT"
+            fromUnit: 'BCH',
+            toUnit: 'SAT'
           }).value
           payment = yield payment.amount(parseInt(satAmount))
           break
-        case "message":
+        case 'message':
           payment = yield payment.description(payload)
           break
       }
@@ -122,15 +122,15 @@ export default ({ coreSagas }) => {
       } catch (e) {}
       yield put(A.sendBchPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, "formChanged", e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
     }
   }
 
   const toToggled = function*() {
     try {
-      yield put(change("sendBch", "to", ""))
+      yield put(change('sendBch', 'to', ''))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, "toToggled", e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'toToggled', e))
     }
   }
 
@@ -139,28 +139,28 @@ export default ({ coreSagas }) => {
       const appState = yield select(identity)
       const currency = selectors.core.settings
         .getCurrency(appState)
-        .getOrFail("Can not retrieve currency.")
+        .getOrFail('Can not retrieve currency.')
       const bchRates = selectors.core.data.bch
         .getRates(appState)
-        .getOrFail("Can not retrieve bitcoin cash rates.")
+        .getOrFail('Can not retrieve bitcoin cash rates.')
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
-      const effectiveBalance = prop("effectiveBalance", payment)
+      const effectiveBalance = prop('effectiveBalance', payment)
       const coin = Exchange.convertBchToBch({
         value: effectiveBalance,
-        fromUnit: "SAT",
-        toUnit: "BCH"
+        fromUnit: 'SAT',
+        toUnit: 'BCH'
       }).value
       const fiat = Exchange.convertBchToFiat({
         value: effectiveBalance,
-        fromUnit: "SAT",
+        fromUnit: 'SAT',
         toCurrency: currency,
         rates: bchRates
       }).value
-      yield put(change("sendBch", "amount", { coin, fiat }))
+      yield put(change('sendBch', 'amount', { coin, fiat }))
     } catch (e) {
       yield put(
-        actions.logs.logErrorMessage(logLocation, "maximumAmountClicked", e)
+        actions.logs.logErrorMessage(logLocation, 'maximumAmountClicked', e)
       )
     }
   }
@@ -177,7 +177,7 @@ export default ({ coreSagas }) => {
       payment = yield payment.sign(password)
       payment = yield payment.publish()
       yield put(A.sendBchPaymentUpdated(Remote.of(payment.value())))
-      if (path(["description", "length"], payment.value())) {
+      if (path(['description', 'length'], payment.value())) {
         yield put(
           actions.core.kvStore.bch.setTxNotesBch(
             payment.value().txId,
@@ -186,11 +186,11 @@ export default ({ coreSagas }) => {
         )
       }
       yield put(actions.core.data.bch.fetchData())
-      yield put(actions.router.push("/bch/transactions"))
+      yield put(actions.router.push('/bch/transactions'))
       yield put(actions.alerts.displaySuccess(C.SEND_BCH_SUCCESS))
     } catch (e) {
       yield put(
-        actions.logs.logErrorMessage(logLocation, "secondStepSubmitClicked", e)
+        actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e)
       )
       yield put(actions.alerts.displayError(C.SEND_BCH_ERROR))
     }

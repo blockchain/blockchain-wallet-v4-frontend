@@ -1,4 +1,4 @@
-import * as AT from "./actionTypes"
+import * as AT from './actionTypes'
 
 export const setBCHLatestBlock = (block_index, hash, height, time) => ({
   type: AT.SET_BCH_LATEST_BLOCK,

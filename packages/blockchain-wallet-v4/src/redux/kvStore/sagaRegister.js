@@ -1,12 +1,12 @@
-import { fork } from "redux-saga/effects"
+import { fork } from 'redux-saga/effects'
 
-import whatsNew from "./whatsNew/sagaRegister"
-import ethereum from "./ethereum/sagaRegister"
-import bch from "./bch/sagaRegister"
-import btc from "./btc/sagaRegister"
-import shapeShift from "./shapeShift/sagaRegister"
-import buySell from "./buySell/sagaRegister"
-import contacts from "./contacts/sagaRegister"
+import whatsNew from './whatsNew/sagaRegister'
+import ethereum from './ethereum/sagaRegister'
+import bch from './bch/sagaRegister'
+import btc from './btc/sagaRegister'
+import shapeShift from './shapeShift/sagaRegister'
+import buySell from './buySell/sagaRegister'
+import contacts from './contacts/sagaRegister'
 
 export default ({ api }) =>
   function*() {

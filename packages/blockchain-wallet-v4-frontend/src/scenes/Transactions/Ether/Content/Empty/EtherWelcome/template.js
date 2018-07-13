@@ -1,8 +1,8 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { LinkContainer } from "react-router-bootstrap"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
 
 import {
   Button,
@@ -12,16 +12,16 @@ import {
   Separator,
   Text,
   TextGroup
-} from "blockchain-info-components"
+} from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   position: relative;
-  display: ${props => (props.displayed ? "flex" : "none")};
+  display: ${props => (props.displayed ? 'flex' : 'none')};
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
   width: 100%;
-  background-color: ${props => props.theme["brand-quaternary"]};
+  background-color: ${props => props.theme['brand-quaternary']};
 `
 const EtherImage = styled(Image)`
   display: none;
@@ -43,8 +43,8 @@ const Row = styled.div`
   flex-direction: column;
   box-sizing: border-box;
   justify-content: space-between;
-  width: ${props => props.width || "100%"};
-  align-items: ${props => props.alignItems || "center"};
+  width: ${props => props.width || '100%'};
+  align-items: ${props => props.alignItems || 'center'};
   @media (min-width: 1200px) {
     flex-direction: row;
   }
@@ -54,7 +54,7 @@ const Cell = styled.div`
   padding: 15px 0 15px 15px;
   box-sizing: border-box;
   @media (min-width: 768px) {
-    ${props => (props.small ? "30%" : "35%")};
+    ${props => (props.small ? '30%' : '35%')};
   }
 `
 const CloseArrow = styled(Icon)`

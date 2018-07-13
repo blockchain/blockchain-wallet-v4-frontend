@@ -1,10 +1,10 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import { actions } from "data"
-import { getData } from "./selectors"
-import TradeItem from "./template"
+import { actions } from 'data'
+import { getData } from './selectors'
+import TradeItem from './template'
 
 class PagesContainer extends React.PureComponent {
   render() {
@@ -29,7 +29,7 @@ class PagesContainer extends React.PureComponent {
         depositAmount={depositAmount}
         withdrawalAmount={withdrawalAmount}
         handleClick={() =>
-          modalActions.showModal("ExchangeDetails", { depositAddress: deposit })
+          modalActions.showModal('ExchangeDetails', { depositAddress: deposit })
         }
       />
     )

@@ -1,10 +1,10 @@
-import React, { PureComponent } from "react"
-import { compose } from "redux"
-import { connect } from "react-redux"
-import ReactDOM from "react-dom"
-import { equals } from "ramda"
+import React, { PureComponent } from 'react'
+import { compose } from 'redux'
+import { connect } from 'react-redux'
+import ReactDOM from 'react-dom'
+import { equals } from 'ramda'
 
-import { actions, selectors } from "data"
+import { actions, selectors } from 'data'
 
 const mapDispatchToProps = dispatch => ({
   close: compose(

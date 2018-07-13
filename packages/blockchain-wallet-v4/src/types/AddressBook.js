@@ -1,8 +1,8 @@
-import { indexBy, map, prop, compose, is, pipe, curry } from "ramda"
-import { view } from "ramda-lens"
-import Type from "./Type"
-import * as AddressBookEntry from "./AddressBookEntry"
-import { iLensProp } from "./util"
+import { indexBy, map, prop, compose, is, pipe, curry } from 'ramda'
+import { view } from 'ramda-lens'
+import Type from './Type'
+import * as AddressBookEntry from './AddressBookEntry'
+import { iLensProp } from './util'
 
 export class AddressBook extends Type {}
 
@@ -30,7 +30,7 @@ export const fromJS = labels => {
     return new AddressBook()
   } else {
     const addressBook = compose(
-      indexBy(prop("addr")),
+      indexBy(prop('addr')),
       map(AddressBookEntry.fromJS)
     )(labels)
     return new AddressBook(addressBook)

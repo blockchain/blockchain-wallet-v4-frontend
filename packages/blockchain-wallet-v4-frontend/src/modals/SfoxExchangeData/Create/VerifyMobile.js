@@ -1,19 +1,19 @@
-import React, { Component } from "react"
-import styled from "styled-components"
-import { connect } from "react-redux"
-import { bindActionCreators, compose } from "redux"
-import { FormattedMessage } from "react-intl"
-import ui from "redux-ui"
-import { actions, selectors } from "data"
-import { formValueSelector, Field } from "redux-form"
+import React, { Component } from 'react'
+import styled from 'styled-components'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import { FormattedMessage } from 'react-intl'
+import ui from 'redux-ui'
+import { actions, selectors } from 'data'
+import { formValueSelector, Field } from 'redux-form'
 
-import { PhoneNumberBox, TextBox } from "components/Form"
-import { Text, Button } from "blockchain-info-components"
+import { PhoneNumberBox, TextBox } from 'components/Form'
+import { Text, Button } from 'blockchain-info-components'
 import {
   required,
   normalizePhone,
   validMobileNumber
-} from "services/FormHelper"
+} from 'services/FormHelper'
 import {
   Form,
   ColLeft,
@@ -24,9 +24,9 @@ import {
   ButtonWrapper,
   ColRightInner,
   EmailHelper
-} from "components/BuySell/Signup"
-import { spacing } from "services/StyleService"
-import media from "services/ResponsiveService"
+} from 'components/BuySell/Signup'
+import { spacing } from 'services/StyleService'
+import media from 'services/ResponsiveService'
 
 const MobileInput = styled.div`
   display: flex;
@@ -58,14 +58,16 @@ class VerifyMobile extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.smsVerified && !prevProps.smsVerified)
-      this.props.updateUI({ create: "create_account" })
-    if (this.props.smsVerified && !this.props.editVerifiedMobile)
-      this.props.updateUI({ create: "create_account" })
+    if (this.props.smsVerified && !prevProps.smsVerified) {
+      this.props.updateUI({ create: 'create_account' })
+    }
+    if (this.props.smsVerified && !this.props.editVerifiedMobile) {
+      this.props.updateUI({ create: 'create_account' })
+    }
   }
 
   updateMobileNumber() {
-    this.props.updateUI({ create: "enter_mobile_code" })
+    this.props.updateUI({ create: 'enter_mobile_code' })
     this.props.settingsActions.updateMobile(this.props.mobileNumber)
   }
 
@@ -76,7 +78,7 @@ class VerifyMobile extends Component {
 
   onSubmit(e) {
     e.preventDefault()
-    if (this.props.ui.create !== "enter_mobile_code") {
+    if (this.props.ui.create !== 'enter_mobile_code') {
       this.props.settingsActions.clearMobileFailure()
       this.updateMobileNumber()
     } else {
@@ -106,7 +108,7 @@ class VerifyMobile extends Component {
                 changeNumber: (
                   <a
                     onClick={() =>
-                      this.props.updateUI({ create: "change_mobile" })
+                      this.props.updateUI({ create: 'change_mobile' })
                     }
                   >
                     change number
@@ -150,7 +152,7 @@ class VerifyMobile extends Component {
               />
             </PartnerSubHeader>
             <MobileInput>
-              <Text size="14px" weight={400} style={{ marginBottom: "5px" }}>
+              <Text size="14px" weight={400} style={{ marginBottom: '5px' }}>
                 <FormattedMessage
                   id="sfoxexchangedata.create.mobile.entermobilenumber"
                   defaultMessage="Enter your digits here:"
@@ -164,12 +166,12 @@ class VerifyMobile extends Component {
                 normalize={normalizePhone}
                 countryCode={countryCode}
               />
-              {ui.create === "change_mobile" && (
+              {ui.create === 'change_mobile' && (
                 <Button
                   nature="primary"
                   type="submit"
                   disabled={!mobileNumber}
-                  style={spacing("mt-15")}
+                  style={spacing('mt-15')}
                 >
                   <FormattedMessage
                     id="sfoxexchangedata.create.mobile.sendmycode"
@@ -178,9 +180,9 @@ class VerifyMobile extends Component {
                 </Button>
               )}
             </MobileInput>
-            {ui.create === "enter_mobile_code" && (
+            {ui.create === 'enter_mobile_code' && (
               <MobileCodeContainer>
-                <Text size="14px" weight={400} style={{ marginBottom: "5px" }}>
+                <Text size="14px" weight={400} style={{ marginBottom: '5px' }}>
                   <FormattedMessage
                     id="sfoxexchangedata.create.mobile.entercode"
                     defaultMessage="Enter the code we just sent to your phone:"
@@ -201,7 +203,7 @@ class VerifyMobile extends Component {
         </ColLeft>
         <ColRight>
           <ColRightInner>
-            {ui.create !== "enter_mobile_code" ? null : (
+            {ui.create !== 'enter_mobile_code' ? null : (
               <ButtonWrapper>
                 <Button
                   type="submit"
@@ -224,8 +226,8 @@ class VerifyMobile extends Component {
 }
 
 const mapStateToProps = state => ({
-  mobileNumber: formValueSelector("sfoxCreate")(state, "mobileNumber"),
-  mobileCode: formValueSelector("sfoxCreate")(state, "mobileCode"),
+  mobileNumber: formValueSelector('sfoxCreate')(state, 'mobileNumber'),
+  mobileCode: formValueSelector('sfoxCreate')(state, 'mobileCode'),
   smsNumber: selectors.core.settings.getSmsNumber(state).data,
   countryCode: selectors.core.settings.getCountryCode(state)
 })

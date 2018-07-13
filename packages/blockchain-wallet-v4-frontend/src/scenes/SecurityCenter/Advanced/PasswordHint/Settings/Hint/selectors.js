@@ -1,3 +1,3 @@
-import { selectors } from "data"
+import { selectors } from 'data'
 
 export const getData = state => selectors.core.settings.getHint(state)

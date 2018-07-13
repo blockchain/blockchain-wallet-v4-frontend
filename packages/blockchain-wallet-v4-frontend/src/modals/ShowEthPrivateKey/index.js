@@ -1,11 +1,11 @@
-import React, { Component } from "react"
-import { compose, bindActionCreators } from "redux"
-import { connect } from "react-redux"
+import React, { Component } from 'react'
+import { compose, bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 
-import modalEnhancer from "providers/ModalEnhancer"
-import { actions } from "data"
-import { getData } from "./selectors"
-import ShowEthPrivateKeyTemplate from "./template"
+import modalEnhancer from 'providers/ModalEnhancer'
+import { actions } from 'data'
+import { getData } from './selectors'
+import ShowEthPrivateKeyTemplate from './template'
 
 class ShowEthPrivateKeyContainer extends Component {
   componentDidMount() {
@@ -40,7 +40,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer("ShowEthPrivateKey"),
+  modalEnhancer('ShowEthPrivateKey'),
   connect(
     mapStateToProps,
     mapDispatchToProps

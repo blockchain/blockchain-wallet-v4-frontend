@@ -1,12 +1,12 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { connect } from "react-redux"
-import { bindActionCreators, compose } from "redux"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
 
-import { actions } from "data"
-import { getData } from "./selectors"
-import modalEnhancer from "providers/ModalEnhancer"
-import TransactionReport from "./template"
+import { actions } from 'data'
+import { getData } from './selectors'
+import modalEnhancer from 'providers/ModalEnhancer'
+import TransactionReport from './template'
 
 class TransactionReportContainer extends React.PureComponent {
   componentDidMount() {
@@ -44,11 +44,11 @@ class TransactionReportContainer extends React.PureComponent {
 }
 
 TransactionReportContainer.propTypes = {
-  coin: PropTypes.oneOf(["BTC", "BCH"])
+  coin: PropTypes.oneOf(['BTC', 'BCH'])
 }
 
 TransactionReportContainer.defaultProps = {
-  coin: "BTC"
+  coin: 'BTC'
 }
 
 const mapStateToProps = (state, ownProps) => getData(ownProps.coin, state)
@@ -58,7 +58,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer("TransactionReport"),
+  modalEnhancer('TransactionReport'),
   connect(
     mapStateToProps,
     mapDispatchToProps

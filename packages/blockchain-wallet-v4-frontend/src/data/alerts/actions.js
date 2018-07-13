@@ -1,4 +1,4 @@
-import { ALERTS_CLEAR, ALERTS_DISMISS, ALERTS_SHOW } from "./actionTypes"
+import { ALERTS_CLEAR, ALERTS_DISMISS, ALERTS_SHOW } from './actionTypes'
 
 const generateId = () =>
   Math.random()
@@ -10,12 +10,12 @@ const display = (nature, message, data) => ({
   payload: { id: generateId(), nature, message, data }
 })
 
-export const displayInfo = (message, data) => display("info", message, data)
+export const displayInfo = (message, data) => display('info', message, data)
 
 export const displaySuccess = (message, data) =>
-  display("success", message, data)
+  display('success', message, data)
 
-export const displayError = (message, data) => display("error", message, data)
+export const displayError = (message, data) => display('error', message, data)
 
 export const clearAlerts = () => ({ type: ALERTS_CLEAR })
 

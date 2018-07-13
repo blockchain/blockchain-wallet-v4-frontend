@@ -1,4 +1,4 @@
-import * as AT from "./actionTypes"
+import * as AT from './actionTypes'
 
 export const initialized = payload => ({
   type: AT.SEND_BTC_INITIALIZED,

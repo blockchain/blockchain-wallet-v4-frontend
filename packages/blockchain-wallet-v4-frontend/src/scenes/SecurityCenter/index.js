@@ -1,10 +1,10 @@
-import React from "react"
-import { bindActionCreators } from "redux"
-import { connect } from "react-redux"
+import React from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 
-import { actions } from "data"
-import { getData } from "./selectors"
-import SecurityCenter from "./template.js"
+import { actions } from 'data'
+import { getData } from './selectors'
+import SecurityCenter from './template.js'
 
 class SecurityCenterContainer extends React.PureComponent {
   constructor(props) {
@@ -14,7 +14,7 @@ class SecurityCenterContainer extends React.PureComponent {
     this.onClose = this.onClose.bind(this)
     this.setView = this.setView.bind(this)
 
-    this.state = { enabling: false, editing: false, viewing: "security" }
+    this.state = { enabling: false, editing: false, viewing: 'security' }
   }
 
   componentWillUnmount() {
@@ -26,7 +26,7 @@ class SecurityCenterContainer extends React.PureComponent {
   }
 
   onClose() {
-    if (this.state.enabling === "recovery") {
+    if (this.state.enabling === 'recovery') {
       this.props.settingsActions.removeRecoveryPhrase()
     }
     this.setState({ enabling: false })

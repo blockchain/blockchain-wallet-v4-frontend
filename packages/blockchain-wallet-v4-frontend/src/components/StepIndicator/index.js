@@ -1,6 +1,6 @@
-import React from "react"
-import styled from "styled-components"
-import { Image } from "blockchain-info-components"
+import React from 'react'
+import styled from 'styled-components'
+import { Image } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   flex-direction: row;
   align-items: center;
   width: 100%;
-  justify-content: ${props => (props.flexEnd ? "flex-end" : "")};
+  justify-content: ${props => (props.flexEnd ? 'flex-end' : '')};
 
   @media (max-width: 991px) {
     flex-direction: row-reverse;
@@ -21,43 +21,43 @@ const Steps = styled.div`
   display: inline-flex;
   flex-direction: row;
   justify-content: center;
-  border-bottom: 8px solid ${props => props.theme["gray-2"]};
+  border-bottom: 8px solid ${props => props.theme['gray-2']};
   &:after {
     left: 0;
-    content: "";
+    content: '';
     height: 8px;
     bottom: -8px;
     position: absolute;
     transition: width 0.3s, height 0.3s;
     width: ${props => props.width * 100}%;
-    background: ${props => props.theme["brand-primary"]};
+    background: ${props => props.theme['brand-primary']};
   }
   @media (max-width: 480px) {
     border-bottom: 0;
     padding-bottom: 0px;
     flex-direction: column;
-    border-left: 8px solid ${props => props.theme["gray-2"]};
+    border-left: 8px solid ${props => props.theme['gray-2']};
     &:after {
       top: 0;
       left: -8px;
       width: 8px;
       bottom: initial;
       height: ${props => props.width * 100}%;
-      background: ${props => props.theme["brand-primary"]};
+      background: ${props => props.theme['brand-primary']};
     }
   }
 `
 
 const Step = styled.span`
   font-size: 14px;
-  min-width: ${props => props.minWidth || "70px"};
-  max-width: ${props => props.maxWidth || "70px"};
+  min-width: ${props => props.minWidth || '70px'};
+  max-width: ${props => props.maxWidth || '70px'};
   margin-left: 50px;
   margin-right: 50px;
   overflow: hidden;
   text-align: center;
   white-space: nowrap;
-  color: ${props => props.theme["brand-primary"]};
+  color: ${props => props.theme['brand-primary']};
   @media (max-width: 480px) {
     margin-top: 10px;
     margin-left: 10px;

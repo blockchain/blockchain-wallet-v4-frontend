@@ -1,4 +1,4 @@
-import * as T from "./actionTypes"
+import * as T from './actionTypes'
 
 export const sync = () => ({ type: T.SYNC })
 export const forceSync = () => ({ type: T.FORCE_SYNC })

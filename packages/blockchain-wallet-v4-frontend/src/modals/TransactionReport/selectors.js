@@ -1,18 +1,18 @@
-import { createSelector } from "reselect"
-import { map, prop } from "ramda"
-import { selectors } from "data"
+import { createSelector } from 'reselect'
+import { map, prop } from 'ramda'
+import { selectors } from 'data'
 import {
   isValidBtcStartDate,
   isValidBchStartDate,
   isValidBtcEndDate,
   isValidBchEndDate
-} from "./services"
+} from './services'
 
 export const getData = (coin, state) => {
   switch (coin) {
-    case "BCH":
+    case 'BCH':
       return getBchData(state)
-    case "BTC":
+    case 'BTC':
       return getBtcData(state)
     default:
       return getBtcData(state)
@@ -22,19 +22,19 @@ export const getData = (coin, state) => {
 export const getBtcData = createSelector(
   [
     selectors.core.data.bitcoin.getTransactionHistory,
-    selectors.form.getFormValues("transactionReport")
+    selectors.form.getFormValues('transactionReport')
   ],
   (dataR, formValues) => {
     const transform = data => {
       const headers = [
-        "date",
-        "time",
-        "status",
-        "amount_btc",
-        "value_then",
-        "value_now",
-        "exchange_rate_then",
-        "tx"
+        'date',
+        'time',
+        'status',
+        'amount_btc',
+        'value_then',
+        'value_now',
+        'exchange_rate_then',
+        'tx'
       ]
       const transformedData = map(
         d => [
@@ -51,8 +51,8 @@ export const getBtcData = createSelector(
       )
       return [headers].concat(transformedData)
     }
-    const start = prop("start", formValues)
-    const end = prop("end", formValues)
+    const start = prop('start', formValues)
+    const end = prop('end', formValues)
     return {
       csvData: dataR.map(transform).getOrElse(undefined),
       isValidStartDate: date => isValidBtcStartDate(date, end),
@@ -64,19 +64,19 @@ export const getBtcData = createSelector(
 export const getBchData = createSelector(
   [
     selectors.core.data.bch.getTransactionHistory,
-    selectors.form.getFormValues("transactionReport")
+    selectors.form.getFormValues('transactionReport')
   ],
   (dataR, formValues) => {
     const transform = data => {
       const headers = [
-        "date",
-        "time",
-        "status",
-        "amount_bch",
-        "value_then",
-        "value_now",
-        "exchange_rate_then",
-        "tx"
+        'date',
+        'time',
+        'status',
+        'amount_bch',
+        'value_then',
+        'value_now',
+        'exchange_rate_then',
+        'tx'
       ]
       const transformedData = map(
         d => [
@@ -93,8 +93,8 @@ export const getBchData = createSelector(
       )
       return [headers].concat(transformedData)
     }
-    const start = prop("start", formValues)
-    const end = prop("end", formValues)
+    const start = prop('start', formValues)
+    const end = prop('end', formValues)
     return {
       csvData: dataR.map(transform).getOrElse(undefined),
       isValidStartDate: date => isValidBchStartDate(date, end),

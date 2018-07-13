@@ -1,8 +1,8 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { Link, Text, TextGroup } from "blockchain-info-components"
+import { Link, Text, TextGroup } from 'blockchain-info-components'
 
 const Wrapper = styled.section`
   display: flex;

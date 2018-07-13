@@ -1,9 +1,9 @@
-import React from "react"
-import { connect } from "react-redux"
-import styled from "styled-components"
-import SelectBox from "../SelectBox"
-import { Icon, Text } from "blockchain-info-components"
-import { prop } from "ramda"
+import React from 'react'
+import { connect } from 'react-redux'
+import styled from 'styled-components'
+import SelectBox from '../SelectBox'
+import { Icon, Text } from 'blockchain-info-components'
+import { prop } from 'ramda'
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -26,13 +26,13 @@ const HeaderWrapper = styled.div`
 
 const renderItem = item => (
   <HeaderWrapper>
-    {prop("value", item) === "BTC" && (
+    {prop('value', item) === 'BTC' && (
       <Icon name="bitcoin-in-circle" size="14px" weight={300} />
     )}
-    {prop("value", item) === "BCH" && (
+    {prop('value', item) === 'BCH' && (
       <Icon name="bitcoin-cash" size="14px" weight={300} />
     )}
-    {prop("value", item) === "ETH" && (
+    {prop('value', item) === 'ETH' && (
       <Icon name="ethereum-filled" size="14px" weight={300} />
     )}
     <Text size="13px" weight={300} cursor="pointer">
@@ -44,7 +44,7 @@ const renderItem = item => (
 class SelectBoxCoin extends React.PureComponent {
   render() {
     const { coins, ...rest } = this.props
-    const elements = [{ group: "", items: coins }]
+    const elements = [{ group: '', items: coins }]
     return (
       <SelectBox
         elements={elements}
@@ -58,9 +58,9 @@ class SelectBoxCoin extends React.PureComponent {
 
 const mapStateToProps = (state, ownProps) => ({
   coins: [
-    { text: "Bitcoin", value: "BTC" },
-    { text: "Ether", value: "ETH" },
-    { text: "Bitcoin Cash", value: "BCH" }
+    { text: 'Bitcoin', value: 'BTC' },
+    { text: 'Ether', value: 'ETH' },
+    { text: 'Bitcoin Cash', value: 'BCH' }
   ]
 })
 

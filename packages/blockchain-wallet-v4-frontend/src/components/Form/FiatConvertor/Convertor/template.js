@@ -1,8 +1,8 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
-import { Icon, TextInput, Text } from "blockchain-info-components"
+import { Icon, TextInput, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  font-family: "Montserrat", Helvetica, sans-serif;
+  font-family: 'Montserrat', Helvetica, sans-serif;
 `
 const FiatConvertorInput = styled.div`
   display: flex;
@@ -36,7 +36,7 @@ const Unit = styled.span`
   font-size: 12px;
   font-weight: 300;
   position: absolute;
-  color: ${props => props.theme["gray-4"]};
+  color: ${props => props.theme['gray-4']};
 `
 const ArrowLeft = styled(Icon)`
   margin-left: 10px;
@@ -56,7 +56,7 @@ const Error = styled(Text)`
   right: 0;
 `
 const getErrorState = meta => {
-  return meta.touched && meta.invalid ? "invalid" : "initial"
+  return meta.touched && meta.invalid ? 'invalid' : 'initial'
 }
 
 const Convertor = props => {

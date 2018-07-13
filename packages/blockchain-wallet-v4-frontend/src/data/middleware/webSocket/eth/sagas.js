@@ -1,11 +1,11 @@
-import { call, put, select, take } from "redux-saga/effects"
-import * as actions from "../../../actions"
-import * as actionTypes from "../../../actionTypes"
-import * as selectors from "../../../selectors"
-import * as T from "services/AlertService"
-import { equals } from "ramda"
-const ACCOUNT_SUB = "account_sub"
-const BLOCK_SUB = "block_sub"
+import { call, put, select, take } from 'redux-saga/effects'
+import * as actions from '../../../actions'
+import * as actionTypes from '../../../actionTypes'
+import * as selectors from '../../../selectors'
+import * as T from 'services/AlertService'
+import { equals } from 'ramda'
+const ACCOUNT_SUB = 'account_sub'
+const BLOCK_SUB = 'block_sub'
 
 export default ({ api, ethSocket }) => {
   const send = ethSocket.send.bind(ethSocket)
@@ -17,13 +17,13 @@ export default ({ api, ethSocket }) => {
         actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS
       )
       const contextR = yield select(selectors.core.kvStore.ethereum.getContext)
-      const context = contextR.getOrFail("invalid_context_eth")
+      const context = contextR.getOrFail('invalid_context_eth')
       yield call(send, JSON.stringify({ op: ACCOUNT_SUB, account: context }))
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(
-          "middleware/webSocket/eth/sagas",
-          "onOpen",
+          'middleware/webSocket/eth/sagas',
+          'onOpen',
           e.message
         )
       )
@@ -36,7 +36,7 @@ export default ({ api, ethSocket }) => {
 
       switch (message.op) {
         case ACCOUNT_SUB:
-          if (message.tx.type !== "confirmed") {
+          if (message.tx.type !== 'confirmed') {
             break
           }
           if (message.tx.to === message.account) {
@@ -44,7 +44,7 @@ export default ({ api, ethSocket }) => {
             yield put(actions.alerts.displaySuccess(T.PAYMENT_RECEIVED_ETH))
             // If we are on the transaction page, fetch transactions related to the default eth account
             const pathname = yield select(selectors.router.getPathname)
-            if (equals(pathname, "/eth/transactions")) {
+            if (equals(pathname, '/eth/transactions')) {
               yield put(actions.core.data.ethereum.fetchTransactions(true))
             }
           }
@@ -52,20 +52,20 @@ export default ({ api, ethSocket }) => {
           const contextR = yield select(
             selectors.core.kvStore.ethereum.getContext
           )
-          const context = contextR.getOrFail("invalid_context_eth")
+          const context = contextR.getOrFail('invalid_context_eth')
           yield put(actions.core.data.ethereum.fetchData(context))
           break
         case BLOCK_SUB:
           yield put(actions.core.data.ethereum.fetchLatestBlock())
           break
-        case "pong":
+        case 'pong':
           break
         default:
           yield put(
             actions.logs.logErrorMessage(
-              "middleware/webSocket/eth/sagas",
-              "onMessage",
-              "unknown type for " + message
+              'middleware/webSocket/eth/sagas',
+              'onMessage',
+              'unknown type for ' + message
             )
           )
           break
@@ -73,8 +73,8 @@ export default ({ api, ethSocket }) => {
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(
-          "middleware/webSocket/eth/sagas",
-          "onOpen",
+          'middleware/webSocket/eth/sagas',
+          'onOpen',
           e.message
         )
       )

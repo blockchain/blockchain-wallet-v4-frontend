@@ -1,12 +1,12 @@
-import React from "react"
-import { connect } from "react-redux"
-import styled from "styled-components"
+import React from 'react'
+import { connect } from 'react-redux'
+import styled from 'styled-components'
 
-import { getData } from "./selectors"
-import AddressesLayout from "layouts/Addresses"
-import Wallets from "./Wallets"
-import ArchivedAddresses from "./ArchivedAddresses"
-import ImportedAddresses from "./ImportedAddresses"
+import { getData } from './selectors'
+import AddressesLayout from 'layouts/Addresses'
+import Wallets from './Wallets'
+import ArchivedAddresses from './ArchivedAddresses'
+import ImportedAddresses from './ImportedAddresses'
 
 const Wrapper = styled.section`
   width: 100%;

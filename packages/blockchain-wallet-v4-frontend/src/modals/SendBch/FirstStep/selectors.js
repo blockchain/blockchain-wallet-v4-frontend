@@ -1,6 +1,6 @@
-import { length, prop, path } from "ramda"
-import { selectors } from "data"
-import { formValueSelector } from "redux-form"
+import { length, prop, path } from 'ramda'
+import { selectors } from 'data'
+import { formValueSelector } from 'redux-form'
 
 export const getData = state => {
   const toToggled = selectors.components.sendBch.getToToggled(state)
@@ -11,12 +11,12 @@ export const getData = state => {
   const enableToggle = bchAccountsLength > 1
 
   const transform = payment => {
-    const minFeePerByte = path(["fees", "limit", "min"], payment)
-    const maxFeePerByte = path(["fees", "limit", "max"], payment)
-    const totalFee = path(["selection", "fee"], payment)
-    const effectiveBalance = prop("effectiveBalance", payment)
-    const destination = formValueSelector("sendBch")(state, "to")
-    const from = formValueSelector("sendBch")(state, "from")
+    const minFeePerByte = path(['fees', 'limit', 'min'], payment)
+    const maxFeePerByte = path(['fees', 'limit', 'max'], payment)
+    const totalFee = path(['selection', 'fee'], payment)
+    const effectiveBalance = prop('effectiveBalance', payment)
+    const destination = formValueSelector('sendBch')(state, 'to')
+    const from = formValueSelector('sendBch')(state, 'from')
 
     return {
       from,

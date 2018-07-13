@@ -1,17 +1,17 @@
-import React from "react"
-import { compose, bindActionCreators } from "redux"
-import { connect } from "react-redux"
-import { formValueSelector } from "redux-form"
+import React from 'react'
+import { compose, bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { formValueSelector } from 'redux-form'
 
-import { getData } from "./selectors"
-import modalEnhancer from "providers/ModalEnhancer"
-import { actions } from "data"
-import Loading from "./template.loading"
-import Success from "./template.success"
-import DataError from "components/DataError"
-import { FormattedMessage } from "react-intl"
-import { Remote } from "blockchain-wallet-v4/src"
-import { Modal, ModalHeader, ModalBody } from "blockchain-info-components"
+import { getData } from './selectors'
+import modalEnhancer from 'providers/ModalEnhancer'
+import { actions } from 'data'
+import Loading from './template.loading'
+import Success from './template.success'
+import DataError from 'components/DataError'
+import { FormattedMessage } from 'react-intl'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
 
 class RequestEtherContainer extends React.PureComponent {
   constructor(props) {
@@ -27,12 +27,12 @@ class RequestEtherContainer extends React.PureComponent {
 
   componentWillReceiveProps(nextProps) {
     const { coin } = nextProps
-    if (coin === "BTC") {
+    if (coin === 'BTC') {
       this.props.modalActions.closeAllModals()
-      this.props.modalActions.showModal("RequestBitcoin")
-    } else if (coin === "BCH") {
+      this.props.modalActions.showModal('RequestBitcoin')
+    } else if (coin === 'BCH') {
       this.props.modalActions.closeAllModals()
-      this.props.modalActions.showModal("RequestBch")
+      this.props.modalActions.showModal('RequestBch')
     }
   }
 
@@ -46,7 +46,7 @@ class RequestEtherContainer extends React.PureComponent {
   }
 
   init() {
-    this.props.formActions.initialize("requestEther", this.props.initialValues)
+    this.props.formActions.initialize('requestEther', this.props.initialValues)
   }
 
   onSubmit() {
@@ -96,10 +96,10 @@ class RequestEtherContainer extends React.PureComponent {
 
 const mapStateToProps = (state, ownProps) => ({
   initialValues: {
-    coin: "ETH"
+    coin: 'ETH'
   },
   data: getData(state),
-  coin: formValueSelector("requestEther")(state, "coin")
+  coin: formValueSelector('requestEther')(state, 'coin')
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -112,7 +112,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer("RequestEther"),
+  modalEnhancer('RequestEther'),
   connect(
     mapStateToProps,
     mapDispatchToProps

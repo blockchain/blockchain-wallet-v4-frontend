@@ -1,10 +1,10 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import { formValueSelector } from "redux-form"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { formValueSelector } from 'redux-form'
 
-import Login from "./template.js"
-import { actions, selectors } from "data"
+import Login from './template.js'
+import { actions, selectors } from 'data'
 
 class LoginContainer extends React.PureComponent {
   constructor(props) {
@@ -20,7 +20,7 @@ class LoginContainer extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    this.props.formActions.reset("login")
+    this.props.formActions.reset('login')
   }
 
   onSubmit() {
@@ -34,7 +34,7 @@ class LoginContainer extends React.PureComponent {
   }
 
   handleMobile() {
-    this.props.modalActions.showModal("MobileLogin")
+    this.props.modalActions.showModal('MobileLogin')
   }
 
   handleSmsResend() {
@@ -73,9 +73,9 @@ class LoginContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  guid: formValueSelector("login")(state, "guid"),
-  password: formValueSelector("login")(state, "password"),
-  code: formValueSelector("login")(state, "code"),
+  guid: formValueSelector('login')(state, 'guid'),
+  password: formValueSelector('login')(state, 'password'),
+  code: formValueSelector('login')(state, 'code'),
   authType: selectors.auth.getAuthType(state),
   lastGuid: selectors.cache.getLastGuid(state),
   data: selectors.auth.getLogin(state)

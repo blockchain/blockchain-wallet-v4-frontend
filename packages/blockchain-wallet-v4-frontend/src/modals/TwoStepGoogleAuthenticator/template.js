@@ -1,8 +1,8 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { Field, reduxForm } from "redux-form"
-import QRCodeReact from "qrcode.react"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
+import QRCodeReact from 'qrcode.react'
 
 import {
   Button,
@@ -12,9 +12,9 @@ import {
   ModalBody,
   ModalFooter,
   Text
-} from "blockchain-info-components"
-import { Form, TextBox } from "components/Form"
-import { required } from "services/FormHelper"
+} from 'blockchain-info-components'
+import { Form, TextBox } from 'components/Form'
+import { required } from 'services/FormHelper'
 
 const QRCode = styled.div`
   display: flex;
@@ -110,6 +110,6 @@ const TwoStepGoogleAuthenticator = props => {
   )
 }
 
-export default reduxForm({ form: "twoStepGoogleAuthenticator" })(
+export default reduxForm({ form: 'twoStepGoogleAuthenticator' })(
   TwoStepGoogleAuthenticator
 )

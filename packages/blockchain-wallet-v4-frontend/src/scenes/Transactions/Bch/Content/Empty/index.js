@@ -1,9 +1,9 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import { actions } from "data"
-import Empty from "./template.js"
+import { actions } from 'data'
+import Empty from './template.js'
 
 class EmptyContainer extends React.PureComponent {
   constructor(props) {
@@ -13,11 +13,11 @@ class EmptyContainer extends React.PureComponent {
   }
 
   handleSend() {
-    this.props.modalActions.showModal("SendBch")
+    this.props.modalActions.showModal('SendBch')
   }
 
   handleRequest() {
-    this.props.modalActions.showModal("RequestBch")
+    this.props.modalActions.showModal('RequestBch')
   }
 
   render() {

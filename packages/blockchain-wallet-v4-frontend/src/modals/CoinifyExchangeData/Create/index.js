@@ -1,19 +1,19 @@
-import React, { Component } from "react"
-import PropTypes from "prop-types"
-import { connect } from "react-redux"
-import ui from "redux-ui"
-import { bindActionCreators, compose } from "redux"
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import ui from 'redux-ui'
+import { bindActionCreators, compose } from 'redux'
 
-import { actions } from "data"
-import { getData } from "./selectors"
-import Create from "./template"
+import { actions } from 'data'
+import { getData } from './selectors'
+import Create from './template'
 
 class CreateContainer extends Component {
   componentDidMount() {
     if (this.props.emailVerified) {
-      this.props.updateUI({ create: "create_account" })
+      this.props.updateUI({ create: 'create_account' })
     } else {
-      this.props.updateUI({ create: "enter_email_code" })
+      this.props.updateUI({ create: 'enter_email_code' })
       this.props.securityCenterActions.sendConfirmationCodeEmail(
         this.props.oldEmail
       )
@@ -21,8 +21,9 @@ class CreateContainer extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (!prevProps.emailVerified && this.props.emailVerified)
-      this.props.updateUI({ create: "create_account" })
+    if (!prevProps.emailVerified && this.props.emailVerified) {
+      this.props.updateUI({ create: 'create_account' })
+    }
   }
 
   render() {
@@ -63,7 +64,7 @@ const enhance = compose(
     mapStateToProps,
     mapDispatchToProps
   ),
-  ui({ state: { create: "", uniqueEmail: true, codeSent: false } })
+  ui({ state: { create: '', uniqueEmail: true, codeSent: false } })
 )
 
 export default enhance(CreateContainer)

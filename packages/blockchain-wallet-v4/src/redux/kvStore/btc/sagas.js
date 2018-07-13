@@ -1,12 +1,12 @@
-import { call, put, select } from "redux-saga/effects"
-import { compose, isNil, isEmpty } from "ramda"
-import { delay } from "redux-saga"
-import { set } from "ramda-lens"
-import * as A from "./actions"
-import { KVStoreEntry, HDAccount, Wallet } from "../../../types"
-import { derivationMap, BTC } from "../config"
-import { getMetadataXpriv } from "../root/selectors"
-import { getWallet } from "../../wallet/selectors"
+import { call, put, select } from 'redux-saga/effects'
+import { compose, isNil, isEmpty } from 'ramda'
+import { delay } from 'redux-saga'
+import { set } from 'ramda-lens'
+import * as A from './actions'
+import { KVStoreEntry, HDAccount, Wallet } from '../../../types'
+import { derivationMap, BTC } from '../config'
+import { getMetadataXpriv } from '../root/selectors'
+import { getWallet } from '../../wallet/selectors'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))

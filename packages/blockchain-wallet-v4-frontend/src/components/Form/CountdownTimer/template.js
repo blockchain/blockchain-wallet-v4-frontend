@@ -1,9 +1,9 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
-import { FormattedMessage } from "react-intl"
-import { Text, Tooltip } from "blockchain-info-components"
+import { FormattedMessage } from 'react-intl'
+import { Text, Tooltip } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -47,7 +47,7 @@ CountdownTimer.propTypes = {
 }
 
 CountdownTimer.defaultProps = {
-  timeLeft: "N/A"
+  timeLeft: 'N/A'
 }
 
 export default CountdownTimer

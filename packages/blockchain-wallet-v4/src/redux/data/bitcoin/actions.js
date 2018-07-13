@@ -1,4 +1,4 @@
-import * as AT from "./actionTypes"
+import * as AT from './actionTypes'
 
 export const setBitcoinLatestBlock = (block_index, hash, height, time) => ({
   type: AT.SET_BITCOIN_LATEST_BLOCK,

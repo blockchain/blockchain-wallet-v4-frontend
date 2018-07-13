@@ -1,3 +1,3 @@
-import * as webSocket from "./webSocket/actionTypes"
+import * as webSocket from './webSocket/actionTypes'
 
 export { webSocket }

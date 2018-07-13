@@ -1,6 +1,6 @@
-import React from "react"
-import { FormattedMessage } from "react-intl"
-import { Text, Button } from "blockchain-info-components"
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Text, Button } from 'blockchain-info-components'
 
 import {
   SecurityComponent,
@@ -11,9 +11,9 @@ import {
   SecuritySummary,
   SecurityTip,
   IconContainer
-} from "components/Security"
-import RecordBackupPhrase from "./RecordBackupPhrase"
-import styled from "styled-components"
+} from 'components/Security'
+import RecordBackupPhrase from './RecordBackupPhrase'
+import styled from 'styled-components'
 
 const SecurityGridContainer = SecurityContainer.extend`
   border-bottom-left-radius: 0;
@@ -140,7 +140,7 @@ const WalletRecoveryPhrase = props => {
             color="brand-primary"
             size="14px"
             weight={500}
-            style={{ marginBottom: "4px" }}
+            style={{ marginBottom: '4px' }}
           >
             <FormattedMessage
               id="scenes.securitysettings.basicsecurity.walletrecovery.settings.securitytip"

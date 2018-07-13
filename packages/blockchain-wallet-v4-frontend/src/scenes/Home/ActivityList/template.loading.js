@@ -1,7 +1,7 @@
-import React from "react"
-import styled from "styled-components"
+import React from 'react'
+import styled from 'styled-components'
 
-import { SkeletonCircle, SkeletonRectangle } from "blockchain-info-components"
+import { SkeletonCircle, SkeletonRectangle } from 'blockchain-info-components'
 
 const ActivityListSkeleton = styled(SkeletonRectangle)`
   display: flex;

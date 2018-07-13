@@ -1,10 +1,10 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { Button, Text } from "blockchain-info-components"
-import CopyClipboard from "components/CopyClipboard"
+import { Button, Text } from 'blockchain-info-components'
+import CopyClipboard from 'components/CopyClipboard'
 
 const Wrapper = styled.div`
   display: flex;
@@ -15,7 +15,7 @@ const DetailRow = styled.div`
   display: flex;
   margin-bottom: 10px;
   align-items: flex-start;
-  flex-direction: ${props => (props.column ? "column" : "row")};
+  flex-direction: ${props => (props.column ? 'column' : 'row')};
   > div:first-child {
     margin-right: 2px;
   }

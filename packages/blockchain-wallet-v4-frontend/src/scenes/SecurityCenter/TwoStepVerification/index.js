@@ -1,14 +1,14 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators, compose } from "redux"
-import { actions } from "data"
-import ui from "redux-ui"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import { actions } from 'data'
+import ui from 'redux-ui'
 
-import { getData } from "./selectors"
-import Error from "./template.error"
-import Loading from "./template.loading"
-import Success from "./template.success"
-import { formValueSelector } from "redux-form"
+import { getData } from './selectors'
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
+import { formValueSelector } from 'redux-form'
 
 class TwoStepVerificationContainer extends React.PureComponent {
   constructor(props) {
@@ -20,23 +20,25 @@ class TwoStepVerificationContainer extends React.PureComponent {
     this.handleTwoFactorChange = this.handleTwoFactorChange.bind(this)
     this.pulseText = this.pulseText.bind(this)
 
-    this.state = { authName: "", pulse: false }
+    this.state = { authName: '', pulse: false }
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     const data = nextProps.data.getOrElse({})
-    if (data.authType === 4) return { authName: "Authenticator App" }
-    if (data.authType === 5) return { authName: "SMS Codes" }
-    if (data.authType === 1 || data.authType === 2)
-      return { authName: "Yubikey" }
+    if (data.authType === 4) return { authName: 'Authenticator App' }
+    if (data.authType === 5) return { authName: 'SMS Codes' }
+    if (data.authType === 1 || data.authType === 2) {
+      return { authName: 'Yubikey' }
+    }
     return prevState
   }
 
   componentDidUpdate(prevProps) {
     const next = this.props.data.getOrElse({})
     const prev = prevProps.data.getOrElse({})
-    if (next.authType > 0 && prev.authType === 0)
+    if (next.authType > 0 && prev.authType === 0) {
       this.props.updateUI({ editing: true })
+    }
   }
 
   handleClick() {
@@ -46,20 +48,21 @@ class TwoStepVerificationContainer extends React.PureComponent {
 
   handleDisableClick() {
     const next = this.props.data.getOrElse({})
-    if (next.authType > 0)
-      this.props.modalActions.showModal("ConfirmDisable2FA", {
+    if (next.authType > 0) {
+      this.props.modalActions.showModal('ConfirmDisable2FA', {
         authName: this.state.authName
       })
-    else
+    } else {
       this.props.updateUI({
         verifyToggled: !this.props.ui.verifyToggled,
         editing: true
       })
+    }
   }
 
   chooseMethod(method) {
     const next = this.props.data.getOrElse({})
-    if (next.smsVerified && method === "sms") {
+    if (next.smsVerified && method === 'sms') {
       this.props.securityCenterActions.setVerifiedMobileAsTwoFactor()
       this.props.updateUI({ verifyToggled: true })
     } else {
@@ -69,11 +72,11 @@ class TwoStepVerificationContainer extends React.PureComponent {
 
   handleDisableTwoStep() {
     this.props.securityCenterActions.disableTwoStep()
-    this.setState({ authName: "" })
+    this.setState({ authName: '' })
   }
 
   handleTwoFactorChange() {
-    this.props.modalActions.showModal("ConfirmDisable2FA", {
+    this.props.modalActions.showModal('ConfirmDisable2FA', {
       authName: this.state.authName
     })
     this.props.updateUI({ editing: false })
@@ -97,7 +100,7 @@ class TwoStepVerificationContainer extends React.PureComponent {
           handleClick={this.handleClick}
           chooseMethod={this.chooseMethod}
           handleGoBack={() =>
-            this.props.updateUI({ authMethod: "", verifyToggled: false })
+            this.props.updateUI({ authMethod: '', verifyToggled: false })
           }
           handleDisableClick={this.handleDisableClick}
           handleTwoFactorChange={this.handleTwoFactorChange}
@@ -123,7 +126,7 @@ class TwoStepVerificationContainer extends React.PureComponent {
 
 const mapStateToProps = state => ({
   data: getData(state),
-  mobileNumber: formValueSelector("twoStepVerification")(state, "mobileNumber")
+  mobileNumber: formValueSelector('twoStepVerification')(state, 'mobileNumber')
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -142,11 +145,11 @@ const enhance = compose(
     mapDispatchToProps
   ),
   ui({
-    key: "Security_TwoStep",
+    key: 'Security_TwoStep',
     state: {
       verifyToggled: false,
       editing: false,
-      authMethod: "",
+      authMethod: '',
       success: false
     }
   })

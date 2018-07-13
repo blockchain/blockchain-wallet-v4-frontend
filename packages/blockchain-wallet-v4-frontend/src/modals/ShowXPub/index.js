@@ -1,6 +1,6 @@
-import React, { Component } from "react"
-import modalEnhancer from "providers/ModalEnhancer"
-import ShowXPubTemplate from "./template"
+import React, { Component } from 'react'
+import modalEnhancer from 'providers/ModalEnhancer'
+import ShowXPubTemplate from './template'
 
 class ShowXPubContainer extends Component {
   constructor(props) {
@@ -17,4 +17,4 @@ class ShowXPubContainer extends Component {
   }
 }
 
-export default modalEnhancer("ShowXPub")(ShowXPubContainer)
+export default modalEnhancer('ShowXPub')(ShowXPubContainer)

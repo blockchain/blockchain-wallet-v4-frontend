@@ -1,26 +1,26 @@
-import { BigNumber } from "bignumber.js"
-import { Exchange } from "blockchain-wallet-v4/src"
-import { toLower, path, prop } from "ramda"
+import { BigNumber } from 'bignumber.js'
+import { Exchange } from 'blockchain-wallet-v4/src'
+import { toLower, path, prop } from 'ramda'
 
 export const getPairFromCoin = (coinSource, coinTarget) =>
   `${toLower(coinSource)}_${toLower(coinTarget)}`
 
 export const getCoinFromPair = pair => {
   switch (pair) {
-    case "btc_eth":
-      return { coinSource: "BTC", targetCoin: "ETH" }
-    case "btc_bch":
-      return { coinSource: "BTC", targetCoin: "BCH" }
-    case "bch_btc":
-      return { coinSource: "BCH", targetCoin: "BTC" }
-    case "bch_eth":
-      return { coinSource: "BCH", targetCoin: "ETH" }
-    case "eth_btc":
-      return { coinSource: "ETH", targetCoin: "BTC" }
-    case "eth_bch":
-      return { coinSource: "ETH", targetCoin: "BCH" }
+    case 'btc_eth':
+      return { coinSource: 'BTC', targetCoin: 'ETH' }
+    case 'btc_bch':
+      return { coinSource: 'BTC', targetCoin: 'BCH' }
+    case 'bch_btc':
+      return { coinSource: 'BCH', targetCoin: 'BTC' }
+    case 'bch_eth':
+      return { coinSource: 'BCH', targetCoin: 'ETH' }
+    case 'eth_btc':
+      return { coinSource: 'ETH', targetCoin: 'BTC' }
+    case 'eth_bch':
+      return { coinSource: 'ETH', targetCoin: 'BCH' }
     default:
-      throw new Error("Could not retrieve coins from pair.")
+      throw new Error('Could not retrieve coins from pair.')
   }
 }
 
@@ -32,16 +32,16 @@ export const convertCoinToFiat = (
   rates
 ) => {
   switch (fromCoin) {
-    case "BCH":
+    case 'BCH':
       return Exchange.convertBchToFiat({ value, fromUnit, toCurrency, rates })
-    case "BTC":
+    case 'BTC':
       return Exchange.convertBitcoinToFiat({
         value,
         fromUnit,
         toCurrency,
         rates
       })
-    case "ETH":
+    case 'ETH':
       return Exchange.convertEtherToFiat({
         value,
         fromUnit,
@@ -49,7 +49,7 @@ export const convertCoinToFiat = (
         rates
       })
     default:
-      throw new Error("Could not convert coin to fiat.")
+      throw new Error('Could not convert coin to fiat.')
   }
 }
 
@@ -61,16 +61,16 @@ export const convertFiatToCoin = (
   rates
 ) => {
   switch (toCoin) {
-    case "BCH":
+    case 'BCH':
       return Exchange.convertFiatToBch({ value, fromCurrency, toUnit, rates })
-    case "BTC":
+    case 'BTC':
       return Exchange.convertFiatToBitcoin({
         value,
         fromCurrency,
         toUnit,
         rates
       })
-    case "ETH":
+    case 'ETH':
       return Exchange.convertFiatToEther({
         value,
         fromCurrency,
@@ -78,51 +78,51 @@ export const convertFiatToCoin = (
         rates
       })
     default:
-      throw new Error("Could not convert fiat to coin.")
+      throw new Error('Could not convert fiat to coin.')
   }
 }
 
 export const convertBaseToStandard = (coin, value) => {
   switch (coin) {
-    case "BCH":
-      return Exchange.convertBchToBch({ value, fromUnit: "SAT", toUnit: "BCH" })
+    case 'BCH':
+      return Exchange.convertBchToBch({ value, fromUnit: 'SAT', toUnit: 'BCH' })
         .value
-    case "BTC":
+    case 'BTC':
       return Exchange.convertBitcoinToBitcoin({
         value,
-        fromUnit: "SAT",
-        toUnit: "BTC"
+        fromUnit: 'SAT',
+        toUnit: 'BTC'
       }).value
-    case "ETH":
+    case 'ETH':
       return Exchange.convertEtherToEther({
         value,
-        fromUnit: "WEI",
-        toUnit: "ETH"
+        fromUnit: 'WEI',
+        toUnit: 'ETH'
       }).value
     default:
-      throw new Error("Could not convert coin to base.")
+      throw new Error('Could not convert coin to base.')
   }
 }
 
 export const convertStandardToBase = (coin, value) => {
   switch (coin) {
-    case "BCH":
-      return Exchange.convertBchToBch({ value, fromUnit: "BCH", toUnit: "SAT" })
+    case 'BCH':
+      return Exchange.convertBchToBch({ value, fromUnit: 'BCH', toUnit: 'SAT' })
         .value
-    case "BTC":
+    case 'BTC':
       return Exchange.convertBitcoinToBitcoin({
         value,
-        fromUnit: "BTC",
-        toUnit: "SAT"
+        fromUnit: 'BTC',
+        toUnit: 'SAT'
       }).value
-    case "ETH":
+    case 'ETH':
       return Exchange.convertEtherToEther({
         value,
-        fromUnit: "ETH",
-        toUnit: "WEI"
+        fromUnit: 'ETH',
+        toUnit: 'WEI'
       }).value
     default:
-      throw new Error("Could not convert base to coin.")
+      throw new Error('Could not convert base to coin.')
   }
 }
 
@@ -200,11 +200,11 @@ export const calculateFinalAmount = (value, fee) => {
 
 export const selectFee = (coin, payment) => {
   switch (coin) {
-    case "BCH":
-      return path(["selection", "fee"], payment)
-    case "BTC":
-      return path(["selection", "fee"], payment)
-    case "ETH":
-      return prop("fee", payment)
+    case 'BCH':
+      return path(['selection', 'fee'], payment)
+    case 'BTC':
+      return path(['selection', 'fee'], payment)
+    case 'ETH':
+      return prop('fee', payment)
   }
 }

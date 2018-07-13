@@ -1,4 +1,4 @@
-import Bitcoin from "bitcoinjs-lib"
+import Bitcoin from 'bitcoinjs-lib'
 import {
   pipe,
   curry,
@@ -11,15 +11,15 @@ import {
   isNil,
   split,
   isEmpty
-} from "ramda"
-import { view, over, traverseOf } from "ramda-lens"
-import * as crypto from "../walletCrypto"
-import Task from "data.task"
-import Type from "./Type"
-import * as AddressLabelMap from "./AddressLabelMap"
-import * as Cache from "./Cache"
+} from 'ramda'
+import { view, over, traverseOf } from 'ramda-lens'
+import * as crypto from '../walletCrypto'
+import Task from 'data.task'
+import Type from './Type'
+import * as AddressLabelMap from './AddressLabelMap'
+import * as Cache from './Cache'
 /* eslint-disable */
-import { fromJS as iFromJS } from "immutable-ext" // if we delete this import, wallet tests will fail -  ¯\_(ツ)_/¯
+import { fromJS as iFromJS } from 'immutable-ext' // if we delete this import, wallet tests will fail -  ¯\_(ツ)_/¯
 /* eslint-enable */
 
 /* HDAccount :: {
@@ -29,13 +29,13 @@ import { fromJS as iFromJS } from "immutable-ext" // if we delete this import, w
 
 export class HDAccount extends Type {}
 export const isHDAccount = is(HDAccount)
-export const label = HDAccount.define("label")
-export const archived = HDAccount.define("archived")
-export const xpriv = HDAccount.define("xpriv")
-export const xpub = HDAccount.define("xpub")
-export const addressLabels = HDAccount.define("address_labels")
-export const cache = HDAccount.define("cache")
-export const index = HDAccount.define("index")
+export const label = HDAccount.define('label')
+export const archived = HDAccount.define('archived')
+export const xpriv = HDAccount.define('xpriv')
+export const xpub = HDAccount.define('xpub')
+export const addressLabels = HDAccount.define('address_labels')
+export const cache = HDAccount.define('cache')
+export const index = HDAccount.define('index')
 export const selectLabel = view(label)
 export const selectCache = view(cache)
 export const selectArchived = view(archived)
@@ -63,7 +63,7 @@ export const isXpub = curry((myxpub, account) =>
 )
 
 export const getAddress = (account, path, network) => {
-  const [, chain, index] = split("/", path)
+  const [, chain, index] = split('/', path)
   const i = parseInt(index)
   const c = parseInt(chain)
   const derive = acc => Cache.getAddress(selectCache(acc), c, i, network)
@@ -98,7 +98,7 @@ export const fromJS = (x, i) => {
       over(cache, cacheCons)
     )(a)
   }
-  return accountCons(new HDAccount(assoc("index", i, x)))
+  return accountCons(new HDAccount(assoc('index', i, x)))
 }
 
 export const toJSwithIndex = pipe(
@@ -113,7 +113,7 @@ export const toJSwithIndex = pipe(
 )
 
 export const toJS = compose(
-  dissoc("index"),
+  dissoc('index'),
   toJSwithIndex
 )
 
@@ -124,7 +124,7 @@ export const reviver = jsObject => {
 export const js = (label, node, xpub) => ({
   label: label,
   archived: false,
-  xpriv: node ? node.toBase58() : "",
+  xpriv: node ? node.toBase58() : '',
   xpub: node ? node.neutered().toBase58() : xpub,
   address_labels: [],
   cache: Cache.js(node)

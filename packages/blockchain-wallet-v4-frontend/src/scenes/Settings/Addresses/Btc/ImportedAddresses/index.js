@@ -1,10 +1,10 @@
-import React from "react"
-import { actions, selectors } from "data"
-import { bindActionCreators } from "redux"
-import { connect } from "react-redux"
-import Success from "./template.success"
-import { Remote } from "blockchain-wallet-v4/src"
-import { formValueSelector } from "redux-form"
+import React from 'react'
+import { actions, selectors } from 'data'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import Success from './template.success'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { formValueSelector } from 'redux-form'
 
 class ImportedAddressesContainer extends React.Component {
   constructor(props) {
@@ -20,18 +20,18 @@ class ImportedAddressesContainer extends React.Component {
   }
 
   handleClickImport() {
-    this.props.modalsActions.showModal("ImportBtcAddress")
+    this.props.modalsActions.showModal('ImportBtcAddress')
   }
 
   handleShowPriv(address) {
-    this.props.modalsActions.showModal("ShowBtcPrivateKey", {
+    this.props.modalsActions.showModal('ShowBtcPrivateKey', {
       addr: address.addr,
       balance: address.info.final_balance
     })
   }
 
   handleSignMessage(address) {
-    this.props.modalsActions.showModal("SignMessage", {
+    this.props.modalsActions.showModal('SignMessage', {
       address: address.addr
     })
   }
@@ -63,7 +63,7 @@ class ImportedAddressesContainer extends React.Component {
 
 const mapStateToProps = state => ({
   activeAddresses: selectors.core.common.btc.getActiveAddresses(state),
-  search: formValueSelector("settingsAddresses")(state, "search")
+  search: formValueSelector('settingsAddresses')(state, 'search')
 })
 
 const mapDispatchToProps = dispatch => ({

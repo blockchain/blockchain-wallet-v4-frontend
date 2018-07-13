@@ -1,15 +1,15 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { NavLink } from "react-router-dom"
-import { Field, reduxForm } from "redux-form"
-import { equals, gt, not, prop } from "ramda"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { NavLink } from 'react-router-dom'
+import { Field, reduxForm } from 'redux-form'
+import { equals, gt, not, prop } from 'ramda'
 
-import { Icon, Link, Text } from "blockchain-info-components"
-import { SelectBoxCoinifyCurrency, NumberBoxDebounced } from "components/Form"
-import { getReasonExplanation } from "services/CoinifyService"
-import media from "services/ResponsiveService"
+import { Icon, Link, Text } from 'blockchain-info-components'
+import { SelectBoxCoinifyCurrency, NumberBoxDebounced } from 'components/Form'
+import { getReasonExplanation } from 'services/CoinifyService'
+import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -19,7 +19,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  font-family: "Montserrat", Helvetica, sans-serif;
+  font-family: 'Montserrat', Helvetica, sans-serif;
   ${media.mobile`
     height: 100px;
   `};
@@ -49,7 +49,7 @@ const Unit = styled.span`
   font-size: 12px;
   font-weight: 300;
   position: absolute;
-  color: ${props => props.theme["gray-4"]};
+  color: ${props => props.theme['gray-4']};
 `
 const ArrowLeft = styled(Icon)`
   margin-left: 10px;
@@ -75,7 +75,7 @@ const Error = styled(Text)`
   padding-top: 3px;
   left: 0px;
   a {
-    color: ${props => props.theme["brand-secondary"]};
+    color: ${props => props.theme['brand-secondary']};
     cursor: pointer;
   }
   ${media.mobile`
@@ -90,7 +90,7 @@ const LimitsHelper = styled.div`
   top: 42px;
   padding-top: 2px;
   a {
-    color: ${props => props.theme["brand-secondary"]};
+    color: ${props => props.theme['brand-secondary']};
     cursor: pointer;
   }
   span:first-of-type {
@@ -107,7 +107,7 @@ const LimitsWrapper = styled.div`
 
 const getLimitsError = (errorType, limits, curr, setMax, setMin, changeTab) => {
   switch (errorType) {
-    case "max_below_min":
+    case 'max_below_min':
       return (
         <FormattedMessage
           id="buy.quote_input.below_min"
@@ -115,7 +115,7 @@ const getLimitsError = (errorType, limits, curr, setMax, setMin, changeTab) => {
           values={{ curr, max: limits.max }}
         />
       )
-    case "over_max":
+    case 'over_max':
       return (
         <FormattedMessage
           id="buy.quote_input.over_max"
@@ -130,7 +130,7 @@ const getLimitsError = (errorType, limits, curr, setMax, setMin, changeTab) => {
           }}
         />
       )
-    case "under_min":
+    case 'under_min':
       return (
         <FormattedMessage
           id="buy.quote_input.under_min"
@@ -145,7 +145,7 @@ const getLimitsError = (errorType, limits, curr, setMax, setMin, changeTab) => {
           }}
         />
       )
-    case "over_effective_max":
+    case 'over_effective_max':
       return (
         <FormattedMessage
           id="buy.quote_input.over_effective_max"
@@ -153,9 +153,9 @@ const getLimitsError = (errorType, limits, curr, setMax, setMin, changeTab) => {
           values={{ effectiveMax: limits.effectiveMax / 1e8 }}
         />
       )
-    case "effective_max_under_min":
+    case 'effective_max_under_min':
       const buyLink = (
-        <Link size="13px" weight={300} onClick={() => changeTab("buy")}>
+        <Link size="13px" weight={300} onClick={() => changeTab('buy')}>
           <FormattedMessage
             id="buy.quote_input.effective_max_under_min3"
             defaultMessage="buying"
@@ -163,7 +163,7 @@ const getLimitsError = (errorType, limits, curr, setMax, setMin, changeTab) => {
         </Link>
       )
       const exchangeLink = (
-        <NavLink to="/exchange" style={{ textDecoration: "none" }}>
+        <NavLink to="/exchange" style={{ textDecoration: 'none' }}>
           <FormattedMessage
             id="buy.quote_input.effective_max_under_min5"
             defaultMessage="exchanging"
@@ -201,13 +201,13 @@ const FiatConvertor = props => {
     increaseLimit,
     form
   } = props
-  const currency = "BTC"
+  const currency = 'BTC'
   const level = val.level || { name: 1 }
-  const kyc = prop("kyc", val)
+  const kyc = prop('kyc', val)
   const { canTrade, cannotTradeReason, profile } = val
   const { canTradeAfter } = profile
-  const isSell = form === "coinifyCheckoutSell"
-  const curr = isSell ? "BTC" : symbol
+  const isSell = form === 'coinifyCheckoutSell'
+  const curr = isSell ? 'BTC' : symbol
 
   const reasonExplanation =
     cannotTradeReason && getReasonExplanation(cannotTradeReason, canTradeAfter)
@@ -250,7 +250,7 @@ const FiatConvertor = props => {
         <LimitsHelper>
           {isSell ? (
             getSellLimits()
-          ) : equals(prop("name", level), "1") ? (
+          ) : equals(prop('name', level), '1') ? (
             <FormattedMessage
               id="buy.quote_input.remaining_buy_limit"
               defaultMessage="Your remaining buy limit is {max}"
@@ -291,8 +291,8 @@ const FiatConvertor = props => {
               />
             </LimitsWrapper>
           )}
-          {gt(2, prop("name", level)) &&
-          not(equals(prop("state", kyc), "reviewing")) ? (
+          {gt(2, prop('name', level)) &&
+          not(equals(prop('state', kyc), 'reviewing')) ? (
             <a onClick={() => increaseLimit()}>
               <FormattedMessage
                 id="buysell.quote_input.increase_limits"
@@ -308,7 +308,7 @@ const FiatConvertor = props => {
   const inputsDisabled =
     disabled ||
     (!canTrade && !isSell) ||
-    equals(checkoutError, "effective_max_under_min")
+    equals(checkoutError, 'effective_max_under_min')
 
   return (
     <Wrapper>
@@ -354,10 +354,10 @@ FiatConvertor.propTypes = {
 }
 
 export const QuoteInputTemplateBuy = reduxForm({
-  form: "coinifyCheckoutBuy",
+  form: 'coinifyCheckoutBuy',
   destroyOnUnmount: false
 })(FiatConvertor)
 export const QuoteInputTemplateSell = reduxForm({
-  form: "coinifyCheckoutSell",
+  form: 'coinifyCheckoutSell',
   destroyOnUnmount: false
 })(FiatConvertor)

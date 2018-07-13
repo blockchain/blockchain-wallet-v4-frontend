@@ -1,10 +1,10 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import { Route, Redirect } from "react-router-dom"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { Route, Redirect } from 'react-router-dom'
 
-import { actions, selectors } from "data"
-import WalletLayout from "./template"
+import { actions, selectors } from 'data'
+import WalletLayout from './template'
 
 class WalletLayoutContainer extends React.PureComponent {
   componentWillMount() {
@@ -32,7 +32,7 @@ class WalletLayoutContainer extends React.PureComponent {
         )}
       />
     ) : (
-      <Redirect to={{ pathname: "/login", state: { from: "" } }} />
+      <Redirect to={{ pathname: '/login', state: { from: '' } }} />
     )
   }
 }

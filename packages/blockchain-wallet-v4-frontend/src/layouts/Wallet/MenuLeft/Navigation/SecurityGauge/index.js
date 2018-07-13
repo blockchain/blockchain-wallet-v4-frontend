@@ -1,11 +1,11 @@
-import React from "react"
-import ui from "redux-ui"
-import { compose, bindActionCreators } from "redux"
-import { connect } from "react-redux"
+import React from 'react'
+import ui from 'redux-ui'
+import { compose, bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 
-import { actions } from "data"
-import { getData } from "./selectors"
-import { SecurityGauge } from "blockchain-info-components"
+import { actions } from 'data'
+import { getData } from './selectors'
+import { SecurityGauge } from 'blockchain-info-components'
 
 class SecurityGaugeContainer extends React.PureComponent {
   render() {
@@ -33,7 +33,7 @@ const enhance = compose(
     mapStateToProps,
     mapDispatchToProps
   ),
-  ui({ key: "MenuLeft", persist: true, state: { settingsToggled: false } })
+  ui({ key: 'MenuLeft', persist: true, state: { settingsToggled: false } })
 )
 
 export default enhance(SecurityGaugeContainer)

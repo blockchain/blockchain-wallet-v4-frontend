@@ -1,11 +1,11 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import { withRouter } from "react-router-dom"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { withRouter } from 'react-router-dom'
 
-import { actions } from "data"
-import ErrorModal from "./template"
-import { selectors } from "../../data"
+import { actions } from 'data'
+import ErrorModal from './template'
+import { selectors } from '../../data'
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -27,9 +27,9 @@ class ErrorBoundary extends React.Component {
   onSubmit() {
     this.setState({ error: null, errorInfo: null })
     if (this.props.isAuthenticated) {
-      this.props.history.push("/home")
+      this.props.history.push('/home')
     } else {
-      this.props.history.push("/login")
+      this.props.history.push('/login')
       window.location.reload(true)
     }
   }

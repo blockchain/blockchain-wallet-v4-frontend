@@ -1,11 +1,11 @@
-import React, { Component } from "react"
-import { connect } from "react-redux"
-import PropTypes from "prop-types"
-import { bindActionCreators, compose } from "redux"
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { bindActionCreators, compose } from 'redux'
 
-import { actions } from "data"
-import { getData } from "./selectors"
-import VerifyEmail from "./template"
+import { actions } from 'data'
+import { getData } from './selectors'
+import VerifyEmail from './template'
 
 class VerifyEmailContainer extends Component {
   constructor(props) {
@@ -17,8 +17,8 @@ class VerifyEmailContainer extends Component {
 
   componentDidMount() {
     this.props.formActions.change(
-      "coinifyVerifyEmail",
-      "emailAddress",
+      'coinifyVerifyEmail',
+      'emailAddress',
       this.props.oldEmail
     )
   }
@@ -31,11 +31,11 @@ class VerifyEmailContainer extends Component {
   }
 
   onSubmit() {
-    if (this.props.ui.create === "enter_email_code") {
+    if (this.props.ui.create === 'enter_email_code') {
       this.props.coinifyActions.coinifyClearSignupError()
       this.props.securityCenterActions.verifyEmailCode(this.props.emailCode)
     } else {
-      this.props.updateUI({ create: "enter_email_code" })
+      this.props.updateUI({ create: 'enter_email_code' })
       this.props.securityCenterActions.updateEmail(this.props.emailAddress)
       this.props.securityCenterActions.sendConfirmationCodeEmail(
         this.props.emailAddress

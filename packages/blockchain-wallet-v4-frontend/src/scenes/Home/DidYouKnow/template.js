@@ -1,10 +1,10 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { NavLink } from "react-router-dom"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { NavLink } from 'react-router-dom'
 
-import { Icon, Text, TextGroup, Link, Color } from "blockchain-info-components"
+import { Icon, Text, TextGroup, Link, Color } from 'blockchain-info-components'
 
 const DidYouKnowWrapper = styled.div`
   & > * {
@@ -20,7 +20,7 @@ const Wrapper = styled.div`
   padding: 15px;
   margin-top: 15px;
   box-sizing: border-box;
-  border: 1px solid ${props => props.theme["gray-1"]};
+  border: 1px solid ${props => props.theme['gray-1']};
 `
 
 const TitleText = styled(Text)`
@@ -225,7 +225,7 @@ const selectContent = number => {
           />
           <NavLink
             to="/security-center"
-            style={{ textDecoration: "none", color: Color("brand-secondary") }}
+            style={{ textDecoration: 'none', color: Color('brand-secondary') }}
           >
             <FormattedMessage
               id="scenes.home.didyouknow.content1.navlink"
@@ -477,7 +477,7 @@ const selectContent = number => {
           <span>&nbsp;</span>
           <NavLink
             to="/security-center"
-            style={{ textDecoration: "none", color: Color("brand-secondary") }}
+            style={{ textDecoration: 'none', color: Color('brand-secondary') }}
           >
             <FormattedMessage
               id="scenes.home.didyouknow.content19.navlink"

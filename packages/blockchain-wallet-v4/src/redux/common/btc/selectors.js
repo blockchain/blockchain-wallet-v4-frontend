@@ -4,7 +4,7 @@ import {
   HDAccountList,
   HDAccount,
   TXNotes
-} from "../../../types"
+} from '../../../types'
 import {
   keys,
   compose,
@@ -19,21 +19,21 @@ import {
   values,
   sequence,
   lift
-} from "ramda"
+} from 'ramda'
 import {
   getAddresses,
   getChangeIndex,
   getReceiveIndex,
   getHeight,
   getTransactions
-} from "../../data/bitcoin/selectors.js"
-import { getAddressLabel, getMetadata } from "../../kvStore/btc/selectors"
-import { getBuySellTxHashMatch } from "../../kvStore/buySell/selectors"
-import { getShapeshiftTxHashMatch } from "../../kvStore/shapeShift/selectors"
-import * as transactions from "../../../transactions"
-import * as walletSelectors from "../../wallet/selectors"
-import Remote from "../../../remote"
-import memoize from "fast-memoize"
+} from '../../data/bitcoin/selectors.js'
+import { getAddressLabel, getMetadata } from '../../kvStore/btc/selectors'
+import { getBuySellTxHashMatch } from '../../kvStore/buySell/selectors'
+import { getShapeshiftTxHashMatch } from '../../kvStore/shapeShift/selectors'
+import * as transactions from '../../../transactions'
+import * as walletSelectors from '../../wallet/selectors'
+import Remote from '../../../remote'
+import memoize from 'fast-memoize'
 
 const mTransformTx = memoize(transactions.bitcoin.transformTx)
 
@@ -41,8 +41,8 @@ const _getAccounts = selector => state => {
   const balancesR = getAddresses(state)
   const addInfo = account =>
     balancesR
-      .map(prop(prop("xpub", account)))
-      .map(x => assoc("info", x, account))
+      .map(prop(prop('xpub', account)))
+      .map(x => assoc('info', x, account))
   const accountsR = map(addInfo, selector(state))
   return sequence(Remote.of, accountsR)
 }
@@ -73,8 +73,8 @@ export const getActiveAddresses = state => {
   const balancesRD = getAddresses(state)
   const addInfo = address =>
     balancesRD
-      .map(prop(prop("addr", address)))
-      .map(x => assoc("info", x, address))
+      .map(prop(prop('addr', address)))
+      .map(x => assoc('info', x, address))
   const objectOfRemotes = compose(
     map(addInfo),
     values,
@@ -92,11 +92,11 @@ export const getArchivedAddresses = state => {
 }
 
 const flattenAccount = acc => ({
-  coin: "BTC",
-  label: prop("label", acc) ? prop("label", acc) : prop("xpub", acc),
-  balance: path(["info", "final_balance"], acc),
-  xpub: prop("xpub", acc),
-  index: prop("index", acc)
+  coin: 'BTC',
+  label: prop('label', acc) ? prop('label', acc) : prop('xpub', acc),
+  balance: path(['info', 'final_balance'], acc),
+  xpub: prop('xpub', acc),
+  index: prop('index', acc)
 })
 
 // getAccountsBalances :: state => Remote([])
@@ -108,13 +108,13 @@ export const getActiveAccountsBalances = state =>
   map(map(flattenAccount), getActiveHDAccounts(state))
 
 const flattenAddress = addr => ({
-  coin: "BTC",
-  label: prop("label", addr) ? prop("label", addr) : prop("addr", addr),
-  balance: path(["info", "final_balance"], addr),
-  address: prop("addr", addr),
+  coin: 'BTC',
+  label: prop('label', addr) ? prop('label', addr) : prop('addr', addr),
+  balance: path(['info', 'final_balance'], addr),
+  address: prop('addr', addr),
   watchOnly: compose(
     isNil,
-    prop("priv")
+    prop('priv')
   )(addr)
 })
 
@@ -132,10 +132,10 @@ export const getAccountsInfo = state => {
     walletSelectors.getDefaultHDWallet
   )(state)
   const digest = x => ({
-    coin: "BTC",
-    label: prop("label", x) ? prop("label", x) : prop("xpub", x),
-    xpub: prop("xpub", x),
-    index: prop("index", x)
+    coin: 'BTC',
+    label: prop('label', x) ? prop('label', x) : prop('xpub', x),
+    xpub: prop('xpub', x),
+    index: prop('index', x)
   })
   return map(digest, hdAccounts)
 }
@@ -146,9 +146,9 @@ export const getAddressesInfo = state => {
     walletSelectors.getActiveAddresses
   )(state)
   const digest = x => ({
-    coin: "BTC",
-    label: prop("label", x) ? prop("label", x) : prop("addr", x),
-    address: prop("addr", x)
+    coin: 'BTC',
+    label: prop('label', x) ? prop('label', x) : prop('addr', x),
+    address: prop('addr', x)
   })
   return map(digest, legacyAddresses)
 }
@@ -164,7 +164,7 @@ export const getWalletTransactions = state => {
   // [Remote([tx])] == [Page] == Pages
   const getDescription = (hash, to) =>
     TXNotes.selectNote(hash, Wallet.selectTxNotes(wallet)) ||
-    getAddressLabel(to, state).getOrElse("")
+    getAddressLabel(to, state).getOrElse('')
 
   const getPartnerLabel = hash =>
     getShapeshiftTxHashMatch(state, hash) || getBuySellTxHashMatch(state, hash)
@@ -193,7 +193,7 @@ export const getWalletTransactions = state => {
 
 // path is: accountIndex/chainIndex/addressIndex
 const getAddress = curry((network, path, state) => {
-  const [a, c, i] = split("/", path)
+  const [a, c, i] = split('/', path)
   const accId = parseInt(a)
   const chain = parseInt(c)
   const index = parseInt(i)

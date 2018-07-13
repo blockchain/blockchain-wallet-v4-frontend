@@ -1,10 +1,10 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { Button, Text, Tooltip } from "blockchain-info-components"
-import ExchangeTimeline from "components/ExchangeTimeline"
+import { Button, Text, Tooltip } from 'blockchain-info-components'
+import ExchangeTimeline from 'components/ExchangeTimeline'
 
 const Wrapper = styled.div`
   display: flex;
@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  border: 1px solid ${props => props.theme["gray-2"]};
+  border: 1px solid ${props => props.theme['gray-2']};
 `
 const Header = styled.div`
   display: flex;
@@ -22,7 +22,7 @@ const Header = styled.div`
   width: 100%;
   padding: 15px 30px;
   box-sizing: border-box;
-  border-bottom: 1px solid ${props => props.theme["gray-2"]};
+  border-bottom: 1px solid ${props => props.theme['gray-2']};
 `
 const Body = styled.div`
   display: flex;
@@ -37,7 +37,7 @@ const Row = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: ${props =>
-    props.align === "right" ? "flex-end" : "flex-start"};
+    props.align === 'right' ? 'flex-end' : 'flex-start'};
   align-items: center;
   width: 100%;
 
@@ -51,8 +51,8 @@ const Table = styled.div`
   width: 100%;
   padding: 0 10px;
   box-sizing: border-box;
-  border: 1px solid ${props => props.theme["gray-2"]};
-  background-color: ${props => props.theme["white-blue"]};
+  border: 1px solid ${props => props.theme['gray-2']};
+  background-color: ${props => props.theme['white-blue']};
   & > :last-child {
     border-bottom: none;
   }
@@ -66,7 +66,7 @@ const TableRow = styled.div`
   width: 100%;
   padding: 8px 0;
   box-sizing: border-box;
-  border-bottom: 1px solid ${props => props.theme["gray-2"]};
+  border-bottom: 1px solid ${props => props.theme['gray-2']};
 
   > :first-child {
     margin-right: 5px;
@@ -100,13 +100,13 @@ const Success = props => {
     <Wrapper>
       <Header>
         <Text size="13px" weight={500} capitalize>
-          {status === "complete" && (
+          {status === 'complete' && (
             <FormattedMessage
               id="modals.exchange.shapeshift.title.success"
               defaultMessage="Success! Your exchange is complete"
             />
           )}
-          {status !== "complete" && (
+          {status !== 'complete' && (
             <FormattedMessage
               id="modals.exchange.shapeshift.title.inprogress"
               defaultMessage="Exchange In Progress"
@@ -119,7 +119,7 @@ const Success = props => {
           <ExchangeTimeline status={status} />
         </Row>
         <Row>
-          {status === "received" && (
+          {status === 'received' && (
             <Notice>
               <Text size="13px" weight={300}>
                 <FormattedMessage
@@ -133,7 +133,7 @@ const Success = props => {
               </Text>
             </Notice>
           )}
-          {status === "complete" && (
+          {status === 'complete' && (
             <Notice>
               <Text size="13px" weight={300}>
                 <FormattedMessage

@@ -1,4 +1,4 @@
-import * as AT from "./actionTypes"
+import * as AT from './actionTypes'
 
 export const logInfoMessage = (file, method, message) => ({
   type: AT.LOG_INFO_MSG,

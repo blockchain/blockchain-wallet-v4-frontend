@@ -1,5 +1,5 @@
-import { lift, not } from "ramda"
-import { selectors } from "data"
+import { lift, not } from 'ramda'
+import { selectors } from 'data'
 
 export const getData = state => {
   const isEmailVerifiedR = selectors.core.settings.getEmailVerified(state)

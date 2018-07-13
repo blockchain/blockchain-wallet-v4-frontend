@@ -1,9 +1,9 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled, { keyframes } from "styled-components"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled, { keyframes } from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { Icon, Text } from "blockchain-info-components"
+import { Icon, Text } from 'blockchain-info-components'
 
 const animation = keyframes`
   0% { transform: rotate(0deg); }
@@ -16,7 +16,7 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 30%;
-  background-color: ${props => props.theme["white"]};
+  background-color: ${props => props.theme['white']};
 
   & > :first-child { margin-bottom 20px; }
   & > :last-child { height: 40px; }
@@ -32,16 +32,16 @@ const Circle = styled.div`
   border-radius: 40px;
   border: 1px solid
     ${props =>
-      props.status === "disabled"
-        ? props.theme["gray-2"]
-        : props.theme["brand-primary"]};
+      props.status === 'disabled'
+        ? props.theme['gray-2']
+        : props.theme['brand-primary']};
   box-sizing: border-box;
   overflow: hidden;
 `
 const AnimatedIcon = styled(Icon)`
   animation: ${animation} 1.5s infinite linear;
   animation-play-state: ${props =>
-    props.status === "active" ? "running" : "paused"};
+    props.status === 'active' ? 'running' : 'paused'};
 `
 const SmallCircle = styled(Circle)`
   position: absolute;
@@ -51,7 +51,7 @@ const SmallCircle = styled(Circle)`
   height: 20px;
   margin-left: -10px;
   margin-top: -10px;
-  background-color: ${props => props.theme["white"]};
+  background-color: ${props => props.theme['white']};
   border: none;
 `
 
@@ -61,13 +61,13 @@ const Step2 = props => (
       <AnimatedIcon
         name="exchange"
         size="50px"
-        color={props.status === "disabled" ? "gray-2" : "brand-primary"}
+        color={props.status === 'disabled' ? 'gray-2' : 'brand-primary'}
         status={props.status}
       />
       <SmallCircle>
         <Icon
           name="stack-of-coins-2"
-          color={props.status === "disabled" ? "gray-2" : "brand-primary"}
+          color={props.status === 'disabled' ? 'gray-2' : 'brand-primary'}
         />
       </SmallCircle>
     </Circle>
@@ -81,11 +81,11 @@ const Step2 = props => (
 )
 
 Step2.propTypes = {
-  status: PropTypes.oneOf(["disabled", "active", "inactive"])
+  status: PropTypes.oneOf(['disabled', 'active', 'inactive'])
 }
 
 Step2.defaultProps = {
-  status: "disabled"
+  status: 'disabled'
 }
 
 export default Step2

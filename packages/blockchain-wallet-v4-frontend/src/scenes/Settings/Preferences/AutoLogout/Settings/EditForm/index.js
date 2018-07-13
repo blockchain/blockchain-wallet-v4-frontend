@@ -1,13 +1,13 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import { actions, selectors } from "data"
-import Settings from "./template.js"
+import { actions, selectors } from 'data'
+import Settings from './template.js'
 
 class EditFormContainer extends React.PureComponent {
   componentWillMount() {
-    this.props.formActions.initialize("settingAutoLogoutTime", {
+    this.props.formActions.initialize('settingAutoLogoutTime', {
       autoLogoutTime: this.props.logoutTime
     })
   }

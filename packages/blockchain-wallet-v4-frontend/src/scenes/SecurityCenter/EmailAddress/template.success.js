@@ -1,8 +1,8 @@
-import React from "react"
-import { FormattedMessage } from "react-intl"
-import styled from "styled-components"
-import { reduxForm } from "redux-form"
-import { Button, Link, Text } from "blockchain-info-components"
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+import { reduxForm } from 'redux-form'
+import { Button, Link, Text } from 'blockchain-info-components'
 import {
   SecurityComponent,
   SecurityContainer,
@@ -11,11 +11,11 @@ import {
   SecurityIcon,
   SecuritySummary,
   IconContainer
-} from "components/Security"
+} from 'components/Security'
 
-import ChangeEmailSteps from "../Components/ChangeEmailSteps"
-import EmailVerificationSteps from "../Components/EmailVerificationSteps"
-import media from "services/ResponsiveService"
+import ChangeEmailSteps from '../Components/ChangeEmailSteps'
+import EmailVerificationSteps from '../Components/EmailVerificationSteps'
+import media from 'services/ResponsiveService'
 
 const EmailExplanation = styled.div``
 const ChangeEmailText = styled(Text)`
@@ -108,13 +108,14 @@ const EmailAddress = props => {
 
   const securityHeaderHelper = () => {
     if (!ui.verifyToggled && !ui.changeEmailToggled && !props.alone) {
-      if (isVerified)
+      if (isVerified) {
         return (
           <FormattedMessage
             id="scenes.security.email.verifiedtitle"
             defaultMessage="Email Address"
           />
         )
+      }
       return (
         <FormattedMessage
           id="scenes.security.email.unverifiedemail.title"
@@ -122,13 +123,14 @@ const EmailAddress = props => {
         />
       )
     }
-    if (ui.changeEmailToggled)
+    if (ui.changeEmailToggled) {
       return (
         <FormattedMessage
           id="scenes.security.email.verifiedemail.change"
           defaultMessage="Change Email Address"
         />
       )
+    }
     return (
       <FormattedMessage
         id="scenes.security.email.unverifiedemail.verifyemail"
@@ -174,13 +176,14 @@ const EmailAddress = props => {
         </EmailExplanation>
       )
     }
-    if (ui.changeEmailToggled)
+    if (ui.changeEmailToggled) {
       return (
         <FormattedMessage
           id="scenes.security.email.yourverifiedemailaddress"
           defaultMessage="Your verified email address is used to send login codes when suspicious or unusual activity is detected, to remind you of your wallet login ID, and to send payment alerts when you receive funds."
         />
       )
+    }
     return (
       <React.Fragment>
         <Text size="14px" weight={200}>
@@ -214,7 +217,7 @@ const EmailAddress = props => {
 
   const renderFields = () => {
     if (!ui.verifyToggled && !ui.changeEmailToggled && !props.alone) return null
-    else if (ui.changeEmailToggled)
+    else if (ui.changeEmailToggled) {
       return (
         <ChangeEmailSteps
           handleEmailChangeCancel={props.handleEmailChangeCancel}
@@ -222,7 +225,7 @@ const EmailAddress = props => {
           invalid={invalid}
         />
       )
-    else
+    } else {
       return (
         <EmailVerificationSteps
           failed={failed}
@@ -232,6 +235,7 @@ const EmailAddress = props => {
           emailCode={code}
         />
       )
+    }
   }
 
   return (
@@ -285,4 +289,4 @@ const EmailAddress = props => {
   )
 }
 
-export default reduxForm({ form: "securityEmailAddress" })(EmailAddress)
+export default reduxForm({ form: 'securityEmailAddress' })(EmailAddress)

@@ -1,10 +1,10 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators, compose } from "redux"
-import { actions } from "data"
-import { formValueSelector } from "redux-form"
-import modalEnhancer from "providers/ModalEnhancer"
-import AddBitcoinWallet from "./template.js"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import { actions } from 'data'
+import { formValueSelector } from 'redux-form'
+import modalEnhancer from 'providers/ModalEnhancer'
+import AddBitcoinWallet from './template.js'
 
 class AddBitcoinWalletContainer extends React.PureComponent {
   constructor(props) {
@@ -22,7 +22,7 @@ class AddBitcoinWalletContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  wallet: formValueSelector("addBitcoinWallet")(state, "wallet")
+  wallet: formValueSelector('addBitcoinWallet')(state, 'wallet')
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -30,7 +30,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer("AddBitcoinWallet"),
+  modalEnhancer('AddBitcoinWallet'),
   connect(
     mapStateToProps,
     mapDispatchToProps

@@ -1,10 +1,10 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import CopyToClipBoard from "react-copy-to-clipboard"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import CopyToClipBoard from 'react-copy-to-clipboard'
 
-import { Button } from "blockchain-info-components"
+import { Button } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   position: relative;
@@ -25,9 +25,9 @@ const AddressBox = styled.span`
   align-items: center;
   white-space: nowrap;
   text-overflow: ellipsis;
-  color: ${props => props.theme["gray-5"]};
-  font-family: "Montserrat", Helvetica, sans-serif;
-  background-color: ${props => props.theme["gray-1"]};
+  color: ${props => props.theme['gray-5']};
+  font-family: 'Montserrat', Helvetica, sans-serif;
+  background-color: ${props => props.theme['gray-1']};
 `
 const CopyButton = styled(Button)`
   width: 160px;
@@ -43,7 +43,7 @@ const CopyClipboard = props => {
     <Wrapper>
       <AddressBox>{address}</AddressBox>
       <CopyToClipBoard text={address} onCopy={handleClick}>
-        <CopyButton nature={active ? "copy" : "secondary"}>
+        <CopyButton nature={active ? 'copy' : 'secondary'}>
           {active ? (
             <FormattedMessage
               id="components.copyclipboard.copied"

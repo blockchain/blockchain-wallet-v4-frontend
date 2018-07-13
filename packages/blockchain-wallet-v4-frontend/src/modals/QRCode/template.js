@@ -1,8 +1,8 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import QRCodeReact from "qrcode.react"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import QRCodeReact from 'qrcode.react'
 
 import {
   Link,
@@ -12,8 +12,8 @@ import {
   ModalFooter,
   Text,
   Tooltip
-} from "blockchain-info-components"
-import CopyClipboard from "components/CopyClipboard"
+} from 'blockchain-info-components'
+import CopyClipboard from 'components/CopyClipboard'
 
 const QRCodeContainer = styled.div`
   display: flex;
@@ -28,7 +28,7 @@ const QRCode = props => {
   const { receiveAddress, amount, message } = rest.value
   let bitcoinAddress = `bitcoin:${receiveAddress}`
   let amt = amount > 0 ? amount : null
-  if (amt || message) bitcoinAddress += "?"
+  if (amt || message) bitcoinAddress += '?'
   if (amt && !message) bitcoinAddress += `amount=${amt}`
   if (!amt && message) bitcoinAddress += `message=${message}`
   if (amt && message) bitcoinAddress += `amount=${amt}&message=${message}`

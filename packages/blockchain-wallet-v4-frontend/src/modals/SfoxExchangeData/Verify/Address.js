@@ -1,20 +1,20 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { Field, reduxForm } from "redux-form"
-import { FormGroup, FormItem, TextBox, SelectBoxUSState } from "components/Form"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
+import { FormGroup, FormItem, TextBox, SelectBoxUSState } from 'components/Form'
 import {
   Text,
   Button,
   HeartbeatLoader,
   Banner
-} from "blockchain-info-components"
+} from 'blockchain-info-components'
 
 import {
   required,
   requiredUsZipcode,
   normalizeUSZipcode
-} from "services/FormHelper"
+} from 'services/FormHelper'
 import {
   Form,
   ColLeft,
@@ -23,8 +23,8 @@ import {
   PartnerHeader,
   PartnerSubHeader,
   ColRightInner
-} from "components/BuySell/Signup"
-import media from "services/ResponsiveService"
+} from 'components/BuySell/Signup'
+import media from 'services/ResponsiveService'
 
 const FormContainer = styled.div`
   margin-top: 25px;
@@ -32,7 +32,7 @@ const FormContainer = styled.div`
 const AddressLabel = styled(Text)`
   span:last-of-type {
     margin-left: 3px;
-    color: ${props => props.theme["gray-3"]};
+    color: ${props => props.theme['gray-3']};
   }
 `
 const BannerWrapper = styled.div`
@@ -63,7 +63,7 @@ const Address = props => {
 
   const handleSubmit = e => {
     e.preventDefault()
-    props.updateUI({ verify: "identity" })
+    props.updateUI({ verify: 'identity' })
   }
 
   return (
@@ -95,7 +95,7 @@ const Address = props => {
           <FormContainer>
             <AddressFormGroup inline>
               <FormItem>
-                <Text size="14px" weight={400} style={{ marginBottom: "5px" }}>
+                <Text size="14px" weight={400} style={{ marginBottom: '5px' }}>
                   <FormattedMessage
                     id="sfoxexchangedata.verify.firstname"
                     defaultMessage="First Name"
@@ -108,7 +108,7 @@ const Address = props => {
                 />
               </FormItem>
               <FormItem>
-                <Text size="14px" weight={400} style={{ marginBottom: "5px" }}>
+                <Text size="14px" weight={400} style={{ marginBottom: '5px' }}>
                   <FormattedMessage
                     id="sfoxexchangedata.verify.lastname"
                     defaultMessage="Last Name"
@@ -126,7 +126,7 @@ const Address = props => {
                 <AddressLabel
                   size="14px"
                   weight={400}
-                  style={{ marginBottom: "5px" }}
+                  style={{ marginBottom: '5px' }}
                 >
                   <FormattedMessage
                     id="sfoxexchangedata.verify.address"
@@ -154,7 +154,7 @@ const Address = props => {
             </FormGroup>
             <FormGroup>
               <FormItem>
-                <Text size="14px" weight={400} style={{ marginBottom: "5px" }}>
+                <Text size="14px" weight={400} style={{ marginBottom: '5px' }}>
                   <FormattedMessage
                     id="sfoxexchangedata.verify.address2"
                     defaultMessage="Address Line 2"
@@ -169,7 +169,7 @@ const Address = props => {
             </FormGroup>
             <FormGroup>
               <FormItem>
-                <Text size="14px" weight={400} style={{ marginBottom: "5px" }}>
+                <Text size="14px" weight={400} style={{ marginBottom: '5px' }}>
                   <FormattedMessage
                     id="sfoxexchangedata.verify.city"
                     defaultMessage="City"
@@ -180,7 +180,7 @@ const Address = props => {
             </FormGroup>
             <AddressFormGroup inline>
               <FormItem>
-                <Text size="14px" weight={400} style={{ marginBottom: "5px" }}>
+                <Text size="14px" weight={400} style={{ marginBottom: '5px' }}>
                   <FormattedMessage
                     id="sfoxexchangedata.verify.state"
                     defaultMessage="State"
@@ -193,7 +193,7 @@ const Address = props => {
                 />
               </FormItem>
               <FormItem>
-                <Text size="14px" weight={400} style={{ marginBottom: "5px" }}>
+                <Text size="14px" weight={400} style={{ marginBottom: '5px' }}>
                   <FormattedMessage
                     id="sfoxexchangedata.verify.zip"
                     defaultMessage="Zipcode"
@@ -235,6 +235,6 @@ const Address = props => {
   )
 }
 
-export default reduxForm({ form: "sfoxAddress", destroyOnUnmount: false })(
+export default reduxForm({ form: 'sfoxAddress', destroyOnUnmount: false })(
   Address
 )

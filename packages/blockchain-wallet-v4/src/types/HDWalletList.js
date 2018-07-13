@@ -1,7 +1,7 @@
-import { map, is, pipe } from "ramda"
-import { view } from "ramda-lens"
-import List from "./List"
-import * as HDWallet from "./HDWallet"
+import { map, is, pipe } from 'ramda'
+import { view } from 'ramda-lens'
+import List from './List'
+import * as HDWallet from './HDWallet'
 
 export class HDWalletList extends List {}
 
@@ -34,7 +34,7 @@ export const createNew = (
   password,
   sharedKey,
   mnemonic,
-  firstAccountName = "My Bitcoin Wallet",
+  firstAccountName = 'My Bitcoin Wallet',
   nAccounts = 1
 ) =>
   fromJS([

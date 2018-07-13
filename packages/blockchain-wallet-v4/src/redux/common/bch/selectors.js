@@ -1,4 +1,4 @@
-import { HDWallet, HDAccountList, HDAccount } from "../../../types"
+import { HDWallet, HDAccountList, HDAccount } from '../../../types'
 import {
   prop,
   compose,
@@ -13,22 +13,22 @@ import {
   sequence,
   lift,
   indexOf
-} from "ramda"
+} from 'ramda'
 import {
   getAddresses,
   getChangeIndex,
   getReceiveIndex,
   getHeight,
   getTransactions
-} from "../../data/bch/selectors.js"
-import * as transactions from "../../../transactions"
-import * as walletSelectors from "../../wallet/selectors"
-import Remote from "../../../remote"
-import { getAccountsList, getBchTxNote } from "../../kvStore/bch/selectors.js"
-import { toCashAddr } from "../../../utils/bch"
-import { isValidBitcoinAddress } from "../../../utils/bitcoin"
-import { getShapeshiftTxHashMatch } from "../../kvStore/shapeShift/selectors"
-import memoize from "fast-memoize"
+} from '../../data/bch/selectors.js'
+import * as transactions from '../../../transactions'
+import * as walletSelectors from '../../wallet/selectors'
+import Remote from '../../../remote'
+import { getAccountsList, getBchTxNote } from '../../kvStore/bch/selectors.js'
+import { toCashAddr } from '../../../utils/bch'
+import { isValidBitcoinAddress } from '../../../utils/bitcoin'
+import { getShapeshiftTxHashMatch } from '../../kvStore/shapeShift/selectors'
+import memoize from 'fast-memoize'
 
 const mTransformTx = memoize(transactions.bitcoin.transformTx)
 
@@ -38,15 +38,15 @@ export const getActiveHDAccounts = state => {
   const bchAccounts = getAccountsList(state).getOrElse([])
   const addInfo = account =>
     balancesRD
-      .map(prop(prop("xpub", account)))
-      .map(x => assoc("info", x, account))
+      .map(prop(prop('xpub', account)))
+      .map(x => assoc('info', x, account))
   const addBchLabel = account =>
     account.map(a =>
-      assoc("label", path([prop("index", a), "label"], bchAccounts), a)
+      assoc('label', path([prop('index', a), 'label'], bchAccounts), a)
     )
   const addArchived = account =>
     account.map(a =>
-      assoc("archived", path([prop("index", a), "archived"], bchAccounts), a)
+      assoc('archived', path([prop('index', a), 'archived'], bchAccounts), a)
     )
 
   const objectOfRemotes = compose(
@@ -66,10 +66,10 @@ export const getActiveAddresses = state => {
   const balancesRD = getAddresses(state)
   const addInfo = address =>
     balancesRD
-      .map(prop(prop("addr", address)))
-      .map(x => assoc("info", x, address))
+      .map(prop(prop('addr', address)))
+      .map(x => assoc('info', x, address))
   const convertToCashAddr = address =>
-    assoc("addr", toCashAddr(address.addr, true), address)
+    assoc('addr', toCashAddr(address.addr, true), address)
 
   const objectOfRemotes = compose(
     map(lift(convertToCashAddr)),
@@ -82,19 +82,19 @@ export const getActiveAddresses = state => {
 }
 
 const digestAddress = x => ({
-  coin: "BCH",
-  label: prop("label", x) ? prop("label", x) : prop("addr", x),
-  balance: path(["info", "final_balance"], x),
-  address: prop("addr", x)
+  coin: 'BCH',
+  label: prop('label', x) ? prop('label', x) : prop('addr', x),
+  balance: path(['info', 'final_balance'], x),
+  address: prop('addr', x)
 })
 
 const digestAccount = x => ({
-  coin: "BCH",
-  label: prop("label", x) ? prop("label", x) : prop("xpub", x),
-  balance: path(["info", "final_balance"], x),
-  archived: prop("archived", x),
-  xpub: prop("xpub", x),
-  index: prop("index", x)
+  coin: 'BCH',
+  label: prop('label', x) ? prop('label', x) : prop('xpub', x),
+  balance: path(['info', 'final_balance'], x),
+  archived: prop('archived', x),
+  xpub: prop('xpub', x),
+  index: prop('index', x)
 })
 
 export const getAccountsBalances = state =>
@@ -115,10 +115,10 @@ export const getAccountsInfo = state => {
     const index = indexOf(x, accountsR.getOrElse([]))
     const hdAccount = hdAccounts[index]
     return {
-      coin: "BCH",
-      label: prop("label", x) ? prop("label", x) : prop("xpub", hdAccount),
-      xpub: prop("xpub", hdAccount),
-      index: prop("index", hdAccount)
+      coin: 'BCH',
+      label: prop('label', x) ? prop('label', x) : prop('xpub', hdAccount),
+      xpub: prop('xpub', hdAccount),
+      index: prop('index', hdAccount)
     }
   }
   return accountsR.map(map(digest))
@@ -130,9 +130,9 @@ export const getAddressesInfo = state => {
     walletSelectors.getActiveAddresses
   )(state)
   const digest = x => ({
-    coin: "BCH",
-    label: toCashAddr(prop("addr", x), true),
-    address: toCashAddr(prop("addr", x), true)
+    coin: 'BCH',
+    label: toCashAddr(prop('addr', x), true),
+    address: toCashAddr(prop('addr', x), true)
   })
   return map(digest, legacyAddresses)
 }
@@ -175,7 +175,7 @@ export const getWalletTransactions = state => {
   // Remote(blockHeight)
   const blockHeightR = getHeight(state)
   // [Remote([tx])] == [Page] == Pages
-  const getDescription = hash => getBchTxNote(state, hash).getOrElse("")
+  const getDescription = hash => getBchTxNote(state, hash).getOrElse('')
   const pages = getTransactions(state)
   const getPartnerLabel = hash => getShapeshiftTxHashMatch(state, hash)
   // mTransformTx :: wallet -> blockHeight -> Tx
@@ -202,7 +202,7 @@ export const getWalletTransactions = state => {
 
 // path is: accountIndex/chainIndex/addressIndex
 const getAddress = curry((network, path, state) => {
-  const [a, c, i] = split("/", path)
+  const [a, c, i] = split('/', path)
   const accId = parseInt(a)
   const chain = parseInt(c)
   const index = parseInt(i)

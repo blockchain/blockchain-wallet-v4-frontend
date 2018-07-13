@@ -1,6 +1,6 @@
-import styled from "styled-components"
-import React from "react"
-import { Icon } from "blockchain-info-components"
+import styled from 'styled-components'
+import React from 'react'
+import { Icon } from 'blockchain-info-components'
 
 const Container = styled.div`
   border-bottom: 1px solid #979797;
@@ -25,9 +25,9 @@ const ToggleIcon = styled(Icon)`
   cursor: pointer;
   transform: rotate(0deg);
   transition: transform 0.3s;
-  transform: ${props => props.toggled && "rotate(180deg)"};
+  transform: ${props => props.toggled && 'rotate(180deg)'};
   color: ${props =>
-    props.toggled ? props.theme["brand-secondary"] : props.theme["gray-5"]};
+    props.toggled ? props.theme['brand-secondary'] : props.theme['gray-5']};
   max-height: min-content;
 `
 

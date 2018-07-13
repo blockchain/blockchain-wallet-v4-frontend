@@ -1,5 +1,5 @@
-import { selectors } from "data"
-import { btcToLabel, btcFromLabel } from "services/PaymentHelper"
+import { selectors } from 'data'
+import { btcToLabel, btcFromLabel } from 'services/PaymentHelper'
 
 export const getData = state => {
   const paymentR = selectors.components.sendBtc.getPayment(state)

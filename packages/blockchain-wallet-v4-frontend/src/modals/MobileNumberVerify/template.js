@@ -1,8 +1,8 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { Field, reduxForm } from "redux-form"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
 
 import {
   Button,
@@ -12,10 +12,10 @@ import {
   ModalBody,
   ModalFooter,
   Text
-} from "blockchain-info-components"
-import { Form, TextBox } from "components/Form"
-import { required } from "services/FormHelper"
-import { spacing } from "services/StyleService"
+} from 'blockchain-info-components'
+import { Form, TextBox } from 'components/Form'
+import { required } from 'services/FormHelper'
+import { spacing } from 'services/StyleService'
 
 const Code = styled.div`
   width: 60%;
@@ -62,7 +62,7 @@ const MobileNumberVerify = props => {
               values={{ number: props.mobileNumber }}
             />
           </Text>
-          <Text size="14px" weight={500} style={spacing("mt-10 mb-5")}>
+          <Text size="14px" weight={500} style={spacing('mt-10 mb-5')}>
             <FormattedMessage
               id="modals.mobilenumberverify.explain2"
               defaultMessage="Enter code:"
@@ -125,4 +125,4 @@ MobileNumberVerify.propTypes = {
   handleResend: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: "mobileNumberVerify" })(MobileNumberVerify)
+export default reduxForm({ form: 'mobileNumberVerify' })(MobileNumberVerify)

@@ -1,8 +1,8 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
-import Images from "./Images"
+import Images from './Images'
 
 const BaseBackground = styled.div`
   background: url(${props => props.url});
@@ -20,8 +20,8 @@ const Background = props => {
 }
 
 Background.defaultProps = {
-  width: "auto",
-  height: "auto"
+  width: 'auto',
+  height: 'auto'
 }
 
 Background.propTypes = {

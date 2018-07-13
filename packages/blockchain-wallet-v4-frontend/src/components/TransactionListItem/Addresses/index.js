@@ -1,11 +1,11 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { any, equals, filter } from "ramda"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { any, equals, filter } from 'ramda'
 
-import { Text, TextGroup, Tooltip } from "blockchain-info-components"
-import { utils } from "blockchain-wallet-v4/src"
+import { Text, TextGroup, Tooltip } from 'blockchain-info-components'
+import { utils } from 'blockchain-wallet-v4/src'
 
 const Wrapper = styled.div`
   display: flex;
@@ -38,7 +38,7 @@ const Addresses = props => {
             filter(hasLabel, filter(notChange, outputs)).map(
               (output, index) => (
                 <Text key={index} size="12px" weight={300}>
-                  {equals(coin, "BCH")
+                  {equals(coin, 'BCH')
                     ? utils.bch.toCashAddr(output.address, true)
                     : output.address}
                 </Text>
@@ -63,7 +63,7 @@ const Addresses = props => {
               (input, index) =>
                 input.label && (
                   <Text key={index} size="12px" weight={300}>
-                    {equals(coin, "BCH")
+                    {equals(coin, 'BCH')
                       ? utils.bch.toCashAddr(input.address, true)
                       : input.address}
                   </Text>

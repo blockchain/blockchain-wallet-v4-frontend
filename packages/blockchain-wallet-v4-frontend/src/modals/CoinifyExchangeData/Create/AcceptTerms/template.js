@@ -1,11 +1,11 @@
-import React from "react"
-import { FormattedMessage } from "react-intl"
-import styled from "styled-components"
-import { Field, reduxForm } from "redux-form"
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+import { Field, reduxForm } from 'redux-form'
 
-import Helper from "components/BuySell/FAQ"
-import { CheckBox } from "components/Form"
-import Terms from "components/Terms"
+import Helper from 'components/BuySell/FAQ'
+import { CheckBox } from 'components/Form'
+import Terms from 'components/Terms'
 import {
   Button,
   HeartbeatLoader,
@@ -13,7 +13,7 @@ import {
   TextGroup,
   Link,
   Icon
-} from "blockchain-info-components"
+} from 'blockchain-info-components'
 import {
   Form,
   ColLeft,
@@ -24,9 +24,9 @@ import {
   ButtonWrapper,
   ErrorWrapper,
   ColRightInner
-} from "components/BuySell/Signup"
-import { prop } from "ramda"
-import media from "services/ResponsiveService"
+} from 'components/BuySell/Signup'
+import { prop } from 'ramda'
+import media from 'services/ResponsiveService'
 
 const AcceptTermsContainer = styled.div`
   display: flex;
@@ -34,7 +34,7 @@ const AcceptTermsContainer = styled.div`
   margin-top: 25px;
   font-size: 12px;
   a {
-    color: ${props => props.theme["brand-secondary"]};
+    color: ${props => props.theme['brand-secondary']};
     text-decoration: none;
   }
   * {
@@ -98,7 +98,7 @@ const VerifiedText = styled(Text)`
   `};
 `
 const checkboxShouldBeChecked = value =>
-  value ? undefined : "You must agree to the terms and conditions"
+  value ? undefined : 'You must agree to the terms and conditions'
 
 const AcceptTerms = props => {
   const {
@@ -220,7 +220,7 @@ const AcceptTerms = props => {
           </ButtonWrapper>
           <ErrorWrapper>
             {signupError &&
-            prop("error", signupError) === "email_address_in_use" ? (
+            prop('error', signupError) === 'email_address_in_use' ? (
               <TextGroup inline>
                 <Text size="12px" color="error" weight={300}>
                   <FormattedMessage
@@ -233,7 +233,7 @@ const AcceptTerms = props => {
                   color="brand-secondary"
                   cursor="pointer"
                   weight={300}
-                  onClick={() => updateUI({ create: "change_email" })}
+                  onClick={() => updateUI({ create: 'change_email' })}
                 >
                   <FormattedMessage
                     id="coinifyexchangedata.create.accept.error2"
@@ -282,4 +282,4 @@ const AcceptTerms = props => {
   )
 }
 
-export default reduxForm({ form: "coinifyAcceptTerms" })(AcceptTerms)
+export default reduxForm({ form: 'coinifyAcceptTerms' })(AcceptTerms)

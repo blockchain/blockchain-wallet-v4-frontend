@@ -1,26 +1,26 @@
-import { compose } from "ramda"
-import { Wrapper, Wallet, AddressMap } from "../../types"
-import walletReducer from "./reducers.js"
-import * as Actions from "./actions.js"
-const walletFixture = require("../../types/__mocks__/wallet.v3")
+import { compose } from 'ramda'
+import { Wrapper, Wallet, AddressMap } from '../../types'
+import walletReducer from './reducers.js'
+import * as Actions from './actions.js'
+const walletFixture = require('../../types/__mocks__/wallet.v3')
 
 const wrap = wallet => ({
   sync_pubkeys: false,
-  payload_checksum: "payload_checksum",
-  storage_token: "storage_token",
+  payload_checksum: 'payload_checksum',
+  storage_token: 'storage_token',
   version: 3,
-  language: "en",
+  language: 'en',
   wallet: wallet,
-  war_checksum: "war_checksum",
-  password: "password",
+  war_checksum: 'war_checksum',
+  password: 'password',
   pbkdf2_iterations: 5000
 })
 
-describe("reducers", () => {
-  describe("wallet", () => {
+describe('reducers', () => {
+  describe('wallet', () => {
     const wrapped = Wrapper.fromJS(wrap(walletFixture))
 
-    it("should handle SET_WRAPPER", () => {
+    it('should handle SET_WRAPPER', () => {
       let action = Actions.setWrapper(wrapped)
       let next = walletReducer(void 0, action)
       expect(next).toEqual(wrapped)
@@ -38,23 +38,23 @@ describe("reducers", () => {
     //   expect(next).toEqual(wrapped)
     // })
 
-    it("should handle SET_LEGACY_ADDRESS_LABEL", () => {
-      let label = "my new label"
+    it('should handle SET_LEGACY_ADDRESS_LABEL', () => {
+      let label = 'my new label'
       let action = Actions.setLegacyAddressLabel(
-        "19XmKRY66VnUn5irHAafyoTfiwFuGLUxKF",
+        '19XmKRY66VnUn5irHAafyoTfiwFuGLUxKF',
         label
       )
       let next = walletReducer(wrapped, action)
       const sa = compose(
-        AddressMap.selectAddress("19XmKRY66VnUn5irHAafyoTfiwFuGLUxKF"),
+        AddressMap.selectAddress('19XmKRY66VnUn5irHAafyoTfiwFuGLUxKF'),
         Wallet.selectAddresses,
         Wrapper.selectWallet
       )
       expect(sa(next).label).toEqual(label)
     })
 
-    it("should handle SET_HD_ADDRESS_LABEL", () => {
-      let label = "changed_label"
+    it('should handle SET_HD_ADDRESS_LABEL', () => {
+      let label = 'changed_label'
       let action = Actions.setHdAddressLabel(0, 0, label)
       let next = walletReducer(wrapped, action)
       let select = compose(
@@ -66,7 +66,7 @@ describe("reducers", () => {
       ).toEqual(label)
     })
 
-    it("should handle DELETE_HD_ADDRESS_LABEL", () => {
+    it('should handle DELETE_HD_ADDRESS_LABEL', () => {
       let action = Actions.deleteHdAddressLabel(0, 0)
       let next = walletReducer(wrapped, action)
       let select = compose(

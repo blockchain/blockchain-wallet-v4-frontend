@@ -1,8 +1,8 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
-import { Icon, Text } from "blockchain-info-components"
+import { Icon, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -32,15 +32,15 @@ const FiatDisplay = props => {
   return (
     <Wrapper>
       {showIcon &&
-        coin === "BTC" && (
+        coin === 'BTC' && (
           <Icon name="bitcoin" size={size} weight={weight} color={color} />
         )}
       {showIcon &&
-        coin === "ETH" && (
+        coin === 'ETH' && (
           <Icon name="ethereum" size={size} weight={weight} color={color} />
         )}
       {showIcon &&
-        coin === "BCH" && (
+        coin === 'BCH' && (
           <Icon name="bitcoin" size={size} weight={weight} color={color} />
         )}
       <FiatText
@@ -57,7 +57,7 @@ const FiatDisplay = props => {
 }
 
 FiatDisplay.propTypes = {
-  coin: PropTypes.oneOf(["BTC", "ETH", "BCH"]).isRequired,
+  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH']).isRequired,
   children: PropTypes.string.isRequired,
   showIcon: PropTypes.bool,
   size: PropTypes.string,
@@ -69,10 +69,10 @@ FiatDisplay.propTypes = {
 
 FiatDisplay.defaultProps = {
   showIcon: false,
-  size: "16px",
+  size: '16px',
   weight: 300,
-  color: "gray-5",
-  cursor: "auto"
+  color: 'gray-5',
+  cursor: 'auto'
 }
 
 export default FiatDisplay

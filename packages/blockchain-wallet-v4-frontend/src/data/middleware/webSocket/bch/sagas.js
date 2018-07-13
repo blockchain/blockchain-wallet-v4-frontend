@@ -1,9 +1,9 @@
-import { call, put, select } from "redux-saga/effects"
-import { compose, equals, prop } from "ramda"
-import * as actions from "../../../actions"
-import * as selectors from "../../../selectors"
-import * as T from "services/AlertService"
-import { Socket } from "blockchain-wallet-v4/src/network"
+import { call, put, select } from 'redux-saga/effects'
+import { compose, equals, prop } from 'ramda'
+import * as actions from '../../../actions'
+import * as selectors from '../../../selectors'
+import * as T from 'services/AlertService'
+import { Socket } from 'blockchain-wallet-v4/src/network'
 
 // TO REVIEW
 export default ({ api, bchSocket }) => {
@@ -24,8 +24,8 @@ export default ({ api, bchSocket }) => {
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(
-          "middleware/webSocket/bch/sagas",
-          "onOpen",
+          'middleware/webSocket/bch/sagas',
+          'onOpen',
           e.message
         )
       )
@@ -37,7 +37,7 @@ export default ({ api, bchSocket }) => {
       const message = action.payload
 
       switch (message.op) {
-        case "utx":
+        case 'utx':
           // Find out if the transaction is sent/received to show a notification
           const context = yield select(selectors.core.wallet.getContext)
           const data = yield call(api.fetchBchData, context, {
@@ -58,18 +58,18 @@ export default ({ api, bchSocket }) => {
           yield put(actions.core.data.bitcoin.fetchData())
           // If we are on the transaction page, fetch transactions related to the selected account
           const pathname = yield select(selectors.router.getPathname)
-          if (equals(pathname, "/bch/transactions")) {
+          if (equals(pathname, '/bch/transactions')) {
             const formValues = yield select(
-              selectors.form.getFormValues("bchTransactions")
+              selectors.form.getFormValues('bchTransactions')
             )
-            const source = prop("source", formValues)
-            const onlyShow = equals(source, "all")
-              ? ""
+            const source = prop('source', formValues)
+            const onlyShow = equals(source, 'all')
+              ? ''
               : source.xpub || source.address
             yield put(actions.core.data.bch.fetchTransactions(onlyShow, true))
           }
           break
-        case "block":
+        case 'block':
           // Update block
           const newBlock = message.x
           yield put(
@@ -83,14 +83,14 @@ export default ({ api, bchSocket }) => {
           // Update balances
 
           break
-        case "pong":
+        case 'pong':
           break
         default:
           yield put(
             actions.logs.logErrorMessage(
-              "middleware/webSocket/bch/sagas",
-              "onMessage",
-              "unknown type for " + message
+              'middleware/webSocket/bch/sagas',
+              'onMessage',
+              'unknown type for ' + message
             )
           )
           break
@@ -98,8 +98,8 @@ export default ({ api, bchSocket }) => {
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(
-          "middleware/webSocket/bch/sagas",
-          "onMessage",
+          'middleware/webSocket/bch/sagas',
+          'onMessage',
           e.message
         )
       )

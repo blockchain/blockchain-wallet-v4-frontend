@@ -1,7 +1,7 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
 import {
   Button,
@@ -11,8 +11,8 @@ import {
   ModalFooter,
   Text,
   Tooltip
-} from "blockchain-info-components"
-import ExchangeTimeline from "components/ExchangeTimeline"
+} from 'blockchain-info-components'
+import ExchangeTimeline from 'components/ExchangeTimeline'
 
 const Notice = styled.div`
   width: 100%;
@@ -22,8 +22,8 @@ const Table = styled.div`
   width: 100%;
   padding: 0 10px;
   box-sizing: border-box;
-  border: 1px solid ${props => props.theme["gray-2"]};
-  background-color: ${props => props.theme["white-blue"]};
+  border: 1px solid ${props => props.theme['gray-2']};
+  background-color: ${props => props.theme['white-blue']};
   & > :last-child {
     border-bottom: none;
   }
@@ -36,7 +36,7 @@ const TableRow = styled.div`
   width: 100%;
   padding: 8px 0;
   box-sizing: border-box;
-  border-bottom: 1px solid ${props => props.theme["gray-2"]};
+  border-bottom: 1px solid ${props => props.theme['gray-2']};
 
   > :first-child {
     margin-right: 5px;
@@ -54,21 +54,21 @@ const TableCell = styled.div`
 
 const getModalHeader = status => {
   switch (status) {
-    case "complete":
+    case 'complete':
       return (
         <FormattedMessage
           id="modals.exchangedetails.title.success"
           defaultMessage="Exchange Completed"
         />
       )
-    case "resolved":
+    case 'resolved':
       return (
         <FormattedMessage
           id="modals.exchangedetails.title.refunded"
           defaultMessage="Trade Refunded"
         />
       )
-    case "failed":
+    case 'failed':
       return (
         <FormattedMessage
           id="modals.exchangedetails.title.failed"
@@ -107,7 +107,7 @@ const ExchangeDetails = props => {
       </ModalHeader>
       <ModalBody>
         <ExchangeTimeline status={status} />
-        {status === "complete" && (
+        {status === 'complete' && (
           <Notice>
             <Text size="13px" weight={300}>
               <FormattedMessage

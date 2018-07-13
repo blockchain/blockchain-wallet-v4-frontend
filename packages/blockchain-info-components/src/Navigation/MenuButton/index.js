@@ -1,5 +1,5 @@
-import React from "react"
-import styled from "styled-components"
+import React from 'react'
+import styled from 'styled-components'
 
 const Button = styled.button`
   display: none;
@@ -24,7 +24,7 @@ const Button = styled.button`
       transition-delay: 100ms;
     }
     & span {
-      background: ${props => props.theme["white"]};
+      background: ${props => props.theme['white']};
       border-radius: 2px !important;
       display: block;
       height: 2px;
@@ -35,9 +35,9 @@ const Button = styled.button`
     }
     & span::before,
     & span::after {
-      background-color: ${props => props.theme["white"]};
+      background-color: ${props => props.theme['white']};
       border-radius: 2px !important;
-      content: "";
+      content: '';
       display: block;
       height: 2px;
       left: 0;

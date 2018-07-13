@@ -1,13 +1,13 @@
-import React from "react"
-import { FormattedMessage } from "react-intl"
-import styled from "styled-components"
-import { Field } from "redux-form"
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+import { Field } from 'redux-form'
 
-import { Link, Button, Text, TextGroup } from "blockchain-info-components"
-import { SecuritySummary } from "components/Security"
-import { TextBox } from "components/Form"
-import { validEmailCode, required } from "services/FormHelper"
-import media from "services/ResponsiveService"
+import { Link, Button, Text, TextGroup } from 'blockchain-info-components'
+import { SecuritySummary } from 'components/Security'
+import { TextBox } from 'components/Form'
+import { validEmailCode, required } from 'services/FormHelper'
+import media from 'services/ResponsiveService'
 
 const EmailCodeWrapper = styled.form`
   width: 100%;

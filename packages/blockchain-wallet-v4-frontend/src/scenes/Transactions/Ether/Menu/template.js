@@ -1,19 +1,19 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { Field, reduxForm } from "redux-form"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
 
-import { ComponentDropdown, Icon, Link, Text } from "blockchain-info-components"
-import { TextBox, TabMenuTransactionStatus } from "components/Form"
-import media from "services/ResponsiveService"
-import { MediaContextConsumer } from "providers/MatchMediaProvider"
+import { ComponentDropdown, Icon, Link, Text } from 'blockchain-info-components'
+import { TextBox, TabMenuTransactionStatus } from 'components/Form'
+import media from 'services/ResponsiveService'
+import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 
 const Wrapper = styled.div`
   width: 100%;
   padding: 8px 30px;
   box-sizing: border-box;
-  background-color: ${props => props.theme["white-blue"]};
-  border-bottom: 1px solid ${props => props.theme["gray-1"]};
+  background-color: ${props => props.theme['white-blue']};
+  border-bottom: 1px solid ${props => props.theme['gray-1']};
 `
 const Container = styled.div`
   display: flex;
@@ -92,7 +92,7 @@ const Menu = props => {
             <Status>
               <Field
                 name="status"
-                statuses={["", "sent", "received"]}
+                statuses={['', 'sent', 'received']}
                 component={TabMenuTransactionStatus}
               />
             </Status>
@@ -102,7 +102,7 @@ const Menu = props => {
                   <ComponentDropdown
                     down
                     forceSelected
-                    color={"gray-5"}
+                    color={'gray-5'}
                     selectedComponent={<PrivateKeys />}
                     components={[
                       <ClickableText
@@ -127,7 +127,7 @@ const Menu = props => {
                   />
                 ) : (
                   <Link
-                    size={"12px"}
+                    size={'12px'}
                     weight={300}
                     onClick={() => onShowPrivateKey(false)}
                   >
@@ -158,4 +158,4 @@ const Menu = props => {
   )
 }
 
-export default reduxForm({ form: "ethTransactions" })(Menu)
+export default reduxForm({ form: 'ethTransactions' })(Menu)

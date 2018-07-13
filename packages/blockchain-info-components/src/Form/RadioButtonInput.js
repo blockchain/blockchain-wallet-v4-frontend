@@ -1,6 +1,6 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -11,7 +11,7 @@ const Wrapper = styled.div`
 `
 
 const BaseRadioButtonInput = styled.input.attrs({
-  type: "radio"
+  type: 'radio'
 })`
   opacity: 0;
   width: 0px;
@@ -21,7 +21,7 @@ const BaseRadioButtonInput = styled.input.attrs({
   &:checked {
     & + label {
       &:before {
-        background: ${props => props.theme["brand-secondary"]};
+        background: ${props => props.theme['brand-secondary']};
       }
     }
   }
@@ -29,7 +29,7 @@ const BaseRadioButtonInput = styled.input.attrs({
     & + label {
       &:before {
         cursor: not-allowed;
-        border: 1px solid ${props => props.theme["gray-2"]};
+        border: 1px solid ${props => props.theme['gray-2']};
       }
     }
   }
@@ -39,14 +39,14 @@ const Label = styled.label`
   cursor: pointer;
   align-items: center;
   &:before {
-    content: "";
+    content: '';
     width: 12px;
     height: 12px;
     margin-right: 5px;
     background: white;
     border-radius: 2px;
     transition: background 0.2s;
-    border: 1px solid ${props => props.theme["brand-secondary"]};
+    border: 1px solid ${props => props.theme['brand-secondary']};
   }
 `
 

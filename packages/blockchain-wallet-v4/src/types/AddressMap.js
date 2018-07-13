@@ -8,11 +8,11 @@ import {
   curry,
   filter,
   reject
-} from "ramda"
-import { view } from "ramda-lens"
-import Type from "./Type"
-import * as Address from "./Address"
-import { iLensProp } from "./util"
+} from 'ramda'
+import { view } from 'ramda-lens'
+import Type from './Type'
+import * as Address from './Address'
+import { iLensProp } from './util'
 
 export class AddressMap extends Type {}
 
@@ -72,7 +72,7 @@ export const fromJS = keys => {
     return keys
   } else {
     const addrs = compose(
-      indexBy(prop("addr")),
+      indexBy(prop('addr')),
       map(Address.fromJS)
     )(keys)
     return new AddressMap(addrs)

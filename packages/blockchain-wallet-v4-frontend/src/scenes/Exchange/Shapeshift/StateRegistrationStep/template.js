@@ -1,24 +1,24 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { Field, reduxForm } from "redux-form"
-import { FormattedMessage, injectIntl } from "react-intl"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { Field, reduxForm } from 'redux-form'
+import { FormattedMessage, injectIntl } from 'react-intl'
 
-import { required } from "services/FormHelper"
-import { Button, Text } from "blockchain-info-components"
+import { required } from 'services/FormHelper'
+import { Button, Text } from 'blockchain-info-components'
 import {
   Form,
   FormGroup,
   FormLabel,
   FormItem,
   SelectBoxUSState
-} from "components/Form"
+} from 'components/Form'
 
 const Wrapper = styled.div`
   width: 100%;
   padding: 20px 30px;
   box-sizing: border-box;
-  border: 1px solid ${props => props.theme["gray-2"]};
+  border: 1px solid ${props => props.theme['gray-2']};
 `
 const Header = styled.div`
   display: flex;
@@ -99,7 +99,7 @@ StateRegistrationStep.propTypes = {
 
 export default injectIntl(
   reduxForm({
-    form: "shapeshiftStateRegistration",
+    form: 'shapeshiftStateRegistration',
     validate: (values, props) => {
       return values.state &&
         values.state.code &&
@@ -107,8 +107,8 @@ export default injectIntl(
         ? {}
         : {
             state: props.intl.formatMessage({
-              id: "scenes.exchange.shapeshift.stateregistration.unavailable",
-              defaultMessage: "This service is not yet available in your state."
+              id: 'scenes.exchange.shapeshift.stateregistration.unavailable',
+              defaultMessage: 'This service is not yet available in your state.'
             })
           }
     }

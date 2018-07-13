@@ -1,7 +1,7 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { Link } from "blockchain-info-components"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { Link } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -19,7 +19,7 @@ export default props => (
       <FormattedMessage
         id="wallet.menutop.balance.refresh"
         defaultMessage="Refresh {curr} data"
-        values={{ curr: "Bitcoin Cash" }}
+        values={{ curr: 'Bitcoin Cash' }}
       />
     </ErrorLink>
   </Wrapper>

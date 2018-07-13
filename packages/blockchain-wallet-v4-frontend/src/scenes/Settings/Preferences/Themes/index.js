@@ -1,5 +1,5 @@
-import React from "react"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
 
 import {
   SettingComponent,
@@ -7,8 +7,8 @@ import {
   SettingDescription,
   SettingHeader,
   SettingSummary
-} from "components/Setting"
-import Settings from "./Settings"
+} from 'components/Setting'
+import Settings from './Settings'
 
 const Themes = () => {
   return (

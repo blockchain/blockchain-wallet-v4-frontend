@@ -1,11 +1,11 @@
-import React from "react"
-import { shallow } from "enzyme"
-import toJson from "enzyme-to-json"
+import React from 'react'
+import { shallow } from 'enzyme'
+import toJson from 'enzyme-to-json'
 
-import Modal from "./Modal"
+import Modal from './Modal'
 
-describe("Modal component", () => {
-  it("default renders correctly", () => {
+describe('Modal component', () => {
+  it('default renders correctly', () => {
     const component = shallow(
       <Modal position={1} total={1} size="large" closeButton />
     )

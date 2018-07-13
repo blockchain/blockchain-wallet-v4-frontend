@@ -1,14 +1,14 @@
-import React, { Fragment } from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { reduxForm } from "redux-form"
-import CopyToClipBoard from "react-copy-to-clipboard"
+import React, { Fragment } from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { reduxForm } from 'redux-form'
+import CopyToClipBoard from 'react-copy-to-clipboard'
 
-import { Button, Link, Text } from "blockchain-info-components"
-import { Form } from "components/Form"
-import CoinDisplay from "components/Display/CoinDisplay"
-import FiatDisplay from "components/Display/FiatDisplay"
+import { Button, Link, Text } from 'blockchain-info-components'
+import { Form } from 'components/Form'
+import CoinDisplay from 'components/Display/CoinDisplay'
+import FiatDisplay from 'components/Display/FiatDisplay'
 
 const Container = styled.div`
   display: flex;
@@ -18,7 +18,7 @@ const Container = styled.div`
   padding: 20px 0;
   margin-top: 5px;
   margin-bottom: 20px;
-  background-color: ${props => props.theme["white-blue"]};
+  background-color: ${props => props.theme['white-blue']};
 
   & > * {
     padding: 5px 0;
@@ -31,7 +31,7 @@ const LinkContainer = styled.div`
   padding: 20px 15px 0px 15px;
   text-align: center;
   word-wrap: break-word;
-  border-top: 1px solid ${props => props.theme["gray-1"]};
+  border-top: 1px solid ${props => props.theme['gray-1']};
 `
 const SubHeader = styled(Text)`
   margin-bottom: 20px;
@@ -82,7 +82,7 @@ const SecondStep = props => {
         <CopyToClipBoard text={link}>
           <Button
             type="submit"
-            nature={active ? "copy" : "primary"}
+            nature={active ? 'copy' : 'primary'}
             fullwidth
             uppercase
           >
@@ -124,6 +124,6 @@ SecondStep.propTypes = {
   onSubmit: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: "requestBitcoin", destroyOnUnmount: false })(
+export default reduxForm({ form: 'requestBitcoin', destroyOnUnmount: false })(
   SecondStep
 )

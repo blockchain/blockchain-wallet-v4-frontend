@@ -1,16 +1,16 @@
-import React, { Fragment } from "react"
-import { FormattedMessage } from "react-intl"
-import { NavLink } from "react-router-dom"
-import { gt, gte } from "ramda"
+import React, { Fragment } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { NavLink } from 'react-router-dom'
+import { gt, gte } from 'ramda'
 
-import { Link, Text } from "blockchain-info-components"
+import { Link, Text } from 'blockchain-info-components'
 import {
   CoinBalance,
   ColourBar,
   ViewAllText,
   WalletLink
-} from "components/BalancesChart"
-import SwitchableDisplay from "components/Display/SwitchableDisplay"
+} from 'components/BalancesChart'
+import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 
 const BtcBalance = props => {
   const {
@@ -80,7 +80,7 @@ const BtcBalance = props => {
           <Link
             size="10px"
             weight={300}
-            onClick={() => modalsActions.showModal("RequestBitcoin")}
+            onClick={() => modalsActions.showModal('RequestBitcoin')}
           >
             <FormattedMessage
               id="scenes.home.balanceschart.requestbtc"
@@ -90,7 +90,7 @@ const BtcBalance = props => {
         )
       )}
       {btcAccountsLength > 1 && gt(btcBalance, 0) ? (
-        <NavLink to="/settings/addresses" style={{ textDecoration: "none" }}>
+        <NavLink to="/settings/addresses" style={{ textDecoration: 'none' }}>
           <ViewAllText weight={300} size="10px">
             <FormattedMessage
               id="scenes.home.balanceschart.btc.viewall"

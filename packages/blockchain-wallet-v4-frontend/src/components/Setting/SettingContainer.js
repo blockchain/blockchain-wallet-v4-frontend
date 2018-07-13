@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
 const SettingContainer = styled.div`
   position: relative;
@@ -7,7 +7,7 @@ const SettingContainer = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  border-bottom: 1px solid ${props => props.theme["gray-2"]};
+  border-bottom: 1px solid ${props => props.theme['gray-2']};
 
   @media (min-width: 992px) {
     flex-direction: row;

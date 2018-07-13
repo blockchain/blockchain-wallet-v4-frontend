@@ -1,8 +1,8 @@
-import React from "react"
-import PropTypes from "prop-types"
+import React from 'react'
+import PropTypes from 'prop-types'
 
-import modalEnhancer from "providers/ModalEnhancer"
-import UpgradeAddressLabels from "./template.js"
+import modalEnhancer from 'providers/ModalEnhancer'
+import UpgradeAddressLabels from './template.js'
 
 class UpgradeAddressLabelsContainer extends React.PureComponent {
   render() {
@@ -14,6 +14,6 @@ UpgradeAddressLabelsContainer.propTypes = {
   duration: PropTypes.number
 }
 
-export default modalEnhancer("UpgradeAddressLabels")(
+export default modalEnhancer('UpgradeAddressLabels')(
   UpgradeAddressLabelsContainer
 )

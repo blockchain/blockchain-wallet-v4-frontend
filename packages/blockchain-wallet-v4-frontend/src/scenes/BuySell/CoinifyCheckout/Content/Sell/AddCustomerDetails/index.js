@@ -1,11 +1,11 @@
-import React from "react"
-import { bindActionCreators } from "redux"
-import { connect } from "react-redux"
+import React from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 
-import { actions } from "data"
-import { getData } from "./selectors.js"
-import Success from "./template.success.js"
-import Loading from "components/BuySell/Loading"
+import { actions } from 'data'
+import { getData } from './selectors.js'
+import Success from './template.success.js'
+import Loading from 'components/BuySell/Loading'
 class AddCustomerDetailsContainer extends React.PureComponent {
   constructor(props) {
     super(props)

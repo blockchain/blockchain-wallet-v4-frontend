@@ -1,14 +1,14 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { Button, Link, Separator, Text } from "blockchain-info-components"
+import { Button, Link, Separator, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   width: 100%;
   padding: 40px;
   box-sizing: border-box;
-  background-color: ${props => props.theme["white"]};
+  background-color: ${props => props.theme['white']};
 
   @media (min-width: 768px) {
     width: 550px;

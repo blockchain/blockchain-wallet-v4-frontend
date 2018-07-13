@@ -1,25 +1,25 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { FormattedMessage } from "react-intl"
-import { Field, reduxForm } from "redux-form"
-import styled from "styled-components"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
 
-import { Button, ButtonGroup } from "blockchain-info-components"
+import { Button, ButtonGroup } from 'blockchain-info-components'
 import {
   Form,
   FormGroup,
   FormItem,
   FormLabel,
   PasswordBox
-} from "components/Form"
-import { SettingWrapper } from "components/Setting"
+} from 'components/Form'
+import { SettingWrapper } from 'components/Setting'
 import {
   required,
   validStrongPassword,
   validPasswordConfirmation,
   validCurrentPassword,
   isNotCurrentPassword
-} from "services/FormHelper"
+} from 'services/FormHelper'
 
 const ButtonWrapper = styled(ButtonGroup)`
   margin-top: 5px;
@@ -28,7 +28,7 @@ const ButtonWrapper = styled(ButtonGroup)`
   }
 `
 
-const validatePasswordConfirmation = validPasswordConfirmation("newPassword")
+const validatePasswordConfirmation = validPasswordConfirmation('newPassword')
 
 const Settings = props => {
   const {
@@ -66,7 +66,7 @@ const Settings = props => {
                 validate={[validCurrentPassword]}
               />
             </FormItem>
-            <FormItem style={{ marginTop: "5px" }}>
+            <FormItem style={{ marginTop: '5px' }}>
               <FormLabel for="newPassword">
                 <FormattedMessage
                   id="scenes.securitysettings.advanced.walletpassword.settings.new"
@@ -80,7 +80,7 @@ const Settings = props => {
                 score
               />
             </FormItem>
-            <FormItem style={{ marginTop: "5px" }}>
+            <FormItem style={{ marginTop: '5px' }}>
               <FormLabel for="walletPasswordConfirmation">
                 <FormattedMessage
                   id="scenes.securitysettings.advanced.walletpassword.settings.confirm"
@@ -125,4 +125,4 @@ Settings.propTypes = {
   handleSubmit: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: "settingWalletPassword" })(Settings)
+export default reduxForm({ form: 'settingWalletPassword' })(Settings)

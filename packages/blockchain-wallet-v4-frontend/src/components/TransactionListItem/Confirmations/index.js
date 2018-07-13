@@ -1,10 +1,10 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { toString } from "ramda"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { toString } from 'ramda'
 
-import { Icon, Link, Text, Tooltip } from "blockchain-info-components"
+import { Icon, Link, Text, Tooltip } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -36,9 +36,9 @@ const IconWrapper = styled.div`
 `
 
 const explorers = {
-  BTC: "https://blockchain.info/tx",
-  ETH: "https://etherscan.io/tx",
-  BCH: "https://blockchair.com/bitcoin-cash/transaction"
+  BTC: 'https://blockchain.info/tx',
+  ETH: 'https://etherscan.io/tx',
+  BCH: 'https://blockchair.com/bitcoin-cash/transaction'
 }
 
 const Confirmations = props => {
@@ -66,7 +66,7 @@ const Confirmations = props => {
       <IconWrapper>
         {props.confirmations < props.minConfirmations && (
           <TransactionTooltip>
-            <Tooltip colors={"red"}>
+            <Tooltip colors={'red'}>
               <FormattedMessage
                 id="scenes.transactions.content.list.listitem.transactionunconfirmed"
                 defaultMessage="Your transaction will be complete after it has {minConfirmations} confirmations."

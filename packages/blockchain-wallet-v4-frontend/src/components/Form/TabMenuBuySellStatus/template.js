@@ -1,7 +1,7 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { FormattedMessage } from "react-intl"
-import styled from "styled-components"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
 
 import {
   Image,
@@ -10,7 +10,7 @@ import {
   TabMenuItem,
   Text,
   TextGroup
-} from "blockchain-info-components"
+} from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -42,9 +42,9 @@ const TabMenuBuySellStatus = props => {
     <Wrapper>
       <TabMenu>
         <TabMenuItem
-          style={{ paddingLeft: "0px" }}
-          selected={value === "buy"}
-          onClick={() => handleClick("buy")}
+          style={{ paddingLeft: '0px' }}
+          selected={value === 'buy'}
+          onClick={() => handleClick('buy')}
         >
           <FormattedMessage
             id="components.form.tabmenubuysell.buy"
@@ -52,8 +52,8 @@ const TabMenuBuySellStatus = props => {
           />
         </TabMenuItem>
         <TabMenuItem
-          selected={value === "sell"}
-          onClick={() => handleClick("sell")}
+          selected={value === 'sell'}
+          onClick={() => handleClick('sell')}
         >
           <FormattedMessage
             id="components.form.tabmenubuysell.sell"
@@ -61,8 +61,8 @@ const TabMenuBuySellStatus = props => {
           />
         </TabMenuItem>
         <TabMenuItem
-          selected={value === "order_history"}
-          onClick={() => handleClick("order_history")}
+          selected={value === 'order_history'}
+          onClick={() => handleClick('order_history')}
         >
           <FormattedMessage
             id="components.form.tabmenubuysell.orderhistory"
@@ -78,7 +78,7 @@ const TabMenuBuySellStatus = props => {
               defaultMessage="Powered by"
             />
           </Text>
-          {partner === "sfox" ? (
+          {partner === 'sfox' ? (
             <Link href="https://www.sfox.com" target="_blank">
               <Image name="sfox-logo" width="60px" height="25px" />
             </Link>
@@ -95,7 +95,7 @@ const TabMenuBuySellStatus = props => {
 
 TabMenuBuySellStatus.propTypes = {
   partner: PropTypes.string,
-  value: PropTypes.oneOf(["buy", "sell", "order_history", ""]),
+  value: PropTypes.oneOf(['buy', 'sell', 'order_history', '']),
   onClick: PropTypes.func
 }
 

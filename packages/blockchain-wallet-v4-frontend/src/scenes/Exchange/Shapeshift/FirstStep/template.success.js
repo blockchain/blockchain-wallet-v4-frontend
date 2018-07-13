@@ -1,9 +1,9 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { Field, reduxForm } from "redux-form"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
 
-import { isEmpty } from "ramda"
+import { isEmpty } from 'ramda'
 import {
   Button,
   HeartbeatLoader,
@@ -12,19 +12,19 @@ import {
   Text,
   TextGroup,
   Tooltip
-} from "blockchain-info-components"
-import { Form, NumberBoxDebounced } from "components/Form"
-import MinimumAmountLink from "./MinimumAmountLink"
-import MaximumAmountLink from "./MaximumAmountLink"
-import SelectBox from "./SelectBox"
+} from 'blockchain-info-components'
+import { Form, NumberBoxDebounced } from 'components/Form'
+import MinimumAmountLink from './MinimumAmountLink'
+import MaximumAmountLink from './MaximumAmountLink'
+import SelectBox from './SelectBox'
 import {
   AboveRegulationLimitMessage,
   MaximumAmountMessage,
   MinimumAmountMessage,
   InsufficientAmountMessage,
   InvalidAmountMessage
-} from "./validationMessages"
-import media from "services/ResponsiveService"
+} from './validationMessages'
+import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   display: flex;
@@ -34,7 +34,7 @@ const Wrapper = styled.div`
   width: 100%;
   padding: 20px 30px 10px 30px;
   box-sizing: border-box;
-  border: 1px solid ${props => props.theme["gray-2"]};
+  border: 1px solid ${props => props.theme['gray-2']};
 
   ${media.mobile`
     border: 0px;
@@ -44,18 +44,18 @@ const Wrapper = styled.div`
 const Row = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: ${props => props.justify || "flex-start"};
+  justify-content: ${props => props.justify || 'flex-start'};
   align-items: flex-start;
   width: 100%;
-  height: ${props => props.height || "auto"};
-  margin-bottom: ${props => (props.spaced ? "20px" : "5px")};
+  height: ${props => props.height || 'auto'};
+  margin-bottom: ${props => (props.spaced ? '20px' : '5px')};
 `
 const Cell = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: ${props => (props.size === "small" ? "center" : "flex-start")};
-  width: ${props => (props.size === "small" ? "10%" : "45%")};
+  align-items: ${props => (props.size === 'small' ? 'center' : 'flex-start')};
+  width: ${props => (props.size === 'small' ? '10%' : '45%')};
   height: 100%;
 `
 const OptionsContainer = styled.div`
@@ -75,7 +75,7 @@ const AmountContainer = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-  ${props => props.hasNoBottomBorder && "& input { border-bottom: none; }"};
+  ${props => props.hasNoBottomBorder && '& input { border-bottom: none; }'};
 `
 const CurrencyBox = styled(Text)`
   position: absolute;
@@ -91,11 +91,11 @@ const CurrencyBox = styled(Text)`
   font-weight: 300;
   transform: uppercase;
   background-color: ${props =>
-    props.disabled ? props.theme["gray-1"] : props.theme["white"]};
+    props.disabled ? props.theme['gray-1'] : props.theme['white']};
 `
 const ShapeshiftIcon = styled(Icon)`
   &:hover {
-    color: ${props => props.theme["brand-secondary"]};
+    color: ${props => props.theme['brand-secondary']};
   }
 `
 
@@ -250,14 +250,14 @@ const Success = props => {
         </Row>
         {formError && (
           <Row spaced>
-            {formError === "minimum" && <MinimumAmountMessage />}
-            {formError === "maximum" && <MaximumAmountMessage />}
-            {formError === "insufficient" && <InsufficientAmountMessage />}
-            {formError === "regulationlimit" && <AboveRegulationLimitMessage />}
-            {formError === "invalid" && <InvalidAmountMessage />}
+            {formError === 'minimum' && <MinimumAmountMessage />}
+            {formError === 'maximum' && <MaximumAmountMessage />}
+            {formError === 'insufficient' && <InsufficientAmountMessage />}
+            {formError === 'regulationlimit' && <AboveRegulationLimitMessage />}
+            {formError === 'invalid' && <InvalidAmountMessage />}
           </Row>
         )}
-        {(!formError || formError === "initial") && (
+        {(!formError || formError === 'initial') && (
           <Row spaced>
             <OptionsContainer>
               <Text weight={300} size="12px">
@@ -295,4 +295,4 @@ const Success = props => {
   )
 }
 
-export default reduxForm({ form: "exchange", destroyOnUnmount: false })(Success)
+export default reduxForm({ form: 'exchange', destroyOnUnmount: false })(Success)

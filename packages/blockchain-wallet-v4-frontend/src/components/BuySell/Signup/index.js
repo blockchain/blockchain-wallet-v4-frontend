@@ -1,5 +1,5 @@
-import styled from "styled-components"
-import media from "services/ResponsiveService"
+import styled from 'styled-components'
+import media from 'services/ResponsiveService'
 
 export const Form = styled.form`
   width: 100%;
@@ -77,7 +77,7 @@ export const ErrorWrapper = styled.div`
   margin-top: 5px;
   a {
     cursor: pointer;
-    color: ${props => props.theme["brand-secondary"]};
+    color: ${props => props.theme['brand-secondary']};
   }
 `
 
@@ -96,10 +96,10 @@ export const EmailHelper = styled.span`
   margin-top: 5px;
   font-size: 12px;
   color: ${props =>
-    props.error ? props.theme["error"] : props.theme["gray-3"]};
+    props.error ? props.theme['error'] : props.theme['gray-3']};
   a {
     cursor: pointer;
-    color: ${props => props.theme["brand-secondary"]};
+    color: ${props => props.theme['brand-secondary']};
   }
 `
 export const CenteredWrapper = styled.div`
@@ -117,6 +117,6 @@ export const CancelWrapper = styled(CenteredWrapper)`
 `
 
 export const BorderBox = styled.div`
-  border: 1px solid ${props => props.theme["gray-1"]};
+  border: 1px solid ${props => props.theme['gray-1']};
   padding: 30px;
 `

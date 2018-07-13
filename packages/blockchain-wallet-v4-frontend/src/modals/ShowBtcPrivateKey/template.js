@@ -1,8 +1,8 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import QRCodeReact from "qrcode.react"
-import CoinDisplay from "components/Display/CoinDisplay"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import QRCodeReact from 'qrcode.react'
+import CoinDisplay from 'components/Display/CoinDisplay'
 import {
   Modal,
   ModalHeader,
@@ -11,9 +11,9 @@ import {
   Text,
   Button,
   SelectInput
-} from "blockchain-info-components"
-import { spacing, flex } from "services/StyleService"
-import { utils } from "blockchain-wallet-v4/src"
+} from 'blockchain-info-components'
+import { spacing, flex } from 'services/StyleService'
+import { utils } from 'blockchain-wallet-v4/src'
 
 const DetailTable = styled.div`
   min-width: 0;
@@ -46,7 +46,7 @@ const FirstStep = () => (
         defaultMessage="Warning"
       />
     </Text>
-    <Text size="14px" style={spacing("mt-10")} weight={300}>
+    <Text size="14px" style={spacing('mt-10')} weight={300}>
       <FormattedMessage
         id="modals.showbtcpriv.warning.message"
         defaultMessage="Don't share your private key with anyone. This may result in a loss of funds."
@@ -63,8 +63,8 @@ const SecondStep = ({
   formats,
   onChangeFormat
 }) => (
-  <div style={flex("row")}>
-    <div style={spacing("mr-25")}>
+  <div style={flex('row')}>
+    <div style={spacing('mr-25')}>
       <QRCodeReact value={priv} size={120} />
     </div>
     <DetailTable>
@@ -75,7 +75,7 @@ const SecondStep = ({
             defaultMessage="Balance"
           />
         </DetailRowText>
-        {":"}&nbsp;
+        {':'}&nbsp;
         <CoinDisplay coin="BTC" size="14px">
           {balance}
         </CoinDisplay>
@@ -87,7 +87,7 @@ const SecondStep = ({
             defaultMessage="Address"
           />
         </DetailRowText>
-        {":"}&nbsp;
+        {':'}&nbsp;
         <Text size="14px" weight={300}>
           {addr}
         </Text>
@@ -99,7 +99,7 @@ const SecondStep = ({
             defaultMessage="Private Key"
           />
         </DetailRowText>
-        {":"}&nbsp;
+        {':'}&nbsp;
         {utils.bitcoin.formatPrivateKeyString(priv, format, addr).fold(
           error => (
             <Text size="14px" weight={300} color="error">
@@ -120,7 +120,7 @@ const SecondStep = ({
             defaultMessage="Private Key Format"
           />
         </DetailRowText>
-        {":"}&nbsp;
+        {':'}&nbsp;
         <SelectInput
           label="Export Format"
           value={format}
@@ -156,7 +156,7 @@ const ShowBtcPrivateKeyTemplate = ({
         cursor="pointer"
         size="small"
         weight={300}
-        style={spacing("mr-15")}
+        style={spacing('mr-15')}
         onClick={close}
       >
         <FormattedMessage

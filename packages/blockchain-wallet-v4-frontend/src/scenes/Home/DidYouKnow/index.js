@@ -1,6 +1,6 @@
-import React from "react"
+import React from 'react'
 
-import DidYouKnow from "./template.js"
+import DidYouKnow from './template.js'
 
 class DidYouKnowContainer extends React.PureComponent {
   componentWillMount() {

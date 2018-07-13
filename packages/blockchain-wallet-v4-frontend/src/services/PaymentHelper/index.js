@@ -1,13 +1,13 @@
-import { selectors } from "data"
-import { curry } from "ramda"
-import { utils } from "blockchain-wallet-v4/src"
+import { selectors } from 'data'
+import { curry } from 'ramda'
+import { utils } from 'blockchain-wallet-v4/src'
 
 export const btcToLabel = curry((payment, state) => {
   const target = payment.to[0]
   switch (target.type) {
-    case "TO.ACCOUNT":
+    case 'TO.ACCOUNT':
       return selectors.core.wallet.getAccountLabel(state)(target.accountIndex)
-    case "TO.ADDRESS":
+    case 'TO.ADDRESS':
       let label = selectors.core.wallet.getLegacyAddressLabel(state)(
         target.address
       )
@@ -19,17 +19,17 @@ export const btcToLabel = curry((payment, state) => {
 
 export const btcFromLabel = curry((payment, state) => {
   switch (payment.fromType) {
-    case "FROM.ACCOUNT":
+    case 'FROM.ACCOUNT':
       return selectors.core.wallet.getAccountLabel(state)(
         payment.fromAccountIdx
       )
-    case "FROM.LEGACY":
+    case 'FROM.LEGACY':
       const label = selectors.core.wallet.getLegacyAddressLabel(state)(
         payment.from[0]
       )
       return label || payment.from[0]
-    case "FROM.WATCH_ONLY":
-    case "FROM.EXTERNAL":
+    case 'FROM.WATCH_ONLY':
+    case 'FROM.EXTERNAL':
     default:
       return payment.from[0]
   }
@@ -37,13 +37,13 @@ export const btcFromLabel = curry((payment, state) => {
 
 export const isBchLegacyAddress = curry((payment, state) => {
   const target = payment.to[0]
-  return target.type === "TO.ADDRESS" && !utils.bch.isCashAddr(target.address)
+  return target.type === 'TO.ADDRESS' && !utils.bch.isCashAddr(target.address)
 })
 
 export const bchToLabel = curry((payment, state) => {
   const target = payment.to[0]
   switch (target.type) {
-    case "TO.ACCOUNT":
+    case 'TO.ACCOUNT':
       return selectors.core.kvStore.bch
         .getAccountLabel(state)(target.accountIndex)
         .getOrElse(target.address)
@@ -54,15 +54,15 @@ export const bchToLabel = curry((payment, state) => {
 
 export const bchFromLabel = curry((payment, state) => {
   switch (payment.fromType) {
-    case "FROM.ACCOUNT":
+    case 'FROM.ACCOUNT':
       return selectors.core.kvStore.bch
         .getAccountLabel(state)(payment.fromAccountIdx)
         .getOrElse(payment.from[0])
-    case "FROM.LEGACY":
+    case 'FROM.LEGACY':
       return utils.bch.toCashAddr(payment.from[0], true)
-    case "FROM.WATCH_ONLY":
+    case 'FROM.WATCH_ONLY':
       return utils.bch.toCashAddr(payment.from[0], true)
-    case "FROM.EXTERNAL":
+    case 'FROM.EXTERNAL':
       return utils.bch.toCashAddr(payment.from[0], true)
     default:
       return payment.from[0]
@@ -72,7 +72,7 @@ export const bchFromLabel = curry((payment, state) => {
 export const ethFromLabel = curry((payment, state) => {
   const from = payment.from
   switch (from.type) {
-    case "ACCOUNT":
+    case 'ACCOUNT':
       return selectors.core.kvStore.ethereum
         .getAccountLabel(state, from.address)
         .getOrElse(from.address)

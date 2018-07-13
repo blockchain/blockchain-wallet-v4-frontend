@@ -1,14 +1,14 @@
-import Bitcoin from "bitcoinjs-lib"
-import { path, prop } from "ramda"
+import Bitcoin from 'bitcoinjs-lib'
+import { path, prop } from 'ramda'
 
-import { btc } from "../../redux/common/selectors"
-import { getDefaultAccountIndex } from "../../redux/wallet/selectors"
+import { btc } from '../../redux/common/selectors'
+import { getDefaultAccountIndex } from '../../redux/wallet/selectors'
 
 export class ExchangeDelegate {
   constructor(state, api, partner) {
     this._trades = []
     this._debug = false
-    this.labelBase = "Exchange order"
+    this.labelBase = 'Exchange order'
     this._state = state
     this._api = api
     this._partner = partner
@@ -59,8 +59,8 @@ export class ExchangeDelegate {
     let fields = {
       guid: guid,
       sharedKey: sharedKey,
-      fields: `email${options.mobile ? "|mobile" : ""}${
-        options.walletAge ? "|wallet_age" : ""
+      fields: `email${options.mobile ? '|mobile' : ''}${
+        options.walletAge ? '|wallet_age' : ''
       }`
     }
 
@@ -72,14 +72,14 @@ export class ExchangeDelegate {
       if (res.success) {
         return res.token
       } else {
-        throw new Error("Unable to obtain email & mobile verification proof")
+        throw new Error('Unable to obtain email & mobile verification proof')
       }
     })
   }
 
   monitorAddress(address, callback) {
     // TODO: monitor address
-    console.log("Monitor address: " + address)
+    console.log('Monitor address: ' + address)
   }
 
   checkAddress(address) {
@@ -95,8 +95,8 @@ export class ExchangeDelegate {
   }
 
   reserveReceiveAddress() {
-    const isProd = prop("walletOptionsPath", this.state)
-      .map(path(["platforms", "web", this.partner, "config", "production"]))
+    const isProd = prop('walletOptionsPath', this.state)
+      .map(path(['platforms', 'web', this.partner, 'config', 'production']))
       .getOrFail(`Missing ${this.partner} production flag in walletOptions`)
 
     let receiveAddress
@@ -110,7 +110,7 @@ export class ExchangeDelegate {
         )
         .getOrElse()
     } else {
-      receiveAddress = "2N7FwMpgyXQA85SaVXumm3UZowq2VKChehP" // testnet address used on staging
+      receiveAddress = '2N7FwMpgyXQA85SaVXumm3UZowq2VKChehP' // testnet address used on staging
     }
 
     return {
@@ -135,7 +135,7 @@ export class ExchangeDelegate {
   }
 
   toJSON() {
-    return ""
+    return ''
   }
 }
 

@@ -1,9 +1,9 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { reduxForm, Field } from "redux-form"
-import { CSVDownload } from "react-csv"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { reduxForm, Field } from 'redux-form'
+import { CSVDownload } from 'react-csv'
 
 import {
   Button,
@@ -13,14 +13,14 @@ import {
   ModalHeader,
   ModalBody,
   Text
-} from "blockchain-info-components"
+} from 'blockchain-info-components'
 import {
   DateBoxDebounced,
   SelectBoxBitcoinAddresses,
   Form
-} from "components/Form"
-import { required } from "services/FormHelper"
-import { validStartDate, validEndDate } from "./validation"
+} from 'components/Form'
+import { required } from 'services/FormHelper'
+import { validStartDate, validEndDate } from './validation'
 
 const Container = styled.div`
   display: flex;
@@ -36,7 +36,7 @@ const Row = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin-bottom: ${props => props.margin || "10px"};
+  margin-bottom: ${props => props.margin || '10px'};
 `
 const TimeContainer = styled.div`
   display: flex;
@@ -153,4 +153,4 @@ FirstStep.propTypes = {
   handleSubmit: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: "transactionReport" })(FirstStep)
+export default reduxForm({ form: 'transactionReport' })(FirstStep)

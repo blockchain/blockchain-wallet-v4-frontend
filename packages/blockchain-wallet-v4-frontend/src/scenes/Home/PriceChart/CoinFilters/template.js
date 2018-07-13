@@ -1,8 +1,8 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
-import CoinTicker from "./CoinTicker"
+import CoinTicker from './CoinTicker'
 
 const Wrapper = styled.div`
   display: flex;
@@ -19,25 +19,25 @@ const CoinFilters = props => {
     <Wrapper>
       <CoinTicker
         coin="BTC"
-        selected={coin === "BTC"}
-        handleClick={() => handleClick("BTC")}
+        selected={coin === 'BTC'}
+        handleClick={() => handleClick('BTC')}
       />
       <CoinTicker
         coin="ETH"
-        selected={coin === "ETH"}
-        handleClick={() => handleClick("ETH")}
+        selected={coin === 'ETH'}
+        handleClick={() => handleClick('ETH')}
       />
       <CoinTicker
         coin="BCH"
-        selected={coin === "BCH"}
-        handleClick={() => handleClick("BCH")}
+        selected={coin === 'BCH'}
+        handleClick={() => handleClick('BCH')}
       />
     </Wrapper>
   )
 }
 
 CoinFilters.propTypes = {
-  coin: PropTypes.oneOf(["BTC", "ETH", "BCH"]).isRequired,
+  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH']).isRequired,
   handleClick: PropTypes.func.isRequired
 }
 

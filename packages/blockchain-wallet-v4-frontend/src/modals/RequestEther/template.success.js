@@ -1,20 +1,20 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { Field, reduxForm } from "redux-form"
-import QRCodeReact from "qrcode.react"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
+import QRCodeReact from 'qrcode.react'
 
-import { required } from "services/FormHelper"
-import { Button, Separator, Text, Tooltip } from "blockchain-info-components"
+import { required } from 'services/FormHelper'
+import { Button, Separator, Text, Tooltip } from 'blockchain-info-components'
 import {
   Form,
   FormGroup,
   FormItem,
   FormLabel,
   SelectBoxCoin
-} from "components/Form"
-import CopyClipboard from "components/CopyClipboard"
+} from 'components/Form'
+import CopyClipboard from 'components/CopyClipboard'
 
 const AddressContainer = styled.div`
   display: flex;
@@ -43,7 +43,7 @@ const RequestEther = props => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <CoinSelector margin={"20px"}>
+      <CoinSelector margin={'20px'}>
         <FormItem>
           <FormLabel for="coin">
             <FormattedMessage
@@ -73,7 +73,7 @@ const RequestEther = props => {
           <CopyClipboard address={address} />
         </AddressContainer>
       </FormGroup>
-      <Separator margin={"20px 0"}>
+      <Separator margin={'20px 0'}>
         <Text size="14px" weight={300} uppercase>
           <FormattedMessage id="modals.requestether.or" defaultMessage="Or" />
         </Text>
@@ -107,6 +107,6 @@ RequestEther.propTypes = {
   onSubmit: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: "requestEther", destroyOnUnmount: false })(
+export default reduxForm({ form: 'requestEther', destroyOnUnmount: false })(
   RequestEther
 )

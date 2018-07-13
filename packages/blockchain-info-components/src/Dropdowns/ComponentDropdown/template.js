@@ -1,14 +1,14 @@
-import React from "react"
-import styled from "styled-components"
-import PropTypes from "prop-types"
+import React from 'react'
+import styled from 'styled-components'
+import PropTypes from 'prop-types'
 
-import { Icon } from "../../Icons"
-import { Palette } from "../../Colors"
-import { keysIn } from "ramda"
+import { Icon } from '../../Icons'
+import { Palette } from '../../Colors'
+import { keysIn } from 'ramda'
 
 const Wrapper = styled.div`
   display: inline-flex;
-  text-transform: ${props => (props.uppercase ? "uppercase" : "none")};
+  text-transform: ${props => (props.uppercase ? 'uppercase' : 'none')};
   position: relative;
 `
 const ButtonContainer = styled.div`
@@ -28,13 +28,13 @@ const DropdownIcon = styled(Icon)`
 `
 const DropdownList = styled.ul`
   background-clip: padding-box;
-  background-color: ${props => props.theme["white"]};
-  border: 1px solid ${props => props.theme["gray-1"]};
+  background-color: ${props => props.theme['white']};
+  border: 1px solid ${props => props.theme['gray-1']};
   border-radius: 4px;
   bottom: 0px;
   box-sizing: border-box;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-  display: ${props => (props.toggled ? "block" : "none")};
+  display: ${props => (props.toggled ? 'block' : 'none')};
   float: none;
   height: auto;
   width: inherit;
@@ -51,15 +51,15 @@ const DropdownList = styled.ul`
   right: 0;
   ${props =>
     props.down
-      ? "top: 25px; bottom: auto;"
-      : "top: auto; bottom: 25px;"} z-index: 10;
+      ? 'top: 25px; bottom: auto;'
+      : 'top: auto; bottom: 25px;'} z-index: 10;
 `
 
 const DropdownItem = styled.li`
-  color: ${props => props.theme["gray-5"]};
+  color: ${props => props.theme['gray-5']};
   cursor: pointer;
   padding: 3px 20px;
-  font-family: "Montserrat", Helvetica, sans-serif;
+  font-family: 'Montserrat', Helvetica, sans-serif;
   font-size: 14px;
   font-weight: 300;
   text-align: left;
@@ -99,7 +99,7 @@ const Dropdown = props => {
 }
 
 Dropdown.defaultProps = {
-  color: "brand-secondary",
+  color: 'brand-secondary',
   toggled: false,
   selectedValue: 0,
   uppercase: true,

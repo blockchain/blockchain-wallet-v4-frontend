@@ -1,7 +1,7 @@
-import React from "react"
-import styled from "styled-components"
+import React from 'react'
+import styled from 'styled-components'
 
-import { Text, NumberInput } from "blockchain-info-components"
+import { Text, NumberInput } from 'blockchain-info-components'
 
 const Container = styled.div`
   position: relative;
@@ -20,7 +20,7 @@ const Error = styled(Text)`
   height: 15px;
 `
 const getErrorState = meta => {
-  return meta.touched && meta.invalid ? "invalid" : "initial"
+  return meta.touched && meta.invalid ? 'invalid' : 'initial'
 }
 
 const NumberBox = field => {

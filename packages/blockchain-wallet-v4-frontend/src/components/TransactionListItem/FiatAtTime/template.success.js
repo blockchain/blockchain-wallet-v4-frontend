@@ -1,10 +1,10 @@
-import React from "react"
-import styled from "styled-components"
-import PropTypes from "prop-types"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import styled from 'styled-components'
+import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 
-import { Text } from "blockchain-info-components"
-import ValueWhenReceived from "./ValueWhenReceived"
+import { Text } from 'blockchain-info-components'
+import ValueWhenReceived from './ValueWhenReceived'
 
 const Wrapper = styled.div`
   display: flex;
@@ -19,7 +19,7 @@ const Wrapper = styled.div`
 const Success = props => (
   <Wrapper>
     <Text size="12px" weight={300}>
-      {props.type === "sent" ? (
+      {props.type === 'sent' ? (
         <FormattedMessage
           id="components.transactionlistitem.fiatattime.valuewhensent"
           defaultMessage="Value when sent: "

@@ -1,11 +1,11 @@
-import React from "react"
-import { connect } from "react-redux"
-import { compose, bindActionCreators } from "redux"
-import { withRouter } from "react-router-dom"
+import React from 'react'
+import { connect } from 'react-redux'
+import { compose, bindActionCreators } from 'redux'
+import { withRouter } from 'react-router-dom'
 
-import { actions } from "data"
-import { getData } from "./selectors"
-import Navigation from "./template.js"
+import { actions } from 'data'
+import { getData } from './selectors'
+import Navigation from './template.js'
 
 class NavigationContainer extends React.PureComponent {
   render() {

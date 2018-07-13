@@ -1,13 +1,13 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import { withRouter } from "react-router-dom"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { withRouter } from 'react-router-dom'
 
-import { actions, selectors } from "data"
-import { getData } from "./selectors"
-import Error from "./template.error"
-import Loading from "./template.loading"
-import Success from "./template.success"
+import { actions, selectors } from 'data'
+import { getData } from './selectors'
+import Error from './template.error'
+import Loading from './template.loading'
+import Success from './template.success'
 
 class BalancesChartContainer extends React.PureComponent {
   constructor(props) {
@@ -39,7 +39,7 @@ class BalancesChartContainer extends React.PureComponent {
 
 const mapStateToProps = state => ({
   data: getData(state),
-  canBuy: selectors.exchange.getCanTrade(state, "Buy")
+  canBuy: selectors.exchange.getCanTrade(state, 'Buy')
 })
 
 const mapDispatchToProps = dispatch => ({

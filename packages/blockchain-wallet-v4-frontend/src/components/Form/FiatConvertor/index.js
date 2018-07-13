@@ -1,11 +1,11 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { connect } from "react-redux"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
-import { getData } from "./selectors"
-import Error from "./template.error"
-import Loading from "./template.loading"
-import Convertor from "./Convertor"
+import { getData } from './selectors'
+import Error from './template.error'
+import Loading from './template.loading'
+import Convertor from './Convertor'
 
 class FiatConvertorContainer extends React.PureComponent {
   render() {
@@ -44,7 +44,7 @@ FiatConvertorContainer.propTypes = {
       PropTypes.number.isRequired
     ])
   }).isRequired,
-  coin: PropTypes.oneOf(["BTC", "ETH", "BCH"]).isRequired
+  coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH']).isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({

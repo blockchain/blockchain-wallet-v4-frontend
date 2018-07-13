@@ -1,8 +1,8 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { Image, Link, Text, TextGroup } from "blockchain-info-components"
-import media from "services/ResponsiveService"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { Image, Link, Text, TextGroup } from 'blockchain-info-components'
+import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   display: flex;
@@ -46,7 +46,7 @@ class EmptyOrderHistoryContainer extends React.PureComponent {
                 defaultMessage="To get started, go to "
               />
             </Text>
-            <Link size="18px" onClick={() => changeTab("buy")}>
+            <Link size="18px" onClick={() => changeTab('buy')}>
               <FormattedMessage
                 id="scenes.buysell.empty.content.buy"
                 defaultMessage="buy "
@@ -55,7 +55,7 @@ class EmptyOrderHistoryContainer extends React.PureComponent {
             <Text>
               <FormattedMessage id="or" defaultMessage="or " />
             </Text>
-            <Link size="18px" onClick={() => changeTab("sell")}>
+            <Link size="18px" onClick={() => changeTab('sell')}>
               <FormattedMessage
                 id="scenes.buysell.empty.content.sell"
                 defaultMessage="sell "

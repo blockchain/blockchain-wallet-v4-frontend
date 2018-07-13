@@ -1,7 +1,7 @@
-import React from "react"
-import ui from "redux-ui"
+import React from 'react'
+import ui from 'redux-ui'
 
-import SecondStep from "./template.js"
+import SecondStep from './template.js'
 
 const SecondStepContainer = props => {
   const { ui, updateUI, mnemonic } = props
@@ -25,6 +25,6 @@ const SecondStepContainer = props => {
   )
 }
 
-export default ui({ key: "RecoveryPhraseMnemonic", state: { index: 0 } })(
+export default ui({ key: 'RecoveryPhraseMnemonic', state: { index: 0 } })(
   SecondStepContainer
 )

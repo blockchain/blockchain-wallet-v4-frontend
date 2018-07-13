@@ -1,9 +1,9 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled, { keyframes } from "styled-components"
-import { keysIn } from "ramda"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled, { keyframes } from 'styled-components'
+import { keysIn } from 'ramda'
 
-import { Palette } from "../Colors"
+import { Palette } from '../Colors'
 
 const stretchAnimation = keyframes`
   0%, 40%, 100% { opacity: 1; }
@@ -61,9 +61,9 @@ FlatLoader.propTypes = {
 }
 
 FlatLoader.defaultProps = {
-  width: "50px",
-  height: "30px",
-  color: "brand-secondary"
+  width: '50px',
+  height: '30px',
+  color: 'brand-secondary'
 }
 
 export default FlatLoader

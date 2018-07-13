@@ -1,11 +1,11 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { Button, Link, Text } from "blockchain-info-components"
-import CoinDisplay from "components/Display/CoinDisplay"
-import FiatDisplay from "components/Display/FiatDisplay"
-import ComboDisplay from "components/Display/ComboDisplay"
+import { Button, Link, Text } from 'blockchain-info-components'
+import CoinDisplay from 'components/Display/CoinDisplay'
+import FiatDisplay from 'components/Display/FiatDisplay'
+import ComboDisplay from 'components/Display/ComboDisplay'
 
 const Row = styled.div`
   display: flex;
@@ -29,7 +29,7 @@ const Summary = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: ${props => props.theme["gray-1"]};
+  background-color: ${props => props.theme['gray-1']};
   padding: 10px 0;
   margin: 5px 0;
   margin-bottom: 25px;

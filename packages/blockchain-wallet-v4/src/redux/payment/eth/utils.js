@@ -1,5 +1,5 @@
-import { select } from "redux-saga"
-import * as S from "../../selectors"
+import { select } from 'redux-saga'
+import * as S from '../../selectors'
 
 // TODO: Better way to test that ?
 export const isValidIndex = function*(index) {

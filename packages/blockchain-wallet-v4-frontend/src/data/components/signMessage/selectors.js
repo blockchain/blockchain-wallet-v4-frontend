@@ -1,8 +1,8 @@
-import { path } from "ramda"
+import { path } from 'ramda'
 
-export const getStep = path(["components", "signMessage", "step"])
+export const getStep = path(['components', 'signMessage', 'step'])
 export const getSignedMessage = path([
-  "components",
-  "signMessage",
-  "signedMessage"
+  'components',
+  'signMessage',
+  'signedMessage'
 ])

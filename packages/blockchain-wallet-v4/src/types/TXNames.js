@@ -1,7 +1,7 @@
 // not used but still in payload
-import { is, pipe } from "ramda"
+import { is, pipe } from 'ramda'
 // import { view } from 'ramda-lens'
-import List from "./List"
+import List from './List'
 
 export class TXNames extends List {}
 

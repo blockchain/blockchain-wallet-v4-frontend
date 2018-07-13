@@ -1,7 +1,7 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { Banner, Button, Icon, Image, Text } from "blockchain-info-components"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { Banner, Button, Icon, Image, Text } from 'blockchain-info-components'
 
 const Fragment = React.Fragment
 
@@ -49,7 +49,7 @@ const Success = props => {
   } = props.value
   const { approver_country, requester_country } = props.value
   const { approver_ip, requester_ip } = props.value
-  const requestDenied = props.value["request-denied"]
+  const requestDenied = props.value['request-denied']
   /* eslint-enable */
 
   return (
@@ -62,7 +62,7 @@ const Success = props => {
               size="24px"
               weight={400}
               color="gray-5"
-              style={{ "margin-top": "25px" }}
+              style={{ 'margin-top': '25px' }}
             >
               <FormattedMessage
                 id="scenes.authorizelogin.attemptfrombrowser"
@@ -73,7 +73,7 @@ const Success = props => {
               size="13px"
               weight={300}
               color="gray-5"
-              style={{ "margin-top": "10px" }}
+              style={{ 'margin-top': '10px' }}
             >
               <FormattedMessage
                 id="scenes.authorizelogin.attemptfrombrowsermsg"
@@ -227,7 +227,7 @@ const Success = props => {
             size="16px"
             weight={300}
             color="gray-5"
-            style={{ "margin-top": "25px" }}
+            style={{ 'margin-top': '25px' }}
           >
             {requestDenied ? (
               <FormattedMessage

@@ -1,6 +1,6 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
 import {
   Button,
@@ -11,7 +11,7 @@ import {
   ModalBody,
   ModalFooter,
   Text
-} from "blockchain-info-components"
+} from 'blockchain-info-components'
 
 const Slide = styled.div`
   display: flex;

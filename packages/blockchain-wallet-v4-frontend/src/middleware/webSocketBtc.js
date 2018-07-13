@@ -1,6 +1,6 @@
-import { compose, prop } from "ramda"
-import { Socket } from "blockchain-wallet-v4/src/network"
-import { actions, actionTypes } from "data"
+import { compose, prop } from 'ramda'
+import { Socket } from 'blockchain-wallet-v4/src/network'
+import { actions, actionTypes } from 'data'
 
 const socket = socket => store => {
   const send = socket.send.bind(socket)
@@ -11,7 +11,7 @@ const socket = socket => store => {
       [actionTypes.core.wallet.CREATE_LEGACY_ADDRESS]: compose(
         send,
         Socket.addrSubMessage,
-        prop("address")
+        prop('address')
       )
     }
 

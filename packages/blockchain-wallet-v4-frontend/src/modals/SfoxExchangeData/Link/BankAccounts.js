@@ -1,12 +1,12 @@
-import React, { Component } from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { reduxForm, Field } from "redux-form"
-import { TextBox, Form } from "components/Form"
-import { Text } from "blockchain-info-components"
-import { required } from "services/FormHelper"
-import Bank from "./Bank"
-import { spacing } from "services/StyleService"
+import React, { Component } from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { reduxForm, Field } from 'redux-form'
+import { TextBox, Form } from 'components/Form'
+import { Text } from 'blockchain-info-components'
+import { required } from 'services/FormHelper'
+import Bank from './Bank'
+import { spacing } from 'services/StyleService'
 
 const Container = styled.div`
   display: flex;
@@ -40,7 +40,7 @@ class BankAccounts extends Component {
           {this.props.data.map(bank => {
             return <Bank bank={bank} onInputClick={this.onInputClick} />
           })}
-          <Text size="14px" style={spacing("mt-10")}>
+          <Text size="14px" style={spacing('mt-10')}>
             <FormattedMessage
               id="sfoxexchangedata.link.accountholdername"
               defaultMessage="Account Holder's Name"
@@ -58,4 +58,4 @@ class BankAccounts extends Component {
   }
 }
 
-export default reduxForm({ form: "sfoxLink" })(BankAccounts)
+export default reduxForm({ form: 'sfoxLink' })(BankAccounts)

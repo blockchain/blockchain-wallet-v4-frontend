@@ -1,9 +1,9 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { Text } from "blockchain-info-components"
+import { Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -15,11 +15,11 @@ const Wrapper = styled.div`
 
 const FilterContainer = styled(Text)`
   color: ${props =>
-    props.selected ? props.theme["brand-primary"] : props.theme["gray-3"]};
+    props.selected ? props.theme['brand-primary'] : props.theme['gray-3']};
   border-bottom: ${props =>
     props.selected
-      ? `2px solid ${props.theme["brand-primary"]}`
-      : "2px solid transparent"};
+      ? `2px solid ${props.theme['brand-primary']}`
+      : '2px solid transparent'};
   cursor: pointer;
 `
 
@@ -31,8 +31,8 @@ const TimeFilters = props => {
       <FilterContainer
         size="14px"
         weight={300}
-        selected={time === "all"}
-        onClick={() => handleClick("all")}
+        selected={time === 'all'}
+        onClick={() => handleClick('all')}
       >
         <FormattedMessage
           id="scenes.priceindexseries.timefilters.all"
@@ -42,8 +42,8 @@ const TimeFilters = props => {
       <FilterContainer
         size="14px"
         weight={300}
-        selected={time === "1year"}
-        onClick={() => handleClick("1year")}
+        selected={time === '1year'}
+        onClick={() => handleClick('1year')}
       >
         <FormattedMessage
           id="scenes.priceindexseries.timefilters.year"
@@ -53,8 +53,8 @@ const TimeFilters = props => {
       <FilterContainer
         size="14px"
         weight={300}
-        selected={time === "1month"}
-        onClick={() => handleClick("1month")}
+        selected={time === '1month'}
+        onClick={() => handleClick('1month')}
       >
         <FormattedMessage
           id="scenes.priceindexseries.timefilters.month"
@@ -64,8 +64,8 @@ const TimeFilters = props => {
       <FilterContainer
         size="14px"
         weight={300}
-        selected={time === "1week"}
-        onClick={() => handleClick("1week")}
+        selected={time === '1week'}
+        onClick={() => handleClick('1week')}
       >
         <FormattedMessage
           id="scenes.priceindexseries.timefilters.week"
@@ -75,8 +75,8 @@ const TimeFilters = props => {
       <FilterContainer
         size="14px"
         weight={300}
-        selected={time === "1day"}
-        onClick={() => handleClick("1day")}
+        selected={time === '1day'}
+        onClick={() => handleClick('1day')}
       >
         <FormattedMessage
           id="scenes.priceindexseries.timefilters.day"
@@ -88,7 +88,7 @@ const TimeFilters = props => {
 }
 
 TimeFilters.propTypes = {
-  time: PropTypes.oneOf(["all", "1day", "1week", "1month", "1year"]).isRequired,
+  time: PropTypes.oneOf(['all', '1day', '1week', '1month', '1year']).isRequired,
   handleClick: PropTypes.func.isRequired
 }
 

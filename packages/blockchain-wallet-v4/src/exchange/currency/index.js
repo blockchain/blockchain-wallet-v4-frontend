@@ -1,10 +1,10 @@
-import BigRational from "big-rational"
-import { compose, curry, is, prop, flip, sequence } from "ramda"
-import { view } from "ramda-lens"
-import Maybe from "data.maybe"
+import BigRational from 'big-rational'
+import { compose, curry, is, prop, flip, sequence } from 'ramda'
+import { view } from 'ramda-lens'
+import Maybe from 'data.maybe'
 
-import Type from "../../types/Type"
-import * as Currencies from "../currencies"
+import Type from '../../types/Type'
+import * as Currencies from '../currencies'
 
 export class Currency extends Type {
   toString() {
@@ -66,13 +66,13 @@ export class Currency extends Type {
 const newCurrency = o => new Currency(o)
 
 export const isCurrency = is(Currency)
-export const value = Currency.define("value")
-export const currency = Currency.define("currency")
+export const value = Currency.define('value')
+export const currency = Currency.define('currency')
 
 export const selectValue = view(value)
 export const selectCurrency = view(currency)
 export const selectUnits = compose(
-  prop("units"),
+  prop('units'),
   selectCurrency
 )
 
@@ -89,7 +89,7 @@ export const toUnit = curry((unit, currencyObject) =>
 
 export const fromUnit = ({ value, unit }) => {
   const unitM = Maybe.fromNullable(unit)
-  const currencyM = unitM.map(prop("currency")).map(flip(prop)(Currencies))
+  const currencyM = unitM.map(prop('currency')).map(flip(prop)(Currencies))
 
   return sequence(Maybe.of, [unitM, currencyM]).map(([unit, currency]) =>
     newCurrency({

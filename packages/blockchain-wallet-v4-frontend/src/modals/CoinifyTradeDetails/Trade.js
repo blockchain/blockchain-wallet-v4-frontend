@@ -1,25 +1,25 @@
-import React, { Fragment } from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { any, equals, prop } from "ramda"
-import moment from "moment"
+import React, { Fragment } from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { any, equals, prop } from 'ramda'
+import moment from 'moment'
 
-import Recurring from "./Recurring"
+import Recurring from './Recurring'
 import {
   ModalHeader,
   ModalBody,
   Text,
   Button
-} from "blockchain-info-components"
+} from 'blockchain-info-components'
 import {
   OrderDetailsTable,
   OrderDetailsRow
-} from "components/BuySell/OrderDetails"
+} from 'components/BuySell/OrderDetails'
 import {
   tradeDetails,
   statusHelper,
   bodyStatusHelper
-} from "services/CoinifyService"
+} from 'services/CoinifyService'
 
 const TableTitle = styled(Text)`
   padding-top: 10px;
@@ -40,12 +40,12 @@ const Trade = ({ trade, close, status, subscriptions }) => {
   const headerStatus = statusHelper(tradeStatus)
   const bodyStatus = bodyStatusHelper(tradeStatus, trade.isBuy)
   const details = tradeDetails.renderDetails(trade)
-  const date = moment(prop("createdAt", trade))
+  const date = moment(prop('createdAt', trade))
     .local()
-    .format("MMMM D YYYY @ h:mm A")
+    .format('MMMM D YYYY @ h:mm A')
   const isPendingSell =
-    any(equals(prop("state", trade)))(["awaiting_transfer_in", "processing"]) &&
-    !prop("isBuy", trade)
+    any(equals(prop('state', trade)))(['awaiting_transfer_in', 'processing']) &&
+    !prop('isBuy', trade)
   const subscription = subscriptions.filter(sub =>
     equals(sub.id, trade.tradeSubscriptionId)
   )
@@ -54,7 +54,7 @@ const Trade = ({ trade, close, status, subscriptions }) => {
     <Fragment>
       <ModalHeader onClose={close}>
         <Text color={headerStatus.color}>
-          {trade.isBuy ? `Buy Trade` : "Sell Trade"} {headerStatus.text}
+          {trade.isBuy ? `Buy Trade` : 'Sell Trade'} {headerStatus.text}
         </Text>
       </ModalHeader>
       <ModalBody>
@@ -75,7 +75,7 @@ const Trade = ({ trade, close, status, subscriptions }) => {
                 defaultMessage="Coinify Trade ID"
               />
             </Text>
-            <Text size="13px" weight={300}>{`CNY-${prop("id", trade)}`}</Text>
+            <Text size="13px" weight={300}>{`CNY-${prop('id', trade)}`}</Text>
           </OrderDetailsRow>
           <OrderDetailsRow>
             <Text size="13px" weight={300}>
@@ -105,7 +105,7 @@ const Trade = ({ trade, close, status, subscriptions }) => {
               </Text>
             )}
             <Text size="13px" weight={300}>
-              {prop("btcAmount", details)}
+              {prop('btcAmount', details)}
             </Text>
           </OrderDetailsRow>
         </StyledOrderDetailsTable>
@@ -125,7 +125,7 @@ const Trade = ({ trade, close, status, subscriptions }) => {
                 />
               </Text>
               <Text size="13px" weight={300}>
-                {prop("bankAccountNumber", trade)}
+                {prop('bankAccountNumber', trade)}
               </Text>
             </OrderDetailsRow>
           )}
@@ -146,7 +146,7 @@ const Trade = ({ trade, close, status, subscriptions }) => {
               </Text>
             )}
             <Text size="13px" weight={300} color="success">
-              {prop("total", details)}
+              {prop('total', details)}
             </Text>
           </OrderDetailsRow>
         </StyledOrderDetailsTable>

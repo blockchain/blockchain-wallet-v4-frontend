@@ -1,5 +1,5 @@
-import React from "react"
-import styled from "styled-components"
+import React from 'react'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -9,7 +9,7 @@ const Wrapper = styled.div`
   width: 100%;
 
   & > :last-child {
-    border-bottom: 1px solid ${props => props.theme["gray-2"]};
+    border-bottom: 1px solid ${props => props.theme['gray-2']};
   }
 `
 

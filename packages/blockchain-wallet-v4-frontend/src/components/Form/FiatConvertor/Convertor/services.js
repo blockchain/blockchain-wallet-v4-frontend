@@ -1,4 +1,4 @@
-import { Exchange } from "blockchain-wallet-v4/src"
+import { Exchange } from 'blockchain-wallet-v4/src'
 
 export const convertFiatToCoin = (
   value,
@@ -9,7 +9,7 @@ export const convertFiatToCoin = (
   ethRates
 ) => {
   switch (unit) {
-    case "BTC":
+    case 'BTC':
       return {
         coin: Exchange.convertFiatToBitcoin({
           value,
@@ -19,7 +19,7 @@ export const convertFiatToCoin = (
         }).value,
         fiat: value
       }
-    case "ETH":
+    case 'ETH':
       return {
         coin: Exchange.convertFiatToEther({
           value,
@@ -29,7 +29,7 @@ export const convertFiatToCoin = (
         }).value,
         fiat: value
       }
-    case "BCH":
+    case 'BCH':
       return {
         coin: Exchange.convertFiatToBch({
           value,
@@ -51,7 +51,7 @@ export const convertCoinToFiat = (
   ethRates
 ) => {
   switch (unit) {
-    case "BTC":
+    case 'BTC':
       return {
         coin: value,
         fiat: Exchange.convertBitcoinToFiat({
@@ -61,7 +61,7 @@ export const convertCoinToFiat = (
           rates: btcRates
         }).value
       }
-    case "ETH":
+    case 'ETH':
       return {
         coin: value,
         fiat: Exchange.convertEtherToFiat({
@@ -71,7 +71,7 @@ export const convertCoinToFiat = (
           rates: ethRates
         }).value
       }
-    case "BCH":
+    case 'BCH':
       return {
         coin: value,
         fiat: Exchange.convertBchToFiat({

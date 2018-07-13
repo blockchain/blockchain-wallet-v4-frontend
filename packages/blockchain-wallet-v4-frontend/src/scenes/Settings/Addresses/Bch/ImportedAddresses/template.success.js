@@ -1,16 +1,16 @@
-import React from "react"
-import { filter } from "ramda"
-import styled from "styled-components"
-import AddressRow from "../../Btc/AddressRow"
-import { FormattedMessage } from "react-intl"
-import { SettingDescription, SettingHeader } from "components/Setting"
+import React from 'react'
+import { filter } from 'ramda'
+import styled from 'styled-components'
+import AddressRow from '../../Btc/AddressRow'
+import { FormattedMessage } from 'react-intl'
+import { SettingDescription, SettingHeader } from 'components/Setting'
 import {
   Icon,
   Table,
   TableHeader,
   TableCell,
   Text
-} from "blockchain-info-components"
+} from 'blockchain-info-components'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
@@ -55,7 +55,7 @@ const Success = props => {
           <Icon
             name="alert-filled"
             size="22px"
-            className={"warning-icon"}
+            className={'warning-icon'}
             color="brand-yellow"
           />
           <FormattedMessage

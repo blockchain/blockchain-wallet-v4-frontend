@@ -1,7 +1,7 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import { actions, selectors } from "data"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { actions, selectors } from 'data'
 
 const wizard = (name, totalSteps) => Component => {
   class WizardProvider extends React.PureComponent {

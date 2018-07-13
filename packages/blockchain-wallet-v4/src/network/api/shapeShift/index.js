@@ -6,12 +6,12 @@ export default ({ shapeShiftApiKey }) => {
   // extractData :: Response -> Promise (JSON | BLOB | TEXT)
   const extractData = r => {
     const responseOfType = t =>
-      r.headers.get("content-type") &&
-      r.headers.get("content-type").indexOf(t) > -1
+      r.headers.get('content-type') &&
+      r.headers.get('content-type').indexOf(t) > -1
     switch (true) {
-      case responseOfType("application/json"):
+      case responseOfType('application/json'):
         return r.json()
-      case responseOfType("image/jpeg"):
+      case responseOfType('image/jpeg'):
         return r.blob()
       default:
         return r.text()
@@ -19,14 +19,14 @@ export default ({ shapeShiftApiKey }) => {
   }
 
   const request = (method, endpoint, data) => {
-    let url = "https://shapeshift.io/" + endpoint
+    let url = 'https://shapeshift.io/' + endpoint
     let options = {
       method,
-      headers: { "Content-Type": "application/json" },
-      credentials: "omit"
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'omit'
     }
 
-    if (method !== "GET") {
+    if (method !== 'GET') {
       options.body = JSON.stringify(data)
     }
 
@@ -36,8 +36,8 @@ export default ({ shapeShiftApiKey }) => {
   }
 
   // Get and post requests
-  const get = ({ endPoint }) => request("GET", endPoint, {})
-  const post = ({ endPoint, ...data }) => request("POST", endPoint, data)
+  const get = ({ endPoint }) => request('GET', endPoint, {})
+  const post = ({ endPoint, ...data }) => request('POST', endPoint, data)
 
   const getPair = pair =>
     get({
@@ -52,13 +52,13 @@ export default ({ shapeShiftApiKey }) => {
   const createQuote = (amount, pair, isDeposit) =>
     isDeposit
       ? post({
-          endPoint: "sendamount",
+          endPoint: 'sendamount',
           apiKey: shapeShiftApiKey,
           depositAmount: amount,
           pair
         })
       : post({
-          endPoint: "sendamount",
+          endPoint: 'sendamount',
           apiKey: shapeShiftApiKey,
           withdrawalAmount: amount,
           pair
@@ -66,7 +66,7 @@ export default ({ shapeShiftApiKey }) => {
 
   const createOrder = (depositAmount, pair, returnAddress, withdrawal) =>
     post({
-      endPoint: "sendamount",
+      endPoint: 'sendamount',
       apiKey: shapeShiftApiKey,
       depositAmount,
       pair,

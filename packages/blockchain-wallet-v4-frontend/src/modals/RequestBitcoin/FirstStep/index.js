@@ -1,14 +1,14 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import { equals, prop } from "ramda"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { equals, prop } from 'ramda'
 
-import { actions } from "data"
-import { getData, getInitialValues } from "./selectors"
-import Loading from "./template.loading"
-import Success from "./template.success"
-import DataError from "components/DataError"
-import { Remote } from "blockchain-wallet-v4/src"
+import { actions } from 'data'
+import { getData, getInitialValues } from './selectors'
+import Loading from './template.loading'
+import Success from './template.success'
+import DataError from 'components/DataError'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 class FirstStepContainer extends React.PureComponent {
   constructor(props) {
@@ -25,12 +25,12 @@ class FirstStepContainer extends React.PureComponent {
 
   componentWillReceiveProps(nextProps) {
     nextProps.data.map(x => {
-      if (equals(prop("coin", x), "ETH")) {
+      if (equals(prop('coin', x), 'ETH')) {
         this.props.modalActions.closeAllModals()
-        this.props.modalActions.showModal("RequestEther")
-      } else if (equals(prop("coin", x), "BCH")) {
+        this.props.modalActions.showModal('RequestEther')
+      } else if (equals(prop('coin', x), 'BCH')) {
         this.props.modalActions.closeAllModals()
-        this.props.modalActions.showModal("RequestBch")
+        this.props.modalActions.showModal('RequestBch')
       }
     })
   }
@@ -46,12 +46,12 @@ class FirstStepContainer extends React.PureComponent {
 
   init() {
     this.props.initialValues.map(x => {
-      this.props.formActions.initialize("requestBitcoin", x)
+      this.props.formActions.initialize('requestBitcoin', x)
     })
   }
 
   handleClickQRCode(value) {
-    this.props.modalActions.showModal("QRCode", { value })
+    this.props.modalActions.showModal('QRCode', { value })
   }
 
   handleSubmit(e) {

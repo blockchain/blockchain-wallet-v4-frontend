@@ -1,8 +1,8 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { Text, Link } from "blockchain-info-components"
-import { path } from "ramda"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { Text, Link } from 'blockchain-info-components'
+import { path } from 'ramda'
 
 const Container = styled.div`
   display: flex;
@@ -49,7 +49,7 @@ const Failure = e => (
       <FormattedMessage
         id="buysell.general.failure.message3"
         defaultMessage="Error code: {err}"
-        values={{ err: path(["error", "message"], e) }}
+        values={{ err: path(['error', 'message'], e) }}
       />
     </Text>
   </Container>

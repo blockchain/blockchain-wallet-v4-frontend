@@ -1,6 +1,6 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
 import {
   Button,
@@ -9,13 +9,13 @@ import {
   ModalHeader,
   ModalBody,
   Text
-} from "blockchain-info-components"
+} from 'blockchain-info-components'
 
 const WelcomeModalHeader = styled(ModalHeader)`
   position: absolute;
   border: 0;
   > span {
-    color: ${props => props.theme["gray-1"]};
+    color: ${props => props.theme['gray-1']};
   }
 `
 const Container = styled.div`

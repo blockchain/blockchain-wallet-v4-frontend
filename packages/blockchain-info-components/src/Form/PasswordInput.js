@@ -1,8 +1,8 @@
-import React from "react"
-import styled from "styled-components"
+import React from 'react'
+import styled from 'styled-components'
 
 const BasePasswordInput = styled.input.attrs({
-  type: "password",
+  type: 'password',
   disabled: props => props.disabled
 })`
   display: block;
@@ -13,32 +13,32 @@ const BasePasswordInput = styled.input.attrs({
   box-sizing: border-box;
   font-size: 14px;
   font-weight: 300;
-  color: ${props => props.theme["gray-5"]};
-  background-color: ${props => props.theme["white"]};
+  color: ${props => props.theme['gray-5']};
+  background-color: ${props => props.theme['white']};
   background-image: none;
   outline-width: 0;
   user-select: text;
-  font-family: "Montserrat", Helvetica, sans-serif;
+  font-family: 'Montserrat', Helvetica, sans-serif;
   border: 1px solid ${props => props.theme[props.borderColor]};
   &::-webkit-input-placeholder {
-    color: ${props => props.theme["gray-2"]};
+    color: ${props => props.theme['gray-2']};
   }
   &:disabled {
     cursor: not-allowed;
-    background-color: ${props => props.theme["gray-1"]};
+    background-color: ${props => props.theme['gray-1']};
   }
 `
 
 const selectBorderColor = state => {
   switch (state) {
-    case "initial":
-      return "gray-2"
-    case "invalid":
-      return "error"
-    case "valid":
-      return "success"
+    case 'initial':
+      return 'gray-2'
+    case 'invalid':
+      return 'error'
+    case 'valid':
+      return 'success'
     default:
-      return "gray-2"
+      return 'gray-2'
   }
 }
 

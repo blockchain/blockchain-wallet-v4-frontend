@@ -1,7 +1,7 @@
-import React from "react"
-import zxcvbn from "zxcvbn"
+import React from 'react'
+import zxcvbn from 'zxcvbn'
 
-import { PasswordGauge } from "blockchain-info-components"
+import { PasswordGauge } from 'blockchain-info-components'
 
 const PasswordScore = props => {
   const score = zxcvbn(props.value).score + 1

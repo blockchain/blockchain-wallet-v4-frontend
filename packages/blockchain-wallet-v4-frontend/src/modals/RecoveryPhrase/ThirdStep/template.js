@@ -1,8 +1,8 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { reduxForm } from "redux-form"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { reduxForm } from 'redux-form'
 
 import {
   Button,
@@ -14,9 +14,9 @@ import {
   ModalFooter,
   Text,
   TextGroup
-} from "blockchain-info-components"
-import { Form } from "components/Form"
-import WordInput from "./WordInput"
+} from 'blockchain-info-components'
+import { Form } from 'components/Form'
+import WordInput from './WordInput'
 
 const Container = styled.div`
   display: flex;
@@ -130,4 +130,4 @@ ThirdStep.propTypes = {
   previousStep: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: "recoveryPhrase" })(ThirdStep)
+export default reduxForm({ form: 'recoveryPhrase' })(ThirdStep)

@@ -1,10 +1,10 @@
-import React from "react"
-import styled from "styled-components"
-import { connect } from "react-redux"
-import { bindActionCreators, compose } from "redux"
-import { FormattedMessage } from "react-intl"
-import { actions, selectors } from "data"
-import modalEnhancer from "providers/ModalEnhancer"
+import React from 'react'
+import styled from 'styled-components'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import { FormattedMessage } from 'react-intl'
+import { actions, selectors } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
 import {
   Icon,
   Modal,
@@ -13,15 +13,15 @@ import {
   Text,
   Button,
   Tooltip
-} from "blockchain-info-components"
+} from 'blockchain-info-components'
 import {
   OrderDetailsTable,
   OrderDetailsRow
-} from "components/BuySell/OrderDetails"
-import { MethodContainer } from "components/BuySell/styled.js"
-import { statusHelper, bodyStatusHelper } from "services/SfoxService"
-import { spacing } from "services/StyleService"
-import FundingSource from "components/BuySell/FundingSource"
+} from 'components/BuySell/OrderDetails'
+import { MethodContainer } from 'components/BuySell/styled.js'
+import { statusHelper, bodyStatusHelper } from 'services/SfoxService'
+import { spacing } from 'services/StyleService'
+import FundingSource from 'components/BuySell/FundingSource'
 
 const ButtonRow = styled.div`
   display: flex;
@@ -39,29 +39,30 @@ const ToolTipWrapper = styled.div`
 
 const renderFirstRow = trade => {
   if (trade.isBuy) {
-    if (trade.outCurrency === "BTC")
+    if (trade.outCurrency === 'BTC') {
       return `${trade.receiveAmount} BTC ($${(
         +trade.sendAmount / 1e8 -
         trade.feeAmount
       ).toFixed(2)})`
-    else
+    } else {
       return `${trade.quoteAmount / 1e8} BTC ($${(
         +trade.baseAmount - +trade.feeAmount
       ).toFixed(2)})`
+    }
   } else {
-    if (trade.outCurrency === "USD")
+    if (trade.outCurrency === 'USD') {
       return `${trade.sendAmount / 1e8} BTC ($${trade.receiveAmount.toFixed(
         2
       )})`
-    else return ``
+    } else return ``
   }
 }
 const renderTotal = trade => {
-  if (trade.isBuy)
-    return trade.outCurrency === "BTC"
+  if (trade.isBuy) {
+    return trade.outCurrency === 'BTC'
       ? `$${(+trade.inAmount / 1e8).toFixed(2)}`
       : `$${trade.baseAmount}`
-  else return `$${(trade.receiveAmount - trade.feeAmount).toFixed(2)}`
+  } else return `$${(trade.receiveAmount - trade.feeAmount).toFixed(2)}`
 }
 
 class SfoxTradeDetails extends React.PureComponent {
@@ -81,21 +82,21 @@ class SfoxTradeDetails extends React.PureComponent {
       >
         <ModalHeader onClose={this.props.close}>
           <Text color={headerStatus.color}>
-            {trade.isBuy ? `Buy Order` : "Sell Order"} {headerStatus.text}
+            {trade.isBuy ? `Buy Order` : 'Sell Order'} {headerStatus.text}
           </Text>
         </ModalHeader>
         <ModalBody>
           <Text size="13px" weight={300}>
             {bodyStatus.text}
           </Text>
-          <Text style={spacing("pt-5")} size="13px" weight={300}>
+          <Text style={spacing('pt-5')} size="13px" weight={300}>
             <FormattedMessage
               id="sfoxtradedetails.orderdetails.tradeid"
               defaultMessage="Your order ID is: SFX-{id}"
               values={{ id: trade.id }}
             />
           </Text>
-          <Text style={spacing("mt-20")} size="14px" weight={400}>
+          <Text style={spacing('mt-20')} size="14px" weight={400}>
             {trade.isBuy ? (
               <FormattedMessage
                 id="sfoxtradedetails.orderdetails.method"
@@ -108,11 +109,11 @@ class SfoxTradeDetails extends React.PureComponent {
               />
             )}
           </Text>
-          <MethodContainer borderDark style={spacing("mt-5")}>
+          <MethodContainer borderDark style={spacing('mt-5')}>
             <Icon name="bank-filled" size="30px" />
             <FundingSource account={account[0]} />
           </MethodContainer>
-          <OrderDetailsTable style={spacing("mt-10")}>
+          <OrderDetailsTable style={spacing('mt-10')}>
             <OrderDetailsRow>
               {trade.isBuy ? (
                 <Text size="13px" weight={300}>
@@ -196,7 +197,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer("SfoxTradeDetails"),
+  modalEnhancer('SfoxTradeDetails'),
   connect(
     mapStateToProps,
     mapDispatchToProps

@@ -1,9 +1,9 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import { actions, selectors } from "data"
-import BitcoinCashWelcome from "./template.js"
+import { actions, selectors } from 'data'
+import BitcoinCashWelcome from './template.js'
 
 class BitcoinCashWelcomeContainer extends React.PureComponent {
   constructor(props) {
@@ -17,7 +17,7 @@ class BitcoinCashWelcomeContainer extends React.PureComponent {
   }
 
   handleRequest() {
-    this.props.modalActions.showModal("RequestBch")
+    this.props.modalActions.showModal('RequestBch')
   }
 
   render() {

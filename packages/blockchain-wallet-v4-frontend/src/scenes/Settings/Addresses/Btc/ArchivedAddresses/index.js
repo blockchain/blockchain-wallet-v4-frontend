@@ -1,10 +1,10 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators, compose } from "redux"
-import { actions, selectors } from "data"
-import Success from "./template.success"
-import { Types } from "blockchain-wallet-v4/src"
-import { formValueSelector } from "redux-form"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import { actions, selectors } from 'data'
+import Success from './template.success'
+import { Types } from 'blockchain-wallet-v4/src'
+import { formValueSelector } from 'redux-form'
 
 class ArchivedAddressesContainer extends React.PureComponent {
   constructor(props) {
@@ -43,7 +43,7 @@ const selectArchived = compose(
 
 const mapStateToProps = state => ({
   archivedAddresses: selectArchived(state).toArray(),
-  search: formValueSelector("settingsAddresses")(state, "search")
+  search: formValueSelector('settingsAddresses')(state, 'search')
 })
 
 const mapDispatchToProps = dispatch => ({

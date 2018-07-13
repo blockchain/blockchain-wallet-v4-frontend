@@ -1,4 +1,4 @@
-import * as AT from "./actionTypes"
+import * as AT from './actionTypes'
 
 export const initialized = trades => ({
   type: AT.EXCHANGE_HISTORY_INITIALIZED,

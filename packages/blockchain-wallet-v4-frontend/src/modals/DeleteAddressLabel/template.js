@@ -1,6 +1,6 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
 import {
   Button,
@@ -12,7 +12,7 @@ import {
   ModalFooter,
   TextGroup,
   Text
-} from "blockchain-info-components"
+} from 'blockchain-info-components'
 
 const TitleGroup = styled(TextGroup)`
   display: flex;
@@ -29,7 +29,7 @@ const DeleteAdressLabel = props => {
       <ModalHeader onClose={close}>
         <TitleGroup inline>
           <Icon name="alert-filled" size="32px" color="brand-yellow" />
-          <Text weight={300} size={"22px"} style={{ paddingLeft: "8px" }}>
+          <Text weight={300} size={'22px'} style={{ paddingLeft: '8px' }}>
             <FormattedMessage
               id="modal.deleteaddresslabel.title"
               defaultMessage="Remove Label?"
@@ -39,7 +39,7 @@ const DeleteAdressLabel = props => {
       </ModalHeader>
       <ModalBody>
         <TextGroup>
-          <Text weight={300} size={"14px"} color="gray-5">
+          <Text weight={300} size={'14px'} color="gray-5">
             <FormattedMessage
               id="modal.deleteaddresslabel.message"
               defaultMessage="Removing a label does not delete this address, you can still safely receive funds to it. This action cannot be undone."
@@ -60,7 +60,7 @@ const DeleteAdressLabel = props => {
           onClick={() => {
             onDeleteConfirm()
           }}
-          style={{ marginLeft: "20px" }}
+          style={{ marginLeft: '20px' }}
         >
           <FormattedMessage
             id="modal.deleteaddresslabel.delete"

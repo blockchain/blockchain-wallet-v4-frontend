@@ -1,11 +1,11 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators, compose } from "redux"
-import { formValueSelector } from "redux-form"
-import ui from "redux-ui"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import { formValueSelector } from 'redux-form'
+import ui from 'redux-ui'
 
-import { actions, selectors } from "data"
-import Settings from "./template.js"
+import { actions, selectors } from 'data'
+import Settings from './template.js'
 
 class SettingsContainer extends React.PureComponent {
   constructor(props) {
@@ -20,7 +20,7 @@ class SettingsContainer extends React.PureComponent {
       secondPasswordValue,
       secondPasswordEnabled
     )
-    this.props.formActions.reset("settingSecondPassword")
+    this.props.formActions.reset('settingSecondPassword')
     this.handleToggle()
   }
 
@@ -38,7 +38,7 @@ class SettingsContainer extends React.PureComponent {
         updateToggled={ui.updateToggled}
         handleToggle={this.handleToggle}
         handleCancel={() => {
-          this.props.formActions.reset("settingSecondPassword")
+          this.props.formActions.reset('settingSecondPassword')
           this.handleToggle()
         }}
       />
@@ -49,9 +49,9 @@ class SettingsContainer extends React.PureComponent {
 const mapStateToProps = state => ({
   mainPassword: selectors.core.wallet.getMainPassword(state),
   secondPasswordEnabled: selectors.core.wallet.isSecondPasswordOn(state),
-  secondPasswordValue: formValueSelector("settingSecondPassword")(
+  secondPasswordValue: formValueSelector('settingSecondPassword')(
     state,
-    "secondPassword"
+    'secondPassword'
   ),
   wallet: selectors.core.wallet.getWallet(state)
 })
@@ -66,7 +66,7 @@ const enhance = compose(
     mapStateToProps,
     mapDispatchToProps
   ),
-  ui({ key: "Setting_SecondPassword", state: { updateToggled: false } })
+  ui({ key: 'Setting_SecondPassword', state: { updateToggled: false } })
 )
 
 export default enhance(SettingsContainer)

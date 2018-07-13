@@ -1,6 +1,6 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
 import {
   Button,
@@ -11,7 +11,7 @@ import {
   ModalFooter,
   TextGroup,
   Text
-} from "blockchain-info-components"
+} from 'blockchain-info-components'
 
 const TitleGroup = styled(TextGroup)`
   display: flex;
@@ -44,9 +44,9 @@ const ErrorBoundary = props => {
           <Icon name="alert-filled" size="28px" color="brand-primary" />
           <Text
             weight={300}
-            size={"22px"}
+            size={'22px'}
             color="brand-primary"
-            style={{ paddingLeft: "8px" }}
+            style={{ paddingLeft: '8px' }}
           >
             <FormattedMessage
               id="modal.errorboundary.title"
@@ -57,14 +57,14 @@ const ErrorBoundary = props => {
       </ModalHeader>
       <ModalBody>
         <TextGroup>
-          <Text weight={300} size={"14px"} color="gray-5">
+          <Text weight={300} size={'14px'} color="gray-5">
             <FormattedMessage
               id="modal.errorboundary.message"
               defaultMessage="We're sorry, but it seems like something is not quite right. Please try again or contact support if the problem persists."
             />
           </Text>
         </TextGroup>
-        <Text weight={300} size={"14px"}>
+        <Text weight={300} size={'14px'}>
           <ErrorDetails>
             <summary>Error Details</summary>
             {error && error.toString()}

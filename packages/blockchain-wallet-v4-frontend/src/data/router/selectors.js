@@ -1,3 +1,3 @@
-import { path } from "ramda"
+import { path } from 'ramda'
 
-export const getPathname = path(["router", "location", "pathname"])
+export const getPathname = path(['router', 'location', 'pathname'])

@@ -1,6 +1,6 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
 import {
   Button,
@@ -12,7 +12,7 @@ import {
   ModalFooter,
   Text,
   TextGroup
-} from "blockchain-info-components"
+} from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -31,7 +31,7 @@ const Container = styled.div`
   padding: 25px 0;
 `
 const Arrow = styled(Icon)`
-  visibility: ${props => (props.visible ? "visible" : "hidden")};
+  visibility: ${props => (props.visible ? 'visible' : 'hidden')};
 `
 const Display = styled(Text)`
   display: flex;

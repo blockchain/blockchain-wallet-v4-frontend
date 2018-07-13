@@ -1,9 +1,9 @@
-import React from "react"
-import PropTypes from "prop-types"
-import { FormattedMessage } from "react-intl"
-import styled from "styled-components"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
 
-import { Text } from "blockchain-info-components"
+import { Text } from 'blockchain-info-components'
 
 const StatusText = styled(Text)`
   font-size: ${props => props.mobileSize};
@@ -20,19 +20,19 @@ const Status = props => (
     color={props.type}
     uppercase
   >
-    {props.type === "sent" && (
+    {props.type === 'sent' && (
       <FormattedMessage
         id="scenes.transactions.bitcoin.content.list.listitem.status.sent"
         defaultMessage="Sent"
       />
     )}
-    {props.type === "received" && (
+    {props.type === 'received' && (
       <FormattedMessage
         id="scenes.transactions.bitcoin.content.list.listitem.status.received"
         defaultMessage="Received"
       />
     )}
-    {props.type === "transferred" && (
+    {props.type === 'transferred' && (
       <FormattedMessage
         id="scenes.transactions.bitcoin.content.list.listitem.status.transferred"
         defaultMessage="Transferred"

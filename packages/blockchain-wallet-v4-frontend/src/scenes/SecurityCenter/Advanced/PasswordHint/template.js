@@ -1,5 +1,5 @@
-import React from "react"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import {
   SettingComponent,
   SettingContainer,
@@ -7,8 +7,8 @@ import {
   SettingHeader,
   SettingSummary,
   SettingStatus
-} from "components/Setting"
-import Settings from "./Settings"
+} from 'components/Setting'
+import Settings from './Settings'
 
 const PasswordHint = props => {
   const { passwordHintStored } = props

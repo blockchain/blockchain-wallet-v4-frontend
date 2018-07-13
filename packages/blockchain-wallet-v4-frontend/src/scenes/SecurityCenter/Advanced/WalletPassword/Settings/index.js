@@ -1,11 +1,11 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators, compose } from "redux"
-import { formValueSelector } from "redux-form"
-import ui from "redux-ui"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import { formValueSelector } from 'redux-form'
+import ui from 'redux-ui'
 
-import { actions, selectors } from "data"
-import Settings from "./template.js"
+import { actions, selectors } from 'data'
+import Settings from './template.js'
 
 class SettingsContainer extends React.PureComponent {
   constructor(props) {
@@ -16,7 +16,7 @@ class SettingsContainer extends React.PureComponent {
 
   onSubmit() {
     this.props.walletActions.setMainPassword(this.props.newWalletPasswordValue)
-    this.props.formActions.reset("settingWalletPassword")
+    this.props.formActions.reset('settingWalletPassword')
     this.handleToggle()
   }
 
@@ -34,7 +34,7 @@ class SettingsContainer extends React.PureComponent {
         handleToggle={this.handleToggle}
         onSubmit={this.onSubmit}
         handleCancel={() => {
-          this.props.formActions.reset("settingWalletPassword")
+          this.props.formActions.reset('settingWalletPassword')
           this.handleToggle()
         }}
       />
@@ -44,13 +44,13 @@ class SettingsContainer extends React.PureComponent {
 
 const mapStateToProps = state => ({
   currentWalletPassword: selectors.core.wallet.getMainPassword(state),
-  walletPasswordValue: formValueSelector("settingWalletPassword")(
+  walletPasswordValue: formValueSelector('settingWalletPassword')(
     state,
-    "currentPassword"
+    'currentPassword'
   ),
-  newWalletPasswordValue: formValueSelector("settingWalletPassword")(
+  newWalletPasswordValue: formValueSelector('settingWalletPassword')(
     state,
-    "newPassword"
+    'newPassword'
   )
 })
 
@@ -64,7 +64,7 @@ const enhance = compose(
     mapStateToProps,
     mapDispatchToProps
   ),
-  ui({ key: "Setting_WalletPassword", state: { updateToggled: false } })
+  ui({ key: 'Setting_WalletPassword', state: { updateToggled: false } })
 )
 
 export default enhance(SettingsContainer)

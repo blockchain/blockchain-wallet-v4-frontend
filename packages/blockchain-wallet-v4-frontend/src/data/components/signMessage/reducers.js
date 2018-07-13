@@ -1,9 +1,9 @@
-import { assoc, compose } from "ramda"
-import * as AT from "./actionTypes"
+import { assoc, compose } from 'ramda'
+import * as AT from './actionTypes'
 
 const INITIAL_STATE = {
   step: 1,
-  signedMessage: ""
+  signedMessage: ''
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -17,12 +17,12 @@ export default (state = INITIAL_STATE, action) => {
       return state // assoc('step', 2, state)
     }
     case AT.RESET_FORM_CLICKED: {
-      return assoc("step", 1, state)
+      return assoc('step', 1, state)
     }
     case AT.MESSAGE_SIGNED: {
       return compose(
-        assoc("step", 2),
-        assoc("signedMessage", payload.signedMessage)
+        assoc('step', 2),
+        assoc('signedMessage', payload.signedMessage)
       )(state)
     }
     default:

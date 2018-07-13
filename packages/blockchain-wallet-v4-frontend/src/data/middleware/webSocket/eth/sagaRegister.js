@@ -1,6 +1,6 @@
-import { takeEvery } from "redux-saga/effects"
-import * as AT from "./actionTypes"
-import sagas from "./sagas"
+import { takeEvery } from 'redux-saga/effects'
+import * as AT from './actionTypes'
+import sagas from './sagas'
 
 export default ({ api, ethSocket }) => {
   const ethSocketSagas = sagas({ api, ethSocket })

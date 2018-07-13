@@ -1,6 +1,6 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
 import {
   Button,
@@ -9,8 +9,8 @@ import {
   ModalBody,
   Text,
   TextGroup
-} from "blockchain-info-components"
-import CoinDisplay from "components/Display/CoinDisplay"
+} from 'blockchain-info-components'
+import CoinDisplay from 'components/Display/CoinDisplay'
 
 const Container = styled.div`
   display: flex;
@@ -19,8 +19,8 @@ const Container = styled.div`
   align-items: flex-start;
   width: 100%;
   margin: 10px 0;
-  background-color: ${props => props.theme["gray-1"]};
-  border: 1px solid ${props => props.theme["gray-2"]};
+  background-color: ${props => props.theme['gray-1']};
+  border: 1px solid ${props => props.theme['gray-2']};
 `
 const Row = styled.div`
   display: flex;

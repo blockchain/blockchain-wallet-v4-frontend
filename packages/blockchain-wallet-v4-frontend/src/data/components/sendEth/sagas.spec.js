@@ -1,26 +1,26 @@
-import { expectSaga, testSaga } from "redux-saga-test-plan"
-import { initialize } from "redux-form"
-import { prop } from "ramda"
+import { expectSaga, testSaga } from 'redux-saga-test-plan'
+import { initialize } from 'redux-form'
+import { prop } from 'ramda'
 
-import rootReducer from "../../rootReducer"
-import { coreSagasFactory, Remote } from "blockchain-wallet-v4/src"
-import * as A from "./actions"
-import * as S from "./selectors"
-import * as C from "services/AlertService"
-import * as actions from "../../actions"
-import * as actionTypes from "../../actionTypes"
-import sendEthSagas, { logLocation } from "./sagas"
-import { promptForSecondPassword } from "services/SagaService"
-import settings from "config"
+import rootReducer from '../../rootReducer'
+import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
+import * as A from './actions'
+import * as S from './selectors'
+import * as C from 'services/AlertService'
+import * as actions from '../../actions'
+import * as actionTypes from '../../actionTypes'
+import sendEthSagas, { logLocation } from './sagas'
+import { promptForSecondPassword } from 'services/SagaService'
+import settings from 'config'
 
-jest.mock("blockchain-wallet-v4/src/redux/sagas")
+jest.mock('blockchain-wallet-v4/src/redux/sagas')
 const api = {
   obtainSessionToken: jest.fn(),
   deauthorizeBrowser: jest.fn()
 }
 const coreSagas = coreSagasFactory({ api })
 
-describe("sendEth sagas", () => {
+describe('sendEth sagas', () => {
   // Mocking Math.random() to have identical popup ids for action testing
   const originalMath = Object.create(Math)
   const originalDate = Object.create(Date)
@@ -31,10 +31,10 @@ describe("sendEth sagas", () => {
     Math.random = () => 0.5
     Date.now = () => currentDate
     pushStateSpy = jest
-      .spyOn(window.history, "pushState")
+      .spyOn(window.history, 'pushState')
       .mockImplementation(() => {})
     locationReloadSpy = jest
-      .spyOn(window.location, "reload")
+      .spyOn(window.location, 'reload')
       .mockImplementation(() => {})
   })
   afterAll(() => {
@@ -70,24 +70,24 @@ describe("sendEth sagas", () => {
     return paymentMock
   })
 
-  describe("eth send form intialize", () => {
-    const from = "fromethaddress"
-    const type = "ACCOUNT"
+  describe('eth send form intialize', () => {
+    const from = 'fromethaddress'
+    const type = 'ACCOUNT'
     const payload = { from, type }
 
     const saga = testSaga(initialized, { payload })
 
     const initialValues = {
-      coin: "ETH"
+      coin: 'ETH'
     }
 
-    const beforeEnd = "beforeEnd"
+    const beforeEnd = 'beforeEnd'
 
-    it("should trigger a loading action", () => {
+    it('should trigger a loading action', () => {
       saga.next().put(A.sendEthPaymentUpdated(Remote.Loading))
     })
 
-    it("should create payment", () => {
+    it('should create payment', () => {
       saga.next()
       expect(coreSagas.payment.eth.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.eth.create).toHaveBeenCalledWith({
@@ -96,14 +96,14 @@ describe("sendEth sagas", () => {
       expect(paymentMock.init).toHaveBeenCalledTimes(1)
     })
 
-    it("should set payment from values based on payload", () => {
+    it('should set payment from values based on payload', () => {
       saga.next(paymentMock)
 
       expect(paymentMock.from).toHaveBeenCalledTimes(1)
       expect(paymentMock.from).toHaveBeenCalledWith(from, type)
     })
 
-    it("should call payment from without params if from was not passed", () => {
+    it('should call payment from without params if from was not passed', () => {
       const { from, ...payloadWithoutFrom } = payload
       paymentMock.from.mockClear()
       return expectSaga(initialized, { payload: payloadWithoutFrom })
@@ -114,7 +114,7 @@ describe("sendEth sagas", () => {
         })
     })
 
-    it("should call payment from without params if type was not passed", () => {
+    it('should call payment from without params if type was not passed', () => {
       const { type, ...payloadWithoutType } = payload
       paymentMock.from.mockClear()
       return expectSaga(initialized, { payload: payloadWithoutType })
@@ -125,11 +125,11 @@ describe("sendEth sagas", () => {
         })
     })
 
-    it("should initializr form with correct initial values", () => {
-      saga.next(paymentMock).put(initialize("sendEth", initialValues))
+    it('should initializr form with correct initial values', () => {
+      saga.next(paymentMock).put(initialize('sendEth', initialValues))
     })
 
-    it("should trigger eth payment updated success action", () => {
+    it('should trigger eth payment updated success action', () => {
       saga
         .next()
         .put(A.sendEthPaymentUpdated(Remote.of(value)))
@@ -138,16 +138,16 @@ describe("sendEth sagas", () => {
         .isDone()
     })
 
-    describe("error handling", () => {
+    describe('error handling', () => {
       const error = {}
-      it("should log initialization error", () => {
+      it('should log initialization error', () => {
         saga
           .restore(beforeEnd)
           .throw(error)
           .put(
             actions.logs.logErrorMessage(
               logLocation,
-              "sendEthInitialized",
+              'sendEthInitialized',
               error
             )
           )
@@ -156,26 +156,26 @@ describe("sendEth sagas", () => {
       })
     })
 
-    describe("state change", () => {
+    describe('state change', () => {
       let resultingState = {}
 
       beforeEach(async () => {
         resultingState = await expectSaga(initialized, { payload })
           .withReducer(rootReducer)
           .run()
-          .then(prop("storeState"))
+          .then(prop('storeState'))
       })
 
-      it("should produce correct form state", () => {
+      it('should produce correct form state', () => {
         expect(resultingState.form.sendEth.initial).toEqual(
           resultingState.form.sendEth.values
         )
         expect(resultingState.form.sendEth.initial).toEqual({
-          coin: "ETH"
+          coin: 'ETH'
         })
       })
 
-      it("should produce correct sendEth payment state", () => {
+      it('should produce correct sendEth payment state', () => {
         expect(resultingState.components.sendEth.payment).toEqual(
           Remote.Success(value)
         )
@@ -183,7 +183,7 @@ describe("sendEth sagas", () => {
     })
   })
 
-  describe("eth send first step submit", () => {
+  describe('eth send first step submit', () => {
     beforeAll(() => {
       coreSagas.payment.eth.create.mockClear()
       paymentMock.build.mockClear()
@@ -191,19 +191,19 @@ describe("sendEth sagas", () => {
 
     const saga = testSaga(firstStepSubmitClicked)
 
-    const beforeError = "beforeError"
+    const beforeError = 'beforeError'
 
-    it("should select payment", () => {
+    it('should select payment', () => {
       saga.next().select(S.getPayment)
     })
 
-    it("should put loading action", () => {
+    it('should put loading action', () => {
       saga
         .next(Remote.of(paymentMock))
         .put(A.sendEthPaymentUpdated(Remote.Loading))
     })
 
-    it("should create payment from state value", () => {
+    it('should create payment from state value', () => {
       saga.next()
       expect(coreSagas.payment.eth.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.eth.create).toHaveBeenCalledWith({
@@ -212,11 +212,11 @@ describe("sendEth sagas", () => {
       })
     })
 
-    it("should build payment", () => {
+    it('should build payment', () => {
       expect(paymentMock.build).toHaveBeenCalledTimes(1)
     })
 
-    it("should put update success action", () => {
+    it('should put update success action', () => {
       saga
         .next(paymentMock)
         .put(A.sendEthPaymentUpdated(Remote.of(paymentMock.value())))
@@ -226,16 +226,16 @@ describe("sendEth sagas", () => {
         .restore(beforeError)
     })
 
-    describe("error handling", () => {
+    describe('error handling', () => {
       const error = {}
 
-      it("should log error", () => {
+      it('should log error', () => {
         saga
           .throw(error)
           .put(
             actions.logs.logErrorMessage(
               logLocation,
-              "firstStepSubmitClicked",
+              'firstStepSubmitClicked',
               error
             )
           )
@@ -245,12 +245,12 @@ describe("sendEth sagas", () => {
     })
   })
 
-  describe("eth send second step submit", () => {
+  describe('eth send second step submit', () => {
     const saga = testSaga(secondStepSubmitClicked)
-    const secondPassword = "password"
-    const description = "description"
-    const txId = "txId"
-    const beforeError = "beforeError"
+    const secondPassword = 'password'
+    const description = 'description'
+    const txId = 'txId'
+    const beforeError = 'beforeError'
     beforeAll(() => {
       paymentMock.value.mockReturnValue({ ...value, description, txId })
       coreSagas.payment.eth.create.mockClear()
@@ -258,15 +258,15 @@ describe("sendEth sagas", () => {
       paymentMock.publish.mockClear()
     })
 
-    it("should select payment", () => {
+    it('should select payment', () => {
       saga.next().select(S.getPayment)
     })
 
-    it("should prompt for second password", () => {
+    it('should prompt for second password', () => {
       saga.next(Remote.of(paymentMock)).call(promptForSecondPassword)
     })
 
-    it("should create payment from state value", () => {
+    it('should create payment from state value', () => {
       expect(coreSagas.payment.eth.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.eth.create).toHaveBeenCalledWith({
         payment: paymentMock,
@@ -274,28 +274,28 @@ describe("sendEth sagas", () => {
       })
     })
 
-    it("should put action to close all modals", () => {
+    it('should put action to close all modals', () => {
       saga.next(secondPassword).put(actions.modals.closeAllModals())
     })
 
-    it("should sign payment with second passowrd", () => {
+    it('should sign payment with second passowrd', () => {
       saga.next()
       expect(paymentMock.sign).toHaveBeenCalledTimes(1)
       expect(paymentMock.sign).toHaveBeenCalledWith(secondPassword)
     })
 
-    it("should publish payment", () => {
+    it('should publish payment', () => {
       saga.next(paymentMock)
       expect(paymentMock.publish).toHaveBeenCalledTimes(1)
     })
 
-    it("should put eth payment updated success action", () => {
+    it('should put eth payment updated success action', () => {
       saga
         .next(paymentMock)
         .put(A.sendEthPaymentUpdated(Remote.of(paymentMock.value())))
     })
 
-    it("should update latest transaction time", () => {
+    it('should update latest transaction time', () => {
       saga
         .next()
         .put(
@@ -303,26 +303,26 @@ describe("sendEth sagas", () => {
         )
     })
 
-    it("should wait until fetch metadata success action is published", () => {
+    it('should wait until fetch metadata success action is published', () => {
       saga
         .next()
         .take(actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS)
     })
 
-    it("should update latest transaction", () => {
+    it('should update latest transaction', () => {
       saga
         .next(paymentMock)
         .put(actions.core.kvStore.ethereum.setLatestTxEthereum(txId))
     })
 
-    it("should display succcess message", () => {
+    it('should display succcess message', () => {
       saga
         .next()
         .put(actions.alerts.displaySuccess(C.SEND_ETH_SUCCESS))
         .save(beforeError)
     })
 
-    it("should set transaction note if payment has description", () => {
+    it('should set transaction note if payment has description', () => {
       saga
         .next()
         .take(actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS)
@@ -334,8 +334,8 @@ describe("sendEth sagas", () => {
         .isDone()
     })
 
-    it("should not set transaction note if payment has no description", () => {
-      paymentMock.value.mockReturnValue({ ...value, description: "", txId })
+    it('should not set transaction note if payment has no description', () => {
+      paymentMock.value.mockReturnValue({ ...value, description: '', txId })
       return expectSaga(secondStepSubmitClicked)
         .not.put(
           actions.core.kvStore.ethereum.setTxNotesEthereum(txId, description)
@@ -343,22 +343,22 @@ describe("sendEth sagas", () => {
         .run()
     })
 
-    describe("error handling", () => {
+    describe('error handling', () => {
       const error = {}
-      it("should log error", () => {
+      it('should log error', () => {
         saga
           .restore(beforeError)
           .throw(error)
           .put(
             actions.logs.logErrorMessage(
               logLocation,
-              "secondStepSubmitClicked",
+              'secondStepSubmitClicked',
               error
             )
           )
       })
 
-      it("should display success message", () => {
+      it('should display success message', () => {
         saga
           .next()
           .put(actions.alerts.displayError(C.SEND_ETH_ERROR))

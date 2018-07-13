@@ -1,8 +1,8 @@
-import React from "react"
-import { Field, reduxForm } from "redux-form"
+import React from 'react'
+import { Field, reduxForm } from 'redux-form'
 
-import { SelectBoxLanguages } from "components/Form"
-import { SettingSelectBoxWrapper } from "components/Setting"
+import { SelectBoxLanguages } from 'components/Form'
+import { SettingSelectBoxWrapper } from 'components/Setting'
 
 const Settings = () => (
   <SettingSelectBoxWrapper>
@@ -10,4 +10,4 @@ const Settings = () => (
   </SettingSelectBoxWrapper>
 )
 
-export default reduxForm({ form: "settingLanguage" })(Settings)
+export default reduxForm({ form: 'settingLanguage' })(Settings)

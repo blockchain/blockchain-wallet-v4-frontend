@@ -1,10 +1,10 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators, compose } from "redux"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
 
-import { actions, selectors } from "data"
-import modalEnhancer from "providers/ModalEnhancer"
-import TwoStepSetup from "./template.js"
+import { actions, selectors } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
+import TwoStepSetup from './template.js'
 
 class TwoStepSetupContainer extends React.PureComponent {
   constructor(props) {
@@ -20,16 +20,16 @@ class TwoStepSetupContainer extends React.PureComponent {
   }
 
   handleYubico() {
-    this.props.modalActions.showModal("TwoStepYubico")
+    this.props.modalActions.showModal('TwoStepYubico')
   }
 
   handleMobile() {
     const { smsNumber, smsVerified } = this.props
 
     if (!smsNumber) {
-      this.props.modalActions.showModal("MobileNumberChange")
+      this.props.modalActions.showModal('MobileNumberChange')
     } else if (!smsVerified) {
-      this.props.modalActions.showModal("MobileNumberVerify", {
+      this.props.modalActions.showModal('MobileNumberVerify', {
         mobileNumber: smsNumber
       })
     } else {
@@ -66,7 +66,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer("TwoStepSetup"),
+  modalEnhancer('TwoStepSetup'),
   connect(
     mapStateToProps,
     mapDispatchToProps

@@ -1,21 +1,21 @@
-import React, { Component } from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { connect } from "react-redux"
-import { bindActionCreators, compose } from "redux"
-import { path } from "ramda"
-import { Field } from "redux-form"
-import { actions, selectors } from "data"
-import { CheckBox } from "components/Form"
-import { FormattedMessage } from "react-intl"
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import { path } from 'ramda'
+import { Field } from 'redux-form'
+import { actions, selectors } from 'data'
+import { CheckBox } from 'components/Form'
+import { FormattedMessage } from 'react-intl'
 import {
   Button,
   HeartbeatLoader,
   Text,
   Link,
   Icon
-} from "blockchain-info-components"
-import Helper from "components/BuySell/FAQ"
+} from 'blockchain-info-components'
+import Helper from 'components/BuySell/FAQ'
 import {
   Form,
   ColLeft,
@@ -26,13 +26,13 @@ import {
   ButtonWrapper,
   ErrorWrapper,
   ColRightInner
-} from "components/BuySell/Signup"
-import { spacing } from "services/StyleService"
-import Terms from "components/Terms"
-import media from "services/ResponsiveService"
+} from 'components/BuySell/Signup'
+import { spacing } from 'services/StyleService'
+import Terms from 'components/Terms'
+import media from 'services/ResponsiveService'
 
 const checkboxShouldBeChecked = value =>
-  value ? undefined : "You must agree to the terms and conditions"
+  value ? undefined : 'You must agree to the terms and conditions'
 
 const helpers = [
   {
@@ -72,7 +72,7 @@ const AcceptTermsContainer = styled.div`
   font-size: 12px;
   font-weight: 400;
   a {
-    color: ${props => props.theme["brand-secondary"]};
+    color: ${props => props.theme['brand-secondary']};
     text-decoration: none;
   }
 `
@@ -188,7 +188,7 @@ class AcceptTerms extends Component {
                 defaultMessage="Your buy and sell experience is being streamlined. We've teamed up with SFOX to make your dreams of simply managing funds a reality."
               />
             </PartnerSubHeader>
-            <PartnerSubHeader style={spacing("mt-10")}>
+            <PartnerSubHeader style={spacing('mt-10')}>
               <FormattedMessage
                 id="sfoxexchangedata.create.createaccount.partner.subheader2"
                 defaultMessage="Rest assured: there are only a few steps separating you from the good stuff. Let's start by confirming your verified email address and phone number."
@@ -196,7 +196,7 @@ class AcceptTerms extends Component {
             </PartnerSubHeader>
             <FieldsContainer>
               <FieldContainer>
-                <Text size="14px" style={spacing("mb-10")}>
+                <Text size="14px" style={spacing('mb-10')}>
                   <FormattedMessage
                     id="sfoxexchangedata.create.createaccount.partner.verifiedemail"
                     defaultMessage="Verified Email Address"
@@ -233,7 +233,7 @@ class AcceptTerms extends Component {
                 </VerifiedContainer>
               </FieldContainer>
               <FieldContainer>
-                <Text size="14px" style={spacing("mb-10")}>
+                <Text size="14px" style={spacing('mb-10')}>
                   <FormattedMessage
                     id="sfoxexchangedata.create.createaccount.partner.verifiedmobile"
                     defaultMessage="Verified Phone Number"
@@ -300,7 +300,7 @@ class AcceptTerms extends Component {
             </ButtonWrapper>
             <ErrorWrapper>
               {error &&
-              error.message.toLowerCase() === "user is already registered" ? (
+              error.message.toLowerCase() === 'user is already registered' ? (
                 <InlineTextWrapper>
                   <Text size="12px" color="error" weight={300}>
                     <FormattedMessage
@@ -377,7 +377,7 @@ AcceptTerms.propTypes = {
 const mapStateToProps = state => ({
   email: selectors.core.settings.getEmail(state).data,
   smsNumber: selectors.core.settings.getSmsNumber(state).data,
-  sfoxSignupStatus: path(["sfoxSignup", "sfoxBusy"], state)
+  sfoxSignupStatus: path(['sfoxSignup', 'sfoxBusy'], state)
 })
 
 const mapDispatchToProps = dispatch => ({

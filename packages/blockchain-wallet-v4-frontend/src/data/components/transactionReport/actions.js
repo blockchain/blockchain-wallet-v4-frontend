@@ -1,4 +1,4 @@
-import * as AT from "./actionTypes"
+import * as AT from './actionTypes'
 
 export const initialized = () => ({ type: AT.TRANSACTION_REPORT_INITIALIZED })
 

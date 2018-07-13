@@ -1,15 +1,15 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import { formValueSelector } from "redux-form"
-import { isNil, equals } from "ramda"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { formValueSelector } from 'redux-form'
+import { isNil, equals } from 'ramda'
 
-import { actions, selectors } from "data"
-import Settings from "./template.js"
+import { actions, selectors } from 'data'
+import Settings from './template.js'
 
 class SettingsContainer extends React.PureComponent {
   componentWillMount() {
-    this.props.formActions.initialize("settingTheme", {
+    this.props.formActions.initialize('settingTheme', {
       theme: this.props.theme
     })
   }
@@ -32,7 +32,7 @@ class SettingsContainer extends React.PureComponent {
 
 const mapStateToProps = state => ({
   theme: selectors.preferences.getTheme(state),
-  newTheme: formValueSelector("settingTheme")(state, "theme")
+  newTheme: formValueSelector('settingTheme')(state, 'theme')
 })
 
 const mapDispatchToProps = dispatch => ({

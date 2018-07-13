@@ -1,9 +1,9 @@
-import React from "react"
-import { bindActionCreators } from "redux"
-import { connect } from "react-redux"
+import React from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
 
-import { actions, selectors } from "data"
-import UsedAddressesShowTemplate from "./template"
+import { actions, selectors } from 'data'
+import UsedAddressesShowTemplate from './template'
 
 class UsedAddressesContainer extends React.PureComponent {
   constructor(props) {
@@ -18,7 +18,7 @@ class UsedAddressesContainer extends React.PureComponent {
         false
       )
     } else {
-      this.props.modalsActions.showModal("ShowUsedAddresses", {
+      this.props.modalsActions.showModal('ShowUsedAddresses', {
         walletIndex: this.props.walletIndex
       })
     }

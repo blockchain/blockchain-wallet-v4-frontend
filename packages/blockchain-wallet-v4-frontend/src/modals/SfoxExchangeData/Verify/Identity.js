@@ -1,16 +1,16 @@
-import React from "react"
-import styled from "styled-components"
-import { Field, reduxForm } from "redux-form"
-import { FormGroup, FormItem, TextBox, PasswordBox } from "components/Form"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import styled from 'styled-components'
+import { Field, reduxForm } from 'redux-form'
+import { FormGroup, FormItem, TextBox, PasswordBox } from 'components/Form'
+import { FormattedMessage } from 'react-intl'
 import {
   Button,
   HeartbeatLoader,
   Icon,
   Text,
   Link
-} from "blockchain-info-components"
-import { spacing } from "services/StyleService"
+} from 'blockchain-info-components'
+import { spacing } from 'services/StyleService'
 
 import {
   requiredSSN,
@@ -18,7 +18,7 @@ import {
   normalizeSocialSecurity,
   normalizeDateOfBirth,
   ageOverEighteen
-} from "services/FormHelper"
+} from 'services/FormHelper'
 import {
   Form,
   ColLeft,
@@ -28,8 +28,8 @@ import {
   PartnerSubHeader,
   ErrorWrapper,
   ColRightInner
-} from "components/BuySell/Signup"
-import media from "services/ResponsiveService"
+} from 'components/BuySell/Signup'
+import media from 'services/ResponsiveService'
 
 const LockIcon = styled(Icon)`
   display: flex;
@@ -89,7 +89,7 @@ const Identity = props => {
                 <Text
                   size="14px"
                   weight={400}
-                  style={{ "margin-bottom": "5px" }}
+                  style={{ 'margin-bottom': '5px' }}
                 >
                   <FormattedMessage
                     id="sfoxexchangedata.verify.dateofbirth"
@@ -110,7 +110,7 @@ const Identity = props => {
                 <Text
                   size="14px"
                   weight={400}
-                  style={{ "margin-bottom": "5px" }}
+                  style={{ 'margin-bottom': '5px' }}
                 >
                   <FormattedMessage
                     id="sfoxexchangedata.verify.ssn"
@@ -138,7 +138,7 @@ const Identity = props => {
                   size="12px"
                   weight={300}
                   onClick={toggleSSN}
-                  style={spacing("mt-5")}
+                  style={spacing('mt-5')}
                 >
                   {viewSSN ? (
                     <FormattedMessage
@@ -200,4 +200,4 @@ const Identity = props => {
   )
 }
 
-export default reduxForm({ form: "sfoxIdentity" })(Identity)
+export default reduxForm({ form: 'sfoxIdentity' })(Identity)

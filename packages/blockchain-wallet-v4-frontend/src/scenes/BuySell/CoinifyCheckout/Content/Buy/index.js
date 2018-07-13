@@ -1,11 +1,11 @@
-import React from "react"
-import { actions } from "data"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import { getData } from "./selectors"
-import Success from "./template.success"
-import Loading from "components/BuySell/Loading"
-import Failure from "components/BuySell/Failure"
+import React from 'react'
+import { actions } from 'data'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { getData } from './selectors'
+import Success from './template.success'
+import Loading from 'components/BuySell/Loading'
+import Failure from 'components/BuySell/Failure'
 
 class CoinifyBuyContainer extends React.Component {
   constructor(props) {
@@ -15,12 +15,13 @@ class CoinifyBuyContainer extends React.Component {
   }
 
   componentDidMount() {
-    this.props.coinifyActions.initializeCheckoutForm("buy")
+    this.props.coinifyActions.initializeCheckoutForm('buy')
     this.props.coinifyDataActions.fetchTrades()
     this.props.coinifyDataActions.getKyc()
     this.props.coinifyDataActions.fetchSubscriptions()
-    if (this.props.step === "isx")
-      this.props.coinifyActions.coinifyNextCheckoutStep("checkout")
+    if (this.props.step === 'isx') {
+      this.props.coinifyActions.coinifyNextCheckoutStep('checkout')
+    }
   }
 
   startBuy() {
@@ -71,10 +72,10 @@ class CoinifyBuyContainer extends React.Component {
           currency={currency}
           checkoutBusy={checkoutBusy}
           setMax={amt =>
-            formActions.change("coinifyCheckoutBuy", "leftVal", amt)
+            formActions.change('coinifyCheckoutBuy', 'leftVal', amt)
           }
           setMin={amt =>
-            formActions.change("coinifyCheckoutBuy", "leftVal", amt)
+            formActions.change('coinifyCheckoutBuy', 'leftVal', amt)
           }
           paymentMedium={paymentMedium}
           initiateBuy={this.startBuy}
@@ -83,7 +84,7 @@ class CoinifyBuyContainer extends React.Component {
           clearTradeError={() => coinifyNotAsked()}
           trade={trade}
           handleKycAction={kyc => openKYC(kyc)}
-          changeTab={tab => change("buySellTabStatus", "status", tab)}
+          changeTab={tab => change('buySellTabStatus', 'status', tab)}
           coinifyNextCheckoutStep={step => coinifyNextCheckoutStep(step)}
           canTrade={canTrade}
           subscriptions={subscriptions}

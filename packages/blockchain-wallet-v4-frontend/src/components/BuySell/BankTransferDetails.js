@@ -1,15 +1,15 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { Text } from "blockchain-info-components"
-import { spacing } from "services/StyleService"
-import PropTypes from "prop-types"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { Text } from 'blockchain-info-components'
+import { spacing } from 'services/StyleService'
+import PropTypes from 'prop-types'
 
 const BankTransferDetailsTable = styled.div`
   display: flex;
   flex-direction: column;
-  border: 1px solid ${props => props.theme["gray-2"]};
-  background-color: ${props => props.theme["white-blue"]};
+  border: 1px solid ${props => props.theme['gray-2']};
+  background-color: ${props => props.theme['white-blue']};
   padding: 15px;
 `
 const DetailsRow = styled.div`
@@ -25,7 +25,7 @@ const BankTransferDetailsWrapper = styled.div`
   flex-direction: column;
   padding: ${props => (props.inModal ? `0px` : `30px`)};
   border: ${props =>
-    props.inModal ? `none` : `1px solid ${props.theme["gray-1"]}`};
+    props.inModal ? `none` : `1px solid ${props.theme['gray-1']}`};
 `
 
 const BankTransferDetails = ({ trade, inModal }) => {
@@ -35,35 +35,35 @@ const BankTransferDetails = ({ trade, inModal }) => {
   return (
     <BankTransferDetailsWrapper inModal>
       {!inModal ? (
-        <Text size="30px" weight={400} style={spacing("mb-10")}>
+        <Text size="30px" weight={400} style={spacing('mb-10')}>
           <FormattedMessage
             id="coinify.banktransferdetails.header"
             defaultMessage="Bank Transfer Order Details"
           />
         </Text>
       ) : null}
-      <Text size="14px" weight={300} style={spacing("mb-15")}>
+      <Text size="14px" weight={300} style={spacing('mb-15')}>
         <FormattedMessage
           id="coinify.banktransferdetails.sendamount"
           defaultMessage="Please send {amount} {currency} to Coinify's bank account below {within}."
           values={{
             amount: (
-              <span style={{ fontWeight: "400" }}>
+              <span style={{ fontWeight: '400' }}>
                 {trade.sendAmount / 100}
               </span>
             ),
             currency: (
-              <span style={{ fontWeight: "400" }}>{trade.inCurrency}</span>
+              <span style={{ fontWeight: '400' }}>{trade.inCurrency}</span>
             ),
             within: (
-              <span style={{ fontWeight: "400" }}>
+              <span style={{ fontWeight: '400' }}>
                 within the next 48 hours
               </span>
             )
           }}
         />
       </Text>
-      <Text size="14px" weight={300} style={spacing("mb-30")}>
+      <Text size="14px" weight={300} style={spacing('mb-30')}>
         <FormattedMessage
           id="coinify.banktransferdetails.directions"
           defaultMessage="Funds must come from your bank account, which needs to be in the same name as your government issued ID. Coinify will reject any transfers from third party accounts not in your name."
@@ -139,7 +139,7 @@ const BankTransferDetails = ({ trade, inModal }) => {
           <Text size="13px" weight={300}>
             {`Order ID ${trade.bankAccount.referenceText}`}
           </Text>
-          <Text size="12px" weight={300} color="error" style={spacing("pl-10")}>
+          <Text size="12px" weight={300} color="error" style={spacing('pl-10')}>
             <FormattedMessage
               id="coinify.banktransferdetails.include"
               defaultMessage="*Must be included*"

@@ -1,8 +1,8 @@
-import { isNumeric } from "./index.js"
+import { isNumeric } from './index.js'
 
 var testCases = [
-  { input: "", output: false },
-  { input: "?", output: false },
+  { input: '', output: false },
+  { input: '?', output: false },
   { input: [1, 2], output: false },
   { input: {}, output: false },
   { input: 1, output: true },
@@ -10,7 +10,7 @@ var testCases = [
 ]
 
 testCases.forEach(function(testCase) {
-  test("Validates a number", () => {
+  test('Validates a number', () => {
     expect(isNumeric(testCase.input)).toBe(testCase.output)
   })
 })

@@ -1,6 +1,6 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
 const Container = styled.div`
   display: flex;
@@ -23,17 +23,17 @@ const Bar = styled.div`
 const selectColor = score => {
   switch (score) {
     case 1:
-      return "error"
+      return 'error'
     case 2:
-      return "red"
+      return 'red'
     case 3:
-      return "brand-yellow-lighter"
+      return 'brand-yellow-lighter'
     case 4:
-      return "brand-yellow"
+      return 'brand-yellow'
     case 5:
-      return "success"
+      return 'success'
     default:
-      return "transparent"
+      return 'transparent'
   }
 }
 

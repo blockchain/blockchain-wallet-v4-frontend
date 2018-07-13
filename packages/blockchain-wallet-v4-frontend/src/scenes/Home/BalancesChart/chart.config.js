@@ -1,4 +1,4 @@
-import * as Currency from "blockchain-wallet-v4/src/exchange/currency"
+import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 
 export default (chartData, symbol, history) => {
   const total = chartData.reduce((acc, item) => acc + Number(item.fiat), 0)
@@ -9,8 +9,8 @@ export default (chartData, symbol, history) => {
     },
     title: {
       y: 5,
-      align: "center",
-      verticalAlign: "middle",
+      align: 'center',
+      verticalAlign: 'middle',
       text: symbol + Currency.formatFiat(total)
     },
     plotOptions: {
@@ -44,9 +44,9 @@ export default (chartData, symbol, history) => {
     },
     series: [
       {
-        type: "pie",
-        name: "Amount",
-        cursor: "pointer",
+        type: 'pie',
+        name: 'Amount',
+        cursor: 'pointer',
         data:
           total > 0
             ? chartData
@@ -54,11 +54,11 @@ export default (chartData, symbol, history) => {
                 {
                   y: 1,
                   id: null,
-                  name: "",
-                  color: "#dddddd"
+                  name: '',
+                  color: '#dddddd'
                 }
               ],
-        innerSize: "70%"
+        innerSize: '70%'
       }
     ],
     credits: {

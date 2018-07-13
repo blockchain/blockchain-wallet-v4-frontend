@@ -1,16 +1,16 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators, compose } from "redux"
-import { actions, selectors } from "data"
-import modalEnhancer from "providers/ModalEnhancer"
-import SecondPassword from "./template.js"
-import { Types } from "blockchain-wallet-v4"
-import * as C from "services/AlertService"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+import { actions, selectors } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
+import SecondPassword from './template.js'
+import { Types } from 'blockchain-wallet-v4'
+import * as C from 'services/AlertService'
 
 class SecondPasswordContainer extends React.PureComponent {
   constructor(props) {
     super(props)
-    this.state = { secondPassword: "" }
+    this.state = { secondPassword: '' }
     this.handleClick = this.handleClick.bind(this)
     this.handleChange = this.handleChange.bind(this)
   }
@@ -26,7 +26,7 @@ class SecondPasswordContainer extends React.PureComponent {
       this.props.walletActions.submitSecondPassword(this.state.secondPassword)
     } else {
       this.props.alertActions.displayError(C.SECOND_PASSWORD_INVALID_ERROR)
-      this.setState({ secondPassword: "" })
+      this.setState({ secondPassword: '' })
     }
   }
 
@@ -56,7 +56,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer("SecondPassword"),
+  modalEnhancer('SecondPassword'),
   connect(
     mapStateToProps,
     mapDispatchToProps

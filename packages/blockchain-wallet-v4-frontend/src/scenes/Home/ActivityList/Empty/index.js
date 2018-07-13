@@ -1,8 +1,8 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { Button, Image, Text } from "blockchain-info-components"
-import { LinkContainer } from "react-router-bootstrap"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { Button, Image, Text } from 'blockchain-info-components'
+import { LinkContainer } from 'react-router-bootstrap'
 
 const Wrapper = styled.div`
   display: flex;

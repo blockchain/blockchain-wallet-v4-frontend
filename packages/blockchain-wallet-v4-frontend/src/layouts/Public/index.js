@@ -1,24 +1,24 @@
-import React from "react"
-import { connect } from "react-redux"
-import { Route } from "react-router-dom"
-import styled from "styled-components"
+import React from 'react'
+import { connect } from 'react-redux'
+import { Route } from 'react-router-dom'
+import styled from 'styled-components'
 
-import Header from "./Header"
-import Footer from "./Footer"
-import Alerts from "components/Alerts"
-import Container from "components/Container"
-import ErrorBoundary from "providers/ErrorBoundaryProvider"
-import { selectors } from "data"
-import { isOnDotInfo } from "services/MigrationService"
+import Header from './Header'
+import Footer from './Footer'
+import Alerts from 'components/Alerts'
+import Container from 'components/Container'
+import ErrorBoundary from 'providers/ErrorBoundaryProvider'
+import { selectors } from 'data'
+import { isOnDotInfo } from 'services/MigrationService'
 
 const defaultDomains = {
-  root: "https://blockchain.info",
-  comWalletApp: "https://login.blockchain.com",
-  comRoot: "https://blockchain.com"
+  root: 'https://blockchain.info',
+  comWalletApp: 'https://login.blockchain.com',
+  comRoot: 'https://blockchain.com'
 }
 
 const Wrapper = styled.div`
-  background-color: ${props => props.theme["brand-primary"]};
+  background-color: ${props => props.theme['brand-primary']};
   height: auto;
   min-height: 100%;
   width: 100%;
@@ -85,7 +85,7 @@ class PublicLayoutContainer extends React.PureComponent {
     const enableRedirects = migrationRedirectsR.getOrElse(false)
 
     if (enableRedirects && isOnDotInfo(domains)) {
-      if (pathname === "/wallet") {
+      if (pathname === '/wallet') {
         window.location = `${domains.comRoot}/wallet`
       } else {
         window.location = `${domains.comWalletApp}/${pathname}`

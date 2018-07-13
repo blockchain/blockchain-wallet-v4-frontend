@@ -1,13 +1,13 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import { compose } from "ramda"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { compose } from 'ramda'
 
-import wizardProvider from "providers/WizardProvider"
-import FirstStep from "./FirstStep"
-import SecondStep from "./SecondStep"
-import ThirdStep from "./ThirdStep"
-import { actions } from "../../data"
+import wizardProvider from 'providers/WizardProvider'
+import FirstStep from './FirstStep'
+import SecondStep from './SecondStep'
+import ThirdStep from './ThirdStep'
+import { actions } from '../../data'
 
 class Reset2FAContainer extends React.PureComponent {
   componentWillMount() {
@@ -15,7 +15,7 @@ class Reset2FAContainer extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    this.props.formActions.destroy("reset2FA")
+    this.props.formActions.destroy('reset2FA')
   }
 
   render() {
@@ -43,7 +43,7 @@ const enhance = compose(
     null,
     mapDispatchToProps
   ),
-  wizardProvider("reset2FA", 3)
+  wizardProvider('reset2FA', 3)
 )
 
 export default enhance(Reset2FAContainer)

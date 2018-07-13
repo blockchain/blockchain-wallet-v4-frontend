@@ -1,12 +1,12 @@
-import React from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
+import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import { getData, getBtcData } from "./selectors"
-import { actions } from "data"
-import Loading from "./template.loading"
-import Success from "./template.success"
-import DataError from "components/DataError"
+import { getData, getBtcData } from './selectors'
+import { actions } from 'data'
+import Loading from './template.loading'
+import Success from './template.success'
+import DataError from 'components/DataError'
 
 class FirstStep extends React.Component {
   constructor(props) {
@@ -20,7 +20,7 @@ class FirstStep extends React.Component {
   }
 
   handleToToggle(val) {
-    this.props.formActions.touch("sendBtc", "to")
+    this.props.formActions.touch('sendBtc', 'to')
     this.props.actions.sendBtcFirstStepToToggled(val)
   }
 

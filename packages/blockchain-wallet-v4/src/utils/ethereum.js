@@ -1,11 +1,11 @@
-import * as Exchange from "../exchange"
-import { prop, path } from "ramda"
-import BIP39 from "bip39"
-import Bitcoin from "bitcoinjs-lib"
-import EthHd from "ethereumjs-wallet/hdkey"
-import EthTx from "ethereumjs-tx"
-import EthUtil from "ethereumjs-util"
-import BigNumber from "bignumber.js"
+import * as Exchange from '../exchange'
+import { prop, path } from 'ramda'
+import BIP39 from 'bip39'
+import Bitcoin from 'bitcoinjs-lib'
+import EthHd from 'ethereumjs-wallet/hdkey'
+import EthTx from 'ethereumjs-tx'
+import EthUtil from 'ethereumjs-util'
+import BigNumber from 'bignumber.js'
 
 /**
  * @param {string} address - The ethereum address
@@ -45,7 +45,7 @@ const deriveChildLegacy = (index, seed) => {
 }
 
 export const privateKeyToAddress = pk =>
-  EthUtil.toChecksumAddress(EthUtil.privateToAddress(pk).toString("hex"))
+  EthUtil.toChecksumAddress(EthUtil.privateToAddress(pk).toString('hex'))
 
 export const deriveAddress = (mnemonic, index) =>
   privateKeyToAddress(getPrivateKey(mnemonic, index))
@@ -56,8 +56,8 @@ export const calculateFee = (gasPrice, gasLimit) => {
     .toString()
   return Exchange.convertEtherToEther({
     value: feeGWei,
-    fromUnit: "GWEI",
-    toUnit: "WEI"
+    fromUnit: 'GWEI',
+    toUnit: 'WEI'
   }).value
 }
 
@@ -65,7 +65,7 @@ export const calculateEffectiveBalance = (balance, fee) => {
   const balanceB = new BigNumber(balance)
   const feeB = new BigNumber(fee)
   const effectiveBalanceB = balanceB.sub(feeB)
-  const zeroB = new BigNumber("0")
+  const zeroB = new BigNumber('0')
   return effectiveBalanceB.lessThan(zeroB)
     ? zeroB.toString()
     : effectiveBalanceB.toString()
@@ -76,17 +76,17 @@ export const calculateTransactionAmount = (amount, fee) => {
 }
 
 export const convertGweiToWei = amount => {
-  return new BigNumber(amount).mul("1000000000").toString()
+  return new BigNumber(amount).mul('1000000000').toString()
 }
 
 export const convertFeeToWei = fees => ({
-  gasLimit: prop("gasLimit", fees),
-  priority: convertGweiToWei(prop("priority", fees)),
-  regular: convertGweiToWei(prop("regular", fees)),
+  gasLimit: prop('gasLimit', fees),
+  priority: convertGweiToWei(prop('priority', fees)),
+  regular: convertGweiToWei(prop('regular', fees)),
   limits: {
-    min: convertGweiToWei(path(["limits", "min"], fees)),
-    max: convertGweiToWei(path(["limits", "max"], fees))
+    min: convertGweiToWei(path(['limits', 'min'], fees)),
+    max: convertGweiToWei(path(['limits', 'max'], fees))
   }
 })
 
-export const txHexToHashHex = txHex => new EthTx(txHex).hash().toString("hex")
+export const txHexToHashHex = txHex => new EthTx(txHex).hash().toString('hex')

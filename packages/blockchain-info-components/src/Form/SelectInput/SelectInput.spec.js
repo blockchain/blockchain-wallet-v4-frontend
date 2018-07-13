@@ -1,15 +1,15 @@
-import React from "react"
-import { shallow } from "enzyme"
-import toJson from "enzyme-to-json"
+import React from 'react'
+import { shallow } from 'enzyme'
+import toJson from 'enzyme-to-json'
 
-import SelectInput from "./template"
+import SelectInput from './template'
 
-describe("SelectInput component", () => {
-  it("default renders correctly", () => {
-    const items = [{ text: "test", value: "value" }]
+describe('SelectInput component', () => {
+  it('default renders correctly', () => {
+    const items = [{ text: 'test', value: 'value' }]
     const component = shallow(
       <SelectInput
-        selected={{ text: "hello", value: 1 }}
+        selected={{ text: 'hello', value: 1 }}
         items={items}
         display="inherit"
       />

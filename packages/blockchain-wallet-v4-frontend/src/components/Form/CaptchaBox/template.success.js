@@ -1,8 +1,8 @@
-import React from "react"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 
-import { Icon, Text, TextInput, Link } from "blockchain-info-components"
+import { Icon, Text, TextInput, Link } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   position: relative;
@@ -46,7 +46,7 @@ const RefreshIcon = styled(Icon)`
   }
 `
 const getErrorState = meta => {
-  return meta.touched && meta.invalid ? "invalid" : "initial"
+  return meta.touched && meta.invalid ? 'invalid' : 'initial'
 }
 
 const CaptchaBox = field => {

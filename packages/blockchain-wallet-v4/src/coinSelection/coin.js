@@ -13,11 +13,11 @@ import {
   complement,
   either,
   tryCatch
-} from "ramda"
-import { over, view } from "ramda-lens"
-import { inputComparator, sortOutputs } from "bip69"
-import Type from "../types/Type"
-import { addressToScript, scriptToAddress } from "../utils/bitcoin"
+} from 'ramda'
+import { over, view } from 'ramda-lens'
+import { inputComparator, sortOutputs } from 'bip69'
+import Type from '../types/Type'
+import { addressToScript, scriptToAddress } from '../utils/bitcoin'
 
 export const TX_EMPTY_SIZE = 4 + 1 + 1 + 4
 export const TX_INPUT_BASE = 32 + 4 + 1 + 4
@@ -45,7 +45,7 @@ export class Coin extends Type {
     return over(value, f, this)
   }
   isFromAccount() {
-    return length(split("/", this.priv)) > 1
+    return length(split('/', this.priv)) > 1
   }
   isFromLegacy() {
     return !this.isFromAccount()
@@ -53,14 +53,14 @@ export class Coin extends Type {
 }
 
 export const isCoin = is(Coin)
-export const value = Coin.define("value")
-export const script = Coin.define("script")
-export const txHash = Coin.define("txHash")
-export const index = Coin.define("index")
-export const address = Coin.define("address")
-export const priv = Coin.define("priv")
-export const change = Coin.define("change")
-export const path = Coin.define("path")
+export const value = Coin.define('value')
+export const script = Coin.define('script')
+export const txHash = Coin.define('txHash')
+export const index = Coin.define('index')
+export const address = Coin.define('address')
+export const priv = Coin.define('priv')
+export const change = Coin.define('change')
+export const path = Coin.define('path')
 
 export const selectValue = view(value)
 export const selectScript = view(script)

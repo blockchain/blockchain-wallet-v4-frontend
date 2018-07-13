@@ -1,4 +1,4 @@
-import { selectors } from "data"
+import { selectors } from 'data'
 
 export const getData = state => ({
   authType: selectors.core.settings.getAuthType(state),

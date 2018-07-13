@@ -1,5 +1,5 @@
-import React, { Component } from "react"
-import styled from "styled-components"
+import React, { Component } from 'react'
+import styled from 'styled-components'
 
 const Button = styled.button`
   display: none;
@@ -14,9 +14,9 @@ const Button = styled.button`
     width: 20px;
 
     &:after {
-      color: ${props => props.theme["white"]};
-      content: "\e92d";
-      font-family: "icomoon";
+      color: ${props => props.theme['white']};
+      content: '\e92d';
+      font-family: 'icomoon';
       font-size: 17px;
       font-style: normal;
       font-variant: normal;

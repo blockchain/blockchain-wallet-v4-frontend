@@ -1,10 +1,10 @@
-import { takeLatest } from "redux-saga/effects"
-import sagas from "./sagas"
+import { takeLatest } from 'redux-saga/effects'
+import sagas from './sagas'
 
 export default () => {
   const routerSagas = sagas()
 
   return function*() {
-    yield takeLatest("@@router/LOCATION_CHANGE", routerSagas.changeLocation)
+    yield takeLatest('@@router/LOCATION_CHANGE', routerSagas.changeLocation)
   }
 }

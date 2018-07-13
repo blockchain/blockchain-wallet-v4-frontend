@@ -24,20 +24,20 @@ export default ({ rootUrl, apiUrl, get, post }) => {
   const getEthereumFee = () =>
     get({
       url: apiUrl,
-      endPoint: "/eth/fees"
+      endPoint: '/eth/fees'
     })
 
   const getEthereumLatestBlock = () =>
     get({
       url: apiUrl,
-      endPoint: "/eth/latestblock"
+      endPoint: '/eth/latestblock'
     })
 
   const getEthereumTicker = () =>
     get({
       url: apiUrl,
-      endPoint: "/ticker",
-      data: { base: "ETH" }
+      endPoint: '/ticker',
+      data: { base: 'ETH' }
     })
 
   const getEthereumTransaction = hash =>
@@ -56,8 +56,8 @@ export default ({ rootUrl, apiUrl, get, post }) => {
   const pushEthereumTx = rawTx =>
     post({
       url: apiUrl,
-      endPoint: "/eth/pushtx",
-      contentType: "application/json",
+      endPoint: '/eth/pushtx',
+      contentType: 'application/json',
       data: { rawTx }
     })
 

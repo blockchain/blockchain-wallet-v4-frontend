@@ -1,9 +1,9 @@
-import React from "react"
-import styled from "styled-components"
+import React from 'react'
+import styled from 'styled-components'
 
-import { Text, TextGroup } from "blockchain-info-components"
-import { FormattedMessage, FormattedHTMLMessage } from "react-intl"
-import Announcements from "./WhatsNewContent"
+import { Text, TextGroup } from 'blockchain-info-components'
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+import Announcements from './WhatsNewContent'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -54,7 +54,7 @@ const EmptyContent = styled.div`
     margin-bottom: 10px;
   }
   a {
-    color: ${props => props.theme["brand-secondary"]};
+    color: ${props => props.theme['brand-secondary']};
   }
 `
 

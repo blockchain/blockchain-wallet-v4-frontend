@@ -1,12 +1,12 @@
-import React, { Component, Fragment } from "react"
-import styled from "styled-components"
-import { reduxForm, Field } from "redux-form"
-import { FormattedMessage } from "react-intl"
-import { TextBox, Form } from "components/Form"
-import { PartnerHeader } from "components/BuySell/Signup"
-import { required } from "services/FormHelper"
-import { Text, TextGroup } from "blockchain-info-components"
-import { spacing } from "services/StyleService"
+import React, { Component, Fragment } from 'react'
+import styled from 'styled-components'
+import { reduxForm, Field } from 'redux-form'
+import { FormattedMessage } from 'react-intl'
+import { TextBox, Form } from 'components/Form'
+import { PartnerHeader } from 'components/BuySell/Signup'
+import { required } from 'services/FormHelper'
+import { Text, TextGroup } from 'blockchain-info-components'
+import { spacing } from 'services/StyleService'
 
 const Container = styled.div`
   display: flex;
@@ -26,13 +26,13 @@ class MicroDeposits extends Component {
 
     return (
       <Container>
-        <PartnerHeader style={spacing("mb-25")}>
+        <PartnerHeader style={spacing('mb-25')}>
           <FormattedMessage
             id="sfoxexchangedata.link.micro.title"
             defaultMessage="Verify Your Bank Account"
           />
         </PartnerHeader>
-        {onStep === "welcome" ? (
+        {onStep === 'welcome' ? (
           <Fragment>
             <Text size="13px" weight={300}>
               <FormattedMessage
@@ -40,7 +40,7 @@ class MicroDeposits extends Component {
                 defaultMessage="To verify your bank details, SFOX will send two micro-deposits to your bank account for a few cents each. Once received, select Enter Deposit Details to finish setting up your account."
               />
             </Text>
-            <TextGroup inline style={spacing("mt-10")}>
+            <TextGroup inline style={spacing('mt-10')}>
               <Text size="13px" weight={400}>
                 <FormattedMessage
                   id="sfoxexchangedata.link.micro.bear"
@@ -59,7 +59,7 @@ class MicroDeposits extends Component {
           <Form>
             <Container>
               <InputContainer>
-                <Text size="14px" weight={500} style={spacing("mb-10")}>
+                <Text size="14px" weight={500} style={spacing('mb-10')}>
                   <FormattedMessage
                     id="sfoxexchangedata.link.micro.deposit1"
                     defaultMessage="Deposit 1"
@@ -73,7 +73,7 @@ class MicroDeposits extends Component {
                 />
               </InputContainer>
               <InputContainer>
-                <Text size="14px" weight={500} style={spacing("mb-10")}>
+                <Text size="14px" weight={500} style={spacing('mb-10')}>
                   <FormattedMessage
                     id="sfoxexchangedata.link.micro.deposit2"
                     defaultMessage="Deposit 2"
@@ -94,4 +94,4 @@ class MicroDeposits extends Component {
   }
 }
 
-export default reduxForm({ form: "sfoxLink" })(MicroDeposits)
+export default reduxForm({ form: 'sfoxLink' })(MicroDeposits)

@@ -1,11 +1,11 @@
-import React from "react"
-import PropTypes from "prop-types"
-import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
-import { Field, reduxForm } from "redux-form"
+import React from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
 
-import { required, validEtherAddress } from "services/FormHelper"
-import { Button, Text, Tooltip } from "blockchain-info-components"
+import { required, validEtherAddress } from 'services/FormHelper'
+import { Button, Text, Tooltip } from 'blockchain-info-components'
 import {
   FiatConvertor,
   Form,
@@ -15,10 +15,10 @@ import {
   SelectBoxCoin,
   TextBox,
   TextAreaDebounced
-} from "components/Form"
-import { invalidAmount, insufficientFunds, maximumAmount } from "./validation"
-import QRCodeCapture from "components/QRCodeCapture"
-import ComboDisplay from "components/Display/ComboDisplay"
+} from 'components/Form'
+import { invalidAmount, insufficientFunds, maximumAmount } from './validation'
+import QRCodeCapture from 'components/QRCodeCapture'
+import ComboDisplay from 'components/Display/ComboDisplay'
 
 const Row = styled.div`
   display: flex;
@@ -40,8 +40,8 @@ const FirstStep = props => {
   } = props
   return (
     <Form onSubmit={handleSubmit}>
-      <FormGroup inline margin={"15px"}>
-        <FormItem width={"40%"}>
+      <FormGroup inline margin={'15px'}>
+        <FormItem width={'40%'}>
           <FormLabel for="coin">
             <FormattedMessage
               id="modals.sendether.firststep.coin"
@@ -51,7 +51,7 @@ const FirstStep = props => {
           <Field name="coin" component={SelectBoxCoin} validate={[required]} />
         </FormItem>
       </FormGroup>
-      <FormGroup margin={"15px"}>
+      <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel for="to">
             <FormattedMessage
@@ -70,7 +70,7 @@ const FirstStep = props => {
             {!unconfirmedTx && (
               <QRCodeCapture
                 scanType="ethAddress"
-                border={["top", "bottom", "right"]}
+                border={['top', 'bottom', 'right']}
               />
             )}
           </Row>
@@ -92,7 +92,7 @@ const FirstStep = props => {
           )}
         </FormItem>
       </FormGroup>
-      <FormGroup margin={"15px"}>
+      <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel for="amount">
             <FormattedMessage
@@ -109,7 +109,7 @@ const FirstStep = props => {
           />
         </FormItem>
       </FormGroup>
-      <FormGroup margin={"15px"}>
+      <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel for="description">
             <FormattedMessage
@@ -131,7 +131,7 @@ const FirstStep = props => {
           />
         </FormItem>
       </FormGroup>
-      <FormGroup margin={"30px"}>
+      <FormGroup margin={'30px'}>
         <FormItem>
           <FormLabel>
             <FormattedMessage
@@ -170,6 +170,6 @@ FirstStep.propTypes = {
   unconfirmedTx: PropTypes.bool
 }
 
-export default reduxForm({ form: "sendEth", destroyOnUnmount: false })(
+export default reduxForm({ form: 'sendEth', destroyOnUnmount: false })(
   FirstStep
 )
