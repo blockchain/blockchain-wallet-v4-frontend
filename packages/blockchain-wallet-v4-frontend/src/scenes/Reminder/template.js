@@ -1,10 +1,10 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { Field, reduxForm } from "redux-form";
-import { LinkContainer } from "react-router-bootstrap";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { Field, reduxForm } from "redux-form"
+import { LinkContainer } from "react-router-bootstrap"
 
-import { required, validEmail } from "services/FormHelper";
+import { required, validEmail } from "services/FormHelper"
 import {
   Button,
   HeartbeatLoader,
@@ -12,7 +12,7 @@ import {
   Separator,
   Text,
   TextGroup
-} from "blockchain-info-components";
+} from "blockchain-info-components"
 import {
   CaptchaBox,
   Form,
@@ -20,7 +20,7 @@ import {
   FormItem,
   FormLabel,
   TextBox
-} from "components/Form";
+} from "components/Form"
 
 const Wrapper = styled.div`
   width: 100%;
@@ -31,19 +31,19 @@ const Wrapper = styled.div`
   @media (min-width: 768px) {
     width: 550px;
   }
-`;
+`
 const Footer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
-`;
+`
 const GoBackLink = styled(LinkContainer)`
   margin-right: 15px;
-`;
+`
 const SuccessMessages = styled(TextGroup)`
   margin: 25px 0;
-`;
+`
 
 const Reminder = props => {
   const {
@@ -53,7 +53,7 @@ const Reminder = props => {
     invalid,
     success,
     loading
-  } = props;
+  } = props
 
   const renderForm = () => {
     return (
@@ -116,8 +116,8 @@ const Reminder = props => {
           </Button>
         </Footer>
       </Form>
-    );
-  };
+    )
+  }
 
   const renderReminder = () => {
     return (
@@ -139,8 +139,8 @@ const Reminder = props => {
           </Button>
         </LinkContainer>
       </React.Fragment>
-    );
-  };
+    )
+  }
 
   return (
     <Wrapper>
@@ -159,7 +159,7 @@ const Reminder = props => {
       <Separator />
       {success ? renderReminder() : renderForm()}
     </Wrapper>
-  );
-};
+  )
+}
 
-export default reduxForm({ form: "reminder" })(Reminder);
+export default reduxForm({ form: "reminder" })(Reminder)

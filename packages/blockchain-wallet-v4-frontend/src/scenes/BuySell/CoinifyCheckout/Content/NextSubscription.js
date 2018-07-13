@@ -1,10 +1,10 @@
-import React from "react";
-import { FormattedMessage } from "react-intl";
-import styled from "styled-components";
-import { Text, Link } from "blockchain-info-components";
-import { prop, head } from "ramda";
-import * as Currency from "blockchain-wallet-v4/src/exchange/currency";
-import { recurringTimeHelper, recurringFee } from "services/CoinifyService";
+import React from "react"
+import { FormattedMessage } from "react-intl"
+import styled from "styled-components"
+import { Text, Link } from "blockchain-info-components"
+import { prop, head } from "ramda"
+import * as Currency from "blockchain-wallet-v4/src/exchange/currency"
+import { recurringTimeHelper, recurringFee } from "services/CoinifyService"
 
 const NextRecurringWrapper = styled.div`
   background: ${props => props.theme["brand-quaternary"]};
@@ -15,26 +15,26 @@ const NextRecurringWrapper = styled.div`
   div:first-of-type {
     margin-bottom: 20px;
   }
-`;
+`
 const NextRecurringRow = styled.div`
   display: flex;
   flex-direction: row;
   div:first-of-type {
     margin-right: 5px;
   }
-`;
+`
 const LinkContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-top: 10px;
-`;
+`
 
 const NextSubscription = ({ subscriptions, trades, manageOrder }) => {
   let matchedTrades = trades.filter(
     t => prop("tradeSubscriptionId", t) === prop("id", head(subscriptions))
-  );
-  let trade = matchedTrades.sort((a, b) => a.createdAt < b.createdAt);
-  let nextTrade = head(trade);
+  )
+  let trade = matchedTrades.sort((a, b) => a.createdAt < b.createdAt)
+  let nextTrade = head(trade)
 
   return (
     <NextRecurringWrapper>
@@ -84,7 +84,7 @@ const NextSubscription = ({ subscriptions, trades, manageOrder }) => {
         </Link>
       </LinkContainer>
     </NextRecurringWrapper>
-  );
-};
+  )
+}
 
-export default NextSubscription;
+export default NextSubscription

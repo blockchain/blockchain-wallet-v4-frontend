@@ -1,59 +1,59 @@
-import { select } from "redux-saga/effects";
-import { expectSaga, testSaga } from "redux-saga-test-plan";
-import { initialize } from "redux-form";
-import { prop } from "ramda";
-import { call } from "redux-saga-test-plan/matchers";
+import { select } from "redux-saga/effects"
+import { expectSaga, testSaga } from "redux-saga-test-plan"
+import { initialize } from "redux-form"
+import { prop } from "ramda"
+import { call } from "redux-saga-test-plan/matchers"
 
-import rootReducer from "../../rootReducer";
-import { coreSagasFactory, Remote } from "blockchain-wallet-v4/src";
-import * as A from "./actions";
-import * as S from "./selectors";
-import * as C from "services/AlertService";
-import * as actions from "../../actions";
-import * as selectors from "../../selectors";
-import sendBtcSagas, { logLocation } from "./sagas";
-import { promptForSecondPassword } from "services/SagaService";
-import settings from "config";
+import rootReducer from "../../rootReducer"
+import { coreSagasFactory, Remote } from "blockchain-wallet-v4/src"
+import * as A from "./actions"
+import * as S from "./selectors"
+import * as C from "services/AlertService"
+import * as actions from "../../actions"
+import * as selectors from "../../selectors"
+import sendBtcSagas, { logLocation } from "./sagas"
+import { promptForSecondPassword } from "services/SagaService"
+import settings from "config"
 
-jest.mock("blockchain-wallet-v4/src/redux/sagas");
+jest.mock("blockchain-wallet-v4/src/redux/sagas")
 const api = {
   obtainSessionToken: jest.fn(),
   deauthorizeBrowser: jest.fn()
-};
-const coreSagas = coreSagasFactory({ api });
+}
+const coreSagas = coreSagasFactory({ api })
 
 describe("sendBtc sagas", () => {
   // Mocking Math.random() to have identical popup ids for action testing
-  const originalMath = Object.create(Math);
-  let pushStateSpy;
-  let locationReloadSpy;
+  const originalMath = Object.create(Math)
+  let pushStateSpy
+  let locationReloadSpy
   beforeAll(() => {
-    Math.random = () => 0.5;
+    Math.random = () => 0.5
     pushStateSpy = jest
       .spyOn(window.history, "pushState")
-      .mockImplementation(() => {});
+      .mockImplementation(() => {})
     locationReloadSpy = jest
       .spyOn(window.location, "reload")
-      .mockImplementation(() => {});
-  });
+      .mockImplementation(() => {})
+  })
   afterAll(() => {
-    global.Math = originalMath;
-    pushStateSpy.restore();
-    locationReloadSpy.restore();
-  });
+    global.Math = originalMath
+    pushStateSpy.restore()
+    locationReloadSpy.restore()
+  })
   const {
     initialized,
     firstStepSubmitClicked,
     secondStepSubmitClicked
-  } = sendBtcSagas({ api, coreSagas });
+  } = sendBtcSagas({ api, coreSagas })
 
-  const feeType = "regular";
-  const feePerByte = 1;
+  const feeType = "regular"
+  const feePerByte = 1
   const value = {
     fees: {
       [feeType]: feePerByte
     }
-  };
+  }
   const paymentMock = {
     value: jest.fn(),
     init: jest.fn(() => paymentMock),
@@ -67,27 +67,27 @@ describe("sendBtc sagas", () => {
     publish: jest.fn(() => paymentMock),
     description: jest.fn(() => paymentMock),
     chain: jest.fn()
-  };
-  paymentMock.value.mockReturnValue(value);
+  }
+  paymentMock.value.mockReturnValue(value)
 
   coreSagas.payment.btc.create.mockImplementation(() => {
-    return paymentMock;
-  });
+    return paymentMock
+  })
 
   describe("btc send form intialize", () => {
-    const to = "btcaddress";
-    const message = "message";
+    const to = "btcaddress"
+    const message = "message"
     const amount = {
       coin: 1,
       fiat: 10000
-    };
-    const payload = { to, message, amount, feeType };
+    }
+    const payload = { to, message, amount, feeType }
 
-    const saga = testSaga(initialized, { payload });
+    const saga = testSaga(initialized, { payload })
 
-    const defaultIndex = 0;
-    const defaultAccount = "account1";
-    const accountsRStub = Remote.of([defaultAccount, "account2"]);
+    const defaultIndex = 0
+    const defaultAccount = "account1"
+    const accountsRStub = Remote.of([defaultAccount, "account2"])
     const initialValues = {
       to: to,
       coin: "BTC",
@@ -95,52 +95,52 @@ describe("sendBtc sagas", () => {
       message: message,
       from: defaultAccount,
       feePerByte: feePerByte
-    };
+    }
 
-    const beforeEnd = "beforeEnd";
+    const beforeEnd = "beforeEnd"
 
     it("should trigger a loading action", () => {
-      saga.next().put(A.sendBtcPaymentUpdatedLoading());
-    });
+      saga.next().put(A.sendBtcPaymentUpdatedLoading())
+    })
 
     it("should create payment", () => {
-      saga.next();
-      expect(coreSagas.payment.btc.create).toHaveBeenCalledTimes(1);
+      saga.next()
+      expect(coreSagas.payment.btc.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.btc.create).toHaveBeenCalledWith({
         network: settings.NETWORK_BITCOIN
-      });
-      expect(paymentMock.init).toHaveBeenCalledTimes(1);
-    });
+      })
+      expect(paymentMock.init).toHaveBeenCalledTimes(1)
+    })
 
     it("should select accounts", () => {
       saga
         .next(paymentMock)
-        .select(selectors.core.common.btc.getAccountsBalances);
-    });
+        .select(selectors.core.common.btc.getAccountsBalances)
+    })
 
     it("should select defaultIndex", () => {
       saga
         .next(accountsRStub)
-        .select(selectors.core.wallet.getDefaultAccountIndex);
-    });
+        .select(selectors.core.wallet.getDefaultAccountIndex)
+    })
 
     it("should update payment from to defaultIndex", () => {
-      saga.next(defaultIndex);
+      saga.next(defaultIndex)
 
-      expect(paymentMock.from).toHaveBeenCalledTimes(1);
-      expect(paymentMock.from).toHaveBeenCalledWith(defaultIndex);
-    });
+      expect(paymentMock.from).toHaveBeenCalledTimes(1)
+      expect(paymentMock.from).toHaveBeenCalledWith(defaultIndex)
+    })
 
     it("should update payment fee from value", () => {
-      saga.next(paymentMock);
+      saga.next(paymentMock)
 
-      expect(paymentMock.fee).toHaveBeenCalledTimes(1);
-      expect(paymentMock.fee).toHaveBeenCalledWith(feePerByte);
-    });
+      expect(paymentMock.fee).toHaveBeenCalledTimes(1)
+      expect(paymentMock.fee).toHaveBeenCalledWith(feePerByte)
+    })
 
     it("should initialize sendBtc form with correct values", () => {
-      saga.next(paymentMock).put(initialize("sendBtc", initialValues));
-    });
+      saga.next(paymentMock).put(initialize("sendBtc", initialValues))
+    })
 
     it("should trigger btc payment updated success action", () => {
       saga
@@ -148,17 +148,17 @@ describe("sendBtc sagas", () => {
         .put(A.sendBtcPaymentUpdatedSuccess(value))
         .save(beforeEnd)
         .next()
-        .isDone();
-    });
+        .isDone()
+    })
 
     describe("error handling", () => {
-      const error = {};
+      const error = {}
       it("should trigger btc payment updated failure action", () => {
         saga
           .restore(beforeEnd)
           .throw(error)
-          .put(A.sendBtcPaymentUpdatedFailure(error));
-      });
+          .put(A.sendBtcPaymentUpdatedFailure(error))
+      })
 
       it("should log initialization error", () => {
         saga
@@ -171,21 +171,21 @@ describe("sendBtc sagas", () => {
             )
           )
           .next()
-          .isDone();
-      });
-    });
+          .isDone()
+      })
+    })
 
     describe("state change", () => {
-      const xpub = "xpub";
-      const label = "my wallet";
-      const balance = 1;
-      const defaultIndex = 1;
+      const xpub = "xpub"
+      const label = "my wallet"
+      const balance = 1
+      const defaultIndex = 1
       const defaultAccount = {
         xpub,
         label,
         balance,
         index: defaultIndex
-      };
+      }
       const stubAccounts = Remote.of([
         {
           xpub: "",
@@ -194,8 +194,8 @@ describe("sendBtc sagas", () => {
           index: 0
         },
         defaultAccount
-      ]);
-      let resultingState = {};
+      ])
+      let resultingState = {}
 
       beforeEach(async () => {
         resultingState = await expectSaga(initialized, { payload })
@@ -208,13 +208,13 @@ describe("sendBtc sagas", () => {
             [select(selectors.core.wallet.getDefaultAccountIndex), defaultIndex]
           ])
           .run()
-          .then(prop("storeState"));
-      });
+          .then(prop("storeState"))
+      })
 
       it("should produce correct form state", () => {
         expect(resultingState.form.sendBtc.initial).toEqual(
           resultingState.form.sendBtc.values
-        );
+        )
         expect(resultingState.form.sendBtc.initial).toEqual({
           feePerByte,
           coin: "BTC",
@@ -222,47 +222,47 @@ describe("sendBtc sagas", () => {
           message,
           to,
           from: defaultAccount
-        });
-      });
+        })
+      })
 
       it("should produce correct sendBtc payment state", () => {
         expect(resultingState.components.sendBtc.payment).toEqual(
           Remote.Success(value)
-        );
-      });
-    });
-  });
+        )
+      })
+    })
+  })
 
   describe("btc send first step submit", () => {
     beforeAll(() => {
-      coreSagas.payment.btc.create.mockClear();
-      paymentMock.build.mockClear();
-    });
+      coreSagas.payment.btc.create.mockClear()
+      paymentMock.build.mockClear()
+    })
 
-    const saga = testSaga(firstStepSubmitClicked);
+    const saga = testSaga(firstStepSubmitClicked)
 
-    const beforeError = "beforeError";
+    const beforeError = "beforeError"
 
     it("should select payment", () => {
-      saga.next().select(S.getPayment);
-    });
+      saga.next().select(S.getPayment)
+    })
 
     it("should put loading action", () => {
-      saga.next(Remote.of(paymentMock)).put(A.sendBtcPaymentUpdatedLoading());
-    });
+      saga.next(Remote.of(paymentMock)).put(A.sendBtcPaymentUpdatedLoading())
+    })
 
     it("should create payment from state value", () => {
-      saga.next();
-      expect(coreSagas.payment.btc.create).toHaveBeenCalledTimes(1);
+      saga.next()
+      expect(coreSagas.payment.btc.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.btc.create).toHaveBeenCalledWith({
         payment: paymentMock,
         network: settings.NETWORK_BITCOIN
-      });
-    });
+      })
+    })
 
     it("should build payment", () => {
-      expect(paymentMock.build).toHaveBeenCalledTimes(1);
-    });
+      expect(paymentMock.build).toHaveBeenCalledTimes(1)
+    })
 
     it("should put update success action", () => {
       saga
@@ -271,11 +271,11 @@ describe("sendBtc sagas", () => {
         .save(beforeError)
         .next()
         .isDone()
-        .restore(beforeError);
-    });
+        .restore(beforeError)
+    })
 
     describe("error handling", () => {
-      const error = {};
+      const error = {}
 
       it("should log error", () => {
         saga
@@ -288,74 +288,72 @@ describe("sendBtc sagas", () => {
             )
           )
           .next()
-          .isDone();
-      });
-    });
-  });
+          .isDone()
+      })
+    })
+  })
 
   describe("btc send second step submit", () => {
-    const saga = testSaga(secondStepSubmitClicked);
-    const secondPassword = "password";
-    const description = "description";
-    const txId = "txId";
-    const beforeError = "beforeError";
+    const saga = testSaga(secondStepSubmitClicked)
+    const secondPassword = "password"
+    const description = "description"
+    const txId = "txId"
+    const beforeError = "beforeError"
     beforeAll(() => {
-      paymentMock.value.mockReturnValue({ ...value, description, txId });
-      coreSagas.payment.btc.create.mockClear();
-      paymentMock.sign.mockClear();
-      paymentMock.publish.mockClear();
-    });
+      paymentMock.value.mockReturnValue({ ...value, description, txId })
+      coreSagas.payment.btc.create.mockClear()
+      paymentMock.sign.mockClear()
+      paymentMock.publish.mockClear()
+    })
 
     it("should select payment", () => {
-      saga.next().select(S.getPayment);
-    });
+      saga.next().select(S.getPayment)
+    })
 
     it("should prompt for second password", () => {
-      saga.next(Remote.of(paymentMock)).call(promptForSecondPassword);
-    });
+      saga.next(Remote.of(paymentMock)).call(promptForSecondPassword)
+    })
 
     it("should create payment from state value", () => {
-      expect(coreSagas.payment.btc.create).toHaveBeenCalledTimes(1);
+      expect(coreSagas.payment.btc.create).toHaveBeenCalledTimes(1)
       expect(coreSagas.payment.btc.create).toHaveBeenCalledWith({
         payment: paymentMock,
         network: settings.NETWORK_BITCOIN
-      });
-    });
+      })
+    })
 
     it("should put action to close all modals", () => {
-      saga.next(secondPassword).put(actions.modals.closeAllModals());
-    });
+      saga.next(secondPassword).put(actions.modals.closeAllModals())
+    })
 
     it("should sign payment with second passowrd", () => {
-      saga.next();
-      expect(paymentMock.sign).toHaveBeenCalledTimes(1);
-      expect(paymentMock.sign).toHaveBeenCalledWith(secondPassword);
-    });
+      saga.next()
+      expect(paymentMock.sign).toHaveBeenCalledTimes(1)
+      expect(paymentMock.sign).toHaveBeenCalledWith(secondPassword)
+    })
 
     it("should publish payment", () => {
-      saga.next(paymentMock);
-      expect(paymentMock.publish).toHaveBeenCalledTimes(1);
-    });
+      saga.next(paymentMock)
+      expect(paymentMock.publish).toHaveBeenCalledTimes(1)
+    })
 
     it("should put btc payment updated success action", () => {
       saga
         .next(paymentMock)
-        .put(A.sendBtcPaymentUpdatedSuccess(paymentMock.value()));
-    });
+        .put(A.sendBtcPaymentUpdatedSuccess(paymentMock.value()))
+    })
 
     it("should put btc fetch data action", () => {
-      saga.next(paymentMock).put(actions.core.data.bitcoin.fetchData());
-    });
+      saga.next(paymentMock).put(actions.core.data.bitcoin.fetchData())
+    })
 
     it("should set transaction note if transaction has description", () => {
-      saga
-        .next()
-        .put(actions.core.wallet.setTransactionNote(txId, description));
-    });
+      saga.next().put(actions.core.wallet.setTransactionNote(txId, description))
+    })
 
     it("should route to btc transactions", () => {
-      saga.next().put(actions.router.push("/btc/transactions"));
-    });
+      saga.next().put(actions.router.push("/btc/transactions"))
+    })
 
     it("should display succcess message", () => {
       saga
@@ -363,11 +361,11 @@ describe("sendBtc sagas", () => {
         .put(actions.alerts.displaySuccess(C.SEND_BTC_SUCCESS))
         .save(beforeError)
         .next()
-        .isDone();
-    });
+        .isDone()
+    })
 
     describe("error handling", () => {
-      const error = {};
+      const error = {}
       it("should log error", () => {
         saga
           .restore(beforeError)
@@ -378,27 +376,27 @@ describe("sendBtc sagas", () => {
               "secondStepSubmitClicked",
               error
             )
-          );
-      });
+          )
+      })
 
       it("should display success message", () => {
         saga
           .next()
           .put(actions.alerts.displayError(C.SEND_BTC_ERROR))
           .next()
-          .isDone();
-      });
-    });
+          .isDone()
+      })
+    })
 
     it("should not set transaction not if payment has no description", () => {
-      paymentMock.value.mockReturnValue({ ...value, description: "", txId });
+      paymentMock.value.mockReturnValue({ ...value, description: "", txId })
       return expectSaga(secondStepSubmitClicked)
         .provide([
           [select(S.getPayment), Remote.of(paymentMock)],
           [call.fn(promptForSecondPassword), null]
         ])
         .not.put(actions.core.wallet.setTransactionNote(txId, description))
-        .run();
-    });
-  });
-});
+        .run()
+    })
+  })
+})

@@ -1,11 +1,11 @@
-import React from "react";
-import { shallow } from "enzyme";
-import toJson from "enzyme-to-json";
-import { dissoc } from "ramda";
-import { testPropTypes } from "utils/test.utils";
-import TemplateSuccess from "./template.success";
+import React from "react"
+import { shallow } from "enzyme"
+import toJson from "enzyme-to-json"
+import { dissoc } from "ramda"
+import { testPropTypes } from "utils/test.utils"
+import TemplateSuccess from "./template.success"
 
-jest.mock("blockchain-info-components", () => ({ Link: "link" }));
+jest.mock("blockchain-info-components", () => ({ Link: "link" }))
 
 describe("CoinTicker template success", () => {
   const props = {
@@ -13,13 +13,13 @@ describe("CoinTicker template success", () => {
     fiat: "100",
     handleClick: jest.fn(),
     selected: false
-  };
+  }
 
   it("renders correctly", () => {
-    const component = shallow(<TemplateSuccess {...props} />);
-    const tree = toJson(component);
-    expect(tree).toMatchSnapshot();
-  });
+    const component = shallow(<TemplateSuccess {...props} />)
+    const tree = toJson(component)
+    expect(tree).toMatchSnapshot()
+  })
 
   it("should accept a mandatory string for prop coin", () => {
     expect(
@@ -30,7 +30,7 @@ describe("CoinTicker template success", () => {
         false,
         dissoc("coin", props)
       )
-    ).toBeTruthy();
+    ).toBeTruthy()
     expect(
       testPropTypes(
         TemplateSuccess,
@@ -39,8 +39,8 @@ describe("CoinTicker template success", () => {
         true,
         dissoc("coin", props)
       )
-    ).toBeTruthy();
-  });
+    ).toBeTruthy()
+  })
 
   it("should accept a mandatory string for prop fiat", () => {
     expect(
@@ -51,7 +51,7 @@ describe("CoinTicker template success", () => {
         false,
         dissoc("coin", props)
       )
-    ).toBeTruthy();
+    ).toBeTruthy()
     expect(
       testPropTypes(
         TemplateSuccess,
@@ -60,8 +60,8 @@ describe("CoinTicker template success", () => {
         true,
         dissoc("coin", props)
       )
-    ).toBeTruthy();
-  });
+    ).toBeTruthy()
+  })
 
   it("should accept a mandatory function for prop handleClick", () => {
     expect(
@@ -72,7 +72,7 @@ describe("CoinTicker template success", () => {
         false,
         dissoc("coin", props)
       )
-    ).toBeTruthy();
+    ).toBeTruthy()
     expect(
       testPropTypes(
         TemplateSuccess,
@@ -81,8 +81,8 @@ describe("CoinTicker template success", () => {
         true,
         dissoc("coin", props)
       )
-    ).toBeTruthy();
-  });
+    ).toBeTruthy()
+  })
 
   it("should accept a bool for prop selected", () => {
     expect(
@@ -93,7 +93,7 @@ describe("CoinTicker template success", () => {
         false,
         dissoc("coin", props)
       )
-    ).toBeTruthy();
+    ).toBeTruthy()
     expect(
       testPropTypes(
         TemplateSuccess,
@@ -102,6 +102,6 @@ describe("CoinTicker template success", () => {
         true,
         dissoc("coin", props)
       )
-    ).toBeTruthy();
-  });
-});
+    ).toBeTruthy()
+  })
+})

@@ -1,8 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import PropTypes from "prop-types"
+import { FormattedMessage } from "react-intl"
 
-import { Link } from "blockchain-info-components";
+import { Link } from "blockchain-info-components"
 
 const NotAsked = props => (
   <Link size="12px" weight={200} onClick={props.handleClick}>
@@ -11,10 +11,10 @@ const NotAsked = props => (
       defaultMessage="view"
     />
   </Link>
-);
+)
 
 NotAsked.propTypes = {
   handleClick: PropTypes.func.isRequired
-};
+}
 
-export default NotAsked;
+export default NotAsked

@@ -1,8 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import QRReader from "components/QRReader";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import QRReader from "components/QRReader"
 
 import {
   Badge,
@@ -12,7 +12,7 @@ import {
   ModalBody,
   ModalFooter,
   Text
-} from "blockchain-info-components";
+} from "blockchain-info-components"
 
 const Container = styled.div`
   display: flex;
@@ -23,7 +23,7 @@ const Container = styled.div`
     flex-direction: row;
     justify-content: space-between;
   }
-`;
+`
 const QRCodeContainer = styled.div`
   flex: 1;
   width: 100%;
@@ -35,7 +35,7 @@ const QRCodeContainer = styled.div`
   @media (min-width: 768px) {
     width: 50%;
   }
-`;
+`
 const InstructionsContainer = styled.div`
   flex: 1;
   width: 100%;
@@ -46,26 +46,26 @@ const InstructionsContainer = styled.div`
   @media (min-width: 768px) {
     width: 50%;
   }
-`;
+`
 const InstructionList = styled.ol`
   padding-left: 10px;
-`;
+`
 const Instruction = styled.li`
   font-family: "Montserrat", sans-serif;
   font-size: 13px;
   font-weight: 300;
   color: ${props => props.theme["gray-6"]};
-`;
+`
 const BadgesContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-`;
+`
 
 const MobileLogin = props => {
-  const { position, total, close, closeAll, ...rest } = props;
-  const { handleScan, handleError } = rest;
+  const { position, total, close, closeAll, ...rest } = props
+  const { handleScan, handleError } = rest
 
   return (
     <Modal size="large" position={position} total={total}>
@@ -135,12 +135,12 @@ const MobileLogin = props => {
         </Link>
       </ModalFooter>
     </Modal>
-  );
-};
+  )
+}
 
 MobileLogin.propTypes = {
   handleScan: PropTypes.func.isRequired,
   handleError: PropTypes.func.isRequired
-};
+}
 
-export default MobileLogin;
+export default MobileLogin

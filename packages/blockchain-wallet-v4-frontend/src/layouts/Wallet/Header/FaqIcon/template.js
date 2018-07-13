@@ -1,8 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
 
-import { Link, Icon } from "blockchain-info-components";
+import { Link, Icon } from "blockchain-info-components"
 
 const FaqLink = styled(Link)`
   position: relative;
@@ -22,10 +22,10 @@ const FaqLink = styled(Link)`
     transition: opacity ${props => (props.highlighted ? "0.2s" : "0")};
     transition-delay: ${props => (props.highlighted ? "0.3s" : "0")};
   }
-`;
+`
 
 const FaqIcon = props => {
-  const { handleClick, highlighted } = props;
+  const { handleClick, highlighted } = props
 
   return (
     <FaqLink onClick={handleClick} highlighted={highlighted}>
@@ -37,12 +37,12 @@ const FaqIcon = props => {
         cursor
       />
     </FaqLink>
-  );
-};
+  )
+}
 
 FaqIcon.propTypes = {
   handleClick: PropTypes.func.isRequired,
   highlighted: PropTypes.bool.isRequired
-};
+}
 
-export default FaqIcon;
+export default FaqIcon

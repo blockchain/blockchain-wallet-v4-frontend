@@ -1,8 +1,8 @@
-import React from "react";
-import { lighten } from "polished";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { Link } from "blockchain-info-components";
+import React from "react"
+import { lighten } from "polished"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { Link } from "blockchain-info-components"
 
 const Wrapper = styled.div`
   padding: 2px 5px;
@@ -12,10 +12,10 @@ const Wrapper = styled.div`
     props.selected &&
     `1px solid ${lighten(0.3, props.theme["brand-secondary"])}`};
   border-radius: ${props => props.selected && "2px"};
-`;
+`
 
 const Success = props => {
-  const { coin, fiat, selected, handleClick } = props;
+  const { coin, fiat, selected, handleClick } = props
 
   return (
     <Wrapper selected={selected}>
@@ -28,18 +28,18 @@ const Success = props => {
         {`${coin} = ${fiat}`}
       </Link>
     </Wrapper>
-  );
-};
+  )
+}
 
 Success.propTypes = {
   coin: PropTypes.string.isRequired,
   fiat: PropTypes.string.isRequired,
   handleClick: PropTypes.func.isRequired,
   selected: PropTypes.bool
-};
+}
 
 Success.defaultProps = {
   selected: false
-};
+}
 
-export default Success;
+export default Success

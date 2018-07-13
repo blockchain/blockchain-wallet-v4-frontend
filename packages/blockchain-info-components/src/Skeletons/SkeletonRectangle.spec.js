@@ -1,8 +1,8 @@
-import React from "react";
-import { shallow } from "enzyme";
-import toJson from "enzyme-to-json";
+import React from "react"
+import { shallow } from "enzyme"
+import toJson from "enzyme-to-json"
 
-import SkeletonRectangle from "./SkeletonRectangle";
+import SkeletonRectangle from "./SkeletonRectangle"
 
 describe("SkeletonRectangle component", () => {
   it("default renders correctly", () => {
@@ -10,8 +10,8 @@ describe("SkeletonRectangle component", () => {
       <SkeletonRectangle height="10px" width="10px" bgColor="gray-1">
         <span>Test</span>
       </SkeletonRectangle>
-    );
-    const tree = toJson(component);
-    expect(tree).toMatchSnapshot();
-  });
-});
+    )
+    const tree = toJson(component)
+    expect(tree).toMatchSnapshot()
+  })
+})

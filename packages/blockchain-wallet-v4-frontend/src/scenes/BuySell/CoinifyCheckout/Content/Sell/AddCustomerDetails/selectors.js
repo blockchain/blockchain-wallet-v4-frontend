@@ -1,17 +1,17 @@
-import { formValueSelector } from "redux-form";
-import { lift, prop } from "ramda";
+import { formValueSelector } from "redux-form"
+import { lift, prop } from "ramda"
 
-import { selectors } from "data";
-import { getCountryCodeFromIban } from "services/CoinifyService";
+import { selectors } from "data"
+import { getCountryCodeFromIban } from "services/CoinifyService"
 
 export const getData = state => {
   const insertSpaces = str => {
-    const s = str.replace(/[^\dA-Z]/g, "");
-    return s.replace(/.{4}/g, a => a + " ");
-  };
+    const s = str.replace(/[^\dA-Z]/g, "")
+    return s.replace(/.{4}/g, a => a + " ")
+  }
   const iban = insertSpaces(
     formValueSelector("coinifyAddBankDetails")(state, "iban")
-  );
+  )
   const account = {
     account: {
       currency: selectors.core.data.coinify
@@ -43,9 +43,9 @@ export const getData = state => {
         city: null
       }
     }
-  };
-  const mediumsR = selectors.core.data.coinify.getMediums(state);
+  }
+  const mediumsR = selectors.core.data.coinify.getMediums(state)
 
-  const transform = mediums => ({ account, medium: prop("bank", mediums) });
-  return lift(transform)(mediumsR);
-};
+  const transform = mediums => ({ account, medium: prop("bank", mediums) })
+  return lift(transform)(mediumsR)
+}

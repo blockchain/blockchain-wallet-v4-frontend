@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
+import React from "react"
+import styled from "styled-components"
 
-import { SkeletonCircle, SkeletonRectangle } from "blockchain-info-components";
+import { SkeletonCircle, SkeletonRectangle } from "blockchain-info-components"
 
 const ActivityListSkeleton = styled(SkeletonRectangle)`
   display: flex;
@@ -12,7 +12,7 @@ const ActivityListSkeleton = styled(SkeletonRectangle)`
   @media (min-width: 993px) {
     margin-bottom: 30px;
   }
-`;
+`
 const ActivitySkeleton = styled.div`
   display: flex;
   flex-direction: row;
@@ -21,7 +21,7 @@ const ActivitySkeleton = styled.div`
   > div:first-child {
     margin-right: 20px;
   }
-`;
+`
 
 export default props => {
   return (
@@ -52,5 +52,5 @@ export default props => {
         />
       </ActivitySkeleton>
     </ActivityListSkeleton>
-  );
-};
+  )
+}

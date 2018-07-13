@@ -1,34 +1,34 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { bindActionCreators, compose } from "redux";
-import { formValueSelector } from "redux-form";
-import ui from "redux-ui";
+import React from "react"
+import PropTypes from "prop-types"
+import { connect } from "react-redux"
+import { bindActionCreators, compose } from "redux"
+import { formValueSelector } from "redux-form"
+import ui from "redux-ui"
 
-import { actions, selectors } from "data";
-import Settings from "./template.js";
+import { actions, selectors } from "data"
+import Settings from "./template.js"
 
 class SettingsContainer extends React.PureComponent {
   constructor(props) {
-    super(props);
-    this.onSubmit = this.onSubmit.bind(this);
-    this.handleToggle = this.handleToggle.bind(this);
+    super(props)
+    this.onSubmit = this.onSubmit.bind(this)
+    this.handleToggle = this.handleToggle.bind(this)
   }
 
   onSubmit() {
-    const { passwordStretchingValue } = this.props;
+    const { passwordStretchingValue } = this.props
     this.props.walletActions.updatePbkdf2Iterations(
       Number(passwordStretchingValue)
-    );
-    this.handleToggle();
+    )
+    this.handleToggle()
   }
 
   handleToggle() {
-    this.props.updateUI({ updateToggled: !this.props.ui.updateToggled });
+    this.props.updateUI({ updateToggled: !this.props.ui.updateToggled })
   }
 
   render() {
-    const { ui, ...rest } = this.props;
+    const { ui, ...rest } = this.props
 
     return (
       <Settings
@@ -37,7 +37,7 @@ class SettingsContainer extends React.PureComponent {
         updateToggled={ui.updateToggled}
         handleToggle={this.handleToggle}
       />
-    );
+    )
   }
 }
 
@@ -47,12 +47,12 @@ const mapStateToProps = state => ({
     "passwordStretching"
   ),
   currentStretch: selectors.core.wallet.getPbkdf2Iterations(state)
-});
+})
 
 const mapDispatchToProps = dispatch => ({
   walletActions: bindActionCreators(actions.wallet, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
-});
+})
 
 const enhance = compose(
   connect(
@@ -60,10 +60,10 @@ const enhance = compose(
     mapDispatchToProps
   ),
   ui({ key: "Setting_PasswordStretching", state: { updateToggled: false } })
-);
+)
 
 SettingsContainer.propTypes = {
   passwordStretching: PropTypes.number
-};
+}
 
-export default enhance(SettingsContainer);
+export default enhance(SettingsContainer)

@@ -1,11 +1,11 @@
-import React from "react";
-import { FormattedMessage } from "react-intl";
-import styled from "styled-components";
-import { Field, reduxForm } from "redux-form";
+import React from "react"
+import { FormattedMessage } from "react-intl"
+import styled from "styled-components"
+import { Field, reduxForm } from "redux-form"
 
-import Helper from "components/BuySell/FAQ";
-import { CheckBox } from "components/Form";
-import Terms from "components/Terms";
+import Helper from "components/BuySell/FAQ"
+import { CheckBox } from "components/Form"
+import Terms from "components/Terms"
 import {
   Button,
   HeartbeatLoader,
@@ -13,7 +13,7 @@ import {
   TextGroup,
   Link,
   Icon
-} from "blockchain-info-components";
+} from "blockchain-info-components"
 import {
   Form,
   ColLeft,
@@ -24,9 +24,9 @@ import {
   ButtonWrapper,
   ErrorWrapper,
   ColRightInner
-} from "components/BuySell/Signup";
-import { prop } from "ramda";
-import media from "services/ResponsiveService";
+} from "components/BuySell/Signup"
+import { prop } from "ramda"
+import media from "services/ResponsiveService"
 
 const AcceptTermsContainer = styled.div`
   display: flex;
@@ -40,7 +40,7 @@ const AcceptTermsContainer = styled.div`
   * {
     cursor: pointer;
   }
-`;
+`
 const FieldsContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -48,16 +48,16 @@ const FieldsContainer = styled.div`
   ${media.mobile`
     margin-top: 10px;
   `};
-`;
+`
 const FieldContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 20px;
-`;
+`
 const VerifiedContainer = styled.div`
   display: flex;
   flex-direction: row;
-`;
+`
 const FieldBox = styled.div`
   border: 1px solid #dddddd;
   padding: 5px 15px;
@@ -72,33 +72,33 @@ const FieldBox = styled.div`
     flex-direction: column;
     width: fit-content;
   `};
-`;
+`
 const IconContainer = styled.div`
   display: flex;
   align-items: center;
   margin-left: 10px;
-`;
+`
 const AcceptTermsForm = styled(Form)`
   ${media.mobile`
     flex-direction: column;
   `};
-`;
+`
 const EditLink = styled(Link)`
   font-size: 12px;
   ${media.mobile`
     margin-top: 5px;
     font-size: 12px;
   `};
-`;
+`
 const VerifiedText = styled(Text)`
   font-size: 14px;
   margin-bottom: 10px;
   ${media.mobile`
     margin-bottom: 5px;
   `};
-`;
+`
 const checkboxShouldBeChecked = value =>
-  value ? undefined : "You must agree to the terms and conditions";
+  value ? undefined : "You must agree to the terms and conditions"
 
 const AcceptTerms = props => {
   const {
@@ -111,7 +111,7 @@ const AcceptTerms = props => {
     emailVerified,
     editEmail,
     clearError
-  } = props;
+  } = props
 
   const helpers = [
     {
@@ -128,12 +128,12 @@ const AcceptTerms = props => {
         />
       )
     }
-  ];
+  ]
 
   const faqHelper = () =>
     helpers.map((el, i) => (
       <Helper key={i} question={el.question} answer={el.answer} />
-    ));
+    ))
 
   return (
     <AcceptTermsForm onSubmit={handleSubmit}>
@@ -279,7 +279,7 @@ const AcceptTerms = props => {
         </ColRightInner>
       </ColRight>
     </AcceptTermsForm>
-  );
-};
+  )
+}
 
-export default reduxForm({ form: "coinifyAcceptTerms" })(AcceptTerms);
+export default reduxForm({ form: "coinifyAcceptTerms" })(AcceptTerms)

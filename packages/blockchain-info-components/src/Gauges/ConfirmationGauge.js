@@ -1,6 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
 
 const Container = styled.div`
   display: flex;
@@ -9,7 +9,7 @@ const Container = styled.div`
   align-items: center;
   width: 100%;
   max-width: 300px;
-`;
+`
 const Bar = styled.div`
   display: flex;
   flex-grow: 1;
@@ -17,24 +17,24 @@ const Bar = styled.div`
   border: 1px solid ${props => props.theme["black"]};
   box-sizing: border-box;
   background-color: ${props => props.theme[props.color]};
-`;
+`
 
 const selectColor = nbConfirmations => {
   switch (nbConfirmations) {
     case 1:
-      return "brand-yellow-lighter";
+      return "brand-yellow-lighter"
     case 2:
-      return "brand-yellow";
+      return "brand-yellow"
     case 3:
-      return "success";
+      return "success"
     default:
-      return "white";
+      return "white"
   }
-};
+}
 
 const ConfirmationGauge = props => {
-  const { nbConfirmations } = props;
-  const color = selectColor(nbConfirmations);
+  const { nbConfirmations } = props
+  const color = selectColor(nbConfirmations)
 
   return (
     <Container>
@@ -42,15 +42,15 @@ const ConfirmationGauge = props => {
       {nbConfirmations > 1 ? <Bar color={color} /> : <Bar color="white" />}
       {nbConfirmations > 2 ? <Bar color={color} /> : <Bar color="white" />}
     </Container>
-  );
-};
+  )
+}
 
 ConfirmationGauge.defaultProps = {
   nbConfirmations: 0
-};
+}
 
 ConfirmationGauge.propTypes = {
   nbConfirmations: PropTypes.number.isRequired
-};
+}
 
-export default ConfirmationGauge;
+export default ConfirmationGauge

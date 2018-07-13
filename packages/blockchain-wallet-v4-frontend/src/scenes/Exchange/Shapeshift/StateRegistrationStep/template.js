@@ -1,43 +1,43 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { Field, reduxForm } from "redux-form";
-import { FormattedMessage, injectIntl } from "react-intl";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { Field, reduxForm } from "redux-form"
+import { FormattedMessage, injectIntl } from "react-intl"
 
-import { required } from "services/FormHelper";
-import { Button, Text } from "blockchain-info-components";
+import { required } from "services/FormHelper"
+import { Button, Text } from "blockchain-info-components"
 import {
   Form,
   FormGroup,
   FormLabel,
   FormItem,
   SelectBoxUSState
-} from "components/Form";
+} from "components/Form"
 
 const Wrapper = styled.div`
   width: 100%;
   padding: 20px 30px;
   box-sizing: border-box;
   border: 1px solid ${props => props.theme["gray-2"]};
-`;
+`
 const Header = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-`;
+`
 const SubHeader = styled.div`
   margin-top: 14px;
-`;
+`
 const SelectionContainer = styled.div`
   margin-top: 18px;
-`;
+`
 const SubmitButton = styled(Button)`
   margin-top: 16px;
-`;
+`
 
 const StateRegistrationStep = props => {
-  const { handleSubmit, invalid, pristine } = props;
+  const { handleSubmit, invalid, pristine } = props
 
   return (
     <Wrapper>
@@ -89,13 +89,13 @@ const StateRegistrationStep = props => {
         </Form>
       </SelectionContainer>
     </Wrapper>
-  );
-};
+  )
+}
 
 StateRegistrationStep.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   stateWhitelist: PropTypes.array.isRequired
-};
+}
 
 export default injectIntl(
   reduxForm({
@@ -110,7 +110,7 @@ export default injectIntl(
               id: "scenes.exchange.shapeshift.stateregistration.unavailable",
               defaultMessage: "This service is not yet available in your state."
             })
-          };
+          }
     }
   })(StateRegistrationStep)
-);
+)

@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { darken } from "polished";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { darken } from "polished"
 
 const BaseButton = styled.button.attrs({
   type: props => (props.type ? props.type : "button")
@@ -52,7 +52,7 @@ const BaseButton = styled.button.attrs({
   &:focus {
     outline: 0;
   }
-`;
+`
 
 const selectColor = (nature, disabled) => {
   if (disabled) {
@@ -60,7 +60,7 @@ const selectColor = (nature, disabled) => {
       color: "white",
       backgroundColor: "brand-secondary",
       borderColor: "brand-secondary"
-    };
+    }
   }
 
   switch (nature) {
@@ -69,71 +69,71 @@ const selectColor = (nature, disabled) => {
         color: "gray-6",
         backgroundColor: "white",
         borderColor: "gray-2"
-      };
+      }
     case "light":
       return {
         color: "brand-secondary",
         backgroundColor: "white",
         borderColor: "brand-secondary"
-      };
+      }
     case "primary":
       return {
         color: "white",
         backgroundColor: "brand-secondary",
         borderColor: "brand-secondary"
-      };
+      }
     case "secondary":
       return {
         color: "white",
         backgroundColor: "brand-primary",
         borderColor: "brand-primary"
-      };
+      }
     case "copy":
       return {
         color: "white",
         backgroundColor: "success",
         borderColor: "success"
-      };
+      }
     case "received":
       return {
         color: "white",
         backgroundColor: "received",
         borderColor: "received"
-      };
+      }
     case "sent":
-      return { color: "white", backgroundColor: "sent", borderColor: "sent" };
+      return { color: "white", backgroundColor: "sent", borderColor: "sent" }
     case "transferred":
       return {
         color: "white",
         backgroundColor: "transferred",
         borderColor: "transferred"
-      };
+      }
     case "logout":
-      return { color: "white", backgroundColor: "error", borderColor: "error" };
+      return { color: "white", backgroundColor: "error", borderColor: "error" }
     case "dark":
       return {
         color: "white",
         backgroundColor: "gray-6",
         borderColor: "gray-6"
-      };
+      }
     case "empty-secondary":
       return {
         color: "white",
         backgroundColor: "white",
         borderColor: "brand-secondary"
-      };
+      }
     default:
       return {
         color: "gray-6",
         backgroundColor: "white",
         borderColor: "gray-2"
-      };
+      }
   }
-};
+}
 
 const Button = props => {
-  const { children, nature, disabled, ...rest } = props;
-  const { color, backgroundColor, borderColor } = selectColor(nature, disabled);
+  const { children, nature, disabled, ...rest } = props
+  const { color, backgroundColor, borderColor } = selectColor(nature, disabled)
 
   return (
     <BaseButton
@@ -145,8 +145,8 @@ const Button = props => {
     >
       {children}
     </BaseButton>
-  );
-};
+  )
+}
 
 Button.propTypes = {
   nature: PropTypes.oneOf([
@@ -171,7 +171,7 @@ Button.propTypes = {
   width: PropTypes.string,
   padding: PropTypes.string,
   margin: PropTypes.string
-};
+}
 
 Button.defaultProps = {
   nature: "empty",
@@ -182,6 +182,6 @@ Button.defaultProps = {
   uppercase: false,
   capitalize: false,
   height: "40px"
-};
+}
 
-export default Button;
+export default Button

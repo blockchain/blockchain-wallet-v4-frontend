@@ -1,46 +1,46 @@
-import React from "react";
-import { filter } from "ramda";
-import styled from "styled-components";
-import AddressRow from "../../Btc/AddressRow";
-import { FormattedMessage } from "react-intl";
-import { SettingDescription, SettingHeader } from "components/Setting";
+import React from "react"
+import { filter } from "ramda"
+import styled from "styled-components"
+import AddressRow from "../../Btc/AddressRow"
+import { FormattedMessage } from "react-intl"
+import { SettingDescription, SettingHeader } from "components/Setting"
 import {
   Icon,
   Table,
   TableHeader,
   TableCell,
   Text
-} from "blockchain-info-components";
+} from "blockchain-info-components"
 
 const Wrapper = styled.section`
   box-sizing: border-box;
-`;
+`
 const AddressesSettingDescription = SettingDescription.extend`
   margin-bottom: 10px;
-`;
+`
 const ImportedAddressesSettingHeader = SettingHeader.extend`
   justify-content: flex-start;
   margin-top: 30px;
-`;
+`
 const WarningWrapper = styled.div`
   display: flex;
   align-items: center;
   .warning-icon {
     margin-right: 4px;
   }
-`;
+`
 
 const Success = props => {
-  const { importedAddresses, search } = props;
+  const { importedAddresses, search } = props
 
   const isMatch = address =>
-    !search || address.addr.toLowerCase().indexOf(search) > -1;
+    !search || address.addr.toLowerCase().indexOf(search) > -1
 
   const importedAddressesTableRows = filter(isMatch, importedAddresses).map(
     address => {
-      return <AddressRow key={address.addr} address={address} coin="BCH" />;
+      return <AddressRow key={address.addr} address={address} coin="BCH" />
     }
-  );
+  )
 
   return (
     <Wrapper>
@@ -88,7 +88,7 @@ const Success = props => {
         </Table>
       )}
     </Wrapper>
-  );
-};
+  )
+}
 
-export default Success;
+export default Success

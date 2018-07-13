@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { LinkContainer } from "react-router-bootstrap";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { LinkContainer } from "react-router-bootstrap"
 
-import { Button, Link, Separator, Text } from "blockchain-info-components";
+import { Button, Link, Separator, Text } from "blockchain-info-components"
 
 const Wrapper = styled.div`
   width: 100%;
@@ -14,12 +14,12 @@ const Wrapper = styled.div`
   @media (min-width: 768px) {
     width: 550px;
   }
-`;
+`
 const Row = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`;
+`
 const Left = styled.div`
   flex: 2;
   display: flex;
@@ -33,19 +33,19 @@ const Left = styled.div`
   > div:first-child {
     margin-bottom: 5px;
   }
-`;
+`
 const Right = styled.div`
   flex: 1;
   display: flex;
   justify-content: flex-end;
   align-items: flex-start;
-`;
+`
 const Footer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 20px;
-`;
+`
 
 const Help = props => {
   return (
@@ -160,7 +160,7 @@ const Help = props => {
         </Link>
       </Footer>
     </Wrapper>
-  );
-};
+  )
+}
 
-export default Help;
+export default Help

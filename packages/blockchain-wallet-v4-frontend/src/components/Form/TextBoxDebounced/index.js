@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
+import React from "react"
+import styled from "styled-components"
 
-import { equals } from "ramda";
-import { Text, TextInput } from "blockchain-info-components";
+import { equals } from "ramda"
+import { Text, TextInput } from "blockchain-info-components"
 
 const Container = styled.div`
   position: relative;
@@ -12,26 +12,26 @@ const Container = styled.div`
   align-items: flex-start;
   width: 100%;
   height: 40px;
-`;
+`
 const Error = styled(Text)`
   position: absolute;
   display: block;
   height: 15px;
   top: ${props => (props.errorBottom ? "40px" : "-20px")};
   right: 0;
-`;
+`
 const getErrorState = meta => {
-  return meta.touched && meta.invalid ? "invalid" : "initial";
-};
+  return meta.touched && meta.invalid ? "invalid" : "initial"
+}
 
 class TextBoxDebounced extends React.Component {
   constructor(props) {
-    super(props);
-    this.state = { value: props.input.value };
-    this.timeout = undefined;
-    this.handleChange = this.handleChange.bind(this);
-    this.handleBlur = this.handleBlur.bind(this);
-    this.handleFocus = this.handleFocus.bind(this);
+    super(props)
+    this.state = { value: props.input.value }
+    this.timeout = undefined
+    this.handleChange = this.handleChange.bind(this)
+    this.handleBlur = this.handleBlur.bind(this)
+    this.handleFocus = this.handleFocus.bind(this)
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -39,43 +39,43 @@ class TextBoxDebounced extends React.Component {
       return {
         updatedValue: prevState.updatedValue,
         value: prevState.updatedValue
-      };
+      }
     }
     if (!equals(nextProps.input.value, prevState.value)) {
       return {
         updatedValue: nextProps.input.value,
         value: nextProps.input.value
-      };
+      }
     }
-    return null;
+    return null
   }
 
   componentWillUnmount() {
-    clearTimeout(this.timeout);
+    clearTimeout(this.timeout)
   }
 
   handleChange(e) {
-    e.preventDefault();
-    const value = e.target.value;
-    this.setState({ updatedValue: value });
+    e.preventDefault()
+    const value = e.target.value
+    this.setState({ updatedValue: value })
 
-    if (this.timeout) clearTimeout(this.timeout);
+    if (this.timeout) clearTimeout(this.timeout)
     this.timeout = setTimeout(() => {
-      this.props.input.onChange(value);
-    }, 500);
+      this.props.input.onChange(value)
+    }, 500)
   }
 
   handleBlur() {
-    this.props.input.onBlur(this.state.value);
+    this.props.input.onBlur(this.state.value)
   }
 
   handleFocus() {
-    this.props.input.onFocus(this.state.value);
+    this.props.input.onFocus(this.state.value)
   }
 
   render() {
-    const { meta, disabled, placeholder, autoComplete } = this.props;
-    const errorState = getErrorState(meta);
+    const { meta, disabled, placeholder, autoComplete } = this.props
+    const errorState = getErrorState(meta)
 
     return (
       <Container>
@@ -103,8 +103,8 @@ class TextBoxDebounced extends React.Component {
             </Error>
           )}
       </Container>
-    );
+    )
   }
 }
 
-export default TextBoxDebounced;
+export default TextBoxDebounced

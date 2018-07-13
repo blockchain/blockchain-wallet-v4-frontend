@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { Field, reduxForm } from "redux-form";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { Field, reduxForm } from "redux-form"
 
 import {
   Button,
@@ -11,10 +11,10 @@ import {
   ModalBody,
   ModalFooter,
   Text
-} from "blockchain-info-components";
-import { Form, PhoneNumberBox } from "components/Form";
-import { validMobileNumber, required } from "services/FormHelper";
-import { spacing } from "services/StyleService";
+} from "blockchain-info-components"
+import { Form, PhoneNumberBox } from "components/Form"
+import { validMobileNumber, required } from "services/FormHelper"
+import { spacing } from "services/StyleService"
 
 const MobileNumber = styled.div`
   display: flex;
@@ -25,7 +25,7 @@ const MobileNumber = styled.div`
   & > :last-child {
     flex-basis: 200px;
   }
-`;
+`
 
 const MobileNumberChange = props => {
   const {
@@ -39,7 +39,7 @@ const MobileNumberChange = props => {
     countryCode,
     smsNumber,
     handleSubmit
-  } = props;
+  } = props
 
   return (
     <Modal size="large" position={position} total={total}>
@@ -94,7 +94,7 @@ const MobileNumberChange = props => {
         </ModalFooter>
       </Form>
     </Modal>
-  );
-};
+  )
+}
 
-export default reduxForm({ form: "mobileNumberChange" })(MobileNumberChange);
+export default reduxForm({ form: "mobileNumberChange" })(MobileNumberChange)

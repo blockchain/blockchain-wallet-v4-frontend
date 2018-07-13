@@ -1,11 +1,11 @@
-import { takeLatest } from "redux-saga/effects";
-import * as AT from "./actionTypes";
-import sagas from "./sagas";
+import { takeLatest } from "redux-saga/effects"
+import * as AT from "./actionTypes"
+import sagas from "./sagas"
 
 export default () => {
-  const preferencesSagas = sagas();
+  const preferencesSagas = sagas()
 
   return function*() {
-    yield takeLatest(AT.SET_LANGUAGE, preferencesSagas.setLanguage);
-  };
-};
+    yield takeLatest(AT.SET_LANGUAGE, preferencesSagas.setLanguage)
+  }
+}

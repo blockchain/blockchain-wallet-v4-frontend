@@ -1,28 +1,28 @@
-import React, { Fragment } from "react";
-import { FormattedMessage } from "react-intl";
-import { equals } from "ramda";
+import React, { Fragment } from "react"
+import { FormattedMessage } from "react-intl"
+import { equals } from "ramda"
 
-import { Text, Icon, Button } from "blockchain-info-components";
-import { Wrapper as ExchangeCheckoutWrapper } from "../../ExchangeCheckout";
-import { flex, spacing } from "services/StyleService";
-import QuoteInput from "./QuoteInput";
-import FundingSource from "components/BuySell/FundingSource";
-import { MethodContainer } from "components/BuySell/styled.js";
-import * as Currency from "blockchain-wallet-v4/src/exchange/currency";
-import { Remote } from "blockchain-wallet-v4/src";
+import { Text, Icon, Button } from "blockchain-info-components"
+import { Wrapper as ExchangeCheckoutWrapper } from "../../ExchangeCheckout"
+import { flex, spacing } from "services/StyleService"
+import QuoteInput from "./QuoteInput"
+import FundingSource from "components/BuySell/FundingSource"
+import { MethodContainer } from "components/BuySell/styled.js"
+import * as Currency from "blockchain-wallet-v4/src/exchange/currency"
+import { Remote } from "blockchain-wallet-v4/src"
 
 const quoteInputSpec = {
   method: "buy",
   input: "usd",
   output: "btc"
-};
+}
 
 const getCryptoMax = (q, max) => {
   if (q.baseCurrency.toLowerCase() === "btc")
-    return max / ((1 / Math.abs(q.baseAmount / 1e8)) * Math.abs(q.quoteAmount));
+    return max / ((1 / Math.abs(q.baseAmount / 1e8)) * Math.abs(q.quoteAmount))
   else
-    return max / ((1 / Math.abs(q.quoteAmount / 1e8)) * Math.abs(q.baseAmount));
-};
+    return max / ((1 / Math.abs(q.quoteAmount / 1e8)) * Math.abs(q.baseAmount))
+}
 
 const OrderCheckout = ({
   quoteR,
@@ -37,12 +37,12 @@ const OrderCheckout = ({
   buttonStatus
 }) => {
   const disableInputs = () => {
-    if (limits.max < limits.min) return "max_below_min";
-    if (!reason.includes("has_remaining") && reason) return "no_remaining";
-    if (limits.effectiveMax < limits.min) return "not_enough_funds";
-  };
+    if (limits.max < limits.min) return "max_below_min"
+    if (!reason.includes("has_remaining") && reason) return "no_remaining"
+    if (limits.effectiveMax < limits.min) return "not_enough_funds"
+  }
 
-  const isBuy = equals(type, "buy");
+  const isBuy = equals(type, "buy")
 
   const wantToHelper = () =>
     isBuy ? (
@@ -55,7 +55,7 @@ const OrderCheckout = ({
         id="buy.sfoxcheckout.title.sell"
         defaultMessage="I want to sell"
       />
-    );
+    )
   const payWithHelper = () =>
     isBuy ? (
       <FormattedMessage
@@ -67,7 +67,7 @@ const OrderCheckout = ({
         id="buy.sfoxcheckout.outputmethod.title.sellwith"
         defaultMessage="I will receive funds into"
       />
-    );
+    )
 
   const submitButtonHelper = () =>
     reason.includes("has_remaining") ? null : (
@@ -84,7 +84,7 @@ const OrderCheckout = ({
           Continue Where You Left Off
         </Button>
       </div>
-    );
+    )
 
   return (
     <ExchangeCheckoutWrapper>
@@ -121,7 +121,7 @@ const OrderCheckout = ({
                         (1 / Math.abs(q.baseAmount / 1e8)) *
                           Math.abs(q.quoteAmount)
                       )
-                    );
+                    )
                   else
                     return (
                       "$" +
@@ -129,7 +129,7 @@ const OrderCheckout = ({
                         (1 / Math.abs(q.quoteAmount / 1e8)) *
                           Math.abs(q.baseAmount)
                       )
-                    );
+                    )
                 })
                 .getOrElse()
             )}
@@ -173,7 +173,7 @@ const OrderCheckout = ({
       ) : null}
       {submitButtonHelper()}
     </ExchangeCheckoutWrapper>
-  );
-};
+  )
+}
 
-export default OrderCheckout;
+export default OrderCheckout

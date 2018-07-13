@@ -1,17 +1,12 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 
-import {
-  Table,
-  TableCell,
-  TableHeader,
-  Text
-} from "blockchain-info-components";
-import { spacing } from "services/StyleService";
-import TradeItem from "./TradeItem";
-import media from "services/ResponsiveService";
+import { Table, TableCell, TableHeader, Text } from "blockchain-info-components"
+import { spacing } from "services/StyleService"
+import TradeItem from "./TradeItem"
+import media from "services/ResponsiveService"
 
 const Wrapper = styled.div`
   display: flex;
@@ -29,13 +24,13 @@ const Wrapper = styled.div`
   ${media.mobile`
     padding: 10px
   `};
-`;
+`
 const Container = styled.div`
   width: 100%;
-`;
+`
 
 const List = props => {
-  const { complete, incomplete, showComplete, showIncomplete } = props;
+  const { complete, incomplete, showComplete, showIncomplete } = props
 
   return (
     <Wrapper>
@@ -135,19 +130,19 @@ const List = props => {
         </Container>
       )}
     </Wrapper>
-  );
-};
+  )
+}
 
 List.propTypes = {
   complete: PropTypes.array,
   incomplete: PropTypes.array,
   showComplete: PropTypes.bool.isRequired,
   showIncomplete: PropTypes.bool.isRequired
-};
+}
 
 List.defaultProps = {
   complete: [],
   incomplete: []
-};
+}
 
-export default List;
+export default List

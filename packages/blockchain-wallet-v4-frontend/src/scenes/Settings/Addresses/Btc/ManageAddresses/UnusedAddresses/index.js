@@ -1,16 +1,16 @@
-import React from "react";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import { length } from "ramda";
-import PropTypes from "prop-types";
-import { formValueSelector } from "redux-form";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import { bindActionCreators } from "redux"
+import { connect } from "react-redux"
+import { length } from "ramda"
+import PropTypes from "prop-types"
+import { formValueSelector } from "redux-form"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 
-import * as C from "services/AlertService";
-import { actions, selectors } from "data";
-import { Types } from "blockchain-wallet-v4";
-import UnusedAddressesTemplate from "./template.success";
+import * as C from "services/AlertService"
+import { actions, selectors } from "data"
+import { Types } from "blockchain-wallet-v4"
+import UnusedAddressesTemplate from "./template.success"
 
 import {
   Banner,
@@ -19,15 +19,15 @@ import {
   Link,
   IconButton,
   Text
-} from "blockchain-info-components";
+} from "blockchain-info-components"
 
 const WalletLabelCell = styled.div`
   display: flex;
   align-items: center;
-`;
+`
 const ClickableText = styled(Text)`
   cursor: pointer;
-`;
+`
 
 const MoreOptions = () => (
   <Link weight={200} size="small">
@@ -36,11 +36,11 @@ const MoreOptions = () => (
       defaultMessage="More Options"
     />
   </Link>
-);
+)
 
 class UnusedAddressesContainer extends React.PureComponent {
   componentWillMount() {
-    this.props.componentActions.fetchUnusedAddresses(this.props.walletIndex);
+    this.props.componentActions.fetchUnusedAddresses(this.props.walletIndex)
   }
 
   render() {
@@ -54,37 +54,37 @@ class UnusedAddressesContainer extends React.PureComponent {
       modalsActions,
       routerActions,
       search
-    } = this.props;
+    } = this.props
     const onEditLabel = i =>
       this.props.componentActions.editAddressLabel(
         account.index,
         this.props.walletIndex,
         i
-      );
+      )
     const onDeleteLabel = i =>
       modalsActions.showModal("DeleteAddressLabel", {
         accountIdx: account.index,
         walletIdx: this.props.walletIndex,
         addressIdx: i
-      });
+      })
     const onEditBtcAccountLabel = () =>
-      walletActions.editBtcAccountLabel(account.index, account.label);
+      walletActions.editBtcAccountLabel(account.index, account.label)
     const onShowXPub = () =>
-      modalsActions.showModal("ShowXPub", { xpub: account.xpub });
-    const onMakeDefault = () => coreActions.setDefaultAccountIdx(account.index);
+      modalsActions.showModal("ShowXPub", { xpub: account.xpub })
+    const onMakeDefault = () => coreActions.setDefaultAccountIdx(account.index)
     const onGenerateNextAddress = () => {
       if (length(this.props.unusedAddresses.getOrElse([])) >= 15) {
-        this.props.alertActions.displayError(C.ADDRESS_LABEL_MAXIMUM_ERROR);
+        this.props.alertActions.displayError(C.ADDRESS_LABEL_MAXIMUM_ERROR)
       } else {
         this.props.componentActions.generateNextReceiveAddress(
           this.props.walletIndex
-        );
+        )
       }
-    };
+    }
     const onSetArchived = () => {
-      coreActions.setAccountArchived(account.index, true);
-      routerActions.push("/settings/addresses");
-    };
+      coreActions.setAccountArchived(account.index, true)
+      routerActions.push("/settings/addresses")
+    }
     const props = {
       account,
       unusedAddresses,
@@ -98,7 +98,7 @@ class UnusedAddressesContainer extends React.PureComponent {
       onShowXPub,
       onMakeDefault,
       onSetArchived
-    };
+    }
 
     return (
       <React.Fragment>
@@ -202,35 +202,35 @@ class UnusedAddressesContainer extends React.PureComponent {
           />
         </IconButton>
       </React.Fragment>
-    );
+    )
   }
 }
 
 UnusedAddressesContainer.propTypes = {
   index: PropTypes.number.required
-};
+}
 
 const mapStateToProps = (state, ownProps) => {
   const account = Types.Wallet.selectHDAccounts(state.walletPath.wallet).get(
     ownProps.walletIndex
-  );
+  )
   const isDefault =
     parseInt(ownProps.walletIndex) ===
     Types.HDWallet.selectDefaultAccountIdx(
       Types.Wallet.selectHdWallets(state.walletPath.wallet).get(0)
-    );
+    )
   const unusedAddresses = selectors.components.manageAddresses.getWalletUnusedAddresses(
     state,
     ownProps.walletIndex
-  );
+  )
   const currentReceiveIndex = selectors.core.data.bitcoin.getReceiveIndex(
     account.xpub,
     state
-  );
-  const search = formValueSelector("manageAddresses")(state, "search");
+  )
+  const search = formValueSelector("manageAddresses")(state, "search")
 
-  return { account, isDefault, currentReceiveIndex, unusedAddresses, search };
-};
+  return { account, isDefault, currentReceiveIndex, unusedAddresses, search }
+}
 
 const mapDispatchToProps = dispatch => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
@@ -242,9 +242,9 @@ const mapDispatchToProps = dispatch => ({
   modalsActions: bindActionCreators(actions.modals, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch),
   walletActions: bindActionCreators(actions.wallet, dispatch)
-});
+})
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(UnusedAddressesContainer);
+)(UnusedAddressesContainer)

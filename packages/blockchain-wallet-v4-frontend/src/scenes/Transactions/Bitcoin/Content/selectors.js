@@ -1,5 +1,5 @@
-import { createSelector } from "reselect";
-import { selectors } from "data";
+import { createSelector } from "reselect"
+import { selectors } from "data"
 import {
   all,
   curry,
@@ -14,8 +14,8 @@ import {
   map,
   filter,
   propOr
-} from "ramda";
-import { hasAccount } from "services/ExchangeService";
+} from "ramda"
+import { hasAccount } from "services/ExchangeService"
 
 const filterTransactions = curry((status, criteria, transactions) => {
   const isOfType = curry((filter, tx) =>
@@ -24,7 +24,7 @@ const filterTransactions = curry((status, criteria, transactions) => {
       "type",
       tx
     )
-  );
+  )
   const search = curry((text, property, tx) =>
     compose(
       contains(toUpper(text || "")),
@@ -32,13 +32,13 @@ const filterTransactions = curry((status, criteria, transactions) => {
       String,
       prop(property)
     )(tx)
-  );
+  )
   const searchPredicate = anyPass(
     map(search(criteria), ["description", "from", "to"])
-  );
-  const fullPredicate = allPass([isOfType(status), searchPredicate]);
-  return filter(fullPredicate, transactions);
-});
+  )
+  const fullPredicate = allPass([isOfType(status), searchPredicate])
+  return filter(fullPredicate, transactions)
+})
 
 export const getData = createSelector(
   [
@@ -47,19 +47,19 @@ export const getData = createSelector(
     selectors.core.kvStore.buySell.getMetadata
   ],
   (formValues, pages, buysellMetadata) => {
-    const empty = page => isEmpty(page.data);
-    const search = propOr("", "search", formValues);
-    const status = propOr("", "status", formValues);
+    const empty = page => isEmpty(page.data)
+    const search = propOr("", "search", formValues)
+    const status = propOr("", "status", formValues)
     const filteredPages = !isEmpty(pages)
       ? pages.map(map(filterTransactions(status, search)))
-      : [];
-    const partnerData = prop("value", buysellMetadata.getOrElse());
+      : []
+    const partnerData = prop("value", buysellMetadata.getOrElse())
 
     return {
       pages: filteredPages,
       empty: all(empty)(filteredPages),
       search: search.length > 0 || status !== "",
       buysellPartner: hasAccount(partnerData)
-    };
+    }
   }
-);
+)

@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from "react"
+import styled from "styled-components"
 
 const BaseNavItem = styled.li`
   box-sizing: border-box;
@@ -21,12 +21,12 @@ const BaseNavItem = styled.li`
       color: ${props => props.theme["white"]};
     }
   }
-`;
+`
 
 const NavbarNavItem = props => {
-  const { children, ...rest } = props;
+  const { children, ...rest } = props
 
-  return <BaseNavItem {...rest}>{children}</BaseNavItem>;
-};
+  return <BaseNavItem {...rest}>{children}</BaseNavItem>
+}
 
-export default NavbarNavItem;
+export default NavbarNavItem

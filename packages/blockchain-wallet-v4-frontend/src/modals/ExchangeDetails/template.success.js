@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 
 import {
   Button,
@@ -11,13 +11,13 @@ import {
   ModalFooter,
   Text,
   Tooltip
-} from "blockchain-info-components";
-import ExchangeTimeline from "components/ExchangeTimeline";
+} from "blockchain-info-components"
+import ExchangeTimeline from "components/ExchangeTimeline"
 
 const Notice = styled.div`
   width: 100%;
   margin-bottom: 10px;
-`;
+`
 const Table = styled.div`
   width: 100%;
   padding: 0 10px;
@@ -27,7 +27,7 @@ const Table = styled.div`
   & > :last-child {
     border-bottom: none;
   }
-`;
+`
 const TableRow = styled.div`
   display: flex;
   flex-direction: row;
@@ -41,7 +41,7 @@ const TableRow = styled.div`
   > :first-child {
     margin-right: 5px;
   }
-`;
+`
 const TableCell = styled.div`
   display: flex;
   flex-direction: row;
@@ -50,7 +50,7 @@ const TableCell = styled.div`
   & > :first-child {
     margin-right: 5px;
   }
-`;
+`
 
 const getModalHeader = status => {
   switch (status) {
@@ -60,33 +60,33 @@ const getModalHeader = status => {
           id="modals.exchangedetails.title.success"
           defaultMessage="Exchange Completed"
         />
-      );
+      )
     case "resolved":
       return (
         <FormattedMessage
           id="modals.exchangedetails.title.refunded"
           defaultMessage="Trade Refunded"
         />
-      );
+      )
     case "failed":
       return (
         <FormattedMessage
           id="modals.exchangedetails.title.failed"
           defaultMessage="Trade Failed"
         />
-      );
+      )
     default:
       return (
         <FormattedMessage
           id="modals.exchangedetails.title.inprogress"
           defaultMessage="Exchange in Progress"
         />
-      );
+      )
   }
-};
+}
 
 const ExchangeDetails = props => {
-  const { position, total, close, ...rest } = props;
+  const { position, total, close, ...rest } = props
   const {
     status,
     sourceCoin,
@@ -96,7 +96,7 @@ const ExchangeDetails = props => {
     orderId,
     depositAmount,
     withdrawalAmount
-  } = rest;
+  } = rest
 
   return (
     <Modal size="large" position={position} total={total}>
@@ -223,8 +223,8 @@ const ExchangeDetails = props => {
         </Button>
       </ModalFooter>
     </Modal>
-  );
-};
+  )
+}
 
 ExchangeDetails.propTypes = {
   status: PropTypes.string.isRequired,
@@ -236,6 +236,6 @@ ExchangeDetails.propTypes = {
   depositAmount: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
     .isRequired,
   withdrawalAmount: PropTypes.string.isRequired
-};
+}
 
-export default ExchangeDetails;
+export default ExchangeDetails

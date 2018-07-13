@@ -1,37 +1,32 @@
-import React from "react";
-import styled from "styled-components";
-import { Field, reduxForm } from "redux-form";
-import { FormattedMessage } from "react-intl";
-import {
-  Button,
-  HeartbeatLoader,
-  Link,
-  Text
-} from "blockchain-info-components";
-import { Remote } from "blockchain-wallet-v4/src";
-import { prop } from "ramda";
-import { CancelWrapper } from "components/BuySell/Signup";
-import { CheckBox } from "components/Form";
-import { StepTransition } from "components/Utilities/Stepper";
-import { required } from "services/FormHelper";
+import React from "react"
+import styled from "styled-components"
+import { Field, reduxForm } from "redux-form"
+import { FormattedMessage } from "react-intl"
+import { Button, HeartbeatLoader, Link, Text } from "blockchain-info-components"
+import { Remote } from "blockchain-wallet-v4/src"
+import { prop } from "ramda"
+import { CancelWrapper } from "components/BuySell/Signup"
+import { CheckBox } from "components/Form"
+import { StepTransition } from "components/Utilities/Stepper"
+import { required } from "services/FormHelper"
 
 const OrderSubmitForm = styled.form`
   margin-bottom: 30px;
-`;
+`
 const TermsWrapper = styled.div`
   display: flex;
   margin-bottom: 30px;
-`;
+`
 const TermsLabel = styled.label`
   padding-top: 3px;
-`;
+`
 const ToSLink = styled.a`
   text-decoration: none;
   color: ${props => props.theme["brand-secondary"]};
-`;
+`
 
 const ReviewForm = props => {
-  const { invalid, busy, onSubmit, quoteR, account } = props;
+  const { invalid, busy, onSubmit, quoteR, account } = props
 
   return (
     <OrderSubmitForm>
@@ -87,7 +82,7 @@ const ReviewForm = props => {
         </StepTransition>
       </CancelWrapper>
     </OrderSubmitForm>
-  );
-};
+  )
+}
 
-export default reduxForm({ form: "reviewForm" })(ReviewForm);
+export default reduxForm({ form: "reviewForm" })(ReviewForm)

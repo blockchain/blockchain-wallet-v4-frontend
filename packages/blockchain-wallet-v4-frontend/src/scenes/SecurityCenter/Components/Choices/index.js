@@ -1,8 +1,8 @@
-import React from "react";
-import { FormattedMessage } from "react-intl";
-import { Text, Icon, Image } from "blockchain-info-components";
-import styled from "styled-components";
-import media from "services/ResponsiveService";
+import React from "react"
+import { FormattedMessage } from "react-intl"
+import { Text, Icon, Image } from "blockchain-info-components"
+import styled from "styled-components"
+import media from "services/ResponsiveService"
 
 const Choice = styled.div`
   display: flex;
@@ -19,14 +19,14 @@ const Choice = styled.div`
   ${media.mobile`
     margin-bottom: 10px;
   `};
-`;
+`
 const ChoiceDescription = styled.div`
   display: flex;
   flex-direction: column;
   @media (min-width: 1224px) {
     padding-left: 10px;
   }
-`;
+`
 const TwoStepChoicesWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -41,24 +41,24 @@ const TwoStepChoicesWrapper = styled.div`
     margin-bottom: 30px;
     justify-content: space-evenly;
   }
-`;
+`
 const YubikeyWrapper = styled.div`
   ${media.mobile`
     display: flex;
     align-items: center;
     margin-right: 3px;
   `};
-`;
+`
 const SecurityIcon = styled(Icon)`
   ${media.mobile`
     display: flex;
     align-items: center;
     margin-right: 3px;
   `};
-`;
+`
 
 function Choices(props) {
-  const { authType, editing } = props;
+  const { authType, editing } = props
 
   return (
     <TwoStepChoicesWrapper>
@@ -140,7 +140,7 @@ function Choices(props) {
         </ChoiceDescription>
       </Choice>
     </TwoStepChoicesWrapper>
-  );
+  )
 }
 
-export default Choices;
+export default Choices

@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import SwitchableDisplay from "components/Display/SwitchableDisplay";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import SwitchableDisplay from "components/Display/SwitchableDisplay"
 import {
   Banner,
   TableCell,
@@ -9,8 +9,8 @@ import {
   Text,
   Link,
   ComponentDropdown
-} from "blockchain-info-components";
-import media from "services/ResponsiveService";
+} from "blockchain-info-components"
+import media from "services/ResponsiveService"
 
 const AddressTableCell = styled(TableCell)`
   display: flex;
@@ -22,11 +22,11 @@ const AddressTableCell = styled(TableCell)`
     flex-direction: column;
     align-items: flex-start;
   `};
-`;
+`
 const AddressCell = styled(Text)`
   margin-right: 6px;
   word-break: break-all;
-`;
+`
 
 const MoreOptions = () => (
   <Link weight={200} size="small">
@@ -35,7 +35,7 @@ const MoreOptions = () => (
       defaultMessage="More Options"
     />
   </Link>
-);
+)
 
 const AddressRow = ({ address, archived, coin, renderOptions }) => {
   return (
@@ -73,7 +73,7 @@ const AddressRow = ({ address, archived, coin, renderOptions }) => {
         )}
       </TableCell>
     </TableRow>
-  );
-};
+  )
+}
 
-export default AddressRow;
+export default AddressRow

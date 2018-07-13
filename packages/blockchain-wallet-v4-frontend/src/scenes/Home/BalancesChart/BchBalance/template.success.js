@@ -1,16 +1,16 @@
-import React, { Fragment } from "react";
-import { FormattedMessage } from "react-intl";
-import { NavLink } from "react-router-dom";
-import { gt, gte } from "ramda";
+import React, { Fragment } from "react"
+import { FormattedMessage } from "react-intl"
+import { NavLink } from "react-router-dom"
+import { gt, gte } from "ramda"
 
-import { Link, Text } from "blockchain-info-components";
+import { Link, Text } from "blockchain-info-components"
 import {
   CoinBalance,
   ColourBar,
   ViewAllText,
   WalletLink
-} from "components/BalancesChart";
-import SwitchableDisplay from "components/Display/SwitchableDisplay";
+} from "components/BalancesChart"
+import SwitchableDisplay from "components/Display/SwitchableDisplay"
 
 const BchBalance = props => {
   const {
@@ -21,8 +21,8 @@ const BchBalance = props => {
     handleCoinDisplay,
     partner,
     ...rest
-  } = props;
-  const { handleRefresh, modalsActions } = rest;
+  } = props
+  const { handleRefresh, modalsActions } = rest
 
   return (
     <Fragment>
@@ -95,7 +95,7 @@ const BchBalance = props => {
         </NavLink>
       ) : null}
     </Fragment>
-  );
-};
+  )
+}
 
-export default BchBalance;
+export default BchBalance

@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { path } from "ramda";
+import React from "react"
+import styled from "styled-components"
+import { path } from "ramda"
 
-import { Image } from "blockchain-info-components";
+import { Image } from "blockchain-info-components"
 import {
   balloon,
   balloonDelay1,
@@ -13,13 +13,13 @@ import {
   flight,
   flightDelay1,
   flightDelay2
-} from "./keyframes";
+} from "./keyframes"
 
 const Wrapper = styled.div`
   overflow: hidden;
   position: relative;
   margin-top: -56px;
-`;
+`
 const BaseColor = styled(Image)`
   left: 0;
   opacity: 0;
@@ -28,7 +28,7 @@ const BaseColor = styled(Image)`
   &.active {
     opacity: 1;
   }
-`;
+`
 const Btc = styled.div`
   img {
     top: 0px;
@@ -55,7 +55,7 @@ const Btc = styled.div`
       animation: ${flightDelay2} 20s infinite linear;
     }
   }
-`;
+`
 const Bch = styled.div`
   img {
     bottom: 0;
@@ -83,7 +83,7 @@ const Bch = styled.div`
       animation: ${balloonDelay2} 20s infinite linear;
     }
   }
-`;
+`
 const Eth = styled.div`
   img {
     bottom: 0;
@@ -111,32 +111,32 @@ const Eth = styled.div`
       animation: ${droneDelay2} 6s infinite linear;
     }
   }
-`;
+`
 
 class BuySellAnimation extends React.PureComponent {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       base: false,
       btc: "",
       bch: "",
       eth: ""
-    };
+    }
   }
 
   static getDerivedStateFromProps(nextProps) {
     const sfoxCountries = path(
       ["options", "platforms", "web", "sfox", "countries"],
       nextProps
-    );
+    )
     const unocoinCountries = path(
       ["options", "platforms", "web", "unocoin", "countries"],
       nextProps
-    );
+    )
     const coinifyCountries = path(
       ["options", "platforms", "web", "coinify", "countries"],
       nextProps
-    );
+    )
 
     switch (true) {
       case sfoxCountries.includes(nextProps.country): {
@@ -144,38 +144,38 @@ class BuySellAnimation extends React.PureComponent {
           btc: "buy sell",
           bch: "",
           eth: ""
-        };
+        }
       }
       case coinifyCountries.includes(nextProps.country): {
         return {
           btc: "buy sell",
           bch: "",
           eth: ""
-        };
+        }
       }
       case unocoinCountries.includes(nextProps.country): {
         return {
           btc: "buy",
           bch: "",
           eth: ""
-        };
+        }
       }
       default: {
         return {
           btc: "buy sell",
           bch: "buy sell",
           eth: "buy sell"
-        };
+        }
       }
     }
   }
 
   componentDidMount() {
-    setTimeout(() => this.setState({ base: true }), 1);
+    setTimeout(() => this.setState({ base: true }), 1)
   }
 
   render() {
-    const { base, btc, bch, eth } = this.state;
+    const { base, btc, bch, eth } = this.state
 
     return (
       <Wrapper>
@@ -194,8 +194,8 @@ class BuySellAnimation extends React.PureComponent {
           <Image name="buy-sell-sell-eth" className="sell" />
         </Eth>
       </Wrapper>
-    );
+    )
   }
 }
 
-export default BuySellAnimation;
+export default BuySellAnimation

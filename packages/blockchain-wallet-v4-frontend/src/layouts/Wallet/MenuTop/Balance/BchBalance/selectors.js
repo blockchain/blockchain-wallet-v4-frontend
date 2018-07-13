@@ -1,3 +1,3 @@
-import { getBchBalance } from "../selectors";
+import { getBchBalance } from "../selectors"
 
-export const getData = getBchBalance;
+export const getData = getBchBalance

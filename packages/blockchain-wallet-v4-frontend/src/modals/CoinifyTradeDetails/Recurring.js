@@ -1,23 +1,23 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { prop, head } from "ramda";
-import media from "services/ResponsiveService";
-import { Text, Tooltip } from "blockchain-info-components";
-import { recurringTimeHelper, recurringFee } from "services/CoinifyService";
-import * as Currency from "blockchain-wallet-v4/src/exchange/currency";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { prop, head } from "ramda"
+import media from "services/ResponsiveService"
+import { Text, Tooltip } from "blockchain-info-components"
+import { recurringTimeHelper, recurringFee } from "services/CoinifyService"
+import * as Currency from "blockchain-wallet-v4/src/exchange/currency"
 
 const RecurringTradeWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 15px;
-`;
+`
 const RecurringBox = styled.div`
   border: 1px solid ${props => props.theme["brand-tertiary"]};
   padding: 8px;
   background: ${props => props.theme["brand-quaternary"]};
   margin-top: 5px;
-`;
+`
 const RecurringRow = styled.div`
   display: flex;
   flex-direction: row;
@@ -25,13 +25,13 @@ const RecurringRow = styled.div`
   ${media.mobile`
     flex-direction: column;
   `};
-`;
+`
 const RecurringKey = styled.div`
   width: 20%;
-`;
+`
 const RecurringValue = styled.div`
   width: auto;
-`;
+`
 const HeaderWrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -39,7 +39,7 @@ const HeaderWrapper = styled.div`
   div:first-of-type {
     margin-right: 5px;
   }
-`;
+`
 
 const Recurring = ({ trade, subscription }) => {
   return (
@@ -130,7 +130,7 @@ const Recurring = ({ trade, subscription }) => {
         </RecurringRow>
       </RecurringBox>
     </RecurringTradeWrapper>
-  );
-};
+  )
+}
 
-export default Recurring;
+export default Recurring

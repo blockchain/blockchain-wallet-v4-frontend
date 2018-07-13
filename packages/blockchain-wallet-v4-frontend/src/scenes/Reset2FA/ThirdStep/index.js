@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { LinkContainer } from "react-router-bootstrap";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { LinkContainer } from "react-router-bootstrap"
 
 import {
   Button,
@@ -9,7 +9,7 @@ import {
   Separator,
   Text,
   TextGroup
-} from "blockchain-info-components";
+} from "blockchain-info-components"
 
 const Wrapper = styled.div`
   width: 100%;
@@ -20,15 +20,15 @@ const Wrapper = styled.div`
   @media (min-width: 768px) {
     width: 550px;
   }
-`;
+`
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`;
+`
 const Footer = styled.div`
   margin-top: 20px;
-`;
+`
 
 class ThirdStep extends React.PureComponent {
   render() {
@@ -79,7 +79,7 @@ class ThirdStep extends React.PureComponent {
           </LinkContainer>
         </Footer>
       </Wrapper>
-    );
+    )
   }
 }
-export default ThirdStep;
+export default ThirdStep

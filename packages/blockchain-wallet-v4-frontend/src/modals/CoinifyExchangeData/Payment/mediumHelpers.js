@@ -1,13 +1,13 @@
-import React, { Fragment } from "react";
-import { FormattedMessage } from "react-intl";
-import styled from "styled-components";
-import { Field } from "redux-form";
-import { Text, Icon, Link } from "blockchain-info-components";
-import { spacing } from "services/StyleService";
-import { required } from "services/FormHelper";
-import { StepTransition } from "components/Utilities/Stepper";
-import { equals, path, prop } from "ramda";
-import media from "services/ResponsiveService";
+import React, { Fragment } from "react"
+import { FormattedMessage } from "react-intl"
+import styled from "styled-components"
+import { Field } from "redux-form"
+import { Text, Icon, Link } from "blockchain-info-components"
+import { spacing } from "services/StyleService"
+import { required } from "services/FormHelper"
+import { StepTransition } from "components/Utilities/Stepper"
+import { equals, path, prop } from "ramda"
+import media from "services/ResponsiveService"
 
 const PaymentOptionContainer = styled.div`
   width: 50%;
@@ -25,7 +25,7 @@ const PaymentOptionContainer = styled.div`
       margin-bottom: 20px;
     }
   `};
-`;
+`
 const PaymentOption = styled.div`
   display: flex;
   flex-direction: column;
@@ -37,24 +37,24 @@ const PaymentOption = styled.div`
   background-color: ${props =>
     props.isChecked ? props.theme["brand-primary"] : "white"};
   opacity: ${props => (props.disabled ? 0.3 : 1)};
-`;
+`
 const OptionLabel = styled.label`
   display: flex;
   flex-direction: column;
   align-items: center;
   cursor: pointer;
-`;
+`
 const PaymentIcon = styled(Icon)`
   color: ${props => (props.isChecked ? "white" : props.theme["brand-primary"])};
-`;
+`
 const PaymentText = styled(Text)`
   color: ${props => (props.isChecked ? "white" : props.theme["brand-primary"])};
-`;
+`
 const BankDisabledText = styled(Text)`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
+`
 
 export const cardOptionHelper = (
   quote,
@@ -92,7 +92,7 @@ export const cardOptionHelper = (
         </PaymentText>
       </OptionLabel>
     </PaymentOption>
-  );
+  )
 
   const renderField = () => (
     <Field
@@ -103,7 +103,7 @@ export const cardOptionHelper = (
       component={PaymentRadioCard}
       validate={[required]}
     />
-  );
+  )
 
   const renderContainer = (isChecked, handlePaymentClick) => (
     <PaymentOptionContainer>
@@ -125,7 +125,7 @@ export const cardOptionHelper = (
         />
       </Text>
     </PaymentOptionContainer>
-  );
+  )
 
   const renderText = (currency, amount, limit) => (
     <PaymentOptionContainer>
@@ -150,32 +150,32 @@ export const cardOptionHelper = (
         />
       </StepTransition>
     </PaymentOptionContainer>
-  );
+  )
 
-  const { baseCurrency, quoteAmount, quoteCurrency, baseAmount } = quote;
+  const { baseCurrency, quoteAmount, quoteCurrency, baseAmount } = quote
 
   if (quote.baseCurrency === "BTC") {
     if (Math.abs(quoteAmount) <= limits.card.inRemaining[quoteCurrency]) {
-      return renderContainer(isChecked, handlePaymentClick);
+      return renderContainer(isChecked, handlePaymentClick)
     } else {
       return renderText(
         quoteCurrency,
         Math.abs(quoteAmount),
         limits.card.inRemaining[quoteCurrency]
-      );
+      )
     }
   } else {
     if (Math.abs(baseAmount) <= limits.card.inRemaining[baseCurrency]) {
-      return renderContainer(isChecked, handlePaymentClick);
+      return renderContainer(isChecked, handlePaymentClick)
     } else {
       return renderText(
         baseCurrency,
         Math.abs(baseAmount),
         limits.card.inRemaining[baseCurrency]
-      );
+      )
     }
   }
-};
+}
 
 export const bankOptionHelper = (
   quote,
@@ -215,7 +215,7 @@ export const bankOptionHelper = (
         </PaymentText>
       </OptionLabel>
     </PaymentOption>
-  );
+  )
 
   const renderContainer = (isChecked, handlePaymentClick) => (
     <PaymentOptionContainer>
@@ -285,31 +285,31 @@ export const bankOptionHelper = (
         </Text>
       )}
     </PaymentOptionContainer>
-  );
+  )
 
   const renderText = () => (
     <PaymentOptionContainer>
       <Text>Can't use bank medium</Text>
     </PaymentOptionContainer>
-  );
+  )
 
   if (quote.baseCurrency === "BTC") {
     if (
       Math.abs(quote.quoteAmount) >=
       limits.bank.minimumInAmounts[quote.quoteCurrency]
     ) {
-      return renderContainer(isChecked, handlePaymentClick);
+      return renderContainer(isChecked, handlePaymentClick)
     } else {
-      renderText();
+      renderText()
     }
   } else {
     if (
       Math.abs(quote.baseAmount) >=
       limits.bank.minimumInAmounts[quote.baseCurrency]
     ) {
-      return renderContainer(isChecked, handlePaymentClick);
+      return renderContainer(isChecked, handlePaymentClick)
     } else {
-      renderText();
+      renderText()
     }
   }
-};
+}

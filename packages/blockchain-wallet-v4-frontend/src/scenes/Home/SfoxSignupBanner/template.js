@@ -1,9 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 
-import { Icon, Text } from "blockchain-info-components";
+import { Icon, Text } from "blockchain-info-components"
 
 const Header = styled.div`
   display: flex;
@@ -29,7 +29,7 @@ const Header = styled.div`
       opacity: 1;
     }
   }
-`;
+`
 const LeftColumn = styled.div`
   display: flex;
   flex-direction: row;
@@ -42,7 +42,7 @@ const LeftColumn = styled.div`
     flex-basis: 100%;
     justify-content: space-evenly;
   }
-`;
+`
 const RightColumn = styled.div`
   display: flex;
   flex-direction: row;
@@ -57,7 +57,7 @@ const RightColumn = styled.div`
   @media (min-width: 1200px) {
     padding-top: 18px;
   }
-`;
+`
 const Step = styled.div`
   width: 100%;
   display: flex;
@@ -66,11 +66,11 @@ const Step = styled.div`
   text-align: center;
   flex-grow: 1;
   flex-wrap: wrap;
-`;
+`
 const ArrowWrapper = styled.div`
   position: relative;
   width: 100%;
-`;
+`
 const Arrow = styled.div`
   width: 100%;
   border-top: 1px solid ${props => props.theme["gray-5"]};
@@ -99,7 +99,7 @@ const Arrow = styled.div`
     top: 3px;
     transform: rotate(-45deg);
   }
-`;
+`
 const Circle = styled.div`
   width: 30px;
   height: 30px;
@@ -116,7 +116,7 @@ const Circle = styled.div`
   & > span:first-child {
     padding-left: 8px;
   }
-`;
+`
 
 const getSfoxStepTitle = step => {
   switch (step) {
@@ -126,41 +126,41 @@ const getSfoxStepTitle = step => {
           id="scenes.home.exchangeStepper.sfox.step1"
           defaultMessage="Create Account"
         />
-      );
+      )
     case 2:
       return (
         <FormattedMessage
           id="scenes.home.exchangeStepper.sfox.step2"
           defaultMessage="Verify Identity"
         />
-      );
+      )
     case 3:
       return (
         <FormattedMessage
           id="scenes.home.exchangeStepper.sfox.step3"
           defaultMessage="Upload Documents"
         />
-      );
+      )
     case 4:
       return (
         <FormattedMessage
           id="scenes.home.exchangeStepper.sfox.step4"
           defaultMessage="Link Bank"
         />
-      );
+      )
     default:
-      return <div />;
+      return <div />
   }
-};
+}
 
 const SfoxSignupBanner = props => {
-  const { currentStep, goToBuySell } = props;
-  const totalSteps = 4;
+  const { currentStep, goToBuySell } = props
+  const totalSteps = 4
 
   return (
     <Header
       onClick={() => {
-        goToBuySell();
+        goToBuySell()
       }}
     >
       <LeftColumn>
@@ -211,16 +211,16 @@ const SfoxSignupBanner = props => {
                 </ArrowWrapper>
               )}
             </React.Fragment>
-          );
+          )
         })}
       </RightColumn>
     </Header>
-  );
-};
+  )
+}
 
 SfoxSignupBanner.propTypes = {
   currentStep: PropTypes.number.isRequired,
   goToBuySell: PropTypes.func.isRequired
-};
+}
 
-export default SfoxSignupBanner;
+export default SfoxSignupBanner

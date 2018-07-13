@@ -1,6 +1,6 @@
-import { lift } from "ramda";
-import { selectors } from "data";
-import { createDeepEqualSelector } from "services/ReselectHelper";
+import { lift } from "ramda"
+import { selectors } from "data"
+import { createDeepEqualSelector } from "services/ReselectHelper"
 
 export const getData = createDeepEqualSelector(
   [
@@ -18,16 +18,16 @@ export const getData = createDeepEqualSelector(
         level,
         mediums,
         kyc
-      };
-    };
-    return lift(transform)(profileR, limitsR, levelR, mediumsR, kycR);
+      }
+    }
+    return lift(transform)(profileR, limitsR, levelR, mediumsR, kycR)
   }
-);
+)
 
 export const getQuote = createDeepEqualSelector(
   [selectors.core.data.coinify.getQuote],
   quoteR => {
-    const transform = quote => quote;
-    return lift(transform)(quoteR);
+    const transform = quote => quote
+    return lift(transform)(quoteR)
   }
-);
+)

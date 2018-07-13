@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import QRCodeReact from "qrcode.react";
-import CoinDisplay from "components/Display/CoinDisplay";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import QRCodeReact from "qrcode.react"
+import CoinDisplay from "components/Display/CoinDisplay"
 import {
   Modal,
   ModalHeader,
@@ -11,9 +11,9 @@ import {
   Text,
   Button,
   SelectInput
-} from "blockchain-info-components";
-import { spacing, flex } from "services/StyleService";
-import { utils } from "blockchain-wallet-v4/src";
+} from "blockchain-info-components"
+import { spacing, flex } from "services/StyleService"
+import { utils } from "blockchain-wallet-v4/src"
 
 const DetailTable = styled.div`
   min-width: 0;
@@ -23,20 +23,20 @@ const DetailTable = styled.div`
   > div:not(:first-child) {
     margin-top: 10px;
   }
-`;
+`
 const DetailRow = styled.div`
   display: flex;
   align-items: center;
   flex-direction: row;
   flex-wrap: wrap;
-`;
+`
 const DetailRowText = styled(Text)`
   white-space: nowrap;
-`;
+`
 const KeyText = styled(Text)`
   min-width: 0;
   word-wrap: break-word;
-`;
+`
 
 const FirstStep = () => (
   <div>
@@ -53,7 +53,7 @@ const FirstStep = () => (
       />
     </Text>
   </div>
-);
+)
 
 const SecondStep = ({
   addr,
@@ -131,7 +131,7 @@ const SecondStep = ({
       </DetailRow>
     </DetailTable>
   </div>
-);
+)
 
 const ShowBtcPrivateKeyTemplate = ({
   position,
@@ -174,6 +174,6 @@ const ShowBtcPrivateKeyTemplate = ({
       )}
     </ModalFooter>
   </Modal>
-);
+)
 
-export default ShowBtcPrivateKeyTemplate;
+export default ShowBtcPrivateKeyTemplate

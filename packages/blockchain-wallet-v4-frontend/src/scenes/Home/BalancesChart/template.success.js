@@ -1,15 +1,15 @@
-import React from "react";
-import styled from "styled-components";
-import ReactHighcharts from "react-highcharts";
-import { FormattedMessage } from "react-intl";
-import { gt } from "ramda";
+import React from "react"
+import styled from "styled-components"
+import ReactHighcharts from "react-highcharts"
+import { FormattedMessage } from "react-intl"
+import { gt } from "ramda"
 
-import { Text } from "blockchain-info-components";
-import media from "services/ResponsiveService";
-import configure from "./chart.config.js";
-import BchBalance from "./BchBalance";
-import BtcBalance from "./BtcBalance";
-import EthBalance from "./EthBalance";
+import { Text } from "blockchain-info-components"
+import media from "services/ResponsiveService"
+import configure from "./chart.config.js"
+import BchBalance from "./BchBalance"
+import BtcBalance from "./BtcBalance"
+import EthBalance from "./EthBalance"
 
 const Wrapper = styled.div`
   width: 100%;
@@ -45,7 +45,7 @@ const Wrapper = styled.div`
   @media (min-width: 480px) {
     height: 380px;
   }
-`;
+`
 const ChartInfo = styled.div`
   display: flex;
   flex-direction: row;
@@ -55,7 +55,7 @@ const ChartInfo = styled.div`
       width: 28%;
     }
   `};
-`;
+`
 const Column = styled.div`
   display: flex;
   flex-direction: column;
@@ -63,11 +63,11 @@ const Column = styled.div`
   > * {
     margin-bottom: 4px;
   }
-`;
+`
 
 const BalancesChart = props => {
-  const { balances, handleCoinDisplay, history } = props;
-  const { btcBalance, ethBalance, bchBalance, chartData, symbol } = balances;
+  const { balances, handleCoinDisplay, history } = props
+  const { btcBalance, ethBalance, bchBalance, chartData, symbol } = balances
 
   return (
     <Wrapper className={"ignore-react-onclickoutside"} btcBalance={btcBalance}>
@@ -108,7 +108,7 @@ const BalancesChart = props => {
         </Column>
       </ChartInfo>
     </Wrapper>
-  );
-};
+  )
+}
 
-export default BalancesChart;
+export default BalancesChart

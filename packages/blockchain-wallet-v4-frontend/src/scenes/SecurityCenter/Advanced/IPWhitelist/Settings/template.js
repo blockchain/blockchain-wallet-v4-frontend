@@ -1,23 +1,23 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
-import { Field, reduxForm } from "redux-form";
-import styled from "styled-components";
+import React from "react"
+import PropTypes from "prop-types"
+import { FormattedMessage } from "react-intl"
+import { Field, reduxForm } from "redux-form"
+import styled from "styled-components"
 
-import { Button, ButtonGroup, Text } from "blockchain-info-components";
-import { TextBox } from "components/Form";
-import { validIpList } from "services/FormHelper";
-import { SettingForm, SettingWrapper } from "components/Setting";
+import { Button, ButtonGroup, Text } from "blockchain-info-components"
+import { TextBox } from "components/Form"
+import { validIpList } from "services/FormHelper"
+import { SettingForm, SettingWrapper } from "components/Setting"
 
 const ButtonWrapper = styled(ButtonGroup)`
   margin-top: 5px;
   & > :first-child {
     margin-right: 5px;
   }
-`;
+`
 const Input = styled(Field)`
   margin-top: 20px;
-`;
+`
 const Settings = props => {
   const {
     updateToggled,
@@ -27,7 +27,7 @@ const Settings = props => {
     submitting,
     invalid,
     handleCancel
-  } = props;
+  } = props
 
   return (
     <SettingWrapper>
@@ -69,14 +69,14 @@ const Settings = props => {
         </SettingForm>
       )}
     </SettingWrapper>
-  );
-};
+  )
+}
 
 Settings.propTypes = {
   currentWhitelist: PropTypes.string.isRequired,
   updateToggled: PropTypes.bool.isRequired,
   handleToggle: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired
-};
+}
 
-export default reduxForm({ form: "settingIPWhitelist" })(Settings);
+export default reduxForm({ form: "settingIPWhitelist" })(Settings)

@@ -1,6 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
 
 const BaseSlider = styled.input.attrs({ type: "range" })`
   -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
@@ -53,11 +53,11 @@ const BaseSlider = styled.input.attrs({ type: "range" })`
     border-color: transparent;
     color: transparent;
   }
-`;
+`
 
 const SimpleSlider = props => {
-  return <BaseSlider {...props} />;
-};
+  return <BaseSlider {...props} />
+}
 
 SimpleSlider.propTypes = {
   value: PropTypes.number.isRequired,
@@ -65,6 +65,6 @@ SimpleSlider.propTypes = {
   max: PropTypes.number.isRequired,
   onInput: PropTypes.func.isRequired,
   step: PropTypes.number.isRequired
-};
+}
 
-export default SimpleSlider;
+export default SimpleSlider

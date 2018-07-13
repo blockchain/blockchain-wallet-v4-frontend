@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 const SettingDescription = styled.div`
   padding: 10px 0;
@@ -11,6 +11,6 @@ const SettingDescription = styled.div`
     display: inline;
     margin-right: 5px;
   }
-`;
+`
 
-export default SettingDescription;
+export default SettingDescription

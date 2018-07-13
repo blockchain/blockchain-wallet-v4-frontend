@@ -1,15 +1,15 @@
-import React from "react";
-import PropTypes from "prop-types";
-import TabMenuTransactionStatus from "./template.js";
+import React from "react"
+import PropTypes from "prop-types"
+import TabMenuTransactionStatus from "./template.js"
 
 class TabMenuTransactionStatusContainer extends React.PureComponent {
   constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
+    super(props)
+    this.handleClick = this.handleClick.bind(this)
   }
 
   handleClick(value) {
-    this.props.input.onChange(value);
+    this.props.input.onChange(value)
   }
 
   render() {
@@ -19,12 +19,12 @@ class TabMenuTransactionStatusContainer extends React.PureComponent {
         handleClick={this.handleClick}
         statuses={this.props.statuses}
       />
-    );
+    )
   }
 }
 
 TabMenuTransactionStatusContainer.propTypes = {
   input: PropTypes.object.isRequired
-};
+}
 
-export default TabMenuTransactionStatusContainer;
+export default TabMenuTransactionStatusContainer

@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 
-import { Link, Text, TextGroup } from "blockchain-info-components";
+import { Link, Text, TextGroup } from "blockchain-info-components"
 
 const Wrapper = styled.section`
   display: flex;
@@ -12,7 +12,7 @@ const Wrapper = styled.section`
   width: 100%;
   box-sizing: border-box;
   padding: 0px 30px 30px 30px;
-`;
+`
 
 export default () => (
   <Wrapper>
@@ -62,4 +62,4 @@ export default () => (
       </TextGroup>
     </TextGroup>
   </Wrapper>
-);
+)

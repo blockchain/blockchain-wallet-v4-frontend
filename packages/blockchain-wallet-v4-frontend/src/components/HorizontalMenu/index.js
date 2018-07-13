@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from "react"
+import styled from "styled-components"
 
 const Wrapper = styled.div`
   width: 100%;
@@ -7,7 +7,7 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   background-color: ${props => props.theme["white-blue"]};
   border-bottom: 1px solid ${props => props.theme["gray-1"]};
-`;
+`
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -19,12 +19,12 @@ const Container = styled.div`
     flex-direction: row;
     justify-content: space-between;
   }
-`;
+`
 
 const HorizontalMenu = ({ children }) => (
   <Wrapper>
     <Container>{children}</Container>
   </Wrapper>
-);
+)
 
-export default HorizontalMenu;
+export default HorizontalMenu

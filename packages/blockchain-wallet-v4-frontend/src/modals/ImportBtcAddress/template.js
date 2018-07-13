@@ -1,35 +1,35 @@
-import React from "react";
-import styled from "styled-components";
+import React from "react"
+import styled from "styled-components"
 import {
   Button,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter
-} from "blockchain-info-components";
-import { FormattedMessage, FormattedHTMLMessage } from "react-intl";
-import { Field, reduxForm } from "redux-form";
-import { RadioButton, Form } from "components/Form";
-import ImportInternalBtcAddress from "./ImportInternalBtcAddress";
-import ImportExternalBtcAddress from "./ImportExternalBtcAddress";
+} from "blockchain-info-components"
+import { FormattedMessage, FormattedHTMLMessage } from "react-intl"
+import { Field, reduxForm } from "redux-form"
+import { RadioButton, Form } from "components/Form"
+import ImportInternalBtcAddress from "./ImportInternalBtcAddress"
+import ImportExternalBtcAddress from "./ImportExternalBtcAddress"
 
 const Wrapper = styled.div`
   font-weight: 300;
   color: ${props => props.theme["gray-5"]};
   font-family: "Montserrat", Helvetica, sans-serif;
-`;
+`
 const Title = styled.div`
   font-size: 14px;
   font-weight: 400;
   margin-bottom: 15px;
-`;
+`
 const RadioContainer = styled.div`
   font-size: 12px;
   margin-bottom: 10px;
   label > span > span {
     font-weight: 500;
   }
-`;
+`
 
 const ImportBtcAddress = props => {
   const {
@@ -41,7 +41,7 @@ const ImportBtcAddress = props => {
     isAddressExternal,
     priv,
     handleSubmit
-  } = props;
+  } = props
 
   return (
     <Modal size="large" position={position}>
@@ -109,10 +109,10 @@ const ImportBtcAddress = props => {
         </Wrapper>
       </Form>
     </Modal>
-  );
-};
+  )
+}
 
 export default reduxForm({
   form: "importBtcAddress",
   initialValues: { "address-type": "" }
-})(ImportBtcAddress);
+})(ImportBtcAddress)

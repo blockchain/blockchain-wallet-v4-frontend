@@ -1,15 +1,15 @@
-import React from "react";
-import styled from "styled-components";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { actions } from "data";
+import React from "react"
+import styled from "styled-components"
+import { connect } from "react-redux"
+import { bindActionCreators } from "redux"
+import { actions } from "data"
 
-import { Icon, Text, TextGroup } from "blockchain-info-components";
+import { Icon, Text, TextGroup } from "blockchain-info-components"
 
 const MenuTooltipWrapper = styled.div`
   display: inline-flex;
   position: relative;
-`;
+`
 const MenuTooltipIcon = styled(Icon)`
   cursor: pointer;
   font-weight: 300;
@@ -20,7 +20,7 @@ const MenuTooltipIcon = styled(Icon)`
   color: ${props => props.theme["white"]};
   background-color: ${props => props.theme["brand-primary"]};
   border: 1px solid ${props => props.theme["brand-primary"]};
-`;
+`
 const MenuTooltipBox = styled(TextGroup)`
   position: absolute;
   z-index: 5;
@@ -60,11 +60,11 @@ const MenuTooltipBox = styled(TextGroup)`
     border: 9px solid transparent;
     border-bottom-color: ${props => props.theme["gray-1"]};
   }
-`;
+`
 
 const MenuTooltipIconWrapper = styled.div`
   position: relative;
-`;
+`
 
 const NewLabel = styled.div`
   display: flex;
@@ -78,33 +78,33 @@ const NewLabel = styled.div`
   height: 10px;
   background-color: ${props => props.theme["error"]};
   border-radius: 100%;
-`;
+`
 const MenuTooltipTitle = styled(Text)`
   background-color: ${props => props.theme["gray-1"]};
   padding: 8px 14px;
-`;
+`
 const TextContainer = styled.div`
   max-height: 250px;
   overflow-y: scroll;
   padding: 0px 8px;
-`;
+`
 
 class MenuTooltip extends React.PureComponent {
   constructor(props) {
-    super(props);
-    this.state = { displayed: false, hasNews: props.hasNews };
-    this.handleClick = this.handleClick.bind(this);
+    super(props)
+    this.state = { displayed: false, hasNews: props.hasNews }
+    this.handleClick = this.handleClick.bind(this)
   }
 
   handleClick() {
     if (!this.state.displayed) {
-      this.props.whatsNewActions.updateMetadataWhatsNew(Date.now());
+      this.props.whatsNewActions.updateMetadataWhatsNew(Date.now())
     }
-    this.setState({ displayed: !this.state.displayed, hasNews: false });
+    this.setState({ displayed: !this.state.displayed, hasNews: false })
   }
 
   render() {
-    const { icon, newsLength, title, children } = this.props;
+    const { icon, newsLength, title, children } = this.props
     return (
       <MenuTooltipWrapper>
         <MenuTooltipIconWrapper>
@@ -131,19 +131,19 @@ class MenuTooltip extends React.PureComponent {
           <TextContainer>{children}</TextContainer>
         </MenuTooltipBox>
       </MenuTooltipWrapper>
-    );
+    )
   }
 }
 
 MenuTooltip.defaultProps = {
   icon: "bell-filled"
-};
+}
 
 const mapDispatchToProps = dispatch => ({
   whatsNewActions: bindActionCreators(actions.core.kvStore.whatsNew, dispatch)
-});
+})
 
 export default connect(
   null,
   mapDispatchToProps
-)(MenuTooltip);
+)(MenuTooltip)

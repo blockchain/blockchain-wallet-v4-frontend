@@ -1,26 +1,26 @@
-import React from "react";
-import styled from "styled-components";
-import { reduxForm, Field } from "redux-form";
-import { FormattedMessage } from "react-intl";
-import { concat, equals, path, prop } from "ramda";
+import React from "react"
+import styled from "styled-components"
+import { reduxForm, Field } from "redux-form"
+import { FormattedMessage } from "react-intl"
+import { concat, equals, path, prop } from "ramda"
 
-import { Text, Button } from "blockchain-info-components";
+import { Text, Button } from "blockchain-info-components"
 import {
   FormGroup,
   FormItem,
   SelectBoxUSState,
   SelectBoxCountry,
   TextBox
-} from "components/Form";
-import { spacing } from "services/StyleService";
+} from "components/Form"
+import { spacing } from "services/StyleService"
 import {
   required,
   onPartnerCountryWhitelist,
   onPartnerStateWhitelist,
   validEmail
-} from "services/FormHelper";
-import BuySellAnimation from "./BuySellAnimation";
-import media from "services/ResponsiveService";
+} from "services/FormHelper"
+import BuySellAnimation from "./BuySellAnimation"
+import media from "services/ResponsiveService"
 
 const Row = styled.div`
   display: flex;
@@ -30,7 +30,7 @@ const Row = styled.div`
   ${media.laptop`
     align-items: flex-start;
   `};
-`;
+`
 const ColLeft = styled.div`
   width: 50%;
   margin-right: 5%;
@@ -38,7 +38,7 @@ const ColLeft = styled.div`
   ${media.laptop`
     display: none;
   `};
-`;
+`
 const ColRight = styled.div`
   width: 40%;
   margin-top: -56px;
@@ -46,71 +46,68 @@ const ColRight = styled.div`
     width: 100%;
     margin-top: 30px;
   `};
-`;
+`
 const PartnerHeader = styled.div`
   font-size: 30px;
   font-weight: 600;
   ${media.mobile`
     font-size: 20px;
   `};
-`;
+`
 const PartnerSubHeader = styled.div`
   margin-top: 5px;
   font-size: 14px;
-`;
+`
 const Intro = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-`;
+`
 const SelectionContainer = Intro.extend`
   margin-top: 25px;
-`;
+`
 const FieldWrapper = Intro.extend`
   margin-top: 5px;
   width: 50%;
-`;
+`
 const UnavailableContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 75%;
-`;
+`
 const SubmittedWrapper = styled.span`
   text-align: center;
   margin-top: 35px;
-`;
+`
 
 const SelectPartner = props => {
-  const { invalid, options, pristine, submitEmail, ui, fields } = props;
-  const { country, stateSelection, email } = fields;
-  const sfoxStates = path(["platforms", "web", "sfox", "states"], options);
-  const sfoxCountries = path(
-    ["platforms", "web", "sfox", "countries"],
-    options
-  );
+  const { invalid, options, pristine, submitEmail, ui, fields } = props
+  const { country, stateSelection, email } = fields
+  const sfoxStates = path(["platforms", "web", "sfox", "states"], options)
+  const sfoxCountries = path(["platforms", "web", "sfox", "countries"], options)
   const coinifyCountries = path(
     ["platforms", "web", "coinify", "countries"],
     options
-  );
-  const countries = concat(sfoxCountries, coinifyCountries);
+  )
+  const countries = concat(sfoxCountries, coinifyCountries)
 
   const onSfoxWhitelist = usState =>
     prop("code", usState) && sfoxStates.includes(usState.code)
       ? undefined
-      : "This service is not yet available in your state.";
+      : "This service is not yet available in your state."
 
   const handleSubmit = e => {
-    e.preventDefault();
+    e.preventDefault()
     if (sfoxCountries.indexOf(country) >= 0) {
-      props.modalActions.showModal("SfoxExchangeData", { step: "account" });
+      props.modalActions.showModal("SfoxExchangeData", { step: "account" })
     }
     if (coinifyCountries.includes(country)) {
       props.modalActions.showModal("CoinifyExchangeData", {
         step: "account",
         country
-      });
+      })
     }
-  };
+  }
 
   const renderColLeft = () => {
     if (
@@ -174,11 +171,11 @@ const SelectPartner = props => {
             </SubmittedWrapper>
           )}
         </UnavailableContainer>
-      );
+      )
     } else {
-      return <BuySellAnimation country={country} options={options} />;
+      return <BuySellAnimation country={country} options={options} />
     }
-  };
+  }
 
   return (
     <Row>
@@ -252,7 +249,7 @@ const SelectPartner = props => {
         </SelectionContainer>
       </ColRight>
     </Row>
-  );
-};
+  )
+}
 
-export default reduxForm({ form: "selectPartner" })(SelectPartner);
+export default reduxForm({ form: "selectPartner" })(SelectPartner)

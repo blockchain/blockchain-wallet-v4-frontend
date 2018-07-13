@@ -1,9 +1,9 @@
-import React from "react";
-import { FormattedMessage } from "react-intl";
-import styled from "styled-components";
-import { LinkContainer } from "react-router-bootstrap";
-import SwitchableDisplay from "components/Display/SwitchableDisplay";
-import { SettingDescription, SettingHeader } from "components/Setting";
+import React from "react"
+import { FormattedMessage } from "react-intl"
+import styled from "styled-components"
+import { LinkContainer } from "react-router-bootstrap"
+import SwitchableDisplay from "components/Display/SwitchableDisplay"
+import { SettingDescription, SettingHeader } from "components/Setting"
 import {
   Banner,
   Table,
@@ -13,16 +13,16 @@ import {
   Text,
   IconButton,
   Link
-} from "blockchain-info-components";
-import { filter } from "ramda";
-import media from "services/ResponsiveService";
+} from "blockchain-info-components"
+import { filter } from "ramda"
+import media from "services/ResponsiveService"
 
 const Wrapper = styled.section`
   box-sizing: border-box;
-`;
+`
 const BitcoinWalletsAddressesSettingHeader = SettingHeader.extend`
   justify-content: flex-start;
-`;
+`
 const WalletTableCell = styled(TableCell)`
   display: flex;
   flex-direction: row;
@@ -33,14 +33,14 @@ const WalletTableCell = styled(TableCell)`
     flex-direction: column;
     align-items: flex-start;
   `};
-`;
+`
 const LabelCell = styled(Text)`
   margin-right: 6px;
-`;
+`
 
 const Success = ({ wallets, handleClick, onUnarchive, search }) => {
   const isMatch = wallet =>
-    !search || wallet.label.toLowerCase().indexOf(search) > -1;
+    !search || wallet.label.toLowerCase().indexOf(search) > -1
 
   const walletTableRows = filter(isMatch, wallets).map(wallet => {
     return (
@@ -98,8 +98,8 @@ const Success = ({ wallets, handleClick, onUnarchive, search }) => {
           )}
         </TableCell>
       </TableRow>
-    );
-  });
+    )
+  })
 
   return (
     <Wrapper>
@@ -154,7 +154,7 @@ const Success = ({ wallets, handleClick, onUnarchive, search }) => {
         />
       </IconButton>
     </Wrapper>
-  );
-};
+  )
+}
 
-export default Success;
+export default Success

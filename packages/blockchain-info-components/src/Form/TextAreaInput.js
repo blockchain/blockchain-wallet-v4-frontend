@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from "react"
+import styled from "styled-components"
 
 const BaseTextAreaInput = styled.textarea`
   display: block;
@@ -18,25 +18,25 @@ const BaseTextAreaInput = styled.textarea`
   &::-webkit-input-placeholder {
     color: ${props => props.theme["gray-2"]};
   }
-`;
+`
 
 const selectBorderColor = state => {
   switch (state) {
     case "initial":
-      return "gray-2";
+      return "gray-2"
     case "invalid":
-      return "error";
+      return "error"
     case "valid":
-      return "success";
+      return "success"
     default:
-      return "gray-2";
+      return "gray-2"
   }
-};
+}
 
 const TextAreaInput = props => {
-  const { errorState, ...rest } = props;
-  const borderColor = selectBorderColor(errorState);
-  return <BaseTextAreaInput borderColor={borderColor} {...rest} />;
-};
+  const { errorState, ...rest } = props
+  const borderColor = selectBorderColor(errorState)
+  return <BaseTextAreaInput borderColor={borderColor} {...rest} />
+}
 
-export default TextAreaInput;
+export default TextAreaInput

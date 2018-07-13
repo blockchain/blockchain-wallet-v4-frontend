@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 
 import {
   Button,
@@ -14,9 +14,9 @@ import {
   Separator,
   Text,
   TextGroup
-} from "blockchain-info-components";
-import { spacing } from "services/StyleService";
-import recoveryPdf from "./recovery.pdf";
+} from "blockchain-info-components"
+import { spacing } from "services/StyleService"
+import recoveryPdf from "./recovery.pdf"
 
 const PrintContainer = styled.div`
   display: flex;
@@ -24,10 +24,10 @@ const PrintContainer = styled.div`
   justify-content: center;
   align-items: center;
   padding: 20px 0;
-`;
+`
 
 const FirstStep = props => {
-  const { nextStep, position, total, close } = props;
+  const { nextStep, position, total, close } = props
 
   return (
     <Modal size="large" position={position} total={total}>
@@ -114,7 +114,7 @@ const FirstStep = props => {
         </Button>
       </ModalFooter>
     </Modal>
-  );
-};
+  )
+}
 
-export default FirstStep;
+export default FirstStep

@@ -1,19 +1,19 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { bindActionCreators, compose } from "redux";
-import { formValueSelector } from "redux-form";
-import { actions } from "data";
-import ui from "redux-ui";
-import { path } from "ramda";
-import Template from "./template";
-import { getData } from "./selectors";
-import Failure from "components/BuySell/Failure";
+import React, { Component } from "react"
+import { connect } from "react-redux"
+import { bindActionCreators, compose } from "redux"
+import { formValueSelector } from "redux-form"
+import { actions } from "data"
+import ui from "redux-ui"
+import { path } from "ramda"
+import Template from "./template"
+import { getData } from "./selectors"
+import Failure from "components/BuySell/Failure"
 
 class ConfirmContainer extends Component {
   constructor(props) {
-    super(props);
+    super(props)
 
-    this.onSubmit = this.onSubmit.bind(this);
+    this.onSubmit = this.onSubmit.bind(this)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -23,30 +23,30 @@ class ConfirmContainer extends Component {
         nextProps.data.data.quote.baseAmount !==
         this.props.data.data.quote.baseAmount
       )
-        this.props.updateUI({ editing: false });
+        this.props.updateUI({ editing: false })
     }
   }
 
   onSubmit() {
-    const medium = this.props.medium;
+    const medium = this.props.medium
     if (this.props.ui.editing) {
-      const { baseCurrency, quoteCurrency } = this.props.data.data.quote;
-      const amt = +this.props.editingAmount * 100;
+      const { baseCurrency, quoteCurrency } = this.props.data.data.quote
+      const amt = +this.props.editingAmount * 100
       this.props.coinifyDataActions.fetchQuoteAndMediums({
         amt,
         baseCurrency,
         quoteCurrency,
         medium,
         type: "buy"
-      });
+      })
     } else {
-      const quote = this.props.data.data.quote;
-      this.props.coinifyActions.initiateBuy({ quote, medium });
+      const quote = this.props.data.data.quote
+      this.props.coinifyActions.initiateBuy({ quote, medium })
     }
   }
 
   render() {
-    const { ui, data, medium, editingAmount } = this.props;
+    const { ui, data, medium, editingAmount } = this.props
 
     return data.cata({
       Success: value => (
@@ -64,7 +64,7 @@ class ConfirmContainer extends Component {
       Failure: msg => <Failure error={msg} />,
       Loading: () => <div>Loading...</div>,
       NotAsked: () => <div>Not asked...</div>
-    });
+    })
   }
 }
 
@@ -72,13 +72,13 @@ const mapStateToProps = state => ({
   data: getData(state),
   medium: path(["coinify", "medium"], state),
   editingAmount: formValueSelector("coinifyConfirm")(state, "amount")
-});
+})
 
 const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch),
   coinifyDataActions: bindActionCreators(actions.core.data.coinify, dispatch),
   coinifyActions: bindActionCreators(actions.modules.coinify, dispatch)
-});
+})
 
 const enhance = compose(
   connect(
@@ -86,6 +86,6 @@ const enhance = compose(
     mapDispatchToProps
   ),
   ui({ state: { editing: false, limitsError: "" } })
-);
+)
 
-export default enhance(ConfirmContainer);
+export default enhance(ConfirmContainer)

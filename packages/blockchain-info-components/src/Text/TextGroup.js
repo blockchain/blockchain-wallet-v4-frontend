@@ -1,6 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
 
 const BaseTextGroup = styled.div`
   ${props =>
@@ -11,21 +11,21 @@ const BaseTextGroup = styled.div`
     props.inline
       ? "& > * { display: inline; margin-right: 2px; }"
       : "& > * { display: block; margin-bottom: 10px; }"};
-`;
+`
 const TextGroup = props => {
-  const { children, ...rest } = props;
+  const { children, ...rest } = props
 
-  return <BaseTextGroup {...rest}>{children}</BaseTextGroup>;
-};
+  return <BaseTextGroup {...rest}>{children}</BaseTextGroup>
+}
 
 TextGroup.propTypes = {
   nowrap: PropTypes.bool.isRequired,
   inline: PropTypes.bool.isRequired
-};
+}
 
 TextGroup.defaultProps = {
   nowrap: false,
   inline: false
-};
+}
 
-export default TextGroup;
+export default TextGroup

@@ -1,15 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
 
-import { FormattedMessage } from "react-intl";
-import {
-  Icon,
-  SkeletonCircle,
-  Text,
-  Tooltip
-} from "blockchain-info-components";
-import SwitchableDisplay from "components/Display/SwitchableDisplay";
+import { FormattedMessage } from "react-intl"
+import { Icon, SkeletonCircle, Text, Tooltip } from "blockchain-info-components"
+import SwitchableDisplay from "components/Display/SwitchableDisplay"
 
 const Container = styled.div`
   position: relative;
@@ -21,7 +16,7 @@ const Container = styled.div`
   margin: 0 20px;
   border-left: 1px solid ${props => props.theme["gray-2"]};
   border-bottom: 1px solid ${props => props.theme["gray-2"]};
-`;
+`
 const Circle = styled.div`
   position: absolute;
   left: -16px;
@@ -35,7 +30,7 @@ const Circle = styled.div`
   border-radius: 100%;
   text-align: center;
   z-index: 7;
-`;
+`
 const Info = styled.div`
   display: flex;
   justify-content: center;
@@ -60,7 +55,7 @@ const Info = styled.div`
       justify-content: flex-end;
     }
   }
-`;
+`
 
 const RecentActivityText = styled(Text)`
   font-size: 12px;
@@ -68,7 +63,7 @@ const RecentActivityText = styled(Text)`
   @media (min-width: 480px) {
     font-size: 14px;
   }
-`;
+`
 
 const WatchOnly = styled.span`
   z-index: 11;
@@ -80,29 +75,29 @@ const WatchOnly = styled.span`
       padding: 2px 4px;
     }
   }
-`;
+`
 
 const selectIcon = type => {
   switch (type) {
     case "log":
-      return "settings";
+      return "settings"
     default:
-      return "transactions";
+      return "transactions"
   }
-};
+}
 
 const selectColor = action => {
   switch (action) {
     case "sent":
-      return "sent";
+      return "sent"
     case "received":
-      return "received";
+      return "received"
     case "transferred":
-      return "transferred";
+      return "transferred"
     default:
-      return "gray-5";
+      return "gray-5"
   }
-};
+}
 
 const ActivityListItem = props => (
   <Container>
@@ -142,7 +137,7 @@ const ActivityListItem = props => (
       )}
     </Info>
   </Container>
-);
+)
 
 ActivityListItem.propTypes = {
   type: PropTypes.string,
@@ -153,10 +148,10 @@ ActivityListItem.propTypes = {
   amount: PropTypes.number,
   coin: PropTypes.string,
   action: PropTypes.string
-};
+}
 
 ActivityListItem.defaultProps = {
   type: "log"
-};
+}
 
-export default ActivityListItem;
+export default ActivityListItem

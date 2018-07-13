@@ -1,17 +1,17 @@
-import React, { Component, Fragment } from "react";
-import styled from "styled-components";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { actions } from "data";
-import { equals, path, prop } from "ramda";
-import { Button, Text, Tooltip } from "blockchain-info-components";
-import { FormattedMessage } from "react-intl";
+import React, { Component, Fragment } from "react"
+import styled from "styled-components"
+import { connect } from "react-redux"
+import { bindActionCreators } from "redux"
+import { actions } from "data"
+import { equals, path, prop } from "ramda"
+import { Button, Text, Tooltip } from "blockchain-info-components"
+import { FormattedMessage } from "react-intl"
 
-import Helper from "components/BuySell/FAQ";
-import CountdownTimer from "components/Form/CountdownTimer";
-import * as Currency from "blockchain-wallet-v4/src/exchange/currency";
-import media from "services/ResponsiveService";
-import { getData } from "./selectors";
+import Helper from "components/BuySell/FAQ"
+import CountdownTimer from "components/Form/CountdownTimer"
+import * as Currency from "blockchain-wallet-v4/src/exchange/currency"
+import media from "services/ResponsiveService"
+import { getData } from "./selectors"
 
 const ISXContainer = styled.div`
   display: flex;
@@ -19,7 +19,7 @@ const ISXContainer = styled.div`
   ${media.mobile`
     flex-direction: column;
   `};
-`;
+`
 const ButtonContainer = styled.div`
   margin-left: 5%;
   width: 20%;
@@ -28,13 +28,13 @@ const ButtonContainer = styled.div`
     margin-left: 0%;
     margin-top: 20px;
   `};
-`;
+`
 const TimerContainer = styled.div`
   width: 66%;
   padding-bottom: 5px;
   display: flex;
   justify-content: flex-end;
-`;
+`
 const QuoteExpiredText = styled(Text)`
   span {
     margin-right: 5px;
@@ -42,18 +42,18 @@ const QuoteExpiredText = styled(Text)`
   span:first-of-type {
     font-style: italic;
   }
-`;
+`
 const IframeWrapper = styled.div`
   width: 65%;
   ${media.mobile`
     width: 100%;
   `};
-`;
+`
 const ISignThisIframe = styled.iframe`
   width: 100%;
   height: 400px;
   border: ${props => `1px solid ${props.theme["gray-1"]}`};
-`;
+`
 
 const kycHelper = [
   {
@@ -70,7 +70,7 @@ const kycHelper = [
       />
     )
   }
-];
+]
 const tradeHelper = [
   {
     question: (
@@ -86,199 +86,196 @@ const tradeHelper = [
       />
     )
   }
-];
+]
 const getExpiredBtcValues = q =>
-  q.quoteCurrency === "BTC"
-    ? `${q.quoteAmount / 1e8}`
-    : `${q.baseAmount / 1e8}`;
+  q.quoteCurrency === "BTC" ? `${q.quoteAmount / 1e8}` : `${q.baseAmount / 1e8}`
 const getExpiredFiatValues = q =>
   q.baseCurrency !== "BTC"
     ? `${Currency.formatFiat(Math.abs(q.baseAmount))} ${q.baseCurrency}`
-    : `${Currency.formatFiat(Math.abs(q.quoteAmount))} ${q.quoteCurrency}`;
+    : `${Currency.formatFiat(Math.abs(q.quoteAmount))} ${q.quoteCurrency}`
 const kycFaqHelper = () =>
   kycHelper.map((el, i) => (
     <Helper key={i} question={el.question} answer={el.answer} />
-  ));
+  ))
 const tradeFaqHelper = () =>
   tradeHelper.map((el, i) => (
     <Helper key={i} question={el.question} answer={el.answer} />
-  ));
+  ))
 
 class ISignThisContainer extends Component {
   constructor(props) {
-    super(props);
-    this.state = { quoteExpired: false };
-    this.onQuoteExpiration = this.onQuoteExpiration.bind(this);
+    super(props)
+    this.state = { quoteExpired: false }
+    this.onQuoteExpiration = this.onQuoteExpiration.bind(this)
   }
   componentDidMount() {
-    window.addEventListener("message", function(e) {});
+    window.addEventListener("message", function(e) {})
 
     const onComplete = e => {
-      this.props.coinifyActions.fromISX(e);
-    };
+      this.props.coinifyActions.fromISX(e)
+    }
 
-    var e = document.getElementById("isx-iframe");
+    var e = document.getElementById("isx-iframe")
     const iSignThisDomain = path(
       ["platforms", "web", "coinify", "config", "iSignThisDomain"],
       this.props.walletOptions.data
-    );
+    )
 
     var _isx = {
       transactionId: "",
       version: "1.0.0",
       configOptions: null
-    };
+    }
 
     _isx.applyContainerStyles = function(c) {
-      c.style["width"] = "100%";
+      c.style["width"] = "100%"
       if (this.configOptions.height) {
-        c.style["height"] = this.configOptions.height;
+        c.style["height"] = this.configOptions.height
       } else {
-        c.style["height"] = "700px";
+        c.style["height"] = "700px"
       }
-      c.style["overflow"] = "hidden";
-    };
+      c.style["overflow"] = "hidden"
+    }
 
     _isx.setup = function(setup) {
-      this.transactionId = setup.transaction_id;
-      this.configOptions = setup;
+      this.transactionId = setup.transaction_id
+      this.configOptions = setup
 
-      return this;
-    };
+      return this
+    }
 
     _isx.done = function(_completeListener) {
-      this.completeListener = _completeListener;
-      return this;
-    };
+      this.completeListener = _completeListener
+      return this
+    }
 
     _isx.fail = function(_errorListener) {
-      this.errorListener = _errorListener;
-      return this;
-    };
+      this.errorListener = _errorListener
+      return this
+    }
 
     _isx.route = function(_routeListener) {
-      this.routeListener = _routeListener;
-      return this;
-    };
+      this.routeListener = _routeListener
+      return this
+    }
 
     _isx.resized = function(_resizeListener) {
-      this.resizeListener = _resizeListener;
-      return this;
-    };
+      this.resizeListener = _resizeListener
+      return this
+    }
 
     _isx.publish = function() {
-      this.iframe = e;
+      this.iframe = e
       // Create IE + others compatible event handler
       let eventMethod = window.addEventListener
         ? "addEventListener"
-        : "attachEvent";
-      let eventer = window[eventMethod];
-      let messageEvent =
-        eventMethod === "attachEvent" ? "onmessage" : "message";
-      let self = this;
+        : "attachEvent"
+      let eventer = window[eventMethod]
+      let messageEvent = eventMethod === "attachEvent" ? "onmessage" : "message"
+      let self = this
       // Listen to message from child window
       eventer(
         messageEvent,
         function(e) {
           // Check for the domain who sent the messageEvent
-          let origin = e.origin || e.originalEvent.origin;
+          let origin = e.origin || e.originalEvent.origin
           if (origin !== iSignThisDomain) {
             // Event not generated from ISX, simply return
-            return;
+            return
           }
 
-          let frame = document.getElementById("isx-iframe");
+          let frame = document.getElementById("isx-iframe")
           if (e.source !== prop("contentWindow", frame)) {
             // Source of message isn't from the iframe
-            return;
+            return
           }
 
           try {
-            let d = JSON.parse(e.data.split("[ISX-Embed]")[1]);
+            let d = JSON.parse(e.data.split("[ISX-Embed]")[1])
 
             if (d.event.toLowerCase() === "complete") {
               if (self.completeListener) {
-                self.completeListener(d);
+                self.completeListener(d)
               }
             } else if (d.event.toLowerCase() === "route") {
               if (self.routeListener) {
-                self.routeListener(d);
+                self.routeListener(d)
               }
             } else if (d.event.toLowerCase() === "error") {
               if (self.errorListener) {
-                self.errorListener(d);
+                self.errorListener(d)
               }
             } else if (d.event.toLowerCase() === "resized") {
               if (self.resizeListener) {
-                self.resizeListener(d);
+                self.resizeListener(d)
               }
             }
           } catch (err) {}
         },
         false
-      );
+      )
 
-      return this;
-    };
+      return this
+    }
     var widget = {
       transaction_id: this.props.iSignThisId,
       container_id: "isx-iframe"
-    };
+    }
 
     var setState = state => {
       // console.log('V4 ISX_COMPONENT: setState', state)
       switch (state) {
         case "SUCCESS":
-          onComplete("processing");
-          break;
+          onComplete("processing")
+          break
         case "CANCELLED":
-          onComplete("cancelled");
-          break;
+          onComplete("cancelled")
+          break
         case "EXPIRED":
-          onComplete("expired");
-          break;
+          onComplete("expired")
+          break
         case "DECLINED":
         case "FAILED":
         case "REJECTED":
-          onComplete("rejected");
-          break;
+          onComplete("rejected")
+          break
         case "PENDING":
-          onComplete("reviewing");
-          break;
+          onComplete("reviewing")
+          break
       }
-    };
+    }
 
     _isx
       .setup(widget)
       .done(function(e) {
-        setState(e.state);
+        setState(e.state)
       })
       .fail(function(e) {})
       .resized(function(e) {})
       .route(function(e) {})
-      .publish();
+      .publish()
   }
 
   onQuoteExpiration() {
-    this.setState({ quoteExpired: true });
+    this.setState({ quoteExpired: true })
   }
 
   render() {
-    const { options, iSignThisId, coinifyActions, trade, quoteR } = this.props;
-    const walletOpts = options || this.props.walletOptions.data;
+    const { options, iSignThisId, coinifyActions, trade, quoteR } = this.props
+    const walletOpts = options || this.props.walletOptions.data
     const iSignThisDomain = path(
       ["platforms", "web", "coinify", "config", "iSignThisDomain"],
       walletOpts
-    );
-    const srcUrl = `${iSignThisDomain}/landing/${iSignThisId}?embed=true`;
-    const isxType = path(["data", "constructor", "name"], trade);
+    )
+    const srcUrl = `${iSignThisDomain}/landing/${iSignThisId}?embed=true`
+    const isxType = path(["data", "constructor", "name"], trade)
 
     return (
       <Fragment>
         <TimerContainer>
           {quoteR
             .map(q => {
-              if (isxType && isxType !== "Trade") return null;
+              if (isxType && isxType !== "Trade") return null
               if (this.state.quoteExpired) {
                 return (
                   <Fragment>
@@ -301,7 +298,7 @@ class ISignThisContainer extends Component {
                       />
                     </Tooltip>
                   </Fragment>
-                );
+                )
               } else {
                 return (
                   <CountdownTimer
@@ -312,7 +309,7 @@ class ISignThisContainer extends Component {
                     tooltipExpiryTime="15 minutes"
                     hideTooltip
                   />
-                );
+                )
               }
             })
             .getOrElse(null)}
@@ -350,19 +347,19 @@ class ISignThisContainer extends Component {
           </ButtonContainer>
         </ISXContainer>
       </Fragment>
-    );
+    )
   }
 }
 
-const mapStateToProps = state => getData(state);
+const mapStateToProps = state => getData(state)
 
 const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch),
   coinifyDataActions: bindActionCreators(actions.core.data.coinify, dispatch),
   coinifyActions: bindActionCreators(actions.modules.coinify, dispatch)
-});
+})
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ISignThisContainer);
+)(ISignThisContainer)

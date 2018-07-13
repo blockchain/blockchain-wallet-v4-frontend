@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 
 import {
   Button,
@@ -12,17 +12,17 @@ import {
   ModalFooter,
   TextGroup,
   Text
-} from "blockchain-info-components";
+} from "blockchain-info-components"
 
 const TitleGroup = styled(TextGroup)`
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-`;
+`
 
 const DeleteAdressLabel = props => {
-  const { onDeleteConfirm, close } = props;
+  const { onDeleteConfirm, close } = props
 
   return (
     <Modal size="large">
@@ -58,7 +58,7 @@ const DeleteAdressLabel = props => {
           type="submit"
           nature="primary"
           onClick={() => {
-            onDeleteConfirm();
+            onDeleteConfirm()
           }}
           style={{ marginLeft: "20px" }}
         >
@@ -69,7 +69,7 @@ const DeleteAdressLabel = props => {
         </Button>
       </ModalFooter>
     </Modal>
-  );
-};
+  )
+}
 
-export default DeleteAdressLabel;
+export default DeleteAdressLabel

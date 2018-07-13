@@ -11,11 +11,11 @@ import {
   reduce,
   sort,
   unapply
-} from "ramda";
-import moment from "moment";
-import { selectors } from "data";
-import { Remote } from "blockchain-wallet-v4/src";
-import { createDeepEqualSelector } from "services/ReselectHelper";
+} from "ramda"
+import moment from "moment"
+import { selectors } from "data"
+import { Remote } from "blockchain-wallet-v4/src"
+import { createDeepEqualSelector } from "services/ReselectHelper"
 
 export const transform = curry((coin, transaction) => ({
   type: "transaction",
@@ -26,9 +26,9 @@ export const transform = curry((coin, transaction) => ({
   amount: transaction.amount,
   action: transaction.type,
   coin: coin
-}));
+}))
 
-export const getNumber = () => 8;
+export const getNumber = () => 8
 
 export const getLogs = createDeepEqualSelector(
   [
@@ -38,7 +38,7 @@ export const getLogs = createDeepEqualSelector(
   ],
   (level, logs, number) =>
     level.getOrElse(false) ? logs.map(take(number)) : Remote.of([])
-);
+)
 
 export const getBtcTransactions = createDeepEqualSelector(
   [selectors.core.common.btc.getWalletTransactions, getNumber],
@@ -51,7 +51,7 @@ export const getBtcTransactions = createDeepEqualSelector(
           )
         )
       : Remote.of([])
-);
+)
 
 export const getBchTransactions = createDeepEqualSelector(
   [selectors.core.common.bch.getWalletTransactions, getNumber],
@@ -64,7 +64,7 @@ export const getBchTransactions = createDeepEqualSelector(
           )
         )
       : Remote.of([])
-);
+)
 
 export const getEthTransactions = createDeepEqualSelector(
   [selectors.core.common.eth.getWalletTransactions, getNumber],
@@ -77,9 +77,9 @@ export const getEthTransactions = createDeepEqualSelector(
           )
         )
       : Remote.of([])
-);
+)
 
-export const concatAll = unapply(reduce(concat, []));
+export const concatAll = unapply(reduce(concat, []))
 
 export const getData = createDeepEqualSelector(
   [
@@ -91,14 +91,14 @@ export const getData = createDeepEqualSelector(
   ],
   (logs, btc, bch, eth, number) => {
     const transform = (logs, btc, bch, eth) => {
-      const allActivities = concatAll(logs, btc, bch, eth);
-      const filterByTime = sort(descend(prop("time")));
-      const take8 = take(8);
+      const allActivities = concatAll(logs, btc, bch, eth)
+      const filterByTime = sort(descend(prop("time")))
+      const take8 = take(8)
       return compose(
         take8,
         filterByTime
-      )(allActivities);
-    };
-    return lift(transform)(logs, btc, bch, eth);
+      )(allActivities)
+    }
+    return lift(transform)(logs, btc, bch, eth)
   }
-);
+)

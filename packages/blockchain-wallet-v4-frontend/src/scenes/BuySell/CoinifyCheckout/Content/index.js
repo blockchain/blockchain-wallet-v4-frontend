@@ -1,20 +1,20 @@
-import React from "react";
-import Buy from "./Buy";
-import Sell from "./Sell";
-import OrderHistory from "./OrderHistory";
+import React from "react"
+import Buy from "./Buy"
+import Sell from "./Sell"
+import OrderHistory from "./OrderHistory"
 
 class Checkout extends React.Component {
   render() {
-    const { type } = this.props;
+    const { type } = this.props
     switch (type) {
       case "buy":
-        return <Buy />;
+        return <Buy />
       case "sell":
-        return <Sell />;
+        return <Sell />
       default:
-        return <OrderHistory />;
+        return <OrderHistory />
     }
   }
 }
 
-export default Checkout;
+export default Checkout

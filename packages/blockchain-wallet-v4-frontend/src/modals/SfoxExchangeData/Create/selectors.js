@@ -1,11 +1,11 @@
-import PhoneNumber from "awesome-phonenumber";
-import { lift } from "ramda";
+import PhoneNumber from "awesome-phonenumber"
+import { lift } from "ramda"
 
-import { selectors } from "data";
-import { createDeepEqualSelector } from "services/ReselectHelper";
+import { selectors } from "data"
+import { createDeepEqualSelector } from "services/ReselectHelper"
 
 const getCountryCode = (defaultCode, currentNumber) =>
-  currentNumber ? PhoneNumber(currentNumber).getRegionCode() : defaultCode;
+  currentNumber ? PhoneNumber(currentNumber).getRegionCode() : defaultCode
 
 export const getData = state =>
   createDeepEqualSelector(
@@ -16,4 +16,4 @@ export const getData = state =>
     (currentNumber, defaultCode) => ({
       countryCode: lift(getCountryCode)(defaultCode, currentNumber)
     })
-  )(state);
+  )(state)

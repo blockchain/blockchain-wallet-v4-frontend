@@ -1,10 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { toString } from "ramda";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { toString } from "ramda"
 
-import { Icon, Link, Text, Tooltip } from "blockchain-info-components";
+import { Icon, Link, Text, Tooltip } from "blockchain-info-components"
 
 const Wrapper = styled.div`
   display: flex;
@@ -14,18 +14,18 @@ const Wrapper = styled.div`
   @media (min-width: 480px) {
     flex-direction: row;
   }
-`;
+`
 const ConfirmationsText = styled(Text)`
   * {
     white-space: nowrap;
   }
-`;
+`
 
 const TransactionTooltip = styled.div`
   position: relative;
   display: flex;
   justify-items: flex-start;
-`;
+`
 const IconWrapper = styled.div`
   display: flex;
   justify-items: center;
@@ -33,13 +33,13 @@ const IconWrapper = styled.div`
   & > :last-child {
     display: inline;
   }
-`;
+`
 
 const explorers = {
   BTC: "https://blockchain.info/tx",
   ETH: "https://etherscan.io/tx",
   BCH: "https://blockchair.com/bitcoin-cash/transaction"
-};
+}
 
 const Confirmations = props => {
   return (
@@ -94,12 +94,12 @@ const Confirmations = props => {
         </Link>
       </IconWrapper>
     </Wrapper>
-  );
-};
+  )
+}
 Confirmations.propTypes = {
   confirmations: PropTypes.number.isRequired,
   hash: PropTypes.string.isRequired,
   minConfirmations: PropTypes.number.isRequired
-};
+}
 
-export default Confirmations;
+export default Confirmations

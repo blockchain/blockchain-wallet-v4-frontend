@@ -1,9 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { transparentize, darken } from "polished";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { transparentize, darken } from "polished"
 
-import { Icon } from "../Icons";
+import { Icon } from "../Icons"
 
 const Wrapper = styled.div`
   height: 65px;
@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   @media (min-width: 768px) {
     width: 500px;
   }
-`;
+`
 const Container = styled.div`
   position: relative;
   display: flex;
@@ -34,7 +34,7 @@ const Container = styled.div`
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-`;
+`
 const Content = styled.div`
   display: flex;
   flex-direction: column;
@@ -53,29 +53,29 @@ const Content = styled.div`
       display: none;
     }
   }
-`;
+`
 const Close = styled(Icon)`
   &:hover {
     color: ${props => darken(0.2, props.theme[props.color])}!important;
   }
-`;
+`
 
 const selectColor = type => {
   switch (type) {
     case "success":
-      return "success";
+      return "success"
     case "error":
-      return "error";
+      return "error"
     case "info":
-      return "brand-secondary";
+      return "brand-secondary"
     default:
-      return "brand-secondary";
+      return "brand-secondary"
   }
-};
+}
 
 const Toast = props => {
-  const { nature, onClose, children } = props;
-  const color = selectColor(nature);
+  const { nature, onClose, children } = props
+  const color = selectColor(nature)
 
   return (
     <Wrapper>
@@ -91,17 +91,17 @@ const Toast = props => {
         />
       </Container>
     </Wrapper>
-  );
-};
+  )
+}
 
 Toast.propTypes = {
   nature: PropTypes.oneOf(["success", "error", "info"]),
   onClose: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired
-};
+}
 
 Toast.defaultProps = {
   nature: "info"
-};
+}
 
-export default Toast;
+export default Toast

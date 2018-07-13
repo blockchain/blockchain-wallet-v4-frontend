@@ -1,18 +1,18 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from "react"
+import PropTypes from "prop-types"
 
-import AcceptTerms from "./AcceptTerms";
-import VerifyEmail from "./VerifyEmail";
-import { Row } from "components/BuySell/Signup";
+import AcceptTerms from "./AcceptTerms"
+import VerifyEmail from "./VerifyEmail"
+import { Row } from "components/BuySell/Signup"
 
 const Create = props => {
-  const { handleSignup, oldEmail, signupError, ui, updateUI, country } = props;
+  const { handleSignup, oldEmail, signupError, ui, updateUI, country } = props
 
   const determineStep = () => {
     if (ui.create === "change_email" || ui.create === "enter_email_code")
-      return "email";
-    return "terms";
-  };
+      return "email"
+    return "terms"
+  }
 
   return (
     <Row>
@@ -28,12 +28,12 @@ const Create = props => {
         />
       )}
     </Row>
-  );
-};
+  )
+}
 
 Create.propTypes = {
   handleSignup: PropTypes.func.isRequired,
   smsNumber: PropTypes.string
-};
+}
 
-export default Create;
+export default Create

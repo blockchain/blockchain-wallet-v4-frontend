@@ -1,6 +1,6 @@
-import React from "react";
-import { FormattedMessage } from "react-intl";
-import { Text, Button } from "blockchain-info-components";
+import React from "react"
+import { FormattedMessage } from "react-intl"
+import { Text, Button } from "blockchain-info-components"
 
 import {
   SecurityComponent,
@@ -11,24 +11,24 @@ import {
   SecuritySummary,
   SecurityTip,
   IconContainer
-} from "components/Security";
-import RecordBackupPhrase from "./RecordBackupPhrase";
-import styled from "styled-components";
+} from "components/Security"
+import RecordBackupPhrase from "./RecordBackupPhrase"
+import styled from "styled-components"
 
 const SecurityGridContainer = SecurityContainer.extend`
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
   grid-template-columns: 85% 15%;
-`;
+`
 const SecurityTipContainer = SecurityTip.extend`
   width: auto;
-`;
+`
 const IconAndHeaderContainer = styled.div`
   display: grid;
   @media (min-width: 480px) {
     grid-template-columns: 15% 85%;
   }
-`;
+`
 const BackupButton = styled(Button)`
   width: 100px;
   font-size: 12px;
@@ -46,16 +46,16 @@ const BackupButton = styled(Button)`
     min-width: 0px;
     font-size: 14px;
   }
-`;
+`
 
 const WalletRecoveryPhrase = props => {
-  const { ui, recoveryPhrase, changeDescription, data, alone } = props;
-  const { isMnemonicVerified } = data;
+  const { ui, recoveryPhrase, changeDescription, data, alone } = props
+  const { isMnemonicVerified } = data
 
   const buttonHelper = () => {
     const securityComponent = components => (
       <SecurityComponent>{components}</SecurityComponent>
-    );
+    )
     if (!ui.nextStepToggled) {
       if (!alone && isMnemonicVerified) {
         const againBtn = (
@@ -65,8 +65,8 @@ const WalletRecoveryPhrase = props => {
               defaultMessage="Backup Again"
             />
           </BackupButton>
-        );
-        return securityComponent(againBtn);
+        )
+        return securityComponent(againBtn)
       } else if (!alone) {
         const backupBtn = (
           <BackupButton nature="primary" onClick={props.toggleNextStep}>
@@ -75,11 +75,11 @@ const WalletRecoveryPhrase = props => {
               defaultMessage="Backup Funds"
             />
           </BackupButton>
-        );
-        return securityComponent(backupBtn);
+        )
+        return securityComponent(backupBtn)
       }
     }
-  };
+  }
 
   return (
     <React.Fragment>
@@ -156,7 +156,7 @@ const WalletRecoveryPhrase = props => {
         </SecurityTipContainer>
       ) : null}
     </React.Fragment>
-  );
-};
+  )
+}
 
-export default WalletRecoveryPhrase;
+export default WalletRecoveryPhrase

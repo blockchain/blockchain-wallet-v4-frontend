@@ -1,10 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import CopyToClipBoard from "react-copy-to-clipboard";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import CopyToClipBoard from "react-copy-to-clipboard"
 
-import { Button } from "blockchain-info-components";
+import { Button } from "blockchain-info-components"
 
 const Wrapper = styled.div`
   position: relative;
@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   flex-direction: row;
   align-items: center;
   width: 100%;
-`;
+`
 const AddressBox = styled.span`
   display: block;
   width: 100%;
@@ -28,16 +28,16 @@ const AddressBox = styled.span`
   color: ${props => props.theme["gray-5"]};
   font-family: "Montserrat", Helvetica, sans-serif;
   background-color: ${props => props.theme["gray-1"]};
-`;
+`
 const CopyButton = styled(Button)`
   width: 160px;
   min-width: 0;
   height: 100%;
   border-radius: 0;
-`;
+`
 
 const CopyClipboard = props => {
-  const { active, address, handleClick } = props;
+  const { active, address, handleClick } = props
 
   return (
     <Wrapper>
@@ -58,13 +58,13 @@ const CopyClipboard = props => {
         </CopyButton>
       </CopyToClipBoard>
     </Wrapper>
-  );
-};
+  )
+}
 
 CopyClipboard.propTypes = {
   active: PropTypes.bool.isRequired,
   address: PropTypes.string.isRequired,
   handleClick: PropTypes.func.isRequired
-};
+}
 
-export default CopyClipboard;
+export default CopyClipboard

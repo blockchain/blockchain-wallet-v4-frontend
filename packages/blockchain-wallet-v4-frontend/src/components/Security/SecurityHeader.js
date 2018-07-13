@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 const SecurityHeader = styled.div`
   display: flex;
@@ -16,6 +16,6 @@ const SecurityHeader = styled.div`
   & > * {
     margin-right: 10px;
   }
-`;
+`
 
-export default SecurityHeader;
+export default SecurityHeader

@@ -1,9 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
 
-import Button from "./Button";
-import { Icon } from "../Icons";
+import Button from "./Button"
+import { Icon } from "../Icons"
 
 const BaseIconButton = styled(Button)`
   width: auto;
@@ -12,53 +12,53 @@ const BaseIconButton = styled(Button)`
   & > :first-child {
     margin-right: 5px;
   }
-`;
+`
 
 const selectColor = (nature, disabled) => {
   if (disabled) {
-    return "white";
+    return "white"
   }
 
   switch (nature) {
     case "empty":
-      return "gray-6";
+      return "gray-6"
     case "primary":
-      return "white";
+      return "white"
     case "secondary":
-      return "white";
+      return "white"
     case "copy":
-      return "white";
+      return "white"
     case "received":
-      return "white";
+      return "white"
     case "sent":
-      return "white";
+      return "white"
     case "transferred":
-      return "white";
+      return "white"
     case "logout":
-      return "white";
+      return "white"
     case "dark":
-      return "white";
+      return "white"
     default:
-      return "gray-6";
+      return "gray-6"
   }
-};
+}
 
 const IconButton = props => {
-  const { name, children, ...rest } = props;
-  const color = selectColor(props.nature);
+  const { name, children, ...rest } = props
+  const color = selectColor(props.nature)
 
   return (
     <BaseIconButton {...rest}>
       <Icon name={name} color={color} />
       {children}
     </BaseIconButton>
-  );
-};
+  )
+}
 
 PropTypes.propTypes = {
   name: PropTypes.string.isRequired,
   min: PropTypes.string,
   max: PropTypes.string
-};
+}
 
-export default IconButton;
+export default IconButton

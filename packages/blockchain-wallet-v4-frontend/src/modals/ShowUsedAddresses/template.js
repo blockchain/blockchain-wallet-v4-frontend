@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 
-import { spacing } from "services/StyleService";
+import { spacing } from "services/StyleService"
 import {
   Button,
   HeartbeatLoader,
@@ -12,7 +12,7 @@ import {
   ModalBody,
   ModalFooter,
   Text
-} from "blockchain-info-components";
+} from "blockchain-info-components"
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -20,16 +20,16 @@ const HeaderWrapper = styled.div`
   .warning-icon {
     margin-right: 6px;
   }
-`;
+`
 const CancelBtn = styled(Text)`
   &:hover {
     cursor: pointer;
   }
-`;
+`
 
 const ShowUsedAddresses = props => {
-  const { busy, position, total, close, ...rest } = props;
-  const { handleContinue } = rest;
+  const { busy, position, total, close, ...rest } = props
+  const { handleContinue } = rest
 
   return (
     <Modal size="large" position={position} total={total}>
@@ -85,7 +85,7 @@ const ShowUsedAddresses = props => {
         </Button>
       </ModalFooter>
     </Modal>
-  );
-};
+  )
+}
 
-export default ShowUsedAddresses;
+export default ShowUsedAddresses

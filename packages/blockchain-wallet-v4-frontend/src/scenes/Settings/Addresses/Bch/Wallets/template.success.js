@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { filter, take } from "ramda";
-import SwitchableDisplay from "components/Display/SwitchableDisplay";
-import { SettingDescription, SettingHeader } from "components/Setting";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { filter, take } from "ramda"
+import SwitchableDisplay from "components/Display/SwitchableDisplay"
+import { SettingDescription, SettingHeader } from "components/Setting"
 import {
   Banner,
   ComponentDropdown,
@@ -13,15 +13,15 @@ import {
   TableCell,
   TableRow,
   Text
-} from "blockchain-info-components";
-import media from "services/ResponsiveService";
+} from "blockchain-info-components"
+import media from "services/ResponsiveService"
 
 const Wrapper = styled.section`
   box-sizing: border-box;
-`;
+`
 const BchWalletsAddressesSettingHeader = SettingHeader.extend`
   justify-content: flex-start;
-`;
+`
 const WalletTableCell = styled(TableCell)`
   display: flex;
   flex-direction: row;
@@ -32,13 +32,13 @@ const WalletTableCell = styled(TableCell)`
     flex-direction: column;
     align-items: flex-start;
   `};
-`;
+`
 const ClickableText = styled(Text)`
   cursor: pointer;
-`;
+`
 const LabelCell = styled(Text)`
   margin-right: 6px;
-`;
+`
 
 const Manage = () => (
   <Link weight={200} size="small">
@@ -47,27 +47,27 @@ const Manage = () => (
       defaultMessage="Manage Wallet"
     />
   </Link>
-);
+)
 
 const Success = props => {
-  const { bchAccounts, wallets, defaultIndex } = props.data;
+  const { bchAccounts, wallets, defaultIndex } = props.data
   const {
     onEditBchAccountLabel,
     onMakeDefault,
     onSetArchived,
     onShowXPub,
     search
-  } = props;
+  } = props
 
   const isMatch = wallet =>
-    !search || wallet.label.toLowerCase().indexOf(search) > -1;
+    !search || wallet.label.toLowerCase().indexOf(search) > -1
 
   const walletTableRows = filter(
     isMatch,
     take(bchAccounts.length, wallets)
   ).map((wallet, i) => {
-    const isDefault = i === defaultIndex;
-    const isArchived = bchAccounts[i].archived;
+    const isDefault = i === defaultIndex
+    const isArchived = bchAccounts[i].archived
 
     return (
       <TableRow key={i}>
@@ -165,8 +165,8 @@ const Success = props => {
           />
         </TableCell>
       </TableRow>
-    );
-  });
+    )
+  })
 
   return (
     <Wrapper>
@@ -215,7 +215,7 @@ const Success = props => {
         {walletTableRows}
       </Table>
     </Wrapper>
-  );
-};
+  )
+}
 
-export default Success;
+export default Success

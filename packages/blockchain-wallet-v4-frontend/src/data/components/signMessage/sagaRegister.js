@@ -1,11 +1,11 @@
-import { takeLatest } from "redux-saga/effects";
-import * as AT from "./actionTypes";
-import sagas from "./sagas";
+import { takeLatest } from "redux-saga/effects"
+import * as AT from "./actionTypes"
+import sagas from "./sagas"
 
 export default ({ coreSagas }) => {
-  const signMessageSagas = sagas({ coreSagas });
+  const signMessageSagas = sagas({ coreSagas })
 
   return function*() {
-    yield takeLatest(AT.SIGN_MESSAGE_SUBMITTED, signMessageSagas.signMessage);
-  };
-};
+    yield takeLatest(AT.SIGN_MESSAGE_SUBMITTED, signMessageSagas.signMessage)
+  }
+}

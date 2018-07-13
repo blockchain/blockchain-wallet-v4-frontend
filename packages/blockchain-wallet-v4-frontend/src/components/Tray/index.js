@@ -1,21 +1,21 @@
-import React from "react";
-import styled from "styled-components";
-import { Modal } from "blockchain-info-components";
-import Transition from "react-transition-group/Transition";
-import media from "services/ResponsiveService";
+import React from "react"
+import styled from "styled-components"
+import { Modal } from "blockchain-info-components"
+import Transition from "react-transition-group/Transition"
+import media from "services/ResponsiveService"
 
 // TODO: refactor to not use react-transition-group. then remove that dependency all together
-const duration = 500;
+const duration = 500
 
 const defaultStyle = {
   transition: `top ${duration}ms`,
   top: "100%"
-};
+}
 
 const transitionStyles = {
   entering: { top: "100%" },
   entered: { top: "0px" }
-};
+}
 
 const TrayModal = styled(Modal)`
   left: 0px;
@@ -54,16 +54,16 @@ const TrayModal = styled(Modal)`
     width: 100%;
     left: 0px;
   `};
-`;
+`
 
 class Tray extends React.PureComponent {
   handleClickOutside() {
-    this.props.onClose();
+    this.props.onClose()
     // TODO: may need to check something about the modal stack here
   }
 
   render() {
-    const { children, ...rest } = this.props;
+    const { children, ...rest } = this.props
     return (
       <Transition in={this.props.in} timeout={0}>
         {status => (
@@ -76,8 +76,8 @@ class Tray extends React.PureComponent {
           </TrayModal>
         )}
       </Transition>
-    );
+    )
   }
 }
 
-export default Tray;
+export default Tray

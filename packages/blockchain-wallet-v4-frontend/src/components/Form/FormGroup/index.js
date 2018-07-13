@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from "react"
+import styled from "styled-components"
 
 const Wrapper = styled.div`
   width: 100%;
@@ -15,12 +15,12 @@ const Wrapper = styled.div`
   &:last-child {
     margin-bottom: 0px;
   }
-`;
+`
 
 const FormGroup = props => {
-  const { children, ...rest } = props;
+  const { children, ...rest } = props
 
-  return <Wrapper {...rest}>{children}</Wrapper>;
-};
+  return <Wrapper {...rest}>{children}</Wrapper>
+}
 
-export default FormGroup;
+export default FormGroup

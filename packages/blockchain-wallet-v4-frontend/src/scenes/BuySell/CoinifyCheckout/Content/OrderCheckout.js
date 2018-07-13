@@ -1,21 +1,16 @@
-import React, { Fragment } from "react";
-import {
-  Text,
-  Icon,
-  Button,
-  HeartbeatLoader
-} from "blockchain-info-components";
-import { Wrapper as ExchangeCheckoutWrapper } from "../../ExchangeCheckout";
-import { flex, spacing } from "services/StyleService";
-import { FormattedMessage } from "react-intl";
-import { Remote } from "blockchain-wallet-v4/src";
-import { StepTransition } from "components/Utilities/Stepper";
-import QuoteInput from "./QuoteInput";
-import { MethodContainer } from "components/BuySell/styled.js";
+import React, { Fragment } from "react"
+import { Text, Icon, Button, HeartbeatLoader } from "blockchain-info-components"
+import { Wrapper as ExchangeCheckoutWrapper } from "../../ExchangeCheckout"
+import { flex, spacing } from "services/StyleService"
+import { FormattedMessage } from "react-intl"
+import { Remote } from "blockchain-wallet-v4/src"
+import { StepTransition } from "components/Utilities/Stepper"
+import QuoteInput from "./QuoteInput"
+import { MethodContainer } from "components/BuySell/styled.js"
 import {
   checkoutButtonLimitsHelper,
   getRateFromQuote
-} from "services/CoinifyService";
+} from "services/CoinifyService"
 
 const OrderCheckout = ({
   changeTab,
@@ -39,11 +34,11 @@ const OrderCheckout = ({
     method: type, // buy or sell
     input: defaultCurrency,
     output: "btc"
-  };
+  }
   const disableInputs =
     limits.max < limits.min ||
     (reason.indexOf("has_remaining") < 0 && reason) ||
-    limits.effectiveMax < limits.min;
+    limits.effectiveMax < limits.min
   const wantToHelper = () =>
     type === "buy" ? (
       <FormattedMessage
@@ -55,12 +50,12 @@ const OrderCheckout = ({
         id="buy.output_method.title.sell"
         defaultMessage="I want to sell"
       />
-    );
+    )
 
   const limitsHelper = (quoteR, limits) => {
-    if (quoteR.error) return true;
-    return checkoutButtonLimitsHelper(quoteR, limits, type);
-  };
+    if (quoteR.error) return true
+    return checkoutButtonLimitsHelper(quoteR, limits, type)
+  }
 
   const rateHelper = () =>
     quoteR.map(getRateFromQuote).getOrElse(
@@ -71,7 +66,7 @@ const OrderCheckout = ({
         />
         {"..."}
       </Fragment>
-    );
+    )
 
   const submitButtonHelper = () =>
     reason.indexOf("has_remaining") > -1 ? (
@@ -98,7 +93,7 @@ const OrderCheckout = ({
           />
         )}
       </StepTransition>
-    ) : null;
+    ) : null
 
   return (
     <ExchangeCheckoutWrapper>
@@ -151,7 +146,7 @@ const OrderCheckout = ({
       ) : null}
       {submitButtonHelper()}
     </ExchangeCheckoutWrapper>
-  );
-};
+  )
+}
 
-export default OrderCheckout;
+export default OrderCheckout

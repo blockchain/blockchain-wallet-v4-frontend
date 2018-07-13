@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { Button, Image, Text } from "blockchain-info-components";
-import { LinkContainer } from "react-router-bootstrap";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { Button, Image, Text } from "blockchain-info-components"
+import { LinkContainer } from "react-router-bootstrap"
 
 const Wrapper = styled.div`
   display: flex;
@@ -12,14 +12,14 @@ const Wrapper = styled.div`
   &:after {
     border-left: 0 !important;
   }
-`;
+`
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   height: 200px;
-`;
+`
 
 const Empty = props => (
   <Wrapper>
@@ -61,6 +61,6 @@ const Empty = props => (
       )}
     </Container>
   </Wrapper>
-);
+)
 
-export default Empty;
+export default Empty

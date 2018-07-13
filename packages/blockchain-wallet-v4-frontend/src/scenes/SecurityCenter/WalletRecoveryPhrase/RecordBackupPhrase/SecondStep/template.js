@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 
-import { Button, Text } from "blockchain-info-components";
-import { spacing } from "services/StyleService";
+import { Button, Text } from "blockchain-info-components"
+import { spacing } from "services/StyleService"
 
 const Wrapper = styled.div`
   display: flex;
@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   @media (min-width: 992px) {
     width: 118%;
   }
-`;
+`
 const Container = styled.div`
   display: flex;
   flex-direction: row;
@@ -21,7 +21,7 @@ const Container = styled.div`
   align-items: center;
   width: 100%;
   padding: 25px 0;
-`;
+`
 const Word = styled(Text)`
   font-size: 14px;
   padding: 15px;
@@ -29,7 +29,7 @@ const Word = styled(Text)`
   border-radius: 4px;
   width: 100px;
   text-align: center;
-`;
+`
 const Buttons = styled.div`
   display: flex;
   flex-direction: row;
@@ -42,15 +42,15 @@ const Buttons = styled.div`
   @media (max-width: 991px) {
     padding-bottom: 15px;
   }
-`;
+`
 
 const SecondStep = props => {
-  const { nextStep, handleClickPrevious, handleClickNext, step, words } = props;
+  const { nextStep, handleClickPrevious, handleClickNext, step, words } = props
   return (
     <Wrapper>
       <Container>
         {words.map((word, index) => {
-          return <Word key={index}>{word}</Word>;
+          return <Word key={index}>{word}</Word>
         })}
       </Container>
       <Buttons>
@@ -89,7 +89,7 @@ const SecondStep = props => {
         )}
       </Buttons>
     </Wrapper>
-  );
-};
+  )
+}
 
-export default SecondStep;
+export default SecondStep

@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { Field, reduxForm } from "redux-form";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { Field, reduxForm } from "redux-form"
 
-import { isEmpty } from "ramda";
+import { isEmpty } from "ramda"
 import {
   Button,
   HeartbeatLoader,
@@ -12,19 +12,19 @@ import {
   Text,
   TextGroup,
   Tooltip
-} from "blockchain-info-components";
-import { Form, NumberBoxDebounced } from "components/Form";
-import MinimumAmountLink from "./MinimumAmountLink";
-import MaximumAmountLink from "./MaximumAmountLink";
-import SelectBox from "./SelectBox";
+} from "blockchain-info-components"
+import { Form, NumberBoxDebounced } from "components/Form"
+import MinimumAmountLink from "./MinimumAmountLink"
+import MaximumAmountLink from "./MaximumAmountLink"
+import SelectBox from "./SelectBox"
 import {
   AboveRegulationLimitMessage,
   MaximumAmountMessage,
   MinimumAmountMessage,
   InsufficientAmountMessage,
   InvalidAmountMessage
-} from "./validationMessages";
-import media from "services/ResponsiveService";
+} from "./validationMessages"
+import media from "services/ResponsiveService"
 
 const Wrapper = styled.div`
   display: flex;
@@ -40,7 +40,7 @@ const Wrapper = styled.div`
     border: 0px;
     padding: 0;
   `};
-`;
+`
 const Row = styled.div`
   display: flex;
   flex-direction: row;
@@ -49,7 +49,7 @@ const Row = styled.div`
   width: 100%;
   height: ${props => props.height || "auto"};
   margin-bottom: ${props => (props.spaced ? "20px" : "5px")};
-`;
+`
 const Cell = styled.div`
   display: flex;
   flex-direction: column;
@@ -57,7 +57,7 @@ const Cell = styled.div`
   align-items: ${props => (props.size === "small" ? "center" : "flex-start")};
   width: ${props => (props.size === "small" ? "10%" : "45%")};
   height: 100%;
-`;
+`
 const OptionsContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -67,7 +67,7 @@ const OptionsContainer = styled.div`
   & > * {
     margin-right: 2px;
   }
-`;
+`
 const AmountContainer = styled.div`
   position: relative;
   display: flex;
@@ -76,7 +76,7 @@ const AmountContainer = styled.div`
   align-items: center;
   width: 100%;
   ${props => props.hasNoBottomBorder && "& input { border-bottom: none; }"};
-`;
+`
 const CurrencyBox = styled(Text)`
   position: absolute;
   right: 5px;
@@ -92,12 +92,12 @@ const CurrencyBox = styled(Text)`
   transform: uppercase;
   background-color: ${props =>
     props.disabled ? props.theme["gray-1"] : props.theme["white"]};
-`;
+`
 const ShapeshiftIcon = styled(Icon)`
   &:hover {
     color: ${props => props.theme["brand-secondary"]};
   }
-`;
+`
 
 const Success = props => {
   const {
@@ -111,7 +111,7 @@ const Success = props => {
     handleSwap,
     handleSubmit,
     dirty
-  } = props;
+  } = props
 
   return (
     <Wrapper>
@@ -160,7 +160,7 @@ const Success = props => {
               weight={500}
               cursor
               onClick={() => {
-                if (!disabled) handleSwap();
+                if (!disabled) handleSwap()
               }}
             />
           </Cell>
@@ -292,9 +292,7 @@ const Success = props => {
         </Row>
       </Form>
     </Wrapper>
-  );
-};
+  )
+}
 
-export default reduxForm({ form: "exchange", destroyOnUnmount: false })(
-  Success
-);
+export default reduxForm({ form: "exchange", destroyOnUnmount: false })(Success)

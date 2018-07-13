@@ -1,10 +1,10 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { Image, Text, Button } from "blockchain-info-components";
-import PropTypes from "prop-types";
-import media from "services/ResponsiveService";
-import { PartnerHeader } from "components/BuySell/Signup";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { Image, Text, Button } from "blockchain-info-components"
+import PropTypes from "prop-types"
+import media from "services/ResponsiveService"
+import { PartnerHeader } from "components/BuySell/Signup"
 
 const Container = styled.div`
   height: 100%;
@@ -15,7 +15,7 @@ const Container = styled.div`
     flex-direction: column;
     height: 100vh;
   `};
-`;
+`
 const LeftCol = styled.div`
   display: flex;
   flex-direction: column;
@@ -26,7 +26,7 @@ const LeftCol = styled.div`
   ${media.mobile`
     width: 100%;
   `};
-`;
+`
 const RightCol = styled.div`
   width: 40%;
   display: flex;
@@ -34,18 +34,18 @@ const RightCol = styled.div`
   ${media.mobile`
     width: 100%;
   `};
-`;
+`
 const ImageWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-`;
+`
 const DepositsImage = styled(Image)`
   width: 215px;
   ${media.mobile`
     width: 150px;
   `};
-`;
+`
 
 const AwaitingDeposits = ({ showModal }) => {
   return (
@@ -87,11 +87,11 @@ const AwaitingDeposits = ({ showModal }) => {
         </Button>
       </RightCol>
     </Container>
-  );
-};
+  )
+}
 
 AwaitingDeposits.propTypes = {
   showModal: PropTypes.func.isRequired
-};
+}
 
-export default AwaitingDeposits;
+export default AwaitingDeposits

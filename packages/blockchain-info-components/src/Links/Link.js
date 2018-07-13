@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import PropTypes from "prop-types";
-import { Palette } from "../Colors";
-import { keysIn } from "ramda";
+import React from "react"
+import styled from "styled-components"
+import PropTypes from "prop-types"
+import { Palette } from "../Colors"
+import { keysIn } from "ramda"
 
 const BaseLink = styled.a`
   font-family: "Montserrat", sans-serif;
@@ -21,13 +21,13 @@ const BaseLink = styled.a`
   &:focus {
     text-decoration: none;
   }
-`;
+`
 
 const Link = props => {
-  const { children, ...rest } = props;
+  const { children, ...rest } = props
 
-  return <BaseLink {...rest}>{children}</BaseLink>;
-};
+  return <BaseLink {...rest}>{children}</BaseLink>
+}
 
 Link.propTypes = {
   weight: PropTypes.oneOf([100, 200, 300, 400, 500, 600, 700, 800, 900]),
@@ -36,7 +36,7 @@ Link.propTypes = {
   uppercase: PropTypes.bool,
   capitalize: PropTypes.bool,
   bold: PropTypes.bool
-};
+}
 
 Link.defaultProps = {
   weight: 400,
@@ -45,6 +45,6 @@ Link.defaultProps = {
   uppercase: false,
   capitalize: false,
   bold: false
-};
+}
 
-export default Link;
+export default Link

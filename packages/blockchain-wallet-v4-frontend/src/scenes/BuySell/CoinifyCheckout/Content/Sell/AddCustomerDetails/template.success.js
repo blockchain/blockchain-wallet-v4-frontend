@@ -1,12 +1,12 @@
-import React from "react";
-import { reduxForm, Field } from "redux-form";
-import { FormattedMessage } from "react-intl";
-import styled from "styled-components";
-import { Button, Link, Text } from "blockchain-info-components";
+import React from "react"
+import { reduxForm, Field } from "redux-form"
+import { FormattedMessage } from "react-intl"
+import styled from "styled-components"
+import { Button, Link, Text } from "blockchain-info-components"
 
-import { required } from "services/FormHelper";
-import { spacing } from "services/StyleService";
-import { StepTransition } from "components/Utilities/Stepper";
+import { required } from "services/FormHelper"
+import { spacing } from "services/StyleService"
+import { StepTransition } from "components/Utilities/Stepper"
 import {
   BorderBox,
   Form,
@@ -17,25 +17,25 @@ import {
   InputWrapper,
   PartnerHeader,
   PartnerSubHeader
-} from "components/BuySell/Signup";
-import { SelectBoxCountry, TextBox } from "components/Form";
+} from "components/BuySell/Signup"
+import { SelectBoxCountry, TextBox } from "components/Form"
 
 const SpaceRow = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: 55% 35%;
   grid-gap: 10%;
-`;
+`
 const FieldText = styled(Text)`
   padding-bottom: 10px;
   padding-top: 20px;
-`;
+`
 const Col = styled.div`
   width: 100%;
-`;
+`
 
 const AddBankDetails = props => {
-  const { invalid, submitting, onSubmit, medium, account } = props;
+  const { invalid, submitting, onSubmit, medium, account } = props
   return (
     <Form>
       <ColLeft>
@@ -129,10 +129,10 @@ const AddBankDetails = props => {
         </ColRightInner>
       </ColRight>
     </Form>
-  );
-};
+  )
+}
 
 export default reduxForm({
   form: "coinifyAddCustomerDetails",
   destroyOnUnmount: false
-})(AddBankDetails);
+})(AddBankDetails)

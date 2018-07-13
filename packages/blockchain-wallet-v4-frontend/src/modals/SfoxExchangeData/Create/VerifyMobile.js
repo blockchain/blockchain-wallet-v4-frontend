@@ -1,19 +1,19 @@
-import React, { Component } from "react";
-import styled from "styled-components";
-import { connect } from "react-redux";
-import { bindActionCreators, compose } from "redux";
-import { FormattedMessage } from "react-intl";
-import ui from "redux-ui";
-import { actions, selectors } from "data";
-import { formValueSelector, Field } from "redux-form";
+import React, { Component } from "react"
+import styled from "styled-components"
+import { connect } from "react-redux"
+import { bindActionCreators, compose } from "redux"
+import { FormattedMessage } from "react-intl"
+import ui from "redux-ui"
+import { actions, selectors } from "data"
+import { formValueSelector, Field } from "redux-form"
 
-import { PhoneNumberBox, TextBox } from "components/Form";
-import { Text, Button } from "blockchain-info-components";
+import { PhoneNumberBox, TextBox } from "components/Form"
+import { Text, Button } from "blockchain-info-components"
 import {
   required,
   normalizePhone,
   validMobileNumber
-} from "services/FormHelper";
+} from "services/FormHelper"
 import {
   Form,
   ColLeft,
@@ -24,63 +24,63 @@ import {
   ButtonWrapper,
   ColRightInner,
   EmailHelper
-} from "components/BuySell/Signup";
-import { spacing } from "services/StyleService";
-import media from "services/ResponsiveService";
+} from "components/BuySell/Signup"
+import { spacing } from "services/StyleService"
+import media from "services/ResponsiveService"
 
 const MobileInput = styled.div`
   display: flex;
   margin-top: 25px;
   flex-direction: column;
-`;
+`
 const MobileCodeContainer = MobileInput.extend`
   margin-top: 25px;
-`;
+`
 const VerifyMobileForm = styled(Form)`
   ${media.mobile`
     flex-direction: column;
     height: 100vh;
   `};
-`;
+`
 
 class VerifyMobile extends Component {
   constructor(props) {
-    super(props);
-    this.state = {};
+    super(props)
+    this.state = {}
 
-    this.onSubmit = this.onSubmit.bind(this);
-    this.resendCode = this.resendCode.bind(this);
-    this.updateMobileNumber = this.updateMobileNumber.bind(this);
+    this.onSubmit = this.onSubmit.bind(this)
+    this.resendCode = this.resendCode.bind(this)
+    this.updateMobileNumber = this.updateMobileNumber.bind(this)
   }
 
   componentDidMount() {
-    this.props.sfoxFrontendActions.sfoxNotAsked();
+    this.props.sfoxFrontendActions.sfoxNotAsked()
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.smsVerified && !prevProps.smsVerified)
-      this.props.updateUI({ create: "create_account" });
+      this.props.updateUI({ create: "create_account" })
     if (this.props.smsVerified && !this.props.editVerifiedMobile)
-      this.props.updateUI({ create: "create_account" });
+      this.props.updateUI({ create: "create_account" })
   }
 
   updateMobileNumber() {
-    this.props.updateUI({ create: "enter_mobile_code" });
-    this.props.settingsActions.updateMobile(this.props.mobileNumber);
+    this.props.updateUI({ create: "enter_mobile_code" })
+    this.props.settingsActions.updateMobile(this.props.mobileNumber)
   }
 
   resendCode() {
-    this.props.updateUI({ smsCodeResent: true });
-    this.props.settingsActions.updateMobile(this.props.mobileNumber);
+    this.props.updateUI({ smsCodeResent: true })
+    this.props.settingsActions.updateMobile(this.props.mobileNumber)
   }
 
   onSubmit(e) {
-    e.preventDefault();
+    e.preventDefault()
     if (this.props.ui.create !== "enter_mobile_code") {
-      this.props.settingsActions.clearMobileFailure();
-      this.updateMobileNumber();
+      this.props.settingsActions.clearMobileFailure()
+      this.updateMobileNumber()
     } else {
-      this.props.settingsActions.verifyMobile(this.props.mobileCode);
+      this.props.settingsActions.verifyMobile(this.props.mobileCode)
     }
   }
 
@@ -92,7 +92,7 @@ class VerifyMobile extends Component {
       mobileVerifiedError,
       countryCode,
       smsNumber
-    } = this.props;
+    } = this.props
 
     let smsHelper = () => {
       switch (true) {
@@ -114,14 +114,14 @@ class VerifyMobile extends Component {
                 )
               }}
             />
-          );
+          )
         case ui.smsCodeResent:
           return (
             <FormattedMessage
               id="sfoxexchangedata.create.mobile.helper.sentanothercode"
               defaultMessage="Another code has been sent!"
             />
-          );
+          )
         case !ui.smsCodeResent:
           return (
             <FormattedMessage
@@ -129,9 +129,9 @@ class VerifyMobile extends Component {
               defaultMessage="Didn't get our text? {resend}."
               values={{ resend: <a onClick={this.resendCode}>Resend</a> }}
             />
-          );
+          )
       }
-    };
+    }
 
     return (
       <VerifyMobileForm onSubmit={this.onSubmit}>
@@ -219,7 +219,7 @@ class VerifyMobile extends Component {
           </ColRightInner>
         </ColRight>
       </VerifyMobileForm>
-    );
+    )
   }
 }
 
@@ -228,12 +228,12 @@ const mapStateToProps = state => ({
   mobileCode: formValueSelector("sfoxCreate")(state, "mobileCode"),
   smsNumber: selectors.core.settings.getSmsNumber(state).data,
   countryCode: selectors.core.settings.getCountryCode(state)
-});
+})
 
 const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch),
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
-});
+})
 
 const enhance = compose(
   connect(
@@ -241,6 +241,6 @@ const enhance = compose(
     mapDispatchToProps
   ),
   ui({ state: { smsCodeResent: false } })
-);
+)
 
-export default enhance(VerifyMobile);
+export default enhance(VerifyMobile)

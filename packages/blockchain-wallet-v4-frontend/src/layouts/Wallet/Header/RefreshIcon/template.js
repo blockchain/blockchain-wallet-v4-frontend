@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from "react"
+import PropTypes from "prop-types"
 
-import { Link, Icon } from "blockchain-info-components";
+import { Link, Icon } from "blockchain-info-components"
 
 const RefreshIcon = props => (
   <Link
@@ -13,10 +13,10 @@ const RefreshIcon = props => (
   >
     <Icon name="refresh-filled" color="white" cursor />
   </Link>
-);
+)
 
 RefreshIcon.propTypes = {
   handleRefresh: PropTypes.func.isRequired
-};
+}
 
-export default RefreshIcon;
+export default RefreshIcon

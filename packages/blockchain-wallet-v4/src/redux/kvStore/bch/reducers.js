@@ -1,70 +1,70 @@
-import { assoc, assocPath, compose } from "ramda";
-import { mapped, over } from "ramda-lens";
-import { KVStoreEntry } from "../../../types";
-import * as AT from "./actionTypes";
-import Remote from "../../../remote";
+import { assoc, assocPath, compose } from "ramda"
+import { mapped, over } from "ramda-lens"
+import { KVStoreEntry } from "../../../types"
+import * as AT from "./actionTypes"
+import Remote from "../../../remote"
 
 // initial state should be a kvstore object
-const INITIAL_STATE = Remote.NotAsked;
+const INITIAL_STATE = Remote.NotAsked
 
 export default (state = INITIAL_STATE, action) => {
-  const { type, payload } = action;
+  const { type, payload } = action
 
   switch (type) {
     case AT.FETCH_METADATA_BCH_LOADING: {
-      return Remote.Loading;
+      return Remote.Loading
     }
     case AT.CREATE_METADATA_BCH:
     case AT.FETCH_METADATA_BCH_SUCCESS: {
-      return Remote.Success(payload);
+      return Remote.Success(payload)
     }
     case AT.FETCH_METADATA_BCH_FAILURE: {
-      return Remote.Failure(payload);
+      return Remote.Failure(payload)
     }
     case AT.SET_BCH_ACCOUNT_LABEL: {
-      const { accountIdx, label } = action.payload;
+      const { accountIdx, label } = action.payload
       const valueLens = compose(
         mapped,
         KVStoreEntry.value
-      );
+      )
       const setAccountLabel = assocPath(
         ["accounts", accountIdx, "label"],
         label
-      );
-      return over(valueLens, setAccountLabel, state);
+      )
+      return over(valueLens, setAccountLabel, state)
     }
     case AT.SET_BCH_ACCOUNT_ARCHIVED: {
-      const { accountIdx, archived } = action.payload;
+      const { accountIdx, archived } = action.payload
       const valueLens = compose(
         mapped,
         KVStoreEntry.value
-      );
+      )
       const setAccountArchived = assocPath(
         ["accounts", accountIdx, "archived"],
         archived
-      );
-      return over(valueLens, setAccountArchived, state);
+      )
+      return over(valueLens, setAccountArchived, state)
     }
     case AT.SET_DEFAULT_BCH_ACCOUNT: {
-      const { index } = action.payload;
+      const { index } = action.payload
       const valueLens = compose(
         mapped,
         KVStoreEntry.value
-      );
-      const setDefaultAccount = assoc("default_account_idx", index);
-      return over(valueLens, setDefaultAccount, state);
+      )
+      const setDefaultAccount = assoc("default_account_idx", index)
+      return over(valueLens, setDefaultAccount, state)
     }
     case AT.SET_TRANSACTION_NOTE_BCH: {
-      const { txHash, txNote } = action.payload;
+      const { txHash, txNote } = action.payload
       let valueLens = compose(
         mapped,
         KVStoreEntry.value
-      );
-      let setNote = assocPath(["tx_notes", txHash], txNote);
-      return over(valueLens, setNote, state);
+      )
+      let setNote = assocPath(["tx_notes", txHash], txNote)
+      return over(valueLens, setNote, state)
     }
 
     default:
-      return state;
+      return state
   }
-};
+}

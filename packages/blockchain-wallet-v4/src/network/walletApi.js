@@ -1,5 +1,5 @@
-import Task from "data.task";
-import Either from "data.either";
+import Task from "data.task"
+import Either from "data.either"
 import {
   assoc,
   compose,
@@ -12,54 +12,54 @@ import {
   is,
   ifElse,
   contains
-} from "ramda";
-import { mapped } from "ramda-lens";
-import Promise from "es6-promise";
-import { Wrapper, Wallet, HDWalletList, HDWallet, HDAccount } from "../types";
-import { futurizeP } from "futurize";
-import createApi from "./api";
-import * as Coin from "../coinSelection/coin.js";
+} from "ramda"
+import { mapped } from "ramda-lens"
+import Promise from "es6-promise"
+import { Wrapper, Wallet, HDWalletList, HDWallet, HDAccount } from "../types"
+import { futurizeP } from "futurize"
+import createApi from "./api"
+import * as Coin from "../coinSelection/coin.js"
 
 const createWalletApi = ({ options, apiKey } = {}, returnType) => {
   // ////////////////////////////////////////////////////////////////
-  const ApiPromise = createApi({ options, apiKey });
-  const eitherToTask = e => e.fold(Task.rejected, Task.of);
+  const ApiPromise = createApi({ options, apiKey })
+  const eitherToTask = e => e.fold(Task.rejected, Task.of)
   const taskToPromise = t =>
-    new Promise((resolve, reject) => t.fork(reject, resolve));
-  const promiseToTask = futurizeP(Task);
-  const future = returnType ? futurizeP(returnType) : identity;
+    new Promise((resolve, reject) => t.fork(reject, resolve))
+  const promiseToTask = futurizeP(Task)
+  const future = returnType ? futurizeP(returnType) : identity
   const is2FAEnabled = ifElse(
     propSatisfies(x => x > 0, "auth_type"),
     Task.rejected,
     Task.of
-  );
+  )
   const is2FACodeValid = ifElse(
     x => contains("incorrect", x),
     Task.rejected,
     Task.of
-  );
+  )
 
   // ////////////////////////////////////////////////////////////////
   const fetchWalletWithSharedKeyTask = (guid, sharedKey, password) =>
     promiseToTask(ApiPromise.fetchPayloadWithSharedKey)(guid, sharedKey).chain(
       Wrapper.fromEncJSON(password)
-    );
+    )
 
   const fetchWalletWithSharedKey = compose(
     taskToPromise,
     fetchWalletWithSharedKeyTask
-  );
+  )
 
   // ////////////////////////////////////////////////////////////////
   const fetchWalletWithSessionTask = (guid, session, password) =>
     promiseToTask(ApiPromise.fetchPayloadWithSession)(guid, session)
       .chain(is2FAEnabled)
-      .chain(Wrapper.fromEncJSON(password));
+      .chain(Wrapper.fromEncJSON(password))
 
   const fetchWalletWithSession = compose(
     taskToPromise,
     fetchWalletWithSessionTask
-  );
+  )
 
   // ////////////////////////////////////////////////////////////////
   const fetchWalletWithTwoFactorTask = (
@@ -74,45 +74,45 @@ const createWalletApi = ({ options, apiKey } = {}, returnType) => {
       twoFactorCode
     )
       .chain(is2FACodeValid)
-      .chain(Wrapper.fromEncPayload(password));
+      .chain(Wrapper.fromEncPayload(password))
 
   const fetchWalletWithTwoFactor = compose(
     taskToPromise,
     fetchWalletWithTwoFactorTask
-  );
+  )
 
   // ////////////////////////////////////////////////////////////////
   const fetchWallet = (guid, sharedKey, session, password, twoFactorCode) => {
     if (sharedKey) {
-      return fetchWalletWithSharedKey(guid, sharedKey, password);
+      return fetchWalletWithSharedKey(guid, sharedKey, password)
     }
     if (session) {
       if (twoFactorCode) {
-        return fetchWalletWithTwoFactor(guid, session, password, twoFactorCode);
+        return fetchWalletWithTwoFactor(guid, session, password, twoFactorCode)
       } else {
-        return fetchWalletWithSession(guid, session, password);
+        return fetchWalletWithSession(guid, session, password)
       }
     }
-    return Promise.reject(new Error("MISSING_CREDENTIALS"));
-  };
+    return Promise.reject(new Error("MISSING_CREDENTIALS"))
+  }
   // ////////////////////////////////////////////////////////////////
   const saveWalletTask = wrapper =>
-    Wrapper.toEncJSON(wrapper).chain(promiseToTask(ApiPromise.savePayload));
+    Wrapper.toEncJSON(wrapper).chain(promiseToTask(ApiPromise.savePayload))
 
   const saveWallet = compose(
     taskToPromise,
     saveWalletTask
-  );
+  )
   // ////////////////////////////////////////////////////////////////
   const createWalletTask = email => wrapper => {
-    const create = w => ApiPromise.createPayload(email, w);
-    return Wrapper.toEncJSON(wrapper).chain(promiseToTask(create));
-  };
+    const create = w => ApiPromise.createPayload(email, w)
+    return Wrapper.toEncJSON(wrapper).chain(promiseToTask(create))
+  }
   const createWallet = (email, wrapper) =>
     compose(
       taskToPromise,
       createWalletTask(email)
-    )(wrapper);
+    )(wrapper)
 
   // source is an account index or a legacy address
   const getWalletUnspentsTask = getCoinUnspents => (
@@ -129,7 +129,7 @@ const createWalletApi = ({ options, apiKey } = {}, returnType) => {
           Wallet.selectHdWallets,
           Wrapper.selectWallet
         )
-      );
+      )
       return eitherToTask(selectXpub(wrapper))
         .chain(xpub => promiseToTask(getCoinUnspents)([xpub], confirmations))
         .map(prop("unspent_outputs"))
@@ -142,26 +142,26 @@ const createWalletApi = ({ options, apiKey } = {}, returnType) => {
             assoc("index", source)
           )
         )
-        .map(map(Coin.fromJS));
+        .map(map(Coin.fromJS))
     } else {
       // legacy address
       return promiseToTask(getCoinUnspents)([source], confirmations)
         .map(prop("unspent_outputs"))
         .map(over(mapped, assoc("priv", source)))
-        .map(map(Coin.fromJS));
+        .map(map(Coin.fromJS))
     }
-  };
+  }
   const getBTCWalletUnspents = compose(
     taskToPromise,
     getWalletUnspentsTask(ApiPromise.getBitcoinUnspents)
-  );
+  )
   const getBCHWalletUnspents = compose(
     taskToPromise,
     getWalletUnspentsTask(ApiPromise.getBchUnspents)
-  );
+  )
 
   // ////////////////////////////////////////////////////////////////
-  const Api = map(future, ApiPromise);
+  const Api = map(future, ApiPromise)
 
   return {
     ...Api,
@@ -173,6 +173,6 @@ const createWalletApi = ({ options, apiKey } = {}, returnType) => {
     createWallet: future(createWallet),
     getBTCWalletUnspents: future(getBTCWalletUnspents),
     getBCHWalletUnspents: future(getBCHWalletUnspents)
-  };
-};
-export default createWalletApi;
+  }
+}
+export default createWalletApi

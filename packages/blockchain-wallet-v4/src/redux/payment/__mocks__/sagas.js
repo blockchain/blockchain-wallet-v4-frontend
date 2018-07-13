@@ -1,4 +1,4 @@
-const createSagas = require.requireActual("../sagas").default;
+const createSagas = require.requireActual("../sagas").default
 
 const mockCreate = ({ create }) => ({
   create: ({ netwotk, payment }) => ({
@@ -15,6 +15,6 @@ const mockCreate = ({ create }) => ({
     description: jest.fn(),
     chain: jest.fn()
   })
-});
+})
 
-export default ({ api }) => mockCreate(createSagas({ api }));
+export default ({ api }) => mockCreate(createSagas({ api }))

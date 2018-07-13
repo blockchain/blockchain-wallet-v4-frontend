@@ -1,11 +1,11 @@
-import React from "react";
-import styled from "styled-components";
-import PropTypes from "prop-types";
-import { Field, reduxForm } from "redux-form";
+import React from "react"
+import styled from "styled-components"
+import PropTypes from "prop-types"
+import { Field, reduxForm } from "redux-form"
 
-import { Icon } from "blockchain-info-components";
-import { TextBox } from "components/Form";
-import FaqGroup from "./FaqGroup";
+import { Icon } from "blockchain-info-components"
+import { TextBox } from "components/Form"
+import FaqGroup from "./FaqGroup"
 
 const Wrapper = styled.div`
   display: flex;
@@ -16,7 +16,7 @@ const Wrapper = styled.div`
   height: 100%;
   padding: 0 30px 30px 30px;
   box-sizing: border-box;
-`;
+`
 const Search = styled.div`
   position: relative;
   display: flex;
@@ -32,13 +32,13 @@ const Search = styled.div`
     margin-top: -10px;
     right: 10px;
   }
-`;
+`
 const Content = styled.div`
   width: 100%;
   height: calc(100% - 80px);
   overflow-x: auto;
   overflow-y: auto;
-`;
+`
 
 const Faq = props => (
   <Wrapper>
@@ -58,10 +58,10 @@ const Faq = props => (
         ))}
     </Content>
   </Wrapper>
-);
+)
 
 Faq.propTypes = {
   filteredContent: PropTypes.array.isRequired
-};
+}
 
-export default reduxForm({ form: "faq", initialValues: { search: "" } })(Faq);
+export default reduxForm({ form: "faq", initialValues: { search: "" } })(Faq)

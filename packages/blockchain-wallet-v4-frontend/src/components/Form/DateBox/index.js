@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import locale from "browser-locale";
+import React from "react"
+import styled from "styled-components"
+import locale from "browser-locale"
 
-import { Text, DateInput } from "blockchain-info-components";
+import { Text, DateInput } from "blockchain-info-components"
 
 const Container = styled.div`
   position: relative;
@@ -11,20 +11,20 @@ const Container = styled.div`
   justify-content: flex-end;
   align-items: flex-start;
   width: auto;
-`;
+`
 const Error = styled(Text)`
   position: absolute;
   display: block;
   top: -18px;
   right: 0;
   height: 15px;
-`;
+`
 const getErrorState = meta => {
-  return meta.touched && meta.invalid ? "invalid" : "initial";
-};
+  return meta.touched && meta.invalid ? "invalid" : "initial"
+}
 
 const DateBox = field => {
-  const errorState = getErrorState(field.meta);
+  const errorState = getErrorState(field.meta)
 
   return (
     <Container>
@@ -36,7 +36,7 @@ const DateBox = field => {
           </Error>
         )}
     </Container>
-  );
-};
+  )
+}
 
-export default DateBox;
+export default DateBox

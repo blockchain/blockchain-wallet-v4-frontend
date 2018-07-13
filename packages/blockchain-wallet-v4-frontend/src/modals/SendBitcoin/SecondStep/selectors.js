@@ -1,12 +1,12 @@
-import { selectors } from "data";
-import { btcToLabel, btcFromLabel } from "services/PaymentHelper";
+import { selectors } from "data"
+import { btcToLabel, btcFromLabel } from "services/PaymentHelper"
 
 export const getData = state => {
-  const paymentR = selectors.components.sendBtc.getPayment(state);
+  const paymentR = selectors.components.sendBtc.getPayment(state)
 
   const transform = payment => {
-    const fromLabel = btcFromLabel(payment, state);
-    const toLabel = btcToLabel(payment, state);
+    const fromLabel = btcFromLabel(payment, state)
+    const toLabel = btcToLabel(payment, state)
 
     return {
       description: payment.description,
@@ -15,8 +15,8 @@ export const getData = state => {
       amount: payment.amount[0],
       fee: payment.selection.fee,
       total: payment.selection.fee + payment.amount[0]
-    };
-  };
+    }
+  }
 
-  return paymentR.map(transform);
-};
+  return paymentR.map(transform)
+}

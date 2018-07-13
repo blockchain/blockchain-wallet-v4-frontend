@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import PropTypes from "prop-types";
-import { Palette } from "../Colors";
-import { keysIn } from "ramda";
+import React from "react"
+import styled from "styled-components"
+import PropTypes from "prop-types"
+import { Palette } from "../Colors"
+import { keysIn } from "ramda"
 
 const BaseText = styled.div`
   font-family: "Montserrat", sans-serif;
@@ -16,11 +16,11 @@ const BaseText = styled.div`
   flex-direction: ${props => (props.flexRow ? "row" : null)};
   display: ${props => (props.flexRow ? "flex" : "block")};
   opacity: ${props => props.opacity};
-`;
+`
 
 const Text = ({ children, ...props }) => {
-  return <BaseText {...props}>{children} </BaseText>;
-};
+  return <BaseText {...props}>{children} </BaseText>
+}
 
 Text.propTypes = {
   weight: PropTypes.oneOf([100, 200, 300, 400, 500, 600, 700, 800, 900]),
@@ -32,7 +32,7 @@ Text.propTypes = {
   altFont: PropTypes.bool,
   cursor: PropTypes.string,
   opacity: PropTypes.number
-};
+}
 
 Text.defaultProps = {
   weight: 400,
@@ -44,6 +44,6 @@ Text.defaultProps = {
   altFont: false,
   cursor: "inherit",
   opacity: 1
-};
+}
 
-export default Text;
+export default Text

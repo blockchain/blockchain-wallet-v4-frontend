@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
-import styled from "styled-components";
+import React from "react"
+import PropTypes from "prop-types"
+import { FormattedMessage } from "react-intl"
+import styled from "styled-components"
 
 import {
   Image,
@@ -10,7 +10,7 @@ import {
   TabMenuItem,
   Text,
   TextGroup
-} from "blockchain-info-components";
+} from "blockchain-info-components"
 
 const Wrapper = styled.div`
   display: flex;
@@ -22,7 +22,7 @@ const Wrapper = styled.div`
     flex-direction: row;
     justify-content: space-between;
   }
-`;
+`
 const Partner = styled(TextGroup)`
   position: relative;
   display: flex;
@@ -33,10 +33,10 @@ const Partner = styled(TextGroup)`
   @media (max-width: 992px) {
     display: none;
   }
-`;
+`
 
 const TabMenuBuySellStatus = props => {
-  const { handleClick, partner, value } = props;
+  const { handleClick, partner, value } = props
 
   return (
     <Wrapper>
@@ -90,13 +90,13 @@ const TabMenuBuySellStatus = props => {
         </Partner>
       )}
     </Wrapper>
-  );
-};
+  )
+}
 
 TabMenuBuySellStatus.propTypes = {
   partner: PropTypes.string,
   value: PropTypes.oneOf(["buy", "sell", "order_history", ""]),
   onClick: PropTypes.func
-};
+}
 
-export default TabMenuBuySellStatus;
+export default TabMenuBuySellStatus

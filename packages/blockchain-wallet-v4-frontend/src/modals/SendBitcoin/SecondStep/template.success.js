@@ -1,11 +1,11 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 
-import { Button, Link, Text } from "blockchain-info-components";
-import CoinDisplay from "components/Display/CoinDisplay";
-import FiatDisplay from "components/Display/FiatDisplay";
-import ComboDisplay from "components/Display/ComboDisplay";
+import { Button, Link, Text } from "blockchain-info-components"
+import CoinDisplay from "components/Display/CoinDisplay"
+import FiatDisplay from "components/Display/FiatDisplay"
+import ComboDisplay from "components/Display/ComboDisplay"
 
 const Row = styled.div`
   display: flex;
@@ -23,7 +23,7 @@ const Row = styled.div`
   &:first-child {
     padding-top: 0px;
   }
-`;
+`
 const Summary = styled.div`
   display: flex;
   flex-direction: column;
@@ -37,7 +37,7 @@ const Summary = styled.div`
   & > * {
     padding: 10px 0;
   }
-`;
+`
 const Footer = styled.div`
   display: flex;
   flex-direction: column;
@@ -48,7 +48,7 @@ const Footer = styled.div`
   & > :first-child {
     margin-bottom: 15px;
   }
-`;
+`
 
 const Success = props => {
   const {
@@ -61,7 +61,7 @@ const Success = props => {
     coin,
     handleSubmit,
     handleBack
-  } = props;
+  } = props
 
   return (
     <div>
@@ -151,7 +151,7 @@ const Success = props => {
         </Link>
       </Footer>
     </div>
-  );
-};
+  )
+}
 
-export default Success;
+export default Success

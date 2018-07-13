@@ -1,28 +1,28 @@
-import React, { Component, Fragment } from "react";
-import styled from "styled-components";
-import { reduxForm, Field } from "redux-form";
-import { FormattedMessage } from "react-intl";
-import { TextBox, Form } from "components/Form";
-import { PartnerHeader } from "components/BuySell/Signup";
-import { required } from "services/FormHelper";
-import { Text, TextGroup } from "blockchain-info-components";
-import { spacing } from "services/StyleService";
+import React, { Component, Fragment } from "react"
+import styled from "styled-components"
+import { reduxForm, Field } from "redux-form"
+import { FormattedMessage } from "react-intl"
+import { TextBox, Form } from "components/Form"
+import { PartnerHeader } from "components/BuySell/Signup"
+import { required } from "services/FormHelper"
+import { Text, TextGroup } from "blockchain-info-components"
+import { spacing } from "services/StyleService"
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-`;
+`
 const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
   width: 50%;
-`;
+`
 
 class MicroDeposits extends Component {
   render() {
-    const { onStep } = this.props;
+    const { onStep } = this.props
 
     return (
       <Container>
@@ -90,8 +90,8 @@ class MicroDeposits extends Component {
           </Form>
         )}
       </Container>
-    );
+    )
   }
 }
 
-export default reduxForm({ form: "sfoxLink" })(MicroDeposits);
+export default reduxForm({ form: "sfoxLink" })(MicroDeposits)

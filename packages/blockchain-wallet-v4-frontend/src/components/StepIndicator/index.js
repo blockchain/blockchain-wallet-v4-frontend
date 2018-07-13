@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { Image } from "blockchain-info-components";
+import React from "react"
+import styled from "styled-components"
+import { Image } from "blockchain-info-components"
 
 const Wrapper = styled.div`
   width: 100%;
@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   @media (max-width: 991px) {
     flex-direction: row-reverse;
   }
-`;
+`
 
 const Steps = styled.div`
   position: relative;
@@ -46,7 +46,7 @@ const Steps = styled.div`
       background: ${props => props.theme["brand-primary"]};
     }
   }
-`;
+`
 
 const Step = styled.span`
   font-size: 14px;
@@ -64,7 +64,7 @@ const Step = styled.span`
     margin-right: 10px;
     margin-bottom: 10px;
   }
-`;
+`
 
 const Logo = styled(Image)`
   margin-right: 60px;
@@ -72,13 +72,13 @@ const Logo = styled(Image)`
     margin-right: 0px;
     margin-left: 30px;
   }
-`;
+`
 
 const StepIndicator = props => {
-  const { step, stepMap, minWidth, maxWidth, flexEnd, adjuster } = props;
-  const steps = Object.keys(stepMap);
-  const index = steps.indexOf(step) + 1;
-  const width = index / steps.length;
+  const { step, stepMap, minWidth, maxWidth, flexEnd, adjuster } = props
+  const steps = Object.keys(stepMap)
+  const index = steps.indexOf(step) + 1
+  const width = index / steps.length
 
   return (
     <Wrapper flexEnd={flexEnd}>
@@ -91,7 +91,7 @@ const StepIndicator = props => {
         ))}
       </Steps>
     </Wrapper>
-  );
-};
+  )
+}
 
-export default StepIndicator;
+export default StepIndicator

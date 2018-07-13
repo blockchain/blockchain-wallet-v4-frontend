@@ -1,6 +1,6 @@
-import React from "react";
-import { FormattedMessage } from "react-intl";
-import { Text } from "blockchain-info-components";
+import React from "react"
+import { FormattedMessage } from "react-intl"
+import { Text } from "blockchain-info-components"
 
 import {
   SecurityComponent,
@@ -9,10 +9,10 @@ import {
   SecurityHeader,
   SecurityIcon,
   SecuritySummary
-} from "components/Security";
+} from "components/Security"
 
 const TwoStepVerification = props => {
-  const { message } = props;
+  const { message } = props
 
   return (
     <SecurityContainer>
@@ -39,7 +39,7 @@ const TwoStepVerification = props => {
       </SecuritySummary>
       <SecurityComponent>{message}</SecurityComponent>
     </SecurityContainer>
-  );
-};
+  )
+}
 
-export default TwoStepVerification;
+export default TwoStepVerification

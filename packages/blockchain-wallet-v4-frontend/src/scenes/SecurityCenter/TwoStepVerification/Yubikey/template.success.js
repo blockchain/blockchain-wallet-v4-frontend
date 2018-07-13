@@ -1,11 +1,11 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
-import styled from "styled-components";
-import { reduxForm } from "redux-form";
+import React from "react"
+import PropTypes from "prop-types"
+import { FormattedMessage } from "react-intl"
+import styled from "styled-components"
+import { reduxForm } from "redux-form"
 
-import { Text, Button } from "blockchain-info-components";
-import { spacing } from "services/StyleService";
+import { Text, Button } from "blockchain-info-components"
+import { spacing } from "services/StyleService"
 
 const AuthenticatorSummary = styled.div`
   width: 100%;
@@ -14,17 +14,17 @@ const AuthenticatorSummary = styled.div`
   @media (min-width: 992px) {
     width: 110%;
   }
-`;
+`
 const YubikeyContainer = styled.div`
   margin-top: 25px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-`;
+`
 const YubikeyCopy = styled.div`
   display: block;
-`;
+`
 const YubikeyInputWrapper = styled.div`
   width: 30%;
   display: flex;
@@ -34,7 +34,7 @@ const YubikeyInputWrapper = styled.div`
   button {
     margin-top: 10px;
   }
-`;
+`
 const YubikeyInput = styled.input`
   display: block;
   width: 100%;
@@ -55,10 +55,10 @@ const YubikeyInput = styled.input`
   &::-webkit-input-placeholder {
     color: ${props => props.theme["gray-2"]};
   }
-`;
+`
 
 const Yubikey = props => {
-  const { ui, handleSubmit, handleInput, value } = props;
+  const { ui, handleSubmit, handleInput, value } = props
 
   return (
     <form onSubmit={handleSubmit}>
@@ -95,11 +95,11 @@ const Yubikey = props => {
         </YubikeyContainer>
       </AuthenticatorSummary>
     </form>
-  );
-};
+  )
+}
 
 Yubikey.propTypes = {
   handleSubmit: PropTypes.func.isRequired
-};
+}
 
-export default reduxForm({ form: "securityYubikey" })(Yubikey);
+export default reduxForm({ form: "securityYubikey" })(Yubikey)

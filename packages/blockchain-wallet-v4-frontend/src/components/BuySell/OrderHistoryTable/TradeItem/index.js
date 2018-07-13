@@ -1,11 +1,11 @@
-import React from "react";
-import styled from "styled-components";
-import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
-import { Exchange } from "blockchain-wallet-v4/src";
-import { canCancelTrade } from "services/CoinifyService";
-import { equals, prop } from "ramda";
-import moment from "moment";
+import React from "react"
+import styled from "styled-components"
+import PropTypes from "prop-types"
+import { FormattedMessage } from "react-intl"
+import { Exchange } from "blockchain-wallet-v4/src"
+import { canCancelTrade } from "services/CoinifyService"
+import { equals, prop } from "ramda"
+import moment from "moment"
 import {
   TableCell,
   TableRow,
@@ -13,28 +13,28 @@ import {
   Link,
   Icon,
   HeartbeatLoader
-} from "blockchain-info-components";
-import OrderStatus from "../OrderStatus";
-import media from "services/ResponsiveService";
-import { MediaContextConsumer } from "providers/MatchMediaProvider";
+} from "blockchain-info-components"
+import OrderStatus from "../OrderStatus"
+import media from "services/ResponsiveService"
+import { MediaContextConsumer } from "providers/MatchMediaProvider"
 
 export const OrderHistoryText = styled(Text)`
   font-size: 13px;
   ${media.mobile`
     font-size: 12px;
   `};
-`;
+`
 export const OrderHistoryLink = styled(Link)`
   font-size: 13px;
   ${media.mobile`
     font-size: 12px;
   `};
-`;
+`
 
 const tradeDateHelper = (trade, isMobile) =>
   moment(prop("createdAt", trade))
     .local()
-    .format(isMobile ? "DD MMM" : "MMMM D YYYY @ h:mm A");
+    .format(isMobile ? "DD MMM" : "MMMM D YYYY @ h:mm A")
 
 const TradeItem = props => {
   const {
@@ -46,20 +46,20 @@ const TradeItem = props => {
     status,
     cancelTradeId,
     partner
-  } = props;
+  } = props
   const tradeReceiveAmount =
     partner === "sfox"
       ? prop("receiveAmount", trade) - prop("feeAmount", trade)
-      : prop("receiveAmount", trade);
+      : prop("receiveAmount", trade)
   const receiveAmount = trade.isBuy
     ? trade.receiveAmount
-    : Exchange.displayFiatToFiat({ value: tradeReceiveAmount });
+    : Exchange.displayFiatToFiat({ value: tradeReceiveAmount })
   const exchangeAmount = trade.isBuy
     ? Exchange.displayFiatToFiat({ value: trade.sendAmount / conversion.buy })
-    : trade.sendAmount / conversion.sell;
-  const canCancel = trade.isBuy && canCancelTrade(trade);
+    : trade.sendAmount / conversion.sell
+  const canCancel = trade.isBuy && canCancelTrade(trade)
   const getOpacity = trade =>
-    equals(prop("state", trade), "processing") ? 0.5 : 1;
+    equals(prop("state", trade), "processing") ? 0.5 : 1
 
   return (
     <TableRow>
@@ -129,11 +129,11 @@ const TradeItem = props => {
         </TableCell>
       </TableCell>
     </TableRow>
-  );
-};
+  )
+}
 
 TradeItem.propTypes = {
   trade: PropTypes.object.isRequired
-};
+}
 
-export default TradeItem;
+export default TradeItem

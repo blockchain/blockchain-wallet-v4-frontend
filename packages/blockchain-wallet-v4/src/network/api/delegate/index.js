@@ -4,9 +4,9 @@ export default ({ rootUrl, apiUrl, get, post }) => {
       url: rootUrl,
       endPoint: "/wallet/signed-token",
       data: data
-    });
+    })
 
   return {
     getTokenForDelegate
-  };
-};
+  }
+}

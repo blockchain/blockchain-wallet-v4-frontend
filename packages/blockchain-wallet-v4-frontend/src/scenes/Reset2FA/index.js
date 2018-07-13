@@ -1,42 +1,42 @@
-import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { compose } from "ramda";
+import React from "react"
+import { connect } from "react-redux"
+import { bindActionCreators } from "redux"
+import { compose } from "ramda"
 
-import wizardProvider from "providers/WizardProvider";
-import FirstStep from "./FirstStep";
-import SecondStep from "./SecondStep";
-import ThirdStep from "./ThirdStep";
-import { actions } from "../../data";
+import wizardProvider from "providers/WizardProvider"
+import FirstStep from "./FirstStep"
+import SecondStep from "./SecondStep"
+import ThirdStep from "./ThirdStep"
+import { actions } from "../../data"
 
 class Reset2FAContainer extends React.PureComponent {
   componentWillMount() {
-    this.props.resetStep();
+    this.props.resetStep()
   }
 
   componentWillUnmount() {
-    this.props.formActions.destroy("reset2FA");
+    this.props.formActions.destroy("reset2FA")
   }
 
   render() {
-    const { step, ...rest } = this.props;
+    const { step, ...rest } = this.props
 
     switch (step) {
       case 1:
-        return <FirstStep {...rest} />;
+        return <FirstStep {...rest} />
       case 2:
-        return <SecondStep {...rest} />;
+        return <SecondStep {...rest} />
       case 3:
-        return <ThirdStep {...rest} />;
+        return <ThirdStep {...rest} />
       default:
-        return <FirstStep {...rest} />;
+        return <FirstStep {...rest} />
     }
   }
 }
 
 const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch)
-});
+})
 
 const enhance = compose(
   connect(
@@ -44,6 +44,6 @@ const enhance = compose(
     mapDispatchToProps
   ),
   wizardProvider("reset2FA", 3)
-);
+)
 
-export default enhance(Reset2FAContainer);
+export default enhance(Reset2FAContainer)

@@ -1,40 +1,40 @@
-import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators, compose } from "redux";
-import { equals, prop } from "ramda";
+import React from "react"
+import { connect } from "react-redux"
+import { bindActionCreators, compose } from "redux"
+import { equals, prop } from "ramda"
 
-import { actions } from "data";
-import modalEnhancer from "providers/ModalEnhancer";
-import { getData, getInitialValues } from "./selectors";
-import Loading from "./template.loading";
-import Success from "./template.success";
-import DataError from "components/DataError";
-import { FormattedMessage } from "react-intl";
-import { Remote } from "blockchain-wallet-v4/src";
-import { Modal, ModalHeader, ModalBody } from "blockchain-info-components";
+import { actions } from "data"
+import modalEnhancer from "providers/ModalEnhancer"
+import { getData, getInitialValues } from "./selectors"
+import Loading from "./template.loading"
+import Success from "./template.success"
+import DataError from "components/DataError"
+import { FormattedMessage } from "react-intl"
+import { Remote } from "blockchain-wallet-v4/src"
+import { Modal, ModalHeader, ModalBody } from "blockchain-info-components"
 
 class RequestBchContainer extends React.PureComponent {
   constructor(props) {
-    super(props);
-    this.init = this.init.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleRefresh = this.handleRefresh.bind(this);
+    super(props)
+    this.init = this.init.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleRefresh = this.handleRefresh.bind(this)
   }
 
   componentWillMount() {
-    this.init();
+    this.init()
   }
 
   componentWillReceiveProps(nextProps) {
     nextProps.data.map(x => {
       if (equals(prop("coin", x), "ETH")) {
-        this.props.modalActions.closeAllModals();
-        this.props.modalActions.showModal("RequestEther");
+        this.props.modalActions.closeAllModals()
+        this.props.modalActions.showModal("RequestEther")
       } else if (equals(prop("coin", x), "BTC")) {
-        this.props.modalActions.closeAllModals();
-        this.props.modalActions.showModal("RequestBitcoin");
+        this.props.modalActions.closeAllModals()
+        this.props.modalActions.showModal("RequestBitcoin")
       }
-    });
+    })
   }
 
   componentDidUpdate(prevProps) {
@@ -42,30 +42,30 @@ class RequestBchContainer extends React.PureComponent {
       !Remote.Success.is(prevProps.initialValues) &&
       Remote.Success.is(this.props.initialValues)
     ) {
-      this.init();
+      this.init()
     }
   }
 
   init() {
     this.props.initialValues.map(x => {
-      this.props.formActions.initialize("requestBch", x);
-    });
+      this.props.formActions.initialize("requestBch", x)
+    })
   }
 
   handleSubmit(e) {
-    e.preventDefault();
-    this.props.modalActions.closeAllModals();
+    e.preventDefault()
+    this.props.modalActions.closeAllModals()
   }
 
   handleRefresh() {
-    const { bchDataActions, initialValues } = this.props;
-    if (!Remote.Success.is(initialValues)) return bchDataActions.fetchData();
+    const { bchDataActions, initialValues } = this.props
+    if (!Remote.Success.is(initialValues)) return bchDataActions.fetchData()
 
-    this.init();
+    this.init()
   }
 
   render() {
-    const { data, closeAll } = this.props;
+    const { data, closeAll } = this.props
 
     const content = data.cata({
       Success: value => (
@@ -78,7 +78,7 @@ class RequestBchContainer extends React.PureComponent {
       NotAsked: () => <DataError onClick={this.handleRefresh} />,
       Failure: () => <DataError onClick={this.handleRefresh} />,
       Loading: () => <Loading />
-    });
+    })
 
     return (
       <Modal
@@ -94,20 +94,20 @@ class RequestBchContainer extends React.PureComponent {
         </ModalHeader>
         <ModalBody>{content}</ModalBody>
       </Modal>
-    );
+    )
   }
 }
 
 const mapStateToProps = state => ({
   initialValues: getInitialValues(state),
   data: getData(state)
-});
+})
 
 const mapDispatchToProps = dispatch => ({
   bchDataActions: bindActionCreators(actions.core.data.bch, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
-});
+})
 
 const enhance = compose(
   modalEnhancer("RequestBch"),
@@ -115,6 +115,6 @@ const enhance = compose(
     mapStateToProps,
     mapDispatchToProps
   )
-);
+)
 
-export default enhance(RequestBchContainer);
+export default enhance(RequestBchContainer)

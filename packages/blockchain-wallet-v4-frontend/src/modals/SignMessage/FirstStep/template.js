@@ -1,18 +1,12 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { Field, reduxForm } from "redux-form";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { Field, reduxForm } from "redux-form"
 
-import { required } from "services/FormHelper";
-import { Button, Text } from "blockchain-info-components";
-import {
-  Form,
-  FormGroup,
-  FormItem,
-  FormLabel,
-  TextArea
-} from "components/Form";
+import { required } from "services/FormHelper"
+import { Button, Text } from "blockchain-info-components"
+import { Form, FormGroup, FormItem, FormLabel, TextArea } from "components/Form"
 
 const DetailRow = styled.div`
   display: flex;
@@ -22,21 +16,21 @@ const DetailRow = styled.div`
   > div:first-child {
     margin-right: 2px;
   }
-`;
+`
 const SubmitRow = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
   width: 100%;
-`;
+`
 const ClickableText = styled(Text)`
   cursor: pointer;
   margin-right: 15px;
-`;
+`
 
 const FirstStep = props => {
-  const { address, closeAll, submitting, invalid, handleSubmit } = props;
+  const { address, closeAll, submitting, invalid, handleSubmit } = props
   return (
     <Form onSubmit={handleSubmit}>
       <DetailRow>
@@ -87,8 +81,8 @@ const FirstStep = props => {
         </SubmitRow>
       </FormGroup>
     </Form>
-  );
-};
+  )
+}
 
 FirstStep.propTypes = {
   invalid: PropTypes.bool.isRequired,
@@ -96,8 +90,8 @@ FirstStep.propTypes = {
   address: PropTypes.string.isRequired,
   closeAll: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired
-};
+}
 
 export default reduxForm({ form: "signMessage", destroyOnUnmount: false })(
   FirstStep
-);
+)

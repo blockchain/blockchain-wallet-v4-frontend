@@ -1,21 +1,21 @@
-import React from "react";
-import styled from "styled-components";
-import { contains, path, prop } from "ramda";
+import React from "react"
+import styled from "styled-components"
+import { contains, path, prop } from "ramda"
 
-import { Button } from "blockchain-info-components";
-import { FormattedMessage } from "react-intl";
+import { Button } from "blockchain-info-components"
+import { FormattedMessage } from "react-intl"
 
-import { Remote } from "blockchain-wallet-v4/src";
-import * as service from "services/CoinifyService";
-import Stepper, { StepView } from "components/Utilities/Stepper";
-import OrderCheckout from "../OrderCheckout";
-import { OrderDetails, OrderSubmit } from "../OrderReview";
-import Payment from "modals/CoinifyExchangeData/Payment";
-import ISignThis from "modals/CoinifyExchangeData/ISignThis";
-import KYCNotification from "../KYCNotification";
-import NextSubscription from "../NextSubscription";
-import BankTransferDetails from "components/BuySell/BankTransferDetails";
-import media from "services/ResponsiveService";
+import { Remote } from "blockchain-wallet-v4/src"
+import * as service from "services/CoinifyService"
+import Stepper, { StepView } from "components/Utilities/Stepper"
+import OrderCheckout from "../OrderCheckout"
+import { OrderDetails, OrderSubmit } from "../OrderReview"
+import Payment from "modals/CoinifyExchangeData/Payment"
+import ISignThis from "modals/CoinifyExchangeData/ISignThis"
+import KYCNotification from "../KYCNotification"
+import NextSubscription from "../NextSubscription"
+import BankTransferDetails from "components/BuySell/BankTransferDetails"
+import media from "services/ResponsiveService"
 
 const CheckoutWrapper = styled.div`
   display: grid;
@@ -25,14 +25,14 @@ const CheckoutWrapper = styled.div`
     display: flex;
     flex-direction: column;
   `};
-`;
+`
 const OrderSubmitWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-`;
-const RightContainer = styled.div``;
-const LeftContainer = styled.div``;
+`
+const RightContainer = styled.div``
+const LeftContainer = styled.div``
 
 const CoinifyBuy = props => {
   const {
@@ -56,19 +56,19 @@ const CoinifyBuy = props => {
     canTrade,
     subscriptions,
     trades
-  } = props;
+  } = props
 
   const profile = Remote.of(prop("profile", value)).getOrElse({
     _limits: service.mockedLimits,
     _level: { currency: "EUR" }
-  });
-  const kyc = prop("kyc", value);
-  const buyCurrencies = ["EUR", "DKK", "GBP", "USD"];
-  const defaultCurrency = contains(currency, buyCurrencies) ? currency : "EUR"; // profile._level.currency
-  const symbol = service.currencySymbolMap[defaultCurrency];
-  const activeSubscriptions = subscriptions.filter(s => s.isActive);
+  })
+  const kyc = prop("kyc", value)
+  const buyCurrencies = ["EUR", "DKK", "GBP", "USD"]
+  const defaultCurrency = contains(currency, buyCurrencies) ? currency : "EUR" // profile._level.currency
+  const symbol = service.currencySymbolMap[defaultCurrency]
+  const activeSubscriptions = subscriptions.filter(s => s.isActive)
 
-  const limits = service.getLimits(profile._limits, defaultCurrency);
+  const limits = service.getLimits(profile._limits, defaultCurrency)
 
   if (step === "checkout") {
     return (
@@ -133,14 +133,14 @@ const CoinifyBuy = props => {
           </CheckoutWrapper>
         </StepView>
       </Stepper>
-    );
+    )
   } else if (step === "isx") {
     return (
       <ISignThis
         iSignThisId={path(["iSignThisID"], trade)}
         options={props.options}
       />
-    );
+    )
   } else if (step === "bankTransferDetails") {
     return (
       <CheckoutWrapper>
@@ -150,16 +150,16 @@ const CoinifyBuy = props => {
             nature="primary"
             width="85%"
             onClick={() => {
-              changeTab("order_history");
-              coinifyNextCheckoutStep("checkout");
+              changeTab("order_history")
+              coinifyNextCheckoutStep("checkout")
             }}
           >
             <FormattedMessage id="close" defaultMessage="Close" />
           </Button>
         </RightContainer>
       </CheckoutWrapper>
-    );
+    )
   }
-};
+}
 
-export default CoinifyBuy;
+export default CoinifyBuy

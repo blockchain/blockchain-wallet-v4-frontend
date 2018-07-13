@@ -1,17 +1,17 @@
-import React, { Component } from "react";
-import styled from "styled-components";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { bindActionCreators, compose } from "redux";
-import ui from "redux-ui";
-import { actions, selectors } from "data";
-import { FormattedMessage } from "react-intl";
-import { formValueSelector, Field } from "redux-form";
+import React, { Component } from "react"
+import styled from "styled-components"
+import { connect } from "react-redux"
+import PropTypes from "prop-types"
+import { bindActionCreators, compose } from "redux"
+import ui from "redux-ui"
+import { actions, selectors } from "data"
+import { FormattedMessage } from "react-intl"
+import { formValueSelector, Field } from "redux-form"
 
-import { TextBox } from "components/Form";
-import { Text, Button } from "blockchain-info-components";
+import { TextBox } from "components/Form"
+import { Text, Button } from "blockchain-info-components"
 
-import { required } from "services/FormHelper";
+import { required } from "services/FormHelper"
 import {
   Form,
   ColLeft,
@@ -22,70 +22,70 @@ import {
   ButtonWrapper,
   ColRightInner,
   EmailHelper
-} from "components/BuySell/Signup";
-import { spacing } from "services/StyleService";
-import media from "services/ResponsiveService";
+} from "components/BuySell/Signup"
+import { spacing } from "services/StyleService"
+import media from "services/ResponsiveService"
 
 const EmailInput = styled.div`
   display: flex;
   margin-top: 25px;
   flex-direction: column;
-`;
+`
 const VerifyEmailForm = styled(Form)`
   ${media.mobile`
     flex-direction: column;
   `};
-`;
+`
 
 class VerifyEmail extends Component {
   constructor(props) {
-    super(props);
-    this.state = {};
+    super(props)
+    this.state = {}
 
-    this.onSubmit = this.onSubmit.bind(this);
-    this.resendCode = this.resendCode.bind(this);
+    this.onSubmit = this.onSubmit.bind(this)
+    this.resendCode = this.resendCode.bind(this)
   }
 
   componentDidMount() {
     if (this.props.ui.create === "enter_email_code") {
       this.props.securityCenterActions.sendConfirmationCodeEmail(
         this.props.oldEmail
-      );
+      )
     }
     this.props.formActions.change(
       "sfoxCreate",
       "emailAddress",
       this.props.oldEmail
-    );
-    this.props.sfoxFrontendActions.sfoxNotAsked();
+    )
+    this.props.sfoxFrontendActions.sfoxNotAsked()
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.emailVerified && !prevProps.emailVerified)
-      this.props.updateUI({ create: "change_mobile" });
+      this.props.updateUI({ create: "change_mobile" })
     if (
       this.props.emailVerified &&
       this.props.ui.uniqueEmail &&
       !this.props.editVerifiedEmail
     )
-      this.props.updateUI({ create: "change_mobile" });
+      this.props.updateUI({ create: "change_mobile" })
   }
 
   resendCode() {
-    this.props.updateUI({ codeSent: true });
+    this.props.updateUI({ codeSent: true })
     this.props.securityCenterActions.sendConfirmationCodeEmail(
       this.props.emailAddress
-    );
+    )
   }
 
   onSubmit(e) {
-    e.preventDefault();
+    e.preventDefault()
     if (this.props.ui.create === "enter_email_code") {
-      this.props.sfoxFrontendActions.clearSignupError();
-      this.props.securityCenterActions.verifyEmailCode(this.props.emailCode);
+      this.props.sfoxFrontendActions.clearSignupError()
+      this.props.securityCenterActions.verifyEmailCode(this.props.emailCode)
     } else {
-      this.props.updateUI({ create: "enter_email_code" });
-      this.props.securityCenterActions.updateEmail(this.props.emailAddress);
+      this.props.updateUI({ create: "enter_email_code" })
+      this.props.securityCenterActions.updateEmail(this.props.emailAddress)
     }
   }
 
@@ -96,7 +96,7 @@ class VerifyEmail extends Component {
       emailVerifiedError,
       emailAddress,
       emailCode
-    } = this.props;
+    } = this.props
 
     let emailHelper = () => {
       switch (true) {
@@ -118,7 +118,7 @@ class VerifyEmail extends Component {
                 )
               }}
             />
-          );
+          )
         case ui.codeSent:
           return (
             <FormattedMessage
@@ -136,7 +136,7 @@ class VerifyEmail extends Component {
                 )
               }}
             />
-          );
+          )
         case !ui.codeSent:
           return (
             <FormattedMessage
@@ -155,9 +155,9 @@ class VerifyEmail extends Component {
                 )
               }}
             />
-          );
+          )
       }
-    };
+    }
 
     return (
       <VerifyEmailForm onSubmit={this.onSubmit}>
@@ -252,7 +252,7 @@ class VerifyEmail extends Component {
           </ColRightInner>
         </ColRight>
       </VerifyEmailForm>
-    );
+    )
   }
 }
 
@@ -264,13 +264,13 @@ VerifyEmail.propTypes = {
   formActions: PropTypes.object,
   emailCode: PropTypes.string,
   oldEmail: PropTypes.string
-};
+}
 
 const mapStateToProps = state => ({
   oldEmail: selectors.core.settings.getEmail(state).data,
   emailCode: formValueSelector("sfoxCreate")(state, "emailCode"),
   emailAddress: formValueSelector("sfoxCreate")(state, "emailAddress")
-});
+})
 
 const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch),
@@ -279,7 +279,7 @@ const mapDispatchToProps = dispatch => ({
     actions.modules.securityCenter,
     dispatch
   )
-});
+})
 
 const enhance = compose(
   connect(
@@ -287,6 +287,6 @@ const enhance = compose(
     mapDispatchToProps
   ),
   ui({ state: { codeSent: false } })
-);
+)
 
-export default enhance(VerifyEmail);
+export default enhance(VerifyEmail)

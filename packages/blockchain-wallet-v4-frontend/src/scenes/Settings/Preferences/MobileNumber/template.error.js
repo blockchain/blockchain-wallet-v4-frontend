@@ -1,17 +1,17 @@
-import React from "react";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import { FormattedMessage } from "react-intl"
 
-import { Text } from "blockchain-info-components";
+import { Text } from "blockchain-info-components"
 import {
   SettingComponent,
   SettingContainer,
   SettingDescription,
   SettingHeader,
   SettingSummary
-} from "components/Setting";
+} from "components/Setting"
 
 const MobileNumber = props => {
-  const { message } = props;
+  const { message } = props
 
   return (
     <SettingContainer>
@@ -42,7 +42,7 @@ const MobileNumber = props => {
         <Text>{message}</Text>
       </SettingComponent>
     </SettingContainer>
-  );
-};
+  )
+}
 
-export default MobileNumber;
+export default MobileNumber

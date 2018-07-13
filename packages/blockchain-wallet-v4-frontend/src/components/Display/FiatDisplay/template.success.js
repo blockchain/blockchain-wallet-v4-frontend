@@ -1,21 +1,21 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
 
-import { Icon, Text } from "blockchain-info-components";
+import { Icon, Text } from "blockchain-info-components"
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-`;
+`
 const FiatText = styled(Text)`
   font-size: ${props => props.mobileSize};
   @media (min-width: 480px) {
     font-size: ${props => props.size};
   }
-`;
+`
 
 const FiatDisplay = props => {
   const {
@@ -27,7 +27,7 @@ const FiatDisplay = props => {
     color,
     cursor,
     mobileSize
-  } = props;
+  } = props
 
   return (
     <Wrapper>
@@ -53,8 +53,8 @@ const FiatDisplay = props => {
         {children}
       </FiatText>
     </Wrapper>
-  );
-};
+  )
+}
 
 FiatDisplay.propTypes = {
   coin: PropTypes.oneOf(["BTC", "ETH", "BCH"]).isRequired,
@@ -65,7 +65,7 @@ FiatDisplay.propTypes = {
   color: PropTypes.string,
   cursor: PropTypes.string,
   mobileSize: PropTypes.string
-};
+}
 
 FiatDisplay.defaultProps = {
   showIcon: false,
@@ -73,6 +73,6 @@ FiatDisplay.defaultProps = {
   weight: 300,
   color: "gray-5",
   cursor: "auto"
-};
+}
 
-export default FiatDisplay;
+export default FiatDisplay

@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 
 import {
   Button,
@@ -11,14 +11,14 @@ import {
   ModalFooter,
   TextGroup,
   Text
-} from "blockchain-info-components";
+} from "blockchain-info-components"
 
 const TitleGroup = styled(TextGroup)`
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-`;
+`
 const ErrorDetails = styled.details`
   margin-top: 20px;
   white-space: pre-wrap;
@@ -32,10 +32,10 @@ const ErrorDetails = styled.details`
       cursor: pointer;
     }
   }
-`;
+`
 
 const ErrorBoundary = props => {
-  const { error, errorInfo, onSubmit } = props;
+  const { error, errorInfo, onSubmit } = props
 
   return (
     <Modal size="large" style={{ zIndex: 999 }}>
@@ -82,7 +82,7 @@ const ErrorBoundary = props => {
         </Button>
       </ModalFooter>
     </Modal>
-  );
-};
+  )
+}
 
-export default ErrorBoundary;
+export default ErrorBoundary

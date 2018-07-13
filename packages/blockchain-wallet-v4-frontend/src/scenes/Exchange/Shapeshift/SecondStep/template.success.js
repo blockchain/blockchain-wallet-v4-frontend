@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { Field, reduxForm } from "redux-form";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { Field, reduxForm } from "redux-form"
 
 import {
   Button,
@@ -9,11 +9,11 @@ import {
   Text,
   TextGroup,
   Tooltip
-} from "blockchain-info-components";
-import { CheckBox, CountdownTimer, Form } from "components/Form";
-import CoinDisplay from "components/Display/CoinDisplay";
-import Terms from "components/Terms";
-import { checkboxShouldBeChecked } from "./validation";
+} from "blockchain-info-components"
+import { CheckBox, CountdownTimer, Form } from "components/Form"
+import CoinDisplay from "components/Display/CoinDisplay"
+import Terms from "components/Terms"
+import { checkboxShouldBeChecked } from "./validation"
 
 const Wrapper = styled.div`
   display: flex;
@@ -22,7 +22,7 @@ const Wrapper = styled.div`
   align-items: flex-start;
   width: 100%;
   border: 1px solid ${props => props.theme["gray-2"]};
-`;
+`
 const Header = styled.div`
   display: flex;
   flex-direction: row;
@@ -32,11 +32,11 @@ const Header = styled.div`
   padding: 20px 30px 20px 30px;
   border-bottom: 1px solid ${props => props.theme["gray-2"]};
   box-sizing: border-box;
-`;
+`
 const Container = styled.div`
   padding: 20px 30px 20px 30px;
   box-sizing: border-box;
-`;
+`
 const Footer = styled.div`
   display: flex;
   flex-direction: row;
@@ -47,7 +47,7 @@ const Footer = styled.div`
   & > :first-child {
     margin-right: 20px;
   }
-`;
+`
 const Row = styled.div`
   display: flex;
   flex-direction: row;
@@ -56,7 +56,7 @@ const Row = styled.div`
   width: 100%;
   height: ${props => props.height || "auto"};
   margin-bottom: ${props => (props.spaced ? "20px" : "5px")};
-`;
+`
 const Table = styled.div`
   display: flex;
   flex-direction: column;
@@ -71,7 +71,7 @@ const Table = styled.div`
     border-bottom: none;
   }
   margin-bottom: 20px;
-`;
+`
 const TableRow = styled.div`
   display: flex;
   flex-direction: row;
@@ -81,7 +81,7 @@ const TableRow = styled.div`
   padding: 8px 0;
   box-sizing: border-box;
   border-bottom: 1px solid ${props => props.theme["gray-2"]};
-`;
+`
 const TableCell = styled.div`
   display: flex;
   flex-direction: row;
@@ -90,7 +90,7 @@ const TableCell = styled.div`
   & > :first-child {
     margin-right: 5px;
   }
-`;
+`
 
 const Success = props => {
   const {
@@ -100,7 +100,7 @@ const Success = props => {
     submitting,
     invalid,
     ...rest
-  } = props;
+  } = props
   const {
     sourceCoin,
     sourceAmount,
@@ -112,7 +112,7 @@ const Success = props => {
     targetFee,
     targetLabel,
     expiration
-  } = rest;
+  } = rest
 
   return (
     <Wrapper>
@@ -303,7 +303,7 @@ const Success = props => {
         </Form>
       </Container>
     </Wrapper>
-  );
-};
+  )
+}
 
-export default reduxForm({ form: "exchange_second" })(Success);
+export default reduxForm({ form: "exchange_second" })(Success)

@@ -1,10 +1,10 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 
-import { Text } from "blockchain-info-components";
-import MaximumAmountLink from "./MaximumAmountLink";
-import MinimumAmountLink from "./MinimumAmountLink";
+import { Text } from "blockchain-info-components"
+import MaximumAmountLink from "./MaximumAmountLink"
+import MinimumAmountLink from "./MinimumAmountLink"
 
 const Wrapper = styled.div`
   display: flex;
@@ -15,7 +15,7 @@ const Wrapper = styled.div`
   > * {
     margin-left: 2px;
   }
-`;
+`
 
 export const AboveRegulationLimitMessage = regulationLimit => (
   <Text size="12px" weight={300} color="error">
@@ -24,7 +24,7 @@ export const AboveRegulationLimitMessage = regulationLimit => (
       defaultMessage="Please enter an amount less than the limit."
     />
   </Text>
-);
+)
 
 export const MaximumAmountMessage = () => (
   <Wrapper>
@@ -42,7 +42,7 @@ export const MaximumAmountMessage = () => (
     </Text>
     <MaximumAmountLink />
   </Wrapper>
-);
+)
 
 export const MinimumAmountMessage = () => (
   <Wrapper>
@@ -60,7 +60,7 @@ export const MinimumAmountMessage = () => (
     </Text>
     <MinimumAmountLink />
   </Wrapper>
-);
+)
 
 export const InsufficientAmountMessage = () => (
   <Text size="12px" weight={300} color="error">
@@ -69,7 +69,7 @@ export const InsufficientAmountMessage = () => (
       defaultMessage="Insufficient funds"
     />
   </Text>
-);
+)
 
 export const InvalidAmountMessage = () => (
   <Text size="12px" weight={300} color="error">
@@ -78,4 +78,4 @@ export const InvalidAmountMessage = () => (
       defaultMessage="Invalid amount"
     />
   </Text>
-);
+)

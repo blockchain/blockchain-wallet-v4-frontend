@@ -1,10 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
-import { Button } from "blockchain-info-components";
+import React from "react"
+import PropTypes from "prop-types"
+import { FormattedMessage } from "react-intl"
+import { Button } from "blockchain-info-components"
 
 const Settings = props => {
-  const { authTypeNeverSave, handleClick } = props;
+  const { authTypeNeverSave, handleClick } = props
 
   return (
     <Button nature="primary" onClick={handleClick}>
@@ -20,12 +20,12 @@ const Settings = props => {
         />
       )}
     </Button>
-  );
-};
+  )
+}
 
 Settings.propTypes = {
   authTypeNeverSave: PropTypes.number.isRequired,
   handleClick: PropTypes.func.isRequired
-};
+}
 
-export default Settings;
+export default Settings

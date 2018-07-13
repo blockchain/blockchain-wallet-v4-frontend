@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { spacing, flex } from "services/StyleService";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { spacing, flex } from "services/StyleService"
 
 import {
   Button,
@@ -12,12 +12,12 @@ import {
   ModalFooter,
   Text,
   ButtonGroup
-} from "blockchain-info-components";
+} from "blockchain-info-components"
 
 const Wrapper = styled.div`
   display: flex;
   justify-content: ${props => (props.extraCopy ? null : "center")};
-`;
+`
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -29,13 +29,13 @@ const Container = styled.div`
   span {
     margin-top: 30px;
   }
-`;
+`
 
 const Buttons = styled(ButtonGroup)`
   button {
     margin-left: 25px;
   }
-`;
+`
 
 const ConfirmDisable2FA = props => {
   const {
@@ -46,8 +46,8 @@ const ConfirmDisable2FA = props => {
     extraCopy,
     authName,
     ...rest
-  } = props;
-  const { closeAll } = rest;
+  } = props
+  const { closeAll } = rest
 
   return (
     <Modal size="large" position={position} total={total}>
@@ -94,7 +94,7 @@ const ConfirmDisable2FA = props => {
         </Buttons>
       </ModalFooter>
     </Modal>
-  );
-};
+  )
+}
 
-export default ConfirmDisable2FA;
+export default ConfirmDisable2FA

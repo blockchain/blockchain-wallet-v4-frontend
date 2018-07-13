@@ -1,35 +1,35 @@
-import React, { Component } from "react";
-import { compose, bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import modalEnhancer from "providers/ModalEnhancer";
-import { actions } from "data";
-import ShowBtcPrivateKeyTemplate from "./template";
+import React, { Component } from "react"
+import { compose, bindActionCreators } from "redux"
+import { connect } from "react-redux"
+import modalEnhancer from "providers/ModalEnhancer"
+import { actions } from "data"
+import ShowBtcPrivateKeyTemplate from "./template"
 
 const formats = [
   {
     group: "",
     items: [{ text: "WIF", value: "wif" }, { text: "Base-58", value: "base58" }]
   }
-];
+]
 
 class ShowBtcPrivateKeyContainer extends Component {
   constructor(props) {
-    super(props);
-    this.state = { format: "wif" };
-    this.handleChangeFormat = this.handleChangeFormat.bind(this);
+    super(props)
+    this.state = { format: "wif" }
+    this.handleChangeFormat = this.handleChangeFormat.bind(this)
   }
 
   componentWillUnmount() {
-    this.props.actions.clearShownBtcPrivateKey();
+    this.props.actions.clearShownBtcPrivateKey()
   }
 
   handleChangeFormat(format) {
-    this.setState({ format });
+    this.setState({ format })
   }
 
   render() {
-    let step = this.props.priv == null ? 0 : 1;
-    let nextStep = () => this.props.actions.showBtcPrivateKey(this.props.addr);
+    let step = this.props.priv == null ? 0 : 1
+    let nextStep = () => this.props.actions.showBtcPrivateKey(this.props.addr)
     return (
       <ShowBtcPrivateKeyTemplate
         {...this.props}
@@ -39,17 +39,17 @@ class ShowBtcPrivateKeyContainer extends Component {
         onContinue={nextStep}
         onChangeFormat={this.handleChangeFormat}
       />
-    );
+    )
   }
 }
 
 const mapStateToProps = state => ({
   priv: state.securityCenter.shownBtcPrivKey
-});
+})
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.modules.settings, dispatch)
-});
+})
 
 const enhance = compose(
   modalEnhancer("ShowBtcPrivateKey"),
@@ -57,6 +57,6 @@ const enhance = compose(
     mapStateToProps,
     mapDispatchToProps
   )
-);
+)
 
-export default enhance(ShowBtcPrivateKeyContainer);
+export default enhance(ShowBtcPrivateKeyContainer)

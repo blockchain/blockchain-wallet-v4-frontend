@@ -7,10 +7,10 @@ export default ({ url }) => {
         "Content-Type": "application/octet-stream"
       })
     }).then(res => {
-      return res;
-    });
+      return res
+    })
 
   return {
     uploadVerificationDocument
-  };
-};
+  }
+}

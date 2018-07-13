@@ -1,6 +1,6 @@
-import { keys, prop } from "ramda";
-import { selectors } from "data";
-import { createDeepEqualSelector } from "services/ReselectHelper";
+import { keys, prop } from "ramda"
+import { selectors } from "data"
+import { createDeepEqualSelector } from "services/ReselectHelper"
 
 export const getData = (state, ownProps) =>
   createDeepEqualSelector(
@@ -10,12 +10,12 @@ export const getData = (state, ownProps) =>
       selectors.preferences.getLanguage
     ],
     (announcementsR, announcementCachedState, language) => {
-      const announcements = announcementsR.getOrElse({});
-      const announcement = prop(ownProps.alertArea, announcements);
+      const announcements = announcementsR.getOrElse({})
+      const announcement = prop(ownProps.alertArea, announcements)
       if (keys(announcement).length) {
-        const announcement = announcements[ownProps.alertArea];
+        const announcement = announcements[ownProps.alertArea]
         const cachedState =
-          announcementCachedState && announcementCachedState[announcement.id];
+          announcementCachedState && announcementCachedState[announcement.id]
 
         return {
           announcements: announcements,
@@ -26,9 +26,9 @@ export const getData = (state, ownProps) =>
           language: language,
           visible:
             cachedState && cachedState.dismissed ? !cachedState.dismissed : true
-        };
+        }
       } else {
-        return null;
+        return null
       }
     }
-  )(state, ownProps);
+  )(state, ownProps)

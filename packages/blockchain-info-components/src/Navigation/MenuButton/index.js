@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from "react"
+import styled from "styled-components"
 
 const Button = styled.button`
   display: none;
@@ -84,10 +84,10 @@ const Button = styled.button`
       transition-delay: 0s, 250ms; /* delay before hamburger decompresses */
     }
   }
-`;
+`
 
 const MenuButton = props => {
-  return <Button />;
-};
+  return <Button />
+}
 
-export default MenuButton;
+export default MenuButton

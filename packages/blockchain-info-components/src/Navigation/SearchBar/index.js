@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from "react"
+import styled from "styled-components"
 
 const TextField = styled.input`
   background: rgba(255, 255, 255, 0.05)
@@ -98,7 +98,7 @@ const TextField = styled.input`
       line-height: 18px;
     }
   }
-`;
+`
 
 const SearchBar = props => {
   return (
@@ -107,7 +107,7 @@ const SearchBar = props => {
       placeholder="block, hash, transaction, etc..."
       type="text"
     />
-  );
-};
+  )
+}
 
-export default SearchBar;
+export default SearchBar

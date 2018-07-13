@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
+import React from "react"
+import styled from "styled-components"
 
-import { SkeletonCircle, SkeletonRectangle } from "blockchain-info-components";
+import { SkeletonCircle, SkeletonRectangle } from "blockchain-info-components"
 
 const BalancesChartSkeleton = styled(SkeletonRectangle)`
   display: flex;
@@ -9,17 +9,17 @@ const BalancesChartSkeleton = styled(SkeletonRectangle)`
   flex-direction: column;
   box-sizing: border-box;
   justify-content: space-between;
-`;
+`
 const ChartSkeleton = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-`;
+`
 const SummarySkeleton = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-`;
+`
 
 export default props => {
   return (
@@ -34,5 +34,5 @@ export default props => {
         <SkeletonRectangle width="25%" height="30px" bgColor="white" />
       </SummarySkeleton>
     </BalancesChartSkeleton>
-  );
-};
+  )
+}

@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from "react"
+import styled from "styled-components"
 
 const BaseBrand = styled.div`
   display: flex;
@@ -12,12 +12,12 @@ const BaseBrand = styled.div`
       display: none;
     }
   }
-`;
+`
 
 const NavbarBrand = props => {
-  const { children, ...rest } = props;
+  const { children, ...rest } = props
 
-  return <BaseBrand {...rest}>{children}</BaseBrand>;
-};
+  return <BaseBrand {...rest}>{children}</BaseBrand>
+}
 
-export default NavbarBrand;
+export default NavbarBrand

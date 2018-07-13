@@ -1,8 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { reduxForm } from "redux-form";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { reduxForm } from "redux-form"
 
 import {
   Button,
@@ -14,16 +14,16 @@ import {
   ModalFooter,
   Text,
   TextGroup
-} from "blockchain-info-components";
-import { Form } from "components/Form";
-import WordInput from "./WordInput";
+} from "blockchain-info-components"
+import { Form } from "components/Form"
+import WordInput from "./WordInput"
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-`;
+`
 
 const ThirdStep = props => {
   const {
@@ -34,8 +34,8 @@ const ThirdStep = props => {
     submitting,
     invalid,
     ...rest
-  } = props;
-  const { indexes, mnemonic, handleSubmit } = rest;
+  } = props
+  const { indexes, mnemonic, handleSubmit } = rest
 
   return (
     <Modal size="large" position={position} total={total}>
@@ -121,13 +121,13 @@ const ThirdStep = props => {
         </ModalFooter>
       </Form>
     </Modal>
-  );
-};
+  )
+}
 
 ThirdStep.propTypes = {
   indexes: PropTypes.array.isRequired,
   mnemonic: PropTypes.array.isRequired,
   previousStep: PropTypes.func.isRequired
-};
+}
 
-export default reduxForm({ form: "recoveryPhrase" })(ThirdStep);
+export default reduxForm({ form: "recoveryPhrase" })(ThirdStep)

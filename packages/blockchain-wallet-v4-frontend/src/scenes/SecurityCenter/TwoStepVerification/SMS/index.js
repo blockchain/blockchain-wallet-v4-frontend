@@ -1,62 +1,60 @@
-import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators, compose } from "redux";
-import ui from "redux-ui";
-import { formValueSelector } from "redux-form";
+import React from "react"
+import { connect } from "react-redux"
+import { bindActionCreators, compose } from "redux"
+import ui from "redux-ui"
+import { formValueSelector } from "redux-form"
 
-import { getData } from "./selectors";
-import { actions } from "data";
-import Success from "./template.success";
-import Error from "./template.error";
-import Loading from "./template.loading";
+import { getData } from "./selectors"
+import { actions } from "data"
+import Success from "./template.success"
+import Error from "./template.error"
+import Loading from "./template.loading"
 
 class SmsAuthContainer extends React.PureComponent {
   constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
+    super(props)
+    this.handleClick = this.handleClick.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
   }
 
   componentDidMount() {
-    const { smsVerified, smsNumber } = this.props.data.getOrElse({});
+    const { smsVerified, smsNumber } = this.props.data.getOrElse({})
     if (smsNumber && smsNumber.length && !smsVerified) {
-      this.props.securityCenterActions.sendMobileVerificationCode(smsNumber);
-      this.props.updateUI({ changeNumberToggled: false });
+      this.props.securityCenterActions.sendMobileVerificationCode(smsNumber)
+      this.props.updateUI({ changeNumberToggled: false })
     }
   }
 
   componentDidUpdate(prevProps) {
-    const next = this.props.data.getOrElse({});
-    const prev = prevProps.data.getOrElse({});
+    const next = this.props.data.getOrElse({})
+    const prev = prevProps.data.getOrElse({})
     if (next.authType !== prev.authType) {
-      this.props.updateUI({ successToggled: true });
-      this.props.triggerSuccess();
-      this.props.handleGoBack();
-      this.props.goBackOnSuccess();
+      this.props.updateUI({ successToggled: true })
+      this.props.triggerSuccess()
+      this.props.handleGoBack()
+      this.props.goBackOnSuccess()
     }
   }
 
   handleClick() {
-    this.props.modalActions.showModal("TwoStepSetup");
+    this.props.modalActions.showModal("TwoStepSetup")
   }
 
   onSubmit() {
-    const { smsNumber, smsVerified } = this.props.data.getOrElse({});
+    const { smsNumber, smsVerified } = this.props.data.getOrElse({})
 
     if (this.props.ui.changeNumberToggled || (!smsNumber && !smsVerified)) {
       this.props.securityCenterActions.sendMobileVerificationCode(
         this.props.mobileNumber
-      );
-      this.props.updateUI({ changeNumberToggled: false });
+      )
+      this.props.updateUI({ changeNumberToggled: false })
     } else {
-      this.props.securityCenterActions.verifyMobile(
-        this.props.verificationCode
-      );
+      this.props.securityCenterActions.verifyMobile(this.props.verificationCode)
     }
   }
 
   render() {
-    const { data, ui, verificationCode, goBack, ...rest } = this.props;
+    const { data, ui, verificationCode, goBack, ...rest } = this.props
 
     return data.cata({
       Success: value => (
@@ -77,7 +75,7 @@ class SmsAuthContainer extends React.PureComponent {
       Failure: message => <Error {...rest} message={message} />,
       Loading: () => <Loading {...rest} />,
       NotAsked: () => <Loading {...rest} />
-    });
+    })
   }
 }
 
@@ -85,7 +83,7 @@ const mapStateToProps = state => ({
   mobileNumber: formValueSelector("securitySms")(state, "mobileNumber"),
   verificationCode: formValueSelector("securitySms")(state, "verificationCode"),
   data: getData(state)
-});
+})
 
 const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
@@ -94,7 +92,7 @@ const mapDispatchToProps = dispatch => ({
     actions.modules.securityCenter,
     dispatch
   )
-});
+})
 
 const enhance = compose(
   connect(
@@ -109,6 +107,6 @@ const enhance = compose(
       successToggled: false
     }
   })
-);
+)
 
-export default enhance(SmsAuthContainer);
+export default enhance(SmsAuthContainer)

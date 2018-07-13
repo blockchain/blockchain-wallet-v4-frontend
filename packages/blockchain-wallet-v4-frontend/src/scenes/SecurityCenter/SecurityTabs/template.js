@@ -1,7 +1,7 @@
-import React from "react";
-import { FormattedMessage } from "react-intl";
-import styled from "styled-components";
-import { Text } from "blockchain-info-components";
+import React from "react"
+import { FormattedMessage } from "react-intl"
+import styled from "styled-components"
+import { Text } from "blockchain-info-components"
 
 const TabsWrapper = styled.div`
   display: flex;
@@ -11,7 +11,7 @@ const TabsWrapper = styled.div`
   height: 50px;
   border-bottom: 1px solid #eaeaea;
   padding: 0px 30px;
-`;
+`
 const TabList = styled.div`
   display: flex;
   flex-direction: row;
@@ -19,13 +19,13 @@ const TabList = styled.div`
   div:first-of-type {
     margin-right: 25px;
   }
-`;
+`
 const Tab = styled(Text)`
   cursor: pointer;
   border-bottom: ${props => (props.active ? "1px solid black" : null)};
   opacity: ${props => (props.active ? 1 : 0.3)};
   text-transform: uppercase;
-`;
+`
 
 const SecurityTabs = props => {
   return (
@@ -34,8 +34,8 @@ const SecurityTabs = props => {
         <Tab
           active={props.active === "security"}
           onClick={() => {
-            props.setActive("security");
-            props.setView("security");
+            props.setActive("security")
+            props.setView("security")
           }}
         >
           <FormattedMessage
@@ -46,8 +46,8 @@ const SecurityTabs = props => {
         <Tab
           active={props.active === "advanced"}
           onClick={() => {
-            props.setActive("advanced");
-            props.setView("advanced");
+            props.setActive("advanced")
+            props.setView("advanced")
           }}
         >
           <FormattedMessage
@@ -57,7 +57,7 @@ const SecurityTabs = props => {
         </Tab>
       </TabList>
     </TabsWrapper>
-  );
-};
+  )
+}
 
-export default SecurityTabs;
+export default SecurityTabs

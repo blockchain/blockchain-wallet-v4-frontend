@@ -1,13 +1,13 @@
-import React from "react";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import { FormattedMessage } from "react-intl"
 import {
   SecurityComponent,
   SecurityContainer,
   SecurityDescription,
   SecurityHeader,
   SecuritySummary
-} from "components/Security";
-import { FlatLoader } from "blockchain-info-components";
+} from "components/Security"
+import { FlatLoader } from "blockchain-info-components"
 
 const EmailAddress = props => {
   return (
@@ -39,7 +39,7 @@ const EmailAddress = props => {
         <FlatLoader width="50px" height="14px" />
       </SecurityComponent>
     </SecurityContainer>
-  );
-};
+  )
+}
 
-export default EmailAddress;
+export default EmailAddress

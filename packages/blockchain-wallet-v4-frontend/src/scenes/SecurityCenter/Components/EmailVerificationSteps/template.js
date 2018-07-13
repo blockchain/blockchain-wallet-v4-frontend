@@ -1,13 +1,13 @@
-import React from "react";
-import { FormattedMessage } from "react-intl";
-import styled from "styled-components";
-import { Field } from "redux-form";
+import React from "react"
+import { FormattedMessage } from "react-intl"
+import styled from "styled-components"
+import { Field } from "redux-form"
 
-import { Link, Button, Text, TextGroup } from "blockchain-info-components";
-import { SecuritySummary } from "components/Security";
-import { TextBox } from "components/Form";
-import { validEmailCode, required } from "services/FormHelper";
-import media from "services/ResponsiveService";
+import { Link, Button, Text, TextGroup } from "blockchain-info-components"
+import { SecuritySummary } from "components/Security"
+import { TextBox } from "components/Form"
+import { validEmailCode, required } from "services/FormHelper"
+import media from "services/ResponsiveService"
 
 const EmailCodeWrapper = styled.form`
   width: 100%;
@@ -19,18 +19,18 @@ const EmailCodeWrapper = styled.form`
   ${media.mobile`
     margin-bottom: 15px;
   `};
-`;
+`
 const ErrorMessage = styled(TextGroup)`
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   margin-top: 10px;
-`;
+`
 
 const Wrapper = styled(SecuritySummary)`
   opacity: ${props => (props.success ? 0.3 : 1)};
-`;
+`
 
 function EmailVerificationSteps(props) {
   const {
@@ -39,7 +39,7 @@ function EmailVerificationSteps(props) {
     handleResend,
     success,
     emailCode
-  } = props;
+  } = props
 
   return (
     <Wrapper success={success}>
@@ -72,7 +72,7 @@ function EmailVerificationSteps(props) {
         </ErrorMessage>
       ) : null}
     </Wrapper>
-  );
+  )
 }
 
-export default EmailVerificationSteps;
+export default EmailVerificationSteps

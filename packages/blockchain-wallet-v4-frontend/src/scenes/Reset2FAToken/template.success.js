@@ -1,18 +1,18 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { Image, Text } from "blockchain-info-components";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { Image, Text } from "blockchain-info-components"
 
 const Wrapper = styled.div`
   display: flex;
   text-align: center;
   align-items: center;
   flex-direction: column;
-`;
+`
 
 const Success = props => {
-  const { message } = props.value;
-  const declined = message === "Reset Request Successfully Declined.";
+  const { message } = props.value
+  const declined = message === "Reset Request Successfully Declined."
 
   return (
     <Wrapper>
@@ -33,7 +33,7 @@ const Success = props => {
         </Text>
       )}
     </Wrapper>
-  );
-};
+  )
+}
 
-export default Success;
+export default Success

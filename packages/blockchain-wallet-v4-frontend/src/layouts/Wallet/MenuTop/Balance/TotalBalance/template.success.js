@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { LinkContainer } from "react-router-bootstrap";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { LinkContainer } from "react-router-bootstrap"
 
 const Wrapper = styled.div`
   text-align: right;
@@ -17,7 +17,7 @@ const Wrapper = styled.div`
       color: ${props => props.theme["gray-3"]};
     }
   }
-`;
+`
 
 const Success = props =>
   props.large ? (
@@ -33,5 +33,5 @@ const Success = props =>
         {props.totalBalance}
       </Wrapper>
     </LinkContainer>
-  );
-export default Success;
+  )
+export default Success

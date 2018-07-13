@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { Image, Link, Text, TextGroup } from "blockchain-info-components";
-import media from "services/ResponsiveService";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { Image, Link, Text, TextGroup } from "blockchain-info-components"
+import media from "services/ResponsiveService"
 
 const Wrapper = styled.div`
   display: flex;
@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-`;
+`
 const Empty = styled.div`
   display: flex;
   flex-direction: column;
@@ -20,15 +20,15 @@ const Empty = styled.div`
   ${media.mobile`
     margin-top: 0px;
   `};
-`;
+`
 const Header = styled(Text)`
   margin-top: 30px;
   margin-bottom: 20px;
-`;
+`
 
 class EmptyOrderHistoryContainer extends React.PureComponent {
   render() {
-    const { changeTab } = this.props;
+    const { changeTab } = this.props
     return (
       <Wrapper>
         <Empty>
@@ -64,8 +64,8 @@ class EmptyOrderHistoryContainer extends React.PureComponent {
           </TextGroup>
         </Empty>
       </Wrapper>
-    );
+    )
   }
 }
 
-export default EmptyOrderHistoryContainer;
+export default EmptyOrderHistoryContainer

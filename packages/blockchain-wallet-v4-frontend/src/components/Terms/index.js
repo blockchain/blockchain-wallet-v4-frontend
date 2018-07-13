@@ -1,17 +1,17 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 
-import { Link, Text } from "blockchain-info-components";
+import { Link, Text } from "blockchain-info-components"
 
 const TermsContainer = styled.div`
   & > * {
     display: inline-block;
     margin-right: 3px;
   }
-`;
+`
 const Terms = props => {
-  const { company } = props;
+  const { company } = props
   switch (company) {
     case "shapeshift":
       return (
@@ -34,7 +34,7 @@ const Terms = props => {
             />
           </Link>
         </TermsContainer>
-      );
+      )
     case "coinify":
       return (
         <TermsContainer>
@@ -78,7 +78,7 @@ const Terms = props => {
             />
           </Link>
         </TermsContainer>
-      );
+      )
     case "sfox":
       return (
         <TermsContainer>
@@ -122,7 +122,7 @@ const Terms = props => {
             />
           </Link>
         </TermsContainer>
-      );
+      )
     default:
       return (
         <TermsContainer>
@@ -144,8 +144,8 @@ const Terms = props => {
             />
           </Link>
         </TermsContainer>
-      );
+      )
   }
-};
+}
 
-export default Terms;
+export default Terms

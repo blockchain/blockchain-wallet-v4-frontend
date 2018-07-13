@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import styled from "styled-components";
-import SearchIcon from "../Images/img/search.svg";
-import Logo from "../Images/img/blockchain-vector.svg";
+import React, { Component } from "react"
+import styled from "styled-components"
+import SearchIcon from "../Images/img/search.svg"
+import Logo from "../Images/img/blockchain-vector.svg"
 
 const Wrapper = styled.div`
   button:focus {
@@ -704,44 +704,44 @@ const Wrapper = styled.div`
       height: 350px;
     }
   }
-`;
+`
 
 class Navigation extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       menuButtonIsActive: false,
       open: false,
       searching: false
-    };
+    }
   }
 
   menuButtonPressed() {
-    const { menuButtonIsActive, open } = this.state;
+    const { menuButtonIsActive, open } = this.state
     this.setState({
       menuButtonIsActive: !menuButtonIsActive,
       open: !open
-    });
+    })
   }
 
   searchButtonPress() {
-    const { searching } = this.state;
+    const { searching } = this.state
     this.setState({
       open: false,
       searching: !searching
-    });
+    })
   }
 
   setHeaderOpenState(state) {
     this.setState({
       open: state,
       menuButtonIsActive: state
-    });
+    })
   }
 
   render() {
-    const { menuButtonIsActive, open, searching } = this.state;
-    const status = open ? "open" : searching ? "searching" : null;
+    const { menuButtonIsActive, open, searching } = this.state
+    const status = open ? "open" : searching ? "searching" : null
     return (
       /* eslint-disable */
       <Wrapper>
@@ -857,8 +857,8 @@ class Navigation extends Component {
         </nav>
       </Wrapper>
       /* eslint-enable */
-    );
+    )
   }
 }
 
-export default Navigation;
+export default Navigation

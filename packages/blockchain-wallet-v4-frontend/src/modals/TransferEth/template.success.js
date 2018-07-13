@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 
 import {
   Button,
@@ -9,8 +9,8 @@ import {
   ModalBody,
   Text,
   TextGroup
-} from "blockchain-info-components";
-import CoinDisplay from "components/Display/CoinDisplay";
+} from "blockchain-info-components"
+import CoinDisplay from "components/Display/CoinDisplay"
 
 const Container = styled.div`
   display: flex;
@@ -21,7 +21,7 @@ const Container = styled.div`
   margin: 10px 0;
   background-color: ${props => props.theme["gray-1"]};
   border: 1px solid ${props => props.theme["gray-2"]};
-`;
+`
 const Row = styled.div`
   display: flex;
   flex-direction: row;
@@ -30,11 +30,11 @@ const Row = styled.div`
   width: 100%;
   padding: 5px;
   box-sizing: border-box;
-`;
+`
 
 const Success = props => {
-  const { position, total, loading, ...rest } = props;
-  const { handleSubmit, from, val } = rest;
+  const { position, total, loading, ...rest } = props
+  const { handleSubmit, from, val } = rest
 
   return (
     <Modal size="large" position={position} total={total}>
@@ -119,7 +119,7 @@ const Success = props => {
         </Button>
       </ModalBody>
     </Modal>
-  );
-};
+  )
+}
 
-export default Success;
+export default Success

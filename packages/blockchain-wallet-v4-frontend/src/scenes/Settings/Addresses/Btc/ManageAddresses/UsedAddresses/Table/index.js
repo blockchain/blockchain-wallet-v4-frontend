@@ -1,19 +1,19 @@
-import React from "react";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import { formValueSelector } from "redux-form";
+import React from "react"
+import { bindActionCreators } from "redux"
+import { connect } from "react-redux"
+import { formValueSelector } from "redux-form"
 
-import { FlatLoader } from "blockchain-info-components";
-import { actions, selectors } from "data";
-import UsedAddressesTable from "./template";
+import { FlatLoader } from "blockchain-info-components"
+import { actions, selectors } from "data"
+import UsedAddressesTable from "./template"
 
 class UsedAddressesTableContainer extends React.PureComponent {
   componentWillMount() {
-    this.props.componentActions.fetchUsedAddresses(this.props.walletIndex);
+    this.props.componentActions.fetchUsedAddresses(this.props.walletIndex)
   }
 
   render() {
-    const { usedAddresses, search } = this.props;
+    const { usedAddresses, search } = this.props
 
     return !usedAddresses
       ? null
@@ -30,7 +30,7 @@ class UsedAddressesTableContainer extends React.PureComponent {
             />
           ),
           NotAsked: () => <div />
-        });
+        })
   }
 }
 
@@ -40,16 +40,16 @@ const mapStateToProps = (state, ownProps) => ({
     state,
     ownProps.walletIndex
   )
-});
+})
 
 const mapDispatchToProps = dispatch => ({
   componentActions: bindActionCreators(
     actions.components.manageAddresses,
     dispatch
   )
-});
+})
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(UsedAddressesTableContainer);
+)(UsedAddressesTableContainer)

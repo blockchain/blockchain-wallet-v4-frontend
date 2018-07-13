@@ -1,13 +1,13 @@
-import React from "react";
-import { reduxForm, Field } from "redux-form";
-import { FormattedMessage } from "react-intl";
-import styled from "styled-components";
-import { any, equals, prop } from "ramda";
+import React from "react"
+import { reduxForm, Field } from "redux-form"
+import { FormattedMessage } from "react-intl"
+import styled from "styled-components"
+import { any, equals, prop } from "ramda"
 
-import { Button, Link, Text } from "blockchain-info-components";
-import { required, validIban, validBIC } from "services/FormHelper";
-import { spacing } from "services/StyleService";
-import { StepTransition } from "components/Utilities/Stepper";
+import { Button, Link, Text } from "blockchain-info-components"
+import { required, validIban, validBIC } from "services/FormHelper"
+import { spacing } from "services/StyleService"
+import { StepTransition } from "components/Utilities/Stepper"
 import {
   BorderBox,
   Form,
@@ -17,8 +17,8 @@ import {
   PartnerSubHeader,
   ColRight,
   ColRightInner
-} from "components/BuySell/Signup";
-import { TextBox } from "components/Form";
+} from "components/BuySell/Signup"
+import { TextBox } from "components/Form"
 
 const CancelWrapper = styled.div`
   display: flex;
@@ -30,21 +30,21 @@ const CancelWrapper = styled.div`
     font-weight: 300;
     font-size: 14px;
   }
-`;
+`
 const FieldText = styled(Text)`
   padding-bottom: 10px;
   padding-top: 20px;
-`;
+`
 const FieldWrapper = styled.div`
   width: 100%;
-`;
+`
 
 const AddBankDetails = props => {
-  const { invalid, submitting, quote } = props;
+  const { invalid, submitting, quote } = props
   const isCurrencyDKK = any(equals("DKK"))([
     prop("baseCurrency", quote),
     prop("quoteCurrency", quote)
-  ]);
+  ])
 
   return (
     <Form>
@@ -138,10 +138,10 @@ const AddBankDetails = props => {
         </ColRightInner>
       </ColRight>
     </Form>
-  );
-};
+  )
+}
 
 export default reduxForm({
   form: "coinifyAddBankDetails",
   destroyOnUnmount: false
-})(AddBankDetails);
+})(AddBankDetails)

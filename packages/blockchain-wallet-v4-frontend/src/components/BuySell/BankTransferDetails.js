@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { Text } from "blockchain-info-components";
-import { spacing } from "services/StyleService";
-import PropTypes from "prop-types";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { Text } from "blockchain-info-components"
+import { spacing } from "services/StyleService"
+import PropTypes from "prop-types"
 
 const BankTransferDetailsTable = styled.div`
   display: flex;
@@ -11,7 +11,7 @@ const BankTransferDetailsTable = styled.div`
   border: 1px solid ${props => props.theme["gray-2"]};
   background-color: ${props => props.theme["white-blue"]};
   padding: 15px;
-`;
+`
 const DetailsRow = styled.div`
   display: flex;
   flex-direction: row;
@@ -19,18 +19,18 @@ const DetailsRow = styled.div`
   div:first-of-type {
     margin-right: 10px;
   }
-`;
+`
 const BankTransferDetailsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: ${props => (props.inModal ? `0px` : `30px`)};
   border: ${props =>
     props.inModal ? `none` : `1px solid ${props.theme["gray-1"]}`};
-`;
+`
 
 const BankTransferDetails = ({ trade, inModal }) => {
-  const holderAddress = trade.bankAccount.holderAddress;
-  const bankAddress = trade.bankAccount.bankAddress;
+  const holderAddress = trade.bankAccount.holderAddress
+  const bankAddress = trade.bankAccount.bankAddress
 
   return (
     <BankTransferDetailsWrapper inModal>
@@ -148,8 +148,8 @@ const BankTransferDetails = ({ trade, inModal }) => {
         </DetailsRow>
       </BankTransferDetailsTable>
     </BankTransferDetailsWrapper>
-  );
-};
+  )
+}
 
 BankTransferDetails.propTypes = {
   trade: PropTypes.shape({
@@ -157,6 +157,6 @@ BankTransferDetails.propTypes = {
     sendAmount: PropTypes.number.isRequired,
     inCurrency: PropTypes.string.isRequired
   })
-};
+}
 
-export default BankTransferDetails;
+export default BankTransferDetails

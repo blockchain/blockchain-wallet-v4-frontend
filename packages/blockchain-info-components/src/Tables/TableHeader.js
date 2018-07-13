@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from "react"
+import styled from "styled-components"
 
 const Wrapper = styled.div`
   display: flex;
@@ -13,8 +13,8 @@ const Wrapper = styled.div`
   border-left: 1px solid ${props => props.theme["gray-2"]};
   border-top: 1px solid ${props => props.theme["gray-2"]};
   border-right: 1px solid ${props => props.theme["gray-2"]};
-`;
+`
 
-const TableHeader = ({ children }) => <Wrapper>{children}</Wrapper>;
+const TableHeader = ({ children }) => <Wrapper>{children}</Wrapper>
 
-export default TableHeader;
+export default TableHeader

@@ -1,16 +1,16 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
-import styled from "styled-components";
+import React from "react"
+import PropTypes from "prop-types"
+import { FormattedMessage } from "react-intl"
+import styled from "styled-components"
 
-import { Text } from "blockchain-info-components";
+import { Text } from "blockchain-info-components"
 
 const StatusText = styled(Text)`
   font-size: ${props => props.mobileSize};
   @media (min-width: 480px) {
     font-size: ${props => props.size};
   }
-`;
+`
 
 const Status = props => (
   <StatusText
@@ -39,10 +39,10 @@ const Status = props => (
       />
     )}
   </StatusText>
-);
+)
 
 Status.propTypes = {
   type: PropTypes.string.isRequired
-};
+}
 
-export default Status;
+export default Status

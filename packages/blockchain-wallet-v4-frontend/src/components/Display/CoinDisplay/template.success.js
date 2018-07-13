@@ -1,20 +1,20 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { Icon, Text } from "blockchain-info-components";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { Icon, Text } from "blockchain-info-components"
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-`;
+`
 const CoinText = styled(Text)`
   font-size: ${props => props.mobileSize};
   @media (min-width: 480px) {
     font-size: ${props => props.size};
   }
-`;
+`
 
 const CoinDisplay = props => {
   const {
@@ -26,7 +26,7 @@ const CoinDisplay = props => {
     color,
     cursor,
     mobileSize
-  } = props;
+  } = props
   return (
     <Wrapper>
       {showIcon &&
@@ -51,8 +51,8 @@ const CoinDisplay = props => {
         {children}
       </CoinText>
     </Wrapper>
-  );
-};
+  )
+}
 
 CoinDisplay.propTypes = {
   coin: PropTypes.oneOf(["BTC", "ETH", "BCH"]).isRequired,
@@ -63,7 +63,7 @@ CoinDisplay.propTypes = {
   color: PropTypes.string,
   cursor: PropTypes.string,
   mobileSize: PropTypes.string
-};
+}
 
 CoinDisplay.defaultProps = {
   showIcon: false,
@@ -72,6 +72,6 @@ CoinDisplay.defaultProps = {
   color: "gray-5",
   cursor: "auto",
   mobileSize: ""
-};
+}
 
-export default CoinDisplay;
+export default CoinDisplay

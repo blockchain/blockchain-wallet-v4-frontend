@@ -1,24 +1,24 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { any, equals, filter } from "ramda";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { any, equals, filter } from "ramda"
 
-import { Text, TextGroup, Tooltip } from "blockchain-info-components";
-import { utils } from "blockchain-wallet-v4/src";
+import { Text, TextGroup, Tooltip } from "blockchain-info-components"
+import { utils } from "blockchain-wallet-v4/src"
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-`;
+`
 
-const hasLabel = io => io.label;
-const notChange = io => !io.change;
+const hasLabel = io => io.label
+const notChange = io => !io.change
 
 const Addresses = props => {
-  const { from, to, outputs, inputs, coin } = props;
+  const { from, to, outputs, inputs, coin } = props
 
   return (
     <Wrapper>
@@ -72,12 +72,12 @@ const Addresses = props => {
         </Tooltip>
       </TextGroup>
     </Wrapper>
-  );
-};
+  )
+}
 
 Addresses.propTypes = {
   to: PropTypes.string.isRequired,
   from: PropTypes.string.isRequired
-};
+}
 
-export default Addresses;
+export default Addresses

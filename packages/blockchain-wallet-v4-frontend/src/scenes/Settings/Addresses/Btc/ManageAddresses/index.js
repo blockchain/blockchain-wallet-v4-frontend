@@ -1,20 +1,20 @@
-import React from "react";
-import styled from "styled-components";
-import { LinkContainer } from "react-router-bootstrap";
-import { Field, reduxForm } from "redux-form";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import styled from "styled-components"
+import { LinkContainer } from "react-router-bootstrap"
+import { Field, reduxForm } from "redux-form"
+import { FormattedMessage } from "react-intl"
 
-import { TextBox } from "components/Form";
-import { Icon, IconButton } from "blockchain-info-components";
-import UnusedAddresses from "./UnusedAddresses";
-import UsedAddresses from "./UsedAddresses";
+import { TextBox } from "components/Form"
+import { Icon, IconButton } from "blockchain-info-components"
+import UnusedAddresses from "./UnusedAddresses"
+import UsedAddresses from "./UsedAddresses"
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   width: 100%;
-`;
+`
 const MenuWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -30,10 +30,10 @@ const MenuWrapper = styled.div`
     flex-direction: row;
     justify-content: space-between;
   }
-`;
+`
 const ContentWrapper = styled.div`
   padding: 40px 30px;
-`;
+`
 const Search = styled.div`
   position: relative;
   display: flex;
@@ -44,16 +44,16 @@ const Search = styled.div`
   @media (min-width: 1200px) {
     width: auto;
   }
-`;
+`
 const SearchIcon = styled(Icon)`
   position: absolute;
   top: 10px;
   right: 10px;
-`;
+`
 
 class ManageAddressesContainer extends React.PureComponent {
   render() {
-    const walletIndex = this.props.computedMatch.params.index;
+    const walletIndex = this.props.computedMatch.params.index
 
     return (
       <Wrapper>
@@ -76,8 +76,8 @@ class ManageAddressesContainer extends React.PureComponent {
           <UsedAddresses walletIndex={walletIndex} />
         </ContentWrapper>
       </Wrapper>
-    );
+    )
   }
 }
 
-export default reduxForm({ form: "manageAddresses" })(ManageAddressesContainer);
+export default reduxForm({ form: "manageAddresses" })(ManageAddressesContainer)

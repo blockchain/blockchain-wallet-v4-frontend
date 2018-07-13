@@ -1,15 +1,15 @@
-import React from "react";
-import { connect } from "react-redux";
+import React from "react"
+import { connect } from "react-redux"
 
-import { selectors } from "data";
-import SelectBox from "../SelectBox";
+import { selectors } from "data"
+import SelectBox from "../SelectBox"
 
 class SelectBoxCurrency extends React.PureComponent {
   render() {
-    const { currencies, ...rest } = this.props;
-    const elements = [{ group: "", items: currencies }];
+    const { currencies, ...rest } = this.props
+    const elements = [{ group: "", items: currencies }]
 
-    return <SelectBox elements={elements} {...rest} />;
+    return <SelectBox elements={elements} {...rest} />
   }
 }
 
@@ -39,6 +39,6 @@ const mapStateToProps = state => ({
     { text: "Thai Baht", value: "THB" },
     { text: "U.S. Dollar", value: "USD" }
   ]
-});
+})
 
-export default connect(mapStateToProps)(SelectBoxCurrency);
+export default connect(mapStateToProps)(SelectBoxCurrency)

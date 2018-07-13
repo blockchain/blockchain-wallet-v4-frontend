@@ -153,7 +153,7 @@ const bitcoinRates = {
     sell: 198740.48,
     symbol: "NT$"
   }
-};
+}
 
 const ethereumRates = {
   USD: { "15m": 295.63, last: 295.63, buy: 295.65, sell: 295.61, symbol: "$" },
@@ -262,6 +262,6 @@ const ethereumRates = {
     sell: 8915.89,
     symbol: "NT$"
   }
-};
+}
 
-export { bitcoinRates, ethereumRates };
+export { bitcoinRates, ethereumRates }

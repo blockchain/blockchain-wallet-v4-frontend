@@ -1,16 +1,16 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 
-import WalletId from "./WalletId";
-import PairingCode from "./PairingCode";
-import { Banner, Text } from "blockchain-info-components";
+import WalletId from "./WalletId"
+import PairingCode from "./PairingCode"
+import { Banner, Text } from "blockchain-info-components"
 
 const Wrapper = styled.section`
   padding: 30px;
   width: 100%;
   box-sizing: border-box;
-`;
+`
 
 const Info = () => {
   return (
@@ -31,7 +31,7 @@ const Info = () => {
       <WalletId />
       <PairingCode />
     </Wrapper>
-  );
-};
+  )
+}
 
-export default Info;
+export default Info

@@ -1,15 +1,15 @@
-import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { formValueSelector } from "redux-form";
+import React from "react"
+import { connect } from "react-redux"
+import { bindActionCreators } from "redux"
+import { formValueSelector } from "redux-form"
 
-import SecondStep from "./template";
-import { actions, selectors } from "data";
+import SecondStep from "./template"
+import { actions, selectors } from "data"
 
 class SecondStepContainer extends React.PureComponent {
   constructor(props) {
-    super(props);
-    this.onSubmit = this.onSubmit.bind(this);
+    super(props)
+    this.onSubmit = this.onSubmit.bind(this)
   }
 
   onSubmit() {
@@ -21,8 +21,8 @@ class SecondStepContainer extends React.PureComponent {
       message,
       code,
       captcha
-    } = this.props;
-    const { sessionToken } = captcha.getOrElse({});
+    } = this.props
+    const { sessionToken } = captcha.getOrElse({})
 
     this.props.authActions.reset2fa(
       guid,
@@ -32,20 +32,20 @@ class SecondStepContainer extends React.PureComponent {
       message,
       code,
       sessionToken
-    );
+    )
   }
 
   render() {
-    const { data } = this.props;
+    const { data } = this.props
     let busy = data.cata({
       Success: () => {
-        this.props.nextStep();
-        return false;
+        this.props.nextStep()
+        return false
       },
       Failure: () => false,
       Loading: () => true,
       NotAsked: () => false
-    });
+    })
 
     return (
       <SecondStep
@@ -54,7 +54,7 @@ class SecondStepContainer extends React.PureComponent {
         onSubmit={this.onSubmit}
         busy={busy}
       />
-    );
+    )
   }
 }
 
@@ -67,14 +67,14 @@ const mapStateToProps = state => ({
   code: formValueSelector("reset2FA")(state, "code"),
   captcha: selectors.core.data.misc.getCaptcha(state),
   data: selectors.auth.getReset2fa(state)
-});
+})
 
 const mapDispatchToProps = dispatch => ({
   authActions: bindActionCreators(actions.auth, dispatch),
   alertActions: bindActionCreators(actions.alerts, dispatch)
-});
+})
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(SecondStepContainer);
+)(SecondStepContainer)

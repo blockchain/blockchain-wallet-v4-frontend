@@ -1,13 +1,13 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
-import { reduxForm } from "redux-form";
+import React from "react"
+import PropTypes from "prop-types"
+import { FormattedMessage } from "react-intl"
+import { reduxForm } from "redux-form"
 
-import { Modal, ModalBody, Text } from "blockchain-info-components";
-import { Form } from "components/Form";
+import { Modal, ModalBody, Text } from "blockchain-info-components"
+import { Form } from "components/Form"
 
 const UpgradeAddressLabels = props => {
-  const { duration, position, total } = props;
+  const { duration, position, total } = props
 
   return (
     <Modal size="large" position={position} total={total}>
@@ -23,15 +23,13 @@ const UpgradeAddressLabels = props => {
         </ModalBody>
       </Form>
     </Modal>
-  );
-};
+  )
+}
 
 UpgradeAddressLabels.propTypes = {
   payload: PropTypes.shape({
     duration: PropTypes.number.isRequired
   })
-};
+}
 
-export default reduxForm({ form: "upgradeAddressLabels" })(
-  UpgradeAddressLabels
-);
+export default reduxForm({ form: "upgradeAddressLabels" })(UpgradeAddressLabels)

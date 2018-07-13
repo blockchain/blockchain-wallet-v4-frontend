@@ -1,17 +1,17 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { Link } from "blockchain-info-components";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { Link } from "blockchain-info-components"
 
 const Wrapper = styled.div`
   display: flex;
   box-sizing: border-box;
   justify-content: flex-end;
   padding-right: 25px;
-`;
+`
 const ErrorLink = styled(Link)`
   text-decoration: underline;
-`;
+`
 
 export default props => (
   <Wrapper>
@@ -23,4 +23,4 @@ export default props => (
       />
     </ErrorLink>
   </Wrapper>
-);
+)

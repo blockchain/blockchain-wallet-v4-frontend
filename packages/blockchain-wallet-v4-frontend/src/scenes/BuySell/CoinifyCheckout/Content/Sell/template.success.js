@@ -1,23 +1,23 @@
-import React from "react";
-import styled from "styled-components";
-import { contains, path, prop } from "ramda";
+import React from "react"
+import styled from "styled-components"
+import { contains, path, prop } from "ramda"
 
-import * as service from "services/CoinifyService";
-import Stepper, { StepView } from "components/Utilities/Stepper";
-import OrderCheckout from "../OrderCheckout";
-import { OrderDetails, OrderSubmit } from "../OrderReview";
-import AddBankDetails from "./AddBankDetails";
-import AddCustomerDetails from "./AddCustomerDetails";
-import SelectAccounts from "./SelectAccounts";
-import ISignThis from "modals/CoinifyExchangeData/ISignThis";
-import KYCNotification from "../KYCNotification";
+import * as service from "services/CoinifyService"
+import Stepper, { StepView } from "components/Utilities/Stepper"
+import OrderCheckout from "../OrderCheckout"
+import { OrderDetails, OrderSubmit } from "../OrderReview"
+import AddBankDetails from "./AddBankDetails"
+import AddCustomerDetails from "./AddCustomerDetails"
+import SelectAccounts from "./SelectAccounts"
+import ISignThis from "modals/CoinifyExchangeData/ISignThis"
+import KYCNotification from "../KYCNotification"
 import {
   ColLeft,
   ColRight,
   ColRightInner,
   Row
-} from "components/BuySell/Signup";
-import media from "services/ResponsiveService";
+} from "components/BuySell/Signup"
+import media from "services/ResponsiveService"
 
 const CheckoutWrapper = styled.div`
   display: grid;
@@ -27,7 +27,7 @@ const CheckoutWrapper = styled.div`
     display: flex;
     flex-direction: column;
   `};
-`;
+`
 
 const Sell = props => {
   const {
@@ -50,22 +50,22 @@ const Sell = props => {
     onOrderCheckoutSubmit,
     checkoutError,
     handleKycAction
-  } = props;
+  } = props
 
   const profile = value.profile || {
     _limits: service.mockedLimits,
     _level: { currency: "EUR" }
-  };
-  const kyc = prop("kyc", value);
-  const sellCurrencies = ["EUR", "DKK", "GBP"];
-  const defaultCurrency = contains(currency, sellCurrencies) ? currency : "EUR"; // profile._level.currency
-  const symbol = service.currencySymbolMap[defaultCurrency];
+  }
+  const kyc = prop("kyc", value)
+  const sellCurrencies = ["EUR", "DKK", "GBP"]
+  const defaultCurrency = contains(currency, sellCurrencies) ? currency : "EUR" // profile._level.currency
+  const symbol = service.currencySymbolMap[defaultCurrency]
 
   const limits = service.getLimits(
     profile._limits,
     defaultCurrency,
     path(["payment", "effectiveBalance"], value)
-  );
+  )
 
   if (step !== "isx") {
     return (
@@ -137,15 +137,15 @@ const Sell = props => {
           </Row>
         </StepView>
       </Stepper>
-    );
+    )
   } else if (step === "isx") {
     return (
       <ISignThis
         iSignThisId={path(["iSignThisID"], trade)}
         options={props.options}
       />
-    );
+    )
   }
-};
+}
 
-export default Sell;
+export default Sell

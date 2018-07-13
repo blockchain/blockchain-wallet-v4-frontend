@@ -1,24 +1,24 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
-import { Field, reduxForm } from "redux-form";
-import styled from "styled-components";
+import React from "react"
+import PropTypes from "prop-types"
+import { FormattedMessage } from "react-intl"
+import { Field, reduxForm } from "redux-form"
+import styled from "styled-components"
 
-import { Button, ButtonGroup, Text } from "blockchain-info-components";
-import { NumberBox, FormGroup, FormItem } from "components/Form";
-import { SettingForm, SettingWrapper } from "components/Setting";
-import { spacing } from "services/StyleService";
-import { isValidAutoLogoutTime } from "./validation";
+import { Button, ButtonGroup, Text } from "blockchain-info-components"
+import { NumberBox, FormGroup, FormItem } from "components/Form"
+import { SettingForm, SettingWrapper } from "components/Setting"
+import { spacing } from "services/StyleService"
+import { isValidAutoLogoutTime } from "./validation"
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-`;
+`
 
 const Settings = props => {
-  const { handleToggle, handleClick, submitting, invalid } = props;
+  const { handleToggle, handleClick, submitting, invalid } = props
 
   return (
     <SettingWrapper>
@@ -67,12 +67,12 @@ const Settings = props => {
         </ButtonGroup>
       </SettingForm>
     </SettingWrapper>
-  );
-};
+  )
+}
 
 Settings.propTypes = {
   handleToggle: PropTypes.func.isRequired,
   handleClick: PropTypes.func.isRequired
-};
+}
 
-export default reduxForm({ form: "settingAutoLogoutTime" })(Settings);
+export default reduxForm({ form: "settingAutoLogoutTime" })(Settings)

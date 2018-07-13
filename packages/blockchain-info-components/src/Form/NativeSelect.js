@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import selectArrow from "../Images/img/select-arrow.png";
+import React from "react"
+import styled from "styled-components"
+import selectArrow from "../Images/img/select-arrow.png"
 
 const BaseSelectInput = styled.select`
   height: 30px;
@@ -24,24 +24,24 @@ const BaseSelectInput = styled.select`
   &:focus {
     border: 1px solid ${props => props.theme["brand-secondary"]};
   }
-`;
+`
 
 const selectBorderColor = state => {
   switch (state) {
     case "initial":
-      return "gray-2";
+      return "gray-2"
     case "invalid":
-      return "error";
+      return "error"
     case "valid":
-      return "success";
+      return "success"
     default:
-      return "gray-2";
+      return "gray-2"
   }
-};
+}
 
 const SelectInput = props => {
-  const { errorState, disabled, input, ...rest } = props;
-  const borderColor = selectBorderColor(errorState);
+  const { errorState, disabled, input, ...rest } = props
+  const borderColor = selectBorderColor(errorState)
 
   return (
     <BaseSelectInput
@@ -51,7 +51,7 @@ const SelectInput = props => {
       onChange={input.onChange}
       {...rest}
     />
-  );
-};
+  )
+}
 
-export default SelectInput;
+export default SelectInput

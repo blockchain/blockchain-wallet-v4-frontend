@@ -1,13 +1,13 @@
-import React, { Fragment } from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { prop, path, sortBy, reverse, head } from "ramda";
-import moment from "moment";
-import RecurringTradeItem from "../RecurringTrade";
-import media from "services/ResponsiveService";
-import { MediaContextConsumer } from "providers/MatchMediaProvider";
-import { RecurringTableHeader } from "../components";
+import React, { Fragment } from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { prop, path, sortBy, reverse, head } from "ramda"
+import moment from "moment"
+import RecurringTradeItem from "../RecurringTrade"
+import media from "services/ResponsiveService"
+import { MediaContextConsumer } from "providers/MatchMediaProvider"
+import { RecurringTableHeader } from "../components"
 import {
   TableCell,
   TableRow,
@@ -15,7 +15,7 @@ import {
   Link,
   Icon,
   Button
-} from "blockchain-info-components";
+} from "blockchain-info-components"
 
 const ToggleIcon = styled(Icon)`
   cursor: pointer;
@@ -25,28 +25,28 @@ const ToggleIcon = styled(Icon)`
   ${media.mobile`
     display: none;
   `};
-`;
+`
 const Frequency = styled(Text)`
   text-transform: capitalize;
-`;
+`
 const RecurringTableWrapper = styled.div`
   width: calc(100% - 22px);
   padding: 5px 10px;
   border-left: 1px solid ${props => props.theme["gray-2"]};
   border-right: 1px solid ${props => props.theme["gray-2"]};
   padding-bottom: 30px;
-`;
+`
 const RecurringCancelWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-top: 20px;
-`;
+`
 const StatusText = styled(Text)`
   margin-left: 10px;
   ${media.mobile`
     margin-left: 0px;
   `};
-`;
+`
 const StatusContainer = styled(TableCell)`
   display: flex;
   flex-basis: 30%;
@@ -54,21 +54,21 @@ const StatusContainer = styled(TableCell)`
     flex-direction: column;
     width: 25%;
   `};
-`;
+`
 const dateHelper = (date, isMobile) =>
   moment(date)
     .local()
-    .format(isMobile ? "DD MMM" : "MMMM D YYYY");
+    .format(isMobile ? "DD MMM" : "MMMM D YYYY")
 
 class RecurringOrder extends React.Component {
   constructor(props) {
-    super(props);
-    this.state = { toggled: false };
-    this.toggleRow = this.toggleRow.bind(this);
+    super(props)
+    this.state = { toggled: false }
+    this.toggleRow = this.toggleRow.bind(this)
   }
 
   toggleRow() {
-    this.setState({ toggled: !this.state.toggled });
+    this.setState({ toggled: !this.state.toggled })
   }
 
   render() {
@@ -83,10 +83,10 @@ class RecurringOrder extends React.Component {
       status,
       cancelTradeId,
       canTrade
-    } = this.props;
-    const sortByCreated = sortBy(prop("createdAt"));
-    const sortedTrades = reverse(sortByCreated(matchedTrades));
-    const firstTrade = head(sortByCreated(matchedTrades));
+    } = this.props
+    const sortByCreated = sortBy(prop("createdAt"))
+    const sortedTrades = reverse(sortByCreated(matchedTrades))
+    const firstTrade = head(sortByCreated(matchedTrades))
 
     return (
       <Fragment>
@@ -224,12 +224,12 @@ class RecurringOrder extends React.Component {
           </RecurringTableWrapper>
         ) : null}
       </Fragment>
-    );
+    )
   }
 }
 
 RecurringOrder.propTypes = {
   trade: PropTypes.object.isRequired
-};
+}
 
-export default RecurringOrder;
+export default RecurringOrder

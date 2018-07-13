@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 const SettingHeader = styled.div`
   display: flex;
@@ -13,6 +13,6 @@ const SettingHeader = styled.div`
   & > * {
     margin-right: 10px;
   }
-`;
+`
 
-export default SettingHeader;
+export default SettingHeader

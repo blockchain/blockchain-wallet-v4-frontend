@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const MethodContainer = styled.div`
   height: 65px;
@@ -12,4 +12,4 @@ export const MethodContainer = styled.div`
       props.borderDark ? props.theme["gray-2"] : props.theme["gray-1"]};
   border-radius: 3px;
   background-color: ${props => props.theme["white-blue"]};
-`;
+`

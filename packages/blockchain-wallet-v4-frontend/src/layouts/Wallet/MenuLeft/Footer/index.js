@@ -1,22 +1,22 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 
-import { Link } from "blockchain-info-components";
+import { Link } from "blockchain-info-components"
 
 const Wrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-around;
-`;
+`
 const Circle = styled.div`
   display: block;
   width: 10px;
   height: 10px;
   border-radius: 5px;
   background: ${props => props.theme["gray-2"]};
-`;
+`
 
 const Footer = () => {
   return (
@@ -60,7 +60,7 @@ const Footer = () => {
         />
       </Link>
     </Wrapper>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer

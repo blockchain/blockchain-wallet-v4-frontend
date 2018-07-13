@@ -1,8 +1,8 @@
-import React from "react";
-import { shallow } from "enzyme";
-import toJson from "enzyme-to-json";
+import React from "react"
+import { shallow } from "enzyme"
+import toJson from "enzyme-to-json"
 
-import TabMenu from "./TabMenu";
+import TabMenu from "./TabMenu"
 
 describe("TabMenu component", () => {
   it("default renders correctly", () => {
@@ -10,8 +10,8 @@ describe("TabMenu component", () => {
       <TabMenu>
         <span>tab</span>
       </TabMenu>
-    );
-    const tree = toJson(component);
-    expect(tree).toMatchSnapshot();
-  });
-});
+    )
+    const tree = toJson(component)
+    expect(tree).toMatchSnapshot()
+  })
+})

@@ -1,57 +1,57 @@
-import React from "react";
-import PropTypes from "prop-types";
-import CarouselTemplate from "./template.js";
+import React from "react"
+import PropTypes from "prop-types"
+import CarouselTemplate from "./template.js"
 
 class Carousel extends React.PureComponent {
   constructor(props) {
-    super(props);
-    this.state = { index: 0, total: props.children.length - 1 };
-    this.handleClick = this.handleClick.bind(this);
-    this.handlePrevious = this.handlePrevious.bind(this);
-    this.handleNext = this.handleNext.bind(this);
-    this.interval = undefined;
+    super(props)
+    this.state = { index: 0, total: props.children.length - 1 }
+    this.handleClick = this.handleClick.bind(this)
+    this.handlePrevious = this.handlePrevious.bind(this)
+    this.handleNext = this.handleNext.bind(this)
+    this.interval = undefined
   }
 
   componentWillMount() {
-    const { auto, delay } = this.props;
+    const { auto, delay } = this.props
     if (auto) {
       this.interval = setInterval(
         () => this.setState({ index: this.getNextIndex() }),
         delay
-      );
+      )
     }
   }
 
   componentWillUnmount() {
     if (this.interval) {
-      clearInterval(this.interval);
+      clearInterval(this.interval)
     }
   }
 
   getPreviousIndex() {
-    const { index, total } = this.state;
-    return index === 0 ? total : index - 1;
+    const { index, total } = this.state
+    return index === 0 ? total : index - 1
   }
 
   getNextIndex() {
-    const { index, total } = this.state;
-    return index === total ? 0 : index + 1;
+    const { index, total } = this.state
+    return index === total ? 0 : index + 1
   }
 
   handleClick(index) {
-    this.setState({ index });
+    this.setState({ index })
   }
 
   handlePrevious() {
-    this.setState({ index: this.getPreviousIndex() });
+    this.setState({ index: this.getPreviousIndex() })
   }
 
   handleNext() {
-    this.setState({ index: this.getNextIndex() });
+    this.setState({ index: this.getNextIndex() })
   }
 
   render() {
-    const { children, ...rest } = this.props;
+    const { children, ...rest } = this.props
 
     return (
       <CarouselTemplate
@@ -64,7 +64,7 @@ class Carousel extends React.PureComponent {
       >
         {children}
       </CarouselTemplate>
-    );
+    )
   }
 }
 
@@ -74,7 +74,7 @@ Carousel.propTypes = {
   height: PropTypes.number,
   arrows: PropTypes.bool,
   chips: PropTypes.bool
-};
+}
 
 Carousel.defaultProps = {
   auto: false,
@@ -82,6 +82,6 @@ Carousel.defaultProps = {
   height: 150,
   arrows: true,
   chips: true
-};
+}
 
-export default Carousel;
+export default Carousel

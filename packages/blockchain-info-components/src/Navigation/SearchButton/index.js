@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import styled from "styled-components";
+import React, { Component } from "react"
+import styled from "styled-components"
 
 const Button = styled.button`
   display: none;
@@ -30,12 +30,12 @@ const Button = styled.button`
       -moz-osx-font-smoothing: grayscale;
     }
   }
-`;
+`
 
 class SearchButton extends Component {
   render() {
-    return <Button />;
+    return <Button />
   }
 }
 
-export default SearchButton;
+export default SearchButton

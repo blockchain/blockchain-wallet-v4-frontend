@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 
-import { Image, Link } from "blockchain-info-components";
-import DropdownLanguage from "components/DropdownLanguage";
+import { Image, Link } from "blockchain-info-components"
+import DropdownLanguage from "components/DropdownLanguage"
 
 const Wrapper = styled.footer`
   display: flex;
@@ -18,7 +18,7 @@ const Wrapper = styled.footer`
     justify-content: space-between;
     align-items: center;
   }
-`;
+`
 const LinkContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -34,7 +34,7 @@ const LinkContainer = styled.div`
     justify-content: space-between;
     align-items: center;
   }
-`;
+`
 
 const RightContainer = styled.div`
   margin: 20px 0;
@@ -48,7 +48,7 @@ const RightContainer = styled.div`
   @media (min-width: 768px) {
     margin: 0;
   }
-`;
+`
 
 const Footer = () => {
   return (
@@ -117,7 +117,7 @@ const Footer = () => {
         </Link>
       </RightContainer>
     </Wrapper>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer

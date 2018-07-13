@@ -1,10 +1,10 @@
-import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import React from "react"
+import { connect } from "react-redux"
+import { bindActionCreators } from "redux"
 
-import { actions } from "data";
-import { getData } from "./selectors";
-import TradeItem from "./template";
+import { actions } from "data"
+import { getData } from "./selectors"
+import TradeItem from "./template"
 
 class PagesContainer extends React.PureComponent {
   render() {
@@ -17,7 +17,7 @@ class PagesContainer extends React.PureComponent {
       depositAmount,
       withdrawalAmount,
       modalActions
-    } = this.props;
+    } = this.props
 
     return (
       <TradeItem
@@ -32,17 +32,17 @@ class PagesContainer extends React.PureComponent {
           modalActions.showModal("ExchangeDetails", { depositAddress: deposit })
         }
       />
-    );
+    )
   }
 }
 
-const mapStateToProps = (state, ownProps) => getData(ownProps.trade, state);
+const mapStateToProps = (state, ownProps) => getData(ownProps.trade, state)
 
 const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
-});
+})
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(PagesContainer);
+)(PagesContainer)

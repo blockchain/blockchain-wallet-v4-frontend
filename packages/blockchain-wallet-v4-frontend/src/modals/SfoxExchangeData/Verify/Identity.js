@@ -1,16 +1,16 @@
-import React from "react";
-import styled from "styled-components";
-import { Field, reduxForm } from "redux-form";
-import { FormGroup, FormItem, TextBox, PasswordBox } from "components/Form";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import styled from "styled-components"
+import { Field, reduxForm } from "redux-form"
+import { FormGroup, FormItem, TextBox, PasswordBox } from "components/Form"
+import { FormattedMessage } from "react-intl"
 import {
   Button,
   HeartbeatLoader,
   Icon,
   Text,
   Link
-} from "blockchain-info-components";
-import { spacing } from "services/StyleService";
+} from "blockchain-info-components"
+import { spacing } from "services/StyleService"
 
 import {
   requiredSSN,
@@ -18,7 +18,7 @@ import {
   normalizeSocialSecurity,
   normalizeDateOfBirth,
   ageOverEighteen
-} from "services/FormHelper";
+} from "services/FormHelper"
 import {
   Form,
   ColLeft,
@@ -28,22 +28,22 @@ import {
   PartnerSubHeader,
   ErrorWrapper,
   ColRightInner
-} from "components/BuySell/Signup";
-import media from "services/ResponsiveService";
+} from "components/BuySell/Signup"
+import media from "services/ResponsiveService"
 
 const LockIcon = styled(Icon)`
   display: flex;
   align-items: center;
   font-size: 24px;
   margin-left: 7px;
-`;
+`
 const FormContainer = styled.div`
   margin-top: 25px;
-`;
+`
 const IconHeader = styled(PartnerHeader)`
   display: flex;
   flex-direction: row;
-`;
+`
 const IdentityForm = styled(Form)`
   ${media.mobile`
     flex-direction: column;
@@ -51,7 +51,7 @@ const IdentityForm = styled(Form)`
       margin-bottom: 15px;
     }
   `};
-`;
+`
 
 const Identity = props => {
   const {
@@ -63,8 +63,8 @@ const Identity = props => {
     verificationError,
     viewSSN,
     toggleSSN
-  } = props;
-  const { busy } = props.ui;
+  } = props
+  const { busy } = props.ui
 
   return (
     <IdentityForm onSubmit={handleSubmit}>
@@ -197,7 +197,7 @@ const Identity = props => {
         </ColRightInner>
       </ColRight>
     </IdentityForm>
-  );
-};
+  )
+}
 
-export default reduxForm({ form: "sfoxIdentity" })(Identity);
+export default reduxForm({ form: "sfoxIdentity" })(Identity)

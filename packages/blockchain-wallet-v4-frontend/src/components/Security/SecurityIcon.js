@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { Icon } from "blockchain-info-components";
+import React from "react"
+import styled from "styled-components"
+import { Icon } from "blockchain-info-components"
 
 const Circle = styled.div`
   display: none;
@@ -15,10 +15,10 @@ const Circle = styled.div`
   @media (min-width: 480px) {
     display: flex;
   }
-`;
+`
 const StyledIcon = styled(Icon)`
   display: flex;
-`;
+`
 
 const SecurityIcon = props => (
   <Circle enabled={props.enabled}>
@@ -28,6 +28,6 @@ const SecurityIcon = props => (
       name={props.name}
     />
   </Circle>
-);
+)
 
-export default SecurityIcon;
+export default SecurityIcon

@@ -1,13 +1,13 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 
-import { Button, Link, Text } from "blockchain-info-components";
-import CoinDisplay from "components/Display/CoinDisplay";
-import FiatDisplay from "components/Display/FiatDisplay";
-import ComboDisplay from "components/Display/ComboDisplay";
+import { Button, Link, Text } from "blockchain-info-components"
+import CoinDisplay from "components/Display/CoinDisplay"
+import FiatDisplay from "components/Display/FiatDisplay"
+import ComboDisplay from "components/Display/ComboDisplay"
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div``
 const Row = styled.div`
   display: flex;
   flex-direction: row;
@@ -24,7 +24,7 @@ const Row = styled.div`
   &:first-child {
     padding-top: 0px;
   }
-`;
+`
 const Summary = styled.div`
   display: flex;
   flex-direction: column;
@@ -38,7 +38,7 @@ const Summary = styled.div`
   & > * {
     padding: 10px 0;
   }
-`;
+`
 const Footer = styled.div`
   display: flex;
   flex-direction: column;
@@ -49,7 +49,7 @@ const Footer = styled.div`
   & > :first-child {
     margin-bottom: 15px;
   }
-`;
+`
 
 const Success = props => {
   const {
@@ -62,7 +62,7 @@ const Success = props => {
     total,
     handleBack,
     handleSubmit
-  } = props;
+  } = props
 
   return (
     <Wrapper>
@@ -152,7 +152,7 @@ const Success = props => {
         </Link>
       </Footer>
     </Wrapper>
-  );
-};
+  )
+}
 
-export default Success;
+export default Success

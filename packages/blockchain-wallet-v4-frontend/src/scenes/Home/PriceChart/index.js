@@ -1,11 +1,11 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 
-import { Text } from "blockchain-info-components";
-import Chart from "./Chart";
-import CoinFilters from "./CoinFilters";
-import TimeFilters from "./TimeFilters";
+import { Text } from "blockchain-info-components"
+import Chart from "./Chart"
+import CoinFilters from "./CoinFilters"
+import TimeFilters from "./TimeFilters"
 
 const Wrapper = styled.div`
   display: flex;
@@ -20,21 +20,21 @@ const Wrapper = styled.div`
   & > * {
     margin-bottom: 10px;
   }
-`;
+`
 const Row = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-`;
+`
 const TitleRow = styled(Row)`
   display: flex;
   flex-direction: column;
   @media (min-width: 480px) {
     flex-direction: row;
   }
-`;
+`
 const TitleText = styled(Text)`
   font-size: 22px;
   margin-bottom: 10px;
@@ -43,7 +43,7 @@ const TitleText = styled(Text)`
     font-size: 24px;
     margin: 0;
   }
-`;
+`
 const PriceChart = () => (
   <Wrapper>
     <TitleRow>
@@ -62,6 +62,6 @@ const PriceChart = () => (
       <CoinFilters />
     </Row>
   </Wrapper>
-);
+)
 
-export default PriceChart;
+export default PriceChart

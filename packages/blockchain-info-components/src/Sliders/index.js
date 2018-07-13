@@ -1,1 +1,1 @@
-export { default as SimpleSlider } from "./SimpleSlider";
+export { default as SimpleSlider } from "./SimpleSlider"

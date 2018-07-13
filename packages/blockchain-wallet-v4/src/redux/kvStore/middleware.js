@@ -1,27 +1,27 @@
-import { mapObjIndexed, any, equals, identity, values, sequence } from "ramda";
-import Task from "data.task";
+import { mapObjIndexed, any, equals, identity, values, sequence } from "ramda"
+import Task from "data.task"
 
 // import { Wallet, KVStoreEntry } from '../../types'
-import * as A from "./actions";
-import * as T from "./actionTypes";
-import * as C from "./config";
-import { kvStorePath } from "../paths";
-import Remote from "../../remote";
+import * as A from "./actions"
+import * as T from "./actionTypes"
+import * as C from "./config"
+import { kvStorePath } from "../paths"
+import Remote from "../../remote"
 
 const kvStoreMiddleware = ({
   isAuthenticated,
   api
 } = {}) => store => next => action => {
-  const prevKVStore = store.getState()[kvStorePath];
-  const wasAuth = isAuthenticated(store.getState());
-  const result = next(action);
-  const nextKVStore = store.getState()[kvStorePath];
-  const isAuth = isAuthenticated(store.getState());
+  const prevKVStore = store.getState()[kvStorePath]
+  const wasAuth = isAuthenticated(store.getState())
+  const result = next(action)
+  const nextKVStore = store.getState()[kvStorePath]
+  const isAuth = isAuthenticated(store.getState())
   const hasChanged = (value, key) =>
     prevKVStore[key] !== nextKVStore[key] &&
     // Remote.Success.is(prevKVStore[key]) &&
-    Remote.Success.is(nextKVStore[key]); // this is to avoid detecting loading/notasked to success changes
-  const changes = mapObjIndexed(hasChanged, nextKVStore);
+    Remote.Success.is(nextKVStore[key]) // this is to avoid detecting loading/notasked to success changes
+  const changes = mapObjIndexed(hasChanged, nextKVStore)
 
   switch (true) {
     case wasAuth &&
@@ -46,25 +46,25 @@ const kvStoreMiddleware = ({
         [C.SHAPESHIFT]: A.shapeShift.fetchMetadataShapeshiftSuccess,
         [C.BCH]: A.bch.fetchMetadataBchSuccess,
         [C.BTC]: A.btc.fetchMetadataBtcSuccess
-      };
+      }
 
       const saveTasks = (value, key) => {
-        const nextKV = nextKVStore[key].getOrElse(false);
+        const nextKV = nextKVStore[key].getOrElse(false)
         return value && nextKV
           ? api
               .updateKVStore(nextKV)
               .map(k => store.dispatch(actionCreators[key](k)))
-          : Task.of(nextKV);
-      };
-      const taskObject = mapObjIndexed(saveTasks, changes);
-      const syncTask = sequence(Task.of, values(taskObject));
-      syncTask.fork(console.log, identity);
-      break;
+          : Task.of(nextKV)
+      }
+      const taskObject = mapObjIndexed(saveTasks, changes)
+      const syncTask = sequence(Task.of, values(taskObject))
+      syncTask.fork(console.log, identity)
+      break
     default:
-      break;
+      break
   }
 
-  return result;
-};
+  return result
+}
 
-export default kvStoreMiddleware;
+export default kvStoreMiddleware

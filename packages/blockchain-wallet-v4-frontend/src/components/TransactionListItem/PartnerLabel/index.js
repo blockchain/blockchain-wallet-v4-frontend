@@ -1,19 +1,19 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
-import styled from "styled-components";
-import { Banner } from "blockchain-info-components";
+import React from "react"
+import PropTypes from "prop-types"
+import { FormattedMessage } from "react-intl"
+import styled from "styled-components"
+import { Banner } from "blockchain-info-components"
 
 const LabelContainer = styled.div`
   margin-top: 5px;
-`;
+`
 const PartnerBanner = styled(Banner)`
   padding: 3px 5px;
-`;
-const capitalize = text => text[0].toUpperCase() + text.substring(1);
+`
+const capitalize = text => text[0].toUpperCase() + text.substring(1)
 
 const PartnerLabel = props => {
-  const { txType, partnerLabel, buysellPartner } = props;
+  const { txType, partnerLabel, buysellPartner } = props
 
   if (partnerLabel === "shift") {
     return (
@@ -38,7 +38,7 @@ const PartnerLabel = props => {
           )}
         </PartnerBanner>
       </LabelContainer>
-    );
+    )
   }
 
   if (partnerLabel === "buy-sell" && buysellPartner) {
@@ -66,16 +66,16 @@ const PartnerLabel = props => {
           )}
         </PartnerBanner>
       </LabelContainer>
-    );
+    )
   }
 
-  return null;
-};
+  return null
+}
 
 PartnerLabel.propTypes = {
   txHash: PropTypes.string.isRequired,
   txType: PropTypes.string.isRequired,
   buysellPartner: PropTypes.string
-};
+}
 
-export default PartnerLabel;
+export default PartnerLabel

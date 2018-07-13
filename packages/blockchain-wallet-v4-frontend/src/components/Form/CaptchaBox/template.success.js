@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 
-import { Icon, Text, TextInput, Link } from "blockchain-info-components";
+import { Icon, Text, TextInput, Link } from "blockchain-info-components"
 
 const Wrapper = styled.div`
   position: relative;
@@ -12,10 +12,10 @@ const Wrapper = styled.div`
   align-items: flex-start;
   width: 100%;
   height: 120px;
-`;
+`
 const Image = styled.img`
   height: 60px;
-`;
+`
 const Container = styled.div`
   position: relative;
   display: flex;
@@ -24,33 +24,33 @@ const Container = styled.div`
   align-items: flex-start;
   height: 50px;
   width: 100%;
-`;
+`
 const Error = styled(Text)`
   position: absolute;
   display: block;
   top: -10px;
   right: 0;
   height: 15px;
-`;
+`
 const RefreshLink = styled(Link)`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
   margin: 4px 0;
-`;
+`
 const RefreshIcon = styled(Icon)`
   margin-right: 2px;
   &:hover {
     cursor: pointer;
   }
-`;
+`
 const getErrorState = meta => {
-  return meta.touched && meta.invalid ? "invalid" : "initial";
-};
+  return meta.touched && meta.invalid ? "invalid" : "initial"
+}
 
 const CaptchaBox = field => {
-  const errorState = getErrorState(field.meta);
+  const errorState = getErrorState(field.meta)
 
   return (
     <Wrapper>
@@ -79,7 +79,7 @@ const CaptchaBox = field => {
           )}
       </Container>
     </Wrapper>
-  );
-};
+  )
+}
 
-export default CaptchaBox;
+export default CaptchaBox

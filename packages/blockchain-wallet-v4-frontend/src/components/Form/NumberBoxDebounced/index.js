@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
+import React from "react"
+import styled from "styled-components"
 
-import { equals, isNil } from "ramda";
-import { Text, NumberInput } from "blockchain-info-components";
+import { equals, isNil } from "ramda"
+import { Text, NumberInput } from "blockchain-info-components"
 
 const Container = styled.div`
   position: relative;
@@ -12,7 +12,7 @@ const Container = styled.div`
   align-items: flex-start;
   width: 100%;
   height: 40px;
-`;
+`
 const Error = styled(Text)`
   white-space: nowrap;
   position: absolute;
@@ -21,19 +21,19 @@ const Error = styled(Text)`
   right: ${props => (props.errorLeft ? "auto" : 0)};
   left: ${props => (props.errorLeft ? "-2px" : "auto")};
   top: ${props => (props.errorBottom ? "40px" : "-20px")};
-`;
+`
 const getErrorState = meta => {
-  return meta.touched && meta.invalid ? "invalid" : "initial";
-};
+  return meta.touched && meta.invalid ? "invalid" : "initial"
+}
 
 class NumberBoxDebounced extends React.Component {
   constructor(props) {
-    super(props);
-    this.state = { updatedValue: props.input.value, value: props.input.value };
-    this.timeout = undefined;
-    this.handleChange = this.handleChange.bind(this);
-    this.handleBlur = this.handleBlur.bind(this);
-    this.handleFocus = this.handleFocus.bind(this);
+    super(props)
+    this.state = { updatedValue: props.input.value, value: props.input.value }
+    this.timeout = undefined
+    this.handleChange = this.handleChange.bind(this)
+    this.handleBlur = this.handleBlur.bind(this)
+    this.handleFocus = this.handleFocus.bind(this)
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -41,44 +41,44 @@ class NumberBoxDebounced extends React.Component {
       return {
         updatedValue: nextProps.input.value,
         value: nextProps.input.value
-      };
+      }
     }
     if (!equals(prevState.updatedValue, prevState.value)) {
       return {
         updatedValue: prevState.updatedValue,
         value: prevState.updatedValue
-      };
+      }
     }
     if (!equals(nextProps.input.value, prevState.value)) {
       return {
         updatedValue: nextProps.input.value,
         value: nextProps.input.value
-      };
+      }
     }
-    return null;
+    return null
   }
 
   componentWillUnmount() {
-    clearTimeout(this.timeout);
+    clearTimeout(this.timeout)
   }
 
   handleChange(e) {
-    e.preventDefault();
-    const value = e.target.value;
-    this.setState({ updatedValue: value });
+    e.preventDefault()
+    const value = e.target.value
+    this.setState({ updatedValue: value })
 
-    clearTimeout(this.timeout);
+    clearTimeout(this.timeout)
     this.timeout = setTimeout(() => {
-      this.props.input.onChange(value);
-    }, 500);
+      this.props.input.onChange(value)
+    }, 500)
   }
 
   handleBlur() {
-    this.props.input.onBlur(this.state.value);
+    this.props.input.onBlur(this.state.value)
   }
 
   handleFocus() {
-    this.props.input.onFocus(this.state.value);
+    this.props.input.onFocus(this.state.value)
   }
 
   render() {
@@ -89,8 +89,8 @@ class NumberBoxDebounced extends React.Component {
       meta,
       placeholder,
       ...rest
-    } = this.props;
-    const errorState = getErrorState(meta);
+    } = this.props
+    const errorState = getErrorState(meta)
 
     return (
       <Container>
@@ -130,8 +130,8 @@ class NumberBoxDebounced extends React.Component {
             </Error>
           )}
       </Container>
-    );
+    )
   }
 }
 
-export default NumberBoxDebounced;
+export default NumberBoxDebounced

@@ -1,25 +1,25 @@
-import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import React from "react"
+import { connect } from "react-redux"
+import { bindActionCreators } from "redux"
 
-import { actions } from "data";
-import { getData } from "./selectors";
-import Loading from "./template.loading";
-import Success from "./template.success";
-import DataError from "components/DataError";
+import { actions } from "data"
+import { getData } from "./selectors"
+import Loading from "./template.loading"
+import Success from "./template.success"
+import DataError from "components/DataError"
 
 class FirstStepContainer extends React.Component {
   constructor(props) {
-    super(props);
-    this.handleRefresh = this.handleRefresh.bind(this);
+    super(props)
+    this.handleRefresh = this.handleRefresh.bind(this)
   }
 
   componentDidMount() {
-    this.props.actions.firstStepInitialized();
+    this.props.actions.firstStepInitialized()
   }
 
   handleRefresh() {
-    this.props.actions.firstStepInitialized();
+    this.props.actions.firstStepInitialized()
   }
 
   render() {
@@ -47,19 +47,19 @@ class FirstStepContainer extends React.Component {
       ),
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
-    });
+    })
   }
 }
 
 const mapStateToProps = state => ({
   data: getData(state)
-});
+})
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.exchange, dispatch)
-});
+})
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(FirstStepContainer);
+)(FirstStepContainer)

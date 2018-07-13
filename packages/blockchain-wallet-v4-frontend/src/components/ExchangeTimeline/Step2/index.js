@@ -1,15 +1,15 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled, { keyframes } from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import PropTypes from "prop-types"
+import styled, { keyframes } from "styled-components"
+import { FormattedMessage } from "react-intl"
 
-import { Icon, Text } from "blockchain-info-components";
+import { Icon, Text } from "blockchain-info-components"
 
 const animation = keyframes`
   0% { transform: rotate(0deg); }
   50% { transform: rotate(-180deg); }
   100% { transform: rotate(-360deg); }
-`;
+`
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -20,7 +20,7 @@ const Wrapper = styled.div`
 
   & > :first-child { margin-bottom 20px; }
   & > :last-child { height: 40px; }
-`;
+`
 const Circle = styled.div`
   position: relative;
   display: flex;
@@ -37,12 +37,12 @@ const Circle = styled.div`
         : props.theme["brand-primary"]};
   box-sizing: border-box;
   overflow: hidden;
-`;
+`
 const AnimatedIcon = styled(Icon)`
   animation: ${animation} 1.5s infinite linear;
   animation-play-state: ${props =>
     props.status === "active" ? "running" : "paused"};
-`;
+`
 const SmallCircle = styled(Circle)`
   position: absolute;
   top: 50%;
@@ -53,7 +53,7 @@ const SmallCircle = styled(Circle)`
   margin-top: -10px;
   background-color: ${props => props.theme["white"]};
   border: none;
-`;
+`
 
 const Step2 = props => (
   <Wrapper>
@@ -78,14 +78,14 @@ const Step2 = props => (
       />
     </Text>
   </Wrapper>
-);
+)
 
 Step2.propTypes = {
   status: PropTypes.oneOf(["disabled", "active", "inactive"])
-};
+}
 
 Step2.defaultProps = {
   status: "disabled"
-};
+}
 
-export default Step2;
+export default Step2

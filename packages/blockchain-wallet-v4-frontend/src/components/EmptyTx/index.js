@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { Image, Link, Text, TextGroup } from "blockchain-info-components";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { Image, Link, Text, TextGroup } from "blockchain-info-components"
 
 const Wrapper = styled.div`
   display: flex;
@@ -9,18 +9,18 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-`;
+`
 const Empty = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-top: 50px;
-`;
+`
 const Header = styled(Text)`
   margin-top: 30px;
   margin-bottom: 20px;
-`;
+`
 
 class EmptyTxContainer extends React.PureComponent {
   render() {
@@ -61,8 +61,8 @@ class EmptyTxContainer extends React.PureComponent {
           </TextGroup>
         </Empty>
       </Wrapper>
-    );
+    )
   }
 }
 
-export default EmptyTxContainer;
+export default EmptyTxContainer

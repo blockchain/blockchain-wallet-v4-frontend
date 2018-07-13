@@ -1,15 +1,15 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { Field, reduxForm } from "redux-form";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { Field, reduxForm } from "redux-form"
 
 import {
   required,
   validBitcoinAddress,
   validBitcoinPrivateKey
-} from "services/FormHelper";
-import { Button, Icon, Link, Text, Tooltip } from "blockchain-info-components";
+} from "services/FormHelper"
+import { Button, Icon, Link, Text, Tooltip } from "blockchain-info-components"
 import {
   FiatConvertor,
   Form,
@@ -22,7 +22,7 @@ import {
   SelectBox,
   TextBox,
   TextAreaDebounced
-} from "components/Form";
+} from "components/Form"
 import {
   shouldError,
   shouldWarn,
@@ -34,12 +34,12 @@ import {
   maximumFeePerByte,
   minimumOneSatoshi,
   invalidAmount
-} from "./validation";
-import QRCodeCapture from "components/QRCodeCapture";
-import RegularFeeLink from "./RegularFeeLink";
-import PriorityFeeLink from "./PriorityFeeLink";
-import ComboDisplay from "components/Display/ComboDisplay";
-import media from "services/ResponsiveService";
+} from "./validation"
+import QRCodeCapture from "components/QRCodeCapture"
+import RegularFeeLink from "./RegularFeeLink"
+import PriorityFeeLink from "./PriorityFeeLink"
+import ComboDisplay from "components/Display/ComboDisplay"
+import media from "services/ResponsiveService"
 
 const Row = styled.div`
   display: flex;
@@ -47,7 +47,7 @@ const Row = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-`;
+`
 const ColLeft = styled.div`
   display: flex;
   flex-direction: column;
@@ -57,10 +57,10 @@ const ColLeft = styled.div`
   ${media.mobile`
     width: 100%;
   `};
-`;
+`
 const ColRight = styled(ColLeft)`
   align-items: flex-end;
-`;
+`
 const AddressButton = styled.div`
   display: flex;
   flex-direction: row;
@@ -74,19 +74,19 @@ const AddressButton = styled.div`
   &:hover {
     background-color: ${props => props.theme["gray-1"]};
   }
-`;
+`
 const FeeFormContainer = styled.div`
   display: flex;
   flex-direction: ${props => (props.toggled ? "column" : "row")};
   align-items: center;
   justify-content: space-between;
   width: 100%;
-`;
+`
 const FeeFormGroup = styled(FormGroup)`
   ${media.mobile`
     flex-direction: column;
   `};
-`;
+`
 const FeeFormLabel = styled(FormLabel)`
   width: 100%;
   display: flex;
@@ -97,20 +97,20 @@ const FeeFormLabel = styled(FormLabel)`
     justify-content: space-between;
     align-items: center;
   }
-`;
+`
 const FeeOptionsContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-`;
+`
 const FeePerByteContainer = styled.div`
   width: 100%;
   margin-bottom: 10px;
-`;
+`
 
 const FirstStep = props => {
-  const { invalid, submitting, pristine, ...rest } = props;
+  const { invalid, submitting, pristine, ...rest } = props
   const {
     from,
     watchOnly,
@@ -125,8 +125,8 @@ const FirstStep = props => {
     isPriorityFeePerByte,
     totalFee,
     ...rest2
-  } = rest;
-  const { handleFeePerByteToggle, handleToToggle, handleSubmit } = rest2;
+  } = rest
+  const { handleFeePerByteToggle, handleToToggle, handleSubmit } = rest2
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -369,8 +369,8 @@ const FirstStep = props => {
         </Button>
       </FormGroup>
     </Form>
-  );
-};
+  )
+}
 
 FirstStep.propTypes = {
   invalid: PropTypes.bool.isRequired,
@@ -385,11 +385,11 @@ FirstStep.propTypes = {
   handleToToggle: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   totalFee: PropTypes.string
-};
+}
 
 export default reduxForm({
   form: "sendBtc",
   destroyOnUnmount: false,
   shouldError,
   shouldWarn
-})(FirstStep);
+})(FirstStep)

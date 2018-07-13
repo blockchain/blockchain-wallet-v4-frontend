@@ -1,10 +1,10 @@
-import React from "react";
-import styled from "styled-components";
-import { connect } from "react-redux";
-import { bindActionCreators, compose } from "redux";
-import { FormattedMessage } from "react-intl";
-import { actions, selectors } from "data";
-import modalEnhancer from "providers/ModalEnhancer";
+import React from "react"
+import styled from "styled-components"
+import { connect } from "react-redux"
+import { bindActionCreators, compose } from "redux"
+import { FormattedMessage } from "react-intl"
+import { actions, selectors } from "data"
+import modalEnhancer from "providers/ModalEnhancer"
 import {
   Icon,
   Modal,
@@ -13,29 +13,29 @@ import {
   Text,
   Button,
   Tooltip
-} from "blockchain-info-components";
+} from "blockchain-info-components"
 import {
   OrderDetailsTable,
   OrderDetailsRow
-} from "components/BuySell/OrderDetails";
-import { MethodContainer } from "components/BuySell/styled.js";
-import { statusHelper, bodyStatusHelper } from "services/SfoxService";
-import { spacing } from "services/StyleService";
-import FundingSource from "components/BuySell/FundingSource";
+} from "components/BuySell/OrderDetails"
+import { MethodContainer } from "components/BuySell/styled.js"
+import { statusHelper, bodyStatusHelper } from "services/SfoxService"
+import { spacing } from "services/StyleService"
+import FundingSource from "components/BuySell/FundingSource"
 
 const ButtonRow = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   margin-top: 20px;
-`;
+`
 const ToolTipWrapper = styled.div`
   display: flex;
   flex-direction: row;
   div:first-of-type {
     margin-right: 5px;
   }
-`;
+`
 
 const renderFirstRow = trade => {
   if (trade.isBuy) {
@@ -43,35 +43,35 @@ const renderFirstRow = trade => {
       return `${trade.receiveAmount} BTC ($${(
         +trade.sendAmount / 1e8 -
         trade.feeAmount
-      ).toFixed(2)})`;
+      ).toFixed(2)})`
     else
       return `${trade.quoteAmount / 1e8} BTC ($${(
         +trade.baseAmount - +trade.feeAmount
-      ).toFixed(2)})`;
+      ).toFixed(2)})`
   } else {
     if (trade.outCurrency === "USD")
       return `${trade.sendAmount / 1e8} BTC ($${trade.receiveAmount.toFixed(
         2
-      )})`;
-    else return ``;
+      )})`
+    else return ``
   }
-};
+}
 const renderTotal = trade => {
   if (trade.isBuy)
     return trade.outCurrency === "BTC"
       ? `$${(+trade.inAmount / 1e8).toFixed(2)}`
-      : `$${trade.baseAmount}`;
-  else return `$${(trade.receiveAmount - trade.feeAmount).toFixed(2)}`;
-};
+      : `$${trade.baseAmount}`
+  else return `$${(trade.receiveAmount - trade.feeAmount).toFixed(2)}`
+}
 
 class SfoxTradeDetails extends React.PureComponent {
   render() {
-    const headerStatus = statusHelper(this.props.trade.state);
+    const headerStatus = statusHelper(this.props.trade.state)
     const bodyStatus = bodyStatusHelper(
       this.props.trade.state,
       this.props.trade.isBuy
-    );
-    const { account, trade } = this.props;
+    )
+    const { account, trade } = this.props
 
     return (
       <Modal
@@ -183,17 +183,17 @@ class SfoxTradeDetails extends React.PureComponent {
           </ButtonRow>
         </ModalBody>
       </Modal>
-    );
+    )
   }
 }
 
 const mapStateToProps = state => ({
   account: selectors.core.data.sfox.getAccounts(state).data
-});
+})
 
 const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
-});
+})
 
 const enhance = compose(
   modalEnhancer("SfoxTradeDetails"),
@@ -201,6 +201,6 @@ const enhance = compose(
     mapStateToProps,
     mapDispatchToProps
   )
-);
+)
 
-export default enhance(SfoxTradeDetails);
+export default enhance(SfoxTradeDetails)

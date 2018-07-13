@@ -1,14 +1,14 @@
-import React from "react";
-import { connect } from "react-redux";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import { connect } from "react-redux"
+import { FormattedMessage } from "react-intl"
 
-import SelectBox from "../SelectBox";
+import SelectBox from "../SelectBox"
 
 class SelectBoxBankAccountType extends React.PureComponent {
   render() {
-    const { accountTypes, ...rest } = this.props;
-    const elements = [{ group: "", items: accountTypes }];
-    return <SelectBox elements={elements} {...rest} />;
+    const { accountTypes, ...rest } = this.props
+    const elements = [{ group: "", items: accountTypes }]
+    return <SelectBox elements={elements} {...rest} />
   }
 }
 
@@ -34,6 +34,6 @@ const mapStateToProps = (state, ownProps) => ({
       value: "savings"
     }
   ]
-});
+})
 
-export default connect(mapStateToProps)(SelectBoxBankAccountType);
+export default connect(mapStateToProps)(SelectBoxBankAccountType)

@@ -1,6 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
 
 const BaseTextInput = styled.input.attrs({
   type: "text",
@@ -31,47 +31,47 @@ const BaseTextInput = styled.input.attrs({
     cursor: not-allowed;
     background-color: ${props => props.theme["gray-1"]};
   }
-`;
+`
 
 const selectBorderColor = state => {
   switch (state) {
     case "initial":
-      return "gray-2";
+      return "gray-2"
     case "invalid":
-      return "error";
+      return "error"
     case "valid":
-      return "success";
+      return "success"
     default:
-      return "gray-2";
+      return "gray-2"
   }
-};
+}
 
 class TextInput extends React.Component {
   static propTypes = {
     disabled: PropTypes.bool,
     height: PropTypes.string,
     minHeight: PropTypes.string
-  };
+  }
 
   static defaultProps = {
     disabled: false,
     height: "40px",
     minHeight: "40px"
-  };
+  }
 
   componentDidUpdate(prevProps) {
     if (this.props.active && !prevProps.active && this.input) {
-      this.input.focus();
+      this.input.focus()
     }
   }
 
   refInput = input => {
-    this.input = input;
-  };
+    this.input = input
+  }
 
   render() {
-    const { errorState, disabled, ...rest } = this.props;
-    const borderColor = selectBorderColor(errorState);
+    const { errorState, disabled, ...rest } = this.props
+    const borderColor = selectBorderColor(errorState)
 
     return (
       <BaseTextInput
@@ -80,8 +80,8 @@ class TextInput extends React.Component {
         disabled={disabled}
         {...rest}
       />
-    );
+    )
   }
 }
 
-export default TextInput;
+export default TextInput

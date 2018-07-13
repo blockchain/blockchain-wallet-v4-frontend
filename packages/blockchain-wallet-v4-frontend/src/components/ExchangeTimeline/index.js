@@ -1,13 +1,13 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
 
-import { calculateAnimation } from "./services";
-import Step1 from "./Step1";
-import Step2 from "./Step2";
-import Step3 from "./Step3";
-import Line from "./Line";
-import Error from "./Error";
+import { calculateAnimation } from "./services"
+import Step1 from "./Step1"
+import Step2 from "./Step2"
+import Step3 from "./Step3"
+import Line from "./Line"
+import Error from "./Error"
 
 const Wrapper = styled.div`
   position: relative;
@@ -19,7 +19,7 @@ const Wrapper = styled.div`
   padding: 15px;
   box-sizing: border-box;
   padding-bottom: 0;
-`;
+`
 const Row = styled.div`
   display: flex;
   flex-direction: row;
@@ -28,7 +28,7 @@ const Row = styled.div`
   width: 100%;
   padding: 5px 0;
   box-sizing: border-box;
-`;
+`
 const RowLine = styled.div`
   position: absolute;
   top: 35%;
@@ -38,12 +38,10 @@ const RowLine = styled.div`
   justify-content: space-around;
   align-items: center;
   width: 60%;
-`;
+`
 
 const ExchangeTimeline = props => {
-  const { step1, line1, step2, line2, step3 } = calculateAnimation(
-    props.status
-  );
+  const { step1, line1, step2, line2, step3 } = calculateAnimation(props.status)
 
   return props.status !== "failed" ? (
     <Wrapper>
@@ -63,8 +61,8 @@ const ExchangeTimeline = props => {
         <Error />
       </Row>
     </Wrapper>
-  );
-};
+  )
+}
 
 ExchangeTimeline.propTypes = {
   status: PropTypes.oneOf([
@@ -74,10 +72,10 @@ ExchangeTimeline.propTypes = {
     "complete",
     "failed"
   ])
-};
+}
 
 ExchangeTimeline.defaultProps = {
   status: "no_deposits"
-};
+}
 
-export default ExchangeTimeline;
+export default ExchangeTimeline

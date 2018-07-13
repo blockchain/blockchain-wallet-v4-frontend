@@ -1,28 +1,28 @@
-import React from "react";
-import { isNil } from "ramda";
-import styled from "styled-components";
-import { Field } from "redux-form";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import { isNil } from "ramda"
+import styled from "styled-components"
+import { Field } from "redux-form"
+import { FormattedMessage } from "react-intl"
 import {
   SelectBoxBitcoinAddresses,
   FormGroup,
   FormItem,
   TextBox
-} from "components/Form";
+} from "components/Form"
 import {
   optional,
   validBitcoinAddress,
   validBitcoinPrivateKey
-} from "services/FormHelper";
-import { spacing } from "services/StyleService";
-import { Banner } from "blockchain-info-components";
+} from "services/FormHelper"
+import { spacing } from "services/StyleService"
+import { Banner } from "blockchain-info-components"
 
 const Label = styled.label`
   font-size: 12px;
   margin-bottom: 5px;
-`;
+`
 
-const validBitcoinPrivateKeyOptional = optional(validBitcoinPrivateKey);
+const validBitcoinPrivateKeyOptional = optional(validBitcoinPrivateKey)
 
 class ImportExternalBitcoinAddress extends React.PureComponent {
   render() {
@@ -82,8 +82,8 @@ class ImportExternalBitcoinAddress extends React.PureComponent {
           </FormItem>
         </FormGroup>
       </div>
-    );
+    )
   }
 }
 
-export default ImportExternalBitcoinAddress;
+export default ImportExternalBitcoinAddress

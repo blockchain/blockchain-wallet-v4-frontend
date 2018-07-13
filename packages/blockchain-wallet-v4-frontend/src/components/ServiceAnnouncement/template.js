@@ -1,8 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
 
-import { Link, Icon, Text, TextGroup } from "blockchain-info-components";
+import { Link, Icon, Text, TextGroup } from "blockchain-info-components"
 
 const Container = styled.div`
   display: flex;
@@ -16,22 +16,22 @@ const Container = styled.div`
   overflow: hidden;
   height: ${props => (props.collapsed ? "35px" : "")};
   width: 100%;
-`;
+`
 const ActionLink = styled(Link)`
   margin-left: 0;
   margin-top: 0;
   color: ${props => props.theme["marketing-secondary"]};
   text-decoration: underline;
-`;
+`
 const ActionIcon = styled(Icon)`
   margin-top: 5px;
   &:hover {
     cursor: pointer;
   }
-`;
+`
 const IconContainer = styled.div`
   margin: 0 25px;
-`;
+`
 
 const selectStyle = type => {
   switch (type) {
@@ -41,30 +41,30 @@ const selectStyle = type => {
         uppercase: true,
         icon: "alert-filled",
         iconColor: "error"
-      };
+      }
     case "info":
       return {
         color: "brand-tertiary",
         uppercase: false,
         icon: false,
         iconColor: null
-      };
+      }
     case "warning":
       return {
         color: "brand-yellow-lighter",
         uppercase: false,
         icon: "alert-filled",
         iconColor: "sent"
-      };
+      }
     default:
       return {
         color: "brand-tertiary",
         uppercase: false,
         icon: false,
         iconColor: null
-      };
+      }
   }
-};
+}
 
 const Announcement = props => {
   const {
@@ -73,9 +73,9 @@ const Announcement = props => {
     language,
     handleDismiss,
     toggleCollapse
-  } = props;
-  const style = selectStyle(announcement.type);
-  const { color, icon, iconColor, uppercase } = style;
+  } = props
+  const style = selectStyle(announcement.type)
+  const { color, icon, iconColor, uppercase } = style
 
   return (
     <Container color={color} collapsed={collapsed}>
@@ -103,7 +103,7 @@ const Announcement = props => {
                   ? section.body[language]
                   : section.body.en}
               </Text>
-            );
+            )
           })}
           <ActionLink href={announcement.action.link} target="_blank">
             <Text color="brand-primary" size="13px">
@@ -121,7 +121,7 @@ const Announcement = props => {
             size="18px"
             weight={600}
             onClick={() => {
-              toggleCollapse(announcement.id);
+              toggleCollapse(announcement.id)
             }}
           />
         )}
@@ -131,19 +131,19 @@ const Announcement = props => {
             size="18px"
             weight={600}
             onClick={() => {
-              handleDismiss(announcement.id);
+              handleDismiss(announcement.id)
             }}
           />
         )}
       </IconContainer>
     </Container>
-  );
-};
+  )
+}
 
 Announcement.propTypes = {
   announcement: PropTypes.object.isRequired,
   language: PropTypes.string.isRequired,
   handleDismiss: PropTypes.func.isRequired
-};
+}
 
-export default Announcement;
+export default Announcement

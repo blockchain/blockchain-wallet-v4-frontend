@@ -1,14 +1,14 @@
-import React from "react";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import { FormattedMessage } from "react-intl"
 import {
   SettingComponent,
   SettingContainer,
   SettingDescription,
   SettingHeader,
   SettingSummary
-} from "components/Setting";
+} from "components/Setting"
 
-import Settings from "./Settings";
+import Settings from "./Settings"
 
 const IPWhitelist = () => {
   return (
@@ -31,7 +31,7 @@ const IPWhitelist = () => {
         <Settings />
       </SettingComponent>
     </SettingContainer>
-  );
-};
+  )
+}
 
-export default IPWhitelist;
+export default IPWhitelist

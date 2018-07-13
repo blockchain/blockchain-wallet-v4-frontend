@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { LinkContainer } from "react-router-bootstrap";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { LinkContainer } from "react-router-bootstrap"
 
 import {
   Icon,
@@ -9,7 +9,7 @@ import {
   Separator,
   Text,
   TextGroup
-} from "blockchain-info-components";
+} from "blockchain-info-components"
 
 const Wrapper = styled.div`
   display: flex;
@@ -17,21 +17,21 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-`;
+`
 const Transactions = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   margin: 50px 10px 0 10px;
-`;
+`
 const ExchangeIcon = styled(Icon)`
   justify-content: center;
-`;
+`
 
 const CenteredTextGroup = styled(TextGroup)`
   text-align: center;
-`;
+`
 
 const Empty = () => (
   <Wrapper>
@@ -62,6 +62,6 @@ const Empty = () => (
       <Separator />
     </Transactions>
   </Wrapper>
-);
+)
 
-export default Empty;
+export default Empty

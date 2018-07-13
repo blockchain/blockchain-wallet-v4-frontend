@@ -1,11 +1,11 @@
-import React from "react";
-import styled from "styled-components";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import styled from "styled-components"
+import { connect } from "react-redux"
+import { bindActionCreators } from "redux"
+import { FormattedMessage } from "react-intl"
 
-import { actions } from "data";
-import { Link, Text } from "blockchain-info-components";
+import { actions } from "data"
+import { Link, Text } from "blockchain-info-components"
 
 const Wrapper = styled.div`
   display: flex;
@@ -19,7 +19,7 @@ const Wrapper = styled.div`
   & > * {
     margin-bottom: 20px;
   }
-`;
+`
 
 const Error = props => (
   <Wrapper>
@@ -47,13 +47,13 @@ const Error = props => (
       />
     </Link>
   </Wrapper>
-);
+)
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.exchange, dispatch)
-});
+})
 
 export default connect(
   undefined,
   mapDispatchToProps
-)(Error);
+)(Error)

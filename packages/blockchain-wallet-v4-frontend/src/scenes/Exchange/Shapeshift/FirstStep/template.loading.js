@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 
-import { SkeletonRectangle, Text } from "blockchain-info-components";
+import { SkeletonRectangle, Text } from "blockchain-info-components"
 
 const Wrapper = styled.div`
   display: flex;
@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   padding: 30px 30px 10px 30px;
   box-sizing: border-box;
   border: 1px solid ${props => props.theme["gray-2"]};
-`;
+`
 const Row = styled.div`
   display: flex;
   flex-direction: row;
@@ -22,7 +22,7 @@ const Row = styled.div`
   width: 100%;
   height: ${props => props.height || "auto"};
   margin-bottom: 10px;
-`;
+`
 const Cell = styled.div`
   display: flex;
   flex-direction: column;
@@ -30,7 +30,7 @@ const Cell = styled.div`
   align-items: ${props => (props.size === "small" ? "center" : "flex-start")};
   width: ${props => (props.size === "small" ? "10%" : "45%")};
   height: 100%;
-`;
+`
 
 const Loading = props => (
   <Wrapper>
@@ -85,6 +85,6 @@ const Loading = props => (
       <SkeletonRectangle width="100%" height="25px" />
     </Row>
   </Wrapper>
-);
+)
 
-export default Loading;
+export default Loading

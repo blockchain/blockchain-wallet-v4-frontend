@@ -1,13 +1,13 @@
-import React from "react";
-import { connect } from "react-redux";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import { connect } from "react-redux"
+import { FormattedMessage } from "react-intl"
 
-import SelectBox from "../SelectBox";
+import SelectBox from "../SelectBox"
 
 class SelectBoxUSState extends React.PureComponent {
   render() {
-    const { states, ...rest } = this.props;
-    const elements = [{ group: "", items: states }];
+    const { states, ...rest } = this.props
+    const elements = [{ group: "", items: states }]
 
     return (
       <SelectBox
@@ -20,7 +20,7 @@ class SelectBoxUSState extends React.PureComponent {
         elements={elements}
         {...rest}
       />
-    );
+    )
   }
 }
 
@@ -96,6 +96,6 @@ const mapStateToProps = () => ({
     { text: "Wisconsin", value: { name: "Wisconsin", code: "WI" } },
     { text: "Wyoming", value: { name: "Wyoming", code: "WY" } }
   ]
-});
+})
 
-export default connect(mapStateToProps)(SelectBoxUSState);
+export default connect(mapStateToProps)(SelectBoxUSState)

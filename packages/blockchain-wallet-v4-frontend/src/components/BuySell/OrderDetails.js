@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const OrderDetailsTable = styled.div`
   width: 100%;
@@ -9,7 +9,7 @@ export const OrderDetailsTable = styled.div`
   & > :last-child {
     border-bottom: none;
   }
-`;
+`
 
 export const OrderDetailsRow = styled.div`
   flex-grow: 1;
@@ -20,4 +20,4 @@ export const OrderDetailsRow = styled.div`
   padding: ${props => (props.short ? `10px 0px` : `15px 0px`)};
   border-bottom: ${props =>
     props.noBorderBottom ? "none" : `1px solid ${props.theme["gray-2"]}`};
-`;
+`

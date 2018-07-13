@@ -1,9 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 
-import { Color, Icon, Text } from "blockchain-info-components";
+import { Color, Icon, Text } from "blockchain-info-components"
 
 const Wrapper = styled.div`
   display: flex;
@@ -15,7 +15,7 @@ const Wrapper = styled.div`
 
   & > :first-child { margin-bottom 20px; }
   & > :last-child { height: 40px; }
-`;
+`
 const Circle = styled.div`
   display: flex;
   flex-direction: row;
@@ -27,21 +27,21 @@ const Circle = styled.div`
   border: 1px solid ${props => getColor(props.status)};
   box-sizing: border-box;
   overflow: hidden;
-`;
+`
 
 const getColor = status => {
   switch (status) {
     case "disabled":
-      return Color("gray-2");
+      return Color("gray-2")
     case "refunded":
-      return Color("error");
+      return Color("error")
     default:
-      return Color("brand-primary");
+      return Color("brand-primary")
   }
-};
+}
 
 const Step3 = props => {
-  const { status } = props;
+  const { status } = props
 
   return (
     <Wrapper>
@@ -70,15 +70,15 @@ const Step3 = props => {
         )}
       </Text>
     </Wrapper>
-  );
-};
+  )
+}
 
 Step3.propTypes = {
   status: PropTypes.oneOf(["disabled", "active"])
-};
+}
 
 Step3.defaultProps = {
   status: "disabled"
-};
+}
 
-export default Step3;
+export default Step3

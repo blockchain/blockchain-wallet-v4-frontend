@@ -1,15 +1,15 @@
-import { put, select } from "redux-saga/effects";
-import * as S from "./selectors";
-import * as actions from "../../actions";
-import * as selectors from "../../selectors";
-import { calculateStart, calculateScale } from "services/ChartService";
+import { put, select } from "redux-saga/effects"
+import * as S from "./selectors"
+import * as actions from "../../actions"
+import * as selectors from "../../selectors"
+import { calculateStart, calculateScale } from "services/ChartService"
 
 /**
  * Price Chart Sagas
  * @return {Object} price chart sagas
  */
 export default ({ coreSagas }) => {
-  const logLocation = "components/priceChart/sagas";
+  const logLocation = "components/priceChart/sagas"
 
   /**
    * @desc initialize priceChart component and fetches price data based on coin and time
@@ -17,10 +17,10 @@ export default ({ coreSagas }) => {
    */
   const initialized = function*(action) {
     try {
-      const { coin, time } = action.payload;
-      const currencyR = yield select(selectors.core.settings.getCurrency);
-      const start = calculateStart(coin, time);
-      const scale = calculateScale(coin, time);
+      const { coin, time } = action.payload
+      const currencyR = yield select(selectors.core.settings.getCurrency)
+      const start = calculateStart(coin, time)
+      const scale = calculateScale(coin, time)
       yield put(
         actions.core.data.misc.fetchPriceIndexSeries(
           coin,
@@ -28,11 +28,11 @@ export default ({ coreSagas }) => {
           start,
           scale
         )
-      );
+      )
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, "initialized", e));
+      yield put(actions.logs.logErrorMessage(logLocation, "initialized", e))
     }
-  };
+  }
 
   /**
    * @desc click handler for priceChart component that fetches price data for new coin
@@ -40,11 +40,11 @@ export default ({ coreSagas }) => {
    */
   const coinClicked = function*(action) {
     try {
-      const { coin } = action.payload;
-      const currencyR = yield select(selectors.core.settings.getCurrency);
-      const time = yield select(S.getTime);
-      const start = calculateStart(coin, time);
-      const scale = calculateScale(coin, time);
+      const { coin } = action.payload
+      const currencyR = yield select(selectors.core.settings.getCurrency)
+      const time = yield select(S.getTime)
+      const start = calculateStart(coin, time)
+      const scale = calculateScale(coin, time)
       yield put(
         actions.core.data.misc.fetchPriceIndexSeries(
           coin,
@@ -52,11 +52,11 @@ export default ({ coreSagas }) => {
           start,
           scale
         )
-      );
+      )
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, "coinClicked", e));
+      yield put(actions.logs.logErrorMessage(logLocation, "coinClicked", e))
     }
-  };
+  }
 
   /**
    * @desc click handler for priceChart component that fetches price data for when time is changed
@@ -64,11 +64,11 @@ export default ({ coreSagas }) => {
    */
   const timeClicked = function*(action) {
     try {
-      const { time } = action.payload;
-      const currencyR = yield select(selectors.core.settings.getCurrency);
-      const coin = yield select(S.getCoin);
-      const start = calculateStart(coin, time);
-      const scale = calculateScale(coin, time);
+      const { time } = action.payload
+      const currencyR = yield select(selectors.core.settings.getCurrency)
+      const coin = yield select(S.getCoin)
+      const start = calculateStart(coin, time)
+      const scale = calculateScale(coin, time)
       yield put(
         actions.core.data.misc.fetchPriceIndexSeries(
           coin,
@@ -76,15 +76,15 @@ export default ({ coreSagas }) => {
           start,
           scale
         )
-      );
+      )
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, "timeClicked", e));
+      yield put(actions.logs.logErrorMessage(logLocation, "timeClicked", e))
     }
-  };
+  }
 
   return {
     initialized,
     coinClicked,
     timeClicked
-  };
-};
+  }
+}

@@ -1,8 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { Field, reduxForm } from "redux-form";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { Field, reduxForm } from "redux-form"
 
 import {
   Button,
@@ -12,10 +12,10 @@ import {
   ModalBody,
   ModalFooter,
   Text
-} from "blockchain-info-components";
-import { Form, TextBox } from "components/Form";
-import { required } from "services/FormHelper";
-import { spacing } from "services/StyleService";
+} from "blockchain-info-components"
+import { Form, TextBox } from "components/Form"
+import { required } from "services/FormHelper"
+import { spacing } from "services/StyleService"
 
 const Code = styled.div`
   width: 60%;
@@ -23,7 +23,7 @@ const Code = styled.div`
     flex-basis: 200px;
     margin-right: 10px;
   }
-`;
+`
 const OptionsText = styled(Text)`
   display: flex;
   flex-direction: row;
@@ -32,7 +32,7 @@ const OptionsText = styled(Text)`
   & > * {
     margin-right: 4px;
   }
-`;
+`
 const MobileNumberVerify = props => {
   const {
     position,
@@ -42,8 +42,8 @@ const MobileNumberVerify = props => {
     submitting,
     invalid,
     ...rest
-  } = props;
-  const { handleSubmit, handleChange, handleResend } = rest;
+  } = props
+  const { handleSubmit, handleChange, handleResend } = rest
 
   return (
     <Modal size="large" position={position} total={total}>
@@ -115,14 +115,14 @@ const MobileNumberVerify = props => {
         </ModalFooter>
       </Form>
     </Modal>
-  );
-};
+  )
+}
 
 MobileNumberVerify.propTypes = {
   mobileNumber: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,
   handleResend: PropTypes.func.isRequired
-};
+}
 
-export default reduxForm({ form: "mobileNumberVerify" })(MobileNumberVerify);
+export default reduxForm({ form: "mobileNumberVerify" })(MobileNumberVerify)

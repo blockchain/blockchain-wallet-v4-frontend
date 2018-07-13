@@ -1,11 +1,11 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { LinkContainer } from "react-router-bootstrap";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { LinkContainer } from "react-router-bootstrap"
 
-import SecurityGauge from "./SecurityGauge";
-import { Icon, Separator, Text } from "blockchain-info-components";
+import SecurityGauge from "./SecurityGauge"
+import { Icon, Separator, Text } from "blockchain-info-components"
 
 const Wrapper = styled.div`
   height: 100%;
@@ -19,13 +19,13 @@ const Wrapper = styled.div`
   font-size: 13px;
   text-transform: uppercase;
   color: ${props => props.theme["gray-4"]};
-`;
+`
 const Menu = styled.ul`
   list-style: none;
   padding: 0;
   margin: 0;
   width: 100%;
-`;
+`
 const MenuItem = styled.li`
   display: flex;
   justify-content: flex-start;
@@ -46,7 +46,7 @@ const MenuItem = styled.li`
       color: ${props => props.theme["brand-secondary"]};
     }
   }
-`;
+`
 const SubMenu = styled.ul`
   display: flex;
   flex-direction: column;
@@ -57,7 +57,7 @@ const SubMenu = styled.ul`
   padding: 5px 10px;
   margin-left: 30px;
   margin-top: -15px;
-`;
+`
 const SubMenuItem = styled.li`
   padding: 5px 0;
   box-sizing: border-box;
@@ -69,7 +69,7 @@ const SubMenuItem = styled.li`
       color: ${props => props.theme["brand-secondary"]};
     }
   }
-`;
+`
 
 const Navigation = props => {
   const {
@@ -79,7 +79,7 @@ const Navigation = props => {
     canTrade,
     pathname,
     ...rest
-  } = props;
+  } = props
 
   return (
     <Wrapper {...rest}>
@@ -224,8 +224,8 @@ const Navigation = props => {
         )}
       </Menu>
     </Wrapper>
-  );
-};
+  )
+}
 
 Navigation.propTypes = {
   menuOpened: PropTypes.bool.isRequired,
@@ -233,6 +233,6 @@ Navigation.propTypes = {
   canTrade: PropTypes.bool.isRequired,
   pathname: PropTypes.string.isRequired,
   handleCloseMenu: PropTypes.func.isRequired
-};
+}
 
-export default Navigation;
+export default Navigation

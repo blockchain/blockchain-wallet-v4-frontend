@@ -1,12 +1,12 @@
-import { taggedSum } from "daggy";
+import { taggedSum } from "daggy"
 
 const Remote = taggedSum("Remote", {
   NotAsked: [],
   Loading: [],
   Failure: ["error"],
   Success: ["data"]
-});
-Remote.of = Remote.Success;
+})
+Remote.of = Remote.Success
 
 Remote.prototype.map = function(f) {
   return this.cata({
@@ -14,8 +14,8 @@ Remote.prototype.map = function(f) {
     Failure: () => this,
     Loading: () => this,
     NotAsked: () => this
-  });
-};
+  })
+}
 
 Remote.prototype.ap = function(that) {
   return this.cata({
@@ -35,15 +35,15 @@ Remote.prototype.ap = function(that) {
         NotAsked: () => that
       }),
     NotAsked: () => this
-  });
-};
+  })
+}
 
 Remote.prototype.toJSON = function() {
   return {
     data: { __remote: this["@@values"][0] || [] },
     __serializedType__: this["@@tag"]
-  };
-};
+  }
+}
 
 Remote.prototype.chain = function(f) {
   return this.cata({
@@ -51,8 +51,8 @@ Remote.prototype.chain = function(f) {
     Failure: () => this,
     Loading: () => this,
     NotAsked: () => this
-  });
-};
+  })
+}
 
 Remote.prototype.getOrElse = function(defaultValue) {
   return this.cata({
@@ -60,22 +60,22 @@ Remote.prototype.getOrElse = function(defaultValue) {
     Failure: () => defaultValue,
     Loading: () => defaultValue,
     NotAsked: () => defaultValue
-  });
-};
+  })
+}
 
 Remote.prototype.getOrFail = function(errorValue) {
   return this.cata({
     Success: value => value,
     Failure: () => {
-      throw errorValue;
+      throw errorValue
     },
     Loading: () => {
-      throw errorValue;
+      throw errorValue
     },
     NotAsked: () => {
-      throw errorValue;
+      throw errorValue
     }
-  });
-};
+  })
+}
 
-export default Remote;
+export default Remote

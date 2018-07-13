@@ -1,34 +1,34 @@
-import React from "react";
-import { actions } from "data";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { getData } from "./selectors";
-import Success from "./template.success";
-import Loading from "components/BuySell/Loading";
-import Failure from "components/BuySell/Failure";
+import React from "react"
+import { actions } from "data"
+import { connect } from "react-redux"
+import { bindActionCreators } from "redux"
+import { getData } from "./selectors"
+import Success from "./template.success"
+import Loading from "components/BuySell/Loading"
+import Failure from "components/BuySell/Failure"
 
 class CoinifyBuyContainer extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
 
-    this.startBuy = this.startBuy.bind(this);
+    this.startBuy = this.startBuy.bind(this)
   }
 
   componentDidMount() {
-    this.props.coinifyActions.initializeCheckoutForm("buy");
-    this.props.coinifyDataActions.fetchTrades();
-    this.props.coinifyDataActions.getKyc();
-    this.props.coinifyDataActions.fetchSubscriptions();
+    this.props.coinifyActions.initializeCheckoutForm("buy")
+    this.props.coinifyDataActions.fetchTrades()
+    this.props.coinifyDataActions.getKyc()
+    this.props.coinifyDataActions.fetchSubscriptions()
     if (this.props.step === "isx")
-      this.props.coinifyActions.coinifyNextCheckoutStep("checkout");
+      this.props.coinifyActions.coinifyNextCheckoutStep("checkout")
   }
 
   startBuy() {
-    const { buyQuoteR, paymentMedium, coinifyActions } = this.props;
-    coinifyActions.coinifyLoading();
+    const { buyQuoteR, paymentMedium, coinifyActions } = this.props
+    coinifyActions.coinifyLoading()
     buyQuoteR.map(q =>
       this.props.coinifyActions.initiateBuy({ quote: q, medium: paymentMedium })
-    );
+    )
   }
 
   render() {
@@ -44,23 +44,19 @@ class CoinifyBuyContainer extends React.Component {
       formActions,
       canTrade,
       ...rest
-    } = this.props;
-    const { step, checkoutBusy, coinifyBusy, subscriptions, trades } = rest;
-    const { fetchQuote, refreshBuyQuote } = coinifyDataActions;
-    const { showModal } = modalActions;
-    const {
-      coinifyNotAsked,
-      openKYC,
-      coinifyNextCheckoutStep
-    } = coinifyActions;
-    const { change } = formActions;
+    } = this.props
+    const { step, checkoutBusy, coinifyBusy, subscriptions, trades } = rest
+    const { fetchQuote, refreshBuyQuote } = coinifyDataActions
+    const { showModal } = modalActions
+    const { coinifyNotAsked, openKYC, coinifyNextCheckoutStep } = coinifyActions
+    const { change } = formActions
 
     const busy = coinifyBusy.cata({
       Success: () => false,
       Failure: err => err,
       Loading: () => true,
       NotAsked: () => false
-    });
+    })
 
     return data.cata({
       Success: value => (
@@ -97,20 +93,20 @@ class CoinifyBuyContainer extends React.Component {
       Failure: e => <Failure error={e} />,
       Loading: () => <Loading />,
       NotAsked: () => <div>Not Asked</div>
-    });
+    })
   }
 }
 
-const mapStateToProps = state => getData(state);
+const mapStateToProps = state => getData(state)
 
 const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   coinifyDataActions: bindActionCreators(actions.core.data.coinify, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   coinifyActions: bindActionCreators(actions.modules.coinify, dispatch)
-});
+})
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(CoinifyBuyContainer);
+)(CoinifyBuyContainer)

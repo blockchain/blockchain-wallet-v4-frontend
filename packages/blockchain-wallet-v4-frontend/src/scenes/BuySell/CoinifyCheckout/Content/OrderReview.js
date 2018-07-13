@@ -1,25 +1,25 @@
-import React, { Fragment } from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React, { Fragment } from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 
-import { Text, Link } from "blockchain-info-components";
-import Helper from "components/BuySell/FAQ";
-import CountdownTimer from "components/Form/CountdownTimer";
-import { spacing } from "services/StyleService";
-import { reviewOrder, getRateFromQuote } from "services/CoinifyService";
+import { Text, Link } from "blockchain-info-components"
+import Helper from "components/BuySell/FAQ"
+import CountdownTimer from "components/Form/CountdownTimer"
+import { spacing } from "services/StyleService"
+import { reviewOrder, getRateFromQuote } from "services/CoinifyService"
 import {
   OrderDetailsTable,
   OrderDetailsRow
-} from "components/BuySell/OrderDetails";
+} from "components/BuySell/OrderDetails"
 import {
   BorderBox,
   Row,
   PartnerHeader,
   PartnerSubHeader
-} from "components/BuySell/Signup";
-import { StepTransition } from "components/Utilities/Stepper";
-import ReviewForm from "./ReviewForm";
-import { update } from "ramda";
+} from "components/BuySell/Signup"
+import { StepTransition } from "components/Utilities/Stepper"
+import ReviewForm from "./ReviewForm"
+import { update } from "ramda"
 
 const ExchangeRateWrapper = styled.div`
   display: flex;
@@ -27,9 +27,9 @@ const ExchangeRateWrapper = styled.div`
   align-items: center;
   justify-content: flex-end;
   margin-top: 20px;
-`;
+`
 
-const rateHelper = quoteR => quoteR.map(getRateFromQuote).getOrElse(`~`);
+const rateHelper = quoteR => quoteR.map(getRateFromQuote).getOrElse(`~`)
 
 export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
   <Row>
@@ -169,10 +169,10 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
         .getOrElse(null)}
     </BorderBox>
   </Row>
-);
+)
 
 export const OrderSubmit = props => {
-  const { busy, clearTradeError, onSubmit, quoteR, type } = props;
+  const { busy, clearTradeError, onSubmit, quoteR, type } = props
 
   let helpers = [
     {
@@ -258,7 +258,7 @@ export const OrderSubmit = props => {
         />
       )
     }
-  ];
+  ]
 
   let sellFaq = {
     question: (
@@ -273,14 +273,14 @@ export const OrderSubmit = props => {
         defaultMessage="If the Bitcoin transaction of your sell order is broadcast and confirmed within the 15 minute time period for which Coinify guarantees the rate, the system will lock the exchange rate and your order will begin processing. This means that within 2 bank days we will send the funds to your bank account, as long as all details are correct and complete. Remember: you can only use a bank account registered in your own name to receive the payout."
       />
     )
-  };
+  }
 
   const faqHelper = () =>
     helpers.map((el, i) => (
       <Helper key={i} question={el.question} answer={el.answer} />
-    ));
+    ))
 
-  if (type === "sell") helpers = update(0, sellFaq, helpers);
+  if (type === "sell") helpers = update(0, sellFaq, helpers)
 
   return (
     <Fragment>
@@ -304,5 +304,5 @@ export const OrderSubmit = props => {
       )}
       {faqHelper()}
     </Fragment>
-  );
-};
+  )
+}

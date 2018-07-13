@@ -1,10 +1,10 @@
-import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import React from "react"
+import { connect } from "react-redux"
+import { bindActionCreators } from "redux"
 
-import { actions } from "data";
-import Menu from "./template.js";
-import { getData } from "../../../../components/Form/SelectBoxBitcoinAddresses/selectors";
+import { actions } from "data"
+import Menu from "./template.js"
+import { getData } from "../../../../components/Form/SelectBoxBitcoinAddresses/selectors"
 
 class MenuContainer extends React.PureComponent {
   render() {
@@ -18,19 +18,19 @@ class MenuContainer extends React.PureComponent {
       Failure: message => <div />,
       Loading: () => <div />,
       NotAsked: () => <div />
-    });
+    })
   }
 }
 
 const mapStateToProps = state => ({
   data: getData(state, "BCH")
-});
+})
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.bchTransactions, dispatch)
-});
+})
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(MenuContainer);
+)(MenuContainer)

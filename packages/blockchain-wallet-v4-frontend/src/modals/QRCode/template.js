@@ -1,8 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import QRCodeReact from "qrcode.react";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import QRCodeReact from "qrcode.react"
 
 import {
   Link,
@@ -12,8 +12,8 @@ import {
   ModalFooter,
   Text,
   Tooltip
-} from "blockchain-info-components";
-import CopyClipboard from "components/CopyClipboard";
+} from "blockchain-info-components"
+import CopyClipboard from "components/CopyClipboard"
 
 const QRCodeContainer = styled.div`
   display: flex;
@@ -21,17 +21,17 @@ const QRCodeContainer = styled.div`
   align-content: center;
   width: 100%;
   padding: 30px 0;
-`;
+`
 
 const QRCode = props => {
-  const { position, total, close, closeAll, ...rest } = props;
-  const { receiveAddress, amount, message } = rest.value;
-  let bitcoinAddress = `bitcoin:${receiveAddress}`;
-  let amt = amount > 0 ? amount : null;
-  if (amt || message) bitcoinAddress += "?";
-  if (amt && !message) bitcoinAddress += `amount=${amt}`;
-  if (!amt && message) bitcoinAddress += `message=${message}`;
-  if (amt && message) bitcoinAddress += `amount=${amt}&message=${message}`;
+  const { position, total, close, closeAll, ...rest } = props
+  const { receiveAddress, amount, message } = rest.value
+  let bitcoinAddress = `bitcoin:${receiveAddress}`
+  let amt = amount > 0 ? amount : null
+  if (amt || message) bitcoinAddress += "?"
+  if (amt && !message) bitcoinAddress += `amount=${amt}`
+  if (!amt && message) bitcoinAddress += `message=${message}`
+  if (amt && message) bitcoinAddress += `amount=${amt}&message=${message}`
 
   return (
     <Modal size="large" position={position} total={total}>
@@ -62,11 +62,11 @@ const QRCode = props => {
         </Link>
       </ModalFooter>
     </Modal>
-  );
-};
+  )
+}
 
 QRCode.propTypes = {
   value: PropTypes.object.isRequired
-};
+}
 
-export default QRCode;
+export default QRCode

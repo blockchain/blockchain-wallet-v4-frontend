@@ -1,17 +1,17 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { FormattedMessage } from "react-intl";
-import { bindActionCreators, compose } from "redux";
-import { formValueSelector } from "redux-form";
-import { path, equals } from "ramda";
-import { actions } from "data";
-import ui from "redux-ui";
-import Upload from "../Upload";
+import React, { Component } from "react"
+import { connect } from "react-redux"
+import { FormattedMessage } from "react-intl"
+import { bindActionCreators, compose } from "redux"
+import { formValueSelector } from "redux-form"
+import { path, equals } from "ramda"
+import { actions } from "data"
+import ui from "redux-ui"
+import Upload from "../Upload"
 
-import Helper from "components/BuySell/FAQ";
+import Helper from "components/BuySell/FAQ"
 
-import Address from "./Address";
-import Identity from "./Identity";
+import Address from "./Address"
+import Identity from "./Identity"
 
 const faqCopy = [
   {
@@ -42,20 +42,20 @@ const faqCopy = [
       />
     )
   }
-];
+]
 
 const faqHelper = () =>
   faqCopy.map((el, i) => (
     <Helper key={i} question={el.question} answer={el.answer} />
-  ));
+  ))
 
 class VerifyContainer extends Component {
   constructor(props) {
-    super(props);
-    this.handleReset = this.handleReset.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    super(props)
+    this.handleReset = this.handleReset.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
 
-    this.state = { viewSSN: false };
+    this.state = { viewSSN: false }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -63,31 +63,31 @@ class VerifyContainer extends Component {
       !equals(this.props.verificationError, nextProps.verificationError) &&
       nextProps.verificationError
     ) {
-      this.props.updateUI({ busy: false });
+      this.props.updateUI({ busy: false })
     }
   }
 
   componentWillUnmount() {
-    this.props.formActions.destroy("sfoxAddress");
+    this.props.formActions.destroy("sfoxAddress")
   }
 
   handleSubmit(e) {
-    e.preventDefault();
-    this.props.updateUI({ busy: true });
-    this.props.sfoxFrontendActions.setProfile(this.props.user);
+    e.preventDefault()
+    this.props.updateUI({ busy: true })
+    this.props.sfoxFrontendActions.setProfile(this.props.user)
   }
 
   handleReset() {
-    this.props.updateUI({ busy: false });
-    this.props.updateUI({ verify: "address" });
-    this.props.sfoxFrontendActions.setVerifyError(false);
-    this.props.sfoxDataActions.refetchProfile();
+    this.props.updateUI({ busy: false })
+    this.props.updateUI({ verify: "address" })
+    this.props.sfoxFrontendActions.setVerifyError(false)
+    this.props.sfoxDataActions.refetchProfile()
   }
 
   render() {
-    if (this.props.step === "upload") return <Upload />;
+    if (this.props.step === "upload") return <Upload />
     if (this.props.ui.verify === "address")
-      return <Address {...this.props} faqs={faqHelper} />;
+      return <Address {...this.props} faqs={faqHelper} />
     if (this.props.ui.verify === "identity")
       return (
         <Identity
@@ -98,7 +98,7 @@ class VerifyContainer extends Component {
           handleSubmit={this.handleSubmit}
           handleReset={this.handleReset}
         />
-      );
+      )
   }
 }
 
@@ -115,13 +115,13 @@ const mapStateToProps = state => ({
     zipcode: formValueSelector("sfoxAddress")(state, "zipcode")
   },
   verificationError: path(["sfoxSignup", "verifyError"], state)
-});
+})
 
 const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch),
   sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch),
   sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch)
-});
+})
 
 const enhance = compose(
   connect(
@@ -129,6 +129,6 @@ const enhance = compose(
     mapDispatchToProps
   ),
   ui({ state: { verify: "address", error: false, busy: false } })
-);
+)
 
-export default enhance(VerifyContainer);
+export default enhance(VerifyContainer)

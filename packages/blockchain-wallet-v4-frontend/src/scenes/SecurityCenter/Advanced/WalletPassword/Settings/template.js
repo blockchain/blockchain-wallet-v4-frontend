@@ -1,34 +1,34 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
-import { Field, reduxForm } from "redux-form";
-import styled from "styled-components";
+import React from "react"
+import PropTypes from "prop-types"
+import { FormattedMessage } from "react-intl"
+import { Field, reduxForm } from "redux-form"
+import styled from "styled-components"
 
-import { Button, ButtonGroup } from "blockchain-info-components";
+import { Button, ButtonGroup } from "blockchain-info-components"
 import {
   Form,
   FormGroup,
   FormItem,
   FormLabel,
   PasswordBox
-} from "components/Form";
-import { SettingWrapper } from "components/Setting";
+} from "components/Form"
+import { SettingWrapper } from "components/Setting"
 import {
   required,
   validStrongPassword,
   validPasswordConfirmation,
   validCurrentPassword,
   isNotCurrentPassword
-} from "services/FormHelper";
+} from "services/FormHelper"
 
 const ButtonWrapper = styled(ButtonGroup)`
   margin-top: 5px;
   & > :first-child {
     margin-right: 5px;
   }
-`;
+`
 
-const validatePasswordConfirmation = validPasswordConfirmation("newPassword");
+const validatePasswordConfirmation = validPasswordConfirmation("newPassword")
 
 const Settings = props => {
   const {
@@ -38,7 +38,7 @@ const Settings = props => {
     submitting,
     invalid,
     handleCancel
-  } = props;
+  } = props
 
   return (
     <SettingWrapper>
@@ -116,13 +116,13 @@ const Settings = props => {
         </Form>
       )}
     </SettingWrapper>
-  );
-};
+  )
+}
 
 Settings.propTypes = {
   updateToggled: PropTypes.bool.isRequired,
   handleToggle: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired
-};
+}
 
-export default reduxForm({ form: "settingWalletPassword" })(Settings);
+export default reduxForm({ form: "settingWalletPassword" })(Settings)

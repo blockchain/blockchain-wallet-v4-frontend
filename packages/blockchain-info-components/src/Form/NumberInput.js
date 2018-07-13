@@ -1,6 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
 
 const BaseNumberInput = styled.input.attrs({
   type: "number"
@@ -32,40 +32,40 @@ const BaseNumberInput = styled.input.attrs({
     -webkit-appearance: none;
     margin: 0;
   }
-`;
+`
 
 const selectBorderColor = state => {
   switch (state) {
     case "initial":
-      return "gray-2";
+      return "gray-2"
     case "invalid":
-      return "error";
+      return "error"
     case "valid":
-      return "success";
+      return "success"
     default:
-      return "gray-2";
+      return "gray-2"
   }
-};
+}
 
 const NumberInput = props => {
-  const { errorState, ...rest } = props;
-  const borderColor = selectBorderColor(errorState);
+  const { errorState, ...rest } = props
+  const borderColor = selectBorderColor(errorState)
 
-  return <BaseNumberInput borderColor={borderColor} {...rest} />;
-};
+  return <BaseNumberInput borderColor={borderColor} {...rest} />
+}
 
 NumberInput.propTypes = {
   disabled: PropTypes.bool,
   height: PropTypes.string,
   minHeight: PropTypes.string,
   step: PropTypes.string
-};
+}
 
 NumberInput.defaultProps = {
   disabled: false,
   height: "40px",
   minHeight: "40px",
   step: "0.01"
-};
+}
 
-export default NumberInput;
+export default NumberInput

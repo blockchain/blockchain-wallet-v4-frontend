@@ -1,17 +1,17 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import styled from "styled-components";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { FormattedMessage } from "react-intl";
-import { contains } from "ramda";
+import React from "react"
+import ReactDOM from "react-dom"
+import styled from "styled-components"
+import { connect } from "react-redux"
+import { bindActionCreators } from "redux"
+import { FormattedMessage } from "react-intl"
+import { contains } from "ramda"
 
-import { Icon, Text } from "blockchain-info-components";
-import Faq from "./Faq";
-import WhatsNew from "./WhatsNew";
-import { actions } from "data";
-import { getData } from "./selectors";
-import media from "services/ResponsiveService";
+import { Icon, Text } from "blockchain-info-components"
+import Faq from "./Faq"
+import WhatsNew from "./WhatsNew"
+import { actions } from "data"
+import { getData } from "./selectors"
+import media from "services/ResponsiveService"
 
 const AnimationWrapper = styled.div`
   position: absolute;
@@ -36,7 +36,7 @@ const AnimationWrapper = styled.div`
     right: ${props => (props.opened ? "0" : "calc(-110%)")};
     display: ${props => (props.opened ? "inline" : "none")};
   `};
-`;
+`
 const Header = styled.div`
   display: flex;
   flex-direction: row;
@@ -47,55 +47,55 @@ const Header = styled.div`
   padding: 30px;
   box-sizing: border-box;
   background-color: ${props => props.theme["white-blue"]};
-`;
+`
 const Content = styled.div`
   width: 100%;
   height: calc(100% - 40px);
   background-color: ${props => props.theme["white"]};
-`;
+`
 
 class TrayRightContainer extends React.PureComponent {
   constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
-    this.handleClose = this.handleClose.bind(this);
+    super(props)
+    this.handleClick = this.handleClick.bind(this)
+    this.handleClose = this.handleClose.bind(this)
   }
 
   componentDidMount() {
-    document.addEventListener("mousedown", this.handleClick);
+    document.addEventListener("mousedown", this.handleClick)
   }
 
   componentWillUnmount() {
-    document.removeEventListener("mousedown", this.handleClick);
+    document.removeEventListener("mousedown", this.handleClick)
   }
 
   handleClick(e) {
-    const trayContainer = ReactDOM.findDOMNode(this.node);
-    const blacklist = ["faq-icon", "whatsnew-icon"];
+    const trayContainer = ReactDOM.findDOMNode(this.node)
+    const blacklist = ["faq-icon", "whatsnew-icon"]
     if (
       trayContainer &&
       !trayContainer.contains(e.target) &&
       !contains(e.target.id, blacklist)
     ) {
-      this.handleClose();
+      this.handleClose()
     }
   }
 
   handleClose() {
     if (this.props.data.opened) {
-      this.props.actions.layoutWalletTrayCloseClicked();
+      this.props.actions.layoutWalletTrayCloseClicked()
     }
   }
 
   render() {
-    const { data } = this.props;
-    const { opened, content } = data;
+    const { data } = this.props
+    const { opened, content } = data
 
     return (
       <AnimationWrapper
         opened={opened}
         ref={node => {
-          this.node = node;
+          this.node = node
         }}
       >
         <Header>
@@ -120,19 +120,19 @@ class TrayRightContainer extends React.PureComponent {
           {content === "whatsnew" && <WhatsNew />}
         </Content>
       </AnimationWrapper>
-    );
+    )
   }
 }
 
 const mapStateToProps = state => ({
   data: getData(state)
-});
+})
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.layoutWallet, dispatch)
-});
+})
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(TrayRightContainer);
+)(TrayRightContainer)

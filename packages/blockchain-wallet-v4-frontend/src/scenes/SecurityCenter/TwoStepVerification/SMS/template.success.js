@@ -1,12 +1,12 @@
-import React, { Fragment } from "react";
-import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
-import styled from "styled-components";
-import { Field, reduxForm } from "redux-form";
+import React, { Fragment } from "react"
+import PropTypes from "prop-types"
+import { FormattedMessage } from "react-intl"
+import styled from "styled-components"
+import { Field, reduxForm } from "redux-form"
 
-import { Button, Text, Link } from "blockchain-info-components";
-import { TextBox, PhoneNumberBox, Form } from "components/Form";
-import { required } from "services/FormHelper";
+import { Button, Text, Link } from "blockchain-info-components"
+import { TextBox, PhoneNumberBox, Form } from "components/Form"
+import { required } from "services/FormHelper"
 
 const AuthenticatorSummary = styled.div`
   width: 100%;
@@ -15,14 +15,14 @@ const AuthenticatorSummary = styled.div`
   @media (min-width: 992px) {
     width: 110%;
   }
-`;
+`
 const SmsAuthContainer = styled.div`
   margin-top: 25px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-`;
+`
 const QRInputWrapper = styled.div`
   width: 45%;
   display: flex;
@@ -35,11 +35,11 @@ const QRInputWrapper = styled.div`
   a {
     margin-top: 20px;
   }
-`;
+`
 
 const SmsAuth = props => {
-  const { data, ui, handleSubmit, changeMobileNumber, invalid, code } = props;
-  const { smsVerified, smsNumber, countryCode } = data;
+  const { data, ui, handleSubmit, changeMobileNumber, invalid, code } = props
+  const { smsVerified, smsNumber, countryCode } = data
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -93,8 +93,8 @@ const SmsAuth = props => {
         </SmsAuthContainer>
       </AuthenticatorSummary>
     </Form>
-  );
-};
+  )
+}
 
 SmsAuth.propTypes = {
   data: PropTypes.shape({
@@ -104,8 +104,8 @@ SmsAuth.propTypes = {
   }),
   onSubmit: PropTypes.func.isRequired,
   changeMobileNumber: PropTypes.func.isRequired
-};
+}
 
 export default reduxForm({
   form: "securitySms"
-})(SmsAuth);
+})(SmsAuth)

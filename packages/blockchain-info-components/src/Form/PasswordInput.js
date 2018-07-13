@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from "react"
+import styled from "styled-components"
 
 const BasePasswordInput = styled.input.attrs({
   type: "password",
@@ -27,37 +27,37 @@ const BasePasswordInput = styled.input.attrs({
     cursor: not-allowed;
     background-color: ${props => props.theme["gray-1"]};
   }
-`;
+`
 
 const selectBorderColor = state => {
   switch (state) {
     case "initial":
-      return "gray-2";
+      return "gray-2"
     case "invalid":
-      return "error";
+      return "error"
     case "valid":
-      return "success";
+      return "success"
     default:
-      return "gray-2";
+      return "gray-2"
   }
-};
+}
 
 class PasswordInput extends React.Component {
   componentDidUpdate(prevProps) {
     if (this.props.active && !prevProps.active && this.input) {
-      this.input.focus();
+      this.input.focus()
     }
   }
 
   refInput = input => {
-    this.input = input;
-  };
+    this.input = input
+  }
 
   render() {
-    const { errorState, ...rest } = this.props;
+    const { errorState, ...rest } = this.props
     const borderColor = selectBorderColor(
       this.props.controlledBorderColor || errorState
-    );
+    )
 
     return (
       <BasePasswordInput
@@ -65,8 +65,8 @@ class PasswordInput extends React.Component {
         borderColor={borderColor}
         {...rest}
       />
-    );
+    )
   }
 }
 
-export default PasswordInput;
+export default PasswordInput

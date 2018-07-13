@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
-import { path, prop } from "ramda";
+import React from "react"
+import styled from "styled-components"
+import { path, prop } from "ramda"
 
-import { Icon, Separator } from "blockchain-info-components";
-import { SelectBox } from "components/Form";
+import { Icon, Separator } from "blockchain-info-components"
+import { SelectBox } from "components/Form"
 
 const DisplayWrapper = styled.div`
   display: flex;
@@ -16,7 +16,7 @@ const DisplayWrapper = styled.div`
   box-sizing: border-box;
   cursor: pointer;
   min-width: 0;
-`;
+`
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -29,7 +29,7 @@ const HeaderWrapper = styled.div`
   box-sizing: border-box;
   cursor: not-allowed;
   min-width: 0;
-`;
+`
 const ItemWrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -46,7 +46,7 @@ const ItemWrapper = styled.div`
     color: ${props => props.theme["gray-4"]};
     background-color: ${props => props.theme["gray-1"]};
   }
-`;
+`
 const Text = styled.span`
   position: relative;
   font-family: "Montserrat", sans-serif;
@@ -61,7 +61,7 @@ const Text = styled.span`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-`;
+`
 
 const renderDisplay = item => (
   <DisplayWrapper>
@@ -76,7 +76,7 @@ const renderDisplay = item => (
     )}
     <Text>{item.text}</Text>
   </DisplayWrapper>
-);
+)
 const renderHeader = item => (
   <HeaderWrapper>
     {prop("text", item) === "Bitcoin" && (
@@ -92,12 +92,12 @@ const renderHeader = item => (
       <Text uppercase>{item.text}</Text>
     </Separator>
   </HeaderWrapper>
-);
+)
 const renderItem = item => (
   <ItemWrapper>
     <Text>{item.text}</Text>
   </ItemWrapper>
-);
+)
 
 const renderItemWithIcon = item => (
   <ItemWrapper>
@@ -112,7 +112,7 @@ const renderItemWithIcon = item => (
     )}
     <Text>{item.text}</Text>
   </ItemWrapper>
-);
+)
 
 const SelectBoxExchange = props =>
   props.hasOneAccount ? (
@@ -128,6 +128,6 @@ const SelectBoxExchange = props =>
       templateHeader={renderHeader}
       templateItem={renderItem}
     />
-  );
+  )
 
-export default SelectBoxExchange;
+export default SelectBoxExchange

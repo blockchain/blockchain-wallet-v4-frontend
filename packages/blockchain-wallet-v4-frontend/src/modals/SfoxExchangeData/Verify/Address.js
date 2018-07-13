@@ -1,25 +1,20 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { Field, reduxForm } from "redux-form";
-import {
-  FormGroup,
-  FormItem,
-  TextBox,
-  SelectBoxUSState
-} from "components/Form";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { Field, reduxForm } from "redux-form"
+import { FormGroup, FormItem, TextBox, SelectBoxUSState } from "components/Form"
 import {
   Text,
   Button,
   HeartbeatLoader,
   Banner
-} from "blockchain-info-components";
+} from "blockchain-info-components"
 
 import {
   required,
   requiredUsZipcode,
   normalizeUSZipcode
-} from "services/FormHelper";
+} from "services/FormHelper"
 import {
   Form,
   ColLeft,
@@ -28,26 +23,26 @@ import {
   PartnerHeader,
   PartnerSubHeader,
   ColRightInner
-} from "components/BuySell/Signup";
-import media from "services/ResponsiveService";
+} from "components/BuySell/Signup"
+import media from "services/ResponsiveService"
 
 const FormContainer = styled.div`
   margin-top: 25px;
-`;
+`
 const AddressLabel = styled(Text)`
   span:last-of-type {
     margin-left: 3px;
     color: ${props => props.theme["gray-3"]};
   }
-`;
+`
 const BannerWrapper = styled.div`
   margin-top: 10px;
-`;
+`
 const AddressForm = styled(Form)`
   ${media.mobile`
     flex-direction: column;
   `};
-`;
+`
 const AddressFormGroup = styled(FormGroup)`
   ${media.mobile`
     flex-direction: column;
@@ -60,16 +55,16 @@ const AddressFormGroup = styled(FormGroup)`
       }
     }
   `};
-`;
+`
 
 const Address = props => {
-  const { invalid, submitting } = props;
-  const { busy } = props.ui;
+  const { invalid, submitting } = props
+  const { busy } = props.ui
 
   const handleSubmit = e => {
-    e.preventDefault();
-    props.updateUI({ verify: "identity" });
-  };
+    e.preventDefault()
+    props.updateUI({ verify: "identity" })
+  }
 
   return (
     <AddressForm onSubmit={handleSubmit}>
@@ -237,9 +232,9 @@ const Address = props => {
         </ColRightInner>
       </ColRight>
     </AddressForm>
-  );
-};
+  )
+}
 
 export default reduxForm({ form: "sfoxAddress", destroyOnUnmount: false })(
   Address
-);
+)

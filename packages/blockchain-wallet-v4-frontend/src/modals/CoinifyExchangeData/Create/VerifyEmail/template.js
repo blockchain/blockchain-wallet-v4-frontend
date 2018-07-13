@@ -1,11 +1,11 @@
-import React from "react";
-import { FormattedMessage } from "react-intl";
-import { Field, reduxForm } from "redux-form";
-import styled from "styled-components";
+import React from "react"
+import { FormattedMessage } from "react-intl"
+import { Field, reduxForm } from "redux-form"
+import styled from "styled-components"
 
-import { Text, Button } from "blockchain-info-components";
-import { TextBox } from "components/Form";
-import { required } from "services/FormHelper";
+import { Text, Button } from "blockchain-info-components"
+import { TextBox } from "components/Form"
+import { required } from "services/FormHelper"
 import {
   Form,
   ColLeft,
@@ -16,19 +16,19 @@ import {
   PartnerSubHeader,
   ButtonWrapper,
   EmailHelper
-} from "components/BuySell/Signup";
-import media from "services/ResponsiveService";
+} from "components/BuySell/Signup"
+import media from "services/ResponsiveService"
 
 const EmailInput = styled.div`
   display: flex;
   margin-top: 25px;
   flex-direction: column;
-`;
+`
 const CreateForm = styled(Form)`
   ${media.mobile`
     flex-direction: column;
   `};
-`;
+`
 
 const VerifyEmail = props => {
   const {
@@ -39,7 +39,7 @@ const VerifyEmail = props => {
     ui,
     updateUI,
     newEmail
-  } = props;
+  } = props
 
   const emailHelper = () => {
     switch (true) {
@@ -57,14 +57,14 @@ const VerifyEmail = props => {
               )
             }}
           />
-        );
+        )
       case ui.codeSent:
         return (
           <FormattedMessage
             id="coinifyexchangedata.create.verifyemail.helper.sentanothercode"
             defaultMessage="Another code has been sent!"
           />
-        );
+        )
       case !ui.codeSent:
         return (
           <FormattedMessage
@@ -79,9 +79,9 @@ const VerifyEmail = props => {
               )
             }}
           />
-        );
+        )
     }
-  };
+  }
 
   return (
     <CreateForm onSubmit={handleSubmit}>
@@ -177,7 +177,7 @@ const VerifyEmail = props => {
         </ColRightInner>
       </ColRight>
     </CreateForm>
-  );
-};
+  )
+}
 
-export default reduxForm({ form: "coinifyVerifyEmail" })(VerifyEmail);
+export default reduxForm({ form: "coinifyVerifyEmail" })(VerifyEmail)
