@@ -83,7 +83,7 @@ export default ({ api, coreSagas, options }) => {
   const getRegulationLimit = function * (source) {
     const sourceCoin = prop('coin', source)
     const sourceRates = yield call(selectRates, sourceCoin)
-    const upperLimit = path(['platforms', 'web', 'shapeshift', 'config', 'upperLimit'], options) || 500
+    const upperLimit = path(['platforms', 'web', 'shapeshift', 'config', 'upperLimit'], options) || 750
     switch (sourceCoin) {
       case 'BCH': return convertFiatToCoin(upperLimit, 'USD', 'BCH', 'SAT', sourceRates).value
       case 'BTC': return convertFiatToCoin(upperLimit, 'USD', 'BTC', 'SAT', sourceRates).value
