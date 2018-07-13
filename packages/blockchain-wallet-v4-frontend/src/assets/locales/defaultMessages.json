@@ -593,6 +593,27 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "here.",
+        "id": "buysell.general.failure.here"
+      },
+      {
+        "defaultMessage": "Sorry, an error has occurred while connecting to your exchange partner.",
+        "id": "buysell.general.failure.message"
+      },
+      {
+        "defaultMessage": "If the problem continues, please reach out to our support team {supportLink}",
+        "id": "buysell.general.failure.message2"
+      },
+      {
+        "defaultMessage": "Error code: {err}",
+        "id": "buysell.general.failure.message3"
+      }
+    ],
+    "path": "src/components/BuySell/Failure.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "ending with",
         "id": "buy.accountendingwith"
       }
@@ -5941,46 +5962,6 @@
       {
         "defaultMessage": "Your Balances",
         "id": "scenes.home.balanceschart.yourbalances"
-      },
-      {
-        "defaultMessage": "Bitcoin",
-        "id": "scenes.home.balanceschart.btc"
-      },
-      {
-        "defaultMessage": "Buy Bitcoin",
-        "id": "scenes.home.balanceschart.buybtc"
-      },
-      {
-        "defaultMessage": "Get Started",
-        "id": "scenes.home.balanceschart.getstarted"
-      },
-      {
-        "defaultMessage": "Request Bitcoin",
-        "id": "scenes.home.balanceschart.requestbtc"
-      },
-      {
-        "defaultMessage": "View All Balances",
-        "id": "scenes.home.balanceschart.btc.viewall"
-      },
-      {
-        "defaultMessage": "Ether",
-        "id": "scenes.home.balanceschart.eth"
-      },
-      {
-        "defaultMessage": "Request Ether",
-        "id": "scenes.home.balanceschart.requesteth"
-      },
-      {
-        "defaultMessage": "Bitcoin Cash",
-        "id": "scenes.home.balanceschart.bch"
-      },
-      {
-        "defaultMessage": "Request Bitcoin Cash",
-        "id": "scenes.home.balanceschart.requestbch"
-      },
-      {
-        "defaultMessage": "View All Balances",
-        "id": "scenes.home.balanceschart.bch.viewall"
       }
     ],
     "path": "src/scenes/Home/BalancesChart/template.success.json"
@@ -7497,6 +7478,10 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Previous 4 Words",
+        "id": "modals.recoveryphrase.secondstep.prevfourwords"
+      },
+      {
         "defaultMessage": "Finish & Verify",
         "id": "modals.recoveryphrase.secondstep.finishandcheckphrase"
       },
@@ -7989,6 +7974,14 @@
   },
   {
     "descriptors": [
+      {
+        "defaultMessage": "Minutes",
+        "id": "scenes.settings.preferences.autologout.updateform.minutes"
+      },
+      {
+        "defaultMessage": "Must be between 1 and 1440 minutes.",
+        "id": "scenes.preferences.autologout.settings.updateform.bounds"
+      },
       {
         "defaultMessage": "Cancel",
         "id": "scenes.preferences.autologout.settings.updateform.cancel"
