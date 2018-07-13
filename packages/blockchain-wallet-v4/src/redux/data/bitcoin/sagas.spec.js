@@ -1,5 +1,5 @@
 import { select } from 'redux-saga/effects'
-import { indexBy, path, prop } from 'ramda'
+import { indexBy, path, prop, append, assocPath } from 'ramda'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
@@ -9,14 +9,28 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
 import sagas from './sagas'
 
-const blockchainData = { wallet: {}, info: {} }
-const transactionHistory = { address: {}, sent: {}, received: {} }
+const blockchainData = {
+  addresses: [{
+    address: 'xpub6BvQUYyon9wcJUgBUjhQ7E5iSSHVzsraSqmqiRLKUXoXE4PkFZ2h8x7yuuXZdFeJSQgTX2o8n4kq4z32aGFkfkC6ZBrW9hJR1jDuEdA7uJa'
+  }],
+  wallet: {},
+  info: {
+    latest_block: {}
+  },
+  txs: [{
+    id: 1
+  }]
+}
+const transactionHistory = { address: 'asdflkjsadfje', sent: {}, received: {} }
+const feeData = { fee: 1239 }
+const rateData = { rate: 5213 }
+const fiatAtTime = { value: 33 }
 
 const api = {
   fetchBlockchainData: jest.fn(() => blockchainData),
-  getBitcoinFee: jest.fn(),
-  getBitcoinFiatAtTime: jest.fn(),
-  getBitcoinTicker: jest.fn(),
+  getBitcoinFee: jest.fn(() => feeData),
+  getBitcoinFiatAtTime: jest.fn(() => fiatAtTime),
+  getBitcoinTicker: jest.fn(() => rateData),
   getTransactionHistory: jest.fn(() => transactionHistory)
 }
 
@@ -73,11 +87,28 @@ describe('bitcoin data sagas', () => {
         .next()
         .isDone()
     })
+
+    describe('state change', () => {
+      it('should add bitcoin data to the state', () => {
+        return expectSaga(dataBtcSagas.fetchData)
+          .withReducer(reducers)
+          .provide([
+            [select(selectors.wallet.getContext), mockContext]
+          ])
+          .run()
+          .then((result) => {
+            expect(result.storeState.bitcoin).toMatchObject({
+              addresses: Remote.Success(indexBy(prop('address'), prop('addresses', blockchainData))),
+              info: Remote.Success(blockchainData.wallet),
+              latest_block: Remote.Success(blockchainData.info.latest_block)
+            })
+          })
+      })
+    })
   })
 
   describe('fetchFee', () => {
     const saga = testSaga(dataBtcSagas.fetchFee)
-    const feeData = { fee: 2 }
 
     it('should put loading state', () => {
       saga.next().put(A.fetchFeeLoading())
@@ -101,11 +132,23 @@ describe('bitcoin data sagas', () => {
         .next()
         .isDone()
     })
+
+    describe('state change', () => {
+      it('should add fee data to the state', () => {
+        return expectSaga(dataBtcSagas.fetchFee)
+          .withReducer(reducers)
+          .run()
+          .then((result) => {
+            expect(result.storeState.bitcoin).toMatchObject({
+              fee: Remote.Success(feeData)
+            })
+          })
+      })
+    })
   })
 
   describe('fetchRates', () => {
     const saga = testSaga(dataBtcSagas.fetchRates)
-    const rateData = { rate: 1 }
 
     it('should put loading state', () => {
       saga.next().put(A.fetchRatesLoading())
@@ -132,6 +175,19 @@ describe('bitcoin data sagas', () => {
         .put(A.fetchRatesFailure(error.message))
         .next()
         .isDone()
+    })
+
+    describe('state change', () => {
+      it('should add rate data to the state', () => {
+        return expectSaga(dataBtcSagas.fetchRates)
+          .withReducer(reducers)
+          .run()
+          .then((result) => {
+            expect(result.storeState.bitcoin).toMatchObject({
+              rates: Remote.Success(rateData)
+            })
+          })
+      })
     })
   })
 
@@ -229,6 +285,44 @@ describe('bitcoin data sagas', () => {
         .next()
         .isDone()
     })
+
+    describe('state change', () => {
+      it('should add transaction data to the state', () => {
+        return expectSaga(dataBtcSagas.fetchTransactions, { payload: { address: '9120je02j1akslfdj', reset: true } })
+          .withReducer(reducers)
+          .provide([
+            [select(selectors.wallet.getWalletContext), mockContext],
+            [select(S.getTransactions), pages]
+          ])
+          .run()
+          .then((result) => {
+            expect(result.storeState.bitcoin).toMatchObject({
+              transactions: [Remote.Success(blockchainData.txs)]
+            })
+          })
+      })
+
+      it('should append transaction data to the state if reset is false', () => {
+        const initTx = [Remote.Success({id: 2}), Remote.Success({id: 3})]
+        return expectSaga(dataBtcSagas.fetchTransactions, { payload: { address: '9120je02j1akslfdj', reset: false } })
+          .withReducer(reducers)
+          .withState({
+            bitcoin: {
+              transactions: [Remote.Success(initTx)]
+            }
+          })
+          .provide([
+            [select(selectors.wallet.getWalletContext), mockContext],
+            [select(S.getTransactions), pages]
+          ])
+          .run()
+          .then((result) => {
+            expect(result.storeState.bitcoin).toMatchObject({
+              transactions: append(Remote.Success(blockchainData.txs), [Remote.Success(initTx)])
+            })
+          })
+      })
+    })
   })
 
   describe('fetchTransactionHistory', () => {
@@ -283,6 +377,37 @@ describe('bitcoin data sagas', () => {
         .next()
         .isDone()
     })
+
+    describe('state change', () => {
+      it('should add transactionHistory data to the state', () => {
+        return expectSaga(dataBtcSagas.fetchTransactionHistory, { payload })
+          .withReducer(reducers)
+          .provide([
+            [select(selectors.settings.getCurrency), Remote.of('USD')]
+          ])
+          .run()
+          .then((result) => {
+            expect(result.storeState.bitcoin).toMatchObject({
+              transaction_history: Remote.Success(transactionHistory)
+            })
+          })
+      })
+
+      it('should add transactionHistory data to the state using context if no address', () => {
+        return expectSaga(dataBtcSagas.fetchTransactionHistory, { payload: payloadNoAddr })
+          .withReducer(reducers)
+          .provide([
+            [select(selectors.settings.getCurrency), Remote.of('USD')],
+            [select(selectors.wallet.getWalletContext), mockContext]
+          ])
+          .run()
+          .then((result) => {
+            expect(result.storeState.bitcoin).toMatchObject({
+              transaction_history: Remote.Success(transactionHistory)
+            })
+          })
+      })
+    })
   })
 
   describe('fetchFiatAtTime', () => {
@@ -318,6 +443,19 @@ describe('bitcoin data sagas', () => {
         .put(A.fetchFiatAtTimeFailure(payload.hash, payload.currency, error.message))
         .next()
         .isDone()
+    })
+
+    describe('state change', () => {
+      it('should add fiatAtTime data to the state', () => {
+        return expectSaga(dataBtcSagas.fetchFiatAtTime, { payload })
+          .withReducer(reducers)
+          .run()
+          .then((result) => {
+            expect(result.storeState.bitcoin).toMatchObject({
+              transactions_fiat: assocPath([payload.hash, payload.currency], Remote.Success(fiatAtTime), {})
+            })
+          })
+      })
     })
   })
 })
