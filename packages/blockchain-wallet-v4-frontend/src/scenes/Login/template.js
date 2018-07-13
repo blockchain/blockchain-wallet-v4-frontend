@@ -1,12 +1,12 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { Field, reduxForm } from "redux-form";
-import { FormattedMessage } from "react-intl";
-import { LinkContainer } from "react-router-bootstrap";
-import { check, msie } from "bowser";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { Field, reduxForm } from "redux-form"
+import { FormattedMessage } from "react-intl"
+import { LinkContainer } from "react-router-bootstrap"
+import { check, msie } from "bowser"
 
-import { required } from "services/FormHelper";
+import { required } from "services/FormHelper"
 import {
   Banner,
   Button,
@@ -15,7 +15,7 @@ import {
   Text,
   TextGroup,
   HeartbeatLoader
-} from "blockchain-info-components";
+} from "blockchain-info-components"
 import {
   Form,
   FormError,
@@ -24,12 +24,12 @@ import {
   FormLabel,
   PasswordBox,
   TextBox
-} from "components/Form";
-import Modals from "modals";
-import MobileLogin from "modals/MobileLogin";
+} from "components/Form"
+import Modals from "modals"
+import MobileLogin from "modals/MobileLogin"
 
 const isSupportedBrowser =
-  check({ safari: "8", chrome: "45", firefox: "45", opera: "20" }) && !msie;
+  check({ safari: "8", chrome: "45", firefox: "45", opera: "20" }) && !msie
 
 const Wrapper = styled.div`
   width: 100%;
@@ -40,12 +40,12 @@ const Wrapper = styled.div`
   @media (min-width: 768px) {
     width: 550px;
   }
-`;
+`
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`;
+`
 const Footer = styled.div`
   display: flex;
   flex-direction: column;
@@ -58,42 +58,42 @@ const Footer = styled.div`
     justify-content: space-between;
     align-items: center;
   }
-`;
+`
 const LoginForm = styled(Form)`
   margin: 20px 0;
-`;
+`
 const LoginButton = styled(Button)`
   margin-top: 15px;
-`;
+`
 const LoginTextGroup = styled(TextGroup)`
   line-height: 1;
   margin-top: 3px;
-`;
+`
 const GuidError = styled(TextGroup)`
   display: inline;
   margin-top: 3px;
-`;
+`
 const ResendSmsLink = styled(Link)`
   margin-top: 4px;
-`;
+`
 const BrowserWarning = styled.div`
   margin-bottom: 10px;
-`;
+`
 
 const Login = props => {
-  const { submitting, invalid, busy, loginError, password, ...rest } = props;
-  const { handleSubmit, handleMobile, handleSmsResend, authType } = rest;
+  const { submitting, invalid, busy, loginError, password, ...rest } = props
+  const { handleSubmit, handleMobile, handleSmsResend, authType } = rest
 
   const guidError =
-    loginError && loginError.toLowerCase().includes("unknown wallet id");
+    loginError && loginError.toLowerCase().includes("unknown wallet id")
   const passwordError =
-    loginError && loginError.toLowerCase().includes("wrong_wallet_password");
+    loginError && loginError.toLowerCase().includes("wrong_wallet_password")
   const twoFactorError =
-    loginError && loginError.toLowerCase().includes("authentication code");
+    loginError && loginError.toLowerCase().includes("authentication code")
   const accountLocked =
     loginError &&
     (loginError.toLowerCase().includes("this account has been locked") ||
-      loginError.toLowerCase().includes("account is locked"));
+      loginError.toLowerCase().includes("account is locked"))
 
   return (
     <Wrapper>
@@ -321,12 +321,12 @@ const Login = props => {
         </Footer>
       )}
     </Wrapper>
-  );
-};
+  )
+}
 
 Login.propTypes = {
   handleMobile: PropTypes.func.isRequired,
   handleSmsResend: PropTypes.func.isRequired
-};
+}
 
-export default reduxForm({ form: "login", destroyOnUnmount: false })(Login);
+export default reduxForm({ form: "login", destroyOnUnmount: false })(Login)

@@ -1,21 +1,16 @@
-import React from "react";
-import RecurringOrder from "./RecurringOrder";
-import { FormattedMessage } from "react-intl";
-import {
-  Table,
-  TableCell,
-  TableHeader,
-  Text
-} from "blockchain-info-components";
+import React from "react"
+import RecurringOrder from "./RecurringOrder"
+import { FormattedMessage } from "react-intl"
+import { Table, TableCell, TableHeader, Text } from "blockchain-info-components"
 
 class RecurringOrderHistoryTable extends React.PureComponent {
   constructor() {
-    super();
-    this.state = {};
+    super()
+    this.state = {}
   }
 
   render() {
-    const { subscriptions, cancelSubscription, trades, ...rest } = this.props;
+    const { subscriptions, cancelSubscription, trades, ...rest } = this.props
 
     return (
       <Table>
@@ -66,8 +61,8 @@ class RecurringOrderHistoryTable extends React.PureComponent {
           />
         ))}
       </Table>
-    );
+    )
   }
 }
 
-export default RecurringOrderHistoryTable;
+export default RecurringOrderHistoryTable

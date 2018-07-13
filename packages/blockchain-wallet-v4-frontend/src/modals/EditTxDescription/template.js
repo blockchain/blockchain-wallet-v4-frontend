@@ -1,29 +1,29 @@
-import React from "react";
-import styled from "styled-components";
+import React from "react"
+import styled from "styled-components"
 import {
   Button,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter
-} from "blockchain-info-components";
-import { FormattedMessage } from "react-intl";
-import { Field, reduxForm } from "redux-form";
-import { Form, FormGroup, FormItem, TextBox } from "components/Form";
+} from "blockchain-info-components"
+import { FormattedMessage } from "react-intl"
+import { Field, reduxForm } from "redux-form"
+import { Form, FormGroup, FormItem, TextBox } from "components/Form"
 
 const Wrapper = styled.div`
   font-weight: 300;
   color: ${props => props.theme["gray-5"]};
   font-family: "Montserrat", Helvetica, sans-serif;
-`;
+`
 const Label = styled.label`
   display: block;
   font-size: 12px;
   margin-bottom: 5px;
-`;
+`
 
 const EditTxDescription = props => {
-  const { position, close, submitting, handleSubmit, invalid } = props;
+  const { position, close, submitting, handleSubmit, invalid } = props
 
   return (
     <Modal size="large" position={position}>
@@ -64,9 +64,9 @@ const EditTxDescription = props => {
         </Wrapper>
       </Form>
     </Modal>
-  );
-};
+  )
+}
 
 export default reduxForm({ form: "editTransactionDescription" })(
   EditTxDescription
-);
+)

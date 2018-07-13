@@ -1,38 +1,38 @@
-import { selectors } from "data";
-import { add, lift, reduce } from "ramda";
-import { Exchange, Remote } from "blockchain-wallet-v4/src";
-import { Color } from "blockchain-info-components";
-import { createDeepEqualSelector } from "services/ReselectHelper";
+import { selectors } from "data"
+import { add, lift, reduce } from "ramda"
+import { Exchange, Remote } from "blockchain-wallet-v4/src"
+import { Color } from "blockchain-info-components"
+import { createDeepEqualSelector } from "services/ReselectHelper"
 
 export const getBtcBalance = state =>
   createDeepEqualSelector(
     [selectors.core.wallet.getSpendableContext],
     context => {
       const getBalance = address =>
-        selectors.core.data.bitcoin.getFinalBalance(address, state);
-      const balancesR = context.map(x => getBalance(x).getOrElse(undefined));
-      return Remote.of(reduce(add, 0, balancesR));
+        selectors.core.data.bitcoin.getFinalBalance(address, state)
+      const balancesR = context.map(x => getBalance(x).getOrElse(undefined))
+      return Remote.of(reduce(add, 0, balancesR))
     }
-  )(state);
+  )(state)
 
 export const getBchBalance = state =>
   createDeepEqualSelector(
     [selectors.core.kvStore.bch.getSpendableContext],
     context => {
       const getBalance = address =>
-        selectors.core.data.bch.getFinalBalance(address, state);
-      const balancesR = context.map(x => getBalance(x).getOrElse(undefined));
-      return Remote.of(reduce(add, 0, balancesR));
+        selectors.core.data.bch.getFinalBalance(address, state)
+      const balancesR = context.map(x => getBalance(x).getOrElse(undefined))
+      return Remote.of(reduce(add, 0, balancesR))
     }
-  )(state);
+  )(state)
 
 export const getEthBalance = state =>
   createDeepEqualSelector(
     [selectors.core.data.ethereum.getBalance],
     balance => {
-      return Remote.of(balance.getOrElse(undefined));
+      return Remote.of(balance.getOrElse(undefined))
     }
-  )(state);
+  )(state)
 
 export const getBtcBalanceInfo = createDeepEqualSelector(
   [
@@ -49,10 +49,10 @@ export const getBtcBalanceInfo = createDeepEqualSelector(
         toCurrency: currency,
         rates: btcRates
       })
-    });
-    return lift(transform)(btcBalanceR, btcRatesR, currencyR);
+    })
+    return lift(transform)(btcBalanceR, btcRatesR, currencyR)
   }
-);
+)
 
 export const getBchBalanceInfo = createDeepEqualSelector(
   [
@@ -69,10 +69,10 @@ export const getBchBalanceInfo = createDeepEqualSelector(
         toCurrency: currency,
         rates: bchRates
       })
-    });
-    return lift(transform)(bchBalanceR, bchRatesR, currencyR);
+    })
+    return lift(transform)(bchBalanceR, bchRatesR, currencyR)
   }
-);
+)
 
 export const getEthBalanceInfo = createDeepEqualSelector(
   [
@@ -89,19 +89,19 @@ export const getEthBalanceInfo = createDeepEqualSelector(
         toCurrency: currency,
         rates: ethRates
       })
-    });
-    return lift(transform)(ethBalanceR, ethRatesR, currencyR);
+    })
+    return lift(transform)(ethBalanceR, ethRatesR, currencyR)
   }
-);
+)
 
 export const getData = createDeepEqualSelector(
   [getBtcBalanceInfo, getBchBalanceInfo, getEthBalanceInfo],
   (btcBalanceInfoR, bchBalanceInfoR, ethBalanceInfoR) => {
     const transform = (btcBalances, bchBalances, ethBalances) => {
-      const symbol = btcBalances.fiat.unit.symbol;
-      const btcBalance = btcBalances.coin;
-      const bchBalance = bchBalances.coin;
-      const ethBalance = ethBalances.coin;
+      const symbol = btcBalances.fiat.unit.symbol
+      const btcBalance = btcBalances.coin
+      const bchBalance = bchBalances.coin
+      const ethBalance = ethBalances.coin
 
       const chartData = [
         {
@@ -125,7 +125,7 @@ export const getData = createDeepEqualSelector(
           name: "Bitcoin Cash",
           id: "bch"
         }
-      ];
+      ]
 
       return {
         btcBalance,
@@ -133,8 +133,8 @@ export const getData = createDeepEqualSelector(
         bchBalance,
         chartData,
         symbol
-      };
-    };
-    return lift(transform)(btcBalanceInfoR, bchBalanceInfoR, ethBalanceInfoR);
+      }
+    }
+    return lift(transform)(btcBalanceInfoR, bchBalanceInfoR, ethBalanceInfoR)
   }
-);
+)

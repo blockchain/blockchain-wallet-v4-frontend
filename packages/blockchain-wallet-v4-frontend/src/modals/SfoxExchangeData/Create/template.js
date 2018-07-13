@@ -1,16 +1,16 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { reduxForm } from "redux-form";
+import React from "react"
+import PropTypes from "prop-types"
+import { reduxForm } from "redux-form"
 
-import AcceptTerms from "./AcceptTerms";
-import VerifyEmail from "./VerifyEmail";
-import VerifyMobile from "./VerifyMobile";
-import { Row } from "components/BuySell/Signup";
+import AcceptTerms from "./AcceptTerms"
+import VerifyEmail from "./VerifyEmail"
+import VerifyMobile from "./VerifyMobile"
+import { Row } from "components/BuySell/Signup"
 
 const Create = props => {
-  const { ui } = props;
-  const { create } = ui;
-  const { handleSignup, signupError } = props;
+  const { ui } = props
+  const { create } = ui
+  const { handleSignup, signupError } = props
 
   const determineStep = () => {
     switch (create) {
@@ -21,25 +21,25 @@ const Create = props => {
             signupError={signupError}
             {...props}
           />
-        );
+        )
 
       case "change_email":
       case "enter_email_code":
-        return <VerifyEmail {...props} />;
+        return <VerifyEmail {...props} />
 
       case "change_mobile":
       case "enter_mobile_code":
-        return <VerifyMobile {...props} />;
+        return <VerifyMobile {...props} />
     }
-  };
+  }
 
-  return <Row>{determineStep()}</Row>;
-};
+  return <Row>{determineStep()}</Row>
+}
 
 Create.propTypes = {
   handleSignup: PropTypes.func.isRequired,
   smsVerified: PropTypes.number,
   smsNumber: PropTypes.string
-};
+}
 
-export default reduxForm({ form: "sfoxCreate" })(Create);
+export default reduxForm({ form: "sfoxCreate" })(Create)

@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 
-import MaximumAmountLink from "./MaximumAmountLink";
+import MaximumAmountLink from "./MaximumAmountLink"
 
 const Wrapper = styled.div`
   display: flex;
@@ -13,14 +13,14 @@ const Wrapper = styled.div`
   > * {
     margin: 0 0 0 2px;
   }
-`;
+`
 
 export const InvalidAmountMessage = () => (
   <FormattedMessage
     id="modals.sendeth.amountnotzeromessage"
     defaultMessage="Invalid amount"
   />
-);
+)
 
 export const MaximumAmountMessage = () => (
   <Wrapper>
@@ -30,11 +30,11 @@ export const MaximumAmountMessage = () => (
     />
     <MaximumAmountLink />
   </Wrapper>
-);
+)
 
 export const InsufficientFundsMessage = () => (
   <FormattedMessage
     id="modals.sendeth.insufficientfundsmessage"
     defaultMessage="Insufficient funds"
   />
-);
+)

@@ -1,14 +1,14 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
 
-import { Icon } from "../../Icons";
+import { Icon } from "../../Icons"
 
 const SelectBoxInput = styled.div`
   position: relative;
   display: block;
   width: 100%;
-`;
+`
 const Display = styled.button.attrs({ type: "button" })`
   width: 100%;
   height: 40px;
@@ -34,7 +34,7 @@ const Display = styled.button.attrs({ type: "button" })`
   &:focus {
     outline: none;
   }
-`;
+`
 const DefaultDisplay = styled.div`
   width: 100%;
   box-sizing: border-box;
@@ -46,7 +46,7 @@ const DefaultDisplay = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   color: ${props => props.theme["gray-5"]};
-`;
+`
 const Search = styled.input.attrs({ type: "text" })`
   width: 100%;
   height: 40px;
@@ -66,10 +66,10 @@ const Search = styled.input.attrs({ type: "text" })`
     border: 1px solid ${props => props.theme["gray-2"]};
     outline: none;
   }
-`;
+`
 const Header = styled.div`
   width: 100%;
-`;
+`
 const DefaultHeader = styled.div`
   width: 100%;
   padding: 0.5rem 1rem;
@@ -84,7 +84,7 @@ const DefaultHeader = styled.div`
   &:hover {
     color: ${props => props.theme["gray-4"]};
   }
-`;
+`
 const List = styled.div`
   position: absolute;
   display: ${props => (props.expanded ? "flex" : "none")};
@@ -102,10 +102,10 @@ const List = styled.div`
   border-top: 0px;
   z-index: 10;
   border-left: ${props => (props.borderLeft === "none" ? "none" : "")};
-`;
+`
 const Item = styled.div`
   width: 100%;
-`;
+`
 const DefaultItem = styled.div`
   width: 100%;
   padding: 0.5rem 1rem;
@@ -120,7 +120,7 @@ const DefaultItem = styled.div`
     color: ${props => props.theme["gray-4"]};
     background-color: ${props => props.theme["gray-1"]};
   }
-`;
+`
 const Arrow = styled(Icon)`
   position: absolute;
   top: 15px;
@@ -129,7 +129,7 @@ const Arrow = styled(Icon)`
   @media (min-width: 320px) {
     right: 15px;
   }
-`;
+`
 
 const SelectInput = props => {
   const {
@@ -149,9 +149,9 @@ const SelectInput = props => {
     templateItem,
     errorState,
     fontSize
-  } = props;
-  const display = selected || { text: defaultDisplay, value: undefined };
-  const showArrow = !hideArrow;
+  } = props
+  const display = selected || { text: defaultDisplay, value: undefined }
+  const showArrow = !hideArrow
 
   return (
     <SelectBoxInput>
@@ -202,8 +202,8 @@ const SelectInput = props => {
         )}
       </List>
     </SelectBoxInput>
-  );
-};
+  )
+}
 
 SelectInput.propTypes = {
   items: PropTypes.array.isRequired,
@@ -219,6 +219,6 @@ SelectInput.propTypes = {
   templateHeader: PropTypes.func,
   templateItem: PropTypes.func,
   fontSize: PropTypes.string
-};
+}
 
-export default SelectInput;
+export default SelectInput

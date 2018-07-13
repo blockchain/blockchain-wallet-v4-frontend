@@ -1,13 +1,13 @@
-import React from "react";
-import styled from "styled-components";
-import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
-import moment from "moment";
+import React from "react"
+import styled from "styled-components"
+import PropTypes from "prop-types"
+import { FormattedMessage } from "react-intl"
+import moment from "moment"
 
-import { TableCell, TableRow, Text, Link } from "blockchain-info-components";
-import OrderStatus from "./OrderStatus";
-import media from "services/ResponsiveService";
-import { MediaContextConsumer } from "providers/MatchMediaProvider";
+import { TableCell, TableRow, Text, Link } from "blockchain-info-components"
+import OrderStatus from "./OrderStatus"
+import media from "services/ResponsiveService"
+import { MediaContextConsumer } from "providers/MatchMediaProvider"
 
 const StatusContainer = styled(TableCell)`
   display: flex;
@@ -15,15 +15,15 @@ const StatusContainer = styled(TableCell)`
     flex-direction: column;
     width: 25%;
   `};
-`;
+`
 
 const tradeDateHelper = (date, isMobile = false) => {
-  let timeFormat = "MMMM D YYYY @ h:mm A";
-  if (isMobile) timeFormat = "DD MMM";
+  let timeFormat = "MMMM D YYYY @ h:mm A"
+  if (isMobile) timeFormat = "DD MMM"
   return moment(date)
     .local()
-    .format(timeFormat);
-};
+    .format(timeFormat)
+}
 
 const TradeItem = props => {
   const {
@@ -34,7 +34,7 @@ const TradeItem = props => {
     depositAmount,
     withdrawalAmount,
     handleClick
-  } = props;
+  } = props
 
   return (
     <MediaContextConsumer>
@@ -79,8 +79,8 @@ const TradeItem = props => {
         </TableRow>
       )}
     </MediaContextConsumer>
-  );
-};
+  )
+}
 
 TradeItem.propTypes = {
   status: PropTypes.string.isRequired,
@@ -90,6 +90,6 @@ TradeItem.propTypes = {
   depositAmount: PropTypes.string.isRequired,
   withdrawalAmount: PropTypes.string.isRequired,
   handleClick: PropTypes.func.isRequired
-};
+}
 
-export default TradeItem;
+export default TradeItem

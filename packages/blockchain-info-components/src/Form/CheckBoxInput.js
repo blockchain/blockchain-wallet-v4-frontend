@@ -1,6 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
 
 const Wrapper = styled.div`
   display: flex;
@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-`;
+`
 
 const BaseCheckBoxInput = styled.input.attrs({
   type: "checkbox"
@@ -33,7 +33,7 @@ const BaseCheckBoxInput = styled.input.attrs({
       }
     }
   }
-`;
+`
 const Label = styled.label`
   display: flex;
   cursor: pointer;
@@ -58,10 +58,10 @@ const Label = styled.label`
     font-size: 10px;
     left: 2px;
   }
-`;
+`
 
 const CheckBoxInput = props => {
-  const { name, children, checked, disabled, ...rest } = props;
+  const { name, children, checked, disabled, ...rest } = props
 
   return (
     <Wrapper>
@@ -73,14 +73,14 @@ const CheckBoxInput = props => {
       />
       <Label htmlFor={name}>{children}</Label>
     </Wrapper>
-  );
-};
+  )
+}
 
 CheckBoxInput.propTypes = {
   name: PropTypes.string.isRequired,
   children: PropTypes.node,
   checked: PropTypes.bool,
   disabled: PropTypes.string
-};
+}
 
-export default CheckBoxInput;
+export default CheckBoxInput

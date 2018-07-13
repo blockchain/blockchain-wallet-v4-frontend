@@ -1,7 +1,7 @@
-import { add, lift, pathOr, reduce } from "ramda";
-import { selectors } from "data";
-import { createDeepEqualSelector } from "services/ReselectHelper";
-import { Remote } from "blockchain-wallet-v4/src";
+import { add, lift, pathOr, reduce } from "ramda"
+import { selectors } from "data"
+import { createDeepEqualSelector } from "services/ReselectHelper"
+import { Remote } from "blockchain-wallet-v4/src"
 
 export const getBtcBalance = createDeepEqualSelector(
   [
@@ -10,11 +10,11 @@ export const getBtcBalance = createDeepEqualSelector(
   ],
   (context, addressesR) => {
     const contextToBalances = (context, balances) =>
-      context.map(a => pathOr(0, [a, "final_balance"], balances));
-    const balancesR = lift(contextToBalances)(Remote.of(context), addressesR);
-    return balancesR.map(reduce(add, 0));
+      context.map(a => pathOr(0, [a, "final_balance"], balances))
+    const balancesR = lift(contextToBalances)(Remote.of(context), addressesR)
+    return balancesR.map(reduce(add, 0))
   }
-);
+)
 
 export const getBchBalance = createDeepEqualSelector(
   [
@@ -23,10 +23,10 @@ export const getBchBalance = createDeepEqualSelector(
   ],
   (context, addressesR) => {
     const contextToBalances = (context, balances) =>
-      context.map(a => pathOr(0, [a, "final_balance"], balances));
-    const balancesR = lift(contextToBalances)(Remote.of(context), addressesR);
-    return balancesR.map(reduce(add, 0));
+      context.map(a => pathOr(0, [a, "final_balance"], balances))
+    const balancesR = lift(contextToBalances)(Remote.of(context), addressesR)
+    return balancesR.map(reduce(add, 0))
   }
-);
+)
 
-export const getEthBalance = selectors.core.data.ethereum.getBalance;
+export const getEthBalance = selectors.core.data.ethereum.getBalance

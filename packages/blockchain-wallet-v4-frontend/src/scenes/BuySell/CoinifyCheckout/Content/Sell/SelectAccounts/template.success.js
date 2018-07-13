@@ -1,13 +1,13 @@
-import React from "react";
-import { reduxForm, Field } from "redux-form";
-import { FormattedMessage } from "react-intl";
-import styled from "styled-components";
-import { equals, isNil, or, path } from "ramda";
-import { Button, Icon, Link, Text } from "blockchain-info-components";
+import React from "react"
+import { reduxForm, Field } from "redux-form"
+import { FormattedMessage } from "react-intl"
+import styled from "styled-components"
+import { equals, isNil, or, path } from "ramda"
+import { Button, Icon, Link, Text } from "blockchain-info-components"
 
-import { spacing } from "services/StyleService";
-import { RadioButton } from "components/Form";
-import { StepTransition } from "components/Utilities/Stepper";
+import { spacing } from "services/StyleService"
+import { RadioButton } from "components/Form"
+import { StepTransition } from "components/Utilities/Stepper"
 import {
   BorderBox,
   Form,
@@ -19,15 +19,15 @@ import {
   ColRight,
   ColRightInner,
   Row
-} from "components/BuySell/Signup";
+} from "components/BuySell/Signup"
 
 const RowContent = styled(Row)`
   padding-left: 10px;
   justify-content: space-between;
-`;
+`
 const ClickableIcon = styled(Icon)`
   cursor: pointer;
-`;
+`
 
 const SelectAccounts = props => {
   const {
@@ -37,11 +37,11 @@ const SelectAccounts = props => {
     setBankAccount,
     deleteBankAccount,
     radioButtonSelected
-  } = props;
+  } = props
   const noRadioButtonSelected = or(
     isNil(radioButtonSelected),
     equals(radioButtonSelected, "")
-  );
+  )
 
   return (
     <Form>
@@ -117,7 +117,7 @@ const SelectAccounts = props => {
         </ColRightInner>
       </ColRight>
     </Form>
-  );
-};
+  )
+}
 
-export default reduxForm({ form: "radioButtonSelected" })(SelectAccounts);
+export default reduxForm({ form: "radioButtonSelected" })(SelectAccounts)

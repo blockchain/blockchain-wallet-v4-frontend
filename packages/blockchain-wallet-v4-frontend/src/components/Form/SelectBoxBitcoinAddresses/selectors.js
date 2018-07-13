@@ -11,18 +11,18 @@ import {
   path,
   prop,
   sequence
-} from "ramda";
-import { Remote } from "blockchain-wallet-v4/src";
-import { selectors } from "data";
+} from "ramda"
+import { Remote } from "blockchain-wallet-v4/src"
+import { selectors } from "data"
 
 export const getData = (state, ownProps) => {
-  const { coin, exclude = [], excludeImported, excludeWatchOnly } = ownProps;
-  const isActive = filter(x => !x.archived);
-  const excluded = filter(x => !exclude.includes(x.label));
-  const toDropdown = map(x => ({ text: x.label, value: x }));
+  const { coin, exclude = [], excludeImported, excludeWatchOnly } = ownProps
+  const isActive = filter(x => !x.archived)
+  const excluded = filter(x => !exclude.includes(x.label))
+  const toDropdown = map(x => ({ text: x.label, value: x }))
 
   const formatAddress = addressData => {
-    const formattedAddress = {};
+    const formattedAddress = {}
     return compose(
       a => assoc("text", prop("addr", addressData), a),
       a =>
@@ -34,26 +34,26 @@ export const getData = (state, ownProps) => {
       a => assocPath(["value", "coin"], coin, a),
       a => assocPath(["value", "address"], prop("addr", addressData), a),
       a => assoc("value", prop("info", addressData), a)
-    )(formattedAddress);
-  };
+    )(formattedAddress)
+  }
 
   const formatImportedAddressesData = addressesData => {
-    return map(formatAddress, addressesData);
-  };
+    return map(formatAddress, addressesData)
+  }
 
   const getAddressesData = () => {
     switch (coin) {
       case "BCH":
         const importedAddresses = selectors.core.common.bch.getActiveAddresses(
           state
-        );
+        )
         const filterRelevantAddresses = addrs =>
           excludeWatchOnly
             ? filter(addr => not(isNil(prop("priv", addr))), addrs)
-            : addrs;
+            : addrs
         const relevantAddresses = lift(filterRelevantAddresses)(
           importedAddresses
-        );
+        )
 
         return sequence(Remote.of, [
           selectors.core.common.bch
@@ -64,7 +64,7 @@ export const getData = (state, ownProps) => {
           excludeImported
             ? Remote.of([])
             : lift(formatImportedAddressesData)(relevantAddresses)
-        ]).map(([b1, b2]) => ({ data: concat(b1, b2) }));
+        ]).map(([b1, b2]) => ({ data: concat(b1, b2) }))
       default:
         return sequence(Remote.of, [
           selectors.core.common.btc
@@ -76,9 +76,9 @@ export const getData = (state, ownProps) => {
             : selectors.core.common.btc
                 .getAddressesBalances(state)
                 .map(toDropdown)
-        ]).map(([b1, b2]) => ({ data: concat(b1, b2) }));
+        ]).map(([b1, b2]) => ({ data: concat(b1, b2) }))
     }
-  };
+  }
 
-  return getAddressesData();
-};
+  return getAddressesData()
+}

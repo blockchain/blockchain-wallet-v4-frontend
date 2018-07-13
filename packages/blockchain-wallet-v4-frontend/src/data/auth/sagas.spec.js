@@ -1,11 +1,11 @@
-import { select } from "redux-saga/effects";
-import { expectSaga, testSaga } from "redux-saga-test-plan";
-import { fork, call } from "redux-saga-test-plan/matchers";
+import { select } from "redux-saga/effects"
+import { expectSaga, testSaga } from "redux-saga-test-plan"
+import { fork, call } from "redux-saga-test-plan/matchers"
 
-import { askSecondPasswordEnhancer } from "services/SagaService";
-import { coreSagasFactory, Remote } from "blockchain-wallet-v4/src";
-import * as selectors from "../selectors.js";
-import * as actions from "../actions.js";
+import { askSecondPasswordEnhancer } from "services/SagaService"
+import { coreSagasFactory, Remote } from "blockchain-wallet-v4/src"
+import * as selectors from "../selectors.js"
+import * as actions from "../actions.js"
 import authSagas, {
   defaultLoginErrorMessage,
   logLocation,
@@ -14,93 +14,93 @@ import authSagas, {
   notEnabled2faErrorMessage,
   emailMismatch2faErrorMessage,
   wrongCaptcha2faErrorMessage
-} from "./sagas";
-import * as C from "services/AlertService";
+} from "./sagas"
+import * as C from "services/AlertService"
 
-jest.mock("blockchain-wallet-v4/src/redux/sagas");
-const coreSagas = coreSagasFactory({ api: {} });
+jest.mock("blockchain-wallet-v4/src/redux/sagas")
+const coreSagas = coreSagasFactory({ api: {} })
 const api = {
   obtainSessionToken: jest.fn(),
   deauthorizeBrowser: jest.fn()
-};
+}
 
 describe("authSagas", () => {
   // Mocking Math.random() to have identical popup ids for action testing
-  const originalMath = Object.create(Math);
-  let pushStateSpy;
-  let locationReloadSpy;
+  const originalMath = Object.create(Math)
+  let pushStateSpy
+  let locationReloadSpy
   beforeAll(() => {
-    Math.random = () => 0.5;
+    Math.random = () => 0.5
     pushStateSpy = jest
       .spyOn(window.history, "pushState")
-      .mockImplementation(() => {});
+      .mockImplementation(() => {})
     locationReloadSpy = jest
       .spyOn(window.location, "reload")
-      .mockImplementation(() => {});
-  });
+      .mockImplementation(() => {})
+  })
   afterAll(() => {
-    global.Math = originalMath;
-    pushStateSpy.restore();
-    locationReloadSpy.restore();
-  });
+    global.Math = originalMath
+    pushStateSpy.restore()
+    locationReloadSpy.restore()
+  })
 
   describe("login flow", () => {
     const { login, loginRoutineSaga, pollingSession } = authSagas({
       api,
       coreSagas
-    });
-    const guid = "123abc456def";
-    const password = "blockchain";
-    const sessionIdStub = "id";
+    })
+    const guid = "123abc456def"
+    const password = "blockchain"
+    const sessionIdStub = "id"
     const payload = {
       guid,
       password,
       code: undefined,
       sharedKey: undefined,
       mobileLogin: undefined
-    };
-    const saga = testSaga(login, { payload });
+    }
+    const saga = testSaga(login, { payload })
 
     it("should select session", () => {
-      saga.next().select(selectors.session.getSession, guid);
-    });
+      saga.next().select(selectors.session.getSession, guid)
+    })
 
     it("should call obtainSessionToken if session was not selected", () => {
-      saga.next().call(api.obtainSessionToken);
-    });
+      saga.next().call(api.obtainSessionToken)
+    })
 
     it("should put saveSession", () => {
       saga
         .next(sessionIdStub)
-        .put(actions.session.saveSession({ [guid]: sessionIdStub }));
-    });
+        .put(actions.session.saveSession({ [guid]: sessionIdStub }))
+    })
 
     it("should cache guid", () => {
-      saga.next().put(actions.auth.loginLoading());
-    });
+      saga.next().put(actions.auth.loginLoading())
+    })
 
     it("should fetch wallet", () => {
-      const { guid, password, code, sharedKey } = payload;
+      const { guid, password, code, sharedKey } = payload
       saga.next().call(coreSagas.wallet.fetchWalletSaga, {
         guid,
         password,
         code,
         sharedKey,
         session: sessionIdStub
-      });
-    });
+      })
+    })
 
     it("should call login routine", () => {
-      const { mobileLogin } = payload;
+      const { mobileLogin } = payload
       saga
         .next()
         .call(loginRoutineSaga, mobileLogin)
         .next()
-        .isDone();
-    });
+        .isDone()
+    })
 
     it("should not call obtainSessionToken if session was selected and use selected session in further calls", () => {
-      const { guid, password, code, sharedKey } = payload;
+      const { guid, password, code, sharedKey } = payload
       return expectSaga(login, { payload })
         .provide([[select(selectors.session.getSession, guid), sessionIdStub]])
         .not.call(api.obtainSessionToken)
@@ -112,13 +112,13 @@ describe("authSagas", () => {
           sharedKey,
           session: sessionIdStub
         })
-        .run();
-    });
+        .run()
+    })
 
     describe("error handling", () => {
-      const beforeError = "beforeError";
+      const beforeError = "beforeError"
       beforeAll(() => {
-        saga.restart();
+        saga.restart()
         // Pass through steps before error
         saga
           .next()
@@ -126,39 +126,39 @@ describe("authSagas", () => {
           .next(sessionIdStub)
           .next(guid)
           .next()
-          .save(beforeError);
-      });
+          .save(beforeError)
+      })
 
       describe("authorization error flow", () => {
-        const beforeAuth = "beforeAuth";
+        const beforeAuth = "beforeAuth"
         beforeAll(() => {
-          saga.restore(beforeError).save(beforeError);
-        });
+          saga.restore(beforeError).save(beforeError)
+        })
 
         it("should display info that authorization is required", () => {
-          const message = "error";
+          const message = "error"
           saga
             .throw(JSON.stringify({ authorization_required: message }))
-            .put(actions.alerts.displayInfo(C.AUTHORIZATION_REQUIRED_INFO));
-        });
+            .put(actions.alerts.displayInfo(C.AUTHORIZATION_REQUIRED_INFO))
+        })
 
         it("should poll for session", () => {
           saga
             .next()
             .call(pollingSession, sessionIdStub)
-            .save(beforeAuth);
-        });
+            .save(beforeAuth)
+        })
 
         it("should show session error if not authorized", () => {
           saga
             .next()
             .put(actions.alerts.displayError(C.WALLET_SESSION_ERROR))
             .next()
-            .isDone();
-        });
+            .isDone()
+        })
 
         describe("authorized flow", () => {
-          const before2FAError = "before2FAError";
+          const before2FAError = "before2FAError"
           it("should fetch wallet", () => {
             saga
               .restore(beforeAuth)
@@ -167,16 +167,16 @@ describe("authSagas", () => {
                 guid,
                 password,
                 session: sessionIdStub
-              });
-          });
+              })
+          })
 
           it("should call logine routine", () => {
-            const { mobileLogin } = payload;
-            saga.next().call(loginRoutineSaga, mobileLogin);
-          });
+            const { mobileLogin } = payload
+            saga.next().call(loginRoutineSaga, mobileLogin)
+          })
 
           it("should follow 2FA low on auth error", () => {
-            const authType = 1;
+            const authType = 1
             saga
               .save(before2FAError)
               .throw({ auth_type: authType })
@@ -186,11 +186,11 @@ describe("authSagas", () => {
               .next()
               .put(actions.auth.loginFailure())
               .next()
-              .isDone();
-          });
+              .isDone()
+          })
 
           it("should show wrong password message & log on other errors", () => {
-            const error = null;
+            const error = null
 
             saga
               .restore(before2FAError)
@@ -199,79 +199,79 @@ describe("authSagas", () => {
               .next()
               .put(actions.logs.logErrorMessage(logLocation, "login", error))
               .next()
-              .isDone();
-          });
-        });
-      });
+              .isDone()
+          })
+        })
+      })
 
       describe("initial error", () => {
         beforeAll(() => {
-          saga.restore(beforeError).save(beforeError);
-        });
+          saga.restore(beforeError).save(beforeError)
+        })
 
         it("should trigger login failure", () => {
-          const message = "error";
+          const message = "error"
           saga
             .throw(JSON.stringify({ initial_error: message }))
             .put(actions.auth.loginFailure(message))
             .next()
-            .isDone();
-        });
-      });
+            .isDone()
+        })
+      })
 
       describe("2FA errros", () => {
-        const authType = 1;
+        const authType = 1
         beforeAll(() => {
-          saga.restore(beforeError).save(beforeError);
-        });
+          saga.restore(beforeError).save(beforeError)
+        })
 
         it("should trigger login failure", () => {
-          saga.throw({ auth_type: authType }).put(actions.auth.loginFailure());
-        });
+          saga.throw({ auth_type: authType }).put(actions.auth.loginFailure())
+        })
 
         it("should set authType to one provided by error", () => {
-          saga.next().put(actions.auth.setAuthType(authType));
-        });
+          saga.next().put(actions.auth.setAuthType(authType))
+        })
 
         it("should display 2fa required info", () => {
           saga
             .next()
             .put(actions.alerts.displayInfo(C.TWOFA_REQUIRED_INFO))
             .next()
-            .isDone();
-        });
-      });
+            .isDone()
+        })
+      })
 
       describe("unknown errros", () => {
-        const errorMessage = "error";
+        const errorMessage = "error"
         beforeEach(() => {
-          saga.restore(beforeError).save(beforeError);
-        });
+          saga.restore(beforeError).save(beforeError)
+        })
 
         it("should put loginFailure action with message when error hash it", () => {
           saga
             .throw({ message: errorMessage })
-            .put(actions.auth.loginFailure(errorMessage));
-        });
+            .put(actions.auth.loginFailure(errorMessage))
+        })
 
         it("should put loginFailure action with error when error is a string", () => {
           saga
             .throw(errorMessage)
             .put(actions.auth.loginFailure(errorMessage))
             .next()
-            .isDone();
-        });
+            .isDone()
+        })
 
         it("should put loginFailure action with default error message", () => {
           saga
             .throw(null)
             .put(actions.auth.loginFailure(defaultLoginErrorMessage))
             .next()
-            .isDone();
-        });
-      });
-    });
-  });
+            .isDone()
+        })
+      })
+    })
+  })
 
   describe("login routine", () => {
     const {
@@ -286,47 +286,47 @@ describe("authSagas", () => {
     } = authSagas({
       api,
       coreSagas
-    });
-    const mobileLogin = true;
-    const firstLogin = false;
-    const saga = testSaga(loginRoutineSaga, mobileLogin, firstLogin);
-    const beforeHdCheck = "beforeHdCheck";
+    })
+    const mobileLogin = true
+    const firstLogin = false
+    const saga = testSaga(loginRoutineSaga, mobileLogin, firstLogin)
+    const beforeHdCheck = "beforeHdCheck"
 
     it("should check if wallet is an hd wallet", () => {
       saga
         .next()
         .select(selectors.core.wallet.isHdWallet)
-        .save(beforeHdCheck);
-    });
+        .save(beforeHdCheck)
+    })
 
     it("should call upgradeWalletSaga if wallet is not hd", () => {
       saga
         .next(false)
         .call(upgradeWalletSaga)
-        .restore(beforeHdCheck);
-    });
+        .restore(beforeHdCheck)
+    })
 
     it("should put authenticate action", () => {
-      saga.next(true).put(actions.auth.authenticate());
-    });
+      saga.next(true).put(actions.auth.authenticate())
+    })
 
     it("should put action to start bitcoin cash socket", () => {
-      saga.next().put(actions.middleware.webSocket.bch.startSocket());
-    });
+      saga.next().put(actions.middleware.webSocket.bch.startSocket())
+    })
 
     it("should put action to start bitcoin socket", () => {
-      saga.next().put(actions.middleware.webSocket.btc.startSocket());
-    });
+      saga.next().put(actions.middleware.webSocket.btc.startSocket())
+    })
 
     it("should put action to start ethereum socket", () => {
-      saga.next().put(actions.middleware.webSocket.eth.startSocket());
-    });
+      saga.next().put(actions.middleware.webSocket.eth.startSocket())
+    })
 
     it("should fetch root", () => {
       saga
         .next()
-        .call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer);
-    });
+        .call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
+    })
 
     it("should fetch ethereum metadata", () => {
       saga
@@ -334,80 +334,78 @@ describe("authSagas", () => {
         .call(
           coreSagas.kvStore.ethereum.fetchMetadataEthereum,
           askSecondPasswordEnhancer
-        );
-    });
+        )
+    })
 
     it("should fetch bitcoin cash metadata", () => {
-      saga.next().call(coreSagas.kvStore.bch.fetchMetadataBch);
-    });
+      saga.next().call(coreSagas.kvStore.bch.fetchMetadataBch)
+    })
 
     it("should redirect to home route", () => {
-      saga.next().put(actions.router.push("/home"));
-    });
+      saga.next().put(actions.router.push("/home"))
+    })
 
     it("should call upgrade address labels saga", () => {
-      saga.next().call(upgradeAddressLabelsSaga);
-    });
+      saga.next().call(upgradeAddressLabelsSaga)
+    })
 
     it("should trigger login success action", () => {
-      saga.next().put(actions.auth.loginSuccess());
-    });
+      saga.next().put(actions.auth.loginSuccess())
+    })
 
     it("should start logout timer", () => {
-      saga.next().put(actions.auth.startLogoutTimer());
-    });
+      saga.next().put(actions.auth.startLogoutTimer())
+    })
 
     it("should select guid from state", () => {
-      saga.next().select(selectors.core.wallet.getGuid);
-    });
+      saga.next().select(selectors.core.wallet.getGuid)
+    })
 
     it("should cache guid", () => {
-      const guid = "guid";
-      saga.next(guid).put(actions.cache.guidEntered(guid));
-    });
+      const guid = "guid"
+      saga.next(guid).put(actions.cache.guidEntered(guid))
+    })
 
     it("should reset auth state", () => {
-      saga.next().put(actions.auth.setAuthType(0));
-    });
+      saga.next().put(actions.auth.setAuthType(0))
+    })
 
     it("should clear login form", () => {
-      saga.next().put(actions.form.destroy("login"));
-    });
+      saga.next().put(actions.form.destroy("login"))
+    })
 
     it("should select current language", () => {
-      saga.next().select(selectors.preferences.getLanguage);
-    });
+      saga.next().select(selectors.preferences.getLanguage)
+    })
 
     it("should trigger update language aciton with selected language", () => {
-      const language = "en";
-      saga
-        .next(language)
-        .put(actions.modules.settings.updateLanguage(language));
-    });
+      const language = "en"
+      saga.next(language).put(actions.modules.settings.updateLanguage(language))
+    })
 
     it("should launch transferEth saga", () => {
-      saga.next().fork(transferEthSaga);
-    });
+      saga.next().fork(transferEthSaga)
+    })
 
     it("should launch welcomeSaga", () => {
-      saga.next().fork(welcomeSaga, firstLogin);
-    });
+      saga.next().fork(welcomeSaga, firstLogin)
+    })
 
     it("should launch reportStats saga", () => {
-      saga.next().fork(reportStats, mobileLogin);
-    });
+      saga.next().fork(reportStats, mobileLogin)
+    })
 
     it("should start listening for logout event", () => {
-      saga.next().call(setLogoutEventListener);
-    });
+      saga.next().call(setLogoutEventListener)
+    })
 
     it("should launch logout routine saga upon logout event", () => {
-      const stubLogoutEvent = {};
-      saga.next(stubLogoutEvent).fork(logoutRoutine, stubLogoutEvent);
-    });
+      const stubLogoutEvent = {}
+      saga.next(stubLogoutEvent).fork(logoutRoutine, stubLogoutEvent)
+    })
 
     it("should display success if it's not first login", () => {
-      const beforeEnd = "beforeEnd";
+      const beforeEnd = "beforeEnd"
 
       saga
         .next()
@@ -415,11 +413,11 @@ describe("authSagas", () => {
         .save(beforeEnd)
         .next()
         .isDone()
-        .restore(beforeEnd);
-    });
+        .restore(beforeEnd)
+    })
 
     it("should not display success if it's first login", () => {
-      const firstLogin = true;
+      const firstLogin = true
       return expectSaga(loginRoutineSaga, mobileLogin, firstLogin)
         .provide([
           // Every async or value returning yield has to be mocked
@@ -433,169 +431,169 @@ describe("authSagas", () => {
           [fork.fn(logoutRoutine), jest.fn]
         ])
         .not.put(actions.alerts.displaySuccess(C.LOGIN_SUCCESS))
-        .run();
-    });
+        .run()
+    })
 
     describe("error handling", () => {
       it("should log error", () => {
-        const error = {};
+        const error = {}
         saga
           .throw(error)
           .put(
             actions.logs.logErrorMessage(logLocation, "loginRoutineSaga", error)
-          );
-      });
+          )
+      })
 
       it("should show wallet error alert", () => {
         saga
           .next()
           .put(actions.alerts.displayError(C.WALLET_LOADING_ERROR))
           .next()
-          .isDone();
-      });
-    });
-  });
+          .isDone()
+      })
+    })
+  })
 
   describe("register flow", () => {
     const { loginRoutineSaga, register } = authSagas({
       api,
       coreSagas
-    });
-    const email = "stub@mail.com";
-    const password = "password";
-    const language = "en";
-    const payload = { email, password, language };
+    })
+    const email = "stub@mail.com"
+    const password = "password"
+    const language = "en"
+    const payload = { email, password, language }
 
-    const saga = testSaga(register, { payload });
+    const saga = testSaga(register, { payload })
 
     it("should set state to restore loading", () => {
-      saga.next().put(actions.auth.registerLoading());
-    });
+      saga.next().put(actions.auth.registerLoading())
+    })
 
     it("should display restore wallet information alert", () => {
-      saga.next().put(actions.alerts.displayInfo(C.CREATE_WALLET_INFO));
-    });
+      saga.next().put(actions.alerts.displayInfo(C.CREATE_WALLET_INFO))
+    })
 
     it("should pass payload to restoreWallet core saga", () => {
-      saga.next().call(coreSagas.wallet.createWalletSaga, payload);
-    });
+      saga.next().call(coreSagas.wallet.createWalletSaga, payload)
+    })
 
     it("should display restore success alert", () => {
-      saga.next().put(actions.alerts.displaySuccess(C.REGISTER_SUCCESS));
-    });
+      saga.next().put(actions.alerts.displaySuccess(C.REGISTER_SUCCESS))
+    })
 
     it("should call login routine saga with falsy mobileLogin and truthy firstLogin", () => {
-      const mobileLogin = false;
-      const firstLogin = true;
-      saga.next().call(loginRoutineSaga, mobileLogin, firstLogin);
-    });
+      const mobileLogin = false
+      const firstLogin = true
+      saga.next().call(loginRoutineSaga, mobileLogin, firstLogin)
+    })
 
     it("should finally trigger action that restore is successful", () => {
-      const beforeEnd = "beforeEnd";
+      const beforeEnd = "beforeEnd"
       saga
         .next()
         .put(actions.auth.registerSuccess())
         .save(beforeEnd)
         .next()
         .isDone()
-        .restore(beforeEnd);
-    });
+        .restore(beforeEnd)
+    })
 
     describe("error handling", () => {
-      const error = {};
+      const error = {}
       it("should trigger action that restore failed", () => {
-        saga.throw(error).put(actions.auth.registerFailure());
-      });
+        saga.throw(error).put(actions.auth.registerFailure())
+      })
 
       it("should log restore error", () => {
         saga
           .next()
-          .put(actions.logs.logErrorMessage(logLocation, "register", error));
-      });
+          .put(actions.logs.logErrorMessage(logLocation, "register", error))
+      })
 
       it("should show restore error alert", () => {
-        saga.next().put(actions.alerts.displayError(C.REGISTER_ERROR));
-      });
-    });
-  });
+        saga.next().put(actions.alerts.displayError(C.REGISTER_ERROR))
+      })
+    })
+  })
 
   describe("restore flow", () => {
     const { loginRoutineSaga, restore } = authSagas({
       api,
       coreSagas
-    });
-    const mnemonic = "1 2 3 4 5 6 7 8 9 10 11 12";
-    const email = "stub@mail.com";
-    const password = "password";
-    const language = "en";
-    const network = "testnet";
-    const payload = { mnemonic, email, password, language, network };
+    })
+    const mnemonic = "1 2 3 4 5 6 7 8 9 10 11 12"
+    const email = "stub@mail.com"
+    const password = "password"
+    const language = "en"
+    const network = "testnet"
+    const payload = { mnemonic, email, password, language, network }
 
-    const saga = testSaga(restore, { payload });
+    const saga = testSaga(restore, { payload })
 
     it("should set state to restore loading", () => {
-      saga.next().put(actions.auth.restoreLoading());
-    });
+      saga.next().put(actions.auth.restoreLoading())
+    })
 
     it("should display restore wallet information alert", () => {
-      saga.next().put(actions.alerts.displayInfo(C.RESTORE_WALLET_INFO));
-    });
+      saga.next().put(actions.alerts.displayInfo(C.RESTORE_WALLET_INFO))
+    })
 
     it("should pass payload to restoreWallet core saga", () => {
-      saga.next().call(coreSagas.wallet.restoreWalletSaga, payload);
-    });
+      saga.next().call(coreSagas.wallet.restoreWalletSaga, payload)
+    })
 
     it("should display restore success alert", () => {
-      saga.next().put(actions.alerts.displaySuccess(C.RESTORE_SUCCESS));
-    });
+      saga.next().put(actions.alerts.displaySuccess(C.RESTORE_SUCCESS))
+    })
 
     it("should call login routine saga with falsy mobileLogin and truthy firstLogin", () => {
-      const mobileLogin = false;
-      const firstLogin = true;
-      saga.next().call(loginRoutineSaga, mobileLogin, firstLogin);
-    });
+      const mobileLogin = false
+      const firstLogin = true
+      saga.next().call(loginRoutineSaga, mobileLogin, firstLogin)
+    })
 
     it("should finally trigger action that restore is successful", () => {
-      const beforeEnd = "beforeEnd";
+      const beforeEnd = "beforeEnd"
       saga
         .next()
         .put(actions.auth.restoreSuccess())
         .save(beforeEnd)
         .next()
         .isDone()
-        .restore(beforeEnd);
-    });
+        .restore(beforeEnd)
+    })
 
     describe("error handling", () => {
-      const error = {};
+      const error = {}
       it("should trigger action that restore failed", () => {
-        saga.throw(error).put(actions.auth.restoreFailure());
-      });
+        saga.throw(error).put(actions.auth.restoreFailure())
+      })
 
       it("should log restore error", () => {
         saga
           .next()
-          .put(actions.logs.logErrorMessage(logLocation, "restore", error));
-      });
+          .put(actions.logs.logErrorMessage(logLocation, "restore", error))
+      })
 
       it("should show restore error alert", () => {
-        saga.next().put(actions.alerts.displayError(C.RESTORE_ERROR));
-      });
-    });
-  });
+        saga.next().put(actions.alerts.displayError(C.RESTORE_ERROR))
+      })
+    })
+  })
 
   describe("reset 2fa flow", () => {
     const { reset2fa } = authSagas({
       api,
       coreSagas
-    });
-    const guid = "guid";
-    const email = "stub@mail.com";
-    const newEmail = "new@mail.com";
-    const secretPhrase = "1 2 3 4 5 6 7 8 9 10 11 12";
-    const message = "message";
-    const code = "code";
-    const sessionToken = "sessionToken";
+    })
+    const guid = "guid"
+    const email = "stub@mail.com"
+    const newEmail = "new@mail.com"
+    const secretPhrase = "1 2 3 4 5 6 7 8 9 10 11 12"
+    const message = "message"
+    const code = "code"
+    const sessionToken = "sessionToken"
     const payload = {
       guid,
       email,
@@ -604,164 +602,164 @@ describe("authSagas", () => {
       message,
       code,
       sessionToken
-    };
+    }
 
-    const saga = testSaga(reset2fa, { payload });
-    const beforeResponse = "beforeResponse";
+    const saga = testSaga(reset2fa, { payload })
+    const beforeResponse = "beforeResponse"
 
     it("should trigger reset 2fa action", () => {
-      saga.next().put(actions.auth.reset2faLoading());
-    });
+      saga.next().put(actions.auth.reset2faLoading())
+    })
 
     it("should pass payload to core resetWallet2fa saga", () => {
       saga
         .next()
         .call(coreSagas.wallet.resetWallet2fa, payload)
-        .save(beforeResponse);
-    });
+        .save(beforeResponse)
+    })
 
     it("should trigger reset 2fa success action if response is successsul", () => {
       const response = {
         success: true
-      };
-      saga.next(response).put(actions.auth.reset2faSuccess());
-    });
+      }
+      saga.next(response).put(actions.auth.reset2faSuccess())
+    })
 
     it("should display reset 2a success alert if response is successsul", () => {
       saga
         .next()
         .put(actions.alerts.displayInfo(C.RESET_TWOFA_INFO))
         .next()
-        .isDone();
-    });
+        .isDone()
+    })
 
     it("should throw an error if response is not successful", () => {
       const response = {
         success: false
-      };
+      }
       saga
         .restore(beforeResponse)
         .next(response)
         // First yield in catch block
-        .put(actions.core.data.misc.fetchCaptcha());
-    });
+        .put(actions.core.data.misc.fetchCaptcha())
+    })
 
     describe("error handling", () => {
-      const error = {};
+      const error = {}
 
       it("should trigger fetch capcha action", () => {
         saga
           .restart()
           .next()
           .throw(error)
-          .put(actions.core.data.misc.fetchCaptcha());
-      });
+          .put(actions.core.data.misc.fetchCaptcha())
+      })
 
       it("should trigger reset2fa failure action", () => {
-        saga.next().put(actions.auth.reset2faFailure());
-      });
+        saga.next().put(actions.auth.reset2faFailure())
+      })
 
       it("should log error", () => {
         saga
           .next()
-          .put(actions.logs.logErrorMessage(logLocation, "reset2fa", error));
-      });
+          .put(actions.logs.logErrorMessage(logLocation, "reset2fa", error))
+      })
 
       it("should display guid not found error", () => {
         const guidNotFound2faError = {
           toString: () => guidNotFound2faErrorMessage
-        };
+        }
         return expectSaga(reset2fa, { payload })
           .provide({
             call(effect, next) {
               if (effect.fn === coreSagas.wallet.resetWallet2fa) {
-                throw guidNotFound2faError;
+                throw guidNotFound2faError
               }
 
-              return next();
+              return next()
             }
           })
           .put(actions.alerts.displayError(C.TWOFA_RESET_UNKNOWN_GUID_ERROR))
-          .run();
-      });
+          .run()
+      })
 
       it("should display 2fa not enabled error and redirect to /login", () => {
         const notEnabled2faResponse = {
           message: notEnabled2faErrorMessage.replace(/^Error: /, "")
-        };
+        }
         return expectSaga(reset2fa, { payload })
           .provide([
             [call.fn(coreSagas.wallet.resetWallet2fa), notEnabled2faResponse]
           ])
           .put(actions.router.push("/login"))
           .put(actions.alerts.displayError(C.TWOFA_RESET_NOT_ENABLED_ERROR))
-          .run();
-      });
+          .run()
+      })
 
       it("should display 2fa email reset error", () => {
         const emailMismatch2faResponse = {
           message: emailMismatch2faErrorMessage.replace(/^Error: /, "")
-        };
+        }
         expectSaga(reset2fa, { payload })
           .provide([
             [call.fn(coreSagas.wallet.resetWallet2fa), emailMismatch2faResponse]
           ])
           .put(actions.alerts.displayError(C.TWOFA_RESET_EMAIL_ERROR))
-          .run();
-      });
+          .run()
+      })
 
       it("should display wrong captcha 2fa email", () => {
         const wrongCaptcha2faResponse = {
           message: wrongCaptcha2faErrorMessage.replace(/^Error: /, "")
-        };
+        }
         expectSaga(reset2fa, { payload })
           .provide([
             [call.fn(coreSagas.wallet.resetWallet2fa), wrongCaptcha2faResponse]
           ])
           .put(actions.alerts.displayError(C.CAPTCHA_CODE_INCORRECT))
-          .run();
-      });
+          .run()
+      })
 
       it("should display wrong captcha 2fa reset error", () => {
         const otherErrorResponse = {
           message: ""
-        };
+        }
         expectSaga(reset2fa, { payload })
           .provide([
             [call.fn(coreSagas.wallet.resetWallet2fa), otherErrorResponse]
           ])
           .put(actions.alerts.displayError(C.TWOFA_RESET_ERROR))
-          .run();
-      });
-    });
-  });
+          .run()
+      })
+    })
+  })
 
   describe("resend sms login code flow", () => {
     const { resendSmsLoginCode } = authSagas({
       api,
       coreSagas
-    });
-    const guid = "guid";
-    const payload = { guid };
+    })
+    const guid = "guid"
+    const payload = { guid }
 
-    const saga = testSaga(resendSmsLoginCode, { payload });
-    const beforeResponse = "beforeResponse";
+    const saga = testSaga(resendSmsLoginCode, { payload })
+    const beforeResponse = "beforeResponse"
 
     it("should select session token by guid from session", () => {
-      saga.next().select(selectors.session.getSession, guid);
-    });
+      saga.next().select(selectors.session.getSession, guid)
+    })
 
     it("should call resendSmsLoginCode core saga with guid and session token", () => {
-      const sessionToken = "sessionToken";
+      const sessionToken = "sessionToken"
       saga
         .next(sessionToken)
-        .call(coreSagas.wallet.resendSmsLoginCode, { guid, sessionToken });
-    });
+        .call(coreSagas.wallet.resendSmsLoginCode, { guid, sessionToken })
+    })
 
     it("should throw upon initial_error response and it doesn't include login attempts left", () => {
       const initialErrorResponse = {
         initial_error: "123"
-      };
+      }
       saga
         .save(beforeResponse)
         .next(initialErrorResponse)
@@ -772,36 +770,36 @@ describe("authSagas", () => {
             "resendSmsLoginCode",
             new Error(initialErrorResponse)
           )
-        );
-    });
+        )
+    })
 
     it("should display success if response has no error", () => {
-      const response = {};
+      const response = {}
       saga
         .restore(beforeResponse)
         .save(beforeResponse)
         .next(response)
         .put(actions.alerts.displaySuccess(C.SMS_RESEND_SUCCESS))
         .next()
-        .isDone();
-    });
+        .isDone()
+    })
 
     it("should display success if initial_error includes login attempts left message", () => {
       const initialErrorResponse = {
         initial_error: "10 login attempts left"
-      };
+      }
       saga
         .restore(beforeResponse)
         .save(beforeResponse)
         .next(initialErrorResponse)
         .put(actions.alerts.displaySuccess(C.SMS_RESEND_SUCCESS))
         .next()
-        .isDone();
-    });
+        .isDone()
+    })
 
     describe("error handling", () => {
       it("should log resend sms login code error message", () => {
-        const error = {};
+        const error = {}
         saga
           .restore(beforeResponse)
           .throw(error)
@@ -811,90 +809,88 @@ describe("authSagas", () => {
               "resendSmsLoginCode",
               error
             )
-          );
-      });
+          )
+      })
 
       it("should display sms login code error alert", () => {
         saga
           .next()
           .put(actions.alerts.displayError(C.SMS_RESEND_ERROR))
           .next()
-          .isDone();
-      });
-    });
-  });
+          .isDone()
+      })
+    })
+  })
 
   describe("remind guid flow", () => {
     const { remindGuid } = authSagas({
       api,
       coreSagas
-    });
-    const email = "stub@mail.com";
-    const code = "1324";
-    const sessionToken = "sessionToken";
-    const payload = { email, code, sessionToken };
+    })
+    const email = "stub@mail.com"
+    const code = "1324"
+    const sessionToken = "sessionToken"
+    const payload = { email, code, sessionToken }
 
-    const saga = testSaga(remindGuid, { payload });
+    const saga = testSaga(remindGuid, { payload })
 
     it("should trigger a remind guid loading action", () => {
-      saga.next().put(actions.auth.remindGuidLoading());
-    });
+      saga.next().put(actions.auth.remindGuidLoading())
+    })
 
     it("should pass payload to core remindWalletGuidSaga", () => {
-      saga.next().call(coreSagas.wallet.remindWalletGuidSaga, payload);
-    });
+      saga.next().call(coreSagas.wallet.remindWalletGuidSaga, payload)
+    })
 
     it("should show successful guid send alert", () => {
-      saga.next().put(actions.alerts.displaySuccess(C.GUID_SENT_SUCCESS));
-    });
+      saga.next().put(actions.alerts.displaySuccess(C.GUID_SENT_SUCCESS))
+    })
 
     it("should put remind guid success action", () => {
       saga
         .next()
         .put(actions.auth.remindGuidSuccess())
         .next()
-        .isDone();
-    });
+        .isDone()
+    })
 
     describe("error handling", () => {
       describe("Other errors", () => {
-        const error = {};
+        const error = {}
         beforeAll(() => {
-          saga.restart().next();
-        });
+          saga.restart().next()
+        })
 
         it("trigger remind guid failure action", () => {
-          saga.throw(error).put(actions.auth.remindGuidFailure());
-        });
+          saga.throw(error).put(actions.auth.remindGuidFailure())
+        })
 
         it("should log an error message", () => {
           saga
             .next()
-            .put(
-              actions.logs.logErrorMessage(logLocation, "remindGuid", error)
-            );
-        });
+            .put(actions.logs.logErrorMessage(logLocation, "remindGuid", error))
+        })
 
         it("should display error alert", () => {
           saga
             .next()
             .put(actions.alerts.displayError(C.GUID_SENT_ERROR))
             .next()
-            .isDone();
-        });
-      });
+            .isDone()
+        })
+      })
 
       describe("Captcha error", () => {
         const captchaError = {
           message: "Captcha Code Incorrect"
-        };
+        }
         beforeAll(() => {
-          saga.restart().next();
-        });
+          saga.restart().next()
+        })
 
         it("trigger remind guid failure action", () => {
-          saga.throw(captchaError).put(actions.auth.remindGuidFailure());
-        });
+          saga.throw(captchaError).put(actions.auth.remindGuidFailure())
+        })
 
         it("should log an error message", () => {
           saga
@@ -905,29 +901,29 @@ describe("authSagas", () => {
                 "remindGuid",
                 captchaError
               )
-            );
-        });
+            )
+        })
 
         it("should refetch captcha in case of incorrect captcha", () => {
-          saga.next().put(actions.core.data.misc.fetchCaptcha());
-        });
+          saga.next().put(actions.core.data.misc.fetchCaptcha())
+        })
 
         it("should show incorrect captcha alert", () => {
           saga
             .next()
             .put(actions.alerts.displayError(C.CAPTCHA_CODE_INCORRECT))
             .next()
-            .isDone();
-        });
-      });
-    });
-  });
+            .isDone()
+        })
+      })
+    })
+  })
 
   describe("logout routine", () => {
     const { logout } = authSagas({
       api,
       coreSagas
-    });
+    })
 
     it("should stop sockets and redirect to logout if email is verified", () => {
       return expectSaga(logout)
@@ -938,8 +934,8 @@ describe("authSagas", () => {
         .put(actions.middleware.webSocket.btc.stopSocket())
         .put(actions.middleware.webSocket.eth.stopSocket())
         .put(actions.router.push("/logout"))
-        .run();
-    });
+        .run()
+    })
 
     it("should stop sockets and clear redux store if email is not verified", async () => {
       return expectSaga(logout)
@@ -951,71 +947,71 @@ describe("authSagas", () => {
         .put(actions.middleware.webSocket.eth.stopSocket())
         .run()
         .then(() => {
-          expect(pushStateSpy).toHaveBeenCalledTimes(1);
-          expect(pushStateSpy).toHaveBeenCalledWith("", "", "#");
-        });
-    });
-  });
+          expect(pushStateSpy).toHaveBeenCalledTimes(1)
+          expect(pushStateSpy).toHaveBeenCalledWith("", "", "#")
+        })
+    })
+  })
 
   describe("deauthorization of browser", () => {
     const { deauthorizeBrowser } = authSagas({
       api,
       coreSagas
-    });
-    const saga = testSaga(deauthorizeBrowser);
-    const beforeCatch = "beforeCatch";
+    })
+    const saga = testSaga(deauthorizeBrowser)
+    const beforeCatch = "beforeCatch"
 
     const pageReloadTest = () =>
       it("should push login to url to history and reload window", () => {
-        pushStateSpy.mockReset();
-        locationReloadSpy.mockReset();
+        pushStateSpy.mockReset()
+        locationReloadSpy.mockReset()
 
         saga
           .next()
           .inspect(gen => {
             // Inside the called saga
-            gen.next();
-            expect(pushStateSpy).toHaveBeenCalledTimes(1);
-            expect(pushStateSpy).toHaveBeenCalledWith("", "", "#");
+            gen.next()
+            expect(pushStateSpy).toHaveBeenCalledTimes(1)
+            expect(pushStateSpy).toHaveBeenCalledWith("", "", "#")
 
-            gen.next();
-            expect(locationReloadSpy).toHaveBeenCalledTimes(1);
-            expect(locationReloadSpy).toHaveBeenCalledWith(true);
+            gen.next()
+            expect(locationReloadSpy).toHaveBeenCalledTimes(1)
+            expect(locationReloadSpy).toHaveBeenCalledWith(true)
           })
           .next()
-          .isDone();
-      });
+          .isDone()
+      })
 
     it("should select guid", () => {
-      saga.next().select(selectors.core.wallet.getGuid);
-    });
+      saga.next().select(selectors.core.wallet.getGuid)
+    })
 
     it("should get session token by guid", () => {
-      const guid = "guid";
-      saga.next(guid).select(selectors.session.getSession, guid);
-    });
+      const guid = "guid"
+      saga.next(guid).select(selectors.session.getSession, guid)
+    })
 
     it("should call deauthorize browser api with session token", () => {
-      const sessionToken = "sessionToken";
-      saga.next(sessionToken).call(api.deauthorizeBrowser, sessionToken);
-    });
+      const sessionToken = "sessionToken"
+      saga.next(sessionToken).call(api.deauthorizeBrowser, sessionToken)
+    })
 
     it("should show success alert", () => {
       saga
         .next()
         .put(actions.alerts.displaySuccess(C.DEAUTHORIZE_BROWSER_SUCCESS))
-        .save(beforeCatch);
-    });
+        .save(beforeCatch)
+    })
 
-    pageReloadTest();
+    pageReloadTest()
 
     describe("error handling", () => {
       beforeAll(() => {
-        saga.restore(beforeCatch);
-      });
+        saga.restore(beforeCatch)
+      })
 
       it("should log error", () => {
-        const error = {};
+        const error = {}
         saga
           .throw(error)
           .put(
@@ -1024,16 +1020,16 @@ describe("authSagas", () => {
               "deauthorizeBrowser",
               error
             )
-          );
-      });
+          )
+      })
 
       it("should show error alert", () => {
         saga
           .next()
-          .put(actions.alerts.displayError(C.DEAUTHORIZE_BROWSER_ERROR));
-      });
+          .put(actions.alerts.displayError(C.DEAUTHORIZE_BROWSER_ERROR))
+      })
 
-      pageReloadTest();
-    });
-  });
-});
+      pageReloadTest()
+    })
+  })
+})

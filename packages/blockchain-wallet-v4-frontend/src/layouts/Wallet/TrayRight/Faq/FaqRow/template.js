@@ -1,6 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Faq, FaqContent, FaqHeader } from "./../FaqItem";
+import React from "react"
+import PropTypes from "prop-types"
+import { Faq, FaqContent, FaqHeader } from "./../FaqItem"
 
 const FaqRow = ({ title, description, toggled, handleToggle, ...rest }) => {
   return (
@@ -10,14 +10,14 @@ const FaqRow = ({ title, description, toggled, handleToggle, ...rest }) => {
       </FaqHeader>
       <FaqContent toggled={toggled}>{description}</FaqContent>
     </Faq>
-  );
-};
+  )
+}
 
 FaqRow.propTypes = {
   title: PropTypes.object.isRequired,
   description: PropTypes.object.isRequired,
   toggled: PropTypes.bool.isRequired,
   handleToggle: PropTypes.func.isRequired
-};
+}
 
-export default FaqRow;
+export default FaqRow

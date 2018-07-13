@@ -1,9 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import QRReader from "../QRReader";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import QRReader from "../QRReader"
 
-import { Image, HeartbeatLoader } from "blockchain-info-components";
+import { Image, HeartbeatLoader } from "blockchain-info-components"
 
 const Wrapper = styled.div`
   position: relative;
@@ -28,7 +28,7 @@ const Wrapper = styled.div`
   &:hover {
     background-color: ${props => props.theme["gray-1"]};
   }
-`;
+`
 const TooltipBox = styled.div`
   position: absolute;
   bottom: 50px;
@@ -69,10 +69,10 @@ const TooltipBox = styled.div`
     border: 9px solid transparent;
     border-top-color: ${props => props.theme["gray-1"]};
   }
-`;
+`
 
 const QRCodeCapture = props => {
-  const { border, toggled, handleToggle, handleScan, handleError } = props;
+  const { border, toggled, handleToggle, handleScan, handleError } = props
 
   return (
     <Wrapper border={border}>
@@ -98,14 +98,14 @@ const QRCodeCapture = props => {
         </TooltipBox>
       )}
     </Wrapper>
-  );
-};
+  )
+}
 
 QRCodeCapture.propTypes = {
   toggled: PropTypes.bool.isRequired,
   handleToggle: PropTypes.func.isRequired,
   handleScan: PropTypes.func.isRequired,
   handleError: PropTypes.func.isRequired
-};
+}
 
-export default QRCodeCapture;
+export default QRCodeCapture

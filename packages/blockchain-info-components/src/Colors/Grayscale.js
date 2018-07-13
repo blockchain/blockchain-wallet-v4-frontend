@@ -1,5 +1,5 @@
-import { mapObjIndexed } from "ramda";
-import { grayscale } from "polished";
-import Default from "./Default";
+import { mapObjIndexed } from "ramda"
+import { grayscale } from "polished"
+import Default from "./Default"
 
-export default mapObjIndexed((num, key, obj) => grayscale(num), Default);
+export default mapObjIndexed((num, key, obj) => grayscale(num), Default)

@@ -2,7 +2,7 @@
 // import * as actions from '../../actions'
 // import * as chartService from 'services/ChartService'
 
-jest.mock("./selectors");
+jest.mock("./selectors")
 
 describe("priceChart sagas", () => {
   // let calcScaleSpy
@@ -34,7 +34,7 @@ describe("priceChart sagas", () => {
       //    expect(calcScaleSpy).toHaveBeenCalledWith('BTC', 'all')
       //    expect(fetchPriceActionSpy).toHaveBeenCalledTimes(1)
       //    expect(fetchPriceActionSpy).toHaveBeenCalledWith('BTC', 'USD', 'test', 'test')
-    });
+    })
     //
     //  it('should handle errors', () => {
     //    // arrange
@@ -48,7 +48,7 @@ describe("priceChart sagas", () => {
     //    expect(fetchPriceActionSpy).toHaveBeenCalledTimes(1)
     //    expect(errorSpy).toHaveBeenCalledWith('Error in initialized saga')
     //  })
-  });
+  })
 
   // describe('coinClicked saga', () => {
   //   it('should run correct routine', () => {
@@ -100,4 +100,4 @@ describe("priceChart sagas", () => {
   //     expect(errorSpy).toHaveBeenCalledWith('Error in Initialized Price Chart Saga')
   //   })
   // })
-});
+})

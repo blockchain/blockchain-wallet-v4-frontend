@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import { Text } from "blockchain-info-components";
-import PropTypes from "prop-types";
+import React from "react"
+import styled from "styled-components"
+import { Text } from "blockchain-info-components"
+import PropTypes from "prop-types"
 
 const BankInfo = styled.div`
   display: flex;
@@ -18,11 +18,11 @@ const BankInfo = styled.div`
     background-color: #004a7c;
   }
   margin: 0px;
-`;
+`
 const BankName = styled(Text)`
   text-transform: capitalize;
   cursor: pointer;
-`;
+`
 const BankLabel = styled.label`
   display: flex;
   flex-direction: row;
@@ -39,13 +39,13 @@ const BankLabel = styled.label`
     -o-transition: background-color 0.2s;
     transition: background-color 0.2s;
   }
-`;
+`
 const BankMeta = styled.div`
   margin-left: 15px;
   display: flex;
   flex-direction: column;
   cursor: pointer;
-`;
+`
 
 const Bank = ({ bank, onInputClick }) => (
   <BankInfo key={bank._id}>
@@ -65,7 +65,7 @@ const Bank = ({ bank, onInputClick }) => (
       </BankMeta>
     </BankLabel>
   </BankInfo>
-);
+)
 
 Bank.propTypes = {
   bank: PropTypes.shape({
@@ -76,6 +76,6 @@ Bank.propTypes = {
       number: PropTypes.number
     })
   })
-};
+}
 
-export default Bank;
+export default Bank

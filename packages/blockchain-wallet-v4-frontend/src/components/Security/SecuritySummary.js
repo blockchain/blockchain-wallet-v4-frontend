@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import media from "services/ResponsiveService";
+import styled from "styled-components"
+import media from "services/ResponsiveService"
 
 const SecuritySummary = styled.div`
   display: flex;
@@ -12,6 +12,6 @@ const SecuritySummary = styled.div`
   ${media.mobile`
     padding: 15px 15px 0px 15px;
   `};
-`;
+`
 
-export default SecuritySummary;
+export default SecuritySummary

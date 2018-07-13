@@ -1,8 +1,8 @@
-import { selectors } from "data";
-import { createDeepEqualSelector } from "services/ReselectHelper";
+import { selectors } from "data"
+import { createDeepEqualSelector } from "services/ReselectHelper"
 
 export const getData = state =>
   createDeepEqualSelector([selectors.preferences.getLanguage], language => {
-    const locale = language || "en";
-    return { locale };
-  })(state);
+    const locale = language || "en"
+    return { locale }
+  })(state)

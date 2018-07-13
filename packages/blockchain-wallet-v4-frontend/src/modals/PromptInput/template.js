@@ -1,28 +1,28 @@
-import React from "react";
-import styled from "styled-components";
-import { required } from "services/FormHelper";
+import React from "react"
+import styled from "styled-components"
+import { required } from "services/FormHelper"
 import {
   Button,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter
-} from "blockchain-info-components";
-import { FormattedMessage } from "react-intl";
-import { Field, reduxForm } from "redux-form";
+} from "blockchain-info-components"
+import { FormattedMessage } from "react-intl"
+import { Field, reduxForm } from "redux-form"
 import {
   Form,
   FormGroup,
   FormItem,
   TextBox,
   PasswordBox
-} from "components/Form";
+} from "components/Form"
 
 const Wrapper = styled.div`
   font-weight: 300;
   color: ${props => props.theme["gray-5"]};
   font-family: "Montserrat", Helvetica, sans-serif;
-`;
+`
 
 const PromptTemplate = ({
   position,
@@ -67,6 +67,6 @@ const PromptTemplate = ({
       </Wrapper>
     </Form>
   </Modal>
-);
+)
 
-export default reduxForm({ form: "promptInputModal" })(PromptTemplate);
+export default reduxForm({ form: "promptInputModal" })(PromptTemplate)

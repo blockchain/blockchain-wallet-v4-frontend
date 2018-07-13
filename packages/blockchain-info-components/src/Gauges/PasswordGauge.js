@@ -1,6 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
 
 const Container = styled.div`
   display: flex;
@@ -11,35 +11,35 @@ const Container = styled.div`
   height: 3px;
   bottom: 0;
   left: 0;
-`;
+`
 const Bar = styled.div`
   display: inline-flex;
   width: 20%;
   height: 100%;
   box-sizing: border-box;
   background-color: ${props => props.theme[props.color]};
-`;
+`
 
 const selectColor = score => {
   switch (score) {
     case 1:
-      return "error";
+      return "error"
     case 2:
-      return "red";
+      return "red"
     case 3:
-      return "brand-yellow-lighter";
+      return "brand-yellow-lighter"
     case 4:
-      return "brand-yellow";
+      return "brand-yellow"
     case 5:
-      return "success";
+      return "success"
     default:
-      return "transparent";
+      return "transparent"
   }
-};
+}
 
 const PasswordGauge = props => {
-  const { score } = props;
-  const color = selectColor(score);
+  const { score } = props
+  const color = selectColor(score)
 
   return (
     <Container>
@@ -49,15 +49,15 @@ const PasswordGauge = props => {
       {score > 3 ? <Bar color={color} /> : <Bar color="transparent" />}
       {score > 4 ? <Bar color={color} /> : <Bar color="transparent" />}
     </Container>
-  );
-};
+  )
+}
 
 PasswordGauge.propTypes = {
   score: PropTypes.oneOf([1, 2, 3, 4, 5]).isRequired
-};
+}
 
 PasswordGauge.defaultProps = {
   score: 0
-};
+}
 
-export default PasswordGauge;
+export default PasswordGauge

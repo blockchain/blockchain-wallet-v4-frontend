@@ -1,13 +1,13 @@
-import React from "react";
-import styled from "styled-components";
-import PropTypes from "prop-types";
-import { Text, TextGroup } from "../Text";
+import React from "react"
+import styled from "styled-components"
+import PropTypes from "prop-types"
+import { Text, TextGroup } from "../Text"
 
 const TooltipWrapper = styled.div`
   width: ${props => (props.width === "auto" ? "auto" : "22px")};
   display: inline-flex;
   position: relative;
-`;
+`
 const TooltipIcon = styled.div`
   display: inline-flex;
   justify-content: center;
@@ -22,11 +22,11 @@ const TooltipIcon = styled.div`
       color: ${props => props.displayed && props.theme["brand-primary"]};
     }
   }
-`;
+`
 const TooltipLabel = styled(Text)`
   font-size: 13px;
   font-weight: 300;
-`;
+`
 const TooltipBox = styled(TextGroup)`
   position: absolute;
   bottom: 150%;
@@ -77,7 +77,7 @@ const TooltipBox = styled(TextGroup)`
     border-right: 7px solid transparent;
     border-top: 7px solid ${props => props.theme["white-blue"]};
   }
-`;
+`
 
 export const Tooltip = props => {
   const {
@@ -89,7 +89,7 @@ export const Tooltip = props => {
     handleClick,
     handleMouseEnter,
     handleMouseLeave
-  } = props;
+  } = props
   return (
     <TooltipWrapper width={width}>
       {label ? (
@@ -118,8 +118,8 @@ export const Tooltip = props => {
         {props.children}
       </TooltipBox>
     </TooltipWrapper>
-  );
-};
+  )
+}
 
 Tooltip.propTypes = {
   icon: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
@@ -130,6 +130,6 @@ Tooltip.propTypes = {
   handleClick: PropTypes.func,
   handleMouseEnter: PropTypes.func,
   handleMouseLeave: PropTypes.func
-};
+}
 
-export default Tooltip;
+export default Tooltip

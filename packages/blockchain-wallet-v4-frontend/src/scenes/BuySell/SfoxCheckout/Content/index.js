@@ -1,7 +1,7 @@
-import React from "react";
-import { actions } from "data";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import React from "react"
+import { actions } from "data"
+import { connect } from "react-redux"
+import { bindActionCreators } from "redux"
 import {
   getBase,
   getData,
@@ -10,32 +10,32 @@ import {
   getSellQuote,
   getTrades,
   getPayment
-} from "./selectors";
-import Success from "./template.success";
-import Loading from "components/BuySell/Loading";
-import { path } from "ramda";
-import Failure from "components/BuySell/Failure";
+} from "./selectors"
+import Success from "./template.success"
+import Loading from "components/BuySell/Loading"
+import { path } from "ramda"
+import Failure from "components/BuySell/Failure"
 
 class SfoxCheckout extends React.PureComponent {
   constructor(props) {
-    super(props);
-    this.state = { buttonStatus: false };
+    super(props)
+    this.state = { buttonStatus: false }
   }
   componentDidMount() {
-    this.props.sfoxDataActions.fetchTrades();
-    this.props.sfoxDataActions.fetchProfile();
-    this.props.sfoxDataActions.sfoxFetchAccounts();
+    this.props.sfoxDataActions.fetchTrades()
+    this.props.sfoxDataActions.fetchProfile()
+    this.props.sfoxDataActions.sfoxFetchAccounts()
     this.props.sfoxDataActions.fetchQuote({
       quote: { amt: 1e8, baseCurrency: "BTC", quoteCurrency: "USD" }
-    });
+    })
     this.props.sfoxDataActions.fetchSellQuote({
       quote: { amt: 1e8, baseCurrency: "BTC", quoteCurrency: "USD" }
-    });
-    this.props.sfoxActions.initializePayment();
+    })
+    this.props.sfoxActions.initializePayment()
   }
 
   componentWillUnmount() {
-    this.props.sfoxActions.disableSiftScience();
+    this.props.sfoxActions.disableSiftScience()
   }
 
   render() {
@@ -48,24 +48,24 @@ class SfoxCheckout extends React.PureComponent {
       orderState,
       formActions,
       siftScienceEnabled
-    } = this.props;
+    } = this.props
     const {
       handleTrade,
       fetchQuote,
       refreshQuote,
       refreshSellQuote,
       fetchSellQuote
-    } = sfoxDataActions;
-    const { sfoxNotAsked } = sfoxActions;
-    const { showModal } = modalActions;
-    const { change } = formActions;
+    } = sfoxDataActions
+    const { sfoxNotAsked } = sfoxActions
+    const { showModal } = modalActions
+    const { change } = formActions
 
     const busy = orderState.cata({
       Success: () => false,
       Failure: err => err,
       Loading: () => true,
       NotAsked: () => false
-    });
+    })
 
     return data.cata({
       Success: value => (
@@ -81,12 +81,12 @@ class SfoxCheckout extends React.PureComponent {
           refreshBuyQuote={() => refreshQuote()}
           refreshSellQuote={() => refreshSellQuote()}
           submitBuyQuote={quote => {
-            sfoxActions.submitQuote(quote);
-            this.setState({ busy: true });
+            sfoxActions.submitQuote(quote)
+            this.setState({ busy: true })
           }}
           submitSellQuote={quote => {
-            sfoxActions.submitSellQuote(quote);
-            this.setState({ busy: true });
+            sfoxActions.submitSellQuote(quote)
+            this.setState({ busy: true })
           }}
           busy={busy}
           payment={payment}
@@ -101,7 +101,7 @@ class SfoxCheckout extends React.PureComponent {
       Failure: error => <Failure error={error} />,
       Loading: () => <Loading />,
       NotAsked: () => <div>Not Asked</div>
-    });
+    })
   }
 }
 
@@ -115,7 +115,7 @@ const mapStateToProps = state => ({
   payment: getPayment(state),
   orderState: path(["sfoxSignup", "sfoxBusy"], state),
   siftScienceEnabled: path(["sfoxSignup", "siftScienceEnabled"], state)
-});
+})
 
 const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
@@ -123,9 +123,9 @@ const mapDispatchToProps = dispatch => ({
   sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch),
   sendBtcActions: bindActionCreators(actions.components.sendBtc, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
-});
+})
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(SfoxCheckout);
+)(SfoxCheckout)

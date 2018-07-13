@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 
 import {
   Button,
@@ -11,7 +11,7 @@ import {
   ModalBody,
   ModalFooter,
   Text
-} from "blockchain-info-components";
+} from "blockchain-info-components"
 
 const Slide = styled.div`
   display: flex;
@@ -24,11 +24,11 @@ const Slide = styled.div`
   & > :first-child {
     margin-bottom: 20px;
   }
-`;
+`
 
 const UpgradeWallet = props => {
-  const { position, total, ...rest } = props;
-  const { handleContinue } = rest;
+  const { position, total, ...rest } = props
+  const { handleContinue } = rest
 
   return (
     <Modal size="large" position={position} total={total}>
@@ -87,7 +87,7 @@ const UpgradeWallet = props => {
         </Button>
       </ModalFooter>
     </Modal>
-  );
-};
+  )
+}
 
-export default UpgradeWallet;
+export default UpgradeWallet

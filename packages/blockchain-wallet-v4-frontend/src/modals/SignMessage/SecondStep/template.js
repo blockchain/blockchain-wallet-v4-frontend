@@ -1,16 +1,16 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 
-import { Button, Text } from "blockchain-info-components";
-import CopyClipboard from "components/CopyClipboard";
+import { Button, Text } from "blockchain-info-components"
+import CopyClipboard from "components/CopyClipboard"
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-`;
+`
 const DetailRow = styled.div`
   display: flex;
   margin-bottom: 10px;
@@ -19,7 +19,7 @@ const DetailRow = styled.div`
   > div:first-child {
     margin-right: 2px;
   }
-`;
+`
 const SubmitRow = styled.div`
   display: flex;
   flex-direction: row;
@@ -27,14 +27,14 @@ const SubmitRow = styled.div`
   align-items: center;
   margin-top: 10px;
   width: 100%;
-`;
+`
 const ClickableText = styled(Text)`
   margin-right: 15px;
   cursor: pointer;
-`;
+`
 
 const SecondStep = props => {
-  const { address, closeAll, message, resetForm, signedMessage } = props;
+  const { address, closeAll, message, resetForm, signedMessage } = props
 
   return (
     <Wrapper>
@@ -84,8 +84,8 @@ const SecondStep = props => {
         </Button>
       </SubmitRow>
     </Wrapper>
-  );
-};
+  )
+}
 
 SecondStep.propTypes = {
   address: PropTypes.string.isRequired,
@@ -93,6 +93,6 @@ SecondStep.propTypes = {
   message: PropTypes.string.isRequired,
   resetForm: PropTypes.func.isRequired,
   signedMessage: PropTypes.string.isRequired
-};
+}
 
-export default SecondStep;
+export default SecondStep

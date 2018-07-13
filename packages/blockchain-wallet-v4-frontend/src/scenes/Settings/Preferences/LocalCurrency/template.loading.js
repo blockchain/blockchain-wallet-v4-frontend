@@ -1,14 +1,14 @@
-import React from "react";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import { FormattedMessage } from "react-intl"
 
-import { FlatLoader } from "blockchain-info-components";
+import { FlatLoader } from "blockchain-info-components"
 import {
   SettingComponent,
   SettingContainer,
   SettingDescription,
   SettingHeader,
   SettingSummary
-} from "components/Setting";
+} from "components/Setting"
 
 const LocalCurrency = props => {
   return (
@@ -31,7 +31,7 @@ const LocalCurrency = props => {
         <FlatLoader width="50px" height="14px" />
       </SettingComponent>
     </SettingContainer>
-  );
-};
+  )
+}
 
-export default LocalCurrency;
+export default LocalCurrency

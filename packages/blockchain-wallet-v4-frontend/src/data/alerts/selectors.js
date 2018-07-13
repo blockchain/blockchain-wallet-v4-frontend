@@ -1,3 +1,3 @@
-import { path } from "ramda";
+import { path } from "ramda"
 
-export const selectAlerts = path(["alerts"]);
+export const selectAlerts = path(["alerts"])

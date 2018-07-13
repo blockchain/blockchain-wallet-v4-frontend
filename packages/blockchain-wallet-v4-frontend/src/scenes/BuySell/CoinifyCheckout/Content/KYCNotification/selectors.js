@@ -1,5 +1,5 @@
-import { selectors } from "data";
+import { selectors } from "data"
 
 export const getData = state => ({
   showKycCompleted: selectors.preferences.getShowKycCompleted(state)
-});
+})

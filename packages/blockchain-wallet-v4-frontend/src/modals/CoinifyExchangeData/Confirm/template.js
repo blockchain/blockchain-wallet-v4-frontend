@@ -1,15 +1,10 @@
-import React from "react";
-import { reduxForm, Field } from "redux-form";
-import { FormattedMessage } from "react-intl";
-import styled from "styled-components";
-import { spacing } from "services/StyleService";
+import React from "react"
+import { reduxForm, Field } from "redux-form"
+import { FormattedMessage } from "react-intl"
+import styled from "styled-components"
+import { spacing } from "services/StyleService"
 
-import {
-  Button,
-  HeartbeatLoader,
-  Text,
-  Link
-} from "blockchain-info-components";
+import { Button, HeartbeatLoader, Text, Link } from "blockchain-info-components"
 import {
   Form,
   ColLeft,
@@ -17,8 +12,8 @@ import {
   PartnerHeader,
   PartnerSubHeader,
   ColRight
-} from "components/BuySell/Signup";
-import { getRateFromQuote } from "services/CoinifyService";
+} from "components/BuySell/Signup"
+import { getRateFromQuote } from "services/CoinifyService"
 
 const SummaryWrapper = styled.div`
   display: flex;
@@ -26,21 +21,21 @@ const SummaryWrapper = styled.div`
   padding: 10px;
   background-color: ${props => props.theme["white-blue"]};
   border: 0.5px solid #dddddd;
-`;
+`
 const SummaryRow = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   border-bottom: ${props => (props.borderBottom ? "1px solid #DDDDDD" : "")};
   padding: 9px;
-`;
+`
 const RateContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-`;
-const EditContainer = RateContainer.extend``;
-const EditAmountContainer = RateContainer.extend``;
+`
+const EditContainer = RateContainer.extend``
+const EditAmountContainer = RateContainer.extend``
 const Unit = styled.div`
   position: absolute;
   font-size: 11px;
@@ -50,15 +45,15 @@ const Unit = styled.div`
   justify-content: center;
   width: 40px;
   height: 20px;
-`;
+`
 
 const withinLimits = (val, allValues, { medium, value: { limits, quote } }) => {
-  const curr = quote.baseCurrency;
+  const curr = quote.baseCurrency
   return val >= limits[medium].minimumInAmounts[curr] &&
     val <= limits[medium].inRemaining[curr]
     ? undefined
-    : "nope";
-};
+    : "nope"
+}
 
 const Confirm = props => {
   const {
@@ -71,14 +66,14 @@ const Confirm = props => {
     medium,
     toggleEdit,
     editingAmount
-  } = props;
-  const { quote, mediums, limits } = value;
-  const { quoteAmount, baseAmount, baseCurrency } = quote;
-  const { total, fee } = mediums[medium];
-  const { editing, limitsError } = ui;
+  } = props
+  const { quote, mediums, limits } = value
+  const { quoteAmount, baseAmount, baseCurrency } = quote
+  const { total, fee } = mediums[medium]
+  const { editing, limitsError } = ui
 
   const subHeaderHelper = () => {
-    const curr = quote.baseCurrency;
+    const curr = quote.baseCurrency
     if (editingAmount < limits[medium].minimumInAmounts[curr]) {
       return (
         <Text color="error">
@@ -87,7 +82,7 @@ const Confirm = props => {
             defaultMessage="Under the limit"
           />
         </Text>
-      );
+      )
     }
     if (editingAmount > limits[medium].inRemaining[curr]) {
       return (
@@ -97,15 +92,15 @@ const Confirm = props => {
             defaultMessage="Over the limit"
           />
         </Text>
-      );
+      )
     }
     return (
       <FormattedMessage
         id="coinifyexchangedata.confirm.subheader"
         defaultMessage="Please confirm your order details before we redirect you to our secure payment provider."
       />
-    );
-  };
+    )
+  }
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -230,7 +225,7 @@ const Confirm = props => {
         <FAQ2 /> */}
       </ColRight>
     </Form>
-  );
-};
+  )
+}
 
-export default reduxForm({ form: "coinifyConfirm" })(Confirm);
+export default reduxForm({ form: "coinifyConfirm" })(Confirm)

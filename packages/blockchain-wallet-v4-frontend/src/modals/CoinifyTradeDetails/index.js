@@ -1,22 +1,22 @@
-import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators, compose } from "redux";
-import { actions, selectors } from "data";
-import modalEnhancer from "providers/ModalEnhancer";
-import { Modal } from "blockchain-info-components";
+import React from "react"
+import { connect } from "react-redux"
+import { bindActionCreators, compose } from "redux"
+import { actions, selectors } from "data"
+import modalEnhancer from "providers/ModalEnhancer"
+import { Modal } from "blockchain-info-components"
 
-import BankTransfer from "./BankTransfer";
-import Trade from "./Trade";
-import Kyc from "./Kyc";
+import BankTransfer from "./BankTransfer"
+import Trade from "./Trade"
+import Kyc from "./Kyc"
 
 class CoinifyTradeDetails extends React.PureComponent {
   render() {
-    const { trade, status, subscriptions } = this.props;
+    const { trade, status, subscriptions } = this.props
 
     const renderComponent = trade => {
       if (trade.constructor.name === "Trade") {
         if (trade.medium === "bank" && trade.state === "awaiting_transfer_in") {
-          return <BankTransfer trade={trade} close={this.props.close} />;
+          return <BankTransfer trade={trade} close={this.props.close} />
         } else {
           return (
             <Trade
@@ -25,12 +25,12 @@ class CoinifyTradeDetails extends React.PureComponent {
               close={this.props.close}
               subscriptions={subscriptions}
             />
-          );
+          )
         }
       } else {
-        return <Kyc status={status} close={this.props.close} />;
+        return <Kyc status={status} close={this.props.close} />
       }
-    };
+    }
 
     return (
       <Modal
@@ -40,7 +40,7 @@ class CoinifyTradeDetails extends React.PureComponent {
       >
         {renderComponent(trade)}
       </Modal>
-    );
+    )
   }
 }
 
@@ -49,11 +49,11 @@ const mapStateToProps = state => ({
   subscriptions: selectors.core.data.coinify
     .getSubscriptions(state)
     .getOrElse([])
-});
+})
 
 const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
-});
+})
 
 const enhance = compose(
   modalEnhancer("CoinifyTradeDetails"),
@@ -61,6 +61,6 @@ const enhance = compose(
     mapStateToProps,
     mapDispatchToProps
   )
-);
+)
 
-export default enhance(CoinifyTradeDetails);
+export default enhance(CoinifyTradeDetails)

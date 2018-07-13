@@ -1,5 +1,5 @@
-import React from "react";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import { FormattedMessage } from "react-intl"
 
 import {
   SettingComponent,
@@ -8,13 +8,13 @@ import {
   SettingHeader,
   SettingSummary,
   SettingStatus
-} from "components/Setting";
-import Settings from "./Settings";
+} from "components/Setting"
+import Settings from "./Settings"
 
 const MobileNumber = props => {
-  const { data } = props;
-  const { smsNumber, smsVerified, authType } = data;
-  const isVerified = smsVerified === 1;
+  const { data } = props
+  const { smsNumber, smsVerified, authType } = data
+  const isVerified = smsVerified === 1
 
   return (
     <SettingContainer>
@@ -61,7 +61,7 @@ const MobileNumber = props => {
         />
       </SettingComponent>
     </SettingContainer>
-  );
-};
+  )
+}
 
-export default MobileNumber;
+export default MobileNumber

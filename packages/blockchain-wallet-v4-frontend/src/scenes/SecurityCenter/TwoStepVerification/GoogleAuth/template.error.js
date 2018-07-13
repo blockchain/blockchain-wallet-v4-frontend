@@ -1,16 +1,16 @@
-import React from "react";
-import { FormattedMessage } from "react-intl";
-import { Text } from "blockchain-info-components";
+import React from "react"
+import { FormattedMessage } from "react-intl"
+import { Text } from "blockchain-info-components"
 import {
   SecurityComponent,
   SecurityContainer,
   SecurityDescription,
   SecurityHeader,
   SecuritySummary
-} from "components/Security";
+} from "components/Security"
 
 const EmailAddress = props => {
-  const { message } = props;
+  const { message } = props
 
   return (
     <SecurityContainer>
@@ -41,7 +41,7 @@ const EmailAddress = props => {
         <Text>{message}</Text>
       </SecurityComponent>
     </SecurityContainer>
-  );
-};
+  )
+}
 
-export default EmailAddress;
+export default EmailAddress

@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import PropTypes from "prop-types";
+import styled from "styled-components"
+import PropTypes from "prop-types"
 
 const SettingStatus = styled.div`
   display: block;
@@ -12,10 +12,10 @@ const SettingStatus = styled.div`
   font-size: 12px;
   font-weight: 400;
   text-transform: capitalize;
-`;
+`
 
 SettingStatus.propTypes = {
   active: PropTypes.bool.isRequired
-};
+}
 
-export default SettingStatus;
+export default SettingStatus

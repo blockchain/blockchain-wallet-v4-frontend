@@ -1,21 +1,21 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { Field, reduxForm } from "redux-form";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { Field, reduxForm } from "redux-form"
 
 import {
   required,
   validEmail,
   validPasswordConfirmation,
   validStrongPassword
-} from "services/FormHelper";
+} from "services/FormHelper"
 import {
   Button,
   Link,
   HeartbeatLoader,
   Separator,
   Text
-} from "blockchain-info-components";
+} from "blockchain-info-components"
 import {
   CheckBox,
   Form,
@@ -23,8 +23,8 @@ import {
   FormLabel,
   PasswordBox,
   TextBox
-} from "components/Form";
-import Terms from "components/Terms";
+} from "components/Form"
+import Terms from "components/Terms"
 
 const Wrapper = styled.div`
   width: 100%;
@@ -35,29 +35,29 @@ const Wrapper = styled.div`
   @media (min-width: 768px) {
     width: 550px;
   }
-`;
+`
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`;
+`
 const Footer = styled(FormGroup)`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
-`;
+`
 const GoBackLink = styled(Link)`
   margin-right: 15px;
-`;
+`
 
-const validatePasswordConfirmation = validPasswordConfirmation("password");
+const validatePasswordConfirmation = validPasswordConfirmation("password")
 
 const checkboxShouldBeChecked = value =>
-  value ? undefined : "You must agree to the terms and conditions";
+  value ? undefined : "You must agree to the terms and conditions"
 
 const SecondStep = props => {
-  const { busy, invalid, handleSubmit, previousStep } = props;
+  const { busy, invalid, handleSubmit, previousStep } = props
 
   return (
     <Wrapper>
@@ -157,10 +157,10 @@ const SecondStep = props => {
         </Footer>
       </Form>
     </Wrapper>
-  );
-};
+  )
+}
 
 export default reduxForm({
   form: "recover",
   destroyOnUnmount: false
-})(SecondStep);
+})(SecondStep)

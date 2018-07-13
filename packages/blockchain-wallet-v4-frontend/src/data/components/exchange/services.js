@@ -1,28 +1,28 @@
-import { BigNumber } from "bignumber.js";
-import { Exchange } from "blockchain-wallet-v4/src";
-import { toLower, path, prop } from "ramda";
+import { BigNumber } from "bignumber.js"
+import { Exchange } from "blockchain-wallet-v4/src"
+import { toLower, path, prop } from "ramda"
 
 export const getPairFromCoin = (coinSource, coinTarget) =>
-  `${toLower(coinSource)}_${toLower(coinTarget)}`;
+  `${toLower(coinSource)}_${toLower(coinTarget)}`
 
 export const getCoinFromPair = pair => {
   switch (pair) {
     case "btc_eth":
-      return { coinSource: "BTC", targetCoin: "ETH" };
+      return { coinSource: "BTC", targetCoin: "ETH" }
     case "btc_bch":
-      return { coinSource: "BTC", targetCoin: "BCH" };
+      return { coinSource: "BTC", targetCoin: "BCH" }
     case "bch_btc":
-      return { coinSource: "BCH", targetCoin: "BTC" };
+      return { coinSource: "BCH", targetCoin: "BTC" }
     case "bch_eth":
-      return { coinSource: "BCH", targetCoin: "ETH" };
+      return { coinSource: "BCH", targetCoin: "ETH" }
     case "eth_btc":
-      return { coinSource: "ETH", targetCoin: "BTC" };
+      return { coinSource: "ETH", targetCoin: "BTC" }
     case "eth_bch":
-      return { coinSource: "ETH", targetCoin: "BCH" };
+      return { coinSource: "ETH", targetCoin: "BCH" }
     default:
-      throw new Error("Could not retrieve coins from pair.");
+      throw new Error("Could not retrieve coins from pair.")
   }
-};
+}
 
 export const convertCoinToFiat = (
   value,
@@ -33,25 +33,25 @@ export const convertCoinToFiat = (
 ) => {
   switch (fromCoin) {
     case "BCH":
-      return Exchange.convertBchToFiat({ value, fromUnit, toCurrency, rates });
+      return Exchange.convertBchToFiat({ value, fromUnit, toCurrency, rates })
     case "BTC":
       return Exchange.convertBitcoinToFiat({
         value,
         fromUnit,
         toCurrency,
         rates
-      });
+      })
     case "ETH":
       return Exchange.convertEtherToFiat({
         value,
         fromUnit,
         toCurrency,
         rates
-      });
+      })
     default:
-      throw new Error("Could not convert coin to fiat.");
+      throw new Error("Could not convert coin to fiat.")
   }
-};
+}
 
 export const convertFiatToCoin = (
   value,
@@ -62,152 +62,149 @@ export const convertFiatToCoin = (
 ) => {
   switch (toCoin) {
     case "BCH":
-      return Exchange.convertFiatToBch({ value, fromCurrency, toUnit, rates });
+      return Exchange.convertFiatToBch({ value, fromCurrency, toUnit, rates })
     case "BTC":
       return Exchange.convertFiatToBitcoin({
         value,
         fromCurrency,
         toUnit,
         rates
-      });
+      })
     case "ETH":
       return Exchange.convertFiatToEther({
         value,
         fromCurrency,
         toUnit,
         rates
-      });
+      })
     default:
-      throw new Error("Could not convert fiat to coin.");
+      throw new Error("Could not convert fiat to coin.")
   }
-};
+}
 
 export const convertBaseToStandard = (coin, value) => {
   switch (coin) {
     case "BCH":
       return Exchange.convertBchToBch({ value, fromUnit: "SAT", toUnit: "BCH" })
-        .value;
+        .value
     case "BTC":
       return Exchange.convertBitcoinToBitcoin({
         value,
         fromUnit: "SAT",
         toUnit: "BTC"
-      }).value;
+      }).value
     case "ETH":
       return Exchange.convertEtherToEther({
         value,
         fromUnit: "WEI",
         toUnit: "ETH"
-      }).value;
+      }).value
     default:
-      throw new Error("Could not convert coin to base.");
+      throw new Error("Could not convert coin to base.")
   }
-};
+}
 
 export const convertStandardToBase = (coin, value) => {
   switch (coin) {
     case "BCH":
       return Exchange.convertBchToBch({ value, fromUnit: "BCH", toUnit: "SAT" })
-        .value;
+        .value
     case "BTC":
       return Exchange.convertBitcoinToBitcoin({
         value,
         fromUnit: "BTC",
         toUnit: "SAT"
-      }).value;
+      }).value
     case "ETH":
       return Exchange.convertEtherToEther({
         value,
         fromUnit: "ETH",
         toUnit: "WEI"
-      }).value;
+      }).value
     default:
-      throw new Error("Could not convert base to coin.");
+      throw new Error("Could not convert base to coin.")
   }
-};
+}
 
 export const getEffectiveBalance = effectiveBalance => {
-  return new BigNumber(effectiveBalance).toString();
-};
+  return new BigNumber(effectiveBalance).toString()
+}
 
 export const getMinimum = shapeshiftMinimum =>
-  new BigNumber(shapeshiftMinimum).toString();
+  new BigNumber(shapeshiftMinimum).toString()
 
 export const getMaximum = (
   shapeshiftMaximum,
   effectiveBalance,
   regulationLimit
 ) => {
-  const shapeshiftMaximumB = new BigNumber(shapeshiftMaximum);
-  const effectiveBalanceB = new BigNumber(effectiveBalance);
-  const regulationLimitB = new BigNumber(regulationLimit);
+  const shapeshiftMaximumB = new BigNumber(shapeshiftMaximum)
+  const effectiveBalanceB = new BigNumber(effectiveBalance)
+  const regulationLimitB = new BigNumber(regulationLimit)
   if (
     shapeshiftMaximumB.lessThanOrEqualTo(effectiveBalanceB) &&
     shapeshiftMaximumB.lessThanOrEqualTo(regulationLimitB)
   ) {
-    return shapeshiftMaximumB.toString();
+    return shapeshiftMaximumB.toString()
   } else if (
     effectiveBalanceB.lessThanOrEqualTo(shapeshiftMaximumB) &&
     effectiveBalanceB.lessThanOrEqualTo(regulationLimitB)
   ) {
-    return effectiveBalanceB.toString();
+    return effectiveBalanceB.toString()
   } else {
-    return regulationLimitB.toString();
+    return regulationLimitB.toString()
   }
-};
+}
 
 export const getMinimumStandard = minimum => {
-  return new BigNumber(minimum).toString();
-};
+  return new BigNumber(minimum).toString()
+}
 
 export const getEffectiveBalanceStandard = (coin, effectiveBalance) => {
-  const effectiveBalanceStandard = convertBaseToStandard(
-    coin,
-    effectiveBalance
-  );
-  return new BigNumber(effectiveBalanceStandard).toString();
-};
+  const effectiveBalanceStandard = convertBaseToStandard(coin, effectiveBalance)
+  return new BigNumber(effectiveBalanceStandard).toString()
+}
 
 export const getMaximumStandard = (coin, maximum, effectiveBalance) => {
-  const maximumB = new BigNumber(maximum);
+  const maximumB = new BigNumber(maximum)
   const effectiveBalanceStandard = getEffectiveBalanceStandard(
     coin,
     effectiveBalance
-  );
-  const effectiveBalanceB = new BigNumber(effectiveBalanceStandard);
+  )
+  const effectiveBalanceB = new BigNumber(effectiveBalanceStandard)
   return maximumB.lessThanOrEqualTo(effectiveBalanceB)
     ? maximumB.toString()
-    : effectiveBalanceB.toString();
-};
+    : effectiveBalanceB.toString()
+}
 
 export const isAmountBelowMinimum = (value, minimum) => {
-  return new BigNumber(value).lessThan(new BigNumber(minimum));
-};
+  return new BigNumber(value).lessThan(new BigNumber(minimum))
+}
 
 export const isAmountAboveMaximum = (value, maximum) => {
-  return new BigNumber(value).greaterThan(new BigNumber(maximum));
-};
+  return new BigNumber(value).greaterThan(new BigNumber(maximum))
+}
 
 export const isUndefinedOrEqualsToZero = value => {
-  const amount = value || 0;
-  return new BigNumber(amount).equals(new BigNumber(0));
-};
+  const amount = value || 0
+  return new BigNumber(amount).equals(new BigNumber(0))
+}
 
 export const isMinimumGreaterThanMaximum = (minimum, maximum) => {
-  return new BigNumber(minimum).greaterThan(new BigNumber(maximum));
-};
+  return new BigNumber(minimum).greaterThan(new BigNumber(maximum))
+}
 
 export const calculateFinalAmount = (value, fee) => {
-  return new BigNumber(value).add(new BigNumber(fee)).toString();
-};
+  return new BigNumber(value).add(new BigNumber(fee)).toString()
+}
 
 export const selectFee = (coin, payment) => {
   switch (coin) {
     case "BCH":
-      return path(["selection", "fee"], payment);
+      return path(["selection", "fee"], payment)
     case "BTC":
-      return path(["selection", "fee"], payment);
+      return path(["selection", "fee"], payment)
     case "ETH":
-      return prop("fee", payment);
+      return prop("fee", payment)
   }
-};
+}

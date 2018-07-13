@@ -1,41 +1,41 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { Provider } from "react-redux";
-import { ConnectedRouter } from "connected-react-router";
+import React from "react"
+import { Redirect, Switch } from "react-router-dom"
+import { Provider } from "react-redux"
+import { ConnectedRouter } from "connected-react-router"
 
-import { MediaContextProvider } from "providers/MatchMediaProvider";
-import ConnectedIntlProvider from "providers/ConnectedIntlProvider";
-import ThemeProvider from "providers/ThemeProvider";
-import PublicLayout from "layouts/Public";
-import WalletLayout from "layouts/Wallet";
-import AuthorizeLogin from "./AuthorizeLogin";
-import BuySell from "./BuySell";
-import Exchange from "./Exchange";
-import ExchangeHistory from "./ExchangeHistory";
-import Goals from "./Goals";
-import Help from "./Help";
-import Home from "./Home";
-import Login from "./Login";
-import Logout from "./Logout";
-import Recover from "./Recover";
-import Reminder from "./Reminder";
-import Reset2FA from "./Reset2FA";
-import Reset2FAToken from "./Reset2FAToken";
-import VerifyEmailToken from "./VerifyEmailToken";
-import Register from "./Register";
-import SecurityCenter from "./SecurityCenter";
-import Addresses from "./Settings/Addresses/Btc";
-import BchAddresses from "./Settings/Addresses/Bch";
-import BtcManageAddresses from "./Settings/Addresses/Btc/ManageAddresses";
-import Info from "./Settings/Info";
-import Preferences from "./Settings/Preferences";
-import BitcoinTransactions from "./Transactions/Bitcoin";
-import EtherTransactions from "./Transactions/Ether";
-import BchTransactions from "./Transactions/Bch";
+import { MediaContextProvider } from "providers/MatchMediaProvider"
+import ConnectedIntlProvider from "providers/ConnectedIntlProvider"
+import ThemeProvider from "providers/ThemeProvider"
+import PublicLayout from "layouts/Public"
+import WalletLayout from "layouts/Wallet"
+import AuthorizeLogin from "./AuthorizeLogin"
+import BuySell from "./BuySell"
+import Exchange from "./Exchange"
+import ExchangeHistory from "./ExchangeHistory"
+import Goals from "./Goals"
+import Help from "./Help"
+import Home from "./Home"
+import Login from "./Login"
+import Logout from "./Logout"
+import Recover from "./Recover"
+import Reminder from "./Reminder"
+import Reset2FA from "./Reset2FA"
+import Reset2FAToken from "./Reset2FAToken"
+import VerifyEmailToken from "./VerifyEmailToken"
+import Register from "./Register"
+import SecurityCenter from "./SecurityCenter"
+import Addresses from "./Settings/Addresses/Btc"
+import BchAddresses from "./Settings/Addresses/Bch"
+import BtcManageAddresses from "./Settings/Addresses/Btc/ManageAddresses"
+import Info from "./Settings/Info"
+import Preferences from "./Settings/Preferences"
+import BitcoinTransactions from "./Transactions/Bitcoin"
+import EtherTransactions from "./Transactions/Ether"
+import BchTransactions from "./Transactions/Bch"
 
 class App extends React.PureComponent {
   render() {
-    const { store, history, messages } = this.props;
+    const { store, history, messages } = this.props
 
     return (
       <Provider store={store}>
@@ -113,8 +113,8 @@ class App extends React.PureComponent {
           </ThemeProvider>
         </ConnectedIntlProvider>
       </Provider>
-    );
+    )
   }
 }
 
-export default App;
+export default App

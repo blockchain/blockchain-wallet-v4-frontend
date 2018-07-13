@@ -1,9 +1,9 @@
-import React, { Fragment } from "react";
-import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
+import React, { Fragment } from "react"
+import PropTypes from "prop-types"
+import { FormattedMessage } from "react-intl"
 
-import { Button, Text } from "blockchain-info-components";
-import { SettingWrapper } from "components/Setting";
+import { Button, Text } from "blockchain-info-components"
+import { SettingWrapper } from "components/Setting"
 
 const Setting = props => {
   const {
@@ -13,7 +13,7 @@ const Setting = props => {
     modalActions,
     showWarning,
     resetWarning
-  } = props;
+  } = props
 
   return (
     <SettingWrapper>
@@ -28,7 +28,7 @@ const Setting = props => {
           <Button
             nature="primary"
             onClick={() => {
-              resetWarning();
+              resetWarning()
               modalActions.showModal("ConfirmDisable2FA", {
                 authName: "2FA using SMS",
                 extraCopy: (
@@ -37,7 +37,7 @@ const Setting = props => {
                     defaultMessage="If you want to re-enable this feature, please go to the Security Center."
                   />
                 )
-              });
+              })
             }}
           >
             <FormattedMessage
@@ -70,13 +70,13 @@ const Setting = props => {
         </Fragment>
       )}
     </SettingWrapper>
-  );
-};
+  )
+}
 
 Setting.propTypes = {
   smsNumber: PropTypes.string,
   smsVerified: PropTypes.number.isRequired,
   handleClick: PropTypes.func.isRequired
-};
+}
 
-export default Setting;
+export default Setting

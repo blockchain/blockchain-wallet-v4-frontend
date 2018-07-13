@@ -1,5 +1,5 @@
-import { selectors } from "data";
-import { createDeepEqualSelector } from "services/ReselectHelper";
+import { selectors } from "data"
+import { createDeepEqualSelector } from "services/ReselectHelper"
 
 export const getData = createDeepEqualSelector(
   [
@@ -9,4 +9,4 @@ export const getData = createDeepEqualSelector(
   (opened, content) => ({
     highlighted: opened && content === "whatsnew"
   })
-);
+)

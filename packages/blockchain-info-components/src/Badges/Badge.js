@@ -1,11 +1,11 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from "react"
+import PropTypes from "prop-types"
 
-import { Link } from "../Links";
-import { Image } from "../Images";
+import { Link } from "../Links"
+import { Image } from "../Images"
 
 const Badge = ({ ...props }) => {
-  const { type } = props;
+  const { type } = props
   switch (type) {
     case "applestore":
       return (
@@ -15,7 +15,7 @@ const Badge = ({ ...props }) => {
         >
           <Image name="app-store-badge" height="40px" />
         </Link>
-      );
+      )
     case "googleplay":
       return (
         <Link
@@ -24,14 +24,14 @@ const Badge = ({ ...props }) => {
         >
           <Image name="google-play-badge" height="40px" />
         </Link>
-      );
+      )
     default:
-      return <div />;
+      return <div />
   }
-};
+}
 
 Badge.propTypes = {
   type: PropTypes.oneOf(["applestore", "googleplay"]).isRequired
-};
+}
 
-export default Badge;
+export default Badge

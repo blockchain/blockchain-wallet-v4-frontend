@@ -1,31 +1,31 @@
-import React from "react";
-import onClickOutside from "react-onclickoutside";
-import Tooltip from "./template.js";
-import { Icon } from "../Icons";
+import React from "react"
+import onClickOutside from "react-onclickoutside"
+import Tooltip from "./template.js"
+import { Icon } from "../Icons"
 
 class TooltipContainer extends React.PureComponent {
   constructor(props) {
-    super(props);
-    this.state = { displayed: false };
-    this.handleClick = this.handleClick.bind(this);
-    this.handleMouseEnter = this.handleMouseEnter.bind(this);
-    this.handleMouseLeave = this.handleMouseLeave.bind(this);
+    super(props)
+    this.state = { displayed: false }
+    this.handleClick = this.handleClick.bind(this)
+    this.handleMouseEnter = this.handleMouseEnter.bind(this)
+    this.handleMouseLeave = this.handleMouseLeave.bind(this)
   }
 
   handleClick() {
-    this.setState({ displayed: !this.state.displayed });
+    this.setState({ displayed: !this.state.displayed })
   }
 
   handleMouseEnter() {
-    this.props.hover && this.setState({ displayed: true });
+    this.props.hover && this.setState({ displayed: true })
   }
 
   handleMouseLeave() {
-    this.props.hover && this.setState({ displayed: false });
+    this.props.hover && this.setState({ displayed: false })
   }
 
   handleClickOutside() {
-    this.setState({ displayed: false });
+    this.setState({ displayed: false })
   }
 
   render() {
@@ -33,7 +33,7 @@ class TooltipContainer extends React.PureComponent {
       <Icon name="close-in-circle" />
     ) : (
       <Icon name="question-in-circle" />
-    );
+    )
 
     return (
       <Tooltip
@@ -48,8 +48,8 @@ class TooltipContainer extends React.PureComponent {
       >
         {this.props.children}
       </Tooltip>
-    );
+    )
   }
 }
 
-export default onClickOutside(TooltipContainer);
+export default onClickOutside(TooltipContainer)

@@ -1,11 +1,11 @@
-import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators, compose } from "redux";
-import { actions } from "data";
+import React from "react"
+import { connect } from "react-redux"
+import { bindActionCreators, compose } from "redux"
+import { actions } from "data"
 
-import modalEnhancer from "providers/ModalEnhancer";
-import ImportBtcAddress from "./template.js";
-import { getData } from "./selectors";
+import modalEnhancer from "providers/ModalEnhancer"
+import ImportBtcAddress from "./template.js"
+import { getData } from "./selectors"
 
 class ImportBtcAddressContainer extends React.PureComponent {
   render() {
@@ -18,7 +18,7 @@ class ImportBtcAddressContainer extends React.PureComponent {
       isAddressExternal,
       priv,
       actions
-    } = this.props;
+    } = this.props
 
     return (
       <ImportBtcAddress
@@ -31,15 +31,15 @@ class ImportBtcAddressContainer extends React.PureComponent {
         priv={priv}
         onSubmit={() => actions.importBtcAddressSubmitClicked()}
       />
-    );
+    )
   }
 }
 
-const mapStateToProps = getData;
+const mapStateToProps = getData
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.importBtcAddress, dispatch)
-});
+})
 
 const enhance = compose(
   modalEnhancer("ImportBtcAddress"),
@@ -47,6 +47,6 @@ const enhance = compose(
     mapStateToProps,
     mapDispatchToProps
   )
-);
+)
 
-export default enhance(ImportBtcAddressContainer);
+export default enhance(ImportBtcAddressContainer)

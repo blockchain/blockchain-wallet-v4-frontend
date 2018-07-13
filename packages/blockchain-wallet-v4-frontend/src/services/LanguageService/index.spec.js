@@ -2,8 +2,8 @@ import {
   getLanguageName,
   convertCultureCodeToLanguage,
   convertLanguageToCultureCode
-} from "./index.js";
-import Maybe from "data.maybe";
+} from "./index.js"
+import Maybe from "data.maybe"
 
 describe("getLanguageName", () => {
   let testCases = [
@@ -12,17 +12,17 @@ describe("getLanguageName", () => {
     { cultureCode: "fr", value: Maybe.Nothing() },
     { cultureCode: "", value: Maybe.Nothing() },
     { cultureCode: null, value: Maybe.Nothing() }
-  ];
+  ]
 
   testCases.forEach(function(testCase) {
     it(
       "Get correct language name from culture code: " + testCase.cultureCode,
       () => {
-        expect(getLanguageName(testCase.cultureCode)).toEqual(testCase.value);
+        expect(getLanguageName(testCase.cultureCode)).toEqual(testCase.value)
       }
-    );
-  });
-});
+    )
+  })
+})
 
 describe("convertLanguageToCultureCode", () => {
   let testCases = [
@@ -31,16 +31,16 @@ describe("convertLanguageToCultureCode", () => {
     { language: "fr-FR", value: Maybe.Nothing() },
     { language: "", value: Maybe.Nothing() },
     { language: null, value: Maybe.Nothing() }
-  ];
+  ]
 
   testCases.forEach(function(testCase) {
     it("Convert culture code to language name: " + testCase.language, () => {
       expect(convertLanguageToCultureCode(testCase.language)).toEqual(
         testCase.value
-      );
-    });
-  });
-});
+      )
+    })
+  })
+})
 
 describe("convertCultureCodeToLanguage", () => {
   let testCases = [
@@ -49,13 +49,13 @@ describe("convertCultureCodeToLanguage", () => {
     { cultureCode: "fr", value: Maybe.Nothing() },
     { cultureCode: "", value: Maybe.Nothing() },
     { cultureCode: null, value: Maybe.Nothing() }
-  ];
+  ]
 
   testCases.forEach(function(testCase) {
     test("Convert language to culture code: " + testCase.cultureCode, () => {
       expect(convertCultureCodeToLanguage(testCase.cultureCode)).toEqual(
         testCase.value
-      );
-    });
-  });
-});
+      )
+    })
+  })
+})

@@ -1,7 +1,7 @@
-import React from "react";
-import { FormattedMessage } from "react-intl";
-import styled from "styled-components";
-import QRCodeReact from "qrcode.react";
+import React from "react"
+import { FormattedMessage } from "react-intl"
+import styled from "styled-components"
+import QRCodeReact from "qrcode.react"
 import {
   Modal,
   ModalHeader,
@@ -9,7 +9,7 @@ import {
   ModalFooter,
   Text,
   Button
-} from "blockchain-info-components";
+} from "blockchain-info-components"
 
 const XPubTextBox = styled.div`
   background-color: ${props => props.theme["white-blue"]};
@@ -19,10 +19,10 @@ const XPubTextBox = styled.div`
   font-size: 10pt;
   color: #4b4d4e;
   word-break: break-all;
-`;
+`
 const ClickableText = styled(Text)`
   cursor: pointer;
-`;
+`
 
 const FirstStep = () => (
   <div>
@@ -36,7 +36,7 @@ const FirstStep = () => (
       />
     </Text>
   </div>
-);
+)
 
 const SecondStep = ({ xpub }) => (
   <div>
@@ -51,7 +51,7 @@ const SecondStep = ({ xpub }) => (
       <QRCodeReact value={xpub} size={200} />
     </div>
   </div>
-);
+)
 
 const ShowXPubTemplate = ({
   position,
@@ -90,6 +90,6 @@ const ShowXPubTemplate = ({
       )}
     </ModalFooter>
   </Modal>
-);
+)
 
-export default ShowXPubTemplate;
+export default ShowXPubTemplate

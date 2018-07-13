@@ -1,20 +1,20 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { filter, contains, path, prop } from "ramda";
-import { Text } from "blockchain-info-components";
-import ISignThis from "modals/CoinifyExchangeData/ISignThis";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { filter, contains, path, prop } from "ramda"
+import { Text } from "blockchain-info-components"
+import ISignThis from "modals/CoinifyExchangeData/ISignThis"
 
-import OrderHistoryTable from "components/BuySell/OrderHistoryTable";
-import RecurringOrderHistoryTable from "./RecurringOrderHistoryTable";
-import EmptyOrderHistoryContainer from "components/BuySell/EmptyOrderHistory";
+import OrderHistoryTable from "components/BuySell/OrderHistoryTable"
+import RecurringOrderHistoryTable from "./RecurringOrderHistoryTable"
+import EmptyOrderHistoryContainer from "components/BuySell/EmptyOrderHistory"
 
 const OrderHistoryWrapper = styled.div`
   width: 100%;
   > div:last-child > div:last-child {
     margin-bottom: 0px;
   }
-`;
+`
 const OrderHistoryContent = styled.div`
   > div:first-child {
     margin-bottom: 10px;
@@ -22,18 +22,18 @@ const OrderHistoryContent = styled.div`
   > div:last-child {
     margin-bottom: 20px;
   }
-`;
+`
 const isPending = t =>
   contains(prop("state", t), ["processing", "awaiting_transfer_in"]) &&
-  !prop("tradeSubscriptionId", t);
+  !prop("tradeSubscriptionId", t)
 const isCompleted = t =>
   contains(prop("state", t), [
     "completed",
     "rejected",
     "cancelled",
     "expired"
-  ]) && !prop("tradeSubscriptionId", t);
-const isPartOfSubscription = t => prop("tradeSubscriptionId", t);
+  ]) && !prop("tradeSubscriptionId", t)
+const isPartOfSubscription = t => prop("tradeSubscriptionId", t)
 
 const OrderHistory = props => {
   const {
@@ -47,9 +47,9 @@ const OrderHistory = props => {
     changeTab,
     value,
     onCancelSubscription
-  } = props;
-  const { trades, subscriptions, canTrade } = value;
-  const pendingTrades = filter(isPending, trades);
+  } = props
+  const { trades, subscriptions, canTrade } = value
+  const pendingTrades = filter(isPending, trades)
 
   if (step === "isx") {
     return (
@@ -57,15 +57,15 @@ const OrderHistory = props => {
         iSignThisId={path(["iSignThisID"], trade)}
         options={props.options}
       />
-    );
+    )
   } else {
     if (!trades.length) {
-      return <EmptyOrderHistoryContainer changeTab={changeTab} />;
+      return <EmptyOrderHistoryContainer changeTab={changeTab} />
     }
     const conversion = {
       buy: 100,
       sell: 1e8
-    };
+    }
     return (
       <OrderHistoryWrapper>
         {pendingTrades.length > 0 && (
@@ -130,8 +130,8 @@ const OrderHistory = props => {
           />
         </OrderHistoryContent>
       </OrderHistoryWrapper>
-    );
+    )
   }
-};
+}
 
-export default OrderHistory;
+export default OrderHistory

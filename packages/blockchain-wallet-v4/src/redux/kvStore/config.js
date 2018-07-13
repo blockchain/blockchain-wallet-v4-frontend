@@ -1,12 +1,12 @@
-export const ROOT = "root";
+export const ROOT = "root"
 // export const GUID = 'guid'
-export const WHATSNEW = "whatsNew";
-export const BUYSELL = "buySell";
-export const CONTACTS = "contacts";
-export const ETHEREUM = "ethereum";
-export const SHAPESHIFT = "shapeshift";
-export const BCH = "bch";
-export const BTC = "btc";
+export const WHATSNEW = "whatsNew"
+export const BUYSELL = "buySell"
+export const CONTACTS = "contacts"
+export const ETHEREUM = "ethereum"
+export const SHAPESHIFT = "shapeshift"
+export const BCH = "bch"
+export const BTC = "btc"
 
 export const derivationMap = {
   [ROOT]: -1,
@@ -18,4 +18,4 @@ export const derivationMap = {
   [SHAPESHIFT]: 6,
   [BCH]: 7,
   [BTC]: 8
-};
+}

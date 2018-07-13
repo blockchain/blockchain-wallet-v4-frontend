@@ -1,11 +1,11 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { Field, reduxForm } from "redux-form";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { Field, reduxForm } from "redux-form"
 
-import { required, validEtherAddress } from "services/FormHelper";
-import { Button, Text, Tooltip } from "blockchain-info-components";
+import { required, validEtherAddress } from "services/FormHelper"
+import { Button, Text, Tooltip } from "blockchain-info-components"
 import {
   FiatConvertor,
   Form,
@@ -15,10 +15,10 @@ import {
   SelectBoxCoin,
   TextBox,
   TextAreaDebounced
-} from "components/Form";
-import { invalidAmount, insufficientFunds, maximumAmount } from "./validation";
-import QRCodeCapture from "components/QRCodeCapture";
-import ComboDisplay from "components/Display/ComboDisplay";
+} from "components/Form"
+import { invalidAmount, insufficientFunds, maximumAmount } from "./validation"
+import QRCodeCapture from "components/QRCodeCapture"
+import ComboDisplay from "components/Display/ComboDisplay"
 
 const Row = styled.div`
   display: flex;
@@ -26,7 +26,7 @@ const Row = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-`;
+`
 
 const FirstStep = props => {
   const {
@@ -37,7 +37,7 @@ const FirstStep = props => {
     handleSubmit,
     unconfirmedTx,
     isContract
-  } = props;
+  } = props
   return (
     <Form onSubmit={handleSubmit}>
       <FormGroup inline margin={"15px"}>
@@ -158,8 +158,8 @@ const FirstStep = props => {
         </Button>
       </FormGroup>
     </Form>
-  );
-};
+  )
+}
 
 FirstStep.propTypes = {
   invalid: PropTypes.bool.isRequired,
@@ -168,8 +168,8 @@ FirstStep.propTypes = {
   effectiveBalance: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   unconfirmedTx: PropTypes.bool
-};
+}
 
 export default reduxForm({ form: "sendEth", destroyOnUnmount: false })(
   FirstStep
-);
+)

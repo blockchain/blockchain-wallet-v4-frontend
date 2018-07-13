@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import QRCodeReact from "qrcode.react";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import QRCodeReact from "qrcode.react"
 import {
   Modal,
   ModalHeader,
@@ -9,9 +9,9 @@ import {
   ModalFooter,
   Text,
   Button
-} from "blockchain-info-components";
-import { spacing, flex } from "services/StyleService";
-import CoinDisplay from "components/Display/CoinDisplay";
+} from "blockchain-info-components"
+import { spacing, flex } from "services/StyleService"
+import CoinDisplay from "components/Display/CoinDisplay"
 
 const DetailTable = styled.div`
   min-width: 0;
@@ -21,20 +21,20 @@ const DetailTable = styled.div`
   > div:not(:first-child) {
     margin-top: 10px;
   }
-`;
+`
 const DetailRow = styled.div`
   display: flex;
   align-items: center;
   flex-direction: row;
   flex-wrap: wrap;
-`;
+`
 const DetailRowText = styled(Text)`
   white-space: nowrap;
-`;
+`
 const DataRowText = styled(Text)`
   min-width: 0;
   word-wrap: break-word;
-`;
+`
 
 const FirstStep = () => (
   <div>
@@ -51,7 +51,7 @@ const FirstStep = () => (
       />
     </Text>
   </div>
-);
+)
 
 const SecondStep = ({ addr, balance, priv }) => (
   <div style={flex("row")}>
@@ -97,7 +97,7 @@ const SecondStep = ({ addr, balance, priv }) => (
       </DetailRow>
     </DetailTable>
   </div>
-);
+)
 
 const ShowEthPrivateKeyTemplate = ({
   position,
@@ -140,6 +140,6 @@ const ShowEthPrivateKeyTemplate = ({
       )}
     </ModalFooter>
   </Modal>
-);
+)
 
-export default ShowEthPrivateKeyTemplate;
+export default ShowEthPrivateKeyTemplate

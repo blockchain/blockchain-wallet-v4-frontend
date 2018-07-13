@@ -1,15 +1,15 @@
-import React from "react";
-import { FormattedMessage } from "react-intl";
-import { NavLink } from "react-router-dom";
+import React from "react"
+import { FormattedMessage } from "react-intl"
+import { NavLink } from "react-router-dom"
 
-import styled from "styled-components";
-import { Link, Color } from "blockchain-info-components";
+import styled from "styled-components"
+import { Link, Color } from "blockchain-info-components"
 
 const FaqDescription = styled.div`
   & > * {
     display: inline;
   }
-`;
+`
 
 const FaqContent = [
   {
@@ -1150,5 +1150,5 @@ const FaqContent = [
       }
     ]
   }
-];
-export default FaqContent;
+]
+export default FaqContent

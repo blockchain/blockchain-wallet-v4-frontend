@@ -1,15 +1,15 @@
-import React from "react";
-import styled from "styled-components";
+import React from "react"
+import styled from "styled-components"
 
-import TotalBalance from "./TotalBalance";
-import BtcBalance from "./BtcBalance";
-import EthBalance from "./EthBalance";
-import BchBalance from "./BchBalance";
-import BtcWatchOnlyBalance from "./BtcWatchOnlyBalance";
-import BchWatchOnlyBalance from "./BchWatchOnlyBalance";
+import TotalBalance from "./TotalBalance"
+import BtcBalance from "./BtcBalance"
+import EthBalance from "./EthBalance"
+import BchBalance from "./BchBalance"
+import BtcWatchOnlyBalance from "./BtcWatchOnlyBalance"
+import BchWatchOnlyBalance from "./BchWatchOnlyBalance"
 
-import { FormattedMessage } from "react-intl";
-import { ComponentDropdown, Text } from "blockchain-info-components";
+import { FormattedMessage } from "react-intl"
+import { ComponentDropdown, Text } from "blockchain-info-components"
 
 const Wrapper = styled.div`
   display: flex;
@@ -22,13 +22,13 @@ const Wrapper = styled.div`
   @media (min-width: 850px) {
     align-items: flex-end;
   }
-`;
+`
 const BalanceText = styled(Text)`
   font-size: 20px;
   @media (min-width: 768) {
     font-size: 16px;
   }
-`;
+`
 const BalanceDropdown = styled.div`
   margin-top: 4px;
   > div > ul {
@@ -64,7 +64,7 @@ const BalanceDropdown = styled.div`
     font-weight: 600;
     position: relative;
   }
-`;
+`
 const SubItems = styled.div`
   display: flex;
   position: relative;
@@ -82,7 +82,7 @@ const SubItems = styled.div`
       background-color: ${props => props.theme["gray-1"]};
     }
   }
-`;
+`
 
 const getComponentOrder = path => {
   switch (path) {
@@ -92,30 +92,30 @@ const getComponentOrder = path => {
         <EthBalance />,
         <BchBalance />,
         <TotalBalance />
-      ];
+      ]
     case "/eth/transactions":
       return [
         <EthBalance large />,
         <BtcBalance />,
         <BchBalance />,
         <TotalBalance />
-      ];
+      ]
     case "/bch/transactions":
       return [
         <BchBalance large />,
         <BtcBalance />,
         <EthBalance />,
         <TotalBalance />
-      ];
+      ]
     default:
       return [
         <TotalBalance large />,
         <BtcBalance />,
         <EthBalance />,
         <BchBalance />
-      ];
+      ]
   }
-};
+}
 
 const getBalanceMessage = path => {
   switch (path) {
@@ -125,37 +125,37 @@ const getBalanceMessage = path => {
           id="scenes.wallet.menutop.balance.bitcoinbalance"
           defaultMessage="Bitcoin Balance"
         />
-      );
+      )
     case "/eth/transactions":
       return (
         <FormattedMessage
           id="scenes.wallet.menutop.balance.etherbalance"
           defaultMessage="Ether Balance"
         />
-      );
+      )
     case "/bch/transactions":
       return (
         <FormattedMessage
           id="scenes.wallet.menutop.balance.bchbalance"
           defaultMessage="Bitcoin Cash Balance"
         />
-      );
+      )
     default:
       return (
         <FormattedMessage
           id="scenes.wallet.menutop.balance.totalbalance"
           defaultMessage="Total Balance"
         />
-      );
+      )
   }
-};
+}
 
 const getSubBalances = props => (
   <SubItems>
     <BtcWatchOnlyBalance />
     <BchWatchOnlyBalance />
   </SubItems>
-);
+)
 
 const Success = props => (
   <Wrapper>
@@ -171,6 +171,6 @@ const Success = props => (
       />
     </BalanceDropdown>
   </Wrapper>
-);
+)
 
-export default Success;
+export default Success

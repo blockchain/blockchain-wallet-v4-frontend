@@ -1,11 +1,11 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 
-import { Text, IconButton } from "blockchain-info-components";
-import { spacing } from "services/StyleService";
-import media from "services/ResponsiveService";
+import { Text, IconButton } from "blockchain-info-components"
+import { spacing } from "services/StyleService"
+import media from "services/ResponsiveService"
 
 const Wrapper = styled.div`
   display: flex;
@@ -19,7 +19,7 @@ const Wrapper = styled.div`
   @media (min-width: 768px) {
     margin-top: 0px;
   }
-`;
+`
 const ActionButton = styled(IconButton)`
   ${media.mobile`
     padding: 10px 10px;
@@ -27,10 +27,10 @@ const ActionButton = styled(IconButton)`
       font-size: 13px;
     }
   `};
-`;
+`
 
 const Actions = props => {
-  const { handleSend, handleRequest } = props;
+  const { handleSend, handleRequest } = props
 
   return (
     <Wrapper>
@@ -56,12 +56,12 @@ const Actions = props => {
         </Text>
       </ActionButton>
     </Wrapper>
-  );
-};
+  )
+}
 
 Actions.propTypes = {
   handleSend: PropTypes.func.isRequired,
   handleRequest: PropTypes.func.isRequired
-};
+}
 
-export default Actions;
+export default Actions

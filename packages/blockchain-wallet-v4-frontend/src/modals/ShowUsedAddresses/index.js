@@ -1,24 +1,24 @@
-import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators, compose } from "redux";
+import React from "react"
+import { connect } from "react-redux"
+import { bindActionCreators, compose } from "redux"
 
-import { actions } from "data";
-import modalEnhancer from "providers/ModalEnhancer";
-import ShowUsedAddresses from "./template";
+import { actions } from "data"
+import modalEnhancer from "providers/ModalEnhancer"
+import ShowUsedAddresses from "./template"
 
 class ShowUsedAddressesContainer extends React.PureComponent {
   constructor(props) {
-    super(props);
-    this.state = { busy: false };
-    this.handleContinue = this.handleContinue.bind(this);
+    super(props)
+    this.state = { busy: false }
+    this.handleContinue = this.handleContinue.bind(this)
   }
 
   handleContinue() {
-    this.setState({ busy: true });
+    this.setState({ busy: true })
     // ensure busy is set before address derivation begins
     setTimeout(() => {
-      this.props.actions.toggleUsedAddresses(this.props.walletIndex, true);
-    }, 0);
+      this.props.actions.toggleUsedAddresses(this.props.walletIndex, true)
+    }, 0)
   }
 
   render() {
@@ -28,7 +28,7 @@ class ShowUsedAddressesContainer extends React.PureComponent {
         busy={this.state.busy}
         handleContinue={this.handleContinue}
       />
-    );
+    )
   }
 }
 
@@ -39,7 +39,7 @@ const mapDispatchToProps = dispatch => ({
     actions.components.manageAddresses,
     dispatch
   )
-});
+})
 
 const enhance = compose(
   modalEnhancer("ShowUsedAddresses"),
@@ -47,6 +47,6 @@ const enhance = compose(
     undefined,
     mapDispatchToProps
   )
-);
+)
 
-export default enhance(ShowUsedAddressesContainer);
+export default enhance(ShowUsedAddressesContainer)

@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
+import React from "react"
+import styled from "styled-components"
 
-import { Text } from "blockchain-info-components";
-import Actions from "./Actions";
-import Balance from "./Balance";
+import { Text } from "blockchain-info-components"
+import Actions from "./Actions"
+import Balance from "./Balance"
 
 const Wrapper = styled.div`
   display: flex;
@@ -22,33 +22,33 @@ const Wrapper = styled.div`
     justify-content: space-between;
     align-items: center;
   }
-`;
+`
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
   height: 100%;
-`;
+`
 const LeftContainer = styled(Container)`
   order: 2;
   @media (min-width: 850px) {
     order: 1;
   }
-`;
+`
 const RightContainer = styled(Container)`
   order: 1;
   @media (min-width: 850px) {
     order: 2;
   }
-`;
+`
 const TextContainer = styled.div`
   display: none;
   margin-left: -2px;
   @media (min-width: 850px) {
     display: flex;
   }
-`;
+`
 
 const MenuTop = props => (
   <Wrapper>
@@ -67,6 +67,6 @@ const MenuTop = props => (
       <Balance />
     </RightContainer>
   </Wrapper>
-);
+)
 
-export default MenuTop;
+export default MenuTop

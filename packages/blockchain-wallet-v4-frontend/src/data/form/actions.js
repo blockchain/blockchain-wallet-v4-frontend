@@ -1,4 +1,4 @@
-import * as AT from "./actionTypes";
+import * as AT from "./actionTypes"
 
 export {
   arrayInsert,
@@ -33,9 +33,9 @@ export {
   touch,
   unregisterField,
   untouch
-} from "redux-form";
+} from "redux-form"
 
 export const change2 = (form, field, value) => ({
   type: AT.CHANGE2,
   payload: { form, field, value }
-});
+})

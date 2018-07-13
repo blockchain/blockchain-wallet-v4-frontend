@@ -1,8 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
 
-import TransactionListItem from "components/TransactionListItem";
+import TransactionListItem from "components/TransactionListItem"
 
 const Wrapper = styled.div`
   display: flex;
@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-`;
+`
 
 const Success = props => {
   return (
@@ -25,11 +25,11 @@ const Success = props => {
         />
       ))}
     </Wrapper>
-  );
-};
+  )
+}
 
 Success.propTypes = {
   transactions: PropTypes.array.isRequired
-};
+}
 
-export default Success;
+export default Success

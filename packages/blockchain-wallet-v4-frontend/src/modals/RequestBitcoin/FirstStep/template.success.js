@@ -1,12 +1,12 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { Field, reduxForm } from "redux-form";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { Field, reduxForm } from "redux-form"
 
-import { required } from "services/FormHelper";
-import { invalidAmountMin, invalidAmountMax } from "./validation";
-import { Button, Separator, Text, Tooltip } from "blockchain-info-components";
+import { required } from "services/FormHelper"
+import { invalidAmountMin, invalidAmountMax } from "./validation"
+import { Button, Separator, Text, Tooltip } from "blockchain-info-components"
 import {
   FiatConvertor,
   Form,
@@ -16,15 +16,15 @@ import {
   SelectBoxBitcoinAddresses,
   TextArea,
   SelectBoxCoin
-} from "components/Form";
-import CopyClipboard from "components/CopyClipboard";
+} from "components/Form"
+import CopyClipboard from "components/CopyClipboard"
 
 const AddressContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-`;
+`
 const AddressFormLabel = styled(FormLabel)`
   > div {
     display: flex;
@@ -32,13 +32,13 @@ const AddressFormLabel = styled(FormLabel)`
     flex-direction: row;
     justify-content: space-between;
   }
-`;
+`
 const QRText = styled(Text)`
   cursor: pointer;
-`;
+`
 const CoinSelector = styled(FormGroup)`
   width: 50%;
-`;
+`
 
 const FirstStep = props => {
   const {
@@ -47,7 +47,7 @@ const FirstStep = props => {
     handleSubmit,
     handleClickQRCode,
     receiveAddress
-  } = props;
+  } = props
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -165,8 +165,8 @@ const FirstStep = props => {
         </Button>
       </FormGroup>
     </Form>
-  );
-};
+  )
+}
 
 FirstStep.propTypes = {
   invalid: PropTypes.bool.isRequired,
@@ -174,8 +174,8 @@ FirstStep.propTypes = {
   receiveAddress: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   handleClickQRCode: PropTypes.func.isRequired
-};
+}
 
 export default reduxForm({ form: "requestBitcoin", destroyOnUnmount: false })(
   FirstStep
-);
+)

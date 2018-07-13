@@ -1,31 +1,31 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from "react"
+import PropTypes from "prop-types"
 
-const { Provider, Consumer } = React.createContext();
+const { Provider, Consumer } = React.createContext()
 
 class Stepper extends React.PureComponent {
   constructor(props) {
-    super(props);
+    super(props)
 
-    this.state = { step: props.initialStep };
+    this.state = { step: props.initialStep }
   }
 
   // eslint-disable-next-line
   stepTo = step => {
-    this.setState({ step });
-  };
+    this.setState({ step })
+  }
 
   nextStep = () => {
-    this.setState({ step: this.state.step + 1 });
-  };
+    this.setState({ step: this.state.step + 1 })
+  }
 
   prevStep = () => {
-    this.setState({ step: this.state.step - 1 });
-  };
+    this.setState({ step: this.state.step - 1 })
+  }
 
   restartStep = () => {
-    this.stepTo(0);
-  };
+    this.stepTo(0)
+  }
 
   render() {
     let value = {
@@ -34,25 +34,25 @@ class Stepper extends React.PureComponent {
       nextStep: this.nextStep,
       prevStep: this.prevStep,
       restartStep: this.restartStep
-    };
+    }
 
-    return <Provider value={value}>{this.props.children}</Provider>;
+    return <Provider value={value}>{this.props.children}</Provider>
   }
 }
 
 Stepper.propTypes = {
   initialStep: PropTypes.number
-};
+}
 
 Stepper.defaultProps = {
   initialStep: 0
-};
+}
 
 export const StepView = ({ children, step }) => (
   <Consumer>
     {({ currentStep }) => (currentStep === step ? children : null)}
   </Consumer>
-);
+)
 
 export const StepTransition = ({
   Component,
@@ -71,14 +71,14 @@ export const StepTransition = ({
           ? prevStep
           : restart
             ? restartStep
-            : () => stepTo(to);
+            : () => stepTo(to)
       const onClickAndGo = () => {
-        onClick && onClick();
-        goToStep();
-      };
-      return <Component {...rest} onClick={onClickAndGo} />;
+        onClick && onClick()
+        goToStep()
+      }
+      return <Component {...rest} onClick={onClickAndGo} />
     }}
   </Consumer>
-);
+)
 
-export default Stepper;
+export default Stepper

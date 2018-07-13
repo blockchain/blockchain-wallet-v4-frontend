@@ -1,19 +1,19 @@
-import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import React from "react"
+import { connect } from "react-redux"
+import { bindActionCreators } from "redux"
 
-import { actions } from "data";
-import TransactionListItem from "./template.js";
+import { actions } from "data"
+import TransactionListItem from "./template.js"
 
 class ListItemContainer extends React.PureComponent {
   constructor(props) {
-    super(props);
-    this.handleCoinToggle = this.handleCoinToggle.bind(this);
-    this.handleEditDescription = this.handleEditDescription.bind(this);
+    super(props)
+    this.handleCoinToggle = this.handleCoinToggle.bind(this)
+    this.handleEditDescription = this.handleEditDescription.bind(this)
   }
 
   handleCoinToggle() {
-    this.props.preferencesActions.toggleCoinDisplayed();
+    this.props.preferencesActions.toggleCoinDisplayed()
   }
 
   handleEditDescription(value) {
@@ -22,19 +22,19 @@ class ListItemContainer extends React.PureComponent {
         this.props.ethereumActions.setTxNotesEthereum(
           this.props.transaction.hash,
           value
-        );
-        break;
+        )
+        break
       }
       case "BTC": {
         this.props.walletActions.setTransactionNote(
           this.props.transaction.hash,
           value
-        );
-        break;
+        )
+        break
       }
       case "BCH": {
-        this.props.bchActions.setTxNotesBch(this.props.transaction.hash, value);
-        break;
+        this.props.bchActions.setTxNotesBch(this.props.transaction.hash, value)
+        break
       }
     }
   }
@@ -49,7 +49,7 @@ class ListItemContainer extends React.PureComponent {
         handleEditDescription={this.handleEditDescription}
         buysellPartner={this.props.buysellPartner}
       />
-    );
+    )
   }
 }
 
@@ -58,9 +58,9 @@ const mapDispatchToProps = dispatch => ({
   walletActions: bindActionCreators(actions.core.wallet, dispatch),
   ethereumActions: bindActionCreators(actions.core.kvStore.ethereum, dispatch),
   bchActions: bindActionCreators(actions.core.kvStore.bch, dispatch)
-});
+})
 
 export default connect(
   undefined,
   mapDispatchToProps
-)(ListItemContainer);
+)(ListItemContainer)

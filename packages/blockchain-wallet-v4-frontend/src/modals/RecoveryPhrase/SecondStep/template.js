@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 
 import {
   Button,
@@ -12,7 +12,7 @@ import {
   ModalFooter,
   Text,
   TextGroup
-} from "blockchain-info-components";
+} from "blockchain-info-components"
 
 const Wrapper = styled.div`
   display: flex;
@@ -21,7 +21,7 @@ const Wrapper = styled.div`
   align-items: center;
   height: 150px;
   width: 100%;
-`;
+`
 const Container = styled.div`
   display: flex;
   flex-direction: row;
@@ -29,17 +29,17 @@ const Container = styled.div`
   align-items: center;
   width: 100%;
   padding: 25px 0;
-`;
+`
 const Arrow = styled(Icon)`
   visibility: ${props => (props.visible ? "visible" : "hidden")};
-`;
+`
 const Display = styled(Text)`
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   width: 300px;
-`;
+`
 
 const SecondStep = props => {
   const {
@@ -52,7 +52,7 @@ const SecondStep = props => {
     word,
     handleClickPrevious,
     handleClickNext
-  } = props;
+  } = props
 
   return (
     <Modal size="large" position={position} total={total}>
@@ -128,7 +128,7 @@ const SecondStep = props => {
         </Button>
       </ModalFooter>
     </Modal>
-  );
-};
+  )
+}
 
-export default SecondStep;
+export default SecondStep

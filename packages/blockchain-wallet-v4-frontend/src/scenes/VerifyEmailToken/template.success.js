@@ -1,19 +1,19 @@
-import React from "react";
-import styled from "styled-components";
-import { Image, Text } from "blockchain-info-components";
-import { FormattedHTMLMessage } from "react-intl";
+import React from "react"
+import styled from "styled-components"
+import { Image, Text } from "blockchain-info-components"
+import { FormattedHTMLMessage } from "react-intl"
 
 const Wrapper = styled.div`
   display: flex;
   text-align: center;
   align-items: center;
   flex-direction: column;
-`;
+`
 const SuccessText = styled(Text)`
   > span > span {
     color: ${props => props.theme["gray-5"]};
   }
-`;
+`
 
 const Success = props => {
   return (
@@ -31,7 +31,7 @@ const Success = props => {
         />
       </SuccessText>
     </Wrapper>
-  );
-};
+  )
+}
 
-export default Success;
+export default Success

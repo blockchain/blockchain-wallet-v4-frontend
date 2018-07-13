@@ -1,14 +1,14 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { BlockchainLoader, Text } from "blockchain-info-components";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { BlockchainLoader, Text } from "blockchain-info-components"
 
 const Wrapper = styled.div`
   display: flex;
   text-align: center;
   align-items: center;
   flex-direction: column;
-`;
+`
 
 const Loading = props => {
   return (
@@ -21,7 +21,7 @@ const Loading = props => {
         />
       </Text>
     </Wrapper>
-  );
-};
+  )
+}
 
-export default Loading;
+export default Loading

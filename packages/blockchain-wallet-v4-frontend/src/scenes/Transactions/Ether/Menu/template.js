@@ -1,17 +1,12 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { Field, reduxForm } from "redux-form";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { Field, reduxForm } from "redux-form"
 
-import {
-  ComponentDropdown,
-  Icon,
-  Link,
-  Text
-} from "blockchain-info-components";
-import { TextBox, TabMenuTransactionStatus } from "components/Form";
-import media from "services/ResponsiveService";
-import { MediaContextConsumer } from "providers/MatchMediaProvider";
+import { ComponentDropdown, Icon, Link, Text } from "blockchain-info-components"
+import { TextBox, TabMenuTransactionStatus } from "components/Form"
+import media from "services/ResponsiveService"
+import { MediaContextConsumer } from "providers/MatchMediaProvider"
 
 const Wrapper = styled.div`
   width: 100%;
@@ -19,7 +14,7 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   background-color: ${props => props.theme["white-blue"]};
   border-bottom: 1px solid ${props => props.theme["gray-1"]};
-`;
+`
 const Container = styled.div`
   display: flex;
   flex-direction: row;
@@ -31,7 +26,7 @@ const Container = styled.div`
     flex-direction: row;
     justify-content: space-between;
   }
-`;
+`
 const Status = styled.div`
   width: 100%;
   > div > span:first-child {
@@ -43,7 +38,7 @@ const Status = styled.div`
   ${media.mobile`
     width: 75%;
   `};
-`;
+`
 const PrivateKeysWrapper = styled.div`
   display: flex;
   flex-wrap: nowrap;
@@ -52,7 +47,7 @@ const PrivateKeysWrapper = styled.div`
   ${media.mobile`
     margin-right: 0px;
   `};
-`;
+`
 const Search = styled.div`
   position: relative;
   width: 60%;
@@ -62,21 +57,21 @@ const Search = styled.div`
   ${media.laptop`
     width: auto;
   `};
-`;
+`
 const SearchIcon = styled(Icon)`
   position: absolute;
   top: 10px;
   right: 10px;
-`;
+`
 const MenuRight = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   width: 40%;
-`;
+`
 const ClickableText = styled(Text)`
   cursor: pointer;
-`;
+`
 
 const PrivateKeys = () => (
   <Link weight={300} size="12px">
@@ -85,10 +80,10 @@ const PrivateKeys = () => (
       defaultMessage="Private Keys"
     />
   </Link>
-);
+)
 
 const Menu = props => {
-  const { hasLegacyAccount, onShowPrivateKey } = props;
+  const { hasLegacyAccount, onShowPrivateKey } = props
   return (
     <MediaContextConsumer>
       {({ laptop }) => (
@@ -160,7 +155,7 @@ const Menu = props => {
         </Wrapper>
       )}
     </MediaContextConsumer>
-  );
-};
+  )
+}
 
-export default reduxForm({ form: "ethTransactions" })(Menu);
+export default reduxForm({ form: "ethTransactions" })(Menu)

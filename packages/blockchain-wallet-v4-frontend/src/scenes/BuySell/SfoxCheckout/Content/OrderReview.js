@@ -1,21 +1,21 @@
-import React, { Fragment } from "react";
-import styled from "styled-components";
-import { Text, Icon, Link, Tooltip } from "blockchain-info-components";
-import CountdownTimer from "components/Form/CountdownTimer";
-import { Wrapper as ExchangeCheckoutWrapper } from "../../ExchangeCheckout";
-import { flex, spacing } from "services/StyleService";
-import { reviewOrder } from "services/SfoxService";
-import { FormattedMessage } from "react-intl";
+import React, { Fragment } from "react"
+import styled from "styled-components"
+import { Text, Icon, Link, Tooltip } from "blockchain-info-components"
+import CountdownTimer from "components/Form/CountdownTimer"
+import { Wrapper as ExchangeCheckoutWrapper } from "../../ExchangeCheckout"
+import { flex, spacing } from "services/StyleService"
+import { reviewOrder } from "services/SfoxService"
+import { FormattedMessage } from "react-intl"
 import {
   OrderDetailsTable,
   OrderDetailsRow
-} from "components/BuySell/OrderDetails";
-import FundingSource from "components/BuySell/FundingSource";
-import { PartnerHeader, PartnerSubHeader } from "components/BuySell/Signup";
-import { StepTransition } from "components/Utilities/Stepper";
-import Helper from "components/BuySell/FAQ";
-import * as Currency from "blockchain-wallet-v4/src/exchange/currency";
-import ReviewForm from "./orderReviewForm";
+} from "components/BuySell/OrderDetails"
+import FundingSource from "components/BuySell/FundingSource"
+import { PartnerHeader, PartnerSubHeader } from "components/BuySell/Signup"
+import { StepTransition } from "components/Utilities/Stepper"
+import Helper from "components/BuySell/FAQ"
+import * as Currency from "blockchain-wallet-v4/src/exchange/currency"
+import ReviewForm from "./orderReviewForm"
 
 const MethodContainer = styled.div`
   width: 100%;
@@ -23,14 +23,14 @@ const MethodContainer = styled.div`
   align-items: center;
   height: 42px;
   border: 1px solid ${props => props.theme["gray-2"]};
-`;
+`
 const ToolTipWrapper = styled.div`
   display: flex;
   flex-direction: row;
   div:first-of-type {
     margin-right: 5px;
   }
-`;
+`
 
 const faqList = [
   {
@@ -75,9 +75,9 @@ const faqList = [
       />
     )
   }
-];
+]
 const faqListHelper = () =>
-  faqList.map(el => <Helper question={el.question} answer={el.answer} />);
+  faqList.map(el => <Helper question={el.question} answer={el.answer} />)
 
 export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
   <ExchangeCheckoutWrapper>
@@ -122,14 +122,14 @@ export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
                 Currency.formatFiat(
                   (1 / Math.abs(q.baseAmount / 1e8)) * Math.abs(q.quoteAmount)
                 )
-              );
+              )
             else
               return (
                 "$" +
                 Currency.formatFiat(
                   (1 / Math.abs(q.quoteAmount / 1e8)) * Math.abs(q.baseAmount)
                 )
-              );
+              )
           })
           .getOrElse("~")}
       </Text>
@@ -212,7 +212,7 @@ export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
       ))
       .getOrElse(null)}
   </ExchangeCheckoutWrapper>
-);
+)
 
 export const OrderSubmit = ({
   quoteR,
@@ -243,4 +243,4 @@ export const OrderSubmit = ({
     )}
     {faqListHelper()}
   </Fragment>
-);
+)

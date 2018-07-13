@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 
 import {
   Button,
@@ -9,7 +9,7 @@ import {
   ModalHeader,
   ModalBody,
   Text
-} from "blockchain-info-components";
+} from "blockchain-info-components"
 
 const WelcomeModalHeader = styled(ModalHeader)`
   position: absolute;
@@ -17,15 +17,15 @@ const WelcomeModalHeader = styled(ModalHeader)`
   > span {
     color: ${props => props.theme["gray-1"]};
   }
-`;
+`
 const Container = styled.div`
   > div:nth-child(2) {
     margin: 10px 0 20px 0;
   }
-`;
+`
 
 const Welcome = props => {
-  const { position, total, close } = props;
+  const { position, total, close } = props
 
   return (
     <Modal size="medium" position={position} total={total}>
@@ -55,7 +55,7 @@ const Welcome = props => {
         </Container>
       </ModalBody>
     </Modal>
-  );
-};
+  )
+}
 
-export default Welcome;
+export default Welcome

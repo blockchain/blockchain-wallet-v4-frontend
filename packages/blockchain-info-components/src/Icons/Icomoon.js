@@ -124,4 +124,4 @@ export default {
   user: "\\e955",
   wallet: "\\e956",
   "open-in-new-tab": "\\e979"
-};
+}

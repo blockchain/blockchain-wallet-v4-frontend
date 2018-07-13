@@ -1,6 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
 
 const Wrapper = styled.a`
   display: flex;
@@ -27,23 +27,23 @@ const Wrapper = styled.a`
         ? props.theme["brand-primary"]
         : props.theme["brand-secondary"]};
   }
-`;
+`
 
 const PaginationItem = props => {
-  const { children, selected, ...rest } = props;
+  const { children, selected, ...rest } = props
   return (
     <Wrapper selected={selected ? 1 : 0} {...rest}>
       {children}
     </Wrapper>
-  );
-};
+  )
+}
 
 PaginationItem.propTypes = {
   selected: PropTypes.bool
-};
+}
 
 PaginationItem.defaultProps = {
   selected: false
-};
+}
 
-export default PaginationItem;
+export default PaginationItem

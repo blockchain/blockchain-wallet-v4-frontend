@@ -7,7 +7,7 @@ export const calculateAnimation = status => {
         step2: "disabled",
         line2: "disabled",
         step3: "disabled"
-      };
+      }
     case "received":
       return {
         step1: "inactive",
@@ -15,7 +15,7 @@ export const calculateAnimation = status => {
         step2: "active",
         line2: "active",
         step3: "disabled"
-      };
+      }
     case "complete":
       return {
         step1: "inactive",
@@ -23,7 +23,7 @@ export const calculateAnimation = status => {
         step2: "inactive",
         line2: "inactive",
         step3: "active"
-      };
+      }
     case "failed":
       return {
         step1: "inactive",
@@ -31,7 +31,7 @@ export const calculateAnimation = status => {
         step2: "inactive",
         line2: "inactive",
         step3: "disabled"
-      };
+      }
     case "resolved":
       return {
         step1: "inactive",
@@ -39,7 +39,7 @@ export const calculateAnimation = status => {
         step2: "inactive",
         line2: "inactive",
         step3: "refunded"
-      };
+      }
     default:
       return {
         step1: "active",
@@ -47,6 +47,6 @@ export const calculateAnimation = status => {
         step2: "disabled",
         line2: "disabled",
         step3: "disabled "
-      };
+      }
   }
-};
+}

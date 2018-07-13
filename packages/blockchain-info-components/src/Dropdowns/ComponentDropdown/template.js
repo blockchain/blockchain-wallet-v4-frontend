@@ -1,16 +1,16 @@
-import React from "react";
-import styled from "styled-components";
-import PropTypes from "prop-types";
+import React from "react"
+import styled from "styled-components"
+import PropTypes from "prop-types"
 
-import { Icon } from "../../Icons";
-import { Palette } from "../../Colors";
-import { keysIn } from "ramda";
+import { Icon } from "../../Icons"
+import { Palette } from "../../Colors"
+import { keysIn } from "ramda"
 
 const Wrapper = styled.div`
   display: inline-flex;
   text-transform: ${props => (props.uppercase ? "uppercase" : "none")};
   position: relative;
-`;
+`
 const ButtonContainer = styled.div`
   display: inline-flex;
   flex-direction: row;
@@ -18,14 +18,14 @@ const ButtonContainer = styled.div`
   align-items: center;
   cursor: pointer;
   width: inherit;
-`;
+`
 const Button = styled.div`
   display: inline;
-`;
+`
 const DropdownIcon = styled(Icon)`
   cursor: pointer;
   padding-left: 2px;
-`;
+`
 const DropdownList = styled.ul`
   background-clip: padding-box;
   background-color: ${props => props.theme["white"]};
@@ -53,7 +53,7 @@ const DropdownList = styled.ul`
     props.down
       ? "top: 25px; bottom: auto;"
       : "top: auto; bottom: 25px;"} z-index: 10;
-`;
+`
 
 const DropdownItem = styled.li`
   color: ${props => props.theme["gray-5"]};
@@ -65,7 +65,7 @@ const DropdownItem = styled.li`
   text-align: left;
   text-size-adjust: 100%;
   white-space: nowrap;
-`;
+`
 
 const Dropdown = props => {
   const {
@@ -77,7 +77,7 @@ const Dropdown = props => {
     components,
     handleClick,
     handleCallback
-  } = props;
+  } = props
 
   return (
     <Wrapper uppercase={uppercase}>
@@ -87,7 +87,7 @@ const Dropdown = props => {
             <DropdownItem key={index} onClick={handleCallback.bind(null, comp)}>
               {comp}
             </DropdownItem>
-          );
+          )
         })}
       </DropdownList>
       <ButtonContainer color={color} onClick={handleClick}>
@@ -95,8 +95,8 @@ const Dropdown = props => {
         <DropdownIcon name="down-arrow" size="8px" />
       </ButtonContainer>
     </Wrapper>
-  );
-};
+  )
+}
 
 Dropdown.defaultProps = {
   color: "brand-secondary",
@@ -104,7 +104,7 @@ Dropdown.defaultProps = {
   selectedValue: 0,
   uppercase: true,
   down: false
-};
+}
 
 Dropdown.propTypes = {
   selectedValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -113,6 +113,6 @@ Dropdown.propTypes = {
   color: PropTypes.oneOf(keysIn(Palette())),
   uppercase: PropTypes.bool,
   down: PropTypes.bool
-};
+}
 
-export default Dropdown;
+export default Dropdown

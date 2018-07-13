@@ -1,6 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
 
 const Wrapper = styled.div`
   display: flex;
@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-`;
+`
 
 const BaseRadioButtonInput = styled.input.attrs({
   type: "radio"
@@ -33,7 +33,7 @@ const BaseRadioButtonInput = styled.input.attrs({
       }
     }
   }
-`;
+`
 const Label = styled.label`
   display: flex;
   cursor: pointer;
@@ -48,11 +48,11 @@ const Label = styled.label`
     transition: background 0.2s;
     border: 1px solid ${props => props.theme["brand-secondary"]};
   }
-`;
+`
 
 const RadioButtonInput = props => {
-  const { name, children, checked, disabled, ...rest } = props;
-  const { id } = props.props;
+  const { name, children, checked, disabled, ...rest } = props
+  const { id } = props.props
 
   return (
     <Wrapper>
@@ -65,8 +65,8 @@ const RadioButtonInput = props => {
       />
       <Label htmlFor={id}>{children}</Label>
     </Wrapper>
-  );
-};
+  )
+}
 
 RadioButtonInput.propTypes = {
   name: PropTypes.string.isRequired,
@@ -74,6 +74,6 @@ RadioButtonInput.propTypes = {
   children: PropTypes.node.isRequired,
   checked: PropTypes.bool,
   disabled: PropTypes.string
-};
+}
 
-export default RadioButtonInput;
+export default RadioButtonInput

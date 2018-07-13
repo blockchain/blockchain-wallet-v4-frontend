@@ -1,35 +1,35 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { reduxForm } from "redux-form";
-import { Text, Button, Link, Icon } from "blockchain-info-components";
-import { flex } from "services/StyleService";
-import Dropzone from "react-dropzone";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { reduxForm } from "redux-form"
+import { Text, Button, Link, Icon } from "blockchain-info-components"
+import { flex } from "services/StyleService"
+import Dropzone from "react-dropzone"
 
-import CameraContainer from "./camera";
-import TitleStrings from "./strings";
+import CameraContainer from "./camera"
+import TitleStrings from "./strings"
 import {
   Row,
   ColLeft,
   ColRight,
   ColLeftInner,
   PartnerHeader
-} from "components/BuySell/Signup";
+} from "components/BuySell/Signup"
 
-import media from "services/ResponsiveService";
+import media from "services/ResponsiveService"
 
 const LockIcon = styled(Icon)`
   font-size: 24px;
   margin-left: 7px;
-`;
-const InputContainer = styled.div``;
+`
+const InputContainer = styled.div``
 const InputForm = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100%;
-`;
+`
 const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -39,19 +39,19 @@ const ButtonContainer = styled.div`
   button {
     margin: 20px 0px;
   }
-`;
+`
 const CustomDropzone = styled(Dropzone)`
   height: 200px;
   border: 1px solid #5f5f5f;
   border-radius: 2px;
-`;
+`
 const UploadSuccess = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100%;
-`;
+`
 const SubmitContainer = styled.div`
   margin-top: 15px;
   display: flex;
@@ -60,35 +60,35 @@ const SubmitContainer = styled.div`
   button {
     margin-bottom: 10px;
   }
-`;
+`
 const SuccessText = styled(Text)`
   margin: 20px 0px;
-`;
-const Wrapper = styled.div``;
+`
+const Wrapper = styled.div``
 const InnerDropzone = styled(Dropzone)`
   display: flex;
   flex-direction: column;
   text-align: center;
   padding: 20px 50px;
-`;
+`
 const CameraLink = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: 300;
   margin-top: 15px;
-`;
+`
 const UploadRow = styled(Row)`
   ${media.mobile`
     flex-direction: column;
     height: 130vh;
   `};
-`;
+`
 const UploadColLeftInner = styled(ColLeftInner)`
   ${media.mobile`
     width: 100%;
   `};
-`;
+`
 
 const Upload = props => {
   const {
@@ -101,8 +101,8 @@ const Upload = props => {
     photo,
     resetUpload,
     submitForUpload
-  } = props;
-  const idType = data.verificationStatus.required_docs[0];
+  } = props
+  const idType = data.verificationStatus.required_docs[0]
 
   const renderInputOptions = () => {
     return (
@@ -144,8 +144,8 @@ const Upload = props => {
           </CameraLink>
         ) : null}
       </Wrapper>
-    );
-  };
+    )
+  }
 
   return (
     <UploadRow>
@@ -219,7 +219,7 @@ const Upload = props => {
         </SubmitContainer>
       </ColRight>
     </UploadRow>
-  );
-};
+  )
+}
 
-export default reduxForm({ form: "sfoxUpload" })(Upload);
+export default reduxForm({ form: "sfoxUpload" })(Upload)

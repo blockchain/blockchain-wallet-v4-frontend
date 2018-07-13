@@ -1,10 +1,10 @@
-import React from "react";
-import styled from "styled-components";
-import PropTypes from "prop-types";
+import React from "react"
+import styled from "styled-components"
+import PropTypes from "prop-types"
 
 const ButtonContainer = styled.div`
   margin-bottom: 0px;
-`;
+`
 
 const plaidStyled = {
   position: "fixed",
@@ -18,7 +18,7 @@ const plaidStyled = {
   overflowY: "auto",
   height: "100%",
   width: "100%"
-};
+}
 
 const iframe = props => (
   <ButtonContainer>
@@ -34,11 +34,11 @@ const iframe = props => (
       id="plaid"
     />
   </ButtonContainer>
-);
+)
 
 iframe.propTypes = {
   plaidUrl: PropTypes.string.isRequired,
   enablePlaid: PropTypes.bool.isRequired
-};
+}
 
-export default iframe;
+export default iframe

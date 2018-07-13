@@ -1,11 +1,11 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 
-import MaximumAmountLink from "./MaximumAmountLink";
-import MaximumFeeLink from "./MaximumFeeLink";
-import MinimumAmountLink from "./MinimumAmountLink";
-import MinimumFeeLink from "./MinimumFeeLink";
+import MaximumAmountLink from "./MaximumAmountLink"
+import MaximumFeeLink from "./MaximumFeeLink"
+import MinimumAmountLink from "./MinimumAmountLink"
+import MinimumFeeLink from "./MinimumFeeLink"
 
 const Wrapper = styled.div`
   display: flex;
@@ -16,14 +16,14 @@ const Wrapper = styled.div`
   > * {
     margin: 0 0 0 2px;
   }
-`;
+`
 
 export const InvalidAmountMessage = () => (
   <FormattedMessage
     id="modals.sendbtc.amountnotzeromessage"
     defaultMessage="Invalid amount"
   />
-);
+)
 
 export const MaximumAmountMessage = () => (
   <Wrapper>
@@ -33,7 +33,7 @@ export const MaximumAmountMessage = () => (
     />
     <MaximumAmountLink />
   </Wrapper>
-);
+)
 
 export const MaximumFeeMessage = () => (
   <Wrapper>
@@ -44,7 +44,7 @@ export const MaximumFeeMessage = () => (
     <span>&nbsp;</span>
     <MaximumFeeLink />
   </Wrapper>
-);
+)
 
 export const MinimumAmountMessage = () => (
   <Wrapper>
@@ -54,7 +54,7 @@ export const MinimumAmountMessage = () => (
     />
     <MinimumAmountLink />
   </Wrapper>
-);
+)
 
 export const MinimumFeeMessage = () => (
   <Wrapper>
@@ -64,7 +64,7 @@ export const MinimumFeeMessage = () => (
     />
     <MinimumFeeLink />
   </Wrapper>
-);
+)
 
 export const MinimumOneSatoshiMessage = () => (
   <FormattedMessage
@@ -72,18 +72,18 @@ export const MinimumOneSatoshiMessage = () => (
     defaultMessage="Minimum {sat} required"
     values={{ sat: "1 sat/byte" }}
   />
-);
+)
 
 export const InsufficientFundsMessage = () => (
   <FormattedMessage
     id="modals.sendbtc.insufficientfundsmessage"
     defaultMessage="Insufficient funds"
   />
-);
+)
 
 export const AddressMatchesPriv = () => (
   <FormattedMessage
     id="modals.sendbtc.addressprivmismatch"
     defaultMessage="This private key does not match the watch only address above"
   />
-);
+)

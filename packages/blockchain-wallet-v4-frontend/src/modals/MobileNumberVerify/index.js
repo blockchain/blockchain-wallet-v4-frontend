@@ -1,33 +1,33 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { bindActionCreators, compose } from "redux";
-import { formValueSelector } from "redux-form";
+import React from "react"
+import PropTypes from "prop-types"
+import { connect } from "react-redux"
+import { bindActionCreators, compose } from "redux"
+import { formValueSelector } from "redux-form"
 
-import { actions } from "data";
-import modalEnhancer from "providers/ModalEnhancer";
-import MobileNumberVerify from "./template.js";
+import { actions } from "data"
+import modalEnhancer from "providers/ModalEnhancer"
+import MobileNumberVerify from "./template.js"
 
 class MobileNumberVerifyContainer extends React.PureComponent {
   constructor(props) {
-    super(props);
-    this.onSubmit = this.onSubmit.bind(this);
-    this.handleResend = this.handleResend.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    super(props)
+    this.onSubmit = this.onSubmit.bind(this)
+    this.handleResend = this.handleResend.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
 
   onSubmit() {
-    this.props.settingsActions.verifyMobile(this.props.code);
-    this.props.modalActions.closeAllModals();
+    this.props.settingsActions.verifyMobile(this.props.code)
+    this.props.modalActions.closeAllModals()
   }
 
   handleResend() {
-    this.props.settingsActions.updateMobile(this.props.mobileNumber);
+    this.props.settingsActions.updateMobile(this.props.mobileNumber)
   }
 
   handleChange() {
-    this.props.modalActions.closeModal();
-    this.props.modalActions.showModal("MobileNumberChange");
+    this.props.modalActions.closeModal()
+    this.props.modalActions.showModal("MobileNumberChange")
   }
 
   render() {
@@ -38,22 +38,22 @@ class MobileNumberVerifyContainer extends React.PureComponent {
         handleResend={this.handleResend}
         handleChange={this.handleChange}
       />
-    );
+    )
   }
 }
 
 MobileNumberVerifyContainer.propTypes = {
   mobileNumber: PropTypes.string.isRequired
-};
+}
 
 const mapStateToProps = state => ({
   code: formValueSelector("mobileNumberVerify")(state, "code")
-});
+})
 
 const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
-});
+})
 
 const enhance = compose(
   modalEnhancer("MobileNumberVerify"),
@@ -61,6 +61,6 @@ const enhance = compose(
     mapStateToProps,
     mapDispatchToProps
   )
-);
+)
 
-export default enhance(MobileNumberVerifyContainer);
+export default enhance(MobileNumberVerifyContainer)

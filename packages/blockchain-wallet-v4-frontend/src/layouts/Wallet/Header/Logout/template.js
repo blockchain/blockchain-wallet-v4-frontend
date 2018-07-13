@@ -1,8 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { Icon, Link } from "blockchain-info-components";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { Icon, Link } from "blockchain-info-components"
 
 const LogoutLink = styled(Link)`
   > span:first-child {
@@ -19,10 +19,10 @@ const LogoutLink = styled(Link)`
       display: none;
     }
   }
-`;
+`
 
 const Logout = props => {
-  const { handleLogout } = props;
+  const { handleLogout } = props
 
   return (
     <LogoutLink
@@ -38,11 +38,11 @@ const Logout = props => {
       />
       <Icon name="switch" size="16px" color="white" />
     </LogoutLink>
-  );
-};
+  )
+}
 
 Logout.propTypes = {
   handleLogout: PropTypes.func.isRequired
-};
+}
 
-export default Logout;
+export default Logout

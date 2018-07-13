@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import styled from "styled-components";
-import { reduxForm, Field } from "redux-form";
-import { FormattedMessage } from "react-intl";
-import { TextBox, SelectBoxBankAccountType, Form } from "components/Form";
-import { required } from "services/FormHelper";
-import { Image, Text } from "blockchain-info-components";
-import { spacing } from "services/StyleService";
-import PropTypes from "prop-types";
+import React, { Component } from "react"
+import styled from "styled-components"
+import { reduxForm, Field } from "redux-form"
+import { FormattedMessage } from "react-intl"
+import { TextBox, SelectBoxBankAccountType, Form } from "components/Form"
+import { required } from "services/FormHelper"
+import { Image, Text } from "blockchain-info-components"
+import { spacing } from "services/StyleService"
+import PropTypes from "prop-types"
 
 const Container = styled.div`
   display: flex;
@@ -16,7 +16,7 @@ const Container = styled.div`
   button {
     margin-top: 20px;
   }
-`;
+`
 const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -24,10 +24,10 @@ const InputContainer = styled.div`
   button {
     margin-top: 0px;
   }
-`;
+`
 const CheckImage = styled(Image)`
   width: 100%;
-`;
+`
 
 class AddManually extends Component {
   render() {
@@ -36,7 +36,7 @@ class AddManually extends Component {
       handleAccountNumber,
       handleRoutingNumber,
       handleAccountType
-    } = this.props;
+    } = this.props
     return (
       <Form>
         <Container>
@@ -94,7 +94,7 @@ class AddManually extends Component {
           </InputContainer>
         </Container>
       </Form>
-    );
+    )
   }
 }
 
@@ -103,6 +103,6 @@ AddManually.propTypes = {
   handleAccountNumber: PropTypes.func.isRequired,
   handleRoutingNumber: PropTypes.func.isRequired,
   handleAccountType: PropTypes.func.isRequired
-};
+}
 
-export default reduxForm({ form: "sfoxLink" })(AddManually);
+export default reduxForm({ form: "sfoxLink" })(AddManually)

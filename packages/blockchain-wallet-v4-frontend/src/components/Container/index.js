@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 const Container = styled.div`
   width: 100%;
@@ -16,6 +16,6 @@ const Container = styled.div`
   @media (min-width: 1200px) {
     width: 1140px;
   }
-`;
+`
 
-export default Container;
+export default Container

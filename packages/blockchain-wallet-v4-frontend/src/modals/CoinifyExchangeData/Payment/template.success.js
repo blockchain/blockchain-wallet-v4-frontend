@@ -1,14 +1,14 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { reduxForm } from "redux-form";
-import { FormattedMessage } from "react-intl";
-import styled from "styled-components";
-import { spacing } from "services/StyleService";
-import Helper from "components/BuySell/FAQ";
-import { StepTransition } from "components/Utilities/Stepper";
-import { equals, path } from "ramda";
+import React from "react"
+import PropTypes from "prop-types"
+import { reduxForm } from "redux-form"
+import { FormattedMessage } from "react-intl"
+import styled from "styled-components"
+import { spacing } from "services/StyleService"
+import Helper from "components/BuySell/FAQ"
+import { StepTransition } from "components/Utilities/Stepper"
+import { equals, path } from "ramda"
 
-import { Button, HeartbeatLoader, Link } from "blockchain-info-components";
+import { Button, HeartbeatLoader, Link } from "blockchain-info-components"
 import {
   Form,
   CancelWrapper,
@@ -18,25 +18,25 @@ import {
   InputWrapper,
   PartnerHeader,
   PartnerSubHeader
-} from "components/BuySell/Signup";
-import { cardOptionHelper, bankOptionHelper } from "./mediumHelpers";
-import media from "services/ResponsiveService";
+} from "components/BuySell/Signup"
+import { cardOptionHelper, bankOptionHelper } from "./mediumHelpers"
+import media from "services/ResponsiveService"
 
 const PaymentForm = styled(Form)`
   ${media.mobile`
     flex-direction: column;
   `};
-`;
+`
 const PaymentColLeft = styled(ColLeft)`
   ${media.mobile`
     width: 100%;
   `};
-`;
+`
 const PaymentColRight = styled(ColRight)`
   ${media.mobile`
     width: 100%;
   `};
-`;
+`
 const PaymentWrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -44,29 +44,29 @@ const PaymentWrapper = styled.div`
     flex-direction: column;
     align-items: center;
   `};
-`;
+`
 const BorderBox = styled.div`
   border: 1px solid ${props => props.theme["gray-1"]};
   padding: 30px;
   ${media.mobile`
     padding: 20px;
   `};
-`;
+`
 const FaqWrapper = styled.div`
   margin-top: 30px;
-`;
+`
 const ButtonContainer = styled.div`
   margin-top: 45px;
   ${media.mobile`
     margin-top: 20px;
   `};
-`;
+`
 const PaymentColRightInner = styled(ColRightInner)`
   ${media.mobile`
     width: 100%;
     padding-left: 0px;
   `};
-`;
+`
 
 const helpers = [
   {
@@ -83,12 +83,12 @@ const helpers = [
       />
     )
   }
-];
+]
 
 const faqHelper = () =>
   helpers.map((el, i) => (
     <Helper key={i} question={el.question} answer={el.answer} />
-  ));
+  ))
 const busyHelper = busy =>
   !busy ? (
     <FormattedMessage
@@ -97,27 +97,27 @@ const busyHelper = busy =>
     />
   ) : (
     <HeartbeatLoader height="20px" width="20px" color="white" />
-  );
+  )
 const isCardDisabled = (q, l) => {
   if (q.baseCurrency === "BTC")
-    return Math.abs(q.quoteAmount) > l.card.inRemaining[q.quoteCurrency];
-  else return Math.abs(q.baseAmount) > l.card.inRemaining[q.baseCurrency];
-};
+    return Math.abs(q.quoteAmount) > l.card.inRemaining[q.quoteCurrency]
+  else return Math.abs(q.baseAmount) > l.card.inRemaining[q.baseCurrency]
+}
 const isBankDisabled = (q, l, kyc) => {
   const disableForKyc =
     equals(kyc, "reviewing") ||
     equals(kyc, "pending") ||
-    equals(kyc, "processing");
+    equals(kyc, "processing")
   const disableForLimits =
     q.baseCurrency === "BTC"
       ? Math.abs(q.quoteAmount) >
         path(["bank", "inRemaining", q.quoteCurrency], l)
       : Math.abs(q.baseAmount) >
-        path(["bank", "inRemaining", q.baseCurrency], l);
+        path(["bank", "inRemaining", q.baseCurrency], l)
 
-  if (disableForKyc) return "disable_kyc";
-  if (disableForLimits) return "disable_limits";
-};
+  if (disableForKyc) return "disable_kyc"
+  if (disableForLimits) return "disable_limits"
+}
 
 const Payment = props => {
   const {
@@ -129,16 +129,16 @@ const Payment = props => {
     openPendingKyc,
     quote,
     handlePrefillCardMax
-  } = props;
-  const { limits, level, kyc } = value;
-  const quoteData = path(["data"], quote);
-  const kycState = path(["state"], kyc);
-  const cardDisabled = isCardDisabled(quoteData, limits);
-  const bankDisabled = isBankDisabled(quoteData, limits, kycState);
-  if (bankDisabled && medium !== "card") handlePaymentClick("card");
-  const prefillCardMax = limits => handlePrefillCardMax(limits);
+  } = props
+  const { limits, level, kyc } = value
+  const quoteData = path(["data"], quote)
+  const kycState = path(["state"], kyc)
+  const cardDisabled = isCardDisabled(quoteData, limits)
+  const bankDisabled = isBankDisabled(quoteData, limits, kycState)
+  if (bankDisabled && medium !== "card") handlePaymentClick("card")
+  const prefillCardMax = limits => handlePrefillCardMax(limits)
 
-  const isChecked = type => medium === type;
+  const isChecked = type => medium === type
 
   return (
     <PaymentForm>
@@ -216,8 +216,8 @@ const Payment = props => {
         </PaymentColRightInner>
       </PaymentColRight>
     </PaymentForm>
-  );
-};
+  )
+}
 
 Payment.propTypes = {
   value: PropTypes.object.isRequired,
@@ -225,6 +225,6 @@ Payment.propTypes = {
   handlePaymentClick: PropTypes.func.isRequired,
   medium: PropTypes.string,
   triggerKYC: PropTypes.func
-};
+}
 
-export default reduxForm({ form: "coinifyPayment" })(Payment);
+export default reduxForm({ form: "coinifyPayment" })(Payment)

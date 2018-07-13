@@ -1,18 +1,13 @@
-import React from "react";
-import TradeItem from "./TradeItem";
-import { FormattedMessage } from "react-intl";
-import { filter, prop, reverse, sortBy } from "ramda";
-import {
-  Table,
-  TableCell,
-  TableHeader,
-  Text
-} from "blockchain-info-components";
+import React from "react"
+import TradeItem from "./TradeItem"
+import { FormattedMessage } from "react-intl"
+import { filter, prop, reverse, sortBy } from "ramda"
+import { Table, TableCell, TableHeader, Text } from "blockchain-info-components"
 
 class OrderHistoryTable extends React.PureComponent {
   constructor() {
-    super();
-    this.state = {};
+    super()
+    this.state = {}
   }
 
   render() {
@@ -26,12 +21,12 @@ class OrderHistoryTable extends React.PureComponent {
       cancelTradeId,
       canTrade,
       partner
-    } = this.props;
+    } = this.props
 
-    const isValid = t => t.createdAt;
-    const validTrades = filter(isValid, trades);
-    const sortByCreated = sortBy(prop("createdAt"));
-    const sortedTrades = reverse(sortByCreated(validTrades));
+    const isValid = t => t.createdAt
+    const validTrades = filter(isValid, trades)
+    const sortByCreated = sortBy(prop("createdAt"))
+    const sortedTrades = reverse(sortByCreated(validTrades))
 
     return (
       <Table>
@@ -85,8 +80,8 @@ class OrderHistoryTable extends React.PureComponent {
           />
         ))}
       </Table>
-    );
+    )
   }
 }
 
-export default OrderHistoryTable;
+export default OrderHistoryTable

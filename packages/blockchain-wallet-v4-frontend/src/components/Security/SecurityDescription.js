@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 const SecurityDescription = styled.div`
   padding: 10px 0;
@@ -10,6 +10,6 @@ const SecurityDescription = styled.div`
     display: inline;
     margin-right: 5px;
   }
-`;
+`
 
-export default SecurityDescription;
+export default SecurityDescription

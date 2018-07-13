@@ -1,8 +1,8 @@
-import React from "react";
-import { FormattedMessage } from "react-intl";
-import { equals, length, prop, path, pathOr } from "ramda";
-import { selectors } from "data";
-import { createDeepEqualSelector } from "services/ReselectHelper";
+import React from "react"
+import { FormattedMessage } from "react-intl"
+import { equals, length, prop, path, pathOr } from "ramda"
+import { selectors } from "data"
+import { createDeepEqualSelector } from "services/ReselectHelper"
 
 export const getData = createDeepEqualSelector(
   [
@@ -21,20 +21,20 @@ export const getData = createDeepEqualSelector(
     btcAddressesR,
     formValues
   ) => {
-    const btcAccountsLength = length(btcAccountsR.getOrElse([]));
-    const btcAddressesLength = length(btcAddressesR.getOrElse([]));
-    const enableToggle = btcAccountsLength + btcAddressesLength > 1;
-    const feePerByte = prop("feePerByte", formValues);
-    const destination = prop("to", formValues);
-    const from = prop("from", formValues);
+    const btcAccountsLength = length(btcAccountsR.getOrElse([]))
+    const btcAddressesLength = length(btcAddressesR.getOrElse([]))
+    const enableToggle = btcAccountsLength + btcAddressesLength > 1
+    const feePerByte = prop("feePerByte", formValues)
+    const destination = prop("to", formValues)
+    const from = prop("from", formValues)
 
     const transform = payment => {
-      const regularFeePerByte = path(["fees", "regular"], payment);
-      const priorityFeePerByte = path(["fees", "priority"], payment);
-      const minFeePerByte = path(["fees", "limits", "min"], payment);
-      const maxFeePerByte = path(["fees", "limits", "max"], payment);
-      const totalFee = pathOr("0", ["selection", "fee"], payment);
-      const effectiveBalance = prop("effectiveBalance", payment);
+      const regularFeePerByte = path(["fees", "regular"], payment)
+      const priorityFeePerByte = path(["fees", "priority"], payment)
+      const minFeePerByte = path(["fees", "limits", "min"], payment)
+      const maxFeePerByte = path(["fees", "limits", "max"], payment)
+      const totalFee = pathOr("0", ["selection", "fee"], payment)
+      const effectiveBalance = prop("effectiveBalance", payment)
       const feePerByteElements = [
         {
           group: "",
@@ -59,13 +59,13 @@ export const getData = createDeepEqualSelector(
             }
           ]
         }
-      ];
-      const watchOnly = prop("watchOnly", from);
-      const addressMatchesPriv = payment.fromType === "FROM.WATCH_ONLY";
+      ]
+      const watchOnly = prop("watchOnly", from)
+      const addressMatchesPriv = payment.fromType === "FROM.WATCH_ONLY"
       const isPriorityFeePerByte = equals(
         parseInt(feePerByte),
         priorityFeePerByte
-      );
+      )
 
       return {
         from,
@@ -83,11 +83,11 @@ export const getData = createDeepEqualSelector(
         totalFee,
         watchOnly,
         addressMatchesPriv
-      };
-    };
+      }
+    }
 
-    return paymentR.map(transform);
+    return paymentR.map(transform)
   }
-);
+)
 
-export const getBtcData = selectors.core.common.btc.getHDAccounts;
+export const getBtcData = selectors.core.common.btc.getHDAccounts

@@ -1,8 +1,8 @@
-import React from "react";
-import { FormattedMessage } from "react-intl";
-import styled from "styled-components";
-import { reduxForm } from "redux-form";
-import { Button, Link, Text } from "blockchain-info-components";
+import React from "react"
+import { FormattedMessage } from "react-intl"
+import styled from "styled-components"
+import { reduxForm } from "redux-form"
+import { Button, Link, Text } from "blockchain-info-components"
 import {
   SecurityComponent,
   SecurityContainer,
@@ -11,13 +11,13 @@ import {
   SecurityIcon,
   SecuritySummary,
   IconContainer
-} from "components/Security";
+} from "components/Security"
 
-import ChangeEmailSteps from "../Components/ChangeEmailSteps";
-import EmailVerificationSteps from "../Components/EmailVerificationSteps";
-import media from "services/ResponsiveService";
+import ChangeEmailSteps from "../Components/ChangeEmailSteps"
+import EmailVerificationSteps from "../Components/EmailVerificationSteps"
+import media from "services/ResponsiveService"
 
-const EmailExplanation = styled.div``;
+const EmailExplanation = styled.div``
 const ChangeEmailText = styled(Text)`
   cursor: pointer;
   margin-top: 5px;
@@ -29,12 +29,12 @@ const ChangeEmailText = styled(Text)`
     font-size: 12px;
     margin-right: 12px;
   }
-`;
+`
 const EmailSecurityComponent = styled(SecurityComponent)`
   button:first-of-type {
     margin-bottom: 5px;
   }
-`;
+`
 const EmailButton = styled(Button)`
   width: 100px;
   font-size: 12px;
@@ -52,7 +52,7 @@ const EmailButton = styled(Button)`
     min-width: 0px;
     font-size: 14px;
   }
-`;
+`
 const IconAndHeaderContainer = styled.div`
   opacity: ${props => (props.success ? 0.3 : 1)};
   display: grid;
@@ -60,20 +60,20 @@ const IconAndHeaderContainer = styled.div`
   ${media.mobile`
     display: flex;
   `};
-`;
+`
 const GridContainer = styled(SecurityContainer)`
   grid-template-columns: 85% 15%;
   ${media.mobile`
     padding: 0px;
   `};
-`;
+`
 const FieldsContainer = styled.div`
   display: grid;
   grid-template-columns: 15% 85%;
   ${media.mobile`
     display: flex;
   `};
-`;
+`
 const ResendContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -85,12 +85,12 @@ const ResendContainer = styled.div`
     flex-direction: column;
     margin-top: 15px;
   `};
-`;
+`
 const EmailSecuritySummary = styled(SecuritySummary)`
   ${media.mobile`
     display: inline;
   `};
-`;
+`
 const EmailAddress = props => {
   const {
     data,
@@ -99,12 +99,12 @@ const EmailAddress = props => {
     handleResend,
     invalid,
     code
-  } = props;
-  const { email, verified, failed } = data;
-  const isVerified = verified === 1;
+  } = props
+  const { email, verified, failed } = data
+  const isVerified = verified === 1
 
   const uiHelper = () =>
-    !ui.verifyToggled && !ui.changeEmailToggled && !props.alone;
+    !ui.verifyToggled && !ui.changeEmailToggled && !props.alone
 
   const securityHeaderHelper = () => {
     if (!ui.verifyToggled && !ui.changeEmailToggled && !props.alone) {
@@ -114,13 +114,13 @@ const EmailAddress = props => {
             id="scenes.security.email.verifiedtitle"
             defaultMessage="Email Address"
           />
-        );
+        )
       return (
         <FormattedMessage
           id="scenes.security.email.unverifiedemail.title"
           defaultMessage="Verify Email Address"
         />
-      );
+      )
     }
     if (ui.changeEmailToggled)
       return (
@@ -128,14 +128,14 @@ const EmailAddress = props => {
           id="scenes.security.email.verifiedemail.change"
           defaultMessage="Change Email Address"
         />
-      );
+      )
     return (
       <FormattedMessage
         id="scenes.security.email.unverifiedemail.verifyemail"
         defaultMessage="Verify Email Address"
       />
-    );
-  };
+    )
+  }
 
   const securityDescriptionHelper = () => {
     if (!ui.verifyToggled && !ui.changeEmailToggled && !props.alone) {
@@ -158,7 +158,7 @@ const EmailAddress = props => {
               />
             </EmailExplanation>
           </React.Fragment>
-        );
+        )
       }
       return (
         <EmailExplanation>
@@ -172,7 +172,7 @@ const EmailAddress = props => {
             defaultMessage=". Please enter the code you’ve received to your email in order to complete the verification process. We will use this email to authorize logins, send payment notifications, and notify you of wallet updates."
           />
         </EmailExplanation>
-      );
+      )
     }
     if (ui.changeEmailToggled)
       return (
@@ -180,7 +180,7 @@ const EmailAddress = props => {
           id="scenes.security.email.yourverifiedemailaddress"
           defaultMessage="Your verified email address is used to send login codes when suspicious or unusual activity is detected, to remind you of your wallet login ID, and to send payment alerts when you receive funds."
         />
-      );
+      )
     return (
       <React.Fragment>
         <Text size="14px" weight={200}>
@@ -209,12 +209,11 @@ const EmailAddress = props => {
           </Link>
         </ResendContainer>
       </React.Fragment>
-    );
-  };
+    )
+  }
 
   const renderFields = () => {
-    if (!ui.verifyToggled && !ui.changeEmailToggled && !props.alone)
-      return null;
+    if (!ui.verifyToggled && !ui.changeEmailToggled && !props.alone) return null
     else if (ui.changeEmailToggled)
       return (
         <ChangeEmailSteps
@@ -222,7 +221,7 @@ const EmailAddress = props => {
           handleEmailChangeSubmit={props.handleEmailChangeSubmit}
           invalid={invalid}
         />
-      );
+      )
     else
       return (
         <EmailVerificationSteps
@@ -232,8 +231,8 @@ const EmailAddress = props => {
           success={ui.successToggled}
           emailCode={code}
         />
-      );
-  };
+      )
+  }
 
   return (
     <GridContainer>
@@ -283,7 +282,7 @@ const EmailAddress = props => {
         {renderFields()}
       </FieldsContainer>
     </GridContainer>
-  );
-};
+  )
+}
 
-export default reduxForm({ form: "securityEmailAddress" })(EmailAddress);
+export default reduxForm({ form: "securityEmailAddress" })(EmailAddress)

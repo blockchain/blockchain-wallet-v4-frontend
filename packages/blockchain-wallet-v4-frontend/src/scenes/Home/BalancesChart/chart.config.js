@@ -1,7 +1,7 @@
-import * as Currency from "blockchain-wallet-v4/src/exchange/currency";
+import * as Currency from "blockchain-wallet-v4/src/exchange/currency"
 
 export default (chartData, symbol, history) => {
-  const total = chartData.reduce((acc, item) => acc + Number(item.fiat), 0);
+  const total = chartData.reduce((acc, item) => acc + Number(item.fiat), 0)
 
   return {
     chart: {
@@ -39,7 +39,7 @@ export default (chartData, symbol, history) => {
     tooltip: {
       enabled: total > 0,
       pointFormatter: function() {
-        return symbol + Currency.formatFiat(this.y);
+        return symbol + Currency.formatFiat(this.y)
       }
     },
     series: [
@@ -64,5 +64,5 @@ export default (chartData, symbol, history) => {
     credits: {
       enabled: false
     }
-  };
-};
+  }
+}

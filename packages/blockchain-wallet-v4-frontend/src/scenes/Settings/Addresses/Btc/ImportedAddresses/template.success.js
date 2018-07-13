@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { SettingDescription, SettingHeader } from "components/Setting";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { SettingDescription, SettingHeader } from "components/Setting"
 import {
   Icon,
   IconButton,
@@ -9,18 +9,18 @@ import {
   TableHeader,
   TableCell,
   Text
-} from "blockchain-info-components";
-import { spacing } from "services/StyleService";
-import AddressRow from "../AddressRow";
-import { filter } from "ramda";
+} from "blockchain-info-components"
+import { spacing } from "services/StyleService"
+import AddressRow from "../AddressRow"
+import { filter } from "ramda"
 
 const Wrapper = styled.section`
   box-sizing: border-box;
-`;
+`
 const ImportedAddressesSettingHeader = SettingHeader.extend`
   justify-content: flex-start;
   margin-top: 30px;
-`;
+`
 
 const WarningWrapper = styled.div`
   display: flex;
@@ -28,10 +28,10 @@ const WarningWrapper = styled.div`
   .warning-icon {
     margin-right: 4px;
   }
-`;
+`
 const ClickableText = styled(Text)`
   cursor: pointer;
-`;
+`
 
 const Success = ({
   importedAddresses,
@@ -42,7 +42,7 @@ const Success = ({
   search
 }) => {
   const isMatch = address =>
-    !search || address.addr.toLowerCase().indexOf(search) > -1;
+    !search || address.addr.toLowerCase().indexOf(search) > -1
   const importedAddressesTableRows = filter(isMatch, importedAddresses).map(
     address => (
       <AddressRow
@@ -86,7 +86,7 @@ const Success = ({
         }
       />
     )
-  );
+  )
 
   return (
     <Wrapper>
@@ -153,7 +153,7 @@ const Success = ({
         </IconButton>
       </div>
     </Wrapper>
-  );
-};
+  )
+}
 
-export default Success;
+export default Success

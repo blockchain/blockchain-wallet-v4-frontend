@@ -1,6 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
 
 const Wrapper = styled.div`
   position: relative;
@@ -12,46 +12,46 @@ const Wrapper = styled.div`
   padding: 20px 30px;
   box-sizing: border-box;
   border-top: 1px solid ${props => props.theme["gray-1"]};
-`;
+`
 const Footer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: ${props => props.alignment};
   align-items: center;
   width: 100%;
-`;
+`
 
 const selectAlignment = align => {
   switch (align) {
     case "left":
-      return "flex-start";
+      return "flex-start"
     case "right":
-      return "flex-end";
+      return "flex-end"
     case "center":
-      return "center";
+      return "center"
     case "spaced":
-      return "space-between";
+      return "space-between"
     default:
-      return "";
+      return ""
   }
-};
+}
 
 const ModalFooter = props => {
-  const { align, children } = props;
-  const alignment = selectAlignment(align);
+  const { align, children } = props
+  const alignment = selectAlignment(align)
   return (
     <Wrapper>
       <Footer alignment={alignment}>{children}</Footer>
     </Wrapper>
-  );
-};
+  )
+}
 
 ModalFooter.propTypes = {
   align: PropTypes.oneOf(["left", "right", "center", "spaced"])
-};
+}
 
 ModalFooter.defaultProps = {
   align: "left"
-};
+}
 
-export default ModalFooter;
+export default ModalFooter

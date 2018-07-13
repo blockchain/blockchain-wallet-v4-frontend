@@ -1,13 +1,13 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import PropTypes from "prop-types"
+import { FormattedMessage } from "react-intl"
 
 import {
   Modal,
   ModalHeader,
   ModalBody,
   Tooltip
-} from "blockchain-info-components";
+} from "blockchain-info-components"
 
 const SignMessage = props => (
   <Modal size="medium" position={props.position} total={props.total}>
@@ -25,12 +25,12 @@ const SignMessage = props => (
     </ModalHeader>
     <ModalBody>{props.children}</ModalBody>
   </Modal>
-);
+)
 
 SignMessage.propTypes = {
   position: PropTypes.number.isRequired,
   total: PropTypes.number.isRequired,
   closeAll: PropTypes.func.isRequired
-};
+}
 
-export default SignMessage;
+export default SignMessage

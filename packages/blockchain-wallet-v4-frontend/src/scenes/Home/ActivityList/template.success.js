@@ -1,11 +1,11 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { Text } from "blockchain-info-components";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { Text } from "blockchain-info-components"
 
-import Empty from "./Empty";
-import ListItem from "./ListItem";
+import Empty from "./Empty"
+import ListItem from "./ListItem"
 
 const Wrapper = styled.div`
   display: flex;
@@ -33,12 +33,12 @@ const Wrapper = styled.div`
   @media (max-width: 992px) {
     margin-bottom: 0px;
   }
-`;
-const headerHeight = "29px";
+`
+const headerHeight = "29px"
 const Header = styled.div`
   width: 100%;
   height: ${headerHeight};
-`;
+`
 const Content = styled.div`
   width: 100%;
   height: calc(100% - ${headerHeight});
@@ -69,7 +69,7 @@ const Content = styled.div`
     height: 50%;
     border-left: 1px solid ${props => props.theme["gray-2"]};
   }
-`;
+`
 
 const Success = props => (
   <Wrapper>
@@ -91,7 +91,7 @@ const Success = props => (
       )}
     </Content>
   </Wrapper>
-);
+)
 
 Success.propTypes = {
   activities: PropTypes.arrayOf(
@@ -103,6 +103,6 @@ Success.propTypes = {
       coin: PropTypes.string
     })
   ).isRequired
-};
+}
 
-export default Success;
+export default Success

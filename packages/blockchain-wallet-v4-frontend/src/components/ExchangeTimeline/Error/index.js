@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 
-import { Icon, Text, TextGroup } from "blockchain-info-components";
+import { Icon, Text, TextGroup } from "blockchain-info-components"
 
 const Wrapper = styled.div`
   display: flex;
@@ -15,7 +15,7 @@ const Wrapper = styled.div`
 
   & > :first-child { margin-bottom 20px; }
   & > :last-child { height: 40px; }
-`;
+`
 const Circle = styled.div`
   display: flex;
   flex-direction: row;
@@ -27,7 +27,7 @@ const Circle = styled.div`
   border: 1px solid ${props => props.theme["error"]};
   box-sizing: border-box;
   overflow: hidden;
-`;
+`
 
 const Error = props => (
   <Wrapper>
@@ -55,6 +55,6 @@ const Error = props => (
       </Text>
     </TextGroup>
   </Wrapper>
-);
+)
 
-export default Error;
+export default Error

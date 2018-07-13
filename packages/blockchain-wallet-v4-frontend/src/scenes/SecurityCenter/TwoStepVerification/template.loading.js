@@ -1,6 +1,6 @@
-import React from "react";
-import { FormattedMessage } from "react-intl";
-import { FlatLoader, Text } from "blockchain-info-components";
+import React from "react"
+import { FormattedMessage } from "react-intl"
+import { FlatLoader, Text } from "blockchain-info-components"
 
 import {
   SecurityComponent,
@@ -9,7 +9,7 @@ import {
   SecurityHeader,
   SecurityIcon,
   SecuritySummary
-} from "components/Security";
+} from "components/Security"
 
 const TwoStepVerification = props => {
   return (
@@ -39,7 +39,7 @@ const TwoStepVerification = props => {
         <FlatLoader />
       </SecurityComponent>
     </SecurityContainer>
-  );
-};
+  )
+}
 
-export default TwoStepVerification;
+export default TwoStepVerification

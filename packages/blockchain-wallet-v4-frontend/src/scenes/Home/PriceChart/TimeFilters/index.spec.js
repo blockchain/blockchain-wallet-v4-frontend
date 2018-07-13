@@ -1,19 +1,19 @@
-import React from "react";
-import { shallow } from "enzyme";
-import toJson from "enzyme-to-json";
-import { testPropTypes } from "utils/test.utils";
-import { TimeFiltersContainer } from "./index";
+import React from "react"
+import { shallow } from "enzyme"
+import toJson from "enzyme-to-json"
+import { testPropTypes } from "utils/test.utils"
+import { TimeFiltersContainer } from "./index"
 
-jest.mock("./template", () => "template");
-jest.mock("data", () => ({}));
+jest.mock("./template", () => "template")
+jest.mock("data", () => ({}))
 
 describe("TimeFilters container", () => {
   it("renders correctly", () => {
-    const baseProps = { time: "1month" };
-    const component = shallow(<TimeFiltersContainer {...baseProps} />);
-    const tree = toJson(component);
-    expect(tree).toMatchSnapshot();
-  });
+    const baseProps = { time: "1month" }
+    const component = shallow(<TimeFiltersContainer {...baseProps} />)
+    const tree = toJson(component)
+    expect(tree).toMatchSnapshot()
+  })
 
   it("should accept a mandatory string for prop time", () => {
     expect(
@@ -23,7 +23,7 @@ describe("TimeFilters container", () => {
         ["all", "1day", "1week", "1month", "1year"],
         false
       )
-    ).toBeTruthy();
+    ).toBeTruthy()
     expect(
       testPropTypes(
         TimeFiltersContainer,
@@ -31,6 +31,6 @@ describe("TimeFilters container", () => {
         [0, undefined, null, {}],
         true
       )
-    ).toBeTruthy();
-  });
-});
+    ).toBeTruthy()
+  })
+})

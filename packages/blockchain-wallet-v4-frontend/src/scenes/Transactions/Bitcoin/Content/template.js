@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import EmptyTx from "components/EmptyTx";
-import Empty from "./Empty";
-import Pages from "./Pages";
+import React from "react"
+import styled from "styled-components"
+import EmptyTx from "components/EmptyTx"
+import Empty from "./Empty"
+import Pages from "./Pages"
 
 const Wrapper = styled.div`
   display: flex;
@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-`;
+`
 
 const Success = props => {
   return (
@@ -32,7 +32,7 @@ const Success = props => {
         ))
       )}
     </Wrapper>
-  );
-};
+  )
+}
 
-export default Success;
+export default Success

@@ -1,13 +1,13 @@
-import React from "react";
-import styled from "styled-components";
-import { Field, reduxForm } from "redux-form";
+import React from "react"
+import styled from "styled-components"
+import { Field, reduxForm } from "redux-form"
 
-import { Icon } from "blockchain-info-components";
+import { Icon } from "blockchain-info-components"
 import {
   SelectBoxBitcoinAddresses,
   TextBox,
   TabMenuTransactionStatus
-} from "components/Form";
+} from "components/Form"
 
 const Wrapper = styled.div`
   width: 100%;
@@ -15,7 +15,7 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   background-color: ${props => props.theme["white-blue"]};
   border-bottom: 1px solid ${props => props.theme["gray-1"]};
-`;
+`
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -27,7 +27,7 @@ const Container = styled.div`
     flex-direction: row;
     justify-content: space-between;
   }
-`;
+`
 const Controls = styled.div`
   position: relative;
   display: flex;
@@ -52,20 +52,20 @@ const Controls = styled.div`
     align-items: center;
     width: auto;
   }
-`;
+`
 const Addresses = styled.div`
   width: 100%;
   margin-left: 0px;
   @media (min-width: 1200px) {
     width: 360px;
   }
-`;
+`
 const Status = styled.div`
   width: 100%;
   @media (min-width: 1200px) {
     width: 360px;
   }
-`;
+`
 
 const Search = styled.div`
   position: relative;
@@ -77,18 +77,18 @@ const Search = styled.div`
   @media (min-width: 1200px) {
     width: auto;
   }
-`;
+`
 const ReportingIcon = styled(Icon)`
   width: 40px;
-`;
+`
 const SearchIcon = styled(Icon)`
   position: absolute;
   top: 10px;
   right: 10px;
-`;
+`
 
 const Menu = props => {
-  const { accounts, handleClickReporting } = props;
+  const { accounts, handleClickReporting } = props
 
   return (
     <Wrapper>
@@ -125,7 +125,7 @@ const Menu = props => {
         </Controls>
       </Container>
     </Wrapper>
-  );
-};
+  )
+}
 
-export default reduxForm({ form: "btcTransactions" })(Menu);
+export default reduxForm({ form: "btcTransactions" })(Menu)

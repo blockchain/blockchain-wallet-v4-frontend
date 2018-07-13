@@ -1,20 +1,20 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
-import { Field, reduxForm } from "redux-form";
-import styled from "styled-components";
+import React from "react"
+import PropTypes from "prop-types"
+import { FormattedMessage } from "react-intl"
+import { Field, reduxForm } from "redux-form"
+import styled from "styled-components"
 
-import { Button, ButtonGroup } from "blockchain-info-components";
-import { TextBox } from "components/Form";
-import { SettingForm, SettingWrapper } from "components/Setting";
-import Hint from "./Hint";
+import { Button, ButtonGroup } from "blockchain-info-components"
+import { TextBox } from "components/Form"
+import { SettingForm, SettingWrapper } from "components/Setting"
+import Hint from "./Hint"
 
 const ButtonWrapper = styled(ButtonGroup)`
   margin-top: 5px;
   & > :first-child {
     margin-right: 5px;
   }
-`;
+`
 
 const Settings = props => {
   const {
@@ -24,7 +24,7 @@ const Settings = props => {
     submitting,
     invalid,
     handleCancel
-  } = props;
+  } = props
   return (
     <SettingWrapper>
       <Hint />
@@ -61,13 +61,13 @@ const Settings = props => {
         </SettingForm>
       )}
     </SettingWrapper>
-  );
-};
+  )
+}
 
 Settings.propTypes = {
   updateToggled: PropTypes.bool.isRequired,
   handleToggle: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired
-};
+}
 
-export default reduxForm({ form: "settingPasswordHint" })(Settings);
+export default reduxForm({ form: "settingPasswordHint" })(Settings)

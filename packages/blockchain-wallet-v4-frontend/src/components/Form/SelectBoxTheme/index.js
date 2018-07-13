@@ -1,16 +1,16 @@
-import React from "react";
-import { connect } from "react-redux";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import { connect } from "react-redux"
+import { FormattedMessage } from "react-intl"
 
-import { selectors } from "data";
-import SelectBox from "../SelectBox";
+import { selectors } from "data"
+import SelectBox from "../SelectBox"
 
 class SelectBoxTheme extends React.PureComponent {
   render() {
-    const { themes, ...rest } = this.props;
-    const elements = [{ group: "", items: themes }];
+    const { themes, ...rest } = this.props
+    const elements = [{ group: "", items: themes }]
 
-    return <SelectBox elements={elements} {...rest} />;
+    return <SelectBox elements={elements} {...rest} />
   }
 }
 
@@ -54,6 +54,6 @@ const mapStateToProps = (state, ownProps) => ({
       value: "invert"
     }
   ]
-});
+})
 
-export default connect(mapStateToProps)(SelectBoxTheme);
+export default connect(mapStateToProps)(SelectBoxTheme)

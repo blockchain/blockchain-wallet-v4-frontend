@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 
 import {
   Button,
@@ -12,7 +12,7 @@ import {
   ModalFooter,
   Text,
   TextGroup
-} from "blockchain-info-components";
+} from "blockchain-info-components"
 
 const Wrapper = styled.div`
   display: flex;
@@ -25,7 +25,7 @@ const Wrapper = styled.div`
   @media (min-width: 540px) {
     flex-direction: row;
   }
-`;
+`
 const Container = styled.div`
   position: relative;
   display: flex;
@@ -50,17 +50,17 @@ const Container = styled.div`
   @media (min-width: 540px) {
     width: 30%;
   }
-`;
+`
 
 const TwoStepSetup = props => {
-  const { position, total, close, closeAll, ...rest } = props;
+  const { position, total, close, closeAll, ...rest } = props
   const {
     handleGoogleAuthenticator,
     handleMobile,
     handleYubico,
     handleDisable,
     authType
-  } = rest;
+  } = rest
 
   return authType !== 0 ? (
     <Modal size="large" position={position} total={total}>
@@ -155,7 +155,7 @@ const TwoStepSetup = props => {
         </Link>
       </ModalFooter>
     </Modal>
-  );
-};
+  )
+}
 
-export default TwoStepSetup;
+export default TwoStepSetup

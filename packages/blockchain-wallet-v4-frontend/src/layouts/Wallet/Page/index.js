@@ -1,10 +1,10 @@
-import React from "react";
-import styled from "styled-components";
-import ReactDOM from "react-dom";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import React from "react"
+import styled from "styled-components"
+import ReactDOM from "react-dom"
+import { connect } from "react-redux"
+import { bindActionCreators } from "redux"
 
-import { actions } from "data";
+import { actions } from "data"
 
 const Wrapper = styled.div`
   position: relative;
@@ -19,14 +19,14 @@ const Wrapper = styled.div`
   @-moz-document url-prefix() {
     height: calc(100% - 175px);
   }
-`;
+`
 
 class PageContainer extends React.Component {
   componentDidMount() {
     ReactDOM.findDOMNode(this.refs.page).addEventListener(
       "scroll",
       this.debounce(this.updateScroll.bind(this), 1000)
-    );
+    )
   }
 
   componentDidUpdate(prevProps) {
@@ -34,50 +34,50 @@ class PageContainer extends React.Component {
       prevProps.children.props.computedMatch.url !==
       this.props.children.props.computedMatch.url
     ) {
-      ReactDOM.findDOMNode(this).scrollTop = 0;
+      ReactDOM.findDOMNode(this).scrollTop = 0
     }
   }
 
   componentWillUnmount() {
     if (this.timeout) {
-      clearTimeout(this.timeout);
+      clearTimeout(this.timeout)
     }
     ReactDOM.findDOMNode(this.refs.page).removeEventListener(
       "scroll",
       this.debounce(this.updateScroll.bind(this), 1000)
-    );
+    )
   }
 
   debounce(func, wait) {
-    var timeout;
+    var timeout
     return function() {
-      clearTimeout(timeout);
+      clearTimeout(timeout)
       timeout = setTimeout(function() {
-        timeout = null;
-        func.apply(this);
-      }, wait);
-    };
+        timeout = null
+        func.apply(this)
+      }, wait)
+    }
   }
 
   updateScroll() {
-    const element = ReactDOM.findDOMNode(this);
-    const xOffset = element.scrollLeft;
-    const yOffset = element.scrollTop;
-    const xMax = element.scrollWidth - element.offsetWidth;
-    const yMax = element.scrollHeight - element.offsetHeight;
-    this.props.scrollActions.updateScroll(xOffset, yOffset, xMax, yMax);
+    const element = ReactDOM.findDOMNode(this)
+    const xOffset = element.scrollLeft
+    const yOffset = element.scrollTop
+    const xMax = element.scrollWidth - element.offsetWidth
+    const yMax = element.scrollHeight - element.offsetHeight
+    this.props.scrollActions.updateScroll(xOffset, yOffset, xMax, yMax)
   }
 
   render() {
-    return <Wrapper ref="page" children={this.props.children} />;
+    return <Wrapper ref="page" children={this.props.children} />
   }
 }
 
 const mapDispatchToProps = dispatch => ({
   scrollActions: bindActionCreators(actions.scroll, dispatch)
-});
+})
 
 export default connect(
   undefined,
   mapDispatchToProps
-)(PageContainer);
+)(PageContainer)

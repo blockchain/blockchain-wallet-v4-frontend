@@ -1,23 +1,23 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
-import { Field, reduxForm } from "redux-form";
-import styled from "styled-components";
+import React from "react"
+import PropTypes from "prop-types"
+import { FormattedMessage } from "react-intl"
+import { Field, reduxForm } from "redux-form"
+import styled from "styled-components"
 
 import {
   Button,
   ButtonGroup,
   Text,
   TextGroup
-} from "blockchain-info-components";
-import { Types } from "blockchain-wallet-v4";
-import { FormGroup, FormItem, FormLabel, PasswordBox } from "components/Form";
-import { SettingForm, SettingWrapper } from "components/Setting";
-import { required, validPasswordConfirmation } from "services/FormHelper";
+} from "blockchain-info-components"
+import { Types } from "blockchain-wallet-v4"
+import { FormGroup, FormItem, FormLabel, PasswordBox } from "components/Form"
+import { SettingForm, SettingWrapper } from "components/Setting"
+import { required, validPasswordConfirmation } from "services/FormHelper"
 
 const SecondPasswordWrapper = styled(SettingWrapper)`
   width: ${props => (props.toggled ? "150%" : "initial")};
-`;
+`
 const ButtonWrapper = styled(ButtonGroup)`
   display: flex;
   flex-direction: row;
@@ -27,11 +27,9 @@ const ButtonWrapper = styled(ButtonGroup)`
   & > :first-child {
     margin-right: 5px;
   }
-`;
+`
 
-const validatePasswordConfirmation = validPasswordConfirmation(
-  "secondPassword"
-);
+const validatePasswordConfirmation = validPasswordConfirmation("secondPassword")
 
 const validateSecondPassword = (value, allValues, { wallet }) => {
   return Types.Wallet.isValidSecondPwd(value, wallet) ? null : (
@@ -39,8 +37,8 @@ const validateSecondPassword = (value, allValues, { wallet }) => {
       id="scenes.securitysettings.advanced.secondpasswordwallet.settings.invalidsecondpassword"
       defaultMessage="Second password invalid"
     />
-  );
-};
+  )
+}
 
 const isMainPassword = (value, allValues, { mainPassword }) =>
   mainPassword !== value ? null : (
@@ -48,7 +46,7 @@ const isMainPassword = (value, allValues, { mainPassword }) =>
       id="scenes.securitysettings.advanced.secondpasswordwallet.settings.samepassword"
       defaultMessage="You can't use your main password as your second password"
     />
-  );
+  )
 
 const Settings = props => {
   const {
@@ -59,7 +57,7 @@ const Settings = props => {
     invalid,
     secondPasswordEnabled,
     handleCancel
-  } = props;
+  } = props
   if (secondPasswordEnabled) {
     return (
       <SettingWrapper>
@@ -106,7 +104,7 @@ const Settings = props => {
           </SettingForm>
         )}
       </SettingWrapper>
-    );
+    )
   } else {
     return (
       <SecondPasswordWrapper toggled={updateToggled}>
@@ -190,14 +188,14 @@ const Settings = props => {
           </SettingForm>
         )}
       </SecondPasswordWrapper>
-    );
+    )
   }
-};
+}
 
 Settings.propTypes = {
   updateToggled: PropTypes.bool.isRequired,
   handleToggle: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired
-};
+}
 
-export default reduxForm({ form: "settingSecondPassword" })(Settings);
+export default reduxForm({ form: "settingSecondPassword" })(Settings)

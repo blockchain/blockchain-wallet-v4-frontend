@@ -1,13 +1,13 @@
-import React from "react";
-import styled from "styled-components";
+import React from "react"
+import styled from "styled-components"
 
-import { SkeletonRectangle } from "blockchain-info-components";
+import { SkeletonRectangle } from "blockchain-info-components"
 
 const Wrapper = styled.div`
   width: 100%;
   height: 470px;
   box-sizing: border-box;
-`;
+`
 
 export default props => {
   return (
@@ -44,5 +44,5 @@ export default props => {
         style={{ "margin-top": "40px" }}
       />
     </Wrapper>
-  );
-};
+  )
+}

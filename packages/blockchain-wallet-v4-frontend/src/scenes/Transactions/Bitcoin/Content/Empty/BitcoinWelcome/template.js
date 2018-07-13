@@ -1,8 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { LinkContainer } from "react-router-bootstrap";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { LinkContainer } from "react-router-bootstrap"
 
 import {
   Button,
@@ -12,7 +12,7 @@ import {
   Separator,
   Text,
   TextGroup
-} from "blockchain-info-components";
+} from "blockchain-info-components"
 
 const Wrapper = styled.div`
   position: relative;
@@ -22,7 +22,7 @@ const Wrapper = styled.div`
   align-items: flex-start;
   width: 100%;
   background-color: ${props => props.theme["brand-quaternary"]};
-`;
+`
 const BitcoinImage = styled(Image)`
   display: none;
   height: 230px;
@@ -31,13 +31,13 @@ const BitcoinImage = styled(Image)`
   @media (min-width: 1200px) {
     display: block;
   }
-`;
+`
 const Container = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-`;
+`
 const Row = styled.div`
   display: flex;
   flex-direction: column;
@@ -48,7 +48,7 @@ const Row = styled.div`
   @media (min-width: 1200px) {
     flex-direction: row;
   }
-`;
+`
 const Cell = styled.div`
   width: 100%;
   padding: 15px 0 15px 15px;
@@ -56,20 +56,20 @@ const Cell = styled.div`
   @media (min-width: 768px) {
     ${props => (props.small ? "30%" : "35%")};
   }
-`;
+`
 const CloseArrow = styled(Icon)`
   height: 30px;
   width: 30px;
   margin-top: 20px;
-`;
+`
 const LearnMoreLink = styled(Link)`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-`;
+`
 const BitcoinWelcome = props => {
-  const { displayed, handleClick, handleRequest, partner, exchange } = props;
+  const { displayed, handleClick, handleRequest, partner, exchange } = props
 
   return (
     <Wrapper displayed={displayed}>
@@ -180,13 +180,13 @@ const BitcoinWelcome = props => {
       </Container>
       <CloseArrow name="close" size="12px" cursor onClick={handleClick} />
     </Wrapper>
-  );
-};
+  )
+}
 
 BitcoinWelcome.propTypes = {
   displayed: PropTypes.bool.isRequired,
   handleClick: PropTypes.func.isRequired,
   handleRequest: PropTypes.func.isRequired
-};
+}
 
-export default BitcoinWelcome;
+export default BitcoinWelcome

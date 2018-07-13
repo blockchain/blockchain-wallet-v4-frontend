@@ -1,15 +1,15 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 
-import { Text } from "blockchain-info-components";
+import { Text } from "blockchain-info-components"
 
 const Wrapper = styled.div`
   background-color ${props => props.theme["red"]};
   padding: 15px;
   box-sixing: border-box;
-`;
+`
 
 const Actions = props => (
   <Wrapper>
@@ -22,14 +22,14 @@ const Actions = props => (
       </Text>
     )}
   </Wrapper>
-);
+)
 
 Actions.propTypes = {
   error: PropTypes.string
-};
+}
 
 Actions.defaultProps = {
   error: ""
-};
+}
 
-export default Actions;
+export default Actions

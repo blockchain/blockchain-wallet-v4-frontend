@@ -1,23 +1,23 @@
-import { createSelector } from "reselect";
-import { map, prop } from "ramda";
-import { selectors } from "data";
+import { createSelector } from "reselect"
+import { map, prop } from "ramda"
+import { selectors } from "data"
 import {
   isValidBtcStartDate,
   isValidBchStartDate,
   isValidBtcEndDate,
   isValidBchEndDate
-} from "./services";
+} from "./services"
 
 export const getData = (coin, state) => {
   switch (coin) {
     case "BCH":
-      return getBchData(state);
+      return getBchData(state)
     case "BTC":
-      return getBtcData(state);
+      return getBtcData(state)
     default:
-      return getBtcData(state);
+      return getBtcData(state)
   }
-};
+}
 
 export const getBtcData = createSelector(
   [
@@ -35,7 +35,7 @@ export const getBtcData = createSelector(
         "value_now",
         "exchange_rate_then",
         "tx"
-      ];
+      ]
       const transformedData = map(
         d => [
           d.date,
@@ -48,18 +48,18 @@ export const getBtcData = createSelector(
           d.tx
         ],
         data
-      );
-      return [headers].concat(transformedData);
-    };
-    const start = prop("start", formValues);
-    const end = prop("end", formValues);
+      )
+      return [headers].concat(transformedData)
+    }
+    const start = prop("start", formValues)
+    const end = prop("end", formValues)
     return {
       csvData: dataR.map(transform).getOrElse(undefined),
       isValidStartDate: date => isValidBtcStartDate(date, end),
       isValidEndDate: date => isValidBtcEndDate(date, start)
-    };
+    }
   }
-);
+)
 
 export const getBchData = createSelector(
   [
@@ -77,7 +77,7 @@ export const getBchData = createSelector(
         "value_now",
         "exchange_rate_then",
         "tx"
-      ];
+      ]
       const transformedData = map(
         d => [
           d.date,
@@ -90,15 +90,15 @@ export const getBchData = createSelector(
           d.tx
         ],
         data
-      );
-      return [headers].concat(transformedData);
-    };
-    const start = prop("start", formValues);
-    const end = prop("end", formValues);
+      )
+      return [headers].concat(transformedData)
+    }
+    const start = prop("start", formValues)
+    const end = prop("end", formValues)
     return {
       csvData: dataR.map(transform).getOrElse(undefined),
       isValidStartDate: date => isValidBchStartDate(date, end),
       isValidEndDate: date => isValidBchEndDate(date, start)
-    };
+    }
   }
-);
+)

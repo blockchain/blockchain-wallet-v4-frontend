@@ -1,11 +1,11 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { Field, reduxForm } from "redux-form";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { Field, reduxForm } from "redux-form"
 
-import { required, validBitcoinCashAddress } from "services/FormHelper";
-import { Button, Icon, Tooltip } from "blockchain-info-components";
+import { required, validBitcoinCashAddress } from "services/FormHelper"
+import { Button, Icon, Tooltip } from "blockchain-info-components"
 import {
   FiatConvertor,
   Form,
@@ -16,15 +16,15 @@ import {
   SelectBoxCoin,
   TextBox,
   TextAreaDebounced
-} from "components/Form";
-import ComboDisplay from "components/Display/ComboDisplay";
+} from "components/Form"
+import ComboDisplay from "components/Display/ComboDisplay"
 import {
   shouldError,
   insufficientFunds,
   maximumAmount,
   invalidAmount
-} from "./validation";
-import QRCodeCapture from "components/QRCodeCapture";
+} from "./validation"
+import QRCodeCapture from "components/QRCodeCapture"
 
 const Row = styled.div`
   display: flex;
@@ -32,7 +32,7 @@ const Row = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-`;
+`
 const AddressButton = styled.div`
   display: flex;
   flex-direction: row;
@@ -46,7 +46,7 @@ const AddressButton = styled.div`
   &:hover {
     background-color: ${props => props.theme["gray-1"]};
   }
-`;
+`
 
 const FirstStep = props => {
   const {
@@ -60,7 +60,7 @@ const FirstStep = props => {
     handleSubmit,
     totalFee,
     pristine
-  } = props;
+  } = props
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -222,8 +222,8 @@ const FirstStep = props => {
         </Button>
       </FormGroup>
     </Form>
-  );
-};
+  )
+}
 
 FirstStep.propTypes = {
   invalid: PropTypes.bool.isRequired,
@@ -232,10 +232,10 @@ FirstStep.propTypes = {
   handleToToggle: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   totalFee: PropTypes.string.isRequired
-};
+}
 
 export default reduxForm({
   form: "sendBch",
   destroyOnUnmount: false,
   shouldError
-})(FirstStep);
+})(FirstStep)

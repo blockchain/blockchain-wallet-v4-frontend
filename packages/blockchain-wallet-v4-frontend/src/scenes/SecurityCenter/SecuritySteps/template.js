@@ -1,9 +1,9 @@
-import React from "react";
-import { FormattedMessage } from "react-intl";
-import styled from "styled-components";
-import { Icon, Text } from "blockchain-info-components";
-import media from "services/ResponsiveService";
-import { MediaContextConsumer } from "providers/MatchMediaProvider";
+import React from "react"
+import { FormattedMessage } from "react-intl"
+import styled from "styled-components"
+import { Icon, Text } from "blockchain-info-components"
+import media from "services/ResponsiveService"
+import { MediaContextConsumer } from "providers/MatchMediaProvider"
 
 const Wrapper = styled.div`
   display: flex;
@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   height: 50%;
   background-color: ${props => props.theme["gray-2"]};
   border-radius: 50px;
-`;
+`
 const StepSection = styled.div`
   width: 34%;
   background-color: ${props =>
@@ -25,21 +25,21 @@ const StepSection = styled.div`
   ${media.mobile`
     width: 33.5%;
   `};
-`;
+`
 const EmailSection = StepSection.extend`
   border-top-right-radius: ${props => (props.radius ? "0px" : "50px")};
   border-bottom-right-radius: ${props => (props.radius ? "0px" : "50px")};
-`;
+`
 const TwoStepSection = StepSection.extend`
   border-top-right-radius: ${props => (props.rightRadius ? "0px" : "50px")};
   border-bottom-right-radius: ${props => (props.rightRadius ? "0px" : "50px")};
   border-top-left-radius: ${props => (props.leftRadius ? "0px" : "50px")};
   border-bottom-left-radius: ${props => (props.leftRadius ? "0px" : "50px")};
-`;
+`
 const BackupSection = StepSection.extend`
   border-top-left-radius: ${props => (props.radius ? "0px" : "50px")};
   border-bottom-left-radius: ${props => (props.radius ? "0px" : "50px")};
-`;
+`
 
 const Circle = styled.div`
   display: flex;
@@ -55,7 +55,7 @@ const Circle = styled.div`
     height: 25px;
     min-width: 25px;
   `};
-`;
+`
 const StepText = styled(Text)`
   display: flex;
   flex-direction: column;
@@ -65,12 +65,12 @@ const StepText = styled(Text)`
   word-break: break-word;
   color: ${props =>
     props.success ? props.theme["white"] : props.theme["brand-primary"]};
-`;
+`
 
 const SecuritySteps = props => {
-  const { emailVerified, authType, isMnemonicVerified } = props;
-  const emailSuccess = emailVerified > 0;
-  const twoFactorSuccess = authType > 0;
+  const { emailVerified, authType, isMnemonicVerified } = props
+  const emailSuccess = emailVerified > 0
+  const twoFactorSuccess = authType > 0
 
   return (
     <MediaContextConsumer>
@@ -154,7 +154,7 @@ const SecuritySteps = props => {
         </Wrapper>
       )}
     </MediaContextConsumer>
-  );
-};
+  )
+}
 
-export default SecuritySteps;
+export default SecuritySteps

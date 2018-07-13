@@ -1,54 +1,54 @@
-import React, { Fragment } from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { any, equals, prop } from "ramda";
-import moment from "moment";
+import React, { Fragment } from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { any, equals, prop } from "ramda"
+import moment from "moment"
 
-import Recurring from "./Recurring";
+import Recurring from "./Recurring"
 import {
   ModalHeader,
   ModalBody,
   Text,
   Button
-} from "blockchain-info-components";
+} from "blockchain-info-components"
 import {
   OrderDetailsTable,
   OrderDetailsRow
-} from "components/BuySell/OrderDetails";
+} from "components/BuySell/OrderDetails"
 import {
   tradeDetails,
   statusHelper,
   bodyStatusHelper
-} from "services/CoinifyService";
+} from "services/CoinifyService"
 
 const TableTitle = styled(Text)`
   padding-top: 10px;
-`;
+`
 const ButtonRow = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   margin-top: 20px;
-`;
+`
 const StyledOrderDetailsTable = styled(OrderDetailsTable)`
   margin-top: 10px;
   margin-bottom: 10px;
-`;
+`
 
 const Trade = ({ trade, close, status, subscriptions }) => {
-  let tradeStatus = (status && status.toLowerCase()) || trade.state;
-  const headerStatus = statusHelper(tradeStatus);
-  const bodyStatus = bodyStatusHelper(tradeStatus, trade.isBuy);
-  const details = tradeDetails.renderDetails(trade);
+  let tradeStatus = (status && status.toLowerCase()) || trade.state
+  const headerStatus = statusHelper(tradeStatus)
+  const bodyStatus = bodyStatusHelper(tradeStatus, trade.isBuy)
+  const details = tradeDetails.renderDetails(trade)
   const date = moment(prop("createdAt", trade))
     .local()
-    .format("MMMM D YYYY @ h:mm A");
+    .format("MMMM D YYYY @ h:mm A")
   const isPendingSell =
     any(equals(prop("state", trade)))(["awaiting_transfer_in", "processing"]) &&
-    !prop("isBuy", trade);
+    !prop("isBuy", trade)
   const subscription = subscriptions.filter(sub =>
     equals(sub.id, trade.tradeSubscriptionId)
-  );
+  )
 
   return (
     <Fragment>
@@ -171,7 +171,7 @@ const Trade = ({ trade, close, status, subscriptions }) => {
         </ButtonRow>
       </ModalBody>
     </Fragment>
-  );
-};
+  )
+}
 
-export default Trade;
+export default Trade

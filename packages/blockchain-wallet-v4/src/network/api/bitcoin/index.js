@@ -1,4 +1,4 @@
-import { toUpper } from "ramda";
+import { toUpper } from "ramda"
 
 export default ({ rootUrl, apiUrl, get, post }) => {
   const getBitcoinTicker = () =>
@@ -6,7 +6,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
       url: apiUrl,
       endPoint: "/ticker",
       data: { base: "BTC" }
-    });
+    })
 
   const getBitcoinUnspents = (fromAddresses, confirmations = 0) =>
     get({
@@ -17,20 +17,20 @@ export default ({ rootUrl, apiUrl, get, post }) => {
         confirmations: Math.max(confirmations, -1),
         format: "json"
       }
-    });
+    })
 
   const getBitcoinFee = () =>
     get({
       url: apiUrl,
       endPoint: "/mempool/fees"
-    });
+    })
 
   const pushBitcoinTx = txHex =>
     post({
       url: rootUrl,
       endPoint: "/pushtx",
       data: { tx: txHex, format: "plain" }
-    });
+    })
 
   const getBitcoinFiatAtTime = (amount, currency, time) =>
     get({
@@ -43,19 +43,19 @@ export default ({ rootUrl, apiUrl, get, post }) => {
         textual: false,
         nosavecurrency: true
       }
-    });
+    })
 
   const getLatestBlock = () =>
     get({
       url: rootUrl,
       endPoint: "/latestblock"
-    });
+    })
 
   const getRawTx = txHex =>
     get({
       url: rootUrl,
       endPoint: "/rawtx/" + txHex
-    });
+    })
 
   const getBalances = addresses =>
     post({
@@ -65,7 +65,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
         active: addresses.join("|"),
         format: "json"
       }
-    });
+    })
 
   return {
     getBitcoinTicker,
@@ -76,5 +76,5 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     getLatestBlock,
     getRawTx,
     getBalances
-  };
-};
+  }
+}

@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import styled from "styled-components";
-import footerLogo from "../Images/img/bc-name-and-logo-dark-blue.svg";
-import androidFooterLogo from "../Images/img/android-footer-logo.svg";
-import appleFooterLogo from "../Images/img/apple-footer-logo.svg";
-import facebookFooterLogo from "../Images/img/facebook-footer-logo.svg";
-import linkedinFooterLogo from "../Images/img/linkedin-footer-logo.svg";
-import twitterFooterLogo from "../Images/img/twitter-footer-logo.svg";
+import React, { Component } from "react"
+import styled from "styled-components"
+import footerLogo from "../Images/img/bc-name-and-logo-dark-blue.svg"
+import androidFooterLogo from "../Images/img/android-footer-logo.svg"
+import appleFooterLogo from "../Images/img/apple-footer-logo.svg"
+import facebookFooterLogo from "../Images/img/facebook-footer-logo.svg"
+import linkedinFooterLogo from "../Images/img/linkedin-footer-logo.svg"
+import twitterFooterLogo from "../Images/img/twitter-footer-logo.svg"
 
 const Container = styled.footer`
   background: ${props => props.theme["white-blue"]};
@@ -254,7 +254,7 @@ const Container = styled.footer`
       }
     }
   }
-`;
+`
 
 class Footer extends Component {
   render() {
@@ -373,8 +373,8 @@ class Footer extends Component {
           </div>
         </div>
       </Container>
-    );
+    )
   }
 }
 
-export default Footer;
+export default Footer

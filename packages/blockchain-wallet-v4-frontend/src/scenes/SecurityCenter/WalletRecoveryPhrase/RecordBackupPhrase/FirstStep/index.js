@@ -1,10 +1,10 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 
-import { Button, Image, Link, Text } from "blockchain-info-components";
-import { spacing } from "services/StyleService";
-import recoveryPdf from "./recovery.pdf";
+import { Button, Image, Link, Text } from "blockchain-info-components"
+import { spacing } from "services/StyleService"
+import recoveryPdf from "./recovery.pdf"
 
 const PrintContainer = styled.div`
   display: flex;
@@ -27,7 +27,7 @@ const PrintContainer = styled.div`
       padding-right: 30px;
     }
   }
-`;
+`
 const FirstStepContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -37,7 +37,7 @@ const FirstStepContainer = styled.div`
   @media (min-width: 480px) {
     width: 118%;
   }
-`;
+`
 const Buttons = styled.div`
   display: flex;
   flex-direction: column;
@@ -50,10 +50,10 @@ const Buttons = styled.div`
   @media (min-width: 992px) {
     margin-top: 30px;
   }
-`;
+`
 
 const FirstStep = props => {
-  const { nextStep } = props;
+  const { nextStep } = props
 
   return (
     <FirstStepContainer>
@@ -88,7 +88,7 @@ const FirstStep = props => {
         </Button>
       </Buttons>
     </FirstStepContainer>
-  );
-};
+  )
+}
 
-export default FirstStep;
+export default FirstStep

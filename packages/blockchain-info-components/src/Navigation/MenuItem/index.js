@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import styled from "styled-components";
+import React, { Component } from "react"
+import styled from "styled-components"
 
 const Item = styled.li`
   &:nth-of-type(1) {
@@ -204,11 +204,11 @@ const Item = styled.li`
       padding-top: 30px;
     }
   }
-`;
+`
 
 class MenuItem extends Component {
   render() {
-    const { children, hasMenu, onChange, flexibleSpace } = this.props;
+    const { children, hasMenu, onChange, flexibleSpace } = this.props
     return flexibleSpace ? (
       <Item style={{ flexGrow: 1 }} />
     ) : (
@@ -220,8 +220,8 @@ class MenuItem extends Component {
         {" "}
         {children}{" "}
       </Item>
-    );
+    )
   }
 }
 
-export default MenuItem;
+export default MenuItem

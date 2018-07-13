@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 const SettingContainer = styled.div`
   position: relative;
@@ -14,6 +14,6 @@ const SettingContainer = styled.div`
     justify-content: space-between;
     align-items: flex-start;
   }
-`;
+`
 
-export default SettingContainer;
+export default SettingContainer

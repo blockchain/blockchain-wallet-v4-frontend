@@ -1,48 +1,48 @@
-import React from "react";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
+import React from "react"
+import { bindActionCreators } from "redux"
+import { connect } from "react-redux"
 
-import { actions } from "data";
-import { getData } from "./selectors";
-import SecurityCenter from "./template.js";
+import { actions } from "data"
+import { getData } from "./selectors"
+import SecurityCenter from "./template.js"
 
 class SecurityCenterContainer extends React.PureComponent {
   constructor(props) {
-    super(props);
+    super(props)
 
-    this.handleEnable = this.handleEnable.bind(this);
-    this.onClose = this.onClose.bind(this);
-    this.setView = this.setView.bind(this);
+    this.handleEnable = this.handleEnable.bind(this)
+    this.onClose = this.onClose.bind(this)
+    this.setView = this.setView.bind(this)
 
-    this.state = { enabling: false, editing: false, viewing: "security" };
+    this.state = { enabling: false, editing: false, viewing: "security" }
   }
 
   componentWillUnmount() {
-    this.onClose();
+    this.onClose()
   }
 
   handleEnable(step) {
-    this.setState({ enabling: step });
+    this.setState({ enabling: step })
   }
 
   onClose() {
     if (this.state.enabling === "recovery") {
-      this.props.settingsActions.removeRecoveryPhrase();
+      this.props.settingsActions.removeRecoveryPhrase()
     }
-    this.setState({ enabling: false });
+    this.setState({ enabling: false })
   }
 
   determineProgress() {
-    const { authType, emailVerified, isMnemonicVerified } = this.props;
-    let progress = 0;
-    if (authType.data > 0) progress++;
-    if (emailVerified.data > 0) progress++;
-    if (isMnemonicVerified) progress++;
-    return progress;
+    const { authType, emailVerified, isMnemonicVerified } = this.props
+    let progress = 0
+    if (authType.data > 0) progress++
+    if (emailVerified.data > 0) progress++
+    if (isMnemonicVerified) progress++
+    return progress
   }
 
   setView(tab) {
-    this.setState({ viewing: tab });
+    this.setState({ viewing: tab })
   }
 
   render() {
@@ -58,17 +58,17 @@ class SecurityCenterContainer extends React.PureComponent {
         setView={this.setView}
         isMnemonicVerified={this.props.isMnemonicVerified}
       />
-    );
+    )
   }
 }
 
-const mapStateToProps = state => getData(state);
+const mapStateToProps = state => getData(state)
 
 const mapDispatchToProps = dispatch => ({
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
-});
+})
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(SecurityCenterContainer);
+)(SecurityCenterContainer)

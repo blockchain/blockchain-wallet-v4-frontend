@@ -1,10 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import FiatDisplay from "components/Display/FiatDisplay";
-import { LinkContainer } from "react-router-bootstrap";
-import { FormattedMessage } from "react-intl";
-import { Banner, Text } from "blockchain-info-components";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import FiatDisplay from "components/Display/FiatDisplay"
+import { LinkContainer } from "react-router-bootstrap"
+import { FormattedMessage } from "react-intl"
+import { Banner, Text } from "blockchain-info-components"
 
 const Wrapper = styled.div`
   display: inline-flex;
@@ -19,7 +19,7 @@ const Wrapper = styled.div`
       color: ${props => props.theme["gray-3"]};
     }
   }
-`;
+`
 
 const Success = props => {
   return props.balance === 0 ? null : (
@@ -42,11 +42,11 @@ const Success = props => {
         </Banner>
       </Wrapper>
     </LinkContainer>
-  );
-};
+  )
+}
 
 Success.propTypes = {
   balance: PropTypes.number.isRequired
-};
+}
 
-export default Success;
+export default Success

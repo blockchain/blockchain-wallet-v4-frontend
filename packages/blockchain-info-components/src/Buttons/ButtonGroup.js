@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from "react"
+import styled from "styled-components"
 
 const BaseButtonGroup = styled.div`
   display: flex;
@@ -25,11 +25,11 @@ const BaseButtonGroup = styled.div`
     border-top-left-radius: 0 !important;
     border-bottom-left-radius: 0 !important;
   }
-`;
+`
 const ButtonGroup = props => {
-  const { children, ...rest } = props;
+  const { children, ...rest } = props
 
-  return <BaseButtonGroup {...rest}>{children}</BaseButtonGroup>;
-};
+  return <BaseButtonGroup {...rest}>{children}</BaseButtonGroup>
+}
 
-export default ButtonGroup;
+export default ButtonGroup

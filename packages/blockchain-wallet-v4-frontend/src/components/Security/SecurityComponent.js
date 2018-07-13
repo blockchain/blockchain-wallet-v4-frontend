@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 const SecurityComponent = styled.div`
   display: flex;
@@ -13,6 +13,6 @@ const SecurityComponent = styled.div`
     align-items: flex-end;
     width: 100%;
   }
-`;
+`
 
-export default SecurityComponent;
+export default SecurityComponent

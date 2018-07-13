@@ -1,25 +1,25 @@
-import React from "react";
-import styled from "styled-components";
-import { connect } from "react-redux";
-import { bindActionCreators, compose } from "redux";
-import { Field, reduxForm } from "redux-form";
-import ui from "redux-ui";
-import { path, prop } from "ramda";
+import React from "react"
+import styled from "styled-components"
+import { connect } from "react-redux"
+import { bindActionCreators, compose } from "redux"
+import { Field, reduxForm } from "redux-form"
+import ui from "redux-ui"
+import { path, prop } from "ramda"
 
-import { actions } from "data";
-import { TabMenuBuySellStatus } from "components/Form";
-import HorizontalMenu from "components/HorizontalMenu";
-import Loading from "components/BuySell/Loading";
-import { hasAccount } from "services/ExchangeService";
-import SfoxCheckout from "./SfoxCheckout";
-import CoinifyCheckout from "./CoinifyCheckout";
-import { getData, getFields } from "./selectors";
-import SelectPartner from "./template.success";
+import { actions } from "data"
+import { TabMenuBuySellStatus } from "components/Form"
+import HorizontalMenu from "components/HorizontalMenu"
+import Loading from "components/BuySell/Loading"
+import { hasAccount } from "services/ExchangeService"
+import SfoxCheckout from "./SfoxCheckout"
+import CoinifyCheckout from "./CoinifyCheckout"
+import { getData, getFields } from "./selectors"
+import SelectPartner from "./template.success"
 
 const Wrapper = styled.div`
   width: 100%;
   height: 100%;
-`;
+`
 const CheckoutWrapper = styled.div`
   width: 100%;
   font-size: 13px;
@@ -37,25 +37,25 @@ const CheckoutWrapper = styled.div`
   @media (max-width: 480px) {
     padding: 20px;
   }
-`;
-const Menu = reduxForm({ form: "buySellTabStatus" })(HorizontalMenu);
+`
+const Menu = reduxForm({ form: "buySellTabStatus" })(HorizontalMenu)
 
 class BuySellContainer extends React.PureComponent {
   constructor(props) {
-    super(props);
-    this.selectPartner = this.selectPartner.bind(this);
-    this.submitEmail = this.submitEmail.bind(this);
+    super(props)
+    this.selectPartner = this.selectPartner.bind(this)
+    this.submitEmail = this.submitEmail.bind(this)
   }
 
   componentDidMount() {
-    this.props.formActions.initialize("buySellTabStatus", { status: "buy" });
+    this.props.formActions.initialize("buySellTabStatus", { status: "buy" })
     this.props.data.map(data =>
       this.props.formActions.change(
         "selectPartner",
         "country",
         data.countryCode
       )
-    );
+    )
   }
 
   /**
@@ -71,14 +71,14 @@ class BuySellContainer extends React.PureComponent {
           <SfoxCheckout type={type} options={options} value={buySell} />
         ),
         partner: "sfox"
-      };
+      }
     }
     if (path(["unocoin", "token"], buySell)) {
       // TODO replace token
       return {
         component: <span>Unocoin</span>,
         partner: ""
-      };
+      }
     }
     if (path(["coinify", "offline_token"], buySell)) {
       return {
@@ -86,7 +86,7 @@ class BuySellContainer extends React.PureComponent {
           <CoinifyCheckout type={type} options={options} value={buySell} />
         ),
         partner: "coinify"
-      };
+      }
     }
     return {
       component: (
@@ -100,29 +100,29 @@ class BuySellContainer extends React.PureComponent {
         />
       ),
       partner: ""
-    };
+    }
   }
 
   submitEmail() {
-    this.props.updateUI({ submittedEmail: true });
-    let email = encodeURIComponent(path(["fields", "email"], this.props));
-    let country = path(["fields", "country"], this.props);
+    this.props.updateUI({ submittedEmail: true })
+    let email = encodeURIComponent(path(["fields", "email"], this.props))
+    let country = path(["fields", "country"], this.props)
     let state =
       path(["fields", "country"], this.props) === "US"
         ? path(["fields", "stateSelection", "name"], this.props)
-        : undefined;
+        : undefined
     let url =
       "https://docs.google.com/forms/d/e/1FAIpQLSeYiTe7YsqEIvaQ-P1NScFLCSPlxRh24zv06FFpNcxY_Hs0Ow/viewform?entry.1192956638=" +
       email +
       "&entry.644018680=" +
       country +
       "&entry.387129390=" +
-      state;
-    window.open(url, "_blank");
+      state
+    window.open(url, "_blank")
   }
 
   render() {
-    const { data, fields } = this.props;
+    const { data, fields } = this.props
 
     const view = data.cata({
       Success: value =>
@@ -135,7 +135,7 @@ class BuySellContainer extends React.PureComponent {
       Failure: message => <div>failure: {message}</div>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
-    });
+    })
 
     return (
       <Wrapper>
@@ -150,19 +150,19 @@ class BuySellContainer extends React.PureComponent {
         ) : null}
         <CheckoutWrapper>{prop("component", view)}</CheckoutWrapper>
       </Wrapper>
-    );
+    )
   }
 }
 
 const mapStateToProps = state => ({
   data: getData(state),
   fields: getFields(state)
-});
+})
 
 const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
-});
+})
 
 const enhance = compose(
   connect(
@@ -170,6 +170,6 @@ const enhance = compose(
     mapDispatchToProps
   ),
   ui({ state: { submittedEmail: false } })
-);
+)
 
-export default enhance(BuySellContainer);
+export default enhance(BuySellContainer)

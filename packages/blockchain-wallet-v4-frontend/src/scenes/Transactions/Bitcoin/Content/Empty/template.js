@@ -1,9 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { Icon, IconButton, Separator, Text } from "blockchain-info-components";
-import BitcoinWelcome from "./BitcoinWelcome";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { Icon, IconButton, Separator, Text } from "blockchain-info-components"
+import BitcoinWelcome from "./BitcoinWelcome"
 
 const Wrapper = styled.div`
   display: flex;
@@ -11,14 +11,14 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-`;
+`
 const Transactions = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-top: 50px;
-`;
+`
 const Bitcoin = styled.div`
   display: flex;
   flex-direction: row;
@@ -28,13 +28,13 @@ const Bitcoin = styled.div`
   & > :first-child {
     margin-right: 10px;
   }
-`;
+`
 const TransactionIcon = styled(Icon)`
   justify-content: center;
-`;
+`
 
 const Empty = props => {
-  const { handleSend, handleRequest } = props;
+  const { handleSend, handleRequest } = props
 
   return (
     <Wrapper>
@@ -75,12 +75,12 @@ const Empty = props => {
         </IconButton>
       </Bitcoin>
     </Wrapper>
-  );
-};
+  )
+}
 
 Empty.propTypes = {
   handleSend: PropTypes.func.isRequired,
   handleRequest: PropTypes.func.isRequired
-};
+}
 
-export default Empty;
+export default Empty

@@ -1,43 +1,42 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { bindActionCreators, compose } from "redux";
-import ui from "redux-ui";
-import Link from "./template";
-import { actions, selectors } from "data";
-import { formValueSelector } from "redux-form";
-import { merge, path, append, prop, head } from "ramda";
-import { Remote } from "blockchain-wallet-v4/src";
+import React, { Component } from "react"
+import { connect } from "react-redux"
+import { bindActionCreators, compose } from "redux"
+import ui from "redux-ui"
+import Link from "./template"
+import { actions, selectors } from "data"
+import { formValueSelector } from "redux-form"
+import { merge, path, append, prop, head } from "ramda"
+import { Remote } from "blockchain-wallet-v4/src"
 
 class LinkContainer extends Component {
   constructor(props) {
-    super(props);
-    this.onSetBankAccount = this.onSetBankAccount.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-    this.submitMicroDeposits = this.submitMicroDeposits.bind(this);
+    super(props)
+    this.onSetBankAccount = this.onSetBankAccount.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
+    this.submitMicroDeposits = this.submitMicroDeposits.bind(this)
 
-    this.state = { enablePlaid: false, id: "" };
+    this.state = { enablePlaid: false, id: "" }
   }
 
   componentDidMount() {
     let receiveMessage = e => {
-      const plaidWhitelist = ["enablePlaid", "disablePlaid", "getBankAccounts"];
-      if (!e.data.command) return;
-      if (e.data.from !== "plaid") return;
-      if (e.data.to !== "exchange") return;
-      if (e.origin !== this.props.plaidBaseUrl) return;
-      if (plaidWhitelist.indexOf(e.data.command) < 0) return;
+      const plaidWhitelist = ["enablePlaid", "disablePlaid", "getBankAccounts"]
+      if (!e.data.command) return
+      if (e.data.from !== "plaid") return
+      if (e.data.to !== "exchange") return
+      if (e.origin !== this.props.plaidBaseUrl) return
+      if (plaidWhitelist.indexOf(e.data.command) < 0) return
 
-      if (e.data.command === "enablePlaid")
-        this.setState({ enablePlaid: true });
+      if (e.data.command === "enablePlaid") this.setState({ enablePlaid: true })
       if (e.data.command === "disablePlaid")
-        this.setState({ enablePlaid: false });
+        this.setState({ enablePlaid: false })
       if (e.data.command === "getBankAccounts" && e.data.msg) {
-        this.props.sfoxDataActions.getBankAccounts(e.data.msg);
-        this.setState({ enablePlaid: false, token: e.data.msg });
-        this.props.updateUI({ selectBank: true });
+        this.props.sfoxDataActions.getBankAccounts(e.data.msg)
+        this.setState({ enablePlaid: false, token: e.data.msg })
+        this.props.updateUI({ selectBank: true })
       }
-    };
-    window.addEventListener("message", receiveMessage, false);
+    }
+    window.addEventListener("message", receiveMessage, false)
   }
 
   componentDidUpdate() {
@@ -45,7 +44,7 @@ class LinkContainer extends Component {
       Remote.Success.is(this.props.bankAccounts) &&
       Remote.Loading.is(this.props.linkStatus)
     ) {
-      this.props.sfoxFrontendActions.sfoxSuccess();
+      this.props.sfoxFrontendActions.sfoxSuccess()
     }
   }
 
@@ -56,19 +55,19 @@ class LinkContainer extends Component {
       microDeposits: false,
       microStep: "welcome",
       busy: false
-    });
-    this.props.sfoxDataActions.wipeBankAccounts();
+    })
+    this.props.sfoxDataActions.wipeBankAccounts()
   }
 
   onSetBankAccount(data) {
-    const bankChoice = merge(data, { token: this.state.token });
-    this.props.sfoxFrontendActions.setBankAccount(bankChoice);
+    const bankChoice = merge(data, { token: this.state.token })
+    this.props.sfoxFrontendActions.setBankAccount(bankChoice)
   }
 
   submitMicroDeposits() {
-    const amount1 = parseFloat(this.props.deposit1);
-    const amount2 = parseFloat(this.props.deposit2);
-    this.props.sfoxFrontendActions.submitMicroDeposits({ amount1, amount2 });
+    const amount1 = parseFloat(this.props.deposit1)
+    const amount2 = parseFloat(this.props.deposit2)
+    this.props.sfoxFrontendActions.submitMicroDeposits({ amount1, amount2 })
   }
 
   onSubmit() {
@@ -77,26 +76,21 @@ class LinkContainer extends Component {
       this.state.routingNumber &&
       this.state.accountNumber
     ) {
-      this.props.updateUI({ busy: true });
-      const {
-        fullName,
-        routingNumber,
-        accountNumber,
-        accountType
-      } = this.state;
+      this.props.updateUI({ busy: true })
+      const { fullName, routingNumber, accountNumber, accountType } = this.state
       this.props.sfoxFrontendActions.setBankManually(
         routingNumber,
         accountNumber,
         fullName,
         accountType
-      );
+      )
     } else {
-      this.props.updateUI({ busy: true });
+      this.props.updateUI({ busy: true })
       const bankChoice = merge(
         { id: this.state.id, name: this.state.holderName },
         { token: this.state.token }
-      );
-      this.props.sfoxFrontendActions.setBankAccount(bankChoice);
+      )
+      this.props.sfoxFrontendActions.setBankAccount(bankChoice)
     }
   }
 
@@ -107,16 +101,16 @@ class LinkContainer extends Component {
       ui,
       linkStatus,
       sfoxFrontendActions
-    } = this.props;
-    const { plaidBaseUrl, plaidPath, plaidEnv } = this.props;
-    const { sfoxNotAsked } = sfoxFrontendActions;
-    const plaidUrl = `${plaidBaseUrl}/wallet-helper/plaid/#/key/${plaidPath}/env/${plaidEnv}`;
-    const { showModal } = this.props.modalActions;
+    } = this.props
+    const { plaidBaseUrl, plaidPath, plaidEnv } = this.props
+    const { sfoxNotAsked } = sfoxFrontendActions
+    const plaidUrl = `${plaidBaseUrl}/wallet-helper/plaid/#/key/${plaidPath}/env/${plaidEnv}`
+    const { showModal } = this.props.modalActions
 
-    let awaitingDeposits = false;
+    let awaitingDeposits = false
     if (Remote.Success.is(accounts)) {
       awaitingDeposits =
-        prop("status", head(accounts.getOrElse())) === "pending";
+        prop("status", head(accounts.getOrElse())) === "pending"
     }
 
     const { sfoxBusy, err } = linkStatus.cata({
@@ -124,7 +118,7 @@ class LinkContainer extends Component {
       Loading: () => ({ sfoxBusy: true }),
       Failure: err => ({ sfoxBusy: false, err }),
       NotAsked: () => ({ sfoxBusy: false })
-    });
+    })
 
     return (
       <Link
@@ -157,7 +151,7 @@ class LinkContainer extends Component {
         setNotAsked={sfoxNotAsked}
         linkError={err && path(["message"], err)}
       />
-    );
+    )
   }
 }
 
@@ -168,9 +162,9 @@ const basePath = [
   "web",
   "sfox",
   "config"
-];
-const plaidPath = append("plaid", basePath);
-const plaidEnvPath = append("plaidEnv", basePath);
+]
+const plaidPath = append("plaid", basePath)
+const plaidEnvPath = append("plaidEnv", basePath)
 
 const mapStateToProps = state => ({
   plaidPath: path(plaidPath, state),
@@ -184,14 +178,14 @@ const mapStateToProps = state => ({
   deposit1: formValueSelector("sfoxLink")(state, "deposit1"),
   deposit2: formValueSelector("sfoxLink")(state, "deposit2"),
   linkStatus: path(["sfoxSignup", "sfoxBusy"], state)
-});
+})
 
 const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch),
   sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch),
   sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
-});
+})
 
 const enhance = compose(
   connect(
@@ -207,6 +201,6 @@ const enhance = compose(
       busy: false
     }
   })
-);
+)
 
-export default enhance(LinkContainer);
+export default enhance(LinkContainer)

@@ -1,12 +1,12 @@
-import { map } from "ramda";
+import { map } from "ramda"
 
-import { selectors } from "data";
-import { Types } from "blockchain-wallet-v4";
+import { selectors } from "data"
+import { Types } from "blockchain-wallet-v4"
 
 export const getData = state => {
   const defaultId = Types.HDWallet.selectDefaultAccountIdx(
     Types.Wallet.selectHdWallets(state.walletPath.wallet).get(0)
-  );
+  )
   const wallets = map(x => ({
     label: x.label,
     index: x.index,
@@ -14,7 +14,7 @@ export const getData = state => {
     default: defaultId === x.index,
     balance: x.info ? x.info.final_balance : 0,
     xpub: x.xpub
-  }));
+  }))
 
-  return selectors.core.common.btc.getHDAccounts(state).map(wallets);
-};
+  return selectors.core.common.btc.getHDAccounts(state).map(wallets)
+}

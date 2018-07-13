@@ -1,15 +1,15 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
 
-import { SelectInput } from "blockchain-info-components";
+import { SelectInput } from "blockchain-info-components"
 
 const Container = styled.div`
   position: relative;
   width: 100%;
   height: auto;
   background-color: ${props => props.theme["white"]};
-`;
+`
 const Error = styled.label`
   position: absolute;
   top: ${props => (props.errorBottom ? "40px" : "-20px")};
@@ -20,12 +20,12 @@ const Error = styled.label`
   font-weight: 300;
   font-family: "Montserrat", Helvetica, sans-serif;
   color: ${props => props.theme["error"]};
-`;
+`
 
 const SelectBox = props => {
-  const { input, meta, hideErrors, errorBottom, ...rest } = props;
-  const { touched, invalid, error, pristine } = meta;
-  const errorState = touched && invalid ? "invalid" : "initial";
+  const { input, meta, hideErrors, errorBottom, ...rest } = props
+  const { touched, invalid, error, pristine } = meta
+  const errorState = touched && invalid ? "invalid" : "initial"
 
   return (
     <Container>
@@ -34,8 +34,8 @@ const SelectBox = props => {
         error &&
         !hideErrors && <Error errorBottom>{error}</Error>}
     </Container>
-  );
-};
+  )
+}
 
 SelectBox.propTypes = {
   input: PropTypes.shape({
@@ -70,6 +70,6 @@ SelectBox.propTypes = {
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   searchEnabled: PropTypes.bool,
   opened: PropTypes.bool
-};
+}
 
-export default SelectBox;
+export default SelectBox

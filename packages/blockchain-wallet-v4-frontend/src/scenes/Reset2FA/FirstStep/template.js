@@ -1,18 +1,18 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { Field, reduxForm } from "redux-form";
-import { LinkContainer } from "react-router-bootstrap";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { Field, reduxForm } from "redux-form"
+import { LinkContainer } from "react-router-bootstrap"
 
-import { required, validEmail, validWalletId } from "services/FormHelper";
+import { required, validEmail, validWalletId } from "services/FormHelper"
 import {
   Button,
   Link,
   Separator,
   Text,
   TextGroup
-} from "blockchain-info-components";
-import { Form, FormGroup, FormItem, FormLabel, TextBox } from "components/Form";
+} from "blockchain-info-components"
+import { Form, FormGroup, FormItem, FormLabel, TextBox } from "components/Form"
 
 const Wrapper = styled.div`
   width: 100%;
@@ -23,34 +23,34 @@ const Wrapper = styled.div`
   @media (min-width: 768px) {
     width: 550px;
   }
-`;
+`
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`;
+`
 const FirstStepForm = styled(Form)`
   margin-top: 15px;
-`;
+`
 const InfoMsg = styled(Text)`
   margin-top: 5px;
-`;
+`
 const Footer = styled(FormGroup)`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
-`;
+`
 const GoBackLink = styled(LinkContainer)`
   margin-right: 15px;
-`;
+`
 
 const FirstStep = props => {
-  const { submitting, invalid, handleSubmit } = props;
+  const { submitting, invalid, handleSubmit } = props
 
   const validNullableEmail = emailVal => {
-    return emailVal && emailVal.length ? validEmail(emailVal) : undefined;
-  };
+    return emailVal && emailVal.length ? validEmail(emailVal) : undefined
+  }
 
   return (
     <Wrapper>
@@ -183,9 +183,9 @@ const FirstStep = props => {
         </Footer>
       </FirstStepForm>
     </Wrapper>
-  );
-};
+  )
+}
 
 export default reduxForm({ form: "reset2FA", destroyOnUnmount: false })(
   FirstStep
-);
+)

@@ -1,29 +1,24 @@
-import React, { Fragment } from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { reduxForm } from "redux-form";
-import {
-  Button,
-  HeartbeatLoader,
-  Link,
-  Text
-} from "blockchain-info-components";
-import BankAccounts from "./BankAccounts";
-import AddManually from "./AddManually";
-import MicroDeposits from "./MicroDeposits";
-import PlaidFrame from "./iframe.js";
-import AwaitingDeposits from "./AwaitingDeposits";
-import { Remote } from "blockchain-wallet-v4/src";
+import React, { Fragment } from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { reduxForm } from "redux-form"
+import { Button, HeartbeatLoader, Link, Text } from "blockchain-info-components"
+import BankAccounts from "./BankAccounts"
+import AddManually from "./AddManually"
+import MicroDeposits from "./MicroDeposits"
+import PlaidFrame from "./iframe.js"
+import AwaitingDeposits from "./AwaitingDeposits"
+import { Remote } from "blockchain-wallet-v4/src"
 
-import Helper from "components/BuySell/FAQ";
+import Helper from "components/BuySell/FAQ"
 import {
   ColLeft,
   ColRight,
   PartnerHeader,
   PartnerSubHeader,
   ColRightInner
-} from "components/BuySell/Signup";
-import media from "services/ResponsiveService";
+} from "components/BuySell/Signup"
+import media from "services/ResponsiveService"
 
 const Form = styled.form`
   width: 100%;
@@ -32,7 +27,7 @@ const Form = styled.form`
   ${media.mobile`
     flex-direction: column;
   `};
-`;
+`
 const HeaderContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -40,7 +35,7 @@ const HeaderContainer = styled.div`
   ${media.mobile`
     width: 100%;
   `};
-`;
+`
 const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -52,7 +47,7 @@ const ButtonContainer = styled.div`
       margin-bottom: 20px;
     }
   `};
-`;
+`
 const OrText = styled.p`
   color: rgba(151, 151, 151, 0.5);
   margin: 10px 0px 15px 0px;
@@ -79,14 +74,14 @@ const OrText = styled.p`
     left: 100%;
     margin-left: 15px;
   }
-`;
+`
 const GoBackLink = styled(Link)`
   font-weight: 300;
   font-size: 13px;
   margin-top: 15px;
   display: flex;
   justify-content: center;
-`;
+`
 
 const selectBankFaqs = [
   {
@@ -117,7 +112,7 @@ const selectBankFaqs = [
       />
     )
   }
-];
+]
 
 const faqList = [
   {
@@ -148,16 +143,16 @@ const faqList = [
       />
     )
   }
-];
+]
 
 const selectBankFaqHelper = () =>
   selectBankFaqs.map((el, i) => (
     <Helper key={i} question={el.question} answer={el.answer} />
-  ));
+  ))
 const faqListHelper = () =>
   faqList.map((el, i) => (
     <Helper key={i} question={el.question} answer={el.answer} />
-  ));
+  ))
 
 const BankLink = props => {
   const {
@@ -184,49 +179,49 @@ const BankLink = props => {
     linkError,
     setNotAsked,
     awaitingDeposits
-  } = props;
+  } = props
 
   const titleHelper = () => {
     switch (true) {
       case ui.microDeposits:
-        return null;
+        return null
       case ui.selectBank:
         return (
           <FormattedMessage
             id="sfoxexchangedata.link.title2"
             defaultMessage="Select Your Account"
           />
-        );
+        )
       case !ui.selectBank:
         return (
           <FormattedMessage
             id="sfoxexchangedata.link.title"
             defaultMessage="Connect Your Bank"
           />
-        );
+        )
     }
-  };
+  }
 
   const subtitleHelper = () => {
     switch (true) {
       case ui.microDeposits:
-        return null;
+        return null
       case ui.selectBank:
         return (
           <FormattedMessage
             id="sfoxexchangedata.link.subtitle2"
             defaultMessage="Please select which bank account you'd like to have synced with your SFOX profile."
           />
-        );
+        )
       case !ui.selectBank:
         return (
           <FormattedMessage
             id="sfoxexchangedata.link.subtitle1"
             defaultMessage="There are two ways to go about this: Sync your bank account using your login details (a crowd favorite), or manually enter your routing and account number (this may take a couple days)."
           />
-        );
+        )
     }
-  };
+  }
 
   const bankHelper = () => {
     if (ui.toggleManual) {
@@ -238,7 +233,7 @@ const BankLink = props => {
           handleAccountType={handleAccountType}
           {...props}
         />
-      );
+      )
     } else if (Remote.Success.is(bankAccounts)) {
       return (
         <BankAccounts
@@ -247,9 +242,9 @@ const BankLink = props => {
           onBankSelection={handleBankSelection}
           handleNameChange={onNameChange}
         />
-      );
+      )
     } else if (ui.microDeposits) {
-      return <MicroDeposits onStep={microStep} />;
+      return <MicroDeposits onStep={microStep} />
     } else {
       return (
         <ButtonContainer>
@@ -267,16 +262,16 @@ const BankLink = props => {
             />
           </Button>
         </ButtonContainer>
-      );
+      )
     }
-  };
+  }
 
   const helpersHelper = () => {
     if (ui.selectBank) {
-      return <React.Fragment>{selectBankFaqHelper()}</React.Fragment>;
+      return <React.Fragment>{selectBankFaqHelper()}</React.Fragment>
     }
-    return <React.Fragment>{faqListHelper()}</React.Fragment>;
-  };
+    return <React.Fragment>{faqListHelper()}</React.Fragment>
+  }
 
   const buttonHelper = () => {
     if (ui.microDeposits) {
@@ -294,7 +289,7 @@ const BankLink = props => {
               defaultMessage="Submit for Verification"
             />
           </Button>
-        );
+        )
       }
       return (
         <Button
@@ -308,7 +303,7 @@ const BankLink = props => {
             defaultMessage="Enter Deposit Details"
           />
         </Button>
-      );
+      )
     }
     return (
       <Fragment>
@@ -321,8 +316,8 @@ const BankLink = props => {
               size="13px"
               weight={300}
               onClick={() => {
-                toggleManual();
-                setNotAsked();
+                toggleManual()
+                setNotAsked()
               }}
             >
               <FormattedMessage
@@ -358,11 +353,11 @@ const BankLink = props => {
           </GoBackLink>
         ) : null}
       </Fragment>
-    );
-  };
+    )
+  }
 
   if (awaitingDeposits) {
-    return <AwaitingDeposits showModal={showModal} />;
+    return <AwaitingDeposits showModal={showModal} />
   }
 
   return (
@@ -381,7 +376,7 @@ const BankLink = props => {
         </ColRightInner>
       </ColRight>
     </Form>
-  );
-};
+  )
+}
 
-export default reduxForm({ form: "sfoxLink" })(BankLink);
+export default reduxForm({ form: "sfoxLink" })(BankLink)

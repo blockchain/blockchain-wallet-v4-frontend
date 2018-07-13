@@ -1,9 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import CoinDisplay from "components/Display/CoinDisplay";
-import FiatDisplay from "components/Display/FiatDisplay";
-import { LinkContainer } from "react-router-bootstrap";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import CoinDisplay from "components/Display/CoinDisplay"
+import FiatDisplay from "components/Display/FiatDisplay"
+import { LinkContainer } from "react-router-bootstrap"
 
 const Wrapper = styled.div`
   display: inline-flex;
@@ -16,10 +16,10 @@ const Wrapper = styled.div`
       color: ${props => props.theme["gray-3"]};
     }
   }
-`;
+`
 
 const Success = props => {
-  const { large, balance } = props;
+  const { large, balance } = props
 
   return (
     <LinkContainer to="/eth/transactions">
@@ -44,11 +44,11 @@ const Success = props => {
         </FiatDisplay>
       </Wrapper>
     </LinkContainer>
-  );
-};
+  )
+}
 
 Success.propTypes = {
   balance: PropTypes.number.isRequired
-};
+}
 
-export default Success;
+export default Success

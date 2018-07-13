@@ -1,15 +1,15 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { NavLink } from "react-router-dom";
-import { Field, reduxForm } from "redux-form";
-import { equals, gt, not, prop } from "ramda";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { NavLink } from "react-router-dom"
+import { Field, reduxForm } from "redux-form"
+import { equals, gt, not, prop } from "ramda"
 
-import { Icon, Link, Text } from "blockchain-info-components";
-import { SelectBoxCoinifyCurrency, NumberBoxDebounced } from "components/Form";
-import { getReasonExplanation } from "services/CoinifyService";
-import media from "services/ResponsiveService";
+import { Icon, Link, Text } from "blockchain-info-components"
+import { SelectBoxCoinifyCurrency, NumberBoxDebounced } from "components/Form"
+import { getReasonExplanation } from "services/CoinifyService"
+import media from "services/ResponsiveService"
 
 const Wrapper = styled.div`
   width: 100%;
@@ -23,7 +23,7 @@ const Wrapper = styled.div`
   ${media.mobile`
     height: 100px;
   `};
-`;
+`
 const FiatConvertorInput = styled.div`
   display: flex;
   justify-content: center;
@@ -34,7 +34,7 @@ const FiatConvertorInput = styled.div`
   ${media.mobile`
     flex-direction: column;
   `};
-`;
+`
 const Container = styled.div`
   position: relative;
   width: 100%;
@@ -43,21 +43,21 @@ const Container = styled.div`
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
-`;
+`
 const Unit = styled.span`
   padding: 0 15px;
   font-size: 12px;
   font-weight: 300;
   position: absolute;
   color: ${props => props.theme["gray-4"]};
-`;
+`
 const ArrowLeft = styled(Icon)`
   margin-left: 10px;
   color: #bbb;
   ${media.mobile`
     display: none;
   `};
-`;
+`
 const ArrowRight = styled(Icon)`
   margin-left: -10px;
   margin-right: 10px;
@@ -65,7 +65,7 @@ const ArrowRight = styled(Icon)`
   ${media.mobile`
     display: none;
   `};
-`;
+`
 const Error = styled(Text)`
   position: absolute;
   display: block;
@@ -81,7 +81,7 @@ const Error = styled(Text)`
   ${media.mobile`
     top: 100px;
   `};
-`;
+`
 const LimitsHelper = styled.div`
   position: absolute;
   display: block;
@@ -99,11 +99,11 @@ const LimitsHelper = styled.div`
   ${media.mobile`
     top: 100px;
   `};
-`;
+`
 const LimitsWrapper = styled.div`
   display: flex;
   flex-direction: column;
-`;
+`
 
 const getLimitsError = (errorType, limits, curr, setMax, setMin, changeTab) => {
   switch (errorType) {
@@ -114,7 +114,7 @@ const getLimitsError = (errorType, limits, curr, setMax, setMin, changeTab) => {
           defaultMessage="Your limit of {curr}{max} is below the minimum allowed amount."
           values={{ curr, max: limits.max }}
         />
-      );
+      )
     case "over_max":
       return (
         <FormattedMessage
@@ -129,7 +129,7 @@ const getLimitsError = (errorType, limits, curr, setMax, setMin, changeTab) => {
             )
           }}
         />
-      );
+      )
     case "under_min":
       return (
         <FormattedMessage
@@ -144,7 +144,7 @@ const getLimitsError = (errorType, limits, curr, setMax, setMin, changeTab) => {
             )
           }}
         />
-      );
+      )
     case "over_effective_max":
       return (
         <FormattedMessage
@@ -152,7 +152,7 @@ const getLimitsError = (errorType, limits, curr, setMax, setMin, changeTab) => {
           defaultMessage="Enter an amount less than your balance minus the priority fee ({effectiveMax} BTC)"
           values={{ effectiveMax: limits.effectiveMax / 1e8 }}
         />
-      );
+      )
     case "effective_max_under_min":
       const buyLink = (
         <Link size="13px" weight={300} onClick={() => changeTab("buy")}>
@@ -161,7 +161,7 @@ const getLimitsError = (errorType, limits, curr, setMax, setMin, changeTab) => {
             defaultMessage="buying"
           />
         </Link>
-      );
+      )
       const exchangeLink = (
         <NavLink to="/exchange" style={{ textDecoration: "none" }}>
           <FormattedMessage
@@ -169,7 +169,7 @@ const getLimitsError = (errorType, limits, curr, setMax, setMin, changeTab) => {
             defaultMessage="exchanging"
           />
         </NavLink>
-      );
+      )
       return (
         <div>
           <FormattedMessage
@@ -183,9 +183,9 @@ const getLimitsError = (errorType, limits, curr, setMax, setMin, changeTab) => {
             values={{ buyLink, exchangeLink }}
           />
         </div>
-      );
+      )
   }
-};
+}
 
 const FiatConvertor = props => {
   const {
@@ -200,21 +200,21 @@ const FiatConvertor = props => {
     symbol,
     increaseLimit,
     form
-  } = props;
-  const currency = "BTC";
-  const level = val.level || { name: 1 };
-  const kyc = prop("kyc", val);
-  const { canTrade, cannotTradeReason, profile } = val;
-  const { canTradeAfter } = profile;
-  const isSell = form === "coinifyCheckoutSell";
-  const curr = isSell ? "BTC" : symbol;
+  } = props
+  const currency = "BTC"
+  const level = val.level || { name: 1 }
+  const kyc = prop("kyc", val)
+  const { canTrade, cannotTradeReason, profile } = val
+  const { canTradeAfter } = profile
+  const isSell = form === "coinifyCheckoutSell"
+  const curr = isSell ? "BTC" : symbol
 
   const reasonExplanation =
-    cannotTradeReason && getReasonExplanation(cannotTradeReason, canTradeAfter);
+    cannotTradeReason && getReasonExplanation(cannotTradeReason, canTradeAfter)
 
   const getSellLimits = () => {
-    let effBal = limits.effectiveMax / 1e8;
-    let max = Math.min(effBal, limits.max);
+    let effBal = limits.effectiveMax / 1e8
+    let max = Math.min(effBal, limits.max)
 
     return (
       <FormattedMessage
@@ -222,8 +222,8 @@ const FiatConvertor = props => {
         defaultMessage="Your remaining sell limit is {max}"
         values={{ max: <a onClick={() => setMax(max)}>{max} BTC</a> }}
       />
-    );
-  };
+    )
+  }
 
   const renderErrorsAndLimits = () => {
     if (!isSell && !canTrade) {
@@ -231,7 +231,7 @@ const FiatConvertor = props => {
         <Error size="13px" weight={300} color="error">
           {reasonExplanation}
         </Error>
-      );
+      )
     } else if (checkoutError) {
       return (
         <Error size="13px" weight={300} color="error">
@@ -244,7 +244,7 @@ const FiatConvertor = props => {
             changeTab
           )}
         </Error>
-      );
+      )
     } else {
       return (
         <LimitsHelper>
@@ -301,14 +301,14 @@ const FiatConvertor = props => {
             </a>
           ) : null}
         </LimitsHelper>
-      );
+      )
     }
-  };
+  }
 
   const inputsDisabled =
     disabled ||
     (!canTrade && !isSell) ||
-    equals(checkoutError, "effective_max_under_min");
+    equals(checkoutError, "effective_max_under_min")
 
   return (
     <Wrapper>
@@ -341,8 +341,8 @@ const FiatConvertor = props => {
       </FiatConvertorInput>
       {renderErrorsAndLimits()}
     </Wrapper>
-  );
-};
+  )
+}
 
 FiatConvertor.propTypes = {
   defaultCurrency: PropTypes.string.isRequired,
@@ -351,13 +351,13 @@ FiatConvertor.propTypes = {
   limits: PropTypes.object.isRequired,
   setMax: PropTypes.func.isRequired,
   disabled: PropTypes.bool
-};
+}
 
 export const QuoteInputTemplateBuy = reduxForm({
   form: "coinifyCheckoutBuy",
   destroyOnUnmount: false
-})(FiatConvertor);
+})(FiatConvertor)
 export const QuoteInputTemplateSell = reduxForm({
   form: "coinifyCheckoutSell",
   destroyOnUnmount: false
-})(FiatConvertor);
+})(FiatConvertor)

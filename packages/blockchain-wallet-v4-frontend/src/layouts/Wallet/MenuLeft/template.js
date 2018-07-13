@@ -1,9 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
 
-import Footer from "./Footer";
-import Navigation from "./Navigation";
+import Footer from "./Footer"
+import Navigation from "./Navigation"
 
 const Wrapper = styled.div`
   position: absolute;
@@ -27,21 +27,21 @@ const Wrapper = styled.div`
     top: 0px;
     left: 0px;
   }
-`;
+`
 
 const MenuLeft = props => (
   <Wrapper toggled={props.toggled}>
     <Navigation />
     <Footer />
   </Wrapper>
-);
+)
 
 MenuLeft.propTypes = {
   toggled: PropTypes.bool.isRequired
-};
+}
 
 MenuLeft.defaultProps = {
   toggled: false
-};
+}
 
-export default MenuLeft;
+export default MenuLeft

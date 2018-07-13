@@ -1,19 +1,19 @@
-import React from "react";
-import styled from "styled-components";
-import { Icon, Text } from "blockchain-info-components";
-import { FormattedHTMLMessage } from "react-intl";
+import React from "react"
+import styled from "styled-components"
+import { Icon, Text } from "blockchain-info-components"
+import { FormattedHTMLMessage } from "react-intl"
 
 const Wrapper = styled.div`
   display: flex;
   text-align: center;
   align-items: center;
   flex-direction: column;
-`;
+`
 const ErrorText = styled(Text)`
   > span > span {
     color: ${props => props.theme["gray-5"]};
   }
-`;
+`
 
 const Error = props => {
   return (
@@ -32,7 +32,7 @@ const Error = props => {
         />
       </ErrorText>
     </Wrapper>
-  );
-};
+  )
+}
 
-export default Error;
+export default Error

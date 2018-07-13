@@ -1,7 +1,7 @@
-import { selectors } from "data";
-import { head, prop } from "ramda";
+import { selectors } from "data"
+import { head, prop } from "ramda"
 
-const extractAddress = addr => prop("addr", head(addr));
+const extractAddress = addr => prop("addr", head(addr))
 
 export const getData = state =>
-  selectors.core.kvStore.ethereum.getAccounts(state).map(extractAddress);
+  selectors.core.kvStore.ethereum.getAccounts(state).map(extractAddress)

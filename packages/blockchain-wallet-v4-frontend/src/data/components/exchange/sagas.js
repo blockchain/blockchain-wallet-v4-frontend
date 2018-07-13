@@ -6,16 +6,16 @@ import {
   select,
   put,
   take
-} from "redux-saga/effects";
-import { delay } from "redux-saga";
-import { equals, has, path, prop } from "ramda";
-import * as A from "./actions";
-import * as S from "./selectors";
-import * as actions from "../../actions";
-import * as actionTypes from "../../actionTypes";
-import * as selectors from "../../selectors";
-import * as C from "services/AlertService";
-import { promptForSecondPassword } from "services/SagaService";
+} from "redux-saga/effects"
+import { delay } from "redux-saga"
+import { equals, has, path, prop } from "ramda"
+import * as A from "./actions"
+import * as S from "./selectors"
+import * as actions from "../../actions"
+import * as actionTypes from "../../actionTypes"
+import * as selectors from "../../selectors"
+import * as C from "services/AlertService"
+import { promptForSecondPassword } from "services/SagaService"
 import {
   getCoinFromPair,
   getPairFromCoin,
@@ -29,12 +29,12 @@ import {
   selectFee,
   isUndefinedOrEqualsToZero,
   convertBaseToStandard
-} from "./services";
-import { selectReceiveAddress } from "../utils/sagas";
-import utils from "./sagas.utils";
+} from "./services"
+import { selectReceiveAddress } from "../utils/sagas"
+import utils from "./sagas.utils"
 
 export default ({ api, coreSagas, options }) => {
-  const logLocation = "components/exchange/sagas";
+  const logLocation = "components/exchange/sagas"
   const {
     calculateEffectiveBalance,
     createPayment,
@@ -46,249 +46,233 @@ export default ({ api, coreSagas, options }) => {
     selectOtherAccount,
     selectLabel,
     resetForm
-  } = utils({ api, coreSagas, options });
+  } = utils({ api, coreSagas, options })
 
-  let pollingTradeStatusTask;
+  let pollingTradeStatusTask
 
   const firstStepInitialized = function*() {
     try {
       // Reset form
-      yield call(resetForm);
+      yield call(resetForm)
       // Fetch data
-      yield put(actions.core.data.bch.fetchRates());
-      yield put(actions.core.data.bitcoin.fetchRates());
-      yield put(actions.core.data.ethereum.fetchRates());
-      yield put(actions.core.data.shapeShift.fetchPair("bch_btc"));
-      yield put(actions.core.data.shapeShift.fetchPair("bch_eth"));
-      yield put(actions.core.data.shapeShift.fetchPair("btc_bch"));
-      yield put(actions.core.data.shapeShift.fetchPair("btc_eth"));
-      yield put(actions.core.data.shapeShift.fetchPair("eth_bch"));
-      yield put(actions.core.data.shapeShift.fetchPair("eth_btc"));
+      yield put(actions.core.data.bch.fetchRates())
+      yield put(actions.core.data.bitcoin.fetchRates())
+      yield put(actions.core.data.ethereum.fetchRates())
+      yield put(actions.core.data.shapeShift.fetchPair("bch_btc"))
+      yield put(actions.core.data.shapeShift.fetchPair("bch_eth"))
+      yield put(actions.core.data.shapeShift.fetchPair("btc_bch"))
+      yield put(actions.core.data.shapeShift.fetchPair("btc_eth"))
+      yield put(actions.core.data.shapeShift.fetchPair("eth_bch"))
+      yield put(actions.core.data.shapeShift.fetchPair("eth_btc"))
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, "firstStepInitialized", e)
-      );
+      )
     }
-  };
+  }
 
   const swapClicked = function*() {
     try {
-      const form = yield select(selectors.form.getFormValues("exchange"));
-      const source = prop("source", form);
-      const target = prop("target", form);
-      yield put(actions.form.change2("exchange", "source", target));
-      yield put(actions.form.change2("exchange", "target", source));
-      yield call(resetForm);
+      const form = yield select(selectors.form.getFormValues("exchange"))
+      const source = prop("source", form)
+      const target = prop("target", form)
+      yield put(actions.form.change2("exchange", "source", target))
+      yield put(actions.form.change2("exchange", "target", source))
+      yield call(resetForm)
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, "swapClicked", e));
+      yield put(actions.logs.logErrorMessage(logLocation, "swapClicked", e))
     }
-  };
+  }
 
   const minimumClicked = function*() {
     try {
-      const formValues = yield select(selectors.form.getFormValues("exchange"));
-      const source = prop("source", formValues);
-      const target = prop("target", formValues);
-      const sourceCoin = prop("coin", source);
-      const shapeshiftMinimum = yield call(
-        getShapeshiftMinimum,
-        source,
-        target
-      );
-      const minimum = getMinimum(shapeshiftMinimum);
-      const minimumValue = convertBaseToStandard(sourceCoin, minimum);
-      yield put(actions.form.change("exchange", "sourceAmount", minimumValue));
+      const formValues = yield select(selectors.form.getFormValues("exchange"))
+      const source = prop("source", formValues)
+      const target = prop("target", formValues)
+      const sourceCoin = prop("coin", source)
+      const shapeshiftMinimum = yield call(getShapeshiftMinimum, source, target)
+      const minimum = getMinimum(shapeshiftMinimum)
+      const minimumValue = convertBaseToStandard(sourceCoin, minimum)
+      yield put(actions.form.change("exchange", "sourceAmount", minimumValue))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, "minimumClicked", e));
+      yield put(actions.logs.logErrorMessage(logLocation, "minimumClicked", e))
     }
-  };
+  }
 
   const maximumClicked = function*() {
     try {
-      const form = yield select(selectors.form.getFormValues("exchange"));
-      const source = prop("source", form);
-      const target = prop("target", form);
-      const sourceCoin = prop("coin", source);
-      const effectiveBalance = yield call(calculateEffectiveBalance, source);
-      const shapeshiftMaximum = yield call(
-        getShapeshiftMaximum,
-        source,
-        target
-      );
-      const regulationLimit = yield call(getRegulationLimit, source);
+      const form = yield select(selectors.form.getFormValues("exchange"))
+      const source = prop("source", form)
+      const target = prop("target", form)
+      const sourceCoin = prop("coin", source)
+      const effectiveBalance = yield call(calculateEffectiveBalance, source)
+      const shapeshiftMaximum = yield call(getShapeshiftMaximum, source, target)
+      const regulationLimit = yield call(getRegulationLimit, source)
       const maximum = getMaximum(
         shapeshiftMaximum,
         effectiveBalance,
         regulationLimit
-      );
-      const maximumValue = convertBaseToStandard(sourceCoin, maximum);
-      yield put(actions.form.change("exchange", "sourceAmount", maximumValue));
+      )
+      const maximumValue = convertBaseToStandard(sourceCoin, maximum)
+      yield put(actions.form.change("exchange", "sourceAmount", maximumValue))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, "maximumClicked", e));
+      yield put(actions.logs.logErrorMessage(logLocation, "maximumClicked", e))
     }
-  };
+  }
 
   const change = function*(action) {
     try {
-      const form = path(["meta", "form"], action);
-      const field = path(["meta", "field"], action);
-      if (!equals("exchange", form)) return;
+      const form = path(["meta", "form"], action)
+      const field = path(["meta", "field"], action)
+      if (!equals("exchange", form)) return
       switch (field) {
         case "source":
-          yield call(changeSource);
-          break;
+          yield call(changeSource)
+          break
         case "target":
-          yield call(changeTarget);
-          break;
+          yield call(changeTarget)
+          break
         case "sourceAmount":
-          yield call(changeAmount, field);
-          break;
+          yield call(changeAmount, field)
+          break
         case "sourceFiat":
-          yield call(changeAmount, field);
-          break;
+          yield call(changeAmount, field)
+          break
         case "targetAmount":
-          yield call(changeAmount, field);
-          break;
+          yield call(changeAmount, field)
+          break
         case "targetFiat":
-          yield call(changeAmount, field);
-          break;
+          yield call(changeAmount, field)
+          break
       }
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, "change", e));
+      yield put(actions.logs.logErrorMessage(logLocation, "change", e))
     }
-  };
+  }
 
   const changeSource = function*() {
-    const form = yield select(selectors.form.getFormValues("exchange"));
-    const source = prop("source", form);
-    const sourceCoin = prop("coin", source);
-    const target = prop("target", form);
-    const targetCoin = prop("coin", target);
+    const form = yield select(selectors.form.getFormValues("exchange"))
+    const source = prop("source", form)
+    const sourceCoin = prop("coin", source)
+    const target = prop("target", form)
+    const targetCoin = prop("coin", target)
     if (equals(sourceCoin, targetCoin)) {
-      const newTarget = yield call(selectOtherAccount, targetCoin);
-      yield put(actions.form.change2("exchange", "target", newTarget));
+      const newTarget = yield call(selectOtherAccount, targetCoin)
+      yield put(actions.form.change2("exchange", "target", newTarget))
     }
-    yield call(resetForm);
-  };
+    yield call(resetForm)
+  }
 
   const changeTarget = function*() {
-    const form = yield select(selectors.form.getFormValues("exchange"));
-    const source = prop("source", form);
-    const sourceCoin = prop("coin", source);
-    const target = prop("target", form);
-    const targetCoin = prop("coin", target);
+    const form = yield select(selectors.form.getFormValues("exchange"))
+    const source = prop("source", form)
+    const sourceCoin = prop("coin", source)
+    const target = prop("target", form)
+    const targetCoin = prop("coin", target)
     if (equals(sourceCoin, targetCoin)) {
-      const newSource = yield call(selectOtherAccount, sourceCoin);
-      yield put(actions.form.change2("exchange", "source", newSource));
+      const newSource = yield call(selectOtherAccount, sourceCoin)
+      yield put(actions.form.change2("exchange", "source", newSource))
     }
-    yield call(resetForm);
-  };
+    yield call(resetForm)
+  }
 
   const changeAmount = function*(type) {
-    yield put(A.firstStepDisabled());
+    yield put(A.firstStepDisabled())
     const { sourceAmount, sourceFiat, targetAmount, targetFiat } = yield call(
       convertValues,
       type
-    );
-    yield put(actions.form.change2("exchange", "sourceAmount", sourceAmount));
-    yield put(actions.form.change2("exchange", "sourceFiat", sourceFiat));
-    yield put(actions.form.change2("exchange", "targetAmount", targetAmount));
-    yield put(actions.form.change2("exchange", "targetFiat", targetFiat));
-    yield call(validateForm);
-    yield put(A.firstStepEnabled());
-  };
+    )
+    yield put(actions.form.change2("exchange", "sourceAmount", sourceAmount))
+    yield put(actions.form.change2("exchange", "sourceFiat", sourceFiat))
+    yield put(actions.form.change2("exchange", "targetAmount", targetAmount))
+    yield put(actions.form.change2("exchange", "targetFiat", targetFiat))
+    yield call(validateForm)
+    yield put(A.firstStepEnabled())
+  }
 
   const validateForm = function*() {
     try {
-      yield put(A.firstStepDisabled());
-      const formValues = yield select(selectors.form.getFormValues("exchange"));
-      const source = prop("source", formValues);
-      const target = prop("target", formValues);
-      const sourceAmount = prop("sourceAmount", formValues);
+      yield put(A.firstStepDisabled())
+      const formValues = yield select(selectors.form.getFormValues("exchange"))
+      const source = prop("source", formValues)
+      const target = prop("target", formValues)
+      const sourceAmount = prop("sourceAmount", formValues)
       if (isUndefinedOrEqualsToZero(sourceAmount)) {
-        yield put(A.firstStepFormUnvalidated("invalid"));
-        return yield put(A.firstStepEnabled());
+        yield put(A.firstStepFormUnvalidated("invalid"))
+        return yield put(A.firstStepEnabled())
       }
-      const effectiveBalance = yield call(calculateEffectiveBalance, source);
-      const shapeshiftMinimum = yield call(
-        getShapeshiftMinimum,
-        source,
-        target
-      );
-      const shapeshiftMaximum = yield call(
-        getShapeshiftMaximum,
-        source,
-        target
-      );
-      const regulationLimit = yield call(getRegulationLimit, source);
-      const minimum = getMinimum(shapeshiftMinimum);
+      const effectiveBalance = yield call(calculateEffectiveBalance, source)
+      const shapeshiftMinimum = yield call(getShapeshiftMinimum, source, target)
+      const shapeshiftMaximum = yield call(getShapeshiftMaximum, source, target)
+      const regulationLimit = yield call(getRegulationLimit, source)
+      const minimum = getMinimum(shapeshiftMinimum)
       const maximum = getMaximum(
         shapeshiftMaximum,
         effectiveBalance,
         regulationLimit
-      );
-      const sourceAmountBase = convertStandardToBase(source.coin, sourceAmount);
+      )
+      const sourceAmountBase = convertStandardToBase(source.coin, sourceAmount)
 
       if (isMinimumGreaterThanMaximum(minimum, maximum)) {
-        yield put(A.firstStepFormUnvalidated("insufficient"));
+        yield put(A.firstStepFormUnvalidated("insufficient"))
       } else if (isAmountBelowMinimum(sourceAmountBase, minimum)) {
-        yield put(A.firstStepFormUnvalidated("minimum"));
+        yield put(A.firstStepFormUnvalidated("minimum"))
       } else if (isAmountAboveMaximum(sourceAmountBase, regulationLimit)) {
-        yield put(A.firstStepFormUnvalidated("regulationlimit"));
+        yield put(A.firstStepFormUnvalidated("regulationlimit"))
       } else if (isAmountAboveMaximum(sourceAmountBase, maximum)) {
-        yield put(A.firstStepFormUnvalidated("maximum"));
+        yield put(A.firstStepFormUnvalidated("maximum"))
       } else {
-        yield put(A.firstStepFormValidated());
+        yield put(A.firstStepFormValidated())
       }
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, "validateForm", e));
+      yield put(actions.logs.logErrorMessage(logLocation, "validateForm", e))
     } finally {
-      yield put(A.firstStepEnabled());
+      yield put(A.firstStepEnabled())
     }
-  };
+  }
 
   const firstStepSubmitClicked = function*() {
     try {
-      const form = yield select(selectors.form.getFormValues("exchange"));
-      const source = prop("source", form);
-      const target = prop("target", form);
-      const sourceCoin = prop("coin", source);
-      const targetCoin = prop("coin", target);
-      const sourceAddress = prop("address", source);
-      const targetAddress = prop("address", target);
-      const amount = prop("sourceAmount", form);
-      const returnAddress = yield call(selectReceiveAddress, source);
-      const withdrawalAddress = yield call(selectReceiveAddress, target);
+      const form = yield select(selectors.form.getFormValues("exchange"))
+      const source = prop("source", form)
+      const target = prop("target", form)
+      const sourceCoin = prop("coin", source)
+      const targetCoin = prop("coin", target)
+      const sourceAddress = prop("address", source)
+      const targetAddress = prop("address", target)
+      const amount = prop("sourceAmount", form)
+      const returnAddress = yield call(selectReceiveAddress, source)
+      const withdrawalAddress = yield call(selectReceiveAddress, target)
       // Shapeshift order
-      const pair = getPairFromCoin(sourceCoin, targetCoin);
+      const pair = getPairFromCoin(sourceCoin, targetCoin)
       const orderData = yield call(
         api.createOrder,
         amount,
         pair,
         returnAddress,
         withdrawalAddress
-      );
+      )
       if (!has("success", orderData)) {
-        throw new Error("exchange_order_error");
+        throw new Error("exchange_order_error")
       }
-      const order = prop("success", orderData);
-      yield put(A.orderUpdated(order));
+      const order = prop("success", orderData)
+      yield put(A.orderUpdated(order))
       // Create final payment
-      const depositAddress = prop("deposit", order);
-      const depositAmount = prop("depositAmount", order);
-      const sourceAmount = convertStandardToBase(sourceCoin, depositAmount);
+      const depositAddress = prop("deposit", order)
+      const depositAmount = prop("depositAmount", order)
+      const sourceAmount = convertStandardToBase(sourceCoin, depositAmount)
       const finalPayment = yield call(
         createPayment,
         sourceCoin,
         sourceAddress,
         depositAddress,
         sourceAmount
-      );
-      yield put(A.paymentUpdated(finalPayment.value()));
+      )
+      yield put(A.paymentUpdated(finalPayment.value()))
       // Prepare data for confirmation screen
-      const targetLabel = yield call(selectLabel, targetCoin, targetAddress);
-      const sourceFee = selectFee(sourceCoin, finalPayment.value());
-      const sourceTotal = calculateFinalAmount(sourceAmount, sourceFee);
+      const targetLabel = yield call(selectLabel, targetCoin, targetAddress)
+      const sourceFee = selectFee(sourceCoin, finalPayment.value())
+      const sourceTotal = calculateFinalAmount(sourceAmount, sourceFee)
       const data = {
         sourceCoin,
         sourceAmount,
@@ -304,56 +288,56 @@ export default ({ api, coreSagas, options }) => {
         targetLabel,
         expiration: prop("expiration", order),
         withdrawalAddress
-      };
-      yield put(A.secondStepSuccess(data));
+      }
+      yield put(A.secondStepSuccess(data))
     } catch (e) {
-      yield put(A.secondStepFailure(e.message));
+      yield put(A.secondStepFailure(e.message))
       yield put(
         actions.logs.logErrorMessage(logLocation, "firstStepSubmitClicked", e)
-      );
+      )
     }
-  };
+  }
 
   const usStateRegistered = function*() {
     try {
       const form = yield select(
         selectors.form.getFormValues("shapeshiftStateRegistration")
-      );
+      )
       // Add user state to kvStore metadata
       yield put(
         actions.core.kvStore.shapeShift.addStateMetadataShapeshift(
           prop("state", form)
         )
-      );
+      )
       // Go to step 1 of exchange process
-      yield put(A.firstStepEnabled());
+      yield put(A.firstStepEnabled())
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, "usStateRegistered", e)
-      );
+      )
     }
-  };
+  }
 
   const secondStepSubmitClicked = function*() {
     try {
-      const payment = yield select(S.getPayment);
-      const order = yield select(S.getOrder);
+      const payment = yield select(S.getPayment)
+      const order = yield select(S.getOrder)
       // Do the transaction to the deposit address
-      const { coinSource } = getCoinFromPair(prop("pair", order));
-      let outgoingPayment = resumePayment(coinSource, payment);
-      const password = yield call(promptForSecondPassword);
-      outgoingPayment = yield outgoingPayment.sign(password);
-      outgoingPayment = yield outgoingPayment.publish();
-      const paymentValue = outgoingPayment.value();
-      const { txId } = paymentValue;
+      const { coinSource } = getCoinFromPair(prop("pair", order))
+      let outgoingPayment = resumePayment(coinSource, payment)
+      const password = yield call(promptForSecondPassword)
+      outgoingPayment = yield outgoingPayment.sign(password)
+      outgoingPayment = yield outgoingPayment.publish()
+      const paymentValue = outgoingPayment.value()
+      const { txId } = paymentValue
       if (order.pair.startsWith("eth")) {
         yield put(
           actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(Date.now())
-        );
+        )
         yield take(
           actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS
-        );
-        yield put(actions.core.kvStore.ethereum.setLatestTxEthereum(txId));
+        )
+        yield put(actions.core.kvStore.ethereum.setLatestTxEthereum(txId))
       }
       // Save the trade in metadata
       const trade = {
@@ -370,56 +354,56 @@ export default ({ api, coreSagas, options }) => {
           withdrawal: prop("withdrawal", order),
           withdrawalAmount: prop("withdrawalAmount", order)
         }
-      };
+      }
       // Add order in metadata
       yield put(
         actions.core.kvStore.shapeShift.addTradeMetadataShapeshift(trade)
-      );
+      )
       // We update the payment in the state
-      yield put(A.secondStepPaymentSent(paymentValue));
+      yield put(A.secondStepPaymentSent(paymentValue))
     } catch (e) {
-      yield put(actions.alerts.displayError(C.EXCHANGE_TRANSACTION_ERROR));
+      yield put(actions.alerts.displayError(C.EXCHANGE_TRANSACTION_ERROR))
       yield put(
         actions.logs.logErrorMessage(logLocation, "secondStepSubmitClicked", e)
-      );
+      )
     }
-  };
+  }
 
   const thirdStepInitialized = function*() {
     try {
       // Start polling trade status
-      const order = yield select(S.getOrder);
-      const depositAddress = prop("deposit", order);
+      const order = yield select(S.getOrder)
+      const depositAddress = prop("deposit", order)
       pollingTradeStatusTask = yield fork(
         startPollingTradeStatus,
         depositAddress
-      );
+      )
       // Reset form
-      yield put(actions.form.reset("exchange"));
+      yield put(actions.form.reset("exchange"))
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, "thirdStepInitialized", e)
-      );
+      )
     }
-  };
+  }
 
   const startPollingTradeStatus = function*(depositAddress) {
     try {
       while (true) {
         const currentTradeR = yield select(
           selectors.core.kvStore.shapeShift.getTrade(depositAddress)
-        );
-        const currentTrade = currentTradeR.getOrFail("Could not find trade.");
-        const currentStatus = prop("status", currentTrade);
+        )
+        const currentTrade = currentTradeR.getOrFail("Could not find trade.")
+        const currentStatus = prop("status", currentTrade)
         if (
           equals("complete", currentStatus) ||
           equals("failed", currentStatus)
         ) {
-          break;
+          break
         }
-        const data = yield call(api.getTradeStatus, depositAddress);
-        const status = prop("status", data);
-        const hashOut = prop("transaction", data);
+        const data = yield call(api.getTradeStatus, depositAddress)
+        const status = prop("status", data)
+        const hashOut = prop("transaction", data)
         if (!equals(status, currentStatus)) {
           yield put(
             actions.core.kvStore.shapeShift.updateTradeMetadataShapeshift(
@@ -427,15 +411,15 @@ export default ({ api, coreSagas, options }) => {
               status,
               hashOut
             )
-          );
+          )
         }
-        yield call(delay, 5000);
+        yield call(delay, 5000)
       }
     } catch (e) {
       yield put(
         actions.logs.logErrorMessage(logLocation, "startPollingTradeStatus", e)
-      );
-      yield put(actions.alerts.displayError(C.EXCHANGE_REFRESH_TRADE_ERROR));
+      )
+      yield put(actions.alerts.displayError(C.EXCHANGE_REFRESH_TRADE_ERROR))
     } finally {
       if (yield cancelled()) {
         yield put(
@@ -444,18 +428,18 @@ export default ({ api, coreSagas, options }) => {
             "startPollingTradeStatus",
             "trade polling cancelled"
           )
-        );
+        )
       }
     }
-  };
+  }
 
   const stopPollingTradeStatus = function*() {
-    yield cancel(pollingTradeStatusTask);
-  };
+    yield cancel(pollingTradeStatusTask)
+  }
 
   const destroyed = function*() {
-    if (pollingTradeStatusTask) yield call(stopPollingTradeStatus);
-  };
+    if (pollingTradeStatusTask) yield call(stopPollingTradeStatus)
+  }
 
   return {
     firstStepInitialized,
@@ -468,5 +452,5 @@ export default ({ api, coreSagas, options }) => {
     destroyed,
     change,
     usStateRegistered
-  };
-};
+  }
+}

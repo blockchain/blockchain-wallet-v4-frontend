@@ -1,8 +1,8 @@
-import React from "react";
-import { shallow } from "enzyme";
-import toJson from "enzyme-to-json";
+import React from "react"
+import { shallow } from "enzyme"
+import toJson from "enzyme-to-json"
 
-import CheckBoxInput from "./CheckBoxInput";
+import CheckBoxInput from "./CheckBoxInput"
 
 describe("CheckBoxInput component", () => {
   it("default renders correctly", () => {
@@ -10,8 +10,8 @@ describe("CheckBoxInput component", () => {
       <CheckBoxInput name="check" checked disabled="false">
         <span>test</span>
       </CheckBoxInput>
-    );
-    const tree = toJson(component);
-    expect(tree).toMatchSnapshot();
-  });
-});
+    )
+    const tree = toJson(component)
+    expect(tree).toMatchSnapshot()
+  })
+})

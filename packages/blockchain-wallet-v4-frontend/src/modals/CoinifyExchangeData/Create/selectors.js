@@ -1,5 +1,5 @@
-import { path } from "ramda";
-import { selectors } from "data";
+import { path } from "ramda"
+import { selectors } from "data"
 
 export const getData = state => ({
   oldEmail: selectors.core.settings.getEmail(state).getOrElse(undefined),
@@ -7,4 +7,4 @@ export const getData = state => ({
     .getEmailVerified(state)
     .getOrElse(undefined),
   emailVerifiedError: path(["securityCenter", "emailVerifiedError"], state)
-});
+})

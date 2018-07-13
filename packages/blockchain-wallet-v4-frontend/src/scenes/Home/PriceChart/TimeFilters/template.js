@@ -1,9 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 
-import { Text } from "blockchain-info-components";
+import { Text } from "blockchain-info-components"
 
 const Wrapper = styled.div`
   display: flex;
@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 300px;
-`;
+`
 
 const FilterContainer = styled(Text)`
   color: ${props =>
@@ -21,10 +21,10 @@ const FilterContainer = styled(Text)`
       ? `2px solid ${props.theme["brand-primary"]}`
       : "2px solid transparent"};
   cursor: pointer;
-`;
+`
 
 const TimeFilters = props => {
-  const { time, handleClick } = props;
+  const { time, handleClick } = props
 
   return (
     <Wrapper>
@@ -84,12 +84,12 @@ const TimeFilters = props => {
         />
       </FilterContainer>
     </Wrapper>
-  );
-};
+  )
+}
 
 TimeFilters.propTypes = {
   time: PropTypes.oneOf(["all", "1day", "1week", "1month", "1year"]).isRequired,
   handleClick: PropTypes.func.isRequired
-};
+}
 
-export default TimeFilters;
+export default TimeFilters

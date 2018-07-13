@@ -1,21 +1,21 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { Text, Icon, Button } from "blockchain-info-components";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { Text, Icon, Button } from "blockchain-info-components"
 
-import SecuritySteps from "./SecuritySteps";
-import SecurityTabs from "./SecurityTabs";
-import EmailAddress from "./EmailAddress";
-import TwoStepVerification from "./TwoStepVerification";
-import WalletRecoveryPhrase from "./WalletRecoveryPhrase";
-import { spacing } from "services/StyleService";
+import SecuritySteps from "./SecuritySteps"
+import SecurityTabs from "./SecurityTabs"
+import EmailAddress from "./EmailAddress"
+import TwoStepVerification from "./TwoStepVerification"
+import WalletRecoveryPhrase from "./WalletRecoveryPhrase"
+import { spacing } from "services/StyleService"
 
-import Advanced from "./Advanced";
+import Advanced from "./Advanced"
 
 const Wrapper = styled.div`
   padding: 30px;
   box-sizing: border-box;
-`;
+`
 const TopContainer = styled.div`
   justify-content: space-between;
   align-items: center;
@@ -23,7 +23,7 @@ const TopContainer = styled.div`
     display: flex;
     flex-direction: row;
   }
-`;
+`
 const IntroContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -33,7 +33,7 @@ const IntroContainer = styled.div`
   @media (min-width: 992px) {
     width: ${props => (props.progress === 3 ? "100%" : "40%")};
   }
-`;
+`
 const BodyContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -42,19 +42,19 @@ const BodyContainer = styled.div`
   & > * {
     margin-top: 20px;
   }
-`;
-const Title = styled(Text)``;
+`
+const Title = styled(Text)``
 const IntroText = styled(Text)`
   padding: 20px 0px;
-`;
+`
 const IconContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-bottom: 15px;
-`;
+`
 const PageContainer = styled.div`
   width: 100%;
-`;
+`
 const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -69,11 +69,11 @@ const ButtonContainer = styled.div`
       width: 25%;
     }
   }
-`;
+`
 
 const SecurityCenter = props => {
-  const { enabling, setView } = props;
-  const showTabs = props.progress === 3;
+  const { enabling, setView } = props
+  const showTabs = props.progress === 3
 
   const renderSteps = () => {
     if (enabling === "email")
@@ -81,19 +81,19 @@ const SecurityCenter = props => {
         <BodyContainer>
           <EmailAddress alone={1} goBackOnSuccess={props.onClose} />
         </BodyContainer>
-      );
+      )
     if (enabling === "2fa")
       return (
         <BodyContainer>
           <TwoStepVerification alone={1} goBackOnSuccess={props.onClose} />
         </BodyContainer>
-      );
+      )
     if (enabling === "recovery")
       return (
         <BodyContainer>
           <WalletRecoveryPhrase alone={1} goBackOnSuccess={props.onClose} />
         </BodyContainer>
-      );
+      )
     return (
       <BodyContainer>
         <EmailAddress
@@ -125,8 +125,8 @@ const SecurityCenter = props => {
           </ButtonContainer>
         )}
       </BodyContainer>
-    );
-  };
+    )
+  }
 
   return (
     <PageContainer>
@@ -192,7 +192,7 @@ const SecurityCenter = props => {
         </Wrapper>
       )}
     </PageContainer>
-  );
-};
+  )
+}
 
-export default SecurityCenter;
+export default SecurityCenter

@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 
-import { LinkContainer } from "react-router-bootstrap";
+import { LinkContainer } from "react-router-bootstrap"
 import {
   Image,
   Link,
@@ -10,7 +10,7 @@ import {
   TabMenuItem,
   Text,
   TextGroup
-} from "blockchain-info-components";
+} from "blockchain-info-components"
 
 const Wrapper = styled.div`
   display: flex;
@@ -26,7 +26,7 @@ const Wrapper = styled.div`
   > div > span:first-child {
     padding-left: 0;
   }
-`;
+`
 const Shapeshift = styled(TextGroup)`
   display: flex;
   flex-direction: row;
@@ -38,7 +38,7 @@ const Shapeshift = styled(TextGroup)`
   @media (max-width: 992px) {
     display: none;
   }
-`;
+`
 
 const MenuTop = () => (
   <Wrapper>
@@ -72,6 +72,6 @@ const MenuTop = () => (
       </Link>
     </Shapeshift>
   </Wrapper>
-);
+)
 
-export default MenuTop;
+export default MenuTop

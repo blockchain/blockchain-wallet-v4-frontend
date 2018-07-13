@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { BlockchainLoader } from "../Loaders";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { BlockchainLoader } from "../Loaders"
 
 const BaseModalBody = styled.div`
   position: relative;
@@ -12,7 +12,7 @@ const BaseModalBody = styled.div`
     padding-top: 20px;
     padding-bottom: 20px;
   }
-`;
+`
 const SplashScreen = styled.div`
   position: absolute;
   top: 0;
@@ -25,10 +25,10 @@ const SplashScreen = styled.div`
   height: 100%;
   background-color: ${props => props.theme["white"]};
   z-index: 5;
-`;
+`
 
 const ModalBody = props => {
-  const { children, loading } = props;
+  const { children, loading } = props
 
   return (
     <BaseModalBody>
@@ -37,15 +37,15 @@ const ModalBody = props => {
       </SplashScreen>
       {children}
     </BaseModalBody>
-  );
-};
+  )
+}
 
 ModalBody.propTypes = {
   loading: PropTypes.bool
-};
+}
 
 ModalBody.defaultProps = {
   loading: false
-};
+}
 
-export default ModalBody;
+export default ModalBody

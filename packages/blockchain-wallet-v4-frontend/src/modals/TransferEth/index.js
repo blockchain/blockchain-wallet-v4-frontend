@@ -1,41 +1,41 @@
-import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators, compose } from "redux";
+import React from "react"
+import { connect } from "react-redux"
+import { bindActionCreators, compose } from "redux"
 
-import { actions } from "data";
-import modalEnhancer from "providers/ModalEnhancer";
-import Success from "./template.success.js";
-import { getData } from "./selectors.js";
-import { Remote } from "blockchain-wallet-v4/src";
+import { actions } from "data"
+import modalEnhancer from "providers/ModalEnhancer"
+import Success from "./template.success.js"
+import { getData } from "./selectors.js"
+import { Remote } from "blockchain-wallet-v4/src"
 
 class TransferEthContainer extends React.PureComponent {
   constructor(props) {
-    super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    super(props)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   componentDidMount() {
     this.props.sendEthActions.initialized({
       from: this.props.addr,
       type: "LEGACY"
-    });
+    })
   }
 
   componentDidUpdate(prevProps) {
     if (Remote.Success.is(this.props.data)) {
-      const { fee, effectiveBalance } = this.props.data.getOrElse({});
+      const { fee, effectiveBalance } = this.props.data.getOrElse({})
       if (parseFloat(fee) > parseFloat(effectiveBalance))
-        this.props.modalActions.closeAllModals();
+        this.props.modalActions.closeAllModals()
     }
   }
 
   handleSubmit() {
-    const { to, effectiveBalance } = this.props.data.getOrElse({});
-    this.props.transferEthActions.confirmTransferEth({ to, effectiveBalance });
+    const { to, effectiveBalance } = this.props.data.getOrElse({})
+    this.props.transferEthActions.confirmTransferEth({ to, effectiveBalance })
   }
 
   render() {
-    const { addr, data } = this.props;
+    const { addr, data } = this.props
     return data.cata({
       Success: val => (
         <Success
@@ -48,21 +48,21 @@ class TransferEthContainer extends React.PureComponent {
       Loading: () => null,
       NotAsked: () => null,
       Failure: () => null
-    });
+    })
   }
 }
 
 const mapStateToProps = state => {
   return {
     data: getData(state)
-  };
-};
+  }
+}
 
 const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   sendEthActions: bindActionCreators(actions.components.sendEth, dispatch),
   transferEthActions: bindActionCreators(actions.modules.transferEth, dispatch)
-});
+})
 
 const enhance = compose(
   modalEnhancer("TransferEth"),
@@ -70,6 +70,6 @@ const enhance = compose(
     mapStateToProps,
     mapDispatchToProps
   )
-);
+)
 
-export default enhance(TransferEthContainer);
+export default enhance(TransferEthContainer)

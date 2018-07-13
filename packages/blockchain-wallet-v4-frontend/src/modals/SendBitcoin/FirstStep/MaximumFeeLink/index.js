@@ -1,10 +1,10 @@
-import React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import { connect } from "react-redux"
+import { bindActionCreators } from "redux"
+import { FormattedMessage } from "react-intl"
 
-import { actions } from "data";
-import { Link } from "blockchain-info-components";
+import { actions } from "data"
+import { Link } from "blockchain-info-components"
 
 const MaximumFeeLink = props => (
   <Link
@@ -17,13 +17,13 @@ const MaximumFeeLink = props => (
       defaultMessage="Use our recommended upper limit."
     />
   </Link>
-);
+)
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.sendBtc, dispatch)
-});
+})
 
 export default connect(
   undefined,
   mapDispatchToProps
-)(MaximumFeeLink);
+)(MaximumFeeLink)

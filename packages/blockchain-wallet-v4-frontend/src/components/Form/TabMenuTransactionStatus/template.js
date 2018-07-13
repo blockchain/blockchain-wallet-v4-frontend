@@ -1,11 +1,11 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import PropTypes from "prop-types"
+import { FormattedMessage } from "react-intl"
 
-import { TabMenu, TabMenuItem } from "blockchain-info-components";
+import { TabMenu, TabMenuItem } from "blockchain-info-components"
 
 const TabMenuTransactionStatus = props => {
-  const { handleClick, statuses, value } = props;
+  const { handleClick, statuses, value } = props
 
   return (
     <TabMenu>
@@ -51,12 +51,12 @@ const TabMenuTransactionStatus = props => {
         </TabMenuItem>
       )}
     </TabMenu>
-  );
-};
+  )
+}
 
 TabMenuTransactionStatus.propTypes = {
   value: PropTypes.oneOf(["", "received", "sent", "transferred"]),
   onClick: PropTypes.func
-};
+}
 
-export default TabMenuTransactionStatus;
+export default TabMenuTransactionStatus

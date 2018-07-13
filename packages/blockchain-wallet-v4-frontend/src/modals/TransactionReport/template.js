@@ -1,9 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { reduxForm, Field } from "redux-form";
-import { CSVDownload } from "react-csv";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { reduxForm, Field } from "redux-form"
+import { CSVDownload } from "react-csv"
 
 import {
   Button,
@@ -13,14 +13,14 @@ import {
   ModalHeader,
   ModalBody,
   Text
-} from "blockchain-info-components";
+} from "blockchain-info-components"
 import {
   DateBoxDebounced,
   SelectBoxBitcoinAddresses,
   Form
-} from "components/Form";
-import { required } from "services/FormHelper";
-import { validStartDate, validEndDate } from "./validation";
+} from "components/Form"
+import { required } from "services/FormHelper"
+import { validStartDate, validEndDate } from "./validation"
 
 const Container = styled.div`
   display: flex;
@@ -29,7 +29,7 @@ const Container = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-`;
+`
 const Row = styled.div`
   display: flex;
   flex-direction: row;
@@ -37,14 +37,14 @@ const Row = styled.div`
   align-items: center;
   width: 100%;
   margin-bottom: ${props => props.margin || "10px"};
-`;
+`
 const TimeContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-`;
+`
 const Footer = styled.div`
   display: flex;
   flex-direction: row;
@@ -55,7 +55,7 @@ const Footer = styled.div`
   & > :first-child {
     margin-right: 10px;
   }
-`;
+`
 
 const FirstStep = props => {
   const {
@@ -69,7 +69,7 @@ const FirstStep = props => {
     handleSubmit,
     isValidStartDate,
     isValidEndDate
-  } = props;
+  } = props
 
   return (
     <Modal size="medium" position={position} total={total}>
@@ -146,11 +146,11 @@ const FirstStep = props => {
         </Form>
       </ModalBody>
     </Modal>
-  );
-};
+  )
+}
 
 FirstStep.propTypes = {
   handleSubmit: PropTypes.func.isRequired
-};
+}
 
-export default reduxForm({ form: "transactionReport" })(FirstStep);
+export default reduxForm({ form: "transactionReport" })(FirstStep)

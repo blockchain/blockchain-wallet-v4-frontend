@@ -1,10 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { transparentize } from "polished";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { transparentize } from "polished"
 
-import { Icon } from "../Icons";
-import { Text } from "../Text";
+import { Icon } from "../Icons"
+import { Text } from "../Text"
 
 const Container = styled.div`
   display: flex;
@@ -21,7 +21,7 @@ const Container = styled.div`
   & > span:first-child {
     margin-right: ${props => (props.inline ? "3px" : "5px")};
   }
-`;
+`
 
 const BannerContent = styled(Text)`
   display: flex;
@@ -30,7 +30,7 @@ const BannerContent = styled(Text)`
   & a:last-of-type {
     margin-left: 5px;
   }
-`;
+`
 
 const selectStyle = type => {
   switch (type) {
@@ -39,24 +39,24 @@ const selectStyle = type => {
         color: "success",
         uppercase: false,
         icon: "checkmark-in-circle"
-      };
+      }
     case "warning":
-      return { color: "error", uppercase: true, icon: "alert" };
+      return { color: "error", uppercase: true, icon: "alert" }
     case "alert":
-      return { color: "brand-secondary", uppercase: false, icon: "bell" };
+      return { color: "brand-secondary", uppercase: false, icon: "bell" }
     case "caution":
-      return { color: "brand-yellow", uppercase: false, icon: "alert" };
+      return { color: "brand-yellow", uppercase: false, icon: "alert" }
     case "informational":
-      return { color: "gray-5", uppercase: false, icon: null };
+      return { color: "gray-5", uppercase: false, icon: null }
     default:
-      return { color: "brand-secondary", uppercase: false, icon: null };
+      return { color: "brand-secondary", uppercase: false, icon: null }
   }
-};
+}
 
 const Banner = props => {
-  const { type, children, inline, label, width } = props;
-  const style = selectStyle(type);
-  const { color, uppercase, icon } = style;
+  const { type, children, inline, label, width } = props
+  const style = selectStyle(type)
+  const { color, uppercase, icon } = style
 
   return (
     <Container color={color} width={width} inline={inline} label={label}>
@@ -71,8 +71,8 @@ const Banner = props => {
         {children}
       </BannerContent>
     </Container>
-  );
-};
+  )
+}
 
 Banner.propTypes = {
   type: PropTypes.oneOf([
@@ -84,6 +84,6 @@ Banner.propTypes = {
   ]),
   children: PropTypes.node.isRequired,
   width: PropTypes.string
-};
+}
 
-export default Banner;
+export default Banner

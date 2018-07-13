@@ -1,2 +1,2 @@
-import "./Icomoon";
-import "./Montserrat";
+import "./Icomoon"
+import "./Montserrat"

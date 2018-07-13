@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
+import React from "react"
+import styled from "styled-components"
 
-import { SkeletonRectangle } from "blockchain-info-components";
+import { SkeletonRectangle } from "blockchain-info-components"
 
 const ActivityListSkeleton = styled(SkeletonRectangle)`
   display: flex;
@@ -9,7 +9,7 @@ const ActivityListSkeleton = styled(SkeletonRectangle)`
   align-items: start;
   box-sizing: border-box;
   padding-top: 25px;
-`;
+`
 const ActivitySkeleton = styled.div`
   flex: 1;
   width: 100%;
@@ -17,7 +17,7 @@ const ActivitySkeleton = styled.div`
   & > :first-child {
     margin-bottom: 5px;
   }
-`;
+`
 
 export default () => (
   <ActivityListSkeleton height="450px" width="100%;" bgColor="white">
@@ -46,4 +46,4 @@ export default () => (
       />
     </ActivitySkeleton>
   </ActivityListSkeleton>
-);
+)

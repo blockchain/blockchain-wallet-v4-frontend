@@ -1,9 +1,9 @@
-import React, { Fragment } from "react";
-import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
-import { Text, Button, Link } from "blockchain-info-components";
-import styled, { keyframes } from "styled-components";
-import { reduxForm } from "redux-form";
+import React, { Fragment } from "react"
+import PropTypes from "prop-types"
+import { FormattedMessage } from "react-intl"
+import { Text, Button, Link } from "blockchain-info-components"
+import styled, { keyframes } from "styled-components"
+import { reduxForm } from "redux-form"
 import {
   SecurityComponent,
   SecurityContainer,
@@ -13,23 +13,23 @@ import {
   SecuritySummary,
   SecurityTip,
   IconContainer
-} from "components/Security";
-import GoogleAuth from "./GoogleAuth";
-import Yubikey from "./Yubikey";
-import SmsAuth from "./SMS";
-import { pulse } from "react-animations";
-import Choices from "../Components/Choices/index";
-import { spacing } from "services/StyleService";
-import media from "services/ResponsiveService";
+} from "components/Security"
+import GoogleAuth from "./GoogleAuth"
+import Yubikey from "./Yubikey"
+import SmsAuth from "./SMS"
+import { pulse } from "react-animations"
+import Choices from "../Components/Choices/index"
+import { spacing } from "services/StyleService"
+import media from "services/ResponsiveService"
 
-const pulseAnimation = keyframes`${pulse}`;
+const pulseAnimation = keyframes`${pulse}`
 
 const SecuritySummaryChoice = styled(SecuritySummary)`
   width: 100%;
   @media (min-width: 992px) {
     width: 120%;
   }
-`;
+`
 const SecurityTwoStepContainer = SecurityContainer.extend`
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
@@ -37,14 +37,14 @@ const SecurityTwoStepContainer = SecurityContainer.extend`
   ${media.mobile`
     padding: 0px;
   `};
-`;
+`
 const IconAndHeaderContainer = styled.div`
   opacity: ${props => (props.success ? 0.3 : 1)};
   @media (min-width: 480px) {
     display: grid;
     grid-template-columns: 15% 85%;
   }
-`;
+`
 const DisableContainer = styled.div`
   width: 100%;
   margin: 10px 0px 20px 0px;
@@ -60,11 +60,11 @@ const DisableContainer = styled.div`
     cursor: pointer;
     color: ${props => props.theme["brand-secondary"]};
   }
-`;
+`
 const DisableLinkContainer = styled.div`
   flex-direction: row;
   width: 100%;
-`;
+`
 const DisableLinkText = styled(Text)`
   display: flex;
   flex-direction: row;
@@ -76,7 +76,7 @@ const DisableLinkText = styled(Text)`
     padding-left: 3px;
   }
   animation: 0.5s ${props => (props.pulse ? pulseAnimation : null)};
-`;
+`
 const TwoStepButton = styled(Button)`
   width: 100px;
   font-size: 12px;
@@ -90,11 +90,11 @@ const TwoStepButton = styled(Button)`
     min-width: 0px;
     font-size: 14px;
   }
-`;
+`
 const Header = SecurityHeader.extend`
   justify-content: flex-start;
   align-items: center;
-`;
+`
 const TipText = styled(Text)`
   display: inline;
   font-size: 12px;
@@ -102,22 +102,22 @@ const TipText = styled(Text)`
   & > * {
     display: inline;
   }
-`;
+`
 
 const TwoStepVerification = props => {
-  const { ui, twoStepChoice, data, editing, success, ...rest } = props;
-  const { smsVerified, authType, smsNumber } = data;
-  const twoFAEnabled = authType > 0;
+  const { ui, twoStepChoice, data, editing, success, ...rest } = props
+  const { smsVerified, authType, smsNumber } = data
+  const twoFAEnabled = authType > 0
 
   const renderVerificationChoice = () => {
     if (twoStepChoice === "google") {
-      return <GoogleAuth {...rest} />;
+      return <GoogleAuth {...rest} />
     }
     if (twoStepChoice === "yubikey") {
-      return <Yubikey {...rest} />;
+      return <Yubikey {...rest} />
     }
     if (twoStepChoice === "sms") {
-      return <SmsAuth {...rest} />;
+      return <SmsAuth {...rest} />
     }
     return (
       <SecuritySummaryChoice>
@@ -128,8 +128,8 @@ const TwoStepVerification = props => {
           pulseText={props.pulseText}
         />
       </SecuritySummaryChoice>
-    );
-  };
+    )
+  }
 
   const renderDisable = () => {
     if (ui.verifyToggled) {
@@ -158,7 +158,7 @@ const TwoStepVerification = props => {
               </DisableLinkText>
             </DisableLinkContainer>
           </React.Fragment>
-        );
+        )
       }
       if (authType === 5 && smsVerified) {
         return (
@@ -191,10 +191,10 @@ const TwoStepVerification = props => {
               </DisableLinkText>
             </DisableContainer>
           </React.Fragment>
-        );
+        )
       }
     }
-  };
+  }
 
   const renderDescription = () => {
     if (!twoFAEnabled && !props.alone) {
@@ -212,15 +212,15 @@ const TwoStepVerification = props => {
             defaultMessage="Two-step verification helps to prevent unauthorized access to your wallet by requiring a one-time password for every login attempt. Enable this to further secure your wallet."
           />
         </React.Fragment>
-      );
+      )
     }
     return (
       <FormattedMessage
         id="scenes.security.twostepverification.description3"
         defaultMessage="Two-step verification helps to prevent unauthorized access to your wallet by requiring a one-time password for every login attempt. You can disable this here if you would like to change your phone number or switch the type of two-step verification you are using."
       />
-    );
-  };
+    )
+  }
 
   const renderHeader = () => {
     if (twoStepChoice === "google") {
@@ -234,7 +234,7 @@ const TwoStepVerification = props => {
             Change
           </Link>
         </React.Fragment>
-      );
+      )
     }
     if (twoStepChoice === "yubikey") {
       return (
@@ -247,7 +247,7 @@ const TwoStepVerification = props => {
             Change
           </Link>
         </React.Fragment>
-      );
+      )
     }
     if (twoStepChoice === "sms") {
       return (
@@ -260,18 +260,18 @@ const TwoStepVerification = props => {
             Change
           </Link>
         </React.Fragment>
-      );
+      )
     }
     return (
       <FormattedMessage
         id="scenes.security.email.unverified.title"
         defaultMessage="Two-Step Verification"
       />
-    );
-  };
+    )
+  }
 
   const renderChoices = () =>
-    !ui.verifyToggled && !props.alone ? null : renderVerificationChoice();
+    !ui.verifyToggled && !props.alone ? null : renderVerificationChoice()
 
   return (
     <Fragment>
@@ -353,15 +353,15 @@ const TwoStepVerification = props => {
         </SecurityTip>
       ) : null}
     </Fragment>
-  );
-};
+  )
+}
 
 TwoStepVerification.propTypes = {
   authType: PropTypes.number,
   twoStepChoice: PropTypes.string,
   smsVerified: PropTypes.number
-};
+}
 
 export default reduxForm({
   form: "twoStepVerification"
-})(TwoStepVerification);
+})(TwoStepVerification)

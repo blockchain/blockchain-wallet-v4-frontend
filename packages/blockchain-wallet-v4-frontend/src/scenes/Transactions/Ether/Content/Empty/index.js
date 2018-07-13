@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { LinkContainer } from "react-router-bootstrap";
-import { Icon, IconButton, Separator, Text } from "blockchain-info-components";
-import EtherWelcome from "./EtherWelcome";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { LinkContainer } from "react-router-bootstrap"
+import { Icon, IconButton, Separator, Text } from "blockchain-info-components"
+import EtherWelcome from "./EtherWelcome"
 
 const Wrapper = styled.div`
   display: flex;
@@ -11,24 +11,24 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-`;
+`
 const Transactions = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-top: 50px;
-`;
+`
 const Ether = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-top: 25px;
-`;
+`
 const TransactionIcon = styled(Icon)`
   justify-content: center;
-`;
+`
 
 const Empty = props => (
   <Wrapper>
@@ -60,6 +60,6 @@ const Empty = props => (
       </LinkContainer>
     </Ether>
   </Wrapper>
-);
+)
 
-export default Empty;
+export default Empty

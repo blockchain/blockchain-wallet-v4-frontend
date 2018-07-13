@@ -16,4 +16,4 @@ export default {
       currency: "CNY"
     }
   }
-};
+}

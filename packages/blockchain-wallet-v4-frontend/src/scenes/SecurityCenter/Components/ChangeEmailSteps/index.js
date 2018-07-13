@@ -1,12 +1,12 @@
-import React from "react";
-import { FormattedMessage } from "react-intl";
-import { Text, Button, Banner } from "blockchain-info-components";
-import styled from "styled-components";
-import { SecuritySummary } from "components/Security";
-import { Field } from "redux-form";
-import { TextBox } from "components/Form";
+import React from "react"
+import { FormattedMessage } from "react-intl"
+import { Text, Button, Banner } from "blockchain-info-components"
+import styled from "styled-components"
+import { SecuritySummary } from "components/Security"
+import { Field } from "redux-form"
+import { TextBox } from "components/Form"
 
-import { validEmail } from "services/FormHelper";
+import { validEmail } from "services/FormHelper"
 
 const ChangeEmailWrapper = styled.div`
   width: 100%;
@@ -15,14 +15,14 @@ const ChangeEmailWrapper = styled.div`
   @media (min-width: 554px) {
     width: 80%;
   }
-`;
+`
 const CancelText = styled(Text)`
   cursor: pointer;
   margin-top: 5px;
-`;
+`
 const CustomBannerWrapper = styled.div`
   margin: 10px 0px;
-`;
+`
 const ButtonContainer = styled.div`
   display: flex;
   align-items: center;
@@ -31,7 +31,7 @@ const ButtonContainer = styled.div`
   button {
     margin-right: 5px;
   }
-`;
+`
 
 function ChangeEmailSteps(props) {
   return (
@@ -74,7 +74,7 @@ function ChangeEmailSteps(props) {
         </Banner>
       </CustomBannerWrapper>
     </SecuritySummary>
-  );
+  )
 }
 
-export default ChangeEmailSteps;
+export default ChangeEmailSteps

@@ -1,24 +1,24 @@
-import React from "react";
-import { actions } from "data";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { getData, getTrade } from "./selectors";
-import Success from "./template.success.js";
-import Loading from "components/BuySell/Loading";
-import { path } from "ramda";
-import Failure from "components/BuySell/Failure";
+import React from "react"
+import { actions } from "data"
+import { connect } from "react-redux"
+import { bindActionCreators } from "redux"
+import { getData, getTrade } from "./selectors"
+import Success from "./template.success.js"
+import Loading from "components/BuySell/Loading"
+import { path } from "ramda"
+import Failure from "components/BuySell/Failure"
 
 class OrderHistoryContainer extends React.Component {
   componentDidMount() {
-    this.props.coinifyDataActions.fetchTrades();
+    this.props.coinifyDataActions.fetchTrades()
   }
 
   startBuy() {
-    const { buyQuoteR, paymentMedium, coinifyActions } = this.props;
-    coinifyActions.coinifyLoading();
+    const { buyQuoteR, paymentMedium, coinifyActions } = this.props
+    coinifyActions.coinifyLoading()
     buyQuoteR.map(q =>
       this.props.coinifyActions.initiateBuy({ quote: q, medium: paymentMedium })
-    );
+    )
   }
 
   render() {
@@ -31,16 +31,16 @@ class OrderHistoryContainer extends React.Component {
       trade,
       busy,
       cancelTradeId
-    } = this.props;
-    const { showModal } = modalActions;
-    const { finishTrade, cancelTrade, cancelSubscription } = coinifyActions;
-    const { change } = formActions;
+    } = this.props
+    const { showModal } = modalActions
+    const { finishTrade, cancelTrade, cancelSubscription } = coinifyActions
+    const { change } = formActions
     const status = busy.cata({
       Success: () => false,
       Failure: err => err,
       Loading: () => true,
       NotAsked: () => false
-    });
+    })
 
     return data.cata({
       Success: value => (
@@ -60,7 +60,7 @@ class OrderHistoryContainer extends React.Component {
       Failure: msg => <Failure error={msg} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
-    });
+    })
   }
 }
 
@@ -70,16 +70,16 @@ const mapStateToProps = state => ({
   step: path(["coinify", "checkoutStep"], state),
   busy: path(["coinify", "coinifyBusy"], state),
   cancelTradeId: path(["coinify", "cancelTradeId"], state)
-});
+})
 
 const mapDispatchToProps = dispatch => ({
   coinifyDataActions: bindActionCreators(actions.core.data.coinify, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   coinifyActions: bindActionCreators(actions.modules.coinify, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
-});
+})
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(OrderHistoryContainer);
+)(OrderHistoryContainer)

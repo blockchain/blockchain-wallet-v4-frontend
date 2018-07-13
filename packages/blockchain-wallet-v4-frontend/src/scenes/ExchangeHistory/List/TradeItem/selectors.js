@@ -1,10 +1,10 @@
-import moment from "moment";
-import { getCoinFromPair } from "services/ShapeshiftService";
+import moment from "moment"
+import { getCoinFromPair } from "services/ShapeshiftService"
 
 export const getData = (trade, state) => {
-  const { status, timestamp, quote } = trade;
-  const { pair, depositAmount, withdrawalAmount, deposit } = quote;
-  const { sourceCoin, targetCoin } = getCoinFromPair(pair);
+  const { status, timestamp, quote } = trade
+  const { pair, depositAmount, withdrawalAmount, deposit } = quote
+  const { sourceCoin, targetCoin } = getCoinFromPair(pair)
 
   return {
     status,
@@ -14,5 +14,5 @@ export const getData = (trade, state) => {
     deposit,
     depositAmount,
     withdrawalAmount
-  };
-};
+  }
+}

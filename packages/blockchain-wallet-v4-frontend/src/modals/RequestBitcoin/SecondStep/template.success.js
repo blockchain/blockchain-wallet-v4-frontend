@@ -1,14 +1,14 @@
-import React, { Fragment } from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { reduxForm } from "redux-form";
-import CopyToClipBoard from "react-copy-to-clipboard";
+import React, { Fragment } from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { reduxForm } from "redux-form"
+import CopyToClipBoard from "react-copy-to-clipboard"
 
-import { Button, Link, Text } from "blockchain-info-components";
-import { Form } from "components/Form";
-import CoinDisplay from "components/Display/CoinDisplay";
-import FiatDisplay from "components/Display/FiatDisplay";
+import { Button, Link, Text } from "blockchain-info-components"
+import { Form } from "components/Form"
+import CoinDisplay from "components/Display/CoinDisplay"
+import FiatDisplay from "components/Display/FiatDisplay"
 
 const Container = styled.div`
   display: flex;
@@ -23,7 +23,7 @@ const Container = styled.div`
   & > * {
     padding: 5px 0;
   }
-`;
+`
 const LinkContainer = styled.div`
   width: 100%;
   margin-top: 20px;
@@ -32,17 +32,17 @@ const LinkContainer = styled.div`
   text-align: center;
   word-wrap: break-word;
   border-top: 1px solid ${props => props.theme["gray-1"]};
-`;
+`
 const SubHeader = styled(Text)`
   margin-bottom: 20px;
-`;
+`
 const Footer = styled.div`
   margin-top: 20px;
-`;
+`
 
 const SecondStep = props => {
-  const { previousStep, position, total, modalActions, ...rest } = props;
-  const { handleSubmit, satoshis, message, link, active } = rest;
+  const { previousStep, position, total, modalActions, ...rest } = props
+  const { handleSubmit, satoshis, message, link, active } = rest
 
   return (
     <Fragment>
@@ -109,8 +109,8 @@ const SecondStep = props => {
         </Link>
       </Footer>
     </Fragment>
-  );
-};
+  )
+}
 
 SecondStep.propTypes = {
   position: PropTypes.number.isRequired,
@@ -122,8 +122,8 @@ SecondStep.propTypes = {
   message: PropTypes.string.isRequired,
   previousStep: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired
-};
+}
 
 export default reduxForm({ form: "requestBitcoin", destroyOnUnmount: false })(
   SecondStep
-);
+)

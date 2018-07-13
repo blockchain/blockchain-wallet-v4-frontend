@@ -1,10 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 
-import { Button, Text, Tooltip } from "blockchain-info-components";
-import ExchangeTimeline from "components/ExchangeTimeline";
+import { Button, Text, Tooltip } from "blockchain-info-components"
+import ExchangeTimeline from "components/ExchangeTimeline"
 
 const Wrapper = styled.div`
   display: flex;
@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   align-items: flex-start;
   width: 100%;
   border: 1px solid ${props => props.theme["gray-2"]};
-`;
+`
 const Header = styled.div`
   display: flex;
   flex-direction: row;
@@ -23,7 +23,7 @@ const Header = styled.div`
   padding: 15px 30px;
   box-sizing: border-box;
   border-bottom: 1px solid ${props => props.theme["gray-2"]};
-`;
+`
 const Body = styled.div`
   display: flex;
   flex-direction: column;
@@ -32,7 +32,7 @@ const Body = styled.div`
   width: 100%;
   padding: 15px 30px 5px 30px;
   box-sizing: border-box;
-`;
+`
 const Row = styled.div`
   display: flex;
   flex-direction: row;
@@ -42,11 +42,11 @@ const Row = styled.div`
   width: 100%;
 
   margin-bottom: 10px;
-`;
+`
 const Notice = styled.div`
   width: 100%;
   margin-bottom: 10px;
-`;
+`
 const Table = styled.div`
   width: 100%;
   padding: 0 10px;
@@ -57,7 +57,7 @@ const Table = styled.div`
     border-bottom: none;
   }
   margin-bottom: 10px;
-`;
+`
 const TableRow = styled.div`
   display: flex;
   flex-direction: row;
@@ -71,7 +71,7 @@ const TableRow = styled.div`
   > :first-child {
     margin-right: 5px;
   }
-`;
+`
 const TableCell = styled.div`
   display: flex;
   flex-direction: row;
@@ -81,7 +81,7 @@ const TableCell = styled.div`
   & > :first-child {
     margin-right: 5px;
   }
-`;
+`
 
 const Success = props => {
   const {
@@ -94,7 +94,7 @@ const Success = props => {
     depositAmount,
     withdrawalAmount,
     handleClose
-  } = props;
+  } = props
 
   return (
     <Wrapper>
@@ -265,8 +265,8 @@ const Success = props => {
         </Row>
       </Body>
     </Wrapper>
-  );
-};
+  )
+}
 
 Success.propTypes = {
   sourceCoin: PropTypes.string.isRequired,
@@ -277,6 +277,6 @@ Success.propTypes = {
   orderId: PropTypes.string.isRequired,
   depositAmount: PropTypes.string.isRequired,
   withdrawalAmount: PropTypes.string.isRequired
-};
+}
 
-export default Success;
+export default Success

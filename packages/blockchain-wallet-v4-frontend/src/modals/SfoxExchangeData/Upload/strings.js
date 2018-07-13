@@ -1,12 +1,12 @@
-import React, { Fragment } from "react";
-import { FormattedMessage } from "react-intl";
-import { Text, Banner } from "blockchain-info-components";
-import { Info, PartnerSubHeader } from "components/BuySell/Signup";
-import { spacing } from "services/StyleService";
+import React, { Fragment } from "react"
+import { FormattedMessage } from "react-intl"
+import { Text, Banner } from "blockchain-info-components"
+import { Info, PartnerSubHeader } from "components/BuySell/Signup"
+import { spacing } from "services/StyleService"
 
 const IdInfo = Info.extend`
   margin-bottom: 3px;
-`;
+`
 
 const TitleStrings = props =>
   props.idType === "id" ? (
@@ -101,6 +101,6 @@ const TitleStrings = props =>
         </Banner>
       </IdInfo>
     </Fragment>
-  );
+  )
 
-export default TitleStrings;
+export default TitleStrings

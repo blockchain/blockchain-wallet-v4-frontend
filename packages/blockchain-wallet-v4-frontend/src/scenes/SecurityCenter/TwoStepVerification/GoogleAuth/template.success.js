@@ -1,13 +1,13 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
-import { Button, Text } from "blockchain-info-components";
-import styled from "styled-components";
-import QRCodeReact from "qrcode.react";
-import { Field, reduxForm } from "redux-form";
-import { TextBox } from "components/Form";
-import { required } from "services/FormHelper";
-import { spacing } from "services/StyleService";
+import React from "react"
+import PropTypes from "prop-types"
+import { FormattedMessage } from "react-intl"
+import { Button, Text } from "blockchain-info-components"
+import styled from "styled-components"
+import QRCodeReact from "qrcode.react"
+import { Field, reduxForm } from "redux-form"
+import { TextBox } from "components/Form"
+import { required } from "services/FormHelper"
+import { spacing } from "services/StyleService"
 
 const AuthenticatorSummary = styled.div`
   width: 100%;
@@ -16,23 +16,23 @@ const AuthenticatorSummary = styled.div`
   @media (min-width: 992px) {
     width: 110%;
   }
-`;
+`
 const QRCode = styled.div`
   display: flex;
   justify-content: center;
   align-content: center;
   width: 100%;
   padding: 30px 0;
-`;
+`
 const QRCodeCopy = styled.div`
   display: block;
-`;
+`
 const QRCodeContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-`;
+`
 const QRInputWrapper = styled.div`
   width: 30%;
   display: flex;
@@ -42,10 +42,10 @@ const QRInputWrapper = styled.div`
   button {
     margin-top: 10px;
   }
-`;
+`
 
 const Google = props => {
-  const { data, invalid, handleSubmit, ui } = props;
+  const { data, invalid, handleSubmit, ui } = props
 
   return (
     <form onSubmit={handleSubmit}>
@@ -84,13 +84,13 @@ const Google = props => {
         </QRCodeContainer>
       </AuthenticatorSummary>
     </form>
-  );
-};
+  )
+}
 
 Google.propTypes = {
   handleSubmit: PropTypes.func.isRequired
-};
+}
 
 export default reduxForm({
   form: "securityGoogleAuthenticator"
-})(Google);
+})(Google)

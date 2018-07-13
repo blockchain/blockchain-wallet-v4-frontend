@@ -1,20 +1,20 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
-import { Field, reduxForm } from "redux-form";
-import styled from "styled-components";
+import React from "react"
+import PropTypes from "prop-types"
+import { FormattedMessage } from "react-intl"
+import { Field, reduxForm } from "redux-form"
+import styled from "styled-components"
 
-import { Button, ButtonGroup, Text } from "blockchain-info-components";
-import { NumberBox } from "components/Form";
-import { SettingForm, SettingWrapper } from "components/Setting";
-import { validPasswordStretchingNumber } from "services/FormHelper";
+import { Button, ButtonGroup, Text } from "blockchain-info-components"
+import { NumberBox } from "components/Form"
+import { SettingForm, SettingWrapper } from "components/Setting"
+import { validPasswordStretchingNumber } from "services/FormHelper"
 
 const ButtonWrapper = styled(ButtonGroup)`
   margin-top: 5px;
   & > :first-child {
     margin-right: 5px;
   }
-`;
+`
 
 const Settings = props => {
   const {
@@ -24,7 +24,7 @@ const Settings = props => {
     submitting,
     invalid,
     currentStretch
-  } = props;
+  } = props
   return (
     <SettingWrapper>
       {currentStretch && <Text>{currentStretch}</Text>}
@@ -65,13 +65,13 @@ const Settings = props => {
         </SettingForm>
       )}
     </SettingWrapper>
-  );
-};
+  )
+}
 
 Settings.propTypes = {
   updateToggled: PropTypes.bool.isRequired,
   handleToggle: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired
-};
+}
 
-export default reduxForm({ form: "settingPasswordStretching" })(Settings);
+export default reduxForm({ form: "settingPasswordStretching" })(Settings)

@@ -1,4 +1,4 @@
-import { over, mapped, set, view } from "ramda-lens";
+import { over, mapped, set, view } from "ramda-lens"
 import {
   append,
   assoc,
@@ -8,29 +8,29 @@ import {
   equals,
   lensIndex,
   toLower
-} from "ramda";
-import * as AT from "./actionTypes";
-import Remote from "../../../remote";
-import { lensProp } from "../../../types/util";
-import { value } from "../../../types/KVStoreEntry";
+} from "ramda"
+import * as AT from "./actionTypes"
+import Remote from "../../../remote"
+import { lensProp } from "../../../types/util"
+import { value } from "../../../types/KVStoreEntry"
 
 // initial state should be a kvstore object
-const INITIAL_STATE = Remote.NotAsked;
+const INITIAL_STATE = Remote.NotAsked
 
 export default (state = INITIAL_STATE, action) => {
-  const { type, payload } = action;
+  const { type, payload } = action
 
   switch (type) {
     case AT.FETCH_METADATA_SHAPESHIFT_LOADING: {
-      return Remote.Loading;
+      return Remote.Loading
     }
     case AT.CREATE_METADATA_SHAPESHIFT:
     case AT.FETCH_METADATA_SHAPESHIFT_SUCCESS: {
-      return Remote.Success(payload);
+      return Remote.Success(payload)
     }
     case AT.FETCH_SHAPESHIFT_TRADE_FAILURE:
     case AT.FETCH_METADATA_SHAPESHIFT_FAILURE: {
-      return Remote.Failure(payload);
+      return Remote.Failure(payload)
     }
     case AT.ADD_STATE_METADATA_SHAPESHIFT: {
       return set(
@@ -44,10 +44,10 @@ export default (state = INITIAL_STATE, action) => {
           Name: payload.usState.name
         },
         state
-      );
+      )
     }
     case AT.ADD_TRADE_METADATA_SHAPESHIFT: {
-      const { trade } = payload;
+      const { trade } = payload
       return over(
         compose(
           mapped,
@@ -56,23 +56,23 @@ export default (state = INITIAL_STATE, action) => {
         ),
         append(trade),
         state
-      );
+      )
     }
     case AT.UPDATE_TRADE_METADATA_SHAPESHIFT: {
-      const { depositAddress, status, hashOut } = payload;
+      const { depositAddress, status, hashOut } = payload
 
       return state.map(trades => {
         const lensTrades = compose(
           lensProp("value"),
           lensProp("trades")
-        );
+        )
 
         const i = findIndex(
           compose(
             equals(depositAddress),
             path(["quote", "deposit"])
           )
-        )(view(lensTrades, trades));
+        )(view(lensTrades, trades))
 
         switch (status) {
           case "no_deposits":
@@ -86,12 +86,12 @@ export default (state = INITIAL_STATE, action) => {
               ),
               status,
               trades
-            );
+            )
           case "complete":
             const updateStatusAndHashOut = compose(
               assoc("status", status),
               assoc("hashOut", hashOut)
-            );
+            )
             return over(
               compose(
                 lensTrades,
@@ -99,11 +99,11 @@ export default (state = INITIAL_STATE, action) => {
               ),
               updateStatusAndHashOut,
               trades
-            );
+            )
           default:
-            return state;
+            return state
         }
-      });
+      })
     }
     case AT.FETCH_SHAPESHIFT_TRADE_SUCCESS: {
       const {
@@ -113,19 +113,19 @@ export default (state = INITIAL_STATE, action) => {
         outgoingCoin,
         incomingType,
         outgoingType
-      } = payload;
+      } = payload
 
       return state.map(trades => {
         const lensTrades = compose(
           lensProp("value"),
           lensProp("trades")
-        );
+        )
         const i = findIndex(
           compose(
             equals(address),
             path(["quote", "deposit"])
           )
-        )(view(lensTrades, trades));
+        )(view(lensTrades, trades))
 
         const setTradePropValue = (prop, value) =>
           set(
@@ -135,7 +135,7 @@ export default (state = INITIAL_STATE, action) => {
               lensProp(prop)
             ),
             value
-          );
+          )
 
         const setQuotePropValue = (prop, value) =>
           set(
@@ -146,7 +146,7 @@ export default (state = INITIAL_STATE, action) => {
               lensProp(prop)
             ),
             value
-          );
+          )
 
         if (equals(status, "complete")) {
           return compose(
@@ -157,13 +157,13 @@ export default (state = INITIAL_STATE, action) => {
               "pair",
               `${toLower(incomingType)}_${toLower(outgoingType)}`
             )
-          )(trades);
+          )(trades)
         } else {
-          return trades;
+          return trades
         }
-      });
+      })
     }
     default:
-      return state;
+      return state
   }
-};
+}

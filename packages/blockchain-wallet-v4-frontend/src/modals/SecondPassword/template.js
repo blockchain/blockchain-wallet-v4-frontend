@@ -1,6 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import PropTypes from "prop-types"
+import { FormattedMessage } from "react-intl"
 
 import {
   Button,
@@ -11,11 +11,11 @@ import {
   ModalFooter,
   PasswordInput,
   Text
-} from "blockchain-info-components";
+} from "blockchain-info-components"
 
 const SecondPassword = props => {
-  const { position, total, close, ...rest } = props;
-  const { handleClick, handleChange, value } = rest;
+  const { position, total, close, ...rest } = props
+  const { handleClick, handleChange, value } = rest
 
   return (
     <Modal size="medium" position={position} total={total} closeButton={false}>
@@ -49,12 +49,12 @@ const SecondPassword = props => {
         </Button>
       </ModalFooter>
     </Modal>
-  );
-};
+  )
+}
 
 SecondPassword.propTypes = {
   secondPassword: PropTypes.string,
   handleClick: PropTypes.func.isRequired
-};
+}
 
-export default SecondPassword;
+export default SecondPassword

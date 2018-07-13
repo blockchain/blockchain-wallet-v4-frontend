@@ -1,5 +1,5 @@
-import React from "react";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import { FormattedMessage } from "react-intl"
 import {
   SettingComponent,
   SettingContainer,
@@ -7,11 +7,11 @@ import {
   SettingHeader,
   SettingSummary,
   SettingStatus
-} from "components/Setting";
-import Settings from "./Settings";
+} from "components/Setting"
+import Settings from "./Settings"
 
 const SecondPasswordWallet = props => {
-  const { secondPasswordEnabled } = props;
+  const { secondPasswordEnabled } = props
   return (
     <SettingContainer>
       <SettingSummary>
@@ -49,7 +49,7 @@ const SecondPasswordWallet = props => {
         <Settings />
       </SettingComponent>
     </SettingContainer>
-  );
-};
+  )
+}
 
-export default SecondPasswordWallet;
+export default SecondPasswordWallet

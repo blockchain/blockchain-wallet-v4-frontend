@@ -1,6 +1,6 @@
-import { reverse } from "ramda";
-import Remote from "../../../remote";
-import * as selectors from "./selectors";
+import { reverse } from "ramda"
+import Remote from "../../../remote"
+import * as selectors from "./selectors"
 
 describe("kvstore shapeshift selectors", () => {
   const pendingTrade = {
@@ -18,7 +18,7 @@ describe("kvstore shapeshift selectors", () => {
       withdrawalAmount: "0.05",
       depositAmount: "0.00030224"
     }
-  };
+  }
 
   const completeTrade = {
     status: "complete",
@@ -34,106 +34,106 @@ describe("kvstore shapeshift selectors", () => {
       withdrawalAmount: "0.00014888",
       depositAmount: 0.00403769
     }
-  };
+  }
 
-  const trades = [pendingTrade, completeTrade];
+  const trades = [pendingTrade, completeTrade]
 
   const USAState = {
     Code: "AL",
     Name: "Alabama"
-  };
+  }
 
   const shapeshiftMetadata = {
     value: {
       trades,
       USAState
     }
-  };
+  }
 
   const successState = {
     kvStorePath: {
       shapeshift: Remote.Success(shapeshiftMetadata)
     }
-  };
+  }
 
   it("getMetadata should return success of metadata", () => {
-    const expectedResult = Remote.Success(shapeshiftMetadata);
-    expect(selectors.getMetadata(successState)).toEqual(expectedResult);
-  });
+    const expectedResult = Remote.Success(shapeshiftMetadata)
+    expect(selectors.getMetadata(successState)).toEqual(expectedResult)
+  })
 
   it("getUsState should return success of USAState", () => {
-    const expectedResult = Remote.Success(USAState);
-    expect(selectors.getUsState(successState)).toEqual(expectedResult);
-  });
+    const expectedResult = Remote.Success(USAState)
+    expect(selectors.getUsState(successState)).toEqual(expectedResult)
+  })
 
   it("getTrades should return success of trades", () => {
-    const expectedResult = Remote.Success(reverse(trades));
-    expect(selectors.getTrades(successState)).toEqual(expectedResult);
-  });
+    const expectedResult = Remote.Success(reverse(trades))
+    expect(selectors.getTrades(successState)).toEqual(expectedResult)
+  })
 
   it("getTrade should return success of trade", () => {
-    const completeTradeAddress = "0x50c3b88941948ef337458f766971c407e7180a29";
-    const expectedResult = Remote.Success(completeTrade);
+    const completeTradeAddress = "0x50c3b88941948ef337458f766971c407e7180a29"
+    const expectedResult = Remote.Success(completeTrade)
     expect(selectors.getTrade(completeTradeAddress, successState)).toEqual(
       expectedResult
-    );
-  });
+    )
+  })
 
   const loadingState = {
     kvStorePath: {
       shapeshift: Remote.Loading
     }
-  };
+  }
 
   it("getMetadata should return loading in loading state", () => {
-    const expectedResult = Remote.Loading;
-    expect(selectors.getMetadata(loadingState)).toEqual(expectedResult);
-  });
+    const expectedResult = Remote.Loading
+    expect(selectors.getMetadata(loadingState)).toEqual(expectedResult)
+  })
 
   it("getUsState should return loading in loading state", () => {
-    const expectedResult = Remote.Loading;
-    expect(selectors.getUsState(loadingState)).toEqual(expectedResult);
-  });
+    const expectedResult = Remote.Loading
+    expect(selectors.getUsState(loadingState)).toEqual(expectedResult)
+  })
 
   it("getTrades should return loading in loading state", () => {
-    const expectedResult = Remote.Loading;
-    expect(selectors.getTrades(loadingState)).toEqual(expectedResult);
-  });
+    const expectedResult = Remote.Loading
+    expect(selectors.getTrades(loadingState)).toEqual(expectedResult)
+  })
 
   it("getTrade should return loading in loading state", () => {
-    const completeTradeAddress = "0x50c3b88941948ef337458f766971c407e7180a29";
-    const expectedResult = Remote.Loading;
+    const completeTradeAddress = "0x50c3b88941948ef337458f766971c407e7180a29"
+    const expectedResult = Remote.Loading
     expect(selectors.getTrade(completeTradeAddress, loadingState)).toEqual(
       expectedResult
-    );
-  });
+    )
+  })
 
   const failureState = {
     kvStorePath: {
       shapeshift: Remote.Failure("Error in shapeshift metadata")
     }
-  };
+  }
 
   it("getMetadata should return failure in failure state", () => {
-    const expectedResult = Remote.Failure("Error in shapeshift metadata");
-    expect(selectors.getMetadata(failureState)).toEqual(expectedResult);
-  });
+    const expectedResult = Remote.Failure("Error in shapeshift metadata")
+    expect(selectors.getMetadata(failureState)).toEqual(expectedResult)
+  })
 
   it("getUsState should return failure in failure state", () => {
-    const expectedResult = Remote.Failure("Error in shapeshift metadata");
-    expect(selectors.getUsState(failureState)).toEqual(expectedResult);
-  });
+    const expectedResult = Remote.Failure("Error in shapeshift metadata")
+    expect(selectors.getUsState(failureState)).toEqual(expectedResult)
+  })
 
   it("getTrades should return failure in failure state", () => {
-    const expectedResult = Remote.Failure("Error in shapeshift metadata");
-    expect(selectors.getTrades(failureState)).toEqual(expectedResult);
-  });
+    const expectedResult = Remote.Failure("Error in shapeshift metadata")
+    expect(selectors.getTrades(failureState)).toEqual(expectedResult)
+  })
 
   it("getTrade should return failure in failure state", () => {
-    const completeTradeAddress = "0x50c3b88941948ef337458f766971c407e7180a29";
-    const expectedResult = Remote.Failure("Error in shapeshift metadata");
+    const completeTradeAddress = "0x50c3b88941948ef337458f766971c407e7180a29"
+    const expectedResult = Remote.Failure("Error in shapeshift metadata")
     expect(selectors.getTrade(completeTradeAddress, failureState)).toEqual(
       expectedResult
-    );
-  });
-});
+    )
+  })
+})

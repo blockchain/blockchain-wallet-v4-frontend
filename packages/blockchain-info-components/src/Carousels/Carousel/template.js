@@ -1,10 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { range } from "ramda";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { range } from "ramda"
 
-import { Color } from "../../Colors";
-import { Icon } from "../../Icons";
+import { Color } from "../../Colors"
+import { Icon } from "../../Icons"
 
 const Wrapper = styled.div`
   display: flex;
@@ -12,13 +12,13 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-`;
+`
 const Content = styled.div`
   position: relative;
   width: 100%;
   min-height: ${props => props.height}px;
   overflow-x: hidden;
-`;
+`
 const Slider = styled.div`
   position: absolute;
   display: flex;
@@ -36,7 +36,7 @@ const Slider = styled.div`
     width: 100%;
     height: 100%;
   }
-`;
+`
 const Controls = styled.div`
   position: relative;
   display: flex;
@@ -45,7 +45,7 @@ const Controls = styled.div`
   align-items: center;
   width: 100%;
   height: 40px;
-`;
+`
 const Control = styled.div`
   display: flex;
   width: 10px;
@@ -56,7 +56,7 @@ const Control = styled.div`
     props.active ? props.theme["brand-secondary"] : props.theme["gray-4"]};
   cursor: pointer;
   z-index: ;
-`;
+`
 const Arrow = styled(Icon).attrs({
   name: "down-arrow",
   size: "24px",
@@ -75,7 +75,7 @@ const Arrow = styled(Icon).attrs({
   &:hover {
     color: ${Color("brand-secondary")}!important;
   }
-`;
+`
 
 const Carousel = props => {
   const {
@@ -88,7 +88,7 @@ const Carousel = props => {
     handleClick,
     handlePrevious,
     handleNext
-  } = props;
+  } = props
 
   return (
     <Wrapper>
@@ -111,8 +111,8 @@ const Carousel = props => {
         </Controls>
       )}
     </Wrapper>
-  );
-};
+  )
+}
 
 Carousel.propTypes = {
   index: PropTypes.number.isRequired,
@@ -121,6 +121,6 @@ Carousel.propTypes = {
   handleClick: PropTypes.func.isRequired,
   arrows: PropTypes.bool.isRequired,
   chips: PropTypes.bool.isRequired
-};
+}
 
-export default Carousel;
+export default Carousel

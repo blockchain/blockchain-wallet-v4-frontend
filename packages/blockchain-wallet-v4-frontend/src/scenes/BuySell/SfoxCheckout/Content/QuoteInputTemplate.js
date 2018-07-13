@@ -1,14 +1,14 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { equals, gt, prop } from "ramda";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { equals, gt, prop } from "ramda"
 
-import { StepTransition } from "components/Utilities/Stepper";
-import { spacing } from "services/StyleService";
-import { FormattedMessage } from "react-intl";
-import { Remote } from "blockchain-wallet-v4/src";
-import { Icon, TextInput, Text, Button } from "blockchain-info-components";
-import media from "services/ResponsiveService";
+import { StepTransition } from "components/Utilities/Stepper"
+import { spacing } from "services/StyleService"
+import { FormattedMessage } from "react-intl"
+import { Remote } from "blockchain-wallet-v4/src"
+import { Icon, TextInput, Text, Button } from "blockchain-info-components"
+import media from "services/ResponsiveService"
 
 const Wrapper = styled.div`
   width: 100%;
@@ -18,7 +18,7 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: flex-start;
   font-family: "Montserrat", Helvetica, sans-serif;
-`;
+`
 const FiatConvertorInput = styled.div`
   display: flex;
   justify-content: center;
@@ -32,7 +32,7 @@ const FiatConvertorInput = styled.div`
       margin-bottom: 25px;
     }
   `};
-`;
+`
 const Container = styled.div`
   position: relative;
   width: 100%;
@@ -41,21 +41,21 @@ const Container = styled.div`
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
-`;
+`
 const Unit = styled.span`
   padding: 0 15px;
   font-size: 12px;
   font-weight: 300;
   position: absolute;
   color: ${props => props.theme["gray-4"]};
-`;
+`
 const ArrowLeft = styled(Icon)`
   margin-left: 10px;
   color: #bbb;
   ${media.mobile`
     display: none;
   `};
-`;
+`
 const ArrowRight = styled(Icon)`
   margin-left: -10px;
   margin-right: 10px;
@@ -63,7 +63,7 @@ const ArrowRight = styled(Icon)`
   ${media.mobile`
     display: none;
   `};
-`;
+`
 const Error = styled(Text)`
   position: absolute;
   display: block;
@@ -71,31 +71,31 @@ const Error = styled(Text)`
   height: 15px;
   top: 42px;
   right: 0;
-`;
+`
 const ButtonWrapper = styled.div`
   width: 100%;
-`;
+`
 const getErrorState = meta => {
-  return !meta.touched ? "initial" : meta.invalid ? "invalid" : "valid";
-};
+  return !meta.touched ? "initial" : meta.invalid ? "invalid" : "valid"
+}
 
 const getLimitsError = (val, limits, disabledReason, fiat, cryptoMax) => {
   if (limits.max < limits.min)
-    return `Your limit of $${limits.max} is below the minimum allowed amount.`;
+    return `Your limit of $${limits.max} is below the minimum allowed amount.`
   if (equals(disabledReason, "not_enough_funds"))
-    return `There are not enough funds to meet the sell minimum of $${limits.min.toLocaleString()}`;
+    return `There are not enough funds to meet the sell minimum of $${limits.min.toLocaleString()}`
   if (gt(val, limits.max) || fiat > cryptoMax)
-    return `Enter an amount under your $${limits.max.toLocaleString()} limit`;
+    return `Enter an amount under your $${limits.max.toLocaleString()} limit`
   if (gt(limits.min, val))
-    return `Enter an amount above the $${limits.min.toLocaleString()} minimum`;
-  if (!val || !fiat) return;
+    return `Enter an amount above the $${limits.min.toLocaleString()} minimum`
+  if (!val || !fiat) return
   if (fiat * 1e8 > limits.effectiveMax)
     return `Enter an amount less than your balance minus the priority fee (${limits.effectiveMax /
-      1e8} BTC)`;
-};
+      1e8} BTC)`
+}
 
 const limitsHelper = (quoteR, limits) => {
-  if (quoteR.error) return true;
+  if (quoteR.error) return true
   return quoteR
     .map(q => {
       switch (prop("baseCurrency", q)) {
@@ -104,17 +104,17 @@ const limitsHelper = (quoteR, limits) => {
             +q.baseAmount > limits.max ||
             +q.baseAmount < limits.min ||
             +q.quoteAmount > limits.effectiveMax
-          );
+          )
         case "BTC":
           return (
             +q.quoteAmount > limits.max ||
             +q.quoteAmount < limits.min ||
             +q.baseAmount > limits.effectiveMax
-          );
+          )
       }
     })
-    .getOrElse(null);
-};
+    .getOrElse(null)
+}
 
 const FiatConvertor = props => {
   const {
@@ -131,10 +131,10 @@ const FiatConvertor = props => {
     quoteR,
     reason,
     cryptoMax
-  } = props;
-  const { currency, unit } = props.data.data;
-  const errorState = getErrorState(meta);
-  const disabledReason = disabled();
+  } = props
+  const { currency, unit } = props.data.data
+  const errorState = getErrorState(meta)
+  const disabledReason = disabled()
 
   return (
     <Wrapper>
@@ -206,8 +206,8 @@ const FiatConvertor = props => {
         </ButtonWrapper>
       ) : null}
     </Wrapper>
-  );
-};
+  )
+}
 
 FiatConvertor.propTypes = {
   coin: PropTypes.string,
@@ -220,6 +220,6 @@ FiatConvertor.propTypes = {
   handleFiatChange: PropTypes.func.isRequired,
   handleFocus: PropTypes.func.isRequired,
   handleErrorClick: PropTypes.func
-};
+}
 
-export default FiatConvertor;
+export default FiatConvertor

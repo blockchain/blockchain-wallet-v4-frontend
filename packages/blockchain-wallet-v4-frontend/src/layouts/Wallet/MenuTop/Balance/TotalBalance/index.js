@@ -1,10 +1,10 @@
-import React from "react";
-import { connect } from "react-redux";
-import { getData } from "./selectors";
+import React from "react"
+import { connect } from "react-redux"
+import { getData } from "./selectors"
 
-import Error from "./template.error";
-import Loading from "./template.loading";
-import Success from "./template.success";
+import Error from "./template.error"
+import Loading from "./template.loading"
+import Success from "./template.success"
 
 class TotalBalance extends React.PureComponent {
   render() {
@@ -15,12 +15,12 @@ class TotalBalance extends React.PureComponent {
       Failure: msg => <Error>{msg}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
-    });
+    })
   }
 }
 
 const mapStateToProps = state => ({
   data: getData(state)
-});
+})
 
-export default connect(mapStateToProps)(TotalBalance);
+export default connect(mapStateToProps)(TotalBalance)

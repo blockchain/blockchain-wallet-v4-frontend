@@ -1,9 +1,9 @@
-import { compose } from "ramda";
-import { actions, actionTypes } from "data";
+import { compose } from "ramda"
+import { actions, actionTypes } from "data"
 
 const socket = socket => store => {
   return next => action => {
-    const { type } = action;
+    const { type } = action
 
     if (type === actionTypes.middleware.webSocket.bch.START_SOCKET) {
       socket.connect(
@@ -19,15 +19,15 @@ const socket = socket => store => {
           store.dispatch,
           actions.middleware.webSocket.bch.closeSocket
         )
-      );
+      )
     }
 
     if (type === actionTypes.middleware.webSocket.bch.STOP_SOCKET) {
-      socket.close();
+      socket.close()
     }
 
-    return next(action);
-  };
-};
+    return next(action)
+  }
+}
 
-export default socket;
+export default socket

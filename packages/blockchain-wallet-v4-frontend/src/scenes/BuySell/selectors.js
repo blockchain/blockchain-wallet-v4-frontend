@@ -1,7 +1,7 @@
-import { lift, pathOr, takeWhile } from "ramda";
-import { formValueSelector } from "redux-form";
-import { createDeepEqualSelector } from "services/ReselectHelper";
-import { selectors } from "data";
+import { lift, pathOr, takeWhile } from "ramda"
+import { formValueSelector } from "redux-form"
+import { createDeepEqualSelector } from "services/ReselectHelper"
+import { selectors } from "data"
 
 export const getData = createDeepEqualSelector(
   [
@@ -15,14 +15,14 @@ export const getData = createDeepEqualSelector(
         options,
         buySell,
         countryCode
-      };
-    };
-    return lift(transform)(optionsR, buySellR, countryCodeR);
+      }
+    }
+    return lift(transform)(optionsR, buySellR, countryCodeR)
   }
-);
+)
 
 export const getFields = state => {
-  const country = formValueSelector("selectPartner")(state, "country");
+  const country = formValueSelector("selectPartner")(state, "country")
   return {
     type: pathOr(
       "buy",
@@ -32,5 +32,5 @@ export const getFields = state => {
     country: country && takeWhile(x => x !== "-", country),
     stateSelection: formValueSelector("selectPartner")(state, "state"),
     email: formValueSelector("selectPartner")(state, "email")
-  };
-};
+  }
+}

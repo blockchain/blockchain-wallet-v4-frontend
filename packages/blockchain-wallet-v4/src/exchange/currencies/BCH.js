@@ -28,4 +28,4 @@ export default {
       currency: "BCH"
     }
   }
-};
+}

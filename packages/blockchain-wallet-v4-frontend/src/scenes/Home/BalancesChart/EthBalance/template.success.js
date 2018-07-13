@@ -1,10 +1,10 @@
-import React, { Fragment } from "react";
-import { FormattedMessage } from "react-intl";
-import { gt, gte } from "ramda";
+import React, { Fragment } from "react"
+import { FormattedMessage } from "react-intl"
+import { gt, gte } from "ramda"
 
-import { Link, Text } from "blockchain-info-components";
-import { CoinBalance, ColourBar, WalletLink } from "components/BalancesChart";
-import SwitchableDisplay from "components/Display/SwitchableDisplay";
+import { Link, Text } from "blockchain-info-components"
+import { CoinBalance, ColourBar, WalletLink } from "components/BalancesChart"
+import SwitchableDisplay from "components/Display/SwitchableDisplay"
 
 const EthBalance = props => {
   const {
@@ -14,8 +14,8 @@ const EthBalance = props => {
     handleCoinDisplay,
     partner,
     ...rest
-  } = props;
-  const { handleRefresh, modalsActions } = rest;
+  } = props
+  const { handleRefresh, modalsActions } = rest
 
   return (
     <Fragment>
@@ -75,7 +75,7 @@ const EthBalance = props => {
         )
       )}
     </Fragment>
-  );
-};
+  )
+}
 
-export default EthBalance;
+export default EthBalance

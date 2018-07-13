@@ -1,5 +1,5 @@
-import React from "react";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import { FormattedMessage } from "react-intl"
 
 import {
   SettingComponent,
@@ -7,11 +7,11 @@ import {
   SettingDescription,
   SettingHeader,
   SettingSummary
-} from "components/Setting";
-import Settings from "./Settings";
+} from "components/Setting"
+import Settings from "./Settings"
 
 const WalletLanguage = props => {
-  const { language } = props;
+  const { language } = props
 
   return (
     <SettingContainer>
@@ -33,7 +33,7 @@ const WalletLanguage = props => {
         <Settings language={language} />
       </SettingComponent>
     </SettingContainer>
-  );
-};
+  )
+}
 
-export default WalletLanguage;
+export default WalletLanguage

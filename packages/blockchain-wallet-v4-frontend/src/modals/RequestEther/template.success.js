@@ -1,27 +1,27 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { Field, reduxForm } from "redux-form";
-import QRCodeReact from "qrcode.react";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { Field, reduxForm } from "redux-form"
+import QRCodeReact from "qrcode.react"
 
-import { required } from "services/FormHelper";
-import { Button, Separator, Text, Tooltip } from "blockchain-info-components";
+import { required } from "services/FormHelper"
+import { Button, Separator, Text, Tooltip } from "blockchain-info-components"
 import {
   Form,
   FormGroup,
   FormItem,
   FormLabel,
   SelectBoxCoin
-} from "components/Form";
-import CopyClipboard from "components/CopyClipboard";
+} from "components/Form"
+import CopyClipboard from "components/CopyClipboard"
 
 const AddressContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-`;
+`
 const QRCodeContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -30,16 +30,16 @@ const QRCodeContainer = styled.div`
   margin-bottom: 25px;
   margin-top: 5px;
   width: 100%;
-`;
+`
 const CoinSelector = styled(FormGroup)`
   width: 50%;
-`;
+`
 const ScanMessage = styled.div`
   padding-bottom: 20px;
-`;
+`
 
 const RequestEther = props => {
-  const { handleSubmit, address } = props;
+  const { handleSubmit, address } = props
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -99,14 +99,14 @@ const RequestEther = props => {
         <FormattedMessage id="modals.requestether.done" defaultMessage="Done" />
       </Button>
     </Form>
-  );
-};
+  )
+}
 
 RequestEther.propTypes = {
   address: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired
-};
+}
 
 export default reduxForm({ form: "requestEther", destroyOnUnmount: false })(
   RequestEther
-);
+)

@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
-import { reduxForm } from "redux-form";
+import React from "react"
+import PropTypes from "prop-types"
+import { FormattedMessage } from "react-intl"
+import { reduxForm } from "redux-form"
 
 import {
   Button,
@@ -11,12 +11,12 @@ import {
   ModalBody,
   ModalFooter,
   Text
-} from "blockchain-info-components";
-import { Form } from "components/Form";
+} from "blockchain-info-components"
+import { Form } from "components/Form"
 
 const AutoDisconnection = props => {
-  const { duration, position, total, ...rest } = props;
-  const { handleSubmit, handleCancel } = rest;
+  const { duration, position, total, ...rest } = props
+  const { handleSubmit, handleCancel } = rest
 
   return (
     <Modal size="large" position={position} total={total}>
@@ -59,8 +59,8 @@ const AutoDisconnection = props => {
         </ModalFooter>
       </Form>
     </Modal>
-  );
-};
+  )
+}
 
 AutoDisconnection.propTypes = {
   payload: PropTypes.shape({
@@ -68,6 +68,6 @@ AutoDisconnection.propTypes = {
     handleCancel: PropTypes.func,
     handleClick: PropTypes.func
   })
-};
+}
 
-export default reduxForm({ form: "autoDisconnection" })(AutoDisconnection);
+export default reduxForm({ form: "autoDisconnection" })(AutoDisconnection)

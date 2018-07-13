@@ -1,7 +1,7 @@
-import React from "react";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import { FormattedMessage } from "react-intl"
 
-import CoinDisplay from "components/Display/CoinDisplay";
+import CoinDisplay from "components/Display/CoinDisplay"
 import {
   Link,
   Text,
@@ -10,7 +10,7 @@ import {
   TableRow,
   TableCell,
   Tooltip
-} from "blockchain-info-components";
+} from "blockchain-info-components"
 
 const UsedTable = ({ children }) => (
   <Table>
@@ -51,7 +51,7 @@ const UsedTable = ({ children }) => (
     </TableHeader>
     {children}
   </Table>
-);
+)
 
 const UsedTableEntry = ({ address, search }) => {
   const isMatch = () => {
@@ -60,8 +60,8 @@ const UsedTableEntry = ({ address, search }) => {
       address.address.toLowerCase().indexOf(search.toLowerCase()) > -1 ||
       (address.label &&
         address.label.toLowerCase().indexOf(search.toLowerCase()) > -1)
-    );
-  };
+    )
+  }
 
   return !isMatch() ? null : (
     <TableRow>
@@ -89,8 +89,8 @@ const UsedTableEntry = ({ address, search }) => {
         </Text>
       </TableCell>
     </TableRow>
-  );
-};
+  )
+}
 
 const UsedAddressesTable = ({ usedAddresses, search }) => (
   <React.Fragment>
@@ -115,6 +115,6 @@ const UsedAddressesTable = ({ usedAddresses, search }) => (
       </Text>
     )}
   </React.Fragment>
-);
+)
 
-export default UsedAddressesTable;
+export default UsedAddressesTable

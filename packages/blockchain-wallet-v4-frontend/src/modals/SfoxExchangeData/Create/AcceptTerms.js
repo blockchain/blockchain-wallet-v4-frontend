@@ -1,21 +1,21 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { connect } from "react-redux";
-import { bindActionCreators, compose } from "redux";
-import { path } from "ramda";
-import { Field } from "redux-form";
-import { actions, selectors } from "data";
-import { CheckBox } from "components/Form";
-import { FormattedMessage } from "react-intl";
+import React, { Component } from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { connect } from "react-redux"
+import { bindActionCreators, compose } from "redux"
+import { path } from "ramda"
+import { Field } from "redux-form"
+import { actions, selectors } from "data"
+import { CheckBox } from "components/Form"
+import { FormattedMessage } from "react-intl"
 import {
   Button,
   HeartbeatLoader,
   Text,
   Link,
   Icon
-} from "blockchain-info-components";
-import Helper from "components/BuySell/FAQ";
+} from "blockchain-info-components"
+import Helper from "components/BuySell/FAQ"
 import {
   Form,
   ColLeft,
@@ -26,13 +26,13 @@ import {
   ButtonWrapper,
   ErrorWrapper,
   ColRightInner
-} from "components/BuySell/Signup";
-import { spacing } from "services/StyleService";
-import Terms from "components/Terms";
-import media from "services/ResponsiveService";
+} from "components/BuySell/Signup"
+import { spacing } from "services/StyleService"
+import Terms from "components/Terms"
+import media from "services/ResponsiveService"
 
 const checkboxShouldBeChecked = value =>
-  value ? undefined : "You must agree to the terms and conditions";
+  value ? undefined : "You must agree to the terms and conditions"
 
 const helpers = [
   {
@@ -63,7 +63,7 @@ const helpers = [
       />
     )
   }
-];
+]
 
 const AcceptTermsContainer = styled.div`
   display: flex;
@@ -75,21 +75,21 @@ const AcceptTermsContainer = styled.div`
     color: ${props => props.theme["brand-secondary"]};
     text-decoration: none;
   }
-`;
+`
 const FieldsContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 20px;
-`;
+`
 const FieldContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 20px;
-`;
+`
 const VerifiedContainer = styled.div`
   display: flex;
   flex-direction: row;
-`;
+`
 const FieldBox = styled.div`
   border: 1px solid #dddddd;
   padding: 5px 15px;
@@ -104,7 +104,7 @@ const FieldBox = styled.div`
     flex-direction: column;
     width: fit-content;
   `};
-`;
+`
 const IconContainer = styled.div`
   display: flex;
   align-items: center;
@@ -112,38 +112,38 @@ const IconContainer = styled.div`
   ${media.mobile`
     align-items: flex-start;
   `};
-`;
+`
 const InlineTextWrapper = styled.div`
   & > * {
     display: inline-block;
     margin-right: 3px;
   }
-`;
+`
 const AcceptTermsForm = styled(Form)`
   ${media.mobile`
     flex-direction: column;
   `};
-`;
+`
 const EditLink = styled(Link)`
   font-size: 12px;
   ${media.mobile`
     margin-top: 5px;
     font-size: 12px;
   `};
-`;
+`
 
 class AcceptTerms extends Component {
   constructor(props) {
-    super(props);
-    this.state = { acceptedTerms: false };
+    super(props)
+    this.state = { acceptedTerms: false }
 
-    this.handleSignup = this.handleSignup.bind(this);
+    this.handleSignup = this.handleSignup.bind(this)
   }
 
   handleSignup(e) {
-    e.preventDefault();
-    this.props.sfoxFrontendActions.sfoxNotAsked();
-    this.props.sfoxFrontendActions.sfoxSignup();
+    e.preventDefault()
+    this.props.sfoxFrontendActions.sfoxNotAsked()
+    this.props.sfoxFrontendActions.sfoxSignup()
   }
 
   render() {
@@ -152,7 +152,7 @@ class AcceptTerms extends Component {
       Failure: error => ({ busy: false, error }),
       Loading: () => ({ busy: true }),
       NotAsked: () => ({ busy: false })
-    });
+    })
 
     const {
       invalid,
@@ -164,13 +164,13 @@ class AcceptTerms extends Component {
       smsVerified,
       sfoxFrontendActions,
       needsChangeEmail
-    } = this.props;
-    const { sfoxNotAsked } = sfoxFrontendActions;
+    } = this.props
+    const { sfoxNotAsked } = sfoxFrontendActions
 
     const faqHelper = () =>
       helpers.map((el, i) => (
         <Helper key={i} question={el.question} answer={el.answer} />
-      ));
+      ))
 
     return (
       <AcceptTermsForm onSubmit={this.handleSignup}>
@@ -312,8 +312,8 @@ class AcceptTerms extends Component {
                     size="12px"
                     weight={300}
                     onClick={() => {
-                      sfoxNotAsked();
-                      needsChangeEmail();
+                      sfoxNotAsked()
+                      needsChangeEmail()
                     }}
                   >
                     <FormattedMessage
@@ -363,7 +363,7 @@ class AcceptTerms extends Component {
           </ColRightInner>
         </ColRight>
       </AcceptTermsForm>
-    );
+    )
   }
 }
 
@@ -372,23 +372,23 @@ AcceptTerms.propTypes = {
   ui: PropTypes.object,
   email: PropTypes.string.isRequired,
   smsNumber: PropTypes.string.isRequired
-};
+}
 
 const mapStateToProps = state => ({
   email: selectors.core.settings.getEmail(state).data,
   smsNumber: selectors.core.settings.getSmsNumber(state).data,
   sfoxSignupStatus: path(["sfoxSignup", "sfoxBusy"], state)
-});
+})
 
 const mapDispatchToProps = dispatch => ({
   sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch)
-});
+})
 
 const enhance = compose(
   connect(
     mapStateToProps,
     mapDispatchToProps
   )
-);
+)
 
-export default enhance(AcceptTerms);
+export default enhance(AcceptTerms)

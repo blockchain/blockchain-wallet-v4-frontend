@@ -1,10 +1,10 @@
-import React from "react";
-import Notifications from "./template.js";
+import React from "react"
+import Notifications from "./template.js"
 
 class NotificationsContainer extends React.PureComponent {
   render() {
-    return <Notifications />;
+    return <Notifications />
   }
 }
 
-export default NotificationsContainer;
+export default NotificationsContainer

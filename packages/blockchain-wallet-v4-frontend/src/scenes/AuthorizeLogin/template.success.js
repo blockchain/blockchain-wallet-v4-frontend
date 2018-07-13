@@ -1,35 +1,35 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { Banner, Button, Icon, Image, Text } from "blockchain-info-components";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { Banner, Button, Icon, Image, Text } from "blockchain-info-components"
 
-const Fragment = React.Fragment;
+const Fragment = React.Fragment
 
 const Wrapper = styled.div`
   display: flex;
   text-align: center;
   align-items: center;
   flex-direction: column;
-`;
+`
 const InfoWrapper = styled.div`
   text-align: left;
-`;
+`
 const DeviceInfoWrapper = styled.div`
   margin-top: 20px;
-`;
+`
 const DeviceInfoHeader = styled.div`
   display: flex;
   flex-direction: row;
-`;
+`
 const DeviceDiff = styled.div`
   margin-top: 10px;
-`;
+`
 const DeviceInfoRow = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   margin-top: 5px;
-`;
+`
 const ApproveWrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -39,17 +39,17 @@ const ApproveWrapper = styled.div`
   > div:nth-child(2) {
     margin: 0px 5px;
   }
-`;
+`
 
 const Success = props => {
   /* eslint-disable */
   const {
     approver_device_description,
     requester_device_description
-  } = props.value;
-  const { approver_country, requester_country } = props.value;
-  const { approver_ip, requester_ip } = props.value;
-  const requestDenied = props.value["request-denied"];
+  } = props.value
+  const { approver_country, requester_country } = props.value
+  const { approver_ip, requester_ip } = props.value
+  const requestDenied = props.value["request-denied"]
   /* eslint-enable */
 
   return (
@@ -244,7 +244,7 @@ const Success = props => {
         </Fragment>
       )}
     </Wrapper>
-  );
-};
+  )
+}
 
-export default Success;
+export default Success

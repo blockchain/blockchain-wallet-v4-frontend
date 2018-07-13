@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
 import {
   Modal,
   ModalHeader,
@@ -9,30 +9,30 @@ import {
   Button,
   Link,
   HeartbeatLoader
-} from "blockchain-info-components";
-import { Field, reduxForm } from "redux-form";
-import { Form, FormGroup, FormItem, NumberBox } from "components/Form";
-import { required } from "services/FormHelper";
-import PropTypes from "prop-types";
-import BuySellAnimation from "../../scenes/BuySell/BuySellAnimation";
+} from "blockchain-info-components"
+import { Field, reduxForm } from "redux-form"
+import { Form, FormGroup, FormItem, NumberBox } from "components/Form"
+import { required } from "services/FormHelper"
+import PropTypes from "prop-types"
+import BuySellAnimation from "../../scenes/BuySell/BuySellAnimation"
 
 const ButtonRow = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   margin-top: 20px;
-`;
+`
 const ErrorText = styled(Text)`
   width: 250px;
   a {
     display: inline;
   }
-`;
+`
 const TextWrapper = styled.div`
   margin-bottom: 50px;
   padding-bottom: 30px;
   text-align: center;
-`;
+`
 
 const MicroDeposits = props => {
   const {
@@ -44,7 +44,7 @@ const MicroDeposits = props => {
     status,
     tryAgain,
     options
-  } = props;
+  } = props
 
   if (status === "success") {
     return (
@@ -61,7 +61,7 @@ const MicroDeposits = props => {
           <BuySellAnimation country={"US"} options={options} />
         </ModalBody>
       </Modal>
-    );
+    )
   }
 
   return (
@@ -147,11 +147,11 @@ const MicroDeposits = props => {
         </ButtonRow>
       </ModalBody>
     </Modal>
-  );
-};
+  )
+}
 
 MicroDeposits.propTypes = {
   handleSubmit: PropTypes.func.isRequired
-};
+}
 
-export default reduxForm({ form: "sfoxMicroDeposits" })(MicroDeposits);
+export default reduxForm({ form: "sfoxMicroDeposits" })(MicroDeposits)

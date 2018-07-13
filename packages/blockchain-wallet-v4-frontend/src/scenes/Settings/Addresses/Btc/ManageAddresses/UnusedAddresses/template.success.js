@@ -1,6 +1,6 @@
-import React from "react";
-import { FormattedMessage } from "react-intl";
-import { filter } from "ramda";
+import React from "react"
+import { FormattedMessage } from "react-intl"
+import { filter } from "ramda"
 
 import {
   Text,
@@ -10,7 +10,7 @@ import {
   TableCell,
   Icon,
   Link
-} from "blockchain-info-components";
+} from "blockchain-info-components"
 
 const UnusedAddressesTemplate = ({
   account,
@@ -29,7 +29,7 @@ const UnusedAddressesTemplate = ({
   const isMatch = addr =>
     !search ||
     addr.label.toLowerCase().indexOf(search.toLowerCase()) > -1 ||
-    addr.address.toLowerCase().indexOf(search.toLowerCase()) > -1;
+    addr.address.toLowerCase().indexOf(search.toLowerCase()) > -1
   const addresses = filter(isMatch, unusedAddresses).map((entry, i) => {
     return (
       <TableRow key={i}>
@@ -63,8 +63,8 @@ const UnusedAddressesTemplate = ({
           />
         </TableCell>
       </TableRow>
-    );
-  });
+    )
+  })
 
   return unusedAddresses.length === 0 ? (
     <Text weight={300} style={{ marginTop: 20, textAlign: "center" }}>
@@ -106,7 +106,7 @@ const UnusedAddressesTemplate = ({
       </TableHeader>
       {addresses}
     </Table>
-  );
-};
+  )
+}
 
-export default UnusedAddressesTemplate;
+export default UnusedAddressesTemplate

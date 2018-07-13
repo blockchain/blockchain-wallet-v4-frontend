@@ -1,12 +1,12 @@
-import React from "react";
-import { shallow } from "enzyme";
-import toJson from "enzyme-to-json";
+import React from "react"
+import { shallow } from "enzyme"
+import toJson from "enzyme-to-json"
 
-import ComponentDropdown from "./template";
+import ComponentDropdown from "./template"
 
 describe("ComponentDropdown component", () => {
   it("default renders correctly", () => {
-    const components = [{ text: "test", value: "value" }];
+    const components = [{ text: "test", value: "value" }]
     const component = shallow(
       <ComponentDropdown
         components={components}
@@ -14,8 +14,8 @@ describe("ComponentDropdown component", () => {
         handleClick={() => {}}
         handleCallback={() => {}}
       />
-    );
-    const tree = toJson(component);
-    expect(tree).toMatchSnapshot();
-  });
-});
+    )
+    const tree = toJson(component)
+    expect(tree).toMatchSnapshot()
+  })
+})

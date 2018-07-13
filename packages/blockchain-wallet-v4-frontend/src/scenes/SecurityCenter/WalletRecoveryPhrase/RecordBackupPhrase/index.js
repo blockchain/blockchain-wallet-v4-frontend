@@ -1,48 +1,48 @@
-import React from "react";
-import { compose, bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import wizardProvider from "providers/WizardProvider";
-import { actions } from "data";
-import { path } from "ramda";
-import FirstStep from "./FirstStep";
-import SecondStep from "./SecondStep";
-import ThirdStep from "./ThirdStep";
+import React from "react"
+import { compose, bindActionCreators } from "redux"
+import { connect } from "react-redux"
+import wizardProvider from "providers/WizardProvider"
+import { actions } from "data"
+import { path } from "ramda"
+import FirstStep from "./FirstStep"
+import SecondStep from "./SecondStep"
+import ThirdStep from "./ThirdStep"
 
 class RecoveryPhraseContainer extends React.PureComponent {
   componentWillMount() {
-    this.props.resetStep();
+    this.props.resetStep()
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.step === 3 || (nextProps.step === 2 && this.props.step === 3))
-      this.props.triggerCopyChange();
+      this.props.triggerCopyChange()
   }
 
   onClose() {
-    this.props.handleClose();
+    this.props.handleClose()
   }
 
   render() {
     switch (this.props.step) {
       case 1:
-        return <FirstStep {...this.props} />;
+        return <FirstStep {...this.props} />
       case 2:
-        return <SecondStep {...this.props} />;
+        return <SecondStep {...this.props} />
       case 3:
-        return <ThirdStep {...this.props} />;
+        return <ThirdStep {...this.props} />
       default:
-        return <div />;
+        return <div />
     }
   }
 }
 
 const mapStateToProps = state => ({
   recoveryPhrase: path(["securityCenter", "recovery_phrase"], state)
-});
+})
 
 const mapDispatchToProps = dispatch => ({
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
-});
+})
 
 const enhance = compose(
   connect(
@@ -50,6 +50,6 @@ const enhance = compose(
     mapDispatchToProps
   ),
   wizardProvider("recoveryPhrase", 3)
-);
+)
 
-export default enhance(RecoveryPhraseContainer);
+export default enhance(RecoveryPhraseContainer)

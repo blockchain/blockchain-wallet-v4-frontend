@@ -1,8 +1,8 @@
-import React from "react";
-import { shallow } from "enzyme";
-import toJson from "enzyme-to-json";
+import React from "react"
+import { shallow } from "enzyme"
+import toJson from "enzyme-to-json"
 
-import Carousel from "./template";
+import Carousel from "./template"
 
 describe("Carousel component", () => {
   it("default renders correctly", () => {
@@ -15,8 +15,8 @@ describe("Carousel component", () => {
         arrows
         handleClick={() => {}}
       />
-    );
-    const tree = toJson(component);
-    expect(tree).toMatchSnapshot();
-  });
-});
+    )
+    const tree = toJson(component)
+    expect(tree).toMatchSnapshot()
+  })
+})

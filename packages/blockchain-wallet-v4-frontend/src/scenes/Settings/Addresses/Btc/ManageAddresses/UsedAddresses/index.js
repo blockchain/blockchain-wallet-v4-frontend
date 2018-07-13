@@ -1,14 +1,14 @@
-import React from "react";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
+import React from "react"
+import { bindActionCreators } from "redux"
+import { connect } from "react-redux"
 
-import { actions, selectors } from "data";
-import UsedAddressesShowTemplate from "./template";
+import { actions, selectors } from "data"
+import UsedAddressesShowTemplate from "./template"
 
 class UsedAddressesContainer extends React.PureComponent {
   constructor(props) {
-    super(props);
-    this.onShowUsedAddresses = this.onShowUsedAddresses.bind(this);
+    super(props)
+    this.onShowUsedAddresses = this.onShowUsedAddresses.bind(this)
   }
 
   onShowUsedAddresses() {
@@ -16,16 +16,16 @@ class UsedAddressesContainer extends React.PureComponent {
       this.props.componentActions.toggleUsedAddresses(
         this.props.walletIndex,
         false
-      );
+      )
     } else {
       this.props.modalsActions.showModal("ShowUsedAddresses", {
         walletIndex: this.props.walletIndex
-      });
+      })
     }
   }
 
   render() {
-    const { usedAddressesVisible, walletIndex } = this.props;
+    const { usedAddressesVisible, walletIndex } = this.props
 
     return (
       <UsedAddressesShowTemplate
@@ -33,7 +33,7 @@ class UsedAddressesContainer extends React.PureComponent {
         onShowUsedAddresses={this.onShowUsedAddresses}
         walletIndex={walletIndex}
       />
-    );
+    )
   }
 }
 
@@ -42,7 +42,7 @@ const mapStateToProps = (state, ownProps) => ({
     state,
     ownProps.walletIndex
   )
-});
+})
 
 const mapDispatchToProps = dispatch => ({
   modalsActions: bindActionCreators(actions.modals, dispatch),
@@ -50,9 +50,9 @@ const mapDispatchToProps = dispatch => ({
     actions.components.manageAddresses,
     dispatch
   )
-});
+})
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(UsedAddressesContainer);
+)(UsedAddressesContainer)

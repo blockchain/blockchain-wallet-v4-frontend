@@ -1,22 +1,22 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { Exchange } from "blockchain-wallet-v4/src";
-import { canCancelTrade } from "services/CoinifyService";
-import { prop } from "ramda";
-import moment from "moment";
-import { RecurringTableRow } from "../components";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { Exchange } from "blockchain-wallet-v4/src"
+import { canCancelTrade } from "services/CoinifyService"
+import { prop } from "ramda"
+import moment from "moment"
+import { RecurringTableRow } from "../components"
 import {
   TableCell,
   Text,
   Link,
   Icon,
   HeartbeatLoader
-} from "blockchain-info-components";
-import OrderStatus from "components/BuySell/OrderHistoryTable/OrderStatus";
-import media from "services/ResponsiveService";
-import { MediaContextConsumer } from "providers/MatchMediaProvider";
+} from "blockchain-info-components"
+import OrderStatus from "components/BuySell/OrderHistoryTable/OrderStatus"
+import media from "services/ResponsiveService"
+import { MediaContextConsumer } from "providers/MatchMediaProvider"
 
 const StatusContainer = styled(TableCell)`
   display: flex;
@@ -24,12 +24,12 @@ const StatusContainer = styled(TableCell)`
   ${media.mobile`
     flex-direction: column;
   `};
-`;
+`
 
 const tradeDateHelper = (trade, isMobile) =>
   moment(prop("createdAt", trade))
     .local()
-    .format(isMobile ? "DD MMM" : "MMMM D YYYY @ h:mm A");
+    .format(isMobile ? "DD MMM" : "MMMM D YYYY @ h:mm A")
 
 const RecurringTradeItem = props => {
   const {
@@ -43,14 +43,14 @@ const RecurringTradeItem = props => {
     canTrade,
     border,
     padding
-  } = props;
+  } = props
   const receiveAmount = trade.isBuy
     ? trade.receiveAmount
-    : Exchange.displayFiatToFiat({ value: trade.receiveAmount });
+    : Exchange.displayFiatToFiat({ value: trade.receiveAmount })
   const exchangeAmount = trade.isBuy
     ? Exchange.displayFiatToFiat({ value: trade.sendAmount / conversion.buy })
-    : trade.sendAmount / conversion.sell;
-  const canCancel = canTrade && trade.isBuy && canCancelTrade(trade);
+    : trade.sendAmount / conversion.sell
+  const canCancel = canTrade && trade.isBuy && canCancelTrade(trade)
 
   return (
     <RecurringTableRow border={border} padding={padding}>
@@ -130,11 +130,11 @@ const RecurringTradeItem = props => {
         </TableCell>
       </TableCell>
     </RecurringTableRow>
-  );
-};
+  )
+}
 
 RecurringTradeItem.propTypes = {
   trade: PropTypes.object.isRequired
-};
+}
 
-export default RecurringTradeItem;
+export default RecurringTradeItem

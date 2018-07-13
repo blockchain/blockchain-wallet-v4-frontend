@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 const SettingWrapper = styled.div`
   display: flex;
@@ -13,6 +13,6 @@ const SettingWrapper = styled.div`
   & > * {
     margin-bottom: 10px;
   }
-`;
+`
 
-export default SettingWrapper;
+export default SettingWrapper

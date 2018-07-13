@@ -1,26 +1,26 @@
-import React, { Fragment } from "react";
-import { FormattedMessage } from "react-intl";
-import styled from "styled-components";
-import { Text, Button } from "blockchain-info-components";
+import React, { Fragment } from "react"
+import { FormattedMessage } from "react-intl"
+import styled from "styled-components"
+import { Text, Button } from "blockchain-info-components"
 import {
   kycHeaderHelper,
   kycNotificationBodyHelper,
   kycNotificationButtonHelper
-} from "services/CoinifyService";
-import { spacing } from "services/StyleService";
-import { path } from "ramda";
-import media from "services/ResponsiveService";
+} from "services/CoinifyService"
+import { spacing } from "services/StyleService"
+import { path } from "ramda"
+import media from "services/ResponsiveService"
 
 const ISXContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 12px 15px;
   border: 1px solid #dddddd;
-`;
+`
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-`;
+`
 const LimitsNotice = styled.div`
   background-color: #ffe6b4;
   padding: 12px 15px;
@@ -28,17 +28,17 @@ const LimitsNotice = styled.div`
   ${media.mobile`
     margin: 10px 0px;
   `};
-`;
+`
 
 const KYCNotification = props => {
-  const { kyc, onTrigger, symbol, limits, type, canTrade } = props;
+  const { kyc, onTrigger, symbol, limits, type, canTrade } = props
 
-  const status = path(["state"], kyc);
-  const header = kycHeaderHelper(status);
-  const body = kycNotificationBodyHelper(status);
+  const status = path(["state"], kyc)
+  const header = kycHeaderHelper(status)
+  const body = kycNotificationBodyHelper(status)
 
-  let effBal = limits.effectiveMax / 1e8;
-  let sellMax = Math.min(effBal, limits.max);
+  let effBal = limits.effectiveMax / 1e8
+  let sellMax = Math.min(effBal, limits.max)
 
   return (
     <Wrapper>
@@ -89,7 +89,7 @@ const KYCNotification = props => {
         ) : null}
       </ISXContainer>
     </Wrapper>
-  );
-};
+  )
+}
 
-export default KYCNotification;
+export default KYCNotification

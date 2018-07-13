@@ -32,4 +32,4 @@ export default {
   black: "#000000",
   halftransparentgrey: "rgba(0, 0, 0, 0.5)",
   "bitcoin-orange": "#f69335"
-};
+}

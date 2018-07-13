@@ -1,31 +1,26 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { SettingDescription, SettingHeader } from "components/Setting";
-import {
-  Table,
-  TableHeader,
-  TableCell,
-  Text
-} from "blockchain-info-components";
-import { spacing } from "services/StyleService";
-import AddressRow from "../AddressRow";
-import { filter } from "ramda";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { SettingDescription, SettingHeader } from "components/Setting"
+import { Table, TableHeader, TableCell, Text } from "blockchain-info-components"
+import { spacing } from "services/StyleService"
+import AddressRow from "../AddressRow"
+import { filter } from "ramda"
 
 const Wrapper = styled.section`
   box-sizing: border-box;
-`;
+`
 const ArchivedAddressesContainer = SettingHeader.extend`
   justify-content: flex-start;
   margin-top: 30px;
-`;
+`
 const ClickableText = styled(Text)`
   cursor: pointer;
-`;
+`
 
 const Success = ({ archivedAddresses, onToggleArchived, onDelete, search }) => {
   const isMatch = address =>
-    !search || address.addr.toLowerCase().indexOf(search) > -1;
+    !search || address.addr.toLowerCase().indexOf(search) > -1
   const archivedAddressesTableRows = filter(isMatch, archivedAddresses).map(
     address => (
       <AddressRow
@@ -48,7 +43,7 @@ const Success = ({ archivedAddresses, onToggleArchived, onDelete, search }) => {
         ]}
       />
     )
-  );
+  )
 
   return archivedAddressesTableRows.length > 0 ? (
     <Wrapper>
@@ -97,7 +92,7 @@ const Success = ({ archivedAddresses, onToggleArchived, onDelete, search }) => {
         {archivedAddressesTableRows}
       </Table>
     </Wrapper>
-  ) : null;
-};
+  ) : null
+}
 
-export default Success;
+export default Success

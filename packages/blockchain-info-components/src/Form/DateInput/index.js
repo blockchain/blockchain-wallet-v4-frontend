@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import ReactDatetime from "react-datetime";
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import ReactDatetime from "react-datetime"
 
 const BaseDateInput = styled(ReactDatetime)`
   position: relative;
@@ -258,27 +258,27 @@ const BaseDateInput = styled(ReactDatetime)`
   .rdtTime td {
     cursor: default;
   }
-`;
+`
 
 const selectBorderColor = state => {
   switch (state) {
     case "initial":
-      return "gray-2";
+      return "gray-2"
     case "invalid":
-      return "error";
+      return "error"
     case "valid":
-      return "success";
+      return "success"
     default:
-      return "gray-2";
+      return "gray-2"
   }
-};
+}
 
 const DateInput = props => {
-  const { errorState, ...rest } = props;
-  const borderColor = selectBorderColor(props.errorState);
+  const { errorState, ...rest } = props
+  const borderColor = selectBorderColor(props.errorState)
 
-  return <BaseDateInput borderColor={borderColor} {...rest} />;
-};
+  return <BaseDateInput borderColor={borderColor} {...rest} />
+}
 
 // Documentation: https://github.com/arqex/react-datetime
 DateInput.propTypes = {
@@ -306,7 +306,7 @@ DateInput.propTypes = {
   timeConstraints: PropTypes.object,
   disableOnClickOutside: PropTypes.bool,
   fullwidth: PropTypes.bool
-};
+}
 
 DateInput.defaultProps = {
   dateFormat: true,
@@ -319,6 +319,6 @@ DateInput.defaultProps = {
   closeOnSelect: true,
   closeOnTab: true,
   fullwidth: false
-};
+}
 
-export default DateInput;
+export default DateInput

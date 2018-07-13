@@ -1,18 +1,18 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { Field, reduxForm } from "redux-form";
-import { LinkContainer } from "react-router-bootstrap";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { Field, reduxForm } from "redux-form"
+import { LinkContainer } from "react-router-bootstrap"
 
-import { required, validMnemonic } from "services/FormHelper";
+import { required, validMnemonic } from "services/FormHelper"
 import {
   Button,
   Link,
   Separator,
   Text,
   TextGroup
-} from "blockchain-info-components";
-import { Form, FormGroup, FormItem, FormLabel, TextBox } from "components/Form";
+} from "blockchain-info-components"
+import { Form, FormGroup, FormItem, FormLabel, TextBox } from "components/Form"
 
 const Wrapper = styled.div`
   width: 100%;
@@ -23,12 +23,12 @@ const Wrapper = styled.div`
   @media (min-width: 768px) {
     width: 550px;
   }
-`;
+`
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`;
+`
 const MnemonicLabel = styled(FormLabel)`
   > div {
     margin-bottom: 0px;
@@ -36,19 +36,19 @@ const MnemonicLabel = styled(FormLabel)`
   + div {
     margin-bottom: 10px;
   }
-`;
+`
 const Footer = styled(FormGroup)`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
-`;
+`
 const GoBackLink = styled(LinkContainer)`
   margin-right: 15px;
-`;
+`
 
 const FirstStep = props => {
-  const { submitting, invalid, handleSubmit } = props;
+  const { submitting, invalid, handleSubmit } = props
 
   return (
     <Wrapper>
@@ -128,9 +128,9 @@ const FirstStep = props => {
         </Footer>
       </Form>
     </Wrapper>
-  );
-};
+  )
+}
 
 export default reduxForm({ form: "recover", destroyOnUnmount: false })(
   FirstStep
-);
+)

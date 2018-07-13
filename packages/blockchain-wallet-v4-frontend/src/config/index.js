@@ -1,5 +1,5 @@
-import Bitcoin from "bitcoinjs-lib";
-import BitcoinCash from "bitcoinforksjs-lib";
+import Bitcoin from "bitcoinjs-lib"
+import BitcoinCash from "bitcoinforksjs-lib"
 
 export default {
   WALLET_DATA_PATH: "wallet.data",
@@ -10,4 +10,4 @@ export default {
   NETWORK: Bitcoin.networks.bitcoin,
   NETWORK_ETHEREUM: 1,
   NETWORK_BCH: BitcoinCash.networks.bitcoin
-};
+}

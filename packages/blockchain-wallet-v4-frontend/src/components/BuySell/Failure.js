@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import { FormattedMessage } from "react-intl";
-import { Text, Link } from "blockchain-info-components";
-import { path } from "ramda";
+import React from "react"
+import styled from "styled-components"
+import { FormattedMessage } from "react-intl"
+import { Text, Link } from "blockchain-info-components"
+import { path } from "ramda"
 
 const Container = styled.div`
   display: flex;
@@ -14,7 +14,7 @@ const Container = styled.div`
   div:last-of-type {
     margin-top: 10px;
   }
-`;
+`
 
 const link = (
   <Link
@@ -28,7 +28,7 @@ const link = (
       defaultMessage="here."
     />
   </Link>
-);
+)
 
 const Failure = e => (
   <Container>
@@ -53,6 +53,6 @@ const Failure = e => (
       />
     </Text>
   </Container>
-);
+)
 
-export default Failure;
+export default Failure
