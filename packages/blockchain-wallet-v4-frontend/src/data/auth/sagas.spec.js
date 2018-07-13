@@ -253,7 +253,7 @@ describe('authSagas', () => {
             .next()
             .put(actions.form.clearFields('login', false, true, 'password'))
         })
- 
+
         it('should focus password', () => {
           saga
             .next()
