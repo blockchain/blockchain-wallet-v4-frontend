@@ -80,7 +80,7 @@ const FirstStep = props => {
               <FormattedMessage id='modals.sendBch.firststep.share_tooltip' defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.' />
             </Tooltip>
           </FormLabel>
-          <Field name='message' component={TextAreaDebounced} placeholder="What's this transaction for?" fullwidth />
+          <Field name='description' component={TextAreaDebounced} placeholder="What's this transaction for?" fullwidth />
         </FormItem>
       </FormGroup>
       <FormGroup inline margin={'30px'}>

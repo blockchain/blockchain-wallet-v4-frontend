@@ -69,12 +69,12 @@ describe('sendBtc sagas', () => {
 
   describe('btc send form intialize', () => {
     const to = 'btcaddress'
-    const message = 'message'
+    const description = 'message'
     const amount = {
       coin: 1,
       fiat: 10000
     }
-    const payload = { to, message, amount, feeType }
+    const payload = { to, description, amount, feeType }
 
     const saga = testSaga(initialized, { payload })
 
@@ -82,10 +82,10 @@ describe('sendBtc sagas', () => {
     const defaultAccount = 'account1'
     const accountsRStub = Remote.of([defaultAccount, 'account2'])
     const initialValues = {
-      to: to,
+      to,
       coin: 'BTC',
-      amount: amount,
-      message: message,
+      amount,
+      description,
       from: defaultAccount,
       feePerByte: feePerByte
     }
@@ -195,7 +195,7 @@ describe('sendBtc sagas', () => {
           feePerByte,
           coin: 'BTC',
           amount,
-          message,
+          description,
           to,
           from: defaultAccount
         })
