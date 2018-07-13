@@ -10,6 +10,7 @@ import authSagas, {
   defaultLoginErrorMessage,
   logLocation,
   wrongWalletPassErrorMessage,
+  wrongAuthCodeErrorMessage,
   guidNotFound2faErrorMessage,
   notEnabled2faErrorMessage,
   emailMismatch2faErrorMessage,
@@ -235,6 +236,56 @@ describe('authSagas', () => {
             .put(actions.alerts.displayInfo(C.TWOFA_REQUIRED_INFO))
             .next()
             .isDone()
+        })
+      })
+
+      describe('wrong password error', () => {
+        it('should set auth_type to 0', () => {
+          saga
+            .restore(beforeError)
+            .save(beforeError)
+            .throw(wrongWalletPassErrorMessage)
+            .put(actions.auth.setAuthType(0))
+        })
+
+        it('should clear password field', () => {
+          saga
+            .next()
+            .put(actions.form.clearFields('login', false, true, 'password'))
+        })
+ 
+        it('should focus password', () => {
+          saga
+            .next()
+            .put((actions.form.focus('login', 'password')))
+        })
+
+        it('should display login error', () => {
+          saga
+            .next()
+            .put(actions.auth.loginFailure(wrongWalletPassErrorMessage))
+        })
+      })
+
+      describe('wrong 2fa error', () => {
+        it('should clear code field', () => {
+          saga
+            .restore(beforeError)
+            .save(beforeError)
+            .throw(wrongAuthCodeErrorMessage)
+            .put(actions.form.clearFields('login', false, true, 'code'))
+        })
+
+        it('should focus password', () => {
+          saga
+            .next()
+            .put((actions.form.focus('login', 'code')))
+        })
+
+        it('should display login error', () => {
+          saga
+            .next()
+            .put(actions.auth.loginFailure(wrongAuthCodeErrorMessage))
         })
       })
 
