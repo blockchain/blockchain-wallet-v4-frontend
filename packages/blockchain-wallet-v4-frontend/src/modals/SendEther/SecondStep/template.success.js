@@ -42,7 +42,7 @@ const Footer = styled.div`
 `
 
 const Success = props => {
-  const { coin, fromAddress, toAddress, message, amount, fee, total, handleBack, handleSubmit } = props
+  const { coin, fromAddress, toAddress, description, amount, fee, total, handleBack, handleSubmit } = props
 
   return (
     <Wrapper>
@@ -58,12 +58,12 @@ const Success = props => {
         </Text>
         <Text size='16px' weight={300}>{toAddress}</Text>
       </Row>
-      {message &&
+      {description &&
         <Row>
           <Text size='16px' weight={500}>
             <FormattedMessage id='modals.sendeth.secondstep.note' defaultMessage='Note:' />
           </Text>
-          <Text size='16px' weight={300}>{message}</Text>
+          <Text size='16px' weight={300}>{description}</Text>
         </Row>
       }
       <Row>
