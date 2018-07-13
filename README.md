@@ -78,7 +78,6 @@ We follow all standard rules that are provided by Prettier. The following comman
  * `yarn prettier:components` Runs Prettier against only [blockchain-info-components](./packages/blockchain-info-components)
  * `yarn prettier:core` Runs Prettier against only [blockchain-wallet-v4](./packages/blockchain-wallet-v4)
  * `yarn prettier:frontend` Runs Prettier against only [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend)
- * `yarn prettier:fix` Will run Prettier against all packages and save changes
  
 It is recommended to setup a Prettier plugin for your IDE plugins/packages that will automatically prettify your files on save.
  * [Atom](https://atom.io/packages/prettier-atom)
