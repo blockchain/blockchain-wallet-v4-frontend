@@ -15,7 +15,7 @@ class SecondStepContainer extends React.PureComponent {
         coin='ETH'
         fromAddress={value.fromAddress}
         toAddress={value.toAddress}
-        message={value.message}
+        description={value.description}
         amount={value.amount}
         fee={value.fee}
         total={value.total}
