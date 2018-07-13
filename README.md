@@ -70,7 +70,21 @@ These IDE plugins/packages assist with complying with these lint rules while dev
  * [Atom](https://atom.io/packages/linter-js-standard)
  * [VS Code](https://marketplace.visualstudio.com/items?itemName=chenxsan.vscode-standardjs)
  * [WebStorm](https://blog.jetbrains.com/webstorm/2017/04/using-javascript-standard-style/)
+ 
+### Prettier
+We follow all standard rules that are provided by Prettier. The following commands are available:
 
+ * `yarn prettier` Runs Prettier against all packages
+ * `yarn prettier:components` Runs Prettier against only [blockchain-info-components](./packages/blockchain-info-components)
+ * `yarn prettier:core` Runs Prettier against only [blockchain-wallet-v4](./packages/blockchain-wallet-v4)
+ * `yarn prettier:frontend` Runs Prettier against only [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend)
+ * `yarn prettier:fix` Will run Prettier against all packages and save changes
+ 
+It is recommended to setup a Prettier plugin for your IDE plugins/packages that will automatically prettify your files on save.
+ * [Atom](https://atom.io/packages/prettier-atom)
+ * [VS Code](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+ * [WebStorm](https://prettier.io/docs/en/webstorm.html)
+ 
 ### Unit Tests
 Testing is done via [Jest](https://facebook.github.io/jest/) and [Enzyme](http://airbnb.io/enzyme/).
 
@@ -102,7 +116,6 @@ We are snapshot testing UI some components. Here are the commands to update them
  * `yarn test:components:update` Updates component snapshots for only [blockchain-info-components](./packages/blockchain-info-components)
  * `yarn test:frontend:update` Updates component snapshots for only [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend)
 
-
 ### Code Coverage
 To generate code coverage reports via [Istanbul](https://istanbul.js.org/), the following commands are available:
  * `yarn coverage` Generates a coverage report for all packages
@@ -117,13 +130,6 @@ Depending upon which coverage report was ran, the results can be found in the fo
  * `coverage/blockchain-wallet-v4-frontend/index.html`
 Simply open the `index.html` file in your browser to view.
 
-### CI Build Vetting
-To run both unit tests and linting, the following commands are available:
- * `yarn vet` Lints and unit tests all packages
- * `yarn vet:components` Lints and unit tests only [blockchain-info-components](./packages/blockchain-info-components)
- * `yarn vet:core` Lints and unit tests only [blockchain-wallet-v4](./packages/blockchain-wallet-v4)
- * `yarn vet:frontend` Lints and unit tests only [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend)
-
 ### Bundle Reports
 To visualize and interact with the treemap of the production code bundles files:
  * `yarn analyze`
@@ -137,7 +143,6 @@ The following commands are available:
 
 ## Contribute
 Bug fixes and feedback on our code is always appreciated.
-
 
 ## Security
 Security issues can be reported to us in the following venues:
