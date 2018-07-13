@@ -1,5 +1,5 @@
 import { propEq, propSatisfies, isNil, not, compose } from "ramda";
-import * as crypto from "../walletCrypto";
+import * as crypto from "../walletCrypto"
 import Task from "data.task";
 
 const isNotNil = compose(
@@ -18,7 +18,7 @@ const parseQRcode = data => {
     const [version, guid, encrypted] = string.split("|");
     return { version, guid, encrypted };
   };
-//^
+
   const isValidGUID = propSatisfies(g => g != null && g.length === 36, "guid");
   const isValidVersion = propEq("version", VERSION);
   const errorGUID = `Invalid Pairing QR Code, GUID is invalid`;

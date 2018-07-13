@@ -28,7 +28,7 @@
   ],
   "husky": {
     "hooks": {
-      "pre-push": "yarn vet"
+      "pre-push": "yarn lint && yarn prettier && yarn test"
     }
   },
   "scripts": {
@@ -49,11 +49,11 @@
     "lint:core": "eslint './packages/blockchain-wallet-v4/src/**/*.js'",
     "lint:fix": "eslint './packages/*/src/**/*.js' --fix",
     "lint:frontend": "eslint './packages/blockchain-wallet-v4-frontend/src/**/*.js'",
-    "prettier": "prettier './packages/*/src/**/*.js' --no-config",
-    "prettier:components": "prettier './packages/blockchain-info-components/src/**/*.js' --no-config",
-    "prettier:core": "prettier './packages/blockchain-wallet-v4/src/**/*.js' --no-config",
-    "prettier:fix": "prettier './packages/*/src/**/*.js' --no-config --write",
-    "prettier:frontend": "prettier './packages/blockchain-wallet-v4-frontend/src/**/*.js' --no-config",
+    "prettier": "prettier './packages/*/src/**/*.js' --list-different",
+    "prettier:components": "prettier './packages/blockchain-info-components/src/**/*.js' --list-different",
+    "prettier:core": "prettier './packages/blockchain-wallet-v4/src/**/*.js' --list-different",
+    "prettier:fix": "prettier './packages/*/src/**/*.js' --list-different --write",
+    "prettier:frontend": "prettier './packages/blockchain-wallet-v4-frontend/src/**/*.js' --list-different",
     "start": "yarn workspace blockchain-wallet-v4-frontend start:dev",
     "start:dev": "yarn workspace blockchain-wallet-v4-frontend start:dev",
     "start:prod": "yarn workspace blockchain-wallet-v4-frontend start:prod",
