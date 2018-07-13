@@ -62,6 +62,13 @@ jobs:
       - run:
           name: Lint Code
           command: yarn lint
+  prettier:
+    <<: *container_config
+    steps:
+      - *attach_workspace
+      - run:
+          name: Run Prettier
+          command: yarn ci:prettier
   unit_tests:
     <<: *container_config
     steps:
@@ -87,6 +94,9 @@ workflows:
           requires:
             - pull_code
       - lint:
+          requires:
+            - npm_install
+      - prettier:
           requires:
             - npm_install
       - unit_tests:
