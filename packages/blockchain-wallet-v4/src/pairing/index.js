@@ -47,7 +47,6 @@ const decode = (data, passphrase) => {
     .chain(getCredentials);
 };
 
-
 // encode :: String -> String -> String -> String -> Task Error String
 const encode = (guid, sharedKey, password, pairingPassword) => {
   const passwordHex = Buffer.from(password, "utf8").toString("hex");
@@ -56,6 +55,5 @@ const encode = (guid, sharedKey, password, pairingPassword) => {
     .encryptDataWithPassword(data, pairingPassword, PBKDF2_ITERATIONS)
     .map(encrypted => `${VERSION}|${guid}|${encrypted}`);
 };
-
 
 export { parseQRcode, decode, encode };
