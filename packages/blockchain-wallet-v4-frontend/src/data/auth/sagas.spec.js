@@ -240,7 +240,7 @@ describe('authSagas', () => {
       })
 
       describe('wrong password error', () => {
-        it('should set auth_type to 0', () => {
+        it('should set auth_type to 0, removing 2fa code field', () => {
           saga
             .restore(beforeError)
             .save(beforeError)
@@ -248,12 +248,12 @@ describe('authSagas', () => {
             .put(actions.auth.setAuthType(0))
         })
 
-        it('should clear password field', () => {
+        it('should clear password and code field', () => {
           saga
             .next()
-            .put(actions.form.clearFields('login', false, true, 'password'))
+            .put(actions.form.clearFields('login', false, true, 'password', 'code'))
         })
- 
+
         it('should focus password', () => {
           saga
             .next()
