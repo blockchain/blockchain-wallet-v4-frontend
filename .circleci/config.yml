@@ -41,15 +41,13 @@ jobs:
             - .
   npm_install:
     <<: *container_config
+    parallelism: 4
     steps:
       - *restore_repo
       - *restore_node_modules
       - run:
-          name: Install Build Dependencies
-          command: npm install yarn babel-cli rimraf cross-env
-      - run:
           name: Install App Dependencies
-          command: yarn
+          command: yarn --frozen-lockfile
       - save_cache:
           key: *npm_cache_key
           paths:
@@ -60,6 +58,7 @@ jobs:
             - blockchain-wallet-v4-frontend
   lint:
     <<: *container_config
+    parallelism: 4
     steps:
       - *attach_workspace
       - run:
@@ -67,6 +66,7 @@ jobs:
           command: yarn lint
   prettier:
     <<: *container_config
+    parallelism: 4
     steps:
       - *attach_workspace
       - run:
