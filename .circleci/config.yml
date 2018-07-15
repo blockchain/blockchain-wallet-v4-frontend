@@ -74,6 +74,7 @@ jobs:
           command: yarn ci:prettier
   unit_tests:
     <<: *container_config
+    parallelism: 4
     steps:
       - *attach_workspace
       - run:
@@ -81,6 +82,7 @@ jobs:
           command: yarn ci:test
   code_coverage:
     <<: *container_config
+    parallelism: 4
     steps:
       - *attach_workspace
       - run:
