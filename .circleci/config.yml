@@ -69,13 +69,20 @@ jobs:
       - run:
           name: Run Prettier
           command: yarn ci:prettier
-  unit_tests:
+  test_core_components:
     <<: *container_config
     steps:
       - *attach_workspace
       - run:
           name: Test Code
-          command: yarn ci:test
+          command: yarn ci:test:core:components
+  test_frontend:
+    <<: *container_config
+    steps:
+      - *attach_workspace
+      - run:
+          name: Test Code
+          command: yarn ci:test:frontend
   code_coverage:
     <<: *container_config
     steps:
@@ -99,7 +106,10 @@ workflows:
       - prettier:
           requires:
             - npm_install
-      - unit_tests:
+      - test_core_components:
+          requires:
+            - npm_install
+      - test_frontend:
           requires:
             - npm_install
 
