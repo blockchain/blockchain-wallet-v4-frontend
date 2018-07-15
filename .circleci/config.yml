@@ -15,7 +15,7 @@ references:
 
   npm_cache_key: &npm_cache_key
       v2-dependency-npm-{{ checksum "yarn.lock" }}
-
+  
   restore_node_modules: &restore_node_modules
     restore_cache:
       keys:
@@ -41,7 +41,6 @@ jobs:
             - .
   npm_install:
     <<: *container_config
-    parallelism: 4
     steps:
       - *restore_repo
       - *restore_node_modules
@@ -58,7 +57,6 @@ jobs:
             - blockchain-wallet-v4-frontend
   lint:
     <<: *container_config
-    parallelism: 4
     steps:
       - *attach_workspace
       - run:
@@ -66,7 +64,6 @@ jobs:
           command: yarn lint
   prettier:
     <<: *container_config
-    parallelism: 4
     steps:
       - *attach_workspace
       - run:
@@ -74,7 +71,6 @@ jobs:
           command: yarn ci:prettier
   unit_tests:
     <<: *container_config
-    parallelism: 4
     steps:
       - *attach_workspace
       - run:
@@ -82,7 +78,6 @@ jobs:
           command: yarn ci:test
   code_coverage:
     <<: *container_config
-    parallelism: 4
     steps:
       - *attach_workspace
       - run:
