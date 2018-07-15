@@ -38,6 +38,7 @@
     "ci:compile": "yarn workspace blockchain-wallet-v4-frontend ci:compile",
     "ci:coverage": "yarn wsrun test:build --serial && yarn wsrun coverage --serial && istanbul report --root ./coverage --dir ./coverage/ lcov",
     "ci:prettier": "prettier './packages/*/src/**/*.js' --list-different",
+    "ci:test:build": "yarn wsrun test:build --serial",
     "ci:test:core:components": "yarn wsrun ci:test --serial --exclude-missing",
     "ci:test:frontend": "yarn workspace blockchain-wallet-v4-frontend ci:test:frontend",
     "clean": "cross-env rimraf node_modules && rimraf build && rimraf coverage && rimraf dist && rimraf *.log",
