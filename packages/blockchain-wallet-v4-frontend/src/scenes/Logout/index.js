@@ -40,13 +40,22 @@ class LogoutContainer extends React.PureComponent {
   }
 
   render () {
-    return <Logout onDeauthorizeBrowser={this.onDeauthorizeBrowser} onGoToLogin={this.onGoToLogin} secondsRemaining={this.state.secondsRemaining} />
+    return (
+      <Logout
+        onDeauthorizeBrowser={this.onDeauthorizeBrowser}
+        onGoToLogin={this.onGoToLogin}
+        secondsRemaining={this.state.secondsRemaining}
+      />
+    )
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   authActions: bindActionCreators(actions.auth, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch)
 })
 
-export default connect(null, mapDispatchToProps)(LogoutContainer)
+export default connect(
+  null,
+  mapDispatchToProps
+)(LogoutContainer)

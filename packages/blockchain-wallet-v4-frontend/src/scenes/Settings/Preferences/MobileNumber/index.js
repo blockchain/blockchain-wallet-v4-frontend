@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { connect } from 'react-redux'
 
@@ -12,15 +11,15 @@ class MobileNumberContainer extends React.PureComponent {
     const { data } = this.props
 
     return data.cata({
-      Success: (value) => <Success data={value} />,
-      Failure: (message) => <Error message={message} />,
+      Success: value => <Success data={value} />,
+      Failure: message => <Error message={message} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   data: getData(state)
 })
 

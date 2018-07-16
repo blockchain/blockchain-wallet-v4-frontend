@@ -19,7 +19,7 @@ class SmsAuthContainer extends React.PureComponent {
 
   componentDidMount () {
     const { smsVerified, smsNumber } = this.props.data.getOrElse({})
-    if ((smsNumber && smsNumber.length) && !smsVerified) {
+    if (smsNumber && smsNumber.length && !smsVerified) {
       this.props.securityCenterActions.sendMobileVerificationCode(smsNumber)
       this.props.updateUI({ changeNumberToggled: false })
     }
@@ -44,7 +44,9 @@ class SmsAuthContainer extends React.PureComponent {
     const { smsNumber, smsVerified } = this.props.data.getOrElse({})
 
     if (this.props.ui.changeNumberToggled || (!smsNumber && !smsVerified)) {
-      this.props.securityCenterActions.sendMobileVerificationCode(this.props.mobileNumber)
+      this.props.securityCenterActions.sendMobileVerificationCode(
+        this.props.mobileNumber
+      )
       this.props.updateUI({ changeNumberToggled: false })
     } else {
       this.props.securityCenterActions.verifyMobile(this.props.verificationCode)
@@ -55,38 +57,56 @@ class SmsAuthContainer extends React.PureComponent {
     const { data, ui, verificationCode, goBack, ...rest } = this.props
 
     return data.cata({
-      Success: (value) => <Success
-        data={value}
-        handleClick={this.handleClick}
-        onSubmit={this.onSubmit}
-        goBack={goBack}
-        changeMobileNumber={() => this.props.updateUI({ changeNumberToggled: !this.props.changeNumberToggled })}
-        ui={ui}
-        code={verificationCode}
-      />,
-      Failure: (message) => <Error {...rest}
-        message={message} />,
+      Success: value => (
+        <Success
+          data={value}
+          handleClick={this.handleClick}
+          onSubmit={this.onSubmit}
+          goBack={goBack}
+          changeMobileNumber={() =>
+            this.props.updateUI({
+              changeNumberToggled: !this.props.changeNumberToggled
+            })
+          }
+          ui={ui}
+          code={verificationCode}
+        />
+      ),
+      Failure: message => <Error {...rest} message={message} />,
       Loading: () => <Loading {...rest} />,
       NotAsked: () => <Loading {...rest} />
     })
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   mobileNumber: formValueSelector('securitySms')(state, 'mobileNumber'),
   verificationCode: formValueSelector('securitySms')(state, 'verificationCode'),
   data: getData(state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   settingsActions: bindActionCreators(actions.core.settings, dispatch),
-  securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch)
+  securityCenterActions: bindActionCreators(
+    actions.modules.securityCenter,
+    dispatch
+  )
 })
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  ui({ key: 'Security_TwoFactor', state: { changeNumberToggled: false, verifyMobileNumberStep: false, successToggled: false } })
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
+  ui({
+    key: 'Security_TwoFactor',
+    state: {
+      changeNumberToggled: false,
+      verifyMobileNumberStep: false,
+      successToggled: false
+    }
+  })
 )
 
 export default enhance(SmsAuthContainer)

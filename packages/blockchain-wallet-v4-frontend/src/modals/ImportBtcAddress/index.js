@@ -9,7 +9,16 @@ import { getData } from './selectors'
 
 class ImportBtcAddressContainer extends React.PureComponent {
   render () {
-    const { position, close, submitting, invalid, isAddressInternal, isAddressExternal, priv, actions } = this.props
+    const {
+      position,
+      close,
+      submitting,
+      invalid,
+      isAddressInternal,
+      isAddressExternal,
+      priv,
+      actions
+    } = this.props
 
     return (
       <ImportBtcAddress
@@ -28,13 +37,16 @@ class ImportBtcAddressContainer extends React.PureComponent {
 
 const mapStateToProps = getData
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.importBtcAddress, dispatch)
 })
 
 const enhance = compose(
   modalEnhancer('ImportBtcAddress'),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )
 
 export default enhance(ImportBtcAddressContainer)

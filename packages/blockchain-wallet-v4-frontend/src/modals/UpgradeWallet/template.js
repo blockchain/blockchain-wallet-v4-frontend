@@ -2,7 +2,16 @@ import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, Carousel, Image, Modal, ModalHeader, ModalBody, ModalFooter, Text } from 'blockchain-info-components'
+import {
+  Button,
+  Carousel,
+  Image,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Text
+} from 'blockchain-info-components'
 
 const Slide = styled.div`
   display: flex;
@@ -12,41 +21,58 @@ const Slide = styled.div`
   width: 100%;
   margin: 0 40px;
 
-  & > :first-child { margin-bottom: 20px; }
+  & > :first-child {
+    margin-bottom: 20px;
+  }
 `
 
-const UpgradeWallet = (props) => {
+const UpgradeWallet = props => {
   const { position, total, ...rest } = props
   const { handleContinue } = rest
 
   return (
     <Modal size='large' position={position} total={total}>
       <ModalHeader closeButton={false}>
-        <FormattedMessage id='modals.upgradewallet.title' defaultMessage='Welcome to your Blockchain Wallet!' />
+        <FormattedMessage
+          id='modals.upgradewallet.title'
+          defaultMessage='Welcome to your Blockchain Wallet!'
+        />
       </ModalHeader>
       <ModalBody>
         <Carousel height={300} auto>
           <Slide>
             <Text size='18px' weight={300}>
-              <FormattedMessage id='modals.upgradewallet.title1' defaultMessage='Completely updated design and user experience' />
+              <FormattedMessage
+                id='modals.upgradewallet.title1'
+                defaultMessage='Completely updated design and user experience'
+              />
             </Text>
             <Image name='wallet-v3-new-design' width='100%' />
           </Slide>
           <Slide>
             <Text size='20px' weight={300}>
-              <FormattedMessage id='modals.upgradewallet.title2' defaultMessage='Robust security center' />
+              <FormattedMessage
+                id='modals.upgradewallet.title2'
+                defaultMessage='Robust security center'
+              />
             </Text>
             <Image name='wallet-v3-security-upgrade' width='100%' />
           </Slide>
           <Slide>
             <Text size='20px' weight={300}>
-              <FormattedMessage id='modals.upgradewallet.title3' defaultMessage='Simplified backup and recovery' />
+              <FormattedMessage
+                id='modals.upgradewallet.title3'
+                defaultMessage='Simplified backup and recovery'
+              />
             </Text>
             <Image name='wallet-v3-backup' width='100%' />
           </Slide>
           <Slide>
             <Text size='20px' weight={300}>
-              <FormattedMessage id='modals.upgradewallet.title4' defaultMessage='Customized fund management' />
+              <FormattedMessage
+                id='modals.upgradewallet.title4'
+                defaultMessage='Customized fund management'
+              />
             </Text>
             <Image name='wallet-v3-fund-management' width='100%' />
           </Slide>
@@ -54,7 +80,10 @@ const UpgradeWallet = (props) => {
       </ModalBody>
       <ModalFooter align='right'>
         <Button nature='primary' onClick={handleContinue}>
-          <FormattedMessage id='modals.upgradewallet.continue' defaultMessage='Continue' />
+          <FormattedMessage
+            id='modals.upgradewallet.continue'
+            defaultMessage='Continue'
+          />
         </Button>
       </ModalFooter>
     </Modal>

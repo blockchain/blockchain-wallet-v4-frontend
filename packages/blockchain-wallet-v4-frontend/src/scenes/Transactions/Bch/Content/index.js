@@ -23,7 +23,14 @@ class ContentContainer extends React.PureComponent {
 
   render () {
     const { empty, pages, search } = this.props
-    return <Content empty={empty} search={search} pages={pages} onRefresh={this.handleRefresh} />
+    return (
+      <Content
+        empty={empty}
+        search={search}
+        pages={pages}
+        onRefresh={this.handleRefresh}
+      />
+    )
   }
 }
 
@@ -31,9 +38,12 @@ const mapStateToProps = state => ({
   ...getData(state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   dataActions: bindActionCreators(actions.core.data.bch, dispatch),
   txActions: bindActionCreators(actions.components.bchTransactions, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContentContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ContentContainer)

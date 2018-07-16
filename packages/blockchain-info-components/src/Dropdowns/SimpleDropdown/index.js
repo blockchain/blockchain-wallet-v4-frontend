@@ -12,7 +12,9 @@ class SimpleDropdown extends React.PureComponent {
 
     this.state = {
       toggled: props.opened,
-      selectedItem: props.items.filter(item => item.value === props.selectedValue)[0] || props.items[0]
+      selectedItem:
+        props.items.filter(item => item.value === props.selectedValue)[0] ||
+        props.items[0]
     }
     this.handleClick = this.handleClick.bind(this)
     this.handleCallback = this.handleCallback.bind(this)
@@ -28,18 +30,23 @@ class SimpleDropdown extends React.PureComponent {
 
   handleCallback (item) {
     this.setState({ toggled: false, selectedItem: item })
-    if (this.props.callback) { this.props.callback(item) }
+    if (this.props.callback) {
+      this.props.callback(item)
+    }
   }
 
   render () {
     const { ...rest } = this.props
 
-    return <Dropdown {...rest}
-      handleClick={this.handleClick}
-      handleCallback={this.handleCallback}
-      toggled={this.state.toggled}
-      selectedItem={this.state.selectedItem}
-    />
+    return (
+      <Dropdown
+        {...rest}
+        handleClick={this.handleClick}
+        handleCallback={this.handleCallback}
+        toggled={this.state.toggled}
+        selectedItem={this.state.selectedItem}
+      />
+    )
   }
 }
 
@@ -52,14 +59,13 @@ SimpleDropdown.defaultProps = {
 }
 
 SimpleDropdown.propTypes = {
-  selectedValue: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]),
-  items: PropTypes.arrayOf(PropTypes.shape({
-    text: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired
-  })),
+  selectedValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      text: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired
+    })
+  ),
   callback: PropTypes.func.isRequired,
   opened: PropTypes.bool,
   color: PropTypes.oneOf(keysIn(Palette())),

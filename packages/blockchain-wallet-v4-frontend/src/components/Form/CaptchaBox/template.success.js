@@ -41,25 +41,42 @@ const RefreshLink = styled(Link)`
 `
 const RefreshIcon = styled(Icon)`
   margin-right: 2px;
-  &:hover { cursor: pointer; }
+  &:hover {
+    cursor: pointer;
+  }
 `
-const getErrorState = (meta) => {
+const getErrorState = meta => {
   return meta.touched && meta.invalid ? 'invalid' : 'initial'
 }
 
-const CaptchaBox = (field) => {
+const CaptchaBox = field => {
   const errorState = getErrorState(field.meta)
 
   return (
     <Wrapper>
       <Image src={field.captchaUrl} />
       <RefreshLink onClick={field.fetchNewCaptcha} size='11px' weight={300}>
-        <RefreshIcon name='refresh' color='brand-secondary' size='11px' weight={600}/>
-        <FormattedMessage id='scenes.reset2fa.thirdstep.newCaptcha' defaultMessage='Refresh' smaller uppercase />
+        <RefreshIcon
+          name='refresh'
+          color='brand-secondary'
+          size='11px'
+          weight={600}
+        />
+        <FormattedMessage
+          id='scenes.reset2fa.thirdstep.newCaptcha'
+          defaultMessage='Refresh'
+          smaller
+          uppercase
+        />
       </RefreshLink>
       <Container>
         <TextInput {...field.input} errorState={errorState} />
-        {field.meta.touched && field.meta.error && <Error size='12px' weight={300} color='error'>{field.meta.error}</Error>}
+        {field.meta.touched &&
+          field.meta.error && (
+            <Error size='12px' weight={300} color='error'>
+              {field.meta.error}
+            </Error>
+          )}
       </Container>
     </Wrapper>
   )

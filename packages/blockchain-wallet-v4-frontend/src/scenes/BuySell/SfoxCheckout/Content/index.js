@@ -2,7 +2,15 @@ import React from 'react'
 import { actions } from 'data'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { getBase, getData, getErrors, getQuote, getSellQuote, getTrades, getPayment } from './selectors'
+import {
+  getBase,
+  getData,
+  getErrors,
+  getQuote,
+  getSellQuote,
+  getTrades,
+  getPayment
+} from './selectors'
 import Success from './template.success'
 import Loading from 'components/BuySell/Loading'
 import { path } from 'ramda'
@@ -17,8 +25,12 @@ class SfoxCheckout extends React.PureComponent {
     this.props.sfoxDataActions.fetchTrades()
     this.props.sfoxDataActions.fetchProfile()
     this.props.sfoxDataActions.sfoxFetchAccounts()
-    this.props.sfoxDataActions.fetchQuote({quote: { amt: 1e8, baseCurrency: 'BTC', quoteCurrency: 'USD' }})
-    this.props.sfoxDataActions.fetchSellQuote({quote: { amt: 1e8, baseCurrency: 'BTC', quoteCurrency: 'USD' }})
+    this.props.sfoxDataActions.fetchQuote({
+      quote: { amt: 1e8, baseCurrency: 'BTC', quoteCurrency: 'USD' }
+    })
+    this.props.sfoxDataActions.fetchSellQuote({
+      quote: { amt: 1e8, baseCurrency: 'BTC', quoteCurrency: 'USD' }
+    })
     this.props.sfoxActions.initializePayment()
   }
 
@@ -27,40 +39,66 @@ class SfoxCheckout extends React.PureComponent {
   }
 
   render () {
-    const { data, modalActions, sfoxActions, sfoxDataActions, payment, orderState, formActions, siftScienceEnabled } = this.props
-    const { handleTrade, fetchQuote, refreshQuote, refreshSellQuote, fetchSellQuote } = sfoxDataActions
+    const {
+      data,
+      modalActions,
+      sfoxActions,
+      sfoxDataActions,
+      payment,
+      orderState,
+      formActions,
+      siftScienceEnabled
+    } = this.props
+    const {
+      handleTrade,
+      fetchQuote,
+      refreshQuote,
+      refreshSellQuote,
+      fetchSellQuote
+    } = sfoxDataActions
     const { sfoxNotAsked } = sfoxActions
     const { showModal } = modalActions
     const { change } = formActions
 
     const busy = orderState.cata({
       Success: () => false,
-      Failure: (err) => err,
+      Failure: err => err,
       Loading: () => true,
       NotAsked: () => false
     })
 
     return data.cata({
-      Success: (value) => <Success {...this.props}
-        value={value}
-        handleTrade={handleTrade}
-        showModal={showModal}
-        fetchBuyQuote={(quote) => fetchQuote({ quote, nextAddress: value.nextAddress })}
-        fetchSellQuote={(quote) => fetchSellQuote({ quote })}
-        refreshBuyQuote={() => refreshQuote()}
-        refreshSellQuote={() => refreshSellQuote()}
-        submitBuyQuote={(quote) => { sfoxActions.submitQuote(quote); this.setState({ busy: true }) }}
-        submitSellQuote={(quote) => { sfoxActions.submitSellQuote(quote); this.setState({ busy: true }) }}
-        busy={busy}
-        payment={payment}
-        clearTradeError={() => sfoxNotAsked()}
-        changeTab={tab => change('buySellTabStatus', 'status', tab)}
-        disableButton={() => this.setState({ buttonStatus: false })}
-        enableButton={() => this.setState({ buttonStatus: true })}
-        buttonStatus={this.state.buttonStatus}
-        siftScienceEnabled={siftScienceEnabled}
-      />,
-      Failure: (error) => <Failure error={error} />,
+      Success: value => (
+        <Success
+          {...this.props}
+          value={value}
+          handleTrade={handleTrade}
+          showModal={showModal}
+          fetchBuyQuote={quote =>
+            fetchQuote({ quote, nextAddress: value.nextAddress })
+          }
+          fetchSellQuote={quote => fetchSellQuote({ quote })}
+          refreshBuyQuote={() => refreshQuote()}
+          refreshSellQuote={() => refreshSellQuote()}
+          submitBuyQuote={quote => {
+            sfoxActions.submitQuote(quote)
+            this.setState({ busy: true })
+          }}
+          submitSellQuote={quote => {
+            sfoxActions.submitSellQuote(quote)
+            this.setState({ busy: true })
+          }}
+          busy={busy}
+          payment={payment}
+          clearTradeError={() => sfoxNotAsked()}
+          changeTab={tab => change('buySellTabStatus', 'status', tab)}
+          disableButton={() => this.setState({ buttonStatus: false })}
+          enableButton={() => this.setState({ buttonStatus: true })}
+          buttonStatus={this.state.buttonStatus}
+          siftScienceEnabled={siftScienceEnabled}
+        />
+      ),
+      Failure: error => <Failure error={error} />,
       Loading: () => <Loading />,
       NotAsked: () => <div>Not Asked</div>
     })
@@ -87,4 +125,7 @@ const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SfoxCheckout)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SfoxCheckout)

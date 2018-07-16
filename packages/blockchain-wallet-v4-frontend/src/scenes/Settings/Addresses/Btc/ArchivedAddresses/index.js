@@ -35,15 +35,22 @@ class ArchivedAddressesContainer extends React.PureComponent {
   }
 }
 
-const selectArchived = compose(Types.AddressMap.selectArchived, Types.Wallet.selectAddresses, selectors.core.wallet.getWallet)
+const selectArchived = compose(
+  Types.AddressMap.selectArchived,
+  Types.Wallet.selectAddresses,
+  selectors.core.wallet.getWallet
+)
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   archivedAddresses: selectArchived(state).toArray(),
   search: formValueSelector('settingsAddresses')(state, 'search')
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   coreActions: bindActionCreators(actions.core.wallet, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ArchivedAddressesContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ArchivedAddressesContainer)

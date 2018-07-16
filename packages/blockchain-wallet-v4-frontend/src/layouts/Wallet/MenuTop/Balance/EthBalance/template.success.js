@@ -9,11 +9,11 @@ const Wrapper = styled.div`
   display: inline-flex;
   flex-direction: row;
   padding-left: 5px;
-  padding-right: ${props => props.large ? '15px' : '25px'};
+  padding-right: ${props => (props.large ? '15px' : '25px')};
   > div:last-child {
     margin-left: 10px;
     > div {
-      color: ${props => props.theme['gray-3']}
+      color: ${props => props.theme['gray-3']};
     }
   }
 `
@@ -24,8 +24,24 @@ const Success = props => {
   return (
     <LinkContainer to='/eth/transactions'>
       <Wrapper large={large}>
-        <CoinDisplay coin='ETH' cursor='pointer' size={large ? '20px' : '12px'} mobileSize='14px' weight={large ? 200 : 300}>{balance}</CoinDisplay>
-        <FiatDisplay coin='ETH' cursor='pointer' size={large ? '20px' : '12px'} mobileSize='14px' weight={large ? 200 : 300}>{balance}</FiatDisplay>
+        <CoinDisplay
+          coin='ETH'
+          cursor='pointer'
+          size={large ? '20px' : '12px'}
+          mobileSize='14px'
+          weight={large ? 200 : 300}
+        >
+          {balance}
+        </CoinDisplay>
+        <FiatDisplay
+          coin='ETH'
+          cursor='pointer'
+          size={large ? '20px' : '12px'}
+          mobileSize='14px'
+          weight={large ? 200 : 300}
+        >
+          {balance}
+        </FiatDisplay>
       </Wrapper>
     </LinkContainer>
   )

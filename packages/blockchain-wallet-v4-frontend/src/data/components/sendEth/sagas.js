@@ -14,48 +14,61 @@ import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 export const logLocation = 'components/sendEth/sagas'
 
 export default ({ coreSagas }) => {
-  const initialized = function * (action) {
+  const initialized = function*(action) {
     try {
       const from = path(['payload', 'from'], action)
       const type = path(['payload', 'type'], action)
       yield put(A.sendEthPaymentUpdated(Remote.Loading))
-      let payment = coreSagas.payment.eth.create(({ network: settings.NETWORK_ETHEREUM }))
+      let payment = coreSagas.payment.eth.create({
+        network: settings.NETWORK_ETHEREUM
+      })
       payment = yield payment.init()
-      payment = from && type
-        ? yield payment.from(action.payload.from, action.payload.type)
-        : yield payment.from()
+      payment =
+        from && type
+          ? yield payment.from(action.payload.from, action.payload.type)
+          : yield payment.from()
       const initialValues = { coin: 'ETH' }
       yield put(initialize('sendEth', initialValues))
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'sendEthInitialized', e))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'sendEthInitialized', e)
+      )
     }
   }
 
-  const destroyed = function * () {
+  const destroyed = function*() {
     yield put(actions.form.destroy('sendEth'))
   }
 
-  const firstStepSubmitClicked = function * () {
+  const firstStepSubmitClicked = function*() {
     try {
       let p = yield select(S.getPayment)
       yield put(A.sendEthPaymentUpdated(Remote.Loading))
-      let payment = coreSagas.payment.eth.create({ payment: p.getOrElse({}), network: settings.NETWORK_ETHEREUM })
+      let payment = coreSagas.payment.eth.create({
+        payment: p.getOrElse({}),
+        network: settings.NETWORK_ETHEREUM
+      })
       payment = yield payment.build()
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', e))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', e)
+      )
     }
   }
 
-  const formChanged = function * (action) {
+  const formChanged = function*(action) {
     try {
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
       const payload = prop('payload', action)
       if (!equals('sendEth', form)) return
       let p = yield select(S.getPayment)
-      let payment = coreSagas.payment.eth.create({ payment: p.getOrElse({}), network: settings.NETWORK_ETHEREUM })
+      let payment = coreSagas.payment.eth.create({
+        payment: p.getOrElse({}),
+        network: settings.NETWORK_ETHEREUM
+      })
 
       switch (field) {
         case 'coin':
@@ -76,7 +89,11 @@ export default ({ coreSagas }) => {
           break
         case 'amount':
           const ethAmount = prop('coin', payload)
-          const weiAmount = Exchange.convertEtherToEther({ value: ethAmount, fromUnit: 'ETH', toUnit: 'WEI' }).value
+          const weiAmount = Exchange.convertEtherToEther({
+            value: ethAmount,
+            fromUnit: 'ETH',
+            toUnit: 'WEI'
+          }).value
           payment = yield payment.amount(weiAmount)
           break
         case 'description':
@@ -89,41 +106,74 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const maximumAmountClicked = function * () {
+  const maximumAmountClicked = function*() {
     try {
       const appState = yield select(identity)
-      const currency = selectors.core.settings.getCurrency(appState).getOrFail('Can not retrieve currency.')
-      const ethRates = selectors.core.data.ethereum.getRates(appState).getOrFail('Can not retrieve ethereum rates.')
+      const currency = selectors.core.settings
+        .getCurrency(appState)
+        .getOrFail('Can not retrieve currency.')
+      const ethRates = selectors.core.data.ethereum
+        .getRates(appState)
+        .getOrFail('Can not retrieve ethereum rates.')
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
       const effectiveBalance = prop('effectiveBalance', payment)
-      const coin = Exchange.convertEtherToEther({ value: effectiveBalance, fromUnit: 'WEI', toUnit: 'ETH' }).value
-      const fiat = Exchange.convertEtherToFiat({ value: effectiveBalance, fromUnit: 'WEI', toCurrency: currency, rates: ethRates }).value
+      const coin = Exchange.convertEtherToEther({
+        value: effectiveBalance,
+        fromUnit: 'WEI',
+        toUnit: 'ETH'
+      }).value
+      const fiat = Exchange.convertEtherToFiat({
+        value: effectiveBalance,
+        fromUnit: 'WEI',
+        toCurrency: currency,
+        rates: ethRates
+      }).value
       yield put(change('sendEth', 'amount', { coin, fiat }))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'maximumAmountClicked', e))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'maximumAmountClicked', e)
+      )
     }
   }
 
-  const secondStepSubmitClicked = function * () {
+  const secondStepSubmitClicked = function*() {
     try {
       let p = yield select(S.getPayment)
-      let payment = coreSagas.payment.eth.create({ payment: p.getOrElse({}), network: settings.NETWORK_ETHEREUM })
+      let payment = coreSagas.payment.eth.create({
+        payment: p.getOrElse({}),
+        network: settings.NETWORK_ETHEREUM
+      })
       const password = yield call(promptForSecondPassword)
       yield put(actions.modals.closeAllModals())
       payment = yield payment.sign(password)
       payment = yield payment.publish()
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
-      yield put(actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(Date.now()))
-      yield take(actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS)
-      yield put(actions.core.kvStore.ethereum.setLatestTxEthereum(payment.value().txId))
+      yield put(
+        actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(Date.now())
+      )
+      yield take(
+        actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS
+      )
+      yield put(
+        actions.core.kvStore.ethereum.setLatestTxEthereum(payment.value().txId)
+      )
       yield put(actions.alerts.displaySuccess(C.SEND_ETH_SUCCESS))
       if (path(['description', 'length'], payment.value())) {
-        yield take(actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS)
-        yield put(actions.core.kvStore.ethereum.setTxNotesEthereum(payment.value().txId, payment.value().description))
+        yield take(
+          actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS
+        )
+        yield put(
+          actions.core.kvStore.ethereum.setTxNotesEthereum(
+            payment.value().txId,
+            payment.value().description
+          )
+        )
       }
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e)
+      )
       yield put(actions.alerts.displayError(C.SEND_ETH_ERROR))
     }
   }

@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -17,18 +16,20 @@ class ThirdStepContainer extends React.Component {
   render () {
     const { data, actions } = this.props
     return data.cata({
-      Success: (value) => <Success
-        sourceCoin={value.sourceCoin}
-        targetCoin={value.targetCoin}
-        status={value.status}
-        exchangeRate={value.exchangeRate}
-        transactionFee={value.transactionFee}
-        orderId={value.orderId}
-        depositAmount={value.depositAmount}
-        withdrawalAmount={value.withdrawalAmount}
-        handleClose={() => actions.thirdStepCloseClicked()}
-      />,
-      Failure: (message) => <Error>{message}</Error>,
+      Success: value => (
+        <Success
+          sourceCoin={value.sourceCoin}
+          targetCoin={value.targetCoin}
+          status={value.status}
+          exchangeRate={value.exchangeRate}
+          transactionFee={value.transactionFee}
+          orderId={value.orderId}
+          depositAmount={value.depositAmount}
+          withdrawalAmount={value.withdrawalAmount}
+          handleClose={() => actions.thirdStepCloseClicked()}
+        />
+      ),
+      Failure: message => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
@@ -43,4 +44,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.exchange, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ThirdStepContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ThirdStepContainer)

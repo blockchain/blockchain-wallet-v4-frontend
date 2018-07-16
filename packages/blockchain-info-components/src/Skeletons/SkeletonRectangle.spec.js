@@ -6,7 +6,11 @@ import SkeletonRectangle from './SkeletonRectangle'
 
 describe('SkeletonRectangle component', () => {
   it('default renders correctly', () => {
-    const component = shallow(<SkeletonRectangle height='10px' width='10px' bgColor='gray-1'><span>Test</span></SkeletonRectangle>)
+    const component = shallow(
+      <SkeletonRectangle height='10px' width='10px' bgColor='gray-1'>
+        <span>Test</span>
+      </SkeletonRectangle>
+    )
     const tree = toJson(component)
     expect(tree).toMatchSnapshot()
   })

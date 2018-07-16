@@ -7,9 +7,12 @@ class Checkout extends React.Component {
   render () {
     const { type } = this.props
     switch (type) {
-      case 'buy': return <Buy />
-      case 'sell': return <Sell />
-      default: return <OrderHistory />
+      case 'buy':
+        return <Buy />
+      case 'sell':
+        return <Sell />
+      default:
+        return <OrderHistory />
     }
   }
 }

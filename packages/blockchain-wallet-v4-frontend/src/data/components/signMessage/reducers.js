@@ -20,7 +20,10 @@ export default (state = INITIAL_STATE, action) => {
       return assoc('step', 1, state)
     }
     case AT.MESSAGE_SIGNED: {
-      return compose(assoc('step', 2), assoc('signedMessage', payload.signedMessage))(state)
+      return compose(
+        assoc('step', 2),
+        assoc('signedMessage', payload.signedMessage)
+      )(state)
     }
     default:
       return state

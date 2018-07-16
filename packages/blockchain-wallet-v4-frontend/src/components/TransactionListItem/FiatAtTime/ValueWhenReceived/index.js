@@ -15,12 +15,16 @@ class ValueWhenReceived extends React.PureComponent {
     const { data, actions, amount, hash, time, currency } = this.props
 
     return data.cata({
-      Success: (value) => <Success fiatAtTime={value} />,
-      Failure: (message) => <Error>{message}</Error>,
+      Success: value => <Success fiatAtTime={value} />,
+      Failure: message => <Error>{message}</Error>,
       Loading: () => <Loading />,
-      NotAsked: () => <NotAsked
-        handleClick={() => actions.fetchFiatAtTime(hash, amount, time * 1000, currency)}
-      />
+      NotAsked: () => (
+        <NotAsked
+          handleClick={() =>
+            actions.fetchFiatAtTime(hash, amount, time * 1000, currency)
+          }
+        />
+      )
     })
   }
 }
@@ -29,7 +33,7 @@ const mapStateToProps = (state, ownProps) => ({
   data: getData(ownProps.hash, ownProps.currency, state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.core.data.bitcoin, dispatch)
 })
 
@@ -40,4 +44,7 @@ ValueWhenReceived.propTypes = {
   currency: PropTypes.string.isRequired
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ValueWhenReceived)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ValueWhenReceived)

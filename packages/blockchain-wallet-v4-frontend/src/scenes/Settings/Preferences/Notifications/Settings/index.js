@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -32,4 +31,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.settings, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SettingContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SettingContainer)

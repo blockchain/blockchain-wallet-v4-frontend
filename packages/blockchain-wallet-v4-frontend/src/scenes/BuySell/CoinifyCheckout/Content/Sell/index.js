@@ -22,7 +22,9 @@ class SellContainer extends React.Component {
 
   submitQuote () {
     const { sellQuoteR } = this.props
-    sellQuoteR.map(quote => this.props.coinifyDataActions.getMediumsWithBankAccounts(quote))
+    sellQuoteR.map(quote =>
+      this.props.coinifyDataActions.getMediumsWithBankAccounts(quote)
+    )
     this.props.coinifyActions.saveMedium('blockchain')
   }
 
@@ -32,8 +34,18 @@ class SellContainer extends React.Component {
   }
 
   render () {
-    const { data, modalActions, coinifyActions, coinifyDataActions, formActions,
-      sellQuoteR, currency, paymentMedium, trade, ...rest } = this.props
+    const {
+      data,
+      modalActions,
+      coinifyActions,
+      coinifyDataActions,
+      formActions,
+      sellQuoteR,
+      currency,
+      paymentMedium,
+      trade,
+      ...rest
+    } = this.props
     const { canTrade, step, checkoutBusy, coinifyBusy, checkoutError } = rest
     const { fetchQuote, refreshSellQuote } = coinifyDataActions
     const { showModal } = modalActions
@@ -42,35 +54,39 @@ class SellContainer extends React.Component {
 
     const busy = coinifyBusy.cata({
       Success: () => false,
-      Failure: (err) => <Failure error={err} />,
+      Failure: err => <Failure error={err} />,
       Loading: () => true,
       NotAsked: () => false
     })
 
     return data.cata({
-      Success: (value) => <Success
-        value={value}
-        canTrade={canTrade}
-        changeTab={tab => change('buySellTabStatus', 'status', tab)}
-        showModal={showModal}
-        sellQuoteR={sellQuoteR}
-        fetchSellQuote={(quote) => fetchQuote({ quote, nextAddress: value.nextAddress })}
-        currency={currency}
-        checkoutBusy={checkoutBusy}
-        setMax={(btcAmt) => change('coinifyCheckoutSell', 'rightVal', btcAmt)}
-        setMin={(btcAmt) => change('coinifyCheckoutSell', 'rightVal', btcAmt)}
-        paymentMedium={paymentMedium}
-        initiateSell={this.startSell}
-        step={step}
-        busy={busy}
-        clearTradeError={() => coinifyNotAsked()}
-        trade={trade}
-        onOrderCheckoutSubmit={this.submitQuote}
-        checkoutError={checkoutError}
-        handleKycAction={kyc => openKYC(kyc)}
-        refreshQuote={refreshSellQuote}
-      />,
-      Failure: (msg) => <div>Failure: {msg.error}</div>,
+      Success: value => (
+        <Success
+          value={value}
+          canTrade={canTrade}
+          changeTab={tab => change('buySellTabStatus', 'status', tab)}
+          showModal={showModal}
+          sellQuoteR={sellQuoteR}
+          fetchSellQuote={quote =>
+            fetchQuote({ quote, nextAddress: value.nextAddress })
+          }
+          currency={currency}
+          checkoutBusy={checkoutBusy}
+          setMax={btcAmt => change('coinifyCheckoutSell', 'rightVal', btcAmt)}
+          setMin={btcAmt => change('coinifyCheckoutSell', 'rightVal', btcAmt)}
+          paymentMedium={paymentMedium}
+          initiateSell={this.startSell}
+          step={step}
+          busy={busy}
+          clearTradeError={() => coinifyNotAsked()}
+          trade={trade}
+          onOrderCheckoutSubmit={this.submitQuote}
+          checkoutError={checkoutError}
+          handleKycAction={kyc => openKYC(kyc)}
+          refreshQuote={refreshSellQuote}
+        />
+      ),
+      Failure: msg => <div>Failure: {msg.error}</div>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
@@ -87,4 +103,7 @@ const mapDispatchToProps = dispatch => ({
   coinifyActions: bindActionCreators(actions.modules.coinify, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SellContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SellContainer)

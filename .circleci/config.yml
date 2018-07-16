@@ -1,0 +1,117 @@
+version: 2
+
+references:
+  workspace_root: &workspace_root
+    /home/circleci
+
+  attach_workspace: &attach_workspace
+    attach_workspace:
+      at: *workspace_root
+
+  container_config: &container_config
+    working_directory: /home/circleci/blockchain-wallet-v4-frontend
+    docker:
+      - image: circleci/node:10.6-jessie-browsers
+
+  npm_cache_key: &npm_cache_key
+      v2-dependency-npm-{{ checksum "yarn.lock" }}
+
+  restore_node_modules: &restore_node_modules
+    restore_cache:
+      keys:
+        - *npm_cache_key
+        - v2-dependency-npm
+
+  restore_repo: &restore_repo
+      restore_cache:
+        keys:
+          - v2-repo-{{ .Branch }}-{{ .Revision }}
+          - v2-repo-{{ .Branch }}
+          - v2-repo
+
+jobs:
+  pull_code:
+    <<: *container_config
+    steps:
+      - *restore_repo
+      - checkout
+      - save_cache:
+          key: v2-repo-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - .
+  npm_install:
+    <<: *container_config
+    steps:
+      - *restore_repo
+      - *restore_node_modules
+      - run:
+          name: Install App Dependencies
+          command: yarn --frozen-lockfile
+      - save_cache:
+          key: *npm_cache_key
+          paths:
+            - ./node_modules
+      - persist_to_workspace:
+          root: /home/circleci
+          paths:
+            - blockchain-wallet-v4-frontend
+  lint:
+    <<: *container_config
+    steps:
+      - *attach_workspace
+      - run:
+          name: Lint Code
+          command: yarn lint
+  test_core_components:
+    <<: *container_config
+    steps:
+      - *attach_workspace
+      - run:
+          name: Test Core & Components Code
+          command: yarn ci:test:core:components
+  test_frontend:
+    <<: *container_config
+    steps:
+      - *attach_workspace
+      - run:
+          name: Test Frontend Code
+          command: yarn ci:test:build && yarn ci:test:frontend
+  code_coverage:
+    <<: *container_config
+    steps:
+      - *attach_workspace
+      - run:
+          name: Code Coverage
+          command: yarn coverage
+
+workflows:
+  version: 2
+
+  pull_request:
+    jobs:
+      - pull_code
+      - npm_install:
+          requires:
+            - pull_code
+      - lint:
+          requires:
+            - npm_install
+      - test_core_components:
+          requires:
+            - npm_install
+      - test_frontend:
+          requires:
+            - npm_install
+
+  test_coverage:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only:
+                - development
+    jobs:
+      - pull_code
+      - npm_install
+      - code_coverage

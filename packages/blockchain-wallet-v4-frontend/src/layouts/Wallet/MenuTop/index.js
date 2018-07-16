@@ -17,7 +17,7 @@ const Wrapper = styled.div`
   border-bottom: 1px solid ${props => props.theme['gray-1']};
   z-index: 10;
 
-  @media(min-width: 850px) {
+  @media (min-width: 850px) {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
@@ -32,19 +32,25 @@ const Container = styled.div`
 `
 const LeftContainer = styled(Container)`
   order: 2;
-  @media(min-width: 850px) { order: 1; }
+  @media (min-width: 850px) {
+    order: 1;
+  }
 `
 const RightContainer = styled(Container)`
   order: 1;
-  @media(min-width: 850px) { order: 2; }
+  @media (min-width: 850px) {
+    order: 2;
+  }
 `
 const TextContainer = styled.div`
   display: none;
   margin-left: -2px;
-  @media(min-width: 850px) { display: flex; }
+  @media (min-width: 850px) {
+    display: flex;
+  }
 `
 
-const MenuTop = (props) => (
+const MenuTop = props => (
   <Wrapper>
     <LeftContainer>
       <TextContainer inline>

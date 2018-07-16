@@ -10,7 +10,9 @@ const SettingHeader = styled.div`
   font-size: 16px;
   color: ${props => props.theme['gray-5']};
 
-  & > * { margin-right: 10px; }
+  & > * {
+    margin-right: 10px;
+  }
 `
 
 export default SettingHeader

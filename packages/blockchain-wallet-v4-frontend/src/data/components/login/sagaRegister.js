@@ -5,7 +5,7 @@ import sagas from './sagas'
 export default () => {
   const loginSagas = sagas({})
 
-  return function * () {
+  return function*() {
     yield takeEvery(AT.LOGIN_INITIALIZED, loginSagas.initialized)
   }
 }

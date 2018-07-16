@@ -23,14 +23,17 @@ class UpgradeWizardContainer extends React.PureComponent {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   authActions: bindActionCreators(actions.auth, dispatch)
 })
 
 const enhance = compose(
   modalEnhancer('UpgradeWallet'),
-  connect(undefined, mapDispatchToProps)
+  connect(
+    undefined,
+    mapDispatchToProps
+  )
 )
 
 export default enhance(UpgradeWizardContainer)

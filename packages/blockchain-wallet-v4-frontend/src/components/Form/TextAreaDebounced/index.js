@@ -16,10 +16,10 @@ const Error = styled(Text)`
   position: absolute;
   display: block;
   height: 15px;
-  top: ${props => props.errorBottom ? '40px' : '-20px'};
+  top: ${props => (props.errorBottom ? '40px' : '-20px')};
   right: 0;
 `
-const getErrorState = (meta) => {
+const getErrorState = meta => {
   return meta.touched && meta.invalid ? 'invalid' : 'initial'
 }
 
@@ -35,10 +35,16 @@ class TextAreaDebounced extends React.Component {
 
   static getDerivedStateFromProps (nextProps, prevState) {
     if (!equals(prevState.updatedValue, prevState.value)) {
-      return { updatedValue: prevState.updatedValue, value: prevState.updatedValue }
+      return {
+        updatedValue: prevState.updatedValue,
+        value: prevState.updatedValue
+      }
     }
     if (!equals(nextProps.input.value, prevState.value)) {
-      return { updatedValue: nextProps.input.value, value: nextProps.input.value }
+      return {
+        updatedValue: nextProps.input.value,
+        value: nextProps.input.value
+      }
     }
     return null
   }
@@ -83,7 +89,12 @@ class TextAreaDebounced extends React.Component {
           onBlur={this.handleBlur}
           {...rest}
         />
-        {meta.touched && meta.error && <Error size='12px' weight={300} color='error'>{meta.error}</Error>}
+        {meta.touched &&
+          meta.error && (
+            <Error size='12px' weight={300} color='error'>
+              {meta.error}
+            </Error>
+          )}
       </Container>
     )
   }

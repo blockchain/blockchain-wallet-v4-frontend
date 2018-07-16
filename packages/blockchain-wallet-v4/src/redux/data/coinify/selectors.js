@@ -19,23 +19,32 @@ export const getAccount = path([dataPath, 'coinify', 'account'])
 export const getFiatCurrency = state =>
   getQuote(state).map(quote => {
     const baseCurrency = prop('_baseCurrency', quote)
-    return equals(baseCurrency, 'BTC') ? prop('_quoteCurrency', quote) : baseCurrency
+    return equals(baseCurrency, 'BTC')
+      ? prop('_quoteCurrency', quote)
+      : baseCurrency
   })
 
 export const getLimits = state => getProfile(state).map(path(['_limits']))
 
 export const getLevel = state => getProfile(state).map(path(['_level']))
 
-export const getCurrentLimits = state => getProfile(state).map(path(['currentLimits']))
+export const getCurrentLimits = state =>
+  getProfile(state).map(path(['currentLimits']))
 
 export const getKyc = path([dataPath, 'coinify', 'kyc'])
 
-export const getDefaultCurrency = path([dataPath, 'coinify', '_default_currency'])
+export const getDefaultCurrency = path([
+  dataPath,
+  'coinify',
+  '_default_currency'
+])
 
 export const getTrade = path([dataPath, 'coinify', 'trade'])
 
 export const canTrade = state => getProfile(state).map(path(['_canTrade']))
 
-export const cannotTradeReason = state => getProfile(state).map(path(['_cannotTradeReason']))
+export const cannotTradeReason = state =>
+  getProfile(state).map(path(['_cannotTradeReason']))
 
-export const getBankAccounts = state => getMediums(state).map(path(['bank', '_accounts']))
+export const getBankAccounts = state =>
+  getMediums(state).map(path(['bank', '_accounts']))

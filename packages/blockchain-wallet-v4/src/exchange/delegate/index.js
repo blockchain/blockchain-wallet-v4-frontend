@@ -59,21 +59,22 @@ export class ExchangeDelegate {
     let fields = {
       guid: guid,
       sharedKey: sharedKey,
-      fields: `email${options.mobile ? '|mobile' : ''}${options.walletAge ? '|wallet_age' : ''}`
+      fields: `email${options.mobile ? '|mobile' : ''}${
+        options.walletAge ? '|wallet_age' : ''
+      }`
     }
 
     if (partner) {
       fields.partner = partner
     }
 
-    return this.api.getTokenForDelegate(fields)
-      .then(function (res) {
-        if (res.success) {
-          return res.token
-        } else {
-          throw new Error('Unable to obtain email & mobile verification proof')
-        }
-      })
+    return this.api.getTokenForDelegate(fields).then(function (res) {
+      if (res.success) {
+        return res.token
+      } else {
+        throw new Error('Unable to obtain email & mobile verification proof')
+      }
+    })
   }
 
   monitorAddress (address, callback) {
@@ -101,14 +102,20 @@ export class ExchangeDelegate {
     let receiveAddress
     if (isProd) {
       const defaultIndex = getDefaultAccountIndex(this.state)
-      receiveAddress = btc.getNextAvailableReceiveAddress(Bitcoin.networks.bitcoin.NETWORK_BITCOIN, defaultIndex, this.state).getOrElse()
+      receiveAddress = btc
+        .getNextAvailableReceiveAddress(
+          Bitcoin.networks.bitcoin.NETWORK_BITCOIN,
+          defaultIndex,
+          this.state
+        )
+        .getOrElse()
     } else {
       receiveAddress = '2N7FwMpgyXQA85SaVXumm3UZowq2VKChehP' // testnet address used on staging
     }
 
     return {
       receiveAddress,
-      commit: (trade) => {}
+      commit: trade => {}
     }
   }
 

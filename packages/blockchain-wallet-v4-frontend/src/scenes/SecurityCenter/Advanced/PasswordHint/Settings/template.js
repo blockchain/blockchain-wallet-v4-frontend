@@ -16,29 +16,50 @@ const ButtonWrapper = styled(ButtonGroup)`
   }
 `
 
-const Settings = (props) => {
-  const { updateToggled, handleToggle, handleSubmit, submitting, invalid, handleCancel } = props
+const Settings = props => {
+  const {
+    updateToggled,
+    handleToggle,
+    handleSubmit,
+    submitting,
+    invalid,
+    handleCancel
+  } = props
   return (
     <SettingWrapper>
       <Hint />
-      { !updateToggled &&
+      {!updateToggled && (
         <Button nature='primary' onClick={handleToggle}>
-          <FormattedMessage id='scenes.securitysettings.basicsecurity.passwordhint.settings.change' defaultMessage='Change' />
+          <FormattedMessage
+            id='scenes.securitysettings.basicsecurity.passwordhint.settings.change'
+            defaultMessage='Change'
+          />
         </Button>
-      }
-      { updateToggled &&
+      )}
+      {updateToggled && (
         <SettingForm onSubmit={handleSubmit}>
           <Field name='passwordHint' component={TextBox} />
           <ButtonWrapper>
             <Button nature='empty' capitalize onClick={handleCancel}>
-              <FormattedMessage id='scenes.securitysettings.basicsecurity.passwordhint.settings.cancel' defaultMessage='Cancel' />
+              <FormattedMessage
+                id='scenes.securitysettings.basicsecurity.passwordhint.settings.cancel'
+                defaultMessage='Cancel'
+              />
             </Button>
-            <Button type='submit' nature='primary' capitalize disabled={submitting || invalid}>
-              <FormattedMessage id='scenes.securitysettings.basicsecurity.passwordhint.settings.save' defaultMessage='Change' />
+            <Button
+              type='submit'
+              nature='primary'
+              capitalize
+              disabled={submitting || invalid}
+            >
+              <FormattedMessage
+                id='scenes.securitysettings.basicsecurity.passwordhint.settings.save'
+                defaultMessage='Change'
+              />
             </Button>
           </ButtonWrapper>
         </SettingForm>
-      }
+      )}
     </SettingWrapper>
   )
 }

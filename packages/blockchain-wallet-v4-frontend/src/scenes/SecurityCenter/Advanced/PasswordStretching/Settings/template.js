@@ -16,31 +16,54 @@ const ButtonWrapper = styled(ButtonGroup)`
   }
 `
 
-const Settings = (props) => {
-  const { updateToggled, handleToggle, handleSubmit, submitting, invalid, currentStretch } = props
+const Settings = props => {
+  const {
+    updateToggled,
+    handleToggle,
+    handleSubmit,
+    submitting,
+    invalid,
+    currentStretch
+  } = props
   return (
     <SettingWrapper>
-      { currentStretch &&
-        <Text>{currentStretch}</Text>
-      }
-      { !updateToggled &&
+      {currentStretch && <Text>{currentStretch}</Text>}
+      {!updateToggled && (
         <Button nature='primary' onClick={handleToggle}>
-          <FormattedMessage id='scenes.securitysettings.advancedsettings.passwordstretching.settings.change' defaultMessage='Change' />
+          <FormattedMessage
+            id='scenes.securitysettings.advancedsettings.passwordstretching.settings.change'
+            defaultMessage='Change'
+          />
         </Button>
-      }
-      { updateToggled &&
+      )}
+      {updateToggled && (
         <SettingForm onSubmit={handleSubmit}>
-          <Field name='passwordStretching' component={NumberBox} validate={validPasswordStretchingNumber} />
+          <Field
+            name='passwordStretching'
+            component={NumberBox}
+            validate={validPasswordStretchingNumber}
+          />
           <ButtonWrapper>
             <Button nature='empty' capitalize onClick={handleToggle}>
-              <FormattedMessage id='scenes.securitysettings.advancedsettings.passwordstretching.settings.cancel' defaultMessage='Cancel' />
+              <FormattedMessage
+                id='scenes.securitysettings.advancedsettings.passwordstretching.settings.cancel'
+                defaultMessage='Cancel'
+              />
             </Button>
-            <Button type='submit' nature='primary' capitalize disabled={submitting || invalid}>
-              <FormattedMessage id='scenes.securitysettings.advancedsettings.passwordstretching.settings.save' defaultMessage='Change' />
+            <Button
+              type='submit'
+              nature='primary'
+              capitalize
+              disabled={submitting || invalid}
+            >
+              <FormattedMessage
+                id='scenes.securitysettings.advancedsettings.passwordstretching.settings.save'
+                defaultMessage='Change'
+              />
             </Button>
           </ButtonWrapper>
         </SettingForm>
-      }
+      )}
     </SettingWrapper>
   )
 }

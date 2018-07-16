@@ -21,7 +21,10 @@ class EditDescriptionContainer extends React.PureComponent {
 
   handleChange (e) {
     const { value } = this.props
-    this.props.modalActions.showModal('EditTxDescription', { handleConfirm: this.handleConfirm, value })
+    this.props.modalActions.showModal('EditTxDescription', {
+      handleConfirm: this.handleConfirm,
+      value
+    })
   }
 
   render () {
@@ -35,8 +38,11 @@ EditDescriptionContainer.propTypes = {
   value: PropTypes.string
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(undefined, mapDispatchToProps)(EditDescriptionContainer)
+export default connect(
+  undefined,
+  mapDispatchToProps
+)(EditDescriptionContainer)

@@ -22,7 +22,7 @@ const Container = styled.div`
   align-items: center;
   width: 100%;
 
-  @media(min-width: 1200px) {
+  @media (min-width: 1200px) {
     flex-direction: row;
     justify-content: space-between;
   }
@@ -32,10 +32,12 @@ const Status = styled.div`
   > div > span:first-child {
     padding-left: 0px;
   }
-  @media(min-width: 1200px) { width: 360px; }
+  @media (min-width: 1200px) {
+    width: 360px;
+  }
   ${media.mobile`
     width: 75%;
-  `}
+  `};
 `
 const PrivateKeysWrapper = styled.div`
   display: flex;
@@ -44,15 +46,17 @@ const PrivateKeysWrapper = styled.div`
   margin-right: 15px;
   ${media.mobile`
     margin-right: 0px;
-  `}
+  `};
 `
 const Search = styled.div`
   position: relative;
   width: 60%;
-  @media(min-width: 1200px) { width: auto; }
+  @media (min-width: 1200px) {
+    width: auto;
+  }
   ${media.laptop`
     width: auto;
-  `}
+  `};
 `
 const SearchIcon = styled(Icon)`
   position: absolute;
@@ -71,58 +75,85 @@ const ClickableText = styled(Text)`
 
 const PrivateKeys = () => (
   <Link weight={300} size='12px'>
-    <FormattedMessage id='scenes.transactions.ether.privatekeys' defaultMessage='Private Keys' />
+    <FormattedMessage
+      id='scenes.transactions.ether.privatekeys'
+      defaultMessage='Private Keys'
+    />
   </Link>
 )
 
-const Menu = (props) => {
+const Menu = props => {
   const { hasLegacyAccount, onShowPrivateKey } = props
   return (
     <MediaContextConsumer>
-      {({ laptop }) =>
+      {({ laptop }) => (
         <Wrapper>
           <Container>
             <Status>
-              <Field name='status' statuses={['', 'sent', 'received']} component={TabMenuTransactionStatus} />
+              <Field
+                name='status'
+                statuses={['', 'sent', 'received']}
+                component={TabMenuTransactionStatus}
+              />
             </Status>
             <MenuRight>
               <PrivateKeysWrapper>
-                {
-                  hasLegacyAccount ? <ComponentDropdown
+                {hasLegacyAccount ? (
+                  <ComponentDropdown
                     down
                     forceSelected
                     color={'gray-5'}
                     selectedComponent={<PrivateKeys />}
                     components={[
-                      <ClickableText size='small' onClick={() => onShowPrivateKey(false)}>
-                        <FormattedMessage id='scenes.transactions.ether.export.privatekey' defaultMessage='Export Private Key' />
+                      <ClickableText
+                        size='small'
+                        onClick={() => onShowPrivateKey(false)}
+                      >
+                        <FormattedMessage
+                          id='scenes.transactions.ether.export.privatekey'
+                          defaultMessage='Export Private Key'
+                        />
                       </ClickableText>,
-                      <ClickableText size='small' onClick={() => onShowPrivateKey(true)}>
-                        <FormattedMessage id='scenes.transactions.ether.export.archived' defaultMessage='Export Archived Private Key' />
+                      <ClickableText
+                        size='small'
+                        onClick={() => onShowPrivateKey(true)}
+                      >
+                        <FormattedMessage
+                          id='scenes.transactions.ether.export.archived'
+                          defaultMessage='Export Archived Private Key'
+                        />
                       </ClickableText>
-                    ].filter(x => x)} /> : <Link size={'12px'} weight={300} onClick={() => onShowPrivateKey(false)}><FormattedMessage id='scenes.transactions.ether.export.privatekey' defaultMessage='Export Private Key' /></Link>
-                }
+                    ].filter(x => x)}
+                  />
+                ) : (
+                  <Link
+                    size={'12px'}
+                    weight={300}
+                    onClick={() => onShowPrivateKey(false)}
+                  >
+                    <FormattedMessage
+                      id='scenes.transactions.ether.export.privatekey'
+                      defaultMessage='Export Private Key'
+                    />
+                  </Link>
+                )}
               </PrivateKeysWrapper>
-              {
-                laptop
-                  ? null
-                  : <Search>
-                    <Field name='search' component={TextBox} />
-                    <SearchIcon name='search' size='20px' />
-                  </Search>
-              }
+              {laptop ? null : (
+                <Search>
+                  <Field name='search' component={TextBox} />
+                  <SearchIcon name='search' size='20px' />
+                </Search>
+              )}
             </MenuRight>
           </Container>
-          {
-            laptop
-              ? <Search>
-                <Field name='search' component={TextBox} />
-                <SearchIcon name='search' size='20px' />
-              </Search>
-              : null
-          }
+          {laptop ? (
+            <Search>
+              <Field name='search' component={TextBox} />
+              <SearchIcon name='search' size='20px' />
+            </Search>
+          ) : null}
         </Wrapper>
-      }
+      )}
     </MediaContextConsumer>
   )
 }

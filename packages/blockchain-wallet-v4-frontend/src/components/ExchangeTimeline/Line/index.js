@@ -18,9 +18,13 @@ const Wrapper = styled.div`
 const Rectangle = styled.div`
   width: 100%;
   height: 1px;
-  background-color: ${props => props.status === 'disabled' ? props.theme['gray-2'] : props.theme['brand-primary']};
+  background-color: ${props =>
+    props.status === 'disabled'
+      ? props.theme['gray-2']
+      : props.theme['brand-primary']};
   animation: ${animation} 2s infinite linear;
-  animation-play-state: ${props => props.status === 'active' ? 'running' : 'paused'};
+  animation-play-state: ${props =>
+    props.status === 'active' ? 'running' : 'paused'};
 `
 
 const Line = props => (

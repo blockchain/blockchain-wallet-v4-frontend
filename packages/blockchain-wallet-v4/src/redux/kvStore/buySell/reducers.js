@@ -12,20 +12,37 @@ export default (state = INITIAL_STATE, action) => {
 
   switch (type) {
     case AT.UPDATE_METADATA_BUYSELL: {
-      return set(compose(mapped, KVStoreEntry.value), payload, state)
+      return set(
+        compose(
+          mapped,
+          KVStoreEntry.value
+        ),
+        payload,
+        state
+      )
     }
     case AT.SET_SFOX_TRADES_BUYSELL: {
-      const valueLens = compose(mapped, KVStoreEntry.value)
+      const valueLens = compose(
+        mapped,
+        KVStoreEntry.value
+      )
       const setTrades = assocPath(['sfox', 'trades'], payload)
       return over(valueLens, setTrades, state)
     }
     case AT.SET_COINIFY_TRADES_BUYSELL: {
-      const valueLens = compose(mapped, KVStoreEntry.value)
+      const valueLens = compose(
+        mapped,
+        KVStoreEntry.value
+      )
       const setTrades = assocPath(['coinify', 'trades'], payload)
       return over(valueLens, setTrades, state)
     }
     case AT.ADD_COINIFY_TRADE_BUYSELL: {
-      let valueLens = compose(mapped, KVStoreEntry.value, lensPath(['coinify', 'trades']))
+      let valueLens = compose(
+        mapped,
+        KVStoreEntry.value,
+        lensPath(['coinify', 'trades'])
+      )
       return over(valueLens, prepend(payload), state)
     }
     case AT.FETCH_METADATA_BUYSELL_LOADING: {
@@ -40,7 +57,10 @@ export default (state = INITIAL_STATE, action) => {
     }
 
     case AT.SFOX_SET_PROFILE_BUYSELL: {
-      const valueLens = compose(mapped, KVStoreEntry.value)
+      const valueLens = compose(
+        mapped,
+        KVStoreEntry.value
+      )
       const setAll = compose(
         assocPath(['sfox', 'account_token'], payload.token),
         assocPath(['sfox', 'user'], payload.account.id)
@@ -49,7 +69,10 @@ export default (state = INITIAL_STATE, action) => {
       return over(valueLens, setAll, state)
     }
     case AT.COINIFY_SET_PROFILE_BUYSELL: {
-      const valueLens = compose(mapped, KVStoreEntry.value)
+      const valueLens = compose(
+        mapped,
+        KVStoreEntry.value
+      )
       const setAll = compose(
         assocPath(['coinify', 'offline_token'], payload.offlineToken),
         assocPath(['coinify', 'user'], payload.trader.id)
@@ -58,12 +81,18 @@ export default (state = INITIAL_STATE, action) => {
       return over(valueLens, setAll, state)
     }
     case AT.WIPE_EXTERNAL: {
-      const valueLens = compose(mapped, KVStoreEntry.value)
+      const valueLens = compose(
+        mapped,
+        KVStoreEntry.value
+      )
       const wipe = assoc('coinify', { trades: [] })
       return over(valueLens, wipe, state)
     }
     case AT.WIPE_EXTERNAL_SFOX: {
-      const valueLens = compose(mapped, KVStoreEntry.value)
+      const valueLens = compose(
+        mapped,
+        KVStoreEntry.value
+      )
       const wipe = assoc('sfox', { trades: [] })
       return over(valueLens, wipe, state)
     }

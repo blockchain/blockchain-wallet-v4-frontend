@@ -66,38 +66,54 @@ class EmailAddressContainer extends React.PureComponent {
     const { data, ...rest } = this.props
 
     return data.cata({
-      Success: (value) => <Success {...rest}
-        data={value}
-        handleVerifyClick={this.handleVerifyClick}
-        handleResend={this.handleResend}
-        handleSubmitVerification={this.handleSubmitVerification}
-        handleChangeEmailView={this.handleChangeEmailView}
-        handleEmailChangeCancel={this.handleEmailChangeCancel}
-        handleEmailChangeSubmit={this.handleEmailChangeSubmit}
-      />,
-      Failure: (message) => <Error {...rest}
-        message={message} />,
+      Success: value => (
+        <Success
+          {...rest}
+          data={value}
+          handleVerifyClick={this.handleVerifyClick}
+          handleResend={this.handleResend}
+          handleSubmitVerification={this.handleSubmitVerification}
+          handleChangeEmailView={this.handleChangeEmailView}
+          handleEmailChangeCancel={this.handleEmailChangeCancel}
+          handleEmailChangeSubmit={this.handleEmailChangeSubmit}
+        />
+      ),
+      Failure: message => <Error {...rest} message={message} />,
       Loading: () => <Loading {...rest} />,
       NotAsked: () => <Loading {...rest} />
     })
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   data: getData(state),
   code: formValueSelector('securityEmailAddress')(state, 'emailCode'),
   updatedEmail: formValueSelector('securityEmailAddress')(state, 'changeEmail')
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   settingsActions: bindActionCreators(actions.modules.settings, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
-  securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch)
+  securityCenterActions: bindActionCreators(
+    actions.modules.securityCenter,
+    dispatch
+  )
 })
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  ui({ key: 'Security_EmailAddress', state: { updateToggled: false, verifyToggled: false, changeEmailToggled: false, successToggled: false } })
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
+  ui({
+    key: 'Security_EmailAddress',
+    state: {
+      updateToggled: false,
+      verifyToggled: false,
+      changeEmailToggled: false,
+      successToggled: false
+    }
+  })
 )
 
 export default enhance(EmailAddressContainer)

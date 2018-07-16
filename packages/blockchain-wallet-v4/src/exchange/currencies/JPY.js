@@ -1,5 +1,4 @@
-export default
-{
+export default {
   code: 'JPY',
   base: 'CENT',
   trade: 'JPY',
