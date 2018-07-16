@@ -30,22 +30,22 @@ const feeData = {
   }
 }
 const ethereumTransactionData = {
-  'xpub6BvQUYyon9wcJUgBUjhQ7E5iSSHVzsraSqmqiRLKUXoXE4PkFZ2h8x': {
+  '0x4e7943357bbd52afd8d317fa7974abf8bb64beffe906bb4ab4d42e7ef5ac6af1': {
     txns: [
       {
-        hash: 'af09dh102pjASDFj09j2',
-        to: 'asdf09j31029j21',
-        from: '2912089hf0hf2109h120pd09'
+        hash: '0x4e7943357bbd52afd8d317fa7974abf8bb64beffe906bb4ab4d42e7ef5ac6af1',
+        to: '0xa881eb99eF00d25E3D971371CE595edC42ddeb41',
+        from: '0x7a192bBb50c7a23E0EE37cD1D39A504Eb1662127'
       }
     ]
   }
 }
-const transactionHistory = { address: 'asdflkjsadfje', sent: {}, received: {} }
+const transactionHistory = { address: '0x7a192bBb50c7a23E0EE37cD1D39A504Eb1662127', sent: {}, received: {} }
 const ethereumEmptyTransactionData = {
-  'xpub6BvQUYyon9wcJUgBUjhQ7E5iSSHVzsraSqmqiRLKUXoXE4PkFZ2h8x': {}
+  '0x4e7943357bbd52afd8d317fa7974abf8bb64beffe906bb4ab4d42e7ef5ac6af1': {}
 }
-const rateData = { rate: 5213 }
-const latest_block = { hash: 1234 }
+const rateData = { rate: 13 }
+const latest_block = { hash: '0x4e7943357bbd52afd8d317fa7974abf8bb64beffe906bb4ab4d42e7ef5ac6af1' }
 
 const api = {
   getEthereumData: jest.fn(() => ethereumFetchData),
@@ -60,7 +60,7 @@ describe('ethereum data sagas', () => {
   const dataEthereumSagas = sagas({ api })
 
   describe('fetchData', () => {
-    const mockContext = Remote.of('xpub6BvQUYyon9wcJUgBUjhQ7E5iSSHVzsraSqmqiRLKUXoXE4PkFZ2h8x')
+    const mockContext = Remote.of('0x4e7943357bbd52afd8d317fa7974abf8bb64beffe906bb4ab4d42e7ef5ac6af1')
 
     const ethereumData = {
       addresses: ethereumFetchData,
@@ -100,7 +100,7 @@ describe('ethereum data sagas', () => {
     })
 
     it('should handle errors', () => {
-      const error = { message: 'asdf' }
+      const error = { message: 'failed to fetch data' }
 
       saga
         .restart()
@@ -151,7 +151,7 @@ describe('ethereum data sagas', () => {
     })
 
     it('should handle errors', () => {
-      const error = { message: 'asdf' }
+      const error = { message: 'failed to fetch fee' }
 
       saga
         .restart()
@@ -196,7 +196,7 @@ describe('ethereum data sagas', () => {
     })
 
     it('should handle errors', () => {
-      const error = { message: 'asdf' }
+      const error = { message: 'failed to fetch rates' }
 
       saga
         .restart()
@@ -244,14 +244,14 @@ describe('ethereum data sagas', () => {
   })
 
   describe('fetchTransactions', () => {
-    const mockContextR = Remote.of('xpub6BvQUYyon9wcJUgBUjhQ7E5iSSHVzsraSqmqiRLKUXoXE4PkFZ2h8x')
+    const mockContextR = Remote.of('0x4e7943357bbd52afd8d317fa7974abf8bb64beffe906bb4ab4d42e7ef5ac6af1')
     const mockContext = mockContextR.getOrFail()
     const payload = { reset: true }
     const saga = testSaga(dataEthereumSagas.fetchTransactions, { payload })
     const page = Remote.of([
-      { hash: '93j0j32jadsfoiejwrpok' },
-      { hash: '3ija09sfj029j29012j' },
-      { hash: 'asdf092j0391jflkajsdf' }
+      { hash: '0x4e7943357bbd52afd8d317fa7974abf8bb64beffe906bb4ab4d42e7ef5ac6af1' },
+      { hash: '0xe039b75f3e777deb659c86d50fe34e3e2b353d5f95b6b7b5930e18ae67da18d8' },
+      { hash: '0x924d8d4e489fec37d6de4fa2a1528fbb7cf7e0a0af8a31434fe682073d3e988f' }
     ])
     const pages = [page]
     const isNil = 'isNil'
@@ -310,7 +310,7 @@ describe('ethereum data sagas', () => {
     describe('state change', () => {
       it('should add transaction data to the state', () => {
         return expectSaga(dataEthereumSagas.fetchTransactions, {
-          payload: { address: '9120je02j1akslfdj', reset: true }
+          payload: { address: '0xC6B0bB1dcfAEdF1c4Fd82C5F5b7E5E0aD120aDcB', reset: true }
         })
           .withReducer(reducers)
           .provide([
