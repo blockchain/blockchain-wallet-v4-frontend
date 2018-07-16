@@ -28,7 +28,7 @@
   ],
   "husky": {
     "hooks": {
-      "pre-commit": "prettier './packages/*/src/**/*.js' --write && yarn lint:fix",
+      "pre-commit": "prettier './packages/*/src/**/*.js' --loglevel silent --write && yarn lint:fix",
       "pre-push": "yarn test"
     }
   },
