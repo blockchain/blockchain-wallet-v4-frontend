@@ -4,12 +4,12 @@ import { FormattedMessage } from 'react-intl'
 import { Table, TableCell, TableHeader, Text } from 'blockchain-info-components'
 
 class RecurringOrderHistoryTable extends React.PureComponent {
-  constructor() {
+  constructor () {
     super()
     this.state = {}
   }
 
-  render() {
+  render () {
     const { subscriptions, cancelSubscription, trades, ...rest } = this.props
 
     return (

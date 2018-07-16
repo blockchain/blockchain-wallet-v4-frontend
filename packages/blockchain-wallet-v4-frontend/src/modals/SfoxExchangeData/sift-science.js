@@ -10,11 +10,11 @@ const SiftScienceIframe = styled.iframe`
 `
 
 class SiftScience extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = { enabled: false }
   }
-  componentDidMount() {
+  componentDidMount () {
     let receiveMessage = e => {
       const helperDomain = path(
         ['domains', 'walletHelper'],
@@ -36,7 +36,7 @@ class SiftScience extends Component {
     window.addEventListener('message', receiveMessage, false)
   }
 
-  render() {
+  render () {
     const { options, userId, siftScienceEnabled, trades } = this.props
 
     if (!userId) {

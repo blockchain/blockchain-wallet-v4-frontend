@@ -22,14 +22,14 @@ const Wrapper = styled.div`
 `
 
 class PageContainer extends React.Component {
-  componentDidMount() {
+  componentDidMount () {
     ReactDOM.findDOMNode(this.refs.page).addEventListener(
       'scroll',
       this.debounce(this.updateScroll.bind(this), 1000)
     )
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate (prevProps) {
     if (
       prevProps.children.props.computedMatch.url !==
       this.props.children.props.computedMatch.url
@@ -38,7 +38,7 @@ class PageContainer extends React.Component {
     }
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     if (this.timeout) {
       clearTimeout(this.timeout)
     }
@@ -48,18 +48,18 @@ class PageContainer extends React.Component {
     )
   }
 
-  debounce(func, wait) {
+  debounce (func, wait) {
     var timeout
-    return function() {
+    return function () {
       clearTimeout(timeout)
-      timeout = setTimeout(function() {
+      timeout = setTimeout(function () {
         timeout = null
         func.apply(this)
       }, wait)
     }
   }
 
-  updateScroll() {
+  updateScroll () {
     const element = ReactDOM.findDOMNode(this)
     const xOffset = element.scrollLeft
     const yOffset = element.scrollTop
@@ -68,7 +68,7 @@ class PageContainer extends React.Component {
     this.props.scrollActions.updateScroll(xOffset, yOffset, xMax, yMax)
   }
 
-  render() {
+  render () {
     return <Wrapper ref="page" children={this.props.children} />
   }
 }

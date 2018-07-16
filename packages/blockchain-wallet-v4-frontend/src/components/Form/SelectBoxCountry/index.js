@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import SelectBox from '../SelectBox'
 
 class SelectBoxCountry extends React.PureComponent {
-  render() {
+  render () {
     const { countries, ...rest } = this.props
     const elements = [{ group: '', items: countries }]
 

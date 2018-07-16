@@ -50,7 +50,7 @@ const faqHelper = () =>
   ))
 
 class VerifyContainer extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.handleReset = this.handleReset.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -58,7 +58,7 @@ class VerifyContainer extends Component {
     this.state = { viewSSN: false }
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps (nextProps) {
     if (
       !equals(this.props.verificationError, nextProps.verificationError) &&
       nextProps.verificationError
@@ -67,24 +67,24 @@ class VerifyContainer extends Component {
     }
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.props.formActions.destroy('sfoxAddress')
   }
 
-  handleSubmit(e) {
+  handleSubmit (e) {
     e.preventDefault()
     this.props.updateUI({ busy: true })
     this.props.sfoxFrontendActions.setProfile(this.props.user)
   }
 
-  handleReset() {
+  handleReset () {
     this.props.updateUI({ busy: false })
     this.props.updateUI({ verify: 'address' })
     this.props.sfoxFrontendActions.setVerifyError(false)
     this.props.sfoxDataActions.refetchProfile()
   }
 
-  render() {
+  render () {
     if (this.props.step === 'upload') return <Upload />
     if (this.props.ui.verify === 'address') {
       return <Address {...this.props} faqs={faqHelper} />

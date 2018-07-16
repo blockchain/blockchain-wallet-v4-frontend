@@ -42,7 +42,7 @@ const renderItem = item => (
 )
 
 class SelectBoxCoin extends React.PureComponent {
-  render() {
+  render () {
     const { coins, ...rest } = this.props
     const elements = [{ group: '', items: coins }]
     return (

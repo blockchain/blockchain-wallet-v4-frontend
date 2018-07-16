@@ -31,7 +31,7 @@ const Footer = styled.div`
 `
 
 class ThirdStep extends React.PureComponent {
-  render() {
+  render () {
     return (
       <Wrapper>
         <Header>

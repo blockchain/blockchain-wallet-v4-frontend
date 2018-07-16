@@ -6,16 +6,16 @@ import { actions, selectors } from 'data'
 import LoginIpRestriction from './template.js'
 
 class LoginIpRestrictionContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
   }
 
-  handleClick() {
+  handleClick () {
     this.props.settingsActions.updateIpLockOn(Number(!this.props.ipLockOn.data))
   }
 
-  render() {
+  render () {
     const { ui, ...rest } = this.props
     const ipLockOn = this.props.ipLockOn.data === 1
 

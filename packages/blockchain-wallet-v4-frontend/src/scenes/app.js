@@ -34,7 +34,7 @@ import EtherTransactions from './Transactions/Ether'
 import BchTransactions from './Transactions/Bch'
 
 class App extends React.PureComponent {
-  render() {
+  render () {
     const { store, history, messages } = this.props
 
     return (

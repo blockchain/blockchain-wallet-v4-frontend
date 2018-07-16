@@ -27,7 +27,7 @@ const Header = styled(Text)`
 `
 
 class EmptyOrderHistoryContainer extends React.PureComponent {
-  render() {
+  render () {
     const { changeTab } = this.props
     return (
       <Wrapper>

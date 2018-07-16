@@ -15,7 +15,7 @@ const Wrapper = styled.section`
 `
 
 class BtcAddressesContainer extends React.PureComponent {
-  render() {
+  render () {
     return (
       <AddressesLayout>
         <Wrapper>

@@ -38,7 +38,7 @@ const VerifyEmailForm = styled(Form)`
 `
 
 class VerifyEmail extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {}
 
@@ -46,7 +46,7 @@ class VerifyEmail extends Component {
     this.resendCode = this.resendCode.bind(this)
   }
 
-  componentDidMount() {
+  componentDidMount () {
     if (this.props.ui.create === 'enter_email_code') {
       this.props.securityCenterActions.sendConfirmationCodeEmail(
         this.props.oldEmail
@@ -60,7 +60,7 @@ class VerifyEmail extends Component {
     this.props.sfoxFrontendActions.sfoxNotAsked()
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate (prevProps) {
     if (this.props.emailVerified && !prevProps.emailVerified) {
       this.props.updateUI({ create: 'change_mobile' })
     }
@@ -73,14 +73,14 @@ class VerifyEmail extends Component {
     }
   }
 
-  resendCode() {
+  resendCode () {
     this.props.updateUI({ codeSent: true })
     this.props.securityCenterActions.sendConfirmationCodeEmail(
       this.props.emailAddress
     )
   }
 
-  onSubmit(e) {
+  onSubmit (e) {
     e.preventDefault()
     if (this.props.ui.create === 'enter_email_code') {
       this.props.sfoxFrontendActions.clearSignupError()
@@ -91,7 +91,7 @@ class VerifyEmail extends Component {
     }
   }
 
-  render() {
+  render () {
     const {
       ui,
       invalid,

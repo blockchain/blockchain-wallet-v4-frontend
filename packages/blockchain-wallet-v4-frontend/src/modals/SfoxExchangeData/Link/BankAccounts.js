@@ -19,21 +19,21 @@ const Container = styled.div`
 `
 
 class BankAccounts extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.onInputClick = this.onInputClick.bind(this)
     this.onInputChange = this.onInputChange.bind(this)
   }
 
-  onInputClick(id) {
+  onInputClick (id) {
     this.props.onBankSelection(id)
   }
 
-  onInputChange(e) {
+  onInputChange (e) {
     this.props.handleNameChange(e.target.value)
   }
 
-  render() {
+  render () {
     return (
       <Container>
         <Form>

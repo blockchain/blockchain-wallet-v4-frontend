@@ -8,7 +8,7 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class FiatAtTime extends React.PureComponent {
-  render() {
+  render () {
     const { data, amount, hash, time, type } = this.props
 
     return data.cata({

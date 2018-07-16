@@ -8,7 +8,7 @@ const Wrapper = styled.div`
 `
 
 class ImportInternalBitcoinAddress extends React.PureComponent {
-  render() {
+  render () {
     return (
       <Wrapper>
         <Banner type="warning">

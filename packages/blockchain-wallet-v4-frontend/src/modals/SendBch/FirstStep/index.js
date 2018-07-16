@@ -9,17 +9,17 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class FirstStep extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.handleToToggle = this.handleToToggle.bind(this)
   }
 
-  handleToToggle(val) {
+  handleToToggle (val) {
     this.props.formActions.touch('sendBch', 'to')
     this.props.actions.sendBchFirstStepToToggled(val)
   }
 
-  render() {
+  render () {
     const { data, actions } = this.props
 
     return data.cata({

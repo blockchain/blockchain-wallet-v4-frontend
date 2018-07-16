@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import SelectBox from '../SelectBox'
 
 class SelectBoxBankAccountType extends React.PureComponent {
-  render() {
+  render () {
     const { accountTypes, ...rest } = this.props
     const elements = [{ group: '', items: accountTypes }]
     return <SelectBox elements={elements} {...rest} />

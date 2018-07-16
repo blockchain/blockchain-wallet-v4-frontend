@@ -15,7 +15,7 @@ const CustomSelectBox = styled(SelectBox)`
 `
 
 class SelectBoxCoinifyCurrency extends React.PureComponent {
-  render() {
+  render () {
     const { currencies, ...rest } = this.props
     const elements = [{ group: '', items: currencies }]
 

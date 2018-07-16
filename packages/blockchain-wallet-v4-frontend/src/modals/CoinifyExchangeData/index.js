@@ -31,7 +31,7 @@ const HeaderText = styled(Text)`
 `
 
 class CoinifyExchangeData extends React.PureComponent {
-  constructor() {
+  constructor () {
     super()
     this.state = { show: false }
     this.stepMap = {
@@ -50,18 +50,18 @@ class CoinifyExchangeData extends React.PureComponent {
     }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
   }
 
-  handleClose() {
+  handleClose () {
     this.setState({ show: false })
     setTimeout(this.props.close, 500)
   }
 
-  getStepComponent(step) {
+  getStepComponent (step) {
     switch (step) {
       case 'account':
         return <Create country={this.props.country} />
@@ -76,7 +76,7 @@ class CoinifyExchangeData extends React.PureComponent {
     }
   }
 
-  render() {
+  render () {
     const { show } = this.state
     const step = this.props.signupStep || this.props.step
 

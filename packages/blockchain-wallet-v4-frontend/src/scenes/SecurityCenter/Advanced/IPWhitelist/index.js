@@ -3,7 +3,7 @@ import React from 'react'
 import IPWhitelist from './template.js'
 
 class IPWhitelistContainer extends React.PureComponent {
-  render() {
+  render () {
     return <IPWhitelist {...this.props} />
   }
 }

@@ -30,7 +30,7 @@ const CheckImage = styled(Image)`
 `
 
 class AddManually extends Component {
-  render() {
+  render () {
     const {
       handleFullName,
       handleAccountNumber,

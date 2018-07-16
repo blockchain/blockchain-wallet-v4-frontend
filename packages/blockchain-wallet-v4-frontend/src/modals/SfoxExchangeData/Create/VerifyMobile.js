@@ -44,7 +44,7 @@ const VerifyMobileForm = styled(Form)`
 `
 
 class VerifyMobile extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {}
 
@@ -53,11 +53,11 @@ class VerifyMobile extends Component {
     this.updateMobileNumber = this.updateMobileNumber.bind(this)
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.props.sfoxFrontendActions.sfoxNotAsked()
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate (prevProps) {
     if (this.props.smsVerified && !prevProps.smsVerified) {
       this.props.updateUI({ create: 'create_account' })
     }
@@ -66,17 +66,17 @@ class VerifyMobile extends Component {
     }
   }
 
-  updateMobileNumber() {
+  updateMobileNumber () {
     this.props.updateUI({ create: 'enter_mobile_code' })
     this.props.settingsActions.updateMobile(this.props.mobileNumber)
   }
 
-  resendCode() {
+  resendCode () {
     this.props.updateUI({ smsCodeResent: true })
     this.props.settingsActions.updateMobile(this.props.mobileNumber)
   }
 
-  onSubmit(e) {
+  onSubmit (e) {
     e.preventDefault()
     if (this.props.ui.create !== 'enter_mobile_code') {
       this.props.settingsActions.clearMobileFailure()
@@ -86,7 +86,7 @@ class VerifyMobile extends Component {
     }
   }
 
-  render() {
+  render () {
     const {
       ui,
       mobileCode,

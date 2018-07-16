@@ -32,7 +32,7 @@ const Wrapper = styled(SecuritySummary)`
   opacity: ${props => (props.success ? 0.3 : 1)};
 `
 
-function EmailVerificationSteps(props) {
+function EmailVerificationSteps (props) {
   const {
     failed,
     handleSubmitVerification,

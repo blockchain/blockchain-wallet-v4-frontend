@@ -71,12 +71,12 @@ const aboveMinAmount = (value, allValues, props) =>
   value < props.limits.min ? 'min' : undefined
 
 class ExchangeCheckout extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {}
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps (nextProps) {
     const { base, quote } = nextProps
 
     if (quote && !equals(this.props.quote, quote)) {
@@ -101,7 +101,7 @@ class ExchangeCheckout extends React.PureComponent {
     }
   }
 
-  setMax() {
+  setMax () {
     const { crypto, fiat, fiatLimits, type } = this.props
     let field = fiatLimits ? 'fiat' : 'crypto'
     let baseCurrency = fiatLimits ? fiat : crypto
@@ -119,7 +119,7 @@ class ExchangeCheckout extends React.PureComponent {
     })
   }
 
-  render() {
+  render () {
     const { rate } = this.state
     const {
       accounts,

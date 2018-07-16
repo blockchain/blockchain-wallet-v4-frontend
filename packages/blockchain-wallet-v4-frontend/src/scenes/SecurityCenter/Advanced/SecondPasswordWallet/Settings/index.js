@@ -8,13 +8,13 @@ import { actions, selectors } from 'data'
 import Settings from './template.js'
 
 class SettingsContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)
     this.handleToggle = this.handleToggle.bind(this)
   }
 
-  onSubmit() {
+  onSubmit () {
     const { secondPasswordValue, secondPasswordEnabled } = this.props
     this.props.walletActions.toggleSecondPassword(
       secondPasswordValue,
@@ -24,11 +24,11 @@ class SettingsContainer extends React.PureComponent {
     this.handleToggle()
   }
 
-  handleToggle() {
+  handleToggle () {
     this.props.updateUI({ updateToggled: !this.props.ui.updateToggled })
   }
 
-  render() {
+  render () {
     const { ui, ...rest } = this.props
 
     return (

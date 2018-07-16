@@ -25,7 +25,7 @@ const Label = styled.label`
 const validBitcoinPrivateKeyOptional = optional(validBitcoinPrivateKey)
 
 class ImportExternalBitcoinAddress extends React.PureComponent {
-  render() {
+  render () {
     return (
       <div>
         <div style={spacing('mb-15')}>

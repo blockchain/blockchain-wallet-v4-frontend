@@ -57,7 +57,7 @@ const SecurityIcon = styled(Icon)`
   `};
 `
 
-function Choices(props) {
+function Choices (props) {
   const { authType, editing } = props
 
   return (
