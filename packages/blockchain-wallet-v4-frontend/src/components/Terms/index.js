@@ -21,11 +21,7 @@ const Terms = props => {
               defaultMessage="I agree to ShapeShift's"
             />
           </Text>
-<<<<<<< HEAD
           <span>&nbsp;</span>
-          <Link href='https://info.shapeshift.io/sites/default/files/ShapeShift_Terms_Conditions%20v1.1.pdf' target='_blank' size='12px' weight={300}>
-            <FormattedMessage id='scenes.register.registerform.shapeshift.terms' defaultMessage='terms and conditions' />
-=======
           <Link
             href="https://info.shapeshift.io/sites/default/files/ShapeShift_Terms_Conditions%20v1.1.pdf"
             target="_blank"
@@ -36,7 +32,6 @@ const Terms = props => {
               id="scenes.register.registerform.shapeshift.terms"
               defaultMessage="terms and conditions"
             />
->>>>>>> development
           </Link>
         </TermsContainer>
       )
@@ -49,20 +44,7 @@ const Terms = props => {
               defaultMessage="I accept Blockchain's "
             />
           </Text>
-<<<<<<< HEAD
           <span>&nbsp;</span>
-          <Link size='12px' weight={300} href='https://www.blockchain.com/terms/index.html' target='_blank'>
-            <FormattedMessage id='tos' defaultMessage='Terms of Service' />
-          </Link>
-          <span>,</span>
-          <span>&nbsp;</span>
-          <Text size='12px' weight={300}>
-            {`Coinify's`}
-          </Text>
-          <span>&nbsp;</span>
-          <Link size='12px' weight={300} href='https://www.coinify.com/legal' target='_blank'>
-            <FormattedMessage id='tos' defaultMessage='Terms of Service' />
-=======
           <Link
             size="12px"
             weight={300}
@@ -72,9 +54,11 @@ const Terms = props => {
             <FormattedMessage id="tos" defaultMessage="Terms of Service" />
           </Link>
           <span>,</span>
+          <span>&nbsp;</span>
           <Text size="12px" weight={300}>
             {`Coinify's`}
           </Text>
+          <span>&nbsp;</span>
           <Link
             size="12px"
             weight={300}
@@ -82,16 +66,10 @@ const Terms = props => {
             target="_blank"
           >
             <FormattedMessage id="tos" defaultMessage="Terms of Service" />
->>>>>>> development
           </Link>
           <span>&nbsp;</span>
           {`&`}
-<<<<<<< HEAD
           <span>&nbsp;</span>
-          <Link size='12px' weight={300} href='https://www.coinify.com/legal/policy' target='_blank'>
-            <FormattedMessage id='privacypolicy' defaultMessage='Privacy Policy.' />
-=======
-          &nbsp;
           <Link
             size="12px"
             weight={300}
@@ -102,7 +80,6 @@ const Terms = props => {
               id="privacypolicy"
               defaultMessage="Privacy Policy."
             />
->>>>>>> development
           </Link>
         </TermsContainer>
       )
@@ -115,20 +92,7 @@ const Terms = props => {
               defaultMessage="I accept Blockchain's "
             />
           </Text>
-<<<<<<< HEAD
           <span>&nbsp;</span>
-          <Link size='12px' weight={300} href='https://www.blockchain.com/terms/index.html' target='_blank'>
-            <FormattedMessage id='tos' defaultMessage='Terms of Service' />
-          </Link>
-          <span>,</span>
-          <span>&nbsp;</span>
-          <Text size='12px' weight={300}>
-            {`SFOX's`}
-          </Text>
-          <span>&nbsp;</span>
-          <Link size='12px' weight={300} href='https://www.sfox.com/terms.html' target='_blank'>
-            <FormattedMessage id='tos' defaultMessage='Terms of Service' />
-=======
           <Link
             size="12px"
             weight={300}
@@ -138,9 +102,11 @@ const Terms = props => {
             <FormattedMessage id="tos" defaultMessage="Terms of Service" />
           </Link>
           <span>,</span>
+          <span>&nbsp;</span>
           <Text size="12px" weight={300}>
             {`SFOX's`}
           </Text>
+          <span>&nbsp;</span>
           <Link
             size="12px"
             weight={300}
@@ -148,11 +114,10 @@ const Terms = props => {
             target="_blank"
           >
             <FormattedMessage id="tos" defaultMessage="Terms of Service" />
->>>>>>> development
           </Link>
           <span>&nbsp;</span>
           {`&`}
-          &nbsp;
+          <span>&nbsp;</span>
           <Link
             size="12px"
             weight={300}
@@ -175,11 +140,7 @@ const Terms = props => {
               defaultMessage="I have read and agreed to the"
             />
           </Text>
-<<<<<<< HEAD
           <span>&nbsp;</span>
-          <Link href='https://www.blockchain.com/terms/index.html' target='_blank' size='12px' weight={300}>
-            <FormattedMessage id='scenes.register.registerform.blockchain.terms' defaultMessage='Terms of Service' />
-=======
           <Link
             href="https://www.blockchain.com/terms/index.html"
             target="_blank"
@@ -190,7 +151,6 @@ const Terms = props => {
               id="scenes.register.registerform.blockchain.terms"
               defaultMessage="Terms of Service"
             />
->>>>>>> development
           </Link>
         </TermsContainer>
       )
