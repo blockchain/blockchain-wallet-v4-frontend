@@ -11,7 +11,6 @@ import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDeta
 import { BorderBox, Row, PartnerHeader, PartnerSubHeader } from 'components/IdentityVerification'
 import { StepTransition } from 'components/Utilities/Stepper'
 import ReviewForm from './ReviewForm'
-import { update } from 'ramda'
 
 const ExchangeRateWrapper = styled.div`
   display: flex;

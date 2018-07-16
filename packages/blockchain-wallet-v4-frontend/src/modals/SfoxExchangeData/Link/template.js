@@ -99,8 +99,6 @@ const faqQuestions = [
   }
 ]
 
-const selectBankFaqHelper = () => selectBankQuestions.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
-
 const BankLink = (props) => {
   const {
     plaidUrl,

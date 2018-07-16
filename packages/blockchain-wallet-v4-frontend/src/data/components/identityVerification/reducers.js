@@ -1,6 +1,6 @@
 import { Remote } from 'blockchain-wallet-v4/src'
 import { assoc } from 'ramda'
-import { STEPS, PERSONAL_STEPS, EMAIL_STEPS, SMS_STEPS } from './model'
+import { STEPS } from './model'
 import * as AT from './actionTypes'
 
 const INITIAL_STATE = {
