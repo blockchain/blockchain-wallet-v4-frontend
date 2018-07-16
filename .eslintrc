@@ -58,6 +58,7 @@
     "react/react-in-jsx-scope": 2,
     "react/self-closing-comp": 2,
     "react/sort-comp": 2,
+    "space-before-function-paren": 2,
     "strict": 0
   }
 }
