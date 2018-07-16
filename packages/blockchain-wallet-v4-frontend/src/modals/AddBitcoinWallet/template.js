@@ -33,26 +33,26 @@ const AddBitcoinWallet = props => {
   const { position, close, submitting, invalid, handleSubmit } = props
 
   return (
-    <Modal size="large" position={position}>
+    <Modal size='large' position={position}>
       <Form onSubmit={handleSubmit}>
         <Wrapper>
-          <ModalHeader icon="up-arrow-in-circle" onClose={close}>
+          <ModalHeader icon='up-arrow-in-circle' onClose={close}>
             <FormattedMessage
-              id="modals.addbitcoinwallet.title"
-              defaultMessage="Add New Bitcoin Wallet"
+              id='modals.addbitcoinwallet.title'
+              defaultMessage='Add New Bitcoin Wallet'
             />
           </ModalHeader>
           <ModalBody>
             <FormGroup>
               <FormItem>
-                <Label for="wallet">
+                <Label for='wallet'>
                   <FormattedMessage
-                    id="modals.addbitcoinwallet.wallet"
-                    defaultMessage="Wallet Name"
+                    id='modals.addbitcoinwallet.wallet'
+                    defaultMessage='Wallet Name'
                   />
                 </Label>
                 <Field
-                  name="wallet"
+                  name='wallet'
                   autoFocus
                   validate={[required, unique]}
                   component={TextBox}
@@ -60,16 +60,16 @@ const AddBitcoinWallet = props => {
               </FormItem>
             </FormGroup>
           </ModalBody>
-          <ModalFooter align="right">
+          <ModalFooter align='right'>
             <Button
-              type="submit"
-              nature="primary"
+              type='submit'
+              nature='primary'
               capitalize
               disabled={submitting || invalid}
             >
               <FormattedMessage
-                id="modals.addbitcoinwallet.button"
-                defaultMessage="Create New Bitcoin Wallet"
+                id='modals.addbitcoinwallet.button'
+                defaultMessage='Create New Bitcoin Wallet'
               />
             </Button>
           </ModalFooter>

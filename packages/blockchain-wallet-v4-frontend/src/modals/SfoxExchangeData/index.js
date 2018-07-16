@@ -23,26 +23,26 @@ class SfoxExchangeData extends React.PureComponent {
     this.stepMap = {
       account: (
         <FormattedMessage
-          id="modals.sfoxexchangedata.steps.account"
-          defaultMessage="Account"
+          id='modals.sfoxexchangedata.steps.account'
+          defaultMessage='Account'
         />
       ),
       verify: (
         <FormattedMessage
-          id="modals.sfoxexchangedata.steps.verify"
-          defaultMessage="Verify"
+          id='modals.sfoxexchangedata.steps.verify'
+          defaultMessage='Verify'
         />
       ),
       funding: (
         <FormattedMessage
-          id="modals.sfoxexchangedata.steps.funding"
-          defaultMessage="Funding"
+          id='modals.sfoxexchangedata.steps.funding'
+          defaultMessage='Funding'
         />
       ),
       submit: (
         <FormattedMessage
-          id="modals.sfoxexchangedata.steps.submit"
-          defaultMessage="Submit"
+          id='modals.sfoxexchangedata.steps.submit'
+          defaultMessage='Submit'
         />
       )
     }
@@ -69,7 +69,7 @@ class SfoxExchangeData extends React.PureComponent {
       case 'funding':
         return { component: <Link />, step: 'funding' }
       case 'upload':
-        return { component: <Verify step="upload" />, step: 'verify' }
+        return { component: <Verify step='upload' />, step: 'verify' }
       case 'verified': {
         this.handleClose()
         break
@@ -86,7 +86,7 @@ class SfoxExchangeData extends React.PureComponent {
         position={this.props.position}
         total={this.props.total}
         in={show}
-        class="tray"
+        class='tray'
         onClose={this.handleClose.bind(this)}
       >
         <ModalHeader tray center onClose={this.handleClose.bind(this)}>

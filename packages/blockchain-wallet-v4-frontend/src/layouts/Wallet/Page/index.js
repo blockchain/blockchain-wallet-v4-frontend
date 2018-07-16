@@ -69,7 +69,7 @@ class PageContainer extends React.Component {
   }
 
   render () {
-    return <Wrapper ref="page" children={this.props.children} />
+    return <Wrapper ref='page' children={this.props.children} />
   }
 }
 

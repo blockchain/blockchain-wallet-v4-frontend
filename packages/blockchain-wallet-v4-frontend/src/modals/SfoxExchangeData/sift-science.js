@@ -60,9 +60,9 @@ class SiftScience extends Component {
       return (
         <SiftScienceIframe
           src={url}
-          sandbox="allow-same-origin allow-scripts"
-          scrolling="no"
-          id="sift-science-iframe"
+          sandbox='allow-same-origin allow-scripts'
+          scrolling='no'
+          id='sift-science-iframe'
         />
       )
     }

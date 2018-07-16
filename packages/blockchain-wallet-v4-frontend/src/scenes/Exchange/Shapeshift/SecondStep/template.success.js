@@ -116,17 +116,17 @@ const Success = props => {
 
   return (
     <Wrapper>
-      <Header justify="space-between">
-        <Text size="14px">
+      <Header justify='space-between'>
+        <Text size='14px'>
           <FormattedMessage
-            id="scenes.exchange.shapeshift.secondstep.title"
-            defaultMessage="Confirm Exchange Order"
+            id='scenes.exchange.shapeshift.secondstep.title'
+            defaultMessage='Confirm Exchange Order'
           />
         </Text>
-        <Text size="12px" weight={300}>
+        <Text size='12px' weight={300}>
           <FormattedMessage
-            id="scenes.exchange.shapeshift.secondstep.stepnumber"
-            defaultMessage="Step 2 of 2"
+            id='scenes.exchange.shapeshift.secondstep.stepnumber'
+            defaultMessage='Step 2 of 2'
           />
         </Text>
       </Header>
@@ -134,138 +134,138 @@ const Success = props => {
         <Form onSubmit={handleSubmit}>
           <Row>
             <TextGroup inline>
-              <Text size="13px" weight={300}>
+              <Text size='13px' weight={300}>
                 <FormattedMessage
-                  id="scenes.exchange.shapeshift.secondstep.recap"
+                  id='scenes.exchange.shapeshift.secondstep.recap'
                   defaultMessage="Review the details below and click 'Confirm' to begin your exchange."
                 />
               </Text>
-              <Text size="13px" weight={300}>
+              <Text size='13px' weight={300}>
                 <FormattedMessage
-                  id="scenes.exchange.shapeshift.secondstep.recap2"
-                  defaultMessage="The exchanged funds will be deposited directly into {depositLabel}."
+                  id='scenes.exchange.shapeshift.secondstep.recap2'
+                  defaultMessage='The exchanged funds will be deposited directly into {depositLabel}.'
                   values={{ depositLabel: targetLabel }}
                 />
               </Text>
             </TextGroup>
           </Row>
-          <Row align="right">
+          <Row align='right'>
             <CountdownTimer
               expiryDate={expiration}
-              tooltipExpiryTime="10 minutes"
+              tooltipExpiryTime='10 minutes'
               handleExpiry={handleExpiry}
             />
           </Row>
           <Table>
             <TableRow>
               <TableCell>
-                <Text size="13px" weight={400}>
+                <Text size='13px' weight={400}>
                   <FormattedMessage
-                    id="scenes.exchange.shapeshift.secondstep.todeposit"
-                    defaultMessage="{coin} to deposit:"
+                    id='scenes.exchange.shapeshift.secondstep.todeposit'
+                    defaultMessage='{coin} to deposit:'
                     values={{ coin: sourceCoin }}
                   />
                 </Text>
               </TableCell>
               <TableCell>
-                <CoinDisplay coin={sourceCoin} size="13px" weight={300}>
+                <CoinDisplay coin={sourceCoin} size='13px' weight={300}>
                   {sourceAmount}
                 </CoinDisplay>
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell>
-                <Text size="13px" weight={400}>
+                <Text size='13px' weight={400}>
                   <FormattedMessage
-                    id="scenes.exchange.shapeshift.secondstep.txfee"
-                    defaultMessage="Transaction fee"
+                    id='scenes.exchange.shapeshift.secondstep.txfee'
+                    defaultMessage='Transaction fee'
                   />
                 </Text>
                 <Tooltip>
                   <FormattedMessage
-                    id="scenes.exchange.shapeshift.secondstep.txfeeexplanation"
-                    defaultMessage="This fee is used to send the outgoing exchange funds to ShapeShift."
+                    id='scenes.exchange.shapeshift.secondstep.txfeeexplanation'
+                    defaultMessage='This fee is used to send the outgoing exchange funds to ShapeShift.'
                   />
                 </Tooltip>
               </TableCell>
               <TableCell>
-                <CoinDisplay coin={sourceCoin} size="13px" weight={300}>
+                <CoinDisplay coin={sourceCoin} size='13px' weight={300}>
                   {sourceFee}
                 </CoinDisplay>
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell>
-                <Text size="13px" weight={400}>
+                <Text size='13px' weight={400}>
                   <FormattedMessage
-                    id="scenes.exchange.shapeshift.secondstep.leaving"
-                    defaultMessage="Total {sourceCoin} leaving the wallet"
+                    id='scenes.exchange.shapeshift.secondstep.leaving'
+                    defaultMessage='Total {sourceCoin} leaving the wallet'
                     values={{ sourceCoin }}
                   />
                 </Text>
               </TableCell>
               <TableCell>
-                <CoinDisplay coin={sourceCoin} size="13px" weight={300}>
+                <CoinDisplay coin={sourceCoin} size='13px' weight={300}>
                   {sourceTotal}
                 </CoinDisplay>
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell>
-                <Text size="13px" weight={400}>
+                <Text size='13px' weight={400}>
                   <FormattedMessage
-                    id="scenes.exchange.shapeshift.secondstep.rate"
-                    defaultMessage="Exchange rate"
+                    id='scenes.exchange.shapeshift.secondstep.rate'
+                    defaultMessage='Exchange rate'
                   />
                 </Text>
                 <Tooltip>
                   <FormattedMessage
-                    id="scenes.exchange.shapeshift.secondstep.ratetooltip"
-                    defaultMessage="This rate may change depending on the market price at the time of your transaction."
+                    id='scenes.exchange.shapeshift.secondstep.ratetooltip'
+                    defaultMessage='This rate may change depending on the market price at the time of your transaction.'
                   />
                 </Tooltip>
               </TableCell>
               <TableCell>
-                <Text size="13px" weight={300}>
+                <Text size='13px' weight={300}>
                   {exchangeRate}
                 </Text>
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell>
-                <Text size="13px" weight={400}>
+                <Text size='13px' weight={400}>
                   <FormattedMessage
-                    id="scenes.exchange.shapeshift.secondstep.networkfee"
-                    defaultMessage="Network transaction fee"
+                    id='scenes.exchange.shapeshift.secondstep.networkfee'
+                    defaultMessage='Network transaction fee'
                   />
                 </Text>
                 <Tooltip>
                   <FormattedMessage
-                    id="scenes.exchange.shapeshift.secondstep.networkfeetooltip"
-                    defaultMessage="ShapeShift will use this fee to send the incoming exchange funds to your wallet."
+                    id='scenes.exchange.shapeshift.secondstep.networkfeetooltip'
+                    defaultMessage='ShapeShift will use this fee to send the incoming exchange funds to your wallet.'
                   />
                 </Tooltip>
               </TableCell>
               <TableCell>
                 <Text
-                  size="13px"
+                  size='13px'
                   weight={300}
                 >{`${targetFee} ${targetCoin}`}</Text>
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell>
-                <Text size="13px" weight={400}>
+                <Text size='13px' weight={400}>
                   <FormattedMessage
-                    id="scenes.exchange.shapeshift.exchangebox.secondstep.tobereceived"
-                    defaultMessage="{coin} to be received"
+                    id='scenes.exchange.shapeshift.exchangebox.secondstep.tobereceived'
+                    defaultMessage='{coin} to be received'
                     values={{ coin: targetCoin }}
                   />
                 </Text>
               </TableCell>
               <TableCell>
                 <Text
-                  size="13px"
+                  size='13px'
                   weight={300}
                 >{`${targetAmount} ${targetCoin}`}</Text>
               </TableCell>
@@ -273,30 +273,30 @@ const Success = props => {
           </Table>
           <Row>
             <Field
-              name="terms"
+              name='terms'
               validate={[checkboxShouldBeChecked]}
               component={CheckBox}
             >
-              <Text size="12px" weight={300}>
-                <Terms company="shapeshift" />
+              <Text size='12px' weight={300}>
+                <Terms company='shapeshift' />
               </Text>
             </Field>
           </Row>
           <Footer>
-            <Link size="13px" weight={300} onClick={handleCancel}>
+            <Link size='13px' weight={300} onClick={handleCancel}>
               <FormattedMessage
-                id="scenes.exchange.shapeshift.secondstep.back"
-                defaultMessage="Cancel"
+                id='scenes.exchange.shapeshift.secondstep.back'
+                defaultMessage='Cancel'
               />
             </Link>
             <Button
-              type="submit"
-              nature="primary"
+              type='submit'
+              nature='primary'
               disabled={submitting || invalid}
             >
               <FormattedMessage
-                id="scenes.exchange.shapeshift.secondstep.finish"
-                defaultMessage="Confirm"
+                id='scenes.exchange.shapeshift.secondstep.finish'
+                defaultMessage='Confirm'
               />
             </Button>
           </Footer>

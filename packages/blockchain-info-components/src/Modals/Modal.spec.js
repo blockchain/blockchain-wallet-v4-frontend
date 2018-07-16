@@ -7,7 +7,7 @@ import Modal from './Modal'
 describe('Modal component', () => {
   it('default renders correctly', () => {
     const component = shallow(
-      <Modal position={1} total={1} size="large" closeButton />
+      <Modal position={1} total={1} size='large' closeButton />
     )
     const tree = toJson(component)
     expect(tree).toMatchSnapshot()

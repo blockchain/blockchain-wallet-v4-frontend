@@ -179,19 +179,19 @@ class BuySellAnimation extends React.PureComponent {
 
     return (
       <Wrapper>
-        <Image name="buy-sell-grey" />
-        <BaseColor name="buy-sell-color" className={base && 'active'} />
+        <Image name='buy-sell-grey' />
+        <BaseColor name='buy-sell-color' className={base && 'active'} />
         <Btc className={btc}>
-          <Image name="buy-sell-buy-btc" className="buy" />
-          <Image name="buy-sell-sell-btc" className="sell" />
+          <Image name='buy-sell-buy-btc' className='buy' />
+          <Image name='buy-sell-sell-btc' className='sell' />
         </Btc>
         <Bch className={bch}>
-          <Image name="buy-sell-buy-bch" className="buy" />
-          <Image name="buy-sell-sell-bch" className="sell" />
+          <Image name='buy-sell-buy-bch' className='buy' />
+          <Image name='buy-sell-sell-bch' className='sell' />
         </Bch>
         <Eth className={eth}>
-          <Image name="buy-sell-buy-eth" className="buy" />
-          <Image name="buy-sell-sell-eth" className="sell" />
+          <Image name='buy-sell-buy-eth' className='buy' />
+          <Image name='buy-sell-sell-eth' className='sell' />
         </Eth>
       </Wrapper>
     )

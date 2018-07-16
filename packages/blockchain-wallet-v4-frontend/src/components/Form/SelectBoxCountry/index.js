@@ -13,8 +13,8 @@ class SelectBoxCountry extends React.PureComponent {
       <SelectBox
         label={
           <FormattedMessage
-            id="components.selectboxcountry.label"
-            defaultMessage="Select country"
+            id='components.selectboxcountry.label'
+            defaultMessage='Select country'
           />
         }
         elements={elements}

@@ -35,14 +35,14 @@ export default class Advanced extends PureComponent {
       <AdvancedContainer>
         {!this.props.showTabs && (
           <BackButton
-            name="left-arrow"
-            nature="empty"
+            name='left-arrow'
+            nature='empty'
             onClick={() => this.props.setView('security')}
-            id="advanced-button"
+            id='advanced-button'
           >
             <FormattedMessage
-              id="scenes.securitycenter.advanced.back"
-              defaultMessage="Back"
+              id='scenes.securitycenter.advanced.back'
+              defaultMessage='Back'
             />
           </BackButton>
         )}

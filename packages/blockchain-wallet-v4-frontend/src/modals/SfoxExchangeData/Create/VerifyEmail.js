@@ -105,7 +105,7 @@ class VerifyEmail extends Component {
         case emailVerifiedError:
           return (
             <FormattedMessage
-              id="sfoxexchangedata.create.verifyemail.helper.error"
+              id='sfoxexchangedata.create.verifyemail.helper.error'
               defaultMessage="That code doesn't match. {resend} or {changeEmail}."
               values={{
                 resend: <a onClick={this.resendCode}>Resend</a>,
@@ -124,8 +124,8 @@ class VerifyEmail extends Component {
         case ui.codeSent:
           return (
             <FormattedMessage
-              id="sfoxexchangedata.create.verifyemail.helper.sentanothercode"
-              defaultMessage="Another code has been sent! {changeEmail}"
+              id='sfoxexchangedata.create.verifyemail.helper.sentanothercode'
+              defaultMessage='Another code has been sent! {changeEmail}'
               values={{
                 changeEmail: (
                   <a
@@ -142,7 +142,7 @@ class VerifyEmail extends Component {
         case !ui.codeSent:
           return (
             <FormattedMessage
-              id="sfoxexchangedata.create.verifyemail.helper.didntreceive"
+              id='sfoxexchangedata.create.verifyemail.helper.didntreceive'
               defaultMessage="Didn't receive your email? {resend} or {changeEmail}."
               values={{
                 resend: <a onClick={this.resendCode}>Resend</a>,
@@ -167,31 +167,31 @@ class VerifyEmail extends Component {
           <InputWrapper>
             <PartnerHeader>
               <FormattedMessage
-                id="sfoxexchangedata.create.verifyemail.partner.header"
+                id='sfoxexchangedata.create.verifyemail.partner.header'
                 defaultMessage="What's your email?"
               />
             </PartnerHeader>
             <PartnerSubHeader>
               <FormattedMessage
-                id="sfoxexchangedata.create.verifyemail.partner.subheader"
+                id='sfoxexchangedata.create.verifyemail.partner.subheader'
                 defaultMessage="Rest assured: there are only a few steps separating you from the good stuff. Let's start by confirming your verified email address and phone number."
               />
             </PartnerSubHeader>
             {ui.create === 'enter_email_code' ? (
               <EmailInput>
                 <Text
-                  size="14px"
+                  size='14px'
                   weight={400}
                   style={{ 'margin-bottom': '5px' }}
                 >
                   <FormattedMessage
-                    id="sfoxexchangedata.create.verifyemail.code"
-                    defaultMessage="We emailed a verification code to {email}"
+                    id='sfoxexchangedata.create.verifyemail.code'
+                    defaultMessage='We emailed a verification code to {email}'
                     values={{ email: emailAddress }}
                   />
                 </Text>
                 <Field
-                  name="emailCode"
+                  name='emailCode'
                   onChange={() => this.props.updateUI({ uniqueEmail: true })}
                   component={TextBox}
                   errorBottom
@@ -204,29 +204,29 @@ class VerifyEmail extends Component {
             ) : (
               <EmailInput>
                 <Text
-                  size="14px"
+                  size='14px'
                   weight={400}
                   style={{ 'margin-bottom': '5px' }}
                 >
                   <FormattedMessage
-                    id="sfoxexchangedata.create.verifyemail.confirm"
-                    defaultMessage="Confirm Email:"
+                    id='sfoxexchangedata.create.verifyemail.confirm'
+                    defaultMessage='Confirm Email:'
                   />
                 </Text>
                 <Field
-                  name="emailAddress"
+                  name='emailAddress'
                   component={TextBox}
                   validate={[required]}
                 />
                 <Button
-                  nature="primary"
-                  type="submit"
+                  nature='primary'
+                  type='submit'
                   disabled={!emailAddress}
                   style={spacing('mt-15')}
                 >
                   <FormattedMessage
-                    id="sfoxexchangedata.create.mobile.number"
-                    defaultMessage="Send Email Verification Code"
+                    id='sfoxexchangedata.create.mobile.number'
+                    defaultMessage='Send Email Verification Code'
                   />
                 </Button>
               </EmailInput>
@@ -237,8 +237,8 @@ class VerifyEmail extends Component {
           <ColRightInner>
             <ButtonWrapper>
               <Button
-                type="submit"
-                nature="primary"
+                type='submit'
+                nature='primary'
                 fullwidth
                 uppercase
                 disabled={
@@ -246,8 +246,8 @@ class VerifyEmail extends Component {
                 }
               >
                 <FormattedMessage
-                  id="sfoxexchangedata.create.verifyemail.continue"
-                  defaultMessage="Continue"
+                  id='sfoxexchangedata.create.verifyemail.continue'
+                  defaultMessage='Continue'
                 />
               </Button>
             </ButtonWrapper>

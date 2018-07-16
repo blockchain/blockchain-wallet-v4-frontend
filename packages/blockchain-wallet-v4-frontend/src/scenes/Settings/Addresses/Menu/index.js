@@ -50,30 +50,30 @@ const MenuTop = () => (
       <Controls>
         <TabMenu>
           <LinkContainer
-            to="/settings/addresses"
-            activeClassName="active"
+            to='/settings/addresses'
+            activeClassName='active'
             exact
           >
             <TabMenuItem>
               <FormattedMessage
-                id="scenes.settings.addresses.menutop.btc"
-                defaultMessage="Bitcoin"
+                id='scenes.settings.addresses.menutop.btc'
+                defaultMessage='Bitcoin'
               />
             </TabMenuItem>
           </LinkContainer>
-          <LinkContainer to="/settings/addresses/bch" activeClassName="active">
+          <LinkContainer to='/settings/addresses/bch' activeClassName='active'>
             <TabMenuItem>
               <FormattedMessage
-                id="scenes.settings.addresses.menutop.bch"
-                defaultMessage="Bitcoin Cash"
+                id='scenes.settings.addresses.menutop.bch'
+                defaultMessage='Bitcoin Cash'
               />
             </TabMenuItem>
           </LinkContainer>
         </TabMenu>
       </Controls>
       <Search>
-        <Field name="search" component={TextBox} />
-        <SearchIcon name="search" size="20px" />
+        <Field name='search' component={TextBox} />
+        <SearchIcon name='search' size='20px' />
       </Search>
     </Container>
   </Wrapper>

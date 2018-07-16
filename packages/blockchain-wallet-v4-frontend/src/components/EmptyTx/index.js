@@ -27,35 +27,35 @@ class EmptyTxContainer extends React.PureComponent {
     return (
       <Wrapper>
         <Empty>
-          <Image name="empty-tx" width="300px" />
-          <Header size="18px" weight={500}>
+          <Image name='empty-tx' width='300px' />
+          <Header size='18px' weight={500}>
             <FormattedMessage
-              id="scenes.transactions.empty.content.header"
+              id='scenes.transactions.empty.content.header'
               defaultMessage="Oops, we couldn't find any transactions!"
             />
           </Header>
           <TextGroup inline>
-            <Text size="18px" weight={300}>
+            <Text size='18px' weight={300}>
               <FormattedMessage
-                id="scenes.transactions.empty.content.body"
-                defaultMessage="Please try filtering by a different criteria or "
+                id='scenes.transactions.empty.content.body'
+                defaultMessage='Please try filtering by a different criteria or '
               />
             </Text>
             <Link
-              size="18px"
-              href="https://support.blockchain.com/"
-              target="_blank"
-              referrer="noreferrer"
+              size='18px'
+              href='https://support.blockchain.com/'
+              target='_blank'
+              referrer='noreferrer'
             >
               <FormattedMessage
-                id="scenes.transactions.empty.content.body2"
-                defaultMessage="reach out to us "
+                id='scenes.transactions.empty.content.body2'
+                defaultMessage='reach out to us '
               />
             </Link>
-            <Text size="18px" weight={300}>
+            <Text size='18px' weight={300}>
               <FormattedMessage
-                id="scenes.transactions.empty.content.body3"
-                defaultMessage="if you need help."
+                id='scenes.transactions.empty.content.body3'
+                defaultMessage='if you need help.'
               />
             </Text>
           </TextGroup>

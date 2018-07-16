@@ -16,10 +16,10 @@ const Wrapper = styled.div`
 
 export default props => (
   <Wrapper>
-    <Text size="12px" weight={300} color="red">
+    <Text size='12px' weight={300} color='red'>
       <FormattedMessage
-        id="scenes.exchange.shapeshift.error"
-        defaultMessage="An error has occurred. Please try again."
+        id='scenes.exchange.shapeshift.error'
+        defaultMessage='An error has occurred. Please try again.'
       />
     </Text>
   </Wrapper>

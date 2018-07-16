@@ -18,16 +18,16 @@ const ErrorText = styled(Text)`
 const Error = props => {
   return (
     <Wrapper>
-      <Icon name="alert-filled" color="red" size="40px" />
+      <Icon name='alert-filled' color='red' size='40px' />
       <ErrorText
-        size="16px"
+        size='16px'
         weight={300}
-        color="red"
+        color='red'
         style={{ 'margin-top': '25px' }}
       >
         <FormattedHTMLMessage
-          id="scenes.authorizelogin.loading"
-          defaultMessage="<span>Uh Oh. Something went wrong. Error: </span> {error}"
+          id='scenes.authorizelogin.loading'
+          defaultMessage='<span>Uh Oh. Something went wrong. Error: </span> {error}'
           values={{ error: props.value }}
         />
       </ErrorText>

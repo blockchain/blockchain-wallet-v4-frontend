@@ -13,7 +13,7 @@ class SecondStepContainer extends React.PureComponent {
     return this.props.data.cata({
       Success: value => (
         <Success
-          coin="ETH"
+          coin='ETH'
           fromAddress={value.fromAddress}
           toAddress={value.toAddress}
           message={value.message}

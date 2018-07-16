@@ -178,7 +178,7 @@ const SelectInput = props => {
           onChange={handleChange}
         />
       )}
-      {showArrow && <Arrow name="down-arrow" size={props.arrowSize} />}
+      {showArrow && <Arrow name='down-arrow' size={props.arrowSize} />}
       <List expanded={expanded}>
         {items.map(
           (item, index) =>

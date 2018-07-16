@@ -17,28 +17,28 @@ const faqCopy = [
   {
     question: (
       <FormattedMessage
-        id="scenes.buysell.sfoxsignup.verify.address.helper1.question"
-        defaultMessage="Why do you need this personal information?"
+        id='scenes.buysell.sfoxsignup.verify.address.helper1.question'
+        defaultMessage='Why do you need this personal information?'
       />
     ),
     answer: (
       <FormattedMessage
-        id="scenes.buysell.sfoxsignup.verify.address.helper1.answer"
-        defaultMessage="SFOX needs this information to verify your identity and to comply with government regulated anti-money laundering laws."
+        id='scenes.buysell.sfoxsignup.verify.address.helper1.answer'
+        defaultMessage='SFOX needs this information to verify your identity and to comply with government regulated anti-money laundering laws.'
       />
     )
   },
   {
     question: (
       <FormattedMessage
-        id="scenes.buysell.sfoxsignup.verify.address.helper2.question"
-        defaultMessage="Where is this information stored?"
+        id='scenes.buysell.sfoxsignup.verify.address.helper2.question'
+        defaultMessage='Where is this information stored?'
       />
     ),
     answer: (
       <FormattedMessage
-        id="scenes.buysell.sfoxsignup.verify.address.helper2.answer"
-        defaultMessage="We know this information is personal. Don’t worry, it will be securely sent to SFOX and not stored in your Blockchain wallet."
+        id='scenes.buysell.sfoxsignup.verify.address.helper2.answer'
+        defaultMessage='We know this information is personal. Don’t worry, it will be securely sent to SFOX and not stored in your Blockchain wallet.'
       />
     )
   }

@@ -142,7 +142,7 @@ class BuySellContainer extends React.PureComponent {
         {hasAccount(path(['component', 'props', 'value'], view)) ? (
           <Menu>
             <Field
-              name="status"
+              name='status'
               component={TabMenuBuySellStatus}
               partner={prop('partner', view)}
             />

@@ -16,27 +16,27 @@ const WalletId = () => {
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage
-            id="scenes.info.walletid.title"
-            defaultMessage="Wallet ID"
+            id='scenes.info.walletid.title'
+            defaultMessage='Wallet ID'
           />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id="scenes.info.walletid.description"
-            defaultMessage="Wallet ID is your unique identifier."
+            id='scenes.info.walletid.description'
+            defaultMessage='Wallet ID is your unique identifier.'
           />
           <FormattedMessage
-            id="scenes.info.walletid.description2"
-            defaultMessage="It is completely individual to you, and it is what you will use to log in and access your wallet."
+            id='scenes.info.walletid.description2'
+            defaultMessage='It is completely individual to you, and it is what you will use to log in and access your wallet.'
           />
           <FormattedMessage
-            id="scenes.info.walletid.description3"
-            defaultMessage="It is NOT a bitcoin address for sending or receiving."
+            id='scenes.info.walletid.description3'
+            defaultMessage='It is NOT a bitcoin address for sending or receiving.'
           />
-          <Text size="14px" weight={300} color="error">
+          <Text size='14px' weight={300} color='error'>
             <FormattedMessage
-              id="scenes.info.walletid.warning"
-              defaultMessage="Do not share your Wallet ID with others."
+              id='scenes.info.walletid.warning'
+              defaultMessage='Do not share your Wallet ID with others.'
             />
           </Text>
         </SettingDescription>

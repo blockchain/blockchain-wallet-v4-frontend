@@ -19,42 +19,42 @@ const ActivityLogging = props => {
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage
-            id="scenes.securitysettings.advancedsecurity.activitylogging.title"
-            defaultMessage="Activity Logging"
+            id='scenes.securitysettings.advancedsecurity.activitylogging.title'
+            defaultMessage='Activity Logging'
           />
           <SettingStatus active={logging}>
             {logging ? (
               <FormattedMessage
-                id="scenes.securitysettings.advancedsecurity.activitylogging.enabled"
-                defaultMessage="Enabled"
+                id='scenes.securitysettings.advancedsecurity.activitylogging.enabled'
+                defaultMessage='Enabled'
               />
             ) : (
               <FormattedMessage
-                id="scenes.securitysettings.advancedsecurity.activitylogging.disabled"
-                defaultMessage="Disabled"
+                id='scenes.securitysettings.advancedsecurity.activitylogging.disabled'
+                defaultMessage='Disabled'
               />
             )}
           </SettingStatus>
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id="scenes.securitysettings.advancedsecurity.activitylogging.description"
+            id='scenes.securitysettings.advancedsecurity.activitylogging.description'
             defaultMessage="Enable for all your wallet activity to be displayed in your dashboard's activity feed."
           />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
         <SettingWrapper>
-          <Button nature="primary" onClick={handleClick}>
+          <Button nature='primary' onClick={handleClick}>
             {logging ? (
               <FormattedMessage
-                id="scenes.securitysettings.advancedsecurity.activitylogging.settings.disable"
-                defaultMessage="Disable"
+                id='scenes.securitysettings.advancedsecurity.activitylogging.settings.disable'
+                defaultMessage='Disable'
               />
             ) : (
               <FormattedMessage
-                id="scenes.securitysettings.advancedsecurity.activitylogging..settings.enable"
-                defaultMessage="Enable"
+                id='scenes.securitysettings.advancedsecurity.activitylogging..settings.enable'
+                defaultMessage='Enable'
               />
             )}
           </Button>

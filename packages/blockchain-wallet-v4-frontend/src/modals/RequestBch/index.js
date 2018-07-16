@@ -82,14 +82,14 @@ class RequestBchContainer extends React.PureComponent {
 
     return (
       <Modal
-        size="large"
+        size='large'
         position={this.props.position}
         total={this.props.total}
       >
-        <ModalHeader icon="request" onClose={this.props.closeAll}>
+        <ModalHeader icon='request' onClose={this.props.closeAll}>
           <FormattedMessage
-            id="modals.requestbch.title"
-            defaultMessage="Request Bitcoin Cash"
+            id='modals.requestbch.title'
+            defaultMessage='Request Bitcoin Cash'
           />
         </ModalHeader>
         <ModalBody>{content}</ModalBody>

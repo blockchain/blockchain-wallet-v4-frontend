@@ -28,8 +28,8 @@ const Kyc = ({ close, status }) => {
       <ModalHeader onClose={close}>
         <Text>
           <FormattedMessage
-            id="modals.coinifytradedetails.kyc.identityverification.header"
-            defaultMessage="Buy & Sell Bitcoin"
+            id='modals.coinifytradedetails.kyc.identityverification.header'
+            defaultMessage='Buy & Sell Bitcoin'
           />
         </Text>
       </ModalHeader>
@@ -37,14 +37,14 @@ const Kyc = ({ close, status }) => {
         <Text color={kycHeader.color} style={spacing('mb-10')}>
           {prop('text', kycHeader)}
         </Text>
-        <Text size="13px" weight={300}>
+        <Text size='13px' weight={300}>
           {prop('text', kycBody)}
         </Text>
         <ButtonRow>
-          <Button width="100px" onClick={close} nature="primary">
+          <Button width='100px' onClick={close} nature='primary'>
             <FormattedMessage
-              id="modals.coinifytradedetails.kyc.close"
-              defaultMessage="Close"
+              id='modals.coinifytradedetails.kyc.close'
+              defaultMessage='Close'
             />
           </Button>
         </ButtonRow>
