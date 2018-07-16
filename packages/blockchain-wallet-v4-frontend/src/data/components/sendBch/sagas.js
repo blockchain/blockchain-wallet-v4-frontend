@@ -113,7 +113,7 @@ export default ({ coreSagas }) => {
           }).value
           payment = yield payment.amount(parseInt(satAmount))
           break
-        case 'message':
+        case 'description':
           payment = yield payment.description(payload)
           break
       }
