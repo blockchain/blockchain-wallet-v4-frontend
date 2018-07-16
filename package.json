@@ -48,6 +48,7 @@
     "coverage:core": "yarn workspace blockchain-wallet-v4 coverage",
     "coverage:frontend": "yarn workspace blockchain-wallet-v4-frontend coverage",
     "fix": "cross-env yarn prettier && yarn lint:fix && yarn test:components:update && yarn test:frontend:update",
+    "link:resolved:paths": "yarn wsrun link:resolved:paths --exclude-missing",
     "lint": "eslint --cache './packages/*/src/**/*.js'",
     "lint:components": "eslint './packages/blockchain-info-components/src/**/*.js'",
     "lint:core": "eslint './packages/blockchain-wallet-v4/src/**/*.js'",
