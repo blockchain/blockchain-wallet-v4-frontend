@@ -10,7 +10,7 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 export class ChartContainer extends React.PureComponent {
-  componentDidMount() {
+  componentDidMount () {
     const coin = path(['cache', 'coin'], this.props)
       ? toUpper(this.props.cache.coin)
       : 'BTC'
@@ -18,7 +18,7 @@ export class ChartContainer extends React.PureComponent {
     this.props.priceChartActions.initialized(coin, time)
   }
 
-  render() {
+  render () {
     const { currencySymbol } = this.props
 
     return this.props.data.cata({

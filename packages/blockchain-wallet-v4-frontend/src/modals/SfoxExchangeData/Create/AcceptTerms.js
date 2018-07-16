@@ -133,20 +133,20 @@ const EditLink = styled(Link)`
 `
 
 class AcceptTerms extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = { acceptedTerms: false }
 
     this.handleSignup = this.handleSignup.bind(this)
   }
 
-  handleSignup(e) {
+  handleSignup (e) {
     e.preventDefault()
     this.props.sfoxFrontendActions.sfoxNotAsked()
     this.props.sfoxFrontendActions.sfoxSignup()
   }
 
-  render() {
+  render () {
     const { busy, error } = this.props.sfoxSignupStatus.cata({
       Success: () => ({ busy: false }),
       Failure: error => ({ busy: false, error }),

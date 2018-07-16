@@ -3,7 +3,7 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import Welcome from './template.js'
 
 class WelcomeContainer extends React.PureComponent {
-  render() {
+  render () {
     return <Welcome {...this.props} />
   }
 }

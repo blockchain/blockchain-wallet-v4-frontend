@@ -21,7 +21,7 @@ const InputContainer = styled.div`
 `
 
 class MicroDeposits extends Component {
-  render() {
+  render () {
     const { onStep } = this.props
 
     return (

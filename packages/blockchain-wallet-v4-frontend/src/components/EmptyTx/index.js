@@ -23,7 +23,7 @@ const Header = styled(Text)`
 `
 
 class EmptyTxContainer extends React.PureComponent {
-  render() {
+  render () {
     return (
       <Wrapper>
         <Empty>

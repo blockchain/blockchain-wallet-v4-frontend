@@ -7,7 +7,7 @@ import Success from './template.success'
 import { getData } from './selectors'
 
 class HintContainer extends React.PureComponent {
-  render() {
+  render () {
     const { data, ...rest } = this.props
 
     return data.cata({

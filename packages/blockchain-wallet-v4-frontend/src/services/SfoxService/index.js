@@ -190,7 +190,7 @@ export const bodyStatusHelper = (status, isBuy) => {
 
 export const reviewOrder = {
   baseBtc: q => q.baseCurrency === 'BTC',
-  renderFirstRow(q, type) {
+  renderFirstRow (q, type) {
     if (type === 'buy') {
       if (this.baseBtc(q)) {
         return `${q.baseAmount / 1e8} BTC ($${(
@@ -209,7 +209,7 @@ export const reviewOrder = {
       }
     }
   },
-  renderTotal(q, type) {
+  renderTotal (q, type) {
     if (type === 'buy') {
       if (this.baseBtc(q)) return `$${q.quoteAmount}`
       else return `$${q.baseAmount}`

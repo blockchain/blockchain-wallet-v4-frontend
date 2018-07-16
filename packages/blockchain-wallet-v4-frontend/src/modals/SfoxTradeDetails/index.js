@@ -66,7 +66,7 @@ const renderTotal = trade => {
 }
 
 class SfoxTradeDetails extends React.PureComponent {
-  render() {
+  render () {
     const headerStatus = statusHelper(this.props.trade.state)
     const bodyStatus = bodyStatusHelper(
       this.props.trade.state,

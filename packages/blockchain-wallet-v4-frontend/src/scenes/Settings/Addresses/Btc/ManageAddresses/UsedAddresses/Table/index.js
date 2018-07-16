@@ -8,11 +8,11 @@ import { actions, selectors } from 'data'
 import UsedAddressesTable from './template'
 
 class UsedAddressesTableContainer extends React.PureComponent {
-  componentWillMount() {
+  componentWillMount () {
     this.props.componentActions.fetchUsedAddresses(this.props.walletIndex)
   }
 
-  render() {
+  render () {
     const { usedAddresses, search } = this.props
 
     return !usedAddresses

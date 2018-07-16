@@ -33,7 +33,7 @@ const ButtonContainer = styled.div`
   }
 `
 
-function ChangeEmailSteps(props) {
+function ChangeEmailSteps (props) {
   return (
     <SecuritySummary>
       <ChangeEmailWrapper>

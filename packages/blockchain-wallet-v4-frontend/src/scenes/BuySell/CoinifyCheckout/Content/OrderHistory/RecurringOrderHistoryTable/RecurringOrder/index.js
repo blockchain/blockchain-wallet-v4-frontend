@@ -61,17 +61,17 @@ const dateHelper = (date, isMobile) =>
     .format(isMobile ? 'DD MMM' : 'MMMM D YYYY')
 
 class RecurringOrder extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = { toggled: false }
     this.toggleRow = this.toggleRow.bind(this)
   }
 
-  toggleRow() {
+  toggleRow () {
     this.setState({ toggled: !this.state.toggled })
   }
 
-  render() {
+  render () {
     const {
       subscription,
       handleCancelSubscription,

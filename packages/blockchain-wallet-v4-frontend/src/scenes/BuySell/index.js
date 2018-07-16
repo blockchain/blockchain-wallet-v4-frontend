@@ -41,13 +41,13 @@ const CheckoutWrapper = styled.div`
 const Menu = reduxForm({ form: 'buySellTabStatus' })(HorizontalMenu)
 
 class BuySellContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.selectPartner = this.selectPartner.bind(this)
     this.submitEmail = this.submitEmail.bind(this)
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.props.formActions.initialize('buySellTabStatus', { status: 'buy' })
     this.props.data.map(data =>
       this.props.formActions.change(
@@ -64,7 +64,7 @@ class BuySellContainer extends React.PureComponent {
    * If not, open the tray and send user through the signup flow.
    */
 
-  selectPartner(buySell, options, type) {
+  selectPartner (buySell, options, type) {
     if (path(['sfox', 'account_token'], buySell)) {
       return {
         component: (
@@ -103,7 +103,7 @@ class BuySellContainer extends React.PureComponent {
     }
   }
 
-  submitEmail() {
+  submitEmail () {
     this.props.updateUI({ submittedEmail: true })
     let email = encodeURIComponent(path(['fields', 'email'], this.props))
     let country = path(['fields', 'country'], this.props)
@@ -121,7 +121,7 @@ class BuySellContainer extends React.PureComponent {
     window.open(url, '_blank')
   }
 
-  render() {
+  render () {
     const { data, fields } = this.props
 
     const view = data.cata({

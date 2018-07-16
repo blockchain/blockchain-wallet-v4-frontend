@@ -32,12 +32,12 @@ const ToggleIcon = styled(Icon)`
 `
 
 export default class Helper extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = { open: false }
   }
 
-  render() {
+  render () {
     return (
       <Container>
         <Question onClick={() => this.setState({ open: !this.state.open })}>

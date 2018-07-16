@@ -22,7 +22,7 @@ const BackButton = styled(IconButton)`
 `
 
 export default class Advanced extends PureComponent {
-  componentDidMount() {
+  componentDidMount () {
     if (!this.props.showTabs) {
       const button = document.getElementById('advanced-button')
       const alignToTop = false
@@ -30,7 +30,7 @@ export default class Advanced extends PureComponent {
     }
   }
 
-  render() {
+  render () {
     return (
       <AdvancedContainer>
         {!this.props.showTabs && (

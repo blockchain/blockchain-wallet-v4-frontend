@@ -257,7 +257,7 @@ const Container = styled.footer`
 `
 
 class Footer extends Component {
-  render() {
+  render () {
     return (
       <Container>
         <div className="flex-container">

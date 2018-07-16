@@ -17,7 +17,7 @@ import { getData } from './selectors'
 import { actions } from 'data'
 
 class SfoxExchangeData extends React.PureComponent {
-  constructor() {
+  constructor () {
     super()
     this.state = { show: false }
     this.stepMap = {
@@ -48,19 +48,19 @@ class SfoxExchangeData extends React.PureComponent {
     }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
   }
 
-  handleClose() {
+  handleClose () {
     this.setState({ show: false })
     setTimeout(this.props.close, 500)
     this.props.sfoxFrontendActions.handleModalClose()
   }
 
-  getStepComponent(step) {
+  getStepComponent (step) {
     switch (step) {
       case 'account':
         return { component: <Create />, step: 'account' }
@@ -77,7 +77,7 @@ class SfoxExchangeData extends React.PureComponent {
     }
   }
 
-  render() {
+  render () {
     const { show } = this.state
     const step = this.props.signupStep || this.props.step
 

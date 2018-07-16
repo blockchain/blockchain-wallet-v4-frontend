@@ -6,16 +6,16 @@ import { actions } from 'data'
 import EthBalance from './template.success'
 
 export class EthBalanceContainer extends PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.handleRefresh = this.handleRefresh.bind(this)
   }
 
-  handleRefresh() {
+  handleRefresh () {
     this.props.dataActions.fetchData()
   }
 
-  render() {
+  render () {
     const {
       btcBalance,
       bchBalance,

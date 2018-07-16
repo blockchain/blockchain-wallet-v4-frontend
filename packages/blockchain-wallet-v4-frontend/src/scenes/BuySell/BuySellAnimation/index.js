@@ -114,7 +114,7 @@ const Eth = styled.div`
 `
 
 class BuySellAnimation extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       base: false,
@@ -124,7 +124,7 @@ class BuySellAnimation extends React.PureComponent {
     }
   }
 
-  static getDerivedStateFromProps(nextProps) {
+  static getDerivedStateFromProps (nextProps) {
     const sfoxCountries = path(
       ['options', 'platforms', 'web', 'sfox', 'countries'],
       nextProps
@@ -170,11 +170,11 @@ class BuySellAnimation extends React.PureComponent {
     }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     setTimeout(() => this.setState({ base: true }), 1)
   }
 
-  render() {
+  render () {
     const { base, btc, bch, eth } = this.state
 
     return (

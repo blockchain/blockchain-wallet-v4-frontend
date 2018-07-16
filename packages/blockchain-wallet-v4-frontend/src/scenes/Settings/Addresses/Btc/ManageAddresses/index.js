@@ -52,7 +52,7 @@ const SearchIcon = styled(Icon)`
 `
 
 class ManageAddressesContainer extends React.PureComponent {
-  render() {
+  render () {
     const walletIndex = this.props.computedMatch.params.index
 
     return (

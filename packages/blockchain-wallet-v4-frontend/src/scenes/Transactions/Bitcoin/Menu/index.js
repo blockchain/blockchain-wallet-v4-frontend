@@ -7,7 +7,7 @@ import Menu from './template.js'
 import { getData } from '../../../../components/Form/SelectBoxBitcoinAddresses/selectors'
 
 class MenuContainer extends React.PureComponent {
-  render() {
+  render () {
     return this.props.data.cata({
       Success: value => (
         <Menu

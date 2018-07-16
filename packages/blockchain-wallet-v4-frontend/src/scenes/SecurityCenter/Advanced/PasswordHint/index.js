@@ -5,7 +5,7 @@ import { selectors } from 'data'
 import SecondPassword from './template.js'
 
 class PasswordHintContainer extends React.PureComponent {
-  render() {
+  render () {
     return <SecondPassword {...this.props} />
   }
 }

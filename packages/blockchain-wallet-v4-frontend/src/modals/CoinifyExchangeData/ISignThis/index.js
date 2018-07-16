@@ -103,13 +103,13 @@ const tradeFaqHelper = () =>
   ))
 
 class ISignThisContainer extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = { quoteExpired: false }
     this.onQuoteExpiration = this.onQuoteExpiration.bind(this)
   }
-  componentDidMount() {
-    window.addEventListener('message', function(e) {})
+  componentDidMount () {
+    window.addEventListener('message', function (e) {})
 
     const onComplete = e => {
       this.props.coinifyActions.fromISX(e)
@@ -127,7 +127,7 @@ class ISignThisContainer extends Component {
       configOptions: null
     }
 
-    _isx.applyContainerStyles = function(c) {
+    _isx.applyContainerStyles = function (c) {
       c.style['width'] = '100%'
       if (this.configOptions.height) {
         c.style['height'] = this.configOptions.height
@@ -137,34 +137,34 @@ class ISignThisContainer extends Component {
       c.style['overflow'] = 'hidden'
     }
 
-    _isx.setup = function(setup) {
+    _isx.setup = function (setup) {
       this.transactionId = setup.transaction_id
       this.configOptions = setup
 
       return this
     }
 
-    _isx.done = function(_completeListener) {
+    _isx.done = function (_completeListener) {
       this.completeListener = _completeListener
       return this
     }
 
-    _isx.fail = function(_errorListener) {
+    _isx.fail = function (_errorListener) {
       this.errorListener = _errorListener
       return this
     }
 
-    _isx.route = function(_routeListener) {
+    _isx.route = function (_routeListener) {
       this.routeListener = _routeListener
       return this
     }
 
-    _isx.resized = function(_resizeListener) {
+    _isx.resized = function (_resizeListener) {
       this.resizeListener = _resizeListener
       return this
     }
 
-    _isx.publish = function() {
+    _isx.publish = function () {
       this.iframe = e
       // Create IE + others compatible event handler
       let eventMethod = window.addEventListener
@@ -176,7 +176,7 @@ class ISignThisContainer extends Component {
       // Listen to message from child window
       eventer(
         messageEvent,
-        function(e) {
+        function (e) {
           // Check for the domain who sent the messageEvent
           let origin = e.origin || e.originalEvent.origin
           if (origin !== iSignThisDomain) {
@@ -247,20 +247,20 @@ class ISignThisContainer extends Component {
 
     _isx
       .setup(widget)
-      .done(function(e) {
+      .done(function (e) {
         setState(e.state)
       })
-      .fail(function(e) {})
-      .resized(function(e) {})
-      .route(function(e) {})
+      .fail(function (e) {})
+      .resized(function (e) {})
+      .route(function (e) {})
       .publish()
   }
 
-  onQuoteExpiration() {
+  onQuoteExpiration () {
     this.setState({ quoteExpired: true })
   }
 
-  render() {
+  render () {
     const { options, iSignThisId, coinifyActions, trade, quoteR } = this.props
     const walletOpts = options || this.props.walletOptions.data
     const iSignThisDomain = path(

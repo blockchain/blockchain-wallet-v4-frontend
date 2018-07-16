@@ -8,13 +8,13 @@ import { actions, selectors } from 'data'
 import Settings from './template.js'
 
 class SettingContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
     this.handleToggle = this.handleToggle.bind(this)
   }
 
-  componentWillMount() {
+  componentWillMount () {
     const { logoutTime } = this.props
     this.props.formActions.initialize('settingAutoLogoutTime', {
       autoLogoutTime: logoutTime
@@ -22,7 +22,7 @@ class SettingContainer extends React.PureComponent {
     this.props.updateUI({ updateToggled: false })
   }
 
-  handleClick() {
+  handleClick () {
     const { autoLogoutTime } = this.props
 
     this.props.settingsActions.updateAutoLogout(
@@ -31,11 +31,11 @@ class SettingContainer extends React.PureComponent {
     this.props.updateUI({ updateToggled: false })
   }
 
-  handleToggle() {
+  handleToggle () {
     this.props.updateUI({ updateToggled: !this.props.ui.updateToggled })
   }
 
-  render() {
+  render () {
     const { ui, logoutTime } = this.props
 
     return (

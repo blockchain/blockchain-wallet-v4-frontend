@@ -24,7 +24,7 @@ const Header = styled(Text)`
 `
 
 class DataErrorContainer extends React.PureComponent {
-  render() {
+  render () {
     return (
       <Wrapper>
         <Empty>

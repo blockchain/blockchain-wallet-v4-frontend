@@ -5,12 +5,12 @@ import { filter, prop, reverse, sortBy } from 'ramda'
 import { Table, TableCell, TableHeader, Text } from 'blockchain-info-components'
 
 class OrderHistoryTable extends React.PureComponent {
-  constructor() {
+  constructor () {
     super()
     this.state = {}
   }
 
-  render() {
+  render () {
     const {
       conversion,
       trades,

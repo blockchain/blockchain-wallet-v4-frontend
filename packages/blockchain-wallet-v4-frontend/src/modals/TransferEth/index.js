@@ -9,19 +9,19 @@ import { getData } from './selectors.js'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 class TransferEthContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.props.sendEthActions.initialized({
       from: this.props.addr,
       type: 'LEGACY'
     })
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate (prevProps) {
     if (Remote.Success.is(this.props.data)) {
       const { fee, effectiveBalance } = this.props.data.getOrElse({})
       if (parseFloat(fee) > parseFloat(effectiveBalance)) {
@@ -30,12 +30,12 @@ class TransferEthContainer extends React.PureComponent {
     }
   }
 
-  handleSubmit() {
+  handleSubmit () {
     const { to, effectiveBalance } = this.props.data.getOrElse({})
     this.props.transferEthActions.confirmTransferEth({ to, effectiveBalance })
   }
 
-  render() {
+  render () {
     const { addr, data } = this.props
     return data.cata({
       Success: val => (

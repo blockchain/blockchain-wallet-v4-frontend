@@ -6,7 +6,7 @@ import { selectors } from 'data'
 import SelectBox from '../SelectBox'
 
 class SelectBoxTheme extends React.PureComponent {
-  render() {
+  render () {
     const { themes, ...rest } = this.props
     const elements = [{ group: '', items: themes }]
 

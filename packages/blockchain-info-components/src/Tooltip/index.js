@@ -4,7 +4,7 @@ import Tooltip from './template.js'
 import { Icon } from '../Icons'
 
 class TooltipContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = { displayed: false }
     this.handleClick = this.handleClick.bind(this)
@@ -12,23 +12,23 @@ class TooltipContainer extends React.PureComponent {
     this.handleMouseLeave = this.handleMouseLeave.bind(this)
   }
 
-  handleClick() {
+  handleClick () {
     this.setState({ displayed: !this.state.displayed })
   }
 
-  handleMouseEnter() {
+  handleMouseEnter () {
     this.props.hover && this.setState({ displayed: true })
   }
 
-  handleMouseLeave() {
+  handleMouseLeave () {
     this.props.hover && this.setState({ displayed: false })
   }
 
-  handleClickOutside() {
+  handleClickOutside () {
     this.setState({ displayed: false })
   }
 
-  render() {
+  render () {
     const icon = this.state.displayed ? (
       <Icon name="close-in-circle" />
     ) : (
