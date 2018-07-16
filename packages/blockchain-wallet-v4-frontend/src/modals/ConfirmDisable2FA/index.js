@@ -23,13 +23,19 @@ class ConfirmDisable2FAContainer extends React.PureComponent {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch)
+const mapDispatchToProps = dispatch => ({
+  securityCenterActions: bindActionCreators(
+    actions.modules.securityCenter,
+    dispatch
+  )
 })
 
 const enhance = compose(
   modalEnhancer('ConfirmDisable2FA'),
-  connect(undefined, mapDispatchToProps)
+  connect(
+    undefined,
+    mapDispatchToProps
+  )
 )
 
 export default enhance(ConfirmDisable2FAContainer)

@@ -37,7 +37,10 @@ class RequestEtherContainer extends React.PureComponent {
   }
 
   componentDidUpdate (prevProps) {
-    if (!Remote.Success.is(prevProps.initialValues) && Remote.Success.is(this.props.initialValues)) {
+    if (
+      !Remote.Success.is(prevProps.initialValues) &&
+      Remote.Success.is(this.props.initialValues)
+    ) {
       this.init()
     }
   }
@@ -58,27 +61,36 @@ class RequestEtherContainer extends React.PureComponent {
     const { data, closeAll, selection, coins } = this.props
 
     const content = data.cata({
-      Success: (val) => <Success
-        {...this.props}
-        address={val}
-        closeAll={closeAll}
-        coins={coins}
-        selection={selection}
-        onSubmit={this.onSubmit}
-      />,
+      Success: val => (
+        <Success
+          {...this.props}
+          address={val}
+          closeAll={closeAll}
+          coins={coins}
+          selection={selection}
+          onSubmit={this.onSubmit}
+        />
+      ),
       NotAsked: () => <DataError onClick={this.handleRefresh} />,
       Failure: () => <DataError onClick={this.handleRefresh} />,
       Loading: () => <Loading />
     })
 
-    return <Modal size='large' position={this.props.position} total={this.props.total}>
-      <ModalHeader icon='request' onClose={this.props.closeAll}>
-        <FormattedMessage id='modals.requestether.title' defaultMessage='Request Ether' />
-      </ModalHeader>
-      <ModalBody>
-        {content}
-      </ModalBody>
-    </Modal>
+    return (
+      <Modal
+        size='large'
+        position={this.props.position}
+        total={this.props.total}
+      >
+        <ModalHeader icon='request' onClose={this.props.closeAll}>
+          <FormattedMessage
+            id='modals.requestether.title'
+            defaultMessage='Request Ether'
+          />
+        </ModalHeader>
+        <ModalBody>{content}</ModalBody>
+      </Modal>
+    )
   }
 }
 
@@ -90,15 +102,21 @@ const mapStateToProps = (state, ownProps) => ({
   coin: formValueSelector('requestEther')(state, 'coin')
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  kvStoreEthActions: bindActionCreators(actions.core.kvStore.ethereum, dispatch),
+const mapDispatchToProps = dispatch => ({
+  kvStoreEthActions: bindActionCreators(
+    actions.core.kvStore.ethereum,
+    dispatch
+  ),
   modalActions: bindActionCreators(actions.modals, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const enhance = compose(
   modalEnhancer('RequestEther'),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )
 
 export default enhance(RequestEtherContainer)

@@ -3,10 +3,27 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { FormGroup, FormItem, TextBox, SelectBoxUSState } from 'components/Form'
-import { Text, Button, HeartbeatLoader, Banner } from 'blockchain-info-components'
+import {
+  Text,
+  Button,
+  HeartbeatLoader,
+  Banner
+} from 'blockchain-info-components'
 
-import { required, requiredUsZipcode, normalizeUSZipcode } from 'services/FormHelper'
-import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ColRightInner } from 'components/BuySell/Signup'
+import {
+  required,
+  requiredUsZipcode,
+  normalizeUSZipcode
+} from 'services/FormHelper'
+import {
+  Form,
+  ColLeft,
+  ColRight,
+  InputWrapper,
+  PartnerHeader,
+  PartnerSubHeader,
+  ColRightInner
+} from 'components/BuySell/Signup'
 import media from 'services/ResponsiveService'
 
 const FormContainer = styled.div`
@@ -24,7 +41,7 @@ const BannerWrapper = styled.div`
 const AddressForm = styled(Form)`
   ${media.mobile`
     flex-direction: column;
-  `}
+  `};
 `
 const AddressFormGroup = styled(FormGroup)`
   ${media.mobile`
@@ -37,14 +54,14 @@ const AddressFormGroup = styled(FormGroup)`
         margin-bottom: 15px;
       }
     }
-  `}
+  `};
 `
 
-const Address = (props) => {
+const Address = props => {
   const { invalid, submitting } = props
   const { busy } = props.ui
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault()
     props.updateUI({ verify: 'identity' })
   }
@@ -54,70 +71,140 @@ const Address = (props) => {
       <ColLeft>
         <InputWrapper>
           <PartnerHeader>
-            <FormattedMessage id='sfoxexchangedata.verify.partner.header1' defaultMessage="Let's Get to Know You" />
+            <FormattedMessage
+              id='sfoxexchangedata.verify.partner.header1'
+              defaultMessage="Let's Get to Know You"
+            />
           </PartnerHeader>
           <PartnerSubHeader>
-            <FormattedMessage id='sfoxexchangedata.verify.partner.subheader' defaultMessage="There's so much we'd love to know about you, but we only need a few things. Fear not, all of your personal information will be sent directly to SFOX, not saved in your Blockchain wallet." />
+            <FormattedMessage
+              id='sfoxexchangedata.verify.partner.subheader'
+              defaultMessage="There's so much we'd love to know about you, but we only need a few things. Fear not, all of your personal information will be sent directly to SFOX, not saved in your Blockchain wallet."
+            />
           </PartnerSubHeader>
           <BannerWrapper>
             <Banner type='warning'>
               <Text size='12px'>
-                <FormattedMessage id='sfoxexchangedata.verify.poboxwarning' defaultMessage='P.O. boxes cannot be used to verify your address.' />
+                <FormattedMessage
+                  id='sfoxexchangedata.verify.poboxwarning'
+                  defaultMessage='P.O. boxes cannot be used to verify your address.'
+                />
               </Text>
             </Banner>
           </BannerWrapper>
           <FormContainer>
             <AddressFormGroup inline>
               <FormItem>
-                <Text size='14px' weight={400} style={{'marginBottom': '5px'}}>
-                  <FormattedMessage id='sfoxexchangedata.verify.firstname' defaultMessage='First Name' />
+                <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
+                  <FormattedMessage
+                    id='sfoxexchangedata.verify.firstname'
+                    defaultMessage='First Name'
+                  />
                 </Text>
-                <Field name='firstName' validate={[required]} component={TextBox} />
+                <Field
+                  name='firstName'
+                  validate={[required]}
+                  component={TextBox}
+                />
               </FormItem>
               <FormItem>
-                <Text size='14px' weight={400} style={{'marginBottom': '5px'}}>
-                  <FormattedMessage id='sfoxexchangedata.verify.lastname' defaultMessage='Last Name' />
+                <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
+                  <FormattedMessage
+                    id='sfoxexchangedata.verify.lastname'
+                    defaultMessage='Last Name'
+                  />
                 </Text>
-                <Field name='lastName' validate={[required]} component={TextBox} />
+                <Field
+                  name='lastName'
+                  validate={[required]}
+                  component={TextBox}
+                />
               </FormItem>
             </AddressFormGroup>
             <FormGroup>
               <FormItem>
-                <AddressLabel size='14px' weight={400} style={{'marginBottom': '5px'}}>
-                  <FormattedMessage id='sfoxexchangedata.verify.address' defaultMessage='Address' />
-                  <FormattedMessage id='sfoxexchangedata.verify.addressdetail' defaultMessage='{message}' values={{ message: <span style={{'fontWeight': 300}}>(Please use your primary billing address.)</span> }} />
+                <AddressLabel
+                  size='14px'
+                  weight={400}
+                  style={{ marginBottom: '5px' }}
+                >
+                  <FormattedMessage
+                    id='sfoxexchangedata.verify.address'
+                    defaultMessage='Address'
+                  />
+                  <FormattedMessage
+                    id='sfoxexchangedata.verify.addressdetail'
+                    defaultMessage='{message}'
+                    values={{
+                      message: (
+                        <span style={{ fontWeight: 300 }}>
+                          (Please use your primary billing address.)
+                        </span>
+                      )
+                    }}
+                  />
                 </AddressLabel>
-                <Field name='address1' validate={[required]} component={TextBox} placeholder='Street Address' />
+                <Field
+                  name='address1'
+                  validate={[required]}
+                  component={TextBox}
+                  placeholder='Street Address'
+                />
               </FormItem>
             </FormGroup>
             <FormGroup>
               <FormItem>
-                <Text size='14px' weight={400} style={{'marginBottom': '5px'}}>
-                  <FormattedMessage id='sfoxexchangedata.verify.address2' defaultMessage='Address Line 2' />
+                <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
+                  <FormattedMessage
+                    id='sfoxexchangedata.verify.address2'
+                    defaultMessage='Address Line 2'
+                  />
                 </Text>
-                <Field name='address2' component={TextBox} placeholder='Apartment, unit, floor, etc..' />
+                <Field
+                  name='address2'
+                  component={TextBox}
+                  placeholder='Apartment, unit, floor, etc..'
+                />
               </FormItem>
             </FormGroup>
             <FormGroup>
               <FormItem>
-                <Text size='14px' weight={400} style={{'marginBottom': '5px'}}>
-                  <FormattedMessage id='sfoxexchangedata.verify.city' defaultMessage='City' />
+                <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
+                  <FormattedMessage
+                    id='sfoxexchangedata.verify.city'
+                    defaultMessage='City'
+                  />
                 </Text>
                 <Field name='city' validate={[required]} component={TextBox} />
               </FormItem>
             </FormGroup>
             <AddressFormGroup inline>
               <FormItem>
-                <Text size='14px' weight={400} style={{'marginBottom': '5px'}}>
-                  <FormattedMessage id='sfoxexchangedata.verify.state' defaultMessage='State' />
+                <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
+                  <FormattedMessage
+                    id='sfoxexchangedata.verify.state'
+                    defaultMessage='State'
+                  />
                 </Text>
-                <Field name='state' validate={[required]} component={SelectBoxUSState} />
+                <Field
+                  name='state'
+                  validate={[required]}
+                  component={SelectBoxUSState}
+                />
               </FormItem>
               <FormItem>
-                <Text size='14px' weight={400} style={{'marginBottom': '5px'}}>
-                  <FormattedMessage id='sfoxexchangedata.verify.zip' defaultMessage='Zipcode' />
+                <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
+                  <FormattedMessage
+                    id='sfoxexchangedata.verify.zip'
+                    defaultMessage='Zipcode'
+                  />
                 </Text>
-                <Field name='zipcode' validate={[requiredUsZipcode]} component={TextBox} normalize={normalizeUSZipcode} />
+                <Field
+                  name='zipcode'
+                  validate={[requiredUsZipcode]}
+                  component={TextBox}
+                  normalize={normalizeUSZipcode}
+                />
               </FormItem>
             </AddressFormGroup>
           </FormContainer>
@@ -125,18 +212,29 @@ const Address = (props) => {
       </ColLeft>
       <ColRight>
         <ColRightInner>
-          <Button uppercase nature='primary' fullwidth type='submit' disabled={invalid || submitting || busy}>
-            {
-              !busy
-                ? <FormattedMessage id='sfoxexchangedata.verify.continue' defaultMessage='Continue' />
-                : <HeartbeatLoader height='20px' width='20px' color='white' />
-            }
+          <Button
+            uppercase
+            nature='primary'
+            fullwidth
+            type='submit'
+            disabled={invalid || submitting || busy}
+          >
+            {!busy ? (
+              <FormattedMessage
+                id='sfoxexchangedata.verify.continue'
+                defaultMessage='Continue'
+              />
+            ) : (
+              <HeartbeatLoader height='20px' width='20px' color='white' />
+            )}
           </Button>
-          { props.faqs() }
+          {props.faqs()}
         </ColRightInner>
       </ColRight>
     </AddressForm>
   )
 }
 
-export default reduxForm({ form: 'sfoxAddress', destroyOnUnmount: false })(Address)
+export default reduxForm({ form: 'sfoxAddress', destroyOnUnmount: false })(
+  Address
+)

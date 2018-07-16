@@ -3,7 +3,7 @@ import zxcvbn from 'zxcvbn'
 
 import { PasswordGauge } from 'blockchain-info-components'
 
-const PasswordScore = (props) => {
+const PasswordScore = props => {
   const score = zxcvbn(props.value).score + 1
 
   return <PasswordGauge score={score} />

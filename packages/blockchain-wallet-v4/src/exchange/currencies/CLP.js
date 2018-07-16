@@ -1,5 +1,4 @@
-export default
-{
+export default {
   code: 'CLP',
   base: 'CENT',
   trade: 'CLP',

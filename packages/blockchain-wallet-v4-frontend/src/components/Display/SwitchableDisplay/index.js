@@ -17,7 +17,7 @@ SwitchableDisplay.propTypes = {
   coinDisplayed: PropTypes.bool.isRequired
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   coinDisplayed: selectors.preferences.getCoinDisplayed(state)
 })
 

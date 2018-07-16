@@ -15,8 +15,10 @@ const DetailRow = styled.div`
   display: flex;
   margin-bottom: 10px;
   align-items: flex-start;
-  flex-direction: ${props => props.column ? 'column' : 'row'};
-  > div:first-child { margin-right: 2px; }
+  flex-direction: ${props => (props.column ? 'column' : 'row')};
+  > div:first-child {
+    margin-right: 2px;
+  }
 `
 const SubmitRow = styled.div`
   display: flex;
@@ -38,28 +40,47 @@ const SecondStep = props => {
     <Wrapper>
       <DetailRow>
         <Text size='14px' weight={400}>
-          <FormattedMessage id='modals.signmessage.firststep.address' defaultMessage='Address:' />
+          <FormattedMessage
+            id='modals.signmessage.firststep.address'
+            defaultMessage='Address:'
+          />
         </Text>
-        <Text size='14px' weight={300}>{address}</Text>
+        <Text size='14px' weight={300}>
+          {address}
+        </Text>
       </DetailRow>
       <DetailRow>
         <Text size='14px' weight={400}>
-          <FormattedMessage id='modals.signmessage.secondstep.message' defaultMessage='Message:' />
+          <FormattedMessage
+            id='modals.signmessage.secondstep.message'
+            defaultMessage='Message:'
+          />
         </Text>
-        <Text size='14px' weight={300}>{message}</Text>
+        <Text size='14px' weight={300}>
+          {message}
+        </Text>
       </DetailRow>
       <DetailRow column>
         <Text size='14px' weight={400}>
-          <FormattedMessage id='modals.signmessage.secondstep.signature' defaultMessage='Signature:' />
+          <FormattedMessage
+            id='modals.signmessage.secondstep.signature'
+            defaultMessage='Signature:'
+          />
         </Text>
         <CopyClipboard address={signedMessage} />
       </DetailRow>
       <SubmitRow>
         <ClickableText size='14px' weight={300} onClick={resetForm}>
-          <FormattedMessage id='modals.signmessage.reset' defaultMessage='Reset Form' />
+          <FormattedMessage
+            id='modals.signmessage.reset'
+            defaultMessage='Reset Form'
+          />
         </ClickableText>
         <Button nature='primary' onClick={closeAll}>
-          <FormattedMessage id='modals.signmessage.secondstep.done' defaultMessage='Done' />
+          <FormattedMessage
+            id='modals.signmessage.secondstep.done'
+            defaultMessage='Done'
+          />
         </Button>
       </SubmitRow>
     </Wrapper>

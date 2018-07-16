@@ -13,4 +13,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.refresh, dispatch)
 })
 
-export default connect(undefined, mapDispatchToProps)(RefreshContainer)
+export default connect(
+  undefined,
+  mapDispatchToProps
+)(RefreshContainer)

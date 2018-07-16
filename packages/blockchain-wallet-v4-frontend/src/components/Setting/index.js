@@ -8,4 +8,14 @@ import SettingStatus from './SettingStatus'
 import SettingWrapper from './SettingWrapper'
 import SettingSelectBoxWrapper from './SettingSelectBoxWrapper'
 
-export { SettingComponent, SettingContainer, SettingDescription, SettingForm, SettingHeader, SettingSummary, SettingStatus, SettingWrapper, SettingSelectBoxWrapper }
+export {
+  SettingComponent,
+  SettingContainer,
+  SettingDescription,
+  SettingForm,
+  SettingHeader,
+  SettingSummary,
+  SettingStatus,
+  SettingWrapper,
+  SettingSelectBoxWrapper
+}

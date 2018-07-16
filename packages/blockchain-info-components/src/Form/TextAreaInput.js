@@ -8,7 +8,7 @@ const BaseTextAreaInput = styled.textarea`
   box-sizing: border-box;
   font-size: 14px;
   color: ${props => props.theme['gray-5']};
-  background-color:  ${props => props.theme['white']};
+  background-color: ${props => props.theme['white']};
   background-image: none;
   outline-width: 0;
   user-select: text;
@@ -20,12 +20,16 @@ const BaseTextAreaInput = styled.textarea`
   }
 `
 
-const selectBorderColor = (state) => {
+const selectBorderColor = state => {
   switch (state) {
-    case 'initial': return 'gray-2'
-    case 'invalid': return 'error'
-    case 'valid': return 'success'
-    default: return 'gray-2'
+    case 'initial':
+      return 'gray-2'
+    case 'invalid':
+      return 'error'
+    case 'valid':
+      return 'success'
+    default:
+      return 'gray-2'
   }
 }
 

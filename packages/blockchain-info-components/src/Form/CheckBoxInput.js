@@ -46,7 +46,7 @@ const Label = styled.label`
     margin-right: 5px;
     background: white;
     border-radius: 2px;
-    transition: background .2s;
+    transition: background 0.2s;
     border: 1px solid ${props => props.theme['brand-secondary']};
   }
   &:after {
@@ -65,10 +65,13 @@ const CheckBoxInput = props => {
 
   return (
     <Wrapper>
-      <BaseCheckBoxInput id={name} checked={checked} disabled={disabled} {...rest} />
-      <Label htmlFor={name}>
-        { children }
-      </Label>
+      <BaseCheckBoxInput
+        id={name}
+        checked={checked}
+        disabled={disabled}
+        {...rest}
+      />
+      <Label htmlFor={name}>{children}</Label>
     </Wrapper>
   )
 }

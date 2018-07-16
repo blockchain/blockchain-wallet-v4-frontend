@@ -6,15 +6,20 @@ import { promptForInput } from 'services/SagaService'
 export default ({ coreSagas }) => {
   const logLocation = 'modules/addressesBch/sagas'
 
-  const editBchAccountLabel = function * (action) {
+  const editBchAccountLabel = function*(action) {
     try {
       const { index, label } = action.payload
-      const newLabel = yield call(promptForInput, { title: 'Rename Bitcoin Cash Wallet', initial: label })
+      const newLabel = yield call(promptForInput, {
+        title: 'Rename Bitcoin Cash Wallet',
+        initial: label
+      })
       yield put(actions.core.kvStore.bch.setAccountLabel(index, newLabel))
       yield put(actions.alerts.displaySuccess(C.RENAME_BCH_WALLET_SUCCESS))
     } catch (e) {
       if (e.message === 'PROMPT_INPUT_CANCEL') return
-      yield put(actions.logs.logErrorMessage(logLocation, 'editBchAccountLabel', e))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'editBchAccountLabel', e)
+      )
       yield put(actions.alerts.displayError(C.RENAME_BCH_WALLET_ERROR))
     }
   }

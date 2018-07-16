@@ -21,19 +21,25 @@ class RecoverContainer extends React.PureComponent {
     const { step, nextStep, previousStep, ...rest } = this.props
 
     switch (step) {
-      case 1: return <FirstStep onSubmit={nextStep} {...rest} />
-      case 2: return <SecondStep previousStep={previousStep} {...rest} />
-      default: return <FirstStep onSubmit={nextStep} {...rest} />
+      case 1:
+        return <FirstStep onSubmit={nextStep} {...rest} />
+      case 2:
+        return <SecondStep previousStep={previousStep} {...rest} />
+      default:
+        return <FirstStep onSubmit={nextStep} {...rest} />
     }
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const enhance = compose(
-  connect(null, mapDispatchToProps),
+  connect(
+    null,
+    mapDispatchToProps
+  ),
   wizardProvider('recover', 2)
 )
 

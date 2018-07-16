@@ -35,15 +35,27 @@ class CameraContainer extends React.Component {
   capture () {
     const imageSrc = this.webcam.getScreenshot()
     this.props.setPhoto(imageSrc)
-  };
+  }
 
   render () {
     return (
       <VideoContainer>
-        <Webcam ref={this.setRef} height={this.props.height} width={this.props.width} />
+        <Webcam
+          ref={this.setRef}
+          height={this.props.height}
+          width={this.props.width}
+        />
         <SubmitContainer>
-          <IconButton name='camera' fullwidth nature='primary' onClick={this.capture}>
-            <FormattedMessage id='sfoxexchangedata.upload.capture' defaultMessage='Capture' />
+          <IconButton
+            name='camera'
+            fullwidth
+            nature='primary'
+            onClick={this.capture}
+          >
+            <FormattedMessage
+              id='sfoxexchangedata.upload.capture'
+              defaultMessage='Capture'
+            />
           </IconButton>
         </SubmitContainer>
       </VideoContainer>

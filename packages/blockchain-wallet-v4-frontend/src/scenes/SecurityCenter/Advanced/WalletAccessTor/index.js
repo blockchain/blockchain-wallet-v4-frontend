@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -13,22 +12,33 @@ class WalletAccessTorContainer extends React.PureComponent {
   }
 
   handleClick () {
-    this.props.settingsActions.updateBlockTorIps(Number(!this.props.blockTorIps.data))
+    this.props.settingsActions.updateBlockTorIps(
+      Number(!this.props.blockTorIps.data)
+    )
   }
 
   render () {
     const blockingTor = this.props.blockTorIps.data
 
-    return <WalletAccessTor {...this.props} handleClick={this.handleClick} blockingTor={blockingTor} />
+    return (
+      <WalletAccessTor
+        {...this.props}
+        handleClick={this.handleClick}
+        blockingTor={blockingTor}
+      />
+    )
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   blockTorIps: selectors.core.settings.getBlockTorIps(state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(WalletAccessTorContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(WalletAccessTorContainer)

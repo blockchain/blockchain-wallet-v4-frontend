@@ -13,11 +13,14 @@ export const hdwallet = HDWalletList.define(0)
 
 export const selectHDWallet = view(hdwallet)
 
-export const toJS = pipe(HDWalletList.guard, (wList) => {
-  return map(HDWallet.toJS, wList).toArray()
-})
+export const toJS = pipe(
+  HDWalletList.guard,
+  wList => {
+    return map(HDWallet.toJS, wList).toArray()
+  }
+)
 
-export const fromJS = (wallets) => {
+export const fromJS = wallets => {
   if (is(HDWalletList, wallets)) {
     return wallets
   } else {
@@ -26,9 +29,18 @@ export const fromJS = (wallets) => {
   }
 }
 
-export const createNew = (guid, password, sharedKey, mnemonic, firstAccountName = 'My Bitcoin Wallet', nAccounts = 1) =>
-  fromJS([HDWallet.js(firstAccountName, mnemonic, undefined, nAccounts, undefined)])
+export const createNew = (
+  guid,
+  password,
+  sharedKey,
+  mnemonic,
+  firstAccountName = 'My Bitcoin Wallet',
+  nAccounts = 1
+) =>
+  fromJS([
+    HDWallet.js(firstAccountName, mnemonic, undefined, nAccounts, undefined)
+  ])
 
-export const reviver = (jsObject) => {
+export const reviver = jsObject => {
   return new HDWalletList(jsObject)
 }

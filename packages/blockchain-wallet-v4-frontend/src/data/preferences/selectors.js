@@ -12,7 +12,10 @@ export const getShowEtherWelcome = path(['preferences', 'showEtherWelcome'])
 
 export const getShowBitcoinWelcome = path(['preferences', 'showBitcoinWelcome'])
 
-export const getShowBitcoinCashWelcome = path(['preferences', 'showBitcoinCashWelcome'])
+export const getShowBitcoinCashWelcome = path([
+  'preferences',
+  'showBitcoinCashWelcome'
+])
 
 export const getShowKycCompleted = path(['preferences', 'showKycCompleted'])
 

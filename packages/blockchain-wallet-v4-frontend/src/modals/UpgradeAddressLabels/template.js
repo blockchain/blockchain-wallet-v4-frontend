@@ -6,7 +6,7 @@ import { reduxForm } from 'redux-form'
 import { Modal, ModalBody, Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
 
-const UpgradeAddressLabels = (props) => {
+const UpgradeAddressLabels = props => {
   const { duration, position, total } = props
 
   return (
@@ -14,7 +14,11 @@ const UpgradeAddressLabels = (props) => {
       <Form>
         <ModalBody>
           <Text size='14px' weight={300}>
-            <FormattedMessage id='modals.upgradeaddresslabels.explain' defaultMessage='Upgrading your wallet. This should take around {duration} seconds.' values={{ duration: duration }} />
+            <FormattedMessage
+              id='modals.upgradeaddresslabels.explain'
+              defaultMessage='Upgrading your wallet. This should take around {duration} seconds.'
+              values={{ duration: duration }}
+            />
           </Text>
         </ModalBody>
       </Form>

@@ -20,7 +20,7 @@ class DropdownLanguageContainer extends React.PureComponent {
 
   render () {
     const { currentLanguage, languages } = this.props
-    const languageList = languages.map((lang) => {
+    const languageList = languages.map(lang => {
       return {
         text: lang.name,
         value: lang.language,
@@ -29,22 +29,30 @@ class DropdownLanguageContainer extends React.PureComponent {
     })
 
     return (
-      <SimpleDropdown color='white' items={languageList} selectedValue={currentLanguage} callback={(selectedLanguage) => this.handleClick(selectedLanguage)} />
+      <SimpleDropdown
+        color='white'
+        items={languageList}
+        selectedValue={currentLanguage}
+        callback={selectedLanguage => this.handleClick(selectedLanguage)}
+      />
     )
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   currentLanguage: selectors.preferences.getLanguage(state),
   languages: languageService.languagesSortedByName
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   ui({ state: { toggled: false } })
 )
 

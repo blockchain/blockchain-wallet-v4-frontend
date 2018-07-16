@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   border: 1px solid ${props => props.theme['gray-2']};
 `
 
-export default (props) => (
+export default props => (
   <Wrapper>
     <BlockchainLoader width='200px' height='200px' />
   </Wrapper>

@@ -7,11 +7,26 @@ export { Carousel } from './Carousels'
 export { Color, Palette } from './Colors'
 export { SimpleDropdown, ComponentDropdown } from './Dropdowns'
 export { ConfirmationGauge, PasswordGauge, SecurityGauge } from './Gauges'
-export { CheckBoxInput, DateInput, NativeSelect, NumberInput, PasswordInput, RadioButtonInput, SelectInput, TextAreaInput, TextInput } from './Form'
+export {
+  CheckBoxInput,
+  DateInput,
+  NativeSelect,
+  NumberInput,
+  PasswordInput,
+  RadioButtonInput,
+  SelectInput,
+  TextAreaInput,
+  TextInput
+} from './Form'
 export { Icon } from './Icons'
 export { Background, Image } from './Images'
 export { Link } from './Links'
-export { BlockchainLoader, FlatLoader, FlatLoader2, HeartbeatLoader } from './Loaders'
+export {
+  BlockchainLoader,
+  FlatLoader,
+  FlatLoader2,
+  HeartbeatLoader
+} from './Loaders'
 export { TabMenu, TabMenuItem } from './Menus'
 export { Modal, ModalHeader, ModalBody, ModalFooter } from './Modals'
 export { Pagination, PaginationItem } from './Paginations'

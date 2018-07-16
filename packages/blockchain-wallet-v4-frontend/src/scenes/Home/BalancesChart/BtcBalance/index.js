@@ -17,25 +17,38 @@ export class BtcBalanceContainer extends PureComponent {
   }
 
   render () {
-    const { btcBalance, bchBalance, ethBalance, btcAccountsLength,
-      handleCoinDisplay, modalsActions, partner } = this.props
-    return <BtcBalance
-      btcAccountsLength={btcAccountsLength}
-      btcBalance={btcBalance}
-      bchBalance={bchBalance}
-      ethBalance={ethBalance}
-      handleCoinDisplay={handleCoinDisplay}
-      handleRefresh={this.handleRefresh}
-      modalsActions={modalsActions}
-      partner={partner} />
+    const {
+      btcBalance,
+      bchBalance,
+      ethBalance,
+      btcAccountsLength,
+      handleCoinDisplay,
+      modalsActions,
+      partner
+    } = this.props
+    return (
+      <BtcBalance
+        btcAccountsLength={btcAccountsLength}
+        btcBalance={btcBalance}
+        bchBalance={bchBalance}
+        ethBalance={ethBalance}
+        handleCoinDisplay={handleCoinDisplay}
+        handleRefresh={this.handleRefresh}
+        modalsActions={modalsActions}
+        partner={partner}
+      />
+    )
   }
 }
 
-const mapStateToProps = (state) => getData(state)
+const mapStateToProps = state => getData(state)
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   dataActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
   modalsActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(BtcBalanceContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BtcBalanceContainer)

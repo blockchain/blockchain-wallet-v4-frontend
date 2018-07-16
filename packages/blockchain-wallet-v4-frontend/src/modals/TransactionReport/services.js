@@ -21,13 +21,17 @@ export const isDatePosterior = (date1, date2) => {
 }
 
 export const isValidBtcStartDate = (selectedDate, endDate) =>
-  isDatePosteriorToBtcGenesis(selectedDate) && isDateAnterior(selectedDate, endDate)
+  isDatePosteriorToBtcGenesis(selectedDate) &&
+  isDateAnterior(selectedDate, endDate)
 
 export const isValidBtcEndDate = (selectedDate, startDate) =>
-  isDatePosteriorToBtcGenesis(selectedDate) && isDatePosterior(selectedDate, startDate)
+  isDatePosteriorToBtcGenesis(selectedDate) &&
+  isDatePosterior(selectedDate, startDate)
 
 export const isValidBchStartDate = (selectedDate, endDate) =>
-  isDatePosteriorToBchGenesis(selectedDate) && isDateAnterior(selectedDate, endDate)
+  isDatePosteriorToBchGenesis(selectedDate) &&
+  isDateAnterior(selectedDate, endDate)
 
 export const isValidBchEndDate = (selectedDate, startDate) =>
-  isDatePosteriorToBchGenesis(selectedDate) && isDatePosterior(selectedDate, startDate)
+  isDatePosteriorToBchGenesis(selectedDate) &&
+  isDatePosterior(selectedDate, startDate)

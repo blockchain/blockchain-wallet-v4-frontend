@@ -26,24 +26,25 @@ const ToggleIcon = styled(Icon)`
   transform: rotate(0deg);
   transition: transform 0.3s;
   transform: ${props => props.toggled && 'rotate(180deg)'};
-  color: ${props => props.toggled ? props.theme['brand-secondary'] : props.theme['gray-5']};
+  color: ${props =>
+    props.toggled ? props.theme['brand-secondary'] : props.theme['gray-5']};
   max-height: min-content;
 `
 
 export default class Helper extends React.PureComponent {
   constructor (props) {
     super(props)
-    this.state = {open: false}
+    this.state = { open: false }
   }
 
   render () {
     return (
       <Container>
         <Question onClick={() => this.setState({ open: !this.state.open })}>
-          { this.props.question }
+          {this.props.question}
           <ToggleIcon name='down-arrow-filled' toggled={this.state.open} />
         </Question>
-        { this.state.open ? <Answer> { this.props.answer } </Answer> : null }
+        {this.state.open ? <Answer> {this.props.answer} </Answer> : null}
       </Container>
     )
   }

@@ -8,18 +8,31 @@ import TradeItem from './template'
 
 class PagesContainer extends React.PureComponent {
   render () {
-    const { status, date, sourceCoin, targetCoin, deposit, depositAmount, withdrawalAmount, modalActions } = this.props
+    const {
+      status,
+      date,
+      sourceCoin,
+      targetCoin,
+      deposit,
+      depositAmount,
+      withdrawalAmount,
+      modalActions
+    } = this.props
 
-    return <TradeItem
-      status={status}
-      date={date}
-      sourceCoin={sourceCoin}
-      targetCoin={targetCoin}
-      deposit={deposit}
-      depositAmount={depositAmount}
-      withdrawalAmount={withdrawalAmount}
-      handleClick={() => modalActions.showModal('ExchangeDetails', { depositAddress: deposit })}
-    />
+    return (
+      <TradeItem
+        status={status}
+        date={date}
+        sourceCoin={sourceCoin}
+        targetCoin={targetCoin}
+        deposit={deposit}
+        depositAmount={depositAmount}
+        withdrawalAmount={withdrawalAmount}
+        handleClick={() =>
+          modalActions.showModal('ExchangeDetails', { depositAddress: deposit })
+        }
+      />
+    )
   }
 }
 
@@ -29,4 +42,7 @@ const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(PagesContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PagesContainer)

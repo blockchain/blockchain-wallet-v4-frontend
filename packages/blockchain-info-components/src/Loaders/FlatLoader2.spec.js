@@ -6,7 +6,9 @@ import FlatLoader2 from './FlatLoader2'
 
 describe('FlatLoader2 component', () => {
   it('default renders correctly', () => {
-    const component = shallow(<FlatLoader2 height='10px' width='10px' color='brand-primary' />)
+    const component = shallow(
+      <FlatLoader2 height='10px' width='10px' color='brand-primary' />
+    )
     const tree = toJson(component)
     expect(tree).toMatchSnapshot()
   })

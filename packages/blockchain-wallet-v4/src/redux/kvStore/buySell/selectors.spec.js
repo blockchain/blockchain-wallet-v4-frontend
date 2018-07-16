@@ -64,7 +64,9 @@ describe('kvstore root selectors', () => {
 
   it('getBuySellTxHashMatch should return buy_sell in success state if hash exists', () => {
     const expectedResult = 'buy-sell'
-    expect(selectors.getBuySellTxHashMatch(successState, 'my sfox tx hash')).toEqual(expectedResult)
+    expect(
+      selectors.getBuySellTxHashMatch(successState, 'my sfox tx hash')
+    ).toEqual(expectedResult)
   })
 
   const loadingState = {
@@ -95,7 +97,9 @@ describe('kvstore root selectors', () => {
 
   it('getBuySellTxHashMatch should return false in loading state', () => {
     const expectedResult = false
-    expect(selectors.getBuySellTxHashMatch(loadingState, 'my sfox tx hash')).toEqual(expectedResult)
+    expect(
+      selectors.getBuySellTxHashMatch(loadingState, 'my sfox tx hash')
+    ).toEqual(expectedResult)
   })
 
   const failureState = {
@@ -126,6 +130,8 @@ describe('kvstore root selectors', () => {
 
   it('getBuySellTxHashMatch should return false in failure state', () => {
     const expectedResult = false
-    expect(selectors.getBuySellTxHashMatch(failureState, 'my sfox tx hash')).toEqual(expectedResult)
+    expect(
+      selectors.getBuySellTxHashMatch(failureState, 'my sfox tx hash')
+    ).toEqual(expectedResult)
   })
 })

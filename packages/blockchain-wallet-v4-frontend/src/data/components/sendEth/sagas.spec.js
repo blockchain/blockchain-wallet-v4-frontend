@@ -30,8 +30,12 @@ describe('sendEth sagas', () => {
   beforeAll(() => {
     Math.random = () => 0.5
     Date.now = () => currentDate
-    pushStateSpy = jest.spyOn(window.history, 'pushState').mockImplementation(() => {})
-    locationReloadSpy = jest.spyOn(window.location, 'reload').mockImplementation(() => {})
+    pushStateSpy = jest
+      .spyOn(window.history, 'pushState')
+      .mockImplementation(() => {})
+    locationReloadSpy = jest
+      .spyOn(window.location, 'reload')
+      .mockImplementation(() => {})
   })
   afterAll(() => {
     global.Math = originalMath
@@ -39,8 +43,11 @@ describe('sendEth sagas', () => {
     pushStateSpy.restore()
     locationReloadSpy.restore()
   })
-  const { initialized, firstStepSubmitClicked,
-    secondStepSubmitClicked } = sendEthSagas({ api, coreSagas })
+  const {
+    initialized,
+    firstStepSubmitClicked,
+    secondStepSubmitClicked
+  } = sendEthSagas({ api, coreSagas })
 
   const value = {}
   const paymentMock = {
@@ -83,7 +90,9 @@ describe('sendEth sagas', () => {
     it('should create payment', () => {
       saga.next()
       expect(coreSagas.payment.eth.create).toHaveBeenCalledTimes(1)
-      expect(coreSagas.payment.eth.create).toHaveBeenCalledWith({ network: settings.NETWORK_ETHEREUM })
+      expect(coreSagas.payment.eth.create).toHaveBeenCalledWith({
+        network: settings.NETWORK_ETHEREUM
+      })
       expect(paymentMock.init).toHaveBeenCalledTimes(1)
     })
 
@@ -135,7 +144,13 @@ describe('sendEth sagas', () => {
         saga
           .restore(beforeEnd)
           .throw(error)
-          .put(actions.logs.logErrorMessage(logLocation, 'sendEthInitialized', error))
+          .put(
+            actions.logs.logErrorMessage(
+              logLocation,
+              'sendEthInitialized',
+              error
+            )
+          )
           .next()
           .isDone()
       })
@@ -152,15 +167,18 @@ describe('sendEth sagas', () => {
       })
 
       it('should produce correct form state', () => {
-        expect(resultingState.form.sendEth.initial).toEqual(resultingState.form.sendEth.values)
+        expect(resultingState.form.sendEth.initial).toEqual(
+          resultingState.form.sendEth.values
+        )
         expect(resultingState.form.sendEth.initial).toEqual({
           coin: 'ETH'
         })
       })
 
       it('should produce correct sendEth payment state', () => {
-        expect(resultingState.components.sendEth.payment)
-          .toEqual(Remote.Success(value))
+        expect(resultingState.components.sendEth.payment).toEqual(
+          Remote.Success(value)
+        )
       })
     })
   })
@@ -180,7 +198,9 @@ describe('sendEth sagas', () => {
     })
 
     it('should put loading action', () => {
-      saga.next(Remote.of(paymentMock)).put(A.sendEthPaymentUpdated(Remote.Loading))
+      saga
+        .next(Remote.of(paymentMock))
+        .put(A.sendEthPaymentUpdated(Remote.Loading))
     })
 
     it('should create payment from state value', () => {
@@ -212,7 +232,13 @@ describe('sendEth sagas', () => {
       it('should log error', () => {
         saga
           .throw(error)
-          .put(actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', error))
+          .put(
+            actions.logs.logErrorMessage(
+              logLocation,
+              'firstStepSubmitClicked',
+              error
+            )
+          )
           .next()
           .isDone()
       })
@@ -264,17 +290,23 @@ describe('sendEth sagas', () => {
     })
 
     it('should put eth payment updated success action', () => {
-      saga.next(paymentMock).put(A.sendEthPaymentUpdated(Remote.of(paymentMock.value())))
+      saga
+        .next(paymentMock)
+        .put(A.sendEthPaymentUpdated(Remote.of(paymentMock.value())))
     })
 
     it('should update latest transaction time', () => {
       saga
         .next()
-        .put(actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(Date.now()))
+        .put(
+          actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(Date.now())
+        )
     })
 
     it('should wait until fetch metadata success action is published', () => {
-      saga.next().take(actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS)
+      saga
+        .next()
+        .take(actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS)
     })
 
     it('should update latest transaction', () => {
@@ -284,7 +316,8 @@ describe('sendEth sagas', () => {
     })
 
     it('should display succcess message', () => {
-      saga.next()
+      saga
+        .next()
         .put(actions.alerts.displaySuccess(C.SEND_ETH_SUCCESS))
         .save(beforeError)
     })
@@ -294,7 +327,9 @@ describe('sendEth sagas', () => {
         .next()
         .take(actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS)
         .next()
-        .put(actions.core.kvStore.ethereum.setTxNotesEthereum(txId, description))
+        .put(
+          actions.core.kvStore.ethereum.setTxNotesEthereum(txId, description)
+        )
         .next()
         .isDone()
     })
@@ -302,7 +337,9 @@ describe('sendEth sagas', () => {
     it('should not set transaction note if payment has no description', () => {
       paymentMock.value.mockReturnValue({ ...value, description: '', txId })
       return expectSaga(secondStepSubmitClicked)
-        .not.put(actions.core.kvStore.ethereum.setTxNotesEthereum(txId, description))
+        .not.put(
+          actions.core.kvStore.ethereum.setTxNotesEthereum(txId, description)
+        )
         .run()
     })
 
@@ -312,7 +349,13 @@ describe('sendEth sagas', () => {
         saga
           .restore(beforeError)
           .throw(error)
-          .put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', error))
+          .put(
+            actions.logs.logErrorMessage(
+              logLocation,
+              'secondStepSubmitClicked',
+              error
+            )
+          )
       })
 
       it('should display success message', () => {

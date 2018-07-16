@@ -1,4 +1,13 @@
-import { assoc, assocPath, merge, lensProp, over, append, compose, dropLast } from 'ramda'
+import {
+  assoc,
+  assocPath,
+  merge,
+  lensProp,
+  over,
+  append,
+  compose,
+  dropLast
+} from 'ramda'
 import * as AT from './actionTypes'
 import Remote from '../../../remote'
 
@@ -73,7 +82,14 @@ const bchReducer = (state = INITIAL_STATE, action) => {
       const { reset, transactions } = payload
       return reset
         ? assoc('transactions', [Remote.Success(transactions)], state)
-        : over(lensProp('transactions'), compose(append(Remote.Success(transactions)), dropLast(1)), state)
+        : over(
+            lensProp('transactions'),
+            compose(
+              append(Remote.Success(transactions)),
+              dropLast(1)
+            ),
+            state
+          )
     }
     case AT.FETCH_BCH_TRANSACTIONS_FAILURE: {
       return assoc('transactions', [Remote.Failure(payload)], state)

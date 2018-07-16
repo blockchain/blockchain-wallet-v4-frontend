@@ -10,19 +10,27 @@ const BLOCK_SUB = 'block_sub'
 export default ({ api, ethSocket }) => {
   const send = ethSocket.send.bind(ethSocket)
 
-  const onOpen = function * () {
+  const onOpen = function*() {
     try {
       yield call(send, JSON.stringify({ op: BLOCK_SUB }))
-      yield take(actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS)
+      yield take(
+        actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS
+      )
       const contextR = yield select(selectors.core.kvStore.ethereum.getContext)
       const context = contextR.getOrFail('invalid_context_eth')
       yield call(send, JSON.stringify({ op: ACCOUNT_SUB, account: context }))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage('middleware/webSocket/eth/sagas', 'onOpen', e.message))
+      yield put(
+        actions.logs.logErrorMessage(
+          'middleware/webSocket/eth/sagas',
+          'onOpen',
+          e.message
+        )
+      )
     }
   }
 
-  const onMessage = function * (action) {
+  const onMessage = function*(action) {
     try {
       const message = action.payload
 
@@ -41,7 +49,9 @@ export default ({ api, ethSocket }) => {
             }
           }
           // Updates data
-          const contextR = yield select(selectors.core.kvStore.ethereum.getContext)
+          const contextR = yield select(
+            selectors.core.kvStore.ethereum.getContext
+          )
           const context = contextR.getOrFail('invalid_context_eth')
           yield put(actions.core.data.ethereum.fetchData(context))
           break
@@ -51,16 +61,27 @@ export default ({ api, ethSocket }) => {
         case 'pong':
           break
         default:
-          yield put(actions.logs.logErrorMessage('middleware/webSocket/eth/sagas', 'onMessage', 'unknown type for ' + message))
+          yield put(
+            actions.logs.logErrorMessage(
+              'middleware/webSocket/eth/sagas',
+              'onMessage',
+              'unknown type for ' + message
+            )
+          )
           break
       }
     } catch (e) {
-      yield put(actions.logs.logErrorMessage('middleware/webSocket/eth/sagas', 'onOpen', e.message))
+      yield put(
+        actions.logs.logErrorMessage(
+          'middleware/webSocket/eth/sagas',
+          'onOpen',
+          e.message
+        )
+      )
     }
   }
 
-  const onClose = function * (action) {
-  }
+  const onClose = function*(action) {}
 
   return {
     onOpen,

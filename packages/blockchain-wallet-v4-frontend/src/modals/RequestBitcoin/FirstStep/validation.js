@@ -1,6 +1,9 @@
 import React from 'react'
 import { prop } from 'ramda'
-import { InvalidAmountMessageMin, InvalidAmountMessageMax } from './validationMessages'
+import {
+  InvalidAmountMessageMin,
+  InvalidAmountMessageMax
+} from './validationMessages'
 
 export const invalidAmountMin = (value, allValues, props) => {
   const valueBtc = prop('coin', value)

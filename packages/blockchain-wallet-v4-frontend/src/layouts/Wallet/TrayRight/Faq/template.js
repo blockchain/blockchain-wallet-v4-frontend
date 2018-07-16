@@ -40,19 +40,22 @@ const Content = styled.div`
   overflow-y: auto;
 `
 
-const Faq = (props) => (
+const Faq = props => (
   <Wrapper>
     <Search>
       <Field name='search' component={TextBox} />
       <Icon name='search' size='20px' weight={200} color='gray-3' />
     </Search>
     <Content>
-      {props.filteredContent.length > 0 && props.filteredContent.map((group, i) =>
-        <FaqGroup groupTitleId={group.groupTitleId}
-          groupTitleMsg={group.groupTitleMsg}
-          groupQuestions={group.groupQuestions}
-          key={i} />
-      )}
+      {props.filteredContent.length > 0 &&
+        props.filteredContent.map((group, i) => (
+          <FaqGroup
+            groupTitleId={group.groupTitleId}
+            groupTitleMsg={group.groupTitleMsg}
+            groupQuestions={group.groupQuestions}
+            key={i}
+          />
+        ))}
     </Content>
   </Wrapper>
 )

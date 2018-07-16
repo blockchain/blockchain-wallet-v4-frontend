@@ -14,8 +14,8 @@ const Wrapper = styled.div`
   align-items: flex-start;
 `
 
-const hasLabel = (io) => io.label
-const notChange = (io) => !io.change
+const hasLabel = io => io.label
+const notChange = io => !io.change
 
 const Addresses = props => {
   const { from, to, outputs, inputs, coin } = props
@@ -24,26 +24,51 @@ const Addresses = props => {
     <Wrapper>
       <TextGroup inline>
         <Text size='13px' weight={500}>
-          <FormattedMessage id='components.transactionlistitem.addresses.to' defaultMessage='To: ' />
+          <FormattedMessage
+            id='components.transactionlistitem.addresses.to'
+            defaultMessage='To: '
+          />
         </Text>
-        <Tooltip width='auto' label={to} hover={outputs && any(hasLabel, filter(notChange, outputs))}>
-          { outputs && filter(hasLabel, filter(notChange, outputs)).map((output, index) =>
-            <Text key={index} size='12px' weight={300}>
-              {equals(coin, 'BCH') ? utils.bch.toCashAddr(output.address, true) : output.address}
-            </Text>)
-          }
+        <Tooltip
+          width='auto'
+          label={to}
+          hover={outputs && any(hasLabel, filter(notChange, outputs))}
+        >
+          {outputs &&
+            filter(hasLabel, filter(notChange, outputs)).map(
+              (output, index) => (
+                <Text key={index} size='12px' weight={300}>
+                  {equals(coin, 'BCH')
+                    ? utils.bch.toCashAddr(output.address, true)
+                    : output.address}
+                </Text>
+              )
+            )}
         </Tooltip>
       </TextGroup>
       <TextGroup inline>
         <Text size='13px' weight={500}>
-          <FormattedMessage id='components.transactionlistitem.addresses.from' defaultMessage='From: ' />
+          <FormattedMessage
+            id='components.transactionlistitem.addresses.from'
+            defaultMessage='From: '
+          />
         </Text>
-        <Tooltip width='auto' label={from} hover={inputs && inputs.some(hasLabel)}>
-          { inputs && inputs.map((input, index) => input.label &&
-            <Text key={index} size='12px' weight={300}>
-              {equals(coin, 'BCH') ? utils.bch.toCashAddr(input.address, true) : input.address}
-            </Text>)
-          }
+        <Tooltip
+          width='auto'
+          label={from}
+          hover={inputs && inputs.some(hasLabel)}
+        >
+          {inputs &&
+            inputs.map(
+              (input, index) =>
+                input.label && (
+                  <Text key={index} size='12px' weight={300}>
+                    {equals(coin, 'BCH')
+                      ? utils.bch.toCashAddr(input.address, true)
+                      : input.address}
+                  </Text>
+                )
+            )}
         </Tooltip>
       </TextGroup>
     </Wrapper>

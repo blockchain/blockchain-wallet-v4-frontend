@@ -21,7 +21,9 @@ class EmptyContainer extends React.PureComponent {
   }
 
   render () {
-    return <Empty handleSend={this.handleSend} handleRequest={this.handleRequest} />
+    return (
+      <Empty handleSend={this.handleSend} handleRequest={this.handleRequest} />
+    )
   }
 }
 
@@ -29,4 +31,7 @@ const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(undefined, mapDispatchToProps)(EmptyContainer)
+export default connect(
+  undefined,
+  mapDispatchToProps
+)(EmptyContainer)

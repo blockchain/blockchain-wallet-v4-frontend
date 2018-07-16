@@ -5,15 +5,25 @@ import { compose, values, pickAll } from 'ramda'
 
 const SecondStepContainer = props => {
   const { ui, updateUI } = props
-  const handleClickPrevious = () => { updateUI({ step: ui.step - 1 }) }
-  const handleClickNext = () => { updateUI({ step: ui.step + 1 }) }
+  const handleClickPrevious = () => {
+    updateUI({ step: ui.step - 1 })
+  }
+  const handleClickNext = () => {
+    updateUI({ step: ui.step + 1 })
+  }
 
-  const getWordsAtStep = (step) => {
-    const pickIndexes = compose(values, pickAll)
+  const getWordsAtStep = step => {
+    const pickIndexes = compose(
+      values,
+      pickAll
+    )
     switch (step) {
-      case 1: return pickIndexes([0, 1, 2, 3], props.recoveryPhrase)
-      case 2: return pickIndexes([4, 5, 6, 7], props.recoveryPhrase)
-      case 3: return pickIndexes([8, 9, 10, 11], props.recoveryPhrase)
+      case 1:
+        return pickIndexes([0, 1, 2, 3], props.recoveryPhrase)
+      case 2:
+        return pickIndexes([4, 5, 6, 7], props.recoveryPhrase)
+      case 3:
+        return pickIndexes([8, 9, 10, 11], props.recoveryPhrase)
     }
   }
 
@@ -28,4 +38,6 @@ const SecondStepContainer = props => {
   )
 }
 
-export default ui({ key: 'RecoveryPhraseMnemonic', state: { step: 1 } })(SecondStepContainer)
+export default ui({ key: 'RecoveryPhraseMnemonic', state: { step: 1 } })(
+  SecondStepContainer
+)

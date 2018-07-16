@@ -7,7 +7,7 @@ const Wrapper = styled.div`
   width: 100%;
 `
 
-const CoinifyCheckoutContainer = (props) => {
+const CoinifyCheckoutContainer = props => {
   const { type, options, value } = props
   return (
     <Wrapper>

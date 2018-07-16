@@ -11,16 +11,25 @@ const Wrapper = styled.div`
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
-  > *:first-child { margin-right: 3px; }
+  > *:first-child {
+    margin-right: 3px;
+  }
 `
 
 const Success = props => (
   <Wrapper>
     <Text size='12px' weight={300}>
-      {props.type === 'sent'
-        ? <FormattedMessage id='components.transactionlistitem.fiatattime.valuewhensent' defaultMessage='Value when sent: ' />
-        : <FormattedMessage id='components.transactionlistitem.fiatattime.valuewhenreceived' defaultMessage='Value when received: ' />
-      }
+      {props.type === 'sent' ? (
+        <FormattedMessage
+          id='components.transactionlistitem.fiatattime.valuewhensent'
+          defaultMessage='Value when sent: '
+        />
+      ) : (
+        <FormattedMessage
+          id='components.transactionlistitem.fiatattime.valuewhenreceived'
+          defaultMessage='Value when received: '
+        />
+      )}
     </Text>
     <ValueWhenReceived
       currency={props.currency}

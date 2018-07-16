@@ -7,7 +7,7 @@ const Wrapper = styled.div`
   width: 100%;
 `
 
-const SfoxCheckoutContainer = (props) => {
+const SfoxCheckoutContainer = props => {
   const { type, options, value } = props
 
   return (

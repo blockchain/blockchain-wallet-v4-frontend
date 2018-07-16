@@ -12,7 +12,7 @@ const BaseBackground = styled.div`
   height: ${props => props.height};
 `
 
-const Background = (props) => {
+const Background = props => {
   const { name, ...rest } = props
   const file = Images[name]
 

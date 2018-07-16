@@ -19,11 +19,13 @@ const Wrapper = styled.div`
   cursor: pointer;
   position: relative;
 
-  @media(min-width: 850px) { align-items: flex-end; }
+  @media (min-width: 850px) {
+    align-items: flex-end;
+  }
 `
 const BalanceText = styled(Text)`
   font-size: 20px;
-  @media(min-width: 768) {
+  @media (min-width: 768) {
     font-size: 16px;
   }
 `
@@ -84,19 +86,67 @@ const SubItems = styled.div`
 
 const getComponentOrder = path => {
   switch (path) {
-    case '/btc/transactions': return [<BtcBalance large />, <EthBalance />, <BchBalance />, <TotalBalance />]
-    case '/eth/transactions': return [<EthBalance large />, <BtcBalance />, <BchBalance />, <TotalBalance />]
-    case '/bch/transactions': return [<BchBalance large />, <BtcBalance />, <EthBalance />, <TotalBalance />]
-    default: return [<TotalBalance large />, <BtcBalance />, <EthBalance />, <BchBalance />]
+    case '/btc/transactions':
+      return [
+        <BtcBalance large />,
+        <EthBalance />,
+        <BchBalance />,
+        <TotalBalance />
+      ]
+    case '/eth/transactions':
+      return [
+        <EthBalance large />,
+        <BtcBalance />,
+        <BchBalance />,
+        <TotalBalance />
+      ]
+    case '/bch/transactions':
+      return [
+        <BchBalance large />,
+        <BtcBalance />,
+        <EthBalance />,
+        <TotalBalance />
+      ]
+    default:
+      return [
+        <TotalBalance large />,
+        <BtcBalance />,
+        <EthBalance />,
+        <BchBalance />
+      ]
   }
 }
 
 const getBalanceMessage = path => {
   switch (path) {
-    case '/btc/transactions': return <FormattedMessage id='scenes.wallet.menutop.balance.bitcoinbalance' defaultMessage='Bitcoin Balance' />
-    case '/eth/transactions': return <FormattedMessage id='scenes.wallet.menutop.balance.etherbalance' defaultMessage='Ether Balance' />
-    case '/bch/transactions': return <FormattedMessage id='scenes.wallet.menutop.balance.bchbalance' defaultMessage='Bitcoin Cash Balance' />
-    default: return <FormattedMessage id='scenes.wallet.menutop.balance.totalbalance' defaultMessage='Total Balance' />
+    case '/btc/transactions':
+      return (
+        <FormattedMessage
+          id='scenes.wallet.menutop.balance.bitcoinbalance'
+          defaultMessage='Bitcoin Balance'
+        />
+      )
+    case '/eth/transactions':
+      return (
+        <FormattedMessage
+          id='scenes.wallet.menutop.balance.etherbalance'
+          defaultMessage='Ether Balance'
+        />
+      )
+    case '/bch/transactions':
+      return (
+        <FormattedMessage
+          id='scenes.wallet.menutop.balance.bchbalance'
+          defaultMessage='Bitcoin Cash Balance'
+        />
+      )
+    default:
+      return (
+        <FormattedMessage
+          id='scenes.wallet.menutop.balance.totalbalance'
+          defaultMessage='Total Balance'
+        />
+      )
   }
 }
 
@@ -109,9 +159,7 @@ const getSubBalances = props => (
 
 const Success = props => (
   <Wrapper>
-    <BalanceText weight={300}>
-      {getBalanceMessage(props.path)}
-    </BalanceText>
+    <BalanceText weight={300}>{getBalanceMessage(props.path)}</BalanceText>
     <BalanceDropdown>
       <ComponentDropdown
         down
@@ -119,7 +167,8 @@ const Success = props => (
         color={'gray-5'}
         selectedComponent={getComponentOrder(props.path)[0]}
         components={getComponentOrder(props.path).concat(getSubBalances())}
-        callback={() => {}} />
+        callback={() => {}}
+      />
     </BalanceDropdown>
   </Wrapper>
 )

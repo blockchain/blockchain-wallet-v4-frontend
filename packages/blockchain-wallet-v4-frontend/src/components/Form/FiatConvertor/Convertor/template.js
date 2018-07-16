@@ -55,7 +55,7 @@ const Error = styled(Text)`
   top: -20px;
   right: 0;
 `
-const getErrorState = (meta) => {
+const getErrorState = meta => {
   return meta.touched && meta.invalid ? 'invalid' : 'initial'
 }
 
@@ -68,17 +68,38 @@ const Convertor = props => {
     <Wrapper>
       <FiatConvertorInput>
         <Container>
-          <TextInput value={coin} disabled={disabled} placeholder='0' onBlur={handleBlur} onChange={handleCoinChange} onFocus={handleFocus} errorState={errorState} />
+          <TextInput
+            value={coin}
+            disabled={disabled}
+            placeholder='0'
+            onBlur={handleBlur}
+            onChange={handleCoinChange}
+            onFocus={handleFocus}
+            errorState={errorState}
+          />
           <Unit>{unit}</Unit>
         </Container>
         <ArrowLeft size='16px' name='left-arrow' />
         <ArrowRight size='16px' name='right-arrow' />
         <Container>
-          <TextInput value={fiat} disabled={disabled} placeholder='0' onBlur={handleBlur} onChange={handleFiatChange} onFocus={handleFocus} errorState={errorState} />
+          <TextInput
+            value={fiat}
+            disabled={disabled}
+            placeholder='0'
+            onBlur={handleBlur}
+            onChange={handleFiatChange}
+            onFocus={handleFocus}
+            errorState={errorState}
+          />
           <Unit>{currency}</Unit>
         </Container>
       </FiatConvertorInput>
-      {meta.touched && meta.error && <Error size='13px' weight={300} color='error'>{meta.error}</Error>}
+      {meta.touched &&
+        meta.error && (
+          <Error size='13px' weight={300} color='error'>
+            {meta.error}
+          </Error>
+        )}
     </Wrapper>
   )
 }

@@ -19,19 +19,23 @@ const BaseSelectInput = styled.select`
   font-family: 'Montserrat', Helvetica, sans-serif;
   background-color: ${props => props.theme['white']};
   border: 1px solid ${props => props.theme['gray-2']};
-  margin-left: ${props => props.inline ? '5px' : '0px'};
+  margin-left: ${props => (props.inline ? '5px' : '0px')};
   &:active,
   &:focus {
     border: 1px solid ${props => props.theme['brand-secondary']};
   }
 `
 
-const selectBorderColor = (state) => {
+const selectBorderColor = state => {
   switch (state) {
-    case 'initial': return 'gray-2'
-    case 'invalid': return 'error'
-    case 'valid': return 'success'
-    default: return 'gray-2'
+    case 'initial':
+      return 'gray-2'
+    case 'invalid':
+      return 'error'
+    case 'valid':
+      return 'success'
+    default:
+      return 'gray-2'
   }
 }
 
@@ -39,7 +43,15 @@ const SelectInput = props => {
   const { errorState, disabled, input, ...rest } = props
   const borderColor = selectBorderColor(errorState)
 
-  return <BaseSelectInput inline borderColor={borderColor} disabled={disabled} onChange={input.onChange} {...rest} />
+  return (
+    <BaseSelectInput
+      inline
+      borderColor={borderColor}
+      disabled={disabled}
+      onChange={input.onChange}
+      {...rest}
+    />
+  )
 }
 
 export default SelectInput

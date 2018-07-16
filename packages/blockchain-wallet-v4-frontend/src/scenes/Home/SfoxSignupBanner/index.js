@@ -18,19 +18,28 @@ class SfoxSignupBannerContainer extends React.PureComponent {
 
   goToBuySell () {
     this.props.history.push('/buy-sell')
-    this.props.modalActions.showModal('SfoxExchangeData', { step: this.state.step })
+    this.props.modalActions.showModal('SfoxExchangeData', {
+      step: this.state.step
+    })
   }
 
   renderStepper (sfoxData) {
-    const step = determineStep(sfoxData.sfoxProfile, sfoxData.verificationStatus, sfoxData.sfoxAccounts)
-    const steps = {'account': 1, 'verify': 2, 'upload': 3, 'funding': 4}
+    const step = determineStep(
+      sfoxData.sfoxProfile,
+      sfoxData.verificationStatus,
+      sfoxData.sfoxAccounts
+    )
+    const steps = { account: 1, verify: 2, upload: 3, funding: 4 }
     const currentStep = steps[step] || 0
 
     this.setState({ step: step })
 
-    return currentStep > 0
-      ? (<SfoxSignupBanner currentStep={currentStep - 1} goToBuySell={this.goToBuySell}/>)
-      : null
+    return currentStep > 0 ? (
+      <SfoxSignupBanner
+        currentStep={currentStep - 1}
+        goToBuySell={this.goToBuySell}
+      />
+    ) : null
   }
 
   render () {
@@ -38,10 +47,10 @@ class SfoxSignupBannerContainer extends React.PureComponent {
 
     if (data.cata) {
       return data.cata({
-        Success: (sfoxData) => this.renderStepper(sfoxData),
-        Failure: () => <div/>,
-        Loading: () => <div/>,
-        NotAsked: () => <div/>
+        Success: sfoxData => this.renderStepper(sfoxData),
+        Failure: () => <div />,
+        Loading: () => <div />,
+        NotAsked: () => <div />
       })
     } else {
       return null
@@ -57,4 +66,9 @@ const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SfoxSignupBannerContainer))
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(SfoxSignupBannerContainer)
+)
