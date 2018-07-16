@@ -7,25 +7,37 @@ import { getData } from './selectors'
 import SelectBoxBitcoin from './template'
 
 class SelectBoxBitcoinAddresses extends React.PureComponent {
-  getLabel (coin) {
-    return this.props.optional ? 'N/A' : `All Bitcoin${coin === 'BCH' ? ' Cash' : ''} Wallets`
+  getLabel(coin) {
+    return this.props.optional
+      ? 'N/A'
+      : `All Bitcoin${coin === 'BCH' ? ' Cash' : ''} Wallets`
   }
-  concatAll (coin) {
-    return concat([{ group: '', items: [{ value: 'all', text: this.getLabel(coin) }] }])
+  concatAll(coin) {
+    return concat([
+      { group: '', items: [{ value: 'all', text: this.getLabel(coin) }] }
+    ])
   }
-  render () {
+  render() {
     const { data, coin, includeAll, ...rest } = this.props
 
     return data.cata({
-      Success: (value) => {
-        const wallets = [{
-          group: '',
-          items: value.data
-        }]
+      Success: value => {
+        const wallets = [
+          {
+            group: '',
+            items: value.data
+          }
+        ]
         const elements = includeAll ? this.concatAll(coin)(wallets) : wallets
-        return <SelectBoxBitcoin label={this.getLabel(coin)} elements={elements} {...rest} />
+        return (
+          <SelectBoxBitcoin
+            label={this.getLabel(coin)}
+            elements={elements}
+            {...rest}
+          />
+        )
       },
-      Failure: (message) => <div>{message}</div>,
+      Failure: message => <div>{message}</div>,
       Loading: () => <div />,
       NotAsked: () => <div />
     })

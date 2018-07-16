@@ -17,7 +17,7 @@ export const ColLeft = styled.div`
   width: 50%;
   ${media.mobile`
     width: 100%;
-  `}
+  `};
 `
 
 export const ColLeftInner = styled.div`
@@ -28,7 +28,7 @@ export const ColRight = styled.div`
   width: 50%;
   ${media.mobile`
     width: 100%;
-  `}
+  `};
 `
 
 export const Info = styled.div`
@@ -46,7 +46,7 @@ export const PartnerHeader = styled.div`
   ${media.mobile`
     font-size: 20px;
     font-weight: 500;
-  `}
+  `};
 `
 
 export const PartnerSubHeader = styled.div`
@@ -54,7 +54,7 @@ export const PartnerSubHeader = styled.div`
   font-size: 16px;
   ${media.mobile`
     font-size: 14px;
-  `}
+  `};
 `
 
 export const ButtonWrapper = styled.div`
@@ -77,7 +77,7 @@ export const ErrorWrapper = styled.div`
   margin-top: 5px;
   a {
     cursor: pointer;
-    color: ${props => props.theme['brand-secondary']}
+    color: ${props => props.theme['brand-secondary']};
   }
 `
 
@@ -89,13 +89,14 @@ export const ColRightInner = styled.div`
   ${media.mobile`
     width: 100%;
     padding-left: 0px;
-  `}
+  `};
 `
 
 export const EmailHelper = styled.span`
   margin-top: 5px;
   font-size: 12px;
-  color: ${props => props.error ? props.theme['error'] : props.theme['gray-3']};
+  color: ${props =>
+    props.error ? props.theme['error'] : props.theme['gray-3']};
   a {
     cursor: pointer;
     color: ${props => props.theme['brand-secondary']};

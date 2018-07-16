@@ -5,7 +5,7 @@ import * as C from 'services/AlertService'
 export default ({ coreSagas }) => {
   const logLocation = 'modules/securityCenter/sagas'
 
-  const updateEmail = function * (action) {
+  const updateEmail = function*(action) {
     try {
       yield put(actions.modules.settings.clearEmailCodeFailure())
       yield call(coreSagas.settings.setEmail, action.payload)
@@ -17,16 +17,22 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const getGoogleAuthenticatorSecretUrl = function * () {
+  const getGoogleAuthenticatorSecretUrl = function*() {
     try {
       yield call(coreSagas.settings.requestGoogleAuthenticatorSecretUrl)
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'getGoogleAuthenticatorSecretUrl', e))
+      yield put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'getGoogleAuthenticatorSecretUrl',
+          e
+        )
+      )
       yield put(actions.alerts.displayError(C.GET_GOOGLEAUTH_SECRET_ERROR))
     }
   }
 
-  const verifyEmail = function * (action) {
+  const verifyEmail = function*(action) {
     try {
       yield put(actions.modules.settings.clearEmailCodeFailure())
       yield call(coreSagas.settings.setEmailVerified, action.payload)
@@ -37,17 +43,23 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const sendConfirmationCodeEmail = function * (action) {
+  const sendConfirmationCodeEmail = function*(action) {
     try {
       yield put(actions.modules.settings.clearEmailCodeFailure())
       yield call(coreSagas.settings.sendConfirmationCodeEmail, action.payload)
       yield put(actions.alerts.displaySuccess(C.EMAIL_CODE_SENT_SUCCESS))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'sendConfirmationCodeEmail', e))
+      yield put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'sendConfirmationCodeEmail',
+          e
+        )
+      )
     }
   }
 
-  const verifyEmailCode = function * (action) {
+  const verifyEmailCode = function*(action) {
     try {
       yield call(coreSagas.settings.verifyEmailCode, action.payload)
       yield put(actions.alerts.displaySuccess(C.EMAIL_VERIFY_SUCCESS))
@@ -58,17 +70,23 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const verifyGoogleAuthenticator = function * (action) {
+  const verifyGoogleAuthenticator = function*(action) {
     try {
       yield call(coreSagas.settings.setGoogleAuthenticator, action.payload)
       yield put(actions.alerts.displaySuccess(C.GOOGLE_AUTH_VERIFY_SUCCESS))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'verifyGoogleAuthenticator', e))
+      yield put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'verifyGoogleAuthenticator',
+          e
+        )
+      )
       yield put(actions.alerts.displayError(C.GOOGLE_AUTH_VERIFY_ERROR))
     }
   }
 
-  const setYubikey = function * (action) {
+  const setYubikey = function*(action) {
     try {
       yield call(coreSagas.settings.setYubikey, action.payload)
       yield put(actions.alerts.displaySuccess(C.YUBIKEY_VERIFY_SUCCESS))
@@ -78,17 +96,23 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const sendMobileVerificationCode = function * (action) {
+  const sendMobileVerificationCode = function*(action) {
     try {
       yield call(coreSagas.settings.setMobile, action.payload)
       yield put(actions.alerts.displaySuccess(C.MOBILE_CODE_SENT_SUCCESS))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'sendMobileVerificationCode', e))
+      yield put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'sendMobileVerificationCode',
+          e
+        )
+      )
       yield put(actions.alerts.displayError(C.MOBILE_CODE_SENT_ERROR))
     }
   }
 
-  const verifyMobile = function * (action) {
+  const verifyMobile = function*(action) {
     try {
       yield call(coreSagas.settings.setMobileVerifiedAs2FA, action.payload)
       yield put(actions.alerts.displaySuccess(C.TWOFA_MOBILE_VERIFY_SUCCESS))
@@ -98,7 +122,7 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const disableTwoStep = function * (action) {
+  const disableTwoStep = function*(action) {
     try {
       yield call(coreSagas.settings.setAuthType, action.payload)
       yield put(actions.alerts.displaySuccess(C.TWOFA_UPDATE_SUCCESS))
@@ -109,12 +133,18 @@ export default ({ coreSagas }) => {
     yield put(actions.modals.closeAllModals())
   }
 
-  const setVerifiedMobileAsTwoFactor = function * () {
+  const setVerifiedMobileAsTwoFactor = function*() {
     try {
       yield call(coreSagas.settings.setAuthType, { authType: '5' })
       yield put(actions.alerts.displaySuccess(C.TWOFA_MOBILE_VERIFY_SUCCESS))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'setVerifiedMobileAsTwoFactor', e))
+      yield put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'setVerifiedMobileAsTwoFactor',
+          e
+        )
+      )
       yield put(actions.alerts.displayError(C.TWOFA_MOBILE_VERIFY_ERROR))
     }
   }

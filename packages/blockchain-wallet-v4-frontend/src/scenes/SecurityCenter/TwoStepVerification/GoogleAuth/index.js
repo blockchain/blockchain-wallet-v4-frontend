@@ -11,17 +11,17 @@ import Error from './template.error'
 import Loading from './template.loading'
 
 class GoogleAuthContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  componentWillMount () {
+  componentWillMount() {
     this.props.securityCenterActions.getGoogleAuthenticatorSecretUrl()
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     const next = this.props.data.getOrElse({})
     const prev = prevProps.data.getOrElse({})
     if (next.authType !== prev.authType) {
@@ -32,45 +32,58 @@ class GoogleAuthContainer extends React.PureComponent {
     }
   }
 
-  handleClick () {
+  handleClick() {
     this.props.modalActions.showModal('TwoStepSetup')
   }
 
-  onSubmit () {
-    this.props.securityCenterActions.verifyGoogleAuthenticator(this.props.authCode)
+  onSubmit() {
+    this.props.securityCenterActions.verifyGoogleAuthenticator(
+      this.props.authCode
+    )
   }
 
-  render () {
+  render() {
     const { data, ui, ...rest } = this.props
 
     return data.cata({
-      Success: (value) => <Success
-        data={value}
-        handleClick={this.handleClick}
-        onSubmit={this.onSubmit}
-        ui={ui}
-      />,
-      Failure: (message) => <Error {...rest} message={message} />,
+      Success: value => (
+        <Success
+          data={value}
+          handleClick={this.handleClick}
+          onSubmit={this.onSubmit}
+          ui={ui}
+        />
+      ),
+      Failure: message => <Error {...rest} message={message} />,
       Loading: () => <Loading {...rest} />,
       NotAsked: () => <Loading {...rest} />
     })
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   authCode: formValueSelector('securityGoogleAuthenticator')(state, 'authCode'),
   data: getData(state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   settingsActions: bindActionCreators(actions.core.settings, dispatch),
-  securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch)
+  securityCenterActions: bindActionCreators(
+    actions.modules.securityCenter,
+    dispatch
+  )
 })
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  ui({ key: 'Security_TwoFactor', state: { updateToggled: false, successToggled: false } })
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
+  ui({
+    key: 'Security_TwoFactor',
+    state: { updateToggled: false, successToggled: false }
+  })
 )
 
 export default enhance(GoogleAuthContainer)

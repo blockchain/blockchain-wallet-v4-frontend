@@ -8,9 +8,9 @@ import SecuritySummary from './SecuritySummary'
 import styled from 'styled-components'
 
 export const SecurityTip = styled.div`
-  border-left: 1px solid #CCCCCC;
-  border-right: 1px solid #CCCCCC;
-  border-bottom: 1px solid #CCCCCC;
+  border-left: 1px solid #cccccc;
+  border-right: 1px solid #cccccc;
+  border-bottom: 1px solid #cccccc;
   padding: 20px;
   width: 95%;
   margin-top: 0px !important;

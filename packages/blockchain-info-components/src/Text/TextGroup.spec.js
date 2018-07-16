@@ -6,7 +6,11 @@ import TextGroup from './TextGroup'
 
 describe('TextGroup component', () => {
   it('default renders correctly', () => {
-    const component = renderer.create(<TextGroup nowrap inline><span>Hello World</span></TextGroup>)
+    const component = renderer.create(
+      <TextGroup nowrap inline>
+        <span>Hello World</span>
+      </TextGroup>
+    )
     const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })

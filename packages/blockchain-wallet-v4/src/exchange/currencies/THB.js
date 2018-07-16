@@ -1,5 +1,4 @@
-export default
-{
+export default {
   code: 'THB',
   base: 'CENT',
   trade: 'THB',

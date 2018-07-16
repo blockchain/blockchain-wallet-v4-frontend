@@ -14,20 +14,20 @@ references:
       - image: circleci/node:10.6-jessie-browsers
 
   npm_cache_key: &npm_cache_key
-      v1-dependency-npm-{{ checksum "yarn.lock" }}
+      v2-dependency-npm-{{ checksum "yarn.lock" }}
 
   restore_node_modules: &restore_node_modules
     restore_cache:
       keys:
         - *npm_cache_key
-        - v1-dependency-npm
+        - v2-dependency-npm
 
   restore_repo: &restore_repo
       restore_cache:
         keys:
-          - v1-repo-{{ .Branch }}-{{ .Revision }}
-          - v1-repo-{{ .Branch }}
-          - v1-repo
+          - v2-repo-{{ .Branch }}-{{ .Revision }}
+          - v2-repo-{{ .Branch }}
+          - v2-repo
 
 jobs:
   pull_code:
@@ -36,7 +36,7 @@ jobs:
       - *restore_repo
       - checkout
       - save_cache:
-          key: v1-repo-{{ .Branch }}-{{ .Revision }}
+          key: v2-repo-{{ .Branch }}-{{ .Revision }}
           paths:
             - .
   npm_install:
@@ -45,8 +45,11 @@ jobs:
       - *restore_repo
       - *restore_node_modules
       - run:
-          name: Install Dependencies
-          command: npm install yarn babel-cli rimraf cross-env && yarn
+          name: Install Build Dependencies
+          command: npm install yarn babel-cli rimraf cross-env
+      - run:
+          name: Install App Dependencies
+          command: yarn
       - save_cache:
           key: *npm_cache_key
           paths:
@@ -62,6 +65,13 @@ jobs:
       - run:
           name: Lint Code
           command: yarn lint
+  prettier:
+    <<: *container_config
+    steps:
+      - *attach_workspace
+      - run:
+          name: Run Prettier
+          command: yarn ci:prettier
   unit_tests:
     <<: *container_config
     steps:
@@ -87,6 +97,9 @@ workflows:
           requires:
             - pull_code
       - lint:
+          requires:
+            - npm_install
+      - prettier:
           requires:
             - npm_install
       - unit_tests:

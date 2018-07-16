@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { shallow } from 'enzyme'
 import toJson from 'enzyme-to-json'
@@ -16,7 +15,16 @@ describe('CoinFilters', () => {
   })
 
   it('should accept a mandatory string BTC, BCH or ETH for prop coin', () => {
-    expect(testPropTypes(CoinFiltersContainer, 'coin', ['BTC', 'BCH', 'ETH'], false)).toBeTruthy()
-    expect(testPropTypes(CoinFiltersContainer, 'coin', [0, undefined, null, {}], true)).toBeTruthy()
+    expect(
+      testPropTypes(CoinFiltersContainer, 'coin', ['BTC', 'BCH', 'ETH'], false)
+    ).toBeTruthy()
+    expect(
+      testPropTypes(
+        CoinFiltersContainer,
+        'coin',
+        [0, undefined, null, {}],
+        true
+      )
+    ).toBeTruthy()
   })
 })

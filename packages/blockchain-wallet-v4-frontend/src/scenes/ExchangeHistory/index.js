@@ -9,14 +9,14 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class ExchangeHistoryContainer extends React.PureComponent {
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.actions.destroyed()
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
-      Success: (value) => <Success trades={value} />,
-      Failure: (message) => <Error>{message}</Error>,
+      Success: value => <Success trades={value} />,
+      Failure: message => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
@@ -31,4 +31,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.exchangeHistory, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ExchangeHistoryContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ExchangeHistoryContainer)

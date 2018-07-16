@@ -5,7 +5,7 @@ import { selectors } from 'data'
 import SelectBox from '../SelectBox'
 
 class SelectBoxCurrency extends React.PureComponent {
-  render () {
+  render() {
     const { currencies, ...rest } = this.props
     const elements = [{ group: '', items: currencies }]
 
@@ -13,7 +13,7 @@ class SelectBoxCurrency extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   currency: selectors.core.settings.getCurrency(state),
   currencies: [
     { text: 'Australian Dollar', value: 'AUD' },

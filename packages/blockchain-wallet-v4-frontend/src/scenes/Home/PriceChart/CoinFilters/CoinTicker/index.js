@@ -9,15 +9,17 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 export class CoinTickerContainer extends React.PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     this.props.actions.initialized(this.props.coin)
   }
 
-  render () {
+  render() {
     const { data, selected, handleClick } = this.props
 
     return data.cata({
-      Success: value => <Success {...value} selected={selected} handleClick={handleClick} />,
+      Success: value => (
+        <Success {...value} selected={selected} handleClick={handleClick} />
+      ),
       Failure: message => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
@@ -39,4 +41,7 @@ CoinTickerContainer.propTypes = {
   selected: PropTypes.bool.isRequired
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CoinTickerContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CoinTickerContainer)

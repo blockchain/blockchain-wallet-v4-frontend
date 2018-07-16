@@ -3,20 +3,34 @@ import { prop, compose, isNil } from 'ramda'
 import * as A from './actions'
 import BIP39 from 'bip39'
 import { KVStoreEntry } from '../../../types'
-import { getMnemonic, getGuid, getMainPassword, getSharedKey } from '../../wallet/selectors'
-const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
+import {
+  getMnemonic,
+  getGuid,
+  getMainPassword,
+  getSharedKey
+} from '../../wallet/selectors'
+const taskToPromise = t =>
+  new Promise((resolve, reject) => t.fork(reject, resolve))
 
 export default ({ api }) => {
-  const callTask = function * (task) {
-    return yield call(compose(taskToPromise, () => task))
+  const callTask = function*(task) {
+    return yield call(
+      compose(
+        taskToPromise,
+        () => task
+      )
+    )
   }
-  const createRoot = function * ({ password }) {
+  const createRoot = function*({ password }) {
     try {
       const obtainMnemonic = state => getMnemonic(state, password)
       const mnemonicT = yield select(obtainMnemonic)
       const mnemonic = yield call(() => taskToPromise(mnemonicT))
       const seedHex = BIP39.mnemonicToEntropy(mnemonic)
-      const getMetadataNode = compose(KVStoreEntry.deriveMetadataNode, KVStoreEntry.getMasterHDNode)
+      const getMetadataNode = compose(
+        KVStoreEntry.deriveMetadataNode,
+        KVStoreEntry.getMasterHDNode
+      )
       const metadataNode = getMetadataNode(seedHex)
       const metadata = metadataNode.toBase58()
       yield put(A.updateMetadataRoot({ metadata }))
@@ -25,7 +39,7 @@ export default ({ api }) => {
     }
   }
 
-  const fetchRoot = function * (secondPasswordSagaEnhancer) {
+  const fetchRoot = function*(secondPasswordSagaEnhancer) {
     try {
       const guid = yield select(getGuid)
       const sharedKey = yield select(getSharedKey)
@@ -34,7 +48,8 @@ export default ({ api }) => {
       const kv = KVStoreEntry.fromCredentials(guid, sharedKey, mainPassword)
       const newkv = yield callTask(api.fetchKVStore(kv))
       yield put(A.fetchMetadataRootSuccess(newkv))
-      if (isNil(prop('metadata', newkv.value))) { // no metadata node saved
+      if (isNil(prop('metadata', newkv.value))) {
+        // no metadata node saved
         const createRootenhanced = secondPasswordSagaEnhancer(createRoot)
         yield call(createRootenhanced, {})
       }

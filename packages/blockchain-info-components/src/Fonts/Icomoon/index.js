@@ -5,7 +5,7 @@ import IcomoonSvg from './fonts/icomoon.svg'
 import IcomoonTtf from './fonts/icomoon.ttf'
 
 const FontFace = (name, eot, svg, ttf, weight) => {
-  return (`
+  return `
     @font-face {
       font-family: '${name}';
       src: url(${eot});
@@ -16,10 +16,16 @@ const FontFace = (name, eot, svg, ttf, weight) => {
       font-style: normal;
       font-stretch: normal;
     }
-  `)
+  `
 }
 
-const Icomoon = FontFace('icomoon', IcomoonEot, IcomoonSvg, IcomoonTtf, 'normal')
+const Icomoon = FontFace(
+  'icomoon',
+  IcomoonEot,
+  IcomoonSvg,
+  IcomoonTtf,
+  'normal'
+)
 
 // Fonts management
 injectGlobal`

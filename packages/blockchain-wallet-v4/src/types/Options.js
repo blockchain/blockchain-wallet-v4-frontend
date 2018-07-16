@@ -18,11 +18,14 @@ export const selectLogoutTime = view(logoutTime)
 
 export const setLogoutTime = set(logoutTime)
 
-export const toJS = pipe(Options.guard, (txnotes) => {
-  return txnotes.toObject()
-})
+export const toJS = pipe(
+  Options.guard,
+  txnotes => {
+    return txnotes.toObject()
+  }
+)
 
-export const fromJS = (object) => {
+export const fromJS = object => {
   if (isOptions(object)) {
     return object
   } else {
@@ -30,7 +33,7 @@ export const fromJS = (object) => {
   }
 }
 
-export const reviver = (object) => {
+export const reviver = object => {
   return new Options(object)
 }
 

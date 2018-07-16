@@ -22,33 +22,44 @@ const Wrapper = styled.div`
 `
 
 class PageContainer extends React.Component {
-  componentDidMount () {
-    ReactDOM.findDOMNode(this.refs.page).addEventListener('scroll', this.debounce(this.updateScroll.bind(this), 1000))
+  componentDidMount() {
+    ReactDOM.findDOMNode(this.refs.page).addEventListener(
+      'scroll',
+      this.debounce(this.updateScroll.bind(this), 1000)
+    )
   }
 
-  componentDidUpdate (prevProps) {
-    if (prevProps.children.props.computedMatch.url !== this.props.children.props.computedMatch.url) {
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.children.props.computedMatch.url !==
+      this.props.children.props.computedMatch.url
+    ) {
       ReactDOM.findDOMNode(this).scrollTop = 0
     }
   }
 
-  componentWillUnmount () {
-    if (this.timeout) { clearTimeout(this.timeout) }
-    ReactDOM.findDOMNode(this.refs.page).removeEventListener('scroll', this.debounce(this.updateScroll.bind(this), 1000))
+  componentWillUnmount() {
+    if (this.timeout) {
+      clearTimeout(this.timeout)
+    }
+    ReactDOM.findDOMNode(this.refs.page).removeEventListener(
+      'scroll',
+      this.debounce(this.updateScroll.bind(this), 1000)
+    )
   }
 
-  debounce (func, wait) {
+  debounce(func, wait) {
     var timeout
-    return function () {
+    return function() {
       clearTimeout(timeout)
-      timeout = setTimeout(function () {
+      timeout = setTimeout(function() {
         timeout = null
         func.apply(this)
       }, wait)
     }
   }
 
-  updateScroll () {
+  updateScroll() {
     const element = ReactDOM.findDOMNode(this)
     const xOffset = element.scrollLeft
     const yOffset = element.scrollTop
@@ -57,13 +68,16 @@ class PageContainer extends React.Component {
     this.props.scrollActions.updateScroll(xOffset, yOffset, xMax, yMax)
   }
 
-  render () {
-    return <Wrapper ref='page' children={this.props.children} />
+  render() {
+    return <Wrapper ref="page" children={this.props.children} />
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   scrollActions: bindActionCreators(actions.scroll, dispatch)
 })
 
-export default connect(undefined, mapDispatchToProps)(PageContainer)
+export default connect(
+  undefined,
+  mapDispatchToProps
+)(PageContainer)

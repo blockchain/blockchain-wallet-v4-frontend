@@ -4,15 +4,19 @@ import { lift, prop } from 'ramda'
 import { selectors } from 'data'
 import { getCountryCodeFromIban } from 'services/CoinifyService'
 
-export const getData = (state) => {
-  const insertSpaces = (str) => {
+export const getData = state => {
+  const insertSpaces = str => {
     const s = str.replace(/[^\dA-Z]/g, '')
-    return s.replace(/.{4}/g, (a) => a + ' ')
+    return s.replace(/.{4}/g, a => a + ' ')
   }
-  const iban = insertSpaces(formValueSelector('coinifyAddBankDetails')(state, 'iban'))
+  const iban = insertSpaces(
+    formValueSelector('coinifyAddBankDetails')(state, 'iban')
+  )
   const account = {
     account: {
-      currency: selectors.core.data.coinify.getFiatCurrency(state).getOrElse(null),
+      currency: selectors.core.data.coinify
+        .getFiatCurrency(state)
+        .getOrElse(null),
       bic: formValueSelector('coinifyAddBankDetails')(state, 'bic'),
       number: iban
     },
@@ -21,8 +25,14 @@ export const getData = (state) => {
       address: {
         street: formValueSelector('coinifyAddCustomerDetails')(state, 'street'),
         city: formValueSelector('coinifyAddCustomerDetails')(state, 'city'),
-        zipcode: formValueSelector('coinifyAddCustomerDetails')(state, 'postcode'),
-        country: formValueSelector('coinifyAddCustomerDetails')(state, 'country')
+        zipcode: formValueSelector('coinifyAddCustomerDetails')(
+          state,
+          'postcode'
+        ),
+        country: formValueSelector('coinifyAddCustomerDetails')(
+          state,
+          'country'
+        )
       }
     },
     bank: {
@@ -36,6 +46,6 @@ export const getData = (state) => {
   }
   const mediumsR = selectors.core.data.coinify.getMediums(state)
 
-  const transform = (mediums) => ({ account, medium: prop('bank', mediums) })
+  const transform = mediums => ({ account, medium: prop('bank', mediums) })
   return lift(transform)(mediumsR)
 }

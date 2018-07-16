@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import footerLogo from '../Images/img/bc-name-and-logo-dark-blue.svg'
@@ -17,12 +16,21 @@ const Container = styled.footer`
   padding: 30px 0;
   text-transform: uppercase;
   width: 100%;
-  &.hidden { display: none }
+  &.hidden {
+    display: none;
+  }
   a {
     font-weight: 300;
-    &:hover { text-decoration: underline }
+    &:hover {
+      text-decoration: underline;
+    }
   }
-  a, a:active, a:hover, a:visited { color: ${props => props.theme['brand-primary']} }
+  a,
+  a:active,
+  a:hover,
+  a:visited {
+    color: ${props => props.theme['brand-primary']};
+  }
   .flex-container {
     display: flex;
     flex-flow: row nowrap;
@@ -68,7 +76,9 @@ const Container = styled.footer`
       }
       &.footer-logo {
         width: 175px;
-        img { width: inherit }
+        img {
+          width: inherit;
+        }
       }
       h6 {
         color: ${props => props.theme['brand-primary']};
@@ -101,7 +111,8 @@ const Container = styled.footer`
               margin-top: 4px;
             }
           }
-          &:first-of-type, &:nth-of-type(6) {
+          &:first-of-type,
+          &:nth-of-type(6) {
             border-top: 1px solid ${props => props.theme['brand-primary']};
             margin-top: 3px;
             padding-top: 8px;
@@ -116,8 +127,10 @@ const Container = styled.footer`
               padding-top: 0;
             }
           }
-          &:nth-of-type(6), &:nth-of-type(7),
-          &:nth-of-type(8), &:nth-of-type(9) {
+          &:nth-of-type(6),
+          &:nth-of-type(7),
+          &:nth-of-type(8),
+          &:nth-of-type(9) {
             padding-left: 30px;
             @media screen and (max-width: 768px) {
               padding-left: 0;
@@ -127,18 +140,31 @@ const Container = styled.footer`
             @media screen and (max-width: 768px) {
               font-size: 14px;
             }
-            img { width: inherit }
+            img {
+              width: inherit;
+            }
           }
         }
       }
       .dropup {
         font-weight: 300;
         margin-top: 10px;
-        &:nth-of-type(2) { margin-bottom: 10px }
-        a, a:active, a:hover, a:visited { text-decoration: none }
-        span.colon { font-size: 12px }
+        &:nth-of-type(2) {
+          margin-bottom: 10px;
+        }
+        a,
+        a:active,
+        a:hover,
+        a:visited {
+          text-decoration: none;
+        }
+        span.colon {
+          font-size: 12px;
+        }
         @media screen and (max-width: 768px) {
-          span { font-size: 14px }
+          span {
+            font-size: 14px;
+          }
         }
         .dropdown-menu {
           overflow: scroll;
@@ -165,7 +191,9 @@ const Container = styled.footer`
           display: inline-block;
           margin: 5px 10px 0 0;
         }
-        &:hover { text-decoration: underline }
+        &:hover {
+          text-decoration: underline;
+        }
       }
       span {
         font-weight: 300;
@@ -190,8 +218,12 @@ const Container = styled.footer`
           margin: 0 15px 0 0;
           width: 42px;
         }
-        &:hover { text-decoration: none }
-        &:last-of-type { margin-right: 0 }
+        &:hover {
+          text-decoration: none;
+        }
+        &:last-of-type {
+          margin-right: 0;
+        }
       }
     }
   }
@@ -214,7 +246,9 @@ const Container = styled.footer`
   }
   @media (max-width: 767px) {
     .bc-logo-footer {
-      img, a, .drop-up {
+      img,
+      a,
+      .drop-up {
         margin-left: 0px;
         margin-bottom: 40px;
       }
@@ -223,72 +257,118 @@ const Container = styled.footer`
 `
 
 class Footer extends Component {
-  render () {
+  render() {
     return (
       <Container>
-        <div className='flex-container'>
-          <div className='footer-logo'>
-            <img alt='Blockchain Logo' src={footerLogo} />
+        <div className="flex-container">
+          <div className="footer-logo">
+            <img alt="Blockchain Logo" src={footerLogo} />
           </div>
           <div>
             <h6>Products</h6>
             <ol>
-              <li><a href='https://blockchain.info/wallet'>Wallet</a></li>
-              <li><a href='https://blockchain.info/api'>API</a></li>
-              <li><a href='https://blockchain.com/enterprise'>Business</a></li>
-              <li><a href='https://blockchain.com/thunder'>Thunder</a></li>
-              <li><a href='https://blockchain.com/research'>Research</a></li>
-              <li><a href='https://blockchain.info'>Explorer</a></li>
-              <li><a href='https://blockchain.info/charts'>Charts</a></li>
-              <li><a href='https://blockchain.info/markets'>Markets</a></li>
-              <li><a href='https://blockchain.info/stats'>Stats</a></li>
+              <li>
+                <a href="https://blockchain.info/wallet">Wallet</a>
+              </li>
+              <li>
+                <a href="https://blockchain.info/api">API</a>
+              </li>
+              <li>
+                <a href="https://blockchain.com/enterprise">Business</a>
+              </li>
+              <li>
+                <a href="https://blockchain.com/thunder">Thunder</a>
+              </li>
+              <li>
+                <a href="https://blockchain.com/research">Research</a>
+              </li>
+              <li>
+                <a href="https://blockchain.info">Explorer</a>
+              </li>
+              <li>
+                <a href="https://blockchain.info/charts">Charts</a>
+              </li>
+              <li>
+                <a href="https://blockchain.info/markets">Markets</a>
+              </li>
+              <li>
+                <a href="https://blockchain.info/stats">Stats</a>
+              </li>
             </ol>
           </div>
           <div>
             <h6>Company</h6>
             <ol>
-              <li><a href='https://blockchain.com/about'>About</a></li>
-              <li><a href='https://blockchain.com/team'>Team</a></li>
-              <li><a href='https://blockchain.com/careers'>Careers</a></li>
-              <li><a href='https://blockchain.com/interview'>Interviewing</a></li>
-              <li><a href='https://blockchain.com/faq'>FAQ</a></li>
-              <li><a href='https://blockchain.com/press'>Press</a></li>
-              <li><a href='https://blog.blockchain.com'>Blog</a></li>
+              <li>
+                <a href="https://blockchain.com/about">About</a>
+              </li>
+              <li>
+                <a href="https://blockchain.com/team">Team</a>
+              </li>
+              <li>
+                <a href="https://blockchain.com/careers">Careers</a>
+              </li>
+              <li>
+                <a href="https://blockchain.com/interview">Interviewing</a>
+              </li>
+              <li>
+                <a href="https://blockchain.com/faq">FAQ</a>
+              </li>
+              <li>
+                <a href="https://blockchain.com/press">Press</a>
+              </li>
+              <li>
+                <a href="https://blog.blockchain.com">Blog</a>
+              </li>
             </ol>
           </div>
           <div>
             <h6>Support</h6>
             <ol>
-              <li><a href='https://support.blockchain.com'>Help Center</a></li>
-              <li><a href='https://blog.blockchain.com/category/tutorials-and-guides/'>Tutorials</a></li>
-              <li><a href='https://blockchain.info/wallet/bitcoin-faq'>Learning Portal</a></li>
-              <li><a href='https://www.blockchain-status.com'>Status</a></li>
+              <li>
+                <a href="https://support.blockchain.com">Help Center</a>
+              </li>
+              <li>
+                <a href="https://blog.blockchain.com/category/tutorials-and-guides/">
+                  Tutorials
+                </a>
+              </li>
+              <li>
+                <a href="https://blockchain.info/wallet/bitcoin-faq">
+                  Learning Portal
+                </a>
+              </li>
+              <li>
+                <a href="https://www.blockchain-status.com">Status</a>
+              </li>
             </ol>
           </div>
         </div>
-        <div className='flex-container'>
-          <div className='copyright'>
-            <span>&copy;&nbsp;2018 Blockchain Luxembourg S.A. All Rights Reserved.</span>
-            <a href='https://blockchain.com/privacy'>Privacy</a>
-            <a href='https://blockchain.com/terms'>Terms</a>
-            <a href='/https://blockchain.com/legal'>Law Enforcement Guide</a>
-            <a href='https://blockchain.info/advertise'>Advertise</a>
+        <div className="flex-container">
+          <div className="copyright">
+            <span>
+              &copy;&nbsp;2018 Blockchain Luxembourg S.A. All Rights Reserved.
+            </span>
+            <a href="https://blockchain.com/privacy">Privacy</a>
+            <a href="https://blockchain.com/terms">Terms</a>
+            <a href="/https://blockchain.com/legal">Law Enforcement Guide</a>
+            <a href="https://blockchain.info/advertise">Advertise</a>
           </div>
-          <div className='social-media'>
-            <a href='https://play.google.com/store/apps/details?id=piuk.blockchain.android&hl=en'>
-              <img alt='Android App Icon' src={androidFooterLogo} />
+          <div className="social-media">
+            <a href="https://play.google.com/store/apps/details?id=piuk.blockchain.android&hl=en">
+              <img alt="Android App Icon" src={androidFooterLogo} />
             </a>
-            <a href='https://itunes.apple.com/us/app/blockchain-bitcoin-wallet/id493253309?mt=8'>
-              <img alt='iOS App Icon' src={appleFooterLogo} />
+            <a href="https://itunes.apple.com/us/app/blockchain-bitcoin-wallet/id493253309?mt=8">
+              <img alt="iOS App Icon" src={appleFooterLogo} />
             </a>
-            <a href='https://twitter.com/blockchain'>
-              <img alt='Twitter Icon' src={twitterFooterLogo} />
+            <a href="https://twitter.com/blockchain">
+              <img alt="Twitter Icon" src={twitterFooterLogo} />
             </a>
-            <a href='https://www.linkedin.com/company/blockchain'>
-              <img alt='LinkedIn Icon' src={linkedinFooterLogo} />
+            <a href="https://www.linkedin.com/company/blockchain">
+              <img alt="LinkedIn Icon" src={linkedinFooterLogo} />
             </a>
-            <a href='https://www.facebook.com/blockchain/'>
-              <img alt='Facebook Icon' src={facebookFooterLogo} />
+            <a href="https://www.facebook.com/blockchain/">
+              <img alt="Facebook Icon" src={facebookFooterLogo} />
             </a>
           </div>
         </div>

@@ -5,7 +5,7 @@ import { actions, selectors } from 'data'
 export default ({ coreSagas }) => {
   const logLocation = 'components/btcTransactions/sagas'
 
-  const initialized = function * () {
+  const initialized = function*() {
     try {
       const defaultSource = ''
       const initialValues = {
@@ -14,13 +14,15 @@ export default ({ coreSagas }) => {
         search: ''
       }
       yield put(actions.form.initialize('btcTransactions', initialValues))
-      yield put(actions.core.data.bitcoin.fetchTransactions(defaultSource, true))
+      yield put(
+        actions.core.data.bitcoin.fetchTransactions(defaultSource, true)
+      )
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
     }
   }
 
-  const reportClicked = function * () {
+  const reportClicked = function*() {
     try {
       yield put(actions.modals.showModal('TransactionReport', { coin: 'BTC' }))
     } catch (e) {
@@ -28,16 +30,20 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const scrollUpdated = function * (action) {
+  const scrollUpdated = function*(action) {
     try {
       const pathname = yield select(selectors.router.getPathname)
       if (!equals(pathname, '/btc/transactions')) return
-      const formValues = yield select(selectors.form.getFormValues('btcTransactions'))
+      const formValues = yield select(
+        selectors.form.getFormValues('btcTransactions')
+      )
       const source = prop('source', formValues)
       const threshold = 250
       const { yMax, yOffset } = action.payload
       if (yMax - yOffset < threshold) {
-        const onlyShow = equals(source, 'all') ? '' : (source.xpub || source.address)
+        const onlyShow = equals(source, 'all')
+          ? ''
+          : source.xpub || source.address
         yield put(actions.core.data.bitcoin.fetchTransactions(onlyShow, false))
       }
     } catch (e) {
@@ -45,7 +51,7 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const formChanged = function * (action) {
+  const formChanged = function*(action) {
     try {
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
@@ -54,7 +60,9 @@ export default ({ coreSagas }) => {
 
       switch (field) {
         case 'source':
-          const onlyShow = equals(payload, 'all') ? '' : (payload.xpub || payload.address)
+          const onlyShow = equals(payload, 'all')
+            ? ''
+            : payload.xpub || payload.address
           yield put(actions.core.data.bitcoin.fetchTransactions(onlyShow, true))
       }
     } catch (e) {

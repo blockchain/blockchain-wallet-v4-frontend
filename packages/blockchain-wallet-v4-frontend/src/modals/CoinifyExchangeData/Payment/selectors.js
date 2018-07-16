@@ -26,7 +26,7 @@ export const getData = createDeepEqualSelector(
 
 export const getQuote = createDeepEqualSelector(
   [selectors.core.data.coinify.getQuote],
-  (quoteR) => {
+  quoteR => {
     const transform = quote => quote
     return lift(transform)(quoteR)
   }

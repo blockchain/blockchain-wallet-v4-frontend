@@ -25,9 +25,7 @@ const Navbar = props => {
 
   return (
     <Wrapper fluid={fluid} height={height}>
-      <BaseNavbar {...rest}>
-        {children}
-      </BaseNavbar>
+      <BaseNavbar {...rest}>{children}</BaseNavbar>
     </Wrapper>
   )
 }

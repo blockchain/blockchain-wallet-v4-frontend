@@ -9,7 +9,9 @@ import { actions, selectors } from 'data'
 export const CoinFiltersContainer = props => {
   const { coin, actions } = props
 
-  return <CoinFilters coin={coin} handleClick={(coin) => actions.coinClicked(coin)} />
+  return (
+    <CoinFilters coin={coin} handleClick={coin => actions.coinClicked(coin)} />
+  )
 }
 
 CoinFiltersContainer.propTypes = {
@@ -24,4 +26,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.priceChart, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(CoinFiltersContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CoinFiltersContainer)

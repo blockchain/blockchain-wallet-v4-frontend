@@ -8,12 +8,13 @@ import shapeShift from './shapeShift/sagaRegister'
 import buySell from './buySell/sagaRegister'
 import contacts from './contacts/sagaRegister'
 
-export default ({ api }) => function * () {
-  yield fork(whatsNew({ api }))
-  yield fork(ethereum({ api }))
-  yield fork(bch({ api }))
-  yield fork(btc({ api }))
-  yield fork(shapeShift({ api }))
-  yield fork(buySell({ api }))
-  yield fork(contacts({ api }))
-}
+export default ({ api }) =>
+  function*() {
+    yield fork(whatsNew({ api }))
+    yield fork(ethereum({ api }))
+    yield fork(bch({ api }))
+    yield fork(btc({ api }))
+    yield fork(shapeShift({ api }))
+    yield fork(buySell({ api }))
+    yield fork(contacts({ api }))
+  }
