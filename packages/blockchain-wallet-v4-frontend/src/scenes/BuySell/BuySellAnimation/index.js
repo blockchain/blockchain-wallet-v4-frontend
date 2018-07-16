@@ -114,7 +114,7 @@ const Eth = styled.div`
 `
 
 class BuySellAnimation extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       base: false,
@@ -124,7 +124,7 @@ class BuySellAnimation extends React.PureComponent {
     }
   }
 
-  static getDerivedStateFromProps(nextProps) {
+  static getDerivedStateFromProps (nextProps) {
     const sfoxCountries = path(
       ['options', 'platforms', 'web', 'sfox', 'countries'],
       nextProps
@@ -170,28 +170,28 @@ class BuySellAnimation extends React.PureComponent {
     }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     setTimeout(() => this.setState({ base: true }), 1)
   }
 
-  render() {
+  render () {
     const { base, btc, bch, eth } = this.state
 
     return (
       <Wrapper>
-        <Image name="buy-sell-grey" />
-        <BaseColor name="buy-sell-color" className={base && 'active'} />
+        <Image name='buy-sell-grey' />
+        <BaseColor name='buy-sell-color' className={base && 'active'} />
         <Btc className={btc}>
-          <Image name="buy-sell-buy-btc" className="buy" />
-          <Image name="buy-sell-sell-btc" className="sell" />
+          <Image name='buy-sell-buy-btc' className='buy' />
+          <Image name='buy-sell-sell-btc' className='sell' />
         </Btc>
         <Bch className={bch}>
-          <Image name="buy-sell-buy-bch" className="buy" />
-          <Image name="buy-sell-sell-bch" className="sell" />
+          <Image name='buy-sell-buy-bch' className='buy' />
+          <Image name='buy-sell-sell-bch' className='sell' />
         </Bch>
         <Eth className={eth}>
-          <Image name="buy-sell-buy-eth" className="buy" />
-          <Image name="buy-sell-sell-eth" className="sell" />
+          <Image name='buy-sell-buy-eth' className='buy' />
+          <Image name='buy-sell-sell-eth' className='sell' />
         </Eth>
       </Wrapper>
     )

@@ -15,15 +15,15 @@ const Settings = props => {
     <SettingWrapper>
       <Text>
         <FormattedMessage
-          id="scenes.preferences.autologout.settings.minutes"
-          defaultMessage="{time} minutes"
+          id='scenes.preferences.autologout.settings.minutes'
+          defaultMessage='{time} minutes'
           values={{ time: logoutTime }}
         />
       </Text>
-      <Button nature="primary" onClick={handleToggle}>
+      <Button nature='primary' onClick={handleToggle}>
         <FormattedMessage
-          id="scenes.preferences.autologout.settings.updateform.change"
-          defaultMessage="Change"
+          id='scenes.preferences.autologout.settings.updateform.change'
+          defaultMessage='Change'
         />
       </Button>
     </SettingWrapper>

@@ -55,43 +55,43 @@ const RecurringTradeItem = props => {
   return (
     <RecurringTableRow border={border} padding={padding}>
       <StatusContainer>
-        <TableCell width="15%">
+        <TableCell width='15%'>
           <OrderStatus status={trade.state} isBuy={trade.isBuy} />
         </TableCell>
-        <TableCell width="15%">
+        <TableCell width='15%'>
           {trade.state === 'awaiting_transfer_in' && trade.medium === 'card' ? (
             <Link
-              size="13px"
+              size='13px'
               weight={300}
               capitalize
               onClick={() => handleFinish(trade)}
             >
               <FormattedMessage
-                id="buysell.orderhistory.finishtrade"
-                defaultMessage="Finish Trade"
+                id='buysell.orderhistory.finishtrade'
+                defaultMessage='Finish Trade'
               />
             </Link>
           ) : (
             <Link
-              size="13px"
+              size='13px'
               weight={300}
               capitalize
               onClick={() => handleClick(trade)}
             >
               <FormattedMessage
-                id="buysell.orderhistory.list.details"
-                defaultMessage="View details"
+                id='buysell.orderhistory.list.details'
+                defaultMessage='View details'
               />
             </Link>
           )}
         </TableCell>
       </StatusContainer>
-      <TableCell width="30%" mobileWidth="20%">
+      <TableCell width='30%' mobileWidth='20%'>
         <MediaContextConsumer>
           {({ mobile }) => (
             <Text
               opacity={trade.state === 'processing'}
-              size="13px"
+              size='13px'
               weight={300}
             >
               {tradeDateHelper(trade, mobile)}
@@ -99,32 +99,32 @@ const RecurringTradeItem = props => {
           )}
         </MediaContextConsumer>
       </TableCell>
-      <TableCell width="20%" mobileWidth="25%">
+      <TableCell width='20%' mobileWidth='25%'>
         <Text
           opacity={trade.state === 'processing'}
-          size="13px"
+          size='13px'
           weight={300}
         >{`${exchangeAmount} ${trade.inCurrency}`}</Text>
       </TableCell>
-      <TableCell width="20%">
-        <TableCell width="80%">
+      <TableCell width='20%'>
+        <TableCell width='80%'>
           <Text
             opacity={trade.state === 'processing'}
-            size="13px"
+            size='13px'
             weight={300}
           >{`${receiveAmount} ${trade.outCurrency}`}</Text>
         </TableCell>
-        <TableCell width="20%">
+        <TableCell width='20%'>
           {canCancel && status && cancelTradeId === trade.id ? (
-            <HeartbeatLoader color="red" height="15px" width="15px" />
+            <HeartbeatLoader color='red' height='15px' width='15px' />
           ) : canCancel && cancelTradeId !== trade.id ? (
             <Icon
               cursor
               onClick={() => handleTradeCancel(trade)}
-              name="trash"
-              size="14px"
+              name='trash'
+              size='14px'
               weight={300}
-              color="error"
+              color='error'
             />
           ) : null}
         </TableCell>

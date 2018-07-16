@@ -59,20 +59,20 @@ const WalletRecoveryPhrase = props => {
     if (!ui.nextStepToggled) {
       if (!alone && isMnemonicVerified) {
         const againBtn = (
-          <BackupButton nature="primary" onClick={props.toggleNextStep}>
+          <BackupButton nature='primary' onClick={props.toggleNextStep}>
             <FormattedMessage
-              id="scenes.securitysettings.basicsecurity.walletrecovery.settings.backupagain"
-              defaultMessage="Backup Again"
+              id='scenes.securitysettings.basicsecurity.walletrecovery.settings.backupagain'
+              defaultMessage='Backup Again'
             />
           </BackupButton>
         )
         return securityComponent(againBtn)
       } else if (!alone) {
         const backupBtn = (
-          <BackupButton nature="primary" onClick={props.toggleNextStep}>
+          <BackupButton nature='primary' onClick={props.toggleNextStep}>
             <FormattedMessage
-              id="scenes.securitysettings.basicsecurity.walletrecovery.settings.backupfunds"
-              defaultMessage="Backup Funds"
+              id='scenes.securitysettings.basicsecurity.walletrecovery.settings.backupfunds'
+              defaultMessage='Backup Funds'
             />
           </BackupButton>
         )
@@ -86,13 +86,13 @@ const WalletRecoveryPhrase = props => {
       <SecurityGridContainer>
         <IconAndHeaderContainer>
           <IconContainer>
-            <SecurityIcon name="pencil" enabled={isMnemonicVerified} />
+            <SecurityIcon name='pencil' enabled={isMnemonicVerified} />
           </IconContainer>
           <SecuritySummary>
             <SecurityHeader greyOut={isMnemonicVerified && ui.nextStepToggled}>
               <FormattedMessage
-                id="scenes.securitysettings.basicsecurity.recoveryphrase.title"
-                defaultMessage="Backup Phrase"
+                id='scenes.securitysettings.basicsecurity.recoveryphrase.title'
+                defaultMessage='Backup Phrase'
               />
             </SecurityHeader>
             <SecurityDescription
@@ -101,18 +101,18 @@ const WalletRecoveryPhrase = props => {
               {!ui.descriptionToggled ? (
                 <span>
                   <FormattedMessage
-                    id="scenes.securitysettings.basicsecurity.recoveryphrase.description"
-                    defaultMessage="Your backup phrase contains all of the private keys within your wallet. Please write these 12 words down, in order, and keep them somewhere safe offline. This phrase gives you (or anyone who has it) a way to restore your wallet and access your funds. "
+                    id='scenes.securitysettings.basicsecurity.recoveryphrase.description'
+                    defaultMessage='Your backup phrase contains all of the private keys within your wallet. Please write these 12 words down, in order, and keep them somewhere safe offline. This phrase gives you (or anyone who has it) a way to restore your wallet and access your funds. '
                   />
                   <FormattedMessage
-                    id="scenes.securitysettings.basicsecurity.recoveryphrase.description2"
-                    defaultMessage="In the event that you lose your password or our service is unavailable, this will be your safety net."
+                    id='scenes.securitysettings.basicsecurity.recoveryphrase.description2'
+                    defaultMessage='In the event that you lose your password or our service is unavailable, this will be your safety net.'
                   />
                 </span>
               ) : (
                 <FormattedMessage
-                  id="scenes.securitysettings.basicsecurity.recoveryphrase.description.verifyphrase "
-                  defaultMessage="Using the 12 words you just wrote down, please enter the following words exactly as you see them to complete the backup process."
+                  id='scenes.securitysettings.basicsecurity.recoveryphrase.description.verifyphrase '
+                  defaultMessage='Using the 12 words you just wrote down, please enter the following words exactly as you see them to complete the backup process.'
                 />
               )}
             </SecurityDescription>
@@ -137,20 +137,20 @@ const WalletRecoveryPhrase = props => {
       {alone ? (
         <SecurityTipContainer>
           <Text
-            color="brand-primary"
-            size="14px"
+            color='brand-primary'
+            size='14px'
             weight={500}
             style={{ marginBottom: '4px' }}
           >
             <FormattedMessage
-              id="scenes.securitysettings.basicsecurity.walletrecovery.settings.securitytip"
-              defaultMessage="Security Tip"
+              id='scenes.securitysettings.basicsecurity.walletrecovery.settings.securitytip'
+              defaultMessage='Security Tip'
             />
           </Text>
-          <Text weight={200} size="12px">
+          <Text weight={200} size='12px'>
             <FormattedMessage
-              id="scenes.securitysettings.basicsecurity.walletrecovery.settings.donotstore"
-              defaultMessage="Do not store your backup phrase on your computer or anywhere online. It is very important to keep your backup phrase offline in a private place. As a reminder: anyone with access to your backup phrase can access your funds."
+              id='scenes.securitysettings.basicsecurity.walletrecovery.settings.donotstore'
+              defaultMessage='Do not store your backup phrase on your computer or anywhere online. It is very important to keep your backup phrase offline in a private place. As a reminder: anyone with access to your backup phrase can access your funds.'
             />
           </Text>
         </SecurityTipContainer>

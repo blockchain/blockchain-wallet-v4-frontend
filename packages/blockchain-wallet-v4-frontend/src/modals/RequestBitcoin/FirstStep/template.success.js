@@ -53,13 +53,13 @@ const FirstStep = props => {
     <Form onSubmit={handleSubmit}>
       <CoinSelector margin={'20px'}>
         <FormItem>
-          <FormLabel for="coin">
+          <FormLabel for='coin'>
             <FormattedMessage
-              id="modals.sendbitcoin.firststep.coin"
-              defaultMessage="Currency:"
+              id='modals.sendbitcoin.firststep.coin'
+              defaultMessage='Currency:'
             />
           </FormLabel>
-          <Field name="coin" component={SelectBoxCoin} validate={[required]} />
+          <Field name='coin' component={SelectBoxCoin} validate={[required]} />
         </FormItem>
       </CoinSelector>
       <FormGroup margin={'5px'}>
@@ -67,25 +67,25 @@ const FirstStep = props => {
           <AddressFormLabel>
             <div>
               <FormattedMessage
-                id="modals.requestbitcoin.firststep.share"
-                defaultMessage="Copy & Share Address: "
+                id='modals.requestbitcoin.firststep.share'
+                defaultMessage='Copy & Share Address: '
               />
               <Tooltip>
                 <FormattedMessage
-                  id="modals.requestbitcoin.firststep.sharetooltip"
-                  defaultMessage="Share this address with others, and they can send you BTC directly to your wallet. Your address changes with every payment. You can also create a request by attaching an amount below."
+                  id='modals.requestbitcoin.firststep.sharetooltip'
+                  defaultMessage='Share this address with others, and they can send you BTC directly to your wallet. Your address changes with every payment. You can also create a request by attaching an amount below.'
                 />
               </Tooltip>
             </div>
             <QRText
-              size="14px"
+              size='14px'
               weight={300}
-              color="brand-secondary"
+              color='brand-secondary'
               onClick={handleClickQRCode}
             >
               <FormattedMessage
-                id="modals.requestbitcoin.firststep.qrcode"
-                defaultMessage="QR Code"
+                id='modals.requestbitcoin.firststep.qrcode'
+                defaultMessage='QR Code'
               />
             </QRText>
           </AddressFormLabel>
@@ -95,39 +95,39 @@ const FirstStep = props => {
         </FormItem>
       </FormGroup>
       <Separator margin={'20px 0'}>
-        <Text size="14px" weight={300} uppercase>
+        <Text size='14px' weight={300} uppercase>
           <FormattedMessage
-            id="modals.requestbitcoin.firststep.or"
-            defaultMessage="Or"
+            id='modals.requestbitcoin.firststep.or'
+            defaultMessage='Or'
           />
         </Text>
       </Separator>
       <FormGroup margin={'15px'}>
         <FormItem>
-          <FormLabel for="amount">
+          <FormLabel for='amount'>
             <FormattedMessage
-              id="modals.requestbitcoin.firststep.amount"
-              defaultMessage="Enter Amount:"
+              id='modals.requestbitcoin.firststep.amount'
+              defaultMessage='Enter Amount:'
             />
           </FormLabel>
           <Field
-            name="amount"
+            name='amount'
             component={FiatConvertor}
             validate={[required, invalidAmountMin, invalidAmountMax]}
-            coin="BTC"
+            coin='BTC'
           />
         </FormItem>
       </FormGroup>
       <FormGroup margin={'15px'}>
         <FormItem>
-          <FormLabel for="to">
+          <FormLabel for='to'>
             <FormattedMessage
-              id="modals.requestbitcoin.firststep.to"
-              defaultMessage="Receive To:"
+              id='modals.requestbitcoin.firststep.to'
+              defaultMessage='Receive To:'
             />
           </FormLabel>
           <Field
-            name="to"
+            name='to'
             component={SelectBoxBitcoinAddresses}
             includeAll={false}
             validate={[required]}
@@ -136,14 +136,14 @@ const FirstStep = props => {
       </FormGroup>
       <FormGroup margin={'20px'}>
         <FormItem>
-          <FormLabel for="message">
+          <FormLabel for='message'>
             <FormattedMessage
-              id="modals.requestbitcoin.firststep.description"
-              defaultMessage="Description:"
+              id='modals.requestbitcoin.firststep.description'
+              defaultMessage='Description:'
             />
           </FormLabel>
           <Field
-            name="message"
+            name='message'
             component={TextArea}
             validate={[required]}
             placeholder="What's this transaction for?"
@@ -152,15 +152,15 @@ const FirstStep = props => {
       </FormGroup>
       <FormGroup>
         <Button
-          type="submit"
-          nature="primary"
+          type='submit'
+          nature='primary'
           fullwidth
           uppercase
           disabled={submitting || invalid}
         >
           <FormattedMessage
-            id="modals.requestbitcoin.firststep.next"
-            defaultMessage="Next"
+            id='modals.requestbitcoin.firststep.next'
+            defaultMessage='Next'
           />
         </Button>
       </FormGroup>

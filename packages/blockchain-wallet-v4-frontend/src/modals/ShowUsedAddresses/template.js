@@ -32,55 +32,55 @@ const ShowUsedAddresses = props => {
   const { handleContinue } = rest
 
   return (
-    <Modal size="large" position={position} total={total}>
+    <Modal size='large' position={position} total={total}>
       <ModalHeader onClose={close}>
         <HeaderWrapper>
           <Icon
-            name="alert-filled"
-            size="26px"
+            name='alert-filled'
+            size='26px'
             className={'warning-icon'}
-            color="brand-yellow"
+            color='brand-yellow'
           />
           <FormattedMessage
-            id="modals.showusedaddresses.title"
-            defaultMessage="Are you sure?"
+            id='modals.showusedaddresses.title'
+            defaultMessage='Are you sure?'
           />
         </HeaderWrapper>
       </ModalHeader>
       <ModalBody>
-        <Text size="14px" weight={300}>
+        <Text size='14px' weight={300}>
           <FormattedMessage
-            id="modals.showusedaddresses.message"
-            defaultMessage="Viewing used addresses can be helpful for debugging purposes, and is recommended for advanced users only. For privacy reasons, we strongly discourage using each address more than once."
+            id='modals.showusedaddresses.message'
+            defaultMessage='Viewing used addresses can be helpful for debugging purposes, and is recommended for advanced users only. For privacy reasons, we strongly discourage using each address more than once.'
           />
         </Text>
       </ModalBody>
-      <ModalFooter align="right">
+      <ModalFooter align='right'>
         <CancelBtn
-          size="small"
+          size='small'
           weight={300}
           style={spacing('mr-15')}
           onClick={close}
         >
           <FormattedMessage
-            id="modals.showusedaddresses.cancel"
-            defaultMessage="Cancel"
+            id='modals.showusedaddresses.cancel'
+            defaultMessage='Cancel'
           />
         </CancelBtn>
         <Button
           uppercase
-          nature="primary"
-          type="submit"
+          nature='primary'
+          type='submit'
           onClick={handleContinue}
           disabled={busy}
         >
           {!busy ? (
             <FormattedMessage
-              id="modals.showusedaddresses.ok"
-              defaultMessage="OK"
+              id='modals.showusedaddresses.ok'
+              defaultMessage='OK'
             />
           ) : (
-            <HeartbeatLoader height="20px" width="20px" color="white" />
+            <HeartbeatLoader height='20px' width='20px' color='white' />
           )}
         </Button>
       </ModalFooter>

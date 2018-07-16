@@ -7,7 +7,7 @@ import { Palette } from '../../'
 import { keysIn } from 'ramda'
 
 class SimpleDropdown extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     this.state = {
@@ -20,22 +20,22 @@ class SimpleDropdown extends React.PureComponent {
     this.handleCallback = this.handleCallback.bind(this)
   }
 
-  handleClick() {
+  handleClick () {
     this.setState({ toggled: !this.state.toggled })
   }
 
-  handleClickOutside() {
+  handleClickOutside () {
     this.setState({ toggled: false })
   }
 
-  handleCallback(item) {
+  handleCallback (item) {
     this.setState({ toggled: false, selectedItem: item })
     if (this.props.callback) {
       this.props.callback(item)
     }
   }
 
-  render() {
+  render () {
     const { ...rest } = this.props
 
     return (

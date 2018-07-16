@@ -3,17 +3,17 @@ import React from 'react'
 import SecurityTabs from './template.js'
 
 class SecurityTabsContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     this.setActive = this.setActive.bind(this)
     this.state = { active: 'security' }
   }
 
-  setActive(active) {
+  setActive (active) {
     this.setState({ active })
   }
-  render() {
+  render () {
     // const { data } = this.props
     return (
       <SecurityTabs

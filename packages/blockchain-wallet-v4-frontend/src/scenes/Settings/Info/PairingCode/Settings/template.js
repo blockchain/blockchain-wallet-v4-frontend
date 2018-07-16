@@ -7,10 +7,10 @@ const Settings = props => {
   const { handleClick } = props
 
   return (
-    <Button nature="primary" onClick={handleClick}>
+    <Button nature='primary' onClick={handleClick}>
       <FormattedMessage
-        id="scenes.info.pairingcode.settings.show"
-        defaultMessage="Show Pairing Code"
+        id='scenes.info.pairingcode.settings.show'
+        defaultMessage='Show Pairing Code'
       />
     </Button>
   )

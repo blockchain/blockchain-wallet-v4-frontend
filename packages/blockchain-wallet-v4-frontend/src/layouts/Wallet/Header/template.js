@@ -30,17 +30,17 @@ const BlockchainLogoImage = styled(Image)`
 
 const Header = props => (
   <React.Fragment>
-    <Navbar height="60px">
+    <Navbar height='60px'>
       <NavbarHeader>
         <NavbarBrand>
           <Icon
-            name="hamburger-menu"
-            color="white"
-            size="16px"
+            name='hamburger-menu'
+            color='white'
+            size='16px'
             onClick={props.handleToggle}
           />
-          <NavLink to="/home">
-            <BlockchainLogoImage name="blockchain-vector" />
+          <NavLink to='/home'>
+            <BlockchainLogoImage name='blockchain-vector' />
           </NavLink>
         </NavbarBrand>
       </NavbarHeader>
@@ -62,7 +62,7 @@ const Header = props => (
         </NavbarNav>
       </NavbarMenu>
     </Navbar>
-    <ServiceAnnouncement alertArea="wallet" />
+    <ServiceAnnouncement alertArea='wallet' />
   </React.Fragment>
 )
 

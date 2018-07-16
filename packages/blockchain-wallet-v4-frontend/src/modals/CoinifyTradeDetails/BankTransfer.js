@@ -22,16 +22,16 @@ const BankTransfer = ({ trade, close }) => {
       <ModalHeader onClose={close}>
         <Text color={'transferred'}>
           <FormattedMessage
-            id="modals.coinifytradedetails.banktransfer.header"
-            defaultMessage="Buy Trade Awaiting Funds"
+            id='modals.coinifytradedetails.banktransfer.header'
+            defaultMessage='Buy Trade Awaiting Funds'
           />
         </Text>
       </ModalHeader>
       <ModalBody>
         <BankTransferDetails trade={trade} inModal />
         <ButtonRow>
-          <Button width="100px" onClick={close} nature="primary">
-            <FormattedMessage id="close" defaultMessage="Close" />
+          <Button width='100px' onClick={close} nature='primary'>
+            <FormattedMessage id='close' defaultMessage='Close' />
           </Button>
         </ButtonRow>
       </ModalBody>

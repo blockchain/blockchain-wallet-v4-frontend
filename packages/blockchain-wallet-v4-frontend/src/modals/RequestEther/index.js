@@ -14,18 +14,18 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
 
 class RequestEtherContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.init = this.init.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
     this.handleRefresh = this.handleRefresh.bind(this)
   }
 
-  componentWillMount() {
+  componentWillMount () {
     this.init()
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps (nextProps) {
     const { coin } = nextProps
     if (coin === 'BTC') {
       this.props.modalActions.closeAllModals()
@@ -36,7 +36,7 @@ class RequestEtherContainer extends React.PureComponent {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate (prevProps) {
     if (
       !Remote.Success.is(prevProps.initialValues) &&
       Remote.Success.is(this.props.initialValues)
@@ -45,19 +45,19 @@ class RequestEtherContainer extends React.PureComponent {
     }
   }
 
-  init() {
+  init () {
     this.props.formActions.initialize('requestEther', this.props.initialValues)
   }
 
-  onSubmit() {
+  onSubmit () {
     this.props.modalActions.closeAllModals()
   }
 
-  handleRefresh() {
+  handleRefresh () {
     this.props.kvStoreEthActions.fetchMetadataEthereum()
   }
 
-  render() {
+  render () {
     const { data, closeAll, selection, coins } = this.props
 
     const content = data.cata({
@@ -78,14 +78,14 @@ class RequestEtherContainer extends React.PureComponent {
 
     return (
       <Modal
-        size="large"
+        size='large'
         position={this.props.position}
         total={this.props.total}
       >
-        <ModalHeader icon="request" onClose={this.props.closeAll}>
+        <ModalHeader icon='request' onClose={this.props.closeAll}>
           <FormattedMessage
-            id="modals.requestether.title"
-            defaultMessage="Request Ether"
+            id='modals.requestether.title'
+            defaultMessage='Request Ether'
           />
         </ModalHeader>
         <ModalBody>{content}</ModalBody>

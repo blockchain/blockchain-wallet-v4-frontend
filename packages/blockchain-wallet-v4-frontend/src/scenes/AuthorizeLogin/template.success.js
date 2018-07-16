@@ -56,50 +56,50 @@ const Success = props => {
     <Wrapper>
       {props.value.device_change_reason ? (
         <Fragment>
-          <Image name="blue-logo" width="50px" height="50px" />
+          <Image name='blue-logo' width='50px' height='50px' />
           <InfoWrapper>
             <Text
-              size="24px"
+              size='24px'
               weight={400}
-              color="gray-5"
+              color='gray-5'
               style={{ 'margin-top': '25px' }}
             >
               <FormattedMessage
-                id="scenes.authorizelogin.attemptfrombrowser"
-                defaultMessage="Login attempt from another browser"
+                id='scenes.authorizelogin.attemptfrombrowser'
+                defaultMessage='Login attempt from another browser'
               />
             </Text>
             <Text
-              size="13px"
+              size='13px'
               weight={300}
-              color="gray-5"
+              color='gray-5'
               style={{ 'margin-top': '10px' }}
             >
               <FormattedMessage
-                id="scenes.authorizelogin.attemptfrombrowsermsg"
-                defaultMessage="Someone, hopefully you, is attempting to login to your wallet from a different browser."
+                id='scenes.authorizelogin.attemptfrombrowsermsg'
+                defaultMessage='Someone, hopefully you, is attempting to login to your wallet from a different browser.'
               />
             </Text>
             <DeviceInfoWrapper>
               <DeviceInfoHeader>
-                <Text size="16px" weight={400} color="success">
+                <Text size='16px' weight={400} color='success'>
                   <FormattedMessage
-                    id="scenes.authorizelogin.yourdevice"
-                    defaultMessage="Your Device"
+                    id='scenes.authorizelogin.yourdevice'
+                    defaultMessage='Your Device'
                   />
                 </Text>
                 &nbsp;
-                <Text size="16px" weight={400} color="gray-5">
+                <Text size='16px' weight={400} color='gray-5'>
                   <FormattedMessage
-                    id="scenes.authorizelogin.vs"
-                    defaultMessage="vs."
+                    id='scenes.authorizelogin.vs'
+                    defaultMessage='vs.'
                   />
                 </Text>
                 &nbsp;
-                <Text size="16px" weight={400} color="error">
+                <Text size='16px' weight={400} color='error'>
                   <FormattedMessage
-                    id="scenes.authorizelogin.requestingdevice"
-                    defaultMessage="Requesting Device"
+                    id='scenes.authorizelogin.requestingdevice'
+                    defaultMessage='Requesting Device'
                   />
                 </Text>
               </DeviceInfoHeader>
@@ -193,24 +193,24 @@ const Success = props => {
               </DeviceDiff>
             </DeviceInfoWrapper>
             <ApproveWrapper>
-              <Button nature="logout" onClick={props.onAccept}>
+              <Button nature='logout' onClick={props.onAccept}>
                 <FormattedMessage
-                  id="scenes.authorizelogin.accept"
-                  defaultMessage="Accept"
+                  id='scenes.authorizelogin.accept'
+                  defaultMessage='Accept'
                 />
               </Button>
               &nbsp;
-              <Text size="12px" weight={300}>
+              <Text size='12px' weight={300}>
                 <FormattedMessage
-                  id="scenes.authorizelogin.or"
-                  defaultMessage="Or"
+                  id='scenes.authorizelogin.or'
+                  defaultMessage='Or'
                 />
               </Text>
               &nbsp;
-              <Button nature="primary" onClick={props.onReject}>
+              <Button nature='primary' onClick={props.onReject}>
                 <FormattedMessage
-                  id="scenes.authorizelogin.reject"
-                  defaultMessage="Reject"
+                  id='scenes.authorizelogin.reject'
+                  defaultMessage='Reject'
                 />
               </Button>
             </ApproveWrapper>
@@ -219,25 +219,25 @@ const Success = props => {
       ) : (
         <Fragment>
           {requestDenied ? (
-            <Icon name="close-filled" color="error" size="40px" />
+            <Icon name='close-filled' color='error' size='40px' />
           ) : (
-            <Icon name="checkmark-in-circle" color="success" size="40px" />
+            <Icon name='checkmark-in-circle' color='success' size='40px' />
           )}
           <Text
-            size="16px"
+            size='16px'
             weight={300}
-            color="gray-5"
+            color='gray-5'
             style={{ 'margin-top': '25px' }}
           >
             {requestDenied ? (
               <FormattedMessage
-                id="scenes.authorizelogin.loading.rejected"
-                defaultMessage="Login attempt rejected! Please contact our support team if you have any questions or concerns."
+                id='scenes.authorizelogin.loading.rejected'
+                defaultMessage='Login attempt rejected! Please contact our support team if you have any questions or concerns.'
               />
             ) : (
               <FormattedMessage
-                id="scenes.authorizelogin.loading.approved"
-                defaultMessage="Login approved! Please return to your previous tab to view your wallet."
+                id='scenes.authorizelogin.loading.approved'
+                defaultMessage='Login approved! Please return to your previous tab to view your wallet.'
               />
             )}
           </Text>

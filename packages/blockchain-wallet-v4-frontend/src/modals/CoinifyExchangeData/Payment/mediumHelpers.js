@@ -71,23 +71,23 @@ export const cardOptionHelper = (
       disabled={cardDisabled}
     >
       <input
-        type="radio"
-        name="inMedium"
-        id="card"
-        value="card"
+        type='radio'
+        name='inMedium'
+        id='card'
+        value='card'
         style={{ display: 'none' }}
       />
-      <OptionLabel htmlFor="card">
+      <OptionLabel htmlFor='card'>
         <PaymentIcon
-          name="credit-card-filled"
+          name='credit-card-filled'
           cursor
-          size="50px"
+          size='50px'
           isChecked={isChecked}
         />
         <PaymentText isChecked={isChecked}>
           <FormattedMessage
-            id="coinifyexchangedata.payment.mediumhelpers.card"
-            defaultMessage="Credit / Debit"
+            id='coinifyexchangedata.payment.mediumhelpers.card'
+            defaultMessage='Credit / Debit'
           />
         </PaymentText>
       </OptionLabel>
@@ -96,8 +96,8 @@ export const cardOptionHelper = (
 
   const renderField = () => (
     <Field
-      name="inMedium"
-      value="card"
+      name='inMedium'
+      value='card'
       isChecked={isChecked}
       handlePaymentClick={handlePaymentClick}
       component={PaymentRadioCard}
@@ -108,20 +108,20 @@ export const cardOptionHelper = (
   const renderContainer = (isChecked, handlePaymentClick) => (
     <PaymentOptionContainer>
       {renderField()}
-      <Text size="14px" weight={300}>
+      <Text size='14px' weight={300}>
         <FormattedMessage
-          id="coinifyexchangedata.payment.mediumhelpers.card.detail1"
-          defaultMessage="Receive bitcoin instantly"
+          id='coinifyexchangedata.payment.mediumhelpers.card.detail1'
+          defaultMessage='Receive bitcoin instantly'
         />
         <br />
         <FormattedMessage
-          id="coinifyexchangedata.payment.mediumhelpers.card.detail2"
-          defaultMessage="3% convenience fee"
+          id='coinifyexchangedata.payment.mediumhelpers.card.detail2'
+          defaultMessage='3% convenience fee'
         />
         <br />
         <FormattedMessage
-          id="coinifyexchangedata.payment.mediumhelpers.card.detail3"
-          defaultMessage="Visa or Mastercard"
+          id='coinifyexchangedata.payment.mediumhelpers.card.detail3'
+          defaultMessage='Visa or Mastercard'
         />
       </Text>
     </PaymentOptionContainer>
@@ -130,23 +130,23 @@ export const cardOptionHelper = (
   const renderText = (currency, amount, limit) => (
     <PaymentOptionContainer>
       {renderField()}
-      <Text size="14px" weight={300} style={spacing('mt-25 mb-15')}>
+      <Text size='14px' weight={300} style={spacing('mt-25 mb-15')}>
         <FormattedMessage
-          id="coinifyexchangedata.payment.mediumhelpers.card.abovecardlimit"
-          defaultMessage="{amount} {currency} is above your daily credit card limit of {limit} {currency}. Please use a bank transfer or lower your purchase amount."
+          id='coinifyexchangedata.payment.mediumhelpers.card.abovecardlimit'
+          defaultMessage='{amount} {currency} is above your daily credit card limit of {limit} {currency}. Please use a bank transfer or lower your purchase amount.'
           values={{ currency: currency, amount: amount, limit: limit }}
         />
       </Text>
       <StepTransition
         prev
         Component={Link}
-        size="13px"
+        size='13px'
         weight={300}
         onClick={() => prefillCardMax(limits)}
       >
         <FormattedMessage
-          id="coinifyexchangedata.payment.mediumhelpers.card.usecreditdebit"
-          defaultMessage="Use Credit/Debit card"
+          id='coinifyexchangedata.payment.mediumhelpers.card.usecreditdebit'
+          defaultMessage='Use Credit/Debit card'
         />
       </StepTransition>
     </PaymentOptionContainer>
@@ -194,23 +194,23 @@ export const bankOptionHelper = (
       disabled={bankDisabled}
     >
       <input
-        type="radio"
-        name="inMedium"
-        id="bank"
-        value="bank"
+        type='radio'
+        name='inMedium'
+        id='bank'
+        value='bank'
         style={{ display: 'none' }}
       />
-      <OptionLabel htmlFor="bank">
+      <OptionLabel htmlFor='bank'>
         <PaymentIcon
-          name="bank-filled"
+          name='bank-filled'
           cursor
-          size="50px"
+          size='50px'
           isChecked={isChecked}
         />
         <PaymentText isChecked={isChecked}>
           <FormattedMessage
-            id="coinifyexchangedata.payment.mediumhelpers.bank"
-            defaultMessage="Bank Transfer"
+            id='coinifyexchangedata.payment.mediumhelpers.bank'
+            defaultMessage='Bank Transfer'
           />
         </PaymentText>
       </OptionLabel>
@@ -220,8 +220,8 @@ export const bankOptionHelper = (
   const renderContainer = (isChecked, handlePaymentClick) => (
     <PaymentOptionContainer>
       <Field
-        name="inMedium"
-        value="bank"
+        name='inMedium'
+        value='bank'
         isChecked={isChecked}
         handlePaymentClick={handlePaymentClick}
         component={PaymentRadioBank}
@@ -229,32 +229,32 @@ export const bankOptionHelper = (
       />
       {bankDisabled ? (
         <BankDisabledText
-          size="14px"
+          size='14px'
           weight={300}
-          color="gray-2"
+          color='gray-2'
           style={spacing('mt-25')}
         >
           {equals(bankDisabled, 'disable_limits') ? (
             <FormattedMessage
-              id="scenes.buysell.coinifyexchangedata.payment.bank.unavailable_limits"
-              defaultMessage="The quoted amount is more than your current bank limit."
+              id='scenes.buysell.coinifyexchangedata.payment.bank.unavailable_limits'
+              defaultMessage='The quoted amount is more than your current bank limit.'
             />
           ) : (
             <Fragment>
               <FormattedMessage
-                id="scenes.buysell.coinifyexchangedata.payment.bank.unavailable_kyc"
-                defaultMessage="Bank transfers are unavailable until Identity Verification has been finished."
+                id='scenes.buysell.coinifyexchangedata.payment.bank.unavailable_kyc'
+                defaultMessage='Bank transfers are unavailable until Identity Verification has been finished.'
               />
               {equals(path(['state'], kyc), 'pending') ? (
                 <Link
-                  size="12px"
+                  size='12px'
                   weight={300}
                   style={spacing('mt-10')}
                   onClick={() => openPendingKyc(kyc)}
                 >
                   <FormattedMessage
-                    id="scenes.buysell.coinifyexchangedata.payment.bank.finishkyc"
-                    defaultMessage="Finish Identity Verification"
+                    id='scenes.buysell.coinifyexchangedata.payment.bank.finishkyc'
+                    defaultMessage='Finish Identity Verification'
                   />
                   <br />
                 </Link>
@@ -263,24 +263,24 @@ export const bankOptionHelper = (
           )}
         </BankDisabledText>
       ) : (
-        <Text size="14px" weight={300}>
+        <Text size='14px' weight={300}>
           {prop('name', level) < 2 ? (
             <Fragment>
               <FormattedMessage
-                id="coinifyexchangedata.payment.mediumhelpers.bank.detail1"
-                defaultMessage="One time ID verification"
+                id='coinifyexchangedata.payment.mediumhelpers.bank.detail1'
+                defaultMessage='One time ID verification'
               />{' '}
               <br />
             </Fragment>
           ) : null}
           <FormattedMessage
-            id="coinifyexchangedata.payment.mediumhelpers.bank.detail2"
-            defaultMessage="Receive bitcoin in 2-3 days"
+            id='coinifyexchangedata.payment.mediumhelpers.bank.detail2'
+            defaultMessage='Receive bitcoin in 2-3 days'
           />
           <br />
           <FormattedMessage
-            id="coinifyexchangedata.payment.mediumhelpers.bank.detail3"
-            defaultMessage="0.25% Payment Fee"
+            id='coinifyexchangedata.payment.mediumhelpers.bank.detail3'
+            defaultMessage='0.25% Payment Fee'
           />
         </Text>
       )}

@@ -7,7 +7,7 @@ import Success from './template.success'
 import { getData } from './selectors'
 
 class MobileNumberContainer extends React.PureComponent {
-  render() {
+  render () {
     const { data } = this.props
 
     return data.cata({

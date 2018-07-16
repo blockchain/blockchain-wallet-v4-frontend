@@ -14,6 +14,7 @@
     "build:prod": "cross-env-shell NODE_ENV=production webpack-cli --config webpack.config.js --progress --colors",
     "build:staging": "cross-env-shell NODE_ENV=staging webpack-cli --config webpack.config.js --progress --colors",
     "build:testnet": "cross-env-shell NODE_ENV=testnet webpack-cli --config webpack.config.js --progress --colors",
+    "ci:test:frontend": "yarn test --runInBand",
     "ci:compile": "cross-env-shell NODE_ENV=production CI_BUILD=true webpack-cli --config webpack.config.js --display-error-details",
     "coverage": "cross-env ./../../node_modules/.bin/jest --coverage",
     "link:resolved:paths": "ln -sf $(pwd)/src/** ./node_modules",

@@ -12,7 +12,7 @@ const Wrapper = styled.section`
 `
 
 export default class BchAddressesContainer extends React.PureComponent {
-  render() {
+  render () {
     return (
       <AddressesLayout>
         <Wrapper>

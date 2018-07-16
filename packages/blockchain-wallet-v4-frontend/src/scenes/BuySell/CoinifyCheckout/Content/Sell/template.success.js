@@ -97,7 +97,7 @@ const Sell = props => {
                   limits={limits.sell}
                   symbol={symbol}
                   onTrigger={kyc => handleKycAction(kyc)}
-                  type="sell"
+                  type='sell'
                   canTrade={canTrade}
                 />
               ) : null}
@@ -129,7 +129,7 @@ const Sell = props => {
                   quoteR={sellQuoteR}
                   onSubmit={initiateSell}
                   busy={busy}
-                  type="sell"
+                  type='sell'
                   clearTradeError={clearTradeError}
                 />
               </ColRightInner>

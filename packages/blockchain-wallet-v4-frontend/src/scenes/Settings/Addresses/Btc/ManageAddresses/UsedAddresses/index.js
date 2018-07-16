@@ -6,12 +6,12 @@ import { actions, selectors } from 'data'
 import UsedAddressesShowTemplate from './template'
 
 class UsedAddressesContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.onShowUsedAddresses = this.onShowUsedAddresses.bind(this)
   }
 
-  onShowUsedAddresses() {
+  onShowUsedAddresses () {
     if (this.props.usedAddressesVisible) {
       this.props.componentActions.toggleUsedAddresses(
         this.props.walletIndex,
@@ -24,7 +24,7 @@ class UsedAddressesContainer extends React.PureComponent {
     }
   }
 
-  render() {
+  render () {
     const { usedAddressesVisible, walletIndex } = this.props
 
     return (

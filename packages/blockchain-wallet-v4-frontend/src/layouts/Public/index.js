@@ -79,7 +79,7 @@ const FooterContainer = styled.div`
 `
 
 class PublicLayoutContainer extends React.PureComponent {
-  componentDidMount() {
+  componentDidMount () {
     const { domainsR, migrationRedirectsR, pathname } = this.props
     const domains = domainsR.getOrElse(defaultDomains)
     const enableRedirects = migrationRedirectsR.getOrElse(false)
@@ -93,7 +93,7 @@ class PublicLayoutContainer extends React.PureComponent {
     }
   }
 
-  render() {
+  render () {
     const { component: Component, ...rest } = this.props
     return (
       <Route

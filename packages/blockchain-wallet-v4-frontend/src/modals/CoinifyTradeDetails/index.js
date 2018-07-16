@@ -10,7 +10,7 @@ import Trade from './Trade'
 import Kyc from './Kyc'
 
 class CoinifyTradeDetails extends React.PureComponent {
-  render() {
+  render () {
     const { trade, status, subscriptions } = this.props
 
     const renderComponent = trade => {
@@ -34,7 +34,7 @@ class CoinifyTradeDetails extends React.PureComponent {
 
     return (
       <Modal
-        size="large"
+        size='large'
         position={this.props.position}
         total={this.props.total}
       >

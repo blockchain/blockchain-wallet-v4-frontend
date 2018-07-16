@@ -33,32 +33,32 @@ const UnusedAddressesTemplate = ({
   const addresses = filter(isMatch, unusedAddresses).map((entry, i) => {
     return (
       <TableRow key={i}>
-        <TableCell width="40%" style={{ wordBreak: 'break-all' }}>
+        <TableCell width='40%' style={{ wordBreak: 'break-all' }}>
           <Link
             href={`https://blockchain.info/address/${entry.address}`}
-            size="small"
+            size='small'
             weight={300}
-            target="_blank"
+            target='_blank'
           >
             {entry.address}
           </Link>
         </TableCell>
-        <TableCell width="40%">
-          <Text size="13px">{entry.label}</Text>
+        <TableCell width='40%'>
+          <Text size='13px'>{entry.label}</Text>
         </TableCell>
         <TableCell
-          width="20%"
+          width='20%'
           style={{ display: 'flex', justifyContent: 'flex-end' }}
         >
           <Icon
             cursor
-            name="pencil"
+            name='pencil'
             onClick={() => onEditLabel(entry.derivationIndex)}
             style={{ marginRight: 10 }}
           />
           <Icon
             cursor
-            name="trash"
+            name='trash'
             onClick={() => onDeleteLabel(entry.derivationIndex)}
           />
         </TableCell>
@@ -69,37 +69,37 @@ const UnusedAddressesTemplate = ({
   return unusedAddresses.length === 0 ? (
     <Text weight={300} style={{ marginTop: 20, textAlign: 'center' }}>
       <FormattedMessage
-        id="scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.nounusedmessage"
-        defaultMessage="This wallet has no unused addresses."
+        id='scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.nounusedmessage'
+        defaultMessage='This wallet has no unused addresses.'
       />
     </Text>
   ) : (
     <Table>
       <TableHeader>
-        <TableCell width="40%">
-          <Text size="13px" weight={500}>
+        <TableCell width='40%'>
+          <Text size='13px' weight={500}>
             <FormattedMessage
-              id="scenes.settings.addresses.btc.manageaddresses.unusedaddresses.address"
-              defaultMessage="Address"
+              id='scenes.settings.addresses.btc.manageaddresses.unusedaddresses.address'
+              defaultMessage='Address'
             />
           </Text>
         </TableCell>
-        <TableCell width="40%">
-          <Text size="13px" weight={500}>
+        <TableCell width='40%'>
+          <Text size='13px' weight={500}>
             <FormattedMessage
-              id="scenes.settings.addresses.btc.manageaddresses.unusedaddresses.label"
-              defaultMessage="Label"
+              id='scenes.settings.addresses.btc.manageaddresses.unusedaddresses.label'
+              defaultMessage='Label'
             />
           </Text>
         </TableCell>
         <TableCell
-          width="20%"
+          width='20%'
           style={{ display: 'flex', justifyContent: 'flex-end' }}
         >
-          <Text size="13px" weight={500}>
+          <Text size='13px' weight={500}>
             <FormattedMessage
-              id="scenes.settings.addresses.btc.manageaddresses.unusedaddresses.actions"
-              defaultMessage="Actions"
+              id='scenes.settings.addresses.btc.manageaddresses.unusedaddresses.actions'
+              defaultMessage='Actions'
             />
           </Text>
         </TableCell>

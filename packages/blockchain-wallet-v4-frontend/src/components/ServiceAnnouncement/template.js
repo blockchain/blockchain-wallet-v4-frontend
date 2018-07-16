@@ -81,13 +81,13 @@ const Announcement = props => {
     <Container color={color} collapsed={collapsed}>
       <IconContainer>
         {icon && (
-          <Icon name={icon} size="34px" weight={600} color={iconColor} />
+          <Icon name={icon} size='34px' weight={600} color={iconColor} />
         )}
       </IconContainer>
       <div style={{ width: '100%' }}>
         <Text
           weight={300}
-          size="20px"
+          size='20px'
           uppercase={uppercase}
           style={{ margin: '6px 0' }}
         >
@@ -98,15 +98,15 @@ const Announcement = props => {
         <TextGroup style={{ display: collapsed ? 'none' : '' }}>
           {announcement.sections.map((section, i) => {
             return (
-              <Text key={i} size="13px" style={{ marginBottom: '2px' }}>
+              <Text key={i} size='13px' style={{ marginBottom: '2px' }}>
                 {section.body[language]
                   ? section.body[language]
                   : section.body.en}
               </Text>
             )
           })}
-          <ActionLink href={announcement.action.link} target="_blank">
-            <Text color="brand-primary" size="13px">
+          <ActionLink href={announcement.action.link} target='_blank'>
+            <Text color='brand-primary' size='13px'>
               {announcement.action.title[language]
                 ? announcement.action.title[language]
                 : announcement.action.title.en}
@@ -118,7 +118,7 @@ const Announcement = props => {
         {announcement.hideType === 'collapse' && (
           <ActionIcon
             name={collapsed ? 'down-arrow' : 'up-arrow'}
-            size="18px"
+            size='18px'
             weight={600}
             onClick={() => {
               toggleCollapse(announcement.id)
@@ -127,8 +127,8 @@ const Announcement = props => {
         )}
         {announcement.hideType === 'dismiss' && (
           <ActionIcon
-            name="close"
-            size="18px"
+            name='close'
+            size='18px'
             weight={600}
             onClick={() => {
               handleDismiss(announcement.id)

@@ -240,8 +240,8 @@ export const statusHelper = status => {
         color: 'transferred',
         text: (
           <FormattedMessage
-            id="scenes.services.coinifyservice.buysellorderhistory.list.orderstatus.processing"
-            defaultMessage="Pending"
+            id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatus.processing'
+            defaultMessage='Pending'
           />
         )
       }
@@ -250,8 +250,8 @@ export const statusHelper = status => {
         color: 'success',
         text: (
           <FormattedMessage
-            id="scenes.services.coinifyservice.buysellorderhistory.list.orderstatus.completed"
-            defaultMessage="Completed"
+            id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatus.completed'
+            defaultMessage='Completed'
           />
         )
       }
@@ -260,8 +260,8 @@ export const statusHelper = status => {
         color: 'error',
         text: (
           <FormattedMessage
-            id="scenes.services.coinifyservice.buysellorderhistory.list.orderstatus.rejected"
-            defaultMessage="Rejected"
+            id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatus.rejected'
+            defaultMessage='Rejected'
           />
         )
       }
@@ -270,8 +270,8 @@ export const statusHelper = status => {
         color: 'error',
         text: (
           <FormattedMessage
-            id="scenes.services.coinifyservice.buysellorderhistory.list.orderstatus.failed"
-            defaultMessage="Failed"
+            id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatus.failed'
+            defaultMessage='Failed'
           />
         )
       }
@@ -280,8 +280,8 @@ export const statusHelper = status => {
         color: 'error',
         text: (
           <FormattedMessage
-            id="scenes.services.coinifyservice.buysellorderhistory.list.orderstatus.cancelled"
-            defaultMessage="Cancelled"
+            id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatus.cancelled'
+            defaultMessage='Cancelled'
           />
         )
       }
@@ -290,8 +290,8 @@ export const statusHelper = status => {
         color: 'error',
         text: (
           <FormattedMessage
-            id="scenes.services.coinifyservice.buysellorderhistory.list.orderstatus.expired"
-            defaultMessage="Expired"
+            id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatus.expired'
+            defaultMessage='Expired'
           />
         )
       }
@@ -300,8 +300,8 @@ export const statusHelper = status => {
         color: 'gray-5',
         text: (
           <FormattedMessage
-            id="scenes.services.coinifyservice.buysellorderhistory.list.orderstatus.unknown"
-            defaultMessage="Unknown"
+            id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatus.unknown'
+            defaultMessage='Unknown'
           />
         )
       }
@@ -317,8 +317,8 @@ export const bodyStatusHelper = (status, isBuy) => {
         return {
           text: (
             <FormattedMessage
-              id="scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.buy.processing"
-              defaultMessage="Your purchase is currently being processed. Our exchange partner will send a status update your way within 1 business day."
+              id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.buy.processing'
+              defaultMessage='Your purchase is currently being processed. Our exchange partner will send a status update your way within 1 business day.'
             />
           )
         }
@@ -326,8 +326,8 @@ export const bodyStatusHelper = (status, isBuy) => {
         return {
           text: (
             <FormattedMessage
-              id="scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.buy.completed"
-              defaultMessage="Your buy trade is complete!"
+              id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.buy.completed'
+              defaultMessage='Your buy trade is complete!'
             />
           )
         }
@@ -335,8 +335,8 @@ export const bodyStatusHelper = (status, isBuy) => {
         return {
           text: (
             <FormattedMessage
-              id="scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.buy.rejected"
-              defaultMessage="Your buy trade has been rejected. Please contact support."
+              id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.buy.rejected'
+              defaultMessage='Your buy trade has been rejected. Please contact support.'
             />
           )
         }
@@ -348,8 +348,8 @@ export const bodyStatusHelper = (status, isBuy) => {
         return {
           text: (
             <FormattedMessage
-              id="scenes.services.coinifyservice.busellorderhistory.list.orderstatusbody.buy.unknown"
-              defaultMessage="There are issues with this trade, please contact support."
+              id='scenes.services.coinifyservice.busellorderhistory.list.orderstatusbody.buy.unknown'
+              defaultMessage='There are issues with this trade, please contact support.'
             />
           )
         }
@@ -361,8 +361,8 @@ export const bodyStatusHelper = (status, isBuy) => {
         return {
           text: (
             <FormattedMessage
-              id="scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.sell.coinify.processing"
-              defaultMessage="Coinify will issue the owed sale amount directly to your bank account within 2 business days. You will receive an email from Coinify to confirm the transfer, as soon as they issue the funds to your account."
+              id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.sell.coinify.processing'
+              defaultMessage='Coinify will issue the owed sale amount directly to your bank account within 2 business days. You will receive an email from Coinify to confirm the transfer, as soon as they issue the funds to your account.'
             />
           )
         }
@@ -370,8 +370,8 @@ export const bodyStatusHelper = (status, isBuy) => {
         return {
           text: (
             <FormattedMessage
-              id="scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.sell.completed"
-              defaultMessage="Your sell trade is complete!"
+              id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.sell.completed'
+              defaultMessage='Your sell trade is complete!'
             />
           )
         }
@@ -379,8 +379,8 @@ export const bodyStatusHelper = (status, isBuy) => {
         return {
           text: (
             <FormattedMessage
-              id="scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.sell.rejected"
-              defaultMessage="Your sell trade has been rejected. Please contact support."
+              id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.sell.rejected'
+              defaultMessage='Your sell trade has been rejected. Please contact support.'
             />
           )
         }
@@ -392,8 +392,8 @@ export const bodyStatusHelper = (status, isBuy) => {
         return {
           text: (
             <FormattedMessage
-              id="scenes.services.coinifyservice.busellorderhistory.list.orderstatusbody.sell.unknown"
-              defaultMessage="There are issues with this trade, please contact support."
+              id='scenes.services.coinifyservice.busellorderhistory.list.orderstatusbody.sell.unknown'
+              defaultMessage='There are issues with this trade, please contact support.'
             />
           )
         }
@@ -408,8 +408,8 @@ export const kycBodyHelper = status => {
       return {
         text: (
           <FormattedMessage
-            id="scenes.coinify.details.kyc.reviewing"
-            defaultMessage="Your request for authentication has been submitted and will be reviewed shortly. Coinify will email you a status updated within 48 business hours. If you have any questions about the status of your submission, feel free to reach out to Coinify directly at www.coinify.com/support"
+            id='scenes.coinify.details.kyc.reviewing'
+            defaultMessage='Your request for authentication has been submitted and will be reviewed shortly. Coinify will email you a status updated within 48 business hours. If you have any questions about the status of your submission, feel free to reach out to Coinify directly at www.coinify.com/support'
           />
         )
       }
@@ -417,8 +417,8 @@ export const kycBodyHelper = status => {
       return {
         text: (
           <FormattedMessage
-            id="scenes.coinify.detailsmodal.kyc.processing"
-            defaultMessage="Your identity verification is processing."
+            id='scenes.coinify.detailsmodal.kyc.processing'
+            defaultMessage='Your identity verification is processing.'
           />
         )
       }
@@ -426,8 +426,8 @@ export const kycBodyHelper = status => {
       return {
         text: (
           <FormattedMessage
-            id="scenes.coinify.detailsmodal.kyc.completed"
-            defaultMessage="Your identity verification is complete! Your limits have been raised."
+            id='scenes.coinify.detailsmodal.kyc.completed'
+            defaultMessage='Your identity verification is complete! Your limits have been raised.'
           />
         )
       }
@@ -435,8 +435,8 @@ export const kycBodyHelper = status => {
       return {
         text: (
           <FormattedMessage
-            id="scenes.coinify.detailsmodal.kyc.rejected"
-            defaultMessage="There was an issue verifying your identity with the documents provided. Please try uploading different identification. Bank transfers are unavailable until we can successfully verify your identity."
+            id='scenes.coinify.detailsmodal.kyc.rejected'
+            defaultMessage='There was an issue verifying your identity with the documents provided. Please try uploading different identification. Bank transfers are unavailable until we can successfully verify your identity.'
           />
         )
       }
@@ -444,8 +444,8 @@ export const kycBodyHelper = status => {
       return {
         text: (
           <FormattedMessage
-            id="scenes.coinify.detailsmodal.kyc.failed"
-            defaultMessage="Your identity verification has failed. Please contact support."
+            id='scenes.coinify.detailsmodal.kyc.failed'
+            defaultMessage='Your identity verification has failed. Please contact support.'
           />
         )
       }
@@ -453,8 +453,8 @@ export const kycBodyHelper = status => {
       return {
         text: (
           <FormattedMessage
-            id="scenes.coinify.detailsmodal.kyc.cancelled"
-            defaultMessage="Your identity verification was cancelled. Please try again."
+            id='scenes.coinify.detailsmodal.kyc.cancelled'
+            defaultMessage='Your identity verification was cancelled. Please try again.'
           />
         )
       }
@@ -462,8 +462,8 @@ export const kycBodyHelper = status => {
       return {
         text: (
           <FormattedMessage
-            id="scenes.coinify.detailsmodal.kyc.cancelled.unknown"
-            defaultMessage="Your identity verification status could not be determined, please contact support."
+            id='scenes.coinify.detailsmodal.kyc.cancelled.unknown'
+            defaultMessage='Your identity verification status could not be determined, please contact support.'
           />
         )
       }
@@ -477,8 +477,8 @@ export const kycHeaderHelper = status => {
         color: 'transferred',
         text: (
           <FormattedMessage
-            id="scenes.coinify_details_modal.kyc.header.processing"
-            defaultMessage="Identity Verification Processing"
+            id='scenes.coinify_details_modal.kyc.header.processing'
+            defaultMessage='Identity Verification Processing'
           />
         )
       }
@@ -487,8 +487,8 @@ export const kycHeaderHelper = status => {
         color: 'transferred',
         text: (
           <FormattedMessage
-            id="scenes.coinify_details_modal.kyc.header.reviewing"
-            defaultMessage="Identity Verification In Review"
+            id='scenes.coinify_details_modal.kyc.header.reviewing'
+            defaultMessage='Identity Verification In Review'
           />
         )
       }
@@ -497,8 +497,8 @@ export const kycHeaderHelper = status => {
         color: 'transferred',
         text: (
           <FormattedMessage
-            id="scenes.coinify_details_modal.kyc.header.pending"
-            defaultMessage="Identity Verification Incomplete"
+            id='scenes.coinify_details_modal.kyc.header.pending'
+            defaultMessage='Identity Verification Incomplete'
           />
         )
       }
@@ -507,8 +507,8 @@ export const kycHeaderHelper = status => {
         color: 'success',
         text: (
           <FormattedMessage
-            id="scenes.coinify_details_modal.kyc.header.completed"
-            defaultMessage="Identity Verification Completed"
+            id='scenes.coinify_details_modal.kyc.header.completed'
+            defaultMessage='Identity Verification Completed'
           />
         )
       }
@@ -517,8 +517,8 @@ export const kycHeaderHelper = status => {
         color: 'error',
         text: (
           <FormattedMessage
-            id="scenes.coinify_details_modal.kyc.header.rejected"
-            defaultMessage="Identity Verification Denied"
+            id='scenes.coinify_details_modal.kyc.header.rejected'
+            defaultMessage='Identity Verification Denied'
           />
         )
       }
@@ -527,8 +527,8 @@ export const kycHeaderHelper = status => {
         color: 'error',
         text: (
           <FormattedMessage
-            id="scenes.coinify_details_modal.kyc.header.failed"
-            defaultMessage="Identity Verification Failed"
+            id='scenes.coinify_details_modal.kyc.header.failed'
+            defaultMessage='Identity Verification Failed'
           />
         )
       }
@@ -537,8 +537,8 @@ export const kycHeaderHelper = status => {
         color: 'error',
         text: (
           <FormattedMessage
-            id="scenes.coinify_details_modal.kyc.header.cancelled"
-            defaultMessage="Identity Verification Cancelled"
+            id='scenes.coinify_details_modal.kyc.header.cancelled'
+            defaultMessage='Identity Verification Cancelled'
           />
         )
       }
@@ -547,8 +547,8 @@ export const kycHeaderHelper = status => {
         color: 'error',
         text: (
           <FormattedMessage
-            id="scenes.coinify_details_modal.kyc.header.expired"
-            defaultMessage="Identity Verification Expired"
+            id='scenes.coinify_details_modal.kyc.header.expired'
+            defaultMessage='Identity Verification Expired'
           />
         )
       }
@@ -557,8 +557,8 @@ export const kycHeaderHelper = status => {
         color: '',
         text: (
           <FormattedMessage
-            id="scenes.coinify_details_modal.kyc.header.unknown"
-            defaultMessage="Unknown"
+            id='scenes.coinify_details_modal.kyc.header.unknown'
+            defaultMessage='Unknown'
           />
         )
       }
@@ -572,8 +572,8 @@ export const kycNotificationBodyHelper = status => {
       return {
         text: (
           <FormattedMessage
-            id="scenes.coinify_details_modal.kyc.processing"
-            defaultMessage="Your request for authentication has been submitted and will be reviewed shortly. Coinify will email you a status updated within 48 business hours. If you have any questions about the status of your submission, feel free to reach out to Coinify directly at www.coinify.com/support"
+            id='scenes.coinify_details_modal.kyc.processing'
+            defaultMessage='Your request for authentication has been submitted and will be reviewed shortly. Coinify will email you a status updated within 48 business hours. If you have any questions about the status of your submission, feel free to reach out to Coinify directly at www.coinify.com/support'
           />
         )
       }
@@ -581,7 +581,7 @@ export const kycNotificationBodyHelper = status => {
       return {
         text: (
           <FormattedMessage
-            id="scenes.coinify_details_modal.kyc.pending"
+            id='scenes.coinify_details_modal.kyc.pending'
             defaultMessage="It looks like you started your identity verification but didn't finish. Complete this process to link your bank account and/or increase your buy & sell limits."
           />
         )
@@ -590,8 +590,8 @@ export const kycNotificationBodyHelper = status => {
       return {
         text: (
           <FormattedMessage
-            id="scenes.coinify_details_modal.kyc.completed"
-            defaultMessage="Your identity verification is complete! Your limits have been raised."
+            id='scenes.coinify_details_modal.kyc.completed'
+            defaultMessage='Your identity verification is complete! Your limits have been raised.'
           />
         )
       }
@@ -599,8 +599,8 @@ export const kycNotificationBodyHelper = status => {
       return {
         text: (
           <FormattedMessage
-            id="scenes.coinify_details_modal.kyc.rejected"
-            defaultMessage="There was an issue verifying your identity with the documents provided. Please try uploading different identification. Bank transfers are unavailable until we can successfully verify your identity."
+            id='scenes.coinify_details_modal.kyc.rejected'
+            defaultMessage='There was an issue verifying your identity with the documents provided. Please try uploading different identification. Bank transfers are unavailable until we can successfully verify your identity.'
           />
         )
       }
@@ -608,8 +608,8 @@ export const kycNotificationBodyHelper = status => {
       return {
         text: (
           <FormattedMessage
-            id="scenes.coinify_details_modal.kyc.failed"
-            defaultMessage="Your identity verification has failed. Please contact support."
+            id='scenes.coinify_details_modal.kyc.failed'
+            defaultMessage='Your identity verification has failed. Please contact support.'
           />
         )
       }
@@ -617,8 +617,8 @@ export const kycNotificationBodyHelper = status => {
       return {
         text: (
           <FormattedMessage
-            id="scenes.coinify_details_modal.kyc.cancelled"
-            defaultMessage="Your identity verification was cancelled. Please try again."
+            id='scenes.coinify_details_modal.kyc.cancelled'
+            defaultMessage='Your identity verification was cancelled. Please try again.'
           />
         )
       }
@@ -626,8 +626,8 @@ export const kycNotificationBodyHelper = status => {
       return {
         text: (
           <FormattedMessage
-            id="scenes.coinify_details_modal.kyc.expired"
-            defaultMessage="Your identity verification request has expired. Please try again."
+            id='scenes.coinify_details_modal.kyc.expired'
+            defaultMessage='Your identity verification request has expired. Please try again.'
           />
         )
       }
@@ -636,8 +636,8 @@ export const kycNotificationBodyHelper = status => {
         color: '',
         text: (
           <FormattedMessage
-            id="scenes.coinify_details_modal.kyc.header.unknown"
-            defaultMessage="Unknown"
+            id='scenes.coinify_details_modal.kyc.header.unknown'
+            defaultMessage='Unknown'
           />
         )
       }
@@ -651,8 +651,8 @@ export const kycNotificationButtonHelper = status => {
         color: 'transferred',
         text: (
           <FormattedMessage
-            id="scenes.buy_sell.kyc_notification.complete"
-            defaultMessage="Complete Verification"
+            id='scenes.buy_sell.kyc_notification.complete'
+            defaultMessage='Complete Verification'
           />
         )
       }
@@ -662,8 +662,8 @@ export const kycNotificationButtonHelper = status => {
         color: 'error',
         text: (
           <FormattedMessage
-            id="scenes.buy_sell.kyc_notification.tryagain"
-            defaultMessage="Try Again"
+            id='scenes.buy_sell.kyc_notification.tryagain'
+            defaultMessage='Try Again'
           />
         )
       }
@@ -672,8 +672,8 @@ export const kycNotificationButtonHelper = status => {
         color: '',
         text: (
           <FormattedMessage
-            id="scenes.coinify_details_modal.kyc.header.unknown"
-            defaultMessage="Unknown"
+            id='scenes.coinify_details_modal.kyc.header.unknown'
+            defaultMessage='Unknown'
           />
         )
       }
@@ -694,23 +694,23 @@ export const getReasonExplanation = (reason, time) => {
     case 'awaiting_first_trade_completion':
       return (
         <FormattedMessage
-          id="scenes.coinify.cannottradereason.firsttradecompletion"
-          defaultMessage="Trading is disabled because your first trade has not completed yet."
+          id='scenes.coinify.cannottradereason.firsttradecompletion'
+          defaultMessage='Trading is disabled because your first trade has not completed yet.'
         />
       )
     case 'after_first_trade':
       return (
         <FormattedMessage
-          id="scenes.coinify.cannottradereason.afterfirsttrade"
-          defaultMessage="Trading is disabled as our exchange partner verifies your payment info. This will happen only once, and you may resume trading in {days}."
+          id='scenes.coinify.cannottradereason.afterfirsttrade'
+          defaultMessage='Trading is disabled as our exchange partner verifies your payment info. This will happen only once, and you may resume trading in {days}.'
           values={{ days: days }}
         />
       )
     default:
       return (
         <FormattedMessage
-          id="scenes.coinify.cannottradereason.unknown"
-          defaultMessage="Trading is disabled."
+          id='scenes.coinify.cannottradereason.unknown'
+          defaultMessage='Trading is disabled.'
         />
       )
   }

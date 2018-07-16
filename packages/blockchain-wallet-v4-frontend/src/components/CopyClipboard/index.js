@@ -4,25 +4,25 @@ import PropTypes from 'prop-types'
 import CopyClipboard from './template.js'
 
 class CopyClipboardContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.timeout = undefined
     this.state = { active: false }
     this.handleClick = this.handleClick.bind(this)
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     clearTimeout(this.timeout)
   }
 
-  handleClick() {
+  handleClick () {
     this.setState({ active: true })
     this.timeout = setTimeout(() => {
       this.setState({ active: false })
     }, 2000)
   }
 
-  render() {
+  render () {
     return (
       <CopyClipboard
         active={this.state.active}
