@@ -30,7 +30,7 @@ class DropdownLanguageContainer extends React.PureComponent {
 
     return (
       <SimpleDropdown
-        color="white"
+        color='white'
         items={languageList}
         selectedValue={currentLanguage}
         callback={selectedLanguage => this.handleClick(selectedLanguage)}

@@ -32,33 +32,33 @@ class EmptyOrderHistoryContainer extends React.PureComponent {
     return (
       <Wrapper>
         <Empty>
-          <Image name="empty-tx" width="300px" />
-          <Header size="18px" weight={500}>
+          <Image name='empty-tx' width='300px' />
+          <Header size='18px' weight={500}>
             <FormattedMessage
-              id="scenes.buysell.empty.content.header"
+              id='scenes.buysell.empty.content.header'
               defaultMessage="We couldn't find any trades!"
             />
           </Header>
           <TextGroup inline>
-            <Text size="18px" weight={300}>
+            <Text size='18px' weight={300}>
               <FormattedMessage
-                id="scenes.buysell.empty.content.goto"
-                defaultMessage="To get started, go to "
+                id='scenes.buysell.empty.content.goto'
+                defaultMessage='To get started, go to '
               />
             </Text>
-            <Link size="18px" onClick={() => changeTab('buy')}>
+            <Link size='18px' onClick={() => changeTab('buy')}>
               <FormattedMessage
-                id="scenes.buysell.empty.content.buy"
-                defaultMessage="buy "
+                id='scenes.buysell.empty.content.buy'
+                defaultMessage='buy '
               />
             </Link>
             <Text>
-              <FormattedMessage id="or" defaultMessage="or " />
+              <FormattedMessage id='or' defaultMessage='or ' />
             </Text>
-            <Link size="18px" onClick={() => changeTab('sell')}>
+            <Link size='18px' onClick={() => changeTab('sell')}>
               <FormattedMessage
-                id="scenes.buysell.empty.content.sell"
-                defaultMessage="sell "
+                id='scenes.buysell.empty.content.sell'
+                defaultMessage='sell '
               />
             </Link>
           </TextGroup>

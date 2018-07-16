@@ -47,8 +47,8 @@ const TabMenuBuySellStatus = props => {
           onClick={() => handleClick('buy')}
         >
           <FormattedMessage
-            id="components.form.tabmenubuysell.buy"
-            defaultMessage="Buy"
+            id='components.form.tabmenubuysell.buy'
+            defaultMessage='Buy'
           />
         </TabMenuItem>
         <TabMenuItem
@@ -56,8 +56,8 @@ const TabMenuBuySellStatus = props => {
           onClick={() => handleClick('sell')}
         >
           <FormattedMessage
-            id="components.form.tabmenubuysell.sell"
-            defaultMessage="Sell"
+            id='components.form.tabmenubuysell.sell'
+            defaultMessage='Sell'
           />
         </TabMenuItem>
         <TabMenuItem
@@ -65,26 +65,26 @@ const TabMenuBuySellStatus = props => {
           onClick={() => handleClick('order_history')}
         >
           <FormattedMessage
-            id="components.form.tabmenubuysell.orderhistory"
-            defaultMessage="Order History"
+            id='components.form.tabmenubuysell.orderhistory'
+            defaultMessage='Order History'
           />
         </TabMenuItem>
       </TabMenu>
       {partner && (
         <Partner>
-          <Text size="12px" weight={300}>
+          <Text size='12px' weight={300}>
             <FormattedMessage
-              id="scenes.exchange.menutop.poweredby"
-              defaultMessage="Powered by"
+              id='scenes.exchange.menutop.poweredby'
+              defaultMessage='Powered by'
             />
           </Text>
           {partner === 'sfox' ? (
-            <Link href="https://www.sfox.com" target="_blank">
-              <Image name="sfox-logo" width="60px" height="25px" />
+            <Link href='https://www.sfox.com' target='_blank'>
+              <Image name='sfox-logo' width='60px' height='25px' />
             </Link>
           ) : (
-            <Link href="https://www.coinify.com" target="_blank">
-              <Image name="coinify-logo" width="60px" height="25px" />
+            <Link href='https://www.coinify.com' target='_blank'>
+              <Image name='coinify-logo' width='60px' height='25px' />
             </Link>
           )}
         </Partner>

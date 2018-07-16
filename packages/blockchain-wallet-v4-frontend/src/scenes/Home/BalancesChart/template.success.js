@@ -71,10 +71,10 @@ const BalancesChart = props => {
 
   return (
     <Wrapper className={'ignore-react-onclickoutside'} btcBalance={btcBalance}>
-      <Text uppercase color="brand-primary" weight={300} size="24px">
+      <Text uppercase color='brand-primary' weight={300} size='24px'>
         <FormattedMessage
-          id="scenes.home.balanceschart.yourbalances"
-          defaultMessage="Your Balances"
+          id='scenes.home.balanceschart.yourbalances'
+          defaultMessage='Your Balances'
         />
       </Text>
       <ReactHighcharts

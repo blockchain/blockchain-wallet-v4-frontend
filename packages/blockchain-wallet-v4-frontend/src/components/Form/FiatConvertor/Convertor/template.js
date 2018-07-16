@@ -71,7 +71,7 @@ const Convertor = props => {
           <TextInput
             value={coin}
             disabled={disabled}
-            placeholder="0"
+            placeholder='0'
             onBlur={handleBlur}
             onChange={handleCoinChange}
             onFocus={handleFocus}
@@ -79,13 +79,13 @@ const Convertor = props => {
           />
           <Unit>{unit}</Unit>
         </Container>
-        <ArrowLeft size="16px" name="left-arrow" />
-        <ArrowRight size="16px" name="right-arrow" />
+        <ArrowLeft size='16px' name='left-arrow' />
+        <ArrowRight size='16px' name='right-arrow' />
         <Container>
           <TextInput
             value={fiat}
             disabled={disabled}
-            placeholder="0"
+            placeholder='0'
             onBlur={handleBlur}
             onChange={handleFiatChange}
             onFocus={handleFocus}
@@ -96,7 +96,7 @@ const Convertor = props => {
       </FiatConvertorInput>
       {meta.touched &&
         meta.error && (
-          <Error size="13px" weight={300} color="error">
+          <Error size='13px' weight={300} color='error'>
             {meta.error}
           </Error>
         )}

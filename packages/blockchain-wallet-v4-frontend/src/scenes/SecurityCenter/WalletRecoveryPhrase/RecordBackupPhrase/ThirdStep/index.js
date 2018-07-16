@@ -36,8 +36,8 @@ class ThirdStepContainer extends React.PureComponent {
         if (values[word] !== props.recoveryPhrase[split('w', word)[1]]) {
           errors[word] = (
             <FormattedMessage
-              id="scenes.securitycenter.walletrecoveryphrase.thirdstep.incorrectword"
-              defaultMessage="Incorrect Word"
+              id='scenes.securitycenter.walletrecoveryphrase.thirdstep.incorrectword'
+              defaultMessage='Incorrect Word'
             />
           )
         }

@@ -91,14 +91,14 @@ class TextBoxDebounced extends React.Component {
         />
         {meta.touched &&
           meta.error && (
-            <Error size="12px" weight={300} color="error">
+            <Error size='12px' weight={300} color='error'>
               {meta.error}
             </Error>
           )}
         {meta.touched &&
           !meta.error &&
           meta.warning && (
-            <Error size="12px" weight={300} color="sent">
+            <Error size='12px' weight={300} color='sent'>
               {meta.warning}
             </Error>
           )}

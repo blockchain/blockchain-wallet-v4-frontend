@@ -6,7 +6,7 @@ import TextInput from './TextInput'
 
 describe('TextInput component', () => {
   it('default renders correctly', () => {
-    const component = shallow(<TextInput borderColor="red" />)
+    const component = shallow(<TextInput borderColor='red' />)
     const tree = toJson(component)
     expect(tree).toMatchSnapshot()
   })

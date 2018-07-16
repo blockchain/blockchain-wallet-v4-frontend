@@ -30,9 +30,9 @@ class TooltipContainer extends React.PureComponent {
 
   render () {
     const icon = this.state.displayed ? (
-      <Icon name="close-in-circle" />
+      <Icon name='close-in-circle' />
     ) : (
-      <Icon name="question-in-circle" />
+      <Icon name='question-in-circle' />
     )
 
     return (

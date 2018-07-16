@@ -37,14 +37,14 @@ class CoinifyExchangeData extends React.PureComponent {
     this.stepMap = {
       account: (
         <FormattedMessage
-          id="modals.coinifyexchangedata.steps.account"
-          defaultMessage="Create Account"
+          id='modals.coinifyexchangedata.steps.account'
+          defaultMessage='Create Account'
         />
       ),
       isx: (
         <FormattedMessage
-          id="modals.coinifyexchangedata.steps.identityverify"
-          defaultMessage="Identity Verification"
+          id='modals.coinifyexchangedata.steps.identityverify'
+          defaultMessage='Identity Verification'
         />
       )
     }
@@ -85,25 +85,25 @@ class CoinifyExchangeData extends React.PureComponent {
     else if (step === 'account' || step === 'isx') adjuster = 0.25
 
     return (
-      <Tray in={show} class="tray" onClose={this.handleClose.bind(this)}>
+      <Tray in={show} class='tray' onClose={this.handleClose.bind(this)}>
         <ModalHeader
           tray
-          paddingHorizontal="15%"
+          paddingHorizontal='15%'
           onClose={this.handleClose.bind(this)}
         >
           <HeaderWrapper>
-            <HeaderText size="20px" weight={300}>
+            <HeaderText size='20px' weight={300}>
               <FormattedMessage
-                id="coinifyexchangedata.header.start"
-                defaultMessage="Start buying and selling in two simple steps."
+                id='coinifyexchangedata.header.start'
+                defaultMessage='Start buying and selling in two simple steps.'
               />
             </HeaderText>
             <StepIndicator
               adjuster={adjuster}
               barFullWidth
               flexEnd
-              minWidth="135px"
-              maxWidth="135px"
+              minWidth='135px'
+              maxWidth='135px'
               step={step}
               stepMap={this.stepMap}
             />

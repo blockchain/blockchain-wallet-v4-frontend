@@ -42,18 +42,18 @@ const StateRegistrationStep = props => {
   return (
     <Wrapper>
       <Header>
-        <Text size="20px" weight={500} color="brand-primary">
+        <Text size='20px' weight={500} color='brand-primary'>
           <FormattedMessage
-            id="scenes.exchange.shapeshift.stateregistration.header"
-            defaultMessage="Simple. Seamless. Secure."
+            id='scenes.exchange.shapeshift.stateregistration.header'
+            defaultMessage='Simple. Seamless. Secure.'
           />
         </Text>
       </Header>
       <SubHeader>
-        <Text size="14px" weight={300}>
+        <Text size='14px' weight={300}>
           <FormattedMessage
-            id="scenes.exchange.shapeshift.stateregistration.subheader"
-            defaultMessage="Blockchain works with exchange partners to make exchanging coins in your wallet secure and seamless."
+            id='scenes.exchange.shapeshift.stateregistration.subheader'
+            defaultMessage='Blockchain works with exchange partners to make exchanging coins in your wallet secure and seamless.'
           />
         </Text>
       </SubHeader>
@@ -61,29 +61,29 @@ const StateRegistrationStep = props => {
         <Form onSubmit={handleSubmit}>
           <FormGroup>
             <FormItem>
-              <FormLabel for="state">
+              <FormLabel for='state'>
                 <FormattedMessage
-                  id="scenes.exchange.shapeshift.stateregistration.selectstate"
-                  defaultMessage="Select your state of residency:"
+                  id='scenes.exchange.shapeshift.stateregistration.selectstate'
+                  defaultMessage='Select your state of residency:'
                 />
               </FormLabel>
               <Field
-                name="state"
+                name='state'
                 validate={[required]}
                 component={SelectBoxUSState}
               />
             </FormItem>
           </FormGroup>
           <SubmitButton
-            nature="primary"
+            nature='primary'
             uppercase
             fullwidth
-            type="submit"
+            type='submit'
             disabled={invalid || pristine}
           >
             <FormattedMessage
-              id="scenes.exchange.shapeshift.stateregistration.continue"
-              defaultMessage="Continue"
+              id='scenes.exchange.shapeshift.stateregistration.continue'
+              defaultMessage='Continue'
             />
           </SubmitButton>
         </Form>

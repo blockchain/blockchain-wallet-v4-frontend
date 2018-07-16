@@ -15,36 +15,36 @@ class RecurringOrderHistoryTable extends React.PureComponent {
     return (
       <Table>
         <TableHeader>
-          <TableCell width="15%" mobileWidth="30%">
-            <Text size="13px" weight={500} capitalize>
+          <TableCell width='15%' mobileWidth='30%'>
+            <Text size='13px' weight={500} capitalize>
               <FormattedMessage
-                id="scenes.buysell.orderhistory.recurring.order"
-                defaultMessage="Recurring Order"
+                id='scenes.buysell.orderhistory.recurring.order'
+                defaultMessage='Recurring Order'
               />
             </Text>
           </TableCell>
-          <TableCell width="15%" mobileWidth="0%" />
-          <TableCell width="30%">
-            <Text size="13px" weight={500} capitalize>
+          <TableCell width='15%' mobileWidth='0%' />
+          <TableCell width='30%'>
+            <Text size='13px' weight={500} capitalize>
               <FormattedMessage
-                id="scenes.buysell.orderhistory.recurring.frequency"
-                defaultMessage="Frequency"
+                id='scenes.buysell.orderhistory.recurring.frequency'
+                defaultMessage='Frequency'
               />
             </Text>
           </TableCell>
-          <TableCell width="20%">
-            <Text size="13px" weight={500} capitalize>
+          <TableCell width='20%'>
+            <Text size='13px' weight={500} capitalize>
               <FormattedMessage
-                id="scenes.buysell.orderhistory.recurring.start"
-                defaultMessage="Start"
+                id='scenes.buysell.orderhistory.recurring.start'
+                defaultMessage='Start'
               />
             </Text>
           </TableCell>
-          <TableCell width="20%">
-            <Text size="13px" weight={500} capitalize>
+          <TableCell width='20%'>
+            <Text size='13px' weight={500} capitalize>
               <FormattedMessage
-                id="scenes.buysell.orderhistory.recurring.end"
-                defaultMessage="End"
+                id='scenes.buysell.orderhistory.recurring.end'
+                defaultMessage='End'
               />
             </Text>
           </TableCell>

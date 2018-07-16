@@ -71,18 +71,18 @@ function Choices (props) {
             : () => props.chooseMethod('google')
         }
       >
-        <SecurityIcon name="lock" size="18px" weight={400} />
+        <SecurityIcon name='lock' size='18px' weight={400} />
         <ChoiceDescription>
-          <Text weight={300} size="14px">
+          <Text weight={300} size='14px'>
             <FormattedMessage
-              id="scenes.security.twostepsetup.useauthenticatortitle"
-              defaultMessage="Authenticator App"
+              id='scenes.security.twostepsetup.useauthenticatortitle'
+              defaultMessage='Authenticator App'
             />
           </Text>
-          <Text weight={200} size="12px">
+          <Text weight={200} size='12px'>
             <FormattedMessage
-              id="scenes.security.twostepsetup.useauthenticator"
-              defaultMessage="Use app-generated codes"
+              id='scenes.security.twostepsetup.useauthenticator'
+              defaultMessage='Use app-generated codes'
             />
           </Text>
         </ChoiceDescription>
@@ -97,19 +97,19 @@ function Choices (props) {
         }
       >
         <YubikeyWrapper>
-          <Image name="yubikey" height="18px" width="18px" />
+          <Image name='yubikey' height='18px' width='18px' />
         </YubikeyWrapper>
         <ChoiceDescription>
-          <Text weight={300} size="14px">
+          <Text weight={300} size='14px'>
             <FormattedMessage
-              id="scenes.security.twostepsetup.useyubikey.title"
-              defaultMessage="Yubikey"
+              id='scenes.security.twostepsetup.useyubikey.title'
+              defaultMessage='Yubikey'
             />
           </Text>
-          <Text weight={200} size="12px">
+          <Text weight={200} size='12px'>
             <FormattedMessage
-              id="scenes.security.twostepsetup.useyubikey"
-              defaultMessage="Pair with your Yubikey"
+              id='scenes.security.twostepsetup.useyubikey'
+              defaultMessage='Pair with your Yubikey'
             />
           </Text>
         </ChoiceDescription>
@@ -123,18 +123,18 @@ function Choices (props) {
             : () => props.chooseMethod('sms')
         }
       >
-        <SecurityIcon name="mobile" size="18px" weight={400} />
+        <SecurityIcon name='mobile' size='18px' weight={400} />
         <ChoiceDescription>
-          <Text weight={300} size="14px">
+          <Text weight={300} size='14px'>
             <FormattedMessage
-              id="scenes.security.twostepsetup.smstitle"
-              defaultMessage="Mobile Phone Number"
+              id='scenes.security.twostepsetup.smstitle'
+              defaultMessage='Mobile Phone Number'
             />
           </Text>
-          <Text weight={200} size="12px">
+          <Text weight={200} size='12px'>
             <FormattedMessage
-              id="scenes.security.twostepsetup.sms"
-              defaultMessage="Use codes sent via SMS"
+              id='scenes.security.twostepsetup.sms'
+              defaultMessage='Use codes sent via SMS'
             />
           </Text>
         </ChoiceDescription>

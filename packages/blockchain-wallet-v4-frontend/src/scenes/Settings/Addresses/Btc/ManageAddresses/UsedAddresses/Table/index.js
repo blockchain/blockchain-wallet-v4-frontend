@@ -25,8 +25,8 @@ class UsedAddressesTableContainer extends React.PureComponent {
           Loading: () => (
             <FlatLoader
               style={{ margin: '25px auto' }}
-              width="100px"
-              height="12px"
+              width='100px'
+              height='12px'
             />
           ),
           NotAsked: () => <div />

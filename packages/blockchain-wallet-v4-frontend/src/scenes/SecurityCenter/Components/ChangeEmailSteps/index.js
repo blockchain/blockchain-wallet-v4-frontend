@@ -38,25 +38,25 @@ function ChangeEmailSteps (props) {
     <SecuritySummary>
       <ChangeEmailWrapper>
         <Field
-          name="changeEmail"
+          name='changeEmail'
           validate={[validEmail]}
           component={TextBox}
-          placeholder="email@email.com"
+          placeholder='email@email.com'
         />
         <ButtonContainer>
           <Button
-            nature="primary"
+            nature='primary'
             onClick={props.handleEmailChangeSubmit}
             disabled={props.invalid}
           >
             <FormattedMessage
-              id="scenes.preferences.email.settings.updateform.change"
-              defaultMessage="Change"
+              id='scenes.preferences.email.settings.updateform.change'
+              defaultMessage='Change'
             />
           </Button>
           <CancelText
             weight={300}
-            size="12px"
+            size='12px'
             onClick={props.handleEmailChangeCancel}
           >
             Cancel
@@ -64,10 +64,10 @@ function ChangeEmailSteps (props) {
         </ButtonContainer>
       </ChangeEmailWrapper>
       <CustomBannerWrapper>
-        <Banner type="caution" size="20px" weight={200}>
-          <Text size="12px">
+        <Banner type='caution' size='20px' weight={200}>
+          <Text size='12px'>
             <FormattedMessage
-              id="scenes.security.email.changeemail.description"
+              id='scenes.security.email.changeemail.description'
               defaultMessage="This will change your wallet's email address. The email address you use to buy or sell with will remain the same."
             />
           </Text>

@@ -16,47 +16,47 @@ const Wrapper = styled.section`
 
 export default () => (
   <Wrapper>
-    <Text size="18px" weight={600} color="brand-primary">
+    <Text size='18px' weight={600} color='brand-primary'>
       <FormattedMessage
-        id="scenes.exchange.simple"
-        defaultMessage="Simple. Seamless. Secure."
+        id='scenes.exchange.simple'
+        defaultMessage='Simple. Seamless. Secure.'
       />
     </Text>
     <TextGroup inline>
-      <Text size="13px" weight={300}>
+      <Text size='13px' weight={300}>
         <FormattedMessage
-          id="scenes.exchange.summary"
-          defaultMessage="You can exchange between bitcoin, ether, and bitcoin cash directly from your Blockchain wallet."
+          id='scenes.exchange.summary'
+          defaultMessage='You can exchange between bitcoin, ether, and bitcoin cash directly from your Blockchain wallet.'
         />
       </Text>
-      <Text size="13px" weight={300}>
+      <Text size='13px' weight={300}>
         <FormattedMessage
-          id="scenes.exchange.summary2"
-          defaultMessage="In a few simple steps, your exchange will be in progress."
+          id='scenes.exchange.summary2'
+          defaultMessage='In a few simple steps, your exchange will be in progress.'
         />
       </Text>
-      <Text size="13px" weight={300}>
+      <Text size='13px' weight={300}>
         <FormattedMessage
-          id="scenes.exchange.summary3"
-          defaultMessage="Note: exchanges usually take between twenty minutes and two hours."
+          id='scenes.exchange.summary3'
+          defaultMessage='Note: exchanges usually take between twenty minutes and two hours.'
         />
       </Text>
       <TextGroup inline>
-        <Text weight={300} size="13px">
+        <Text weight={300} size='13px'>
           <FormattedMessage
-            id="scenes.exchange.help"
-            defaultMessage="Need help?"
+            id='scenes.exchange.help'
+            defaultMessage='Need help?'
           />
         </Text>
         <Link
-          href="https://support.blockchain.com/hc/en-us/requests/new"
-          target="_blank"
-          size="13px"
+          href='https://support.blockchain.com/hc/en-us/requests/new'
+          target='_blank'
+          size='13px'
           weight={300}
         >
           <FormattedMessage
-            id="scenes.exchange.support"
-            defaultMessage="Contact Support"
+            id='scenes.exchange.support'
+            defaultMessage='Contact Support'
           />
         </Link>
       </TextGroup>

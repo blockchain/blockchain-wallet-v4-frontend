@@ -47,14 +47,14 @@ class CameraContainer extends React.Component {
         />
         <SubmitContainer>
           <IconButton
-            name="camera"
+            name='camera'
             fullwidth
-            nature="primary"
+            nature='primary'
             onClick={this.capture}
           >
             <FormattedMessage
-              id="sfoxexchangedata.upload.capture"
-              defaultMessage="Capture"
+              id='sfoxexchangedata.upload.capture'
+              defaultMessage='Capture'
             />
           </IconButton>
         </SubmitContainer>

@@ -63,14 +63,14 @@ const ThirdStep = props => {
     <Wrapper>
       {hasError ? (
         <Link
-          size="14px"
+          size='14px'
           weight={300}
           onClick={previousStep}
           style={{ margin: '10px 0' }}
         >
           <FormattedMessage
-            id="scenes.securitycenter.walletrecoveryphrase.thirdstep.reviewPhrase"
-            defaultMessage="Review your backup phrase"
+            id='scenes.securitycenter.walletrecoveryphrase.thirdstep.reviewPhrase'
+            defaultMessage='Review your backup phrase'
           />
         </Link>
       ) : null}
@@ -78,7 +78,7 @@ const ThirdStep = props => {
         <Container>
           {indexes.map(index => (
             <WordContainer key={index}>
-              <Text size="14px" weight={300} style={{ marginBottom: '4px' }}>
+              <Text size='14px' weight={300} style={{ marginBottom: '4px' }}>
                 {`${languageHelper(index)} word`}
               </Text>
               <Field
@@ -92,13 +92,13 @@ const ThirdStep = props => {
         </Container>
         <Buttons>
           <Button
-            type="submit"
-            nature="primary"
+            type='submit'
+            nature='primary'
             disabled={submitting || invalid}
           >
             <FormattedMessage
-              id="scenes.securitycenter.walletrecoveryphrase.thirdstep.confirm"
-              defaultMessage="Confirm"
+              id='scenes.securitycenter.walletrecoveryphrase.thirdstep.confirm'
+              defaultMessage='Confirm'
             />
           </Button>
         </Buttons>

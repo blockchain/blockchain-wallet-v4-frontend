@@ -17,8 +17,8 @@ const mapStateToProps = (state, ownProps) => ({
     {
       text: (
         <FormattedMessage
-          id="components.form.selectboxbankaccounttype.checking"
-          defaultMessage="Checking"
+          id='components.form.selectboxbankaccounttype.checking'
+          defaultMessage='Checking'
         />
       ),
       value: 'checking'
@@ -27,8 +27,8 @@ const mapStateToProps = (state, ownProps) => ({
     {
       text: (
         <FormattedMessage
-          id="components.form.selectboxbankaccounttype.savings"
-          defaultMessage="Savings"
+          id='components.form.selectboxbankaccounttype.savings'
+          defaultMessage='Savings'
         />
       ),
       value: 'savings'
