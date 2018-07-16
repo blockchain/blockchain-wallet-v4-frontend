@@ -4,6 +4,7 @@ import btcTransactions from './btcTransactions/sagas'
 import ethTransactions from './ethTransactions/sagas'
 import exchange from './exchange/sagas'
 import exchangeHistory from './exchangeHistory/sagas'
+import identityVerification from './identityVerification/sagas'
 import importBtcAddress from './importBtcAddress/sagas'
 import login from './login/sagas'
 import manageAddresses from './manageAddresses/sagas'
@@ -25,6 +26,7 @@ export default ({ api, coreSagas, options }) => ({
   ethTransactions: ethTransactions({ api, coreSagas }),
   exchange: exchange({ api, coreSagas, options }),
   exchangeHistory: exchangeHistory({ api, coreSagas }),
+  identityVerification: identityVerification({ api, coreSagas }),
   importBtcAddress: importBtcAddress({ api, coreSagas }),
   login: login(),
   manageAddresses: manageAddresses({ api, coreSagas }),

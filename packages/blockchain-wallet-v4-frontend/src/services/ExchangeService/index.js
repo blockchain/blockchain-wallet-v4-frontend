@@ -18,23 +18,24 @@ export const findMatch = (settings, options) => {
 
 // settings, options, buySell, type ('Buy' || 'Sell') => 'partner' || false
 export const canTrade = (settings, options, buySell, type) => {
-  // if user has an account return 'partner'
-  const account = hasAccount(buySell.value)
-  if (account) return account
+  return 'sfox'
+  // // if user has an account return 'partner'
+  // const account = hasAccount(buySell.value)
+  // if (account) return account
 
-  // if location does not match any partner return false
-  const match = findMatch(settings, options)
-  if (!match) return false
+  // // if location does not match any partner return false
+  // const match = findMatch(settings, options)
+  // if (!match) return false
 
-  // check if user is invited to location match => 'partner'
-  const { invited } = settings
+  // // check if user is invited to location match => 'partner'
+  // const { invited } = settings
 
-  // v2 -> v3 upgrades do not have invited object
-  if (!invited) return false
+  // // v2 -> v3 upgrades do not have invited object
+  // if (!invited) return false
 
-  switch (match) {
-    case 'sfox': return (type ? invited['sfox' + type] : (invited.sfoxBuy || invited.sfoxSell)) && 'sfox'
-    case 'coinify': return (type ? invited['coinify' + type] : (invited.coinifyBuy || invited.coinifySell)) && 'coinify'
-    default: return false
-  }
+  // switch (match) {
+  //   case 'sfox': return (type ? invited['sfox' + type] : (invited.sfoxBuy || invited.sfoxSell)) && 'sfox'
+  //   case 'coinify': return (type ? invited['coinify' + type] : (invited.coinifyBuy || invited.coinifySell)) && 'coinify'
+  //   default: return false
+  // }
 }

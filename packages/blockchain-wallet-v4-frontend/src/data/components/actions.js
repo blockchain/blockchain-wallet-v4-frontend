@@ -4,6 +4,7 @@ import * as btcTransactions from './btcTransactions/actions'
 import * as ethTransactions from './ethTransactions/actions'
 import * as exchange from './exchange/actions'
 import * as exchangeHistory from './exchangeHistory/actions'
+import * as identityVerification from './identityVerification/actions'
 import * as importBtcAddress from './importBtcAddress/actions'
 import * as layoutWallet from './layoutWallet/actions'
 import * as login from './login/actions'
@@ -26,6 +27,7 @@ export {
   ethTransactions,
   exchange,
   exchangeHistory,
+  identityVerification,
   importBtcAddress,
   manageAddresses,
   layoutWallet,

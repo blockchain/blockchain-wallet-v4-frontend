@@ -5,6 +5,7 @@ import btcTransactions from './btcTransactions/sagaRegister'
 import ethTransactions from './ethTransactions/sagaRegister'
 import exchange from './exchange/sagaRegister'
 import exchangeHistory from './exchangeHistory/sagaRegister'
+import identityVerification from './identityVerification/sagaRegister'
 import importBtcAddress from './importBtcAddress/sagaRegister'
 import login from './login/sagaRegister'
 import manageAddresses from './manageAddresses/sagaRegister'
@@ -26,6 +27,7 @@ export default ({ api, coreSagas, options }) => function * () {
   yield fork(ethTransactions({ api, coreSagas }))
   yield fork(exchange({ api, coreSagas, options }))
   yield fork(exchangeHistory({ api, coreSagas }))
+  yield fork(identityVerification({ api, coreSagas }))
   yield fork(importBtcAddress({ api, coreSagas }))
   yield fork(login())
   yield fork(manageAddresses({ api, coreSagas }))
