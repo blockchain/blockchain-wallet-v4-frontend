@@ -10,20 +10,32 @@ const LabelContainer = styled.div`
 const PartnerBanner = styled(Banner)`
   padding: 3px 5px;
 `
-const capitalize = (text) => text[0].toUpperCase() + text.substring(1)
+const capitalize = text => text[0].toUpperCase() + text.substring(1)
 
 const PartnerLabel = props => {
   const { txType, partnerLabel, buysellPartner } = props
 
   if (partnerLabel === 'shift') {
     return (
-      <LabelContainer mobileSize='14px' size='16px' weight={500} color={props.type} uppercase>
+      <LabelContainer
+        mobileSize='14px'
+        size='16px'
+        weight={500}
+        color={props.type}
+        uppercase
+      >
         <PartnerBanner>
-          {
-            txType === 'sent'
-              ? <FormattedMessage id='components.txlistitem.partnerlabel.depositedshapeshift' defaultMessage='ShapeShift Deposit' />
-              : <FormattedMessage id='components.txlistitem.partnerlabel.receivedshapeshift' defaultMessage='Received from ShapeShift' />
-          }
+          {txType === 'sent' ? (
+            <FormattedMessage
+              id='components.txlistitem.partnerlabel.depositedshapeshift'
+              defaultMessage='ShapeShift Deposit'
+            />
+          ) : (
+            <FormattedMessage
+              id='components.txlistitem.partnerlabel.receivedshapeshift'
+              defaultMessage='Received from ShapeShift'
+            />
+          )}
         </PartnerBanner>
       </LabelContainer>
     )
@@ -31,13 +43,27 @@ const PartnerLabel = props => {
 
   if (partnerLabel === 'buy-sell' && buysellPartner) {
     return (
-      <LabelContainer mobileSize='14px' size='16px' weight={500} color={props.type} uppercase>
+      <LabelContainer
+        mobileSize='14px'
+        size='16px'
+        weight={500}
+        color={props.type}
+        uppercase
+      >
         <PartnerBanner partnerLabel>
-          {
-            txType === 'sent'
-              ? <FormattedMessage id='components.txlistitem.partnerlabel.soldvia' defaultMessage='Sold via {partner}' values={{ partner: capitalize(buysellPartner) }} />
-              : <FormattedMessage id='components.txlistitem.partnerlabel.boughtvia' defaultMessage='Bought via {partner}' values={{ partner: capitalize(buysellPartner) }} />
-          }
+          {txType === 'sent' ? (
+            <FormattedMessage
+              id='components.txlistitem.partnerlabel.soldvia'
+              defaultMessage='Sold via {partner}'
+              values={{ partner: capitalize(buysellPartner) }}
+            />
+          ) : (
+            <FormattedMessage
+              id='components.txlistitem.partnerlabel.boughtvia'
+              defaultMessage='Bought via {partner}'
+              values={{ partner: capitalize(buysellPartner) }}
+            />
+          )}
         </PartnerBanner>
       </LabelContainer>
     )

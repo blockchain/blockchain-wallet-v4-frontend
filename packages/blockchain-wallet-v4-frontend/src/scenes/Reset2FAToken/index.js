@@ -14,13 +14,19 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   background-color: ${props => props.theme['white']};
 
-  @media(min-width: 768px) { width: 550px; }
+  @media (min-width: 768px) {
+    width: 550px;
+  }
 `
 
 class Reset2FAToken extends React.PureComponent {
   constructor (props) {
     super(props)
-    this.state = { token: decodeURIComponent(props.location.pathname.split('/reset2fa-token/')[1]) }
+    this.state = {
+      token: decodeURIComponent(
+        props.location.pathname.split('/reset-two-factor/')[1]
+      )
+    }
   }
 
   componentDidMount () {
@@ -31,17 +37,13 @@ class Reset2FAToken extends React.PureComponent {
     const { data } = this.props
 
     let Reset2FARequest = data.cata({
-      Success: (value) => <Success value={value} />,
-      Failure: (value) => <Error value={value} />,
+      Success: value => <Success value={value} />,
+      Failure: value => <Error value={value} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
 
-    return (
-      <Wrapper>
-        {Reset2FARequest}
-      </Wrapper>
-    )
+    return <Wrapper>{Reset2FARequest}</Wrapper>
   }
 }
 
@@ -49,8 +51,11 @@ const mapStateToProps = state => ({
   data: getData(state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   miscActions: bindActionCreators(actions.core.data.misc, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Reset2FAToken)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Reset2FAToken)

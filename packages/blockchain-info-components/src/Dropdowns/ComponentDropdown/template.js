@@ -8,7 +8,7 @@ import { keysIn } from 'ramda'
 
 const Wrapper = styled.div`
   display: inline-flex;
-  text-transform: ${props => props.uppercase ? 'uppercase' : 'none'};
+  text-transform: ${props => (props.uppercase ? 'uppercase' : 'none')};
   position: relative;
 `
 const ButtonContainer = styled.div`
@@ -28,13 +28,13 @@ const DropdownIcon = styled(Icon)`
 `
 const DropdownList = styled.ul`
   background-clip: padding-box;
-  background-color:  ${props => props.theme['white']};;
+  background-color: ${props => props.theme['white']};
   border: 1px solid ${props => props.theme['gray-1']};
   border-radius: 4px;
   bottom: 0px;
   box-sizing: border-box;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-  display: ${props => props.toggled ? 'block' : 'none'};
+  display: ${props => (props.toggled ? 'block' : 'none')};
   float: none;
   height: auto;
   width: inherit;
@@ -49,8 +49,10 @@ const DropdownList = styled.ul`
   padding: 5px 0px;
   position: absolute;
   right: 0;
-  ${props => props.down ? 'top: 25px; bottom: auto;' : 'top: auto; bottom: 25px;'}
-  z-index: 10;
+  ${props =>
+    props.down
+      ? 'top: 25px; bottom: auto;'
+      : 'top: auto; bottom: 25px;'} z-index: 10;
 `
 
 const DropdownItem = styled.li`
@@ -66,15 +68,24 @@ const DropdownItem = styled.li`
 `
 
 const Dropdown = props => {
-  const { color, down, uppercase, toggled, selectedComponent, components, handleClick, handleCallback } = props
+  const {
+    color,
+    down,
+    uppercase,
+    toggled,
+    selectedComponent,
+    components,
+    handleClick,
+    handleCallback
+  } = props
 
   return (
     <Wrapper uppercase={uppercase}>
       <DropdownList toggled={toggled} down={down}>
-        { components.map((comp, index) => {
+        {components.map((comp, index) => {
           return (
             <DropdownItem key={index} onClick={handleCallback.bind(null, comp)}>
-              { comp }
+              {comp}
             </DropdownItem>
           )
         })}
@@ -96,10 +107,7 @@ Dropdown.defaultProps = {
 }
 
 Dropdown.propTypes = {
-  selectedValue: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]),
+  selectedValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   callback: PropTypes.func.isRequired,
   toggled: PropTypes.bool,
   color: PropTypes.oneOf(keysIn(Palette())),

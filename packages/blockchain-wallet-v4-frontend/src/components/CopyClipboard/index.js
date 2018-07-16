@@ -17,11 +17,19 @@ class CopyClipboardContainer extends React.PureComponent {
 
   handleClick () {
     this.setState({ active: true })
-    this.timeout = setTimeout(() => { this.setState({ active: false }) }, 2000)
+    this.timeout = setTimeout(() => {
+      this.setState({ active: false })
+    }, 2000)
   }
 
   render () {
-    return <CopyClipboard active={this.state.active} address={this.props.address} handleClick={this.handleClick} />
+    return (
+      <CopyClipboard
+        active={this.state.active}
+        address={this.props.address}
+        handleClick={this.handleClick}
+      />
+    )
   }
 }
 

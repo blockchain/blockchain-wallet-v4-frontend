@@ -22,17 +22,22 @@ describe('kvStore ethereum reducers', () => {
       last_tx_timestamp: 'this is the last tx timestamp',
       legacy_account: 'this is the legacy account',
       tx_notes: {
-        'someTxHash': 'some someTxHash tx note'
+        someTxHash: 'some someTxHash tx note'
       }
     }
   }
 
-  const ethereumMetadata = set(KVStoreEntry.value,
+  const ethereumMetadata = set(
+    KVStoreEntry.value,
     ethereumObject,
-    KVStoreEntry.createEmpty(typeId))
+    KVStoreEntry.createEmpty(typeId)
+  )
 
   const ethereumMetadataSuccess = Remote.Success(ethereumMetadata)
-  const valueLens = compose(mapped, KVStoreEntry.value)
+  const valueLens = compose(
+    mapped,
+    KVStoreEntry.value
+  )
 
   it('should return the initial state', () => {
     expect(reducer(undefined, {})).toEqual(INITIAL_STATE)
@@ -76,15 +81,26 @@ describe('kvStore ethereum reducers', () => {
     const latestTx = 'latest tx'
     const action = actions.setLatestTxEthereum(latestTx)
     const setCoinifyTrades = assocPath(['ethereum', 'last_tx'], latestTx)
-    const expectedState = over(valueLens, setCoinifyTrades, ethereumMetadataSuccess)
+    const expectedState = over(
+      valueLens,
+      setCoinifyTrades,
+      ethereumMetadataSuccess
+    )
     expect(reducer(ethereumMetadataSuccess, action)).toEqual(expectedState)
   })
 
   it('should handle SET_LATEST_TX_TIMESTAMP_ETHEREUM', () => {
     const latestTimestamp = 42
     const action = actions.setLatestTxTimestampEthereum(latestTimestamp)
-    const setLatestTimestamp = assocPath(['ethereum', 'last_tx_timestamp'], latestTimestamp)
-    const expectedState = over(valueLens, setLatestTimestamp, ethereumMetadataSuccess)
+    const setLatestTimestamp = assocPath(
+      ['ethereum', 'last_tx_timestamp'],
+      latestTimestamp
+    )
+    const expectedState = over(
+      valueLens,
+      setLatestTimestamp,
+      ethereumMetadataSuccess
+    )
     expect(reducer(ethereumMetadataSuccess, action)).toEqual(expectedState)
   })
 })

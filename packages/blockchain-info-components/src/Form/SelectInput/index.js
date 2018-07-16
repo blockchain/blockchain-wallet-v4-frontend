@@ -27,7 +27,9 @@ class SelectInputContainer extends React.PureComponent {
 
   handleClick (item) {
     this.setState({ value: item.value, expanded: false, search: '' })
-    if (this.props.onChange) { this.props.onChange(item.value) }
+    if (this.props.onChange) {
+      this.props.onChange(item.value)
+    }
   }
 
   handleChange (event) {
@@ -36,13 +38,19 @@ class SelectInputContainer extends React.PureComponent {
 
   handleBlur () {
     this.setState({ expanded: false, search: '' })
-    if (this.props.onBlur) { this.props.onBlur() }
-    if (this.props.onChange) { this.props.onChange(this.state.value) }
+    if (this.props.onBlur) {
+      this.props.onBlur()
+    }
+    if (this.props.onChange) {
+      this.props.onChange(this.state.value)
+    }
   }
 
   handleFocus () {
     this.setState({ expanded: true })
-    if (this.props.onFocus) { this.props.onFocus() }
+    if (this.props.onFocus) {
+      this.props.onFocus()
+    }
   }
 
   handleClickOutside () {
@@ -52,9 +60,14 @@ class SelectInputContainer extends React.PureComponent {
   transform (elements, search) {
     let items = []
     elements.map(element => {
-      if (!search && element.group !== '') { items.push({ text: element.group }) }
+      if (!search && element.group !== '') {
+        items.push({ text: element.group })
+      }
       element.items.map(item => {
-        if (!search || (search && contains(toUpper(search), toUpper(item.text)))) {
+        if (
+          !search ||
+          (search && contains(toUpper(search), toUpper(item.text)))
+        ) {
           items.push({ text: item.text, value: item.value })
         }
       })
@@ -92,15 +105,21 @@ class SelectInputContainer extends React.PureComponent {
 }
 
 SelectInputContainer.propTypes = {
-  elements: PropTypes.arrayOf(PropTypes.shape({
-    group: PropTypes.string.isRequired,
-    items: PropTypes.array.isRequired
-  })).isRequired,
+  elements: PropTypes.arrayOf(
+    PropTypes.shape({
+      group: PropTypes.string.isRequired,
+      items: PropTypes.array.isRequired
+    })
+  ).isRequired,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   searchEnabled: PropTypes.bool,
   opened: PropTypes.bool,
   disabled: PropTypes.bool,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object]).isRequired,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.object
+  ]).isRequired,
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
   onFocus: PropTypes.func,

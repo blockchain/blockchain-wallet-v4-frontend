@@ -24,7 +24,7 @@ const Wrapper = styled.div`
   width: 100%;
   overflow: auto;
 
-  @media(min-width: 768px) {
+  @media (min-width: 768px) {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -36,7 +36,7 @@ const HeaderContainer = styled.div`
   position: relative;
   width: 100%;
 
-  @media(min-width: 768px) {
+  @media (min-width: 768px) {
     position: fixed;
     top: 0;
     left: 0;
@@ -60,7 +60,7 @@ const ContentContainer = styled.div`
     justify-content: flex-start;
   }
 
-   @media (min-height: 1400px) {
+  @media (min-height: 1400px) {
     height: 100%;
     margin-top: 500px;
     justify-content: flex-start;
@@ -71,7 +71,7 @@ const FooterContainer = styled.div`
   width: 100%;
   padding: 20px 0;
 
-  @media(min-width: 768px) {
+  @media (min-width: 768px) {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -96,29 +96,32 @@ class PublicLayoutContainer extends React.PureComponent {
   render () {
     const { component: Component, ...rest } = this.props
     return (
-      <Route {...rest} render={matchProps => (
-        <Wrapper>
-          <ErrorBoundary>
-            <Alerts />
-            <HeaderContainer>
-              <Header />
-            </HeaderContainer>
-            <ContentContainer>
-              <Component {...matchProps} />
-            </ContentContainer>
-            <FooterContainer>
-              <Container>
-                <Footer />
-              </Container>
-            </FooterContainer>
-          </ErrorBoundary>
-        </Wrapper>
-      )} />
+      <Route
+        {...rest}
+        render={matchProps => (
+          <Wrapper>
+            <ErrorBoundary>
+              <Alerts />
+              <HeaderContainer>
+                <Header />
+              </HeaderContainer>
+              <ContentContainer>
+                <Component {...matchProps} />
+              </ContentContainer>
+              <FooterContainer>
+                <Container>
+                  <Footer />
+                </Container>
+              </FooterContainer>
+            </ErrorBoundary>
+          </Wrapper>
+        )}
+      />
     )
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   pathname: selectors.router.getPathname(state),
   domainsR: selectors.core.walletOptions.getDomains(state),
   migrationRedirectsR: selectors.core.walletOptions.getMigrationRedirects(state)

@@ -1,5 +1,4 @@
-export default
-{
+export default {
   code: 'NZD',
   base: 'CENT',
   trade: 'NZD',

@@ -30,7 +30,10 @@ const Wrapper = styled.div`
       fill: ${props => props.theme['gray-5']} !important;
     }
     .highcharts-color-0 {
-      fill: ${props => gt(props.btcBalance, 0) ? props.theme['brand-primary'] : props.theme['gray-2']} !important;
+      fill: ${props =>
+        gt(props.btcBalance, 0)
+          ? props.theme['brand-primary']
+          : props.theme['gray-2']} !important;
     }
     .highcharts-color-1 {
       fill: ${props => props.theme['brand-secondary']} !important;
@@ -39,7 +42,7 @@ const Wrapper = styled.div`
       fill: ${props => props.theme['brand-tertiary']} !important;
     }
   }
-  @media(min-width: 480px) {
+  @media (min-width: 480px) {
     height: 380px;
   }
 `
@@ -51,37 +54,57 @@ const ChartInfo = styled.div`
     > div:last-of-type {
       width: 28%;
     }
-  `}
+  `};
 `
 const Column = styled.div`
   display: flex;
   flex-direction: column;
   width: 25%;
-  > * { margin-bottom: 4px; }
+  > * {
+    margin-bottom: 4px;
+  }
 `
 
-const BalancesChart = (props) => {
+const BalancesChart = props => {
   const { balances, handleCoinDisplay, history } = props
   const { btcBalance, ethBalance, bchBalance, chartData, symbol } = balances
 
   return (
     <Wrapper className={'ignore-react-onclickoutside'} btcBalance={btcBalance}>
       <Text uppercase color='brand-primary' weight={300} size='24px'>
-        <FormattedMessage id='scenes.home.balanceschart.yourbalances' defaultMessage='Your Balances' />
+        <FormattedMessage
+          id='scenes.home.balanceschart.yourbalances'
+          defaultMessage='Your Balances'
+        />
       </Text>
-      <ReactHighcharts config={configure(chartData, symbol, history)} isPureConfig />
+      <ReactHighcharts
+        config={configure(chartData, symbol, history)}
+        isPureConfig
+      />
       <ChartInfo>
         <Column>
-          <BtcBalance btcBalance={btcBalance} bchBalance={bchBalance} ethBalance={ethBalance}
-            handleCoinDisplay={handleCoinDisplay} />
+          <BtcBalance
+            btcBalance={btcBalance}
+            bchBalance={bchBalance}
+            ethBalance={ethBalance}
+            handleCoinDisplay={handleCoinDisplay}
+          />
         </Column>
         <Column>
-          <EthBalance btcBalance={btcBalance} bchBalance={bchBalance} ethBalance={ethBalance}
-            handleCoinDisplay={handleCoinDisplay} />
+          <EthBalance
+            btcBalance={btcBalance}
+            bchBalance={bchBalance}
+            ethBalance={ethBalance}
+            handleCoinDisplay={handleCoinDisplay}
+          />
         </Column>
         <Column>
-          <BchBalance btcBalance={btcBalance} bchBalance={bchBalance} ethBalance={ethBalance}
-            handleCoinDisplay={handleCoinDisplay} />
+          <BchBalance
+            btcBalance={btcBalance}
+            bchBalance={bchBalance}
+            ethBalance={ethBalance}
+            handleCoinDisplay={handleCoinDisplay}
+          />
         </Column>
       </ChartInfo>
     </Wrapper>

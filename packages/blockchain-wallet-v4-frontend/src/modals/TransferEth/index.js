@@ -15,13 +15,18 @@ class TransferEthContainer extends React.PureComponent {
   }
 
   componentDidMount () {
-    this.props.sendEthActions.initialized({ from: this.props.addr, type: 'LEGACY' })
+    this.props.sendEthActions.initialized({
+      from: this.props.addr,
+      type: 'LEGACY'
+    })
   }
 
   componentDidUpdate (prevProps) {
     if (Remote.Success.is(this.props.data)) {
       const { fee, effectiveBalance } = this.props.data.getOrElse({})
-      if (parseFloat(fee) > parseFloat(effectiveBalance)) this.props.modalActions.closeAllModals()
+      if (parseFloat(fee) > parseFloat(effectiveBalance)) {
+        this.props.modalActions.closeAllModals()
+      }
     }
   }
 
@@ -33,7 +38,14 @@ class TransferEthContainer extends React.PureComponent {
   render () {
     const { addr, data } = this.props
     return data.cata({
-      Success: (val) => <Success handleSubmit={this.handleSubmit} from={addr} val={val} {...this.props} />,
+      Success: val => (
+        <Success
+          handleSubmit={this.handleSubmit}
+          from={addr}
+          val={val}
+          {...this.props}
+        />
+      ),
       Loading: () => null,
       NotAsked: () => null,
       Failure: () => null
@@ -47,7 +59,7 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   sendEthActions: bindActionCreators(actions.components.sendEth, dispatch),
   transferEthActions: bindActionCreators(actions.modules.transferEth, dispatch)
@@ -55,7 +67,10 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   modalEnhancer('TransferEth'),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )
 
 export default enhance(TransferEthContainer)

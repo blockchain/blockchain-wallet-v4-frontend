@@ -1,6 +1,6 @@
 import { isNil, path } from 'ramda'
 
-export const hasAccount = (partners) => {
+export const hasAccount = partners => {
   if (!isNil(path(['sfox', 'account_token'], partners))) return 'sfox'
   if (!isNil(path(['coinify', 'offline_token'], partners))) return 'coinify'
 }
@@ -13,7 +13,12 @@ export const findMatch = (settings, options) => {
 
   // if user's location matches a partner country code set match
   if (coinify.countries.indexOf(country_code) > -1) return 'coinify'
-  if (sfox.countries.indexOf(country_code) > -1 && (sfox.states.indexOf(state) > -1 || !state)) return 'sfox'
+  if (
+    sfox.countries.indexOf(country_code) > -1 &&
+    (sfox.states.indexOf(state) > -1 || !state)
+  ) {
+    return 'sfox'
+  }
 }
 
 // settings, options, buySell, type ('Buy' || 'Sell') => 'partner' || false
@@ -33,8 +38,18 @@ export const canTrade = (settings, options, buySell, type) => {
   if (!invited) return false
 
   switch (match) {
-    case 'sfox': return (type ? invited['sfox' + type] : (invited.sfoxBuy || invited.sfoxSell)) && 'sfox'
-    case 'coinify': return (type ? invited['coinify' + type] : (invited.coinifyBuy || invited.coinifySell)) && 'coinify'
-    default: return false
+    case 'sfox':
+      return (
+        (type ? invited['sfox' + type] : invited.sfoxBuy || invited.sfoxSell) &&
+        'sfox'
+      )
+    case 'coinify':
+      return (
+        (type
+          ? invited['coinify' + type]
+          : invited.coinifyBuy || invited.coinifySell) && 'coinify'
+      )
+    default:
+      return false
   }
 }

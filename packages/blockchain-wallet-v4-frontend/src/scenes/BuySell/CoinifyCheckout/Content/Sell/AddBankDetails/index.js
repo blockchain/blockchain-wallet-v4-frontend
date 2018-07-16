@@ -9,15 +9,15 @@ class AddBankDetailsContainer extends React.PureComponent {
   render () {
     const { data } = this.props
     return data.cata({
-      Success: (value) => <AddBankDetails quote={value} />,
+      Success: value => <AddBankDetails quote={value} />,
       Loading: <Loading />,
       NotAsked: <div>Not Asked</div>,
-      Failure: (error) => <div>Failure: {error && error.message}</div>
+      Failure: error => <div>Failure: {error && error.message}</div>
     })
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   data: getData(state)
 })
 

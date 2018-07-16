@@ -23,7 +23,14 @@ class EtherWelcomeContainer extends React.PureComponent {
   render () {
     const { showEtherWelcome, bchBalanceR, btcBalanceR } = this.props
     const exchange = btcBalanceR.getOrElse(0) + bchBalanceR.getOrElse(0) > 0
-    return <EtherWelcome displayed={showEtherWelcome} handleClick={this.handleClick} handleRequest={this.handleRequest} exchange={exchange} />
+    return (
+      <EtherWelcome
+        displayed={showEtherWelcome}
+        handleClick={this.handleClick}
+        handleRequest={this.handleRequest}
+        exchange={exchange}
+      />
+    )
   }
 }
 
@@ -38,4 +45,7 @@ const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(EtherWelcomeContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EtherWelcomeContainer)

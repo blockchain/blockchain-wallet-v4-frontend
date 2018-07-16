@@ -4,7 +4,11 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { equals, keys } from 'ramda'
 
-import { PERSONAL_STEPS, EMAIL_STEPS, SMS_STEPS } from 'data/components/identityVerification/model'
+import {
+  PERSONAL_STEPS,
+  EMAIL_STEPS,
+  SMS_STEPS
+} from 'data/components/identityVerification/model'
 import { actions } from 'data'
 import { getData } from './selectors'
 import Personal from './template'
@@ -37,48 +41,63 @@ class PersonalContainer extends React.PureComponent {
   }
 
   render () {
-    const { personalData, step, countryCode, actions, handleSubmit } = this.props
+    const {
+      personalData,
+      step,
+      countryCode,
+      actions,
+      handleSubmit
+    } = this.props
     const { email, smsNumber } = personalData
 
     if (step === PERSONAL_STEPS.email) {
-      return <EditEmail
-        initialValues={{ email }}
-        email={email}
-        editEmail={actions.setEmailStep.bind(null, EMAIL_STEPS.edit)}
-        updateEmail={actions.updateEmail}
-        verifyEmail={actions.verifyEmail}
-        resendCode={actions.resendEmailCode}
-      />
+      return (
+        <EditEmail
+          initialValues={{ email }}
+          email={email}
+          editEmail={actions.setEmailStep.bind(null, EMAIL_STEPS.edit)}
+          updateEmail={actions.updateEmail}
+          verifyEmail={actions.verifyEmail}
+          resendCode={actions.resendEmailCode}
+        />
+      )
     }
 
     if (step === PERSONAL_STEPS.smsNumber) {
-      return <EditSmsNumber
-        initialValues={{ smsNumber }}
-        smsNumber={smsNumber}
-        editSmsNumber={actions.setSmsStep.bind(null, SMS_STEPS.edit)}
-        updateSmsNumber={actions.updateSmsNumber}
-        verifySmsNumber={actions.verifySmsNumber}
-        resendCode={actions.resendSmsCode}
-      />
+      return (
+        <EditSmsNumber
+          initialValues={{ smsNumber }}
+          smsNumber={smsNumber}
+          editSmsNumber={actions.setSmsStep.bind(null, SMS_STEPS.edit)}
+          updateSmsNumber={actions.updateSmsNumber}
+          verifySmsNumber={actions.verifySmsNumber}
+          resendCode={actions.resendSmsCode}
+        />
+      )
     }
 
     if (step === PERSONAL_STEPS.personal) {
-      return <Personal
-        {...personalData}
-        onSubmit={handleSubmit}
-        initialValues={{ email, smsNumber }}
-        countryCode={countryCode}
-        editEmail={actions.setPersonalStep.bind(null, PERSONAL_STEPS.email)}
-        editSms={actions.setPersonalStep.bind(null, PERSONAL_STEPS.smsNumber)}
-      />
+      return (
+        <Personal
+          {...personalData}
+          onSubmit={handleSubmit}
+          initialValues={{ email, smsNumber }}
+          countryCode={countryCode}
+          editEmail={actions.setPersonalStep.bind(null, PERSONAL_STEPS.email)}
+          editSms={actions.setPersonalStep.bind(null, PERSONAL_STEPS.smsNumber)}
+        />
+      )
     }
 
     return ''
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.identityVerification, dispatch)
 })
 
-export default connect(getData, mapDispatchToProps)(PersonalContainer)
+export default connect(
+  getData,
+  mapDispatchToProps
+)(PersonalContainer)

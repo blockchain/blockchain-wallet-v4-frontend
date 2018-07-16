@@ -39,7 +39,9 @@ const AccountDetails = styled.div`
   display: flex;
   margin-left: 10px;
   flex-direction: column;
-  span:first-child { text-transform: capitalize; }
+  span:first-child {
+    text-transform: capitalize;
+  }
 `
 const LabelWrapper = styled.div`
   display: flex;
@@ -63,8 +65,10 @@ const Amount = styled.span`
   margin-right: 5px;
 `
 
-const belowMaxAmount = (value, allValues, props) => value > props.limits.max ? 'max' : undefined
-const aboveMinAmount = (value, allValues, props) => value < props.limits.min ? 'min' : undefined
+const belowMaxAmount = (value, allValues, props) =>
+  value > props.limits.max ? 'max' : undefined
+const aboveMinAmount = (value, allValues, props) =>
+  value < props.limits.min ? 'min' : undefined
 
 class ExchangeCheckout extends React.PureComponent {
   constructor (props) {
@@ -78,11 +82,21 @@ class ExchangeCheckout extends React.PureComponent {
     if (quote && !equals(this.props.quote, quote)) {
       if (base === 'fiat') {
         this.props.change('crypto', parseFloat(quote.quoteAmount / 1e8))
-        this.setState({ rate: +((1 / (Math.abs(quote.quoteAmount) / 1e8)) * Math.abs(quote.baseAmount)).toFixed(2) })
+        this.setState({
+          rate: +(
+            (1 / (Math.abs(quote.quoteAmount) / 1e8)) *
+            Math.abs(quote.baseAmount)
+          ).toFixed(2)
+        })
       }
       if (base === 'crypto') {
         this.props.change('fiat', parseFloat(quote.quoteAmount))
-        this.setState({ rate: +((1 / (Math.abs(quote.baseAmount) / 1e8)) * Math.abs(quote.quoteAmount)).toFixed(2) })
+        this.setState({
+          rate: +(
+            (1 / (Math.abs(quote.baseAmount) / 1e8)) *
+            Math.abs(quote.quoteAmount)
+          ).toFixed(2)
+        })
       }
     }
   }
@@ -94,40 +108,78 @@ class ExchangeCheckout extends React.PureComponent {
     let quoteCurrency = fiatLimits ? crypto : fiat
 
     this.props.dispatch(focus('exchangeCheckout', field))
-    this.props.dispatch(change('exchangeCheckout', field, this.props.limits.max))
-    this.props.fetchQuote({ amt: this.props.limits.max * 100, baseCurrency: baseCurrency, quoteCurrency: quoteCurrency, type })
+    this.props.dispatch(
+      change('exchangeCheckout', field, this.props.limits.max)
+    )
+    this.props.fetchQuote({
+      amt: this.props.limits.max * 100,
+      baseCurrency: baseCurrency,
+      quoteCurrency: quoteCurrency,
+      type
+    })
   }
 
   render () {
     const { rate } = this.state
-    const { accounts, continueButton, errors, requiredMsg, limits, reasonMsg, fiat, crypto, fetchQuote, onSubmit, showRequiredMsg } = this.props
+    const {
+      accounts,
+      continueButton,
+      errors,
+      requiredMsg,
+      limits,
+      reasonMsg,
+      fiat,
+      crypto,
+      fetchQuote,
+      onSubmit,
+      showRequiredMsg
+    } = this.props
 
-    const minError = (errors && errors.fiat && errors.fiat === 'min') || (errors && errors.crypto && errors.crypto === 'min')
-    const maxError = (errors && errors.fiat && errors.fiat === 'max') || (errors && errors.crypto && errors.crypto === 'max')
+    const minError =
+      (errors && errors.fiat && errors.fiat === 'min') ||
+      (errors && errors.crypto && errors.crypto === 'min')
+    const maxError =
+      (errors && errors.fiat && errors.fiat === 'max') ||
+      (errors && errors.crypto && errors.crypto === 'max')
 
     return (
       <Wrapper>
         <Form onSubmit={onSubmit}>
           <LabelWrapper>
             <Label>
-              <FormattedMessage id='scenes.buysell.exchangecheckout.enteramount' defaultMessage='Enter Amount:' />
+              <FormattedMessage
+                id='scenes.buysell.exchangecheckout.enteramount'
+                defaultMessage='Enter Amount:'
+              />
             </Label>
-            { rate && !minError &&
+            {rate &&
+              !minError && (
+                <Rate>
+                  <Amount>
+                    1 {crypto} = {rate} {fiat}
+                  </Amount>
+                  <Tooltip>
+                    <FormattedMessage
+                      id='scenes.buysell.exchangecheckout.rate'
+                      defaultMessage="The rate offered by your region's exchange partner. May include fees."
+                    />
+                  </Tooltip>
+                </Rate>
+              )}
+            {minError && (
               <Rate>
-                <Amount>1 { crypto } = { rate } { fiat }</Amount>
-                <Tooltip>
-                  <FormattedMessage id='scenes.buysell.exchangecheckout.rate' defaultMessage="The rate offered by your region's exchange partner. May include fees." />
-                </Tooltip>
-              </Rate>
-            }
-            {
-              minError &&
-              <Rate>
-                <Text size='12px' color={'error'} weight={300} >
-                  <FormattedMessage id='scenes.buysell.exchangecheckout.enteramount.details' defaultMessage='Please enter an amount greater than {min} {curr}.' values={{ min: limits.min, curr: this.props.fiatLimits ? fiat : crypto }} />
+                <Text size='12px' color={'error'} weight={300}>
+                  <FormattedMessage
+                    id='scenes.buysell.exchangecheckout.enteramount.details'
+                    defaultMessage='Please enter an amount greater than {min} {curr}.'
+                    values={{
+                      min: limits.min,
+                      curr: this.props.fiatLimits ? fiat : crypto
+                    }}
+                  />
                 </Text>
               </Rate>
-            }
+            )}
           </LabelWrapper>
           <CheckoutInput inline>
             <FormItem width='50%'>
@@ -136,7 +188,13 @@ class ExchangeCheckout extends React.PureComponent {
                 hideErrors
                 component={NumberBox}
                 validate={[belowMaxAmount, aboveMinAmount, required]}
-                onChange={event => fetchQuote({ amt: event.target.value * 100, baseCurrency: fiat, quoteCurrency: crypto })}
+                onChange={event =>
+                  fetchQuote({
+                    amt: event.target.value * 100,
+                    baseCurrency: fiat,
+                    quoteCurrency: crypto
+                  })
+                }
               />
             </FormItem>
             <FormItem width='50%'>
@@ -145,38 +203,49 @@ class ExchangeCheckout extends React.PureComponent {
                 hideErrors
                 component={NumberBox}
                 validate={[required]}
-                onChange={event => fetchQuote({ amt: event.target.value * 1e8, baseCurrency: crypto, quoteCurrency: fiat })}
+                onChange={event =>
+                  fetchQuote({
+                    amt: event.target.value * 1e8,
+                    baseCurrency: crypto,
+                    quoteCurrency: fiat
+                  })
+                }
               />
             </FormItem>
           </CheckoutInput>
           <ReasonMessage onClick={this.setMax.bind(this)}>
             <Text size='12px' weight={300} color={maxError ? 'error' : ''}>
-              { reasonMsg }
+              {reasonMsg}
             </Text>
           </ReasonMessage>
-          { showRequiredMsg && <RequiredMessage> { requiredMsg } </RequiredMessage> }
-          {
-            accounts && accounts.length > 0
-              ? <AccountsContainer>
-                <Text size='14px' weight={300} style={{'margin-bottom': '5px'}}>
-                  <FormattedMessage id='scenes.buysell.exchangecheckout.synced' defaultMessage='Synced Bank Account:' />
-                </Text>
-                { accounts.map((account) => {
-                  return (
-                    <Account>
-                      <Icon size='24px' name='bank' />
-                      <AccountDetails>
-                        <span>{account.accountType} ({account.routingNumber})</span>
-                        <span>Account Holder: {account.name}</span>
-                      </AccountDetails>
-                    </Account>
-                  )
-                }) }
-              </AccountsContainer>
-              : null
-          }
+          {showRequiredMsg && (
+            <RequiredMessage> {requiredMsg} </RequiredMessage>
+          )}
+          {accounts && accounts.length > 0 ? (
+            <AccountsContainer>
+              <Text size='14px' weight={300} style={{ 'margin-bottom': '5px' }}>
+                <FormattedMessage
+                  id='scenes.buysell.exchangecheckout.synced'
+                  defaultMessage='Synced Bank Account:'
+                />
+              </Text>
+              {accounts.map(account => {
+                return (
+                  <Account>
+                    <Icon size='24px' name='bank' />
+                    <AccountDetails>
+                      <span>
+                        {account.accountType} ({account.routingNumber})
+                      </span>
+                      <span>Account Holder: {account.name}</span>
+                    </AccountDetails>
+                  </Account>
+                )
+              })}
+            </AccountsContainer>
+          ) : null}
           <Button type='submit' nature='primary' fullwidth>
-            { continueButton }
+            {continueButton}
           </Button>
         </Form>
       </Wrapper>

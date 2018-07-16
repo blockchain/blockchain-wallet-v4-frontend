@@ -16,9 +16,12 @@ class EmailVerificationSteps extends React.PureComponent {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   coreSettingsActions: bindActionCreators(actions.core.settings, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
-export default connect(null, mapDispatchToProps)(EmailVerificationSteps)
+export default connect(
+  null,
+  mapDispatchToProps
+)(EmailVerificationSteps)

@@ -25,16 +25,36 @@ const ToSLink = styled.a`
   color: ${props => props.theme['brand-secondary']};
 `
 
-const ReviewForm = (props) => {
+const ReviewForm = props => {
   const { invalid, busy, onSubmit, quoteR, account } = props
 
   return (
     <OrderSubmitForm>
       <TermsWrapper>
-        <Field name='terms' validate={[required]} component={CheckBox} hideErrors />
+        <Field
+          name='terms'
+          validate={[required]}
+          component={CheckBox}
+          hideErrors
+        />
         <TermsLabel htmlFor='terms'>
           <Text size='11px' weight={300}>
-            <FormattedMessage id='scenes.buysell.sfox.orderreview.checkboxtext' defaultMessage='I authorize SFOX, Inc. to debit my linked bank account ending in {account} and comply with the SFOX {ToS}.' values={{ account: prop('accountNumber', account), ToS: <ToSLink rel='noopener noreferrer' target='_blank' href='https://www.sfox.com/terms.html'>Terms of Service</ToSLink> }} />
+            <FormattedMessage
+              id='scenes.buysell.sfox.orderreview.checkboxtext'
+              defaultMessage='I authorize SFOX, Inc. to debit my linked bank account ending in {account} and comply with the SFOX {ToS}.'
+              values={{
+                account: prop('accountNumber', account),
+                ToS: (
+                  <ToSLink
+                    rel='noopener noreferrer'
+                    target='_blank'
+                    href='https://www.sfox.com/terms.html'
+                  >
+                    Terms of Service
+                  </ToSLink>
+                )
+              }}
+            />
           </Text>
         </TermsLabel>
       </TermsWrapper>
@@ -42,16 +62,23 @@ const ReviewForm = (props) => {
         fullwidth
         nature='primary'
         disabled={invalid || busy || !Remote.Success.is(quoteR)}
-        onClick={quoteR.map((quote) => () => onSubmit(quote)).getOrElse(null)}>
-        {
-          busy
-            ? <HeartbeatLoader height='20px' width='20px' color='white' />
-            : <FormattedMessage id='buysell.sfoxcheckout.orderreview.submit' defaultMessage='Submit' />
-        }
+        onClick={quoteR.map(quote => () => onSubmit(quote)).getOrElse(null)}
+      >
+        {busy ? (
+          <HeartbeatLoader height='20px' width='20px' color='white' />
+        ) : (
+          <FormattedMessage
+            id='buysell.sfoxcheckout.orderreview.submit'
+            defaultMessage='Submit'
+          />
+        )}
       </Button>
       <CancelWrapper>
         <StepTransition prev Component={Link}>
-          <FormattedMessage id='buysell.sfoxcheckout.orderreview.cancel' defaultMessage='Cancel' />
+          <FormattedMessage
+            id='buysell.sfoxcheckout.orderreview.cancel'
+            defaultMessage='Cancel'
+          />
         </StepTransition>
       </CancelWrapper>
     </OrderSubmitForm>

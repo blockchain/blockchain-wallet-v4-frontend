@@ -5,11 +5,4 @@ import * as securityCenter from './securityCenter/actions'
 import * as transferEth from './transferEth/actions'
 import * as sfox from './sfox/actions'
 
-export {
-  addressesBch,
-  coinify,
-  settings,
-  securityCenter,
-  transferEth,
-  sfox
-}
+export { addressesBch, coinify, settings, securityCenter, transferEth, sfox }

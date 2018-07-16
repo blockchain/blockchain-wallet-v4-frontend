@@ -14,7 +14,7 @@ const Container = styled.div`
   -webkit-font-smoothing: antialiased;
   margin: 0 auto;
   overflow: hidden;
-  height: ${props => props.collapsed ? '35px' : ''};
+  height: ${props => (props.collapsed ? '35px' : '')};
   width: 100%;
 `
 const ActionLink = styled(Link)`
@@ -24,7 +24,7 @@ const ActionLink = styled(Link)`
   text-decoration: underline;
 `
 const ActionIcon = styled(Icon)`
-margin-top: 5px;
+  margin-top: 5px;
   &:hover {
     cursor: pointer;
   }
@@ -35,47 +35,106 @@ const IconContainer = styled.div`
 
 const selectStyle = type => {
   switch (type) {
-    case 'danger': return { color: 'warn', uppercase: true, icon: 'alert-filled', iconColor: 'error' }
-    case 'info': return { color: 'brand-tertiary', uppercase: false, icon: false, iconColor: null }
-    case 'warning': return { color: 'brand-yellow-lighter', uppercase: false, icon: 'alert-filled', iconColor: 'sent' }
-    default: return { color: 'brand-tertiary', uppercase: false, icon: false, iconColor: null }
+    case 'danger':
+      return {
+        color: 'warn',
+        uppercase: true,
+        icon: 'alert-filled',
+        iconColor: 'error'
+      }
+    case 'info':
+      return {
+        color: 'brand-tertiary',
+        uppercase: false,
+        icon: false,
+        iconColor: null
+      }
+    case 'warning':
+      return {
+        color: 'brand-yellow-lighter',
+        uppercase: false,
+        icon: 'alert-filled',
+        iconColor: 'sent'
+      }
+    default:
+      return {
+        color: 'brand-tertiary',
+        uppercase: false,
+        icon: false,
+        iconColor: null
+      }
   }
 }
 
 const Announcement = props => {
-  const { announcement, collapsed, language, handleDismiss, toggleCollapse } = props
+  const {
+    announcement,
+    collapsed,
+    language,
+    handleDismiss,
+    toggleCollapse
+  } = props
   const style = selectStyle(announcement.type)
   const { color, icon, iconColor, uppercase } = style
 
   return (
     <Container color={color} collapsed={collapsed}>
       <IconContainer>
-        { icon && <Icon name={icon} size='34px' weight={600} color={iconColor} /> }
+        {icon && (
+          <Icon name={icon} size='34px' weight={600} color={iconColor} />
+        )}
       </IconContainer>
-      <div style={{width: '100%'}}>
-        <Text weight={300} size='20px' uppercase={uppercase} style={{margin: '6px 0'}}>
-          { announcement.header[language] ? announcement.header[language] : announcement.header.en }
+      <div style={{ width: '100%' }}>
+        <Text
+          weight={300}
+          size='20px'
+          uppercase={uppercase}
+          style={{ margin: '6px 0' }}
+        >
+          {announcement.header[language]
+            ? announcement.header[language]
+            : announcement.header.en}
         </Text>
         <TextGroup style={{ display: collapsed ? 'none' : '' }}>
-          {
-            announcement.sections.map((section, i) => {
-              return (
-                <Text key={i} size='13px' style={{marginBottom: '2px'}}>
-                  { section.body[language] ? section.body[language] : section.body.en }
-                </Text>
-              )
-            })
-          }
+          {announcement.sections.map((section, i) => {
+            return (
+              <Text key={i} size='13px' style={{ marginBottom: '2px' }}>
+                {section.body[language]
+                  ? section.body[language]
+                  : section.body.en}
+              </Text>
+            )
+          })}
           <ActionLink href={announcement.action.link} target='_blank'>
             <Text color='brand-primary' size='13px'>
-              { announcement.action.title[language] ? announcement.action.title[language] : announcement.action.title.en }
+              {announcement.action.title[language]
+                ? announcement.action.title[language]
+                : announcement.action.title.en}
             </Text>
           </ActionLink>
         </TextGroup>
       </div>
       <IconContainer>
-        { announcement.hideType === 'collapse' && <ActionIcon name={collapsed ? 'down-arrow' : 'up-arrow'} size='18px' weight={600} onClick={() => { toggleCollapse(announcement.id) }} /> }
-        { announcement.hideType === 'dismiss' && <ActionIcon name='close' size='18px' weight={600} onClick={() => { handleDismiss(announcement.id) }} /> }
+        {announcement.hideType === 'collapse' && (
+          <ActionIcon
+            name={collapsed ? 'down-arrow' : 'up-arrow'}
+            size='18px'
+            weight={600}
+            onClick={() => {
+              toggleCollapse(announcement.id)
+            }}
+          />
+        )}
+        {announcement.hideType === 'dismiss' && (
+          <ActionIcon
+            name='close'
+            size='18px'
+            weight={600}
+            onClick={() => {
+              handleDismiss(announcement.id)
+            }}
+          />
+        )}
       </IconContainer>
     </Container>
   )

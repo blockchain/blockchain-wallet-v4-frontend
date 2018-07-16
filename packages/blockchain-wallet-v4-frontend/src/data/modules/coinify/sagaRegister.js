@@ -6,7 +6,7 @@ import { actionTypes } from 'redux-form'
 export default ({ coreSagas }) => {
   const coinifySagas = sagas({ coreSagas })
 
-  return function * () {
+  return function*() {
     yield takeLatest(AT.SIGNUP, coinifySagas.coinifySignup)
     yield takeLatest(AT.COINIFY_SAVE_MEDIUM, coinifySagas.coinifySaveMedium)
     yield takeLatest(AT.COINIFY_BUY, coinifySagas.buy)
@@ -16,12 +16,18 @@ export default ({ coreSagas }) => {
     yield takeLatest(AT.COINIFY_FROM_ISX, coinifySagas.fromISX)
     yield takeLatest(AT.COINIFY_TRIGGER_KYC, coinifySagas.triggerKYC)
     yield takeLatest(AT.OPEN_KYC, coinifySagas.openKYC)
-    yield takeLatest(AT.COINIFY_DELETE_BANK_ACCOUNT, coinifySagas.deleteBankAccount)
+    yield takeLatest(
+      AT.COINIFY_DELETE_BANK_ACCOUNT,
+      coinifySagas.deleteBankAccount
+    )
     yield takeLatest(AT.CANCEL_ISX, coinifySagas.cancelISX)
     yield takeLatest(AT.FINISH_TRADE, coinifySagas.finishTrade)
     yield takeLatest(AT.CANCEL_TRADE, coinifySagas.cancelTrade)
     yield takeLatest(AT.CANCEL_SUBSCRIPTION, coinifySagas.cancelSubscription)
     yield takeLatest(AT.CHECKOUT_CARD_MAX, coinifySagas.checkoutCardMax)
-    yield takeLatest(AT.COINIFY_INITIALIZE_PAYMENT, coinifySagas.initializePayment)
+    yield takeLatest(
+      AT.COINIFY_INITIALIZE_PAYMENT,
+      coinifySagas.initializePayment
+    )
   }
 }

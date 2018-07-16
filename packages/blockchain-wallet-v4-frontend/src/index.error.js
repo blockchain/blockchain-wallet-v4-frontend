@@ -25,12 +25,19 @@ const Row = styled.div`
 export default () => (
   <Wrapper>
     <Row>
-      <Text size='24px' weight={300} color='brand-primary'>We&rsquo;ll be back soon!</Text>
+      <Text size='24px' weight={300} color='brand-primary'>
+        We&rsquo;ll be back soon!
+      </Text>
     </Row>
     <Row>
       <TextGroup>
-        <Text size='18px' weight={300} color='brand-primary'>Sorry for the inconvenience but we&rsquo;re performing some maintenance at the moment.</Text>
-        <Text size='18px' weight={300} color='brand-primary'>&mdash; The Blockchain Team</Text>
+        <Text size='18px' weight={300} color='brand-primary'>
+          Sorry for the inconvenience but we&rsquo;re performing some
+          maintenance at the moment.
+        </Text>
+        <Text size='18px' weight={300} color='brand-primary'>
+          &mdash; The Blockchain Team
+        </Text>
       </TextGroup>
     </Row>
   </Wrapper>

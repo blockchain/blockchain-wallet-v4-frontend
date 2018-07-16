@@ -14,17 +14,27 @@ const StatusContainer = styled(TableCell)`
   ${media.mobile`
     flex-direction: column;
     width: 25%;
-  `}
+  `};
 `
 
 const tradeDateHelper = (date, isMobile = false) => {
   let timeFormat = 'MMMM D YYYY @ h:mm A'
   if (isMobile) timeFormat = 'DD MMM'
-  return moment(date).local().format(timeFormat)
+  return moment(date)
+    .local()
+    .format(timeFormat)
 }
 
 const TradeItem = props => {
-  const { status, date, sourceCoin, targetCoin, depositAmount, withdrawalAmount, handleClick } = props
+  const {
+    status,
+    date,
+    sourceCoin,
+    targetCoin,
+    depositAmount,
+    withdrawalAmount,
+    handleClick
+  } = props
 
   return (
     <MediaContextConsumer>
@@ -35,19 +45,36 @@ const TradeItem = props => {
               <OrderStatus status={status} size={mobile ? '12px' : '14px'} />
             </TableCell>
             <TableCell width='70%'>
-              <Link size={mobile ? '12px' : '14px'} weight={300} capitalize onClick={handleClick}>
-                <FormattedMessage id='scenes.exchangehistory.list.tradeitem.viewdetails' defaultMessage='View details' />
+              <Link
+                size={mobile ? '12px' : '14px'}
+                weight={300}
+                capitalize
+                onClick={handleClick}
+              >
+                <FormattedMessage
+                  id='scenes.exchangehistory.list.tradeitem.viewdetails'
+                  defaultMessage='View details'
+                />
               </Link>
             </TableCell>
           </StatusContainer>
           <TableCell width='30%' mobileWidth='18%'>
-            <Text size={mobile ? '12px' : '14px'} weight={300}>{tradeDateHelper(date, mobile)}</Text>
+            <Text size={mobile ? '12px' : '14px'} weight={300}>
+              {tradeDateHelper(date, mobile)}
+            </Text>
           </TableCell>
           <TableCell width='20%' mobileWidth='30%'>
-            <Text size={mobile ? '12px' : '14px'} weight={300}>{`${depositAmount} ${sourceCoin}`}</Text>
+            <Text
+              size={mobile ? '12px' : '14px'}
+              weight={300}
+            >{`${depositAmount} ${sourceCoin}`}</Text>
           </TableCell>
           <TableCell width='20%'>
-            <Text size={mobile ? '12px' : '14px'} weight={300} color={status === 'complete' ? 'gray-5' : 'gray-2'}>{`${withdrawalAmount} ${targetCoin}`}</Text>
+            <Text
+              size={mobile ? '12px' : '14px'}
+              weight={300}
+              color={status === 'complete' ? 'gray-5' : 'gray-2'}
+            >{`${withdrawalAmount} ${targetCoin}`}</Text>
           </TableCell>
         </TableRow>
       )}

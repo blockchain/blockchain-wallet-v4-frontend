@@ -6,7 +6,9 @@ import HeartbeatLoader from './HeartbeatLoader'
 
 describe('HeartbeatLoader component', () => {
   it('default renders correctly', () => {
-    const component = shallow(<HeartbeatLoader height='10px' width='10px' color='brand-primary' />)
+    const component = shallow(
+      <HeartbeatLoader height='10px' width='10px' color='brand-primary' />
+    )
     const tree = toJson(component)
     expect(tree).toMatchSnapshot()
   })

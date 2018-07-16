@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { shallow } from 'enzyme'
 import toJson from 'enzyme-to-json'
@@ -20,7 +19,10 @@ const localStorageMock = {
 global.localStorage = localStorageMock
 
 describe('Chart container', () => {
-  const props = { data: Remote.Success(''), priceChartActions: { initialized: jest.fn() } }
+  const props = {
+    data: Remote.Success(''),
+    priceChartActions: { initialized: jest.fn() }
+  }
 
   it('renders correctly (Success)', () => {
     const component = shallow(<ChartContainer {...props} />)
@@ -29,19 +31,25 @@ describe('Chart container', () => {
   })
 
   it('renders correctly (Failure)', () => {
-    const component = shallow(<ChartContainer {...assoc('data', Remote.Failure(''), props)} />)
+    const component = shallow(
+      <ChartContainer {...assoc('data', Remote.Failure(''), props)} />
+    )
     const tree = toJson(component)
     expect(tree).toMatchSnapshot()
   })
 
   it('renders correctly (Loading)', () => {
-    const component = shallow(<ChartContainer {...assoc('data', Remote.Loading, props)} />)
+    const component = shallow(
+      <ChartContainer {...assoc('data', Remote.Loading, props)} />
+    )
     const tree = toJson(component)
     expect(tree).toMatchSnapshot()
   })
 
   it('renders correctly (NotAsked)', () => {
-    const component = shallow(<ChartContainer {...assoc('data', Remote.NotAsked, props)} />)
+    const component = shallow(
+      <ChartContainer {...assoc('data', Remote.NotAsked, props)} />
+    )
     const tree = toJson(component)
     expect(tree).toMatchSnapshot()
   })

@@ -31,7 +31,7 @@ const CheckoutWrapper = styled.div`
   font-family: 'Montserrat', Helvetica, sans-serif;
   flex-direction: row;
   display: flex;
-  @media(min-height: 800px) {
+  @media (min-height: 800px) {
     height: 70%;
   }
   @media (max-width: 480px) {
@@ -49,7 +49,13 @@ class BuySellContainer extends React.PureComponent {
 
   componentDidMount () {
     this.props.formActions.initialize('buySellTabStatus', { status: 'buy' })
-    this.props.data.map(data => this.props.formActions.change('selectPartner', 'country', data.countryCode))
+    this.props.data.map(data =>
+      this.props.formActions.change(
+        'selectPartner',
+        'country',
+        data.countryCode
+      )
+    )
   }
 
   /**
@@ -61,11 +67,14 @@ class BuySellContainer extends React.PureComponent {
   selectPartner (buySell, options, type) {
     if (path(['sfox', 'account_token'], buySell)) {
       return {
-        component: <SfoxCheckout type={type} options={options} value={buySell} />,
+        component: (
+          <SfoxCheckout type={type} options={options} value={buySell} />
+        ),
         partner: 'sfox'
       }
     }
-    if (path(['unocoin', 'token'], buySell)) { // TODO replace token
+    if (path(['unocoin', 'token'], buySell)) {
+      // TODO replace token
       return {
         component: <span>Unocoin</span>,
         partner: ''
@@ -73,13 +82,23 @@ class BuySellContainer extends React.PureComponent {
     }
     if (path(['coinify', 'offline_token'], buySell)) {
       return {
-        component: <CoinifyCheckout type={type} options={options} value={buySell} />,
+        component: (
+          <CoinifyCheckout type={type} options={options} value={buySell} />
+        ),
         partner: 'coinify'
       }
     }
     return {
-      component: <SelectPartner type={type} options={options} value={buySell}
-        onSubmit={this.onSubmit} submitEmail={this.submitEmail} {...this.props} />,
+      component: (
+        <SelectPartner
+          type={type}
+          options={options}
+          value={buySell}
+          onSubmit={this.onSubmit}
+          submitEmail={this.submitEmail}
+          {...this.props}
+        />
+      ),
       partner: ''
     }
   }
@@ -88,8 +107,17 @@ class BuySellContainer extends React.PureComponent {
     this.props.updateUI({ submittedEmail: true })
     let email = encodeURIComponent(path(['fields', 'email'], this.props))
     let country = path(['fields', 'country'], this.props)
-    let state = path(['fields', 'country'], this.props) === 'US' ? path(['fields', 'stateSelection', 'name'], this.props) : undefined
-    let url = 'https://docs.google.com/forms/d/e/1FAIpQLSeYiTe7YsqEIvaQ-P1NScFLCSPlxRh24zv06FFpNcxY_Hs0Ow/viewform?entry.1192956638=' + email + '&entry.644018680=' + country + '&entry.387129390=' + state
+    let state =
+      path(['fields', 'country'], this.props) === 'US'
+        ? path(['fields', 'stateSelection', 'name'], this.props)
+        : undefined
+    let url =
+      'https://docs.google.com/forms/d/e/1FAIpQLSeYiTe7YsqEIvaQ-P1NScFLCSPlxRh24zv06FFpNcxY_Hs0Ow/viewform?entry.1192956638=' +
+      email +
+      '&entry.644018680=' +
+      country +
+      '&entry.387129390=' +
+      state
     window.open(url, '_blank')
   }
 
@@ -97,24 +125,30 @@ class BuySellContainer extends React.PureComponent {
     const { data, fields } = this.props
 
     const view = data.cata({
-      Success: (value) => this.selectPartner(path(['buySell', 'value'], value), value.options, path(['type'], fields), fields),
-      Failure: (message) => <div>failure: {message}</div>,
+      Success: value =>
+        this.selectPartner(
+          path(['buySell', 'value'], value),
+          value.options,
+          path(['type'], fields),
+          fields
+        ),
+      Failure: message => <div>failure: {message}</div>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
 
     return (
       <Wrapper>
-        {
-          hasAccount(path(['component', 'props', 'value'], view))
-            ? <Menu>
-              <Field name='status' component={TabMenuBuySellStatus} partner={prop('partner', view)} />
-            </Menu>
-            : null
-        }
-        <CheckoutWrapper>
-          {prop('component', view)}
-        </CheckoutWrapper>
+        {hasAccount(path(['component', 'props', 'value'], view)) ? (
+          <Menu>
+            <Field
+              name='status'
+              component={TabMenuBuySellStatus}
+              partner={prop('partner', view)}
+            />
+          </Menu>
+        ) : null}
+        <CheckoutWrapper>{prop('component', view)}</CheckoutWrapper>
       </Wrapper>
     )
   }
@@ -131,7 +165,10 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   ui({ state: { submittedEmail: false } })
 )
 

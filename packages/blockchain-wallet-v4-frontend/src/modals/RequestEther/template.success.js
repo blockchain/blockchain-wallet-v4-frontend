@@ -7,7 +7,13 @@ import QRCodeReact from 'qrcode.react'
 
 import { required } from 'services/FormHelper'
 import { Button, Separator, Text, Tooltip } from 'blockchain-info-components'
-import { Form, FormGroup, FormItem, FormLabel, SelectBoxCoin } from 'components/Form'
+import {
+  Form,
+  FormGroup,
+  FormItem,
+  FormLabel,
+  SelectBoxCoin
+} from 'components/Form'
 import CopyClipboard from 'components/CopyClipboard'
 
 const AddressContainer = styled.div`
@@ -32,7 +38,7 @@ const ScanMessage = styled.div`
   padding-bottom: 20px;
 `
 
-const RequestEther = (props) => {
+const RequestEther = props => {
   const { handleSubmit, address } = props
 
   return (
@@ -40,7 +46,10 @@ const RequestEther = (props) => {
       <CoinSelector margin={'20px'}>
         <FormItem>
           <FormLabel for='coin'>
-            <FormattedMessage id='modals.requestether.coin' defaultMessage='Currency:' />
+            <FormattedMessage
+              id='modals.requestether.coin'
+              defaultMessage='Currency:'
+            />
           </FormLabel>
           <Field name='coin' component={SelectBoxCoin} validate={[required]} />
         </FormItem>
@@ -48,9 +57,15 @@ const RequestEther = (props) => {
       <FormGroup>
         <FormItem>
           <FormLabel>
-            <FormattedMessage id='modals.requestether.share' defaultMessage='Copy & Share Address:' />
+            <FormattedMessage
+              id='modals.requestether.share'
+              defaultMessage='Copy & Share Address:'
+            />
             <Tooltip>
-              <FormattedMessage id='modals.requestether.sharetooltip' defaultMessage='Share this address with others, and they can send you ETH directly to your wallet. Your request address will not change.' />
+              <FormattedMessage
+                id='modals.requestether.sharetooltip'
+                defaultMessage='Share this address with others, and they can send you ETH directly to your wallet. Your request address will not change.'
+              />
             </Tooltip>
           </FormLabel>
         </FormItem>
@@ -66,9 +81,15 @@ const RequestEther = (props) => {
       <QRCodeContainer>
         <ScanMessage>
           <Text size='14px'>
-            <FormattedMessage id='modals.requestether.scan' defaultMessage='Scan QR Code:' />
+            <FormattedMessage
+              id='modals.requestether.scan'
+              defaultMessage='Scan QR Code:'
+            />
             <Tooltip>
-              <FormattedMessage id='modals.requestether.scan_tooltip' defaultMessage='Ask the sender to scan this QR code with their ether wallet' />
+              <FormattedMessage
+                id='modals.requestether.scan_tooltip'
+                defaultMessage='Ask the sender to scan this QR code with their ether wallet'
+              />
             </Tooltip>
           </Text>
         </ScanMessage>
@@ -86,4 +107,6 @@ RequestEther.propTypes = {
   onSubmit: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: 'requestEther', destroyOnUnmount: false })(RequestEther)
+export default reduxForm({ form: 'requestEther', destroyOnUnmount: false })(
+  RequestEther
+)

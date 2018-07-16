@@ -24,10 +24,18 @@ class SelectBoxRegion extends React.PureComponent {
     )(countryRegionData)
     const elements = [{ group: '', items: regions }]
 
-    return <SelectBox
-      label={<FormattedMessage id='components.selectboxcountry.label' defaultMessage='Select state/region' />}
-      elements={elements}
-      {...this.props} />
+    return (
+      <SelectBox
+        label={
+          <FormattedMessage
+            id='components.selectboxcountry.label'
+            defaultMessage='Select state/region'
+          />
+        }
+        elements={elements}
+        {...this.props}
+      />
+    )
   }
 }
 

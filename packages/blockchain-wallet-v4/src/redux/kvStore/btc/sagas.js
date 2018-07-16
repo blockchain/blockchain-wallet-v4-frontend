@@ -8,30 +8,36 @@ import { derivationMap, BTC } from '../config'
 import { getMetadataXpriv } from '../root/selectors'
 import { getWallet } from '../../wallet/selectors'
 
-const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
+const taskToPromise = t =>
+  new Promise((resolve, reject) => t.fork(reject, resolve))
 
 export default ({ api }) => {
-  const callTask = function * (task) {
-    return yield call(compose(taskToPromise, () => task))
+  const callTask = function*(task) {
+    return yield call(
+      compose(
+        taskToPromise,
+        () => task
+      )
+    )
   }
 
-  const createMetadataBtc = function * () {
+  const createMetadataBtc = function*() {
     yield call(delay, 1000)
-    const addressLabels = {
-    }
+    const addressLabels = {}
 
     const wallet = yield select(getWallet)
     const accounts = Wallet.selectHDAccounts(wallet)
 
-    accounts.map((account) => {
+    accounts.map(account => {
       const hd = accounts.get(account.index)
-      account.address_labels.map((label) => {
-        addressLabels[HDAccount.getReceiveAddress(hd, label.index)] = label.label
+      account.address_labels.map(label => {
+        addressLabels[HDAccount.getReceiveAddress(hd, label.index)] =
+          label.label
       })
     })
 
     const newBtcEntry = {
-      'address_labels': addressLabels
+      address_labels: addressLabels
     }
 
     const typeId = derivationMap[BTC]
@@ -42,19 +48,19 @@ export default ({ api }) => {
     yield put(A.createMetadataBtc(newkv))
   }
 
-  const getAddressLabelSize = function * () {
+  const getAddressLabelSize = function*() {
     const wallet = yield select(getWallet)
     const accounts = Wallet.selectHDAccounts(wallet)
 
     let labelSize = 0
-    accounts.map((account) => account.address_labels).map((l) => {
+    accounts.map(account => account.address_labels).map(l => {
       labelSize += l.size
     })
 
     return labelSize
   }
 
-  const fetchMetadataBtc = function * () {
+  const fetchMetadataBtc = function*() {
     try {
       const typeId = derivationMap[BTC]
       const mxpriv = yield select(getMetadataXpriv)

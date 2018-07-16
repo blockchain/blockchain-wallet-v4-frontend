@@ -16,19 +16,35 @@ const Wrapper = styled.div`
   height: 400px;
   border: 1px solid ${props => props.theme['gray-2']};
 
-  & > * { margin-bottom: 20px; }
+  & > * {
+    margin-bottom: 20px;
+  }
 `
 
 const Error = props => (
   <Wrapper>
     <Text size='12px' weight={300} color='red'>
-      {props.children === 'exchange_order_error'
-        ? <FormattedMessage id='scenes.shapeshift.secondstep.shapeshiftordererror' defaultMessage='Your order could not be placed. Please try again later.' />
-        : <FormattedMessage id='scenes.shapeshift.secondstep.shapeshifterror' defaultMessage='An unexpected error occured. Please try again later.' />
-      }
+      {props.children === 'exchange_order_error' ? (
+        <FormattedMessage
+          id='scenes.shapeshift.secondstep.shapeshiftordererror'
+          defaultMessage='Your order could not be placed. Please try again later.'
+        />
+      ) : (
+        <FormattedMessage
+          id='scenes.shapeshift.secondstep.shapeshifterror'
+          defaultMessage='An unexpected error occured. Please try again later.'
+        />
+      )}
     </Text>
-    <Link size='13px' weight={300} onClick={() => props.actions.secondStepGoBack()}>
-      <FormattedMessage id='scenes.shapeshift.secondstep.goback' defaultMessage='Go back' />
+    <Link
+      size='13px'
+      weight={300}
+      onClick={() => props.actions.secondStepGoBack()}
+    >
+      <FormattedMessage
+        id='scenes.shapeshift.secondstep.goback'
+        defaultMessage='Go back'
+      />
     </Link>
   </Wrapper>
 )
@@ -37,4 +53,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.exchange, dispatch)
 })
 
-export default connect(undefined, mapDispatchToProps)(Error)
+export default connect(
+  undefined,
+  mapDispatchToProps
+)(Error)

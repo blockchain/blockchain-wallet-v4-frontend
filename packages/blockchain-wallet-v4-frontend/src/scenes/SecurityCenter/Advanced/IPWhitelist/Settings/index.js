@@ -1,4 +1,3 @@
-
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -19,7 +18,9 @@ class SettingsContainer extends React.PureComponent {
 
   componentWillMount () {
     if (!isEmpty(this.props.currentWhitelist)) {
-      this.props.formActions.initialize('settingIPWhitelist', { IPWhitelist: this.props.currentWhitelist.data })
+      this.props.formActions.initialize('settingIPWhitelist', {
+        IPWhitelist: this.props.currentWhitelist.data
+      })
     }
   }
 
@@ -40,29 +41,40 @@ class SettingsContainer extends React.PureComponent {
 
   render () {
     const { ui, ...rest } = this.props
-    return <Settings
-      {...rest}
-      onSubmit={this.onSubmit}
-      updateToggled={ui.updateToggled}
-      handleToggle={this.handleToggle}
-      handleCancel={() => { this.props.formActions.reset('settingIPWhitelist'); this.handleToggle() }}
-    />
+    return (
+      <Settings
+        {...rest}
+        onSubmit={this.onSubmit}
+        updateToggled={ui.updateToggled}
+        handleToggle={this.handleToggle}
+        handleCancel={() => {
+          this.props.formActions.reset('settingIPWhitelist')
+          this.handleToggle()
+        }}
+      />
+    )
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   currentWhitelist: selectors.core.settings.getIpLock(state),
   IPWhitelist: formValueSelector('settingIPWhitelist')(state, 'IPWhitelist')
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   settingsActions: bindActionCreators(actions.modules.settings, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  ui({ key: 'Setting_IPWhitelist', state: { updateToggled: false, verifyToggled: false } })
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
+  ui({
+    key: 'Setting_IPWhitelist',
+    state: { updateToggled: false, verifyToggled: false }
+  })
 )
 
 SettingsContainer.propTypes = {

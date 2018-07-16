@@ -15,7 +15,7 @@ import { tryParseLanguageFromUrl } from 'services/LanguageService'
 
 const logLocation = 'data/rootSaga'
 
-const welcomeSaga = function * () {
+const welcomeSaga = function*() {
   try {
     const version = APP_VERSION
     const style1 = 'background: #F00; color: #FFF; font-size: 24px;'
@@ -27,27 +27,32 @@ const welcomeSaga = function * () {
     console.log('%c STOP!!', style1)
     console.log('%c This browser feature is intended for developers.', style2)
     console.log('%c If someone told you to copy-paste something here,', style2)
-    console.log('%c it is a scam and will give them access to your money!', style2)
+    console.log(
+      '%c it is a scam and will give them access to your money!',
+      style2
+    )
     /* eslint-enable */
   } catch (e) {
     yield put(actions.logs.logErrorMessage(logLocation, 'welcomeSaga', e))
   }
 }
 
-const languageInitSaga = function * () {
+const languageInitSaga = function*() {
   try {
     yield call(delay, 250)
     const lang = tryParseLanguageFromUrl()
     if (lang.language) {
       yield put(actions.preferences.setLanguage(lang.language, false))
-      if (lang.cultureCode) yield put(actions.preferences.setCulture(lang.cultureCode))
+      if (lang.cultureCode) {
+        yield put(actions.preferences.setCulture(lang.cultureCode))
+      }
     }
   } catch (e) {
     yield put(actions.logs.logErrorMessage(logLocation, 'languageInitSaga', e))
   }
 }
 
-export default function * ({ api, bchSocket, btcSocket, ethSocket, options }) {
+export default function*({ api, bchSocket, btcSocket, ethSocket, options }) {
   const coreSagas = coreSagasFactory({ api })
 
   yield all([

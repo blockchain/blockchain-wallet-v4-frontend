@@ -14,20 +14,20 @@ references:
       - image: circleci/node:10.6-jessie-browsers
 
   npm_cache_key: &npm_cache_key
-      v1-dependency-npm-{{ checksum "yarn.lock" }}
+      v2-dependency-npm-{{ checksum "yarn.lock" }}
 
   restore_node_modules: &restore_node_modules
     restore_cache:
       keys:
         - *npm_cache_key
-        - v1-dependency-npm
+        - v2-dependency-npm
 
   restore_repo: &restore_repo
       restore_cache:
         keys:
-          - v1-repo-{{ .Branch }}-{{ .Revision }}
-          - v1-repo-{{ .Branch }}
-          - v1-repo
+          - v2-repo-{{ .Branch }}-{{ .Revision }}
+          - v2-repo-{{ .Branch }}
+          - v2-repo
 
 jobs:
   pull_code:
@@ -36,7 +36,7 @@ jobs:
       - *restore_repo
       - checkout
       - save_cache:
-          key: v1-repo-{{ .Branch }}-{{ .Revision }}
+          key: v2-repo-{{ .Branch }}-{{ .Revision }}
           paths:
             - .
   npm_install:
@@ -45,8 +45,8 @@ jobs:
       - *restore_repo
       - *restore_node_modules
       - run:
-          name: Install Dependencies
-          command: npm install yarn babel-cli rimraf cross-env && yarn
+          name: Install App Dependencies
+          command: yarn --frozen-lockfile
       - save_cache:
           key: *npm_cache_key
           paths:
@@ -62,13 +62,20 @@ jobs:
       - run:
           name: Lint Code
           command: yarn lint
-  unit_tests:
+  test_core_components:
     <<: *container_config
     steps:
       - *attach_workspace
       - run:
-          name: Test Code
-          command: yarn ci:test
+          name: Test Core & Components Code
+          command: yarn ci:test:core:components
+  test_frontend:
+    <<: *container_config
+    steps:
+      - *attach_workspace
+      - run:
+          name: Test Frontend Code
+          command: yarn ci:test:build && yarn ci:test:frontend
   code_coverage:
     <<: *container_config
     steps:
@@ -89,7 +96,10 @@ workflows:
       - lint:
           requires:
             - npm_install
-      - unit_tests:
+      - test_core_components:
+          requires:
+            - npm_install
+      - test_frontend:
           requires:
             - npm_install
 

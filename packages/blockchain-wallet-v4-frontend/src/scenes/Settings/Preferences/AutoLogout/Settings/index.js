@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
@@ -17,14 +16,18 @@ class SettingContainer extends React.PureComponent {
 
   componentWillMount () {
     const { logoutTime } = this.props
-    this.props.formActions.initialize('settingAutoLogoutTime', { autoLogoutTime: logoutTime })
+    this.props.formActions.initialize('settingAutoLogoutTime', {
+      autoLogoutTime: logoutTime
+    })
     this.props.updateUI({ updateToggled: false })
   }
 
   handleClick () {
     const { autoLogoutTime } = this.props
 
-    this.props.settingsActions.updateAutoLogout(parseInt(autoLogoutTime) * 60000)
+    this.props.settingsActions.updateAutoLogout(
+      parseInt(autoLogoutTime) * 60000
+    )
     this.props.updateUI({ updateToggled: false })
   }
 
@@ -35,27 +38,34 @@ class SettingContainer extends React.PureComponent {
   render () {
     const { ui, logoutTime } = this.props
 
-    return <Settings
-      updateToggled={ui.updateToggled}
-      logoutTime={logoutTime}
-      handleToggle={this.handleToggle}
-      handleClick={this.handleClick}
-    />
+    return (
+      <Settings
+        updateToggled={ui.updateToggled}
+        logoutTime={logoutTime}
+        handleToggle={this.handleToggle}
+        handleClick={this.handleClick}
+      />
+    )
   }
 }
 
-const mapStateToProps = (state) => ({
-  autoLogoutTime: parseInt(formValueSelector('settingAutoLogoutTime')(state, 'autoLogoutTime')),
+const mapStateToProps = state => ({
+  autoLogoutTime: parseInt(
+    formValueSelector('settingAutoLogoutTime')(state, 'autoLogoutTime')
+  ),
   logoutTime: parseInt(selectors.core.wallet.getLogoutTime(state) / 60000)
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch),
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   ui({ key: 'Setting_AutoLogoutTime', state: { updateToggled: false } })
 )
 

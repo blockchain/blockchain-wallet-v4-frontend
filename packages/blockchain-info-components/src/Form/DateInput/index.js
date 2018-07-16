@@ -8,7 +8,7 @@ const BaseDateInput = styled(ReactDatetime)`
 
   .form-control {
     display: block;
-    width: ${props => props.fullwidth ? '100%' : '150px'};
+    width: ${props => (props.fullwidth ? '100%' : '150px')};
     height: 40px;
     min-height: 40px;
     padding: 6px 12px;
@@ -21,7 +21,7 @@ const BaseDateInput = styled(ReactDatetime)`
     background-image: none;
     outline-width: 0;
     user-select: text;
-    border: 1px solid  ${props => props.theme[props.borderColor]};
+    border: 1px solid ${props => props.theme[props.borderColor]};
   }
 
   .rdtPicker {
@@ -32,7 +32,7 @@ const BaseDateInput = styled(ReactDatetime)`
     margin-top: 1px;
     z-index: 99999 !important;
     background: #fff;
-    box-shadow: 0 1px 3px rgba(0,0,0,.1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     border: 1px solid ${props => props.theme['gray-2']};
     border-radius: 5px;
   }
@@ -258,15 +258,18 @@ const BaseDateInput = styled(ReactDatetime)`
   .rdtTime td {
     cursor: default;
   }
-
 `
 
-const selectBorderColor = (state) => {
+const selectBorderColor = state => {
   switch (state) {
-    case 'initial': return 'gray-2'
-    case 'invalid': return 'error'
-    case 'valid': return 'success'
-    default: return 'gray-2'
+    case 'initial':
+      return 'gray-2'
+    case 'invalid':
+      return 'error'
+    case 'valid':
+      return 'success'
+    default:
+      return 'gray-2'
   }
 }
 

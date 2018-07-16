@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
@@ -28,29 +27,43 @@ class SettingsContainer extends React.PureComponent {
   render () {
     const { ui, ...rest } = this.props
 
-    return <Settings
-      {...rest}
-      updateToggled={ui.updateToggled}
-      handleToggle={this.handleToggle}
-      onSubmit={this.onSubmit}
-      handleCancel={() => { this.props.formActions.reset('settingWalletPassword'); this.handleToggle() }}
-    />
+    return (
+      <Settings
+        {...rest}
+        updateToggled={ui.updateToggled}
+        handleToggle={this.handleToggle}
+        onSubmit={this.onSubmit}
+        handleCancel={() => {
+          this.props.formActions.reset('settingWalletPassword')
+          this.handleToggle()
+        }}
+      />
+    )
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   currentWalletPassword: selectors.core.wallet.getMainPassword(state),
-  walletPasswordValue: formValueSelector('settingWalletPassword')(state, 'currentPassword'),
-  newWalletPasswordValue: formValueSelector('settingWalletPassword')(state, 'newPassword')
+  walletPasswordValue: formValueSelector('settingWalletPassword')(
+    state,
+    'currentPassword'
+  ),
+  newWalletPasswordValue: formValueSelector('settingWalletPassword')(
+    state,
+    'newPassword'
+  )
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   walletActions: bindActionCreators(actions.wallet, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   ui({ key: 'Setting_WalletPassword', state: { updateToggled: false } })
 )
 

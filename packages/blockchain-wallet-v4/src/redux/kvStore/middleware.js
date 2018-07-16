@@ -8,7 +8,10 @@ import * as C from './config'
 import { kvStorePath } from '../paths'
 import Remote from '../../remote'
 
-const kvStoreMiddleware = ({ isAuthenticated, api } = {}) => (store) => (next) => (action) => {
+const kvStoreMiddleware = ({
+  isAuthenticated,
+  api
+} = {}) => store => next => action => {
   const prevKVStore = store.getState()[kvStorePath]
   const wasAuth = isAuthenticated(store.getState())
   const result = next(action)
@@ -21,20 +24,19 @@ const kvStoreMiddleware = ({ isAuthenticated, api } = {}) => (store) => (next) =
   const changes = mapObjIndexed(hasChanged, nextKVStore)
 
   switch (true) {
-    case (wasAuth && isAuth &&
-          !any(equals(action.type),
-            [
-              T.root.FETCH_METADATA_ROOT_SUCCESS,
-              T.whatsNew.FETCH_METADATA_WHATSNEW_SUCCESS,
-              T.buySell.FETCH_METADATA_BUYSELL_SUCCESS,
-              T.contacts.FETCH_METADATA_CONTACTS_SUCCESS,
-              T.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS,
-              T.shapeShift.FETCH_METADATA_SHAPESHIFT_SUCCESS,
-              T.bch.FETCH_METADATA_BCH_SUCCESS,
-              T.btc.FETCH_METADATA_BTC_SUCCESS
-            ]) &&
-          any(identity, values(changes))):
-
+    case wasAuth &&
+      isAuth &&
+      !any(equals(action.type), [
+        T.root.FETCH_METADATA_ROOT_SUCCESS,
+        T.whatsNew.FETCH_METADATA_WHATSNEW_SUCCESS,
+        T.buySell.FETCH_METADATA_BUYSELL_SUCCESS,
+        T.contacts.FETCH_METADATA_CONTACTS_SUCCESS,
+        T.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS,
+        T.shapeShift.FETCH_METADATA_SHAPESHIFT_SUCCESS,
+        T.bch.FETCH_METADATA_BCH_SUCCESS,
+        T.btc.FETCH_METADATA_BTC_SUCCESS
+      ]) &&
+      any(identity, values(changes)):
       const actionCreators = {
         [C.ROOT]: A.root.fetchMetadataRootSuccess,
         [C.WHATSNEW]: A.whatsNew.fetchMetadataWhatsnewSuccess,
@@ -49,7 +51,9 @@ const kvStoreMiddleware = ({ isAuthenticated, api } = {}) => (store) => (next) =
       const saveTasks = (value, key) => {
         const nextKV = nextKVStore[key].getOrElse(false)
         return value && nextKV
-          ? api.updateKVStore(nextKV).map(k => store.dispatch(actionCreators[key](k)))
+          ? api
+              .updateKVStore(nextKV)
+              .map(k => store.dispatch(actionCreators[key](k)))
           : Task.of(nextKV)
       }
       const taskObject = mapObjIndexed(saveTasks, changes)

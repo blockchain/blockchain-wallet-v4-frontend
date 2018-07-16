@@ -19,11 +19,17 @@ class ListItemContainer extends React.PureComponent {
   handleEditDescription (value) {
     switch (this.props.coin) {
       case 'ETH': {
-        this.props.ethereumActions.setTxNotesEthereum(this.props.transaction.hash, value)
+        this.props.ethereumActions.setTxNotesEthereum(
+          this.props.transaction.hash,
+          value
+        )
         break
       }
       case 'BTC': {
-        this.props.walletActions.setTransactionNote(this.props.transaction.hash, value)
+        this.props.walletActions.setTransactionNote(
+          this.props.transaction.hash,
+          value
+        )
         break
       }
       case 'BCH': {
@@ -34,22 +40,27 @@ class ListItemContainer extends React.PureComponent {
   }
 
   render () {
-    return <TransactionListItem
-      coin={this.props.coin}
-      minConfirmations={this.props.minConfirmations}
-      transaction={this.props.transaction}
-      handleCoinToggle={this.handleCoinToggle}
-      handleEditDescription={this.handleEditDescription}
-      buysellPartner={this.props.buysellPartner}
-    />
+    return (
+      <TransactionListItem
+        coin={this.props.coin}
+        minConfirmations={this.props.minConfirmations}
+        transaction={this.props.transaction}
+        handleCoinToggle={this.handleCoinToggle}
+        handleEditDescription={this.handleEditDescription}
+        buysellPartner={this.props.buysellPartner}
+      />
+    )
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   preferencesActions: bindActionCreators(actions.preferences, dispatch),
   walletActions: bindActionCreators(actions.core.wallet, dispatch),
   ethereumActions: bindActionCreators(actions.core.kvStore.ethereum, dispatch),
   bchActions: bindActionCreators(actions.core.kvStore.bch, dispatch)
 })
 
-export default connect(undefined, mapDispatchToProps)(ListItemContainer)
+export default connect(
+  undefined,
+  mapDispatchToProps
+)(ListItemContainer)

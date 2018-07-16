@@ -5,13 +5,12 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import { actions } from 'data'
 import ShowBtcPrivateKeyTemplate from './template'
 
-const formats = [{
-  group: '',
-  items: [
-    { text: 'WIF', value: 'wif' },
-    { text: 'Base-58', value: 'base58' }
-  ]
-}]
+const formats = [
+  {
+    group: '',
+    items: [{ text: 'WIF', value: 'wif' }, { text: 'Base-58', value: 'base58' }]
+  }
+]
 
 class ShowBtcPrivateKeyContainer extends Component {
   constructor (props) {
@@ -44,17 +43,20 @@ class ShowBtcPrivateKeyContainer extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   priv: state.securityCenter.shownBtcPrivKey
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
 const enhance = compose(
   modalEnhancer('ShowBtcPrivateKey'),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )
 
 export default enhance(ShowBtcPrivateKeyContainer)

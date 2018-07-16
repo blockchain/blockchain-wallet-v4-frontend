@@ -6,20 +6,26 @@ import { KVStoreEntry } from '../../../types'
 import { getMetadataXpriv } from '../root/selectors'
 import { derivationMap, WHATSNEW } from '../config'
 
-const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
+const taskToPromise = t =>
+  new Promise((resolve, reject) => t.fork(reject, resolve))
 
 export default ({ api }) => {
-  const callTask = function * (task) {
-    return yield call(compose(taskToPromise, () => task))
+  const callTask = function*(task) {
+    return yield call(
+      compose(
+        taskToPromise,
+        () => task
+      )
+    )
   }
 
-  const createWhatsNew = function * (kv) {
+  const createWhatsNew = function*(kv) {
     const lastViewed = 0
     const newkv = set(KVStoreEntry.value, { lastViewed }, kv)
     yield put(A.createMetadataWhatsnew(newkv))
   }
 
-  const fetchMetadataWhatsnew = function * () {
+  const fetchMetadataWhatsnew = function*() {
     try {
       const typeId = derivationMap[WHATSNEW]
       const mxpriv = yield select(getMetadataXpriv)

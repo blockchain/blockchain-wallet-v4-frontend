@@ -15,7 +15,7 @@ class ShapeshiftContainer extends React.Component {
 
   render () {
     return this.props.data.cata({
-      Success: (value) => <Success step={value.step}/>,
+      Success: value => <Success step={value.step} />,
       Failure: () => <Error />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
@@ -31,4 +31,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.exchange, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShapeshiftContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ShapeshiftContainer)

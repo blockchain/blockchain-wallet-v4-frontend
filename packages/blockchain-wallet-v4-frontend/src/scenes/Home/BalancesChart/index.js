@@ -23,26 +23,33 @@ class BalancesChartContainer extends React.PureComponent {
     const { data, history } = this.props
 
     return data.cata({
-      Success: (value) => <Success
-        balances={value}
-        handleCoinDisplay={this.handleCoinDisplay}
-        history={history}
-      />,
-      Failure: (message) => <Error>{message}</Error>,
+      Success: value => (
+        <Success
+          balances={value}
+          handleCoinDisplay={this.handleCoinDisplay}
+          history={history}
+        />
+      ),
+      Failure: message => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   data: getData(state),
   canBuy: selectors.exchange.getCanTrade(state, 'Buy')
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   dataMiscActions: bindActionCreators(actions.core.data.misc, dispatch),
   preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(BalancesChartContainer))
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(BalancesChartContainer)
+)

@@ -8,24 +8,61 @@ import { Field } from 'redux-form'
 import { actions, selectors } from 'data'
 import { CheckBox } from 'components/Form'
 import { FormattedMessage } from 'react-intl'
-import { Button, HeartbeatLoader, Text, Link, Icon } from 'blockchain-info-components'
+import {
+  Button,
+  HeartbeatLoader,
+  Text,
+  Link,
+  Icon
+} from 'blockchain-info-components'
 import renderFaq from 'components/FaqDropdown'
-import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, FieldMimic,
-  ButtonWrapper, ErrorWrapper, ColRightInner } from 'components/IdentityVerification'
+import {
+  Form,
+  ColLeft,
+  ColRight,
+  InputWrapper,
+  PartnerHeader,
+  PartnerSubHeader,
+  FieldMimic,
+  ButtonWrapper,
+  ErrorWrapper,
+  ColRightInner
+} from 'components/IdentityVerification'
 import { spacing } from 'services/StyleService'
 import Terms from 'components/Terms'
 import media from 'services/ResponsiveService'
 
-const checkboxShouldBeChecked = value => value ? undefined : 'You must agree to the terms and conditions'
+const checkboxShouldBeChecked = value =>
+  value ? undefined : 'You must agree to the terms and conditions'
 
 const faqQuestions = [
   {
-    question: <FormattedMessage id='scenes.sfoxsignup.acceptterms.helper1.question' defaultMessage='What is SFOX?' />,
-    answer: <FormattedMessage id='scenes.sfoxsignup.acceptterms.helper1.answer' defaultMessage='SFOX (San Francisco Open Exchange) is a trading platform we’ve partnered with to bring you a harmonious buy & sell experience in your Blockchain wallet.' />
+    question: (
+      <FormattedMessage
+        id='scenes.sfoxsignup.acceptterms.helper1.question'
+        defaultMessage='What is SFOX?'
+      />
+    ),
+    answer: (
+      <FormattedMessage
+        id='scenes.sfoxsignup.acceptterms.helper1.answer'
+        defaultMessage='SFOX (San Francisco Open Exchange) is a trading platform we’ve partnered with to bring you a harmonious buy & sell experience in your Blockchain wallet.'
+      />
+    )
   },
   {
-    question: <FormattedMessage id='scenes.sfoxsignup.acceptterms.helper2.question' defaultMessage='How do I change my email address, phone number, or other personal information?' />,
-    answer: <FormattedMessage id='scenes.sfoxsignup.acceptterms.helper2.answer' defaultMessage='Personal information can be changed by submitting a request to support@sfox.com. Make sure you mention Blockchain in the subject and include the information you want to change. Changing your email or phone number within your Blockchain wallet will not impact your SFOX account.' />
+    question: (
+      <FormattedMessage
+        id='scenes.sfoxsignup.acceptterms.helper2.question'
+        defaultMessage='How do I change my email address, phone number, or other personal information?'
+      />
+    ),
+    answer: (
+      <FormattedMessage
+        id='scenes.sfoxsignup.acceptterms.helper2.answer'
+        defaultMessage='Personal information can be changed by submitting a request to support@sfox.com. Make sure you mention Blockchain in the subject and include the information you want to change. Changing your email or phone number within your Blockchain wallet will not impact your SFOX account.'
+      />
+    )
   }
 ]
 
@@ -60,7 +97,7 @@ const IconContainer = styled.div`
   margin-left: 10px;
   ${media.mobile`
     align-items: flex-start;
-  `}
+  `};
 `
 const InlineTextWrapper = styled.div`
   & > * {
@@ -71,14 +108,14 @@ const InlineTextWrapper = styled.div`
 const AcceptTermsForm = styled(Form)`
   ${media.mobile`
     flex-direction: column;
-  `}  
+  `};
 `
 const EditLink = styled(Link)`
   font-size: 12px;
   ${media.mobile`
     margin-top: 5px;
     font-size: 12px;
-  `}
+  `};
 `
 
 class AcceptTerms extends Component {
@@ -98,12 +135,22 @@ class AcceptTerms extends Component {
   render () {
     const { busy, error } = this.props.sfoxSignupStatus.cata({
       Success: () => ({ busy: false }),
-      Failure: (error) => ({ busy: false, error }),
+      Failure: error => ({ busy: false, error }),
       Loading: () => ({ busy: true }),
       NotAsked: () => ({ busy: false })
     })
 
-    const { invalid, email, smsNumber, editEmail, editMobile, emailVerified, smsVerified, sfoxFrontendActions, needsChangeEmail } = this.props
+    const {
+      invalid,
+      email,
+      smsNumber,
+      editEmail,
+      editMobile,
+      emailVerified,
+      smsVerified,
+      sfoxFrontendActions,
+      needsChangeEmail
+    } = this.props
     const { sfoxNotAsked } = sfoxFrontendActions
 
     return (
@@ -111,62 +158,105 @@ class AcceptTerms extends Component {
         <ColLeft>
           <InputWrapper>
             <PartnerHeader>
-              <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.header' defaultMessage='Create Your Account' />
+              <FormattedMessage
+                id='sfoxexchangedata.create.createaccount.partner.header'
+                defaultMessage='Create Your Account'
+              />
             </PartnerHeader>
             <PartnerSubHeader>
-              <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.subheader' defaultMessage="Your buy and sell experience is being streamlined. We've teamed up with SFOX to make your dreams of simply managing funds a reality." />
+              <FormattedMessage
+                id='sfoxexchangedata.create.createaccount.partner.subheader'
+                defaultMessage="Your buy and sell experience is being streamlined. We've teamed up with SFOX to make your dreams of simply managing funds a reality."
+              />
             </PartnerSubHeader>
             <PartnerSubHeader style={spacing('mt-10')}>
-              <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.subheader2' defaultMessage="Rest assured: there are only a few steps separating you from the good stuff. Let's start by confirming your verified email address and phone number." />
+              <FormattedMessage
+                id='sfoxexchangedata.create.createaccount.partner.subheader2'
+                defaultMessage="Rest assured: there are only a few steps separating you from the good stuff. Let's start by confirming your verified email address and phone number."
+              />
             </PartnerSubHeader>
             <FieldsContainer>
               <FieldContainer>
                 <Text size='14px' style={spacing('mb-10')}>
-                  <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.verifiedemail' defaultMessage='Verified Email Address' />
+                  <FormattedMessage
+                    id='sfoxexchangedata.create.createaccount.partner.verifiedemail'
+                    defaultMessage='Verified Email Address'
+                  />
                 </Text>
                 <VerifiedContainer>
                   <FieldMimic>
                     <Text size='14px' weight={300}>
-                      { email }
+                      {email}
                     </Text>
                     <EditLink onClick={editEmail} size='14px' weight={300}>
-                      {
-                        window.outerWidth > 480
-                          ? <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.edit' defaultMessage='edit' />
-                          : <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.editemail' defaultMessage='edit email' />
-                      }
+                      {window.outerWidth > 480 ? (
+                        <FormattedMessage
+                          id='sfoxexchangedata.create.createaccount.partner.edit'
+                          defaultMessage='edit'
+                        />
+                      ) : (
+                        <FormattedMessage
+                          id='sfoxexchangedata.create.createaccount.partner.editemail'
+                          defaultMessage='edit email'
+                        />
+                      )}
                     </EditLink>
                   </FieldMimic>
                   <IconContainer>
-                    { emailVerified ? <Icon name='checkmark-in-circle-filled' color='success' size='20px' /> : null }
+                    {emailVerified ? (
+                      <Icon
+                        name='checkmark-in-circle-filled'
+                        color='success'
+                        size='20px'
+                      />
+                    ) : null}
                   </IconContainer>
                 </VerifiedContainer>
               </FieldContainer>
               <FieldContainer>
                 <Text size='14px' style={spacing('mb-10')}>
-                  <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.verifiedmobile' defaultMessage='Verified Phone Number' />
+                  <FormattedMessage
+                    id='sfoxexchangedata.create.createaccount.partner.verifiedmobile'
+                    defaultMessage='Verified Phone Number'
+                  />
                 </Text>
                 <VerifiedContainer>
                   <FieldMimic>
                     <Text size='14px' weight={300}>
-                      { smsNumber }
+                      {smsNumber}
                     </Text>
                     <EditLink onClick={editMobile} size='14px' weight={300}>
-                      {
-                        window.outerWidth > 480
-                          ? <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.edit' defaultMessage='edit' />
-                          : <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.editmobile' defaultMessage='edit mobile' />
-                      }
+                      {window.outerWidth > 480 ? (
+                        <FormattedMessage
+                          id='sfoxexchangedata.create.createaccount.partner.edit'
+                          defaultMessage='edit'
+                        />
+                      ) : (
+                        <FormattedMessage
+                          id='sfoxexchangedata.create.createaccount.partner.editmobile'
+                          defaultMessage='edit mobile'
+                        />
+                      )}
                     </EditLink>
                   </FieldMimic>
                   <IconContainer>
-                    { smsVerified ? <Icon name='checkmark-in-circle-filled' color='success' size='20px' /> : null }
+                    {smsVerified ? (
+                      <Icon
+                        name='checkmark-in-circle-filled'
+                        color='success'
+                        size='20px'
+                      />
+                    ) : null}
                   </IconContainer>
                 </VerifiedContainer>
               </FieldContainer>
             </FieldsContainer>
             <AcceptTermsContainer>
-              <Field name='terms' validate={[checkboxShouldBeChecked]} component={CheckBox}>
+              <Field
+                name='terms'
+                validate={[checkboxShouldBeChecked]}
+                component={CheckBox}
+              >
                 <Terms company='sfox' />
               </Field>
             </AcceptTermsContainer>
@@ -175,47 +265,82 @@ class AcceptTerms extends Component {
         <ColRight>
           <ColRightInner>
             <ButtonWrapper>
-              <Button uppercase type='submit' nature='primary' fullwidth disabled={invalid || busy || !smsNumber || !email || error}>
-                {
-                  busy
-                    ? <HeartbeatLoader height='20px' width='20px' color='white' />
-                    : <span>Continue</span>
-                }
+              <Button
+                uppercase
+                type='submit'
+                nature='primary'
+                fullwidth
+                disabled={invalid || busy || !smsNumber || !email || error}
+              >
+                {busy ? (
+                  <HeartbeatLoader height='20px' width='20px' color='white' />
+                ) : (
+                  <span>Continue</span>
+                )}
               </Button>
             </ButtonWrapper>
             <ErrorWrapper>
-              {
-                error && error.message.toLowerCase() === 'user is already registered'
-                  ? <InlineTextWrapper>
-                    <Text size='12px' color='error' weight={300} >
-                      <FormattedMessage id='sfoxexchangedata.create.accept.error' defaultMessage='Unfortunately this email is being used for another account.' />
-                    </Text>
-                    <Link size='12px' weight={300} onClick={() => { sfoxNotAsked(); needsChangeEmail() }} >
-                      <FormattedMessage id='clickhere' defaultMessage='Click here' />
-                    </Link>
-                    <Text size='12px' weight={300} color='error'>
-                      <FormattedMessage id='sfoxexchangedata.create.accept.tochangeit' defaultMessage=' to change it.' />
-                    </Text>
-                  </InlineTextWrapper>
-                  : error
-                    ? <InlineTextWrapper>
-                      <Text size='12px' color='error' weight={300}>
-                        <FormattedMessage id='sfoxexchangedata.create.accept.unknownError' defaultMessage="We're sorry, but something unexpected went wrong. Please " />
-                      </Text>
-                      <Link size='12px' weight={300} onClick={() => sfoxNotAsked()}>
-                        <FormattedMessage id='tryagain' defaultMessage='try again' />
-                      </Link>
-                      <Text size='12px' color='error' weight={300}>
-                        <FormattedMessage id='or' defaultMessage='or' />
-                      </Text>
-                      <Link target='_blank' href='https://support.blockchain.com' size='12px' weight={300}>
-                        <FormattedMessage id='contactsupport' defaultMessage='contact support.' />
-                      </Link>
-                    </InlineTextWrapper>
-                    : null
-              }
+              {error &&
+              error.message.toLowerCase() === 'user is already registered' ? (
+                <InlineTextWrapper>
+                  <Text size='12px' color='error' weight={300}>
+                    <FormattedMessage
+                      id='sfoxexchangedata.create.accept.error'
+                      defaultMessage='Unfortunately this email is being used for another account.'
+                    />
+                  </Text>
+                  <Link
+                    size='12px'
+                    weight={300}
+                    onClick={() => {
+                      sfoxNotAsked()
+                      needsChangeEmail()
+                    }}
+                  >
+                    <FormattedMessage
+                      id='clickhere'
+                      defaultMessage='Click here'
+                    />
+                  </Link>
+                  <Text size='12px' weight={300} color='error'>
+                    <FormattedMessage
+                      id='sfoxexchangedata.create.accept.tochangeit'
+                      defaultMessage=' to change it.'
+                    />
+                  </Text>
+                </InlineTextWrapper>
+              ) : error ? (
+                <InlineTextWrapper>
+                  <Text size='12px' color='error' weight={300}>
+                    <FormattedMessage
+                      id='sfoxexchangedata.create.accept.unknownError'
+                      defaultMessage="We're sorry, but something unexpected went wrong. Please "
+                    />
+                  </Text>
+                  <Link size='12px' weight={300} onClick={() => sfoxNotAsked()}>
+                    <FormattedMessage
+                      id='tryagain'
+                      defaultMessage='try again'
+                    />
+                  </Link>
+                  <Text size='12px' color='error' weight={300}>
+                    <FormattedMessage id='or' defaultMessage='or' />
+                  </Text>
+                  <Link
+                    target='_blank'
+                    href='https://support.blockchain.com'
+                    size='12px'
+                    weight={300}
+                  >
+                    <FormattedMessage
+                      id='contactsupport'
+                      defaultMessage='contact support.'
+                    />
+                  </Link>
+                </InlineTextWrapper>
+              ) : null}
             </ErrorWrapper>
-            { renderFaq(faqQuestions) }
+            {renderFaq(faqQuestions)}
           </ColRightInner>
         </ColRight>
       </AcceptTermsForm>
@@ -230,16 +355,21 @@ AcceptTerms.propTypes = {
   smsNumber: PropTypes.string.isRequired
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   email: selectors.core.settings.getEmail(state).data,
   smsNumber: selectors.core.settings.getSmsNumber(state).data,
   sfoxSignupStatus: path(['sfoxSignup', 'sfoxBusy'], state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch)
 })
 
-const enhance = compose(connect(mapStateToProps, mapDispatchToProps))
+const enhance = compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
+)
 
 export default enhance(AcceptTerms)

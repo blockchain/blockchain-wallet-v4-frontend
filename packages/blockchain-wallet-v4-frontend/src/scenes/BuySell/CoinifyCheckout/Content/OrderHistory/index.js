@@ -16,35 +16,48 @@ class OrderHistoryContainer extends React.Component {
   startBuy () {
     const { buyQuoteR, paymentMedium, coinifyActions } = this.props
     coinifyActions.coinifyLoading()
-    buyQuoteR.map(q => this.props.coinifyActions.initiateBuy({ quote: q, medium: paymentMedium }))
+    buyQuoteR.map(q =>
+      this.props.coinifyActions.initiateBuy({ quote: q, medium: paymentMedium })
+    )
   }
 
   render () {
-    const { data, modalActions, coinifyActions, formActions, step, trade, busy, cancelTradeId } = this.props
+    const {
+      data,
+      modalActions,
+      coinifyActions,
+      formActions,
+      step,
+      trade,
+      busy,
+      cancelTradeId
+    } = this.props
     const { showModal } = modalActions
     const { finishTrade, cancelTrade, cancelSubscription } = coinifyActions
     const { change } = formActions
     const status = busy.cata({
       Success: () => false,
-      Failure: (err) => err,
+      Failure: err => err,
       Loading: () => true,
       NotAsked: () => false
     })
 
     return data.cata({
-      Success: (value) => <Success
-        value={value}
-        showModal={showModal}
-        finishTrade={finishTrade}
-        trade={trade}
-        step={step}
-        cancelTrade={cancelTrade}
-        status={status}
-        cancelTradeId={cancelTradeId}
-        onCancelSubscription={cancelSubscription}
-        changeTab={tab => change('buySellTabStatus', 'status', tab)}
-      />,
-      Failure: (msg) => <Failure error={msg} />,
+      Success: value => (
+        <Success
+          value={value}
+          showModal={showModal}
+          finishTrade={finishTrade}
+          trade={trade}
+          step={step}
+          cancelTrade={cancelTrade}
+          status={status}
+          cancelTradeId={cancelTradeId}
+          onCancelSubscription={cancelSubscription}
+          changeTab={tab => change('buySellTabStatus', 'status', tab)}
+        />
+      ),
+      Failure: msg => <Failure error={msg} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
@@ -59,11 +72,14 @@ const mapStateToProps = state => ({
   cancelTradeId: path(['coinify', 'cancelTradeId'], state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   coinifyDataActions: bindActionCreators(actions.core.data.coinify, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   coinifyActions: bindActionCreators(actions.modules.coinify, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(OrderHistoryContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(OrderHistoryContainer)

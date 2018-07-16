@@ -17,29 +17,37 @@ class MobileNumberChangeContainer extends React.PureComponent {
     const { smsNumberNew } = this.props
     this.props.settingsActions.updateMobile(smsNumberNew)
     this.props.modalActions.closeModal()
-    this.props.modalActions.showModal('MobileNumberVerify', { mobileNumber: smsNumberNew })
+    this.props.modalActions.showModal('MobileNumberVerify', {
+      mobileNumber: smsNumberNew
+    })
   }
 
   render () {
     const { countryCode, smsNumber } = this.props
-    return <MobileNumberChange
-      {...this.props}
-      smsNumber={smsNumber}
-      countryCode={countryCode}
-      onSubmit={this.onSubmit} />
+    return (
+      <MobileNumberChange
+        {...this.props}
+        smsNumber={smsNumber}
+        countryCode={countryCode}
+        onSubmit={this.onSubmit}
+      />
+    )
   }
 }
 
-const mapStateToProps = (state) => getData(state)
+const mapStateToProps = state => getData(state)
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
 const enhance = compose(
   modalEnhancer('MobileNumberChange'),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )
 
 export default enhance(MobileNumberChangeContainer)

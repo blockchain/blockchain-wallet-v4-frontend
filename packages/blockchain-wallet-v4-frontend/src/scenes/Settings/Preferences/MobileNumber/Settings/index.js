@@ -27,19 +27,24 @@ class SettingContainer extends Component {
   render () {
     const { modalActions, smsNumber, smsVerified } = this.props
 
-    return <Settings
-      smsNumber={smsNumber}
-      smsVerified={smsVerified}
-      handleClick={this.handleClick}
-      modalActions={modalActions}
-      showWarning={this.state.show2FAWarning}
-      resetWarning={() => this.setState({ show2FAWarning: false })}
-    />
+    return (
+      <Settings
+        smsNumber={smsNumber}
+        smsVerified={smsVerified}
+        handleClick={this.handleClick}
+        modalActions={modalActions}
+        showWarning={this.state.show2FAWarning}
+        resetWarning={() => this.setState({ show2FAWarning: false })}
+      />
+    )
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(null, mapDispatchToProps)(SettingContainer)
+export default connect(
+  null,
+  mapDispatchToProps
+)(SettingContainer)

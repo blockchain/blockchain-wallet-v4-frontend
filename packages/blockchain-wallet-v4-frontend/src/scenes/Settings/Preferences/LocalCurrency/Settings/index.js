@@ -9,12 +9,18 @@ import Settings from './template.js'
 
 class SettingsContainer extends React.PureComponent {
   componentWillMount () {
-    this.props.formActions.initialize('settingCurrency', { 'currency': this.props.currency })
+    this.props.formActions.initialize('settingCurrency', {
+      currency: this.props.currency
+    })
   }
 
   componentWillReceiveProps (nextProps) {
     const { currency, newCurrency } = this.props
-    if (!isNil(nextProps.newCurrency) && !equals(currency, nextProps.newCurrency) && !equals(newCurrency, nextProps.newCurrency)) {
+    if (
+      !isNil(nextProps.newCurrency) &&
+      !equals(currency, nextProps.newCurrency) &&
+      !equals(newCurrency, nextProps.newCurrency)
+    ) {
       this.props.settingsActions.updateCurrency(nextProps.newCurrency)
     }
   }
@@ -24,13 +30,16 @@ class SettingsContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   newCurrency: formValueSelector('settingCurrency')(state, 'currency')
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   settingsActions: bindActionCreators(actions.modules.settings, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SettingsContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SettingsContainer)

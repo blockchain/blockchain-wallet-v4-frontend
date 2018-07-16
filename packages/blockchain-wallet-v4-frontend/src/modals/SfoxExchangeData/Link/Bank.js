@@ -7,11 +7,11 @@ const BankInfo = styled.div`
   display: flex;
   flex-direction: row;
   padding: 25px 30px;
-  border: 1px solid #DDD;
-  input[type="radio"] {
+  border: 1px solid #ddd;
+  input[type='radio'] {
     display: none;
   }
-  input[type="radio"]:checked + label:before {
+  input[type='radio']:checked + label:before {
     content: '';
     width: 16px;
     height: 16px;
@@ -47,17 +47,21 @@ const BankMeta = styled.div`
   cursor: pointer;
 `
 
-const Bank = ({bank, onInputClick}) => (
+const Bank = ({ bank, onInputClick }) => (
   <BankInfo key={bank._id}>
-    <input type='radio' name='bank' value={bank} id={bank._id} onClick={() => onInputClick(bank._id)} />
+    <input
+      type='radio'
+      name='bank'
+      value={bank}
+      id={bank._id}
+      onClick={() => onInputClick(bank._id)}
+    />
     <BankLabel htmlFor={bank._id}>
       <BankMeta>
         <Text size='16px'>
           {bank.meta.name} ending in {bank.meta.number}
         </Text>
-        <BankName size='14px'>
-          {bank.institution_type} Bank
-        </BankName>
+        <BankName size='14px'>{bank.institution_type} Bank</BankName>
       </BankMeta>
     </BankLabel>
   </BankInfo>

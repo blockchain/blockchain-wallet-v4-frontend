@@ -29,16 +29,23 @@ describe('sendBtc sagas', () => {
   let locationReloadSpy
   beforeAll(() => {
     Math.random = () => 0.5
-    pushStateSpy = jest.spyOn(window.history, 'pushState').mockImplementation(() => {})
-    locationReloadSpy = jest.spyOn(window.location, 'reload').mockImplementation(() => {})
+    pushStateSpy = jest
+      .spyOn(window.history, 'pushState')
+      .mockImplementation(() => {})
+    locationReloadSpy = jest
+      .spyOn(window.location, 'reload')
+      .mockImplementation(() => {})
   })
   afterAll(() => {
     global.Math = originalMath
     pushStateSpy.restore()
     locationReloadSpy.restore()
   })
-  const { initialized, firstStepSubmitClicked,
-    secondStepSubmitClicked } = sendBtcSagas({ api, coreSagas })
+  const {
+    initialized,
+    firstStepSubmitClicked,
+    secondStepSubmitClicked
+  } = sendBtcSagas({ api, coreSagas })
 
   const feeType = 'regular'
   const feePerByte = 1
@@ -69,12 +76,12 @@ describe('sendBtc sagas', () => {
 
   describe('btc send form intialize', () => {
     const to = 'btcaddress'
-    const message = 'message'
+    const description = 'message'
     const amount = {
       coin: 1,
       fiat: 10000
     }
-    const payload = { to, message, amount, feeType }
+    const payload = { to, description, amount, feeType }
 
     const saga = testSaga(initialized, { payload })
 
@@ -82,10 +89,10 @@ describe('sendBtc sagas', () => {
     const defaultAccount = 'account1'
     const accountsRStub = Remote.of([defaultAccount, 'account2'])
     const initialValues = {
-      to: to,
+      to,
       coin: 'BTC',
-      amount: amount,
-      message: message,
+      amount,
+      description,
       from: defaultAccount,
       feePerByte: feePerByte
     }
@@ -99,16 +106,22 @@ describe('sendBtc sagas', () => {
     it('should create payment', () => {
       saga.next()
       expect(coreSagas.payment.btc.create).toHaveBeenCalledTimes(1)
-      expect(coreSagas.payment.btc.create).toHaveBeenCalledWith({ network: settings.NETWORK_BITCOIN })
+      expect(coreSagas.payment.btc.create).toHaveBeenCalledWith({
+        network: settings.NETWORK_BITCOIN
+      })
       expect(paymentMock.init).toHaveBeenCalledTimes(1)
     })
 
     it('should select accounts', () => {
-      saga.next(paymentMock).select(selectors.core.common.btc.getAccountsBalances)
+      saga
+        .next(paymentMock)
+        .select(selectors.core.common.btc.getAccountsBalances)
     })
 
     it('should select defaultIndex', () => {
-      saga.next(accountsRStub).select(selectors.core.wallet.getDefaultAccountIndex)
+      saga
+        .next(accountsRStub)
+        .select(selectors.core.wallet.getDefaultAccountIndex)
     })
 
     it('should update payment from to defaultIndex', () => {
@@ -150,7 +163,13 @@ describe('sendBtc sagas', () => {
       it('should log initialization error', () => {
         saga
           .next()
-          .put(actions.logs.logErrorMessage(logLocation, 'sendBtcInitialized', error))
+          .put(
+            actions.logs.logErrorMessage(
+              logLocation,
+              'sendBtcInitialized',
+              error
+            )
+          )
           .next()
           .isDone()
       })
@@ -182,7 +201,10 @@ describe('sendBtc sagas', () => {
         resultingState = await expectSaga(initialized, { payload })
           .withReducer(rootReducer)
           .provide([
-            [select(selectors.core.common.btc.getAccountsBalances), stubAccounts],
+            [
+              select(selectors.core.common.btc.getAccountsBalances),
+              stubAccounts
+            ],
             [select(selectors.core.wallet.getDefaultAccountIndex), defaultIndex]
           ])
           .run()
@@ -190,20 +212,23 @@ describe('sendBtc sagas', () => {
       })
 
       it('should produce correct form state', () => {
-        expect(resultingState.form.sendBtc.initial).toEqual(resultingState.form.sendBtc.values)
+        expect(resultingState.form.sendBtc.initial).toEqual(
+          resultingState.form.sendBtc.values
+        )
         expect(resultingState.form.sendBtc.initial).toEqual({
           feePerByte,
           coin: 'BTC',
           amount,
-          message,
+          description,
           to,
           from: defaultAccount
         })
       })
 
       it('should produce correct sendBtc payment state', () => {
-        expect(resultingState.components.sendBtc.payment)
-          .toEqual(Remote.Success(value))
+        expect(resultingState.components.sendBtc.payment).toEqual(
+          Remote.Success(value)
+        )
       })
     })
   })
@@ -255,7 +280,13 @@ describe('sendBtc sagas', () => {
       it('should log error', () => {
         saga
           .throw(error)
-          .put(actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', error))
+          .put(
+            actions.logs.logErrorMessage(
+              logLocation,
+              'firstStepSubmitClicked',
+              error
+            )
+          )
           .next()
           .isDone()
       })
@@ -307,18 +338,17 @@ describe('sendBtc sagas', () => {
     })
 
     it('should put btc payment updated success action', () => {
-      saga.next(paymentMock).put(A.sendBtcPaymentUpdatedSuccess(paymentMock.value()))
+      saga
+        .next(paymentMock)
+        .put(A.sendBtcPaymentUpdatedSuccess(paymentMock.value()))
     })
 
     it('should put btc fetch data action', () => {
-      saga.next(paymentMock)
-        .put(actions.core.data.bitcoin.fetchData())
+      saga.next(paymentMock).put(actions.core.data.bitcoin.fetchData())
     })
 
     it('should set transaction note if transaction has description', () => {
-      saga
-        .next()
-        .put(actions.core.wallet.setTransactionNote(txId, description))
+      saga.next().put(actions.core.wallet.setTransactionNote(txId, description))
     })
 
     it('should route to btc transactions', () => {
@@ -326,7 +356,8 @@ describe('sendBtc sagas', () => {
     })
 
     it('should display succcess message', () => {
-      saga.next()
+      saga
+        .next()
         .put(actions.alerts.displaySuccess(C.SEND_BTC_SUCCESS))
         .save(beforeError)
         .next()
@@ -339,7 +370,13 @@ describe('sendBtc sagas', () => {
         saga
           .restore(beforeError)
           .throw(error)
-          .put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', error))
+          .put(
+            actions.logs.logErrorMessage(
+              logLocation,
+              'secondStepSubmitClicked',
+              error
+            )
+          )
       })
 
       it('should display success message', () => {

@@ -15,12 +15,19 @@ const Wrapper = styled.div`
   height: 40px;
   cursor: pointer;
   box-sizing: border-box;
-  border-top: ${props => props.border.indexOf('top') > -1 && `1px solid ${props.theme['gray-2']}`};
-  border-right: ${props => props.border.indexOf('right') > -1 && `1px solid ${props.theme['gray-2']}`};
-  border-bottom: ${props => props.border.indexOf('bottom') > -1 && `1px solid ${props.theme['gray-2']}`};
-  border-left: ${props => props.border.indexOf('left') > -1 && `1px solid ${props.theme['gray-2']}`};
+  border-top: ${props =>
+    props.border.indexOf('top') > -1 && `1px solid ${props.theme['gray-2']}`};
+  border-right: ${props =>
+    props.border.indexOf('right') > -1 && `1px solid ${props.theme['gray-2']}`};
+  border-bottom: ${props =>
+    props.border.indexOf('bottom') > -1 &&
+    `1px solid ${props.theme['gray-2']}`};
+  border-left: ${props =>
+    props.border.indexOf('left') > -1 && `1px solid ${props.theme['gray-2']}`};
 
-  &:hover { background-color: ${props => props.theme['gray-1']}; }
+  &:hover {
+    background-color: ${props => props.theme['gray-1']};
+  }
 `
 const TooltipBox = styled.div`
   position: absolute;
@@ -34,7 +41,10 @@ const TooltipBox = styled.div`
   padding: 5px;
   box-sizing: border-box;
 
-  & > section > video, canvas { width: 100%; }
+  & > section > video,
+  canvas {
+    width: 100%;
+  }
 
   &:before {
     content: '';
@@ -66,13 +76,27 @@ const QRCodeCapture = props => {
 
   return (
     <Wrapper border={border}>
-      {!toggled && <Image name='qr-code' width='20px' height='20px' onClick={handleToggle} />}
-      {toggled && <HeartbeatLoader width='20px' height='20px' color='red' onClick={handleToggle} />}
-      {toggled &&
+      {!toggled && (
+        <Image
+          name='qr-code'
+          width='20px'
+          height='20px'
+          onClick={handleToggle}
+        />
+      )}
+      {toggled && (
+        <HeartbeatLoader
+          width='20px'
+          height='20px'
+          color='red'
+          onClick={handleToggle}
+        />
+      )}
+      {toggled && (
         <TooltipBox>
           <QRReader onScan={handleScan} onError={handleError} />
         </TooltipBox>
-      }
+      )}
     </Wrapper>
   )
 }

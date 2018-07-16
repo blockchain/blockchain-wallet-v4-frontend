@@ -18,24 +18,38 @@ const ActivitySkeleton = styled.div`
   flex-direction: row;
   justify-content: center;
   margin-top: 15px;
-  > div:first-child { margin-right: 20px; }
+  > div:first-child {
+    margin-right: 20px;
+  }
 `
 
-export default (props) => {
+export default props => {
   return (
     <ActivityListSkeleton width='100%' height='300px' bgColor='white-blue'>
       <SkeletonRectangle width='100%' height='30px' bgColor='white' />
       <ActivitySkeleton>
         <SkeletonCircle width='30px' height='30px' bgColor='white' />
-        <SkeletonRectangle width='calc(100% - 50px)' height='30px' bgColor='white' />
+        <SkeletonRectangle
+          width='calc(100% - 50px)'
+          height='30px'
+          bgColor='white'
+        />
       </ActivitySkeleton>
       <ActivitySkeleton>
         <SkeletonCircle width='30px' height='30px' bgColor='white' />
-        <SkeletonRectangle width='calc(100% - 50px)' height='30px' bgColor='white' />
+        <SkeletonRectangle
+          width='calc(100% - 50px)'
+          height='30px'
+          bgColor='white'
+        />
       </ActivitySkeleton>
       <ActivitySkeleton>
         <SkeletonCircle width='30px' height='30px' bgColor='white' />
-        <SkeletonRectangle width='calc(100% - 50px)' height='30px' bgColor='white' />
+        <SkeletonRectangle
+          width='calc(100% - 50px)'
+          height='30px'
+          bgColor='white'
+        />
       </ActivitySkeleton>
     </ActivityListSkeleton>
   )

@@ -4,13 +4,14 @@ import styled from 'styled-components'
 
 const BaseTabMenuItem = styled.span`
   padding: 10px;
-  text-decoration: ${props => props.selected ? 'underline' : 'none'};
+  text-decoration: ${props => (props.selected ? 'underline' : 'none')};
   text-transform: uppercase;
   font-family: 'Montserrat', sans-serif;
   font-weight: 500;
   font-size: 16px;
   text-align: center;
-  color: ${props => props.selected ? props.theme['gray-5'] : props.theme['gray-3']};
+  color: ${props =>
+    props.selected ? props.theme['gray-5'] : props.theme['gray-3']};
   cursor: pointer;
 
   &.active {
@@ -22,7 +23,7 @@ const BaseTabMenuItem = styled.span`
   }
 `
 
-const TabMenuItem = (props) => {
+const TabMenuItem = props => {
   const { children, selected, ...rest } = props
 
   return (

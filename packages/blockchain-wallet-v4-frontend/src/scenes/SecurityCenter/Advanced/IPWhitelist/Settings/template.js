@@ -18,30 +18,56 @@ const ButtonWrapper = styled(ButtonGroup)`
 const Input = styled(Field)`
   margin-top: 20px;
 `
-const Settings = (props) => {
-  const { updateToggled, handleToggle, handleSubmit, currentWhitelist, submitting, invalid, handleCancel } = props
+const Settings = props => {
+  const {
+    updateToggled,
+    handleToggle,
+    handleSubmit,
+    currentWhitelist,
+    submitting,
+    invalid,
+    handleCancel
+  } = props
 
   return (
     <SettingWrapper>
       <Text>{currentWhitelist.data}</Text>
-      { !updateToggled &&
+      {!updateToggled && (
         <Button nature='primary' onClick={handleToggle}>
-          <FormattedMessage id='scenes.securitysettings.advancedsettings.ipwhitelist.settings.change' defaultMessage='Add' />
+          <FormattedMessage
+            id='scenes.securitysettings.advancedsettings.ipwhitelist.settings.change'
+            defaultMessage='Add'
+          />
         </Button>
-      }
-      { updateToggled &&
+      )}
+      {updateToggled && (
         <SettingForm onSubmit={handleSubmit}>
-          <Input name='IPWhitelist' validate={[validIpList]} component={TextBox} />
+          <Input
+            name='IPWhitelist'
+            validate={[validIpList]}
+            component={TextBox}
+          />
           <ButtonWrapper>
             <Button nature='empty' capitalize onClick={handleCancel}>
-              <FormattedMessage id='scenes.securitysettings.advancedsettings.ipwhitelist.settings.cancel' defaultMessage='Cancel' />
+              <FormattedMessage
+                id='scenes.securitysettings.advancedsettings.ipwhitelist.settings.cancel'
+                defaultMessage='Cancel'
+              />
             </Button>
-            <Button type='submit' nature='primary' capitalize disabled={submitting || invalid}>
-              <FormattedMessage id='scenes.securitysettings.advancedsettings.ipwhitelist.settings.save' defaultMessage='Save' />
+            <Button
+              type='submit'
+              nature='primary'
+              capitalize
+              disabled={submitting || invalid}
+            >
+              <FormattedMessage
+                id='scenes.securitysettings.advancedsettings.ipwhitelist.settings.save'
+                defaultMessage='Save'
+              />
             </Button>
           </ButtonWrapper>
         </SettingForm>
-      }
+      )}
     </SettingWrapper>
   )
 }

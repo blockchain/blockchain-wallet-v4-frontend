@@ -11,13 +11,18 @@ import { curry, compose, is, isNil, sequence, has, propSatisfies } from 'ramda'
 const SUPPORTED_ENCRYPTION_VERSION = 3
 
 // eitherToTask :: Either a b -> Task a b
-const eitherToTask = (e) => e.fold(Task.rejected, Task.of)
+const eitherToTask = e => e.fold(Task.rejected, Task.of)
 
 // TaskTry :: (a -> b) -> (a -> Task Error b)
-const TaskTry = f => compose(eitherToTask, Either.try(f))
+const TaskTry = f =>
+  compose(
+    eitherToTask,
+    Either.try(f)
+  )
 
 // satisfy :: [Bool, String] => Task Error Bool
-const satisfy = ([bool, message]) => bool ? Task.of(true) : Task.rejected(message)
+const satisfy = ([bool, message]) =>
+  bool ? Task.of(true) : Task.rejected(message)
 
 // satisfyAll :: [[Bool, String]] => Task Error Bool
 const satisfyAll = conditions => sequence(Task.of, conditions.map(satisfy))
@@ -36,7 +41,7 @@ const toPayloadAndIV = data => {
   let dataHex = Buffer.from(data, 'base64')
   let iv = dataHex.slice(0, U.SALT_BYTES)
   let payload = dataHex.slice(U.SALT_BYTES)
-  return {payload, iv}
+  return { payload, iv }
 }
 
 // pbkdf2Task :: String -> String -> Integer -> Integer -> Task Error Buffer
@@ -45,7 +50,10 @@ const pbkdf2Task = (password, salt, iterations, keyLenBits) => {
     const saltBuffer = Buffer.from(salt, 'hex')
     const keyLenBytes = (keyLenBits || 256) / 8
     return new Task((reject, resolve) => {
-      let handle = (error, key) => { if (error) reject(error); else resolve(key) }
+      let handle = (error, key) => {
+        if (error) reject(error)
+        else resolve(key)
+      }
       pbkdf2(password, saltBuffer, iterations, keyLenBytes, 'sha1', handle)
     })
   } catch (e) {
@@ -79,7 +87,7 @@ export const hashNTimes = curry((iterations, data) => {
 export const isStringHashInFraction = (str, fraction) => {
   if (!str) return false
   if (fraction < 0) return false
-  return (sha256(str)[0] / 256) >= (1 - fraction)
+  return sha256(str)[0] / 256 >= 1 - fraction
 }
 
 // /////////////////////////////////////////////////////////////////////////////
@@ -93,7 +101,7 @@ export const encryptDataWithKey = curry((data, key, iv) => {
   let dataBytes = Buffer.from(data, 'utf8')
   let options = { mode: U.AES.CBC, padding: U.Iso10126 }
   let encryptedBytes = U.AES.encrypt(dataBytes, key, IV, options)
-  let payload = Buffer.concat([ IV, encryptedBytes ])
+  let payload = Buffer.concat([IV, encryptedBytes])
   return payload.toString('base64')
 })
 
@@ -108,10 +116,14 @@ export const decryptDataWithKey = curry((data, key) => {
 })
 
 // sha256 :: Buffer -> Buffer
-export const sha256 = (data) => crypto.createHash('sha256').update(data).digest()
+export const sha256 = data =>
+  crypto
+    .createHash('sha256')
+    .update(data)
+    .digest()
 
 // generateMnemonic :: Api -> Promise String
-export const generateMnemonic = (api) => {
+export const generateMnemonic = api => {
   return createRng(16, api).then(rng => BIP39.generateMnemonic(null, rng))
 }
 
@@ -121,24 +133,30 @@ export const stretchPassword = (password, salt, iterations, keyLenBits) => {
     [is(String, password), 'password_required'],
     [is(Number, iterations) && iterations > 0, 'iterations_required'],
     [salt, 'salt_required'],
-    [isNil(keyLenBits) || keyLenBits % 8 === 0, 'key_len_multiple_of_8_required']
-  ]).chain(
-    () => pbkdf2Task(password, salt, iterations, keyLenBits)
-  )
+    [
+      isNil(keyLenBits) || keyLenBits % 8 === 0,
+      'key_len_multiple_of_8_required'
+    ]
+  ]).chain(() => pbkdf2Task(password, salt, iterations, keyLenBits))
 }
 
 // decryptDataWithPassword :: data -> password -> iterations -> options -> Task Error Buffer
-export const decryptDataWithPassword = (data, password, iterations, options) => {
+export const decryptDataWithPassword = (
+  data,
+  password,
+  iterations,
+  options
+) => {
   if (!data) return Task.of(data)
   return satisfyAll([
     [is(String, password), 'password_required'],
     [is(Number, iterations) && iterations > 0, 'iterations_required']
-  ]).chain(
-    () => TaskTry(toPayloadAndIV)(data)
-      .chain(({ iv, payload }) =>
-        stretchPassword(password, iv, iterations, U.KEY_BIT_LEN)
-          .chain((key) => TaskTry(decryptBufferWithKey)(payload, iv, key, options))
+  ]).chain(() =>
+    TaskTry(toPayloadAndIV)(data).chain(({ iv, payload }) =>
+      stretchPassword(password, iv, iterations, U.KEY_BIT_LEN).chain(key =>
+        TaskTry(decryptBufferWithKey)(payload, iv, key, options)
       )
+    )
   )
 }
 
@@ -149,21 +167,31 @@ export const encryptDataWithPassword = (data, password, iterations) => {
   return satisfyAll([
     [is(String, password), 'password_required'],
     [is(Number, iterations) && iterations > 0, 'iterations_required']
-  ]).chain(() => stretchPassword(password, salt, iterations, U.KEY_BIT_LEN))
+  ])
+    .chain(() => stretchPassword(password, salt, iterations, U.KEY_BIT_LEN))
     .chain(key => TaskTry(exports.encryptDataWithKey)(data, key, salt))
 }
 
 // encryptSecPass :: String -> Integer -> String -> String -> Task, Error String
-export const encryptSecPass = curry((sharedKey, pbkdf2Iterations, password, message) =>
-  encryptDataWithPassword(message, sharedKey + password, pbkdf2Iterations))
+export const encryptSecPass = curry(
+  (sharedKey, pbkdf2Iterations, password, message) =>
+    encryptDataWithPassword(message, sharedKey + password, pbkdf2Iterations)
+)
 
-const checkFailure = curry((pass, fail, str) =>
-  str === '' ? fail(new Error('DECRYPT_FAILURE')) : pass(str))
+const checkFailure = curry(
+  (pass, fail, str) =>
+    str === '' ? fail(new Error('DECRYPT_FAILURE')) : pass(str)
+)
 
 // decryptSecPass :: String -> Integer -> String -> String -> Task, Error String
-export const decryptSecPass = curry((sharedKey, pbkdf2Iterations, password, message) =>
-  decryptDataWithPassword(message, sharedKey + password, pbkdf2Iterations)
-    .chain(checkFailure(Task.of, Task.rejected)))
+export const decryptSecPass = curry(
+  (sharedKey, pbkdf2Iterations, password, message) =>
+    decryptDataWithPassword(
+      message,
+      sharedKey + password,
+      pbkdf2Iterations
+    ).chain(checkFailure(Task.of, Task.rejected))
+)
 
 // TODO :: review users of that funciton (moved to task)
 // encryptWallet :: String -> String -> Integer -> String -> Task Error String
@@ -173,43 +201,64 @@ export const encryptWallet = curry((data, password, iterations, version) =>
     [is(String, password), 'password_required'],
     [is(Number, iterations) && iterations > 0, 'iterations_required'],
     [version, 'version_required']
-  ]).chain(() => encryptDataWithPassword(data, password, iterations))
-    .map(payload => JSON.stringify({ pbkdf2_iterations: iterations, version, payload }))
+  ])
+    .chain(() => encryptDataWithPassword(data, password, iterations))
+    .map(payload =>
+      JSON.stringify({ pbkdf2_iterations: iterations, version, payload })
+    )
 )
 
 // decryptWalletV1 :: String -> String -> Task Error Object
 export const decryptWalletV1 = (password, data) => {
-  let decrypt = (i, o) => decryptDataWithPassword(data, password, i, o)
-    .chain(safeParse, 'v1: wrong_wallet_password')
+  let decrypt = (i, o) =>
+    decryptDataWithPassword(data, password, i, o).chain(
+      safeParse,
+      'v1: wrong_wallet_password'
+    )
   // v1: CBC, ISO10126, 10 iterations
-  return decrypt(10)
-    // v1: OFB, nopad, 1 iteration
-    .orElse(decrypt.bind(null, 1, { mode: U.AES.OFB, padding: U.NoPadding }))
-    // v1: OFB, ISO7816, 1 iteration
-    // ISO/IEC 9797-1 Padding method 2 is the same as ISO/IEC 7816-4:2005
-    .orElse(decrypt.bind(null, 1, { mode: U.AES.OFB, padding: U.Iso97971 }))
-    // v1: CBC, ISO10126, 1 iteration
-    .orElse(decrypt.bind(null, 1, { mode: U.AES.CBC, padding: U.Iso10126 }))
+  return (
+    decrypt(10)
+      // v1: OFB, nopad, 1 iteration
+      .orElse(decrypt.bind(null, 1, { mode: U.AES.OFB, padding: U.NoPadding }))
+      // v1: OFB, ISO7816, 1 iteration
+      // ISO/IEC 9797-1 Padding method 2 is the same as ISO/IEC 7816-4:2005
+      .orElse(decrypt.bind(null, 1, { mode: U.AES.OFB, padding: U.Iso97971 }))
+      // v1: CBC, ISO10126, 1 iteration
+      .orElse(decrypt.bind(null, 1, { mode: U.AES.CBC, padding: U.Iso10126 }))
+  )
 }
 
-const validateWrapper = wrapper => // wrapper
+const validateWrapper = (
+  wrapper // wrapper
+) =>
   satisfyAll([
     [has('payload', wrapper), 'v2v3 wrapper: payload_required'],
     [has('version', wrapper), 'v2v3 wrapper: version_required'],
-    [has('pbkdf2_iterations', wrapper), 'v2v3 wrapper: pbkdf2_iterations_required'],
-    [propSatisfies(v => v <= SUPPORTED_ENCRYPTION_VERSION, 'version', wrapper),
-      'Wallet version ' + wrapper.version + ' not supported.']
+    [
+      has('pbkdf2_iterations', wrapper),
+      'v2v3 wrapper: pbkdf2_iterations_required'
+    ],
+    [
+      propSatisfies(v => v <= SUPPORTED_ENCRYPTION_VERSION, 'version', wrapper),
+      'Wallet version ' + wrapper.version + ' not supported.'
+    ]
   ]).map(() => wrapper)
 
 // decryptWalletV2V3 :: String -> String -> Task Error Object
 export const decryptWalletV2V3 = (password, data) => {
-  return safeParse(data, 'v2v3: wrong_wrapper')
-    .chain(validateWrapper)
-    // v2/v3: CBC, ISO10126, iterations in wrapper
-    .chain(w => decryptDataWithPassword(w.payload, password, w.pbkdf2_iterations))
-    .chain(p => safeParse(p, 'v2v3: wrong_wallet_password'))
+  return (
+    safeParse(data, 'v2v3: wrong_wrapper')
+      .chain(validateWrapper)
+      // v2/v3: CBC, ISO10126, iterations in wrapper
+      .chain(w =>
+        decryptDataWithPassword(w.payload, password, w.pbkdf2_iterations)
+      )
+      .chain(p => safeParse(p, 'v2v3: wrong_wallet_password'))
+  )
 }
 
 export const decryptWallet = curry((password, data) =>
-  decryptWalletV1(password, data)
-    .orElse(() => decryptWalletV2V3(password, data)))
+  decryptWalletV1(password, data).orElse(() =>
+    decryptWalletV2V3(password, data)
+  )
+)

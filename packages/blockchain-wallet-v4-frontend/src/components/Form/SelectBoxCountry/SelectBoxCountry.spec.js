@@ -1,7 +1,10 @@
 import { filter } from 'ramda'
 import React from 'react'
 import { shallow } from 'enzyme'
-import SelectBoxCountry, { countries, whiteBlackListsConflictMessage } from './index.js'
+import SelectBoxCountry, {
+  countries,
+  whiteBlackListsConflictMessage
+} from './index.js'
 
 jest.mock('blockchain-info-components', () => ({ SelectInput: 'select-input' }))
 
@@ -12,12 +15,17 @@ describe('SelectBoxCountry', () => {
   })
 
   it('should throw if both whitelist and blacklist are specified', () => {
-    expect(() => shallow(<SelectBoxCountry whiteList={['']} blackList={['']} />)).toThrowError(whiteBlackListsConflictMessage)
+    expect(() =>
+      shallow(<SelectBoxCountry whiteList={['']} blackList={['']} />)
+    ).toThrowError(whiteBlackListsConflictMessage)
   })
 
   it('should use white list', () => {
     const wrapper = shallow(<SelectBoxCountry whiteList={['GB', 'AE']} />)
-    expect(wrapper.prop('elements')[0].items).toEqual([{'text': 'United Arab Emirates', 'value': 'AE'}, {'text': 'United Kingdom', 'value': 'GB'}])
+    expect(wrapper.prop('elements')[0].items).toEqual([
+      { text: 'United Arab Emirates', value: 'AE' },
+      { text: 'United Kingdom', value: 'GB' }
+    ])
   })
 
   it('should use black list', () => {
