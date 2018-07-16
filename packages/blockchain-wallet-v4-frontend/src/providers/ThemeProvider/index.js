@@ -5,7 +5,7 @@ import { createDeepEqualSelector } from 'services/ReselectHelper'
 
 const mapStateToProps = createDeepEqualSelector(
   [selectors.preferences.getTheme],
-  (theme) => ({ theme })
+  theme => ({ theme })
 )
 
 export default connect(mapStateToProps)(Themes)

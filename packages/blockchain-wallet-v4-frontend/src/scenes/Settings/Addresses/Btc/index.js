@@ -15,7 +15,7 @@ const Wrapper = styled.section`
 `
 
 class BtcAddressesContainer extends React.PureComponent {
-  render () {
+  render() {
     return (
       <AddressesLayout>
         <Wrapper>
@@ -28,8 +28,11 @@ class BtcAddressesContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   data: getData(state)
 })
 
-export default connect(mapStateToProps, undefined)(BtcAddressesContainer)
+export default connect(
+  mapStateToProps,
+  undefined
+)(BtcAddressesContainer)

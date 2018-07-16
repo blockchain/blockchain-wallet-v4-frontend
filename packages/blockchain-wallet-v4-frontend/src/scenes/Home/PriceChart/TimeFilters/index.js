@@ -9,7 +9,7 @@ import TimeFilters from './template'
 export const TimeFiltersContainer = props => (
   <TimeFilters
     time={props.time}
-    handleClick={(time) => props.actions.timeClicked(time)}
+    handleClick={time => props.actions.timeClicked(time)}
   />
 )
 
@@ -25,4 +25,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.priceChart, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(TimeFiltersContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TimeFiltersContainer)

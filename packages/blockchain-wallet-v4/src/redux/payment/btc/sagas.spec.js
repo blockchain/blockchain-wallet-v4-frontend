@@ -2,12 +2,12 @@ import { call } from 'redux-saga/effects'
 import createPaymentFactory from './sagas'
 
 const feeResult = {
-  'limits': {
-    'min': 2,
-    'max': 9
+  limits: {
+    min: 2,
+    max: 9
   },
-  'priority': 6,
-  'regular': 5
+  priority: 6,
+  regular: 5
 }
 
 describe('createPayment', () => {

@@ -31,15 +31,11 @@ describe('Address', () => {
   })
 
   describe('encrypt', () => {
-    it('should return an encrypted Address', (done) => {
-      Address.encrypt(1, null, 'secret', address)
-        .fork(
-          done,
-          enc => {
-            expect(enc.priv).toEqual('enc<5priv>')
-            done()
-          }
-        )
+    it('should return an encrypted Address', done => {
+      Address.encrypt(1, null, 'secret', address).fork(done, enc => {
+        expect(enc.priv).toEqual('enc<5priv>')
+        done()
+      })
     })
   })
 

@@ -10,10 +10,12 @@ const BaseImage = styled.img`
   color: ${props => props.color};
 `
 
-const Image = (props) => {
+const Image = props => {
   const { name, ...rest } = props
   const file = Images[name]
-  if (!file) { return <img /> }
+  if (!file) {
+    return <img />
+  }
 
   return <BaseImage src={file} {...rest} />
 }

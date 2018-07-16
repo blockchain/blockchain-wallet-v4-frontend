@@ -9,31 +9,37 @@ import SecondStep from './SecondStep'
 import { actions } from '../../data'
 
 class RecoverContainer extends React.PureComponent {
-  componentWillMount () {
+  componentWillMount() {
     this.props.resetStep()
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.formActions.destroy('recover')
   }
 
-  render () {
+  render() {
     const { step, nextStep, previousStep, ...rest } = this.props
 
     switch (step) {
-      case 1: return <FirstStep onSubmit={nextStep} {...rest} />
-      case 2: return <SecondStep previousStep={previousStep} {...rest} />
-      default: return <FirstStep onSubmit={nextStep} {...rest} />
+      case 1:
+        return <FirstStep onSubmit={nextStep} {...rest} />
+      case 2:
+        return <SecondStep previousStep={previousStep} {...rest} />
+      default:
+        return <FirstStep onSubmit={nextStep} {...rest} />
     }
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const enhance = compose(
-  connect(null, mapDispatchToProps),
+  connect(
+    null,
+    mapDispatchToProps
+  ),
   wizardProvider('recover', 2)
 )
 

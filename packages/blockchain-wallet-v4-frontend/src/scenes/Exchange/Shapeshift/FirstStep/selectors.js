@@ -6,7 +6,12 @@ export const format = acc => ({ text: prop('label', acc), value: acc })
 
 export const formatDefault = curry((coin, acc) => ({ text: coin, value: acc }))
 
-export const generateGroup = (bchAccounts, btcAccounts, ethAccounts, hasOneAccount) => {
+export const generateGroup = (
+  bchAccounts,
+  btcAccounts,
+  ethAccounts,
+  hasOneAccount
+) => {
   if (hasOneAccount) {
     const accounts = [
       btcAccounts.map(formatDefault('Bitcoin')),
@@ -14,10 +19,12 @@ export const generateGroup = (bchAccounts, btcAccounts, ethAccounts, hasOneAccou
       ethAccounts.map(formatDefault('Ether'))
     ]
 
-    return [{
-      group: '',
-      items: accounts.reduce((a, b) => a.concat(b))
-    }]
+    return [
+      {
+        group: '',
+        items: accounts.reduce((a, b) => a.concat(b))
+      }
+    ]
   }
   return [
     { group: 'Bitcoin', items: btcAccounts.map(format) },
@@ -33,19 +40,20 @@ const getBchAccounts = createDeepEqualSelector(
     selectors.core.kvStore.bch.getAccounts
   ],
   (bchAccounts, bchDataR, bchMetadataR) => {
-    const transform = (bchData, bchMetadata) => bchAccounts.map(acc => {
-      const index = prop('index', acc)
-      const data = prop(prop('xpub', acc), bchData)
-      const metadata = bchMetadata[index]
+    const transform = (bchData, bchMetadata) =>
+      bchAccounts.map(acc => {
+        const index = prop('index', acc)
+        const data = prop(prop('xpub', acc), bchData)
+        const metadata = bchMetadata[index]
 
-      return {
-        archived: prop('archived', metadata),
-        coin: 'BCH',
-        label: prop('label', metadata) || prop('xpub', acc),
-        address: index,
-        balance: prop('final_balance', data)
-      }
-    })
+        return {
+          archived: prop('archived', metadata),
+          coin: 'BCH',
+          label: prop('label', metadata) || prop('xpub', acc),
+          address: index,
+          balance: prop('final_balance', data)
+        }
+      })
 
     return lift(transform)(bchDataR, bchMetadataR)
   }
@@ -57,7 +65,7 @@ const getBtcAccounts = createDeepEqualSelector(
     selectors.core.data.bitcoin.getAddresses
   ],
   (btcAccounts, btcDataR) => {
-    const transform = (btcData) => {
+    const transform = btcData => {
       return btcAccounts.map(acc => ({
         archived: prop('archived', acc),
         coin: 'BTC',
@@ -77,17 +85,18 @@ const getEthAccounts = createDeepEqualSelector(
     selectors.core.kvStore.ethereum.getAccounts
   ],
   (ethDataR, ethMetadataR) => {
-    const transform = (ethData, ethMetadata) => ethMetadata.map(acc => {
-      const data = prop(prop('addr', acc), ethData)
+    const transform = (ethData, ethMetadata) =>
+      ethMetadata.map(acc => {
+        const data = prop(prop('addr', acc), ethData)
 
-      return {
-        archived: prop('archived', acc),
-        coin: 'ETH',
-        label: prop('label', acc) || prop('addr', acc),
-        address: prop('addr', acc),
-        balance: prop('balance', data)
-      }
-    })
+        return {
+          archived: prop('archived', acc),
+          coin: 'ETH',
+          label: prop('label', acc) || prop('addr', acc),
+          address: prop('addr', acc),
+          balance: prop('balance', data)
+        }
+      })
 
     return lift(transform)(ethDataR, ethMetadataR)
   }
@@ -103,7 +112,15 @@ export const getData = createDeepEqualSelector(
     selectors.components.exchange.getError,
     selectors.form.getFormValues('exchange')
   ],
-  (btcAccountsR, bchAccountsR, ethAccountsR, currencyR, enabled, formError, formValues) => {
+  (
+    btcAccountsR,
+    bchAccountsR,
+    ethAccountsR,
+    currencyR,
+    enabled,
+    formError,
+    formValues
+  ) => {
     const source = prop('source', formValues)
     const target = prop('target', formValues)
     const sourceCoin = prop('coin', source) || 'BTC'
@@ -117,8 +134,16 @@ export const getData = createDeepEqualSelector(
       const defaultBtcAccount = head(activeBtcAccounts)
       const defaultEthAccount = head(activeEthAccounts)
       const hasOneAccount = length(activeBtcAccounts) === 1
-      const elements = generateGroup(activeBchAccounts, activeBtcAccounts, activeEthAccounts, hasOneAccount)
-      const initialValues = { source: defaultBtcAccount, target: defaultEthAccount }
+      const elements = generateGroup(
+        activeBchAccounts,
+        activeBtcAccounts,
+        activeEthAccounts,
+        hasOneAccount
+      )
+      const initialValues = {
+        source: defaultBtcAccount,
+        target: defaultEthAccount
+      }
 
       return {
         elements,

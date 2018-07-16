@@ -6,8 +6,11 @@ import sagas from './sagas'
 export default ({ api, options }) => {
   const dataSfoxSagas = sagas({ api, options })
 
-  return function * () {
-    yield takeLatest(actionTypes.kvStore.buySell.FETCH_METADATA_BUYSELL_SUCCESS, dataSfoxSagas.init)
+  return function*() {
+    yield takeLatest(
+      actionTypes.kvStore.buySell.FETCH_METADATA_BUYSELL_SUCCESS,
+      dataSfoxSagas.init
+    )
     yield takeLatest(AT.SFOX_FETCH_ACCOUNTS, dataSfoxSagas.fetchSfoxAccounts)
     yield takeLatest(AT.FETCH_PROFILE, dataSfoxSagas.fetchProfile)
     yield takeLatest(AT.FETCH_TRADES, dataSfoxSagas.fetchTrades)

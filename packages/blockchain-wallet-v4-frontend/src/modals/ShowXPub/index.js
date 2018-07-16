@@ -3,15 +3,17 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import ShowXPubTemplate from './template'
 
 class ShowXPubContainer extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = { step: 0 }
   }
 
-  render () {
+  render() {
     let { step } = this.state
     let nextStep = () => this.setState({ step: 1 })
-    return (<ShowXPubTemplate {...this.props} step={step} onContinue={nextStep} />)
+    return (
+      <ShowXPubTemplate {...this.props} step={step} onContinue={nextStep} />
+    )
   }
 }
 

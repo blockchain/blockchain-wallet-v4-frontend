@@ -26,41 +26,101 @@ const Square = styled.div`
   border: 0;
   animation: ${scaleDelay} 3s infinite ease-in-out;
 `
-const SquareMarketingSecondary = Square.extend`background-color: ${props => props.theme['marketing-secondary']};`
-const SquareTransferred = Square.extend`background-color: ${props => props.theme['transferred']};`
-const SquareMarketingPrimary = Square.extend`background-color: ${props => props.theme['marketing-primary']};`
-const SquareBrandTertiary = Square.extend`background-color: ${props => props.theme['brand-tertiary']};`
-const SquareBrandSecondary = Square.extend`background-color: ${props => props.theme['brand-secondary']};`
+const SquareMarketingSecondary = Square.extend`
+  background-color: ${props => props.theme['marketing-secondary']};
+`
+const SquareTransferred = Square.extend`
+  background-color: ${props => props.theme['transferred']};
+`
+const SquareMarketingPrimary = Square.extend`
+  background-color: ${props => props.theme['marketing-primary']};
+`
+const SquareBrandTertiary = Square.extend`
+  background-color: ${props => props.theme['brand-tertiary']};
+`
+const SquareBrandSecondary = Square.extend`
+  background-color: ${props => props.theme['brand-secondary']};
+`
 
-const Square1 = SquareMarketingSecondary.extend`animation-delay: 0s;`
-const Square2 = SquareMarketingSecondary.extend`animation-delay: 0.0.5s;`
-const Square3 = SquareMarketingSecondary.extend`animation-delay: 0.2s;`
-const Square4 = SquareTransferred.extend`animation-delay: 0.3s;`
-const Square5 = SquareTransferred.extend`animation-delay: 0.4s;`
+const Square1 = SquareMarketingSecondary.extend`
+  animation-delay: 0s;
+`
+const Square2 = SquareMarketingSecondary.extend`
+  animation-delay: 0.5s;
+`
+const Square3 = SquareMarketingSecondary.extend`
+  animation-delay: 0.2s;
+`
+const Square4 = SquareTransferred.extend`
+  animation-delay: 0.3s;
+`
+const Square5 = SquareTransferred.extend`
+  animation-delay: 0.4s;
+`
 
-const Square6 = SquareMarketingSecondary.extend`animation-delay: 0.0.5s;`
-const Square7 = SquareMarketingSecondary.extend`animation-delay: 0.2s;`
-const Square8 = SquareMarketingSecondary.extend`animation-delay: 0.3s;`
-const Square9 = SquareTransferred.extend`animation-delay: 0.4s;`
-const Square10 = SquareTransferred.extend`animation-delay: 0.5s;`
+const Square6 = SquareMarketingSecondary.extend`
+  animation-delay: 0.5s;
+`
+const Square7 = SquareMarketingSecondary.extend`
+  animation-delay: 0.2s;
+`
+const Square8 = SquareMarketingSecondary.extend`
+  animation-delay: 0.3s;
+`
+const Square9 = SquareTransferred.extend`
+  animation-delay: 0.4s;
+`
+const Square10 = SquareTransferred.extend`
+  animation-delay: 0.5s;
+`
 
-const Square11 = SquareBrandSecondary.extend`animation-delay: 0.2s;`
-const Square12 = SquareBrandSecondary.extend`animation-delay: 0.3s;`
-const Square13 = SquareBrandSecondary.extend`animation-delay: 0.4s;`
-const Square14 = SquareMarketingPrimary.extend`animation-delay: 0.5s;`
-const Square15 = SquareMarketingPrimary.extend`animation-delay: 0.6s;`
+const Square11 = SquareBrandSecondary.extend`
+  animation-delay: 0.2s;
+`
+const Square12 = SquareBrandSecondary.extend`
+  animation-delay: 0.3s;
+`
+const Square13 = SquareBrandSecondary.extend`
+  animation-delay: 0.4s;
+`
+const Square14 = SquareMarketingPrimary.extend`
+  animation-delay: 0.5s;
+`
+const Square15 = SquareMarketingPrimary.extend`
+  animation-delay: 0.6s;
+`
 
-const Square16 = SquareBrandSecondary.extend`animation-delay: 0.3s;`
-const Square17 = SquareBrandSecondary.extend`animation-delay: 0.4s;`
-const Square18 = SquareBrandSecondary.extend`animation-delay: 0.5s;`
-const Square19 = SquareMarketingPrimary.extend`animation-delay: 0.6s;`
-const Square20 = SquareMarketingPrimary.extend`animation-delay: 0.7s;`
+const Square16 = SquareBrandSecondary.extend`
+  animation-delay: 0.3s;
+`
+const Square17 = SquareBrandSecondary.extend`
+  animation-delay: 0.4s;
+`
+const Square18 = SquareBrandSecondary.extend`
+  animation-delay: 0.5s;
+`
+const Square19 = SquareMarketingPrimary.extend`
+  animation-delay: 0.6s;
+`
+const Square20 = SquareMarketingPrimary.extend`
+  animation-delay: 0.7s;
+`
 
-const Square21 = SquareBrandSecondary.extend`animation-delay: 0.4s;`
-const Square22 = SquareBrandSecondary.extend`animation-delay: 0.5s;`
-const Square23 = SquareBrandSecondary.extend`animation-delay: 0.6s;`
-const Square24 = SquareBrandTertiary.extend`animation-delay: 0.7s;`
-const Square25 = SquareBrandTertiary.extend`animation-delay: 0.8s;`
+const Square21 = SquareBrandSecondary.extend`
+  animation-delay: 0.4s;
+`
+const Square22 = SquareBrandSecondary.extend`
+  animation-delay: 0.5s;
+`
+const Square23 = SquareBrandSecondary.extend`
+  animation-delay: 0.6s;
+`
+const Square24 = SquareBrandTertiary.extend`
+  animation-delay: 0.7s;
+`
+const Square25 = SquareBrandTertiary.extend`
+  animation-delay: 0.8s;
+`
 
 const BlockchainLoader = props => (
   <Wrapper {...props}>

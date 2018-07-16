@@ -6,10 +6,19 @@ import sagas from './sagas'
 export default ({ coreSagas }) => {
   const bchTransactionsSagas = sagas({ coreSagas })
 
-  return function * () {
-    yield takeEvery(AT.BCH_TRANSACTIONS_INITIALIZED, bchTransactionsSagas.initialized)
-    yield takeEvery(AT.BCH_TRANSACTIONS_REPORT_CLICKED, bchTransactionsSagas.reportClicked)
+  return function*() {
+    yield takeEvery(
+      AT.BCH_TRANSACTIONS_INITIALIZED,
+      bchTransactionsSagas.initialized
+    )
+    yield takeEvery(
+      AT.BCH_TRANSACTIONS_REPORT_CLICKED,
+      bchTransactionsSagas.reportClicked
+    )
     yield takeEvery(actionTypes.form.CHANGE, bchTransactionsSagas.formChanged)
-    yield takeEvery(actionTypes.scroll.UPDATE_SCROLL, bchTransactionsSagas.scrollUpdated)
+    yield takeEvery(
+      actionTypes.scroll.UPDATE_SCROLL,
+      bchTransactionsSagas.scrollUpdated
+    )
   }
 }

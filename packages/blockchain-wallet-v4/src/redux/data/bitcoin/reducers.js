@@ -1,4 +1,13 @@
-import { assoc, assocPath, merge, lensProp, over, append, compose, dropLast } from 'ramda'
+import {
+  assoc,
+  assocPath,
+  merge,
+  lensProp,
+  over,
+  append,
+  compose,
+  dropLast
+} from 'ramda'
 import * as AT from './actionTypes'
 import Remote from '../../../remote'
 
@@ -76,22 +85,41 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
       const { reset, transactions } = payload
       return reset
         ? assoc('transactions', [Remote.Success(transactions)], state)
-        : over(lensProp('transactions'), compose(append(Remote.Success(transactions)), dropLast(1)), state)
+        : over(
+            lensProp('transactions'),
+            compose(
+              append(Remote.Success(transactions)),
+              dropLast(1)
+            ),
+            state
+          )
     }
     case AT.FETCH_BITCOIN_TRANSACTIONS_FAILURE: {
       return assoc('transactions', [Remote.Failure(payload)], state)
     }
     case AT.FETCH_BITCOIN_FIAT_AT_TIME_LOADING: {
       const { hash, currency } = payload
-      return assocPath(['transactions_fiat', hash, currency], Remote.Loading, state)
+      return assocPath(
+        ['transactions_fiat', hash, currency],
+        Remote.Loading,
+        state
+      )
     }
     case AT.FETCH_BITCOIN_FIAT_AT_TIME_SUCCESS: {
       const { hash, currency, data } = payload
-      return assocPath(['transactions_fiat', hash, currency], Remote.Success(data), state)
+      return assocPath(
+        ['transactions_fiat', hash, currency],
+        Remote.Success(data),
+        state
+      )
     }
     case AT.FETCH_BITCOIN_FIAT_AT_TIME_FAILURE: {
       const { hash, currency, error } = payload
-      return assocPath(['transactions_fiat', hash, currency], Remote.Success(error), state)
+      return assocPath(
+        ['transactions_fiat', hash, currency],
+        Remote.Success(error),
+        state
+      )
     }
     case AT.FETCH_BITCOIN_TRANSACTION_HISTORY_LOADING: {
       return assoc('transaction_history', Remote.Loading, state)

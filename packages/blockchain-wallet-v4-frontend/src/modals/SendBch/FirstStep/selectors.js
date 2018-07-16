@@ -5,7 +5,9 @@ import { formValueSelector } from 'redux-form'
 export const getData = state => {
   const toToggled = selectors.components.sendBch.getToToggled(state)
   const paymentR = selectors.components.sendBch.getPayment(state)
-  const bchAccountsLength = length(selectors.core.kvStore.bch.getAccounts(state).getOrElse([]))
+  const bchAccountsLength = length(
+    selectors.core.kvStore.bch.getAccounts(state).getOrElse([])
+  )
   const enableToggle = bchAccountsLength > 1
 
   const transform = payment => {

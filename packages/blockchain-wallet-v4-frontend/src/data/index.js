@@ -4,10 +4,4 @@ import rootReducer from './rootReducer'
 import rootSaga from './rootSaga'
 import * as selectors from './selectors'
 
-export {
-  actions,
-  actionTypes,
-  rootReducer,
-  rootSaga,
-  selectors
-}
+export { actions, actionTypes, rootReducer, rootSaga, selectors }

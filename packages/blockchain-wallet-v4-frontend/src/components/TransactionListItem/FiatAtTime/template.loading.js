@@ -12,8 +12,8 @@ const Wrapper = styled.div`
   box-sizing: border-box;
 `
 
-export default (props) => (
+export default props => (
   <Wrapper>
-    <SkeletonRectangle width='200px' height='15px' />
+    <SkeletonRectangle width="200px" height="15px" />
   </Wrapper>
 )

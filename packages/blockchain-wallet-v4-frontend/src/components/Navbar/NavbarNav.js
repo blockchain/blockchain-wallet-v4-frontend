@@ -15,11 +15,7 @@ const BaseNav = styled.ul`
 const NavbarNav = props => {
   const { children, ...rest } = props
 
-  return (
-    <BaseNav {...rest}>
-      {children}
-    </BaseNav>
-  )
+  return <BaseNav {...rest}>{children}</BaseNav>
 }
 
 export default NavbarNav

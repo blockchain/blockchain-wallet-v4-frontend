@@ -1,4 +1,3 @@
-
 import { combineReducers } from 'redux'
 import { reducer as reduxUiReducer } from 'redux-ui'
 import { coreReducers, paths } from 'blockchain-wallet-v4/src'

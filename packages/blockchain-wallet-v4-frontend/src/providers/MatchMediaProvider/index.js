@@ -5,14 +5,17 @@ import 'matchmedia-polyfill/matchMedia.addListener'
 
 import { sizes } from 'services/ResponsiveService'
 
-const mediaMatchers = map((size) => window.matchMedia(`(max-width: ${size}px)`), sizes)
+const mediaMatchers = map(
+  size => window.matchMedia(`(max-width: ${size}px)`),
+  sizes
+)
 const getMediaMatches = () => map(({ matches }) => matches, mediaMatchers)
 
 const startingMedia = getMediaMatches()
 const mediaContext = React.createContext(startingMedia)
 
 export class MediaContextProvider extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.updateHandlers = {}
@@ -21,7 +24,7 @@ export class MediaContextProvider extends React.Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     forEachObjIndexed((matcher, matcherName) => {
       const updateHandler = this.updateMedia.bind(this, matcherName)
       this.updateHandlers[matcherName] = updateHandler
@@ -29,24 +32,25 @@ export class MediaContextProvider extends React.Component {
     }, mediaMatchers)
   }
 
-  componentWillUnmount () {
-    forEachObjIndexed((matcher, matcherName) =>
-      matcher.removeListener(this.updateHandlers[matcherName]), mediaMatchers)
+  componentWillUnmount() {
+    forEachObjIndexed(
+      (matcher, matcherName) =>
+        matcher.removeListener(this.updateHandlers[matcherName]),
+      mediaMatchers
+    )
   }
 
-  updateMedia (matcherName, { matches }) {
+  updateMedia(matcherName, { matches }) {
     this.setState({
       media: assoc(matcherName, matches, this.state.media)
     })
   }
 
-  render () {
+  render() {
     const { children } = this.props
     const { media } = this.state
     return (
-      <mediaContext.Provider value={media}>
-        {children}
-      </mediaContext.Provider>
+      <mediaContext.Provider value={media}>{children}</mediaContext.Provider>
     )
   }
 }

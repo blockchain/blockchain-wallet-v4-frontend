@@ -10,9 +10,13 @@ const INITIAL_STATE = Remote.NotAsked
 describe('kvStore contacts reducers', () => {
   const typeId = derivationMap[CONTACTS]
 
-  const contactsMetadata = set(KVStoreEntry.value,
-    {/* Enter mock contacts objects here */},
-    KVStoreEntry.createEmpty(typeId))
+  const contactsMetadata = set(
+    KVStoreEntry.value,
+    {
+      /* Enter mock contacts objects here */
+    },
+    KVStoreEntry.createEmpty(typeId)
+  )
 
   const contactsMetadataSuccess = Remote.Success(contactsMetadata)
 

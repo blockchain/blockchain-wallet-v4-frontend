@@ -5,13 +5,15 @@ import { selectors } from 'data'
 import TwoStepVerification from './template'
 
 class TwoStepVerificationRememberContainer extends React.PureComponent {
-  render () {
+  render() {
     return <TwoStepVerification {...this.props} />
   }
 }
 
-const mapStateToProps = (state) => ({
-  authTypeNeverSave: selectors.core.settings.getAuthTypeNeverSave(state).getOrElse(0)
+const mapStateToProps = state => ({
+  authTypeNeverSave: selectors.core.settings
+    .getAuthTypeNeverSave(state)
+    .getOrElse(0)
 })
 
 export default connect(mapStateToProps)(TwoStepVerificationRememberContainer)

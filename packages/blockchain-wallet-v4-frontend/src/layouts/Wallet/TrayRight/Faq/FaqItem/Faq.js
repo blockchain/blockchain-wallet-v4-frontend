@@ -12,10 +12,6 @@ const Wrapper = styled.div`
   box-sizing: border-box;
 `
 
-const Faq = (props) => (
-  <Wrapper {...props}>
-    {props.children}
-  </Wrapper>
-)
+const Faq = props => <Wrapper {...props}>{props.children}</Wrapper>
 
 export default Faq

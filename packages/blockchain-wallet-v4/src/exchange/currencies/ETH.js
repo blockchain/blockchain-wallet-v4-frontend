@@ -1,5 +1,4 @@
-export default
-{
+export default {
   base: 'WEI',
   code: 'ETH',
   trade: 'ETH',
