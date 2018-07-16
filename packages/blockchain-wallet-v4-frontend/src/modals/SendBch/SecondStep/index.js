@@ -15,7 +15,7 @@ class SecondStepContainer extends React.PureComponent {
       Success: value => (
         <Success
           {...value}
-          coin="BCH"
+          coin='BCH'
           handleSubmit={() =>
             this.props.actions.sendBchSecondStepSubmitClicked()
           }

@@ -82,8 +82,8 @@ const Toast = props => {
       <Container color={color}>
         <Content>{children}</Content>
         <Close
-          name="close"
-          size="20px"
+          name='close'
+          size='20px'
           weight={300}
           color={color}
           cursor

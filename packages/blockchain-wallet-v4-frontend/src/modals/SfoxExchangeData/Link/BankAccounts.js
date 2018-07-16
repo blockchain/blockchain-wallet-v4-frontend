@@ -40,14 +40,14 @@ class BankAccounts extends Component {
           {this.props.data.map(bank => {
             return <Bank bank={bank} onInputClick={this.onInputClick} />
           })}
-          <Text size="14px" style={spacing('mt-10')}>
+          <Text size='14px' style={spacing('mt-10')}>
             <FormattedMessage
-              id="sfoxexchangedata.link.accountholdername"
+              id='sfoxexchangedata.link.accountholdername'
               defaultMessage="Account Holder's Name"
             />
           </Text>
           <Field
-            name="accountHolder"
+            name='accountHolder'
             component={TextBox}
             validate={required}
             onChange={this.onInputChange}

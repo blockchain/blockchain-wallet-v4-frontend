@@ -18,8 +18,8 @@ const PartnerLabel = props => {
   if (partnerLabel === 'shift') {
     return (
       <LabelContainer
-        mobileSize="14px"
-        size="16px"
+        mobileSize='14px'
+        size='16px'
         weight={500}
         color={props.type}
         uppercase
@@ -27,13 +27,13 @@ const PartnerLabel = props => {
         <PartnerBanner>
           {txType === 'sent' ? (
             <FormattedMessage
-              id="components.txlistitem.partnerlabel.depositedshapeshift"
-              defaultMessage="ShapeShift Deposit"
+              id='components.txlistitem.partnerlabel.depositedshapeshift'
+              defaultMessage='ShapeShift Deposit'
             />
           ) : (
             <FormattedMessage
-              id="components.txlistitem.partnerlabel.receivedshapeshift"
-              defaultMessage="Received from ShapeShift"
+              id='components.txlistitem.partnerlabel.receivedshapeshift'
+              defaultMessage='Received from ShapeShift'
             />
           )}
         </PartnerBanner>
@@ -44,8 +44,8 @@ const PartnerLabel = props => {
   if (partnerLabel === 'buy-sell' && buysellPartner) {
     return (
       <LabelContainer
-        mobileSize="14px"
-        size="16px"
+        mobileSize='14px'
+        size='16px'
         weight={500}
         color={props.type}
         uppercase
@@ -53,14 +53,14 @@ const PartnerLabel = props => {
         <PartnerBanner partnerLabel>
           {txType === 'sent' ? (
             <FormattedMessage
-              id="components.txlistitem.partnerlabel.soldvia"
-              defaultMessage="Sold via {partner}"
+              id='components.txlistitem.partnerlabel.soldvia'
+              defaultMessage='Sold via {partner}'
               values={{ partner: capitalize(buysellPartner) }}
             />
           ) : (
             <FormattedMessage
-              id="components.txlistitem.partnerlabel.boughtvia"
-              defaultMessage="Bought via {partner}"
+              id='components.txlistitem.partnerlabel.boughtvia'
+              defaultMessage='Bought via {partner}'
               values={{ partner: capitalize(buysellPartner) }}
             />
           )}

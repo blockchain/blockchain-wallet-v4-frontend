@@ -21,12 +21,12 @@ class SelectBoxCoinifyCurrency extends React.PureComponent {
 
     return (
       <CustomSelectBox
-        arrowSize="12px"
-        textAlign="center"
-        fontSize="small"
-        label=""
+        arrowSize='12px'
+        textAlign='center'
+        fontSize='small'
+        label=''
         elements={elements}
-        borderLeft="none"
+        borderLeft='none'
         {...rest}
       />
     )

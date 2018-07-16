@@ -67,87 +67,87 @@ const Success = props => {
   return (
     <Wrapper>
       <Row>
-        <Text size="16px" weight={500}>
+        <Text size='16px' weight={500}>
           <FormattedMessage
-            id="modals.sendeth.secondstep.from"
-            defaultMessage="From:"
+            id='modals.sendeth.secondstep.from'
+            defaultMessage='From:'
           />
         </Text>
-        <Text size="16px" weight={300}>
+        <Text size='16px' weight={300}>
           {fromAddress}
         </Text>
       </Row>
       <Row>
-        <Text size="16px" weight={500}>
+        <Text size='16px' weight={500}>
           <FormattedMessage
-            id="modals.sendeth.secondstep.to"
-            defaultMessage="To:"
+            id='modals.sendeth.secondstep.to'
+            defaultMessage='To:'
           />
         </Text>
-        <Text size="16px" weight={300}>
+        <Text size='16px' weight={300}>
           {toAddress}
         </Text>
       </Row>
       {description && (
         <Row>
-          <Text size="16px" weight={500}>
+          <Text size='16px' weight={500}>
             <FormattedMessage
-              id="modals.sendeth.secondstep.note"
-              defaultMessage="Note:"
+              id='modals.sendeth.secondstep.note'
+              defaultMessage='Note:'
             />
           </Text>
-          <Text size="16px" weight={300}>
+          <Text size='16px' weight={300}>
             {description}
           </Text>
         </Row>
       )}
       <Row>
-        <Text size="16px" weight={500}>
+        <Text size='16px' weight={500}>
           <FormattedMessage
-            id="modals.sendeth.secondstep.payment"
-            defaultMessage="Payment:"
+            id='modals.sendeth.secondstep.payment'
+            defaultMessage='Payment:'
           />
         </Text>
-        <Text size="16px" weight={300}>
+        <Text size='16px' weight={300}>
           <ComboDisplay coin={coin}>{amount}</ComboDisplay>
         </Text>
       </Row>
       <Row>
-        <Text size="16px" weight={500}>
+        <Text size='16px' weight={500}>
           <FormattedMessage
-            id="modals.sendeth.secondstep.fee"
-            defaultMessage="Fee:"
+            id='modals.sendeth.secondstep.fee'
+            defaultMessage='Fee:'
           />
         </Text>
-        <Text size="16px" weight={300}>
+        <Text size='16px' weight={300}>
           <ComboDisplay coin={coin}>{fee}</ComboDisplay>
         </Text>
       </Row>
       <Summary>
-        <Text size="16px" weight={300} color="sent">
+        <Text size='16px' weight={300} color='sent'>
           <FormattedMessage
-            id="modals.sendeth.secondstep.total"
-            defaultMessage="Total"
+            id='modals.sendeth.secondstep.total'
+            defaultMessage='Total'
           />
         </Text>
-        <CoinDisplay coin={coin} size="30px" weight={600} color="sent">
+        <CoinDisplay coin={coin} size='30px' weight={600} color='sent'>
           {total}
         </CoinDisplay>
-        <FiatDisplay coin={coin} size="20px" weight={300} color="sent">
+        <FiatDisplay coin={coin} size='20px' weight={300} color='sent'>
           {total}
         </FiatDisplay>
       </Summary>
       <Footer>
-        <Button onClick={handleSubmit} nature="primary" fullwidth uppercase>
+        <Button onClick={handleSubmit} nature='primary' fullwidth uppercase>
           <FormattedMessage
-            id="modals.sendeth.secondstep.send"
-            defaultMessage="Send Ether"
+            id='modals.sendeth.secondstep.send'
+            defaultMessage='Send Ether'
           />
         </Button>
-        <Link onClick={handleBack} size="13px" weight={300}>
+        <Link onClick={handleBack} size='13px' weight={300}>
           <FormattedMessage
-            id="modals.sendeth.sendconfirm.back"
-            defaultMessage="Go Back"
+            id='modals.sendeth.sendconfirm.back'
+            defaultMessage='Go Back'
           />
         </Link>
       </Footer>

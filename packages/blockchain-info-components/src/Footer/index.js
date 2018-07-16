@@ -260,39 +260,39 @@ class Footer extends Component {
   render() {
     return (
       <Container>
-        <div className="flex-container">
-          <div className="footer-logo">
-            <img alt="Blockchain Logo" src={footerLogo} />
+        <div className='flex-container'>
+          <div className='footer-logo'>
+            <img alt='Blockchain Logo' src={footerLogo} />
           </div>
           <div>
             <h6>Products</h6>
             <ol>
               <li>
-                <a href="https://blockchain.info/wallet">Wallet</a>
+                <a href='https://blockchain.info/wallet'>Wallet</a>
               </li>
               <li>
-                <a href="https://blockchain.info/api">API</a>
+                <a href='https://blockchain.info/api'>API</a>
               </li>
               <li>
-                <a href="https://blockchain.com/enterprise">Business</a>
+                <a href='https://blockchain.com/enterprise'>Business</a>
               </li>
               <li>
-                <a href="https://blockchain.com/thunder">Thunder</a>
+                <a href='https://blockchain.com/thunder'>Thunder</a>
               </li>
               <li>
-                <a href="https://blockchain.com/research">Research</a>
+                <a href='https://blockchain.com/research'>Research</a>
               </li>
               <li>
-                <a href="https://blockchain.info">Explorer</a>
+                <a href='https://blockchain.info'>Explorer</a>
               </li>
               <li>
-                <a href="https://blockchain.info/charts">Charts</a>
+                <a href='https://blockchain.info/charts'>Charts</a>
               </li>
               <li>
-                <a href="https://blockchain.info/markets">Markets</a>
+                <a href='https://blockchain.info/markets'>Markets</a>
               </li>
               <li>
-                <a href="https://blockchain.info/stats">Stats</a>
+                <a href='https://blockchain.info/stats'>Stats</a>
               </li>
             </ol>
           </div>
@@ -300,25 +300,25 @@ class Footer extends Component {
             <h6>Company</h6>
             <ol>
               <li>
-                <a href="https://blockchain.com/about">About</a>
+                <a href='https://blockchain.com/about'>About</a>
               </li>
               <li>
-                <a href="https://blockchain.com/team">Team</a>
+                <a href='https://blockchain.com/team'>Team</a>
               </li>
               <li>
-                <a href="https://blockchain.com/careers">Careers</a>
+                <a href='https://blockchain.com/careers'>Careers</a>
               </li>
               <li>
-                <a href="https://blockchain.com/interview">Interviewing</a>
+                <a href='https://blockchain.com/interview'>Interviewing</a>
               </li>
               <li>
-                <a href="https://blockchain.com/faq">FAQ</a>
+                <a href='https://blockchain.com/faq'>FAQ</a>
               </li>
               <li>
-                <a href="https://blockchain.com/press">Press</a>
+                <a href='https://blockchain.com/press'>Press</a>
               </li>
               <li>
-                <a href="https://blog.blockchain.com">Blog</a>
+                <a href='https://blog.blockchain.com'>Blog</a>
               </li>
             </ol>
           </div>
@@ -326,49 +326,49 @@ class Footer extends Component {
             <h6>Support</h6>
             <ol>
               <li>
-                <a href="https://support.blockchain.com">Help Center</a>
+                <a href='https://support.blockchain.com'>Help Center</a>
               </li>
               <li>
-                <a href="https://blog.blockchain.com/category/tutorials-and-guides/">
+                <a href='https://blog.blockchain.com/category/tutorials-and-guides/'>
                   Tutorials
                 </a>
               </li>
               <li>
-                <a href="https://blockchain.info/wallet/bitcoin-faq">
+                <a href='https://blockchain.info/wallet/bitcoin-faq'>
                   Learning Portal
                 </a>
               </li>
               <li>
-                <a href="https://www.blockchain-status.com">Status</a>
+                <a href='https://www.blockchain-status.com'>Status</a>
               </li>
             </ol>
           </div>
         </div>
-        <div className="flex-container">
-          <div className="copyright">
+        <div className='flex-container'>
+          <div className='copyright'>
             <span>
               &copy;&nbsp;2018 Blockchain Luxembourg S.A. All Rights Reserved.
             </span>
-            <a href="https://blockchain.com/privacy">Privacy</a>
-            <a href="https://blockchain.com/terms">Terms</a>
-            <a href="/https://blockchain.com/legal">Law Enforcement Guide</a>
-            <a href="https://blockchain.info/advertise">Advertise</a>
+            <a href='https://blockchain.com/privacy'>Privacy</a>
+            <a href='https://blockchain.com/terms'>Terms</a>
+            <a href='/https://blockchain.com/legal'>Law Enforcement Guide</a>
+            <a href='https://blockchain.info/advertise'>Advertise</a>
           </div>
-          <div className="social-media">
-            <a href="https://play.google.com/store/apps/details?id=piuk.blockchain.android&hl=en">
-              <img alt="Android App Icon" src={androidFooterLogo} />
+          <div className='social-media'>
+            <a href='https://play.google.com/store/apps/details?id=piuk.blockchain.android&hl=en'>
+              <img alt='Android App Icon' src={androidFooterLogo} />
             </a>
-            <a href="https://itunes.apple.com/us/app/blockchain-bitcoin-wallet/id493253309?mt=8">
-              <img alt="iOS App Icon" src={appleFooterLogo} />
+            <a href='https://itunes.apple.com/us/app/blockchain-bitcoin-wallet/id493253309?mt=8'>
+              <img alt='iOS App Icon' src={appleFooterLogo} />
             </a>
-            <a href="https://twitter.com/blockchain">
-              <img alt="Twitter Icon" src={twitterFooterLogo} />
+            <a href='https://twitter.com/blockchain'>
+              <img alt='Twitter Icon' src={twitterFooterLogo} />
             </a>
-            <a href="https://www.linkedin.com/company/blockchain">
-              <img alt="LinkedIn Icon" src={linkedinFooterLogo} />
+            <a href='https://www.linkedin.com/company/blockchain'>
+              <img alt='LinkedIn Icon' src={linkedinFooterLogo} />
             </a>
-            <a href="https://www.facebook.com/blockchain/">
-              <img alt="Facebook Icon" src={facebookFooterLogo} />
+            <a href='https://www.facebook.com/blockchain/'>
+              <img alt='Facebook Icon' src={facebookFooterLogo} />
             </a>
           </div>
         </div>

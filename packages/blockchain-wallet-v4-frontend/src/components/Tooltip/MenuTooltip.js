@@ -110,7 +110,7 @@ class MenuTooltip extends React.PureComponent {
         <MenuTooltipIconWrapper>
           {this.state.hasNews && (
             <NewLabel>
-              <Text size="11px" color="white" weight={300}>
+              <Text size='11px' color='white' weight={300}>
                 {newsLength}
               </Text>
             </NewLabel>
@@ -125,7 +125,7 @@ class MenuTooltip extends React.PureComponent {
           displayed={this.state.displayed}
           onClick={this.handleClick}
         >
-          <MenuTooltipTitle size="14px" weight={500}>
+          <MenuTooltipTitle size='14px' weight={500}>
             {title}
           </MenuTooltipTitle>
           <TextContainer>{children}</TextContainer>

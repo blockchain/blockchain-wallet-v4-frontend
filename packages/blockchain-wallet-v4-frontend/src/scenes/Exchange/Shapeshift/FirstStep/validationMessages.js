@@ -18,26 +18,26 @@ const Wrapper = styled.div`
 `
 
 export const AboveRegulationLimitMessage = regulationLimit => (
-  <Text size="12px" weight={300} color="error">
+  <Text size='12px' weight={300} color='error'>
     <FormattedMessage
-      id="modals.exchange.abovelimitmessage"
-      defaultMessage="Please enter an amount less than the limit."
+      id='modals.exchange.abovelimitmessage'
+      defaultMessage='Please enter an amount less than the limit.'
     />
   </Text>
 )
 
 export const MaximumAmountMessage = () => (
   <Wrapper>
-    <Text size="12px" weight={300} color="error">
+    <Text size='12px' weight={300} color='error'>
       <FormattedMessage
-        id="modals.exchange.maximumamountmessage"
-        defaultMessage="Not enough funds."
+        id='modals.exchange.maximumamountmessage'
+        defaultMessage='Not enough funds.'
       />
     </Text>
-    <Text size="12px" weight={300}>
+    <Text size='12px' weight={300}>
       <FormattedMessage
-        id="modals.exchange.maximumamountmessage2"
-        defaultMessage="Use"
+        id='modals.exchange.maximumamountmessage2'
+        defaultMessage='Use'
       />
     </Text>
     <MaximumAmountLink />
@@ -46,16 +46,16 @@ export const MaximumAmountMessage = () => (
 
 export const MinimumAmountMessage = () => (
   <Wrapper>
-    <Text size="12px" weight={300} color="error">
+    <Text size='12px' weight={300} color='error'>
       <FormattedMessage
-        id="modals.exchange.minimumamountmessage"
-        defaultMessage="Below minimum amount."
+        id='modals.exchange.minimumamountmessage'
+        defaultMessage='Below minimum amount.'
       />
     </Text>
-    <Text size="12px" weight={300}>
+    <Text size='12px' weight={300}>
       <FormattedMessage
-        id="modals.exchange.minimumamountmessage2"
-        defaultMessage="Use"
+        id='modals.exchange.minimumamountmessage2'
+        defaultMessage='Use'
       />
     </Text>
     <MinimumAmountLink />
@@ -63,19 +63,19 @@ export const MinimumAmountMessage = () => (
 )
 
 export const InsufficientAmountMessage = () => (
-  <Text size="12px" weight={300} color="error">
+  <Text size='12px' weight={300} color='error'>
     <FormattedMessage
-      id="modals.exchange.insufficientamountmessage"
-      defaultMessage="Insufficient funds"
+      id='modals.exchange.insufficientamountmessage'
+      defaultMessage='Insufficient funds'
     />
   </Text>
 )
 
 export const InvalidAmountMessage = () => (
-  <Text size="12px" weight={300} color="error">
+  <Text size='12px' weight={300} color='error'>
     <FormattedMessage
-      id="modals.exchange.invalidamountmessage"
-      defaultMessage="Invalid amount"
+      id='modals.exchange.invalidamountmessage'
+      defaultMessage='Invalid amount'
     />
   </Text>
 )

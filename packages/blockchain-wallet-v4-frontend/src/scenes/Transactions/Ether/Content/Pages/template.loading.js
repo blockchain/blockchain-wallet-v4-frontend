@@ -20,29 +20,29 @@ const ActivitySkeleton = styled.div`
 `
 
 export default () => (
-  <ActivityListSkeleton height="450px" width="100%;" bgColor="white">
+  <ActivityListSkeleton height='450px' width='100%;' bgColor='white'>
     <ActivitySkeleton>
-      <SkeletonRectangle width="50%" height="30px" bgColor="white-blue" />
+      <SkeletonRectangle width='50%' height='30px' bgColor='white-blue' />
       <SkeletonRectangle
-        width="calc(100% - 30px)"
-        height="80px"
-        bgColor="white-blue"
+        width='calc(100% - 30px)'
+        height='80px'
+        bgColor='white-blue'
       />
     </ActivitySkeleton>
     <ActivitySkeleton>
-      <SkeletonRectangle width="50%" height="30px" bgColor="white-blue" />
+      <SkeletonRectangle width='50%' height='30px' bgColor='white-blue' />
       <SkeletonRectangle
-        width="calc(100% - 30px)"
-        height="80px"
-        bgColor="white-blue"
+        width='calc(100% - 30px)'
+        height='80px'
+        bgColor='white-blue'
       />
     </ActivitySkeleton>
     <ActivitySkeleton>
-      <SkeletonRectangle width="50%" height="30px" bgColor="white-blue" />
+      <SkeletonRectangle width='50%' height='30px' bgColor='white-blue' />
       <SkeletonRectangle
-        width="calc(100% - 30px)"
-        height="80px"
-        bgColor="white-blue"
+        width='calc(100% - 30px)'
+        height='80px'
+        bgColor='white-blue'
       />
     </ActivitySkeleton>
   </ActivityListSkeleton>

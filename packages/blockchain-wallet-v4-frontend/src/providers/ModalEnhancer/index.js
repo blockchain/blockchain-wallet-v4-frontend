@@ -75,7 +75,7 @@ export default type => Component =>
                 onKeyDown={this.onKeyPressed}
                 onMouseDown={this.handleClick}
                 ref={setRef}
-                tabIndex="0"
+                tabIndex='0'
               >
                 <Component
                   ref={this.node}

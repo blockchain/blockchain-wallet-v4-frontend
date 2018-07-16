@@ -50,7 +50,7 @@ const PhoneNumberBox = field => {
         preferredCountries={['us', 'gb']}
         css={['intl-tel-input', 'form-control']}
         utilsScript={'libphonenumber.js'}
-        placeholder="555-555-5555"
+        placeholder='555-555-5555'
       />
     </Container>
   )

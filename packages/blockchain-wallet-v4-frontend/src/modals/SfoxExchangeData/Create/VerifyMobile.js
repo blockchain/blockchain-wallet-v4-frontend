@@ -101,7 +101,7 @@ class VerifyMobile extends Component {
         case mobileVerifiedError:
           return (
             <FormattedMessage
-              id="sfoxexchangedata.create.mobile.helper.error"
+              id='sfoxexchangedata.create.mobile.helper.error'
               defaultMessage="That code doesn't match. {resend} or {changeNumber}."
               values={{
                 resend: <a onClick={this.resendCode}>Resend</a>,
@@ -120,14 +120,14 @@ class VerifyMobile extends Component {
         case ui.smsCodeResent:
           return (
             <FormattedMessage
-              id="sfoxexchangedata.create.mobile.helper.sentanothercode"
-              defaultMessage="Another code has been sent!"
+              id='sfoxexchangedata.create.mobile.helper.sentanothercode'
+              defaultMessage='Another code has been sent!'
             />
           )
         case !ui.smsCodeResent:
           return (
             <FormattedMessage
-              id="sfoxexchangedata.create.mobile.helper.didntreceive"
+              id='sfoxexchangedata.create.mobile.helper.didntreceive'
               defaultMessage="Didn't get our text? {resend}."
               values={{ resend: <a onClick={this.resendCode}>Resend</a> }}
             />
@@ -141,25 +141,25 @@ class VerifyMobile extends Component {
           <InputWrapper>
             <PartnerHeader>
               <FormattedMessage
-                id="sfoxexchangedata.create.verifymobile.partner.header.mobile"
+                id='sfoxexchangedata.create.verifymobile.partner.header.mobile'
                 defaultMessage="What's Your Number?"
               />
             </PartnerHeader>
             <PartnerSubHeader>
               <FormattedMessage
-                id="sfoxexchangedata.create.verifymobile.partner.subheader.mobile"
+                id='sfoxexchangedata.create.verifymobile.partner.subheader.mobile'
                 defaultMessage="Confirming your phone number allows SFOX to secure your account. Don't worry, we won't use your number for anything other than sending your code."
               />
             </PartnerSubHeader>
             <MobileInput>
-              <Text size="14px" weight={400} style={{ marginBottom: '5px' }}>
+              <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
                 <FormattedMessage
-                  id="sfoxexchangedata.create.mobile.entermobilenumber"
-                  defaultMessage="Enter your digits here:"
+                  id='sfoxexchangedata.create.mobile.entermobilenumber'
+                  defaultMessage='Enter your digits here:'
                 />
               </Text>
               <Field
-                name="mobileNumber"
+                name='mobileNumber'
                 defaultValue={smsNumber}
                 component={PhoneNumberBox}
                 validate={[required, validMobileNumber]}
@@ -168,28 +168,28 @@ class VerifyMobile extends Component {
               />
               {ui.create === 'change_mobile' && (
                 <Button
-                  nature="primary"
-                  type="submit"
+                  nature='primary'
+                  type='submit'
                   disabled={!mobileNumber}
                   style={spacing('mt-15')}
                 >
                   <FormattedMessage
-                    id="sfoxexchangedata.create.mobile.sendmycode"
-                    defaultMessage="Send My Code"
+                    id='sfoxexchangedata.create.mobile.sendmycode'
+                    defaultMessage='Send My Code'
                   />
                 </Button>
               )}
             </MobileInput>
             {ui.create === 'enter_mobile_code' && (
               <MobileCodeContainer>
-                <Text size="14px" weight={400} style={{ marginBottom: '5px' }}>
+                <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
                   <FormattedMessage
-                    id="sfoxexchangedata.create.mobile.entercode"
-                    defaultMessage="Enter the code we just sent to your phone:"
+                    id='sfoxexchangedata.create.mobile.entercode'
+                    defaultMessage='Enter the code we just sent to your phone:'
                   />
                 </Text>
                 <Field
-                  name="mobileCode"
+                  name='mobileCode'
                   component={TextBox}
                   validate={[required]}
                   errorBottom
@@ -206,14 +206,14 @@ class VerifyMobile extends Component {
             {ui.create !== 'enter_mobile_code' ? null : (
               <ButtonWrapper>
                 <Button
-                  type="submit"
-                  nature="primary"
+                  type='submit'
+                  nature='primary'
                   fullwidth
                   disabled={!mobileCode}
                 >
                   <FormattedMessage
-                    id="sfoxexchangedata.create.mobile.continue"
-                    defaultMessage="Continue"
+                    id='sfoxexchangedata.create.mobile.continue'
+                    defaultMessage='Continue'
                   />
                 </Button>
               </ButtonWrapper>

@@ -34,7 +34,7 @@ class CoinifyTradeDetails extends React.PureComponent {
 
     return (
       <Modal
-        size="large"
+        size='large'
         position={this.props.position}
         total={this.props.total}
       >

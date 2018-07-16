@@ -23,27 +23,27 @@ const Wrapper = styled.div`
 
 const Error = props => (
   <Wrapper>
-    <Text size="12px" weight={300} color="red">
+    <Text size='12px' weight={300} color='red'>
       {props.children === 'exchange_order_error' ? (
         <FormattedMessage
-          id="scenes.shapeshift.secondstep.shapeshiftordererror"
-          defaultMessage="Your order could not be placed. Please try again later."
+          id='scenes.shapeshift.secondstep.shapeshiftordererror'
+          defaultMessage='Your order could not be placed. Please try again later.'
         />
       ) : (
         <FormattedMessage
-          id="scenes.shapeshift.secondstep.shapeshifterror"
-          defaultMessage="An unexpected error occured. Please try again later."
+          id='scenes.shapeshift.secondstep.shapeshifterror'
+          defaultMessage='An unexpected error occured. Please try again later.'
         />
       )}
     </Text>
     <Link
-      size="13px"
+      size='13px'
       weight={300}
       onClick={() => props.actions.secondStepGoBack()}
     >
       <FormattedMessage
-        id="scenes.shapeshift.secondstep.goback"
-        defaultMessage="Go back"
+        id='scenes.shapeshift.secondstep.goback'
+        defaultMessage='Go back'
       />
     </Link>
   </Wrapper>

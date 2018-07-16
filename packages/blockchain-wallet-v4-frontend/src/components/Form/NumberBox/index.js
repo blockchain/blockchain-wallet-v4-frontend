@@ -36,9 +36,9 @@ const NumberBox = field => {
       {field.meta.touched &&
         field.meta.error && (
           <Error
-            size="12px"
+            size='12px'
             weight={300}
-            color="error"
+            color='error'
             errorBottom={field.errorBottom}
           >
             {field.meta.error}
@@ -48,9 +48,9 @@ const NumberBox = field => {
         !field.meta.error &&
         field.meta.warning && (
           <Error
-            size="12px"
+            size='12px'
             weight={300}
-            color="sent"
+            color='sent'
             errorBottom={field.errorBottom}
           >
             {field.meta.warning}

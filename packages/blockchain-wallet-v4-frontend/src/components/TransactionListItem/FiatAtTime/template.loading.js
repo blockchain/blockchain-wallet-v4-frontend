@@ -14,6 +14,6 @@ const Wrapper = styled.div`
 
 export default props => (
   <Wrapper>
-    <SkeletonRectangle width="200px" height="15px" />
+    <SkeletonRectangle width='200px' height='15px' />
   </Wrapper>
 )

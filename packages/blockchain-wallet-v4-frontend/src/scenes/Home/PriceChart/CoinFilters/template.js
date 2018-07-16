@@ -18,17 +18,17 @@ const CoinFilters = props => {
   return (
     <Wrapper>
       <CoinTicker
-        coin="BTC"
+        coin='BTC'
         selected={coin === 'BTC'}
         handleClick={() => handleClick('BTC')}
       />
       <CoinTicker
-        coin="ETH"
+        coin='ETH'
         selected={coin === 'ETH'}
         handleClick={() => handleClick('ETH')}
       />
       <CoinTicker
-        coin="BCH"
+        coin='BCH'
         selected={coin === 'BCH'}
         handleClick={() => handleClick('BCH')}
       />

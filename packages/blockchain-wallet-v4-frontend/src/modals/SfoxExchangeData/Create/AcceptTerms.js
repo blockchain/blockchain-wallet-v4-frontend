@@ -38,28 +38,28 @@ const helpers = [
   {
     question: (
       <FormattedMessage
-        id="scenes.sfoxsignup.acceptterms.helper1.question"
-        defaultMessage="What is SFOX?"
+        id='scenes.sfoxsignup.acceptterms.helper1.question'
+        defaultMessage='What is SFOX?'
       />
     ),
     answer: (
       <FormattedMessage
-        id="scenes.sfoxsignup.acceptterms.helper1.answer"
-        defaultMessage="SFOX (San Francisco Open Exchange) is a trading platform we’ve partnered with to bring you a harmonious buy & sell experience in your Blockchain wallet."
+        id='scenes.sfoxsignup.acceptterms.helper1.answer'
+        defaultMessage='SFOX (San Francisco Open Exchange) is a trading platform we’ve partnered with to bring you a harmonious buy & sell experience in your Blockchain wallet.'
       />
     )
   },
   {
     question: (
       <FormattedMessage
-        id="scenes.sfoxsignup.acceptterms.helper2.question"
-        defaultMessage="How do I change my email address, phone number, or other personal information?"
+        id='scenes.sfoxsignup.acceptterms.helper2.question'
+        defaultMessage='How do I change my email address, phone number, or other personal information?'
       />
     ),
     answer: (
       <FormattedMessage
-        id="scenes.sfoxsignup.acceptterms.helper2.answer"
-        defaultMessage="Personal information can be changed by submitting a request to support@sfox.com. Make sure you mention Blockchain in the subject and include the information you want to change. Changing your email or phone number within your Blockchain wallet will not impact your SFOX account."
+        id='scenes.sfoxsignup.acceptterms.helper2.answer'
+        defaultMessage='Personal information can be changed by submitting a request to support@sfox.com. Make sure you mention Blockchain in the subject and include the information you want to change. Changing your email or phone number within your Blockchain wallet will not impact your SFOX account.'
       />
     )
   }
@@ -178,45 +178,45 @@ class AcceptTerms extends Component {
           <InputWrapper>
             <PartnerHeader>
               <FormattedMessage
-                id="sfoxexchangedata.create.createaccount.partner.header"
-                defaultMessage="Create Your Account"
+                id='sfoxexchangedata.create.createaccount.partner.header'
+                defaultMessage='Create Your Account'
               />
             </PartnerHeader>
             <PartnerSubHeader>
               <FormattedMessage
-                id="sfoxexchangedata.create.createaccount.partner.subheader"
+                id='sfoxexchangedata.create.createaccount.partner.subheader'
                 defaultMessage="Your buy and sell experience is being streamlined. We've teamed up with SFOX to make your dreams of simply managing funds a reality."
               />
             </PartnerSubHeader>
             <PartnerSubHeader style={spacing('mt-10')}>
               <FormattedMessage
-                id="sfoxexchangedata.create.createaccount.partner.subheader2"
+                id='sfoxexchangedata.create.createaccount.partner.subheader2'
                 defaultMessage="Rest assured: there are only a few steps separating you from the good stuff. Let's start by confirming your verified email address and phone number."
               />
             </PartnerSubHeader>
             <FieldsContainer>
               <FieldContainer>
-                <Text size="14px" style={spacing('mb-10')}>
+                <Text size='14px' style={spacing('mb-10')}>
                   <FormattedMessage
-                    id="sfoxexchangedata.create.createaccount.partner.verifiedemail"
-                    defaultMessage="Verified Email Address"
+                    id='sfoxexchangedata.create.createaccount.partner.verifiedemail'
+                    defaultMessage='Verified Email Address'
                   />
                 </Text>
                 <VerifiedContainer>
                   <FieldBox>
-                    <Text size="14px" weight={300}>
+                    <Text size='14px' weight={300}>
                       {email}
                     </Text>
-                    <EditLink onClick={editEmail} size="14px" weight={300}>
+                    <EditLink onClick={editEmail} size='14px' weight={300}>
                       {window.outerWidth > 480 ? (
                         <FormattedMessage
-                          id="sfoxexchangedata.create.createaccount.partner.edit"
-                          defaultMessage="edit"
+                          id='sfoxexchangedata.create.createaccount.partner.edit'
+                          defaultMessage='edit'
                         />
                       ) : (
                         <FormattedMessage
-                          id="sfoxexchangedata.create.createaccount.partner.editemail"
-                          defaultMessage="edit email"
+                          id='sfoxexchangedata.create.createaccount.partner.editemail'
+                          defaultMessage='edit email'
                         />
                       )}
                     </EditLink>
@@ -224,36 +224,36 @@ class AcceptTerms extends Component {
                   <IconContainer>
                     {emailVerified ? (
                       <Icon
-                        name="checkmark-in-circle-filled"
-                        color="success"
-                        size="20px"
+                        name='checkmark-in-circle-filled'
+                        color='success'
+                        size='20px'
                       />
                     ) : null}
                   </IconContainer>
                 </VerifiedContainer>
               </FieldContainer>
               <FieldContainer>
-                <Text size="14px" style={spacing('mb-10')}>
+                <Text size='14px' style={spacing('mb-10')}>
                   <FormattedMessage
-                    id="sfoxexchangedata.create.createaccount.partner.verifiedmobile"
-                    defaultMessage="Verified Phone Number"
+                    id='sfoxexchangedata.create.createaccount.partner.verifiedmobile'
+                    defaultMessage='Verified Phone Number'
                   />
                 </Text>
                 <VerifiedContainer>
                   <FieldBox>
-                    <Text size="14px" weight={300}>
+                    <Text size='14px' weight={300}>
                       {smsNumber}
                     </Text>
-                    <EditLink onClick={editMobile} size="14px" weight={300}>
+                    <EditLink onClick={editMobile} size='14px' weight={300}>
                       {window.outerWidth > 480 ? (
                         <FormattedMessage
-                          id="sfoxexchangedata.create.createaccount.partner.edit"
-                          defaultMessage="edit"
+                          id='sfoxexchangedata.create.createaccount.partner.edit'
+                          defaultMessage='edit'
                         />
                       ) : (
                         <FormattedMessage
-                          id="sfoxexchangedata.create.createaccount.partner.editmobile"
-                          defaultMessage="edit mobile"
+                          id='sfoxexchangedata.create.createaccount.partner.editmobile'
+                          defaultMessage='edit mobile'
                         />
                       )}
                     </EditLink>
@@ -261,9 +261,9 @@ class AcceptTerms extends Component {
                   <IconContainer>
                     {smsVerified ? (
                       <Icon
-                        name="checkmark-in-circle-filled"
-                        color="success"
-                        size="20px"
+                        name='checkmark-in-circle-filled'
+                        color='success'
+                        size='20px'
                       />
                     ) : null}
                   </IconContainer>
@@ -272,11 +272,11 @@ class AcceptTerms extends Component {
             </FieldsContainer>
             <AcceptTermsContainer>
               <Field
-                name="terms"
+                name='terms'
                 validate={[checkboxShouldBeChecked]}
                 component={CheckBox}
               >
-                <Terms company="sfox" />
+                <Terms company='sfox' />
               </Field>
             </AcceptTermsContainer>
           </InputWrapper>
@@ -286,13 +286,13 @@ class AcceptTerms extends Component {
             <ButtonWrapper>
               <Button
                 uppercase
-                type="submit"
-                nature="primary"
+                type='submit'
+                nature='primary'
                 fullwidth
                 disabled={invalid || busy || !smsNumber || !email || error}
               >
                 {busy ? (
-                  <HeartbeatLoader height="20px" width="20px" color="white" />
+                  <HeartbeatLoader height='20px' width='20px' color='white' />
                 ) : (
                   <span>Continue</span>
                 )}
@@ -302,14 +302,14 @@ class AcceptTerms extends Component {
               {error &&
               error.message.toLowerCase() === 'user is already registered' ? (
                 <InlineTextWrapper>
-                  <Text size="12px" color="error" weight={300}>
+                  <Text size='12px' color='error' weight={300}>
                     <FormattedMessage
-                      id="sfoxexchangedata.create.accept.error"
-                      defaultMessage="Unfortunately this email is being used for another account."
+                      id='sfoxexchangedata.create.accept.error'
+                      defaultMessage='Unfortunately this email is being used for another account.'
                     />
                   </Text>
                   <Link
-                    size="12px"
+                    size='12px'
                     weight={300}
                     onClick={() => {
                       sfoxNotAsked()
@@ -317,43 +317,43 @@ class AcceptTerms extends Component {
                     }}
                   >
                     <FormattedMessage
-                      id="clickhere"
-                      defaultMessage="Click here"
+                      id='clickhere'
+                      defaultMessage='Click here'
                     />
                   </Link>
-                  <Text size="12px" weight={300} color="error">
+                  <Text size='12px' weight={300} color='error'>
                     <FormattedMessage
-                      id="sfoxexchangedata.create.accept.tochangeit"
-                      defaultMessage=" to change it."
+                      id='sfoxexchangedata.create.accept.tochangeit'
+                      defaultMessage=' to change it.'
                     />
                   </Text>
                 </InlineTextWrapper>
               ) : error ? (
                 <InlineTextWrapper>
-                  <Text size="12px" color="error" weight={300}>
+                  <Text size='12px' color='error' weight={300}>
                     <FormattedMessage
-                      id="sfoxexchangedata.create.accept.unknownError"
+                      id='sfoxexchangedata.create.accept.unknownError'
                       defaultMessage="We're sorry, but something unexpected went wrong. Please "
                     />
                   </Text>
-                  <Link size="12px" weight={300} onClick={() => sfoxNotAsked()}>
+                  <Link size='12px' weight={300} onClick={() => sfoxNotAsked()}>
                     <FormattedMessage
-                      id="tryagain"
-                      defaultMessage="try again"
+                      id='tryagain'
+                      defaultMessage='try again'
                     />
                   </Link>
-                  <Text size="12px" color="error" weight={300}>
-                    <FormattedMessage id="or" defaultMessage="or" />
+                  <Text size='12px' color='error' weight={300}>
+                    <FormattedMessage id='or' defaultMessage='or' />
                   </Text>
                   <Link
-                    target="_blank"
-                    href="https://support.blockchain.com"
-                    size="12px"
+                    target='_blank'
+                    href='https://support.blockchain.com'
+                    size='12px'
                     weight={300}
                   >
                     <FormattedMessage
-                      id="contactsupport"
-                      defaultMessage="contact support."
+                      id='contactsupport'
+                      defaultMessage='contact support.'
                     />
                   </Link>
                 </InlineTextWrapper>
