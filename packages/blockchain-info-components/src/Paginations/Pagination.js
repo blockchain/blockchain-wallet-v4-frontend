@@ -12,7 +12,11 @@ const Wrapper = styled.div`
 
 const Pagination = props => {
   const { children } = props
-  return <Wrapper>{children}</Wrapper>
+  return (
+    <Wrapper>
+      {children}
+    </Wrapper>
+  )
 }
 
 export default Pagination

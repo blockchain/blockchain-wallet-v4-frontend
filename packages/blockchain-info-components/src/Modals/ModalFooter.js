@@ -23,16 +23,11 @@ const Footer = styled.div`
 
 const selectAlignment = align => {
   switch (align) {
-    case 'left':
-      return 'flex-start'
-    case 'right':
-      return 'flex-end'
-    case 'center':
-      return 'center'
-    case 'spaced':
-      return 'space-between'
-    default:
-      return ''
+    case 'left' : return 'flex-start'
+    case 'right': return 'flex-end'
+    case 'center': return 'center'
+    case 'spaced': return 'space-between'
+    default: return ''
   }
 }
 
@@ -41,7 +36,9 @@ const ModalFooter = props => {
   const alignment = selectAlignment(align)
   return (
     <Wrapper>
-      <Footer alignment={alignment}>{children}</Footer>
+      <Footer alignment={alignment}>
+        {children}
+      </Footer>
     </Wrapper>
   )
 }

@@ -9,48 +9,41 @@ import Success from './template.success.js'
 import Loading from 'components/BuySell/Loading'
 
 class SelectAccountsContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.setBankAccount = this.setBankAccount.bind(this)
     this.deleteBankAccount = this.deleteBankAccount.bind(this)
   }
 
-  setBankAccount(bankAccount) {
+  setBankAccount (bankAccount) {
     this.props.coinifyDataActions.setBankAccount(bankAccount)
   }
 
-  deleteBankAccount(bankAccount) {
+  deleteBankAccount (bankAccount) {
     this.props.modalActions.showModal('CoinifyDeleteBank', { bankAccount })
   }
 
-  render() {
+  render () {
     const { data, radioButtonSelected } = this.props
     return data.cata({
-      Success: value => (
+      Success: (value) =>
         <Success
-          setBankAccount={() =>
-            this.setBankAccount(prop(radioButtonSelected, value.bankAccounts))
-          }
+          setBankAccount={() => this.setBankAccount(prop(radioButtonSelected, value.bankAccounts))}
           deleteBankAccount={this.deleteBankAccount}
           radioButtonSelected={radioButtonSelected}
-          {...value}
-        />
-      ),
-      Failure: message => <div>Failure: {message.error}</div>,
+          {...value} />,
+      Failure: (message) => <div>Failure: {message.error}</div>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
   }
 }
 
-const mapStateToProps = state => getData(state)
+const mapStateToProps = (state) => getData(state)
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   coinifyDataActions: bindActionCreators(actions.core.data.coinify, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SelectAccountsContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(SelectAccountsContainer)

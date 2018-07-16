@@ -9,33 +9,21 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class FirstStep extends React.Component {
-  constructor(props) {
-    super(props)
-    this.handleToToggle = this.handleToToggle.bind(this)
-  }
-
-  handleToToggle(val) {
-    this.props.formActions.touch('sendBch', 'to')
-    this.props.actions.sendBchFirstStepToToggled(val)
-  }
-
-  render() {
+  render () {
     const { data, actions } = this.props
 
     return data.cata({
-      Success: value => (
-        <Success
-          from={value.from}
-          toToggled={value.toToggled}
-          destination={value.destination}
-          enableToggle={value.enableToggle}
-          effectiveBalance={value.effectiveBalance}
-          totalFee={value.totalFee}
-          onSubmit={() => actions.sendBchFirstStepSubmitClicked()}
-          handleToToggle={this.handleToToggle}
-        />
-      ),
-      Failure: message => <Error>{message}</Error>,
+      Success: value => <Success
+        from={value.from}
+        toToggled={value.toToggled}
+        destination={value.destination}
+        enableToggle={value.enableToggle}
+        effectiveBalance={value.effectiveBalance}
+        totalFee={value.totalFee}
+        onSubmit={() => actions.sendBchFirstStepSubmitClicked()}
+        handleToToggle={(val) => actions.sendBchFirstStepToToggled(val)}
+      />,
+      Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
@@ -47,11 +35,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.components.sendBch, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch)
+  actions: bindActionCreators(actions.components.sendBch, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FirstStep)
+export default connect(mapStateToProps, mapDispatchToProps)(FirstStep)

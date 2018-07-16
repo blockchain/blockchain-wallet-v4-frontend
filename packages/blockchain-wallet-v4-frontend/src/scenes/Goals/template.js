@@ -13,14 +13,11 @@ const Wrapper = styled.div`
 
 const Actions = props => (
   <Wrapper>
-    {props.error === 'invalid_link' && (
+    { props.error === 'invalid_link' &&
       <Text size='18px' weight={300} color='white'>
-        <FormattedMessage
-          id='scenes.actions.goals.invalidlink'
-          defaultMessage='The link provided is invalid.'
-        />
+        <FormattedMessage id='scenes.actions.goals.invalidlink' defaultMessage='The link provided is invalid.' />
       </Text>
-    )}
+    }
   </Wrapper>
 )
 

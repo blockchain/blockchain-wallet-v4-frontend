@@ -6,4 +6,12 @@ import * as misc from './misc/actionTypes'
 import * as sfox from './sfox/actionTypes'
 import * as shapeShift from './shapeShift/actionTypes'
 
-export { bitcoin, coinify, ethereum, bch, misc, sfox, shapeShift }
+export {
+  bitcoin,
+  coinify,
+  ethereum,
+  bch,
+  misc,
+  sfox,
+  shapeShift
+}

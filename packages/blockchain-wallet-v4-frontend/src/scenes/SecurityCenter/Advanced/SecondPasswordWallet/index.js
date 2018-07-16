@@ -5,12 +5,12 @@ import { selectors } from 'data'
 import SecondPassword from './template.js'
 
 class SecondPasswordWalletContainer extends React.PureComponent {
-  render() {
+  render () {
     return <SecondPassword {...this.props} />
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   secondPasswordEnabled: selectors.core.wallet.isSecondPasswordOn(state)
 })
 

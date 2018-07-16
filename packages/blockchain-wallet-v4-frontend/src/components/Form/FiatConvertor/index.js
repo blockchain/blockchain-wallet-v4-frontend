@@ -8,26 +8,24 @@ import Loading from './template.loading'
 import Convertor from './Convertor'
 
 class FiatConvertorContainer extends React.PureComponent {
-  render() {
+  render () {
     const { input, meta, data, disabled } = this.props
 
     return data.cata({
-      Success: value => (
-        <Convertor
-          unit={value.unit}
-          currency={value.currency}
-          btcRates={value.btcRates}
-          bchRates={value.bchRates}
-          ethRates={value.ethRates}
-          meta={meta}
-          value={input.value}
-          onChange={input.onChange}
-          onBlur={input.onBlur}
-          onFocus={input.onFocus}
-          disabled={disabled}
-        />
-      ),
-      Failure: message => <Error>{message}</Error>,
+      Success: (value) => <Convertor
+        unit={value.unit}
+        currency={value.currency}
+        btcRates={value.btcRates}
+        bchRates={value.bchRates}
+        ethRates={value.ethRates}
+        meta={meta}
+        value={input.value}
+        onChange={input.onChange}
+        onBlur={input.onBlur}
+        onFocus={input.onFocus}
+        disabled={disabled}
+      />,
+      Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
@@ -39,10 +37,7 @@ FiatConvertorContainer.propTypes = {
     onBlur: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
     onFocus: PropTypes.func.isRequired,
-    value: PropTypes.oneOfType([
-      PropTypes.string.isRequired,
-      PropTypes.number.isRequired
-    ])
+    value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired])
   }).isRequired,
   coin: PropTypes.oneOf(['BTC', 'ETH', 'BCH']).isRequired
 }

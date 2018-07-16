@@ -1,17 +1,25 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import { selectors } from 'data'
+import { actions } from 'data'
+import { getData } from './selectors'
 import Template from './template'
 
 class Balance extends React.PureComponent {
-  render() {
-    return <Template path={this.props.path} />
+  render () {
+    const { data } = this.props
+    return <Template btcUnspendableContext={data.btcUnspendableContext} bchUnspendableContext={data.bchUnspendableContext} path={data.path} />
   }
 }
 
-const mapStateToProps = state => ({
-  path: selectors.router.getPathname(state)
+const mapStateToProps = (state) => ({
+  data: getData(state)
 })
 
-export default connect(mapStateToProps)(Balance)
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(actions.core.kvStore.ethereum, dispatch),
+  preferencesActions: bindActionCreators(actions.preferences, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Balance)

@@ -9,13 +9,11 @@ const SecurityHeader = styled.div`
   font-size: 18px;
   color: ${props => props.theme['gray-5']};
   width: 100%;
-  @media (min-width: 480px) {
+  @media(min-width: 480px) {
     font-size: 16px;
-  }
+}
 
-  & > * {
-    margin-right: 10px;
-  }
+  & > * { margin-right: 10px; }
 `
 
 export default SecurityHeader

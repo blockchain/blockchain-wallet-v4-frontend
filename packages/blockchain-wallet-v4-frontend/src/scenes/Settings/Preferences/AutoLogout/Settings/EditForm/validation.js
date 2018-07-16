@@ -1,9 +1,5 @@
 import React from 'react'
-import {
-  InvalidMessage,
-  MaximumMessage,
-  MinimumMessage
-} from './validationMessages'
+import { InvalidMessage, MaximumMessage, MinimumMessage } from './validationMessages'
 
 export const isValidAutoLogoutTime = value => {
   if (!Number.isInteger(Number(value))) return <InvalidMessage />

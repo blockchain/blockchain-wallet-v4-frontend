@@ -14,7 +14,7 @@ const BasePasswordInput = styled.input.attrs({
   font-size: 14px;
   font-weight: 300;
   color: ${props => props.theme['gray-5']};
-  background-color: ${props => props.theme['white']};
+  background-color:  ${props => props.theme['white']};
   background-image: none;
   outline-width: 0;
   user-select: text;
@@ -29,44 +29,20 @@ const BasePasswordInput = styled.input.attrs({
   }
 `
 
-const selectBorderColor = state => {
+const selectBorderColor = (state) => {
   switch (state) {
-    case 'initial':
-      return 'gray-2'
-    case 'invalid':
-      return 'error'
-    case 'valid':
-      return 'success'
-    default:
-      return 'gray-2'
+    case 'initial': return 'gray-2'
+    case 'invalid': return 'error'
+    case 'valid': return 'success'
+    default: return 'gray-2'
   }
 }
 
-class PasswordInput extends React.Component {
-  componentDidUpdate(prevProps) {
-    if (this.props.active && !prevProps.active && this.input) {
-      this.input.focus()
-    }
-  }
+const PasswordInput = props => {
+  const { errorState, ...rest } = props
+  const borderColor = selectBorderColor(props.controlledBorderColor || errorState)
 
-  refInput = input => {
-    this.input = input
-  }
-
-  render() {
-    const { errorState, ...rest } = this.props
-    const borderColor = selectBorderColor(
-      this.props.controlledBorderColor || errorState
-    )
-
-    return (
-      <BasePasswordInput
-        innerRef={this.refInput}
-        borderColor={borderColor}
-        {...rest}
-      />
-    )
-  }
+  return <BasePasswordInput borderColor={borderColor} {...rest} />
 }
 
 export default PasswordInput

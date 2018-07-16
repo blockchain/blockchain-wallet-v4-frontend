@@ -1,16 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
+import { Text, Icon, Button } from 'blockchain-info-components'
 import styled from 'styled-components'
 import { reduxForm } from 'redux-form'
-
-import { Text, Button } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
+
+import { SuccessOverlay } from 'components/Security'
 
 const AuthenticatorSummary = styled.div`
   width: 100%;
   padding: 0px 20px;
-  opacity: ${props => (props.success ? 0.3 : 1)};
+  opacity: ${props => props.success ? 0.3 : 1};
   @media (min-width: 992px) {
     width: 110%;
   }
@@ -50,7 +51,7 @@ const YubikeyInput = styled.input`
   background-image: none;
   outline-width: 0;
   user-select: text;
-  border: 1px solid ${props => props.theme[props.borderColor]};
+  border: 1px solid  ${props => props.theme[props.borderColor]};
 
   &::-webkit-input-placeholder {
     color: ${props => props.theme['gray-2']};
@@ -62,35 +63,27 @@ const Yubikey = props => {
 
   return (
     <form onSubmit={handleSubmit}>
+      <SuccessOverlay success={ui.successToggled}>
+        <Icon name='checkmark-in-circle' size='150px' color='success' />
+        <Text size='14px' weight={300} color='success'>
+          <FormattedMessage id='scenes.security.twostepverification.yubi.success' defaultMessage="Congrats! You've successfully set up your Yubikey!" />
+        </Text>
+      </SuccessOverlay>
       <AuthenticatorSummary success={ui.successToggled}>
         <YubikeyContainer>
           <YubikeyCopy>
             <Text size='14px' weight={200}>
-              <FormattedMessage
-                id='scenes.security.twostepverification.yubi.step1'
-                defaultMessage="1. Insert the Yubikey into your computer's USB port."
-              />
+              <FormattedMessage id='scenes.security.twostepverification.yubi.step1' defaultMessage="1. Insert the Yubikey into your computer's USB port." />
             </Text>
             <Text size='14px' weight={200} style={spacing('mt-5')}>
-              <FormattedMessage
-                id='scenes.security.twostepverification.yubi.step2'
-                defaultMessage='2. Pair your Yubikey.'
-              />
+              <FormattedMessage id='scenes.security.twostepverification.yubi.step2' defaultMessage='2. Pair your Yubikey.' />
             </Text>
           </YubikeyCopy>
           <YubikeyInputWrapper>
-            <YubikeyInput
-              type='password'
-              name='yubikeyCode'
-              value={value}
-              onChange={handleInput}
-            />
+            <YubikeyInput type='password' name='yubikeyCode' value={value} onChange={handleInput} />
           </YubikeyInputWrapper>
           <Button nature='primary' type='submit'>
-            <FormattedMessage
-              id='scenes.security.twostepverification.yubi.submit'
-              defaultMessage='Submit'
-            />
+            <FormattedMessage id='scenes.security.twostepverification.yubi.submit' defaultMessage='Submit' />
           </Button>
         </YubikeyContainer>
       </AuthenticatorSummary>

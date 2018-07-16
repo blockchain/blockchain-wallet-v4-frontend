@@ -1,15 +1,13 @@
 [![Build Status](https://travis-ci.org/blockchain/blockchain-wallet-v4-frontend.svg?branch=master)](https://travis-ci.org/blockchain/blockchain-wallet-v4-frontend)
 [![Coverage Status](https://coveralls.io/repos/github/blockchain/blockchain-wallet-v4-frontend/badge.svg?branch=development)](https://coveralls.io/github/blockchain/blockchain-wallet-v4-frontend?branch=development)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com)
-[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
-[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 
 # Blockchain Wallet v4
 Be Your Own Bank at [blockchain.info/wallet](https://blockchain.info/wallet).
 Please [contact support](https://support.blockchain.com) if you have any issues using the wallet.
 
 ## About
-This repo contains the three codebases/packages listed below.
+This repo contains the three codebases/packages listed below that are combined into one via [Lerna](https://github.com/lerna/lerna).
 
 ### Packages
  * [blockchain-info-components](./packages/blockchain-info-components) The shared UI components library.
@@ -18,9 +16,9 @@ This repo contains the three codebases/packages listed below.
 
 
 ## Local Development
-1. Ensure Node version >= 10.2 and npm version >= 6 are installed
-2. Run the following command to install necessary global packages: `npm install -g yarn babel-cli rimraf cross-env`
-3. Install, link and hoist packages: `yarn`
+1. Ensure Node version >= 8.0 is installed
+2. Run the following command to install necessary global packages: `npm install -g lerna yarn babel-cli rimraf cross-env`
+3. Install, link and hoist packages: `yarn bootstrap`
 4. Start the application in development mode: `yarn start`
 5. The frontend application will now be accessible via browser at `localhost:8080`
 
@@ -32,7 +30,7 @@ To ensure proper support for Windows, please take the following actions before r
 
 ### Tips & Useful Commands
 1. To completely remove all dependencies and artifacts run `yarn clean`
-2. To add/remove an NPM package run `yarn add` or `yarn remove` in the package folder. After installing or uninstalling a NPM package, run `yarn` in the root folder to re-init the project
+2. After installing or uninstalling a NPM package, run `yarn bootstrap` to re-init the project
 3. All development specific dependencies should be installed as a `dev-dependency` in the top level `package.json` via `yarn i --save-dev [package-name]`
 4. All application specific dependencies should be installed in the specific packages `package.json` via `yarn i --save [package-name]`
 
@@ -70,20 +68,7 @@ These IDE plugins/packages assist with complying with these lint rules while dev
  * [Atom](https://atom.io/packages/linter-js-standard)
  * [VS Code](https://marketplace.visualstudio.com/items?itemName=chenxsan.vscode-standardjs)
  * [WebStorm](https://blog.jetbrains.com/webstorm/2017/04/using-javascript-standard-style/)
- 
-### Prettier
-We follow all standard rules that are provided by Prettier. The following commands are available:
 
- * `yarn prettier` Runs Prettier against all packages
- * `yarn prettier:components` Runs Prettier against only [blockchain-info-components](./packages/blockchain-info-components)
- * `yarn prettier:core` Runs Prettier against only [blockchain-wallet-v4](./packages/blockchain-wallet-v4)
- * `yarn prettier:frontend` Runs Prettier against only [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend)
- 
-It is recommended to setup a Prettier plugin for your IDE plugins/packages that will automatically prettify your files on save.
- * [Atom](https://atom.io/packages/prettier-atom)
- * [VS Code](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
- * [WebStorm](https://prettier.io/docs/en/webstorm.html)
- 
 ### Unit Tests
 Testing is done via [Jest](https://facebook.github.io/jest/) and [Enzyme](http://airbnb.io/enzyme/).
 
@@ -115,6 +100,7 @@ We are snapshot testing UI some components. Here are the commands to update them
  * `yarn test:components:update` Updates component snapshots for only [blockchain-info-components](./packages/blockchain-info-components)
  * `yarn test:frontend:update` Updates component snapshots for only [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend)
 
+
 ### Code Coverage
 To generate code coverage reports via [Istanbul](https://istanbul.js.org/), the following commands are available:
  * `yarn coverage` Generates a coverage report for all packages
@@ -129,6 +115,13 @@ Depending upon which coverage report was ran, the results can be found in the fo
  * `coverage/blockchain-wallet-v4-frontend/index.html`
 Simply open the `index.html` file in your browser to view.
 
+### CI Build Vetting
+To run both unit tests and linting, the following commands are available:
+ * `yarn vet` Lints and unit tests all packages
+ * `yarn vet:components` Lints and unit tests only [blockchain-info-components](./packages/blockchain-info-components)
+ * `yarn vet:core` Lints and unit tests only [blockchain-wallet-v4](./packages/blockchain-wallet-v4)
+ * `yarn vet:frontend` Lints and unit tests only [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend)
+
 ### Bundle Reports
 To visualize and interact with the treemap of the production code bundles files:
  * `yarn analyze`
@@ -142,6 +135,7 @@ The following commands are available:
 
 ## Contribute
 Bug fixes and feedback on our code is always appreciated.
+
 
 ## Security
 Security issues can be reported to us in the following venues:

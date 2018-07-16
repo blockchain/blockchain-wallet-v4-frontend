@@ -30,31 +30,26 @@ const AddressBox = styled.span`
   background-color: ${props => props.theme['gray-1']};
 `
 const CopyButton = styled(Button)`
-  width: 160px;
+  width: 100px;
   min-width: 0;
   height: 100%;
   border-radius: 0;
 `
 
-const CopyClipboard = props => {
+const CopyClipboard = (props) => {
   const { active, address, handleClick } = props
 
   return (
     <Wrapper>
-      <AddressBox>{address}</AddressBox>
+      <AddressBox>
+        {address}
+      </AddressBox>
       <CopyToClipBoard text={address} onCopy={handleClick}>
         <CopyButton nature={active ? 'copy' : 'secondary'}>
-          {active ? (
-            <FormattedMessage
-              id='components.copyclipboard.copied'
-              defaultMessage='Copied!'
-            />
-          ) : (
-            <FormattedMessage
-              id='components.copyclipboard.copy'
-              defaultMessage='Copy'
-            />
-          )}
+          { active
+            ? <FormattedMessage id='components.copyclipboard.copied' defaultMessage='Copied!' />
+            : <FormattedMessage id='components.copyclipboard.copy' defaultMessage='Copy' />
+          }
         </CopyButton>
       </CopyToClipBoard>
     </Wrapper>

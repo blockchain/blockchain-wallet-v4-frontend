@@ -27,9 +27,13 @@ const TableRowWrapper = styled.div`
 `
 
 export const RecurringTableHeader = ({ children }) => (
-  <Wrapper>{children}</Wrapper>
+  <Wrapper>
+    {children}
+  </Wrapper>
 )
 
 export const RecurringTableRow = ({ children }) => (
-  <TableRowWrapper>{children}</TableRowWrapper>
+  <TableRowWrapper>
+    {children}
+  </TableRowWrapper>
 )

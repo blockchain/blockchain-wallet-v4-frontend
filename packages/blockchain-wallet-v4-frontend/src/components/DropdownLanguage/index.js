@@ -8,19 +8,19 @@ import { SimpleDropdown } from 'blockchain-info-components/src/Dropdowns'
 import { actions, selectors } from 'data'
 
 class DropdownLanguageContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
   }
 
-  handleClick(selectedLanguage) {
+  handleClick (selectedLanguage) {
     this.props.preferencesActions.setCulture(selectedLanguage.value)
-    this.props.preferencesActions.setLanguage(selectedLanguage.language, true)
+    this.props.preferencesActions.setLanguage(selectedLanguage.language)
   }
 
-  render() {
+  render () {
     const { currentLanguage, languages } = this.props
-    const languageList = languages.map(lang => {
+    const languageList = languages.map((lang) => {
       return {
         text: lang.name,
         value: lang.language,
@@ -29,30 +29,22 @@ class DropdownLanguageContainer extends React.PureComponent {
     })
 
     return (
-      <SimpleDropdown
-        color='white'
-        items={languageList}
-        selectedValue={currentLanguage}
-        callback={selectedLanguage => this.handleClick(selectedLanguage)}
-      />
+      <SimpleDropdown color='white' items={languageList} selectedValue={currentLanguage} callback={(selectedLanguage) => this.handleClick(selectedLanguage)} />
     )
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   currentLanguage: selectors.preferences.getLanguage(state),
   languages: languageService.languagesSortedByName
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 
 const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   ui({ state: { toggled: false } })
 )
 

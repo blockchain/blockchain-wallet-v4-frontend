@@ -8,20 +8,15 @@ import { Types } from 'blockchain-wallet-v4'
 import * as C from 'services/AlertService'
 
 class SecondPasswordContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = { secondPassword: '' }
     this.handleClick = this.handleClick.bind(this)
     this.handleChange = this.handleChange.bind(this)
   }
 
-  handleClick() {
-    if (
-      Types.Wallet.isValidSecondPwd(
-        this.state.secondPassword,
-        this.props.wallet
-      )
-    ) {
+  handleClick () {
+    if (Types.Wallet.isValidSecondPwd(this.state.secondPassword, this.props.wallet)) {
       this.props.modalActions.closeModal()
       this.props.walletActions.submitSecondPassword(this.state.secondPassword)
     } else {
@@ -30,26 +25,19 @@ class SecondPasswordContainer extends React.PureComponent {
     }
   }
 
-  handleChange(event) {
+  handleChange (event) {
     this.setState({ secondPassword: event.target.value })
   }
 
-  render() {
-    return (
-      <SecondPassword
-        {...this.props}
-        handleClick={this.handleClick}
-        handleChange={this.handleChange}
-        value={this.state.secondPassword}
-      />
-    )
+  render () {
+    return <SecondPassword {...this.props} handleClick={this.handleClick} handleChange={this.handleChange} value={this.state.secondPassword} />
   }
 }
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   wallet: selectors.core.wallet.getWallet(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   walletActions: bindActionCreators(actions.wallet, dispatch)
@@ -57,10 +45,7 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose(
   modalEnhancer('SecondPassword'),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default enhance(SecondPasswordContainer)

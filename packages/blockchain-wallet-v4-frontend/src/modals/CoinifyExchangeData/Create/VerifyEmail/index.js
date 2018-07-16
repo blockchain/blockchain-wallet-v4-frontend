@@ -8,56 +8,45 @@ import { getData } from './selectors'
 import VerifyEmail from './template'
 
 class VerifyEmailContainer extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {}
     this.onSubmit = this.onSubmit.bind(this)
     this.resendCode = this.resendCode.bind(this)
   }
 
-  componentDidMount() {
-    this.props.formActions.change(
-      'coinifyVerifyEmail',
-      'emailAddress',
-      this.props.oldEmail
-    )
+  componentDidMount () {
+    this.props.formActions.change('coinifyVerifyEmail', 'emailAddress', this.props.oldEmail)
   }
 
-  resendCode() {
+  resendCode () {
     this.props.updateUI({ codeSent: true })
-    this.props.securityCenterActions.sendConfirmationCodeEmail(
-      this.props.emailAddress
-    )
+    this.props.securityCenterActions.sendConfirmationCodeEmail(this.props.emailAddress)
   }
 
-  onSubmit() {
+  onSubmit () {
     if (this.props.ui.create === 'enter_email_code') {
       this.props.coinifyActions.coinifyClearSignupError()
       this.props.securityCenterActions.verifyEmailCode(this.props.emailCode)
     } else {
       this.props.updateUI({ create: 'enter_email_code' })
       this.props.securityCenterActions.updateEmail(this.props.emailAddress)
-      this.props.securityCenterActions.sendConfirmationCodeEmail(
-        this.props.emailAddress
-      )
+      this.props.securityCenterActions.sendConfirmationCodeEmail(this.props.emailAddress)
     }
   }
 
-  render() {
+  render () {
     const { emailVerifiedError, invalid, ui, updateUI } = this.props
 
-    return (
-      <VerifyEmail
-        emailVerifiedError={emailVerifiedError}
-        invalid={invalid}
-        onSubmit={this.onSubmit}
-        resendCode={this.resendCode}
-        ui={ui}
-        updateUI={updateUI}
-        email={this.props.oldEmail}
-        newEmail={this.props.emailAddress}
-      />
-    )
+    return <VerifyEmail
+      emailVerifiedError={emailVerifiedError}
+      invalid={invalid}
+      onSubmit={this.onSubmit}
+      resendCode={this.resendCode}
+      ui={ui}
+      updateUI={updateUI}
+      email={this.props.oldEmail}
+    />
   }
 }
 
@@ -71,22 +60,16 @@ VerifyEmailContainer.propTypes = {
   oldEmail: PropTypes.string
 }
 
-const mapStateToProps = state => getData(state)
+const mapStateToProps = (state) => getData(state)
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
   coinifyActions: bindActionCreators(actions.modules.coinify, dispatch),
-  securityCenterActions: bindActionCreators(
-    actions.modules.securityCenter,
-    dispatch
-  )
+  securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch)
 })
 
 const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default enhance(VerifyEmailContainer)

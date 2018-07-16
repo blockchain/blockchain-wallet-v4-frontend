@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, Text } from 'blockchain-info-components'
+import { Button, Separator, Text } from 'blockchain-info-components'
 import CopyClipboard from 'components/CopyClipboard'
 
 const Wrapper = styled.div`
@@ -11,26 +11,26 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: space-around;
 `
-const DetailRow = styled.div`
+
+const Row = styled.div`
   display: flex;
-  margin-bottom: 10px;
+  flex-direction: row;
+  justify-content: flex-start;
   align-items: flex-start;
-  flex-direction: ${props => (props.column ? 'column' : 'row')};
-  > div:first-child {
-    margin-right: 2px;
-  }
+  width: 100%;
 `
 const SubmitRow = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
-  margin-top: 10px;
   width: 100%;
 `
 const ClickableText = styled(Text)`
-  margin-right: 15px;
   cursor: pointer;
+`
+const MessageText = styled(Text)`
+  background-color: ${props => props.theme['gray-1']};
 `
 
 const SecondStep = props => {
@@ -38,49 +38,30 @@ const SecondStep = props => {
 
   return (
     <Wrapper>
-      <DetailRow>
-        <Text size='14px' weight={400}>
-          <FormattedMessage
-            id='modals.signmessage.firststep.address'
-            defaultMessage='Address:'
-          />
+      <Row>
+        <Text weight={300}>
+          <FormattedMessage id='modals.signmessage.secondstep.address' defaultMessage='Address:' />
         </Text>
-        <Text size='14px' weight={300}>
-          {address}
+        <Text weight={200}>{address}</Text>
+      </Row>
+      <Row>
+        <Text weight={300}>
+          <FormattedMessage id='modals.signmessage.secondstep.message' defaultMessage='Message:' />
         </Text>
-      </DetailRow>
-      <DetailRow>
-        <Text size='14px' weight={400}>
-          <FormattedMessage
-            id='modals.signmessage.secondstep.message'
-            defaultMessage='Message:'
-          />
-        </Text>
-        <Text size='14px' weight={300}>
+        <MessageText>
           {message}
-        </Text>
-      </DetailRow>
-      <DetailRow column>
-        <Text size='14px' weight={400}>
-          <FormattedMessage
-            id='modals.signmessage.secondstep.signature'
-            defaultMessage='Signature:'
-          />
-        </Text>
+        </MessageText>
+      </Row>
+      <Row>
         <CopyClipboard address={signedMessage} />
-      </DetailRow>
+      </Row>
+      <Separator />
       <SubmitRow>
-        <ClickableText size='14px' weight={300} onClick={resetForm}>
-          <FormattedMessage
-            id='modals.signmessage.reset'
-            defaultMessage='Reset Form'
-          />
+        <ClickableText weight={300} onClick={resetForm}>
+          <FormattedMessage id='modals.signmessage.reset' defaultMessage='Reset Form' />
         </ClickableText>
-        <Button nature='primary' onClick={closeAll}>
-          <FormattedMessage
-            id='modals.signmessage.secondstep.done'
-            defaultMessage='Done'
-          />
+        <Button onClick={closeAll} nature='primary' uppercase>
+          <FormattedMessage id='modals.signmessage.secondstep.done' defaultMessage='Done' />
         </Button>
       </SubmitRow>
     </Wrapper>

@@ -17,15 +17,15 @@ const Error = styled(Text)`
   position: absolute;
   display: block;
   height: 15px;
-  top: ${props => (props.errorBottom ? '40px' : '-20px')};
+  top: ${props => props.errorBottom ? '40px' : '-20px'};
   right: 0;
 `
-const getErrorState = meta => {
+const getErrorState = (meta) => {
   return meta.touched && meta.invalid ? 'invalid' : 'initial'
 }
 
 class TextBoxDebounced extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = { value: props.input.value }
     this.timeout = undefined
@@ -34,27 +34,21 @@ class TextBoxDebounced extends React.Component {
     this.handleFocus = this.handleFocus.bind(this)
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
+  static getDerivedStateFromProps (nextProps, prevState) {
     if (!equals(prevState.updatedValue, prevState.value)) {
-      return {
-        updatedValue: prevState.updatedValue,
-        value: prevState.updatedValue
-      }
+      return { updatedValue: prevState.updatedValue, value: prevState.updatedValue }
     }
     if (!equals(nextProps.input.value, prevState.value)) {
-      return {
-        updatedValue: nextProps.input.value,
-        value: nextProps.input.value
-      }
+      return { updatedValue: nextProps.input.value, value: nextProps.input.value }
     }
     return null
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     clearTimeout(this.timeout)
   }
 
-  handleChange(e) {
+  handleChange (e) {
     e.preventDefault()
     const value = e.target.value
     this.setState({ updatedValue: value })
@@ -65,22 +59,21 @@ class TextBoxDebounced extends React.Component {
     }, 500)
   }
 
-  handleBlur() {
+  handleBlur () {
     this.props.input.onBlur(this.state.value)
   }
 
-  handleFocus() {
+  handleFocus () {
     this.props.input.onFocus(this.state.value)
   }
 
-  render() {
-    const { meta, disabled, placeholder, autoComplete } = this.props
+  render () {
+    const { meta, disabled, placeholder } = this.props
     const errorState = getErrorState(meta)
 
     return (
       <Container>
         <TextInput
-          autoComplete={autoComplete}
           value={this.state.value}
           errorState={errorState}
           disabled={disabled}
@@ -89,19 +82,8 @@ class TextBoxDebounced extends React.Component {
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
         />
-        {meta.touched &&
-          meta.error && (
-            <Error size='12px' weight={300} color='error'>
-              {meta.error}
-            </Error>
-          )}
-        {meta.touched &&
-          !meta.error &&
-          meta.warning && (
-            <Error size='12px' weight={300} color='sent'>
-              {meta.warning}
-            </Error>
-          )}
+        {meta.touched && meta.error && <Error size='12px' weight={300} color='error'>{meta.error}</Error>}
+        {meta.touched && !meta.error && meta.warning && <Error size='12px' weight={300} color='sent'>{meta.warning}</Error>}
       </Container>
     )
   }

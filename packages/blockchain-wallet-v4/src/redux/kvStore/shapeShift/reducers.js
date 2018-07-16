@@ -1,14 +1,5 @@
 import { over, mapped, set, view } from 'ramda-lens'
-import {
-  append,
-  assoc,
-  compose,
-  findIndex,
-  path,
-  equals,
-  lensIndex,
-  toLower
-} from 'ramda'
+import { append, compose, findIndex, path, equals, lensIndex, toLower } from 'ramda'
 import * as AT from './actionTypes'
 import Remote from '../../../remote'
 import { lensProp } from '../../../types/util'
@@ -33,130 +24,67 @@ export default (state = INITIAL_STATE, action) => {
       return Remote.Failure(payload)
     }
     case AT.ADD_STATE_METADATA_SHAPESHIFT: {
-      return set(
-        compose(
-          mapped,
-          value,
-          lensProp('USAState')
-        ),
-        {
-          Code: payload.usState.code,
-          Name: payload.usState.name
-        },
-        state
-      )
+      return set(compose(mapped, value, lensProp('USAState')), {
+        Code: payload.usState.code,
+        Name: payload.usState.name
+      }, state)
     }
     case AT.ADD_TRADE_METADATA_SHAPESHIFT: {
       const { trade } = payload
-      return over(
-        compose(
-          mapped,
-          lensProp('value'),
-          lensProp('trades')
-        ),
-        append(trade),
-        state
-      )
+      return over(compose(mapped, lensProp('value'), lensProp('trades')), append(trade), state)
     }
-    case AT.UPDATE_TRADE_METADATA_SHAPESHIFT: {
-      const { depositAddress, status, hashOut } = payload
+    case AT.UPDATE_TRADE_STATUS_METADATA_SHAPESHIFT: {
+      const { depositAddress, status } = payload
 
       return state.map(trades => {
-        const lensTrades = compose(
-          lensProp('value'),
-          lensProp('trades')
-        )
+        const lensTrades = compose(lensProp('value'), lensProp('trades'))
 
         const i = findIndex(
           compose(
             equals(depositAddress),
             path(['quote', 'deposit'])
-          )
-        )(view(lensTrades, trades))
+          ))(view(lensTrades, trades))
 
-        switch (status) {
-          case 'no_deposits':
-          case 'received':
-          case 'failed':
-            return set(
-              compose(
-                lensTrades,
-                lensIndex(i),
-                lensProp('status')
-              ),
-              status,
-              trades
-            )
-          case 'complete':
-            const updateStatusAndHashOut = compose(
-              assoc('status', status),
-              assoc('hashOut', hashOut)
-            )
-            return over(
-              compose(
-                lensTrades,
-                lensIndex(i)
-              ),
-              updateStatusAndHashOut,
-              trades
-            )
-          default:
-            return state
-        }
+        return set(
+          compose(
+            lensTrades,
+            lensIndex(i),
+            lensProp('status')),
+          status, trades)
       })
     }
     case AT.FETCH_SHAPESHIFT_TRADE_SUCCESS: {
-      const {
-        status,
-        address,
-        incomingCoin,
-        outgoingCoin,
-        incomingType,
-        outgoingType
-      } = payload
+      const { status, address, incomingCoin, outgoingCoin, incomingType, outgoingType } = payload
 
       return state.map(trades => {
-        const lensTrades = compose(
-          lensProp('value'),
-          lensProp('trades')
-        )
+        const lensTrades = compose(lensProp('value'), lensProp('trades'))
         const i = findIndex(
           compose(
             equals(address),
             path(['quote', 'deposit'])
-          )
-        )(view(lensTrades, trades))
+          ))(view(lensTrades, trades))
 
-        const setTradePropValue = (prop, value) =>
-          set(
-            compose(
-              lensTrades,
-              lensIndex(i),
-              lensProp(prop)
-            ),
-            value
-          )
+        const setTradePropValue = (prop, value) => set(
+          compose(
+            lensTrades,
+            lensIndex(i),
+            lensProp(prop)),
+          value)
 
-        const setQuotePropValue = (prop, value) =>
-          set(
-            compose(
-              lensTrades,
-              lensIndex(i),
-              lensProp('quote'),
-              lensProp(prop)
-            ),
-            value
-          )
+        const setQuotePropValue = (prop, value) => set(
+          compose(
+            lensTrades,
+            lensIndex(i),
+            lensProp('quote'),
+            lensProp(prop)),
+          value)
 
         if (equals(status, 'complete')) {
           return compose(
             setTradePropValue('status', status),
             setQuotePropValue('depositAmount', incomingCoin),
             setQuotePropValue('withdrawalAmount', outgoingCoin),
-            setQuotePropValue(
-              'pair',
-              `${toLower(incomingType)}_${toLower(outgoingType)}`
-            )
+            setQuotePropValue('pair', `${toLower(incomingType)}_${toLower(outgoingType)}`)
           )(trades)
         } else {
           return trades

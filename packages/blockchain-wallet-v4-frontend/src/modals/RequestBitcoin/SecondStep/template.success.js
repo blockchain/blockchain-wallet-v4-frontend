@@ -1,11 +1,11 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
 import CopyToClipBoard from 'react-copy-to-clipboard'
 
-import { Button, Link, Text } from 'blockchain-info-components'
+import { Button, Link, Modal, ModalHeader, ModalBody, ModalFooter, Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -20,9 +20,7 @@ const Container = styled.div`
   margin-bottom: 20px;
   background-color: ${props => props.theme['white-blue']};
 
-  & > * {
-    padding: 5px 0;
-  }
+  & > * { padding: 5px 0; }
 `
 const LinkContainer = styled.div`
   width: 100%;
@@ -36,79 +34,50 @@ const LinkContainer = styled.div`
 const SubHeader = styled(Text)`
   margin-bottom: 20px;
 `
-const Footer = styled.div`
-  margin-top: 20px;
-`
 
-const SecondStep = props => {
+const SecondStep = (props) => {
   const { previousStep, position, total, modalActions, ...rest } = props
   const { handleSubmit, satoshis, message, link, active } = rest
 
   return (
-    <Fragment>
-      <Form onSubmit={handleSubmit}>
-        <SubHeader size='14px' weight={300}>
-          <FormattedMessage
-            id='modals.requestbitcoin.secondstep.explain'
-            defaultMessage='Send the link below to your friend or contact and they will be able to send bitcoin directly to your wallet.'
-          />
-        </SubHeader>
-        <Text size='14px' weight={500}>
-          <FormattedMessage
-            id='modals.requestbitcoin.secondstep.payment'
-            defaultMessage='Payment Request:'
-          />
-        </Text>
-        <Container>
-          <CoinDisplay size='28px' weight={500} color='received' coin='BTC'>
-            {satoshis}
-          </CoinDisplay>
-          <FiatDisplay size='20px' weight={300} color='received' coin='BTC'>
-            {satoshis}
-          </FiatDisplay>
-          <Text size='16px'>
-            <FormattedMessage
-              id='modals.requestbitcoin.secondstep.message'
-              defaultMessage='For &quot;{message}&quot;'
-              values={{ message: message }}
-            />
+    <Modal size='large' position={position} total={total}>
+      <ModalHeader icon='request' onClose={modalActions.closeAllModals}>
+        <FormattedMessage id='modals.requestbitcoin.secondstep.title' defaultMessage='Request' />
+      </ModalHeader>
+      <ModalBody>
+        <Form onSubmit={handleSubmit}>
+          <SubHeader size='14px' weight={300}>
+            <FormattedMessage id='modals.requestbitcoin.secondstep.explain' defaultMessage='Send the link below to your friend or contact and they will be able to send bitcoin directly to your wallet.' />
+          </SubHeader>
+          <Text size='14px' weight={500}>
+            <FormattedMessage id='modals.requestbitcoin.secondstep.payment' defaultMessage='Payment Request:' />
           </Text>
-          <LinkContainer>
-            <Text size='12px' weight={300}>
-              {link}
+          <Container>
+            <CoinDisplay size='28px' weight={500} color='received' coin='BTC'>{satoshis}</CoinDisplay>
+            <FiatDisplay size='20px' weight={300} color='received' coin='BTC'>{satoshis}</FiatDisplay>
+            <Text size='16px'>
+              <FormattedMessage id='modals.requestbitcoin.secondstep.message' defaultMessage='For "{message}"' values={{message: message}} />
             </Text>
-          </LinkContainer>
-        </Container>
-        <CopyToClipBoard text={link}>
-          <Button
-            type='submit'
-            nature={active ? 'copy' : 'primary'}
-            fullwidth
-            uppercase
-          >
-            {active ? (
-              <FormattedMessage
-                id='modals.requestbitcoin.secondstep.copied'
-                defaultMessage='Copied!'
-              />
-            ) : (
-              <FormattedMessage
-                id='modals.requestbitcoin.secondstep.copy'
-                defaultMessage='Copy link'
-              />
-            )}
-          </Button>
-        </CopyToClipBoard>
-      </Form>
-      <Footer>
+            <LinkContainer>
+              <Text size='12px' weight={300}>{link}</Text>
+            </LinkContainer>
+          </Container>
+          <CopyToClipBoard text={link}>
+            <Button type='submit' nature={active ? 'copy' : 'primary'} fullwidth uppercase>
+              { active
+                ? <FormattedMessage id='modals.requestbitcoin.secondstep.copied' defaultMessage='Copied!' />
+                : <FormattedMessage id='modals.requestbitcoin.secondstep.copy' defaultMessage='Copy link' />
+              }
+            </Button>
+          </CopyToClipBoard>
+        </Form>
+      </ModalBody>
+      <ModalFooter>
         <Link onClick={previousStep} size='13px' weight={300}>
-          <FormattedMessage
-            id='scenes.requestbitcoin.secondstep.back'
-            defaultMessage='Go Back'
-          />
+          <FormattedMessage id='scenes.requestbitcoin.secondstep.back' defaultMessage='Go Back' />
         </Link>
-      </Footer>
-    </Fragment>
+      </ModalFooter>
+    </Modal>
   )
 }
 
@@ -124,6 +93,4 @@ SecondStep.propTypes = {
   onSubmit: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: 'requestBitcoin', destroyOnUnmount: false })(
-  SecondStep
-)
+export default reduxForm({ form: 'requestBitcoin', destroyOnUnmount: false })(SecondStep)

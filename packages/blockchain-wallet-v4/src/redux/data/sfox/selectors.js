@@ -13,7 +13,6 @@ export const getProfile = path([dataPath, 'sfox', 'profile'])
 
 export const getAccounts = path([dataPath, 'sfox', 'achAccounts'])
 
-export const getVerificationStatus = state =>
-  getProfile(state).map(path(['verificationStatus']))
+export const getVerificationStatus = state => getProfile(state).map(path(['verificationStatus']))
 
 export const getBankAccounts = path([dataPath, 'sfox', 'bankAccounts'])

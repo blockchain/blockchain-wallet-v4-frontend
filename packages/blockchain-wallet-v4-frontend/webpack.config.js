@@ -5,7 +5,6 @@ const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const Webpack = require('webpack')
-const path = require('path')
 
 const isCiBuild = !!process.env.CI_BUILD
 const runBundleAnalyzer = process.env.ANALYZE
@@ -55,8 +54,7 @@ module.exports = {
   output: {
     path: isCiBuild ? (PATHS.dist) : (PATHS.lib),
     chunkFilename: '[name].[chunkhash:10].js',
-    publicPath: '/',
-    crossOriginLoading: 'anonymous'
+    publicPath: '/'
   },
   module: {
     rules: [
@@ -166,7 +164,6 @@ module.exports = {
     }
   },
   devServer: {
-    disableHostCheck: true,
     contentBase: PATHS.src,
     host: 'localhost',
     port: 8080,
@@ -179,23 +176,7 @@ module.exports = {
           'root': envConfig.ROOT_URL,
           'api': envConfig.API_DOMAIN,
           'webSocket': envConfig.WEB_SOCKET_URL,
-          'walletHelper': envConfig.WALLET_HELPER_DOMAIN,
-          'comWalletApp': envConfig.COM_WALLET_APP,
-          'comRoot': envConfig.COM_ROOT
-        }
-
-        res.json(mockWalletOptions)
-      })
-
-      // TODO:: DEPRECATE
-      // This is to locally test transferring cookies from transfer_stored_values.html
-      app.get('/Resources/transfer_stored_values.html', function (req, res) {
-        res.sendFile(path.join(__dirname, '/../../config/transfer_stored_values.html'))
-      })
-
-      app.get('/Resources/wallet-options.json', function (req, res) {
-        mockWalletOptions.domains = {
-          'comWalletApp': 'http://localhost:8080'
+          'walletHelper': envConfig.WALLET_HELPER_DOMAIN
         }
 
         res.json(mockWalletOptions)
@@ -212,11 +193,10 @@ module.exports = {
       errors: true
     },
     headers: {
-      'Access-Control-Allow-Origin': '*',
       'Content-Security-Policy': isCiBuild ? [] : [
         "img-src 'self' data: blob:",
         "style-src 'self' 'unsafe-inline'",
-        `frame-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN} ${envConfig.ROOT_URL} http://localhost:8080`,
+        `frame-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN}`,
         `child-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
         // 'unsafe-eval' is only used by webpack for development. It should not
         // be present on production!

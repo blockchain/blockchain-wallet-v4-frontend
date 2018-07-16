@@ -17,21 +17,9 @@ const CoinFilters = props => {
 
   return (
     <Wrapper>
-      <CoinTicker
-        coin='BTC'
-        selected={coin === 'BTC'}
-        handleClick={() => handleClick('BTC')}
-      />
-      <CoinTicker
-        coin='ETH'
-        selected={coin === 'ETH'}
-        handleClick={() => handleClick('ETH')}
-      />
-      <CoinTicker
-        coin='BCH'
-        selected={coin === 'BCH'}
-        handleClick={() => handleClick('BCH')}
-      />
+      <CoinTicker coin='BTC' selected={coin === 'BTC'} handleClick={() => handleClick('BTC')} />
+      <CoinTicker coin='ETH' selected={coin === 'ETH'} handleClick={() => handleClick('ETH')} />
+      <CoinTicker coin='BCH' selected={coin === 'BCH'} handleClick={() => handleClick('BCH')} />
     </Wrapper>
   )
 }

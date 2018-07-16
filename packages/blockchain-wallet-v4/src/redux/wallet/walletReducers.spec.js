@@ -40,16 +40,9 @@ describe('reducers', () => {
 
     it('should handle SET_LEGACY_ADDRESS_LABEL', () => {
       let label = 'my new label'
-      let action = Actions.setLegacyAddressLabel(
-        '19XmKRY66VnUn5irHAafyoTfiwFuGLUxKF',
-        label
-      )
+      let action = Actions.setLegacyAddressLabel('19XmKRY66VnUn5irHAafyoTfiwFuGLUxKF', label)
       let next = walletReducer(wrapped, action)
-      const sa = compose(
-        AddressMap.selectAddress('19XmKRY66VnUn5irHAafyoTfiwFuGLUxKF'),
-        Wallet.selectAddresses,
-        Wrapper.selectWallet
-      )
+      const sa = compose(AddressMap.selectAddress('19XmKRY66VnUn5irHAafyoTfiwFuGLUxKF'), Wallet.selectAddresses, Wrapper.selectWallet)
       expect(sa(next).label).toEqual(label)
     })
 
@@ -57,25 +50,15 @@ describe('reducers', () => {
       let label = 'changed_label'
       let action = Actions.setHdAddressLabel(0, 0, label)
       let next = walletReducer(wrapped, action)
-      let select = compose(
-        Wallet.toJS,
-        Wrapper.selectWallet
-      )
-      expect(
-        select(next).hd_wallets[0].accounts[0].address_labels[0].label
-      ).toEqual(label)
+      let select = compose(Wallet.toJS, Wrapper.selectWallet)
+      expect(select(next).hd_wallets[0].accounts[0].address_labels[0].label).toEqual(label)
     })
 
     it('should handle DELETE_HD_ADDRESS_LABEL', () => {
       let action = Actions.deleteHdAddressLabel(0, 0)
       let next = walletReducer(wrapped, action)
-      let select = compose(
-        Wallet.toJS,
-        Wrapper.selectWallet
-      )
-      expect(
-        select(next).hd_wallets[0].accounts[0].address_labels.length
-      ).toEqual(0)
+      let select = compose(Wallet.toJS, Wrapper.selectWallet)
+      expect(select(next).hd_wallets[0].accounts[0].address_labels.length).toEqual(0)
     })
 
     // TODO :: wallet creation need review

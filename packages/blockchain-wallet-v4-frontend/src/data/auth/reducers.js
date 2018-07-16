@@ -9,7 +9,6 @@ const INITIAL_STATE = {
   login: Remote.NotAsked,
   reset_2fa: Remote.NotAsked,
   restoring: Remote.NotAsked,
-  remindGuid: Remote.NotAsked,
   registering: Remote.NotAsked
 }
 
@@ -58,18 +57,6 @@ const auth = (state = INITIAL_STATE, action) => {
     }
     case AT.RESET_2FA_FAILURE: {
       return assoc('reset_2fa', Remote.Failure(payload), state)
-    }
-    case AT.REMIND_GUID_LOADING: {
-      return assoc('remindGuid', Remote.Loading, state)
-    }
-    case AT.REMIND_GUID_SUCCESS: {
-      return assoc('remindGuid', Remote.Success(payload), state)
-    }
-    case AT.REMIND_GUID_FAILURE: {
-      return assoc('remindGuid', Remote.Failure(payload), state)
-    }
-    case AT.REMIND_GUID_NOTASKED: {
-      return assoc('remindGuid', Remote.NotAsked, state)
     }
     case AT.SET_AUTH_TYPE: {
       const { authType } = payload

@@ -26,17 +26,13 @@ describe('FormHelper', () => {
 
   describe('optional()', () => {
     it('returns falsy value', () => {
-      expect(
-        FormHelper.optional(FormHelper.validNumber('Not num'))()
-      ).toBeFalsy()
+      expect(FormHelper.optional(FormHelper.validNumber('Not num'))()).toBeFalsy()
     })
   })
 
   describe('validNumber()', () => {
     it('returns correct string if no valid number is passed', () => {
-      expect(FormHelper.validNumber('noNum')).toEqual(
-        <M.InvalidNumberMessage />
-      )
+      expect(FormHelper.validNumber('noNum')).toEqual(<M.InvalidNumberMessage />)
     })
 
     it('returns undefined if number is passed', () => {
@@ -56,9 +52,7 @@ describe('FormHelper', () => {
 
   describe('validEmail()', () => {
     it('returns correct string if invalid email passed', () => {
-      expect(FormHelper.validEmail('invalid')).toEqual(
-        <M.InvalidEmailMessage />
-      )
+      expect(FormHelper.validEmail('invalid')).toEqual(<M.InvalidEmailMessage />)
     })
 
     it('returns undefined if number is greater than zero', () => {
@@ -68,9 +62,7 @@ describe('FormHelper', () => {
 
   describe('validateMnemonic()', () => {
     it('returns correct string if invalid mnemonic passed', () => {
-      expect(FormHelper.validMnemonic('zz')).toEqual(
-        <M.InvalidPassphraseMessage />
-      )
+      expect(FormHelper.validMnemonic('zz')).toEqual(<M.InvalidPassphraseMessage />)
     })
 
     it('returns undefined if valid mnemonic given', () => {
@@ -80,23 +72,17 @@ describe('FormHelper', () => {
 
   describe('validWalletId()', () => {
     it('returns correct string if invalid walletId passed', () => {
-      expect(FormHelper.validWalletId('zz')).toEqual(
-        <M.InvalidWalletIdMessage />
-      )
+      expect(FormHelper.validWalletId('zz')).toEqual(<M.InvalidWalletIdMessage />)
     })
 
     it('returns undefined if valid walletId is given', () => {
-      expect(
-        FormHelper.validWalletId('7e7db3ea-cd5f-4322-9728-39d9ecef1ee8')
-      ).toBeUndefined()
+      expect(FormHelper.validWalletId('7e7db3ea-cd5f-4322-9728-39d9ecef1ee8')).toBeUndefined()
     })
   })
 
   describe('validMobileNumber()', () => {
     it('returns correct string if invalid phone number passed', () => {
-      expect(FormHelper.validMobileNumber(123)).toEqual(
-        <M.InvalidMobileNumberMessage />
-      )
+      expect(FormHelper.validMobileNumber(123)).toEqual(<M.InvalidMobileNumberMessage />)
     })
 
     it('returns undefined if valid phone number is given', () => {
@@ -106,9 +92,7 @@ describe('FormHelper', () => {
 
   describe('validStrongPassword()', () => {
     it('returns correct string if invalid password passed', () => {
-      expect(FormHelper.validStrongPassword('password')).toEqual(
-        <M.InvalidStrongPasswordMessage />
-      )
+      expect(FormHelper.validStrongPassword('password')).toEqual(<M.InvalidStrongPasswordMessage />)
     })
 
     it('returns undefined if valid password is given', () => {
@@ -118,17 +102,13 @@ describe('FormHelper', () => {
 
   describe('validIpList()', () => {
     it('returns correct string if invalid IP passed', () => {
-      expect(FormHelper.validIpList('10.208.124')).toEqual(
-        <M.InvalidIpListMessage />
-      )
+      expect(FormHelper.validIpList('10.208.124')).toEqual(<M.InvalidIpListMessage />)
     })
   })
 
   describe('validPasswordStretchingNumber()', () => {
     it('returns correct string if invalid password stretcher passed', () => {
-      expect(FormHelper.validPasswordStretchingNumber(399999999)).toEqual(
-        <M.InvalidPasswordStretchingNumberMessage />
-      )
+      expect(FormHelper.validPasswordStretchingNumber(399999999)).toEqual(<M.InvalidPasswordStretchingNumberMessage />)
     })
 
     it('returns undefined if valid password stretcher is given', () => {
@@ -138,33 +118,23 @@ describe('FormHelper', () => {
 
   describe('validEtherAddress()', () => {
     it('returns correct string if invalid ether addr passed', () => {
-      expect(FormHelper.validEtherAddress('notanaddress')).toEqual(
-        <M.InvalidEtherAddressMessage />
-      )
+      expect(FormHelper.validEtherAddress('notanaddress')).toEqual(<M.InvalidEtherAddressMessage />)
     })
 
     it('returns undefined if valid ether addr is given', () => {
-      expect(
-        FormHelper.validEtherAddress(
-          '0x1d409aC5ca371B436C0DF3979F832745671044a5'
-        )
-      ).toBeUndefined()
+      expect(FormHelper.validEtherAddress('0x1d409aC5ca371B436C0DF3979F832745671044a5')).toBeUndefined()
     })
   })
 
   describe('validBitcoinAddress()', () => {
     it('returns undefined if valid bitcoin addr is given', () => {
-      expect(
-        FormHelper.validBitcoinAddress('1cKtTucHyhVrg8zRzMg7KJrvsYbxeX2eP')
-      ).toBeUndefined()
+      expect(FormHelper.validBitcoinAddress('1cKtTucHyhVrg8zRzMg7KJrvsYbxeX2eP')).toBeUndefined()
     })
   })
 
   describe('validEmailCode()', () => {
     it('returns correct string if invalid email code passed', () => {
-      expect(FormHelper.validEmailCode('123')).toEqual(
-        <M.InvalidEmailCodeMessage />
-      )
+      expect(FormHelper.validEmailCode('123')).toEqual(<M.InvalidEmailCodeMessage />)
     })
 
     it('returns undefined if valid email code is given', () => {
@@ -174,45 +144,27 @@ describe('FormHelper', () => {
 
   describe('validBitcoinPrivateKey()', () => {
     it('returns correct string if invalid btc private key passed', () => {
-      expect(
-        FormHelper.validBitcoinPrivateKey(
-          'NOTVALIDL1fLj9zU3Fp5vbCN88ZQYXJ3Jn3L1fLj9zU3Fp'
-        )
-      ).toEqual(<M.InvalidBitcoinPrivateKeyMessage />)
+      expect(FormHelper.validBitcoinPrivateKey('NOTVALIDL1fLj9zU3Fp5vbCN88ZQYXJ3Jn3L1fLj9zU3Fp')).toEqual(<M.InvalidBitcoinPrivateKeyMessage />)
     })
 
     it('returns undefined if valid btc private key is given', () => {
-      expect(
-        FormHelper.validBitcoinPrivateKey(
-          'L1fLj9zU3Fp5vbCN88ZQYXJ3Jn3V2XYEWBK3RuG1HEmRZDAYxYZi'
-        )
-      ).toBeUndefined()
+      expect(FormHelper.validBitcoinPrivateKey('L1fLj9zU3Fp5vbCN88ZQYXJ3Jn3V2XYEWBK3RuG1HEmRZDAYxYZi')).toBeUndefined()
     })
   })
 
   describe('validBitcoinCashAddress()', () => {
     it('returns correct string if invalid bth addr passed', () => {
-      expect(
-        FormHelper.validBitcoinCashAddress(
-          'NOTVALIDqqrrt6920wp5zndraya69eltes4tzswn2svhxgqh5a'
-        )
-      ).toEqual(<M.InvalidBitcoinCashAddressMessage />)
+      expect(FormHelper.validBitcoinCashAddress('NOTVALIDqqrrt6920wp5zndraya69eltes4tzswn2svhxgqh5a')).toEqual(<M.InvalidBitcoinCashAddressMessage />)
     })
 
     it('returns undefined if valid bth addr is given', () => {
-      expect(
-        FormHelper.validBitcoinCashAddress(
-          'qqrrt6920wp5zndraya69eltes4tzswn2svhxgqh5a'
-        )
-      ).toBeUndefined()
+      expect(FormHelper.validBitcoinCashAddress('qqrrt6920wp5zndraya69eltes4tzswn2svhxgqh5a')).toBeUndefined()
     })
   })
 
   describe('validIban()', () => {
     it('returns correct string if invalid iban passed', () => {
-      expect(FormHelper.validIban('this is not a valid iban')).toEqual(
-        'Invalid IBAN'
-      )
+      expect(FormHelper.validIban('this is not a valid iban')).toEqual('Invalid IBAN')
     })
 
     it('returns undefined if valid iban is given', () => {
@@ -222,9 +174,7 @@ describe('FormHelper', () => {
 
   describe('validBIC()', () => {
     it('returns correct string if invalid BIC passed', () => {
-      expect(FormHelper.validBIC('this is not a valid BIC')).toEqual(
-        'Invalid BIC'
-      )
+      expect(FormHelper.validBIC('this is not a valid BIC')).toEqual('Invalid BIC')
     })
 
     it('returns undefined if valid BIC is given', () => {
@@ -234,9 +184,7 @@ describe('FormHelper', () => {
 
   describe('ageOverEighteen()', () => {
     it('returns correct string if age is not over 18', () => {
-      expect(FormHelper.ageOverEighteen(Date.now() - 400000)).toEqual(
-        <M.AgeOverEighteenMessage />
-      )
+      expect(FormHelper.ageOverEighteen(Date.now() - 400000)).toEqual(<M.AgeOverEighteenMessage />)
     })
 
     it('returns undefined if age is over 18', () => {
@@ -246,9 +194,7 @@ describe('FormHelper', () => {
 
   describe('requiredSSN()', () => {
     it('returns correct string if not a valid SSN', () => {
-      expect(FormHelper.requiredSSN('123-1243-12412')).toEqual(
-        <M.RequiredSSNMessage />
-      )
+      expect(FormHelper.requiredSSN('123-1243-12412')).toEqual(<M.RequiredSSNMessage />)
     })
 
     it('returns undefined if SSN is valid', () => {
@@ -268,9 +214,7 @@ describe('FormHelper', () => {
 
   describe('requiredUsZipcode()', () => {
     it('returns correct string if DOB is not valid', () => {
-      expect(FormHelper.requiredUsZipcode('78342223')).toEqual(
-        <M.RequiredUSZipCodeMessage />
-      )
+      expect(FormHelper.requiredUsZipcode('78342223')).toEqual(<M.RequiredUSZipCodeMessage />)
     })
 
     it('returns undefined if zip is valid', () => {
@@ -279,9 +223,7 @@ describe('FormHelper', () => {
   })
 
   it('normalizeSocialSecurity() returns normalized SSN', () => {
-    expect(FormHelper.normalizeSocialSecurity('111223333')).toEqual(
-      '111-22-3333'
-    )
+    expect(FormHelper.normalizeSocialSecurity('111223333')).toEqual('111-22-3333')
   })
 
   it('normalizeDateOfBirth() returns normalized dob', () => {

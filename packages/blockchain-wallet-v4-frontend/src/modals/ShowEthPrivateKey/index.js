@@ -8,20 +8,19 @@ import { getData } from './selectors'
 import ShowEthPrivateKeyTemplate from './template'
 
 class ShowEthPrivateKeyContainer extends Component {
-  componentDidMount() {
+  componentDidMount () {
     if (this.props.isLegacy) {
       this.props.ethActions.fetchLegacyBalance()
     }
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.props.actions.clearShownEthPrivateKey()
   }
 
-  render() {
+  render () {
     const step = this.props.priv == null ? 0 : 1
-    const nextStep = () =>
-      this.props.actions.showEthPrivateKey(this.props.isLegacy)
+    const nextStep = () => this.props.actions.showEthPrivateKey(this.props.isLegacy)
     return (
       <ShowEthPrivateKeyTemplate
         {...this.props}
@@ -34,17 +33,14 @@ class ShowEthPrivateKeyContainer extends Component {
 
 const mapStateToProps = (state, ownProps) => getData(state, ownProps)
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   ethActions: bindActionCreators(actions.core.data.ethereum, dispatch),
   actions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
 const enhance = compose(
   modalEnhancer('ShowEthPrivateKey'),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default enhance(ShowEthPrivateKeyContainer)

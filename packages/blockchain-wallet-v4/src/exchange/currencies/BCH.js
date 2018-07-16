@@ -1,4 +1,5 @@
-export default {
+export default
+{
   base: 'SAT',
   code: 'BCH',
   trade: 'BCH',

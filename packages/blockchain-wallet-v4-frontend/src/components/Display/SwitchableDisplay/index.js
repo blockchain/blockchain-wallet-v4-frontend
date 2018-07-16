@@ -6,7 +6,7 @@ import { selectors } from 'data'
 import SwitchableDisplay from './template.js'
 
 class SwitchableDisplayContainer extends React.PureComponent {
-  render() {
+  render () {
     return <SwitchableDisplay {...this.props} />
   }
 }
@@ -17,7 +17,7 @@ SwitchableDisplay.propTypes = {
   coinDisplayed: PropTypes.bool.isRequired
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   coinDisplayed: selectors.preferences.getCoinDisplayed(state)
 })
 

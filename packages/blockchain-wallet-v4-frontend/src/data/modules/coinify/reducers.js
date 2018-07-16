@@ -8,8 +8,7 @@ const INITIAL_STATE = {
   coinifyBusy: Remote.NotAsked,
   step: null,
   checkoutStep: 'checkout',
-  signupComplete: null,
-  payment: Remote.NotAsked
+  signupComplete: null
 }
 
 const coinify = (state = INITIAL_STATE, action) => {
@@ -63,15 +62,6 @@ const coinify = (state = INITIAL_STATE, action) => {
     }
     case AT.COINIFY_SIGNUP_COMPLETE: {
       return assoc('signupComplete', true, state)
-    }
-    case AT.COINIFY_SELL_BTC_PAYMENT_UPDATED_SUCCESS: {
-      return assoc('payment', Remote.Success(payload), state)
-    }
-    case AT.COINIFY_SELL_BTC_PAYMENT_UPDATED_LOADING: {
-      return assoc('payment', Remote.Loading, state)
-    }
-    case AT.COINIFY_SELL_BTC_PAYMENT_UPDATED_FAILURE: {
-      return assoc('payment', Remote.Failure(payload), state)
     }
     default:
       return state

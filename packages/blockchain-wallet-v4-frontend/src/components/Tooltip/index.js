@@ -1,3 +1,5 @@
 import MenuTooltip from './MenuTooltip.js'
 
-export { MenuTooltip }
+export {
+  MenuTooltip
+}

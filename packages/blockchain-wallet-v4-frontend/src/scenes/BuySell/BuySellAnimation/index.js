@@ -1,19 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { path } from 'ramda'
-
 import { Image } from 'blockchain-info-components'
-import {
-  balloon,
-  balloonDelay1,
-  balloonDelay2,
-  drone,
-  droneDelay1,
-  droneDelay2,
-  flight,
-  flightDelay1,
-  flightDelay2
-} from './keyframes'
+import { balloon, balloonDelay1, balloonDelay2, drone, droneDelay1, droneDelay2, flight, flightDelay1, flightDelay2 } from './keyframes'
 
 const Wrapper = styled.div`
   overflow: hidden;
@@ -25,9 +13,7 @@ const BaseColor = styled(Image)`
   opacity: 0;
   position: absolute;
   transition: opacity 5s;
-  &.active {
-    opacity: 1;
-  }
+  &.active { opacity: 1; }
 `
 const Btc = styled.div`
   img {
@@ -37,23 +23,11 @@ const Btc = styled.div`
     position: absolute;
     animation: ${flight} 10s infinite linear;
   }
-  &.buy {
-    .buy {
-      opacity: 1;
-    }
-  }
-  &.sell {
-    .sell {
-      opacity: 1;
-    }
-  }
+  &.buy { .buy { opacity: 1; } }
+  &.sell { .sell { opacity: 1; } }
   &.buy.sell {
-    .buy {
-      animation: ${flightDelay1} 20s infinite linear;
-    }
-    .sell {
-      animation: ${flightDelay2} 20s infinite linear;
-    }
+    .buy { animation: ${flightDelay1} 20s infinite linear; }
+    .sell { animation: ${flightDelay2} 20s infinite linear; }
   }
 `
 const Bch = styled.div`
@@ -65,23 +39,11 @@ const Bch = styled.div`
     position: absolute;
     animation: ${balloon} 10s infinite linear;
   }
-  &.buy {
-    .buy {
-      opacity: 1;
-    }
-  }
-  &.sell {
-    .sell {
-      opacity: 1;
-    }
-  }
+  &.buy { .buy { opacity: 1; } }
+  &.sell { .sell { opacity: 1; } }
   &.buy.sell {
-    .buy {
-      animation: ${balloonDelay1} 20s infinite linear;
-    }
-    .sell {
-      animation: ${balloonDelay2} 20s infinite linear;
-    }
+    .buy { animation: ${balloonDelay1} 20s infinite linear; }
+    .sell { animation: ${balloonDelay2} 20s infinite linear; }
   }
 `
 const Eth = styled.div`
@@ -93,28 +55,16 @@ const Eth = styled.div`
     position: absolute;
     animation: ${drone} 3s infinite linear;
   }
-  &.buy {
-    .buy {
-      opacity: 1;
-    }
-  }
-  &.sell {
-    .sell {
-      opacity: 1;
-    }
-  }
+  &.buy { .buy { opacity: 1; } }
+  &.sell { .sell { opacity: 1; } }
   &.buy.sell {
-    .buy {
-      animation: ${droneDelay1} 6s infinite linear;
-    }
-    .sell {
-      animation: ${droneDelay2} 6s infinite linear;
-    }
+    .buy { animation: ${droneDelay1} 6s infinite linear; }
+    .sell { animation: ${droneDelay2} 6s infinite linear; }
   }
 `
 
 class BuySellAnimation extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       base: false,
@@ -124,36 +74,27 @@ class BuySellAnimation extends React.PureComponent {
     }
   }
 
-  static getDerivedStateFromProps(nextProps) {
-    const sfoxCountries = path(
-      ['options', 'platforms', 'web', 'sfox', 'countries'],
-      nextProps
-    )
-    const unocoinCountries = path(
-      ['options', 'platforms', 'web', 'unocoin', 'countries'],
-      nextProps
-    )
-    const coinifyCountries = path(
-      ['options', 'platforms', 'web', 'coinify', 'countries'],
-      nextProps
-    )
+  static getDerivedStateFromProps (nextProps) {
+    const sfoxCountries = nextProps.options.platforms.web.sfox.countries
+    const unocoinCountries = nextProps.options.platforms.web.unocoin.countries
+    const coinifyCountries = nextProps.options.platforms.web.coinify.countries
 
     switch (true) {
-      case sfoxCountries.includes(nextProps.country): {
+      case sfoxCountries.indexOf(nextProps.country) >= 0: {
         return {
           btc: 'buy sell',
           bch: '',
           eth: ''
         }
       }
-      case coinifyCountries.includes(nextProps.country): {
+      case coinifyCountries.indexOf(nextProps.country) >= 0: {
         return {
           btc: 'buy sell',
           bch: '',
           eth: ''
         }
       }
-      case unocoinCountries.includes(nextProps.country): {
+      case unocoinCountries.indexOf(nextProps.country) >= 0: {
         return {
           btc: 'buy',
           bch: '',
@@ -170,11 +111,11 @@ class BuySellAnimation extends React.PureComponent {
     }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     setTimeout(() => this.setState({ base: true }), 1)
   }
 
-  render() {
+  render () {
     const { base, btc, bch, eth } = this.state
 
     return (

@@ -1,4 +1,5 @@
-export default {
+export default
+{
   code: 'CNY',
   base: 'CENT',
   trade: 'CNY',

@@ -36,8 +36,7 @@ const Body = styled.div`
 const Row = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: ${props =>
-    props.align === 'right' ? 'flex-end' : 'flex-start'};
+  justify-content: ${props => props.align === 'right' ? 'flex-end' : 'flex-start'};
   align-items: center;
   width: 100%;
 
@@ -53,9 +52,7 @@ const Table = styled.div`
   box-sizing: border-box;
   border: 1px solid ${props => props.theme['gray-2']};
   background-color: ${props => props.theme['white-blue']};
-  & > :last-child {
-    border-bottom: none;
-  }
+  & > :last-child { border-bottom: none; }
   margin-bottom: 10px;
 `
 const TableRow = styled.div`
@@ -68,9 +65,7 @@ const TableRow = styled.div`
   box-sizing: border-box;
   border-bottom: 1px solid ${props => props.theme['gray-2']};
 
-  > :first-child {
-    margin-right: 5px;
-  }
+  > :first-child { margin-right: 5px; }
 `
 const TableCell = styled.div`
   display: flex;
@@ -78,40 +73,18 @@ const TableCell = styled.div`
   justify-content: flex-start;
   align-items: center;
 
-  & > :first-child {
-    margin-right: 5px;
-  }
+  & > :first-child { margin-right: 5px; }
 `
 
 const Success = props => {
-  const {
-    sourceCoin,
-    targetCoin,
-    status,
-    exchangeRate,
-    transactionFee,
-    orderId,
-    depositAmount,
-    withdrawalAmount,
-    handleClose
-  } = props
+  const { sourceCoin, targetCoin, status, exchangeRate, transactionFee, orderId, depositAmount, withdrawalAmount, handleClose } = props
 
   return (
     <Wrapper>
       <Header>
         <Text size='13px' weight={500} capitalize>
-          {status === 'complete' && (
-            <FormattedMessage
-              id='modals.exchange.shapeshift.title.success'
-              defaultMessage='Success! Your exchange is complete'
-            />
-          )}
-          {status !== 'complete' && (
-            <FormattedMessage
-              id='modals.exchange.shapeshift.title.inprogress'
-              defaultMessage='Exchange In Progress'
-            />
-          )}
+          {status === 'complete' && <FormattedMessage id='modals.exchange.shapeshift.title.success' defaultMessage='Success! Your exchange is complete' />}
+          {status !== 'complete' && <FormattedMessage id='modals.exchange.shapeshift.title.inprogress' defaultMessage='Exchange In Progress' />}
         </Text>
       </Header>
       <Body>
@@ -119,42 +92,27 @@ const Success = props => {
           <ExchangeTimeline status={status} />
         </Row>
         <Row>
-          {status === 'received' && (
+          {status === 'received' &&
             <Notice>
               <Text size='13px' weight={300}>
-                <FormattedMessage
-                  id='modals.exchange.shapeshift.explain'
-                  defaultMessage='Thanks for placing your trade! '
-                />
-                <FormattedMessage
-                  id='modals.exchange.shapeshift.explain2'
-                  defaultMessage='Exchange trades can take up to two hours, and you can keep track of your trade’s progress in the Order History tab.'
-                />
+                <FormattedMessage id='modals.exchange.shapeshift.explain' defaultMessage='Thanks for placing your trade! ' />
+                <FormattedMessage id='modals.exchange.shapeshift.explain2' defaultMessage='Exchange trades can take up to two hours, and you can keep track of your trade’s progress in the Order History tab.' />
               </Text>
             </Notice>
-          )}
-          {status === 'complete' && (
+          }
+          {status === 'complete' &&
             <Notice>
               <Text size='13px' weight={300}>
-                <FormattedMessage
-                  id='modals.exchange.shapeshift.explain3'
-                  defaultMessage='Your exchange is complete.'
-                />
+                <FormattedMessage id='modals.exchange.shapeshift.explain3' defaultMessage='Your exchange is complete.' />
                 <span>&nbsp;</span>
-                <FormattedMessage
-                  id='modals.exchange.shapeshift.explain4'
-                  defaultMessage='It may take a few minutes for the funds to show in your balance.'
-                />
+                <FormattedMessage id='modals.exchange.shapeshift.explain4' defaultMessage='It may take a few minutes for the funds to show in your balance.' />
               </Text>
             </Notice>
-          )}
+          }
         </Row>
         <Row>
           <Text size='14px' weight={500} capitalize>
-            <FormattedMessage
-              id='modals.exchange.shapeshift.ordersummary'
-              defaultMessage='Order summary'
-            />
+            <FormattedMessage id='modals.exchange.shapeshift.ordersummary' defaultMessage='Order summary' />
           </Text>
         </Row>
         <Row>
@@ -162,11 +120,7 @@ const Success = props => {
             <TableRow>
               <TableCell>
                 <Text size='13px' weight={400} capitalize>
-                  <FormattedMessage
-                    id='modals.exchange.shapeshift.deposited'
-                    defaultMessage='{coin} deposited'
-                    values={{ coin: sourceCoin }}
-                  />
+                  <FormattedMessage id='modals.exchange.shapeshift.deposited' defaultMessage='{coin} deposited' values={{ coin: sourceCoin }} />
                 </Text>
               </TableCell>
               <TableCell>
@@ -178,11 +132,7 @@ const Success = props => {
             <TableRow>
               <TableCell>
                 <Text size='13px' weight={400} capitalize>
-                  <FormattedMessage
-                    id='modals.exchange.shapeshift.received'
-                    defaultMessage='{coin} to be received'
-                    values={{ coin: targetCoin }}
-                  />
+                  <FormattedMessage id='modals.exchange.shapeshift.received' defaultMessage='{coin} to be received' values={{ coin: targetCoin }} />
                 </Text>
               </TableCell>
               <TableCell>
@@ -194,16 +144,10 @@ const Success = props => {
             <TableRow>
               <TableCell>
                 <Text size='13px' weight={400} capitalize>
-                  <FormattedMessage
-                    id='modals.exchange.shapeshift.exchangerate'
-                    defaultMessage='Exchange rate'
-                  />
+                  <FormattedMessage id='modals.exchange.shapeshift.exchangerate' defaultMessage='Exchange rate' />
                 </Text>
                 <Tooltip>
-                  <FormattedMessage
-                    id='modals.exchange.shapeshift.exchangetooltip'
-                    defaultMessage='This rate may change depending on the market price at the time of your transaction.'
-                  />
+                  <FormattedMessage id='modals.exchange.shapeshift.exchangetooltip' defaultMessage='This rate may change depending on the market price at the time of your transaction.' />
                 </Tooltip>
               </TableCell>
               <TableCell>
@@ -215,16 +159,10 @@ const Success = props => {
             <TableRow>
               <TableCell>
                 <Text size='13px' weight={400} capitalize>
-                  <FormattedMessage
-                    id='modals.exchange.shapeshift.fee'
-                    defaultMessage='Transaction fee'
-                  />
+                  <FormattedMessage id='modals.exchange.shapeshift.fee' defaultMessage='Transaction fee' />
                 </Text>
                 <Tooltip>
-                  <FormattedMessage
-                    id='modals.exchange.shapeshift.feetooltip'
-                    defaultMessage='This fee is used to send the incoming exchange funds from ShapeShift.'
-                  />
+                  <FormattedMessage id='modals.exchange.shapeshift.feetooltip' defaultMessage='This fee is used to send the incoming exchange funds from ShapeShift.' />
                 </Tooltip>
               </TableCell>
               <TableCell>
@@ -236,10 +174,7 @@ const Success = props => {
             <TableRow>
               <TableCell>
                 <Text size='13px' weight={400} capitalize>
-                  <FormattedMessage
-                    id='modals.exchange.shapeshift.orderid'
-                    defaultMessage='Order ID'
-                  />
+                  <FormattedMessage id='modals.exchange.shapeshift.orderid' defaultMessage='Order ID' />
                 </Text>
               </TableCell>
               <TableCell>
@@ -251,16 +186,8 @@ const Success = props => {
           </Table>
         </Row>
         <Row align='right'>
-          <Button
-            nature='primary'
-            size='13px'
-            weight={300}
-            onClick={handleClose}
-          >
-            <FormattedMessage
-              id='modals.exchange.shapeshift.close'
-              defaultMessage='Close'
-            />
+          <Button nature='primary' size='13px' weight={300} onClick={handleClose}>
+            <FormattedMessage id='modals.exchange.shapeshift.close' defaultMessage='Close' />
           </Button>
         </Row>
       </Body>

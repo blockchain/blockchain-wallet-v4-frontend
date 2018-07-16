@@ -3,26 +3,17 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { spacing, flex } from 'services/StyleService'
 
-import {
-  Button,
-  Icon,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Text,
-  ButtonGroup
-} from 'blockchain-info-components'
+import { Button, Icon, Modal, ModalHeader, ModalBody, ModalFooter, Text, ButtonGroup } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
-  justify-content: ${props => (props.extraCopy ? null : 'center')};
+  justify-content: ${props => props.extraCopy ? null : 'center'};
 `
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: ${props => (props.extraCopy ? null : 'center')};
-  align-items: ${props => (props.extraCopy ? null : 'center')};
+  justify-content: ${props => props.extraCopy ? null : 'center'};
+  align-items: ${props => props.extraCopy ? null : 'center'};
   height: 100%;
   padding: 0;
   box-sizing: border-box;
@@ -37,16 +28,8 @@ const Buttons = styled(ButtonGroup)`
   }
 `
 
-const ConfirmDisable2FA = props => {
-  const {
-    position,
-    total,
-    close,
-    handleContinue,
-    extraCopy,
-    authName,
-    ...rest
-  } = props
+const ConfirmDisable2FA = (props) => {
+  const { position, total, close, handleContinue, extraCopy, authName, ...rest } = props
   const { closeAll } = rest
 
   return (
@@ -54,29 +37,21 @@ const ConfirmDisable2FA = props => {
       <ModalHeader onClose={close}>
         <div style={flex('row align/center')}>
           <Icon name='lock' size='20px' style={spacing('pr-5')} />
-          <FormattedMessage
-            id='modals.disable2fa.title'
-            defaultMessage='Disable Two-Step'
-          />
+          <FormattedMessage id='modals.disable2fa.title' defaultMessage='Disable Two-Step' />
         </div>
       </ModalHeader>
       <ModalBody>
         <Wrapper extraCopy={extraCopy}>
           <Container extraCopy={extraCopy}>
             <Text size='14px' weight={300}>
-              <FormattedMessage
-                id='modals.disable2fa.sure'
-                defaultMessage='Are you sure you wish to disable the'
-              />
+              <FormattedMessage id='modals.disable2fa.sure' defaultMessage='Are you sure you wish to disable the' />
               {` ${authName}?`}
             </Text>
-            {extraCopy ? (
-              <Text style={spacing('mt-10')} size='14px' weight={300}>
-                {extraCopy}
-              </Text>
-            ) : (
-              <Icon name='alert' size='40px' color='error' />
-            )}
+            {
+              extraCopy
+                ? <Text style={spacing('mt-10')} size='14px' weight={300}>{extraCopy}</Text>
+                : <Icon name='alert' size='40px' color='error' />
+            }
           </Container>
         </Wrapper>
       </ModalBody>
@@ -86,10 +61,7 @@ const ConfirmDisable2FA = props => {
             Close
           </Text>
           <Button nature='logout' onClick={handleContinue}>
-            <FormattedMessage
-              id='modals.disable2fa.disable'
-              defaultMessage='Disable'
-            />
+            <FormattedMessage id='modals.disable2fa.disable' defaultMessage='Disable' />
           </Button>
         </Buttons>
       </ModalFooter>

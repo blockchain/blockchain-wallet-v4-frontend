@@ -7,49 +7,33 @@ import { actions, selectors } from 'data'
 import Reminder from './template.js'
 
 class ReminderContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
+    this.state = { submitted: false }
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  componentWillUnmount() {
-    this.props.authActions.remindGuidNotAsked()
-  }
-
-  onSubmit() {
+  onSubmit () {
     const { email, code, captcha, authActions } = this.props
     const { sessionToken } = captcha.getOrElse({})
 
     authActions.remindGuid(email, code, sessionToken)
+    this.setState({ submitted: true })
   }
 
-  render() {
-    const { remindGuid } = this.props
-    const { success, loading } = remindGuid.cata({
-      Success: () => ({ success: true }),
-      Loading: () => ({ loading: true }),
-      Failure: () => ({}),
-      NotAsked: () => ({})
-    })
-
-    return (
-      <Reminder onSubmit={this.onSubmit} success={success} loading={loading} />
-    )
+  render () {
+    return <Reminder onSubmit={this.onSubmit} submitted={this.state.submitted} />
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   email: formValueSelector('reminder')(state, 'email'),
   code: formValueSelector('reminder')(state, 'code'),
-  captcha: selectors.core.data.misc.getCaptcha(state),
-  remindGuid: selectors.auth.getRemindGuid(state)
+  captcha: selectors.core.data.misc.getCaptcha(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   authActions: bindActionCreators(actions.auth, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ReminderContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(ReminderContainer)

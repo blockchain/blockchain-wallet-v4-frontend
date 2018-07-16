@@ -13,7 +13,7 @@ const LogoutLink = styled(Link)`
   }
   @media (min-width: 768px) {
     > span:first-child {
-      display: flex;
+      display: initial;
     }
     > span:last-child {
       display: none;
@@ -21,21 +21,12 @@ const LogoutLink = styled(Link)`
   }
 `
 
-const Logout = props => {
+const Logout = (props) => {
   const { handleLogout } = props
 
   return (
-    <LogoutLink
-      size='14px'
-      weight={300}
-      color='white'
-      uppercase
-      onClick={handleLogout}
-    >
-      <FormattedMessage
-        id='layouts.wallet.header.logout.signout'
-        defaultMessage='Sign out'
-      />
+    <LogoutLink size='14px' weight={300} color='white' uppercase onClick={handleLogout}>
+      <FormattedMessage id='layouts.wallet.header.logout.signout' defaultMessage='Sign out' />
       <Icon name='switch' size='16px' color='white' />
     </LogoutLink>
   )

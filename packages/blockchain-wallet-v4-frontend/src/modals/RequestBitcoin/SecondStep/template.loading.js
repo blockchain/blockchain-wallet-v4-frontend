@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   box-sizing: border-box;
 `
 
-export default props => {
+export default (props) => {
   return (
     <Wrapper>
       <BlockchainLoader width='200px' height='200px' />

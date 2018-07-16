@@ -6,7 +6,11 @@ const BaseHeader = styled.div``
 const NavbarHeader = props => {
   const { children, ...rest } = props
 
-  return <BaseHeader {...rest}>{children}</BaseHeader>
+  return (
+    <BaseHeader {...rest}>
+      {children}
+    </BaseHeader>
+  )
 }
 
 export default NavbarHeader

@@ -8,13 +8,7 @@ import Loading from './template.loading'
 import Success from './template.success'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
-import {
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter
-} from 'blockchain-info-components'
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'blockchain-info-components'
 
 import modalEnhancer from 'providers/ModalEnhancer'
 
@@ -29,16 +23,16 @@ const QRCodeContainer = styled.div`
 `
 
 class PairingCodeContainer extends React.PureComponent {
-  componentWillMount() {
+  componentWillMount () {
     this.props.actions.encodePairingCode()
   }
 
-  render() {
+  render () {
     const { data, position, total, close, closeAll } = this.props
 
     let PairingCode = data.cata({
-      Success: val => <Success val={val} />,
-      Failure: message => <Error>{message}</Error>,
+      Success: (val) => <Success val={val} />,
+      Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
@@ -46,20 +40,16 @@ class PairingCodeContainer extends React.PureComponent {
     return (
       <Modal size='large' position={position} total={total}>
         <ModalHeader icon='request' onClose={closeAll}>
-          <FormattedMessage
-            id='modals.pairingcode.title'
-            defaultMessage='Scan Pairing Code'
-          />
+          <FormattedMessage id='modals.pairingcode.title' defaultMessage='Scan Pairing Code' />
         </ModalHeader>
         <ModalBody>
-          <QRCodeContainer>{PairingCode}</QRCodeContainer>
+          <QRCodeContainer>
+            {PairingCode}
+          </QRCodeContainer>
         </ModalBody>
         <ModalFooter>
           <Button nature='primary' fullwidth onClick={close}>
-            <FormattedMessage
-              id='modals.pairingcode.close'
-              defaultMessage='Close'
-            />
+            <FormattedMessage id='modals.pairingcode.close' defaultMessage='Close' />
           </Button>
         </ModalFooter>
       </Modal>
@@ -67,7 +57,7 @@ class PairingCodeContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   data: getData(state)
 })
 
@@ -77,10 +67,7 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose(
   modalEnhancer('PairingCode'),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
 export default enhance(PairingCodeContainer)
