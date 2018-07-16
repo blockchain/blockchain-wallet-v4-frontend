@@ -27,7 +27,8 @@ export const getData = state => {
 
   const initialValuesR = getInitialValues(state)
   const receiveAddressR = extractAddress(getReceive, to).map(
-    address => address && isCashAddr(address) ? address : toCashAddr(address, true)
+    address =>
+      address && isCashAddr(address) ? address : toCashAddr(address, true)
   )
 
   const transform = (receiveAddress, initialValues) => ({

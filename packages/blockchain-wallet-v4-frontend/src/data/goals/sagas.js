@@ -33,7 +33,7 @@ export default ({ coreSagas }) => {
   const runGoals = function*() {
     const goals = yield select(selectors.goals.getGoals)
     try {
-      yield * goals.map(function * (goal) {
+      yield* goals.map(function*(goal) {
         switch (goal.name) {
           case 'payment':
             yield take(actionTypes.core.data.bitcoin.FETCH_BITCOIN_DATA_SUCCESS)
