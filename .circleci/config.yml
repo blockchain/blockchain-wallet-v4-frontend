@@ -62,32 +62,20 @@ jobs:
       - run:
           name: Lint Code
           command: yarn lint
-  build_test_files:
-    <<: *container_config
-    steps:
-      - *attach_workspace
-      - run:
-          name: Build test files
-          command: yarn ci:test:build
-      - persist_to_workspace:
-          root: /home/circleci
-          paths:
-            - blockchain-wallet-v4-frontend/packages/blockchain-info-components/lib
-            - blockchain-wallet-v4-frontend/packages/blockchain-wallet-v4/lib
   test_core_components:
     <<: *container_config
     steps:
       - *attach_workspace
       - run:
-          name: Test Code
+          name: Test Core & Components Code
           command: yarn ci:test:core:components
   test_frontend:
     <<: *container_config
     steps:
       - *attach_workspace
       - run:
-          name: Test Code
-          command: yarn ci:test:frontend
+          name: Test Frontend Code
+          command: yarn ci:test:build && yarn ci:test:frontend
   code_coverage:
     <<: *container_config
     steps:
@@ -108,15 +96,12 @@ workflows:
       - lint:
           requires:
             - npm_install
-      - build_test_files:
-          requires:
-            - npm_install
       - test_core_components:
           requires:
-            - build_test_files
+            - npm_install
       - test_frontend:
           requires:
-            - build_test_files
+            - npm_install
 
   test_coverage:
     triggers:
