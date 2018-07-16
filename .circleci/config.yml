@@ -76,6 +76,11 @@ jobs:
       - run:
           name: Build test files
           command: yarn ci:test:build
+      - persist_to_workspace:
+          root: /home/circleci
+          paths:
+            - blockchain-wallet-v4-frontend/packages/blockchain-info-components/lib
+            - blockchain-wallet-v4-frontend/packages/blockchain-wallet-v4/lib
   test_core_components:
     <<: *container_config
     steps:
