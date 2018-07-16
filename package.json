@@ -28,7 +28,8 @@
   ],
   "husky": {
     "hooks": {
-      "pre-push": "yarn lint && yarn prettier && yarn test"
+      "pre-commit": "yarn prettier && yarn lint:fix",
+      "pre-push": "yarn test"
     }
   },
   "scripts": {
@@ -45,13 +46,13 @@
     "coverage:core": "yarn workspace blockchain-wallet-v4 coverage",
     "coverage:frontend": "yarn workspace blockchain-wallet-v4-frontend coverage",
     "link:resolved:paths": "yarn wsrun link:resolved:paths --exclude-missing",
-    "fix": "cross-env yarn lint:fix && yarn prettier && yarn test:components:update && yarn test:frontend:update",
+    "fix": "cross-env yarn prettier && yarn lint:fix && yarn test:components:update && yarn test:frontend:update",
     "lint": "eslint --cache './packages/*/src/**/*.js'",
     "lint:components": "eslint './packages/blockchain-info-components/src/**/*.js'",
     "lint:core": "eslint './packages/blockchain-wallet-v4/src/**/*.js'",
     "lint:fix": "eslint './packages/*/src/**/*.js' --fix",
     "lint:frontend": "eslint './packages/blockchain-wallet-v4-frontend/src/**/*.js'",
-    "prettier": "prettier './packages/*/src/**/*.js' --list-different --loglevel error --write",
+    "prettier": "prettier './packages/*/src/**/*.js' --loglevel error --write",
     "prettier:components": "prettier './packages/blockchain-info-components/src/**/*.js' --list-different --loglevel error --write",
     "prettier:core": "prettier './packages/blockchain-wallet-v4/src/**/*.js' --list-different --loglevel error --write",
     "prettier:frontend": "prettier './packages/blockchain-wallet-v4-frontend/src/**/*.js' --list-different --loglevel error --write",
