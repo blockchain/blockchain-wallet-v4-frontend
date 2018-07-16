@@ -3,7 +3,7 @@ import React from 'react'
 import SecuritySteps from './template.js'
 
 class SecurityStepsContainer extends React.PureComponent {
-  render() {
+  render () {
     const { data } = this.props
     return (
       <SecuritySteps

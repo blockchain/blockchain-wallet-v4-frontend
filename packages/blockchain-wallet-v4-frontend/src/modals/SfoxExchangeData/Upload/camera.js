@@ -22,22 +22,22 @@ const SubmitContainer = styled.div`
 `
 
 class CameraContainer extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.setRef = this.setRef.bind(this)
     this.capture = this.capture.bind(this)
   }
 
-  setRef(webcam) {
+  setRef (webcam) {
     this.webcam = webcam
   }
 
-  capture() {
+  capture () {
     const imageSrc = this.webcam.getScreenshot()
     this.props.setPhoto(imageSrc)
   }
 
-  render() {
+  render () {
     return (
       <VideoContainer>
         <Webcam
@@ -47,14 +47,14 @@ class CameraContainer extends React.Component {
         />
         <SubmitContainer>
           <IconButton
-            name="camera"
+            name='camera'
             fullwidth
-            nature="primary"
+            nature='primary'
             onClick={this.capture}
           >
             <FormattedMessage
-              id="sfoxexchangedata.upload.capture"
-              defaultMessage="Capture"
+              id='sfoxexchangedata.upload.capture'
+              defaultMessage='Capture'
             />
           </IconButton>
         </SubmitContainer>

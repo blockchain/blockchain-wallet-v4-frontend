@@ -7,7 +7,7 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import TwoStepSetup from './template.js'
 
 class TwoStepSetupContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.handleGoogleAuthenticator = this.handleGoogleAuthenticator.bind(this)
     this.handleMobile = this.handleMobile.bind(this)
@@ -15,15 +15,15 @@ class TwoStepSetupContainer extends React.PureComponent {
     this.handleDisable = this.handleDisable.bind(this)
   }
 
-  handleGoogleAuthenticator() {
+  handleGoogleAuthenticator () {
     this.props.settingsActions.showGoogleAuthenticatorSecretUrl()
   }
 
-  handleYubico() {
+  handleYubico () {
     this.props.modalActions.showModal('TwoStepYubico')
   }
 
-  handleMobile() {
+  handleMobile () {
     const { smsNumber, smsVerified } = this.props
 
     if (!smsNumber) {
@@ -37,11 +37,11 @@ class TwoStepSetupContainer extends React.PureComponent {
     }
   }
 
-  handleDisable() {
+  handleDisable () {
     this.props.settingsActions.disableTwoStep()
   }
 
-  render() {
+  render () {
     return (
       <TwoStepSetup
         {...this.props}

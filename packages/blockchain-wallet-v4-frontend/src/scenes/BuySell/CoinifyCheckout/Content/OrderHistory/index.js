@@ -9,11 +9,11 @@ import { path } from 'ramda'
 import Failure from 'components/BuySell/Failure'
 
 class OrderHistoryContainer extends React.Component {
-  componentDidMount() {
+  componentDidMount () {
     this.props.coinifyDataActions.fetchTrades()
   }
 
-  startBuy() {
+  startBuy () {
     const { buyQuoteR, paymentMedium, coinifyActions } = this.props
     coinifyActions.coinifyLoading()
     buyQuoteR.map(q =>
@@ -21,7 +21,7 @@ class OrderHistoryContainer extends React.Component {
     )
   }
 
-  render() {
+  render () {
     const {
       data,
       modalActions,

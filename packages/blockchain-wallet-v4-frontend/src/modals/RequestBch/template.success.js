@@ -43,27 +43,27 @@ const RequestBch = props => {
     <Form onSubmit={handleSubmit}>
       <FormGroup inline margin={'20px'}>
         <FormItem>
-          <FormLabel for="coin">
+          <FormLabel for='coin'>
             <FormattedMessage
-              id="modals.sendbch.coin"
-              defaultMessage="Currency:"
+              id='modals.sendbch.coin'
+              defaultMessage='Currency:'
             />
           </FormLabel>
-          <Field name="coin" component={SelectBoxCoin} validate={[required]} />
+          <Field name='coin' component={SelectBoxCoin} validate={[required]} />
         </FormItem>
         <FormItem>
-          <FormLabel for="to">
+          <FormLabel for='to'>
             <FormattedMessage
-              id="modals.requestbitcoin.firststep.to"
-              defaultMessage="Receive to:"
+              id='modals.requestbitcoin.firststep.to'
+              defaultMessage='Receive to:'
             />
           </FormLabel>
           <Field
-            name="to"
+            name='to'
             component={SelectBoxBitcoinAddresses}
             includeAll={false}
             validate={[required]}
-            coin="BCH"
+            coin='BCH'
           />
         </FormItem>
       </FormGroup>
@@ -71,13 +71,13 @@ const RequestBch = props => {
         <FormItem>
           <FormLabel>
             <FormattedMessage
-              id="modals.requestbch.share"
-              defaultMessage="Copy & Share Address: "
+              id='modals.requestbch.share'
+              defaultMessage='Copy & Share Address: '
             />
             <Tooltip>
               <FormattedMessage
-                id="modals.requestbch.share_ooltip"
-                defaultMessage="Share this address with others, and they can send you Bitcoin Cash directly to your wallet. Your address changes with every payment."
+                id='modals.requestbch.share_ooltip'
+                defaultMessage='Share this address with others, and they can send you Bitcoin Cash directly to your wallet. Your address changes with every payment.'
               />
             </Tooltip>
           </FormLabel>
@@ -87,21 +87,21 @@ const RequestBch = props => {
         </FormItem>
       </FormGroup>
       <Separator margin={'20px 0'}>
-        <Text size="14px" weight={300} uppercase>
-          <FormattedMessage id="modals.requestbch.or" defaultMessage="Or" />
+        <Text size='14px' weight={300} uppercase>
+          <FormattedMessage id='modals.requestbch.or' defaultMessage='Or' />
         </Text>
       </Separator>
       <QRCodeContainer>
         <ScanMessage>
-          <Text size="14px">
+          <Text size='14px'>
             <FormattedMessage
-              id="modals.requestbch.scan"
-              defaultMessage="Scan QR Code:"
+              id='modals.requestbch.scan'
+              defaultMessage='Scan QR Code:'
             />
             <Tooltip>
               <FormattedMessage
-                id="modals.requestbch.scan_tooltip"
-                defaultMessage="Ask the sender to scan this QR code with their Bitcoin cash wallet"
+                id='modals.requestbch.scan_tooltip'
+                defaultMessage='Ask the sender to scan this QR code with their Bitcoin cash wallet'
               />
             </Tooltip>
           </Text>
@@ -109,13 +109,13 @@ const RequestBch = props => {
         <QRCodeReact value={receiveAddress} size={150} />
       </QRCodeContainer>
       <Button
-        type="submit"
-        nature="primary"
+        type='submit'
+        nature='primary'
         fullwidth
         uppercase
         disabled={submitting || invalid}
       >
-        <FormattedMessage id="modals.requestbch.done" defaultMessage="Done" />
+        <FormattedMessage id='modals.requestbch.done' defaultMessage='Done' />
       </Button>
     </Form>
   )

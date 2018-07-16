@@ -84,54 +84,54 @@ const Navigation = props => {
   return (
     <Wrapper {...rest}>
       <Menu>
-        <LinkContainer to="/home" activeClassName="active">
+        <LinkContainer to='/home' activeClassName='active'>
           <MenuItem>
-            <Icon name="home" />
+            <Icon name='home' />
             <FormattedMessage
-              id="layouts.wallet.menuleft.navigation.dashboard"
-              defaultMessage="Dashboard"
+              id='layouts.wallet.menuleft.navigation.dashboard'
+              defaultMessage='Dashboard'
             />
           </MenuItem>
         </LinkContainer>
         <MenuItem>
-          <Separator align="right">
-            <Text weight={200} size="small">
+          <Separator align='right'>
+            <Text weight={200} size='small'>
               <FormattedMessage
-                id="layouts.wallet.menuleft.navigation.transactions"
-                defaultMessage="Transactions"
+                id='layouts.wallet.menuleft.navigation.transactions'
+                defaultMessage='Transactions'
                 smaller
               />
             </Text>
           </Separator>
         </MenuItem>
-        <LinkContainer to="/btc/transactions" activeClassName="active">
+        <LinkContainer to='/btc/transactions' activeClassName='active'>
           <MenuItem>
-            <Icon name="bitcoin-in-circle" />
+            <Icon name='bitcoin-in-circle' />
             <FormattedMessage
-              id="layouts.wallet.menuleft.navigation.transactions.bitcoin"
-              defaultMessage="Bitcoin"
+              id='layouts.wallet.menuleft.navigation.transactions.bitcoin'
+              defaultMessage='Bitcoin'
               smaller
               uppercase
             />
           </MenuItem>
         </LinkContainer>
-        <LinkContainer to="/eth/transactions" activeClassName="active">
+        <LinkContainer to='/eth/transactions' activeClassName='active'>
           <MenuItem>
-            <Icon name="ethereum" />
+            <Icon name='ethereum' />
             <FormattedMessage
-              id="layouts.wallet.menuleft.navigation.transactions.ether"
-              defaultMessage="Ether"
+              id='layouts.wallet.menuleft.navigation.transactions.ether'
+              defaultMessage='Ether'
               smaller
               uppercase
             />
           </MenuItem>
         </LinkContainer>
-        <LinkContainer to="/bch/transactions" activeClassName="active">
+        <LinkContainer to='/bch/transactions' activeClassName='active'>
           <MenuItem>
-            <Icon name="bitcoin-cash" />
+            <Icon name='bitcoin-cash' />
             <FormattedMessage
-              id="layouts.wallet.menuleft.navigation.transactions.bch"
-              defaultMessage="Bitcoin Cash"
+              id='layouts.wallet.menuleft.navigation.transactions.bch'
+              defaultMessage='Bitcoin Cash'
               smaller
               uppercase
             />
@@ -141,35 +141,35 @@ const Navigation = props => {
           <Separator />
         </MenuItem>
         {canTrade && (
-          <LinkContainer to="/buy-sell" activeClassName="active">
+          <LinkContainer to='/buy-sell' activeClassName='active'>
             <MenuItem>
-              <Icon name="cart-filled" />
+              <Icon name='cart-filled' />
               <FormattedMessage
-                id="layouts.wallet.menuleft.navigation.buybitcoin"
-                defaultMessage="Buy & sell bitcoin"
+                id='layouts.wallet.menuleft.navigation.buybitcoin'
+                defaultMessage='Buy & sell bitcoin'
                 smaller
                 uppercase
               />
             </MenuItem>
           </LinkContainer>
         )}
-        <LinkContainer to="/exchange" activeClassName="active">
+        <LinkContainer to='/exchange' activeClassName='active'>
           <MenuItem>
-            <Icon name="exchange-filled" />
+            <Icon name='exchange-filled' />
             <FormattedMessage
-              id="layouts.wallet.menuleft.navigation.exchange"
-              defaultMessage="Exchange"
+              id='layouts.wallet.menuleft.navigation.exchange'
+              defaultMessage='Exchange'
               smaller
               uppercase
             />
           </MenuItem>
         </LinkContainer>
-        <LinkContainer to="/security-center" activeClassName="active">
+        <LinkContainer to='/security-center' activeClassName='active'>
           <MenuItem>
-            <Icon name="lock" />
+            <Icon name='lock' />
             <FormattedMessage
-              id="layouts.wallet.menuleft.navigation.securitycenter"
-              defaultMessage="Security center"
+              id='layouts.wallet.menuleft.navigation.securitycenter'
+              defaultMessage='Security center'
               smaller
               uppercase
             />
@@ -177,15 +177,15 @@ const Navigation = props => {
           </MenuItem>
         </LinkContainer>
         <LinkContainer
-          to="/settings/info"
-          activeClassName="active"
+          to='/settings/info'
+          activeClassName='active'
           className={settingsOpened ? 'active' : ''}
         >
           <MenuItem>
-            <Icon name="settings" />
+            <Icon name='settings' />
             <FormattedMessage
-              id="layouts.wallet.menuleft.navigation.settings"
-              defaultMessage="Settings"
+              id='layouts.wallet.menuleft.navigation.settings'
+              defaultMessage='Settings'
               smaller
               uppercase
             />
@@ -193,29 +193,29 @@ const Navigation = props => {
         </LinkContainer>
         {settingsOpened && (
           <SubMenu>
-            <LinkContainer to="/settings/info" activeClassName="active">
+            <LinkContainer to='/settings/info' activeClassName='active'>
               <SubMenuItem>
                 <FormattedMessage
-                  id="layouts.wallet.menuleft.navigation.general"
-                  defaultMessage="General"
+                  id='layouts.wallet.menuleft.navigation.general'
+                  defaultMessage='General'
                   smaller
                 />
               </SubMenuItem>
             </LinkContainer>
-            <LinkContainer to="/settings/preferences" activeClassName="active">
+            <LinkContainer to='/settings/preferences' activeClassName='active'>
               <SubMenuItem>
                 <FormattedMessage
-                  id="layouts.wallet.menuleft.navigation.preferences"
-                  defaultMessage="Preferences"
+                  id='layouts.wallet.menuleft.navigation.preferences'
+                  defaultMessage='Preferences'
                   smaller
                 />
               </SubMenuItem>
             </LinkContainer>
-            <LinkContainer to="/settings/addresses" activeClassName="active">
+            <LinkContainer to='/settings/addresses' activeClassName='active'>
               <SubMenuItem>
                 <FormattedMessage
-                  id="layouts.wallet.menuleft.navigation.addresses"
-                  defaultMessage="Wallets & Addresses"
+                  id='layouts.wallet.menuleft.navigation.addresses'
+                  defaultMessage='Wallets & Addresses'
                   smaller
                 />
               </SubMenuItem>

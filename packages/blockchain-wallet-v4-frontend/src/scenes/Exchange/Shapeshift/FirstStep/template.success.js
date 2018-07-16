@@ -116,47 +116,47 @@ const Success = props => {
   return (
     <Wrapper>
       <Form onSubmit={handleSubmit}>
-        <Row justify="flex-end">
-          <Text size="12px" weight={300}>
+        <Row justify='flex-end'>
+          <Text size='12px' weight={300}>
             <FormattedMessage
-              id="scenes.exchange.shapeshift.firststep.step"
-              defaultMessage="Step 1 of 2"
+              id='scenes.exchange.shapeshift.firststep.step'
+              defaultMessage='Step 1 of 2'
             />
           </Text>
         </Row>
         <Row>
           <Cell>
-            <Text size="14px" weight={400}>
+            <Text size='14px' weight={400}>
               <FormattedMessage
-                id="scenes.exchange.shapeshift.firststep.from"
-                defaultMessage="Exchange:"
+                id='scenes.exchange.shapeshift.firststep.from'
+                defaultMessage='Exchange:'
               />
             </Text>
           </Cell>
-          <Cell size="small" />
+          <Cell size='small' />
           <Cell>
-            <Text size="14px" weight={400}>
+            <Text size='14px' weight={400}>
               <FormattedMessage
-                id="scenes.exchange.shapeshift.firststep.to"
-                defaultMessage="Receive:"
+                id='scenes.exchange.shapeshift.firststep.to'
+                defaultMessage='Receive:'
               />
             </Text>
           </Cell>
         </Row>
-        <Row height="50px" spaced>
+        <Row height='50px' spaced>
           <Cell>
             <Field
-              name="source"
+              name='source'
               component={SelectBox}
               elements={elements}
               hasOneAccount={hasOneAccount}
               disabled={disabled}
             />
           </Cell>
-          <Cell size="small">
+          <Cell size='small'>
             <ShapeshiftIcon
-              name="shapeshift-switch"
-              size="28px"
+              name='shapeshift-switch'
+              size='28px'
               weight={500}
               cursor
               onClick={() => {
@@ -166,7 +166,7 @@ const Success = props => {
           </Cell>
           <Cell>
             <Field
-              name="target"
+              name='target'
               component={SelectBox}
               elements={elements}
               hasOneAccount={hasOneAccount}
@@ -174,73 +174,73 @@ const Success = props => {
             />
           </Cell>
         </Row>
-        <Row justify="space-between">
-          <Text size="14px" weight={400}>
+        <Row justify='space-between'>
+          <Text size='14px' weight={400}>
             <FormattedMessage
-              id="scenes.exchange.shapeshift.firststep.amount"
-              defaultMessage="Enter amount:"
+              id='scenes.exchange.shapeshift.firststep.amount'
+              defaultMessage='Enter amount:'
             />
           </Text>
           <Tooltip>
             <TextGroup inline>
               <FormattedMessage
-                id="scenes.exchange.shapeshift.firststep.tooltip"
-                defaultMessage="This quote may change depending on the market price at the time of your transaction."
+                id='scenes.exchange.shapeshift.firststep.tooltip'
+                defaultMessage='This quote may change depending on the market price at the time of your transaction.'
               />
               <Link
-                size="12px"
+                size='12px'
                 weight={300}
-                href="https://info.shapeshift.io/about"
-                target="_blank"
+                href='https://info.shapeshift.io/about'
+                target='_blank'
               >
                 <FormattedMessage
-                  id="scenes.exchange.shapeshift.firststep.tooltip2"
-                  defaultMessage="Learn more"
+                  id='scenes.exchange.shapeshift.firststep.tooltip2'
+                  defaultMessage='Learn more'
                 />
               </Link>
             </TextGroup>
           </Tooltip>
         </Row>
-        <Row height="80px">
+        <Row height='80px'>
           <Cell>
             <AmountContainer hasNoBottomBorder>
               <Field
-                name="sourceAmount"
+                name='sourceAmount'
                 component={NumberBoxDebounced}
                 disabled={disabled}
-                step="0.00000001"
+                step='0.00000001'
               />
               <CurrencyBox disabled={disabled}>{sourceCoin}</CurrencyBox>
             </AmountContainer>
             <AmountContainer>
               <Field
-                name="sourceFiat"
+                name='sourceFiat'
                 component={NumberBoxDebounced}
                 disabled={disabled}
               />
               <CurrencyBox disabled={disabled}>{currency}</CurrencyBox>
             </AmountContainer>
           </Cell>
-          <Cell size="small">
+          <Cell size='small'>
             {disabled ? (
-              <HeartbeatLoader width="20px" height="20px" />
+              <HeartbeatLoader width='20px' height='20px' />
             ) : (
-              <Icon name="right-arrow" size="24px" weight={500} />
+              <Icon name='right-arrow' size='24px' weight={500} />
             )}
           </Cell>
           <Cell>
             <AmountContainer hasNoBottomBorder>
               <Field
-                name="targetAmount"
+                name='targetAmount'
                 component={NumberBoxDebounced}
                 disabled={disabled}
-                step="0.00000001"
+                step='0.00000001'
               />
               <CurrencyBox disabled={disabled}>{targetCoin}</CurrencyBox>
             </AmountContainer>
             <AmountContainer>
               <Field
-                name="targetFiat"
+                name='targetFiat'
                 component={NumberBoxDebounced}
                 disabled={disabled}
               />
@@ -260,17 +260,17 @@ const Success = props => {
         {(!formError || formError === 'initial') && (
           <Row spaced>
             <OptionsContainer>
-              <Text weight={300} size="12px">
+              <Text weight={300} size='12px'>
                 <FormattedMessage
-                  id="scenes.exchangebox.firststep.use1"
-                  defaultMessage="Use"
+                  id='scenes.exchangebox.firststep.use1'
+                  defaultMessage='Use'
                 />
               </Text>
               <MinimumAmountLink />
-              <Text weight={300} size="12px">
+              <Text weight={300} size='12px'>
                 <FormattedMessage
-                  id="scenes.exchangebox.firststep.use2"
-                  defaultMessage="| Use"
+                  id='scenes.exchangebox.firststep.use2'
+                  defaultMessage='| Use'
                 />
               </Text>
               <MaximumAmountLink />
@@ -279,14 +279,14 @@ const Success = props => {
         )}
         <Row spaced>
           <Button
-            type="submit"
-            nature="primary"
+            type='submit'
+            nature='primary'
             fullwidth
             disabled={!dirty || disabled || (dirty && !isEmpty(formError))}
           >
             <FormattedMessage
-              id="scenes.exchange.shapeshift.firststep.next"
-              defaultMessage="Next"
+              id='scenes.exchange.shapeshift.firststep.next'
+              defaultMessage='Next'
             />
           </Button>
         </Row>

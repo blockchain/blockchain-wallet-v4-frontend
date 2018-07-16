@@ -25,7 +25,7 @@ import localesRU from 'assets/locales/ru.json'
 const importLocaleData = language =>
   require(`react-intl/locale-data/${language}`)
 
-function configureLocales(store) {
+function configureLocales (store) {
   // We add the locale data for each language
   addLocaleData(
     flatten(map(x => importLocaleData(x.language), languageService.languages))

@@ -39,8 +39,8 @@ const SecurityTabs = props => {
           }}
         >
           <FormattedMessage
-            id="scenes.securitycenter.tabssecurity"
-            defaultMessage="Security"
+            id='scenes.securitycenter.tabssecurity'
+            defaultMessage='Security'
           />
         </Tab>
         <Tab
@@ -51,8 +51,8 @@ const SecurityTabs = props => {
           }}
         >
           <FormattedMessage
-            id="scenes.securitycenter.tabsadvanced"
-            defaultMessage="Advanced Security"
+            id='scenes.securitycenter.tabsadvanced'
+            defaultMessage='Advanced Security'
           />
         </Tab>
       </TabList>

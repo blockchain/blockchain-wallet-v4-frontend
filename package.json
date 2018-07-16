@@ -28,7 +28,8 @@
   ],
   "husky": {
     "hooks": {
-      "pre-push": "yarn lint && yarn prettier && yarn test"
+      "pre-commit": "yarn prettier && yarn lint:fix",
+      "pre-push": "yarn test"
     }
   },
   "scripts": {
@@ -38,20 +39,22 @@
     "ci:compile": "yarn workspace blockchain-wallet-v4-frontend ci:compile",
     "ci:coverage": "yarn wsrun test:build --serial && yarn wsrun coverage --serial && istanbul report --root ./coverage --dir ./coverage/ lcov",
     "ci:prettier": "prettier './packages/*/src/**/*.js' --list-different",
-    "ci:test": "yarn wsrun test:build --serial && yarn wsrun test --serial",
+    "ci:test:build": "yarn wsrun test:build --serial",
+    "ci:test:core:components": "yarn wsrun ci:test --serial --exclude-missing",
+    "ci:test:frontend": "yarn workspace blockchain-wallet-v4-frontend ci:test:frontend",
     "clean": "cross-env rimraf node_modules && rimraf build && rimraf coverage && rimraf dist && rimraf *.log",
     "coverage": "cross-env rimraf coverage && yarn wsrun coverage --fast-exit && istanbul report --root ./coverage --dir ./coverage/ text-summary html",
     "coverage:components": "yarn workspace blockchain-info-components coverage",
     "coverage:core": "yarn workspace blockchain-wallet-v4 coverage",
     "coverage:frontend": "yarn workspace blockchain-wallet-v4-frontend coverage",
+    "fix": "cross-env yarn prettier && yarn lint:fix && yarn test:components:update && yarn test:frontend:update",
     "link:resolved:paths": "yarn wsrun link:resolved:paths --exclude-missing",
-    "fix": "cross-env yarn lint:fix && yarn prettier && yarn test:components:update && yarn test:frontend:update",
     "lint": "eslint --cache './packages/*/src/**/*.js'",
     "lint:components": "eslint './packages/blockchain-info-components/src/**/*.js'",
     "lint:core": "eslint './packages/blockchain-wallet-v4/src/**/*.js'",
     "lint:fix": "eslint './packages/*/src/**/*.js' --fix",
     "lint:frontend": "eslint './packages/blockchain-wallet-v4-frontend/src/**/*.js'",
-    "prettier": "prettier './packages/*/src/**/*.js' --list-different --loglevel error --write",
+    "prettier": "prettier './packages/*/src/**/*.js' --loglevel error --write",
     "prettier:components": "prettier './packages/blockchain-info-components/src/**/*.js' --list-different --loglevel error --write",
     "prettier:core": "prettier './packages/blockchain-wallet-v4/src/**/*.js' --list-different --loglevel error --write",
     "prettier:frontend": "prettier './packages/blockchain-wallet-v4-frontend/src/**/*.js' --list-different --loglevel error --write",
@@ -143,6 +146,7 @@
     "prettier": "^1.13.7",
     "react-hot-loader": "^4.0.1",
     "react-intl-translations-manager": "^5.0.3",
+    "react-intl-translations-manager-bc": "^5.0.3-1",
     "react-test-renderer": "^16.2.0",
     "redux-mock-store": "^1.4.0",
     "redux-saga-test-plan": "^3.6.0",

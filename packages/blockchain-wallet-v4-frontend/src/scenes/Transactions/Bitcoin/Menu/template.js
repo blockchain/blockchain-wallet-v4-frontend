@@ -97,7 +97,7 @@ const Menu = props => {
           {accounts.length > 1 && (
             <Addresses>
               <Field
-                name="source"
+                name='source'
                 component={SelectBoxBitcoinAddresses}
                 props={{ coin: 'BTC' }}
               />
@@ -105,7 +105,7 @@ const Menu = props => {
           )}
           <Status>
             <Field
-              name="status"
+              name='status'
               statuses={['', 'sent', 'received', 'transferred']}
               component={TabMenuTransactionStatus}
             />
@@ -114,13 +114,13 @@ const Menu = props => {
         <Controls>
           <Search>
             <ReportingIcon
-              name="up-arrow-in-circle"
-              size="28px"
+              name='up-arrow-in-circle'
+              size='28px'
               cursor
               onClick={handleClickReporting}
             />
-            <Field name="search" component={TextBox} />
-            <SearchIcon name="search" size="20px" />
+            <Field name='search' component={TextBox} />
+            <SearchIcon name='search' size='20px' />
           </Search>
         </Controls>
       </Container>

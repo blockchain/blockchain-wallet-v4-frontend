@@ -59,14 +59,14 @@ const kycHelper = [
   {
     question: (
       <FormattedMessage
-        id="scenes.coinify.isx.kycquestion"
-        defaultMessage="Why do you need this information?"
+        id='scenes.coinify.isx.kycquestion'
+        defaultMessage='Why do you need this information?'
       />
     ),
     answer: (
       <FormattedMessage
-        id="scenes.coinify.isx.kycanswer"
-        defaultMessage="Government anti-money laundering regulations require this verification of identity. The purpose of fulfilling these regulations is to provide you with a secure, smooth, and customized experience."
+        id='scenes.coinify.isx.kycanswer'
+        defaultMessage='Government anti-money laundering regulations require this verification of identity. The purpose of fulfilling these regulations is to provide you with a secure, smooth, and customized experience.'
       />
     )
   }
@@ -75,13 +75,13 @@ const tradeHelper = [
   {
     question: (
       <FormattedMessage
-        id="scenes.coinify.isx.tradequestion"
-        defaultMessage="How is my payment method used?"
+        id='scenes.coinify.isx.tradequestion'
+        defaultMessage='How is my payment method used?'
       />
     ),
     answer: (
       <FormattedMessage
-        id="scenes.coinify.isx.tradeanswer"
+        id='scenes.coinify.isx.tradeanswer'
         defaultMessage="Bitcoin is delivered to your Blockchain wallet by using the information you've provided. With that in mind, please double check that your submitted details are error-free. If you pay by credit / debit card, your bitcoin will be delivered within a couple of hours after the transaction is completed, depending on your bank’s transfer policies. If you pay by bank transfer, your bitcoin will be delivered after Coinify has processed your order, which usually takes between 2-3 days."
       />
     )
@@ -103,13 +103,13 @@ const tradeFaqHelper = () =>
   ))
 
 class ISignThisContainer extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = { quoteExpired: false }
     this.onQuoteExpiration = this.onQuoteExpiration.bind(this)
   }
-  componentDidMount() {
-    window.addEventListener('message', function(e) {})
+  componentDidMount () {
+    window.addEventListener('message', function (e) {})
 
     const onComplete = e => {
       this.props.coinifyActions.fromISX(e)
@@ -127,7 +127,7 @@ class ISignThisContainer extends Component {
       configOptions: null
     }
 
-    _isx.applyContainerStyles = function(c) {
+    _isx.applyContainerStyles = function (c) {
       c.style['width'] = '100%'
       if (this.configOptions.height) {
         c.style['height'] = this.configOptions.height
@@ -137,34 +137,34 @@ class ISignThisContainer extends Component {
       c.style['overflow'] = 'hidden'
     }
 
-    _isx.setup = function(setup) {
+    _isx.setup = function (setup) {
       this.transactionId = setup.transaction_id
       this.configOptions = setup
 
       return this
     }
 
-    _isx.done = function(_completeListener) {
+    _isx.done = function (_completeListener) {
       this.completeListener = _completeListener
       return this
     }
 
-    _isx.fail = function(_errorListener) {
+    _isx.fail = function (_errorListener) {
       this.errorListener = _errorListener
       return this
     }
 
-    _isx.route = function(_routeListener) {
+    _isx.route = function (_routeListener) {
       this.routeListener = _routeListener
       return this
     }
 
-    _isx.resized = function(_resizeListener) {
+    _isx.resized = function (_resizeListener) {
       this.resizeListener = _resizeListener
       return this
     }
 
-    _isx.publish = function() {
+    _isx.publish = function () {
       this.iframe = e
       // Create IE + others compatible event handler
       let eventMethod = window.addEventListener
@@ -176,7 +176,7 @@ class ISignThisContainer extends Component {
       // Listen to message from child window
       eventer(
         messageEvent,
-        function(e) {
+        function (e) {
           // Check for the domain who sent the messageEvent
           let origin = e.origin || e.originalEvent.origin
           if (origin !== iSignThisDomain) {
@@ -247,20 +247,20 @@ class ISignThisContainer extends Component {
 
     _isx
       .setup(widget)
-      .done(function(e) {
+      .done(function (e) {
         setState(e.state)
       })
-      .fail(function(e) {})
-      .resized(function(e) {})
-      .route(function(e) {})
+      .fail(function (e) {})
+      .resized(function (e) {})
+      .route(function (e) {})
       .publish()
   }
 
-  onQuoteExpiration() {
+  onQuoteExpiration () {
     this.setState({ quoteExpired: true })
   }
 
-  render() {
+  render () {
     const { options, iSignThisId, coinifyActions, trade, quoteR } = this.props
     const walletOpts = options || this.props.walletOptions.data
     const iSignThisDomain = path(
@@ -279,22 +279,22 @@ class ISignThisContainer extends Component {
               if (this.state.quoteExpired) {
                 return (
                   <Fragment>
-                    <QuoteExpiredText size="11px" weight={300}>
+                    <QuoteExpiredText size='11px' weight={300}>
                       <FormattedMessage
-                        id="scenes.buysell.coinify.isx.quoteexpiredbtc"
-                        defaultMessage="~{btcValue} BTC"
+                        id='scenes.buysell.coinify.isx.quoteexpiredbtc'
+                        defaultMessage='~{btcValue} BTC'
                         values={{ btcValue: getExpiredBtcValues(q) }}
                       />
                       <FormattedMessage
-                        id="scenes.buysell.coinify.isx.quoteexpiredfiat"
-                        defaultMessage="({fiatValue})"
+                        id='scenes.buysell.coinify.isx.quoteexpiredfiat'
+                        defaultMessage='({fiatValue})'
                         values={{ fiatValue: getExpiredFiatValues(q) }}
                       />
                     </QuoteExpiredText>
                     <Tooltip>
                       <FormattedMessage
-                        id="scenes.buysell.coinify.isx.expiredtooltip"
-                        defaultMessage="This is an estimated quote. The original quote for this trade expired. The exact amount of bitcoin received depends on when the payment is received."
+                        id='scenes.buysell.coinify.isx.expiredtooltip'
+                        defaultMessage='This is an estimated quote. The original quote for this trade expired. The exact amount of bitcoin received depends on when the payment is received.'
                       />
                     </Tooltip>
                   </Fragment>
@@ -306,7 +306,7 @@ class ISignThisContainer extends Component {
                       .map(prop('quoteExpireTime'))
                       .getOrElse(q.expiresAt.getTime())}
                     handleExpiry={this.onQuoteExpiration}
-                    tooltipExpiryTime="15 minutes"
+                    tooltipExpiryTime='15 minutes'
                     hideTooltip
                   />
                 )
@@ -318,26 +318,26 @@ class ISignThisContainer extends Component {
           <IframeWrapper>
             <ISignThisIframe
               src={srcUrl}
-              sandbox="allow-same-origin allow-scripts allow-forms"
-              scrolling="yes"
-              id="isx-iframe"
+              sandbox='allow-same-origin allow-scripts allow-forms'
+              scrolling='yes'
+              id='isx-iframe'
             />
           </IframeWrapper>
           <ButtonContainer>
             <Button
-              nature="empty-secondary"
+              nature='empty-secondary'
               fullwidth
               onClick={() => coinifyActions.cancelISX()}
             >
-              <Text size="13px" weight={300} color="brand-secondary">
+              <Text size='13px' weight={300} color='brand-secondary'>
                 {equals(isxType, 'Trade') ? (
                   <FormattedMessage
-                    id="scenes.buysell.coinify.isx.finishlater"
-                    defaultMessage="Finish later"
+                    id='scenes.buysell.coinify.isx.finishlater'
+                    defaultMessage='Finish later'
                   />
                 ) : (
                   <FormattedMessage
-                    id="scenes.buysell.coinify.isx.dolater"
+                    id='scenes.buysell.coinify.isx.dolater'
                     defaultMessage="I'll do this later"
                   />
                 )}

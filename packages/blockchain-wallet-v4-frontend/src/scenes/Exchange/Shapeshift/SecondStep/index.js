@@ -9,11 +9,11 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class SecondStepContainer extends React.Component {
-  componentDidMount() {
+  componentDidMount () {
     this.props.actions.secondStepInitialized()
   }
 
-  render() {
+  render () {
     const { data, actions } = this.props
 
     return data.cata({

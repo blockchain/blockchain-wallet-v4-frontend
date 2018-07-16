@@ -7,12 +7,12 @@ import { actions } from 'data'
 import ThirdStep from './template.js'
 
 class ThirdStepContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  componentWillMount() {
+  componentWillMount () {
     const { updateUI } = this.props
     const randomize = sortBy(prop(0))
     const pair = map(x => [Math.random(), x])
@@ -25,11 +25,11 @@ class ThirdStepContainer extends React.PureComponent {
     updateUI({ indexes })
   }
 
-  onSubmit() {
+  onSubmit () {
     this.props.walletActions.verifyMnemonic()
   }
 
-  render() {
+  render () {
     const { ui, ...rest } = this.props
 
     return <ThirdStep {...rest} indexes={ui.indexes} onSubmit={this.onSubmit} />
