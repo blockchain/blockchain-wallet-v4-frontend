@@ -5,7 +5,7 @@ import { testPropTypes } from 'utils/test.utils'
 import { TimeFiltersContainer } from './index'
 
 jest.mock('./template', () => 'template')
-jest.mock('data', () => ({ }))
+jest.mock('data', () => ({}))
 
 describe('TimeFilters container', () => {
   it('renders correctly', () => {
@@ -16,7 +16,21 @@ describe('TimeFilters container', () => {
   })
 
   it('should accept a mandatory string for prop time', () => {
-    expect(testPropTypes(TimeFiltersContainer, 'time', ['all', '1day', '1week', '1month', '1year'], false)).toBeTruthy()
-    expect(testPropTypes(TimeFiltersContainer, 'time', [0, undefined, null, {}], true)).toBeTruthy()
+    expect(
+      testPropTypes(
+        TimeFiltersContainer,
+        'time',
+        ['all', '1day', '1week', '1month', '1year'],
+        false
+      )
+    ).toBeTruthy()
+    expect(
+      testPropTypes(
+        TimeFiltersContainer,
+        'time',
+        [0, undefined, null, {}],
+        true
+      )
+    ).toBeTruthy()
   })
 })

@@ -9,30 +9,35 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class SecondStepContainer extends React.Component {
-  componentDidMount () {
+  componentDidMount() {
     this.props.actions.secondStepInitialized()
   }
 
-  render () {
+  render() {
     const { data, actions } = this.props
 
     return data.cata({
-      Success: (value) => <Success
-        sourceCoin={value.sourceCoin}
-        sourceAmount={value.sourceAmount}
-        sourceFee={value.sourceFee}
-        sourceTotal={value.sourceTotal}
-        exchangeRate={value.exchangeRate}
-        targetCoin={value.targetCoin}
-        targetAmount={value.targetAmount}
-        targetFee={value.targetFee}
-        targetLabel={value.targetLabel}
-        expiration={value.expiration}
-        handleSubmit={(e) => { e.preventDefault(); actions.secondStepSubmitClicked() }}
-        handleCancel={() => actions.secondStepCancelClicked()}
-        handleExpiry={() => actions.secondStepOrderExpired()}
-      />,
-      Failure: (message) => <Error>{message}</Error>,
+      Success: value => (
+        <Success
+          sourceCoin={value.sourceCoin}
+          sourceAmount={value.sourceAmount}
+          sourceFee={value.sourceFee}
+          sourceTotal={value.sourceTotal}
+          exchangeRate={value.exchangeRate}
+          targetCoin={value.targetCoin}
+          targetAmount={value.targetAmount}
+          targetFee={value.targetFee}
+          targetLabel={value.targetLabel}
+          expiration={value.expiration}
+          handleSubmit={e => {
+            e.preventDefault()
+            actions.secondStepSubmitClicked()
+          }}
+          handleCancel={() => actions.secondStepCancelClicked()}
+          handleExpiry={() => actions.secondStepOrderExpired()}
+        />
+      ),
+      Failure: message => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
@@ -47,4 +52,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.exchange, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SecondStepContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SecondStepContainer)

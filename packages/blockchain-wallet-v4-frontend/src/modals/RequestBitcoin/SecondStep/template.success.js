@@ -20,7 +20,9 @@ const Container = styled.div`
   margin-bottom: 20px;
   background-color: ${props => props.theme['white-blue']};
 
-  & > * { padding: 5px 0; }
+  & > * {
+    padding: 5px 0;
+  }
 `
 const LinkContainer = styled.div`
   width: 100%;
@@ -38,41 +40,72 @@ const Footer = styled.div`
   margin-top: 20px;
 `
 
-const SecondStep = (props) => {
+const SecondStep = props => {
   const { previousStep, position, total, modalActions, ...rest } = props
   const { handleSubmit, satoshis, message, link, active } = rest
 
   return (
     <Fragment>
       <Form onSubmit={handleSubmit}>
-        <SubHeader size='14px' weight={300}>
-          <FormattedMessage id='modals.requestbitcoin.secondstep.explain' defaultMessage='Send the link below to your friend or contact and they will be able to send bitcoin directly to your wallet.' />
+        <SubHeader size="14px" weight={300}>
+          <FormattedMessage
+            id="modals.requestbitcoin.secondstep.explain"
+            defaultMessage="Send the link below to your friend or contact and they will be able to send bitcoin directly to your wallet."
+          />
         </SubHeader>
-        <Text size='14px' weight={500}>
-          <FormattedMessage id='modals.requestbitcoin.secondstep.payment' defaultMessage='Payment Request:' />
+        <Text size="14px" weight={500}>
+          <FormattedMessage
+            id="modals.requestbitcoin.secondstep.payment"
+            defaultMessage="Payment Request:"
+          />
         </Text>
         <Container>
-          <CoinDisplay size='28px' weight={500} color='received' coin='BTC'>{satoshis}</CoinDisplay>
-          <FiatDisplay size='20px' weight={300} color='received' coin='BTC'>{satoshis}</FiatDisplay>
-          <Text size='16px'>
-            <FormattedMessage id='modals.requestbitcoin.secondstep.message' defaultMessage='For "{message}"' values={{message: message}} />
+          <CoinDisplay size="28px" weight={500} color="received" coin="BTC">
+            {satoshis}
+          </CoinDisplay>
+          <FiatDisplay size="20px" weight={300} color="received" coin="BTC">
+            {satoshis}
+          </FiatDisplay>
+          <Text size="16px">
+            <FormattedMessage
+              id="modals.requestbitcoin.secondstep.message"
+              defaultMessage="For &quot;{message}&quot;"
+              values={{ message: message }}
+            />
           </Text>
           <LinkContainer>
-            <Text size='12px' weight={300}>{link}</Text>
+            <Text size="12px" weight={300}>
+              {link}
+            </Text>
           </LinkContainer>
         </Container>
         <CopyToClipBoard text={link}>
-          <Button type='submit' nature={active ? 'copy' : 'primary'} fullwidth uppercase>
-            { active
-              ? <FormattedMessage id='modals.requestbitcoin.secondstep.copied' defaultMessage='Copied!' />
-              : <FormattedMessage id='modals.requestbitcoin.secondstep.copy' defaultMessage='Copy link' />
-            }
+          <Button
+            type="submit"
+            nature={active ? 'copy' : 'primary'}
+            fullwidth
+            uppercase
+          >
+            {active ? (
+              <FormattedMessage
+                id="modals.requestbitcoin.secondstep.copied"
+                defaultMessage="Copied!"
+              />
+            ) : (
+              <FormattedMessage
+                id="modals.requestbitcoin.secondstep.copy"
+                defaultMessage="Copy link"
+              />
+            )}
           </Button>
         </CopyToClipBoard>
       </Form>
       <Footer>
-        <Link onClick={previousStep} size='13px' weight={300}>
-          <FormattedMessage id='scenes.requestbitcoin.secondstep.back' defaultMessage='Go Back' />
+        <Link onClick={previousStep} size="13px" weight={300}>
+          <FormattedMessage
+            id="scenes.requestbitcoin.secondstep.back"
+            defaultMessage="Go Back"
+          />
         </Link>
       </Footer>
     </Fragment>
@@ -91,4 +124,6 @@ SecondStep.propTypes = {
   onSubmit: PropTypes.func.isRequired
 }
 
-export default reduxForm({ form: 'requestBitcoin', destroyOnUnmount: false })(SecondStep)
+export default reduxForm({ form: 'requestBitcoin', destroyOnUnmount: false })(
+  SecondStep
+)

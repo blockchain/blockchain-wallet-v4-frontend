@@ -1,4 +1,3 @@
-
 import CaptchaBox from './CaptchaBox'
 import CheckBox from './CheckBox'
 import CodeInputBoxes from './CodeInputBoxes'

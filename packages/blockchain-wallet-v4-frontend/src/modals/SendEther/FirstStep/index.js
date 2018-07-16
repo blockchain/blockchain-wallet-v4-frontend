@@ -9,16 +9,18 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class FirstStep extends React.PureComponent {
-  render () {
+  render() {
     return this.props.data.cata({
-      Success: value => <Success
-        fee={value.fee}
-        isContract={value.isContract}
-        unconfirmedTx={value.unconfirmedTx}
-        effectiveBalance={value.effectiveBalance}
-        onSubmit={() => this.props.actions.sendEthFirstStepSubmitClicked()}
-      />,
-      Failure: (message) => <Error>{message}</Error>,
+      Success: value => (
+        <Success
+          fee={value.fee}
+          isContract={value.isContract}
+          unconfirmedTx={value.unconfirmedTx}
+          effectiveBalance={value.effectiveBalance}
+          onSubmit={() => this.props.actions.sendEthFirstStepSubmitClicked()}
+        />
+      ),
+      Failure: message => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
@@ -33,4 +35,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.sendEth, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(FirstStep)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FirstStep)

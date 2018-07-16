@@ -7,9 +7,16 @@ import List from './List'
 const Success = props => {
   const { complete, incomplete, showComplete, showIncomplete } = props.trades
 
-  return !showComplete && !showIncomplete
-    ? <Empty />
-    : <List complete={complete} incomplete={incomplete} showComplete={showComplete} showIncomplete={showIncomplete} />
+  return !showComplete && !showIncomplete ? (
+    <Empty />
+  ) : (
+    <List
+      complete={complete}
+      incomplete={incomplete}
+      showComplete={showComplete}
+      showIncomplete={showIncomplete}
+    />
+  )
 }
 
 Success.propTypes = {

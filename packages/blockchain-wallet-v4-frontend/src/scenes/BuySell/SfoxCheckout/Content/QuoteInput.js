@@ -4,7 +4,19 @@ import { toUpper, path } from 'ramda'
 import FiatConvertor from './QuoteInputTemplate'
 import { Remote } from 'blockchain-wallet-v4/src'
 
-const WrappedFiatConverter = ({ leftVal, leftUnit, rightVal, rightUnit, disabled, onChangeLeft, onChangeRight, limits, reason, quoteR, cryptoMax }) => (
+const WrappedFiatConverter = ({
+  leftVal,
+  leftUnit,
+  rightVal,
+  rightUnit,
+  disabled,
+  onChangeLeft,
+  onChangeRight,
+  limits,
+  reason,
+  quoteR,
+  cryptoMax
+}) => (
   <FiatConvertor
     value={leftVal}
     fiat={rightVal}
@@ -30,21 +42,21 @@ const WrappedFiatConverter = ({ leftVal, leftUnit, rightVal, rightUnit, disabled
 
 const convert = {
   from: {
-    btc: (value) => Math.floor(parseFloat(value) * 1e8),
-    usd: (value) => Math.floor(parseFloat(value) * 100)
+    btc: value => Math.floor(parseFloat(value) * 1e8),
+    usd: value => Math.floor(parseFloat(value) * 100)
   },
   to: {
-    btc: (value) => (value / 1e8).toFixed(8).replace(/\.?0+$/, ''),
-    usd: (value) => String(value).replace(/\.?0+$/, '')
+    btc: value => (value / 1e8).toFixed(8).replace(/\.?0+$/, ''),
+    usd: value => String(value).replace(/\.?0+$/, '')
   }
 }
 
-const otherSide = (side) => {
+const otherSide = side => {
   return side === 'input' ? 'output' : 'input'
 }
 
 class QuoteInput extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       side: 'input',
@@ -57,7 +69,7 @@ class QuoteInput extends Component {
     this.updateFields = this.updateFields.bind(this)
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     if (prevProps.type !== this.props.type) this.fetchQuoteDebounced()
     this.props.quoteR.map(quote => {
       if (quote.id !== path(['quoteR', 'data', 'id'], prevProps)) {
@@ -66,10 +78,14 @@ class QuoteInput extends Component {
     })
   }
 
-  updateFields (quote) {
+  updateFields(quote) {
     if (!this.state.userInput) return null
-    let fiat = this.state.side === 'input' ? this.state.input : quote.quoteAmount
-    let crypto = this.state.side === 'output' ? quote.baseAmount / 1e8 : quote.quoteAmount / 1e8
+    let fiat =
+      this.state.side === 'input' ? this.state.input : quote.quoteAmount
+    let crypto =
+      this.state.side === 'output'
+        ? quote.baseAmount / 1e8
+        : quote.quoteAmount / 1e8
     this.setState({
       input: fiat,
       output: crypto
@@ -86,8 +102,12 @@ class QuoteInput extends Component {
     }
   }
 
-  handleChangeLeft = (event) => {
-    this.setState({ side: 'input', input: event.target.value, userInput: true })
+  handleChangeLeft = event => {
+    this.setState({
+      side: 'input',
+      input: event.target.value,
+      userInput: true
+    })
     if (!event.target.value) {
       this.setState({ input: '', output: '' })
       return null
@@ -95,8 +115,12 @@ class QuoteInput extends Component {
     this.fetchQuoteDebounced()
   }
 
-  handleChangeRight = (event) => {
-    this.setState({ side: 'output', output: event.target.value, userInput: true })
+  handleChangeRight = event => {
+    this.setState({
+      side: 'output',
+      output: event.target.value,
+      userInput: true
+    })
     if (!event.target.value) {
       this.setState({ input: '', output: '' })
       return null
@@ -111,12 +135,22 @@ class QuoteInput extends Component {
 
   fetchQuote = () => {
     let quote = this.getQuoteValues()
-    if (quote.baseCurrency === 'BTC' && (quote.amt / 1e8) > this.props.cryptoMax) return null
-    if (quote.baseCurrency === 'USD' && (quote.amt / 100) > this.props.limits.max) return null
+    if (
+      quote.baseCurrency === 'BTC' &&
+      quote.amt / 1e8 > this.props.cryptoMax
+    ) {
+      return null
+    }
+    if (
+      quote.baseCurrency === 'USD' &&
+      quote.amt / 100 > this.props.limits.max
+    ) {
+      return null
+    }
     this.props.onFetchQuote(quote)
   }
 
-  render () {
+  render() {
     let { spec, disabled } = this.props
     let { input, output, userInput } = this.state
 

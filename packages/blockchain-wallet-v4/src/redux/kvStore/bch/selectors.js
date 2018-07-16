@@ -1,4 +1,16 @@
-import { concat, curry, equals, keysIn, filter, not, lift, map, path, prop, values } from 'ramda'
+import {
+  concat,
+  curry,
+  equals,
+  keysIn,
+  filter,
+  not,
+  lift,
+  map,
+  path,
+  prop,
+  values
+} from 'ramda'
 import { BCH } from '../config'
 import { kvStorePath } from '../../paths'
 import * as walletSelectors from '../../wallet/selectors'
@@ -13,7 +25,8 @@ export const createDeepEqualSelector = createSelectorCreator(
 export const getMetadata = path([kvStorePath, BCH])
 
 // Attention: returns an object with index as keys, not an array
-export const getAccounts = state => getMetadata(state).map(path(['value', 'accounts']))
+export const getAccounts = state =>
+  getMetadata(state).map(path(['value', 'accounts']))
 
 // This one returns an array of accounts
 export const getAccountsList = state => {
@@ -63,10 +76,15 @@ export const getSpendableContext = createDeepEqualSelector(
   }
 )
 
-export const getUnspendableContext = state => walletSelectors.getUnspendableContext(state)
+export const getUnspendableContext = state =>
+  walletSelectors.getUnspendableContext(state)
 
-export const getDefaultAccountIndex = state => getMetadata(state).map(path(['value', 'default_account_idx']))
+export const getDefaultAccountIndex = state =>
+  getMetadata(state).map(path(['value', 'default_account_idx']))
 
-export const getAccountLabel = curry((state, index) => getAccounts(state).map(path([index, 'label'])))
+export const getAccountLabel = curry((state, index) =>
+  getAccounts(state).map(path([index, 'label']))
+)
 
-export const getBchTxNote = (state, txHash) => getMetadata(state).map(path(['value', 'tx_notes', txHash]))
+export const getBchTxNote = (state, txHash) =>
+  getMetadata(state).map(path(['value', 'tx_notes', txHash]))

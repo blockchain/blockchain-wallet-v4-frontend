@@ -28,16 +28,16 @@ const Rectangle1 = styled(Rectangle)`
   animation-delay: -1.1s;
 `
 const Rectangle2 = styled(Rectangle)`
-  animation-delay: -1.0s;
+  animation-delay: -1s;
 `
 const Rectangle3 = styled(Rectangle)`
-  animation-delay: -0.9s
+  animation-delay: -0.9s;
 `
 const Rectangle4 = styled(Rectangle)`
-  animation-delay: -0.8s
+  animation-delay: -0.8s;
 `
 const Rectangle5 = styled(Rectangle)`
-  animation-delay: -0.7s
+  animation-delay: -0.7s;
 `
 
 const FlatLoader2 = props => {

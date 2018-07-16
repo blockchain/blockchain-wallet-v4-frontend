@@ -19,24 +19,25 @@ import settings from './settings/sagaRegister'
 import signMessage from './signMessage/sagaRegister'
 import transactionReport from './transactionReport/sagaRegister'
 
-export default ({ api, coreSagas, options }) => function * () {
-  yield fork(activityList({ api, coreSagas }))
-  yield fork(bchTransactions({ api, coreSagas }))
-  yield fork(btcTransactions({ api, coreSagas }))
-  yield fork(ethTransactions({ api, coreSagas }))
-  yield fork(exchange({ api, coreSagas, options }))
-  yield fork(exchangeHistory({ api, coreSagas }))
-  yield fork(importBtcAddress({ api, coreSagas }))
-  yield fork(login())
-  yield fork(manageAddresses({ api, coreSagas }))
-  yield fork(priceChart({ coreSagas }))
-  yield fork(priceTicker({ coreSagas }))
-  yield fork(refresh())
-  yield fork(requestBtc())
-  yield fork(sendBch({ api, coreSagas }))
-  yield fork(sendBtc({ api, coreSagas }))
-  yield fork(sendEth({ api, coreSagas }))
-  yield fork(settings({ api, coreSagas }))
-  yield fork(signMessage({ coreSagas }))
-  yield fork(transactionReport({ api, coreSagas }))
-}
+export default ({ api, coreSagas, options }) =>
+  function*() {
+    yield fork(activityList({ api, coreSagas }))
+    yield fork(bchTransactions({ api, coreSagas }))
+    yield fork(btcTransactions({ api, coreSagas }))
+    yield fork(ethTransactions({ api, coreSagas }))
+    yield fork(exchange({ api, coreSagas, options }))
+    yield fork(exchangeHistory({ api, coreSagas }))
+    yield fork(importBtcAddress({ api, coreSagas }))
+    yield fork(login())
+    yield fork(manageAddresses({ api, coreSagas }))
+    yield fork(priceChart({ coreSagas }))
+    yield fork(priceTicker({ coreSagas }))
+    yield fork(refresh())
+    yield fork(requestBtc())
+    yield fork(sendBch({ api, coreSagas }))
+    yield fork(sendBtc({ api, coreSagas }))
+    yield fork(sendEth({ api, coreSagas }))
+    yield fork(settings({ api, coreSagas }))
+    yield fork(signMessage({ coreSagas }))
+    yield fork(transactionReport({ api, coreSagas }))
+  }

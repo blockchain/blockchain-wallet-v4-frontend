@@ -1,11 +1,40 @@
 import { createSelector } from 'reselect'
 import { selectors } from 'data'
-import { all, curry, isEmpty, propSatisfies, toUpper, prop, allPass, anyPass, compose, contains, map, filter, propOr } from 'ramda'
+import {
+  all,
+  curry,
+  isEmpty,
+  propSatisfies,
+  toUpper,
+  prop,
+  allPass,
+  anyPass,
+  compose,
+  contains,
+  map,
+  filter,
+  propOr
+} from 'ramda'
 
 const filterTransactions = curry((status, criteria, transactions) => {
-  const isOfType = curry((filter, tx) => propSatisfies(x => filter === '' || toUpper(x) === toUpper(filter), 'type', tx))
-  const search = curry((text, property, tx) => compose(contains(toUpper(text || '')), toUpper, String, prop(property))(tx))
-  const searchPredicate = anyPass(map(search(criteria), ['description', 'from', 'to']))
+  const isOfType = curry((filter, tx) =>
+    propSatisfies(
+      x => filter === '' || toUpper(x) === toUpper(filter),
+      'type',
+      tx
+    )
+  )
+  const search = curry((text, property, tx) =>
+    compose(
+      contains(toUpper(text || '')),
+      toUpper,
+      String,
+      prop(property)
+    )(tx)
+  )
+  const searchPredicate = anyPass(
+    map(search(criteria), ['description', 'from', 'to'])
+  )
   const fullPredicate = allPass([isOfType(status), searchPredicate])
   return filter(fullPredicate, transactions)
 })
@@ -16,7 +45,7 @@ export const getData = createSelector(
     selectors.core.common.bch.getWalletTransactions
   ],
   (formValues, pages, trades) => {
-    const empty = (page) => isEmpty(page.data)
+    const empty = page => isEmpty(page.data)
     const search = propOr('', 'search', formValues)
     const status = propOr('', 'status', formValues)
     const filteredPages = !isEmpty(pages)

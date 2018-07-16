@@ -42,13 +42,21 @@ describe('sfox reducers', () => {
 
   it('should handle SFOX_SUCCESS', () => {
     const action = actions.sfoxSuccess()
-    const expectedState = assoc('sfoxBusy', Remote.Success(action.payload), INITIAL_STATE)
+    const expectedState = assoc(
+      'sfoxBusy',
+      Remote.Success(action.payload),
+      INITIAL_STATE
+    )
     expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
   })
 
   it('should handle SFOX_FAILURE', () => {
     const action = actions.sfoxFailure()
-    const expectedState = assoc('sfoxBusy', Remote.Failure(action.payload), INITIAL_STATE)
+    const expectedState = assoc(
+      'sfoxBusy',
+      Remote.Failure(action.payload),
+      INITIAL_STATE
+    )
     expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
   })
 

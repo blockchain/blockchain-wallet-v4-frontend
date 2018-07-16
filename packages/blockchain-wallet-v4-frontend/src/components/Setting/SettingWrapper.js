@@ -6,11 +6,13 @@ const SettingWrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
 
-  @media(min-width: 992px) {
+  @media (min-width: 992px) {
     align-items: flex-end;
   }
 
-  & > * { margin-bottom: 10px; }
+  & > * {
+    margin-bottom: 10px;
+  }
 `
 
 export default SettingWrapper

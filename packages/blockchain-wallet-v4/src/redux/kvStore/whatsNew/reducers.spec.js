@@ -13,9 +13,11 @@ describe('kvStore whatsnew reducers', () => {
     lastViewed: 1522942568480
   }
 
-  const whatsnewMetadata = set(KVStoreEntry.value,
+  const whatsnewMetadata = set(
+    KVStoreEntry.value,
     whatsnewObject,
-    KVStoreEntry.createEmpty(typeId))
+    KVStoreEntry.createEmpty(typeId)
+  )
 
   const whatsnewMetadataSuccess = Remote.Success(whatsnewMetadata)
 

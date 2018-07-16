@@ -22,7 +22,11 @@ describe('sfoxSagas', () => {
 
   const tradeReceiveAddress = '1FVKW4rp5rN23dqFVk2tYGY4niAXMB8eZC'
   const secondPassword = 'secondPassword'
-  const mockSellTrade = { sendAmount: 100, receiveAddress: tradeReceiveAddress, id: 12345 }
+  const mockSellTrade = {
+    sendAmount: 100,
+    receiveAddress: tradeReceiveAddress,
+    id: 12345
+  }
   const feeType = 'regular'
   const feePerByte = 1
   const value = {
@@ -73,12 +77,8 @@ describe('sfoxSagas', () => {
         const fakeUser = { name: 'Shmee', id: 10 }
         return expectSaga(sfoxSignup)
           .put({ type: '@COMPONENT.SFOX_LOADING' })
-          .provide([
-            [matchers.call.fn(coreSagas.data.sfox.signup)]
-          ])
-          .provide([
-            [select(selectors.core.data.sfox.getProfile), fakeUser]
-          ])
+          .provide([[matchers.call.fn(coreSagas.data.sfox.signup)]])
+          .provide([[select(selectors.core.data.sfox.getProfile), fakeUser]])
           .put({ type: '@COMPONENT.SFOX_SUCCESS' })
           .put({ type: '@COMPONENT.ENABLE_SIFT_SCIENCE' })
           .put({ type: '@COMPONENT.NEXT_STEP', payload: 'verify' })
@@ -88,12 +88,10 @@ describe('sfoxSagas', () => {
 
     describe('signup error', () => {
       it('should throw', () => {
-        const profileError = {error: 'signup_error'}
+        const profileError = { error: 'signup_error' }
         return expectSaga(sfoxSignup)
           .put({ type: '@COMPONENT.SFOX_LOADING' })
-          .provide([
-            [matchers.call.fn(coreSagas.data.sfox.signup)]
-          ])
+          .provide([[matchers.call.fn(coreSagas.data.sfox.signup)]])
           .provide([
             [select(selectors.core.data.sfox.getProfile), profileError]
           ])
@@ -123,7 +121,10 @@ describe('sfoxSagas', () => {
       const error = new Error('Error Setting Bank')
       return expectSaga(setBank)
         .provide([
-          [matchers.call.fn(coreSagas.data.sfox.setBankAccount), throwError(error)]
+          [
+            matchers.call.fn(coreSagas.data.sfox.setBankAccount),
+            throwError(error)
+          ]
         ])
         .put(actions.logs.logErrorMessage(logLocation, 'setBank', error))
         .run()
@@ -164,7 +165,10 @@ describe('sfoxSagas', () => {
     })
 
     it('should call handleTrade', () => {
-      saga.next(nextAddressData).call(coreSagas.data.sfox.handleTrade, action.payload, nextAddressData).save(beforeResponse)
+      saga
+        .next(nextAddressData)
+        .call(coreSagas.data.sfox.handleTrade, action.payload, nextAddressData)
+        .save(beforeResponse)
     })
 
     it('should trigger success if response is not an error', () => {
@@ -177,7 +181,9 @@ describe('sfoxSagas', () => {
     })
 
     it('should change the tab', () => {
-      saga.next().put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
+      saga
+        .next()
+        .put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
     })
 
     it('should show the tradeDetails modal', () => {
@@ -188,7 +194,7 @@ describe('sfoxSagas', () => {
     })
 
     it('should throw if response is not a trade', () => {
-      const response = new Error({message: 'ERROR'})
+      const response = new Error({ message: 'ERROR' })
       saga
         .restore(beforeResponse)
         .next(response)
@@ -224,7 +230,10 @@ describe('sfoxSagas', () => {
     })
 
     it('should select the profile', () => {
-      saga.next().select(selectors.core.data.sfox.getProfile).save(beforeDetermine)
+      saga
+        .next()
+        .select(selectors.core.data.sfox.getProfile)
+        .save(beforeDetermine)
     })
 
     it('should determine the step to be funding', () => {
@@ -233,8 +242,13 @@ describe('sfoxSagas', () => {
     })
 
     it('should determine the step to be upload', () => {
-      const profile = { data: { verificationStatus: { required_docs: ['id'] } } }
-      saga.restore(beforeDetermine).next(profile).put(sfoxActions.nextStep('upload'))
+      const profile = {
+        data: { verificationStatus: { required_docs: ['id'] } }
+      }
+      saga
+        .restore(beforeDetermine)
+        .next(profile)
+        .put(sfoxActions.nextStep('upload'))
     })
 
     describe('error handling', () => {
@@ -244,7 +258,13 @@ describe('sfoxSagas', () => {
           .restart()
           .next()
           .throw(errorProfile)
-          .put(actions.logs.logErrorMessage(logLocation, 'setProfile', errorProfile))
+          .put(
+            actions.logs.logErrorMessage(
+              logLocation,
+              'setProfile',
+              errorProfile
+            )
+          )
           .next()
           .put(sfoxActions.setVerifyError(errorProfile))
       })
@@ -271,27 +291,37 @@ describe('sfoxSagas', () => {
     })
 
     it('should call core saga verifyMicroDeposits with the payload', () => {
-      saga.next().call(coreSagas.data.sfox.verifyMicroDeposits, data).save(beforeDetermine)
+      saga
+        .next()
+        .call(coreSagas.data.sfox.verifyMicroDeposits, data)
+        .save(beforeDetermine)
     })
 
     it('should follow the success flow', () => {
       const response = { status: 'active' }
 
-      saga
-        .next(response)
-        .put(sfoxActions.sfoxSuccess())
+      saga.next(response).put(sfoxActions.sfoxSuccess())
     })
 
     it('should handle invalid amounts', () => {
       const response = { status: 'inactive' }
-      saga.restore(beforeDetermine).next(response).put(sfoxActions.sfoxNotAsked())
+      saga
+        .restore(beforeDetermine)
+        .next(response)
+        .put(sfoxActions.sfoxNotAsked())
     })
 
     it('should log and set failure state', () => {
       const response = new Error({ status: 'inactive' })
       saga
         .next(response)
-        .put(actions.logs.logErrorMessage(logLocation, 'submitMicroDeposits', response))
+        .put(
+          actions.logs.logErrorMessage(
+            logLocation,
+            'submitMicroDeposits',
+            response
+          )
+        )
         .next()
         .put(sfoxActions.sfoxFailure(response))
     })
@@ -363,11 +393,20 @@ describe('sfoxSagas', () => {
 
       saga
         .restart()
-        .next().put(sfoxActions.sfoxLoading())
-        .next().call(coreSagas.data.sfox.setBankManually, action.payload)
-        .next().select(selectors.core.data.sfox.getAccounts)
+        .next()
+        .put(sfoxActions.sfoxLoading())
+        .next()
+        .call(coreSagas.data.sfox.setBankManually, action.payload)
+        .next()
+        .select(selectors.core.data.sfox.getAccounts)
         .next(accounts)
-        .put(actions.logs.logErrorMessage(logLocation, 'setBankManually', new Error('set_bank_error')))
+        .put(
+          actions.logs.logErrorMessage(
+            logLocation,
+            'setBankManually',
+            new Error('set_bank_error')
+          )
+        )
         .next()
         .put(sfoxActions.sfoxFailure(new Error('set_bank_error')))
     })
@@ -438,7 +477,10 @@ describe('sfoxSagas', () => {
       }
       saga.next(state)
       expect(coreSagas.payment.btc.create).toHaveBeenCalledTimes(1)
-      expect(coreSagas.payment.btc.create).toHaveBeenCalledWith({ payment: state.sfoxSignup.payment.getOrElse({}), network: settings.NETWORK_BITCOIN })
+      expect(coreSagas.payment.btc.create).toHaveBeenCalledWith({
+        payment: state.sfoxSignup.payment.getOrElse({}),
+        network: settings.NETWORK_BITCOIN
+      })
     })
 
     it('should update the payment amount', () => {
@@ -459,7 +501,9 @@ describe('sfoxSagas', () => {
       saga.next(paymentMock)
 
       expect(paymentMock.description).toHaveBeenCalledTimes(1)
-      expect(paymentMock.description).toHaveBeenCalledWith('Exchange Trade SFX-12345')
+      expect(paymentMock.description).toHaveBeenCalledWith(
+        'Exchange Trade SFX-12345'
+      )
     })
 
     it('should call payment.build', () => {
@@ -486,7 +530,14 @@ describe('sfoxSagas', () => {
     })
 
     it('should set a tx note', () => {
-      saga.next(paymentMock).put(actions.core.wallet.setTransactionNote(paymentMock.value().txId, paymentMock.value().description))
+      saga
+        .next(paymentMock)
+        .put(
+          actions.core.wallet.setTransactionNote(
+            paymentMock.value().txId,
+            paymentMock.value().description
+          )
+        )
     })
 
     it('should set success state', () => {
@@ -494,11 +545,18 @@ describe('sfoxSagas', () => {
     })
 
     it('should change the form to order_history', () => {
-      saga.next().put(actions.form.change('buySellTabStatus', 'status', 'order_history')).save(beforeEnd)
+      saga
+        .next()
+        .put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
+        .save(beforeEnd)
     })
 
     it('should show the trade details modal', () => {
-      saga.next().put(actions.modals.showModal('SfoxTradeDetails', { trade: mockSellTrade }))
+      saga
+        .next()
+        .put(
+          actions.modals.showModal('SfoxTradeDetails', { trade: mockSellTrade })
+        )
     })
 
     describe('error handling', () => {
@@ -509,7 +567,9 @@ describe('sfoxSagas', () => {
           .throw(error)
           .put(sfoxActions.sfoxFailure(error))
           .next()
-          .put(actions.logs.logErrorMessage(logLocation, 'submitSellQuote', error))
+          .put(
+            actions.logs.logErrorMessage(logLocation, 'submitSellQuote', error)
+          )
       })
     })
   })

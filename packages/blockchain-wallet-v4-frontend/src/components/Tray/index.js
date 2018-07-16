@@ -40,7 +40,7 @@ const TrayModal = styled(Modal)`
     ${media.mobile`
       padding-top: 20px;
       padding-bottom: 20px;
-    `}
+    `};
   }
   > div:last-child {
     overflow: auto;
@@ -53,21 +53,25 @@ const TrayModal = styled(Modal)`
   ${media.tablet`
     width: 100%;
     left: 0px;
-  `}
+  `};
 `
 
 class Tray extends React.PureComponent {
-  handleClickOutside () {
+  handleClickOutside() {
     this.props.onClose()
     // TODO: may need to check something about the modal stack here
   }
 
-  render () {
+  render() {
     const { children, ...rest } = this.props
     return (
       <Transition in={this.props.in} timeout={0}>
-        {(status) => (
-          <TrayModal {...rest} type={'tray'} style={{...defaultStyle, ...transitionStyles[status]}}>
+        {status => (
+          <TrayModal
+            {...rest}
+            type={'tray'}
+            style={{ ...defaultStyle, ...transitionStyles[status] }}
+          >
             {children}
           </TrayModal>
         )}

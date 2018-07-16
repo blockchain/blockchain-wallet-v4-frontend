@@ -6,10 +6,15 @@ import ComponentDropdown from './template'
 
 describe('ComponentDropdown component', () => {
   it('default renders correctly', () => {
-    const components = [
-      { text: 'test', value: 'value' }
-    ]
-    const component = shallow(<ComponentDropdown components={components} callback={() => {}} handleClick={() => {}} handleCallback={() => {}} />)
+    const components = [{ text: 'test', value: 'value' }]
+    const component = shallow(
+      <ComponentDropdown
+        components={components}
+        callback={() => {}}
+        handleClick={() => {}}
+        handleCallback={() => {}}
+      />
+    )
     const tree = toJson(component)
     expect(tree).toMatchSnapshot()
   })

@@ -5,7 +5,7 @@ import { selectors } from 'data'
 import Template from './template'
 
 class Balance extends React.PureComponent {
-  render () {
+  render() {
     return <Template path={this.props.path} />
   }
 }

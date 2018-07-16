@@ -21,7 +21,7 @@ describe('kvstore ethereum selectors', () => {
         last_tx_timestamp: 'this is the last tx timestamp',
         legacy_account: { addr: 'legacy account addr' },
         tx_notes: {
-          'someTxHash': 'some someTxHash tx note'
+          someTxHash: 'some someTxHash tx note'
         }
       }
     }
@@ -68,7 +68,9 @@ describe('kvstore ethereum selectors', () => {
 
   it('getLegacyAccountAddress should return success of legacy account address', () => {
     const expectedResult = Remote.Success('legacy account addr')
-    expect(selectors.getLegacyAccountAddress(successState)).toEqual(expectedResult)
+    expect(selectors.getLegacyAccountAddress(successState)).toEqual(
+      expectedResult
+    )
   })
 
   it('getAccount should return success of account', () => {
@@ -76,22 +78,30 @@ describe('kvstore ethereum selectors', () => {
       addr: 'second address',
       label: 'second label'
     })
-    expect(selectors.getAccount(successState, 'second address')).toEqual(expectedResult)
+    expect(selectors.getAccount(successState, 'second address')).toEqual(
+      expectedResult
+    )
   })
 
   it('getAccountLabel should return success of account label', () => {
     const expectedResult = Remote.Success('second label')
-    expect(selectors.getAccountLabel(successState, 'second address')).toEqual(expectedResult)
+    expect(selectors.getAccountLabel(successState, 'second address')).toEqual(
+      expectedResult
+    )
   })
 
   it('getAccountIndex should return success of account index', () => {
     const expectedResult = Remote.Success(1)
-    expect(selectors.getAccountIndex(successState, 'second address')).toEqual(expectedResult)
+    expect(selectors.getAccountIndex(successState, 'second address')).toEqual(
+      expectedResult
+    )
   })
 
   it('getEthereumTxNote should return success of correct eth tx note', () => {
     const expectedResult = Remote.Success('some someTxHash tx note')
-    expect(selectors.getEthereumTxNote(successState, 'someTxHash')).toEqual(expectedResult)
+    expect(selectors.getEthereumTxNote(successState, 'someTxHash')).toEqual(
+      expectedResult
+    )
   })
 
   it('getLatestTx should return success of latest tx', () => {

@@ -20,12 +20,12 @@ const Error = styled(Text)`
   top: 40px;
   right: 0;
 `
-const getErrorState = (meta) => {
+const getErrorState = meta => {
   return meta.dirty && meta.invalid ? 'invalid' : 'initial'
 }
 
 class DateBoxDebounced extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = { value: props.input.value, open: props.open }
     this.timeout = undefined
@@ -34,18 +34,18 @@ class DateBoxDebounced extends React.Component {
     this.handleFocus = this.handleFocus.bind(this)
   }
 
-  static getDerivedStateFromProps (nextProps, prevState) {
+  static getDerivedStateFromProps(nextProps, prevState) {
     if (!equals(nextProps.input.value, prevState.value)) {
       return { value: nextProps.input.value }
     }
     return null
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     clearTimeout(this.timeout)
   }
 
-  handleChange (value) {
+  handleChange(value) {
     if (this.timeout) clearTimeout(this.timeout)
     this.timeout = setTimeout(() => {
       this.props.input.onChange(value)
@@ -53,17 +53,17 @@ class DateBoxDebounced extends React.Component {
     }, 500)
   }
 
-  handleBlur () {
+  handleBlur() {
     this.setState({ open: false })
     this.props.input.onBlur(this.state.value)
   }
 
-  handleFocus () {
+  handleFocus() {
     this.setState({ open: true })
     this.props.input.onFocus(this.state.value)
   }
 
-  render () {
+  render() {
     const { meta, input, ...rest } = this.props
     const { value, open } = this.state
     const errorState = getErrorState(meta)
@@ -82,8 +82,19 @@ class DateBoxDebounced extends React.Component {
           locale={locale()}
           {...rest}
         />
-        {meta.dirty && meta.error && <Error size='12px' weight={300} color='error'>{meta.error}</Error>}
-        {meta.dirty && !meta.error && meta.warning && <Error size='12px' weight={300} color='sent'>{meta.warning}</Error>}
+        {meta.dirty &&
+          meta.error && (
+            <Error size="12px" weight={300} color="error">
+              {meta.error}
+            </Error>
+          )}
+        {meta.dirty &&
+          !meta.error &&
+          meta.warning && (
+            <Error size="12px" weight={300} color="sent">
+              {meta.warning}
+            </Error>
+          )}
       </Container>
     )
   }

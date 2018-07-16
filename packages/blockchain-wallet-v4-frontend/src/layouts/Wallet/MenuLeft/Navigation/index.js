@@ -8,14 +8,16 @@ import { getData } from './selectors'
 import Navigation from './template.js'
 
 class NavigationContainer extends React.PureComponent {
-  render () {
+  render() {
     return (
       <Navigation
         canTrade={this.props.canTrade}
         settingsOpened={this.props.settingsOpened}
         menuOpened={this.props.menuOpened}
         pathname={this.props.pathname}
-        handleCloseMenu={() => this.props.actions.layoutWalletMenuCloseClicked()}
+        handleCloseMenu={() =>
+          this.props.actions.layoutWalletMenuCloseClicked()
+        }
       />
     )
   }
@@ -29,7 +31,10 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose(
   withRouter,
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )
 
 export default enhance(NavigationContainer)

@@ -1,3 +1,4 @@
 import { selectors } from 'data'
 
-export const getLegacyAccountAddress = selectors.core.kvStore.ethereum.getLegacyAccountAddress
+export const getLegacyAccountAddress =
+  selectors.core.kvStore.ethereum.getLegacyAccountAddress

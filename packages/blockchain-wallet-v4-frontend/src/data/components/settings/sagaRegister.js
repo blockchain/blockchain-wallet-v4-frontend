@@ -6,8 +6,14 @@ import sagas from './sagas'
 export default ({ coreSagas }) => {
   const settingsSaga = sagas({ coreSagas })
 
-  return function * () {
-    yield takeLatest(AT.SETTINGS_NOTIFICATIONS_INITIALIZED, settingsSaga.notificationsInitialized)
-    yield takeEvery(actionTypes.form.CHANGE, settingsSaga.notificationsFormChanged)
+  return function*() {
+    yield takeLatest(
+      AT.SETTINGS_NOTIFICATIONS_INITIALIZED,
+      settingsSaga.notificationsInitialized
+    )
+    yield takeEvery(
+      actionTypes.form.CHANGE,
+      settingsSaga.notificationsFormChanged
+    )
   }
 }

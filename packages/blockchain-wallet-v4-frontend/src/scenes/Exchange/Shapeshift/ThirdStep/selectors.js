@@ -5,7 +5,10 @@ import { getCoinFromPair } from 'services/ShapeshiftService'
 export const getData = state => {
   const order = selectors.components.exchange.getOrder(state)
   const depositAddress = prop('deposit', order)
-  const tradeR = selectors.core.kvStore.shapeShift.getTrade(depositAddress, state)
+  const tradeR = selectors.core.kvStore.shapeShift.getTrade(
+    depositAddress,
+    state
+  )
 
   const transform = trade => {
     const quote = prop('quote', trade)

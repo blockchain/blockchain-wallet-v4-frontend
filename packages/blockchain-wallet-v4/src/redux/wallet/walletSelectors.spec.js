@@ -3,7 +3,7 @@ import * as selectors from './selectors'
 import { walletV1, walletV2, walletV3 } from '../../../data'
 
 describe('selectors.core.wallet', () => {
-  let createMockState = (wallet) => ({
+  let createMockState = wallet => ({
     walletPath: Wrapper.fromJS({ wallet })
   })
 

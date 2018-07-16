@@ -6,7 +6,11 @@ import TableRow from './TableRow'
 
 describe('TableRow component', () => {
   it('renders correctly', () => {
-    const component = shallow(<TableRow><span>Default</span></TableRow>)
+    const component = shallow(
+      <TableRow>
+        <span>Default</span>
+      </TableRow>
+    )
     const tree = toJson(component)
     expect(tree).toMatchSnapshot()
   })
