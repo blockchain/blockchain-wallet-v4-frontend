@@ -1,5 +1,5 @@
 import { select } from 'redux-saga/effects'
-import { indexBy, path, prop, append, assocPath } from 'ramda'
+import { indexBy, path, prop, append } from 'ramda'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
@@ -41,19 +41,10 @@ describe('bch data sagas', () => {
 
   describe('fetchData', () => {
     const mockContext = 'xpub6BvQUYyon9wcJUgBUjhQ7E5iSSHVzsraSqmqiRLKUXoXE4PkFZ2h8x'
-    const data = {
-      addresses: [{
-        address: 'xpub6BvQUYyon9wcJUgBUjhQ7E5iSSHVzsraSqmqiRLKUXoXE4PkFZ2h8x7yuuXZdFeJSQgTX2o8n4kq4z32aGFkfkC6ZBrW9hJR1jDuEdA7uJa'
-      }],
-      wallet: {},
-      info: {
-        latest_block: {}
-      }
-    }
     const bchData = {
-      addresses: indexBy(prop('address'), prop('addresses', data)),
-      info: path(['wallet'], data),
-      latest_block: path(['info', 'latest_block'], data)
+      addresses: indexBy(prop('address'), prop('addresses', bchFetchData)),
+      info: path(['wallet'], bchFetchData),
+      latest_block: path(['info', 'latest_block'], bchFetchData)
     }
 
     const saga = testSaga(dataBchSagas.fetchData)
@@ -73,7 +64,7 @@ describe('bch data sagas', () => {
     })
 
     it('should dispatch success action', () => {
-      saga.next(data)
+      saga.next(bchFetchData)
         .put(A.fetchDataSuccess(bchData))
         .next()
         .isDone()
@@ -221,19 +212,6 @@ describe('bch data sagas', () => {
 
   describe('fetchTransactions', () => {
     const mockContext = 'xpub6BvQUYyon9wcJUgBUjhQ7E5iSSHVzsraSqmqiRLKUXoXE4PkFZ2h8x'
-    const data = {
-      addresses: [{
-        address: 'xpub6BvQUYyon9wcJUgBUjhQ7E5iSSHVzsraSqmqiRLKUXoXE4PkFZ2h8x7yuuXZdFeJSQgTX2o8n4kq4z32aGFkfkC6ZBrW9hJR1jDuEdA7uJa'
-      }],
-      wallet: {},
-      info: {
-        latest_block: {}
-      },
-      txs: [{
-        id: 1,
-        time: 1601590000
-      }]
-    }
     const payload = { address: 'address', reset: false }
     const saga = testSaga(dataBchSagas.fetchTransactions, { payload })
     const page = Remote.of([{ hash: '93j0j32jadsfoiejwrpok' }, { hash: '3ija09sfj029j29012j' }, { hash: 'asdf092j0391jflkajsdf' }])
@@ -264,7 +242,7 @@ describe('bch data sagas', () => {
     })
 
     it('should dispatch success with data', () => {
-      saga.next(data).put(A.fetchTransactionsSuccess(data.txs, payload.reset))
+      saga.next(bchFetchData).put(A.fetchTransactionsSuccess(bchFetchData.txs, payload.reset))
     })
 
     it('should finish', () => {

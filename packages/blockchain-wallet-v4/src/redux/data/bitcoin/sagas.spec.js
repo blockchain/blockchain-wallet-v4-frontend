@@ -40,19 +40,10 @@ describe('bitcoin data sagas', () => {
 
   describe('fetchData', () => {
     const mockContext = 'xpub6BvQUYyon9wcJUgBUjhQ7E5iSSHVzsraSqmqiRLKUXoXE4PkFZ2h8x'
-    const data = {
-      addresses: [{
-        address: 'xpub6BvQUYyon9wcJUgBUjhQ7E5iSSHVzsraSqmqiRLKUXoXE4PkFZ2h8x7yuuXZdFeJSQgTX2o8n4kq4z32aGFkfkC6ZBrW9hJR1jDuEdA7uJa'
-      }],
-      wallet: {},
-      info: {
-        latest_block: {}
-      }
-    }
     const bitcoinData = {
-      addresses: indexBy(prop('address'), prop('addresses', data)),
-      info: path(['wallet'], data),
-      latest_block: path(['info', 'latest_block'], data)
+      addresses: indexBy(prop('address'), prop('addresses', blockchainData)),
+      info: path(['wallet'], blockchainData),
+      latest_block: path(['info', 'latest_block'], blockchainData)
     }
 
     const saga = testSaga(dataBtcSagas.fetchData)
@@ -72,7 +63,7 @@ describe('bitcoin data sagas', () => {
     })
 
     it('should dispatch success action', () => {
-      saga.next(data)
+      saga.next(blockchainData)
         .put(A.fetchDataSuccess(bitcoinData))
         .next()
         .isDone()
@@ -220,18 +211,6 @@ describe('bitcoin data sagas', () => {
 
   describe('fetchTransactions', () => {
     const mockContext = 'xpub6BvQUYyon9wcJUgBUjhQ7E5iSSHVzsraSqmqiRLKUXoXE4PkFZ2h8x'
-    const data = {
-      addresses: [{
-        address: 'xpub6BvQUYyon9wcJUgBUjhQ7E5iSSHVzsraSqmqiRLKUXoXE4PkFZ2h8x7yuuXZdFeJSQgTX2o8n4kq4z32aGFkfkC6ZBrW9hJR1jDuEdA7uJa'
-      }],
-      wallet: {},
-      info: {
-        latest_block: {}
-      },
-      txs: [{
-        id: 1
-      }]
-    }
     const payload = { address: 'address', reset: false }
     const saga = testSaga(dataBtcSagas.fetchTransactions, { payload })
     const page = Remote.of([{ hash: '93j0j32jadsfoiejwrpok' }, { hash: '3ija09sfj029j29012j' }, { hash: 'asdf092j0391jflkajsdf' }])
@@ -262,7 +241,7 @@ describe('bitcoin data sagas', () => {
     })
 
     it('should dispatch success with data', () => {
-      saga.next(data).put(A.fetchTransactionsSuccess(data.txs, payload.reset))
+      saga.next(blockchainData).put(A.fetchTransactionsSuccess(blockchainData.txs, payload.reset))
     })
 
     it('should finish', () => {
