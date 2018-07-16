@@ -12,7 +12,7 @@ import reducers from '../reducers'
 
 const bchFetchData = {
   addresses: [{
-    address: 'xpub6BvQUYyon9wcJUgBUjhQ7E5iSSHVzsraSqmqiRLKUXoXE4PkFZ2h8x7yuuXZdFeJSQgTX2o8n4kq4z32aGFkfkC6ZBrW9hJR1jDuEdA7uJa'
+    address: 'qryjvc08ml7ep6dvexffrcuy9g9zz084jcgltg35xs'
   }],
   wallet: {},
   info: {
@@ -23,7 +23,7 @@ const bchFetchData = {
     time: 1601590000
   }]
 }
-const transactionHistory = { address: 'asdflkjsadfje', sent: {}, received: {} }
+const transactionHistory = { address: 'qryjvc08ml7ep6dvexffrcuy9g9zz084jcgltg35xs', sent: {}, received: {} }
 const feeData = { fee: 1239 }
 const rateData = { rate: 5213 }
 const fiatAtTime = { value: 33 }
@@ -40,7 +40,7 @@ describe('bch data sagas', () => {
   const dataBchSagas = sagas({api})
 
   describe('fetchData', () => {
-    const mockContext = 'xpub6BvQUYyon9wcJUgBUjhQ7E5iSSHVzsraSqmqiRLKUXoXE4PkFZ2h8x'
+    const mockContext = 'qryjvc08ml7ep6dvexffrcuy9g9zz084jcgltg35xs'
     const bchData = {
       addresses: indexBy(prop('address'), prop('addresses', bchFetchData)),
       info: path(['wallet'], bchFetchData),
@@ -71,7 +71,7 @@ describe('bch data sagas', () => {
     })
 
     it('should handle errors', () => {
-      const error = { message: 'asdf' }
+      const error = { message: 'failed to fetch data' }
 
       saga.restart()
         .next()
@@ -116,7 +116,7 @@ describe('bch data sagas', () => {
     })
 
     it('should handle errors', () => {
-      const error = { message: 'asdf' }
+      const error = { message: 'failed to fetch fee' }
 
       saga.restart()
         .next()
@@ -160,7 +160,7 @@ describe('bch data sagas', () => {
     })
 
     it('should handle errors', () => {
-      const error = { message: 'asdf' }
+      const error = { message: 'failed to fetch rates' }
 
       saga.restart()
         .next()
@@ -211,10 +211,10 @@ describe('bch data sagas', () => {
   })
 
   describe('fetchTransactions', () => {
-    const mockContext = 'xpub6BvQUYyon9wcJUgBUjhQ7E5iSSHVzsraSqmqiRLKUXoXE4PkFZ2h8x'
-    const payload = { address: 'address', reset: false }
+    const mockContext = 'qryjvc08ml7ep6dvexffrcuy9g9zz084jcgltg35xs'
+    const payload = { address: 'qq07l6rr5lsdm3m80qxw80ku2ex0tj76vvsxpvmgme', reset: false }
     const saga = testSaga(dataBchSagas.fetchTransactions, { payload })
-    const page = Remote.of([{ hash: '93j0j32jadsfoiejwrpok' }, { hash: '3ija09sfj029j29012j' }, { hash: 'asdf092j0391jflkajsdf' }])
+    const page = Remote.of([{ id: 1 }, { id: 2 }, { id: 3 }])
     const blankPage = Remote.of([])
     const pages = [page]
     const conditional = 'conditional'
@@ -257,7 +257,7 @@ describe('bch data sagas', () => {
     })
 
     it('should handle errors', () => {
-      const error = { message: 'asdf' }
+      const error = { message: 'failed to fetch txs' }
 
       saga.restart()
         .next()
@@ -269,7 +269,7 @@ describe('bch data sagas', () => {
 
     describe('state change', () => {
       it('should add transaction data to the state', () => {
-        return expectSaga(dataBchSagas.fetchTransactions, { payload: { address: '9120je02j1akslfdj', reset: true } })
+        return expectSaga(dataBchSagas.fetchTransactions, { payload: { address: 'qq07l6rr5lsdm3m80qxw80ku2ex0tj76vvsxpvmgme', reset: true } })
           .withReducer(reducers)
           .provide([
             [select(selectors.wallet.getWalletContext), mockContext],
@@ -285,7 +285,7 @@ describe('bch data sagas', () => {
 
       it('should append transaction data to the state if reset is false', () => {
         const initTx = [Remote.Success({id: 2}), Remote.Success({id: 3})]
-        return expectSaga(dataBchSagas.fetchTransactions, { payload: { address: '9120je02j1akslfdj', reset: false } })
+        return expectSaga(dataBchSagas.fetchTransactions, { payload: { address: 'qq07l6rr5lsdm3m80qxw80ku2ex0tj76vvsxpvmgme', reset: false } })
           .withReducer(reducers)
           .withState({
             bch: {
@@ -307,7 +307,7 @@ describe('bch data sagas', () => {
   })
 
   describe('fetchTransactionHistory', () => {
-    const payload = { address: 'asdf912j039j12', start: '01/01/2018', end: '01/06/2018' }
+    const payload = { address: 'qq07l6rr5lsdm3m80qxw80ku2ex0tj76vvsxpvmgme', start: '01/01/2018', end: '01/06/2018' }
     const saga = testSaga(dataBchSagas.fetchTransactionHistory, { payload })
     const currency = Remote.of('EUR')
     const beforeGettingHistory = 'beforeGettingHistory'
@@ -334,7 +334,7 @@ describe('bch data sagas', () => {
     })
 
     const payloadNoAddr = { start: '01/01/2018', end: '01/06/2018' }
-    const mockContext = ['xpub6BvQUYyon9wcJUgBUjhQ7E5iSSHVzsraSqmqiRLKUXoXE4PkFZ2h8x', 'xpub6BvQUYyokJ9j301jd09slQEWhlk21j3JKlwLKUXoXE4PkFZ2h8x']
+    const mockContext = ['qq07l6rr5lsdm3m80qxw80ku2ex0tj76vvsxpvmgme', 'qq07l6rr5lsdm3m80qxw80ku2ex0tj76vvsxpvmgme']
     const active = mockContext.join('|')
 
     it('should get transaction data with context if no address present', () => {
@@ -349,7 +349,7 @@ describe('bch data sagas', () => {
     })
 
     it('should handle errors', () => {
-      const error = { message: 'asdf' }
+      const error = { message: 'invalid address' }
 
       saga.restart()
         .next()
