@@ -255,13 +255,13 @@ describe('authSagas', () => {
         it('should clear password and code field', () => {
           saga
             .next()
-            .put(actions.form.clearFields('login', false, true, 'password', 'code'))
+            .put(
+              actions.form.clearFields('login', false, true, 'password', 'code')
+            )
         })
 
         it('should focus password', () => {
-          saga
-            .next()
-            .put((actions.form.focus('login', 'password')))
+          saga.next().put(actions.form.focus('login', 'password'))
         })
 
         it('should display login error', () => {
@@ -281,15 +281,11 @@ describe('authSagas', () => {
         })
 
         it('should focus password', () => {
-          saga
-            .next()
-            .put((actions.form.focus('login', 'code')))
+          saga.next().put(actions.form.focus('login', 'code'))
         })
 
         it('should display login error', () => {
-          saga
-            .next()
-            .put(actions.auth.loginFailure(wrongAuthCodeErrorMessage))
+          saga.next().put(actions.auth.loginFailure(wrongAuthCodeErrorMessage))
         })
       })
 

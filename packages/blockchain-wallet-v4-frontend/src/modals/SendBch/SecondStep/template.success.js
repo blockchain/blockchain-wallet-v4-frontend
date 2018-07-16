@@ -69,99 +69,99 @@ const Success = props => {
   return (
     <div>
       <Row>
-        <Text size="16px" weight={500}>
+        <Text size='16px' weight={500}>
           <FormattedMessage
-            id="modals.sendbch.secondstep.from"
-            defaultMessage="From:"
+            id='modals.sendbch.secondstep.from'
+            defaultMessage='From:'
           />
         </Text>
-        <Text size="16px" weight={300}>
+        <Text size='16px' weight={300}>
           {fromAddress}
         </Text>
       </Row>
       <Row>
-        <Text size="16px" weight={500}>
+        <Text size='16px' weight={500}>
           <FormattedMessage
-            id="modals.sendbch.secondstep.to"
-            defaultMessage="To:"
+            id='modals.sendbch.secondstep.to'
+            defaultMessage='To:'
           />
         </Text>
-        <Text size="16px" weight={300}>
+        <Text size='16px' weight={300}>
           {toAddress}
         </Text>
       </Row>
       {description && (
         <Row>
-          <Text size="16px" weight={500}>
+          <Text size='16px' weight={500}>
             <FormattedMessage
-              id="modals.sendbch.secondstep.note"
-              defaultMessage="Note:"
+              id='modals.sendbch.secondstep.note'
+              defaultMessage='Note:'
             />
           </Text>
-          <Text size="16px" weight={300}>
+          <Text size='16px' weight={300}>
             {description}
           </Text>
         </Row>
       )}
       <Row>
-        <Text size="16px" weight={500}>
+        <Text size='16px' weight={500}>
           <FormattedMessage
-            id="modals.sendbch.secondstep.payment"
-            defaultMessage="Payment:"
+            id='modals.sendbch.secondstep.payment'
+            defaultMessage='Payment:'
           />
         </Text>
-        <Text size="16px" weight={300}>
+        <Text size='16px' weight={300}>
           <ComboDisplay coin={coin}>{amount}</ComboDisplay>
         </Text>
       </Row>
       <Row>
-        <Text size="16px" weight={500}>
+        <Text size='16px' weight={500}>
           <FormattedMessage
-            id="modals.sendbch.secondstep.fee"
-            defaultMessage="Fee:"
+            id='modals.sendbch.secondstep.fee'
+            defaultMessage='Fee:'
           />
         </Text>
-        <Text size="16px" weight={300}>
+        <Text size='16px' weight={300}>
           <ComboDisplay coin={coin}>{fee}</ComboDisplay>
         </Text>
       </Row>
       <Summary>
-        <Text size="16px" weight={300} color="sent">
+        <Text size='16px' weight={300} color='sent'>
           <FormattedMessage
-            id="modals.sendbch.secondstep.total"
-            defaultMessage="Total"
+            id='modals.sendbch.secondstep.total'
+            defaultMessage='Total'
           />
         </Text>
-        <CoinDisplay coin={coin} size="30px" weight={600} color="sent">
+        <CoinDisplay coin={coin} size='30px' weight={600} color='sent'>
           {total}
         </CoinDisplay>
-        <FiatDisplay coin={coin} size="20px" weight={300} color="sent">
+        <FiatDisplay coin={coin} size='20px' weight={300} color='sent'>
           {total}
         </FiatDisplay>
       </Summary>
       {isLegacy && (
         <WarningBanner>
-          <Banner type="caution">
-            <Text size="12px">
+          <Banner type='caution'>
+            <Text size='12px'>
               <FormattedMessage
-                id="modals.sendbch.secondstep.legacy_addr_warning"
-                defaultMessage="Are you sure this is a Bitcoin Cash Address? Sending funds to bitcoin address by accident will result in loss of funds."
+                id='modals.sendbch.secondstep.legacy_addr_warning'
+                defaultMessage='Are you sure this is a Bitcoin Cash Address? Sending funds to bitcoin address by accident will result in loss of funds.'
               />
             </Text>
           </Banner>
         </WarningBanner>
       )}
       <Footer>
-        <Button onClick={handleSubmit} nature="primary" fullwidth uppercase>
+        <Button onClick={handleSubmit} nature='primary' fullwidth uppercase>
           <FormattedMessage
-            id="modals.sendbch.secondstep.send"
-            defaultMessage="Send Bitcoin Cash"
+            id='modals.sendbch.secondstep.send'
+            defaultMessage='Send Bitcoin Cash'
           />
         </Button>
-        <Link onClick={handleBack} size="13px" weight={300}>
+        <Link onClick={handleBack} size='13px' weight={300}>
           <FormattedMessage
-            id="modals.sendbch.secondstep.back"
-            defaultMessage="Go back"
+            id='modals.sendbch.secondstep.back'
+            defaultMessage='Go back'
           />
         </Link>
       </Footer>
