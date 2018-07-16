@@ -9,7 +9,7 @@ const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 
 export default ({ api }) => {
-  const fetchCaptcha = function * () {
+  const fetchCaptcha = function*() {
     try {
       const timestamp = new Date().getTime()
       const sessionToken = yield call(api.obtainSessionToken)
@@ -22,18 +22,24 @@ export default ({ api }) => {
     }
   }
 
-  const fetchPriceIndexSeries = function * (action) {
+  const fetchPriceIndexSeries = function*(action) {
     try {
       const { coin, currency, start, scale } = action.payload
       yield put(A.fetchPriceIndexSeriesLoading())
-      const data = yield call(api.getPriceIndexSeries, coin, currency, start, scale)
+      const data = yield call(
+        api.getPriceIndexSeries,
+        coin,
+        currency,
+        start,
+        scale
+      )
       yield put(A.fetchPriceIndexSeriesSuccess(data))
     } catch (e) {
       yield put(A.fetchPriceIndexSeriesFailure(e.message))
     }
   }
 
-  const fetchLogs = function * ({ address }) {
+  const fetchLogs = function*({ address }) {
     try {
       const guid = yield select(selectors.wallet.getGuid)
       const sharedKey = yield select(selectors.wallet.getSharedKey)
@@ -45,7 +51,7 @@ export default ({ api }) => {
     }
   }
 
-  const encodePairingCode = function * () {
+  const encodePairingCode = function*() {
     try {
       yield put(A.encodePairingCodeLoading())
       const guid = yield select(wS.getGuid)
@@ -53,14 +59,17 @@ export default ({ api }) => {
       const password = yield select(wS.getMainPassword)
       const pairingPassword = yield call(api.getPairingPassword, guid)
       const encryptionPhrase = yield call(() =>
-        taskToPromise(pairing.encode(guid, sharedKey, password, pairingPassword)))
+        taskToPromise(
+          pairing.encode(guid, sharedKey, password, pairingPassword)
+        )
+      )
       yield put(A.encodePairingCodeSuccess(encryptionPhrase))
     } catch (e) {
       yield put(A.encodePairingCodeFailure(e.message || e))
     }
   }
 
-  const authorizeLogin = function * (action) {
+  const authorizeLogin = function*(action) {
     const { token, confirm } = action.payload
     try {
       yield put(A.authorizeLoginLoading())
@@ -75,7 +84,7 @@ export default ({ api }) => {
     }
   }
 
-  const handle2FAReset = function * (action) {
+  const handle2FAReset = function*(action) {
     const { token } = action.payload
     try {
       yield put(A.handle2FAResetLoading())
@@ -90,7 +99,7 @@ export default ({ api }) => {
     }
   }
 
-  const verifyEmailToken = function * (action) {
+  const verifyEmailToken = function*(action) {
     const { token } = action.payload
     try {
       yield put(A.verifyEmailTokenLoading())

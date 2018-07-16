@@ -14,9 +14,9 @@ const Wrapper = styled.div`
   border: 1px solid ${prop => prop.theme['error']};
 `
 
-export default (props) => (
+export default props => (
   <Wrapper>
-    <Text size='12px' weight={300} color='red'>
+    <Text size="12px" weight={300} color="red">
       {props.children}
     </Text>
   </Wrapper>

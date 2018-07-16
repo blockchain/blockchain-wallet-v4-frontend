@@ -7,39 +7,46 @@ import { Palette } from '../../'
 import { keysIn } from 'ramda'
 
 class SimpleDropdown extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
       toggled: props.opened,
-      selectedItem: props.items.filter(item => item.value === props.selectedValue)[0] || props.items[0]
+      selectedItem:
+        props.items.filter(item => item.value === props.selectedValue)[0] ||
+        props.items[0]
     }
     this.handleClick = this.handleClick.bind(this)
     this.handleCallback = this.handleCallback.bind(this)
   }
 
-  handleClick () {
+  handleClick() {
     this.setState({ toggled: !this.state.toggled })
   }
 
-  handleClickOutside () {
+  handleClickOutside() {
     this.setState({ toggled: false })
   }
 
-  handleCallback (item) {
+  handleCallback(item) {
     this.setState({ toggled: false, selectedItem: item })
-    if (this.props.callback) { this.props.callback(item) }
+    if (this.props.callback) {
+      this.props.callback(item)
+    }
   }
 
-  render () {
+  render() {
     const { ...rest } = this.props
 
-    return <Dropdown {...rest}
-      handleClick={this.handleClick}
-      handleCallback={this.handleCallback}
-      toggled={this.state.toggled}
-      selectedItem={this.state.selectedItem}
-    />
+    return (
+      <Dropdown
+        {...rest}
+        handleClick={this.handleClick}
+        handleCallback={this.handleCallback}
+        toggled={this.state.toggled}
+        selectedItem={this.state.selectedItem}
+      />
+    )
   }
 }
 
@@ -52,14 +59,13 @@ SimpleDropdown.defaultProps = {
 }
 
 SimpleDropdown.propTypes = {
-  selectedValue: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]),
-  items: PropTypes.arrayOf(PropTypes.shape({
-    text: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired
-  })),
+  selectedValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      text: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired
+    })
+  ),
   callback: PropTypes.func.isRequired,
   opened: PropTypes.bool,
   color: PropTypes.oneOf(keysIn(Palette())),

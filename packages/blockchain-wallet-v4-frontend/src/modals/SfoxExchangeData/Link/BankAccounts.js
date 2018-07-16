@@ -19,35 +19,39 @@ const Container = styled.div`
 `
 
 class BankAccounts extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.onInputClick = this.onInputClick.bind(this)
     this.onInputChange = this.onInputChange.bind(this)
   }
 
-  onInputClick (id) {
+  onInputClick(id) {
     this.props.onBankSelection(id)
   }
 
-  onInputChange (e) {
+  onInputChange(e) {
     this.props.handleNameChange(e.target.value)
   }
 
-  render () {
+  render() {
     return (
       <Container>
         <Form>
-          {
-            this.props.data.map(bank => {
-              return (
-                <Bank bank={bank} onInputClick={this.onInputClick} />
-              )
-            })
-          }
-          <Text size='14px' style={spacing('mt-10')}>
-            <FormattedMessage id='sfoxexchangedata.link.accountholdername' defaultMessage="Account Holder's Name" />
+          {this.props.data.map(bank => {
+            return <Bank bank={bank} onInputClick={this.onInputClick} />
+          })}
+          <Text size="14px" style={spacing('mt-10')}>
+            <FormattedMessage
+              id="sfoxexchangedata.link.accountholdername"
+              defaultMessage="Account Holder's Name"
+            />
           </Text>
-          <Field name='accountHolder' component={TextBox} validate={required} onChange={this.onInputChange} />
+          <Field
+            name="accountHolder"
+            component={TextBox}
+            validate={required}
+            onChange={this.onInputChange}
+          />
         </Form>
       </Container>
     )

@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   }
 `
 
-const PairingCode = (props) => {
+const PairingCode = props => {
   const { val } = props
   return (
     <Wrapper>

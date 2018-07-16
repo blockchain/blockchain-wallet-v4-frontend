@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { connect } from 'react-redux'
 
@@ -8,19 +7,19 @@ import Success from './template.success'
 import { getData } from './selectors'
 
 class HintContainer extends React.PureComponent {
-  render () {
+  render() {
     const { data, ...rest } = this.props
 
     return data.cata({
-      Success: (value) => <Success {...rest} currentHint={value} />,
-      Failure: (message) => <Error {...rest} message={message} />,
+      Success: value => <Success {...rest} currentHint={value} />,
+      Failure: message => <Error {...rest} message={message} />,
       Loading: () => <Loading {...rest} />,
       NotAsked: () => <Loading {...rest} />
     })
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   data: getData(state)
 })
 

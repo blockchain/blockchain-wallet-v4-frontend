@@ -14,7 +14,10 @@ export const getData = state => {
       toAddress: payment.to,
       amount: payment.amount,
       fee: payment.fee,
-      total: utils.ethereum.calculateTransactionAmount(payment.amount, payment.fee)
+      total: utils.ethereum.calculateTransactionAmount(
+        payment.amount,
+        payment.fee
+      )
     }
   }
 

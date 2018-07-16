@@ -5,7 +5,9 @@ const extractAddress = addr => prop('addr', head(addr))
 
 export const getData = state => {
   const paymentR = selectors.components.sendEth.getPayment(state)
-  const defaultAccountR = selectors.core.kvStore.ethereum.getAccounts(state).map(extractAddress)
+  const defaultAccountR = selectors.core.kvStore.ethereum
+    .getAccounts(state)
+    .map(extractAddress)
 
   const transform = (defaultAccount, payment) => {
     const effectiveBalance = propOr('0', 'effectiveBalance', payment)

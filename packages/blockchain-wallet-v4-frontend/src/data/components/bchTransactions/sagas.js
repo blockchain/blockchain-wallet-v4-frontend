@@ -5,7 +5,7 @@ import { actions, selectors } from 'data'
 export default ({ coreSagas }) => {
   const logLocation = 'components/bchTransactions/sagas'
 
-  const initialized = function * () {
+  const initialized = function*() {
     try {
       const defaultSource = ''
       const initialValues = {
@@ -20,7 +20,7 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const reportClicked = function * () {
+  const reportClicked = function*() {
     try {
       yield put(actions.modals.showModal('TransactionReport', { coin: 'BCH' }))
     } catch (e) {
@@ -28,16 +28,20 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const scrollUpdated = function * (action) {
+  const scrollUpdated = function*(action) {
     try {
       const pathname = yield select(selectors.router.getPathname)
       if (!equals(pathname, '/bch/transactions')) return
-      const formValues = yield select(selectors.form.getFormValues('bchTransactions'))
+      const formValues = yield select(
+        selectors.form.getFormValues('bchTransactions')
+      )
       const source = prop('source', formValues)
       const threshold = 250
       const { yMax, yOffset } = action.payload
       if (yMax - yOffset < threshold) {
-        const onlyShow = equals(source, 'all') ? '' : (source.xpub || source.address)
+        const onlyShow = equals(source, 'all')
+          ? ''
+          : source.xpub || source.address
         yield put(actions.core.data.bch.fetchTransactions(onlyShow, false))
       }
     } catch (e) {
@@ -45,7 +49,7 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const formChanged = function * (action) {
+  const formChanged = function*(action) {
     try {
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
@@ -54,7 +58,9 @@ export default ({ coreSagas }) => {
 
       switch (field) {
         case 'source':
-          const onlyShow = equals(payload, 'all') ? '' : (payload.xpub || payload.address)
+          const onlyShow = equals(payload, 'all')
+            ? ''
+            : payload.xpub || payload.address
           yield put(actions.core.data.bch.fetchTransactions(onlyShow, true))
       }
     } catch (e) {

@@ -6,11 +6,14 @@ import { promptForSecondPassword } from 'services/SagaService'
 import settings from 'config'
 
 export default ({ coreSagas }) => {
-  const confirmTransferEth = function * (action) {
+  const confirmTransferEth = function*(action) {
     try {
       const { to, effectiveBalance } = action.payload
       let p = yield select(selectors.getPayment)
-      let payment = coreSagas.payment.eth.create({ payment: p.getOrElse({}), network: settings.NETWORK_ETHEREUM })
+      let payment = coreSagas.payment.eth.create({
+        payment: p.getOrElse({}),
+        network: settings.NETWORK_ETHEREUM
+      })
       payment = yield payment.to(to)
       const password = yield call(promptForSecondPassword)
       payment = yield payment.amount(effectiveBalance)

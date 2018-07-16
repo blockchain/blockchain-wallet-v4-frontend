@@ -5,7 +5,7 @@ import BigRational from 'big-rational'
 import Type from '../../types/Type'
 
 export class Pairs extends Type {
-  toString () {
+  toString() {
     return `Pairs(${this.code})`
   }
 }
@@ -20,6 +20,12 @@ export const selectCode = view(code)
 export const selectRate = (code, pairs) => prop(code, selectTable(pairs))
 
 export const create = curry((code, tickerPairs) => {
-  const table = map(compose(BigRational, prop('last')), tickerPairs)
+  const table = map(
+    compose(
+      BigRational,
+      prop('last')
+    ),
+    tickerPairs
+  )
   return new Pairs({ code, table })
 })

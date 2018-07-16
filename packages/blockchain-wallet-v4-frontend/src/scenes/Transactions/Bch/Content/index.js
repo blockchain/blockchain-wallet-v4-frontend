@@ -7,23 +7,30 @@ import { actions } from 'data'
 import Content from './template'
 
 class ContentContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.handleRefresh = this.handleRefresh.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.txActions.initialized()
   }
 
-  handleRefresh () {
+  handleRefresh() {
     this.props.dataActions.fetchData()
     this.props.txActions.initialized()
   }
 
-  render () {
+  render() {
     const { empty, pages, search } = this.props
-    return <Content empty={empty} search={search} pages={pages} onRefresh={this.handleRefresh} />
+    return (
+      <Content
+        empty={empty}
+        search={search}
+        pages={pages}
+        onRefresh={this.handleRefresh}
+      />
+    )
   }
 }
 
@@ -31,9 +38,12 @@ const mapStateToProps = state => ({
   ...getData(state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   dataActions: bindActionCreators(actions.core.data.bch, dispatch),
   txActions: bindActionCreators(actions.components.bchTransactions, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContentContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ContentContainer)

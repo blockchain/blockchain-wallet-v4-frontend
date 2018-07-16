@@ -13,11 +13,16 @@ export const signSelection = curry((network, selection) => {
   const tx = new BitcoinCash.TransactionBuilder(network)
   tx.enableBitcoinCash(true)
   const addInput = coin =>
-    tx.addInput(coin.txHash, coin.index, BitcoinCash.Transaction.DEFAULT_SEQUENCE)
+    tx.addInput(
+      coin.txHash,
+      coin.index,
+      BitcoinCash.Transaction.DEFAULT_SEQUENCE
+    )
   const addOutput = coin =>
-    tx.addOutput(isCashAddr(coin.address)
-      ? fromCashAddr(coin.address)
-      : coin.address, coin.value)
+    tx.addOutput(
+      isCashAddr(coin.address) ? fromCashAddr(coin.address) : coin.address,
+      coin.value
+    )
   const sign = (coin, i) => tx.sign(i, coin.priv, null, hashType, coin.value)
   forEach(addInput, selection.inputs)
   forEach(addOutput, selection.outputs)
@@ -26,32 +31,44 @@ export const signSelection = curry((network, selection) => {
   return { txHex: signedTx.toHex(), txId: signedTx.getId() }
 })
 
-export const sortSelection = (selection) => ({
+export const sortSelection = selection => ({
   ...selection,
   inputs: Coin.bip69SortInputs(selection.inputs),
   outputs: Coin.bip69SortOutputs(selection.outputs)
 })
 
 // signHDWallet :: network -> password -> wrapper -> selection -> Task selection
-export const signHDWallet = curry((network, secondPassword, wrapper, selection) =>
-  addHDWalletWIFS(network, secondPassword, wrapper, selection)
-    .map(signWithWIF(network))
+export const signHDWallet = curry(
+  (network, secondPassword, wrapper, selection) =>
+    addHDWalletWIFS(network, secondPassword, wrapper, selection).map(
+      signWithWIF(network)
+    )
 )
 
 // signLegacy :: network -> password -> wrapper -> selection -> Task selection
 export const signLegacy = curry((network, secondPassword, wrapper, selection) =>
-  addLegacyWIFS(network, secondPassword, wrapper, selection)
-    .map(signWithWIF(network))
+  addLegacyWIFS(network, secondPassword, wrapper, selection).map(
+    signWithWIF(network)
+  )
 )
 
 export const wifToKeys = curry((network, selection) =>
   over(
-    compose(lensProp('inputs'), mapped, Coin.priv),
+    compose(
+      lensProp('inputs'),
+      mapped,
+      Coin.priv
+    ),
     wif => BitcoinCash.ECPair.fromWIF(wif, network),
-    selection)
+    selection
+  )
 )
 
 // signWithWIF :: network -> selection -> selection
 export const signWithWIF = curry((network, selection) =>
-  compose(signSelection(network), sortSelection, wifToKeys(network))(selection)
+  compose(
+    signSelection(network),
+    sortSelection,
+    wifToKeys(network)
+  )(selection)
 )

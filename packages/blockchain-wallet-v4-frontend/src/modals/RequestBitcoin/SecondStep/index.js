@@ -9,29 +9,38 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class SecondStepContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.timeout = undefined
     this.state = { active: false }
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     clearTimeout(this.timeout)
   }
 
-  handleSubmit (e) {
+  handleSubmit(e) {
     e.preventDefault()
     this.setState({ active: true })
-    this.timeout = setTimeout(() => { this.setState({ active: false }) }, 2000)
+    this.timeout = setTimeout(() => {
+      this.setState({ active: false })
+    }, 2000)
   }
 
-  render () {
+  render() {
     const { data, ...rest } = this.props
 
     return data.cata({
-      Success: (value) => <Success handleSubmit={this.handleSubmit} {...value} active={this.state.active} {...rest} />,
-      Failure: (message) => <Error>{message}</Error>,
+      Success: value => (
+        <Success
+          handleSubmit={this.handleSubmit}
+          {...value}
+          active={this.state.active}
+          {...rest}
+        />
+      ),
+      Failure: message => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
@@ -42,8 +51,11 @@ const mapStateToProps = (state, ownProps) => ({
   data: getData(state, ownProps)
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SecondStepContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SecondStepContainer)

@@ -5,7 +5,7 @@ import { getData } from './selectors'
 import MenuLeft from './template'
 
 class MenuLeftContainer extends React.PureComponent {
-  render () {
+  render() {
     return <MenuLeft toggled={this.props.toggled} />
   }
 }

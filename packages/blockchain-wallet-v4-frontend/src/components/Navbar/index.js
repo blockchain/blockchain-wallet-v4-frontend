@@ -5,4 +5,11 @@ import NavbarMenu from './NavbarMenu'
 import NavbarNav from './NavbarNav'
 import NavbarNavItem from './NavbarNavItem'
 
-export { Navbar, NavbarBrand, NavbarHeader, NavbarMenu, NavbarNav, NavbarNavItem }
+export {
+  Navbar,
+  NavbarBrand,
+  NavbarHeader,
+  NavbarMenu,
+  NavbarNav,
+  NavbarNavItem
+}

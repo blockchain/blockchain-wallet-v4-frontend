@@ -8,7 +8,7 @@ import * as selectors from '../../selectors'
 import * as kvStoreSelectors from '../../kvStore/ethereum/selectors'
 
 export default ({ api }) => {
-  const fetchData = function * (action) {
+  const fetchData = function*(action) {
     try {
       yield put(A.fetchDataLoading())
       const contextR = yield select(kvStoreSelectors.getContext)
@@ -20,7 +20,10 @@ export default ({ api }) => {
       const totalReceived = sum(values(data).map(obj => obj.totalReceived))
       const totalSent = sum(values(data).map(obj => obj.totalSent))
       const nTx = sum(values(data).map(obj => obj.txn_count))
-      const addresses = mapObjIndexed((num, key, obj) => dissoc('txns', num), data)
+      const addresses = mapObjIndexed(
+        (num, key, obj) => dissoc('txns', num),
+        data
+      )
 
       const ethereumData = {
         addresses,
@@ -38,7 +41,7 @@ export default ({ api }) => {
     }
   }
 
-  const fetchFee = function * () {
+  const fetchFee = function*() {
     try {
       yield put(A.fetchFeeLoading())
       const data = yield call(api.getEthereumFee)
@@ -49,7 +52,7 @@ export default ({ api }) => {
     }
   }
 
-  const fetchLatestBlock = function * () {
+  const fetchLatestBlock = function*() {
     try {
       yield put(A.fetchLatestBlockLoading())
       const data = yield call(api.getEthereumLatestBlock)
@@ -59,7 +62,7 @@ export default ({ api }) => {
     }
   }
 
-  const fetchRates = function * () {
+  const fetchRates = function*() {
     try {
       yield put(A.fetchRatesLoading())
       const data = yield call(api.getEthereumTicker)
@@ -69,19 +72,23 @@ export default ({ api }) => {
     }
   }
 
-  const watchTransactions = function * () {
+  const watchTransactions = function*() {
     while (true) {
       const action = yield take(AT.FETCH_ETHEREUM_TRANSACTIONS)
       yield call(fetchTransactions, action)
     }
   }
 
-  const fetchTransactions = function * (action) {
+  const fetchTransactions = function*(action) {
     try {
       const { payload } = action
       const { reset } = payload
-      const defaultAccountR = yield select(selectors.kvStore.ethereum.getContext)
-      const address = defaultAccountR.getOrFail('Could not get ethereum context.')
+      const defaultAccountR = yield select(
+        selectors.kvStore.ethereum.getContext
+      )
+      const address = defaultAccountR.getOrFail(
+        'Could not get ethereum context.'
+      )
       const pages = yield select(S.getTransactions)
       const nextPage = reset ? 0 : length(pages)
       yield put(A.fetchTransactionsLoading(reset))
@@ -94,7 +101,7 @@ export default ({ api }) => {
     }
   }
 
-  const fetchLegacyBalance = function * () {
+  const fetchLegacyBalance = function*() {
     try {
       yield put(A.fetchLegacyBalanceLoading())
       const addrR = yield select(kvStoreSelectors.getLegacyAccountAddress)

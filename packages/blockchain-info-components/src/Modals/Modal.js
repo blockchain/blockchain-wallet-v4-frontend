@@ -9,18 +9,20 @@ const ModalBackground = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  display: ${props => props.isLast ? 'flex' : 'none'};
+  display: ${props => (props.isLast ? 'flex' : 'none')};
   flex-direction: row;
   justify-content: center;
   align-items: flex-start;
-  background-color: ${props => transparentize(0.5, (props.theme['black']))};
+  background-color: ${props => transparentize(0.5, props.theme['black'])};
   z-index: 1040;
 
-  @media(min-width: 768px) { align-items: center; }
+  @media (min-width: 768px) {
+    align-items: center;
+  }
 `
 
 const BaseModal = styled.div`
-  display: ${props => props.isLast ? 'block' : 'none'};
+  display: ${props => (props.isLast ? 'block' : 'none')};
   position: relative;
   width: 100%;
   margin-top: 60px;
@@ -28,20 +30,25 @@ const BaseModal = styled.div`
   background-color: ${props => props.theme['white']};
   box-shadow: none;
 
-  @media(min-width: 768px) {
+  @media (min-width: 768px) {
     width: ${props => props.width};
     margin-top: initial;
-    box-shadow: 0 5px 15px ${props => transparentize(0.5, (props.theme['black']))};
+    box-shadow: 0 5px 15px ${props => transparentize(0.5, props.theme['black'])};
   }
 `
 
-const selectWidth = (size) => {
+const selectWidth = size => {
   switch (size) {
-    case 'small': return '400px'
-    case 'medium': return '500px'
-    case 'large': return '600px'
-    case 'xlarge': return '800px'
-    default: return '1000px'
+    case 'small':
+      return '400px'
+    case 'medium':
+      return '500px'
+    case 'large':
+      return '600px'
+    case 'xlarge':
+      return '800px'
+    default:
+      return '1000px'
   }
 }
 
@@ -63,7 +70,11 @@ const Modal = props => {
     )
   } else {
     return (
-      <ModalBackground isLast={isLast} position={position} className={rest.class}>
+      <ModalBackground
+        isLast={isLast}
+        position={position}
+        className={rest.class}
+      >
         <BaseModal isLast={isLast} position={position} width={width} {...rest}>
           {children}
         </BaseModal>

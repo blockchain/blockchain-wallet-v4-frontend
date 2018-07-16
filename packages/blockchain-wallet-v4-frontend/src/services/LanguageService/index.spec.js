@@ -1,4 +1,8 @@
-import { getLanguageName, convertCultureCodeToLanguage, convertLanguageToCultureCode } from './index.js'
+import {
+  getLanguageName,
+  convertCultureCodeToLanguage,
+  convertLanguageToCultureCode
+} from './index.js'
 import Maybe from 'data.maybe'
 
 describe('getLanguageName', () => {
@@ -10,10 +14,13 @@ describe('getLanguageName', () => {
     { cultureCode: null, value: Maybe.Nothing() }
   ]
 
-  testCases.forEach(function (testCase) {
-    it('Get correct language name from culture code: ' + testCase.cultureCode, () => {
-      expect(getLanguageName(testCase.cultureCode)).toEqual(testCase.value)
-    })
+  testCases.forEach(function(testCase) {
+    it(
+      'Get correct language name from culture code: ' + testCase.cultureCode,
+      () => {
+        expect(getLanguageName(testCase.cultureCode)).toEqual(testCase.value)
+      }
+    )
   })
 })
 
@@ -26,9 +33,11 @@ describe('convertLanguageToCultureCode', () => {
     { language: null, value: Maybe.Nothing() }
   ]
 
-  testCases.forEach(function (testCase) {
+  testCases.forEach(function(testCase) {
     it('Convert culture code to language name: ' + testCase.language, () => {
-      expect(convertLanguageToCultureCode(testCase.language)).toEqual(testCase.value)
+      expect(convertLanguageToCultureCode(testCase.language)).toEqual(
+        testCase.value
+      )
     })
   })
 })
@@ -42,9 +51,11 @@ describe('convertCultureCodeToLanguage', () => {
     { cultureCode: null, value: Maybe.Nothing() }
   ]
 
-  testCases.forEach(function (testCase) {
+  testCases.forEach(function(testCase) {
     test('Convert language to culture code: ' + testCase.cultureCode, () => {
-      expect(convertCultureCodeToLanguage(testCase.cultureCode)).toEqual(testCase.value)
+      expect(convertCultureCodeToLanguage(testCase.cultureCode)).toEqual(
+        testCase.value
+      )
     })
   })
 })

@@ -12,25 +12,32 @@ const Wrapper = styled.div`
   align-items: center;
   padding-left: 5px;
   margin-bottom: 10px;
-  padding-right: ${props => props.large ? '15px' : '25px'};
+  padding-right: ${props => (props.large ? '15px' : '25px')};
   > div:last-child {
     margin-left: 10px;
     > div {
-      color: ${props => props.theme['gray-3']}
+      color: ${props => props.theme['gray-3']};
     }
   }
 `
 
 const Success = props => {
   return props.balance === 0 ? null : (
-    <LinkContainer to='/btc/transactions'>
+    <LinkContainer to="/btc/transactions">
       <Wrapper>
-        <Text size='10px' weight={300}>BTC</Text>
-        <Banner inline type='informational'>
-          <FiatDisplay coin='BTC' cursor='pointer' size='10px' weight={300}>{props.balance}</FiatDisplay>
+        <Text size="10px" weight={300}>
+          BTC
+        </Text>
+        <Banner inline type="informational">
+          <FiatDisplay coin="BTC" cursor="pointer" size="10px" weight={300}>
+            {props.balance}
+          </FiatDisplay>
           <span>&nbsp;</span>
-          <Text size='10px' weight={300}>
-            <FormattedMessage id='scenes.wallet.menutop.balance.watchonlybtcbalance' defaultMessage='Non-Spendable' />
+          <Text size="10px" weight={300}>
+            <FormattedMessage
+              id="scenes.wallet.menutop.balance.watchonlybtcbalance"
+              defaultMessage="Non-Spendable"
+            />
           </Text>
         </Banner>
       </Wrapper>

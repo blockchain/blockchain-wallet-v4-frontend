@@ -7,6 +7,7 @@ export const getCanTrade = (state, type) => {
   const optionsR = selectors.core.walletOptions.getOptions(state)
   const buySellR = selectors.core.kvStore.buySell.getMetadata(state)
 
-  const transform = (settings, options, buySell) => canTrade(settings, options, buySell, type)
+  const transform = (settings, options, buySell) =>
+    canTrade(settings, options, buySell, type)
   return lift(transform)(settingsR, optionsR, buySellR)
 }

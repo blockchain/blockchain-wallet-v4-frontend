@@ -17,18 +17,16 @@ const BaseNavItem = styled.li`
     text-decoration: none;
     cursor: pointer;
 
-    &:hover { color: ${props => props.theme['white']}; }
+    &:hover {
+      color: ${props => props.theme['white']};
+    }
   }
 `
 
 const NavbarNavItem = props => {
   const { children, ...rest } = props
 
-  return (
-    <BaseNavItem {...rest}>
-      {children}
-    </BaseNavItem>
-  )
+  return <BaseNavItem {...rest}>{children}</BaseNavItem>
 }
 
 export default NavbarNavItem

@@ -26,7 +26,7 @@ const Circle1 = styled.div`
   animation: ${bounceAnimation} 2s infinite ease-in-out;
 `
 const Circle2 = styled(Circle1)`
-  animation-delay: -1.0s;
+  animation-delay: -1s;
 `
 
 const HeartbeatLoader = props => {

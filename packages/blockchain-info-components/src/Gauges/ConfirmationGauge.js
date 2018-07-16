@@ -21,22 +21,26 @@ const Bar = styled.div`
 
 const selectColor = nbConfirmations => {
   switch (nbConfirmations) {
-    case 1: return 'brand-yellow-lighter'
-    case 2: return 'brand-yellow'
-    case 3: return 'success'
-    default: return 'white'
+    case 1:
+      return 'brand-yellow-lighter'
+    case 2:
+      return 'brand-yellow'
+    case 3:
+      return 'success'
+    default:
+      return 'white'
   }
 }
 
-const ConfirmationGauge = (props) => {
+const ConfirmationGauge = props => {
   const { nbConfirmations } = props
   const color = selectColor(nbConfirmations)
 
   return (
     <Container>
-      {nbConfirmations > 0 ? <Bar color={color} /> : <Bar color='white' />}
-      {nbConfirmations > 1 ? <Bar color={color} /> : <Bar color='white' />}
-      {nbConfirmations > 2 ? <Bar color={color} /> : <Bar color='white' />}
+      {nbConfirmations > 0 ? <Bar color={color} /> : <Bar color="white" />}
+      {nbConfirmations > 1 ? <Bar color={color} /> : <Bar color="white" />}
+      {nbConfirmations > 2 ? <Bar color={color} /> : <Bar color="white" />}
     </Container>
   )
 }

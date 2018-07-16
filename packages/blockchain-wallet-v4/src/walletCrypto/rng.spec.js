@@ -63,9 +63,11 @@ describe('rng', () => {
 
   describe('getServerEntropy', () => {
     beforeEach(() => {
-      jest.spyOn(api, 'getRandomBytes').mockImplementation(
-        (bytes) => Promise.resolve(serverBuffer.toString('hex'))
-      )
+      jest
+        .spyOn(api, 'getRandomBytes')
+        .mockImplementation(bytes =>
+          Promise.resolve(serverBuffer.toString('hex'))
+        )
     })
 
     it('returns a buffer if successful', async () => {
@@ -82,22 +84,24 @@ describe('rng', () => {
     it('should fail if passed a bad argument', async () => {
       let res = await getServerEntropy(-1, api)
       expect(res.isLeft).toEqual(true)
-      expect(res.value.message).toEqual('Must provide a positive integer to getServerEntropy')
+      expect(res.value.message).toEqual(
+        'Must provide a positive integer to getServerEntropy'
+      )
     })
 
     it('should fail if result is not hex', async () => {
-      jest.spyOn(api, 'getRandomBytes').mockImplementation(
-        (bytes) => Promise.resolve('This page was not found')
-      )
+      jest
+        .spyOn(api, 'getRandomBytes')
+        .mockImplementation(bytes => Promise.resolve('This page was not found'))
       let res = await getServerEntropy(32, api)
       expect(res.isLeft).toEqual(true)
       expect(res.value.message).toEqual('Non-hex server entropy answer.')
     })
 
     it('should fail if result is the wrong length', async () => {
-      jest.spyOn(api, 'getRandomBytes').mockImplementation(
-        (bytes) => Promise.resolve('000001')
-      )
+      jest
+        .spyOn(api, 'getRandomBytes')
+        .mockImplementation(bytes => Promise.resolve('000001'))
       let res1 = await getServerEntropy(3, api)
       expect(res1.isRight).toEqual(true)
       let res2 = await getServerEntropy(32, api)
@@ -152,7 +156,7 @@ describe('rng', () => {
 
   describe('createRng', () => {
     it('should ask for 32 bytes from the server', async () => {
-      jest.spyOn(api, 'getRandomBytes').mockImplementation((bytes) => {
+      jest.spyOn(api, 'getRandomBytes').mockImplementation(bytes => {
         expect(bytes).toEqual(32)
         return Promise.resolve(serverBuffer.toString('hex'))
       })
@@ -161,7 +165,7 @@ describe('rng', () => {
     })
 
     it('should ask an arbitrary amount of bytes from the server', async () => {
-      jest.spyOn(api, 'getRandomBytes').mockImplementation((bytes) => {
+      jest.spyOn(api, 'getRandomBytes').mockImplementation(bytes => {
         expect(bytes).toEqual(64)
         return Promise.resolve(longServerBuffer.toString('hex'))
       })
@@ -170,55 +174,67 @@ describe('rng', () => {
     })
 
     it('returns the mixed entropy', async () => {
-      jest.spyOn(api, 'getRandomBytes').mockImplementation(
-        (bytes) => Promise.resolve(serverBuffer.toString('hex'))
-      )
-      jest.spyOn(_overrides, 'randomBytes').mockImplementation(
-        (bytes) => oneBrowserBuffer
-      )
+      jest
+        .spyOn(api, 'getRandomBytes')
+        .mockImplementation(bytes =>
+          Promise.resolve(serverBuffer.toString('hex'))
+        )
+      jest
+        .spyOn(_overrides, 'randomBytes')
+        .mockImplementation(bytes => oneBrowserBuffer)
       let rng = await createRng(void 0, api)
       expect(rng().toString('hex')).toEqual(xorBuffer.toString('hex'))
     })
 
     it('fails if server data is all zeros', async () => {
-      jest.spyOn(api, 'getRandomBytes').mockImplementation(
-        (bytes) => Promise.resolve(zerosServerBuffer.toString('hex'))
-      )
+      jest
+        .spyOn(api, 'getRandomBytes')
+        .mockImplementation(bytes =>
+          Promise.resolve(zerosServerBuffer.toString('hex'))
+        )
       let rng = await createRng(void 0, api)
       expect(rng).toThrow()
     })
 
     it('fails if browser data is all zeros', async () => {
-      jest.spyOn(api, 'getRandomBytes').mockImplementation(
-        (bytes) => Promise.resolve(zerosServerBuffer.toString('hex'))
-      )
-      jest.spyOn(_overrides, 'randomBytes').mockImplementation(
-        (bytes) => zerosBrowserBuffer
-      )
+      jest
+        .spyOn(api, 'getRandomBytes')
+        .mockImplementation(bytes =>
+          Promise.resolve(zerosServerBuffer.toString('hex'))
+        )
+      jest
+        .spyOn(_overrides, 'randomBytes')
+        .mockImplementation(bytes => zerosBrowserBuffer)
       let rng = await createRng(void 0, api)
       expect(rng).toThrow()
     })
 
     it('fails if server data has the wrong length', async () => {
-      jest.spyOn(api, 'getRandomBytes').mockImplementation(
-        (bytes) => Promise.resolve(shortServerBuffer.toString('hex'))
-      )
+      jest
+        .spyOn(api, 'getRandomBytes')
+        .mockImplementation(bytes =>
+          Promise.resolve(shortServerBuffer.toString('hex'))
+        )
       let rng = await createRng(void 0, api)
       expect(rng).toThrow()
     })
 
     it('fails if combined entropy is all zeros', async () => {
-      jest.spyOn(api, 'getRandomBytes').mockImplementation(
-        (bytes) => Promise.resolve(xorFailingServerBuffer.toString('hex'))
-      )
+      jest
+        .spyOn(api, 'getRandomBytes')
+        .mockImplementation(bytes =>
+          Promise.resolve(xorFailingServerBuffer.toString('hex'))
+        )
       let rng = await createRng(void 0, api)
       expect(rng).toThrow()
     })
 
     it('should fail after server entropy runs out', async () => {
-      jest.spyOn(api, 'getRandomBytes').mockImplementation(
-        (bytes) => Promise.resolve(serverBuffer.toString('hex'))
-      )
+      jest
+        .spyOn(api, 'getRandomBytes')
+        .mockImplementation(bytes =>
+          Promise.resolve(serverBuffer.toString('hex'))
+        )
       let rng = await createRng(void 0, api)
       expect(rng(16).toString('hex')).toEqual('00'.repeat(16))
       expect(() => rng(17)).toThrow()

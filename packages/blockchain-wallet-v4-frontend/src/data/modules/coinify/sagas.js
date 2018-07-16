@@ -13,7 +13,7 @@ export const sellDescription = `Exchange Trade CNY-`
 export const logLocation = 'modules/coinify/sagas'
 
 export default ({ coreSagas }) => {
-  const coinifySignup = function * (data) {
+  const coinifySignup = function*(data) {
     const country = data.payload
     try {
       yield call(coreSagas.data.coinify.signup, country)
@@ -30,15 +30,19 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const coinifySaveMedium = function * (data) {
+  const coinifySaveMedium = function*(data) {
     const medium = data.payload
     yield put(A.saveMediumSuccess(medium))
   }
 
-  const buy = function * (payload) {
+  const buy = function*(payload) {
     try {
       const nextAddressData = yield call(prepareAddress)
-      const buyTrade = yield call(coreSagas.data.coinify.buy, payload, nextAddressData)
+      const buyTrade = yield call(
+        coreSagas.data.coinify.buy,
+        payload,
+        nextAddressData
+      )
 
       if (!buyTrade) {
         const trade = yield select(selectors.core.data.coinify.getTrade)
@@ -59,12 +63,20 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const prepareAddress = function * () {
+  const prepareAddress = function*() {
     try {
       const state = yield select()
       const defaultIdx = selectors.core.wallet.getDefaultAccountIndex(state)
-      const receiveR = selectors.core.common.btc.getNextAvailableReceiveAddress(settings.NETWORK_BITCOIN, defaultIdx, state)
-      const receiveIdxR = selectors.core.common.btc.getNextAvailableReceiveIndex(settings.NETWORK_BITCOIN, defaultIdx, state)
+      const receiveR = selectors.core.common.btc.getNextAvailableReceiveAddress(
+        settings.NETWORK_BITCOIN,
+        defaultIdx,
+        state
+      )
+      const receiveIdxR = selectors.core.common.btc.getNextAvailableReceiveIndex(
+        settings.NETWORK_BITCOIN,
+        defaultIdx,
+        state
+      )
       return {
         address: receiveR.getOrElse(),
         index: receiveIdxR.getOrElse(),
@@ -75,7 +87,7 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const sell = function * () {
+  const sell = function*() {
     try {
       const password = yield call(promptForSecondPassword)
       yield put(A.coinifyLoading())
@@ -91,8 +103,10 @@ export default ({ coreSagas }) => {
         return
       }
       const p = path(['coinify', 'payment'], state)
-      let payment = yield coreSagas.payment.btc.create(
-        { payment: p.getOrElse({}), network: settings.NETWORK })
+      let payment = yield coreSagas.payment.btc.create({
+        payment: p.getOrElse({}),
+        network: settings.NETWORK
+      })
       payment = yield payment.amount(parseInt(trade.sendAmount))
 
       // QA Tool: manually set a "to" address on the payment object for testing sell
@@ -100,7 +114,9 @@ export default ({ coreSagas }) => {
       if (qaAddress) {
         payment = yield payment.to(qaAddress)
       } else {
-        payment = yield payment.to(path(['transferIn', 'details', 'account'], trade))
+        payment = yield payment.to(
+          path(['transferIn', 'details', 'account'], trade)
+        )
       }
 
       payment = yield payment.description(`${sellDescription}${trade.id}`)
@@ -114,10 +130,17 @@ export default ({ coreSagas }) => {
       payment = yield payment.publish()
 
       yield put(actions.core.data.bitcoin.fetchData())
-      yield put(actions.core.wallet.setTransactionNote(payment.value().txId, payment.value().description))
+      yield put(
+        actions.core.wallet.setTransactionNote(
+          payment.value().txId,
+          payment.value().description
+        )
+      )
 
       yield put(A.coinifySuccess())
-      yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
+      yield put(
+        actions.form.change('buySellTabStatus', 'status', 'order_history')
+      )
       yield put(actions.modals.showModal('CoinifyTradeDetails', { trade }))
       yield put(A.initializePayment())
     } catch (e) {
@@ -126,7 +149,7 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const initialized = function * (action) {
+  const initialized = function*(action) {
     try {
       const { type } = action.payload
       const level = yield select(selectors.core.data.coinify.getLevel)
@@ -145,10 +168,22 @@ export default ({ coreSagas }) => {
       } else {
         yield put(actions.form.initialize('coinifyCheckoutSell', initialValues))
         const limits = yield select(selectors.core.data.coinify.getLimits)
-        const defaultIndex = yield select(selectors.core.wallet.getDefaultAccountIndex)
-        const payment = yield coreSagas.payment.btc.create({ network: settings.NETWORK_BITCOIN }).chain().init().fee('priority').from(defaultIndex).done()
+        const defaultIndex = yield select(
+          selectors.core.wallet.getDefaultAccountIndex
+        )
+        const payment = yield coreSagas.payment.btc
+          .create({ network: settings.NETWORK_BITCOIN })
+          .chain()
+          .init()
+          .fee('priority')
+          .from(defaultIndex)
+          .done()
         const effectiveBalance = prop('effectiveBalance', payment.value())
-        const isMinOverEffectiveMax = service.isMinOverEffectiveMax(limits.getOrElse(undefined), effectiveBalance, currency)
+        const isMinOverEffectiveMax = service.isMinOverEffectiveMax(
+          limits.getOrElse(undefined),
+          effectiveBalance,
+          currency
+        )
         if (isMinOverEffectiveMax) {
           error = 'effective_max_under_min'
         }
@@ -161,7 +196,7 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const checkoutCardMax = function * (action) {
+  const checkoutCardMax = function*(action) {
     try {
       const { card } = action.payload
       const levelR = yield select(selectors.core.data.coinify.getLevel)
@@ -173,12 +208,14 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const handleChange = function * (action) {
+  const handleChange = function*(action) {
     try {
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
       const payload = prop('payload', action)
-      if (!any(equals(form))(['coinifyCheckoutBuy', 'coinifyCheckoutSell'])) return
+      if (!any(equals(form))(['coinifyCheckoutBuy', 'coinifyCheckoutSell'])) {
+        return
+      }
       yield put(A.coinifyCheckoutBusyOn())
       if (!payload) return null
 
@@ -191,7 +228,12 @@ export default ({ coreSagas }) => {
       switch (field) {
         case 'leftVal':
           if (!isSell) {
-            const leftLimitsError = service.getLimitsError(payload, limits.data, values.currency, type)
+            const leftLimitsError = service.getLimitsError(
+              payload,
+              limits.data,
+              values.currency,
+              type
+            )
             if (leftLimitsError) {
               yield put(A.setCoinifyCheckoutError(leftLimitsError))
               return
@@ -200,19 +242,38 @@ export default ({ coreSagas }) => {
             }
           }
 
-          const leftResult = yield call(coreSagas.data.coinify.fetchQuote,
-            { quote: { amount: payload * 100, baseCurrency: values.currency, quoteCurrency: 'BTC', type } })
+          const leftResult = yield call(coreSagas.data.coinify.fetchQuote, {
+            quote: {
+              amount: payload * 100,
+              baseCurrency: values.currency,
+              quoteCurrency: 'BTC',
+              type
+            }
+          })
           const amount = Math.abs(leftResult.quoteAmount)
 
           if (isSell) {
-            let btcAmt = (amount / 1e8)
+            let btcAmt = amount / 1e8
             const payment = path(['coinify', 'payment'], state)
-            const effectiveBalance = prop('effectiveBalance', payment.getOrElse(undefined))
-            const overEffectiveMaxError = service.getOverEffectiveMaxError(amount, limits.data, values.currency, effectiveBalance)
+            const effectiveBalance = prop(
+              'effectiveBalance',
+              payment.getOrElse(undefined)
+            )
+            const overEffectiveMaxError = service.getOverEffectiveMaxError(
+              amount,
+              limits.data,
+              values.currency,
+              effectiveBalance
+            )
             if (overEffectiveMaxError) {
               yield put(A.setCoinifyCheckoutError(overEffectiveMaxError))
             } else {
-              const leftLimitsError = service.getLimitsError(btcAmt, limits.data, values.currency, type)
+              const leftLimitsError = service.getLimitsError(
+                btcAmt,
+                limits.data,
+                values.currency,
+                type
+              )
               if (leftLimitsError) {
                 yield put(A.setCoinifyCheckoutError(leftLimitsError))
               } else {
@@ -221,20 +282,38 @@ export default ({ coreSagas }) => {
             }
           }
 
-          yield put(actions.form.initialize(form, merge(values, { 'rightVal': amount / 1e8 })))
+          yield put(
+            actions.form.initialize(
+              form,
+              merge(values, { rightVal: amount / 1e8 })
+            )
+          )
           yield put(A.coinifyCheckoutBusyOff())
           break
         case 'rightVal':
           if (isSell) {
             const payment = path(['coinify', 'payment'], state)
-            const effectiveBalance = prop('effectiveBalance', payment.getOrElse(undefined))
-            const overEffectiveMaxError = service.getOverEffectiveMaxError(payload * 1e8, limits.data, values.currency, effectiveBalance)
+            const effectiveBalance = prop(
+              'effectiveBalance',
+              payment.getOrElse(undefined)
+            )
+            const overEffectiveMaxError = service.getOverEffectiveMaxError(
+              payload * 1e8,
+              limits.data,
+              values.currency,
+              effectiveBalance
+            )
             if (overEffectiveMaxError) {
               yield put(A.setCoinifyCheckoutError(overEffectiveMaxError))
               return
             }
 
-            const rightLimitsError = service.getLimitsError(payload, limits.data, values.currency, type)
+            const rightLimitsError = service.getLimitsError(
+              payload,
+              limits.data,
+              values.currency,
+              type
+            )
             if (rightLimitsError) {
               yield put(A.setCoinifyCheckoutError(rightLimitsError))
               return
@@ -243,24 +322,50 @@ export default ({ coreSagas }) => {
             }
           }
 
-          const rightResult = yield call(coreSagas.data.coinify.fetchQuote,
-            { quote: { amount: Math.round((payload * 1e8) * -1), baseCurrency: 'BTC', quoteCurrency: values.currency, type } })
+          const rightResult = yield call(coreSagas.data.coinify.fetchQuote, {
+            quote: {
+              amount: Math.round(payload * 1e8 * -1),
+              baseCurrency: 'BTC',
+              quoteCurrency: values.currency,
+              type
+            }
+          })
           const fiatAmount = Math.abs(rightResult.quoteAmount)
 
           const amt = isSell ? payload : fiatAmount
-          const rightLimitsError = service.getLimitsError(amt, limits.data, values.currency, type)
+          const rightLimitsError = service.getLimitsError(
+            amt,
+            limits.data,
+            values.currency,
+            type
+          )
           if (rightLimitsError) {
             yield put(A.setCoinifyCheckoutError(rightLimitsError))
-            yield put(actions.form.initialize(form, merge(values, { 'leftVal': fiatAmount })))
+            yield put(
+              actions.form.initialize(
+                form,
+                merge(values, { leftVal: fiatAmount })
+              )
+            )
           } else {
             yield put(A.clearCoinifyCheckoutError())
           }
-          yield put(actions.form.initialize(form, merge(values, { 'leftVal': fiatAmount })))
+          yield put(
+            actions.form.initialize(
+              form,
+              merge(values, { leftVal: fiatAmount })
+            )
+          )
           yield put(A.coinifyCheckoutBusyOff())
           break
         case 'currency':
           yield put(actions.core.data.coinify.fetchRateQuote(payload))
-          yield put(actions.form.initialize(form, merge(values, { 'leftVal': '', 'rightVal': '' })))
+          yield put(
+            actions.form.initialize(
+              form,
+              merge(values, { leftVal: '', rightVal: '' })
+            )
+          )
           yield put(A.coinifyCheckoutBusyOn())
           break
       }
@@ -269,7 +374,7 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const fromISX = function * (action) {
+  const fromISX = function*(action) {
     const status = action.payload
     try {
       const modals = yield select(selectors.modals.getModals)
@@ -282,10 +387,17 @@ export default ({ coreSagas }) => {
       } else if (trade.data.constructor.name !== 'Trade') {
         yield put(actions.form.change('buySellTabStatus', 'status', 'buy'))
       } else {
-        yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
+        yield put(
+          actions.form.change('buySellTabStatus', 'status', 'order_history')
+        )
       }
       yield put(A.coinifyNextCheckoutStep('checkout'))
-      yield put(actions.modals.showModal('CoinifyTradeDetails', { trade: trade.data, status: status }))
+      yield put(
+        actions.modals.showModal('CoinifyTradeDetails', {
+          trade: trade.data,
+          status: status
+        })
+      )
       yield call(coreSagas.data.coinify.getKYC)
       yield put(actions.core.data.coinify.pollKYCPending())
     } catch (e) {
@@ -293,7 +405,7 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const triggerKYC = function * () {
+  const triggerKYC = function*() {
     try {
       yield call(coreSagas.data.coinify.triggerKYC)
       yield put(A.coinifyNextCheckoutStep('isx'))
@@ -302,7 +414,7 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const openKYC = function * (data) {
+  const openKYC = function*(data) {
     let kyc = data.payload
     const recentKycR = yield select(selectors.core.data.coinify.getKyc)
     const recentKyc = recentKycR.getOrElse(undefined)
@@ -310,8 +422,13 @@ export default ({ coreSagas }) => {
     try {
       if (!data.payload && !equals(prop('state', recentKyc), 'pending')) {
         yield call(triggerKYC)
-      } else if (equals(prop('state', kyc), 'pending') || equals(prop('state', recentKyc), 'pending')) {
-        yield call(coreSagas.data.coinify.kycAsTrade, { kyc: kyc || recentKyc }) // if no kyc was given, take the most recent
+      } else if (
+        equals(prop('state', kyc), 'pending') ||
+        equals(prop('state', recentKyc), 'pending')
+      ) {
+        yield call(coreSagas.data.coinify.kycAsTrade, {
+          kyc: kyc || recentKyc
+        }) // if no kyc was given, take the most recent
         yield put(A.coinifyNextCheckoutStep('isx'))
       } else {
         yield call(triggerKYC)
@@ -321,17 +438,21 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const deleteBankAccount = function * (payload) {
+  const deleteBankAccount = function*(payload) {
     try {
       yield call(coreSagas.data.coinify.deleteBankAccount, payload)
       const quote = yield select(selectors.core.data.coinify.getQuote)
-      yield put(actions.core.data.coinify.getMediumsWithBankAccounts(quote.data))
+      yield put(
+        actions.core.data.coinify.getMediumsWithBankAccounts(quote.data)
+      )
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'deleteBankAccount', e))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'deleteBankAccount', e)
+      )
     }
   }
 
-  const finishTrade = function * (data) {
+  const finishTrade = function*(data) {
     const tradeToFinish = data.payload
     try {
       if (tradeToFinish.state === 'awaiting_transfer_in') {
@@ -340,7 +461,11 @@ export default ({ coreSagas }) => {
           yield call(coreSagas.data.coinify.kycAsTrade, { kyc: tradeToFinish }) // core expects obj key to be 'kyc'
           yield put(A.coinifyNextCheckoutStep('isx'))
         } else if (tradeToFinish.medium === 'bank') {
-          yield put(actions.modals.showModal('CoinifyTradeDetails', { trade: tradeToFinish }))
+          yield put(
+            actions.modals.showModal('CoinifyTradeDetails', {
+              trade: tradeToFinish
+            })
+          )
         }
       }
     } catch (e) {
@@ -348,21 +473,23 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const cancelISX = function * () {
+  const cancelISX = function*() {
     const modals = yield select(selectors.modals.getModals)
     const trade = yield select(selectors.core.data.coinify.getTrade)
 
     if (path(['type'], head(modals)) === 'CoinifyExchangeData') {
       yield put(actions.modals.closeAllModals())
     } else if (trade.data.state === 'awaiting_transfer_in') {
-      yield put(actions.form.change('buySellTabStatus', 'status', 'order_history'))
+      yield put(
+        actions.form.change('buySellTabStatus', 'status', 'order_history')
+      )
       yield put(A.coinifyNextCheckoutStep('checkout'))
     } else {
       yield put(A.coinifyNextCheckoutStep('checkout'))
     }
   }
 
-  const cancelTrade = function * (data) {
+  const cancelTrade = function*(data) {
     const trade = data.payload
     try {
       yield put(A.setCancelTradeId(trade.id))
@@ -374,30 +501,38 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const cancelSubscription = function * (data) {
+  const cancelSubscription = function*(data) {
     const id = path(['payload', 'id'], data)
     try {
       yield put(A.coinifyLoading())
       yield call(coreSagas.data.coinify.cancelSubscription, { id })
       yield put(A.coinifySuccess())
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'cancelSubscription', e))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'cancelSubscription', e)
+      )
     }
   }
 
-  const initializePayment = function * () {
+  const initializePayment = function*() {
     try {
       yield put(A.coinifySellBtcPaymentUpdatedLoading())
-      let payment = coreSagas.payment.btc.create(({ network: settings.NETWORK_BITCOIN }))
+      let payment = coreSagas.payment.btc.create({
+        network: settings.NETWORK_BITCOIN
+      })
       payment = yield payment.init()
-      const defaultIndex = yield select(selectors.core.wallet.getDefaultAccountIndex)
+      const defaultIndex = yield select(
+        selectors.core.wallet.getDefaultAccountIndex
+      )
       const defaultFeePerByte = path(['fees', 'priority'], payment.value())
       payment = yield payment.from(defaultIndex)
       payment = yield payment.fee(defaultFeePerByte)
       yield put(A.coinifySellBtcPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
       yield put(A.coinifySellBtcPaymentUpdatedFailure(e))
-      yield put(actions.logs.logErrorMessage(logLocation, 'initializePayment', e))
+      yield put(
+        actions.logs.logErrorMessage(logLocation, 'initializePayment', e)
+      )
     }
   }
 
