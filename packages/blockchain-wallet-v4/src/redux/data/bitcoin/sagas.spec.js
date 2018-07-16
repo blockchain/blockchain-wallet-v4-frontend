@@ -8,6 +8,7 @@ import * as selectors from '../../selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
 import sagas from './sagas'
+import reducers from '../reducers'
 
 const blockchainData = {
   addresses: [{
