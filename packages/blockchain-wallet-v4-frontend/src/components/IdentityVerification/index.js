@@ -124,10 +124,12 @@ export const BorderBox = styled.div`
  * Not a real input, just for value display
  */
 export const FieldMimic = styled.div`
-  border: 1px solid #DDDDDD;
+  height: 28px;
+  border: 1px solid #CCCCCC;
   padding: 5px 15px;
   display: flex;
   flex-direction: row;
+  align-items: center;
   width: 85%;
   justify-content: space-between;
   ${media.mobile`

@@ -1,3 +1,4 @@
+import * as identityVerification from './identityVerification/selectors'
 import * as exchange from './exchange/selectors'
 import * as layoutWallet from './layoutWallet/selectors'
 import * as manageAddresses from './manageAddresses/selectors'
@@ -9,6 +10,7 @@ import * as sendEth from './sendEth/selectors'
 import * as signMessage from './signMessage/selectors'
 
 export {
+  identityVerification,
   exchange,
   layoutWallet,
   manageAddresses,

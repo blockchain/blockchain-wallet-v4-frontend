@@ -6,7 +6,7 @@ import { Field, reduxForm } from 'redux-form'
 
 import { Button, Text, Link } from 'blockchain-info-components'
 import { TextBox, PhoneNumberBox, Form } from 'components/Form'
-import { required } from 'services/FormHelper'
+import { validMobileNumber, required } from 'services/FormHelper'
 
 const AuthenticatorSummary = styled.div`
   width: 100%;
@@ -52,7 +52,7 @@ const SmsAuth = props => {
                   <FormattedMessage id='scenes.security.twostepverification.sms.entermobile' defaultMessage='Enter your mobile number and click Get Code. A verification code will be sent.' />
                 </Text>
                 <QRInputWrapper>
-                  <Field name='mobileNumber' component={PhoneNumberBox} validate={[required]} countryCode={countryCode} defaultValue={smsNumber} placeholder='212-555-5555' />
+                  <Field name='mobileNumber' component={PhoneNumberBox} validate={[required, validMobileNumber]} countryCode={countryCode} defaultValue={smsNumber} placeholder='212-555-5555' />
                   <Button type='submit' nature='primary' disabled={invalid}>Get Verification Code</Button>
                 </QRInputWrapper>
               </Fragment>

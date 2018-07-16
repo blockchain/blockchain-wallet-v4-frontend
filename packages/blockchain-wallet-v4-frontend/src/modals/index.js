@@ -9,6 +9,7 @@ import ConfirmDisable2FA from './ConfirmDisable2FA'
 import DeleteAddressLabel from './DeleteAddressLabel'
 import EditTxDescription from './EditTxDescription'
 import ExchangeDetails from './ExchangeDetails'
+import IdentityVerification from './IdentityVerification'
 import ImportBtcAddress from './ImportBtcAddress'
 import MobileNumberChange from './MobileNumberChange'
 import MobileNumberVerify from './MobileNumberVerify'
@@ -52,6 +53,7 @@ const Modals = props => (
     <DeleteAddressLabel />
     <EditTxDescription />
     <ExchangeDetails />
+    <IdentityVerification />
     <ImportBtcAddress />
     <MobileNumberChange />
     <MobileNumberVerify />
