@@ -76,12 +76,12 @@ describe('sendBch sagas', () => {
 
   describe('bch send form intialize', () => {
     const to = 'bchaddress'
-    const message = 'message'
+    const description = 'message'
     const amount = {
       coin: 1,
       fiat: 10000
     }
-    const payload = { to, message, amount, feeType }
+    const payload = { to, description, amount, feeType }
 
     const saga = testSaga(initialized, { payload })
 

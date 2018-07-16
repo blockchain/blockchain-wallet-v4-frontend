@@ -130,7 +130,7 @@ const Help = props => {
           </Text>
         </Left>
         <Right>
-          <LinkContainer to='/reset2fa'>
+          <LinkContainer to='/reset-2fa'>
             <Button>
               <FormattedMessage
                 id='scenes.help.reset'
