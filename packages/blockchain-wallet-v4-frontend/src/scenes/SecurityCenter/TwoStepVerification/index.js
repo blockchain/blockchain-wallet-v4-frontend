@@ -11,7 +11,7 @@ import Success from './template.success'
 import { formValueSelector } from 'redux-form'
 
 class TwoStepVerificationContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     this.handleClick = this.handleClick.bind(this)
@@ -23,7 +23,7 @@ class TwoStepVerificationContainer extends React.PureComponent {
     this.state = { authName: '', pulse: false }
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
+  static getDerivedStateFromProps (nextProps, prevState) {
     const data = nextProps.data.getOrElse({})
     if (data.authType === 4) return { authName: 'Authenticator App' }
     if (data.authType === 5) return { authName: 'SMS Codes' }
@@ -33,7 +33,7 @@ class TwoStepVerificationContainer extends React.PureComponent {
     return prevState
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate (prevProps) {
     const next = this.props.data.getOrElse({})
     const prev = prevProps.data.getOrElse({})
     if (next.authType > 0 && prev.authType === 0) {
@@ -41,12 +41,12 @@ class TwoStepVerificationContainer extends React.PureComponent {
     }
   }
 
-  handleClick() {
+  handleClick () {
     this.props.updateUI({ verifyToggled: true })
     this.props.handleEnable()
   }
 
-  handleDisableClick() {
+  handleDisableClick () {
     const next = this.props.data.getOrElse({})
     if (next.authType > 0) {
       this.props.modalActions.showModal('ConfirmDisable2FA', {
@@ -60,7 +60,7 @@ class TwoStepVerificationContainer extends React.PureComponent {
     }
   }
 
-  chooseMethod(method) {
+  chooseMethod (method) {
     const next = this.props.data.getOrElse({})
     if (next.smsVerified && method === 'sms') {
       this.props.securityCenterActions.setVerifiedMobileAsTwoFactor()
@@ -70,26 +70,26 @@ class TwoStepVerificationContainer extends React.PureComponent {
     }
   }
 
-  handleDisableTwoStep() {
+  handleDisableTwoStep () {
     this.props.securityCenterActions.disableTwoStep()
     this.setState({ authName: '' })
   }
 
-  handleTwoFactorChange() {
+  handleTwoFactorChange () {
     this.props.modalActions.showModal('ConfirmDisable2FA', {
       authName: this.state.authName
     })
     this.props.updateUI({ editing: false })
   }
 
-  pulseText() {
+  pulseText () {
     this.setState({ pulse: true })
     setTimeout(() => {
       this.setState({ pulse: false })
     }, 500)
   }
 
-  render() {
+  render () {
     const { data, ...rest } = this.props
 
     return data.cata({

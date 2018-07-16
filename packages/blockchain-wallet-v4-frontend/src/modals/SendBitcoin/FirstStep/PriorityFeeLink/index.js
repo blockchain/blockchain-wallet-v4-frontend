@@ -9,13 +9,13 @@ import { Link } from 'blockchain-info-components'
 
 const PriorityFeeLink = props => (
   <Link
-    size="12px"
+    size='12px'
     weight={300}
     onClick={() => props.actions.sendBtcFirstStepPriorityFeeClicked()}
   >
     <FormattedMessage
-      id="modals.sendbtc.priorityfeelink.priority"
-      defaultMessage="Priority: {fee}"
+      id='modals.sendbtc.priorityfeelink.priority'
+      defaultMessage='Priority: {fee}'
       values={{ fee: props.fee }}
     />
   </Link>

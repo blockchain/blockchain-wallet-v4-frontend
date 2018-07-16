@@ -37,27 +37,27 @@ const enhance = connect(
 export default type => Component =>
   enhance(
     class Modal extends PureComponent {
-      constructor(props) {
+      constructor (props) {
         super(props)
         this.handleClick = this.handleClick.bind(this)
         this.onKeyPressed = this.onKeyPressed.bind(this)
       }
 
-      handleClick(e) {
+      handleClick (e) {
         const modalContainer = ReactDOM.findDOMNode(this.node)
         if (modalContainer && equals(modalContainer.children[0], e.target)) {
           this.props.close()
         }
       }
 
-      onKeyPressed(evt) {
+      onKeyPressed (evt) {
         const event = evt || window.event
         if (event.keyCode === 27) {
           this.props.close()
         }
       }
 
-      render() {
+      render () {
         const { modals, ...rest } = this.props
         const filtered = modals.filter(m => m.type === type)
         const setRef = node => {
@@ -75,7 +75,7 @@ export default type => Component =>
                 onKeyDown={this.onKeyPressed}
                 onMouseDown={this.handleClick}
                 ref={setRef}
-                tabIndex="0"
+                tabIndex='0'
               >
                 <Component
                   ref={this.node}

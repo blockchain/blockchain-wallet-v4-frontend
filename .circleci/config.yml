@@ -45,11 +45,8 @@ jobs:
       - *restore_repo
       - *restore_node_modules
       - run:
-          name: Install Build Dependencies
-          command: npm install yarn babel-cli rimraf cross-env
-      - run:
           name: Install App Dependencies
-          command: yarn
+          command: yarn --frozen-lockfile
       - save_cache:
           key: *npm_cache_key
           paths:
@@ -65,20 +62,20 @@ jobs:
       - run:
           name: Lint Code
           command: yarn lint
-  prettier:
+  test_core_components:
     <<: *container_config
     steps:
       - *attach_workspace
       - run:
-          name: Run Prettier
-          command: yarn ci:prettier
-  unit_tests:
+          name: Test Core & Components Code
+          command: yarn ci:test:core:components
+  test_frontend:
     <<: *container_config
     steps:
       - *attach_workspace
       - run:
-          name: Test Code
-          command: yarn ci:test
+          name: Test Frontend Code
+          command: yarn ci:test:build && yarn ci:test:frontend
   code_coverage:
     <<: *container_config
     steps:
@@ -99,10 +96,10 @@ workflows:
       - lint:
           requires:
             - npm_install
-      - prettier:
+      - test_core_components:
           requires:
             - npm_install
-      - unit_tests:
+      - test_frontend:
           requires:
             - npm_install
 

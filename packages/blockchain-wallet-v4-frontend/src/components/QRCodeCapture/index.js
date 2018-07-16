@@ -12,14 +12,14 @@ import * as C from 'services/AlertService'
 import { Exchange, utils } from 'blockchain-wallet-v4/src'
 
 class QRCodeCaptureContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.handleToggle = this.handleToggle.bind(this)
     this.handleScan = this.handleScan.bind(this)
     this.handleError = this.handleError.bind(this)
   }
 
-  handleToggle() {
+  handleToggle () {
     switch (this.props.scanType) {
       case 'btcAddress':
         return this.props.updateUI({
@@ -40,7 +40,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
     }
   }
 
-  handleScanBtcAddress(data) {
+  handleScanBtcAddress (data) {
     try {
       const { address, options } = bip21.decode(data)
       const { currency, btcRates } = this.props
@@ -73,7 +73,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
     }
   }
 
-  handleScanBchAddress(data) {
+  handleScanBchAddress (data) {
     // try bitcoincash:qruaxzyr4wcxyuxg2qnteajhgnq2nsmzccuc6d4r5u
     try {
       const { address, options } = bip21.decode(data, 'bitcoincash')
@@ -105,7 +105,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
     }
   }
 
-  handleScanEthAddress(data) {
+  handleScanEthAddress (data) {
     if (utils.ethereum.isValidAddress(data)) {
       this.props.formActions.change('sendEth', 'to', data)
       this.props.updateUI({ ethAddress: { toggled: false } })
@@ -115,7 +115,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
     }
   }
 
-  handleScanBtcPriv(data) {
+  handleScanBtcPriv (data) {
     if (utils.bitcoin.isValidBitcoinPrivateKey(data)) {
       this.props.formActions.change('sendBtc', 'priv', data)
       this.props.formActions.touch('sendBtc', 'priv')
@@ -126,7 +126,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
     }
   }
 
-  handleScan(data) {
+  handleScan (data) {
     if (!isNil(data) && !isEmpty(data)) {
       switch (this.props.scanType) {
         case 'btcAddress':
@@ -141,13 +141,13 @@ class QRCodeCaptureContainer extends React.PureComponent {
     }
   }
 
-  handleError(error) {
+  handleError (error) {
     if (!isNil(error) && !isEmpty(error)) {
       this.props.alertActions.displayError(error)
     }
   }
 
-  render() {
+  render () {
     const { border, ui, scanType } = this.props
     const getTypeToggled = scanType => {
       switch (scanType) {

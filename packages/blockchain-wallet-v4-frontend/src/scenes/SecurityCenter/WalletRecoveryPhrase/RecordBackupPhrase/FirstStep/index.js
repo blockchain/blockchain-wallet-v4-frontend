@@ -58,32 +58,32 @@ const FirstStep = props => {
   return (
     <FirstStepContainer>
       <PrintContainer>
-        <Text size="12px" weight={400}>
+        <Text size='12px' weight={400}>
           <FormattedMessage
-            id="modals.recoveryphrase.firststep.explain4"
-            defaultMessage="We created a printable backup sheet to give you a place to write down your 12 word phrase and keep it safe. Please print the blank sheet (or grab a piece of paper) and move on to the next step."
+            id='modals.recoveryphrase.firststep.explain4'
+            defaultMessage='We created a printable backup sheet to give you a place to write down your 12 word phrase and keep it safe. Please print the blank sheet (or grab a piece of paper) and move on to the next step.'
           />
         </Text>
-        <Link href={recoveryPdf} download="recovery.pdf">
-          <Button nature="empty">
+        <Link href={recoveryPdf} download='recovery.pdf'>
+          <Button nature='empty'>
             <Image
-              name="printer"
-              height="20px"
-              width="20px"
+              name='printer'
+              height='20px'
+              width='20px'
               style={spacing('mr-5')}
             />
             <FormattedMessage
-              id="modals.recoveryphrase.firststep.print"
-              defaultMessage="Print Backup Sheet"
+              id='modals.recoveryphrase.firststep.print'
+              defaultMessage='Print Backup Sheet'
             />
           </Button>
         </Link>
       </PrintContainer>
       <Buttons>
-        <Button nature="primary" onClick={nextStep}>
+        <Button nature='primary' onClick={nextStep}>
           <FormattedMessage
-            id="modals.recoveryphrase.firststep.backup"
-            defaultMessage="Backup Funds"
+            id='modals.recoveryphrase.firststep.backup'
+            defaultMessage='Backup Funds'
           />
         </Button>
       </Buttons>

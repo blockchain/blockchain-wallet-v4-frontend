@@ -7,14 +7,14 @@ import { Navbar, NavbarBrand } from 'components/Navbar'
 const Header = () => {
   return (
     <React.Fragment>
-      <Navbar height="90px">
+      <Navbar height='90px'>
         <NavbarBrand>
-          <Link href="https://www.blockchain.com">
-            <Image name="blockchain-vector" height="20px" />
+          <Link href='https://www.blockchain.com'>
+            <Image name='blockchain-vector' height='20px' />
           </Link>
         </NavbarBrand>
       </Navbar>
-      <ServiceAnnouncement alertArea="public" />
+      <ServiceAnnouncement alertArea='public' />
     </React.Fragment>
   )
 }

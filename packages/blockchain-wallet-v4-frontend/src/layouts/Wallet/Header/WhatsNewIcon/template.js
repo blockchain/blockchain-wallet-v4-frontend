@@ -29,7 +29,7 @@ const WhatsNewIcon = props => {
 
   return (
     <WhatsNewLink onClick={handleClick} highlighted={highlighted}>
-      <Icon id="whatsnew-icon" name="bell" color="white" cursor />
+      <Icon id='whatsnew-icon' name='bell' color='white' cursor />
     </WhatsNewLink>
   )
 }

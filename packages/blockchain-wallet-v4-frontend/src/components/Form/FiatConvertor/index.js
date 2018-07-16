@@ -8,7 +8,7 @@ import Loading from './template.loading'
 import Convertor from './Convertor'
 
 class FiatConvertorContainer extends React.PureComponent {
-  render() {
+  render () {
     const { input, meta, data, disabled } = this.props
 
     return data.cata({

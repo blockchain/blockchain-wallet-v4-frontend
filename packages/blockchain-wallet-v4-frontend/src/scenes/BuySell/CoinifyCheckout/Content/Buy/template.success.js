@@ -147,14 +147,14 @@ const CoinifyBuy = props => {
         <BankTransferDetails trade={trade} />
         <RightContainer>
           <Button
-            nature="primary"
-            width="85%"
+            nature='primary'
+            width='85%'
             onClick={() => {
               changeTab('order_history')
               coinifyNextCheckoutStep('checkout')
             }}
           >
-            <FormattedMessage id="close" defaultMessage="Close" />
+            <FormattedMessage id='close' defaultMessage='Close' />
           </Button>
         </RightContainer>
       </CheckoutWrapper>

@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import SelectBox from '../SelectBox'
 
 class SelectBoxUSState extends React.PureComponent {
-  render() {
+  render () {
     const { states, ...rest } = this.props
     const elements = [{ group: '', items: states }]
 
@@ -13,8 +13,8 @@ class SelectBoxUSState extends React.PureComponent {
       <SelectBox
         label={
           <FormattedMessage
-            id="components.selectboxstate.label"
-            defaultMessage="Select country"
+            id='components.selectboxstate.label'
+            defaultMessage='Select country'
           />
         }
         elements={elements}

@@ -6,7 +6,7 @@ import { selectors } from 'data'
 import SwitchableDisplay from './template.js'
 
 class SwitchableDisplayContainer extends React.PureComponent {
-  render() {
+  render () {
     return <SwitchableDisplay {...this.props} />
   }
 }

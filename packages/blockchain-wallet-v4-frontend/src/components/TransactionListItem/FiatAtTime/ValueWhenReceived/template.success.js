@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Text } from 'blockchain-info-components'
 
 export const Success = props => (
-  <Text size="12px" weight={200}>
+  <Text size='12px' weight={200}>
     {props.fiatAtTime}
   </Text>
 )

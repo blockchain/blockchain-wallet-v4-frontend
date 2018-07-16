@@ -53,9 +53,9 @@ const TextBox = field => {
       {touched &&
         error && (
           <Error
-            size="12px"
+            size='12px'
             weight={300}
-            color="error"
+            color='error'
             errorBottom={errorBottom}
           >
             {error}
@@ -65,9 +65,9 @@ const TextBox = field => {
         !error &&
         warning && (
           <Error
-            size="12px"
+            size='12px'
             weight={300}
-            color="sent"
+            color='sent'
             errorBottom={errorBottom}
           >
             {warning}

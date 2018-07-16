@@ -28,28 +28,28 @@ const Welcome = props => {
   const { position, total, close } = props
 
   return (
-    <Modal size="medium" position={position} total={total}>
+    <Modal size='medium' position={position} total={total}>
       <WelcomeModalHeader onClose={close} />
-      <Image name="v4-welcome" width="100%" />
+      <Image name='v4-welcome' width='100%' />
       <ModalBody>
         <Container>
-          <Text size="26px" weight={300}>
+          <Text size='26px' weight={300}>
             <FormattedMessage
-              id="modals.welcome.welcome"
-              defaultMessage="Welcome to Blockchain!"
+              id='modals.welcome.welcome'
+              defaultMessage='Welcome to Blockchain!'
             />
           </Text>
-          <Text size="16px" weight={300}>
+          <Text size='16px' weight={300}>
             <FormattedMessage
-              id="modals.welcome.thanks"
-              defaultMessage="Thanks for joining over {walletMillions} million Blockchain wallet users in helping create an open, accessible, and fair financial future. Your wallet makes transacting with digital currencies simple and secure. Get started now."
+              id='modals.welcome.thanks'
+              defaultMessage='Thanks for joining over {walletMillions} million Blockchain wallet users in helping create an open, accessible, and fair financial future. Your wallet makes transacting with digital currencies simple and secure. Get started now.'
               values={{ walletMillions: props.walletMillions }}
             />
           </Text>
-          <Button nature="primary" fullwidth uppercase onClick={close}>
+          <Button nature='primary' fullwidth uppercase onClick={close}>
             <FormattedMessage
-              id="modals.welcome.continue"
-              defaultMessage="Get Started"
+              id='modals.welcome.continue'
+              defaultMessage='Get Started'
             />
           </Button>
         </Container>

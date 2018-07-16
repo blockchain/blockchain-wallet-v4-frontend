@@ -117,14 +117,14 @@ const AcceptTerms = props => {
     {
       question: (
         <FormattedMessage
-          id="coinifysignup.acceptterms.helper1.question"
-          defaultMessage="What is Coinify?"
+          id='coinifysignup.acceptterms.helper1.question'
+          defaultMessage='What is Coinify?'
         />
       ),
       answer: (
         <FormattedMessage
-          id="coinifysignup.acceptterms.helper1.answer"
-          defaultMessage="Coinify is a trading platform we’ve partnered with to bring you a harmonious buy & sell experience in your Blockchain wallet"
+          id='coinifysignup.acceptterms.helper1.answer'
+          defaultMessage='Coinify is a trading platform we’ve partnered with to bring you a harmonious buy & sell experience in your Blockchain wallet'
         />
       )
     }
@@ -141,39 +141,39 @@ const AcceptTerms = props => {
         <InputWrapper>
           <PartnerHeader>
             <FormattedMessage
-              id="coinifyexchangedata.create.verifyemail.partner.header.createyouraccount"
-              defaultMessage="Create Your Account"
+              id='coinifyexchangedata.create.verifyemail.partner.header.createyouraccount'
+              defaultMessage='Create Your Account'
             />
           </PartnerHeader>
           <PartnerSubHeader>
             <FormattedMessage
-              id="coinifyexchangedata.create.accept.partner.header.acceptterms"
-              defaultMessage="We teamed up with Coinify’s exchange platform to offer buy and sell to our customers in Europe. Accept their terms and conditions to start buying and selling."
+              id='coinifyexchangedata.create.accept.partner.header.acceptterms'
+              defaultMessage='We teamed up with Coinify’s exchange platform to offer buy and sell to our customers in Europe. Accept their terms and conditions to start buying and selling.'
             />
           </PartnerSubHeader>
           <FieldsContainer>
             <FieldContainer>
               <VerifiedText>
                 <FormattedMessage
-                  id="sfoxexchangedata.create.createaccount.partner.verifiedemail"
-                  defaultMessage="Verified Email Address"
+                  id='sfoxexchangedata.create.createaccount.partner.verifiedemail'
+                  defaultMessage='Verified Email Address'
                 />
               </VerifiedText>
               <VerifiedContainer>
                 <FieldBox>
-                  <Text size="14px" weight={300}>
+                  <Text size='14px' weight={300}>
                     {email}
                   </Text>
                   <EditLink onClick={editEmail} weight={300}>
                     {window.outerWidth > 480 ? (
                       <FormattedMessage
-                        id="sfoxexchangedata.create.createaccount.partner.edit"
-                        defaultMessage="edit"
+                        id='sfoxexchangedata.create.createaccount.partner.edit'
+                        defaultMessage='edit'
                       />
                     ) : (
                       <FormattedMessage
-                        id="sfoxexchangedata.create.createaccount.partner.editemail"
-                        defaultMessage="edit email"
+                        id='sfoxexchangedata.create.createaccount.partner.editemail'
+                        defaultMessage='edit email'
                       />
                     )}
                   </EditLink>
@@ -181,9 +181,9 @@ const AcceptTerms = props => {
                 <IconContainer>
                   {emailVerified ? (
                     <Icon
-                      name="checkmark-in-circle-filled"
-                      color="success"
-                      size="20px"
+                      name='checkmark-in-circle-filled'
+                      color='success'
+                      size='20px'
                     />
                   ) : null}
                 </IconContainer>
@@ -192,11 +192,11 @@ const AcceptTerms = props => {
           </FieldsContainer>
           <AcceptTermsContainer>
             <Field
-              name="terms"
+              name='terms'
               validate={[checkboxShouldBeChecked]}
               component={CheckBox}
             >
-              <Terms company="coinify" />
+              <Terms company='coinify' />
             </Field>
           </AcceptTermsContainer>
         </InputWrapper>
@@ -206,15 +206,15 @@ const AcceptTerms = props => {
           <ButtonWrapper>
             <Button
               uppercase
-              type="submit"
-              nature="primary"
+              type='submit'
+              nature='primary'
               fullwidth
               disabled={invalid || busy || signupError}
             >
               {!busy ? (
                 <span>Continue</span>
               ) : (
-                <HeartbeatLoader height="20px" width="20px" color="white" />
+                <HeartbeatLoader height='20px' width='20px' color='white' />
               )}
             </Button>
           </ButtonWrapper>
@@ -222,54 +222,54 @@ const AcceptTerms = props => {
             {signupError &&
             prop('error', signupError) === 'email_address_in_use' ? (
               <TextGroup inline>
-                <Text size="12px" color="error" weight={300}>
+                <Text size='12px' color='error' weight={300}>
                   <FormattedMessage
-                    id="coinifyexchangedata.create.accept.error1"
-                    defaultMessage="Unfortunately this email is being used for another account. "
+                    id='coinifyexchangedata.create.accept.error1'
+                    defaultMessage='Unfortunately this email is being used for another account. '
                   />
                 </Text>
                 <Text
-                  size="12px"
-                  color="brand-secondary"
-                  cursor="pointer"
+                  size='12px'
+                  color='brand-secondary'
+                  cursor='pointer'
                   weight={300}
                   onClick={() => updateUI({ create: 'change_email' })}
                 >
                   <FormattedMessage
-                    id="coinifyexchangedata.create.accept.error2"
-                    defaultMessage="Click here "
+                    id='coinifyexchangedata.create.accept.error2'
+                    defaultMessage='Click here '
                   />
                 </Text>
-                <Text size="12px" color="error" weight={300}>
+                <Text size='12px' color='error' weight={300}>
                   <FormattedMessage
-                    id="coinifyexchangedata.create.accept.error3"
-                    defaultMessage="to change it."
+                    id='coinifyexchangedata.create.accept.error3'
+                    defaultMessage='to change it.'
                   />
                 </Text>
               </TextGroup>
             ) : signupError ? (
               <TextGroup inline>
-                <Text size="12px" color="error" weight={300}>
+                <Text size='12px' color='error' weight={300}>
                   <FormattedMessage
-                    id="coinifyexchangedata.create.accept.unknownError"
+                    id='coinifyexchangedata.create.accept.unknownError'
                     defaultMessage="We're sorry, but something unexpected went wrong. Please "
                   />
                 </Text>
-                <Link size="12px" weight={300} onClick={() => clearError()}>
-                  <FormattedMessage id="tryagain" defaultMessage="try again" />
+                <Link size='12px' weight={300} onClick={() => clearError()}>
+                  <FormattedMessage id='tryagain' defaultMessage='try again' />
                 </Link>
-                <Text size="12px" color="error" weight={300}>
-                  <FormattedMessage id="or" defaultMessage="or" />
+                <Text size='12px' color='error' weight={300}>
+                  <FormattedMessage id='or' defaultMessage='or' />
                 </Text>
                 <Link
-                  target="_blank"
-                  href="https://support.blockchain.com"
-                  size="12px"
+                  target='_blank'
+                  href='https://support.blockchain.com'
+                  size='12px'
                   weight={300}
                 >
                   <FormattedMessage
-                    id="contactsupport"
-                    defaultMessage="contact support."
+                    id='contactsupport'
+                    defaultMessage='contact support.'
                   />
                 </Link>
               </TextGroup>

@@ -8,19 +8,19 @@ import Loading from 'components/BuySell/Loading'
 import Failure from 'components/BuySell/Failure'
 
 class SellContainer extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.submitQuote = this.submitQuote.bind(this)
     this.startSell = this.startSell.bind(this)
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.props.coinifyDataActions.getKyc()
     this.props.coinifyActions.initializePayment()
     this.props.coinifyActions.initializeCheckoutForm('sell')
   }
 
-  submitQuote() {
+  submitQuote () {
     const { sellQuoteR } = this.props
     sellQuoteR.map(quote =>
       this.props.coinifyDataActions.getMediumsWithBankAccounts(quote)
@@ -28,12 +28,12 @@ class SellContainer extends React.Component {
     this.props.coinifyActions.saveMedium('blockchain')
   }
 
-  startSell() {
+  startSell () {
     const { coinifyActions } = this.props
     coinifyActions.initiateSell()
   }
 
-  render() {
+  render () {
     const {
       data,
       modalActions,

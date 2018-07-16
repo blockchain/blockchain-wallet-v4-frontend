@@ -45,17 +45,17 @@ const Confirmations = props => {
   return (
     <Wrapper>
       {props.confirmations >= props.minConfirmations ? (
-        <Text size="12px" weight={300} color="received">
+        <Text size='12px' weight={300} color='received'>
           <FormattedMessage
-            id="scenes.transactions.content.pages.listitem.confirmation.confirmed"
-            defaultMessage="Transaction Confirmed"
+            id='scenes.transactions.content.pages.listitem.confirmation.confirmed'
+            defaultMessage='Transaction Confirmed'
           />
         </Text>
       ) : (
-        <ConfirmationsText size="12px" weight={300} color="gray-3">
+        <ConfirmationsText size='12px' weight={300} color='gray-3'>
           <FormattedMessage
-            id="scenes.transactions.content.pages.listitem.confirmation.unconfirmed"
-            defaultMessage="Pending: {count}/{total} Confirmations"
+            id='scenes.transactions.content.pages.listitem.confirmation.unconfirmed'
+            defaultMessage='Pending: {count}/{total} Confirmations'
             values={{
               count: toString(props.confirmations),
               total: props.minConfirmations
@@ -68,14 +68,14 @@ const Confirmations = props => {
           <TransactionTooltip>
             <Tooltip colors={'red'}>
               <FormattedMessage
-                id="scenes.transactions.content.list.listitem.transactionunconfirmed"
-                defaultMessage="Your transaction will be complete after it has {minConfirmations} confirmations."
+                id='scenes.transactions.content.list.listitem.transactionunconfirmed'
+                defaultMessage='Your transaction will be complete after it has {minConfirmations} confirmations.'
                 values={{ minConfirmations: props.minConfirmations }}
               />
               <Link
-                href="https://support.blockchain.com/hc/en-us/articles/217116406-Why-hasn-t-my-transaction-confirmed-yet-"
-                target="_blank"
-                size="11px"
+                href='https://support.blockchain.com/hc/en-us/articles/217116406-Why-hasn-t-my-transaction-confirmed-yet-'
+                target='_blank'
+                size='11px'
                 weight={300}
                 altFont
               >
@@ -84,12 +84,12 @@ const Confirmations = props => {
             </Tooltip>
           </TransactionTooltip>
         )}
-        <Link href={`${explorers[props.coin]}/${props.hash}`} target="_blank">
+        <Link href={`${explorers[props.coin]}/${props.hash}`} target='_blank'>
           <Icon
-            name="open-in-new-tab"
-            color="marketing-primary"
+            name='open-in-new-tab'
+            color='marketing-primary'
             cursor
-            size="17px"
+            size='17px'
           />
         </Link>
       </IconWrapper>
