@@ -9,12 +9,18 @@ import Settings from './template.js'
 
 class SettingsContainer extends React.PureComponent {
   componentWillMount () {
-    this.props.formActions.initialize('settingTheme', { 'theme': this.props.theme })
+    this.props.formActions.initialize('settingTheme', {
+      theme: this.props.theme
+    })
   }
 
   componentWillReceiveProps (nextProps) {
     const { theme, newTheme } = this.props
-    if (!isNil(nextProps.newTheme) && !equals(theme, nextProps.newTheme) && !equals(newTheme, nextProps.newTheme)) {
+    if (
+      !isNil(nextProps.newTheme) &&
+      !equals(theme, nextProps.newTheme) &&
+      !equals(newTheme, nextProps.newTheme)
+    ) {
       this.props.preferencesActions.setTheme(nextProps.newTheme)
     }
   }
@@ -24,14 +30,17 @@ class SettingsContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   theme: selectors.preferences.getTheme(state),
   newTheme: formValueSelector('settingTheme')(state, 'theme')
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   preferencesActions: bindActionCreators(actions.preferences, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SettingsContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SettingsContainer)

@@ -14,13 +14,13 @@ const wizard = (name, totalSteps) => Component => {
 
     handlePreviousStep () {
       if (this.props.step > 1) {
-        this.props.actions.setStep(name, (this.props.step - 1))
+        this.props.actions.setStep(name, this.props.step - 1)
       }
     }
 
     handleNextStep () {
       if (this.props.step < totalSteps) {
-        this.props.actions.setStep(name, (this.props.step + 1))
+        this.props.actions.setStep(name, this.props.step + 1)
       }
     }
 
@@ -29,24 +29,29 @@ const wizard = (name, totalSteps) => Component => {
     }
 
     render () {
-      return <Component
-        {...this.props}
-        previousStep={this.handlePreviousStep}
-        nextStep={this.handleNextStep}
-        resetStep={this.handleResetStep}
-      />
+      return (
+        <Component
+          {...this.props}
+          previousStep={this.handlePreviousStep}
+          nextStep={this.handleNextStep}
+          resetStep={this.handleResetStep}
+        />
+      )
     }
   }
 
-  const mapStateToProps = (state) => ({
+  const mapStateToProps = state => ({
     step: selectors.wizard.selectStep(name, state)
   })
 
-  const mapDispatchToProps = (dispatch) => ({
+  const mapDispatchToProps = dispatch => ({
     actions: bindActionCreators(actions.wizard, dispatch)
   })
 
-  return connect(mapStateToProps, mapDispatchToProps)(WizardProvider)
+  return connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(WizardProvider)
 }
 
 export default wizard

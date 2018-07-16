@@ -10,8 +10,10 @@ class PasswordHintContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
-  passwordHintStored: selectors.core.settings.getHint(state) !== undefined && selectors.core.settings.getHint(state) !== 'undefined'
+const mapStateToProps = state => ({
+  passwordHintStored:
+    selectors.core.settings.getHint(state) !== undefined &&
+    selectors.core.settings.getHint(state) !== 'undefined'
 })
 
 export default connect(mapStateToProps)(PasswordHintContainer)

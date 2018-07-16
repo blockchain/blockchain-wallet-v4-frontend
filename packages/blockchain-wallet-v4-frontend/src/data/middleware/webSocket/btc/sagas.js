@@ -9,20 +9,34 @@ import { Socket } from 'blockchain-wallet-v4/src/network'
 export default ({ api, btcSocket }) => {
   const send = btcSocket.send.bind(btcSocket)
 
-  const onOpen = function * () {
+  const onOpen = function*() {
     try {
-      const subscribeInfo = yield select(selectors.core.wallet.getInitialSocketContext)
-      yield call(compose(send, Socket.onOpenMessage), subscribeInfo)
+      const subscribeInfo = yield select(
+        selectors.core.wallet.getInitialSocketContext
+      )
+      yield call(
+        compose(
+          send,
+          Socket.onOpenMessage
+        ),
+        subscribeInfo
+      )
     } catch (e) {
-      yield put(actions.logs.logErrorMessage('middleware/webSocket/btc/sagas', 'onOpen', e.message))
+      yield put(
+        actions.logs.logErrorMessage(
+          'middleware/webSocket/btc/sagas',
+          'onOpen',
+          e.message
+        )
+      )
     }
   }
 
-  const dispatchLogoutEvent = function * () {
+  const dispatchLogoutEvent = function*() {
     yield window.dispatchEvent(new window.Event('wallet.core.logout'))
   }
 
-  const onMessage = function * (action) {
+  const onMessage = function*(action) {
     try {
       const message = action.payload
 
@@ -39,7 +53,10 @@ export default ({ api, btcSocket }) => {
         case 'utx':
           // Find out if the transaction is sent/received to show a notification
           const context = yield select(selectors.core.wallet.getContext)
-          const data = yield call(api.fetchBlockchainData, context, { n: 50, offset: 0 })
+          const data = yield call(api.fetchBlockchainData, context, {
+            n: 50,
+            offset: 0
+          })
           const transactions = data.txs || []
           for (let i in transactions) {
             const transaction = transactions[i]
@@ -55,15 +72,28 @@ export default ({ api, btcSocket }) => {
           // If we are on the transaction page, fetch transactions related to the selected account
           const pathname = yield select(selectors.router.getPathname)
           if (equals(pathname, '/btc/transactions')) {
-            const formValues = yield select(selectors.form.getFormValues('btcTransactions'))
+            const formValues = yield select(
+              selectors.form.getFormValues('btcTransactions')
+            )
             const source = prop('source', formValues)
-            const onlyShow = equals(source, 'all') ? '' : (source.xpub || source.address)
-            yield put(actions.core.data.bitcoin.fetchTransactions(onlyShow, true))
+            const onlyShow = equals(source, 'all')
+              ? ''
+              : source.xpub || source.address
+            yield put(
+              actions.core.data.bitcoin.fetchTransactions(onlyShow, true)
+            )
           }
           break
         case 'block':
           const newBlock = message.x
-          yield put(actions.core.data.bitcoin.setBitcoinLatestBlock(newBlock.blockIndex, newBlock.hash, newBlock.height, newBlock.time))
+          yield put(
+            actions.core.data.bitcoin.setBitcoinLatestBlock(
+              newBlock.blockIndex,
+              newBlock.hash,
+              newBlock.height,
+              newBlock.time
+            )
+          )
           break
         case 'pong':
           break
@@ -74,26 +104,49 @@ export default ({ api, btcSocket }) => {
           yield call(dispatchLogoutEvent)
           break
         default:
-          yield put(actions.logs.logErrorMessage('middleware/webSocket/btc/sagas', 'onMessage', 'unknown type for ' + message))
+          yield put(
+            actions.logs.logErrorMessage(
+              'middleware/webSocket/btc/sagas',
+              'onMessage',
+              'unknown type for ' + message
+            )
+          )
           break
       }
     } catch (e) {
-      yield put(actions.logs.logErrorMessage('middleware/webSocket/btc/sagas', 'onMessage', e.message))
+      yield put(
+        actions.logs.logErrorMessage(
+          'middleware/webSocket/btc/sagas',
+          'onMessage',
+          e.message
+        )
+      )
     }
   }
 
-  const onClose = function * (action) {
-  }
+  const onClose = function*(action) {}
 
-  const refreshWrapper = function * () {
+  const refreshWrapper = function*() {
     const guid = yield select(actions.core.wallet.getGuid)
     const skey = yield select(actions.core.wallet.getSharedKey)
     const password = yield select(actions.core.wallet.getMainPassword)
     try {
-      const newWrapper = yield call(api.fetchWallet, guid, skey, undefined, password)
+      const newWrapper = yield call(
+        api.fetchWallet,
+        guid,
+        skey,
+        undefined,
+        password
+      )
       yield put(actions.wallet.refreshWrapper(newWrapper))
     } catch (e) {
-      yield put(actions.logs.logErrorMessage('middleware/webSocket/btc/sagas', 'onMessage', 'REFRESH WRAPPER FAILED (WEBSOCKET)'))
+      yield put(
+        actions.logs.logErrorMessage(
+          'middleware/webSocket/btc/sagas',
+          'onMessage',
+          'REFRESH WRAPPER FAILED (WEBSOCKET)'
+        )
+      )
     }
   }
 

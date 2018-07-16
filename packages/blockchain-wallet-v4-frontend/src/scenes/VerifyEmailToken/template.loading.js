@@ -15,7 +15,10 @@ const Loading = props => {
     <Wrapper>
       <BlockchainLoader width='40px' height='40px' />
       <Text size='16px' weight={300} style={{ 'margin-top': '25px' }}>
-        <FormattedMessage id='scenes.verifyemailtoken.loading' defaultMessage="We're verifying your email address. Please wait..." />
+        <FormattedMessage
+          id='scenes.verifyemailtoken.loading'
+          defaultMessage="We're verifying your email address. Please wait..."
+        />
       </Text>
     </Wrapper>
   )

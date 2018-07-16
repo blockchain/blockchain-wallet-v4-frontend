@@ -25,7 +25,7 @@ This  directory contains locale resources like locales and sass
 
 ### Components
 
-This directory contains shared/reusable components accross the project.
+This directory contains shared/reusable components across the project.
 
 ### Config
 

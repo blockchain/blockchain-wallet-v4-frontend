@@ -36,10 +36,7 @@ describe('kvstore shapeshift selectors', () => {
     }
   }
 
-  const trades = [
-    pendingTrade,
-    completeTrade
-  ]
+  const trades = [pendingTrade, completeTrade]
 
   const USAState = {
     Code: 'AL',
@@ -77,7 +74,9 @@ describe('kvstore shapeshift selectors', () => {
   it('getTrade should return success of trade', () => {
     const completeTradeAddress = '0x50c3b88941948ef337458f766971c407e7180a29'
     const expectedResult = Remote.Success(completeTrade)
-    expect(selectors.getTrade(completeTradeAddress, successState)).toEqual(expectedResult)
+    expect(selectors.getTrade(completeTradeAddress, successState)).toEqual(
+      expectedResult
+    )
   })
 
   const loadingState = {
@@ -104,7 +103,9 @@ describe('kvstore shapeshift selectors', () => {
   it('getTrade should return loading in loading state', () => {
     const completeTradeAddress = '0x50c3b88941948ef337458f766971c407e7180a29'
     const expectedResult = Remote.Loading
-    expect(selectors.getTrade(completeTradeAddress, loadingState)).toEqual(expectedResult)
+    expect(selectors.getTrade(completeTradeAddress, loadingState)).toEqual(
+      expectedResult
+    )
   })
 
   const failureState = {
@@ -131,6 +132,8 @@ describe('kvstore shapeshift selectors', () => {
   it('getTrade should return failure in failure state', () => {
     const completeTradeAddress = '0x50c3b88941948ef337458f766971c407e7180a29'
     const expectedResult = Remote.Failure('Error in shapeshift metadata')
-    expect(selectors.getTrade(completeTradeAddress, failureState)).toEqual(expectedResult)
+    expect(selectors.getTrade(completeTradeAddress, failureState)).toEqual(
+      expectedResult
+    )
   })
 })

@@ -7,17 +7,18 @@ import media from 'services/ResponsiveService'
 const Choice = styled.div`
   display: flex;
   flex-direction: row;
-  border: 1px solid #E5E5E5;
+  border: 1px solid #e5e5e5;
   border-radius: 6px;
   padding: 15px;
   cursor: pointer;
-  opacity: ${props => props.selected && props.editing ? 1 : !props.editing ? 1 : 0.3};
+  opacity: ${props =>
+    props.selected && props.editing ? 1 : !props.editing ? 1 : 0.3};
   div * {
     cursor: pointer;
   }
   ${media.mobile`
     margin-bottom: 10px;
-  `}
+  `};
 `
 const ChoiceDescription = styled.div`
   display: flex;
@@ -46,14 +47,14 @@ const YubikeyWrapper = styled.div`
     display: flex;
     align-items: center;
     margin-right: 3px;
-  `}
+  `};
 `
 const SecurityIcon = styled(Icon)`
   ${media.mobile`
     display: flex;
     align-items: center;
     margin-right: 3px;
-  `}
+  `};
 `
 
 function Choices (props) {
@@ -61,38 +62,80 @@ function Choices (props) {
 
   return (
     <TwoStepChoicesWrapper>
-      <Choice editing={editing} selected={authType === 4} onClick={editing && authType > 0 ? () => props.pulseText() : () => props.chooseMethod('google')}>
+      <Choice
+        editing={editing}
+        selected={authType === 4}
+        onClick={
+          editing && authType > 0
+            ? () => props.pulseText()
+            : () => props.chooseMethod('google')
+        }
+      >
         <SecurityIcon name='lock' size='18px' weight={400} />
         <ChoiceDescription>
           <Text weight={300} size='14px'>
-            <FormattedMessage id='scenes.security.twostepsetup.useauthenticatortitle' defaultMessage='Authenticator App' />
+            <FormattedMessage
+              id='scenes.security.twostepsetup.useauthenticatortitle'
+              defaultMessage='Authenticator App'
+            />
           </Text>
           <Text weight={200} size='12px'>
-            <FormattedMessage id='scenes.security.twostepsetup.useauthenticator' defaultMessage='Use app-generated codes' />
+            <FormattedMessage
+              id='scenes.security.twostepsetup.useauthenticator'
+              defaultMessage='Use app-generated codes'
+            />
           </Text>
         </ChoiceDescription>
       </Choice>
-      <Choice editing={editing} selected={authType === 1 || authType === 2} onClick={editing && authType > 0 ? () => props.pulseText() : () => props.chooseMethod('yubikey')}>
+      <Choice
+        editing={editing}
+        selected={authType === 1 || authType === 2}
+        onClick={
+          editing && authType > 0
+            ? () => props.pulseText()
+            : () => props.chooseMethod('yubikey')
+        }
+      >
         <YubikeyWrapper>
           <Image name='yubikey' height='18px' width='18px' />
         </YubikeyWrapper>
         <ChoiceDescription>
           <Text weight={300} size='14px'>
-            <FormattedMessage id='scenes.security.twostepsetup.useyubikey.title' defaultMessage='Yubikey' />
+            <FormattedMessage
+              id='scenes.security.twostepsetup.useyubikey.title'
+              defaultMessage='Yubikey'
+            />
           </Text>
           <Text weight={200} size='12px'>
-            <FormattedMessage id='scenes.security.twostepsetup.useyubikey' defaultMessage='Pair with your Yubikey' />
+            <FormattedMessage
+              id='scenes.security.twostepsetup.useyubikey'
+              defaultMessage='Pair with your Yubikey'
+            />
           </Text>
         </ChoiceDescription>
       </Choice>
-      <Choice editing={editing} selected={authType === 5} onClick={editing && authType > 0 ? () => props.pulseText() : () => props.chooseMethod('sms')}>
+      <Choice
+        editing={editing}
+        selected={authType === 5}
+        onClick={
+          editing && authType > 0
+            ? () => props.pulseText()
+            : () => props.chooseMethod('sms')
+        }
+      >
         <SecurityIcon name='mobile' size='18px' weight={400} />
         <ChoiceDescription>
           <Text weight={300} size='14px'>
-            <FormattedMessage id='scenes.security.twostepsetup.smstitle' defaultMessage='Mobile Phone Number' />
+            <FormattedMessage
+              id='scenes.security.twostepsetup.smstitle'
+              defaultMessage='Mobile Phone Number'
+            />
           </Text>
           <Text weight={200} size='12px'>
-            <FormattedMessage id='scenes.security.twostepsetup.sms' defaultMessage='Use codes sent via SMS' />
+            <FormattedMessage
+              id='scenes.security.twostepsetup.sms'
+              defaultMessage='Use codes sent via SMS'
+            />
           </Text>
         </ChoiceDescription>
       </Choice>

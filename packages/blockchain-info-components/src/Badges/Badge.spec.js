@@ -6,7 +6,7 @@ import Badge from './Badge'
 
 describe('Badge component', () => {
   it('applestore renders correctly', () => {
-    const component = render(<Badge type='applestore'/>)
+    const component = render(<Badge type='applestore' />)
     const tree = toJson(component)
     expect(tree).toMatchSnapshot()
   })

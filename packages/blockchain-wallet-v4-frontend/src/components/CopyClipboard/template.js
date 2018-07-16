@@ -36,20 +36,25 @@ const CopyButton = styled(Button)`
   border-radius: 0;
 `
 
-const CopyClipboard = (props) => {
+const CopyClipboard = props => {
   const { active, address, handleClick } = props
 
   return (
     <Wrapper>
-      <AddressBox>
-        {address}
-      </AddressBox>
+      <AddressBox>{address}</AddressBox>
       <CopyToClipBoard text={address} onCopy={handleClick}>
         <CopyButton nature={active ? 'copy' : 'secondary'}>
-          { active
-            ? <FormattedMessage id='components.copyclipboard.copied' defaultMessage='Copied!' />
-            : <FormattedMessage id='components.copyclipboard.copy' defaultMessage='Copy' />
-          }
+          {active ? (
+            <FormattedMessage
+              id='components.copyclipboard.copied'
+              defaultMessage='Copied!'
+            />
+          ) : (
+            <FormattedMessage
+              id='components.copyclipboard.copy'
+              defaultMessage='Copy'
+            />
+          )}
         </CopyButton>
       </CopyToClipBoard>
     </Wrapper>

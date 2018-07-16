@@ -17,7 +17,9 @@ class SettingsContainer extends React.PureComponent {
 
   onSubmit () {
     const { passwordStretchingValue } = this.props
-    this.props.walletActions.updatePbkdf2Iterations(Number(passwordStretchingValue))
+    this.props.walletActions.updatePbkdf2Iterations(
+      Number(passwordStretchingValue)
+    )
     this.handleToggle()
   }
 
@@ -28,27 +30,35 @@ class SettingsContainer extends React.PureComponent {
   render () {
     const { ui, ...rest } = this.props
 
-    return <Settings
-      {...rest}
-      onSubmit={this.onSubmit}
-      updateToggled={ui.updateToggled}
-      handleToggle={this.handleToggle}
-    />
+    return (
+      <Settings
+        {...rest}
+        onSubmit={this.onSubmit}
+        updateToggled={ui.updateToggled}
+        handleToggle={this.handleToggle}
+      />
+    )
   }
 }
 
-const mapStateToProps = (state) => ({
-  passwordStretchingValue: formValueSelector('settingPasswordStretching')(state, 'passwordStretching'),
+const mapStateToProps = state => ({
+  passwordStretchingValue: formValueSelector('settingPasswordStretching')(
+    state,
+    'passwordStretching'
+  ),
   currentStretch: selectors.core.wallet.getPbkdf2Iterations(state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   walletActions: bindActionCreators(actions.wallet, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   ui({ key: 'Setting_PasswordStretching', state: { updateToggled: false } })
 )
 

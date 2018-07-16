@@ -14,7 +14,12 @@ class RecoveryPhraseContainer extends React.PureComponent {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.step === 3 || (nextProps.step === 2 && this.props.step === 3)) this.props.triggerCopyChange()
+    if (
+      nextProps.step === 3 ||
+      (nextProps.step === 2 && this.props.step === 3)
+    ) {
+      this.props.triggerCopyChange()
+    }
   }
 
   onClose () {
@@ -23,24 +28,31 @@ class RecoveryPhraseContainer extends React.PureComponent {
 
   render () {
     switch (this.props.step) {
-      case 1: return <FirstStep {...this.props} />
-      case 2: return <SecondStep {...this.props} />
-      case 3: return <ThirdStep {...this.props} />
-      default: return <div />
+      case 1:
+        return <FirstStep {...this.props} />
+      case 2:
+        return <SecondStep {...this.props} />
+      case 3:
+        return <ThirdStep {...this.props} />
+      default:
+        return <div />
     }
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   recoveryPhrase: path(['securityCenter', 'recovery_phrase'], state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   wizardProvider('recoveryPhrase', 3)
 )
 

@@ -20,7 +20,13 @@ class TabMenuBuySellStatusContainer extends React.PureComponent {
   }
 
   render () {
-    return <TabMenuBuySellStatus partner={this.props.partner} value={this.props.input.value} handleClick={this.handleClick} />
+    return (
+      <TabMenuBuySellStatus
+        partner={this.props.partner}
+        value={this.props.input.value}
+        handleClick={this.handleClick}
+      />
+    )
   }
 }
 
@@ -29,8 +35,11 @@ TabMenuBuySellStatusContainer.propTypes = {
   partner: PropTypes.string.isRequired
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   coinifyActions: bindActionCreators(actions.modules.coinify, dispatch)
 })
 
-export default connect(undefined, mapDispatchToProps)(TabMenuBuySellStatusContainer)
+export default connect(
+  undefined,
+  mapDispatchToProps
+)(TabMenuBuySellStatusContainer)

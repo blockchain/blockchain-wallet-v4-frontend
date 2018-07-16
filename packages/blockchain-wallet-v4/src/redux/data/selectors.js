@@ -6,12 +6,4 @@ import * as misc from './misc/selectors'
 import * as sfox from './sfox/selectors'
 import * as shapeShift from './shapeShift/selectors'
 
-export {
-  bitcoin,
-  coinify,
-  ethereum,
-  bch,
-  misc,
-  sfox,
-  shapeShift
-}
+export { bitcoin, coinify, ethereum, bch, misc, sfox, shapeShift }

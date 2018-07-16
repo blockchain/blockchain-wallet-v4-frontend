@@ -30,13 +30,18 @@ const Circle = styled.div`
   width: 80px;
   height: 80px;
   border-radius: 40px;
-  border: 1px solid ${props => props.status === 'disabled' ? props.theme['gray-2'] : props.theme['brand-primary']};
+  border: 1px solid
+    ${props =>
+      props.status === 'disabled'
+        ? props.theme['gray-2']
+        : props.theme['brand-primary']};
   box-sizing: border-box;
   overflow: hidden;
 `
 const AnimatedIcon = styled(Icon)`
   animation: ${animation} 1.5s infinite linear;
-  animation-play-state: ${props => props.status === 'active' ? 'running' : 'paused'};
+  animation-play-state: ${props =>
+    props.status === 'active' ? 'running' : 'paused'};
 `
 const SmallCircle = styled(Circle)`
   position: absolute;
@@ -53,13 +58,24 @@ const SmallCircle = styled(Circle)`
 const Step2 = props => (
   <Wrapper>
     <Circle status={props.status}>
-      <AnimatedIcon name='exchange' size='50px' color={props.status === 'disabled' ? 'gray-2' : 'brand-primary'} status={props.status} />
+      <AnimatedIcon
+        name='exchange'
+        size='50px'
+        color={props.status === 'disabled' ? 'gray-2' : 'brand-primary'}
+        status={props.status}
+      />
       <SmallCircle>
-        <Icon name='stack-of-coins-2' color={props.status === 'disabled' ? 'gray-2' : 'brand-primary'} />
+        <Icon
+          name='stack-of-coins-2'
+          color={props.status === 'disabled' ? 'gray-2' : 'brand-primary'}
+        />
       </SmallCircle>
     </Circle>
     <Text size='13px' weight={500} capitalize>
-      <FormattedMessage id='components.exchangetimeline.exchange.inprogress' defaultMessage='Exchange In Progress' />
+      <FormattedMessage
+        id='components.exchangetimeline.exchange.inprogress'
+        defaultMessage='Exchange In Progress'
+      />
     </Text>
   </Wrapper>
 )

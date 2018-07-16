@@ -1,5 +1,4 @@
-export default
-{
+export default {
   code: 'KRW',
   base: 'CENT',
   trade: 'KRW',

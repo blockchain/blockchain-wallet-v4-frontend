@@ -19,7 +19,8 @@ class UploadContainer extends Component {
     this.resetUpload = this.resetUpload.bind(this)
     this.handleStartClick = this.handleStartClick.bind(this)
 
-    this.state = { file: null,
+    this.state = {
+      file: null,
       camera: false,
       photo: ''
     }
@@ -57,7 +58,7 @@ class UploadContainer extends Component {
   submitForUpload () {
     const file = this.state.file || this.state.photo
     const idType = this.props.data.data.verificationStatus.required_docs[0]
-    this.props.sfoxFrontendActions.upload({file, idType})
+    this.props.sfoxFrontendActions.upload({ file, idType })
     this.resetUpload() // TODO replace with setting to busy and show loader
   }
 
@@ -65,38 +66,43 @@ class UploadContainer extends Component {
     const { data } = this.props
 
     return data.cata({
-      Success: (value) => <Upload
-        data={value}
-        handleSubmit={this.handleSubmit}
-        onDrop={this.onDrop}
-        onClickUpload={this.onClickUpload}
-        toggleCamera={this.toggleCamera}
-        file={this.state.file}
-        showCamera={this.state.camera}
-        photo={this.state.photo}
-        setPhoto={this.setPhoto}
-        resetUpload={this.resetUpload}
-        submitForUpload={this.submitForUpload}
-        handleStartClick={this.handleStartClick}
-      />,
-      Failure: (msg) => <Failure error={msg} />,
+      Success: value => (
+        <Upload
+          data={value}
+          handleSubmit={this.handleSubmit}
+          onDrop={this.onDrop}
+          onClickUpload={this.onClickUpload}
+          toggleCamera={this.toggleCamera}
+          file={this.state.file}
+          showCamera={this.state.camera}
+          photo={this.state.photo}
+          setPhoto={this.setPhoto}
+          resetUpload={this.resetUpload}
+          submitForUpload={this.submitForUpload}
+          handleStartClick={this.handleStartClick}
+        />
+      ),
+      Failure: msg => <Failure error={msg} />,
       Loading: () => <div>Loading...</div>,
       NotAsked: () => <div />
     })
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   data: getData(state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch),
   sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch)
 })
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   ui({ state: { busy: false } })
 )
 

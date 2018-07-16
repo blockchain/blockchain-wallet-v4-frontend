@@ -10,9 +10,7 @@ const Wrapper = styled.div`
 `
 
 const SkeletonRectangle = props => (
-  <Wrapper {...props}>
-    {props.children}
-  </Wrapper>
+  <Wrapper {...props}>{props.children}</Wrapper>
 )
 
 SkeletonRectangle.defaultProps = {

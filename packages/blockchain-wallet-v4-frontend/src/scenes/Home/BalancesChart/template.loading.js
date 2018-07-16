@@ -21,7 +21,7 @@ const SummarySkeleton = styled.div`
   justify-content: space-around;
 `
 
-export default (props) => {
+export default props => {
   return (
     <BalancesChartSkeleton width='100%' height='380px' bgColor='white-blue'>
       <SkeletonRectangle width='230px' height='30px' bgColor='white' />

@@ -3,8 +3,17 @@ import { isNil } from 'ramda'
 import styled from 'styled-components'
 import { Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
-import { SelectBoxBitcoinAddresses, FormGroup, FormItem, TextBox } from 'components/Form'
-import { optional, validBitcoinAddress, validBitcoinPrivateKey } from 'services/FormHelper'
+import {
+  SelectBoxBitcoinAddresses,
+  FormGroup,
+  FormItem,
+  TextBox
+} from 'components/Form'
+import {
+  optional,
+  validBitcoinAddress,
+  validBitcoinPrivateKey
+} from 'services/FormHelper'
 import { spacing } from 'services/StyleService'
 import { Banner } from 'blockchain-info-components'
 
@@ -21,29 +30,55 @@ class ImportExternalBitcoinAddress extends React.PureComponent {
       <div>
         <div style={spacing('mb-15')}>
           <Banner type='alert'>
-            <FormattedMessage id='modals.importbtcaddress.importexternalbitcoinaddress.advanced.message' defaultMessage='This is advanced functionality and only suggested for advanced users.' />
+            <FormattedMessage
+              id='modals.importbtcaddress.importexternalbitcoinaddress.advanced.message'
+              defaultMessage='This is advanced functionality and only suggested for advanced users.'
+            />
           </Banner>
         </div>
         <FormGroup>
           <FormItem>
             <Label for='from'>
-              <FormattedMessage id='modals.importbtcaddress.importexternalbitcoinaddress.bitcoinaddress' defaultMessage='Bitcoin Address' />
+              <FormattedMessage
+                id='modals.importbtcaddress.importexternalbitcoinaddress.bitcoinaddress'
+                defaultMessage='Bitcoin Address'
+              />
             </Label>
-            <Field name='address' validate={[validBitcoinAddress]} component={TextBox} />
+            <Field
+              name='address'
+              validate={[validBitcoinAddress]}
+              component={TextBox}
+            />
           </FormItem>
         </FormGroup>
         <FormGroup>
           <FormItem width={'100%'}>
             <Label for='private-key'>
-              <FormattedMessage id='modals.importbtcaddress.importexternalbitcoinaddress.prvkey' defaultMessage='Enter Private Key' />
+              <FormattedMessage
+                id='modals.importbtcaddress.importexternalbitcoinaddress.prvkey'
+                defaultMessage='Enter Private Key'
+              />
             </Label>
-            <Field name='priv' validate={[validBitcoinPrivateKeyOptional]} component={TextBox} />
+            <Field
+              name='priv'
+              validate={[validBitcoinPrivateKeyOptional]}
+              component={TextBox}
+            />
           </FormItem>
-          <FormItem style={spacing('mt-10')} width={'50%'} >
+          <FormItem style={spacing('mt-10')} width={'50%'}>
             <Label for='wallets'>
-              <FormattedMessage id='modals.importbtcaddress.importexternalbitcoinaddress.transfer' defaultMessage='Transfer funds to an existing wallet (optional)' />
+              <FormattedMessage
+                id='modals.importbtcaddress.importexternalbitcoinaddress.transfer'
+                defaultMessage='Transfer funds to an existing wallet (optional)'
+              />
             </Label>
-            <Field name='to' component={SelectBoxBitcoinAddresses} optional excludeImported disabled={isNil(this.props.priv)} />
+            <Field
+              name='to'
+              component={SelectBoxBitcoinAddresses}
+              optional
+              excludeImported
+              disabled={isNil(this.props.priv)}
+            />
           </FormItem>
         </FormGroup>
       </div>

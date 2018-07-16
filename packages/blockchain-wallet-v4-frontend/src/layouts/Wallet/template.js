@@ -42,14 +42,16 @@ const Content = styled.div`
   width: calc(100% - 270px);
   background-color: ${props => props.theme['white']};
 
-  @media(max-width: 768px) { width: 100%; }
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `
 const Top = styled.div`
   height: 115px;
   width: 100%;
   ${media.mobile`
     height: 150px;
-  `}
+  `};
 `
 
 const WalletLayout = props => {
@@ -70,16 +72,14 @@ const WalletLayout = props => {
             <Top>
               <MenuTop />
             </Top>
-            { location.pathname === '/btc/transactions' && <BtcMenu /> }
-            { location.pathname === '/bch/transactions' && <BchMenu /> }
-            { location.pathname === '/eth/transactions' && <EthMenu /> }
-            { location.pathname === '/settings/addresses' && <AddrMenu /> }
-            { location.pathname === '/settings/addresses/bch' && <AddrMenu /> }
-            { location.pathname === '/exchange' && <ExchangeMenu /> }
-            { location.pathname === '/exchange/history' && <ExchangeMenu /> }
-            <Page>
-              {children}
-            </Page>
+            {location.pathname === '/btc/transactions' && <BtcMenu />}
+            {location.pathname === '/bch/transactions' && <BchMenu />}
+            {location.pathname === '/eth/transactions' && <EthMenu />}
+            {location.pathname === '/settings/addresses' && <AddrMenu />}
+            {location.pathname === '/settings/addresses/bch' && <AddrMenu />}
+            {location.pathname === '/exchange' && <ExchangeMenu />}
+            {location.pathname === '/exchange/history' && <ExchangeMenu />}
+            <Page>{children}</Page>
           </Content>
         </Container>
       </ErrorBoundary>

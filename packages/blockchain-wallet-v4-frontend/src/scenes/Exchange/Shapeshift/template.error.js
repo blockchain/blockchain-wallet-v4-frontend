@@ -14,10 +14,13 @@ const Wrapper = styled.div`
   border: 1px solid ${props => props.theme['gray-2']};
 `
 
-export default (props) => (
+export default props => (
   <Wrapper>
     <Text size='12px' weight={300} color='red'>
-      <FormattedMessage id='scenes.exchange.shapeshift.error' defaultMessage='An error has occurred. Please try again.' />
+      <FormattedMessage
+        id='scenes.exchange.shapeshift.error'
+        defaultMessage='An error has occurred. Please try again.'
+      />
     </Text>
   </Wrapper>
 )

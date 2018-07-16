@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react'
 import styled from 'styled-components'
 
@@ -35,9 +34,7 @@ const Button = styled.button`
 
 class SearchButton extends Component {
   render () {
-    return (
-      <Button />
-    )
+    return <Button />
   }
 }
 

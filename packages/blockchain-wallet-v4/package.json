@@ -10,18 +10,33 @@
   "main": "lib/index.js",
   "module": "src/index.js",
   "scripts": {
+    "ci:test": "yarn test --runInBand",
     "compile": "babel --presets es2015,stage-2 -d lib/ --ignore spec.js src/ --copy-files",
     "coverage": "cross-env ./../../node_modules/.bin/jest --coverage",
+    "link:resolved:paths": "ln -sf $(pwd)/src/** ./node_modules",
     "start": "babel-node src/index.js",
     "test": "cross-env ./../../node_modules/.bin/jest",
-    "test:build": "npm run compile",
+    "test:build": "yarn compile",
     "test:debug": "cross-env node --inspect-brk ./../../node_modules/.bin/jest --runInBand",
     "test:watch": "cross-env ./../../node_modules/.bin/jest --watchAll"
   },
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.js",
-      "!src/**/rootSaga.js"
+      "!src/**/rootSaga.js",
+      "!src/exchange/currencies/*.js",
+      "!src/network/index.js",
+      "!src/redux/*/actions.js",
+      "!src/redux/*/actionTypes.js",
+      "!src/redux/*/sagas.js",
+      "!src/redux/*/sagaRegister.js",
+      "!src/redux/actions.js",
+      "!src/redux/actionTypes.js",
+      "!src/redux/reducers.js",
+      "!src/redux/sagas.js",
+      "!src/redux/rootSaga.js",
+      "!src/redux/reducers.js",
+      "!src/redux/middleware.js"
     ],
     "coverageDirectory": "<rootDir>/../../coverage/blockchain-wallet-v4",
     "coverageReporters": [
@@ -33,13 +48,6 @@
     ],
     "testPathIgnorePatterns": [
       "<rootDir>/lib"
-    ]
-  },
-  "standard": {
-    "global": [
-      "describe",
-      "it",
-      "expect"
     ]
   },
   "dependencies": {

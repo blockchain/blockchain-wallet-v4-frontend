@@ -20,16 +20,24 @@ class MenuContainer extends React.Component {
     const { legacyAccountAddress } = this.props
     const hasLegacyAccount = !isNil(legacyAccountAddress.data)
 
-    return <Menu onShowPrivateKey={this.onShowPrivateKey} hasLegacyAccount={hasLegacyAccount} />
+    return (
+      <Menu
+        onShowPrivateKey={this.onShowPrivateKey}
+        hasLegacyAccount={hasLegacyAccount}
+      />
+    )
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   legacyAccountAddress: getLegacyAccountAddress(state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(MenuContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MenuContainer)

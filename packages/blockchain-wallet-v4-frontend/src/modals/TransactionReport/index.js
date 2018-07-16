@@ -18,18 +18,28 @@ class TransactionReportContainer extends React.PureComponent {
   }
 
   render () {
-    const { position, total, closeAll, coin, csvData, isValidStartDate, isValidEndDate } = this.props
+    const {
+      position,
+      total,
+      closeAll,
+      coin,
+      csvData,
+      isValidStartDate,
+      isValidEndDate
+    } = this.props
 
-    return <TransactionReport
-      coin={coin}
-      csvData={csvData}
-      isValidStartDate={isValidStartDate}
-      isValidEndDate={isValidEndDate}
-      onSubmit={() => this.props.actions.submitClicked(coin)}
-      closeAll={closeAll}
-      position={position}
-      total={total}
-    />
+    return (
+      <TransactionReport
+        coin={coin}
+        csvData={csvData}
+        isValidStartDate={isValidStartDate}
+        isValidEndDate={isValidEndDate}
+        onSubmit={() => this.props.actions.submitClicked(coin)}
+        closeAll={closeAll}
+        position={position}
+        total={total}
+      />
+    )
   }
 }
 
@@ -49,7 +59,10 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose(
   modalEnhancer('TransactionReport'),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )
 
 export default enhance(TransactionReportContainer)

@@ -17,21 +17,33 @@ class CreateContainer extends Component {
     }
   }
   componentDidMount () {
-    if (this.props.emailVerified && this.props.smsVerified) this.props.updateUI({ create: 'create_account' })
-    else if (this.props.emailVerified) this.props.updateUI({ create: 'change_mobile' })
-    else this.props.updateUI({ create: 'enter_email_code' })
+    if (this.props.emailVerified && this.props.smsVerified) {
+      this.props.updateUI({ create: 'create_account' })
+    } else if (this.props.emailVerified) {
+      this.props.updateUI({ create: 'change_mobile' })
+    } else this.props.updateUI({ create: 'enter_email_code' })
   }
 
   render () {
-    return <Create
-      countryCode={this.props.data.countryCode}
-      editEmail={() => { this.props.updateUI({ create: 'change_email' }); this.setState({ editVerifiedEmail: true }) }}
-      editMobile={() => { this.props.updateUI({ create: 'change_mobile' }); this.setState({ editVerifiedMobile: true }) }}
-      editVerifiedEmail={this.state.editVerifiedEmail}
-      editVerifiedMobile={this.state.editVerifiedMobile}
-      needsChangeEmail={() => this.props.updateUI({ create: 'change_email', uniqueEmail: false })}
-      {...this.props}
-    />
+    return (
+      <Create
+        countryCode={this.props.data.countryCode}
+        editEmail={() => {
+          this.props.updateUI({ create: 'change_email' })
+          this.setState({ editVerifiedEmail: true })
+        }}
+        editMobile={() => {
+          this.props.updateUI({ create: 'change_mobile' })
+          this.setState({ editVerifiedMobile: true })
+        }}
+        editVerifiedEmail={this.state.editVerifiedEmail}
+        editVerifiedMobile={this.state.editVerifiedMobile}
+        needsChangeEmail={() =>
+          this.props.updateUI({ create: 'change_email', uniqueEmail: false })
+        }
+        {...this.props}
+      />
+    )
   }
 }
 
@@ -42,7 +54,7 @@ CreateContainer.propTypes = {
   emailVerified: PropTypes.number.isRequired
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   data: getData(state),
   smsVerified: selectors.core.settings.getSmsVerified(state).data,
   emailVerified: selectors.core.settings.getEmailVerified(state).data,
@@ -50,13 +62,16 @@ const mapStateToProps = (state) => ({
   mobileVerifiedError: path(['securityCenter', 'mobileVerifiedError'], state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch),
   sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch)
 })
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   ui({ state: { create: '', uniqueEmail: true } })
 )
 

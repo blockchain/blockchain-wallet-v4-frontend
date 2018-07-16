@@ -11,15 +11,19 @@ const Wrapper = styled.div`
 `
 
 const GroupTitle = styled(Text)`
- font-size: 14px;
- font-weight: 600;
- padding-bottom: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  padding-bottom: 4px;
 `
 
 const FaqGroup = props => (
   <Wrapper>
-    {props.groupQuestions.length > 0 && <GroupTitle>{props.groupTitleMsg} </GroupTitle>}
-    {props.groupQuestions.map((q, i) => <FaqRow title={q.question} description={q.answer} key={i} />)}
+    {props.groupQuestions.length > 0 && (
+      <GroupTitle>{props.groupTitleMsg} </GroupTitle>
+    )}
+    {props.groupQuestions.map((q, i) => (
+      <FaqRow title={q.question} description={q.answer} key={i} />
+    ))}
   </Wrapper>
 )
 

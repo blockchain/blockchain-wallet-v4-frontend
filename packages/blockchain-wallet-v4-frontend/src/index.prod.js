@@ -16,17 +16,16 @@ const renderApp = (Component, store, history) => {
 }
 
 const renderError = () => {
-  ReactDOM.render(
-    <Error />,
-    document.getElementById('app')
-  )
+  ReactDOM.render(<Error />, document.getElementById('app'))
 }
 
 // =============================================================================
 // ================================= APP =======================================
 // =============================================================================
-configureStore().then(x => {
-  renderApp(App, x.store, x.history)
-}).catch(e => {
-  renderError(e)
-})
+configureStore()
+  .then(x => {
+    renderApp(App, x.store, x.history)
+  })
+  .catch(e => {
+    renderError(e)
+  })
