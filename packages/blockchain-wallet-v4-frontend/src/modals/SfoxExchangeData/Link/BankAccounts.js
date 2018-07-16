@@ -37,17 +37,21 @@ class BankAccounts extends Component {
     return (
       <Container>
         <Form>
-          {
-            this.props.data.map(bank => {
-              return (
-                <Bank bank={bank} onInputClick={this.onInputClick} />
-              )
-            })
-          }
+          {this.props.data.map(bank => {
+            return <Bank bank={bank} onInputClick={this.onInputClick} />
+          })}
           <Text size='14px' style={spacing('mt-10')}>
-            <FormattedMessage id='sfoxexchangedata.link.accountholdername' defaultMessage="Account Holder's Name" />
+            <FormattedMessage
+              id='sfoxexchangedata.link.accountholdername'
+              defaultMessage="Account Holder's Name"
+            />
           </Text>
-          <Field name='accountHolder' component={TextBox} validate={required} onChange={this.onInputChange} />
+          <Field
+            name='accountHolder'
+            component={TextBox}
+            validate={required}
+            onChange={this.onInputChange}
+          />
         </Form>
       </Container>
     )

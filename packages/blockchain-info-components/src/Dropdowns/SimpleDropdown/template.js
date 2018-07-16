@@ -8,7 +8,7 @@ import { keysIn } from 'ramda'
 
 const Wrapper = styled.div`
   display: inline-flex;
-  text-transform: ${props => props.uppercase ? 'uppercase' : 'none'};
+  text-transform: ${props => (props.uppercase ? 'uppercase' : 'none')};
   position: relative;
 `
 const ButtonContainer = styled.div`
@@ -26,20 +26,19 @@ const ButtonContainer = styled.div`
 const Button = styled.div`
   display: inline;
   font-family: 'Montserrat', Helvetica, sans-serif;
-
 `
 const DropdownIcon = styled(Icon)`
   padding-left: 2px;
 `
 const DropdownList = styled.ul`
   background-clip: padding-box;
-  background-color:  ${props => props.theme['white']};;
+  background-color: ${props => props.theme['white']};
   border: 1px solid ${props => props.theme['gray-1']};
   border-radius: 4px;
   bottom: 0px;
   #box-sizing: border-box;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-  display: ${props => props.toggled ? 'block' : 'none'};
+  display: ${props => (props.toggled ? 'block' : 'none')};
   float: none;
   height: auto;
   width: inherit;
@@ -54,8 +53,10 @@ const DropdownList = styled.ul`
   padding: 5px 0px;
   position: absolute;
   right: 0;
-  ${props => props.down ? 'top: 25px; bottom: auto;' : 'top: auto; bottom: 25px;'}
-  z-index: 10;
+  ${props =>
+    props.down
+      ? 'top: 25px; bottom: auto;'
+      : 'top: auto; bottom: 25px;'} z-index: 10;
 `
 
 const DropdownItem = styled.li`
@@ -71,13 +72,26 @@ const DropdownItem = styled.li`
 `
 
 const Dropdown = props => {
-  const { color, down, uppercase, toggled, selectedItem, items, handleClick, handleCallback } = props
+  const {
+    color,
+    down,
+    uppercase,
+    toggled,
+    selectedItem,
+    items,
+    handleClick,
+    handleCallback
+  } = props
 
   return (
     <Wrapper uppercase={uppercase}>
       <DropdownList toggled={toggled} down={down}>
-        { items.map((item, index) => {
-          return (<DropdownItem key={index} onClick={handleCallback.bind(null, item)}>{ item.text }</DropdownItem>)
+        {items.map((item, index) => {
+          return (
+            <DropdownItem key={index} onClick={handleCallback.bind(null, item)}>
+              {item.text}
+            </DropdownItem>
+          )
         })}
       </DropdownList>
       <ButtonContainer color={color} onClick={handleClick}>
@@ -97,14 +111,13 @@ Dropdown.defaultProps = {
 }
 
 Dropdown.propTypes = {
-  selectedValue: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]),
-  items: PropTypes.arrayOf(PropTypes.shape({
-    text: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired
-  })),
+  selectedValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      text: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired
+    })
+  ),
   callback: PropTypes.func.isRequired,
   toggled: PropTypes.bool,
   color: PropTypes.oneOf(keysIn(Palette())),

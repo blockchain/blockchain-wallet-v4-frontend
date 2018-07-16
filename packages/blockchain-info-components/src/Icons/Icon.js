@@ -10,7 +10,7 @@ const BaseIcon = styled.span`
   font-size: ${props => props.size};
   color: ${props => props.theme[props.color]};
   -webkit-font-smoothing: antialiased;
-  cursor: ${props => props.cursorEnabled ? 'pointer' : 'inherit'};
+  cursor: ${props => (props.cursorEnabled ? 'pointer' : 'inherit')};
   display: flex;
 
   &:before {
@@ -19,7 +19,7 @@ const BaseIcon = styled.span`
   }
 `
 
-const Icon = (props) => {
+const Icon = props => {
   const { name, cursor, ...rest } = props
   const code = Icomoon[name]
 

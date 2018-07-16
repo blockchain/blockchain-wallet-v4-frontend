@@ -19,12 +19,17 @@ describe('kvStore buysell reducers', () => {
     }
   }
 
-  const buySellMetadata = set(KVStoreEntry.value,
+  const buySellMetadata = set(
+    KVStoreEntry.value,
     buySellObject,
-    KVStoreEntry.createEmpty(typeId))
+    KVStoreEntry.createEmpty(typeId)
+  )
 
   const buySellMetadataSuccess = Remote.Success(buySellMetadata)
-  const valueLens = compose(mapped, KVStoreEntry.value)
+  const valueLens = compose(
+    mapped,
+    KVStoreEntry.value
+  )
 
   it('should return the initial state', () => {
     expect(reducer(undefined, {})).toEqual(INITIAL_STATE)
@@ -72,8 +77,15 @@ describe('kvStore buysell reducers', () => {
   it('should handle ADD_COINIFY_TRADE_BUYSELL true', () => {
     const newTrade = 5
     const action = actions.addCoinifyTradeBuySell(newTrade)
-    const tradesLens = compose(valueLens, lensPath(['coinify', 'trades']))
-    const expectedState = over(tradesLens, prepend(newTrade), buySellMetadataSuccess)
+    const tradesLens = compose(
+      valueLens,
+      lensPath(['coinify', 'trades'])
+    )
+    const expectedState = over(
+      tradesLens,
+      prepend(newTrade),
+      buySellMetadataSuccess
+    )
     expect(reducer(buySellMetadataSuccess, action)).toEqual(expectedState)
   })
 
@@ -89,7 +101,11 @@ describe('kvStore buysell reducers', () => {
       assocPath(['sfox', 'account_token'], payload.token),
       assocPath(['sfox', 'user'], payload.account.id)
     )
-    const expectedState = over(valueLens, setSfoxProfile, buySellMetadataSuccess)
+    const expectedState = over(
+      valueLens,
+      setSfoxProfile,
+      buySellMetadataSuccess
+    )
     expect(reducer(buySellMetadataSuccess, action)).toEqual(expectedState)
   })
 
@@ -105,7 +121,11 @@ describe('kvStore buysell reducers', () => {
       assocPath(['coinify', 'offline_token'], payload.offlineToken),
       assocPath(['coinify', 'user'], payload.trader.id)
     )
-    const expectedState = over(valueLens, setCoinifyProfile, buySellMetadataSuccess)
+    const expectedState = over(
+      valueLens,
+      setCoinifyProfile,
+      buySellMetadataSuccess
+    )
     expect(reducer(buySellMetadataSuccess, action)).toEqual(expectedState)
   })
 

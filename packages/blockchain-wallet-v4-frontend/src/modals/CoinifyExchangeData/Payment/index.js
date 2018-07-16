@@ -21,7 +21,9 @@ class PaymentContainer extends Component {
   }
 
   componentDidMount () {
-    if (Remote.Success.is(this.props.quote)) this.props.coinifyDataActions.getPaymentMediums(this.props.quote.data)
+    if (Remote.Success.is(this.props.quote)) {
+      this.props.coinifyDataActions.getPaymentMediums(this.props.quote.data)
+    }
   }
 
   componentWillUnmount () {
@@ -44,13 +46,13 @@ class PaymentContainer extends Component {
 
     const busy = coinifyBusy.cata({
       Success: () => false,
-      Failure: (err) => err,
+      Failure: err => err,
       Loading: () => true,
       NotAsked: () => false
     })
 
     return data.cata({
-      Success: (value) =>
+      Success: value => (
         <Success
           value={value}
           getAccounts={this.getAccounts}
@@ -60,9 +62,10 @@ class PaymentContainer extends Component {
           triggerKyc={this.triggerKyc}
           busy={busy}
           openPendingKyc={openKYC}
-          handlePrefillCardMax={(limits) => checkoutCardMax(limits)}
-        />,
-      Failure: (msg) => <Failure error={msg} />,
+          handlePrefillCardMax={limits => checkoutCardMax(limits)}
+        />
+      ),
+      Failure: msg => <Failure error={msg} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
@@ -73,16 +76,19 @@ PaymentContainer.propTypes = {
   quote: PropTypes.object.isRequired
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   data: getData(state),
   quote: getQuote(state),
   coinifyBusy: path(['coinify', 'coinifyBusy'], state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   coinifyDataActions: bindActionCreators(actions.core.data.coinify, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   coinifyActions: bindActionCreators(actions.modules.coinify, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(PaymentContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PaymentContainer)

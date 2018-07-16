@@ -1,6 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'blockchain-info-components'
+import {
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter
+} from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { Form, FormGroup, FormItem, TextBox } from 'components/Form'
@@ -16,7 +22,7 @@ const Label = styled.label`
   margin-bottom: 5px;
 `
 
-const EditTxDescription = (props) => {
+const EditTxDescription = props => {
   const { position, close, submitting, handleSubmit, invalid } = props
 
   return (
@@ -24,21 +30,35 @@ const EditTxDescription = (props) => {
       <Form onSubmit={handleSubmit}>
         <Wrapper>
           <ModalHeader icon='pencil' onClose={close}>
-            <FormattedMessage id='modals.edittransactiondesc.title' defaultMessage='Edit Transaction Description' />
+            <FormattedMessage
+              id='modals.edittransactiondesc.title'
+              defaultMessage='Edit Transaction Description'
+            />
           </ModalHeader>
           <ModalBody>
             <FormGroup>
               <FormItem>
                 <Label for='description'>
-                  <FormattedMessage id='modals.edittransactiondesc.description' defaultMessage='Description' />
+                  <FormattedMessage
+                    id='modals.edittransactiondesc.description'
+                    defaultMessage='Description'
+                  />
                 </Label>
                 <Field name='description' component={TextBox} />
               </FormItem>
             </FormGroup>
           </ModalBody>
           <ModalFooter align='right'>
-            <Button type='submit' nature='primary' capitalize disabled={submitting || invalid}>
-              <FormattedMessage id='modals.edittransactiondesc.button' defaultMessage='Change Description' />
+            <Button
+              type='submit'
+              nature='primary'
+              capitalize
+              disabled={submitting || invalid}
+            >
+              <FormattedMessage
+                id='modals.edittransactiondesc.button'
+                defaultMessage='Change Description'
+              />
             </Button>
           </ModalFooter>
         </Wrapper>
@@ -47,4 +67,6 @@ const EditTxDescription = (props) => {
   )
 }
 
-export default reduxForm({ form: 'editTransactionDescription' })(EditTxDescription)
+export default reduxForm({ form: 'editTransactionDescription' })(
+  EditTxDescription
+)

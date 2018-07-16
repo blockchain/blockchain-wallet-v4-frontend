@@ -14,10 +14,14 @@ class RecoveryPhraseContainer extends React.PureComponent {
 
   render () {
     switch (this.props.step) {
-      case 1: return <FirstStep {...this.props} />
-      case 2: return <SecondStep {...this.props} />
-      case 3: return <ThirdStep {...this.props} />
-      default: return <div />
+      case 1:
+        return <FirstStep {...this.props} />
+      case 2:
+        return <SecondStep {...this.props} />
+      case 3:
+        return <ThirdStep {...this.props} />
+      default:
+        return <div />
     }
   }
 }

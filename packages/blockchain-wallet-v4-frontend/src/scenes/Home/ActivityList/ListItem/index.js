@@ -41,7 +41,7 @@ const Info = styled.div`
   box-sizing: border-box;
 
   & > * {
-    cursor: ${props => props.cursor ? 'pointer' : ''};
+    cursor: ${props => (props.cursor ? 'pointer' : '')};
     padding: 0 5px;
     width: 50%;
   }
@@ -79,17 +79,23 @@ const WatchOnly = styled.span`
 
 const selectIcon = type => {
   switch (type) {
-    case 'log': return 'settings'
-    default: return 'transactions'
+    case 'log':
+      return 'settings'
+    default:
+      return 'transactions'
   }
 }
 
 const selectColor = action => {
   switch (action) {
-    case 'sent': return 'sent'
-    case 'received': return 'received'
-    case 'transferred': return 'transferred'
-    default: return 'gray-5'
+    case 'sent':
+      return 'sent'
+    case 'received':
+      return 'received'
+    case 'transferred':
+      return 'transferred'
+    default:
+      return 'gray-5'
   }
 }
 
@@ -98,21 +104,37 @@ const ActivityListItem = props => (
     <Circle>
       <Icon name={selectIcon(props.type)} color='brand-primary' />
     </Circle>
-    <Info cursor={props.coin} onClick={() => props.path && props.handleLink(props.path)}>
+    <Info
+      cursor={props.coin}
+      onClick={() => props.path && props.handleLink(props.path)}
+    >
       <RecentActivityText capitalize color={selectColor(props.action)}>
         {props.action} {props.coin}
-        {props.watchOnly && <WatchOnly>
-          <Tooltip width='200px' label={<SkeletonCircle bgColor='gray-2' width='10px' height='10px' />} hover>
-            <FormattedMessage id='scenes.home.activitylist.watchonly' defaultMessage='This transaction involves a watch only address.' />
-          </Tooltip>
-        </WatchOnly> }
+        {props.watchOnly && (
+          <WatchOnly>
+            <Tooltip
+              width='200px'
+              label={
+                <SkeletonCircle bgColor='gray-2' width='10px' height='10px' />
+              }
+              hover
+            >
+              <FormattedMessage
+                id='scenes.home.activitylist.watchonly'
+                defaultMessage='This transaction involves a watch only address.'
+              />
+            </Tooltip>
+          </WatchOnly>
+        )}
       </RecentActivityText>
       <RecentActivityText>{props.timeFormatted}</RecentActivityText>
-      {props.coin &&
+      {props.coin && (
         <RecentActivityText>
-          <SwitchableDisplay mobileSize='12px' size='14px' coin={props.coin}>{props.amount}</SwitchableDisplay>
+          <SwitchableDisplay mobileSize='12px' size='14px' coin={props.coin}>
+            {props.amount}
+          </SwitchableDisplay>
         </RecentActivityText>
-      }
+      )}
     </Info>
   </Container>
 )

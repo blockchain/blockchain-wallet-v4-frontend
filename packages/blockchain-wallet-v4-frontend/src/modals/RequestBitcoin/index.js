@@ -28,7 +28,9 @@ class RequestBitcoinContainer extends React.PureComponent {
 
     return (
       <RequestBitcoin position={position} total={total} closeAll={closeAll}>
-        {step === 1 && <FirstStep setReceiveAddress={this.setReceiveAddress} {...rest} />}
+        {step === 1 && (
+          <FirstStep setReceiveAddress={this.setReceiveAddress} {...rest} />
+        )}
         {step === 2 && <SecondStep receiveAddress={receiveAddress} {...rest} />}
       </RequestBitcoin>
     )

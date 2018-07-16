@@ -28,18 +28,20 @@ class CountdownTimerContainer extends React.PureComponent {
 
     if (remaining.as('seconds') < 1) {
       // If we reach the end of the timer, we execute the expiry callback
-      if (handleExpiry) { handleExpiry() }
+      if (handleExpiry) {
+        handleExpiry()
+      }
     } else {
       this.setState({ remaining })
     }
   }
 
   render () {
-    const timeLeft = moment.utc(this.state.remaining.as('milliseconds')).format('mm:ss')
+    const timeLeft = moment
+      .utc(this.state.remaining.as('milliseconds'))
+      .format('mm:ss')
 
-    return (
-      <CountdownTimer {...this.props} timeLeft={timeLeft} />
-    )
+    return <CountdownTimer {...this.props} timeLeft={timeLeft} />
   }
 }
 CountdownTimerContainer.propTypes = {

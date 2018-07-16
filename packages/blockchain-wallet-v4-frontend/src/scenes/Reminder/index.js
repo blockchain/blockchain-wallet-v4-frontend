@@ -25,21 +25,31 @@ class ReminderContainer extends React.PureComponent {
 
   render () {
     const { remindGuid } = this.props
-    const { success, loading } = remindGuid.cata({ Success: () => ({ success: true }), Loading: () => ({ loading: true }), Failure: () => ({}), NotAsked: () => ({}) })
+    const { success, loading } = remindGuid.cata({
+      Success: () => ({ success: true }),
+      Loading: () => ({ loading: true }),
+      Failure: () => ({}),
+      NotAsked: () => ({})
+    })
 
-    return <Reminder onSubmit={this.onSubmit} success={success} loading={loading} />
+    return (
+      <Reminder onSubmit={this.onSubmit} success={success} loading={loading} />
+    )
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   email: formValueSelector('reminder')(state, 'email'),
   code: formValueSelector('reminder')(state, 'code'),
   captcha: selectors.core.data.misc.getCaptcha(state),
   remindGuid: selectors.auth.getRemindGuid(state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   authActions: bindActionCreators(actions.auth, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ReminderContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ReminderContainer)

@@ -6,7 +6,9 @@ describe('ChartService', () => {
 
     beforeAll(() => {
       // lock Time to 1/1/2018
-      dateNowSpy = jest.spyOn(Date, 'now').mockImplementation(() => 1517443200000)
+      dateNowSpy = jest
+        .spyOn(Date, 'now')
+        .mockImplementation(() => 1517443200000)
     })
 
     afterAll(() => {

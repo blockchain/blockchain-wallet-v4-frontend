@@ -15,14 +15,15 @@ let templates = {
   l: (type, size) => ({ [`${type}Left`]: size })
 }
 
-export const spacing = (value) => mergeAll(
-  value.split(' ').map(statement => {
-    let [rule, size] = statement.split('-')
-    let [type, tmpl] = rule.split('')
-    let valid = types[type] && templates[tmpl] && size % 5 === 0
-    return valid ? templates[tmpl](types[type], parseInt(size)) : {}
-  })
-)
+export const spacing = value =>
+  mergeAll(
+    value.split(' ').map(statement => {
+      let [rule, size] = statement.split('-')
+      let [type, tmpl] = rule.split('')
+      let valid = types[type] && templates[tmpl] && size % 5 === 0
+      return valid ? templates[tmpl](types[type], parseInt(size)) : {}
+    })
+  )
 
 let flexDirections = {
   row: 'row',
@@ -35,23 +36,27 @@ let flexProperties = {
 }
 
 let flexRules = {
-  'center': 'center',
-  'end': 'flex-end',
-  'start': 'flex-start',
-  'base': 'baseline',
-  'around': 'space-around',
-  'between': 'space-between',
-  'evenly': 'space-evenly'
+  center: 'center',
+  end: 'flex-end',
+  start: 'flex-start',
+  base: 'baseline',
+  around: 'space-around',
+  between: 'space-between',
+  evenly: 'space-evenly'
 }
 
-export const flex = (value) => {
+export const flex = value => {
   let [directions, ...params] = value.split(' ')
   let base = {
     display: 'flex',
     flexDirection: flexDirections[directions]
   }
-  return mergeAll([base].concat(params.map(p => {
-    let [property, rule] = p.split('/')
-    return { [flexProperties[property]]: flexRules[rule] }
-  })))
+  return mergeAll(
+    [base].concat(
+      params.map(p => {
+        let [property, rule] = p.split('/')
+        return { [flexProperties[property]]: flexRules[rule] }
+      })
+    )
+  )
 }

@@ -23,8 +23,21 @@ class BitcoinWelcomeContainer extends React.PureComponent {
   render () {
     const { showBitcoinWelcome, canBuy, bchBalanceR, ethBalanceR } = this.props
     const exchange = ethBalanceR.getOrElse(0) + bchBalanceR.getOrElse(0) > 0
-    const partner = canBuy.cata({ Success: (val) => val, Loading: () => false, Failure: () => false, NotAsked: () => false })
-    return <BitcoinWelcome displayed={showBitcoinWelcome} handleClick={this.handleClick} handleRequest={this.handleRequest} partner={partner} exchange={exchange} />
+    const partner = canBuy.cata({
+      Success: val => val,
+      Loading: () => false,
+      Failure: () => false,
+      NotAsked: () => false
+    })
+    return (
+      <BitcoinWelcome
+        displayed={showBitcoinWelcome}
+        handleClick={this.handleClick}
+        handleRequest={this.handleRequest}
+        partner={partner}
+        exchange={exchange}
+      />
+    )
   }
 }
 
@@ -40,4 +53,7 @@ const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(BitcoinWelcomeContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BitcoinWelcomeContainer)

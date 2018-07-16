@@ -26,7 +26,7 @@ const ActionButton = styled(IconButton)`
     div:last-of-type {
       font-size: 13px;
     }
-  `}
+  `};
 `
 
 const Actions = props => {
@@ -36,12 +36,23 @@ const Actions = props => {
     <Wrapper>
       <ActionButton name='send-filled' onClick={handleSend} min='100px'>
         <Text size='14px' weight={400}>
-          <FormattedMessage id='layouts.wallet.menutop.send' defaultMessage='Send' />
+          <FormattedMessage
+            id='layouts.wallet.menutop.send'
+            defaultMessage='Send'
+          />
         </Text>
       </ActionButton>
-      <ActionButton style={spacing('ml-15')} name='request-filled' onClick={handleRequest} min='100px'>
+      <ActionButton
+        style={spacing('ml-15')}
+        name='request-filled'
+        onClick={handleRequest}
+        min='100px'
+      >
         <Text size='14px' weight={400}>
-          <FormattedMessage id='layouts.wallet.menutop.request' defaultMessage='Request' />
+          <FormattedMessage
+            id='layouts.wallet.menutop.request'
+            defaultMessage='Request'
+          />
         </Text>
       </ActionButton>
     </Wrapper>

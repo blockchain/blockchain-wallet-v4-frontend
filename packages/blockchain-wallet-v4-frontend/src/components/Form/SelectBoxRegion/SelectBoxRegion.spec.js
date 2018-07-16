@@ -13,11 +13,11 @@ describe('SelectBoxRegion', () => {
   })
 
   it('should render no select options if country is not in the list', () => {
-    const wrapper = shallow(<SelectBoxRegion countryCode={'XX'}/>)
+    const wrapper = shallow(<SelectBoxRegion countryCode={'XX'} />)
     expect(wrapper.prop('elements')[0].items).toEqual([])
   })
 
-  it('should render country\'s regions', () => {
+  it("should render country's regions", () => {
     const country = 'GB'
     const wrapper = shallow(<SelectBoxRegion countryCode={country} />)
     expect(wrapper.prop('elements')[0].items).toEqual(

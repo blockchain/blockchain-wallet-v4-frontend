@@ -29,16 +29,23 @@ describe('sendBch sagas', () => {
   let locationReloadSpy
   beforeAll(() => {
     Math.random = () => 0.5
-    pushStateSpy = jest.spyOn(window.history, 'pushState').mockImplementation(() => {})
-    locationReloadSpy = jest.spyOn(window.location, 'reload').mockImplementation(() => {})
+    pushStateSpy = jest
+      .spyOn(window.history, 'pushState')
+      .mockImplementation(() => {})
+    locationReloadSpy = jest
+      .spyOn(window.location, 'reload')
+      .mockImplementation(() => {})
   })
   afterAll(() => {
     global.Math = originalMath
     pushStateSpy.restore()
     locationReloadSpy.restore()
   })
-  const { initialized, firstStepSubmitClicked,
-    secondStepSubmitClicked } = sendBchSagas({ api, coreSagas })
+  const {
+    initialized,
+    firstStepSubmitClicked,
+    secondStepSubmitClicked
+  } = sendBchSagas({ api, coreSagas })
 
   const feeType = 'regular'
   const feePerByte = 1
@@ -69,12 +76,12 @@ describe('sendBch sagas', () => {
 
   describe('bch send form intialize', () => {
     const to = 'bchaddress'
-    const message = 'message'
+    const description = 'message'
     const amount = {
       coin: 1,
       fiat: 10000
     }
-    const payload = { to, message, amount, feeType }
+    const payload = { to, description, amount, feeType }
 
     const saga = testSaga(initialized, { payload })
 
@@ -95,16 +102,22 @@ describe('sendBch sagas', () => {
     it('should create payment', () => {
       saga.next()
       expect(coreSagas.payment.bch.create).toHaveBeenCalledTimes(1)
-      expect(coreSagas.payment.bch.create).toHaveBeenCalledWith({ network: settings.NETWORK_BCH })
+      expect(coreSagas.payment.bch.create).toHaveBeenCalledWith({
+        network: settings.NETWORK_BCH
+      })
       expect(paymentMock.init).toHaveBeenCalledTimes(1)
     })
 
     it('should select accounts', () => {
-      saga.next(paymentMock).select(selectors.core.common.bch.getAccountsBalances)
+      saga
+        .next(paymentMock)
+        .select(selectors.core.common.bch.getAccountsBalances)
     })
 
     it('should select defaultIndex', () => {
-      saga.next(accountsRStub).select(selectors.core.kvStore.bch.getDefaultAccountIndex)
+      saga
+        .next(accountsRStub)
+        .select(selectors.core.kvStore.bch.getDefaultAccountIndex)
     })
 
     it('should update payment from to defaultIndex', () => {
@@ -140,7 +153,13 @@ describe('sendBch sagas', () => {
         saga
           .restore(beforeEnd)
           .throw(error)
-          .put(actions.logs.logErrorMessage(logLocation, 'sendBchInitialized', error))
+          .put(
+            actions.logs.logErrorMessage(
+              logLocation,
+              'sendBchInitialized',
+              error
+            )
+          )
           .next()
           .isDone()
       })
@@ -172,15 +191,23 @@ describe('sendBch sagas', () => {
         resultingState = await expectSaga(initialized, { payload })
           .withReducer(rootReducer)
           .provide([
-            [select(selectors.core.common.bch.getAccountsBalances), stubAccounts],
-            [select(selectors.core.kvStore.bch.getDefaultAccountIndex), Remote.of(defaultIndex)]
+            [
+              select(selectors.core.common.bch.getAccountsBalances),
+              stubAccounts
+            ],
+            [
+              select(selectors.core.kvStore.bch.getDefaultAccountIndex),
+              Remote.of(defaultIndex)
+            ]
           ])
           .run()
           .then(prop('storeState'))
       })
 
       it('should produce correct form state', () => {
-        expect(resultingState.form.sendBch.initial).toEqual(resultingState.form.sendBch.values)
+        expect(resultingState.form.sendBch.initial).toEqual(
+          resultingState.form.sendBch.values
+        )
         expect(resultingState.form.sendBch.initial).toEqual({
           coin: 'BCH',
           from: defaultAccount
@@ -188,8 +215,9 @@ describe('sendBch sagas', () => {
       })
 
       it('should produce correct sendBch payment state', () => {
-        expect(resultingState.components.sendBch.payment)
-          .toEqual(Remote.Success(value))
+        expect(resultingState.components.sendBch.payment).toEqual(
+          Remote.Success(value)
+        )
       })
     })
   })
@@ -209,7 +237,9 @@ describe('sendBch sagas', () => {
     })
 
     it('should put loading action', () => {
-      saga.next(Remote.of(paymentMock)).put(A.sendBchPaymentUpdated(Remote.Loading))
+      saga
+        .next(Remote.of(paymentMock))
+        .put(A.sendBchPaymentUpdated(Remote.Loading))
     })
 
     it('should create payment from state value', () => {
@@ -241,7 +271,13 @@ describe('sendBch sagas', () => {
       it('should log error', () => {
         saga
           .throw(error)
-          .put(actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', error))
+          .put(
+            actions.logs.logErrorMessage(
+              logLocation,
+              'firstStepSubmitClicked',
+              error
+            )
+          )
           .next()
           .isDone()
       })
@@ -293,18 +329,17 @@ describe('sendBch sagas', () => {
     })
 
     it('should put bch payment updated success action', () => {
-      saga.next(paymentMock).put(A.sendBchPaymentUpdated(Remote.of(paymentMock.value())))
+      saga
+        .next(paymentMock)
+        .put(A.sendBchPaymentUpdated(Remote.of(paymentMock.value())))
     })
 
     it('should set transaction note if transaction has description', () => {
-      saga
-        .next()
-        .put(actions.core.kvStore.bch.setTxNotesBch(txId, description))
+      saga.next().put(actions.core.kvStore.bch.setTxNotesBch(txId, description))
     })
 
     it('should put bch fetch data action', () => {
-      saga.next(paymentMock)
-        .put(actions.core.data.bch.fetchData())
+      saga.next(paymentMock).put(actions.core.data.bch.fetchData())
     })
 
     it('should route to bch transactions', () => {
@@ -312,7 +347,8 @@ describe('sendBch sagas', () => {
     })
 
     it('should display succcess message', () => {
-      saga.next()
+      saga
+        .next()
         .put(actions.alerts.displaySuccess(C.SEND_BCH_SUCCESS))
         .save(beforeError)
         .next()
@@ -325,7 +361,13 @@ describe('sendBch sagas', () => {
         saga
           .restore(beforeError)
           .throw(error)
-          .put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', error))
+          .put(
+            actions.logs.logErrorMessage(
+              logLocation,
+              'secondStepSubmitClicked',
+              error
+            )
+          )
       })
 
       it('should display success message', () => {

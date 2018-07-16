@@ -23,13 +23,28 @@ const HeaderWrapper = styled.div`
   flex-direction: row;
   ${media.mobile`
     flex-direction: column;
-  `}
+  `};
 `
 
 const stepMap = {
-  [STEPS.personal]: <FormattedMessage id='modals.identityverification.steps.personal' defaultMessage='Personal' />,
-  [STEPS.address]: <FormattedMessage id='modals.identityverification.steps.address' defaultMessage='Address' />,
-  [STEPS.verify]: <FormattedMessage id='modals.identityverification.steps.verify' defaultMessage='Verify' />
+  [STEPS.personal]: (
+    <FormattedMessage
+      id='modals.identityverification.steps.personal'
+      defaultMessage='Personal'
+    />
+  ),
+  [STEPS.address]: (
+    <FormattedMessage
+      id='modals.identityverification.steps.address'
+      defaultMessage='Address'
+    />
+  ),
+  [STEPS.verify]: (
+    <FormattedMessage
+      id='modals.identityverification.steps.verify'
+      defaultMessage='Verify'
+    />
+  )
 }
 
 export const formName = 'IdentityVerification'
@@ -58,11 +73,15 @@ class IdentityVerification extends React.PureComponent {
     setTimeout(this.props.close, duration)
   }
 
-  getStepComponent = (step) => {
+  getStepComponent = step => {
     const { actions } = this.props
     // if (step === STEPS.address) return <Address />
     // if (step === STEPS.verify) return <Verify />
-    return <Personal handleSubmit={actions.setVertificationStep.bind(null, STEPS.address)} />
+    return (
+      <Personal
+        handleSubmit={actions.setVertificationStep.bind(null, STEPS.address)}
+      />
+    )
   }
 
   render () {
@@ -73,24 +92,33 @@ class IdentityVerification extends React.PureComponent {
       <Tray in={show} class='tray' onClose={this.handleClose}>
         <ModalHeader tray paddingHorizontal='15%' onClose={this.handleClose}>
           <HeaderWrapper>
-            <StepIndicator adjuster={0.1667} barFullWidth flexEnd minWidth='135px' maxWidth='135px' step={step} stepMap={stepMap} />
+            <StepIndicator
+              adjuster={0.1667}
+              barFullWidth
+              flexEnd
+              minWidth='135px'
+              maxWidth='135px'
+              step={step}
+              stepMap={stepMap}
+            />
           </HeaderWrapper>
         </ModalHeader>
-        <ModalBody>
-          { this.getStepComponent() }
-        </ModalBody>
+        <ModalBody>{this.getStepComponent()}</ModalBody>
       </Tray>
     )
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.identityVerification, dispatch)
 })
 
 const enhance = compose(
   modalEnhancer('IdentityVerification'),
-  connect(getData, mapDispatchToProps)
+  connect(
+    getData,
+    mapDispatchToProps
+  )
 )
 
 export default enhance(IdentityVerification)

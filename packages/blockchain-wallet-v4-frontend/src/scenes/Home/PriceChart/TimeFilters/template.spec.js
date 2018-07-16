@@ -16,13 +16,37 @@ describe('TimeFilters component', () => {
   })
 
   it('should accept a mandatory string for prop time', () => {
-    expect(testPropTypes(TimeFilters, 'time', ['all', '1day', '1week', '1month', '1year'], false, { handleClick: jest.fn() })).toBeTruthy()
-    expect(testPropTypes(TimeFilters, 'time', [0, '', undefined, null, {}], true, { handleClick: jest.fn() })).toBeTruthy()
+    expect(
+      testPropTypes(
+        TimeFilters,
+        'time',
+        ['all', '1day', '1week', '1month', '1year'],
+        false,
+        { handleClick: jest.fn() }
+      )
+    ).toBeTruthy()
+    expect(
+      testPropTypes(TimeFilters, 'time', [0, '', undefined, null, {}], true, {
+        handleClick: jest.fn()
+      })
+    ).toBeTruthy()
   })
 
   it('should accept a mandatory function for prop handleClick', () => {
-    expect(testPropTypes(TimeFilters, 'handleClick', [jest.fn()], false, { time: '1month' })).toBeTruthy()
-    expect(testPropTypes(TimeFilters, 'handleClick', [0, '', undefined, null, {}], true, { time: '1month' })).toBeTruthy()
+    expect(
+      testPropTypes(TimeFilters, 'handleClick', [jest.fn()], false, {
+        time: '1month'
+      })
+    ).toBeTruthy()
+    expect(
+      testPropTypes(
+        TimeFilters,
+        'handleClick',
+        [0, '', undefined, null, {}],
+        true,
+        { time: '1month' }
+      )
+    ).toBeTruthy()
   })
 
   it('executes handleClick props on click with correct time value', () => {

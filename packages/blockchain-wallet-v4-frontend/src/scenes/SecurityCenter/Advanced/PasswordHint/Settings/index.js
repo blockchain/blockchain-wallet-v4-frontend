@@ -1,4 +1,3 @@
-
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -28,27 +27,39 @@ class SettingsContainer extends React.PureComponent {
   render () {
     const { ui, ...rest } = this.props
 
-    return <Settings {...rest}
-      onSubmit={this.onSubmit}
-      updateToggled={ui.updateToggled}
-      handleToggle={this.handleToggle}
-      handleCancel={() => { this.props.formActions.reset('settingPasswordHint'); this.handleToggle() }}
-    />
+    return (
+      <Settings
+        {...rest}
+        onSubmit={this.onSubmit}
+        updateToggled={ui.updateToggled}
+        handleToggle={this.handleToggle}
+        handleCancel={() => {
+          this.props.formActions.reset('settingPasswordHint')
+          this.handleToggle()
+        }}
+      />
+    )
   }
 }
 
-const mapStateToProps = (state) => ({
-  passwordHintValue: formValueSelector('settingPasswordHint')(state, 'passwordHint')
+const mapStateToProps = state => ({
+  passwordHintValue: formValueSelector('settingPasswordHint')(
+    state,
+    'passwordHint'
+  )
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   settingsActions: bindActionCreators(actions.modules.settings, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   actions: bindActionCreators(actions.core.settings, dispatch)
 })
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   ui({ key: 'Setting_PasswordHint', state: { updateToggled: false } })
 )
 

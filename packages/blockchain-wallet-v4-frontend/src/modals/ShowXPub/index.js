@@ -11,7 +11,9 @@ class ShowXPubContainer extends Component {
   render () {
     let { step } = this.state
     let nextStep = () => this.setState({ step: 1 })
-    return (<ShowXPubTemplate {...this.props} step={step} onContinue={nextStep} />)
+    return (
+      <ShowXPubTemplate {...this.props} step={step} onContinue={nextStep} />
+    )
   }
 }
 

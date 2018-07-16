@@ -4,9 +4,7 @@ import Welcome from './template.js'
 
 class WelcomeContainer extends React.PureComponent {
   render () {
-    return (
-      <Welcome {...this.props} />
-    )
+    return <Welcome {...this.props} />
   }
 }
 

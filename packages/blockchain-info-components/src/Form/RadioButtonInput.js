@@ -45,7 +45,7 @@ const Label = styled.label`
     margin-right: 5px;
     background: white;
     border-radius: 2px;
-    transition: background .2s;
+    transition: background 0.2s;
     border: 1px solid ${props => props.theme['brand-secondary']};
   }
 `
@@ -56,10 +56,14 @@ const RadioButtonInput = props => {
 
   return (
     <Wrapper>
-      <BaseRadioButtonInput id={id} name={name} checked={checked} disabled={disabled} {...rest} />
-      <Label htmlFor={id}>
-        { children }
-      </Label>
+      <BaseRadioButtonInput
+        id={id}
+        name={name}
+        checked={checked}
+        disabled={disabled}
+        {...rest}
+      />
+      <Label htmlFor={id}>{children}</Label>
     </Wrapper>
   )
 }

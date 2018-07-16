@@ -44,16 +44,32 @@ const AnimatedIcon = styled(Icon)`
 const Step1 = props => (
   <Wrapper>
     <Circle>
-      { props.status === 'active'
-        ? <AnimatedIcon name='paper-airplane-filled-2' size='40px' color='brand-primary' />
-        : <Icon name='paper-airplane-filled-2' size='40px' color='brand-primary' />
-      }
+      {props.status === 'active' ? (
+        <AnimatedIcon
+          name='paper-airplane-filled-2'
+          size='40px'
+          color='brand-primary'
+        />
+      ) : (
+        <Icon
+          name='paper-airplane-filled-2'
+          size='40px'
+          color='brand-primary'
+        />
+      )}
     </Circle>
     <Text size='13px' weight={500} capitalize>
-      { props.status === 'active'
-        ? <FormattedMessage id='components.exchangetimeline.sendingfunds' defaultMessage='Sending funds' />
-        : <FormattedMessage id='components.exchangetimeline.funds' defaultMessage='Funds sent' />
-      }
+      {props.status === 'active' ? (
+        <FormattedMessage
+          id='components.exchangetimeline.sendingfunds'
+          defaultMessage='Sending funds'
+        />
+      ) : (
+        <FormattedMessage
+          id='components.exchangetimeline.funds'
+          defaultMessage='Funds sent'
+        />
+      )}
     </Text>
   </Wrapper>
 )

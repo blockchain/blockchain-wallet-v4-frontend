@@ -35,8 +35,13 @@ class AutoDisconnectionContainer extends React.PureComponent {
   }
 
   render () {
-    return <AutoDisconnection {...this.props}
-      onSubmit={this.onSubmit} handleCancel={this.handleCancel} />
+    return (
+      <AutoDisconnection
+        {...this.props}
+        onSubmit={this.onSubmit}
+        handleCancel={this.handleCancel}
+      />
+    )
   }
 }
 
@@ -48,14 +53,17 @@ AutoDisconnectionContainer.propTypes = {
   duration: PropTypes.number
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   authActions: bindActionCreators(actions.auth, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 const enhance = compose(
   modalEnhancer('AutoDisconnection'),
-  connect(undefined, mapDispatchToProps)
+  connect(
+    undefined,
+    mapDispatchToProps
+  )
 )
 
 export default enhance(AutoDisconnectionContainer)

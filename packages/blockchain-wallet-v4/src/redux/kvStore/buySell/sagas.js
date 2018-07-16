@@ -6,14 +6,20 @@ import { KVStoreEntry } from '../../../types'
 import { getMetadataXpriv } from '../root/selectors'
 import { derivationMap, BUYSELL } from '../config'
 
-const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
+const taskToPromise = t =>
+  new Promise((resolve, reject) => t.fork(reject, resolve))
 
 export default ({ api }) => {
-  const callTask = function * (task) {
-    return yield call(compose(taskToPromise, () => task))
+  const callTask = function*(task) {
+    return yield call(
+      compose(
+        taskToPromise,
+        () => task
+      )
+    )
   }
 
-  const fetchBuySell = function * () {
+  const fetchBuySell = function*() {
     const typeId = derivationMap[BUYSELL]
     const mxpriv = yield select(getMetadataXpriv)
     const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId)
@@ -21,7 +27,7 @@ export default ({ api }) => {
     yield put(A.setBuySell(newkv))
   }
 
-  const createBuysell = function * (kv) {
+  const createBuysell = function*(kv) {
     const newBuysellEntry = {
       sfox: {
         trades: []
@@ -37,7 +43,7 @@ export default ({ api }) => {
     yield put(A.createMetadataBuySell(newkv))
   }
 
-  const fetchMetadataBuySell = function * () {
+  const fetchMetadataBuySell = function*() {
     try {
       const typeId = derivationMap[BUYSELL]
       const mxpriv = yield select(getMetadataXpriv)

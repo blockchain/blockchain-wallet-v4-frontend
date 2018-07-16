@@ -8,8 +8,8 @@ const FaqLink = styled(Link)`
   position: relative;
 
   ::after {
-    opacity: ${props => props.highlighted ? '1' : '0'};
-    content: "";
+    opacity: ${props => (props.highlighted ? '1' : '0')};
+    content: '';
     position: absolute;
     top: 24px;
     left: 0px;
@@ -19,17 +19,23 @@ const FaqLink = styled(Link)`
     border-left: 11px solid transparent;
     border-right: 11px solid transparent;
     border-bottom: 16px solid ${props => props.theme['white-blue']};
-    transition: opacity ${props => props.highlighted ? '0.2s' : '0'};
-    transition-delay: ${props => props.highlighted ? '0.3s' : '0'};
+    transition: opacity ${props => (props.highlighted ? '0.2s' : '0')};
+    transition-delay: ${props => (props.highlighted ? '0.3s' : '0')};
   }
 `
 
-const FaqIcon = (props) => {
+const FaqIcon = props => {
   const { handleClick, highlighted } = props
 
   return (
     <FaqLink onClick={handleClick} highlighted={highlighted}>
-      <Icon id='faq-icon' name='question-in-circle-filled' size='18px' color='white' cursor />
+      <Icon
+        id='faq-icon'
+        name='question-in-circle-filled'
+        size='18px'
+        color='white'
+        cursor
+      />
     </FaqLink>
   )
 }

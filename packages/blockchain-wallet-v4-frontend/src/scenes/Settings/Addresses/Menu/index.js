@@ -20,7 +20,7 @@ const Container = styled.div`
   align-items: center;
   width: 100%;
 
-  @media(min-width: 1200px) {
+  @media (min-width: 1200px) {
     flex-direction: row;
     justify-content: space-between;
   }
@@ -34,7 +34,9 @@ const Search = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-  @media(min-width: 1200px) { width: auto; }
+  @media (min-width: 1200px) {
+    width: auto;
+  }
 `
 const SearchIcon = styled(Icon)`
   position: absolute;
@@ -47,14 +49,24 @@ const MenuTop = () => (
     <Container>
       <Controls>
         <TabMenu>
-          <LinkContainer to='/settings/addresses' activeClassName='active' exact>
+          <LinkContainer
+            to='/settings/addresses'
+            activeClassName='active'
+            exact
+          >
             <TabMenuItem>
-              <FormattedMessage id='scenes.settings.addresses.menutop.btc' defaultMessage='Bitcoin' />
+              <FormattedMessage
+                id='scenes.settings.addresses.menutop.btc'
+                defaultMessage='Bitcoin'
+              />
             </TabMenuItem>
           </LinkContainer>
           <LinkContainer to='/settings/addresses/bch' activeClassName='active'>
             <TabMenuItem>
-              <FormattedMessage id='scenes.settings.addresses.menutop.bch' defaultMessage='Bitcoin Cash' />
+              <FormattedMessage
+                id='scenes.settings.addresses.menutop.bch'
+                defaultMessage='Bitcoin Cash'
+              />
             </TabMenuItem>
           </LinkContainer>
         </TabMenu>

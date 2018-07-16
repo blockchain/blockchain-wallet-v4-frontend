@@ -7,14 +7,25 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
-import { SMS_STEPS, SMS_NUMBER_FORM } from 'data/components/identityVerification/model'
+import {
+  SMS_STEPS,
+  SMS_NUMBER_FORM
+} from 'data/components/identityVerification/model'
 import { getSmsData } from './selectors'
 import { required, validMobileNumber } from 'services/FormHelper'
 import { spacing } from 'services/StyleService'
 import media from 'services/ResponsiveService'
 import { Text, Button } from 'blockchain-info-components'
-import { ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader,
-  ButtonWrapper, ColRightInner, EmailHelper } from 'components/IdentityVerification'
+import {
+  ColLeft,
+  ColRight,
+  InputWrapper,
+  PartnerHeader,
+  PartnerSubHeader,
+  ButtonWrapper,
+  ColRightInner,
+  EmailHelper
+} from 'components/IdentityVerification'
 import { PhoneNumberBox, TextBox } from 'components/Form'
 
 const MobileInput = styled.div`
@@ -31,66 +42,130 @@ const EditSmsNumberWrapper = styled.div`
   width: 100%;
   ${media.mobile`
     flex-direction: column;
-  `}
+  `};
 `
 
 const smsHelper = ({ mobileVerifiedError, resendCode, editSmsNumber }) => {
   if (mobileVerifiedError) {
-    return <FormattedMessage
-      id='identityverification.personal.sms.error'
-      defaultMessage="That code doesn't match. {resend} or {changeNumber}."
-      values={{ resend: <a onClick={resendCode}>Resend</a>, changeNumber: <a onClick={editSmsNumber}>change mobile</a> }}
-    />
+    return (
+      <FormattedMessage
+        id='identityverification.personal.sms.error'
+        defaultMessage="That code doesn't match. {resend} or {changeNumber}."
+        values={{
+          resend: <a onClick={resendCode}>Resend</a>,
+          changeNumber: <a onClick={editSmsNumber}>change mobile</a>
+        }}
+      />
+    )
   }
-  return <FormattedMessage
-    id='identityverification.personal.sms.didntreceive'
-    defaultMessage="Didn't get our text? {resend} or {changeNumber}."
-    values={{ resend: <a onClick={resendCode}>Resend</a>, changeNumber: <a onClick={editSmsNumber}>change mobile</a> }}
-  />
+  return (
+    <FormattedMessage
+      id='identityverification.personal.sms.didntreceive'
+      defaultMessage="Didn't get our text? {resend} or {changeNumber}."
+      values={{
+        resend: <a onClick={resendCode}>Resend</a>,
+        changeNumber: <a onClick={editSmsNumber}>change mobile</a>
+      }}
+    />
+  )
 }
 
-const EditSmsNumber = (
-  { step, smsNumber, resendCode, invalid, updateSmsNumber, editSmsNumber, verifySmsNumber, mobileVerifiedError, countryCode }
-) =>
+const EditSmsNumber = ({
+  step,
+  smsNumber,
+  resendCode,
+  invalid,
+  updateSmsNumber,
+  editSmsNumber,
+  verifySmsNumber,
+  mobileVerifiedError,
+  countryCode
+}) => (
   <EditSmsNumberWrapper>
     <ColLeft>
       <InputWrapper>
         <PartnerHeader>
-          <FormattedMessage id='identityverification.personal.mobile.header' defaultMessage="What's Your Number?" />
+          <FormattedMessage
+            id='identityverification.personal.mobile.header'
+            defaultMessage="What's Your Number?"
+          />
         </PartnerHeader>
         <PartnerSubHeader>
-          <FormattedMessage id='identityverification.personal.mobile.subheader' defaultMessage="Don't worry, we won't use your number for anything other than sending your code." />
+          <FormattedMessage
+            id='identityverification.personal.mobile.subheader'
+            defaultMessage="Don't worry, we won't use your number for anything other than sending your code."
+          />
         </PartnerSubHeader>
-        { step === SMS_STEPS.edit && <MobileInput>
-          <Text size='14px' weight={400} style={{'marginBottom': '5px'}}>
-            <FormattedMessage id='identityverification.personal.mobile.entermobilenumber' defaultMessage='Enter your digits here:' />
-          </Text>
-          <Field name='smsNumber' defaultValue={smsNumber} component={PhoneNumberBox} validate={[required, validMobileNumber]} countryCode={countryCode} errorBottom/>
-          <Button nature='primary' onClick={updateSmsNumber} disabled={invalid} style={spacing('mt-15')}>
-            <FormattedMessage id='identityverification.personal.mobile.sendmycode' defaultMessage='Send My Code' />
-          </Button>
-        </MobileInput> }
-        { step === SMS_STEPS.verify && <MobileCodeContainer>
-          <Text size='14px' weight={400} style={{'marginBottom': '5px'}}>
-            <FormattedMessage id='identityverification.personal.mobile.entercode' defaultMessage='Enter the code we just sent to {smsNumber}' values={{ smsNumber: '' }} />
-          </Text>
-          <Field name='code' component={TextBox} validate={[required]} errorBottom />
-          <EmailHelper error={mobileVerifiedError}>
-            { smsHelper({ mobileVerifiedError, resendCode, editSmsNumber }) }
-          </EmailHelper>
-        </MobileCodeContainer> }
+        {step === SMS_STEPS.edit && (
+          <MobileInput>
+            <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
+              <FormattedMessage
+                id='identityverification.personal.mobile.entermobilenumber'
+                defaultMessage='Enter your digits here:'
+              />
+            </Text>
+            <Field
+              name='smsNumber'
+              defaultValue={smsNumber}
+              component={PhoneNumberBox}
+              validate={[required, validMobileNumber]}
+              countryCode={countryCode}
+              errorBottom
+            />
+            <Button
+              nature='primary'
+              onClick={updateSmsNumber}
+              disabled={invalid}
+              style={spacing('mt-15')}
+            >
+              <FormattedMessage
+                id='identityverification.personal.mobile.sendmycode'
+                defaultMessage='Send My Code'
+              />
+            </Button>
+          </MobileInput>
+        )}
+        {step === SMS_STEPS.verify && (
+          <MobileCodeContainer>
+            <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
+              <FormattedMessage
+                id='identityverification.personal.mobile.entercode'
+                defaultMessage='Enter the code we just sent to {smsNumber}'
+                values={{ smsNumber: '' }}
+              />
+            </Text>
+            <Field
+              name='code'
+              component={TextBox}
+              validate={[required]}
+              errorBottom
+            />
+            <EmailHelper error={mobileVerifiedError}>
+              {smsHelper({ mobileVerifiedError, resendCode, editSmsNumber })}
+            </EmailHelper>
+          </MobileCodeContainer>
+        )}
       </InputWrapper>
     </ColLeft>
     <ColRight>
       <ColRightInner>
         <ButtonWrapper>
-          <Button nature='primary' onClick={verifySmsNumber} fullwidth disabled={invalid || step === SMS_STEPS.edit}>
-            <FormattedMessage id='identityverification.personal.continue' defaultMessage='Continue' />
+          <Button
+            nature='primary'
+            onClick={verifySmsNumber}
+            fullwidth
+            disabled={invalid || step === SMS_STEPS.edit}
+          >
+            <FormattedMessage
+              id='identityverification.personal.continue'
+              defaultMessage='Continue'
+            />
           </Button>
         </ButtonWrapper>
       </ColRightInner>
     </ColRight>
   </EditSmsNumberWrapper>
+)
 
 EditSmsNumber.propTypes = {
   editSmsNumber: PropTypes.func.isRequired,

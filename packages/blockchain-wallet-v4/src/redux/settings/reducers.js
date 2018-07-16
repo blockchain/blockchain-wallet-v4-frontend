@@ -10,10 +10,20 @@ const settingsReducer = (state = INITIAL_STATE, action) => {
   switch (type) {
     case AT.SET_EMAIL: {
       const { email } = payload
-      return state.map(compose(assoc('email', email), assoc('email_verified', 0)))
+      return state.map(
+        compose(
+          assoc('email', email),
+          assoc('email_verified', 0)
+        )
+      )
     }
     case AT.SET_EMAIL_VERIFIED: {
-      return state.map(compose(assoc('email_verified', 1), assoc('email_verified_failed', 0)))
+      return state.map(
+        compose(
+          assoc('email_verified', 1),
+          assoc('email_verified_failed', 0)
+        )
+      )
     }
     case AT.SET_EMAIL_VERIFIED_FAILED_STATUS: {
       const { isFailed } = payload
@@ -21,7 +31,12 @@ const settingsReducer = (state = INITIAL_STATE, action) => {
     }
     case AT.SET_MOBILE: {
       const { mobile } = payload
-      return state.map(compose(assoc('sms_number', mobile), assoc('sms_verified', 0)))
+      return state.map(
+        compose(
+          assoc('sms_number', mobile),
+          assoc('sms_verified', 0)
+        )
+      )
     }
     case AT.SET_MOBILE_VERIFIED: {
       return state.map(assoc('sms_verified', 1))
@@ -45,7 +60,12 @@ const settingsReducer = (state = INITIAL_STATE, action) => {
     case AT.SET_IP_LOCK: {
       const { ipLock } = payload
       if (ipLock === '') {
-        return state.map(compose(assoc('ip_lock', ipLock), assoc('ip_lock_on', 0)))
+        return state.map(
+          compose(
+            assoc('ip_lock', ipLock),
+            assoc('ip_lock_on', 0)
+          )
+        )
       } else {
         return state.map(assoc('ip_lock', ipLock))
       }

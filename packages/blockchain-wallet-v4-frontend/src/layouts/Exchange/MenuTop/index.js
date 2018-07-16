@@ -3,7 +3,14 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
 import { LinkContainer } from 'react-router-bootstrap'
-import { Image, Link, TabMenu, TabMenuItem, Text, TextGroup } from 'blockchain-info-components'
+import {
+  Image,
+  Link,
+  TabMenu,
+  TabMenuItem,
+  Text,
+  TextGroup
+} from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -16,7 +23,9 @@ const Wrapper = styled.div`
   background-color: ${props => props.theme['white-blue']};
   border-bottom: 1px solid ${props => props.theme['gray-1']};
 
-  > div > span:first-child { padding-left: 0; }
+  > div > span:first-child {
+    padding-left: 0;
+  }
 `
 const Shapeshift = styled(TextGroup)`
   display: flex;
@@ -26,7 +35,9 @@ const Shapeshift = styled(TextGroup)`
   align-items: center;
   width: 170px;
 
-  @media(max-width: 992px) { display: none; }
+  @media (max-width: 992px) {
+    display: none;
+  }
 `
 
 const MenuTop = () => (
@@ -34,18 +45,27 @@ const MenuTop = () => (
     <TabMenu>
       <LinkContainer to='/exchange' activeClassName='active' exact>
         <TabMenuItem>
-          <FormattedMessage id='scenes.exchange.menutop.exchange' defaultMessage='Exchange' />
+          <FormattedMessage
+            id='scenes.exchange.menutop.exchange'
+            defaultMessage='Exchange'
+          />
         </TabMenuItem>
       </LinkContainer>
       <LinkContainer to='/exchange/history' activeClassName='active'>
         <TabMenuItem>
-          <FormattedMessage id='scenes.exchange.menutop.history' defaultMessage='Order History' />
+          <FormattedMessage
+            id='scenes.exchange.menutop.history'
+            defaultMessage='Order History'
+          />
         </TabMenuItem>
       </LinkContainer>
     </TabMenu>
     <Shapeshift>
       <Text size='12px' weight={300}>
-        <FormattedMessage id='scenes.exchange.menutop.poweredby' defaultMessage='Powered by' />
+        <FormattedMessage
+          id='scenes.exchange.menutop.poweredby'
+          defaultMessage='Powered by'
+        />
       </Text>
       <Link href='https://www.shapeshift.io' target='_blank'>
         <Image name='shapeshiftLogo' width='60px' height='25px' />

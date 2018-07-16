@@ -3,10 +3,17 @@ import * as AT from './actionTypes'
 import sagas from './sagas'
 
 export default ({ api, coreSagas }) => {
-  const { updatePersonalStep, updateEmail, verifyEmail,
-    resendEmailCode, updateSmsNumber, verifySmsNumber, resendSmsCode } = sagas({ api, coreSagas })
+  const {
+    updatePersonalStep,
+    updateEmail,
+    verifyEmail,
+    resendEmailCode,
+    updateSmsNumber,
+    verifySmsNumber,
+    resendSmsCode
+  } = sagas({ api, coreSagas })
 
-  return function * () {
+  return function*() {
     yield takeLatest(AT.UPDATE_PERSONAL_STEP, updatePersonalStep)
     yield takeLatest(AT.UPDATE_EMAIL, updateEmail)
     yield takeLatest(AT.VERIFY_EMAIL, verifyEmail)

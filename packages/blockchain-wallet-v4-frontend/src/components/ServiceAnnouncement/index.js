@@ -24,14 +24,17 @@ class ServiceAnnouncement extends React.PureComponent {
 
   render () {
     const { alertArea, data } = this.props
-    return data && (data.visible || data.announcements[alertArea].hideType === 'collapse')
-      ? (<Announcement
+    return data &&
+      (data.visible ||
+        data.announcements[alertArea].hideType === 'collapse') ? (
+      <Announcement
         announcement={data.announcements[alertArea]}
         language={data.language}
         collapsed={data.collapsed}
         handleDismiss={this.handleDismiss}
-        toggleCollapse={this.toggleCollapse} />)
-      : null
+        toggleCollapse={this.toggleCollapse}
+      />
+    ) : null
   }
 }
 
@@ -39,7 +42,7 @@ const mapStateToProps = (state, ownProps) => ({
   data: getData(state, ownProps)
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   cacheActions: bindActionCreators(actions.cache, dispatch)
 })
 
@@ -47,4 +50,7 @@ ServiceAnnouncement.propTypes = {
   alertArea: PropTypes.oneOf(['public', 'wallet']).isRequired
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ServiceAnnouncement)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ServiceAnnouncement)

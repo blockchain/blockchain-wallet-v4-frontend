@@ -7,29 +7,36 @@ import { assoc } from 'ramda'
 // We should not need this in the future. It is used to handle transferring cookies from .info to .com domain
 
 export default () => {
-  const initialized = function * () {
+  const initialized = function*() {
     try {
-      const alreadyTransferredCookiesKey = 'did_already_transfer_cookies_from_dot_info'
-      const shouldTransfer = window.localStorage.getItem(alreadyTransferredCookiesKey) == null
+      const alreadyTransferredCookiesKey =
+        'did_already_transfer_cookies_from_dot_info'
+      const shouldTransfer =
+        window.localStorage.getItem(alreadyTransferredCookiesKey) == null
 
       if (shouldTransfer) {
         const domainsR = yield select(selectors.core.walletOptions.getDomains)
         const domains = domainsR.getOrElse({ root: 'https://blockchain.info' })
         const rootURL = domains.root
-        const frame = createFrame(`${rootURL}/Resources/transfer_stored_values.html`)
+        const frame = createFrame(
+          `${rootURL}/Resources/transfer_stored_values.html`
+        )
 
         const windowChannel = function () {
-          return eventChannel((emitter) => {
+          return eventChannel(emitter => {
             const cookieTransfer = function (event) {
               if (event.data.type === 'cookie') {
                 const cookie = event.data.payload
-                window.localStorage.setItem(cookie.id, tryJsonParse(cookie.data))
+                window.localStorage.setItem(
+                  cookie.id,
+                  tryJsonParse(cookie.data)
+                )
               }
 
               if (event.data.type === 'cookies-sent') {
                 frame.remove()
-                const lastGuid = window.localStorage.getItem('ls.guid')
-                const session = window.localStorage.getItem('ls.session')
+                const lastGuid = window.localStorage.getItem('guid')
+                const session = window.localStorage.getItem('session')
                 window.localStorage.setItem(alreadyTransferredCookiesKey, true)
                 emitter({ lastGuid, session })
                 emitter(END)
@@ -53,11 +60,13 @@ export default () => {
         }
       }
     } catch (e) {
-      yield put(actions.logs.logErrorMessage('components/login/sagas', 'initialized', e))
+      yield put(
+        actions.logs.logErrorMessage('components/login/sagas', 'initialized', e)
+      )
     }
   }
 
-  const createFrame = (src) => {
+  const createFrame = src => {
     const frame = document.createElement('iframe')
     frame.src = src
     frame.style.display = 'none'
@@ -65,7 +74,7 @@ export default () => {
     return frame
   }
 
-  const tryJsonParse = (value) => {
+  const tryJsonParse = value => {
     try {
       return JSON.parse(value)
     } catch (e) {

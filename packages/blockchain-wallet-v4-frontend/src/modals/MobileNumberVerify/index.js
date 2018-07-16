@@ -46,18 +46,21 @@ MobileNumberVerifyContainer.propTypes = {
   mobileNumber: PropTypes.string.isRequired
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   code: formValueSelector('mobileNumberVerify')(state, 'code')
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
 const enhance = compose(
   modalEnhancer('MobileNumberVerify'),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )
 
 export default enhance(MobileNumberVerifyContainer)

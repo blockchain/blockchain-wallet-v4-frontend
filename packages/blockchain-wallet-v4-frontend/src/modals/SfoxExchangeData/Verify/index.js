@@ -15,12 +15,32 @@ import Identity from './Identity'
 
 const faqQuestions = [
   {
-    question: <FormattedMessage id='scenes.buysell.sfoxsignup.verify.address.helper1.question' defaultMessage='Why do you need this personal information?' />,
-    answer: <FormattedMessage id='scenes.buysell.sfoxsignup.verify.address.helper1.answer' defaultMessage='SFOX needs this information to verify your identity and to comply with government regulated anti-money laundering laws.' />
+    question: (
+      <FormattedMessage
+        id='scenes.buysell.sfoxsignup.verify.address.helper1.question'
+        defaultMessage='Why do you need this personal information?'
+      />
+    ),
+    answer: (
+      <FormattedMessage
+        id='scenes.buysell.sfoxsignup.verify.address.helper1.answer'
+        defaultMessage='SFOX needs this information to verify your identity and to comply with government regulated anti-money laundering laws.'
+      />
+    )
   },
   {
-    question: <FormattedMessage id='scenes.buysell.sfoxsignup.verify.address.helper2.question' defaultMessage='Where is this information stored?' />,
-    answer: <FormattedMessage id='scenes.buysell.sfoxsignup.verify.address.helper2.answer' defaultMessage='We know this information is personal. Don’t worry, it will be securely sent to SFOX and not stored in your Blockchain wallet.' />
+    question: (
+      <FormattedMessage
+        id='scenes.buysell.sfoxsignup.verify.address.helper2.question'
+        defaultMessage='Where is this information stored?'
+      />
+    ),
+    answer: (
+      <FormattedMessage
+        id='scenes.buysell.sfoxsignup.verify.address.helper2.answer'
+        defaultMessage='We know this information is personal. Don’t worry, it will be securely sent to SFOX and not stored in your Blockchain wallet.'
+      />
+    )
   }
 ]
 
@@ -34,7 +54,10 @@ class VerifyContainer extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (!equals(this.props.verificationError, nextProps.verificationError) && nextProps.verificationError) {
+    if (
+      !equals(this.props.verificationError, nextProps.verificationError) &&
+      nextProps.verificationError
+    ) {
       this.props.updateUI({ busy: false })
     }
   }
@@ -58,12 +81,23 @@ class VerifyContainer extends Component {
 
   render () {
     if (this.props.step === 'upload') return <Upload />
-    if (this.props.ui.verify === 'address') return <Address {...this.props} faqs={renderFaq(faqQuestions)} />
-    if (this.props.ui.verify === 'identity') return <Identity {...this.props} toggleSSN={() => this.setState({ viewSSN: !this.state.viewSSN })} viewSSN={this.state.viewSSN} faqs={renderFaq(faqQuestions)} handleSubmit={this.handleSubmit} handleReset={this.handleReset} />
+    if (this.props.ui.verify === 'address')
+      return <Address {...this.props} faqs={renderFaq(faqQuestions)} />
+    if (this.props.ui.verify === 'identity')
+      return (
+        <Identity
+          {...this.props}
+          toggleSSN={() => this.setState({ viewSSN: !this.state.viewSSN })}
+          viewSSN={this.state.viewSSN}
+          faqs={renderFaq(faqQuestions)}
+          handleSubmit={this.handleSubmit}
+          handleReset={this.handleReset}
+        />
+      )
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   user: {
     firstName: formValueSelector('sfoxAddress')(state, 'firstName'),
     lastName: formValueSelector('sfoxAddress')(state, 'lastName'),
@@ -78,14 +112,17 @@ const mapStateToProps = (state) => ({
   verificationError: path(['sfoxSignup', 'verifyError'], state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch),
   sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch),
   sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch)
 })
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   ui({ state: { verify: 'address', error: false, busy: false } })
 )
 

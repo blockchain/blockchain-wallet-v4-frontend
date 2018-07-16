@@ -52,7 +52,7 @@ const Text = styled.span`
   font-family: 'Montserrat', sans-serif;
   font-weight: 300;
   font-size: 14px;
-  text-transform: ${props => props.uppercase ? 'uppercase' : 'none'};
+  text-transform: ${props => (props.uppercase ? 'uppercase' : 'none')};
   font-style: normal;
   color: ${props => props.theme['gray-5']};
   cursor: pointer;
@@ -65,17 +65,29 @@ const Text = styled.span`
 
 const renderDisplay = item => (
   <DisplayWrapper>
-    {prop('value', item) === 'BCH' && <Icon name='bitcoin-cash' size='14px' weight={300} />}
-    {prop('value', item) === 'BTC' && <Icon name='bitcoin' size='14px' weight={300} />}
-    {prop('value', item) === 'ETH' && <Icon name='ethereum' size='14px' weight={300} />}
+    {prop('value', item) === 'BCH' && (
+      <Icon name='bitcoin-cash' size='14px' weight={300} />
+    )}
+    {prop('value', item) === 'BTC' && (
+      <Icon name='bitcoin' size='14px' weight={300} />
+    )}
+    {prop('value', item) === 'ETH' && (
+      <Icon name='ethereum' size='14px' weight={300} />
+    )}
     <Text>{item.text}</Text>
   </DisplayWrapper>
 )
 const renderHeader = item => (
   <HeaderWrapper>
-    {prop('text', item) === 'Bitcoin' && <Icon name='bitcoin-in-circle' size='14px' weight={300} />}
-    {prop('text', item) === 'Bitcoin Cash' && <Icon name='bitcoin-cash' size='14px' weight={300} />}
-    {prop('text', item) === 'Ether' && <Icon name='ethereum-filled' size='14px' weight={300} />}
+    {prop('text', item) === 'Bitcoin' && (
+      <Icon name='bitcoin-in-circle' size='14px' weight={300} />
+    )}
+    {prop('text', item) === 'Bitcoin Cash' && (
+      <Icon name='bitcoin-cash' size='14px' weight={300} />
+    )}
+    {prop('text', item) === 'Ether' && (
+      <Icon name='ethereum-filled' size='14px' weight={300} />
+    )}
     <Separator align='right'>
       <Text uppercase>{item.text}</Text>
     </Separator>
@@ -89,15 +101,33 @@ const renderItem = item => (
 
 const renderItemWithIcon = item => (
   <ItemWrapper>
-    {path(['value', 'coin'], item) === 'BCH' && <Icon name='bitcoin-cash' size='14px' weight={300} />}
-    {path(['value', 'coin'], item) === 'BTC' && <Icon name='bitcoin' size='14px' weight={300} />}
-    {path(['value', 'coin'], item) === 'ETH' && <Icon name='ethereum' size='14px' weight={300} />}
+    {path(['value', 'coin'], item) === 'BCH' && (
+      <Icon name='bitcoin-cash' size='14px' weight={300} />
+    )}
+    {path(['value', 'coin'], item) === 'BTC' && (
+      <Icon name='bitcoin' size='14px' weight={300} />
+    )}
+    {path(['value', 'coin'], item) === 'ETH' && (
+      <Icon name='ethereum' size='14px' weight={300} />
+    )}
     <Text>{item.text}</Text>
   </ItemWrapper>
 )
 
-const SelectBoxExchange = props => props.hasOneAccount
-  ? <SelectBox {...props} templateDisplay={renderDisplay} templateItem={renderItemWithIcon} />
-  : <SelectBox {...props} templateDisplay={renderDisplay} templateHeader={renderHeader} templateItem={renderItem} />
+const SelectBoxExchange = props =>
+  props.hasOneAccount ? (
+    <SelectBox
+      {...props}
+      templateDisplay={renderDisplay}
+      templateItem={renderItemWithIcon}
+    />
+  ) : (
+    <SelectBox
+      {...props}
+      templateDisplay={renderDisplay}
+      templateHeader={renderHeader}
+      templateItem={renderItem}
+    />
+  )
 
 export default SelectBoxExchange

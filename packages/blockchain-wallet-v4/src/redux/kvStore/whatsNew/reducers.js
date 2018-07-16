@@ -23,7 +23,14 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.UPDATE_METADATA_WHATSNEW: {
       const { lastViewed } = payload
-      return set(compose(mapped, KVStoreEntry.value), { lastViewed }, state)
+      return set(
+        compose(
+          mapped,
+          KVStoreEntry.value
+        ),
+        { lastViewed },
+        state
+      )
     }
     default:
       return state

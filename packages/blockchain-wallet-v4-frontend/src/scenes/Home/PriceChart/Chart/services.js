@@ -14,7 +14,7 @@ export const getConfig = (start, interval, currency, data) => ({
     },
     labels: {
       formatter: function () {
-        return (currency + Currency.formatFiat(this.value))
+        return currency + Currency.formatFiat(this.value)
       },
       style: {
         color: Color('black')
@@ -55,8 +55,10 @@ export const getConfig = (start, interval, currency, data) => ({
   legend: {
     enabled: false
   },
-  series: [{
-    name: 'Price',
-    data: data
-  }]
+  series: [
+    {
+      name: 'Price',
+      data: data
+    }
+  ]
 })

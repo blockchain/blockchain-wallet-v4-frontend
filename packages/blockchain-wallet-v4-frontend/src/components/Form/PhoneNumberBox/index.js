@@ -21,10 +21,10 @@ const Container = styled.div`
     height: 40px;
     font-size: 14px;
     ::-webkit-input-placeholder {
-      opacity: .35;
+      opacity: 0.35;
     }
     ::-moz-placeholder {
-      opacity: .35;
+      opacity: 0.35;
     }
   }
   * {
@@ -38,11 +38,11 @@ const Error = styled(Text)`
   position: absolute;
   display: block;
   height: 15px;
-  top: ${props => props.errorBottom ? '40px' : '-20px'};
+  top: ${props => (props.errorBottom ? '40px' : '-20px')};
   right: 0;
 `
 
-const PhoneNumberBox = (field) => {
+const PhoneNumberBox = field => {
   const { input, defaultValue, meta, errorBottom, disabled } = field
   const { touched, error, warning } = meta
   const changeHandler = (status, value, countryData, number, id) => {
@@ -69,8 +69,29 @@ const PhoneNumberBox = (field) => {
         utilsScript={'libphonenumber.js'}
         placeholder='555-555-5555'
       />
-      {touched && error && <Error size='12px' weight={300} color='error' errorBottom={errorBottom}>{error}</Error>}
-      {touched && !error && warning && <Error size='12px' weight={300} color='sent' errorBottom={errorBottom}>{warning}</Error>}
+      {touched &&
+        error && (
+          <Error
+            size='12px'
+            weight={300}
+            color='error'
+            errorBottom={errorBottom}
+          >
+            {error}
+          </Error>
+        )}
+      {touched &&
+        !error &&
+        warning && (
+          <Error
+            size='12px'
+            weight={300}
+            color='sent'
+            errorBottom={errorBottom}
+          >
+            {warning}
+          </Error>
+        )}
     </Container>
   )
 }

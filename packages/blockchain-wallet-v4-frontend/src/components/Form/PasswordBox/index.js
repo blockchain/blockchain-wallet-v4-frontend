@@ -25,7 +25,7 @@ const getErrorState = ({ touched, invalid }) => {
   return touched && invalid ? 'invalid' : 'initial'
 }
 
-const PasswordBox = (field) => {
+const PasswordBox = field => {
   const { meta, input, score, disabled, borderColor } = field
   const { touched, error, active } = meta
   const errorState = getErrorState(meta)
@@ -40,8 +40,13 @@ const PasswordBox = (field) => {
         controlledBorderColor={borderColor}
         errorState={errorState}
       />
-      { scoreVisible ? <PasswordScore value={input.value} /> : <div /> }
-      {touched && error && <Error size='12px' weight={300} color='error'>{error}</Error>}
+      {scoreVisible ? <PasswordScore value={input.value} /> : <div />}
+      {touched &&
+        error && (
+          <Error size='12px' weight={300} color='error'>
+            {error}
+          </Error>
+        )}
     </Container>
   )
 }
