@@ -1,14 +1,20 @@
 import { contains, equals, isNil, isEmpty } from 'ramda'
 
-const emailRegex = new RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
+const emailRegex = new RegExp(
+  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+)
 
-const guidRegex = new RegExp(/(^([0-9A-Fa-f]{8}[-][0-9A-Fa-f]{4}[-][0-9A-Fa-f]{4}[-][0-9A-Fa-f]{4}[-][0-9A-Fa-f]{12})$)/)
+const guidRegex = new RegExp(
+  /(^([0-9A-Fa-f]{8}[-][0-9A-Fa-f]{4}[-][0-9A-Fa-f]{4}[-][0-9A-Fa-f]{4}[-][0-9A-Fa-f]{12})$)/
+)
 
-const ipListRegex = new RegExp(/(^$)|(^(\s?(?:(?:(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|%)\.){3}(?:(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|%)\s?)(,(\s?(?:(?:(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|%)\.){3}(?:(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|%)\s?)*)?$)/)
+const ipListRegex = new RegExp(
+  /(^$)|(^(\s?(?:(?:(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|%)\.){3}(?:(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|%)\s?)(,(\s?(?:(?:(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|%)\.){3}(?:(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|%)\s?)*)?$)/
+)
 
 const emailCodeRegex = new RegExp(/^[a-z0-9]{5}$/i)
 
-const isNumeric = value => (value - 0) === value && ('' + value).trim().length > 0
+const isNumeric = value => value - 0 === value && ('' + value).trim().length > 0
 
 const isEmail = value => emailRegex.test(value)
 
@@ -34,7 +40,12 @@ const isEthereumFiatAvailable = (country, currency, rates, ethereumOptions) => {
   if (isNil(currency)) return false
   if (isNil(ethereumOptions)) return false
   if (!ethereumOptions.availability.fiat) return false
-  if (!equals(ethereumOptions.countries, '*') && !contains(ethereumOptions.countries, country)) return false
+  if (
+    !equals(ethereumOptions.countries, '*') &&
+    !contains(ethereumOptions.countries, country)
+  ) {
+    return false
+  }
   // if (!equals(bitcoinOptions.states, '*') && equals(country, 'US') && !contains(bitcoinOptions.states, state)) return false
   if (isEmpty(rates)) return false
   return true

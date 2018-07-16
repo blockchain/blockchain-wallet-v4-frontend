@@ -16,7 +16,7 @@ import media from 'services/ResponsiveService'
 const AnimationWrapper = styled.div`
   position: absolute;
   width: calc(33%);
-  right: ${props => props.opened ? '0' : 'calc(-50%)'};
+  right: ${props => (props.opened ? '0' : 'calc(-50%)')};
   height: calc(100vh - 60px);
   transition: right 0.4s linear;
   box-shadow: -5px 5px 20px ${props => props.theme['gray-4']};
@@ -24,19 +24,18 @@ const AnimationWrapper = styled.div`
 
   @media (max-width: 991px) {
     width: calc(50%);
-    right: ${props => props.opened ? '0' : 'calc(-75%)'};
+    right: ${props => (props.opened ? '0' : 'calc(-75%)')};
   }
 
   ${media.tablet`
     width: calc(100%);
-    right: ${props => props.opened ? '0' : 'calc(-110%)'};
-    display: ${props => props.opened ? 'inline' : 'none'};
-  `}
-  ${media.mobile`
+    right: ${props => (props.opened ? '0' : 'calc(-110%)')};
+    display: ${props => (props.opened ? 'inline' : 'none')};
+  `} ${media.mobile`
     width: calc(100%);
-    right: ${props => props.opened ? '0' : 'calc(-110%)'};
-    display: ${props => props.opened ? 'inline' : 'none'};
-  `}
+    right: ${props => (props.opened ? '0' : 'calc(-110%)')};
+    display: ${props => (props.opened ? 'inline' : 'none')};
+  `};
 `
 const Header = styled.div`
   display: flex;
@@ -56,46 +55,65 @@ const Content = styled.div`
 `
 
 class TrayRightContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
     this.handleClose = this.handleClose.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     document.addEventListener('mousedown', this.handleClick)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     document.removeEventListener('mousedown', this.handleClick)
   }
 
-  handleClick (e) {
+  handleClick(e) {
     const trayContainer = ReactDOM.findDOMNode(this.node)
     const blacklist = ['faq-icon', 'whatsnew-icon']
-    if (trayContainer && !trayContainer.contains(e.target) && !contains(e.target.id, blacklist)) {
+    if (
+      trayContainer &&
+      !trayContainer.contains(e.target) &&
+      !contains(e.target.id, blacklist)
+    ) {
       this.handleClose()
     }
   }
 
-  handleClose () {
+  handleClose() {
     if (this.props.data.opened) {
       this.props.actions.layoutWalletTrayCloseClicked()
     }
   }
 
-  render () {
+  render() {
     const { data } = this.props
     const { opened, content } = data
 
     return (
-      <AnimationWrapper opened={opened} ref={(node) => { this.node = node }}>
+      <AnimationWrapper
+        opened={opened}
+        ref={node => {
+          this.node = node
+        }}
+      >
         <Header>
-          <Text size='20px' weight={300}>
-            {content === 'faq' && <FormattedMessage id='layouts.wallet.trayright.faq' defaultMessage='Frequently Asked Questions' />}
-            {content === 'whatsnew' && <FormattedMessage id='layouts.wallet.trayright.whatsnew' defaultMessage='What’s New' />}
+          <Text size="20px" weight={300}>
+            {content === 'faq' && (
+              <FormattedMessage
+                id="layouts.wallet.trayright.faq"
+                defaultMessage="Frequently Asked Questions"
+              />
+            )}
+            {content === 'whatsnew' && (
+              <FormattedMessage
+                id="layouts.wallet.trayright.whatsnew"
+                defaultMessage="What’s New"
+              />
+            )}
           </Text>
-          <Icon size='20px' name='close' cursor onClick={this.handleClose} />
+          <Icon size="20px" name="close" cursor onClick={this.handleClose} />
         </Header>
         <Content>
           {content === 'faq' && <Faq />}
@@ -114,4 +132,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.layoutWallet, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(TrayRightContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TrayRightContainer)

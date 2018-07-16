@@ -9,14 +9,10 @@ const BaseTabMenu = styled.div`
   width: 100%;
 `
 
-const TabMenu = (props) => {
+const TabMenu = props => {
   const { children } = props
 
-  return (
-    <BaseTabMenu>
-      {children}
-    </BaseTabMenu>
-  )
+  return <BaseTabMenu>{children}</BaseTabMenu>
 }
 
 export default TabMenu

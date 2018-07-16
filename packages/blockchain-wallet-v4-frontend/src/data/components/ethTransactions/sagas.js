@@ -4,7 +4,7 @@ import { actions, selectors } from 'data'
 
 export default ({ coreSagas }) => {
   const logLocation = 'components/ethTransactions/sagas'
-  const initialized = function * () {
+  const initialized = function*() {
     try {
       const initialValues = {
         status: '',
@@ -17,7 +17,7 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const scrollUpdated = function * (action) {
+  const scrollUpdated = function*(action) {
     try {
       const pathname = yield select(selectors.router.getPathname)
       if (!equals(pathname, '/eth/transactions')) return
@@ -32,7 +32,7 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const formChanged = function * (action) {
+  const formChanged = function*(action) {
     try {
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)

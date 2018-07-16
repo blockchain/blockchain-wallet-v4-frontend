@@ -1,4 +1,3 @@
-
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
@@ -28,59 +27,62 @@ const Cell = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: ${props => props.size === 'small' ? 'center' : 'flex-start'};
-  width: ${props => props.size === 'small' ? '10%' : '45%'};
+  align-items: ${props => (props.size === 'small' ? 'center' : 'flex-start')};
+  width: ${props => (props.size === 'small' ? '10%' : '45%')};
   height: 100%;
 `
 
 const Loading = props => (
   <Wrapper>
-    <Row justify='flex-end'>
-      <Text size='12px' weight={300}>
-        <FormattedMessage id='scenes.exchange.shapeshift.firststep.step' defaultMessage='Step 1 of 2' />
+    <Row justify="flex-end">
+      <Text size="12px" weight={300}>
+        <FormattedMessage
+          id="scenes.exchange.shapeshift.firststep.step"
+          defaultMessage="Step 1 of 2"
+        />
       </Text>
     </Row>
     <Row>
       <Cell>
-        <SkeletonRectangle width='100px' height='20px' />
+        <SkeletonRectangle width="100px" height="20px" />
       </Cell>
-      <Cell size='small' />
+      <Cell size="small" />
       <Cell>
-        <SkeletonRectangle width='100px' height='20px' />
+        <SkeletonRectangle width="100px" height="20px" />
       </Cell>
     </Row>
-    <Row height='50px'>
+    <Row height="50px">
       <Cell>
-        <SkeletonRectangle width='100%' height='25px' />
+        <SkeletonRectangle width="100%" height="25px" />
       </Cell>
-      <Cell size='small'>
-        <SkeletonRectangle width='20px' height='20px' />
-      </Cell>
-      <Cell>
-        <SkeletonRectangle width='100%' height='25px' />
-      </Cell>
-    </Row>
-    <Row>
-      <SkeletonRectangle width='200px' height='20px' />
-    </Row>
-    <Row height='80px'>
-      <Cell>
-        <SkeletonRectangle width='100%' height='25px' />
-        <SkeletonRectangle width='100%' height='25px' />
-      </Cell>
-      <Cell size='small'>
-        <SkeletonRectangle width='20px' height='20px' />
+      <Cell size="small">
+        <SkeletonRectangle width="20px" height="20px" />
       </Cell>
       <Cell>
-        <SkeletonRectangle width='100%' height='25px' />
-        <SkeletonRectangle width='100%' height='25px' />
+        <SkeletonRectangle width="100%" height="25px" />
       </Cell>
     </Row>
     <Row>
-      <SkeletonRectangle width='200px' height='15px' />
+      <SkeletonRectangle width="200px" height="20px" />
+    </Row>
+    <Row height="80px">
+      <Cell>
+        <SkeletonRectangle width="100%" height="25px" />
+        <SkeletonRectangle width="100%" height="25px" />
+      </Cell>
+      <Cell size="small">
+        <SkeletonRectangle width="20px" height="20px" />
+      </Cell>
+      <Cell>
+        <SkeletonRectangle width="100%" height="25px" />
+        <SkeletonRectangle width="100%" height="25px" />
+      </Cell>
     </Row>
     <Row>
-      <SkeletonRectangle width='100%' height='25px' />
+      <SkeletonRectangle width="200px" height="15px" />
+    </Row>
+    <Row>
+      <SkeletonRectangle width="100%" height="25px" />
     </Row>
   </Wrapper>
 )

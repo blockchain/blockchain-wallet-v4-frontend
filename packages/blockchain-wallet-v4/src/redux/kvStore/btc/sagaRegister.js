@@ -5,7 +5,7 @@ import sagas from './sagas'
 export default ({ api }) => {
   const kvStoreBtcSagas = sagas({ api })
 
-  return function * () {
+  return function*() {
     yield takeLatest(AT.FETCH_METADATA_BTC, kvStoreBtcSagas.fetchMetadataBtc)
   }
 }

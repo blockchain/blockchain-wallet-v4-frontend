@@ -3,10 +3,8 @@ import { selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 
 export const getData = createDeepEqualSelector(
-  [
-    selectors.components.sendEth.getPayment
-  ],
-  (paymentR) => {
+  [selectors.components.sendEth.getPayment],
+  paymentR => {
     const transform = payment => {
       const effectiveBalance = propOr('0', 'effectiveBalance', payment)
       const unconfirmedTx = prop('unconfirmedTx', payment)

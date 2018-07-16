@@ -3,9 +3,13 @@ import { selectors } from 'data'
 export const getData = (state, props) => {
   const ethKvStoreSelectors = selectors.core.kvStore.ethereum
   if (props.isLegacy) {
-    const legacyAccountAddress = ethKvStoreSelectors.getLegacyAccountAddress(state).getOrElse('')
+    const legacyAccountAddress = ethKvStoreSelectors
+      .getLegacyAccountAddress(state)
+      .getOrElse('')
     return {
-      balance: selectors.core.data.ethereum.getLegacyBalance(state).getOrElse(0),
+      balance: selectors.core.data.ethereum
+        .getLegacyBalance(state)
+        .getOrElse(0),
       addr: legacyAccountAddress,
       priv: state.securityCenter.shownEthPrivKey
     }

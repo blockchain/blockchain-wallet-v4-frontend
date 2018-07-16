@@ -18,7 +18,9 @@ const ItemWrapper = styled.div`
   box-sizing: border-box;
   cursor: pointer;
   overflow-x: scroll;
-  & > * { margin-left: 5px; }
+  & > * {
+    margin-left: 5px;
+  }
   &:hover {
     color: ${props => props.theme['gray-4']};
     background-color: ${props => props.theme['gray-1']};
@@ -37,20 +39,30 @@ const BalanceContainer = styled.div`
 const renderItem = item => {
   return (
     <ItemWrapper>
-      <Text weight={300} size='12px'>
+      <Text weight={300} size="12px">
         {item.text}
       </Text>
-      { has('balance', prop('value', item)) &&
+      {has('balance', prop('value', item)) && (
         <BalanceContainer>
-          <Text weight={300} size='12px'>(</Text>
-          <SwitchableDisplay weight={300} size='12px' coin={item.value.coin}>{item.value.balance}</SwitchableDisplay>
-          <Text weight={300} size='12px'>)</Text>
+          <Text weight={300} size="12px">
+            (
+          </Text>
+          <SwitchableDisplay weight={300} size="12px" coin={item.value.coin}>
+            {item.value.balance}
+          </SwitchableDisplay>
+          <Text weight={300} size="12px">
+            )
+          </Text>
         </BalanceContainer>
-      }
-      {path(['value', 'watchOnly'], item) &&
-        <Banner type='informational' inline>
-          <FormattedMessage id='components.selectboxbitcoin.watchonly' defaultMessage='Non-Spendable' />
-        </Banner>}
+      )}
+      {path(['value', 'watchOnly'], item) && (
+        <Banner type="informational" inline>
+          <FormattedMessage
+            id="components.selectboxbitcoin.watchonly"
+            defaultMessage="Non-Spendable"
+          />
+        </Banner>
+      )}
     </ItemWrapper>
   )
 }

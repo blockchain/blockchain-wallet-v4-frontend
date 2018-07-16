@@ -9,7 +9,8 @@ export const getBtcBalance = createDeepEqualSelector(
     selectors.core.data.bitcoin.getAddresses
   ],
   (context, addressesR) => {
-    const contextToBalances = (context, balances) => context.map(a => pathOr(0, [a, 'final_balance'], balances))
+    const contextToBalances = (context, balances) =>
+      context.map(a => pathOr(0, [a, 'final_balance'], balances))
     const balancesR = lift(contextToBalances)(Remote.of(context), addressesR)
     return balancesR.map(reduce(add, 0))
   }
@@ -21,7 +22,8 @@ export const getBchBalance = createDeepEqualSelector(
     selectors.core.data.bch.getAddresses
   ],
   (context, addressesR) => {
-    const contextToBalances = (context, balances) => context.map(a => pathOr(0, [a, 'final_balance'], balances))
+    const contextToBalances = (context, balances) =>
+      context.map(a => pathOr(0, [a, 'final_balance'], balances))
     const balancesR = lift(contextToBalances)(Remote.of(context), addressesR)
     return balancesR.map(reduce(add, 0))
   }

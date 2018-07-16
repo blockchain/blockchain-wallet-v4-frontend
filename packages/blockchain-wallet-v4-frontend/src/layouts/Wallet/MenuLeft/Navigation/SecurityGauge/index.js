@@ -8,12 +8,12 @@ import { getData } from './selectors'
 import { SecurityGauge } from 'blockchain-info-components'
 
 class SecurityGaugeContainer extends React.PureComponent {
-  render () {
+  render() {
     const { data } = this.props
 
     return data.cata({
-      Success: (value) => <SecurityGauge score={value} />,
-      Failure: (message) => <div />,
+      Success: value => <SecurityGauge score={value} />,
+      Failure: message => <div />,
       Loading: () => <div />,
       NotAsked: () => <div />
     })
@@ -29,7 +29,11 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  ui({ key: 'MenuLeft', persist: true, state: { settingsToggled: false } }))
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
+  ui({ key: 'MenuLeft', persist: true, state: { settingsToggled: false } })
+)
 
 export default enhance(SecurityGaugeContainer)

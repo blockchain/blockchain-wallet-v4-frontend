@@ -8,7 +8,7 @@ import { getData } from './selectors'
 import Success from './template'
 
 class KYCNotificationContainer extends React.Component {
-  componentWillUnmount () {
+  componentWillUnmount() {
     const { kyc, showKycCompleted } = this.props
 
     if (showKycCompleted && equals(prop('state', kyc), 'completed')) {
@@ -16,13 +16,28 @@ class KYCNotificationContainer extends React.Component {
     }
   }
 
-  render () {
-    const { canTrade, kyc, limits, onTrigger, showKycCompleted, symbol, type } = this.props
+  render() {
+    const {
+      canTrade,
+      kyc,
+      limits,
+      onTrigger,
+      showKycCompleted,
+      symbol,
+      type
+    } = this.props
 
-    return (showKycCompleted || !equals(prop('state', kyc), 'completed'))
-      ? <Success kyc={kyc} canTrade={canTrade} limits={limits} onTrigger={onTrigger}
-        showKycCompleted={showKycCompleted} symbol={symbol} type={type} />
-      : null
+    return showKycCompleted || !equals(prop('state', kyc), 'completed') ? (
+      <Success
+        kyc={kyc}
+        canTrade={canTrade}
+        limits={limits}
+        onTrigger={onTrigger}
+        showKycCompleted={showKycCompleted}
+        symbol={symbol}
+        type={type}
+      />
+    ) : null
   }
 }
 
@@ -32,4 +47,7 @@ const mapDispatchToProps = dispatch => ({
   preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(KYCNotificationContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(KYCNotificationContainer)

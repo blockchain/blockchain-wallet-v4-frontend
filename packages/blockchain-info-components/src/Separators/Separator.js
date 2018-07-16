@@ -15,29 +15,30 @@ const Content = styled.div`
   justify-content: flex-start;
   align-items: center;
   white-space: nowrap;
-  padding-left: ${props => props.align === 'left' || props.align === 'center' ? '10px' : '0'};
-  padding-right: ${props => props.align === 'right' || props.align === 'center' ? '10px' : '0'}; 
+  padding-left: ${props =>
+    props.align === 'left' || props.align === 'center' ? '10px' : '0'};
+  padding-right: ${props =>
+    props.align === 'right' || props.align === 'center' ? '10px' : '0'};
 `
 const BaseSeparator = styled.div`
   width: 100%;
   height: 1px;
   background-color: ${props => props.theme['gray-2']};
-  margin: ${props => props.margin ? props.margin : '10px 0'};
+  margin: ${props => (props.margin ? props.margin : '10px 0')};
 `
 
 const Separator = props => {
   const { children, align } = props
 
-  return children
-    ? (
-      <Wrapper>
-        {align !== 'right' && <BaseSeparator margin={props.margin} />}
-        <Content align={align}>{children}</Content>
-        {align !== 'left' && <BaseSeparator margin={props.margin} />}
-      </Wrapper>
-    ) : (
-      <BaseSeparator />
-    )
+  return children ? (
+    <Wrapper>
+      {align !== 'right' && <BaseSeparator margin={props.margin} />}
+      <Content align={align}>{children}</Content>
+      {align !== 'left' && <BaseSeparator margin={props.margin} />}
+    </Wrapper>
+  ) : (
+    <BaseSeparator />
+  )
 }
 
 Separator.propTypes = {
