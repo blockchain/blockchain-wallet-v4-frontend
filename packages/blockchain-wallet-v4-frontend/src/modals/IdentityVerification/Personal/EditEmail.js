@@ -13,7 +13,7 @@ import { required, validEmail } from 'services/FormHelper'
 import { spacing } from 'services/StyleService'
 import media from 'services/ResponsiveService'
 import { Text, Button } from 'blockchain-info-components'
-import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader,
+import { ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader,
   ButtonWrapper, ColRightInner, EmailHelper } from 'components/IdentityVerification'
 import { TextBox } from 'components/Form'
 

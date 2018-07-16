@@ -24,8 +24,6 @@ const faqQuestions = [
   }
 ]
 
-const faqHelper = () => renderFaq(faqQuestions)
-
 class VerifyContainer extends Component {
   constructor (props) {
     super(props)

@@ -1,4 +1,4 @@
-import { pipe, map,find, propEq, prop } from 'ramda'
+import { pipe, map, find, propEq, prop } from 'ramda'
 import React from 'react'
 import { shallow } from 'enzyme'
 import SelectBoxRegion from './index.js'

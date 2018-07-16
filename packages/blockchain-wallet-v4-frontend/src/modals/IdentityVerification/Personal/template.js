@@ -9,9 +9,9 @@ import { PERSONAL_FORM } from 'data/components/identityVerification/model'
 import media from 'services/ResponsiveService'
 import { spacing } from 'services/StyleService'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
-import { Link, Icon, Button, Text, TextInput } from 'blockchain-info-components'
+import { Link, Icon, Button, Text } from 'blockchain-info-components'
 import { FormGroup, FormItem, TextBox, PhoneNumberBox } from 'components/Form'
-import { Form, ColLeft, ColRight, InputWrapper, HeartbeatLoader, FieldMimic,
+import { Form, ColLeft, ColRight, InputWrapper, HeartbeatLoader,
   PartnerHeader, PartnerSubHeader, ColRightInner } from 'components/IdentityVerification'
 import renderFaq from 'components/FaqDropdown'
 
