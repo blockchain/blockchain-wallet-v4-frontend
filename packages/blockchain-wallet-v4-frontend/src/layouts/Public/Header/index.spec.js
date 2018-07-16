@@ -3,7 +3,9 @@ import { shallow } from 'enzyme'
 import toJson from 'enzyme-to-json'
 import Header from './index'
 
-jest.mock('components/ServiceAnnouncement', () => ({ ServiceAnnouncement: '' }))
+jest.mock('components/ServiceAnnouncement', () => ({
+  ServiceAnnouncement: ''
+}))
 jest.mock('blockchain-info-components', () => ({ Image: '', Link: '' }))
 
 describe('Public Header Component', () => {

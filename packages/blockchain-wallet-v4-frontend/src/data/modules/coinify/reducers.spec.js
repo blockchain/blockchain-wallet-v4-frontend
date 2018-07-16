@@ -28,7 +28,11 @@ describe('coinify reducers', () => {
 
   it('should handle COINIFY_NEXT_CHECKOUT_STEP', () => {
     const action = actions.coinifyNextCheckoutStep('bankTransferDetails')
-    const expectedState = assoc('checkoutStep', 'bankTransferDetails', INITIAL_STATE)
+    const expectedState = assoc(
+      'checkoutStep',
+      'bankTransferDetails',
+      INITIAL_STATE
+    )
     expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
   })
 
@@ -94,13 +98,21 @@ describe('coinify reducers', () => {
 
   it('should handle COINIFY_SUCCESS', () => {
     const action = actions.coinifySuccess()
-    const expectedState = assoc('coinifyBusy', Remote.Success(action.payload), INITIAL_STATE)
+    const expectedState = assoc(
+      'coinifyBusy',
+      Remote.Success(action.payload),
+      INITIAL_STATE
+    )
     expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
   })
 
   it('should handle COINIFY_FAILURE', () => {
     const action = actions.coinifyFailure()
-    const expectedState = assoc('coinifyBusy', Remote.Failure(action.payload), INITIAL_STATE)
+    const expectedState = assoc(
+      'coinifyBusy',
+      Remote.Failure(action.payload),
+      INITIAL_STATE
+    )
     expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
   })
 

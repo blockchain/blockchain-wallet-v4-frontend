@@ -6,22 +6,24 @@ import { actions } from 'data'
 import Empty from './template.js'
 
 class EmptyContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.handleSend = this.handleSend.bind(this)
     this.handleRequest = this.handleRequest.bind(this)
   }
 
-  handleSend () {
+  handleSend() {
     this.props.modalActions.showModal('SendBch')
   }
 
-  handleRequest () {
+  handleRequest() {
     this.props.modalActions.showModal('RequestBch')
   }
 
-  render () {
-    return <Empty handleSend={this.handleSend} handleRequest={this.handleRequest} />
+  render() {
+    return (
+      <Empty handleSend={this.handleSend} handleRequest={this.handleRequest} />
+    )
   }
 }
 
@@ -29,4 +31,7 @@ const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(undefined, mapDispatchToProps)(EmptyContainer)
+export default connect(
+  undefined,
+  mapDispatchToProps
+)(EmptyContainer)

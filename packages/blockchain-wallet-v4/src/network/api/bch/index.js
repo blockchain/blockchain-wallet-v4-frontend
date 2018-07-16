@@ -24,27 +24,30 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     return Promise.resolve({ priority: 2, regular: 2 })
   }
 
-  const getBchTicker = () => get({
-    url: apiUrl,
-    endPoint: '/ticker',
-    data: { base: 'BCH' }
-  })
+  const getBchTicker = () =>
+    get({
+      url: apiUrl,
+      endPoint: '/ticker',
+      data: { base: 'BCH' }
+    })
 
-  const getBchUnspents = (fromAddresses, confirmations = 0) => get({
-    url: apiUrl,
-    endPoint: '/bch/unspent',
-    data: {
-      active: fromAddresses.join('|'),
-      confirmations: Math.max(confirmations, -1),
-      format: 'json'
-    }
-  })
+  const getBchUnspents = (fromAddresses, confirmations = 0) =>
+    get({
+      url: apiUrl,
+      endPoint: '/bch/unspent',
+      data: {
+        active: fromAddresses.join('|'),
+        confirmations: Math.max(confirmations, -1),
+        format: 'json'
+      }
+    })
 
-  const pushBchTx = (txHex) => post({
-    url: apiUrl,
-    endPoint: '/bch/pushtx',
-    data: { tx: txHex, format: 'plain' }
-  })
+  const pushBchTx = txHex =>
+    post({
+      url: apiUrl,
+      endPoint: '/bch/pushtx',
+      data: { tx: txHex, format: 'plain' }
+    })
 
   return {
     fetchBchData,

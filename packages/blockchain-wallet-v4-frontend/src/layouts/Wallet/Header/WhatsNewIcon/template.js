@@ -8,8 +8,8 @@ const WhatsNewLink = styled(Link)`
   position: relative;
 
   ::after {
-    opacity: ${props => props.highlighted ? '1' : '0'};
-    content: "";
+    opacity: ${props => (props.highlighted ? '1' : '0')};
+    content: '';
     position: absolute;
     top: 24px;
     left: 0px;
@@ -19,17 +19,17 @@ const WhatsNewLink = styled(Link)`
     border-left: 11px solid transparent;
     border-right: 11px solid transparent;
     border-bottom: 16px solid ${props => props.theme['white-blue']};
-    transition: opacity ${props => props.highlighted ? '0.2s' : '0'};
-    transition-delay: ${props => props.highlighted ? '0.3s' : '0'};
+    transition: opacity ${props => (props.highlighted ? '0.2s' : '0')};
+    transition-delay: ${props => (props.highlighted ? '0.3s' : '0')};
   }
 `
 
-const WhatsNewIcon = (props) => {
+const WhatsNewIcon = props => {
   const { handleClick, highlighted } = props
 
   return (
     <WhatsNewLink onClick={handleClick} highlighted={highlighted}>
-      <Icon id='whatsnew-icon' name='bell' color='white' cursor />
+      <Icon id="whatsnew-icon" name="bell" color="white" cursor />
     </WhatsNewLink>
   )
 }

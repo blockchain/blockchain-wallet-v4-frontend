@@ -23,22 +23,23 @@ const renderApp = (Component, store, history) => {
   render(App, store, history, messages)
 
   if (module.hot) {
-    module.hot.accept('./scenes/app.js', () => render(require('./scenes/app.js').default, store, history, messages))
+    module.hot.accept('./scenes/app.js', () =>
+      render(require('./scenes/app.js').default, store, history, messages)
+    )
   }
 }
 
-const renderError = (e) => {
-  ReactDOM.render(
-    <Error />,
-    document.getElementById('app')
-  )
+const renderError = e => {
+  ReactDOM.render(<Error />, document.getElementById('app'))
 }
 
 // =============================================================================
 // ================================= APP =======================================
 // =============================================================================
-configureStore().then(x => {
-  renderApp(App, x.store, x.history)
-}).catch(e => {
-  renderError(e)
-})
+configureStore()
+  .then(x => {
+    renderApp(App, x.store, x.history)
+  })
+  .catch(e => {
+    renderError(e)
+  })

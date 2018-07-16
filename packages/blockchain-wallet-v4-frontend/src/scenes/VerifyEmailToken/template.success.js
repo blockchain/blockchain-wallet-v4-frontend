@@ -11,16 +11,24 @@ const Wrapper = styled.div`
 `
 const SuccessText = styled(Text)`
   > span > span {
-    color: ${props => props.theme['gray-5']}
+    color: ${props => props.theme['gray-5']};
   }
 `
 
 const Success = props => {
   return (
     <Wrapper>
-      <Image name='blue-logo' width='50px' height='50px' />
-      <SuccessText size='16px' weight={300} color='success' style={{ 'margin-top': '25px' }}>
-        <FormattedHTMLMessage id='scenes.verifyemailtoken.success' defaultMessage="You've succesfully verified your email address! <span>Return to the previous tab to view your wallet.</span>" />
+      <Image name="blue-logo" width="50px" height="50px" />
+      <SuccessText
+        size="16px"
+        weight={300}
+        color="success"
+        style={{ 'margin-top': '25px' }}
+      >
+        <FormattedHTMLMessage
+          id="scenes.verifyemailtoken.success"
+          defaultMessage="You've succesfully verified your email address! <span>Return to the previous tab to view your wallet.</span>"
+        />
       </SuccessText>
     </Wrapper>
   )

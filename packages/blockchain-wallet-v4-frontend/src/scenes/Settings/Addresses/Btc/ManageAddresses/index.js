@@ -26,7 +26,7 @@ const MenuWrapper = styled.div`
   background-color: ${props => props.theme['white-blue']};
   border-bottom: 1px solid ${props => props.theme['gray-1']};
 
-  @media(min-width: 1200px) {
+  @media (min-width: 1200px) {
     flex-direction: row;
     justify-content: space-between;
   }
@@ -41,7 +41,9 @@ const Search = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-  @media(min-width: 1200px) { width: auto; }
+  @media (min-width: 1200px) {
+    width: auto;
+  }
 `
 const SearchIcon = styled(Icon)`
   position: absolute;
@@ -50,20 +52,23 @@ const SearchIcon = styled(Icon)`
 `
 
 class ManageAddressesContainer extends React.PureComponent {
-  render () {
+  render() {
     const walletIndex = this.props.computedMatch.params.index
 
     return (
       <Wrapper>
         <MenuWrapper>
-          <LinkContainer to='/settings/addresses'>
-            <IconButton name='left-arrow' nature='empty'>
-              <FormattedMessage id='scenes.settings.addresses.btc.manageaddresses.back' defaultMessage='Back' />
+          <LinkContainer to="/settings/addresses">
+            <IconButton name="left-arrow" nature="empty">
+              <FormattedMessage
+                id="scenes.settings.addresses.btc.manageaddresses.back"
+                defaultMessage="Back"
+              />
             </IconButton>
           </LinkContainer>
           <Search>
-            <Field name='search' component={TextBox} />
-            <SearchIcon name='search' size='20px' />
+            <Field name="search" component={TextBox} />
+            <SearchIcon name="search" size="20px" />
           </Search>
         </MenuWrapper>
         <ContentWrapper>

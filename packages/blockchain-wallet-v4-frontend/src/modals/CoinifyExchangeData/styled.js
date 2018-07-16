@@ -63,7 +63,7 @@ export const ErrorWrapper = styled.div`
   margin-top: 5px;
   a {
     cursor: pointer;
-    color: ${props => props.theme['brand-secondary']}
+    color: ${props => props.theme['brand-secondary']};
   }
 `
 

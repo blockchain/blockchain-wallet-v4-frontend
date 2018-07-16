@@ -12,11 +12,7 @@ const Wrapper = styled.div`
 const AddressesLayout = props => {
   const { location, children } = props
 
-  return (
-    <Wrapper location={location}>
-      {children}
-    </Wrapper>
-  )
+  return <Wrapper location={location}>{children}</Wrapper>
 }
 
 export default AddressesLayout

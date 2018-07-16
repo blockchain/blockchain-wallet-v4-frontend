@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -10,11 +9,11 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class SettingContainer extends React.PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     this.props.actions.notificationsInitialized()
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: value => <Success {...value} />,
       Failure: message => <Error>{message}</Error>,
@@ -32,4 +31,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.settings, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SettingContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SettingContainer)

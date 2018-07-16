@@ -1,5 +1,4 @@
-export default
-{
+export default {
   code: 'ISK',
   base: 'CENT',
   trade: 'ISK',

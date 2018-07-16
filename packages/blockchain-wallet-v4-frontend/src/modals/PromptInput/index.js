@@ -7,16 +7,16 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import PromptTemplate from './template.js'
 
 class PromptContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  onSubmit () {
+  onSubmit() {
     this.props.actions.submitPromptInput(this.props.value)
   }
 
-  render () {
+  render() {
     return (
       <PromptTemplate
         {...this.props}
@@ -27,17 +27,20 @@ class PromptContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   value: formValueSelector('promptInputModal')(state, 'value')
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.wallet, dispatch)
 })
 
 const enhance = compose(
   modalEnhancer('PromptInput'),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )
 
 export default enhance(PromptContainer)

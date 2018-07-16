@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Text, TextGroup } from '../Text'
 
 const TooltipWrapper = styled.div`
-  width: ${props => props.width === 'auto' ? 'auto' : '22px'};
+  width: ${props => (props.width === 'auto' ? 'auto' : '22px')};
   display: inline-flex;
   position: relative;
 `
@@ -30,9 +30,9 @@ const TooltipLabel = styled(Text)`
 const TooltipBox = styled(TextGroup)`
   position: absolute;
   bottom: 150%;
-  left: ${props => props.left ? props.left : '-115px'};
+  left: ${props => (props.left ? props.left : '-115px')};
   width: ${props => props.width === 'auto' || '250px'};
-  display: ${props => props.displayed ? 'block' : 'none'};
+  display: ${props => (props.displayed ? 'block' : 'none')};
   background-color: ${props => props.theme['white-blue']};
   color: ${props => props.theme['gray-5']};
   border: 1px solid ${props => props.theme['gray-2']};
@@ -42,10 +42,11 @@ const TooltipBox = styled(TextGroup)`
   cursor: pointer;
   font-size: 11px;
   font-weight: 300;
-  font-family: "Montserrat", sans serif;
+  font-family: 'Montserrat', sans serif;
   text-align: left;
 
-  > div, > span {
+  > div,
+  > span {
     margin-bottom: 0;
   }
 
@@ -79,15 +80,43 @@ const TooltipBox = styled(TextGroup)`
 `
 
 export const Tooltip = props => {
-  const { icon, width, left, label, displayed, handleClick, handleMouseEnter, handleMouseLeave } = props
+  const {
+    icon,
+    width,
+    left,
+    label,
+    displayed,
+    handleClick,
+    handleMouseEnter,
+    handleMouseLeave
+  } = props
   return (
     <TooltipWrapper width={width}>
-      {
-        label
-          ? <TooltipLabel onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>{label}</TooltipLabel>
-          : <TooltipIcon displayed={displayed} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={handleClick}>{icon}</TooltipIcon>
-      }
-      <TooltipBox width={width} left={left} displayed={displayed} onClick={handleClick}>{props.children}</TooltipBox>
+      {label ? (
+        <TooltipLabel
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          {label}
+        </TooltipLabel>
+      ) : (
+        <TooltipIcon
+          displayed={displayed}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onClick={handleClick}
+        >
+          {icon}
+        </TooltipIcon>
+      )}
+      <TooltipBox
+        width={width}
+        left={left}
+        displayed={displayed}
+        onClick={handleClick}
+      >
+        {props.children}
+      </TooltipBox>
     </TooltipWrapper>
   )
 }

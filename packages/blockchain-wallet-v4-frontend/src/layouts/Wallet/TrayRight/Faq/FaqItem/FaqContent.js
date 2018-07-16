@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
-  display: ${props => props.toggled ? 'flex' : 'none'};
+  display: ${props => (props.toggled ? 'flex' : 'none')};
   width: 100%;
   font-family: 'Montserrat', Helvetica, sans-serif;
   font-weight: 300;
@@ -13,9 +13,7 @@ const Wrapper = styled.div`
 `
 
 const FaqContent = props => (
-  <Wrapper toggled={props.toggled}>
-    {props.children}
-  </Wrapper>
+  <Wrapper toggled={props.toggled}>{props.children}</Wrapper>
 )
 
 FaqContent.propTypes = {

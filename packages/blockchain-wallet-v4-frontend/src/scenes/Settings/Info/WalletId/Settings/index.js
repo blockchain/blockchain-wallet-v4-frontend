@@ -8,7 +8,7 @@ const SettingsContainer = props => {
   return <Settings guid={props.guid} />
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     guid: selectors.core.wallet.getGuid(state)
   }

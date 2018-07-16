@@ -9,38 +9,42 @@ import Success from './template.success'
 import DataError from 'components/DataError'
 
 class FirstStepContainer extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.handleRefresh = this.handleRefresh.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.actions.firstStepInitialized()
   }
 
-  handleRefresh () {
+  handleRefresh() {
     this.props.actions.firstStepInitialized()
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
-      Success: (value) => <Success
-        elements={value.elements}
-        initialValues={value.initialValues}
-        hasOneAccount={value.hasOneAccount}
-        disabled={value.disabled}
-        minimum={value.minimum}
-        maximum={value.maximum}
-        formError={value.formError}
-        currency={value.currency}
-        sourceCoin={value.sourceCoin}
-        targetCoin={value.targetCoin}
-        handleMaximum={() => this.props.actions.firstStepMaximumClicked()}
-        handleMinimum={() => this.props.actions.firstStepMinimumClicked()}
-        onSubmit={() => this.props.actions.firstStepSubmitClicked()}
-        handleSwap={() => this.props.actions.firstStepSwapClicked()}
-      />,
-      Failure: (message) => <DataError onClick={this.handleRefresh} message={message} />,
+      Success: value => (
+        <Success
+          elements={value.elements}
+          initialValues={value.initialValues}
+          hasOneAccount={value.hasOneAccount}
+          disabled={value.disabled}
+          minimum={value.minimum}
+          maximum={value.maximum}
+          formError={value.formError}
+          currency={value.currency}
+          sourceCoin={value.sourceCoin}
+          targetCoin={value.targetCoin}
+          handleMaximum={() => this.props.actions.firstStepMaximumClicked()}
+          handleMinimum={() => this.props.actions.firstStepMinimumClicked()}
+          onSubmit={() => this.props.actions.firstStepSubmitClicked()}
+          handleSwap={() => this.props.actions.firstStepSwapClicked()}
+        />
+      ),
+      Failure: message => (
+        <DataError onClick={this.handleRefresh} message={message} />
+      ),
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
@@ -55,4 +59,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.exchange, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(FirstStepContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FirstStepContainer)

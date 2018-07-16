@@ -35,4 +35,7 @@ export {
   untouch
 } from 'redux-form'
 
-export const change2 = (form, field, value) => ({ type: AT.CHANGE2, payload: { form, field, value } })
+export const change2 = (form, field, value) => ({
+  type: AT.CHANGE2,
+  payload: { form, field, value }
+})

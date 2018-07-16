@@ -31,24 +31,20 @@ export const xor = (a, b) => {
 // getServerEntropy :: Int -> Promise (Either Buffer Error) Error
 export const getServerEntropy = (nBytes = DEFAULT_BYTES, api) => {
   if (!isPositiveInteger(nBytes)) {
-    return Promise.resolve(Either.Left(
-      new Error('Must provide a positive integer to getServerEntropy')
-    ))
+    return Promise.resolve(
+      Either.Left(
+        new Error('Must provide a positive integer to getServerEntropy')
+      )
+    )
   }
 
   return api.getRandomBytes(nBytes, FORMAT).then(responseText => {
     try {
-      assert(
-        isHex(responseText),
-        'Non-hex server entropy answer.'
-      )
+      assert(isHex(responseText), 'Non-hex server entropy answer.')
 
       let B = Buffer.from(responseText, FORMAT)
 
-      assert(
-        B.length === nBytes,
-        'Different entropy length requested.'
-      )
+      assert(B.length === nBytes, 'Different entropy length requested.')
 
       return Either.of(B)
     } catch (e) {
@@ -60,23 +56,17 @@ export const getServerEntropy = (nBytes = DEFAULT_BYTES, api) => {
 // mixEntropy :: Buffer -> Buffer -> Buffer
 export const mixEntropy = (localH, serverH, nBytes) => {
   try {
-    assert(
-      localH.length > 0,
-      'Local entropy should not be empty.'
-    )
+    assert(localH.length > 0, 'Local entropy should not be empty.')
+
+    assert(serverH.length > 0, 'Server entropy should not be empty.')
 
     assert(
-      serverH.length > 0,
-      'Server entropy should not be empty.'
-    )
-
-    assert(
-      !Array.prototype.every.call(localH, (b) => b === localH[0]),
+      !Array.prototype.every.call(localH, b => b === localH[0]),
       'The browser entropy should not be the same byte repeated.'
     )
 
     assert(
-      !Array.prototype.every.call(serverH, (b) => b === serverH[0]),
+      !Array.prototype.every.call(serverH, b => b === serverH[0]),
       'The server entropy should not be the same byte repeated.'
     )
 
@@ -88,7 +78,7 @@ export const mixEntropy = (localH, serverH, nBytes) => {
     let combinedH = xor(localH, serverH)
 
     assert(
-      !Array.prototype.every.call(combinedH, (b) => b === combinedH[0]),
+      !Array.prototype.every.call(combinedH, b => b === combinedH[0]),
       'The combined entropy should not be the same byte repeated.'
     )
 
@@ -99,18 +89,20 @@ export const mixEntropy = (localH, serverH, nBytes) => {
 
     return Either.of(combinedH)
   } catch (e) {
-    return Either.Left(new Error('Failed to generate the entropy: ' + e.message))
+    return Either.Left(
+      new Error('Failed to generate the entropy: ' + e.message)
+    )
   }
 }
 
 // createRng :: Int -> Promise Rng Error
 const createRng = (maxBytes = DEFAULT_BYTES, api) => {
-  return getServerEntropy(maxBytes, api).then((serverH) => {
+  return getServerEntropy(maxBytes, api).then(serverH => {
     let localH = _overrides.randomBytes(maxBytes)
     let entropy = serverH.chain(sH => mixEntropy(localH, sH, maxBytes))
 
     // Rng :: Int -> Buffer
-    return (nBytes) => {
+    return nBytes => {
       nBytes = isPositiveInteger(nBytes) ? nBytes : DEFAULT_BYTES
 
       if (entropy.isLeft) {
