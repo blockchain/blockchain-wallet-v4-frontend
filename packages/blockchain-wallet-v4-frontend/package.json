@@ -30,7 +30,16 @@
     "automock": false,
     "collectCoverageFrom": [
       "src/**/*.js",
-      "!src/**/rootSaga.js"
+      "!src/**/rootSaga.js",
+      "!src/data/*/actions.js",
+      "!src/data/*/actionTypes.js",
+      "!src/data/*/sagaRegister.js",
+      "!src/data/actions.js",
+      "!src/data/actionTypes.js",
+      "!src/data/rootReducer.js",
+      "!src/data/sagas.js",
+      "!src/data/sagaRegister.js",
+      "!src/data/selectors.js"
     ],
     "coverageDirectory": "<rootDir>/../../coverage/blockchain-wallet-v4-frontend",
     "coverageReporters": [
