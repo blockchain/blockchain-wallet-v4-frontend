@@ -28,7 +28,8 @@
   ],
   "husky": {
     "hooks": {
-      "pre-push": "yarn prettier && yarn lint:fix && yarn test"
+      "pre-commit": "prettier './packages/*/src/**/*.js' --write && yarn lint:fix",
+      "pre-push": "yarn test"
     }
   },
   "scripts": {
