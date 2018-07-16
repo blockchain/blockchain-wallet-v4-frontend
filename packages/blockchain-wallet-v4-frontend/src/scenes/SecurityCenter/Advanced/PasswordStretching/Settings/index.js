@@ -9,56 +9,46 @@ import { actions, selectors } from 'data'
 import Settings from './template.js'
 
 class SettingsContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)
     this.handleToggle = this.handleToggle.bind(this)
   }
 
-  onSubmit() {
+  onSubmit () {
     const { passwordStretchingValue } = this.props
-    this.props.walletActions.updatePbkdf2Iterations(
-      Number(passwordStretchingValue)
-    )
+    this.props.walletActions.updatePbkdf2Iterations(Number(passwordStretchingValue))
     this.handleToggle()
   }
 
-  handleToggle() {
+  handleToggle () {
     this.props.updateUI({ updateToggled: !this.props.ui.updateToggled })
   }
 
-  render() {
+  render () {
     const { ui, ...rest } = this.props
 
-    return (
-      <Settings
-        {...rest}
-        onSubmit={this.onSubmit}
-        updateToggled={ui.updateToggled}
-        handleToggle={this.handleToggle}
-      />
-    )
+    return <Settings
+      {...rest}
+      onSubmit={this.onSubmit}
+      updateToggled={ui.updateToggled}
+      handleToggle={this.handleToggle}
+    />
   }
 }
 
-const mapStateToProps = state => ({
-  passwordStretchingValue: formValueSelector('settingPasswordStretching')(
-    state,
-    'passwordStretching'
-  ),
+const mapStateToProps = (state) => ({
+  passwordStretchingValue: formValueSelector('settingPasswordStretching')(state, 'passwordStretching'),
   currentStretch: selectors.core.wallet.getPbkdf2Iterations(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   walletActions: bindActionCreators(actions.wallet, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   ui({ key: 'Setting_PasswordStretching', state: { updateToggled: false } })
 )
 

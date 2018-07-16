@@ -5,7 +5,6 @@ exports[`TextInput component default renders correctly 1`] = `
   borderColor="red"
   disabled={false}
   height="40px"
-  innerRef={[Function]}
   minHeight="40px"
 />
 `;

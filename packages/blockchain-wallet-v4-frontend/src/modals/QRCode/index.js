@@ -7,21 +7,18 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import QRCodeCapture from './template.js'
 
 class QRCodeContainer extends React.PureComponent {
-  render() {
+  render () {
     return <QRCodeCapture {...this.props} />
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 const enhance = compose(
   modalEnhancer('QRCode'),
-  connect(
-    undefined,
-    mapDispatchToProps
-  )
+  connect(undefined, mapDispatchToProps)
 )
 
 export default enhance(QRCodeContainer)

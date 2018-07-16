@@ -11,11 +11,11 @@ export const NoPadding = {
   *   Does nothing
   */
 
-  pad: function(dataBytes) {
+  pad: function (dataBytes) {
     return dataBytes
   },
 
-  unpad: function(dataBytes) {
+  unpad: function (dataBytes) {
     return dataBytes
   }
 }
@@ -26,13 +26,13 @@ export const ZeroPadding = {
   *   May cause issues if data ends with any 0x00 bytes
   */
 
-  pad: function(dataBytes, nBytesPerBlock) {
-    let nPaddingBytes = nBytesPerBlock - (dataBytes.length % nBytesPerBlock)
+  pad: function (dataBytes, nBytesPerBlock) {
+    let nPaddingBytes = nBytesPerBlock - dataBytes.length % nBytesPerBlock
     let zeroBytes = Buffer.from(nPaddingBytes).fill(0x00)
-    return Buffer.concat([dataBytes, zeroBytes])
+    return Buffer.concat([ dataBytes, zeroBytes ])
   },
 
-  unpad: function(dataBytes) {
+  unpad: function (dataBytes) {
     let unpaddedHex = dataBytes.toString('hex').replace(/(00)+$/, '')
     return Buffer.from(unpaddedHex, 'hex')
   }
@@ -43,14 +43,14 @@ export const Iso10126 = {
   *   Fills remaining block space with random byte values, except for the
   *   final byte, which denotes the byte length of the padding
   */
-  pad: function(dataBytes, nBytesPerBlock) {
-    let nPaddingBytes = nBytesPerBlock - (dataBytes.length % nBytesPerBlock)
+  pad: function (dataBytes, nBytesPerBlock) {
+    let nPaddingBytes = nBytesPerBlock - dataBytes.length % nBytesPerBlock
     let paddingBytes = crypto.randomBytes(nPaddingBytes - 1)
-    let endByte = Buffer.from([nPaddingBytes])
+    let endByte = Buffer.from([ nPaddingBytes ])
 
-    return Buffer.concat([dataBytes, paddingBytes, endByte])
+    return Buffer.concat([ dataBytes, paddingBytes, endByte ])
   },
-  unpad: function(dataBytes) {
+  unpad: function (dataBytes) {
     let nPaddingBytes = dataBytes[dataBytes.length - 1]
 
     return dataBytes.slice(0, -nPaddingBytes)
@@ -63,12 +63,12 @@ export const Iso97971 = {
   *   which serves as a mark for where the padding begins
   */
 
-  pad: function(dataBytes, nBytesPerBlock) {
-    let withStartByte = Buffer.concat([dataBytes, Buffer.from([0x80])])
+  pad: function (dataBytes, nBytesPerBlock) {
+    let withStartByte = Buffer.concat([ dataBytes, Buffer.from([ 0x80 ]) ])
     return ZeroPadding.pad(withStartByte, nBytesPerBlock)
   },
 
-  unpad: function(dataBytes) {
+  unpad: function (dataBytes) {
     let zeroBytesRemoved = ZeroPadding.unpad(dataBytes)
     return zeroBytesRemoved.slice(0, zeroBytesRemoved.length - 1)
   }
@@ -85,49 +85,31 @@ export const AES = {
   *   - default options are mode=CBC and padding=auto (PKCS7)
   */
 
-  encrypt: function(dataBytes, key, salt, options) {
+  encrypt: function (dataBytes, key, salt, options) {
     options = options || {}
     assert(Buffer.isBuffer(dataBytes), 'expected `dataBytes` to be a Buffer')
     assert(Buffer.isBuffer(key), 'expected `key` to be a Buffer')
-    assert(
-      Buffer.isBuffer(salt) || salt === null,
-      'expected `salt` to be a Buffer or null'
-    )
+    assert(Buffer.isBuffer(salt) || salt === null, 'expected `salt` to be a Buffer or null')
 
     let cipher = crypto.createCipheriv(options.mode || AES.CBC, key, salt || '')
     cipher.setAutoPadding(!options.padding)
 
-    if (options.padding) {
-      dataBytes = options.padding.pad(dataBytes, BLOCK_BIT_LEN / 8)
-    }
-    let encryptedBytes = Buffer.concat([
-      cipher.update(dataBytes),
-      cipher.final()
-    ])
+    if (options.padding) dataBytes = options.padding.pad(dataBytes, BLOCK_BIT_LEN / 8)
+    let encryptedBytes = Buffer.concat([ cipher.update(dataBytes), cipher.final() ])
 
     return encryptedBytes
   },
 
-  decrypt: function(dataBytes, key, salt, options) {
+  decrypt: function (dataBytes, key, salt, options) {
     options = options || {}
     assert(Buffer.isBuffer(dataBytes), 'expected `dataBytes` to be a Buffer')
     assert(Buffer.isBuffer(key), 'expected `key` to be a Buffer')
-    assert(
-      Buffer.isBuffer(salt) || salt === null,
-      'expected `salt` to be a Buffer or null'
-    )
+    assert(Buffer.isBuffer(salt) || salt === null, 'expected `salt` to be a Buffer or null')
 
-    let decipher = crypto.createDecipheriv(
-      options.mode || AES.CBC,
-      key,
-      salt || ''
-    )
+    let decipher = crypto.createDecipheriv(options.mode || AES.CBC, key, salt || '')
     decipher.setAutoPadding(!options.padding)
 
-    let decryptedBytes = Buffer.concat([
-      decipher.update(dataBytes),
-      decipher.final()
-    ])
+    let decryptedBytes = Buffer.concat([ decipher.update(dataBytes), decipher.final() ])
     if (options.padding) decryptedBytes = options.padding.unpad(decryptedBytes)
 
     return decryptedBytes

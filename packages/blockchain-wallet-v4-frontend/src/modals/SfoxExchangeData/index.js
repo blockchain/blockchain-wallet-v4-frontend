@@ -10,66 +10,40 @@ import Tray from 'components/Tray'
 import Create from './Create'
 import Verify from './Verify'
 import Link from './Link'
-import SiftScience from './sift-science'
 import { ModalHeader, ModalBody } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
 import { actions } from 'data'
 
 class SfoxExchangeData extends React.PureComponent {
-  constructor() {
+  constructor () {
     super()
     this.state = { show: false }
     this.stepMap = {
-      account: (
-        <FormattedMessage
-          id='modals.sfoxexchangedata.steps.account'
-          defaultMessage='Account'
-        />
-      ),
-      verify: (
-        <FormattedMessage
-          id='modals.sfoxexchangedata.steps.verify'
-          defaultMessage='Verify'
-        />
-      ),
-      funding: (
-        <FormattedMessage
-          id='modals.sfoxexchangedata.steps.funding'
-          defaultMessage='Funding'
-        />
-      ),
-      submit: (
-        <FormattedMessage
-          id='modals.sfoxexchangedata.steps.submit'
-          defaultMessage='Submit'
-        />
-      )
+      account: <FormattedMessage id='modals.sfoxexchangedata.steps.account' defaultMessage='Account' />,
+      verify: <FormattedMessage id='modals.sfoxexchangedata.steps.verify' defaultMessage='Verify' />,
+      funding: <FormattedMessage id='modals.sfoxexchangedata.steps.funding' defaultMessage='Funding' />,
+      submit: <FormattedMessage id='modals.sfoxexchangedata.steps.submit' defaultMessage='Submit' />
     }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
   }
 
-  handleClose() {
+  handleClose () {
     this.setState({ show: false })
     setTimeout(this.props.close, 500)
-    this.props.sfoxFrontendActions.handleModalClose()
   }
 
-  getStepComponent(step) {
+  getStepComponent (step) {
     switch (step) {
-      case 'account':
-        return { component: <Create />, step: 'account' }
-      case 'verify':
-        return { component: <Verify />, step: 'verify' }
-      case 'funding':
-        return { component: <Link />, step: 'funding' }
-      case 'upload':
-        return { component: <Verify step='upload' />, step: 'verify' }
+      case 'account': return { component: <Create />, step: 'account' }
+      case 'verify': return { component: <Verify />, step: 'verify' }
+      case 'funding': return { component: <Link />, step: 'funding' }
+      case 'upload': return { component: <Verify step='upload' />, step: 'verify' }
       case 'verified': {
         this.handleClose()
         break
@@ -77,28 +51,17 @@ class SfoxExchangeData extends React.PureComponent {
     }
   }
 
-  render() {
+  render () {
     const { show } = this.state
     const step = this.props.signupStep || this.props.step
 
     return (
-      <Tray
-        position={this.props.position}
-        total={this.props.total}
-        in={show}
-        class='tray'
-        onClose={this.handleClose.bind(this)}
-      >
+      <Tray position={this.props.position} total={this.props.total} in={show} class='tray' onClose={this.handleClose.bind(this)}>
         <ModalHeader tray center onClose={this.handleClose.bind(this)}>
-          <StepIndicator
-            adjuster={0.1}
-            step={this.getStepComponent(step)['step']}
-            stepMap={this.stepMap}
-          />
+          <StepIndicator adjuster={0.1} step={this.getStepComponent(step)['step']} stepMap={this.stepMap} />
         </ModalHeader>
         <ModalBody>
-          {this.getStepComponent(step)['component']}
-          {this.props.siftScienceEnabled ? <SiftScience /> : null}
+          { this.getStepComponent(step)['component'] }
         </ModalBody>
       </Tray>
     )
@@ -110,23 +73,18 @@ SfoxExchangeData.propTypes = {
   close: PropTypes.function
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   data: getData(state),
-  signupStep: path(['sfoxSignup', 'signupStep'], state),
-  siftScienceEnabled: path(['sfoxSignup', 'siftScienceEnabled'], state)
+  signupStep: path(['sfoxSignup', 'signupStep'], state)
 })
 
-const mapDispatchToProps = dispatch => ({
-  sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch),
+const mapDispatchToProps = (dispatch) => ({
   sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch)
 })
 
 const enhance = compose(
-  modalEnhancer('SfoxExchangeData'),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps),
+  modalEnhancer('SfoxExchangeData')
 )
 
 export default enhance(SfoxExchangeData)

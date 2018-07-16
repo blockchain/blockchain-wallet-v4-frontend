@@ -10,15 +10,15 @@ import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 
 class SignMessageContainer extends React.PureComponent {
-  componentDidMount() {
+  componentDidMount () {
     this.props.signMessageActions.signMessageInitialized()
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.props.formActions.destroy('signMessage')
   }
 
-  render() {
+  render () {
     const { step, position, total, closeAll, ...rest } = this.props
 
     return (
@@ -37,24 +37,18 @@ SignMessageContainer.propTypes = {
   step: PropTypes.number.isRequired
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   step: selectors.components.signMessage.getStep(state)
 })
 
 const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch),
-  signMessageActions: bindActionCreators(
-    actions.components.signMessage,
-    dispatch
-  )
+  signMessageActions: bindActionCreators(actions.components.signMessage, dispatch)
 })
 
 const enhance = compose(
-  modalEnhancer('SignMessage'),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps),
+  modalEnhancer('SignMessage')
 )
 
 export default enhance(SignMessageContainer)

@@ -6,7 +6,7 @@ import Logout from './template.js'
 import { actions } from 'data'
 
 class LogoutContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = { secondsRemaining: 10 }
     this.onDeauthorizeBrowser = this.onDeauthorizeBrowser.bind(this)
@@ -14,15 +14,15 @@ class LogoutContainer extends React.PureComponent {
     this.tick = this.tick.bind(this)
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.interval = setInterval(this.tick, 1000)
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     clearInterval(this.interval)
   }
 
-  tick() {
+  tick () {
     this.setState({
       secondsRemaining: this.state.secondsRemaining - 1
     })
@@ -31,31 +31,22 @@ class LogoutContainer extends React.PureComponent {
     }
   }
 
-  onGoToLogin() {
+  onGoToLogin () {
     this.props.authActions.logoutClearReduxStore()
   }
 
-  onDeauthorizeBrowser() {
+  onDeauthorizeBrowser () {
     this.props.authActions.deauthorizeBrowser()
   }
 
-  render() {
-    return (
-      <Logout
-        onDeauthorizeBrowser={this.onDeauthorizeBrowser}
-        onGoToLogin={this.onGoToLogin}
-        secondsRemaining={this.state.secondsRemaining}
-      />
-    )
+  render () {
+    return <Logout onDeauthorizeBrowser={this.onDeauthorizeBrowser} onGoToLogin={this.onGoToLogin} secondsRemaining={this.state.secondsRemaining} />
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   authActions: bindActionCreators(actions.auth, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch)
 })
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(LogoutContainer)
+export default connect(null, mapDispatchToProps)(LogoutContainer)

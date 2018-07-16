@@ -16,18 +16,9 @@ exports[`SelectBox renders correctly 1`] = `
         Object {
           "group": "fakeG",
           "items": Array [
-            Object {
-              "text": "1",
-              "value": 1,
-            },
-            Object {
-              "text": "2",
-              "value": 2,
-            },
-            Object {
-              "text": "3",
-              "value": 3,
-            },
+            1,
+            2,
+            3,
           ],
         },
       ]

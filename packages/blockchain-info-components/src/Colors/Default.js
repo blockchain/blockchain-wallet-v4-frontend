@@ -1,3 +1,4 @@
+
 export default {
   // Brand
   'brand-primary': '#004A7C',
@@ -7,12 +8,12 @@ export default {
   'brand-yellow': '#FFCF62',
   'brand-yellow-lighter': '#FFE6B4',
   // Action
-  sent: '#F26C57',
-  received: '#00BABC',
-  transferred: '#799EB2',
+  'sent': '#F26C57',
+  'received': '#00BABC',
+  'transferred': '#799EB2',
   // State
-  error: '#CA3A3C',
-  success: '#00A76F',
+  'error': '#CA3A3C',
+  'success': '#00A76F',
   // Marketing
   'marketing-primary': '#3558A8',
   'marketing-secondary': '#153A62',
@@ -23,13 +24,11 @@ export default {
   'gray-4': '#757679',
   'gray-5': '#545456',
   'gray-6': '#383838',
-  // Announcements
-  warn: '#FF9F90',
   // New Color
-  white: '#FFFFFF',
+  'white': '#FFFFFF',
   'white-blue': '#F5F7F9',
-  red: '#FF0000',
-  black: '#000000',
-  halftransparentgrey: 'rgba(0, 0, 0, 0.5)',
+  'red': '#FF0000',
+  'black': '#000000',
+  'halftransparentgrey': 'rgba(0, 0, 0, 0.5)',
   'bitcoin-orange': '#f69335'
 }

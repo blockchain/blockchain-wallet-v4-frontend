@@ -13,7 +13,11 @@ const BaseMenu = styled.div`
 const NavbarMenu = props => {
   const { children, ...rest } = props
 
-  return <BaseMenu {...rest}>{children}</BaseMenu>
+  return (
+    <BaseMenu {...rest}>
+      {children}
+    </BaseMenu>
+  )
 }
 
 NavbarMenu.propTypes = {

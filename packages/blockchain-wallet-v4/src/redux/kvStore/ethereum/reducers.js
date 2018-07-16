@@ -11,14 +11,7 @@ export default (state = INITIAL_STATE, action) => {
   const { type, payload } = action
   switch (type) {
     case AT.UPDATE_METADATA_ETHEREUM: {
-      return set(
-        compose(
-          mapped,
-          KVStoreEntry.value
-        ),
-        payload,
-        state
-      )
+      return set(compose(mapped, KVStoreEntry.value), payload, state)
     }
     case AT.FETCH_METADATA_ETHEREUM_LOADING: {
       return Remote.Loading
@@ -31,29 +24,17 @@ export default (state = INITIAL_STATE, action) => {
       return Remote.Failure(payload)
     }
     case AT.SET_TRANSACTION_NOTE_ETHEREUM: {
-      let valueLens = compose(
-        mapped,
-        KVStoreEntry.value
-      )
-      let setNote = assocPath(
-        ['ethereum', 'tx_notes', payload.txHash],
-        payload.txNote
-      )
+      let valueLens = compose(mapped, KVStoreEntry.value)
+      let setNote = assocPath(['ethereum', 'tx_notes', payload.txHash], payload.txNote)
       return over(valueLens, setNote, state)
     }
     case AT.SET_LATEST_TX_ETHEREUM: {
-      let valueLens = compose(
-        mapped,
-        KVStoreEntry.value
-      )
+      let valueLens = compose(mapped, KVStoreEntry.value)
       let setTx = assocPath(['ethereum', 'last_tx'], payload)
       return over(valueLens, setTx, state)
     }
     case AT.SET_LATEST_TX_TIMESTAMP_ETHEREUM: {
-      let valueLens = compose(
-        mapped,
-        KVStoreEntry.value
-      )
+      let valueLens = compose(mapped, KVStoreEntry.value)
       let setTxTimestamp = assocPath(['ethereum', 'last_tx_timestamp'], payload)
       return over(valueLens, setTxTimestamp, state)
     }

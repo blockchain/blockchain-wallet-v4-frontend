@@ -21,11 +21,7 @@ const Wrapper = styled.div`
   @media (max-height: 800px), (max-width: 992px) {
     height: 300px;
     display: block;
-    overflow: scroll;
-    -ms-overflow-style: none;
-    &::-webkit-scrollbar {
-      width: 0 !important;
-    }
+    overflow: hidden;
   }
   @media (max-height: 800px) {
     margin-bottom: 30px;
@@ -34,17 +30,18 @@ const Wrapper = styled.div`
     margin-bottom: 0px;
   }
 `
-const headerHeight = '29px'
 const Header = styled.div`
   width: 100%;
-  height: ${headerHeight};
 `
 const Content = styled.div`
   width: 100%;
-  height: calc(100% - ${headerHeight});
-  overflow-y: auto;
-  padding-top: 10px;
-
+  height: 100%;
+  margin-top: 10px;
+  overflow: scroll;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    width: 0 !important;
+  }
   > div:first-child {
     border-left: none;
     position: relative;
@@ -75,34 +72,26 @@ const Success = props => (
   <Wrapper>
     <Header>
       <Text uppercase size='24px' weight={300} color='brand-primary'>
-        <FormattedMessage
-          id='scenes.home.activitylist.title'
-          defaultMessage='Recent Activity'
-        />
+        <FormattedMessage id='scenes.home.activitylist.title' defaultMessage='Recent Activity' />
       </Text>
     </Header>
     <Content>
-      {props.activities.length === 0 ? (
-        <Empty partner={props.partner} handleRequest={props.handleRequest} />
-      ) : (
-        props.activities.map((activity, index) => (
-          <ListItem key={index} handleLink={props.handleLink} {...activity} />
-        ))
-      )}
+      { (props.activities.length === 0)
+        ? <Empty partner={props.partner} handleRequest={props.handleRequest} />
+        : props.activities.map((activity, index) => <ListItem handleLink={props.handleLink} action={activity.action} type={activity.type} amount={activity.amount} time={activity.time} coin={activity.coin} path={activity.path} key={index} />)
+      }
     </Content>
   </Wrapper>
 )
 
 Success.propTypes = {
-  activities: PropTypes.arrayOf(
-    PropTypes.shape({
-      action: PropTypes.string.isRequired,
-      time: PropTypes.number.isRequired,
-      amount: PropTypes.number,
-      type: PropTypes.string,
-      coin: PropTypes.string
-    })
-  ).isRequired
+  activities: PropTypes.arrayOf(PropTypes.shape({
+    action: PropTypes.string.isRequired,
+    time: PropTypes.number.isRequired,
+    amount: PropTypes.number,
+    type: PropTypes.string,
+    coin: PropTypes.string
+  })).isRequired
 }
 
 export default Success

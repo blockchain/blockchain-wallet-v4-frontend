@@ -6,33 +6,28 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import CoinifyDeleteBank from './template.js'
 
 class CoinifyDeleteBankContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  handleSubmit() {
+  handleSubmit () {
     this.props.close()
     this.props.coinifyActions.deleteBankAccount(this.props.bankAccount)
   }
 
-  render() {
-    return (
-      <CoinifyDeleteBank {...this.props} handleSubmit={this.handleSubmit} />
-    )
+  render () {
+    return <CoinifyDeleteBank {...this.props} handleSubmit={this.handleSubmit} />
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   coinifyActions: bindActionCreators(actions.modules.coinify, dispatch)
 })
 
 const enhance = compose(
   modalEnhancer('CoinifyDeleteBank'),
-  connect(
-    undefined,
-    mapDispatchToProps
-  )
+  connect(undefined, mapDispatchToProps)
 )
 
 export default enhance(CoinifyDeleteBankContainer)

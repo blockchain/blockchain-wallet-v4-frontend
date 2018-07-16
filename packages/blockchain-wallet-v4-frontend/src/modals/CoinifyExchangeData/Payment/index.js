@@ -8,10 +8,9 @@ import Success from './template.success'
 import { path } from 'ramda'
 import Loading from 'components/BuySell/Loading'
 import { Remote } from 'blockchain-wallet-v4/src'
-import Failure from 'components/BuySell/Failure'
 
 class PaymentContainer extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     this.handlePaymentClick = this.handlePaymentClick.bind(this)
@@ -20,39 +19,37 @@ class PaymentContainer extends Component {
     this.state = { medium: '' }
   }
 
-  componentDidMount() {
-    if (Remote.Success.is(this.props.quote)) {
-      this.props.coinifyDataActions.getPaymentMediums(this.props.quote.data)
-    }
+  componentDidMount () {
+    if (Remote.Success.is(this.props.quote)) this.props.coinifyDataActions.getPaymentMediums(this.props.quote.data)
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.props.coinifyActions.coinifyNotAsked()
   }
 
-  triggerKyc() {
+  triggerKyc () {
     this.props.coinifyActions.coinifyLoading()
     this.props.coinifyActions.triggerKYC()
   }
 
-  handlePaymentClick(medium) {
+  handlePaymentClick (medium) {
     this.setState({ medium })
     this.props.coinifyActions.saveMedium(medium)
   }
 
-  render() {
+  render () {
     const { data, coinifyBusy, coinifyActions } = this.props
     const { openKYC, checkoutCardMax } = coinifyActions
 
     const busy = coinifyBusy.cata({
       Success: () => false,
-      Failure: err => err,
+      Failure: (err) => err,
       Loading: () => true,
       NotAsked: () => false
     })
 
     return data.cata({
-      Success: value => (
+      Success: (value) =>
         <Success
           value={value}
           getAccounts={this.getAccounts}
@@ -62,10 +59,9 @@ class PaymentContainer extends Component {
           triggerKyc={this.triggerKyc}
           busy={busy}
           openPendingKyc={openKYC}
-          handlePrefillCardMax={limits => checkoutCardMax(limits)}
-        />
-      ),
-      Failure: msg => <Failure error={msg} />,
+          handlePrefillCardMax={(limits) => checkoutCardMax(limits)}
+        />,
+      Failure: (msg) => <div>ERROR: {msg}</div>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
@@ -76,19 +72,16 @@ PaymentContainer.propTypes = {
   quote: PropTypes.object.isRequired
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   data: getData(state),
   quote: getQuote(state),
   coinifyBusy: path(['coinify', 'coinifyBusy'], state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   coinifyDataActions: bindActionCreators(actions.core.data.coinify, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   coinifyActions: bindActionCreators(actions.modules.coinify, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PaymentContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(PaymentContainer)

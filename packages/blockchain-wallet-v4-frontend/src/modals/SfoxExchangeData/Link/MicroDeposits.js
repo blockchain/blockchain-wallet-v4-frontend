@@ -21,74 +21,46 @@ const InputContainer = styled.div`
 `
 
 class MicroDeposits extends Component {
-  render() {
+  render () {
     const { onStep } = this.props
 
     return (
       <Container>
         <PartnerHeader style={spacing('mb-25')}>
-          <FormattedMessage
-            id='sfoxexchangedata.link.micro.title'
-            defaultMessage='Verify Your Bank Account'
-          />
+          <FormattedMessage id='sfoxexchangedata.link.micro.title' defaultMessage='Verify Your Bank Account' />
         </PartnerHeader>
-        {onStep === 'welcome' ? (
-          <Fragment>
-            <Text size='13px' weight={300}>
-              <FormattedMessage
-                id='sfoxexchangedata.link.micro.description'
-                defaultMessage='To verify your bank details, SFOX will send two micro-deposits to your bank account for a few cents each. Once received, select Enter Deposit Details to finish setting up your account.'
-              />
-            </Text>
-            <TextGroup inline style={spacing('mt-10')}>
-              <Text size='13px' weight={400}>
-                <FormattedMessage
-                  id='sfoxexchangedata.link.micro.bear'
-                  defaultMessage='Bear with us:'
-                />
-              </Text>
+        {
+          onStep === 'welcome'
+            ? <Fragment>
               <Text size='13px' weight={300}>
-                <FormattedMessage
-                  id='sfoxexchangedata.link.micro.description2'
-                  defaultMessage='receiving these deposits can take up to 5 business days.'
-                />
+                <FormattedMessage id='sfoxexchangedata.link.micro.description' defaultMessage='To verify your bank details, SFOX will send two micro-deposits to your bank account for a few cents each. Once received, select Enter Deposit Details to finish setting up your account.' />
               </Text>
-            </TextGroup>
-          </Fragment>
-        ) : (
-          <Form>
-            <Container>
-              <InputContainer>
-                <Text size='14px' weight={500} style={spacing('mb-10')}>
-                  <FormattedMessage
-                    id='sfoxexchangedata.link.micro.deposit1'
-                    defaultMessage='Deposit 1'
-                  />
+              <TextGroup inline style={spacing('mt-10')}>
+                <Text size='13px' weight={400}>
+                  <FormattedMessage id='sfoxexchangedata.link.micro.bear' defaultMessage='Bear with us:' />
                 </Text>
-                <Field
-                  name='deposit1'
-                  component={TextBox}
-                  validate={[required]}
-                  type='number'
-                />
-              </InputContainer>
-              <InputContainer>
-                <Text size='14px' weight={500} style={spacing('mb-10')}>
-                  <FormattedMessage
-                    id='sfoxexchangedata.link.micro.deposit2'
-                    defaultMessage='Deposit 2'
-                  />
+                <Text size='13px' weight={300} >
+                  <FormattedMessage id='sfoxexchangedata.link.micro.description' defaultMessage='receiving these deposits can take up to 5 business days.' />
                 </Text>
-                <Field
-                  name='deposit2'
-                  component={TextBox}
-                  validate={[required]}
-                  type='number'
-                />
-              </InputContainer>
-            </Container>
-          </Form>
-        )}
+              </TextGroup>
+            </Fragment>
+            : <Form>
+              <Container>
+                <InputContainer>
+                  <Text size='14px' weight={500} style={spacing('mb-10')}>
+                    <FormattedMessage id='sfoxexchangedata.link.micro.deposit1' defaultMessage='Deposit 1' />
+                  </Text>
+                  <Field name='deposit1' component={TextBox} validate={[required]} type='number' />
+                </InputContainer>
+                <InputContainer>
+                  <Text size='14px' weight={500} style={spacing('mb-10')}>
+                    <FormattedMessage id='sfoxexchangedata.link.micro.deposit2' defaultMessage='Deposit 2' />
+                  </Text>
+                  <Field name='deposit2' component={TextBox} validate={[required]} type='number' />
+                </InputContainer>
+              </Container>
+            </Form>
+        }
       </Container>
     )
   }

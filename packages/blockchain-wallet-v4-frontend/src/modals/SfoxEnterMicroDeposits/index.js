@@ -8,31 +8,18 @@ import Template from './template'
 import { path } from 'ramda'
 
 class SfoxEnterMicroDeposits extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     this.handleSubmit = this.handleSubmit.bind(this)
   }
-
-  componentDidMount() {
-    this.props.sfoxActions.sfoxNotAsked()
-  }
-
-  handleSubmit(e) {
-    const deposits = {
-      amount1: parseFloat(this.props.deposit1),
-      amount2: parseFloat(this.props.deposit2)
-    }
+  handleSubmit (e) {
+    const deposits = { amount1: parseFloat(this.props.deposit1), amount2: parseFloat(this.props.deposit2) }
     this.props.sfoxActions.submitMicroDeposits(deposits)
   }
 
-  render() {
-    const status = this.props.status.cata({
-      Success: () => 'success',
-      Failure: err => err,
-      Loading: () => 'loading',
-      NotAsked: () => false
-    })
+  render () {
+    const status = this.props.status.cata({ Success: () => false, Failure: (err) => err, Loading: () => 'loading', NotAsked: () => false })
 
     return (
       <Template
@@ -45,24 +32,26 @@ class SfoxEnterMicroDeposits extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   deposit1: formValueSelector('sfoxMicroDeposits')(state, 'deposit1'),
   deposit2: formValueSelector('sfoxMicroDeposits')(state, 'deposit2'),
-  status: path(['sfoxSignup', 'sfoxBusy'], state),
-  options: path(['walletOptionsPath'], state).getOrElse({})
+  status: path(['sfoxSignup', 'sfoxBusy'], state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   sfoxActions: bindActionCreators(actions.modules.sfox, dispatch)
 })
 
 const enhance = compose(
   modalEnhancer('SfoxEnterMicroDeposits'),
-  reduxForm({ form: 'sfoxMicroDeposits', asyncBlurFields: [] }),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )
 
-export default enhance(SfoxEnterMicroDeposits)
+// component export style pulled from a redux-form issue on github for an asyncValidate error on blur
+// https://github.com/erikras/redux-form/issues/2420
+let FormContainer = enhance(SfoxEnterMicroDeposits)
+FormContainer = reduxForm({
+  form: 'sfoxMicroDeposits',
+  asyncBlurFields: []
+})(FormContainer)
+export default FormContainer

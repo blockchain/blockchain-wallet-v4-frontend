@@ -6,11 +6,7 @@ import TableHeader from './TableHeader'
 
 describe('TableHeader component', () => {
   it('renders correctly', () => {
-    const component = shallow(
-      <TableHeader>
-        <span>Default</span>
-      </TableHeader>
-    )
+    const component = shallow(<TableHeader><span>Default</span></TableHeader>)
     const tree = toJson(component)
     expect(tree).toMatchSnapshot()
   })

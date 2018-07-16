@@ -11,22 +11,18 @@
 node_modules
 npm-shrinkwrap.json
 
-# npm
-package-lock.json
-
 # Yarn
 .yarnclean
 yarn-error.log
-
-# Eslint
-.eslintcache
+yarn.lock
 
 # Generated Files
 *.log
-CHANGELOG.md
+*.lerna_backup
 coverage/
 dist/
 lib/
+CHANGELOG.md
 
 # Package Files
 packages/blockchain-info-components/lib

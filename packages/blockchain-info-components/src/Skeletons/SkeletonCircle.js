@@ -9,7 +9,9 @@ const Wrapper = styled.div`
   background-color: ${props => props.theme[props.bgColor]};
 `
 
-const SkeletonCircle = props => <Wrapper {...props} />
+const SkeletonCircle = props => (
+  <Wrapper {...props} />
+)
 
 SkeletonCircle.defaultProps = {
   bgColor: 'gray-1'

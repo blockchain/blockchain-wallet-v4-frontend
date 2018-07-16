@@ -15,42 +15,19 @@ import Identity from './Identity'
 
 const faqCopy = [
   {
-    question: (
-      <FormattedMessage
-        id='scenes.buysell.sfoxsignup.verify.address.helper1.question'
-        defaultMessage='Why do you need this personal information?'
-      />
-    ),
-    answer: (
-      <FormattedMessage
-        id='scenes.buysell.sfoxsignup.verify.address.helper1.answer'
-        defaultMessage='SFOX needs this information to verify your identity and to comply with government regulated anti-money laundering laws.'
-      />
-    )
+    question: <FormattedMessage id='scenes.buysell.sfoxsignup.verify.address.helper1.question' defaultMessage='Why do you need this personal information?' />,
+    answer: <FormattedMessage id='scenes.buysell.sfoxsignup.verify.address.helper1.answer' defaultMessage='SFOX needs this information to verify your identity and to comply with government regulated anti-money laundering laws.' />
   },
   {
-    question: (
-      <FormattedMessage
-        id='scenes.buysell.sfoxsignup.verify.address.helper2.question'
-        defaultMessage='Where is this information stored?'
-      />
-    ),
-    answer: (
-      <FormattedMessage
-        id='scenes.buysell.sfoxsignup.verify.address.helper2.answer'
-        defaultMessage='We know this information is personal. Don’t worry, it will be securely sent to SFOX and not stored in your Blockchain wallet.'
-      />
-    )
+    question: <FormattedMessage id='scenes.buysell.sfoxsignup.verify.address.helper2.question' defaultMessage='Where is this information stored?' />,
+    answer: <FormattedMessage id='scenes.buysell.sfoxsignup.verify.address.helper2.answer' defaultMessage='We know this information is personal. Don’t worry, it will be securely sent to SFOX and not stored in your Blockchain wallet.' />
   }
 ]
 
-const faqHelper = () =>
-  faqCopy.map((el, i) => (
-    <Helper key={i} question={el.question} answer={el.answer} />
-  ))
+const faqHelper = () => faqCopy.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
 
 class VerifyContainer extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.handleReset = this.handleReset.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -58,53 +35,32 @@ class VerifyContainer extends Component {
     this.state = { viewSSN: false }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (
-      !equals(this.props.verificationError, nextProps.verificationError) &&
-      nextProps.verificationError
-    ) {
+  componentWillReceiveProps (nextProps) {
+    if (!equals(this.props.verificationError, nextProps.verificationError) && nextProps.verificationError) {
       this.props.updateUI({ busy: false })
     }
   }
 
-  componentWillUnmount() {
-    this.props.formActions.destroy('sfoxAddress')
-  }
-
-  handleSubmit(e) {
+  handleSubmit (e) {
     e.preventDefault()
     this.props.updateUI({ busy: true })
     this.props.sfoxFrontendActions.setProfile(this.props.user)
   }
 
-  handleReset() {
+  handleReset () {
     this.props.updateUI({ busy: false })
     this.props.updateUI({ verify: 'address' })
     this.props.sfoxFrontendActions.setVerifyError(false)
-    this.props.sfoxDataActions.refetchProfile()
   }
 
-  render() {
+  render () {
     if (this.props.step === 'upload') return <Upload />
-    if (this.props.ui.verify === 'address') {
-      return <Address {...this.props} faqs={faqHelper} />
-    }
-    if (this.props.ui.verify === 'identity') {
-      return (
-        <Identity
-          {...this.props}
-          toggleSSN={() => this.setState({ viewSSN: !this.state.viewSSN })}
-          viewSSN={this.state.viewSSN}
-          faqs={faqHelper}
-          handleSubmit={this.handleSubmit}
-          handleReset={this.handleReset}
-        />
-      )
-    }
+    if (this.props.ui.verify === 'address') return <Address {...this.props} faqs={faqHelper} />
+    if (this.props.ui.verify === 'identity') return <Identity {...this.props} toggleSSN={() => this.setState({ viewSSN: !this.state.viewSSN })} viewSSN={this.state.viewSSN} faqs={faqHelper} handleSubmit={this.handleSubmit} handleReset={this.handleReset} />
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: {
     firstName: formValueSelector('sfoxAddress')(state, 'firstName'),
     lastName: formValueSelector('sfoxAddress')(state, 'lastName'),
@@ -119,17 +75,13 @@ const mapStateToProps = state => ({
   verificationError: path(['sfoxSignup', 'verifyError'], state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
-  sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch),
-  sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch)
+  sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch)
 })
 
 const enhance = compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   ui({ state: { verify: 'address', error: false, busy: false } })
 )
 

@@ -1,5 +1,5 @@
 import Maybe from 'data.maybe'
-import { isNil, find, findIndex, propEq, sortBy, prop } from 'ramda'
+import { isNil, find, propEq, sortBy, prop } from 'ramda'
 
 const languages = [
   { cultureCode: 'de-DE', language: 'de', name: 'German' },
@@ -31,46 +31,31 @@ const languages = [
 
 const languagesSortedByName = sortBy(prop('name'))(languages)
 
-function getLanguageName(cultureCode) {
+function getLanguageName (cultureCode) {
   let selectedLanguage = find(propEq('cultureCode', cultureCode))(languages)
   if (isNil(selectedLanguage)) return Maybe.Nothing()
 
   return Maybe.Just(selectedLanguage.name)
 }
 
-function convertLanguageToCultureCode(language) {
+function convertLanguageToCultureCode (language) {
   let selectedLanguage = find(propEq('language', language))(languages)
   if (isNil(selectedLanguage)) return Maybe.Nothing()
 
   return Maybe.Just(selectedLanguage.cultureCode)
 }
 
-function convertCultureCodeToLanguage(cultureCode) {
+function convertCultureCodeToLanguage (cultureCode) {
   let selectedLanguage = find(propEq('cultureCode', cultureCode))(languages)
   if (isNil(selectedLanguage)) return Maybe.Nothing()
 
   return Maybe.Just(selectedLanguage.language)
 }
 
-// update url with new language without forcing browser reload
-function addLanguageToUrl(language) {
-  window.history.pushState({}, '', `/${language}/${window.location.hash}`)
-}
-
-function tryParseLanguageFromUrl() {
-  const path = window.location.pathname.replace(/\//g, '')
-
-  if (path && path.length) {
-    return languages[findIndex(propEq('language', path))(languages)]
-  }
-}
-
 export {
-  addLanguageToUrl,
-  convertCultureCodeToLanguage,
-  convertLanguageToCultureCode,
-  getLanguageName,
   languages,
   languagesSortedByName,
-  tryParseLanguageFromUrl
+  getLanguageName,
+  convertCultureCodeToLanguage,
+  convertLanguageToCultureCode
 }

@@ -4,14 +4,14 @@ import PropTypes from 'prop-types'
 const { Provider, Consumer } = React.createContext()
 
 class Stepper extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     this.state = { step: props.initialStep }
   }
 
   // eslint-disable-next-line
-  stepTo = step => {
+  stepTo = (step) => {
     this.setState({ step })
   }
 
@@ -27,7 +27,7 @@ class Stepper extends React.PureComponent {
     this.stepTo(0)
   }
 
-  render() {
+  render () {
     let value = {
       currentStep: this.state.step,
       stepTo: this.stepTo,
@@ -36,7 +36,11 @@ class Stepper extends React.PureComponent {
       restartStep: this.restartStep
     }
 
-    return <Provider value={value}>{this.props.children}</Provider>
+    return (
+      <Provider value={value}>
+        {this.props.children}
+      </Provider>
+    )
   }
 }
 
@@ -50,33 +54,24 @@ Stepper.defaultProps = {
 
 export const StepView = ({ children, step }) => (
   <Consumer>
-    {({ currentStep }) => (currentStep === step ? children : null)}
+    {({ currentStep }) => currentStep === step ? children : null}
   </Consumer>
 )
 
-export const StepTransition = ({
-  Component,
-  onClick,
-  next,
-  prev,
-  restart,
-  to = 0,
-  ...rest
-}) => (
+export const StepTransition = ({ Component, onClick, next, prev, restart, to = 0, ...rest }) => (
   <Consumer>
     {({ stepTo, nextStep, prevStep, restartStep }) => {
-      const goToStep = next
-        ? nextStep
-        : prev
-          ? prevStep
-          : restart
-            ? restartStep
-            : () => stepTo(to)
+      const goToStep = next ? nextStep : prev ? prevStep : restart ? restartStep : () => stepTo(to)
       const onClickAndGo = () => {
         onClick && onClick()
         goToStep()
       }
-      return <Component {...rest} onClick={onClickAndGo} />
+      return (
+        <Component
+          {...rest}
+          onClick={onClickAndGo}
+        />
+      )
     }}
   </Consumer>
 )

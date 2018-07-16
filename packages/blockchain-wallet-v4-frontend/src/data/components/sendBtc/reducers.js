@@ -18,23 +18,13 @@ export default (state = INITIAL_STATE, action) => {
       return INITIAL_STATE
     }
     case AT.SEND_BTC_FIRST_STEP_TO_TOGGLED: {
-      return assoc(
-        'toToggled',
-        isNil(payload) ? !state.toToggled : payload,
-        state
-      )
+      return assoc('toToggled', isNil(payload) ? !state.toToggled : payload, state)
     }
     case AT.SEND_BTC_FIRST_STEP_FEEPERBYTE_TOGGLED: {
       return assoc('feePerByteToggled', !state.feePerByteToggled, state)
     }
-    case AT.SEND_BTC_PAYMENT_UPDATED_SUCCESS: {
-      return assoc('payment', Remote.Success(payload), state)
-    }
-    case AT.SEND_BTC_PAYMENT_UPDATED_LOADING: {
-      return assoc('payment', Remote.Loading, state)
-    }
-    case AT.SEND_BTC_PAYMENT_UPDATED_FAILURE: {
-      return assoc('payment', Remote.Failure(payload), state)
+    case AT.SEND_BTC_PAYMENT_UPDATED: {
+      return assoc('payment', payload, state)
     }
     case AT.SEND_BTC_FIRST_STEP_SUBMIT_CLICKED: {
       return assoc('step', 2, state)

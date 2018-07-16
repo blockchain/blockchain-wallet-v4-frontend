@@ -7,41 +7,21 @@ import { actions } from 'data'
 import Content from './template'
 
 class ContentContainer extends React.PureComponent {
-  constructor(props) {
-    super(props)
-    this.handleRefresh = this.handleRefresh.bind(this)
+  componentDidMount () {
+    this.props.actions.initialized()
   }
 
-  componentDidMount() {
-    this.props.txActions.initialized()
-  }
+  render () {
+    const { actions, empty, pages, search } = this.props
 
-  handleRefresh() {
-    this.props.dataActions.fetchData()
-    this.props.txActions.initialized()
-  }
-
-  render() {
-    const { empty, pages, search } = this.props
-    return (
-      <Content
-        empty={empty}
-        search={search}
-        pages={pages}
-        onRefresh={this.handleRefresh}
-      />
-    )
+    return <Content empty={empty} search={search} pages={pages} actions={actions} />
   }
 }
 
 const mapStateToProps = state => getData(state)
 
-const mapDispatchToProps = dispatch => ({
-  dataActions: bindActionCreators(actions.core.data.ethereum, dispatch),
-  txActions: bindActionCreators(actions.components.ethTransactions, dispatch)
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(actions.components.ethTransactions, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ContentContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(ContentContainer)

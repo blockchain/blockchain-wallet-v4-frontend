@@ -7,11 +7,9 @@ import FiatDisplay from '../FiatDisplay'
 const SwitchableDisplay = props => {
   const { coinDisplayed, children, ...rest } = props
 
-  return coinDisplayed ? (
-    <CoinDisplay {...rest}>{children}</CoinDisplay>
-  ) : (
-    <FiatDisplay {...rest}>{children}</FiatDisplay>
-  )
+  return coinDisplayed
+    ? <CoinDisplay {...rest}>{children}</CoinDisplay>
+    : <FiatDisplay {...rest}>{children}</FiatDisplay>
 }
 
 SwitchableDisplay.propTypes = {

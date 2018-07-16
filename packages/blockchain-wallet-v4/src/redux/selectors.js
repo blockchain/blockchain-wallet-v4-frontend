@@ -5,4 +5,11 @@ import * as walletOptions from './walletOptions/selectors.js'
 import * as kvStore from './kvStore/selectors.js'
 import * as common from './common/selectors.js'
 
-export { common, data, kvStore, settings, wallet, walletOptions }
+export {
+  common,
+  data,
+  kvStore,
+  settings,
+  wallet,
+  walletOptions
+}

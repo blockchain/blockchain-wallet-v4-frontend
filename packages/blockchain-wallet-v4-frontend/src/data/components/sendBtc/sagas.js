@@ -8,74 +8,59 @@ import settings from 'config'
 import { initialize, change } from 'redux-form'
 import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
-import { Exchange } from 'blockchain-wallet-v4/src'
+import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 
 const DUST = 546
 const DUST_BTC = '0.00000546'
-export const logLocation = 'components/sendBtc/sagas'
 
 export default ({ coreSagas }) => {
-  const initialized = function*(action) {
+  const logLocation = 'components/sendBtc/sagas'
+
+  const initialized = function * (action) {
     try {
-      const { to, description, amount, feeType } = action.payload
-      yield put(A.sendBtcPaymentUpdatedLoading())
-      let payment = coreSagas.payment.btc.create({
-        network: settings.NETWORK_BITCOIN
-      })
+      const { to, message, amount, feeType } = action.payload
+      yield put(A.sendBtcPaymentUpdated(Remote.Loading))
+      let payment = coreSagas.payment.btc.create(({network: settings.NETWORK_BITCOIN}))
       payment = yield payment.init()
-      const accountsR = yield select(
-        selectors.core.common.btc.getAccountsBalances
-      )
-      const defaultIndex = yield select(
-        selectors.core.wallet.getDefaultAccountIndex
-      )
+      const accountsR = yield select(selectors.core.common.btc.getAccountsBalances)
+      const defaultIndex = yield select(selectors.core.wallet.getDefaultAccountIndex)
       const defaultAccountR = accountsR.map(nth(defaultIndex))
-      const defaultFeePerByte = path(
-        ['fees', feeType || 'regular'],
-        payment.value()
-      )
+      const defaultFeePerByte = path(['fees', feeType || 'regular'], payment.value())
       payment = yield payment.from(defaultIndex)
       payment = yield payment.fee(defaultFeePerByte)
       const initialValues = {
-        to,
+        to: to,
         coin: 'BTC',
-        amount,
-        description,
+        amount: amount,
+        message: message,
         from: defaultAccountR.getOrElse(),
         feePerByte: defaultFeePerByte
       }
       yield put(initialize('sendBtc', initialValues))
-      yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
+      yield put(A.sendBtcPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
-      yield put(A.sendBtcPaymentUpdatedFailure(e))
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'sendBtcInitialized', e)
-      )
+      yield put(A.sendBtcPaymentUpdated(Remote.Failure(e)))
+      yield put(actions.logs.logErrorMessage(logLocation, 'sendBtcInitialized', e))
     }
   }
 
-  const destroyed = function*() {
+  const destroyed = function * () {
     yield put(actions.form.destroy('sendBtc'))
   }
 
-  const firstStepSubmitClicked = function*() {
+  const firstStepSubmitClicked = function * () {
     try {
       let p = yield select(S.getPayment)
-      yield put(A.sendBtcPaymentUpdatedLoading())
-      let payment = coreSagas.payment.btc.create({
-        payment: p.getOrElse({}),
-        network: settings.NETWORK_BITCOIN
-      })
+      yield put(A.sendBtcPaymentUpdated(Remote.Loading))
+      let payment = coreSagas.payment.btc.create({ payment: p.getOrElse({}), network: settings.NETWORK_BITCOIN })
       payment = yield payment.build()
-      yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
+      yield put(A.sendBtcPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', e)
-      )
+      yield put(actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', e))
     }
   }
 
-  const formChanged = function*(action) {
+  const formChanged = function * (action) {
     try {
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
@@ -83,10 +68,7 @@ export default ({ coreSagas }) => {
       if (!equals('sendBtc', form)) return
 
       let p = yield select(S.getPayment)
-      let payment = coreSagas.payment.btc.create({
-        payment: p.getOrElse({}),
-        network: settings.NETWORK_BITCOIN
-      })
+      let payment = coreSagas.payment.btc.create({ payment: p.getOrElse({}), network: settings.NETWORK_BITCOIN })
 
       switch (field) {
         case 'coin':
@@ -121,11 +103,7 @@ export default ({ coreSagas }) => {
           break
         case 'amount':
           const btcAmount = prop('coin', payload)
-          const satAmount = Exchange.convertBitcoinToBitcoin({
-            value: btcAmount,
-            fromUnit: 'BTC',
-            toUnit: 'SAT'
-          }).value
+          const satAmount = Exchange.convertBitcoinToBitcoin({ value: btcAmount, fromUnit: 'BTC', toUnit: 'SAT' }).value
           payment = yield payment.amount(parseInt(satAmount))
           break
         case 'description':
@@ -140,13 +118,13 @@ export default ({ coreSagas }) => {
       } catch (e) {
         yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
       }
-      yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
+      yield put(A.sendBtcPaymentUpdated(Remote.of(payment.value())))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
     }
   }
 
-  const toToggled = function*() {
+  const toToggled = function * () {
     try {
       yield put(change('sendBtc', 'to', ''))
     } catch (e) {
@@ -154,140 +132,96 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const minimumAmountClicked = function*() {
+  const minimumAmountClicked = function * () {
     try {
       const appState = yield select(identity)
-      const currency = selectors.core.settings
-        .getCurrency(appState)
-        .getOrFail('Can not retrieve currency.')
-      const btcRates = selectors.core.data.bitcoin
-        .getRates(appState)
-        .getOrFail('Can not retrieve bitcoin rates.')
+      const currency = selectors.core.settings.getCurrency(appState).getOrFail('Can not retrieve currency.')
+      const btcRates = selectors.core.data.bitcoin.getRates(appState).getOrFail('Can not retrieve bitcoin rates.')
       const coin = DUST_BTC
-      const fiat = Exchange.convertBitcoinToFiat({
-        value: DUST,
-        fromUnit: 'SAT',
-        toCurrency: currency,
-        rates: btcRates
-      }).value
+      const fiat = Exchange.convertBitcoinToFiat({ value: DUST, fromUnit: 'SAT', toCurrency: currency, rates: btcRates }).value
       yield put(change('sendBtc', 'amount', { coin, fiat }))
     } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'minimumAmountClicked', e)
-      )
+      yield put(actions.logs.logErrorMessage(logLocation, 'minimumAmountClicked', e))
     }
   }
 
-  const maximumAmountClicked = function*() {
+  const maximumAmountClicked = function * () {
     try {
       const appState = yield select(identity)
-      const currency = selectors.core.settings
-        .getCurrency(appState)
-        .getOrFail('Can not retrieve currency.')
-      const btcRates = selectors.core.data.bitcoin
-        .getRates(appState)
-        .getOrFail('Can not retrieve bitcoin rates.')
+      const currency = selectors.core.settings.getCurrency(appState).getOrFail('Can not retrieve currency.')
+      const btcRates = selectors.core.data.bitcoin.getRates(appState).getOrFail('Can not retrieve bitcoin rates.')
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
       const effectiveBalance = prop('effectiveBalance', payment)
-      const coin = Exchange.convertBitcoinToBitcoin({
-        value: effectiveBalance,
-        fromUnit: 'SAT',
-        toUnit: 'BTC'
-      }).value
-      const fiat = Exchange.convertBitcoinToFiat({
-        value: effectiveBalance,
-        fromUnit: 'SAT',
-        toCurrency: currency,
-        rates: btcRates
-      }).value
+      const coin = Exchange.convertBitcoinToBitcoin({ value: effectiveBalance, fromUnit: 'SAT', toUnit: 'BTC' }).value
+      const fiat = Exchange.convertBitcoinToFiat({ value: effectiveBalance, fromUnit: 'SAT', toCurrency: currency, rates: btcRates }).value
       yield put(change('sendBtc', 'amount', { coin, fiat }))
     } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'maximumAmountClicked', e)
-      )
+      yield put(actions.logs.logErrorMessage(logLocation, 'maximumAmountClicked', e))
     }
   }
 
-  const minimumFeeClicked = function*() {
+  const minimumFeeClicked = function * () {
     try {
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
       const minFeePerByte = path(['fees', 'limits', 'min'], payment)
       yield put(change('sendBtc', 'feePerByte', minFeePerByte))
     } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'minimumFeeClicked', e)
-      )
+      yield put(actions.logs.logErrorMessage(logLocation, 'minimumFeeClicked', e))
     }
   }
 
-  const maximumFeeClicked = function*() {
+  const maximumFeeClicked = function * () {
     try {
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
       const maxFeePerByte = path(['fees', 'limits', 'max'], payment)
       yield put(change('sendBtc', 'feePerByte', maxFeePerByte))
     } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'maximumFeeClicked', e)
-      )
+      yield put(actions.logs.logErrorMessage(logLocation, 'maximumFeeClicked', e))
     }
   }
 
-  const regularFeeClicked = function*() {
+  const regularFeeClicked = function * () {
     try {
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
       const regularFeePerByte = path(['fees', 'regular'], payment)
       yield put(change('sendBtc', 'feePerByte', regularFeePerByte))
     } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'regularFeeClicked', e)
-      )
+      yield put(actions.logs.logErrorMessage(logLocation, 'regularFeeClicked', e))
     }
   }
 
-  const priorityFeeClicked = function*() {
+  const priorityFeeClicked = function * () {
     try {
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
       const priorityFeePerByte = path(['fees', 'priority'], payment)
       yield put(change('sendBtc', 'feePerByte', priorityFeePerByte))
     } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'priorityFeeClicked', e)
-      )
+      yield put(actions.logs.logErrorMessage(logLocation, 'priorityFeeClicked', e))
     }
   }
 
-  const secondStepSubmitClicked = function*() {
+  const secondStepSubmitClicked = function * () {
     try {
       let p = yield select(S.getPayment)
-      let payment = coreSagas.payment.btc.create({
-        payment: p.getOrElse({}),
-        network: settings.NETWORK_BITCOIN
-      })
+      let payment = coreSagas.payment.btc.create({ payment: p.getOrElse({}), network: settings.NETWORK_BITCOIN })
       const password = yield call(promptForSecondPassword)
       yield put(actions.modals.closeAllModals())
       payment = yield payment.sign(password)
       payment = yield payment.publish()
-      yield put(A.sendBtcPaymentUpdatedSuccess(payment.value()))
-      yield put(actions.core.data.bitcoin.fetchData())
+      yield put(A.sendBtcPaymentUpdated(Remote.of(payment.value())))
+      yield put(actions.core.data.bitcoin.fetchData('', true))
       if (path(['description', 'length'], payment.value())) {
-        yield put(
-          actions.core.wallet.setTransactionNote(
-            payment.value().txId,
-            payment.value().description
-          )
-        )
+        yield put(actions.core.wallet.setTransactionNote(payment.value().txId, payment.value().description))
       }
       yield put(actions.router.push('/btc/transactions'))
       yield put(actions.alerts.displaySuccess(C.SEND_BTC_SUCCESS))
     } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e)
-      )
+      yield put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e))
       yield put(actions.alerts.displayError(C.SEND_BTC_ERROR))
     }
   }

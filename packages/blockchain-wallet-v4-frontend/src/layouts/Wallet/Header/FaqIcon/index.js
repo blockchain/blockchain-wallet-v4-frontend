@@ -7,7 +7,7 @@ import { getData } from './selectors'
 import FaqIcon from './template'
 
 class FaqIconContainer extends React.PureComponent {
-  render() {
+  render () {
     return (
       <FaqIcon
         highlighted={this.props.highlighted}
@@ -23,7 +23,4 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.layoutWallet, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FaqIconContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(FaqIconContainer)

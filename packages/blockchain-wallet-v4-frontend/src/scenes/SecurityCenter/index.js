@@ -1,13 +1,11 @@
 import React from 'react'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import { actions } from 'data'
 import { getData } from './selectors'
 import SecurityCenter from './template.js'
 
 class SecurityCenterContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     this.handleEnable = this.handleEnable.bind(this)
@@ -17,22 +15,15 @@ class SecurityCenterContainer extends React.PureComponent {
     this.state = { enabling: false, editing: false, viewing: 'security' }
   }
 
-  componentWillUnmount() {
-    this.onClose()
-  }
-
-  handleEnable(step) {
+  handleEnable (step) {
     this.setState({ enabling: step })
   }
 
-  onClose() {
-    if (this.state.enabling === 'recovery') {
-      this.props.settingsActions.removeRecoveryPhrase()
-    }
+  onClose () {
     this.setState({ enabling: false })
   }
 
-  determineProgress() {
+  determineProgress () {
     const { authType, emailVerified, isMnemonicVerified } = this.props
     let progress = 0
     if (authType.data > 0) progress++
@@ -41,14 +32,13 @@ class SecurityCenterContainer extends React.PureComponent {
     return progress
   }
 
-  setView(tab) {
+  setView (tab) {
     this.setState({ viewing: tab })
   }
 
-  render() {
+  render () {
     return (
-      <SecurityCenter
-        progress={this.determineProgress()}
+      <SecurityCenter progress={this.determineProgress()}
         data={this.props}
         editing={this.state.editing}
         enabling={this.state.enabling}
@@ -62,13 +52,6 @@ class SecurityCenterContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => getData(state)
+const mapStateToProps = (state) => getData(state)
 
-const mapDispatchToProps = dispatch => ({
-  settingsActions: bindActionCreators(actions.modules.settings, dispatch)
-})
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SecurityCenterContainer)
+export default connect(mapStateToProps, undefined)(SecurityCenterContainer)

@@ -1,13 +1,4 @@
-import {
-  assoc,
-  merge,
-  lensProp,
-  over,
-  append,
-  compose,
-  dropLast,
-  prop
-} from 'ramda'
+import { assoc, merge, lensProp, over, append, compose, dropLast, prop } from 'ramda'
 import * as AT from './actionTypes'
 import Remote from '../../../remote'
 
@@ -96,14 +87,7 @@ export default (state = INITIAL_STATE, action) => {
       const { transactions, reset } = payload
       return reset
         ? assoc('transactions', [Remote.Success(transactions)], state)
-        : over(
-            lensProp('transactions'),
-            compose(
-              append(Remote.Success(transactions)),
-              dropLast(1)
-            ),
-            state
-          )
+        : over(lensProp('transactions'), compose(append(Remote.Success(transactions)), dropLast(1)), state)
     }
     case AT.FETCH_ETHEREUM_TRANSACTIONS_FAILURE: {
       return assoc('transactions', [Remote.Failure(payload)], state)

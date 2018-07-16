@@ -6,13 +6,9 @@ import SecondStep from './template.js'
 const SecondStepContainer = props => {
   const { ui, updateUI, mnemonic } = props
 
-  const handleClickPrevious = () => {
-    updateUI({ index: ui.index - 1 })
-  }
+  const handleClickPrevious = () => { updateUI({ index: ui.index - 1 }) }
 
-  const handleClickNext = () => {
-    updateUI({ index: ui.index + 1 })
-  }
+  const handleClickNext = () => { updateUI({ index: ui.index + 1 }) }
 
   return (
     <SecondStep
@@ -25,6 +21,4 @@ const SecondStepContainer = props => {
   )
 }
 
-export default ui({ key: 'RecoveryPhraseMnemonic', state: { index: 0 } })(
-  SecondStepContainer
-)
+export default ui({ key: 'RecoveryPhraseMnemonic', state: { index: 0 } })(SecondStepContainer)

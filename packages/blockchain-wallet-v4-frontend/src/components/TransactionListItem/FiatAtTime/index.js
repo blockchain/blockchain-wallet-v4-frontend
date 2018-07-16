@@ -8,20 +8,18 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class FiatAtTime extends React.PureComponent {
-  render() {
+  render () {
     const { data, amount, hash, time, type } = this.props
 
     return data.cata({
-      Success: value => (
-        <Success
-          currency={value}
-          amount={amount}
-          hash={hash}
-          time={time}
-          type={type}
-        />
-      ),
-      Failure: message => <Error>{message}</Error>,
+      Success: (value) => <Success
+        currency={value}
+        amount={amount}
+        hash={hash}
+        time={time}
+        type={type}
+      />,
+      Failure: (message) => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })

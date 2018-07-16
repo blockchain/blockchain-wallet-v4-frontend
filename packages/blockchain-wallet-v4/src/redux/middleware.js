@@ -1,4 +1,9 @@
 import walletSync from './walletSync/middleware.js'
+import * as socket from './webSocket/middleware.js'
 import kvStore from './kvStore/middleware.js'
 
-export { walletSync, kvStore }
+export {
+  socket,
+  walletSync,
+  kvStore
+}

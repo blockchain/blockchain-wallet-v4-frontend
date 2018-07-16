@@ -7,7 +7,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { formValueSelector } from 'redux-form'
 
 class ImportedAddressesContainer extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.handleClickImport = this.handleClickImport.bind(this)
     this.handleToggleArchived = this.handleToggleArchived.bind(this)
@@ -15,63 +15,57 @@ class ImportedAddressesContainer extends React.Component {
     this.handleSignMessage = this.handleSignMessage.bind(this)
   }
 
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate (nextProps) {
     return !Remote.Loading.is(nextProps.data)
   }
 
-  handleClickImport() {
+  handleClickImport () {
     this.props.modalsActions.showModal('ImportBtcAddress')
   }
 
-  handleShowPriv(address) {
-    this.props.modalsActions.showModal('ShowBtcPrivateKey', {
-      addr: address.addr,
-      balance: address.info.final_balance
-    })
+  handleShowPriv (address) {
+    this.props.modalsActions.showModal('ShowBtcPrivateKey', { addr: address.addr, balance: address.info.final_balance })
   }
 
-  handleSignMessage(address) {
-    this.props.modalsActions.showModal('SignMessage', {
-      address: address.addr
-    })
+  handleSignMessage (address) {
+    this.props.modalsActions.showModal('SignMessage', { address: address.addr })
   }
 
-  handleToggleArchived(address) {
+  handleToggleArchived (address) {
     let isArchived = address.tag === 2
     this.props.coreActions.setAddressArchived(address.addr, !isArchived)
   }
 
-  render() {
+  render () {
     const { search } = this.props
-    return this.props.activeAddresses.cata({
-      Success: value => (
-        <Success
-          importedAddresses={value}
-          onClickImport={this.handleClickImport}
-          search={search && search.toLowerCase()}
-          onToggleArchived={this.handleToggleArchived}
-          onShowPriv={this.handleShowPriv}
-          onShowSignMessage={this.handleSignMessage}
-        />
-      ),
-      Failure: message => <div>{message}</div>,
-      Loading: () => <div />,
-      NotAsked: () => <div />
-    })
+    return (
+      this.props.activeAddresses.cata({
+        Success: (value) => (
+          <Success
+            importedAddresses={value}
+            onClickImport={this.handleClickImport}
+            search={search && search.toLowerCase()}
+            onToggleArchived={this.handleToggleArchived}
+            onShowPriv={this.handleShowPriv}
+            onShowSignMessage={this.handleSignMessage}
+          />
+        ),
+        Failure: (message) => <div>{message}</div>,
+        Loading: () => <div />,
+        NotAsked: () => <div />
+      })
+    )
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   activeAddresses: selectors.core.common.btc.getActiveAddresses(state),
   search: formValueSelector('settingsAddresses')(state, 'search')
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   coreActions: bindActionCreators(actions.core.wallet, dispatch),
   modalsActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ImportedAddressesContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(ImportedAddressesContainer)

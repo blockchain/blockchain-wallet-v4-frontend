@@ -6,7 +6,7 @@ import { equals, head, isEmpty, isNil, contains, toUpper, filter } from 'ramda'
 import SelectInput from './template.js'
 
 class SelectInputContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       expanded: this.props.opened,
@@ -19,55 +19,42 @@ class SelectInputContainer extends React.PureComponent {
     this.handleFocus = this.handleFocus.bind(this)
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps (nextProps) {
     if (!equals(this.props.value, nextProps.value)) {
       this.setState({ value: nextProps.value })
     }
   }
 
-  handleClick(item) {
+  handleClick (item) {
     this.setState({ value: item.value, expanded: false, search: '' })
-    if (this.props.onChange) {
-      this.props.onChange(item.value)
-    }
+    if (this.props.onChange) { this.props.onChange(item.value) }
   }
 
-  handleChange(event) {
+  handleChange (event) {
     this.setState({ search: event.target.value })
   }
 
-  handleBlur() {
+  handleBlur () {
     this.setState({ expanded: false, search: '' })
-    if (this.props.onBlur) {
-      this.props.onBlur()
-    }
-    if (this.props.onChange) {
-      this.props.onChange(this.state.value)
-    }
+    if (this.props.onBlur) { this.props.onBlur() }
+    if (this.props.onChange) { this.props.onChange(this.state.value) }
   }
 
-  handleFocus() {
+  handleFocus () {
     this.setState({ expanded: true })
-    if (this.props.onFocus) {
-      this.props.onFocus()
-    }
+    if (this.props.onFocus) { this.props.onFocus() }
   }
 
-  handleClickOutside() {
+  handleClickOutside () {
     this.setState({ expanded: false, search: '' })
   }
 
-  transform(elements, search) {
+  transform (elements, search) {
     let items = []
     elements.map(element => {
-      if (!search && element.group !== '') {
-        items.push({ text: element.group })
-      }
+      if (!search && element.group !== '') { items.push({ text: element.group }) }
       element.items.map(item => {
-        if (
-          !search ||
-          (search && contains(toUpper(search), toUpper(item.text)))
-        ) {
+        if (!search || (search && contains(toUpper(search), toUpper(item.text)))) {
           items.push({ text: item.text, value: item.value })
         }
       })
@@ -75,12 +62,12 @@ class SelectInputContainer extends React.PureComponent {
     return items
   }
 
-  getSelected(items, value) {
+  getSelected (items, value) {
     if (isNil(value) || isEmpty(value)) return undefined
     return head(filter(x => equals(x.value, value), items))
   }
 
-  render() {
+  render () {
     const { search, value, expanded } = this.state
     const { elements, label, searchEnabled, disabled, ...rest } = this.props
     const items = this.transform(elements, search)
@@ -105,21 +92,15 @@ class SelectInputContainer extends React.PureComponent {
 }
 
 SelectInputContainer.propTypes = {
-  elements: PropTypes.arrayOf(
-    PropTypes.shape({
-      group: PropTypes.string.isRequired,
-      items: PropTypes.array.isRequired
-    })
-  ).isRequired,
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  elements: PropTypes.arrayOf(PropTypes.shape({
+    group: PropTypes.string.isRequired,
+    items: PropTypes.array.isRequired
+  })).isRequired,
+  label: PropTypes.string,
   searchEnabled: PropTypes.bool,
   opened: PropTypes.bool,
   disabled: PropTypes.bool,
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.object
-  ]).isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object]).isRequired,
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
   onFocus: PropTypes.func,

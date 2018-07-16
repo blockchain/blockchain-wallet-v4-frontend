@@ -8,15 +8,12 @@ import MenuLeft from './MenuLeft'
 import MenuTop from './MenuTop'
 import TrayRight from './TrayRight'
 import Page from './Page'
-import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 
 import BtcMenu from '../../scenes/Transactions/Bitcoin/Menu'
 import BchMenu from '../../scenes/Transactions/Bch/Menu'
 import EthMenu from '../../scenes/Transactions/Ether/Menu'
 import AddrMenu from '../../scenes/Settings/Addresses/Menu'
 import ExchangeMenu from '../Exchange'
-
-import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   display: flex;
@@ -25,9 +22,8 @@ const Wrapper = styled.div`
 `
 const Container = styled.div`
   display: flex;
-  position: relative;
   width: 100%;
-  height: calc(100% - 60px);
+  height: 100%;
 `
 const Nav = styled.div`
   flex: 0 0 60px;
@@ -42,16 +38,12 @@ const Content = styled.div`
   width: calc(100% - 270px);
   background-color: ${props => props.theme['white']};
 
-  @media (max-width: 768px) {
-    width: 100%;
-  }
+  @media(max-width: 768px) { width: 100%; }
 `
 const Top = styled.div`
+  display: flex;
   height: 115px;
   width: 100%;
-  ${media.mobile`
-    height: 150px;
-  `};
 `
 
 const WalletLayout = props => {
@@ -59,30 +51,30 @@ const WalletLayout = props => {
 
   return (
     <Wrapper>
-      <ErrorBoundary>
-        <Alerts />
-        <Modals />
-        <Nav>
-          <Header />
-        </Nav>
-        <Container>
-          <MenuLeft location={location} />
-          <TrayRight />
-          <Content>
-            <Top>
-              <MenuTop />
-            </Top>
-            {location.pathname === '/btc/transactions' && <BtcMenu />}
-            {location.pathname === '/bch/transactions' && <BchMenu />}
-            {location.pathname === '/eth/transactions' && <EthMenu />}
-            {location.pathname === '/settings/addresses' && <AddrMenu />}
-            {location.pathname === '/settings/addresses/bch' && <AddrMenu />}
-            {location.pathname === '/exchange' && <ExchangeMenu />}
-            {location.pathname === '/exchange/history' && <ExchangeMenu />}
-            <Page>{children}</Page>
-          </Content>
-        </Container>
-      </ErrorBoundary>
+      <Alerts />
+      <Modals />
+      <Nav>
+        <Header />
+      </Nav>
+      <Container>
+        <MenuLeft location={location} />
+        <TrayRight />
+        <Content>
+          <Top>
+            <MenuTop />
+          </Top>
+          { location.pathname === '/btc/transactions' && <BtcMenu /> }
+          { location.pathname === '/bch/transactions' && <BchMenu /> }
+          { location.pathname === '/eth/transactions' && <EthMenu /> }
+          { location.pathname === '/settings/addresses' && <AddrMenu /> }
+          { location.pathname === '/settings/addresses/bch' && <AddrMenu /> }
+          { location.pathname === '/exchange' && <ExchangeMenu /> }
+          { location.pathname === '/exchange/history' && <ExchangeMenu /> }
+          <Page>
+            {children}
+          </Page>
+        </Content>
+      </Container>
     </Wrapper>
   )
 }

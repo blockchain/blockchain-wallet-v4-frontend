@@ -6,7 +6,6 @@ import CoinifyDeleteBank from './CoinifyDeleteBank'
 import CoinifyExchangeData from './CoinifyExchangeData'
 import CoinifyTradeDetails from './CoinifyTradeDetails'
 import ConfirmDisable2FA from './ConfirmDisable2FA'
-import DeleteAddressLabel from './DeleteAddressLabel'
 import EditTxDescription from './EditTxDescription'
 import ExchangeDetails from './ExchangeDetails'
 import ImportBtcAddress from './ImportBtcAddress'
@@ -39,7 +38,6 @@ import TwoStepSetup from './TwoStepSetup'
 import TwoStepYubico from './TwoStepYubico'
 import UpgradeWallet from './UpgradeWallet'
 import Welcome from './Welcome'
-import UpgradeAddressLabels from './UpgradeAddressLabels'
 
 const Modals = props => (
   <div>
@@ -49,7 +47,6 @@ const Modals = props => (
     <CoinifyExchangeData />
     <CoinifyTradeDetails />
     <ConfirmDisable2FA />
-    <DeleteAddressLabel />
     <EditTxDescription />
     <ExchangeDetails />
     <ImportBtcAddress />
@@ -80,7 +77,6 @@ const Modals = props => (
     <TwoStepGoogleAuthenticator />
     <TwoStepSetup />
     <TwoStepYubico />
-    <UpgradeAddressLabels />
     <UpgradeWallet />
     <Welcome />
   </div>

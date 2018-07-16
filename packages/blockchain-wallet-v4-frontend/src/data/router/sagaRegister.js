@@ -3,8 +3,7 @@ import sagas from './sagas'
 
 export default () => {
   const routerSagas = sagas()
-
-  return function*() {
+  return function * () {
     yield takeLatest('@@router/LOCATION_CHANGE', routerSagas.changeLocation)
   }
 }
