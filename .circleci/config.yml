@@ -15,7 +15,7 @@ references:
 
   npm_cache_key: &npm_cache_key
       v2-dependency-npm-{{ checksum "yarn.lock" }}
-  
+
   restore_node_modules: &restore_node_modules
     restore_cache:
       keys:
@@ -62,13 +62,6 @@ jobs:
       - run:
           name: Lint Code
           command: yarn lint
-  prettier:
-    <<: *container_config
-    steps:
-      - *attach_workspace
-      - run:
-          name: Run Prettier
-          command: yarn ci:prettier
   build_test_files:
     <<: *container_config
     steps:
@@ -113,9 +106,6 @@ workflows:
           requires:
             - pull_code
       - lint:
-          requires:
-            - npm_install
-      - prettier:
           requires:
             - npm_install
       - build_test_files:
