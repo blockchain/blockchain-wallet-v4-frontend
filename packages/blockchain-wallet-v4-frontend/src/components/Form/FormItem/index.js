@@ -9,11 +9,7 @@ const Wrapper = styled.div`
 const FormGroup = props => {
   const { children, ...rest } = props
 
-  return (
-    <Wrapper {...rest}>
-      {children}
-    </Wrapper>
-  )
+  return <Wrapper {...rest}>{children}</Wrapper>
 }
 
 export default FormGroup

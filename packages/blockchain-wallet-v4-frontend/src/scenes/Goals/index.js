@@ -9,12 +9,12 @@ import { actions } from 'data'
 import Actions from './template.js'
 
 class ActionsContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = { error: '' }
   }
 
-  componentWillMount () {
+  componentWillMount() {
     const { payload } = this.props.match.params
     try {
       if (startsWith('bitcoin', payload)) {
@@ -22,8 +22,8 @@ class ActionsContainer extends React.PureComponent {
         const decodedPayload = decodeURIComponent(payload)
         const bip21Payload = bip21.decode(decodedPayload)
         const { address } = bip21Payload
-        const { amount, label } = bip21Payload.options || {}
-        const data = { address, amount, message: label }
+        const { amount, message } = bip21Payload.options || {}
+        const data = { address, amount, description: message }
         this.props.goalsActions.saveGoal('payment', data)
       } else {
         // Other scenarios with actions encoded in base64
@@ -38,14 +38,22 @@ class ActionsContainer extends React.PureComponent {
     }
   }
 
-  render () {
+  componentWillUnmount() {
+    // goals are saved, start event listeners for each goal
+    this.props.goalsActions.runGoals()
+  }
+
+  render() {
     return <Actions error={this.state.error} />
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   goalsActions: bindActionCreators(actions.goals, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch)
 })
 
-export default connect(undefined, mapDispatchToProps)(ActionsContainer)
+export default connect(
+  undefined,
+  mapDispatchToProps
+)(ActionsContainer)

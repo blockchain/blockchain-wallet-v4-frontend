@@ -80,6 +80,7 @@ exports[`ListItemContainer renders correctly 1`] = `
         "setLegacyAddressLabel": [Function],
         "setMainPassword": [Function],
         "setPayloadChecksum": [Function],
+        "setSyncPubKeys": [Function],
         "setTransactionNote": [Function],
         "setWrapper": [Function],
         "verifyMnemonic": [Function],

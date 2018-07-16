@@ -1,20 +1,32 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/Setting'
+import {
+  SettingComponent,
+  SettingContainer,
+  SettingDescription,
+  SettingHeader,
+  SettingSummary
+} from 'components/Setting'
 import Settings from './Settings'
 
-const WalletLanguage = (props) => {
+const WalletLanguage = props => {
   const { language } = props
 
   return (
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <FormattedMessage id='scenes.settings.preferences.walletlanguage.success.title' defaultMessage='Wallet Language' />
+          <FormattedMessage
+            id='scenes.settings.preferences.walletlanguage.success.title'
+            defaultMessage='Wallet Language'
+          />
         </SettingHeader>
         <SettingDescription>
-          <FormattedMessage id='scenes.settings.preferences.walletlanguage.success.description' defaultMessage='Set your preferred language.' />
+          <FormattedMessage
+            id='scenes.settings.preferences.walletlanguage.success.description'
+            defaultMessage='Set your preferred language.'
+          />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>

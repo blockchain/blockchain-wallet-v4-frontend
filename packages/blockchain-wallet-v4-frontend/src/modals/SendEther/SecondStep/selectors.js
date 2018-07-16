@@ -9,12 +9,15 @@ export const getData = state => {
     const fromLabel = ethFromLabel(payment, state)
 
     return {
-      message: payment.description,
+      description: payment.description,
       fromAddress: fromLabel,
       toAddress: payment.to,
       amount: payment.amount,
       fee: payment.fee,
-      total: utils.ethereum.calculateTransactionAmount(payment.amount, payment.fee)
+      total: utils.ethereum.calculateTransactionAmount(
+        payment.amount,
+        payment.fee
+      )
     }
   }
 

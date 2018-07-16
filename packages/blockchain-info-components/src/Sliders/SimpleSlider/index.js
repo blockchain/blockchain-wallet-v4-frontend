@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const BaseSlider = styled.input.attrs({ type: 'range' })`
-
   -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
   width: 100%; /* Specific width is required for Firefox. */
   background: transparent; /* Otherwise white in Chrome */
@@ -42,7 +41,7 @@ const BaseSlider = styled.input.attrs({ type: 'range' })`
     width: 100%;
     height: 3px;
     cursor: pointer;
-    background: #FFFFFF;
+    background: #ffffff;
     border-radius: 1.3px;
     border: 0.1px solid ${props => props.theme['gray-2']};
   }
@@ -50,7 +49,7 @@ const BaseSlider = styled.input.attrs({ type: 'range' })`
   &::-ms-track {
     width: 100%;
     cursor: pointer;
-    background: transparent; 
+    background: transparent;
     border-color: transparent;
     color: transparent;
   }

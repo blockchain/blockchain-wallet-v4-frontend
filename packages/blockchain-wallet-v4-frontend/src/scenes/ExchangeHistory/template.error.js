@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   margin-top: 100px;
 `
 
-export default (props) => (
+export default props => (
   <Wrapper>
     <Text size='12px' weight={300} color='red'>
       {props.children}

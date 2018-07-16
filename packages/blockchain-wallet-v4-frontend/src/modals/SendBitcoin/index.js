@@ -10,21 +10,31 @@ import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 
 class SendBitcoinContainer extends React.PureComponent {
-  componentDidMount () {
-    const { to, message, amount } = this.props
-    this.props.actions.initialized({ to, message, amount })
+  componentDidMount() {
+    const { to, description, amount } = this.props
+    this.props.actions.initialized({ to, description, amount })
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.actions.destroyed()
   }
 
-  render () {
-    const { step, position, total, closeAll, to, message, amount } = this.props
+  render() {
+    const {
+      step,
+      position,
+      total,
+      closeAll,
+      to,
+      description,
+      amount
+    } = this.props
 
     return (
       <SendBitcoin position={position} total={total} closeAll={closeAll}>
-        {step === 1 && <FirstStep to={to} message={message} amount={amount} />}
+        {step === 1 && (
+          <FirstStep to={to} description={description} amount={amount} />
+        )}
         {step === 2 && <SecondStep />}
       </SendBitcoin>
     )
@@ -47,8 +57,11 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  modalEnhancer('SendBitcoin')
+  modalEnhancer('SendBitcoin'),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )
 
 export default enhance(SendBitcoinContainer)

@@ -9,7 +9,7 @@ const BaseTextInput = styled.input.attrs({
   display: block;
   width: 100%;
   height: ${props => props.height};
-  min-height: ${props => props.minHeight ? props.minHeight : '40px'};
+  min-height: ${props => (props.minHeight ? props.minHeight : '40px')};
   padding: 6px 12px;
   box-sizing: border-box;
   font-size: 14px;
@@ -20,8 +20,8 @@ const BaseTextInput = styled.input.attrs({
   background-image: none;
   outline-width: 0;
   user-select: text;
-  border: 1px solid  ${props => props.theme[props.borderColor]};
-  border-right: ${props => props.borderRightNone ? 'none' : ''};
+  border: 1px solid ${props => props.theme[props.borderColor]};
+  border-right: ${props => (props.borderRightNone ? 'none' : '')};
 
   &::placeholder {
     color: ${props => props.theme['gray-3']};
@@ -33,32 +33,55 @@ const BaseTextInput = styled.input.attrs({
   }
 `
 
-const selectBorderColor = (state) => {
+const selectBorderColor = state => {
   switch (state) {
-    case 'initial': return 'gray-2'
-    case 'invalid': return 'error'
-    case 'valid': return 'success'
-    default: return 'gray-2'
+    case 'initial':
+      return 'gray-2'
+    case 'invalid':
+      return 'error'
+    case 'valid':
+      return 'success'
+    default:
+      return 'gray-2'
   }
 }
 
-const TextInput = props => {
-  const { errorState, disabled, ...rest } = props
-  const borderColor = selectBorderColor(errorState)
+class TextInput extends React.Component {
+  static propTypes = {
+    disabled: PropTypes.bool,
+    height: PropTypes.string,
+    minHeight: PropTypes.string
+  }
 
-  return <BaseTextInput borderColor={borderColor} disabled={disabled} {...rest} />
-}
+  static defaultProps = {
+    disabled: false,
+    height: '40px',
+    minHeight: '40px'
+  }
 
-TextInput.propTypes = {
-  disabled: PropTypes.bool,
-  height: PropTypes.string,
-  minHeight: PropTypes.string
-}
+  componentDidUpdate(prevProps) {
+    if (this.props.active && !prevProps.active && this.input) {
+      this.input.focus()
+    }
+  }
 
-TextInput.defaultProps = {
-  disabled: false,
-  height: '40px',
-  minHeight: '40px'
+  refInput = input => {
+    this.input = input
+  }
+
+  render() {
+    const { errorState, disabled, ...rest } = this.props
+    const borderColor = selectBorderColor(errorState)
+
+    return (
+      <BaseTextInput
+        innerRef={this.refInput}
+        borderColor={borderColor}
+        disabled={disabled}
+        {...rest}
+      />
+    )
+  }
 }
 
 export default TextInput

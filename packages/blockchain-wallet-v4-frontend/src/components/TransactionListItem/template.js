@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
+import moment from 'moment'
 import { Banner, Button, Text } from 'blockchain-info-components'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import { FormattedMessage } from 'react-intl'
@@ -10,6 +11,10 @@ import Description from './Description'
 import Confirmations from './Confirmations'
 import FiatAtTime from './FiatAtTime'
 import Status from './Status'
+import PartnerLabel from './PartnerLabel'
+import media from 'services/ResponsiveService'
+import { prop } from 'ramda'
+import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 
 const TransactionRowContainer = styled.div`
   position: relative;
@@ -18,12 +23,12 @@ const TransactionRowContainer = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  padding: 10px;
   box-sizing: border-box;
   border-bottom: 1px solid ${props => props.theme['gray-2']};
-  @media (min-width: 320px){
-    padding: 15px 30px;
-  }
+  padding: 15px 30px;
+  ${media.mobile`
+    padding: 10px;
+  `};
 `
 const TransactionRow = styled.div`
   display: flex;
@@ -37,6 +42,9 @@ const StatusColumn = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 15%;
+  ${media.mobile`
+    width: 28%;
+  `};
 `
 const BannerWrapper = styled.div`
   margin-top: 5px;
@@ -49,7 +57,9 @@ const DetailsColumn = styled.div`
   white-space: nowrap;
   width: 35%;
 
-  @media(min-width: 992px) { display: flex; }
+  @media (min-width: 992px) {
+    display: flex;
+  }
 `
 const ConfirmationColumn = styled.div`
   display: flex;
@@ -58,8 +68,9 @@ const ConfirmationColumn = styled.div`
   align-items: flex-start;
   width: 20%;
 
-  * { white-space: nowrap; }
-  @media(min-width: 1200px) { width: 15%; }
+  @media (min-width: 1200px) {
+    width: 15%;
+  }
 `
 const AmountColumn = styled.div`
   display: flex;
@@ -67,6 +78,9 @@ const AmountColumn = styled.div`
   justify-content: flex-end;
   width: 20%;
   min-width: 200px;
+  ${media.mobile`
+    min-width: 170px;
+  `};
 `
 const TransactionValues = styled.div`
   display: flex;
@@ -74,12 +88,16 @@ const TransactionValues = styled.div`
   flex-direction: column;
   margin-top: 8px;
 
-  @media(min-width: 1200px) { width: auto; }
+  @media (min-width: 1200px) {
+    width: auto;
+  }
 `
 const ToggleButton = styled(Button)`
   align-self: flex-end;
+  ${media.mobile`
+    min-width: 120px;
+  `};
 `
-
 const FeeWrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -88,46 +106,113 @@ const FeeWrapper = styled.div`
   > *:first-child {
     margin-right: 3px;
   }
+  ${media.mobile`
+    flex-direction: column;
+    align-items: flex-end;
+  `};
 `
 
-const TransactionListItem = (props) => {
-  const { handleCoinToggle, transaction, handleEditDescription, coin, minConfirmations } = props
+const dateHelper = (time, isMobile) =>
+  moment(time)
+    .local()
+    .format(isMobile ? 'MM/DD/YY @ h:mm a' : 'MMMM D YYYY @ h:mm A')
+
+const TransactionListItem = props => {
+  const {
+    handleCoinToggle,
+    transaction,
+    handleEditDescription,
+    coin,
+    minConfirmations,
+    buysellPartner
+  } = props
 
   return (
     <TransactionRowContainer>
       <TransactionRow>
         <StatusColumn>
           <Status type={transaction.type} />
-          <Text size='13px' weight={300}>{transaction.timeFormatted}</Text>
-          { (transaction.fromWatchOnly || transaction.toWatchOnly) && (
+          <MediaContextConsumer>
+            {({ mobile }) => (
+              <Text size='13px' weight={300}>
+                {dateHelper(prop('time', transaction) * 1000, mobile)}
+              </Text>
+            )}
+          </MediaContextConsumer>
+          {(transaction.fromWatchOnly || transaction.toWatchOnly) && (
             <BannerWrapper>
               <Banner type='informational'>
-                <FormattedMessage id='components.txlistitem.watchonly' defaultMessage='Non-Spendable' />
+                <FormattedMessage
+                  id='components.txlistitem.watchonly'
+                  defaultMessage='Non-Spendable'
+                />
               </Banner>
             </BannerWrapper>
           )}
+          {prop('partnerLabel', transaction) ? (
+            <PartnerLabel
+              txType={prop('type', transaction)}
+              partnerLabel={prop('partnerLabel', transaction)}
+              buysellPartner={buysellPartner}
+            />
+          ) : null}
         </StatusColumn>
         <DetailsColumn>
-          <Addresses to={transaction.to} from={transaction.from} inputs={transaction.inputs} outputs={transaction.outputs} coin={coin} />
-          <Description value={transaction.description} handleEditDescription={handleEditDescription} />
+          <Addresses
+            to={transaction.to}
+            from={transaction.from}
+            inputs={transaction.inputs}
+            outputs={transaction.outputs}
+            coin={coin}
+          />
+          <Description
+            value={transaction.description}
+            handleEditDescription={handleEditDescription}
+          />
         </DetailsColumn>
         <ConfirmationColumn>
-          <Confirmations coin={coin} confirmations={transaction.confirmations} minConfirmations={minConfirmations} hash={transaction.hash} />
+          <Confirmations
+            coin={coin}
+            confirmations={transaction.confirmations}
+            minConfirmations={minConfirmations}
+            hash={transaction.hash}
+          />
         </ConfirmationColumn>
         <AmountColumn>
           <ToggleButton nature={transaction.type} onClick={handleCoinToggle}>
-            <SwitchableDisplay mobileSize='12px' coin={coin} size='16px' weight={300} color='white' cursor='pointer'>{transaction.amount}</SwitchableDisplay>
+            <SwitchableDisplay
+              mobileSize='12px'
+              coin={coin}
+              size='16px'
+              weight={300}
+              color='white'
+              cursor='pointer'
+            >
+              {transaction.amount}
+            </SwitchableDisplay>
           </ToggleButton>
           <TransactionValues>
-            { coin === 'BTC' && <FiatAtTime amount={transaction.amount} hash={transaction.hash} time={transaction.time} type={transaction.type} /> }
-            { transaction.type !== 'received' &&
+            {coin === 'BTC' && (
+              <FiatAtTime
+                amount={transaction.amount}
+                hash={transaction.hash}
+                time={transaction.time}
+                type={transaction.type}
+              />
+            )}
+            {transaction.type !== 'received' && (
               <FeeWrapper>
                 <Text size='12px' weight={300}>
-                  <FormattedMessage id='scenes.transactions.bitcoin.content.pages.listitem.fee.label' defaultMessage='Transaction Fee: ' />
+                  <FormattedMessage
+                    id='scenes.transactions.bitcoin.content.pages.listitem.fee.label'
+                    defaultMessage='Transaction Fee: '
+                  />
                 </Text>
-                <SwitchableDisplay coin={coin} size='12px' weight={200}>{transaction.fee}</SwitchableDisplay>
+                <SwitchableDisplay coin={coin} size='12px' weight={200}>
+                  {transaction.fee}
+                </SwitchableDisplay>
               </FeeWrapper>
-            }
+            )}
           </TransactionValues>
         </AmountColumn>
       </TransactionRow>

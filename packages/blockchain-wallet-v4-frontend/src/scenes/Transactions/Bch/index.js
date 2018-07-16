@@ -7,7 +7,7 @@ const Wrapper = styled.div`
   width: 100%;
 `
 
-const BchTransactionsContainer = (props) => {
+const BchTransactionsContainer = () => {
   return (
     <Wrapper>
       <Content />

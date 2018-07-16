@@ -5,21 +5,14 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class Pages extends React.PureComponent {
-  constructor (props) {
-    super(props)
-    this.handleRefresh = this.handleRefresh.bind(this)
-  }
-
-  handleRefresh () {
-    this.props.actions.initialized()
-  }
-
-  render () {
-    const { data } = this.props
+  render() {
+    const { data, buysellPartner } = this.props
 
     return data.cata({
-      Success: (value) => <Success transactions={value} />,
-      Failure: () => <DataError onClick={() => this.handleRefresh()} />,
+      Success: value => (
+        <Success transactions={value} buysellPartner={buysellPartner} />
+      ),
+      Failure: () => <DataError onClick={() => this.props.onRefresh()} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })

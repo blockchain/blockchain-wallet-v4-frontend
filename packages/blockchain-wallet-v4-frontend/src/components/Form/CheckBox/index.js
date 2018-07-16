@@ -21,21 +21,33 @@ const Error = styled(Text)`
   display: block;
   height: 15px;
 `
-const getErrorState = (meta) => {
+const getErrorState = meta => {
   return meta.touched && meta.invalid ? 'invalid' : 'initial'
 }
 
 const CheckBox = ({ children, ...field }) => {
   const errorState = getErrorState(field.meta)
+  const checked = field.input.value || false
 
   return (
     <Wrapper>
       <Container>
-        <CheckBoxInput {...field.input} errorState={errorState}>
-          { children }
+        <CheckBoxInput
+          {...field.input}
+          disabled={field.disabled}
+          checked={checked}
+          errorState={errorState}
+        >
+          {children}
         </CheckBoxInput>
       </Container>
-      {field.meta.touched && field.meta.error && <Error size='12px' weight={300} color='error'>{field.meta.error}</Error>}
+      {field.meta.touched &&
+        field.meta.error &&
+        !field.hideErrors && (
+          <Error size='12px' weight={300} color='error'>
+            {field.meta.error}
+          </Error>
+        )}
     </Wrapper>
   )
 }

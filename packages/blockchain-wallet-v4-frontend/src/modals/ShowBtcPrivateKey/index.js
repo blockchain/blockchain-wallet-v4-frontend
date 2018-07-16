@@ -5,30 +5,29 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import { actions } from 'data'
 import ShowBtcPrivateKeyTemplate from './template'
 
-const formats = [{
-  group: '',
-  items: [
-    { text: 'WIF', value: 'wif' },
-    { text: 'Base-58', value: 'base58' }
-  ]
-}]
+const formats = [
+  {
+    group: '',
+    items: [{ text: 'WIF', value: 'wif' }, { text: 'Base-58', value: 'base58' }]
+  }
+]
 
 class ShowBtcPrivateKeyContainer extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = { format: 'wif' }
     this.handleChangeFormat = this.handleChangeFormat.bind(this)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.actions.clearShownBtcPrivateKey()
   }
 
-  handleChangeFormat (format) {
+  handleChangeFormat(format) {
     this.setState({ format })
   }
 
-  render () {
+  render() {
     let step = this.props.priv == null ? 0 : 1
     let nextStep = () => this.props.actions.showBtcPrivateKey(this.props.addr)
     return (
@@ -44,17 +43,20 @@ class ShowBtcPrivateKeyContainer extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   priv: state.securityCenter.shownBtcPrivKey
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  modalEnhancer('ShowBtcPrivateKey')
+  modalEnhancer('ShowBtcPrivateKey'),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )
 
 export default enhance(ShowBtcPrivateKeyContainer)

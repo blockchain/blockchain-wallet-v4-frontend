@@ -11,4 +11,5 @@ import { kvStorePath } from '../../paths'
 
 export const getMetadata = path([kvStorePath, WHATSNEW])
 
-export const getLastViewed = state => getMetadata(state).map(path(['value', 'whatsnew', 'lastviewed']))
+export const getLastViewed = state =>
+  getMetadata(state).map(path(['value', 'lastViewed']))

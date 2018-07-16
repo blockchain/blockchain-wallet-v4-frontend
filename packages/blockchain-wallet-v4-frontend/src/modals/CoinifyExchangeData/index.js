@@ -14,42 +14,69 @@ import { ModalHeader, ModalBody, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
 import { path } from 'ramda'
+import media from 'services/ResponsiveService'
 
 const HeaderWrapper = styled.div`
   display: flex;
   flex-direction: row;
+  ${media.mobile`
+    flex-direction: column;
+  `};
+`
+const HeaderText = styled(Text)`
+  font-size: 20px;
+  ${media.mobile`
+    display: none;
+  `};
 `
 
 class CoinifyExchangeData extends React.PureComponent {
-  constructor () {
+  constructor() {
     super()
     this.state = { show: false }
     this.stepMap = {
-      account: <FormattedMessage id='modals.coinifyexchangedata.steps.account' defaultMessage='Create Account' />,
-      isx: <FormattedMessage id='modals.coinifyexchangedata.steps.identityverify' defaultMessage='Identity Verification' />
+      account: (
+        <FormattedMessage
+          id='modals.coinifyexchangedata.steps.account'
+          defaultMessage='Create Account'
+        />
+      ),
+      isx: (
+        <FormattedMessage
+          id='modals.coinifyexchangedata.steps.identityverify'
+          defaultMessage='Identity Verification'
+        />
+      )
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
   }
 
-  handleClose () {
+  handleClose() {
     this.setState({ show: false })
     setTimeout(this.props.close, 500)
   }
 
-  getStepComponent (step) {
+  getStepComponent(step) {
     switch (step) {
-      case 'account': return <Create country={this.props.country} />
-      case 'isx': return <ISignThis iSignThisId={path(['iSignThisID'], this.props.trade.data)} />
-      case 'confirm': return <Confirm />
+      case 'account':
+        return <Create country={this.props.country} />
+      case 'isx':
+        return (
+          <ISignThis
+            iSignThisId={path(['iSignThisID'], this.props.trade.data)}
+          />
+        )
+      case 'confirm':
+        return <Confirm />
     }
   }
 
-  render () {
+  render() {
     const { show } = this.state
     const step = this.props.signupStep || this.props.step
 
@@ -59,17 +86,30 @@ class CoinifyExchangeData extends React.PureComponent {
 
     return (
       <Tray in={show} class='tray' onClose={this.handleClose.bind(this)}>
-        <ModalHeader tray paddingHorizontal='15%' onClose={this.handleClose.bind(this)}>
+        <ModalHeader
+          tray
+          paddingHorizontal='15%'
+          onClose={this.handleClose.bind(this)}
+        >
           <HeaderWrapper>
-            <Text size='20px' weight={300}>
-              <FormattedMessage id='coinifyexchangedata.header.start' defaultMessage='Start buying and selling in two simple steps.' />
-            </Text>
-            <StepIndicator adjuster={adjuster} barFullWidth flexEnd minWidth='135px' maxWidth='135px' step={step} stepMap={this.stepMap} />
+            <HeaderText size='20px' weight={300}>
+              <FormattedMessage
+                id='coinifyexchangedata.header.start'
+                defaultMessage='Start buying and selling in two simple steps.'
+              />
+            </HeaderText>
+            <StepIndicator
+              adjuster={adjuster}
+              barFullWidth
+              flexEnd
+              minWidth='135px'
+              maxWidth='135px'
+              step={step}
+              stepMap={this.stepMap}
+            />
           </HeaderWrapper>
         </ModalHeader>
-        <ModalBody>
-          { this.getStepComponent(step) }
-        </ModalBody>
+        <ModalBody>{this.getStepComponent(step)}</ModalBody>
       </Tray>
     )
   }
@@ -80,20 +120,23 @@ CoinifyExchangeData.propTypes = {
   close: PropTypes.function
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   data: getData(state),
   signupStep: path(['coinify', 'signupStep'], state),
   signupComplete: path(['coinify', 'signupComplete'], state),
   trade: selectors.core.data.coinify.getTrade(state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   // coinifyDataActions: bindActionCreators(actions.core.data.coinify, dispatch)
 })
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  modalEnhancer('CoinifyExchangeData')
+  modalEnhancer('CoinifyExchangeData'),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )
 
 export default enhance(CoinifyExchangeData)

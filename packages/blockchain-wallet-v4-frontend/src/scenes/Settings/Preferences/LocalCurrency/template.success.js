@@ -2,19 +2,31 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import Settings from './Settings'
 
-import { SettingComponent, SettingContainer, SettingDescription, SettingHeader, SettingSummary } from 'components/Setting'
+import {
+  SettingComponent,
+  SettingContainer,
+  SettingDescription,
+  SettingHeader,
+  SettingSummary
+} from 'components/Setting'
 
-const LocalCurrency = (props) => {
+const LocalCurrency = props => {
   const { currency } = props
 
   return (
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <FormattedMessage id='scenes.settings.preferences.localcurrency.success.title' defaultMessage='Local Currency' />
+          <FormattedMessage
+            id='scenes.settings.preferences.localcurrency.success.title'
+            defaultMessage='Local Currency'
+          />
         </SettingHeader>
         <SettingDescription>
-          <FormattedMessage id='scenes.settings.preferences.localcurrency.success.description' defaultMessage='Select your local currency.' />
+          <FormattedMessage
+            id='scenes.settings.preferences.localcurrency.success.description'
+            defaultMessage='Select your local currency.'
+          />
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>

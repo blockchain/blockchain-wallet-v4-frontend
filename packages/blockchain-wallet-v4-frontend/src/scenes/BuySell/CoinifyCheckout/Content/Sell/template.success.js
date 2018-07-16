@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { contains, head, path } from 'ramda'
+import { contains, path, prop } from 'ramda'
 
 import * as service from 'services/CoinifyService'
 import Stepper, { StepView } from 'components/Utilities/Stepper'
@@ -11,17 +11,28 @@ import AddCustomerDetails from './AddCustomerDetails'
 import SelectAccounts from './SelectAccounts'
 import ISignThis from 'modals/CoinifyExchangeData/ISignThis'
 import KYCNotification from '../KYCNotification'
-import { ColLeft, ColRight, ColRightInner, Row } from 'components/BuySell/Signup'
+import {
+  ColLeft,
+  ColRight,
+  ColRightInner,
+  Row
+} from 'components/BuySell/Signup'
+import media from 'services/ResponsiveService'
 
 const CheckoutWrapper = styled.div`
   display: grid;
   grid-template-columns: 55% 35%;
   grid-gap: 10%;
+  ${media.mobile`
+    display: flex;
+    flex-direction: column;
+  `};
 `
 
 const Sell = props => {
   const {
     canTrade,
+    changeTab,
     fetchSellQuote,
     refreshQuote,
     sellQuoteR,
@@ -41,13 +52,20 @@ const Sell = props => {
     handleKycAction
   } = props
 
-  const profile = value.profile || { _limits: service.mockedLimits, _level: { currency: 'EUR' } }
-  const kyc = value.kycs.length && head(value.kycs)
+  const profile = value.profile || {
+    _limits: service.mockedLimits,
+    _level: { currency: 'EUR' }
+  }
+  const kyc = prop('kyc', value)
   const sellCurrencies = ['EUR', 'DKK', 'GBP']
   const defaultCurrency = contains(currency, sellCurrencies) ? currency : 'EUR' // profile._level.currency
   const symbol = service.currencySymbolMap[defaultCurrency]
 
-  const limits = service.getLimits(profile._limits, defaultCurrency, path(['payment', 'effectiveBalance'], value))
+  const limits = service.getLimits(
+    profile._limits,
+    defaultCurrency,
+    path(['payment', 'effectiveBalance'], value)
+  )
 
   if (step !== 'isx') {
     return (
@@ -56,6 +74,7 @@ const Sell = props => {
           <CheckoutWrapper>
             <div>
               <OrderCheckout
+                changeTab={changeTab}
                 quoteR={sellQuoteR}
                 onFetchQuote={fetchSellQuote}
                 limits={limits.sell}
@@ -72,12 +91,16 @@ const Sell = props => {
               />
             </div>
             <div>
-              {
-                path(['kycs', 'length'], value)
-                  ? <KYCNotification kyc={kyc} limits={limits.sell} symbol={symbol}
-                    onTrigger={(kyc) => handleKycAction(kyc)} type='sell' canTrade={canTrade} />
-                  : null
-              }
+              {kyc ? (
+                <KYCNotification
+                  kyc={kyc}
+                  limits={limits.sell}
+                  symbol={symbol}
+                  onTrigger={kyc => handleKycAction(kyc)}
+                  type='sell'
+                  canTrade={canTrade}
+                />
+              ) : null}
             </div>
           </CheckoutWrapper>
         </StepView>

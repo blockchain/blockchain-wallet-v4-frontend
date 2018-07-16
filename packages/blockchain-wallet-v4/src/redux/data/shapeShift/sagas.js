@@ -3,11 +3,11 @@ import { has, prop } from 'ramda'
 import * as A from './actions'
 
 export default ({ api } = {}) => {
-  const fetchTradeStatus = function * (address) {
+  const fetchTradeStatus = function*(address) {
     return yield call(api.getTradeStatus, address)
   }
 
-  const fetchPair = function * (action) {
+  const fetchPair = function*(action) {
     const { pair } = action.payload
     try {
       yield put(A.fetchPairLoading(pair))
@@ -18,11 +18,17 @@ export default ({ api } = {}) => {
     }
   }
 
-  const fetchOrder = function * (action) {
+  const fetchOrder = function*(action) {
     try {
       const { depositAmount, pair, returnAddress, withdrawal } = action.payload
       yield put(A.fetchOrderLoading())
-      const data = yield call(api.createOrder, depositAmount, pair, returnAddress, withdrawal)
+      const data = yield call(
+        api.createOrder,
+        depositAmount,
+        pair,
+        returnAddress,
+        withdrawal
+      )
       if (has('error', data)) {
         yield put(A.fetchOrderFailure(prop('error', data)))
       } else {
@@ -40,7 +46,7 @@ export default ({ api } = {}) => {
   //   }
   // }
 
-  const fetchQuotation = function * (action) {
+  const fetchQuotation = function*(action) {
     try {
       const { amount, pair, isDeposit } = action.payload
       yield put(A.fetchQuotationLoading())

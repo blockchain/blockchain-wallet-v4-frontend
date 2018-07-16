@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import locale from 'browser-locale'
 
 import { Text, DateInput } from 'blockchain-info-components'
 
@@ -18,17 +19,22 @@ const Error = styled(Text)`
   right: 0;
   height: 15px;
 `
-const getErrorState = (meta) => {
+const getErrorState = meta => {
   return meta.touched && meta.invalid ? 'invalid' : 'initial'
 }
 
-const DateBox = (field) => {
+const DateBox = field => {
   const errorState = getErrorState(field.meta)
 
   return (
     <Container>
-      <DateInput {...field.input} errorState={errorState} />
-      {field.meta.touched && field.meta.error && <Error size='12px' weight={300} color='error'>{field.meta.error}</Error>}
+      <DateInput {...field.input} errorState={errorState} locale={locale()} />
+      {field.meta.touched &&
+        field.meta.error && (
+          <Error size='12px' weight={300} color='error'>
+            {field.meta.error}
+          </Error>
+        )}
     </Container>
   )
 }

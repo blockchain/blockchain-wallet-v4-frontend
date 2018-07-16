@@ -26,7 +26,7 @@ const Wrapper = styled.div`
 `
 
 class Chart extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     const { coin, time, data, currency } = this.props
     const start = calculateStart(coin, time)
@@ -35,7 +35,7 @@ class Chart extends React.PureComponent {
     this.state = { start, interval, config }
   }
 
-  render () {
+  render() {
     return (
       <Wrapper>
         <ReactHighcharts config={this.state.config} isPureConfig />

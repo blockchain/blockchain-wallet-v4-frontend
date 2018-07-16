@@ -1,5 +1,4 @@
-export default
-{
+export default {
   code: 'HKD',
   base: 'CENT',
   trade: 'HKD',

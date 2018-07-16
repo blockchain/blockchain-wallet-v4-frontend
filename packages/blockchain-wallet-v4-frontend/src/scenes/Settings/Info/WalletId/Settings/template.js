@@ -2,12 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Text } from 'blockchain-info-components'
 
-const Settings = (props) => {
+const Settings = props => {
   const { guid } = props
 
-  return (
-    <Text>{guid}</Text>
-  )
+  return <Text>{guid}</Text>
 }
 
 Settings.propTypes = {

@@ -31,7 +31,7 @@ export const password = Wrapper.define('password')
 export const version = Wrapper.define('version')
 export const payloadChecksum = Wrapper.define('payload_checksum')
 export const language = Wrapper.define('language')
-export const syncPubkeys = Wrapper.define('sync_pubkeys')
+export const syncPubKeys = Wrapper.define('sync_pubkeys')
 export const warChecksum = Wrapper.define('war_checksum')
 export const authType = Wrapper.define('auth_type')
 export const realAuthType = Wrapper.define('real_auth_type')
@@ -46,28 +46,32 @@ export const selectSyncWarChecksum = view(warChecksum)
 export const selectAuthType = view(authType)
 export const selectRealAuthType = view(realAuthType)
 export const selectWallet = view(wallet)
+export const selectSyncPubKeys = view(syncPubKeys)
 
 // traverseWallet :: Monad m => (a -> m a) -> (Wallet -> m Wallet) -> Wrapper
-export const traverseWallet = curry(
-  (of, f, wrapper) => of(wrapper).chain(traverseOf(wallet, of, f))
+export const traverseWallet = curry((of, f, wrapper) =>
+  of(wrapper).chain(traverseOf(wallet, of, f))
 )
 
 // fromJS :: JSON -> wrapper
-export const fromJS = (x) => {
-  if (isWrapper(x)) { return x }
-  const wrapperCons = compose(
-    over(wallet, Wallet.fromJS)
-  )
+export const fromJS = x => {
+  if (isWrapper(x)) {
+    return x
+  }
+  const wrapperCons = compose(over(wallet, Wallet.fromJS))
   return wrapperCons(new Wrapper(x))
 }
 
 // toJS :: wrapper -> JSON
-export const toJS = pipe(Wrapper.guard, (wrapper) => {
-  const wrapperDecons = over(wallet, Wallet.toJS)
-  return wrapperDecons(wrapper).toJS()
-})
+export const toJS = pipe(
+  Wrapper.guard,
+  wrapper => {
+    const wrapperDecons = over(wallet, Wallet.toJS)
+    return wrapperDecons(wrapper).toJS()
+  }
+)
 
-export const reviver = (jsObject) => {
+export const reviver = jsObject => {
   return new Wrapper(jsObject)
 }
 
@@ -83,16 +87,25 @@ export const fromEncJSON = curry((password, json) => {
   let payloadJsonE = Either.try(JSON.parse)(json.payload)
 
   // assocIterations :: Number -> Wrapper
-  let assocIterations = (wrapper) => payloadJsonE
-    .map(payload => assoc('pbkdf2_iterations', payload.pbkdf2_iterations, wrapper))
-    .getOrElse(wrapper)
+  let assocIterations = wrapper =>
+    payloadJsonE
+      .map(payload =>
+        assoc('pbkdf2_iterations', payload.pbkdf2_iterations, wrapper)
+      )
+      .getOrElse(wrapper)
 
   // assocVersion :: Wrapper -> Wrapper
-  let assocVersion = (wrapper) => payloadJsonE
-    .map(payload => assoc('version', payload.version, wrapper))
-    .getOrElse(wrapper)
+  let assocVersion = wrapper =>
+    payloadJsonE
+      .map(payload => assoc('version', payload.version, wrapper))
+      .getOrElse(wrapper)
 
-  return traverseOf(payloadL, Task.of, Wallet.fromEncryptedPayload(password), json)
+  return traverseOf(
+    payloadL,
+    Task.of,
+    Wallet.fromEncryptedPayload(password),
+    json
+  )
     .map(assocVersion)
     .map(assocIterations)
     .map(o => assoc('wallet', o.payload, o))
@@ -113,7 +126,12 @@ export const fromEncPayload = curry((password, payload) => {
   const pbkdf2Iterations = prop('pbkdf2_iterations', temp)
   const version = prop('version', temp)
   const wrapper = { password, payload, pbkdf2Iterations, version }
-  return traverseOf(lensProp('payload'), Task.of, Wallet.fromEncryptedPayload(password), wrapper)
+  return traverseOf(
+    lensProp('payload'),
+    Task.of,
+    Wallet.fromEncryptedPayload(password),
+    wrapper
+  )
     .map(o => assoc('wallet', o.payload, o))
     .map(dissoc('payload'))
     .map(fromJS)
@@ -123,38 +141,87 @@ export const fromEncPayload = curry((password, payload) => {
 export const toEncJSON = wrapper => {
   const plens = lensProp('payload')
   const response = {
-    guid: compose(Wallet.selectGuid, selectWallet)(wrapper),
-    sharedKey: compose(Wallet.selectSharedKey, selectWallet)(wrapper),
+    guid: compose(
+      Wallet.selectGuid,
+      selectWallet
+    )(wrapper),
+    sharedKey: compose(
+      Wallet.selectSharedKey,
+      selectWallet
+    )(wrapper),
     payload: selectWallet(wrapper),
     old_checksum: selectPayloadChecksum(wrapper),
     language: selectLanguage(wrapper)
   }
-  const encrypt = Wallet.toEncryptedPayload(selectPassword(wrapper), selectPbkdf2Iterations(wrapper) || 5000)
-  const hash = (x) => crypto.sha256(x).toString('hex')
+  const encrypt = Wallet.toEncryptedPayload(
+    selectPassword(wrapper),
+    selectPbkdf2Iterations(wrapper) || 5000
+  )
+  const hash = x => crypto.sha256(x).toString('hex')
   return traverseOf(plens, Task.of, encrypt, response)
-    .map((r) => assoc('length', view(plens, r).length, r))
-    .map((r) => assoc('checksum', hash(view(plens, r)), r))
+    .map(r => assoc('length', view(plens, r).length, r))
+    .map(r => assoc('checksum', hash(view(plens, r)), r))
 }
 
-export const js = (password, guid, sharedKey, label, mnemonic, xpub, nAccounts = 1, network) => ({
+export const js = (
+  password,
+  guid,
+  sharedKey,
+  label,
+  mnemonic,
+  xpub,
+  language,
+  nAccounts = 1,
+  network
+) => ({
   sync_pubkeys: false,
   payload_checksum: '',
   storage_token: '',
   version: 3,
-  language: 'en',
+  language: language,
   wallet: Wallet.js(guid, sharedKey, label, mnemonic, xpub, nAccounts, network),
   war_checksum: '',
   password: password,
   pbkdf2_iterations: 5000
 })
 
-export const setBothPbkdf2Iterations = curry((iterations, wrapper) => compose(
-  set(compose(wallet, Wallet.options, Options.pbkdf2Iterations), iterations),
-  set(pbkdf2Iterations, iterations)
-)(wrapper))
+export const setBothPbkdf2Iterations = curry((iterations, wrapper) =>
+  compose(
+    set(
+      compose(
+        wallet,
+        Wallet.options,
+        Options.pbkdf2Iterations
+      ),
+      iterations
+    ),
+    set(pbkdf2Iterations, iterations)
+  )(wrapper)
+)
 
-export const createNew = (guid, password, sharedKey, mnemonic, firstAccountName = 'My Bitcoin Wallet', nAccounts = 1) =>
-  fromJS(js(password, guid, sharedKey, firstAccountName, mnemonic, undefined, nAccounts))
+export const createNew = (
+  guid,
+  password,
+  sharedKey,
+  mnemonic,
+  language,
+  firstAccountName = 'My Bitcoin Wallet',
+  nAccounts = 1
+) =>
+  fromJS(
+    js(
+      password,
+      guid,
+      sharedKey,
+      firstAccountName,
+      mnemonic,
+      undefined,
+      language,
+      nAccounts
+    )
+  )
 
-export const createNewReadOnly = (xpub, firstAccountName = 'My read-only Wallet') =>
-  fromJS(js('', '', '', firstAccountName, undefined, xpub, 1))
+export const createNewReadOnly = (
+  xpub,
+  firstAccountName = 'My read-only Wallet'
+) => fromJS(js('', '', '', firstAccountName, undefined, xpub, 1))

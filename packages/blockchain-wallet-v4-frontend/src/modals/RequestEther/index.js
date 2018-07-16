@@ -14,18 +14,18 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
 
 class RequestEtherContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.init = this.init.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
     this.handleRefresh = this.handleRefresh.bind(this)
   }
 
-  componentWillMount () {
+  componentWillMount() {
     this.init()
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     const { coin } = nextProps
     if (coin === 'BTC') {
       this.props.modalActions.closeAllModals()
@@ -36,49 +36,61 @@ class RequestEtherContainer extends React.PureComponent {
     }
   }
 
-  componentDidUpdate (prevProps) {
-    if (!Remote.Success.is(prevProps.initialValues) && Remote.Success.is(this.props.initialValues)) {
+  componentDidUpdate(prevProps) {
+    if (
+      !Remote.Success.is(prevProps.initialValues) &&
+      Remote.Success.is(this.props.initialValues)
+    ) {
       this.init()
     }
   }
 
-  init () {
+  init() {
     this.props.formActions.initialize('requestEther', this.props.initialValues)
   }
 
-  onSubmit () {
+  onSubmit() {
     this.props.modalActions.closeAllModals()
   }
 
-  handleRefresh () {
+  handleRefresh() {
     this.props.kvStoreEthActions.fetchMetadataEthereum()
   }
 
-  render () {
+  render() {
     const { data, closeAll, selection, coins } = this.props
 
     const content = data.cata({
-      Success: (val) => <Success
-        {...this.props}
-        address={val}
-        closeAll={closeAll}
-        coins={coins}
-        selection={selection}
-        onSubmit={this.onSubmit}
-      />,
+      Success: val => (
+        <Success
+          {...this.props}
+          address={val}
+          closeAll={closeAll}
+          coins={coins}
+          selection={selection}
+          onSubmit={this.onSubmit}
+        />
+      ),
       NotAsked: () => <DataError onClick={this.handleRefresh} />,
       Failure: () => <DataError onClick={this.handleRefresh} />,
       Loading: () => <Loading />
     })
 
-    return <Modal size='large' position={this.props.position} total={this.props.total}>
-      <ModalHeader icon='request' onClose={this.props.closeAll}>
-        <FormattedMessage id='modals.requestether.title' defaultMessage='Request Ether' />
-      </ModalHeader>
-      <ModalBody>
-        {content}
-      </ModalBody>
-    </Modal>
+    return (
+      <Modal
+        size='large'
+        position={this.props.position}
+        total={this.props.total}
+      >
+        <ModalHeader icon='request' onClose={this.props.closeAll}>
+          <FormattedMessage
+            id='modals.requestether.title'
+            defaultMessage='Request Ether'
+          />
+        </ModalHeader>
+        <ModalBody>{content}</ModalBody>
+      </Modal>
+    )
   }
 }
 
@@ -90,15 +102,21 @@ const mapStateToProps = (state, ownProps) => ({
   coin: formValueSelector('requestEther')(state, 'coin')
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  kvStoreEthActions: bindActionCreators(actions.core.kvStore.ethereum, dispatch),
+const mapDispatchToProps = dispatch => ({
+  kvStoreEthActions: bindActionCreators(
+    actions.core.kvStore.ethereum,
+    dispatch
+  ),
   modalActions: bindActionCreators(actions.modals, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  modalEnhancer('RequestEther')
+  modalEnhancer('RequestEther'),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )
 
 export default enhance(RequestEtherContainer)

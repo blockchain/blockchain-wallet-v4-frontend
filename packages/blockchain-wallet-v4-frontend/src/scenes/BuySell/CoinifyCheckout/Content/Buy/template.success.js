@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { contains, path, prop, head } from 'ramda'
+import { contains, path, prop } from 'ramda'
 
 import { Button } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
@@ -15,11 +15,16 @@ import ISignThis from 'modals/CoinifyExchangeData/ISignThis'
 import KYCNotification from '../KYCNotification'
 import NextSubscription from '../NextSubscription'
 import BankTransferDetails from 'components/BuySell/BankTransferDetails'
+import media from 'services/ResponsiveService'
 
 const CheckoutWrapper = styled.div`
   display: grid;
   grid-template-columns: 55% 40%;
   grid-gap: 5%;
+  ${media.mobile`
+    display: flex;
+    flex-direction: column;
+  `};
 `
 const OrderSubmitWrapper = styled.div`
   display: flex;
@@ -53,8 +58,11 @@ const CoinifyBuy = props => {
     trades
   } = props
 
-  const profile = Remote.of(prop('profile', value)).getOrElse({ _limits: service.mockedLimits, _level: { currency: 'EUR' } })
-  const kyc = path(['kycs', 'length'], value) && head(value.kycs)
+  const profile = Remote.of(prop('profile', value)).getOrElse({
+    _limits: service.mockedLimits,
+    _level: { currency: 'EUR' }
+  })
+  const kyc = prop('kyc', value)
   const buyCurrencies = ['EUR', 'DKK', 'GBP', 'USD']
   const defaultCurrency = contains(currency, buyCurrencies) ? currency : 'EUR' // profile._level.currency
   const symbol = service.currencySymbolMap[defaultCurrency]
@@ -83,16 +91,22 @@ const CoinifyBuy = props => {
               />
             </LeftContainer>
             <RightContainer>
-              {
-                activeSubscriptions.length > 0
-                  ? <NextSubscription subscriptions={subscriptions} trades={trades.filter(t => t.tradeSubscriptionId)} manageOrder={() => changeTab('order_history')} />
-                  : null
-              }
-              {
-                path(['kycs', 'length'], value) && path(['state'], kyc)
-                  ? <KYCNotification kyc={kyc} limits={limits.buy} symbol={symbol} onTrigger={(kyc) => handleKycAction(kyc)} canTrade={canTrade} />
-                  : null
-              }
+              {activeSubscriptions.length > 0 ? (
+                <NextSubscription
+                  subscriptions={subscriptions}
+                  trades={trades.filter(t => t.tradeSubscriptionId)}
+                  manageOrder={() => changeTab('order_history')}
+                />
+              ) : null}
+              {path(['state'], kyc) ? (
+                <KYCNotification
+                  kyc={kyc}
+                  limits={limits.buy}
+                  symbol={symbol}
+                  onTrigger={kyc => handleKycAction(kyc)}
+                  canTrade={canTrade}
+                />
+              ) : null}
             </RightContainer>
           </CheckoutWrapper>
         </StepView>
@@ -132,7 +146,14 @@ const CoinifyBuy = props => {
       <CheckoutWrapper>
         <BankTransferDetails trade={trade} />
         <RightContainer>
-          <Button nature='primary' width='85%' onClick={() => { changeTab('order_history'); coinifyNextCheckoutStep('checkout') }}>
+          <Button
+            nature='primary'
+            width='85%'
+            onClick={() => {
+              changeTab('order_history')
+              coinifyNextCheckoutStep('checkout')
+            }}
+          >
             <FormattedMessage id='close' defaultMessage='Close' />
           </Button>
         </RightContainer>

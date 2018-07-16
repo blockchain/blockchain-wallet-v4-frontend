@@ -8,7 +8,7 @@ const INITIAL_STATE = {
   trades: Remote.NotAsked,
   profile: Remote.NotAsked,
   mediums: Remote.NotAsked,
-  kycs: Remote.NotAsked,
+  kyc: Remote.NotAsked,
   subscriptions: Remote.NotAsked,
   nextAddress: null
 }
@@ -98,14 +98,14 @@ const coinifyReducer = (state = INITIAL_STATE, action) => {
     case AT.COINIFY_SET_BANK_ACCOUNT: {
       return assoc('account', payload, state)
     }
-    case AT.GET_KYCS_LOADING: {
-      return assoc('kycs', Remote.Loading, state)
+    case AT.GET_KYC_LOADING: {
+      return assoc('kyc', Remote.Loading, state)
     }
-    case AT.GET_KYCS_SUCCESS: {
-      return assoc('kycs', Remote.Success(payload), state)
+    case AT.GET_KYC_SUCCESS: {
+      return assoc('kyc', Remote.Success(payload), state)
     }
-    case AT.GET_KYCS_FAILURE: {
-      return assoc('kycs', Remote.Failure(payload), state)
+    case AT.GET_KYC_FAILURE: {
+      return assoc('kyc', Remote.Failure(payload), state)
     }
     default:
       return state

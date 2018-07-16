@@ -14,18 +14,18 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
 
 class RequestBchContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.init = this.init.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleRefresh = this.handleRefresh.bind(this)
   }
 
-  componentWillMount () {
+  componentWillMount() {
     this.init()
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     nextProps.data.map(x => {
       if (equals(prop('coin', x), 'ETH')) {
         this.props.modalActions.closeAllModals()
@@ -37,67 +37,84 @@ class RequestBchContainer extends React.PureComponent {
     })
   }
 
-  componentDidUpdate (prevProps) {
-    if (!Remote.Success.is(prevProps.initialValues) && Remote.Success.is(this.props.initialValues)) {
+  componentDidUpdate(prevProps) {
+    if (
+      !Remote.Success.is(prevProps.initialValues) &&
+      Remote.Success.is(this.props.initialValues)
+    ) {
       this.init()
     }
   }
 
-  init () {
+  init() {
     this.props.initialValues.map(x => {
       this.props.formActions.initialize('requestBch', x)
     })
   }
 
-  handleSubmit (e) {
+  handleSubmit(e) {
     e.preventDefault()
     this.props.modalActions.closeAllModals()
   }
 
-  handleRefresh () {
-    this.props.refreshActions.refresh()
+  handleRefresh() {
+    const { bchDataActions, initialValues } = this.props
+    if (!Remote.Success.is(initialValues)) return bchDataActions.fetchData()
+
+    this.init()
   }
 
-  render () {
+  render() {
     const { data, closeAll } = this.props
 
     const content = data.cata({
-      Success: (value) => <Success
-        receiveAddress={value.receiveAddress}
-        handleSubmit={this.handleSubmit}
-        closeAll={closeAll}
-      />,
+      Success: value => (
+        <Success
+          receiveAddress={value.receiveAddress}
+          handleSubmit={this.handleSubmit}
+          closeAll={closeAll}
+        />
+      ),
       NotAsked: () => <DataError onClick={this.handleRefresh} />,
       Failure: () => <DataError onClick={this.handleRefresh} />,
       Loading: () => <Loading />
     })
 
-    return <Modal size='large' position={this.props.position} total={this.props.total}>
-      <ModalHeader icon='request' onClose={this.props.closeAll}>
-        <FormattedMessage id='modals.requestbch.title' defaultMessage='Request Bitcoin Cash' />
-      </ModalHeader>
-      <ModalBody>
-        {content}
-      </ModalBody>
-    </Modal>
+    return (
+      <Modal
+        size='large'
+        position={this.props.position}
+        total={this.props.total}
+      >
+        <ModalHeader icon='request' onClose={this.props.closeAll}>
+          <FormattedMessage
+            id='modals.requestbch.title'
+            defaultMessage='Request Bitcoin Cash'
+          />
+        </ModalHeader>
+        <ModalBody>{content}</ModalBody>
+      </Modal>
+    )
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   initialValues: getInitialValues(state),
   data: getData(state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   bchDataActions: bindActionCreators(actions.core.data.bch, dispatch),
-  refreshActions: bindActionCreators(actions.core.refresh, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const enhance = compose(
   modalEnhancer('RequestBch'),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )
 
 export default enhance(RequestBchContainer)

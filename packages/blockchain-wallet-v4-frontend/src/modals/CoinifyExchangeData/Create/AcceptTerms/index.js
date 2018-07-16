@@ -8,7 +8,7 @@ import { getData } from './selectors'
 import AcceptTerms from './template'
 
 class AcceptTermsContainer extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       busy: false,
@@ -17,31 +17,43 @@ class AcceptTermsContainer extends Component {
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.signupError) {
       this.setState({ busy: false })
       this.props.updateUI({ uniqueEmail: false })
     }
   }
 
-  onSubmit () {
+  onSubmit() {
     this.setState({ busy: true })
     this.props.coinifyFrontendActions.coinifySignup(this.props.country)
   }
 
-  render () {
+  render() {
     const { busy } = this.state
-    const { invalid, email, signupError, updateUI } = this.props
+    const {
+      invalid,
+      email,
+      signupError,
+      updateUI,
+      coinifyFrontendActions
+    } = this.props
+    const { coinifyClearSignupError } = coinifyFrontendActions
 
-    return <AcceptTerms
-      busy={busy}
-      email={email}
-      invalid={invalid}
-      onSubmit={this.onSubmit}
-      signupError={signupError}
-      updateUI={updateUI}
-      editEmail={() => { this.props.updateUI({ create: 'change_email' }) }}
-    />
+    return (
+      <AcceptTerms
+        busy={busy}
+        email={email}
+        invalid={invalid}
+        onSubmit={this.onSubmit}
+        signupError={signupError}
+        updateUI={updateUI}
+        editEmail={() => {
+          this.props.updateUI({ create: 'change_email' })
+        }}
+        clearError={() => coinifyClearSignupError()}
+      />
+    )
   }
 }
 
@@ -52,14 +64,17 @@ AcceptTermsContainer.propTypes = {
   country: PropTypes.string
 }
 
-const mapStateToProps = (state) => getData(state)
+const mapStateToProps = state => getData(state)
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   coinifyFrontendActions: bindActionCreators(actions.modules.coinify, dispatch)
 })
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )
 
 export default enhance(AcceptTermsContainer)

@@ -7,13 +7,32 @@ import { actions } from 'data'
 import Content from './template'
 
 class ContentContainer extends React.PureComponent {
-  componentDidMount () {
-    this.props.actions.initialized()
+  constructor(props) {
+    super(props)
+    this.handleRefresh = this.handleRefresh.bind(this)
   }
 
-  render () {
-    const { actions, empty, pages, search } = this.props
-    return <Content empty={empty} search={search} pages={pages} actions={actions} />
+  componentDidMount() {
+    this.props.txActions.initialized()
+  }
+
+  handleRefresh() {
+    this.props.dataActions.fetchData()
+    this.props.txActions.initialized()
+  }
+
+  render() {
+    const { empty, pages, search, buysellPartner } = this.props
+
+    return (
+      <Content
+        empty={empty}
+        search={search}
+        pages={pages}
+        onRefresh={this.handleRefresh}
+        buysellPartner={buysellPartner}
+      />
+    )
   }
 }
 
@@ -21,8 +40,12 @@ const mapStateToProps = state => ({
   ...getData(state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(actions.components.btcTransactions, dispatch)
+const mapDispatchToProps = dispatch => ({
+  dataActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
+  txActions: bindActionCreators(actions.components.btcTransactions, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContentContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ContentContainer)

@@ -15,10 +15,17 @@ const Wrapper = styled.div`
 const Success = props => {
   return (
     <Wrapper>
-      {props.empty
-        ? props.search ? <EmptyTx /> : <Empty />
-        : props.pages.map((value, index) => <Pages key={index} data={value} actions={props.actions} />)
-      }
+      {props.empty ? (
+        props.search ? (
+          <EmptyTx />
+        ) : (
+          <Empty />
+        )
+      ) : (
+        props.pages.map((value, index) => (
+          <Pages key={index} data={value} onRefresh={props.onRefresh} />
+        ))
+      )}
     </Wrapper>
   )
 }

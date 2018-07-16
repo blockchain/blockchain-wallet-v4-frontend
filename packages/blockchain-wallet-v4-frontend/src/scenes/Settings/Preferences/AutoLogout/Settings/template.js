@@ -6,21 +6,28 @@ import { Button, Text } from 'blockchain-info-components'
 import { SettingWrapper } from 'components/Setting'
 import EditForm from './EditForm'
 
-const Settings = (props) => {
+const Settings = props => {
   const { updateToggled, handleToggle, handleClick, logoutTime } = props
 
-  return updateToggled
-    ? <EditForm handleClick={handleClick} handleToggle={handleToggle} />
-    : (
-      <SettingWrapper>
-        <Text>
-          <FormattedMessage id='scenes.preferences.autologout.settings.minutes' defaultMessage='{time} minutes' values={{ time: logoutTime }} />
-        </Text>
-        <Button nature='primary' onClick={handleToggle}>
-          <FormattedMessage id='scenes.preferences.autologout.settings.updateform.change' defaultMessage='Change' />
-        </Button>
-      </SettingWrapper>
-    )
+  return updateToggled ? (
+    <EditForm handleClick={handleClick} handleToggle={handleToggle} />
+  ) : (
+    <SettingWrapper>
+      <Text>
+        <FormattedMessage
+          id='scenes.preferences.autologout.settings.minutes'
+          defaultMessage='{time} minutes'
+          values={{ time: logoutTime }}
+        />
+      </Text>
+      <Button nature='primary' onClick={handleToggle}>
+        <FormattedMessage
+          id='scenes.preferences.autologout.settings.updateform.change'
+          defaultMessage='Change'
+        />
+      </Button>
+    </SettingWrapper>
+  )
 }
 
 Settings.propTypes = {

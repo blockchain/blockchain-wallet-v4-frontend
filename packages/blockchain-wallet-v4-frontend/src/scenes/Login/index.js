@@ -7,23 +7,25 @@ import Login from './template.js'
 import { actions, selectors } from 'data'
 
 class LoginContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = { useCode: true }
     this.onSubmit = this.onSubmit.bind(this)
-    this.handleCode = this.handleCode.bind(this)
     this.handleMobile = this.handleMobile.bind(this)
     this.handleSmsResend = this.handleSmsResend.bind(this)
   }
 
-  handleCode (val) {
-    this.setState({ useCode: val })
+  componentDidMount() {
+    this.props.loginActions.initialized()
   }
 
-  onSubmit () {
-    const { useCode } = this.state
+  componentWillUnmount() {
+    this.props.formActions.reset('login')
+  }
+
+  onSubmit() {
     const { guid, password, code } = this.props
-    let auth = useCode ? code : undefined
+    let auth = code
     // only uppercase if authType is not Yubikey
     if (auth && this.props.authType !== 1) {
       auth = auth.toUpperCase()
@@ -31,20 +33,20 @@ class LoginContainer extends React.PureComponent {
     this.props.authActions.login(guid, password, auth)
   }
 
-  handleMobile () {
+  handleMobile() {
     this.props.modalActions.showModal('MobileLogin')
   }
 
-  handleSmsResend () {
+  handleSmsResend() {
     this.props.authActions.resendSmsCode(this.props.guid)
   }
 
-  render () {
+  render() {
     const { authType, data, lastGuid } = this.props
 
     const { busy, error } = data.cata({
       Success: () => ({ error: null, busy: false }),
-      Failure: (val) => ({ error: val.err, busy: false }),
+      Failure: val => ({ error: val.err, busy: false }),
       Loading: () => ({ error: null, busy: true }),
       NotAsked: () => ({ error: null, busy: false })
     })
@@ -54,18 +56,23 @@ class LoginContainer extends React.PureComponent {
       authType,
       loginError: error,
       onSubmit: this.onSubmit,
-      handleCode: this.handleCode,
       handleMobile: this.handleMobile,
       handleSmsResend: this.handleSmsResend
     }
 
-    return lastGuid
-      ? <Login {...this.props} initialValues={{ guid: lastGuid }} {...loginProps} />
-      : <Login {...this.props} {...loginProps} />
+    return lastGuid ? (
+      <Login
+        {...this.props}
+        initialValues={{ guid: lastGuid }}
+        {...loginProps}
+      />
+    ) : (
+      <Login {...this.props} {...loginProps} />
+    )
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   guid: formValueSelector('login')(state, 'guid'),
   password: formValueSelector('login')(state, 'password'),
   code: formValueSelector('login')(state, 'code'),
@@ -74,10 +81,15 @@ const mapStateToProps = (state) => ({
   data: selectors.auth.getLogin(state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   authActions: bindActionCreators(actions.auth, dispatch),
   alertActions: bindActionCreators(actions.alerts, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch),
+  loginActions: bindActionCreators(actions.components.login, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LoginContainer)

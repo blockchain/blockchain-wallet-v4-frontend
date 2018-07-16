@@ -17,7 +17,9 @@ const Wrapper = styled.div`
   padding: 15px;
   box-sizing: border-box;
   border: 1px solid ${props => props.theme['gray-1']};
-  & > * { margin-bottom: 10px; }
+  & > * {
+    margin-bottom: 10px;
+  }
 `
 const Row = styled.div`
   display: flex;
@@ -29,19 +31,27 @@ const Row = styled.div`
 const TitleRow = styled(Row)`
   display: flex;
   flex-direction: column;
-  @media (min-width: 480px) {flex-direction: row;}
+  @media (min-width: 480px) {
+    flex-direction: row;
+  }
 `
 const TitleText = styled(Text)`
   font-size: 22px;
   margin-bottom: 10px;
   font-weight: 300;
-  @media (min-width: 480px) {font-size: 24px; margin: 0;}
+  @media (min-width: 480px) {
+    font-size: 24px;
+    margin: 0;
+  }
 `
 const PriceChart = () => (
   <Wrapper>
     <TitleRow>
       <TitleText color='brand-primary' uppercase>
-        <FormattedMessage id='scenes.home.pricechart' defaultMessage='Price chart' />
+        <FormattedMessage
+          id='scenes.home.pricechart'
+          defaultMessage='Price chart'
+        />
       </TitleText>
       <TimeFilters />
     </TitleRow>

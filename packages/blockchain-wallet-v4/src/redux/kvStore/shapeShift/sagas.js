@@ -1,18 +1,24 @@
 import { call, put, select } from 'redux-saga/effects'
-import { compose, isNil } from 'ramda'
+import { compose, isNil, isEmpty } from 'ramda'
 import { set } from 'ramda-lens'
 import * as A from './actions'
 import { KVStoreEntry } from '../../../types'
 import { getMetadataXpriv } from '../root/selectors'
 import { derivationMap, SHAPESHIFT } from '../config'
 
-const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
+const taskToPromise = t =>
+  new Promise((resolve, reject) => t.fork(reject, resolve))
 
 export default ({ api }) => {
-  const callTask = function * (task) {
-    return yield call(compose(taskToPromise, () => task))
+  const callTask = function*(task) {
+    return yield call(
+      compose(
+        taskToPromise,
+        () => task
+      )
+    )
   }
-  const fetchShapeShift = function * () {
+  const fetchShapeShift = function*() {
     const typeId = derivationMap[SHAPESHIFT]
     const mxpriv = yield select(getMetadataXpriv)
     const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId)
@@ -20,7 +26,7 @@ export default ({ api }) => {
     yield put(A.setShapeShift(newkv))
   }
 
-  const fetchShapeshiftTrade = function * (address) {
+  const fetchShapeshiftTrade = function*(address) {
     try {
       const tradeDetails = yield call(api.getTradeStatus, address)
       yield put(A.fetchShapeshiftTradeSuccess(tradeDetails))
@@ -29,7 +35,7 @@ export default ({ api }) => {
     }
   }
 
-  const createShapeshift = function * (kv) {
+  const createShapeshift = function*(kv) {
     const newShapeshiftEntry = {
       trades: [],
       USAState: null
@@ -38,7 +44,7 @@ export default ({ api }) => {
     yield put(A.createMetadataShapeshift(newkv))
   }
 
-  const fetchMetadataShapeshift = function * () {
+  const fetchMetadataShapeshift = function*() {
     try {
       const typeId = derivationMap[SHAPESHIFT]
       const mxpriv = yield select(getMetadataXpriv)
@@ -46,7 +52,7 @@ export default ({ api }) => {
       yield put(A.fetchMetadataShapeshiftLoading())
       const newkv = yield callTask(api.fetchKVStore(kv))
       yield put(A.fetchMetadataShapeshiftSuccess(newkv))
-      if (isNil(newkv.value)) {
+      if (isNil(newkv.value) || isEmpty(newkv.value)) {
         yield call(createShapeshift, newkv)
       } else {
         yield put(A.fetchMetadataShapeshiftSuccess(newkv))

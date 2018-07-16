@@ -7,22 +7,22 @@ import { Types } from 'blockchain-wallet-v4/src'
 import { formValueSelector } from 'redux-form'
 
 class ArchivedAddressesContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.handleToggleArchived = this.handleToggleArchived.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
   }
 
-  handleToggleArchived (address) {
+  handleToggleArchived(address) {
     let isArchived = Types.Address.isArchived(address)
     this.props.coreActions.setAddressArchived(address.addr, !isArchived)
   }
 
-  handleDelete (address) {
+  handleDelete(address) {
     this.props.coreActions.deleteLegacyAddress(address.addr)
   }
 
-  render () {
+  render() {
     const { archivedAddresses, search } = this.props
     return (
       <Success
@@ -35,15 +35,22 @@ class ArchivedAddressesContainer extends React.PureComponent {
   }
 }
 
-const selectArchived = compose(Types.AddressMap.selectArchived, Types.Wallet.selectAddresses, selectors.core.wallet.getWallet)
+const selectArchived = compose(
+  Types.AddressMap.selectArchived,
+  Types.Wallet.selectAddresses,
+  selectors.core.wallet.getWallet
+)
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   archivedAddresses: selectArchived(state).toArray(),
   search: formValueSelector('settingsAddresses')(state, 'search')
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   coreActions: bindActionCreators(actions.core.wallet, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ArchivedAddressesContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ArchivedAddressesContainer)

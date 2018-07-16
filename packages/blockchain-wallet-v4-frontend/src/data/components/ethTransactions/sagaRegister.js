@@ -6,9 +6,15 @@ import sagas from './sagas'
 export default ({ coreSagas }) => {
   const ethTransactionsSagas = sagas({ coreSagas })
 
-  return function * () {
-    yield takeEvery(AT.ETH_TRANSACTIONS_INITIALIZED, ethTransactionsSagas.initialized)
+  return function*() {
+    yield takeEvery(
+      AT.ETH_TRANSACTIONS_INITIALIZED,
+      ethTransactionsSagas.initialized
+    )
     yield takeEvery(actionTypes.form.CHANGE, ethTransactionsSagas.formChanged)
-    yield takeEvery(actionTypes.scroll.UPDATE_SCROLL, ethTransactionsSagas.scrollUpdated)
+    yield takeEvery(
+      actionTypes.scroll.UPDATE_SCROLL,
+      ethTransactionsSagas.scrollUpdated
+    )
   }
 }

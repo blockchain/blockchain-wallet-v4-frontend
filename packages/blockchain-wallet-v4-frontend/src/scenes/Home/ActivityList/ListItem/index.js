@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import moment from 'moment'
 
-import { Icon, Text } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
+import { Icon, SkeletonCircle, Text, Tooltip } from 'blockchain-info-components'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 
 const Container = styled.div`
@@ -41,7 +41,7 @@ const Info = styled.div`
   box-sizing: border-box;
 
   & > * {
-    cursor: ${props => props.cursor ? 'pointer' : ''};
+    cursor: ${props => (props.cursor ? 'pointer' : '')};
     padding: 0 5px;
     width: 50%;
   }
@@ -56,21 +56,6 @@ const Info = styled.div`
     }
   }
 `
-const selectIcon = type => {
-  switch (type) {
-    case 'log': return 'settings'
-    default: return 'transactions'
-  }
-}
-
-const selectColor = action => {
-  switch (action) {
-    case 'sent': return 'sent'
-    case 'received': return 'received'
-    case 'transferred': return 'transferred'
-    default: return 'gray-5'
-  }
-}
 
 const RecentActivityText = styled(Text)`
   font-size: 12px;
@@ -80,32 +65,89 @@ const RecentActivityText = styled(Text)`
   }
 `
 
-const ActivityListItem = (props) => {
-  const { action, time, type, amount, path, coin, handleLink } = props
-  const timeFormatted = moment(time).format('ll')
-  const iconName = selectIcon(type)
-  const visibility = coin ? 'visible' : 'hidden'
+const WatchOnly = styled.span`
+  z-index: 11;
+  margin-left: 5px;
+  text-transform: none;
+  > div > div {
+    z-index: 7;
+    &:first-child {
+      padding: 2px 4px;
+    }
+  }
+`
 
-  return (
-    <Container>
-      <Circle>
-        <Icon name={iconName} color='brand-primary' />
-      </Circle>
-      <Info cursor={coin} onClick={() => path && handleLink(path)}>
-        <RecentActivityText capitalize color={selectColor(action)}>{action} {coin}</RecentActivityText>
-        <RecentActivityText>{timeFormatted}</RecentActivityText>
-        <RecentActivityText style={{visibility: visibility}} ><SwitchableDisplay mobileSize='12px' size='14px' visibility={'hidden'} coin={coin}>{amount}</SwitchableDisplay></RecentActivityText>
-      </Info>
-    </Container>
-  )
+const selectIcon = type => {
+  switch (type) {
+    case 'log':
+      return 'settings'
+    default:
+      return 'transactions'
+  }
 }
 
+const selectColor = action => {
+  switch (action) {
+    case 'sent':
+      return 'sent'
+    case 'received':
+      return 'received'
+    case 'transferred':
+      return 'transferred'
+    default:
+      return 'gray-5'
+  }
+}
+
+const ActivityListItem = props => (
+  <Container>
+    <Circle>
+      <Icon name={selectIcon(props.type)} color='brand-primary' />
+    </Circle>
+    <Info
+      cursor={props.coin}
+      onClick={() => props.path && props.handleLink(props.path)}
+    >
+      <RecentActivityText capitalize color={selectColor(props.action)}>
+        {props.action} {props.coin}
+        {props.watchOnly && (
+          <WatchOnly>
+            <Tooltip
+              width='200px'
+              label={
+                <SkeletonCircle bgColor='gray-2' width='10px' height='10px' />
+              }
+              hover
+            >
+              <FormattedMessage
+                id='scenes.home.activitylist.watchonly'
+                defaultMessage='This transaction involves a watch only address.'
+              />
+            </Tooltip>
+          </WatchOnly>
+        )}
+      </RecentActivityText>
+      <RecentActivityText>{props.timeFormatted}</RecentActivityText>
+      {props.coin && (
+        <RecentActivityText>
+          <SwitchableDisplay mobileSize='12px' size='14px' coin={props.coin}>
+            {props.amount}
+          </SwitchableDisplay>
+        </RecentActivityText>
+      )}
+    </Info>
+  </Container>
+)
+
 ActivityListItem.propTypes = {
-  action: PropTypes.string.isRequired,
-  time: PropTypes.number.isRequired,
   type: PropTypes.string,
+  time: PropTypes.number.isRequired,
+  timeFormatted: PropTypes.string.isRequired,
+  path: PropTypes.string,
+  watchOnly: PropTypes.bool,
   amount: PropTypes.number,
-  coin: PropTypes.string
+  coin: PropTypes.string,
+  action: PropTypes.string
 }
 
 ActivityListItem.defaultProps = {

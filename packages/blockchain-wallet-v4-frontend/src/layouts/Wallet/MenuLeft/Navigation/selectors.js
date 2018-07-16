@@ -1,6 +1,5 @@
 import { selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
-import { Remote } from 'blockchain-wallet-v4/src'
 
 export const getData = createDeepEqualSelector(
   [
@@ -9,8 +8,8 @@ export const getData = createDeepEqualSelector(
     selectors.exchange.getCanTrade,
     selectors.router.getPathname
   ],
-  (menuOpened, settingsOpened, canTrade, pathname) => {
-    const canBuy = Remote.Success.is(canTrade)
-    return { menuOpened, settingsOpened, canBuy, pathname }
+  (menuOpened, settingsOpened, canTradeR, pathname) => {
+    const canTrade = canTradeR.getOrElse(false)
+    return { menuOpened, settingsOpened, canTrade, pathname }
   }
 )

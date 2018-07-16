@@ -15,18 +15,21 @@ import localesIT from 'assets/locales/it.json'
 import localesJA from 'assets/locales/ja.json'
 import localesKO from 'assets/locales/ko.json'
 import localesNL from 'assets/locales/nl.json'
-import localesNN from 'assets/locales/nn.json'
+import localesNO from 'assets/locales/no.json'
 import localesPL from 'assets/locales/pl.json'
 import localesPT from 'assets/locales/pt.json'
 import localesZH from 'assets/locales/zh.json'
 import localesES from 'assets/locales/es.json'
 import localesRU from 'assets/locales/ru.json'
 
-const importLocaleData = (language) => require(`react-intl/locale-data/${language}`)
+const importLocaleData = language =>
+  require(`react-intl/locale-data/${language}`)
 
-function configureLocales (store) {
+function configureLocales(store) {
   // We add the locale data for each language
-  addLocaleData(flatten(map(x => importLocaleData(x.language), languageService.languages)))
+  addLocaleData(
+    flatten(map(x => importLocaleData(x.language), languageService.languages))
+  )
 
   // We get all the messages
   const messages = {
@@ -43,7 +46,7 @@ function configureLocales (store) {
     ja: localesJA,
     ko: localesKO,
     nl: localesNL,
-    nn: localesNN,
+    nn: localesNO,
     pl: localesPL,
     pt: localesPT,
     zh: localesZH,

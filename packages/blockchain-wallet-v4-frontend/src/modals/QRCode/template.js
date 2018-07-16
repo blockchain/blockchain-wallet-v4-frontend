@@ -4,7 +4,15 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import QRCodeReact from 'qrcode.react'
 
-import { Link, Modal, ModalHeader, ModalBody, ModalFooter, Text, Tooltip } from 'blockchain-info-components'
+import {
+  Link,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Text,
+  Tooltip
+} from 'blockchain-info-components'
 import CopyClipboard from 'components/CopyClipboard'
 
 const QRCodeContainer = styled.div`
@@ -15,7 +23,7 @@ const QRCodeContainer = styled.div`
   padding: 30px 0;
 `
 
-const QRCode = (props) => {
+const QRCode = props => {
   const { position, total, close, closeAll, ...rest } = props
   const { receiveAddress, amount, message } = rest.value
   let bitcoinAddress = `bitcoin:${receiveAddress}`
@@ -32,9 +40,15 @@ const QRCode = (props) => {
       </ModalHeader>
       <ModalBody>
         <Text size='14px' weight={500} capitalize>
-          <FormattedMessage id='modals.qrcode.scan' defaultMessage='Scan QR Code' />
+          <FormattedMessage
+            id='modals.qrcode.scan'
+            defaultMessage='Scan QR Code'
+          />
           <Tooltip>
-            <FormattedMessage id='modals.qrcode.tooltip' defaultMessage='Ask the sender to scan this QR code with their bitcoin wallet.' />
+            <FormattedMessage
+              id='modals.qrcode.tooltip'
+              defaultMessage='Ask the sender to scan this QR code with their bitcoin wallet.'
+            />
           </Tooltip>
         </Text>
         <QRCodeContainer>

@@ -20,9 +20,14 @@ const plaidStyled = {
   width: '100%'
 }
 
-const iframe = (props) => (
+const iframe = props => (
   <ButtonContainer>
-    <iframe style={props.enablePlaid ? plaidStyled : { border: 'none', width: '100%', height: '40px' }}
+    <iframe
+      style={
+        props.enablePlaid
+          ? plaidStyled
+          : { border: 'none', width: '100%', height: '40px' }
+      }
       src={props.plaidUrl}
       sandbox='allow-same-origin allow-scripts allow-forms allow-popups'
       scrolling='no'

@@ -1,4 +1,13 @@
-import { assoc, assocPath, merge, lensProp, over, append, compose, dropLast } from 'ramda'
+import {
+  assoc,
+  assocPath,
+  merge,
+  lensProp,
+  over,
+  append,
+  compose,
+  dropLast
+} from 'ramda'
 import * as AT from './actionTypes'
 import Remote from '../../../remote'
 
@@ -9,8 +18,6 @@ const INITIAL_STATE = {
   latest_block: Remote.NotAsked,
   rates: Remote.NotAsked,
   transactions: [],
-  spendable_balance: Remote.NotAsked,
-  unspendable_balance: Remote.NotAsked,
   transaction_history: Remote.NotAsked
 }
 
@@ -75,7 +82,14 @@ const bchReducer = (state = INITIAL_STATE, action) => {
       const { reset, transactions } = payload
       return reset
         ? assoc('transactions', [Remote.Success(transactions)], state)
-        : over(lensProp('transactions'), compose(append(Remote.Success(transactions)), dropLast(1)), state)
+        : over(
+            lensProp('transactions'),
+            compose(
+              append(Remote.Success(transactions)),
+              dropLast(1)
+            ),
+            state
+          )
     }
     case AT.FETCH_BCH_TRANSACTIONS_FAILURE: {
       return assoc('transactions', [Remote.Failure(payload)], state)
@@ -91,24 +105,6 @@ const bchReducer = (state = INITIAL_STATE, action) => {
     }
     case AT.CLEAR_BCH_TRANSACTION_HISTORY: {
       return assoc('transaction_history', Remote.NotAsked, state)
-    }
-    case AT.FETCH_BCH_SPENDABLE_BALANCE_LOADING: {
-      return state
-    }
-    case AT.FETCH_BCH_SPENDABLE_BALANCE_SUCCESS: {
-      return assoc('spendable_balance', Remote.Success(payload), state)
-    }
-    case AT.FETCH_BCH_SPENDABLE_BALANCE_FAILURE: {
-      return assoc('spendable_balance', Remote.Failure(payload), state)
-    }
-    case AT.FETCH_BCH_UNSPENDABLE_BALANCE_LOADING: {
-      return state
-    }
-    case AT.FETCH_BCH_UNSPENDABLE_BALANCE_SUCCESS: {
-      return assoc('unspendable_balance', Remote.Success(payload), state)
-    }
-    case AT.FETCH_BCH_UNSPENDABLE_BALANCE_FAILURE: {
-      return assoc('unspendable_balance', Remote.Failure(payload), state)
     }
     default:
       return state
