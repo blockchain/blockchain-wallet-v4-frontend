@@ -29,7 +29,7 @@ const Slider = styled.div`
   left: ${props => props.index * -100}%;
   width: ${props => (props.total + 1) * 100}%;
   min-height: auto;
-  transition: all 0.4s ease-in-out; 
+  transition: all 0.4s ease-in-out;
 
   & > * {
     position: relative;
@@ -52,9 +52,10 @@ const Control = styled.div`
   height: 10px;
   margin: 0 10px;
   border-radius: 5px;
-  background-color: ${props => props.active ? props.theme['brand-secondary'] : props.theme['gray-4']};
+  background-color: ${props =>
+    props.active ? props.theme['brand-secondary'] : props.theme['gray-4']};
   cursor: pointer;
-  z-index: 
+  z-index: ;
 `
 const Arrow = styled(Icon).attrs({
   name: 'down-arrow',
@@ -65,32 +66,50 @@ const Arrow = styled(Icon).attrs({
   position: absolute;
   top: 50%;
   margin-top: -18px;
-  left: ${props => props.left ? '10px' : 'initial'};
-  right: ${props => !props.left ? '10px' : 'initial'};
-  transform: ${props => props.left ? 'rotate(90deg)' : 'rotate(-90deg)'};
+  left: ${props => (props.left ? '10px' : 'initial')};
+  right: ${props => (!props.left ? '10px' : 'initial')};
+  transform: ${props => (props.left ? 'rotate(90deg)' : 'rotate(-90deg)')};
   cursor: pointer;
   z-index: 1;
 
-  &:hover { color: ${Color('brand-secondary')}!important; }
+  &:hover {
+    color: ${Color('brand-secondary')}!important;
+  }
 `
 
 const Carousel = props => {
-  const { index, total, height, arrows, chips, children, handleClick, handlePrevious, handleNext } = props
+  const {
+    index,
+    total,
+    height,
+    arrows,
+    chips,
+    children,
+    handleClick,
+    handlePrevious,
+    handleNext
+  } = props
 
   return (
     <Wrapper>
       <Content height={height} total={total}>
-        { arrows && <Arrow left onClick={handlePrevious} /> }
+        {arrows && <Arrow left onClick={handlePrevious} />}
         <Slider height={height} index={index} total={total}>
           {children}
         </Slider>
-        { arrows && <Arrow onClick={handleNext} /> }
+        {arrows && <Arrow onClick={handleNext} />}
       </Content>
-      { chips &&
+      {chips && (
         <Controls>
-          {range(0, total + 1).map((value, arrayIndex) => <Control key={arrayIndex} onClick={() => handleClick(value)} active={index === value} />)}
+          {range(0, total + 1).map((value, arrayIndex) => (
+            <Control
+              key={arrayIndex}
+              onClick={() => handleClick(value)}
+              active={index === value}
+            />
+          ))}
         </Controls>
-      }
+      )}
     </Wrapper>
   )
 }

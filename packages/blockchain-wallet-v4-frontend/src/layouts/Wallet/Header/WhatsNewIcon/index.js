@@ -7,7 +7,7 @@ import { getData } from './selectors'
 import WhatsNewIcon from './template'
 
 class WhatsNewIconContainer extends React.PureComponent {
-  render () {
+  render() {
     return (
       <WhatsNewIcon
         highlighted={this.props.highlighted}
@@ -23,4 +23,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.layoutWallet, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(WhatsNewIconContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(WhatsNewIconContainer)

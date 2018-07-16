@@ -7,13 +7,4 @@ import * as root from './root/actionTypes'
 import * as bch from './bch/actionTypes'
 import * as btc from './btc/actionTypes'
 
-export {
-  root,
-  whatsNew,
-  ethereum,
-  shapeShift,
-  buySell,
-  contacts,
-  bch,
-  btc
-}
+export { root, whatsNew, ethereum, shapeShift, buySell, contacts, bch, btc }

@@ -15,10 +15,10 @@ const Wrapper = styled.div`
   border: 1px solid ${prop => prop.theme['gray-2']};
 `
 
-export default (props) => {
+export default props => {
   return (
     <Wrapper>
-      <FlatLoader2 width='100px' height='100px' />
+      <FlatLoader2 width="100px" height="100px" />
     </Wrapper>
   )
 }

@@ -14,7 +14,10 @@ export const isValidBitcoinAddress = value => {
   try {
     const addr = address.fromBase58Check(value)
     const n = networks.bitcoin
-    return or(equals(addr.version, n.pubKeyHash), equals(addr.version, n.scriptHash))
+    return or(
+      equals(addr.version, n.pubKeyHash),
+      equals(addr.version, n.scriptHash)
+    )
   } catch (e) {
     try {
       const decoded = decode(value)
@@ -49,7 +52,8 @@ export const addressToScript = (value, network) => {
       const program = compose(
         Buffer.from,
         fromWords,
-        w => w.slice(1))(words)
+        w => w.slice(1)
+      )(words)
 
       return compile([OP[`OP_${version}`], program])
     } else {
@@ -62,7 +66,9 @@ export const addressToScript = (value, network) => {
 
 export const scriptToAddress = (script, network) => {
   try {
-    return address.fromOutputScript(Buffer.from(script, 'hex'), network).toString()
+    return address
+      .fromOutputScript(Buffer.from(script, 'hex'), network)
+      .toString()
   } catch (e) {
     return undefined
   }
@@ -72,8 +78,8 @@ export const detectPrivateKeyFormat = key => {
   let isTestnet = false
   // 51 characters base58, always starts with 5 (or 9, for testnet)
   const sipaRegex = isTestnet
-    ? (/^[9][1-9A-HJ-Za-km-z]{50}$/)
-    : (/^[5][1-9A-HJ-Za-km-z]{50}$/)
+    ? /^[9][1-9A-HJ-Za-km-z]{50}$/
+    : /^[5][1-9A-HJ-Za-km-z]{50}$/
 
   if (sipaRegex.test(key)) {
     return 'sipa'
@@ -81,8 +87,8 @@ export const detectPrivateKeyFormat = key => {
 
   // 52 character compressed starts with L or K (or c, for testnet)
   const compsipaRegex = isTestnet
-    ? (/^[c][1-9A-HJ-Za-km-z]{51}$/)
-    : (/^[LK][1-9A-HJ-Za-km-z]{51}$/)
+    ? /^[c][1-9A-HJ-Za-km-z]{51}$/
+    : /^[LK][1-9A-HJ-Za-km-z]{51}$/
 
   if (compsipaRegex.test(key)) {
     return 'compsipa'
@@ -97,7 +103,11 @@ export const detectPrivateKeyFormat = key => {
     return 'hex'
   }
 
-  if (/^[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789=+/]{44}$/.test(key)) {
+  if (
+    /^[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789=+/]{44}$/.test(
+      key
+    )
+  ) {
     return 'base64'
   }
 
@@ -105,10 +115,12 @@ export const detectPrivateKeyFormat = key => {
     return 'bip38'
   }
 
-  if (/^S[1-9A-HJ-Za-km-z]{21}$/.test(key) ||
+  if (
+    /^S[1-9A-HJ-Za-km-z]{21}$/.test(key) ||
     /^S[1-9A-HJ-Za-km-z]{25}$/.test(key) ||
     /^S[1-9A-HJ-Za-km-z]{29}$/.test(key) ||
-    /^S[1-9A-HJ-Za-km-z]{30}$/.test(key)) {
+    /^S[1-9A-HJ-Za-km-z]{30}$/.test(key)
+  ) {
     const testBytes = crypto.sha256(key + '?')
 
     if (testBytes[0] === 0x00 || testBytes[0] === 0x01) {
@@ -118,7 +130,7 @@ export const detectPrivateKeyFormat = key => {
   return null
 }
 
-const parseMiniKey = function (miniKey) {
+const parseMiniKey = function(miniKey) {
   const check = crypto.sha256(miniKey + '?')
   if (check[0] !== 0x00) {
     throw new Error('Invalid mini key')
@@ -126,7 +138,12 @@ const parseMiniKey = function (miniKey) {
   return crypto.sha256(miniKey)
 }
 
-export const privateKeyStringToKey = function (value, format, network = networks.bitcoin, addr) {
+export const privateKeyStringToKey = function(
+  value,
+  format,
+  network = networks.bitcoin,
+  addr
+) {
   if (format === 'sipa' || format === 'compsipa') {
     return ECPair.fromWIF(value, networks.bitcoin)
   } else {
@@ -163,7 +180,12 @@ export const privateKeyStringToKey = function (value, format, network = networks
 // formatPrivateKeyString :: String -> String -> String
 export const formatPrivateKeyString = (keyString, format, addr) => {
   let keyFormat = detectPrivateKeyFormat(keyString)
-  let eitherKey = Either.try(privateKeyStringToKey)(keyString, keyFormat, null, addr)
+  let eitherKey = Either.try(privateKeyStringToKey)(
+    keyString,
+    keyFormat,
+    null,
+    addr
+  )
   return eitherKey.chain(key => {
     if (format === 'wif') return Either.of(key.toWIF())
     if (format === 'base58') return Either.of(Base58.encode(key.d.toBuffer(32)))
@@ -187,16 +209,28 @@ export const calculateBalanceSatoshi = (coins, feePerByte) => {
   return { balance, fee, effectiveBalance }
 }
 
-export const isKey = function (bitcoinKey) {
+export const isKey = function(bitcoinKey) {
   return bitcoinKey instanceof ECPair
 }
 
 export const calculateBalanceBitcoin = (coins, feePerByte) => {
   const data = calculateBalanceSatoshi(coins, feePerByte)
   return {
-    balance: Exchange.convertBitcoinToBitcoin({ value: data.balance, fromUnit: 'SAT', toUnit: 'BTC' }).value,
-    fee: Exchange.convertBitcoinToBitcoin({ value: data.fee, fromUnit: 'SAT', toUnit: 'BTC' }).value,
-    effectiveBalance: Exchange.convertBitcoinToBitcoin({ value: data.effectiveBalance, fromUnit: 'SAT', toUnit: 'BTC' }).value
+    balance: Exchange.convertBitcoinToBitcoin({
+      value: data.balance,
+      fromUnit: 'SAT',
+      toUnit: 'BTC'
+    }).value,
+    fee: Exchange.convertBitcoinToBitcoin({
+      value: data.fee,
+      fromUnit: 'SAT',
+      toUnit: 'BTC'
+    }).value,
+    effectiveBalance: Exchange.convertBitcoinToBitcoin({
+      value: data.effectiveBalance,
+      fromUnit: 'SAT',
+      toUnit: 'BTC'
+    }).value
   }
 }
 

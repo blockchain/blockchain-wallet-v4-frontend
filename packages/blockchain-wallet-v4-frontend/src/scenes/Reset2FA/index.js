@@ -10,32 +10,39 @@ import ThirdStep from './ThirdStep'
 import { actions } from '../../data'
 
 class Reset2FAContainer extends React.PureComponent {
-  componentWillMount () {
+  componentWillMount() {
     this.props.resetStep()
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.formActions.destroy('reset2FA')
   }
 
-  render () {
+  render() {
     const { step, ...rest } = this.props
 
     switch (step) {
-      case 1: return <FirstStep {...rest} />
-      case 2: return <SecondStep {...rest} />
-      case 3: return <ThirdStep {...rest} />
-      default: return <FirstStep {...rest} />
+      case 1:
+        return <FirstStep {...rest} />
+      case 2:
+        return <SecondStep {...rest} />
+      case 3:
+        return <ThirdStep {...rest} />
+      default:
+        return <FirstStep {...rest} />
     }
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const enhance = compose(
-  connect(null, mapDispatchToProps),
+  connect(
+    null,
+    mapDispatchToProps
+  ),
   wizardProvider('reset2FA', 3)
 )
 

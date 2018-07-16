@@ -5,13 +5,14 @@ import { FormattedMessage } from 'react-intl'
 import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
 
 const SendEther = props => (
-  <Modal size='large' position={props.position} total={props.total}>
-    <ModalHeader icon='send' onClose={props.closeAll}>
-      <FormattedMessage id='modals.sendether.title' defaultMessage='Send Ether' />
+  <Modal size="large" position={props.position} total={props.total}>
+    <ModalHeader icon="send" onClose={props.closeAll}>
+      <FormattedMessage
+        id="modals.sendether.title"
+        defaultMessage="Send Ether"
+      />
     </ModalHeader>
-    <ModalBody>
-      {props.children}
-    </ModalBody>
+    <ModalBody>{props.children}</ModalBody>
   </Modal>
 )
 

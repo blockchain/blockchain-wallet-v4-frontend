@@ -5,7 +5,7 @@ import sagas from './sagas'
 export default ({ coreSagas }) => {
   const goalsSagas = sagas({ coreSagas })
 
-  return function * () {
+  return function*() {
     yield takeEvery(AT.RUN_GOALS, goalsSagas.runGoals)
   }
 }

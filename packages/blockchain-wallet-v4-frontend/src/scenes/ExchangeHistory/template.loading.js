@@ -13,8 +13,8 @@ const Wrapper = styled.div`
   margin-top: 100px;
 `
 
-export default (props) => (
+export default props => (
   <Wrapper>
-    <BlockchainLoader width='200px' height='200px' />
+    <BlockchainLoader width="200px" height="200px" />
   </Wrapper>
 )

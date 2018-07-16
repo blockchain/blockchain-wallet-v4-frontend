@@ -21,10 +21,14 @@ export const getData = createDeepEqualSelector(
   }
 )
 
-export const getFields = (state) => {
+export const getFields = state => {
   const country = formValueSelector('selectPartner')(state, 'country')
   return {
-    type: pathOr('buy', ['form', 'buySellTabStatus', 'values', 'status'], state),
+    type: pathOr(
+      'buy',
+      ['form', 'buySellTabStatus', 'values', 'status'],
+      state
+    ),
     country: country && takeWhile(x => x !== '-', country),
     stateSelection: formValueSelector('selectPartner')(state, 'state'),
     email: formValueSelector('selectPartner')(state, 'email')

@@ -9,8 +9,11 @@ const LogoutContainer = ({ authActions }) => (
   <Logout handleLogout={authActions.logout} />
 )
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   authActions: bindActionCreators(actions.auth, dispatch)
 })
 
-export default connect(undefined, mapDispatchToProps)(LogoutContainer)
+export default connect(
+  undefined,
+  mapDispatchToProps
+)(LogoutContainer)

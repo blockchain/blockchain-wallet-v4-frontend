@@ -22,26 +22,32 @@ const Bar = styled.div`
 
 const selectColor = score => {
   switch (score) {
-    case 1: return 'error'
-    case 2: return 'red'
-    case 3: return 'brand-yellow-lighter'
-    case 4: return 'brand-yellow'
-    case 5: return 'success'
-    default: return 'transparent'
+    case 1:
+      return 'error'
+    case 2:
+      return 'red'
+    case 3:
+      return 'brand-yellow-lighter'
+    case 4:
+      return 'brand-yellow'
+    case 5:
+      return 'success'
+    default:
+      return 'transparent'
   }
 }
 
-const PasswordGauge = (props) => {
+const PasswordGauge = props => {
   const { score } = props
   const color = selectColor(score)
 
   return (
     <Container>
-      {score > 0 ? <Bar color={color} /> : <Bar color='transparent' />}
-      {score > 1 ? <Bar color={color} /> : <Bar color='transparent' />}
-      {score > 2 ? <Bar color={color} /> : <Bar color='transparent' />}
-      {score > 3 ? <Bar color={color} /> : <Bar color='transparent' />}
-      {score > 4 ? <Bar color={color} /> : <Bar color='transparent' />}
+      {score > 0 ? <Bar color={color} /> : <Bar color="transparent" />}
+      {score > 1 ? <Bar color={color} /> : <Bar color="transparent" />}
+      {score > 2 ? <Bar color={color} /> : <Bar color="transparent" />}
+      {score > 3 ? <Bar color={color} /> : <Bar color="transparent" />}
+      {score > 4 ? <Bar color={color} /> : <Bar color="transparent" />}
     </Container>
   )
 }

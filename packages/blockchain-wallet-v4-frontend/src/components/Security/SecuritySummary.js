@@ -11,7 +11,7 @@ const SecuritySummary = styled.div`
   box-sizing: border-box;
   ${media.mobile`
     padding: 15px 15px 0px 15px;
-  `}
+  `};
 `
 
 export default SecuritySummary

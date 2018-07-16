@@ -35,19 +35,19 @@ describe('priceChart sagas', () => {
       //    expect(fetchPriceActionSpy).toHaveBeenCalledTimes(1)
       //    expect(fetchPriceActionSpy).toHaveBeenCalledWith('BTC', 'USD', 'test', 'test')
     })
-  //
-  //  it('should handle errors', () => {
-  //    // arrange
-  //    fetchPriceActionSpy = jest.spyOn(actions.core.data.misc, 'fetchPriceIndexSeries').mockImplementation(() => { throw new Error('') })
-  //    const saga = sagas({}).initialized({type: '', payload: {coin: 'BTC', time: 'all'}})
-  //
-  //    // act
-  //    saga.next()
-  //
-  //    // assert
-  //    expect(fetchPriceActionSpy).toHaveBeenCalledTimes(1)
-  //    expect(errorSpy).toHaveBeenCalledWith('Error in initialized saga')
-  //  })
+    //
+    //  it('should handle errors', () => {
+    //    // arrange
+    //    fetchPriceActionSpy = jest.spyOn(actions.core.data.misc, 'fetchPriceIndexSeries').mockImplementation(() => { throw new Error('') })
+    //    const saga = sagas({}).initialized({type: '', payload: {coin: 'BTC', time: 'all'}})
+    //
+    //    // act
+    //    saga.next()
+    //
+    //    // assert
+    //    expect(fetchPriceActionSpy).toHaveBeenCalledTimes(1)
+    //    expect(errorSpy).toHaveBeenCalledWith('Error in initialized saga')
+    //  })
   })
 
   // describe('coinClicked saga', () => {

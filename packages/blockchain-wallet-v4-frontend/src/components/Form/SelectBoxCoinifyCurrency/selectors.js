@@ -9,6 +9,8 @@ export const getData = (state, ownProps) => {
   const buyCurrencies = [{ text: 'USD', value: 'USD' }]
 
   return {
-    currencies: ownProps.isSell ? buySellCurrencies : concat(buySellCurrencies, buyCurrencies)
+    currencies: ownProps.isSell
+      ? buySellCurrencies
+      : concat(buySellCurrencies, buyCurrencies)
   }
 }

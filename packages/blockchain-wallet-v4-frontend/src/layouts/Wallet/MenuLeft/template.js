@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  left: ${props => props.toggled ? '0' : '-270px'};
+  left: ${props => (props.toggled ? '0' : '-270px')};
   width: 270px;
   height: 100%;
   padding: 15px;
@@ -18,9 +18,9 @@ const Wrapper = styled.div`
   background: ${props => props.theme['white-blue']};
   border-right: 1px solid ${props => props.theme['gray-1']};
   z-index: 11;
-  transition: left .3s ease-in-out;
+  transition: left 0.3s ease-in-out;
 
-  @media(min-width: 768px) {
+  @media (min-width: 768px) {
     display: flex;
     flex: 0 0 270px;
     position: relative;
