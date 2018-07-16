@@ -37,14 +37,10 @@ export const getWalletTransactions = state => {
   const pages = getTransactions(state)
   const getPartnerLabel = hash => getShapeshiftTxHashMatch(state, hash)
   const ProcessTxs = (addresses, blockHeight, txList) => {
-<<<<<<< HEAD
-    return map(transformTx(addresses, blockHeight, getPartnerLabel, state), txList)
-=======
     return map(
-      mTransformTx(addresses, blockHeight, getPartnerLabel, state),
+      transformTx(addresses, blockHeight, getPartnerLabel, state),
       txList
     )
->>>>>>> development
   }
   const ProcessPage = lift(ProcessTxs)(addressesR, blockHeightR)
   return map(ProcessPage, pages)
