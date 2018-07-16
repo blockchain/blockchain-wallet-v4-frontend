@@ -232,7 +232,12 @@ export default ({ api, coreSagas }) => {
         is(String, error) &&
         error.includes(wrongWalletPassErrorMessage)
       ) {
-        yield put(actions.form.clearFields('login', false, true, 'password'))
+        // remove 2fa if password is wrong
+        // password error can only occur after 2fa validation
+        yield put(actions.auth.setAuthType(0))
+        yield put(
+          actions.form.clearFields('login', false, true, 'password', 'code')
+        )
         yield put(actions.form.focus('login', 'password'))
         yield put(actions.auth.loginFailure(error))
         // Wrong 2fa code error

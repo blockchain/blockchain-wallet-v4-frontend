@@ -4,6 +4,8 @@ import settings from 'config'
 import { selectors } from 'data'
 import { Remote, utils } from 'blockchain-wallet-v4/src'
 
+const { isCashAddr, toCashAddr } = utils.bch
+
 // extractAddress :: (Int -> Remote(String)) -> Int -> Remote(String)
 const extractAddress = (selectorFunction, value) => {
   return value
@@ -25,7 +27,8 @@ export const getData = state => {
 
   const initialValuesR = getInitialValues(state)
   const receiveAddressR = extractAddress(getReceive, to).map(
-    addr => addr && utils.bch.toCashAddr(addr, true)
+    address =>
+      address && isCashAddr(address) ? address : toCashAddr(address, true)
   )
 
   const transform = (receiveAddress, initialValues) => ({

@@ -17,7 +17,7 @@ export const logLocation = 'components/sendBtc/sagas'
 export default ({ coreSagas }) => {
   const initialized = function*(action) {
     try {
-      const { to, message, amount, feeType } = action.payload
+      const { to, description, amount, feeType } = action.payload
       yield put(A.sendBtcPaymentUpdatedLoading())
       let payment = coreSagas.payment.btc.create({
         network: settings.NETWORK_BITCOIN
@@ -37,10 +37,10 @@ export default ({ coreSagas }) => {
       payment = yield payment.from(defaultIndex)
       payment = yield payment.fee(defaultFeePerByte)
       const initialValues = {
-        to: to,
+        to,
         coin: 'BTC',
-        amount: amount,
-        message: message,
+        amount,
+        description,
         from: defaultAccountR.getOrElse(),
         feePerByte: defaultFeePerByte
       }

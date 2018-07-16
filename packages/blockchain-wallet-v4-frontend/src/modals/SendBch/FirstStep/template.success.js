@@ -190,7 +190,7 @@ const FirstStep = props => {
             </Tooltip>
           </FormLabel>
           <Field
-            name='message'
+            name='description'
             component={TextAreaDebounced}
             placeholder="What's this transaction for?"
             fullwidth
