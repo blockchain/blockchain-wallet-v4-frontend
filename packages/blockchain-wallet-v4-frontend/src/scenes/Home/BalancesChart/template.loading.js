@@ -23,15 +23,15 @@ const SummarySkeleton = styled.div`
 
 export default props => {
   return (
-    <BalancesChartSkeleton width="100%" height="380px" bgColor="white-blue">
-      <SkeletonRectangle width="230px" height="30px" bgColor="white" />
+    <BalancesChartSkeleton width='100%' height='380px' bgColor='white-blue'>
+      <SkeletonRectangle width='230px' height='30px' bgColor='white' />
       <ChartSkeleton>
-        <SkeletonCircle height="180px" width="180px" bgColor="white" />
+        <SkeletonCircle height='180px' width='180px' bgColor='white' />
       </ChartSkeleton>
       <SummarySkeleton>
-        <SkeletonRectangle width="25%" height="30px" bgColor="white" />
-        <SkeletonRectangle width="25%" height="30px" bgColor="white" />
-        <SkeletonRectangle width="25%" height="30px" bgColor="white" />
+        <SkeletonRectangle width='25%' height='30px' bgColor='white' />
+        <SkeletonRectangle width='25%' height='30px' bgColor='white' />
+        <SkeletonRectangle width='25%' height='30px' bgColor='white' />
       </SummarySkeleton>
     </BalancesChartSkeleton>
   )

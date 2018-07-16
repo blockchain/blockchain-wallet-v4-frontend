@@ -19,34 +19,34 @@ const EthBalance = props => {
 
   return (
     <Fragment>
-      <ColourBar color="brand-secondary" />
-      <Text size="14px" weight={300}>
+      <ColourBar color='brand-secondary' />
+      <Text size='14px' weight={300}>
         <FormattedMessage
-          id="scenes.home.balanceschart.eth"
-          defaultMessage="Ether"
+          id='scenes.home.balanceschart.eth'
+          defaultMessage='Ether'
         />
       </Text>
       <CoinBalance onClick={handleCoinDisplay}>
         {!gte(ethBalance, 0) ? (
           <Fragment>
-            <Text size="14px" weight={200}>
+            <Text size='14px' weight={200}>
               <FormattedMessage
-                id="scenes.home.balanceschart.eth.unkown"
-                defaultMessage="Unknown amount"
+                id='scenes.home.balanceschart.eth.unkown'
+                defaultMessage='Unknown amount'
               />
             </Text>
-            <Link size="12px" weight={200} onClick={handleRefresh}>
+            <Link size='12px' weight={200} onClick={handleRefresh}>
               <FormattedMessage
-                id="scenes.home.balanceschart.btc.refresh"
-                defaultMessage="Refresh"
+                id='scenes.home.balanceschart.btc.refresh'
+                defaultMessage='Refresh'
               />
             </Link>
           </Fragment>
         ) : (
           <SwitchableDisplay
-            coin="ETH"
-            cursor="pointer"
-            size="14px"
+            coin='ETH'
+            cursor='pointer'
+            size='14px'
             weight={200}
           >
             {ethBalance}
@@ -54,22 +54,22 @@ const EthBalance = props => {
         )}
       </CoinBalance>
       {(gt(btcBalance, 0) || gt(bchBalance, 0)) && !gt(ethBalance, 0) ? (
-        <WalletLink to="/exchange" size="10px" weight={300}>
+        <WalletLink to='/exchange' size='10px' weight={300}>
           <FormattedMessage
-            id="scenes.home.balanceschart.getstarted"
-            defaultMessage="Get Started"
+            id='scenes.home.balanceschart.getstarted'
+            defaultMessage='Get Started'
           />
         </WalletLink>
       ) : (
         gt(0, ethBalance) && (
           <Link
-            size="10px"
+            size='10px'
             weight={300}
             onClick={() => modalsActions.showModal('RequestEther')}
           >
             <FormattedMessage
-              id="scenes.home.balanceschart.requesteth"
-              defaultMessage="Request Ether"
+              id='scenes.home.balanceschart.requesteth'
+              defaultMessage='Request Ether'
             />
           </Link>
         )

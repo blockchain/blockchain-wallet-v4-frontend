@@ -8,13 +8,13 @@ import { actions, selectors } from 'data'
 import Settings from './template.js'
 
 class SettingsContainer extends React.PureComponent {
-  componentWillMount() {
+  componentWillMount () {
     this.props.formActions.initialize('settingTheme', {
       theme: this.props.theme
     })
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps (nextProps) {
     const { theme, newTheme } = this.props
     if (
       !isNil(nextProps.newTheme) &&
@@ -25,7 +25,7 @@ class SettingsContainer extends React.PureComponent {
     }
   }
 
-  render() {
+  render () {
     return <Settings />
   }
 }

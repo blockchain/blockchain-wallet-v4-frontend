@@ -59,7 +59,7 @@ class TextInput extends React.Component {
     minHeight: '40px'
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate (prevProps) {
     if (this.props.active && !prevProps.active && this.input) {
       this.input.focus()
     }
@@ -69,7 +69,7 @@ class TextInput extends React.Component {
     this.input = input
   }
 
-  render() {
+  render () {
     const { errorState, disabled, ...rest } = this.props
     const borderColor = selectBorderColor(errorState)
 

@@ -9,11 +9,11 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 export class CoinTickerContainer extends React.PureComponent {
-  componentDidMount() {
+  componentDidMount () {
     this.props.actions.initialized(this.props.coin)
   }
 
-  render() {
+  render () {
     const { data, selected, handleClick } = this.props
 
     return data.cata({

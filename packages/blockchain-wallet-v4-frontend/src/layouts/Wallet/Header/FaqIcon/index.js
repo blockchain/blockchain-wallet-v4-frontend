@@ -7,7 +7,7 @@ import { getData } from './selectors'
 import FaqIcon from './template'
 
 class FaqIconContainer extends React.PureComponent {
-  render() {
+  render () {
     return (
       <FaqIcon
         highlighted={this.props.highlighted}

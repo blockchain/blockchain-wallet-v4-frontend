@@ -7,16 +7,16 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import PromptTemplate from './template.js'
 
 class PromptContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  onSubmit() {
+  onSubmit () {
     this.props.actions.submitPromptInput(this.props.value)
   }
 
-  render() {
+  render () {
     return (
       <PromptTemplate
         {...this.props}

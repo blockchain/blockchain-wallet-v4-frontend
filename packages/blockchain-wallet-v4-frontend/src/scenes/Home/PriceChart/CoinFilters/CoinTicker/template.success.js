@@ -20,9 +20,9 @@ const Success = props => {
   return (
     <Wrapper selected={selected}>
       <Link
-        size="14px"
+        size='14px'
         weight={400}
-        color="brand-secondary"
+        color='brand-secondary'
         onClick={handleClick}
       >
         {`${coin} = ${fiat}`}

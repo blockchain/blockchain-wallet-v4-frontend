@@ -9,7 +9,7 @@ import { merge, path, append, prop, head } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 class LinkContainer extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.onSetBankAccount = this.onSetBankAccount.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
@@ -18,7 +18,7 @@ class LinkContainer extends Component {
     this.state = { enablePlaid: false, id: '' }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     let receiveMessage = e => {
       const plaidWhitelist = ['enablePlaid', 'disablePlaid', 'getBankAccounts']
       if (!e.data.command) return
@@ -40,7 +40,7 @@ class LinkContainer extends Component {
     window.addEventListener('message', receiveMessage, false)
   }
 
-  componentDidUpdate() {
+  componentDidUpdate () {
     if (
       Remote.Success.is(this.props.bankAccounts) &&
       Remote.Loading.is(this.props.linkStatus)
@@ -49,7 +49,7 @@ class LinkContainer extends Component {
     }
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.props.updateUI({
       toggleManual: false,
       selectBank: false,
@@ -60,18 +60,18 @@ class LinkContainer extends Component {
     this.props.sfoxDataActions.wipeBankAccounts()
   }
 
-  onSetBankAccount(data) {
+  onSetBankAccount (data) {
     const bankChoice = merge(data, { token: this.state.token })
     this.props.sfoxFrontendActions.setBankAccount(bankChoice)
   }
 
-  submitMicroDeposits() {
+  submitMicroDeposits () {
     const amount1 = parseFloat(this.props.deposit1)
     const amount2 = parseFloat(this.props.deposit2)
     this.props.sfoxFrontendActions.submitMicroDeposits({ amount1, amount2 })
   }
 
-  onSubmit() {
+  onSubmit () {
     if (
       this.props.ui.toggleManual &&
       this.state.routingNumber &&
@@ -95,7 +95,7 @@ class LinkContainer extends Component {
     }
   }
 
-  render() {
+  render () {
     const {
       bankAccounts,
       accounts,

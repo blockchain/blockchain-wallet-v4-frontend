@@ -29,9 +29,9 @@ const iframe = props => (
           : { border: 'none', width: '100%', height: '40px' }
       }
       src={props.plaidUrl}
-      sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
-      scrolling="no"
-      id="plaid"
+      sandbox='allow-same-origin allow-scripts allow-forms allow-popups'
+      scrolling='no'
+      id='plaid'
     />
   </ButtonContainer>
 )

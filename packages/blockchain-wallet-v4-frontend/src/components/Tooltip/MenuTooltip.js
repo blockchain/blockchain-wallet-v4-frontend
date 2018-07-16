@@ -90,27 +90,27 @@ const TextContainer = styled.div`
 `
 
 class MenuTooltip extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = { displayed: false, hasNews: props.hasNews }
     this.handleClick = this.handleClick.bind(this)
   }
 
-  handleClick() {
+  handleClick () {
     if (!this.state.displayed) {
       this.props.whatsNewActions.updateMetadataWhatsNew(Date.now())
     }
     this.setState({ displayed: !this.state.displayed, hasNews: false })
   }
 
-  render() {
+  render () {
     const { icon, newsLength, title, children } = this.props
     return (
       <MenuTooltipWrapper>
         <MenuTooltipIconWrapper>
           {this.state.hasNews && (
             <NewLabel>
-              <Text size="11px" color="white" weight={300}>
+              <Text size='11px' color='white' weight={300}>
                 {newsLength}
               </Text>
             </NewLabel>
@@ -125,7 +125,7 @@ class MenuTooltip extends React.PureComponent {
           displayed={this.state.displayed}
           onClick={this.handleClick}
         >
-          <MenuTooltipTitle size="14px" weight={500}>
+          <MenuTooltipTitle size='14px' weight={500}>
             {title}
           </MenuTooltipTitle>
           <TextContainer>{children}</TextContainer>

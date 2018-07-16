@@ -7,19 +7,19 @@ import { actions } from 'data'
 import TabMenuBuySellStatus from './template.js'
 
 class TabMenuBuySellStatusContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
   }
 
-  handleClick(value) {
+  handleClick (value) {
     if (this.props.partner === 'coinify') {
       this.props.coinifyActions.coinifyNextCheckoutStep('checkout')
     }
     this.props.input.onChange(value)
   }
 
-  render() {
+  render () {
     return (
       <TabMenuBuySellStatus
         partner={this.props.partner}
