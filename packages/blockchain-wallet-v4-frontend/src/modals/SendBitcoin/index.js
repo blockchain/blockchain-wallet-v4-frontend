@@ -20,11 +20,21 @@ class SendBitcoinContainer extends React.PureComponent {
   }
 
   render () {
-    const { step, position, total, closeAll, to, description, amount } = this.props
+    const {
+      step,
+      position,
+      total,
+      closeAll,
+      to,
+      description,
+      amount
+    } = this.props
 
     return (
       <SendBitcoin position={position} total={total} closeAll={closeAll}>
-        {step === 1 && <FirstStep to={to} description={description} amount={amount} />}
+        {step === 1 && (
+          <FirstStep to={to} description={description} amount={amount} />
+        )}
         {step === 2 && <SecondStep />}
       </SendBitcoin>
     )

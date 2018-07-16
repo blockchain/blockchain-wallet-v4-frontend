@@ -9,11 +9,11 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class SecondStepContainer extends React.PureComponent {
-  render() {
+  render () {
     return this.props.data.cata({
       Success: value => (
         <Success
-          coin="ETH"
+          coin='ETH'
           fromAddress={value.fromAddress}
           toAddress={value.toAddress}
           description={value.description}
