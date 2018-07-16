@@ -91,6 +91,7 @@ export default ({ api }) => {
     fetchFee,
     fetchRates,
     fetchTransactionHistory,
+    fetchTransactions,
     watchTransactions
   }
 }
