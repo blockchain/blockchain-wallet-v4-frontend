@@ -11,7 +11,7 @@ import {
   calculateEffectiveBalance,
   isValidAddress,
   convertGweiToWei
-} from '../../../utils/ethereum'
+} from '../../../utils/eth'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
