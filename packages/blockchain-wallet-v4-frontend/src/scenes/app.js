@@ -29,8 +29,8 @@ import BchAddresses from './Settings/Addresses/Bch'
 import BtcManageAddresses from './Settings/Addresses/Btc/ManageAddresses'
 import Info from './Settings/Info'
 import Preferences from './Settings/Preferences'
-import BitcoinTransactions from './Transactions/Bitcoin'
-import EtherTransactions from './Transactions/Ether'
+import BitcoinTransactions from './Transactions/Btc'
+import EtherTransactions from './Transactions/Eth'
 import BchTransactions from './Transactions/Bch'
 
 class App extends React.PureComponent {
@@ -50,7 +50,7 @@ class App extends React.PureComponent {
                   <PublicLayout path='/help' component={Help} />
                   <PublicLayout path='/recover' component={Recover} />
                   <PublicLayout path='/reminder' component={Reminder} />
-                  <PublicLayout path='/reset2fa' component={Reset2FA} />
+                  <PublicLayout path='/reset-22fa' component={Reset2FA} />
                   <PublicLayout
                     path='/reset-two-factor'
                     component={Reset2FAToken}

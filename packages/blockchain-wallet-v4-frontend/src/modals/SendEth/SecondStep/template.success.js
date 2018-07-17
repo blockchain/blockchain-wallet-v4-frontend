@@ -56,7 +56,7 @@ const Success = props => {
     coin,
     fromAddress,
     toAddress,
-    message,
+    description,
     amount,
     fee,
     total,
@@ -88,7 +88,7 @@ const Success = props => {
           {toAddress}
         </Text>
       </Row>
-      {message && (
+      {description && (
         <Row>
           <Text size='16px' weight={500}>
             <FormattedMessage
@@ -97,7 +97,7 @@ const Success = props => {
             />
           </Text>
           <Text size='16px' weight={300}>
-            {message}
+            {description}
           </Text>
         </Row>
       )}

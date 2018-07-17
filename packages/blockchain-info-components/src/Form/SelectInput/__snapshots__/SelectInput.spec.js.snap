@@ -1,7 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SelectInput component default renders correctly 1`] = `
-<styled.div>
+<styled.div
+  onKeyDown={[Function]}
+  tabIndex="0"
+>
   <styled.button>
     <styled.div>
       hello
@@ -14,8 +17,11 @@ exports[`SelectInput component default renders correctly 1`] = `
     <styled.div
       key="0"
       onMouseDown={[Function]}
+      onMouseEnter={[Function]}
     >
-      <styled.div>
+      <styled.div
+        hovered={false}
+      >
         test
       </styled.div>
     </styled.div>

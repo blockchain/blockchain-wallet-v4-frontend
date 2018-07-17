@@ -11,12 +11,15 @@ class SelectInputContainer extends React.PureComponent {
     this.state = {
       expanded: this.props.opened,
       search: '',
-      value: this.props.value
+      value: this.props.value,
+      hovered: -1
     }
     this.handleBlur = this.handleBlur.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.handleFocus = this.handleFocus.bind(this)
+    this.handleMouseEnter = this.handleMouseEnter.bind(this)
+    this.handleKeyDown = this.handleKeyDown.bind(this)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -33,7 +36,7 @@ class SelectInputContainer extends React.PureComponent {
   }
 
   handleChange (event) {
-    this.setState({ search: event.target.value })
+    this.setState({ search: event.target.value, hovered: -1 })
   }
 
   handleBlur () {
@@ -50,6 +53,27 @@ class SelectInputContainer extends React.PureComponent {
     this.setState({ expanded: true })
     if (this.props.onFocus) {
       this.props.onFocus()
+    }
+  }
+
+  handleMouseEnter (index) {
+    this.setState({ hovered: index })
+  }
+
+  handleKeyDown (e, max, item) {
+    switch (e.key) {
+      case 'ArrowUp':
+        this.setState({
+          hovered: this.state.hovered === 0 ? 0 : this.state.hovered - 1
+        })
+        break
+      case 'ArrowDown':
+        this.setState({
+          hovered: this.state.hovered === max ? max : this.state.hovered + 1
+        })
+        break
+      case 'Enter':
+        this.handleClick(item)
     }
   }
 
@@ -97,6 +121,9 @@ class SelectInputContainer extends React.PureComponent {
         handleChange={this.handleChange}
         handleClick={this.handleClick}
         handleFocus={this.handleFocus}
+        handleMouseEnter={this.handleMouseEnter}
+        onKeyDown={this.handleKeyDown}
+        hovered={this.state.hovered}
         searchEnabled={this.props.searchEnabled}
         {...rest}
       />

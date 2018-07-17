@@ -173,7 +173,7 @@ export default ({ api, coreSagas, options }) => {
       path(
         ['platforms', 'web', 'shapeshift', 'config', 'upperLimit'],
         options
-      ) || 500
+      ) || 750
     switch (sourceCoin) {
       case 'BCH':
         return convertFiatToCoin(upperLimit, 'USD', 'BCH', 'SAT', sourceRates)
