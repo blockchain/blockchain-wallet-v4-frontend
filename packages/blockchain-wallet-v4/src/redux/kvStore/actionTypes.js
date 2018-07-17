@@ -1,5 +1,5 @@
 import * as whatsNew from './whatsNew/actionTypes'
-import * as ethereum from './ethereum/actionTypes'
+import * as ethereum from './eth/actionTypes'
 import * as shapeShift from './shapeShift/actionTypes'
 import * as buySell from './buySell/actionTypes'
 import * as contacts from './contacts/actionTypes'

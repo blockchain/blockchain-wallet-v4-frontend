@@ -5,7 +5,7 @@ import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import * as selectors from '../../selectors'
-import * as kvStoreSelectors from '../../kvStore/ethereum/selectors'
+import * as kvStoreSelectors from '../../kvStore/eth/selectors'
 
 export default ({ api }) => {
   const fetchData = function*(action) {

@@ -5,7 +5,7 @@ import {
 } from './middleware'
 import { getReceiveAddress } from '../../types/HDAccount'
 import { getAccountXpub } from '../wallet/selectors'
-import { getReceiveIndex } from '../data/bitcoin/selectors'
+import { getReceiveIndex } from '../data/btc/selectors'
 import Remote from '../../remote'
 import { networks } from 'bitcoinjs-lib'
 
