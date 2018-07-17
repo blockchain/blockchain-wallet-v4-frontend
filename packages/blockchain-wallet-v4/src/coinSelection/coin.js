@@ -25,6 +25,8 @@ export const TX_INPUT_PUBKEYHASH = 106
 export const TX_OUTPUT_BASE = 8 + 1
 export const TX_OUTPUT_PUBKEYHASH = 25
 
+let test = 'unused';
+
 export class Coin extends Type {
   toString () {
     return `Coin(${this.value})`
