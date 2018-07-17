@@ -67,23 +67,44 @@ jobs:
     steps:
       - *attach_workspace
       - run:
-          name: Test Core & Components Code
+          name: Test Code (Core & Components)
           command: yarn ci:test:core:components
   test_frontend:
     <<: *container_config
     steps:
       - *attach_workspace
       - run:
-          name: Test Frontend Code
+          name: Test Code (Frontend)
           command: yarn ci:test:build && yarn ci:test:frontend
-  code_coverage:
+  coverage_core_components:
     <<: *container_config
     steps:
       - *attach_workspace
       - run:
-          name: Code Coverage
-          command: yarn coverage
-
+          name: Code Coverage (Core & Components)
+          command: yarn ci:test:build && ci:coverage:core:components
+      - persist_to_workspace:
+          root: /home/circleci
+          paths:
+            - blockchain-wallet-v4-frontend/coverage
+  coverage_frontend:
+    <<: *container_config
+    steps:
+      - *attach_workspace
+      - run:
+          name: Code Coverage (Frontend)
+          command: yarn ci:coverage
+      - persist_to_workspace:
+          root: /home/circleci
+          paths:
+            - blockchain-wallet-v4-frontend/coverage
+  coverage_report_to_coveralls:
+    <<: *container_config
+    steps:
+      - *attach_workspace
+      - run:
+          name: Code Coverage Report
+          command: yarn ci:coverage:report
 workflows:
   version: 2
 
@@ -114,4 +135,6 @@ workflows:
     jobs:
       - pull_code
       - npm_install
-      - code_coverage
+      - coverage_core_components
+      - coverage_frontend
+      - coverage_report_to_coveralls
