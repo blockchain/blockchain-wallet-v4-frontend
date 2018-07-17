@@ -4,13 +4,13 @@ import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import * as selectors from '../../selectors'
-import * as kvStoreSelectors from '../../kvStore/ethereum/selectors'
+import * as kvStoreSelectors from '../../kvStore/eth/selectors'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import { expectSaga, testSaga } from 'redux-saga-test-plan'
 import sagas from './sagas'
 import reducers from '../reducers'
-import { convertFeeToWei } from '../../../utils/ethereum'
+import { convertFeeToWei } from '../../../utils/eth'
 
 const ethereumFetchData = {
   '0x8790143B84A1A12ADA4aF057D7096A937143a476': {
