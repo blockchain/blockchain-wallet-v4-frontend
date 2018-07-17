@@ -15,7 +15,10 @@ const Loading = props => {
     <Wrapper>
       <BlockchainLoader width='40px' height='40px' />
       <Text size='16px' weight={300} style={{ 'margin-top': '25px' }}>
-        <FormattedMessage id='scenes.reset2fatoken.loading' defaultMessage="We're handling your Two-Step Verification reset request. Please wait..." />
+        <FormattedMessage
+          id='scenes.reset2fatoken.loading'
+          defaultMessage="We're handling your Two-Step Verification reset request. Please wait..."
+        />
       </Text>
     </Wrapper>
   )

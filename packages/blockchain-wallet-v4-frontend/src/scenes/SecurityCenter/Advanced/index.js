@@ -33,11 +33,19 @@ export default class Advanced extends PureComponent {
   render () {
     return (
       <AdvancedContainer>
-        {!this.props.showTabs &&
-          <BackButton name='left-arrow' nature='empty' onClick={() => this.props.setView('security')} id='advanced-button'>
-            <FormattedMessage id='scenes.securitycenter.advanced.back' defaultMessage='Back' />
+        {!this.props.showTabs && (
+          <BackButton
+            name='left-arrow'
+            nature='empty'
+            onClick={() => this.props.setView('security')}
+            id='advanced-button'
+          >
+            <FormattedMessage
+              id='scenes.securitycenter.advanced.back'
+              defaultMessage='Back'
+            />
           </BackButton>
-        }
+        )}
         <WalletPassword />
         {/* <PasswordHint /> */}
         <SecondPasswordWallet />

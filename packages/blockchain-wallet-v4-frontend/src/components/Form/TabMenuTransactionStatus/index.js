@@ -13,7 +13,13 @@ class TabMenuTransactionStatusContainer extends React.PureComponent {
   }
 
   render () {
-    return <TabMenuTransactionStatus value={this.props.input.value} handleClick={this.handleClick} statuses={this.props.statuses} />
+    return (
+      <TabMenuTransactionStatus
+        value={this.props.input.value}
+        handleClick={this.handleClick}
+        statuses={this.props.statuses}
+      />
+    )
   }
 }
 

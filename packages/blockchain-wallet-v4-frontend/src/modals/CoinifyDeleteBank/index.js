@@ -17,17 +17,22 @@ class CoinifyDeleteBankContainer extends React.PureComponent {
   }
 
   render () {
-    return <CoinifyDeleteBank {...this.props} handleSubmit={this.handleSubmit} />
+    return (
+      <CoinifyDeleteBank {...this.props} handleSubmit={this.handleSubmit} />
+    )
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   coinifyActions: bindActionCreators(actions.modules.coinify, dispatch)
 })
 
 const enhance = compose(
   modalEnhancer('CoinifyDeleteBank'),
-  connect(undefined, mapDispatchToProps)
+  connect(
+    undefined,
+    mapDispatchToProps
+  )
 )
 
 export default enhance(CoinifyDeleteBankContainer)

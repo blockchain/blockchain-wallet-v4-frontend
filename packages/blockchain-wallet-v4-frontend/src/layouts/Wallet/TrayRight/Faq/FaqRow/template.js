@@ -8,9 +8,7 @@ const FaqRow = ({ title, description, toggled, handleToggle, ...rest }) => {
       <FaqHeader toggled={toggled} handleToggle={handleToggle}>
         {title}
       </FaqHeader>
-      <FaqContent toggled={toggled}>
-        {description}
-      </FaqContent>
+      <FaqContent toggled={toggled}>{description}</FaqContent>
     </Faq>
   )
 }

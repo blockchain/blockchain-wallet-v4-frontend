@@ -5,7 +5,7 @@ import sagas from './sagas'
 export default ({ coreSagas }) => {
   const sfoxSagas = sagas({ coreSagas })
 
-  return function * () {
+  return function*() {
     yield takeLatest(AT.SET_BANK_MANUALLY, sfoxSagas.setBankManually)
     yield takeLatest(AT.SET_BANK, sfoxSagas.setBank)
     yield takeLatest(AT.SFOX_SIGNUP, sfoxSagas.sfoxSignup)
@@ -15,5 +15,6 @@ export default ({ coreSagas }) => {
     yield takeLatest(AT.SUBMIT_QUOTE, sfoxSagas.submitQuote)
     yield takeLatest(AT.SUBMIT_SELL_QUOTE, sfoxSagas.submitSellQuote)
     yield takeLatest(AT.HANDLE_MODAL_CLOSE, sfoxSagas.checkForProfileFailure)
+    yield takeLatest(AT.SFOX_INITIALIZE_PAYMENT, sfoxSagas.initializePayment)
   }
 }

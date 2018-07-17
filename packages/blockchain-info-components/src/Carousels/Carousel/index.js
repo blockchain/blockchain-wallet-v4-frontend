@@ -15,12 +15,17 @@ class Carousel extends React.PureComponent {
   componentWillMount () {
     const { auto, delay } = this.props
     if (auto) {
-      this.interval = setInterval(() => this.setState({ index: this.getNextIndex() }), delay)
+      this.interval = setInterval(
+        () => this.setState({ index: this.getNextIndex() }),
+        delay
+      )
     }
   }
 
   componentWillUnmount () {
-    if (this.interval) { clearInterval(this.interval) }
+    if (this.interval) {
+      clearInterval(this.interval)
+    }
   }
 
   getPreviousIndex () {

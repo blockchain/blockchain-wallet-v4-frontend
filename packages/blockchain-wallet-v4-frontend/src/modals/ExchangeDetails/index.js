@@ -23,7 +23,9 @@ class ExchangeDetailsContainer extends React.PureComponent {
     const { data, position, total, close } = this.props
 
     return data.cata({
-      Success: (value) => <Success {...value} position={position} total={total} close={close} />,
+      Success: value => (
+        <Success {...value} position={position} total={total} close={close} />
+      ),
       Error: message => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
@@ -45,7 +47,10 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose(
   modalEnhancer('ExchangeDetails'),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )
 
 export default enhance(ExchangeDetailsContainer)

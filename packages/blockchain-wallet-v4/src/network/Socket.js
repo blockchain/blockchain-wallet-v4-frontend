@@ -25,12 +25,12 @@ if (WebSocket) {
   }
 }
 
-let toArrayFormat = (a) => Array.isArray(a) ? a : [a]
+let toArrayFormat = a => (Array.isArray(a) ? a : [a])
 
 class Socket {
   constructor ({ options = {}, socketType }) {
     this.wsUrl = options.domains.webSocket.replace('/inv', socketType + '/inv')
-    this.headers = { 'Origin': options.domains.root }
+    this.headers = { Origin: options.domains.root }
     this.pingInterval = 30000
     this.pingIntervalPID = null
     this.pingTimeout = 5000
@@ -41,10 +41,20 @@ class Socket {
   connect (onOpen = identity, onMessage = identity, onClose = identity) {
     if (!this.socket || this.socket.readyState === 3) {
       try {
-        this.pingIntervalPID = setInterval(this.ping.bind(this), this.pingInterval)
+        this.pingIntervalPID = setInterval(
+          this.ping.bind(this),
+          this.pingInterval
+        )
         this.socket = new WS(this.wsUrl, [], { headers: this.headers })
         this.socket.on('open', onOpen)
-        this.socket.on('message', compose(onMessage, this.onPong.bind(this), this.extractMessage.bind(this)))
+        this.socket.on(
+          'message',
+          compose(
+            onMessage,
+            this.onPong.bind(this),
+            this.extractMessage.bind(this)
+          )
+        )
         this.socket.on('close', onClose)
         this.reconnect = this.connect.bind(this, onOpen, onMessage, onClose)
       } catch (e) {
@@ -56,16 +66,27 @@ class Socket {
   ping () {
     this.send(Socket.pingMessage())
     let close = this.close.bind(this)
-    this.pingTimeoutPID = setTimeout(compose(this.reconnect, close), this.pingTimeout)
+    this.pingTimeoutPID = setTimeout(
+      compose(
+        this.reconnect,
+        close
+      ),
+      this.pingTimeout
+    )
   }
 
   onPong (msg) {
-    if (propEq('op', 'pong')) { clearTimeout(this.pingTimeoutPID) }
+    if (propEq('op', 'pong')) {
+      clearTimeout(this.pingTimeoutPID)
+    }
     return msg
   }
 
   extractMessage (msg) {
-    return compose(JSON.parse, prop('data'))(msg)
+    return compose(
+      JSON.parse,
+      prop('data')
+    )(msg)
   }
 
   close () {
@@ -92,14 +113,18 @@ class Socket {
 
   static addrSubMessage (addresses) {
     if (addresses == null) return ''
-    let toMsg = (addr) => JSON.stringify({ op: 'addr_sub', addr })
-    return toArrayFormat(addresses).map(toMsg).reduce(concat, '')
+    let toMsg = addr => JSON.stringify({ op: 'addr_sub', addr })
+    return toArrayFormat(addresses)
+      .map(toMsg)
+      .reduce(concat, '')
   }
 
   static xPubSubMessage (xpubs) {
     if (xpubs == null) return ''
-    let toMsg = (xpub) => JSON.stringify({ op: 'xpub_sub', xpub })
-    return toArrayFormat(xpubs).map(toMsg).reduce(concat, '')
+    let toMsg = xpub => JSON.stringify({ op: 'xpub_sub', xpub })
+    return toArrayFormat(xpubs)
+      .map(toMsg)
+      .reduce(concat, '')
   }
 
   static pingMessage () {

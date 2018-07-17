@@ -19,20 +19,23 @@ class AddCustomerDetailsContainer extends React.PureComponent {
 
   render () {
     return this.props.data.cata({
-      Success: (value) => <Success onSubmit={this.onSubmit} {...value} />,
-      Failure: (msg) => <div>Failure: {msg.error}</div>,
+      Success: value => <Success onSubmit={this.onSubmit} {...value} />,
+      Failure: msg => <div>Failure: {msg.error}</div>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   data: getData(state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   coinifyDataActions: bindActionCreators(actions.core.data.coinify, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddCustomerDetailsContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AddCustomerDetailsContainer)

@@ -1,6 +1,18 @@
 import { futurizeP } from 'futurize'
 import Task from 'data.task'
-import { compose, assoc, join, curry, range, keysIn, isNil } from 'ramda'
+import {
+  compose,
+  assoc,
+  join,
+  curry,
+  range,
+  keysIn,
+  isNil,
+  pluck,
+  filter,
+  propEq,
+  uniq
+} from 'ramda'
 import { networks } from 'bitcoinjs-lib'
 
 import * as A from '../actions'
@@ -15,9 +27,8 @@ import * as selectors from '../selectors'
  */
 export const addressLookaheadCount = 10
 
-export const toAsync = (fn) => new Promise(
-  (resolve) => setTimeout(() => resolve(fn()), 0)
-)
+export const toAsync = fn =>
+  new Promise(resolve => setTimeout(() => resolve(fn()), 0))
 
 /**
  * Launches derivation of future addresses for target HDAccount
@@ -35,33 +46,55 @@ export const getHDAccountAddressPromises = curry((state, account) => {
    * setTimeout runs infrequently and is less blocking
    * requestAnimation frame blocks UI heavier
    */
-  const asyncDerive = index => toAsync(() =>
-    HDAccount.getReceiveAddress(account, index, networks.bitcoin.NETWORK_BITCOIN))
+  const asyncDerive = index =>
+    toAsync(() =>
+      HDAccount.getReceiveAddress(
+        account,
+        index,
+        networks.bitcoin.NETWORK_BITCOIN
+      )
+    )
 
   const receiveIndex = selectors.data.bitcoin
     .getReceiveIndex(xpub, state)
     .getOrElse(null)
   if (isNil(receiveIndex)) return []
 
-  return range(receiveIndex, receiveIndex + addressLookaheadCount)
-    .map(asyncDerive)
+  return range(receiveIndex, receiveIndex + addressLookaheadCount).map(
+    asyncDerive
+  )
 })
 
 /**
- * Derives wallet's lookahead addresses
- * @param {any} state redux state
- * @returns {Promise<String[]>} lookahead wallet addresses
+ * getWalletAddresses :: (state, api) -> Promise<String[]>
  */
-export const getWalletAddresses = async state => {
-  const activeAddresses = keysIn(selectors.wallet.getActiveAddresses(state))
-  const hdAccounts = compose(Wallet.selectHDAccounts, selectors.wallet.getWallet)(state)
-  const hdAddresses = await Promise.all(
-    hdAccounts
-      .flatMap(getHDAccountAddressPromises(state))
-      .toJS()
+export const getUnusedLabeledAddresses = async (state, api) => {
+  const labeledAddresses = await api.fetchBlockchainData(
+    selectors.kvStore.btc.getAddressLabels(state)
   )
+  return compose(
+    pluck('address'),
+    filter(propEq('n_tx', 0))
+  )(labeledAddresses.addresses)
+}
 
-  return activeAddresses.concat(hdAddresses)
+/**
+ * Collects all of the wallet active addresses:
+ *   regular, hd and labeled
+ * getWalletAddresses :: (state, api) -> Promise<String[]>
+ */
+export const getWalletAddresses = async (state, api) => {
+  const activeAddresses = keysIn(selectors.wallet.getActiveAddresses(state))
+  const hdAccounts = compose(
+    Wallet.selectHDAccounts,
+    selectors.wallet.getWallet
+  )(state)
+  const [unusedAddresses, ...hdAddresses] = await Promise.all([
+    getUnusedLabeledAddresses(state, api),
+    ...hdAccounts.flatMap(getHDAccountAddressPromises(state)).toJS()
+  ])
+
+  return activeAddresses.concat(uniq(hdAddresses.concat(unusedAddresses)))
 }
 
 /**
@@ -70,7 +103,10 @@ export const getWalletAddresses = async state => {
  *
  * TODO: refactor to sagas, VERY painful to test/write mocks
  */
-const walletSync = ({ isAuthenticated, api } = {}) => (store) => (next) => (action) => {
+const walletSync = ({
+  isAuthenticated,
+  api
+} = {}) => store => next => action => {
   const prevState = store.getState()
   const prevWallet = selectors.wallet.getWrapper(prevState)
   const wasAuth = isAuthenticated(prevState)
@@ -87,35 +123,52 @@ const walletSync = ({ isAuthenticated, api } = {}) => (store) => (next) => (acti
 
   const handleChecksum = encrypted => {
     const checksum = Wrapper.computeChecksum(encrypted)
-    compose(store.dispatch, A.wallet.setPayloadChecksum)(checksum)
+    compose(
+      store.dispatch,
+      A.wallet.setPayloadChecksum
+    )(checksum)
     return encrypted
   }
 
-  const sync = async (apiCall) => {
+  const sync = async () => {
     let encryptedWallet = Wrapper.toEncJSON(nextWallet)
     if (syncPubKeys) {
       /**
        * To get notifications working you have to add list of lookahead addresses
        * For each of the wallet's accounts
        */
-      const addresses = await getWalletAddresses(state)
-      encryptedWallet = encryptedWallet.map(assoc('active', join('|', addresses)))
+      try {
+        const addresses = await getWalletAddresses(state, api)
+        encryptedWallet = encryptedWallet.map(
+          assoc('active', join('|', addresses))
+        )
+      } catch (error) {
+        return store.dispatch(A.walletSync.syncError(error))
+      }
     }
     return encryptedWallet
       .map(handleChecksum)
-      .chain(promiseToTask(apiCall))
+      .chain(promiseToTask(api.savePayload))
       .fork(
-        compose(store.dispatch, A.walletSync.syncError),
-        compose(store.dispatch, A.walletSync.syncSuccess))
+        compose(
+          store.dispatch,
+          A.walletSync.syncError
+        ),
+        compose(
+          store.dispatch,
+          A.walletSync.syncSuccess
+        )
+      )
   }
 
   switch (true) {
-    case (action.type === T.walletSync.FORCE_SYNC):
-    case (wasAuth && isAuth &&
-         action.type !== T.wallet.SET_PAYLOAD_CHECKSUM &&
-         action.type !== T.wallet.REFRESH_WRAPPER &&
-         prevWallet !== nextWallet):
-      sync(api.savePayload)
+    case action.type === T.walletSync.FORCE_SYNC:
+    case wasAuth &&
+      isAuth &&
+      action.type !== T.wallet.SET_PAYLOAD_CHECKSUM &&
+      action.type !== T.wallet.REFRESH_WRAPPER &&
+      prevWallet !== nextWallet:
+      sync()
       break
     default:
       break

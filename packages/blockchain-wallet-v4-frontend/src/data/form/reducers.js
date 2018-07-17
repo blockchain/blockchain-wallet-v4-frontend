@@ -15,7 +15,8 @@ const extendedReducer = (state, action) => {
       const { form, field, value } = payload
       return assocPath([form, 'values', field], value, state)
     }
-    default: return state
+    default:
+      return state
   }
 }
 

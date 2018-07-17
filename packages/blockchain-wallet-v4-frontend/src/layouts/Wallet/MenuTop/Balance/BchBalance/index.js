@@ -26,20 +26,23 @@ class BchBalance extends React.PureComponent {
     const { data, large } = this.props
 
     return data.cata({
-      Success: (value) => <Success balance={value} large={large} />,
-      Failure: (message) => <Error onRefresh={this.handleRefresh} />,
+      Success: value => <Success balance={value} large={large} />,
+      Failure: message => <Error onRefresh={this.handleRefresh} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   data: getData(state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.core.data.bch, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(BchBalance)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BchBalance)

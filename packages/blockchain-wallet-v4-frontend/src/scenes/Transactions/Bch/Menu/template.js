@@ -3,7 +3,11 @@ import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 
 import { Icon } from 'blockchain-info-components'
-import { SelectBoxBitcoinAddresses, TextBox, TabMenuTransactionStatus } from 'components/Form'
+import {
+  SelectBoxBitcoinAddresses,
+  TextBox,
+  TabMenuTransactionStatus
+} from 'components/Form'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -19,7 +23,7 @@ const Container = styled.div`
   align-items: center;
   width: 100%;
 
-  @media(min-width: 1200px) {
+  @media (min-width: 1200px) {
     flex-direction: row;
     justify-content: space-between;
   }
@@ -32,11 +36,17 @@ const Controls = styled.div`
   align-items: flex-start;
   width: 100%;
 
-  & > * { margin-left: 5px; }
-  & input { border: 1px solid ${props => props.theme['gray-2']}!important; }
-  & button { border: 1px solid ${props => props.theme['gray-2']}!important; }
+  & > * {
+    margin-left: 5px;
+  }
+  & input {
+    border: 1px solid ${props => props.theme['gray-2']}!important;
+  }
+  & button {
+    border: 1px solid ${props => props.theme['gray-2']}!important;
+  }
 
-  @media(min-width: 1200px) {
+  @media (min-width: 1200px) {
     flex-direction: row;
     justify-content: center;
     align-items: center;
@@ -46,11 +56,15 @@ const Controls = styled.div`
 const Addresses = styled.div`
   width: 100%;
   margin-left: 0px;
-  @media(min-width: 1200px) { width: 360px; }
+  @media (min-width: 1200px) {
+    width: 360px;
+  }
 `
 const Status = styled.div`
   width: 100%;
-  @media(min-width: 1200px) { width: 360px; }
+  @media (min-width: 1200px) {
+    width: 360px;
+  }
 `
 const Search = styled.div`
   position: relative;
@@ -59,7 +73,9 @@ const Search = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-  @media(min-width: 1200px) { width: auto; }
+  @media (min-width: 1200px) {
+    width: auto;
+  }
 `
 const ReportingIcon = styled(Icon)`
   width: 40px;
@@ -70,25 +86,38 @@ const SearchIcon = styled(Icon)`
   right: 10px;
 `
 
-const Menu = (props) => {
+const Menu = props => {
   const { accounts, handleClickReporting } = props
 
   return (
     <Wrapper>
       <Container>
         <Controls>
-          { accounts.length > 1 &&
+          {accounts.length > 1 && (
             <Addresses>
-              <Field name='source' component={SelectBoxBitcoinAddresses} props={{coin: 'BCH'}}/>
+              <Field
+                name='source'
+                component={SelectBoxBitcoinAddresses}
+                props={{ coin: 'BCH' }}
+              />
             </Addresses>
-          }
+          )}
           <Status>
-            <Field name='status' statuses={['', 'sent', 'received', 'transferred']} component={TabMenuTransactionStatus} />
+            <Field
+              name='status'
+              statuses={['', 'sent', 'received', 'transferred']}
+              component={TabMenuTransactionStatus}
+            />
           </Status>
         </Controls>
         <Controls>
           <Search>
-            <ReportingIcon name='up-arrow-in-circle' size='28px' cursor onClick={handleClickReporting} />
+            <ReportingIcon
+              name='up-arrow-in-circle'
+              size='28px'
+              cursor
+              onClick={handleClickReporting}
+            />
             <Field name='search' component={TextBox} />
             <SearchIcon name='search' size='20px' />
           </Search>

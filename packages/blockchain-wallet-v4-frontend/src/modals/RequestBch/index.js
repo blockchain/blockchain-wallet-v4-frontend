@@ -38,7 +38,10 @@ class RequestBchContainer extends React.PureComponent {
   }
 
   componentDidUpdate (prevProps) {
-    if (!Remote.Success.is(prevProps.initialValues) && Remote.Success.is(this.props.initialValues)) {
+    if (
+      !Remote.Success.is(prevProps.initialValues) &&
+      Remote.Success.is(this.props.initialValues)
+    ) {
       this.init()
     }
   }
@@ -65,33 +68,42 @@ class RequestBchContainer extends React.PureComponent {
     const { data, closeAll } = this.props
 
     const content = data.cata({
-      Success: (value) => <Success
-        receiveAddress={value.receiveAddress}
-        handleSubmit={this.handleSubmit}
-        closeAll={closeAll}
-      />,
+      Success: value => (
+        <Success
+          receiveAddress={value.receiveAddress}
+          handleSubmit={this.handleSubmit}
+          closeAll={closeAll}
+        />
+      ),
       NotAsked: () => <DataError onClick={this.handleRefresh} />,
       Failure: () => <DataError onClick={this.handleRefresh} />,
       Loading: () => <Loading />
     })
 
-    return <Modal size='large' position={this.props.position} total={this.props.total}>
-      <ModalHeader icon='request' onClose={this.props.closeAll}>
-        <FormattedMessage id='modals.requestbch.title' defaultMessage='Request Bitcoin Cash' />
-      </ModalHeader>
-      <ModalBody>
-        {content}
-      </ModalBody>
-    </Modal>
+    return (
+      <Modal
+        size='large'
+        position={this.props.position}
+        total={this.props.total}
+      >
+        <ModalHeader icon='request' onClose={this.props.closeAll}>
+          <FormattedMessage
+            id='modals.requestbch.title'
+            defaultMessage='Request Bitcoin Cash'
+          />
+        </ModalHeader>
+        <ModalBody>{content}</ModalBody>
+      </Modal>
+    )
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   initialValues: getInitialValues(state),
   data: getData(state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   bchDataActions: bindActionCreators(actions.core.data.bch, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
@@ -99,7 +111,10 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   modalEnhancer('RequestBch'),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )
 
 export default enhance(RequestBchContainer)

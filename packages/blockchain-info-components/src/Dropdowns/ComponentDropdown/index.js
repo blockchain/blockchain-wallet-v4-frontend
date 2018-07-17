@@ -26,19 +26,29 @@ class ComponentDropdown extends React.PureComponent {
   }
 
   handleCallback (item) {
-    this.setState({ toggled: false, selectedComponent: this.props.forceSelected ? this.props.selectedComponent : item })
-    if (this.props.callback) { this.props.callback(item) }
+    this.setState({
+      toggled: false,
+      selectedComponent: this.props.forceSelected
+        ? this.props.selectedComponent
+        : item
+    })
+    if (this.props.callback) {
+      this.props.callback(item)
+    }
   }
 
   render () {
     const { ...rest } = this.props
 
-    return <Dropdown {...rest}
-      handleClick={this.handleClick}
-      handleCallback={this.handleCallback}
-      toggled={this.state.toggled}
-      selectedComponent={this.props.selectedComponent}
-    />
+    return (
+      <Dropdown
+        {...rest}
+        handleClick={this.handleClick}
+        handleCallback={this.handleCallback}
+        toggled={this.state.toggled}
+        selectedComponent={this.props.selectedComponent}
+      />
+    )
   }
 }
 

@@ -23,7 +23,7 @@ const Error = styled(Text)`
   left: 0;
   height: 15px;
 `
-const getErrorState = (meta) => {
+const getErrorState = meta => {
   return meta.touched && meta.invalid ? 'invalid' : 'initial'
 }
 
@@ -33,11 +33,21 @@ const RadioButton = ({ children, ...field }) => {
   return (
     <Wrapper>
       <Container>
-        <RadioButtonInput {...field.input} props={{id: field.id}} value={field.value} errorState={errorState}>
-          { children }
+        <RadioButtonInput
+          {...field.input}
+          props={{ id: field.id }}
+          value={field.value}
+          errorState={errorState}
+        >
+          {children}
         </RadioButtonInput>
       </Container>
-      {field.meta.touched && field.meta.error && <Error size='12px' weight={300} color='error'>{field.meta.error}</Error>}
+      {field.meta.touched &&
+        field.meta.error && (
+          <Error size='12px' weight={300} color='error'>
+            {field.meta.error}
+          </Error>
+        )}
     </Wrapper>
   )
 }

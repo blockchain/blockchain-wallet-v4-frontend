@@ -11,12 +11,14 @@ const Wrapper = styled.div`
   align-items: center;
   flex-direction: column;
   z-index: 9;
-  @media(min-width: 480px) {
+  @media (min-width: 480px) {
     flex-direction: row;
   }
 `
 const ConfirmationsText = styled(Text)`
-    * { white-space: nowrap; }
+  * {
+    white-space: nowrap;
+  }
 `
 
 const TransactionTooltip = styled.div`
@@ -28,7 +30,9 @@ const IconWrapper = styled.div`
   display: flex;
   justify-items: center;
   margin-left: 4px;
-  & > :last-child { display: inline; }
+  & > :last-child {
+    display: inline;
+  }
 `
 
 const explorers = {
@@ -37,30 +41,56 @@ const explorers = {
   BCH: 'https://blockchair.com/bitcoin-cash/transaction'
 }
 
-const Confirmations = (props) => {
+const Confirmations = props => {
   return (
     <Wrapper>
       {props.confirmations >= props.minConfirmations ? (
         <Text size='12px' weight={300} color='received'>
-          <FormattedMessage id='scenes.transactions.content.pages.listitem.confirmation.confirmed' defaultMessage='Transaction Confirmed' />
+          <FormattedMessage
+            id='scenes.transactions.content.pages.listitem.confirmation.confirmed'
+            defaultMessage='Transaction Confirmed'
+          />
         </Text>
       ) : (
         <ConfirmationsText size='12px' weight={300} color='gray-3'>
-          <FormattedMessage id='scenes.transactions.content.pages.listitem.confirmation.unconfirmed' defaultMessage='Pending: {count}/{total} Confirmations' values={{ count: toString(props.confirmations), total: props.minConfirmations }} />
+          <FormattedMessage
+            id='scenes.transactions.content.pages.listitem.confirmation.unconfirmed'
+            defaultMessage='Pending: {count}/{total} Confirmations'
+            values={{
+              count: toString(props.confirmations),
+              total: props.minConfirmations
+            }}
+          />
         </ConfirmationsText>
       )}
       <IconWrapper>
-        {
-          props.confirmations < props.minConfirmations &&
+        {props.confirmations < props.minConfirmations && (
           <TransactionTooltip>
             <Tooltip colors={'red'}>
-              <FormattedMessage id='scenes.transactions.content.list.listitem.transactionunconfirmed' defaultMessage='Your transaction will be complete after it has {minConfirmations} confirmations.' values={{minConfirmations: props.minConfirmations}} />
-              <Link href='https://support.blockchain.com/hc/en-us/articles/217116406-Why-hasn-t-my-transaction-confirmed-yet-' target='_blank' size='11px' weight={300} altFont>Learn more.</Link>
+              <FormattedMessage
+                id='scenes.transactions.content.list.listitem.transactionunconfirmed'
+                defaultMessage='Your transaction will be complete after it has {minConfirmations} confirmations.'
+                values={{ minConfirmations: props.minConfirmations }}
+              />
+              <Link
+                href='https://support.blockchain.com/hc/en-us/articles/217116406-Why-hasn-t-my-transaction-confirmed-yet-'
+                target='_blank'
+                size='11px'
+                weight={300}
+                altFont
+              >
+                Learn more.
+              </Link>
             </Tooltip>
           </TransactionTooltip>
-        }
+        )}
         <Link href={`${explorers[props.coin]}/${props.hash}`} target='_blank'>
-          <Icon name='open-in-new-tab' color='marketing-primary' cursor size='17px' />
+          <Icon
+            name='open-in-new-tab'
+            color='marketing-primary'
+            cursor
+            size='17px'
+          />
         </Link>
       </IconWrapper>
     </Wrapper>

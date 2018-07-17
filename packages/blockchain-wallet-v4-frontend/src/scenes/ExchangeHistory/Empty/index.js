@@ -3,7 +3,13 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 
-import { Icon, Link, Separator, Text, TextGroup } from 'blockchain-info-components'
+import {
+  Icon,
+  Link,
+  Separator,
+  Text,
+  TextGroup
+} from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -16,7 +22,7 @@ const Transactions = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items : center;
+  align-items: center;
   margin: 50px 10px 0 10px;
 `
 const ExchangeIcon = styled(Icon)`
@@ -32,15 +38,24 @@ const Empty = () => (
     <Transactions>
       <Text size='24px' weight={200} capitalize>
         <ExchangeIcon name='exchange' size='24px' />
-        <FormattedMessage id='scenes.exchangehistory.empty.history' defaultMessage='Your order history' />
+        <FormattedMessage
+          id='scenes.exchangehistory.empty.history'
+          defaultMessage='Your order history'
+        />
       </Text>
       <CenteredTextGroup inline>
         <Text size='13px' weight={500}>
-          <FormattedMessage id='scenes.exchangehistory.empty.exchange' defaultMessage="You haven't made any exchanges yet," />
+          <FormattedMessage
+            id='scenes.exchangehistory.empty.exchange'
+            defaultMessage="You haven't made any exchanges yet,"
+          />
         </Text>
         <LinkContainer to='/exchange'>
           <Link size='13px' weight={500}>
-            <FormattedMessage id='scenes.exchangehistory.empty.start' defaultMessage='click here to start.' />
+            <FormattedMessage
+              id='scenes.exchangehistory.empty.start'
+              defaultMessage='click here to start.'
+            />
           </Link>
         </LinkContainer>
       </CenteredTextGroup>

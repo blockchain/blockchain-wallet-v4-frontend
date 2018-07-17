@@ -31,29 +31,66 @@ const CheckImage = styled(Image)`
 
 class AddManually extends Component {
   render () {
-    const { handleFullName, handleAccountNumber, handleRoutingNumber, handleAccountType } = this.props
+    const {
+      handleFullName,
+      handleAccountNumber,
+      handleRoutingNumber,
+      handleAccountType
+    } = this.props
     return (
       <Form>
         <Container>
           <InputContainer>
             <Text size='14px' weight={500} style={spacing('mb-10')}>
-              <FormattedMessage id='sfoxexchangedata.link.addmanually.accountholdername' defaultMessage='Full Name of Primary Account Holder' />
+              <FormattedMessage
+                id='sfoxexchangedata.link.addmanually.accountholdername'
+                defaultMessage='Full Name of Primary Account Holder'
+              />
             </Text>
-            <Field name='fullName' component={TextBox} validate={[required]} onChange={(e) => handleFullName(e)} placeholder='John Doe' />
+            <Field
+              name='fullName'
+              component={TextBox}
+              validate={[required]}
+              onChange={e => handleFullName(e)}
+              placeholder='John Doe'
+            />
           </InputContainer>
           <InputContainer>
             <Text size='14px' weight={500} style={spacing('mb-10')}>
-              <FormattedMessage id='sfoxexchangedata.link.addmanually.bankaccountinformation' defaultMessage='Bank Account Information' />
+              <FormattedMessage
+                id='sfoxexchangedata.link.addmanually.bankaccountinformation'
+                defaultMessage='Bank Account Information'
+              />
             </Text>
             <CheckImage name='check-helper' />
-            <Field name='routingNumber' component={TextBox} validate={[required]} onChange={(e) => handleRoutingNumber(e)} placeholder='Routing Number' />
-            <Field name='accountNumber' component={TextBox} validate={[required]} onChange={(e) => handleAccountNumber(e)} placeholder='Account Number' />
+            <Field
+              name='routingNumber'
+              component={TextBox}
+              validate={[required]}
+              onChange={e => handleRoutingNumber(e)}
+              placeholder='Routing Number'
+            />
+            <Field
+              name='accountNumber'
+              component={TextBox}
+              validate={[required]}
+              onChange={e => handleAccountNumber(e)}
+              placeholder='Account Number'
+            />
           </InputContainer>
           <InputContainer>
             <Text size='14px' weight={500} style={spacing('mb-10')}>
-              <FormattedMessage id='sfoxexchangedata.link.addmanually.accounttype' defaultMessage='Account Type' />
+              <FormattedMessage
+                id='sfoxexchangedata.link.addmanually.accounttype'
+                defaultMessage='Account Type'
+              />
             </Text>
-            <Field name='type' component={SelectBoxBankAccountType} validate={[required]} onChange={(e, val) => handleAccountType(e, val)} />
+            <Field
+              name='type'
+              component={SelectBoxBankAccountType}
+              validate={[required]}
+              onChange={(e, val) => handleAccountType(e, val)}
+            />
           </InputContainer>
         </Container>
       </Form>

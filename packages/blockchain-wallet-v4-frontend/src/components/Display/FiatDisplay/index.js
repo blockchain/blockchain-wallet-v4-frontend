@@ -14,9 +14,12 @@ class FiatDisplayContainer extends React.PureComponent {
   componentWillMount () {
     if (Remote.NotAsked.is(this.props.data)) {
       switch (this.props.coin) {
-        case 'BTC': return this.props.bitcoinActions.fetchRates()
-        case 'ETH': return this.props.ethereumActions.fetchRates()
-        case 'BCH': return this.props.bchActions.fetchRates()
+        case 'BTC':
+          return this.props.bitcoinActions.fetchRates()
+        case 'ETH':
+          return this.props.ethereumActions.fetchRates()
+        case 'BCH':
+          return this.props.bchActions.fetchRates()
       }
     }
   }
@@ -25,8 +28,8 @@ class FiatDisplayContainer extends React.PureComponent {
     const { data, ...rest } = this.props
 
     return data.cata({
-      Success: (value) => <Success {...rest}>{value}</Success>,
-      Failure: (message) => <Error>{message}</Error>,
+      Success: value => <Success {...rest}>{value}</Success>,
+      Failure: message => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
@@ -49,4 +52,7 @@ const mapDispatchToProps = dispatch => ({
   settingsActions: bindActionCreators(actions.core.settings, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(FiatDisplayContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FiatDisplayContainer)

@@ -5,7 +5,14 @@ import styled from 'styled-components'
 import { spacing } from 'services/StyleService'
 
 import { Button, HeartbeatLoader, Text, Link } from 'blockchain-info-components'
-import { Form, ColLeft, InputWrapper, PartnerHeader, PartnerSubHeader, ColRight } from 'components/BuySell/Signup'
+import {
+  Form,
+  ColLeft,
+  InputWrapper,
+  PartnerHeader,
+  PartnerSubHeader,
+  ColRight
+} from 'components/BuySell/Signup'
 import { getRateFromQuote } from 'services/CoinifyService'
 
 const SummaryWrapper = styled.div`
@@ -13,13 +20,13 @@ const SummaryWrapper = styled.div`
   flex-direction: column;
   padding: 10px;
   background-color: ${props => props.theme['white-blue']};
-  border: 0.5px solid #DDDDDD;
+  border: 0.5px solid #dddddd;
 `
 const SummaryRow = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  border-bottom: ${props => props.borderBottom ? '1px solid #DDDDDD' : ''};
+  border-bottom: ${props => (props.borderBottom ? '1px solid #DDDDDD' : '')};
   padding: 9px;
 `
 const RateContainer = styled.div`
@@ -42,11 +49,24 @@ const Unit = styled.div`
 
 const withinLimits = (val, allValues, { medium, value: { limits, quote } }) => {
   const curr = quote.baseCurrency
-  return val >= limits[medium].minimumInAmounts[curr] && val <= limits[medium].inRemaining[curr] ? undefined : 'nope'
+  return val >= limits[medium].minimumInAmounts[curr] &&
+    val <= limits[medium].inRemaining[curr]
+    ? undefined
+    : 'nope'
 }
 
-const Confirm = (props) => {
-  const { ui, value, handleSubmit, busy, invalid, submitting, medium, toggleEdit, editingAmount } = props
+const Confirm = props => {
+  const {
+    ui,
+    value,
+    handleSubmit,
+    busy,
+    invalid,
+    submitting,
+    medium,
+    toggleEdit,
+    editingAmount
+  } = props
   const { quote, mediums, limits } = value
   const { quoteAmount, baseAmount, baseCurrency } = quote
   const { total, fee } = mediums[medium]
@@ -55,12 +75,31 @@ const Confirm = (props) => {
   const subHeaderHelper = () => {
     const curr = quote.baseCurrency
     if (editingAmount < limits[medium].minimumInAmounts[curr]) {
-      return <Text color='error'><FormattedMessage id='coinifyexchangedata.confirm.underlimit' defaultMessage='Under the limit' /></Text>
+      return (
+        <Text color='error'>
+          <FormattedMessage
+            id='coinifyexchangedata.confirm.underlimit'
+            defaultMessage='Under the limit'
+          />
+        </Text>
+      )
     }
     if (editingAmount > limits[medium].inRemaining[curr]) {
-      return <Text color='error'><FormattedMessage id='coinifyexchangedata.confirm.overlimit' defaultMessage='Over the limit' /></Text>
+      return (
+        <Text color='error'>
+          <FormattedMessage
+            id='coinifyexchangedata.confirm.overlimit'
+            defaultMessage='Over the limit'
+          />
+        </Text>
+      )
     }
-    return <FormattedMessage id='coinifyexchangedata.confirm.subheader' defaultMessage='Please confirm your order details before we redirect you to our secure payment provider.' />
+    return (
+      <FormattedMessage
+        id='coinifyexchangedata.confirm.subheader'
+        defaultMessage='Please confirm your order details before we redirect you to our secure payment provider.'
+      />
+    )
   }
 
   return (
@@ -68,14 +107,21 @@ const Confirm = (props) => {
       <ColLeft>
         <InputWrapper style={spacing('mb-20')}>
           <PartnerHeader>
-            <FormattedMessage id='coinifyexchangedata.confirm.header' defaultMessage='Confirm Buy Order' />
+            <FormattedMessage
+              id='coinifyexchangedata.confirm.header'
+              defaultMessage='Confirm Buy Order'
+            />
           </PartnerHeader>
-          <PartnerSubHeader>
-            { subHeaderHelper() }
-          </PartnerSubHeader>
+          <PartnerSubHeader>{subHeaderHelper()}</PartnerSubHeader>
         </InputWrapper>
         <RateContainer style={spacing('mb-10')}>
-          { quote ? <Text size='12px' weight={300}>{getRateFromQuote(quote)}</Text> : <span>Loading...</span> }
+          {quote ? (
+            <Text size='12px' weight={300}>
+              {getRateFromQuote(quote)}
+            </Text>
+          ) : (
+            <span>Loading...</span>
+          )}
         </RateContainer>
         <SummaryWrapper>
           <SummaryRow borderBottom>
@@ -83,58 +129,97 @@ const Confirm = (props) => {
               BTC
             </Text>
             <Text size='13px' weight={300}>
-              { quoteAmount / 1e8 }
+              {quoteAmount / 1e8}
             </Text>
           </SummaryRow>
           <SummaryRow>
             <Text size='13px' weight={300}>
-              <FormattedMessage id='coinifyexchangedata.confirm.amount' defaultMessage='Amount' />
+              <FormattedMessage
+                id='coinifyexchangedata.confirm.amount'
+                defaultMessage='Amount'
+              />
             </Text>
-            {
-              !editing
-                ? <Text size='13px' weight={300}>{ baseAmount * -1 }</Text>
-                : <EditAmountContainer>
-                  <Field name='amount' component='input' type='number' validate={withinLimits} />
-                  <Unit>{baseCurrency}</Unit>
-                </EditAmountContainer>
-            }
+            {!editing ? (
+              <Text size='13px' weight={300}>
+                {baseAmount * -1}
+              </Text>
+            ) : (
+              <EditAmountContainer>
+                <Field
+                  name='amount'
+                  component='input'
+                  type='number'
+                  validate={withinLimits}
+                />
+                <Unit>{baseCurrency}</Unit>
+              </EditAmountContainer>
+            )}
           </SummaryRow>
           <SummaryRow borderBottom>
             <Text size='13px' weight={300}>
-              <FormattedMessage id='coinifyexchangedata.confirm.fee' defaultMessage='Payment Fee' />
+              <FormattedMessage
+                id='coinifyexchangedata.confirm.fee'
+                defaultMessage='Payment Fee'
+              />
             </Text>
             <Text size='13px' weight={300}>
-              { fee }
+              {fee}
             </Text>
           </SummaryRow>
           <SummaryRow>
             <Text size='13px' weight={300}>
-              <FormattedMessage id='coinifyexchangedata.confirm.totalcost' defaultMessage='Total Cost' />
+              <FormattedMessage
+                id='coinifyexchangedata.confirm.totalcost'
+                defaultMessage='Total Cost'
+              />
             </Text>
             <Text size='13px' weight={300}>
-              { total }
+              {total}
             </Text>
           </SummaryRow>
         </SummaryWrapper>
         <EditContainer style={spacing('mt-10')}>
           <Link size='12px' weight={300} onClick={toggleEdit}>
-            {
-              !editing
-                ? <FormattedMessage id='coinifyexchangedata.confirm.editorder' defaultMessage='Edit Order' />
-                : <FormattedMessage id='coinifyexchangedata.confirm.canceledit' defaultMessage='Cancel' />
-            }
+            {!editing ? (
+              <FormattedMessage
+                id='coinifyexchangedata.confirm.editorder'
+                defaultMessage='Edit Order'
+              />
+            ) : (
+              <FormattedMessage
+                id='coinifyexchangedata.confirm.canceledit'
+                defaultMessage='Cancel'
+              />
+            )}
           </Link>
         </EditContainer>
       </ColLeft>
       <ColRight>
-        <Button uppercase nature='primary' fullwidth type='submit' disabled={invalid || submitting || busy || (editing && (limitsError || !editingAmount))}>
-          {
-            !busy && !editing
-              ? <FormattedMessage id='coinifyexchangedata.confirm.confirm' defaultMessage='confirm' />
-              : editing
-                ? <FormattedMessage id='coinifyexchangedata.confirm.update' defaultMessage='update' />
-                : <HeartbeatLoader height='20px' width='20px' color='white' />
+        <Button
+          uppercase
+          nature='primary'
+          fullwidth
+          type='submit'
+          disabled={
+            invalid ||
+            submitting ||
+            busy ||
+            (editing && (limitsError || !editingAmount))
           }
+        >
+          {!busy && !editing ? (
+            <FormattedMessage
+              id='coinifyexchangedata.confirm.confirm'
+              defaultMessage='confirm'
+            />
+          ) : editing ? (
+            <FormattedMessage
+              id='coinifyexchangedata.confirm.update'
+              defaultMessage='update'
+            />
+          ) : (
+            <HeartbeatLoader height='20px' width='20px' color='white' />
+          )}
         </Button>
         {/* <FAQ1 />
         <FAQ2 /> */}

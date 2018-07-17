@@ -22,11 +22,14 @@ import localesZH from 'assets/locales/zh.json'
 import localesES from 'assets/locales/es.json'
 import localesRU from 'assets/locales/ru.json'
 
-const importLocaleData = (language) => require(`react-intl/locale-data/${language}`)
+const importLocaleData = language =>
+  require(`react-intl/locale-data/${language}`)
 
 function configureLocales (store) {
   // We add the locale data for each language
-  addLocaleData(flatten(map(x => importLocaleData(x.language), languageService.languages)))
+  addLocaleData(
+    flatten(map(x => importLocaleData(x.language), languageService.languages))
+  )
 
   // We get all the messages
   const messages = {

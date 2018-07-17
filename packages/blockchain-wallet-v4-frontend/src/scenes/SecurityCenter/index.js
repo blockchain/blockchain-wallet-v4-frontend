@@ -47,7 +47,8 @@ class SecurityCenterContainer extends React.PureComponent {
 
   render () {
     return (
-      <SecurityCenter progress={this.determineProgress()}
+      <SecurityCenter
+        progress={this.determineProgress()}
         data={this.props}
         editing={this.state.editing}
         enabling={this.state.enabling}
@@ -61,10 +62,13 @@ class SecurityCenterContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => getData(state)
+const mapStateToProps = state => getData(state)
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SecurityCenterContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SecurityCenterContainer)

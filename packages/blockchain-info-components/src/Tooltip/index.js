@@ -29,7 +29,11 @@ class TooltipContainer extends React.PureComponent {
   }
 
   render () {
-    const icon = this.state.displayed ? <Icon name='close-in-circle' /> : <Icon name='question-in-circle' />
+    const icon = this.state.displayed ? (
+      <Icon name='close-in-circle' />
+    ) : (
+      <Icon name='question-in-circle' />
+    )
 
     return (
       <Tooltip
@@ -40,7 +44,8 @@ class TooltipContainer extends React.PureComponent {
         displayed={this.state.displayed}
         handleClick={this.handleClick}
         handleMouseEnter={this.handleMouseEnter}
-        handleMouseLeave={this.handleMouseLeave}>
+        handleMouseLeave={this.handleMouseLeave}
+      >
         {this.props.children}
       </Tooltip>
     )

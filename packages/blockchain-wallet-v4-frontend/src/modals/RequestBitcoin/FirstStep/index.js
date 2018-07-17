@@ -36,7 +36,10 @@ class FirstStepContainer extends React.PureComponent {
   }
 
   componentDidUpdate (prevProps) {
-    if (!Remote.Success.is(prevProps.initialValues) && Remote.Success.is(this.props.initialValues)) {
+    if (
+      !Remote.Success.is(prevProps.initialValues) &&
+      Remote.Success.is(this.props.initialValues)
+    ) {
       this.init()
     }
   }
@@ -53,8 +56,17 @@ class FirstStepContainer extends React.PureComponent {
 
   handleSubmit (e) {
     e.preventDefault()
-    const { accountIdx, addressIdx, message, receiveAddress } = this.props.data.getOrElse({})
-    this.props.requestBtcActions.firstStepSubmitClicked({ accountIdx, addressIdx, message })
+    const {
+      accountIdx,
+      addressIdx,
+      message,
+      receiveAddress
+    } = this.props.data.getOrElse({})
+    this.props.requestBtcActions.firstStepSubmitClicked({
+      accountIdx,
+      addressIdx,
+      message
+    })
     this.props.setReceiveAddress(receiveAddress)
     this.props.nextStep()
   }
@@ -70,14 +82,16 @@ class FirstStepContainer extends React.PureComponent {
     const { data } = this.props
 
     return data.cata({
-      Success: (value) => <Success
-        message={value.message}
-        addressIdx={value.addressIdx}
-        accountIdx={value.accountIdx}
-        receiveAddress={value.receiveAddress}
-        handleClickQRCode={() => this.handleClickQRCode(value)}
-        handleSubmit={this.handleSubmit}
-      />,
+      Success: value => (
+        <Success
+          message={value.message}
+          addressIdx={value.addressIdx}
+          accountIdx={value.accountIdx}
+          receiveAddress={value.receiveAddress}
+          handleClickQRCode={() => this.handleClickQRCode(value)}
+          handleSubmit={this.handleSubmit}
+        />
+      ),
       NotAsked: () => <DataError onClick={this.handleRefresh} />,
       Failure: () => <DataError onClick={this.handleRefresh} />,
       Loading: () => <Loading />
@@ -85,16 +99,22 @@ class FirstStepContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   initialValues: getInitialValues(state),
   data: getData(state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  requestBtcActions: bindActionCreators(actions.components.requestBtc, dispatch),
+const mapDispatchToProps = dispatch => ({
+  requestBtcActions: bindActionCreators(
+    actions.components.requestBtc,
+    dispatch
+  ),
   bitcoinDataActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(FirstStepContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FirstStepContainer)

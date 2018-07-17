@@ -9,22 +9,17 @@ const BaseText = styled.div`
   font-weight: ${props => props.weight};
   font-size: ${props => props.size};
   text-transform: ${props =>
-    props.uppercase ? 'uppercase'
-      : props.capitalize ? 'capitalize' : 'none'};
-  font-style: ${props => props.italic ? 'italic' : 'normal'};
+    props.uppercase ? 'uppercase' : props.capitalize ? 'capitalize' : 'none'};
+  font-style: ${props => (props.italic ? 'italic' : 'normal')};
   color: ${props => props.theme[props.color]};
   cursor: ${props => props.cursor};
-  flex-direction: ${props => props.flexRow ? 'row' : null};
-  display: ${props => props.flexRow ? 'flex' : 'block'};
+  flex-direction: ${props => (props.flexRow ? 'row' : null)};
+  display: ${props => (props.flexRow ? 'flex' : 'block')};
   opacity: ${props => props.opacity};
 `
 
 const Text = ({ children, ...props }) => {
-  return (
-    <BaseText {...props}>
-      {children}{' '}
-    </BaseText>
-  )
+  return <BaseText {...props}>{children} </BaseText>
 }
 
 Text.propTypes = {

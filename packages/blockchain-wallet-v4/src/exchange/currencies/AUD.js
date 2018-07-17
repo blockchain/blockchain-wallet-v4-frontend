@@ -1,5 +1,4 @@
-export default
-{
+export default {
   code: 'AUD',
   base: 'CENT',
   trade: 'AUD',

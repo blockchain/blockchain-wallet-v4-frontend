@@ -7,11 +7,7 @@ const Themes = props => {
   const { theme, children } = props
   const colors = Palette(theme)
 
-  return (
-    <ThemeProvider theme={colors}>
-      { children }
-    </ThemeProvider>
-  )
+  return <ThemeProvider theme={colors}>{children}</ThemeProvider>
 }
 
 Themes.propTypes = {

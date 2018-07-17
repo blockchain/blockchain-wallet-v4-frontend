@@ -16,11 +16,17 @@ const Container = styled.div`
   align-items: center;
   height: 55px;
 
-  & > :first-child { width: 100px; }
-  & > :last-child { width: 350px; }
+  & > :first-child {
+    width: 100px;
+  }
+  & > :last-child {
+    width: 350px;
+  }
 `
 const validateWord = index => (value, allValues, props) => {
-  return equals(toLower(value), toLower(props.mnemonic[index])) ? undefined : 'Invalid'
+  return equals(toLower(value), toLower(props.mnemonic[index]))
+    ? undefined
+    : 'Invalid'
 }
 
 const WordInput = props => {
@@ -29,9 +35,17 @@ const WordInput = props => {
   return (
     <Container>
       <Text size='14px' weight={300}>
-        <FormattedMessage id='modals.recoveryphrase.thirdstep.word' defaultMessage='Word {number} :' values={{ number: index + 1 }} />
+        <FormattedMessage
+          id='modals.recoveryphrase.thirdstep.word'
+          defaultMessage='Word {number} :'
+          values={{ number: index + 1 }}
+        />
       </Text>
-      <Field name={`word${index}`} component={TextBox} validate={[required, validateWord(index)]} />
+      <Field
+        name={`word${index}`}
+        component={TextBox}
+        validate={[required, validateWord(index)]}
+      />
     </Container>
   )
 }

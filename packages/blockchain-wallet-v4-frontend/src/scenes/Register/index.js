@@ -19,24 +19,30 @@ class RegisterContainer extends React.PureComponent {
 
   render () {
     const { data } = this.props
-    let busy = data.cata({ Success: () => false, Failure: () => false, Loading: () => true, NotAsked: () => false })
+    let busy = data.cata({
+      Success: () => false,
+      Failure: () => false,
+      Loading: () => true,
+      NotAsked: () => false
+    })
 
-    return (
-      <Register onSubmit={this.onSubmit} busy={busy} />
-    )
+    return <Register onSubmit={this.onSubmit} busy={busy} />
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   data: selectors.auth.getRegistering(state),
   language: selectors.preferences.getLanguage(state),
   email: formValueSelector('register')(state, 'email'),
   password: formValueSelector('register')(state, 'password')
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
   authActions: bindActionCreators(actions.auth, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(RegisterContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RegisterContainer)

@@ -19,18 +19,43 @@ const Error = styled(Text)`
   right: 0;
   height: 15px;
 `
-const getErrorState = (meta) => {
+const getErrorState = meta => {
   return meta.touched && meta.invalid ? 'invalid' : 'initial'
 }
 
-const NumberBox = (field) => {
+const NumberBox = field => {
   const errorState = getErrorState(field.meta)
 
   return (
     <Container>
-      <NumberInput {...field.input} errorState={errorState} placeholder={field.placeholder} />
-      {field.meta.touched && field.meta.error && <Error size='12px' weight={300} color='error' errorBottom={field.errorBottom}>{field.meta.error}</Error>}
-      {field.meta.touched && !field.meta.error && field.meta.warning && <Error size='12px' weight={300} color='sent' errorBottom={field.errorBottom}>{field.meta.warning}</Error>}
+      <NumberInput
+        {...field.input}
+        errorState={errorState}
+        placeholder={field.placeholder}
+      />
+      {field.meta.touched &&
+        field.meta.error && (
+          <Error
+            size='12px'
+            weight={300}
+            color='error'
+            errorBottom={field.errorBottom}
+          >
+            {field.meta.error}
+          </Error>
+        )}
+      {field.meta.touched &&
+        !field.meta.error &&
+        field.meta.warning && (
+          <Error
+            size='12px'
+            weight={300}
+            color='sent'
+            errorBottom={field.errorBottom}
+          >
+            {field.meta.warning}
+          </Error>
+        )}
     </Container>
   )
 }

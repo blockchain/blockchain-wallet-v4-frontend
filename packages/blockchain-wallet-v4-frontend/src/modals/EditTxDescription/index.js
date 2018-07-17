@@ -13,7 +13,9 @@ class EditTxDescriptionContainer extends React.PureComponent {
   }
 
   componentDidMount () {
-    this.props.formActions.initialize('editTransactionDescription', { description: this.props.value })
+    this.props.formActions.initialize('editTransactionDescription', {
+      description: this.props.value
+    })
   }
 
   onSubmit () {
@@ -26,18 +28,24 @@ class EditTxDescriptionContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
-  description: formValueSelector('editTransactionDescription')(state, 'description')
+const mapStateToProps = state => ({
+  description: formValueSelector('editTransactionDescription')(
+    state,
+    'description'
+  )
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch),
   actions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
 const enhance = compose(
   modalEnhancer('EditTxDescription'),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )
 
 export default enhance(EditTxDescriptionContainer)

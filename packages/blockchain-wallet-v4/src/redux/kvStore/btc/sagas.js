@@ -1,5 +1,5 @@
 import { call, put, select } from 'redux-saga/effects'
-import { compose, isNil } from 'ramda'
+import { compose, isNil, isEmpty } from 'ramda'
 import { delay } from 'redux-saga'
 import { set } from 'ramda-lens'
 import * as A from './actions'
@@ -8,30 +8,36 @@ import { derivationMap, BTC } from '../config'
 import { getMetadataXpriv } from '../root/selectors'
 import { getWallet } from '../../wallet/selectors'
 
-const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
+const taskToPromise = t =>
+  new Promise((resolve, reject) => t.fork(reject, resolve))
 
 export default ({ api }) => {
-  const callTask = function * (task) {
-    return yield call(compose(taskToPromise, () => task))
+  const callTask = function*(task) {
+    return yield call(
+      compose(
+        taskToPromise,
+        () => task
+      )
+    )
   }
 
-  const createMetadataBtc = function * () {
+  const createMetadataBtc = function*() {
     yield call(delay, 1000)
-    const addressLabels = {
-    }
+    const addressLabels = {}
 
     const wallet = yield select(getWallet)
     const accounts = Wallet.selectHDAccounts(wallet)
 
-    accounts.map((account) => {
+    accounts.map(account => {
       const hd = accounts.get(account.index)
-      account.address_labels.map((label) => {
-        addressLabels[HDAccount.getReceiveAddress(hd, label.index)] = label.label
+      account.address_labels.map(label => {
+        addressLabels[HDAccount.getReceiveAddress(hd, label.index)] =
+          label.label
       })
     })
 
     const newBtcEntry = {
-      'address_labels': addressLabels
+      address_labels: addressLabels
     }
 
     const typeId = derivationMap[BTC]
@@ -42,26 +48,26 @@ export default ({ api }) => {
     yield put(A.createMetadataBtc(newkv))
   }
 
-  const getAddressLabelSize = function * () {
+  const getAddressLabelSize = function*() {
     const wallet = yield select(getWallet)
     const accounts = Wallet.selectHDAccounts(wallet)
 
     let labelSize = 0
-    accounts.map((account) => account.address_labels).map((l) => {
+    accounts.map(account => account.address_labels).map(l => {
       labelSize += l.size
     })
 
     return labelSize
   }
 
-  const fetchMetadataBtc = function * () {
+  const fetchMetadataBtc = function*() {
     try {
       const typeId = derivationMap[BTC]
       const mxpriv = yield select(getMetadataXpriv)
       const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId)
       yield put(A.fetchMetadataBtcLoading())
       const newkv = yield callTask(api.fetchKVStore(kv))
-      if (isNil(newkv.value)) {
+      if (isNil(newkv.value) || isEmpty(newkv.value)) {
         return yield call(getAddressLabelSize)
       }
       yield put(A.fetchMetadataBtcSuccess(newkv))

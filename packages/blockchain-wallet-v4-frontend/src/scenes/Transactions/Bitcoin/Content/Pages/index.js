@@ -9,7 +9,9 @@ class Pages extends React.PureComponent {
     const { data, buysellPartner } = this.props
 
     return data.cata({
-      Success: (value) => <Success transactions={value} buysellPartner={buysellPartner} />,
+      Success: value => (
+        <Success transactions={value} buysellPartner={buysellPartner} />
+      ),
       Failure: () => <DataError onClick={() => this.props.onRefresh()} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />

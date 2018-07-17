@@ -1,34 +1,67 @@
-
 import React, { Component } from 'react'
 import styled from 'styled-components'
 
 const Item = styled.li`
-  &:nth-of-type(1) { order: 1 } /* BLOCKCHAIN LOGO */
-  &:nth-of-type(2) { order: 2 } /* WALLET */
-  &:nth-of-type(3) { order: 3 } /* DATA */
-  &:nth-of-type(4) { order: 4 } /* API */
-  &:nth-of-type(5) { order: 5 } /* ABOUT */
-  &:nth-of-type(6) { order: 6 } /* FLEXIBLE SPACE */
-  &:nth-of-type(7) { order: 7 } /* SEARCH BAR */
-  &:nth-of-type(8) { order: 8 } /* GET FREE WALLET BUTTON */
+  &:nth-of-type(1) {
+    order: 1;
+  } /* BLOCKCHAIN LOGO */
+  &:nth-of-type(2) {
+    order: 2;
+  } /* WALLET */
+  &:nth-of-type(3) {
+    order: 3;
+  } /* DATA */
+  &:nth-of-type(4) {
+    order: 4;
+  } /* API */
+  &:nth-of-type(5) {
+    order: 5;
+  } /* ABOUT */
+  &:nth-of-type(6) {
+    order: 6;
+  } /* FLEXIBLE SPACE */
+  &:nth-of-type(7) {
+    order: 7;
+  } /* SEARCH BAR */
+  &:nth-of-type(8) {
+    order: 8;
+  } /* GET FREE WALLET BUTTON */
 
   @media screen and (max-width: 1024px) {
-    &:nth-of-type(1) { order: 1 } /* BLOCKCHAIN LOGO */
-    &:nth-of-type(2) { order: 3 } /* WALLET */
-    &:nth-of-type(3) { order: 4 } /* DATA */
-    &:nth-of-type(4) { order: 5 } /* API */
-    &:nth-of-type(5) { order: 6 } /* ABOUT */
-    &:nth-of-type(6) { order: 7 } /* FLEXIBLE SPACE */
-    &:nth-of-type(7) { order: 2 } /* SEARCH BAR */
-    &:nth-of-type(8) { order: 8 } /* GET FREE WALLET BUTTON */
+    &:nth-of-type(1) {
+      order: 1;
+    } /* BLOCKCHAIN LOGO */
+    &:nth-of-type(2) {
+      order: 3;
+    } /* WALLET */
+    &:nth-of-type(3) {
+      order: 4;
+    } /* DATA */
+    &:nth-of-type(4) {
+      order: 5;
+    } /* API */
+    &:nth-of-type(5) {
+      order: 6;
+    } /* ABOUT */
+    &:nth-of-type(6) {
+      order: 7;
+    } /* FLEXIBLE SPACE */
+    &:nth-of-type(7) {
+      order: 2;
+    } /* SEARCH BAR */
+    &:nth-of-type(8) {
+      order: 8;
+    } /* GET FREE WALLET BUTTON */
   }
 
-  &:first-of-type { /* BLOCKCHAIN LOGO */
+  &:first-of-type {
+    /* BLOCKCHAIN LOGO */
     margin-right: 30px;
     opacity: 1 !important;
   }
 
-  &:last-of-type { /* GET FREE WALLET BUTTON */
+  &:last-of-type {
+    /* GET FREE WALLET BUTTON */
     margin-left: 25px;
     @media screen and (max-width: 1024px) {
       bottom: 0;
@@ -83,9 +116,9 @@ const Item = styled.li`
   }
 
   &.with-children:hover ul {
-    background: rgba(255, 255, 255, .08);
+    background: rgba(255, 255, 255, 0.08);
     list-style: none;
-    transition: background .4s ease-in;
+    transition: background 0.4s ease-in;
   }
 
   &.with-children > a {
@@ -103,16 +136,16 @@ const Item = styled.li`
 
   &.with-children:hover ul li {
     height: 18px;
-    transition: height .25s ease-in;
+    transition: height 0.25s ease-in;
     @media screen and (max-height: 568px) and (max-width: 1024px) {
       margin: 10px 0;
     }
   }
 
   &.with-children:hover ul li a {
-    opacity: .6;
-    transition: opacity .2s ease-in;
-    transition-delay: .1s;
+    opacity: 0.6;
+    transition: opacity 0.2s ease-in;
+    transition-delay: 0.1s;
     @media screen and (height: 480px) and (orientation: portrait) {
       font-size: 14px;
     }
@@ -131,12 +164,14 @@ const Item = styled.li`
     & li {
       margin: 6px 0;
       height: 0;
-      transition: height .25s ease-out;
+      transition: height 0.25s ease-out;
       &:first-of-type {
         margin-top: 0;
       }
       &:hover {
-        & a, & a:active, & a:visited {
+        & a,
+        & a:active,
+        & a:visited {
           text-decoration: none;
         }
         & a:focus {
@@ -144,7 +179,7 @@ const Item = styled.li`
         }
         & a {
           opacity: 1 !important;
-          transition: opacity .2s ease-in;
+          transition: opacity 0.2s ease-in;
         }
       }
       & a {
@@ -174,9 +209,17 @@ const Item = styled.li`
 class MenuItem extends Component {
   render () {
     const { children, hasMenu, onChange, flexibleSpace } = this.props
-    return (
-      (flexibleSpace ? <Item style={{flexGrow: 1}} /> : <Item className={hasMenu ? 'with-children' : null} onMouseEnter={hasMenu ? () => onChange(true) : null} onMouseLeave={hasMenu ? () => onChange(false) : null}> {children} </Item>
-      )
+    return flexibleSpace ? (
+      <Item style={{ flexGrow: 1 }} />
+    ) : (
+      <Item
+        className={hasMenu ? 'with-children' : null}
+        onMouseEnter={hasMenu ? () => onChange(true) : null}
+        onMouseLeave={hasMenu ? () => onChange(false) : null}
+      >
+        {' '}
+        {children}{' '}
+      </Item>
     )
   }
 }

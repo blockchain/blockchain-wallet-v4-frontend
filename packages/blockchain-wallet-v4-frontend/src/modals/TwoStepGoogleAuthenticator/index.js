@@ -18,22 +18,27 @@ class TwoStepGoogleAuthenticatorContainer extends React.PureComponent {
   }
 
   render () {
-    return <TwoStepGoogleAuthenticator {...this.props} onSubmit={this.onSubmit} />
+    return (
+      <TwoStepGoogleAuthenticator {...this.props} onSubmit={this.onSubmit} />
+    )
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   code: formValueSelector('twoStepGoogleAuthenticator')(state, 'code')
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   alertsActions: bindActionCreators(actions.alerts, dispatch),
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
 const enhance = compose(
   modalEnhancer('TwoStepGoogleAuthenticator'),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )
 
 export default enhance(TwoStepGoogleAuthenticatorContainer)
