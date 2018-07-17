@@ -26,7 +26,7 @@ import * as walletSelectors from '../../wallet/selectors'
 import Remote from '../../../remote'
 import { getAccountsList, getBchTxNote } from '../../kvStore/bch/selectors.js'
 import { toCashAddr } from '../../../utils/bch'
-import { isValidBitcoinAddress } from '../../../utils/bitcoin'
+import { isValidBitcoinAddress } from '../../../utils/btc'
 import { getShapeshiftTxHashMatch } from '../../kvStore/shapeShift/selectors'
 
 const transformTx = transactions.bitcoin.transformTx

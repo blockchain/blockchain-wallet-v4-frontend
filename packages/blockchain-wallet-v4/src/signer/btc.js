@@ -11,7 +11,7 @@ import {
   lensProp
 } from 'ramda'
 
-import { privateKeyStringToKey } from '../utils/bitcoin'
+import { privateKeyStringToKey } from '../utils/btc'
 import * as Coin from '../coinSelection/coin.js'
 import { addHDWalletWIFS, addLegacyWIFS } from './wifs.js'
 
