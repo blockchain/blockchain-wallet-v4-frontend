@@ -1,3 +1,6 @@
+/* eslint-disable */
+/* prettier-ignore */
+
 const chalk = require('chalk')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin
@@ -24,8 +27,6 @@ let mockWalletOptions
 let iSignThisDomain
 let sslEnabled
 
-/* eslint-disable */
-
 // only configure app if we will be using the webpack dev server
 if (!isCiBuild) {
   mockWalletOptions = require('./../../config/wallet-options-v4.json')
@@ -45,15 +46,16 @@ if (!isCiBuild) {
     )
     envConfig = require(PATHS.envConfig + 'production.js')
   } finally {
-    console.log(chalk.red('\u{1F6A7} CONFIGURATION \u{1F6A7}'))
-    console.log(chalk.cyan('Root URL: ') + `${envConfig.ROOT_URL}`)
-    console.log(chalk.cyan('API Domain: ') + `${envConfig.API_DOMAIN}`)
+    console.log(chalk.blue('\u{1F6A7} CONFIGURATION \u{1F6A7}'))
+    console.log(chalk.cyan('Root URL') + `: ${envConfig.ROOT_URL}`)
+    console.log(chalk.cyan('API Domain') + `: ${envConfig.API_DOMAIN}`)
     console.log(
-      chalk.cyan('Wallet Helper Domain: ') +
-        chalk.blue(`${envConfig.WALLET_HELPER_DOMAIN}`)
+      chalk.cyan('Wallet Helper Domain') +
+        ': ' +
+        chalk.blue(envConfig.WALLET_HELPER_DOMAIN)
     )
     console.log(
-      chalk.cyan('Web Socket URL: ') + chalk.blue(`${envConfig.WEB_SOCKET_URL}`)
+      chalk.cyan('Web Socket URL') + ': ' + chalk.blue(envConfig.WEB_SOCKET_URL)
     )
   }
 }
@@ -199,14 +201,14 @@ module.exports = {
     }
   },
   devServer: {
-    disableHostCheck: true,
     cert: sslEnabled
       ? fs.readFileSync(PATHS.sslConfig + 'cert.pem', 'utf8')
       : '',
     contentBase: PATHS.src,
-    key: sslEnabled ? fs.readFileSync(PATHS.sslConfig + 'key.pem', 'utf8') : '',
+    disableHostCheck: true,
     host: 'localhost',
     https: sslEnabled,
+    key: sslEnabled ? fs.readFileSync(PATHS.sslConfig + 'key.pem', 'utf8') : '',
     port: 8080,
     hot: !isCiBuild,
     historyApiFallback: true,
@@ -239,6 +241,7 @@ module.exports = {
             ? 'https://localhost:8080'
             : 'http://localhost:8080'
         }
+
         res.json(mockWalletOptions)
       })
     },
@@ -267,7 +270,11 @@ module.exports = {
             `child-src ${iSignThisDomain} ${
               envConfig.WALLET_HELPER_DOMAIN
             } blob:`,
+            // 'unsafe-eval' is only used by webpack for development. It should not
+            // be present on production!
             "script-src 'self' 'unsafe-eval'",
+            // 'ws://localhost:8080' is only used by webpack for development and
+            // should not be present on production.
             [
               'connect-src',
               "'self'",
