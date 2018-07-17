@@ -26,7 +26,7 @@ describe('requestBtc sagas', () => {
 
     describe('error handling', () => {
       const error = {}
-      const logLocation = requestBtcSagas.logLocation
+      const logLocation = 'components/requestBtc/sagas'
       it('should log errors', () => {
         const saga = testSaga(requestBtcSagas.firstStepSubmitClicked, action)
 
