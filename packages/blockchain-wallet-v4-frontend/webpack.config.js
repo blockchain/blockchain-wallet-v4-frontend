@@ -7,6 +7,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const Webpack = require('webpack')
 const path = require('path')
+const fs = require('fs')
 
 const isCiBuild = !!process.env.CI_BUILD
 const runBundleAnalyzer = process.env.ANALYZE
@@ -15,13 +16,16 @@ const PATHS = {
   dist: `${__dirname}/../../dist`,
   src: `${__dirname}/src`,
   pkgJson: `${__dirname}/../../package.json`,
-  envConfig: `${__dirname}/../../config/env/`
+  envConfig: `${__dirname}/../../config/env/`,
+  sslConfig: `${__dirname}/../../config/ssl/`
 }
 let envConfig = {}
 let mockWalletOptions
 let iSignThisDomain
+let sslEnabled
 
 /* eslint-disable no-console */
+
 // only configure app if we will be using the webpack dev server
 if (!isCiBuild) {
   mockWalletOptions = require('./../../config/wallet-options-v4.json')
@@ -41,19 +45,24 @@ if (!isCiBuild) {
     )
     envConfig = require(PATHS.envConfig + 'production.js')
   } finally {
-    console.log(chalk.blue('\u{1F6A7} CONFIGURATION \u{1F6A7}'))
-    console.log(chalk.cyan('Root URL') + `: ${envConfig.ROOT_URL}`)
-    console.log(chalk.cyan('API Domain') + `: ${envConfig.API_DOMAIN}`)
+    console.log(chalk.red('\u{1F6A7} CONFIGURATION \u{1F6A7}'))
+    console.log(chalk.cyan('Root URL: ') + `${envConfig.ROOT_URL}`)
+    console.log(chalk.cyan('API Domain: ') + `${envConfig.API_DOMAIN}`)
     console.log(
-      chalk.cyan('Wallet Helper Domain') +
-        ': ' +
-        chalk.blue(envConfig.WALLET_HELPER_DOMAIN)
+      chalk.cyan('Wallet Helper Domain: ') +
+        chalk.blue(`${envConfig.WALLET_HELPER_DOMAIN}`)
     )
     console.log(
-      chalk.cyan('Web Socket URL') + ': ' + chalk.blue(envConfig.WEB_SOCKET_URL)
+      chalk.cyan('Web Socket URL: ') + chalk.blue(`${envConfig.WEB_SOCKET_URL}`)
     )
   }
 }
+
+// SSL detection
+sslEnabled =
+  fs.existsSync(PATHS.sslConfig + 'key.pem') &&
+  fs.existsSync(PATHS.sslConfig + 'cert.pem')
+console.log(chalk.cyan('SSL Enabled: ') + chalk.blue(sslEnabled))
 
 module.exports = {
   mode: isCiBuild ? 'production' : 'development',
@@ -171,7 +180,7 @@ module.exports = {
           chunks: 'initial',
           name: 'vendor',
           priority: -10,
-          test: function (module) {
+          test: function(module) {
             // ensure other packages in mono repo don't get put into vendor bundle
             return (
               module.resource &&
@@ -191,14 +200,16 @@ module.exports = {
   },
   devServer: {
     disableHostCheck: true,
+    cert: sslEnabled ? PATHS.sslConfig + 'cert.pem' : '',
     contentBase: PATHS.src,
+    key: sslEnabled ? PATHS.sslConfig + 'key.pem' : '',
     host: 'localhost',
-    https: true,
+    https: sslEnabled,
     port: 8080,
     hot: !isCiBuild,
     historyApiFallback: true,
-    before (app) {
-      app.get('/Resources/wallet-options-v4.json', function (req, res) {
+    before(app) {
+      app.get('/Resources/wallet-options-v4.json', function(req, res) {
         // combine wallet options base with custom environment config
         mockWalletOptions.domains = {
           root: envConfig.ROOT_URL,
@@ -214,24 +225,25 @@ module.exports = {
 
       // TODO:: DEPRECATE
       // This is to locally test transferring cookies from transfer_stored_values.html
-      app.get('/Resources/transfer_stored_values.html', function (req, res) {
+      app.get('/Resources/transfer_stored_values.html', function(req, res) {
         res.sendFile(
           path.join(__dirname, '/../../config/transfer_stored_values.html')
         )
       })
 
-      app.get('/Resources/wallet-options.json', function (req, res) {
+      app.get('/Resources/wallet-options.json', function(req, res) {
         mockWalletOptions.domains = {
-          comWalletApp: 'http://localhost:8080'
+          comWalletApp: sslEnabled
+            ? 'https://localhost:8080'
+            : 'http://localhost:8080'
         }
-
         res.json(mockWalletOptions)
       })
     },
     proxy: [
       {
         path: /\/a\/.*/,
-        bypass: function (req, res, proxyOptions) {
+        bypass: function(req, res, proxyOptions) {
           return '/index.html'
         }
       }
@@ -249,7 +261,7 @@ module.exports = {
             "style-src 'self' 'unsafe-inline'",
             `frame-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN} ${
               envConfig.ROOT_URL
-            } https://localhost:8080`,
+            } https://localhost:8080 http://localhost:8080`,
             `child-src ${iSignThisDomain} ${
               envConfig.WALLET_HELPER_DOMAIN
             } blob:`,
