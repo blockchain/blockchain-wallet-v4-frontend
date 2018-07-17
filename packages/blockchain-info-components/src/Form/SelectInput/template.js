@@ -116,7 +116,8 @@ const DefaultItem = styled.div`
   color: ${props => props.theme['gray-4']};
   cursor: pointer;
 
-  ${props => props.hovered ? 'background-color: ' + props.theme['gray-1'] : ''};
+  ${props =>
+    props.hovered ? 'background-color: ' + props.theme['gray-1'] : ''};
 `
 
 const Arrow = styled(Icon)`
@@ -155,7 +156,10 @@ const SelectInput = props => {
   const showArrow = !hideArrow
 
   return (
-    <SelectBoxInput onKeyDown={(e) => onKeyDown(e, (items.length - 1), items[hovered])} tabIndex='0'>
+    <SelectBoxInput
+      onKeyDown={e => onKeyDown(e, items.length - 1, items[hovered])}
+      tabIndex='0'
+    >
       {!expanded || !searchEnabled ? (
         <Display
           onClick={handleFocus}
@@ -192,11 +196,17 @@ const SelectInput = props => {
                 )}
               </Header>
             ) : (
-              <Item key={index} onMouseDown={() => handleClick(item)} onMouseEnter={() => handleMouseEnter(index)} >
+              <Item
+                key={index}
+                onMouseDown={() => handleClick(item)}
+                onMouseEnter={() => handleMouseEnter(index)}
+              >
                 {templateItem ? (
                   templateItem(item)
                 ) : (
-                  <DefaultItem fontSize={fontSize} hovered={(hovered === index)}>{item.text}</DefaultItem>
+                  <DefaultItem fontSize={fontSize} hovered={hovered === index}>
+                    {item.text}
+                  </DefaultItem>
                 )}
               </Item>
             )

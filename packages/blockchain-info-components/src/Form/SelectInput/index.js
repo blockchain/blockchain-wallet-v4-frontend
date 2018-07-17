@@ -64,12 +64,12 @@ class SelectInputContainer extends React.PureComponent {
     switch (e.key) {
       case 'ArrowUp':
         this.setState({
-          hovered: (this.state.hovered === 0 ? 0 : this.state.hovered - 1)
+          hovered: this.state.hovered === 0 ? 0 : this.state.hovered - 1
         })
         break
       case 'ArrowDown':
         this.setState({
-          hovered: (this.state.hovered === max ? max : this.state.hovered + 1)
+          hovered: this.state.hovered === max ? max : this.state.hovered + 1
         })
         break
       case 'Enter':
