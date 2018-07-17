@@ -1,7 +1,7 @@
 // import whatsNew from './whatsNew/sagas'
 import bch from './bch/sagas'
 import btc from './btc/sagas'
-import ethereum from './ethereum/sagas'
+import ethereum from './eth/sagas'
 import shapeShift from './shapeShift/sagas'
 import buySell from './buySell/sagas'
 import contacts from './contacts/sagas'
