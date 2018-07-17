@@ -24,7 +24,7 @@ let mockWalletOptions
 let iSignThisDomain
 let sslEnabled
 
-/* eslint-disable no-console */
+/* eslint-disable */
 
 // only configure app if we will be using the webpack dev server
 if (!isCiBuild) {
@@ -200,9 +200,11 @@ module.exports = {
   },
   devServer: {
     disableHostCheck: true,
-    cert: sslEnabled ? PATHS.sslConfig + 'cert.pem' : '',
+    cert: sslEnabled
+      ? fs.readFileSync(PATHS.sslConfig + 'cert.pem', 'utf8')
+      : '',
     contentBase: PATHS.src,
-    key: sslEnabled ? PATHS.sslConfig + 'key.pem' : '',
+    key: sslEnabled ? fs.readFileSync(PATHS.sslConfig + 'key.pem', 'utf8') : '',
     host: 'localhost',
     https: sslEnabled,
     port: 8080,
