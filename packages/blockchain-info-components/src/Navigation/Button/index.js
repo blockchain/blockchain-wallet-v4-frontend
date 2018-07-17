@@ -1,6 +1,6 @@
 import React from "react"
 import styled from "styled-components"
-import * as Color from "../../Colors"
+import * as Color from "../Colors"
 import { trackButtonEvent } from "../Events"
 import Link from "../Link"
 
