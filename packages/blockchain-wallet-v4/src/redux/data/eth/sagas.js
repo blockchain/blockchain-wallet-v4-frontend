@@ -119,6 +119,7 @@ export default ({ api }) => {
     fetchLegacyBalance,
     fetchRates,
     fetchLatestBlock,
+    fetchTransactions,
     watchTransactions
   }
 }
