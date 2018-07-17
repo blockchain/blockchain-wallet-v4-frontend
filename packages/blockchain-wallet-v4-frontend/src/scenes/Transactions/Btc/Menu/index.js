@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
 import Menu from './template.js'
-import { getData } from '../../../../components/Form/SelectBoxBitcoinAddresses/selectors'
+import { getData } from '../../../../components/Form/SelectBoxBtcAddresses/selectors'
 
 class MenuContainer extends React.PureComponent {
   render () {
