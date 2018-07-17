@@ -22,7 +22,7 @@ import { set } from 'ramda-lens'
 import Task from 'data.task'
 import * as A from '../actions'
 import * as S from './selectors'
-import { fetchData } from '../data/bitcoin/actions'
+import { fetchData } from '../data/btc/actions'
 
 import { Wrapper, Wallet, HDAccount } from '../../types'
 import { generateMnemonic } from '../../walletCrypto'

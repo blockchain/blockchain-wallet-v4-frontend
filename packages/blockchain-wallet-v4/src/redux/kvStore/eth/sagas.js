@@ -5,7 +5,7 @@ import * as A from './actions'
 import { KVStoreEntry } from '../../../types'
 import { getMetadataXpriv } from '../root/selectors'
 import { derivationMap, ETHEREUM } from '../config'
-import * as eth from '../../../utils/ethereum'
+import * as eth from '../../../utils/eth'
 import { getMnemonic } from '../../wallet/selectors'
 
 const taskToPromise = t =>
