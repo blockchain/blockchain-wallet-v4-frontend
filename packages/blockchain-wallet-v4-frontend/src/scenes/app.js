@@ -29,7 +29,7 @@ import BchAddresses from './Settings/Addresses/Bch'
 import BtcManageAddresses from './Settings/Addresses/Btc/ManageAddresses'
 import Info from './Settings/Info'
 import Preferences from './Settings/Preferences'
-import BitcoinTransactions from './Transactions/Bitcoin'
+import BitcoinTransactions from './Transactions/Btc'
 import EtherTransactions from './Transactions/Eth'
 import BchTransactions from './Transactions/Bch'
 

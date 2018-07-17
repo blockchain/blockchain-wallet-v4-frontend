@@ -10,7 +10,7 @@ import Remote from '../../remote'
 import { networks } from 'bitcoinjs-lib'
 
 jest.mock('../wallet/selectors')
-jest.mock('../data/bitcoin/selectors')
+jest.mock('../data/btc/selectors')
 jest.mock('../../types/HDAccount')
 
 jest.useFakeTimers()
