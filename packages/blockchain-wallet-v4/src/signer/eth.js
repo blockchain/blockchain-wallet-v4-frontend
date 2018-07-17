@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 import EthereumTx from 'ethereumjs-tx'
-import * as eth from '../utils/ethereum'
+import * as eth from '../utils/eth'
 import Task from 'data.task'
 import { curry } from 'ramda'
 

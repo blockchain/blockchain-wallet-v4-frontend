@@ -1,4 +1,4 @@
-import * as utils from './bitcoin'
+import * as utils from './btc'
 
 const fromHex = hex => Buffer.from(hex, 'hex')
 
