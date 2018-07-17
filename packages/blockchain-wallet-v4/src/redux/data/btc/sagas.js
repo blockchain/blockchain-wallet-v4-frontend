@@ -123,6 +123,7 @@ export default ({ api }) => {
     fetchRates,
     fetchFiatAtTime,
     fetchTransactionHistory,
+    fetchTransactions,
     watchTransactions
   }
 }
