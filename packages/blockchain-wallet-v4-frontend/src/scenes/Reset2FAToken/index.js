@@ -24,7 +24,7 @@ class Reset2FAToken extends React.PureComponent {
     super(props)
     this.state = {
       token: decodeURIComponent(
-        props.location.pathname.split('/reset2fa-token/')[1]
+        props.location.pathname.split('/reset-two-factor/')[1]
       )
     }
   }

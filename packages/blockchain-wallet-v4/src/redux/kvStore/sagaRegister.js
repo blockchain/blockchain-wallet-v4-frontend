@@ -1,7 +1,7 @@
 import { fork } from 'redux-saga/effects'
 
 import whatsNew from './whatsNew/sagaRegister'
-import ethereum from './ethereum/sagaRegister'
+import ethereum from './eth/sagaRegister'
 import bch from './bch/sagaRegister'
 import btc from './btc/sagaRegister'
 import shapeShift from './shapeShift/sagaRegister'

@@ -35,8 +35,8 @@ export default () => {
 
               if (event.data.type === 'cookies-sent') {
                 frame.remove()
-                const lastGuid = window.localStorage.getItem('ls.guid')
-                const session = window.localStorage.getItem('ls.session')
+                const lastGuid = window.localStorage.getItem('guid')
+                const session = window.localStorage.getItem('session')
                 window.localStorage.setItem(alreadyTransferredCookiesKey, true)
                 emitter({ lastGuid, session })
                 emitter(END)

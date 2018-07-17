@@ -7,7 +7,6 @@ import { Link, Text } from 'blockchain-info-components'
 const TermsContainer = styled.div`
   & > * {
     display: inline-block;
-    margin-right: 3px;
   }
 `
 const Terms = props => {
@@ -22,6 +21,7 @@ const Terms = props => {
               defaultMessage="I agree to ShapeShift's"
             />
           </Text>
+          <span>&nbsp;</span>
           <Link
             href='https://info.shapeshift.io/sites/default/files/ShapeShift_Terms_Conditions%20v1.1.pdf'
             target='_blank'
@@ -44,6 +44,7 @@ const Terms = props => {
               defaultMessage="I accept Blockchain's "
             />
           </Text>
+          <span>&nbsp;</span>
           <Link
             size='12px'
             weight={300}
@@ -53,9 +54,11 @@ const Terms = props => {
             <FormattedMessage id='tos' defaultMessage='Terms of Service' />
           </Link>
           <span>,</span>
+          <span>&nbsp;</span>
           <Text size='12px' weight={300}>
             {`Coinify's`}
           </Text>
+          <span>&nbsp;</span>
           <Link
             size='12px'
             weight={300}
@@ -64,8 +67,9 @@ const Terms = props => {
           >
             <FormattedMessage id='tos' defaultMessage='Terms of Service' />
           </Link>
+          <span>&nbsp;</span>
           {`&`}
-          &nbsp;
+          <span>&nbsp;</span>
           <Link
             size='12px'
             weight={300}
@@ -88,6 +92,7 @@ const Terms = props => {
               defaultMessage="I accept Blockchain's "
             />
           </Text>
+          <span>&nbsp;</span>
           <Link
             size='12px'
             weight={300}
@@ -97,9 +102,11 @@ const Terms = props => {
             <FormattedMessage id='tos' defaultMessage='Terms of Service' />
           </Link>
           <span>,</span>
+          <span>&nbsp;</span>
           <Text size='12px' weight={300}>
             {`SFOX's`}
           </Text>
+          <span>&nbsp;</span>
           <Link
             size='12px'
             weight={300}
@@ -108,6 +115,7 @@ const Terms = props => {
           >
             <FormattedMessage id='tos' defaultMessage='Terms of Service' />
           </Link>
+          <span>&nbsp;</span>
           {`&`}
           &nbsp;
           <Link
@@ -132,6 +140,7 @@ const Terms = props => {
               defaultMessage='I have read and agreed to the'
             />
           </Text>
+          <span>&nbsp;</span>
           <Link
             href='https://www.blockchain.com/terms/index.html'
             target='_blank'

@@ -5,7 +5,7 @@ import {
   getDefaultAddress,
   getDefaultLabel,
   getEthereumTxNote
-} from '../redux/kvStore/ethereum/selectors.js'
+} from '../redux/kvStore/eth/selectors.js'
 
 // getType :: TX -> [String] -> String
 const getType = (tx, addresses) => {
