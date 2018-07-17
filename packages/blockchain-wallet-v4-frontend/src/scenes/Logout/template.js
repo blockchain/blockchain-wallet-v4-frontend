@@ -10,7 +10,9 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   background-color: ${props => props.theme['white']};
 
-  @media(min-width: 768px) { width: 550px; }
+  @media (min-width: 768px) {
+    width: 550px;
+  }
 `
 const Header = styled.div`
   display: flex;
@@ -28,34 +30,43 @@ const Footer = styled.div`
   }
 `
 
-const Logout = (props) => {
+const Logout = props => {
   const { onDeauthorizeBrowser, onGoToLogin, secondsRemaining } = props
 
   return (
     <Wrapper>
       <Header>
         <Text size='22px' weight={300}>
-          <FormattedMessage id='scenes.logout.title' defaultMessage='You are now logged out!' />
+          <FormattedMessage
+            id='scenes.logout.title'
+            defaultMessage='You are now logged out!'
+          />
         </Text>
-        { secondsRemaining >= 6
-          ? null
-          : (
-            <Text size='12px' weight={200}>
-              Refreshing in {secondsRemaining} seconds...
-            </Text>
-          )
-        }
+        {secondsRemaining >= 6 ? null : (
+          <Text size='12px' weight={200}>
+            Refreshing in {secondsRemaining} seconds...
+          </Text>
+        )}
       </Header>
       <Separator />
       <Text size='14px' weight={300}>
-        <FormattedMessage id='scenes.logout.message' defaultMessage='Click the button below to require authorization the next time you login with this browser. Do this if you are using a shared or public computer.' />
+        <FormattedMessage
+          id='scenes.logout.message'
+          defaultMessage='Click the button below to require authorization the next time you login with this browser. Do this if you are using a shared or public computer.'
+        />
       </Text>
       <Footer>
         <Button type='submit' nature='primary' onClick={onDeauthorizeBrowser}>
-          <FormattedMessage id='scenes.logout.deauth' defaultMessage='De-Authorize Browser' />
+          <FormattedMessage
+            id='scenes.logout.deauth'
+            defaultMessage='De-Authorize Browser'
+          />
         </Button>
         <Link size='13px' weight={300} onClick={onGoToLogin}>
-          <FormattedMessage id='scenes.logout.continue' defaultMessage='Continue to Login' />
+          <FormattedMessage
+            id='scenes.logout.continue'
+            defaultMessage='Continue to Login'
+          />
         </Link>
       </Footer>
     </Wrapper>

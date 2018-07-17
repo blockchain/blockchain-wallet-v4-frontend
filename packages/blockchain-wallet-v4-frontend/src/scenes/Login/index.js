@@ -15,6 +15,10 @@ class LoginContainer extends React.PureComponent {
     this.handleSmsResend = this.handleSmsResend.bind(this)
   }
 
+  componentDidMount () {
+    this.props.loginActions.initialized()
+  }
+
   componentWillUnmount () {
     this.props.formActions.reset('login')
   }
@@ -42,7 +46,7 @@ class LoginContainer extends React.PureComponent {
 
     const { busy, error } = data.cata({
       Success: () => ({ error: null, busy: false }),
-      Failure: (val) => ({ error: val.err, busy: false }),
+      Failure: val => ({ error: val.err, busy: false }),
       Loading: () => ({ error: null, busy: true }),
       NotAsked: () => ({ error: null, busy: false })
     })
@@ -56,13 +60,19 @@ class LoginContainer extends React.PureComponent {
       handleSmsResend: this.handleSmsResend
     }
 
-    return lastGuid
-      ? <Login {...this.props} initialValues={{ guid: lastGuid }} {...loginProps} />
-      : <Login {...this.props} {...loginProps} />
+    return lastGuid ? (
+      <Login
+        {...this.props}
+        initialValues={{ guid: lastGuid }}
+        {...loginProps}
+      />
+    ) : (
+      <Login {...this.props} {...loginProps} />
+    )
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   guid: formValueSelector('login')(state, 'guid'),
   password: formValueSelector('login')(state, 'password'),
   code: formValueSelector('login')(state, 'code'),
@@ -71,11 +81,15 @@ const mapStateToProps = (state) => ({
   data: selectors.auth.getLogin(state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   authActions: bindActionCreators(actions.auth, dispatch),
   alertActions: bindActionCreators(actions.alerts, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
+  loginActions: bindActionCreators(actions.components.login, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LoginContainer)

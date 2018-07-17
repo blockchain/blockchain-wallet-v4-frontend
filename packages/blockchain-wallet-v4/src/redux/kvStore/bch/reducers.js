@@ -23,25 +23,43 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.SET_BCH_ACCOUNT_LABEL: {
       const { accountIdx, label } = action.payload
-      const valueLens = compose(mapped, KVStoreEntry.value)
-      const setAccountLabel = assocPath(['accounts', accountIdx, 'label'], label)
+      const valueLens = compose(
+        mapped,
+        KVStoreEntry.value
+      )
+      const setAccountLabel = assocPath(
+        ['accounts', accountIdx, 'label'],
+        label
+      )
       return over(valueLens, setAccountLabel, state)
     }
     case AT.SET_BCH_ACCOUNT_ARCHIVED: {
       const { accountIdx, archived } = action.payload
-      const valueLens = compose(mapped, KVStoreEntry.value)
-      const setAccountArchived = assocPath(['accounts', accountIdx, 'archived'], archived)
+      const valueLens = compose(
+        mapped,
+        KVStoreEntry.value
+      )
+      const setAccountArchived = assocPath(
+        ['accounts', accountIdx, 'archived'],
+        archived
+      )
       return over(valueLens, setAccountArchived, state)
     }
     case AT.SET_DEFAULT_BCH_ACCOUNT: {
       const { index } = action.payload
-      const valueLens = compose(mapped, KVStoreEntry.value)
+      const valueLens = compose(
+        mapped,
+        KVStoreEntry.value
+      )
       const setDefaultAccount = assoc('default_account_idx', index)
       return over(valueLens, setDefaultAccount, state)
     }
     case AT.SET_TRANSACTION_NOTE_BCH: {
-      const {txHash, txNote} = action.payload
-      let valueLens = compose(mapped, KVStoreEntry.value)
+      const { txHash, txNote } = action.payload
+      let valueLens = compose(
+        mapped,
+        KVStoreEntry.value
+      )
       let setNote = assocPath(['tx_notes', txHash], txNote)
       return over(valueLens, setNote, state)
     }

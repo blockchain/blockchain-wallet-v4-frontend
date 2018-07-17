@@ -36,19 +36,30 @@ class ErrorBoundary extends React.Component {
 
   render () {
     if (this.state.error) {
-      return <ErrorModal error={this.state.error} errorInfo={this.state.errorInfo} onSubmit={this.onSubmit} />
+      return (
+        <ErrorModal
+          error={this.state.error}
+          errorInfo={this.state.errorInfo}
+          onSubmit={this.onSubmit}
+        />
+      )
     }
     return this.props.children
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   isAuthenticated: selectors.auth.isAuthenticated(state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   authActions: bindActionCreators(actions.auth, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch)
 })
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ErrorBoundary))
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(ErrorBoundary)
+)

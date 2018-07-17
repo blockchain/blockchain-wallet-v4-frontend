@@ -11,7 +11,7 @@ import { required } from 'services/FormHelper'
 const AuthenticatorSummary = styled.div`
   width: 100%;
   padding: 0px 20px;
-  opacity: ${props => props.verified ? 0.3 : 1};
+  opacity: ${props => (props.verified ? 0.3 : 1)};
   @media (min-width: 992px) {
     width: 110%;
   }
@@ -45,28 +45,51 @@ const SmsAuth = props => {
     <Form onSubmit={handleSubmit}>
       <AuthenticatorSummary verified={ui.successToggled}>
         <SmsAuthContainer>
-          {
-            (!smsNumber && !smsVerified) || ui.changeNumberToggled
-              ? <Fragment>
-                <Text size='14px' weight={200}>
-                  <FormattedMessage id='scenes.security.twostepverification.sms.entermobile' defaultMessage='Enter your mobile number and click Get Code. A verification code will be sent.' />
-                </Text>
-                <QRInputWrapper>
-                  <Field name='mobileNumber' component={PhoneNumberBox} validate={[required]} countryCode={countryCode} defaultValue={smsNumber} placeholder='212-555-5555' />
-                  <Button type='submit' nature='primary' disabled={invalid}>Get Verification Code</Button>
-                </QRInputWrapper>
-              </Fragment>
-              : <Fragment>
-                <Text size='14px' weight={200}>
-                  <FormattedMessage id='scenes.security.twostepverification.sms.entercode' defaultMessage='Enter your verification code below and click submit.' />
-                </Text>
-                <QRInputWrapper>
-                  <Field name='verificationCode' component={TextBox} validate={[required]} />
-                  <Link weight={200} size='12px' onClick={changeMobileNumber}>Change mobile number</Link>
-                  <Button type='submit' nature='primary' disabled={!code}>Submit Code</Button>
-                </QRInputWrapper>
-              </Fragment>
-          }
+          {(!smsNumber && !smsVerified) || ui.changeNumberToggled ? (
+            <Fragment>
+              <Text size='14px' weight={200}>
+                <FormattedMessage
+                  id='scenes.security.twostepverification.sms.entermobile'
+                  defaultMessage='Enter your mobile number and click Get Code. A verification code will be sent.'
+                />
+              </Text>
+              <QRInputWrapper>
+                <Field
+                  name='mobileNumber'
+                  component={PhoneNumberBox}
+                  validate={[required]}
+                  countryCode={countryCode}
+                  defaultValue={smsNumber}
+                  placeholder='212-555-5555'
+                />
+                <Button type='submit' nature='primary' disabled={invalid}>
+                  Get Verification Code
+                </Button>
+              </QRInputWrapper>
+            </Fragment>
+          ) : (
+            <Fragment>
+              <Text size='14px' weight={200}>
+                <FormattedMessage
+                  id='scenes.security.twostepverification.sms.entercode'
+                  defaultMessage='Enter your verification code below and click submit.'
+                />
+              </Text>
+              <QRInputWrapper>
+                <Field
+                  name='verificationCode'
+                  component={TextBox}
+                  validate={[required]}
+                />
+                <Link weight={200} size='12px' onClick={changeMobileNumber}>
+                  Change mobile number
+                </Link>
+                <Button type='submit' nature='primary' disabled={!code}>
+                  Submit Code
+                </Button>
+              </QRInputWrapper>
+            </Fragment>
+          )}
         </SmsAuthContainer>
       </AuthenticatorSummary>
     </Form>

@@ -14,24 +14,25 @@ class ImportedAddressesContainer extends React.Component {
 
   render () {
     const { data, ...rest } = this.props
-    return (
-      data.cata({
-        Success: (value) => <Success importedAddresses={value} {...rest} />,
-        Failure: (message) => <div>{message}</div>,
-        Loading: () => <div />,
-        NotAsked: () => <div />
-      })
-    )
+    return data.cata({
+      Success: value => <Success importedAddresses={value} {...rest} />,
+      Failure: message => <div>{message}</div>,
+      Loading: () => <div />,
+      NotAsked: () => <div />
+    })
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.modals, dispatch)
 })
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   data: getData(state),
   search: formValueSelector('settingsAddresses')(state, 'search')
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ImportedAddressesContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ImportedAddressesContainer)

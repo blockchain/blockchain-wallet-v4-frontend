@@ -1,4 +1,3 @@
-
 import React from 'react'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
@@ -28,8 +27,8 @@ const Cell = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: ${props => props.size === 'small' ? 'center' : 'flex-start'};
-  width: ${props => props.size === 'small' ? '10%' : '45%'};
+  align-items: ${props => (props.size === 'small' ? 'center' : 'flex-start')};
+  width: ${props => (props.size === 'small' ? '10%' : '45%')};
   height: 100%;
 `
 
@@ -37,7 +36,10 @@ const Loading = props => (
   <Wrapper>
     <Row justify='flex-end'>
       <Text size='12px' weight={300}>
-        <FormattedMessage id='scenes.exchange.shapeshift.firststep.step' defaultMessage='Step 1 of 2' />
+        <FormattedMessage
+          id='scenes.exchange.shapeshift.firststep.step'
+          defaultMessage='Step 1 of 2'
+        />
       </Text>
     </Row>
     <Row>

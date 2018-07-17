@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
@@ -17,7 +16,10 @@ class SettingsContainer extends React.PureComponent {
 
   onSubmit () {
     const { secondPasswordValue, secondPasswordEnabled } = this.props
-    this.props.walletActions.toggleSecondPassword(secondPasswordValue, secondPasswordEnabled)
+    this.props.walletActions.toggleSecondPassword(
+      secondPasswordValue,
+      secondPasswordEnabled
+    )
     this.props.formActions.reset('settingSecondPassword')
     this.handleToggle()
   }
@@ -29,33 +31,41 @@ class SettingsContainer extends React.PureComponent {
   render () {
     const { ui, ...rest } = this.props
 
-    return <Settings
-      {...rest}
-      onSubmit={this.onSubmit}
-      updateToggled={ui.updateToggled}
-      handleToggle={this.handleToggle}
-      handleCancel={() => {
-        this.props.formActions.reset('settingSecondPassword')
-        this.handleToggle()
-      }}
-    />
+    return (
+      <Settings
+        {...rest}
+        onSubmit={this.onSubmit}
+        updateToggled={ui.updateToggled}
+        handleToggle={this.handleToggle}
+        handleCancel={() => {
+          this.props.formActions.reset('settingSecondPassword')
+          this.handleToggle()
+        }}
+      />
+    )
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   mainPassword: selectors.core.wallet.getMainPassword(state),
   secondPasswordEnabled: selectors.core.wallet.isSecondPasswordOn(state),
-  secondPasswordValue: formValueSelector('settingSecondPassword')(state, 'secondPassword'),
+  secondPasswordValue: formValueSelector('settingSecondPassword')(
+    state,
+    'secondPassword'
+  ),
   wallet: selectors.core.wallet.getWallet(state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   walletActions: bindActionCreators(actions.wallet, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   ui({ key: 'Setting_SecondPassword', state: { updateToggled: false } })
 )
 

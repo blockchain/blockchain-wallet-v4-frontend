@@ -8,18 +8,18 @@ import Success from './template.success'
 
 class TotalBalance extends React.PureComponent {
   render () {
-    return (
-      this.props.data.cata({
-        Success: (value) => <Success totalBalance={value.totalBalance} large={this.props.large} />,
-        Failure: (msg) => <Error>{msg}</Error>,
-        Loading: () => <Loading />,
-        NotAsked: () => <Loading />
-      })
-    )
+    return this.props.data.cata({
+      Success: value => (
+        <Success totalBalance={value.totalBalance} large={this.props.large} />
+      ),
+      Failure: msg => <Error>{msg}</Error>,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
+    })
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   data: getData(state)
 })
 

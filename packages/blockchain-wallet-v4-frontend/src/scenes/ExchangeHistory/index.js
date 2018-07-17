@@ -15,8 +15,8 @@ class ExchangeHistoryContainer extends React.PureComponent {
 
   render () {
     return this.props.data.cata({
-      Success: (value) => <Success trades={value} />,
-      Failure: (message) => <Error>{message}</Error>,
+      Success: value => <Success trades={value} />,
+      Failure: message => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
@@ -31,4 +31,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.exchangeHistory, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ExchangeHistoryContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ExchangeHistoryContainer)

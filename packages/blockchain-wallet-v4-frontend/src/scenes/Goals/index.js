@@ -48,9 +48,12 @@ class ActionsContainer extends React.PureComponent {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   goalsActions: bindActionCreators(actions.goals, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch)
 })
 
-export default connect(undefined, mapDispatchToProps)(ActionsContainer)
+export default connect(
+  undefined,
+  mapDispatchToProps
+)(ActionsContainer)

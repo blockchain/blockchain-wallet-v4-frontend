@@ -26,7 +26,7 @@ const MenuWrapper = styled.div`
   background-color: ${props => props.theme['white-blue']};
   border-bottom: 1px solid ${props => props.theme['gray-1']};
 
-  @media(min-width: 1200px) {
+  @media (min-width: 1200px) {
     flex-direction: row;
     justify-content: space-between;
   }
@@ -41,7 +41,9 @@ const Search = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-  @media(min-width: 1200px) { width: auto; }
+  @media (min-width: 1200px) {
+    width: auto;
+  }
 `
 const SearchIcon = styled(Icon)`
   position: absolute;
@@ -58,7 +60,10 @@ class ManageAddressesContainer extends React.PureComponent {
         <MenuWrapper>
           <LinkContainer to='/settings/addresses'>
             <IconButton name='left-arrow' nature='empty'>
-              <FormattedMessage id='scenes.settings.addresses.btc.manageaddresses.back' defaultMessage='Back' />
+              <FormattedMessage
+                id='scenes.settings.addresses.btc.manageaddresses.back'
+                defaultMessage='Back'
+              />
             </IconButton>
           </LinkContainer>
           <Search>

@@ -16,24 +16,43 @@ const HeaderWrapper = styled.div`
   box-sizing: border-box;
   text-overflow: ellipsis;
 
-  & > * { margin-left: 5px; }
-  & > :first-child { margin-right: 5px; }
+  & > * {
+    margin-left: 5px;
+  }
+  & > :first-child {
+    margin-right: 5px;
+  }
 `
 
-const renderItem = (item) => (<HeaderWrapper>
-  {prop('value', item) === 'BTC' && <Icon name='bitcoin-in-circle' size='14px' weight={300} />}
-  {prop('value', item) === 'BCH' && <Icon name='bitcoin-cash' size='14px' weight={300} />}
-  {prop('value', item) === 'ETH' && <Icon name='ethereum-filled' size='14px' weight={300} />}
-  <Text size='13px' weight={300} cursor='pointer'>
-    {item.text}
-  </Text>
-</HeaderWrapper>)
+const renderItem = item => (
+  <HeaderWrapper>
+    {prop('value', item) === 'BTC' && (
+      <Icon name='bitcoin-in-circle' size='14px' weight={300} />
+    )}
+    {prop('value', item) === 'BCH' && (
+      <Icon name='bitcoin-cash' size='14px' weight={300} />
+    )}
+    {prop('value', item) === 'ETH' && (
+      <Icon name='ethereum-filled' size='14px' weight={300} />
+    )}
+    <Text size='13px' weight={300} cursor='pointer'>
+      {item.text}
+    </Text>
+  </HeaderWrapper>
+)
 
 class SelectBoxCoin extends React.PureComponent {
   render () {
     const { coins, ...rest } = this.props
     const elements = [{ group: '', items: coins }]
-    return <SelectBox elements={elements} templateDisplay={renderItem} templateItem={renderItem} {...rest} />
+    return (
+      <SelectBox
+        elements={elements}
+        templateDisplay={renderItem}
+        templateItem={renderItem}
+        {...rest}
+      />
+    )
   }
 }
 

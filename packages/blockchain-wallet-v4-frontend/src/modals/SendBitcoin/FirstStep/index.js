@@ -28,26 +28,30 @@ class FirstStep extends React.Component {
     const { data, actions } = this.props
 
     return data.cata({
-      Success: value => <Success
-        from={value.from}
-        watchOnly={value.watchOnly}
-        addressMatchesPriv={value.addressMatchesPriv}
-        enableToggle={value.enableToggle}
-        toToggled={value.toToggled}
-        destination={value.destination}
-        feePerByteToggled={value.feePerByteToggled}
-        feePerByteElements={value.feePerByteElements}
-        effectiveBalance={value.effectiveBalance}
-        minFeePerByte={value.minFeePerByte}
-        maxFeePerByte={value.maxFeePerByte}
-        regularFeePerByte={value.regularFeePerByte}
-        priorityFeePerByte={value.priorityFeePerByte}
-        isPriorityFeePerByte={value.isPriorityFeePerByte}
-        totalFee={value.totalFee}
-        onSubmit={() => actions.sendBtcFirstStepSubmitClicked()}
-        handleFeePerByteToggle={() => actions.sendBtcFirstStepFeePerByteToggled()}
-        handleToToggle={this.handleToToggle}
-      />,
+      Success: value => (
+        <Success
+          from={value.from}
+          watchOnly={value.watchOnly}
+          addressMatchesPriv={value.addressMatchesPriv}
+          enableToggle={value.enableToggle}
+          toToggled={value.toToggled}
+          destination={value.destination}
+          feePerByteToggled={value.feePerByteToggled}
+          feePerByteElements={value.feePerByteElements}
+          effectiveBalance={value.effectiveBalance}
+          minFeePerByte={value.minFeePerByte}
+          maxFeePerByte={value.maxFeePerByte}
+          regularFeePerByte={value.regularFeePerByte}
+          priorityFeePerByte={value.priorityFeePerByte}
+          isPriorityFeePerByte={value.isPriorityFeePerByte}
+          totalFee={value.totalFee}
+          onSubmit={() => actions.sendBtcFirstStepSubmitClicked()}
+          handleFeePerByteToggle={() =>
+            actions.sendBtcFirstStepFeePerByteToggled()
+          }
+          handleToToggle={this.handleToToggle}
+        />
+      ),
       Failure: () => <DataError onClick={() => this.handleRefresh} />,
       NotAsked: () => <Loading />,
       Loading: () => <Loading />
@@ -65,4 +69,7 @@ const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(FirstStep)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FirstStep)

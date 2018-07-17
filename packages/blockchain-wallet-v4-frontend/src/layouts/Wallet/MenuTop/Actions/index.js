@@ -16,32 +16,46 @@ class ActionsContainer extends React.PureComponent {
     const { pathname } = this.props.router.location
 
     switch (pathname) {
-      case '/eth/transactions': return this.props.modalActions.showModal('SendEther')
-      case '/bch/transactions': return this.props.modalActions.showModal('SendBch')
-      default: return this.props.modalActions.showModal('SendBitcoin')
+      case '/eth/transactions':
+        return this.props.modalActions.showModal('SendEther')
+      case '/bch/transactions':
+        return this.props.modalActions.showModal('SendBch')
+      default:
+        return this.props.modalActions.showModal('SendBitcoin')
     }
   }
 
   handleRequest () {
     const { pathname } = this.props.router.location
     switch (pathname) {
-      case '/bch/transactions': return this.props.modalActions.showModal('RequestBch')
-      case '/eth/transactions': return this.props.modalActions.showModal('RequestEther')
-      default: return this.props.modalActions.showModal('RequestBitcoin')
+      case '/bch/transactions':
+        return this.props.modalActions.showModal('RequestBch')
+      case '/eth/transactions':
+        return this.props.modalActions.showModal('RequestEther')
+      default:
+        return this.props.modalActions.showModal('RequestBitcoin')
     }
   }
 
   render () {
-    return <Actions handleSend={this.handleSend} handleRequest={this.handleRequest} />
+    return (
+      <Actions
+        handleSend={this.handleSend}
+        handleRequest={this.handleRequest}
+      />
+    )
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   router: state.router
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ActionsContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ActionsContainer)

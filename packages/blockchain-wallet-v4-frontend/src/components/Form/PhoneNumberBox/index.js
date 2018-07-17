@@ -19,10 +19,10 @@ const Container = styled.div`
     height: 40px;
     font-size: 14px;
     ::-webkit-input-placeholder {
-      opacity: .35;
+      opacity: 0.35;
     }
     ::-moz-placeholder {
-      opacity: .35;
+      opacity: 0.35;
     }
   }
   * {
@@ -32,7 +32,7 @@ const Container = styled.div`
   }
 `
 
-const PhoneNumberBox = (field) => {
+const PhoneNumberBox = field => {
   const handler = (status, value, countryData, number, id) => {
     field.input.onChange(number)
   }
@@ -42,7 +42,16 @@ const PhoneNumberBox = (field) => {
 
   return (
     <Container>
-      <IntlTelInput defaultValue={field.defaultValue || ''} onPhoneNumberChange={handler} format defaultCountry={countryCode} preferredCountries={['us', 'gb']} css={['intl-tel-input', 'form-control']} utilsScript={'libphonenumber.js'} placeholder='555-555-5555' />
+      <IntlTelInput
+        defaultValue={field.defaultValue || ''}
+        onPhoneNumberChange={handler}
+        format
+        defaultCountry={countryCode}
+        preferredCountries={['us', 'gb']}
+        css={['intl-tel-input', 'form-control']}
+        utilsScript={'libphonenumber.js'}
+        placeholder='555-555-5555'
+      />
     </Container>
   )
 }

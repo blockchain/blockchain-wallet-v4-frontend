@@ -1,5 +1,4 @@
-export default
-{
+export default {
   code: 'CAD',
   base: 'CENT',
   trade: 'CAD',

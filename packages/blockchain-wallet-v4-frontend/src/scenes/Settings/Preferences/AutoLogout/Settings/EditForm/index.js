@@ -7,7 +7,9 @@ import Settings from './template.js'
 
 class EditFormContainer extends React.PureComponent {
   componentWillMount () {
-    this.props.formActions.initialize('settingAutoLogoutTime', { autoLogoutTime: this.props.logoutTime })
+    this.props.formActions.initialize('settingAutoLogoutTime', {
+      autoLogoutTime: this.props.logoutTime
+    })
   }
 
   render () {
@@ -25,4 +27,7 @@ const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditFormContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EditFormContainer)

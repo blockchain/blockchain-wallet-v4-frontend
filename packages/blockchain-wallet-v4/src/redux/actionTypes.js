@@ -5,11 +5,4 @@ import * as walletSync from './walletSync/actionTypes.js'
 import * as walletOptions from './walletOptions/actionTypes.js'
 import * as kvStore from './kvStore/actionTypes.js'
 
-export {
-  data,
-  kvStore,
-  settings,
-  wallet,
-  walletSync,
-  walletOptions
-}
+export { data, kvStore, settings, wallet, walletSync, walletOptions }

@@ -27,7 +27,7 @@ const MenuTooltipBox = styled(TextGroup)`
   top: 150%;
   left: -115px;
   width: 250px;
-  display: ${props => props.displayed ? 'block' : 'none'};
+  display: ${props => (props.displayed ? 'block' : 'none')};
   background-color: ${props => props.theme['white']};
   color: ${props => props.theme['gray-5']};
   border: 1px solid ${props => props.theme['gray-2']};
@@ -35,7 +35,7 @@ const MenuTooltipBox = styled(TextGroup)`
   box-sizing: border-box;
   font-size: 11px;
   font-weight: 300;
-  font-family: "Montserrat", sans serif;
+  font-family: 'Montserrat', sans serif;
 
   &:before {
     content: '';
@@ -97,7 +97,9 @@ class MenuTooltip extends React.PureComponent {
   }
 
   handleClick () {
-    if (!this.state.displayed) { this.props.whatsNewActions.updateMetadataWhatsNew(Date.now()) }
+    if (!this.state.displayed) {
+      this.props.whatsNewActions.updateMetadataWhatsNew(Date.now())
+    }
     this.setState({ displayed: !this.state.displayed, hasNews: false })
   }
 
@@ -106,20 +108,27 @@ class MenuTooltip extends React.PureComponent {
     return (
       <MenuTooltipWrapper>
         <MenuTooltipIconWrapper>
-          {this.state.hasNews &&
-          <NewLabel>
-            <Text size='11px' color='white' weight={300}>{newsLength}</Text>
-          </NewLabel>
-          }
-          <MenuTooltipIcon displayed={this.state.displayed} onClick={this.handleClick} name={icon} />
+          {this.state.hasNews && (
+            <NewLabel>
+              <Text size='11px' color='white' weight={300}>
+                {newsLength}
+              </Text>
+            </NewLabel>
+          )}
+          <MenuTooltipIcon
+            displayed={this.state.displayed}
+            onClick={this.handleClick}
+            name={icon}
+          />
         </MenuTooltipIconWrapper>
-        <MenuTooltipBox displayed={this.state.displayed} onClick={this.handleClick}>
+        <MenuTooltipBox
+          displayed={this.state.displayed}
+          onClick={this.handleClick}
+        >
           <MenuTooltipTitle size='14px' weight={500}>
             {title}
           </MenuTooltipTitle>
-          <TextContainer>
-            {children}
-          </TextContainer>
+          <TextContainer>{children}</TextContainer>
         </MenuTooltipBox>
       </MenuTooltipWrapper>
     )
@@ -130,8 +139,11 @@ MenuTooltip.defaultProps = {
   icon: 'bell-filled'
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   whatsNewActions: bindActionCreators(actions.core.kvStore.whatsNew, dispatch)
 })
 
-export default connect(null, mapDispatchToProps)(MenuTooltip)
+export default connect(
+  null,
+  mapDispatchToProps
+)(MenuTooltip)

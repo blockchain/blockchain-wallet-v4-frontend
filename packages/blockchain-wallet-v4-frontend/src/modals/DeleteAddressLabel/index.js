@@ -15,24 +15,37 @@ class DeleteAddressLabelContainer extends React.PureComponent {
   onDeleteConfirm () {
     const { accountIdx, walletIdx, addressIdx } = this.props
 
-    this.props.componentActions.deleteAddressLabel(accountIdx, walletIdx, addressIdx)
+    this.props.componentActions.deleteAddressLabel(
+      accountIdx,
+      walletIdx,
+      addressIdx
+    )
     this.props.close()
   }
 
   render () {
     return (
-      <DeleteAddressLabel {...this.props} onDeleteConfirm={this.onDeleteConfirm} />
+      <DeleteAddressLabel
+        {...this.props}
+        onDeleteConfirm={this.onDeleteConfirm}
+      />
     )
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  componentActions: bindActionCreators(actions.components.manageAddresses, dispatch)
+const mapDispatchToProps = dispatch => ({
+  componentActions: bindActionCreators(
+    actions.components.manageAddresses,
+    dispatch
+  )
 })
 
 const enhance = compose(
   modalEnhancer('DeleteAddressLabel'),
-  connect(undefined, mapDispatchToProps)
+  connect(
+    undefined,
+    mapDispatchToProps
+  )
 )
 
 export default enhance(DeleteAddressLabelContainer)

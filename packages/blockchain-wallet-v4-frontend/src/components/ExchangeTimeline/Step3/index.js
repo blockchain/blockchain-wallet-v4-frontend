@@ -29,11 +29,14 @@ const Circle = styled.div`
   overflow: hidden;
 `
 
-const getColor = (status) => {
+const getColor = status => {
   switch (status) {
-    case 'disabled': return Color('gray-2')
-    case 'refunded': return Color('error')
-    default: return Color('brand-primary')
+    case 'disabled':
+      return Color('gray-2')
+    case 'refunded':
+      return Color('error')
+    default:
+      return Color('brand-primary')
   }
 }
 
@@ -43,18 +46,28 @@ const Step3 = props => {
   return (
     <Wrapper>
       <Circle status={status}>
-        {
-          status === 'refunded'
-            ? <Icon name='alert' size='40px' color='error' />
-            : <Icon name='checkmark' size='40px' color={status === 'disabled' ? 'gray-2' : 'brand-primary'} />
-        }
+        {status === 'refunded' ? (
+          <Icon name='alert' size='40px' color='error' />
+        ) : (
+          <Icon
+            name='checkmark'
+            size='40px'
+            color={status === 'disabled' ? 'gray-2' : 'brand-primary'}
+          />
+        )}
       </Circle>
       <Text size='13px' weight={500} capitalize>
-        {
-          status === 'refunded'
-            ? <FormattedMessage id='components.exchangetimeline.refunded' defaultMessage='Trade refunded' />
-            : <FormattedMessage id='components.exchangetimeline.trade' defaultMessage='Trade complete' />
-        }
+        {status === 'refunded' ? (
+          <FormattedMessage
+            id='components.exchangetimeline.refunded'
+            defaultMessage='Trade refunded'
+          />
+        ) : (
+          <FormattedMessage
+            id='components.exchangetimeline.trade'
+            defaultMessage='Trade complete'
+          />
+        )}
       </Text>
     </Wrapper>
   )

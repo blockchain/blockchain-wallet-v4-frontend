@@ -29,11 +29,23 @@ class ActivityListContainer extends React.PureComponent {
 
   render () {
     const { data, canBuy } = this.props
-    const partner = canBuy.cata({ Success: (val) => val, Loading: () => false, Failure: () => false, NotAsked: () => false })
+    const partner = canBuy.cata({
+      Success: val => val,
+      Loading: () => false,
+      Failure: () => false,
+      NotAsked: () => false
+    })
 
     return data.cata({
-      Success: (value) => <Success activities={value} partner={partner} handleRequest={this.handleRequest} handleLink={this.handleLink} />,
-      Failure: (message) => <Error>{message}</Error>,
+      Success: value => (
+        <Success
+          activities={value}
+          partner={partner}
+          handleRequest={this.handleRequest}
+          handleLink={this.handleLink}
+        />
+      ),
+      Failure: message => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
@@ -45,10 +57,13 @@ const mapStateToProps = (state, ownProps) => ({
   canBuy: selectors.exchange.getCanTrade(state, 'Buy')
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch),
   actions: bindActionCreators(actions.components.activityList, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ActivityListContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ActivityListContainer)

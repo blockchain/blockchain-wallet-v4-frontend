@@ -3,8 +3,8 @@ import { assoc } from 'ramda'
 import { Types } from 'blockchain-wallet-v4'
 import { actions, actionTypes, selectors } from 'data'
 
-export const askSecondPasswordEnhancer = (coreSaga) =>
-  function * (args) {
+export const askSecondPasswordEnhancer = coreSaga =>
+  function*(args) {
     let enhancedArgs = args
     const wallet = yield select(selectors.core.wallet.getWallet)
     if (Types.Wallet.isDoubleEncrypted(wallet)) {
@@ -16,7 +16,7 @@ export const askSecondPasswordEnhancer = (coreSaga) =>
     return yield call(coreSaga, enhancedArgs)
   }
 
-export const promptForSecondPassword = function * () {
+export const promptForSecondPassword = function*() {
   const wallet = yield select(selectors.core.wallet.getWallet)
   if (Types.Wallet.isDoubleEncrypted(wallet)) {
     yield put(actions.modals.showModal('SecondPassword'))
@@ -25,7 +25,7 @@ export const promptForSecondPassword = function * () {
   }
 }
 
-export const promptForInput = function * ({ title, secret, initial = '' }) {
+export const promptForInput = function*({ title, secret, initial = '' }) {
   yield put(actions.modals.showModal('PromptInput', { title, secret, initial }))
   let { response, canceled } = yield race({
     response: take(actionTypes.wallet.SUBMIT_PROMPT_INPUT),
@@ -39,7 +39,7 @@ export const promptForInput = function * ({ title, secret, initial = '' }) {
   }
 }
 
-export const forceSyncWallet = function * () {
+export const forceSyncWallet = function*() {
   yield put(actions.core.walletSync.forceSync())
   const { error } = yield race({
     success: take(actionTypes.core.walletSync.SYNC_SUCCESS),

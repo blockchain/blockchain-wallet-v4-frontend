@@ -1,11 +1,17 @@
 import { curry, path } from 'ramda'
 import { dataPath } from '../../paths'
 
-export const getPair = curry((pair, state) => path([dataPath, 'shapeShift', pair], state))
+export const getPair = curry((pair, state) =>
+  path([dataPath, 'shapeShift', pair], state)
+)
 
 export const getOrder = path([dataPath, 'shapeShift', 'order'])
 
-export const getShapeshiftQuotation = path([dataPath, 'shapeShift', 'quotation'])
+export const getShapeshiftQuotation = path([
+  dataPath,
+  'shapeShift',
+  'quotation'
+])
 
 export const getShapeshiftOrder = path([dataPath, 'shapeShift', 'order'])
 

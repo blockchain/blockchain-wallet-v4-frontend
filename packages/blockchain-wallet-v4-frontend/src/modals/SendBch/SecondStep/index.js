@@ -12,13 +12,17 @@ import Success from './template.success'
 class SecondStepContainer extends React.PureComponent {
   render () {
     return this.props.data.cata({
-      Success: (value) => <Success
-        {...value}
-        coin='BCH'
-        handleSubmit={() => this.props.actions.sendBchSecondStepSubmitClicked()}
-        handleBack={() => this.props.actions.sendBchSecondStepCancelClicked()}
-      />,
-      Failure: (message) => <Error>{message}</Error>,
+      Success: value => (
+        <Success
+          {...value}
+          coin='BCH'
+          handleSubmit={() =>
+            this.props.actions.sendBchSecondStepSubmitClicked()
+          }
+          handleBack={() => this.props.actions.sendBchSecondStepCancelClicked()}
+        />
+      ),
+      Failure: message => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
@@ -29,8 +33,11 @@ const mapStateToProps = state => ({
   data: getData(state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.sendBch, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SecondStepContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SecondStepContainer)

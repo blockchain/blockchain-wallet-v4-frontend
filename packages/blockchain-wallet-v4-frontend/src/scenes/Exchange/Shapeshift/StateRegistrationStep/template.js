@@ -6,7 +6,13 @@ import { FormattedMessage, injectIntl } from 'react-intl'
 
 import { required } from 'services/FormHelper'
 import { Button, Text } from 'blockchain-info-components'
-import { Form, FormGroup, FormLabel, FormItem, SelectBoxUSState } from 'components/Form'
+import {
+  Form,
+  FormGroup,
+  FormLabel,
+  FormItem,
+  SelectBoxUSState
+} from 'components/Form'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -30,19 +36,25 @@ const SubmitButton = styled(Button)`
   margin-top: 16px;
 `
 
-const StateRegistrationStep = (props) => {
+const StateRegistrationStep = props => {
   const { handleSubmit, invalid, pristine } = props
 
   return (
     <Wrapper>
       <Header>
         <Text size='20px' weight={500} color='brand-primary'>
-          <FormattedMessage id='scenes.exchange.shapeshift.stateregistration.header' defaultMessage='Simple. Seamless. Secure.' />
+          <FormattedMessage
+            id='scenes.exchange.shapeshift.stateregistration.header'
+            defaultMessage='Simple. Seamless. Secure.'
+          />
         </Text>
       </Header>
       <SubHeader>
         <Text size='14px' weight={300}>
-          <FormattedMessage id='scenes.exchange.shapeshift.stateregistration.subheader' defaultMessage='Blockchain works with exchange partners to make exchanging coins in your wallet secure and seamless.' />
+          <FormattedMessage
+            id='scenes.exchange.shapeshift.stateregistration.subheader'
+            defaultMessage='Blockchain works with exchange partners to make exchanging coins in your wallet secure and seamless.'
+          />
         </Text>
       </SubHeader>
       <SelectionContainer>
@@ -50,13 +62,29 @@ const StateRegistrationStep = (props) => {
           <FormGroup>
             <FormItem>
               <FormLabel for='state'>
-                <FormattedMessage id='scenes.exchange.shapeshift.stateregistration.selectstate' defaultMessage='Select your state of residency:' />
+                <FormattedMessage
+                  id='scenes.exchange.shapeshift.stateregistration.selectstate'
+                  defaultMessage='Select your state of residency:'
+                />
               </FormLabel>
-              <Field name='state' validate={[required]} component={SelectBoxUSState} />
+              <Field
+                name='state'
+                validate={[required]}
+                component={SelectBoxUSState}
+              />
             </FormItem>
           </FormGroup>
-          <SubmitButton nature='primary' uppercase fullwidth type='submit' disabled={invalid || pristine}>
-            <FormattedMessage id='scenes.exchange.shapeshift.stateregistration.continue' defaultMessage='Continue' />
+          <SubmitButton
+            nature='primary'
+            uppercase
+            fullwidth
+            type='submit'
+            disabled={invalid || pristine}
+          >
+            <FormattedMessage
+              id='scenes.exchange.shapeshift.stateregistration.continue'
+              defaultMessage='Continue'
+            />
           </SubmitButton>
         </Form>
       </SelectionContainer>
@@ -69,16 +97,20 @@ StateRegistrationStep.propTypes = {
   stateWhitelist: PropTypes.array.isRequired
 }
 
-export default injectIntl(reduxForm({
-  form: 'shapeshiftStateRegistration',
-  validate: (values, props) => {
-    return values.state && values.state.code && props.stateWhitelist.indexOf(values.state.code) >= 0
-      ? {}
-      : {
-        state: props.intl.formatMessage({
-          id: 'scenes.exchange.shapeshift.stateregistration.unavailable',
-          defaultMessage: 'This service is not yet available in your state.'
-        })
-      }
-  }
-})(StateRegistrationStep))
+export default injectIntl(
+  reduxForm({
+    form: 'shapeshiftStateRegistration',
+    validate: (values, props) => {
+      return values.state &&
+        values.state.code &&
+        props.stateWhitelist.indexOf(values.state.code) >= 0
+        ? {}
+        : {
+            state: props.intl.formatMessage({
+              id: 'scenes.exchange.shapeshift.stateregistration.unavailable',
+              defaultMessage: 'This service is not yet available in your state.'
+            })
+          }
+    }
+  })(StateRegistrationStep)
+)

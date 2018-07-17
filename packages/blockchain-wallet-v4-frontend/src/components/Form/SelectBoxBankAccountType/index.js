@@ -15,12 +15,22 @@ class SelectBoxBankAccountType extends React.PureComponent {
 const mapStateToProps = (state, ownProps) => ({
   accountTypes: [
     {
-      text: <FormattedMessage id='components.form.selectboxbankaccounttype.checking' defaultMessage='Checking' />,
+      text: (
+        <FormattedMessage
+          id='components.form.selectboxbankaccounttype.checking'
+          defaultMessage='Checking'
+        />
+      ),
       value: 'checking'
     },
 
     {
-      text: <FormattedMessage id='components.form.selectboxbankaccounttype.savings' defaultMessage='Savings' />,
+      text: (
+        <FormattedMessage
+          id='components.form.selectboxbankaccounttype.savings'
+          defaultMessage='Savings'
+        />
+      ),
       value: 'savings'
     }
   ]

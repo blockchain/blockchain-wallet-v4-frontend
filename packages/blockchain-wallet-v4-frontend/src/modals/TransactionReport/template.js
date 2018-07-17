@@ -5,8 +5,20 @@ import { FormattedMessage } from 'react-intl'
 import { reduxForm, Field } from 'redux-form'
 import { CSVDownload } from 'react-csv'
 
-import { Button, Icon, Link, Modal, ModalHeader, ModalBody, Text } from 'blockchain-info-components'
-import { DateBoxDebounced, SelectBoxBitcoinAddresses, Form } from 'components/Form'
+import {
+  Button,
+  Icon,
+  Link,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  Text
+} from 'blockchain-info-components'
+import {
+  DateBoxDebounced,
+  SelectBoxBitcoinAddresses,
+  Form
+} from 'components/Form'
 import { required } from 'services/FormHelper'
 import { validStartDate, validEndDate } from './validation'
 
@@ -40,47 +52,94 @@ const Footer = styled.div`
   align-items: center;
   width: 100%;
 
-  & > :first-child { margin-right: 10px; }
+  & > :first-child {
+    margin-right: 10px;
+  }
 `
 
-const FirstStep = (props) => {
-  const { coin, csvData, position, total, closeAll, submitting, invalid, handleSubmit, isValidStartDate, isValidEndDate } = props
+const FirstStep = props => {
+  const {
+    coin,
+    csvData,
+    position,
+    total,
+    closeAll,
+    submitting,
+    invalid,
+    handleSubmit,
+    isValidStartDate,
+    isValidEndDate
+  } = props
 
   return (
     <Modal size='medium' position={position} total={total}>
       <ModalHeader onClose={closeAll}>
-        <FormattedMessage id='modals.transactionreport.export' defaultMessage='Export {coin} transactions history' values={{ coin }} />
+        <FormattedMessage
+          id='modals.transactionreport.export'
+          defaultMessage='Export {coin} transactions history'
+          values={{ coin }}
+        />
       </ModalHeader>
       <ModalBody>
         <Form onSubmit={handleSubmit}>
           <Container>
             <Row>
               <Text size='13px' weight={400} capitalize>
-                <FormattedMessage id='modals.transactionreport.selectwallet' defaultMessage='Select wallet' />
+                <FormattedMessage
+                  id='modals.transactionreport.selectwallet'
+                  defaultMessage='Select wallet'
+                />
               </Text>
             </Row>
             <Row margin='30px'>
-              <Field name='from' component={SelectBoxBitcoinAddresses} coin={coin} />
+              <Field
+                name='from'
+                component={SelectBoxBitcoinAddresses}
+                coin={coin}
+              />
             </Row>
             <Row>
               <Text size='13px' weight={400} capitalize>
-                <FormattedMessage id='modals.transactionreport.selecttimerange' defaultMessage='Select time range' />
+                <FormattedMessage
+                  id='modals.transactionreport.selecttimerange'
+                  defaultMessage='Select time range'
+                />
               </Text>
             </Row>
             <Row margin='30px'>
               <TimeContainer>
-                <Field name='start' validate={[required, validStartDate]} component={DateBoxDebounced} isValidDate={isValidStartDate} />
+                <Field
+                  name='start'
+                  validate={[required, validStartDate]}
+                  component={DateBoxDebounced}
+                  isValidDate={isValidStartDate}
+                />
                 <Icon name='right-arrow' size='30px' />
-                <Field name='end' validate={[required, validEndDate]} component={DateBoxDebounced} isValidDate={isValidEndDate} />
+                <Field
+                  name='end'
+                  validate={[required, validEndDate]}
+                  component={DateBoxDebounced}
+                  isValidDate={isValidEndDate}
+                />
               </TimeContainer>
             </Row>
           </Container>
           <Footer>
             <Link size='13px' weight={300} fullwidth onClick={closeAll}>
-              <FormattedMessage id='modals.transactionreport.firststep.close' defaultMessage='Close' />
+              <FormattedMessage
+                id='modals.transactionreport.firststep.close'
+                defaultMessage='Close'
+              />
             </Link>
-            <Button type='submit' nature='primary' disabled={submitting || invalid}>
-              <FormattedMessage id='modals.transactionreport.firststep.generate' defaultMessage='Export CSV' />
+            <Button
+              type='submit'
+              nature='primary'
+              disabled={submitting || invalid}
+            >
+              <FormattedMessage
+                id='modals.transactionreport.firststep.generate'
+                defaultMessage='Export CSV'
+              />
             </Button>
             {csvData && <CSVDownload data={csvData} />}
           </Footer>

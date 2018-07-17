@@ -24,11 +24,16 @@ class ImportedAddressesContainer extends React.Component {
   }
 
   handleShowPriv (address) {
-    this.props.modalsActions.showModal('ShowBtcPrivateKey', { addr: address.addr, balance: address.info.final_balance })
+    this.props.modalsActions.showModal('ShowBtcPrivateKey', {
+      addr: address.addr,
+      balance: address.info.final_balance
+    })
   }
 
   handleSignMessage (address) {
-    this.props.modalsActions.showModal('SignMessage', { address: address.addr })
+    this.props.modalsActions.showModal('SignMessage', {
+      address: address.addr
+    })
   }
 
   handleToggleArchived (address) {
@@ -38,34 +43,35 @@ class ImportedAddressesContainer extends React.Component {
 
   render () {
     const { search } = this.props
-    return (
-      this.props.activeAddresses.cata({
-        Success: (value) => (
-          <Success
-            importedAddresses={value}
-            onClickImport={this.handleClickImport}
-            search={search && search.toLowerCase()}
-            onToggleArchived={this.handleToggleArchived}
-            onShowPriv={this.handleShowPriv}
-            onShowSignMessage={this.handleSignMessage}
-          />
-        ),
-        Failure: (message) => <div>{message}</div>,
-        Loading: () => <div />,
-        NotAsked: () => <div />
-      })
-    )
+    return this.props.activeAddresses.cata({
+      Success: value => (
+        <Success
+          importedAddresses={value}
+          onClickImport={this.handleClickImport}
+          search={search && search.toLowerCase()}
+          onToggleArchived={this.handleToggleArchived}
+          onShowPriv={this.handleShowPriv}
+          onShowSignMessage={this.handleSignMessage}
+        />
+      ),
+      Failure: message => <div>{message}</div>,
+      Loading: () => <div />,
+      NotAsked: () => <div />
+    })
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   activeAddresses: selectors.core.common.btc.getActiveAddresses(state),
   search: formValueSelector('settingsAddresses')(state, 'search')
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   coreActions: bindActionCreators(actions.core.wallet, dispatch),
   modalsActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ImportedAddressesContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ImportedAddressesContainer)

@@ -1,4 +1,3 @@
-
 import * as AT from './actionTypes'
 import { merge, dissoc } from 'ramda'
 

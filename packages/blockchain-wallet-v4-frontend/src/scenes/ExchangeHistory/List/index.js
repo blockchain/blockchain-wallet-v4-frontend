@@ -16,12 +16,14 @@ class ListContainer extends React.PureComponent {
   render () {
     const { complete, incomplete, showComplete, showIncomplete } = this.props
 
-    return <List
-      complete={complete}
-      incomplete={incomplete}
-      showComplete={showComplete}
-      showIncomplete={showIncomplete}
-    />
+    return (
+      <List
+        complete={complete}
+        incomplete={incomplete}
+        showComplete={showComplete}
+        showIncomplete={showIncomplete}
+      />
+    )
   }
 }
 
@@ -29,4 +31,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.exchangeHistory, dispatch)
 })
 
-export default connect(undefined, mapDispatchToProps)(ListContainer)
+export default connect(
+  undefined,
+  mapDispatchToProps
+)(ListContainer)

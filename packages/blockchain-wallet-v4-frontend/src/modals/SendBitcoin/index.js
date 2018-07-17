@@ -48,7 +48,10 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose(
   modalEnhancer('SendBitcoin'),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )
 
 export default enhance(SendBitcoinContainer)

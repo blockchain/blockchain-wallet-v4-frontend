@@ -12,7 +12,7 @@ const Container = styled.div`
 `
 const Error = styled.label`
   position: absolute;
-  top: ${props => props.errorBottom ? '40px' : '-20px'};
+  top: ${props => (props.errorBottom ? '40px' : '-20px')};
   right: 0;
   display: block;
   height: 15px;
@@ -22,7 +22,7 @@ const Error = styled.label`
   color: ${props => props.theme['error']};
 `
 
-const SelectBox = (props) => {
+const SelectBox = props => {
   const { input, meta, hideErrors, errorBottom, ...rest } = props
   const { touched, invalid, error, pristine } = meta
   const errorState = touched && invalid ? 'invalid' : 'initial'
@@ -30,7 +30,9 @@ const SelectBox = (props) => {
   return (
     <Container>
       <SelectInput {...input} {...meta} {...rest} errorState={errorState} />
-      {(touched || !pristine) && error && !hideErrors && <Error errorBottom>{error}</Error>}
+      {(touched || !pristine) &&
+        error &&
+        !hideErrors && <Error errorBottom>{error}</Error>}
     </Container>
   )
 }
@@ -40,15 +42,31 @@ SelectBox.propTypes = {
     onBlur: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
     onFocus: PropTypes.func.isRequired,
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object])
+    value: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.object
+    ])
   }).isRequired,
-  elements: PropTypes.arrayOf(PropTypes.shape({
-    group: PropTypes.string.isRequired,
-    items: PropTypes.arrayOf(PropTypes.shape({
-      text: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired, PropTypes.object.isRequired]),
-      value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired, PropTypes.object.isRequired])
-    })).isRequired
-  })).isRequired,
+  elements: PropTypes.arrayOf(
+    PropTypes.shape({
+      group: PropTypes.string.isRequired,
+      items: PropTypes.arrayOf(
+        PropTypes.shape({
+          text: PropTypes.oneOfType([
+            PropTypes.string.isRequired,
+            PropTypes.number.isRequired,
+            PropTypes.object.isRequired
+          ]),
+          value: PropTypes.oneOfType([
+            PropTypes.string.isRequired,
+            PropTypes.number.isRequired,
+            PropTypes.object.isRequired
+          ])
+        })
+      ).isRequired
+    })
+  ).isRequired,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   searchEnabled: PropTypes.bool,
   opened: PropTypes.bool
