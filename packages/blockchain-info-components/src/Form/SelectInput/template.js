@@ -155,7 +155,7 @@ const SelectInput = props => {
   const showArrow = !hideArrow
 
   return (
-    <SelectBoxInput onKeyDown={(e) => onKeyDown(e, items.length, items[hovered])} tabIndex='0'>
+    <SelectBoxInput onKeyDown={(e) => onKeyDown(e, (items.length - 1), items[hovered])} tabIndex='0'>
       {!expanded || !searchEnabled ? (
         <Display
           onClick={handleFocus}
