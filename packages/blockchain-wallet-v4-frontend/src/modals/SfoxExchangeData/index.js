@@ -70,6 +70,8 @@ class SfoxExchangeData extends React.PureComponent {
         return { component: <Link />, step: 'funding' }
       case 'upload':
         return { component: <Verify step='upload' />, step: 'verify' }
+      case 'jumio':
+        return { component: <Verify step='jumio' />, step: 'verify' }
       case 'verified': {
         this.handleClose()
         break
@@ -106,7 +108,7 @@ class SfoxExchangeData extends React.PureComponent {
 }
 
 SfoxExchangeData.propTypes = {
-  step: PropTypes.oneOf(['account', 'verify', 'upload', 'funding']),
+  step: PropTypes.oneOf(['account', 'verify', 'upload', 'jumio', 'funding']),
   close: PropTypes.function
 }
 

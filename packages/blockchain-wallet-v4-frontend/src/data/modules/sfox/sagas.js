@@ -1,4 +1,4 @@
-import { put, call, select } from 'redux-saga/effects'
+import { apply, put, call, select } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import * as A from './actions'
 import * as actions from '../../actions'
@@ -75,7 +75,7 @@ export default ({ coreSagas }) => {
 
       const profile = yield select(selectors.core.data.sfox.getProfile)
       if (!profile.data.verificationStatus.required_docs.length) {
-        yield put(A.nextStep('funding'))
+        yield put(A.nextStep('jumio'))
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'upload', e))
@@ -258,6 +258,18 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const getJumioToken = function*() {
+    try {
+      yield put(A.getJumioTokenLoading())
+      const profile = yield select(selectors.core.data.sfox.getProfile)
+      const token = yield apply(profile.data, profile.data.getJumioToken)
+      yield put(A.getJumioTokenSuccess(token))
+    } catch (e) {
+      yield put(A.getJumioTokenFailure(e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'getJumioToken', e))
+    }
+  }
+
   return {
     checkForProfileFailure,
     initializePayment,
@@ -269,6 +281,7 @@ export default ({ coreSagas }) => {
     submitMicroDeposits,
     submitQuote,
     submitSellQuote,
+    getJumioToken,
     upload
   }
 }

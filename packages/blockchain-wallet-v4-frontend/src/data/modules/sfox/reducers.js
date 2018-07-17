@@ -6,7 +6,8 @@ const INITIAL_STATE = {
   sfoxBusy: Remote.NotAsked,
   qaSellAddress: null,
   siftScienceEnabled: false,
-  payment: Remote.NotAsked
+  payment: Remote.NotAsked,
+  jumioToken: Remote.NotAsked
 }
 
 const sfoxSignup = (state = INITIAL_STATE, action) => {
@@ -45,6 +46,15 @@ const sfoxSignup = (state = INITIAL_STATE, action) => {
     }
     case AT.SFOX_SELL_BTC_PAYMENT_UPDATED_FAILURE: {
       return assoc('payment', Remote.Failure(payload), state)
+    }
+    case AT.GET_JUMIO_TOKEN_SUCCESS: {
+      return assoc('jumioToken', Remote.Success(payload), state)
+    }
+    case AT.GET_JUMIO_TOKEN_LOADING: {
+      return assoc('jumioToken', Remote.Loading, state)
+    }
+    case AT.GET_JUMIO_TOKEN_FAILURE: {
+      return assoc('jumioToken', Remote.Failure(payload), state)
     }
     default:
       return state
