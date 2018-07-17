@@ -12,7 +12,7 @@ import {
 import * as Coin from '../../../coinSelection/coin'
 import { Wallet, HDAccount, Address } from '../../../types'
 import { isPositiveInteger } from '../../../utils/checks'
-import { isValidBitcoinAddress, getWifAddress } from '../../../utils/bitcoin'
+import { isValidBitcoinAddress, getWifAddress } from '../../../utils/btc'
 import * as S from '../../selectors'
 
 // /////////////////////////////////////////////////////////////////////////////

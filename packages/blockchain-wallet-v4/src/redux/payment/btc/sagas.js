@@ -10,7 +10,7 @@ import {
   isValidBitcoinAddress,
   privateKeyStringToKey,
   detectPrivateKeyFormat
-} from '../../../utils/bitcoin'
+} from '../../../utils/btc'
 import { futurizeP } from 'futurize'
 import {
   isString,

@@ -1,6 +1,6 @@
 import { call, put, select, take } from 'redux-saga/effects'
 import { dissoc, isNil, length, mapObjIndexed, path, sum, values } from 'ramda'
-import { convertFeeToWei } from '../../../utils/ethereum'
+import { convertFeeToWei } from '../../../utils/eth'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
