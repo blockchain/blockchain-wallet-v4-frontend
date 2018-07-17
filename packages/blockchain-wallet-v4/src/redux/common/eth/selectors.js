@@ -3,8 +3,8 @@ import {
   getAddresses,
   getTransactions,
   getHeight
-} from '../../data/ethereum/selectors.js'
-import { getAccounts } from '../../kvStore/ethereum/selectors.js'
+} from '../../data/eth/selectors.js'
+import { getAccounts } from '../../kvStore/eth/selectors.js'
 import * as transactions from '../../../transactions'
 import { getShapeshiftTxHashMatch } from '../../kvStore/shapeShift/selectors'
 

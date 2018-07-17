@@ -17,7 +17,7 @@ import {
 import { over, view } from 'ramda-lens'
 import { inputComparator, sortOutputs } from 'bip69'
 import Type from '../types/Type'
-import { addressToScript, scriptToAddress } from '../utils/bitcoin'
+import { addressToScript, scriptToAddress } from '../utils/btc'
 
 export const TX_EMPTY_SIZE = 4 + 1 + 1 + 4
 export const TX_INPUT_BASE = 32 + 4 + 1 + 4
