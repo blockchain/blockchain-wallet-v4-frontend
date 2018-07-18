@@ -114,8 +114,8 @@ jobs:
     steps:
       - *attach_workspace
       - run:
-          name: Code Coverage Report
-          command: yarn coverage:report
+          name: Report Code Coverage
+          command: yarn ci:coverage:report
 workflows:
   version: 2
 
@@ -136,13 +136,13 @@ workflows:
             - npm_install
 
   test_coverage:
-    triggers:
-      - schedule:
-          cron: "0 0 * * *"
-          filters:
-            branches:
-              only:
-                - development
+#    triggers:
+#      - schedule:
+#          cron: "0 0 * * *"
+#          filters:
+#            branches:
+#              only:
+#                - development
     jobs:
       - pull_code
       - npm_install
