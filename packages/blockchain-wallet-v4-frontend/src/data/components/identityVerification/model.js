@@ -1,3 +1,5 @@
+export const MODAL_NAME = 'IdentityVerification'
+
 export const STEPS = {
   personal: 'personal',
   address: 'address',

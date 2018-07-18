@@ -16,18 +16,6 @@ import EditEmail from './EditEmail'
 import EditSmsNumber from './EditSmsNumber'
 
 class PersonalContainer extends React.PureComponent {
-  static propTypes = {
-    personalData: PropTypes.shape({
-      email: PropTypes.string.isRequired,
-      smsNumber: PropTypes.string.isRequired,
-      emailVerified: PropTypes.number.isRequired,
-      smsVerified: PropTypes.number.isRequired
-    }),
-    countryCode: PropTypes.string.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
-    step: PropTypes.oneOf(keys(PERSONAL_STEPS)).isRequired
-  }
-
   componentDidMount () {
     const { personalData, actions } = this.props
     actions.updatePersonalStep(personalData)
@@ -91,6 +79,18 @@ class PersonalContainer extends React.PureComponent {
 
     return ''
   }
+}
+
+PersonalContainer.propTypes = {
+  personalData: PropTypes.shape({
+    email: PropTypes.string.isRequired,
+    smsNumber: PropTypes.string.isRequired,
+    emailVerified: PropTypes.number.isRequired,
+    smsVerified: PropTypes.number.isRequired
+  }),
+  countryCode: PropTypes.string.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  step: PropTypes.oneOf(keys(PERSONAL_STEPS)).isRequired
 }
 
 const mapDispatchToProps = dispatch => ({
