@@ -4,6 +4,7 @@ import { IntlProvider, FormattedMessage } from 'react-intl'
 
 import Button from './Button'
 import ButtonGroup from './ButtonGroup'
+import Cookies from 'universal-cookie'
 import MenuButton from './MenuButton'
 import * as Color from './Colors'
 import { trackEvent } from './Events'
@@ -31,6 +32,8 @@ const lightTheme = {
   placeholder: `${Color.whiteAlpha75}`,
   headerScroll: `${Color.bigStone}`
 }
+const COOKIES = new Cookies()
+const LOCALE = COOKIES.get('clang') || 'en'
 
 const darkTheme = {
   main: `${Color.biscay}`,
@@ -226,25 +229,29 @@ const productsList = [
   {
     title: <FormattedMessage id="header.products.wallet" defaultMessage="Wallet"/>,
     desc: <FormattedMessage id="header.products.wallet-desc" defaultMessage="Send, Receive, and Trade"/>,
-    link: 'https://blockchain.com/wallet',
+    link: '/wallet',
+    locale: LOCALE,
     event: 'header_wallet'
   },
   {
     title: <FormattedMessage id="header.data.explorer" defaultMessage="Explorer"/>,
     desc: <FormattedMessage id="header.data.explorer-desc" defaultMessage="Search and Verify Transactions"/>,
-    link: 'https://blockchain.com/explorer',
+    link: '/explorer',
+    locale: LOCALE,
     event: 'header_explorer'
   },
   {
     title: <FormattedMessage id="header.products.bps" defaultMessage="Principal Strategies"/>,
     desc: <FormattedMessage id="header.products.bps-desc" defaultMessage="Institutional Portal"/>,
     link: 'https://bps.blockchain.com',
+    locale: LOCALE,
     event: 'header_principal'
   },
   {
     title: <FormattedMessage id="header.products.developers" defaultMessage="Developers"/>,
     desc: <FormattedMessage id="header.products.developers-desc" defaultMessage="Access our API"/>,
-    link: 'https://blockchain.com/api',
+    link: '/api',
+    locale: LOCALE,
     event: 'header_developers'
   }
 ]
@@ -253,13 +260,15 @@ const dataList = [
   {
     title: <FormattedMessage id="header.data.markets" defaultMessage="Markets"/>,
     desc: <FormattedMessage id="header.data.markets-desc" defaultMessage="Prices, Quotes, and More"/>,
-    link: 'https://blockchain.com/markets',
+    link: '/markets',
+    locale: LOCALE,
     event: 'header_markets'
   },
   {
     title: <FormattedMessage id="header.data.charts" defaultMessage="Charts"/>,
     desc: <FormattedMessage id="header.data.charts-desc" defaultMessage="Stats and Network Activity"/>,
-    link: 'https://blockchain.com/charts',
+    link: '/charts',
+    locale: LOCALE,
     event: 'header_charts'
   }
 ]
@@ -270,7 +279,7 @@ const ListWrap = items => (
       {items.map((item, index) => {
         return (
           <li key={index}>
-            <Link href={item.link} event={item.event}>
+            <Link href={item.link} event={item.event} locale={item.locale}>
               <h5 className="title">{item.title}</h5>
               <p className="desc">{item.desc}</p>
             </Link>
