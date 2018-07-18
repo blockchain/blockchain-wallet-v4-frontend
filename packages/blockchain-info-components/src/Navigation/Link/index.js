@@ -3,7 +3,7 @@ import { injectIntl } from 'react-intl'
 import { LinkEvent } from '../Events'
 
 const Link = (props) => {
-  let { children, href, ...rest } = props
+  let { children, href, locale, ...rest } = props
   let parsedURL = null
   let to = href
   let doReplace = false
@@ -17,8 +17,8 @@ const Link = (props) => {
     doReplace = true
   }
   // insert locale in front of link only if its relative and locale is not "en"
-  if (doReplace && props.intl && props.intl.locale && props.intl.locale !== 'en') {
-    to = '/' + props.intl.locale + (href.startsWith('/') ? href : '/' + href)
+  if (doReplace && props.intl && locale && locale !== 'en') {
+    to = '/' + locale + (href.startsWith('/') ? href : '/' + href)
   }
 
   let newProps = {
