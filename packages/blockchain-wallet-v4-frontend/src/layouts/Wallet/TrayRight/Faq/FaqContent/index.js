@@ -441,7 +441,7 @@ const FaqContent = [
           <FaqDescription>
             <FormattedMessage
               id='scenes.faq.group.noexchange.answer1'
-              defaultMessage='We partner with exchanges across the world to make buying and selling digital assets easier for you. If you’re located in select states across the US or SEPA, you can get started now by creating an account with one of our partners.'
+              defaultMessage='We partner with exchanges across the world to make buying and selling digital assets easier for you. If you’re located in select states across the US or SEPA, you can get started now by creating an account with one of our partners. Otherwise, keep an eye on our Twitter, Facebook, and blog to find out when we bring buy and sell to your area!'
             />
           </FaqDescription>
         )
