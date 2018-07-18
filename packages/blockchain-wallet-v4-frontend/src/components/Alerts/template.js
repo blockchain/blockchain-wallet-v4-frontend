@@ -571,7 +571,7 @@ const selectMessage = (message, data = undefined) => {
       return (
         <FormattedMessage
           id='components.alerts.reset_twofa_info'
-          defaultMessage='Reset 2-step authentication has been successfully submitted.'
+          defaultMessage='Reset two-factor authentication has been successfully submitted.'
         />
       )
     case C.RESTORE_ERROR:
