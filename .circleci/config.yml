@@ -136,13 +136,6 @@ workflows:
             - npm_install
 
   test_coverage:
-#    triggers:
-#      - schedule:
-#          cron: "0 0 * * *"
-#          filters:
-#            branches:
-#              only:
-#                - development
     jobs:
       - pull_code
       - npm_install
