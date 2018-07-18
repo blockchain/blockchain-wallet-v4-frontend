@@ -20,6 +20,6 @@ export default ({ api, coreSagas }) => {
     yield takeLatest(AT.RESEND_EMAIL_CODE, resendEmailCode)
     yield takeLatest(AT.UPDATE_SMS_NUMBER, updateSmsNumber)
     yield takeLatest(AT.VERIFY_SMS_NUMBER, verifySmsNumber)
-    yield takeLatest(AT.RESEND_EMAIL_CODE, resendSmsCode)
+    yield takeLatest(AT.RESEND_SMS_CODE, resendSmsCode)
   }
 }

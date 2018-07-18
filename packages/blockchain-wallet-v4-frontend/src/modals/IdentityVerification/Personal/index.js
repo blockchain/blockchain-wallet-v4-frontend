@@ -25,6 +25,7 @@ class PersonalContainer extends React.PureComponent {
     const { personalData, actions } = this.props
     if (!equals(personalData, prevProps.personalData)) {
       actions.updatePersonalStep(personalData)
+      actions.setFormBusy(false)
     }
   }
 
@@ -32,6 +33,7 @@ class PersonalContainer extends React.PureComponent {
     const {
       personalData,
       step,
+      formBusy,
       countryCode,
       actions,
       handleSubmit
@@ -47,6 +49,7 @@ class PersonalContainer extends React.PureComponent {
           updateEmail={actions.updateEmail}
           verifyEmail={actions.verifyEmail}
           resendCode={actions.resendEmailCode}
+          formBusy={formBusy}
         />
       )
     }
@@ -60,6 +63,7 @@ class PersonalContainer extends React.PureComponent {
           updateSmsNumber={actions.updateSmsNumber}
           verifySmsNumber={actions.verifySmsNumber}
           resendCode={actions.resendSmsCode}
+          formBusy={formBusy}
         />
       )
     }
@@ -73,6 +77,7 @@ class PersonalContainer extends React.PureComponent {
           countryCode={countryCode}
           editEmail={actions.setPersonalStep.bind(null, PERSONAL_STEPS.email)}
           editSms={actions.setPersonalStep.bind(null, PERSONAL_STEPS.smsNumber)}
+          formBusy={formBusy}
         />
       )
     }
@@ -90,7 +95,8 @@ PersonalContainer.propTypes = {
   }),
   countryCode: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  step: PropTypes.oneOf(keys(PERSONAL_STEPS)).isRequired
+  step: PropTypes.oneOf(keys(PERSONAL_STEPS)).isRequired,
+  formBusy: PropTypes.bool.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({

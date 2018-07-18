@@ -5,7 +5,7 @@ export const setOnfidoEnabled = enabled => ({
   payload: { enabled }
 })
 export const setVertificationStep = step => ({
-  type: AT.SET_VERIIFICATION_STEP,
+  type: AT.SET_VERIFICATION_STEP,
   payload: { step }
 })
 export const setPersonalStep = step => ({
@@ -28,3 +28,7 @@ export const resendEmailCode = () => ({ type: AT.RESEND_EMAIL_CODE })
 export const updateSmsNumber = () => ({ type: AT.UPDATE_SMS_NUMBER })
 export const verifySmsNumber = () => ({ type: AT.VERIFY_SMS_NUMBER })
 export const resendSmsCode = () => ({ type: AT.RESEND_SMS_CODE })
+export const setFormBusy = busy => ({
+  type: AT.SET_FORM_BUSY,
+  payload: { busy }
+})

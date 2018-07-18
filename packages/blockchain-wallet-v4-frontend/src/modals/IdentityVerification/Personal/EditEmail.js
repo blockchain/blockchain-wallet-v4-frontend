@@ -15,7 +15,7 @@ import { getEmailData } from './selectors'
 import { required, validEmail } from 'services/FormHelper'
 import { spacing } from 'services/StyleService'
 import media from 'services/ResponsiveService'
-import { Text, Button } from 'blockchain-info-components'
+import { Text, Button, HeartbeatLoader } from 'blockchain-info-components'
 import {
   ColLeft,
   ColRight,
@@ -70,10 +70,11 @@ const emailHelper = ({ emailVerifiedError, resendCode, editEmail }) => {
 const EditEmail = ({
   step,
   email,
-  resendCode,
   invalid,
+  formBusy,
   updateEmail,
   editEmail,
+  resendCode,
   verifyEmail,
   emailVerifiedError
 }) => (
@@ -105,17 +106,6 @@ const EditEmail = ({
               component={TextBox}
               validate={[required, validEmail]}
             />
-            <Button
-              nature='primary'
-              onClick={updateEmail}
-              disabled={invalid}
-              style={spacing('mt-15')}
-            >
-              <FormattedMessage
-                id='identityverification.personal.email.number'
-                defaultMessage='Send Email Verification Code'
-              />
-            </Button>
           </EmailInput>
         )}
         {step === EMAIL_STEPS.verify && (
@@ -143,18 +133,32 @@ const EditEmail = ({
     <ColRight>
       <ColRightInner>
         <ButtonWrapper>
-          <Button
-            nature='primary'
-            onClick={verifyEmail}
-            fullwidth
-            uppercase
-            disabled={invalid || step === EMAIL_STEPS.edit}
-          >
-            <FormattedMessage
-              id='identityverification.personal.continue'
-              defaultMessage='Continue'
-            />
-          </Button>
+          {step === EMAIL_STEPS.edit && (
+            <Button nature='primary' onClick={updateEmail} disabled={invalid}>
+              <FormattedMessage
+                id='identityverification.personal.email.number'
+                defaultMessage='Send Email Verification Code'
+              />
+            </Button>
+          )}
+          {step === EMAIL_STEPS.verify && (
+            <Button
+              nature='primary'
+              onClick={verifyEmail}
+              fullwidth
+              uppercase
+              disabled={invalid || formBusy}
+            >
+              {!formBusy ? (
+                <FormattedMessage
+                  id='identityverification.personal.continue'
+                  defaultMessage='Continue'
+                />
+              ) : (
+                <HeartbeatLoader height='20px' width='20px' color='white' />
+              )}
+            </Button>
+          )}
         </ButtonWrapper>
       </ColRightInner>
     </ColRight>
@@ -168,7 +172,8 @@ EditEmail.propTypes = {
   resendCode: PropTypes.func.isRequired,
   step: PropTypes.oneOf(keys(EMAIL_STEPS)).isRequired,
   emailVerifiedError: PropTypes.bool,
-  email: PropTypes.string.isRequired
+  email: PropTypes.string.isRequired,
+  formBusy: PropTypes.bool.isRequired
 }
 
 const enhance = compose(

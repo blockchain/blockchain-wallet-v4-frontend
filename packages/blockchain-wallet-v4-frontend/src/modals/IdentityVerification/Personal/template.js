@@ -14,14 +14,19 @@ import { PERSONAL_FORM } from 'data/components/identityVerification/model'
 import media from 'services/ResponsiveService'
 import { spacing } from 'services/StyleService'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
-import { Link, Icon, Button, Text } from 'blockchain-info-components'
+import {
+  Link,
+  Icon,
+  Button,
+  Text,
+  HeartbeatLoader
+} from 'blockchain-info-components'
 import { FormGroup, FormItem, TextBox, PhoneNumberBox } from 'components/Form'
 import {
   Form,
   ColLeft,
   ColRight,
   InputWrapper,
-  HeartbeatLoader,
   PartnerHeader,
   PartnerSubHeader,
   ColRightInner
@@ -108,6 +113,7 @@ const Personal = ({
   countryCode,
   emailVerified,
   smsVerified,
+  formBusy,
   editEmail,
   editSms
 }) => (
@@ -269,13 +275,14 @@ const Personal = ({
           disabled={
             invalid ||
             submitting ||
+            formBusy ||
             !smsNumber ||
             !email ||
             !smsVerified ||
             !emailVerified
           }
         >
-          {!submitting ? (
+          {!formBusy ? (
             <FormattedMessage
               id='identityverification.personal.continue'
               defaultMessage='Continue'

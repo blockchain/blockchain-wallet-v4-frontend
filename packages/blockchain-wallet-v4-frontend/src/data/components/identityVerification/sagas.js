@@ -47,12 +47,14 @@ export default ({ api, coreSagas }) => {
 
   const updateEmail = function*(args) {
     const { email } = yield select(selectors.form.getFormValues(EMAIL_FORM))
+    yield put(A.setFormBusy(true))
     yield put(actions.modules.securityCenter.updateEmail(email))
     yield put(A.setEmailStep(EMAIL_STEPS.verify))
   }
 
   const verifyEmail = function*() {
     const { code } = yield select(selectors.form.getFormValues(EMAIL_FORM))
+    yield put(A.setFormBusy(true))
     yield put(actions.modules.securityCenter.verifyEmailCode(code))
   }
 
@@ -65,11 +67,13 @@ export default ({ api, coreSagas }) => {
     const { smsNumber } = yield select(
       selectors.form.getFormValues(SMS_NUMBER_FORM)
     )
+    yield put(A.setFormBusy(true))
     yield put(actions.modules.settings.updateMobile(smsNumber))
     yield put(A.setSmsStep(SMS_STEPS.verify))
   }
 
   const verifySmsNumber = function*() {
+    yield put(A.setFormBusy(true))
     const { code } = yield select(selectors.form.getFormValues(SMS_NUMBER_FORM))
     yield put(actions.modules.settings.verifyMobile(code))
   }
