@@ -264,8 +264,8 @@ const Personal = ({
         <Button
           uppercase
           nature='primary'
+          type='submit'
           fullwidth
-          onClick={handleSubmit}
           disabled={
             invalid ||
             submitting ||

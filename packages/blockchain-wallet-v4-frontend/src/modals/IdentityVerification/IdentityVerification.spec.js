@@ -2,8 +2,9 @@ import React from 'react'
 import { TestBed, getDispatchSpyReducer, createTestStore } from 'utils/testbed'
 import { mount } from 'enzyme'
 import { combineReducers } from 'redux'
+import { last } from 'ramda'
 
-import { actions } from 'data'
+import { actions, actionTypes } from 'data'
 import { MODAL_NAME } from 'data/components/identityVerification/model'
 import { coreReducers, paths, coreSagasFactory } from 'blockchain-wallet-v4/src'
 import identityVerificationReducer from 'data/components/identityVerification/reducers'
@@ -145,6 +146,21 @@ describe('IdentityVerification Modal', () => {
         expect(wrapper.find('Field[name="email"]')).toHaveLength(1)
       })
 
+      it('should show current email after navigation', () => {
+        wrapper
+          .find('Field[name="email"]')
+          .closest('template__VerifiedContainer')
+          .find('template__EditLink')
+          .prop('onClick')()
+        wrapper.update()
+        expect(
+          wrapper
+            .find('Field[name="email"]')
+            .find('input')
+            .prop('value')
+        ).toBe(stubMail)
+      })
+
       it('should navigate to sms number edit form on edit mobile button click', () => {
         wrapper
           .find('Field[name="smsNumber"]')
@@ -154,6 +170,68 @@ describe('IdentityVerification Modal', () => {
         wrapper.update()
         expect(wrapper.find(EditSmsNumber)).toHaveLength(1)
         expect(wrapper.find('Field[name="smsNumber"]')).toHaveLength(1)
+      })
+
+      it('should show current number after navigation', () => {
+        wrapper
+          .find('Field[name="smsNumber"]')
+          .closest('template__VerifiedContainer')
+          .find('template__EditLink')
+          .prop('onClick')()
+        wrapper.update()
+        expect(
+          wrapper.find('Field[name="smsNumber"]').prop('defaultValue')
+        ).toBe(stubMobile)
+      })
+
+      it('should be disabled and not submit by default', () => {
+        expect(wrapper.find('Button[type="submit"]').prop('disabled')).toBe(
+          true
+        )
+        wrapper.find('template__PersonalForm').simulate('submit')
+        expect(last(dispatchSpy.mock.calls)[0].type).toEqual(
+          actionTypes.form.SET_SUBMIT_FAILED
+        )
+      })
+
+      it('should enable continue if all fields are filled', () => {
+        wrapper
+          .find('Field[name="dob"]')
+          .find('input')
+          .simulate('change', { target: { value: '11/11/1999' } })
+        wrapper
+          .find('Field[name="lastName"]')
+          .find('input')
+          .simulate('change', { target: { value: 'Beloved' } })
+        wrapper
+          .find('Field[name="firstName"]')
+          .find('input')
+          .simulate('change', { target: { value: 'User' } })
+        wrapper.update()
+        expect(wrapper.find('Button[type="submit"]').prop('disabled')).toBe(
+          false
+        )
+      })
+
+      it('should validate age to be over 18', () => {
+        wrapper
+          .find('Field[name="dob"]')
+          .find('input')
+          .simulate('change', {
+            target: { value: `11/11/${new Date().getFullYear() - 17}` }
+          })
+        wrapper
+          .find('Field[name="lastName"]')
+          .find('input')
+          .simulate('change', { target: { value: 'Beloved' } })
+        wrapper
+          .find('Field[name="firstName"]')
+          .find('input')
+          .simulate('change', { target: { value: 'User' } })
+        wrapper.update()
+        expect(wrapper.find('Button[type="submit"]').prop('disabled')).toBe(
+          true
+        )
       })
     })
   })

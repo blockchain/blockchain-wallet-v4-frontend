@@ -10,6 +10,7 @@ import ConnectedIntlProvider from 'providers/ConnectedIntlProvider'
 import ThemeProvider from 'providers/ThemeProvider'
 import configureLocales from 'services/LocalesService'
 import preferencesReducer from 'data/preferences/reducers'
+import formReducer from 'data/form/reducers'
 
 export const createTestStore = (
   reducers = {},
@@ -18,6 +19,7 @@ export const createTestStore = (
 ) => {
   const sagaMiddleware = createSagaMiddleware()
   const combinedReducers = combineReducers({
+    form: formReducer,
     prferences: preferencesReducer,
     ...reducers
   })
