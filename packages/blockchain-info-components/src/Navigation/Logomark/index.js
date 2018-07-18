@@ -1,20 +1,20 @@
-import React from "react"
-import styled from "styled-components"
+import React from 'react'
+import styled from 'styled-components'
 
-import BCLogo from "./logotype.component.svg"
+import BCLogo from './logotype.component.svg'
 
 const Logo = styled(BCLogo)`
   margin-right: 2rem;
 
-  height: ${props => (props.height ? props.height : "1.2rem")};
+  height: ${props => (props.height ? props.height : '1.2rem')};
 
   @media only screen and (max-width: 48rem) {
-    height: ${props => (props.height ? props.height : "1rem")};
+    height: ${props => (props.height ? props.height : '1rem')};
   }
 
   .logomark-color {
     fill: ${props =>
-      props.color ? props.color : props.theme ? props.theme.main : "white"};
+    props.color ? props.color : props.theme ? props.theme.main : 'white'};
   }
 `
 

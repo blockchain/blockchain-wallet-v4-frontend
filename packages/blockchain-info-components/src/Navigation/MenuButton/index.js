@@ -1,5 +1,5 @@
-import React, { PureComponent } from "react"
-import styled from "styled-components"
+import React, { PureComponent } from 'react'
+import styled from 'styled-components'
 
 const ButtonContainer = styled.button`
   appearance: none;
@@ -16,7 +16,7 @@ const ButtonContainer = styled.button`
   outline: none;
 
   > span {
-    background-color: ${props => (props.color ? props.color : "white")};
+    background-color: ${props => (props.color ? props.color : 'white')};
     border-radius: var(--smBorderRadius);
     display: block;
     height: 2px;
@@ -28,7 +28,7 @@ const ButtonContainer = styled.button`
 
   > span::before,
   > span::after {
-    background-color: ${props => (props.color ? props.color : "white")};
+    background-color: ${props => (props.color ? props.color : 'white')};
     border-radius: var(--smBorderRadius);
     content: "";
     display: block;
@@ -81,9 +81,9 @@ class MenuButton extends PureComponent {
     active: false
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
+  static getDerivedStateFromProps (nextProps, prevState) {
     let active = prevState.active
-    if (nextProps.hasOwnProperty("active")) {
+    if (nextProps.hasOwnProperty('active')) {
       active = nextProps.active
     }
     return { active }
@@ -97,8 +97,8 @@ class MenuButton extends PureComponent {
     }
   }
 
-  render() {
-    let classes = this.state.active ? "is-active" : ""
+  render () {
+    let classes = this.state.active ? 'is-active' : ''
     return (
       <ButtonContainer
         color={this.props.color}

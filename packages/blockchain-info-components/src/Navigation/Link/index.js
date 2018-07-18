@@ -1,6 +1,6 @@
 import React from 'react'
-import { injectIntl } from "react-intl"
-import { LinkEvent } from "../Events"
+import { injectIntl } from 'react-intl'
+import { LinkEvent } from '../Events'
 
 const Link = (props) => {
   let { children, href, ...rest } = props
@@ -10,15 +10,15 @@ const Link = (props) => {
 
   try {
     parsedURL = new URL(to)
-  } catch(error) {
+  } catch (error) {
     parsedURL = null
   }
-  if (parsedURL === null && !href.startsWith("#")) {
+  if (parsedURL === null && !href.startsWith('#')) {
     doReplace = true
   }
   // insert locale in front of link only if its relative and locale is not "en"
-  if (doReplace && props.intl && props.intl.locale && props.intl.locale !== "en") {
-    to = "/" + props.intl.locale + (href.startsWith("/") ? href : "/" + href)
+  if (doReplace && props.intl && props.intl.locale && props.intl.locale !== 'en') {
+    to = '/' + props.intl.locale + (href.startsWith('/') ? href : '/' + href)
   }
 
   let newProps = {

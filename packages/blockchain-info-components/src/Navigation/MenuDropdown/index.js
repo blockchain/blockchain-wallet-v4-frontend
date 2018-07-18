@@ -1,10 +1,10 @@
-import React, { PureComponent } from "react"
-import styled from "styled-components"
-import onClickOutside from "react-onclickoutside"
+import React, { PureComponent } from 'react'
+import styled from 'styled-components'
+import onClickOutside from 'react-onclickoutside'
 
-import ButtonGroup from "../ButtonGroup"
-import DropdownLink from "./DropdownLink"
-import DropdownTip from "./DropdownTip"
+import ButtonGroup from '../ButtonGroup'
+import DropdownLink from './DropdownLink'
+import DropdownTip from './DropdownTip'
 
 const DropdownContainer = styled.div`
   flex-direction: column;
@@ -28,7 +28,7 @@ const Dropdown = props => {
 
     return (
       <DropdownContainer dropdownTop={props.dropdownTop} x={props.x || 0} y={props.y || 0}>
-        {typeof component === "object"
+        {typeof component === 'object'
           ? component
           : React.createElement(component)}
       </DropdownContainer>
@@ -39,6 +39,13 @@ const Dropdown = props => {
 }
 
 class MenuDropdown extends PureComponent {
+  constructor (props) {
+    super(props)
+    this.mouseX = 0
+    this.mouseY = 0
+    this.ref = React.createRef()
+  }
+
   state = {
     dropDown: null,
     products: {
@@ -53,22 +60,15 @@ class MenuDropdown extends PureComponent {
     }
   }
 
-  constructor(props) {
-    super(props)
-    this.mouseX = 0
-    this.mouseY = 0
-    this.ref = React.createRef()
-  }
-
-  componentDidMount() {
+  componentDidMount () {
     if (document) {
-      document.addEventListener("mousemove", this.handleMouseMove)
+      document.addEventListener('mousemove', this.handleMouseMove)
     }
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     if (document) {
-      document.removeEventListener("mousemove", this.handleMouseMove)
+      document.removeEventListener('mousemove', this.handleMouseMove)
     }
   }
 
@@ -96,10 +96,10 @@ class MenuDropdown extends PureComponent {
     this.setState({ dropDown: null })
   }
 
-  toggleDropdown(name, onlyOn) {
+  toggleDropdown (name, onlyOn) {
     return e => {
       let dropDownVal = null
-      if (typeof name === "string") {
+      if (typeof name === 'string') {
         if (this.state.dropDown === name && !onlyOn) {
           dropDownVal = null
         } else {
@@ -120,7 +120,7 @@ class MenuDropdown extends PureComponent {
     }
   }
 
-  getLink(kind, name) {
+  getLink (kind, name) {
     return (
       <li key={kind}>
         <DropdownLink
@@ -135,7 +135,7 @@ class MenuDropdown extends PureComponent {
     )
   }
 
-  render() {
+  render () {
     let dropX = 0
     let dropY = 0
     let dropdownTip = null

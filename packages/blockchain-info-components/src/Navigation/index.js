@@ -1,20 +1,20 @@
-import React, { PureComponent } from "react"
-import styled, { ThemeProvider, injectGlobal } from "styled-components"
-import { IntlProvider, FormattedMessage } from "react-intl"
+import React, { PureComponent } from 'react'
+import styled, { ThemeProvider, injectGlobal } from 'styled-components'
+import { IntlProvider, FormattedMessage } from 'react-intl'
 
-import Button from "./Button"
-import ButtonGroup from "./ButtonGroup"
-import MenuButton from "./MenuButton"
-import * as Color from "./Colors"
-import { trackEvent } from "./Events"
-import Logomark from "./Logomark"
+import Button from './Button'
+import ButtonGroup from './ButtonGroup'
+import MenuButton from './MenuButton'
+import * as Color from './Colors'
+import { trackEvent } from './Events'
+import Logomark from './Logomark'
 import { Image } from '../Images'
-import Link from "./Link"
+import Link from './Link'
 import Normalize8 from '../Normalize.js'
 
-import MenuDropdown from "./MenuDropdown"
+import MenuDropdown from './MenuDropdown'
 
-import throttle from "./throttle.js"
+import throttle from './throttle.js'
 
 const publicRuntimeConfig = {
   headerSearchURL: 'https://blockchain.com/search?search=',
@@ -26,7 +26,7 @@ const HIDE_HEADER_MIN_WIDTH = 768
 const HIDE_HEADER_MIN_SCROLL = 100
 
 const lightTheme = {
-  main: "white",
+  main: 'white',
   secondary: `${Color.whiteAlpha10}`,
   placeholder: `${Color.whiteAlpha75}`,
   headerScroll: `${Color.bigStone}`
@@ -36,7 +36,7 @@ const darkTheme = {
   main: `${Color.biscay}`,
   secondary: `${Color.blackAlpha05}`,
   placeholder: `${Color.blackAlpha75}`,
-  headerScroll: "white"
+  headerScroll: 'white'
 }
 
 injectGlobal`
@@ -79,10 +79,10 @@ injectGlobal`
 `
 
 const GlobalNav = styled.div.attrs({
-  className: "flex-container"
+  className: 'flex-container'
 })`
   ${Normalize8}
-  background-color: ${props => props.backgroundColor ? props.backgroundColor : "transparent"};
+  background-color: ${props => props.backgroundColor ? props.backgroundColor : 'transparent'};
   position: ${props => props.position};
   z-index: 100;
 
@@ -99,7 +99,7 @@ const GlobalNav = styled.div.attrs({
   }
 
   &.scrollup {
-    background-color: ${props => (props.navColor ? props.navColor : "white")};
+    background-color: ${props => (props.navColor ? props.navColor : 'white')};
   }
 
   @media only screen and (max-width: 48rem) {
@@ -108,7 +108,7 @@ const GlobalNav = styled.div.attrs({
 `
 
 const NavWrapper = styled.div.attrs({
-  className: "flex-container"
+  className: 'flex-container'
 })`
   height: 4rem;
   flex-direction: row;
@@ -150,7 +150,7 @@ const NavInner = styled.div`
       font-weight: 500;
       line-height: 2.5rem;
       cursor: pointer;
-      color: ${props => (props.textColor ? props.textColor : "white")};
+      color: ${props => (props.textColor ? props.textColor : 'white')};
       z-index: 10;
 
       &::-webkit-search-cancel-button {
@@ -159,19 +159,19 @@ const NavInner = styled.div`
 
       &::placeholder {
         color: ${props =>
-          props.placeholderColor ? props.placeholderColor : "white"};
+    props.placeholderColor ? props.placeholderColor : 'white'};
       }
     }
 
     .search-icon {
-      fill: ${props => (props.textColor ? props.textColor : "white")};
+      fill: ${props => (props.textColor ? props.textColor : 'white')};
     }
 
     > input[type="search"]:focus {
       width: 100%;
       border-bottom: 2px solid white;
       border-bottom: ${props =>
-        props.textColor ? "2px solid " + props.textColor : "2px solid white"};
+    props.textColor ? '2px solid ' + props.textColor : '2px solid white'};
 
       cursor: text;
       transition: all 0.4s ease;
@@ -226,26 +226,26 @@ const productsList = [
   {
     title: <FormattedMessage id="header.products.wallet" defaultMessage="Wallet"/>,
     desc: <FormattedMessage id="header.products.wallet-desc" defaultMessage="Send, Receive, and Trade"/>,
-    link: "https://blockchain.com/wallet",
-    event: "header_wallet"
+    link: 'https://blockchain.com/wallet',
+    event: 'header_wallet'
   },
   {
     title: <FormattedMessage id="header.data.explorer" defaultMessage="Explorer"/>,
     desc: <FormattedMessage id="header.data.explorer-desc" defaultMessage="Search and Verify Transactions"/>,
-    link: "https://blockchain.com/explorer",
-    event: "header_explorer"
+    link: 'https://blockchain.com/explorer',
+    event: 'header_explorer'
   },
   {
     title: <FormattedMessage id="header.products.bps" defaultMessage="Principal Strategies"/>,
     desc: <FormattedMessage id="header.products.bps-desc" defaultMessage="Institutional Portal"/>,
-    link: "https://bps.blockchain.com",
-    event: "header_principal"
+    link: 'https://bps.blockchain.com',
+    event: 'header_principal'
   },
   {
     title: <FormattedMessage id="header.products.developers" defaultMessage="Developers"/>,
     desc: <FormattedMessage id="header.products.developers-desc" defaultMessage="Access our API"/>,
-    link: "https://blockchain.com/api",
-    event: "header_developers"
+    link: 'https://blockchain.com/api',
+    event: 'header_developers'
   }
 ]
 
@@ -253,14 +253,14 @@ const dataList = [
   {
     title: <FormattedMessage id="header.data.markets" defaultMessage="Markets"/>,
     desc: <FormattedMessage id="header.data.markets-desc" defaultMessage="Prices, Quotes, and More"/>,
-    link: "https://blockchain.com/markets",
-    event: "header_markets"
+    link: 'https://blockchain.com/markets',
+    event: 'header_markets'
   },
   {
     title: <FormattedMessage id="header.data.charts" defaultMessage="Charts"/>,
     desc: <FormattedMessage id="header.data.charts-desc" defaultMessage="Stats and Network Activity"/>,
-    link: "https://blockchain.com/charts",
-    event: "header_charts"
+    link: 'https://blockchain.com/charts',
+    event: 'header_charts'
   }
 ]
 
@@ -286,14 +286,14 @@ const dropdownMap = {
     linkText: <FormattedMessage id="header.dropdown.products" defaultMessage="Products"/>,
     component: ListWrap(productsList),
     onActive: () => {
-      trackEvent("header_products")
+      trackEvent('header_products')
     }
   },
   markets: {
     linkText: <FormattedMessage id="header.dropdown.data" defaultMessage="Data"/>,
     component: ListWrap(dataList),
     onActive: () => {
-      trackEvent("header_data")
+      trackEvent('header_data')
     }
   }
 }
@@ -390,37 +390,37 @@ class Header extends PureComponent {
     searchURL: SEARCH_URL
   }
 
-  state = {
-    menuActive: false,
-    search: false,
-    showNav: true,
-    searchText: ""
-  }
-
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.previousScroll = 100
   }
 
-  componentDidMount() {
+  state = {
+    menuActive: false,
+    search: false,
+    showNav: true,
+    searchText: ''
+  }
+
+  componentDidMount () {
     if (window) {
-      window.addEventListener("scroll", this.handleScroll, true)
-      window.addEventListener("resize", this.handleResize, true)
+      window.addEventListener('scroll', this.handleScroll, true)
+      window.addEventListener('resize', this.handleResize, true)
     }
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     if (window) {
-      window.removeEventListener("scroll", this.handleScroll)
-      window.removeEventListener("resize", this.handleResize)
+      window.removeEventListener('scroll', this.handleScroll)
+      window.removeEventListener('resize', this.handleResize)
     }
   }
 
-  getScrollTop() {
+  getScrollTop () {
     if (window && document) {
       let supportScrollY = window.scrollY !== undefined
       let supportPageOffset = window.pageYOffset !== undefined
-      let isCSS1Compat = (document.compatMode || "") === "CSS1Compat"
+      let isCSS1Compat = (document.compatMode || '') === 'CSS1Compat'
       let scrollTop = supportScrollY
         ? window.scrollY
         : supportPageOffset
@@ -473,7 +473,7 @@ class Header extends PureComponent {
 
   handleSearchFocus = () => {
     this.setState({ search: true })
-    trackEvent("header_search")
+    trackEvent('header_search')
   }
 
   handleSearchBlur = () => {
@@ -488,8 +488,8 @@ class Header extends PureComponent {
     if (e.keyCode === 13) {
       let searchText = this.state.searchText.trim()
       if (searchText.length) {
-        this.setState({ searchText: "" }, () => {
-          trackEvent("header_search-query")
+        this.setState({ searchText: '' }, () => {
+          trackEvent('header_search-query')
           this.handleSearch(searchText)
         })
       }
@@ -500,12 +500,12 @@ class Header extends PureComponent {
     document.location = this.props.searchURL + encodeURIComponent(text)
   }
 
-  render() {
-    let themeObj = this.props.theme === "light" ? darkTheme : lightTheme
-    let searchActive = this.state.search ? "search-active" : ""
-    let navVisibility = this.state.showNav ? "visible" : "hidden"
-    let navScrollUp = this.state.scrollUp ? "scrollup" : ""
-    let navClasses = [navVisibility, navScrollUp].join(" ")
+  render () {
+    let themeObj = this.props.theme === 'light' ? darkTheme : lightTheme
+    let searchActive = this.state.search ? 'search-active' : ''
+    let navVisibility = this.state.showNav ? 'visible' : 'hidden'
+    let navScrollUp = this.state.scrollUp ? 'scrollup' : ''
+    let navClasses = [navVisibility, navScrollUp].join(' ')
     let position = this.props.position || 'fixed'
     let dropdownTop = this.props.dropdownTop || 0
     let backgroundColor = Color.azure

@@ -1,18 +1,20 @@
 export default (callback, delay) => {
-  let isThrottled = false, args, context
+  let isThrottled = false
+  let args
+  let context
 
-  function wrapper() {
+  function wrapper () {
     if (isThrottled) {
       args = arguments
       context = this
       return
     }
 
-    isThrottled = true;
+    isThrottled = true
     callback.apply(this, arguments)
 
     setTimeout(() => {
-      isThrottled = false;
+      isThrottled = false
       if (args) {
         wrapper.apply(context, args)
         args = context = null
