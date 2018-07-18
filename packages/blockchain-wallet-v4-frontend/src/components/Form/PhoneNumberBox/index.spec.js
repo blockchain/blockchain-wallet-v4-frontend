@@ -7,7 +7,6 @@ import { Remote } from 'blockchain-wallet-v4/src'
 
 jest.mock('react-intl-tel-input/dist/libphonenumber.js', () => jest.fn())
 jest.mock('react-intl-tel-input', () => jest.fn())
-// jest.mock('blockchain-info-components', () => ({ TextInput: 'TextInput' }))
 
 describe('PhoneNumberBox', () => {
   it('renders correctly', () => {

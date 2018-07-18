@@ -200,11 +200,6 @@ const Personal = ({
                     }
                   </MediaContextConsumer>
                 </EditLink>
-                {/* <FieldMimic>
-                  <Text size='14px' weight={300}>
-                    { email }
-                  </Text>
-                </FieldMimic> */}
                 <IconContainer>
                   {emailVerified ? (
                     <Icon
@@ -303,7 +298,7 @@ Personal.propTypes = {
   smsNumber: PropTypes.string.isRequired,
   emailVerified: PropTypes.number.isRequired,
   smsVerified: PropTypes.number.isRequired,
-  countryCode: PropTypes.string.isRequired
+  countryCode: PropTypes.object.isRequired
 }
 
 export default reduxForm({

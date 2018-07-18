@@ -7,7 +7,7 @@ import { keys } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 
 import { actions } from 'data'
-import { STEPS } from 'data/components/identityVerification/model'
+import { STEPS, MODAL_NAME } from 'data/components/identityVerification/model'
 import { getData } from './selectors'
 import modalEnhancer from 'providers/ModalEnhancer'
 import media from 'services/ResponsiveService'
@@ -50,16 +50,6 @@ const stepMap = {
 export const formName = 'IdentityVerification'
 
 class IdentityVerification extends React.PureComponent {
-  static propTypes = {
-    step: PropTypes.oneOf(keys(STEPS)),
-    isOnfidoEnabled: PropTypes.bool.isRequired,
-    close: PropTypes.func.isRequired
-  }
-
-  static defaultProps = {
-    step: STEPS.personal
-  }
-
   state = { show: false }
 
   componentDidMount () {
@@ -109,12 +99,22 @@ class IdentityVerification extends React.PureComponent {
   }
 }
 
+IdentityVerification.propTypes = {
+  step: PropTypes.oneOf(keys(STEPS)),
+  isOnfidoEnabled: PropTypes.bool.isRequired,
+  close: PropTypes.func.isRequired
+}
+
+IdentityVerification.defaultProps = {
+  step: STEPS.personal
+}
+
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.components.identityVerification, dispatch)
 })
 
 const enhance = compose(
-  modalEnhancer('IdentityVerification'),
+  modalEnhancer(MODAL_NAME),
   connect(
     getData,
     mapDispatchToProps
