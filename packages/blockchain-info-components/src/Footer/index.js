@@ -4,6 +4,7 @@ import Cookies from 'universal-cookie'
 
 import { Image } from '../Images'
 import { Select } from './Select'
+import Link from '../Navigation/Link'
 import Normalize8 from '../Normalize.js'
 
 injectGlobal`
@@ -236,13 +237,19 @@ class Footer extends PureComponent {
   }
 
   handleDropdown (value) {
+    if (value === 'en') {
+      this.cookies.remove('clang', {path: '/'})
+    } else {
+      this.cookies.set('clang', value, {path: '/'})
+    }
+
     let toLocation = window.location
     let pathname = window.location.pathname
     let langPathMatch = pathname.match(/^\/([a-z]{2})\/(.*)/)
     if (langPathMatch && langPathMatch[1] in supportedLanguages) {
-      toLocation = '/' + value + '/' + langPathMatch[2]
+      toLocation = value === 'en' ? '/' + langPathMatch[2] : '/' + value + '/' + langPathMatch[2]
     } else {
-      toLocation = '/' + value + pathname
+      toLocation = value === 'en' ? pathname : '/' + value + pathname
     }
     window.setTimeout(() => {
       // trigger page refresh
@@ -251,9 +258,6 @@ class Footer extends PureComponent {
   }
 
   render () {
-    let { base } = this.props
-    base = base || 'https://blockchain.com'
-
     return (
       <GlobalFooter>
         <Container>
@@ -262,17 +266,17 @@ class Footer extends PureComponent {
               <h5>Products</h5>
               <ul>
                 <li>
-                  <a href={base + '/wallet'}>Wallet</a>
+                  <Link locale={this.lang} href={'/wallet'}>Wallet</Link>
                 </li>
                 <li>
-                  <a href={base + '/explorer'}>Explorer</a>
+                  <Link locale={this.lang} href={'/explorer'}>Explorer</Link>
                   <NavBadge>Info</NavBadge>
                 </li>
                 <li>
-                  <a href='https://bps.blockchain.com/'>Principal Strategies</a>
+                  <Link href='https://bps.blockchain.com/'>Principal Strategies</Link>
                 </li>
                 <li>
-                  <a href={base + '/api'}>Developers</a>
+                  <Link locale={this.lang} href={'/api'}>Developers</Link>
                 </li>
               </ul>
             </Column>
@@ -281,11 +285,11 @@ class Footer extends PureComponent {
               <h5>Data</h5>
               <ul>
                 <li>
-                  <a href={base + '/markets'}>Markets</a>
+                  <Link locale={this.lang} href={'/markets'}>Markets</Link>
                   <NavBadge>New</NavBadge>
                 </li>
                 <li>
-                  <a href={base + '/charts'}>Charts</a>
+                  <Link locale={this.lang} href={'/charts'}>Charts</Link>
                 </li>
               </ul>
             </Column>
@@ -294,16 +298,16 @@ class Footer extends PureComponent {
               <h5>Learn</h5>
               <ul>
                 <li>
-                  <a href={base + '/learning-portal/bitcoin-faq'}>What is Bitcoin</a>
+                  <Link locale={this.lang} href={'/learning-portal/bitcoin-faq'}>What is Bitcoin</Link>
                 </li>
                 <li>
-                  <a href={base + '/learning-portal/ether-basics'}>What is Ethereum</a>
+                  <Link locale={this.lang} href={'/learning-portal/ether-basics'}>What is Ethereum</Link>
                 </li>
                 <li>
-                  <a href={base + '/learning-portal'}>Getting Started</a>
+                  <Link locale={this.lang} href={'/learning-portal'}>Getting Started</Link>
                 </li>
                 <li>
-                  <a href='https://blog.blockchain.com'>Blog</a>
+                  <Link href='https://blog.blockchain.com'>Blog</Link>
                 </li>
               </ul>
             </Column>
@@ -312,17 +316,17 @@ class Footer extends PureComponent {
               <h5>Company</h5>
               <ul>
                 <li>
-                  <a href={base + '/about'}>About</a>
+                  <Link locale={this.lang} href={'/about'}>About</Link>
                 </li>
                 <li>
-                  <a href={base + '/team'}>Team</a>
+                  <Link locale={this.lang} href={'/team'}>Team</Link>
                 </li>
                 <li>
-                  <a href={base + '/careers'}>Careers</a>
+                  <Link locale={this.lang} href={'/careers'}>Careers</Link>
                   <NavBadge>Hiring</NavBadge>
                 </li>
                 <li>
-                  <a href={base + '/legal'}>Legal</a>
+                  <Link locale={this.lang} href={'/legal'}>Legal</Link>
                 </li>
               </ul>
             </Column>
@@ -331,13 +335,13 @@ class Footer extends PureComponent {
               <h5>Contact Us</h5>
               <ul>
                 <li>
-                  <a href={base + '/press'}>Press</a>
+                  <Link locale={this.lang} href={'/press'}>Press</Link>
                 </li>
                 <li>
-                  <a href='https://support.blockchain.com'>Support</a>
+                  <Link href='https://support.blockchain.com'>Support</Link>
                 </li>
                 <li>
-                  <a href='https://www.blockchain-status.com/'>Status</a>
+                  <Link href='https://www.blockchain-status.com/'>Status</Link>
                 </li>
               </ul>
             </Column>
