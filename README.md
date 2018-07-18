@@ -24,6 +24,8 @@ This repo contains the three codebases/packages listed below.
 4. Start the application in development mode: `yarn start`
 5. The frontend application will now be accessible via browser at `localhost:8080`
 
+If you require the application to run locally over HTTPS, follow the instructions [here](./config/ssl/ssl.md).
+
 ### Windows Support
 To ensure proper support for Windows, please take the following actions before running the above setup isntructions.
 1. Open a Powershell window with rights elevated to an Administrator.
