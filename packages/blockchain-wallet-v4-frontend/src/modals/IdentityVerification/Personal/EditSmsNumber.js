@@ -15,7 +15,7 @@ import { getSmsData } from './selectors'
 import { required, validMobileNumber } from 'services/FormHelper'
 import { spacing } from 'services/StyleService'
 import media from 'services/ResponsiveService'
-import { Text, Button } from 'blockchain-info-components'
+import { Text, Button, HeartbeatLoader } from 'blockchain-info-components'
 import {
   ColLeft,
   ColRight,
@@ -73,13 +73,14 @@ const smsHelper = ({ mobileVerifiedError, resendCode, editSmsNumber }) => {
 const EditSmsNumber = ({
   step,
   smsNumber,
-  resendCode,
   invalid,
+  countryCode,
+  formBusy,
   updateSmsNumber,
   editSmsNumber,
+  resendCode,
   verifySmsNumber,
-  mobileVerifiedError,
-  countryCode
+  mobileVerifiedError
 }) => (
   <EditSmsNumberWrapper>
     <ColLeft>
@@ -112,17 +113,6 @@ const EditSmsNumber = ({
               countryCode={countryCode}
               errorBottom
             />
-            <Button
-              nature='primary'
-              onClick={updateSmsNumber}
-              disabled={invalid}
-              style={spacing('mt-15')}
-            >
-              <FormattedMessage
-                id='identityverification.personal.mobile.sendmycode'
-                defaultMessage='Send My Code'
-              />
-            </Button>
           </MobileInput>
         )}
         {step === SMS_STEPS.verify && (
@@ -150,17 +140,36 @@ const EditSmsNumber = ({
     <ColRight>
       <ColRightInner>
         <ButtonWrapper>
-          <Button
-            nature='primary'
-            onClick={verifySmsNumber}
-            fullwidth
-            disabled={invalid || step === SMS_STEPS.edit}
-          >
-            <FormattedMessage
-              id='identityverification.personal.continue'
-              defaultMessage='Continue'
-            />
-          </Button>
+          {step === SMS_STEPS.edit && (
+            <Button
+              nature='primary'
+              onClick={updateSmsNumber}
+              disabled={invalid}
+              style={spacing('mt-15')}
+            >
+              <FormattedMessage
+                id='identityverification.personal.mobile.sendmycode'
+                defaultMessage='Send My Code'
+              />
+            </Button>
+          )}
+          {step === SMS_STEPS.verify && (
+            <Button
+              nature='primary'
+              onClick={verifySmsNumber}
+              fullwidth
+              disabled={invalid || formBusy}
+            >
+              {!formBusy ? (
+                <FormattedMessage
+                  id='identityverification.personal.continue'
+                  defaultMessage='Continue'
+                />
+              ) : (
+                <HeartbeatLoader height='20px' width='20px' color='white' />
+              )}
+            </Button>
+          )}
         </ButtonWrapper>
       </ColRightInner>
     </ColRight>

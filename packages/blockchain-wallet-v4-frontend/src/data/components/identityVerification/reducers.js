@@ -8,7 +8,8 @@ const INITIAL_STATE = {
   step: Remote.of(STEPS.personal),
   personalStep: Remote.Loading,
   emailStep: Remote.Loading,
-  smsStep: Remote.Loading
+  smsStep: Remote.Loading,
+  formBusy: false
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -18,7 +19,7 @@ export default (state = INITIAL_STATE, action) => {
     case AT.SET_ONFIDO_ENABLED: {
       return assoc('onfidoEnabled', payload.enabled, state)
     }
-    case AT.SET_VERIIFICATION_STEP: {
+    case AT.SET_VERIFICATION_STEP: {
       return assoc('step', Remote.of(payload.step), state)
     }
     case AT.SET_PERSONAL_STEP: {
@@ -29,6 +30,9 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.SET_SMS_STEP: {
       return assoc('smsStep', Remote.of(payload.step), state)
+    }
+    case AT.SET_FORM_BUSY: {
+      return assoc('formBusy', payload.busy, state)
     }
     default:
       return state

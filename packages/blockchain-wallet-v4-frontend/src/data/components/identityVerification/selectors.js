@@ -22,6 +22,11 @@ export const getSmsStep = path([
   'identityVerification',
   'smsStep'
 ])
+export const getFormBusy = path([
+  'components',
+  'identityVerification',
+  'formBusy'
+])
 export const getPersonalData = state => ({
   email: selectors.core.settings.getEmail(state).getOrElse(''),
   smsNumber: selectors.core.settings.getSmsNumber(state).getOrElse(''),
