@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { toString } from 'ramda'
 
-import { Icon, Link, Text, Tooltip } from 'blockchain-info-components'
+import { Icon, Link, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -65,23 +65,13 @@ const Confirmations = props => {
       )}
       <IconWrapper>
         {props.confirmations < props.minConfirmations && (
-          <TransactionTooltip>
-            <Tooltip colors={'red'}>
-              <FormattedMessage
-                id='scenes.transactions.content.list.listitem.transactionunconfirmed'
-                defaultMessage='Your transaction will be complete after it has {minConfirmations} confirmations.'
-                values={{ minConfirmations: props.minConfirmations }}
-              />
-              <Link
-                href='https://support.blockchain.com/hc/en-us/articles/217116406-Why-hasn-t-my-transaction-confirmed-yet-'
-                target='_blank'
-                size='11px'
-                weight={300}
-                altFont
-              >
-                Learn more.
-              </Link>
-            </Tooltip>
+          <TransactionTooltip
+            data-tip
+            data-for='confirmations'
+            data-iscapture='true'
+            data-offset="{'left': 0.75}"
+          >
+            <Icon name='question-in-circle' />
           </TransactionTooltip>
         )}
         <Link href={`${explorers[props.coin]}/${props.hash}`} target='_blank'>
