@@ -39,6 +39,20 @@ export const promptForInput = function*({ title, secret, initial = '' }) {
   }
 }
 
+export const confirm = function*({ title, secret, initial = '' }) {
+  yield put(actions.modals.showModal('Confirm', { title, secret, initial }))
+  let { response, canceled } = yield race({
+    response: take(actionTypes.wallet.SUBMIT_CONFIRM),
+    canceled: take(actionTypes.modals.CLOSE_MODAL)
+  })
+  if (canceled) {
+    throw new Error('CONFIRM_CANCELED')
+  } else {
+    yield put(actions.modals.closeModal())
+    return response.payload.value
+  }
+}
+
 export const forceSyncWallet = function*() {
   yield put(actions.core.walletSync.forceSync())
   const { error } = yield race({
