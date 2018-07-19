@@ -225,7 +225,7 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const checkForProfileFailure = function*() {
+  const checkProfileStatus = function*() {
     const profile = yield select(selectors.core.data.sfox.getProfile)
     const modals = yield select(modalSelectors.getModals)
     if (
@@ -233,6 +233,8 @@ export default ({ coreSagas }) => {
       equals('SfoxExchangeData', prop('type', head(modals)))
     ) {
       yield call(coreSagas.data.sfox.refetchProfile)
+    } else {
+      yield call(getJumioStatus)
     }
   }
 
@@ -258,11 +260,43 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const initializeJumio = function*() {
+    try {
+      const status = yield call(getJumioStatus)
+      // const accountsR = yield select(selectors.core.data.sfox.getAccounts)
+      // const accounts = accountsR.getOrElse([])
+      // If user has not set up jumio and they have bank accounts
+      if (status === 'missing_token') {
+        // TODO:: prompt for token
+      }
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'initializeJumio', e))
+    }
+  }
+
+  const getJumioStatus = function*() {
+    try {
+      yield put(A.getJumioStatusLoading())
+      const profileR = yield select(selectors.core.data.sfox.getProfile)
+      const tokenR = yield select(selectors.core.kvStore.buySell.getSfoxJumio)
+      const token = tokenR.getOrFail()
+      const profile = profileR.getOrElse({})
+      if (!token) return 'missing_token'
+      const status = yield apply(profile, profile.getJumioStatus, [token.id])
+      yield put(A.getJumioStatusSuccess(status))
+    } catch (e) {
+      yield put(A.getJumioStatusFailure(e))
+    }
+  }
+
   const getJumioToken = function*() {
     try {
       yield put(A.getJumioTokenLoading())
-      const profile = yield select(selectors.core.data.sfox.getProfile)
-      const token = yield apply(profile.data, profile.data.getJumioToken)
+      const profileR = yield select(selectors.core.data.sfox.getProfile)
+      const profile = profileR.getOrElse({})
+      const token = yield apply(profile, profile.getJumioToken)
+      yield put(actions.core.kvStore.buySell.sfoxSetJumioToken(token))
+      yield call(getJumioStatus)
       yield put(A.getJumioTokenSuccess(token))
     } catch (e) {
       yield put(A.getJumioTokenFailure(e))
@@ -271,7 +305,7 @@ export default ({ coreSagas }) => {
   }
 
   return {
-    checkForProfileFailure,
+    checkProfileStatus,
     initializePayment,
     prepareAddress,
     setBankManually,
@@ -281,6 +315,7 @@ export default ({ coreSagas }) => {
     submitMicroDeposits,
     submitQuote,
     submitSellQuote,
+    initializeJumio,
     getJumioToken,
     upload
   }

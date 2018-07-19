@@ -68,6 +68,14 @@ export default (state = INITIAL_STATE, action) => {
 
       return over(valueLens, setAll, state)
     }
+    case AT.SFOX_SET_JUMIO_TOKEN: {
+      const valueLens = compose(
+        mapped,
+        KVStoreEntry.value
+      )
+      const setJumio = compose(assocPath(['sfox', 'jumio'], payload))
+      return over(valueLens, setJumio, state)
+    }
     case AT.COINIFY_SET_PROFILE_BUYSELL: {
       const valueLens = compose(
         mapped,

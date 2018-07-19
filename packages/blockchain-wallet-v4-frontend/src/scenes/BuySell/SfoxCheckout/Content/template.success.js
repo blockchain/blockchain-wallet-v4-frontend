@@ -10,6 +10,7 @@ import { FormattedMessage } from 'react-intl'
 import { Remote } from 'blockchain-wallet-v4/src'
 import Stepper, { StepView } from 'components/Utilities/Stepper'
 import OrderCheckout from './OrderCheckout'
+import JumioStatus from './JumioStatus'
 import { OrderDetails, OrderSubmit } from './OrderReview'
 import Helper from 'components/BuySell/FAQ'
 import EmptyOrderHistoryContainer from 'components/BuySell/EmptyOrderHistory'
@@ -24,7 +25,7 @@ const CheckoutWrapper = styled.div`
 `
 const OrderSubmitWrapper = CheckoutWrapper.extend`
   width: 35%;
-  padding: 30px 30px 30px 10%;
+  padding: 0px 30px 30px 10%;
   ${media.mobile`
     padding: 0px;
   `};
@@ -171,7 +172,10 @@ const Success = props => {
                 type={'buy'}
               />
             </CheckoutWrapper>
-            <OrderSubmitWrapper>{faqListHelper()}</OrderSubmitWrapper>
+            <OrderSubmitWrapper>
+              <JumioStatus />
+              {faqListHelper()}
+            </OrderSubmitWrapper>
           </SfoxBuySellContainer>
         </StepView>
         <StepView step={1}>
