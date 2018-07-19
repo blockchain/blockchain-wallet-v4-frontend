@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import ReactTooltip from 'react-tooltip'
 
 import { actions } from 'data'
 import TransactionListItem from './template.js'
@@ -10,6 +11,11 @@ class ListItemContainer extends React.PureComponent {
     super(props)
     this.handleCoinToggle = this.handleCoinToggle.bind(this)
     this.handleEditDescription = this.handleEditDescription.bind(this)
+  }
+
+  componentDidMount () {
+    window.tooltip = ReactTooltip
+    ReactTooltip.rebuild()
   }
 
   handleCoinToggle () {
