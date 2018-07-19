@@ -6,6 +6,11 @@ import countryRegionData from 'country-region-data'
 
 import SelectBox from '../SelectBox'
 
+const countriesWithStates = ['US']
+
+export const countryHasStates = countryCode =>
+  countriesWithStates.includes(countryCode)
+
 class SelectBoxRegion extends React.PureComponent {
   static propTypes = {
     countryCode: PropTypes.string
@@ -27,10 +32,17 @@ class SelectBoxRegion extends React.PureComponent {
     return (
       <SelectBox
         label={
-          <FormattedMessage
-            id='components.selectboxcountry.label'
-            defaultMessage='Select state/region'
-          />
+          countryHasStates(countryCode) ? (
+            <FormattedMessage
+              id='components.selectboxregion.placeholder.state'
+              defaultMessage='Select state'
+            />
+          ) : (
+            <FormattedMessage
+              id='components.selectboxregion.placeholder.region'
+              defaultMessage='Select region'
+            />
+          )
         }
         elements={elements}
         {...this.props}

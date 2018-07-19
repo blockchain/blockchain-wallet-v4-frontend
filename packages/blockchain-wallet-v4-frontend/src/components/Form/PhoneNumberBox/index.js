@@ -7,6 +7,7 @@ import IntlTelInput from 'react-intl-tel-input'
 import 'react-intl-tel-input/dist/libphonenumber.js'
 import 'react-intl-tel-input/dist/main.css'
 import { Text } from 'blockchain-info-components'
+import { Remote } from 'blockchain-wallet-v4'
 
 const Container = styled.div`
   position: relative;
@@ -52,7 +53,10 @@ const PhoneNumberBox = field => {
     input.onBlur(number)
   }
 
-  const upperCountryCode = prop('countryCode', field).getOrElse('US')
+  const countryCodeField = prop('countryCode', field)
+  const upperCountryCode = Remote.is(countryCodeField)
+    ? countryCodeField.getOrElse('US')
+    : countryCodeField || 'US'
   const countryCode = upperCountryCode && toLower(upperCountryCode)
 
   return (

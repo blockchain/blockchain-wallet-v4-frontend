@@ -23,6 +23,7 @@ import SelectBoxCoinifyCurrency from './SelectBoxCoinifyCurrency'
 import SelectBoxCountry from './SelectBoxCountry'
 import SelectBoxCurrency from './SelectBoxCurrency'
 import SelectBoxLanguages from './SelectBoxLanguages'
+import SelectBoxRegion from './SelectBoxRegion'
 import SelectBoxTheme from './SelectBoxTheme'
 import SelectBoxUSState from './SelectBoxUSState'
 import TabMenuBuySellStatus from './TabMenuBuySellStatus'
@@ -58,6 +59,7 @@ export {
   SelectBoxCountry,
   SelectBoxCurrency,
   SelectBoxLanguages,
+  SelectBoxRegion,
   SelectBoxTheme,
   SelectBoxUSState,
   TabMenuBuySellStatus,

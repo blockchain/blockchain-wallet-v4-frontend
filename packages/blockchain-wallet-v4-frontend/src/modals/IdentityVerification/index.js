@@ -15,8 +15,8 @@ import { ModalHeader, ModalBody } from 'blockchain-info-components'
 import Tray, { duration } from 'components/Tray'
 import StepIndicator from 'components/StepIndicator'
 import Personal from './Personal'
-// import Address from './Address'
-// import Verify from './Verify'
+import Address from './Address'
+import Verify from './Verify'
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -65,8 +65,13 @@ class IdentityVerification extends React.PureComponent {
 
   getStepComponent = step => {
     const { actions } = this.props
-    // if (step === STEPS.address) return <Address />
-    // if (step === STEPS.verify) return <Verify />
+    if (step === STEPS.address)
+      return (
+        <Address
+          handleSubmit={actions.setVertificationStep.bind(null, STEPS.verify)}
+        />
+      )
+    if (step === STEPS.verify) return <Verify />
     return (
       <Personal
         handleSubmit={actions.setVertificationStep.bind(null, STEPS.address)}
@@ -93,7 +98,7 @@ class IdentityVerification extends React.PureComponent {
             />
           </HeaderWrapper>
         </ModalHeader>
-        <ModalBody>{this.getStepComponent()}</ModalBody>
+        <ModalBody>{this.getStepComponent(step)}</ModalBody>
       </Tray>
     )
   }

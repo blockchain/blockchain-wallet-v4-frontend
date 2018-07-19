@@ -25,3 +25,4 @@ export const SMS_STEPS = {
 export const PERSONAL_FORM = '@KYC.personalForm'
 export const EMAIL_FORM = '@KYC.emailForm'
 export const SMS_NUMBER_FORM = '@KYC.smsNumberForm'
+export const ADDRESS_FORM = '@KYC.addresForm'

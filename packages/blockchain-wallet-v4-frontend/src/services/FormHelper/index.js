@@ -13,10 +13,13 @@ import {
   formatUSZipcode,
   isOverEighteen,
   isSSN,
-  formatPhone
-} from './../ValidationHelper'
+  formatPhone,
+  normalizeCountryCode
+} from 'services/ValidationHelper'
 import { isValidIBAN, isValidBIC } from 'ibantools'
 import { isValidNumber } from 'libphonenumber-js'
+import { validate } from 'postal-codes-js'
+import postalCodes from 'postal-codes-js/generated/postal-codes-alpha2'
 import zxcvbn from 'zxcvbn'
 import { utils } from 'blockchain-wallet-v4/src'
 import * as M from './validationMessages'
@@ -124,6 +127,19 @@ const requiredDOB = value =>
 const requiredUsZipcode = value =>
   isUsZipcode(value) ? undefined : <M.RequiredUSZipCodeMessage />
 
+const requiredZipCode = (value, allVals) => {
+  const { countryCode } = allVals
+  // If country does not have a postal code format it's not required
+  if (!path([countryCode, 'postalCodeFormat'], postalCodes)) return undefined
+  if (!value) return <M.RequiredMessage />
+
+  return validate(countryCode, value) === true ? (
+    undefined
+  ) : (
+    <M.InvalidZipCodeMessage />
+  )
+}
+
 const normalizePhone = (val, prevVal) => formatPhone(val, prevVal)
 
 const onPartnerCountryWhitelist = (val, allVals, props, name, countries) => {
@@ -160,6 +176,7 @@ export {
   requiredNumber,
   requiredSSN,
   requiredUsZipcode,
+  requiredZipCode,
   validNumber,
   validEmail,
   validEmailCode,

@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { filter, contains, isEmpty, cond, T, identity } from 'ramda'
 import { FormattedMessage } from 'react-intl'
+import countryRegionData from 'country-region-data'
 
 import SelectBox from '../SelectBox'
 
@@ -54,7 +55,6 @@ const applyWhiteBlackList = (whiteList, blackList) => {
 }
 
 export const countries = [
-  { text: 'Aland Islands', value: 'FI-AX' },
   { text: 'Albania', value: 'AL' },
   { text: 'Algeria', value: 'DZ' },
   { text: 'American Samoa', value: 'AS' },
@@ -68,7 +68,6 @@ export const countries = [
   { text: 'Australia', value: 'AU' },
   { text: 'Austria', value: 'AT' },
   { text: 'Azerbaijan', value: 'AZ' },
-  { text: 'Azores', value: 'PT-20' },
   { text: 'Bahamas', value: 'BS' },
   { text: 'Bahrain', value: 'BH' },
   { text: 'Bangladesh', value: 'BD' },
@@ -92,7 +91,6 @@ export const countries = [
   { text: 'Cambodia', value: 'KH' },
   { text: 'Cameroon', value: 'CM' },
   { text: 'Canada', value: 'CA' },
-  { text: 'Canary Islands', value: 'ES-IC' },
   { text: 'Cape Verde', value: 'CV' },
   { text: 'Cayman Islands', value: 'KY' },
   { text: 'Chad', value: 'TD' },
@@ -170,7 +168,6 @@ export const countries = [
   { text: 'Macao', value: 'MO' },
   { text: 'Macedonia, the Former Yugoslav Republic of', value: 'MK' },
   { text: 'Madagascar', value: 'MG' },
-  { text: 'Madeira', value: 'PT-30' },
   { text: 'Malawi', value: 'MW' },
   { text: 'Malaysia', value: 'MY' },
   { text: 'Maldives', value: 'MV' },
@@ -245,7 +242,6 @@ export const countries = [
   { text: 'Spain', value: 'ES' },
   { text: 'Sri Lanka', value: 'LK' },
   { text: 'Suriname', value: 'SR' },
-  { text: 'Svalbard and Jan Mayen', value: 'SJ' },
   { text: 'Swaziland', value: 'SZ' },
   { text: 'Sweden', value: 'SE' },
   { text: 'Switzerland', value: 'CH' },

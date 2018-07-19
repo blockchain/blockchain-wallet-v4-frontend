@@ -3310,10 +3310,6 @@ cosmiconfig@^4.0.0:
     parse-json "^4.0.0"
     require-from-string "^2.0.1"
 
-country-region-data@^1.4.4:
-  version "1.4.4"
-  resolved "https://registry.yarnpkg.com/country-region-data/-/country-region-data-1.4.4.tgz#88cdfc64a180109581dcaa41714e659030e763ec"
-
 cosmiconfig@^5.0.2:
   version "5.0.5"
   resolved "https://registry.yarnpkg.com/cosmiconfig/-/cosmiconfig-5.0.5.tgz#a809e3c2306891ce17ab70359dc8bdf661fe2cd0"
@@ -3321,6 +3317,10 @@ cosmiconfig@^5.0.2:
     is-directory "^0.3.1"
     js-yaml "^3.9.0"
     parse-json "^4.0.0"
+
+country-region-data@^1.4.4:
+  version "1.4.4"
+  resolved "https://registry.yarnpkg.com/country-region-data/-/country-region-data-1.4.4.tgz#88cdfc64a180109581dcaa41714e659030e763ec"
 
 coveralls@^2.11.2:
   version "2.13.3"
@@ -8254,6 +8254,13 @@ portfinder@^1.0.9:
 posix-character-classes@^0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
+
+postal-codes-js@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/postal-codes-js/-/postal-codes-js-1.0.0.tgz#f55c078a69d4cb6ae7f4f1ca75a1990e5b3144e5"
+  dependencies:
+    detect-node "^2.0.3"
+    path "^0.12.7"
 
 postcss-calc@^5.2.0:
   version "5.3.1"
