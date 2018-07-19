@@ -1,111 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Tooltip component renders correctly 1`] = `
-.c3 > * {
-  white-space: normal;
-}
-
-.c3 > * {
-  display: block;
-  margin-bottom: 10px;
-}
-
-.c0 {
-  width: 22px;
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  position: relative;
-}
-
-.c1 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  width: 16px;
-  height: 16px;
-  font-size: 12px;
-  font-weight: 300;
-}
-
-.c1 > span {
-  cursor: pointer;
-}
-
-.c2 {
-  position: absolute;
-  bottom: 150%;
-  left: -115px;
-  width: 250px;
-  display: none;
-  border: 1px solid;
-  border-radius: 5px;
-  padding: 10px 10px;
-  box-sizing: border-box;
-  cursor: pointer;
-  font-size: 11px;
-  font-weight: 300;
-  font-family: 'Montserrat',sans serif;
-  text-align: left;
-}
-
-.c2 > div,
-.c2 > span {
-  margin-bottom: 0;
-}
-
-.c2:before {
-  content: '';
-  display: block;
-  position: absolute;
-  left: 114px;
-  top: 100%;
-  width: 0;
-  height: 0;
-  z-index: 0;
-  border-left: 9px solid transparent;
-  border-right: 9px solid transparent;
-  border-top: 8px solid;
-}
-
-.c2:after {
-  content: '';
-  display: block;
-  position: absolute;
-  left: 116px;
-  top: 100%;
-  width: 0;
-  height: 0;
-  z-index: 0;
-  border-left: 7px solid transparent;
-  border-right: 7px solid transparent;
-  border-top: 7px solid;
-}
-
 <div
-  className="c0"
-  width={100}
+  className="__react_component_tooltip place-top type-dark "
+  data-id="tooltip"
+  id="tip"
 >
-  <div
-    className="c1"
-  />
-  <div
-    className="c2 c3"
-    width={100}
-  >
-    <span>
-      Default
-    </span>
-  </div>
+  <span>
+    Tool Text
+  </span>
 </div>
 `;

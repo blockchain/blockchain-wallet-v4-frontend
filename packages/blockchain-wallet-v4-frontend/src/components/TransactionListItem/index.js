@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import ReactTooltip from 'react-tooltip'
+import { TooltipRebuild } from 'blockchain-info-components'
 
 import { actions } from 'data'
 import TransactionListItem from './template.js'
@@ -14,8 +14,7 @@ class ListItemContainer extends React.PureComponent {
   }
 
   componentDidMount () {
-    window.tooltip = ReactTooltip
-    ReactTooltip.rebuild()
+    TooltipRebuild()
   }
 
   handleCoinToggle () {
