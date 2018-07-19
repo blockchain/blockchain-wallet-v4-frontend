@@ -278,6 +278,7 @@ module.exports = {
             [
               'connect-src',
               "'self'",
+              'wss://localhost:8080',
               'ws://localhost:8080',
               envConfig.WEB_SOCKET_URL,
               envConfig.WEB_SOCKET_URL.replace('/inv', '/eth/inv'),
