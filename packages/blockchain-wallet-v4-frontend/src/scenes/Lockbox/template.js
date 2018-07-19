@@ -22,38 +22,58 @@ const Buttons = styled.div`
 `
 
 const Lockbox = props => {
+  const { getBtcAddress, btcInfo, deriveXpubs } = props
+
   return (
     <Wrapper>
       <div>
-        <Text size='26px' weight='600'>
+        <Text size="26px" weight={600}>
           <FormattedMessage
-            id='scenes.lockbox.welcome.title'
-            defaultMessage='Hardware secured digital assets'
+            id="scenes.lockbox.welcome.title"
+            defaultMessage="Hardware secured digital assets"
           />
         </Text>
       </div>
       <div style={{ marginTop: '15px' }}>
-        <Text size='14px' weight='300'>
+        <Text size="14px" weight={300}>
           <FormattedMessage
-            id='scenes.lockbox.welcome.subtitle'
-            defaultMessage='Lockbox works with Carbon to give your digital assets an additional layer of security. Unlock your Lockbox by linking your Carbon, or buying one today.'
+            id="scenes.lockbox.welcome.subtitle"
+            defaultMessage="Lockbox works with Carbon to give your digital assets an additional layer of security. Unlock your Lockbox by linking your Carbon, or buying one today."
           />
         </Text>
       </div>
       <Buttons>
-        <Button nature='secondary'>
+        <Button nature="secondary">
           <FormattedMessage
-            id='scenes.lockbox.welcome.buycarbon'
-            defaultMessage='Buy a Carbon'
+            id="scenes.lockbox.welcome.buycarbon"
+            defaultMessage="Buy a Carbon"
           />
         </Button>
-        <Button nature='primary' style={{ marginLeft: '15px' }}>
+        <Button
+          nature="primary"
+          style={{ marginLeft: '15px' }}
+          onClick={getBtcAddress}
+        >
           <FormattedMessage
-            id='scenes.lockbox.welcome.linkcarbon'
-            defaultMessage='Link My Carbon'
+            id="scenes.lockbox.welcome.linkcarbon"
+            defaultMessage="Link My Carbon"
           />
         </Button>
       </Buttons>
+
+      {btcInfo && (
+        <div style={{ marginTop: '25px' }}>
+          <div>publicKey: {btcInfo.publicKey}</div>
+          <div>bitcoinAddress: {btcInfo.bitcoinAddress}</div>
+          <div>chainCode: {btcInfo.chainCode}</div>
+
+          <div style={{ marginTop: '25px' }}>
+            <Button nature="primary" onClick={deriveXpubs}>
+              Derive xpubs
+            </Button>
+          </div>
+        </div>
+      )}
     </Wrapper>
   )
 }
