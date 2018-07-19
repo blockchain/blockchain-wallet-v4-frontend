@@ -57,9 +57,9 @@ const Container = styled.div.attrs({
 })`
     flex-direction: column;
     max-width: var(--siteMaxWidth);
-    padding: 1.25rem 2rem;
+    padding: 1.25rem 3rem;
     color: var(--textBlack);
-    margin: 0 auto;
+
 
     a {
         transition: color .5s, opacity: .5s;
@@ -76,6 +76,11 @@ const Container = styled.div.attrs({
         font-size: 0.875rem;
         font-weight: 600;
         margin-bottom: 0.5rem;
+        letter-spacing: 1px;
+    }
+
+    @media only screen and (max-width: 48rem) {
+      padding: 1.25rem 2rem;
     }
 `
 
@@ -126,6 +131,7 @@ const Column = styled.div`
     word-wrap: break-word;
     margin-bottom: 1.25rem;
     line-height: 1.4;
+    font-size: 1rem;
   }
 
   @media only screen and (max-width: 48rem) {
@@ -142,6 +148,7 @@ const NavBadge = styled.span`
   text-transform: uppercase;
   font-weight: 700;
   border-radius: var(--smBorderRadius);
+  word-wrap: normal;
 `
 
 const Copyright = styled.p`
@@ -200,7 +207,11 @@ const SocialLinks = styled.a.attrs({
 
 const BlueLogo = styled(Image)`
   float: right;
-  margin-bottom: 20px;
+  margin-bottom: 2rem;
+
+  @media only screen and (max-width: 62rem) {
+    float: left;
+  }
 `
 
 let supportedLanguages = {
@@ -347,7 +358,7 @@ class Footer extends PureComponent {
             </Column>
 
             <Column>
-              <BlueLogo name='blue-logo' height='50px' />
+              <BlueLogo name='blue-logo' height='44px' />
               <Copyright>
                 © {new Date().getFullYear()} BLOCKCHAIN LUXEMBOURG S.A.
               </Copyright>
