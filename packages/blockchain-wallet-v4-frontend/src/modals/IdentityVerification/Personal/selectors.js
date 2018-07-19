@@ -14,7 +14,7 @@ const {
 export const getData = state => ({
   personalData: getPersonalData(state),
   step: getPersonalStep(state).getOrElse(null),
-  countryCode: getCountryCode(state),
+  countryCode: getCountryCode(state).getOrElse('US'),
   formBusy: getFormBusy(state)
 })
 
@@ -29,7 +29,7 @@ export const getSmsData = state => ({
   countryCode: getCountryCode(state)
 })
 
-const determineCountryCode = (defaultCode, currentNumber) =>
+const determineCountryCode = (currentNumber, defaultCode) =>
   currentNumber ? PhoneNumber(currentNumber).getRegionCode() : defaultCode
 
 const getCountryCode = createDeepEqualSelector(

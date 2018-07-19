@@ -311,5 +311,7 @@ Personal.propTypes = {
 export default reduxForm({
   form: PERSONAL_FORM,
   destroyOnUnmount: false,
-  enableReinitialize: true
+  enableReinitialize: true,
+  keepDirtyOnReinitialize: true,
+  updateUnregisteredFields: true
 })(Personal)
