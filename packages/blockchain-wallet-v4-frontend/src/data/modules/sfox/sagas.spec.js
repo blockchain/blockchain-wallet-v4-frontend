@@ -412,12 +412,12 @@ describe('sfoxSagas', () => {
     })
   })
 
-  describe('sfox checkForProfileFailure', () => {
-    const { checkForProfileFailure } = sfoxSagas({
+  describe('sfox checkProfileStatus', () => {
+    const { checkProfileStatus } = sfoxSagas({
       coreSagas
     })
 
-    const saga = testSaga(checkForProfileFailure)
+    const saga = testSaga(checkProfileStatus)
 
     it('should select the profile', () => {
       saga.next().select(selectors.core.data.sfox.getProfile)

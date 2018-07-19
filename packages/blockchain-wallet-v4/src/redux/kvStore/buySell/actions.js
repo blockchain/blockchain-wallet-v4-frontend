@@ -38,6 +38,10 @@ export const sfoxSetProfileBuySell = payload => ({
   type: AT.SFOX_SET_PROFILE_BUYSELL,
   payload
 })
+export const sfoxSetJumioToken = payload => ({
+  type: AT.SFOX_SET_JUMIO_TOKEN,
+  payload
+})
 export const coinifySetProfileBuySell = payload => ({
   type: AT.COINIFY_SET_PROFILE_BUYSELL,
   payload
