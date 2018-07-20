@@ -4,7 +4,13 @@ import styled from 'styled-components'
 import { required } from 'services/FormHelper'
 import { FormattedMessage } from 'react-intl'
 import { change, Field, reduxForm, focus } from 'redux-form'
-import { Button, Icon, Text, Tooltip } from 'blockchain-info-components'
+import {
+  Button,
+  Icon,
+  Text,
+  Tooltip,
+  TooltipRebuild
+} from 'blockchain-info-components'
 import { Form, FormGroup, FormItem, NumberBox } from 'components/Form'
 
 export const Wrapper = styled.div`
@@ -101,6 +107,10 @@ class ExchangeCheckout extends React.PureComponent {
     }
   }
 
+  componentDidUpdate () {
+    TooltipRebuild()
+  }
+
   setMax () {
     const { crypto, fiat, fiatLimits, type } = this.props
     let field = fiatLimits ? 'fiat' : 'crypto'
@@ -155,15 +165,9 @@ class ExchangeCheckout extends React.PureComponent {
             {rate &&
               !minError && (
                 <Rate>
-                  <Amount>
+                  <Amount data-tip data-for='exchangecheckout.rate'>
                     1 {crypto} = {rate} {fiat}
                   </Amount>
-                  <Tooltip>
-                    <FormattedMessage
-                      id='scenes.buysell.exchangecheckout.rate'
-                      defaultMessage="The rate offered by your region's exchange partner. May include fees."
-                    />
-                  </Tooltip>
                 </Rate>
               )}
             {minError && (
@@ -248,6 +252,12 @@ class ExchangeCheckout extends React.PureComponent {
             {continueButton}
           </Button>
         </Form>
+        <Tooltip id='exchangecheckout.rate'>
+          <FormattedMessage
+            id='scenes.buysell.exchangecheckout.rate'
+            defaultMessage="The rate offered by your region's exchange partner. May include fees."
+          />
+        </Tooltip>
       </Wrapper>
     )
   }
