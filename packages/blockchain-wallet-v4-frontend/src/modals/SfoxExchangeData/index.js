@@ -93,7 +93,6 @@ class SfoxExchangeData extends React.PureComponent {
       >
         <ModalHeader tray center onClose={this.handleClose.bind(this)}>
           <StepIndicator
-            adjuster={0.1}
             step={this.getStepComponent(step)['step']}
             stepMap={this.stepMap}
           />

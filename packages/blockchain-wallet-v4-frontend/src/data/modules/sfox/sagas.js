@@ -7,7 +7,7 @@ import * as modalActions from '../../modals/actions'
 import * as modalSelectors from '../../modals/selectors'
 import settings from 'config'
 import * as C from 'services/AlertService'
-import { promptForSecondPassword } from 'services/SagaService'
+import { promptForSecondPassword, confirm } from 'services/SagaService'
 import { path, prop, equals, head } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 
@@ -263,11 +263,18 @@ export default ({ coreSagas }) => {
   const initializeJumio = function*() {
     try {
       const status = yield call(getJumioStatus)
-      // const accountsR = yield select(selectors.core.data.sfox.getAccounts)
-      // const accounts = accountsR.getOrElse([])
+      const accountsR = yield select(selectors.core.data.sfox.getAccounts)
+      const accounts = accountsR.getOrElse([])
       // If user has not set up jumio and they have bank accounts
-      if (status === 'missing_token') {
-        // TODO:: prompt for token
+      if (status === 'missing_token' && accounts.length) {
+        const confirmed = yield call(confirm, {
+          message: 'Please complete your identity verification to buy.'
+        })
+        if (confirmed) {
+          yield put(
+            modalActions.showModal('SfoxExchangeData', { step: 'jumio' })
+          )
+        }
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initializeJumio', e))

@@ -80,10 +80,6 @@ class CoinifyExchangeData extends React.PureComponent {
     const { show } = this.state
     const step = this.props.signupStep || this.props.step
 
-    let adjuster
-    if (this.props.signupComplete) adjuster = 0.0
-    else if (step === 'account' || step === 'isx') adjuster = 0.25
-
     return (
       <Tray in={show} class='tray' onClose={this.handleClose.bind(this)}>
         <ModalHeader
@@ -99,7 +95,6 @@ class CoinifyExchangeData extends React.PureComponent {
               />
             </HeaderText>
             <StepIndicator
-              adjuster={adjuster}
               barFullWidth
               flexEnd
               minWidth='135px'

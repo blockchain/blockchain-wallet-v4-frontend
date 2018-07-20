@@ -5,6 +5,7 @@ import AutoDisconnection from './AutoDisconnection'
 import CoinifyDeleteBank from './CoinifyDeleteBank'
 import CoinifyExchangeData from './CoinifyExchangeData'
 import CoinifyTradeDetails from './CoinifyTradeDetails'
+import Confirm from './Confirm'
 import ConfirmDisable2FA from './ConfirmDisable2FA'
 import DeleteAddressLabel from './DeleteAddressLabel'
 import EditTxDescription from './EditTxDescription'
@@ -48,6 +49,7 @@ const Modals = props => (
     <CoinifyDeleteBank />
     <CoinifyExchangeData />
     <CoinifyTradeDetails />
+    <Confirm />
     <ConfirmDisable2FA />
     <DeleteAddressLabel />
     <EditTxDescription />
