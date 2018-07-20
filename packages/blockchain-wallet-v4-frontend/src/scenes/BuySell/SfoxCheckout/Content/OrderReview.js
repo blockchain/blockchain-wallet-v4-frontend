@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
-import { Text, Icon, Link, Tooltip } from 'blockchain-info-components'
+import { Text, Icon, Link } from 'blockchain-info-components'
 import CountdownTimer from 'components/Form/CountdownTimer'
 import { Wrapper as ExchangeCheckoutWrapper } from '../../ExchangeCheckout'
 import { flex, spacing } from 'services/StyleService'
@@ -160,18 +160,12 @@ export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
       </OrderDetailsRow>
       <OrderDetailsRow>
         <ToolTipWrapper>
-          <Text size='13px' weight={300}>
+          <Text size='13px' weight={300} data-tip data-for='tradingfee.tooltip'>
             <FormattedMessage
               id='orderdetails.tradingfee'
               defaultMessage='Trading Fee'
             />
           </Text>
-          <Tooltip>
-            <FormattedMessage
-              id='orderdetails.tradingfee.tooltip'
-              defaultMessage='The fee charged to execute a trade through SFOX.'
-            />
-          </Tooltip>
         </ToolTipWrapper>
         <Text size='13px' weight={300}>
           {quoteR
