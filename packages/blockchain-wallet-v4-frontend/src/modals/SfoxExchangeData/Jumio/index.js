@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
+import { path } from 'ramda'
 import { actions } from 'data'
 
 import { getData } from './selectors'
@@ -12,8 +13,20 @@ class JumioContainer extends React.PureComponent {
     this.onFinish = this.onFinish.bind(this)
   }
 
-  componentWillMount () {
+  componentDidMount () {
     this.props.sfoxActions.getJumioToken()
+
+    let receiveMessage = e => {
+      const jumioWhitelist = ['done']
+      if (!e.data.command) return
+      if (e.data.from !== 'jumio') return
+      if (e.data.to !== 'exchange') return
+      if (e.origin !== this.props.jumioBaseUrl) return
+      if (jumioWhitelist.indexOf(e.data.command) < 0) return
+
+      if (e.data.command === 'done') this.onFinish()
+    }
+    window.addEventListener('message', receiveMessage, false)
   }
 
   onFinish () {
@@ -42,7 +55,11 @@ class JumioContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  data: getData(state)
+  data: getData(state),
+  jumioBaseUrl: path(
+    ['walletOptionsPath', 'data', 'domains', 'walletHelper'],
+    state
+  )
 })
 
 const mapDispatchToProps = dispatch => ({
