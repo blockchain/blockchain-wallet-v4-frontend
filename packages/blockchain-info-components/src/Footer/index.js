@@ -3,29 +3,13 @@ import styled, { injectGlobal } from 'styled-components'
 import Cookies from 'universal-cookie'
 
 import { Image } from '../Images'
+import { Color } from '../Colors'
 import { Select } from './Select'
 import Link from '../Navigation/Link'
 import Normalize8 from '../Normalize.js'
 
 injectGlobal`
     :root {
-        --textBlack: #030E26;
-        --shark: #24292E;
-        --porcelain: #F4F6F7;
-        --silver: #cecece;
-        --whiteAlpha75: rgba(255,255,255,0.75);
-        --whiteAlpha10: rgba(255,255,255,0.1);
-        --blackAlpha75: rgba(0,0,0,0.75);
-        --blackAlpha05: rgba(0,0,0,0.05);
-
-        /* blues */
-        --cerulean: #10ADE4;
-        --azure: #3558A8;
-        --biscay: #222D38;
-        --orient: #004A7C;
-        --powderBlue: #B2D5E5;
-        --blueWood: #27324B;
-
         --siteMaxWidth: 75rem;
         --contentMaxWidth: 62rem;
         --copyMaxWidth: 42rem;
@@ -41,7 +25,7 @@ injectGlobal`
 
 const GlobalFooter = styled.div`
   ${Normalize8}
-  background: var(--porcelain);
+  background: ${Color('porcelain')};
   position: relative;
   padding-top: 4rem;
   padding-bottom: 4rem;
@@ -58,7 +42,7 @@ const Container = styled.div.attrs({
     flex-direction: column;
     max-width: var(--siteMaxWidth);
     padding: 1.25rem 3rem;
-    color: var(--textBlack);
+    color: ${Color('textBlack')};
 
 
     a {
@@ -67,7 +51,7 @@ const Container = styled.div.attrs({
     }
 
     a:hover {
-        color: var(--azure);
+        color: ${Color('marketing-primary')};
         opacity: 1;
     }
 
@@ -141,7 +125,7 @@ const Column = styled.div`
 
 const NavBadge = styled.span`
   color: white;
-  background-color: var(--cerulean);
+  background-color: ${Color('brand-secondary')};
   padding: 0.25rem;
   margin-left: 0.75rem;
   font-size: 0.625rem;
@@ -176,7 +160,7 @@ const SocialLinks = styled.a.attrs({
   height: 2.5rem;
   width: 2.5rem;
   border-radius: 100%;
-  background-color: var(--silver) !important;
+  background-color: ${Color('silver')} !important;
   color: white;
   transition: all 0.5s;
   margin-right: 0.75rem;
@@ -187,7 +171,7 @@ const SocialLinks = styled.a.attrs({
   }
 
   &:hover {
-    background: var(--azure) !important;
+    background: ${Color('marketing-primary')} !important;
 
     .social-icons {
       opacity: 1;

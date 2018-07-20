@@ -1,5 +1,6 @@
 // https://github.com/necolas/normalize.css
 //
+import { Color } from './Colors'
 
 const Normalize8 = `
 /*! normalize.css v8.0.0 | MIT License | github.com/necolas/normalize.css */
@@ -268,7 +269,7 @@ p {
 h1, h2, h3, h4, h5 {
     margin: 0;
     margin-bottom: 0.5em;
-    color: var(--textBlack);
+    color: ${Color('textBlack')};
 }
 
 h1 {
@@ -306,7 +307,7 @@ h5 {
 
 a {
     text-decoration: none;
-    color: var(--textBlack);
+    color: ${Color('textBlack')};
 }
 
 ul, ol {

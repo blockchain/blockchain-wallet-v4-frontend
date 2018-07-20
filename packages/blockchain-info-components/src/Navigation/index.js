@@ -6,7 +6,7 @@ import Button from './Button'
 import ButtonGroup from './ButtonGroup'
 import Cookies from 'universal-cookie'
 import MenuButton from './MenuButton'
-import * as Color from './Colors'
+import {Color} from '../Colors'
 import { trackEvent } from './Events'
 import Logomark from './Logomark'
 import { Image } from '../Images'
@@ -28,39 +28,22 @@ const HIDE_HEADER_MIN_SCROLL = 100
 
 const lightTheme = {
   main: 'white',
-  secondary: `${Color.whiteAlpha10}`,
-  placeholder: `${Color.whiteAlpha75}`,
-  headerScroll: `${Color.bigStone}`
+  secondary: `${Color('whiteAlpha10')}`,
+  placeholder: `${Color('whiteAlpha75')}`,
+  headerScroll: `${Color('bigStone')}`
 }
 const COOKIES = new Cookies()
 const LOCALE = COOKIES.get('clang') || 'en'
 
 const darkTheme = {
-  main: `${Color.biscay}`,
-  secondary: `${Color.blackAlpha05}`,
-  placeholder: `${Color.blackAlpha75}`,
+  main: `${Color('marketing-secondary')}`,
+  secondary: `${Color('blackAlpha05')}`,
+  placeholder: `${Color('blackAlpha75')}`,
   headerScroll: 'white'
 }
 
 injectGlobal`
     :root {
-      --textBlack: #030E26;
-      --shark: #24292E;
-      --porcelain: #F4F6F7;
-      --silver: #cecece;
-      --whiteAlpha75: rgba(255,255,255,0.75);
-      --whiteAlpha10: rgba(255,255,255,0.1);
-      --blackAlpha75: rgba(0,0,0,0.75);
-      --blackAlpha05: rgba(0,0,0,0.05);
-
-      /* blues */
-      --cerulean: #10ADE4;
-      --azure: #3558A8;
-      --biscay: #222D38;
-      --orient: #004A7C;
-      --powderBlue: #B2D5E5;
-      --blueWood: #27324B;
-
       --siteMaxWidth: 75rem;
       --contentMaxWidth: 62rem;
       --copyMaxWidth: 42rem;
@@ -206,7 +189,7 @@ const DropdownWrap = styled.div`
     font-size: 1rem;
     font-weight: 600;
     margin-bottom: 0.25rem;
-    color: ${Color.azure};
+    color: ${Color('marketing-primary')};
   }
 
   > ul > li {
@@ -219,7 +202,7 @@ const DropdownWrap = styled.div`
 
   > ul > li > a > p.desc {
     font-size: 0.875rem;
-    color: ${Color.textBlack};
+    color: ${Color('textBlack')};
     opacity: 0.5;
     font-weight: 500;
   }
@@ -308,7 +291,7 @@ const dropdownMap = {
 }
 
 const MobileMenuContainer = styled.div`
-  background: ${Color.orient};
+  background: ${Color('brand-primary')};
   height: auto;
   position: absolute;
   display: flex;
@@ -517,7 +500,7 @@ class Header extends PureComponent {
     let navClasses = [navVisibility, navScrollUp].join(' ')
     let position = this.props.position || 'fixed'
     let dropdownTop = this.props.dropdownTop || 0
-    let backgroundColor = Color.azure
+    let backgroundColor = Color('marketing-primary')
 
     return (
       <ThemeProvider theme={themeObj}>

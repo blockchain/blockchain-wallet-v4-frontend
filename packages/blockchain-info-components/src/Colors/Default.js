@@ -32,5 +32,15 @@ export default {
   'red': '#FF0000',
   'black': '#000000',
   'halftransparentgrey': 'rgba(0, 0, 0, 0.5)',
-  'bitcoin-orange': '#f69335'
+  'bitcoin-orange': '#f69335',
+  'porcelain': '#F4F6F7',
+  'textBlack': '#030E26',
+  'darkblue-green': '#222D38',
+  'deep-blue': '#152343',
+  'darkblue-gray': '#27324B',
+  'silver': '#cecece',
+  'whiteAlpha75': 'rgba(255,255,255,0.75)',
+  'whiteAlpha10': 'rgba(255,255,255,0.1)',
+  'blackAlpha75': 'rgba(0,0,0,0.75)',
+  'blackAlpha05': 'rgba(0,0,0,0.05)'
 }

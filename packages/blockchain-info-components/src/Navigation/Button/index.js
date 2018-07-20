@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import * as Color from '../Colors'
+import {Color} from '../../Colors'
 import { trackButtonEvent } from '../Events'
 import Link from '../Link'
 
@@ -31,7 +31,7 @@ const DefaultButton = styled('button', 'input[type=submit]')`
     props.outline
       ? props.bgColor
         ? '2px solid ' + props.bgColor
-        : `2px solid ${Color.cerulean}`
+        : `2px solid ${Color('brand-secondary')}`
       : 'transparent'};
 
   background-color: ${props =>
@@ -39,7 +39,7 @@ const DefaultButton = styled('button', 'input[type=submit]')`
       ? 'transparent'
       : props.bgColor
         ? props.bgColor
-        : Color.cerulean};
+        : Color('brand-secondary')};
 
   line-height: ${props => (props.outline ? '2rem' : '2.5rem')};
 
