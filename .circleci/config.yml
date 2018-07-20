@@ -14,20 +14,20 @@ references:
       - image: circleci/node:10.6-jessie-browsers
 
   npm_cache_key: &npm_cache_key
-      v1-dependency-npm-{{ checksum "yarn.lock" }}
+      v2-dependency-npm-{{ checksum "yarn.lock" }}
 
   restore_node_modules: &restore_node_modules
     restore_cache:
       keys:
         - *npm_cache_key
-        - v1-dependency-npm
+        - v2-dependency-npm
 
   restore_repo: &restore_repo
       restore_cache:
         keys:
-          - v1-repo-{{ .Branch }}-{{ .Revision }}
-          - v1-repo-{{ .Branch }}
-          - v1-repo
+          - v2-repo-{{ .Branch }}-{{ .Revision }}
+          - v2-repo-{{ .Branch }}
+          - v2-repo
 
 jobs:
   pull_code:
@@ -36,7 +36,7 @@ jobs:
       - *restore_repo
       - checkout
       - save_cache:
-          key: v1-repo-{{ .Branch }}-{{ .Revision }}
+          key: v2-repo-{{ .Branch }}-{{ .Revision }}
           paths:
             - .
   npm_install:
@@ -45,8 +45,8 @@ jobs:
       - *restore_repo
       - *restore_node_modules
       - run:
-          name: Install Dependencies
-          command: npm install yarn babel-cli rimraf cross-env && yarn
+          name: Install App Dependencies
+          command: yarn --frozen-lockfile
       - save_cache:
           key: *npm_cache_key
           paths:
@@ -62,21 +62,60 @@ jobs:
       - run:
           name: Lint Code
           command: yarn lint
-  unit_tests:
+  test_core_components:
     <<: *container_config
     steps:
       - *attach_workspace
       - run:
-          name: Test Code
-          command: yarn ci:test
-  code_coverage:
+          name: Test Code (Core & Components)
+          command: yarn ci:test:core:components
+  test_frontend:
     <<: *container_config
     steps:
       - *attach_workspace
       - run:
-          name: Code Coverage
-          command: yarn coverage
-
+          name: Test Code (Frontend)
+          command: yarn ci:test:build && yarn ci:test:frontend
+  coverage_core:
+    <<: *container_config
+    steps:
+      - *attach_workspace
+      - run:
+          name: Code Coverage (Core)
+          command: yarn ci:test:build && yarn ci:coverage:core
+      - persist_to_workspace:
+          root: /home/circleci
+          paths:
+            - blockchain-wallet-v4-frontend
+  coverage_components:
+      <<: *container_config
+      steps:
+        - *attach_workspace
+        - run:
+            name: Code Coverage (Components)
+            command: yarn ci:coverage:components
+        - persist_to_workspace:
+            root: /home/circleci
+            paths:
+              - blockchain-wallet-v4-frontend
+  coverage_frontend:
+    <<: *container_config
+    steps:
+      - *attach_workspace
+      - run:
+          name: Code Coverage (Frontend)
+          command: yarn ci:coverage:frontend
+      - persist_to_workspace:
+          root: /home/circleci
+          paths:
+            - blockchain-wallet-v4-frontend
+  coverage_report_to_coveralls:
+    <<: *container_config
+    steps:
+      - *attach_workspace
+      - run:
+          name: Report Code Coverage
+          command: yarn ci:coverage:report
 workflows:
   version: 2
 
@@ -89,7 +128,10 @@ workflows:
       - lint:
           requires:
             - npm_install
-      - unit_tests:
+      - test_core_components:
+          requires:
+            - npm_install
+      - test_frontend:
           requires:
             - npm_install
 
@@ -103,5 +145,18 @@ workflows:
                 - development
     jobs:
       - pull_code
-      - npm_install
-      - code_coverage
+      - npm_install:
+          requires:
+            - pull_code
+      - coverage_core:
+          requires:
+            - npm_install
+      - coverage_components:
+          requires:
+            - coverage_core
+      - coverage_frontend:
+          requires:
+            - coverage_components
+      - coverage_report_to_coveralls:
+          requires:
+            - coverage_frontend

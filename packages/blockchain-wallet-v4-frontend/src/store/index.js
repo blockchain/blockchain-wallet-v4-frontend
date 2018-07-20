@@ -8,7 +8,12 @@ import { coreMiddleware } from 'blockchain-wallet-v4/src'
 import { createWalletApi, Socket } from 'blockchain-wallet-v4/src/network'
 import { serializer } from 'blockchain-wallet-v4/src/types'
 import { rootSaga, rootReducer, selectors } from 'data'
-import { autoDisconnection, webSocketBch, webSocketBtc, webSocketEth } from '../middleware'
+import {
+  autoDisconnection,
+  webSocketBch,
+  webSocketBtc,
+  webSocketEth
+} from '../middleware'
 
 const devToolsConfig = {
   maxAge: 1000,
@@ -32,7 +37,9 @@ const configureStore = () => {
   const history = createHashHistory()
   const sagaMiddleware = createSagaMiddleware()
   // TODO: should these tools be allowed in upper environments!?
-  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(devToolsConfig) : compose
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(devToolsConfig)
+    : compose
   const walletPath = appConfig.WALLET_PAYLOAD_PATH
   const kvStorePath = appConfig.WALLET_KVSTORE_PATH
   const isAuthenticated = selectors.auth.isAuthenticated
@@ -63,7 +70,13 @@ const configureStore = () => {
         )
       )
       persistStore(store, { whitelist: ['session', 'preferences', 'cache'] })
-      sagaMiddleware.run(rootSaga, { api, bchSocket, btcSocket, ethSocket, options })
+      sagaMiddleware.run(rootSaga, {
+        api,
+        bchSocket,
+        btcSocket,
+        ethSocket,
+        options
+      })
 
       return {
         store,

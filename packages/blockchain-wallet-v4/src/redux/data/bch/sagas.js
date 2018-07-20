@@ -6,7 +6,7 @@ import * as S from './selectors'
 import * as selectors from '../../selectors'
 
 export default ({ api }) => {
-  const fetchData = function * () {
+  const fetchData = function*() {
     try {
       yield put(A.fetchDataLoading())
       const context = yield select(selectors.kvStore.bch.getContext)
@@ -22,7 +22,7 @@ export default ({ api }) => {
     }
   }
 
-  const fetchFee = function * () {
+  const fetchFee = function*() {
     try {
       yield put(A.fetchFeeLoading())
       const data = yield call(api.getBchFee)
@@ -32,7 +32,7 @@ export default ({ api }) => {
     }
   }
 
-  const fetchRates = function * () {
+  const fetchRates = function*() {
     try {
       yield put(A.fetchRatesLoading())
       const data = yield call(api.getBchTicker)
@@ -42,43 +42,68 @@ export default ({ api }) => {
     }
   }
 
-  const watchTransactions = function * () {
+  const watchTransactions = function*() {
     while (true) {
       const action = yield take(AT.FETCH_BCH_TRANSACTIONS)
       yield call(fetchTransactions, action)
     }
   }
 
-  const fetchTransactions = function * ({ type, payload }) {
+  const fetchTransactions = function*({ type, payload }) {
     const { address, reset } = payload
     const TX_PER_PAGE = 10
     const BCH_FORK_TIME = 1501590000
     try {
       const pages = yield select(S.getTransactions)
       const lastPage = last(pages)
-      if (!reset && lastPage && lastPage.map(length).getOrElse(0) === 0) { return }
+      if (!reset && lastPage && lastPage.map(length).getOrElse(0) === 0) {
+        return
+      }
       const offset = reset ? 0 : length(pages) * TX_PER_PAGE
       yield put(A.fetchTransactionsLoading(reset))
       const context = yield select(selectors.wallet.getWalletContext)
-      const data = yield call(api.fetchBchData, context, { n: TX_PER_PAGE, onlyShow: address, offset })
-      yield put(A.fetchTransactionsSuccess(data.txs.filter(tx => tx.time > BCH_FORK_TIME), reset))
+      const data = yield call(api.fetchBchData, context, {
+        n: TX_PER_PAGE,
+        onlyShow: address,
+        offset
+      })
+      yield put(
+        A.fetchTransactionsSuccess(
+          data.txs.filter(tx => tx.time > BCH_FORK_TIME),
+          reset
+        )
+      )
     } catch (e) {
       yield put(A.fetchTransactionsFailure(e.message))
     }
   }
 
-  const fetchTransactionHistory = function * ({ payload }) {
+  const fetchTransactionHistory = function*({ payload }) {
     const { address, start, end } = payload
     try {
       yield put(A.fetchTransactionHistoryLoading())
       const currency = yield select(selectors.settings.getCurrency)
       if (address) {
-        const data = yield call(api.getTransactionHistory, 'BCH', address, currency.getOrElse('USD'), start, end)
+        const data = yield call(
+          api.getTransactionHistory,
+          'BCH',
+          address,
+          currency.getOrElse('USD'),
+          start,
+          end
+        )
         yield put(A.fetchTransactionHistorySuccess(data))
       } else {
         const context = yield select(selectors.wallet.getWalletContext)
         const active = context.join('|')
-        const data = yield call(api.getTransactionHistory, 'BCH', active, currency.getOrElse('USD'), start, end)
+        const data = yield call(
+          api.getTransactionHistory,
+          'BCH',
+          active,
+          currency.getOrElse('USD'),
+          start,
+          end
+        )
         yield put(A.fetchTransactionHistorySuccess(data))
       }
     } catch (e) {
@@ -91,6 +116,7 @@ export default ({ api }) => {
     fetchFee,
     fetchRates,
     fetchTransactionHistory,
+    fetchTransactions,
     watchTransactions
   }
 }

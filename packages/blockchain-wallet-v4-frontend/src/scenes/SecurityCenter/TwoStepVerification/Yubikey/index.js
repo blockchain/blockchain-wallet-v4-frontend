@@ -47,36 +47,46 @@ class YubikeyContainer extends React.PureComponent {
     const { data, ui, ...rest } = this.props
 
     return data.cata({
-      Success: (value) => <Success
-        data={value}
-        handleClick={this.handleClick}
-        onSubmit={this.onSubmit}
-        goBack={this.props.goBack}
-        handleInput={this.handleInput}
-        value={this.state.yubikeyCode}
-        ui={ui}
-      />,
-      Failure: (message) => <Error {...rest}
-        message={message} />,
+      Success: value => (
+        <Success
+          data={value}
+          handleClick={this.handleClick}
+          onSubmit={this.onSubmit}
+          goBack={this.props.goBack}
+          handleInput={this.handleInput}
+          value={this.state.yubikeyCode}
+          ui={ui}
+        />
+      ),
+      Failure: message => <Error {...rest} message={message} />,
       Loading: () => <Loading {...rest} />,
       NotAsked: () => <Loading {...rest} />
     })
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   data: getData(state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   settingsActions: bindActionCreators(actions.core.settings, dispatch),
-  securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch)
+  securityCenterActions: bindActionCreators(
+    actions.modules.securityCenter,
+    dispatch
+  )
 })
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  ui({ key: 'Security_TwoFactor', state: { updateToggled: false, successToggled: false } })
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
+  ui({
+    key: 'Security_TwoFactor',
+    state: { updateToggled: false, successToggled: false }
+  })
 )
 
 export default enhance(YubikeyContainer)

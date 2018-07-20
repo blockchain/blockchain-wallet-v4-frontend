@@ -17,12 +17,27 @@ class KYCNotificationContainer extends React.Component {
   }
 
   render () {
-    const { canTrade, kyc, limits, onTrigger, showKycCompleted, symbol, type } = this.props
+    const {
+      canTrade,
+      kyc,
+      limits,
+      onTrigger,
+      showKycCompleted,
+      symbol,
+      type
+    } = this.props
 
-    return (showKycCompleted || !equals(prop('state', kyc), 'completed'))
-      ? <Success kyc={kyc} canTrade={canTrade} limits={limits} onTrigger={onTrigger}
-        showKycCompleted={showKycCompleted} symbol={symbol} type={type} />
-      : null
+    return showKycCompleted || !equals(prop('state', kyc), 'completed') ? (
+      <Success
+        kyc={kyc}
+        canTrade={canTrade}
+        limits={limits}
+        onTrigger={onTrigger}
+        showKycCompleted={showKycCompleted}
+        symbol={symbol}
+        type={type}
+      />
+    ) : null
   }
 }
 
@@ -32,4 +47,7 @@ const mapDispatchToProps = dispatch => ({
   preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(KYCNotificationContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(KYCNotificationContainer)

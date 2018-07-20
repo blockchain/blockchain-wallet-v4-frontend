@@ -17,8 +17,14 @@ class ConfirmContainer extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.data.data && this.props.data.data) { // so it doesn't complain when hot reloading
-      if (nextProps.data.data.quote.baseAmount !== this.props.data.data.quote.baseAmount) this.props.updateUI({ editing: false })
+    if (nextProps.data.data && this.props.data.data) {
+      // so it doesn't complain when hot reloading
+      if (
+        nextProps.data.data.quote.baseAmount !==
+        this.props.data.data.quote.baseAmount
+      ) {
+        this.props.updateUI({ editing: false })
+      }
     }
   }
 
@@ -27,7 +33,13 @@ class ConfirmContainer extends Component {
     if (this.props.ui.editing) {
       const { baseCurrency, quoteCurrency } = this.props.data.data.quote
       const amt = +this.props.editingAmount * 100
-      this.props.coinifyDataActions.fetchQuoteAndMediums({ amt, baseCurrency, quoteCurrency, medium, type: 'buy' })
+      this.props.coinifyDataActions.fetchQuoteAndMediums({
+        amt,
+        baseCurrency,
+        quoteCurrency,
+        medium,
+        type: 'buy'
+      })
     } else {
       const quote = this.props.data.data.quote
       this.props.coinifyActions.initiateBuy({ quote, medium })
@@ -38,36 +50,42 @@ class ConfirmContainer extends Component {
     const { ui, data, medium, editingAmount } = this.props
 
     return data.cata({
-      Success: (value) =>
+      Success: value => (
         <Template
           value={value}
           ui={ui}
           medium={medium}
           onSubmit={this.onSubmit}
           editingAmount={editingAmount}
-          toggleEdit={() => this.props.updateUI({ editing: !this.props.ui.editing })}
-        />,
-      Failure: (msg) => <Failure error={msg} />,
+          toggleEdit={() =>
+            this.props.updateUI({ editing: !this.props.ui.editing })
+          }
+        />
+      ),
+      Failure: msg => <Failure error={msg} />,
       Loading: () => <div>Loading...</div>,
       NotAsked: () => <div>Not asked...</div>
     })
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   data: getData(state),
   medium: path(['coinify', 'medium'], state),
   editingAmount: formValueSelector('coinifyConfirm')(state, 'amount')
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch),
   coinifyDataActions: bindActionCreators(actions.core.data.coinify, dispatch),
   coinifyActions: bindActionCreators(actions.modules.coinify, dispatch)
 })
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   ui({ state: { editing: false, limitsError: '' } })
 )
 

@@ -1,5 +1,4 @@
-export default
-{
+export default {
   code: 'SEK',
   base: 'CENT',
   trade: 'SEK',

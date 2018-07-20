@@ -26,31 +26,57 @@ const serializer = {
     return value
   },
   reviver: function (key, value) {
-    if (typeof value === 'object' && value !== null && '__serializedType__' in value) {
+    if (
+      typeof value === 'object' &&
+      value !== null &&
+      '__serializedType__' in value
+    ) {
       var data = value.data
       switch (value.__serializedType__) {
-        case 'Wrapper': return Wrapper.reviver(data)
-        case 'Wallet': return Wallet.reviver(data)
-        case 'Address': return Address.reviver(data)
-        case 'HDWallet': return HDWallet.reviver(data)
-        case 'HDAccount': return HDAccount.reviver(data)
-        case 'AddressLabel': return AddressLabel.reviver(data)
-        case 'AddressLabelMap': return AddressLabelMap.reviver(data)
-        case 'Cache': return Cache.reviver(data)
-        case 'AddressMap': return AddressMap.reviver(data)
-        case 'AddressBookEntry': return AddressBookEntry.reviver(data)
-        case 'AddressBook': return AddressBook.reviver(data)
-        case 'HDAccountList': return HDAccountList.reviver(data)
-        case 'HDWalletList': return HDWalletList.reviver(data)
-        case 'TXNotes': return TXNotes.reviver(data)
-        case 'TXNames': return TXNames.reviver(data)
-        case 'Options': return Options.reviver(data)
-        case 'KVStoreEntry': return KVStoreEntry.reviver(data)
-        case 'Success': return Remote.Success(data.__remote)
-        case 'Failure': return Remote.Failure(data.__remote)
-        case 'Loading': return Remote.Loading
-        case 'NotAsked': return Remote.NotAsked
-        default: return data
+        case 'Wrapper':
+          return Wrapper.reviver(data)
+        case 'Wallet':
+          return Wallet.reviver(data)
+        case 'Address':
+          return Address.reviver(data)
+        case 'HDWallet':
+          return HDWallet.reviver(data)
+        case 'HDAccount':
+          return HDAccount.reviver(data)
+        case 'AddressLabel':
+          return AddressLabel.reviver(data)
+        case 'AddressLabelMap':
+          return AddressLabelMap.reviver(data)
+        case 'Cache':
+          return Cache.reviver(data)
+        case 'AddressMap':
+          return AddressMap.reviver(data)
+        case 'AddressBookEntry':
+          return AddressBookEntry.reviver(data)
+        case 'AddressBook':
+          return AddressBook.reviver(data)
+        case 'HDAccountList':
+          return HDAccountList.reviver(data)
+        case 'HDWalletList':
+          return HDWalletList.reviver(data)
+        case 'TXNotes':
+          return TXNotes.reviver(data)
+        case 'TXNames':
+          return TXNames.reviver(data)
+        case 'Options':
+          return Options.reviver(data)
+        case 'KVStoreEntry':
+          return KVStoreEntry.reviver(data)
+        case 'Success':
+          return Remote.Success(data.__remote)
+        case 'Failure':
+          return Remote.Failure(data.__remote)
+        case 'Loading':
+          return Remote.Loading
+        case 'NotAsked':
+          return Remote.NotAsked
+        default:
+          return data
       }
     }
     return value

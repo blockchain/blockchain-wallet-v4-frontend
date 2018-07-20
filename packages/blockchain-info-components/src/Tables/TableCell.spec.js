@@ -6,7 +6,11 @@ import TableCell from './TableCell'
 
 describe('TableCell component', () => {
   it('renders correctly', () => {
-    const component = shallow(<TableCell><span>Default</span></TableCell>)
+    const component = shallow(
+      <TableCell>
+        <span>Default</span>
+      </TableCell>
+    )
     const tree = toJson(component)
     expect(tree).toMatchSnapshot()
   })

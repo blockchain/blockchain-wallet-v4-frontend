@@ -30,18 +30,23 @@ const EditDescription = props => {
 
   return (
     <Wrapper onClick={handleChange}>
-      { value ? (
+      {value ? (
         <DisplayContainer>
-          <Text size='12px' weight={200}>{ value }</Text>
+          <Text size='12px' weight={200}>
+            {value}
+          </Text>
           <PencilIcon name='pencil' color='received' size='14px' cursor />
         </DisplayContainer>
       ) : (
         <DisplayContainer>
           <Text size='12px' weight={200} cursor='pointer'>
-            <FormattedMessage id='components.editdescription.add' defaultMessage='Add a description' />
+            <FormattedMessage
+              id='components.editdescription.add'
+              defaultMessage='Add a description'
+            />
           </Text>
         </DisplayContainer>
-      ) }
+      )}
     </Wrapper>
   )
 }

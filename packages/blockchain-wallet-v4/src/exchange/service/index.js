@@ -2,7 +2,13 @@ import SFOX from 'bitcoin-sfox-client'
 import COINIFY from 'bitcoin-coinify-client'
 import { path } from 'ramda'
 
-const configPath = (partner, key) => ['platforms', 'web', partner, 'config', key]
+const configPath = (partner, key) => [
+  'platforms',
+  'web',
+  partner,
+  'config',
+  key
+]
 
 export const sfoxService = {
   refresh: (value, delegate, options) => {

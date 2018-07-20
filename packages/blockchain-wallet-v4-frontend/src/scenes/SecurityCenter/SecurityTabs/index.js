@@ -16,7 +16,11 @@ class SecurityTabsContainer extends React.PureComponent {
   render () {
     // const { data } = this.props
     return (
-      <SecurityTabs setActive={this.setActive} active={this.state.active} setView={this.props.setView} />
+      <SecurityTabs
+        setActive={this.setActive}
+        active={this.state.active}
+        setView={this.props.setView}
+      />
     )
   }
 }

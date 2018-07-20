@@ -1,9 +1,23 @@
-import { curry, is, clamp, split, length, add, compose, sort,
-  isNil, ifElse, always, complement, either, tryCatch } from 'ramda'
+import {
+  curry,
+  is,
+  clamp,
+  split,
+  length,
+  add,
+  compose,
+  sort,
+  isNil,
+  ifElse,
+  always,
+  complement,
+  either,
+  tryCatch
+} from 'ramda'
 import { over, view } from 'ramda-lens'
 import { inputComparator, sortOutputs } from 'bip69'
 import Type from '../types/Type'
-import { addressToScript, scriptToAddress } from '../utils/bitcoin'
+import { addressToScript, scriptToAddress } from '../utils/btc'
 
 export const TX_EMPTY_SIZE = 4 + 1 + 1 + 4
 export const TX_INPUT_BASE = 32 + 4 + 1 + 4
@@ -16,7 +30,7 @@ export class Coin extends Type {
     return `Coin(${this.value})`
   }
   concat (coin) {
-    return new Coin({value: this.value + coin.value})
+    return new Coin({ value: this.value + coin.value })
   }
   equals (coin) {
     return this.value === coin.value
@@ -71,7 +85,7 @@ export const fromJS = (o, network) => {
   })
 }
 
-export const empty = new Coin({value: 0})
+export const empty = new Coin({ value: 0 })
 
 export const inputBytes = input => {
   // const coin = isCoin(input) ? input : new Coin(input)
@@ -79,17 +93,32 @@ export const inputBytes = input => {
   return TX_INPUT_BASE + TX_INPUT_PUBKEYHASH
 }
 
-export const outputBytes = ifElse(either(complement(isCoin), compose(isNil, selectAddress)),
+export const outputBytes = ifElse(
+  either(
+    complement(isCoin),
+    compose(
+      isNil,
+      selectAddress
+    )
+  ),
   always(TX_OUTPUT_BASE + TX_OUTPUT_PUBKEYHASH),
   compose(
     add(TX_OUTPUT_BASE),
     tryCatch(
-      compose(s => s.length, selectScript),
-      always(TX_OUTPUT_PUBKEYHASH))))
+      compose(
+        s => s.length,
+        selectScript
+      ),
+      always(TX_OUTPUT_PUBKEYHASH)
+    )
+  )
+)
 
 export const effectiveValue = curry((feePerByte, coin) =>
-  clamp(0, Infinity, coin.value - feePerByte * inputBytes(coin)))
+  clamp(0, Infinity, coin.value - feePerByte * inputBytes(coin))
+)
 
 export const bip69SortInputs = sort((inputA, inputB) =>
-  inputComparator(inputA.txHash, inputA.value, inputB.txHash, inputB.value))
+  inputComparator(inputA.txHash, inputA.value, inputB.txHash, inputB.value)
+)
 export const bip69SortOutputs = sortOutputs

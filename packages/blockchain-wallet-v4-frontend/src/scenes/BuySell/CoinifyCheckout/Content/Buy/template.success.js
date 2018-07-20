@@ -24,7 +24,7 @@ const CheckoutWrapper = styled.div`
   ${media.mobile`
     display: flex;
     flex-direction: column;
-  `}
+  `};
 `
 const OrderSubmitWrapper = styled.div`
   display: flex;
@@ -58,7 +58,10 @@ const CoinifyBuy = props => {
     trades
   } = props
 
-  const profile = Remote.of(prop('profile', value)).getOrElse({ _limits: service.mockedLimits, _level: { currency: 'EUR' } })
+  const profile = Remote.of(prop('profile', value)).getOrElse({
+    _limits: service.mockedLimits,
+    _level: { currency: 'EUR' }
+  })
   const kyc = prop('kyc', value)
   const buyCurrencies = ['EUR', 'DKK', 'GBP', 'USD']
   const defaultCurrency = contains(currency, buyCurrencies) ? currency : 'EUR' // profile._level.currency
@@ -88,16 +91,22 @@ const CoinifyBuy = props => {
               />
             </LeftContainer>
             <RightContainer>
-              {
-                activeSubscriptions.length > 0
-                  ? <NextSubscription subscriptions={subscriptions} trades={trades.filter(t => t.tradeSubscriptionId)} manageOrder={() => changeTab('order_history')} />
-                  : null
-              }
-              {
-                path(['state'], kyc)
-                  ? <KYCNotification kyc={kyc} limits={limits.buy} symbol={symbol} onTrigger={(kyc) => handleKycAction(kyc)} canTrade={canTrade} />
-                  : null
-              }
+              {activeSubscriptions.length > 0 ? (
+                <NextSubscription
+                  subscriptions={subscriptions}
+                  trades={trades.filter(t => t.tradeSubscriptionId)}
+                  manageOrder={() => changeTab('order_history')}
+                />
+              ) : null}
+              {path(['state'], kyc) ? (
+                <KYCNotification
+                  kyc={kyc}
+                  limits={limits.buy}
+                  symbol={symbol}
+                  onTrigger={kyc => handleKycAction(kyc)}
+                  canTrade={canTrade}
+                />
+              ) : null}
             </RightContainer>
           </CheckoutWrapper>
         </StepView>
@@ -137,7 +146,14 @@ const CoinifyBuy = props => {
       <CheckoutWrapper>
         <BankTransferDetails trade={trade} />
         <RightContainer>
-          <Button nature='primary' width='85%' onClick={() => { changeTab('order_history'); coinifyNextCheckoutStep('checkout') }}>
+          <Button
+            nature='primary'
+            width='85%'
+            onClick={() => {
+              changeTab('order_history')
+              coinifyNextCheckoutStep('checkout')
+            }}
+          >
             <FormattedMessage id='close' defaultMessage='Close' />
           </Button>
         </RightContainer>

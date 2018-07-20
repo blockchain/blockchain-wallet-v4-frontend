@@ -10,7 +10,9 @@ import * as languageService from 'services/LanguageService'
 class SelectBoxLanguages extends React.PureComponent {
   render () {
     const { language, languages, ...rest } = this.props
-    const items = [...map(renameKeys({ name: 'text', language: 'value' }))(languages)]
+    const items = [
+      ...map(renameKeys({ name: 'text', language: 'value' }))(languages)
+    ]
     const elements = [{ group: '', items }]
     rest.input.value = language
 

@@ -42,43 +42,64 @@ const WordContainer = styled.div`
   width: 125px;
 `
 
-const languageHelper = (num) => {
+const languageHelper = num => {
   switch (num) {
-    case 0: return `${num + 1}st`
-    case 1: return `${num + 1}nd`
-    case 2: return `${num + 1}rd`
-    default: return `${num + 1}th`
+    case 0:
+      return `${num + 1}st`
+    case 1:
+      return `${num + 1}nd`
+    case 2:
+      return `${num + 1}rd`
+    default:
+      return `${num + 1}th`
   }
 }
 
-const ThirdStep = (props) => {
+const ThirdStep = props => {
   const { previousStep, submitting, invalid, hasError, ...rest } = props
   const { indexes, handleSubmit } = rest
 
   return (
     <Wrapper>
-      { hasError
-        ? (
-          <Link size='14px' weight={300} onClick={previousStep} style={{ margin: '10px 0' }}>
-            <FormattedMessage id='scenes.securitycenter.walletrecoveryphrase.thirdstep.reviewPhrase' defaultMessage='Review your backup phrase' />
-          </Link>
-        )
-        : null
-      }
+      {hasError ? (
+        <Link
+          size='14px'
+          weight={300}
+          onClick={previousStep}
+          style={{ margin: '10px 0' }}
+        >
+          <FormattedMessage
+            id='scenes.securitycenter.walletrecoveryphrase.thirdstep.reviewPhrase'
+            defaultMessage='Review your backup phrase'
+          />
+        </Link>
+      ) : null}
       <Form onSubmit={handleSubmit}>
         <Container>
-          {indexes.map(index =>
+          {indexes.map(index => (
             <WordContainer key={index}>
               <Text size='14px' weight={300} style={{ marginBottom: '4px' }}>
                 {`${languageHelper(index)} word`}
               </Text>
-              <Field name={`w${index}`} component={TextBox} validate={[required]} errorBottom />
+              <Field
+                name={`w${index}`}
+                component={TextBox}
+                validate={[required]}
+                errorBottom
+              />
             </WordContainer>
-          )}
+          ))}
         </Container>
         <Buttons>
-          <Button type='submit' nature='primary' disabled={submitting || invalid}>
-            <FormattedMessage id='scenes.securitycenter.walletrecoveryphrase.thirdstep.confirm' defaultMessage='Confirm' />
+          <Button
+            type='submit'
+            nature='primary'
+            disabled={submitting || invalid}
+          >
+            <FormattedMessage
+              id='scenes.securitycenter.walletrecoveryphrase.thirdstep.confirm'
+              defaultMessage='Confirm'
+            />
           </Button>
         </Buttons>
       </Form>

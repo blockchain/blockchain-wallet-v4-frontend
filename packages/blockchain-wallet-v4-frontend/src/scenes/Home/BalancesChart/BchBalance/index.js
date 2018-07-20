@@ -17,24 +17,36 @@ export class BchBalanceContainer extends PureComponent {
   }
 
   render () {
-    const { btcBalance, bchBalance, ethBalance, bchAccountsLength,
-      handleCoinDisplay, modalsActions } = this.props
-    return <BchBalance
-      bchAccountsLength={bchAccountsLength}
-      btcBalance={btcBalance}
-      bchBalance={bchBalance}
-      ethBalance={ethBalance}
-      handleCoinDisplay={handleCoinDisplay}
-      handleRefresh={this.handleRefresh}
-      modalsActions={modalsActions} />
+    const {
+      btcBalance,
+      bchBalance,
+      ethBalance,
+      bchAccountsLength,
+      handleCoinDisplay,
+      modalsActions
+    } = this.props
+    return (
+      <BchBalance
+        bchAccountsLength={bchAccountsLength}
+        btcBalance={btcBalance}
+        bchBalance={bchBalance}
+        ethBalance={ethBalance}
+        handleCoinDisplay={handleCoinDisplay}
+        handleRefresh={this.handleRefresh}
+        modalsActions={modalsActions}
+      />
+    )
   }
 }
 
-const mapStateToProps = (state) => getData(state)
+const mapStateToProps = state => getData(state)
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   dataActions: bindActionCreators(actions.core.data.bch, dispatch),
   modalsActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(BchBalanceContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BchBalanceContainer)

@@ -18,7 +18,11 @@ export default (state = INITIAL_STATE, action) => {
       return INITIAL_STATE
     }
     case AT.SEND_BTC_FIRST_STEP_TO_TOGGLED: {
-      return assoc('toToggled', isNil(payload) ? !state.toToggled : payload, state)
+      return assoc(
+        'toToggled',
+        isNil(payload) ? !state.toToggled : payload,
+        state
+      )
     }
     case AT.SEND_BTC_FIRST_STEP_FEEPERBYTE_TOGGLED: {
       return assoc('feePerByteToggled', !state.feePerByteToggled, state)

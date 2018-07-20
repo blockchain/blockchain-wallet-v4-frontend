@@ -17,27 +17,35 @@ const Display = styled.button.attrs({ type: 'button' })`
   user-select: none;
   cursor: pointer;
   padding: 0;
-  border: 1px solid ${props => props.errorState === 'initial' ? '#CCCCCC' : props.errorState === 'invalid' ? '#990000' : '#006600'};
+  border: 1px solid
+    ${props =>
+      props.errorState === 'initial'
+        ? '#CCCCCC'
+        : props.errorState === 'invalid'
+          ? '#990000'
+          : '#006600'};
   border-radius: 0;
-  background-color: ${props => props.disabled ? props.theme['gray-1'] : props.theme['white']};
-  cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
-  border-left: ${props => props.borderLeft === 'none' ? '0px' : ''};
+  background-color: ${props =>
+    props.disabled ? props.theme['gray-1'] : props.theme['white']};
+  cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
+  border-left: ${props => (props.borderLeft === 'none' ? '0px' : '')};
   text-align: left;
 
-  &:focus { outline: none; }
+  &:focus {
+    outline: none;
+  }
 `
 const DefaultDisplay = styled.div`
   width: 100%;
   box-sizing: border-box;
   padding: 5px 10px 5px 10px;
   font-family: 'Montserrat', sans-serif;
-  font-size: ${props => props.fontSize === 'small' ? '12px' : '14px'};
+  font-size: ${props => (props.fontSize === 'small' ? '12px' : '14px')};
   font-weight: 300;
-  text-align: ${props => props.textAlign === 'center' ? 'center' : 'left'};
+  text-align: ${props => (props.textAlign === 'center' ? 'center' : 'left')};
   overflow: hidden;
   text-overflow: ellipsis;
   color: ${props => props.theme['gray-5']};
-
 `
 const Search = styled.input.attrs({ type: 'text' })`
   width: 100%;
@@ -51,7 +59,7 @@ const Search = styled.input.attrs({ type: 'text' })`
   border: 1px solid ${props => props.theme['gray-2']};
   box-sizing: border-box;
   padding: 0.5rem 1rem;
-  border-left: ${props => props.borderLeft === 'none' ? '0px' : ''};
+  border-left: ${props => (props.borderLeft === 'none' ? '0px' : '')};
 
   &:focus {
     border-radius: none;
@@ -73,11 +81,13 @@ const DefaultHeader = styled.div`
   background-color: ${props => props.theme['gray-2']};
   cursor: not-allowed;
 
-  &:hover { color: ${props => props.theme['gray-4']}; }
+  &:hover {
+    color: ${props => props.theme['gray-4']};
+  }
 `
 const List = styled.div`
   position: absolute;
-  display: ${props => props.expanded ? 'flex' : 'none'};
+  display: ${props => (props.expanded ? 'flex' : 'none')};
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
@@ -91,7 +101,7 @@ const List = styled.div`
   box-sizing: border-box;
   border-top: 0px;
   z-index: 10;
-  border-left: ${props => props.borderLeft === 'none' ? 'none' : ''};
+  border-left: ${props => (props.borderLeft === 'none' ? 'none' : '')};
 `
 const Item = styled.div`
   width: 100%;
@@ -102,15 +112,14 @@ const DefaultItem = styled.div`
   box-sizing: border-box;
   font-family: 'Montserrat', sans-serif;
   font-weight: 300;
-  font-size: ${props => props.fontSize === 'small' ? '12px' : '14px'};
+  font-size: ${props => (props.fontSize === 'small' ? '12px' : '14px')};
   color: ${props => props.theme['gray-4']};
   cursor: pointer;
 
-  &:hover {
-    color: ${props => props.theme['gray-4']};
-    background-color: ${props => props.theme['gray-1']};
-  }
+  ${props =>
+    props.hovered ? 'background-color: ' + props.theme['gray-1'] : ''};
 `
+
 const Arrow = styled(Icon)`
   position: absolute;
   top: 15px;
@@ -121,25 +130,87 @@ const Arrow = styled(Icon)`
   }
 `
 
-const SelectInput = (props) => {
-  const { items, selected, disabled, defaultDisplay, expanded, searchEnabled, handleBlur, handleChange, handleClick, handleFocus, hideArrow, templateDisplay, templateHeader, templateItem, errorState, fontSize } = props
+const SelectInput = props => {
+  const {
+    items,
+    selected,
+    disabled,
+    defaultDisplay,
+    expanded,
+    searchEnabled,
+    handleBlur,
+    handleChange,
+    handleClick,
+    handleFocus,
+    handleMouseEnter,
+    onKeyDown,
+    hideArrow,
+    hovered,
+    templateDisplay,
+    templateHeader,
+    templateItem,
+    errorState,
+    fontSize
+  } = props
   const display = selected || { text: defaultDisplay, value: undefined }
   const showArrow = !hideArrow
 
   return (
-    <SelectBoxInput>
-      {!expanded || !searchEnabled
-        ? <Display onClick={handleFocus} onBlur={handleBlur} disabled={disabled} errorState={errorState} borderLeft={props.borderLeft}>
-          {templateDisplay ? templateDisplay(display) : <DefaultDisplay textAlign={props.textAlign} fontSize={fontSize}>{display.text}</DefaultDisplay>}
+    <SelectBoxInput
+      onKeyDown={e => onKeyDown(e, items.length - 1, items[hovered])}
+      tabIndex='0'
+    >
+      {!expanded || !searchEnabled ? (
+        <Display
+          onClick={handleFocus}
+          onBlur={handleBlur}
+          disabled={disabled}
+          errorState={errorState}
+          borderLeft={props.borderLeft}
+        >
+          {templateDisplay ? (
+            templateDisplay(display)
+          ) : (
+            <DefaultDisplay textAlign={props.textAlign} fontSize={fontSize}>
+              {display.text}
+            </DefaultDisplay>
+          )}
         </Display>
-        : <Search borderLeft={props.borderLeft} autoFocus={expanded} onChange={handleChange} />
-      }
+      ) : (
+        <Search
+          borderLeft={props.borderLeft}
+          autoFocus={expanded}
+          onChange={handleChange}
+        />
+      )}
       {showArrow && <Arrow name='down-arrow' size={props.arrowSize} />}
       <List expanded={expanded}>
-        { items.map((item, index) => item.value == null
-          ? <Header key={index}>{templateHeader ? templateHeader(item) : <DefaultHeader>{item.text}</DefaultHeader>}</Header>
-          : <Item key={index} onMouseDown={() => handleClick(item)}>{templateItem ? templateItem(item) : <DefaultItem fontSize={fontSize}>{item.text}</DefaultItem>}</Item>)
-        }
+        {items.map(
+          (item, index) =>
+            item.value == null ? (
+              <Header key={index}>
+                {templateHeader ? (
+                  templateHeader(item)
+                ) : (
+                  <DefaultHeader>{item.text}</DefaultHeader>
+                )}
+              </Header>
+            ) : (
+              <Item
+                key={index}
+                onMouseDown={() => handleClick(item)}
+                onMouseEnter={() => handleMouseEnter(index)}
+              >
+                {templateItem ? (
+                  templateItem(item)
+                ) : (
+                  <DefaultItem fontSize={fontSize} hovered={hovered === index}>
+                    {item.text}
+                  </DefaultItem>
+                )}
+              </Item>
+            )
+        )}
       </List>
     </SelectBoxInput>
   )

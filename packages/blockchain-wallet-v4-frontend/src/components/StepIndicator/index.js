@@ -8,9 +8,9 @@ const Wrapper = styled.div`
   flex-direction: row;
   align-items: center;
   width: 100%;
-  justify-content: ${props => props.flexEnd ? 'flex-end' : ''};
+  justify-content: ${props => (props.flexEnd ? 'flex-end' : '')};
 
-  @media(max-width: 991px) {
+  @media (max-width: 991px) {
     flex-direction: row-reverse;
   }
 `
@@ -28,7 +28,7 @@ const Steps = styled.div`
     height: 8px;
     bottom: -8px;
     position: absolute;
-    transition: width 0.3s, height .3s;
+    transition: width 0.3s, height 0.3s;
     width: ${props => props.width * 100}%;
     background: ${props => props.theme['brand-primary']};
   }
@@ -74,7 +74,7 @@ const Logo = styled(Image)`
   }
 `
 
-const StepIndicator = (props) => {
+const StepIndicator = props => {
   const { step, stepMap, minWidth, maxWidth, flexEnd, adjuster } = props
   const steps = Object.keys(stepMap)
   const index = steps.indexOf(step) + 1
@@ -84,7 +84,11 @@ const StepIndicator = (props) => {
     <Wrapper flexEnd={flexEnd}>
       <Logo name='blue-logo' height='50px' />
       <Steps width={width - adjuster}>
-        { steps.map((s) => <Step minWidth={minWidth} maxWidth={maxWidth}>{stepMap[s]}</Step>) }
+        {steps.map(s => (
+          <Step minWidth={minWidth} maxWidth={maxWidth}>
+            {stepMap[s]}
+          </Step>
+        ))}
       </Steps>
     </Wrapper>
   )

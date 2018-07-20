@@ -14,24 +14,30 @@ class CreateContainer extends Component {
       this.props.updateUI({ create: 'create_account' })
     } else {
       this.props.updateUI({ create: 'enter_email_code' })
-      this.props.securityCenterActions.sendConfirmationCodeEmail(this.props.oldEmail)
+      this.props.securityCenterActions.sendConfirmationCodeEmail(
+        this.props.oldEmail
+      )
     }
   }
 
   componentDidUpdate (prevProps) {
-    if (!prevProps.emailVerified && this.props.emailVerified) this.props.updateUI({ create: 'create_account' })
+    if (!prevProps.emailVerified && this.props.emailVerified) {
+      this.props.updateUI({ create: 'create_account' })
+    }
   }
 
   render () {
     const { handleSignup, oldEmail, signupError, ui, updateUI } = this.props
-    return <Create
-      handleSignup={handleSignup}
-      oldEmail={oldEmail}
-      signupError={signupError}
-      ui={ui}
-      updateUI={updateUI}
-      country={this.props.country}
-    />
+    return (
+      <Create
+        handleSignup={handleSignup}
+        oldEmail={oldEmail}
+        signupError={signupError}
+        ui={ui}
+        updateUI={updateUI}
+        country={this.props.country}
+      />
+    )
   }
 }
 
@@ -43,15 +49,21 @@ CreateContainer.propTypes = {
   country: PropTypes.string.isRequired
 }
 
-const mapStateToProps = (state) => getData(state)
+const mapStateToProps = state => getData(state)
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch),
-  securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch)
+  securityCenterActions: bindActionCreators(
+    actions.modules.securityCenter,
+    dispatch
+  )
 })
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   ui({ state: { create: '', uniqueEmail: true, codeSent: false } })
 )
 

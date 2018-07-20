@@ -11,7 +11,9 @@ import Success from './template.success'
 
 export class ChartContainer extends React.PureComponent {
   componentDidMount () {
-    const coin = path(['cache', 'coin'], this.props) ? toUpper(this.props.cache.coin) : 'BTC'
+    const coin = path(['cache', 'coin'], this.props)
+      ? toUpper(this.props.cache.coin)
+      : 'BTC'
     const time = pathOr('1month', ['cache', 'time'], this.props)
     this.props.priceChartActions.initialized(coin, time)
   }
@@ -20,7 +22,14 @@ export class ChartContainer extends React.PureComponent {
     const { currencySymbol } = this.props
 
     return this.props.data.cata({
-      Success: value => <Success currency={currencySymbol} coin={value.coin} time={value.time} data={value.data} />,
+      Success: value => (
+        <Success
+          currency={currencySymbol}
+          coin={value.coin}
+          time={value.time}
+          data={value.data}
+        />
+      ),
       Failure: message => <Error>{message}</Error>,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
@@ -34,4 +43,7 @@ const mapDispatchToProps = dispatch => ({
   priceChartActions: bindActionCreators(actions.components.priceChart, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChartContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ChartContainer)

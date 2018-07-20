@@ -10,6 +10,7 @@ import authSagas, {
   defaultLoginErrorMessage,
   logLocation,
   wrongWalletPassErrorMessage,
+  wrongAuthCodeErrorMessage,
   guidNotFound2faErrorMessage,
   notEnabled2faErrorMessage,
   emailMismatch2faErrorMessage,
@@ -31,8 +32,12 @@ describe('authSagas', () => {
   let locationReloadSpy
   beforeAll(() => {
     Math.random = () => 0.5
-    pushStateSpy = jest.spyOn(window.history, 'pushState').mockImplementation(() => {})
-    locationReloadSpy = jest.spyOn(window.location, 'reload').mockImplementation(() => {})
+    pushStateSpy = jest
+      .spyOn(window.history, 'pushState')
+      .mockImplementation(() => {})
+    locationReloadSpy = jest
+      .spyOn(window.location, 'reload')
+      .mockImplementation(() => {})
   })
   afterAll(() => {
     global.Math = originalMath
@@ -238,6 +243,52 @@ describe('authSagas', () => {
         })
       })
 
+      describe('wrong password error', () => {
+        it('should set auth_type to 0, removing 2fa code field', () => {
+          saga
+            .restore(beforeError)
+            .save(beforeError)
+            .throw(wrongWalletPassErrorMessage)
+            .put(actions.auth.setAuthType(0))
+        })
+
+        it('should clear password and code field', () => {
+          saga
+            .next()
+            .put(
+              actions.form.clearFields('login', false, true, 'password', 'code')
+            )
+        })
+
+        it('should focus password', () => {
+          saga.next().put(actions.form.focus('login', 'password'))
+        })
+
+        it('should display login error', () => {
+          saga
+            .next()
+            .put(actions.auth.loginFailure(wrongWalletPassErrorMessage))
+        })
+      })
+
+      describe('wrong 2fa error', () => {
+        it('should clear code field', () => {
+          saga
+            .restore(beforeError)
+            .save(beforeError)
+            .throw(wrongAuthCodeErrorMessage)
+            .put(actions.form.clearFields('login', false, true, 'code'))
+        })
+
+        it('should focus password', () => {
+          saga.next().put(actions.form.focus('login', 'code'))
+        })
+
+        it('should display login error', () => {
+          saga.next().put(actions.auth.loginFailure(wrongAuthCodeErrorMessage))
+        })
+      })
+
       describe('unknown errros', () => {
         const errorMessage = 'error'
         beforeEach(() => {
@@ -289,11 +340,17 @@ describe('authSagas', () => {
     const beforeHdCheck = 'beforeHdCheck'
 
     it('should check if wallet is an hd wallet', () => {
-      saga.next().select(selectors.core.wallet.isHdWallet).save(beforeHdCheck)
+      saga
+        .next()
+        .select(selectors.core.wallet.isHdWallet)
+        .save(beforeHdCheck)
     })
 
     it('should call upgradeWalletSaga if wallet is not hd', () => {
-      saga.next(false).call(upgradeWalletSaga).restore(beforeHdCheck)
+      saga
+        .next(false)
+        .call(upgradeWalletSaga)
+        .restore(beforeHdCheck)
     })
 
     it('should put authenticate action', () => {
@@ -313,11 +370,18 @@ describe('authSagas', () => {
     })
 
     it('should fetch root', () => {
-      saga.next().call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
+      saga
+        .next()
+        .call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
     })
 
     it('should fetch ethereum metadata', () => {
-      saga.next().call(coreSagas.kvStore.ethereum.fetchMetadataEthereum, askSecondPasswordEnhancer)
+      saga
+        .next()
+        .call(
+          coreSagas.kvStore.ethereum.fetchMetadataEthereum,
+          askSecondPasswordEnhancer
+        )
     })
 
     it('should fetch bitcoin cash metadata', () => {
@@ -387,7 +451,7 @@ describe('authSagas', () => {
       saga.next(stubLogoutEvent).fork(logoutRoutine, stubLogoutEvent)
     })
 
-    it('should display success if it\'s not first login', () => {
+    it("should display success if it's not first login", () => {
       const beforeEnd = 'beforeEnd'
 
       saga
@@ -399,7 +463,7 @@ describe('authSagas', () => {
         .restore(beforeEnd)
     })
 
-    it('should not display success if it\'s first login', () => {
+    it("should not display success if it's first login", () => {
       const firstLogin = true
       return expectSaga(loginRoutineSaga, mobileLogin, firstLogin)
         .provide([
@@ -422,7 +486,9 @@ describe('authSagas', () => {
         const error = {}
         saga
           .throw(error)
-          .put(actions.logs.logErrorMessage(logLocation, 'loginRoutineSaga', error))
+          .put(
+            actions.logs.logErrorMessage(logLocation, 'loginRoutineSaga', error)
+          )
       })
 
       it('should show wallet error alert', () => {
@@ -483,9 +549,7 @@ describe('authSagas', () => {
     describe('error handling', () => {
       const error = {}
       it('should trigger action that restore failed', () => {
-        saga
-          .throw(error)
-          .put(actions.auth.registerFailure())
+        saga.throw(error).put(actions.auth.registerFailure())
       })
 
       it('should log restore error', () => {
@@ -495,9 +559,7 @@ describe('authSagas', () => {
       })
 
       it('should show restore error alert', () => {
-        saga
-          .next()
-          .put(actions.alerts.displayError(C.REGISTER_ERROR))
+        saga.next().put(actions.alerts.displayError(C.REGISTER_ERROR))
       })
     })
   })
@@ -552,9 +614,7 @@ describe('authSagas', () => {
     describe('error handling', () => {
       const error = {}
       it('should trigger action that restore failed', () => {
-        saga
-          .throw(error)
-          .put(actions.auth.restoreFailure())
+        saga.throw(error).put(actions.auth.restoreFailure())
       })
 
       it('should log restore error', () => {
@@ -564,9 +624,7 @@ describe('authSagas', () => {
       })
 
       it('should show restore error alert', () => {
-        saga
-          .next()
-          .put(actions.alerts.displayError(C.RESTORE_ERROR))
+        saga.next().put(actions.alerts.displayError(C.RESTORE_ERROR))
       })
     })
   })
@@ -601,7 +659,10 @@ describe('authSagas', () => {
     })
 
     it('should pass payload to core resetWallet2fa saga', () => {
-      saga.next().call(coreSagas.wallet.resetWallet2fa, payload).save(beforeResponse)
+      saga
+        .next()
+        .call(coreSagas.wallet.resetWallet2fa, payload)
+        .save(beforeResponse)
     })
 
     it('should trigger reset 2fa success action if response is successsul', () => {
@@ -646,7 +707,9 @@ describe('authSagas', () => {
       })
 
       it('should log error', () => {
-        saga.next().put(actions.logs.logErrorMessage(logLocation, 'reset2fa', error))
+        saga
+          .next()
+          .put(actions.logs.logErrorMessage(logLocation, 'reset2fa', error))
       })
 
       it('should display guid not found error', () => {
@@ -740,7 +803,7 @@ describe('authSagas', () => {
         .call(coreSagas.wallet.resendSmsLoginCode, { guid, sessionToken })
     })
 
-    it('should throw upon initial_error response and it doesn\'t include login attempts left', () => {
+    it("should throw upon initial_error response and it doesn't include login attempts left", () => {
       const initialErrorResponse = {
         initial_error: '123'
       }
@@ -748,12 +811,17 @@ describe('authSagas', () => {
         .save(beforeResponse)
         .next(initialErrorResponse)
         // Initial error handling step
-        .put(actions.logs.logErrorMessage(logLocation, 'resendSmsLoginCode', new Error(initialErrorResponse)))
+        .put(
+          actions.logs.logErrorMessage(
+            logLocation,
+            'resendSmsLoginCode',
+            new Error(initialErrorResponse)
+          )
+        )
     })
 
     it('should display success if response has no error', () => {
-      const response = {
-      }
+      const response = {}
       saga
         .restore(beforeResponse)
         .save(beforeResponse)
@@ -782,7 +850,13 @@ describe('authSagas', () => {
         saga
           .restore(beforeResponse)
           .throw(error)
-          .put(actions.logs.logErrorMessage(logLocation, 'resendSmsLoginCode', error))
+          .put(
+            actions.logs.logErrorMessage(
+              logLocation,
+              'resendSmsLoginCode',
+              error
+            )
+          )
       })
 
       it('should display sms login code error alert', () => {
@@ -835,13 +909,13 @@ describe('authSagas', () => {
         })
 
         it('trigger remind guid failure action', () => {
-          saga
-            .throw(error)
-            .put(actions.auth.remindGuidFailure())
+          saga.throw(error).put(actions.auth.remindGuidFailure())
         })
 
         it('should log an error message', () => {
-          saga.next().put(actions.logs.logErrorMessage(logLocation, 'remindGuid', error))
+          saga
+            .next()
+            .put(actions.logs.logErrorMessage(logLocation, 'remindGuid', error))
         })
 
         it('should display error alert', () => {
@@ -862,19 +936,23 @@ describe('authSagas', () => {
         })
 
         it('trigger remind guid failure action', () => {
-          saga
-            .throw(captchaError)
-            .put(actions.auth.remindGuidFailure())
+          saga.throw(captchaError).put(actions.auth.remindGuidFailure())
         })
 
         it('should log an error message', () => {
-          saga.next().put(actions.logs.logErrorMessage(logLocation, 'remindGuid', captchaError))
+          saga
+            .next()
+            .put(
+              actions.logs.logErrorMessage(
+                logLocation,
+                'remindGuid',
+                captchaError
+              )
+            )
         })
 
         it('should refetch captcha in case of incorrect captcha', () => {
-          saga
-            .next()
-            .put(actions.core.data.misc.fetchCaptcha())
+          saga.next().put(actions.core.data.misc.fetchCaptcha())
         })
 
         it('should show incorrect captcha alert', () => {
@@ -937,7 +1015,7 @@ describe('authSagas', () => {
 
         saga
           .next()
-          .inspect((gen) => {
+          .inspect(gen => {
             // Inside the called saga
             gen.next()
             expect(pushStateSpy).toHaveBeenCalledTimes(1)
@@ -983,11 +1061,19 @@ describe('authSagas', () => {
         const error = {}
         saga
           .throw(error)
-          .put(actions.logs.logErrorMessage(logLocation, 'deauthorizeBrowser', error))
+          .put(
+            actions.logs.logErrorMessage(
+              logLocation,
+              'deauthorizeBrowser',
+              error
+            )
+          )
       })
 
       it('should show error alert', () => {
-        saga.next().put(actions.alerts.displayError(C.DEAUTHORIZE_BROWSER_ERROR))
+        saga
+          .next()
+          .put(actions.alerts.displayError(C.DEAUTHORIZE_BROWSER_ERROR))
       })
 
       pageReloadTest()

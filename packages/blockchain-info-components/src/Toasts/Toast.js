@@ -10,7 +10,9 @@ const Wrapper = styled.div`
   width: 100%;
   background-color: ${props => props.theme['white']};
 
-  @media(min-width: 768px) { width: 500px; }
+  @media (min-width: 768px) {
+    width: 500px;
+  }
 `
 const Container = styled.div`
   position: relative;
@@ -27,8 +29,9 @@ const Container = styled.div`
   font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   font-weight: 400;
-  border-top: 6px solid ${props => transparentize(0.8, props.theme[props.color])};
-  box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
+  border-top: 6px solid
+    ${props => transparentize(0.8, props.theme[props.color])};
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
 `
@@ -41,20 +44,32 @@ const Content = styled.div`
   margin-right: 10px;
   box-sizing: border-box;
 
-  & > :first-child { text-transform: uppercase; }
-  
-  @media(min-width: 768px) { & > :first-child { display:none; } }
+  & > :first-child {
+    text-transform: uppercase;
+  }
+
+  @media (min-width: 768px) {
+    & > :first-child {
+      display: none;
+    }
+  }
 `
 const Close = styled(Icon)`
-  &:hover { color: ${props => darken(0.2, props.theme[props.color])}!important; }
+  &:hover {
+    color: ${props => darken(0.2, props.theme[props.color])}!important;
+  }
 `
 
 const selectColor = type => {
   switch (type) {
-    case 'success': return 'success'
-    case 'error': return 'error'
-    case 'info': return 'brand-secondary'
-    default: return 'brand-secondary'
+    case 'success':
+      return 'success'
+    case 'error':
+      return 'error'
+    case 'info':
+      return 'brand-secondary'
+    default:
+      return 'brand-secondary'
   }
 }
 
@@ -65,10 +80,15 @@ const Toast = props => {
   return (
     <Wrapper>
       <Container color={color}>
-        <Content>
-          {children}
-        </Content>
-        <Close name='close' size='20px' weight={300} color={color} cursor onClick={onClose} />
+        <Content>{children}</Content>
+        <Close
+          name='close'
+          size='20px'
+          weight={300}
+          color={color}
+          cursor
+          onClick={onClose}
+        />
       </Container>
     </Wrapper>
   )

@@ -13,7 +13,7 @@ const Wrapper = styled.footer`
   width: 100%;
   min-height: 60px;
 
-  @media(min-width: 768px) {
+  @media (min-width: 768px) {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
@@ -25,9 +25,11 @@ const LinkContainer = styled.div`
   justify-content: space-between;
   align-items: center;
 
-  & > a { padding: 10px; }
+  & > a {
+    padding: 10px;
+  }
 
-  @media(min-width: 768px) {
+  @media (min-width: 768px) {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
@@ -43,7 +45,7 @@ const RightContainer = styled.div`
   & > :last-child {
     padding: 2px;
   }
-  @media(min-width: 768px) {
+  @media (min-width: 768px) {
     margin: 0;
   }
 `
@@ -53,22 +55,64 @@ const Footer = () => {
     <Wrapper>
       <LinkContainer>
         <Image name='blue-logo' height='40px' width='40px' />
-        <Link href='https://blockchain.info' size='12px' weight={300} color='white' uppercase>
-          <FormattedMessage id='layouts.public.footer.explorer' defaultMessage='Data' />
+        <Link
+          href='https://blockchain.info'
+          size='12px'
+          weight={300}
+          color='white'
+          uppercase
+        >
+          <FormattedMessage
+            id='layouts.public.footer.explorer'
+            defaultMessage='Data'
+          />
         </Link>
-        <Link href='https://blockchain.com/about' size='12px' weight={300} color='white' uppercase>
-          <FormattedMessage id='layouts.public.footer.about' defaultMessage='About' />
+        <Link
+          href='https://blockchain.com/about'
+          size='12px'
+          weight={300}
+          color='white'
+          uppercase
+        >
+          <FormattedMessage
+            id='layouts.public.footer.about'
+            defaultMessage='About'
+          />
         </Link>
-        <Link href='https://blog.blockchain.com' size='12px' weight={300} color='white' uppercase>
-          <FormattedMessage id='layouts.public.footer.blog' defaultMessage='Blog' />
+        <Link
+          href='https://blog.blockchain.com'
+          size='12px'
+          weight={300}
+          color='white'
+          uppercase
+        >
+          <FormattedMessage
+            id='layouts.public.footer.blog'
+            defaultMessage='Blog'
+          />
         </Link>
-        <Link href='https://support.blockchain.com' size='12px' weight={300} color='white' uppercase>
-          <FormattedMessage id='layouts.public.footer.support' defaultMessage='Support' />
+        <Link
+          href='https://support.blockchain.com'
+          size='12px'
+          weight={300}
+          color='white'
+          uppercase
+        >
+          <FormattedMessage
+            id='layouts.public.footer.support'
+            defaultMessage='Support'
+          />
         </Link>
       </LinkContainer>
       <RightContainer>
         <DropdownLanguage color='white' />
-        <Link href='https://github.com/blockchain/blockchain-wallet-v4-frontend/releases' target="_blank" size='12px' weight={100} color='white'>
+        <Link
+          href='https://github.com/blockchain/blockchain-wallet-v4-frontend/releases'
+          target='_blank'
+          size='12px'
+          weight={100}
+          color='white'
+        >
           v{APP_VERSION}
         </Link>
       </RightContainer>

@@ -1,13 +1,16 @@
 import { map, range } from 'ramda'
-import { addressLookaheadCount, getHDAccountAddressPromises } from './middleware'
+import {
+  addressLookaheadCount,
+  getHDAccountAddressPromises
+} from './middleware'
 import { getReceiveAddress } from '../../types/HDAccount'
 import { getAccountXpub } from '../wallet/selectors'
-import { getReceiveIndex } from '../data/bitcoin/selectors'
+import { getReceiveIndex } from '../data/btc/selectors'
 import Remote from '../../remote'
 import { networks } from 'bitcoinjs-lib'
 
 jest.mock('../wallet/selectors')
-jest.mock('../data/bitcoin/selectors')
+jest.mock('../data/btc/selectors')
 jest.mock('../../types/HDAccount')
 
 jest.useFakeTimers()
@@ -23,7 +26,8 @@ describe('getHDAccountAddressPromises', () => {
   }
   const receiveIndex = 5
   const xpub = '1234'
-  const mockDerivation = (account, index, network) => `${account.index}${index}${network}`
+  const mockDerivation = (account, index, network) =>
+    `${account.index}${index}${network}`
   getAccountXpub.mockReturnValue(xpub)
   getReceiveIndex.mockReturnValue(Remote.of(receiveIndex))
   getReceiveAddress.mockImplementation(mockDerivation)
@@ -53,20 +57,23 @@ describe('getHDAccountAddressPromises', () => {
     jest.runAllTimers()
 
     expect(getReceiveAddress).toHaveBeenCalledTimes(addressLookaheadCount)
-    expect(getReceiveAddress.mock.calls).toEqual(map(
-      (index) => [account, index, networks.bitcoin.NETWORK_BITCOIN],
-      range(receiveIndex, receiveIndex + addressLookaheadCount)
-    ))
+    expect(getReceiveAddress.mock.calls).toEqual(
+      map(
+        index => [account, index, networks.bitcoin.NETWORK_BITCOIN],
+        range(receiveIndex, receiveIndex + addressLookaheadCount)
+      )
+    )
   })
 
   it('should return array of Promises resolving with getReceiveAddress values', async () => {
     const expectedResult = map(
-      (index) => mockDerivation(account, index, networks.bitcoin.NETWORK_BITCOIN),
+      index => mockDerivation(account, index, networks.bitcoin.NETWORK_BITCOIN),
       range(receiveIndex, receiveIndex + addressLookaheadCount)
     )
 
-    const promise = Promise.all(getHDAccountAddressPromises(state, account))
-      .then(result => expect(result).toEqual(expectedResult))
+    const promise = Promise.all(
+      getHDAccountAddressPromises(state, account)
+    ).then(result => expect(result).toEqual(expectedResult))
 
     jest.runAllTimers()
 

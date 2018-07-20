@@ -1,4 +1,3 @@
-
 import CaptchaBox from './CaptchaBox'
 import CheckBox from './CheckBox'
 import CodeInputBoxes from './CodeInputBoxes'
@@ -18,7 +17,7 @@ import PhoneNumberBox from './PhoneNumberBox'
 import RadioButton from './RadioButton'
 import SelectBoxBankAccountType from './SelectBoxBankAccountType'
 import SelectBox from './SelectBox'
-import SelectBoxBitcoinAddresses from './SelectBoxBitcoinAddresses'
+import SelectBoxBitcoinAddresses from './SelectBoxBtcAddresses'
 import SelectBoxCoin from './SelectBoxCoin'
 import SelectBoxCoinifyCurrency from './SelectBoxCoinifyCurrency'
 import SelectBoxCountry from './SelectBoxCountry'

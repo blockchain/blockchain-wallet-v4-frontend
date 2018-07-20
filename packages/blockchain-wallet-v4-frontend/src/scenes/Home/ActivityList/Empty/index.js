@@ -26,20 +26,39 @@ const Empty = props => (
     <Container>
       <Image name='blue-logo' width='40px' height='40px' />
       <Text size='16px' weight={300}>
-        <FormattedMessage id='scenes.home.activitylist.empty.notx' defaultMessage='No transactions yet? No problem.' />
+        <FormattedMessage
+          id='scenes.home.activitylist.empty.notx'
+          defaultMessage='No transactions yet? No problem.'
+        />
       </Text>
       <Text size='16px' weight={300}>
-        <FormattedMessage id='scenes.home.activitylist.empty.funds' defaultMessage='Get started by adding some funds to your wallet!' />
+        <FormattedMessage
+          id='scenes.home.activitylist.empty.funds'
+          defaultMessage='Get started by adding some funds to your wallet!'
+        />
       </Text>
-      {
-        props.partner ? <LinkContainer to='/buy-sell'>
+      {props.partner ? (
+        <LinkContainer to='/buy-sell'>
           <Button uppercase rounded nature='primary'>
-            <FormattedMessage id='scenes.home.activitylist.empty.buybitcoin' defaultMessage='Buy Bitcoin' />
+            <FormattedMessage
+              id='scenes.home.activitylist.empty.buybitcoin'
+              defaultMessage='Buy Bitcoin'
+            />
           </Button>
-        </LinkContainer> : <Button uppercase rounded nature='primary' onClick={props.handleRequest}>
-          <FormattedMessage id='scenes.home.activitylist.empty.requestfunds' defaultMessage='Request Funds' />
+        </LinkContainer>
+      ) : (
+        <Button
+          uppercase
+          rounded
+          nature='primary'
+          onClick={props.handleRequest}
+        >
+          <FormattedMessage
+            id='scenes.home.activitylist.empty.requestfunds'
+            defaultMessage='Request Funds'
+          />
         </Button>
-      }
+      )}
     </Container>
   </Wrapper>
 )

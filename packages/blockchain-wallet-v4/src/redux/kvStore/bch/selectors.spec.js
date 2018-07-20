@@ -37,7 +37,9 @@ describe('kvstore bch selectors', () => {
 
   it('getDefaultAccountIndex should return success of default account index', () => {
     const expectedResult = Remote.Success(2)
-    expect(selectors.getDefaultAccountIndex(successState)).toEqual(expectedResult)
+    expect(selectors.getDefaultAccountIndex(successState)).toEqual(
+      expectedResult
+    )
   })
 
   it('getAccountLabel should return success of account label', () => {
@@ -47,10 +49,19 @@ describe('kvstore bch selectors', () => {
 
   it('getBchTxNote should return success of correct bch tx note', () => {
     const expectedResult = Remote.Success('tx')
-    expect(selectors.getBchTxNote(successState, 'dadadece41f18f717c2910d0c7a4bb2ad27465d58f855c2d8b1a32fc764fa7b2')).toEqual(expectedResult)
+    expect(
+      selectors.getBchTxNote(
+        successState,
+        'dadadece41f18f717c2910d0c7a4bb2ad27465d58f855c2d8b1a32fc764fa7b2'
+      )
+    ).toEqual(expectedResult)
   })
 
-  const loadingState = assocPath(['kvStorePath', 'bch'], Remote.Loading, successState)
+  const loadingState = assocPath(
+    ['kvStorePath', 'bch'],
+    Remote.Loading,
+    successState
+  )
 
   it('getMetadata should return metadata', () => {
     const expectedResult = Remote.Loading
@@ -64,7 +75,9 @@ describe('kvstore bch selectors', () => {
 
   it('getDefaultAccountIndex should return loading', () => {
     const expectedResult = Remote.Loading
-    expect(selectors.getDefaultAccountIndex(loadingState)).toEqual(expectedResult)
+    expect(selectors.getDefaultAccountIndex(loadingState)).toEqual(
+      expectedResult
+    )
   })
 
   it('getAccountLabel should return loading', () => {
@@ -74,6 +87,11 @@ describe('kvstore bch selectors', () => {
 
   it('getBchTxNote should return loading', () => {
     const expectedResult = Remote.Loading
-    expect(selectors.getBchTxNote(loadingState, 'dadadece41f18f717c2910d0c7a4bb2ad27465d58f855c2d8b1a32fc764fa7b2')).toEqual(expectedResult)
+    expect(
+      selectors.getBchTxNote(
+        loadingState,
+        'dadadece41f18f717c2910d0c7a4bb2ad27465d58f855c2d8b1a32fc764fa7b2'
+      )
+    ).toEqual(expectedResult)
   })
 })

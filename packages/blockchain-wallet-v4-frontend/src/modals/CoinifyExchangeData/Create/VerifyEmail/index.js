@@ -16,12 +16,18 @@ class VerifyEmailContainer extends Component {
   }
 
   componentDidMount () {
-    this.props.formActions.change('coinifyVerifyEmail', 'emailAddress', this.props.oldEmail)
+    this.props.formActions.change(
+      'coinifyVerifyEmail',
+      'emailAddress',
+      this.props.oldEmail
+    )
   }
 
   resendCode () {
     this.props.updateUI({ codeSent: true })
-    this.props.securityCenterActions.sendConfirmationCodeEmail(this.props.emailAddress)
+    this.props.securityCenterActions.sendConfirmationCodeEmail(
+      this.props.emailAddress
+    )
   }
 
   onSubmit () {
@@ -31,23 +37,27 @@ class VerifyEmailContainer extends Component {
     } else {
       this.props.updateUI({ create: 'enter_email_code' })
       this.props.securityCenterActions.updateEmail(this.props.emailAddress)
-      this.props.securityCenterActions.sendConfirmationCodeEmail(this.props.emailAddress)
+      this.props.securityCenterActions.sendConfirmationCodeEmail(
+        this.props.emailAddress
+      )
     }
   }
 
   render () {
     const { emailVerifiedError, invalid, ui, updateUI } = this.props
 
-    return <VerifyEmail
-      emailVerifiedError={emailVerifiedError}
-      invalid={invalid}
-      onSubmit={this.onSubmit}
-      resendCode={this.resendCode}
-      ui={ui}
-      updateUI={updateUI}
-      email={this.props.oldEmail}
-      newEmail={this.props.emailAddress}
-    />
+    return (
+      <VerifyEmail
+        emailVerifiedError={emailVerifiedError}
+        invalid={invalid}
+        onSubmit={this.onSubmit}
+        resendCode={this.resendCode}
+        ui={ui}
+        updateUI={updateUI}
+        email={this.props.oldEmail}
+        newEmail={this.props.emailAddress}
+      />
+    )
   }
 }
 
@@ -61,16 +71,22 @@ VerifyEmailContainer.propTypes = {
   oldEmail: PropTypes.string
 }
 
-const mapStateToProps = (state) => getData(state)
+const mapStateToProps = state => getData(state)
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   formActions: bindActionCreators(actions.form, dispatch),
   coinifyActions: bindActionCreators(actions.modules.coinify, dispatch),
-  securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch)
+  securityCenterActions: bindActionCreators(
+    actions.modules.securityCenter,
+    dispatch
+  )
 })
 
 const enhance = compose(
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )
 
 export default enhance(VerifyEmailContainer)

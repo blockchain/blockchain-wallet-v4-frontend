@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 import whatsNew from './whatsNew/reducers.js'
-import ethereum from './ethereum/reducers.js'
+import ethereum from './eth/reducers.js'
 import shapeShift from './shapeShift/reducers.js'
 import buySell from './buySell/reducers.js'
 import contacts from './contacts/reducers.js'

@@ -16,7 +16,12 @@ class SecondPasswordContainer extends React.PureComponent {
   }
 
   handleClick () {
-    if (Types.Wallet.isValidSecondPwd(this.state.secondPassword, this.props.wallet)) {
+    if (
+      Types.Wallet.isValidSecondPwd(
+        this.state.secondPassword,
+        this.props.wallet
+      )
+    ) {
       this.props.modalActions.closeModal()
       this.props.walletActions.submitSecondPassword(this.state.secondPassword)
     } else {
@@ -30,14 +35,21 @@ class SecondPasswordContainer extends React.PureComponent {
   }
 
   render () {
-    return <SecondPassword {...this.props} handleClick={this.handleClick} handleChange={this.handleChange} value={this.state.secondPassword} />
+    return (
+      <SecondPassword
+        {...this.props}
+        handleClick={this.handleClick}
+        handleChange={this.handleChange}
+        value={this.state.secondPassword}
+      />
+    )
   }
 }
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   wallet: selectors.core.wallet.getWallet(state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   walletActions: bindActionCreators(actions.wallet, dispatch)
@@ -45,7 +57,10 @@ const mapDispatchToProps = (dispatch) => ({
 
 const enhance = compose(
   modalEnhancer('SecondPassword'),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )
 
 export default enhance(SecondPasswordContainer)

@@ -1,4 +1,3 @@
-
 export default {
   // Brand
   'brand-primary': '#004A7C',

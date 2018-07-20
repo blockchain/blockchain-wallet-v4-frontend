@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -21,8 +20,11 @@ class SettingsContainer extends React.PureComponent {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(undefined, mapDispatchToProps)(SettingsContainer)
+export default connect(
+  undefined,
+  mapDispatchToProps
+)(SettingsContainer)

@@ -12,7 +12,7 @@ import { spacing } from 'services/StyleService'
 const AuthenticatorSummary = styled.div`
   width: 100%;
   padding: 0 20px;
-  opacity: ${props => props.success ? 0.3 : 1};
+  opacity: ${props => (props.success ? 0.3 : 1)};
   @media (min-width: 992px) {
     width: 110%;
   }
@@ -51,25 +51,35 @@ const Google = props => {
     <form onSubmit={handleSubmit}>
       <AuthenticatorSummary success={ui.successToggled}>
         <QRCodeContainer>
-          { data.googleSecret
-            ? (
-              <QRCode>
-                <QRCodeReact value={data.googleSecret} size={115} />
-              </QRCode>
-            )
-            : null
-          }
+          {data.googleSecret ? (
+            <QRCode>
+              <QRCodeReact value={data.googleSecret} size={115} />
+            </QRCode>
+          ) : null}
           <QRCodeCopy>
             <Text size='14px' weight={200}>
-              <FormattedMessage id='scenes.security.twostepverification.authenticator.stepone' defaultMessage='1. Scan this QR code with your Authenticator app.' />
+              <FormattedMessage
+                id='scenes.security.twostepverification.authenticator.stepone'
+                defaultMessage='1. Scan this QR code with your Authenticator app.'
+              />
             </Text>
             <Text size='14px' weight={200} style={spacing('mt-5')}>
-              <FormattedMessage id='scenes.security.twostepverification.authenticator.steptwo' defaultMessage='2. Enter the random number presented below.' />
+              <FormattedMessage
+                id='scenes.security.twostepverification.authenticator.steptwo'
+                defaultMessage='2. Enter the random number presented below.'
+              />
             </Text>
           </QRCodeCopy>
           <QRInputWrapper>
-            <Field name='authCode' component={TextBox} validate={[required]} placeholder='111 222' />
-            <Button type='submit' nature='primary' disabled={invalid}>Verify Code</Button>
+            <Field
+              name='authCode'
+              component={TextBox}
+              validate={[required]}
+              placeholder='111 222'
+            />
+            <Button type='submit' nature='primary' disabled={invalid}>
+              Verify Code
+            </Button>
           </QRInputWrapper>
         </QRCodeContainer>
       </AuthenticatorSummary>

@@ -23,18 +23,29 @@ const Wrapper = styled.div`
 
 class PageContainer extends React.Component {
   componentDidMount () {
-    ReactDOM.findDOMNode(this.refs.page).addEventListener('scroll', this.debounce(this.updateScroll.bind(this), 1000))
+    ReactDOM.findDOMNode(this.refs.page).addEventListener(
+      'scroll',
+      this.debounce(this.updateScroll.bind(this), 1000)
+    )
   }
 
   componentDidUpdate (prevProps) {
-    if (prevProps.children.props.computedMatch.url !== this.props.children.props.computedMatch.url) {
+    if (
+      prevProps.children.props.computedMatch.url !==
+      this.props.children.props.computedMatch.url
+    ) {
       ReactDOM.findDOMNode(this).scrollTop = 0
     }
   }
 
   componentWillUnmount () {
-    if (this.timeout) { clearTimeout(this.timeout) }
-    ReactDOM.findDOMNode(this.refs.page).removeEventListener('scroll', this.debounce(this.updateScroll.bind(this), 1000))
+    if (this.timeout) {
+      clearTimeout(this.timeout)
+    }
+    ReactDOM.findDOMNode(this.refs.page).removeEventListener(
+      'scroll',
+      this.debounce(this.updateScroll.bind(this), 1000)
+    )
   }
 
   debounce (func, wait) {
@@ -62,8 +73,11 @@ class PageContainer extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   scrollActions: bindActionCreators(actions.scroll, dispatch)
 })
 
-export default connect(undefined, mapDispatchToProps)(PageContainer)
+export default connect(
+  undefined,
+  mapDispatchToProps
+)(PageContainer)

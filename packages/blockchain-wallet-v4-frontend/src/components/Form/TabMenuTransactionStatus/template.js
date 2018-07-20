@@ -9,26 +9,47 @@ const TabMenuTransactionStatus = props => {
 
   return (
     <TabMenu>
-      {
-        statuses.indexOf('') > -1 && <TabMenuItem selected={value === ''} onClick={() => handleClick('')}>
-          <FormattedMessage id='components.form.tabmenutransactionstatus.all' defaultMessage='All' />
+      {statuses.indexOf('') > -1 && (
+        <TabMenuItem selected={value === ''} onClick={() => handleClick('')}>
+          <FormattedMessage
+            id='components.form.tabmenutransactionstatus.all'
+            defaultMessage='All'
+          />
         </TabMenuItem>
-      }
-      {
-        statuses.indexOf('received') > -1 && <TabMenuItem selected={value === 'received'} onClick={() => handleClick('received')}>
-          <FormattedMessage id='components.form.tabmenutransactionstatus.received' defaultMessage='Received' />
+      )}
+      {statuses.indexOf('received') > -1 && (
+        <TabMenuItem
+          selected={value === 'received'}
+          onClick={() => handleClick('received')}
+        >
+          <FormattedMessage
+            id='components.form.tabmenutransactionstatus.received'
+            defaultMessage='Received'
+          />
         </TabMenuItem>
-      }
-      {
-        statuses.indexOf('sent') > -1 && <TabMenuItem selected={value === 'sent'} onClick={() => handleClick('sent')}>
-          <FormattedMessage id='components.form.tabmenutransactionstatus.sent' defaultMessage='Sent' />
+      )}
+      {statuses.indexOf('sent') > -1 && (
+        <TabMenuItem
+          selected={value === 'sent'}
+          onClick={() => handleClick('sent')}
+        >
+          <FormattedMessage
+            id='components.form.tabmenutransactionstatus.sent'
+            defaultMessage='Sent'
+          />
         </TabMenuItem>
-      }
-      {
-        statuses.indexOf('transferred') > -1 && <TabMenuItem selected={value === 'transferred'} onClick={() => handleClick('transferred')}>
-          <FormattedMessage id='components.form.tabmenutransactionstatus.transferred' defaultMessage='Transferred' />
+      )}
+      {statuses.indexOf('transferred') > -1 && (
+        <TabMenuItem
+          selected={value === 'transferred'}
+          onClick={() => handleClick('transferred')}
+        >
+          <FormattedMessage
+            id='components.form.tabmenutransactionstatus.transferred'
+            defaultMessage='Transferred'
+          />
         </TabMenuItem>
-      }
+      )}
     </TabMenu>
   )
 }

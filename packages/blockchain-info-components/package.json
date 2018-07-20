@@ -10,6 +10,8 @@
   "main": "lib/index.js",
   "module": "src/index.js",
   "scripts": {
+    "ci:test": "yarn test --runInBand",
+    "ci:coverage:components": "yarn coverage --runInBand",
     "coverage": "cross-env ./../../node_modules/.bin/jest --coverage",
     "publish": "rm -rf lib && babel --out-dir lib --ignore spec.js --copy-files src",
     "storybook:build": "build-storybook",

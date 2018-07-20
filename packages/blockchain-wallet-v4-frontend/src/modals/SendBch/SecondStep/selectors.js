@@ -1,5 +1,9 @@
 import { selectors } from 'data'
-import { bchToLabel, bchFromLabel, isBchLegacyAddress } from 'services/PaymentHelper'
+import {
+  bchToLabel,
+  bchFromLabel,
+  isBchLegacyAddress
+} from 'services/PaymentHelper'
 
 export const getData = state => {
   const paymentR = selectors.components.sendBch.getPayment(state)
@@ -10,7 +14,7 @@ export const getData = state => {
     const isLegacy = isBchLegacyAddress(payment, state)
 
     return {
-      message: payment.description,
+      description: payment.description,
       fromAddress: fromLabel,
       toAddress: toLabel,
       amount: payment.amount[0],

@@ -16,8 +16,8 @@ const Header = styled.div`
   *:hover {
     cursor: pointer;
   }
-  -webkit-animation: fadeIn .75s ease-in 1 forwards;
-  animation: fadeIn .75s ease-in 1 forwards;
+  -webkit-animation: fadeIn 0.75s ease-in 1 forwards;
+  animation: fadeIn 0.75s ease-in 1 forwards;
   opacity: 0;
   @-webkit-keyframes fadeIn {
     to {
@@ -38,9 +38,9 @@ const LeftColumn = styled.div`
   height: 100px;
   flex-basis: 45%;
   padding: 0 15px;
-  @media(max-width: 992px) { 
+  @media (max-width: 992px) {
     flex-basis: 100%;
-    justify-content: space-evenly; 
+    justify-content: space-evenly;
   }
 `
 const RightColumn = styled.div`
@@ -51,8 +51,12 @@ const RightColumn = styled.div`
   flex-basis: 55%;
   flex-grow: 1;
   padding-right: 15px;
-  @media(max-width: 992px) { display: none; }
-  @media(min-width: 1200px) { padding-top: 18px; }
+  @media (max-width: 992px) {
+    display: none;
+  }
+  @media (min-width: 1200px) {
+    padding-top: 18px;
+  }
 `
 const Step = styled.div`
   width: 100%;
@@ -68,8 +72,8 @@ const ArrowWrapper = styled.div`
   width: 100%;
 `
 const Arrow = styled.div`
-  width: 100%; 
-  border-top: 1px solid  ${props => props.theme['gray-5']};
+  width: 100%;
+  border-top: 1px solid ${props => props.theme['gray-5']};
   position: absolute;
   top: 20px;
   left: 0;
@@ -89,7 +93,7 @@ const Arrow = styled.div`
     content: '';
     position: absolute;
     right: -2px;
-    background:  ${props => props.theme['gray-5']};
+    background: ${props => props.theme['gray-5']};
     height: 1px;
     width: 12px;
     top: 3px;
@@ -104,36 +108,73 @@ const Circle = styled.div`
   background: ${props => props.theme['gray-5']};
   margin-bottom: 10px;
   flex-wrap: nowrap;
-  
+
   &.step-complete {
     background: ${props => props.theme['brand-secondary']};
   }
-  
+
   & > span:first-child {
     padding-left: 8px;
   }
 `
 
-const getSfoxStepTitle = (step) => {
+const getSfoxStepTitle = step => {
   switch (step) {
-    case 1: return <FormattedMessage id='scenes.home.exchangeStepper.sfox.step1' defaultMessage='Create Account' />
-    case 2: return <FormattedMessage id='scenes.home.exchangeStepper.sfox.step2' defaultMessage='Verify Identity' />
-    case 3: return <FormattedMessage id='scenes.home.exchangeStepper.sfox.step3' defaultMessage='Upload Documents' />
-    case 4: return <FormattedMessage id='scenes.home.exchangeStepper.sfox.step4' defaultMessage='Link Bank' />
-    default: return <div />
+    case 1:
+      return (
+        <FormattedMessage
+          id='scenes.home.exchangeStepper.sfox.step1'
+          defaultMessage='Create Account'
+        />
+      )
+    case 2:
+      return (
+        <FormattedMessage
+          id='scenes.home.exchangeStepper.sfox.step2'
+          defaultMessage='Verify Identity'
+        />
+      )
+    case 3:
+      return (
+        <FormattedMessage
+          id='scenes.home.exchangeStepper.sfox.step3'
+          defaultMessage='Upload Documents'
+        />
+      )
+    case 4:
+      return (
+        <FormattedMessage
+          id='scenes.home.exchangeStepper.sfox.step4'
+          defaultMessage='Link Bank'
+        />
+      )
+    default:
+      return <div />
   }
 }
 
-const SfoxSignupBanner = (props) => {
+const SfoxSignupBanner = props => {
   const { currentStep, goToBuySell } = props
   const totalSteps = 4
 
   return (
-    <Header onClick={() => { goToBuySell() }}>
+    <Header
+      onClick={() => {
+        goToBuySell()
+      }}
+    >
       <LeftColumn>
-        <Icon name='cart' color='gray-5' size='54px' style={{ paddingRight: 25, paddingLeft: 5 }} />
+        <Icon
+          name='cart'
+          color='gray-5'
+          size='54px'
+          style={{ paddingRight: 25, paddingLeft: 5 }}
+        />
         <Text size='18px' weight={200}>
-          <FormattedMessage id='scenes.home.exchangeStepper.title' defaultMessage='Complete the following steps to buy & sell bitcoin.' />
+          <FormattedMessage
+            id='scenes.home.exchangeStepper.title'
+            defaultMessage='Complete the following steps to buy & sell bitcoin.'
+          />
         </Text>
       </LeftColumn>
       <RightColumn>
@@ -142,14 +183,33 @@ const SfoxSignupBanner = (props) => {
             <React.Fragment key={i}>
               <Step>
                 <Circle className={currentStep >= i ? 'step-complete' : ''}>
-                  {currentStep > i && <Icon name='checkmark' size='13px' color='white-blue' weight={600}/>}
-                  {currentStep <= i && <Text color='white-blue' weight={200}>{i + 1}</Text>}
+                  {currentStep > i && (
+                    <Icon
+                      name='checkmark'
+                      size='13px'
+                      color='white-blue'
+                      weight={600}
+                    />
+                  )}
+                  {currentStep <= i && (
+                    <Text color='white-blue' weight={200}>
+                      {i + 1}
+                    </Text>
+                  )}
                 </Circle>
-                <Text size='12px' weight={300} color={currentStep >= i ? 'brand-secondary' : 'gray-5'}>
+                <Text
+                  size='12px'
+                  weight={300}
+                  color={currentStep >= i ? 'brand-secondary' : 'gray-5'}
+                >
                   {getSfoxStepTitle(i + 1)}
                 </Text>
               </Step>
-              {i !== 3 && <ArrowWrapper><Arrow/></ArrowWrapper>}
+              {i !== 3 && (
+                <ArrowWrapper>
+                  <Arrow />
+                </ArrowWrapper>
+              )}
             </React.Fragment>
           )
         })}

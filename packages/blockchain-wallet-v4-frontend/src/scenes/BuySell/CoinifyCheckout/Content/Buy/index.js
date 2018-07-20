@@ -19,17 +19,33 @@ class CoinifyBuyContainer extends React.Component {
     this.props.coinifyDataActions.fetchTrades()
     this.props.coinifyDataActions.getKyc()
     this.props.coinifyDataActions.fetchSubscriptions()
-    if (this.props.step === 'isx') this.props.coinifyActions.coinifyNextCheckoutStep('checkout')
+    if (this.props.step === 'isx') {
+      this.props.coinifyActions.coinifyNextCheckoutStep('checkout')
+    }
   }
 
   startBuy () {
     const { buyQuoteR, paymentMedium, coinifyActions } = this.props
     coinifyActions.coinifyLoading()
-    buyQuoteR.map(q => this.props.coinifyActions.initiateBuy({ quote: q, medium: paymentMedium }))
+    buyQuoteR.map(q =>
+      this.props.coinifyActions.initiateBuy({ quote: q, medium: paymentMedium })
+    )
   }
 
   render () {
-    const { data, modalActions, coinifyActions, coinifyDataActions, buyQuoteR, currency, paymentMedium, trade, formActions, canTrade, ...rest } = this.props
+    const {
+      data,
+      modalActions,
+      coinifyActions,
+      coinifyDataActions,
+      buyQuoteR,
+      currency,
+      paymentMedium,
+      trade,
+      formActions,
+      canTrade,
+      ...rest
+    } = this.props
     const { step, checkoutBusy, coinifyBusy, subscriptions, trades } = rest
     const { fetchQuote, refreshBuyQuote } = coinifyDataActions
     const { showModal } = modalActions
@@ -38,36 +54,44 @@ class CoinifyBuyContainer extends React.Component {
 
     const busy = coinifyBusy.cata({
       Success: () => false,
-      Failure: (err) => err,
+      Failure: err => err,
       Loading: () => true,
       NotAsked: () => false
     })
 
     return data.cata({
-      Success: (value) => <Success
-        value={value}
-        showModal={showModal}
-        buyQuoteR={buyQuoteR}
-        fetchBuyQuote={quote => fetchQuote({ quote, nextAddress: value.nextAddress })}
-        refreshQuote={refreshBuyQuote}
-        currency={currency}
-        checkoutBusy={checkoutBusy}
-        setMax={(amt) => formActions.change('coinifyCheckoutBuy', 'leftVal', amt)}
-        setMin={(amt) => formActions.change('coinifyCheckoutBuy', 'leftVal', amt)}
-        paymentMedium={paymentMedium}
-        initiateBuy={this.startBuy}
-        step={step}
-        busy={busy}
-        clearTradeError={() => coinifyNotAsked()}
-        trade={trade}
-        handleKycAction={kyc => openKYC(kyc)}
-        changeTab={tab => change('buySellTabStatus', 'status', tab)}
-        coinifyNextCheckoutStep={step => coinifyNextCheckoutStep(step)}
-        canTrade={canTrade}
-        subscriptions={subscriptions}
-        trades={trades}
-      />,
-      Failure: (e) => <Failure error={e} />,
+      Success: value => (
+        <Success
+          value={value}
+          showModal={showModal}
+          buyQuoteR={buyQuoteR}
+          fetchBuyQuote={quote =>
+            fetchQuote({ quote, nextAddress: value.nextAddress })
+          }
+          refreshQuote={refreshBuyQuote}
+          currency={currency}
+          checkoutBusy={checkoutBusy}
+          setMax={amt =>
+            formActions.change('coinifyCheckoutBuy', 'leftVal', amt)
+          }
+          setMin={amt =>
+            formActions.change('coinifyCheckoutBuy', 'leftVal', amt)
+          }
+          paymentMedium={paymentMedium}
+          initiateBuy={this.startBuy}
+          step={step}
+          busy={busy}
+          clearTradeError={() => coinifyNotAsked()}
+          trade={trade}
+          handleKycAction={kyc => openKYC(kyc)}
+          changeTab={tab => change('buySellTabStatus', 'status', tab)}
+          coinifyNextCheckoutStep={step => coinifyNextCheckoutStep(step)}
+          canTrade={canTrade}
+          subscriptions={subscriptions}
+          trades={trades}
+        />
+      ),
+      Failure: e => <Failure error={e} />,
       Loading: () => <Loading />,
       NotAsked: () => <div>Not Asked</div>
     })
@@ -83,4 +107,7 @@ const mapDispatchToProps = dispatch => ({
   coinifyActions: bindActionCreators(actions.modules.coinify, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(CoinifyBuyContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CoinifyBuyContainer)

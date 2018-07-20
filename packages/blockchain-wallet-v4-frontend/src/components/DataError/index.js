@@ -15,11 +15,11 @@ const Empty = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items : center;
+  align-items: center;
   margin-top: 20px;
 `
 const Header = styled(Text)`
-  margin-top: 30px; 
+  margin-top: 30px;
   margin-bottom: 20px;
 `
 
@@ -30,17 +30,29 @@ class DataErrorContainer extends React.PureComponent {
         <Empty>
           <Image name='empty-search' width='260px' />
           <Header size='18px' weight={500}>
-            <FormattedMessage id='components.dataerror.header' defaultMessage='Oops, something went wrong here!' />
+            <FormattedMessage
+              id='components.dataerror.header'
+              defaultMessage='Oops, something went wrong here!'
+            />
           </Header>
           <TextGroup inline>
             <Text size='18px' weight={300}>
-              <FormattedMessage id='components.dataerror.body' defaultMessage='Please ' />
+              <FormattedMessage
+                id='components.dataerror.body'
+                defaultMessage='Please '
+              />
             </Text>
             <Link size='18px' onClick={this.props.onClick}>
-              <FormattedMessage id='components.dataerror.click' defaultMessage='click here' />
+              <FormattedMessage
+                id='components.dataerror.click'
+                defaultMessage='click here'
+              />
             </Link>
             <Text size='18px' weight={300}>
-              <FormattedMessage id='components.dataerror.refresh' defaultMessage=' to refresh.' />
+              <FormattedMessage
+                id='components.dataerror.refresh'
+                defaultMessage=' to refresh.'
+              />
             </Text>
           </TextGroup>
         </Empty>

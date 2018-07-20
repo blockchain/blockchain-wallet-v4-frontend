@@ -14,7 +14,9 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   background-color: ${props => props.theme['white']};
 
-  @media(min-width: 768px) { width: 550px; }
+  @media (min-width: 768px) {
+    width: 550px;
+  }
 `
 
 class AuthorizeLogin extends React.PureComponent {
@@ -22,7 +24,11 @@ class AuthorizeLogin extends React.PureComponent {
     super(props)
     this.onAccept = this.onAccept.bind(this)
     this.onReject = this.onReject.bind(this)
-    this.state = { token: decodeURIComponent(props.location.pathname.split('/authorize-approve/')[1]) }
+    this.state = {
+      token: decodeURIComponent(
+        props.location.pathname.split('/authorize-approve/')[1]
+      )
+    }
   }
 
   componentDidMount () {
@@ -43,17 +49,19 @@ class AuthorizeLogin extends React.PureComponent {
     const { data } = this.props
 
     let AuthorizeLoginStatus = data.cata({
-      Success: (value) => <Success value={value} onAccept={this.onAccept} onReject={this.onReject} />,
-      Failure: (value) => <Error value={value} />,
+      Success: value => (
+        <Success
+          value={value}
+          onAccept={this.onAccept}
+          onReject={this.onReject}
+        />
+      ),
+      Failure: value => <Error value={value} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />
     })
 
-    return (
-      <Wrapper>
-        {AuthorizeLoginStatus}
-      </Wrapper>
-    )
+    return <Wrapper>{AuthorizeLoginStatus}</Wrapper>
   }
 }
 
@@ -61,8 +69,11 @@ const mapStateToProps = state => ({
   data: getData(state)
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   miscActions: bindActionCreators(actions.core.data.misc, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(AuthorizeLogin)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AuthorizeLogin)

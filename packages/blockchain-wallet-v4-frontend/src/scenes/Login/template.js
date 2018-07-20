@@ -7,12 +7,29 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { check, msie } from 'bowser'
 
 import { required } from 'services/FormHelper'
-import { Banner, Button, Link, Separator, Text, TextGroup, HeartbeatLoader } from 'blockchain-info-components'
-import { Form, FormError, FormGroup, FormItem, FormLabel, PasswordBox, TextBox } from 'components/Form'
+import {
+  Banner,
+  Button,
+  Link,
+  Separator,
+  Text,
+  TextGroup,
+  HeartbeatLoader
+} from 'blockchain-info-components'
+import {
+  Form,
+  FormError,
+  FormGroup,
+  FormItem,
+  FormLabel,
+  PasswordBox,
+  TextBox
+} from 'components/Form'
 import Modals from 'modals'
 import MobileLogin from 'modals/MobileLogin'
 
-const isSupportedBrowser = check({safari: '8', chrome: '45', firefox: '45', opera: '20'}) && !msie
+const isSupportedBrowser =
+  check({ safari: '8', chrome: '45', firefox: '45', opera: '20' }) && !msie
 
 const Wrapper = styled.div`
   width: 100%;
@@ -20,7 +37,9 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   background-color: ${props => props.theme['white']};
 
-  @media(min-width: 768px) { width: 550px; }
+  @media (min-width: 768px) {
+    width: 550px;
+  }
 `
 const Header = styled.div`
   display: flex;
@@ -34,7 +53,7 @@ const Footer = styled.div`
   align-items: flex-start;
   margin-top: 15px;
 
-  @media(min-width: 768px) {
+  @media (min-width: 768px) {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
@@ -61,14 +80,20 @@ const BrowserWarning = styled.div`
   margin-bottom: 10px;
 `
 
-const Login = (props) => {
+const Login = props => {
   const { submitting, invalid, busy, loginError, password, ...rest } = props
   const { handleSubmit, handleMobile, handleSmsResend, authType } = rest
 
-  const guidError = loginError && loginError.toLowerCase().includes('unknown wallet id')
-  const passwordError = loginError && loginError.toLowerCase().includes('wrong_wallet_password')
-  const twoFactorError = loginError && loginError.toLowerCase().includes('authentication code')
-  const accountLocked = loginError && (loginError.toLowerCase().includes('this account has been locked') || loginError.toLowerCase().includes('account is locked'))
+  const guidError =
+    loginError && loginError.toLowerCase().includes('unknown wallet id')
+  const passwordError =
+    loginError && loginError.toLowerCase().includes('wrong_wallet_password')
+  const twoFactorError =
+    loginError && loginError.toLowerCase().includes('authentication code')
+  const accountLocked =
+    loginError &&
+    (loginError.toLowerCase().includes('this account has been locked') ||
+      loginError.toLowerCase().includes('account is locked'))
 
   return (
     <Wrapper>
@@ -77,7 +102,10 @@ const Login = (props) => {
       </Modals>
       <Header>
         <Text size='24px' weight={300} capitalize>
-          <FormattedMessage id='scenes.login.welcome' defaultMessage='Welcome back!' />
+          <FormattedMessage
+            id='scenes.login.welcome'
+            defaultMessage='Welcome back!'
+          />
         </Text>
         <TextGroup inline>
           <Text size='13px' weight={300}>
@@ -85,99 +113,213 @@ const Login = (props) => {
           </Text>
           <LinkContainer to='/signup'>
             <Link size='13px' weight={300}>
-              <FormattedMessage id='scenes.login.register' defaultMessage='Sign Up' />
+              <FormattedMessage
+                id='scenes.login.register'
+                defaultMessage='Sign Up'
+              />
             </Link>
           </LinkContainer>
         </TextGroup>
       </Header>
       <Text size='14px' weight={300}>
-        <FormattedMessage id='scenes.login.explain' defaultMessage='Sign in to your wallet below' />
+        <FormattedMessage
+          id='scenes.login.explain'
+          defaultMessage='Sign in to your wallet below'
+        />
       </Text>
       <Separator />
       <LoginForm onSubmit={handleSubmit}>
-        { !isSupportedBrowser &&
-          (<BrowserWarning>
+        {!isSupportedBrowser && (
+          <BrowserWarning>
             <Banner type='warning'>
-              <FormattedMessage id='scenes.login.browserwarning' defaultMessage='Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, Edge, or Opera.' />
+              <FormattedMessage
+                id='scenes.login.browserwarning'
+                defaultMessage='Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, Edge, or Opera.'
+              />
             </Banner>
-          </BrowserWarning>)
-        }
+          </BrowserWarning>
+        )}
         <FormGroup>
           <FormItem>
             <FormLabel for='guid'>
-              <FormattedMessage id='scenes.login.guid' defaultMessage='Wallet ID' />
+              <FormattedMessage
+                id='scenes.login.guid'
+                defaultMessage='Wallet ID'
+              />
             </FormLabel>
-            <Field name='guid' validate={[required]} component={TextBox} borderColor={guidError ? 'invalid' : undefined} disabled={!isSupportedBrowser} />
+            <Field
+              name='guid'
+              validate={[required]}
+              component={TextBox}
+              borderColor={guidError ? 'invalid' : undefined}
+              disabled={!isSupportedBrowser}
+            />
           </FormItem>
-          { guidError && <GuidError inline>
-            <Text size='12px' color='error' weight={300}>
-              <FormattedMessage id='scenes.login.guiderror' defaultMessage='Unknown Wallet ID. If you need a reminder ' />
-            </Text>
-            <LinkContainer to='/reminder'>
-              <Link size='12px' weight={300}><FormattedMessage id='scenes.login.clickhere' defaultMessage='click here.' /></Link>
-            </LinkContainer>
-          </GuidError> }
+          {guidError && (
+            <GuidError inline>
+              <Text size='12px' color='error' weight={300}>
+                <FormattedMessage
+                  id='scenes.login.guiderror'
+                  defaultMessage='Unknown Wallet ID. If you need a reminder '
+                />
+              </Text>
+              <LinkContainer to='/reminder'>
+                <Link size='12px' weight={300}>
+                  <FormattedMessage
+                    id='scenes.login.clickhere'
+                    defaultMessage='click here.'
+                  />
+                </Link>
+              </LinkContainer>
+            </GuidError>
+          )}
           <LoginTextGroup inline>
             <Text size='12px' color='gray-3' weight={300}>
-              <FormattedMessage id='scenes.login.info' defaultMessage='Find the login link in your email,' />
+              <FormattedMessage
+                id='scenes.login.info'
+                defaultMessage='Find the login link in your email,'
+              />
             </Text>
             <Text size='12px' color='gray-3' weight={300}>
-              <FormattedMessage id='scenes.login.info2' defaultMessage='e.g. blockchain.info/wallet/1111-222-333...' />
+              <FormattedMessage
+                id='scenes.login.info2'
+                defaultMessage='e.g. blockchain.info/wallet/1111-222-333...'
+              />
             </Text>
             <Text size='12px' color='gray-3' weight={300}>
-              <FormattedMessage id='scenes.login.info3' defaultMessage='The series of numbers and dashes at the end of the link is your Wallet ID.' />
+              <FormattedMessage
+                id='scenes.login.info3'
+                defaultMessage='The series of numbers and dashes at the end of the link is your Wallet ID.'
+              />
             </Text>
           </LoginTextGroup>
         </FormGroup>
         <FormGroup>
           <FormItem>
             <FormLabel for='password'>
-              <FormattedMessage id='scenes.login.password' defaultMessage='Password' />
+              <FormattedMessage
+                id='scenes.login.password'
+                defaultMessage='Password'
+              />
             </FormLabel>
-            <Field name='password' validate={[required]} component={PasswordBox} borderColor={passwordError ? 'invalid' : undefined} disabled={!isSupportedBrowser} />
-            { passwordError && <FormError position={authType > 0 ? 'relative' : 'absolute'}><FormattedMessage id='scenes.login.wrong_password' defaultMessage='Error decrypting wallet. Wrong password' /></FormError> }
-            { accountLocked && <FormError position={authType > 0 || passwordError ? 'relative' : 'absolute'}>{loginError}</FormError> }
+            <Field
+              name='password'
+              validate={[required]}
+              component={PasswordBox}
+              borderColor={passwordError ? 'invalid' : undefined}
+              disabled={!isSupportedBrowser}
+            />
+            {passwordError && (
+              <FormError position={authType > 0 ? 'relative' : 'absolute'}>
+                <FormattedMessage
+                  id='scenes.login.wrong_password'
+                  defaultMessage='Error decrypting wallet. Wrong password'
+                />
+              </FormError>
+            )}
+            {accountLocked && (
+              <FormError
+                position={
+                  authType > 0 || passwordError ? 'relative' : 'absolute'
+                }
+              >
+                {loginError}
+              </FormError>
+            )}
           </FormItem>
         </FormGroup>
-        { authType > 0 &&
+        {authType > 0 && (
           <FormGroup>
             <FormItem>
               <FormLabel for='code'>
-                { authType === 1 && <FormattedMessage id='scenes.login.yubikey' defaultMessage='Yubikey' /> }
-                { authType === 4 && <FormattedMessage id='scenes.login.google' defaultMessage='Authenticator App Code' /> }
-                { authType === 5 && <FormattedMessage id='scenes.login.mobile' defaultMessage='SMS Code' /> }
+                {authType === 1 && (
+                  <FormattedMessage
+                    id='scenes.login.yubikey'
+                    defaultMessage='Yubikey'
+                  />
+                )}
+                {authType === 4 && (
+                  <FormattedMessage
+                    id='scenes.login.google'
+                    defaultMessage='Authenticator App Code'
+                  />
+                )}
+                {authType === 5 && (
+                  <FormattedMessage
+                    id='scenes.login.mobile'
+                    defaultMessage='SMS Code'
+                  />
+                )}
               </FormLabel>
-              <Field name='code' validate={[required]} component={authType === 1 ? PasswordBox : TextBox} borderColor={twoFactorError ? 'invalid' : undefined} />
-              { authType === 5 && <ResendSmsLink size='12px' weight={300} onClick={handleSmsResend}><FormattedMessage id='scenes.login.resendsms' defaultMessage='Resend SMS' /></ResendSmsLink> }
-              { twoFactorError && <FormError position={'absolute'}>{loginError}</FormError> }
+              <Field
+                name='code'
+                validate={[required]}
+                component={authType === 1 ? PasswordBox : TextBox}
+                borderColor={twoFactorError ? 'invalid' : undefined}
+              />
+              {authType === 5 && (
+                <ResendSmsLink
+                  size='12px'
+                  weight={300}
+                  onClick={handleSmsResend}
+                >
+                  <FormattedMessage
+                    id='scenes.login.resendsms'
+                    defaultMessage='Resend SMS'
+                  />
+                </ResendSmsLink>
+              )}
+              {twoFactorError && (
+                <FormError position={'absolute'}>{loginError}</FormError>
+              )}
             </FormItem>
           </FormGroup>
-        }
+        )}
         <FormGroup>
-          <LoginButton type='submit' nature='primary' fullwidth uppercase disabled={submitting || invalid || busy || !password}>
-            {
-              busy && !loginError
-                ? <HeartbeatLoader height='20px' width='20px' color='white' />
-                : <FormattedMessage id='scenes.login.submit' defaultMessage='Log in' />
-            }
+          <LoginButton
+            type='submit'
+            nature='primary'
+            fullwidth
+            uppercase
+            disabled={submitting || invalid || busy || !password}
+          >
+            {busy && !loginError ? (
+              <HeartbeatLoader height='20px' width='20px' color='white' />
+            ) : (
+              <FormattedMessage
+                id='scenes.login.submit'
+                defaultMessage='Log in'
+              />
+            )}
           </LoginButton>
         </FormGroup>
       </LoginForm>
-      { isSupportedBrowser && <Footer>
-        <Link size='13px' weight={300} onClick={handleMobile}>
-          <FormattedMessage id='scenes.login.loginmobile' defaultMessage='Login via Mobile' />
-        </Link>
-        <TextGroup inline>
-          <Text size='13px' weight={300}>
-            <FormattedMessage id='scenes.login.troubles' defaultMessage='Having some trouble?' />
-          </Text>
-          <LinkContainer to='/help'>
-            <Link size='13px' weight={300}>
-              <FormattedMessage id='scenes.login.options' defaultMessage='Get help logging in' />
-            </Link>
-          </LinkContainer>
-        </TextGroup>
-      </Footer> }
+      {isSupportedBrowser && (
+        <Footer>
+          <Link size='13px' weight={300} onClick={handleMobile}>
+            <FormattedMessage
+              id='scenes.login.loginmobile'
+              defaultMessage='Login via Mobile'
+            />
+          </Link>
+          <TextGroup inline>
+            <Text size='13px' weight={300}>
+              <FormattedMessage
+                id='scenes.login.troubles'
+                defaultMessage='Having some trouble?'
+              />
+            </Text>
+            <LinkContainer to='/help'>
+              <Link size='13px' weight={300}>
+                <FormattedMessage
+                  id='scenes.login.options'
+                  defaultMessage='Get help logging in'
+                />
+              </Link>
+            </LinkContainer>
+          </TextGroup>
+        </Footer>
+      )}
     </Wrapper>
   )
 }

@@ -29,8 +29,8 @@ import BchAddresses from './Settings/Addresses/Bch'
 import BtcManageAddresses from './Settings/Addresses/Btc/ManageAddresses'
 import Info from './Settings/Info'
 import Preferences from './Settings/Preferences'
-import BitcoinTransactions from './Transactions/Bitcoin'
-import EtherTransactions from './Transactions/Ether'
+import BitcoinTransactions from './Transactions/Btc'
+import EtherTransactions from './Transactions/Eth'
 import BchTransactions from './Transactions/Bch'
 
 class App extends React.PureComponent {
@@ -50,24 +50,61 @@ class App extends React.PureComponent {
                   <PublicLayout path='/help' component={Help} />
                   <PublicLayout path='/recover' component={Recover} />
                   <PublicLayout path='/reminder' component={Reminder} />
-                  <PublicLayout path='/reset2fa' component={Reset2FA} />
-                  <PublicLayout path='/reset-two-factor' component={Reset2FAToken} />
-                  <PublicLayout path='/verify-email' component={VerifyEmailToken} />
+                  <PublicLayout path='/reset-22fa' component={Reset2FA} />
+                  <PublicLayout
+                    path='/reset-two-factor'
+                    component={Reset2FAToken}
+                  />
+                  <PublicLayout
+                    path='/verify-email'
+                    component={VerifyEmailToken}
+                  />
                   <PublicLayout path='/signup' component={Register} />
-                  <PublicLayout path='/authorize-approve' component={AuthorizeLogin} />
+                  <PublicLayout
+                    path='/authorize-approve'
+                    component={AuthorizeLogin}
+                  />
                   <PublicLayout path='/wallet' component={Login} />
                   <WalletLayout path='/home' component={Home} />
-                  <WalletLayout path='/btc/transactions' component={BitcoinTransactions} />
-                  <WalletLayout path='/eth/transactions' component={EtherTransactions} />
+                  <WalletLayout
+                    path='/btc/transactions'
+                    component={BitcoinTransactions}
+                  />
+                  <WalletLayout
+                    path='/eth/transactions'
+                    component={EtherTransactions}
+                  />
                   <WalletLayout path='/buy-sell' component={BuySell} />
-                  <WalletLayout path='/bch/transactions' component={BchTransactions} />
-                  <WalletLayout path='/exchange/history' component={ExchangeHistory} />
+                  <WalletLayout
+                    path='/bch/transactions'
+                    component={BchTransactions}
+                  />
+                  <WalletLayout
+                    path='/exchange/history'
+                    component={ExchangeHistory}
+                  />
                   <WalletLayout path='/exchange' component={Exchange} exact />
-                  <WalletLayout path='/security-center' component={SecurityCenter} />
-                  <WalletLayout path='/settings/preferences' component={Preferences} />
-                  <WalletLayout path='/settings/addresses/btc/:index' component={BtcManageAddresses} />
-                  <WalletLayout path='/settings/addresses' component={Addresses} exact />
-                  <WalletLayout path='/settings/addresses/bch' component={BchAddresses} />
+                  <WalletLayout
+                    path='/security-center'
+                    component={SecurityCenter}
+                  />
+                  <WalletLayout
+                    path='/settings/preferences'
+                    component={Preferences}
+                  />
+                  <WalletLayout
+                    path='/settings/addresses/btc/:index'
+                    component={BtcManageAddresses}
+                  />
+                  <WalletLayout
+                    path='/settings/addresses'
+                    component={Addresses}
+                    exact
+                  />
+                  <WalletLayout
+                    path='/settings/addresses/bch'
+                    component={BchAddresses}
+                  />
                   <WalletLayout path='/settings/info' component={Info} />
                   <Redirect from='/' to='/login' />
                 </Switch>

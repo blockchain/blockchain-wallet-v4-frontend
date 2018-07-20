@@ -10,26 +10,23 @@ const BaseLink = styled.a`
   font-weight: ${props => props.weight};
   color: ${props => props.theme[props.color]};
   text-transform: ${props =>
-    props.uppercase ? 'uppercase'
-      : props.capitalize ? 'capitalize' : 'none'};
+    props.uppercase ? 'uppercase' : props.capitalize ? 'capitalize' : 'none'};
   text-decoration: none;
-  cursor : pointer;
+  cursor: pointer;
 
   &:hover {
     color: ${props => props.theme[props.color]};
   }
 
-  &:focus { text-decoration: none; }
+  &:focus {
+    text-decoration: none;
+  }
 `
 
 const Link = props => {
   const { children, ...rest } = props
 
-  return (
-    <BaseLink {...rest}>
-      {children}
-    </BaseLink>
-  )
+  return <BaseLink {...rest}>{children}</BaseLink>
 }
 
 Link.propTypes = {
