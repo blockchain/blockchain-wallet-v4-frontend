@@ -6,7 +6,7 @@ import Button from './Button'
 import ButtonGroup from './ButtonGroup'
 import Cookies from 'universal-cookie'
 import MenuButton from './MenuButton'
-import {Color} from '../Colors'
+import { Color } from '../Colors'
 import { trackEvent } from './Events'
 import Logomark from './Logomark'
 import { Image } from '../Images'
@@ -68,7 +68,8 @@ const GlobalNav = styled.div.attrs({
   className: 'flex-container'
 })`
   ${Normalize8}
-  background-color: ${props => props.backgroundColor ? props.backgroundColor : 'transparent'};
+  background-color: ${props =>
+    props.backgroundColor ? props.backgroundColor : 'transparent'};
   position: ${props => props.position};
   z-index: 100;
 
@@ -123,7 +124,7 @@ const NavInner = styled.div`
     margin-right: auto;
     flex: 1 0 auto;
 
-    > input[type="search"] {
+    > input[type='search'] {
       width: 0;
       transition: width 0.4s ease;
       background-color: transparent;
@@ -145,7 +146,7 @@ const NavInner = styled.div`
 
       &::placeholder {
         color: ${props =>
-    props.placeholderColor ? props.placeholderColor : 'white'};
+          props.placeholderColor ? props.placeholderColor : 'white'};
       }
     }
 
@@ -153,11 +154,11 @@ const NavInner = styled.div`
       fill: ${props => (props.textColor ? props.textColor : 'white')};
     }
 
-    > input[type="search"]:focus {
+    > input[type='search']:focus {
       width: 100%;
       border-bottom: 2px solid white;
       border-bottom: ${props =>
-    props.textColor ? '2px solid ' + props.textColor : '2px solid white'};
+        props.textColor ? '2px solid ' + props.textColor : '2px solid white'};
 
       cursor: text;
       transition: all 0.4s ease;
@@ -210,29 +211,63 @@ const DropdownWrap = styled.div`
 
 const productsList = [
   {
-    title: <FormattedMessage id="header.products.wallet" defaultMessage="Wallet"/>,
-    desc: <FormattedMessage id="header.products.wallet-desc" defaultMessage="Send, Receive, and Trade"/>,
+    title: (
+      <FormattedMessage id="header.products.wallet" defaultMessage="Wallet" />
+    ),
+    desc: (
+      <FormattedMessage
+        id="header.products.wallet-desc"
+        defaultMessage="Send, Receive, and Trade"
+      />
+    ),
     link: '/wallet',
     locale: LOCALE,
     event: 'header_wallet'
   },
   {
-    title: <FormattedMessage id="header.data.explorer" defaultMessage="Explorer"/>,
-    desc: <FormattedMessage id="header.data.explorer-desc" defaultMessage="Search and Verify Transactions"/>,
+    title: (
+      <FormattedMessage id="header.data.explorer" defaultMessage="Explorer" />
+    ),
+    desc: (
+      <FormattedMessage
+        id="header.data.explorer-desc"
+        defaultMessage="Search and Verify Transactions"
+      />
+    ),
     link: '/explorer',
     locale: LOCALE,
     event: 'header_explorer'
   },
   {
-    title: <FormattedMessage id="header.products.bps" defaultMessage="Principal Strategies"/>,
-    desc: <FormattedMessage id="header.products.bps-desc" defaultMessage="Institutional Portal"/>,
+    title: (
+      <FormattedMessage
+        id="header.products.bps"
+        defaultMessage="Principal Strategies"
+      />
+    ),
+    desc: (
+      <FormattedMessage
+        id="header.products.bps-desc"
+        defaultMessage="Institutional Portal"
+      />
+    ),
     link: 'https://bps.blockchain.com',
     locale: LOCALE,
     event: 'header_principal'
   },
   {
-    title: <FormattedMessage id="header.products.developers" defaultMessage="Developers"/>,
-    desc: <FormattedMessage id="header.products.developers-desc" defaultMessage="Access our API"/>,
+    title: (
+      <FormattedMessage
+        id="header.products.developers"
+        defaultMessage="Developers"
+      />
+    ),
+    desc: (
+      <FormattedMessage
+        id="header.products.developers-desc"
+        defaultMessage="Access our API"
+      />
+    ),
     link: '/api',
     locale: LOCALE,
     event: 'header_developers'
@@ -241,15 +276,27 @@ const productsList = [
 
 const dataList = [
   {
-    title: <FormattedMessage id="header.data.markets" defaultMessage="Markets"/>,
-    desc: <FormattedMessage id="header.data.markets-desc" defaultMessage="Prices, Quotes, and More"/>,
+    title: (
+      <FormattedMessage id="header.data.markets" defaultMessage="Markets" />
+    ),
+    desc: (
+      <FormattedMessage
+        id="header.data.markets-desc"
+        defaultMessage="Prices, Quotes, and More"
+      />
+    ),
     link: '/markets',
     locale: LOCALE,
     event: 'header_markets'
   },
   {
-    title: <FormattedMessage id="header.data.charts" defaultMessage="Charts"/>,
-    desc: <FormattedMessage id="header.data.charts-desc" defaultMessage="Stats and Network Activity"/>,
+    title: <FormattedMessage id="header.data.charts" defaultMessage="Charts" />,
+    desc: (
+      <FormattedMessage
+        id="header.data.charts-desc"
+        defaultMessage="Stats and Network Activity"
+      />
+    ),
     link: '/charts',
     locale: LOCALE,
     event: 'header_charts'
@@ -275,14 +322,21 @@ const ListWrap = items => (
 
 const dropdownMap = {
   products: {
-    linkText: <FormattedMessage id="header.dropdown.products" defaultMessage="Products"/>,
+    linkText: (
+      <FormattedMessage
+        id="header.dropdown.products"
+        defaultMessage="Products"
+      />
+    ),
     component: ListWrap(productsList),
     onActive: () => {
       trackEvent('header_products')
     }
   },
   markets: {
-    linkText: <FormattedMessage id="header.dropdown.data" defaultMessage="Data"/>,
+    linkText: (
+      <FormattedMessage id="header.dropdown.data" defaultMessage="Data" />
+    ),
     component: ListWrap(dataList),
     onActive: () => {
       trackEvent('header_data')
@@ -351,13 +405,15 @@ const MobileMenu = props => {
             bgColor="white"
             outline
             href={publicRuntimeConfig.walletLoginURL}
-            event="header_login">
-            <FormattedMessage id="header.login" defaultMessage="Login"/>
+            event="header_login"
+          >
+            <FormattedMessage id="header.login" defaultMessage="Login" />
           </Button>
           <Button
             href={publicRuntimeConfig.walletSignupURL}
-            event="header_signup">
-            <FormattedMessage id="header.signup" defaultMessage="Sign Up"/>
+            event="header_signup"
+          >
+            <FormattedMessage id="header.signup" defaultMessage="Sign Up" />
           </Button>
         </ButtonGroup>
       </MobileMenuItem>
@@ -382,7 +438,7 @@ class Header extends PureComponent {
     searchURL: SEARCH_URL
   }
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.previousScroll = 100
   }
@@ -394,21 +450,21 @@ class Header extends PureComponent {
     searchText: ''
   }
 
-  componentDidMount () {
+  componentDidMount() {
     if (window) {
       window.addEventListener('scroll', this.handleScroll, true)
       window.addEventListener('resize', this.handleResize, true)
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     if (window) {
       window.removeEventListener('scroll', this.handleScroll)
       window.removeEventListener('resize', this.handleResize)
     }
   }
 
-  getScrollTop () {
+  getScrollTop() {
     if (window && document) {
       let supportScrollY = window.scrollY !== undefined
       let supportPageOffset = window.pageYOffset !== undefined
@@ -492,7 +548,7 @@ class Header extends PureComponent {
     document.location = this.props.searchURL + encodeURIComponent(text)
   }
 
-  render () {
+  render() {
     let themeObj = this.props.theme === 'light' ? darkTheme : lightTheme
     let searchActive = this.state.search ? 'search-active' : ''
     let navVisibility = this.state.showNav ? 'visible' : 'hidden'
@@ -506,7 +562,12 @@ class Header extends PureComponent {
       <ThemeProvider theme={themeObj}>
         <IntlProvider>
           <div>
-            <GlobalNav className={navClasses} backgroundColor={backgroundColor} navColor={themeObj.headerScroll} position={position}>
+            <GlobalNav
+              className={navClasses}
+              backgroundColor={backgroundColor}
+              navColor={themeObj.headerScroll}
+              position={position}
+            >
               <NavWrapper>
                 <NavInner>
                   <Link href="https://blockchain.com" event="header_logo">
@@ -521,8 +582,9 @@ class Header extends PureComponent {
                 <NavInner
                   textColor={themeObj.main}
                   placeholderColor={themeObj.placeholder}
-                  className="search-default">
-                  <Image name='search' height='20px' width='20px' />
+                  className="search-default"
+                >
+                  <Image name="search" height="20px" width="20px" />
                   <input
                     onFocus={this.handleSearchFocus}
                     onBlur={this.handleSearchBlur}
@@ -541,15 +603,23 @@ class Header extends PureComponent {
                       bgColor={themeObj.secondary}
                       textColor={themeObj.main}
                       href={publicRuntimeConfig.walletLoginURL}
-                      event="header_login">
-                      <FormattedMessage id="header.login" defaultMessage="Login"/>
+                      event="header_login"
+                    >
+                      <FormattedMessage
+                        id="header.login"
+                        defaultMessage="Login"
+                      />
                     </Button>
                     <Button
                       bgColor={themeObj.secondary}
                       textColor={themeObj.main}
                       href={publicRuntimeConfig.walletSignupURL}
-                      event="header_signup">
-                      <FormattedMessage id="header.signup" defaultMessage="Sign Up"/>
+                      event="header_signup"
+                    >
+                      <FormattedMessage
+                        id="header.signup"
+                        defaultMessage="Sign Up"
+                      />
                     </Button>
                   </ButtonGroup>
                 </NavInner>
@@ -565,7 +635,7 @@ class Header extends PureComponent {
                 </MenuButtonWrap>
               </NavWrapper>
             </GlobalNav>
-            { position === 'fixed' && <Spacer /> }
+            {position === 'fixed' && <Spacer />}
           </div>
         </IntlProvider>
       </ThemeProvider>
