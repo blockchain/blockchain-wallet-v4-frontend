@@ -7,7 +7,7 @@
   "buy.quote_input.below_min":
     "Your limit of {curr}{max} is below the minimum allowed amount.",
   "buy.quote_input.effective_max_under_min1":
-    "Your balance is less than the minimum sell amount minus priority fee {min} BTC. ",
+    "Your balance is less than the minimum sell amount minus priority fee {min} BTC.",
   "buy.quote_input.effective_max_under_min2":
     "Fund your wallet by {buyLink} or {exchangeLink} before selling.",
   "buy.quote_input.effective_max_under_min3": "buying",
@@ -41,7 +41,7 @@
   "buysell.general.failure.message3": "Error code: {err}",
   "buysell.orderhistory.finishtrade": "Finish Trade",
   "buysell.orderhistory.list.details": "View details",
-  "buysell.quote_input.increase_limits": " Increase your limit.",
+  "buysell.quote_input.increase_limits": "Increase your limit.",
   "buysell.sfoxcheckout.orderreview.cancel": "Cancel",
   "buysell.sfoxcheckout.orderreview.submit": "Submit",
   "buysellexchangedata.create.accept.terms": "I accept Blockchain's",
@@ -80,7 +80,7 @@
   "coinifyexchangedata.addcustomerdetails.postcode": "Postal Code",
   "coinifyexchangedata.addcustomerdetails.street": "Street Address",
   "coinifyexchangedata.addcustomerdetails.subheader":
-    "Who owns this bank account?  This information should match the holder’s bank statement. ",
+    "Who owns this bank account?  This information should match the holder’s bank statement.",
   "coinifyexchangedata.confirm.amount": "Amount",
   "coinifyexchangedata.confirm.canceledit": "Cancel",
   "coinifyexchangedata.confirm.confirm": "confirm",
@@ -94,8 +94,8 @@
   "coinifyexchangedata.confirm.underlimit": "Under the limit",
   "coinifyexchangedata.confirm.update": "update",
   "coinifyexchangedata.create.accept.error1":
-    "Unfortunately this email is being used for another account. ",
-  "coinifyexchangedata.create.accept.error2": "Click here ",
+    "Unfortunately this email is being used for another account.",
+  "coinifyexchangedata.create.accept.error2": "Click here",
   "coinifyexchangedata.create.accept.error3": "to change it.",
   "coinifyexchangedata.create.accept.partner.header.acceptterms":
     "We teamed up with Coinify’s exchange platform to offer buy and sell to our customers in Europe. Accept their terms and conditions to start buying and selling.",
@@ -127,7 +127,7 @@
   "coinifyexchangedata.cyo.helper1.question":
     "How long will the buy order take?",
   "coinifyexchangedata.cyo.helper2.answer":
-    "When you choose to create a trade through bank transfer, Coinify will show you an exchange rate that may differ from the actual rate due to price fluctuations in bitcoin. Any issues that increase your order' s processing time will have an effect on the final exchange rate used for that order. Once your order is ready, Coinify processes the trade and locks in the exchange rate.",
+    "When you choose to create a trade through bank transfer, Coinify will show you an exchange rate that may differ from the actual rate due to price fluctuations in bitcoin. Any issues that increase your order's processing time will have an effect on the final exchange rate used for that order. Once your order is ready, Coinify processes the trade and locks in the exchange rate.",
   "coinifyexchangedata.cyo.helper2.question":
     "Why does the exchange rate change?",
   "coinifyexchangedata.cyo.helper3.answer":
@@ -168,7 +168,7 @@
   "coinifyexchangedata.selectaccounts.continue": "Continue",
   "coinifyexchangedata.selectaccounts.header": "Select Account",
   "coinifyexchangedata.selectaccounts.subheader":
-    "Where would you like your funds sent? You have the following bank accounts linked: ",
+    "Where would you like your funds sent? You have the following bank accounts linked:",
   "coinifysignup.acceptterms.helper1.answer":
     "Coinify is a trading platform we’ve partnered with to bring you a harmonious buy & sell experience in your Blockchain wallet",
   "coinifysignup.acceptterms.helper1.question": "What is Coinify?",
@@ -373,10 +373,10 @@
   "components.alerts.yubikey_verify_success": "Yubikey verified",
   "components.copyclipboard.copied": "Copied!",
   "components.copyclipboard.copy": "Copy",
-  "components.dataerror.body": "Please ",
+  "components.dataerror.body": "Please",
   "components.dataerror.click": "click here",
   "components.dataerror.header": "Oops, something went wrong here!",
-  "components.dataerror.refresh": " to refresh.",
+  "components.dataerror.refresh": "to refresh.",
   "components.editdescription.add": "Add a description",
   "components.exchangetimeline.error.failed": "This trade has failed.",
   "components.exchangetimeline.error.failed2":
@@ -405,13 +405,12 @@
   "components.selectboxtheme.default": "Default",
   "components.selectboxtheme.grayscale": "Grayscale",
   "components.selectboxtheme.invert": "Invert",
-  "components.transactionlistitem.addresses.from": "From: ",
-  "components.transactionlistitem.addresses.to": "To: ",
+  "components.transactionlistitem.addresses.from": "From:",
+  "components.transactionlistitem.addresses.to": "To:",
   "components.transactionlistitem.fiatattime.notasked.view": "view",
   "components.transactionlistitem.fiatattime.valuewhenreceived":
-    "Value when received: ",
-  "components.transactionlistitem.fiatattime.valuewhensent":
-    "Value when sent: ",
+    "Value when received:",
+  "components.transactionlistitem.fiatattime.valuewhensent": "Value when sent:",
   "components.txlistitem.partnerlabel.boughtvia": "Bought via {partner}",
   "components.txlistitem.partnerlabel.depositedshapeshift":
     "ShapeShift Deposit",
@@ -419,7 +418,7 @@
     "Received from ShapeShift",
   "components.txlistitem.partnerlabel.soldvia": "Sold via {partner}",
   "components.txlistitem.watchonly": "Non-Spendable",
-  "contactsupport": "contact support.",
+  "contactsupport": "contact support",
   "formhelper.ageovereighteen": "Must be 18 or older",
   "formhelper.incorrectpassword": "Incorrect password",
   "formhelper.invalidbitcoinaddress": "Invalid Bitcoin address",
@@ -584,7 +583,7 @@
   "modals.exchange.shapeshift.exchangerate": "Exchange rate",
   "modals.exchange.shapeshift.exchangetooltip":
     "This rate may change depending on the market price at the time of your transaction.",
-  "modals.exchange.shapeshift.explain": "Thanks for placing your trade! ",
+  "modals.exchange.shapeshift.explain": "Thanks for placing your trade!",
   "modals.exchange.shapeshift.explain2":
     "Exchange trades can take up to two hours, and you can keep track of your trade’s progress in the Order History tab.",
   "modals.exchange.shapeshift.explain3": "Your exchange is complete.",
@@ -645,8 +644,7 @@
   "modals.mobilelogin.explain":
     "Follow these steps to log into your web wallet using your mobile device",
   "modals.mobilelogin.login": "Logging in with Mobile",
-  "modals.mobilelogin.openapp":
-    "Open the Blockchain app on your mobile device ",
+  "modals.mobilelogin.openapp": "Open the Blockchain app on your mobile device",
   "modals.mobilelogin.scan":
     "Using your computer's camera, scan the QR code that appears",
   "modals.mobilelogin.showqr": "Select 'Show QR Code'",
@@ -657,10 +655,10 @@
   "modals.mobilenumberchange.changenumbertitle": "Change Mobile Number",
   "modals.mobilenumberchange.explain":
     "Use your mobile phone to receive a one-time-password after a login attempt.",
-  "modals.mobilenumberchange.mobile": "Mobile number: ",
+  "modals.mobilenumberchange.mobile": "Mobile number:",
   "modals.mobilenumberchange.update": "Update",
   "modals.mobilenumberverify.cancel": "Cancel",
-  "modals.mobilenumberverify.change": " change mobile number",
+  "modals.mobilenumberverify.change": "change mobile number",
   "modals.mobilenumberverify.explain":
     "We have sent an SMS message with a verification code to {number}.",
   "modals.mobilenumberverify.explain2": "Enter code:",
@@ -717,7 +715,7 @@
   "modals.requestbch.scan": "Scan QR Code:",
   "modals.requestbch.scan_tooltip":
     "Ask the sender to scan this QR code with their Bitcoin cash wallet",
-  "modals.requestbch.share": "Copy & Share Address: ",
+  "modals.requestbch.share": "Copy & Share Address:",
   "modals.requestbch.share_ooltip":
     "Share this address with others, and they can send you Bitcoin Cash directly to your wallet. Your address changes with every payment.",
   "modals.requestbch.title": "Request Bitcoin Cash",
@@ -726,7 +724,7 @@
   "modals.requestbitcoin.firststep.next": "Next",
   "modals.requestbitcoin.firststep.or": "Or",
   "modals.requestbitcoin.firststep.qrcode": "QR Code",
-  "modals.requestbitcoin.firststep.share": "Copy & Share Address: ",
+  "modals.requestbitcoin.firststep.share": "Copy & Share Address:",
   "modals.requestbitcoin.firststep.sharetooltip":
     "Share this address with others, and they can send you BTC directly to your wallet. Your address changes with every payment. You can also create a request by attaching an amount below.",
   "modals.requestbitcoin.firststep.to": "Receive To:",
@@ -755,7 +753,7 @@
   "modals.secondpassword.title": "Second password required",
   "modals.sendBch.firststep.coin": "Currency:",
   "modals.sendBch.firststep.continue": "Continue",
-  "modals.sendBch.firststep.description": "Description: ",
+  "modals.sendBch.firststep.description": "Description:",
   "modals.sendBch.firststep.fee": "Transaction fee:",
   "modals.sendBch.firststep.from": "From:",
   "modals.sendBch.firststep.share_tooltip":
@@ -786,7 +784,7 @@
   "modals.sendbtc.firststep.cancel": "Cancel",
   "modals.sendbtc.firststep.coin": "Currency:",
   "modals.sendbtc.firststep.continue": "Continue",
-  "modals.sendbtc.firststep.description": "Description: ",
+  "modals.sendbtc.firststep.description": "Description:",
   "modals.sendbtc.firststep.edit": "Customize fee",
   "modals.sendbtc.firststep.estimated": "Estimated confirmation time 1+ hour",
   "modals.sendbtc.firststep.estimated2":
@@ -810,7 +808,7 @@
   "modals.sendbtc.minimumfeemessage": "Low fee not recommended. Use",
   "modals.sendbtc.minimumonesatoshimessage": "Minimum {sat} required",
   "modals.sendbtc.priorityfeelink.priority": "Priority: {fee}",
-  "modals.sendbtc.regularfeelink.regular": "Reg: {fee}, ",
+  "modals.sendbtc.regularfeelink.regular": "Reg: {fee},",
   "modals.sendbtc.secondstep.fee": "Fee:",
   "modals.sendbtc.secondstep.from": "From:",
   "modals.sendbtc.secondstep.note": "Note:",
@@ -836,7 +834,7 @@
   "modals.sendether.firststep.amount": "Enter amount:",
   "modals.sendether.firststep.coin": "Currency:",
   "modals.sendether.firststep.continue": "Continue",
-  "modals.sendether.firststep.description": "Description: ",
+  "modals.sendether.firststep.description": "Description:",
   "modals.sendether.firststep.fee": "Transaction Fee :",
   "modals.sendether.firststep.sharetooltip":
     "Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.",
@@ -958,7 +956,7 @@
   "orderdetails.coinifytradeid": "Coinify Trade ID",
   "orderdetails.date": "Date Initialized",
   "orderdetails.footnote":
-    "*Please note: depending on your bank’s tranfers policies, you will see the funds reflected in your account within 1-2 days from the transfer. ",
+    "*Please note: depending on your bank’s tranfers policies, you will see the funds reflected in your account within 1-2 days from the transfer.",
   "orderdetails.fundsdelivery": "Estimated Delivery of Funds",
   "orderdetails.orderdetails": "Order Details",
   "orderdetails.payoutdetails": "Payout Details",
@@ -978,16 +976,16 @@
   "orderdetails.tradingfee": "Trading Fee",
   "orderdetails.tradingfee.tooltip":
     "The fee charged to execute a trade through SFOX.",
-  "privacypolicy": "Privacy Policy.",
+  "privacypolicy": "Privacy Policy",
   "scenes.actions.goals.invalidlink": "The link provided is invalid.",
   "scenes.authorizelogin.accept": "Accept",
   "scenes.authorizelogin.attemptfrombrowser":
     "Login attempt from another browser",
   "scenes.authorizelogin.attemptfrombrowsermsg":
     "Someone, hopefully you, is attempting to login to your wallet from a different browser.",
-  "scenes.authorizelogin.browser": "Browser: ",
-  "scenes.authorizelogin.country": "Country of Origin: ",
-  "scenes.authorizelogin.ipaddress": "IP Address: ",
+  "scenes.authorizelogin.browser": "Browser:",
+  "scenes.authorizelogin.country": "Country of Origin:",
+  "scenes.authorizelogin.ipaddress": "IP Address:",
   "scenes.authorizelogin.loading":
     "<span>Uh Oh. Something went wrong. Error: </span> {error}",
   "scenes.authorizelogin.loading.approved":
@@ -1012,9 +1010,9 @@
   "scenes.buysell.coinify.sell.orderreview.checkboxtext":
     "I accept that Coinify will process my order upon completion of the bitcoin transaction, and that bitcoin will be traded at the available exchange rate at the time, which may differ from the displayed rate.",
   "scenes.buysell.coinifycheckout.content.kycnotification.limitsnotice.buy":
-    "While your identity gets verified, you can buy up to ",
+    "While your identity gets verified, you can buy up to",
   "scenes.buysell.coinifycheckout.content.kycnotification.limitsnotice.sell":
-    "While your identity gets verified, you can sell up to ",
+    "While your identity gets verified, you can sell up to",
   "scenes.buysell.coinifycheckout.content.nextsubscription.amount": "Amount:",
   "scenes.buysell.coinifycheckout.content.nextsubscription.frequency":
     "Frequency:",
@@ -1042,10 +1040,10 @@
     "Bank transfers are unavailable until Identity Verification has been finished.",
   "scenes.buysell.coinifyexchangedata.payment.bank.unavailable_limits":
     "The quoted amount is more than your current bank limit.",
-  "scenes.buysell.empty.content.buy": "buy ",
-  "scenes.buysell.empty.content.goto": "To get started, go to ",
+  "scenes.buysell.empty.content.buy": "buy",
+  "scenes.buysell.empty.content.goto": "To get started, go to",
   "scenes.buysell.empty.content.header": "We couldn't find any trades!",
-  "scenes.buysell.empty.content.sell": "sell ",
+  "scenes.buysell.empty.content.sell": "sell",
   "scenes.buysell.exchangecheckout.enteramount": "Enter Amount:",
   "scenes.buysell.exchangecheckout.enteramount.details":
     "Please enter an amount greater than {min} {curr}.",
@@ -1426,7 +1424,7 @@
   "scenes.faq.group.walletfunctionality.answer11.four":
     "and use the search bar on the upper right to learn more about a particular bitcoin address, transaction hash, or block number.",
   "scenes.faq.group.walletfunctionality.answer11.link":
-    " https://blockchain.info ",
+    "https://blockchain.info",
   "scenes.faq.group.walletfunctionality.answer11.one":
     "Block explorers provide a visually appealing and intuitive way to navigate different currencies’ block chains. For any transactions within your wallet, you can navigate to that currency’s tab and click on the ⬆ icon to view your transaction.",
   "scenes.faq.group.walletfunctionality.answer11.three":
@@ -1436,7 +1434,7 @@
   "scenes.faq.group.walletfunctionality.answer12.one":
     "Since bitcoin cash is a fork of the bitcoin block chain, its address format previously looked nearly identical to that of bitcoin, which was very confusing to those using it. Now, when you want to send or receive bitcoin cash, you can immediately identify that you’re using the correct address thanks to the added prefix that looks like this: bitcoincash:qpm2qsznhks23z7629mms6s4cwef74vcwvy22gdx6a.",
   "scenes.faq.group.walletfunctionality.answer12.two":
-    "Although you can technically still transact to and from legacy BCH addresses, we strongly recommend adopting this new format to eliminate confusion. ",
+    "Although you can technically still transact to and from legacy BCH addresses, we strongly recommend adopting this new format to eliminate confusion.",
   "scenes.faq.group.walletfunctionality.answer2.one":
     "While our wallet is entirely free to use, the small fee included in your transaction goes to the miners, who help power the flow of transactions on the Bitcoin, Ethereum, and Bitcoin Cash networks.",
   "scenes.faq.group.walletfunctionality.answer2.two":
@@ -1573,7 +1571,7 @@
   "scenes.home.balanceschart.requestbtc": "Request Bitcoin",
   "scenes.home.balanceschart.requesteth": "Request Ether",
   "scenes.home.balanceschart.yourbalances": "Your Balances",
-  "scenes.home.didyouknow.content1.navlink": " Security Center ",
+  "scenes.home.didyouknow.content1.navlink": "Security Center",
   "scenes.home.didyouknow.content1.one":
     "We never see or store your password, which means if you forget it, we cannot reset it. Be sure to record your 12-word backup phrase in the",
   "scenes.home.didyouknow.content1.two":
@@ -1650,8 +1648,7 @@
   "scenes.home.didyouknow.title2": "How it works",
   "scenes.home.didyouknow.title20": "What makes a password secure?",
   "scenes.home.didyouknow.title22": "How do fees work in my wallet?",
-  "scenes.home.didyouknow.title23":
-    "How often do I have to back up my wallet? ",
+  "scenes.home.didyouknow.title23": "How often do I have to back up my wallet?",
   "scenes.home.didyouknow.title3": "Why does my balance change?",
   "scenes.home.didyouknow.title4": "Our wallet is open source",
   "scenes.home.didyouknow.title5": "Set your own fees",
@@ -1687,7 +1684,7 @@
   "scenes.login.explain": "Sign in to your wallet below",
   "scenes.login.google": "Authenticator App Code",
   "scenes.login.guid": "Wallet ID",
-  "scenes.login.guiderror": "Unknown Wallet ID. If you need a reminder ",
+  "scenes.login.guiderror": "Unknown Wallet ID. If you need a reminder",
   "scenes.login.info": "Find the login link in your email,",
   "scenes.login.info2": "e.g. blockchain.info/wallet/1111-222-333...",
   "scenes.login.info3":
@@ -1765,7 +1762,7 @@
   "scenes.recover.secondstep.recover": "Recover Funds",
   "scenes.recover.secondstep.step2": "Step 2 of 2: Create a new wallet",
   "scenes.register.browserwarning":
-    "Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, IE 11, or Opera ",
+    "Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, IE 11, or Opera",
   "scenes.register.confirmpassword": "Confirm Password",
   "scenes.register.create": "Create your Wallet",
   "scenes.register.email": "Email",
@@ -1814,7 +1811,7 @@
   "scenes.reset2fa.secondstep.reset2fa": "Reset 2FA",
   "scenes.reset2fa.secondstep.step3": "Step 2 of 2",
   "scenes.reset2fa.thirdstep.info":
-    "This process usually takes two weeks. If you would like to learn more about the reset process, visit our ",
+    "This process usually takes two weeks. If you would like to learn more about the reset process, visit our",
   "scenes.reset2fa.thirdstep.infolink": "support page.",
   "scenes.reset2fa.thirdstep.login": "Continue to Login",
   "scenes.reset2fa.thirdstep.message":
@@ -1848,7 +1845,7 @@
   "scenes.security.email.settings.updateform.sendcode": "Send Code",
   "scenes.security.email.unverified.title": "Two-Step Verification",
   "scenes.security.email.unverifieddescription":
-    "We have sent a verification email to ",
+    "We have sent a verification email to",
   "scenes.security.email.unverifieddescription2":
     ". Please enter the code you’ve received to your email in order to complete the verification process. We will use this email to authorize logins, send payment notifications, and notify you of wallet updates.",
   "scenes.security.email.unverifiedemail.title": "Verify Email Address",
@@ -1856,11 +1853,11 @@
   "scenes.security.email.upateform.changetext": "Change Your Email",
   "scenes.security.email.verificationwrong":
     "Your verification code is incorrect. Please double check your email and try again.",
-  "scenes.security.email.verifieddescription": "You’ve verified ",
+  "scenes.security.email.verifieddescription": "You’ve verified",
   "scenes.security.email.verifieddescription2":
-    ". Select ‘Change Email’ to modify this existing address. ",
+    ". Select ‘Change Email’ to modify this existing address.",
   "scenes.security.email.verifieddescription3":
-    " We will use this email to authorize logins, send payment notifications, and notify you of wallet updates.",
+    "We will use this email to authorize logins, send payment notifications, and notify you of wallet updates.",
   "scenes.security.email.verifiedemail.change": "Change Email Address",
   "scenes.security.email.verifiedtitle": "Email Address",
   "scenes.security.email.verify.didnotreceive":
@@ -1915,9 +1912,9 @@
   "scenes.security.twostepverification.yubi.title":
     "Two-Step Verification - Yubikey",
   "scenes.securitycenter.2fa.tip":
-    "You can choose to use a free app or your mobile phone number to secure your wallet. We recommend using Google Authenticator (available for ",
+    "You can choose to use a free app or your mobile phone number to secure your wallet. We recommend using Google Authenticator (available for",
   "scenes.securitycenter.2fa.tip.three": ").",
-  "scenes.securitycenter.2fa.tip.two": " and ",
+  "scenes.securitycenter.2fa.tip.two": "and",
   "scenes.securitycenter.advanced.back": "Back",
   "scenes.securitycenter.introadvancedbutton": "Advanced Settings",
   "scenes.securitycenter.introadvancedexplainer":
@@ -2037,7 +2034,7 @@
   "scenes.securitysettings.apiaccess.getstarted": "here",
   "scenes.securitysettings.apiaccess.title": "API Access",
   "scenes.securitysettings.basicsecurity.recoveryphrase.description":
-    "Your backup phrase contains all of the private keys within your wallet. Please write these 12 words down, in order, and keep them somewhere safe offline. This phrase gives you (or anyone who has it) a way to restore your wallet and access your funds. ",
+    "Your backup phrase contains all of the private keys within your wallet. Please write these 12 words down, in order, and keep them somewhere safe offline. This phrase gives you (or anyone who has it) a way to restore your wallet and access your funds.",
   "scenes.securitysettings.basicsecurity.recoveryphrase.description.verifyphrase":
     "Using the 12 words you just wrote down, please enter the following words exactly as you see them to complete the backup process.",
   "scenes.securitysettings.basicsecurity.recoveryphrase.description2":
@@ -2117,7 +2114,7 @@
   "scenes.services.sfoxservice.buysellorderhistory.list.orderstatusbody.buy.failed":
     "Your buy trade failed. Please contact support.",
   "scenes.services.sfoxservice.buysellorderhistory.list.orderstatusbody.buy.processing":
-    "Your buy trade has been initiated. You will receive your bitcoin in 3-5 business days.",
+    "Your buy trade has been initiated. You will receive your funds on {date}.",
   "scenes.services.sfoxservice.buysellorderhistory.list.orderstatusbody.buy.rejected":
     "Your buy trade has been rejected. Please contact support.",
   "scenes.services.sfoxservice.buysellorderhistory.list.orderstatusbody.sell.completed":
@@ -2125,7 +2122,7 @@
   "scenes.services.sfoxservice.buysellorderhistory.list.orderstatusbody.sell.failed":
     "Your sell trade failed. Please contact support.",
   "scenes.services.sfoxservice.buysellorderhistory.list.orderstatusbody.sell.processing":
-    "Your sell trade has been initiated. You will receive your funds in 3-5 business days.",
+    "Your sell trade has been initiated. You will receive your funds on {date}.",
   "scenes.services.sfoxservice.buysellorderhistory.list.orderstatusbody.sell.rejected":
     "Your sell trade has been rejected. Please contact support.",
   "scenes.settings.addresses.archive": "Archive",
@@ -2385,7 +2382,7 @@
   "scenes.transactions.bitcoin.content.list.listitem.status.transferred":
     "Transferred",
   "scenes.transactions.bitcoin.content.pages.listitem.fee.label":
-    "Transaction Fee: ",
+    "Transaction Fee:",
   "scenes.transactions.content.list.listitem.transactionunconfirmed":
     "Your transaction will be complete after it has {minConfirmations} confirmations.",
   "scenes.transactions.content.pages.listitem.confirmation.confirmed":
@@ -2393,8 +2390,8 @@
   "scenes.transactions.content.pages.listitem.confirmation.unconfirmed":
     "Pending: {count}/{total} Confirmations",
   "scenes.transactions.empty.content.body":
-    "Please try filtering by a different criteria or ",
-  "scenes.transactions.empty.content.body2": "reach out to us ",
+    "Please try filtering by a different criteria or",
+  "scenes.transactions.empty.content.body2": "reach out to us",
   "scenes.transactions.empty.content.body3": "if you need help.",
   "scenes.transactions.empty.content.header":
     "Oops, we couldn't find any transactions!",
@@ -2440,7 +2437,7 @@
     "Please set a duration less than 1440 minutes",
   "sfoxexchangedata.create.accept.error":
     "Unfortunately this email is being used for another account.",
-  "sfoxexchangedata.create.accept.tochangeit": " to change it.",
+  "sfoxexchangedata.create.accept.tochangeit": "to change it.",
   "sfoxexchangedata.create.accept.unknownError":
     "We're sorry, but something unexpected went wrong. Please",
   "sfoxexchangedata.create.createaccount.partner.edit": "edit",
@@ -2496,7 +2493,7 @@
   "sfoxexchangedata.link.micro.deposit1": "Deposit 1",
   "sfoxexchangedata.link.micro.deposit2": "Deposit 2",
   "sfoxexchangedata.link.micro.description":
-    "receiving these deposits can take up to 5 business days.",
+    "To verify your bank details, SFOX will send two micro-deposits to your bank account for a few cents each. Once received, select Enter Deposit Details to finish setting up your account.",
   "sfoxexchangedata.link.micro.description2":
     "receiving these deposits can take up to 5 business days.",
   "sfoxexchangedata.link.micro.title": "Verify Your Bank Account",

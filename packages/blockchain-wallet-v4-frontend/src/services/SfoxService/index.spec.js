@@ -134,7 +134,7 @@ describe('SfoxService', () => {
     it('should return correct object for processing status', () => {
       const status = SfoxService.bodyStatusHelper('processing', true)
       expect(status.text.props.defaultMessage).toEqual(
-        'Your buy trade has been initiated. You will receive your bitcoin in 3-5 business days.'
+        'Your buy trade has been initiated. You will receive your funds on {date}.'
       )
     })
 
