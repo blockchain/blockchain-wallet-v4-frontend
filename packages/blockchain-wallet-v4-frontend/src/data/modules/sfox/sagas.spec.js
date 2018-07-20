@@ -345,7 +345,7 @@ describe('sfoxSagas', () => {
     it('should go to funding if no required docs', () => {
       const profile = { data: { verificationStatus: { required_docs: [] } } }
 
-      saga.next(profile).put(sfoxActions.nextStep('funding'))
+      saga.next(profile).put(sfoxActions.nextStep('jumio'))
     })
     it('should handle errors', () => {
       const error = new Error()
