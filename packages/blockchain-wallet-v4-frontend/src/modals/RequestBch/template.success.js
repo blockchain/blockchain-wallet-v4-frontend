@@ -6,7 +6,7 @@ import { Field, reduxForm } from 'redux-form'
 import QRCodeReact from 'qrcode.react'
 
 import { required } from 'services/FormHelper'
-import { Button, Separator, Text, Tooltip } from 'blockchain-info-components'
+import { Button, Separator, Text } from 'blockchain-info-components'
 import {
   Form,
   FormGroup,
@@ -32,6 +32,11 @@ const QRCodeContainer = styled.div`
   margin-top: 5px;
   width: 100%;
 `
+
+const ShareMessage = styled.div`
+  width: fit-content;
+`
+
 const ScanMessage = styled.div`
   padding-bottom: 20px;
 `
@@ -70,16 +75,12 @@ const RequestBch = props => {
       <FormGroup>
         <FormItem>
           <FormLabel>
-            <FormattedMessage
-              id='modals.requestbch.share'
-              defaultMessage='Copy & Share Address: '
-            />
-            <Tooltip>
+            <ShareMessage data-tip data-for='reqBchShare'>
               <FormattedMessage
-                id='modals.requestbch.share_ooltip'
-                defaultMessage='Share this address with others, and they can send you Bitcoin Cash directly to your wallet. Your address changes with every payment.'
+                id='modals.requestbch.share'
+                defaultMessage='Copy & Share Address: '
               />
-            </Tooltip>
+            </ShareMessage>
           </FormLabel>
           <AddressContainer>
             <CopyClipboard address={receiveAddress} />
@@ -92,18 +93,12 @@ const RequestBch = props => {
         </Text>
       </Separator>
       <QRCodeContainer>
-        <ScanMessage>
+        <ScanMessage data-tip data-for='reqBchQR'>
           <Text size='14px'>
             <FormattedMessage
               id='modals.requestbch.scan'
               defaultMessage='Scan QR Code:'
             />
-            <Tooltip>
-              <FormattedMessage
-                id='modals.requestbch.scan_tooltip'
-                defaultMessage='Ask the sender to scan this QR code with their Bitcoin cash wallet'
-              />
-            </Tooltip>
           </Text>
         </ScanMessage>
         <QRCodeReact value={receiveAddress} size={150} />

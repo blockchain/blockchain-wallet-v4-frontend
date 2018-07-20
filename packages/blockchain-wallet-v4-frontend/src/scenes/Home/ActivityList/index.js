@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { TooltipRebuild } from 'blockchain-info-components'
 
 import { actions, selectors } from 'data'
 import { getData } from './selectors'
@@ -17,6 +18,10 @@ class ActivityListContainer extends React.PureComponent {
 
   componentDidMount () {
     this.props.actions.initialized()
+  }
+
+  componentDidUpdate () {
+    TooltipRebuild()
   }
 
   handleRequest () {

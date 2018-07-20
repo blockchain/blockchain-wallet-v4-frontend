@@ -4,15 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
 import { isEmpty } from 'ramda'
-import {
-  Button,
-  HeartbeatLoader,
-  Icon,
-  Link,
-  Text,
-  TextGroup,
-  Tooltip
-} from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { Form, NumberBoxDebounced } from 'components/Form'
 import MinimumAmountLink from './MinimumAmountLink'
 import MaximumAmountLink from './MaximumAmountLink'
@@ -175,31 +167,12 @@ const Success = props => {
           </Cell>
         </Row>
         <Row justify='space-between'>
-          <Text size='14px' weight={400}>
+          <Text size='14px' weight={400} data-tip data-for='firststep.tooltip'>
             <FormattedMessage
               id='scenes.exchange.shapeshift.firststep.amount'
               defaultMessage='Enter amount:'
             />
           </Text>
-          <Tooltip>
-            <TextGroup inline>
-              <FormattedMessage
-                id='scenes.exchange.shapeshift.firststep.tooltip'
-                defaultMessage='This quote may change depending on the market price at the time of your transaction.'
-              />
-              <Link
-                size='12px'
-                weight={300}
-                href='https://info.shapeshift.io/about'
-                target='_blank'
-              >
-                <FormattedMessage
-                  id='scenes.exchange.shapeshift.firststep.tooltip2'
-                  defaultMessage='Learn more'
-                />
-              </Link>
-            </TextGroup>
-          </Tooltip>
         </Row>
         <Row height='80px'>
           <Cell>
