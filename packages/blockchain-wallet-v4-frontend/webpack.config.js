@@ -11,6 +11,7 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const Webpack = require('webpack')
 const path = require('path')
 const fs = require('fs')
+const uuid = require('uuid/v4')
 
 const isCiBuild = !!process.env.CI_BUILD
 const runBundleAnalyzer = process.env.ANALYZE
@@ -263,6 +264,7 @@ module.exports = {
         ? []
         : [
             "img-src 'self' data: blob:",
+            "script-src 'self' 'unsafe-eval'",
             "style-src 'self' 'unsafe-inline'",
             `frame-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN} ${
               envConfig.ROOT_URL
@@ -270,7 +272,6 @@ module.exports = {
             `child-src ${iSignThisDomain} ${
               envConfig.WALLET_HELPER_DOMAIN
             } blob:`,
-            "script-src 'self' 'unsafe-eval'",
             [
               'connect-src',
               "'self'",
