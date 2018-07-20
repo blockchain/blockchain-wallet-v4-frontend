@@ -10404,7 +10404,7 @@
       },
       {
         "defaultMessage":
-          "Your buy trade has been initiated. You will receive your on {date}.",
+          "Your buy trade has been initiated. You will receive your funds on {date}.",
         "id":
           "scenes.services.sfoxservice.buysellorderhistory.list.orderstatusbody.buy.processing"
       },
