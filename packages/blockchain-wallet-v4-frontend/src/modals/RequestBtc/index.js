@@ -1,5 +1,7 @@
 import React from 'react'
 import { compose } from 'redux'
+import { Tooltip } from 'blockchain-info-components'
+import { FormattedMessage } from 'react-intl'
 
 import wizardProvider from 'providers/WizardProvider'
 import modalEnhancer from 'providers/ModalEnhancer'
@@ -32,6 +34,12 @@ class RequestBitcoinContainer extends React.PureComponent {
           <FirstStep setReceiveAddress={this.setReceiveAddress} {...rest} />
         )}
         {step === 2 && <SecondStep receiveAddress={receiveAddress} {...rest} />}
+        <Tooltip id='reqBitcoinShare'>
+          <FormattedMessage
+            id='modals.requestbitcoin.firststep.sharetooltip'
+            defaultMessage='Share this address with others, and they can send you BTC directly to your wallet. Your address changes with every payment. You can also create a request by attaching an amount below.'
+          />
+        </Tooltip>
       </RequestBitcoin>
     )
   }

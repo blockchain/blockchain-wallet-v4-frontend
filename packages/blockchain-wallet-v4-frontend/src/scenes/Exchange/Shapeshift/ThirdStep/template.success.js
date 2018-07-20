@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, Text, Tooltip } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
 import ExchangeTimeline from 'components/ExchangeTimeline'
 
 const Wrapper = styled.div`
@@ -193,18 +193,18 @@ const Success = props => {
             </TableRow>
             <TableRow>
               <TableCell>
-                <Text size='13px' weight={400} capitalize>
+                <Text
+                  size='13px'
+                  weight={400}
+                  capitalize
+                  data-tip
+                  data-for='shapeshift.exchangetooltip'
+                >
                   <FormattedMessage
                     id='modals.exchange.shapeshift.exchangerate'
                     defaultMessage='Exchange rate'
                   />
                 </Text>
-                <Tooltip>
-                  <FormattedMessage
-                    id='modals.exchange.shapeshift.exchangetooltip'
-                    defaultMessage='This rate may change depending on the market price at the time of your transaction.'
-                  />
-                </Tooltip>
               </TableCell>
               <TableCell>
                 <Text size='13px' weight={300} uppercase>
@@ -214,18 +214,18 @@ const Success = props => {
             </TableRow>
             <TableRow>
               <TableCell>
-                <Text size='13px' weight={400} capitalize>
+                <Text
+                  size='13px'
+                  weight={400}
+                  capitalize
+                  data-tip
+                  data-for='shapeshift.feetooltip'
+                >
                   <FormattedMessage
                     id='modals.exchange.shapeshift.fee'
                     defaultMessage='Transaction fee'
                   />
                 </Text>
-                <Tooltip>
-                  <FormattedMessage
-                    id='modals.exchange.shapeshift.feetooltip'
-                    defaultMessage='This fee is used to send the incoming exchange funds from ShapeShift.'
-                  />
-                </Tooltip>
               </TableCell>
               <TableCell>
                 <Text size='13px' weight={300} uppercase>

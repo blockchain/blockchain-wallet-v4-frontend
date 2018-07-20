@@ -8,6 +8,7 @@ const StyledTip = styled(ReactTooltip)`
   border: 1px solid ${props => props.theme['gray-2']} !important;
   background-color: ${props => props.theme['white-blue']} !important;
   cursor: pointer;
+  max-width: 350px;
   font-size: 11px;
   font-weight: 300;
   font-family: 'Montserrat', sans serif;
@@ -73,7 +74,6 @@ const Tooltip = props => {
       effect='solid'
       type='light'
       border='true'
-      offset={{ bottom: 8 }}
       {...rest}
     >
       {children}

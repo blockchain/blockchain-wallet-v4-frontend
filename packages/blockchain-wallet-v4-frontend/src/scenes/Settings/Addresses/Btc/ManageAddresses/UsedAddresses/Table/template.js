@@ -8,8 +8,7 @@ import {
   Table,
   TableHeader,
   TableRow,
-  TableCell,
-  Tooltip
+  TableCell
 } from 'blockchain-info-components'
 
 const UsedTable = ({ children }) => (
@@ -35,18 +34,18 @@ const UsedTable = ({ children }) => (
         width='20%'
         style={{ display: 'flex', justifyContent: 'flex-end' }}
       >
-        <Text size='13px' weight={500} style={{ marginRight: '8px' }}>
+        <Text
+          size='13px'
+          weight={500}
+          style={{ marginRight: '8px' }}
+          data-tip
+          data-for='settingsBtcUsedBalace'
+        >
           <FormattedMessage
             id='scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.balance'
             defaultMessage='Balance'
           />
         </Text>
-        <Tooltip width={'auto'} left={'-120px'}>
-          <FormattedMessage
-            id='scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.tooltip'
-            defaultMessage='When you send bitcoin, your Blockchain wallet automatically selects addresses to spend from. That is why the current balance of an address can be different from the total received value.'
-          />
-        </Tooltip>
       </TableCell>
     </TableHeader>
     {children}

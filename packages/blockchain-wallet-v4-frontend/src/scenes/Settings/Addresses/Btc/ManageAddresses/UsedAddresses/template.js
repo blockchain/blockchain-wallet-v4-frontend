@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
 import UsedAddressesTable from './Table'
-import { Text, Link } from 'blockchain-info-components'
+import { Text, Link, Tooltip } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   margin-top: 30px;
@@ -42,6 +42,12 @@ const UsedAddressesTemplate = ({
       {usedAddressesVisible ? (
         <UsedAddressesTable walletIndex={walletIndex} />
       ) : null}
+      <Tooltip id='settingsBtcUsedBalace'>
+        <FormattedMessage
+          id='scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.tooltip'
+          defaultMessage='When you send bitcoin, your Blockchain wallet automatically selects addresses to spend from. That is why the current balance of an address can be different from the total received value.'
+        />
+      </Tooltip>
     </React.Fragment>
   )
 }
