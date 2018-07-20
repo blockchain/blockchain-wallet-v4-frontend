@@ -16,20 +16,9 @@ const JumioFrame = styled.iframe`
   border-style: solid;
   border-color: ${props => props.theme['gray-1']};
 `
-const LinkContainer = styled.div`
-  width: 80%;
-  margin-top: 5px;
-  text-align: right;
-`
-const Link = styled.span`
-  cursor: pointer;
-  font-size: 13px;
-  text-decoration: underline;
-  color: ${props => props.theme['brand-secondary']};
-`
 
 const Success = props => {
-  const { options, token, onFinish } = props
+  const { options, token } = props
   const { authorizationToken } = token
   const walletHelperRoot = path(['domains', 'walletHelper'], options)
   const jumioUrl = `${walletHelperRoot}/wallet-helper/jumio/#/key/${authorizationToken}`
@@ -42,9 +31,6 @@ const Success = props => {
         scrolling='yes'
         id='jumio'
       />
-      <LinkContainer>
-        <Link onClick={onFinish}>Next</Link>
-      </LinkContainer>
     </Container>
   )
 }
