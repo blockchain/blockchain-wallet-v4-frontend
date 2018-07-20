@@ -11,7 +11,6 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const Webpack = require('webpack')
 const path = require('path')
 const fs = require('fs')
-const uuid = require('uuid/v4')
 
 const isCiBuild = !!process.env.CI_BUILD
 const runBundleAnalyzer = process.env.ANALYZE
