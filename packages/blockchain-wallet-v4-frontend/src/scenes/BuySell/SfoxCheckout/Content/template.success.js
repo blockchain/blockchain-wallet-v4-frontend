@@ -128,6 +128,7 @@ const Success = props => {
 
   const accounts = Remote.of(props.value.accounts).getOrElse([])
   const profile = Remote.of(props.value.profile).getOrElse({
+    processingTimes: { usd: { buy: 40320, sell: 7200 } },
     account: { verification_status: {} },
     limits: { buy: 0, sell: 0 }
   })
@@ -185,6 +186,7 @@ const Success = props => {
                 quoteR={buyQuoteR}
                 account={accounts[0]}
                 onRefreshQuote={refreshBuyQuote}
+                profile={profile}
                 type={'buy'}
               />
             </CheckoutWrapper>
@@ -228,6 +230,7 @@ const Success = props => {
                 quoteR={sellQuoteR}
                 account={accounts[0]}
                 onRefreshQuote={refreshSellQuote}
+                profile={profile}
                 type={'sell'}
               />
             </CheckoutWrapper>

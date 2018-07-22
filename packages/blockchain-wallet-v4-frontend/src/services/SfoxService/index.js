@@ -1,4 +1,5 @@
 import React from 'react'
+import moment from 'moment'
 import { FormattedMessage } from 'react-intl'
 
 export const isVerified = verificationStatus => {
@@ -220,5 +221,12 @@ export const reviewOrder = {
         return `$${(+q.quoteAmount - +q.feeAmount).toFixed(2)}`
       } else return `$${(+q.baseAmount - +q.feeAmount).toFixed(2)}`
     }
+  },
+  renderDate (p, type) {
+    let minutesInADay = 1440
+    let waitingDays = p.processingTimes.usd[type] / minutesInADay
+    return moment()
+      .add(waitingDays, 'days')
+      .format('dddd, MMMM Do')
   }
 }

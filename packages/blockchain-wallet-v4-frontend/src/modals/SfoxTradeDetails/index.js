@@ -1,4 +1,5 @@
 import React from 'react'
+import moment from 'moment'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
@@ -178,7 +179,7 @@ class SfoxTradeDetails extends React.PureComponent {
                   />
                 </Text>
                 <Text size='13px' weight={300}>
-                  {new Date(expectedDelivery).toDateString()}
+                  {moment(expectedDelivery).format('dddd, MMMM Do')}
                 </Text>
               </OrderDetailsRow>
             )}
