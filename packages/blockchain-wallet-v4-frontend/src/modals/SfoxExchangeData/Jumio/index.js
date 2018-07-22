@@ -30,11 +30,7 @@ class JumioContainer extends React.PureComponent {
   }
 
   onFinish () {
-    const { data } = this.props
-    const { accounts } = data.getOrElse({ accounts: [] })
-    accounts.length
-      ? this.props.sfoxActions.handleModalClose()
-      : this.props.sfoxActions.nextStep('funding')
+    this.props.sfoxActions.completeJumio()
   }
 
   render () {
