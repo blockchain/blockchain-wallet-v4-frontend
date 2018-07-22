@@ -9,7 +9,7 @@ import * as sfoxActions from './actions.js'
 import * as selectors from '../../selectors.js'
 import sfoxSagas, { logLocation } from './sagas'
 import * as C from 'services/AlertService'
-import { promptForSecondPassword } from 'services/SagaService'
+import { promptForSecondPassword, confirm } from 'services/SagaService'
 import settings from 'config'
 
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
@@ -570,6 +570,30 @@ describe('sfoxSagas', () => {
           .put(
             actions.logs.logErrorMessage(logLocation, 'submitSellQuote', error)
           )
+      })
+    })
+  })
+
+  describe('sfox initializeJumio', () => {
+    const { initializeJumio, fetchJumioStatus } = sfoxSagas({ coreSagas })
+
+    const saga = testSaga(initializeJumio)
+
+    it('should call fetchJumioStatus saga', () => {
+      saga.next().call(fetchJumioStatus)
+    })
+
+    it('should select bank accounts', () => {
+      saga.next('missing_token').select(selectors.core.data.sfox.getAccounts)
+    })
+
+    it('should prompt the user to confirm their id verification if missing_token and accounts', () => {
+      saga.next(Remote.of([{ id: 1 }])).call(confirm, {
+        title: 'verify_identity_title',
+        image: 'identity-verification',
+        message: 'verify_identity_msg',
+        confirm: 'confirm_verify_identity',
+        cancel: 'cancel_verify_identity'
       })
     })
   })
