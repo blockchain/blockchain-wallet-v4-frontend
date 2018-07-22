@@ -23,7 +23,13 @@ class JumioStatusContainer extends React.PureComponent {
 
   render () {
     return this.props.data.cata({
-      Success: value => <Success value={value} onClick={this.openJumio} />,
+      Success: value => (
+        <Success
+          profile={value.profile}
+          onClick={this.openJumio}
+          jumioStatus={value.jumioStatus}
+        />
+      ),
       Loading: () => <div />,
       NotAsked: () => <div />,
       Failure: () => <div />

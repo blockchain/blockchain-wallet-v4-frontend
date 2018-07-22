@@ -30,8 +30,26 @@ const ButtonWrapper = styled.div`
   }
 `
 
-export const Success = ({ value, onClick }) => {
-  const { status, completed } = value
+export const Success = ({ jumioStatus, profile, onClick }) => {
+  const { status, completed } = jumioStatus
+
+  const profileStatusHelper = () => {
+    let minutesInADay = 1440
+    return (
+      <Text weight={300} size={'14px'}>
+        <FormattedMessage
+          id='scenes.buysell.sfoxcheckout.content.jumio.profile'
+          defaultMessage='Buy Limit: {buyLimit}. Sell Limit: {sellLimit}. Buy trades will take {buyProcessingTime} days to process and sell trades {sellProcessingTime} days.'
+          values={{
+            buyLimit: '$' + profile.limits.buy,
+            sellLimit: '$' + profile.limits.sell,
+            buyProcessingTime: profile.processingTimes.usd.buy / minutesInADay,
+            sellProcessingTime: profile.processingTimes.usd.sell / minutesInADay
+          }}
+        />
+      </Text>
+    )
+  }
   const statusTitleHelper = () => {
     switch (status) {
       case 'DONE':
@@ -123,7 +141,11 @@ export const Success = ({ value, onClick }) => {
   return (
     <Container>
       <Title>{statusTitleHelper()}</Title>
-      <Body>{statusBodyHelper()}</Body>
+      <Body>
+        {statusBodyHelper()}
+        <br />
+        {profileStatusHelper()}
+      </Body>
       <ButtonWrapper>{statusButtonHelper()}</ButtonWrapper>
     </Container>
   )
