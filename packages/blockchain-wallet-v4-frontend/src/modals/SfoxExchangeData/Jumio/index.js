@@ -14,7 +14,7 @@ class JumioContainer extends React.PureComponent {
   }
 
   componentDidMount () {
-    this.props.sfoxActions.getJumioToken()
+    this.props.sfoxActions.fetchJumioToken()
 
     let receiveMessage = e => {
       const jumioWhitelist = ['done']
@@ -31,7 +31,7 @@ class JumioContainer extends React.PureComponent {
 
   onFinish () {
     const { data } = this.props
-    const { accounts } = data.getOrElse({})
+    const { accounts } = data.getOrElse({ accounts: [] })
     accounts.length
       ? this.props.sfoxActions.handleModalClose()
       : this.props.sfoxActions.nextStep('funding')

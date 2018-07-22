@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import { getData } from './selectors'
 import { Success } from './template.success'
 
@@ -32,8 +32,7 @@ class JumioStatusContainer extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  data: getData(state),
-  profile: selectors.core.data.sfox.getProfile(state)
+  data: getData(state)
 })
 
 const mapDispatchToProps = dispatch => ({

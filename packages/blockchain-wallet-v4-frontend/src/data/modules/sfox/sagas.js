@@ -234,7 +234,7 @@ export default ({ coreSagas }) => {
     ) {
       yield call(coreSagas.data.sfox.refetchProfile)
     } else {
-      yield call(getJumioStatus)
+      yield call(fetchJumioStatus)
     }
   }
 
@@ -262,7 +262,7 @@ export default ({ coreSagas }) => {
 
   const initializeJumio = function*() {
     try {
-      const status = yield call(getJumioStatus)
+      const status = yield call(fetchJumioStatus)
       const accountsR = yield select(selectors.core.data.sfox.getAccounts)
       const accounts = accountsR.getOrElse([])
       // If user has not set up jumio and they have bank accounts
@@ -281,33 +281,33 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const getJumioStatus = function*() {
+  const fetchJumioStatus = function*() {
     try {
-      yield put(A.getJumioStatusLoading())
+      yield put(A.fetchJumioStatusLoading())
       const profileR = yield select(selectors.core.data.sfox.getProfile)
       const tokenR = yield select(selectors.core.kvStore.buySell.getSfoxJumio)
       const token = tokenR.getOrFail()
       const profile = profileR.getOrElse({})
       if (!token) return 'missing_token'
-      const status = yield apply(profile, profile.getJumioStatus, [token.id])
-      yield put(A.getJumioStatusSuccess(status))
+      const status = yield apply(profile, profile.fetchJumioStatus, [token.id])
+      yield put(A.fetchJumioStatusSuccess(status))
     } catch (e) {
-      yield put(A.getJumioStatusFailure(e))
+      yield put(A.fetchJumioStatusFailure(e))
     }
   }
 
-  const getJumioToken = function*() {
+  const fetchJumioToken = function*() {
     try {
-      yield put(A.getJumioTokenLoading())
+      yield put(A.fetchJumioTokenLoading())
       const profileR = yield select(selectors.core.data.sfox.getProfile)
       const profile = profileR.getOrElse({})
-      const token = yield apply(profile, profile.getJumioToken)
+      const token = yield apply(profile, profile.fetchJumioToken)
       yield put(actions.core.kvStore.buySell.sfoxSetJumioToken(token))
-      yield call(getJumioStatus)
-      yield put(A.getJumioTokenSuccess(token))
+      yield call(fetchJumioStatus)
+      yield put(A.fetchJumioTokenSuccess(token))
     } catch (e) {
-      yield put(A.getJumioTokenFailure(e))
-      yield put(actions.logs.logErrorMessage(logLocation, 'getJumioToken', e))
+      yield put(A.fetchJumioTokenFailure(e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'fetchJumioToken', e))
     }
   }
 
@@ -323,7 +323,7 @@ export default ({ coreSagas }) => {
     submitQuote,
     submitSellQuote,
     initializeJumio,
-    getJumioToken,
+    fetchJumioToken,
     upload
   }
 }
