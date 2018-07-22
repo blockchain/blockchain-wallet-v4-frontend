@@ -2,13 +2,21 @@ import React from 'react'
 import styled from 'styled-components'
 import {
   Button,
+  Image,
   Modal,
+  Text,
   ModalBody,
+  ModalHeader,
   ModalFooter
 } from 'blockchain-info-components'
-import { FormattedMessage } from 'react-intl'
 import { reduxForm } from 'redux-form'
 import { Form } from 'components/Form'
+import {
+  selectTitle,
+  selectMessage,
+  selectCancel,
+  selectConfirm
+} from './helpers'
 
 const Wrapper = styled.div`
   font-weight: 300;
@@ -20,6 +28,10 @@ const Cancel = styled.span`
   font-size: 14px;
   cursor: pointer;
 `
+const ModalImage = styled(Image)`
+  display: block;
+  margin: 0px auto 20px auto;
+`
 
 const ConfirmTemplate = ({
   position,
@@ -27,6 +39,10 @@ const ConfirmTemplate = ({
   close,
   submitting,
   invalid,
+  confirm,
+  cancel,
+  title,
+  image,
   message,
   handleCancel,
   handleSubmit
@@ -34,16 +50,17 @@ const ConfirmTemplate = ({
   <Modal size='large' position={position} total={total}>
     <Form onSubmit={handleSubmit}>
       <Wrapper>
-        <ModalBody>{message}</ModalBody>
+        <ModalHeader onClose={close}>{selectTitle(title)}</ModalHeader>
+        <ModalBody>
+          {image && <ModalImage name={image} />}
+          <Text size={'16px'} weight={300}>
+            {selectMessage(message)}
+          </Text>
+        </ModalBody>
         <ModalFooter align='right'>
-          <Cancel onClick={handleCancel}>
-            <FormattedMessage
-              id='modals.confirm.button.cancel'
-              defaultMessage='Cancel'
-            />
-          </Cancel>
+          <Cancel onClick={close}>{selectCancel(cancel)}</Cancel>
           <Button type='submit' nature='primary' capitalize>
-            <FormattedMessage id='modals.confirm.button' defaultMessage='OK' />
+            {selectConfirm(confirm)}
           </Button>
         </ModalFooter>
       </Wrapper>

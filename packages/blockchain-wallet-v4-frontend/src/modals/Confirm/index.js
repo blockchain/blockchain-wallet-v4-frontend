@@ -3,31 +3,20 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
-import PromptTemplate from './template.js'
+import ConfirmTemplate from './template.js'
 
 class ConfirmContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)
-    this.onCancel = this.onCancel.bind(this)
   }
 
   onSubmit () {
     this.props.actions.submitConfirmation(this.props.value)
   }
 
-  onCancel () {
-    this.props.modalActions.closeModal()
-  }
-
   render () {
-    return (
-      <PromptTemplate
-        {...this.props}
-        onSubmit={this.onSubmit}
-        handleCancel={this.onCancel}
-      />
-    )
+    return <ConfirmTemplate {...this.props} onSubmit={this.onSubmit} />
   }
 }
 

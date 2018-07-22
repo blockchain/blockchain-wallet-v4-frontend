@@ -7,6 +7,7 @@ import * as modalActions from '../../modals/actions'
 import * as modalSelectors from '../../modals/selectors'
 import settings from 'config'
 import * as C from 'services/AlertService'
+import * as CC from 'services/ConfirmService'
 import { promptForSecondPassword, confirm } from 'services/SagaService'
 import { path, prop, equals, head } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
@@ -268,7 +269,11 @@ export default ({ coreSagas }) => {
       // If user has not set up jumio and they have bank accounts
       if (status === 'missing_token' && accounts.length) {
         const confirmed = yield call(confirm, {
-          message: 'Please complete your identity verification to buy.'
+          title: CC.VERIFY_IDENTITY_TITLE,
+          image: 'identity-verification',
+          message: CC.VERIFY_IDENTITY_MSG,
+          confirm: CC.CONFIRM_VERIFY_IDENTITY,
+          cancel: CC.CANCEL_VERIFY_IDENTITY
         })
         if (confirmed) {
           yield put(
