@@ -208,20 +208,25 @@ const Success = props => {
     return (
       <Stepper key='SellStepper' initialStep={0}>
         <StepView step={0}>
-          <CheckoutWrapper>
-            <OrderCheckout
-              quoteR={sellQuoteR}
-              account={accounts[0]}
-              onFetchQuote={fetchSellQuote}
-              reason={reason}
-              disableButton={disableButton}
-              enableButton={enableButton}
-              buttonStatus={buttonStatus}
-              finishAccountSetup={finishAccountSetup}
-              limits={limits.sell}
-              type={'sell'}
-            />
-          </CheckoutWrapper>
+          <SfoxBuySellContainer>
+            <CheckoutWrapper>
+              <OrderCheckout
+                quoteR={sellQuoteR}
+                account={accounts[0]}
+                onFetchQuote={fetchSellQuote}
+                reason={reason}
+                disableButton={disableButton}
+                enableButton={enableButton}
+                buttonStatus={buttonStatus}
+                finishAccountSetup={finishAccountSetup}
+                limits={limits.sell}
+                type={'sell'}
+              />
+            </CheckoutWrapper>
+            <OrderSubmitWrapper>
+              <JumioStatus />
+            </OrderSubmitWrapper>
+          </SfoxBuySellContainer>
         </StepView>
         <StepView step={1}>
           <SfoxBuySellContainer>
