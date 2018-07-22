@@ -48,22 +48,22 @@ const sfoxSignup = (state = INITIAL_STATE, action) => {
     case AT.SFOX_SELL_BTC_PAYMENT_UPDATED_FAILURE: {
       return assoc('payment', Remote.Failure(payload), state)
     }
-    case AT.GET_JUMIO_STATUS_SUCCESS: {
+    case AT.FETCH_JUMIO_STATUS_SUCCESS: {
       return assoc('jumioStatus', Remote.Success(payload), state)
     }
-    case AT.GET_JUMIO_STATUS_LOADING: {
+    case AT.FETCH_JUMIO_STATUS_LOADING: {
       return assoc('jumioStatus', Remote.Loading, state)
     }
-    case AT.GET_JUMIO_STATUS_FAILURE: {
+    case AT.FETCH_JUMIO_STATUS_FAILURE: {
       return assoc('jumioStatus', Remote.Failure(payload), state)
     }
-    case AT.GET_JUMIO_TOKEN_SUCCESS: {
+    case AT.FETCH_JUMIO_TOKEN_SUCCESS: {
       return assoc('jumioToken', Remote.Success(payload), state)
     }
-    case AT.GET_JUMIO_TOKEN_LOADING: {
+    case AT.FETCH_JUMIO_TOKEN_LOADING: {
       return assoc('jumioToken', Remote.Loading, state)
     }
-    case AT.GET_JUMIO_TOKEN_FAILURE: {
+    case AT.FETCH_JUMIO_TOKEN_FAILURE: {
       return assoc('jumioToken', Remote.Failure(payload), state)
     }
     default:
