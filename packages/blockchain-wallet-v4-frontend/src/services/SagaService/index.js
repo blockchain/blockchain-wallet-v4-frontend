@@ -39,8 +39,16 @@ export const promptForInput = function*({ title, secret, initial = '' }) {
   }
 }
 
-export const confirm = function*({ message }) {
-  yield put(actions.modals.showModal('Confirm', { message }))
+export const confirm = function*({ title, message, image, confirm, cancel }) {
+  yield put(
+    actions.modals.showModal('Confirm', {
+      title,
+      message,
+      image,
+      confirm,
+      cancel
+    })
+  )
   let { response, canceled } = yield race({
     response: take(actionTypes.wallet.SUBMIT_CONFIRMATION),
     canceled: take(actionTypes.modals.CLOSE_MODAL)
