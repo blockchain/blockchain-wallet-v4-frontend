@@ -353,6 +353,7 @@ export default ({ coreSagas }) => {
     submitSellQuote,
     initializeJumio,
     fetchJumioToken,
+    fetchJumioStatus,
     completeJumio,
     upload
   }
