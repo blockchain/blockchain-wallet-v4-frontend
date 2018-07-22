@@ -15,16 +15,32 @@ const Body = styled(Text)`
   font-size: 14px;
   font-weight: 300;
 `
+const Link = styled(Text)`
+  font-size: 14px;
+  font-weight: 300;
+  cursor: pointer;
+  text-decoration: underline;
+  color: ${props => props.theme['brand-secondary']};
+`
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 10px;
+  > button {
+    margin-top: 10px;
+  }
 `
 
 export const Success = ({ value, onClick }) => {
-  const { status } = value
-  const statusTitleHelper = status => {
+  const { status, completed } = value
+  const statusTitleHelper = () => {
     switch (status) {
+      case 'DONE':
+        return (
+          <FormattedMessage
+            id='scenes.buysell.sfoxcheckout.content.jumio.title.completed'
+            defaultMessage='Identity Verification Completed'
+          />
+        )
       case 'PENDING':
         return (
           <FormattedMessage
@@ -41,10 +57,22 @@ export const Success = ({ value, onClick }) => {
         )
     }
   }
-  const statusBodyHelper = status => {
+  const statusBodyHelper = () => {
     switch (status) {
-      case 'PENDING':
+      case 'DONE':
         return (
+          <FormattedMessage
+            id='scenes.buysell.sfoxcheckout.content.jumio.body.completed'
+            defaultMessage='Thank you for verifying your identity.'
+          />
+        )
+      case 'PENDING':
+        return completed ? (
+          <FormattedMessage
+            id='scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio'
+            defaultMessage='Thank you for completing your identity verification. It may take our partner a few minutes to finish the verification.'
+          />
+        ) : (
           <FormattedMessage
             id='scenes.buysell.sfoxcheckout.content.jumio.body.pending'
             defaultMessage='It looks like you tried to verify your identity but never finished.'
@@ -54,26 +82,49 @@ export const Success = ({ value, onClick }) => {
         return (
           <FormattedMessage
             id='scenes.buysell.sfoxcheckout.content.jumio.body.failed'
-            defaultMessage='There was a problem with your identity verification documents. Please try again.'
+            defaultMessage='There was a problem verifying your identity. Please try again.'
           />
         )
     }
   }
 
-  return (
-    status !== 'DONE' && (
-      <Container>
-        <Title>{statusTitleHelper(status)}</Title>
-        <Body>{statusBodyHelper(status)}</Body>
-        <ButtonWrapper>
+  const statusButtonHelper = () => {
+    switch (status) {
+      case 'DONE':
+        return null
+      case 'PENDING':
+        return completed ? (
+          <Link>
+            <FormattedMessage
+              id='scenes.buysell.sfoxcheckout.content.jumio.button.refresh'
+              defaultMessage='Refresh Status'
+            />
+          </Link>
+        ) : (
           <Button onClick={onClick} nature='light' uppercase>
             <FormattedMessage
               id='scenes.buysell.sfoxcheckout.content.jumio.button.tryagain'
               defaultMessage='Try Again'
             />
           </Button>
-        </ButtonWrapper>
-      </Container>
-    )
+        )
+      case 'FAILED':
+        return (
+          <Button onClick={onClick} nature='light' uppercase>
+            <FormattedMessage
+              id='scenes.buysell.sfoxcheckout.content.jumio.button.tryagain'
+              defaultMessage='Try Again'
+            />
+          </Button>
+        )
+    }
+  }
+
+  return (
+    <Container>
+      <Title>{statusTitleHelper()}</Title>
+      <Body>{statusBodyHelper()}</Body>
+      <ButtonWrapper>{statusButtonHelper()}</ButtonWrapper>
+    </Container>
   )
 }
