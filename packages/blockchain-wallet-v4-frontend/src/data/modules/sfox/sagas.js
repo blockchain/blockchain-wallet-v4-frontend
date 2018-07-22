@@ -281,6 +281,28 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const completeJumio = function*() {
+    try {
+      // Jumio status of 'PENDING' can mean the user finished verification
+      // flow and the results are 'PENDING' jumio. Or the user has not finished
+      // and the flow requires user action.
+      // When a Jumio callback has been retreived, set jumio token to 'complete'
+      // so the UI can determine which type of 'PENDING' status the user is.
+      const tokenR = yield select(selectors.core.kvStore.buySell.getSfoxJumio)
+      const accountsR = yield select(selectors.core.data.sfox.getAccounts)
+      const accounts = accountsR.getOrElse([])
+      let token = tokenR.getOrElse({})
+      token.completed = true
+      accounts.length
+        ? yield put(modalActions.closeAllModals())
+        : yield put(A.nextStep('funding'))
+      yield call(fetchJumioStatus)
+      yield put(actions.core.kvStore.buySell.sfoxSetJumioToken(token))
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'completeJumio', e))
+    }
+  }
+
   const fetchJumioStatus = function*() {
     try {
       yield put(A.fetchJumioStatusLoading())
@@ -301,10 +323,12 @@ export default ({ coreSagas }) => {
       yield put(A.fetchJumioTokenLoading())
       const profileR = yield select(selectors.core.data.sfox.getProfile)
       const profile = profileR.getOrElse({})
-      const token = yield apply(profile, profile.fetchJumioToken)
+      let token = yield apply(profile, profile.fetchJumioToken)
+      // If a new token must be fetched set 'completed' to false
+      token.completed = false
       yield put(actions.core.kvStore.buySell.sfoxSetJumioToken(token))
-      yield call(fetchJumioStatus)
       yield put(A.fetchJumioTokenSuccess(token))
+      yield call(fetchJumioStatus)
     } catch (e) {
       yield put(A.fetchJumioTokenFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'fetchJumioToken', e))
@@ -324,6 +348,7 @@ export default ({ coreSagas }) => {
     submitSellQuote,
     initializeJumio,
     fetchJumioToken,
+    completeJumio,
     upload
   }
 }
