@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
-import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
+import { Button, Link, Text, TextGroup, Icon } from 'blockchain-info-components'
 import { CheckBox, CountdownTimer, Form } from 'components/Form'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import Terms from 'components/Terms'
@@ -84,6 +84,10 @@ const TableCell = styled.div`
   & > :first-child {
     margin-right: 5px;
   }
+`
+const TooltipIcon = styled(Icon)`
+  display: inline-flex;
+  margin-left: 5px;
 `
 
 const Success = props => {
@@ -169,17 +173,17 @@ const Success = props => {
             </TableRow>
             <TableRow>
               <TableCell>
-                <Text
-                  size='13px'
-                  weight={400}
-                  data-tip
-                  data-for='secondstep.txfeeexplanation'
-                >
+                <Text size='13px' weight={400}>
                   <FormattedMessage
                     id='scenes.exchange.shapeshift.secondstep.txfee'
                     defaultMessage='Transaction fee'
                   />
                 </Text>
+                <TooltipIcon
+                  name='question-in-circle'
+                  data-tip
+                  data-for='secondstep.txfeeexplanation'
+                />
               </TableCell>
               <TableCell>
                 <CoinDisplay coin={sourceCoin} size='13px' weight={300}>
@@ -205,17 +209,17 @@ const Success = props => {
             </TableRow>
             <TableRow>
               <TableCell>
-                <Text
-                  size='13px'
-                  weight={400}
-                  data-tip
-                  data-for='secondstep.ratetooltip'
-                >
+                <Text size='13px' weight={400}>
                   <FormattedMessage
                     id='scenes.exchange.shapeshift.secondstep.rate'
                     defaultMessage='Exchange rate'
                   />
                 </Text>
+                <TooltipIcon
+                  name='question-in-circle'
+                  data-tip
+                  data-for='secondstep.ratetooltip'
+                />
               </TableCell>
               <TableCell>
                 <Text size='13px' weight={300}>
@@ -225,17 +229,17 @@ const Success = props => {
             </TableRow>
             <TableRow>
               <TableCell>
-                <Text
-                  size='13px'
-                  weight={400}
-                  data-tip
-                  data-for='secondstep.networkfeetooltip'
-                >
+                <Text size='13px' weight={400}>
                   <FormattedMessage
                     id='scenes.exchange.shapeshift.secondstep.networkfee'
                     defaultMessage='Network transaction fee'
                   />
                 </Text>
+                <TooltipIcon
+                  name='question-in-circle'
+                  data-tip
+                  data-for='secondstep.networkfeetooltip'
+                />
               </TableCell>
               <TableCell>
                 <Text

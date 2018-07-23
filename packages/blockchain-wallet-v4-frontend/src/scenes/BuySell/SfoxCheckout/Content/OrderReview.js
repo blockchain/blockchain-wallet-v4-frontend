@@ -31,6 +31,10 @@ const ToolTipWrapper = styled.div`
     margin-right: 5px;
   }
 `
+const TooltipIcon = styled(Icon)`
+  display: inline-flex;
+  margin-left: 5px;
+`
 
 const faqList = [
   {
@@ -160,10 +164,15 @@ export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
       </OrderDetailsRow>
       <OrderDetailsRow>
         <ToolTipWrapper>
-          <Text size='13px' weight={300} data-tip data-for='tradingfee.tooltip'>
+          <Text size='13px' weight={300}>
             <FormattedMessage
               id='orderdetails.tradingfee'
               defaultMessage='Trading Fee'
+            />
+            <TooltipIcon
+              name='question-in-circle'
+              data-tip
+              data-for='tradingfee.tooltip'
             />
           </Text>
         </ToolTipWrapper>
