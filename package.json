@@ -134,7 +134,6 @@
     "redux-saga-test-plan": "^3.6.0",
     "rimraf": "^2.6.2",
     "standard": "^11.0.1",
-    "string-replace-loader": "^2.1.1",
     "style-loader": "^0.21.0",
     "thread-loader": "^1.1.5",
     "uglifyjs-webpack-plugin": "^1.2.4",

@@ -60,18 +60,6 @@ module.exports = {
   },
   module: {
     rules: [
-      {
-        test: /\.js$/,
-        include: /node_modules/,
-        use: {
-          loader: 'string-replace-loader',
-          options: {
-            search: '__webpack_nonce__',
-            replace: 'window.__webpack_nonce__',
-            flags: 'g'
-          }
-        }
-      },
       (isCiBuild ? {
         test: /\.js$/,
         use: [
@@ -228,6 +216,8 @@ module.exports = {
       'Access-Control-Allow-Origin': '*',
       'Content-Security-Policy': isCiBuild ? [] : [
         "img-src 'self' data: blob:",
+        // 'unsafe-inline' can only be used in dev. production builds remove
+        // this rule and use nonce generated from the server instead.
         "style-src 'self' 'unsafe-inline'",
         `frame-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN} ${envConfig.ROOT_URL} http://localhost:8080`,
         `child-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
