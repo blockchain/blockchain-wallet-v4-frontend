@@ -18,6 +18,11 @@ import EditSmsNumber from './EditSmsNumber'
 class PersonalContainer extends React.PureComponent {
   componentDidMount () {
     const { personalData, actions } = this.props
+    if (personalData.email && !personalData.emailVerified) {
+      actions.resendEmailCode()
+    }
+    if (personalData.smsNumber && !personalData.smsVerified)
+      actions.resendSmsCode()
     actions.updatePersonalStep(personalData)
   }
 

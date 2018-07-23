@@ -10,6 +10,8 @@ import { coreReducers, paths, coreSagasFactory } from 'blockchain-wallet-v4/src'
 import identityVerificationReducer from 'data/components/identityVerification/reducers'
 import modalsReducer from 'data/modals/reducers'
 import identityVerificationSaga from 'data/components/identityVerification/sagaRegister'
+import securityCenterSagas from 'data/modules/securityCenter/sagaRegister'
+import settingsSagas from 'data/modules/settings/sagaRegister'
 
 import IdentityVerification from './index'
 import Personal from './Personal'
@@ -43,7 +45,11 @@ describe('IdentityVerification Modal', () => {
     }),
     [paths.settingsPath]: coreReducers.settings
   }
-  const sagas = [identityVerificationSaga({ coreSagas, api })]
+  const sagas = [
+    identityVerificationSaga({ coreSagas, api }),
+    securityCenterSagas({ coreSagas }),
+    settingsSagas({ coreSagas })
+  ]
   let store
   let wrapper
   beforeEach(() => {
@@ -77,6 +83,8 @@ describe('IdentityVerification Modal', () => {
   describe('form behaviour', () => {
     beforeEach(() => {
       store.dispatch(actions.modals.showModal(MODAL_NAME))
+      coreSagas.settings.sendConfirmationCodeEmail.mockClear()
+      coreSagas.settings.setMobile.mockClear()
       wrapper.update()
     })
 
@@ -89,17 +97,29 @@ describe('IdentityVerification Modal', () => {
     it('should show email code field if email is not verified', () => {
       store.dispatch(actions.core.settings.fetchSettingsSuccess({}))
       store.dispatch(actions.core.settings.setEmail(stubMail))
-      wrapper.update()
+      wrapper.unmount().mount()
       expect(wrapper.find(EditEmail)).toHaveLength(1)
       expect(wrapper.find('Field[name="email"]')).toHaveLength(0)
       expect(wrapper.find('Field[name="code"]')).toHaveLength(1)
+    })
+
+    it('should send confirmation to email if email is not verified', () => {
+      store.dispatch(actions.core.settings.fetchSettingsSuccess({}))
+      store.dispatch(actions.core.settings.setEmail(stubMail))
+      wrapper.unmount().mount()
+      expect(
+        coreSagas.settings.sendConfirmationCodeEmail
+      ).toHaveBeenCalledTimes(1)
+      expect(coreSagas.settings.sendConfirmationCodeEmail).toHaveBeenCalledWith(
+        { email: stubMail }
+      )
     })
 
     it('should show sms code field if email is verified and smsNumber is not set', async () => {
       store.dispatch(actions.core.settings.fetchSettingsSuccess({}))
       store.dispatch(actions.core.settings.setEmail(stubMail))
       store.dispatch(actions.core.settings.setEmailVerified())
-      wrapper.update()
+      wrapper.unmount().mount()
       expect(wrapper.find(EditSmsNumber)).toHaveLength(1)
       expect(wrapper.find('Field[name="smsNumber"]')).toHaveLength(1)
     })
@@ -109,10 +129,22 @@ describe('IdentityVerification Modal', () => {
       store.dispatch(actions.core.settings.setEmail(stubMail))
       store.dispatch(actions.core.settings.setEmailVerified())
       store.dispatch(actions.core.settings.setMobile(stubMobile))
-      wrapper.update()
+      wrapper.unmount().mount()
       expect(wrapper.find(EditSmsNumber)).toHaveLength(1)
       expect(wrapper.find('Field[name="smsNumber"]')).toHaveLength(0)
       expect(wrapper.find('Field[name="code"]')).toHaveLength(1)
+    })
+
+    it('should send confirmation to sms if email is verified and sms is not verified', () => {
+      store.dispatch(actions.core.settings.fetchSettingsSuccess({}))
+      store.dispatch(actions.core.settings.setEmail(stubMail))
+      store.dispatch(actions.core.settings.setEmailVerified())
+      store.dispatch(actions.core.settings.setMobile(stubMobile))
+      wrapper.unmount().mount()
+      expect(coreSagas.settings.setMobile).toHaveBeenCalledTimes(1)
+      expect(coreSagas.settings.setMobile).toHaveBeenCalledWith({
+        mobile: stubMobile
+      })
     })
 
     it('should show personal form if both email and sms are verified', () => {
@@ -121,7 +153,7 @@ describe('IdentityVerification Modal', () => {
       store.dispatch(actions.core.settings.setEmailVerified())
       store.dispatch(actions.core.settings.setMobile(stubMobile))
       store.dispatch(actions.core.settings.setMobileVerified())
-      wrapper.update()
+      wrapper.unmount().mount()
       expect(wrapper.find(PersonalTemplate)).toHaveLength(1)
     })
 
