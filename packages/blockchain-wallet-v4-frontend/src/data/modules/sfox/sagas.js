@@ -14,6 +14,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 
 export const sellDescription = `Exchange Trade SFX-`
 export const logLocation = 'modules/sfox/sagas'
+export const missingJumioToken = 'missing_jumio_token'
 
 export default ({ coreSagas }) => {
   const setBankManually = function*(action) {
@@ -267,7 +268,7 @@ export default ({ coreSagas }) => {
       const accountsR = yield select(selectors.core.data.sfox.getAccounts)
       const accounts = accountsR.getOrElse([])
       // If user has not set up jumio and they have bank accounts
-      if (status === 'missing_token' && accounts.length) {
+      if (status === missingJumioToken && accounts.length) {
         const confirmed = yield call(confirm, {
           title: CC.VERIFY_IDENTITY_TITLE,
           image: 'identity-verification',
@@ -296,7 +297,7 @@ export default ({ coreSagas }) => {
       const tokenR = yield select(selectors.core.kvStore.buySell.getSfoxJumio)
       const accountsR = yield select(selectors.core.data.sfox.getAccounts)
       const accounts = accountsR.getOrElse([])
-      let token = tokenR.getOrElse({})
+      let token = tokenR.getOrFail(missingJumioToken)
       token.completed = true
       accounts.length
         ? yield put(modalActions.closeAllModals())
@@ -315,7 +316,7 @@ export default ({ coreSagas }) => {
       const tokenR = yield select(selectors.core.kvStore.buySell.getSfoxJumio)
       const token = tokenR.getOrFail()
       const profile = profileR.getOrElse({})
-      if (!token) return 'missing_token'
+      if (!token) return missingJumioToken
       const status = yield apply(profile, profile.fetchJumioStatus, [token.id])
       yield put(A.fetchJumioStatusSuccess(status))
     } catch (e) {
