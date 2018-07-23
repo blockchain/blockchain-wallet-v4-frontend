@@ -1,8 +1,8 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import styled from 'styled-components'
+import React from "react"
+import { FormattedMessage } from "react-intl"
+import styled from "styled-components"
 
-import CoinDisplay from 'components/Display/CoinDisplay'
+import CoinDisplay from "components/Display/CoinDisplay"
 import {
   Link,
   Text,
@@ -11,7 +11,7 @@ import {
   TableRow,
   TableCell,
   Icon
-} from 'blockchain-info-components'
+} from "blockchain-info-components"
 
 const TooltipIcon = styled(Icon)`
   display: inline-flex;
@@ -39,9 +39,9 @@ const UsedTable = ({ children }) => (
       </TableCell>
       <TableCell
         width="20%"
-        style={{ display: 'flex', justifyContent: 'flex-end' }}
+        style={{ display: "flex", justifyContent: "flex-end" }}
       >
-        <Text size="13px" weight={500} style={{ marginRight: '8px' }}>
+        <Text size="13px" weight={500} style={{ marginRight: "8px" }}>
           <FormattedMessage
             id="scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.balance"
             defaultMessage="Balance"
@@ -70,7 +70,7 @@ const UsedTableEntry = ({ address, search }) => {
 
   return !isMatch() ? null : (
     <TableRow>
-      <TableCell width="40%" style={{ wordBreak: 'break-all' }}>
+      <TableCell width="40%" style={{ wordBreak: "break-all" }}>
         <Link
           href={`https://blockchain.info/address/${address.address}`}
           size="small"
@@ -85,10 +85,10 @@ const UsedTableEntry = ({ address, search }) => {
       </TableCell>
       <TableCell
         width="20%"
-        style={{ display: 'flex', justifyContent: 'flex-end' }}
+        style={{ display: "flex", justifyContent: "flex-end" }}
       >
         <Text size="13px">
-          <CoinDisplay coin={'BTC'} size="13px" weight={300}>
+          <CoinDisplay coin={"BTC"} size="13px" weight={300}>
             {address.final_balance}
           </CoinDisplay>
         </Text>
@@ -112,7 +112,7 @@ const UsedAddressesTable = ({ usedAddresses, search }) => (
         ))}
       </UsedTable>
     ) : (
-      <Text weight={300} style={{ marginTop: 20, textAlign: 'center' }}>
+      <Text weight={300} style={{ marginTop: 20, textAlign: "center" }}>
         <FormattedMessage
           id="scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.nousedmessage"
           defaultMessage="This wallet has no used addresses."
