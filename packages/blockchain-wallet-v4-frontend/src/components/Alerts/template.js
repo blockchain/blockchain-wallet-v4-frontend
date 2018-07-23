@@ -511,6 +511,13 @@ const selectMessage = (message, data = undefined) => {
           defaultMessage='PBKDF2 iterations changed successfully'
         />
       )
+    case C.QR_SCANNER_NOT_ALLOWED:
+      return (
+        <FormattedMessage
+          id='components.alerts.qr_scanner_not_allowed'
+          defaultMessage='Please enable camera to use this feature'
+        />
+      )
     case C.RECEIVE_BCH_SUCCESS:
       return (
         <FormattedMessage
@@ -915,7 +922,7 @@ const selectMessage = (message, data = undefined) => {
       return (
         <FormattedMessage
           id='components.alerts.eth_address_incorrect'
-          defaultMessage='Invalid Ethereum Address.'
+          defaultMessage='Invalid Ether Address.'
         />
       )
     case C.PRIVATE_KEY_INVALID:
@@ -927,10 +934,12 @@ const selectMessage = (message, data = undefined) => {
       )
     default:
       return (
-        <FormattedMessage
-          id='components.alerts.unknown_error'
-          defaultMessage='An error has occurred.'
-        />
+        message || (
+          <FormattedMessage
+            id='components.alerts.unknown_error'
+            defaultMessage='An error has occurred.'
+          />
+        )
       )
   }
 }
