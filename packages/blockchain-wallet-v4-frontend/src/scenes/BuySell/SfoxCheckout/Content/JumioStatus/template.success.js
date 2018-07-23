@@ -29,6 +29,9 @@ const ButtonWrapper = styled.div`
     margin-top: 10px;
   }
 `
+const ProfileStatus = styled.div`
+  margin-top: 10px;
+`
 
 export const Success = ({ jumioStatus, profile, onClick }) => {
   const { status, completed } = jumioStatus
@@ -36,18 +39,34 @@ export const Success = ({ jumioStatus, profile, onClick }) => {
   const profileStatusHelper = () => {
     let minutesInADay = 1440
     return (
-      <Text weight={300} size={'14px'}>
-        <FormattedMessage
-          id='scenes.buysell.sfoxcheckout.content.jumio.profile'
-          defaultMessage='Buy Limit: {buyLimit}. Sell Limit: {sellLimit}. Buy trades will take {buyProcessingTime} days to process and sell trades {sellProcessingTime} days.'
-          values={{
-            buyLimit: '$' + profile.limits.buy,
-            sellLimit: '$' + profile.limits.sell,
-            buyProcessingTime: profile.processingTimes.usd.buy / minutesInADay,
-            sellProcessingTime: profile.processingTimes.usd.sell / minutesInADay
-          }}
-        />
-      </Text>
+      <ProfileStatus>
+        <Text weight={300} size={'14px'}>
+          <FormattedMessage
+            id='scenes.buysell.sfoxcheckout.content.jumio.buylimit'
+            defaultMessage='Buy Limit: {buyLimit}'
+            values={{ buyLimit: '$' + profile.limits.buy }}
+          />
+        </Text>
+        <Text weight={300} size={'14px'}>
+          <FormattedMessage
+            id='scenes.buysell.sfoxcheckout.content.jumio.selllimit'
+            defaultMessage='Sell Limit: {sellLimit}'
+            values={{ sellLimit: '$' + profile.limits.sell }}
+          />
+        </Text>
+        <Text weight={300} size={'14px'}>
+          <FormattedMessage
+            id='scenes.buysell.sfoxcheckout.content.jumio.profile'
+            defaultMessage='Your purchases will be available in your Blockchain wallet in {buyProcessingTime} days. Your sell trades will take {sellProcessingTime} days to process into your bank account.'
+            values={{
+              buyProcessingTime:
+                profile.processingTimes.usd.buy / minutesInADay,
+              sellProcessingTime:
+                profile.processingTimes.usd.sell / minutesInADay
+            }}
+          />
+        </Text>
+      </ProfileStatus>
     )
   }
   const statusTitleHelper = () => {
@@ -56,7 +75,7 @@ export const Success = ({ jumioStatus, profile, onClick }) => {
         return (
           <FormattedMessage
             id='scenes.buysell.sfoxcheckout.content.jumio.title.completed'
-            defaultMessage='Identity Verification Completed'
+            defaultMessage='Success! Identity Verification Complete'
           />
         )
       case 'PENDING':
@@ -77,30 +96,23 @@ export const Success = ({ jumioStatus, profile, onClick }) => {
   }
   const statusBodyHelper = () => {
     switch (status) {
-      case 'DONE':
-        return (
-          <FormattedMessage
-            id='scenes.buysell.sfoxcheckout.content.jumio.body.completed'
-            defaultMessage='Thank you for verifying your identity.'
-          />
-        )
       case 'PENDING':
         return completed ? (
           <FormattedMessage
             id='scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio'
-            defaultMessage='Thank you for completing your identity verification. It may take our partner a few minutes to finish the verification.'
+            defaultMessage="You're almost there! The uploaded information is being reviewed. This should just take a few minutes."
           />
         ) : (
           <FormattedMessage
             id='scenes.buysell.sfoxcheckout.content.jumio.body.pending'
-            defaultMessage='It looks like you tried to verify your identity but never finished.'
+            defaultMessage='Your identity verification is incomplete. Please continue to follow the steps to complete the process.'
           />
         )
       case 'FAILED':
         return (
           <FormattedMessage
             id='scenes.buysell.sfoxcheckout.content.jumio.body.failed'
-            defaultMessage='There was a problem verifying your identity. Please try again.'
+            defaultMessage='The system has failed to verify your identity. Contact support@sfox.com for more information.'
           />
         )
     }
@@ -143,7 +155,6 @@ export const Success = ({ jumioStatus, profile, onClick }) => {
       <Title>{statusTitleHelper()}</Title>
       <Body>
         {statusBodyHelper()}
-        <br />
         {profileStatusHelper()}
       </Body>
       <ButtonWrapper>{statusButtonHelper()}</ButtonWrapper>
