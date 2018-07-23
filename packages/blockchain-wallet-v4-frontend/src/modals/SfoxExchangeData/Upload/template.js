@@ -14,7 +14,7 @@ import {
   ColRight,
   ColLeftInner,
   PartnerHeader
-} from 'components/BuySell/Signup'
+} from 'components/IdentityVerification'
 
 import media from 'services/ResponsiveService'
 

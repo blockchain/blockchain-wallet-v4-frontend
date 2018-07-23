@@ -24,7 +24,7 @@ import {
   ButtonWrapper,
   ColRightInner,
   EmailHelper
-} from 'components/BuySell/Signup'
+} from 'components/IdentityVerification'
 import { spacing } from 'services/StyleService'
 import media from 'services/ResponsiveService'
 

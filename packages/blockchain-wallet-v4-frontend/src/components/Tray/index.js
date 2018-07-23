@@ -5,7 +5,7 @@ import Transition from 'react-transition-group/Transition'
 import media from 'services/ResponsiveService'
 
 // TODO: refactor to not use react-transition-group. then remove that dependency all together
-const duration = 500
+export const duration = 500
 
 const defaultStyle = {
   transition: `top ${duration}ms`,

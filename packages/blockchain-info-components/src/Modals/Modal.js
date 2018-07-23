@@ -26,7 +26,7 @@ const BaseModal = styled.div`
   position: relative;
   width: 100%;
   margin-top: 60px;
-  z-index: 1041;
+  z-index: ${props => (props.type === 'tray' ? 1039 : 1040)};
   background-color: ${props => props.theme['white']};
   box-shadow: none;
 
@@ -64,7 +64,7 @@ const Modal = props => {
 
   if (type === 'tray') {
     return (
-      <BaseModal isLast={isLast} position={position} width={width} {...rest}>
+      <BaseModal isLast={true} position={position} width={width} {...rest}>
         {children}
       </BaseModal>
     )

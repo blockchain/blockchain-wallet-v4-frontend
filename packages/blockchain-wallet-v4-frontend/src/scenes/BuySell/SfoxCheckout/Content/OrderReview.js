@@ -11,9 +11,12 @@ import {
   OrderDetailsRow
 } from 'components/BuySell/OrderDetails'
 import FundingSource from 'components/BuySell/FundingSource'
-import { PartnerHeader, PartnerSubHeader } from 'components/BuySell/Signup'
+import {
+  PartnerHeader,
+  PartnerSubHeader
+} from 'components/IdentityVerification'
 import { StepTransition } from 'components/Utilities/Stepper'
-import Helper from 'components/BuySell/FAQ'
+import renderFaq from 'components/FaqDropdown'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import ReviewForm from './orderReviewForm'
 
@@ -32,7 +35,7 @@ const ToolTipWrapper = styled.div`
   }
 `
 
-const faqList = [
+const faqQuestions = [
   {
     question: (
       <FormattedMessage
@@ -76,8 +79,6 @@ const faqList = [
     )
   }
 ]
-const faqListHelper = () =>
-  faqList.map(el => <Helper question={el.question} answer={el.answer} />)
 
 export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
   <ExchangeCheckoutWrapper>
@@ -242,6 +243,6 @@ export const OrderSubmit = ({
         account={account}
       />
     )}
-    {faqListHelper()}
+    {renderFaq(faqQuestions)}
   </Fragment>
 )

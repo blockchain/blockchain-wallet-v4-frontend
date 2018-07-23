@@ -15,7 +15,7 @@ import {
   Link,
   Icon
 } from 'blockchain-info-components'
-import Helper from 'components/BuySell/FAQ'
+import renderFaq from 'components/FaqDropdown'
 import {
   Form,
   ColLeft,
@@ -23,10 +23,11 @@ import {
   InputWrapper,
   PartnerHeader,
   PartnerSubHeader,
+  FieldMimic,
   ButtonWrapper,
   ErrorWrapper,
   ColRightInner
-} from 'components/BuySell/Signup'
+} from 'components/IdentityVerification'
 import { spacing } from 'services/StyleService'
 import Terms from 'components/Terms'
 import media from 'services/ResponsiveService'
@@ -34,7 +35,7 @@ import media from 'services/ResponsiveService'
 const checkboxShouldBeChecked = value =>
   value ? undefined : 'You must agree to the terms and conditions'
 
-const helpers = [
+const faqQuestions = [
   {
     question: (
       <FormattedMessage
@@ -89,21 +90,6 @@ const FieldContainer = styled.div`
 const VerifiedContainer = styled.div`
   display: flex;
   flex-direction: row;
-`
-const FieldBox = styled.div`
-  border: 1px solid #dddddd;
-  padding: 5px 15px;
-  display: flex;
-  flex-direction: row;
-  width: 85%;
-  justify-content: space-between;
-  ${media.mobile`
-    border: none;
-    width: 100%;
-    padding: 0px;
-    flex-direction: column;
-    width: fit-content;
-  `};
 `
 const IconContainer = styled.div`
   display: flex;
@@ -167,11 +153,6 @@ class AcceptTerms extends Component {
     } = this.props
     const { sfoxNotAsked } = sfoxFrontendActions
 
-    const faqHelper = () =>
-      helpers.map((el, i) => (
-        <Helper key={i} question={el.question} answer={el.answer} />
-      ))
-
     return (
       <AcceptTermsForm onSubmit={this.handleSignup}>
         <ColLeft>
@@ -203,7 +184,7 @@ class AcceptTerms extends Component {
                   />
                 </Text>
                 <VerifiedContainer>
-                  <FieldBox>
+                  <FieldMimic>
                     <Text size='14px' weight={300}>
                       {email}
                     </Text>
@@ -220,7 +201,7 @@ class AcceptTerms extends Component {
                         />
                       )}
                     </EditLink>
-                  </FieldBox>
+                  </FieldMimic>
                   <IconContainer>
                     {emailVerified ? (
                       <Icon
@@ -240,7 +221,7 @@ class AcceptTerms extends Component {
                   />
                 </Text>
                 <VerifiedContainer>
-                  <FieldBox>
+                  <FieldMimic>
                     <Text size='14px' weight={300}>
                       {smsNumber}
                     </Text>
@@ -257,7 +238,7 @@ class AcceptTerms extends Component {
                         />
                       )}
                     </EditLink>
-                  </FieldBox>
+                  </FieldMimic>
                   <IconContainer>
                     {smsVerified ? (
                       <Icon
@@ -359,7 +340,7 @@ class AcceptTerms extends Component {
                 </InlineTextWrapper>
               ) : null}
             </ErrorWrapper>
-            {faqHelper()}
+            {renderFaq(faqQuestions)}
           </ColRightInner>
         </ColRight>
       </AcceptTermsForm>

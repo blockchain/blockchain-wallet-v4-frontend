@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 
-import Helper from 'components/BuySell/FAQ'
+import renderFaq from 'components/FaqDropdown'
 import { CheckBox } from 'components/Form'
 import Terms from 'components/Terms'
 import {
@@ -21,10 +21,11 @@ import {
   InputWrapper,
   PartnerHeader,
   PartnerSubHeader,
+  FieldMimic,
   ButtonWrapper,
   ErrorWrapper,
   ColRightInner
-} from 'components/BuySell/Signup'
+} from 'components/IdentityVerification'
 import { prop } from 'ramda'
 import media from 'services/ResponsiveService'
 
@@ -58,21 +59,6 @@ const VerifiedContainer = styled.div`
   display: flex;
   flex-direction: row;
 `
-const FieldBox = styled.div`
-  border: 1px solid #dddddd;
-  padding: 5px 15px;
-  display: flex;
-  flex-direction: row;
-  width: 85%;
-  justify-content: space-between;
-  ${media.mobile`
-    border: none;
-    width: 100%;
-    padding: 0px;
-    flex-direction: column;
-    width: fit-content;
-  `};
-`
 const IconContainer = styled.div`
   display: flex;
   align-items: center;
@@ -100,6 +86,23 @@ const VerifiedText = styled(Text)`
 const checkboxShouldBeChecked = value =>
   value ? undefined : 'You must agree to the terms and conditions'
 
+const faqQuestions = [
+  {
+    question: (
+      <FormattedMessage
+        id='coinifysignup.acceptterms.helper1.question'
+        defaultMessage='What is Coinify?'
+      />
+    ),
+    answer: (
+      <FormattedMessage
+        id='coinifysignup.acceptterms.helper1.answer'
+        defaultMessage='Coinify is a trading platform we’ve partnered with to bring you a harmonious buy & sell experience in your Blockchain wallet'
+      />
+    )
+  }
+]
+
 const AcceptTerms = props => {
   const {
     busy,
@@ -112,28 +115,6 @@ const AcceptTerms = props => {
     editEmail,
     clearError
   } = props
-
-  const helpers = [
-    {
-      question: (
-        <FormattedMessage
-          id='coinifysignup.acceptterms.helper1.question'
-          defaultMessage='What is Coinify?'
-        />
-      ),
-      answer: (
-        <FormattedMessage
-          id='coinifysignup.acceptterms.helper1.answer'
-          defaultMessage='Coinify is a trading platform we’ve partnered with to bring you a harmonious buy & sell experience in your Blockchain wallet'
-        />
-      )
-    }
-  ]
-
-  const faqHelper = () =>
-    helpers.map((el, i) => (
-      <Helper key={i} question={el.question} answer={el.answer} />
-    ))
 
   return (
     <AcceptTermsForm onSubmit={handleSubmit}>
@@ -160,7 +141,7 @@ const AcceptTerms = props => {
                 />
               </VerifiedText>
               <VerifiedContainer>
-                <FieldBox>
+                <FieldMimic>
                   <Text size='14px' weight={300}>
                     {email}
                   </Text>
@@ -177,7 +158,7 @@ const AcceptTerms = props => {
                       />
                     )}
                   </EditLink>
-                </FieldBox>
+                </FieldMimic>
                 <IconContainer>
                   {emailVerified ? (
                     <Icon
@@ -275,7 +256,7 @@ const AcceptTerms = props => {
               </TextGroup>
             ) : null}
           </ErrorWrapper>
-          {faqHelper()}
+          {renderFaq(faqQuestions)}
         </ColRightInner>
       </ColRight>
     </AcceptTermsForm>
