@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Route } from 'react-router-dom'
-import styled from 'styled-components'
+import styled, { injectGlobal } from 'styled-components'
 
 import Header from './Header'
 import Footer from './Footer'
@@ -16,6 +16,11 @@ const defaultDomains = {
   comWalletApp: 'https://login.blockchain.com',
   comRoot: 'https://blockchain.com'
 }
+
+injectGlobal`
+  html, body, #app, #app > div {padding: 0; margin: 0; height: 100%;}
+  body {overflow: hidden;}
+`
 
 const Wrapper = styled.div`
   background-color: ${props => props.theme['brand-primary']};
