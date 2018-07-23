@@ -7,7 +7,7 @@ import { coreSagasFactory, Remote } from 'blockchain-wallet-v4/src'
 import * as actions from '../../actions'
 import * as sfoxActions from './actions.js'
 import * as selectors from '../../selectors.js'
-import sfoxSagas, { logLocation } from './sagas'
+import sfoxSagas, { logLocation, missingJumioToken } from './sagas'
 import * as C from 'services/AlertService'
 import { promptForSecondPassword, confirm } from 'services/SagaService'
 import settings from 'config'
@@ -584,7 +584,7 @@ describe('sfoxSagas', () => {
     })
 
     it('should select bank accounts', () => {
-      saga.next('missing_token').select(selectors.core.data.sfox.getAccounts)
+      saga.next(missingJumioToken).select(selectors.core.data.sfox.getAccounts)
     })
 
     it('should prompt the user to confirm their id verification if missing_token and accounts', () => {
