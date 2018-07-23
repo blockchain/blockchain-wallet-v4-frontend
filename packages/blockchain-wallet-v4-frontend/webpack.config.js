@@ -60,6 +60,18 @@ module.exports = {
   },
   module: {
     rules: [
+      {
+        test: /\.js$/,
+        include: /node_modules/,
+        use: {
+          loader: 'string-replace-loader',
+          options: {
+            search: '__webpack_nonce__',
+            replace: 'window.__webpack_nonce__',
+            flags: 'g'
+          }
+        }
+      },
       (isCiBuild ? {
         test: /\.js$/,
         use: [
@@ -156,10 +168,11 @@ module.exports = {
           priority: -10,
           test: function (module) {
             // ensure other packages in mono repo don't get put into vendor bundle
-            return module.resource &&
+            return (
+              module.resource &&
               module.resource.indexOf('blockchain-wallet-v4-frontend/src') === -1 &&
               module.resource.indexOf('node_modules/blockchain-info-components/src') === -1 &&
-              module.resource.indexOf('node_modules/blockchain-wallet-v4/src') === -1
+              module.resource.indexOf('node_modules/blockchain-wallet-v4/src') === -1)
           }
         }
       }
@@ -220,7 +233,7 @@ module.exports = {
         `child-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
         // 'unsafe-eval' is only used by webpack for development. It should not
         // be present on production!
-        "script-src 'self' 'unsafe-eval'",
+        "script-src 'self'",
         // 'ws://localhost:8080' is only used by webpack for development and
         // should not be present on production.
         [
