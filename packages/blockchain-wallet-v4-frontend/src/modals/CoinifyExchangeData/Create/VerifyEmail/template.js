@@ -16,7 +16,7 @@ import {
   PartnerSubHeader,
   ButtonWrapper,
   EmailHelper
-} from 'components/BuySell/Signup'
+} from 'components/IdentityVerification'
 import media from 'services/ResponsiveService'
 
 const EmailInput = styled.div`
