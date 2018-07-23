@@ -14,6 +14,7 @@ import ImportBtcAddress from './ImportBtcAddress'
 import MobileNumberChange from './MobileNumberChange'
 import MobileNumberVerify from './MobileNumberVerify'
 import MobileLogin from './MobileLogin'
+import Onfido from './Onfido'
 import PairingCode from './PairingCode'
 import PromptInput from './PromptInput'
 import QRCode from './QRCode'
@@ -58,6 +59,7 @@ const Modals = props => (
     <MobileNumberChange />
     <MobileNumberVerify />
     <MobileLogin />
+    <Onfido />
     <PairingCode />
     <PromptInput />
     <QRCode />

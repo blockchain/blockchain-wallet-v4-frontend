@@ -9,6 +9,7 @@ import identityVerification from './identityVerification/sagaRegister'
 import importBtcAddress from './importBtcAddress/sagaRegister'
 import login from './login/sagaRegister'
 import manageAddresses from './manageAddresses/sagaRegister'
+import onfido from './onfido/sagaRegister'
 import priceChart from './priceChart/sagaRegister'
 import priceTicker from './priceTicker/sagaRegister'
 import refresh from './refresh/sagaRegister'
@@ -32,6 +33,7 @@ export default ({ api, coreSagas, options }) =>
     yield fork(importBtcAddress({ api, coreSagas }))
     yield fork(login())
     yield fork(manageAddresses({ api, coreSagas }))
+    yield fork(onfido({ api, coreSagas }))
     yield fork(priceChart({ coreSagas }))
     yield fork(priceTicker({ coreSagas }))
     yield fork(refresh())
