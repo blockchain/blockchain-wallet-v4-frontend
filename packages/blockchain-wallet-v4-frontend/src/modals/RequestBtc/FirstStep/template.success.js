@@ -6,7 +6,7 @@ import { Field, reduxForm } from 'redux-form'
 
 import { required } from 'services/FormHelper'
 import { invalidAmountMin, invalidAmountMax } from './validation'
-import { Button, Separator, Text } from 'blockchain-info-components'
+import { Button, Separator, Text, Icon } from 'blockchain-info-components'
 import {
   FiatConvertor,
   Form,
@@ -39,6 +39,10 @@ const QRText = styled(Text)`
 const CoinSelector = styled(FormGroup)`
   width: 50%;
 `
+const TooltipIcon = styled(Icon)`
+  display: inline-flex;
+  margin-left: 5px;
+`
 
 const FirstStep = props => {
   const {
@@ -65,10 +69,15 @@ const FirstStep = props => {
       <FormGroup margin={'5px'}>
         <FormItem>
           <AddressFormLabel>
-            <div data-tip data-for='reqBitcoinShare'>
+            <div>
               <FormattedMessage
                 id='modals.requestbitcoin.firststep.share'
                 defaultMessage='Copy & Share Address: '
+              />
+              <TooltipIcon
+                name='question-in-circle'
+                data-tip
+                data-for='reqBitcoinShare'
               />
             </div>
             <QRText

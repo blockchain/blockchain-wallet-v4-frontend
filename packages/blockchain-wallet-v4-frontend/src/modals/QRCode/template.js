@@ -11,7 +11,8 @@ import {
   ModalBody,
   ModalFooter,
   Text,
-  Tooltip
+  Tooltip,
+  Icon
 } from 'blockchain-info-components'
 import CopyClipboard from 'components/CopyClipboard'
 
@@ -22,8 +23,9 @@ const QRCodeContainer = styled.div`
   width: 100%;
   padding: 30px 0;
 `
-const TooltipLabel = styled.div`
-  width: fit-content;
+const TooltipIcon = styled(Icon)`
+  display: inline-flex;
+  margin-left: 5px;
 `
 
 const QRCode = props => {
@@ -43,12 +45,15 @@ const QRCode = props => {
       </ModalHeader>
       <ModalBody>
         <Text size='14px' weight={500} capitalize>
-          <TooltipLabel data-tip data-for='qrcode.tooltip'>
-            <FormattedMessage
-              id='modals.qrcode.scan'
-              defaultMessage='Scan QR Code'
-            />
-          </TooltipLabel>
+          <FormattedMessage
+            id='modals.qrcode.scan'
+            defaultMessage='Scan QR Code'
+          />
+          <TooltipIcon
+            name='question-in-circle'
+            data-tip
+            data-for='qrcode.tooltip'
+          />
         </Text>
         <QRCodeContainer>
           <QRCodeReact value={bitcoinAddress} size={256} />
