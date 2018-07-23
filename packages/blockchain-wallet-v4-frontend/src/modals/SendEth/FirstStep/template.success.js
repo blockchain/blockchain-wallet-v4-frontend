@@ -28,6 +28,10 @@ const Row = styled.div`
   width: 100%;
 `
 
+const TooltipLabel = styled.div`
+  width: fit-content;
+`
+
 const FirstStep = props => {
   const {
     pristine,
@@ -112,16 +116,12 @@ const FirstStep = props => {
       <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel for='description'>
-            <FormattedMessage
-              id='modals.sendether.firststep.description'
-              defaultMessage='Description: '
-            />
-            <Tooltip>
+            <TooltipLabel data-tip data-for='sendether.firststep.sharetooltip'>
               <FormattedMessage
-                id='modals.sendether.firststep.sharetooltip'
-                defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.'
+                id='modals.sendether.firststep.description'
+                defaultMessage='Description: '
               />
-            </Tooltip>
+            </TooltipLabel>
           </FormLabel>
           <Field
             name='description'
@@ -157,6 +157,12 @@ const FirstStep = props => {
           />
         </Button>
       </FormGroup>
+      <Tooltip id='sendether.firststep.sharetooltip'>
+        <FormattedMessage
+          id='modals.sendether.firststep.sharetooltip'
+          defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.'
+        />
+      </Tooltip>
     </Form>
   )
 }

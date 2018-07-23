@@ -22,6 +22,9 @@ const QRCodeContainer = styled.div`
   width: 100%;
   padding: 30px 0;
 `
+const TooltipLabel = styled.div`
+  width: fit-content;
+`
 
 const QRCode = props => {
   const { position, total, close, closeAll, ...rest } = props
@@ -40,16 +43,12 @@ const QRCode = props => {
       </ModalHeader>
       <ModalBody>
         <Text size='14px' weight={500} capitalize>
-          <FormattedMessage
-            id='modals.qrcode.scan'
-            defaultMessage='Scan QR Code'
-          />
-          <Tooltip>
+          <TooltipLabel data-tip data-for='qrcode.tooltip'>
             <FormattedMessage
-              id='modals.qrcode.tooltip'
-              defaultMessage='Ask the sender to scan this QR code with their bitcoin wallet.'
+              id='modals.qrcode.scan'
+              defaultMessage='Scan QR Code'
             />
-          </Tooltip>
+          </TooltipLabel>
         </Text>
         <QRCodeContainer>
           <QRCodeReact value={bitcoinAddress} size={256} />
@@ -61,6 +60,12 @@ const QRCode = props => {
           <FormattedMessage id='modals.qrcode.back' defaultMessage='Go back' />
         </Link>
       </ModalFooter>
+      <Tooltip id='qrcode.tooltip'>
+        <FormattedMessage
+          id='modals.qrcode.tooltip'
+          defaultMessage='Ask the sender to scan this QR code with their bitcoin wallet.'
+        />
+      </Tooltip>
     </Modal>
   )
 }

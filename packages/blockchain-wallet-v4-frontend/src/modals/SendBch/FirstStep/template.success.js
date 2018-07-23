@@ -48,6 +48,10 @@ const AddressButton = styled.div`
   }
 `
 
+const TooltipLabel = styled.div`
+  width: fit-content;
+`
+
 const FirstStep = props => {
   const {
     from,
@@ -178,16 +182,12 @@ const FirstStep = props => {
       <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel>
-            <FormattedMessage
-              id='modals.sendBch.firststep.description'
-              defaultMessage='Description: '
-            />
-            <Tooltip>
+            <TooltipLabel data-tip data-for='sendBch.firststep.share_tooltip'>
               <FormattedMessage
-                id='modals.sendBch.firststep.share_tooltip'
-                defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.'
+                id='modals.sendBch.firststep.description'
+                defaultMessage='Description: '
               />
-            </Tooltip>
+            </TooltipLabel>
           </FormLabel>
           <Field
             name='description'
@@ -221,6 +221,12 @@ const FirstStep = props => {
           />
         </Button>
       </FormGroup>
+      <Tooltip id='sendBch.firststep.share_tooltip'>
+        <FormattedMessage
+          id='modals.sendBch.firststep.share_tooltip'
+          defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.'
+        />
+      </Tooltip>
     </Form>
   )
 }

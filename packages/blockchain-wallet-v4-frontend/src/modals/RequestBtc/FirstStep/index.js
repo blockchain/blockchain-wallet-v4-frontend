@@ -37,6 +37,8 @@ class FirstStepContainer extends React.PureComponent {
   }
 
   componentDidUpdate (prevProps) {
+    TooltipRebuild()
+
     if (
       !Remote.Success.is(prevProps.initialValues) &&
       Remote.Success.is(this.props.initialValues)
