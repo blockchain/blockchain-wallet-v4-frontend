@@ -3,13 +3,17 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
-import { Modal } from 'blockchain-info-components'
+import { Modal, TooltipRebuild } from 'blockchain-info-components'
 
 import BankTransfer from './BankTransfer'
 import Trade from './Trade'
 import Kyc from './Kyc'
 
 class CoinifyTradeDetails extends React.PureComponent {
+  componentDidUpdate () {
+    TooltipRebuild()
+  }
+
   render () {
     const { trade, status, subscriptions } = this.props
 
