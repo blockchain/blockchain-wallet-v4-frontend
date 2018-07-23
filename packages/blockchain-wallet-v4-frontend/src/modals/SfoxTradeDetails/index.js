@@ -179,7 +179,7 @@ class SfoxTradeDetails extends React.PureComponent {
                   />
                 </Text>
                 <Text size='13px' weight={300}>
-                  {moment(expectedDelivery).format('dddd, MMMM Do')}
+                  {moment(expectedDelivery).format('dddd, MMMM Do YYYY')}
                 </Text>
               </OrderDetailsRow>
             )}
