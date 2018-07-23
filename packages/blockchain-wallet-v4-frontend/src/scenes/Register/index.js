@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 import zxcvbn from 'zxcvbn'
 
+import settings from 'config'
 import Register from './template.js'
 import { actions, selectors } from 'data'
 
@@ -14,8 +15,9 @@ class RegisterContainer extends React.PureComponent {
   }
 
   onSubmit () {
+    const network = settings.NETWORK_BITCOIN
     const { email, password, language } = this.props
-    this.props.authActions.register(email, password, language)
+    this.props.authActions.register(email, password, language, network)
   }
 
   render () {

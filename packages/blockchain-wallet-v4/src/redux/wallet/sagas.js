@@ -87,7 +87,7 @@ export default ({ api }) => {
     yield refetchContextData()
   }
 
-  const createWalletSaga = function*({ password, email, language }) {
+  const createWalletSaga = function*({ password, email, language, network }) {
     const mnemonic = yield call(generateMnemonic, api)
     const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
     const wrapper = Wrapper.createNew(
@@ -95,7 +95,10 @@ export default ({ api }) => {
       password,
       sharedKey,
       mnemonic,
-      language
+      language,
+      undefined,
+      undefined,
+      network
     )
     yield call(api.createWallet, email, wrapper)
     yield put(A.wallet.refreshWrapper(wrapper))
