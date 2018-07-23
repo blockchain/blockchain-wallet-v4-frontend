@@ -10,6 +10,7 @@ describe('Component Sagas', () => {
     expect(sagas.ethTransactions).toBeDefined()
     expect(sagas.exchange).toBeDefined()
     expect(sagas.exchangeHistory).toBeDefined()
+    expect(sagas.identityVerification).toBeDefined()
     expect(sagas.importBtcAddress).toBeDefined()
     expect(sagas.manageAddresses).toBeDefined()
     expect(sagas.priceChart).toBeDefined()

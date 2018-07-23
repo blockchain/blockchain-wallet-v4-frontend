@@ -4,7 +4,7 @@ import { reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { spacing } from 'services/StyleService'
-import Helper from 'components/BuySell/FAQ'
+import renderFaq from 'components/FaqDropdown'
 import { StepTransition } from 'components/Utilities/Stepper'
 import { equals, path } from 'ramda'
 
@@ -18,7 +18,7 @@ import {
   InputWrapper,
   PartnerHeader,
   PartnerSubHeader
-} from 'components/BuySell/Signup'
+} from 'components/IdentityVerification'
 import { cardOptionHelper, bankOptionHelper } from './mediumHelpers'
 import media from 'services/ResponsiveService'
 
@@ -68,7 +68,7 @@ const PaymentColRightInner = styled(ColRightInner)`
   `};
 `
 
-const helpers = [
+const faqQuestions = [
   {
     question: (
       <FormattedMessage
@@ -85,10 +85,6 @@ const helpers = [
   }
 ]
 
-const faqHelper = () =>
-  helpers.map((el, i) => (
-    <Helper key={i} question={el.question} answer={el.answer} />
-  ))
 const busyHelper = busy =>
   !busy ? (
     <FormattedMessage
@@ -212,7 +208,7 @@ const Payment = props => {
               />
             </StepTransition>
           </CancelWrapper>
-          <FaqWrapper>{faqHelper()}</FaqWrapper>
+          <FaqWrapper>{renderFaq(faqQuestions)}</FaqWrapper>
         </PaymentColRightInner>
       </PaymentColRight>
     </PaymentForm>

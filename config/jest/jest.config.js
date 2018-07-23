@@ -1,5 +1,10 @@
 import Enzyme from '../../node_modules/enzyme/build/index'
-import Adapter from 'enzyme-adapter-react-16'
+/**
+ * fixes new react context api
+ * @see https://github.com/airbnb/enzyme/issues/1509
+ * @todo update when enzyme adapter new version is published
+ */
+import Adapter from './React16-3Adapter'
 
 Enzyme.configure({ adapter: new Adapter() })
 

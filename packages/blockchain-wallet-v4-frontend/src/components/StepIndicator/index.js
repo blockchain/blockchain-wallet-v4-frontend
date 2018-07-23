@@ -96,4 +96,8 @@ const StepIndicator = props => {
   )
 }
 
+StepIndicator.defaultProps = {
+  adjuster: 0.0
+}
+
 export default StepIndicator

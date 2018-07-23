@@ -70,6 +70,7 @@ const MobileNumberChange = props => {
               component={PhoneNumberBox}
               countryCode={countryCode}
               defaultValue={smsNumber}
+              errorBottom
             />
           </MobileNumber>
         </ModalBody>

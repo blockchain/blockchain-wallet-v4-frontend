@@ -12,7 +12,7 @@ import Stepper, { StepView } from 'components/Utilities/Stepper'
 import OrderCheckout from './OrderCheckout'
 import JumioStatus from './JumioStatus'
 import { OrderDetails, OrderSubmit } from './OrderReview'
-import Helper from 'components/BuySell/FAQ'
+import renderFaq from 'components/FaqDropdown'
 import EmptyOrderHistoryContainer from 'components/BuySell/EmptyOrderHistory'
 import SiftScience from 'modals/SfoxExchangeData/sift-science.js'
 import media from 'services/ResponsiveService'
@@ -51,7 +51,7 @@ const SfoxBuySellContainer = styled.div`
     flex-direction: column;
   `};
 `
-const faqList = [
+const faqQuestions = [
   {
     question: (
       <FormattedMessage
@@ -95,9 +95,6 @@ const faqList = [
     )
   }
 ]
-
-const faqListHelper = () =>
-  faqList.map(el => <Helper question={el.question} answer={el.answer} />)
 
 const isPending = t => equals(prop('state', t), 'processing')
 const isCompleted = t => !isPending(t)
@@ -175,7 +172,7 @@ const Success = props => {
             </CheckoutWrapper>
             <OrderSubmitWrapper>
               <JumioStatus />
-              {faqListHelper()}
+              {renderFaq(faqQuestions)}
             </OrderSubmitWrapper>
           </SfoxBuySellContainer>
         </StepView>

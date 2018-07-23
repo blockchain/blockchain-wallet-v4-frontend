@@ -4,6 +4,7 @@ import ethereum from './eth'
 import bch from './bch'
 import kvStore from './kvStore'
 import misc from './misc'
+import onfido from './onfido'
 import settings from './settings'
 import shapeShift from './shapeShift'
 import sfox from './sfox'
@@ -23,6 +24,7 @@ export default ({ options, apiKey } = {}) => {
     ...bch({ rootUrl, apiUrl, get, post }),
     ...kvStore({ apiUrl }),
     ...misc({ rootUrl, apiUrl, get, post }),
+    ...onfido({ rootUrl, get, post }),
     ...sfox({ rootUrl }),
     ...settings({ rootUrl, apiUrl, get, post }),
     ...shapeShift({ shapeShiftApiKey }),
