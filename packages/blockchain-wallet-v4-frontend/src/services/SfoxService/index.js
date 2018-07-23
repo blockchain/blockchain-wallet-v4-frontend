@@ -108,7 +108,7 @@ export const bodyStatusHelper = (status, isBuy, date) => {
             <FormattedMessage
               id='scenes.services.sfoxservice.buysellorderhistory.list.orderstatusbody.buy.processing'
               defaultMessage='Your buy trade has been initiated. You will receive your funds on {date}.'
-              values={{ date: new Date(date).toDateString() }}
+              values={{ date: moment(date).format('dddd, MMMM Do') }}
             />
           )
         }
@@ -148,7 +148,7 @@ export const bodyStatusHelper = (status, isBuy, date) => {
             <FormattedMessage
               id='scenes.services.sfoxservice.buysellorderhistory.list.orderstatusbody.sell.processing'
               defaultMessage='Your sell trade has been initiated. You will receive your funds on {date}.'
-              values={{ date: new Date(date).toDateString() }}
+              values={{ date: moment(date).format('dddd, MMMM Do') }}
             />
           )
         }
@@ -227,6 +227,6 @@ export const reviewOrder = {
     let waitingDays = p.processingTimes.usd[type] / minutesInADay
     return moment()
       .add(waitingDays, 'days')
-      .format('dddd, MMMM Do')
+      .format('dddd, MMMM Do YYYY')
   }
 }
