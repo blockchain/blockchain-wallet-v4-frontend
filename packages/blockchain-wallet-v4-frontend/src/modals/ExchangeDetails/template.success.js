@@ -10,7 +10,8 @@ import {
   ModalBody,
   ModalFooter,
   Text,
-  Tooltip
+  Tooltip,
+  Icon
 } from 'blockchain-info-components'
 import ExchangeTimeline from 'components/ExchangeTimeline'
 
@@ -50,6 +51,11 @@ const TableCell = styled.div`
   & > :first-child {
     margin-right: 5px;
   }
+`
+
+const TooltipIcon = styled(Icon)`
+  display: inline-flex;
+  margin-left: 5px;
 `
 
 const getModalHeader = status => {
@@ -157,18 +163,17 @@ const ExchangeDetails = props => {
           </TableRow>
           <TableRow>
             <TableCell>
-              <Text
-                size='13px'
-                weight={400}
-                capitalize
-                data-tip
-                data-for='exchangedetails.exchangetooltip'
-              >
+              <Text size='13px' weight={400} capitalize>
                 <FormattedMessage
                   id='modals.exchangedetails.exchangerate'
                   defaultMessage='Exchange rate'
                 />
               </Text>
+              <TooltipIcon
+                name='question-in-circle'
+                data-tip
+                data-for='exchangedetails.exchangetooltip'
+              />
             </TableCell>
             <TableCell>
               <Text size='13px' weight={300} uppercase>
@@ -178,18 +183,17 @@ const ExchangeDetails = props => {
           </TableRow>
           <TableRow>
             <TableCell>
-              <Text
-                size='13px'
-                weight={400}
-                capitalize
-                data-tip
-                data-for='exchangedetails.feetooltip'
-              >
+              <Text size='13px' weight={400} capitalize>
                 <FormattedMessage
                   id='modals.exchangedetails.fee'
                   defaultMessage='Transaction fee'
                 />
               </Text>
+              <TooltipIcon
+                name='question-in-circle'
+                data-tip
+                data-for='exchangedetails.feetooltip'
+              />
             </TableCell>
             <TableCell>
               <Text size='13px' weight={300} uppercase>

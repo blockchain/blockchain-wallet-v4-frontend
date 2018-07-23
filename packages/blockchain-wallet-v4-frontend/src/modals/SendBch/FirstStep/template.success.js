@@ -47,9 +47,9 @@ const AddressButton = styled.div`
     background-color: ${props => props.theme['gray-1']};
   }
 `
-
-const TooltipLabel = styled.div`
-  width: fit-content;
+const TooltipIcon = styled(Icon)`
+  display: inline-flex;
+  margin-left: 5px;
 `
 
 const FirstStep = props => {
@@ -182,12 +182,15 @@ const FirstStep = props => {
       <FormGroup margin={'15px'}>
         <FormItem>
           <FormLabel>
-            <TooltipLabel data-tip data-for='sendBch.firststep.share_tooltip'>
-              <FormattedMessage
-                id='modals.sendBch.firststep.description'
-                defaultMessage='Description: '
-              />
-            </TooltipLabel>
+            <FormattedMessage
+              id='modals.sendBch.firststep.description'
+              defaultMessage='Description: '
+            />
+            <TooltipIcon
+              name='question-in-circle'
+              data-tip
+              data-for='sendBch.firststep.share_tooltip'
+            />
           </FormLabel>
           <Field
             name='description'

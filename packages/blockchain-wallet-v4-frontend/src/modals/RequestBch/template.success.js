@@ -6,7 +6,7 @@ import { Field, reduxForm } from 'redux-form'
 import QRCodeReact from 'qrcode.react'
 
 import { required } from 'services/FormHelper'
-import { Button, Separator, Text } from 'blockchain-info-components'
+import { Button, Separator, Text, Icon } from 'blockchain-info-components'
 import {
   Form,
   FormGroup,
@@ -32,13 +32,12 @@ const QRCodeContainer = styled.div`
   margin-top: 5px;
   width: 100%;
 `
-
-const ShareMessage = styled.div`
-  width: fit-content;
-`
-
 const ScanMessage = styled.div`
   padding-bottom: 20px;
+`
+const TooltipIcon = styled(Icon)`
+  display: inline-flex;
+  margin-left: 5px;
 `
 
 const RequestBch = props => {
@@ -75,12 +74,15 @@ const RequestBch = props => {
       <FormGroup>
         <FormItem>
           <FormLabel>
-            <ShareMessage data-tip data-for='reqBchShare'>
-              <FormattedMessage
-                id='modals.requestbch.share'
-                defaultMessage='Copy & Share Address: '
-              />
-            </ShareMessage>
+            <FormattedMessage
+              id='modals.requestbch.share'
+              defaultMessage='Copy & Share Address: '
+            />
+            <TooltipIcon
+              name='question-in-circle'
+              data-tip
+              data-for='reqBchShare'
+            />
           </FormLabel>
           <AddressContainer>
             <CopyClipboard address={receiveAddress} />
@@ -93,11 +95,16 @@ const RequestBch = props => {
         </Text>
       </Separator>
       <QRCodeContainer>
-        <ScanMessage data-tip data-for='reqBchQR'>
+        <ScanMessage>
           <Text size='14px'>
             <FormattedMessage
               id='modals.requestbch.scan'
               defaultMessage='Scan QR Code:'
+            />
+            <TooltipIcon
+              name='question-in-circle'
+              data-tip
+              data-for='reqBchQR'
             />
           </Text>
         </ScanMessage>

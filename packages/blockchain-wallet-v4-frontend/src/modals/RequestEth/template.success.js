@@ -6,7 +6,7 @@ import { Field, reduxForm } from 'redux-form'
 import QRCodeReact from 'qrcode.react'
 
 import { required } from 'services/FormHelper'
-import { Button, Separator, Text } from 'blockchain-info-components'
+import { Button, Separator, Text, Icon } from 'blockchain-info-components'
 import {
   Form,
   FormGroup,
@@ -34,11 +34,10 @@ const QRCodeContainer = styled.div`
 const CoinSelector = styled(FormGroup)`
   width: 50%;
 `
-const ShareMessage = styled.div`
-  width: fit-content;
-`
-const ScanMessage = styled.div`
-  padding-bottom: 20px;
+const ScanMessage = styled.div``
+const TooltipIcon = styled(Icon)`
+  display: inline-flex;
+  margin-left: 5px;
 `
 
 const RequestEther = props => {
@@ -60,12 +59,15 @@ const RequestEther = props => {
       <FormGroup>
         <FormItem>
           <FormLabel>
-            <ShareMessage data-tip data-for='reqEthShare'>
-              <FormattedMessage
-                id='modals.requestether.share'
-                defaultMessage='Copy & Share Address:'
-              />
-            </ShareMessage>
+            <FormattedMessage
+              id='modals.requestether.share'
+              defaultMessage='Copy & Share Address:'
+            />
+            <TooltipIcon
+              name='question-in-circle'
+              data-tip
+              data-for='reqEthShare'
+            />
           </FormLabel>
         </FormItem>
         <AddressContainer>
@@ -78,11 +80,16 @@ const RequestEther = props => {
         </Text>
       </Separator>
       <QRCodeContainer>
-        <ScanMessage data-tip data-for='reqEthScan'>
+        <ScanMessage>
           <Text size='14px'>
             <FormattedMessage
               id='modals.requestether.scan'
               defaultMessage='Scan QR Code:'
+            />
+            <TooltipIcon
+              name='question-in-circle'
+              data-tip
+              data-for='reqEthScan'
             />
           </Text>
         </ScanMessage>
