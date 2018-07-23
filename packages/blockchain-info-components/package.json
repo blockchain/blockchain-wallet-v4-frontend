@@ -56,7 +56,6 @@
     }
   },
   "dependencies": {
-    "@storybook/storybook-deployer": "^2.3.0",
     "polished": "1.9.0",
     "prop-types": "15.6.1",
     "ramda": "0.25.0",
@@ -65,5 +64,7 @@
     "react-onclickoutside": "6.7.1",
     "styled-components": "3.3.2"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@storybook/storybook-deployer": "^2.3.0"
+  }
 }
