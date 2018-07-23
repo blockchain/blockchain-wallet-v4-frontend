@@ -10,7 +10,12 @@ import { selectors } from 'data'
 import Create from './Create'
 import Confirm from './Confirm'
 import ISignThis from './ISignThis'
-import { ModalHeader, ModalBody, Text } from 'blockchain-info-components'
+import {
+  ModalHeader,
+  ModalBody,
+  Text,
+  TooltipRebuild
+} from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
 import { path } from 'ramda'
@@ -54,6 +59,10 @@ class CoinifyExchangeData extends React.PureComponent {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
+  }
+
+  componentDidUpdate () {
+    TooltipRebuild()
   }
 
   handleClose () {
