@@ -142,7 +142,7 @@ const Terms = props => {
           </Text>
           <span>&nbsp;</span>
           <Link
-            href='https://www.blockchain.com/terms/index.html'
+            href='https://www.blockchain.com/legal/terms'
             target='_blank'
             size='12px'
             weight={300}
@@ -150,6 +150,20 @@ const Terms = props => {
             <FormattedMessage
               id='scenes.register.registerform.blockchain.terms'
               defaultMessage='Terms of Service'
+            />
+          </Link>
+          <span>&nbsp;</span>
+          {`&`}
+          <span>&nbsp;</span>
+          <Link
+            href='https://www.blockchain.com/legal/privacy'
+            target='_blank'
+            size='12px'
+            weight={300}
+          >
+            <FormattedMessage
+              id='privacypolicy'
+              defaultMessage='Privacy Policy.'
             />
           </Link>
         </TermsContainer>
