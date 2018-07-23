@@ -157,18 +157,18 @@ const ExchangeDetails = props => {
           </TableRow>
           <TableRow>
             <TableCell>
-              <Text size='13px' weight={400} capitalize>
+              <Text
+                size='13px'
+                weight={400}
+                capitalize
+                data-tip
+                data-for='exchangedetails.exchangetooltip'
+              >
                 <FormattedMessage
                   id='modals.exchangedetails.exchangerate'
                   defaultMessage='Exchange rate'
                 />
               </Text>
-              <Tooltip>
-                <FormattedMessage
-                  id='modals.exchangedetails.exchangetooltip'
-                  defaultMessage='This rate may change depending on the market price at the time of your transaction.'
-                />
-              </Tooltip>
             </TableCell>
             <TableCell>
               <Text size='13px' weight={300} uppercase>
@@ -178,18 +178,18 @@ const ExchangeDetails = props => {
           </TableRow>
           <TableRow>
             <TableCell>
-              <Text size='13px' weight={400} capitalize>
+              <Text
+                size='13px'
+                weight={400}
+                capitalize
+                data-tip
+                data-for='exchangedetails.feetooltip'
+              >
                 <FormattedMessage
                   id='modals.exchangedetails.fee'
                   defaultMessage='Transaction fee'
                 />
               </Text>
-              <Tooltip>
-                <FormattedMessage
-                  id='modals.exchangedetails.feetooltip'
-                  defaultMessage='This fee is used to send the outgoing exchange funds to ShapeShift.'
-                />
-              </Tooltip>
             </TableCell>
             <TableCell>
               <Text size='13px' weight={300} uppercase>
@@ -222,6 +222,18 @@ const ExchangeDetails = props => {
           />
         </Button>
       </ModalFooter>
+      <Tooltip id='exchangedetails.exchangetooltip'>
+        <FormattedMessage
+          id='modals.exchangedetails.exchangetooltip'
+          defaultMessage='This rate may change depending on the market price at the time of your transaction.'
+        />
+      </Tooltip>
+      <Tooltip id='exchangedetails.feetooltip'>
+        <FormattedMessage
+          id='modals.exchangedetails.feetooltip'
+          defaultMessage='This fee is used to send the outgoing exchange funds to ShapeShift.'
+        />
+      </Tooltip>
     </Modal>
   )
 }
