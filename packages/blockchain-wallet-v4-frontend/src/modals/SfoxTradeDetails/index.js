@@ -36,6 +36,10 @@ const ToolTipWrapper = styled.div`
     margin-right: 5px;
   }
 `
+const TooltipIcon = styled(Icon)`
+  display: inline-flex;
+  margin-left: 5px;
+`
 
 const renderFirstRow = trade => {
   if (trade.isBuy) {
@@ -66,7 +70,7 @@ const renderTotal = trade => {
 }
 
 class SfoxTradeDetails extends React.PureComponent {
-  render() {
+  render () {
     const headerStatus = statusHelper(this.props.trade.state)
     const bodyStatus = bodyStatusHelper(
       this.props.trade.state,
@@ -76,7 +80,7 @@ class SfoxTradeDetails extends React.PureComponent {
 
     return (
       <Modal
-        size="large"
+        size='large'
         position={this.props.position}
         total={this.props.total}
       >
@@ -86,105 +90,104 @@ class SfoxTradeDetails extends React.PureComponent {
           </Text>
         </ModalHeader>
         <ModalBody>
-          <Text size="13px" weight={300}>
+          <Text size='13px' weight={300}>
             {bodyStatus.text}
           </Text>
-          <Text style={spacing('pt-5')} size="13px" weight={300}>
+          <Text style={spacing('pt-5')} size='13px' weight={300}>
             <FormattedMessage
-              id="sfoxtradedetails.orderdetails.tradeid"
-              defaultMessage="Your order ID is: SFX-{id}"
+              id='sfoxtradedetails.orderdetails.tradeid'
+              defaultMessage='Your order ID is: SFX-{id}'
               values={{ id: trade.id }}
             />
           </Text>
-          <Text style={spacing('mt-20')} size="14px" weight={400}>
+          <Text style={spacing('mt-20')} size='14px' weight={400}>
             {trade.isBuy ? (
               <FormattedMessage
-                id="sfoxtradedetails.orderdetails.method"
-                defaultMessage="Payment Method"
+                id='sfoxtradedetails.orderdetails.method'
+                defaultMessage='Payment Method'
               />
             ) : (
               <FormattedMessage
-                id="sfoxtradedetails.orderdetails.receivingfundsinto"
-                defaultMessage="Receiving Funds Into"
+                id='sfoxtradedetails.orderdetails.receivingfundsinto'
+                defaultMessage='Receiving Funds Into'
               />
             )}
           </Text>
           <MethodContainer borderDark style={spacing('mt-5')}>
-            <Icon name="bank-filled" size="30px" />
+            <Icon name='bank-filled' size='30px' />
             <FundingSource account={account[0]} />
           </MethodContainer>
           <OrderDetailsTable style={spacing('mt-10')}>
             <OrderDetailsRow>
               {trade.isBuy ? (
-                <Text size="13px" weight={300}>
+                <Text size='13px' weight={300}>
                   <FormattedMessage
-                    id="orderdetails.amounttopurchase"
-                    defaultMessage="BTC Amount to Purchase"
+                    id='orderdetails.amounttopurchase'
+                    defaultMessage='BTC Amount to Purchase'
                   />
                 </Text>
               ) : (
-                <Text size="13px" weight={300}>
+                <Text size='13px' weight={300}>
                   <FormattedMessage
-                    id="orderdetails.amounttosell"
-                    defaultMessage="BTC Amount to Sell"
+                    id='orderdetails.amounttosell'
+                    defaultMessage='BTC Amount to Sell'
                   />
                 </Text>
               )}
-              <Text size="13px" weight={300}>
+              <Text size='13px' weight={300}>
                 {renderFirstRow(trade)}
               </Text>
             </OrderDetailsRow>
             <OrderDetailsRow>
               <ToolTipWrapper>
                 <Text
-                  size="13px"
+                  size='13px'
                   weight={300}
-                  data-tip
-                  data-for="tradingfee.tooltip"
                 >
                   <FormattedMessage
-                    id="orderdetails.tradingfee"
-                    defaultMessage="Trading Fee"
+                    id='orderdetails.tradingfee'
+                    defaultMessage='Trading Fee'
                   />
+                  <TooltipIcon name='question-in-circle' data-tip data-for='tradingfee.tooltip' />
                 </Text>
               </ToolTipWrapper>
-              <Text size="13px" weight={300}>{`$${trade.feeAmount.toFixed(
+              <Text size='13px' weight={300}>{`$${trade.feeAmount.toFixed(
                 2
               )}`}</Text>
             </OrderDetailsRow>
             <OrderDetailsRow>
               {trade.isBuy ? (
-                <Text size="13px" weight={300}>
+                <Text size='13px' weight={300}>
                   <FormattedMessage
-                    id="orderdetails.totalcost"
-                    defaultMessage="Total Cost"
+                    id='orderdetails.totalcost'
+                    defaultMessage='Total Cost'
                   />
                 </Text>
               ) : (
-                <Text size="13px" weight={300}>
+                <Text size='13px' weight={300}>
                   <FormattedMessage
-                    id="orderdetails.totaltobereceived"
-                    defaultMessage="Total to be Received"
+                    id='orderdetails.totaltobereceived'
+                    defaultMessage='Total to be Received'
                   />
                 </Text>
               )}
-              <Text size="13px" weight={300} color="success">
+              <Text size='13px' weight={300} color='success'>
                 {renderTotal(trade)}
               </Text>
             </OrderDetailsRow>
           </OrderDetailsTable>
           <ButtonRow>
-            <Button width="100px" onClick={this.props.close} nature="primary">
+            <Button width='100px' onClick={this.props.close} nature='primary'>
               <FormattedMessage
-                id="sfoxtradedetails.close"
-                defaultMessage="Close"
+                id='sfoxtradedetails.close'
+                defaultMessage='Close'
               />
             </Button>
           </ButtonRow>
-          <Tooltip id="tradingfee.tooltip">
+          <Tooltip id='tradingfee.tooltip'>
             <FormattedMessage
-              id="orderdetails.tradingfee.tooltip"
-              defaultMessage="The fee charged to execute a trade through SFOX."
+              id='orderdetails.tradingfee.tooltip'
+              defaultMessage='The fee charged to execute a trade through SFOX.'
             />
           </Tooltip>
         </ModalBody>
