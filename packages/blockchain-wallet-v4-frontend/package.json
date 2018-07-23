@@ -62,7 +62,11 @@
     },
     "transformIgnorePatterns": [
       "node_modules/(?!(blockchain-info-components|blockchain-wallet-v4)/)"
-    ]
+    ],
+    "moduleNameMapper": {
+      "\\.(pdf|jpg|jpeg|png|gif|eot|otf|svg|ttf|woff|woff2)$": "<rootDir>/src/__mocks__/fileMock.js",
+      "\\.(css|scss)$": "<rootDir>/../../node_modules/identity-obj-proxy"
+    }
   },
   "dependencies": {
     "awesome-phonenumber": "2.2.5",
@@ -79,6 +83,7 @@
     "bowser": "1.9.3",
     "browser-locale": "1.0.3",
     "connected-react-router": "4.3.0",
+    "country-region-data": "^1.4.4",
     "data.either": "1.5.1",
     "data.maybe": "1.2.2",
     "es6-promise": "4.1.0",
@@ -88,6 +93,7 @@
     "lodash.debounce": "4.0.8",
     "matchmedia-polyfill": "0.3.1",
     "moment": "2.22.2",
+    "postal-codes-js": "^1.0.0",
     "prop-types": "15.6.1",
     "qrcode.react": "0.8.0",
     "ramda": "0.25.0",

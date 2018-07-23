@@ -30,3 +30,5 @@ export const testPropTypes = (
   return !_test(testValues)
 }
 /* eslint-enable */
+
+export const flushPromises = () => new Promise(resolve => setImmediate(resolve))

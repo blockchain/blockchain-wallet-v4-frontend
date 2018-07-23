@@ -10,14 +10,14 @@ import PlaidFrame from './iframe.js'
 import AwaitingDeposits from './AwaitingDeposits'
 import { Remote } from 'blockchain-wallet-v4/src'
 
-import Helper from 'components/BuySell/FAQ'
+import renderFaq from 'components/FaqDropdown'
 import {
   ColLeft,
   ColRight,
   PartnerHeader,
   PartnerSubHeader,
   ColRightInner
-} from 'components/BuySell/Signup'
+} from 'components/IdentityVerification'
 import media from 'services/ResponsiveService'
 
 const Form = styled.form`
@@ -83,7 +83,7 @@ const GoBackLink = styled(Link)`
   justify-content: center;
 `
 
-const selectBankFaqs = [
+const selectBankQuestions = [
   {
     question: (
       <FormattedMessage
@@ -114,7 +114,7 @@ const selectBankFaqs = [
   }
 ]
 
-const faqList = [
+const faqQuestions = [
   {
     question: (
       <FormattedMessage
@@ -144,15 +144,6 @@ const faqList = [
     )
   }
 ]
-
-const selectBankFaqHelper = () =>
-  selectBankFaqs.map((el, i) => (
-    <Helper key={i} question={el.question} answer={el.answer} />
-  ))
-const faqListHelper = () =>
-  faqList.map((el, i) => (
-    <Helper key={i} question={el.question} answer={el.answer} />
-  ))
 
 const BankLink = props => {
   const {
@@ -268,9 +259,9 @@ const BankLink = props => {
 
   const helpersHelper = () => {
     if (ui.selectBank) {
-      return <React.Fragment>{selectBankFaqHelper()}</React.Fragment>
+      return <React.Fragment>{renderFaq(selectBankQuestions)}</React.Fragment>
     }
-    return <React.Fragment>{faqListHelper()}</React.Fragment>
+    return <React.Fragment>{renderFaq(faqQuestions)}</React.Fragment>
   }
 
   const buttonHelper = () => {
