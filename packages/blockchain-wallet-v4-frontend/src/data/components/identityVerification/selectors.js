@@ -1,11 +1,6 @@
 import { path } from 'ramda'
 import { selectors } from 'data'
 
-export const isOnfidoEnabled = path([
-  'components',
-  'identityVerification',
-  'onfidoEnabled'
-])
 export const getStep = path(['components', 'identityVerification', 'step'])
 export const getPersonalStep = path([
   'components',

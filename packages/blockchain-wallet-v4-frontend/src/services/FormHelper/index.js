@@ -13,8 +13,7 @@ import {
   formatUSZipcode,
   isOverEighteen,
   isSSN,
-  formatPhone,
-  normalizeCountryCode
+  formatPhone
 } from 'services/ValidationHelper'
 import { isValidIBAN, isValidBIC } from 'ibantools'
 import { isValidNumber } from 'libphonenumber-js'

@@ -1,9 +1,11 @@
+import { path } from 'ramda'
 import { formValueSelector } from 'redux-form'
 import { selectors } from 'data'
 import { ADDRESS_FORM } from 'data/components/identityVerification/model'
 
 export const getData = state => ({
-  isOnfidoEnabled: selectors.components.identityVerification.isOnfidoEnabled(
+  helperDomain: path(
+    ['walletOptionsPath', 'data', 'domains', 'walletHelper'],
     state
   ),
   step: selectors.components.identityVerification.getStep(state).getOrElse(null)

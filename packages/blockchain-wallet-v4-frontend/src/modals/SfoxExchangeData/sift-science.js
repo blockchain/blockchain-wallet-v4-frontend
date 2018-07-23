@@ -18,7 +18,7 @@ class SiftScience extends Component {
     let receiveMessage = e => {
       const helperDomain = path(
         ['domains', 'walletHelper'],
-        this.propswalletOptions
+        this.props.walletOptions
       )
       if (!e.data.command) return
       if (e.data.from !== 'sift-science') return

@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { filter, contains, isEmpty, cond, T, identity } from 'ramda'
 import { FormattedMessage } from 'react-intl'
-import countryRegionData from 'country-region-data'
 
 import SelectBox from '../SelectBox'
 

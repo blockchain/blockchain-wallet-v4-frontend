@@ -9,6 +9,7 @@ import * as importBtcAddress from './importBtcAddress/actions'
 import * as layoutWallet from './layoutWallet/actions'
 import * as login from './login/actions'
 import * as manageAddresses from './manageAddresses/actions'
+import * as onfido from './onfido/actions'
 import * as priceChart from './priceChart/actions'
 import * as priceTicker from './priceTicker/actions'
 import * as refresh from './refresh/actions'
@@ -30,6 +31,7 @@ export {
   identityVerification,
   importBtcAddress,
   manageAddresses,
+  onfido,
   layoutWallet,
   login,
   priceChart,

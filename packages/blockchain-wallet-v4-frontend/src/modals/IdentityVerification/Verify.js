@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Button, HeartbeatLoader } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Image } from 'blockchain-info-components'
 import media from 'services/ResponsiveService'
 import {
   ColLeft,
@@ -39,8 +39,8 @@ const faqQuestions = [
   }
 ]
 
-const Verify = ({ invalid, submitting, handleSubmit, formBusy }) => (
-  <VerifyWrapper onSubmit={handleSubmit}>
+const Verify = ({ formBusy, handleSubmit }) => (
+  <VerifyWrapper>
     <ColLeft>
       <InputWrapper>
         <PartnerHeader>
@@ -49,6 +49,7 @@ const Verify = ({ invalid, submitting, handleSubmit, formBusy }) => (
             defaultMessage='Verify Your Identity'
           />
         </PartnerHeader>
+        <Image name='verify-identity' width='100%' />
         <PartnerSubHeader>
           <FormattedMessage
             id='identityverification.verify.subheader'
@@ -59,13 +60,7 @@ const Verify = ({ invalid, submitting, handleSubmit, formBusy }) => (
     </ColLeft>
     <ColRight>
       <ColRightInner>
-        <Button
-          uppercase
-          nature='primary'
-          type='submit'
-          fullwidth
-          disabled={invalid || submitting || formBusy}
-        >
+        <Button uppercase nature='primary' onClick={handleSubmit} fullwidth>
           {!formBusy ? (
             <FormattedMessage
               id='identityverification.verify.verify'

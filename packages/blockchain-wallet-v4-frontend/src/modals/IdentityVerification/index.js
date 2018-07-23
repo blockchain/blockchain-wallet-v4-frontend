@@ -47,8 +47,6 @@ const stepMap = {
   )
 }
 
-export const formName = 'IdentityVerification'
-
 class IdentityVerification extends React.PureComponent {
   state = { show: false }
 
@@ -64,14 +62,24 @@ class IdentityVerification extends React.PureComponent {
   }
 
   getStepComponent = step => {
-    const { actions } = this.props
+    const { actions, modalActions, position, total } = this.props
     if (step === STEPS.address)
       return (
         <Address
           handleSubmit={actions.setVertificationStep.bind(null, STEPS.verify)}
         />
       )
-    if (step === STEPS.verify) return <Verify />
+
+    if (step === STEPS.verify)
+      return (
+        <Verify
+          handleSubmit={modalActions.showModal.bind(null, 'Onfido', {
+            position: position + 1,
+            total: total + 1
+          })}
+        />
+      )
+
     return (
       <Personal
         handleSubmit={actions.setVertificationStep.bind(null, STEPS.address)}
@@ -81,10 +89,16 @@ class IdentityVerification extends React.PureComponent {
 
   render () {
     const { show } = this.state
-    const { step } = this.props
+    const { step, position, total } = this.props
 
     return (
-      <Tray in={show} class='tray' onClose={this.handleClose}>
+      <Tray
+        in={show}
+        class='tray'
+        position={position}
+        total={total}
+        onClose={this.handleClose}
+      >
         <ModalHeader tray paddingHorizontal='15%' onClose={this.handleClose}>
           <HeaderWrapper>
             <StepIndicator
@@ -106,7 +120,6 @@ class IdentityVerification extends React.PureComponent {
 
 IdentityVerification.propTypes = {
   step: PropTypes.oneOf(keys(STEPS)),
-  isOnfidoEnabled: PropTypes.bool.isRequired,
   close: PropTypes.func.isRequired
 }
 
@@ -115,7 +128,11 @@ IdentityVerification.defaultProps = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.components.identityVerification, dispatch)
+  actions: bindActionCreators(
+    actions.components.identityVerification,
+    dispatch
+  ),
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 const enhance = compose(
