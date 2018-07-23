@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, Text } from 'blockchain-info-components'
+import { Button, Text, Icon } from 'blockchain-info-components'
 import ExchangeTimeline from 'components/ExchangeTimeline'
 
 const Wrapper = styled.div`
@@ -81,6 +81,10 @@ const TableCell = styled.div`
   & > :first-child {
     margin-right: 5px;
   }
+`
+const TooltipIcon = styled(Icon)`
+  display: inline-flex;
+  margin-left: 5px;
 `
 
 const Success = props => {
@@ -193,18 +197,17 @@ const Success = props => {
             </TableRow>
             <TableRow>
               <TableCell>
-                <Text
-                  size='13px'
-                  weight={400}
-                  capitalize
-                  data-tip
-                  data-for='shapeshift.exchangetooltip'
-                >
+                <Text size='13px' weight={400} capitalize>
                   <FormattedMessage
                     id='modals.exchange.shapeshift.exchangerate'
                     defaultMessage='Exchange rate'
                   />
                 </Text>
+                <TooltipIcon
+                  name='question-in-circle'
+                  data-tip
+                  data-for='shapeshift.exchangetooltip'
+                />
               </TableCell>
               <TableCell>
                 <Text size='13px' weight={300} uppercase>
@@ -214,18 +217,17 @@ const Success = props => {
             </TableRow>
             <TableRow>
               <TableCell>
-                <Text
-                  size='13px'
-                  weight={400}
-                  capitalize
-                  data-tip
-                  data-for='shapeshift.feetooltip'
-                >
+                <Text size='13px' weight={400} capitalize>
                   <FormattedMessage
                     id='modals.exchange.shapeshift.fee'
                     defaultMessage='Transaction fee'
                   />
                 </Text>
+                <TooltipIcon
+                  name='question-in-circle'
+                  data-tip
+                  data-for='shapeshift.feetooltip'
+                />
               </TableCell>
               <TableCell>
                 <Text size='13px' weight={300} uppercase>

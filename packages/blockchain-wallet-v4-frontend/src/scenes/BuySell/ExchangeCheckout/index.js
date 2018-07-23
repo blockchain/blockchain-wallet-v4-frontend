@@ -70,6 +70,10 @@ const Amount = styled.span`
   font-size: 12px;
   margin-right: 5px;
 `
+const TooltipIcon = styled(Icon)`
+  display: inline-flex;
+  margin-left: 5px;
+`
 
 const belowMaxAmount = (value, allValues, props) =>
   value > props.limits.max ? 'max' : undefined
@@ -165,9 +169,14 @@ class ExchangeCheckout extends React.PureComponent {
             {rate &&
               !minError && (
                 <Rate>
-                  <Amount data-tip data-for='exchangecheckout.rate'>
+                  <Amount>
                     1 {crypto} = {rate} {fiat}
                   </Amount>
+                  <TooltipIcon
+                    name='question-in-circle'
+                    data-tip
+                    data-for='exchangecheckout.rate'
+                  />
                 </Rate>
               )}
             {minError && (

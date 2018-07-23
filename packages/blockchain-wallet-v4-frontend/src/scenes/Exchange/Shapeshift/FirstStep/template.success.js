@@ -90,6 +90,10 @@ const ShapeshiftIcon = styled(Icon)`
     color: ${props => props.theme['brand-secondary']};
   }
 `
+const TooltipIcon = styled(Icon)`
+  display: inline-flex;
+  margin-left: 5px;
+`
 
 const Success = props => {
   const {
@@ -167,10 +171,15 @@ const Success = props => {
           </Cell>
         </Row>
         <Row justify='space-between'>
-          <Text size='14px' weight={400} data-tip data-for='firststep.tooltip'>
+          <Text size='14px' weight={400}>
             <FormattedMessage
               id='scenes.exchange.shapeshift.firststep.amount'
               defaultMessage='Enter amount:'
+            />
+            <TooltipIcon
+              name='question-in-circle'
+              data-tip
+              data-for='firststep.tooltip'
             />
           </Text>
         </Row>
