@@ -222,11 +222,7 @@ export default ({ api }) => {
   }
 
   const remindWalletGuidSaga = function*({ email, code, sessionToken }) {
-    const response = yield call(api.remindGuid, email, code, sessionToken)
-    const { success, message } = response
-    if (!success) {
-      throw new Error(message)
-    }
+    yield call(api.remindGuid, email, code, sessionToken)
   }
 
   const resetWallet2fa = function*({
