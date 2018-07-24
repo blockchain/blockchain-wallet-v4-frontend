@@ -14,11 +14,13 @@ const Wrapper = styled.div`
     }
     .highcharts-axis-labels {
       text {
+        font-size: 11px;
         fill: ${props => props.theme['gray-5']} !important;
       }
     }
     .highcharts-series {
       path:first-child {
+        font-size: 12px;
         stroke: ${props => props.theme['brand-secondary']} !important;
       }
     }
