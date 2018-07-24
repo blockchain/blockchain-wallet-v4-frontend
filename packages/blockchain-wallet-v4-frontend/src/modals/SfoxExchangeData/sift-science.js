@@ -58,12 +58,7 @@ class SiftScience extends Component {
 
     if (siftScienceEnabled) {
       return (
-        <SiftScienceIframe
-          src={url}
-          sandbox='allow-same-origin allow-scripts'
-          scrolling='no'
-          id='sift-science-iframe'
-        />
+        <SiftScienceIframe src={url} scrolling='no' id='sift-science-iframe' />
       )
     }
   }
