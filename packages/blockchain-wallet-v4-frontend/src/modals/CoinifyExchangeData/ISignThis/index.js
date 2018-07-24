@@ -308,12 +308,7 @@ class ISignThisContainer extends Component {
         </TimerContainer>
         <ISXContainer>
           <IframeWrapper>
-            <ISignThisIframe
-              src={srcUrl}
-              sandbox='allow-same-origin allow-scripts allow-forms'
-              scrolling='yes'
-              id='isx-iframe'
-            />
+            <ISignThisIframe src={srcUrl} scrolling='yes' id='isx-iframe' />
           </IframeWrapper>
           <ButtonContainer>
             <Button
