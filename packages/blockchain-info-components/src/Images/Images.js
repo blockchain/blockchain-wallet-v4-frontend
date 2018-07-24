@@ -21,6 +21,7 @@ import googlePlayBadge from './img/google-play-badge.png'
 import halfBitcoin from './img/half-bitcoin.svg'
 import halfBitcoincash from './img/half-bitcoincash.svg'
 import halfEther from './img/half-ether.svg'
+import identityVerification from './img/identity-verification.svg'
 import landingPageBannerOverlay from './img/landing-page-banner-overlay.jpg'
 import landingPageBannerSmOverlay from './img/landing-page-banner-sm-overlay.jpg'
 import microDepositsWhole from './img/micro-deposits-whole.svg'
@@ -64,6 +65,7 @@ export default {
   'half-bitcoin': halfBitcoin,
   'half-bitcoincash': halfBitcoincash,
   'half-ether': halfEther,
+  'identity-verification': identityVerification,
   'landing-page-banner-overlay': landingPageBannerOverlay,
   'landing-page-banner-sm-overlay': landingPageBannerSmOverlay,
   'micro-deposits-whole': microDepositsWhole,
