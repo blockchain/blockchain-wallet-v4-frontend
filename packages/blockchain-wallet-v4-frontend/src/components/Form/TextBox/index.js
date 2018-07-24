@@ -32,6 +32,7 @@ const TextBox = field => {
     placeholder,
     center,
     errorBottom,
+    noLastPass,
     borderRightNone
   } = field
   const { initial, active, touched, error, warning } = meta
@@ -49,6 +50,7 @@ const TextBox = field => {
         initial={initial}
         placeholder={placeholder}
         center={center}
+        noLastPass={noLastPass}
       />
       {touched &&
         error && (
