@@ -30,7 +30,7 @@ const ButtonContainer = styled.button`
   > span::after {
     background-color: ${props => (props.color ? props.color : 'white')};
     border-radius: var(--smBorderRadius);
-    content: "";
+    content: '';
     display: block;
     height: 2px;
     left: 0;
@@ -103,7 +103,8 @@ class MenuButton extends PureComponent {
       <ButtonContainer
         color={this.props.color}
         className={classes}
-        onClick={this.handleClick}>
+        onClick={this.handleClick}
+      >
         <span />
       </ButtonContainer>
     )

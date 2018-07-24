@@ -18,7 +18,7 @@ const DropdownTip = styled.div`
   border-radius: var(--smBorderRadius);
 `
 
-const DropdownTipContainer = (props) => (
+const DropdownTipContainer = props => (
   <Container dropdownTop={props.dropdownTop} x={props.x} y={props.y}>
     <DropdownTip />
   </Container>

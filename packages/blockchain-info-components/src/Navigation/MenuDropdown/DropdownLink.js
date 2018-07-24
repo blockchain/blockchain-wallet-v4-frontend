@@ -36,10 +36,7 @@ class DropdownLink extends PureComponent {
   render () {
     const { onClick } = this.props
     return (
-      <a
-        ref={this.ref}
-        onClick={onClick}
-        onMouseOver={this.mouseOver}>
+      <a ref={this.ref} onClick={onClick} onMouseOver={this.mouseOver}>
         {this.props.children}
       </a>
     )

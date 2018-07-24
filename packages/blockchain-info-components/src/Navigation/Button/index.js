@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import {Color} from '../../Colors'
+import { Color } from '../../Colors'
 import { trackButtonEvent } from '../Events'
 import Link from '../Link'
 
@@ -53,7 +53,7 @@ const DefaultButton = styled('button', 'input[type=submit]')`
   }
 `
 
-const handleClick = (props) => {
+const handleClick = props => {
   return () => {
     if (props.onClick) {
       props.onClick()
@@ -69,24 +69,30 @@ const SecondaryButton = DefaultButton.extend`
   color: white;
 `
 
-const Button = (props) => {
+const Button = props => {
   let { href, target, download, rel } = props
   if (href) {
     return (
-      <Link href={href} target={target} download={download} rel={rel} onClick={handleClick(props)}>
+      <Link
+        href={href}
+        target={target}
+        download={download}
+        rel={rel}
+        onClick={handleClick(props)}
+      >
         <DefaultButton
           big={props.big}
           bgColor={props.bgColor}
           outline={props.outline}
-          textColor={props.textColor}>
+          textColor={props.textColor}
+        >
           {props.children}
         </DefaultButton>
       </Link>
     )
   }
   return props.secondary ? (
-    <SecondaryButton
-      onClick={handleClick(props)}>
+    <SecondaryButton onClick={handleClick(props)}>
       {props.children}
     </SecondaryButton>
   ) : (
@@ -97,7 +103,8 @@ const Button = (props) => {
       textColor={props.textColor}
       type={props.type}
       value={props.value}
-      onClick={handleClick(props)}>
+      onClick={handleClick(props)}
+    >
       {props.children}
     </DefaultButton>
   )

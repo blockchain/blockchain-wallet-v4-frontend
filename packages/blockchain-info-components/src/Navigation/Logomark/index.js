@@ -14,7 +14,7 @@ const Logo = styled(BCLogo)`
 
   .logomark-color {
     fill: ${props =>
-    props.color ? props.color : props.theme ? props.theme.main : 'white'};
+      props.color ? props.color : props.theme ? props.theme.main : 'white'};
   }
 `
 

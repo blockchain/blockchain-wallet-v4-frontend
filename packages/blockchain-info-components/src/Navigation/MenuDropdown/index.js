@@ -27,7 +27,11 @@ const Dropdown = props => {
     let component = props.map[props.kind].component
 
     return (
-      <DropdownContainer dropdownTop={props.dropdownTop} x={props.x || 0} y={props.y || 0}>
+      <DropdownContainer
+        dropdownTop={props.dropdownTop}
+        x={props.x || 0}
+        y={props.y || 0}
+      >
         {typeof component === 'object'
           ? component
           : React.createElement(component)}
@@ -128,7 +132,8 @@ class MenuDropdown extends PureComponent {
             this.setState({ [kind]: { left, top, height } })
           }}
           onClick={this.toggleDropdown(kind)}
-          onMouseOver={this.toggleDropdown(kind, true)}>
+          onMouseOver={this.toggleDropdown(kind, true)}
+        >
           {name}
         </DropdownLink>
       </li>
@@ -145,7 +150,9 @@ class MenuDropdown extends PureComponent {
       let kind = this.state.dropDown
       dropX = this.state[kind].left
       dropY = this.state[kind].top + this.state[kind].height + 10
-      dropdownTip = <DropdownTip dropdownTop={dropdownTop} x={dropX + 24} y={dropY - 4} />
+      dropdownTip = (
+        <DropdownTip dropdownTop={dropdownTop} x={dropX + 24} y={dropY - 4} />
+      )
     }
 
     return (

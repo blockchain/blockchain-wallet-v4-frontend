@@ -23,14 +23,13 @@ const SelectElement = styled.select`
   background-color: ${props =>
     props.transparent ? 'transparent' : 'var(--porcelain)'}
     
-  padding: ${props =>
-    props.transparent ? '0' : '0 1rem'}
+  padding: ${props => (props.transparent ? '0' : '0 1rem')}
   
   &::after {
   }
 
   @media only screen and (max-width: 48rem) {
-    width: ${props => props.transparent ? 'auto' : '100%'};
+    width: ${props => (props.transparent ? 'auto' : '100%')};
 `
 
 class Select extends PureComponent {
@@ -75,9 +74,11 @@ class Select extends PureComponent {
     }
 
     return (
-      <SelectElement transparent={this.props.transparent}
+      <SelectElement
+        transparent={this.props.transparent}
         value={this.state.value || this.props.value}
-        onChange={this.onChange.bind(this)}>
+        onChange={this.onChange.bind(this)}
+      >
         {options}
       </SelectElement>
     )

@@ -199,21 +199,19 @@ const BlueLogo = styled(Image)`
 `
 
 let supportedLanguages = {
-  'da': 'Danish',
-  'de': 'German',
-  'en': 'English',
-  'es': 'Spanish',
-  'fr': 'French'
+  da: 'Danish',
+  de: 'German',
+  en: 'English',
+  es: 'Spanish',
+  fr: 'French'
 }
 
-let langItems = Object.keys(supportedLanguages).map(
-  langKey => {
-    return {
-      text: supportedLanguages[langKey],
-      value: langKey
-    }
+let langItems = Object.keys(supportedLanguages).map(langKey => {
+  return {
+    text: supportedLanguages[langKey],
+    value: langKey
   }
-)
+})
 
 class Footer extends PureComponent {
   constructor (props) {
@@ -233,16 +231,19 @@ class Footer extends PureComponent {
 
   handleDropdown (value) {
     if (value === 'en') {
-      this.cookies.remove('clang', {path: '/'})
+      this.cookies.remove('clang', { path: '/' })
     } else {
-      this.cookies.set('clang', value, {path: '/'})
+      this.cookies.set('clang', value, { path: '/' })
     }
 
     let toLocation = window.location
     let pathname = window.location.pathname
     let langPathMatch = pathname.match(/^\/([a-z]{2})\/(.*)/)
     if (langPathMatch && langPathMatch[1] in supportedLanguages) {
-      toLocation = value === 'en' ? '/' + langPathMatch[2] : '/' + value + '/' + langPathMatch[2]
+      toLocation =
+        value === 'en'
+          ? '/' + langPathMatch[2]
+          : '/' + value + '/' + langPathMatch[2]
     } else {
       toLocation = value === 'en' ? pathname : '/' + value + pathname
     }
@@ -261,17 +262,25 @@ class Footer extends PureComponent {
               <h5>Products</h5>
               <ul>
                 <li>
-                  <Link locale={this.lang} href={'/wallet'}>Wallet</Link>
+                  <Link locale={this.lang} href={'/wallet'}>
+                    Wallet
+                  </Link>
                 </li>
                 <li>
-                  <Link locale={this.lang} href={'/explorer'}>Explorer</Link>
+                  <Link locale={this.lang} href={'/explorer'}>
+                    Explorer
+                  </Link>
                   <NavBadge>Info</NavBadge>
                 </li>
                 <li>
-                  <Link href='https://bps.blockchain.com/'>Principal Strategies</Link>
+                  <Link href='https://bps.blockchain.com/'>
+                    Principal Strategies
+                  </Link>
                 </li>
                 <li>
-                  <Link locale={this.lang} href={'/api'}>Developers</Link>
+                  <Link locale={this.lang} href={'/api'}>
+                    Developers
+                  </Link>
                 </li>
               </ul>
             </Column>
@@ -280,11 +289,15 @@ class Footer extends PureComponent {
               <h5>Data</h5>
               <ul>
                 <li>
-                  <Link locale={this.lang} href={'/markets'}>Markets</Link>
+                  <Link locale={this.lang} href={'/markets'}>
+                    Markets
+                  </Link>
                   <NavBadge>New</NavBadge>
                 </li>
                 <li>
-                  <Link locale={this.lang} href={'/charts'}>Charts</Link>
+                  <Link locale={this.lang} href={'/charts'}>
+                    Charts
+                  </Link>
                 </li>
               </ul>
             </Column>
@@ -293,13 +306,25 @@ class Footer extends PureComponent {
               <h5>Learn</h5>
               <ul>
                 <li>
-                  <Link locale={this.lang} href={'/learning-portal/bitcoin-faq'}>What is Bitcoin</Link>
+                  <Link
+                    locale={this.lang}
+                    href={'/learning-portal/bitcoin-faq'}
+                  >
+                    What is Bitcoin
+                  </Link>
                 </li>
                 <li>
-                  <Link locale={this.lang} href={'/learning-portal/ether-basics'}>What is Ethereum</Link>
+                  <Link
+                    locale={this.lang}
+                    href={'/learning-portal/ether-basics'}
+                  >
+                    What is Ethereum
+                  </Link>
                 </li>
                 <li>
-                  <Link locale={this.lang} href={'/learning-portal'}>Getting Started</Link>
+                  <Link locale={this.lang} href={'/learning-portal'}>
+                    Getting Started
+                  </Link>
                 </li>
                 <li>
                   <Link href='https://blog.blockchain.com'>Blog</Link>
@@ -311,17 +336,25 @@ class Footer extends PureComponent {
               <h5>Company</h5>
               <ul>
                 <li>
-                  <Link locale={this.lang} href={'/about'}>About</Link>
+                  <Link locale={this.lang} href={'/about'}>
+                    About
+                  </Link>
                 </li>
                 <li>
-                  <Link locale={this.lang} href={'/team'}>Team</Link>
+                  <Link locale={this.lang} href={'/team'}>
+                    Team
+                  </Link>
                 </li>
                 <li>
-                  <Link locale={this.lang} href={'/careers'}>Careers</Link>
+                  <Link locale={this.lang} href={'/careers'}>
+                    Careers
+                  </Link>
                   <NavBadge>Hiring</NavBadge>
                 </li>
                 <li>
-                  <Link locale={this.lang} href={'/legal'}>Legal</Link>
+                  <Link locale={this.lang} href={'/legal'}>
+                    Legal
+                  </Link>
                 </li>
               </ul>
             </Column>
@@ -330,7 +363,9 @@ class Footer extends PureComponent {
               <h5>Contact Us</h5>
               <ul>
                 <li>
-                  <Link locale={this.lang} href={'/press'}>Press</Link>
+                  <Link locale={this.lang} href={'/press'}>
+                    Press
+                  </Link>
                 </li>
                 <li>
                   <Link href='https://support.blockchain.com'>Support</Link>
@@ -349,7 +384,8 @@ class Footer extends PureComponent {
             </Column>
           </SiteNav>
           <LangNav>
-            <Select transparent
+            <Select
+              transparent
               items={langItems}
               value={this.lang}
               onChange={this.handleDropdown}
