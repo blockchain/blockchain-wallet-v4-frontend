@@ -1,6 +1,6 @@
 {
   "name": "blockchain-wallet-v4",
-  "version": "4.0.0-alpha12",
+  "version": "4.0.6",
   "license": "ISC",
   "author": {
     "name": "Blockchain.info",
@@ -130,13 +130,12 @@
     "redux-saga-test-plan": "^3.6.0",
     "rimraf": "^2.6.2",
     "standard": "^11.0.1",
-    "style-loader": "^0.21.0",
+    "style-loader": "git://github.com/webpack-contrib/style-loader.git#fc24512b395a8a3fd4074d88cd3f7b195f0bcef2",
     "thread-loader": "^1.1.5",
     "uglifyjs-webpack-plugin": "^1.2.4",
     "webpack": "^4.12.0",
     "webpack-bundle-analyzer": "^2.11.1",
     "webpack-cli": "^3.0.3",
     "webpack-dev-server": "^3.1.1"
-  },
-  "dependencies": {}
+  }
 }

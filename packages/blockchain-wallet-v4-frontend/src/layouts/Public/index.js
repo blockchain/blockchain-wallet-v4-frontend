@@ -1,12 +1,17 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
+import styled, { injectGlobal } from 'styled-components'
 
 import Header from './Header'
 import Footer from './Footer'
-import styled from 'styled-components'
 
 import Alerts from 'components/Alerts'
 import Container from 'components/Container'
+
+injectGlobal`
+  html, body, #app, #app > div {padding: 0; margin: 0; height: 100%;}
+  body {overflow: hidden;}
+`
 
 const Wrapper = styled.div`
   background-color: ${props => props.theme['brand-primary']};

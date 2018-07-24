@@ -154,10 +154,11 @@ module.exports = {
           priority: -10,
           test: function (module) {
             // ensure other packages in mono repo don't get put into vendor bundle
-            return module.resource &&
+            return (
+              module.resource &&
               module.resource.indexOf('blockchain-wallet-v4-frontend/src') === -1 &&
               module.resource.indexOf('node_modules/blockchain-info-components/src') === -1 &&
-              module.resource.indexOf('node_modules/blockchain-wallet-v4/src') === -1
+              module.resource.indexOf('node_modules/blockchain-wallet-v4/src') === -1)
           }
         }
       }
@@ -195,12 +196,14 @@ module.exports = {
     headers: {
       'Content-Security-Policy': isCiBuild ? [] : [
         "img-src 'self' data: blob:",
+        // 'unsafe-inline' can only be used in dev. production builds remove
+        // this rule and use nonce generated from the server instead.
         "style-src 'self' 'unsafe-inline'",
         `frame-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN}`,
         `child-src ${iSignThisDomain} ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
         // 'unsafe-eval' is only used by webpack for development. It should not
         // be present on production!
-        "script-src 'self' 'unsafe-eval'",
+        "script-src 'self'",
         // 'ws://localhost:8080' is only used by webpack for development and
         // should not be present on production.
         [

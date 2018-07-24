@@ -23,6 +23,7 @@ const Wrapper = styled.div`
       fill: ${props => props.theme['white']} !important;
     }
     .highcharts-title {
+      font-size: 18px;
       fill: ${props => props.theme['gray-5']} !important;
     }
     .highcharts-color-0 {
@@ -33,6 +34,12 @@ const Wrapper = styled.div`
     }
     .highcharts-color-2 {
       fill: ${props => props.theme['brand-tertiary']} !important;
+    }
+    .highcharts-tooltip {
+      text {
+        font-size: 12px;
+        fill: ${props => props.theme['gray-5']} !important;
+      }
     }
   }
   @media(min-width: 480px) {
