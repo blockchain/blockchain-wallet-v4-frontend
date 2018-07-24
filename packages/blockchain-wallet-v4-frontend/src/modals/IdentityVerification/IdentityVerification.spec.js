@@ -23,6 +23,8 @@ import { ModalHeader } from 'blockchain-info-components'
 
 const { dispatchSpy, spyReducer } = getDispatchSpyReducer()
 
+jest.useFakeTimers()
+
 jest.mock('blockchain-wallet-v4/src/redux/sagas')
 const coreSagas = coreSagasFactory({ api: {} })
 const api = {
@@ -239,6 +241,7 @@ describe('IdentityVerification Modal', () => {
           .find('Field[name="firstName"]')
           .find('input')
           .simulate('change', { target: { value: 'User' } })
+        jest.runAllTimers()
         wrapper.update()
         expect(wrapper.find('Button[type="submit"]').prop('disabled')).toBe(
           false
@@ -260,6 +263,7 @@ describe('IdentityVerification Modal', () => {
           .find('Field[name="firstName"]')
           .find('input')
           .simulate('change', { target: { value: 'User' } })
+        jest.runAllTimers()
         wrapper.update()
         expect(wrapper.find('Button[type="submit"]').prop('disabled')).toBe(
           true

@@ -21,7 +21,13 @@ import {
   Text,
   HeartbeatLoader
 } from 'blockchain-info-components'
-import { FormGroup, FormItem, TextBox, PhoneNumberBox } from 'components/Form'
+import {
+  FormGroup,
+  FormItem,
+  TextBox,
+  PhoneNumberBox,
+  DateBoxDebounced
+} from 'components/Form'
 import {
   Form,
   ColLeft,
@@ -32,6 +38,7 @@ import {
   ColRightInner
 } from 'components/IdentityVerification'
 import renderFaq from 'components/FaqDropdown'
+import moment from 'moment'
 
 const FormContainer = styled.div`
   margin-top: 25px;
@@ -86,6 +93,9 @@ const EditLink = styled(Link)`
     font-size: 12px;
   `};
 `
+const DOBFormat = 'MM/DD/YYYY'
+const momentToDOB = value => value && value.format(DOBFormat)
+const DOBToMoment = value => moment(value, DOBFormat)
 
 const faqQuestions = [
   {
@@ -172,8 +182,10 @@ const Personal = ({
               <Field
                 name='dob'
                 validate={[requiredDOB, ageOverEighteen]}
-                component={TextBox}
-                placeholder='01/01/1991'
+                component={DateBoxDebounced}
+                fullwidth={true}
+                parse={momentToDOB}
+                format={DOBToMoment}
                 normalize={normalizeDateOfBirth}
               />
             </FormItem>
