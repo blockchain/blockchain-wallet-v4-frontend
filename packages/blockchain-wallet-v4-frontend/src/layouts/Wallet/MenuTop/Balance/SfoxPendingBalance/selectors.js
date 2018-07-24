@@ -1,11 +1,11 @@
 import { selectors } from 'data'
-import { add, compose, filter, reduce, pathOr } from 'ramda'
+import { add, filter, reduce, pathOr } from 'ramda'
 import { Exchange } from 'blockchain-wallet-v4/src'
 
 const isBuyProcessing = trade => trade.isBuy && trade.state === 'processing'
 
 const extractPendingBalance = trades => {
-  const pendingBuyTrades = compose(filter(isBuyProcessing))(trades)
+  const pendingBuyTrades = filter(isBuyProcessing, trades)
   const pendingAmounts = pendingBuyTrades.map(x =>
     pathOr(0, ['receiveAmount'], x)
   )
