@@ -170,7 +170,7 @@ const Upload = props => {
                 />
               </SuccessText>
               <img
-                style={{ height: '180px', width: '300px' }}
+                style={{ width: '300px' }}
                 src={file.preview}
                 alt='Your document'
               />
@@ -184,7 +184,7 @@ const Upload = props => {
                 />
               </SuccessText>
               <img
-                style={{ height: '180px', width: '300px' }}
+                style={{ width: '300px' }}
                 src={photo}
                 id='photo'
                 alt='Your photo'
