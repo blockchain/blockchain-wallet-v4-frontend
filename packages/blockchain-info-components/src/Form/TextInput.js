@@ -4,6 +4,7 @@ import styled from 'styled-components'
 
 const BaseTextInput = styled.input.attrs({
   type: 'text',
+  'data-lpignore': props => props.noLastPass,
   disabled: props => props.disabled
 })`
   display: block;
