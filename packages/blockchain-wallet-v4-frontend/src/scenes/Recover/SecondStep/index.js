@@ -15,8 +15,8 @@ class RecoverContainer extends React.PureComponent {
 
   onSubmit () {
     const network = settings.NETWORK_BITCOIN
-    const { mnemonic, email, password, language } = this.props
-    this.props.authActions.restore(mnemonic, email, password, language, network)
+    const { mnemonic, email, password } = this.props
+    this.props.authActions.restore(mnemonic, email, password, network)
   }
 
   render () {
@@ -33,8 +33,7 @@ const mapStateToProps = (state) => ({
   data: selectors.auth.getRegistering(state),
   email: formValueSelector('recover')(state, 'email'),
   mnemonic: formValueSelector('recover')(state, 'mnemonic'),
-  password: formValueSelector('recover')(state, 'password'),
-  language: selectors.preferences.getLanguage(state)
+  password: formValueSelector('recover')(state, 'password')
 })
 
 const mapDispatchToProps = (dispatch) => ({

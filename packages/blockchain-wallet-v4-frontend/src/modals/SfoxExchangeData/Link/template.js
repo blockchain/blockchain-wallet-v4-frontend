@@ -12,35 +12,22 @@ import { Remote } from 'blockchain-wallet-v4/src'
 
 import Helper from 'components/BuySell/FAQ'
 import { ColLeft, ColRight, PartnerHeader, PartnerSubHeader, ColRightInner } from 'components/BuySell/Signup'
-import media from 'services/ResponsiveService'
 
 const Form = styled.form`
   width: 100%;
   display: flex;
   flex-direction: row;
-  ${media.mobile`
-    flex-direction: column;
-  `}
 `
 const HeaderContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 75%;
-  ${media.mobile`
-    width: 100%;
-  `}
 `
 const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 75%;
   margin-top: 20px;
-  ${media.mobile`
-    width: 100%;
-    button:last-of-type {
-      margin-bottom: 20px;
-    }
-  `}
 `
 const OrText = styled.p`
   color: rgba(151,151,151,0.5);
@@ -153,8 +140,8 @@ const BankLink = (props) => {
         handleAccountType={handleAccountType}
         {...props}
       />
-    } else if (Remote.Success.is(bankAccounts)) {
-      return <BankAccounts data={bankAccounts.getOrElse([])} onSetBankAccount={onSetBankAccount} onBankSelection={handleBankSelection} handleNameChange={onNameChange} />
+    } else if (bankAccounts) {
+      return <BankAccounts data={bankAccounts.data} onSetBankAccount={onSetBankAccount} onBankSelection={handleBankSelection} handleNameChange={onNameChange} />
     } else if (ui.microDeposits) {
       return <MicroDeposits onStep={microStep} />
     } else {

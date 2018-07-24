@@ -1,33 +1,30 @@
-import { cancel, cancelled, call, fork, select, put, take } from 'redux-saga/effects'
+import { cancel, cancelled, call, fork, select, put } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import { equals, has, path, prop } from 'ramda'
 import * as A from './actions'
 import * as S from './selectors'
 import * as actions from '../../actions'
-import * as actionTypes from '../../actionTypes'
 import * as selectors from '../../selectors'
 import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
 import { getCoinFromPair, getPairFromCoin, getMinimum, getMaximum,
   convertStandardToBase, isAmountBelowMinimum, isAmountAboveMaximum, isMinimumGreaterThanMaximum, calculateFinalAmount, selectFee,
-  isUndefinedOrEqualsToZero, convertBaseToStandard } from './services'
+  isUndefinedOrEqualsToZero, getMinimumStandard, getMaximumStandard } from './services'
 import { selectReceiveAddress } from '../utils/sagas'
 import utils from './sagas.utils'
 
-export default ({ api, coreSagas, options }) => {
+export default ({ api, coreSagas }) => {
   const logLocation = 'components/exchange/sagas'
   const {
     calculateEffectiveBalance,
     createPayment,
     resumePayment,
-    getShapeshiftMaximum,
-    getShapeshiftMinimum,
-    getRegulationLimit,
+    getShapeShiftLimits,
     convertValues,
     selectOtherAccount,
     selectLabel,
     resetForm
-  } = utils({ api, coreSagas, options })
+  } = utils({ api, coreSagas })
 
   let pollingTradeStatusTask
 
@@ -65,14 +62,12 @@ export default ({ api, coreSagas, options }) => {
 
   const minimumClicked = function * () {
     try {
-      const formValues = yield select(selectors.form.getFormValues('exchange'))
-      const source = prop('source', formValues)
-      const target = prop('target', formValues)
-      const sourceCoin = prop('coin', source)
-      const shapeshiftMinimum = yield call(getShapeshiftMinimum, source, target)
-      const minimum = getMinimum(shapeshiftMinimum)
-      const minimumValue = convertBaseToStandard(sourceCoin, minimum)
-      yield put(actions.form.change('exchange', 'sourceAmount', minimumValue))
+      const form = yield select(selectors.form.getFormValues('exchange'))
+      const source = prop('source', form)
+      const target = prop('target', form)
+      const pair = yield call(getShapeShiftLimits, source, target)
+      const minimum = getMinimumStandard(prop('minimum', pair))
+      yield put(actions.form.change('exchange', 'sourceAmount', minimum))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'minimumClicked', e))
     }
@@ -83,13 +78,11 @@ export default ({ api, coreSagas, options }) => {
       const form = yield select(selectors.form.getFormValues('exchange'))
       const source = prop('source', form)
       const target = prop('target', form)
-      const sourceCoin = prop('coin', source)
+      const coin = prop('coin', source)
       const effectiveBalance = yield call(calculateEffectiveBalance, source)
-      const shapeshiftMaximum = yield call(getShapeshiftMaximum, source, target)
-      const regulationLimit = yield call(getRegulationLimit, source)
-      const maximum = getMaximum(shapeshiftMaximum, effectiveBalance, regulationLimit)
-      const maximumValue = convertBaseToStandard(sourceCoin, maximum)
-      yield put(actions.form.change('exchange', 'sourceAmount', maximumValue))
+      const pair = yield call(getShapeShiftLimits, source, target)
+      const maximum = getMaximumStandard(coin, prop('maximum', pair), effectiveBalance)
+      yield put(actions.form.change('exchange', 'sourceAmount', maximum))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'maximumClicked', e))
     }
@@ -153,28 +146,23 @@ export default ({ api, coreSagas, options }) => {
   const validateForm = function * () {
     try {
       yield put(A.firstStepDisabled())
-      const formValues = yield select(selectors.form.getFormValues('exchange'))
-      const source = prop('source', formValues)
-      const target = prop('target', formValues)
-      const sourceAmount = prop('sourceAmount', formValues)
+      const form = yield select(selectors.form.getFormValues('exchange'))
+      const source = prop('source', form)
+      const target = prop('target', form)
+      const sourceAmount = prop('sourceAmount', form)
       if (isUndefinedOrEqualsToZero(sourceAmount)) {
         yield put(A.firstStepFormUnvalidated('invalid'))
         return yield put(A.firstStepEnabled())
       }
       const effectiveBalance = yield call(calculateEffectiveBalance, source)
-      const shapeshiftMinimum = yield call(getShapeshiftMinimum, source, target)
-      const shapeshiftMaximum = yield call(getShapeshiftMaximum, source, target)
-      const regulationLimit = yield call(getRegulationLimit, source)
-      const minimum = getMinimum(shapeshiftMinimum)
-      const maximum = getMaximum(shapeshiftMaximum, effectiveBalance, regulationLimit)
+      const pair = yield call(getShapeShiftLimits, source, target)
+      const minimum = getMinimum(source.coin, pair.minimum)
+      const maximum = getMaximum(source.coin, pair.maximum, effectiveBalance)
       const sourceAmountBase = convertStandardToBase(source.coin, sourceAmount)
-
       if (isMinimumGreaterThanMaximum(minimum, maximum)) {
         yield put(A.firstStepFormUnvalidated('insufficient'))
       } else if (isAmountBelowMinimum(sourceAmountBase, minimum)) {
         yield put(A.firstStepFormUnvalidated('minimum'))
-      } else if (isAmountAboveMaximum(sourceAmountBase, regulationLimit)) {
-        yield put(A.firstStepFormUnvalidated('regulationlimit'))
       } else if (isAmountAboveMaximum(sourceAmountBase, maximum)) {
         yield put(A.firstStepFormUnvalidated('maximum'))
       } else {
@@ -239,7 +227,7 @@ export default ({ api, coreSagas, options }) => {
 
   const usStateRegistered = function * () {
     try {
-      const form = yield select(selectors.form.getFormValues('shapeshiftStateRegistration'))
+      const form = yield select(selectors.form.getFormValues('exchange'))
       // Add user state to kvStore metadata
       yield put(actions.core.kvStore.shapeShift.addStateMetadataShapeshift(prop('state', form)))
       // Go to step 1 of exchange process
@@ -261,11 +249,6 @@ export default ({ api, coreSagas, options }) => {
       outgoingPayment = yield outgoingPayment.publish()
       const paymentValue = outgoingPayment.value()
       const { txId } = paymentValue
-      if (order.pair.startsWith('eth')) {
-        yield put(actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(Date.now()))
-        yield take(actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS)
-        yield put(actions.core.kvStore.ethereum.setLatestTxEthereum(txId))
-      }
       // Save the trade in metadata
       const trade = {
         hashIn: txId,
@@ -315,10 +298,9 @@ export default ({ api, coreSagas, options }) => {
           break
         }
         const data = yield call(api.getTradeStatus, depositAddress)
-        const status = prop('status', data)
-        const hashOut = prop('transaction', data)
-        if (!equals(status, currentStatus)) {
-          yield put(actions.core.kvStore.shapeShift.updateTradeMetadataShapeshift(depositAddress, status, hashOut))
+        const shapeshiftStatus = prop('status', data)
+        if (!equals(shapeshiftStatus, currentStatus)) {
+          yield put(actions.core.kvStore.shapeShift.updateTradeStatusMetadataShapeshift(depositAddress, shapeshiftStatus))
         }
         yield call(delay, 5000)
       }

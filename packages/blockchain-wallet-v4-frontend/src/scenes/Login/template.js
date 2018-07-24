@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import { check, msie } from 'bowser'
+import { check } from 'bowser'
 
 import { required } from 'services/FormHelper'
 import { Banner, Button, Link, Separator, Text, TextGroup, HeartbeatLoader } from 'blockchain-info-components'
@@ -12,7 +12,7 @@ import { Form, FormError, FormGroup, FormItem, FormLabel, PasswordBox, TextBox }
 import Modals from 'modals'
 import MobileLogin from 'modals/MobileLogin'
 
-const isSupportedBrowser = check({safari: '8', chrome: '45', firefox: '45', opera: '20'}) && !msie
+const isSupportedBrowser = check({msie: '11', safari: '8', chrome: '45', firefox: '45', opera: '20'})
 
 const Wrapper = styled.div`
   width: 100%;
@@ -70,6 +70,8 @@ const Login = (props) => {
   const twoFactorError = loginError && loginError.toLowerCase().includes('authentication code')
   const accountLocked = loginError && (loginError.toLowerCase().includes('this account has been locked') || loginError.toLowerCase().includes('account is locked'))
 
+  const handlePasswordChange = () => { passwordError && props.handleCode(false) }
+
   return (
     <Wrapper>
       <Modals>
@@ -95,13 +97,11 @@ const Login = (props) => {
       </Text>
       <Separator />
       <LoginForm onSubmit={handleSubmit}>
-        { !isSupportedBrowser &&
-          (<BrowserWarning>
-            <Banner type='warning'>
-              <FormattedMessage id='scenes.login.browserwarning' defaultMessage='Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, Edge, or Opera.' />
-            </Banner>
-          </BrowserWarning>)
-        }
+        { !isSupportedBrowser && <BrowserWarning>
+          <Banner type='warning'>
+            <FormattedMessage id='scenes.login.browserwarning' defaultMessage='Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, IE 11, or Opera ' />
+          </Banner>
+        </BrowserWarning> }
         <FormGroup>
           <FormItem>
             <FormLabel for='guid'>
@@ -134,7 +134,7 @@ const Login = (props) => {
             <FormLabel for='password'>
               <FormattedMessage id='scenes.login.password' defaultMessage='Password' />
             </FormLabel>
-            <Field name='password' validate={[required]} component={PasswordBox} borderColor={passwordError ? 'invalid' : undefined} disabled={!isSupportedBrowser} />
+            <Field name='password' validate={[required]} component={PasswordBox} onChange={handlePasswordChange} borderColor={passwordError ? 'invalid' : undefined} disabled={!isSupportedBrowser} />
             { passwordError && <FormError position={authType > 0 ? 'relative' : 'absolute'}><FormattedMessage id='scenes.login.wrong_password' defaultMessage='Error decrypting wallet. Wrong password' /></FormError> }
             { accountLocked && <FormError position={authType > 0 || passwordError ? 'relative' : 'absolute'}>{loginError}</FormError> }
           </FormItem>

@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import moment from 'moment'
 import { Banner, Button, Text } from 'blockchain-info-components'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import { FormattedMessage } from 'react-intl'
@@ -11,10 +10,6 @@ import Description from './Description'
 import Confirmations from './Confirmations'
 import FiatAtTime from './FiatAtTime'
 import Status from './Status'
-import PartnerLabel from './PartnerLabel'
-import media from 'services/ResponsiveService'
-import { prop } from 'ramda'
-import { MediaContextConsumer } from 'providers/MatchMediaProvider'
 
 const TransactionRowContainer = styled.div`
   position: relative;
@@ -23,12 +18,12 @@ const TransactionRowContainer = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
+  padding: 10px;
   box-sizing: border-box;
   border-bottom: 1px solid ${props => props.theme['gray-2']};
-  padding: 15px 30px;
-  ${media.mobile`
-    padding: 10px;
-  `}
+  @media (min-width: 320px){
+    padding: 15px 30px;
+  }
 `
 const TransactionRow = styled.div`
   display: flex;
@@ -42,9 +37,6 @@ const StatusColumn = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 15%;
-  ${media.mobile`
-    width: 28%;
-  `}
 `
 const BannerWrapper = styled.div`
   margin-top: 5px;
@@ -57,7 +49,6 @@ const DetailsColumn = styled.div`
   white-space: nowrap;
   width: 35%;
 
-
   @media(min-width: 992px) { display: flex; }
 `
 const ConfirmationColumn = styled.div`
@@ -67,6 +58,7 @@ const ConfirmationColumn = styled.div`
   align-items: flex-start;
   width: 20%;
 
+  * { white-space: nowrap; }
   @media(min-width: 1200px) { width: 15%; }
 `
 const AmountColumn = styled.div`
@@ -75,9 +67,6 @@ const AmountColumn = styled.div`
   justify-content: flex-end;
   width: 20%;
   min-width: 200px;
-  ${media.mobile`
-    min-width: 170px;
-  `}
 `
 const TransactionValues = styled.div`
   display: flex;
@@ -89,10 +78,8 @@ const TransactionValues = styled.div`
 `
 const ToggleButton = styled(Button)`
   align-self: flex-end;
-  ${media.mobile`
-    min-width: 120px;
-  `}
 `
+
 const FeeWrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -101,28 +88,17 @@ const FeeWrapper = styled.div`
   > *:first-child {
     margin-right: 3px;
   }
-  ${media.mobile`
-    flex-direction: column;
-    align-items: flex-end;
-  `}
 `
 
-const dateHelper = (time, isMobile) =>
-  moment(time).local().format(isMobile ? 'MM/DD/YY @ h:mm a' : 'MMMM D YYYY @ h:mm A')
-
 const TransactionListItem = (props) => {
-  const { handleCoinToggle, transaction, handleEditDescription, coin, minConfirmations, buysellPartner } = props
+  const { handleCoinToggle, transaction, handleEditDescription, coin, minConfirmations } = props
 
   return (
     <TransactionRowContainer>
       <TransactionRow>
         <StatusColumn>
           <Status type={transaction.type} />
-          <MediaContextConsumer>
-            {({ mobile }) =>
-              <Text size='13px' weight={300}>{dateHelper(prop('time', transaction) * 1000, mobile)}</Text>
-            }
-          </MediaContextConsumer>
+          <Text size='13px' weight={300}>{transaction.timeFormatted}</Text>
           { (transaction.fromWatchOnly || transaction.toWatchOnly) && (
             <BannerWrapper>
               <Banner type='informational'>
@@ -130,11 +106,6 @@ const TransactionListItem = (props) => {
               </Banner>
             </BannerWrapper>
           )}
-          {
-            prop('partnerLabel', transaction)
-              ? <PartnerLabel txType={prop('type', transaction)} partnerLabel={prop('partnerLabel', transaction)} buysellPartner={buysellPartner} />
-              : null
-          }
         </StatusColumn>
         <DetailsColumn>
           <Addresses to={transaction.to} from={transaction.from} inputs={transaction.inputs} outputs={transaction.outputs} coin={coin} />

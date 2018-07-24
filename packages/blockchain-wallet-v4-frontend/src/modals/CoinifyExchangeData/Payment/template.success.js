@@ -6,63 +6,31 @@ import styled from 'styled-components'
 import { spacing } from 'services/StyleService'
 import Helper from 'components/BuySell/FAQ'
 import { StepTransition } from 'components/Utilities/Stepper'
-import { equals, path } from 'ramda'
+import { path, head } from 'ramda'
 
 import { Button, HeartbeatLoader, Link } from 'blockchain-info-components'
 import { Form, CancelWrapper, ColLeft, ColRight, ColRightInner, InputWrapper, PartnerHeader, PartnerSubHeader } from 'components/BuySell/Signup'
-import { cardOptionHelper, bankOptionHelper } from './mediumHelpers'
-import media from 'services/ResponsiveService'
 
-const PaymentForm = styled(Form)`
-  ${media.mobile`
-    flex-direction: column;
-  `}
-`
-const PaymentColLeft = styled(ColLeft)`
-  ${media.mobile`
-    width: 100%;
-  `}
-`
-const PaymentColRight = styled(ColRight)`
-  ${media.mobile`
-    width: 100%;
-  `}
-`
+import { cardOptionHelper, bankOptionHelper } from './mediumHelpers'
+
 const PaymentWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  ${media.mobile`
-    flex-direction: column;
-    align-items: center;
-  `}
 `
+
 const BorderBox = styled.div`
   border: 1px solid ${props => props.theme['gray-1']};
   padding: 30px;
-  ${media.mobile`
-    padding: 20px;
-  `}
-`
-const FaqWrapper = styled.div`
-  margin-top: 30px;
-`
-const ButtonContainer = styled.div`
-  margin-top: 45px;
-  ${media.mobile`
-    margin-top: 20px;
-  `}
-`
-const PaymentColRightInner = styled(ColRightInner)`
-  ${media.mobile`
-    width: 100%;
-    padding-left: 0px;
-  `}  
 `
 
 const helpers = [
   {
-    question: <FormattedMessage id='coinifyexchangedata.payment.helper1.question' defaultMessage='Are there transaction fees?' />,
-    answer: <FormattedMessage id='coinifyexchangedata.payment.helper1.answer' defaultMessage='There is a 3% convenience fee when buying bitcoin with a credit card in order to expedite the transaction. Buying or selling through a bank transfer does not include a convenience fee, although there is a small trading fee (0.25%) that Coinify requires in order to mitigate risk.' />
+    question: <FormattedMessage id='coinify.payment.helper1.question' defaultMessage='Payment Medium placeholder 1?' />,
+    answer: <FormattedMessage id='coinify.payment.helper1.answer' defaultMessage='Answer1 placeholder' />
+  },
+  {
+    question: <FormattedMessage id='coinify.payment.helper2.question' defaultMessage='Payment Medium placeholder 2?' />,
+    answer: <FormattedMessage id='coinify.payment.helper2.answer' defaultMessage='Answer2 placeholder' />
   }
 ]
 
@@ -72,31 +40,23 @@ const isCardDisabled = (q, l) => {
   if (q.baseCurrency === 'BTC') return Math.abs(q.quoteAmount) > l.card.inRemaining[q.quoteCurrency]
   else return Math.abs(q.baseAmount) > l.card.inRemaining[q.baseCurrency]
 }
-const isBankDisabled = (q, l, kyc) => {
-  const disableForKyc = equals(kyc, 'reviewing') || equals(kyc, 'pending') || equals(kyc, 'processing')
-  const disableForLimits = q.baseCurrency === 'BTC'
-    ? Math.abs(q.quoteAmount) > path(['bank', 'inRemaining', q.quoteCurrency], l)
-    : Math.abs(q.baseAmount) > path(['bank', 'inRemaining', q.baseCurrency], l)
-
-  if (disableForKyc) return 'disable_kyc'
-  if (disableForLimits) return 'disable_limits'
-}
 
 const Payment = (props) => {
   const { value, busy, handlePaymentClick, medium, triggerKyc, openPendingKyc, quote, handlePrefillCardMax } = props
-  const { limits, level, kyc } = value
+  const { limits, level, kycs } = value
   const quoteData = path(['data'], quote)
-  const kycState = path(['state'], kyc)
+  const kyc = head(kycs)
+  const kycState = kycs.length && path(['state'], kyc)
   const cardDisabled = isCardDisabled(quoteData, limits)
-  const bankDisabled = isBankDisabled(quoteData, limits, kycState)
-  if (bankDisabled && medium !== 'card') handlePaymentClick('card')
+  const bankDisabled = kycState === 'reviewing' || kycState === 'pending' || kycState === 'processing'
+  if (bankDisabled) handlePaymentClick('card')
   const prefillCardMax = (limits) => handlePrefillCardMax(limits)
 
   const isChecked = (type) => medium === type
 
   return (
-    <PaymentForm>
-      <PaymentColLeft>
+    <Form>
+      <ColLeft>
         <BorderBox>
           <InputWrapper style={spacing('mb-40')}>
             <PartnerHeader>
@@ -107,35 +67,31 @@ const Payment = (props) => {
             </PartnerSubHeader>
           </InputWrapper>
           <PaymentWrapper>
-            { bankOptionHelper(quoteData, limits, isChecked('bank'), handlePaymentClick, bankDisabled, openPendingKyc, kyc, level) }
+            { bankOptionHelper(quoteData, limits, isChecked('bank'), handlePaymentClick, bankDisabled, openPendingKyc, kyc) }
             { cardOptionHelper(quoteData, limits, isChecked('card'), handlePaymentClick, cardDisabled, prefillCardMax) }
           </PaymentWrapper>
         </BorderBox>
-      </PaymentColLeft>
-      <PaymentColRight>
-        <PaymentColRightInner>
-          <ButtonContainer>
-            {
-              path(['name'], level) < 2 && medium === 'bank'
-                ? <Button nature='primary' fullwidth onClick={triggerKyc} disabled={!medium || busy}>
-                  {busyHelper(busy)}
-                </Button>
-                : <StepTransition next Component={Button} nature='primary' fullwidth disabled={!medium || busy}>
-                  {busyHelper(busy)}
-                </StepTransition>
-            }
-          </ButtonContainer>
+      </ColLeft>
+      <ColRight>
+        <ColRightInner>
+          {
+            path(['name'], level) < 2 && medium === 'bank'
+              ? <Button nature='primary' fullwidth style={spacing('mt-45')} onClick={triggerKyc} disabled={!medium || busy}>
+                { busyHelper(busy) }
+              </Button>
+              : <StepTransition next Component={Button} style={spacing('mt-45')} nature='primary' fullwidth disabled={!medium || busy}>
+                { busyHelper(busy) }
+              </StepTransition>
+          }
           <CancelWrapper>
             <StepTransition prev Component={Link}>
               <FormattedMessage id='coinifyexchangedata.payment.cancel' defaultMessage='Cancel' />
             </StepTransition>
           </CancelWrapper>
-          <FaqWrapper>
-            { faqHelper() }
-          </FaqWrapper>
-        </PaymentColRightInner>
-      </PaymentColRight>
-    </PaymentForm>
+          { faqHelper() }
+        </ColRightInner>
+      </ColRight>
+    </Form>
   )
 }
 

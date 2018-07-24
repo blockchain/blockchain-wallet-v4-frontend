@@ -1,39 +1,23 @@
 import { selectors } from 'data'
-import { add, lift, reduce } from 'ramda'
+import { length, lift } from 'ramda'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { Color } from 'blockchain-info-components'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 
-export const getBtcBalance = state => createDeepEqualSelector(
-  [
-    selectors.core.wallet.getSpendableContext
-  ],
-  (context) => {
-    const getBalance = address => selectors.core.data.bitcoin.getFinalBalance(address, state)
-    const balancesR = context.map(x => getBalance(x).getOrElse(undefined))
-    return Remote.of(reduce(add, 0, balancesR))
-  }
-)(state)
+export const getBtcBalance = createDeepEqualSelector(
+  [selectors.core.data.bitcoin.getSpendableBalance],
+  (btcBalanceR) => Remote.of(btcBalanceR.getOrElse(0))
+)
 
-export const getBchBalance = state => createDeepEqualSelector(
-  [
-    selectors.core.kvStore.bch.getSpendableContext
-  ],
-  (context) => {
-    const getBalance = address => selectors.core.data.bch.getFinalBalance(address, state)
-    const balancesR = context.map(x => getBalance(x).getOrElse(undefined))
-    return Remote.of(reduce(add, 0, balancesR))
-  }
-)(state)
+export const getBchBalance = createDeepEqualSelector(
+  [selectors.core.data.bch.getSpendableBalance],
+  (bchBalanceR) => Remote.of(bchBalanceR.getOrElse(0))
+)
 
-export const getEthBalance = state => createDeepEqualSelector(
-  [
-    selectors.core.data.ethereum.getBalance
-  ],
-  (balance) => {
-    return Remote.of(balance.getOrElse(undefined))
-  }
-)(state)
+export const getEthBalance = createDeepEqualSelector(
+  [selectors.core.data.ethereum.getBalance],
+  (ethBalanceR) => Remote.of(ethBalanceR.getOrElse(0))
+)
 
 export const getBtcBalanceInfo = createDeepEqualSelector(
   [
@@ -84,9 +68,14 @@ export const getData = createDeepEqualSelector(
   [
     getBtcBalanceInfo,
     getBchBalanceInfo,
-    getEthBalanceInfo
+    getEthBalanceInfo,
+    selectors.core.common.btc.getActiveHDAccounts,
+    selectors.core.kvStore.bch.getAccounts
   ],
-  (btcBalanceInfoR, bchBalanceInfoR, ethBalanceInfoR) => {
+  (btcBalanceInfoR, bchBalanceInfoR, ethBalanceInfoR, btcAccountsR, bchAccountsR) => {
+    const btcAccountsLength = length(btcAccountsR.getOrElse([]))
+    const bchAccountsLength = length(bchAccountsR.getOrElse([]))
+
     const transform = (btcBalances, bchBalances, ethBalances) => {
       const symbol = btcBalances.fiat.unit.symbol
       const btcBalance = btcBalances.coin
@@ -118,7 +107,9 @@ export const getData = createDeepEqualSelector(
         ethBalance,
         bchBalance,
         chartData,
-        symbol
+        symbol,
+        btcAccountsLength,
+        bchAccountsLength
       }
     }
     return lift(transform)(btcBalanceInfoR, bchBalanceInfoR, ethBalanceInfoR)

@@ -29,9 +29,6 @@ const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
-const enhance = compose(
-  modalEnhancer('AddBitcoinWallet'),
-  connect(mapStateToProps, mapDispatchToProps)
-)
+const enhance = compose(connect(mapStateToProps, mapDispatchToProps), modalEnhancer('AddBitcoinWallet'))
 
 export default enhance(AddBitcoinWalletContainer)

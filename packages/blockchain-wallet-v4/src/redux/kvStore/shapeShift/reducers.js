@@ -1,5 +1,5 @@
 import { over, mapped, set, view } from 'ramda-lens'
-import { append, assoc, compose, findIndex, path, equals, lensIndex, toLower } from 'ramda'
+import { append, compose, findIndex, path, equals, lensIndex, toLower } from 'ramda'
 import * as AT from './actionTypes'
 import Remote from '../../../remote'
 import { lensProp } from '../../../types/util'
@@ -33,8 +33,8 @@ export default (state = INITIAL_STATE, action) => {
       const { trade } = payload
       return over(compose(mapped, lensProp('value'), lensProp('trades')), append(trade), state)
     }
-    case AT.UPDATE_TRADE_METADATA_SHAPESHIFT: {
-      const { depositAddress, status, hashOut } = payload
+    case AT.UPDATE_TRADE_STATUS_METADATA_SHAPESHIFT: {
+      const { depositAddress, status } = payload
 
       return state.map(trades => {
         const lensTrades = compose(lensProp('value'), lensProp('trades'))
@@ -45,17 +45,12 @@ export default (state = INITIAL_STATE, action) => {
             path(['quote', 'deposit'])
           ))(view(lensTrades, trades))
 
-        switch (status) {
-          case 'no_deposits':
-          case 'received':
-          case 'failed':
-            return set(compose(lensTrades, lensIndex(i), lensProp('status')), status, trades)
-          case 'complete':
-            const updateStatusAndHashOut = compose(assoc('status', status), assoc('hashOut', hashOut))
-            return over(compose(lensTrades, lensIndex(i)), updateStatusAndHashOut, trades)
-          default:
-            return state
-        }
+        return set(
+          compose(
+            lensTrades,
+            lensIndex(i),
+            lensProp('status')),
+          status, trades)
       })
     }
     case AT.FETCH_SHAPESHIFT_TRADE_SUCCESS: {

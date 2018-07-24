@@ -4,7 +4,7 @@ import { toUpper, path } from 'ramda'
 import FiatConvertor from './QuoteInputTemplate'
 import { Remote } from 'blockchain-wallet-v4/src'
 
-const WrappedFiatConverter = ({ leftVal, leftUnit, rightVal, rightUnit, disabled, onChangeLeft, onChangeRight, limits, reason, quoteR, cryptoMax }) => (
+const WrappedFiatConverter = ({ leftVal, leftUnit, rightVal, rightUnit, disabled, onChangeLeft, onChangeRight, limits }) => (
   <FiatConvertor
     value={leftVal}
     fiat={rightVal}
@@ -22,9 +22,6 @@ const WrappedFiatConverter = ({ leftVal, leftUnit, rightVal, rightUnit, disabled
     handleErrorClick={() => {}}
     meta={{}}
     limits={limits}
-    quoteR={quoteR}
-    reason={reason}
-    cryptoMax={cryptoMax}
   />
 )
 
@@ -68,7 +65,7 @@ class QuoteInput extends Component {
 
   updateFields (quote) {
     if (!this.state.userInput) return null
-    let fiat = this.state.side === 'input' ? this.state.input : quote.quoteAmount
+    let fiat = this.state.side === 'input' ? quote.baseAmount : quote.quoteAmount
     let crypto = this.state.side === 'output' ? quote.baseAmount / 1e8 : quote.quoteAmount / 1e8
     this.setState({
       input: fiat,
@@ -88,19 +85,11 @@ class QuoteInput extends Component {
 
   handleChangeLeft = (event) => {
     this.setState({ side: 'input', input: event.target.value, userInput: true })
-    if (!event.target.value) {
-      this.setState({ input: '', output: '' })
-      return null
-    }
     this.fetchQuoteDebounced()
   }
 
   handleChangeRight = (event) => {
     this.setState({ side: 'output', output: event.target.value, userInput: true })
-    if (!event.target.value) {
-      this.setState({ input: '', output: '' })
-      return null
-    }
     this.fetchQuoteDebounced()
   }
 
@@ -111,14 +100,18 @@ class QuoteInput extends Component {
 
   fetchQuote = () => {
     let quote = this.getQuoteValues()
-    if (quote.baseCurrency === 'BTC' && (quote.amt / 1e8) > this.props.cryptoMax) return null
-    if (quote.baseCurrency === 'USD' && (quote.amt / 100) > this.props.limits.max) return null
+    if (!this.state.userInput) {
+      this.setState({ input: '', output: '' })
+    }
     this.props.onFetchQuote(quote)
   }
 
   render () {
-    let { spec, disabled } = this.props
-    let { input, output, userInput } = this.state
+    let { spec, disabled, limits } = this.props
+    let { input, output, fiatAmount, userInput } = this.state
+
+    if (fiatAmount > limits.max || fiatAmount < limits.min) this.props.disableButton()
+    else this.props.enableButton()
 
     return (
       <WrappedFiatConverter
@@ -131,9 +124,6 @@ class QuoteInput extends Component {
         limits={this.props.limits}
         disabled={disabled}
         userInput={userInput}
-        quoteR={this.props.quoteR}
-        reason={this.props.reason}
-        cryptoMax={this.props.cryptoMax}
       />
     )
   }

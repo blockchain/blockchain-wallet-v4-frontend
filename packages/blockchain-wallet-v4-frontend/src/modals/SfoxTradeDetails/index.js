@@ -31,13 +31,13 @@ const renderFirstRow = trade => {
     if (trade.outCurrency === 'BTC') return `${trade.receiveAmount} BTC ($${((+trade.sendAmount / 1e8) - trade.feeAmount).toFixed(2)})`
     else return `${trade.quoteAmount / 1e8} BTC ($${(+trade.baseAmount - +trade.feeAmount).toFixed(2)})`
   } else {
-    if (trade.outCurrency === 'USD') return `${trade.sendAmount / 1e8} BTC ($${trade.receiveAmount.toFixed(2)})`
+    if (trade.outCurrency === 'USD') return `${trade.sendAmount / 1e8} BTC ($${(+trade.receiveAmount + +trade.feeAmount).toFixed(2)})`
     else return ``
   }
 }
 const renderTotal = trade => {
   if (trade.isBuy) return trade.outCurrency === 'BTC' ? `$${(+trade.inAmount / 1e8).toFixed(2)}` : `$${trade.baseAmount}`
-  else return `$${(trade.receiveAmount - trade.feeAmount).toFixed(2)}`
+  else return `$${trade.receiveAmount.toFixed(2)}`
 }
 
 class SfoxTradeDetails extends React.PureComponent {

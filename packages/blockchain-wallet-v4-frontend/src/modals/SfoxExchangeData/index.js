@@ -10,7 +10,6 @@ import Tray from 'components/Tray'
 import Create from './Create'
 import Verify from './Verify'
 import Link from './Link'
-import SiftScience from './sift-science'
 import { ModalHeader, ModalBody } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
@@ -37,7 +36,6 @@ class SfoxExchangeData extends React.PureComponent {
   handleClose () {
     this.setState({ show: false })
     setTimeout(this.props.close, 500)
-    this.props.sfoxFrontendActions.handleModalClose()
   }
 
   getStepComponent (step) {
@@ -64,7 +62,6 @@ class SfoxExchangeData extends React.PureComponent {
         </ModalHeader>
         <ModalBody>
           { this.getStepComponent(step)['component'] }
-          { this.props.siftScienceEnabled ? <SiftScience /> : null }
         </ModalBody>
       </Tray>
     )
@@ -78,18 +75,16 @@ SfoxExchangeData.propTypes = {
 
 const mapStateToProps = (state) => ({
   data: getData(state),
-  signupStep: path(['sfoxSignup', 'signupStep'], state),
-  siftScienceEnabled: path(['sfoxSignup', 'siftScienceEnabled'], state)
+  signupStep: path(['sfoxSignup', 'signupStep'], state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch),
   sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch)
 })
 
 const enhance = compose(
-  modalEnhancer('SfoxExchangeData'),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
+  modalEnhancer('SfoxExchangeData')
 )
 
 export default enhance(SfoxExchangeData)

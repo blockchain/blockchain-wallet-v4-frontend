@@ -1,13 +1,14 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
+import { Button, Link, Text, Icon } from 'blockchain-info-components'
+import { spacing } from 'services/StyleService'
+
 import { reduxForm } from 'redux-form'
-import { Button, Link, Text } from 'blockchain-info-components'
-import { SecurityComponent, SecurityContainer, SecurityDescription, SecurityHeader, SecurityIcon, SecuritySummary, IconContainer } from 'components/Security'
+import { SecurityComponent, SecurityContainer, SecurityDescription, SecurityHeader, SecurityIcon, SecuritySummary, SuccessOverlay, IconContainer } from 'components/Security'
 
 import ChangeEmailSteps from '../Components/ChangeEmailSteps'
 import EmailVerificationSteps from '../Components/EmailVerificationSteps'
-import media from 'services/ResponsiveService'
 
 const EmailExplanation = styled.div`
 `
@@ -32,10 +33,6 @@ const EmailButton = styled(Button)`
   width: 100px;
   font-size: 12px;
   min-width: 0px;
-  height: auto;
-  span {
-    white-space: initial;
-  }
   @media (min-width: 320px) and (max-width: 991px) {
     font-size: 14px;
     width: 140px;
@@ -48,24 +45,17 @@ const EmailButton = styled(Button)`
 `
 const IconAndHeaderContainer = styled.div`
   opacity: ${props => props.success ? 0.3 : 1};
-  display: grid;
-  grid-template-columns: 15% 85%;
-  ${media.mobile`
-    display: flex;
-  `}
+  @media(min-width: 320px) {
+    display: grid;
+    grid-template-columns: 15% 85%;
+  }
 `
 const GridContainer = styled(SecurityContainer)`
   grid-template-columns: 85% 15%;
-  ${media.mobile`
-    padding: 0px;
-  `}
 `
 const FieldsContainer = styled.div`
   display: grid;
   grid-template-columns: 15% 85%;
-  ${media.mobile`
-    display: flex;
-  `}
 `
 const ResendContainer = styled.div`
   display: flex;
@@ -74,15 +64,7 @@ const ResendContainer = styled.div`
   div:first-of-type {
     margin-right: 5px;
   }
-  ${media.mobile`
-    flex-direction: column;
-    margin-top: 15px;
-  `}
-`
-const EmailSecuritySummary = styled(SecuritySummary)`
-  ${media.mobile`
-    display: inline;
-  `}
+
 `
 const EmailAddress = (props) => {
   const { data, ui, handleSubmitVerification, handleResend, invalid, code } = props
@@ -150,18 +132,24 @@ const EmailAddress = (props) => {
 
   return (
     <GridContainer>
+      <SuccessOverlay success={ui.successToggled} style={spacing('pt-30')}>
+        <Icon name='checkmark-in-circle' size='150px' color='success' />
+        <Text size='14px' weight={300} color='success'>
+          <FormattedMessage id='scenes.security.email.success' defaultMessage="Congrats! You've successfully verified your email!" />
+        </Text>
+      </SuccessOverlay>
       <IconAndHeaderContainer success={ui.successToggled}>
         <IconContainer>
           <SecurityIcon name='email' enabled={isVerified} />
         </IconContainer>
-        <EmailSecuritySummary>
+        <SecuritySummary>
           <SecurityHeader>
             { securityHeaderHelper() }
           </SecurityHeader>
           <SecurityDescription>
             { securityDescriptionHelper() }
           </SecurityDescription>
-        </EmailSecuritySummary>
+        </SecuritySummary>
       </IconAndHeaderContainer>
       <EmailSecurityComponent>
         {

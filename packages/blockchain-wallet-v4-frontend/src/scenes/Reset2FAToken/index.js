@@ -20,7 +20,7 @@ const Wrapper = styled.div`
 class Reset2FAToken extends React.PureComponent {
   constructor (props) {
     super(props)
-    this.state = { token: decodeURIComponent(props.location.pathname.split('/reset-two-factor/')[1]) }
+    this.state = { token: decodeURIComponent(props.location.pathname.split('/reset2fa-token/')[1]) }
   }
 
   componentDidMount () {

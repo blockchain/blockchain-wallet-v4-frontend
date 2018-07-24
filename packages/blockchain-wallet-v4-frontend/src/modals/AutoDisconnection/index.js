@@ -35,8 +35,7 @@ class AutoDisconnectionContainer extends React.PureComponent {
   }
 
   render () {
-    return <AutoDisconnection {...this.props}
-      onSubmit={this.onSubmit} handleCancel={this.handleCancel} />
+    return <AutoDisconnection {...this.props} onSubmit={this.onSubmit} handleCancel={this.handleCancel} />
   }
 }
 

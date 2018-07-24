@@ -24,7 +24,7 @@ const Container = styled.div`
 const BannerContent = styled(Text)`
   display: flex;
   flex-direction: row;
-  white-space: ${props => props.inline ? 'nowrap' : 'initial'};
+  white-space: nowrap;
   & a:last-of-type { margin-left: 5px; }
 `
 
@@ -47,7 +47,7 @@ const Banner = props => {
   return (
     <Container color={color} width={width} inline={inline} label={label}>
       { icon && <Icon name={icon} size='18px' weight={700} color={color} /> }
-      <BannerContent size='12px' weight={400} color={color} uppercase={uppercase} inline={inline}>
+      <BannerContent size='12px' weight={400} color={color} uppercase={uppercase}>
         { children }
       </BannerContent>
     </Container>

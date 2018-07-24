@@ -7,10 +7,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   box-sizing: border-box;
-  @media(max-width: 480px) {
-    flex-basis: ${props => props.mobileWidth};
-    display: ${props => props.hideMobile ? `none` : `flex`};
-  }
 `
 
 const TableCell = ({ children, ...rest }) => (

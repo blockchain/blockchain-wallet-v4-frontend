@@ -11,9 +11,9 @@ import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 
-export const logLocation = 'components/sendEth/sagas'
-
 export default ({ coreSagas }) => {
+  const logLocation = 'components/sendEth/sagas'
+
   const initialized = function * (action) {
     try {
       const from = path(['payload', 'from'], action)
@@ -27,8 +27,9 @@ export default ({ coreSagas }) => {
       const initialValues = { coin: 'ETH' }
       yield put(initialize('sendEth', initialValues))
       yield put(A.sendEthPaymentUpdated(Remote.of(payment.value())))
+      yield
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'sendEthInitialized', e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
     }
   }
 
@@ -79,7 +80,7 @@ export default ({ coreSagas }) => {
           const weiAmount = Exchange.convertEtherToEther({ value: ethAmount, fromUnit: 'ETH', toUnit: 'WEI' }).value
           payment = yield payment.amount(weiAmount)
           break
-        case 'description':
+        case 'message':
           payment = yield payment.description(payload)
           break
       }
@@ -117,6 +118,7 @@ export default ({ coreSagas }) => {
       yield put(actions.core.kvStore.ethereum.setLatestTxTimestampEthereum(Date.now()))
       yield take(actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS)
       yield put(actions.core.kvStore.ethereum.setLatestTxEthereum(payment.value().txId))
+      yield put(actions.router.push('/eth/transactions'))
       yield put(actions.alerts.displaySuccess(C.SEND_ETH_SUCCESS))
       if (path(['description', 'length'], payment.value())) {
         yield take(actionTypes.core.kvStore.ethereum.FETCH_METADATA_ETHEREUM_SUCCESS)

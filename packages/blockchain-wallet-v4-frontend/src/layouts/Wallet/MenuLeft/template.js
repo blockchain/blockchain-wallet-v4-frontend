@@ -17,15 +17,15 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   background: ${props => props.theme['white-blue']};
   border-right: 1px solid ${props => props.theme['gray-1']};
-  z-index: 11;
+  z-index: 8;
   transition: left .3s ease-in-out;
 
   @media(min-width: 768px) {
     display: flex;
     flex: 0 0 270px;
     position: relative;
-    top: 0px;
-    left: 0px;
+    top: initial;
+    left: initial;
   }
 `
 

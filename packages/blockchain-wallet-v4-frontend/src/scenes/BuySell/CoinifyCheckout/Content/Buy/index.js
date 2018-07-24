@@ -5,7 +5,6 @@ import { bindActionCreators } from 'redux'
 import { getData } from './selectors'
 import Success from './template.success'
 import Loading from 'components/BuySell/Loading'
-import Failure from 'components/BuySell/Failure'
 
 class CoinifyBuyContainer extends React.Component {
   constructor (props) {
@@ -17,7 +16,7 @@ class CoinifyBuyContainer extends React.Component {
   componentDidMount () {
     this.props.coinifyActions.initializeCheckoutForm('buy')
     this.props.coinifyDataActions.fetchTrades()
-    this.props.coinifyDataActions.getKyc()
+    this.props.coinifyDataActions.getKycs()
     this.props.coinifyDataActions.fetchSubscriptions()
     if (this.props.step === 'isx') this.props.coinifyActions.coinifyNextCheckoutStep('checkout')
   }
@@ -31,7 +30,7 @@ class CoinifyBuyContainer extends React.Component {
   render () {
     const { data, modalActions, coinifyActions, coinifyDataActions, buyQuoteR, currency, paymentMedium, trade, formActions, canTrade, ...rest } = this.props
     const { step, checkoutBusy, coinifyBusy, subscriptions, trades } = rest
-    const { fetchQuote, refreshBuyQuote } = coinifyDataActions
+    const { handleTrade, fetchQuote, refreshBuyQuote } = coinifyDataActions
     const { showModal } = modalActions
     const { coinifyNotAsked, openKYC, coinifyNextCheckoutStep } = coinifyActions
     const { change } = formActions
@@ -46,6 +45,7 @@ class CoinifyBuyContainer extends React.Component {
     return data.cata({
       Success: (value) => <Success
         value={value}
+        handleTrade={handleTrade}
         showModal={showModal}
         buyQuoteR={buyQuoteR}
         fetchBuyQuote={quote => fetchQuote({ quote, nextAddress: value.nextAddress })}
@@ -67,7 +67,7 @@ class CoinifyBuyContainer extends React.Component {
         subscriptions={subscriptions}
         trades={trades}
       />,
-      Failure: (e) => <Failure error={e} />,
+      Failure: (msg) => <div>Failure: {msg.error}</div>,
       Loading: () => <Loading />,
       NotAsked: () => <div>Not Asked</div>
     })

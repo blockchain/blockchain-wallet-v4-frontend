@@ -3,10 +3,9 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
-import { required } from 'services/FormHelper'
-import { Button, HeartbeatLoader, Link, Separator, Text } from 'blockchain-info-components'
-import { CaptchaBox, Form } from 'components/Form'
-import { FormGroup } from '../../../components/Form'
+import { validEmail } from 'services/FormHelper'
+import { Button, Link, Separator, Text } from 'blockchain-info-components'
+import { Form, FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -21,11 +20,8 @@ const Header = styled.div`
   justify-content: space-between;
   align-items: center;
 `
-const SecondStepForm = styled(Form)`
-  margin-top: 10px;
-`
-const CaptchaText = styled(Text)`
-  margin-top: 6px;
+const InfoMsg = styled(Text)`
+  margin-top: 5px;
 `
 const BackLink = styled(Link)`
   margin-right: 15px;
@@ -35,41 +31,47 @@ const Footer = styled(FormGroup)`
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
-  margin-top: 6px;
 `
 
+const validNullableEmail = emailVal => {
+  return emailVal && emailVal.length ? validEmail(emailVal) : undefined
+}
+
 const SecondStep = (props) => {
-  const { busy, previousStep, handleSubmit, invalid } = props
+  const { previousStep, submitting, invalid, handleSubmit } = props
 
   return (
     <Wrapper>
       <Header>
-        <Text size='30px' weight={300}>
-          <FormattedMessage id='scenes.reset2fa.secondstep.reset2fa' defaultMessage='Reset 2FA' />
+        <Text size='24px' weight={300}>
+          <FormattedMessage id='scenes.reset2fa.secondstep.reset' defaultMessage='Reset 2FA' />
         </Text>
         <Text size='10px'>
-          <FormattedMessage id='scenes.reset2fa.secondstep.step3' defaultMessage='Step 2 of 2' />
+          <FormattedMessage id='scenes.reset2fa.secondstep.step2' defaultMessage='Step 2 of 3' />
         </Text>
       </Header>
       <Separator />
-      <SecondStepForm onSubmit={handleSubmit}>
-        <CaptchaText size='14px' weight={500}>
-          <FormattedMessage id='scenes.reset2fa.secondstep.captcha' defaultMessage='Captcha' />
-        </CaptchaText>
-        <Field name='code' autoFocus validate={[required]} component={CaptchaBox} />
+      <Form onSubmit={handleSubmit}>
+        <FormGroup>
+          <FormItem>
+            <FormLabel for='newEmail'>
+              <FormattedMessage id='scenes.reset2fa.secondstep.newEmail' defaultMessage='New Email (Optional)' />
+            </FormLabel>
+            <Field name='newEmail' autoFocus validate={[validNullableEmail]} component={TextBox} />
+            <InfoMsg size='12px' weight={300}>
+              <FormattedMessage id='scenes.reset2fa.secondstep.newEmailExplain' defaultMessage="Enter your updated email if you've lost access to your previously verified email. If your 2FA reset request if approved, this will automatically be set as your wallet's new email address." />
+            </InfoMsg>
+          </FormItem>
+        </FormGroup>
         <Footer>
           <BackLink onClick={previousStep} size='13px' weight={300}>
             <FormattedMessage id='scenes.reset2fa.secondstep.back' defaultMessage='Go Back' />
           </BackLink>
-          <Button type='submit' nature='primary' uppercase disabled={busy || invalid} >
-            {
-              busy
-                ? <HeartbeatLoader height='20px' width='20px' color='white' />
-                : <FormattedMessage id='scenes.reset2fa.secondstep.reset' defaultMessage='Reset' />
-            }
+          <Button type='submit' nature='primary' uppercase disabled={submitting || invalid} >
+            <FormattedMessage id='scenes.reset2fa.secondstep.continue' defaultMessage='Continue' />
           </Button>
         </Footer>
-      </SecondStepForm>
+      </Form>
     </Wrapper>
   )
 }

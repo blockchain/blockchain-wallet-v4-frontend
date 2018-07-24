@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
 
 import SelectBox from '../SelectBox'
 
@@ -9,15 +8,12 @@ class SelectBoxCountry extends React.PureComponent {
     const { countries, ...rest } = this.props
     const elements = [{ group: '', items: countries }]
 
-    return <SelectBox
-      label={<FormattedMessage id='components.selectboxcountry.label' defaultMessage='Select country' />}
-      elements={elements}
-      {...rest} />
+    return <SelectBox label='Select country' elements={elements} {...rest} />
   }
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  countries: [{'text': 'Aland Islands', 'value': 'FI-AX'},
+  countries: [{'text': 'Aland Islands', 'value': 'FI'},
     {'text': 'Albania', 'value': 'AL'},
     {'text': 'Algeria', 'value': 'DZ'},
     {'text': 'American Samoa', 'value': 'AS'},
@@ -31,7 +27,7 @@ const mapStateToProps = (state, ownProps) => ({
     {'text': 'Australia', 'value': 'AU'},
     {'text': 'Austria', 'value': 'AT'},
     {'text': 'Azerbaijan', 'value': 'AZ'},
-    {'text': 'Azores', 'value': 'PT-20'},
+    {'text': 'Azores', 'value': 'PT'},
     {'text': 'Bahamas', 'value': 'BS'},
     {'text': 'Bahrain', 'value': 'BH'},
     {'text': 'Bangladesh', 'value': 'BD'},
@@ -55,7 +51,7 @@ const mapStateToProps = (state, ownProps) => ({
     {'text': 'Cambodia', 'value': 'KH'},
     {'text': 'Cameroon', 'value': 'CM'},
     {'text': 'Canada', 'value': 'CA'},
-    {'text': 'Canary Islands', 'value': 'ES-IC'},
+    {'text': 'Canary Islands', 'value': 'ES'},
     {'text': 'Cape Verde', 'value': 'CV'},
     {'text': 'Cayman Islands', 'value': 'KY'},
     {'text': 'Chad', 'value': 'TD'},
@@ -133,7 +129,7 @@ const mapStateToProps = (state, ownProps) => ({
     {'text': 'Macao', 'value': 'MO'},
     {'text': 'Macedonia, the Former Yugoslav Republic of', 'value': 'MK'},
     {'text': 'Madagascar', 'value': 'MG'},
-    {'text': 'Madeira', 'value': 'PT-30'},
+    {'text': 'Madeira', 'value': 'PT'},
     {'text': 'Malawi', 'value': 'MW'},
     {'text': 'Malaysia', 'value': 'MY'},
     {'text': 'Maldives', 'value': 'MV'},

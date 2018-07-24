@@ -7,7 +7,6 @@ import { Text, Button, HeartbeatLoader, Banner } from 'blockchain-info-component
 
 import { required, requiredUsZipcode, normalizeUSZipcode } from 'services/FormHelper'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ColRightInner } from 'components/BuySell/Signup'
-import media from 'services/ResponsiveService'
 
 const FormContainer = styled.div`
   margin-top: 25px;
@@ -21,24 +20,6 @@ const AddressLabel = styled(Text)`
 const BannerWrapper = styled.div`
   margin-top: 10px;
 `
-const AddressForm = styled(Form)`
-  ${media.mobile`
-    flex-direction: column;
-  `}
-`
-const AddressFormGroup = styled(FormGroup)`
-  ${media.mobile`
-    flex-direction: column;
-    div:first-of-type {
-      margin-bottom: 10px;
-    }
-    div:last-of-type {
-      div:last-of-type {
-        margin-bottom: 15px;
-      }
-    }
-  `}
-`
 
 const Address = (props) => {
   const { invalid, submitting } = props
@@ -50,11 +31,11 @@ const Address = (props) => {
   }
 
   return (
-    <AddressForm onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit}>
       <ColLeft>
         <InputWrapper>
           <PartnerHeader>
-            <FormattedMessage id='sfoxexchangedata.verify.partner.header1' defaultMessage="Let's Get to Know You" />
+            <FormattedMessage id='sfoxexchangedata.verify.partner.header' defaultMessage="Let's Get to Know You" />
           </PartnerHeader>
           <PartnerSubHeader>
             <FormattedMessage id='sfoxexchangedata.verify.partner.subheader' defaultMessage="There's so much we'd love to know about you, but we only need a few things. Fear not, all of your personal information will be sent directly to SFOX, not saved in your Blockchain wallet." />
@@ -67,7 +48,7 @@ const Address = (props) => {
             </Banner>
           </BannerWrapper>
           <FormContainer>
-            <AddressFormGroup inline>
+            <FormGroup inline>
               <FormItem>
                 <Text size='14px' weight={400} style={{'marginBottom': '5px'}}>
                   <FormattedMessage id='sfoxexchangedata.verify.firstname' defaultMessage='First Name' />
@@ -80,7 +61,7 @@ const Address = (props) => {
                 </Text>
                 <Field name='lastName' validate={[required]} component={TextBox} />
               </FormItem>
-            </AddressFormGroup>
+            </FormGroup>
             <FormGroup>
               <FormItem>
                 <AddressLabel size='14px' weight={400} style={{'marginBottom': '5px'}}>
@@ -106,7 +87,7 @@ const Address = (props) => {
                 <Field name='city' validate={[required]} component={TextBox} />
               </FormItem>
             </FormGroup>
-            <AddressFormGroup inline>
+            <FormGroup inline>
               <FormItem>
                 <Text size='14px' weight={400} style={{'marginBottom': '5px'}}>
                   <FormattedMessage id='sfoxexchangedata.verify.state' defaultMessage='State' />
@@ -119,7 +100,7 @@ const Address = (props) => {
                 </Text>
                 <Field name='zipcode' validate={[requiredUsZipcode]} component={TextBox} normalize={normalizeUSZipcode} />
               </FormItem>
-            </AddressFormGroup>
+            </FormGroup>
           </FormContainer>
         </InputWrapper>
       </ColLeft>
@@ -135,7 +116,7 @@ const Address = (props) => {
           { props.faqs() }
         </ColRightInner>
       </ColRight>
-    </AddressForm>
+    </Form>
   )
 }
 

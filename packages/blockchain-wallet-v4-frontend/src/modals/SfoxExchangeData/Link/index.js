@@ -5,7 +5,7 @@ import ui from 'redux-ui'
 import Link from './template'
 import { actions, selectors } from 'data'
 import { formValueSelector } from 'redux-form'
-import { merge, path, append, prop, head } from 'ramda'
+import { merge, path, append } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 class LinkContainer extends Component {
@@ -36,17 +36,6 @@ class LinkContainer extends Component {
       }
     }
     window.addEventListener('message', receiveMessage, false)
-  }
-
-  componentDidUpdate () {
-    if (Remote.Success.is(this.props.bankAccounts) && Remote.Loading.is(this.props.linkStatus)) {
-      this.props.sfoxFrontendActions.sfoxSuccess()
-    }
-  }
-
-  componentWillUnmount () {
-    this.props.updateUI({ toggleManual: false, selectBank: false, microDeposits: false, microStep: 'welcome', busy: false })
-    this.props.sfoxDataActions.wipeBankAccounts()
   }
 
   onSetBankAccount (data) {
@@ -80,8 +69,8 @@ class LinkContainer extends Component {
     const { showModal } = this.props.modalActions
 
     let awaitingDeposits = false
-    if (Remote.Success.is(accounts)) {
-      awaitingDeposits = prop('status', head(accounts.getOrElse())) === 'pending'
+    if (Remote.Success.is(accounts) && accounts.data) {
+      awaitingDeposits = accounts.data[0] && accounts.data[0]['status'] === 'pending'
     }
 
     const { sfoxBusy, err } = linkStatus.cata({

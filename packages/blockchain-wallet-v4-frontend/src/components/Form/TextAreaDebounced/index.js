@@ -26,7 +26,7 @@ const getErrorState = (meta) => {
 class TextAreaDebounced extends React.Component {
   constructor (props) {
     super(props)
-    this.state = { value: props.input.value, updatedValue: props.input.value }
+    this.state = { value: props.input.value }
     this.timeout = undefined
     this.handleChange = this.handleChange.bind(this)
     this.handleBlur = this.handleBlur.bind(this)

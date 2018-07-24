@@ -46,7 +46,6 @@ export const selectCreatedDeviceVersion = view(createdDeviceVersion)
 export const isArchived = compose(equals(2), view(tag))
 export const isActive = compose(not, isArchived)
 export const isWatchOnly = compose(isNil, view(priv))
-export const isNotWatchOnly = compose(not, isWatchOnly)
 
 export const fromJS = (x) => is(Address, x) ? x : new Address(x)
 

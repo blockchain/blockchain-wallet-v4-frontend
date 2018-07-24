@@ -15,6 +15,5 @@ export default ({ api, options }) => {
     yield takeLatest(AT.SFOX_FETCH_SELL_QUOTE, dataSfoxSagas.fetchSellQuote)
     yield takeLatest(AT.GET_BANK_ACCOUNTS, dataSfoxSagas.getBankAccounts)
     yield takeLatest(AT.RESET_PROFILE, dataSfoxSagas.resetProfile)
-    yield takeLatest(AT.REFETCH_PROFILE, dataSfoxSagas.refetchProfile)
   }
 }

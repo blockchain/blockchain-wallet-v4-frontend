@@ -1,6 +1,4 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
-import { equals, length, prop, path, pathOr } from 'ramda'
+import { equals, length, prop, path } from 'ramda'
 import { selectors } from 'data'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
 
@@ -26,19 +24,9 @@ export const getData = createDeepEqualSelector(
       const priorityFeePerByte = path(['fees', 'priority'], payment)
       const minFeePerByte = path(['fees', 'limits', 'min'], payment)
       const maxFeePerByte = path(['fees', 'limits', 'max'], payment)
-      const totalFee = pathOr('0', ['selection', 'fee'], payment)
+      const totalFee = path(['selection', 'fee'], payment) || '0'
       const effectiveBalance = prop('effectiveBalance', payment)
-      const feePerByteElements =
-      [{ group: '',
-        items: [
-          { text: <FormattedMessage id='modals.sendbtc.firststep.fee.regular' defaultMessage='Regular' />,
-            value: regularFeePerByte
-          },
-          { text: <FormattedMessage id='modals.sendbtc.firststep.fee.priority' defaultMessage='Priority' />,
-            value: priorityFeePerByte
-          }
-        ]
-      }]
+      const feePerByteElements = [{ group: '', items: [{ text: 'Regular', value: regularFeePerByte }, { text: 'Priority', value: priorityFeePerByte }] }]
       const watchOnly = prop('watchOnly', from)
       const addressMatchesPriv = payment.fromType === 'FROM.WATCH_ONLY'
       const isPriorityFeePerByte = equals(parseInt(feePerByte), priorityFeePerByte)

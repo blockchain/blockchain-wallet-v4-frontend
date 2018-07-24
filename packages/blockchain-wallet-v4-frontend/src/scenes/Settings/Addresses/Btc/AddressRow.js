@@ -3,22 +3,13 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import { Banner, TableCell, TableRow, Text, Link, ComponentDropdown } from 'blockchain-info-components'
-import media from 'services/ResponsiveService'
 
 const AddressTableCell = styled(TableCell)`
-  display: flex;
-  flex-direction: row;
   align-items: center;
   min-height: 23px;
-
-  ${media.mobile`
-    flex-direction: column;
-    align-items: flex-start;
-  `}
 `
 const AddressCell = styled(Text)`
   margin-right: 6px;
-  word-break: break-all
 `
 
 const MoreOptions = () => (
@@ -30,7 +21,7 @@ const MoreOptions = () => (
 const AddressRow = ({ address, archived, coin, renderOptions }) => {
   return (
     <TableRow>
-      <AddressTableCell width='50%'>
+      <AddressTableCell width='50%' style={{ display: 'flex' }}>
         <AddressCell size='13px'>{address.addr}</AddressCell>
         {address.priv == null && (
           <Banner label type='informational'><FormattedMessage id='scenes.settings.addresses.btc.addressrow.watchonly' defaultMessage='Non-Spendable' /></Banner>

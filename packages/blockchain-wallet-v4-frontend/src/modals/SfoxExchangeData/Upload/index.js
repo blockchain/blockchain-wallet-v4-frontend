@@ -5,7 +5,6 @@ import Upload from './template'
 import { actions } from 'data'
 import { getData } from './selectors'
 import ui from 'redux-ui'
-import Failure from 'components/BuySell/Failure'
 
 class UploadContainer extends Component {
   constructor (props) {
@@ -79,7 +78,7 @@ class UploadContainer extends Component {
         submitForUpload={this.submitForUpload}
         handleStartClick={this.handleStartClick}
       />,
-      Failure: (msg) => <Failure error={msg} />,
+      Failure: (msg) => <div>{msg.error}</div>,
       Loading: () => <div>Loading...</div>,
       NotAsked: () => <div />
     })

@@ -1,12 +1,12 @@
 import { call, put, select } from 'redux-saga/effects'
-import { equals, filter, identity, head, lift, path, pathOr, prop, propEq } from 'ramda'
+import { equals, filter, identity, head, lift, path, prop, propEq } from 'ramda'
 import * as selectors from '../../selectors'
 import * as actions from '../../actions'
 import settings from 'config'
-import { getPairFromCoin, convertFiatToCoin, convertCoinToFiat, convertStandardToBase, isUndefinedOrEqualsToZero } from './services'
+import { getPairFromCoin, convertFiatToCoin, convertCoinToFiat, isUndefinedOrEqualsToZero } from './services'
 import { selectRates } from '../utils/sagas'
 
-export default ({ api, coreSagas, options }) => {
+export default ({ api, coreSagas }) => {
   const logLocation = 'components/exchange/sagas.utils'
 
   const calculateEffectiveBalance = function * (source) {
@@ -60,35 +60,16 @@ export default ({ api, coreSagas, options }) => {
     }
   }
 
-  const getShapeshiftMinimum = function * (source, target) {
+  const getShapeShiftLimits = function * (source, target) {
     const coinSource = prop('coin', source)
     const coinTarget = prop('coin', target)
     const pair = getPairFromCoin(coinSource, coinTarget)
     const shapeshiftPairR = yield select(selectors.core.data.shapeShift.getPair(pair))
     const shapeshiftPair = shapeshiftPairR.getOrFail('Could not find shapeshift pair.')
-    const minimumStandard = prop('minimum', shapeshiftPair)
-    return convertStandardToBase(coinSource, minimumStandard)
-  }
 
-  const getShapeshiftMaximum = function * (source, target) {
-    const coinSource = prop('coin', source)
-    const coinTarget = prop('coin', target)
-    const pair = getPairFromCoin(coinSource, coinTarget)
-    const shapeshiftPairR = yield select(selectors.core.data.shapeShift.getPair(pair))
-    const shapeshiftPair = shapeshiftPairR.getOrFail('Could not find shapeshift pair.')
-    const maximumStandard = prop('limit', shapeshiftPair)
-    return convertStandardToBase(coinSource, maximumStandard)
-  }
-
-  const getRegulationLimit = function * (source) {
-    const sourceCoin = prop('coin', source)
-    const sourceRates = yield call(selectRates, sourceCoin)
-    const upperLimit = path(['platforms', 'web', 'shapeshift', 'config', 'upperLimit'], options) || 750
-    switch (sourceCoin) {
-      case 'BCH': return convertFiatToCoin(upperLimit, 'USD', 'BCH', 'SAT', sourceRates).value
-      case 'BTC': return convertFiatToCoin(upperLimit, 'USD', 'BTC', 'SAT', sourceRates).value
-      case 'ETH': return convertFiatToCoin(upperLimit, 'USD', 'ETH', 'WEI', sourceRates).value
-      default: throw new Error('getRegulationLimit: coin not found.')
+    return {
+      minimum: prop('minimum', shapeshiftPair),
+      maximum: prop('limit', shapeshiftPair)
     }
   }
 
@@ -107,9 +88,9 @@ export default ({ api, coreSagas, options }) => {
       case 'sourceFiat': {
         const sourceFiat = prop('sourceFiat', form)
         if (isUndefinedOrEqualsToZero(sourceFiat)) return defaultResult
-        const sourceAmount = convertFiatToCoin(sourceFiat, currency, sourceCoin, sourceCoin, sourceRates).value
+        const sourceAmount = convertFiatToCoin(sourceFiat, 'USD', sourceCoin, sourceCoin, sourceRates).value
         const quotation = yield call(api.createQuote, sourceAmount, pair, true)
-        const targetAmount = pathOr(0, ['success', 'withdrawalAmount'], quotation)
+        const targetAmount = path(['success', 'withdrawalAmount'], quotation) || 0
         const targetFiat = convertCoinToFiat(targetAmount, targetCoin, targetCoin, currency, targetRates).value
         return { sourceAmount, sourceFiat, targetAmount, targetFiat }
       }
@@ -117,7 +98,7 @@ export default ({ api, coreSagas, options }) => {
         const targetAmount = prop('targetAmount', form)
         if (isUndefinedOrEqualsToZero(targetAmount)) return defaultResult
         const quotation = yield call(api.createQuote, targetAmount, pair, false)
-        const sourceAmount = pathOr(0, ['success', 'depositAmount'], quotation)
+        const sourceAmount = path(['success', 'depositAmount'], quotation) || 0
         const sourceFiat = convertCoinToFiat(sourceAmount, sourceCoin, sourceCoin, currency, sourceRates).value
         const targetFiat = convertCoinToFiat(targetAmount, targetCoin, targetCoin, currency, targetRates).value
         return { sourceAmount, sourceFiat, targetAmount, targetFiat }
@@ -127,7 +108,7 @@ export default ({ api, coreSagas, options }) => {
         if (isUndefinedOrEqualsToZero(targetFiat)) return defaultResult
         const targetAmount = convertFiatToCoin(targetFiat, currency, targetCoin, targetCoin, targetRates).value
         const quotation = yield call(api.createQuote, targetAmount, pair, false)
-        const sourceAmount = pathOr(0, ['success', 'depositAmount'], quotation)
+        const sourceAmount = path(['success', 'depositAmount'], quotation) || 0
         const sourceFiat = convertCoinToFiat(sourceAmount, sourceCoin, sourceCoin, currency, sourceRates).value
         return { sourceAmount, sourceFiat, targetAmount, targetFiat }
       }
@@ -136,7 +117,7 @@ export default ({ api, coreSagas, options }) => {
         const sourceAmount = prop('sourceAmount', form)
         if (isUndefinedOrEqualsToZero(sourceAmount)) return defaultResult
         const quotation = yield call(api.createQuote, sourceAmount, pair, true)
-        const targetAmount = pathOr(0, ['success', 'withdrawalAmount'], quotation)
+        const targetAmount = path(['success', 'withdrawalAmount'], quotation) || 0
         const sourceFiat = convertCoinToFiat(sourceAmount, sourceCoin, sourceCoin, currency, sourceRates).value
         const targetFiat = convertCoinToFiat(targetAmount, targetCoin, targetCoin, currency, targetRates).value
         return { sourceAmount, sourceFiat, targetAmount, targetFiat }
@@ -230,9 +211,7 @@ export default ({ api, coreSagas, options }) => {
     calculateEffectiveBalance,
     createPayment,
     resumePayment,
-    getShapeshiftMinimum,
-    getShapeshiftMaximum,
-    getRegulationLimit,
+    getShapeShiftLimits,
     convertValues,
     getDefaultBtcAccountValue,
     getDefaultEthAccountValue,

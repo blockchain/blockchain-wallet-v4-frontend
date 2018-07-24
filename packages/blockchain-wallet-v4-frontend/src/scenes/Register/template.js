@@ -3,14 +3,14 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import { LinkContainer } from 'react-router-bootstrap'
-import { check, msie } from 'bowser'
+import { check } from 'bowser'
 
-import { validPasswordConfirmation, validStrongPassword, required, validEmail } from 'services/FormHelper'
+import { validStrongPassword, required, validEmail } from 'services/FormHelper'
 import { Banner, Button, Link, HeartbeatLoader, Separator, Text, TextGroup } from 'blockchain-info-components'
 import { CheckBox, Form, FormGroup, FormItem, FormLabel, PasswordBox, TextBox } from 'components/Form'
 import Terms from 'components/Terms'
 
-const isSupportedBrowser = check({safari: '8', chrome: '45', firefox: '45', opera: '20'}) && !msie
+const isSupportedBrowser = check({msie: '11', safari: '8', chrome: '45', firefox: '45', opera: '20'})
 
 const Wrapper = styled.div`
   width: 100%;
@@ -32,12 +32,13 @@ const BrowserWarning = styled.div`
   margin-bottom: 10px;
 `
 
-const validatePasswordConfirmation = validPasswordConfirmation('password')
-
-const checkboxShouldBeChecked = value => value ? undefined : 'You must agree to the terms and conditions'
+const validatePasswordsMatch = values => {
+  return values.password === values.confirmationPassword ? {} : { confirmationPassword: 'Passwords must match' }
+}
 
 const Register = (props) => {
-  const { handleSubmit, busy, invalid } = props
+  const { onSubmit, busy, invalid } = props
+  const checkboxShouldBeChecked = value => value ? undefined : 'You must agree to the terms and conditions'
 
   return (
     <Wrapper>
@@ -60,7 +61,7 @@ const Register = (props) => {
         <FormattedMessage id='scenes.register.explain' defaultMessage='Sign up for a free wallet below' />
       </Text>
       <Separator />
-      <RegisterForm override onSubmit={handleSubmit}>
+      <RegisterForm override onSubmit={onSubmit}>
         { !isSupportedBrowser && <BrowserWarning>
           <Banner type='warning'>
             <FormattedMessage id='scenes.register.browserwarning' defaultMessage='Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, IE 11, or Opera ' />
@@ -87,7 +88,7 @@ const Register = (props) => {
             <FormLabel for='confirmationPassword'>
               <FormattedMessage id='scenes.register.confirmpassword' defaultMessage='Confirm Password' />
             </FormLabel>
-            <Field name='confirmationPassword' validate={[required, validatePasswordConfirmation]} component={PasswordBox} disabled={!isSupportedBrowser} />
+            <Field name='confirmationPassword' validate={[required]} component={PasswordBox} disabled={!isSupportedBrowser} />
           </FormItem>
         </FormGroup>
         <FormGroup>
@@ -110,4 +111,4 @@ const Register = (props) => {
   )
 }
 
-export default reduxForm({ form: 'register' })(Register)
+export default reduxForm({form: 'register', validate: validatePasswordsMatch})(Register)

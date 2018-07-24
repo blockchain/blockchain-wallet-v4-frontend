@@ -40,7 +40,7 @@ const UsedTableEntry = ({ address, search }) => {
   return !isMatch()
     ? null
     : (<TableRow>
-      <TableCell width='40%' style={{ wordBreak: 'break-all' }}>
+      <TableCell width='40%'>
         <Link href={`https://blockchain.info/address/${address.address}`} size='small' weight={300} target='_blank'>
           {address.address}
         </Link>

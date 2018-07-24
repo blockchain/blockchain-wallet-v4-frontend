@@ -12,25 +12,24 @@ const Container = styled.div`
 `
 const Error = styled.label`
   position: absolute;
-  top: ${props => props.errorBottom ? '40px' : '-20px'};
+  top: ${props => props.errorBottom ? '40px' : '-18px'};
   right: 0;
   display: block;
   height: 15px;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 300;
-  font-family: 'Montserrat', Helvetica, sans-serif;
   color: ${props => props.theme['error']};
 `
 
 const SelectBox = (props) => {
-  const { input, meta, hideErrors, errorBottom, ...rest } = props
+  const { input, meta, hideErrors, ...rest } = props
   const { touched, invalid, error, pristine } = meta
   const errorState = touched && invalid ? 'invalid' : 'initial'
 
   return (
     <Container>
       <SelectInput {...input} {...meta} {...rest} errorState={errorState} />
-      {(touched || !pristine) && error && !hideErrors && <Error errorBottom>{error}</Error>}
+      {(touched || !pristine) && error && !hideErrors && <Error>{error}</Error>}
     </Container>
   )
 }
@@ -49,7 +48,7 @@ SelectBox.propTypes = {
       value: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.number.isRequired, PropTypes.object.isRequired])
     })).isRequired
   })).isRequired,
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  label: PropTypes.string,
   searchEnabled: PropTypes.bool,
   opened: PropTypes.bool
 }

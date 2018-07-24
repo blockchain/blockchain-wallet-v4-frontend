@@ -2,32 +2,21 @@ import React, { Component, Fragment } from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { actions } from 'data'
-import { equals, path, prop } from 'ramda'
+import { actions, selectors } from 'data'
+import { path } from 'ramda'
 import { Button, Text, Tooltip } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
-
 import Helper from 'components/BuySell/FAQ'
 import CountdownTimer from 'components/Form/CountdownTimer'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
-import media from 'services/ResponsiveService'
-import { getData } from './selectors'
 
 const ISXContainer = styled.div`
   display: flex;
   flex-direction: row;
-  ${media.mobile`
-    flex-direction: column;
-  `}
 `
 const ButtonContainer = styled.div`
   margin-left: 5%;
   width: 20%;
-  ${media.mobile`
-    width: 100%;
-    margin-left: 0%;
-    margin-top: 20px;
-  `}
 `
 const TimerContainer = styled.div`
   width: 66%;
@@ -43,34 +32,16 @@ const QuoteExpiredText = styled(Text)`
     font-style: italic;
   }
 `
-const IframeWrapper = styled.div`
-  width: 65%;
-  ${media.mobile`
-    width: 100%;
-  `}
-`
-const ISignThisIframe = styled.iframe`
-  width: 100%;
-  height: 400px;
-  border: ${props => `1px solid ${props.theme['gray-1']}`}
-`
 
-const kycHelper = [
+const helpers = [
   {
-    question: <FormattedMessage id='scenes.coinify.isx.kycquestion' defaultMessage='Why do you need this information?' />,
-    answer: <FormattedMessage id='scenes.coinify.isx.kycanswer' defaultMessage='Government anti-money laundering regulations require this verification of identity. The purpose of fulfilling these regulations is to provide you with a secure, smooth, and customized experience.' />
-  }
-]
-const tradeHelper = [
-  {
-    question: <FormattedMessage id='scenes.coinify.isx.tradequestion' defaultMessage='How is my payment method used?' />,
-    answer: <FormattedMessage id='scenes.coinify.isx.tradeanswer' defaultMessage="Bitcoin is delivered to your Blockchain wallet by using the information you've provided. With that in mind, please double check that your submitted details are error-free. If you pay by credit / debit card, your bitcoin will be delivered within a couple of hours after the transaction is completed, depending on your bank’s transfer policies. If you pay by bank transfer, your bitcoin will be delivered after Coinify has processed your order, which usually takes between 2-3 days." />
+    question: <FormattedMessage id='scenes.buysell.coinify.isx.question1' defaultMessage='Why do I have to do this?' />,
+    answer: <FormattedMessage id='scenes.buysell.coinify.isx.answer1' defaultMessage="Completing the identity verification process allows you to buy and sell at higher limits. If you don't submit this information, you will only be able to buy and sell up to €300." />
   }
 ]
 const getExpiredBtcValues = (q) => q.quoteCurrency === 'BTC' ? `${q.quoteAmount / 1e8}` : `${q.baseAmount / 1e8}`
 const getExpiredFiatValues = (q) => q.baseCurrency !== 'BTC' ? `${Currency.formatFiat(Math.abs(q.baseAmount))} ${q.baseCurrency}` : `${Currency.formatFiat(Math.abs(q.quoteAmount))} ${q.quoteCurrency}`
-const kycFaqHelper = () => kycHelper.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
-const tradeFaqHelper = () => tradeHelper.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
+const faqHelper = () => helpers.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
 
 class ISignThisContainer extends Component {
   constructor (props) {
@@ -149,7 +120,7 @@ class ISignThisContainer extends Component {
         }
 
         let frame = document.getElementById('isx-iframe')
-        if (e.source !== prop('contentWindow', frame)) {
+        if (e.source !== frame.contentWindow) {
           // Source of message isn't from the iframe
           return
         }
@@ -253,7 +224,7 @@ class ISignThisContainer extends Component {
             } else {
               return (
                 <CountdownTimer
-                  expiryDate={trade.map(prop('quoteExpireTime')).getOrElse(q.expiresAt.getTime())}
+                  expiryDate={q.expiresAt.getTime()}
                   handleExpiry={this.onQuoteExpiration}
                   tooltipExpiryTime='15 minutes'
                   hideTooltip
@@ -263,28 +234,26 @@ class ISignThisContainer extends Component {
           }).getOrElse(null)}
         </TimerContainer>
         <ISXContainer>
-          <IframeWrapper>
-            <ISignThisIframe
-              src={srcUrl}
-              sandbox='allow-same-origin allow-scripts allow-forms'
-              scrolling='yes'
-              id='isx-iframe'
-            />
-          </IframeWrapper>
+          <iframe style={{ width: '65%', height: '400px', border: '1px solid #EAEAEA' }}
+            src={srcUrl}
+            sandbox='allow-same-origin allow-scripts allow-forms'
+            scrolling='yes'
+            id='isx-iframe'
+          />
           <ButtonContainer>
             <Button nature='empty-secondary' fullwidth onClick={() => coinifyActions.cancelISX()}>
               <Text size='13px' weight={300} color='brand-secondary'>
                 {
-                  equals(isxType, 'Trade')
+                  isxType && isxType === 'Trade'
                     ? <FormattedMessage id='scenes.buysell.coinify.isx.finishlater' defaultMessage='Finish later' />
                     : <FormattedMessage id='scenes.buysell.coinify.isx.dolater' defaultMessage="I'll do this later" />
                 }
               </Text>
             </Button>
             {
-              equals(isxType, 'Trade')
-                ? tradeFaqHelper()
-                : kycFaqHelper()
+              isxType && isxType !== 'Trade'
+                ? faqHelper()
+                : null
             }
           </ButtonContainer>
         </ISXContainer>
@@ -293,7 +262,11 @@ class ISignThisContainer extends Component {
   }
 }
 
-const mapStateToProps = (state) => getData(state)
+const mapStateToProps = (state) => ({
+  walletOptions: path(['walletOptionsPath'], state),
+  quoteR: selectors.core.data.coinify.getQuote(state),
+  trade: selectors.core.data.coinify.getTrade(state)
+})
 
 const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),

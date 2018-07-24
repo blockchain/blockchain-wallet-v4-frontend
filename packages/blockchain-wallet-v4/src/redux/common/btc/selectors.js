@@ -1,14 +1,12 @@
 import { Wallet, HDWallet, HDAccountList, HDAccount, TXNotes } from '../../../types'
 import { keys, compose, assoc, isNil, map, max, path, prop, curry, split, values, sequence, lift } from 'ramda'
+import memoize from 'fast-memoize'
 import { getAddresses, getChangeIndex, getReceiveIndex, getHeight, getTransactions } from '../../data/bitcoin/selectors.js'
-import { getAddressLabel, getMetadata } from '../../kvStore/btc/selectors'
-import { getBuySellTxHashMatch } from '../../kvStore/buySell/selectors'
-import { getShapeshiftTxHashMatch } from '../../kvStore/shapeShift/selectors'
 import * as transactions from '../../../transactions'
 import * as walletSelectors from '../../wallet/selectors'
 import Remote from '../../../remote'
 
-const transformTx = transactions.bitcoin.transformTx
+const mTransformTx = memoize(transactions.bitcoin.transformTx)
 
 const _getAccounts = selector => state => {
   const balancesR = getAddresses(state)
@@ -112,18 +110,16 @@ export const getWalletTransactions = state => {
   // Remote(blockHeight)
   const blockHeightR = getHeight(state)
   // [Remote([tx])] == [Page] == Pages
-  const getDescription = (hash, to) => TXNotes.selectNote(hash, Wallet.selectTxNotes(wallet)) || getAddressLabel(to, state).getOrElse('')
-
-  const getPartnerLabel = hash => getShapeshiftTxHashMatch(state, hash) || getBuySellTxHashMatch(state, hash)
-
-  const pages = getTransactions(state)
-  // Remote(metadata)
-  getMetadata(state)
-
-  // transformTx :: wallet -> blockHeight -> Tx
+  const txNotes = Wallet.selectTxNotes(wallet)
+  const addDescription = (tx) => {
+    tx.description = TXNotes.selectNote(tx.hash, txNotes) || ''
+    return tx
+  }
+  const pages = getTransactions(state).map(map(map(addDescription)))
+  // mTransformTx :: wallet -> blockHeight -> Tx
   // ProcessPage :: wallet -> blockHeight -> [Tx] -> [Tx]
   const ProcessTxs = (wallet, block, txList) =>
-    map(transformTx.bind(undefined, wallet, block, getDescription, getPartnerLabel), txList)
+    map(mTransformTx.bind(undefined, wallet, block), txList)
   // ProcessRemotePage :: Page -> Page
   const ProcessPage = lift(ProcessTxs)(walletR, blockHeightR)
   return map(ProcessPage, pages)

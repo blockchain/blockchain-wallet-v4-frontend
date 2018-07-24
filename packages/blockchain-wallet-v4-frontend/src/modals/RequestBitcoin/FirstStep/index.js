@@ -60,10 +60,7 @@ class FirstStepContainer extends React.PureComponent {
   }
 
   handleRefresh () {
-    const { bitcoinDataActions, initialValues } = this.props
-    if (!Remote.Success.is(initialValues)) return bitcoinDataActions.fetchData()
-
-    this.init()
+    this.props.refreshActions.refresh()
   }
 
   render () {
@@ -93,6 +90,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   requestBtcActions: bindActionCreators(actions.components.requestBtc, dispatch),
   bitcoinDataActions: bindActionCreators(actions.core.data.bitcoin, dispatch),
+  refreshActions: bindActionCreators(actions.core.refresh, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })

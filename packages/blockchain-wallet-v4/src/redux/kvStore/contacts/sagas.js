@@ -1,5 +1,5 @@
 import { call, put, select } from 'redux-saga/effects'
-import { compose, isNil, isEmpty } from 'ramda'
+import { compose, isNil } from 'ramda'
 import * as A from './actions'
 import { KVStoreEntry } from '../../../types'
 import { getMetadataXpriv } from '../root/selectors'
@@ -34,7 +34,7 @@ export default ({ api }) => {
       const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId)
       yield put(A.fetchMetadataContactsLoading())
       const newkv = yield callTask(api.fetchKVStore(kv))
-      if (isNil(newkv.value) || isEmpty(newkv.value)) {
+      if (isNil(newkv.value)) {
         yield call(createContacts, newkv)
       } else {
         yield put(A.fetchMetadataContactsSuccess(newkv))

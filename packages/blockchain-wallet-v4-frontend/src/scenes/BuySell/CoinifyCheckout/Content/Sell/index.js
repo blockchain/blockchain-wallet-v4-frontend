@@ -5,7 +5,6 @@ import { bindActionCreators } from 'redux'
 import { getData } from './selectors'
 import Success from './template.success'
 import Loading from 'components/BuySell/Loading'
-import Failure from 'components/BuySell/Failure'
 
 class SellContainer extends React.Component {
   constructor (props) {
@@ -15,8 +14,8 @@ class SellContainer extends React.Component {
   }
 
   componentDidMount () {
-    this.props.coinifyDataActions.getKyc()
-    this.props.coinifyActions.initializePayment()
+    this.props.coinifyDataActions.getKycs()
+    this.props.sendBtcActions.initialized({ feeType: 'priority' })
     this.props.coinifyActions.initializeCheckoutForm('sell')
   }
 
@@ -35,14 +34,13 @@ class SellContainer extends React.Component {
     const { data, modalActions, coinifyActions, coinifyDataActions, formActions,
       sellQuoteR, currency, paymentMedium, trade, ...rest } = this.props
     const { canTrade, step, checkoutBusy, coinifyBusy, checkoutError } = rest
-    const { fetchQuote, refreshSellQuote } = coinifyDataActions
+    const { handleTrade, fetchQuote, refreshSellQuote } = coinifyDataActions
     const { showModal } = modalActions
     const { coinifyNotAsked, openKYC } = coinifyActions
-    const { change } = formActions
 
     const busy = coinifyBusy.cata({
       Success: () => false,
-      Failure: (err) => <Failure error={err} />,
+      Failure: (err) => err,
       Loading: () => true,
       NotAsked: () => false
     })
@@ -51,14 +49,14 @@ class SellContainer extends React.Component {
       Success: (value) => <Success
         value={value}
         canTrade={canTrade}
-        changeTab={tab => change('buySellTabStatus', 'status', tab)}
+        handleTrade={handleTrade}
         showModal={showModal}
         sellQuoteR={sellQuoteR}
         fetchSellQuote={(quote) => fetchQuote({ quote, nextAddress: value.nextAddress })}
         currency={currency}
         checkoutBusy={checkoutBusy}
-        setMax={(btcAmt) => change('coinifyCheckoutSell', 'rightVal', btcAmt)}
-        setMin={(btcAmt) => change('coinifyCheckoutSell', 'rightVal', btcAmt)}
+        setMax={(btcAmt) => formActions.change('coinifyCheckoutSell', 'rightVal', btcAmt)}
+        setMin={(btcAmt) => formActions.change('coinifyCheckoutSell', 'rightVal', btcAmt)}
         paymentMedium={paymentMedium}
         initiateSell={this.startSell}
         step={step}

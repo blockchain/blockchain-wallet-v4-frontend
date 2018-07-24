@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actions } from 'data'
-import { path, pathOr, toUpper } from 'ramda'
+import { path, toUpper } from 'ramda'
 import { getData } from './selectors'
 
 import Error from './template.error'
@@ -12,7 +12,7 @@ import Success from './template.success'
 export class ChartContainer extends React.PureComponent {
   componentDidMount () {
     const coin = path(['cache', 'coin'], this.props) ? toUpper(this.props.cache.coin) : 'BTC'
-    const time = pathOr('1month', ['cache', 'time'], this.props)
+    const time = path(['cache', 'time'], this.props) || '1month'
     this.props.priceChartActions.initialized(coin, time)
   }
 

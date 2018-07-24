@@ -9,11 +9,8 @@ import Reminder from './template.js'
 class ReminderContainer extends React.PureComponent {
   constructor (props) {
     super(props)
+    this.state = { submitted: false }
     this.onSubmit = this.onSubmit.bind(this)
-  }
-
-  componentWillUnmount () {
-    this.props.authActions.remindGuidNotAsked()
   }
 
   onSubmit () {
@@ -21,21 +18,18 @@ class ReminderContainer extends React.PureComponent {
     const { sessionToken } = captcha.getOrElse({})
 
     authActions.remindGuid(email, code, sessionToken)
+    this.setState({ submitted: true })
   }
 
   render () {
-    const { remindGuid } = this.props
-    const { success, loading } = remindGuid.cata({ Success: () => ({ success: true }), Loading: () => ({ loading: true }), Failure: () => ({}), NotAsked: () => ({}) })
-
-    return <Reminder onSubmit={this.onSubmit} success={success} loading={loading} />
+    return <Reminder onSubmit={this.onSubmit} submitted={this.state.submitted} />
   }
 }
 
 const mapStateToProps = (state) => ({
   email: formValueSelector('reminder')(state, 'email'),
   code: formValueSelector('reminder')(state, 'code'),
-  captcha: selectors.core.data.misc.getCaptcha(state),
-  remindGuid: selectors.auth.getRemindGuid(state)
+  captcha: selectors.core.data.misc.getCaptcha(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

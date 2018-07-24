@@ -1,6 +1,5 @@
 import { put } from 'redux-saga/effects'
 import * as actions from '../../actions.js'
-import * as C from 'services/AlertService'
 
 export default () => {
   const logLocation = 'components/requestBtc/sagas'
@@ -14,12 +13,7 @@ export default () => {
     }
   }
 
-  const btcPaymentReceived = function * (action) {
-    yield put(actions.alerts.displaySuccess(C.RECEIVE_BTC_SUCCESS))
-  }
-
   return {
-    firstStepSubmitClicked,
-    btcPaymentReceived
+    firstStepSubmitClicked
   }
 }

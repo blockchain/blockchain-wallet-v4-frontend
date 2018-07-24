@@ -1,13 +1,13 @@
 import Bitcoin from 'bitcoinjs-lib'
 import cashaddress from 'cashaddress'
 import { selectAll } from '../coinSelection'
-import { head, propOr } from 'ramda'
+import { head, prop } from 'ramda'
 import BigNumber from 'bignumber.js'
 import * as Exchange from '../exchange'
 
 export const calculateBalanceSatoshi = (coins, feePerByte) => {
   const { outputs, fee } = selectAll(feePerByte, coins)
-  const effectiveBalance = propOr(0, 'value', head(outputs))
+  const effectiveBalance = prop('value', head(outputs)) || 0
   const balance = new BigNumber(effectiveBalance).add(new BigNumber(fee))
   return { balance, fee, effectiveBalance }
 }

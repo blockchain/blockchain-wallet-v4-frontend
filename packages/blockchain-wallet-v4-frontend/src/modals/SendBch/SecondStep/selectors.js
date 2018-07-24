@@ -10,7 +10,7 @@ export const getData = state => {
     const isLegacy = isBchLegacyAddress(payment, state)
 
     return {
-      description: payment.description,
+      message: payment.description,
       fromAddress: fromLabel,
       toAddress: toLabel,
       amount: payment.amount[0],

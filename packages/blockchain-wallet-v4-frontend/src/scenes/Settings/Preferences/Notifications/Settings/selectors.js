@@ -1,14 +1,14 @@
-import { lift, not } from 'ramda'
+import { lift } from 'ramda'
 import { selectors } from 'data'
 
 export const getData = (state) => {
-  const isEmailVerifiedR = selectors.core.settings.getEmailVerified(state)
-  const isMobileVerifiedR = selectors.core.settings.getSmsVerified(state)
+  const isEmailVerified = selectors.core.settings.getEmailVerified(state)
+  const isMobileVerified = selectors.core.settings.getSmsVerified(state)
 
-  const transform = (isEmailVerified, isMobileVerified) => ({
-    emailDisabled: not(isEmailVerified),
-    mobileDisabled: not(isMobileVerified)
+  const mergeVerified = (isEmailVerified, isMobileVerified) => ({
+    isEmailVerified,
+    isMobileVerified
   })
 
-  return lift(transform)(isEmailVerifiedR, isMobileVerifiedR)
+  return lift(mergeVerified)(isEmailVerified, isMobileVerified)
 }

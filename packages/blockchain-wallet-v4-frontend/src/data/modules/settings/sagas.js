@@ -2,13 +2,10 @@ import { put, call, select } from 'redux-saga/effects'
 import * as actions from '../../actions.js'
 import * as selectors from '../../selectors.js'
 import * as C from 'services/AlertService'
-import { addLanguageToUrl } from 'services/LanguageService'
 import { askSecondPasswordEnhancer, promptForSecondPassword } from 'services/SagaService'
 import { Types, utils } from 'blockchain-wallet-v4/src'
 
 const taskToPromise = t => new Promise((resolve, reject) => t.fork(reject, resolve))
-
-export const ipRestrictionError = 'You must add at least 1 ip address to the whitelist'
 
 export default ({ coreSagas }) => {
   const logLocation = 'modules/settings/sagas'
@@ -74,14 +71,13 @@ export default ({ coreSagas }) => {
     }
   }
 
-  // We prefer local storage language and update this in background for
-  // things like emails and external communication with the user
   const updateLanguage = function * (action) {
     try {
       yield call(coreSagas.settings.setLanguage, action.payload)
-      addLanguageToUrl(action.payload.language)
+      yield put(actions.alerts.displaySuccess(C.LANGUAGE_UPDATE_SUCCESS))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'updateLanguage', e))
+      yield put(actions.alerts.displayError(C.LANGUAGE_UPDATE_ERROR))
     }
   }
 
@@ -132,11 +128,7 @@ export default ({ coreSagas }) => {
       yield put(actions.alerts.displaySuccess(C.IPRESTRICTION_UPDATE_SUCCESS))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'updateIpLockOn', e))
-      if (e === ipRestrictionError) {
-        yield put(actions.alerts.displayError(C.IPRESTRICTION_NO_WHITELIST_ERROR))
-      } else {
-        yield put(actions.alerts.displayError(C.IPRESTRICTION_UPDATE_ERROR))
-      }
+      yield put(actions.alerts.displayError(C.IPRESTRICTION_UPDATE_ERROR))
     }
   }
 

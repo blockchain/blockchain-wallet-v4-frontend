@@ -15,12 +15,12 @@ class RecurringOrderHistoryTable extends React.PureComponent {
     return (
       <Table>
         <TableHeader>
-          <TableCell width='15%' mobileWidth='30%'>
+          <TableCell width='15%'>
             <Text size='13px' weight={500} capitalize>
               <FormattedMessage id='scenes.buysell.orderhistory.recurring.order' defaultMessage='Recurring Order' />
             </Text>
           </TableCell>
-          <TableCell width='15%' mobileWidth='0%' />
+          <TableCell width='15%' />
           <TableCell width='30%'>
             <Text size='13px' weight={500} capitalize>
               <FormattedMessage id='scenes.buysell.orderhistory.recurring.frequency' defaultMessage='Frequency' />
@@ -37,7 +37,7 @@ class RecurringOrderHistoryTable extends React.PureComponent {
             </Text>
           </TableCell>
         </TableHeader>
-        {subscriptions.map((subscription, index) => <RecurringOrder
+        {subscriptions.map((subscription, index) => <RecurringOrder // list of all recurring orders, trades will be inside these
           {...rest}
           key={index}
           subscription={subscription}

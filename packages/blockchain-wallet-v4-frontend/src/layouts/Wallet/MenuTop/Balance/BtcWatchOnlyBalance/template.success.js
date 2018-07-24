@@ -22,12 +22,14 @@ const Wrapper = styled.div`
 `
 
 const Success = props => {
-  return props.balance === 0 ? null : (
+  const { balance } = props
+
+  return (
     <LinkContainer to='/btc/transactions'>
       <Wrapper>
         <Text size='10px' weight={300}>BTC</Text>
         <Banner inline type='informational'>
-          <FiatDisplay coin='BTC' cursor='pointer' size='10px' weight={300}>{props.balance}</FiatDisplay>
+          <FiatDisplay coin='BTC' cursor='pointer' size='10px' weight={300}>{balance}</FiatDisplay>
           <span>&nbsp;</span>
           <Text size='10px' weight={300}>
             <FormattedMessage id='scenes.wallet.menutop.balance.watchonlybtcbalance' defaultMessage='Non-Spendable' />

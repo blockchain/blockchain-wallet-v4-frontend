@@ -64,10 +64,6 @@ export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
       const { txHash, txNote } = action.payload
       return over(Wrapper.wallet, Wallet.setTxNote(txHash, txNote), state)
     }
-    case T.SET_SYNC_PUB_KEYS: {
-      const { syncPubKeys } = action.payload
-      return set(Wrapper.syncPubKeys, syncPubKeys, state)
-    }
     case T.VERIFY_MNEMONIC: {
       const mvLens = compose(Wrapper.wallet,
         Wallet.hdWallets,

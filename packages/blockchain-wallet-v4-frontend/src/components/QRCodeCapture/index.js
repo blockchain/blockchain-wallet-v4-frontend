@@ -6,10 +6,10 @@ import ui from 'redux-ui'
 import { isNil, isEmpty } from 'ramda'
 import bip21 from 'bip21'
 
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import QRCodeCapture from './template.js'
 import * as C from 'services/AlertService'
-import { Exchange, utils } from 'blockchain-wallet-v4/src'
+import {utils} from 'blockchain-wallet-v4/src'
 
 class QRCodeCaptureContainer extends React.PureComponent {
   constructor (props) {
@@ -30,58 +30,39 @@ class QRCodeCaptureContainer extends React.PureComponent {
 
   handleScanBtcAddress (data) {
     try {
+      if (utils.bitcoin.isValidBitcoinAddress(data)) {
+        this.props.formActions.change('sendBtc', 'to', data)
+        this.props.updateUI({ btcAddress: { toggled: false } })
+        return
+      }
       const { address, options } = bip21.decode(data)
-      const { currency, btcRates } = this.props
       const { amount, message } = options
-      const fiat = Exchange.convertBitcoinToFiat({ value: amount, fromUnit: 'BTC', toCurrency: currency.data, rates: btcRates.data }).value
-
       this.props.formActions.change('sendBtc', 'to', address)
-      this.props.formActions.change('sendBtc', 'description', message)
-      this.props.formActions.change('sendBtc', 'amount', { coin: amount, fiat })
+      this.props.formActions.change('sendBtc', 'amount', amount)
+      this.props.formActions.change('sendBtc', 'message', message)
       this.props.updateUI({ btcAddress: { toggled: false } })
     } catch (e) {
-      try {
-        if (utils.bitcoin.isValidBitcoinAddress(data)) {
-          this.props.formActions.change('sendBtc', 'to', data)
-          this.props.updateUI({ btcAddress: { toggled: false } })
-          return
-        }
-      } catch (e) {
-        this.props.alertActions.displayError(C.BTC_ADDRESS_INVALID)
-        this.props.updateUI({ btcAddress: { toggled: false } })
-      }
+      this.props.alertActions.displayError(C.BTC_ADDRESS_INVALID)
+      this.props.updateUI({ btcAddress: { toggled: false } })
     }
   }
 
   handleScanBchAddress (data) {
-    // try bitcoincash:qruaxzyr4wcxyuxg2qnteajhgnq2nsmzccuc6d4r5u
     try {
+      if (utils.bch.isCashAddr(data)) {
+        this.props.formActions.change('sendBch', 'to', data)
+        this.props.updateUI({ bchAddress: { toggled: false } })
+        return
+      }
       const {address, options} = bip21.decode(data, 'bitcoincash')
       const {amount, message} = options
       this.props.formActions.change('sendBch', 'to', address)
       this.props.formActions.change('sendBch', 'amount', amount)
-      this.props.formActions.change('sendBch', 'description', message)
+      this.props.formActions.change('sendBch', 'message', message)
       this.props.updateUI({ bchAddress: { toggled: false } })
     } catch (e) {
-      try {
-        // try qruaxzyr4wcxyuxg2qnteajhgnq2nsmzccuc6d4r5u
-        if (utils.bch.isCashAddr(data)) {
-          this.props.formActions.change('sendBch', 'to', data)
-          this.props.updateUI({ bchAddress: { toggled: false } })
-          return
-        }
-        // try legacy addr
-        if (utils.bitcoin.isValidBitcoinAddress(data)) {
-          this.props.formActions.change('sendBch', 'to', data)
-          this.props.updateUI({ bchAddress: { toggled: false } })
-          return
-        }
-        // throw error
-        throw Error('invalid_bch_addr')
-      } catch (e) {
-        this.props.alertActions.displayError(C.BCH_ADDRESS_INVALID)
-        this.props.updateUI({bchAddress: {toggled: false}})
-      }
+      this.props.alertActions.displayError(C.BCH_ADDRESS_INVALID)
+      this.props.updateUI({ bchAddress: { toggled: false } })
     }
   }
 
@@ -96,9 +77,8 @@ class QRCodeCaptureContainer extends React.PureComponent {
   }
 
   handleScanBtcPriv (data) {
-    if (utils.bitcoin.isValidBitcoinPrivateKey(data)) {
+    if (utils.bch.isValidBitcoinPrivateKey(data)) {
       this.props.formActions.change('sendBtc', 'priv', data)
-      this.props.formActions.touch('sendBtc', 'priv')
       this.props.updateUI({ btcPriv: { toggled: false } })
     } else {
       this.props.alertActions.displayError(C.PRIVATE_KEY_INVALID)
@@ -145,11 +125,6 @@ class QRCodeCaptureContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = (state) => ({
-  currency: selectors.core.settings.getCurrency(state),
-  btcRates: selectors.core.data.bitcoin.getRates(state)
-})
-
 const mapDispatchToProps = dispatch => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
@@ -162,7 +137,7 @@ const enhance = compose(
       ethAddress: { toggled: false },
       bchAddress: { toggled: false },
       btcPriv: { toggled: false } } }),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(undefined, mapDispatchToProps)
 )
 
 QRCodeCaptureContainer.defaultProps = {

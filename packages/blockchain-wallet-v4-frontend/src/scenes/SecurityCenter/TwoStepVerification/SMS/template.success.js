@@ -1,12 +1,13 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
+import { Button, Text, Link, Icon } from 'blockchain-info-components'
 import styled from 'styled-components'
 import { Field, reduxForm } from 'redux-form'
-
-import { Button, Text, Link } from 'blockchain-info-components'
 import { TextBox, PhoneNumberBox, Form } from 'components/Form'
 import { required } from 'services/FormHelper'
+
+import { SuccessOverlay } from 'components/Security'
 
 const AuthenticatorSummary = styled.div`
   width: 100%;
@@ -28,6 +29,7 @@ const QRInputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 20px;
   margin: 20px auto;
   button {
     margin-top: 10px;
@@ -43,6 +45,12 @@ const SmsAuth = props => {
 
   return (
     <Form onSubmit={handleSubmit}>
+      <SuccessOverlay success={ui.successToggled}>
+        <Icon name='checkmark-in-circle' size='150px' color='success' />
+        <Text size='14px' weight={300} color='success'>
+          <FormattedMessage id='scenes.security.twostepverification.sms.success' defaultMessage="Congrats! You've successfully set up SMS Codes." />
+        </Text>
+      </SuccessOverlay>
       <AuthenticatorSummary verified={ui.successToggled}>
         <SmsAuthContainer>
           {

@@ -43,7 +43,7 @@ const Footer = styled.div`
 `
 
 const Success = props => {
-  const { description, fromAddress, toAddress, amount, fee, total, coin, handleSubmit, handleBack, isLegacy } = props
+  const { message, fromAddress, toAddress, amount, fee, total, coin, handleSubmit, handleBack, isLegacy } = props
 
   return (
     <div>
@@ -59,12 +59,12 @@ const Success = props => {
         </Text>
         <Text size='16px' weight={300}>{toAddress}</Text>
       </Row>
-      {description &&
+      {message &&
         <Row>
           <Text size='16px' weight={500}>
             <FormattedMessage id='modals.sendbch.secondstep.note' defaultMessage='Note:' />
           </Text>
-          <Text size='16px' weight={300}>{description}</Text>
+          <Text size='16px' weight={300}>{message}</Text>
         </Row>
       }
       <Row>
@@ -93,9 +93,7 @@ const Success = props => {
       {isLegacy &&
         <WarningBanner>
           <Banner type='caution'>
-            <Text size='12px'>
-              <FormattedMessage id='modals.sendbch.secondstep.legacy_addr_warning' defaultMessage='Are you sure this is a Bitcoin Cash Address? Sending funds to bitcoin address by accident will result in loss of funds.' />
-            </Text>
+            <FormattedMessage id='modals.sendbch.secondstep.legacy_addr_warning' defaultMessage='Are you sure this is a Bitcoin Cash Address? Sending funds to bitcoin address by accident will result in loss of funds.' />
           </Banner>
         </WarningBanner>
       }

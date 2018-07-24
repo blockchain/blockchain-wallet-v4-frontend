@@ -8,14 +8,13 @@ import * as AT from './actionTypes'
 import * as buySellSelectors from '../../kvStore/buySell/selectors'
 import * as buySellA from '../../kvStore/buySell/actions'
 import { sfoxService } from '../../../exchange/service'
-import * as walletActions from '../../wallet/actions'
 
 let sfox
 
 export default ({ api, options }) => {
   const refreshSFOX = function * () {
     const state = yield select()
-    const delegate = new ExchangeDelegate(state, api, 'sfox')
+    const delegate = new ExchangeDelegate(state, api)
     const value = yield select(buySellSelectors.getMetadata)
     const walletOptions = state.walletOptionsPath.data
     sfox = sfoxService.refresh(value, delegate, walletOptions)
@@ -41,11 +40,6 @@ export default ({ api, options }) => {
     }
   }
 
-  const refetchProfile = function * () {
-    const profile = yield apply(sfox, sfox.fetchProfile)
-    yield put(A.fetchProfileSuccess(profile))
-  }
-
   const fetchQuote = function * (data) {
     try {
       yield put(A.fetchQuoteLoading())
@@ -68,7 +62,7 @@ export default ({ api, options }) => {
       const { amt, baseCurrency, quoteCurrency } = data.payload.quote
       const quote = yield apply(sfox, sfox.getSellQuote, [amt, baseCurrency, quoteCurrency])
       yield put(A.fetchSellQuoteSuccess(quote))
-      yield fork(waitForRefreshSellQuote, data.payload)
+      yield fork(waitForRefreshSellQuote, data.payload, quote)
     } catch (e) {
       yield put(A.fetchSellQuoteFailure(e))
     }
@@ -79,9 +73,22 @@ export default ({ api, options }) => {
     yield put(A.fetchQuote(quotePayload))
   }
 
-  const waitForRefreshSellQuote = function * (sellQuotePayload) {
+  const waitForRefreshSellQuote = function * (sellQuotePayload, quote) {
     yield take(AT.REFRESH_SELL_QUOTE)
-    yield put(A.fetchSellQuote(sellQuotePayload))
+    let sellQuote
+    if (quote.baseCurrency !== 'BTC') {
+      sellQuote = {
+        quote: {
+          amt: quote.quoteAmount,
+          baseCurrency: 'BTC',
+          quoteCurrency: 'USD'
+        }
+      }
+    } else {
+      sellQuote = sellQuotePayload
+    }
+
+    yield put(A.fetchSellQuote(sellQuote))
   }
 
   const fetchTrades = function * () {
@@ -89,7 +96,7 @@ export default ({ api, options }) => {
       yield put(A.fetchTradesLoading())
 
       const kvTrades = yield select(buySellSelectors.getSfoxTrades)
-      const numberOfTrades = kvTrades.getOrElse([]).length
+      const numberOfTrades = kvTrades.length
       const trades = yield apply(sfox, sfox.getTrades, [numberOfTrades])
       yield put(A.fetchTradesSuccess(trades))
     } catch (e) {
@@ -126,7 +133,7 @@ export default ({ api, options }) => {
   const getSfox = function * () {
     try {
       const state = yield select()
-      const delegate = new ExchangeDelegate(state, api, 'sfox')
+      const delegate = new ExchangeDelegate(state, api)
       const value = yield select(buySellSelectors.getMetadata)
       const walletOptions = state.walletOptionsPath.data
       const sfox = sfoxService.refresh(value, delegate, walletOptions)
@@ -234,7 +241,7 @@ export default ({ api, options }) => {
     }
   }
 
-  const handleTrade = function * (quote, addressData) {
+  const handleTrade = function * (quote) {
     try {
       yield put(A.handleTradeLoading())
       const accounts = yield select(S.getAccounts)
@@ -244,29 +251,18 @@ export default ({ api, options }) => {
       yield put(A.fetchProfile())
       yield put(A.fetchTrades())
 
-      // save trades to metadata
+      // get current kvstore trades
       const kvTrades = yield select(buySellSelectors.getSfoxTrades)
-      const newTrades = prepend(trade, kvTrades.getOrElse([]))
+
+      // prepend new trade
+      const newTrades = prepend(trade, kvTrades)
+
+      // set new trades to metadata
       yield put(buySellA.setSfoxTradesBuySell(newTrades))
 
-      yield call(labelAddressForBuy, trade, addressData)
       return trade
     } catch (e) {
       console.warn(e)
-      yield put(A.handleTradeFailure(e))
-      return e
-    }
-  }
-
-  const labelAddressForBuy = function * (trade, addressData) {
-    try {
-      trade._account_index = addressData.accountIndex
-      trade._receive_index = addressData.index
-      const id = trade.tradeSubscriptionId || trade.id
-
-      yield put(walletActions.setHdAddressLabel(addressData.accountIndex, addressData.index, `SFOX order #${id}`))
-    } catch (e) {
-      console.warn('err in labelAddressForBuy', e)
       yield put(A.handleTradeFailure(e))
     }
   }
@@ -283,7 +279,7 @@ export default ({ api, options }) => {
 
       // get current kvstore trades, add new trade and set new trades to metadata
       const kvTrades = yield select(buySellSelectors.getSfoxTrades)
-      const newTrades = prepend(trade, kvTrades.getOrElse([]))
+      const newTrades = prepend(trade, kvTrades)
       yield put(buySellA.setSfoxTradesBuySell(newTrades))
 
       return trade
@@ -309,8 +305,6 @@ export default ({ api, options }) => {
     setBankAccount,
     verifyMicroDeposits,
     handleTrade,
-    handleSellTrade,
-    labelAddressForBuy,
-    refetchProfile
+    handleSellTrade
   }
 }

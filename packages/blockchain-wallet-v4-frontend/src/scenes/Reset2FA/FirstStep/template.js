@@ -10,7 +10,7 @@ import { Form, FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
 
 const Wrapper = styled.div`
   width: 100%;
-  padding: 30px;
+  padding: 40px;
   box-sizing: border-box;
   background-color: ${props => props.theme['white']};
 
@@ -23,9 +23,6 @@ const Header = styled.div`
 `
 const FirstStepForm = styled(Form)`
   margin-top: 15px;
-`
-const InfoMsg = styled(Text)`
-  margin-top: 5px;
 `
 const Footer = styled(FormGroup)`
   display: flex;
@@ -40,10 +37,6 @@ const GoBackLink = styled(LinkContainer)`
 const FirstStep = (props) => {
   const { submitting, invalid, handleSubmit } = props
 
-  const validNullableEmail = emailVal => {
-    return emailVal && emailVal.length ? validEmail(emailVal) : undefined
-  }
-
   return (
     <Wrapper>
       <Header>
@@ -51,7 +44,7 @@ const FirstStep = (props) => {
           <FormattedMessage id='scenes.reset2fa.firststep.reset' defaultMessage='Reset 2FA' />
         </Text>
         <Text size='10px'>
-          <FormattedMessage id='scenes.reset2fa.firststep.step1' defaultMessage='Step 1 of 2' />
+          <FormattedMessage id='scenes.reset2fa.firststep.step1' defaultMessage='Step 1 of 3' />
         </Text>
       </Header>
       <Separator />
@@ -91,17 +84,6 @@ const FirstStep = (props) => {
             <Text size='12px' weight={300}>
               <FormattedMessage id='scenes.reset2fa.firststep.firststepform.emailexplain' defaultMessage="Enter the email associated with your wallet (even if you've lost access to it)." />
             </Text>
-          </FormItem>
-        </FormGroup>
-        <FormGroup>
-          <FormItem>
-            <FormLabel for='newEmail'>
-              <FormattedMessage id='scenes.reset2fa.firststep.newEmail' defaultMessage='New Email (Optional)' />
-            </FormLabel>
-            <Field name='newEmail' autoFocus validate={[validNullableEmail]} component={TextBox} />
-            <InfoMsg size='12px' weight={300}>
-              <FormattedMessage id='scenes.reset2fa.firststep.newEmailExplain' defaultMessage="Enter your updated email if you've lost access to your previously verified email. If your 2FA reset request if approved, this will automatically be set as your wallet's new email address." />
-            </InfoMsg>
           </FormItem>
         </FormGroup>
         <Footer>

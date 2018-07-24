@@ -1,3 +1,3 @@
-import { getBchBalance } from '../selectors'
+import { selectors } from 'data'
 
-export const getData = getBchBalance
+export const getData = selectors.core.data.bch.getSpendableBalance

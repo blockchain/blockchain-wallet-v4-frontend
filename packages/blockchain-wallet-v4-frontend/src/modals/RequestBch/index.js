@@ -55,10 +55,7 @@ class RequestBchContainer extends React.PureComponent {
   }
 
   handleRefresh () {
-    const { bchDataActions, initialValues } = this.props
-    if (!Remote.Success.is(initialValues)) return bchDataActions.fetchData()
-
-    this.init()
+    this.props.refreshActions.refresh()
   }
 
   render () {
@@ -93,6 +90,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   bchDataActions: bindActionCreators(actions.core.data.bch, dispatch),
+  refreshActions: bindActionCreators(actions.core.refresh, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })

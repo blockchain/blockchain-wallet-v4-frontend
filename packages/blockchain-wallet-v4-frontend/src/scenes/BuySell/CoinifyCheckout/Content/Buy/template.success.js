@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { contains, path, prop } from 'ramda'
+import { contains, path, prop, head } from 'ramda'
 
 import { Button } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
@@ -15,16 +15,11 @@ import ISignThis from 'modals/CoinifyExchangeData/ISignThis'
 import KYCNotification from '../KYCNotification'
 import NextSubscription from '../NextSubscription'
 import BankTransferDetails from 'components/BuySell/BankTransferDetails'
-import media from 'services/ResponsiveService'
 
 const CheckoutWrapper = styled.div`
   display: grid;
   grid-template-columns: 55% 40%;
   grid-gap: 5%;
-  ${media.mobile`
-    display: flex;
-    flex-direction: column;
-  `}
 `
 const OrderSubmitWrapper = styled.div`
   display: flex;
@@ -59,7 +54,7 @@ const CoinifyBuy = props => {
   } = props
 
   const profile = Remote.of(prop('profile', value)).getOrElse({ _limits: service.mockedLimits, _level: { currency: 'EUR' } })
-  const kyc = prop('kyc', value)
+  const kyc = path(['kycs', 'length'], value) && head(value.kycs)
   const buyCurrencies = ['EUR', 'DKK', 'GBP', 'USD']
   const defaultCurrency = contains(currency, buyCurrencies) ? currency : 'EUR' // profile._level.currency
   const symbol = service.currencySymbolMap[defaultCurrency]
@@ -94,7 +89,7 @@ const CoinifyBuy = props => {
                   : null
               }
               {
-                path(['state'], kyc)
+                path(['kycs', 'length'], value) && path(['state'], kyc)
                   ? <KYCNotification kyc={kyc} limits={limits.buy} symbol={symbol} onTrigger={(kyc) => handleKycAction(kyc)} canTrade={canTrade} />
                   : null
               }

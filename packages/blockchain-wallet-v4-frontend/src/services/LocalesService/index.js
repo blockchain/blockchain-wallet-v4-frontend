@@ -15,7 +15,7 @@ import localesIT from 'assets/locales/it.json'
 import localesJA from 'assets/locales/ja.json'
 import localesKO from 'assets/locales/ko.json'
 import localesNL from 'assets/locales/nl.json'
-import localesNO from 'assets/locales/no.json'
+import localesNN from 'assets/locales/nn.json'
 import localesPL from 'assets/locales/pl.json'
 import localesPT from 'assets/locales/pt.json'
 import localesZH from 'assets/locales/zh.json'
@@ -43,7 +43,7 @@ function configureLocales (store) {
     ja: localesJA,
     ko: localesKO,
     nl: localesNL,
-    nn: localesNO,
+    nn: localesNN,
     pl: localesPL,
     pt: localesPT,
     zh: localesZH,

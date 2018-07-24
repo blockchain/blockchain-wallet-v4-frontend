@@ -8,8 +8,7 @@ import { CheckBox } from 'components/Form'
 import Terms from 'components/Terms'
 import { Button, HeartbeatLoader, Text, TextGroup, Link, Icon } from 'blockchain-info-components'
 import { Form, ColLeft, ColRight, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, ErrorWrapper, ColRightInner } from 'components/BuySell/Signup'
-import { prop } from 'ramda'
-import media from 'services/ResponsiveService'
+import { spacing } from 'services/StyleService'
 
 const AcceptTermsContainer = styled.div`
   display: flex;
@@ -26,9 +25,6 @@ const FieldsContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 20px;
-  ${media.mobile`
-    margin-top: 10px;
-  `}
 `
 const FieldContainer = styled.div`
   display: flex;
@@ -46,54 +42,29 @@ const FieldBox = styled.div`
   flex-direction: row;
   width: 85%;
   justify-content: space-between;
-  ${media.mobile`
-    border: none;
-    width: 100%;
-    padding: 0px;
-    flex-direction: column;
-    width: fit-content;
-  `}
 `
 const IconContainer = styled.div`
   display: flex;
   align-items: center;
   margin-left: 10px;
 `
-const AcceptTermsForm = styled(Form)`
-  ${media.mobile`
-    flex-direction: column;
-  `}
-`
-const EditLink = styled(Link)`
-  font-size: 12px;
-  ${media.mobile`
-    margin-top: 5px;
-    font-size: 12px;
-  `}
-`
-const VerifiedText = styled(Text)`
-  font-size: 14px;
-  margin-bottom: 10px;
-  ${media.mobile`
-    margin-bottom: 5px;
-  `}
-`
-const checkboxShouldBeChecked = value => value ? undefined : 'You must agree to the terms and conditions'
 
 const AcceptTerms = (props) => {
-  const { busy, email, invalid, handleSubmit, signupError, updateUI, emailVerified, editEmail, clearError } = props
+  const { busy, email, invalid, handleSubmit, signupError, updateUI, emailVerified, editEmail } = props
+
+  const checkboxShouldBeChecked = value => value ? undefined : 'You must agree to the terms and conditions'
 
   const helpers = [
     {
-      question: <FormattedMessage id='coinifysignup.acceptterms.helper1.question' defaultMessage='What is Coinify?' />,
-      answer: <FormattedMessage id='coinifysignup.acceptterms.helper1.answer' defaultMessage='Coinify is a trading platform we’ve partnered with to bring you a harmonious buy & sell experience in your Blockchain wallet' />
+      question: <FormattedMessage id='coinifysignup.create.helper1.question' defaultMessage='What is Coinify?' />,
+      answer: <FormattedMessage id='coinifysignup.create.helper1.answer' defaultMessage='Answer placeholder' />
     }
   ]
 
   const faqHelper = () => helpers.map((el, i) => <Helper key={i} question={el.question} answer={el.answer} />)
 
   return (
-    <AcceptTermsForm onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit}>
       <ColLeft>
         <InputWrapper>
           <PartnerHeader>
@@ -104,21 +75,17 @@ const AcceptTerms = (props) => {
           </PartnerSubHeader>
           <FieldsContainer>
             <FieldContainer>
-              <VerifiedText>
+              <Text size='14px' style={spacing('mb-10')}>
                 <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.verifiedemail' defaultMessage='Verified Email Address' />
-              </VerifiedText>
+              </Text>
               <VerifiedContainer>
                 <FieldBox>
                   <Text size='14px' weight={300}>
                     { email }
                   </Text>
-                  <EditLink onClick={editEmail} weight={300}>
-                    {
-                      window.outerWidth > 480
-                        ? <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.edit' defaultMessage='edit' />
-                        : <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.editemail' defaultMessage='edit email' />
-                    }
-                  </EditLink>
+                  <Link onClick={editEmail} size='14px' weight={300}>
+                    <FormattedMessage id='sfoxexchangedata.create.createaccount.partner.edit' defaultMessage='edit' />
+                  </Link>
                 </FieldBox>
                 <IconContainer>
                   { emailVerified ? <Icon name='checkmark-in-circle-filled' color='success' size='20px' /> : null }
@@ -146,41 +113,24 @@ const AcceptTerms = (props) => {
           </ButtonWrapper>
           <ErrorWrapper>
             {
-              signupError && prop('error', signupError) === 'email_address_in_use'
-                ? <TextGroup inline>
-                  <Text size='12px' color='error' weight={300}>
-                    <FormattedMessage id='coinifyexchangedata.create.accept.error1' defaultMessage='Unfortunately this email is being used for another account. ' />
-                  </Text>
-                  <Text size='12px' color='brand-secondary' cursor='pointer' weight={300} onClick={() => updateUI({ create: 'change_email' })}>
-                    <FormattedMessage id='coinifyexchangedata.create.accept.error2' defaultMessage='Click here ' />
-                  </Text>
-                  <Text size='12px' color='error' weight={300}>
-                    <FormattedMessage id='coinifyexchangedata.create.accept.error3' defaultMessage='to change it.' />
+              signupError && <TextGroup inline>
+                <Text size='12px' color='error' weight={300}>
+                  <FormattedMessage id='coinifyexchangedata.create.accept.error1' defaultMessage='Unfortunately this email is being used for another account. ' />
+                </Text>
+                <Text size='12px' color='brand-secondary' cursor='pointer' weight={300} onClick={() => updateUI({ create: 'change_email' })}>
+                  <FormattedMessage id='coinifyexchangedata.create.accept.error2' defaultMessage='Click here ' />
+                </Text>
+                <Text size='12px' color='error' weight={300}>
+                  <FormattedMessage id='coinifyexchangedata.create.accept.error3' defaultMessage='to change it.' />
 
-                  </Text>
-                </TextGroup>
-                : signupError
-                  ? <TextGroup inline>
-                    <Text size='12px' color='error' weight={300}>
-                      <FormattedMessage id='coinifyexchangedata.create.accept.unknownError' defaultMessage="We're sorry, but something unexpected went wrong. Please " />
-                    </Text>
-                    <Link size='12px' weight={300} onClick={() => clearError()}>
-                      <FormattedMessage id='tryagain' defaultMessage='try again' />
-                    </Link>
-                    <Text size='12px' color='error' weight={300}>
-                      <FormattedMessage id='or' defaultMessage='or' />
-                    </Text>
-                    <Link target='_blank' href='https://support.blockchain.com' size='12px' weight={300}>
-                      <FormattedMessage id='contactsupport' defaultMessage='contact support.' />
-                    </Link>
-                  </TextGroup>
-                  : null
+                </Text>
+              </TextGroup>
             }
           </ErrorWrapper>
           {faqHelper()}
         </ColRightInner>
       </ColRight>
-    </AcceptTermsForm>
+    </Form>
   )
 }
 

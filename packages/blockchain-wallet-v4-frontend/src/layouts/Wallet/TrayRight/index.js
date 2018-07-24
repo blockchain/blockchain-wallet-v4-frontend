@@ -11,7 +11,6 @@ import Faq from './Faq'
 import WhatsNew from './WhatsNew'
 import { actions } from 'data'
 import { getData } from './selectors'
-import media from 'services/ResponsiveService'
 
 const AnimationWrapper = styled.div`
   position: absolute;
@@ -27,16 +26,10 @@ const AnimationWrapper = styled.div`
     right: ${props => props.opened ? '0' : 'calc(-75%)'};
   }
 
-  ${media.tablet`
+  @media (max-width: 767px) {
     width: calc(100%);
     right: ${props => props.opened ? '0' : 'calc(-110%)'};
-    display: ${props => props.opened ? 'inline' : 'none'};
-  `}
-  ${media.mobile`
-    width: calc(100%);
-    right: ${props => props.opened ? '0' : 'calc(-110%)'};
-    display: ${props => props.opened ? 'inline' : 'none'};
-  `}
+  }
 `
 const Header = styled.div`
   display: flex;
@@ -93,7 +86,7 @@ class TrayRightContainer extends React.PureComponent {
         <Header>
           <Text size='20px' weight={300}>
             {content === 'faq' && <FormattedMessage id='layouts.wallet.trayright.faq' defaultMessage='Frequently Asked Questions' />}
-            {content === 'whatsnew' && <FormattedMessage id='layouts.wallet.trayright.whatsnew' defaultMessage='What’s New' />}
+            {content === 'whatsnew' && <FormattedMessage id='layouts.wallet.trayright.whatsnew' defaultMessage='Whats New' />}
           </Text>
           <Icon size='20px' name='close' cursor onClick={this.handleClose} />
         </Header>

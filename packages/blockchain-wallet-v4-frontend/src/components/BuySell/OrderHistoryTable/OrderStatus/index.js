@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { OrderHistoryText } from '../TradeItem'
+
+import { Text } from 'blockchain-info-components'
 
 const selectStyle = status => {
   switch (status) {
@@ -37,9 +38,9 @@ const OrderStatus = props => {
   const style = selectStyle(status)
 
   return (
-    <OrderHistoryText size='13px' weight={300} {...style}>
+    <Text size='13px' weight={300} {...style}>
       {renderStatus(status, isBuy)}
-    </OrderHistoryText>
+    </Text>
   )
 }
 

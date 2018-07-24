@@ -11,7 +11,6 @@ const FaqDescription = styled.div`
 
 const FaqContent = [
   { groupTitleMsg: <FormattedMessage id='scenes.faq.group.coinify.title' defaultMessage='Exchange Services (Coinify)' />,
-    whitelist: ['coinify'],
     groupQuestions: [{
       answerId: '',
       question: <FormattedMessage id='scenes.faq.group.coinify.question1' defaultMessage='What can I buy and sell?' />,
@@ -87,7 +86,6 @@ const FaqContent = [
     }]
   }, {
     groupTitleMsg: <FormattedMessage id='scenes.faq.group.sfox.title' defaultMessage='Exchange Services (SFOX)' />,
-    whitelist: ['sfox'],
     groupQuestions: [{
       answerId: '',
       question: <FormattedMessage id='scenes.faq.group.sfox.question1' defaultMessage='What can I buy and sell?' />,
@@ -149,8 +147,7 @@ const FaqContent = [
       </FaqDescription>
     }]
   }, {
-    groupTitleMsg: <FormattedMessage id='scenes.faq.group.noexchange.title' defaultMessage='Exchange Services' />,
-    whitelist: ['n/a'],
+    groupTitleMsg: <FormattedMessage id='scenes.faq.group.noexchange.title' defaultMessage='Exchange Services (not available)' />,
     groupQuestions: [{
       answerId: '',
       question: <FormattedMessage id='scenes.faq.group.noexchange.question1' defaultMessage='Where can I buy and sell?' />,

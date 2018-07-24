@@ -12,16 +12,10 @@ class FirstStep extends React.Component {
   constructor (props) {
     super(props)
     this.handleRefresh = this.handleRefresh.bind(this)
-    this.handleToToggle = this.handleToToggle.bind(this)
   }
 
   handleRefresh () {
-    this.props.actions.initialized()
-  }
-
-  handleToToggle (val) {
-    this.props.formActions.touch('sendBtc', 'to')
-    this.props.actions.sendBtcFirstStepToToggled(val)
+    this.props.refreshActions.refresh()
   }
 
   render () {
@@ -46,7 +40,7 @@ class FirstStep extends React.Component {
         totalFee={value.totalFee}
         onSubmit={() => actions.sendBtcFirstStepSubmitClicked()}
         handleFeePerByteToggle={() => actions.sendBtcFirstStepFeePerByteToggled()}
-        handleToToggle={this.handleToToggle}
+        handleToToggle={(val) => actions.sendBtcFirstStepToToggled(val)}
       />,
       Failure: () => <DataError onClick={() => this.handleRefresh} />,
       NotAsked: () => <Loading />,
@@ -61,8 +55,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions.components.sendBtc, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch)
+  refreshActions: bindActionCreators(actions.core.refresh, dispatch),
+  actions: bindActionCreators(actions.components.sendBtc, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FirstStep)

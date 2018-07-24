@@ -1,7 +1,6 @@
-import { curry, is, clamp, split, length, add, compose, sort,
-  isNil, ifElse, always, complement, either, tryCatch } from 'ramda'
+import {curry, is, clamp, split, length, add, compose,
+  isNil, ifElse, always, complement, either, tryCatch} from 'ramda'
 import { over, view } from 'ramda-lens'
-import { inputComparator, sortOutputs } from 'bip69'
 import Type from '../types/Type'
 import { addressToScript, scriptToAddress } from '../utils/bitcoin'
 
@@ -89,7 +88,3 @@ export const outputBytes = ifElse(either(complement(isCoin), compose(isNil, sele
 
 export const effectiveValue = curry((feePerByte, coin) =>
   clamp(0, Infinity, coin.value - feePerByte * inputBytes(coin)))
-
-export const bip69SortInputs = sort((inputA, inputB) =>
-  inputComparator(inputA.txHash, inputA.value, inputB.txHash, inputB.value))
-export const bip69SortOutputs = sortOutputs

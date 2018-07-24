@@ -50,9 +50,3 @@ export const cancelTrade = (trade) => ({ type: AT.CANCEL_TRADE, payload: trade }
 export const cancelSubscription = (subscription) => ({ type: AT.CANCEL_SUBSCRIPTION, payload: subscription })
 
 export const checkoutCardMax = (limits) => ({ type: AT.CHECKOUT_CARD_MAX, payload: limits })
-
-export const initializePayment = () => ({ type: AT.COINIFY_INITIALIZE_PAYMENT })
-
-export const coinifySellBtcPaymentUpdatedSuccess = payment => ({ type: AT.COINIFY_SELL_BTC_PAYMENT_UPDATED_SUCCESS, payload: payment })
-export const coinifySellBtcPaymentUpdatedLoading = () => ({ type: AT.COINIFY_SELL_BTC_PAYMENT_UPDATED_LOADING })
-export const coinifySellBtcPaymentUpdatedFailure = (err) => ({ type: AT.COINIFY_SELL_BTC_PAYMENT_UPDATED_FAILURE, payload: err })

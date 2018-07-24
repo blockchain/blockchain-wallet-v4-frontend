@@ -46,7 +46,6 @@ class VerifyEmailContainer extends Component {
       ui={ui}
       updateUI={updateUI}
       email={this.props.oldEmail}
-      newEmail={this.props.emailAddress}
     />
   }
 }

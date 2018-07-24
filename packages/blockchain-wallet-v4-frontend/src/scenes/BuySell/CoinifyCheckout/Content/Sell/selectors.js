@@ -4,13 +4,16 @@ import { selectors } from 'data'
 
 export const getUserData = (state) => {
   const profile = selectors.core.data.coinify.getProfile(state)
-  const payment = path(['coinify', 'payment'], state)
-  const kyc = selectors.core.data.coinify.getKyc(state)
-  return lift((profile, payment, kyc) => ({ profile, payment, kyc }))(profile, payment, kyc)
+  const payment = selectors.components.sendBtc.getPayment(state)
+  const kycs = selectors.core.data.coinify.getSortedKycs(state)
+  return lift((profile, payment, kycs) => ({ profile, payment, kycs }))(profile, payment, kycs)
 }
 
 export const getTrades = (state) =>
   selectors.core.data.coinify.getTrades(state).getOrElse(null)
+
+export const getRateQuote = (state) =>
+  selectors.core.data.coinify.getRateQuote(state)
 
 export const getTrade = (state) =>
   selectors.core.data.coinify.getTrade(state).getOrElse(null)

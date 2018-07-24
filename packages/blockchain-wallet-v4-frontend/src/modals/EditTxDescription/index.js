@@ -35,9 +35,6 @@ const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
-const enhance = compose(
-  modalEnhancer('EditTxDescription'),
-  connect(mapStateToProps, mapDispatchToProps)
-)
+const enhance = compose(connect(mapStateToProps, mapDispatchToProps), modalEnhancer('EditTxDescription'))
 
 export default enhance(EditTxDescriptionContainer)

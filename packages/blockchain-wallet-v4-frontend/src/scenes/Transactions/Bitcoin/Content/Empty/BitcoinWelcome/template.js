@@ -31,10 +31,10 @@ const Container = styled.div`
 const Row = styled.div`
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
   justify-content: space-between;
-  width: ${props => props.width || '100%'};
-  align-items: ${props => props.alignItems || 'center'};
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
   @media(min-width: 1200px) {
     flex-direction: row;
   }
@@ -44,17 +44,12 @@ const Cell = styled.div`
   padding: 15px 0 15px 15px;
   box-sizing: border-box;
   @media(min-width: 768px) { ${props => props.small ? '30%' : '35%'}; }
+
 `
 const CloseArrow = styled(Icon)`
   height: 30px;
   width: 30px;
   margin-top: 20px;
-`
-const LearnMoreLink = styled(Link)`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
 `
 const BitcoinWelcome = props => {
   const { displayed, handleClick, handleRequest, partner, exchange } = props
@@ -66,43 +61,38 @@ const BitcoinWelcome = props => {
         <Row>
           <Cell small>
             <Text size='24px' weight={300} color='brand-primary' uppercase>
-              <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.welcometo' defaultMessage='Welcome to' />
+              <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.welcome' defaultMessage='Welcome to Bitcoin' />
             </Text>
-            <Text size='24px' weight={300} color='brand-primary' uppercase>
-              Bitcoin
-            </Text>
-            <LearnMoreLink href='https://blockchain.info/wallet/bitcoin-faq' size='16px' target='_blank' weight={300} uppercase>
+            <Link href='https://blockchain.info/wallet/bitcoin-faq' size='16px' target='_blank' weight={300} uppercase>
               <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.learnmore' defaultMessage='Learn More' />
               <Icon name='right-arrow' color='brand-secondary' />
-            </LearnMoreLink>
+            </Link>
           </Cell>
-          <Row alignItems='flex-start' width='auto'>
-            <Cell>
-              <Text weight={300} color='brand-primary' uppercase>
-                <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.what' defaultMessage='What is bitcoin?' />
+          <Cell>
+            <Text weight={300} color='brand-primary' uppercase>
+              <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.what' defaultMessage='What is bitcoin?' />
+            </Text>
+            <Separator />
+            <TextGroup inline>
+              <Text size='12px' weight={300}>
+                <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.currency' defaultMessage='Bitcoin is a digital currency, and is used like other assets in exchange for goods and services.' />
               </Text>
-              <Separator />
-              <TextGroup inline>
-                <Text size='12px' weight={300}>
-                  <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.currency' defaultMessage='Bitcoin is a digital currency, and is used like other assets in exchange for goods and services.' />
-                </Text>
-                <Text size='12px' weight={300}>
-                  <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.transact' defaultMessage='Unlike traditional currencies and assets, bitcoin is easily portable, divisible, and irreversible.' />
-                </Text>
-              </TextGroup>
-            </Cell>
-            <Cell>
-              <Text weight={300} color='brand-primary' uppercase>
-                <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.why' defaultMessage='Why should I use it?' />
+              <Text size='12px' weight={300}>
+                <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.transact' defaultMessage='Unlike traditional currencies and assets, bitcoin is easily portable, divisible, and irreversible.' />
               </Text>
-              <Separator />
-              <TextGroup inline>
-                <Text size='12px' weight={300}>
-                  <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.fees' defaultMessage='As a global currency you can send bitcoin to anyone, anywhere in the world without worrying about cross border remittance fees.' />
-                </Text>
-              </TextGroup>
-            </Cell>
-          </Row>
+            </TextGroup>
+          </Cell>
+          <Cell>
+            <Text weight={300} color='brand-primary' uppercase>
+              <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.why' defaultMessage='Why should I use it?' />
+            </Text>
+            <Separator />
+            <TextGroup inline>
+              <Text size='12px' weight={300}>
+                <FormattedMessage id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.fees' defaultMessage='As a global currency you can send bitcoin to anyone, anywhere in the world without worrying about cross border remittance fees.' />
+              </Text>
+            </TextGroup>
+          </Cell>
         </Row>
         <Row>
           { partner

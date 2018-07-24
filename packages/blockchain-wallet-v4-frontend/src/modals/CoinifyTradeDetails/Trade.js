@@ -36,14 +36,14 @@ const Trade = ({ trade, close, status, subscriptions }) => {
     <Fragment>
       <ModalHeader onClose={close}>
         <Text color={headerStatus.color}>
-          { trade.isBuy ? `Buy Trade` : 'Sell Trade' } {headerStatus.text}
+          { trade.isBuy ? `Buy Order` : 'Sell Order' } {headerStatus.text}
         </Text>
       </ModalHeader>
       <ModalBody>
         <Text size='13px' weight={300}>
           { bodyStatus.text }
         </Text>
-        <TableTitle size='13px' weight={400}><FormattedMessage id='orderdetails.orderdetails' defaultMessage='Order Details' /></TableTitle>
+        <TableTitle size='13px' weight={400}><FormattedMessage id='orderdetails.payoutdetails' defaultMessage='Order Details' /></TableTitle>
         <StyledOrderDetailsTable>
           <OrderDetailsRow>
             <Text size='13px' weight={300}><FormattedMessage id='orderdetails.coinifytradeid' defaultMessage='Coinify Trade ID' /></Text>

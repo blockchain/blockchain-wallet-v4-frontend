@@ -1,14 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import ui from 'redux-ui'
-import { formValueSelector } from 'redux-form'
-
-import { getData } from './selectors'
 import { actions } from 'data'
-import Success from './template.success'
+import SmsAuth from './template.success'
+import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
+import ui from 'redux-ui'
+import { formValueSelector } from 'redux-form'
 
 class SmsAuthContainer extends React.PureComponent {
   constructor (props) {
@@ -31,8 +30,10 @@ class SmsAuthContainer extends React.PureComponent {
     if (next.authType !== prev.authType) {
       this.props.updateUI({ successToggled: true })
       this.props.triggerSuccess()
-      this.props.handleGoBack()
-      this.props.goBackOnSuccess()
+      setTimeout(() => {
+        this.props.handleGoBack()
+        this.props.goBackOnSuccess()
+      }, 1500)
     }
   }
 
@@ -55,7 +56,7 @@ class SmsAuthContainer extends React.PureComponent {
     const { data, ui, verificationCode, goBack, ...rest } = this.props
 
     return data.cata({
-      Success: (value) => <Success
+      Success: (value) => <SmsAuth
         data={value}
         handleClick={this.handleClick}
         onSubmit={this.onSubmit}

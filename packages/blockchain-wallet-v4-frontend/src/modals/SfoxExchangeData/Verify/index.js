@@ -41,10 +41,6 @@ class VerifyContainer extends Component {
     }
   }
 
-  componentWillUnmount () {
-    this.props.formActions.destroy('sfoxAddress')
-  }
-
   handleSubmit (e) {
     e.preventDefault()
     this.props.updateUI({ busy: true })
@@ -55,7 +51,6 @@ class VerifyContainer extends Component {
     this.props.updateUI({ busy: false })
     this.props.updateUI({ verify: 'address' })
     this.props.sfoxFrontendActions.setVerifyError(false)
-    this.props.sfoxDataActions.refetchProfile()
   }
 
   render () {
@@ -82,8 +77,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
-  sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch),
-  sfoxDataActions: bindActionCreators(actions.core.data.sfox, dispatch)
+  sfoxFrontendActions: bindActionCreators(actions.modules.sfox, dispatch)
 })
 
 const enhance = compose(

@@ -31,7 +31,7 @@ export const password = Wrapper.define('password')
 export const version = Wrapper.define('version')
 export const payloadChecksum = Wrapper.define('payload_checksum')
 export const language = Wrapper.define('language')
-export const syncPubKeys = Wrapper.define('sync_pubkeys')
+export const syncPubkeys = Wrapper.define('sync_pubkeys')
 export const warChecksum = Wrapper.define('war_checksum')
 export const authType = Wrapper.define('auth_type')
 export const realAuthType = Wrapper.define('real_auth_type')
@@ -46,7 +46,6 @@ export const selectSyncWarChecksum = view(warChecksum)
 export const selectAuthType = view(authType)
 export const selectRealAuthType = view(realAuthType)
 export const selectWallet = view(wallet)
-export const selectSyncPubKeys = view(syncPubKeys)
 
 // traverseWallet :: Monad m => (a -> m a) -> (Wallet -> m Wallet) -> Wrapper
 export const traverseWallet = curry(
@@ -137,12 +136,12 @@ export const toEncJSON = wrapper => {
     .map((r) => assoc('checksum', hash(view(plens, r)), r))
 }
 
-export const js = (password, guid, sharedKey, label, mnemonic, xpub, language, nAccounts = 1, network) => ({
+export const js = (password, guid, sharedKey, label, mnemonic, xpub, nAccounts = 1, network) => ({
   sync_pubkeys: false,
   payload_checksum: '',
   storage_token: '',
   version: 3,
-  language: language,
+  language: 'en',
   wallet: Wallet.js(guid, sharedKey, label, mnemonic, xpub, nAccounts, network),
   war_checksum: '',
   password: password,
@@ -154,8 +153,8 @@ export const setBothPbkdf2Iterations = curry((iterations, wrapper) => compose(
   set(pbkdf2Iterations, iterations)
 )(wrapper))
 
-export const createNew = (guid, password, sharedKey, mnemonic, language, firstAccountName = 'My Bitcoin Wallet', nAccounts = 1) =>
-  fromJS(js(password, guid, sharedKey, firstAccountName, mnemonic, undefined, language, nAccounts))
+export const createNew = (guid, password, sharedKey, mnemonic, firstAccountName = 'My Bitcoin Wallet', nAccounts = 1) =>
+  fromJS(js(password, guid, sharedKey, firstAccountName, mnemonic, undefined, nAccounts))
 
 export const createNewReadOnly = (xpub, firstAccountName = 'My read-only Wallet') =>
   fromJS(js('', '', '', firstAccountName, undefined, xpub, 1))

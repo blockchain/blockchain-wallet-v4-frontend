@@ -31,10 +31,13 @@ const Container = styled.div`
 const Row = styled.div`
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
   justify-content: space-between;
-  width: ${props => props.width || '100%'};
-  align-items: ${props => props.alignItems || 'center'};
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  button {
+    margin-top: 10px;
+  }
   @media(min-width: 1200px) {
     flex-direction: row;
   }
@@ -50,12 +53,6 @@ const CloseArrow = styled(Icon)`
   width: 30px;
   margin-top: 20px;
 `
-const LearnMoreLink = styled(Link)`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-`
 const EtherWelcome = props => {
   const { displayed, handleClick, handleRequest, exchange } = props
 
@@ -69,54 +66,52 @@ const EtherWelcome = props => {
               <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.welcome' defaultMessage='Welcome to' />
             </Text>
             <Text size='24px' weight={300} color='brand-primary' uppercase>
-              Ether
+              <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.welcome2' defaultMessage='Ether' />
             </Text>
-            <LearnMoreLink href='https://www.blockchain.com/learning-portal/ether-basics' target='_blank' size='16px' weight={300} uppercase>
+            <Link href='https://www.blockchain.com/ether-basics' target='_blank' size='16px' weight={300} uppercase>
               <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.learnmore' defaultMessage='Learn More' />
               <Icon name='right-arrow' color='brand-secondary' />
-            </LearnMoreLink>
+            </Link>
           </Cell>
-          <Row alignItems='flex-start' width='auto'>
-            <Cell>
-              <Text weight={300} color='brand-primary' uppercase>
-                <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.what' defaultMessage='What is ether?' />
+          <Cell>
+            <Text weight={300} color='brand-primary' uppercase>
+              <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.what' defaultMessage='What is ether?' />
+            </Text>
+            <Separator />
+            <TextGroup inline>
+              <Text size='12px' weight={300}>
+                <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.currency' defaultMessage='Ether is a digital currency.' />
               </Text>
-              <Separator />
-              <TextGroup inline>
-                <Text size='12px' weight={300}>
-                  <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.currency' defaultMessage='Ether is a digital currency.' />
-                </Text>
-                <Text size='12px' weight={300}>
-                  <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.transact' defaultMessage='Like Bitcoin, it enables people around the world to transact, save, and hedge their way to a better financial future.' />
-                </Text>
-                <Text size='12px' weight={300}>
-                  <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.platform' defaultMessage='In addition to sending value, ether also powers the Ethereum platform.' />
-                </Text>
-              </TextGroup>
-            </Cell>
-            <Cell>
-              <Text weight={300} color='brand-primary' uppercase>
-                <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.why' defaultMessage='Why should I use it?' />
+              <Text size='12px' weight={300}>
+                <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.transact' defaultMessage='Like Bitcoin, it enables people around the world to transact, save, and hedge their way to a better financial future.' />
               </Text>
-              <Separator />
-              <TextGroup inline>
-                <Text size='12px' weight={300}>
-                  <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.grow' defaultMessage='As the Ethereum platform grows, more intelligent applications will be built on top of it.' />
-                </Text>
-                <Text size='12px' weight={300}>
-                  <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.opportunity' defaultMessage="We want to give you the opportunity to start using ether now, so you' ll be ready to use these products in the future." />
-                </Text>
-              </TextGroup>
-            </Cell>
-          </Row>
+              <Text size='12px' weight={300}>
+                <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.platform' defaultMessage='In addition to sending value, ether also powers the Ethereum platform.' />
+              </Text>
+            </TextGroup>
+          </Cell>
+          <Cell>
+            <Text weight={300} color='brand-primary' uppercase>
+              <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.why' defaultMessage='Why should I use it?' />
+            </Text>
+            <Separator />
+            <TextGroup inline>
+              <Text size='12px' weight={300}>
+                <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.grow' defaultMessage='As the Ethereum platform grows, more intelligent applications will be built on top of it.' />
+              </Text>
+              <Text size='12px' weight={300}>
+                <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.opportunity' defaultMessage="We want to give you the opportunity to start using ether now, so you' ll be ready to use these products in the future." />
+              </Text>
+            </TextGroup>
+          </Cell>
         </Row>
         <Row>
           {
             exchange ? <LinkContainer to='/exchange'>
-              <Button nature='primary' margin='20px' fullwidth uppercase>
+              <Button nature='primary' fullwidth uppercase>
                 <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.getstarted.exchange' defaultMessage='Get started with ether' />
               </Button>
-            </LinkContainer> : <Button nature='primary' margin='20px' onClick={handleRequest} fullwidth uppercase>
+            </LinkContainer> : <Button nature='primary' onClick={handleRequest} fullwidth uppercase>
               <FormattedMessage id='scenes.transaction.ether.content.empty.etherwelcome.getstarted.request' defaultMessage='Get started with ether' />
             </Button>
           }

@@ -9,7 +9,6 @@ class EtherWelcomeContainer extends React.PureComponent {
   constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
-    this.handleRequest = this.handleRequest.bind(this)
   }
 
   handleClick () {
@@ -23,7 +22,7 @@ class EtherWelcomeContainer extends React.PureComponent {
   render () {
     const { showEtherWelcome, bchBalanceR, btcBalanceR } = this.props
     const exchange = btcBalanceR.getOrElse(0) + bchBalanceR.getOrElse(0) > 0
-    return <EtherWelcome displayed={showEtherWelcome} handleClick={this.handleClick} handleRequest={this.handleRequest} exchange={exchange} />
+    return <EtherWelcome displayed={showEtherWelcome} handleClick={this.handleClick} exchange={exchange} />
   }
 }
 

@@ -18,13 +18,13 @@ describe('ChartService', () => {
       expect(ChartService.calculateStart('BTC', '')).toEqual(1282089600)
     })
     it('1year start', () => {
-      expect(ChartService.calculateStart('BTC', '1year')).toEqual('1485907200')
+      expect(ChartService.calculateStart('BTC', '1year')).toEqual('1482537600')
     })
     it('1month start', () => {
-      expect(ChartService.calculateStart('BTC', '1month')).toEqual('1514764800')
+      expect(ChartService.calculateStart('BTC', '1month')).toEqual('1514073600')
     })
     it('1week start', () => {
-      expect(ChartService.calculateStart('BTC', '1week')).toEqual('1516838400')
+      expect(ChartService.calculateStart('BTC', '1week')).toEqual('1516752000')
     })
     it('1day start', () => {
       expect(ChartService.calculateStart('BTC', '1day')).toEqual('1517356800')

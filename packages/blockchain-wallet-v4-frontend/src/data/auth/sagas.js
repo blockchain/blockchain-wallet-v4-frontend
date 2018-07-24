@@ -1,6 +1,6 @@
 import { call, put, select, take, fork } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
-import { path, prop, assoc, is } from 'ramda'
+import { path, prop, assoc } from 'ramda'
 import Either from 'data.either'
 
 import * as actions from '../actions.js'
@@ -10,17 +10,8 @@ import * as C from 'services/AlertService'
 import { askSecondPasswordEnhancer, promptForSecondPassword, forceSyncWallet } from 'services/SagaService'
 import { Types } from 'blockchain-wallet-v4/src'
 
-export const logLocation = 'auth/sagas'
-export const defaultLoginErrorMessage = 'Error logging into your wallet'
-// TODO: make this a global error constant
-export const wrongWalletPassErrorMessage = 'wrong_wallet_password'
-export const guidNotFound2faErrorMessage = 'Wallet Identifier Not Found'
-export const notEnabled2faErrorMessage = 'Error: Two factor authentication not enabled.'
-export const emailMismatch2faErrorMessage = 'Error: Email entered does not match the email address associated with this wallet'
-export const wrongCaptcha2faErrorMessage = 'Error: Captcha Code Incorrect'
-export const wrongAuthCodeErrorMessage = 'Authentication code is incorrect'
-
 export default ({ api, coreSagas }) => {
+  const logLocation = 'auth/sagas'
   const upgradeWallet = function * () {
     try {
       let password = yield call(promptForSecondPassword)
@@ -49,19 +40,6 @@ export default ({ api, coreSagas }) => {
     yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
   }
 
-  const upgradeAddressLabelsSaga = function * () {
-    const addressLabelSize = yield call(coreSagas.kvStore.btc.fetchMetadataBtc)
-    if (addressLabelSize > 100) {
-      yield put(actions.modals.showModal('UpgradeAddressLabels', {duration: addressLabelSize / 20}))
-    }
-    if (addressLabelSize >= 0) {
-      yield call(coreSagas.kvStore.btc.createMetadataBtc)
-    }
-    if (addressLabelSize > 100) {
-      yield put(actions.modals.closeModal())
-    }
-  }
-
   const transferEthSaga = function * () {
     const legacyAccountR = yield select(selectors.core.kvStore.ethereum.getLegacyAccount)
     const legacyAccount = legacyAccountR.getOrElse(null)
@@ -78,32 +56,27 @@ export default ({ api, coreSagas }) => {
 
   const loginRoutineSaga = function * (mobileLogin, firstLogin) {
     try {
+      // Clear form
+      yield put(actions.form.destroy('login'))
       // If needed, the user should upgrade its wallet before being able to open the wallet
       let isHdWallet = yield select(selectors.core.wallet.isHdWallet)
       if (!isHdWallet) {
-        yield call(upgradeWalletSaga)
+        yield upgradeWalletSaga()
       }
       yield put(actions.auth.authenticate())
-      yield put(actions.middleware.webSocket.bch.startSocket())
-      yield put(actions.middleware.webSocket.btc.startSocket())
-      yield put(actions.middleware.webSocket.eth.startSocket())
+      yield put(actions.core.webSocket.bitcoin.startSocket())
+      yield put(actions.core.webSocket.ethereum.startSocket())
+      yield put(actions.core.webSocket.bch.startSocket())
       yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
-      // If there was no ethereum metadata kv store entry, we need to create one and that requires the second password.
-      yield call(coreSagas.kvStore.ethereum.fetchMetadataEthereum, askSecondPasswordEnhancer)
+      yield call(coreSagas.kvStore.ethereum.fetchMetadataEthereum)
       yield call(coreSagas.kvStore.bch.fetchMetadataBch)
       yield put(actions.router.push('/home'))
-      yield call(upgradeAddressLabelsSaga)
-      yield put(actions.auth.loginSuccess())
-      yield put(actions.auth.startLogoutTimer())
-      // store guid in cache for future logins
-      const guid = yield select(selectors.core.wallet.getGuid)
-      yield put(actions.cache.guidEntered(guid))
       // reset auth type and clear previous login form state
       yield put(actions.auth.setAuthType(0))
       yield put(actions.form.destroy('login'))
-      // set payload language to settings language
-      const language = yield select(selectors.preferences.getLanguage)
-      yield put(actions.modules.settings.updateLanguage(language))
+      yield put(actions.auth.loginSuccess())
+      yield put(actions.auth.startLogoutTimer())
+      yield put(actions.goals.runGoals())
       yield fork(transferEthSaga)
       yield fork(welcomeSaga, firstLogin)
       yield fork(reportStats, mobileLogin)
@@ -147,6 +120,7 @@ export default ({ api, coreSagas }) => {
     try {
       if (!session) { session = yield call(api.obtainSessionToken) }
       yield put(actions.session.saveSession(assoc(guid, session, {})))
+      yield put(actions.cache.guidEntered(guid))
       yield put(actions.auth.loginLoading())
       yield call(coreSagas.wallet.fetchWalletSaga, { guid, sharedKey, session, password, code })
       yield call(loginRoutineSaga, mobileLogin)
@@ -162,14 +136,14 @@ export default ({ api, coreSagas }) => {
           try {
             yield call(coreSagas.wallet.fetchWalletSaga, { guid, session, password })
             yield call(loginRoutineSaga, mobileLogin)
-          } catch (error) {
-            if (error && error.auth_type > 0) {
-              yield put(actions.auth.setAuthType(error.auth_type))
+          } catch (e) {
+            if (e.auth_type > 0) {
+              yield put(actions.auth.setAuthType(e.auth_type))
               yield put(actions.alerts.displayInfo(C.TWOFA_REQUIRED_INFO))
               yield put(actions.auth.loginFailure())
             } else {
-              yield put(actions.auth.loginFailure(wrongWalletPassErrorMessage))
-              yield put(actions.logs.logErrorMessage(logLocation, 'login', error))
+              yield put(actions.auth.loginFailure('wrong_wallet_password'))
+              yield put(actions.logs.logErrorMessage(logLocation, 'login', e))
             }
           }
         } else {
@@ -178,29 +152,18 @@ export default ({ api, coreSagas }) => {
       } else if (initialError.isRight && initialError.value) {
         // general error
         yield put(actions.auth.loginFailure(initialError.value))
-      } else if (error && error.auth_type > 0) {
-        // 2fa required
-        // dispatch state change to show form
-        yield put(actions.auth.loginFailure())
-        yield put(actions.auth.setAuthType(error.auth_type))
-        yield put(actions.alerts.displayInfo(C.TWOFA_REQUIRED_INFO))
-      // Wrong password error
-      } else if (error && is(String, error) && error.includes(wrongWalletPassErrorMessage)) {
-        // remove 2fa if password is wrong
-        // password error can only occur after 2fa validation
-        yield put(actions.auth.setAuthType(0))
-        yield put(actions.form.clearFields('login', false, true, 'password', 'code'))
-        yield put(actions.form.focus('login', 'password'))
-        yield put(actions.auth.loginFailure(error))
-      // Wrong 2fa code error
-      } else if (error && is(String, error) && error.includes(wrongAuthCodeErrorMessage)) {
-        yield put(actions.form.clearFields('login', false, true, 'code'))
-        yield put(actions.form.focus('login', 'code'))
-        yield put(actions.auth.loginFailure(error))
       } else {
-        const errorMessage =
-          prop('message', error) || error || defaultLoginErrorMessage
-        yield put(actions.auth.loginFailure(errorMessage))
+        // 2FA errors
+        if (error.auth_type > 0) { // 2fa required
+          // dispatch state change to show form
+          yield put(actions.auth.loginFailure())
+          yield put(actions.auth.setAuthType(error.auth_type))
+          yield put(actions.alerts.displayInfo(C.TWOFA_REQUIRED_INFO))
+        } else if (error.message) {
+          yield put(actions.auth.loginFailure(error.message))
+        } else {
+          yield put(actions.auth.loginFailure(error || 'Error logging into your wallet'))
+        }
       }
     }
   }
@@ -230,7 +193,7 @@ export default ({ api, coreSagas }) => {
       yield call(loginRoutineSaga, false, true)
       yield put(actions.auth.registerSuccess())
     } catch (e) {
-      yield put(actions.auth.registerFailure())
+      yield put(actions.auth.registerFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'register', e))
       yield put(actions.alerts.displayError(C.REGISTER_ERROR))
     }
@@ -253,12 +216,9 @@ export default ({ api, coreSagas }) => {
 
   const remindGuid = function * (action) {
     try {
-      yield put(actions.auth.remindGuidLoading())
       yield call(coreSagas.wallet.remindWalletGuidSaga, action.payload)
       yield put(actions.alerts.displaySuccess(C.GUID_SENT_SUCCESS))
-      yield put(actions.auth.remindGuidSuccess())
     } catch (e) {
-      yield put(actions.auth.remindGuidFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'remindGuid', e))
       if (e.message === 'Captcha Code Incorrect') {
         yield put(actions.core.data.misc.fetchCaptcha())
@@ -284,17 +244,16 @@ export default ({ api, coreSagas }) => {
       yield put(actions.auth.reset2faFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'reset2fa', e))
       switch (e.toString()) {
-        case guidNotFound2faErrorMessage: {
+        case 'Wallet Identifier Not Found': {
           return yield put(actions.alerts.displayError(C.TWOFA_RESET_UNKNOWN_GUID_ERROR))
         }
-        case notEnabled2faErrorMessage: {
-          yield put(actions.router.push('/login'))
+        case 'Error: Two factor authentication not enabled.': {
           return yield put(actions.alerts.displayError(C.TWOFA_RESET_NOT_ENABLED_ERROR))
         }
-        case emailMismatch2faErrorMessage: {
+        case 'Error: Email entered does not match the email address associated with this wallet': {
           return yield put(actions.alerts.displayError(C.TWOFA_RESET_EMAIL_ERROR))
         }
-        case wrongCaptcha2faErrorMessage: {
+        case 'Error: Captcha Code Incorrect': {
           return yield put(actions.alerts.displayError(C.CAPTCHA_CODE_INCORRECT))
         }
         default:
@@ -314,7 +273,7 @@ export default ({ api, coreSagas }) => {
       const { guid } = action.payload
       const sessionToken = yield select(selectors.session.getSession, guid)
       const response = yield call(coreSagas.wallet.resendSmsLoginCode, { guid, sessionToken })
-      if (response.initial_error && !response.initial_error.includes('login attempts left')) {
+      if (response.initial_error) {
         throw new Error(response)
       } else {
         yield put(actions.alerts.displaySuccess(C.SMS_RESEND_SUCCESS))
@@ -330,14 +289,10 @@ export default ({ api, coreSagas }) => {
   }
 
   const logout = function * () {
-    const isEmailVerified = yield select(selectors.core.settings.getEmailVerified)
-    yield put(actions.middleware.webSocket.bch.stopSocket())
-    yield put(actions.middleware.webSocket.btc.stopSocket())
-    yield put(actions.middleware.webSocket.eth.stopSocket())
-    // only show browser de-auth page to accounts with verified email
-    isEmailVerified.data
-      ? yield put(actions.router.push('/logout'))
-      : yield logoutClearReduxStore()
+    yield put(actions.core.webSocket.bitcoin.stopSocket())
+    yield put(actions.core.webSocket.ethereum.stopSocket())
+    yield put(actions.core.webSocket.bch.stopSocket())
+    yield put(actions.router.push('/logout'))
   }
 
   const deauthorizeBrowser = function * () {
@@ -355,8 +310,7 @@ export default ({ api, coreSagas }) => {
   }
 
   const logoutClearReduxStore = function * () {
-    // router will fallback to /login route
-    yield window.history.pushState('', '', '#')
+    yield window.history.pushState('', '', '/login')
     yield window.location.reload(true)
   }
 
@@ -366,20 +320,12 @@ export default ({ api, coreSagas }) => {
     logout,
     logoutClearReduxStore,
     loginRoutineSaga,
-    logoutRoutine,
     mobileLogin,
-    pollingSession,
     register,
     remindGuid,
     reset2fa,
     resendSmsLoginCode,
     restore,
-    reportStats,
-    setLogoutEventListener,
-    transferEthSaga,
-    upgradeWallet,
-    upgradeWalletSaga,
-    upgradeAddressLabelsSaga,
-    welcomeSaga
+    upgradeWallet
   }
 }

@@ -6,16 +6,15 @@ import { Link } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
   justify-content: space-around;
+  align-items: center;
 `
 const Circle = styled.div`
   display: block;
   width: 10px;
   height: 10px;
   border-radius: 5px;
-  background: ${props => props.theme['gray-2']};
+  border: 1px solid ${props => props.theme['gray-2']};
 `
 
 const Footer = () => {

@@ -1,10 +1,9 @@
 import React from 'react'
-import { any, gt, slice, toUpper, equals, path, prop, toLower } from 'ramda'
+import { gt, slice, toUpper, equals, path, prop } from 'ramda'
 import { FormattedMessage } from 'react-intl'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 
-export const getLimits = (profileLimits, curr, effectiveBalance) => {
-  const limits = profileLimits || mockedLimits
+export const getLimits = (limits, curr, effectiveBalance) => {
   const getMin = (limits, curr) => Math.min(limits.bank.minimumInAmounts[curr], limits.card.minimumInAmounts[curr])
   const getMax = (limits, curr) => Math.max(limits.bank.inRemaining[curr], limits.card.inRemaining[curr])
   const getSellMin = (limits, curr) => limits.blockchain.minimumInAmounts[curr]
@@ -12,9 +11,7 @@ export const getLimits = (profileLimits, curr, effectiveBalance) => {
   return {
     buy: {
       min: getMin(limits, curr),
-      max: getMax(limits, curr),
-      bankMax: path(['bank', 'inRemaining', curr], limits),
-      cardMax: path(['card', 'inRemaining', curr], limits)
+      max: getMax(limits, curr)
     },
     sell: {
       min: getSellMin(limits, 'BTC'),
@@ -26,39 +23,23 @@ export const getLimits = (profileLimits, curr, effectiveBalance) => {
 
 export const getLimitsError = (amt, userLimits, curr, type) => {
   const limits = getLimits(userLimits, curr)
-  const { max, min } = prop(type, limits)
-  switch (type) {
-    case 'buy':
-      if (max < min) return 'max_below_min'
-      if (amt > max) return 'over_max'
-      if (amt < min) return 'under_min'
-      break
-    case 'sell':
-      if (max < min) return 'max_below_min'
-      if (amt > max) return 'over_max'
-      if (amt < min) return 'under_min'
-      break
-    default:
-      return false
-  }
-}
 
-export const isMinOverEffectiveMax = (userLimits, effectiveBalance, curr) => {
-  const limits = getLimits(userLimits, curr)
-  const { min } = prop('sell', limits)
-  const minSatoshis = min * 1e8
-  return gt(minSatoshis, effectiveBalance)
-}
+  if (type === 'buy') {
+    if (limits.buy.max < limits.buy.min) return 'max_below_min'
+    if (amt > limits.buy.max) return 'over_max'
+    if (amt < limits.buy.min) return 'under_min'
+  }
+  if (type === 'sell') {
+    if (limits.sell.max < limits.sell.min) return 'max_below_min'
+    if (amt > limits.sell.max) return 'over_max'
+    if (amt < limits.sell.min) return 'under_min'
+  }
 
-export const getOverEffectiveMaxError = (amount, userLimits, curr, effectiveBalance) => {
-  if (isMinOverEffectiveMax(userLimits, effectiveBalance, curr)) {
-    return 'effective_max_under_min'
-  }
-  if (gt(amount, effectiveBalance)) {
-    return 'over_effective_max'
-  }
   return false
 }
+
+export const isOverEffectiveMax = (amount, effectiveBalance) =>
+  gt(amount, effectiveBalance)
 
 export const currencySymbolMap = {
   GBP: '£',
@@ -95,23 +76,12 @@ export const getRateFromQuote = (q) => {
 
 export const reviewOrder = {
   baseBtc: (q) => q.baseCurrency === 'BTC',
-  getMinerFee: (q, med) => path(['paymentMediums', med, 'outFixedFees', 'BTC'], q),
-  renderFirstRow: (q) => reviewOrder.baseBtc(q) ? `${Math.abs(q.baseAmount) / 1e8} BTC` : `${Math.abs(q.quoteAmount) / 1e8} BTC`,
-  renderMinerFeeRow: (q, medium, type) => {
-    const med = type === 'sell' ? 'bank' : medium
-    const minerFee = reviewOrder.getMinerFee(q, med)
-    if (!minerFee) return `~`
-    return minerFee
+  renderFirstRow: (q, medium) => {
+    const qAmt = Math.abs(q.quoteAmount)
+    const bAmt = Math.abs(q.baseAmount)
+    if (reviewOrder.baseBtc(q)) return `${bAmt / 1e8} BTC (${currencySymbolMap[q.quoteCurrency]}${qAmt.toFixed(2)})`
+    else return `${qAmt / 1e8} BTC (${currencySymbolMap[q.baseCurrency]}${bAmt.toFixed(2)})`
   },
-  renderBtcToBeReceived: (q, medium, type) => {
-    const med = type === 'sell' ? 'bank' : medium
-    const minerFee = reviewOrder.getMinerFee(q, med)
-    const quotedBtcAmount = reviewOrder.baseBtc(q) ? Math.abs(q.baseAmount) / 1e8 : Math.abs(q.quoteAmount) / 1e8
-    if (!minerFee || !quotedBtcAmount) return `~`
-    const finalAmount = quotedBtcAmount - minerFee
-    return finalAmount.toFixed(8)
-  },
-  renderAmountRow: (q) => reviewOrder.baseBtc(q) ? `${currencySymbolMap[q.quoteCurrency]}${Currency.formatFiat(Math.abs(q.quoteAmount))}` : `${currencySymbolMap[q.baseCurrency]}${Currency.formatFiat(Math.abs(q.baseAmount))}`,
   renderFeeRow: (q, medium, type) => {
     const med = type === 'sell' ? 'bank' : medium
     const fee = path(['paymentMediums', med], q) && Math.abs(q.paymentMediums[med]['fee'])
@@ -123,14 +93,10 @@ export const reviewOrder = {
     const med = type === 'sell' ? 'bank' : medium
     const qAmt = Math.abs(q.quoteAmount)
     const fee = path(['paymentMediums', med], q) && Math.abs(q.paymentMediums[med]['fee'])
-    const totalBase = path(['paymentMediums', med], q) && Math.abs((q.paymentMediums[med]['total']))
+    const totalBase = path(['paymentMediums', med], q) && Math.abs((q.paymentMediums[med]['total']).toFixed(2))
     if (!fee) return `~`
-    if (reviewOrder.baseBtc(q)) {
-      const quoteTotal = type === 'sell' ? qAmt - fee : qAmt + fee
-      return `${currencySymbolMap[q.quoteCurrency]}${Currency.formatFiat(quoteTotal)}`
-    } else {
-      return `${currencySymbolMap[q.baseCurrency]}${Currency.formatFiat(totalBase)}`
-    }
+    if (reviewOrder.baseBtc(q)) return `${currencySymbolMap[q.quoteCurrency]}${(qAmt + fee).toFixed(2)}`
+    else return `${currencySymbolMap[q.baseCurrency]}${totalBase}`
   }
 }
 
@@ -141,11 +107,13 @@ export const tradeDetails = {
     if (trade.isBuy) {
       return {
         btcAmount: `${trade.receiveAmount} BTC (${symbol}${(trade.inAmount / 100).toFixed(2)})`,
+        // fee: `${symbol}${((trade.sendAmount / 100) - (trade.inAmount / 100)).toFixed(2)}`,
         total: `${symbol}${(trade.sendAmount / 100).toFixed(2)}`
       }
     } else {
       return {
         btcAmount: `${trade.sendAmount / 1e8} BTC (${symbol}${(trade.outAmountExpected / 100).toFixed(2)})`,
+        // fee: `${symbol}${((trade.outAmountExpected / 100) - trade.receiveAmount).toFixed(2)}`,
         total: `${symbol}${(trade.receiveAmount).toFixed(2)}`
       }
     }
@@ -154,31 +122,26 @@ export const tradeDetails = {
 
 export const getCountryCodeFromIban = (iban) => toUpper(slice(0, 2, iban))
 
-export const canCancelTrade = (trade) =>
-  equals(prop('state', trade), 'awaiting_transfer_in')
+export const canCancelTrade = (trade) => {
+  const { state } = trade
+  if (equals(state, 'awaiting_transfer_in')) return true
+  return false
+}
 
 export const checkoutButtonLimitsHelper = (quoteR, limits, type) => {
   return quoteR.map(q => {
-    const isBaseBtc = equals(prop('baseCurrency', q), 'BTC')
     if (type === 'sell') {
-      if (isBaseBtc) {
-        return Math.abs(q.baseAmount / 1e8) > limits.max || Math.abs(q.baseAmount / 1e8) < limits.min || Math.abs(q.baseAmount) > limits.effectiveMax
-      } else {
-        return Math.abs(q.quoteAmount / 1e8) > limits.max || Math.abs(q.quoteAmount / 1e8) < limits.min || Math.abs(q.quoteAmount) > limits.effectiveMax
-      }
+      if (q.baseCurrency !== 'BTC') return Math.abs(q.quoteAmount / 1e8) > limits.max || Math.abs(q.quoteAmount / 1e8) < limits.min || Math.abs(q.quoteAmount) > limits.effectiveMax
+      if (q.baseCurrency !== 'BTC') return Math.abs(q.baseAmount / 1e8) > limits.max || Math.abs(q.baseAmount / 1e8) < limits.min || Math.abs(q.baseAmount) > limits.effectiveMax
     } else {
-      if (isBaseBtc) {
-        return Math.abs(q.quoteAmount) > limits.max || Math.abs(q.quoteAmount) < limits.min || Math.abs(q.baseAmount) > limits.effectiveMax
-      } else {
-        return Math.abs(q.baseAmount) > limits.max || Math.abs(q.baseAmount) < limits.min || Math.abs(q.quoteAmount) > limits.effectiveMax
-      }
+      if (q.baseCurrency !== 'BTC') return Math.abs(q.baseAmount) > limits.max || Math.abs(q.baseAmount) < limits.min || Math.abs(q.quoteAmount) > limits.effectiveMax
+      if (q.baseCurrency === 'BTC') return Math.abs(q.quoteAmount) > limits.max || Math.abs(q.quoteAmount) < limits.min || Math.abs(q.baseAmount) > limits.effectiveMax
     }
   }).data
 }
 
 export const statusHelper = status => {
   switch (status) {
-    case 'reviewing':
     case 'awaiting_transfer_in':
     case 'processing': return { color: 'transferred', text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatus.processing' defaultMessage='Pending' /> }
     case 'completed': return { color: 'success', text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatus.completed' defaultMessage='Completed' /> }
@@ -193,7 +156,6 @@ export const statusHelper = status => {
 export const bodyStatusHelper = (status, isBuy) => {
   if (isBuy) {
     switch (status) {
-      case 'reviewing':
       case 'awaiting_transfer_in':
       case 'processing': return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.buy.processing' defaultMessage='Your purchase is currently being processed. Our exchange partner will send a status update your way within 1 business day.' /> }
       case 'completed': return { text: <FormattedMessage id='scenes.services.coinifyservice.buysellorderhistory.list.orderstatusbody.buy.completed' defaultMessage='Your buy trade is complete!' /> }
@@ -232,7 +194,6 @@ export const kycBodyHelper = (status) => {
 
 export const kycHeaderHelper = (status) => {
   switch (status) {
-    case 'processing': return { color: 'transferred', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.processing' defaultMessage='Identity Verification Processing' /> }
     case 'reviewing': return { color: 'transferred', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.reviewing' defaultMessage='Identity Verification In Review' /> }
     case 'pending': return { color: 'transferred', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.pending' defaultMessage='Identity Verification Incomplete' /> }
     case 'completed': return { color: 'success', text: <FormattedMessage id='scenes.coinify_details_modal.kyc.header.completed' defaultMessage='Identity Verification Completed' /> }
@@ -267,13 +228,16 @@ export const kycNotificationButtonHelper = (status) => {
   }
 }
 
-export const showKycStatus = (state) =>
-  any(equals(state), ['pending', 'rejected']) ? state : false
+export const showKycStatus = (state) => {
+  if (state === 'pending') return state
+  if (state === 'rejected') return state
+  return false
+}
 
 export const getReasonExplanation = (reason, time) => {
   const ONE_DAY_MS = 86400000
-  const canTradeAfter = time
-  const days = isNaN(canTradeAfter) ? `1 day` : `${Math.ceil((canTradeAfter - Date.now()) / ONE_DAY_MS)} days`
+  let canTradeAfter = time
+  let days = isNaN(canTradeAfter) ? `1 day` : `${Math.ceil((canTradeAfter - Date.now()) / ONE_DAY_MS)} days`
 
   switch (reason) {
     case 'awaiting_first_trade_completion':
@@ -285,26 +249,20 @@ export const getReasonExplanation = (reason, time) => {
 }
 
 export const recurringTimeHelper = (sub) => {
-  const human = { 1: 'st', 2: 'nd', 3: 'rd', 21: 'st', 22: 'nd', 23: 'rd', 31: 'st' }
-  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+  let human = { 1: 'st', 2: 'nd', 3: 'rd', 21: 'st', 22: 'nd', 23: 'rd', 31: 'st' }
+  let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
-  const getTimespan = (sub) => {
-    const freq = toLower(prop('frequency', sub))
-    const date = new Date()
+  let getTimespan = (sub) => {
+    let frequency = prop('frequency', sub)
+    let freq = frequency.toLowerCase()
+    let date = new Date()
 
-    switch (freq) {
-      case 'hourly':
-        return 'hour'
-      case 'daily':
-        return '24 hours'
-      case 'weekly':
-        return `${days[date.getDay()]}`
-      case 'monthly':
-        return `${date.getDate() + (human[date.getDate()] || 'th')} of the month`
-    }
+    if (freq === 'hourly') return 'hour'
+    if (freq === 'daily') return '24 hours'
+    if (freq === 'weekly') return `${days[date.getDay()]}`
+    if (freq === 'monthly') return `${date.getDate() + (human[date.getDate()] || 'th')} of the month`
   }
   return getTimespan(sub)
 }
 
-export const recurringFee = (trade) =>
-  `${Currency.formatFiat(((trade.sendAmount / 100) - (trade.inAmount / 100)))} ${prop('inCurrency', trade)}`
+export const recurringFee = (trade) => `${Currency.formatFiat(((trade.sendAmount / 100) - (trade.inAmount / 100)))} ${prop('inCurrency', trade)}`

@@ -31,8 +31,7 @@ class AcceptTermsContainer extends Component {
 
   render () {
     const { busy } = this.state
-    const { invalid, email, signupError, updateUI, coinifyFrontendActions } = this.props
-    const { coinifyClearSignupError } = coinifyFrontendActions
+    const { invalid, email, signupError, updateUI } = this.props
 
     return <AcceptTerms
       busy={busy}
@@ -42,7 +41,6 @@ class AcceptTermsContainer extends Component {
       signupError={signupError}
       updateUI={updateUI}
       editEmail={() => { this.props.updateUI({ create: 'change_email' }) }}
-      clearError={() => coinifyClearSignupError()}
     />
   }
 }

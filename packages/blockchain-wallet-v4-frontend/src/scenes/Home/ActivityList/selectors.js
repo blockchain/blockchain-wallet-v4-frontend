@@ -1,5 +1,4 @@
 import { concat, isNil, take, map, lift, prop, curry, compose, descend, reduce, sort, unapply } from 'ramda'
-import moment from 'moment'
 import { selectors } from 'data'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { createDeepEqualSelector } from 'services/ReselectHelper'
@@ -7,9 +6,7 @@ import { createDeepEqualSelector } from 'services/ReselectHelper'
 export const transform = curry((coin, transaction) => ({
   type: 'transaction',
   time: transaction.time * 1000,
-  timeFormatted: moment(transaction.time * 1000).format('ll'),
   path: `/${coin.toLowerCase()}/transactions`,
-  watchOnly: transaction.fromWatchOnly || transaction.toWatchOnly,
   amount: transaction.amount,
   action: transaction.type,
   coin: coin

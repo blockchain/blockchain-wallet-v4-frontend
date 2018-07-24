@@ -1,5 +1,5 @@
 import { call, put, select } from 'redux-saga/effects'
-import { contains, prop, toLower, sum } from 'ramda'
+import { contains, toLower } from 'ramda'
 import * as actions from './actions'
 import * as selectors from '../selectors'
 import * as walletActions from '../wallet/actions'
@@ -38,6 +38,14 @@ export default ({ api }) => {
     // return response
   }
 
+  // SETTERS
+  // const fetchSettings = function * () {
+  //   const guid = yield select(wS.getGuid)
+  //   const sharedKey = yield select(wS.getSharedKey)
+  //   const response = yield call(api.getSettings, guid, sharedKey)
+  //   yield put(actions.setSettings(response))
+  // }
+
   const setEmail = function * ({ email }) {
     const guid = yield select(wS.getGuid)
     const sharedKey = yield select(wS.getSharedKey)
@@ -59,7 +67,7 @@ export default ({ api }) => {
     const sharedKey = yield select(wS.getSharedKey)
     const response = yield call(api.verifyEmail, guid, sharedKey, code)
     if (!response.success) {
-      yield put(actions.setEmailVerifiedFailedStatus(true))
+      yield put(actions.setEmailVerifiedFailed())
       throw new Error(response)
     }
     yield put(actions.setEmailVerified())
@@ -185,30 +193,6 @@ export default ({ api }) => {
     yield put(actions.setYubikey())
   }
 
-  const setNotificationsOn = function * ({ enabled }) {
-    const value = enabled ? 2 : 0
-    const guid = yield select(wS.getGuid)
-    const sharedKey = yield select(wS.getSharedKey)
-    const response = yield call(api.enableNotifications, guid, sharedKey, value)
-    if (!contains('updated', response)) { throw new Error(response) }
-    yield put(actions.setNotificationsOn(value))
-  }
-
-  const setNotificationsType = function * ({ types }) {
-    const typesState = []
-    const emailVerified = yield select(selectors.settings.getEmailVerified)
-    const smsVerified = yield select(selectors.settings.getSmsVerified)
-    if (prop('email', types) && emailVerified.data) { typesState.push(1) }
-    if (prop('mobile', types) && smsVerified.data) { typesState.push(32) }
-    const guid = yield select(wS.getGuid)
-    const sharedKey = yield select(wS.getSharedKey)
-    const notificationsType = sum(typesState)
-    const response = yield call(api.updateNotificationsType, guid, sharedKey, notificationsType)
-    if (!contains('updated', response)) { throw new Error(response) }
-    yield put(walletActions.setSyncPubKeys(notificationsType > 0))
-    yield put(actions.setNotificationsType(typesState))
-  }
-
   return {
     decodePairingCode,
     requestGoogleAuthenticatorSecretUrl,
@@ -230,8 +214,6 @@ export default ({ api }) => {
     setGoogleAuthenticator,
     setYubikey,
     sendConfirmationCodeEmail,
-    verifyEmailCode,
-    setNotificationsOn,
-    setNotificationsType
+    verifyEmailCode
   }
 }

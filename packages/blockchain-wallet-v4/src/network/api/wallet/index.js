@@ -40,7 +40,6 @@ export default ({ rootUrl, apiUrl, get, post }) => {
     data: merge({ method: 'insert', format: 'plain', email }, data)
   }).then(() => data.checksum)
 
-  // onlyShow is xpub or address to filter data with
   const fetchBlockchainData = (context, { n = 50, offset = 0, onlyShow } = {}) => {
     const data = {
       active: (Array.isArray(context) ? context : [context]).join('|'),

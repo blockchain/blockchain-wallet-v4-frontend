@@ -47,7 +47,7 @@ const FirstStep = props => {
           <FormLabel for='from'>
             <FormattedMessage id='modals.sendBch.firststep.from' defaultMessage='From:' />
           </FormLabel>
-          <Field name='from' component={SelectBoxBitcoinAddresses} includeAll={false} excludeWatchOnly validate={[required]} coin='BCH' />
+          <Field name='from' component={SelectBoxBitcoinAddresses} includeAll={false} validate={[required]} coin='BCH' />
         </FormItem>
       </FormGroup>
       <FormGroup margin={'15px'}>
@@ -56,7 +56,7 @@ const FirstStep = props => {
             <FormattedMessage id='modals.sendBch.firststep.to' defaultMessage='To:' />
           </FormLabel>
           <Row>
-            {toToggled && !destination && <Field name='to' component={SelectBoxBitcoinAddresses} opened onFocus={() => handleToToggle()} includeAll={false} validate={[required]} exclude={[from.label]} hideErrors coin='BCH' />}
+            {toToggled && !destination && <Field name='to' component={SelectBoxBitcoinAddresses} opened onFocus={() => handleToToggle()} includeAll={false} exclude={[from.label]} hideErrors coin='BCH' />}
             {toToggled && destination && <Field name='to' component={SelectBoxBitcoinAddresses} onFocus={() => handleToToggle()} includeAll={false} validate={[required]} exclude={[from.label]} hideArrow hideErrors coin='BCH' />}
             {!toToggled && <Field name='to' placeholder='Paste or scan an address, or select a destination' component={TextBox} validate={[required, validBitcoinCashAddress]} autoFocus />}
             {(!toToggled || destination) && <QRCodeCapture scanType='bchAddress' border={enableToggle ? ['top', 'bottom'] : ['top', 'bottom', 'right']} />}
@@ -80,7 +80,7 @@ const FirstStep = props => {
               <FormattedMessage id='modals.sendBch.firststep.share_tooltip' defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.' />
             </Tooltip>
           </FormLabel>
-          <Field name='description' component={TextAreaDebounced} placeholder="What's this transaction for?" fullwidth />
+          <Field name='message' component={TextAreaDebounced} placeholder="What's this transaction for?" fullwidth />
         </FormItem>
       </FormGroup>
       <FormGroup inline margin={'30px'}>

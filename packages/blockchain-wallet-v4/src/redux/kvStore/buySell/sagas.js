@@ -1,5 +1,5 @@
 import { call, put, select } from 'redux-saga/effects'
-import { compose, isNil, isEmpty } from 'ramda'
+import { compose, isNil } from 'ramda'
 import { set } from 'ramda-lens'
 import * as A from './actions'
 import { KVStoreEntry } from '../../../types'
@@ -34,7 +34,7 @@ export default ({ api }) => {
       }
     }
     const newkv = set(KVStoreEntry.value, newBuysellEntry, kv)
-    yield put(A.createMetadataBuySell(newkv))
+    yield put(A.createMetadataBuysell(newkv))
   }
 
   const fetchMetadataBuySell = function * () {
@@ -44,7 +44,7 @@ export default ({ api }) => {
       const kv = KVStoreEntry.fromMetadataXpriv(mxpriv, typeId)
       yield put(A.fetchMetadataBuySellLoading())
       const newkv = yield callTask(api.fetchKVStore(kv))
-      if (isNil(newkv.value) || isEmpty(newkv.value)) {
+      if (isNil(newkv.value)) {
         yield call(createBuysell, newkv)
       } else {
         yield put(A.fetchMetadataBuySellSuccess(newkv))

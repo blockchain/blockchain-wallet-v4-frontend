@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
+import { Remote } from 'blockchain-wallet-v4/src'
 import { actions } from 'data'
 import { getData } from './selectors'
 import Error from './template.error'
@@ -15,11 +16,13 @@ class BtcWatchOnlyBalance extends React.PureComponent {
   }
 
   componentWillMount () {
-    this.props.actions.fetchData()
+    if (Remote.NotAsked.is(this.props.data)) {
+      this.props.actions.fetchUnspendableBalance()
+    }
   }
 
   handleRefresh () {
-    this.props.actions.fetchData()
+    this.props.actions.fetchUnspendableBalance()
   }
 
   render () {

@@ -10,6 +10,7 @@ const INITIAL_STATE = {
   rates: Remote.NotAsked,
   transactions: [],
   transactions_fiat: {},
+  spendable_balance: Remote.NotAsked,
   unspendable_balance: Remote.NotAsked,
   transaction_history: Remote.NotAsked
 }
@@ -30,9 +31,7 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
       return merge(state, data)
     }
     case AT.FETCH_BITCOIN_DATA_SUCCESS: {
-      /* eslint-disable */
       const { addresses, info, latest_block } = payload
-      /* eslint-enable */
       const data = {
         addresses: Remote.Success(addresses),
         info: Remote.Success(info),
@@ -104,6 +103,15 @@ const bitcoinReducer = (state = INITIAL_STATE, action) => {
     }
     case AT.CLEAR_BITCOIN_TRANSACTION_HISTORY: {
       return assoc('transaction_history', Remote.NotAsked, state)
+    }
+    case AT.FETCH_BITCOIN_SPENDABLE_BALANCE_LOADING: {
+      return state
+    }
+    case AT.FETCH_BITCOIN_SPENDABLE_BALANCE_SUCCESS: {
+      return assoc('spendable_balance', Remote.Success(payload), state)
+    }
+    case AT.FETCH_BITCOIN_SPENDABLE_BALANCE_FAILURE: {
+      return assoc('spendable_balance', Remote.Failure(payload), state)
     }
     case AT.FETCH_BITCOIN_UNSPENDABLE_BALANCE_LOADING: {
       return state

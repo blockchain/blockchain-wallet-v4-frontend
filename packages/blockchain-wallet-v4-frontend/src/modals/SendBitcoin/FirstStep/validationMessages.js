@@ -23,35 +23,30 @@ export const InvalidAmountMessage = () => (
 
 export const MaximumAmountMessage = () => (
   <Wrapper>
-    <FormattedMessage id='modals.sendbtc.maximumamountmessage' defaultMessage='Not enough funds. Use' />
+    <FormattedMessage id='modals.sencbtc.maximumamountmessage' defaultMessage='Not enough funds. Use' />
     <MaximumAmountLink />
   </Wrapper>
 )
 
 export const MaximumFeeMessage = () => (
   <Wrapper>
-    <FormattedMessage id='modals.sendbtc.maximumfeemessage' defaultMessage='Unnecessarily high fee.' />
-    <span>&nbsp;</span>
+    <FormattedMessage id='modals.sencbtc.maximumfeemessage' defaultMessage='Unnecessarily high fee. Use' />
     <MaximumFeeLink />
   </Wrapper>
 )
 
 export const MinimumAmountMessage = () => (
   <Wrapper>
-    <FormattedMessage id='modals.sendbtc.minimumamountmessage' defaultMessage='Below minimum amount. Use' />
+    <FormattedMessage id='modals.sencbtc.minimumamountmessage' defaultMessage='Below minimum amount. Use' />
     <MinimumAmountLink />
   </Wrapper>
 )
 
 export const MinimumFeeMessage = () => (
   <Wrapper>
-    <FormattedMessage id='modals.sendbtc.minimumfeemessage' defaultMessage='Low fee not recommended. Use' />
+    <FormattedMessage id='modals.sencbtc.minimumfeemessage' defaultMessage='Low custom fee not recommended. Use' />
     <MinimumFeeLink />
   </Wrapper>
-)
-
-export const MinimumOneSatoshiMessage = () => (
-  <FormattedMessage id='modals.sendbtc.minimumonesatoshimessage' defaultMessage='Minimum {sat} required' values={{ sat: '1 sat/byte' }} />
 )
 
 export const InsufficientFundsMessage = () => (
@@ -59,5 +54,5 @@ export const InsufficientFundsMessage = () => (
 )
 
 export const AddressMatchesPriv = () => (
-  <FormattedMessage id='modals.sendbtc.addressprivmismatch' defaultMessage='This private key does not match the watch only address above' />
+  <FormattedMessage id='modals.sencbtc.addressprivmismatch' defaultMessage='This private key does not match the watch only address above' />
 )

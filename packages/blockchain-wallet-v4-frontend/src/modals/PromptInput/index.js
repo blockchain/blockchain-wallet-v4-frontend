@@ -36,8 +36,8 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const enhance = compose(
-  modalEnhancer('PromptInput'),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
+  modalEnhancer('PromptInput')
 )
 
 export default enhance(PromptContainer)

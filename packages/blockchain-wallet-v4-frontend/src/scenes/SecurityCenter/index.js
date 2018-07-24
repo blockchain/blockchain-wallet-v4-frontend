@@ -1,8 +1,6 @@
 import React from 'react'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-import { actions } from 'data'
 import { getData } from './selectors'
 import SecurityCenter from './template.js'
 
@@ -17,18 +15,11 @@ class SecurityCenterContainer extends React.PureComponent {
     this.state = { enabling: false, editing: false, viewing: 'security' }
   }
 
-  componentWillUnmount () {
-    this.onClose()
-  }
-
   handleEnable (step) {
     this.setState({ enabling: step })
   }
 
   onClose () {
-    if (this.state.enabling === 'recovery') {
-      this.props.settingsActions.removeRecoveryPhrase()
-    }
     this.setState({ enabling: false })
   }
 
@@ -63,8 +54,4 @@ class SecurityCenterContainer extends React.PureComponent {
 
 const mapStateToProps = (state) => getData(state)
 
-const mapDispatchToProps = (dispatch) => ({
-  settingsActions: bindActionCreators(actions.modules.settings, dispatch)
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(SecurityCenterContainer)
+export default connect(mapStateToProps, undefined)(SecurityCenterContainer)

@@ -2,46 +2,40 @@ import React from 'react'
 import styled from 'styled-components'
 import { reduxForm, Field } from 'redux-form'
 import { FormattedMessage } from 'react-intl'
-import { concat, equals, path, prop } from 'ramda'
-
 import { Text, Button } from 'blockchain-info-components'
 import { FormGroup, FormItem, SelectBoxUSState, SelectBoxCountry, TextBox } from 'components/Form'
 import { spacing } from 'services/StyleService'
-import { required, onPartnerCountryWhitelist, onPartnerStateWhitelist, validEmail } from 'services/FormHelper'
+import { required, onPartnerCountryWhitelist } from 'services/FormHelper'
 import BuySellAnimation from './BuySellAnimation'
-import media from 'services/ResponsiveService'
 
 const Row = styled.div`
   display: flex;
   align-items: center;
   flex-direction: row;
   width: 100%;
-  ${media.laptop`
+  @media (max-width: 993px) {
     align-items: flex-start;
-  `}
+  }
 `
 const ColLeft = styled.div`
   width: 50%;
   margin-right: 5%;
   margin-top: -28px;
-  ${media.laptop`
+  @media (max-width: 993px) {
     display: none;
-  `}
+  }
 `
 const ColRight = styled.div`
   width: 40%;
   margin-top: -56px;
-  ${media.laptop`
+  @media (max-width: 993px) {
     width: 100%;
     margin-top: 30px;
-  `}
+  }
 `
 const PartnerHeader = styled.div`
   font-size: 30px;
   font-weight: 600;
-  ${media.mobile`
-    font-size: 20px;
-  `}
 `
 const PartnerSubHeader = styled.div`
   margin-top: 5px;
@@ -72,19 +66,19 @@ const SubmittedWrapper = styled.span`
 const SelectPartner = (props) => {
   const { invalid, options, pristine, submitEmail, ui, fields } = props
   const { country, stateSelection, email } = fields
-  const sfoxStates = path(['platforms', 'web', 'sfox', 'states'], options)
-  const sfoxCountries = path(['platforms', 'web', 'sfox', 'countries'], options)
-  const coinifyCountries = path(['platforms', 'web', 'coinify', 'countries'], options)
-  const countries = concat(sfoxCountries, coinifyCountries)
+  const sfoxStates = options.platforms.web.sfox.states
+  const sfoxCountries = options.platforms.web.sfox.countries
+  const unocoinCountries = options.platforms.web.unocoin.countries
+  const coinifyCountries = options.platforms.web.coinify.countries
+  const countries = [sfoxCountries, coinifyCountries, unocoinCountries].join().split(',')
 
-  const onSfoxWhitelist = usState => prop('code', usState) && sfoxStates.includes(usState.code) ? undefined : 'This service is not yet available in your state.'
+  const onSfoxWhitelist = usState => usState.code && sfoxStates.indexOf(usState.code) >= 0 ? undefined : 'This service is not yet available in your state.'
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
+  const onSubmit = () => {
     if (sfoxCountries.indexOf(country) >= 0) {
       props.modalActions.showModal('SfoxExchangeData', { step: 'account' })
     }
-    if (coinifyCountries.includes(country)) {
+    if (coinifyCountries.indexOf(country) >= 0) {
       props.modalActions.showModal('CoinifyExchangeData', { step: 'account', country })
     }
   }
@@ -93,22 +87,18 @@ const SelectPartner = (props) => {
     if (!pristine && ((country && onPartnerCountryWhitelist(country, null, null, null, countries)) || (stateSelection && onSfoxWhitelist(stateSelection)))) {
       return (
         <UnavailableContainer>
-          {
-            !ui.submittedEmail
-              ? <Text size='14px' weight={300} style={spacing('mb-15')}>
-                {
-                  equals(country, 'US')
-                    ? <FormattedMessage id='selectpartner.unavailable.unfortunatelystate' defaultMessage='Unfortunately buy & sell is not available in your state at this time. To be notified when we expand to your location, sign up below.' />
-                    : <FormattedMessage id='selectpartner.unavailable.unfortunatelycountry' defaultMessage='Unfortunately buy & sell is not available in your country at this time. To be notified when we expand to your location, sign up below.' />
-                }
-              </Text>
-              : null
-          }
+          <Text size='14px' weight={300} style={spacing('mb-15')}>
+            {
+              country === 'US'
+                ? <FormattedMessage id='selectpartner.unavailable.unfortunatelystate' defaultMessage='Unfortunately buy & sell is not available in your state at this time. To be notified when we expand to your location, sign up below.' />
+                : <FormattedMessage id='selectpartner.unavailable.unfortunatelycountry' defaultMessage='Unfortunately buy & sell is not available in your country at this time. To be notified when we expand to your location, sign up below.' />
+            }
+          </Text>
           {
             !ui.submittedEmail
               ? <span>
-                <Field name='email' validate={validEmail} component={TextBox} placeholder='Add your email here' />
-                <Button style={spacing('mt-15')} nature='primary' onClick={submitEmail} disabled={validEmail(email)}>
+                <Field name='email' component={TextBox} placeholder='Add your email here' />
+                <Button style={spacing('mt-15')} nature='primary' onClick={submitEmail}>
                   <FormattedMessage id='selectpartner.unavailable.notifyme' defaultMessage='Notify Me When This Becomes Available' />
                 </Button>
               </span>
@@ -152,24 +142,24 @@ const SelectPartner = (props) => {
             <FormattedMessage id='selectpartner.selectcountry' defaultMessage='Select your country:' />
           </Text>
           <FieldWrapper>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={onSubmit}>
               <FormGroup>
                 <FormItem>
                   <Field name='country' validate={[required, onPartnerCountryWhitelist]} component={SelectBoxCountry} errorBottom />
                 </FormItem>
               </FormGroup>
               {
-                equals(country, 'US')
+                country === 'US'
                   ? (
                     <FormGroup style={spacing('mt-5')}>
                       <FormItem>
-                        <Field name='state' validate={[required, onPartnerStateWhitelist]} component={SelectBoxUSState} errorBottom />
+                        <Field name='state' validate={[required]} component={SelectBoxUSState} errorBottom />
                       </FormItem>
                     </FormGroup>
                   )
                   : null
               }
-              <Button nature='primary' uppercase type='submit' disabled={invalid || pristine} style={spacing('mt-35')}>
+              <Button nature='primary' uppercase type='submit' disabled={invalid || pristine} style={spacing('mt-15')}>
                 <FormattedMessage id='selectpartner.getstarted' defaultMessage='get started' />
               </Button>
             </form>

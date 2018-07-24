@@ -1,7 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import { path } from 'ramda'
-
 import { Image } from 'blockchain-info-components'
 import { balloon, balloonDelay1, balloonDelay2, drone, droneDelay1, droneDelay2, flight, flightDelay1, flightDelay2 } from './keyframes'
 
@@ -77,26 +75,26 @@ class BuySellAnimation extends React.PureComponent {
   }
 
   static getDerivedStateFromProps (nextProps) {
-    const sfoxCountries = path(['options', 'platforms', 'web', 'sfox', 'countries'], nextProps)
-    const unocoinCountries = path(['options', 'platforms', 'web', 'unocoin', 'countries'], nextProps)
-    const coinifyCountries = path(['options', 'platforms', 'web', 'coinify', 'countries'], nextProps)
+    const sfoxCountries = nextProps.options.platforms.web.sfox.countries
+    const unocoinCountries = nextProps.options.platforms.web.unocoin.countries
+    const coinifyCountries = nextProps.options.platforms.web.coinify.countries
 
     switch (true) {
-      case sfoxCountries.includes(nextProps.country): {
+      case sfoxCountries.indexOf(nextProps.country) >= 0: {
         return {
           btc: 'buy sell',
           bch: '',
           eth: ''
         }
       }
-      case coinifyCountries.includes(nextProps.country): {
+      case coinifyCountries.indexOf(nextProps.country) >= 0: {
         return {
           btc: 'buy sell',
           bch: '',
           eth: ''
         }
       }
-      case unocoinCountries.includes(nextProps.country): {
+      case unocoinCountries.indexOf(nextProps.country) >= 0: {
         return {
           btc: 'buy',
           bch: '',

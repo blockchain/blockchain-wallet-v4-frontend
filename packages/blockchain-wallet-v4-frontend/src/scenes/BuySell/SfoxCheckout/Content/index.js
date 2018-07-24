@@ -6,7 +6,6 @@ import { getBase, getData, getErrors, getQuote, getSellQuote, getTrades, getPaym
 import Success from './template.success'
 import Loading from 'components/BuySell/Loading'
 import { path } from 'ramda'
-import Failure from 'components/BuySell/Failure'
 
 class SfoxCheckout extends React.PureComponent {
   constructor (props) {
@@ -19,15 +18,11 @@ class SfoxCheckout extends React.PureComponent {
     this.props.sfoxDataActions.sfoxFetchAccounts()
     this.props.sfoxDataActions.fetchQuote({quote: { amt: 1e8, baseCurrency: 'BTC', quoteCurrency: 'USD' }})
     this.props.sfoxDataActions.fetchSellQuote({quote: { amt: 1e8, baseCurrency: 'BTC', quoteCurrency: 'USD' }})
-    this.props.sfoxActions.initializePayment()
-  }
-
-  componentWillUnmount () {
-    this.props.sfoxActions.disableSiftScience()
+    this.props.sendBtcActions.initialized({ feeType: 'priority' })
   }
 
   render () {
-    const { data, modalActions, sfoxActions, sfoxDataActions, payment, orderState, formActions, siftScienceEnabled } = this.props
+    const { data, modalActions, sfoxActions, sfoxDataActions, payment, orderState, formActions } = this.props
     const { handleTrade, fetchQuote, refreshQuote, refreshSellQuote, fetchSellQuote } = sfoxDataActions
     const { sfoxNotAsked } = sfoxActions
     const { showModal } = modalActions
@@ -58,9 +53,8 @@ class SfoxCheckout extends React.PureComponent {
         disableButton={() => this.setState({ buttonStatus: false })}
         enableButton={() => this.setState({ buttonStatus: true })}
         buttonStatus={this.state.buttonStatus}
-        siftScienceEnabled={siftScienceEnabled}
       />,
-      Failure: (error) => <Failure error={error} />,
+      Failure: (error) => <div>Failure: {error && error.message}</div>,
       Loading: () => <Loading />,
       NotAsked: () => <div>Not Asked</div>
     })
@@ -75,8 +69,7 @@ const mapStateToProps = state => ({
   trades: getTrades(state),
   errors: getErrors(state),
   payment: getPayment(state),
-  orderState: path(['sfoxSignup', 'sfoxBusy'], state),
-  siftScienceEnabled: path(['sfoxSignup', 'siftScienceEnabled'], state)
+  orderState: path(['sfoxSignup', 'sfoxBusy'], state)
 })
 
 const mapDispatchToProps = dispatch => ({

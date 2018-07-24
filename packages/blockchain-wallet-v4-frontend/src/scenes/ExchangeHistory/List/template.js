@@ -6,7 +6,6 @@ import { FormattedMessage } from 'react-intl'
 import { Table, TableCell, TableHeader, Text } from 'blockchain-info-components'
 import { spacing } from 'services/StyleService'
 import TradeItem from './TradeItem'
-import media from 'services/ResponsiveService'
 
 const Wrapper = styled.div`
   display: flex;
@@ -18,10 +17,6 @@ const Wrapper = styled.div`
   box-sizing: border-box;
 
   & > :first-child { margin-bottom: 20px; }
-
-  ${media.mobile`
-    padding: 10px
-  `}
 `
 const Container = styled.div`
   width: 100%;
@@ -36,18 +31,18 @@ const List = props => {
         <Container>
           <Table>
             <TableHeader >
-              <TableCell width='15%' mobileWidth='25%'>
+              <TableCell width='15%'>
                 <Text size='13px' weight={500} capitalize>
                   <FormattedMessage id='scenes.exchangehistory.list.incomplete.status' defaultMessage='Status' />
                 </Text>
               </TableCell>
-              <TableCell width='15%' mobileWidth='0%' />
-              <TableCell width='30%' mobileWidth='18%'>
+              <TableCell width='15%' />
+              <TableCell width='30%'>
                 <Text size='13px' weight={500} capitalize>
                   <FormattedMessage id='scenes.exchangehistory.list.incomplete.date' defaultMessage='Date' />
                 </Text>
               </TableCell>
-              <TableCell width='20%' mobileWidth='30%'>
+              <TableCell width='20%'>
                 <Text size='13px' weight={500} capitalize>
                   <FormattedMessage id='scenes.exchangehistory.list.incomplete.xchanged' defaultMessage='Exchanged' />
                 </Text>
@@ -69,18 +64,18 @@ const List = props => {
           </Text>
           <Table>
             <TableHeader>
-              <TableCell width='15%' mobileWidth='25%'>
+              <TableCell width='15%'>
                 <Text size='13px' weight={500} capitalize>
                   <FormattedMessage id='scenes.exchangehistory.list.complete.status' defaultMessage='Status' />
                 </Text>
               </TableCell>
-              <TableCell width='15%' mobileWidth='0%' />
-              <TableCell width='30%' mobileWidth='18%'>
+              <TableCell width='15%' />
+              <TableCell width='30%'>
                 <Text size='13px' weight={500} capitalize>
                   <FormattedMessage id='scenes.exchangehistory.list.complete.date' defaultMessage='Date' />
                 </Text>
               </TableCell>
-              <TableCell width='20%' mobileWidth='30%'>
+              <TableCell width='20%'>
                 <Text size='13px' weight={500} capitalize>
                   <FormattedMessage id='scenes.exchangehistory.list.complete.xchanged' defaultMessage='Exchanged' />
                 </Text>

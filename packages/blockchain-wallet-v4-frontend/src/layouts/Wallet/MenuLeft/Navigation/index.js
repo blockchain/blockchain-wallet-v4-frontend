@@ -11,7 +11,7 @@ class NavigationContainer extends React.PureComponent {
   render () {
     return (
       <Navigation
-        canTrade={this.props.canTrade}
+        canBuy={this.props.canBuy}
         settingsOpened={this.props.settingsOpened}
         menuOpened={this.props.menuOpened}
         pathname={this.props.pathname}

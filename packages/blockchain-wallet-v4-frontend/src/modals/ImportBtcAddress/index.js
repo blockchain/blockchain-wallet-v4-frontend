@@ -33,8 +33,8 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const enhance = compose(
-  modalEnhancer('ImportBtcAddress'),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
+  modalEnhancer('ImportBtcAddress')
 )
 
 export default enhance(ImportBtcAddressContainer)

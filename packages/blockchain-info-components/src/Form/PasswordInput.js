@@ -38,23 +38,11 @@ const selectBorderColor = (state) => {
   }
 }
 
-class PasswordInput extends React.Component {
-  componentDidUpdate (prevProps) {
-    if (this.props.active && !prevProps.active && this.input) {
-      this.input.focus()
-    }
-  }
+const PasswordInput = props => {
+  const { errorState, ...rest } = props
+  const borderColor = selectBorderColor(props.controlledBorderColor || errorState)
 
-  refInput = (input) => {
-    this.input = input
-  }
-
-  render () {
-    const { errorState, ...rest } = this.props
-    const borderColor = selectBorderColor(this.props.controlledBorderColor || errorState)
-
-    return <BasePasswordInput innerRef={this.refInput} borderColor={borderColor} {...rest} />
-  }
+  return <BasePasswordInput borderColor={borderColor} {...rest} />
 }
 
 export default PasswordInput

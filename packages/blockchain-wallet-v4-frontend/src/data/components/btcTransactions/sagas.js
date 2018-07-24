@@ -1,5 +1,6 @@
 import { select, put } from 'redux-saga/effects'
 import { equals, path, prop } from 'ramda'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { actions, selectors } from 'data'
 
 export default ({ coreSagas }) => {
@@ -14,7 +15,8 @@ export default ({ coreSagas }) => {
         search: ''
       }
       yield put(actions.form.initialize('btcTransactions', initialValues))
-      yield put(actions.core.data.bitcoin.fetchTransactions(defaultSource, true))
+      const btcTransactionsR = yield select(selectors.core.data.bitcoin.getTransactions)
+      if (!Remote.Success.is(btcTransactionsR)) yield put(actions.core.data.bitcoin.fetchData(defaultSource, true))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'initialized', e))
     }
@@ -36,9 +38,9 @@ export default ({ coreSagas }) => {
       const source = prop('source', formValues)
       const threshold = 250
       const { yMax, yOffset } = action.payload
+
       if (yMax - yOffset < threshold) {
-        const onlyShow = equals(source, 'all') ? '' : (source.xpub || source.address)
-        yield put(actions.core.data.bitcoin.fetchTransactions(onlyShow, false))
+        yield put(actions.core.data.bitcoin.fetchData(source, false))
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'scrollUpdated', e))
@@ -55,7 +57,7 @@ export default ({ coreSagas }) => {
       switch (field) {
         case 'source':
           const onlyShow = equals(payload, 'all') ? '' : (payload.xpub || payload.address)
-          yield put(actions.core.data.bitcoin.fetchTransactions(onlyShow, true))
+          yield put(actions.core.data.bitcoin.fetchData(onlyShow, true))
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))

@@ -1,20 +1,12 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { compose } from 'ramda'
 
 import wizardProvider from 'providers/WizardProvider'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
-import { actions } from '../../data'
 
-class RecoverContainer extends React.PureComponent {
+class ReminderContainer extends React.PureComponent {
   componentWillMount () {
     this.props.resetStep()
-  }
-
-  componentWillUnmount () {
-    this.props.formActions.destroy('recover')
   }
 
   render () {
@@ -28,13 +20,4 @@ class RecoverContainer extends React.PureComponent {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  formActions: bindActionCreators(actions.form, dispatch)
-})
-
-const enhance = compose(
-  connect(null, mapDispatchToProps),
-  wizardProvider('recover', 2)
-)
-
-export default enhance(RecoverContainer)
+export default wizardProvider('recover', 2)(ReminderContainer)

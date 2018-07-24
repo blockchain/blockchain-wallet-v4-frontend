@@ -7,9 +7,8 @@ import * as C from 'services/AlertService'
 export default ({ api, coreSagas }) => {
   const logLocation = 'components/exchangeHistory/sagas'
   let pollingTradeStatusTask
-  let fetchingTradesTask
 
-  const updateTrade = function * (depositAddress) {
+  const updateTradeStatus = function * (depositAddress) {
     try {
       const appState = yield select(identity)
       const currentTrade = selectors.core.kvStore.shapeShift.getTrade(depositAddress, appState).getOrFail('Could not find trade.')
@@ -19,60 +18,47 @@ export default ({ api, coreSagas }) => {
       }
       const data = yield call(api.getTradeStatus, depositAddress)
       const status = prop('status', data)
-      const hashOut = prop('transaction', data)
       if (!equals(status, currentStatus)) {
-        yield put(actions.core.kvStore.shapeShift.updateTradeMetadataShapeshift(depositAddress, status, hashOut))
+        yield put(actions.core.kvStore.shapeShift.updateTradeStatusMetadataShapeshift(depositAddress, status))
       }
     } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'updateTrade', e))
-    }
-  }
-
-  const startFetchingTrades = function * (trades) {
-    for (let i = 0; i < trades.length; i++) {
-      const trade = trades[i]
-      try {
-        const depositAddress = path(['quote', 'deposit'], trade)
-        const status = prop('status', trade)
-        const quote = prop('quote', trade)
-        const depositAmount = prop('depositAmount', quote)
-        const withdrawalAmount = prop('withdrawalAmount', quote)
-        if (!equals('complete', status) || any(isNil)([depositAmount, withdrawalAmount])) {
-          yield call(coreSagas.kvStore.shapeShift.fetchShapeshiftTrade, depositAddress)
-          yield race({
-            success: take(actionTypes.core.kvStore.shapeShift.FETCH_METADATA_SHAPESHIFT_SUCCESS),
-            failure: take(actionTypes.core.kvStore.shapeShift.FETCH_METADATA_SHAPESHIFT_FAILURE)
-          })
-        }
-      } catch (e) {
-        yield put(actions.alerts.displayError(C.EXCHANGE_REFRESH_TRADE_ERROR))
-        yield put(actions.logs.logErrorMessage(logLocation, 'startFetchingTrades', e))
-      }
+      yield put(actions.logs.logErrorMessage(logLocation, 'updateTradeStatus', e))
     }
   }
 
   const exchangeHistoryInitialized = function * (action) {
     try {
       const { trades } = action.payload
-      fetchingTradesTask = yield fork(startFetchingTrades, trades)
+      for (let i = 0; i < trades.length; i++) {
+        const trade = trades[i]
+        try {
+          const depositAddress = path(['quote', 'deposit'], trade)
+          const status = prop('status', trade)
+          const quote = prop('quote', trade)
+          const depositAmount = prop('depositAmount', quote)
+          const withdrawalAmount = prop('withdrawalAmount', quote)
+          if (!equals('complete', status) || any(isNil)([depositAmount, withdrawalAmount])) {
+            yield call(coreSagas.kvStore.shapeShift.fetchShapeshiftTrade, depositAddress)
+            yield race({
+              success: take(actionTypes.core.kvStore.shapeShift.FETCH_METADATA_SHAPESHIFT_SUCCESS),
+              failure: take(actionTypes.core.kvStore.shapeShift.FETCH_METADATA_SHAPESHIFT_FAILURE)
+            })
+          }
+        } catch (e) {
+          yield put(actions.alerts.displayError(C.EXCHANGE_REFRESH_TRADE_ERROR))
+          yield put(actions.logs.logErrorMessage(logLocation, 'exchangeHistoryInitialized', e))
+        }
+      }
     } catch (e) {
       yield put(actions.alerts.displayError(C.EXCHANGE_REFRESH_TRADES_ERROR))
       yield put(actions.logs.logErrorMessage(logLocation, 'exchangeHistoryInitialized', e))
     }
   }
 
-  const exchangeHistoryDestroyed = function * (action) {
-    try {
-      yield cancel(fetchingTradesTask)
-    } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'exchangeHistoryDestroyed', e))
-    }
-  }
-
   const startPollingTradeStatus = function * (depositAddress) {
     try {
       while (true) {
-        yield call(updateTrade, depositAddress)
+        yield call(updateTradeStatus, depositAddress)
         yield call(delay, 5000)
       }
     } catch (e) {
@@ -100,7 +86,6 @@ export default ({ api, coreSagas }) => {
 
   return {
     exchangeHistoryInitialized,
-    exchangeHistoryDestroyed,
     exchangeHistoryModalInitialized,
     exchangeHistoryModalDestroyed
   }

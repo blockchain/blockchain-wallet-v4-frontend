@@ -1,9 +1,10 @@
-import { merge } from 'ramda'
-
 export default ({ rootUrl, apiUrl, get, post }) => {
-  const fetchBchData = (context, { n = 50, offset = 0, onlyShow } = {}) => {
-    const data = {
+  const fetchBchData = (context, { n = 50, offset = 0, onlyShow = '' } = {}) => post({
+    url: apiUrl,
+    endPoint: '/bch/multiaddr',
+    data: {
       active: (Array.isArray(context) ? context : [context]).join('|'),
+      onlyShow: onlyShow,
       format: 'json',
       offset: offset,
       no_compact: true,
@@ -12,12 +13,7 @@ export default ({ rootUrl, apiUrl, get, post }) => {
       language: 'en',
       no_buttons: true
     }
-    return post({
-      url: apiUrl,
-      endPoint: '/bch/multiaddr',
-      data: onlyShow ? merge(data, { onlyShow }) : data
-    })
-  }
+  })
 
   const getBchFee = () => {
     // TODO :: this should come from wallet options

@@ -14,20 +14,10 @@ import { ModalHeader, ModalBody, Text } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 import { getData } from './selectors'
 import { path } from 'ramda'
-import media from 'services/ResponsiveService'
 
 const HeaderWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  ${media.mobile`
-    flex-direction: column;
-  `}
-`
-const HeaderText = styled(Text)`
-  font-size: 20px;
-  ${media.mobile`
-    display: none;
-  `}
 `
 
 class CoinifyExchangeData extends React.PureComponent {
@@ -71,9 +61,9 @@ class CoinifyExchangeData extends React.PureComponent {
       <Tray in={show} class='tray' onClose={this.handleClose.bind(this)}>
         <ModalHeader tray paddingHorizontal='15%' onClose={this.handleClose.bind(this)}>
           <HeaderWrapper>
-            <HeaderText size='20px' weight={300}>
+            <Text size='20px' weight={300}>
               <FormattedMessage id='coinifyexchangedata.header.start' defaultMessage='Start buying and selling in two simple steps.' />
-            </HeaderText>
+            </Text>
             <StepIndicator adjuster={adjuster} barFullWidth flexEnd minWidth='135px' maxWidth='135px' step={step} stepMap={this.stepMap} />
           </HeaderWrapper>
         </ModalHeader>
@@ -102,8 +92,8 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const enhance = compose(
-  modalEnhancer('CoinifyExchangeData'),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
+  modalEnhancer('CoinifyExchangeData')
 )
 
 export default enhance(CoinifyExchangeData)

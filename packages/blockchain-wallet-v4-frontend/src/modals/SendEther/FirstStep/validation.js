@@ -16,7 +16,6 @@ export const invalidAmount = (value, allValues, props) => {
 
 export const maximumAmount = (value, allValues, props) => {
   const valueEth = prop('coin', value)
-  const effectiveBalanceWei = prop('effectiveBalance', props)
-  const effectiveBalanceEth = Exchange.convertEtherToEther({ value: effectiveBalanceWei, fromUnit: 'WEI', toUnit: 'ETH' }).value
-  return new BigNumber(valueEth).lessThanOrEqualTo(new BigNumber(effectiveBalanceEth || 0)) ? undefined : <MaximumAmountMessage />
+  const valueWei = Exchange.convertEtherToEther({ value: valueEth, fromUnit: 'ETH', toUnit: 'WEI' }).value
+  return new BigNumber(valueWei).lessThanOrEqualTo(new BigNumber(props.effectiveBalance || 0)) ? undefined : <MaximumAmountMessage />
 }

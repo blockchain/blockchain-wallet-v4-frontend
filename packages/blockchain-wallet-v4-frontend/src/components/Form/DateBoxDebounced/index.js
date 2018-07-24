@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import locale from 'browser-locale'
 
 import { equals } from 'ramda'
 import { Text, DateInput } from 'blockchain-info-components'
@@ -19,6 +18,7 @@ const Error = styled(Text)`
   height: 15px;
   top: 40px;
   right: 0;
+  width: 200px;
 `
 const getErrorState = (meta) => {
   return meta.dirty && meta.invalid ? 'invalid' : 'initial'
@@ -35,8 +35,11 @@ class DateBoxDebounced extends React.Component {
   }
 
   static getDerivedStateFromProps (nextProps, prevState) {
+    if (!equals(prevState.updatedValue, prevState.value)) {
+      return { updatedValue: prevState.updatedValue, value: prevState.updatedValue }
+    }
     if (!equals(nextProps.input.value, prevState.value)) {
-      return { value: nextProps.input.value }
+      return { updatedValue: nextProps.input.value, value: nextProps.input.value }
     }
     return null
   }
@@ -46,10 +49,11 @@ class DateBoxDebounced extends React.Component {
   }
 
   handleChange (value) {
+    this.setState({ updatedValue: value, open: false })
+
     if (this.timeout) clearTimeout(this.timeout)
     this.timeout = setTimeout(() => {
       this.props.input.onChange(value)
-      this.setState({ open: false })
     }, 500)
   }
 
@@ -79,7 +83,6 @@ class DateBoxDebounced extends React.Component {
           closeOnSelect={false}
           closeOnTab={false}
           open={open}
-          locale={locale()}
           {...rest}
         />
         {meta.dirty && meta.error && <Error size='12px' weight={300} color='error'>{meta.error}</Error>}

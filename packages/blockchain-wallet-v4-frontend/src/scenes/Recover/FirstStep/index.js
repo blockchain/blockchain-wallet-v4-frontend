@@ -70,7 +70,7 @@ const FirstStep = (props) => {
             <Text size='12px' weight={300}>
               <FormattedMessage id='scenes.recover.firststep.mnemonic_explain' defaultMessage='Enter your 12 word phrase, lowercase, with spaces between each word, to recover your funds & transactions.' />
             </Text>
-            <Field name='mnemonic' autoFocus validate={[required, validMnemonic]} component={TextBox} autoComplete="off" />
+            <Field name='mnemonic' autoFocus validate={[required, validMnemonic]} component={TextBox} />
           </FormItem>
         </FormGroup>
         <Footer>

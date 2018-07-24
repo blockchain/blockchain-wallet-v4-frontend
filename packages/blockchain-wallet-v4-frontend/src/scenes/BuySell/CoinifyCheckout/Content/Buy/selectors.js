@@ -4,24 +4,41 @@ import { selectors } from 'data'
 
 export const getProfileData = (state) => {
   const profile = selectors.core.data.coinify.getProfile(state)
-  const kyc = selectors.core.data.coinify.getKyc(state)
-  return lift((profile, kyc) => ({ profile, kyc }))(profile, kyc)
+  const kycs = selectors.core.data.coinify.getSortedKycs(state)
+  return lift((profile, kycs) => ({ profile, kycs }))(profile, kycs)
 }
 
 export const getTrades = (state) =>
   selectors.core.data.coinify.getTrades(state).getOrElse(null)
 
-export const getSubscriptions = (state) =>
-  selectors.core.data.coinify.getSubscriptions(state).getOrElse([])
+export const getSubscriptions = (state) => selectors.core.data.coinify.getSubscriptions(state).getOrElse([])
+
+export const getRateQuote = (state) => {
+  try {
+    return selectors.core.data.coinify.getRateQuote(state)
+  } catch (e) {
+    return null
+  }
+}
 
 export const getTrade = (state) =>
   selectors.core.data.coinify.getTrade(state).getOrElse(null)
 
-export const getQuote = (state) =>
-  selectors.core.data.coinify.getQuote(state)
+export const getQuote = (state) => {
+  try {
+    return selectors.core.data.coinify.getQuote(state)
+  } catch (e) {
+    return null
+  }
+}
 
-export const getCurrency = (state) =>
-  selectors.core.data.coinify.getLevel(state)
+export const getCurrency = (state) => {
+  try {
+    return selectors.core.data.coinify.getLevel(state)
+  } catch (e) {
+    return null
+  }
+}
 
 export const getBase = (state) =>
   path(['form', 'exchangeCheckout', 'active'], state)

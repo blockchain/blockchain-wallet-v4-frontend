@@ -5,7 +5,6 @@ import { filter, take } from 'ramda'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import { SettingDescription, SettingHeader } from 'components/Setting'
 import { Banner, ComponentDropdown, Link, Table, TableHeader, TableCell, TableRow, Text } from 'blockchain-info-components'
-import media from 'services/ResponsiveService'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
@@ -14,15 +13,8 @@ const BchWalletsAddressesSettingHeader = SettingHeader.extend`
   justify-content: flex-start;
 `
 const WalletTableCell = styled(TableCell)`
-  display: flex;
-  flex-direction: row;
   align-items: center;
   min-height: 23px;
-
-  ${media.mobile`
-    flex-direction: column;
-    align-items: flex-start;
-  `}
 `
 const ClickableText = styled(Text)`
   cursor: pointer;

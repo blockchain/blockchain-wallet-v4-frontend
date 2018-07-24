@@ -26,11 +26,11 @@ const renderStatus = status => {
 }
 
 const OrderStatus = props => {
-  const { status, size } = props
+  const { status } = props
   const style = selectStyle(status)
 
   return (
-    <Text size={size} weight={300} capitalize {...style}>
+    <Text size='14px' weight={300} capitalize {...style}>
       {renderStatus(status)}
     </Text>
   )

@@ -18,13 +18,6 @@ import * as KVStoreEntry from './KVStoreEntry'
 import Remote from '../remote'
 
 const serializer = {
-  // Remove all functions from the state
-  replacer: function (key, value) {
-    if (value && typeof value === 'function') {
-      return ''
-    }
-    return value
-  },
   reviver: function (key, value) {
     if (typeof value === 'object' && value !== null && '__serializedType__' in value) {
       var data = value.data
@@ -46,8 +39,8 @@ const serializer = {
         case 'TXNames': return TXNames.reviver(data)
         case 'Options': return Options.reviver(data)
         case 'KVStoreEntry': return KVStoreEntry.reviver(data)
-        case 'Success': return Remote.Success(data.__remote)
-        case 'Failure': return Remote.Failure(data.__remote)
+        case 'Success': return Remote.Success(data)
+        case 'Failure': return Remote.Failure(data)
         case 'Loading': return Remote.Loading
         case 'NotAsked': return Remote.NotAsked
         default: return data

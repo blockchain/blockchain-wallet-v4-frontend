@@ -10,11 +10,9 @@ import * as C from 'services/AlertService'
 import { promptForSecondPassword } from 'services/SagaService'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 
-export const logLocation = 'components/sendBch/sagas'
-// TODO: Check how to retrieve Bitcoin cash default fee
-export const bchDefaultFee = 2
-
 export default ({ coreSagas }) => {
+  const logLocation = 'components/sendBch/sagas'
+
   const initialized = function * () {
     try {
       yield put(A.sendBchPaymentUpdated(Remote.Loading))
@@ -25,7 +23,8 @@ export default ({ coreSagas }) => {
       const defaultIndex = defaultIndexR.getOrElse(0)
       const defaultAccountR = accountsR.map(nth(defaultIndex))
       payment = yield payment.from(defaultIndex)
-      payment = yield payment.fee(bchDefaultFee)
+      // TODO: Check how to retrieve Bitcoin cash default fee
+      payment = yield payment.fee(2)
       const initialValues = {
         coin: 'BCH',
         from: defaultAccountR.getOrElse()
@@ -93,7 +92,7 @@ export default ({ coreSagas }) => {
           const satAmount = Exchange.convertBchToBch({ value: bchAmount, fromUnit: 'BCH', toUnit: 'SAT' }).value
           payment = yield payment.amount(parseInt(satAmount))
           break
-        case 'description':
+        case 'message':
           payment = yield payment.description(payload)
           break
       }
@@ -140,7 +139,7 @@ export default ({ coreSagas }) => {
       if (path(['description', 'length'], payment.value())) {
         yield put(actions.core.kvStore.bch.setTxNotesBch(payment.value().txId, payment.value().description))
       }
-      yield put(actions.core.data.bch.fetchData())
+      yield put(actions.core.data.bch.fetchData('', true))
       yield put(actions.router.push('/bch/transactions'))
       yield put(actions.alerts.displaySuccess(C.SEND_BCH_SUCCESS))
     } catch (e) {

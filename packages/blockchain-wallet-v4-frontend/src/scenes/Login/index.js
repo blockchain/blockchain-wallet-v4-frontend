@@ -11,21 +11,19 @@ class LoginContainer extends React.PureComponent {
     super(props)
     this.state = { useCode: true }
     this.onSubmit = this.onSubmit.bind(this)
+    this.handleCode = this.handleCode.bind(this)
     this.handleMobile = this.handleMobile.bind(this)
     this.handleSmsResend = this.handleSmsResend.bind(this)
   }
 
-  componentDidMount () {
-    this.props.loginActions.initialized()
-  }
-
-  componentWillUnmount () {
-    this.props.formActions.reset('login')
+  handleCode (val) {
+    this.setState({ useCode: val })
   }
 
   onSubmit () {
+    const { useCode } = this.state
     const { guid, password, code } = this.props
-    let auth = code
+    let auth = useCode ? code : undefined
     // only uppercase if authType is not Yubikey
     if (auth && this.props.authType !== 1) {
       auth = auth.toUpperCase()
@@ -56,6 +54,7 @@ class LoginContainer extends React.PureComponent {
       authType,
       loginError: error,
       onSubmit: this.onSubmit,
+      handleCode: this.handleCode,
       handleMobile: this.handleMobile,
       handleSmsResend: this.handleSmsResend
     }
@@ -78,8 +77,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   authActions: bindActionCreators(actions.auth, dispatch),
   alertActions: bindActionCreators(actions.alerts, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch),
-  loginActions: bindActionCreators(actions.components.login, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 

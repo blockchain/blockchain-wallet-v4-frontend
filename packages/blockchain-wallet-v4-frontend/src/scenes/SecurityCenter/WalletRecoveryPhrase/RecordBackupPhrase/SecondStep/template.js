@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
 import { Button, Text } from 'blockchain-info-components'
-import { spacing } from 'services/StyleService'
 
 const Wrapper = styled.div`
   display: flex;
@@ -32,20 +31,17 @@ const Word = styled(Text)`
 `
 const Buttons = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   margin-top: 0px;
   a {
     margin-top: 50px;
   }
-  @media (max-width: 991px) {
-    padding-bottom: 15px;
-  }
 `
 
 const SecondStep = (props) => {
-  const { nextStep, handleClickPrevious, handleClickNext, step, words } = props
+  const { nextStep, handleClickNext, step, words } = props
   return (
     <Wrapper>
       <Container>
@@ -61,22 +57,13 @@ const SecondStep = (props) => {
       </Container>
       <Buttons>
         {
-          step === 1
-            ? null
-            : <Button onClick={handleClickPrevious} nature='empty'>
-              <Text weight={300} cursor='pointer'>
-                <FormattedMessage id='modals.recoveryphrase.secondstep.prevfourwords' defaultMessage='Previous 4 Words' />
-              </Text>
-            </Button>
-        }
-        {
           step === 3
-            ? <Button onClick={nextStep} style={spacing('ml-15')} nature='primary'>
+            ? <Button onClick={nextStep} nature='primary'>
               <Text color='white' weight={300} cursor='pointer'>
                 <FormattedMessage id='modals.recoveryphrase.secondstep.finishandcheckphrase' defaultMessage='Finish & Verify' />
               </Text>
             </Button>
-            : <Button onClick={handleClickNext} style={spacing('ml-15')} nature='dark'>
+            : <Button onClick={handleClickNext} nature='dark'>
               <Text color='white' weight={300} cursor='pointer'>
                 <FormattedMessage id='modals.recoveryphrase.secondstep.nextfourwords' defaultMessage='Next 4 Words' />
               </Text>

@@ -5,7 +5,6 @@ import * as buySell from './buySell/actions'
 import * as contacts from './contacts/actions'
 import * as root from './root/actions'
 import * as bch from './bch/actions'
-import * as btc from './btc/actions'
 
 export {
   root,
@@ -14,6 +13,5 @@ export {
   shapeShift,
   buySell,
   contacts,
-  bch,
-  btc
+  bch
 }

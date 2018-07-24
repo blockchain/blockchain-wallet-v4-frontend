@@ -1,19 +1,17 @@
 import { all, call, fork, put } from 'redux-saga/effects'
-import { delay } from 'redux-saga'
 import { coreSagasFactory, coreRootSagaFactory } from 'blockchain-wallet-v4/src'
+import websocketBitcoinFactory from 'blockchain-wallet-v4/src/redux/webSocket/bitcoin/sagaRegister'
+import websocketEthereumFactory from 'blockchain-wallet-v4/src/redux/webSocket/ethereum/sagaRegister'
+import websocketBchFactory from 'blockchain-wallet-v4/src/redux/webSocket/bch/sagaRegister'
 import * as actions from './actions'
 import alerts from './alerts/sagaRegister'
 import auth from './auth/sagaRegister'
 import components from './components/sagaRegister'
-import middleware from './middleware/sagaRegister'
 import modules from './modules/sagaRegister'
 import preferences from './preferences/sagaRegister'
 import goals from './goals/sagaRegister'
 import router from './router/sagaRegister'
 import wallet from './wallet/sagaRegister'
-import { tryParseLanguageFromUrl } from 'services/LanguageService'
-
-const logLocation = 'data/rootSaga'
 
 const welcomeSaga = function * () {
   try {
@@ -30,38 +28,26 @@ const welcomeSaga = function * () {
     console.log('%c it is a scam and will give them access to your money!', style2)
     /* eslint-enable */
   } catch (e) {
-    yield put(actions.logs.logErrorMessage(logLocation, 'welcomeSaga', e))
+    yield put(actions.logs.logErrorMessage('data/rootSaga', 'welcomeSaga', e))
   }
 }
 
-const languageInitSaga = function * () {
-  try {
-    yield call(delay, 250)
-    const lang = tryParseLanguageFromUrl()
-    if (lang.language) {
-      yield put(actions.preferences.setLanguage(lang.language, false))
-      if (lang.cultureCode) yield put(actions.preferences.setCulture(lang.cultureCode))
-    }
-  } catch (e) {
-    yield put(actions.logs.logErrorMessage(logLocation, 'languageInitSaga', e))
-  }
-}
-
-export default function * ({ api, bchSocket, btcSocket, ethSocket, options }) {
+export default function * ({ api, btcSocket, ethSocket, bchSocket, options }) {
   const coreSagas = coreSagasFactory({ api })
 
   yield all([
     call(welcomeSaga),
     fork(alerts),
     fork(auth({ api, coreSagas })),
-    fork(components({ api, coreSagas, options })),
+    fork(components({ api, coreSagas })),
     fork(modules({ coreSagas })),
     fork(preferences()),
     fork(goals({ coreSagas })),
     fork(wallet({ coreSagas })),
-    fork(middleware({ api, bchSocket, btcSocket, ethSocket })),
+    fork(websocketBitcoinFactory({ api, btcSocket })),
+    fork(websocketEthereumFactory({ api, ethSocket })),
+    fork(websocketBchFactory({ api, bchSocket })),
     fork(coreRootSagaFactory({ api, options })),
-    fork(router()),
-    call(languageInitSaga)
+    fork(router())
   ])
 }

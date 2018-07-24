@@ -26,8 +26,6 @@ export const setDefaultAccountIdx = (index) =>
   ({ type: T.SET_DEFAULT_ACCOUNT, payload: { index } })
 export const setTransactionNote = (txHash, txNote) =>
   ({ type: T.SET_TRANSACTION_NOTE, payload: { txHash, txNote } })
-export const setSyncPubKeys = (syncPubKeys) =>
-  ({ type: T.SET_SYNC_PUB_KEYS, payload: { syncPubKeys } })
 
 // deletes
 export const deleteWrapper = () =>

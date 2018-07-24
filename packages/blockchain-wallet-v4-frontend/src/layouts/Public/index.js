@@ -1,21 +1,12 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import { Route } from 'react-router-dom'
 import styled, { injectGlobal } from 'styled-components'
 
 import Header from './Header'
 import Footer from './Footer'
+
 import Alerts from 'components/Alerts'
 import Container from 'components/Container'
-import ErrorBoundary from 'providers/ErrorBoundaryProvider'
-import { selectors } from 'data'
-import { isOnDotInfo } from 'services/MigrationService'
-
-const defaultDomains = {
-  root: 'https://blockchain.info',
-  comWalletApp: 'https://login.blockchain.com',
-  comRoot: 'https://blockchain.com'
-}
 
 injectGlobal`
   html, body, #app, #app > div {padding: 0; margin: 0; height: 100%;}
@@ -53,22 +44,10 @@ const ContentContainer = styled.div`
   justify-content: center;
   align-items: center;
   overflow-y: auto;
-  margin: 0 25px;
-
+  padding: 0 25px;
   @media (min-width: 768px) {
+    padding: 0px;
     height: 100%;
-  }
-
-  @media (min-height: 1000px) {
-    height: 100%;
-    margin-top: 200px;
-    justify-content: flex-start;
-  }
-
-   @media (min-height: 1400px) {
-    height: 100%;
-    margin-top: 500px;
-    justify-content: flex-start;
   }
 `
 const FooterContainer = styled.div`
@@ -83,50 +62,25 @@ const FooterContainer = styled.div`
   }
 `
 
-class PublicLayoutContainer extends React.PureComponent {
-  componentDidMount () {
-    const { domainsR, migrationRedirectsR, pathname } = this.props
-    const domains = domainsR.getOrElse(defaultDomains)
-    const enableRedirects = migrationRedirectsR.getOrElse(false)
-
-    if (enableRedirects && isOnDotInfo(domains)) {
-      if (pathname === '/wallet') {
-        window.location = `${domains.comRoot}/wallet`
-      } else {
-        window.location = `${domains.comWalletApp}/${pathname}`
-      }
-    }
-  }
-
-  render () {
-    const { component: Component, ...rest } = this.props
-    return (
-      <Route {...rest} render={matchProps => (
-        <Wrapper>
-          <ErrorBoundary>
-            <Alerts />
-            <HeaderContainer>
-              <Header />
-            </HeaderContainer>
-            <ContentContainer>
-              <Component {...matchProps} />
-            </ContentContainer>
-            <FooterContainer>
-              <Container>
-                <Footer />
-              </Container>
-            </FooterContainer>
-          </ErrorBoundary>
-        </Wrapper>
-      )} />
-    )
-  }
+const PublicLayout = ({component: Component, ...rest}) => {
+  return (
+    <Route {...rest} render={matchProps => (
+      <Wrapper>
+        <Alerts />
+        <HeaderContainer>
+          <Header />
+        </HeaderContainer>
+        <ContentContainer>
+          <Component {...matchProps} />
+        </ContentContainer>
+        <FooterContainer>
+          <Container>
+            <Footer />
+          </Container>
+        </FooterContainer>
+      </Wrapper>
+    )} />
+  )
 }
 
-const mapStateToProps = (state) => ({
-  pathname: selectors.router.getPathname(state),
-  domainsR: selectors.core.walletOptions.getDomains(state),
-  migrationRedirectsR: selectors.core.walletOptions.getMigrationRedirects(state)
-})
-
-export default connect(mapStateToProps)(PublicLayoutContainer)
+export default PublicLayout

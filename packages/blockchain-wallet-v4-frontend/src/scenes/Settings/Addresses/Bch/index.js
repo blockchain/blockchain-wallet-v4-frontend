@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-
 import AddressesLayout from 'layouts/Addresses'
 import Wallets from './Wallets'
 import ImportedAddresses from './ImportedAddresses'

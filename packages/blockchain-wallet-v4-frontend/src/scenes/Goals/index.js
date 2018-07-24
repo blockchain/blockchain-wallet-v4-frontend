@@ -22,8 +22,8 @@ class ActionsContainer extends React.PureComponent {
         const decodedPayload = decodeURIComponent(payload)
         const bip21Payload = bip21.decode(decodedPayload)
         const { address } = bip21Payload
-        const { amount, message } = bip21Payload.options || {}
-        const data = { address, amount, description: message }
+        const { amount, label } = bip21Payload.options || {}
+        const data = { address, amount, message: label }
         this.props.goalsActions.saveGoal('payment', data)
       } else {
         // Other scenarios with actions encoded in base64
@@ -36,11 +36,6 @@ class ActionsContainer extends React.PureComponent {
     } catch (e) {
       this.setState({ error: 'invalid_link' })
     }
-  }
-
-  componentWillUnmount () {
-    // goals are saved, start event listeners for each goal
-    this.props.goalsActions.runGoals()
   }
 
   render () {

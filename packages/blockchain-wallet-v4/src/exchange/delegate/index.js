@@ -1,17 +1,13 @@
-import Bitcoin from 'bitcoinjs-lib'
-import { path, prop } from 'ramda'
-
-import { btc } from '../../redux/common/selectors'
-import { getDefaultAccountIndex } from '../../redux/wallet/selectors'
+// import { btc } from '../../redux/common/selectors'
+// import Bitcoin from 'bitcoinjs-lib'
 
 export class ExchangeDelegate {
-  constructor (state, api, partner) {
+  constructor (state, api) {
     this._trades = []
     this._debug = false
     this.labelBase = 'Exchange order'
     this._state = state
     this._api = api
-    this._partner = partner
   }
 
   get state () {
@@ -24,10 +20,6 @@ export class ExchangeDelegate {
 
   get api () {
     return this._api
-  }
-
-  get partner () {
-    return this._partner
   }
 
   save () {
@@ -94,20 +86,10 @@ export class ExchangeDelegate {
   }
 
   reserveReceiveAddress () {
-    const isProd = prop('walletOptionsPath', this.state)
-      .map(path(['platforms', 'web', this.partner, 'config', 'production']))
-      .getOrFail(`Missing ${this.partner} production flag in walletOptions`)
-
-    let receiveAddress
-    if (isProd) {
-      const defaultIndex = getDefaultAccountIndex(this.state)
-      receiveAddress = btc.getNextAvailableReceiveAddress(Bitcoin.networks.bitcoin.NETWORK_BITCOIN, defaultIndex, this.state).getOrElse()
-    } else {
-      receiveAddress = '2N7FwMpgyXQA85SaVXumm3UZowq2VKChehP' // testnet address used on staging
-    }
-
+    // const receiveAddress = btc.getNextAvailableReceiveAddress(Bitcoin.networks.bitcoin.NETWORK_BITCOIN, 0, this.state)
     return {
-      receiveAddress,
+      receiveAddress: '2N7FwMpgyXQA85SaVXumm3UZowq2VKChehP', // receiveAddress.data for now testnet address used on staging
+      // receiveAddress: receiveAddress.data,
       commit: (trade) => {}
     }
   }
@@ -125,10 +107,6 @@ export class ExchangeDelegate {
   deserializeExtraFields (obj, trade) {
     trade._account_index = obj.account_index
     trade._receive_index = obj.receive_index
-  }
-
-  toJSON () {
-    return ''
   }
 }
 

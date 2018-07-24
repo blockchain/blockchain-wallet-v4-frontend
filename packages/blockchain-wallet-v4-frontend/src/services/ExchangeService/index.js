@@ -1,8 +1,9 @@
-import { isNil, path } from 'ramda'
+import { isNil, prop } from 'ramda'
 
 export const hasAccount = (partners) => {
-  if (!isNil(path(['sfox', 'account_token'], partners))) return 'sfox'
-  if (!isNil(path(['coinify', 'offline_token'], partners))) return 'coinify'
+  const { coinify, sfox } = partners
+  if (!isNil(prop('account_token', sfox))) return 'sfox'
+  if (!isNil(prop('offline_token', coinify))) return 'coinify'
 }
 
 export const findMatch = (settings, options) => {

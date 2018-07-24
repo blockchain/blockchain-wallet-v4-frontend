@@ -7,21 +7,15 @@ import { Text, Button } from 'blockchain-info-components'
 import { TextBox } from 'components/Form'
 import { required } from 'services/FormHelper'
 import { Form, ColLeft, ColRight, ColRightInner, InputWrapper, PartnerHeader, PartnerSubHeader, ButtonWrapper, EmailHelper } from 'components/BuySell/Signup'
-import media from 'services/ResponsiveService'
 
 const EmailInput = styled.div`
   display: flex;
   margin-top: 25px;
   flex-direction: column;
 `
-const CreateForm = styled(Form)`
-  ${media.mobile`
-    flex-direction: column;
-  `}
-`
 
 const VerifyEmail = (props) => {
-  const { emailVerifiedError, invalid, handleSubmit, resendCode, ui, updateUI, newEmail } = props
+  const { emailVerifiedError, invalid, handleSubmit, resendCode, ui, updateUI } = props
 
   const emailHelper = () => {
     switch (true) {
@@ -32,18 +26,14 @@ const VerifyEmail = (props) => {
   }
 
   return (
-    <CreateForm onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit}>
       <ColLeft>
         <InputWrapper>
           <PartnerHeader>
             <FormattedMessage id='coinifyexchangedata.create.verifyemail.partner.header.verifyemail' defaultMessage='Verify Your Email' />
           </PartnerHeader>
           <PartnerSubHeader>
-            {
-              ui.create === 'enter_email_code'
-                ? <FormattedMessage id='coinifyexchangedata.create.verifyemail.partner.subheader.enteremailcode' defaultMessage='We teamed up with Coinify’s exchange platform to offer buy and sell to our customers in Europe. We just sent a verification code to your {email} email address.' values={{ email: newEmail }} />
-                : <FormattedMessage id='coinifyexchangedata.create.verifyemail.partner.subheader.enteremailaddress' defaultMessage="Enter the email address you would like to use with your Coinify account. We'll send you a verification code to make sure it's yours." />
-            }
+            <FormattedMessage id='coinifyexchangedata.create.verifyemail.partner.subheader.enteremailaddress' defaultMessage="Enter the email address you would like to use with your Coinify account. We'll send you a verification code to make sure it's yours." />
           </PartnerSubHeader>
           {
             ui.create === 'enter_email_code'
@@ -82,7 +72,7 @@ const VerifyEmail = (props) => {
           }
         </ColRightInner>
       </ColRight>
-    </CreateForm>
+    </Form>
   )
 }
 

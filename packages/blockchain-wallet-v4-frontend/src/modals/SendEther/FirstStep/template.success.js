@@ -20,7 +20,7 @@ const Row = styled.div`
 `
 
 const FirstStep = props => {
-  const { pristine, invalid, submitting, fee, handleSubmit, unconfirmedTx, isContract } = props
+  const { pristine, invalid, submitting, fee, handleSubmit, unconfirmedTx } = props
   return (
     <Form onSubmit={handleSubmit}>
       <FormGroup inline margin={'15px'}>
@@ -43,9 +43,6 @@ const FirstStep = props => {
           { unconfirmedTx && <Text color='error' size='12px' weight={300}>
             <FormattedMessage id='modals.sendeth.unconfirmedtransactionmessage' defaultMessage='Please wait until your previous transaction confirms.' />
           </Text>}
-          { isContract && <Text color='error' size='12px' weight={300}>
-            <FormattedMessage id='modals.sendeth.contractaddr' defaultMessage='Sending to contract addresses is disabled.' />
-          </Text>}
         </FormItem>
       </FormGroup>
       <FormGroup margin={'15px'}>
@@ -58,13 +55,13 @@ const FirstStep = props => {
       </FormGroup>
       <FormGroup margin={'15px'}>
         <FormItem>
-          <FormLabel for='description'>
+          <FormLabel for='message'>
             <FormattedMessage id='modals.sendether.firststep.description' defaultMessage='Description: ' />
             <Tooltip>
               <FormattedMessage id='modals.sendether.firststep.sharetooltip' defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.' />
             </Tooltip>
           </FormLabel>
-          <Field name='description' component={TextAreaDebounced} placeholder="What's this transaction for?" fullwidth />
+          <Field name='message' component={TextAreaDebounced} placeholder="What's this transaction for?" fullwidth />
         </FormItem>
       </FormGroup>
       <FormGroup margin={'30px'}>
@@ -76,7 +73,7 @@ const FirstStep = props => {
         </FormItem>
       </FormGroup>
       <FormGroup>
-        <Button type='submit' nature='primary' uppercase disabled={pristine || submitting || invalid || isContract}>
+        <Button type='submit' nature='primary' uppercase disabled={pristine || submitting || invalid}>
           <FormattedMessage id='modals.sendether.firststep.continue' defaultMessage='Continue' />
         </Button>
       </FormGroup>

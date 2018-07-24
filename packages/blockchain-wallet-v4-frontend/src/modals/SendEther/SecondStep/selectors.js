@@ -9,7 +9,7 @@ export const getData = state => {
     const fromLabel = ethFromLabel(payment, state)
 
     return {
-      description: payment.description,
+      message: payment.description,
       fromAddress: fromLabel,
       toAddress: payment.to,
       amount: payment.amount,

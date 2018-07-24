@@ -24,7 +24,7 @@ class TwoStepVerificationContainer extends React.PureComponent {
   }
 
   static getDerivedStateFromProps (nextProps, prevState) {
-    const data = nextProps.data.getOrElse({})
+    const data = nextProps.data.data
     if (data.authType === 4) return { authName: 'Authenticator App' }
     if (data.authType === 5) return { authName: 'SMS Codes' }
     if (data.authType === 1 || data.authType === 2) return { authName: 'Yubikey' }

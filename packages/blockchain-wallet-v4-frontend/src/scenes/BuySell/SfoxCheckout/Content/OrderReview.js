@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
-import { Text, Icon, Link, Tooltip } from 'blockchain-info-components'
+import { Text, Button, Icon, HeartbeatLoader, Link, Tooltip } from 'blockchain-info-components'
+import { Remote } from 'blockchain-wallet-v4/src'
 import CountdownTimer from 'components/Form/CountdownTimer'
 import { Wrapper as ExchangeCheckoutWrapper } from '../../ExchangeCheckout'
 import { flex, spacing } from 'services/StyleService'
@@ -8,11 +9,10 @@ import { reviewOrder } from 'services/SfoxService'
 import { FormattedMessage } from 'react-intl'
 import { OrderDetailsTable, OrderDetailsRow } from 'components/BuySell/OrderDetails'
 import FundingSource from 'components/BuySell/FundingSource'
-import { PartnerHeader, PartnerSubHeader } from 'components/BuySell/Signup'
+import { CancelWrapper } from 'components/BuySell/Signup'
 import { StepTransition } from 'components/Utilities/Stepper'
 import Helper from 'components/BuySell/FAQ'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
-import ReviewForm from './orderReviewForm'
 
 const MethodContainer = styled.div`
   width: 100%;
@@ -47,12 +47,12 @@ const faqListHelper = () => faqList.map(el => <Helper question={el.question} ans
 
 export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
   <ExchangeCheckoutWrapper>
-    <PartnerHeader size='32px' weight={600} style={spacing('mb-10')}>
+    <Text size='32px' weight={600} style={spacing('mb-10')}>
       <FormattedMessage id='buy.sfoxcheckout.almostthere' defaultMessage="You're almost there" />
-    </PartnerHeader>
-    <PartnerSubHeader size='14px' weight={300} style={spacing('mb-20')}>
+    </Text>
+    <Text size='14px' weight={300} style={spacing('mb-20')}>
       <FormattedMessage id='buy.sfoxcheckout.revieworder.subtext' defaultMessage='Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order.' />
-    </PartnerSubHeader>
+    </Text>
     <Text size='14px' weight={300} style={spacing('mt-20')}>
       <FormattedMessage id='buy.sfoxcheckout.connectedaccount' defaultMessage='Your Connected Account' />:
     </Text>
@@ -103,6 +103,7 @@ export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
     {quoteR.map((quote) => (
       <CountdownTimer
         style={spacing('mt-20')}
+        createdDate={quote.timeOfRequest.getTime()}
         expiryDate={quote.expiresAt.getTime()}
         handleExpiry={onRefreshQuote}
         tooltipExpiryTime='30 seconds'
@@ -111,7 +112,7 @@ export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
   </ExchangeCheckoutWrapper>
 )
 
-export const OrderSubmit = ({ quoteR, onSubmit, busy, clearTradeError, account }) => (
+export const OrderSubmit = ({ quoteR, onSubmit, busy, clearTradeError }) => (
   <Fragment>
     {
       busy instanceof Error
@@ -121,7 +122,23 @@ export const OrderSubmit = ({ quoteR, onSubmit, busy, clearTradeError, account }
           </Text>
           <span onClick={() => clearTradeError()}><StepTransition prev Component={Link} weight={300} size='13px'><FormattedMessage id='try_again' defaultMessage='Try again' /></StepTransition></span>
         </div>
-        : <ReviewForm busy={busy} onSubmit={onSubmit} quoteR={quoteR} account={account} />
+        : <Fragment>
+          <Button
+            nature='primary'
+            disabled={!Remote.Success.is(quoteR)}
+            onClick={quoteR.map((quote) => () => onSubmit(quote)).getOrElse(null)}>
+            {
+              busy
+                ? <HeartbeatLoader height='20px' width='20px' color='white' />
+                : <FormattedMessage id='buysell.sfoxcheckout.orderreview.submit' defaultMessage='Submit' />
+            }
+          </Button>
+          <CancelWrapper>
+            <StepTransition prev Component={Link}>
+              <FormattedMessage id='buysell.sfoxcheckout.orderreview.cancel' defaultMessage='Cancel' />
+            </StepTransition>
+          </CancelWrapper>
+        </Fragment>
     }
     { faqListHelper() }
   </Fragment>
