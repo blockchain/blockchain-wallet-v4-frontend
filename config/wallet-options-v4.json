@@ -202,6 +202,6 @@
     "api": "https://api.blockchain.info",
     "webSocket": "wss://ws.blockchain.info/inv",
     "comWalletApp": "https://login.blockchain.com",
-    "walletHelper": "https://localhost:8081"
+    "walletHelper": "https://wallet-helper.blockchain.info"
   }
 }
