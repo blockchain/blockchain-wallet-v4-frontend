@@ -1,6 +1,6 @@
 {
   "name": "blockchain-wallet-v4",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "license": "ISC",
   "private": true,
   "author": {
@@ -23,9 +23,7 @@
   "engines": {
     "node": ">= 10.2"
   },
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": ["packages/*"],
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
@@ -34,67 +32,86 @@
   },
   "lint-staged": {
     "linters": {
-      "*.{js,json}": [
-        "prettier --write",
-        "eslint --fix",
-        "git add"
-      ]
+      "*.{js}": ["prettier --write", "eslint --fix", "git add"]
     },
     "concurrent": false,
-    "ignore": [
-      "**/package.json"
-    ]
+    "ignore": ["**/package.json"]
   },
   "scripts": {
     "analyze": "yarn workspace blockchain-wallet-v4-frontend analyze",
     "build": "yarn workspace blockchain-wallet-v4-frontend build:dev",
     "build:prod": "yarn workspace blockchain-wallet-v4-frontend build:prod",
     "ci:compile": "yarn workspace blockchain-wallet-v4-frontend ci:compile",
-    "ci:coverage:components": "yarn workspace blockchain-info-components ci:coverage:components",
+    "ci:coverage:components":
+      "yarn workspace blockchain-info-components ci:coverage:components",
     "ci:coverage:core": "yarn workspace blockchain-wallet-v4 ci:coverage:core",
-    "ci:coverage:frontend": "yarn workspace blockchain-wallet-v4-frontend ci:coverage:frontend",
-    "ci:coverage:report": "istanbul report --root ./coverage --dir ./coverage/ lcov && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+    "ci:coverage:frontend":
+      "yarn workspace blockchain-wallet-v4-frontend ci:coverage:frontend",
+    "ci:coverage:report":
+      "istanbul report --root ./coverage --dir ./coverage/ lcov && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "ci:prettier": "prettier './packages/*/src/**/*.js' --list-different",
     "ci:test:build": "yarn wsrun test:build --serial",
     "ci:test:core:components": "yarn wsrun ci:test --serial --exclude-missing",
-    "ci:test:frontend": "yarn workspace blockchain-wallet-v4-frontend ci:test:frontend",
-    "clean": "cross-env rimraf node_modules && rimraf build && rimraf coverage && rimraf dist && rimraf *.log",
-    "coverage": "cross-env rimraf coverage && yarn wsrun coverage --fast-exit && istanbul report --root ./coverage --dir ./coverage/ text-summary html",
+    "ci:test:frontend":
+      "yarn workspace blockchain-wallet-v4-frontend ci:test:frontend",
+    "clean":
+      "cross-env rimraf node_modules && rimraf build && rimraf coverage && rimraf dist && rimraf *.log",
+    "coverage":
+      "cross-env rimraf coverage && yarn wsrun coverage --fast-exit && istanbul report --root ./coverage --dir ./coverage/ text-summary html",
     "coverage:components": "yarn workspace blockchain-info-components coverage",
     "coverage:core": "yarn workspace blockchain-wallet-v4 coverage",
-    "coverage:frontend": "yarn workspace blockchain-wallet-v4-frontend coverage",
-    "fix": "cross-env yarn prettier && yarn lint:fix && yarn test:components:update && yarn test:frontend:update",
+    "coverage:frontend":
+      "yarn workspace blockchain-wallet-v4-frontend coverage",
+    "fix":
+      "cross-env yarn prettier && yarn lint:fix && yarn test:components:update && yarn test:frontend:update",
     "link:resolved:paths": "yarn wsrun link:resolved:paths --exclude-missing",
     "lint": "eslint --cache './packages/*/src/**/*.js'",
-    "lint:components": "eslint './packages/blockchain-info-components/src/**/*.js'",
+    "lint:components":
+      "eslint './packages/blockchain-info-components/src/**/*.js'",
     "lint:core": "eslint './packages/blockchain-wallet-v4/src/**/*.js'",
     "lint:fix": "eslint './packages/*/src/**/*.js' --fix",
-    "lint:frontend": "eslint './packages/blockchain-wallet-v4-frontend/src/**/*.js'",
+    "lint:frontend":
+      "eslint './packages/blockchain-wallet-v4-frontend/src/**/*.js'",
     "prettier": "prettier './packages/*/src/**/*.js' --loglevel error --write",
-    "prettier:components": "prettier './packages/blockchain-info-components/src/**/*.js' --list-different --loglevel error --write",
-    "prettier:core": "prettier './packages/blockchain-wallet-v4/src/**/*.js' --list-different --loglevel error --write",
-    "prettier:frontend": "prettier './packages/blockchain-wallet-v4-frontend/src/**/*.js' --list-different --loglevel error --write",
+    "prettier:components":
+      "prettier './packages/blockchain-info-components/src/**/*.js' --list-different --loglevel error --write",
+    "prettier:core":
+      "prettier './packages/blockchain-wallet-v4/src/**/*.js' --list-different --loglevel error --write",
+    "prettier:frontend":
+      "prettier './packages/blockchain-wallet-v4-frontend/src/**/*.js' --list-different --loglevel error --write",
     "start": "yarn workspace blockchain-wallet-v4-frontend start:dev",
     "start:dev": "yarn workspace blockchain-wallet-v4-frontend start:dev",
     "start:prod": "yarn workspace blockchain-wallet-v4-frontend start:prod",
-    "start:staging": "yarn workspace blockchain-wallet-v4-frontend start:staging",
-    "start:testnet": "yarn workspace blockchain-wallet-v4-frontend start:testnet",
-    "storybook:build": "yarn workspace blockchain-info-components storybook:build",
-    "storybook:serve": "yarn workspace blockchain-info-components storybook:serve",
-    "storybook:deploy": "yarn workspace blockchain-info-components storybook:build && yarn workspace blockchain-info-components storybook:deploy",
+    "start:staging":
+      "yarn workspace blockchain-wallet-v4-frontend start:staging",
+    "start:testnet":
+      "yarn workspace blockchain-wallet-v4-frontend start:testnet",
+    "storybook:build":
+      "yarn workspace blockchain-info-components storybook:build",
+    "storybook:serve":
+      "yarn workspace blockchain-info-components storybook:serve",
+    "storybook:deploy":
+      "yarn workspace blockchain-info-components storybook:build && yarn workspace blockchain-info-components storybook:deploy",
     "test": "cross-env yarn wsrun test:build --fast-exit && yarn wsrun test",
     "test:components": "yarn workspace blockchain-info-components test",
-    "test:components:debug": "yarn workspace blockchain-info-components test:debug",
-    "test:components:update": "yarn workspace blockchain-info-components test -u",
-    "test:components:watch": "yarn workspace blockchain-info-components test:watch",
+    "test:components:debug":
+      "yarn workspace blockchain-info-components test:debug",
+    "test:components:update":
+      "yarn workspace blockchain-info-components test -u",
+    "test:components:watch":
+      "yarn workspace blockchain-info-components test:watch",
     "test:core": "yarn workspace blockchain-wallet-v4 test",
     "test:core:debug": "yarn workspace blockchain-wallet-v4 test:debug",
     "test:core:watch": "yarn workspace blockchain-wallet-v4 test:watch",
     "test:frontend": "yarn workspace blockchain-wallet-v4-frontend test",
-    "test:frontend:debug": "yarn workspace blockchain-wallet-v4-frontend test:debug",
-    "test:frontend:update": "yarn workspace blockchain-wallet-v4-frontend test -u",
-    "test:frontend:watch": "yarn workspace blockchain-wallet-v4-frontend test:watch",
-    "manage:translations": "yarn workspace blockchain-wallet-v4-frontend manage:translations"
+    "test:frontend:debug":
+      "yarn workspace blockchain-wallet-v4-frontend test:debug",
+    "test:frontend:update":
+      "yarn workspace blockchain-wallet-v4-frontend test -u",
+    "test:frontend:watch":
+      "yarn workspace blockchain-wallet-v4-frontend test:watch",
+    "manage:translations":
+      "yarn workspace blockchain-wallet-v4-frontend manage:translations"
   },
   "dependencies": {},
   "devDependencies": {

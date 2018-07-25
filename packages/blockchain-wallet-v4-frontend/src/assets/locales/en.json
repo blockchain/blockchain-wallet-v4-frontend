@@ -287,6 +287,8 @@
   "components.alerts.pbkdf2_update_success":
     "PBKDF2 iterations changed successfully",
   "components.alerts.private_key_incorrect": "Invalid Private Key.",
+  "components.alerts.qr_scanner_not_allowed":
+    "Please enable camera to use this feature",
   "components.alerts.receive_bch_success":
     "You have received a bitcoin cash payment.",
   "components.alerts.receive_btc_success":
@@ -749,7 +751,7 @@
   "modals.requestbch.scan_tooltip":
     "Ask the sender to scan this QR code with their Bitcoin cash wallet",
   "modals.requestbch.share": "Copy & Share Address:",
-  "modals.requestbch.share_ooltip":
+  "modals.requestbch.share_tooltip":
     "Share this address with others, and they can send you Bitcoin Cash directly to your wallet. Your address changes with every payment.",
   "modals.requestbch.title": "Request Bitcoin Cash",
   "modals.requestbitcoin.firststep.amount": "Enter Amount:",
@@ -990,6 +992,7 @@
   "orderdetails.date": "Date Initialized",
   "orderdetails.footnote":
     "*Please note: depending on your bank’s tranfers policies, you will see the funds reflected in your account within 1-2 days from the transfer.",
+  "orderdetails.fundsdelivery": "Estimated Delivery of Funds",
   "orderdetails.orderdetails": "Order Details",
   "orderdetails.payoutdetails": "Payout Details",
   "orderdetails.recurring.amount": "Amount:",
@@ -1110,6 +1113,8 @@
     "It looks like you tried to verify your identity but never finished.",
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio":
     "You're almost there! The uploaded information is being reviewed. This should just take a few minutes.",
+  "scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification":
+    "Complete Verification",
   "scenes.buysell.sfoxcheckout.content.jumio.button.failed": "Try Again",
   "scenes.buysell.sfoxcheckout.content.jumio.button.pending":
     "Complete Verification",

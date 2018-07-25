@@ -295,6 +295,7 @@
   "components.alerts.pbkdf2_update_success":
     "PBKDF2-iteráció módosítása sikeres",
   "components.alerts.private_key_incorrect": "Érvénytelen privát kulcs.",
+  "components.alerts.qr_scanner_not_allowed": null,
   "components.alerts.receive_bch_success": "Bitcoin Cash-fizetése érkezett.",
   "components.alerts.receive_btc_success": "Bitcoin-fizetése érkezett.",
   "components.alerts.receive_eth_success": "Ether-fizetése érkezett.",
@@ -746,8 +747,7 @@
   "modals.requestbch.scan_tooltip":
     "Kérje meg a feladót, hogy olvassa be a QR-kódot Bitcoin Cash-tárcájába",
   "modals.requestbch.share": "Cím másolása és megosztása: ",
-  "modals.requestbch.share_ooltip":
-    "Ossza meg ezt a címet másokkal, hogy küldhessenek Önnek Bitcoin Cash-t közvetlenül tárcájába. Az Ön címe minden egyes fizetéssel változik.",
+  "modals.requestbch.share_tooltip": null,
   "modals.requestbch.title": "Bitcoin Cash kérelmezése",
   "modals.requestbitcoin.firststep.amount": "Összeg megadása:",
   "modals.requestbitcoin.firststep.description": "Leírás:",
@@ -989,6 +989,7 @@
   "orderdetails.date": "Elindítás dátuma",
   "orderdetails.footnote":
     "*Figyelem: bankjának átutalási szabályaitól függően számláján az átutalástól számított 1-2 napon belül jelenik meg a pénzösszeg. ",
+  "orderdetails.fundsdelivery": null,
   "orderdetails.orderdetails": "Megbízás adatai",
   "orderdetails.payoutdetails": "Kifizetés adatai",
   "orderdetails.recurring.amount": "Összeg:",
@@ -1105,6 +1106,7 @@
   "scenes.buysell.sfoxcheckout.content.jumio.body.failed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.refresh": null,

@@ -284,6 +284,7 @@
     "Anda baru saja menerima pembayaran Ethereum",
   "components.alerts.pbkdf2_update_success": "Iterasi PBKDF2 berhasil diubah",
   "components.alerts.private_key_incorrect": "Kunci Pribadi Tidak Valid.",
+  "components.alerts.qr_scanner_not_allowed": null,
   "components.alerts.receive_bch_success":
     "Anda telah menerima pembayaran bitcoin cash.",
   "components.alerts.receive_btc_success":
@@ -733,8 +734,7 @@
   "modals.requestbch.scan_tooltip":
     "Mintalah pengirim untuk memindai kode QR ini dengan dompet Bitcoin Cash-nya",
   "modals.requestbch.share": "Salin & Bagikan Alamat: ",
-  "modals.requestbch.share_ooltip":
-    "Bagikan alamat ini kepada orang lain, dan ia dapat mengirimkan Bitcoin Cash langsung ke dompet Anda. Alamat Anda berubah di setiap pembayaran.",
+  "modals.requestbch.share_tooltip": null,
   "modals.requestbch.title": "Minta Bitcoin Cash",
   "modals.requestbitcoin.firststep.amount": "Masukkan Jumlah:",
   "modals.requestbitcoin.firststep.description": "Deskripsi:",
@@ -974,6 +974,7 @@
   "orderdetails.date": "Tanggal Dimulai",
   "orderdetails.footnote":
     "*Harap perhatikan: tergantung pada kebijakan transfer bank Anda, dana ini akan tercermin di rekening Anda dalam waktu 1-2 hari sejak tanggal transfer. ",
+  "orderdetails.fundsdelivery": null,
   "orderdetails.orderdetails": "Perincian Order",
   "orderdetails.payoutdetails": "Perincian Pembayaran",
   "orderdetails.recurring.amount": "Jumlah:",
@@ -1089,6 +1090,7 @@
   "scenes.buysell.sfoxcheckout.content.jumio.body.failed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
   "scenes.buysell.sfoxcheckout.content.jumio.button.refresh": null,
