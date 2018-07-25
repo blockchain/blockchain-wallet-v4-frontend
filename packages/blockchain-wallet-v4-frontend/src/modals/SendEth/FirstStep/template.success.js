@@ -5,7 +5,12 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
 import { required, validEtherAddress } from 'services/FormHelper'
-import { Button, Text, Tooltip } from 'blockchain-info-components'
+import {
+  Button,
+  Text,
+  TooltipHost,
+  TooltipIcon
+} from 'blockchain-info-components'
 import {
   FiatConvertor,
   Form,
@@ -116,12 +121,9 @@ const FirstStep = props => {
               id='modals.sendether.firststep.description'
               defaultMessage='Description: '
             />
-            <Tooltip>
-              <FormattedMessage
-                id='modals.sendether.firststep.sharetooltip'
-                defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.'
-              />
-            </Tooltip>
+            <TooltipHost id='sendether.firststep.sharetooltip'>
+              <TooltipIcon name='question-in-circle' />
+            </TooltipHost>
           </FormLabel>
           <Field
             name='description'

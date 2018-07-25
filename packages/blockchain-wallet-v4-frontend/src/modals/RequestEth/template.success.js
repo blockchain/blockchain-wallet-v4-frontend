@@ -6,7 +6,13 @@ import { Field, reduxForm } from 'redux-form'
 import QRCodeReact from 'qrcode.react'
 
 import { required } from 'services/FormHelper'
-import { Button, Separator, Text, Tooltip } from 'blockchain-info-components'
+import {
+  Button,
+  Separator,
+  Text,
+  TooltipIcon,
+  TooltipHost
+} from 'blockchain-info-components'
 import {
   Form,
   FormGroup,
@@ -61,12 +67,9 @@ const RequestEther = props => {
               id='modals.requestether.share'
               defaultMessage='Copy & Share Address:'
             />
-            <Tooltip>
-              <FormattedMessage
-                id='modals.requestether.sharetooltip'
-                defaultMessage='Share this address with others, and they can send you ETH directly to your wallet. Your request address will not change.'
-              />
-            </Tooltip>
+            <TooltipHost id='reqEthShare'>
+              <TooltipIcon name='question-in-circle' />
+            </TooltipHost>
           </FormLabel>
         </FormItem>
         <AddressContainer>
@@ -85,12 +88,9 @@ const RequestEther = props => {
               id='modals.requestether.scan'
               defaultMessage='Scan QR Code:'
             />
-            <Tooltip>
-              <FormattedMessage
-                id='modals.requestether.scan_tooltip'
-                defaultMessage='Ask the sender to scan this QR code with their ether wallet'
-              />
-            </Tooltip>
+            <TooltipHost id='reqEthScan'>
+              <TooltipIcon name='question-in-circle' />
+            </TooltipHost>
           </Text>
         </ScanMessage>
         <QRCodeReact value={address} size={150} />

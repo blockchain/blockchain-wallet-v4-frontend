@@ -4,7 +4,13 @@ import styled from 'styled-components'
 import { required } from 'services/FormHelper'
 import { FormattedMessage } from 'react-intl'
 import { change, Field, reduxForm, focus } from 'redux-form'
-import { Button, Icon, Text, Tooltip } from 'blockchain-info-components'
+import {
+  Button,
+  Icon,
+  Text,
+  TooltipIcon,
+  TooltipHost
+} from 'blockchain-info-components'
 import { Form, FormGroup, FormItem, NumberBox } from 'components/Form'
 
 export const Wrapper = styled.div`
@@ -158,12 +164,9 @@ class ExchangeCheckout extends React.PureComponent {
                   <Amount>
                     1 {crypto} = {rate} {fiat}
                   </Amount>
-                  <Tooltip>
-                    <FormattedMessage
-                      id='scenes.buysell.exchangecheckout.rate'
-                      defaultMessage="The rate offered by your region's exchange partner. May include fees."
-                    />
-                  </Tooltip>
+                  <TooltipHost id='exchangecheckout.rate'>
+                    <TooltipIcon name='question-in-circle' />
+                  </TooltipHost>
                 </Rate>
               )}
             {minError && (
