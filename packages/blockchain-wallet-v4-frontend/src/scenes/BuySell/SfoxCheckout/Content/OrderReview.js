@@ -80,7 +80,13 @@ const faqQuestions = [
   }
 ]
 
-export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
+export const OrderDetails = ({
+  quoteR,
+  account,
+  onRefreshQuote,
+  profile,
+  type
+}) => (
   <ExchangeCheckoutWrapper>
     <PartnerHeader size='32px' weight={600} style={spacing('mb-10')}>
       <FormattedMessage
@@ -200,6 +206,17 @@ export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
           {quoteR
             .map(quote => reviewOrder.renderTotal(quote, type))
             .getOrElse('~')}
+        </Text>
+      </OrderDetailsRow>
+      <OrderDetailsRow>
+        <Text size='13px' weight={300}>
+          <FormattedMessage
+            id='orderdetails.fundsdelivery'
+            defaultMessage='Estimated Delivery of Funds'
+          />
+        </Text>
+        <Text size='13px' weight={300}>
+          {reviewOrder.renderDate(profile, type)}
         </Text>
       </OrderDetailsRow>
     </OrderDetailsTable>

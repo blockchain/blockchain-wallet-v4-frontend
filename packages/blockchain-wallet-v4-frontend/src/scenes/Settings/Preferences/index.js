@@ -5,7 +5,7 @@ import MobileNumber from './MobileNumber'
 import WalletLanguage from './WalletLanguage'
 import LocalCurrency from './LocalCurrency'
 import Notifications from './Notifications'
-import BitcoinLinkHandling from './BitcoinLinkHandling'
+import BitcoinLinkHandling from './BtcLinkHandling'
 import AutoLogout from './AutoLogout'
 import Themes from './Themes'
 

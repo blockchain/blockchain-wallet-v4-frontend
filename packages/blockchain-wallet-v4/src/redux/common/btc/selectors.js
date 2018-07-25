@@ -26,7 +26,7 @@ import {
   getReceiveIndex,
   getHeight,
   getTransactions
-} from '../../data/bitcoin/selectors.js'
+} from '../../data/btc/selectors.js'
 import { getAddressLabel, getMetadata } from '../../kvStore/btc/selectors'
 import { getBuySellTxHashMatch } from '../../kvStore/buySell/selectors'
 import { getShapeshiftTxHashMatch } from '../../kvStore/shapeShift/selectors'

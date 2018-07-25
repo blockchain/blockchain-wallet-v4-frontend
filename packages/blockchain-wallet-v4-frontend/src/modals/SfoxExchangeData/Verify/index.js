@@ -7,6 +7,7 @@ import { path, equals } from 'ramda'
 import { actions } from 'data'
 import ui from 'redux-ui'
 import Upload from '../Upload'
+import Jumio from '../Jumio'
 
 import renderFaq from 'components/FaqDropdown'
 
@@ -81,6 +82,7 @@ class VerifyContainer extends Component {
 
   render () {
     if (this.props.step === 'upload') return <Upload />
+    if (this.props.step === 'jumio') return <Jumio />
     if (this.props.ui.verify === 'address')
       return <Address {...this.props} faqs={renderFaq(faqQuestions)} />
     if (this.props.ui.verify === 'identity')

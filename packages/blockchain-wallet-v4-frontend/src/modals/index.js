@@ -1,10 +1,11 @@
 import React from 'react'
 
-import AddBitcoinWallet from './AddBitcoinWallet'
+import AddBitcoinWallet from './AddBtcWallet'
 import AutoDisconnection from './AutoDisconnection'
 import CoinifyDeleteBank from './CoinifyDeleteBank'
 import CoinifyExchangeData from './CoinifyExchangeData'
 import CoinifyTradeDetails from './CoinifyTradeDetails'
+import Confirm from './Confirm'
 import ConfirmDisable2FA from './ConfirmDisable2FA'
 import DeleteAddressLabel from './DeleteAddressLabel'
 import EditTxDescription from './EditTxDescription'
@@ -20,12 +21,12 @@ import PromptInput from './PromptInput'
 import QRCode from './QRCode'
 import RecoveryPhrase from './RecoveryPhrase'
 import RequestBch from './RequestBch'
-import RequestBitcoin from './RequestBitcoin'
-import RequestEther from './RequestEther'
+import RequestBitcoin from './RequestBtc'
+import RequestEther from './RequestEth'
 import SecondPassword from './SecondPassword'
 import SendBch from './SendBch'
-import SendBitcoin from './SendBitcoin'
-import SendEther from './SendEther'
+import SendBitcoin from './SendBtc'
+import SendEther from './SendEth'
 import SfoxExchangeData from './SfoxExchangeData'
 import SfoxTradeDetails from './SfoxTradeDetails'
 import SfoxEnterMicroDeposits from './SfoxEnterMicroDeposits'
@@ -50,6 +51,7 @@ const Modals = props => (
     <CoinifyDeleteBank />
     <CoinifyExchangeData />
     <CoinifyTradeDetails />
+    <Confirm />
     <ConfirmDisable2FA />
     <DeleteAddressLabel />
     <EditTxDescription />

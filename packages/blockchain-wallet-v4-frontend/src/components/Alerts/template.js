@@ -927,10 +927,12 @@ const selectMessage = (message, data = undefined) => {
       )
     default:
       return (
-        <FormattedMessage
-          id='components.alerts.unknown_error'
-          defaultMessage='An error has occurred.'
-        />
+        message || (
+          <FormattedMessage
+            id='components.alerts.unknown_error'
+            defaultMessage='An error has occurred.'
+          />
+        )
       )
   }
 }

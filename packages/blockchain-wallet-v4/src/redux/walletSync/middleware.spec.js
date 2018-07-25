@@ -5,12 +5,12 @@ import {
 } from './middleware'
 import { getReceiveAddress } from '../../types/HDAccount'
 import { getAccountXpub } from '../wallet/selectors'
-import { getReceiveIndex } from '../data/bitcoin/selectors'
+import { getReceiveIndex } from '../data/btc/selectors'
 import Remote from '../../remote'
 import { networks } from 'bitcoinjs-lib'
 
 jest.mock('../wallet/selectors')
-jest.mock('../data/bitcoin/selectors')
+jest.mock('../data/btc/selectors')
 jest.mock('../../types/HDAccount')
 
 jest.useFakeTimers()

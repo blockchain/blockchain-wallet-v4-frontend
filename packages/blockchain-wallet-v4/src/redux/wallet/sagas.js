@@ -22,7 +22,7 @@ import { set } from 'ramda-lens'
 import Task from 'data.task'
 import * as A from '../actions'
 import * as S from './selectors'
-import { fetchData } from '../data/bitcoin/actions'
+import { fetchData } from '../data/btc/actions'
 
 import { Wrapper, Wallet, HDAccount } from '../../types'
 import { generateMnemonic } from '../../walletCrypto'
@@ -222,11 +222,7 @@ export default ({ api }) => {
   }
 
   const remindWalletGuidSaga = function*({ email, code, sessionToken }) {
-    const response = yield call(api.remindGuid, email, code, sessionToken)
-    const { success, message } = response
-    if (!success) {
-      throw new Error(message)
-    }
+    yield call(api.remindGuid, email, code, sessionToken)
   }
 
   const resetWallet2fa = function*({

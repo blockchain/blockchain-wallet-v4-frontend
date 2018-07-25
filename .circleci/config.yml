@@ -67,23 +67,55 @@ jobs:
     steps:
       - *attach_workspace
       - run:
-          name: Test Core & Components Code
+          name: Test Code (Core & Components)
           command: yarn ci:test:core:components
   test_frontend:
     <<: *container_config
     steps:
       - *attach_workspace
       - run:
-          name: Test Frontend Code
+          name: Test Code (Frontend)
           command: yarn ci:test:build && yarn ci:test:frontend
-  code_coverage:
+  coverage_core:
     <<: *container_config
     steps:
       - *attach_workspace
       - run:
-          name: Code Coverage
-          command: yarn coverage
-
+          name: Code Coverage (Core)
+          command: yarn ci:test:build && yarn ci:coverage:core
+      - persist_to_workspace:
+          root: /home/circleci
+          paths:
+            - blockchain-wallet-v4-frontend
+  coverage_components:
+      <<: *container_config
+      steps:
+        - *attach_workspace
+        - run:
+            name: Code Coverage (Components)
+            command: yarn ci:coverage:components
+        - persist_to_workspace:
+            root: /home/circleci
+            paths:
+              - blockchain-wallet-v4-frontend
+  coverage_frontend:
+    <<: *container_config
+    steps:
+      - *attach_workspace
+      - run:
+          name: Code Coverage (Frontend)
+          command: yarn ci:coverage:frontend
+      - persist_to_workspace:
+          root: /home/circleci
+          paths:
+            - blockchain-wallet-v4-frontend
+  coverage_report_to_coveralls:
+    <<: *container_config
+    steps:
+      - *attach_workspace
+      - run:
+          name: Report Code Coverage
+          command: yarn ci:coverage:report
 workflows:
   version: 2
 
@@ -113,5 +145,18 @@ workflows:
                 - development
     jobs:
       - pull_code
-      - npm_install
-      - code_coverage
+      - npm_install:
+          requires:
+            - pull_code
+      - coverage_core:
+          requires:
+            - npm_install
+      - coverage_components:
+          requires:
+            - coverage_core
+      - coverage_frontend:
+          requires:
+            - coverage_components
+      - coverage_report_to_coveralls:
+          requires:
+            - coverage_frontend

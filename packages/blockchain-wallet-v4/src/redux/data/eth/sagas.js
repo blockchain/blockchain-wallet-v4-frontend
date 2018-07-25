@@ -1,11 +1,11 @@
 import { call, put, select, take } from 'redux-saga/effects'
 import { dissoc, isNil, length, mapObjIndexed, path, sum, values } from 'ramda'
-import { convertFeeToWei } from '../../../utils/ethereum'
+import { convertFeeToWei } from '../../../utils/eth'
 import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import * as selectors from '../../selectors'
-import * as kvStoreSelectors from '../../kvStore/ethereum/selectors'
+import * as kvStoreSelectors from '../../kvStore/eth/selectors'
 
 export default ({ api }) => {
   const fetchData = function*(action) {
@@ -119,6 +119,7 @@ export default ({ api }) => {
     fetchLegacyBalance,
     fetchRates,
     fetchLatestBlock,
+    fetchTransactions,
     watchTransactions
   }
 }
