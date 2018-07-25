@@ -15,6 +15,7 @@ import ExchangeHistory from './ExchangeHistory'
 import Goals from './Goals'
 import Help from './Help'
 import Home from './Home'
+import Lockbox from './Lockbox'
 import Login from './Login'
 import Logout from './Logout'
 import Recover from './Recover'
@@ -45,6 +46,7 @@ class App extends React.PureComponent {
               <ConnectedRouter history={history}>
                 <Switch>
                   <PublicLayout path='/open/:payload' component={Goals} />
+                  <WalletLayout path='/lockbox' component={Lockbox} />
                   <PublicLayout path='/login' component={Login} />
                   <PublicLayout path='/logout' component={Logout} />
                   <PublicLayout path='/help' component={Help} />

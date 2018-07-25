@@ -69,13 +69,13 @@
     }
   },
   "dependencies": {
+    "@ledgerhq/hw-app-btc": "^4.20.0",
+    "@ledgerhq/hw-transport-u2f": "^4.20.0",
     "awesome-phonenumber": "2.2.5",
     "base-64": "0.1.0",
     "bignumber.js": "5.0.0",
     "bip21": "2.0.2",
     "bip39": "2.3.1",
-    "bitcoin-coinify-client": "0.7.6",
-    "bitcoin-sfox-client": "0.4.0",
     "bitcoinforksjs-lib": "git://github.com/blockchain/bitcoinjs-lib.git#opt-in-bitcoincash-sighash",
     "bitcoinjs-lib": "3.1.1",
     "blockchain-info-components": "0.0.4",

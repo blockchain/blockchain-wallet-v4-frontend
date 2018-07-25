@@ -274,6 +274,7 @@ module.exports = {
             [
               'connect-src',
               "'self'",
+              'wss://localhost:8080',
               'ws://localhost:8080',
               'wss://localhost:8080',
               envConfig.WEB_SOCKET_URL,

@@ -137,9 +137,19 @@ const Navigation = props => {
             />
           </MenuItem>
         </LinkContainer>
-        <MenuItem>
-          <Separator />
-        </MenuItem>
+        <Separator />
+        <LinkContainer to='/lockbox' activeClassName='active'>
+          <MenuItem>
+            <Icon name='lock-filled' />
+            <FormattedMessage
+              id='layouts.wallet.menuleft.navigation.lockbox'
+              defaultMessage='Lockbox'
+              smaller
+              uppercase
+            />
+          </MenuItem>
+        </LinkContainer>
+        <Separator />
         {canTrade && (
           <LinkContainer to='/buy-sell' activeClassName='active'>
             <MenuItem>
