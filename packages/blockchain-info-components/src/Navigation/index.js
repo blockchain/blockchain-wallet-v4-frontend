@@ -102,7 +102,7 @@ const NavWrapper = styled.div.attrs({
   justify-content: space-between;
   align-items: center;
   max-width: var(--siteMaxWidth);
-  padding: 0 2rem;
+  padding: 0 3rem;
 `
 
 const NavInner = styled.div`

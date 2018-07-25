@@ -15,9 +15,14 @@ const ButtonGroup = styled.div`
         display: inline-block;
     }
 
+    a:last-child {
+      margin-right: 0;
+    }
+
     ul > li {
-      padding: 0px 1rem;
+      padding: 0px .5rem;
       display: inline-block;
+      margin-right: 1rem;
     }
 
     button {
