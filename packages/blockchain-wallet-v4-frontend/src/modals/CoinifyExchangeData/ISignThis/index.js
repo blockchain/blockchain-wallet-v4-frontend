@@ -7,7 +7,7 @@ import { equals, path, prop } from 'ramda'
 import { Button, Text, Tooltip } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 
-import Helper from 'components/BuySell/FAQ'
+import renderFaq from 'components/FaqDropdown'
 import CountdownTimer from 'components/Form/CountdownTimer'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 import media from 'services/ResponsiveService'
@@ -55,7 +55,7 @@ const ISignThisIframe = styled.iframe`
   border: ${props => `1px solid ${props.theme['gray-1']}`};
 `
 
-const kycHelper = [
+const kycQuestions = [
   {
     question: (
       <FormattedMessage
@@ -71,7 +71,7 @@ const kycHelper = [
     )
   }
 ]
-const tradeHelper = [
+const tradeQuestions = [
   {
     question: (
       <FormattedMessage
@@ -93,14 +93,6 @@ const getExpiredFiatValues = q =>
   q.baseCurrency !== 'BTC'
     ? `${Currency.formatFiat(Math.abs(q.baseAmount))} ${q.baseCurrency}`
     : `${Currency.formatFiat(Math.abs(q.quoteAmount))} ${q.quoteCurrency}`
-const kycFaqHelper = () =>
-  kycHelper.map((el, i) => (
-    <Helper key={i} question={el.question} answer={el.answer} />
-  ))
-const tradeFaqHelper = () =>
-  tradeHelper.map((el, i) => (
-    <Helper key={i} question={el.question} answer={el.answer} />
-  ))
 
 class ISignThisContainer extends Component {
   constructor (props) {
@@ -316,12 +308,7 @@ class ISignThisContainer extends Component {
         </TimerContainer>
         <ISXContainer>
           <IframeWrapper>
-            <ISignThisIframe
-              src={srcUrl}
-              sandbox='allow-same-origin allow-scripts allow-forms'
-              scrolling='yes'
-              id='isx-iframe'
-            />
+            <ISignThisIframe src={srcUrl} scrolling='yes' id='isx-iframe' />
           </IframeWrapper>
           <ButtonContainer>
             <Button
@@ -343,7 +330,9 @@ class ISignThisContainer extends Component {
                 )}
               </Text>
             </Button>
-            {equals(isxType, 'Trade') ? tradeFaqHelper() : kycFaqHelper()}
+            {equals(isxType, 'Trade')
+              ? renderFaq(tradeQuestions)
+              : renderFaq(kycQuestions)}
           </ButtonContainer>
         </ISXContainer>
       </Fragment>

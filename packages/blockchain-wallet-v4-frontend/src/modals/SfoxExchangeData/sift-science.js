@@ -18,7 +18,7 @@ class SiftScience extends Component {
     let receiveMessage = e => {
       const helperDomain = path(
         ['domains', 'walletHelper'],
-        this.propswalletOptions
+        this.props.walletOptions
       )
       if (!e.data.command) return
       if (e.data.from !== 'sift-science') return
@@ -58,12 +58,7 @@ class SiftScience extends Component {
 
     if (siftScienceEnabled) {
       return (
-        <SiftScienceIframe
-          src={url}
-          sandbox='allow-same-origin allow-scripts'
-          scrolling='no'
-          id='sift-science-iframe'
-        />
+        <SiftScienceIframe src={url} scrolling='no' id='sift-science-iframe' />
       )
     }
   }

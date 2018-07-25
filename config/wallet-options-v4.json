@@ -18,19 +18,23 @@
             "header": {
               "en": "We’re packing our bags and preparing to move...domains!"
             },
-            "sections": [{
-              "title": {
-                "en": ""
-              },
-              "body": {
-                "en": "To make way for our new and exciting products coming this year, we’re saying hello to our new home. blockchain.info will soon be changing URLs as it's combined with our company site, blockchain.com."
+            "sections": [
+              {
+                "title": {
+                  "en": ""
+                },
+                "body": {
+                  "en":
+                    "To make way for our new and exciting products coming this year, we’re saying hello to our new home. blockchain.info will soon be changing URLs as it's combined with our company site, blockchain.com."
+                }
               }
-            }],
+            ],
             "action": {
               "title": {
                 "en": "Read more about what to expect."
               },
-              "link": "https://blog.blockchain.com/2018/06/19/blockchain-infos-moving-domains/"
+              "link":
+                "https://blog.blockchain.com/2018/06/19/blockchain-infos-moving-domains/"
             }
           },
           "wallet": {
@@ -46,7 +50,8 @@
                   "en": ""
                 },
                 "body": {
-                  "en": "We’re updating our Privacy Policy and Cookie Policy to make it easier for you to understand the limited information we collect and why we collect it. We thrive on collecting the least amount of data on our users. Please review our updated policies."
+                  "en":
+                    "We’re updating our Privacy Policy and Cookie Policy to make it easier for you to understand the limited information we collect and why we collect it. We thrive on collecting the least amount of data on our users. Please review our updated policies."
                 }
               }
             ],
@@ -89,7 +94,53 @@
       },
       "coinify": {
         "fraction": 1,
-        "countries": ["GB", "AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "GF", "DE", "GI", "GR", "GP", "GG", "HU", "IS", "IE", "IM", "IT", "JE", "LV", "LI", "LT", "LU", "MT", "MQ", "YT", "MC", "NL", "NO", "PL", "PT", "RE", "BL", "MF", "PM", "SM", "SK", "SI", "ES", "SE", "CH"],
+        "countries": [
+          "GB",
+          "AT",
+          "BE",
+          "BG",
+          "HR",
+          "CY",
+          "CZ",
+          "DK",
+          "EE",
+          "FI",
+          "FR",
+          "GF",
+          "DE",
+          "GI",
+          "GR",
+          "GP",
+          "GG",
+          "HU",
+          "IS",
+          "IE",
+          "IM",
+          "IT",
+          "JE",
+          "LV",
+          "LI",
+          "LT",
+          "LU",
+          "MT",
+          "MQ",
+          "YT",
+          "MC",
+          "NL",
+          "NO",
+          "PL",
+          "PT",
+          "RE",
+          "BL",
+          "MF",
+          "PM",
+          "SM",
+          "SK",
+          "SI",
+          "ES",
+          "SE",
+          "CH"
+        ],
         "states": "*",
         "config": {
           "production": false,
@@ -130,13 +181,41 @@
       "sfox": {
         "fraction": 1,
         "countries": ["US"],
-        "states": ["AR", "AZ", "CA", "CO", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "MI", "MN", "MO", "MT", "NE", "NV", "OK", "PA", "SC", "SD", "TN", "TX", "VA", "WI", "WV"],
+        "states": [
+          "AR",
+          "AZ",
+          "CA",
+          "CO",
+          "ID",
+          "IL",
+          "IN",
+          "KS",
+          "KY",
+          "LA",
+          "MA",
+          "MD",
+          "MI",
+          "MN",
+          "MO",
+          "MT",
+          "NE",
+          "NV",
+          "OK",
+          "PA",
+          "SC",
+          "SD",
+          "TN",
+          "TX",
+          "VA",
+          "WI",
+          "WV"
+        ],
         "config": {
-          "production": true,
+          "production": false,
           "availability": true,
-          "apiKey": "f31614a7-5074-49f2-8c2a-bfb8e55de2bd",
+          "apiKey": "6CD61A0E965D48A7B1883A860490DC9E",
           "plaid": "0b041cd9e9fbf1e7d93a0d5a39f5b9",
-          "plaidEnv": "production",
+          "plaidEnv": "tartan",
           "siftScience": "3884e5fae5",
           "surveyLinks": [
             "https://blockchain.co1.qualtrics.com/SE/?SID=SV_bPCcv7eZgqlQSrP",
@@ -163,9 +242,38 @@
         },
         "fraction": 1,
         "countries": "*",
-        "states": ["AR", "AZ", "CA", "CO", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "MI", "MN", "MO", "MT", "NE", "NV", "OK", "PA", "SC", "SD", "TN", "TX", "VA", "WI", "WV"],
+        "states": [
+          "AR",
+          "AZ",
+          "CA",
+          "CO",
+          "ID",
+          "IL",
+          "IN",
+          "KS",
+          "KY",
+          "LA",
+          "MA",
+          "MD",
+          "MI",
+          "MN",
+          "MO",
+          "MT",
+          "NE",
+          "NV",
+          "OK",
+          "PA",
+          "SC",
+          "SD",
+          "TN",
+          "TX",
+          "VA",
+          "WI",
+          "WV"
+        ],
         "config": {
-          "apiKey": "b7a7c320c19ea3a8e276c8921bc3ff79ec064d2cd9d98ab969acc648246b4be5ab2379af704c5d3a3021c0ddf82b3e479590718847c1301e1a85331d2d2a8370",
+          "apiKey":
+            "b7a7c320c19ea3a8e276c8921bc3ff79ec064d2cd9d98ab969acc648246b4be5ab2379af704c5d3a3021c0ddf82b3e479590718847c1301e1a85331d2d2a8370",
           "upperLimit": 750,
           "surveyLinks": [
             "https://blockchain.co1.qualtrics.com/jfe/form/SV_1MuVnVEtWhiVIQl",

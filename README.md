@@ -141,6 +141,9 @@ Once completed, a browser will automatically open with the results.
 The following commands are available:
  * `storybook:build`: Builds the static storybook assets
  * `storybook:serve` Builds storybook assets and then serves them locally at `localhost:6006`
+ * `storybook:deploy` Builds storybook assets and then serves them to [github pages](https://blockchain.github.io/blockchain-wallet-v4-frontend). **You will probably need to run `cd ./packages/blockchain-info-components && git remote add origin git@github.com:blockchain/blockchain-wallet-v4-frontend.git` first.**
+
+If the deploy begins to fail, deleting the static build file before redeploy will likely help.
 
 ## Contribute
 Bug fixes and feedback on our code is always appreciated.

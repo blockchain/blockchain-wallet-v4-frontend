@@ -1,4 +1,4 @@
-export default ({ url }) => {
+export default () => {
   const uploadVerificationDocument = (url, file) =>
     fetch(url, {
       method: 'PUT',

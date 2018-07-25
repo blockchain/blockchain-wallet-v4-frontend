@@ -29,7 +29,7 @@ const Steps = styled.div`
     bottom: -8px;
     position: absolute;
     transition: width 0.3s, height 0.3s;
-    width: ${props => props.width * 100}%;
+    width: ${props => Math.max(props.width * 100)}%;
     background: ${props => props.theme['brand-primary']};
   }
   @media (max-width: 480px) {
@@ -42,7 +42,7 @@ const Steps = styled.div`
       left: -8px;
       width: 8px;
       bottom: initial;
-      height: ${props => props.width * 100}%;
+      height: ${props => props.width}%;
       background: ${props => props.theme['brand-primary']};
     }
   }
@@ -75,15 +75,17 @@ const Logo = styled(Image)`
 `
 
 const StepIndicator = props => {
-  const { step, stepMap, minWidth, maxWidth, flexEnd, adjuster } = props
+  const { step, stepMap, minWidth, maxWidth, flexEnd } = props
+  const isEven = n => n % 2 === 0
   const steps = Object.keys(stepMap)
   const index = steps.indexOf(step) + 1
-  const width = index / steps.length
+  const adjuster = isEven(steps.length) ? 0.5 / steps.length : 0
+  const width = index / steps.length - adjuster
 
   return (
     <Wrapper flexEnd={flexEnd}>
       <Logo name='blue-logo' height='50px' />
-      <Steps width={width - adjuster}>
+      <Steps width={width}>
         {steps.map(s => (
           <Step minWidth={minWidth} maxWidth={maxWidth}>
             {stepMap[s]}
@@ -92,6 +94,10 @@ const StepIndicator = props => {
       </Steps>
     </Wrapper>
   )
+}
+
+StepIndicator.defaultProps = {
+  adjuster: 0.0
 }
 
 export default StepIndicator

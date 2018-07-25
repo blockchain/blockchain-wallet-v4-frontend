@@ -1,4 +1,4 @@
-import { put, call, select } from 'redux-saga/effects'
+import { apply, put, call, select } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import * as A from './actions'
 import * as actions from '../../actions'
@@ -7,12 +7,14 @@ import * as modalActions from '../../modals/actions'
 import * as modalSelectors from '../../modals/selectors'
 import settings from 'config'
 import * as C from 'services/AlertService'
-import { promptForSecondPassword } from 'services/SagaService'
+import * as CC from 'services/ConfirmService'
+import { promptForSecondPassword, confirm } from 'services/SagaService'
 import { path, prop, equals, head } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 export const sellDescription = `Exchange Trade SFX-`
 export const logLocation = 'modules/sfox/sagas'
+export const missingJumioToken = 'missing_jumio_token'
 
 export default ({ coreSagas }) => {
   const setBankManually = function*(action) {
@@ -75,7 +77,7 @@ export default ({ coreSagas }) => {
 
       const profile = yield select(selectors.core.data.sfox.getProfile)
       if (!profile.data.verificationStatus.required_docs.length) {
-        yield put(A.nextStep('funding'))
+        yield put(A.nextStep('jumio'))
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'upload', e))
@@ -225,7 +227,7 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const checkForProfileFailure = function*() {
+  const checkProfileStatus = function*() {
     const profile = yield select(selectors.core.data.sfox.getProfile)
     const modals = yield select(modalSelectors.getModals)
     if (
@@ -233,6 +235,8 @@ export default ({ coreSagas }) => {
       equals('SfoxExchangeData', prop('type', head(modals)))
     ) {
       yield call(coreSagas.data.sfox.refetchProfile)
+    } else {
+      yield call(fetchJumioStatus)
     }
   }
 
@@ -258,8 +262,87 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const initializeJumio = function*() {
+    try {
+      const status = yield call(fetchJumioStatus)
+      const accountsR = yield select(selectors.core.data.sfox.getAccounts)
+      const accounts = accountsR.getOrElse([])
+      // If user has not set up jumio and they have bank accounts
+      if (status === missingJumioToken && accounts.length) {
+        const confirmed = yield call(confirm, {
+          title: CC.VERIFY_IDENTITY_TITLE,
+          image: 'identity-verification',
+          message: CC.VERIFY_IDENTITY_MSG,
+          confirm: CC.CONFIRM_VERIFY_IDENTITY,
+          cancel: CC.CANCEL_VERIFY_IDENTITY
+        })
+        if (confirmed) {
+          yield put(
+            modalActions.showModal('SfoxExchangeData', { step: 'jumio' })
+          )
+        }
+      }
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'initializeJumio', e))
+    }
+  }
+
+  const completeJumio = function*() {
+    try {
+      // Jumio status of 'PENDING' can mean the user finished verification
+      // flow and the results are 'PENDING' jumio. Or the user has not finished
+      // and the flow requires user action.
+      // When a Jumio callback has been retreived, set jumio token to 'complete'
+      // so the UI can determine which type of 'PENDING' status the user is.
+      const tokenR = yield select(selectors.core.kvStore.buySell.getSfoxJumio)
+      const accountsR = yield select(selectors.core.data.sfox.getAccounts)
+      const accounts = accountsR.getOrElse([])
+      let token = tokenR.getOrFail(missingJumioToken)
+      token.completed = true
+      accounts.length
+        ? yield put(modalActions.closeAllModals())
+        : yield put(A.nextStep('funding'))
+      yield call(fetchJumioStatus)
+      yield put(actions.core.kvStore.buySell.sfoxSetJumioToken(token))
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'completeJumio', e))
+    }
+  }
+
+  const fetchJumioStatus = function*() {
+    try {
+      yield put(A.fetchJumioStatusLoading())
+      const profileR = yield select(selectors.core.data.sfox.getProfile)
+      const tokenR = yield select(selectors.core.kvStore.buySell.getSfoxJumio)
+      const token = tokenR.getOrFail()
+      const profile = profileR.getOrElse({})
+      if (!token) return missingJumioToken
+      const status = yield apply(profile, profile.fetchJumioStatus, [token.id])
+      yield put(A.fetchJumioStatusSuccess(status))
+    } catch (e) {
+      yield put(A.fetchJumioStatusFailure(e))
+    }
+  }
+
+  const fetchJumioToken = function*() {
+    try {
+      yield put(A.fetchJumioTokenLoading())
+      const profileR = yield select(selectors.core.data.sfox.getProfile)
+      const profile = profileR.getOrElse({})
+      let token = yield apply(profile, profile.fetchJumioToken)
+      // If a new token must be fetched set 'completed' to false
+      token.completed = false
+      yield put(actions.core.kvStore.buySell.sfoxSetJumioToken(token))
+      yield put(A.fetchJumioTokenSuccess(token))
+      yield call(fetchJumioStatus)
+    } catch (e) {
+      yield put(A.fetchJumioTokenFailure(e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'fetchJumioToken', e))
+    }
+  }
+
   return {
-    checkForProfileFailure,
+    checkProfileStatus,
     initializePayment,
     prepareAddress,
     setBankManually,
@@ -269,6 +352,10 @@ export default ({ coreSagas }) => {
     submitMicroDeposits,
     submitQuote,
     submitSellQuote,
+    initializeJumio,
+    fetchJumioToken,
+    fetchJumioStatus,
+    completeJumio,
     upload
   }
 }
