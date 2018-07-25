@@ -245,13 +245,11 @@ describe('bitcoin data sagas', () => {
     })
 
     it('should call fetchBlockchainData', () => {
-      saga
-        .next(mockContext)
-        .call(api.fetchBlockchainData, mockContext, {
-          n: 10,
-          onlyShow: payload.address,
-          offset: 10
-        })
+      saga.next(mockContext).call(api.fetchBlockchainData, mockContext, {
+        n: 10,
+        onlyShow: payload.address,
+        offset: 10
+      })
     })
 
     it('should dispatch success with data', () => {

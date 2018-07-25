@@ -247,13 +247,11 @@ describe('bch data sagas', () => {
     })
 
     it('should call fetchBchData', () => {
-      saga
-        .next(mockContext)
-        .call(api.fetchBchData, mockContext, {
-          n: 10,
-          onlyShow: payload.address,
-          offset: 10
-        })
+      saga.next(mockContext).call(api.fetchBchData, mockContext, {
+        n: 10,
+        onlyShow: payload.address,
+        offset: 10
+      })
     })
 
     it('should dispatch success with data', () => {
