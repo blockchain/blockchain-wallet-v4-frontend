@@ -10,7 +10,7 @@ export default ({ api }) => {
   const fetchOnfidoSDKKey = function*() {
     try {
       yield put(A.fetchOnfidoSDKKeyLoading())
-      const { message: key, applicantId } = yield call(api.fetchOnfidoSDKKey)
+      const { key, applicantId } = yield call(api.fetchOnfidoSDKKey)
       yield put(A.setOnfidoApplicantId(applicantId))
       yield put(A.fetchOnfidoSDKKeySuccess(key))
     } catch (error) {
