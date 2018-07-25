@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { equals, filter } from 'ramda'
+import { equals, filter, any } from 'ramda'
 
 import { Text, TextGroup, TooltipHost } from 'blockchain-info-components'
 import { utils } from 'blockchain-wallet-v4/src'
@@ -24,24 +24,30 @@ const notChange = io => !io.change
 
 const Addresses = props => {
   const { from, to, outputs, inputs, coin } = props
-  const outputTooltip = filter(hasLabel, filter(notChange, outputs))
-    .map(
-      (output, index) =>
-        equals(coin, 'BCH')
-          ? utils.bch.toCashAddr(output.address, true)
-          : output.address
+  const outputTooltip =  !equals(coin, 'ETH') ? ( filter(hasLabel, filter(notChange, outputs))
+      .map(
+        (output, index) =>
+          equals(coin, 'BCH')
+            ? utils.bch.toCashAddr(output.address, true)
+            : output.address
+      )
+      .join('\n<br />\n')
+    ) : (
+      undefined
     )
-    .join('\n<br />\n')
 
-  const inputTooltip = inputs
-    .map(
-      (input, index) =>
-        input.label &&
-        (equals(coin, 'BCH')
-          ? utils.bch.toCashAddr(input.address, true)
-          : input.address)
+  const inputTooltip = !equals(coin, 'ETH') ? ( inputs
+      .map(
+        (input, index) =>
+          input.label &&
+          (equals(coin, 'BCH')
+            ? utils.bch.toCashAddr(input.address, true)
+            : input.address)
+      )
+      .join('\n<br />\n')
+    ) : (
+      undefined
     )
-    .join('\n<br />\n')
 
   return (
     <Wrapper>
