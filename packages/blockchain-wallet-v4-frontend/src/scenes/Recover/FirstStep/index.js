@@ -53,76 +53,76 @@ const FirstStep = props => {
   return (
     <Wrapper>
       <Header>
-        <Text size='24px' weight={300}>
+        <Text size="24px" weight={300}>
           <FormattedMessage
-            id='scenes.recover.firststep.funds'
-            defaultMessage='Recover Funds'
+            id="scenes.recover.firststep.funds"
+            defaultMessage="Recover Funds"
           />
         </Text>
-        <Text size='10px'>
+        <Text size="10px">
           <FormattedMessage
-            id='scenes.recover.firststep.step1'
-            defaultMessage='Step 1 of 2: Enter 12 word passphrase'
+            id="scenes.recover.firststep.step1"
+            defaultMessage="Step 1 of 2: Enter 12 word passphrase"
           />
         </Text>
       </Header>
-      <Text size='14px' weight={300}>
+      <Text size="14px" weight={300}>
         <FormattedMessage
-          id='scenes.recover.firststep.explain'
-          defaultMessage='Recover funds from your lost wallet'
+          id="scenes.recover.firststep.explain"
+          defaultMessage="Recover funds from your lost wallet"
         />
       </Text>
       <Separator />
       <Form onSubmit={handleSubmit}>
         <TextGroup>
-          <Text size='13px' weight={300} color='error'>
+          <Text size="13px" weight={300} color="error">
             <FormattedMessage
-              id='scenes.recover.firststep.warning'
-              defaultMessage='You should always pair or login if you have access to your wallet ID and password. Recovering your funds will create a new wallet ID.'
+              id="scenes.recover.firststep.warning"
+              defaultMessage="You should always pair or login if you have access to your wallet ID and password. Recovering your funds will create a new wallet ID."
             />
           </Text>
         </TextGroup>
         <FormGroup>
           <FormItem>
-            <MnemonicLabel for='mnemonic'>
+            <MnemonicLabel for="mnemonic">
               <FormattedMessage
-                id='scenes.recover.firststep.mnemonic'
-                defaultMessage='Your Backup Phrase'
+                id="scenes.recover.firststep.mnemonic"
+                defaultMessage="Your Backup Phrase"
               />
             </MnemonicLabel>
-            <Text size='12px' weight={300}>
+            <Text size="12px" weight={300}>
               <FormattedMessage
-                id='scenes.recover.firststep.mnemonic_explain'
-                defaultMessage='Enter your 12 word phrase, lowercase, with spaces between each word, to recover your funds & transactions.'
+                id="scenes.recover.firststep.mnemonic_explain"
+                defaultMessage="Enter your 12 word phrase, lowercase, with spaces between each word, to recover your funds & transactions."
               />
             </Text>
             <Field
-              name='mnemonic'
+              name="mnemonic"
               autoFocus
               validate={[required, validMnemonic]}
               component={TextBox}
-              autoComplete='off'
+              autoComplete="off"
             />
           </FormItem>
         </FormGroup>
         <Footer>
-          <GoBackLink to='/help'>
-            <Link size='13px' weight={300}>
+          <GoBackLink to="/help">
+            <Link size="13px" weight={300}>
               <FormattedMessage
-                id='scenes.recover.firststep.back'
-                defaultMessage='Go Back'
+                id="scenes.recover.firststep.back"
+                defaultMessage="Go Back"
               />
             </Link>
           </GoBackLink>
           <Button
-            type='submit'
-            nature='primary'
+            type="submit"
+            nature="primary"
             uppercase
             disabled={submitting || invalid}
           >
             <FormattedMessage
-              id='scenes.recover.firststep.continue'
-              defaultMessage='Continue'
+              id="scenes.recover.firststep.continue"
+              defaultMessage="Continue"
             />
           </Button>
         </Footer>

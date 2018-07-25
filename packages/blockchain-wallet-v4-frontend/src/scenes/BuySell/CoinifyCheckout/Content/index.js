@@ -4,7 +4,7 @@ import Sell from './Sell'
 import OrderHistory from './OrderHistory'
 
 class Checkout extends React.Component {
-  render () {
+  render() {
     const { type } = this.props
     switch (type) {
       case 'buy':

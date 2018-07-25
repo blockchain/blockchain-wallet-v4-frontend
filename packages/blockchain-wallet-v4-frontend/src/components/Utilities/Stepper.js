@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 const { Provider, Consumer } = React.createContext()
 
 class Stepper extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = { step: props.initialStep }
@@ -27,7 +27,7 @@ class Stepper extends React.PureComponent {
     this.stepTo(0)
   }
 
-  render () {
+  render() {
     let value = {
       currentStep: this.state.step,
       stepTo: this.stepTo,

@@ -134,17 +134,17 @@ const TransactionListItem = props => {
           <Status type={transaction.type} />
           <MediaContextConsumer>
             {({ mobile }) => (
-              <Text size='13px' weight={300}>
+              <Text size="13px" weight={300}>
                 {dateHelper(prop('time', transaction) * 1000, mobile)}
               </Text>
             )}
           </MediaContextConsumer>
           {(transaction.fromWatchOnly || transaction.toWatchOnly) && (
             <BannerWrapper>
-              <Banner type='informational'>
+              <Banner type="informational">
                 <FormattedMessage
-                  id='components.txlistitem.watchonly'
-                  defaultMessage='Non-Spendable'
+                  id="components.txlistitem.watchonly"
+                  defaultMessage="Non-Spendable"
                 />
               </Banner>
             </BannerWrapper>
@@ -181,12 +181,12 @@ const TransactionListItem = props => {
         <AmountColumn>
           <ToggleButton nature={transaction.type} onClick={handleCoinToggle}>
             <SwitchableDisplay
-              mobileSize='12px'
+              mobileSize="12px"
               coin={coin}
-              size='16px'
+              size="16px"
               weight={300}
-              color='white'
-              cursor='pointer'
+              color="white"
+              cursor="pointer"
             >
               {transaction.amount}
             </SwitchableDisplay>
@@ -202,13 +202,13 @@ const TransactionListItem = props => {
             )}
             {transaction.type !== 'received' && (
               <FeeWrapper>
-                <Text size='12px' weight={300}>
+                <Text size="12px" weight={300}>
                   <FormattedMessage
-                    id='scenes.transactions.bitcoin.content.pages.listitem.fee.label'
-                    defaultMessage='Transaction Fee: '
+                    id="scenes.transactions.bitcoin.content.pages.listitem.fee.label"
+                    defaultMessage="Transaction Fee: "
                   />
                 </Text>
-                <SwitchableDisplay coin={coin} size='12px' weight={200}>
+                <SwitchableDisplay coin={coin} size="12px" weight={200}>
                   {transaction.fee}
                 </SwitchableDisplay>
               </FeeWrapper>

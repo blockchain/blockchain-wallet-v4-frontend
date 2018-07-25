@@ -44,7 +44,7 @@ const CheckBox = ({ children, ...field }) => {
       {field.meta.touched &&
         field.meta.error &&
         !field.hideErrors && (
-          <Error size='12px' weight={300} color='error'>
+          <Error size="12px" weight={300} color="error">
             {field.meta.error}
           </Error>
         )}

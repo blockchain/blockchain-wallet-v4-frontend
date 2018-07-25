@@ -9,25 +9,25 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import MobileLogin from './template.js'
 
 class MobileLoginContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.handleScan = this.handleScan.bind(this)
     this.handleError = this.handleError.bind(this)
   }
 
-  handleScan (result) {
+  handleScan(result) {
     if (!isNil(result) && !isEmpty(result)) {
       this.props.authActions.mobileLogin(result)
     }
   }
 
-  handleError (error) {
+  handleError(error) {
     if (isNil(error) && isEmpty(error)) {
       this.props.alertsActions.displayError(C.MOBILE_LOGIN_SCAN_ERROR)
     }
   }
 
-  render () {
+  render() {
     return (
       <MobileLogin
         {...this.props}

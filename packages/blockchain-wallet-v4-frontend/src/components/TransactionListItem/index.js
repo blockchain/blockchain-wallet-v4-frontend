@@ -6,17 +6,17 @@ import { actions } from 'data'
 import TransactionListItem from './template.js'
 
 class ListItemContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.handleCoinToggle = this.handleCoinToggle.bind(this)
     this.handleEditDescription = this.handleEditDescription.bind(this)
   }
 
-  handleCoinToggle () {
+  handleCoinToggle() {
     this.props.preferencesActions.toggleCoinDisplayed()
   }
 
-  handleEditDescription (value) {
+  handleEditDescription(value) {
     switch (this.props.coin) {
       case 'ETH': {
         this.props.ethereumActions.setTxNotesEthereum(
@@ -39,7 +39,7 @@ class ListItemContainer extends React.PureComponent {
     }
   }
 
-  render () {
+  render() {
     return (
       <TransactionListItem
         coin={this.props.coin}

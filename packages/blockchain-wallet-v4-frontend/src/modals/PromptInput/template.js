@@ -34,33 +34,33 @@ const PromptTemplate = ({
   secret = false,
   handleSubmit
 }) => (
-  <Modal size='large' position={position} total={total}>
+  <Modal size="large" position={position} total={total}>
     <Form onSubmit={handleSubmit}>
       <Wrapper>
-        <ModalHeader icon='pencil' onClose={close}>
+        <ModalHeader icon="pencil" onClose={close}>
           {title}
         </ModalHeader>
         <ModalBody>
           <FormGroup>
             <FormItem>
               <Field
-                name='value'
+                name="value"
                 validate={[required]}
                 component={secret ? PasswordBox : TextBox}
               />
             </FormItem>
           </FormGroup>
         </ModalBody>
-        <ModalFooter align='right'>
+        <ModalFooter align="right">
           <Button
-            type='submit'
-            nature='primary'
+            type="submit"
+            nature="primary"
             capitalize
             disabled={submitting || invalid}
           >
             <FormattedMessage
-              id='modals.prompt.button'
-              defaultMessage='Submit'
+              id="modals.prompt.button"
+              defaultMessage="Submit"
             />
           </Button>
         </ModalFooter>

@@ -10,15 +10,15 @@ import ThirdStep from './ThirdStep'
 import { actions } from '../../data'
 
 class Reset2FAContainer extends React.PureComponent {
-  componentWillMount () {
+  componentWillMount() {
     this.props.resetStep()
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.formActions.destroy('reset2FA')
   }
 
-  render () {
+  render() {
     const { step, ...rest } = this.props
 
     switch (step) {

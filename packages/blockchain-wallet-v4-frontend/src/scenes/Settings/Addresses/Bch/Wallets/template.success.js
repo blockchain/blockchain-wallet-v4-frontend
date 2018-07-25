@@ -41,10 +41,10 @@ const LabelCell = styled(Text)`
 `
 
 const Manage = () => (
-  <Link weight={200} size='small'>
+  <Link weight={200} size="small">
     <FormattedMessage
-      id='scenes.settings.addresses.bch.wallets.manage'
-      defaultMessage='Manage Wallet'
+      id="scenes.settings.addresses.bch.wallets.manage"
+      defaultMessage="Manage Wallet"
     />
   </Link>
 )
@@ -71,34 +71,34 @@ const Success = props => {
 
     return (
       <TableRow key={i}>
-        <WalletTableCell width='50%'>
-          <LabelCell size='13px'>{wallet.label}</LabelCell>
+        <WalletTableCell width="50%">
+          <LabelCell size="13px">{wallet.label}</LabelCell>
           {isDefault && (
             <Banner label>
               <FormattedMessage
-                id='scenes.settings.addresses.bch.wallets.defaultlabel'
-                defaultMessage='Default'
+                id="scenes.settings.addresses.bch.wallets.defaultlabel"
+                defaultMessage="Default"
               />
             </Banner>
           )}
           {isArchived && (
-            <Banner label type='informational'>
+            <Banner label type="informational">
               <FormattedMessage
-                id='scenes.settings.addresses.bch.wallets.archivedlabel'
-                defaultMessage='Archived'
+                id="scenes.settings.addresses.bch.wallets.archivedlabel"
+                defaultMessage="Archived"
               />
             </Banner>
           )}
         </WalletTableCell>
-        <TableCell width='30%'>
+        <TableCell width="30%">
           {!isArchived && (
-            <SwitchableDisplay size='13px' coin='BCH'>
+            <SwitchableDisplay size="13px" coin="BCH">
               {wallet.value.balance}
             </SwitchableDisplay>
           )}
         </TableCell>
         <TableCell
-          width='20%'
+          width="20%"
           style={{ display: 'flex', justifyContent: 'flex-end' }}
         >
           <ComponentDropdown
@@ -108,56 +108,56 @@ const Success = props => {
             selectedComponent={<Manage />}
             components={[
               <ClickableText
-                size='small'
+                size="small"
                 onClick={() => onEditBchAccountLabel(wallet.value)}
               >
                 <FormattedMessage
-                  id='scenes.settings.addresses.bch.edit_name'
-                  defaultMessage='Edit Wallet Name'
+                  id="scenes.settings.addresses.bch.edit_name"
+                  defaultMessage="Edit Wallet Name"
                 />
               </ClickableText>,
               !isDefault &&
                 !isArchived && (
                   <ClickableText
-                    size='small'
+                    size="small"
                     onClick={() => onMakeDefault(wallet.value)}
                   >
                     <FormattedMessage
-                      id='scenes.settings.addresses.bch.make_default'
-                      defaultMessage='Make Default'
+                      id="scenes.settings.addresses.bch.make_default"
+                      defaultMessage="Make Default"
                     />
                   </ClickableText>
                 ),
               !isDefault &&
                 (isArchived ? (
                   <ClickableText
-                    size='small'
+                    size="small"
                     onClick={() => onSetArchived(wallet.value, false)}
                   >
                     <FormattedMessage
-                      id='scenes.settings.addresses.bch.unarchive'
-                      defaultMessage='Unarchive'
+                      id="scenes.settings.addresses.bch.unarchive"
+                      defaultMessage="Unarchive"
                     />
                   </ClickableText>
                 ) : (
                   <ClickableText
-                    size='small'
+                    size="small"
                     onClick={() => onSetArchived(wallet.value, true)}
                   >
                     <FormattedMessage
-                      id='scenes.settings.addresses.bch.archive'
-                      defaultMessage='Archive'
+                      id="scenes.settings.addresses.bch.archive"
+                      defaultMessage="Archive"
                     />
                   </ClickableText>
                 )),
               !isArchived && (
                 <ClickableText
-                  size='small'
+                  size="small"
                   onClick={() => onShowXPub(wallet.value)}
                 >
                   <FormattedMessage
-                    id='scenes.settings.addresses.bch.show_xpub'
-                    defaultMessage='Show xPub'
+                    id="scenes.settings.addresses.bch.show_xpub"
+                    defaultMessage="Show xPub"
                   />
                 </ClickableText>
               )
@@ -172,42 +172,42 @@ const Success = props => {
     <Wrapper>
       <BchWalletsAddressesSettingHeader>
         <FormattedMessage
-          id='scenes.settings.addresses.bch.wallets.title'
-          defaultMessage='Bitcoin Cash Wallets'
+          id="scenes.settings.addresses.bch.wallets.title"
+          defaultMessage="Bitcoin Cash Wallets"
         />
       </BchWalletsAddressesSettingHeader>
       <SettingDescription>
         <FormattedMessage
-          id='scenes.settings.addresses.bch.wallets.description'
-          defaultMessage='Wallets allow you to organize your funds into categories, like spending or savings. To see all of the individual addresses that have been generated for each wallet, click on ‘Manage‘.'
+          id="scenes.settings.addresses.bch.wallets.description"
+          defaultMessage="Wallets allow you to organize your funds into categories, like spending or savings. To see all of the individual addresses that have been generated for each wallet, click on ‘Manage‘."
         />
       </SettingDescription>
       <Table>
         <TableHeader>
-          <TableCell width='50%'>
-            <Text size='13px' weight={500}>
+          <TableCell width="50%">
+            <Text size="13px" weight={500}>
               <FormattedMessage
-                id='scenes.settings.addresses.bch.wallets.walletname'
-                defaultMessage='Wallet Name'
+                id="scenes.settings.addresses.bch.wallets.walletname"
+                defaultMessage="Wallet Name"
               />
             </Text>
           </TableCell>
-          <TableCell width='30%'>
-            <Text size='13px' weight={500}>
+          <TableCell width="30%">
+            <Text size="13px" weight={500}>
               <FormattedMessage
-                id='scenes.settings.addresses.bch.wallets.balance'
-                defaultMessage='Balance'
+                id="scenes.settings.addresses.bch.wallets.balance"
+                defaultMessage="Balance"
               />
             </Text>
           </TableCell>
           <TableCell
-            width='20%'
+            width="20%"
             style={{ display: 'flex', justifyContent: 'flex-end' }}
           >
-            <Text size='13px' weight={500}>
+            <Text size="13px" weight={500}>
               <FormattedMessage
-                id='scenes.settings.addresses.bch.wallets.actions'
-                defaultMessage='Actions'
+                id="scenes.settings.addresses.bch.wallets.actions"
+                defaultMessage="Actions"
               />
             </Text>
           </TableCell>

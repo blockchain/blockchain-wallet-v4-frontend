@@ -11,7 +11,7 @@ import DataError from 'components/DataError'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 class FirstStepContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.handleClickQRCode = this.handleClickQRCode.bind(this)
     this.handleRefresh = this.handleRefresh.bind(this)
@@ -19,11 +19,11 @@ class FirstStepContainer extends React.PureComponent {
     this.init = this.init.bind(this)
   }
 
-  componentWillMount () {
+  componentWillMount() {
     this.init()
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     nextProps.data.map(x => {
       if (equals(prop('coin', x), 'ETH')) {
         this.props.modalActions.closeAllModals()
@@ -35,7 +35,7 @@ class FirstStepContainer extends React.PureComponent {
     })
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     if (
       !Remote.Success.is(prevProps.initialValues) &&
       Remote.Success.is(this.props.initialValues)
@@ -44,17 +44,17 @@ class FirstStepContainer extends React.PureComponent {
     }
   }
 
-  init () {
+  init() {
     this.props.initialValues.map(x => {
       this.props.formActions.initialize('requestBitcoin', x)
     })
   }
 
-  handleClickQRCode (value) {
+  handleClickQRCode(value) {
     this.props.modalActions.showModal('QRCode', { value })
   }
 
-  handleSubmit (e) {
+  handleSubmit(e) {
     e.preventDefault()
     const {
       accountIdx,
@@ -71,14 +71,14 @@ class FirstStepContainer extends React.PureComponent {
     this.props.nextStep()
   }
 
-  handleRefresh () {
+  handleRefresh() {
     const { bitcoinDataActions, initialValues } = this.props
     if (!Remote.Success.is(initialValues)) return bitcoinDataActions.fetchData()
 
     this.init()
   }
 
-  render () {
+  render() {
     const { data } = this.props
 
     return data.cata({

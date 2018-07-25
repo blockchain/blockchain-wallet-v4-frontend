@@ -17,11 +17,11 @@ import { path } from 'ramda'
 import Failure from 'components/BuySell/Failure'
 
 class SfoxCheckout extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = { buttonStatus: false }
   }
-  componentDidMount () {
+  componentDidMount() {
     this.props.sfoxDataActions.fetchTrades()
     this.props.sfoxDataActions.fetchProfile()
     this.props.sfoxDataActions.sfoxFetchAccounts()
@@ -34,11 +34,11 @@ class SfoxCheckout extends React.PureComponent {
     this.props.sfoxActions.initializePayment()
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.sfoxActions.disableSiftScience()
   }
 
-  render () {
+  render() {
     const {
       data,
       modalActions,

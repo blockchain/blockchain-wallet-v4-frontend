@@ -59,22 +59,22 @@ const Step2 = props => (
   <Wrapper>
     <Circle status={props.status}>
       <AnimatedIcon
-        name='exchange'
-        size='50px'
+        name="exchange"
+        size="50px"
         color={props.status === 'disabled' ? 'gray-2' : 'brand-primary'}
         status={props.status}
       />
       <SmallCircle>
         <Icon
-          name='stack-of-coins-2'
+          name="stack-of-coins-2"
           color={props.status === 'disabled' ? 'gray-2' : 'brand-primary'}
         />
       </SmallCircle>
     </Circle>
-    <Text size='13px' weight={500} capitalize>
+    <Text size="13px" weight={500} capitalize>
       <FormattedMessage
-        id='components.exchangetimeline.exchange.inprogress'
-        defaultMessage='Exchange In Progress'
+        id="components.exchangetimeline.exchange.inprogress"
+        defaultMessage="Exchange In Progress"
       />
     </Text>
   </Wrapper>

@@ -23,21 +23,21 @@ const Addresses = props => {
   return (
     <Wrapper>
       <TextGroup inline>
-        <Text size='13px' weight={500}>
+        <Text size="13px" weight={500}>
           <FormattedMessage
-            id='components.transactionlistitem.addresses.to'
-            defaultMessage='To: '
+            id="components.transactionlistitem.addresses.to"
+            defaultMessage="To: "
           />
         </Text>
         <Tooltip
-          width='auto'
+          width="auto"
           label={to}
           hover={outputs && any(hasLabel, filter(notChange, outputs))}
         >
           {outputs &&
             filter(hasLabel, filter(notChange, outputs)).map(
               (output, index) => (
-                <Text key={index} size='12px' weight={300}>
+                <Text key={index} size="12px" weight={300}>
                   {equals(coin, 'BCH')
                     ? utils.bch.toCashAddr(output.address, true)
                     : output.address}
@@ -47,14 +47,14 @@ const Addresses = props => {
         </Tooltip>
       </TextGroup>
       <TextGroup inline>
-        <Text size='13px' weight={500}>
+        <Text size="13px" weight={500}>
           <FormattedMessage
-            id='components.transactionlistitem.addresses.from'
-            defaultMessage='From: '
+            id="components.transactionlistitem.addresses.from"
+            defaultMessage="From: "
           />
         </Text>
         <Tooltip
-          width='auto'
+          width="auto"
           label={from}
           hover={inputs && inputs.some(hasLabel)}
         >
@@ -62,7 +62,7 @@ const Addresses = props => {
             inputs.map(
               (input, index) =>
                 input.label && (
-                  <Text key={index} size='12px' weight={300}>
+                  <Text key={index} size="12px" weight={300}>
                     {equals(coin, 'BCH')
                       ? utils.bch.toCashAddr(input.address, true)
                       : input.address}

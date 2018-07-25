@@ -35,57 +35,57 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
     <BorderBox>
       <PartnerHeader weight={600} style={spacing('mb-10')}>
         <FormattedMessage
-          id='scenes.buysell.coinifycheckout.content.orderreview.buy.almostthere'
+          id="scenes.buysell.coinifycheckout.content.orderreview.buy.almostthere"
           defaultMessage="You're almost there"
         />
       </PartnerHeader>
       <PartnerSubHeader weight={300} style={spacing('mb-20')}>
         <FormattedMessage
-          id='scenes.buysell.coinifycheckout.content.orderreview.buy.revieworder.subPartnerSubHeader'
-          defaultMessage='Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order.'
+          id="scenes.buysell.coinifycheckout.content.orderreview.buy.revieworder.subPartnerSubHeader"
+          defaultMessage="Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order."
         />
       </PartnerSubHeader>
       <ExchangeRateWrapper>
-        <Text size='12px' weight={500} style={spacing('mr-10')}>
+        <Text size="12px" weight={500} style={spacing('mr-10')}>
           <FormattedMessage
-            id='scenes.buysell.coinifycheckout.content.orderreview.exchangerate'
-            defaultMessage='Exchange Rate'
+            id="scenes.buysell.coinifycheckout.content.orderreview.exchangerate"
+            defaultMessage="Exchange Rate"
           />
         </Text>
-        <Text size='12px' weight={300}>
+        <Text size="12px" weight={300}>
           1 BTC = {rateHelper(quoteR)}
         </Text>
       </ExchangeRateWrapper>
       <OrderDetailsTable style={spacing('mt-10')}>
         <OrderDetailsRow short noBorderBottom>
           {type === 'buy' ? (
-            <Text size='13px' weight={300}>
+            <Text size="13px" weight={300}>
               <FormattedMessage
-                id='orderdetails.amounttopurchase'
-                defaultMessage='BTC Amount to Purchase'
+                id="orderdetails.amounttopurchase"
+                defaultMessage="BTC Amount to Purchase"
               />
             </Text>
           ) : (
-            <Text size='13px' weight={300}>
+            <Text size="13px" weight={300}>
               <FormattedMessage
-                id='orderdetails.amounttosell'
-                defaultMessage='BTC Amount to Sell'
+                id="orderdetails.amounttosell"
+                defaultMessage="BTC Amount to Sell"
               />
             </Text>
           )}
-          <Text size='13px' weight={300}>
+          <Text size="13px" weight={300}>
             {quoteR.map(q => reviewOrder.renderFirstRow(q)).getOrElse('~')}
           </Text>
         </OrderDetailsRow>
         {type === 'buy' ? (
           <OrderDetailsRow short noBorderBottom>
-            <Text size='13px' weight={300}>
+            <Text size="13px" weight={300}>
               <FormattedMessage
-                id='orderdetails.btctransactionfee'
-                defaultMessage='BTC Transaction Fee'
+                id="orderdetails.btctransactionfee"
+                defaultMessage="BTC Transaction Fee"
               />
             </Text>
-            <Text size='13px' weight={300}>
+            <Text size="13px" weight={300}>
               -{quoteR
                 .map(q => reviewOrder.renderMinerFeeRow(q, medium, type))
                 .getOrElse('~')}{' '}
@@ -95,13 +95,13 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
         ) : null}
         {type === 'buy' ? (
           <OrderDetailsRow short>
-            <Text size='13px' weight={300}>
+            <Text size="13px" weight={300}>
               <FormattedMessage
-                id='orderdetails.btctobereceived'
-                defaultMessage='BTC to be Received'
+                id="orderdetails.btctobereceived"
+                defaultMessage="BTC to be Received"
               />
             </Text>
-            <Text size='13px' weight={300} color='success'>
+            <Text size="13px" weight={300} color="success">
               {quoteR
                 .map(q => reviewOrder.renderBtcToBeReceived(q, medium, type))
                 .getOrElse('~')}{' '}
@@ -110,24 +110,24 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
           </OrderDetailsRow>
         ) : null}
         <OrderDetailsRow short noBorderBottom>
-          <Text size='13px' weight={300}>
+          <Text size="13px" weight={300}>
             <FormattedMessage
-              id='orderdetails.amount'
-              defaultMessage='Amount'
+              id="orderdetails.amount"
+              defaultMessage="Amount"
             />
           </Text>
-          <Text size='13px' weight={300}>
+          <Text size="13px" weight={300}>
             {quoteR.map(q => reviewOrder.renderAmountRow(q)).getOrElse('~')}
           </Text>
         </OrderDetailsRow>
         <OrderDetailsRow short noBorderBottom>
-          <Text size='13px' weight={300}>
+          <Text size="13px" weight={300}>
             <FormattedMessage
-              id='orderdetails.tradingfee'
-              defaultMessage='Trading Fee'
+              id="orderdetails.tradingfee"
+              defaultMessage="Trading Fee"
             />
           </Text>
-          <Text size='13px' weight={300}>
+          <Text size="13px" weight={300}>
             {quoteR
               .map(q => reviewOrder.renderFeeRow(q, medium, type))
               .getOrElse('~')}
@@ -135,21 +135,21 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
         </OrderDetailsRow>
         <OrderDetailsRow short>
           {type === 'buy' ? (
-            <Text size='13px' weight={400}>
+            <Text size="13px" weight={400}>
               <FormattedMessage
-                id='orderdetails.totalcost'
-                defaultMessage='Total Cost'
+                id="orderdetails.totalcost"
+                defaultMessage="Total Cost"
               />
             </Text>
           ) : (
-            <Text size='13px' weight={400} color='success'>
+            <Text size="13px" weight={400} color="success">
               <FormattedMessage
-                id='orderdetails.totaltobereceived'
-                defaultMessage='Total to be Received'
+                id="orderdetails.totaltobereceived"
+                defaultMessage="Total to be Received"
               />
             </Text>
           )}
-          <Text size='13px' weight={400} color={type !== 'buy' && 'success'}>
+          <Text size="13px" weight={400} color={type !== 'buy' && 'success'}>
             {quoteR
               .map(q => reviewOrder.renderTotalRow(q, medium, type))
               .getOrElse('~')}
@@ -162,7 +162,7 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
             style={spacing('mt-20')}
             expiryDate={q.expiresAt.getTime()}
             handleExpiry={onRefreshQuote}
-            tooltipExpiryTime='15 minutes'
+            tooltipExpiryTime="15 minutes"
           />
         ))
         .getOrElse(null)}
@@ -174,27 +174,27 @@ const faqQuestions = [
   {
     question: (
       <FormattedMessage
-        id='coinifyexchangedata.cyo.helper1.question'
-        defaultMessage='How long will the buy order take?'
+        id="coinifyexchangedata.cyo.helper1.question"
+        defaultMessage="How long will the buy order take?"
       />
     ),
     answer: (
       <FormattedMessage
-        id='coinifyexchangedata.cyo.helper1.answer'
-        defaultMessage='How long a buy order takes depends on your chosen payment method, which can always be changed. If buying through bank transfer, you will receive bitcoin within 2-3 days. If you chose to pay with a credit or debit card, you can plan to receive your bitcoin within 24 hours (depending on your bank’s transfer policies).'
+        id="coinifyexchangedata.cyo.helper1.answer"
+        defaultMessage="How long a buy order takes depends on your chosen payment method, which can always be changed. If buying through bank transfer, you will receive bitcoin within 2-3 days. If you chose to pay with a credit or debit card, you can plan to receive your bitcoin within 24 hours (depending on your bank’s transfer policies)."
       />
     )
   },
   {
     question: (
       <FormattedMessage
-        id='coinifyexchangedata.cyo.helper2.question'
-        defaultMessage='Why does the exchange rate change?'
+        id="coinifyexchangedata.cyo.helper2.question"
+        defaultMessage="Why does the exchange rate change?"
       />
     ),
     answer: (
       <FormattedMessage
-        id='coinifyexchangedata.cyo.helper2.answer'
+        id="coinifyexchangedata.cyo.helper2.answer"
         defaultMessage="When you choose to create a trade through bank transfer, Coinify will show you an exchange rate that may differ from the actual rate due to price fluctuations in bitcoin. Any issues that increase your order's processing time will have an effect on the final exchange rate used for that order. Once your order is ready, Coinify processes the trade and locks in the exchange rate."
       />
     )
@@ -202,51 +202,51 @@ const faqQuestions = [
   {
     question: (
       <FormattedMessage
-        id='coinifyexchangedata.cyo.helper3.question'
-        defaultMessage='The small print'
+        id="coinifyexchangedata.cyo.helper3.question"
+        defaultMessage="The small print"
       />
     ),
     answer: (
       <FormattedMessage
-        id='coinifyexchangedata.cyo.helper3.answer'
-        defaultMessage='To read more about how Coinify stores your information and keeps it safe, please visit their {tos} and {privacyPolicy}. For help with, or questions about your Blockchain wallet, please reach out to our support team {supportLink}.'
+        id="coinifyexchangedata.cyo.helper3.answer"
+        defaultMessage="To read more about how Coinify stores your information and keeps it safe, please visit their {tos} and {privacyPolicy}. For help with, or questions about your Blockchain wallet, please reach out to our support team {supportLink}."
         values={{
           tos: (
             <Link
-              size='12px'
+              size="12px"
               weight={300}
-              href='https://www.coinify.com/legal'
-              target='_blank'
-              rel='noreferrer noopener'
+              href="https://www.coinify.com/legal"
+              target="_blank"
+              rel="noreferrer noopener"
             >
-              <FormattedMessage id='tos' defaultMessage='Terms of Service' />
+              <FormattedMessage id="tos" defaultMessage="Terms of Service" />
             </Link>
           ),
           privacyPolicy: (
             <Link
-              size='12px'
+              size="12px"
               weight={300}
-              href='https://www.coinify.com/legal/policy'
-              target='_blank'
-              rel='noreferrer noopener'
+              href="https://www.coinify.com/legal/policy"
+              target="_blank"
+              rel="noreferrer noopener"
             >
               <FormattedMessage
-                id='privacypolicy'
-                defaultMessage='Privacy Policy'
+                id="privacypolicy"
+                defaultMessage="Privacy Policy"
               />
             </Link>
           ),
           supportLink: (
             <Link
-              target='_blank'
-              rel='noreferrer noopener'
-              href='https://support.blockchain.com'
-              size='12px'
+              target="_blank"
+              rel="noreferrer noopener"
+              href="https://support.blockchain.com"
+              size="12px"
               weight={300}
             >
               <FormattedMessage
-                id='contactsupport'
-                defaultMessage='contact support'
+                id="contactsupport"
+                defaultMessage="contact support"
               />
             </Link>
           )
@@ -260,14 +260,14 @@ const sellQuestions = [
   {
     question: (
       <FormattedMessage
-        id='coinifyexchangedata.cyo.helper4.question'
-        defaultMessage='How long will the sell order take?'
+        id="coinifyexchangedata.cyo.helper4.question"
+        defaultMessage="How long will the sell order take?"
       />
     ),
     answer: (
       <FormattedMessage
-        id='coinifyexchangedata.cyo.helper4.answer'
-        defaultMessage='If the Bitcoin transaction of your sell order is broadcast and confirmed within the 15 minute time period for which Coinify guarantees the rate, the system will lock the exchange rate and your order will begin processing. This means that within 2 bank days we will send the funds to your bank account, as long as all details are correct and complete. Remember: you can only use a bank account registered in your own name to receive the payout.'
+        id="coinifyexchangedata.cyo.helper4.answer"
+        defaultMessage="If the Bitcoin transaction of your sell order is broadcast and confirmed within the 15 minute time period for which Coinify guarantees the rate, the system will lock the exchange rate and your order will begin processing. This means that within 2 bank days we will send the funds to your bank account, as long as all details are correct and complete. Remember: you can only use a bank account registered in your own name to receive the payout."
       />
     )
   }
@@ -280,16 +280,16 @@ export const OrderSubmit = props => {
     <Fragment>
       {busy.error ? (
         <div onClick={() => clearTradeError()}>
-          <Text weight={300} color='error' size='13px' style={spacing('mb-5')}>
+          <Text weight={300} color="error" size="13px" style={spacing('mb-5')}>
             <FormattedMessage
-              id='scenes.buysell.orderreview.wrong'
-              defaultMessage='Sorry, something went wrong with your trade:'
+              id="scenes.buysell.orderreview.wrong"
+              defaultMessage="Sorry, something went wrong with your trade:"
             />
             {busy.error_description}
           </Text>
           <span>
-            <StepTransition restart Component={Link} weight={300} size='13px'>
-              <FormattedMessage id='try_again' defaultMessage='Try again' />
+            <StepTransition restart Component={Link} weight={300} size="13px">
+              <FormattedMessage id="try_again" defaultMessage="Try again" />
             </StepTransition>
           </span>
         </div>

@@ -11,7 +11,7 @@ import NotAsked from './template.notasked'
 import Success from './template.success'
 
 class ValueWhenReceived extends React.PureComponent {
-  render () {
+  render() {
     const { data, actions, amount, hash, time, currency } = this.props
 
     return data.cata({

@@ -50,18 +50,18 @@ const BankMeta = styled.div`
 const Bank = ({ bank, onInputClick }) => (
   <BankInfo key={bank._id}>
     <input
-      type='radio'
-      name='bank'
+      type="radio"
+      name="bank"
       value={bank}
       id={bank._id}
       onClick={() => onInputClick(bank._id)}
     />
     <BankLabel htmlFor={bank._id}>
       <BankMeta>
-        <Text size='16px'>
+        <Text size="16px">
           {bank.meta.name} ending in {bank.meta.number}
         </Text>
-        <BankName size='14px'>{bank.institution_type} Bank</BankName>
+        <BankName size="14px">{bank.institution_type} Bank</BankName>
       </BankMeta>
     </BankLabel>
   </BankInfo>

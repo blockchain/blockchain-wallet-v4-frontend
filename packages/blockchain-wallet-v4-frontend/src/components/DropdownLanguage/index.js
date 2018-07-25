@@ -8,17 +8,17 @@ import { SimpleDropdown } from 'blockchain-info-components/src/Dropdowns'
 import { actions, selectors } from 'data'
 
 class DropdownLanguageContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
   }
 
-  handleClick (selectedLanguage) {
+  handleClick(selectedLanguage) {
     this.props.preferencesActions.setCulture(selectedLanguage.value)
     this.props.preferencesActions.setLanguage(selectedLanguage.language, true)
   }
 
-  render () {
+  render() {
     const { currentLanguage, languages } = this.props
     const languageList = languages.map(lang => {
       return {
@@ -30,7 +30,7 @@ class DropdownLanguageContainer extends React.PureComponent {
 
     return (
       <SimpleDropdown
-        color='white'
+        color="white"
         items={languageList}
         selectedValue={currentLanguage}
         callback={selectedLanguage => this.handleClick(selectedLanguage)}

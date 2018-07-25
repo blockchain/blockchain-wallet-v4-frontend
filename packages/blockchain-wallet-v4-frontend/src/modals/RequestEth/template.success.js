@@ -45,26 +45,26 @@ const RequestEther = props => {
     <Form onSubmit={handleSubmit}>
       <CoinSelector margin={'20px'}>
         <FormItem>
-          <FormLabel for='coin'>
+          <FormLabel for="coin">
             <FormattedMessage
-              id='modals.requestether.coin'
-              defaultMessage='Currency:'
+              id="modals.requestether.coin"
+              defaultMessage="Currency:"
             />
           </FormLabel>
-          <Field name='coin' component={SelectBoxCoin} validate={[required]} />
+          <Field name="coin" component={SelectBoxCoin} validate={[required]} />
         </FormItem>
       </CoinSelector>
       <FormGroup>
         <FormItem>
           <FormLabel>
             <FormattedMessage
-              id='modals.requestether.share'
-              defaultMessage='Copy & Share Address:'
+              id="modals.requestether.share"
+              defaultMessage="Copy & Share Address:"
             />
             <Tooltip>
               <FormattedMessage
-                id='modals.requestether.sharetooltip'
-                defaultMessage='Share this address with others, and they can send you ETH directly to your wallet. Your request address will not change.'
+                id="modals.requestether.sharetooltip"
+                defaultMessage="Share this address with others, and they can send you ETH directly to your wallet. Your request address will not change."
               />
             </Tooltip>
           </FormLabel>
@@ -74,29 +74,29 @@ const RequestEther = props => {
         </AddressContainer>
       </FormGroup>
       <Separator margin={'20px 0'}>
-        <Text size='14px' weight={300} uppercase>
-          <FormattedMessage id='modals.requestether.or' defaultMessage='Or' />
+        <Text size="14px" weight={300} uppercase>
+          <FormattedMessage id="modals.requestether.or" defaultMessage="Or" />
         </Text>
       </Separator>
       <QRCodeContainer>
         <ScanMessage>
-          <Text size='14px'>
+          <Text size="14px">
             <FormattedMessage
-              id='modals.requestether.scan'
-              defaultMessage='Scan QR Code:'
+              id="modals.requestether.scan"
+              defaultMessage="Scan QR Code:"
             />
             <Tooltip>
               <FormattedMessage
-                id='modals.requestether.scan_tooltip'
-                defaultMessage='Ask the sender to scan this QR code with their ether wallet'
+                id="modals.requestether.scan_tooltip"
+                defaultMessage="Ask the sender to scan this QR code with their ether wallet"
               />
             </Tooltip>
           </Text>
         </ScanMessage>
         <QRCodeReact value={address} size={150} />
       </QRCodeContainer>
-      <Button type='submit' nature='primary' fullwidth uppercase>
-        <FormattedMessage id='modals.requestether.done' defaultMessage='Done' />
+      <Button type="submit" nature="primary" fullwidth uppercase>
+        <FormattedMessage id="modals.requestether.done" defaultMessage="Done" />
       </Button>
     </Form>
   )

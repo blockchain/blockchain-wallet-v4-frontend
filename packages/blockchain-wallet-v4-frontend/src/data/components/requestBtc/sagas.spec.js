@@ -20,7 +20,9 @@ describe('requestBtc sagas', () => {
 
     it('should update setHdAddressLabel', () => {
       return expectSaga(requestBtcSagas.firstStepSubmitClicked, action)
-        .put(actions.core.wallet.setHdAddressLabel(accountIdx, addressIdx, message))
+        .put(
+          actions.core.wallet.setHdAddressLabel(accountIdx, addressIdx, message)
+        )
         .run()
     })
 
@@ -33,7 +35,13 @@ describe('requestBtc sagas', () => {
         saga
           .next()
           .throw(error)
-          .put(actions.logs.logErrorMessage(logLocation, 'firstStepSubmitClicked', error))
+          .put(
+            actions.logs.logErrorMessage(
+              logLocation,
+              'firstStepSubmitClicked',
+              error
+            )
+          )
           .next()
           .isDone()
       })

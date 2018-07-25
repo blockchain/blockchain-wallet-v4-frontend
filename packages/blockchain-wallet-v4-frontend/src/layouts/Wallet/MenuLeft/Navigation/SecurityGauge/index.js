@@ -8,7 +8,7 @@ import { getData } from './selectors'
 import { SecurityGauge } from 'blockchain-info-components'
 
 class SecurityGaugeContainer extends React.PureComponent {
-  render () {
+  render() {
     const { data } = this.props
 
     return data.cata({

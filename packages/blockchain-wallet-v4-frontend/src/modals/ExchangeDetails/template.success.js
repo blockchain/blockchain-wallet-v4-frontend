@@ -57,29 +57,29 @@ const getModalHeader = status => {
     case 'complete':
       return (
         <FormattedMessage
-          id='modals.exchangedetails.title.success'
-          defaultMessage='Exchange Completed'
+          id="modals.exchangedetails.title.success"
+          defaultMessage="Exchange Completed"
         />
       )
     case 'resolved':
       return (
         <FormattedMessage
-          id='modals.exchangedetails.title.refunded'
-          defaultMessage='Trade Refunded'
+          id="modals.exchangedetails.title.refunded"
+          defaultMessage="Trade Refunded"
         />
       )
     case 'failed':
       return (
         <FormattedMessage
-          id='modals.exchangedetails.title.failed'
-          defaultMessage='Trade Failed'
+          id="modals.exchangedetails.title.failed"
+          defaultMessage="Trade Failed"
         />
       )
     default:
       return (
         <FormattedMessage
-          id='modals.exchangedetails.title.inprogress'
-          defaultMessage='Exchange in Progress'
+          id="modals.exchangedetails.title.inprogress"
+          defaultMessage="Exchange in Progress"
         />
       )
   }
@@ -99,9 +99,9 @@ const ExchangeDetails = props => {
   } = rest
 
   return (
-    <Modal size='large' position={position} total={total}>
+    <Modal size="large" position={position} total={total}>
       <ModalHeader closeButton={false}>
-        <Text size='20px' weight={300} capitalize>
+        <Text size="20px" weight={300} capitalize>
           {getModalHeader(status)}
         </Text>
       </ModalHeader>
@@ -109,15 +109,15 @@ const ExchangeDetails = props => {
         <ExchangeTimeline status={status} />
         {status === 'complete' && (
           <Notice>
-            <Text size='13px' weight={300}>
+            <Text size="13px" weight={300}>
               <FormattedMessage
-                id='modals.exchangedetails.explain'
-                defaultMessage='Your exchange is complete.'
+                id="modals.exchangedetails.explain"
+                defaultMessage="Your exchange is complete."
               />
               <span>&nbsp;</span>
               <FormattedMessage
-                id='modals.exchangedetails.explain2'
-                defaultMessage='It may take a few minutes for the funds to show in your balance.'
+                id="modals.exchangedetails.explain2"
+                defaultMessage="It may take a few minutes for the funds to show in your balance."
               />
             </Text>
           </Notice>
@@ -125,100 +125,100 @@ const ExchangeDetails = props => {
         <Table>
           <TableRow>
             <TableCell>
-              <Text size='13px' weight={400} capitalize>
+              <Text size="13px" weight={400} capitalize>
                 <FormattedMessage
-                  id='modals.exchangedetails.deposited'
-                  defaultMessage='{coin} Deposited'
+                  id="modals.exchangedetails.deposited"
+                  defaultMessage="{coin} Deposited"
                   values={{ coin: sourceCoin }}
                 />
               </Text>
             </TableCell>
             <TableCell>
-              <Text size='13px' weight={300} uppercase>
+              <Text size="13px" weight={300} uppercase>
                 {`${depositAmount} ${sourceCoin}`}
               </Text>
             </TableCell>
           </TableRow>
           <TableRow>
             <TableCell>
-              <Text size='13px' weight={400} capitalize>
+              <Text size="13px" weight={400} capitalize>
                 <FormattedMessage
-                  id='modals.exchangedetails.received'
-                  defaultMessage='{coin} to be Received'
+                  id="modals.exchangedetails.received"
+                  defaultMessage="{coin} to be Received"
                   values={{ coin: targetCoin }}
                 />
               </Text>
             </TableCell>
             <TableCell>
-              <Text size='13px' weight={300} uppercase>
+              <Text size="13px" weight={300} uppercase>
                 {`${withdrawalAmount} ${targetCoin}`}
               </Text>
             </TableCell>
           </TableRow>
           <TableRow>
             <TableCell>
-              <Text size='13px' weight={400} capitalize>
+              <Text size="13px" weight={400} capitalize>
                 <FormattedMessage
-                  id='modals.exchangedetails.exchangerate'
-                  defaultMessage='Exchange rate'
+                  id="modals.exchangedetails.exchangerate"
+                  defaultMessage="Exchange rate"
                 />
               </Text>
               <Tooltip>
                 <FormattedMessage
-                  id='modals.exchangedetails.exchangetooltip'
-                  defaultMessage='This rate may change depending on the market price at the time of your transaction.'
+                  id="modals.exchangedetails.exchangetooltip"
+                  defaultMessage="This rate may change depending on the market price at the time of your transaction."
                 />
               </Tooltip>
             </TableCell>
             <TableCell>
-              <Text size='13px' weight={300} uppercase>
+              <Text size="13px" weight={300} uppercase>
                 {`1 ${sourceCoin} = ${quotedRate} ${targetCoin}`}
               </Text>
             </TableCell>
           </TableRow>
           <TableRow>
             <TableCell>
-              <Text size='13px' weight={400} capitalize>
+              <Text size="13px" weight={400} capitalize>
                 <FormattedMessage
-                  id='modals.exchangedetails.fee'
-                  defaultMessage='Transaction fee'
+                  id="modals.exchangedetails.fee"
+                  defaultMessage="Transaction fee"
                 />
               </Text>
               <Tooltip>
                 <FormattedMessage
-                  id='modals.exchangedetails.feetooltip'
-                  defaultMessage='This fee is used to send the outgoing exchange funds to ShapeShift.'
+                  id="modals.exchangedetails.feetooltip"
+                  defaultMessage="This fee is used to send the outgoing exchange funds to ShapeShift."
                 />
               </Tooltip>
             </TableCell>
             <TableCell>
-              <Text size='13px' weight={300} uppercase>
+              <Text size="13px" weight={300} uppercase>
                 {`${minerFee} ${targetCoin}`}
               </Text>
             </TableCell>
           </TableRow>
           <TableRow>
             <TableCell>
-              <Text size='13px' weight={400} capitalize>
+              <Text size="13px" weight={400} capitalize>
                 <FormattedMessage
-                  id='modals.exchangedetails.orderid'
-                  defaultMessage='Order ID'
+                  id="modals.exchangedetails.orderid"
+                  defaultMessage="Order ID"
                 />
               </Text>
             </TableCell>
             <TableCell>
-              <Text size='13px' weight={300}>
+              <Text size="13px" weight={300}>
                 SFT-{orderId}
               </Text>
             </TableCell>
           </TableRow>
         </Table>
       </ModalBody>
-      <ModalFooter align='right'>
-        <Button nature='primary' size='13px' weight={300} onClick={close}>
+      <ModalFooter align="right">
+        <Button nature="primary" size="13px" weight={300} onClick={close}>
           <FormattedMessage
-            id='modals.exchangedetails.close'
-            defaultMessage='Close'
+            id="modals.exchangedetails.close"
+            defaultMessage="Close"
           />
         </Button>
       </ModalFooter>

@@ -7,17 +7,17 @@ import Register from './template.js'
 import { actions, selectors } from 'data'
 
 class RegisterContainer extends React.PureComponent {
-  constructor () {
+  constructor() {
     super()
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  onSubmit () {
+  onSubmit() {
     const { email, password, language } = this.props
     this.props.authActions.register(email, password, language)
   }
 
-  render () {
+  render() {
     const { data } = this.props
     let busy = data.cata({
       Success: () => false,

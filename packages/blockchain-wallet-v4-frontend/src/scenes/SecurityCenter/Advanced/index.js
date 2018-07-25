@@ -22,7 +22,7 @@ const BackButton = styled(IconButton)`
 `
 
 export default class Advanced extends PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     if (!this.props.showTabs) {
       const button = document.getElementById('advanced-button')
       const alignToTop = false
@@ -30,19 +30,19 @@ export default class Advanced extends PureComponent {
     }
   }
 
-  render () {
+  render() {
     return (
       <AdvancedContainer>
         {!this.props.showTabs && (
           <BackButton
-            name='left-arrow'
-            nature='empty'
+            name="left-arrow"
+            nature="empty"
             onClick={() => this.props.setView('security')}
-            id='advanced-button'
+            id="advanced-button"
           >
             <FormattedMessage
-              id='scenes.securitycenter.advanced.back'
-              defaultMessage='Back'
+              id="scenes.securitycenter.advanced.back"
+              defaultMessage="Back"
             />
           </BackButton>
         )}

@@ -33,10 +33,15 @@
     }
   },
   "lint-staged": {
-    "*.js": [
-      "prettier --write",
-      "eslint --fix",
-      "git add"
+    "style": {
+      "*.{js,json}": [
+        "prettier --write",
+        "eslint --fix",
+        "git add"
+      ]
+    },
+    "ignore": [
+      "**/package.json"
     ]
   },
   "scripts": {

@@ -73,70 +73,70 @@ const BitcoinWelcome = props => {
 
   return (
     <Wrapper displayed={displayed}>
-      <BitcoinImage name='half-bitcoin' />
+      <BitcoinImage name="half-bitcoin" />
       <Container>
         <Row>
           <Cell small>
-            <Text size='24px' weight={300} color='brand-primary' uppercase>
+            <Text size="24px" weight={300} color="brand-primary" uppercase>
               <FormattedMessage
-                id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.welcometo'
-                defaultMessage='Welcome to'
+                id="scenes.transaction.bitcoin.content.empty.bitcoinwelcome.welcometo"
+                defaultMessage="Welcome to"
               />
             </Text>
-            <Text size='24px' weight={300} color='brand-primary' uppercase>
+            <Text size="24px" weight={300} color="brand-primary" uppercase>
               Bitcoin
             </Text>
             <LearnMoreLink
-              href='https://blockchain.info/wallet/bitcoin-faq'
-              size='16px'
-              target='_blank'
+              href="https://blockchain.info/wallet/bitcoin-faq"
+              size="16px"
+              target="_blank"
               weight={300}
               uppercase
             >
               <FormattedMessage
-                id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.learnmore'
-                defaultMessage='Learn More'
+                id="scenes.transaction.bitcoin.content.empty.bitcoinwelcome.learnmore"
+                defaultMessage="Learn More"
               />
-              <Icon name='right-arrow' color='brand-secondary' />
+              <Icon name="right-arrow" color="brand-secondary" />
             </LearnMoreLink>
           </Cell>
-          <Row alignItems='flex-start' width='auto'>
+          <Row alignItems="flex-start" width="auto">
             <Cell>
-              <Text weight={300} color='brand-primary' uppercase>
+              <Text weight={300} color="brand-primary" uppercase>
                 <FormattedMessage
-                  id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.what'
-                  defaultMessage='What is bitcoin?'
+                  id="scenes.transaction.bitcoin.content.empty.bitcoinwelcome.what"
+                  defaultMessage="What is bitcoin?"
                 />
               </Text>
               <Separator />
               <TextGroup inline>
-                <Text size='12px' weight={300}>
+                <Text size="12px" weight={300}>
                   <FormattedMessage
-                    id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.currency'
-                    defaultMessage='Bitcoin is a digital currency, and is used like other assets in exchange for goods and services.'
+                    id="scenes.transaction.bitcoin.content.empty.bitcoinwelcome.currency"
+                    defaultMessage="Bitcoin is a digital currency, and is used like other assets in exchange for goods and services."
                   />
                 </Text>
-                <Text size='12px' weight={300}>
+                <Text size="12px" weight={300}>
                   <FormattedMessage
-                    id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.transact'
-                    defaultMessage='Unlike traditional currencies and assets, bitcoin is easily portable, divisible, and irreversible.'
+                    id="scenes.transaction.bitcoin.content.empty.bitcoinwelcome.transact"
+                    defaultMessage="Unlike traditional currencies and assets, bitcoin is easily portable, divisible, and irreversible."
                   />
                 </Text>
               </TextGroup>
             </Cell>
             <Cell>
-              <Text weight={300} color='brand-primary' uppercase>
+              <Text weight={300} color="brand-primary" uppercase>
                 <FormattedMessage
-                  id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.why'
-                  defaultMessage='Why should I use it?'
+                  id="scenes.transaction.bitcoin.content.empty.bitcoinwelcome.why"
+                  defaultMessage="Why should I use it?"
                 />
               </Text>
               <Separator />
               <TextGroup inline>
-                <Text size='12px' weight={300}>
+                <Text size="12px" weight={300}>
                   <FormattedMessage
-                    id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.fees'
-                    defaultMessage='As a global currency you can send bitcoin to anyone, anywhere in the world without worrying about cross border remittance fees.'
+                    id="scenes.transaction.bitcoin.content.empty.bitcoinwelcome.fees"
+                    defaultMessage="As a global currency you can send bitcoin to anyone, anywhere in the world without worrying about cross border remittance fees."
                   />
                 </Text>
               </TextGroup>
@@ -145,40 +145,40 @@ const BitcoinWelcome = props => {
         </Row>
         <Row>
           {partner ? (
-            <LinkContainer to='/buy-sell'>
-              <Button nature='primary' margin='20px' fullwidth uppercase>
+            <LinkContainer to="/buy-sell">
+              <Button nature="primary" margin="20px" fullwidth uppercase>
                 <FormattedMessage
-                  id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.getstarted.buysell'
-                  defaultMessage='Get started with bitcoin'
+                  id="scenes.transaction.bitcoin.content.empty.bitcoinwelcome.getstarted.buysell"
+                  defaultMessage="Get started with bitcoin"
                 />
               </Button>
             </LinkContainer>
           ) : exchange ? (
-            <LinkContainer to='/exchange'>
-              <Button nature='primary' margin='20px' fullwidth uppercase>
+            <LinkContainer to="/exchange">
+              <Button nature="primary" margin="20px" fullwidth uppercase>
                 <FormattedMessage
-                  id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.getstarted.exchange'
-                  defaultMessage='Get started with bitcoin'
+                  id="scenes.transaction.bitcoin.content.empty.bitcoinwelcome.getstarted.exchange"
+                  defaultMessage="Get started with bitcoin"
                 />
               </Button>
             </LinkContainer>
           ) : (
             <Button
-              nature='primary'
-              margin='20px'
+              nature="primary"
+              margin="20px"
               onClick={handleRequest}
               fullwidth
               uppercase
             >
               <FormattedMessage
-                id='scenes.transaction.bitcoin.content.empty.bitcoinwelcome.getstarted.request'
-                defaultMessage='Get started with bitcoin'
+                id="scenes.transaction.bitcoin.content.empty.bitcoinwelcome.getstarted.request"
+                defaultMessage="Get started with bitcoin"
               />
             </Button>
           )}
         </Row>
       </Container>
-      <CloseArrow name='close' size='12px' cursor onClick={handleClick} />
+      <CloseArrow name="close" size="12px" cursor onClick={handleClick} />
     </Wrapper>
   )
 }

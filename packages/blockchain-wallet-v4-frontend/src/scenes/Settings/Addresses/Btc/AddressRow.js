@@ -29,10 +29,10 @@ const AddressCell = styled(Text)`
 `
 
 const MoreOptions = () => (
-  <Link weight={200} size='small'>
+  <Link weight={200} size="small">
     <FormattedMessage
-      id='scenes.settings.addresses.btc.addressrow.moreoptions'
-      defaultMessage='More Options'
+      id="scenes.settings.addresses.btc.addressrow.moreoptions"
+      defaultMessage="More Options"
     />
   </Link>
 )
@@ -40,26 +40,26 @@ const MoreOptions = () => (
 const AddressRow = ({ address, archived, coin, renderOptions }) => {
   return (
     <TableRow>
-      <AddressTableCell width='50%'>
-        <AddressCell size='13px'>{address.addr}</AddressCell>
+      <AddressTableCell width="50%">
+        <AddressCell size="13px">{address.addr}</AddressCell>
         {address.priv == null && (
-          <Banner label type='informational'>
+          <Banner label type="informational">
             <FormattedMessage
-              id='scenes.settings.addresses.btc.addressrow.watchonly'
-              defaultMessage='Non-Spendable'
+              id="scenes.settings.addresses.btc.addressrow.watchonly"
+              defaultMessage="Non-Spendable"
             />
           </Banner>
         )}
       </AddressTableCell>
-      <TableCell width='30%'>
+      <TableCell width="30%">
         {!archived && (
-          <SwitchableDisplay size='13px' coin={coin || 'BTC'}>
+          <SwitchableDisplay size="13px" coin={coin || 'BTC'}>
             {address.info && address.info.final_balance}
           </SwitchableDisplay>
         )}
       </TableCell>
       <TableCell
-        width='20%'
+        width="20%"
         style={{ display: 'flex', justifyContent: 'flex-end' }}
       >
         {renderOptions && (

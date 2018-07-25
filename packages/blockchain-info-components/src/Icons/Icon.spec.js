@@ -6,7 +6,7 @@ import Icon from './Icon'
 
 describe('Icon component', () => {
   it('default renders correctly', () => {
-    const component = shallow(<Icon name='test' />)
+    const component = shallow(<Icon name="test" />)
     const tree = toJson(component)
     expect(tree).toMatchSnapshot()
   })

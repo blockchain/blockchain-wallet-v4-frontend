@@ -30,20 +30,20 @@ const ClickableText = styled(Text)`
 `
 
 const MoreOptions = () => (
-  <Link weight={200} size='small'>
+  <Link weight={200} size="small">
     <FormattedMessage
-      id='scenes.settings.addresses.btc.manageaddresses.unusedaddresses.moreoptions'
-      defaultMessage='More Options'
+      id="scenes.settings.addresses.btc.manageaddresses.unusedaddresses.moreoptions"
+      defaultMessage="More Options"
     />
   </Link>
 )
 
 class UnusedAddressesContainer extends React.PureComponent {
-  componentWillMount () {
+  componentWillMount() {
     this.props.componentActions.fetchUnusedAddresses(this.props.walletIndex)
   }
 
-  render () {
+  render() {
     const {
       account,
       unusedAddresses,
@@ -116,8 +116,8 @@ class UnusedAddressesContainer extends React.PureComponent {
             {isDefault && (
               <Banner label>
                 <FormattedMessage
-                  id='scenes.settings.addresses.btc.manageaddresses.unusedaddresses.isdefault'
-                  defaultMessage='Default'
+                  id="scenes.settings.addresses.btc.manageaddresses.unusedaddresses.isdefault"
+                  defaultMessage="Default"
                 />
               </Banner>
             )}
@@ -128,51 +128,51 @@ class UnusedAddressesContainer extends React.PureComponent {
             color={'gray-5'}
             selectedComponent={<MoreOptions />}
             components={[
-              <ClickableText size='small' onClick={onEditBtcAccountLabel}>
+              <ClickableText size="small" onClick={onEditBtcAccountLabel}>
                 <FormattedMessage
-                  id='scenes.settings.manage_addresses.edit_name'
-                  defaultMessage='Edit Name'
+                  id="scenes.settings.manage_addresses.edit_name"
+                  defaultMessage="Edit Name"
                 />
               </ClickableText>,
               !isDefault && (
-                <ClickableText size='small' onClick={onMakeDefault}>
+                <ClickableText size="small" onClick={onMakeDefault}>
                   <FormattedMessage
-                    id='scenes.settings.manage_addresses.make_default'
-                    defaultMessage='Make Default'
+                    id="scenes.settings.manage_addresses.make_default"
+                    defaultMessage="Make Default"
                   />
                 </ClickableText>
               ),
               !isDefault && (
-                <ClickableText size='small' onClick={onSetArchived}>
+                <ClickableText size="small" onClick={onSetArchived}>
                   <FormattedMessage
-                    id='scenes.settings.manage_addresses.archive'
-                    defaultMessage='Archive'
+                    id="scenes.settings.manage_addresses.archive"
+                    defaultMessage="Archive"
                   />
                 </ClickableText>
               ),
-              <ClickableText size='small' onClick={onShowXPub}>
+              <ClickableText size="small" onClick={onShowXPub}>
                 <FormattedMessage
-                  id='scenes.settings.manage_addresses.show_xpub'
-                  defaultMessage='Show xPub'
+                  id="scenes.settings.manage_addresses.show_xpub"
+                  defaultMessage="Show xPub"
                 />
               </ClickableText>
             ].filter(x => x)}
           />
         </div>
-        <Text weight={400} size='14px' style={{ marginTop: 25 }}>
+        <Text weight={400} size="14px" style={{ marginTop: 25 }}>
           <FormattedMessage
-            id='scenes.settings.addresses.btc.manageaddresses.unusedaddresses.title'
-            defaultMessage='Unused Addresses'
+            id="scenes.settings.addresses.btc.manageaddresses.unusedaddresses.title"
+            defaultMessage="Unused Addresses"
           />
         </Text>
         <Text
           weight={200}
-          size='small'
+          size="small"
           style={{ marginTop: 10, marginBottom: 15 }}
         >
           <FormattedMessage
-            id='scenes.settings.addresses.btc.manageaddresses.unusedaddresses.message'
-            defaultMessage='Your Blockchain Wallet contains an unlimited collection of bitcoin addresses that you can use to receive funds from anybody, globally. Your wallet will automatically manage your bitcoin addresses for you. The addresses below are the subset of addresses that are labeled.'
+            id="scenes.settings.addresses.btc.manageaddresses.unusedaddresses.message"
+            defaultMessage="Your Blockchain Wallet contains an unlimited collection of bitcoin addresses that you can use to receive funds from anybody, globally. Your wallet will automatically manage your bitcoin addresses for you. The addresses below are the subset of addresses that are labeled."
           />
         </Text>
         {!unusedAddresses
@@ -185,20 +185,20 @@ class UnusedAddressesContainer extends React.PureComponent {
               Loading: () => (
                 <FlatLoader
                   style={{ margin: '25px auto' }}
-                  width='100px'
-                  height='12px'
+                  width="100px"
+                  height="12px"
                 />
               ),
               NotAsked: () => <div />
             })}
         <IconButton
           style={{ marginTop: 15 }}
-          name='plus'
+          name="plus"
           onClick={() => onGenerateNextAddress()}
         >
           <FormattedMessage
-            id='scenes.settings.addresses.btc.manageaddresses.unusedaddresses.addnext'
-            defaultMessage='Add Next Address'
+            id="scenes.settings.addresses.btc.manageaddresses.unusedaddresses.addnext"
+            defaultMessage="Add Next Address"
           />
         </IconButton>
       </React.Fragment>

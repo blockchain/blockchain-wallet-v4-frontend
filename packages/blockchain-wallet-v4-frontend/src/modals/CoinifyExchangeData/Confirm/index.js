@@ -10,13 +10,13 @@ import { getData } from './selectors'
 import Failure from 'components/BuySell/Failure'
 
 class ConfirmContainer extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.data.data && this.props.data.data) {
       // so it doesn't complain when hot reloading
       if (
@@ -28,7 +28,7 @@ class ConfirmContainer extends Component {
     }
   }
 
-  onSubmit () {
+  onSubmit() {
     const medium = this.props.medium
     if (this.props.ui.editing) {
       const { baseCurrency, quoteCurrency } = this.props.data.data.quote
@@ -46,7 +46,7 @@ class ConfirmContainer extends Component {
     }
   }
 
-  render () {
+  render() {
     const { ui, data, medium, editingAmount } = this.props
 
     return data.cata({

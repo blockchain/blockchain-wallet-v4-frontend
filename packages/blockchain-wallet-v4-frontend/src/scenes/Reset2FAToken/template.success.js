@@ -16,18 +16,18 @@ const Success = props => {
 
   return (
     <Wrapper>
-      <Image name='blue-logo' width='50px' height='50px' />
+      <Image name="blue-logo" width="50px" height="50px" />
       {declined ? (
-        <Text size='16px' weight={300} style={{ 'margin-top': '25px' }}>
+        <Text size="16px" weight={300} style={{ 'margin-top': '25px' }}>
           <FormattedMessage
-            id='scenes.reset2fatoken.declined'
+            id="scenes.reset2fatoken.declined"
             defaultMessage="You've succesfully declined this Two-Step Verification reset request."
           />
         </Text>
       ) : (
-        <Text size='16px' weight={300} style={{ 'margin-top': '25px' }}>
+        <Text size="16px" weight={300} style={{ 'margin-top': '25px' }}>
           <FormattedMessage
-            id='scenes.reset2fatoken.approved'
+            id="scenes.reset2fatoken.approved"
             defaultMessage="You've sucessfully approved this Two-Step Verification reset request. This will speed up the process of resetting your Two-Step Verification."
           />
         </Text>

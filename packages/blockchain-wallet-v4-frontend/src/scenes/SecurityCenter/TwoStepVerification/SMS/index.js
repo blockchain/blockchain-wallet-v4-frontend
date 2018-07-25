@@ -11,13 +11,13 @@ import Error from './template.error'
 import Loading from './template.loading'
 
 class SmsAuthContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const { smsVerified, smsNumber } = this.props.data.getOrElse({})
     if (smsNumber && smsNumber.length && !smsVerified) {
       this.props.securityCenterActions.sendMobileVerificationCode(smsNumber)
@@ -25,7 +25,7 @@ class SmsAuthContainer extends React.PureComponent {
     }
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     const next = this.props.data.getOrElse({})
     const prev = prevProps.data.getOrElse({})
     if (next.authType !== prev.authType) {
@@ -36,11 +36,11 @@ class SmsAuthContainer extends React.PureComponent {
     }
   }
 
-  handleClick () {
+  handleClick() {
     this.props.modalActions.showModal('TwoStepSetup')
   }
 
-  onSubmit () {
+  onSubmit() {
     const { smsNumber, smsVerified } = this.props.data.getOrElse({})
 
     if (this.props.ui.changeNumberToggled || (!smsNumber && !smsVerified)) {
@@ -53,7 +53,7 @@ class SmsAuthContainer extends React.PureComponent {
     }
   }
 
-  render () {
+  render() {
     const { data, ui, verificationCode, goBack, ...rest } = this.props
 
     return data.cata({

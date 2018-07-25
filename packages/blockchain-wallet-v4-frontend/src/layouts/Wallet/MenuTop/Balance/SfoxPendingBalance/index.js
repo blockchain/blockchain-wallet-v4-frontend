@@ -6,7 +6,7 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class SfoxPendingBalance extends React.PureComponent {
-  render () {
+  render() {
     const { data } = this.props
 
     return data.cata({

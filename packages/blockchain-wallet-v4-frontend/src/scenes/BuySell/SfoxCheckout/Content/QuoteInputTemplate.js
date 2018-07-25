@@ -146,7 +146,7 @@ const FiatConvertor = props => {
       <FiatConvertorInput>
         <Container>
           <TextInput
-            placeholder='0'
+            placeholder="0"
             onBlur={handleBlur}
             onChange={handleCoinChange}
             onFocus={handleFocus}
@@ -156,11 +156,11 @@ const FiatConvertor = props => {
           />
           <Unit>{unit}</Unit>
         </Container>
-        <ArrowLeft size='16px' name='left-arrow' />
-        <ArrowRight size='16px' name='right-arrow' />
+        <ArrowLeft size="16px" name="left-arrow" />
+        <ArrowRight size="16px" name="right-arrow" />
         <Container>
           <TextInput
-            placeholder='0'
+            placeholder="0"
             onBlur={handleBlur}
             onChange={handleFiatChange}
             onFocus={handleFocus}
@@ -175,15 +175,15 @@ const FiatConvertor = props => {
         meta.error && (
           <Error
             onClick={handleErrorClick}
-            size='13px'
+            size="13px"
             weight={300}
-            color='error'
+            color="error"
           >
             {meta.error}
           </Error>
         )}
       {limits && (
-        <Error size='13px' weight={300} color='error'>
+        <Error size="13px" weight={300} color="error">
           {getLimitsError(value, limits, disabledReason, fiat, cryptoMax)}
         </Error>
       )}
@@ -193,7 +193,7 @@ const FiatConvertor = props => {
             next
             Component={Button}
             style={spacing('mt-35')}
-            nature='primary'
+            nature="primary"
             fullwidth
             disabled={
               !Remote.Success.is(quoteR) ||
@@ -204,8 +204,8 @@ const FiatConvertor = props => {
             }
           >
             <FormattedMessage
-              id='buy.sfoxcheckout.revieworder'
-              defaultMessage='Review Order'
+              id="buy.sfoxcheckout.revieworder"
+              defaultMessage="Review Order"
             />
           </StepTransition>
         </ButtonWrapper>

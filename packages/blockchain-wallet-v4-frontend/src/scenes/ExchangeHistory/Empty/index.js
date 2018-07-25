@@ -36,25 +36,25 @@ const CenteredTextGroup = styled(TextGroup)`
 const Empty = () => (
   <Wrapper>
     <Transactions>
-      <Text size='24px' weight={200} capitalize>
-        <ExchangeIcon name='exchange' size='24px' />
+      <Text size="24px" weight={200} capitalize>
+        <ExchangeIcon name="exchange" size="24px" />
         <FormattedMessage
-          id='scenes.exchangehistory.empty.history'
-          defaultMessage='Your order history'
+          id="scenes.exchangehistory.empty.history"
+          defaultMessage="Your order history"
         />
       </Text>
       <CenteredTextGroup inline>
-        <Text size='13px' weight={500}>
+        <Text size="13px" weight={500}>
           <FormattedMessage
-            id='scenes.exchangehistory.empty.exchange'
+            id="scenes.exchangehistory.empty.exchange"
             defaultMessage="You haven't made any exchanges yet,"
           />
         </Text>
-        <LinkContainer to='/exchange'>
-          <Link size='13px' weight={500}>
+        <LinkContainer to="/exchange">
+          <Link size="13px" weight={500}>
             <FormattedMessage
-              id='scenes.exchangehistory.empty.start'
-              defaultMessage='click here to start.'
+              id="scenes.exchangehistory.empty.start"
+              defaultMessage="click here to start."
             />
           </Link>
         </LinkContainer>

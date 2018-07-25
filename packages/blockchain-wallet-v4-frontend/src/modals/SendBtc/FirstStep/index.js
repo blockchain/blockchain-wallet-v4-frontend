@@ -9,22 +9,22 @@ import Success from './template.success'
 import DataError from 'components/DataError'
 
 class FirstStep extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.handleRefresh = this.handleRefresh.bind(this)
     this.handleToToggle = this.handleToToggle.bind(this)
   }
 
-  handleRefresh () {
+  handleRefresh() {
     this.props.actions.initialized()
   }
 
-  handleToToggle (val) {
+  handleToToggle(val) {
     this.props.formActions.touch('sendBtc', 'to')
     this.props.actions.sendBtcFirstStepToToggled(val)
   }
 
-  render () {
+  render() {
     const { data, actions } = this.props
 
     return data.cata({

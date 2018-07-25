@@ -102,7 +102,7 @@ const selectColor = action => {
 const ActivityListItem = props => (
   <Container>
     <Circle>
-      <Icon name={selectIcon(props.type)} color='brand-primary' />
+      <Icon name={selectIcon(props.type)} color="brand-primary" />
     </Circle>
     <Info
       cursor={props.coin}
@@ -113,15 +113,15 @@ const ActivityListItem = props => (
         {props.watchOnly && (
           <WatchOnly>
             <Tooltip
-              width='200px'
+              width="200px"
               label={
-                <SkeletonCircle bgColor='gray-2' width='10px' height='10px' />
+                <SkeletonCircle bgColor="gray-2" width="10px" height="10px" />
               }
               hover
             >
               <FormattedMessage
-                id='scenes.home.activitylist.watchonly'
-                defaultMessage='This transaction involves a watch only address.'
+                id="scenes.home.activitylist.watchonly"
+                defaultMessage="This transaction involves a watch only address."
               />
             </Tooltip>
           </WatchOnly>
@@ -130,7 +130,7 @@ const ActivityListItem = props => (
       <RecentActivityText>{props.timeFormatted}</RecentActivityText>
       {props.coin && (
         <RecentActivityText>
-          <SwitchableDisplay mobileSize='12px' size='14px' coin={props.coin}>
+          <SwitchableDisplay mobileSize="12px" size="14px" coin={props.coin}>
             {props.amount}
           </SwitchableDisplay>
         </RecentActivityText>

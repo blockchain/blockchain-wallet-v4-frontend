@@ -31,15 +31,15 @@ const CoinDisplay = props => {
     <Wrapper>
       {showIcon &&
         coin === 'BTC' && (
-          <Icon name='bitcoin' size={size} weight={weight} color={color} />
+          <Icon name="bitcoin" size={size} weight={weight} color={color} />
         )}
       {showIcon &&
         coin === 'ETH' && (
-          <Icon name='ethereum' size={size} weight={weight} color={color} />
+          <Icon name="ethereum" size={size} weight={weight} color={color} />
         )}
       {showIcon &&
         coin === 'BCH' && (
-          <Icon name='bitcoin' size={size} weight={weight} color={color} />
+          <Icon name="bitcoin" size={size} weight={weight} color={color} />
         )}
       <CoinText
         mobileSize={mobileSize}

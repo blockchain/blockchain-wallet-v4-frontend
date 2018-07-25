@@ -9,7 +9,7 @@ import Success from './template.success'
 import { actions } from 'data'
 
 class WalletRecoveryPhraseContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.toggleNextStep = this.toggleNextStep.bind(this)
@@ -18,14 +18,14 @@ class WalletRecoveryPhraseContainer extends React.PureComponent {
     this.state = {}
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.recoveryPhrase && this.props.recoveryPhrase === undefined) {
       this.props.updateUI({ nextStepToggled: true })
       this.props.handleEnable()
     }
   }
 
-  toggleNextStep () {
+  toggleNextStep() {
     if (this.props.recoveryPhrase === undefined) {
       this.props.settingsActions.showBackupRecovery()
     } else {
@@ -34,17 +34,17 @@ class WalletRecoveryPhraseContainer extends React.PureComponent {
     }
   }
 
-  closeSteps () {
+  closeSteps() {
     this.props.updateUI({ nextStepToggled: false, descriptionToggled: false })
   }
 
-  changeDescription () {
+  changeDescription() {
     this.props.updateUI({
       descriptionToggled: !this.props.ui.descriptionToggled
     })
   }
 
-  render () {
+  render() {
     const { data, ...rest } = this.props
     return (
       <Success

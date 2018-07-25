@@ -9,11 +9,11 @@ import SecondStep from './SecondStep'
 import ThirdStep from './ThirdStep'
 
 class RecoveryPhraseContainer extends React.PureComponent {
-  componentWillMount () {
+  componentWillMount() {
     this.props.resetStep()
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (
       nextProps.step === 3 ||
       (nextProps.step === 2 && this.props.step === 3)
@@ -22,11 +22,11 @@ class RecoveryPhraseContainer extends React.PureComponent {
     }
   }
 
-  onClose () {
+  onClose() {
     this.props.handleClose()
   }
 
-  render () {
+  render() {
     switch (this.props.step) {
       case 1:
         return <FirstStep {...this.props} />

@@ -58,14 +58,14 @@ const faqQuestions = [
   {
     question: (
       <FormattedMessage
-        id='identityverification.address.faq.whycollect.question'
-        defaultMessage='Why do you need this information?'
+        id="identityverification.address.faq.whycollect.question"
+        defaultMessage="Why do you need this information?"
       />
     ),
     answer: (
       <FormattedMessage
-        id='identityverification.address.faq.whycollect.answer'
-        defaultMessage='To comply with government regulated anti-money laundering legislation, we need to obtain additional information in order to verify your identity.'
+        id="identityverification.address.faq.whycollect.answer"
+        defaultMessage="To comply with government regulated anti-money laundering legislation, we need to obtain additional information in order to verify your identity."
       />
     )
   }
@@ -83,90 +83,90 @@ const Address = ({
       <InputWrapper>
         <PartnerHeader>
           <FormattedMessage
-            id='identityverification.address.header'
-            defaultMessage='Address Details'
+            id="identityverification.address.header"
+            defaultMessage="Address Details"
           />
         </PartnerHeader>
         <PartnerSubHeader>
           <FormattedMessage
-            id='identityverification.address.subheader'
+            id="identityverification.address.subheader"
             defaultMessage="There's so much we'd love to know about you, but we only need a few things."
           />
         </PartnerSubHeader>
         <FormContainer>
           <FormGroup>
             <FormItem>
-              <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
+              <Text size="14px" weight={400} style={{ marginBottom: '5px' }}>
                 <FormattedMessage
-                  id='identityverification.address.address'
-                  defaultMessage='Address'
+                  id="identityverification.address.address"
+                  defaultMessage="Address"
                 />
               </Text>
               <Field
-                name='address1'
+                name="address1"
                 validate={[required]}
                 component={TextBox}
-                placeholder='Street Address'
+                placeholder="Street Address"
               />
             </FormItem>
           </FormGroup>
           <FormGroup>
             <FormItem>
-              <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
+              <Text size="14px" weight={400} style={{ marginBottom: '5px' }}>
                 <FormattedMessage
-                  id='identityverification.address.address2'
-                  defaultMessage='Address 2'
+                  id="identityverification.address.address2"
+                  defaultMessage="Address 2"
                 />
               </Text>
               <Field
-                name='address2'
+                name="address2"
                 component={TextBox}
-                placeholder='Apartment, unit, floor, etc..'
+                placeholder="Apartment, unit, floor, etc.."
               />
             </FormItem>
           </FormGroup>
           <FormGroup>
             <FormItem>
-              <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
+              <Text size="14px" weight={400} style={{ marginBottom: '5px' }}>
                 <FormattedMessage
-                  id='identityverification.address.city'
-                  defaultMessage='City'
+                  id="identityverification.address.city"
+                  defaultMessage="City"
                 />
               </Text>
-              <Field name='city' validate={[required]} component={TextBox} />
+              <Field name="city" validate={[required]} component={TextBox} />
             </FormItem>
           </FormGroup>
           <AddressFormGroup inline>
             <FormItem>
-              <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
+              <Text size="14px" weight={400} style={{ marginBottom: '5px' }}>
                 {countryHasStates(countryCode) ? (
                   <FormattedMessage
-                    id='identityverification.address.state'
-                    defaultMessage='State'
+                    id="identityverification.address.state"
+                    defaultMessage="State"
                   />
                 ) : (
                   <FormattedMessage
-                    id='identityverification.address.region'
-                    defaultMessage='Region'
+                    id="identityverification.address.region"
+                    defaultMessage="Region"
                   />
                 )}
               </Text>
               <Field
-                name='region'
+                name="region"
                 validate={[required]}
                 countryCode={countryCode}
                 component={SelectBoxRegion}
               />
             </FormItem>
             <FormItem>
-              <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
+              <Text size="14px" weight={400} style={{ marginBottom: '5px' }}>
                 <FormattedMessage
-                  id='identityverification.address.zipcode'
-                  defaultMessage='Zip Code'
+                  id="identityverification.address.zipcode"
+                  defaultMessage="Zip Code"
                 />
               </Text>
               <Field
-                name='zipCode'
+                name="zipCode"
                 validate={[requiredZipCode]}
                 component={TextBox}
               />
@@ -174,14 +174,14 @@ const Address = ({
           </AddressFormGroup>
           <FormGroup>
             <FormItem>
-              <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
+              <Text size="14px" weight={400} style={{ marginBottom: '5px' }}>
                 <FormattedMessage
-                  id='identityverification.address.country'
-                  defaultMessage='Country'
+                  id="identityverification.address.country"
+                  defaultMessage="Country"
                 />
               </Text>
               <Field
-                name='countryCode'
+                name="countryCode"
                 validate={[required]}
                 component={SelectBoxCountry}
               />
@@ -194,18 +194,18 @@ const Address = ({
       <ColRightInner>
         <Button
           uppercase
-          nature='primary'
-          type='submit'
+          nature="primary"
+          type="submit"
           fullwidth
           disabled={invalid || submitting || formBusy}
         >
           {!formBusy ? (
             <FormattedMessage
-              id='identityverification.address.continue'
-              defaultMessage='Continue'
+              id="identityverification.address.continue"
+              defaultMessage="Continue"
             />
           ) : (
-            <HeartbeatLoader height='20px' width='20px' color='white' />
+            <HeartbeatLoader height="20px" width="20px" color="white" />
           )}
         </Button>
         {renderFaq(faqQuestions)}

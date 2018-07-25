@@ -377,7 +377,7 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const setLogoutEventListener = function () {
+  const setLogoutEventListener = function() {
     return new Promise(resolve => {
       window.addEventListener('wallet.core.logout', resolve)
     })

@@ -29,8 +29,8 @@ const iframe = props => (
           : { border: 'none', width: '100%', height: '40px' }
       }
       src={props.plaidUrl}
-      scrolling='no'
-      id='plaid'
+      scrolling="no"
+      id="plaid"
     />
   </ButtonContainer>
 )

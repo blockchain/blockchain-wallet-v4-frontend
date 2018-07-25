@@ -110,16 +110,16 @@ const getLimitsError = (errorType, limits, curr, setMax, setMin, changeTab) => {
     case 'max_below_min':
       return (
         <FormattedMessage
-          id='buy.quote_input.below_min'
-          defaultMessage='Your limit of {curr}{max} is below the minimum allowed amount.'
+          id="buy.quote_input.below_min"
+          defaultMessage="Your limit of {curr}{max} is below the minimum allowed amount."
           values={{ curr, max: limits.max }}
         />
       )
     case 'over_max':
       return (
         <FormattedMessage
-          id='buy.quote_input.over_max'
-          defaultMessage='Enter an amount under your {setMax} limit'
+          id="buy.quote_input.over_max"
+          defaultMessage="Enter an amount under your {setMax} limit"
           values={{
             setMax: (
               <a onClick={() => setMax(limits.max)}>
@@ -133,8 +133,8 @@ const getLimitsError = (errorType, limits, curr, setMax, setMin, changeTab) => {
     case 'under_min':
       return (
         <FormattedMessage
-          id='buy.quote_input.under_min'
-          defaultMessage='Enter an amount above the {setMin} minimum'
+          id="buy.quote_input.under_min"
+          defaultMessage="Enter an amount above the {setMin} minimum"
           values={{
             setMin: (
               <a onClick={() => setMin(limits.min)}>
@@ -148,38 +148,38 @@ const getLimitsError = (errorType, limits, curr, setMax, setMin, changeTab) => {
     case 'over_effective_max':
       return (
         <FormattedMessage
-          id='buy.quote_input.over_effective_max'
-          defaultMessage='Enter an amount less than your balance minus the priority fee ({effectiveMax} BTC)'
+          id="buy.quote_input.over_effective_max"
+          defaultMessage="Enter an amount less than your balance minus the priority fee ({effectiveMax} BTC)"
           values={{ effectiveMax: limits.effectiveMax / 1e8 }}
         />
       )
     case 'effective_max_under_min':
       const buyLink = (
-        <Link size='13px' weight={300} onClick={() => changeTab('buy')}>
+        <Link size="13px" weight={300} onClick={() => changeTab('buy')}>
           <FormattedMessage
-            id='buy.quote_input.effective_max_under_min3'
-            defaultMessage='buying'
+            id="buy.quote_input.effective_max_under_min3"
+            defaultMessage="buying"
           />
         </Link>
       )
       const exchangeLink = (
-        <NavLink to='/exchange' style={{ textDecoration: 'none' }}>
+        <NavLink to="/exchange" style={{ textDecoration: 'none' }}>
           <FormattedMessage
-            id='buy.quote_input.effective_max_under_min5'
-            defaultMessage='exchanging'
+            id="buy.quote_input.effective_max_under_min5"
+            defaultMessage="exchanging"
           />
         </NavLink>
       )
       return (
         <div>
           <FormattedMessage
-            id='buy.quote_input.effective_max_under_min1'
-            defaultMessage='Your balance is less than the minimum sell amount minus priority fee {min} BTC. '
+            id="buy.quote_input.effective_max_under_min1"
+            defaultMessage="Your balance is less than the minimum sell amount minus priority fee {min} BTC. "
             values={{ min: limits.min }}
           />
           <FormattedMessage
-            id='buy.quote_input.effective_max_under_min2'
-            defaultMessage='Fund your wallet by {buyLink} or {exchangeLink} before selling.'
+            id="buy.quote_input.effective_max_under_min2"
+            defaultMessage="Fund your wallet by {buyLink} or {exchangeLink} before selling."
             values={{ buyLink, exchangeLink }}
           />
         </div>
@@ -218,8 +218,8 @@ const FiatConvertor = props => {
 
     return (
       <FormattedMessage
-        id='sell.quote_input.remaining_sell_limit'
-        defaultMessage='Your remaining sell limit is {max}'
+        id="sell.quote_input.remaining_sell_limit"
+        defaultMessage="Your remaining sell limit is {max}"
         values={{ max: <a onClick={() => setMax(max)}>{max} BTC</a> }}
       />
     )
@@ -228,13 +228,13 @@ const FiatConvertor = props => {
   const renderErrorsAndLimits = () => {
     if (!isSell && !canTrade) {
       return (
-        <Error size='13px' weight={300} color='error'>
+        <Error size="13px" weight={300} color="error">
           {reasonExplanation}
         </Error>
       )
     } else if (checkoutError) {
       return (
-        <Error size='13px' weight={300} color='error'>
+        <Error size="13px" weight={300} color="error">
           {getLimitsError(
             checkoutError,
             limits,
@@ -252,8 +252,8 @@ const FiatConvertor = props => {
             getSellLimits()
           ) : equals(prop('name', level), '1') ? (
             <FormattedMessage
-              id='buy.quote_input.remaining_buy_limit'
-              defaultMessage='Your remaining buy limit is {max}'
+              id="buy.quote_input.remaining_buy_limit"
+              defaultMessage="Your remaining buy limit is {max}"
               values={{
                 max: (
                   <a onClick={() => setMax(limits.max)}>
@@ -264,10 +264,10 @@ const FiatConvertor = props => {
               }}
             />
           ) : (
-            <LimitsWrapper size='12px' weight={300}>
+            <LimitsWrapper size="12px" weight={300}>
               <FormattedMessage
-                id='buy.quote_input.remaining_card_buy_limit'
-                defaultMessage='Your remaining card buy limit is {cardMax}'
+                id="buy.quote_input.remaining_card_buy_limit"
+                defaultMessage="Your remaining card buy limit is {cardMax}"
                 values={{
                   cardMax: (
                     <a onClick={() => setMax(limits.cardMax)}>
@@ -278,8 +278,8 @@ const FiatConvertor = props => {
                 }}
               />
               <FormattedMessage
-                id='buy.quote_input.remaining_bank_buy_limit'
-                defaultMessage='Your remaining bank buy limit is {bankMax}'
+                id="buy.quote_input.remaining_bank_buy_limit"
+                defaultMessage="Your remaining bank buy limit is {bankMax}"
                 values={{
                   bankMax: (
                     <a onClick={() => setMax(limits.bankMax)}>
@@ -295,8 +295,8 @@ const FiatConvertor = props => {
           not(equals(prop('state', kyc), 'reviewing')) ? (
             <a onClick={() => increaseLimit()}>
               <FormattedMessage
-                id='buysell.quote_input.increase_limits'
-                defaultMessage=' Increase your limit.'
+                id="buysell.quote_input.increase_limits"
+                defaultMessage=" Increase your limit."
               />
             </a>
           ) : null}
@@ -315,24 +315,24 @@ const FiatConvertor = props => {
       <FiatConvertorInput>
         <Container>
           <Field
-            name='leftVal'
+            name="leftVal"
             component={NumberBoxDebounced}
             disabled={inputsDisabled}
             borderRightNone={1}
             currency
           />
           <Field
-            name='currency'
+            name="currency"
             component={SelectBoxCoinifyCurrency}
             defaultDisplay={defaultCurrency}
             isSell={isSell}
           />
         </Container>
-        <ArrowLeft size='16px' name='left-arrow' />
-        <ArrowRight size='16px' name='right-arrow' />
+        <ArrowLeft size="16px" name="left-arrow" />
+        <ArrowRight size="16px" name="right-arrow" />
         <Container>
           <Field
-            name='rightVal'
+            name="rightVal"
             component={NumberBoxDebounced}
             disabled={inputsDisabled}
           />

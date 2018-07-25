@@ -25,34 +25,34 @@ const BtcBalance = props => {
   const { handleRefresh, modalsActions } = rest
   return (
     <Fragment>
-      <ColourBar color='brand-primary' />
-      <Text size='14px' weight={300}>
+      <ColourBar color="brand-primary" />
+      <Text size="14px" weight={300}>
         <FormattedMessage
-          id='scenes.home.balanceschart.btc'
-          defaultMessage='Bitcoin'
+          id="scenes.home.balanceschart.btc"
+          defaultMessage="Bitcoin"
         />
       </Text>
       <CoinBalance onClick={handleCoinDisplay}>
         {!gte(btcBalance, 0) ? (
           <Fragment>
-            <Text size='14px' weight={200}>
+            <Text size="14px" weight={200}>
               <FormattedMessage
-                id='scenes.home.balanceschart.btc.unkown'
-                defaultMessage='Unknown amount'
+                id="scenes.home.balanceschart.btc.unkown"
+                defaultMessage="Unknown amount"
               />
             </Text>
-            <Link size='12px' weight={200} onClick={handleRefresh}>
+            <Link size="12px" weight={200} onClick={handleRefresh}>
               <FormattedMessage
-                id='scenes.home.balanceschart.btc.refresh'
-                defaultMessage='Refresh'
+                id="scenes.home.balanceschart.btc.refresh"
+                defaultMessage="Refresh"
               />
             </Link>
           </Fragment>
         ) : (
           <SwitchableDisplay
-            coin='BTC'
-            cursor='pointer'
-            size='14px'
+            coin="BTC"
+            cursor="pointer"
+            size="14px"
             weight={200}
           >
             {btcBalance}
@@ -61,40 +61,40 @@ const BtcBalance = props => {
       </CoinBalance>
       {partner ? (
         gt(0, btcBalance) && (
-          <WalletLink to='/buy-sell' size='10px' weight={300}>
+          <WalletLink to="/buy-sell" size="10px" weight={300}>
             <FormattedMessage
-              id='scenes.home.balanceschart.buybtc'
-              defaultMessage='Buy Bitcoin'
+              id="scenes.home.balanceschart.buybtc"
+              defaultMessage="Buy Bitcoin"
             />
           </WalletLink>
         )
       ) : gt(ethBalance, 0) || gt(bchBalance, 0) ? (
-        <WalletLink to='/exchange' size='10px' weight={300}>
+        <WalletLink to="/exchange" size="10px" weight={300}>
           <FormattedMessage
-            id='scenes.home.balanceschart.getstarted'
-            defaultMessage='Get Started'
+            id="scenes.home.balanceschart.getstarted"
+            defaultMessage="Get Started"
           />
         </WalletLink>
       ) : (
         gt(0, btcBalance) && (
           <Link
-            size='10px'
+            size="10px"
             weight={300}
             onClick={() => modalsActions.showModal('RequestBitcoin')}
           >
             <FormattedMessage
-              id='scenes.home.balanceschart.requestbtc'
-              defaultMessage='Request Bitcoin'
+              id="scenes.home.balanceschart.requestbtc"
+              defaultMessage="Request Bitcoin"
             />
           </Link>
         )
       )}
       {btcAccountsLength > 1 && gt(btcBalance, 0) ? (
-        <NavLink to='/settings/addresses' style={{ textDecoration: 'none' }}>
-          <ViewAllText weight={300} size='10px'>
+        <NavLink to="/settings/addresses" style={{ textDecoration: 'none' }}>
+          <ViewAllText weight={300} size="10px">
             <FormattedMessage
-              id='scenes.home.balanceschart.btc.viewall'
-              defaultMessage='View All Balances'
+              id="scenes.home.balanceschart.btc.viewall"
+              defaultMessage="View All Balances"
             />
           </ViewAllText>
         </NavLink>

@@ -52,23 +52,23 @@ const SearchIcon = styled(Icon)`
 `
 
 class ManageAddressesContainer extends React.PureComponent {
-  render () {
+  render() {
     const walletIndex = this.props.computedMatch.params.index
 
     return (
       <Wrapper>
         <MenuWrapper>
-          <LinkContainer to='/settings/addresses'>
-            <IconButton name='left-arrow' nature='empty'>
+          <LinkContainer to="/settings/addresses">
+            <IconButton name="left-arrow" nature="empty">
               <FormattedMessage
-                id='scenes.settings.addresses.btc.manageaddresses.back'
-                defaultMessage='Back'
+                id="scenes.settings.addresses.btc.manageaddresses.back"
+                defaultMessage="Back"
               />
             </IconButton>
           </LinkContainer>
           <Search>
-            <Field name='search' component={TextBox} />
-            <SearchIcon name='search' size='20px' />
+            <Field name="search" component={TextBox} />
+            <SearchIcon name="search" size="20px" />
           </Search>
         </MenuWrapper>
         <ContentWrapper>

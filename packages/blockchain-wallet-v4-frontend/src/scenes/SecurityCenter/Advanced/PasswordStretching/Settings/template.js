@@ -29,36 +29,36 @@ const Settings = props => {
     <SettingWrapper>
       {currentStretch && <Text>{currentStretch}</Text>}
       {!updateToggled && (
-        <Button nature='primary' onClick={handleToggle}>
+        <Button nature="primary" onClick={handleToggle}>
           <FormattedMessage
-            id='scenes.securitysettings.advancedsettings.passwordstretching.settings.change'
-            defaultMessage='Change'
+            id="scenes.securitysettings.advancedsettings.passwordstretching.settings.change"
+            defaultMessage="Change"
           />
         </Button>
       )}
       {updateToggled && (
         <SettingForm onSubmit={handleSubmit}>
           <Field
-            name='passwordStretching'
+            name="passwordStretching"
             component={NumberBox}
             validate={validPasswordStretchingNumber}
           />
           <ButtonWrapper>
-            <Button nature='empty' capitalize onClick={handleToggle}>
+            <Button nature="empty" capitalize onClick={handleToggle}>
               <FormattedMessage
-                id='scenes.securitysettings.advancedsettings.passwordstretching.settings.cancel'
-                defaultMessage='Cancel'
+                id="scenes.securitysettings.advancedsettings.passwordstretching.settings.cancel"
+                defaultMessage="Cancel"
               />
             </Button>
             <Button
-              type='submit'
-              nature='primary'
+              type="submit"
+              nature="primary"
               capitalize
               disabled={submitting || invalid}
             >
               <FormattedMessage
-                id='scenes.securitysettings.advancedsettings.passwordstretching.settings.save'
-                defaultMessage='Change'
+                id="scenes.securitysettings.advancedsettings.passwordstretching.settings.save"
+                defaultMessage="Change"
               />
             </Button>
           </ButtonWrapper>

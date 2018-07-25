@@ -40,37 +40,37 @@ const Empty = props => {
     <Wrapper>
       <BitcoinCashWelcome />
       <Transactions>
-        <Text size='20px' weight={300} capitalize>
-          <TransactionIcon name='transactions' />
+        <Text size="20px" weight={300} capitalize>
+          <TransactionIcon name="transactions" />
           <FormattedMessage
-            id='scenes.transactions.bch.content.empty.transactions'
-            defaultMessage='Your transactions'
+            id="scenes.transactions.bch.content.empty.transactions"
+            defaultMessage="Your transactions"
           />
         </Text>
-        <Text size='14px' weight={300}>
+        <Text size="14px" weight={300}>
           <FormattedMessage
-            id='scenes.transactions.bch.content.empty.explain'
-            defaultMessage='Transactions occur when you receive and send bitcoin cash.'
+            id="scenes.transactions.bch.content.empty.explain"
+            defaultMessage="Transactions occur when you receive and send bitcoin cash."
           />
         </Text>
         <Separator />
       </Transactions>
       <Bch>
-        <IconButton name='send' nature='empty' uppercase onClick={handleSend}>
+        <IconButton name="send" nature="empty" uppercase onClick={handleSend}>
           <FormattedMessage
-            id='scenes.transactions.bch.content.empty.send'
-            defaultMessage='Send'
+            id="scenes.transactions.bch.content.empty.send"
+            defaultMessage="Send"
           />
         </IconButton>
         <IconButton
-          name='request'
-          nature='empty'
+          name="request"
+          nature="empty"
           uppercase
           onClick={handleRequest}
         >
           <FormattedMessage
-            id='scenes.transactions.bch.content.empty.request'
-            defaultMessage='Request'
+            id="scenes.transactions.bch.content.empty.request"
+            defaultMessage="Request"
           />
         </IconButton>
       </Bch>

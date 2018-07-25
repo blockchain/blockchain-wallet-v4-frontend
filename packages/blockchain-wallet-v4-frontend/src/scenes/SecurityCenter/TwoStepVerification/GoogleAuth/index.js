@@ -11,17 +11,17 @@ import Error from './template.error'
 import Loading from './template.loading'
 
 class GoogleAuthContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  componentWillMount () {
+  componentWillMount() {
     this.props.securityCenterActions.getGoogleAuthenticatorSecretUrl()
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     const next = this.props.data.getOrElse({})
     const prev = prevProps.data.getOrElse({})
     if (next.authType !== prev.authType) {
@@ -32,17 +32,17 @@ class GoogleAuthContainer extends React.PureComponent {
     }
   }
 
-  handleClick () {
+  handleClick() {
     this.props.modalActions.showModal('TwoStepSetup')
   }
 
-  onSubmit () {
+  onSubmit() {
     this.props.securityCenterActions.verifyGoogleAuthenticator(
       this.props.authCode
     )
   }
 
-  render () {
+  render() {
     const { data, ui, ...rest } = this.props
 
     return data.cata({

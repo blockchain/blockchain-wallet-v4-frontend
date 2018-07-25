@@ -13,7 +13,7 @@ export const getConfig = (start, interval, currency, data) => ({
       text: null
     },
     labels: {
-      formatter: function () {
+      formatter: function() {
         return currency + Currency.formatFiat(this.value)
       },
       style: {
@@ -45,7 +45,7 @@ export const getConfig = (start, interval, currency, data) => ({
     }
   },
   tooltip: {
-    pointFormatter: function () {
+    pointFormatter: function() {
       return currency + Currency.formatFiat(this.y)
     }
   },

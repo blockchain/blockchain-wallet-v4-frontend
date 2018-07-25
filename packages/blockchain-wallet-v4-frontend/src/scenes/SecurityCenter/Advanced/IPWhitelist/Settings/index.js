@@ -10,13 +10,13 @@ import { actions, selectors } from 'data'
 import Settings from './template.js'
 
 class SettingsContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)
     this.handleToggle = this.handleToggle.bind(this)
   }
 
-  componentWillMount () {
+  componentWillMount() {
     if (!isEmpty(this.props.currentWhitelist)) {
       this.props.formActions.initialize('settingIPWhitelist', {
         IPWhitelist: this.props.currentWhitelist.data
@@ -24,22 +24,22 @@ class SettingsContainer extends React.PureComponent {
     }
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (!equals(this.props.currentWhitelist, nextProps.currentWhitelist)) {
       this.props.updateUI({ updateToggled: false })
     }
   }
 
-  onSubmit () {
+  onSubmit() {
     this.props.settingsActions.updateIpLock(this.props.IPWhitelist)
     this.handleToggle()
   }
 
-  handleToggle () {
+  handleToggle() {
     this.props.updateUI({ updateToggled: !this.props.ui.updateToggled })
   }
 
-  render () {
+  render() {
     const { ui, ...rest } = this.props
     return (
       <Settings

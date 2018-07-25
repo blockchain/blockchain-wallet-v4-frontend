@@ -8,7 +8,7 @@ import ui from 'redux-ui'
 import Failure from 'components/BuySell/Failure'
 
 class UploadContainer extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.onDrop = this.onDrop.bind(this)
@@ -26,43 +26,43 @@ class UploadContainer extends Component {
     }
   }
 
-  handleSubmit (e) {
+  handleSubmit(e) {
     e.preventDefault()
   }
 
-  setPhoto (data) {
+  setPhoto(data) {
     this.setState({ photo: data })
   }
 
-  onDrop (file) {
+  onDrop(file) {
     this.setState({ file: file[0] })
   }
 
-  onClickUpload (e) {
+  onClickUpload(e) {
     e.preventDefault()
   }
 
-  toggleCamera () {
+  toggleCamera() {
     this.setState({ camera: true })
   }
 
-  resetUpload () {
+  resetUpload() {
     this.setState({ file: null, camera: false, photo: '' })
   }
 
-  handleStartClick (e) {
+  handleStartClick(e) {
     e.preventDefault()
     this.takePicture()
   }
 
-  submitForUpload () {
+  submitForUpload() {
     const file = this.state.file || this.state.photo
     const idType = this.props.data.data.verificationStatus.required_docs[0]
     this.props.sfoxFrontendActions.upload({ file, idType })
     this.resetUpload() // TODO replace with setting to busy and show loader
   }
 
-  render () {
+  render() {
     const { data } = this.props
 
     return data.cata({

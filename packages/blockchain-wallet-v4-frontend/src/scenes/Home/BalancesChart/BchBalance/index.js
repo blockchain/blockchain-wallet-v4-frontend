@@ -7,16 +7,16 @@ import { getData } from './selectors'
 import BchBalance from './template.success'
 
 export class BchBalanceContainer extends PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.handleRefresh = this.handleRefresh.bind(this)
   }
 
-  handleRefresh () {
+  handleRefresh() {
     this.props.dataActions.fetchData()
   }
 
-  render () {
+  render() {
     const {
       btcBalance,
       bchBalance,

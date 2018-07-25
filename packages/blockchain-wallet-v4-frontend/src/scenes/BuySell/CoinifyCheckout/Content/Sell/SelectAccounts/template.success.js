@@ -50,14 +50,14 @@ const SelectAccounts = props => {
           <InputWrapper style={spacing('mb-40')}>
             <PartnerHeader>
               <FormattedMessage
-                id='coinifyexchangedata.selectaccounts.header'
-                defaultMessage='Select Account'
+                id="coinifyexchangedata.selectaccounts.header"
+                defaultMessage="Select Account"
               />
             </PartnerHeader>
             <PartnerSubHeader>
               <FormattedMessage
-                id='coinifyexchangedata.selectaccounts.subheader'
-                defaultMessage='Where would you like your funds sent? You have the following bank accounts linked: '
+                id="coinifyexchangedata.selectaccounts.subheader"
+                defaultMessage="Where would you like your funds sent? You have the following bank accounts linked: "
               />
             </PartnerSubHeader>
           </InputWrapper>
@@ -65,14 +65,14 @@ const SelectAccounts = props => {
             bankAccounts.map((b, index) => (
               <Row key={index}>
                 <Field
-                  name='iban'
+                  name="iban"
                   component={RadioButton}
                   props={{ id: `iban${index}`, value: index }}
                 />
                 <RowContent>
                   <Text weight={300}>{path(['_account', '_number'], b)}</Text>
                   <ClickableIcon
-                    name='trash'
+                    name="trash"
                     onClick={() => deleteBankAccount(b)}
                   />
                 </RowContent>
@@ -82,13 +82,13 @@ const SelectAccounts = props => {
             next
             Component={Button}
             style={spacing('mt-45')}
-            nature='light'
+            nature="light"
             fullwidth
             disabled={submitting || invalid}
           >
             <FormattedMessage
-              id='coinifyexchangedata.selectaccounts.addaccount'
-              defaultMessage='Add new account'
+              id="coinifyexchangedata.selectaccounts.addaccount"
+              defaultMessage="Add new account"
             />
           </StepTransition>
         </BorderBox>
@@ -99,19 +99,19 @@ const SelectAccounts = props => {
             to={4}
             Component={Button}
             style={spacing('mt-45')}
-            nature='primary'
+            nature="primary"
             onClick={setBankAccount}
             fullwidth
             disabled={submitting || invalid || noRadioButtonSelected}
           >
             <FormattedMessage
-              id='coinifyexchangedata.selectaccounts.continue'
-              defaultMessage='Continue'
+              id="coinifyexchangedata.selectaccounts.continue"
+              defaultMessage="Continue"
             />
           </StepTransition>
           <CancelWrapper>
             <StepTransition prev Component={Link}>
-              <FormattedMessage id='back' defaultMessage='Back' />
+              <FormattedMessage id="back" defaultMessage="Back" />
             </StepTransition>
           </CancelWrapper>
         </ColRightInner>

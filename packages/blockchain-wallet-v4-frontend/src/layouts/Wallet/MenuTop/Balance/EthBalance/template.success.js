@@ -22,22 +22,22 @@ const Success = props => {
   const { large, balance } = props
 
   return (
-    <LinkContainer to='/eth/transactions'>
+    <LinkContainer to="/eth/transactions">
       <Wrapper large={large}>
         <CoinDisplay
-          coin='ETH'
-          cursor='pointer'
+          coin="ETH"
+          cursor="pointer"
           size={large ? '20px' : '12px'}
-          mobileSize='14px'
+          mobileSize="14px"
           weight={large ? 200 : 300}
         >
           {balance}
         </CoinDisplay>
         <FiatDisplay
-          coin='ETH'
-          cursor='pointer'
+          coin="ETH"
+          cursor="pointer"
           size={large ? '20px' : '12px'}
-          mobileSize='14px'
+          mobileSize="14px"
           weight={large ? 200 : 300}
         >
           {balance}

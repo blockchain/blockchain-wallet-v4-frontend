@@ -8,14 +8,14 @@ import { getData } from './selectors'
 import VerifyEmail from './template'
 
 class VerifyEmailContainer extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {}
     this.onSubmit = this.onSubmit.bind(this)
     this.resendCode = this.resendCode.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.formActions.change(
       'coinifyVerifyEmail',
       'emailAddress',
@@ -23,14 +23,14 @@ class VerifyEmailContainer extends Component {
     )
   }
 
-  resendCode () {
+  resendCode() {
     this.props.updateUI({ codeSent: true })
     this.props.securityCenterActions.sendConfirmationCodeEmail(
       this.props.emailAddress
     )
   }
 
-  onSubmit () {
+  onSubmit() {
     if (this.props.ui.create === 'enter_email_code') {
       this.props.coinifyActions.coinifyClearSignupError()
       this.props.securityCenterActions.verifyEmailCode(this.props.emailCode)
@@ -43,7 +43,7 @@ class VerifyEmailContainer extends Component {
     }
   }
 
-  render () {
+  render() {
     const { emailVerifiedError, invalid, ui, updateUI } = this.props
 
     return (

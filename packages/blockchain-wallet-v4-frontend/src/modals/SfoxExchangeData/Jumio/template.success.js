@@ -27,7 +27,7 @@ const Success = props => {
 
   return (
     <Container>
-      <JumioFrame src={jumioUrl} scrolling='yes' id='jumio' />
+      <JumioFrame src={jumioUrl} scrolling="yes" id="jumio" />
     </Container>
   )
 }

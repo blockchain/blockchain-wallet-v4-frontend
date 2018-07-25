@@ -11,7 +11,7 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class FiatDisplayContainer extends React.PureComponent {
-  componentWillMount () {
+  componentWillMount() {
     if (Remote.NotAsked.is(this.props.data)) {
       switch (this.props.coin) {
         case 'BTC':
@@ -24,7 +24,7 @@ class FiatDisplayContainer extends React.PureComponent {
     }
   }
 
-  render () {
+  render() {
     const { data, ...rest } = this.props
 
     return data.cata({

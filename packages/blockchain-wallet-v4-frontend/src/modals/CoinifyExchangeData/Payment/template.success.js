@@ -72,14 +72,14 @@ const faqQuestions = [
   {
     question: (
       <FormattedMessage
-        id='coinifyexchangedata.payment.helper1.question'
-        defaultMessage='Are there transaction fees?'
+        id="coinifyexchangedata.payment.helper1.question"
+        defaultMessage="Are there transaction fees?"
       />
     ),
     answer: (
       <FormattedMessage
-        id='coinifyexchangedata.payment.helper1.answer'
-        defaultMessage='There is a 3% convenience fee when buying bitcoin with a credit card in order to expedite the transaction. Buying or selling through a bank transfer does not include a convenience fee, although there is a small trading fee (0.25%) that Coinify requires in order to mitigate risk.'
+        id="coinifyexchangedata.payment.helper1.answer"
+        defaultMessage="There is a 3% convenience fee when buying bitcoin with a credit card in order to expedite the transaction. Buying or selling through a bank transfer does not include a convenience fee, although there is a small trading fee (0.25%) that Coinify requires in order to mitigate risk."
       />
     )
   }
@@ -88,11 +88,11 @@ const faqQuestions = [
 const busyHelper = busy =>
   !busy ? (
     <FormattedMessage
-      id='coinifyexchangedata.payment.continue'
-      defaultMessage='Continue'
+      id="coinifyexchangedata.payment.continue"
+      defaultMessage="Continue"
     />
   ) : (
-    <HeartbeatLoader height='20px' width='20px' color='white' />
+    <HeartbeatLoader height="20px" width="20px" color="white" />
   )
 const isCardDisabled = (q, l) => {
   if (q.baseCurrency === 'BTC') {
@@ -143,14 +143,14 @@ const Payment = props => {
           <InputWrapper style={spacing('mb-40')}>
             <PartnerHeader>
               <FormattedMessage
-                id='coinifyexchangedata.payment.header'
-                defaultMessage='Select Payment Method'
+                id="coinifyexchangedata.payment.header"
+                defaultMessage="Select Payment Method"
               />
             </PartnerHeader>
             <PartnerSubHeader>
               <FormattedMessage
-                id='coinifyexchangedata.payment.subheader'
-                defaultMessage='You can link your bank account or credit card to buy cryptocurrency. Select the account that you would like to use to fund your purchases. You can always change your payment method.'
+                id="coinifyexchangedata.payment.subheader"
+                defaultMessage="You can link your bank account or credit card to buy cryptocurrency. Select the account that you would like to use to fund your purchases. You can always change your payment method."
               />
             </PartnerSubHeader>
           </InputWrapper>
@@ -181,7 +181,7 @@ const Payment = props => {
           <ButtonContainer>
             {path(['name'], level) < 2 && medium === 'bank' ? (
               <Button
-                nature='primary'
+                nature="primary"
                 fullwidth
                 onClick={triggerKyc}
                 disabled={!medium || busy}
@@ -192,7 +192,7 @@ const Payment = props => {
               <StepTransition
                 next
                 Component={Button}
-                nature='primary'
+                nature="primary"
                 fullwidth
                 disabled={!medium || busy}
               >
@@ -203,8 +203,8 @@ const Payment = props => {
           <CancelWrapper>
             <StepTransition prev Component={Link}>
               <FormattedMessage
-                id='coinifyexchangedata.payment.cancel'
-                defaultMessage='Cancel'
+                id="coinifyexchangedata.payment.cancel"
+                defaultMessage="Cancel"
               />
             </StepTransition>
           </CancelWrapper>

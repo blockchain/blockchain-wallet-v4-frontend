@@ -65,18 +65,18 @@ const WhatsNew = props => (
         Announcements.map((item, i) => (
           <Item key={i}>
             <RowTitle>
-              <Text size='14px' weight={600}>
+              <Text size="14px" weight={600}>
                 {item.title}
               </Text>
             </RowTitle>
             <RowDate>
-              <Text color='gray-3' weight={400} size='12px'>
+              <Text color="gray-3" weight={400} size="12px">
                 {item.date}
               </Text>
             </RowDate>
             <RowContent>
               <TextGroup inline>
-                <Text size='12px' weight={300}>
+                <Text size="12px" weight={300}>
                   {item.desc}
                 </Text>
                 {item.link}
@@ -86,15 +86,15 @@ const WhatsNew = props => (
         ))
       ) : (
         <EmptyContent>
-          <Text size='20px'>
+          <Text size="20px">
             <FormattedMessage
-              id='layouts.wallet.header.whatsnew.whatsnew.empty'
+              id="layouts.wallet.header.whatsnew.whatsnew.empty"
               defaultMessage="🎉 You're all caught up!"
             />
           </Text>
-          <Text size='12px' weight={300} color='gray-3'>
+          <Text size="12px" weight={300} color="gray-3">
             <FormattedHTMLMessage
-              id='layouts.wallet.header.whatsnew.whatsnew.in_progress'
+              id="layouts.wallet.header.whatsnew.whatsnew.in_progress"
               defaultMessage="Our team is always working on new features, but if there's something we can improve please let us know about it <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>here<a/>."
             />
           </Text>

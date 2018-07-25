@@ -34,10 +34,10 @@ const WordInput = props => {
 
   return (
     <Container>
-      <Text size='14px' weight={300}>
+      <Text size="14px" weight={300}>
         <FormattedMessage
-          id='modals.recoveryphrase.thirdstep.word'
-          defaultMessage='Word {number} :'
+          id="modals.recoveryphrase.thirdstep.word"
+          defaultMessage="Word {number} :"
           values={{ number: index + 1 }}
         />
       </Text>

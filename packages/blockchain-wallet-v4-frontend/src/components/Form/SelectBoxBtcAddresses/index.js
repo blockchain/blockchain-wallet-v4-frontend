@@ -7,17 +7,17 @@ import { getData } from './selectors'
 import SelectBoxBitcoin from './template'
 
 class SelectBoxBitcoinAddresses extends React.PureComponent {
-  getLabel (coin) {
+  getLabel(coin) {
     return this.props.optional
       ? 'N/A'
       : `All Bitcoin${coin === 'BCH' ? ' Cash' : ''} Wallets`
   }
-  concatAll (coin) {
+  concatAll(coin) {
     return concat([
       { group: '', items: [{ value: 'all', text: this.getLabel(coin) }] }
     ])
   }
-  render () {
+  render() {
     const { data, coin, includeAll, ...rest } = this.props
 
     return data.cata({

@@ -71,14 +71,14 @@ const PhoneNumberBox = field => {
         preferredCountries={['us', 'gb']}
         css={['intl-tel-input', 'form-control']}
         utilsScript={'libphonenumber.js'}
-        placeholder='555-555-5555'
+        placeholder="555-555-5555"
       />
       {touched &&
         error && (
           <Error
-            size='12px'
+            size="12px"
             weight={300}
-            color='error'
+            color="error"
             errorBottom={errorBottom}
           >
             {error}
@@ -88,9 +88,9 @@ const PhoneNumberBox = field => {
         !error &&
         warning && (
           <Error
-            size='12px'
+            size="12px"
             weight={300}
-            color='sent'
+            color="sent"
             errorBottom={errorBottom}
           >
             {warning}

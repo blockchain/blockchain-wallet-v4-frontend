@@ -7,21 +7,21 @@ import { getData } from './selectors'
 import { Success } from './template.success'
 
 class JumioStatusContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.openJumio = this.openJumio.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.sfoxActions.initializeJumio()
   }
 
-  openJumio () {
+  openJumio() {
     this.props.sfoxActions.nextStep('jumio')
     this.props.modalActions.showModal('SfoxExchangeData', { step: 'jumio' })
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: value => (
         <Success

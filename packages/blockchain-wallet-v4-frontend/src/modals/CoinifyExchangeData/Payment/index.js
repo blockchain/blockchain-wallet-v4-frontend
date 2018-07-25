@@ -11,7 +11,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import Failure from 'components/BuySell/Failure'
 
 class PaymentContainer extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.handlePaymentClick = this.handlePaymentClick.bind(this)
@@ -20,27 +20,27 @@ class PaymentContainer extends Component {
     this.state = { medium: '' }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     if (Remote.Success.is(this.props.quote)) {
       this.props.coinifyDataActions.getPaymentMediums(this.props.quote.data)
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.coinifyActions.coinifyNotAsked()
   }
 
-  triggerKyc () {
+  triggerKyc() {
     this.props.coinifyActions.coinifyLoading()
     this.props.coinifyActions.triggerKYC()
   }
 
-  handlePaymentClick (medium) {
+  handlePaymentClick(medium) {
     this.setState({ medium })
     this.props.coinifyActions.saveMedium(medium)
   }
 
-  render () {
+  render() {
     const { data, coinifyBusy, coinifyActions } = this.props
     const { openKYC, checkoutCardMax } = coinifyActions
 

@@ -6,7 +6,7 @@ import { actions } from 'data'
 import Header from './template.js'
 
 class HeaderContainer extends React.PureComponent {
-  render () {
+  render() {
     return (
       <Header
         handleToggle={() => this.props.actions.layoutWalletMenuToggleClicked()}

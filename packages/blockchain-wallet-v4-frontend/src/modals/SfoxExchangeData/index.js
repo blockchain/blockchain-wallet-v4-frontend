@@ -17,50 +17,50 @@ import { getData } from './selectors'
 import { actions } from 'data'
 
 class SfoxExchangeData extends React.PureComponent {
-  constructor () {
+  constructor() {
     super()
     this.state = { show: false }
     this.stepMap = {
       account: (
         <FormattedMessage
-          id='modals.sfoxexchangedata.steps.account'
-          defaultMessage='Account'
+          id="modals.sfoxexchangedata.steps.account"
+          defaultMessage="Account"
         />
       ),
       verify: (
         <FormattedMessage
-          id='modals.sfoxexchangedata.steps.verify'
-          defaultMessage='Verify'
+          id="modals.sfoxexchangedata.steps.verify"
+          defaultMessage="Verify"
         />
       ),
       funding: (
         <FormattedMessage
-          id='modals.sfoxexchangedata.steps.funding'
-          defaultMessage='Funding'
+          id="modals.sfoxexchangedata.steps.funding"
+          defaultMessage="Funding"
         />
       ),
       submit: (
         <FormattedMessage
-          id='modals.sfoxexchangedata.steps.submit'
-          defaultMessage='Submit'
+          id="modals.sfoxexchangedata.steps.submit"
+          defaultMessage="Submit"
         />
       )
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
   }
 
-  handleClose () {
+  handleClose() {
     this.setState({ show: false })
     setTimeout(this.props.close, 500)
     this.props.sfoxFrontendActions.handleModalClose()
   }
 
-  getStepComponent (step) {
+  getStepComponent(step) {
     switch (step) {
       case 'account':
         return { component: <Create />, step: 'account' }
@@ -69,9 +69,9 @@ class SfoxExchangeData extends React.PureComponent {
       case 'funding':
         return { component: <Link />, step: 'funding' }
       case 'upload':
-        return { component: <Verify step='upload' />, step: 'verify' }
+        return { component: <Verify step="upload" />, step: 'verify' }
       case 'jumio':
-        return { component: <Verify step='jumio' />, step: 'verify' }
+        return { component: <Verify step="jumio" />, step: 'verify' }
       case 'verified': {
         this.handleClose()
         break
@@ -79,7 +79,7 @@ class SfoxExchangeData extends React.PureComponent {
     }
   }
 
-  render () {
+  render() {
     const { show } = this.state
     const step = this.props.signupStep || this.props.step
 
@@ -88,7 +88,7 @@ class SfoxExchangeData extends React.PureComponent {
         position={this.props.position}
         total={this.props.total}
         in={show}
-        class='tray'
+        class="tray"
         onClose={this.handleClose.bind(this)}
       >
         <ModalHeader tray center onClose={this.handleClose.bind(this)}>

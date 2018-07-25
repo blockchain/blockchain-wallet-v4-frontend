@@ -6,7 +6,7 @@ import { SettingSelectBoxWrapper } from 'components/Setting'
 
 const Settings = () => (
   <SettingSelectBoxWrapper>
-    <Field name='currency' component={SelectBoxCurrency} />
+    <Field name="currency" component={SelectBoxCurrency} />
   </SettingSelectBoxWrapper>
 )
 

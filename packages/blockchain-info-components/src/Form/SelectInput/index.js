@@ -6,7 +6,7 @@ import { equals, head, isEmpty, isNil, contains, toUpper, filter } from 'ramda'
 import SelectInput from './template.js'
 
 class SelectInputContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       expanded: this.props.opened,
@@ -22,24 +22,24 @@ class SelectInputContainer extends React.PureComponent {
     this.handleKeyDown = this.handleKeyDown.bind(this)
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (!equals(this.props.value, nextProps.value)) {
       this.setState({ value: nextProps.value })
     }
   }
 
-  handleClick (item) {
+  handleClick(item) {
     this.setState({ value: item.value, expanded: false, search: '' })
     if (this.props.onChange) {
       this.props.onChange(item.value)
     }
   }
 
-  handleChange (event) {
+  handleChange(event) {
     this.setState({ search: event.target.value, hovered: -1 })
   }
 
-  handleBlur () {
+  handleBlur() {
     this.setState({ expanded: false, search: '' })
     if (this.props.onBlur) {
       this.props.onBlur()
@@ -49,18 +49,18 @@ class SelectInputContainer extends React.PureComponent {
     }
   }
 
-  handleFocus () {
+  handleFocus() {
     this.setState({ expanded: true })
     if (this.props.onFocus) {
       this.props.onFocus()
     }
   }
 
-  handleMouseEnter (index) {
+  handleMouseEnter(index) {
     this.setState({ hovered: index })
   }
 
-  handleKeyDown (e, max, item) {
+  handleKeyDown(e, max, item) {
     switch (e.key) {
       case 'ArrowUp':
         this.setState({
@@ -77,11 +77,11 @@ class SelectInputContainer extends React.PureComponent {
     }
   }
 
-  handleClickOutside () {
+  handleClickOutside() {
     this.setState({ expanded: false, search: '' })
   }
 
-  transform (elements, search) {
+  transform(elements, search) {
     let items = []
     elements.map(element => {
       if (!search && element.group !== '') {
@@ -99,12 +99,12 @@ class SelectInputContainer extends React.PureComponent {
     return items
   }
 
-  getSelected (items, value) {
+  getSelected(items, value) {
     if (isNil(value) || isEmpty(value)) return undefined
     return head(filter(x => equals(x.value, value), items))
   }
 
-  render () {
+  render() {
     const { search, value, expanded } = this.state
     const { elements, label, searchEnabled, disabled, ...rest } = this.props
     const items = this.transform(elements, search)

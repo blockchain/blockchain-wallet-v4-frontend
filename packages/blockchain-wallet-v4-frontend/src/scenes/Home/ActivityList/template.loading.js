@@ -25,30 +25,30 @@ const ActivitySkeleton = styled.div`
 
 export default props => {
   return (
-    <ActivityListSkeleton width='100%' height='300px' bgColor='white-blue'>
-      <SkeletonRectangle width='100%' height='30px' bgColor='white' />
+    <ActivityListSkeleton width="100%" height="300px" bgColor="white-blue">
+      <SkeletonRectangle width="100%" height="30px" bgColor="white" />
       <ActivitySkeleton>
-        <SkeletonCircle width='30px' height='30px' bgColor='white' />
+        <SkeletonCircle width="30px" height="30px" bgColor="white" />
         <SkeletonRectangle
-          width='calc(100% - 50px)'
-          height='30px'
-          bgColor='white'
+          width="calc(100% - 50px)"
+          height="30px"
+          bgColor="white"
         />
       </ActivitySkeleton>
       <ActivitySkeleton>
-        <SkeletonCircle width='30px' height='30px' bgColor='white' />
+        <SkeletonCircle width="30px" height="30px" bgColor="white" />
         <SkeletonRectangle
-          width='calc(100% - 50px)'
-          height='30px'
-          bgColor='white'
+          width="calc(100% - 50px)"
+          height="30px"
+          bgColor="white"
         />
       </ActivitySkeleton>
       <ActivitySkeleton>
-        <SkeletonCircle width='30px' height='30px' bgColor='white' />
+        <SkeletonCircle width="30px" height="30px" bgColor="white" />
         <SkeletonRectangle
-          width='calc(100% - 50px)'
-          height='30px'
-          bgColor='white'
+          width="calc(100% - 50px)"
+          height="30px"
+          bgColor="white"
         />
       </ActivitySkeleton>
     </ActivityListSkeleton>

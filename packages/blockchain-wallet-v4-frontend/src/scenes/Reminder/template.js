@@ -60,14 +60,14 @@ const Reminder = props => {
       <Form onSubmit={handleSubmit}>
         <FormGroup>
           <FormItem>
-            <FormLabel for='email'>
+            <FormLabel for="email">
               <FormattedMessage
-                id='scenes.reminder.email'
-                defaultMessage='Email'
+                id="scenes.reminder.email"
+                defaultMessage="Email"
               />
             </FormLabel>
             <Field
-              name='email'
+              name="email"
               autoFocus
               validate={[required, validEmail]}
               component={TextBox}
@@ -76,14 +76,14 @@ const Reminder = props => {
         </FormGroup>
         <FormGroup>
           <FormItem>
-            <FormLabel for='code'>
+            <FormLabel for="code">
               <FormattedMessage
-                id='scenes.reminder.captcha'
-                defaultMessage='Captcha'
+                id="scenes.reminder.captcha"
+                defaultMessage="Captcha"
               />
             </FormLabel>
             <Field
-              name='code'
+              name="code"
               validate={[required]}
               component={CaptchaBox}
               props={{ timestamp: timestamp }}
@@ -91,26 +91,26 @@ const Reminder = props => {
           </FormItem>
         </FormGroup>
         <Footer>
-          <GoBackLink to='/help'>
-            <Link size='13px' weight={300}>
+          <GoBackLink to="/help">
+            <Link size="13px" weight={300}>
               <FormattedMessage
-                id='scenes.reminder.back'
-                defaultMessage='Go Back'
+                id="scenes.reminder.back"
+                defaultMessage="Go Back"
               />
             </Link>
           </GoBackLink>
           <Button
-            type='submit'
-            nature='primary'
+            type="submit"
+            nature="primary"
             uppercase
             disabled={submitting || invalid || loading}
           >
             {loading ? (
-              <HeartbeatLoader height='20px' width='20px' color='white' />
+              <HeartbeatLoader height="20px" width="20px" color="white" />
             ) : (
               <FormattedMessage
-                id='scenes.reminder.continue'
-                defaultMessage='Continue'
+                id="scenes.reminder.continue"
+                defaultMessage="Continue"
               />
             )}
           </Button>
@@ -123,18 +123,18 @@ const Reminder = props => {
     return (
       <React.Fragment>
         <SuccessMessages>
-          <Text size='13px' weight={300}>
+          <Text size="13px" weight={300}>
             <FormattedMessage
-              id='scenes.reminder.thanks'
-              defaultMessage='Thank you for submitting your request. If a wallet ID associated with this email address exists, you will receive an email with your ID shortly.'
+              id="scenes.reminder.thanks"
+              defaultMessage="Thank you for submitting your request. If a wallet ID associated with this email address exists, you will receive an email with your ID shortly."
             />
           </Text>
         </SuccessMessages>
-        <LinkContainer to='/login'>
-          <Button nature='primary' fullwidth uppercase>
+        <LinkContainer to="/login">
+          <Button nature="primary" fullwidth uppercase>
             <FormattedMessage
-              id='scenes.reminder.login'
-              defaultMessage='Continue to Login'
+              id="scenes.reminder.login"
+              defaultMessage="Continue to Login"
             />
           </Button>
         </LinkContainer>
@@ -144,15 +144,15 @@ const Reminder = props => {
 
   return (
     <Wrapper>
-      <Text size='24px' weight={300}>
+      <Text size="24px" weight={300}>
         <FormattedMessage
-          id='scenes.reminder.remind'
-          defaultMessage='Remind Me'
+          id="scenes.reminder.remind"
+          defaultMessage="Remind Me"
         />
       </Text>
-      <Text size='14px' weight={300}>
+      <Text size="14px" weight={300}>
         <FormattedMessage
-          id='scenes.reminder.explain'
+          id="scenes.reminder.explain"
           defaultMessage="Lost your wallet ID? We'll send it to you via your email."
         />
       </Text>

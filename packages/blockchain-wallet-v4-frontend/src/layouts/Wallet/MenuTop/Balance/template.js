@@ -123,29 +123,29 @@ const getBalanceMessage = path => {
     case '/btc/transactions':
       return (
         <FormattedMessage
-          id='scenes.wallet.menutop.balance.bitcoinbalance'
-          defaultMessage='Bitcoin Balance'
+          id="scenes.wallet.menutop.balance.bitcoinbalance"
+          defaultMessage="Bitcoin Balance"
         />
       )
     case '/eth/transactions':
       return (
         <FormattedMessage
-          id='scenes.wallet.menutop.balance.etherbalance'
-          defaultMessage='Ether Balance'
+          id="scenes.wallet.menutop.balance.etherbalance"
+          defaultMessage="Ether Balance"
         />
       )
     case '/bch/transactions':
       return (
         <FormattedMessage
-          id='scenes.wallet.menutop.balance.bchbalance'
-          defaultMessage='Bitcoin Cash Balance'
+          id="scenes.wallet.menutop.balance.bchbalance"
+          defaultMessage="Bitcoin Cash Balance"
         />
       )
     default:
       return (
         <FormattedMessage
-          id='scenes.wallet.menutop.balance.totalbalance'
-          defaultMessage='Total Balance'
+          id="scenes.wallet.menutop.balance.totalbalance"
+          defaultMessage="Total Balance"
         />
       )
   }

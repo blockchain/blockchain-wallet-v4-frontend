@@ -9,21 +9,21 @@ import { determineStep } from 'services/SfoxService'
 import { actions } from 'data'
 
 class SfoxSignupBannerContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = { step: null }
     this.renderStepper = this.renderStepper.bind(this)
     this.goToBuySell = this.goToBuySell.bind(this)
   }
 
-  goToBuySell () {
+  goToBuySell() {
     this.props.history.push('/buy-sell')
     this.props.modalActions.showModal('SfoxExchangeData', {
       step: this.state.step
     })
   }
 
-  renderStepper (sfoxData) {
+  renderStepper(sfoxData) {
     const step = determineStep(
       sfoxData.sfoxProfile,
       sfoxData.verificationStatus,
@@ -42,7 +42,7 @@ class SfoxSignupBannerContainer extends React.PureComponent {
     ) : null
   }
 
-  render () {
+  render() {
     const { data } = this.props
 
     if (data.cata) {

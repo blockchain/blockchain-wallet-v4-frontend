@@ -53,36 +53,36 @@ const AwaitingDeposits = ({ showModal }) => {
       <LeftCol>
         <PartnerHeader>
           <FormattedMessage
-            id='modals.sfoxexchangedata.link.awaitingdeposits.title'
-            defaultMessage='Verify Your Bank Account'
+            id="modals.sfoxexchangedata.link.awaitingdeposits.title"
+            defaultMessage="Verify Your Bank Account"
           />
         </PartnerHeader>
         <ImageWrapper>
-          <DepositsImage name='micro-deposits-whole' />
+          <DepositsImage name="micro-deposits-whole" />
         </ImageWrapper>
-        <Text size='13px' weight={300}>
+        <Text size="13px" weight={300}>
           <FormattedMessage
-            id='modals.sfoxexchangedata.link.awaitingdeposits.body'
-            defaultMessage='To verify your bank details, SFOX will send two micro-deposits to your bank account for a few cents each. Once received, select Enter Deposit Details to finish setting up your account.'
+            id="modals.sfoxexchangedata.link.awaitingdeposits.body"
+            defaultMessage="To verify your bank details, SFOX will send two micro-deposits to your bank account for a few cents each. Once received, select Enter Deposit Details to finish setting up your account."
           />
         </Text>
-        <Text size='13px' weight={300}>
+        <Text size="13px" weight={300}>
           <FormattedMessage
-            id='modals.sfoxexchangedata.link.awaitingdeposits.note'
-            defaultMessage='Bear with us: receiving these deposits can take up to 5 business days.'
+            id="modals.sfoxexchangedata.link.awaitingdeposits.note"
+            defaultMessage="Bear with us: receiving these deposits can take up to 5 business days."
           />
         </Text>
       </LeftCol>
       <RightCol>
         <Button
           uppercase
-          width='80%'
-          nature='primary'
+          width="80%"
+          nature="primary"
           onClick={() => showModal('SfoxEnterMicroDeposits')}
         >
           <FormattedMessage
-            id='awaiting_deposits.enter'
-            defaultMessage='Enter Deposit Details'
+            id="awaiting_deposits.enter"
+            defaultMessage="Enter Deposit Details"
           />
         </Button>
       </RightCol>

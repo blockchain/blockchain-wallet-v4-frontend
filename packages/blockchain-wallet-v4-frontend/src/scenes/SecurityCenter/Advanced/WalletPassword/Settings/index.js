@@ -8,23 +8,23 @@ import { actions, selectors } from 'data'
 import Settings from './template.js'
 
 class SettingsContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)
     this.handleToggle = this.handleToggle.bind(this)
   }
 
-  onSubmit () {
+  onSubmit() {
     this.props.walletActions.setMainPassword(this.props.newWalletPasswordValue)
     this.props.formActions.reset('settingWalletPassword')
     this.handleToggle()
   }
 
-  handleToggle () {
+  handleToggle() {
     this.props.updateUI({ updateToggled: !this.props.ui.updateToggled })
   }
 
-  render () {
+  render() {
     const { ui, ...rest } = this.props
 
     return (

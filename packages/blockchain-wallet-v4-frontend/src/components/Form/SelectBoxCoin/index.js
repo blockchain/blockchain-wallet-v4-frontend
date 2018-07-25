@@ -27,22 +27,22 @@ const HeaderWrapper = styled.div`
 const renderItem = item => (
   <HeaderWrapper>
     {prop('value', item) === 'BTC' && (
-      <Icon name='bitcoin-in-circle' size='14px' weight={300} />
+      <Icon name="bitcoin-in-circle" size="14px" weight={300} />
     )}
     {prop('value', item) === 'BCH' && (
-      <Icon name='bitcoin-cash' size='14px' weight={300} />
+      <Icon name="bitcoin-cash" size="14px" weight={300} />
     )}
     {prop('value', item) === 'ETH' && (
-      <Icon name='ethereum-filled' size='14px' weight={300} />
+      <Icon name="ethereum-filled" size="14px" weight={300} />
     )}
-    <Text size='13px' weight={300} cursor='pointer'>
+    <Text size="13px" weight={300} cursor="pointer">
       {item.text}
     </Text>
   </HeaderWrapper>
 )
 
 class SelectBoxCoin extends React.PureComponent {
-  render () {
+  render() {
     const { coins, ...rest } = this.props
     const elements = [{ group: '', items: coins }]
     return (

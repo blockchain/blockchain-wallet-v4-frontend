@@ -9,11 +9,11 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class ThirdStepContainer extends React.Component {
-  componentDidMount () {
+  componentDidMount() {
     this.props.actions.thirdStepInitialized()
   }
 
-  render () {
+  render() {
     const { data, actions } = this.props
     return data.cata({
       Success: value => (

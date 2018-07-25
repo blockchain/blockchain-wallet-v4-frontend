@@ -8,13 +8,13 @@ import { actions } from 'data'
 import Settings from './template.js'
 
 class SettingsContainer extends React.PureComponent {
-  componentWillMount () {
+  componentWillMount() {
     this.props.formActions.initialize('settingLanguage', {
       language: this.props.language
     })
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     const { language, newLanguage } = this.props
     if (
       !isNil(nextProps.newLanguage) &&
@@ -26,7 +26,7 @@ class SettingsContainer extends React.PureComponent {
     }
   }
 
-  render () {
+  render() {
     return <Settings />
   }
 }

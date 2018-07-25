@@ -20,7 +20,7 @@ const Wrapper = styled.div`
 `
 
 class AuthorizeLogin extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.onAccept = this.onAccept.bind(this)
     this.onReject = this.onReject.bind(this)
@@ -31,21 +31,21 @@ class AuthorizeLogin extends React.PureComponent {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.miscActions.authorizeLogin(this.state.token)
   }
 
-  onAccept (e) {
+  onAccept(e) {
     e.preventDefault()
     this.props.miscActions.authorizeLogin(this.state.token, true)
   }
 
-  onReject (e) {
+  onReject(e) {
     e.preventDefault()
     this.props.miscActions.authorizeLogin(this.state.token, false)
   }
 
-  render () {
+  render() {
     const { data } = this.props
 
     let AuthorizeLoginStatus = data.cata({

@@ -14,28 +14,28 @@ const StatusText = styled(Text)`
 
 const Status = props => (
   <StatusText
-    mobileSize='14px'
-    size='16px'
+    mobileSize="14px"
+    size="16px"
     weight={500}
     color={props.type}
     uppercase
   >
     {props.type === 'sent' && (
       <FormattedMessage
-        id='scenes.transactions.bitcoin.content.list.listitem.status.sent'
-        defaultMessage='Sent'
+        id="scenes.transactions.bitcoin.content.list.listitem.status.sent"
+        defaultMessage="Sent"
       />
     )}
     {props.type === 'received' && (
       <FormattedMessage
-        id='scenes.transactions.bitcoin.content.list.listitem.status.received'
-        defaultMessage='Received'
+        id="scenes.transactions.bitcoin.content.list.listitem.status.received"
+        defaultMessage="Received"
       />
     )}
     {props.type === 'transferred' && (
       <FormattedMessage
-        id='scenes.transactions.bitcoin.content.list.listitem.status.transferred'
-        defaultMessage='Transferred'
+        id="scenes.transactions.bitcoin.content.list.listitem.status.transferred"
+        defaultMessage="Transferred"
       />
     )}
   </StatusText>

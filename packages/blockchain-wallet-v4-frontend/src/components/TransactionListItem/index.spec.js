@@ -39,7 +39,7 @@ describe('ListItemContainer', () => {
         <ListItemContainer
           minConfirmations={3}
           transaction={tx}
-          coin='ETH'
+          coin="ETH"
           store={store}
         />
       )
@@ -56,7 +56,7 @@ describe('ListItemContainer', () => {
         <ListItemContainer
           minConfirmations={3}
           transaction={tx}
-          coin='BTC'
+          coin="BTC"
           store={store}
         />
       )

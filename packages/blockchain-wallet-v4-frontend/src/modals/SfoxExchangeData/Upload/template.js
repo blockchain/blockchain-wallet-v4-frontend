@@ -108,7 +108,7 @@ const Upload = props => {
     return (
       <Wrapper>
         <CustomDropzone
-          accept='image/jpeg, image/png'
+          accept="image/jpeg, image/png"
           onDrop={onDrop}
           disableClick
         >
@@ -118,16 +118,16 @@ const Upload = props => {
                 style={{ border: 'none', height: 'initial' }}
                 onDrop={onDrop}
               >
-                <Text color='gray-3' size='14px' weight={300}>
+                <Text color="gray-3" size="14px" weight={300}>
                   <FormattedMessage
-                    id='sfoxexchangedata.upload.dragorbrowse'
-                    defaultMessage='Drag a document here or browse for a document to upload.'
+                    id="sfoxexchangedata.upload.dragorbrowse"
+                    defaultMessage="Drag a document here or browse for a document to upload."
                   />
                 </Text>
-                <Button nature='primary'>
+                <Button nature="primary">
                   <FormattedMessage
-                    id='sfoxexchangedata.upload.selectfile'
-                    defaultMessage='Select File'
+                    id="sfoxexchangedata.upload.selectfile"
+                    defaultMessage="Select File"
                   />
                 </Button>
               </InnerDropzone>
@@ -138,8 +138,8 @@ const Upload = props => {
           <CameraLink onClick={toggleCamera}>
             {' '}
             <FormattedMessage
-              id='sfoxexchangedata.upload.usecamera'
-              defaultMessage='Use Camera Instead'
+              id="sfoxexchangedata.upload.usecamera"
+              defaultMessage="Use Camera Instead"
             />{' '}
           </CameraLink>
         ) : null}
@@ -153,41 +153,41 @@ const Upload = props => {
         <UploadColLeftInner>
           <PartnerHeader style={{ ...flex('row align/center') }}>
             <FormattedMessage
-              id='sfoxexchangedata.upload.title'
-              defaultMessage='Let’s Get to Know You'
+              id="sfoxexchangedata.upload.title"
+              defaultMessage="Let’s Get to Know You"
             />
-            <LockIcon name='lock-filled' />
+            <LockIcon name="lock-filled" />
           </PartnerHeader>
           <TitleStrings idType={idType} />
         </UploadColLeftInner>
         <InputContainer>
           {file ? (
             <UploadSuccess>
-              <SuccessText size='16px'>
+              <SuccessText size="16px">
                 <FormattedMessage
-                  id='sfoxexchangedata.upload.sentforreview'
-                  defaultMessage='Click submit to send the document for approval.'
+                  id="sfoxexchangedata.upload.sentforreview"
+                  defaultMessage="Click submit to send the document for approval."
                 />
               </SuccessText>
               <img
                 style={{ width: '300px' }}
                 src={file.preview}
-                alt='Your document'
+                alt="Your document"
               />
             </UploadSuccess>
           ) : photo ? (
             <UploadSuccess>
-              <SuccessText size='16px'>
+              <SuccessText size="16px">
                 <FormattedMessage
-                  id='sfoxexchangedata.upload.imgsentforreview'
-                  defaultMessage='Click submit to send the image for approval.'
+                  id="sfoxexchangedata.upload.imgsentforreview"
+                  defaultMessage="Click submit to send the image for approval."
                 />
               </SuccessText>
               <img
                 style={{ width: '300px' }}
                 src={photo}
-                id='photo'
-                alt='Your photo'
+                id="photo"
+                alt="Your photo"
               />
             </UploadSuccess>
           ) : showCamera ? (
@@ -201,19 +201,19 @@ const Upload = props => {
         <SubmitContainer>
           <Button
             fullwidth
-            nature='primary'
+            nature="primary"
             onClick={submitForUpload}
             disabled={!photo && !file}
           >
             <FormattedMessage
-              id='sfoxexchangedata.upload.submitforreview'
-              defaultMessage='Submit For Review'
+              id="sfoxexchangedata.upload.submitforreview"
+              defaultMessage="Submit For Review"
             />
           </Button>
-          <Link size='13px' onClick={resetUpload}>
+          <Link size="13px" onClick={resetUpload}>
             <FormattedMessage
-              id='sfoxexchangedata.upload.tryagain'
-              defaultMessage='Try Again'
+              id="sfoxexchangedata.upload.tryagain"
+              defaultMessage="Try Again"
             />
           </Link>
         </SubmitContainer>

@@ -6,13 +6,13 @@ import { actions } from 'data'
 import Settings from './template.js'
 
 class SettingContainer extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
     this.state = { show2FAWarning: false }
   }
 
-  handleClick () {
+  handleClick() {
     const { smsNumber, smsVerified, authType, modalActions } = this.props
 
     if (!smsVerified && smsNumber) {
@@ -24,7 +24,7 @@ class SettingContainer extends Component {
     }
   }
 
-  render () {
+  render() {
     const { modalActions, smsNumber, smsVerified } = this.props
 
     return (

@@ -38,15 +38,15 @@ const DataRowText = styled(Text)`
 
 const FirstStep = () => (
   <div>
-    <Text size='13px' color='error' weight={500} uppercase>
+    <Text size="13px" color="error" weight={500} uppercase>
       <FormattedMessage
-        id='modals.showethpriv.warning'
-        defaultMessage='Warning'
+        id="modals.showethpriv.warning"
+        defaultMessage="Warning"
       />
     </Text>
-    <Text size='14px' style={spacing('mt-10')} weight={300}>
+    <Text size="14px" style={spacing('mt-10')} weight={300}>
       <FormattedMessage
-        id='modals.showethpriv.warning.message'
+        id="modals.showethpriv.warning.message"
         defaultMessage="Don't share your private key with anyone. This may result in a loss of funds."
       />
     </Text>
@@ -60,38 +60,38 @@ const SecondStep = ({ addr, balance, priv }) => (
     </div>
     <DetailTable>
       <DetailRow>
-        <DetailRowText size='14px' weight={400}>
+        <DetailRowText size="14px" weight={400}>
           <FormattedMessage
-            id='modals.showethpriv.balance'
-            defaultMessage='Balance'
+            id="modals.showethpriv.balance"
+            defaultMessage="Balance"
           />
         </DetailRowText>
         {':'}&nbsp;
-        <CoinDisplay coin='ETH' size='14px'>
+        <CoinDisplay coin="ETH" size="14px">
           {balance}
         </CoinDisplay>
       </DetailRow>
       <DetailRow>
-        <DetailRowText size='14px' weight={400}>
+        <DetailRowText size="14px" weight={400}>
           <FormattedMessage
-            id='modals.showethpriv.address'
-            defaultMessage='Address'
+            id="modals.showethpriv.address"
+            defaultMessage="Address"
           />
         </DetailRowText>
         {':'}&nbsp;
-        <DataRowText size='14px' weight={300}>
+        <DataRowText size="14px" weight={300}>
           {addr}
         </DataRowText>
       </DetailRow>
       <DetailRow>
-        <DetailRowText size='14px' weight={400}>
+        <DetailRowText size="14px" weight={400}>
           <FormattedMessage
-            id='modals.showethpriv.priv_key'
-            defaultMessage='Private Key'
+            id="modals.showethpriv.priv_key"
+            defaultMessage="Private Key"
           />
         </DetailRowText>
         {':'}&nbsp;
-        <DataRowText size='14px' weight={300}>
+        <DataRowText size="14px" weight={300}>
           {priv}
         </DataRowText>
       </DetailRow>
@@ -107,34 +107,34 @@ const ShowEthPrivateKeyTemplate = ({
   onContinue,
   ...rest
 }) => (
-  <Modal size='large' position={position} total={total}>
-    <ModalHeader icon='lock' closeButton={false}>
+  <Modal size="large" position={position} total={total}>
+    <ModalHeader icon="lock" closeButton={false}>
       <FormattedMessage
-        id='modals.showethpriv.title'
-        defaultMessage='Private Key'
+        id="modals.showethpriv.title"
+        defaultMessage="Private Key"
       />
     </ModalHeader>
     <ModalBody>
       {step === 0 ? <FirstStep /> : <SecondStep {...rest} />}
     </ModalBody>
-    <ModalFooter align='right'>
+    <ModalFooter align="right">
       <Text
-        cursor='pointer'
-        size='small'
+        cursor="pointer"
+        size="small"
         weight={300}
         style={spacing('mr-15')}
         onClick={close}
       >
         <FormattedMessage
-          id='modals.showethpriv.close'
-          defaultMessage='Close'
+          id="modals.showethpriv.close"
+          defaultMessage="Close"
         />
       </Text>
       {step === 0 && (
-        <Button nature='primary' onClick={onContinue}>
+        <Button nature="primary" onClick={onContinue}>
           <FormattedMessage
-            id='modals.showethpriv.continue'
-            defaultMessage='Continue'
+            id="modals.showethpriv.continue"
+            defaultMessage="Continue"
           />
         </Button>
       )}

@@ -38,9 +38,9 @@ const ConfirmationGauge = props => {
 
   return (
     <Container>
-      {nbConfirmations > 0 ? <Bar color={color} /> : <Bar color='white' />}
-      {nbConfirmations > 1 ? <Bar color={color} /> : <Bar color='white' />}
-      {nbConfirmations > 2 ? <Bar color={color} /> : <Bar color='white' />}
+      {nbConfirmations > 0 ? <Bar color={color} /> : <Bar color="white" />}
+      {nbConfirmations > 1 ? <Bar color={color} /> : <Bar color="white" />}
+      {nbConfirmations > 2 ? <Bar color={color} /> : <Bar color="white" />}
     </Container>
   )
 }

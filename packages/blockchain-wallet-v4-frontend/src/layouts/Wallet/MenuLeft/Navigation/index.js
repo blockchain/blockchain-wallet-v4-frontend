@@ -8,7 +8,7 @@ import { getData } from './selectors'
 import Navigation from './template.js'
 
 class NavigationContainer extends React.PureComponent {
-  render () {
+  render() {
     return (
       <Navigation
         canTrade={this.props.canTrade}

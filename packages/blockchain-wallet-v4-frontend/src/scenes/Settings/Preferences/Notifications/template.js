@@ -16,14 +16,14 @@ const Notifications = () => {
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage
-            id='scenes.settings.preferences.notifications.title'
-            defaultMessage='Notifications'
+            id="scenes.settings.preferences.notifications.title"
+            defaultMessage="Notifications"
           />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id='scenes.settings.preferences.notifications.description'
-            defaultMessage='Get notified when you receive bitcoin.'
+            id="scenes.settings.preferences.notifications.description"
+            defaultMessage="Get notified when you receive bitcoin."
           />
         </SettingDescription>
       </SettingSummary>

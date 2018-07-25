@@ -10,16 +10,16 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class BalancesChartContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.handleCoinDisplay = this.handleCoinDisplay.bind(this)
   }
 
-  handleCoinDisplay () {
+  handleCoinDisplay() {
     this.props.preferencesActions.toggleCoinDisplayed()
   }
 
-  render () {
+  render() {
     const { data, history } = this.props
 
     return data.cata({

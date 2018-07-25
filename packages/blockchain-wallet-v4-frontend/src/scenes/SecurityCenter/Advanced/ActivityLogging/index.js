@@ -6,18 +6,18 @@ import { actions, selectors } from 'data'
 import ActivityLogging from './template.js'
 
 class ActivityLoggingContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
   }
 
-  handleClick () {
+  handleClick() {
     this.props.settingsActions.updateLoggingLevel(
       Number(!this.props.activityLoggingEnabled.data)
     )
   }
 
-  render () {
+  render() {
     const { activityLoggingEnabled, ...rest } = this.props
     const loggingEnabled = activityLoggingEnabled.data
 
