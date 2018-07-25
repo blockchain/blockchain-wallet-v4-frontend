@@ -12,7 +12,6 @@ export { default as TooltipIcon } from './TooltipIcon'
  *
  * TODO:
  * Add Proptypes
- * Update all uses of previous tooltip
  * Default prop values in './template'
  */
 
