@@ -11,13 +11,7 @@ import Success from './template.success'
 import DataError from 'components/DataError'
 import { FormattedMessage } from 'react-intl'
 import { Remote } from 'blockchain-wallet-v4/src'
-import {
-  Modal,
-  ModalHeader,
-  ModalBody,
-  Tooltip,
-  TooltipRebuild
-} from 'blockchain-info-components'
+import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
 
 class RequestBchContainer extends React.PureComponent {
   constructor (props) {
@@ -74,16 +68,13 @@ class RequestBchContainer extends React.PureComponent {
     const { data, closeAll } = this.props
 
     const content = data.cata({
-      Success: value => {
-        TooltipRebuild()
-        return (
-          <Success
-            receiveAddress={value.receiveAddress}
-            handleSubmit={this.handleSubmit}
-            closeAll={closeAll}
-          />
-        )
-      },
+      Success: value => (
+        <Success
+          receiveAddress={value.receiveAddress}
+          handleSubmit={this.handleSubmit}
+          closeAll={closeAll}
+        />
+      ),
       NotAsked: () => <DataError onClick={this.handleRefresh} />,
       Failure: () => <DataError onClick={this.handleRefresh} />,
       Loading: () => <Loading />
@@ -102,18 +93,6 @@ class RequestBchContainer extends React.PureComponent {
           />
         </ModalHeader>
         <ModalBody>{content}</ModalBody>
-        <Tooltip id='reqBchShare'>
-          <FormattedMessage
-            id='modals.requestbch.share_tooltip'
-            defaultMessage='Share this address with others, and they can send you Bitcoin Cash directly to your wallet. Your address changes with every payment.'
-          />
-        </Tooltip>
-        <Tooltip id='reqBchQR'>
-          <FormattedMessage
-            id='modals.requestbch.scan_tooltip'
-            defaultMessage='Ask the sender to scan this QR code with their Bitcoin cash wallet'
-          />
-        </Tooltip>
       </Modal>
     )
   }

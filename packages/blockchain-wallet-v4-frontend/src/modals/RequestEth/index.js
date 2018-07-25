@@ -11,13 +11,7 @@ import Success from './template.success'
 import DataError from 'components/DataError'
 import { FormattedMessage } from 'react-intl'
 import { Remote } from 'blockchain-wallet-v4/src'
-import {
-  Modal,
-  ModalHeader,
-  ModalBody,
-  Tooltip,
-  TooltipRebuild
-} from 'blockchain-info-components'
+import { Modal, ModalHeader, ModalBody } from 'blockchain-info-components'
 
 class RequestEtherContainer extends React.PureComponent {
   constructor (props) {
@@ -67,19 +61,16 @@ class RequestEtherContainer extends React.PureComponent {
     const { data, closeAll, selection, coins } = this.props
 
     const content = data.cata({
-      Success: val => {
-        TooltipRebuild()
-        return (
-          <Success
-            {...this.props}
-            address={val}
-            closeAll={closeAll}
-            coins={coins}
-            selection={selection}
-            onSubmit={this.onSubmit}
-          />
-        )
-      },
+      Success: val => (
+        <Success
+          {...this.props}
+          address={val}
+          closeAll={closeAll}
+          coins={coins}
+          selection={selection}
+          onSubmit={this.onSubmit}
+        />
+      ),
       NotAsked: () => <DataError onClick={this.handleRefresh} />,
       Failure: () => <DataError onClick={this.handleRefresh} />,
       Loading: () => <Loading />
@@ -98,18 +89,6 @@ class RequestEtherContainer extends React.PureComponent {
           />
         </ModalHeader>
         <ModalBody>{content}</ModalBody>
-        <Tooltip id='reqEthShare'>
-          <FormattedMessage
-            id='modals.requestether.sharetooltip'
-            defaultMessage='Share this address with others, and they can send you ETH directly to your wallet. Your request address will not change.'
-          />
-        </Tooltip>
-        <Tooltip id='reqEthScan'>
-          <FormattedMessage
-            id='modals.requestether.scan_tooltip'
-            defaultMessage='Ask the sender to scan this QR code with their ether wallet'
-          />
-        </Tooltip>
       </Modal>
     )
   }

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import { FormattedMessage } from 'react-intl'
-import { Text, Tooltip, Icon } from 'blockchain-info-components'
+import { Text, TooltipHost, Icon, Tooltip } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -27,11 +27,9 @@ const CountdownTimer = props => (
       />
     </Text>
     {!props.hideTooltip ? (
-      <Icon
-        data-tip
-        data-for='CountdownTimer.tooltip'
-        name='question-in-circle'
-      />
+      <TooltipHost id='CountdownTimer.tooltip'>
+        <Icon name='question-in-circle' />
+      </TooltipHost>
     ) : null}
     <Tooltip id='CountdownTimer.tooltip'>
       <FormattedMessage

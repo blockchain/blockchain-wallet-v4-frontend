@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { prop, head } from 'ramda'
 import media from 'services/ResponsiveService'
-import { Text, Tooltip, Icon } from 'blockchain-info-components'
+import { Text, TooltipHost, Icon } from 'blockchain-info-components'
 import { recurringTimeHelper, recurringFee } from 'services/CoinifyService'
 import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
 
@@ -51,13 +51,9 @@ const Recurring = ({ trade, subscription }) => {
             defaultMessage='This is a Recurring Order'
           />
         </Text>
-        <Icon data-tip data-for='recurring.tooltip' name='question-in-circle' />
-        <Tooltip>
-          <FormattedMessage
-            id='orderdetails.recurring.tooltip'
-            defaultMessage='Recurring orders will be placed automatically on a regular basis from your linked credit card.'
-          />
-        </Tooltip>
+        <TooltipHost id='recurring.tooltip'>
+          <Icon name='question-in-circle' />
+        </TooltipHost>
       </HeaderWrapper>
       <RecurringBox>
         <RecurringRow>
@@ -130,12 +126,6 @@ const Recurring = ({ trade, subscription }) => {
           </RecurringValue>
         </RecurringRow>
       </RecurringBox>
-      <Tooltip id='recurring.tooltip'>
-        <FormattedMessage
-          id='orderdetails.recurring.tooltip'
-          defaultMessage='Recurring orders will be placed automatically on a regular basis from your linked credit card.'
-        />
-      </Tooltip>
     </RecurringTradeWrapper>
   )
 }

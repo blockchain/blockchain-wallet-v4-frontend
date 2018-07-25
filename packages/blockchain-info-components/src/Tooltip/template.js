@@ -11,6 +11,7 @@ const StyledTip = styled(ReactTooltip)`
   max-width: 350px;
   font-size: 11px;
   font-weight: 300;
+  z-index: 2000;
   font-family: 'Montserrat', sans serif;
   pointer-events: auto !important;
   &:hover {

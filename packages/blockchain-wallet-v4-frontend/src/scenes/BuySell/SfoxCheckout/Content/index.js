@@ -11,7 +11,6 @@ import {
   getTrades,
   getPayment
 } from './selectors'
-import { TooltipRebuild } from 'blockchain-info-components'
 import Success from './template.success'
 import Loading from 'components/BuySell/Loading'
 import { path } from 'ramda'
@@ -33,10 +32,6 @@ class SfoxCheckout extends React.PureComponent {
       quote: { amt: 1e8, baseCurrency: 'BTC', quoteCurrency: 'USD' }
     })
     this.props.sfoxActions.initializePayment()
-  }
-
-  componentDidUpdate () {
-    TooltipRebuild()
   }
 
   componentWillUnmount () {

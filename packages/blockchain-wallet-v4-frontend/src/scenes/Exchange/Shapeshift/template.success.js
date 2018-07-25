@@ -6,7 +6,6 @@ import StateRegistrationStep from './StateRegistrationStep'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 import ThirdStep from './ThirdStep'
-import Tooltips from './Tooltips'
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,35 +22,30 @@ const Shapeshift = props => {
       return (
         <Wrapper>
           <StateRegistrationStep />
-          <Tooltips />
         </Wrapper>
       )
     case 1:
       return (
         <Wrapper>
           <FirstStep />
-          <Tooltips />
         </Wrapper>
       )
     case 2:
       return (
         <Wrapper>
           <SecondStep />
-          <Tooltips />
         </Wrapper>
       )
     case 3:
       return (
         <Wrapper>
           <ThirdStep />
-          <Tooltips />
         </Wrapper>
       )
     default:
       return (
         <Wrapper>
           <FirstStep />
-          <Tooltips />
         </Wrapper>
       )
   }

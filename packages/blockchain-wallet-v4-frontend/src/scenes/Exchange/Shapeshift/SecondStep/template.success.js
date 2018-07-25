@@ -3,7 +3,14 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
-import { Button, Link, Text, TextGroup, Icon } from 'blockchain-info-components'
+import {
+  Button,
+  Link,
+  Text,
+  TextGroup,
+  TooltipIcon,
+  TooltipHost
+} from 'blockchain-info-components'
 import { CheckBox, CountdownTimer, Form } from 'components/Form'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import Terms from 'components/Terms'
@@ -84,10 +91,6 @@ const TableCell = styled.div`
   & > :first-child {
     margin-right: 5px;
   }
-`
-const TooltipIcon = styled(Icon)`
-  display: inline-flex;
-  margin-left: 5px;
 `
 
 const Success = props => {
@@ -179,11 +182,9 @@ const Success = props => {
                     defaultMessage='Transaction fee'
                   />
                 </Text>
-                <TooltipIcon
-                  name='question-in-circle'
-                  data-tip
-                  data-for='secondstep.txfeeexplanation'
-                />
+                <TooltipHost id='secondstep.txfeeexplanation'>
+                  <TooltipIcon name='question-in-circle' />
+                </TooltipHost>
               </TableCell>
               <TableCell>
                 <CoinDisplay coin={sourceCoin} size='13px' weight={300}>
@@ -215,11 +216,9 @@ const Success = props => {
                     defaultMessage='Exchange rate'
                   />
                 </Text>
-                <TooltipIcon
-                  name='question-in-circle'
-                  data-tip
-                  data-for='secondstep.ratetooltip'
-                />
+                <TooltipHost id='secondstep.ratetooltip'>
+                  <TooltipIcon name='question-in-circle' />
+                </TooltipHost>
               </TableCell>
               <TableCell>
                 <Text size='13px' weight={300}>
@@ -235,11 +234,9 @@ const Success = props => {
                     defaultMessage='Network transaction fee'
                   />
                 </Text>
-                <TooltipIcon
-                  name='question-in-circle'
-                  data-tip
-                  data-for='secondstep.networkfeetooltip'
-                />
+                <TooltipHost id='secondstep.networkfeetooltip'>
+                  <TooltipIcon name='question-in-circle' />
+                </TooltipHost>
               </TableCell>
               <TableCell>
                 <Text

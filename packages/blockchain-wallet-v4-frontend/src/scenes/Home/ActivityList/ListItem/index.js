@@ -2,7 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Icon, SkeletonCircle, Text } from 'blockchain-info-components'
+import {
+  Icon,
+  SkeletonCircle,
+  Text,
+  TooltipHost
+} from 'blockchain-info-components'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 
 const Container = styled.div`
@@ -105,13 +110,9 @@ const ActivityListItem = props => (
         {props.action} {props.coin}
         {props.watchOnly && (
           <Label>
-            <SkeletonCircle
-              bgColor='gray-2'
-              width='10px'
-              height='10px'
-              data-tip
-              data-for='activityFeedWatchOnly'
-            />
+            <TooltipHost id='activityFeedWatchOnly'>
+              <SkeletonCircle bgColor='gray-2' width='10px' height='10px' />
+            </TooltipHost>
           </Label>
         )}
       </RecentActivityText>

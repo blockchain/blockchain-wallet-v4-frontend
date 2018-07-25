@@ -12,7 +12,8 @@ import {
   ModalBody,
   Text,
   Button,
-  Tooltip
+  TooltipIcon,
+  TooltipHost
 } from 'blockchain-info-components'
 import {
   OrderDetailsTable,
@@ -35,10 +36,6 @@ const ToolTipWrapper = styled.div`
   div:first-of-type {
     margin-right: 5px;
   }
-`
-const TooltipIcon = styled(Icon)`
-  display: inline-flex;
-  margin-left: 5px;
 `
 
 const renderFirstRow = trade => {
@@ -140,15 +137,14 @@ class SfoxTradeDetails extends React.PureComponent {
             </OrderDetailsRow>
             <OrderDetailsRow>
               <ToolTipWrapper>
-                <Text
-                  size='13px'
-                  weight={300}
-                >
+                <Text size='13px' weight={300}>
                   <FormattedMessage
                     id='orderdetails.tradingfee'
                     defaultMessage='Trading Fee'
                   />
-                  <TooltipIcon name='question-in-circle' data-tip data-for='tradingfee.tooltip' />
+                  <TooltipHost id='tradingfee.tooltip'>
+                    <TooltipIcon name='question-in-circle' />
+                  </TooltipHost>
                 </Text>
               </ToolTipWrapper>
               <Text size='13px' weight={300}>{`$${trade.feeAmount.toFixed(
@@ -184,12 +180,6 @@ class SfoxTradeDetails extends React.PureComponent {
               />
             </Button>
           </ButtonRow>
-          <Tooltip id='tradingfee.tooltip'>
-            <FormattedMessage
-              id='orderdetails.tradingfee.tooltip'
-              defaultMessage='The fee charged to execute a trade through SFOX.'
-            />
-          </Tooltip>
         </ModalBody>
       </Modal>
     )

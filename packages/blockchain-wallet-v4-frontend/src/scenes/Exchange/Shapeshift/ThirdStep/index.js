@@ -1,7 +1,6 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { TooltipRebuild } from 'blockchain-info-components'
 
 import { actions } from 'data'
 import { getData } from './selectors'
@@ -12,10 +11,6 @@ import Success from './template.success'
 class ThirdStepContainer extends React.Component {
   componentDidMount () {
     this.props.actions.thirdStepInitialized()
-  }
-
-  componentDidUpdate () {
-    TooltipRebuild()
   }
 
   render () {

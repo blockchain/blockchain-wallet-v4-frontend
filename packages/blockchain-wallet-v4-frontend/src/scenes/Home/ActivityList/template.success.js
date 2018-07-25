@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Text, Tooltip } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 
 import Empty from './Empty'
 import ListItem from './ListItem'
@@ -57,11 +57,11 @@ const Content = styled.div`
     height: 50%;
     border-left: 1px solid ${props => props.theme['gray-2']};
   }
-  > div:nth-last-child(2) {
+  > div:last-child {
     border-bottom: none;
     border-left: none;
   }
-  > div:nth-last-child(2):after {
+  > div:last-child:after {
     content: '';
     position: absolute;
     left: 0px;
@@ -89,12 +89,6 @@ const Success = props => (
           <ListItem key={index} handleLink={props.handleLink} {...activity} />
         ))
       )}
-      <Tooltip id='activityFeedWatchOnly'>
-        <FormattedMessage
-          id='scenes.home.activitylist.watchonly'
-          defaultMessage='This transaction involves a watch only address.'
-        />
-      </Tooltip>
     </Content>
   </Wrapper>
 )

@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { toString } from 'ramda'
 
-import { Icon, Link, Text } from 'blockchain-info-components'
+import { Icon, Link, Text, TooltipHost } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -21,7 +21,7 @@ const ConfirmationsText = styled(Text)`
   }
 `
 
-const TransactionTooltip = styled.div`
+const TransactionTooltip = styled(TooltipHost)`
   position: relative;
   display: flex;
   justify-items: flex-start;
@@ -66,8 +66,7 @@ const Confirmations = props => {
       <IconWrapper>
         {props.confirmations < props.minConfirmations && (
           <TransactionTooltip
-            data-tip
-            data-for='confirmations'
+            id='confirmations'
             data-iscapture='true'
             data-offset="{'left': 0.75}"
           >

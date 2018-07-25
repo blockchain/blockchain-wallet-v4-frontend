@@ -5,7 +5,12 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
 import { required, validBitcoinCashAddress } from 'services/FormHelper'
-import { Button, Icon, Tooltip } from 'blockchain-info-components'
+import {
+  Button,
+  Icon,
+  TooltipIcon,
+  TooltipHost
+} from 'blockchain-info-components'
 import {
   FiatConvertor,
   Form,
@@ -46,10 +51,6 @@ const AddressButton = styled.div`
   &:hover {
     background-color: ${props => props.theme['gray-1']};
   }
-`
-const TooltipIcon = styled(Icon)`
-  display: inline-flex;
-  margin-left: 5px;
 `
 
 const FirstStep = props => {
@@ -186,11 +187,9 @@ const FirstStep = props => {
               id='modals.sendBch.firststep.description'
               defaultMessage='Description: '
             />
-            <TooltipIcon
-              name='question-in-circle'
-              data-tip
-              data-for='sendBch.firststep.share_tooltip'
-            />
+            <TooltipHost id='sendBch.firststep.share_tooltip'>
+              <TooltipIcon name='question-in-circle' />
+            </TooltipHost>
           </FormLabel>
           <Field
             name='description'
@@ -224,12 +223,6 @@ const FirstStep = props => {
           />
         </Button>
       </FormGroup>
-      <Tooltip id='sendBch.firststep.share_tooltip'>
-        <FormattedMessage
-          id='modals.sendBch.firststep.share_tooltip'
-          defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.'
-        />
-      </Tooltip>
     </Form>
   )
 }

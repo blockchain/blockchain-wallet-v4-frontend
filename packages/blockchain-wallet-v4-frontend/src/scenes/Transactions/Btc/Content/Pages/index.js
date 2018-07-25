@@ -1,5 +1,4 @@
 import React from 'react'
-import { TooltipRebuild } from 'blockchain-info-components'
 
 import DataError from 'components/DataError'
 import Loading from './template.loading'
@@ -10,10 +9,9 @@ class Pages extends React.PureComponent {
     const { data, buysellPartner } = this.props
 
     return data.cata({
-      Success: value => {
-        TooltipRebuild()
-        return <Success transactions={value} buysellPartner={buysellPartner} />
-      },
+      Success: value => (
+        <Success transactions={value} buysellPartner={buysellPartner} />
+      ),
       Failure: () => <DataError onClick={() => this.props.onRefresh()} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />

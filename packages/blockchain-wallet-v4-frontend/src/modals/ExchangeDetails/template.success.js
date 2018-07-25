@@ -10,8 +10,8 @@ import {
   ModalBody,
   ModalFooter,
   Text,
-  Tooltip,
-  Icon
+  TooltipIcon,
+  TooltipHost
 } from 'blockchain-info-components'
 import ExchangeTimeline from 'components/ExchangeTimeline'
 
@@ -51,11 +51,6 @@ const TableCell = styled.div`
   & > :first-child {
     margin-right: 5px;
   }
-`
-
-const TooltipIcon = styled(Icon)`
-  display: inline-flex;
-  margin-left: 5px;
 `
 
 const getModalHeader = status => {
@@ -169,11 +164,9 @@ const ExchangeDetails = props => {
                   defaultMessage='Exchange rate'
                 />
               </Text>
-              <TooltipIcon
-                name='question-in-circle'
-                data-tip
-                data-for='exchangedetails.exchangetooltip'
-              />
+              <TooltipHost id='exchangedetails.exchangetooltip'>
+                <TooltipIcon name='question-in-circle' />
+              </TooltipHost>
             </TableCell>
             <TableCell>
               <Text size='13px' weight={300} uppercase>
@@ -189,11 +182,9 @@ const ExchangeDetails = props => {
                   defaultMessage='Transaction fee'
                 />
               </Text>
-              <TooltipIcon
-                name='question-in-circle'
-                data-tip
-                data-for='exchangedetails.feetooltip'
-              />
+              <TooltipHost id='exchangedetails.feetooltip'>
+                <TooltipIcon name='question-in-circle' />
+              </TooltipHost>
             </TableCell>
             <TableCell>
               <Text size='13px' weight={300} uppercase>
@@ -226,18 +217,6 @@ const ExchangeDetails = props => {
           />
         </Button>
       </ModalFooter>
-      <Tooltip id='exchangedetails.exchangetooltip'>
-        <FormattedMessage
-          id='modals.exchangedetails.exchangetooltip'
-          defaultMessage='This rate may change depending on the market price at the time of your transaction.'
-        />
-      </Tooltip>
-      <Tooltip id='exchangedetails.feetooltip'>
-        <FormattedMessage
-          id='modals.exchangedetails.feetooltip'
-          defaultMessage='This fee is used to send the outgoing exchange funds to ShapeShift.'
-        />
-      </Tooltip>
     </Modal>
   )
 }
