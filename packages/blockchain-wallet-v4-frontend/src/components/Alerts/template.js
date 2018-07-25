@@ -511,6 +511,13 @@ const selectMessage = (message, data = undefined) => {
           defaultMessage='PBKDF2 iterations changed successfully'
         />
       )
+    case C.QR_SCANNER_NOT_ALLOWED:
+      return (
+        <FormattedMessage
+          id='components.alerts.qr_scanner_not_allowed'
+          defaultMessage='Please enable camera to use this feature'
+        />
+      )
     case C.RECEIVE_BCH_SUCCESS:
       return (
         <FormattedMessage
@@ -571,7 +578,7 @@ const selectMessage = (message, data = undefined) => {
       return (
         <FormattedMessage
           id='components.alerts.reset_twofa_info'
-          defaultMessage='Reset 2-step authentication has been successfully submitted.'
+          defaultMessage='Reset two-factor authentication has been successfully submitted.'
         />
       )
     case C.RESTORE_ERROR:
@@ -915,7 +922,7 @@ const selectMessage = (message, data = undefined) => {
       return (
         <FormattedMessage
           id='components.alerts.eth_address_incorrect'
-          defaultMessage='Invalid Ethereum Address.'
+          defaultMessage='Invalid Ether Address.'
         />
       )
     case C.PRIVATE_KEY_INVALID:
@@ -936,7 +943,6 @@ const selectMessage = (message, data = undefined) => {
       )
   }
 }
-
 const Alerts = props => {
   const { alerts, handleClose } = props
 
