@@ -8,6 +8,10 @@ jest.mock('./template', () => () => {
   return <div />
 })
 
+jest.mock('blockchain-info-components', () => ({
+  TooltipRebuild: jest.fn()
+}))
+
 const store = configureStore([])({})
 const tx = { hash: '123abc' }
 

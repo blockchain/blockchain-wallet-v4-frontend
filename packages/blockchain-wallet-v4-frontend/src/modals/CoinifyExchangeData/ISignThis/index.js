@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actions } from 'data'
 import { equals, path, prop } from 'ramda'
-import { Button, Text, Tooltip } from 'blockchain-info-components'
+import { Button, Text, TooltipHost, Icon } from 'blockchain-info-components'
 import { FormattedMessage } from 'react-intl'
 
 import renderFaq from 'components/FaqDropdown'
@@ -283,12 +283,9 @@ class ISignThisContainer extends Component {
                         values={{ fiatValue: getExpiredFiatValues(q) }}
                       />
                     </QuoteExpiredText>
-                    <Tooltip>
-                      <FormattedMessage
-                        id='scenes.buysell.coinify.isx.expiredtooltip'
-                        defaultMessage='This is an estimated quote. The original quote for this trade expired. The exact amount of bitcoin received depends on when the payment is received.'
-                      />
-                    </Tooltip>
+                    <TooltipHost id='isx.expiredtooltip'>
+                      <Icon name='question-in-circle' />
+                    </TooltipHost>
                   </Fragment>
                 )
               } else {

@@ -6,7 +6,13 @@ import { Field, reduxForm } from 'redux-form'
 import QRCodeReact from 'qrcode.react'
 
 import { required } from 'services/FormHelper'
-import { Button, Separator, Text, Tooltip } from 'blockchain-info-components'
+import {
+  Button,
+  Separator,
+  Text,
+  TooltipIcon,
+  TooltipHost
+} from 'blockchain-info-components'
 import {
   Form,
   FormGroup,
@@ -74,12 +80,9 @@ const RequestBch = props => {
               id='modals.requestbch.share'
               defaultMessage='Copy & Share Address: '
             />
-            <Tooltip>
-              <FormattedMessage
-                id='modals.requestbch.share_ooltip'
-                defaultMessage='Share this address with others, and they can send you Bitcoin Cash directly to your wallet. Your address changes with every payment.'
-              />
-            </Tooltip>
+            <TooltipHost id='reqBchShare'>
+              <TooltipIcon name='question-in-circle' />
+            </TooltipHost>
           </FormLabel>
           <AddressContainer>
             <CopyClipboard address={receiveAddress} />
@@ -98,12 +101,9 @@ const RequestBch = props => {
               id='modals.requestbch.scan'
               defaultMessage='Scan QR Code:'
             />
-            <Tooltip>
-              <FormattedMessage
-                id='modals.requestbch.scan_tooltip'
-                defaultMessage='Ask the sender to scan this QR code with their Bitcoin cash wallet'
-              />
-            </Tooltip>
+            <TooltipHost id='reqBchQR'>
+              <TooltipIcon name='question-in-circle' />
+            </TooltipHost>
           </Text>
         </ScanMessage>
         <QRCodeReact value={receiveAddress} size={150} />
