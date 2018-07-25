@@ -9,7 +9,9 @@ const Container = styled.div`
   align-items: center;
   flex-direction: column;
 `
-const JumioFrame = styled.iframe`
+const JumioFrame = styled.iframe.attrs({
+  allow: 'camera'
+})`
   width: 80%;
   height: 450px;
   border-width: 1px;
@@ -25,12 +27,7 @@ const Success = props => {
 
   return (
     <Container>
-      <JumioFrame
-        src={jumioUrl}
-        sandbox='allow-same-origin allow-scripts allow-forms allow-popups'
-        scrolling='yes'
-        id='jumio'
-      />
+      <JumioFrame src={jumioUrl} scrolling='yes' id='jumio' />
     </Container>
   )
 }
