@@ -174,6 +174,18 @@ class Tooltips extends React.PureComponent {
             defaultMessage='When you send bitcoin, your Blockchain wallet automatically selects addresses to spend from. That is why the current balance of an address can be different from the total received value.'
           />
         </Tooltip>
+        <Tooltip id='sendbtc.firststep.sharetooltip'>
+          <FormattedMessage
+            id='modals.sendbtc.firststep.sharetooltip'
+            defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.'
+          />
+        </Tooltip>
+        <Tooltip id='signmessage.label.tooltip'>
+          <FormattedMessage
+            id='modals.signmessage.label'
+            defaultMessage="By signing a message, you can prove that you own this bitcoin address. You can verify signed messages by clicking on 'More Actions' > 'Verify Message'."
+          />
+        </Tooltip>
       </div>
     )
   }
