@@ -34,7 +34,6 @@ import smartphone from './img/smartphone.png'
 import sfoxLogo from './img/sfox-logo.png'
 import sophisticated from './img/sophisticated.svg'
 import v4Welcome from './img/v4-welcome.jpg'
-import verifyIdentity from './img/verify-identity.svg'
 import walletV3Backup from './img/wallet-v3-backup.jpg'
 import walletV3FundManagement from './img/wallet-v3-fund-management.jpg'
 import walletV3NewDesign from './img/wallet-v3-new-design.jpg'
@@ -78,7 +77,6 @@ export default {
   smartphone: smartphone,
   sophisticated: sophisticated,
   'v4-welcome': v4Welcome,
-  'verify-identity': verifyIdentity,
   'wallet-v3-backup': walletV3Backup,
   'wallet-v3-fund-management': walletV3FundManagement,
   'wallet-v3-new-design': walletV3NewDesign,

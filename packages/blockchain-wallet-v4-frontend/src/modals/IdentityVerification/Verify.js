@@ -26,14 +26,14 @@ const faqQuestions = [
   {
     question: (
       <FormattedMessage
-        id='identityverification.verify.faq.whycollect.question'
-        defaultMessage='Why do you need this information?'
+        id="identityverification.verify.faq.whycollect.question"
+        defaultMessage="Why do you need this information?"
       />
     ),
     answer: (
       <FormattedMessage
-        id='identityverification.verify.faq.whycollect.answer'
-        defaultMessage='To comply with government regulated anti-money laundering legislation, we need to obtain additional information in order to verify your identity.'
+        id="identityverification.verify.faq.whycollect.answer"
+        defaultMessage="To comply with government regulated anti-money laundering legislation, we need to obtain additional information in order to verify your identity."
       />
     )
   }
@@ -45,29 +45,29 @@ const Verify = ({ formBusy, handleSubmit }) => (
       <InputWrapper>
         <PartnerHeader>
           <FormattedMessage
-            id='identityverification.verify.header'
-            defaultMessage='Verify Your Identity'
+            id="identityverification.verify.header"
+            defaultMessage="Verify Your Identity"
           />
         </PartnerHeader>
-        <Image name='verify-identity' width='100%' />
+        <Image name="identity-verification" width="100%" />
         <PartnerSubHeader>
           <FormattedMessage
-            id='identityverification.verify.subheader'
-            defaultMessage='Good news – you’re almost done! Just grab your photo ID and mobile phone to complete your verification. This will only take a few minutes.'
+            id="identityverification.verify.subheader"
+            defaultMessage="Good news – you’re almost done! Just grab your photo ID and mobile phone to complete your verification. This will only take a few minutes."
           />
         </PartnerSubHeader>
       </InputWrapper>
     </ColLeft>
     <ColRight>
       <ColRightInner>
-        <Button uppercase nature='primary' onClick={handleSubmit} fullwidth>
+        <Button uppercase nature="primary" onClick={handleSubmit} fullwidth>
           {!formBusy ? (
             <FormattedMessage
-              id='identityverification.verify.verify'
-              defaultMessage='Verify My Identity'
+              id="identityverification.verify.verify"
+              defaultMessage="Verify My Identity"
             />
           ) : (
-            <HeartbeatLoader height='20px' width='20px' color='white' />
+            <HeartbeatLoader height="20px" width="20px" color="white" />
           )}
         </Button>
         {renderFaq(faqQuestions)}
