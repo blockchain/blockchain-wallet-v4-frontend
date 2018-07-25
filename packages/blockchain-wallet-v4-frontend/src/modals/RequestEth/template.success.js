@@ -40,7 +40,9 @@ const QRCodeContainer = styled.div`
 const CoinSelector = styled(FormGroup)`
   width: 50%;
 `
-const ScanMessage = styled.div``
+const ScanMessage = styled.div`
+  padding-bottom: 20px;
+`
 
 const RequestEther = props => {
   const { handleSubmit, address } = props
