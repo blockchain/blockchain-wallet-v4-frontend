@@ -4,7 +4,14 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
 import { isEmpty } from 'ramda'
-import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import {
+  Button,
+  HeartbeatLoader,
+  Icon,
+  TooltipIcon,
+  TooltipHost,
+  Text
+} from 'blockchain-info-components'
 import { Form, NumberBoxDebounced } from 'components/Form'
 import MinimumAmountLink from './MinimumAmountLink'
 import MaximumAmountLink from './MaximumAmountLink'
@@ -90,10 +97,6 @@ const ShapeshiftIcon = styled(Icon)`
     color: ${props => props.theme['brand-secondary']};
   }
 `
-const TooltipIcon = styled(Icon)`
-  display: inline-flex;
-  margin-left: 5px;
-`
 
 const Success = props => {
   const {
@@ -176,11 +179,9 @@ const Success = props => {
               id='scenes.exchange.shapeshift.firststep.amount'
               defaultMessage='Enter amount:'
             />
-            <TooltipIcon
-              name='question-in-circle'
-              data-tip
-              data-for='firststep.tooltip'
-            />
+            <TooltipHost id='firststep.tooltip'>
+              <TooltipIcon name='question-in-circle' />
+            </TooltipHost>
           </Text>
         </Row>
         <Row height='80px'>

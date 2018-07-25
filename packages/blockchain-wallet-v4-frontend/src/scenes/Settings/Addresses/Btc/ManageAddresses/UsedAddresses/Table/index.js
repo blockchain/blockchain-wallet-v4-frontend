@@ -3,18 +3,13 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { formValueSelector } from 'redux-form'
 
-import { FlatLoader, TooltipRebuild } from 'blockchain-info-components'
+import { FlatLoader } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import UsedAddressesTable from './template'
 
 class UsedAddressesTableContainer extends React.PureComponent {
   componentWillMount () {
-    window.tooltip = TooltipRebuild
     this.props.componentActions.fetchUsedAddresses(this.props.walletIndex)
-  }
-
-  componentDidUpdate () {
-    TooltipRebuild()
   }
 
   render () {

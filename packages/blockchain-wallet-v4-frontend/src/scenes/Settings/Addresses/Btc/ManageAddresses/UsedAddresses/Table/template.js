@@ -1,6 +1,5 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import styled from 'styled-components'
 
 import CoinDisplay from 'components/Display/CoinDisplay'
 import {
@@ -10,13 +9,9 @@ import {
   TableHeader,
   TableRow,
   TableCell,
-  Icon
+  TooltipIcon,
+  TooltipHost
 } from 'blockchain-info-components'
-
-const TooltipIcon = styled(Icon)`
-  display: inline-flex;
-  margin-left: 5px;
-`
 
 const UsedTable = ({ children }) => (
   <Table>
@@ -47,7 +42,9 @@ const UsedTable = ({ children }) => (
             defaultMessage='Balance'
           />
         </Text>
-        <TooltipIcon name='question-in-circle' data-tip data-for='settingsBtcUsedBalace' />
+        <TooltipHost id='settingsBtcUsedBalace'>
+          <TooltipIcon name='question-in-circle' />
+        </TooltipHost>
       </TableCell>
     </TableHeader>
     {children}

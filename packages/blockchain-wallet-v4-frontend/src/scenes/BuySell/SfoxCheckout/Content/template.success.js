@@ -3,7 +3,7 @@ import { equals, filter, prop } from 'ramda'
 import styled from 'styled-components'
 
 import OrderHistoryTable from 'components/BuySell/OrderHistoryTable'
-import { Text, Tooltip } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 import { determineStep, determineReason } from 'services/SfoxService'
 import { flex } from 'services/StyleService'
 import { FormattedMessage } from 'react-intl'
@@ -196,12 +196,6 @@ const Success = props => {
           </SfoxBuySellContainer>
         </StepView>
         {siftScienceEnabled ? <SiftScience /> : null}
-        <Tooltip id='tradingfee.tooltip'>
-          <FormattedMessage
-            id='orderdetails.tradingfee.tooltip'
-            defaultMessage='The fee charged to execute a trade through SFOX.'
-          />
-        </Tooltip>
       </Stepper>
     )
   } else if (type === 'sell') {
@@ -244,12 +238,6 @@ const Success = props => {
           </SfoxBuySellContainer>
         </StepView>
         {siftScienceEnabled ? <SiftScience /> : null}
-        <Tooltip id='tradingfee.tooltip'>
-          <FormattedMessage
-            id='orderdetails.tradingfee.tooltip'
-            defaultMessage='The fee charged to execute a trade through SFOX.'
-          />
-        </Tooltip>
       </Stepper>
     )
   } else if (trades) {

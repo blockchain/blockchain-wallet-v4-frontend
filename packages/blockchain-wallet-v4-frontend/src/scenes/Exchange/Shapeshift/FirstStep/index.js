@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { TooltipRebuild } from 'blockchain-info-components'
 
 import { actions } from 'data'
 import { getData } from './selectors'
@@ -17,10 +16,6 @@ class FirstStepContainer extends React.Component {
 
   componentDidMount () {
     this.props.actions.firstStepInitialized()
-  }
-
-  componentDidUpdate () {
-    TooltipRebuild()
   }
 
   handleRefresh () {

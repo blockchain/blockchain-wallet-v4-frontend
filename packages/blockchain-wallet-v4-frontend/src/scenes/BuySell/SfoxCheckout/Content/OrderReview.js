@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
-import { Text, Icon, Link } from 'blockchain-info-components'
+import { Text, Icon, Link, TooltipIcon, TooltipHost } from 'blockchain-info-components'
 import CountdownTimer from 'components/Form/CountdownTimer'
 import { Wrapper as ExchangeCheckoutWrapper } from '../../ExchangeCheckout'
 import { flex, spacing } from 'services/StyleService'
@@ -30,10 +30,6 @@ const ToolTipWrapper = styled.div`
   div:first-of-type {
     margin-right: 5px;
   }
-`
-const TooltipIcon = styled(Icon)`
-  display: inline-flex;
-  margin-left: 5px;
 `
 
 const faqList = [
@@ -169,11 +165,9 @@ export const OrderDetails = ({ quoteR, account, onRefreshQuote, type }) => (
               id='orderdetails.tradingfee'
               defaultMessage='Trading Fee'
             />
-            <TooltipIcon
-              name='question-in-circle'
-              data-tip
-              data-for='tradingfee.tooltip'
-            />
+            <TooltipHost id='tradingfee.tooltip'>
+              <TooltipIcon name='question-in-circle' />
+            </TooltipHost>
           </Text>
         </ToolTipWrapper>
         <Text size='13px' weight={300}>

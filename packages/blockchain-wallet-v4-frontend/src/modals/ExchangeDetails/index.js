@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { compose, bindActionCreators } from 'redux'
-import { TooltipRebuild } from 'blockchain-info-components'
 
 import { getData } from './selectors'
 import { actions } from 'data'
@@ -14,10 +13,6 @@ import Success from './template.success'
 class ExchangeDetailsContainer extends React.PureComponent {
   componentDidMount () {
     this.props.actions.modalInitialized(this.props.depositAddress)
-  }
-
-  componentDidUpdate () {
-    TooltipRebuild()
   }
 
   componentWillUnmount () {

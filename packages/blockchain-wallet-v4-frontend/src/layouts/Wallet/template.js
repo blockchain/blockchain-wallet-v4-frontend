@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 import Modals from 'modals'
 import Alerts from 'components/Alerts'
+import Tooltips from 'components/Tooltips'
 import Header from './Header'
 import MenuLeft from './MenuLeft'
 import MenuTop from './MenuTop'
@@ -61,6 +62,7 @@ const WalletLayout = props => {
     <Wrapper>
       <ErrorBoundary>
         <Alerts />
+        <Tooltips />
         <Modals />
         <Nav>
           <Header />

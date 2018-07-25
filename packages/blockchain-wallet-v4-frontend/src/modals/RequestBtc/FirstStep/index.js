@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { equals, prop } from 'ramda'
-import { TooltipRebuild } from 'blockchain-info-components'
 
 import { actions } from 'data'
 import { getData, getInitialValues } from './selectors'
@@ -37,8 +36,6 @@ class FirstStepContainer extends React.PureComponent {
   }
 
   componentDidUpdate (prevProps) {
-    TooltipRebuild()
-
     if (
       !Remote.Success.is(prevProps.initialValues) &&
       Remote.Success.is(this.props.initialValues)
@@ -85,19 +82,16 @@ class FirstStepContainer extends React.PureComponent {
     const { data } = this.props
 
     return data.cata({
-      Success: value => {
-        TooltipRebuild()
-        return (
-          <Success
-            message={value.message}
-            addressIdx={value.addressIdx}
-            accountIdx={value.accountIdx}
-            receiveAddress={value.receiveAddress}
-            handleClickQRCode={() => this.handleClickQRCode(value)}
-            handleSubmit={this.handleSubmit}
-          />
-        )
-      },
+      Success: value => (
+        <Success
+          message={value.message}
+          addressIdx={value.addressIdx}
+          accountIdx={value.accountIdx}
+          receiveAddress={value.receiveAddress}
+          handleClickQRCode={() => this.handleClickQRCode(value)}
+          handleSubmit={this.handleSubmit}
+        />
+      ),
       NotAsked: () => <DataError onClick={this.handleRefresh} />,
       Failure: () => <DataError onClick={this.handleRefresh} />,
       Loading: () => <Loading />

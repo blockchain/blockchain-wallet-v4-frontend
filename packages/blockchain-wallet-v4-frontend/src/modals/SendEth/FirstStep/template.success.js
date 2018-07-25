@@ -5,7 +5,12 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 
 import { required, validEtherAddress } from 'services/FormHelper'
-import { Button, Text, Tooltip, Icon } from 'blockchain-info-components'
+import {
+  Button,
+  Text,
+  TooltipHost,
+  TooltipIcon
+} from 'blockchain-info-components'
 import {
   FiatConvertor,
   Form,
@@ -26,10 +31,6 @@ const Row = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-`
-const TooltipIcon = styled(Icon)`
-  display: inline-flex;
-  margin-left: 5px;
 `
 
 const FirstStep = props => {
@@ -120,11 +121,9 @@ const FirstStep = props => {
               id='modals.sendether.firststep.description'
               defaultMessage='Description: '
             />
-            <TooltipIcon
-              name='question-in-circle'
-              data-tip
-              data-for='sendether.firststep.sharetooltip'
-            />
+            <TooltipHost id='sendether.firststep.sharetooltip'>
+              <TooltipIcon name='question-in-circle' />
+            </TooltipHost>
           </FormLabel>
           <Field
             name='description'
@@ -160,12 +159,6 @@ const FirstStep = props => {
           />
         </Button>
       </FormGroup>
-      <Tooltip id='sendether.firststep.sharetooltip'>
-        <FormattedMessage
-          id='modals.sendether.firststep.sharetooltip'
-          defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.'
-        />
-      </Tooltip>
     </Form>
   )
 }

@@ -8,8 +8,8 @@ import {
   Button,
   Icon,
   Text,
-  Tooltip,
-  TooltipRebuild
+  TooltipIcon,
+  TooltipHost
 } from 'blockchain-info-components'
 import { Form, FormGroup, FormItem, NumberBox } from 'components/Form'
 
@@ -70,10 +70,6 @@ const Amount = styled.span`
   font-size: 12px;
   margin-right: 5px;
 `
-const TooltipIcon = styled(Icon)`
-  display: inline-flex;
-  margin-left: 5px;
-`
 
 const belowMaxAmount = (value, allValues, props) =>
   value > props.limits.max ? 'max' : undefined
@@ -109,10 +105,6 @@ class ExchangeCheckout extends React.PureComponent {
         })
       }
     }
-  }
-
-  componentDidUpdate () {
-    TooltipRebuild()
   }
 
   setMax () {
@@ -172,11 +164,9 @@ class ExchangeCheckout extends React.PureComponent {
                   <Amount>
                     1 {crypto} = {rate} {fiat}
                   </Amount>
-                  <TooltipIcon
-                    name='question-in-circle'
-                    data-tip
-                    data-for='exchangecheckout.rate'
-                  />
+                  <TooltipHost id='exchangecheckout.rate'>
+                    <TooltipIcon name='question-in-circle' />
+                  </TooltipHost>
                 </Rate>
               )}
             {minError && (
@@ -261,12 +251,6 @@ class ExchangeCheckout extends React.PureComponent {
             {continueButton}
           </Button>
         </Form>
-        <Tooltip id='exchangecheckout.rate'>
-          <FormattedMessage
-            id='scenes.buysell.exchangecheckout.rate'
-            defaultMessage="The rate offered by your region's exchange partner. May include fees."
-          />
-        </Tooltip>
       </Wrapper>
     )
   }

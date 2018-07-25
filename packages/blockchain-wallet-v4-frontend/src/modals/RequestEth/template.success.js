@@ -6,7 +6,13 @@ import { Field, reduxForm } from 'redux-form'
 import QRCodeReact from 'qrcode.react'
 
 import { required } from 'services/FormHelper'
-import { Button, Separator, Text, Icon } from 'blockchain-info-components'
+import {
+  Button,
+  Separator,
+  Text,
+  TooltipIcon,
+  TooltipHost
+} from 'blockchain-info-components'
 import {
   Form,
   FormGroup,
@@ -35,10 +41,6 @@ const CoinSelector = styled(FormGroup)`
   width: 50%;
 `
 const ScanMessage = styled.div``
-const TooltipIcon = styled(Icon)`
-  display: inline-flex;
-  margin-left: 5px;
-`
 
 const RequestEther = props => {
   const { handleSubmit, address } = props
@@ -63,11 +65,9 @@ const RequestEther = props => {
               id='modals.requestether.share'
               defaultMessage='Copy & Share Address:'
             />
-            <TooltipIcon
-              name='question-in-circle'
-              data-tip
-              data-for='reqEthShare'
-            />
+            <TooltipHost id='reqEthShare'>
+              <TooltipIcon name='question-in-circle' />
+            </TooltipHost>
           </FormLabel>
         </FormItem>
         <AddressContainer>
@@ -86,11 +86,9 @@ const RequestEther = props => {
               id='modals.requestether.scan'
               defaultMessage='Scan QR Code:'
             />
-            <TooltipIcon
-              name='question-in-circle'
-              data-tip
-              data-for='reqEthScan'
-            />
+            <TooltipHost id='reqEthScan'>
+              <TooltipIcon name='question-in-circle' />
+            </TooltipHost>
           </Text>
         </ScanMessage>
         <QRCodeReact value={address} size={150} />

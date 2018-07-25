@@ -3,7 +3,12 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, Text, Icon } from 'blockchain-info-components'
+import {
+  Button,
+  Text,
+  TooltipIcon,
+  TooltipHost
+} from 'blockchain-info-components'
 import ExchangeTimeline from 'components/ExchangeTimeline'
 
 const Wrapper = styled.div`
@@ -81,10 +86,6 @@ const TableCell = styled.div`
   & > :first-child {
     margin-right: 5px;
   }
-`
-const TooltipIcon = styled(Icon)`
-  display: inline-flex;
-  margin-left: 5px;
 `
 
 const Success = props => {
@@ -203,11 +204,9 @@ const Success = props => {
                     defaultMessage='Exchange rate'
                   />
                 </Text>
-                <TooltipIcon
-                  name='question-in-circle'
-                  data-tip
-                  data-for='shapeshift.exchangetooltip'
-                />
+                <TooltipHost id='shapeshift.exchangetooltip'>
+                  <TooltipIcon name='question-in-circle' />
+                </TooltipHost>
               </TableCell>
               <TableCell>
                 <Text size='13px' weight={300} uppercase>
@@ -223,11 +222,9 @@ const Success = props => {
                     defaultMessage='Transaction fee'
                   />
                 </Text>
-                <TooltipIcon
-                  name='question-in-circle'
-                  data-tip
-                  data-for='shapeshift.feetooltip'
-                />
+                <TooltipHost id='shapeshift.feetooltip'>
+                  <TooltipIcon name='question-in-circle' />
+                </TooltipHost>
               </TableCell>
               <TableCell>
                 <Text size='13px' weight={300} uppercase>

@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { equals, filter } from 'ramda'
 
-import { Text, TextGroup } from 'blockchain-info-components'
+import { Text, TextGroup, TooltipHost } from 'blockchain-info-components'
 import { utils } from 'blockchain-wallet-v4/src'
 
 const Wrapper = styled.div`
@@ -52,9 +52,9 @@ const Addresses = props => {
             defaultMessage='To: '
           />
         </Text>
-        <Label data-tip={outputTooltip} data-for='addr'>
-          {to}
-        </Label>
+        <TooltipHost tip={outputTooltip} id='addr'>
+          <Label>{to}</Label>
+        </TooltipHost>
       </TextGroup>
       <TextGroup inline>
         <Text size='13px' weight={500}>
@@ -63,9 +63,9 @@ const Addresses = props => {
             defaultMessage='From: '
           />
         </Text>
-        <Label data-tip={inputTooltip} data-for='addr'>
-          {from}
-        </Label>
+        <TooltipHost tip={inputTooltip} id='addr'>
+          <Label>{from}</Label>
+        </TooltipHost>
       </TextGroup>
     </Wrapper>
   )

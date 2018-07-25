@@ -1,7 +1,8 @@
 import React from 'react'
 
-import ReactTooltip from 'react-tooltip'
 import Tooltip from './template'
+export { default as TooltipHost } from './TooltipHost'
+export { default as TooltipIcon } from './TooltipIcon'
 
 /**
  * In use, add as few tooltip containers as possible (they can be easily reused).
@@ -14,8 +15,6 @@ import Tooltip from './template'
  * Update all uses of previous tooltip
  * Default prop values in './template'
  */
-
-export const TooltipRebuild = () => ReactTooltip.rebuild()
 
 export default class TooltipContainer extends React.PureComponent {
   render () {
