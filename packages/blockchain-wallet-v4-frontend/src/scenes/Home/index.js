@@ -72,6 +72,7 @@ class Home extends React.PureComponent {
         this.props.buySellKv
       )
       if (token) {
+        this.props.sfoxDataActions.fetchTrades()
         this.props.sfoxDataActions.fetchProfile()
         this.props.sfoxDataActions.sfoxFetchAccounts()
       }

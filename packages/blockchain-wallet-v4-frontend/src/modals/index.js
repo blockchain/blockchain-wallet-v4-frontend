@@ -5,14 +5,17 @@ import AutoDisconnection from './AutoDisconnection'
 import CoinifyDeleteBank from './CoinifyDeleteBank'
 import CoinifyExchangeData from './CoinifyExchangeData'
 import CoinifyTradeDetails from './CoinifyTradeDetails'
+import Confirm from './Confirm'
 import ConfirmDisable2FA from './ConfirmDisable2FA'
 import DeleteAddressLabel from './DeleteAddressLabel'
 import EditTxDescription from './EditTxDescription'
 import ExchangeDetails from './ExchangeDetails'
+import IdentityVerification from './IdentityVerification'
 import ImportBtcAddress from './ImportBtcAddress'
 import MobileNumberChange from './MobileNumberChange'
 import MobileNumberVerify from './MobileNumberVerify'
 import MobileLogin from './MobileLogin'
+import Onfido from './Onfido'
 import PairingCode from './PairingCode'
 import PromptInput from './PromptInput'
 import QRCode from './QRCode'
@@ -48,14 +51,17 @@ const Modals = props => (
     <CoinifyDeleteBank />
     <CoinifyExchangeData />
     <CoinifyTradeDetails />
+    <Confirm />
     <ConfirmDisable2FA />
     <DeleteAddressLabel />
     <EditTxDescription />
     <ExchangeDetails />
+    <IdentityVerification />
     <ImportBtcAddress />
     <MobileNumberChange />
     <MobileNumberVerify />
     <MobileLogin />
+    <Onfido />
     <PairingCode />
     <PromptInput />
     <QRCode />

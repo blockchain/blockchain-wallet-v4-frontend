@@ -1,4 +1,5 @@
 import React from 'react'
+import moment from 'moment'
 import { FormattedMessage } from 'react-intl'
 
 export const isVerified = verificationStatus => {
@@ -98,7 +99,7 @@ export const statusHelper = status => {
   }
 }
 
-export const bodyStatusHelper = (status, isBuy) => {
+export const bodyStatusHelper = (status, isBuy, date) => {
   if (isBuy) {
     switch (status) {
       case 'processing':
@@ -106,7 +107,8 @@ export const bodyStatusHelper = (status, isBuy) => {
           text: (
             <FormattedMessage
               id='scenes.services.sfoxservice.buysellorderhistory.list.orderstatusbody.buy.processing'
-              defaultMessage='Your buy trade has been initiated. You will receive your bitcoin in 3-5 business days.'
+              defaultMessage='Your buy trade has been initiated. You will receive your funds on {date}.'
+              values={{ date: moment(date).format('dddd, MMMM Do') }}
             />
           )
         }
@@ -145,7 +147,8 @@ export const bodyStatusHelper = (status, isBuy) => {
           text: (
             <FormattedMessage
               id='scenes.services.sfoxservice.buysellorderhistory.list.orderstatusbody.sell.processing'
-              defaultMessage='Your sell trade has been initiated. You will receive your funds in 3-5 business days.'
+              defaultMessage='Your sell trade has been initiated. You will receive your funds on {date}.'
+              values={{ date: moment(date).format('dddd, MMMM Do') }}
             />
           )
         }
@@ -218,5 +221,12 @@ export const reviewOrder = {
         return `$${(+q.quoteAmount - +q.feeAmount).toFixed(2)}`
       } else return `$${(+q.baseAmount - +q.feeAmount).toFixed(2)}`
     }
+  },
+  renderDate (p, type) {
+    let minutesInADay = 1440
+    let waitingDays = p.processingTimes.usd[type] / minutesInADay
+    return moment()
+      .add(waitingDays, 'days')
+      .format('dddd, MMMM Do YYYY')
   }
 }

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 
 import { Text, Link } from 'blockchain-info-components'
-import Helper from 'components/BuySell/FAQ'
+import renderFaq from 'components/FaqDropdown'
 import CountdownTimer from 'components/Form/CountdownTimer'
 import { spacing } from 'services/StyleService'
 import { reviewOrder, getRateFromQuote } from 'services/CoinifyService'
@@ -16,10 +16,9 @@ import {
   Row,
   PartnerHeader,
   PartnerSubHeader
-} from 'components/BuySell/Signup'
+} from 'components/IdentityVerification'
 import { StepTransition } from 'components/Utilities/Stepper'
 import ReviewForm from './ReviewForm'
-import { update } from 'ramda'
 
 const ExchangeRateWrapper = styled.div`
   display: flex;
@@ -171,96 +170,94 @@ export const OrderDetails = ({ quoteR, onRefreshQuote, type, medium }) => (
   </Row>
 )
 
-export const OrderSubmit = props => {
-  const { busy, clearTradeError, onSubmit, quoteR, type } = props
+const faqQuestions = [
+  {
+    question: (
+      <FormattedMessage
+        id='coinifyexchangedata.cyo.helper1.question'
+        defaultMessage='How long will the buy order take?'
+      />
+    ),
+    answer: (
+      <FormattedMessage
+        id='coinifyexchangedata.cyo.helper1.answer'
+        defaultMessage='How long a buy order takes depends on your chosen payment method, which can always be changed. If buying through bank transfer, you will receive bitcoin within 2-3 days. If you chose to pay with a credit or debit card, you can plan to receive your bitcoin within 24 hours (depending on your bank’s transfer policies).'
+      />
+    )
+  },
+  {
+    question: (
+      <FormattedMessage
+        id='coinifyexchangedata.cyo.helper2.question'
+        defaultMessage='Why does the exchange rate change?'
+      />
+    ),
+    answer: (
+      <FormattedMessage
+        id='coinifyexchangedata.cyo.helper2.answer'
+        defaultMessage="When you choose to create a trade through bank transfer, Coinify will show you an exchange rate that may differ from the actual rate due to price fluctuations in bitcoin. Any issues that increase your order's processing time will have an effect on the final exchange rate used for that order. Once your order is ready, Coinify processes the trade and locks in the exchange rate."
+      />
+    )
+  },
+  {
+    question: (
+      <FormattedMessage
+        id='coinifyexchangedata.cyo.helper3.question'
+        defaultMessage='The small print'
+      />
+    ),
+    answer: (
+      <FormattedMessage
+        id='coinifyexchangedata.cyo.helper3.answer'
+        defaultMessage='To read more about how Coinify stores your information and keeps it safe, please visit their {tos} and {privacyPolicy}. For help with, or questions about your Blockchain wallet, please reach out to our support team {supportLink}.'
+        values={{
+          tos: (
+            <Link
+              size='12px'
+              weight={300}
+              href='https://www.coinify.com/legal'
+              target='_blank'
+              rel='noreferrer noopener'
+            >
+              <FormattedMessage id='tos' defaultMessage='Terms of Service' />
+            </Link>
+          ),
+          privacyPolicy: (
+            <Link
+              size='12px'
+              weight={300}
+              href='https://www.coinify.com/legal/policy'
+              target='_blank'
+              rel='noreferrer noopener'
+            >
+              <FormattedMessage
+                id='privacypolicy'
+                defaultMessage='Privacy Policy'
+              />
+            </Link>
+          ),
+          supportLink: (
+            <Link
+              target='_blank'
+              rel='noreferrer noopener'
+              href='https://support.blockchain.com'
+              size='12px'
+              weight={300}
+            >
+              <FormattedMessage
+                id='contactsupport'
+                defaultMessage='contact support'
+              />
+            </Link>
+          )
+        }}
+      />
+    )
+  }
+]
 
-  let helpers = [
-    {
-      question: (
-        <FormattedMessage
-          id='coinifyexchangedata.cyo.helper1.question'
-          defaultMessage='How long will the buy order take?'
-        />
-      ),
-      answer: (
-        <FormattedMessage
-          id='coinifyexchangedata.cyo.helper1.answer'
-          defaultMessage='How long a buy order takes depends on your chosen payment method, which can always be changed. If buying through bank transfer, you will receive bitcoin within 2-3 days. If you chose to pay with a credit or debit card, you can plan to receive your bitcoin within 24 hours (depending on your bank’s transfer policies).'
-        />
-      )
-    },
-    {
-      question: (
-        <FormattedMessage
-          id='coinifyexchangedata.cyo.helper2.question'
-          defaultMessage='Why does the exchange rate change?'
-        />
-      ),
-      answer: (
-        <FormattedMessage
-          id='coinifyexchangedata.cyo.helper2.answer'
-          defaultMessage="When you choose to create a trade through bank transfer, Coinify will show you an exchange rate that may differ from the actual rate due to price fluctuations in bitcoin. Any issues that increase your order's processing time will have an effect on the final exchange rate used for that order. Once your order is ready, Coinify processes the trade and locks in the exchange rate."
-        />
-      )
-    },
-    {
-      question: (
-        <FormattedMessage
-          id='coinifyexchangedata.cyo.helper3.question'
-          defaultMessage='The small print'
-        />
-      ),
-      answer: (
-        <FormattedMessage
-          id='coinifyexchangedata.cyo.helper3.answer'
-          defaultMessage='To read more about how Coinify stores your information and keeps it safe, please visit their {tos} and {privacyPolicy}. For help with, or questions about your Blockchain wallet, please reach out to our support team {supportLink}.'
-          values={{
-            tos: (
-              <Link
-                size='12px'
-                weight={300}
-                href='https://www.coinify.com/legal'
-                target='_blank'
-                rel='noreferrer noopener'
-              >
-                <FormattedMessage id='tos' defaultMessage='Terms of Service' />
-              </Link>
-            ),
-            privacyPolicy: (
-              <Link
-                size='12px'
-                weight={300}
-                href='https://www.coinify.com/legal/policy'
-                target='_blank'
-                rel='noreferrer noopener'
-              >
-                <FormattedMessage
-                  id='privacypolicy'
-                  defaultMessage='Privacy Policy'
-                />
-              </Link>
-            ),
-            supportLink: (
-              <Link
-                target='_blank'
-                rel='noreferrer noopener'
-                href='https://support.blockchain.com'
-                size='12px'
-                weight={300}
-              >
-                <FormattedMessage
-                  id='contactsupport'
-                  defaultMessage='contact support'
-                />
-              </Link>
-            )
-          }}
-        />
-      )
-    }
-  ]
-
-  let sellFaq = {
+const sellQuestions = [
+  {
     question: (
       <FormattedMessage
         id='coinifyexchangedata.cyo.helper4.question'
@@ -274,14 +271,11 @@ export const OrderSubmit = props => {
       />
     )
   }
-
-  const faqHelper = () =>
-    helpers.map((el, i) => (
-      <Helper key={i} question={el.question} answer={el.answer} />
-    ))
-
-  if (type === 'sell') helpers = update(0, sellFaq, helpers)
-
+]
+export const OrderSubmit = props => {
+  const { busy, clearTradeError, onSubmit, quoteR, type } = props
+  const questions =
+    type === 'sell' ? sellQuestions.concat(faqQuestions) : faqQuestions
   return (
     <Fragment>
       {busy.error ? (
@@ -302,7 +296,7 @@ export const OrderSubmit = props => {
       ) : (
         <ReviewForm busy={busy} onSubmit={onSubmit} quoteR={quoteR} />
       )}
-      {faqHelper()}
+      {renderFaq(questions)}
     </Fragment>
   )
 }
