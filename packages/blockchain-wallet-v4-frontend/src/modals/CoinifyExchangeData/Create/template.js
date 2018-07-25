@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import AcceptTerms from './AcceptTerms'
 import VerifyEmail from './VerifyEmail'
-import { Row } from 'components/BuySell/Signup'
+import { Row } from 'components/IdentityVerification'
 
 const Create = props => {
   const { handleSignup, oldEmail, signupError, ui, updateUI, country } = props

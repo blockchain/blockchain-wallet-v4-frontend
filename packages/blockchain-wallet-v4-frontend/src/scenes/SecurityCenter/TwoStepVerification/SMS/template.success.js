@@ -6,7 +6,7 @@ import { Field, reduxForm } from 'redux-form'
 
 import { Button, Text, Link } from 'blockchain-info-components'
 import { TextBox, PhoneNumberBox, Form } from 'components/Form'
-import { required } from 'services/FormHelper'
+import { validMobileNumber, required } from 'services/FormHelper'
 
 const AuthenticatorSummary = styled.div`
   width: 100%;
@@ -57,7 +57,7 @@ const SmsAuth = props => {
                 <Field
                   name='mobileNumber'
                   component={PhoneNumberBox}
-                  validate={[required]}
+                  validate={[required, validMobileNumber]}
                   countryCode={countryCode}
                   defaultValue={smsNumber}
                   placeholder='212-555-5555'

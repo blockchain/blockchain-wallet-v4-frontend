@@ -294,7 +294,6 @@
     "Du fick precis en Ethereum-betalning",
   "components.alerts.pbkdf2_update_success": "PBKDF2-iterationer har ändrats",
   "components.alerts.private_key_incorrect": "Felaktig privat nyckel.",
-  "components.alerts.qr_scanner_not_allowed": null,
   "components.alerts.receive_bch_success":
     "Du har fått en Bitcoin Cash-betalning..",
   "components.alerts.receive_btc_success": "Du har fått en bitcoin-betalning.",
@@ -464,14 +463,59 @@
   "formhelper.requireduszipcode": "Måste vara en giltig amerikansk ZIP-kod",
   "formhelper.samepasswordascurrent":
     "Lösenordet är detsamma som det nuvarande",
+  "identityverification.personal.continue": null,
+  "identityverification.personal.dateofbirth": null,
+  "identityverification.personal.edit": null,
+  "identityverification.personal.editemail": null,
+  "identityverification.personal.editmobile": null,
+  "identityverification.personal.email.code": null,
+  "identityverification.personal.email.confirm": null,
+  "identityverification.personal.email.didntreceive": null,
+  "identityverification.personal.email.error": null,
+  "identityverification.personal.email.header": null,
+  "identityverification.personal.email.number": null,
+  "identityverification.personal.email.subheader": null,
+  "identityverification.personal.faq.whycollect.answer": null,
+  "identityverification.personal.faq.whycollect.question": null,
+  "identityverification.personal.firstname": null,
+  "identityverification.personal.header": null,
+  "identityverification.personal.lastname": null,
+  "identityverification.personal.mobile.entercode": null,
+  "identityverification.personal.mobile.entermobilenumber": null,
+  "identityverification.personal.mobile.header": null,
+  "identityverification.personal.mobile.sendmycode": null,
+  "identityverification.personal.mobile.subheader": null,
+  "identityverification.personal.sms.didntreceive": null,
+  "identityverification.personal.sms.error": null,
+  "identityverification.personal.subheader": null,
+  "identityverification.personal.verifiedemail": null,
+  "identityverification.personal.verifiedmobile": null,
   "layouts.public.footer.about": "Om oss",
   "layouts.public.footer.blog": "Blogg",
   "layouts.public.footer.explorer": "Data",
   "layouts.public.footer.support": "Support",
   "layouts.wallet.header.logout.signout": "Logga ut",
+  "layouts.wallet.header.whatsnew.whatsnew.desc10":
+    "Om du hade bitcoin i din plånbok före den 1 augusti 2017 kan du nu komma åt dina bitcoin cash i din Blockchain-plånbok.",
+  "layouts.wallet.header.whatsnew.whatsnew.desc11":
+    "Bitcoin Cash-adresser följer nu CashAddr-formatet.",
+  "layouts.wallet.header.whatsnew.whatsnew.desc7":
+    "Du kan nu sälja dina bitcoin direkt från din Blockchain-plånbok!",
+  "layouts.wallet.header.whatsnew.whatsnew.desc8":
+    "Du kan nu skicka och ta emot ether från din Blockchain-plånbok!",
+  "layouts.wallet.header.whatsnew.whatsnew.desc9":
+    "Du kan växla mellan bitcoin, ether och bitcoin cash direkt från din Blockchain-plånbok",
   "layouts.wallet.header.whatsnew.whatsnew.empty": "?? Du är nu klar!",
+  "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore": "Läs mer",
   "layouts.wallet.header.whatsnew.whatsnew.in_progress":
     "Vårt team jobbar alltid på nya funktioner, men om det finns något som du tycker att vi kan förbättra kan du informera oss <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>här<a/>.",
+  "layouts.wallet.header.whatsnew.whatsnew.learnmore": "Läs mer",
+  "layouts.wallet.header.whatsnew.whatsnew.title10": "Bitcoin Cash",
+  "layouts.wallet.header.whatsnew.whatsnew.title11":
+    "Nytt Bitcoin Cash-adressformat",
+  "layouts.wallet.header.whatsnew.whatsnew.title7": "Sälj Bitcoin",
+  "layouts.wallet.header.whatsnew.whatsnew.title8": "Skicka och ta emot ether",
+  "layouts.wallet.header.whatsnew.whatsnew.title9": "Växla tillgångar",
   "layouts.wallet.menuleft.footer.about": "Om oss",
   "layouts.wallet.menuleft.footer.privacypolicy": "Sekretesspolicy",
   "layouts.wallet.menuleft.footer.termsofservice": "Användarvillkor",
@@ -487,6 +531,7 @@
   "layouts.wallet.menuleft.navigation.transactions.bch": "Bitcoin Cash",
   "layouts.wallet.menuleft.navigation.transactions.bitcoin": "Bitcoin",
   "layouts.wallet.menuleft.navigation.transactions.ether": "Ether",
+  "layouts.wallet.menutop.bank": "Var din egen bank.",
   "layouts.wallet.menutop.request": "Begär",
   "layouts.wallet.menutop.send": "Skicka",
   "layouts.wallet.trayright.faq": "Vanliga frågor och svar",
@@ -522,6 +567,8 @@
   "modals.coinifytradedetails.kyc.identityverification.header":
     "Köp och sälj Bitcoin",
   "modals.coinifytradedetails.trade.close": "Stäng",
+  "modals.confirm.button": null,
+  "modals.confirm.button.cancel": null,
   "modals.deleteaddresslabel.cancel": "Avbryt",
   "modals.disable2fa.disable": "Inaktivera",
   "modals.disable2fa.sure": "Är du säker på att du vill inaktivera",
@@ -574,6 +621,9 @@
   "modals.exchangedetails.title.inprogress": "Transaktion pågår",
   "modals.exchangedetails.title.refunded": "Transaktionen har återbetalats",
   "modals.exchangedetails.title.success": "Transaktionen har slutförts",
+  "modals.identityverification.steps.address": null,
+  "modals.identityverification.steps.personal": null,
+  "modals.identityverification.steps.verify": null,
   "modals.importbtcaddress.button": "Importera",
   "modals.importbtcaddress.generated_in_wallet":
     "Befintlig adress skapad i <span>den här plånboken</span>.",
@@ -591,6 +641,10 @@
     "Adresser som skapas av den här plånboken bör inte importeras.",
   "modals.importbtcaddress.importtype": "Vad vill du importera?",
   "modals.importbtcaddress.title": "Importera befintlig Bitcoin-adress",
+  "modals.jumioprompt.body1": null,
+  "modals.jumioprompt.close": null,
+  "modals.jumioprompt.dothat": null,
+  "modals.jumioprompt.header": null,
   "modals.mobilelogin.cancel": "Avbryt",
   "modals.mobilelogin.explain":
     "Följ dessa steg för att logga in till din webbplånbok med en mobil enhet",
@@ -912,6 +966,7 @@
   "orderdetails.date": "Startdatum",
   "orderdetails.footnote":
     "*Observera: beroende på din banks överföringspolicyer kommer pengarna att finnas på ditt konto inom 1-2 dagar. ",
+  "orderdetails.fundsdelivery": null,
   "orderdetails.orderdetails": "Beställningsuppgifter",
   "orderdetails.payoutdetails": "Utbetalningsuppgifter",
   "orderdetails.recurring.amount": "Belopp:",
@@ -1028,6 +1083,13 @@
     "Något gick tyvärr fel med din transaktion:",
   "scenes.buysell.sfox.orderreview.checkboxtext":
     "Jag godkänner at SFOX, Inc. debiterar det bankkonto jag kopplat till mitt konto som slutar med {account} och följer SFOX {ToS}.",
+  "scenes.buysell.sfoxcheckout.content.jumio.body.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.tryagain": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.title.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.title.pending": null,
   "scenes.buysell.sfoxcheckout.cyo.helper1.answer":
     "SFOX kräver en transaktionsavgift för att utföra en köp- eller säljorder. För säljordrar finns det en extra transaktionsavgift som går till nätverks miners för att skicka det belopp du säljer till SFOX.",
   "scenes.buysell.sfoxcheckout.cyo.helper1.question":
@@ -2190,6 +2252,7 @@
     "Vi kan inte kontrollera om hantering av Bitcoin-länkar är aktiverat eller inte.",
   "scenes.settings.preferences.bitcoinlinkhandling.unknownstatus2":
     "Ingenting kommer att hända om det redan är aktiverat.",
+  "scenes.settings.preferences.explain": "Anpassa din plånboksupplevelse.",
   "scenes.settings.preferences.localcurrency.error.description":
     "Välj din lokala valuta",
   "scenes.settings.preferences.localcurrency.error.title": "Lokal valuta",
@@ -2508,6 +2571,7 @@
   "sfoxexchangedata.verify.hidessn": "Göm personnummer",
   "sfoxexchangedata.verify.identity.error":
     "Tyvärr uppstod ett problem när din identitet verifierades. {clickHere} för att starta om.",
+  "sfoxexchangedata.verify.jumio.startverification": null,
   "sfoxexchangedata.verify.lastname": "Efternamn",
   "sfoxexchangedata.verify.partner.header": "De gömda uppgifterna",
   "sfoxexchangedata.verify.partner.header1": "Låt oss lära känna dig",

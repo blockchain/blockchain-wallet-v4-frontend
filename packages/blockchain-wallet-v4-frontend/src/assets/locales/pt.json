@@ -300,7 +300,6 @@
   "components.alerts.pbkdf2_update_success":
     "Iterações da PBKDF2 alteradas com sucesso",
   "components.alerts.private_key_incorrect": "Chave privada inválida.",
-  "components.alerts.qr_scanner_not_allowed": null,
   "components.alerts.receive_bch_success":
     "Você recebeu um pagamento em Bitcoin Cash.",
   "components.alerts.receive_btc_success":
@@ -469,15 +468,60 @@
   "formhelper.requiredssn": "Deve ser um SSN válido",
   "formhelper.requireduszipcode": "Deve ser um código postal válido dos EUA",
   "formhelper.samepasswordascurrent": "A senha é igual à atual",
+  "identityverification.personal.continue": null,
+  "identityverification.personal.dateofbirth": null,
+  "identityverification.personal.edit": null,
+  "identityverification.personal.editemail": null,
+  "identityverification.personal.editmobile": null,
+  "identityverification.personal.email.code": null,
+  "identityverification.personal.email.confirm": null,
+  "identityverification.personal.email.didntreceive": null,
+  "identityverification.personal.email.error": null,
+  "identityverification.personal.email.header": null,
+  "identityverification.personal.email.number": null,
+  "identityverification.personal.email.subheader": null,
+  "identityverification.personal.faq.whycollect.answer": null,
+  "identityverification.personal.faq.whycollect.question": null,
+  "identityverification.personal.firstname": null,
+  "identityverification.personal.header": null,
+  "identityverification.personal.lastname": null,
+  "identityverification.personal.mobile.entercode": null,
+  "identityverification.personal.mobile.entermobilenumber": null,
+  "identityverification.personal.mobile.header": null,
+  "identityverification.personal.mobile.sendmycode": null,
+  "identityverification.personal.mobile.subheader": null,
+  "identityverification.personal.sms.didntreceive": null,
+  "identityverification.personal.sms.error": null,
+  "identityverification.personal.subheader": null,
+  "identityverification.personal.verifiedemail": null,
+  "identityverification.personal.verifiedmobile": null,
   "layouts.public.footer.about": "Sobre",
   "layouts.public.footer.blog": "Blog",
   "layouts.public.footer.explorer": "Dados",
   "layouts.public.footer.support": "Suporte",
   "layouts.wallet.header.logout.signout": "Sair",
+  "layouts.wallet.header.whatsnew.whatsnew.desc10":
+    "Se você tinha Bitcoin em sua carteira antes de 1º de agosto de 2017, agora pode acessar Bitcoin Cash em sua carteira Blockchain.",
+  "layouts.wallet.header.whatsnew.whatsnew.desc11":
+    "Os endereços de Bitcoin Cash agora seguem o formato CashAddr.",
+  "layouts.wallet.header.whatsnew.whatsnew.desc7":
+    "Agora você pode vender Bitcoin diretamente da sua carteira Blockchain!",
+  "layouts.wallet.header.whatsnew.whatsnew.desc8":
+    "Agora você pode enviar e receber Ether da sua carteira Blockchain!",
+  "layouts.wallet.header.whatsnew.whatsnew.desc9":
+    "Você pode converter entre Bitcoin, Ether e Bitcoin Cash diretamente da sua carteira Blockchain",
   "layouts.wallet.header.whatsnew.whatsnew.empty":
     "?? Você está com tudo em dia!",
+  "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore": "Saiba Mais",
   "layouts.wallet.header.whatsnew.whatsnew.in_progress":
     "Nossa equipe está sempre trabalhando em novos recursos, mas se houver algo que pudermos melhorar, avise-nos <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>aqui<a/>.",
+  "layouts.wallet.header.whatsnew.whatsnew.learnmore": "Saiba Mais",
+  "layouts.wallet.header.whatsnew.whatsnew.title10": "Bitcoin Cash",
+  "layouts.wallet.header.whatsnew.whatsnew.title11":
+    "Novo formato de endereço para Bitcoin Cash",
+  "layouts.wallet.header.whatsnew.whatsnew.title7": "Vender bitcoins",
+  "layouts.wallet.header.whatsnew.whatsnew.title8": "Vender e receber Ether",
+  "layouts.wallet.header.whatsnew.whatsnew.title9": "Converter Ativos",
   "layouts.wallet.menuleft.footer.about": "Sobre",
   "layouts.wallet.menuleft.footer.privacypolicy": "Política de Privacidade",
   "layouts.wallet.menuleft.footer.termsofservice": "ToS",
@@ -493,6 +537,7 @@
   "layouts.wallet.menuleft.navigation.transactions.bch": "Bitcoin Cash",
   "layouts.wallet.menuleft.navigation.transactions.bitcoin": "Bitcoin",
   "layouts.wallet.menuleft.navigation.transactions.ether": "Ether",
+  "layouts.wallet.menutop.bank": "Seja o seu próprio banco.",
   "layouts.wallet.menutop.request": "Solicitar",
   "layouts.wallet.menutop.send": "Enviar",
   "layouts.wallet.trayright.faq": "Perguntas Frequentes",
@@ -529,6 +574,8 @@
   "modals.coinifytradedetails.kyc.identityverification.header":
     "Comprar e vender Bitcoin",
   "modals.coinifytradedetails.trade.close": "Fechar",
+  "modals.confirm.button": null,
+  "modals.confirm.button.cancel": null,
   "modals.deleteaddresslabel.cancel": "Cancelar",
   "modals.disable2fa.disable": "Desativar",
   "modals.disable2fa.sure": "Tem certeza de que deseja desativar a",
@@ -583,6 +630,9 @@
   "modals.exchangedetails.title.inprogress": "Conversão em andamento",
   "modals.exchangedetails.title.refunded": "Negociação reembolsada",
   "modals.exchangedetails.title.success": "Conversão concluída",
+  "modals.identityverification.steps.address": null,
+  "modals.identityverification.steps.personal": null,
+  "modals.identityverification.steps.verify": null,
   "modals.importbtcaddress.button": "Importar",
   "modals.importbtcaddress.generated_in_wallet":
     "Endereço existente gerado <span>nesta carteira</span>.",
@@ -600,6 +650,10 @@
     "Os endereços gerados por esta carteira não devem ser importados.",
   "modals.importbtcaddress.importtype": "O que você deseja importar?",
   "modals.importbtcaddress.title": "Importar Endereço Bitcoin Existente",
+  "modals.jumioprompt.body1": null,
+  "modals.jumioprompt.close": null,
+  "modals.jumioprompt.dothat": null,
+  "modals.jumioprompt.header": null,
   "modals.mobilelogin.cancel": "Cancelar",
   "modals.mobilelogin.explain":
     "Siga estas etapas para entrar em sua carteira web usando seu dispositivo móvel",
@@ -925,6 +979,7 @@
   "orderdetails.date": "Data de inicialização",
   "orderdetails.footnote":
     "*Atenção: dependendo das políticas de transferências do seu banco, você verá os fundos em sua conta no prazo de 1 a 2 dias após a transferência. ",
+  "orderdetails.fundsdelivery": null,
   "orderdetails.orderdetails": "Dados da ordem",
   "orderdetails.payoutdetails": "Dados do pagamento",
   "orderdetails.recurring.amount": "Valor:",
@@ -1038,6 +1093,13 @@
     "Lamentamos, mas ocorreu algum erro com a sua negociação:",
   "scenes.buysell.sfox.orderreview.checkboxtext":
     "Autorizo a SFOX, Inc. a debitar minha conta bancária vinculada terminada em {account} de acordo com os {ToS} da SFOX.",
+  "scenes.buysell.sfoxcheckout.content.jumio.body.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.tryagain": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.title.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.title.pending": null,
   "scenes.buysell.sfoxcheckout.cyo.helper1.answer":
     "A SFOX cobra uma taxa de negociação necessária para executar uma negociação de compra ou venda. Especificamente no caso de negociações de venda, há uma taxa de transação adicional destinada aos mineradores da rede a fim de enviar à SFOX o valor que está sendo vendido.",
   "scenes.buysell.sfoxcheckout.cyo.helper1.question": "Quais são as taxas?",
@@ -2222,6 +2284,8 @@
     "Não conseguimos detectar se a manipulação de links bitcoin foi ativada.",
   "scenes.settings.preferences.bitcoinlinkhandling.unknownstatus2":
     "Se já foi ativada, nada mudará.",
+  "scenes.settings.preferences.explain":
+    "Personalize sua experiência de carteira.",
   "scenes.settings.preferences.localcurrency.error.description":
     "Selecione a moeda local.",
   "scenes.settings.preferences.localcurrency.error.title": "Moeda local",
@@ -2549,6 +2613,7 @@
   "sfoxexchangedata.verify.hidessn": "Ocultar CPF",
   "sfoxexchangedata.verify.identity.error":
     "Infelizmente ocorreu um problema com a verificação da sua identidade. {clickHere} para recomeçar.",
+  "sfoxexchangedata.verify.jumio.startverification": null,
   "sfoxexchangedata.verify.lastname": "Sobrenome",
   "sfoxexchangedata.verify.partner.header": "Os detalhes ocultos",
   "sfoxexchangedata.verify.partner.header1": "Vamos te conhecer",

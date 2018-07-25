@@ -86,6 +86,7 @@ const ThirdStep = props => {
                 component={TextBox}
                 validate={[required]}
                 errorBottom
+                noLastPass
               />
             </WordContainer>
           ))}

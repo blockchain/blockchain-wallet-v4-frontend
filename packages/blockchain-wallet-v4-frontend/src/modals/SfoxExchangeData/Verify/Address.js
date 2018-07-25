@@ -23,7 +23,7 @@ import {
   PartnerHeader,
   PartnerSubHeader,
   ColRightInner
-} from 'components/BuySell/Signup'
+} from 'components/IdentityVerification'
 import media from 'services/ResponsiveService'
 
 const FormContainer = styled.div`
@@ -228,7 +228,7 @@ const Address = props => {
               <HeartbeatLoader height='20px' width='20px' color='white' />
             )}
           </Button>
-          {props.faqs()}
+          {props.faqs}
         </ColRightInner>
       </ColRight>
     </AddressForm>

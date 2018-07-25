@@ -281,7 +281,6 @@
   "components.alerts.pbkdf2_update_success":
     "PBKDF2 yinelemeleri başarılı bir şekilde değiştirildi",
   "components.alerts.private_key_incorrect": "Geçersiz Özel Anahtar.",
-  "components.alerts.qr_scanner_not_allowed": null,
   "components.alerts.receive_bch_success": "Bir bitcoin cash ödemesi aldın.",
   "components.alerts.receive_btc_success": "Bir bitcoin ödemesi aldın.",
   "components.alerts.receive_eth_success": "Bir ether ödemesi aldın.",
@@ -441,14 +440,60 @@
   "formhelper.requiredssn": "Geçerli bir SGN olmalı",
   "formhelper.requireduszipcode": "Geçerli bir ABD Zip Kodu olmalı",
   "formhelper.samepasswordascurrent": "Şifre mevcut şifreyle aynı değil",
+  "identityverification.personal.continue": null,
+  "identityverification.personal.dateofbirth": null,
+  "identityverification.personal.edit": null,
+  "identityverification.personal.editemail": null,
+  "identityverification.personal.editmobile": null,
+  "identityverification.personal.email.code": null,
+  "identityverification.personal.email.confirm": null,
+  "identityverification.personal.email.didntreceive": null,
+  "identityverification.personal.email.error": null,
+  "identityverification.personal.email.header": null,
+  "identityverification.personal.email.number": null,
+  "identityverification.personal.email.subheader": null,
+  "identityverification.personal.faq.whycollect.answer": null,
+  "identityverification.personal.faq.whycollect.question": null,
+  "identityverification.personal.firstname": null,
+  "identityverification.personal.header": null,
+  "identityverification.personal.lastname": null,
+  "identityverification.personal.mobile.entercode": null,
+  "identityverification.personal.mobile.entermobilenumber": null,
+  "identityverification.personal.mobile.header": null,
+  "identityverification.personal.mobile.sendmycode": null,
+  "identityverification.personal.mobile.subheader": null,
+  "identityverification.personal.sms.didntreceive": null,
+  "identityverification.personal.sms.error": null,
+  "identityverification.personal.subheader": null,
+  "identityverification.personal.verifiedemail": null,
+  "identityverification.personal.verifiedmobile": null,
   "layouts.public.footer.about": "Hakkında",
   "layouts.public.footer.blog": "Blog",
   "layouts.public.footer.explorer": "Veri",
   "layouts.public.footer.support": "Destek",
   "layouts.wallet.header.logout.signout": "Oturumu Kapat",
+  "layouts.wallet.header.whatsnew.whatsnew.desc10":
+    "Cüzdanında 1 Ağustos 2017 tarihinde önce bitcoin'in varsa artık Blockchain cüzdanında Bitcoin Cash'e erişim sağlayabilirsin.",
+  "layouts.wallet.header.whatsnew.whatsnew.desc11":
+    "Bitcoin Cash adresleri artık CashAddr formatını takip ediyor.",
+  "layouts.wallet.header.whatsnew.whatsnew.desc7":
+    "Artık doğrudan Blockchain cüzdanından bitcoin satabilirsin!",
+  "layouts.wallet.header.whatsnew.whatsnew.desc8":
+    "Artık Blockchain cüzdanından ether gönderip alabilirsin!",
+  "layouts.wallet.header.whatsnew.whatsnew.desc9":
+    "Doğrudan Blockchain cüzdanından bitcoin, ether ve bitcoin cash takası yapabilirsin",
   "layouts.wallet.header.whatsnew.whatsnew.empty": "?? Tam olarak kaptırdın!",
+  "layouts.wallet.header.whatsnew.whatsnew.faqlink.learnmore":
+    "Daha Fazlasını Öğren",
   "layouts.wallet.header.whatsnew.whatsnew.in_progress":
     "Ekibimiz her zaman yeni özellikler üzerinde çalışıyor ancak iyileştirebileceğimiz bir şeyler varsa lütfen bize <a href='https://github.com/blockchain/blockchain-wallet-v4-frontend/issues' rel='noopener noreferrer' target='_blank'>buradan<a/> bildir.",
+  "layouts.wallet.header.whatsnew.whatsnew.learnmore": "Daha Fazlasını Öğren",
+  "layouts.wallet.header.whatsnew.whatsnew.title10": "Bitcoin Cash",
+  "layouts.wallet.header.whatsnew.whatsnew.title11":
+    "Yeni Bitcoin Cash Adresi Formatı",
+  "layouts.wallet.header.whatsnew.whatsnew.title7": "Bitcoin Sat",
+  "layouts.wallet.header.whatsnew.whatsnew.title8": "Ether Gönder ve Al ",
+  "layouts.wallet.header.whatsnew.whatsnew.title9": "Varlıkları Takas Et ",
   "layouts.wallet.menuleft.footer.about": "Hakkında",
   "layouts.wallet.menuleft.footer.privacypolicy": "Gizlilik Politikası",
   "layouts.wallet.menuleft.footer.termsofservice": "Hizmet Şartları",
@@ -464,6 +509,7 @@
   "layouts.wallet.menuleft.navigation.transactions.bch": "Bitcoin Cash",
   "layouts.wallet.menuleft.navigation.transactions.bitcoin": "Bitcoin",
   "layouts.wallet.menuleft.navigation.transactions.ether": "Ether",
+  "layouts.wallet.menutop.bank": "Kendi bankan ol.",
   "layouts.wallet.menutop.request": "Talep",
   "layouts.wallet.menutop.send": "Gönder",
   "layouts.wallet.trayright.faq": "Sıkça Sorulan Sorular",
@@ -498,6 +544,8 @@
   "modals.coinifytradedetails.kyc.identityverification.header":
     "Bitcoin Al ve Sat ",
   "modals.coinifytradedetails.trade.close": "Kapat",
+  "modals.confirm.button": null,
+  "modals.confirm.button.cancel": null,
   "modals.deleteaddresslabel.cancel": "İptal",
   "modals.disable2fa.disable": "Devre Dışı Bırak",
   "modals.disable2fa.sure":
@@ -552,6 +600,9 @@
   "modals.exchangedetails.title.inprogress": "Takas Sürüyor",
   "modals.exchangedetails.title.refunded": "Yatırım İade Edildi",
   "modals.exchangedetails.title.success": "Takas Tamamlandı",
+  "modals.identityverification.steps.address": null,
+  "modals.identityverification.steps.personal": null,
+  "modals.identityverification.steps.verify": null,
   "modals.importbtcaddress.button": "Al",
   "modals.importbtcaddress.generated_in_wallet":
     "Mevcut adres <span>bu cüzdanda</span> oluşturuldu.",
@@ -569,6 +620,10 @@
     "Bu cüzdanla oluşturulan adresler içe aktarılmamalıdır.",
   "modals.importbtcaddress.importtype": "Neyi içe aktarmak istiyorsun?",
   "modals.importbtcaddress.title": "Mevcut Bitcoin Adresini İçe Aktar",
+  "modals.jumioprompt.body1": null,
+  "modals.jumioprompt.close": null,
+  "modals.jumioprompt.dothat": null,
+  "modals.jumioprompt.header": null,
   "modals.mobilelogin.cancel": "İptal",
   "modals.mobilelogin.explain":
     "Mobil cihazını kullanarak web cüzdanında oturum açmak için bu adımları izle",
@@ -888,6 +943,7 @@
   "orderdetails.date": "Tarih Başlatıldı",
   "orderdetails.footnote":
     "*Lütfen dikkat: bankanın transfer politikalarına bağlı olarak para transferden itibaren 1-2 gün içinde hesabına yansıtılacaktır. ",
+  "orderdetails.fundsdelivery": null,
   "orderdetails.orderdetails": "Emir Bilgileri",
   "orderdetails.payoutdetails": "Ödeme Bilgileri",
   "orderdetails.recurring.amount": "Tutar:",
@@ -1000,6 +1056,13 @@
     "Üzgünüz, yatırımınla ilgili bir şeyler ters gitti:",
   "scenes.buysell.sfox.orderreview.checkboxtext":
     "SFOX, Inc.'ye {account} ile biten bağlı banka hesabıma borç yazma ve SFOX {ToS} bölümüne uygunluk sağlama yetkisi veriyorum.",
+  "scenes.buysell.sfoxcheckout.content.jumio.body.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.body.pending": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.pending": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.button.tryagain": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.title.failed": null,
+  "scenes.buysell.sfoxcheckout.content.jumio.title.pending": null,
   "scenes.buysell.sfoxcheckout.cyo.helper1.answer":
     "SFOX'in al ve sat yatırımını gerçekleştirmek için alması gereken bir yatırım ücreti bulunmaktadır. Özellikle sat yatırımları için SFOX'e sattığın tutarı göndermek için ağ madencilerine giden ek bir işlem ücreti bulunmaktadır.",
   "scenes.buysell.sfoxcheckout.cyo.helper1.question": "Ücretler nelerdir?",
@@ -2160,6 +2223,7 @@
     "Bitcoin bağlantılarının etkinleştirilip etkinleştirilmediğini tespit edemiyoruz.",
   "scenes.settings.preferences.bitcoinlinkhandling.unknownstatus2":
     "Zaten etkinleştirilmişse, hiçbir şey olmayacak.",
+  "scenes.settings.preferences.explain": "Cüzdan deneyimini kişiselleştir",
   "scenes.settings.preferences.localcurrency.error.description":
     "Yerel para birimini seç",
   "scenes.settings.preferences.localcurrency.error.title": "Yerel Para Birimi",
@@ -2479,6 +2543,7 @@
   "sfoxexchangedata.verify.hidessn": "SGN'yi Gizle",
   "sfoxexchangedata.verify.identity.error":
     "Ne yazık ki kimliğin doğrulanırken bir sorun oldu. Baştan başlamak için {clickHere}.",
+  "sfoxexchangedata.verify.jumio.startverification": null,
   "sfoxexchangedata.verify.lastname": "Soyadı",
   "sfoxexchangedata.verify.partner.header": "Gizli Bilgiler",
   "sfoxexchangedata.verify.partner.header1": "Seni Tanıyalım",

@@ -27,6 +27,11 @@ export const submitPromptInput = value => ({
   payload: { value }
 })
 
+export const submitConfirmation = value => ({
+  type: AT.SUBMIT_CONFIRMATION,
+  payload: { value: true }
+})
+
 export const editBtcAccountLabel = (index, label) => ({
   type: AT.EDIT_BTC_ACCOUNT_LABEL,
   payload: { index, label }
