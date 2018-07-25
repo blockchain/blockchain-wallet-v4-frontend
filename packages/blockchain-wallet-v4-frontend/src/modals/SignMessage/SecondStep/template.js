@@ -39,47 +39,47 @@ const SecondStep = props => {
   return (
     <Wrapper>
       <DetailRow>
-        <Text size="14px" weight={400}>
+        <Text size='14px' weight={400}>
           <FormattedMessage
-            id="modals.signmessage.firststep.address"
-            defaultMessage="Address:"
+            id='modals.signmessage.firststep.address'
+            defaultMessage='Address:'
           />
         </Text>
-        <Text size="14px" weight={300}>
+        <Text size='14px' weight={300}>
           {address}
         </Text>
       </DetailRow>
       <DetailRow>
-        <Text size="14px" weight={400}>
+        <Text size='14px' weight={400}>
           <FormattedMessage
-            id="modals.signmessage.secondstep.message"
-            defaultMessage="Message:"
+            id='modals.signmessage.secondstep.message'
+            defaultMessage='Message:'
           />
         </Text>
-        <Text size="14px" weight={300}>
+        <Text size='14px' weight={300}>
           {message}
         </Text>
       </DetailRow>
       <DetailRow column>
-        <Text size="14px" weight={400}>
+        <Text size='14px' weight={400}>
           <FormattedMessage
-            id="modals.signmessage.secondstep.signature"
-            defaultMessage="Signature:"
+            id='modals.signmessage.secondstep.signature'
+            defaultMessage='Signature:'
           />
         </Text>
         <CopyClipboard address={signedMessage} />
       </DetailRow>
       <SubmitRow>
-        <ClickableText size="14px" weight={300} onClick={resetForm}>
+        <ClickableText size='14px' weight={300} onClick={resetForm}>
           <FormattedMessage
-            id="modals.signmessage.reset"
-            defaultMessage="Reset Form"
+            id='modals.signmessage.reset'
+            defaultMessage='Reset Form'
           />
         </ClickableText>
-        <Button nature="primary" onClick={closeAll}>
+        <Button nature='primary' onClick={closeAll}>
           <FormattedMessage
-            id="modals.signmessage.secondstep.done"
-            defaultMessage="Done"
+            id='modals.signmessage.secondstep.done'
+            defaultMessage='Done'
           />
         </Button>
       </SubmitRow>

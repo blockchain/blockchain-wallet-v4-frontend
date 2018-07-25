@@ -7,7 +7,7 @@ import { getData } from './selectors'
 import WhatsNewIcon from './template'
 
 class WhatsNewIconContainer extends React.PureComponent {
-  render() {
+  render () {
     return (
       <WhatsNewIcon
         highlighted={this.props.highlighted}

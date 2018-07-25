@@ -50,45 +50,45 @@ const ConfirmDisable2FA = props => {
   const { closeAll } = rest
 
   return (
-    <Modal size="large" position={position} total={total}>
+    <Modal size='large' position={position} total={total}>
       <ModalHeader onClose={close}>
         <div style={flex('row align/center')}>
-          <Icon name="lock" size="20px" style={spacing('pr-5')} />
+          <Icon name='lock' size='20px' style={spacing('pr-5')} />
           <FormattedMessage
-            id="modals.disable2fa.title"
-            defaultMessage="Disable Two-Step"
+            id='modals.disable2fa.title'
+            defaultMessage='Disable Two-Step'
           />
         </div>
       </ModalHeader>
       <ModalBody>
         <Wrapper extraCopy={extraCopy}>
           <Container extraCopy={extraCopy}>
-            <Text size="14px" weight={300}>
+            <Text size='14px' weight={300}>
               <FormattedMessage
-                id="modals.disable2fa.sure"
-                defaultMessage="Are you sure you wish to disable the"
+                id='modals.disable2fa.sure'
+                defaultMessage='Are you sure you wish to disable the'
               />
               {` ${authName}?`}
             </Text>
             {extraCopy ? (
-              <Text style={spacing('mt-10')} size="14px" weight={300}>
+              <Text style={spacing('mt-10')} size='14px' weight={300}>
                 {extraCopy}
               </Text>
             ) : (
-              <Icon name="alert" size="40px" color="error" />
+              <Icon name='alert' size='40px' color='error' />
             )}
           </Container>
         </Wrapper>
       </ModalBody>
-      <ModalFooter align="right">
+      <ModalFooter align='right'>
         <Buttons>
-          <Text size="12px" weight={200} cursor="pointer" onClick={closeAll}>
+          <Text size='12px' weight={200} cursor='pointer' onClick={closeAll}>
             Close
           </Text>
-          <Button nature="logout" onClick={handleContinue}>
+          <Button nature='logout' onClick={handleContinue}>
             <FormattedMessage
-              id="modals.disable2fa.disable"
-              defaultMessage="Disable"
+              id='modals.disable2fa.disable'
+              defaultMessage='Disable'
             />
           </Button>
         </Buttons>

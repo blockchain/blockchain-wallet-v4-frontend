@@ -16,12 +16,12 @@ import EditEmail from './EditEmail'
 import EditSmsNumber from './EditSmsNumber'
 
 class PersonalContainer extends React.PureComponent {
-  componentDidMount() {
+  componentDidMount () {
     const { personalData, actions } = this.props
     actions.updatePersonalStep(personalData)
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate (prevProps) {
     const { personalData, actions } = this.props
     if (!equals(personalData, prevProps.personalData)) {
       actions.updatePersonalStep(personalData)
@@ -29,7 +29,7 @@ class PersonalContainer extends React.PureComponent {
     }
   }
 
-  render() {
+  render () {
     const {
       personalData,
       step,

@@ -38,7 +38,7 @@ const Success = props => {
 
   const importedAddressesTableRows = filter(isMatch, importedAddresses).map(
     address => {
-      return <AddressRow key={address.addr} address={address} coin="BCH" />
+      return <AddressRow key={address.addr} address={address} coin='BCH' />
     }
   )
 
@@ -46,40 +46,40 @@ const Success = props => {
     <Wrapper>
       <ImportedAddressesSettingHeader>
         <FormattedMessage
-          id="scenes.settings.addresses.bch.importedaddresses.title"
-          defaultMessage="Imported Bitcoin Cash Addresses"
+          id='scenes.settings.addresses.bch.importedaddresses.title'
+          defaultMessage='Imported Bitcoin Cash Addresses'
         />
       </ImportedAddressesSettingHeader>
       <AddressesSettingDescription>
         <WarningWrapper>
           <Icon
-            name="alert-filled"
-            size="22px"
+            name='alert-filled'
+            size='22px'
             className={'warning-icon'}
-            color="brand-yellow"
+            color='brand-yellow'
           />
           <FormattedMessage
-            id="scenes.settings.addresses.bch.importedaddresses.description"
-            defaultMessage="Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet."
+            id='scenes.settings.addresses.bch.importedaddresses.description'
+            defaultMessage='Imported funds are not protected by your backup phrase. To ensure these funds are secured, please transfer them directly into your wallet.'
           />
         </WarningWrapper>
       </AddressesSettingDescription>
       {importedAddressesTableRows.length > 0 && (
         <Table>
           <TableHeader>
-            <TableCell width="50%">
-              <Text size="13px" weight={500}>
+            <TableCell width='50%'>
+              <Text size='13px' weight={500}>
                 <FormattedMessage
-                  id="scenes.settings.addresses.bch.importedaddresses.address"
-                  defaultMessage="Address"
+                  id='scenes.settings.addresses.bch.importedaddresses.address'
+                  defaultMessage='Address'
                 />
               </Text>
             </TableCell>
-            <TableCell width="30%">
-              <Text size="13px" weight={500}>
+            <TableCell width='30%'>
+              <Text size='13px' weight={500}>
                 <FormattedMessage
-                  id="scenes.settings.addresses.bch.importedaddresses.balance"
-                  defaultMessage="Balance"
+                  id='scenes.settings.addresses.bch.importedaddresses.balance'
+                  defaultMessage='Balance'
                 />
               </Text>
             </TableCell>

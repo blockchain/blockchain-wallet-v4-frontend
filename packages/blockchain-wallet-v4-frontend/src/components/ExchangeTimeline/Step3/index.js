@@ -47,25 +47,25 @@ const Step3 = props => {
     <Wrapper>
       <Circle status={status}>
         {status === 'refunded' ? (
-          <Icon name="alert" size="40px" color="error" />
+          <Icon name='alert' size='40px' color='error' />
         ) : (
           <Icon
-            name="checkmark"
-            size="40px"
+            name='checkmark'
+            size='40px'
             color={status === 'disabled' ? 'gray-2' : 'brand-primary'}
           />
         )}
       </Circle>
-      <Text size="13px" weight={500} capitalize>
+      <Text size='13px' weight={500} capitalize>
         {status === 'refunded' ? (
           <FormattedMessage
-            id="components.exchangetimeline.refunded"
-            defaultMessage="Trade refunded"
+            id='components.exchangetimeline.refunded'
+            defaultMessage='Trade refunded'
           />
         ) : (
           <FormattedMessage
-            id="components.exchangetimeline.trade"
-            defaultMessage="Trade complete"
+            id='components.exchangetimeline.trade'
+            defaultMessage='Trade complete'
           />
         )}
       </Text>

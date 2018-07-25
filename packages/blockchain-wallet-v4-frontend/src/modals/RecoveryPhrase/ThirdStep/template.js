@@ -38,28 +38,28 @@ const ThirdStep = props => {
   const { indexes, mnemonic, handleSubmit } = rest
 
   return (
-    <Modal size="large" position={position} total={total}>
+    <Modal size='large' position={position} total={total}>
       <Form onSubmit={handleSubmit}>
-        <ModalHeader icon="bell" onClose={close}>
+        <ModalHeader icon='bell' onClose={close}>
           <FormattedMessage
-            id="modals.recoveryphrase.title"
-            defaultMessage="Backup recovery phrase"
+            id='modals.recoveryphrase.title'
+            defaultMessage='Backup recovery phrase'
           />
         </ModalHeader>
         <ModalBody>
           <TextGroup inline>
-            <Icon name="checkmark" size="18px" weight={300} />
-            <Text size="18px" weight={400}>
+            <Icon name='checkmark' size='18px' weight={300} />
+            <Text size='18px' weight={400}>
               <FormattedMessage
-                id="modals.recoveryphrase.tip"
-                defaultMessage="Verify"
+                id='modals.recoveryphrase.tip'
+                defaultMessage='Verify'
               />
             </Text>
           </TextGroup>
-          <Text size="14px" weight={300}>
+          <Text size='14px' weight={300}>
             <FormattedMessage
-              id="modals.recoveryphrase.explain"
-              defaultMessage="Using the completed Recovery Sheet as a reference, please enter the following words from your Recovery Phrase to complete the backup process."
+              id='modals.recoveryphrase.explain'
+              defaultMessage='Using the completed Recovery Sheet as a reference, please enter the following words from your Recovery Phrase to complete the backup process.'
             />
           </Text>
           <Container>
@@ -101,21 +101,21 @@ const ThirdStep = props => {
             )}
           </Container>
         </ModalBody>
-        <ModalFooter align="spaced">
-          <Link size="13px" weight={300} onClick={previousStep}>
+        <ModalFooter align='spaced'>
+          <Link size='13px' weight={300} onClick={previousStep}>
             <FormattedMessage
-              id="modals.recoveryphrase.thirdstep.back"
-              defaultMessage="Back"
+              id='modals.recoveryphrase.thirdstep.back'
+              defaultMessage='Back'
             />
           </Link>
           <Button
-            type="submit"
-            nature="primary"
+            type='submit'
+            nature='primary'
             disabled={submitting || invalid}
           >
             <FormattedMessage
-              id="modals.recoveryphrase.thirdstep.finish"
-              defaultMessage="Finish"
+              id='modals.recoveryphrase.thirdstep.finish'
+              defaultMessage='Finish'
             />
           </Button>
         </ModalFooter>

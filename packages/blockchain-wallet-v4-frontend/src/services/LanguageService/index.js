@@ -31,21 +31,21 @@ const languages = [
 
 const languagesSortedByName = sortBy(prop('name'))(languages)
 
-function getLanguageName(cultureCode) {
+function getLanguageName (cultureCode) {
   let selectedLanguage = find(propEq('cultureCode', cultureCode))(languages)
   if (isNil(selectedLanguage)) return Maybe.Nothing()
 
   return Maybe.Just(selectedLanguage.name)
 }
 
-function convertLanguageToCultureCode(language) {
+function convertLanguageToCultureCode (language) {
   let selectedLanguage = find(propEq('language', language))(languages)
   if (isNil(selectedLanguage)) return Maybe.Nothing()
 
   return Maybe.Just(selectedLanguage.cultureCode)
 }
 
-function convertCultureCodeToLanguage(cultureCode) {
+function convertCultureCodeToLanguage (cultureCode) {
   let selectedLanguage = find(propEq('cultureCode', cultureCode))(languages)
   if (isNil(selectedLanguage)) return Maybe.Nothing()
 
@@ -53,11 +53,11 @@ function convertCultureCodeToLanguage(cultureCode) {
 }
 
 // update url with new language without forcing browser reload
-function addLanguageToUrl(language) {
+function addLanguageToUrl (language) {
   window.history.pushState({}, '', `/${language}/${window.location.hash}`)
 }
 
-function tryParseLanguageFromUrl() {
+function tryParseLanguageFromUrl () {
   const path = window.location.pathname.replace(/\//g, '')
 
   if (path && path.length) {

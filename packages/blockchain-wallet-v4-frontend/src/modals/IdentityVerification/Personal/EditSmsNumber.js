@@ -48,7 +48,7 @@ const smsHelper = ({ mobileVerifiedError, resendCode, editSmsNumber }) => {
   if (mobileVerifiedError) {
     return (
       <FormattedMessage
-        id="identityverification.personal.sms.error"
+        id='identityverification.personal.sms.error'
         defaultMessage="That code doesn't match. {resend} or {changeNumber}."
         values={{
           resend: <a onClick={resendCode}>Resend</a>,
@@ -59,7 +59,7 @@ const smsHelper = ({ mobileVerifiedError, resendCode, editSmsNumber }) => {
   }
   return (
     <FormattedMessage
-      id="identityverification.personal.sms.didntreceive"
+      id='identityverification.personal.sms.didntreceive'
       defaultMessage="Didn't get our text? {resend} or {changeNumber}."
       values={{
         resend: <a onClick={resendCode}>Resend</a>,
@@ -93,26 +93,26 @@ const EditSmsNumber = ({
         <InputWrapper>
           <PartnerHeader>
             <FormattedMessage
-              id="identityverification.personal.mobile.header"
+              id='identityverification.personal.mobile.header'
               defaultMessage="What's Your Number?"
             />
           </PartnerHeader>
           <PartnerSubHeader>
             <FormattedMessage
-              id="identityverification.personal.mobile.subheader"
+              id='identityverification.personal.mobile.subheader'
               defaultMessage="Don't worry, we won't use your number for anything other than sending your code."
             />
           </PartnerSubHeader>
           {step === SMS_STEPS.edit && (
             <MobileInput>
-              <Text size="14px" weight={400} style={{ marginBottom: '5px' }}>
+              <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
                 <FormattedMessage
-                  id="identityverification.personal.mobile.entermobilenumber"
-                  defaultMessage="Enter your digits here:"
+                  id='identityverification.personal.mobile.entermobilenumber'
+                  defaultMessage='Enter your digits here:'
                 />
               </Text>
               <Field
-                name="smsNumber"
+                name='smsNumber'
                 defaultValue={smsNumber}
                 component={PhoneNumberBox}
                 validate={[required, validMobileNumber]}
@@ -123,15 +123,15 @@ const EditSmsNumber = ({
           )}
           {step === SMS_STEPS.verify && (
             <MobileCodeContainer>
-              <Text size="14px" weight={400} style={{ marginBottom: '5px' }}>
+              <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
                 <FormattedMessage
-                  id="identityverification.personal.mobile.entercode"
-                  defaultMessage="Enter the code we just sent to {smsNumber}"
+                  id='identityverification.personal.mobile.entercode'
+                  defaultMessage='Enter the code we just sent to {smsNumber}'
                   values={{ smsNumber: '' }}
                 />
               </Text>
               <Field
-                name="code"
+                name='code'
                 component={TextBox}
                 validate={[required]}
                 errorBottom
@@ -148,31 +148,31 @@ const EditSmsNumber = ({
           <ButtonWrapper>
             {step === SMS_STEPS.edit && (
               <Button
-                nature="primary"
-                type="submit"
+                nature='primary'
+                type='submit'
                 fullwidth
                 disabled={invalid}
               >
                 <FormattedMessage
-                  id="identityverification.personal.mobile.sendmycode"
-                  defaultMessage="Send My Code"
+                  id='identityverification.personal.mobile.sendmycode'
+                  defaultMessage='Send My Code'
                 />
               </Button>
             )}
             {step === SMS_STEPS.verify && (
               <Button
-                nature="primary"
-                type="submit"
+                nature='primary'
+                type='submit'
                 fullwidth
                 disabled={invalid || formBusy}
               >
                 {!formBusy ? (
                   <FormattedMessage
-                    id="identityverification.personal.continue"
-                    defaultMessage="Continue"
+                    id='identityverification.personal.continue'
+                    defaultMessage='Continue'
                   />
                 ) : (
-                  <HeartbeatLoader height="20px" width="20px" color="white" />
+                  <HeartbeatLoader height='20px' width='20px' color='white' />
                 )}
               </Button>
             )}

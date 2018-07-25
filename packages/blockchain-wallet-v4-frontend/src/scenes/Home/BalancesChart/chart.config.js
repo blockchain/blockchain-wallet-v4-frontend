@@ -38,7 +38,7 @@ export default (chartData, symbol, history) => {
     },
     tooltip: {
       enabled: total > 0,
-      pointFormatter: function() {
+      pointFormatter: function () {
         return symbol + Currency.formatFiat(this.y)
       }
     },

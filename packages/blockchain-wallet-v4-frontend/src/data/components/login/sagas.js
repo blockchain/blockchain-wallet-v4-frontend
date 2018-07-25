@@ -22,9 +22,9 @@ export default () => {
           `${rootURL}/Resources/transfer_stored_values.html`
         )
 
-        const windowChannel = function() {
+        const windowChannel = function () {
           return eventChannel(emitter => {
-            const cookieTransfer = function(event) {
+            const cookieTransfer = function (event) {
               if (event.data.type === 'cookie') {
                 const cookie = event.data.payload
                 window.localStorage.setItem(

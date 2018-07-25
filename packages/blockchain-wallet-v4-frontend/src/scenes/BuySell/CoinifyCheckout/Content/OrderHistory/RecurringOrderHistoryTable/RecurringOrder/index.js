@@ -61,17 +61,17 @@ const dateHelper = (date, isMobile) =>
     .format(isMobile ? 'DD MMM' : 'MMMM D YYYY')
 
 class RecurringOrder extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = { toggled: false }
     this.toggleRow = this.toggleRow.bind(this)
   }
 
-  toggleRow() {
+  toggleRow () {
     this.setState({ toggled: !this.state.toggled })
   }
 
-  render() {
+  render () {
     const {
       subscription,
       handleCancelSubscription,
@@ -93,57 +93,57 @@ class RecurringOrder extends React.Component {
         <MediaContextConsumer>
           {({ mobile }) => (
             <TableRow>
-              <StatusContainer mobileWidth="35%">
-                <TableCell onClick={this.toggleRow} width="35%">
-                  <ToggleIcon name="down-arrow" toggled={this.state.toggled} />
+              <StatusContainer mobileWidth='35%'>
+                <TableCell onClick={this.toggleRow} width='35%'>
+                  <ToggleIcon name='down-arrow' toggled={this.state.toggled} />
                   <StatusText
                     color={prop('isActive', subscription) ? 'success' : 'error'}
-                    size="13px"
+                    size='13px'
                     weight={300}
                   >
                     {prop('isActive', subscription) ? (
                       <FormattedMessage
-                        id="scenes.buysell.orderhistory.recurring.order.active"
-                        defaultMessage="Active"
+                        id='scenes.buysell.orderhistory.recurring.order.active'
+                        defaultMessage='Active'
                       />
                     ) : (
                       <FormattedMessage
-                        id="scenes.buysell.orderhistory.recurring.order.inactive"
-                        defaultMessage="Inactive"
+                        id='scenes.buysell.orderhistory.recurring.order.inactive'
+                        defaultMessage='Inactive'
                       />
                     )}
                   </StatusText>
                 </TableCell>
-                <TableCell width="50%">
-                  <Link size="13px" weight={400} onClick={this.toggleRow}>
+                <TableCell width='50%'>
+                  <Link size='13px' weight={400} onClick={this.toggleRow}>
                     {mobile ? (
                       <FormattedMessage
-                        id="scenes.buysell.orderhistory.recurring.order.manage2"
-                        defaultMessage="Manage"
+                        id='scenes.buysell.orderhistory.recurring.order.manage2'
+                        defaultMessage='Manage'
                       />
                     ) : (
                       <FormattedMessage
-                        id="scenes.buysell.orderhistory.recurring.order.manage"
-                        defaultMessage="Manage This Order"
+                        id='scenes.buysell.orderhistory.recurring.order.manage'
+                        defaultMessage='Manage This Order'
                       />
                     )}
                   </Link>
                 </TableCell>
               </StatusContainer>
-              <TableCell width="30%">
-                <Frequency size="13px" weight={300}>
+              <TableCell width='30%'>
+                <Frequency size='13px' weight={300}>
                   {path(['frequency'], subscription)}
                 </Frequency>
               </TableCell>
-              <TableCell width="20%">
+              <TableCell width='20%'>
                 {dateHelper(prop('createdAt', firstTrade), mobile)}
               </TableCell>
-              <TableCell width="20%">
-                <TableCell width="100%">
+              <TableCell width='20%'>
+                <TableCell width='100%'>
                   {!path(['endTime'], subscription) ? (
                     <FormattedMessage
-                      id="scenes.buysell.orderhistory.recurring.order.untilcancel"
-                      defaultMessage="Until you cancel"
+                      id='scenes.buysell.orderhistory.recurring.order.untilcancel'
+                      defaultMessage='Until you cancel'
                     />
                   ) : (
                     dateHelper(prop('endTime', subscription), mobile)
@@ -156,39 +156,39 @@ class RecurringOrder extends React.Component {
         {this.state.toggled ? (
           <RecurringTableWrapper>
             <RecurringTableHeader
-              padding="8px 5px"
-              backgroundColor="white-blue"
+              padding='8px 5px'
+              backgroundColor='white-blue'
             >
-              <TableCell width="15%">
-                <Text size="13px" weight={500} capitalize>
+              <TableCell width='15%'>
+                <Text size='13px' weight={500} capitalize>
                   <FormattedMessage
-                    id="scenes.buysell.orderhistory.recurring.status"
-                    defaultMessage="Status"
+                    id='scenes.buysell.orderhistory.recurring.status'
+                    defaultMessage='Status'
                   />
                 </Text>
               </TableCell>
-              <TableCell width="15%" />
-              <TableCell width="30%" mobileWidth="20%">
-                <Text size="13px" weight={500} capitalize>
+              <TableCell width='15%' />
+              <TableCell width='30%' mobileWidth='20%'>
+                <Text size='13px' weight={500} capitalize>
                   <FormattedMessage
-                    id="scenes.buysell.orderhistory.recurring.date"
-                    defaultMessage="Date"
+                    id='scenes.buysell.orderhistory.recurring.date'
+                    defaultMessage='Date'
                   />
                 </Text>
               </TableCell>
-              <TableCell width="20%" mobileWidth="25%">
-                <Text size="13px" weight={500} capitalize>
+              <TableCell width='20%' mobileWidth='25%'>
+                <Text size='13px' weight={500} capitalize>
                   <FormattedMessage
-                    id="scenes.buysell.orderhistory.recurring.exchanged"
-                    defaultMessage="Exchanged"
+                    id='scenes.buysell.orderhistory.recurring.exchanged'
+                    defaultMessage='Exchanged'
                   />
                 </Text>
               </TableCell>
-              <TableCell width="20%">
-                <Text size="13px" weight={500} capitalize>
+              <TableCell width='20%'>
+                <Text size='13px' weight={500} capitalize>
                   <FormattedMessage
-                    id="scenes.buysell.orderhistory.recurring.received"
-                    defaultMessage="Received"
+                    id='scenes.buysell.orderhistory.recurring.received'
+                    defaultMessage='Received'
                   />
                 </Text>
               </TableCell>
@@ -209,13 +209,13 @@ class RecurringOrder extends React.Component {
             {prop('isActive', subscription) ? (
               <RecurringCancelWrapper>
                 <Button
-                  nature="logout"
+                  nature='logout'
                   onClick={() => handleCancelSubscription(subscription)}
                 >
-                  <Text size="13px" weight={300} color="white">
+                  <Text size='13px' weight={300} color='white'>
                     <FormattedMessage
-                      id="scenes.buysell.orderhistory.recurring.cancelorder"
-                      defaultMessage="Cancel Recurring Order"
+                      id='scenes.buysell.orderhistory.recurring.cancelorder'
+                      defaultMessage='Cancel Recurring Order'
                     />
                   </Text>
                 </Button>

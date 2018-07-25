@@ -8,11 +8,11 @@ import { formValueSelector } from 'redux-form'
 import { Remote } from 'blockchain-wallet-v4/src'
 
 class ImportedAddressesContainer extends React.Component {
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate (nextProps) {
     return !Remote.Loading.is(nextProps.data)
   }
 
-  render() {
+  render () {
     const { data, ...rest } = this.props
     return data.cata({
       Success: value => <Success importedAddresses={value} {...rest} />,

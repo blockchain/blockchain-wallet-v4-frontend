@@ -6,13 +6,13 @@ import { actions } from 'data'
 import Actions from './template.js'
 
 class ActionsContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.handleSend = this.handleSend.bind(this)
     this.handleRequest = this.handleRequest.bind(this)
   }
 
-  handleSend() {
+  handleSend () {
     const { pathname } = this.props.router.location
 
     switch (pathname) {
@@ -25,7 +25,7 @@ class ActionsContainer extends React.PureComponent {
     }
   }
 
-  handleRequest() {
+  handleRequest () {
     const { pathname } = this.props.router.location
     switch (pathname) {
       case '/bch/transactions':
@@ -37,7 +37,7 @@ class ActionsContainer extends React.PureComponent {
     }
   }
 
-  render() {
+  render () {
     return (
       <Actions
         handleSend={this.handleSend}

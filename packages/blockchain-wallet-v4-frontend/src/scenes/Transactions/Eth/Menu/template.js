@@ -74,10 +74,10 @@ const ClickableText = styled(Text)`
 `
 
 const PrivateKeys = () => (
-  <Link weight={300} size="12px">
+  <Link weight={300} size='12px'>
     <FormattedMessage
-      id="scenes.transactions.ether.privatekeys"
-      defaultMessage="Private Keys"
+      id='scenes.transactions.ether.privatekeys'
+      defaultMessage='Private Keys'
     />
   </Link>
 )
@@ -91,7 +91,7 @@ const Menu = props => {
           <Container>
             <Status>
               <Field
-                name="status"
+                name='status'
                 statuses={['', 'sent', 'received']}
                 component={TabMenuTransactionStatus}
               />
@@ -106,21 +106,21 @@ const Menu = props => {
                     selectedComponent={<PrivateKeys />}
                     components={[
                       <ClickableText
-                        size="small"
+                        size='small'
                         onClick={() => onShowPrivateKey(false)}
                       >
                         <FormattedMessage
-                          id="scenes.transactions.ether.export.privatekey"
-                          defaultMessage="Export Private Key"
+                          id='scenes.transactions.ether.export.privatekey'
+                          defaultMessage='Export Private Key'
                         />
                       </ClickableText>,
                       <ClickableText
-                        size="small"
+                        size='small'
                         onClick={() => onShowPrivateKey(true)}
                       >
                         <FormattedMessage
-                          id="scenes.transactions.ether.export.archived"
-                          defaultMessage="Export Archived Private Key"
+                          id='scenes.transactions.ether.export.archived'
+                          defaultMessage='Export Archived Private Key'
                         />
                       </ClickableText>
                     ].filter(x => x)}
@@ -132,24 +132,24 @@ const Menu = props => {
                     onClick={() => onShowPrivateKey(false)}
                   >
                     <FormattedMessage
-                      id="scenes.transactions.ether.export.privatekey"
-                      defaultMessage="Export Private Key"
+                      id='scenes.transactions.ether.export.privatekey'
+                      defaultMessage='Export Private Key'
                     />
                   </Link>
                 )}
               </PrivateKeysWrapper>
               {laptop ? null : (
                 <Search>
-                  <Field name="search" component={TextBox} />
-                  <SearchIcon name="search" size="20px" />
+                  <Field name='search' component={TextBox} />
+                  <SearchIcon name='search' size='20px' />
                 </Search>
               )}
             </MenuRight>
           </Container>
           {laptop ? (
             <Search>
-              <Field name="search" component={TextBox} />
-              <SearchIcon name="search" size="20px" />
+              <Field name='search' component={TextBox} />
+              <SearchIcon name='search' size='20px' />
             </Search>
           ) : null}
         </Wrapper>

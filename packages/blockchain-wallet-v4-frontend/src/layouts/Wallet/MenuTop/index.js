@@ -54,10 +54,10 @@ const MenuTop = props => (
   <Wrapper>
     <LeftContainer>
       <TextContainer inline>
-        <Text size="28px" weight={200} uppercase>
+        <Text size='28px' weight={200} uppercase>
           Be Your Own Bank
         </Text>
-        <Text size="20px" weight={200}>
+        <Text size='20px' weight={200}>
           <sup>®</sup>
         </Text>
       </TextContainer>

@@ -19,7 +19,7 @@ const Success = props => {
         <TransactionListItem
           key={transaction.hash}
           transaction={transaction}
-          coin="ETH"
+          coin='ETH'
           minConfirmations={12}
         />
       ))}

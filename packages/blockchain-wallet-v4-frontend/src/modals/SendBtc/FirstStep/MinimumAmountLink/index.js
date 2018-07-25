@@ -8,13 +8,13 @@ import { Link } from 'blockchain-info-components'
 
 const MinimumAmountLink = props => (
   <Link
-    size="12px"
+    size='12px'
     weight={300}
     onClick={() => props.actions.sendBtcFirstStepMinimumAmountClicked()}
   >
     <FormattedMessage
-      id="modals.sendbtc.minimumamountlink.minimum"
-      defaultMessage="minimum"
+      id='modals.sendbtc.minimumamountlink.minimum'
+      defaultMessage='minimum'
     />
   </Link>
 )

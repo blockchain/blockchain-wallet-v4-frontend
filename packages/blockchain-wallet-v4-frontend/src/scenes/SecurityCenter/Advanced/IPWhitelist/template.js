@@ -16,13 +16,13 @@ const IPWhitelist = () => {
       <SettingSummary>
         <SettingHeader>
           <FormattedMessage
-            id="scenes.securitysettings.advancedsettings.ipwhitelist.title"
-            defaultMessage="IP Whitelist"
+            id='scenes.securitysettings.advancedsettings.ipwhitelist.title'
+            defaultMessage='IP Whitelist'
           />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id="scenes.securitysettings.advancedsettings.ipwhitelist.description"
+            id='scenes.securitysettings.advancedsettings.ipwhitelist.description'
             defaultMessage="Allow login without email authentication from the following list of IP addresses. Enter IP addresses you'd like to whitelist separated by commas. Use % as a wildcard."
           />
         </SettingDescription>

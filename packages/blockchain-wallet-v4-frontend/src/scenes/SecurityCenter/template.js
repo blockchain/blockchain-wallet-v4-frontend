@@ -113,16 +113,16 @@ const SecurityCenter = props => {
         />
         {!showTabs && (
           <ButtonContainer>
-            <Button nature="empty" onClick={() => props.setView('advanced')}>
+            <Button nature='empty' onClick={() => props.setView('advanced')}>
               <FormattedMessage
-                id="scenes.securitycenter.introadvancedbutton"
-                defaultMessage="Advanced Settings"
+                id='scenes.securitycenter.introadvancedbutton'
+                defaultMessage='Advanced Settings'
               />
             </Button>
-            <Text size="14px" weight={300} style={spacing('pl-15')}>
+            <Text size='14px' weight={300} style={spacing('pl-15')}>
               <FormattedMessage
-                id="scenes.securitycenter.introadvancedexplainer"
-                defaultMessage="We recommend you complete these 3 steps before moving into the advanced security settings."
+                id='scenes.securitycenter.introadvancedexplainer'
+                defaultMessage='We recommend you complete these 3 steps before moving into the advanced security settings.'
               />
             </Text>
           </ButtonContainer>
@@ -139,10 +139,10 @@ const SecurityCenter = props => {
           {enabling && (
             <IconContainer>
               <Icon
-                name="close"
-                size="20px"
+                name='close'
+                size='20px'
                 weight={300}
-                color="gray-5"
+                color='gray-5'
                 cursor
                 onClick={props.onClose}
               />
@@ -150,35 +150,35 @@ const SecurityCenter = props => {
           )}
           <TopContainer>
             <IntroContainer progress={props.progress}>
-              <Title size="24px" weight={300} color="black">
+              <Title size='24px' weight={300} color='black'>
                 <FormattedMessage
-                  id="scenes.securitycenter.title"
-                  defaultMessage="Security Center"
+                  id='scenes.securitycenter.title'
+                  defaultMessage='Security Center'
                 />
               </Title>
-              <IntroText size="14px" weight={300}>
+              <IntroText size='14px' weight={300}>
                 {props.progress < 1 && (
                   <FormattedMessage
-                    id="scenes.securitycenter.introtextnone"
-                    defaultMessage="Welcome to your Security Center! Complete the following three steps to help prevent unauthorized access to your wallet and ensure you can access your funds at any time."
+                    id='scenes.securitycenter.introtextnone'
+                    defaultMessage='Welcome to your Security Center! Complete the following three steps to help prevent unauthorized access to your wallet and ensure you can access your funds at any time.'
                   />
                 )}
                 {props.progress === 1 && (
                   <FormattedMessage
-                    id="scenes.securitycenter.introtexttwo"
-                    defaultMessage="Welcome to your Security Center! You have completed 1 of 3 steps to help prevent unauthorized access to your wallet and ensure that you can access your funds at any time."
+                    id='scenes.securitycenter.introtexttwo'
+                    defaultMessage='Welcome to your Security Center! You have completed 1 of 3 steps to help prevent unauthorized access to your wallet and ensure that you can access your funds at any time.'
                   />
                 )}
                 {props.progress === 2 && (
                   <FormattedMessage
-                    id="scenes.securitycenter.introtextthree"
-                    defaultMessage="Welcome to your Security Center! You have completed 2 of 3 steps to help prevent unauthorized access to your wallet and ensure that you can access your funds at any time."
+                    id='scenes.securitycenter.introtextthree'
+                    defaultMessage='Welcome to your Security Center! You have completed 2 of 3 steps to help prevent unauthorized access to your wallet and ensure that you can access your funds at any time.'
                   />
                 )}
                 {props.progress === 3 && (
                   <FormattedMessage
-                    id="scenes.securitycenter.introtextfour"
-                    defaultMessage="Congratulations, you have completed the initial steps in helping to prevent unauthorized access to your wallet and bringing you even closer to financial security. Remember to always use caution with where you store your wallet details, what information you share with others, and with phishing emails."
+                    id='scenes.securitycenter.introtextfour'
+                    defaultMessage='Congratulations, you have completed the initial steps in helping to prevent unauthorized access to your wallet and bringing you even closer to financial security. Remember to always use caution with where you store your wallet details, what information you share with others, and with phishing emails.'
                   />
                 )}
               </IntroText>

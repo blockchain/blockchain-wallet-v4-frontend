@@ -7,16 +7,16 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import ConfirmDisable2FA from './template.js'
 
 class ConfirmDisable2FAContainer extends React.PureComponent {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.handleContinue = this.handleContinue.bind(this)
   }
 
-  handleContinue() {
+  handleContinue () {
     this.props.securityCenterActions.disableTwoStep()
   }
 
-  render() {
+  render () {
     return (
       <ConfirmDisable2FA {...this.props} handleContinue={this.handleContinue} />
     )

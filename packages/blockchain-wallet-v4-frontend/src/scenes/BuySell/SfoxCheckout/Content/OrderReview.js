@@ -39,42 +39,42 @@ const faqQuestions = [
   {
     question: (
       <FormattedMessage
-        id="scenes.buysell.sfoxcheckout.orderreview.helper1.question"
-        defaultMessage="What are the fees?"
+        id='scenes.buysell.sfoxcheckout.orderreview.helper1.question'
+        defaultMessage='What are the fees?'
       />
     ),
     answer: (
       <FormattedMessage
-        id="scenes.buysell.sfoxcheckout.orderreview.helper1.answer"
-        defaultMessage="There is a trading fee that SFOX requires to execute a buy or sell trade. For sell trades specifically, there is an additional transaction fee that goes to network miners in order to send the amount you’re selling to SFOX."
+        id='scenes.buysell.sfoxcheckout.orderreview.helper1.answer'
+        defaultMessage='There is a trading fee that SFOX requires to execute a buy or sell trade. For sell trades specifically, there is an additional transaction fee that goes to network miners in order to send the amount you’re selling to SFOX.'
       />
     )
   },
   {
     question: (
       <FormattedMessage
-        id="scenes.buysell.sfoxcheckout.orderreview.helper2.question"
-        defaultMessage="How long will it take to get my funds?"
+        id='scenes.buysell.sfoxcheckout.orderreview.helper2.question'
+        defaultMessage='How long will it take to get my funds?'
       />
     ),
     answer: (
       <FormattedMessage
-        id="scenes.buysell.sfoxcheckout.orderreview.helper2.answer"
-        defaultMessage="On average, it will take about a week for you to receive your funds from either a buy or sell trade."
+        id='scenes.buysell.sfoxcheckout.orderreview.helper2.answer'
+        defaultMessage='On average, it will take about a week for you to receive your funds from either a buy or sell trade.'
       />
     )
   },
   {
     question: (
       <FormattedMessage
-        id="scenes.buysell.sfoxcheckout.orderreview.helper3.question"
-        defaultMessage="Can I cancel my trade?"
+        id='scenes.buysell.sfoxcheckout.orderreview.helper3.question'
+        defaultMessage='Can I cancel my trade?'
       />
     ),
     answer: (
       <FormattedMessage
-        id="scenes.buysell.sfoxcheckout.orderreview.helper3.answer"
-        defaultMessage="Once you submit your trade here, it will move into a pending state, and cannot be reversed, cancelled or changed. Please be sure to verify the information here carefully before submitting."
+        id='scenes.buysell.sfoxcheckout.orderreview.helper3.answer'
+        defaultMessage='Once you submit your trade here, it will move into a pending state, and cannot be reversed, cancelled or changed. Please be sure to verify the information here carefully before submitting.'
       />
     )
   }
@@ -88,38 +88,38 @@ export const OrderDetails = ({
   type
 }) => (
   <ExchangeCheckoutWrapper>
-    <PartnerHeader size="32px" weight={600} style={spacing('mb-10')}>
+    <PartnerHeader size='32px' weight={600} style={spacing('mb-10')}>
       <FormattedMessage
-        id="buy.sfoxcheckout.almostthere"
+        id='buy.sfoxcheckout.almostthere'
         defaultMessage="You're almost there"
       />
     </PartnerHeader>
-    <PartnerSubHeader size="14px" weight={300} style={spacing('mb-20')}>
+    <PartnerSubHeader size='14px' weight={300} style={spacing('mb-20')}>
       <FormattedMessage
-        id="buy.sfoxcheckout.revieworder.subtext"
-        defaultMessage="Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order."
+        id='buy.sfoxcheckout.revieworder.subtext'
+        defaultMessage='Before we can start processing your order, review the order details below. If everything looks good to you, click submit to complete your order.'
       />
     </PartnerSubHeader>
-    <Text size="14px" weight={300} style={spacing('mt-20')}>
+    <Text size='14px' weight={300} style={spacing('mt-20')}>
       <FormattedMessage
-        id="buy.sfoxcheckout.connectedaccount"
-        defaultMessage="Your Connected Account"
+        id='buy.sfoxcheckout.connectedaccount'
+        defaultMessage='Your Connected Account'
       />:
     </Text>
     <MethodContainer style={spacing('mt-10')}>
-      <Icon style={spacing('ml-15')} name="bank-filled" size="26px" />
+      <Icon style={spacing('ml-15')} name='bank-filled' size='26px' />
       <FundingSource account={account} />
     </MethodContainer>
     <div
       style={{ ...flex('row align/center justify/end'), ...spacing('mt-20') }}
     >
-      <Text size="12px" weight={500} style={spacing('mr-10')}>
+      <Text size='12px' weight={500} style={spacing('mr-10')}>
         <FormattedMessage
-          id="buy.sfoxcheckout.exchangerate"
-          defaultMessage="Exchange Rate"
+          id='buy.sfoxcheckout.exchangerate'
+          defaultMessage='Exchange Rate'
         />
       </Text>
-      <Text size="12px" weight={300}>
+      <Text size='12px' weight={300}>
         1 BTC ={' '}
         {quoteR
           .map(q => {
@@ -145,21 +145,21 @@ export const OrderDetails = ({
     <OrderDetailsTable style={spacing('mt-10')}>
       <OrderDetailsRow>
         {type === 'buy' ? (
-          <Text size="13px" weight={300}>
+          <Text size='13px' weight={300}>
             <FormattedMessage
-              id="orderdetails.amounttopurchase"
-              defaultMessage="BTC Amount to Purchase"
+              id='orderdetails.amounttopurchase'
+              defaultMessage='BTC Amount to Purchase'
             />
           </Text>
         ) : (
-          <Text size="13px" weight={300}>
+          <Text size='13px' weight={300}>
             <FormattedMessage
-              id="orderdetails.amounttosell"
-              defaultMessage="BTC Amount to Sell"
+              id='orderdetails.amounttosell'
+              defaultMessage='BTC Amount to Sell'
             />
           </Text>
         )}
-        <Text size="13px" weight={300}>
+        <Text size='13px' weight={300}>
           {quoteR
             .map(quote => reviewOrder.renderFirstRow(quote, type))
             .getOrElse('~')}
@@ -167,20 +167,20 @@ export const OrderDetails = ({
       </OrderDetailsRow>
       <OrderDetailsRow>
         <ToolTipWrapper>
-          <Text size="13px" weight={300}>
+          <Text size='13px' weight={300}>
             <FormattedMessage
-              id="orderdetails.tradingfee"
-              defaultMessage="Trading Fee"
+              id='orderdetails.tradingfee'
+              defaultMessage='Trading Fee'
             />
           </Text>
           <Tooltip>
             <FormattedMessage
-              id="orderdetails.tradingfee.tooltip"
-              defaultMessage="The fee charged to execute a trade through SFOX."
+              id='orderdetails.tradingfee.tooltip'
+              defaultMessage='The fee charged to execute a trade through SFOX.'
             />
           </Tooltip>
         </ToolTipWrapper>
-        <Text size="13px" weight={300}>
+        <Text size='13px' weight={300}>
           {quoteR
             .map(quote => `$${(+quote.feeAmount).toFixed(2)}`)
             .getOrElse('~')}
@@ -188,34 +188,34 @@ export const OrderDetails = ({
       </OrderDetailsRow>
       <OrderDetailsRow>
         {type === 'buy' ? (
-          <Text size="13px" weight={300}>
+          <Text size='13px' weight={300}>
             <FormattedMessage
-              id="orderdetails.totalcost"
-              defaultMessage="Total Cost"
+              id='orderdetails.totalcost'
+              defaultMessage='Total Cost'
             />
           </Text>
         ) : (
-          <Text size="13px" weight={300}>
+          <Text size='13px' weight={300}>
             <FormattedMessage
-              id="orderdetails.totaltobereceived"
-              defaultMessage="Total to be Received"
+              id='orderdetails.totaltobereceived'
+              defaultMessage='Total to be Received'
             />
           </Text>
         )}
-        <Text size="13px" weight={300} color="success">
+        <Text size='13px' weight={300} color='success'>
           {quoteR
             .map(quote => reviewOrder.renderTotal(quote, type))
             .getOrElse('~')}
         </Text>
       </OrderDetailsRow>
       <OrderDetailsRow>
-        <Text size="13px" weight={300}>
+        <Text size='13px' weight={300}>
           <FormattedMessage
-            id="orderdetails.fundsdelivery"
-            defaultMessage="Estimated Delivery of Funds"
+            id='orderdetails.fundsdelivery'
+            defaultMessage='Estimated Delivery of Funds'
           />
         </Text>
-        <Text size="13px" weight={300}>
+        <Text size='13px' weight={300}>
           {reviewOrder.renderDate(profile, type)}
         </Text>
       </OrderDetailsRow>
@@ -226,7 +226,7 @@ export const OrderDetails = ({
           style={spacing('mt-20')}
           expiryDate={quote.expiresAt.getTime()}
           handleExpiry={onRefreshQuote}
-          tooltipExpiryTime="30 seconds"
+          tooltipExpiryTime='30 seconds'
         />
       ))
       .getOrElse(null)}
@@ -243,12 +243,12 @@ export const OrderSubmit = ({
   <Fragment>
     {busy instanceof Error ? (
       <div>
-        <Text color="error" size="13px">
+        <Text color='error' size='13px'>
           Sorry, something went wrong with your trade: {busy.message}
         </Text>
         <span onClick={() => clearTradeError()}>
-          <StepTransition prev Component={Link} weight={300} size="13px">
-            <FormattedMessage id="try_again" defaultMessage="Try again" />
+          <StepTransition prev Component={Link} weight={300} size='13px'>
+            <FormattedMessage id='try_again' defaultMessage='Try again' />
           </StepTransition>
         </span>
       </div>
