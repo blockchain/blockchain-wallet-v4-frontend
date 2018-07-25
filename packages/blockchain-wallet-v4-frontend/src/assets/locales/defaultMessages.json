@@ -316,7 +316,7 @@
       },
       {
         "defaultMessage":
-          "Reset 2-step authentication has been successfully submitted.",
+          "Reset 2-factor authentication has been successfully submitted.",
         "id": "components.alerts.reset_twofa_info"
       },
       {
