@@ -6,7 +6,13 @@ import { Field, reduxForm } from 'redux-form'
 
 import { required } from 'services/FormHelper'
 import { invalidAmountMin, invalidAmountMax } from './validation'
-import { Button, Separator, Text, Tooltip } from 'blockchain-info-components'
+import {
+  Button,
+  Separator,
+  Text,
+  TooltipIcon,
+  TooltipHost
+} from 'blockchain-info-components'
 import {
   FiatConvertor,
   Form,
@@ -70,12 +76,9 @@ const FirstStep = props => {
                 id='modals.requestbitcoin.firststep.share'
                 defaultMessage='Copy & Share Address: '
               />
-              <Tooltip>
-                <FormattedMessage
-                  id='modals.requestbitcoin.firststep.sharetooltip'
-                  defaultMessage='Share this address with others, and they can send you BTC directly to your wallet. Your address changes with every payment. You can also create a request by attaching an amount below.'
-                />
-              </Tooltip>
+              <TooltipHost id='reqBitcoinShare'>
+                <TooltipIcon name='question-in-circle' />
+              </TooltipHost>
             </div>
             <QRText
               size='14px'

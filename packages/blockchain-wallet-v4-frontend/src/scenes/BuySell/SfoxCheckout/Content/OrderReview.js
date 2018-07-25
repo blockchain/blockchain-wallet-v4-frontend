@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
-import { Text, Icon, Link, Tooltip } from 'blockchain-info-components'
+import { Text, Icon, Link, TooltipIcon, TooltipHost } from 'blockchain-info-components'
 import CountdownTimer from 'components/Form/CountdownTimer'
 import { Wrapper as ExchangeCheckoutWrapper } from '../../ExchangeCheckout'
 import { flex, spacing } from 'services/StyleService'
@@ -172,13 +172,10 @@ export const OrderDetails = ({
               id='orderdetails.tradingfee'
               defaultMessage='Trading Fee'
             />
+            <TooltipHost id='tradingfee.tooltip'>
+              <TooltipIcon name='question-in-circle' />
+            </TooltipHost>
           </Text>
-          <Tooltip>
-            <FormattedMessage
-              id='orderdetails.tradingfee.tooltip'
-              defaultMessage='The fee charged to execute a trade through SFOX.'
-            />
-          </Tooltip>
         </ToolTipWrapper>
         <Text size='13px' weight={300}>
           {quoteR
