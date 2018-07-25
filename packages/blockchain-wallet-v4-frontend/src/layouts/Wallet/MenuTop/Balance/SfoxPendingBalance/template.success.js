@@ -23,20 +23,20 @@ const Wrapper = styled.div`
 
 const Success = props => {
   return props.balance === 0 ? null : (
-    <LinkContainer to='/buy-sell'>
+    <LinkContainer to="/buy-sell">
       <Wrapper>
-        <Text size='10px' weight={300}>
+        <Text size="10px" weight={300}>
           BTC
         </Text>
         <Banner inline>
-          <FiatDisplay coin='BTC' cursor='pointer' size='10px' weight={300}>
+          <FiatDisplay coin="BTC" cursor="pointer" size="10px" weight={300}>
             {props.balance}
           </FiatDisplay>
           <span>&nbsp;</span>
-          <Text size='10px' weight={300}>
+          <Text size="10px" weight={300}>
             <FormattedMessage
-              id='scenes.wallet.menutop.balance.sfoxpendingbalance'
-              defaultMessage='Pending Balance'
+              id="scenes.wallet.menutop.balance.sfoxpendingbalance"
+              defaultMessage="Pending Balance"
             />
           </Text>
         </Banner>

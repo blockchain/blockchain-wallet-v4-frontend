@@ -26,38 +26,38 @@ const EditTxDescription = props => {
   const { position, close, submitting, handleSubmit, invalid } = props
 
   return (
-    <Modal size='large' position={position}>
+    <Modal size="large" position={position}>
       <Form onSubmit={handleSubmit}>
         <Wrapper>
-          <ModalHeader icon='pencil' onClose={close}>
+          <ModalHeader icon="pencil" onClose={close}>
             <FormattedMessage
-              id='modals.edittransactiondesc.title'
-              defaultMessage='Edit Transaction Description'
+              id="modals.edittransactiondesc.title"
+              defaultMessage="Edit Transaction Description"
             />
           </ModalHeader>
           <ModalBody>
             <FormGroup>
               <FormItem>
-                <Label for='description'>
+                <Label for="description">
                   <FormattedMessage
-                    id='modals.edittransactiondesc.description'
-                    defaultMessage='Description'
+                    id="modals.edittransactiondesc.description"
+                    defaultMessage="Description"
                   />
                 </Label>
-                <Field name='description' component={TextBox} />
+                <Field name="description" component={TextBox} />
               </FormItem>
             </FormGroup>
           </ModalBody>
-          <ModalFooter align='right'>
+          <ModalFooter align="right">
             <Button
-              type='submit'
-              nature='primary'
+              type="submit"
+              nature="primary"
               capitalize
               disabled={submitting || invalid}
             >
               <FormattedMessage
-                id='modals.edittransactiondesc.button'
-                defaultMessage='Change Description'
+                id="modals.edittransactiondesc.button"
+                defaultMessage="Change Description"
               />
             </Button>
           </ModalFooter>

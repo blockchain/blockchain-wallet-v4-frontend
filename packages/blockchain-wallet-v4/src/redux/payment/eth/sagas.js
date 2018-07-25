@@ -40,13 +40,13 @@ export default ({ api }) => {
     }
   }
   // ///////////////////////////////////////////////////////////////////////////
-  function create ({ network, payment } = { network: undefined, payment: {} }) {
+  function create({ network, payment } = { network: undefined, payment: {} }) {
     const makePayment = p => ({
-      value () {
+      value() {
         return p
       },
 
-      *init () {
+      *init() {
         const fees = yield call(api.getEthereumFee)
         const gasPrice = prop('regular', fees)
         const gasLimit = prop('gasLimit', fees)
@@ -84,7 +84,7 @@ export default ({ api }) => {
         return makePayment(merge(p, { fees, fee, unconfirmedTx }))
       },
 
-      *to (destination) {
+      *to(destination) {
         if (!EthUtil.isValidAddress(destination)) {
           throw new Error('Invalid address')
         }
@@ -94,11 +94,11 @@ export default ({ api }) => {
         )
       },
 
-      amount (amount) {
+      amount(amount) {
         return makePayment(merge(p, { amount }))
       },
 
-      *from (origin, type) {
+      *from(origin, type) {
         let account = origin
         if (origin === null || origin === undefined || origin === '') {
           const accountR = yield select(S.kvStore.ethereum.getDefaultAddress)
@@ -120,7 +120,7 @@ export default ({ api }) => {
         return makePayment(merge(p, { from, effectiveBalance }))
       },
 
-      *build () {
+      *build() {
         const from = prop('from', p)
         const index = yield call(selectIndex, from)
         const to = prop('to', p)
@@ -143,7 +143,7 @@ export default ({ api }) => {
         return makePayment(merge(p, { raw }))
       },
 
-      *sign (password) {
+      *sign(password) {
         try {
           const appState = yield select(identity)
           const mnemonicT = S.wallet.getMnemonic(appState, password)
@@ -156,7 +156,7 @@ export default ({ api }) => {
         }
       },
 
-      *signLegacy (password) {
+      *signLegacy(password) {
         try {
           const appState = yield select(identity)
           const seedHexT = S.wallet.getSeedHex(appState, password)
@@ -170,7 +170,7 @@ export default ({ api }) => {
         }
       },
 
-      *publish () {
+      *publish() {
         const signed = prop('signed', p)
         if (isNil(signed)) throw new Error('missing_signed_tx')
         const publish = txHex => api.pushEthereumTx(signed).then(prop('txHash'))
@@ -179,13 +179,13 @@ export default ({ api }) => {
         return makePayment(merge(p, { txId }))
       },
 
-      description (message) {
+      description(message) {
         return isString(message)
           ? makePayment(merge(p, { description: message }))
           : makePayment(p)
       },
 
-      chain () {
+      chain() {
         const chain = (gen, f) =>
           makeChain(function*() {
             return yield f(yield gen())
@@ -201,7 +201,7 @@ export default ({ api }) => {
           publish: () => chain(gen, payment => payment.publish()),
           description: message =>
             chain(gen, payment => payment.description(message)),
-          *done () {
+          *done() {
             return yield gen()
           }
         })

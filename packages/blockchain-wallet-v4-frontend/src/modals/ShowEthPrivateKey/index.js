@@ -8,17 +8,17 @@ import { getData } from './selectors'
 import ShowEthPrivateKeyTemplate from './template'
 
 class ShowEthPrivateKeyContainer extends Component {
-  componentDidMount () {
+  componentDidMount() {
     if (this.props.isLegacy) {
       this.props.ethActions.fetchLegacyBalance()
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.actions.clearShownEthPrivateKey()
   }
 
-  render () {
+  render() {
     const step = this.props.priv == null ? 0 : 1
     const nextStep = () =>
       this.props.actions.showEthPrivateKey(this.props.isLegacy)

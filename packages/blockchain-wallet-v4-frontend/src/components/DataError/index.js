@@ -24,34 +24,34 @@ const Header = styled(Text)`
 `
 
 class DataErrorContainer extends React.PureComponent {
-  render () {
+  render() {
     return (
       <Wrapper>
         <Empty>
-          <Image name='empty-search' width='260px' />
-          <Header size='18px' weight={500}>
+          <Image name="empty-search" width="260px" />
+          <Header size="18px" weight={500}>
             <FormattedMessage
-              id='components.dataerror.header'
-              defaultMessage='Oops, something went wrong here!'
+              id="components.dataerror.header"
+              defaultMessage="Oops, something went wrong here!"
             />
           </Header>
           <TextGroup inline>
-            <Text size='18px' weight={300}>
+            <Text size="18px" weight={300}>
               <FormattedMessage
-                id='components.dataerror.body'
-                defaultMessage='Please '
+                id="components.dataerror.body"
+                defaultMessage="Please "
               />
             </Text>
-            <Link size='18px' onClick={this.props.onClick}>
+            <Link size="18px" onClick={this.props.onClick}>
               <FormattedMessage
-                id='components.dataerror.click'
-                defaultMessage='click here'
+                id="components.dataerror.click"
+                defaultMessage="click here"
               />
             </Link>
-            <Text size='18px' weight={300}>
+            <Text size="18px" weight={300}>
               <FormattedMessage
-                id='components.dataerror.refresh'
-                defaultMessage=' to refresh.'
+                id="components.dataerror.refresh"
+                defaultMessage=" to refresh."
               />
             </Text>
           </TextGroup>

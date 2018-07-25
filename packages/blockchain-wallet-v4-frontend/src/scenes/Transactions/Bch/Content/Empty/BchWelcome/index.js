@@ -6,21 +6,21 @@ import { actions, selectors } from 'data'
 import BitcoinCashWelcome from './template.js'
 
 class BitcoinCashWelcomeContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
     this.handleRequest = this.handleRequest.bind(this)
   }
 
-  handleClick () {
+  handleClick() {
     this.props.preferencesActions.setBitcoinCashWelcome(false)
   }
 
-  handleRequest () {
+  handleRequest() {
     this.props.modalActions.showModal('RequestBch')
   }
 
-  render () {
+  render() {
     const { showBitcoinCashWelcome, ethBalanceR, btcBalanceR } = this.props
     const exchange = ethBalanceR.getOrElse(0) + btcBalanceR.getOrElse(0) > 0
     return (

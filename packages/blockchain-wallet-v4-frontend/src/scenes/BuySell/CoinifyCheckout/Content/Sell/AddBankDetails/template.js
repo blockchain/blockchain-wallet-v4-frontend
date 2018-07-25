@@ -53,63 +53,63 @@ const AddBankDetails = props => {
           <InputWrapper>
             <PartnerHeader>
               <FormattedMessage
-                id='coinifyexchangedata.addbankdetails.header'
-                defaultMessage='Add Bank Account'
+                id="coinifyexchangedata.addbankdetails.header"
+                defaultMessage="Add Bank Account"
               />
             </PartnerHeader>
             <PartnerSubHeader>
               <FormattedMessage
-                id='coinifyexchangedata.addbankdetails.subheader'
-                defaultMessage='Please enter your bank information below.'
+                id="coinifyexchangedata.addbankdetails.subheader"
+                defaultMessage="Please enter your bank information below."
               />
             </PartnerSubHeader>
             {isCurrencyDKK ? (
               <FieldWrapper>
-                <FieldText weight={300} size='12px'>
+                <FieldText weight={300} size="12px">
                   <FormattedMessage
-                    id='coinifyexchangedata.addbankdetails.accountno'
-                    defaultMessage='Account Number'
+                    id="coinifyexchangedata.addbankdetails.accountno"
+                    defaultMessage="Account Number"
                   />
                 </FieldText>
-                <Field name='iban' validate={[required]} component={TextBox} />
-                <FieldText weight={300} size='12px'>
+                <Field name="iban" validate={[required]} component={TextBox} />
+                <FieldText weight={300} size="12px">
                   <FormattedMessage
-                    id='coinifyexchangedata.addbankdetails.reg'
-                    defaultMessage='REG Number'
+                    id="coinifyexchangedata.addbankdetails.reg"
+                    defaultMessage="REG Number"
                   />
                 </FieldText>
-                <Field name='bic' validate={[required]} component={TextBox} />
+                <Field name="bic" validate={[required]} component={TextBox} />
               </FieldWrapper>
             ) : (
               <FieldWrapper>
-                <FieldText weight={300} size='12px'>
+                <FieldText weight={300} size="12px">
                   <FormattedMessage
-                    id='coinifyexchangedata.addbankdetails.iban'
-                    defaultMessage='International Bank Account (IBAN)'
+                    id="coinifyexchangedata.addbankdetails.iban"
+                    defaultMessage="International Bank Account (IBAN)"
                   />
                 </FieldText>
                 <Field
-                  name='iban'
+                  name="iban"
                   validate={[required, validIban]}
                   component={TextBox}
                 />
-                <FieldText weight={300} size='12px'>
+                <FieldText weight={300} size="12px">
                   <FormattedMessage
-                    id='coinifyexchangedata.addbankdetails.bic'
-                    defaultMessage='Bank Identifier Code (BIC)'
+                    id="coinifyexchangedata.addbankdetails.bic"
+                    defaultMessage="Bank Identifier Code (BIC)"
                   />
                 </FieldText>
                 <Field
-                  name='bic'
+                  name="bic"
                   validate={[required, validBIC]}
                   component={TextBox}
                 />
               </FieldWrapper>
             )}
-            <Text weight={300} size='12px'>
+            <Text weight={300} size="12px">
               <FormattedMessage
-                id='coinifyexchangedata.addbankdetails.incomplete'
-                defaultMessage='Note: Incomplete or incorrect details will cause processing delays.'
+                id="coinifyexchangedata.addbankdetails.incomplete"
+                defaultMessage="Note: Incomplete or incorrect details will cause processing delays."
               />
             </Text>
           </InputWrapper>
@@ -121,18 +121,18 @@ const AddBankDetails = props => {
             next
             Component={Button}
             style={spacing('mt-45')}
-            nature='primary'
+            nature="primary"
             fullwidth
             disabled={submitting || invalid}
           >
             <FormattedMessage
-              id='coinifyexchangedata.addbankdetails.continue'
-              defaultMessage='Continue'
+              id="coinifyexchangedata.addbankdetails.continue"
+              defaultMessage="Continue"
             />
           </StepTransition>
           <CancelWrapper>
             <StepTransition prev Component={Link}>
-              <FormattedMessage id='back' defaultMessage='Back' />
+              <FormattedMessage id="back" defaultMessage="Back" />
             </StepTransition>
           </CancelWrapper>
         </ColRightInner>

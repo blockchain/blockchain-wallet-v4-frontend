@@ -7,7 +7,7 @@ import { getData } from './selectors'
 import TradeItem from './template'
 
 class PagesContainer extends React.PureComponent {
-  render () {
+  render() {
     const {
       status,
       date,

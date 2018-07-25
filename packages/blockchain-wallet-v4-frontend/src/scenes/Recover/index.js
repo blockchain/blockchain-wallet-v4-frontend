@@ -9,15 +9,15 @@ import SecondStep from './SecondStep'
 import { actions } from '../../data'
 
 class RecoverContainer extends React.PureComponent {
-  componentWillMount () {
+  componentWillMount() {
     this.props.resetStep()
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.formActions.destroy('recover')
   }
 
-  render () {
+  render() {
     const { step, nextStep, previousStep, ...rest } = this.props
 
     switch (step) {

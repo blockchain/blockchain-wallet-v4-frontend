@@ -42,13 +42,13 @@ const OrderCheckout = ({
   const wantToHelper = () =>
     type === 'buy' ? (
       <FormattedMessage
-        id='buy.output_method.title.buy'
-        defaultMessage='I want to buy'
+        id="buy.output_method.title.buy"
+        defaultMessage="I want to buy"
       />
     ) : (
       <FormattedMessage
-        id='buy.output_method.title.sell'
-        defaultMessage='I want to sell'
+        id="buy.output_method.title.sell"
+        defaultMessage="I want to sell"
       />
     )
 
@@ -61,8 +61,8 @@ const OrderCheckout = ({
     quoteR.map(getRateFromQuote).getOrElse(
       <Fragment>
         <FormattedMessage
-          id='scenes.buysell.coinifycheckout.content.ordercheckout.loading'
-          defaultMessage='Loading'
+          id="scenes.buysell.coinifycheckout.content.ordercheckout.loading"
+          defaultMessage="Loading"
         />
         {'...'}
       </Fragment>
@@ -75,7 +75,7 @@ const OrderCheckout = ({
         Component={Button}
         onClick={onOrderCheckoutSubmit}
         style={spacing('mt-45')}
-        nature='primary'
+        nature="primary"
         fullwidth
         disabled={
           checkoutBusy ||
@@ -85,11 +85,11 @@ const OrderCheckout = ({
         }
       >
         {Remote.Loading.is(quoteR) ? (
-          <HeartbeatLoader height='20px' width='20px' color='white' />
+          <HeartbeatLoader height="20px" width="20px" color="white" />
         ) : (
           <FormattedMessage
-            id='scenes.buysell.coinifycheckout.content.ordercheckout.continue'
-            defaultMessage='Continue'
+            id="scenes.buysell.coinifycheckout.content.ordercheckout.continue"
+            defaultMessage="Continue"
           />
         )}
       </StepTransition>
@@ -97,20 +97,20 @@ const OrderCheckout = ({
 
   return (
     <ExchangeCheckoutWrapper>
-      <Text style={spacing('ml-10')} size='16px' weight={600}>
+      <Text style={spacing('ml-10')} size="16px" weight={600}>
         {wantToHelper()}
       </Text>
       <MethodContainer>
         <Icon
-          name='bitcoin-in-circle-filled'
-          color='bitcoin-orange'
-          size='30px'
+          name="bitcoin-in-circle-filled"
+          color="bitcoin-orange"
+          size="30px"
         />
         <div style={{ ...flex('col'), ...spacing('ml-20') }}>
-          <Text size='14px' weight={300} uppercase>
+          <Text size="14px" weight={300} uppercase>
             Bitcoin
           </Text>
-          <Text size='12px' weight={300}>
+          <Text size="12px" weight={300}>
             {'@ '}
             {rateHelper()}
           </Text>
@@ -118,10 +118,10 @@ const OrderCheckout = ({
       </MethodContainer>
       {reason.indexOf('has_remaining') > -1 ? (
         <Fragment>
-          <Text style={spacing('ml-10')} size='16px' weight={600}>
+          <Text style={spacing('ml-10')} size="16px" weight={600}>
             <FormattedMessage
-              id='scenes.buysell.coinifycheckout.content.ordercheckout.amount'
-              defaultMessage='Amount'
+              id="scenes.buysell.coinifycheckout.content.ordercheckout.amount"
+              defaultMessage="Amount"
             />
           </Text>
           <div style={spacing('mt-10')}>

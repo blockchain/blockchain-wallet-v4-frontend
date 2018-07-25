@@ -23,7 +23,7 @@ const StyledIcon = styled(Icon)`
 const SecurityIcon = props => (
   <Circle enabled={props.enabled}>
     <StyledIcon
-      size='40px'
+      size="40px"
       color={props.enabled ? 'success' : 'gray-2'}
       name={props.name}
     />

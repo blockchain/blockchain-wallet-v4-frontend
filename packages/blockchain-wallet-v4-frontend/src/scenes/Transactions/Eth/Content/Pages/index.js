@@ -5,7 +5,7 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class Pages extends React.PureComponent {
-  render () {
+  render() {
     const { data } = this.props
 
     return data.cata({

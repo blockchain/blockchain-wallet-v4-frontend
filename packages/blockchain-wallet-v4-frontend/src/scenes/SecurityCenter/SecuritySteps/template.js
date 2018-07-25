@@ -83,22 +83,22 @@ const SecuritySteps = props => {
             <Circle>
               {emailSuccess && (
                 <Icon
-                  name='checkmark'
-                  color='success'
+                  name="checkmark"
+                  color="success"
                   size={mobile ? '15px' : '30px'}
                 />
               )}
             </Circle>
-            <StepText success={emailSuccess} size='12px' weight={300}>
+            <StepText success={emailSuccess} size="12px" weight={300}>
               {mobile ? (
                 <FormattedMessage
-                  id='scenes.securitycenter.steps.step1mobile'
-                  defaultMessage='Verified Email'
+                  id="scenes.securitycenter.steps.step1mobile"
+                  defaultMessage="Verified Email"
                 />
               ) : (
                 <FormattedMessage
-                  id='scenes.securitycenter.steps.step1'
-                  defaultMessage='Verified Email Address'
+                  id="scenes.securitycenter.steps.step1"
+                  defaultMessage="Verified Email Address"
                 />
               )}
             </StepText>
@@ -111,22 +111,22 @@ const SecuritySteps = props => {
             <Circle>
               {twoFactorSuccess && (
                 <Icon
-                  name='checkmark'
-                  color='success'
+                  name="checkmark"
+                  color="success"
                   size={mobile ? '15px' : '30px'}
                 />
               )}
             </Circle>
-            <StepText success={twoFactorSuccess} size='12px' weight={300}>
+            <StepText success={twoFactorSuccess} size="12px" weight={300}>
               {mobile ? (
                 <FormattedMessage
-                  id='scenes.securitycenter.steps.step2mobile'
-                  defaultMessage='2 Factor Auth'
+                  id="scenes.securitycenter.steps.step2mobile"
+                  defaultMessage="2 Factor Auth"
                 />
               ) : (
                 <FormattedMessage
-                  id='scenes.securitycenter.steps.step2'
-                  defaultMessage='Two-Step Verification'
+                  id="scenes.securitycenter.steps.step2"
+                  defaultMessage="Two-Step Verification"
                 />
               )}
             </StepText>
@@ -138,16 +138,16 @@ const SecuritySteps = props => {
             <Circle>
               {isMnemonicVerified && (
                 <Icon
-                  name='checkmark'
-                  color='success'
+                  name="checkmark"
+                  color="success"
                   size={mobile ? '15px' : '30px'}
                 />
               )}
             </Circle>
-            <StepText success={isMnemonicVerified} size='12px' weight={300}>
+            <StepText success={isMnemonicVerified} size="12px" weight={300}>
               <FormattedMessage
-                id='scenes.securitycenter.steps.step3'
-                defaultMessage='Backup Phrase'
+                id="scenes.securitycenter.steps.step3"
+                defaultMessage="Backup Phrase"
               />
             </StepText>
           </BackupSection>

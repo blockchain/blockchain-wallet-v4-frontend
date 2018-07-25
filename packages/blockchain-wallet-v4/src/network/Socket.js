@@ -2,25 +2,25 @@ import { compose, concat, prop, propEq, identity } from 'ramda'
 
 const WebSocket = global.WebSocket || global.MozWebSocket
 
-function WS (uri, protocols, opts) {
+function WS(uri, protocols, opts) {
   return protocols ? new WebSocket(uri, protocols) : new WebSocket(uri)
 }
 
 if (WebSocket) {
   WS.prototype = WebSocket.prototype
 
-  WS.prototype.on = function (event, callback) {
+  WS.prototype.on = function(event, callback) {
     this['on' + event] = callback
   }
 
-  WS.prototype.once = function (event, callback) {
-    this['on' + event] = function () {
+  WS.prototype.once = function(event, callback) {
+    this['on' + event] = function() {
       callback.apply(callback, arguments)
       this['on' + event] = null
     }.bind(this)
   }
 
-  WS.prototype.off = function (event) {
+  WS.prototype.off = function(event) {
     this['on' + event] = null
   }
 }
@@ -28,7 +28,7 @@ if (WebSocket) {
 let toArrayFormat = a => (Array.isArray(a) ? a : [a])
 
 class Socket {
-  constructor ({ options = {}, socketType }) {
+  constructor({ options = {}, socketType }) {
     this.wsUrl = options.domains.webSocket.replace('/inv', socketType + '/inv')
     this.headers = { Origin: options.domains.root }
     this.pingInterval = 30000
@@ -38,7 +38,7 @@ class Socket {
     this.reconnect = null
   }
 
-  connect (onOpen = identity, onMessage = identity, onClose = identity) {
+  connect(onOpen = identity, onMessage = identity, onClose = identity) {
     if (!this.socket || this.socket.readyState === 3) {
       try {
         this.pingIntervalPID = setInterval(
@@ -63,7 +63,7 @@ class Socket {
     }
   }
 
-  ping () {
+  ping() {
     this.send(Socket.pingMessage())
     let close = this.close.bind(this)
     this.pingTimeoutPID = setTimeout(
@@ -75,43 +75,43 @@ class Socket {
     )
   }
 
-  onPong (msg) {
+  onPong(msg) {
     if (propEq('op', 'pong')) {
       clearTimeout(this.pingTimeoutPID)
     }
     return msg
   }
 
-  extractMessage (msg) {
+  extractMessage(msg) {
     return compose(
       JSON.parse,
       prop('data')
     )(msg)
   }
 
-  close () {
+  close() {
     if (this.socket) this.socket.close()
     this.socket = null
     clearInterval(this.pingIntervalPID)
     clearTimeout(this.pingTimeoutPID)
   }
 
-  send (message) {
+  send(message) {
     if (this.socket && this.socket.readyState === 1) {
       this.socket.send(message)
     }
   }
 
-  static walletSubMessage (guid) {
+  static walletSubMessage(guid) {
     if (guid == null) return ''
     return JSON.stringify({ op: 'wallet_sub', guid })
   }
 
-  static blockSubMessage () {
+  static blockSubMessage() {
     return JSON.stringify({ op: 'blocks_sub' })
   }
 
-  static addrSubMessage (addresses) {
+  static addrSubMessage(addresses) {
     if (addresses == null) return ''
     let toMsg = addr => JSON.stringify({ op: 'addr_sub', addr })
     return toArrayFormat(addresses)
@@ -119,7 +119,7 @@ class Socket {
       .reduce(concat, '')
   }
 
-  static xPubSubMessage (xpubs) {
+  static xPubSubMessage(xpubs) {
     if (xpubs == null) return ''
     let toMsg = xpub => JSON.stringify({ op: 'xpub_sub', xpub })
     return toArrayFormat(xpubs)
@@ -127,11 +127,11 @@ class Socket {
       .reduce(concat, '')
   }
 
-  static pingMessage () {
+  static pingMessage() {
     return JSON.stringify({ op: 'ping' })
   }
 
-  static onOpenMessage ({ guid, addresses, xpubs }) {
+  static onOpenMessage({ guid, addresses, xpubs }) {
     return (
       Socket.blockSubMessage() +
       Socket.walletSubMessage(guid) +

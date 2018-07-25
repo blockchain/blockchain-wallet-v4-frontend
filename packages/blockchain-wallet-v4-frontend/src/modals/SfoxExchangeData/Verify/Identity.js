@@ -72,14 +72,14 @@ const Identity = props => {
         <InputWrapper>
           <IconHeader>
             <FormattedMessage
-              id='sfoxexchangedata.verify.partner.header'
-              defaultMessage='The Hidden Details'
+              id="sfoxexchangedata.verify.partner.header"
+              defaultMessage="The Hidden Details"
             />
-            <LockIcon name='lock-filled' />
+            <LockIcon name="lock-filled" />
           </IconHeader>
           <PartnerSubHeader>
             <FormattedMessage
-              id='sfoxexchangedata.verify.partner.subheader'
+              id="sfoxexchangedata.verify.partner.subheader"
               defaultMessage="We know this information is personal, but we need to make sure you're you. As always, this will be sent directly to SFOX and will not be saved in your Blockchain wallet."
             />
           </PartnerSubHeader>
@@ -87,20 +87,20 @@ const Identity = props => {
             <FormGroup>
               <FormItem>
                 <Text
-                  size='14px'
+                  size="14px"
                   weight={400}
                   style={{ 'margin-bottom': '5px' }}
                 >
                   <FormattedMessage
-                    id='sfoxexchangedata.verify.dateofbirth'
-                    defaultMessage='Your Birthday (MM/DD/YYYY)'
+                    id="sfoxexchangedata.verify.dateofbirth"
+                    defaultMessage="Your Birthday (MM/DD/YYYY)"
                   />
                 </Text>
                 <Field
-                  name='dob'
+                  name="dob"
                   validate={[requiredDOB, ageOverEighteen]}
                   component={TextBox}
-                  placeholder='01/01/1991'
+                  placeholder="01/01/1991"
                   normalize={normalizeDateOfBirth}
                 />
               </FormItem>
@@ -108,47 +108,47 @@ const Identity = props => {
             <FormGroup>
               <FormItem>
                 <Text
-                  size='14px'
+                  size="14px"
                   weight={400}
                   style={{ 'margin-bottom': '5px' }}
                 >
                   <FormattedMessage
-                    id='sfoxexchangedata.verify.ssn'
-                    defaultMessage='Social Security Number'
+                    id="sfoxexchangedata.verify.ssn"
+                    defaultMessage="Social Security Number"
                   />
                 </Text>
                 {viewSSN ? (
                   <Field
-                    name='ssn'
+                    name="ssn"
                     validate={[requiredSSN]}
                     component={TextBox}
-                    placeholder='___-__-___'
+                    placeholder="___-__-___"
                     normalize={normalizeSocialSecurity}
                   />
                 ) : (
                   <Field
-                    name='ssn'
+                    name="ssn"
                     validate={[requiredSSN]}
                     component={PasswordBox}
-                    placeholder='___-__-___'
+                    placeholder="___-__-___"
                     normalize={normalizeSocialSecurity}
                   />
                 )}
                 <Link
-                  size='12px'
+                  size="12px"
                   weight={300}
                   onClick={toggleSSN}
                   style={spacing('mt-5')}
                 >
                   {viewSSN ? (
                     <FormattedMessage
-                      id='sfoxexchangedata.verify.hidessn'
-                      defaultMessage='Hide SSN'
+                      id="sfoxexchangedata.verify.hidessn"
+                      defaultMessage="Hide SSN"
                     />
                   ) : (
                     <FormattedMessage
-                      id='sfoxexchangedata.verify.viewssn'
-                      defaultMessage='View SSN'
+                      id="sfoxexchangedata.verify.viewssn"
+                      defaultMessage="View SSN"
                     />
                   )}
                 </Link>
@@ -161,33 +161,33 @@ const Identity = props => {
         <ColRightInner>
           <Button
             uppercase
-            nature='primary'
+            nature="primary"
             fullwidth
-            type='submit'
+            type="submit"
             disabled={
               busy || invalid || pristine || submitting || verificationError
             }
           >
             {!busy ? (
               <FormattedMessage
-                id='sfoxexchangedata.verify.continue'
-                defaultMessage='Continue'
+                id="sfoxexchangedata.verify.continue"
+                defaultMessage="Continue"
               />
             ) : (
-              <HeartbeatLoader height='20px' width='20px' color='white' />
+              <HeartbeatLoader height="20px" width="20px" color="white" />
             )}
           </Button>
           <ErrorWrapper>
             {verificationError && (
               <Text
-                size='12px'
-                color='error'
+                size="12px"
+                color="error"
                 weight={300}
                 onClick={handleReset}
               >
                 <FormattedMessage
-                  id='sfoxexchangedata.verify.identity.error'
-                  defaultMessage='Unfortunately there was a problem verifying your identity. {clickHere} to start over.'
+                  id="sfoxexchangedata.verify.identity.error"
+                  defaultMessage="Unfortunately there was a problem verifying your identity. {clickHere} to start over."
                   values={{ clickHere: <a>Click here</a> }}
                 />
               </Text>

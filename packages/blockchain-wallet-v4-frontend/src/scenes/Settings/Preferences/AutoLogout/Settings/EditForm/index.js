@@ -6,13 +6,13 @@ import { actions, selectors } from 'data'
 import Settings from './template.js'
 
 class EditFormContainer extends React.PureComponent {
-  componentWillMount () {
+  componentWillMount() {
     this.props.formActions.initialize('settingAutoLogoutTime', {
       autoLogoutTime: this.props.logoutTime
     })
   }
 
-  render () {
+  render() {
     const { handleToggle, handleClick } = this.props
 
     return <Settings handleToggle={handleToggle} handleClick={handleClick} />

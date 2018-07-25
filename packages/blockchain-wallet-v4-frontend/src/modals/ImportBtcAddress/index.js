@@ -8,7 +8,7 @@ import ImportBtcAddress from './template.js'
 import { getData } from './selectors'
 
 class ImportBtcAddressContainer extends React.PureComponent {
-  render () {
+  render() {
     const {
       position,
       close,

@@ -8,7 +8,7 @@ const Remote = taggedSum('Remote', {
 })
 Remote.of = Remote.Success
 
-Remote.prototype.map = function (f) {
+Remote.prototype.map = function(f) {
   return this.cata({
     Success: x => Remote.Success(f(x)),
     Failure: () => this,
@@ -17,7 +17,7 @@ Remote.prototype.map = function (f) {
   })
 }
 
-Remote.prototype.ap = function (that) {
+Remote.prototype.ap = function(that) {
   return this.cata({
     Success: f => that.map(f),
     Failure: () =>
@@ -38,14 +38,14 @@ Remote.prototype.ap = function (that) {
   })
 }
 
-Remote.prototype.toJSON = function () {
+Remote.prototype.toJSON = function() {
   return {
     data: { __remote: this['@@values'][0] || [] },
     __serializedType__: this['@@tag']
   }
 }
 
-Remote.prototype.chain = function (f) {
+Remote.prototype.chain = function(f) {
   return this.cata({
     Success: x => f(x),
     Failure: () => this,
@@ -54,7 +54,7 @@ Remote.prototype.chain = function (f) {
   })
 }
 
-Remote.prototype.getOrElse = function (defaultValue) {
+Remote.prototype.getOrElse = function(defaultValue) {
   return this.cata({
     Success: value => value,
     Failure: () => defaultValue,
@@ -63,7 +63,7 @@ Remote.prototype.getOrElse = function (defaultValue) {
   })
 }
 
-Remote.prototype.getOrFail = function (errorValue) {
+Remote.prototype.getOrFail = function(errorValue) {
   return this.cata({
     Success: value => value,
     Failure: () => {

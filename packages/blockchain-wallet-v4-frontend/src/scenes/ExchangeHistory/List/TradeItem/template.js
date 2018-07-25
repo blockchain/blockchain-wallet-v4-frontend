@@ -40,11 +40,11 @@ const TradeItem = props => {
     <MediaContextConsumer>
       {({ mobile }) => (
         <TableRow>
-          <StatusContainer width='30%' mobileWidth='25%'>
-            <TableCell width='30%'>
+          <StatusContainer width="30%" mobileWidth="25%">
+            <TableCell width="30%">
               <OrderStatus status={status} size={mobile ? '12px' : '14px'} />
             </TableCell>
-            <TableCell width='70%'>
+            <TableCell width="70%">
               <Link
                 size={mobile ? '12px' : '14px'}
                 weight={300}
@@ -52,24 +52,24 @@ const TradeItem = props => {
                 onClick={handleClick}
               >
                 <FormattedMessage
-                  id='scenes.exchangehistory.list.tradeitem.viewdetails'
-                  defaultMessage='View details'
+                  id="scenes.exchangehistory.list.tradeitem.viewdetails"
+                  defaultMessage="View details"
                 />
               </Link>
             </TableCell>
           </StatusContainer>
-          <TableCell width='30%' mobileWidth='18%'>
+          <TableCell width="30%" mobileWidth="18%">
             <Text size={mobile ? '12px' : '14px'} weight={300}>
               {tradeDateHelper(date, mobile)}
             </Text>
           </TableCell>
-          <TableCell width='20%' mobileWidth='30%'>
+          <TableCell width="20%" mobileWidth="30%">
             <Text
               size={mobile ? '12px' : '14px'}
               weight={300}
             >{`${depositAmount} ${sourceCoin}`}</Text>
           </TableCell>
-          <TableCell width='20%'>
+          <TableCell width="20%">
             <Text
               size={mobile ? '12px' : '14px'}
               weight={300}

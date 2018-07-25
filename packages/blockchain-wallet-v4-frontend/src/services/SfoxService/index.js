@@ -51,8 +51,8 @@ export const statusHelper = status => {
         color: 'transferred',
         text: (
           <FormattedMessage
-            id='scenes.services.sfoxservice.buysellorderhistory.list.orderstatus.processing'
-            defaultMessage='Processing'
+            id="scenes.services.sfoxservice.buysellorderhistory.list.orderstatus.processing"
+            defaultMessage="Processing"
           />
         )
       }
@@ -61,8 +61,8 @@ export const statusHelper = status => {
         color: 'success',
         text: (
           <FormattedMessage
-            id='scenes.services.sfoxservice.buysellorderhistory.list.orderstatus.completed'
-            defaultMessage='Completed'
+            id="scenes.services.sfoxservice.buysellorderhistory.list.orderstatus.completed"
+            defaultMessage="Completed"
           />
         )
       }
@@ -71,8 +71,8 @@ export const statusHelper = status => {
         color: 'error',
         text: (
           <FormattedMessage
-            id='scenes.services.sfoxservice.buysellorderhistory.list.orderstatus.rejected'
-            defaultMessage='Rejected'
+            id="scenes.services.sfoxservice.buysellorderhistory.list.orderstatus.rejected"
+            defaultMessage="Rejected"
           />
         )
       }
@@ -81,8 +81,8 @@ export const statusHelper = status => {
         color: 'error',
         text: (
           <FormattedMessage
-            id='scenes.services.sfoxservice.buysellorderhistory.list.orderstatus.failed'
-            defaultMessage='Failed'
+            id="scenes.services.sfoxservice.buysellorderhistory.list.orderstatus.failed"
+            defaultMessage="Failed"
           />
         )
       }
@@ -91,8 +91,8 @@ export const statusHelper = status => {
         color: '',
         text: (
           <FormattedMessage
-            id='scenes.services.sfoxservice.buysellorderhistory.list.orderstatus.unknown'
-            defaultMessage='Unknown'
+            id="scenes.services.sfoxservice.buysellorderhistory.list.orderstatus.unknown"
+            defaultMessage="Unknown"
           />
         )
       }
@@ -106,8 +106,8 @@ export const bodyStatusHelper = (status, isBuy, date) => {
         return {
           text: (
             <FormattedMessage
-              id='scenes.services.sfoxservice.buysellorderhistory.list.orderstatusbody.buy.processing'
-              defaultMessage='Your buy trade has been initiated. You will receive your funds on {date}.'
+              id="scenes.services.sfoxservice.buysellorderhistory.list.orderstatusbody.buy.processing"
+              defaultMessage="Your buy trade has been initiated. You will receive your funds on {date}."
               values={{ date: moment(date).format('dddd, MMMM Do') }}
             />
           )
@@ -116,8 +116,8 @@ export const bodyStatusHelper = (status, isBuy, date) => {
         return {
           text: (
             <FormattedMessage
-              id='scenes.services.sfoxservice.buysellorderhistory.list.orderstatusbody.buy.completed'
-              defaultMessage='Your buy trade is complete!'
+              id="scenes.services.sfoxservice.buysellorderhistory.list.orderstatusbody.buy.completed"
+              defaultMessage="Your buy trade is complete!"
             />
           )
         }
@@ -125,8 +125,8 @@ export const bodyStatusHelper = (status, isBuy, date) => {
         return {
           text: (
             <FormattedMessage
-              id='scenes.services.sfoxservice.buysellorderhistory.list.orderstatusbody.buy.rejected'
-              defaultMessage='Your buy trade has been rejected. Please contact support.'
+              id="scenes.services.sfoxservice.buysellorderhistory.list.orderstatusbody.buy.rejected"
+              defaultMessage="Your buy trade has been rejected. Please contact support."
             />
           )
         }
@@ -134,8 +134,8 @@ export const bodyStatusHelper = (status, isBuy, date) => {
         return {
           text: (
             <FormattedMessage
-              id='scenes.services.sfoxservice.buysellorderhistory.list.orderstatusbody.buy.failed'
-              defaultMessage='Your buy trade failed. Please contact support.'
+              id="scenes.services.sfoxservice.buysellorderhistory.list.orderstatusbody.buy.failed"
+              defaultMessage="Your buy trade failed. Please contact support."
             />
           )
         }
@@ -146,8 +146,8 @@ export const bodyStatusHelper = (status, isBuy, date) => {
         return {
           text: (
             <FormattedMessage
-              id='scenes.services.sfoxservice.buysellorderhistory.list.orderstatusbody.sell.processing'
-              defaultMessage='Your sell trade has been initiated. You will receive your funds on {date}.'
+              id="scenes.services.sfoxservice.buysellorderhistory.list.orderstatusbody.sell.processing"
+              defaultMessage="Your sell trade has been initiated. You will receive your funds on {date}."
               values={{ date: moment(date).format('dddd, MMMM Do') }}
             />
           )
@@ -156,8 +156,8 @@ export const bodyStatusHelper = (status, isBuy, date) => {
         return {
           text: (
             <FormattedMessage
-              id='scenes.services.sfoxservice.buysellorderhistory.list.orderstatusbody.sell.completed'
-              defaultMessage='Your sell trade is complete!'
+              id="scenes.services.sfoxservice.buysellorderhistory.list.orderstatusbody.sell.completed"
+              defaultMessage="Your sell trade is complete!"
             />
           )
         }
@@ -165,8 +165,8 @@ export const bodyStatusHelper = (status, isBuy, date) => {
         return {
           text: (
             <FormattedMessage
-              id='scenes.services.sfoxservice.buysellorderhistory.list.orderstatusbody.sell.rejected'
-              defaultMessage='Your sell trade has been rejected. Please contact support.'
+              id="scenes.services.sfoxservice.buysellorderhistory.list.orderstatusbody.sell.rejected"
+              defaultMessage="Your sell trade has been rejected. Please contact support."
             />
           )
         }
@@ -174,8 +174,8 @@ export const bodyStatusHelper = (status, isBuy, date) => {
         return {
           text: (
             <FormattedMessage
-              id='scenes.services.sfoxservice.buysellorderhistory.list.orderstatusbody.sell.failed'
-              defaultMessage='Your sell trade failed. Please contact support.'
+              id="scenes.services.sfoxservice.buysellorderhistory.list.orderstatusbody.sell.failed"
+              defaultMessage="Your sell trade failed. Please contact support."
             />
           )
         }
@@ -184,8 +184,8 @@ export const bodyStatusHelper = (status, isBuy, date) => {
   return {
     text: (
       <FormattedMessage
-        id='scenes.buysellorderhistory.list.orderstatusbody.unknown'
-        defaultMessage='There are issues with this trade. Please contact support.'
+        id="scenes.buysellorderhistory.list.orderstatusbody.unknown"
+        defaultMessage="There are issues with this trade. Please contact support."
       />
     )
   }
@@ -193,7 +193,7 @@ export const bodyStatusHelper = (status, isBuy, date) => {
 
 export const reviewOrder = {
   baseBtc: q => q.baseCurrency === 'BTC',
-  renderFirstRow (q, type) {
+  renderFirstRow(q, type) {
     if (type === 'buy') {
       if (this.baseBtc(q)) {
         return `${q.baseAmount / 1e8} BTC ($${(
@@ -212,7 +212,7 @@ export const reviewOrder = {
       }
     }
   },
-  renderTotal (q, type) {
+  renderTotal(q, type) {
     if (type === 'buy') {
       if (this.baseBtc(q)) return `$${q.quoteAmount}`
       else return `$${q.baseAmount}`
@@ -222,7 +222,7 @@ export const reviewOrder = {
       } else return `$${(+q.baseAmount - +q.feeAmount).toFixed(2)}`
     }
   },
-  renderDate (p, type) {
+  renderDate(p, type) {
     let minutesInADay = 1440
     let waitingDays = p.processingTimes.usd[type] / minutesInADay
     return moment()

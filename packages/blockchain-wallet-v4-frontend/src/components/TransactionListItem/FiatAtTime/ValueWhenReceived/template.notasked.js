@@ -5,10 +5,10 @@ import { FormattedMessage } from 'react-intl'
 import { Link } from 'blockchain-info-components'
 
 const NotAsked = props => (
-  <Link size='12px' weight={200} onClick={props.handleClick}>
+  <Link size="12px" weight={200} onClick={props.handleClick}>
     <FormattedMessage
-      id='components.transactionlistitem.fiatattime.notasked.view'
-      defaultMessage='view'
+      id="components.transactionlistitem.fiatattime.notasked.view"
+      defaultMessage="view"
     />
   </Link>
 )

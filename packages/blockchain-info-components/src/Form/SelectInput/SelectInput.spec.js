@@ -11,7 +11,7 @@ describe('SelectInput component', () => {
       <SelectInput
         selected={{ text: 'hello', value: 1 }}
         items={items}
-        display='inherit'
+        display="inherit"
       />
     )
     const tree = toJson(component)

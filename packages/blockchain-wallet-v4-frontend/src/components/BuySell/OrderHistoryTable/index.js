@@ -5,12 +5,12 @@ import { filter, prop, reverse, sortBy } from 'ramda'
 import { Table, TableCell, TableHeader, Text } from 'blockchain-info-components'
 
 class OrderHistoryTable extends React.PureComponent {
-  constructor () {
+  constructor() {
     super()
     this.state = {}
   }
 
-  render () {
+  render() {
     const {
       conversion,
       trades,
@@ -31,36 +31,36 @@ class OrderHistoryTable extends React.PureComponent {
     return (
       <Table>
         <TableHeader>
-          <TableCell width='15%' mobileWidth='30%'>
-            <Text size='13px' weight={500} capitalize>
+          <TableCell width="15%" mobileWidth="30%">
+            <Text size="13px" weight={500} capitalize>
               <FormattedMessage
-                id='scenes.buysell.orderhistory.list.status'
-                defaultMessage='Status'
+                id="scenes.buysell.orderhistory.list.status"
+                defaultMessage="Status"
               />
             </Text>
           </TableCell>
-          <TableCell width='15%' />
-          <TableCell width='30%' mobileWidth='20%'>
-            <Text size='13px' weight={500} capitalize>
+          <TableCell width="15%" />
+          <TableCell width="30%" mobileWidth="20%">
+            <Text size="13px" weight={500} capitalize>
               <FormattedMessage
-                id='scenes.buysell.orderhistory.list.date'
-                defaultMessage='Date'
+                id="scenes.buysell.orderhistory.list.date"
+                defaultMessage="Date"
               />
             </Text>
           </TableCell>
-          <TableCell width='20%' hideMobile>
-            <Text size='13px' weight={500} capitalize>
+          <TableCell width="20%" hideMobile>
+            <Text size="13px" weight={500} capitalize>
               <FormattedMessage
-                id='scenes.buysell.orderhistory.list.exchanged'
-                defaultMessage='Exchanged'
+                id="scenes.buysell.orderhistory.list.exchanged"
+                defaultMessage="Exchanged"
               />
             </Text>
           </TableCell>
-          <TableCell width='20%' mobileWidth='35%'>
-            <Text size='13px' weight={500} capitalize>
+          <TableCell width="20%" mobileWidth="35%">
+            <Text size="13px" weight={500} capitalize>
               <FormattedMessage
-                id='scenes.buysell.orderhistory.list.received'
-                defaultMessage='Received'
+                id="scenes.buysell.orderhistory.list.received"
+                defaultMessage="Received"
               />
             </Text>
           </TableCell>

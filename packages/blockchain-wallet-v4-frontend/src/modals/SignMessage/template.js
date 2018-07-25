@@ -10,15 +10,15 @@ import {
 } from 'blockchain-info-components'
 
 const SignMessage = props => (
-  <Modal size='medium' position={props.position} total={props.total}>
+  <Modal size="medium" position={props.position} total={props.total}>
     <ModalHeader onClose={props.closeAll}>
       <FormattedMessage
-        id='modals.signmessage.title'
-        defaultMessage='Sign Message'
+        id="modals.signmessage.title"
+        defaultMessage="Sign Message"
       />
       <Tooltip>
         <FormattedMessage
-          id='modals.signmessage.label'
+          id="modals.signmessage.label"
           defaultMessage="By signing a message, you can prove that you own this bitcoin address. You can verify signed messages by clicking on 'More Actions' > 'Verify Message'."
         />
       </Tooltip>

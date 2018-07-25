@@ -9,7 +9,7 @@ import { getData } from './selectors'
 import Create from './template'
 
 class CreateContainer extends Component {
-  componentDidMount () {
+  componentDidMount() {
     if (this.props.emailVerified) {
       this.props.updateUI({ create: 'create_account' })
     } else {
@@ -20,13 +20,13 @@ class CreateContainer extends Component {
     }
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     if (!prevProps.emailVerified && this.props.emailVerified) {
       this.props.updateUI({ create: 'create_account' })
     }
   }
 
-  render () {
+  render() {
     const { handleSignup, oldEmail, signupError, ui, updateUI } = this.props
     return (
       <Create

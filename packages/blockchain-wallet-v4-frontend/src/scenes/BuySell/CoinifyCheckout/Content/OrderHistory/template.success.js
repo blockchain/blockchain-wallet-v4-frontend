@@ -70,10 +70,10 @@ const OrderHistory = props => {
       <OrderHistoryWrapper>
         {pendingTrades.length > 0 && (
           <OrderHistoryContent>
-            <Text size='15px' weight={400}>
+            <Text size="15px" weight={400}>
               <FormattedMessage
-                id='scenes.buysell.coinifycheckout.trades.pending'
-                defaultMessage='Pending Orders'
+                id="scenes.buysell.coinifycheckout.trades.pending"
+                defaultMessage="Pending Orders"
               />
             </Text>
             <OrderHistoryTable
@@ -92,10 +92,10 @@ const OrderHistory = props => {
         )}
         {subscriptions.length > 0 && (
           <OrderHistoryContent>
-            <Text size='15px' weight={400}>
+            <Text size="15px" weight={400}>
               <FormattedMessage
-                id='scenes.buysell.coinifycheckout.trades.recurring'
-                defaultMessage='Recurring Orders'
+                id="scenes.buysell.coinifycheckout.trades.recurring"
+                defaultMessage="Recurring Orders"
               />
             </Text>
             <RecurringOrderHistoryTable
@@ -115,10 +115,10 @@ const OrderHistory = props => {
           </OrderHistoryContent>
         )}
         <OrderHistoryContent>
-          <Text size='15px' weight={400}>
+          <Text size="15px" weight={400}>
             <FormattedMessage
-              id='scenes.buysell.coinifycheckout.trades.completed'
-              defaultMessage='Completed Orders'
+              id="scenes.buysell.coinifycheckout.trades.completed"
+              defaultMessage="Completed Orders"
             />
           </Text>
           <OrderHistoryTable

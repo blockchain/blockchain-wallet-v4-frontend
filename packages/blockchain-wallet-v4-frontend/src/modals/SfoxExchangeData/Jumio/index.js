@@ -8,12 +8,12 @@ import { getData } from './selectors'
 import Success from './template.success'
 
 class JumioContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.onFinish = this.onFinish.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.sfoxActions.fetchJumioToken()
 
     let receiveMessage = e => {
@@ -29,11 +29,11 @@ class JumioContainer extends React.PureComponent {
     window.addEventListener('message', receiveMessage, false)
   }
 
-  onFinish () {
+  onFinish() {
     this.props.sfoxActions.completeJumio()
   }
 
-  render () {
+  render() {
     const { data } = this.props
     return data.cata({
       Success: value => (

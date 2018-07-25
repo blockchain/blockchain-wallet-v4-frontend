@@ -71,7 +71,7 @@ export default ({ api }) => {
     throw new Error('no_destination_set')
   }
 
-  const calculateAmount = function (amounts) {
+  const calculateAmount = function(amounts) {
     if (isPositiveNumber(amounts)) {
       return [amounts]
     }
@@ -129,7 +129,7 @@ export default ({ api }) => {
     throw new Error('no_origin_set')
   }
 
-  const calculateFee = function (fee, fees) {
+  const calculateFee = function(fee, fees) {
     if (isPositiveNumber(fee)) {
       return fee
     }
@@ -141,7 +141,7 @@ export default ({ api }) => {
     throw new Error('no_fee_set')
   }
 
-  const calculateSelection = function ({
+  const calculateSelection = function({
     to,
     amount,
     fee,
@@ -179,7 +179,7 @@ export default ({ api }) => {
     return CoinSelection.descentDraw(targets, fee, coins, change)
   }
 
-  const calculateSweepSelection = function ({
+  const calculateSweepSelection = function({
     to,
     fee,
     coins,
@@ -208,7 +208,7 @@ export default ({ api }) => {
     return CoinSelection.selectAll(fee, coins, to[0].address)
   }
 
-  const calculateEffectiveBalance = function ({ fee, coins }) {
+  const calculateEffectiveBalance = function({ fee, coins }) {
     if (isPositiveInteger(fee) && coins) {
       const { outputs } = CoinSelection.selectAll(
         fee,
@@ -250,28 +250,28 @@ export default ({ api }) => {
     return yield call(() => taskToPromise(pushBitcoinTx(txHex)))
   }
 
-  function create ({ network, payment } = { network: undefined, payment: {} }) {
+  function create({ network, payment } = { network: undefined, payment: {} }) {
     const makePayment = p => ({
-      value () {
+      value() {
         return p
       },
 
-      *init () {
+      *init() {
         let fees = yield call(api.getBitcoinFee)
         return makePayment(merge(p, { fees }))
       },
 
-      *to (destinations) {
+      *to(destinations) {
         let to = yield call(calculateTo, destinations, network)
         return makePayment(merge(p, { to }))
       },
 
-      *amount (amounts) {
+      *amount(amounts) {
         let amount = yield call(calculateAmount, amounts)
         return makePayment(merge(p, { amount }))
       },
 
-      *from (origins) {
+      *from(origins) {
         let fromData = yield call(calculateFrom, origins, network)
         try {
           let coins = yield call(getWalletUnspent, network, fromData)
@@ -287,7 +287,7 @@ export default ({ api }) => {
         }
       },
 
-      *fee (value) {
+      *fee(value) {
         let fee = yield call(calculateFee, value, p.fees)
         let effectiveBalance = yield call(calculateEffectiveBalance, {
           coins: p.coins,
@@ -296,17 +296,17 @@ export default ({ api }) => {
         return makePayment(merge(p, { fee, effectiveBalance }))
       },
 
-      *build () {
+      *build() {
         let selection = yield call(calculateSelection, p)
         return makePayment(merge(p, { selection }))
       },
 
-      *buildSweep () {
+      *buildSweep() {
         let selection = yield call(calculateSweepSelection, p)
         return makePayment(merge(p, { selection }))
       },
 
-      *sign (password) {
+      *sign(password) {
         let signed = yield call(
           calculateSignature,
           network,
@@ -317,18 +317,18 @@ export default ({ api }) => {
         return makePayment(merge(p, { ...signed }))
       },
 
-      *publish () {
+      *publish() {
         let result = yield call(calculatePublish, p.txHex)
         return makePayment(merge(p, { result }))
       },
 
-      description (message) {
+      description(message) {
         return isString(message)
           ? makePayment(merge(p, { description: message }))
           : makePayment(p)
       },
 
-      chain () {
+      chain() {
         const chain = (gen, f) =>
           makeChain(function*() {
             return yield f(yield gen())
@@ -346,7 +346,7 @@ export default ({ api }) => {
           publish: () => chain(gen, payment => payment.publish()),
           description: message =>
             chain(gen, payment => payment.description(message)),
-          *done () {
+          *done() {
             return yield gen()
           }
         })

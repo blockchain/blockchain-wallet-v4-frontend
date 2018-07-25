@@ -52,52 +52,52 @@ const SecondStep = props => {
   return (
     <Wrapper>
       <Header>
-        <Text size='30px' weight={300}>
+        <Text size="30px" weight={300}>
           <FormattedMessage
-            id='scenes.reset2fa.secondstep.reset2fa'
-            defaultMessage='Reset 2FA'
+            id="scenes.reset2fa.secondstep.reset2fa"
+            defaultMessage="Reset 2FA"
           />
         </Text>
-        <Text size='10px'>
+        <Text size="10px">
           <FormattedMessage
-            id='scenes.reset2fa.secondstep.step3'
-            defaultMessage='Step 2 of 2'
+            id="scenes.reset2fa.secondstep.step3"
+            defaultMessage="Step 2 of 2"
           />
         </Text>
       </Header>
       <Separator />
       <SecondStepForm onSubmit={handleSubmit}>
-        <CaptchaText size='14px' weight={500}>
+        <CaptchaText size="14px" weight={500}>
           <FormattedMessage
-            id='scenes.reset2fa.secondstep.captcha'
-            defaultMessage='Captcha'
+            id="scenes.reset2fa.secondstep.captcha"
+            defaultMessage="Captcha"
           />
         </CaptchaText>
         <Field
-          name='code'
+          name="code"
           autoFocus
           validate={[required]}
           component={CaptchaBox}
         />
         <Footer>
-          <BackLink onClick={previousStep} size='13px' weight={300}>
+          <BackLink onClick={previousStep} size="13px" weight={300}>
             <FormattedMessage
-              id='scenes.reset2fa.secondstep.back'
-              defaultMessage='Go Back'
+              id="scenes.reset2fa.secondstep.back"
+              defaultMessage="Go Back"
             />
           </BackLink>
           <Button
-            type='submit'
-            nature='primary'
+            type="submit"
+            nature="primary"
             uppercase
             disabled={busy || invalid}
           >
             {busy ? (
-              <HeartbeatLoader height='20px' width='20px' color='white' />
+              <HeartbeatLoader height="20px" width="20px" color="white" />
             ) : (
               <FormattedMessage
-                id='scenes.reset2fa.secondstep.reset'
-                defaultMessage='Reset'
+                id="scenes.reset2fa.secondstep.reset"
+                defaultMessage="Reset"
               />
             )}
           </Button>

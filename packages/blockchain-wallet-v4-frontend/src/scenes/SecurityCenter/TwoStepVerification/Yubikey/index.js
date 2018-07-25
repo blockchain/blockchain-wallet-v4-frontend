@@ -10,7 +10,7 @@ import Error from './template.error'
 import Loading from './template.loading'
 
 class YubikeyContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
@@ -19,7 +19,7 @@ class YubikeyContainer extends React.PureComponent {
     this.state = { yubikeyCode: '' }
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     const next = this.props.data.getOrElse({})
     const prev = prevProps.data.getOrElse({})
     if (next.authType !== prev.authType) {
@@ -30,20 +30,20 @@ class YubikeyContainer extends React.PureComponent {
     }
   }
 
-  handleClick () {
+  handleClick() {
     this.props.modalActions.showModal('TwoStepSetup')
   }
 
-  onSubmit () {
+  onSubmit() {
     this.props.securityCenterActions.setYubikey(this.state.yubikeyCode)
   }
 
-  handleInput (e) {
+  handleInput(e) {
     e.preventDefault()
     this.setState({ yubikeyCode: e.target.value })
   }
 
-  render () {
+  render() {
     const { data, ui, ...rest } = this.props
 
     return data.cata({

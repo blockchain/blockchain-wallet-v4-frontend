@@ -66,13 +66,13 @@ const Text = styled.span`
 const renderDisplay = item => (
   <DisplayWrapper>
     {prop('value', item) === 'BCH' && (
-      <Icon name='bitcoin-cash' size='14px' weight={300} />
+      <Icon name="bitcoin-cash" size="14px" weight={300} />
     )}
     {prop('value', item) === 'BTC' && (
-      <Icon name='bitcoin' size='14px' weight={300} />
+      <Icon name="bitcoin" size="14px" weight={300} />
     )}
     {prop('value', item) === 'ETH' && (
-      <Icon name='ethereum' size='14px' weight={300} />
+      <Icon name="ethereum" size="14px" weight={300} />
     )}
     <Text>{item.text}</Text>
   </DisplayWrapper>
@@ -80,15 +80,15 @@ const renderDisplay = item => (
 const renderHeader = item => (
   <HeaderWrapper>
     {prop('text', item) === 'Bitcoin' && (
-      <Icon name='bitcoin-in-circle' size='14px' weight={300} />
+      <Icon name="bitcoin-in-circle" size="14px" weight={300} />
     )}
     {prop('text', item) === 'Bitcoin Cash' && (
-      <Icon name='bitcoin-cash' size='14px' weight={300} />
+      <Icon name="bitcoin-cash" size="14px" weight={300} />
     )}
     {prop('text', item) === 'Ether' && (
-      <Icon name='ethereum-filled' size='14px' weight={300} />
+      <Icon name="ethereum-filled" size="14px" weight={300} />
     )}
-    <Separator align='right'>
+    <Separator align="right">
       <Text uppercase>{item.text}</Text>
     </Separator>
   </HeaderWrapper>
@@ -102,13 +102,13 @@ const renderItem = item => (
 const renderItemWithIcon = item => (
   <ItemWrapper>
     {path(['value', 'coin'], item) === 'BCH' && (
-      <Icon name='bitcoin-cash' size='14px' weight={300} />
+      <Icon name="bitcoin-cash" size="14px" weight={300} />
     )}
     {path(['value', 'coin'], item) === 'BTC' && (
-      <Icon name='bitcoin' size='14px' weight={300} />
+      <Icon name="bitcoin" size="14px" weight={300} />
     )}
     {path(['value', 'coin'], item) === 'ETH' && (
-      <Icon name='ethereum' size='14px' weight={300} />
+      <Icon name="ethereum" size="14px" weight={300} />
     )}
     <Text>{item.text}</Text>
   </ItemWrapper>

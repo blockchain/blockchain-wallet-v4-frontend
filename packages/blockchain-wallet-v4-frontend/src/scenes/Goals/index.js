@@ -9,12 +9,12 @@ import { actions } from 'data'
 import Actions from './template.js'
 
 class ActionsContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = { error: '' }
   }
 
-  componentWillMount () {
+  componentWillMount() {
     const { payload } = this.props.match.params
     try {
       if (startsWith('bitcoin', payload)) {
@@ -38,12 +38,12 @@ class ActionsContainer extends React.PureComponent {
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     // goals are saved, start event listeners for each goal
     this.props.goalsActions.runGoals()
   }
 
-  render () {
+  render() {
     return <Actions error={this.state.error} />
   }
 }

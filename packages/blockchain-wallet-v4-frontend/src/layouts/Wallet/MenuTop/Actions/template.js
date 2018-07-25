@@ -34,24 +34,24 @@ const Actions = props => {
 
   return (
     <Wrapper>
-      <ActionButton name='send-filled' onClick={handleSend} min='100px'>
-        <Text size='14px' weight={400}>
+      <ActionButton name="send-filled" onClick={handleSend} min="100px">
+        <Text size="14px" weight={400}>
           <FormattedMessage
-            id='layouts.wallet.menutop.send'
-            defaultMessage='Send'
+            id="layouts.wallet.menutop.send"
+            defaultMessage="Send"
           />
         </Text>
       </ActionButton>
       <ActionButton
         style={spacing('ml-15')}
-        name='request-filled'
+        name="request-filled"
         onClick={handleRequest}
-        min='100px'
+        min="100px"
       >
-        <Text size='14px' weight={400}>
+        <Text size="14px" weight={400}>
           <FormattedMessage
-            id='layouts.wallet.menutop.request'
-            defaultMessage='Request'
+            id="layouts.wallet.menutop.request"
+            defaultMessage="Request"
           />
         </Text>
       </ActionButton>

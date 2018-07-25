@@ -54,64 +54,64 @@ const Footer = () => {
   return (
     <Wrapper>
       <LinkContainer>
-        <Image name='blue-logo' height='40px' width='40px' />
+        <Image name="blue-logo" height="40px" width="40px" />
         <Link
-          href='https://blockchain.info'
-          size='12px'
+          href="https://blockchain.info"
+          size="12px"
           weight={300}
-          color='white'
+          color="white"
           uppercase
         >
           <FormattedMessage
-            id='layouts.public.footer.explorer'
-            defaultMessage='Data'
+            id="layouts.public.footer.explorer"
+            defaultMessage="Data"
           />
         </Link>
         <Link
-          href='https://blockchain.com/about'
-          size='12px'
+          href="https://blockchain.com/about"
+          size="12px"
           weight={300}
-          color='white'
+          color="white"
           uppercase
         >
           <FormattedMessage
-            id='layouts.public.footer.about'
-            defaultMessage='About'
+            id="layouts.public.footer.about"
+            defaultMessage="About"
           />
         </Link>
         <Link
-          href='https://blog.blockchain.com'
-          size='12px'
+          href="https://blog.blockchain.com"
+          size="12px"
           weight={300}
-          color='white'
+          color="white"
           uppercase
         >
           <FormattedMessage
-            id='layouts.public.footer.blog'
-            defaultMessage='Blog'
+            id="layouts.public.footer.blog"
+            defaultMessage="Blog"
           />
         </Link>
         <Link
-          href='https://support.blockchain.com'
-          size='12px'
+          href="https://support.blockchain.com"
+          size="12px"
           weight={300}
-          color='white'
+          color="white"
           uppercase
         >
           <FormattedMessage
-            id='layouts.public.footer.support'
-            defaultMessage='Support'
+            id="layouts.public.footer.support"
+            defaultMessage="Support"
           />
         </Link>
       </LinkContainer>
       <RightContainer>
-        <DropdownLanguage color='white' />
+        <DropdownLanguage color="white" />
         <Link
-          href='https://github.com/blockchain/blockchain-wallet-v4-frontend/releases'
-          target='_blank'
-          size='12px'
+          href="https://github.com/blockchain/blockchain-wallet-v4-frontend/releases"
+          target="_blank"
+          size="12px"
           weight={100}
-          color='white'
+          color="white"
         >
           v{APP_VERSION}
         </Link>

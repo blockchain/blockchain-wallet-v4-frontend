@@ -57,27 +57,27 @@ const Google = props => {
             </QRCode>
           ) : null}
           <QRCodeCopy>
-            <Text size='14px' weight={200}>
+            <Text size="14px" weight={200}>
               <FormattedMessage
-                id='scenes.security.twostepverification.authenticator.stepone'
-                defaultMessage='1. Scan this QR code with your Authenticator app.'
+                id="scenes.security.twostepverification.authenticator.stepone"
+                defaultMessage="1. Scan this QR code with your Authenticator app."
               />
             </Text>
-            <Text size='14px' weight={200} style={spacing('mt-5')}>
+            <Text size="14px" weight={200} style={spacing('mt-5')}>
               <FormattedMessage
-                id='scenes.security.twostepverification.authenticator.steptwo'
-                defaultMessage='2. Enter the random number presented below.'
+                id="scenes.security.twostepverification.authenticator.steptwo"
+                defaultMessage="2. Enter the random number presented below."
               />
             </Text>
           </QRCodeCopy>
           <QRInputWrapper>
             <Field
-              name='authCode'
+              name="authCode"
               component={TextBox}
               validate={[required]}
-              placeholder='111 222'
+              placeholder="111 222"
             />
-            <Button type='submit' nature='primary' disabled={invalid}>
+            <Button type="submit" nature="primary" disabled={invalid}>
               Verify Code
             </Button>
           </QRInputWrapper>

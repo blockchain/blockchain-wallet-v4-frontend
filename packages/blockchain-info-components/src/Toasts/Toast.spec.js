@@ -19,7 +19,7 @@ describe('Toast component', () => {
 
   it('error renders correctly', () => {
     const component = shallow(
-      <Toast nature='error' onClose={fakeOnClick}>
+      <Toast nature="error" onClose={fakeOnClick}>
         <span>Default</span>
       </Toast>
     )
@@ -29,7 +29,7 @@ describe('Toast component', () => {
 
   it('success renders correctly', () => {
     const component = shallow(
-      <Toast nature='success' onClose={fakeOnClick}>
+      <Toast nature="success" onClose={fakeOnClick}>
         <span>Default</span>
       </Toast>
     )

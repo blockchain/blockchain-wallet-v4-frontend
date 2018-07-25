@@ -707,7 +707,7 @@ const Wrapper = styled.div`
 `
 
 class Navigation extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       menuButtonIsActive: false,
@@ -716,7 +716,7 @@ class Navigation extends Component {
     }
   }
 
-  menuButtonPressed () {
+  menuButtonPressed() {
     const { menuButtonIsActive, open } = this.state
     this.setState({
       menuButtonIsActive: !menuButtonIsActive,
@@ -724,7 +724,7 @@ class Navigation extends Component {
     })
   }
 
-  searchButtonPress () {
+  searchButtonPress() {
     const { searching } = this.state
     this.setState({
       open: false,
@@ -732,14 +732,14 @@ class Navigation extends Component {
     })
   }
 
-  setHeaderOpenState (state) {
+  setHeaderOpenState(state) {
     this.setState({
       open: state,
       menuButtonIsActive: state
     })
   }
 
-  render () {
+  render() {
     const { menuButtonIsActive, open, searching } = this.state
     const status = open ? 'open' : searching ? 'searching' : null
     return (

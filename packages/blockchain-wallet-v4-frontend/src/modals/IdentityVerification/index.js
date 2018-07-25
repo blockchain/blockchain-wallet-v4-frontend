@@ -29,20 +29,20 @@ const HeaderWrapper = styled.div`
 const stepMap = {
   [STEPS.personal]: (
     <FormattedMessage
-      id='modals.identityverification.steps.personal'
-      defaultMessage='Personal'
+      id="modals.identityverification.steps.personal"
+      defaultMessage="Personal"
     />
   ),
   [STEPS.address]: (
     <FormattedMessage
-      id='modals.identityverification.steps.address'
-      defaultMessage='Address'
+      id="modals.identityverification.steps.address"
+      defaultMessage="Address"
     />
   ),
   [STEPS.verify]: (
     <FormattedMessage
-      id='modals.identityverification.steps.verify'
-      defaultMessage='Verify'
+      id="modals.identityverification.steps.verify"
+      defaultMessage="Verify"
     />
   )
 }
@@ -50,7 +50,7 @@ const stepMap = {
 class IdentityVerification extends React.PureComponent {
   state = { show: false }
 
-  componentDidMount () {
+  componentDidMount() {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
@@ -87,26 +87,26 @@ class IdentityVerification extends React.PureComponent {
     )
   }
 
-  render () {
+  render() {
     const { show } = this.state
     const { step, position, total } = this.props
 
     return (
       <Tray
         in={show}
-        class='tray'
+        class="tray"
         position={position}
         total={total}
         onClose={this.handleClose}
       >
-        <ModalHeader tray paddingHorizontal='15%' onClose={this.handleClose}>
+        <ModalHeader tray paddingHorizontal="15%" onClose={this.handleClose}>
           <HeaderWrapper>
             <StepIndicator
               adjuster={0.1667}
               barFullWidth
               flexEnd
-              minWidth='135px'
-              maxWidth='135px'
+              minWidth="135px"
+              maxWidth="135px"
               step={step}
               stepMap={stepMap}
             />

@@ -43,8 +43,8 @@ const Content = styled.div`
 const Faq = props => (
   <Wrapper>
     <Search>
-      <Field name='search' component={TextBox} />
-      <Icon name='search' size='20px' weight={200} color='gray-3' />
+      <Field name="search" component={TextBox} />
+      <Icon name="search" size="20px" weight={200} color="gray-3" />
     </Search>
     <Content>
       {props.filteredContent.length > 0 &&

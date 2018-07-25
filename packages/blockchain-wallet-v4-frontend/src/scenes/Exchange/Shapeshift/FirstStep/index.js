@@ -9,20 +9,20 @@ import Success from './template.success'
 import DataError from 'components/DataError'
 
 class FirstStepContainer extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.handleRefresh = this.handleRefresh.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.actions.firstStepInitialized()
   }
 
-  handleRefresh () {
+  handleRefresh() {
     this.props.actions.firstStepInitialized()
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: value => (
         <Success

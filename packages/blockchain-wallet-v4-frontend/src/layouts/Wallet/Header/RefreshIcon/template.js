@@ -5,13 +5,13 @@ import { Link, Icon } from 'blockchain-info-components'
 
 const RefreshIcon = props => (
   <Link
-    size='14px'
+    size="14px"
     weight={300}
-    color='white'
+    color="white"
     uppercase
     onClick={props.handleRefresh}
   >
-    <Icon name='refresh-filled' color='white' cursor />
+    <Icon name="refresh-filled" color="white" cursor />
   </Link>
 )
 

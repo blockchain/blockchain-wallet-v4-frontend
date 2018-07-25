@@ -45,7 +45,7 @@ const emailHelper = ({ emailVerifiedError, resendCode, editEmail }) => {
   if (emailVerifiedError) {
     return (
       <FormattedMessage
-        id='identityverification.personal.email.error'
+        id="identityverification.personal.email.error"
         defaultMessage="That code doesn't match. {resend} or {changeEmail}."
         values={{
           resend: <a onClick={resendCode}>Resend</a>,
@@ -56,7 +56,7 @@ const emailHelper = ({ emailVerifiedError, resendCode, editEmail }) => {
   }
   return (
     <FormattedMessage
-      id='identityverification.personal.email.didntreceive'
+      id="identityverification.personal.email.didntreceive"
       defaultMessage="Didn't receive your email? {resend} or {changeEmail}."
       values={{
         resend: <a onClick={resendCode}>Resend</a>,
@@ -89,26 +89,26 @@ const EditEmail = ({
         <InputWrapper>
           <PartnerHeader>
             <FormattedMessage
-              id='identityverification.personal.email.header'
+              id="identityverification.personal.email.header"
               defaultMessage="What's your email?"
             />
           </PartnerHeader>
           <PartnerSubHeader>
             <FormattedMessage
-              id='identityverification.personal.email.subheader'
+              id="identityverification.personal.email.subheader"
               defaultMessage="Rest assured: there are only a few steps separating you from the good stuff. Let's start by confirming your verified email address and phone number."
             />
           </PartnerSubHeader>
           {step === EMAIL_STEPS.edit && (
             <EmailInput>
-              <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
+              <Text size="14px" weight={400} style={{ marginBottom: '5px' }}>
                 <FormattedMessage
-                  id='identityverification.personal.email.confirm'
-                  defaultMessage='Confirm Email:'
+                  id="identityverification.personal.email.confirm"
+                  defaultMessage="Confirm Email:"
                 />
               </Text>
               <Field
-                name='email'
+                name="email"
                 component={TextBox}
                 validate={[required, validEmail]}
               />
@@ -116,15 +116,15 @@ const EditEmail = ({
           )}
           {step === EMAIL_STEPS.verify && (
             <EmailInput>
-              <Text size='14px' weight={400} style={{ marginBottom: '5px' }}>
+              <Text size="14px" weight={400} style={{ marginBottom: '5px' }}>
                 <FormattedMessage
-                  id='identityverification.personal.email.code'
-                  defaultMessage='We emailed a verification code to {email}'
+                  id="identityverification.personal.email.code"
+                  defaultMessage="We emailed a verification code to {email}"
                   values={{ email }}
                 />
               </Text>
               <Field
-                name='code'
+                name="code"
                 component={TextBox}
                 errorBottom
                 validate={[required]}
@@ -141,32 +141,32 @@ const EditEmail = ({
           <ButtonWrapper>
             {step === EMAIL_STEPS.edit && (
               <Button
-                nature='primary'
-                type='submit'
+                nature="primary"
+                type="submit"
                 fullwidth
                 disabled={invalid}
               >
                 <FormattedMessage
-                  id='identityverification.personal.email.number'
-                  defaultMessage='Send Email Verification Code'
+                  id="identityverification.personal.email.number"
+                  defaultMessage="Send Email Verification Code"
                 />
               </Button>
             )}
             {step === EMAIL_STEPS.verify && (
               <Button
-                nature='primary'
-                type='submit'
+                nature="primary"
+                type="submit"
                 fullwidth
                 uppercase
                 disabled={invalid || formBusy}
               >
                 {!formBusy ? (
                   <FormattedMessage
-                    id='identityverification.personal.continue'
-                    defaultMessage='Continue'
+                    id="identityverification.personal.continue"
+                    defaultMessage="Continue"
                   />
                 ) : (
-                  <HeartbeatLoader height='20px' width='20px' color='white' />
+                  <HeartbeatLoader height="20px" width="20px" color="white" />
                 )}
               </Button>
             )}

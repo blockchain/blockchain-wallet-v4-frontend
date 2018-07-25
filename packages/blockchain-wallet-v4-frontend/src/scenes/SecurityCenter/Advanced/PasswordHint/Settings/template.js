@@ -29,32 +29,32 @@ const Settings = props => {
     <SettingWrapper>
       <Hint />
       {!updateToggled && (
-        <Button nature='primary' onClick={handleToggle}>
+        <Button nature="primary" onClick={handleToggle}>
           <FormattedMessage
-            id='scenes.securitysettings.basicsecurity.passwordhint.settings.change'
-            defaultMessage='Change'
+            id="scenes.securitysettings.basicsecurity.passwordhint.settings.change"
+            defaultMessage="Change"
           />
         </Button>
       )}
       {updateToggled && (
         <SettingForm onSubmit={handleSubmit}>
-          <Field name='passwordHint' component={TextBox} />
+          <Field name="passwordHint" component={TextBox} />
           <ButtonWrapper>
-            <Button nature='empty' capitalize onClick={handleCancel}>
+            <Button nature="empty" capitalize onClick={handleCancel}>
               <FormattedMessage
-                id='scenes.securitysettings.basicsecurity.passwordhint.settings.cancel'
-                defaultMessage='Cancel'
+                id="scenes.securitysettings.basicsecurity.passwordhint.settings.cancel"
+                defaultMessage="Cancel"
               />
             </Button>
             <Button
-              type='submit'
-              nature='primary'
+              type="submit"
+              nature="primary"
               capitalize
               disabled={submitting || invalid}
             >
               <FormattedMessage
-                id='scenes.securitysettings.basicsecurity.passwordhint.settings.save'
-                defaultMessage='Change'
+                id="scenes.securitysettings.basicsecurity.passwordhint.settings.save"
+                defaultMessage="Change"
               />
             </Button>
           </ButtonWrapper>

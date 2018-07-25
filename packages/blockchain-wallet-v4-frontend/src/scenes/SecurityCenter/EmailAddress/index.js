@@ -11,7 +11,7 @@ import Loading from './template.loading'
 import Success from './template.success'
 
 class EmailAddressContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.handleVerifyClick = this.handleVerifyClick.bind(this)
@@ -22,7 +22,7 @@ class EmailAddressContainer extends React.PureComponent {
     this.handleEmailChangeSubmit = this.handleEmailChangeSubmit.bind(this)
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     const next = this.props.data.getOrElse({})
     const prev = prevProps.data.getOrElse({})
     if (next.verified && !prev.verified) {
@@ -32,37 +32,37 @@ class EmailAddressContainer extends React.PureComponent {
     }
   }
 
-  handleVerifyClick () {
+  handleVerifyClick() {
     this.props.handleEnable()
     this.handleResend()
   }
 
-  handleResend () {
+  handleResend() {
     const { email } = this.props.data.getOrElse({})
     this.props.securityCenterActions.sendConfirmationCodeEmail(email)
   }
 
-  handleSubmitVerification (e) {
+  handleSubmitVerification(e) {
     e.preventDefault()
     this.props.securityCenterActions.verifyEmailCode(this.props.code)
   }
 
-  handleChangeEmailView () {
+  handleChangeEmailView() {
     const { email } = this.props.data.getOrElse({})
     this.props.updateUI({ changeEmailToggled: true })
     this.props.formActions.change('securityEmailAddress', 'changeEmail', email)
   }
 
-  handleEmailChangeCancel () {
+  handleEmailChangeCancel() {
     this.props.updateUI({ changeEmailToggled: false })
   }
 
-  handleEmailChangeSubmit () {
+  handleEmailChangeSubmit() {
     this.props.securityCenterActions.updateEmail(this.props.updatedEmail)
     this.props.updateUI({ changeEmailToggled: false, verifyToggled: true })
   }
 
-  render () {
+  render() {
     const { data, ...rest } = this.props
 
     return data.cata({

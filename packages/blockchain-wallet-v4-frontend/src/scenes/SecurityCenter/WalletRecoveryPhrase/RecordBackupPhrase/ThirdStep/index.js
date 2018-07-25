@@ -10,13 +10,13 @@ import { actions } from 'data'
 import ThirdStep from './template.js'
 
 class ThirdStepContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = { hasError: false }
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  componentWillMount () {
+  componentWillMount() {
     const { updateUI } = this.props
     const randomize = sortBy(prop(0))
     const pair = map(x => [Math.random(), x])
@@ -29,15 +29,15 @@ class ThirdStepContainer extends React.PureComponent {
     updateUI({ indexes })
   }
 
-  onSubmit (values, disptach, props) {
+  onSubmit(values, disptach, props) {
     const errors = {}
     compose(
       forEach(word => {
         if (values[word] !== props.recoveryPhrase[split('w', word)[1]]) {
           errors[word] = (
             <FormattedMessage
-              id='scenes.securitycenter.walletrecoveryphrase.thirdstep.incorrectword'
-              defaultMessage='Incorrect Word'
+              id="scenes.securitycenter.walletrecoveryphrase.thirdstep.incorrectword"
+              defaultMessage="Incorrect Word"
             />
           )
         }
@@ -54,7 +54,7 @@ class ThirdStepContainer extends React.PureComponent {
     }
   }
 
-  render () {
+  render() {
     const { ui, ...rest } = this.props
     return (
       <ThirdStep

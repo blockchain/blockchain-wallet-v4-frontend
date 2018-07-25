@@ -8,14 +8,14 @@ import { Types } from 'blockchain-wallet-v4'
 import * as C from 'services/AlertService'
 
 class SecondPasswordContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = { secondPassword: '' }
     this.handleClick = this.handleClick.bind(this)
     this.handleChange = this.handleChange.bind(this)
   }
 
-  handleClick () {
+  handleClick() {
     if (
       Types.Wallet.isValidSecondPwd(
         this.state.secondPassword,
@@ -30,11 +30,11 @@ class SecondPasswordContainer extends React.PureComponent {
     }
   }
 
-  handleChange (event) {
+  handleChange(event) {
     this.setState({ secondPassword: event.target.value })
   }
 
-  render () {
+  render() {
     return (
       <SecondPassword
         {...this.props}

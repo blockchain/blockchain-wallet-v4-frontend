@@ -9,21 +9,21 @@ import Success from './template.success.js'
 import Loading from 'components/BuySell/Loading'
 
 class SelectAccountsContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.setBankAccount = this.setBankAccount.bind(this)
     this.deleteBankAccount = this.deleteBankAccount.bind(this)
   }
 
-  setBankAccount (bankAccount) {
+  setBankAccount(bankAccount) {
     this.props.coinifyDataActions.setBankAccount(bankAccount)
   }
 
-  deleteBankAccount (bankAccount) {
+  deleteBankAccount(bankAccount) {
     this.props.modalActions.showModal('CoinifyDeleteBank', { bankAccount })
   }
 
-  render () {
+  render() {
     const { data, radioButtonSelected } = this.props
     return data.cata({
       Success: value => (

@@ -32,17 +32,17 @@ const ToggleIcon = styled(Icon)`
 `
 
 export class FaqDropdown extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = { open: false }
   }
 
-  render () {
+  render() {
     return (
       <Container>
         <Question onClick={() => this.setState({ open: !this.state.open })}>
           {this.props.question}
-          <ToggleIcon name='down-arrow-filled' toggled={this.state.open} />
+          <ToggleIcon name="down-arrow-filled" toggled={this.state.open} />
         </Question>
         {this.state.open ? <Answer> {this.props.answer} </Answer> : null}
       </Container>

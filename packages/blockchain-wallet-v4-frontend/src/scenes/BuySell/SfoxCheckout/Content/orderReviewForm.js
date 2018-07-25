@@ -32,23 +32,23 @@ const ReviewForm = props => {
     <OrderSubmitForm>
       <TermsWrapper>
         <Field
-          name='terms'
+          name="terms"
           validate={[required]}
           component={CheckBox}
           hideErrors
         />
-        <TermsLabel htmlFor='terms'>
-          <Text size='11px' weight={300}>
+        <TermsLabel htmlFor="terms">
+          <Text size="11px" weight={300}>
             <FormattedMessage
-              id='scenes.buysell.sfox.orderreview.checkboxtext'
-              defaultMessage='I authorize SFOX, Inc. to debit my linked bank account ending in {account} and comply with the SFOX {ToS}.'
+              id="scenes.buysell.sfox.orderreview.checkboxtext"
+              defaultMessage="I authorize SFOX, Inc. to debit my linked bank account ending in {account} and comply with the SFOX {ToS}."
               values={{
                 account: prop('accountNumber', account),
                 ToS: (
                   <ToSLink
-                    rel='noopener noreferrer'
-                    target='_blank'
-                    href='https://www.sfox.com/terms.html'
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    href="https://www.sfox.com/terms.html"
                   >
                     Terms of Service
                   </ToSLink>
@@ -60,24 +60,24 @@ const ReviewForm = props => {
       </TermsWrapper>
       <Button
         fullwidth
-        nature='primary'
+        nature="primary"
         disabled={invalid || busy || !Remote.Success.is(quoteR)}
         onClick={quoteR.map(quote => () => onSubmit(quote)).getOrElse(null)}
       >
         {busy ? (
-          <HeartbeatLoader height='20px' width='20px' color='white' />
+          <HeartbeatLoader height="20px" width="20px" color="white" />
         ) : (
           <FormattedMessage
-            id='buysell.sfoxcheckout.orderreview.submit'
-            defaultMessage='Submit'
+            id="buysell.sfoxcheckout.orderreview.submit"
+            defaultMessage="Submit"
           />
         )}
       </Button>
       <CancelWrapper>
         <StepTransition prev Component={Link}>
           <FormattedMessage
-            id='buysell.sfoxcheckout.orderreview.cancel'
-            defaultMessage='Cancel'
+            id="buysell.sfoxcheckout.orderreview.cancel"
+            defaultMessage="Cancel"
           />
         </StepTransition>
       </CancelWrapper>

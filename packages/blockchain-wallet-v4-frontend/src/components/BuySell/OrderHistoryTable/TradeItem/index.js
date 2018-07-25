@@ -63,10 +63,10 @@ const TradeItem = props => {
 
   return (
     <TableRow>
-      <TableCell width='15%' mobileWidth='25%'>
+      <TableCell width="15%" mobileWidth="25%">
         <OrderStatus status={trade.state} isBuy={trade.isBuy} />
       </TableCell>
-      <TableCell width='15%' mobileWidth='20%'>
+      <TableCell width="15%" mobileWidth="20%">
         {trade.state === 'awaiting_transfer_in' && trade.medium === 'card' ? (
           <OrderHistoryLink
             weight={300}
@@ -74,8 +74,8 @@ const TradeItem = props => {
             onClick={() => handleFinish(trade)}
           >
             <FormattedMessage
-              id='buysell.orderhistory.finishtrade'
-              defaultMessage='Finish Trade'
+              id="buysell.orderhistory.finishtrade"
+              defaultMessage="Finish Trade"
             />
           </OrderHistoryLink>
         ) : (
@@ -85,13 +85,13 @@ const TradeItem = props => {
             onClick={() => handleClick(trade)}
           >
             <FormattedMessage
-              id='buysell.orderhistory.list.details'
-              defaultMessage='View details'
+              id="buysell.orderhistory.list.details"
+              defaultMessage="View details"
             />
           </OrderHistoryLink>
         )}
       </TableCell>
-      <TableCell width='30%' mobileWidth='20%'>
+      <TableCell width="30%" mobileWidth="20%">
         <MediaContextConsumer>
           {({ mobile }) => (
             <OrderHistoryText opacity={getOpacity(trade)} weight={300}>
@@ -100,30 +100,30 @@ const TradeItem = props => {
           )}
         </MediaContextConsumer>
       </TableCell>
-      <TableCell width='20%' hideMobile>
+      <TableCell width="20%" hideMobile>
         <OrderHistoryText
           opacity={getOpacity(trade)}
           weight={300}
         >{`${exchangeAmount} ${prop('inCurrency', trade)}`}</OrderHistoryText>
       </TableCell>
-      <TableCell width='20%' mobileWidth='35%'>
-        <TableCell width='80%'>
+      <TableCell width="20%" mobileWidth="35%">
+        <TableCell width="80%">
           <OrderHistoryText
             opacity={getOpacity(trade)}
             weight={300}
           >{`${receiveAmount} ${prop('outCurrency', trade)}`}</OrderHistoryText>
         </TableCell>
-        <TableCell width='20%'>
+        <TableCell width="20%">
           {canCancel && status && cancelTradeId === trade.id ? (
-            <HeartbeatLoader color='red' height='15px' width='15px' />
+            <HeartbeatLoader color="red" height="15px" width="15px" />
           ) : canCancel && cancelTradeId !== trade.id ? (
             <Icon
               cursor
               onClick={() => handleTradeCancel(trade)}
-              name='trash'
-              size='14px'
+              name="trash"
+              size="14px"
               weight={300}
-              color='error'
+              color="error"
             />
           ) : null}
         </TableCell>

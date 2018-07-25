@@ -7,12 +7,12 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import DeleteAddressLabel from './template.js'
 
 class DeleteAddressLabelContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.onDeleteConfirm = this.onDeleteConfirm.bind(this)
   }
 
-  onDeleteConfirm () {
+  onDeleteConfirm() {
     const { accountIdx, walletIdx, addressIdx } = this.props
 
     this.props.componentActions.deleteAddressLabel(
@@ -23,7 +23,7 @@ class DeleteAddressLabelContainer extends React.PureComponent {
     this.props.close()
   }
 
-  render () {
+  render() {
     return (
       <DeleteAddressLabel
         {...this.props}

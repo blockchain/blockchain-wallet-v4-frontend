@@ -48,38 +48,38 @@ const OrderCheckout = ({
   const wantToHelper = () =>
     isBuy ? (
       <FormattedMessage
-        id='buy.sfoxcheckout.outputmethod.title.buy'
-        defaultMessage='I want to buy'
+        id="buy.sfoxcheckout.outputmethod.title.buy"
+        defaultMessage="I want to buy"
       />
     ) : (
       <FormattedMessage
-        id='buy.sfoxcheckout.title.sell'
-        defaultMessage='I want to sell'
+        id="buy.sfoxcheckout.title.sell"
+        defaultMessage="I want to sell"
       />
     )
   const payWithHelper = () =>
     isBuy ? (
       <FormattedMessage
-        id='buy.sfoxcheckout.inputmethod.title.buywith'
-        defaultMessage='I will pay with'
+        id="buy.sfoxcheckout.inputmethod.title.buywith"
+        defaultMessage="I will pay with"
       />
     ) : (
       <FormattedMessage
-        id='buy.sfoxcheckout.outputmethod.title.sellwith'
-        defaultMessage='I will receive funds into'
+        id="buy.sfoxcheckout.outputmethod.title.sellwith"
+        defaultMessage="I will receive funds into"
       />
     )
 
   const submitButtonHelper = () =>
     reason.includes('has_remaining') ? null : (
       <div style={{ ...flex('col'), ...spacing('mt-15') }}>
-        <Text size='14px' weight={300}>
+        <Text size="14px" weight={300}>
           You need to finish setting up your account before you can buy and
           sell.
         </Text>
         <Button
           style={spacing('mt-15')}
-          nature='primary'
+          nature="primary"
           onClick={finishAccountSetup}
         >
           Continue Where You Left Off
@@ -89,26 +89,26 @@ const OrderCheckout = ({
 
   return (
     <ExchangeCheckoutWrapper>
-      <Text style={spacing('ml-10')} size='16px' weight={600}>
+      <Text style={spacing('ml-10')} size="16px" weight={600}>
         {wantToHelper()}
       </Text>
       <MethodContainer>
         <Icon
-          name='bitcoin-in-circle-filled'
-          color='bitcoin-orange'
-          size='30px'
+          name="bitcoin-in-circle-filled"
+          color="bitcoin-orange"
+          size="30px"
         />
         <div style={{ ...flex('col'), ...spacing('ml-20') }}>
-          <Text size='14px' weight={300} uppercase>
+          <Text size="14px" weight={300} uppercase>
             Bitcoin
           </Text>
-          <Text size='12px' weight={300}>
+          <Text size="12px" weight={300}>
             {'@ '}
             {Remote.Loading.is(quoteR) ? (
               <Fragment>
                 <FormattedMessage
-                  id='buy.sfoxcheckout.loading'
-                  defaultMessage='Loading'
+                  id="buy.sfoxcheckout.loading"
+                  defaultMessage="Loading"
                 />
                 {'...'}
               </Fragment>
@@ -138,19 +138,19 @@ const OrderCheckout = ({
           </Text>
         </div>
       </MethodContainer>
-      <Text style={spacing('ml-10')} size='16px' weight={600}>
+      <Text style={spacing('ml-10')} size="16px" weight={600}>
         {payWithHelper()}
       </Text>
       <MethodContainer>
-        <Icon name='bank-filled' size='30px' />
+        <Icon name="bank-filled" size="30px" />
         <FundingSource account={account} />
       </MethodContainer>
       {reason.includes('has_remaining') ? (
         <Fragment>
-          <Text style={spacing('ml-10')} size='16px' weight={600}>
+          <Text style={spacing('ml-10')} size="16px" weight={600}>
             <FormattedMessage
-              id='buy.sfoxcheckout.amount'
-              defaultMessage='Amount'
+              id="buy.sfoxcheckout.amount"
+              defaultMessage="Amount"
             />
           </Text>
           <div style={spacing('mt-10')}>

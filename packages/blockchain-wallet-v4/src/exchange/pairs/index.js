@@ -5,7 +5,7 @@ import BigRational from 'big-rational'
 import Type from '../../types/Type'
 
 export class Pairs extends Type {
-  toString () {
+  toString() {
     return `Pairs(${this.code})`
   }
 }

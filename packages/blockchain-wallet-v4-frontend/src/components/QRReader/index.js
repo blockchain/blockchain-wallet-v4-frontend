@@ -16,10 +16,10 @@ const QRReader = props => {
   return hasWebcam ? (
     <QrReader onScan={onScan} onError={onError} />
   ) : (
-    <Banner type='warning'>
+    <Banner type="warning">
       <FormattedMessage
-        id='components.qrreader.warning'
-        defaultMessage='Your browser does not have webcam support.'
+        id="components.qrreader.warning"
+        defaultMessage="Your browser does not have webcam support."
       />
     </Banner>
   )

@@ -46,13 +46,13 @@ const CopyClipboard = props => {
         <CopyButton nature={active ? 'copy' : 'secondary'}>
           {active ? (
             <FormattedMessage
-              id='components.copyclipboard.copied'
-              defaultMessage='Copied!'
+              id="components.copyclipboard.copied"
+              defaultMessage="Copied!"
             />
           ) : (
             <FormattedMessage
-              id='components.copyclipboard.copy'
-              defaultMessage='Copy'
+              id="components.copyclipboard.copy"
+              defaultMessage="Copy"
             />
           )}
         </CopyButton>

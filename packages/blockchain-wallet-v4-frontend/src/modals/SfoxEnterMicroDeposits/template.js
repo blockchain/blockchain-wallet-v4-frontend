@@ -48,13 +48,13 @@ const MicroDeposits = props => {
 
   if (status === 'success') {
     return (
-      <Modal size='medium' position={position} total={total}>
+      <Modal size="medium" position={position} total={total}>
         <ModalBody>
           <TextWrapper>
-            <Text size='22px' weight={300}>
+            <Text size="22px" weight={300}>
               <FormattedMessage
-                id='sfoxmicrodeposits.success'
-                defaultMessage='YOU ARE NOW READY TO BUY & SELL'
+                id="sfoxmicrodeposits.success"
+                defaultMessage="YOU ARE NOW READY TO BUY & SELL"
               />
             </Text>
           </TextWrapper>
@@ -65,12 +65,12 @@ const MicroDeposits = props => {
   }
 
   return (
-    <Modal size='medium' position={position} total={total}>
+    <Modal size="medium" position={position} total={total}>
       <ModalHeader onClose={close}>
         <Text>
           <FormattedMessage
-            id='sfoxmicrodeposits.header'
-            defaultMessage='Verify Bank Deposits'
+            id="sfoxmicrodeposits.header"
+            defaultMessage="Verify Bank Deposits"
           />
         </Text>
       </ModalHeader>
@@ -78,52 +78,52 @@ const MicroDeposits = props => {
         <Form onSubmit={handleSubmit}>
           <FormGroup>
             <FormItem>
-              <Text size='14px' weight={400} style={{ 'margin-bottom': '5px' }}>
+              <Text size="14px" weight={400} style={{ 'margin-bottom': '5px' }}>
                 <FormattedMessage
-                  id='sfoxmicrodeposits.deposit1'
-                  defaultMessage='Deposit 1'
+                  id="sfoxmicrodeposits.deposit1"
+                  defaultMessage="Deposit 1"
                 />
               </Text>
               <Field
-                name='deposit1'
+                name="deposit1"
                 validate={[required]}
                 component={NumberBox}
-                placeholder='0.00'
+                placeholder="0.00"
               />
             </FormItem>
           </FormGroup>
           <FormGroup>
             <FormItem>
-              <Text size='14px' weight={400} style={{ 'margin-bottom': '5px' }}>
+              <Text size="14px" weight={400} style={{ 'margin-bottom': '5px' }}>
                 <FormattedMessage
-                  id='sfoxmicrodeposits.deposit2'
-                  defaultMessage='Deposit 2'
+                  id="sfoxmicrodeposits.deposit2"
+                  defaultMessage="Deposit 2"
                 />
               </Text>
               <Field
-                name='deposit2'
+                name="deposit2"
                 validate={[required]}
                 component={NumberBox}
-                placeholder='0.00'
+                placeholder="0.00"
               />
             </FormItem>
           </FormGroup>
         </Form>
         <ButtonRow>
           <Button onClick={close}>
-            <FormattedMessage id='cancel' defaultMessage='Cancel' />
+            <FormattedMessage id="cancel" defaultMessage="Cancel" />
           </Button>
           {status instanceof Error ? (
-            <ErrorText size='13px' weight={300}>
+            <ErrorText size="13px" weight={300}>
               <FormattedMessage
-                id='sfoxmicrodeposits.error'
-                defaultMessage='The amounts entered do not match the deposits. {tryAgain}'
+                id="sfoxmicrodeposits.error"
+                defaultMessage="The amounts entered do not match the deposits. {tryAgain}"
                 values={{
                   tryAgain: (
-                    <Link size='13px' weight={300} onClick={tryAgain}>
+                    <Link size="13px" weight={300} onClick={tryAgain}>
                       <FormattedMessage
-                        id='try_again'
-                        defaultMessage='Try again.'
+                        id="try_again"
+                        defaultMessage="Try again."
                       />
                     </Link>
                   )
@@ -132,15 +132,15 @@ const MicroDeposits = props => {
             </ErrorText>
           ) : (
             <Button
-              type='submit'
-              nature='primary'
+              type="submit"
+              nature="primary"
               onClick={handleSubmit}
               disabled={invalid}
             >
               {status === 'loading' ? (
-                <HeartbeatLoader height='20px' width='20px' color='white' />
+                <HeartbeatLoader height="20px" width="20px" color="white" />
               ) : (
-                <FormattedMessage id='verify' defaultMessage='Verify' />
+                <FormattedMessage id="verify" defaultMessage="Verify" />
               )}
             </Button>
           )}

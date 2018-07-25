@@ -34,48 +34,48 @@ const FirstStep = props => {
   return (
     <Form onSubmit={handleSubmit}>
       <DetailRow>
-        <Text size='14px' weight={400}>
+        <Text size="14px" weight={400}>
           <FormattedMessage
-            id='modals.signmessage.firststep.address'
-            defaultMessage='Address:'
+            id="modals.signmessage.firststep.address"
+            defaultMessage="Address:"
           />
         </Text>
-        <Text size='14px' weight={300}>
+        <Text size="14px" weight={300}>
           {address}
         </Text>
       </DetailRow>
       <FormGroup inline margin={'15px'}>
         <FormItem width={'100%'}>
-          <FormLabel for='message'>
+          <FormLabel for="message">
             <FormattedMessage
-              id='modals.signmessage.firststep.message'
-              defaultMessage='Message:'
+              id="modals.signmessage.firststep.message"
+              defaultMessage="Message:"
             />
           </FormLabel>
           <Field
-            name='message'
+            name="message"
             component={TextArea}
             validate={[required]}
-            placeholder='Thanks for accepting bitcoin!'
+            placeholder="Thanks for accepting bitcoin!"
           />
         </FormItem>
       </FormGroup>
       <FormGroup>
         <SubmitRow>
-          <ClickableText size='14px' weight={300} onClick={closeAll}>
+          <ClickableText size="14px" weight={300} onClick={closeAll}>
             <FormattedMessage
-              id='modals.signmessage.close'
-              defaultMessage='Close'
+              id="modals.signmessage.close"
+              defaultMessage="Close"
             />
           </ClickableText>
           <Button
-            type='submit'
-            nature='primary'
+            type="submit"
+            nature="primary"
             disabled={submitting || invalid}
           >
             <FormattedMessage
-              id='modals.signmessage.firststep.sign'
-              defaultMessage='Sign'
+              id="modals.signmessage.firststep.sign"
+              defaultMessage="Sign"
             />
           </Button>
         </SubmitRow>

@@ -5,7 +5,7 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import UpgradeAddressLabels from './template.js'
 
 class UpgradeAddressLabelsContainer extends React.PureComponent {
-  render () {
+  render() {
     return <UpgradeAddressLabels {...this.props} />
   }
 }

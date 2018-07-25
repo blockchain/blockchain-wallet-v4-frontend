@@ -123,29 +123,29 @@ const getSfoxStepTitle = step => {
     case 1:
       return (
         <FormattedMessage
-          id='scenes.home.exchangeStepper.sfox.step1'
-          defaultMessage='Create Account'
+          id="scenes.home.exchangeStepper.sfox.step1"
+          defaultMessage="Create Account"
         />
       )
     case 2:
       return (
         <FormattedMessage
-          id='scenes.home.exchangeStepper.sfox.step2'
-          defaultMessage='Verify Identity'
+          id="scenes.home.exchangeStepper.sfox.step2"
+          defaultMessage="Verify Identity"
         />
       )
     case 3:
       return (
         <FormattedMessage
-          id='scenes.home.exchangeStepper.sfox.step3'
-          defaultMessage='Upload Documents'
+          id="scenes.home.exchangeStepper.sfox.step3"
+          defaultMessage="Upload Documents"
         />
       )
     case 4:
       return (
         <FormattedMessage
-          id='scenes.home.exchangeStepper.sfox.step4'
-          defaultMessage='Link Bank'
+          id="scenes.home.exchangeStepper.sfox.step4"
+          defaultMessage="Link Bank"
         />
       )
     default:
@@ -165,15 +165,15 @@ const SfoxSignupBanner = props => {
     >
       <LeftColumn>
         <Icon
-          name='cart'
-          color='gray-5'
-          size='54px'
+          name="cart"
+          color="gray-5"
+          size="54px"
           style={{ paddingRight: 25, paddingLeft: 5 }}
         />
-        <Text size='18px' weight={200}>
+        <Text size="18px" weight={200}>
           <FormattedMessage
-            id='scenes.home.exchangeStepper.title'
-            defaultMessage='Complete the following steps to buy & sell bitcoin.'
+            id="scenes.home.exchangeStepper.title"
+            defaultMessage="Complete the following steps to buy & sell bitcoin."
           />
         </Text>
       </LeftColumn>
@@ -185,20 +185,20 @@ const SfoxSignupBanner = props => {
                 <Circle className={currentStep >= i ? 'step-complete' : ''}>
                   {currentStep > i && (
                     <Icon
-                      name='checkmark'
-                      size='13px'
-                      color='white-blue'
+                      name="checkmark"
+                      size="13px"
+                      color="white-blue"
                       weight={600}
                     />
                   )}
                   {currentStep <= i && (
-                    <Text color='white-blue' weight={200}>
+                    <Text color="white-blue" weight={200}>
                       {i + 1}
                     </Text>
                   )}
                 </Circle>
                 <Text
-                  size='12px'
+                  size="12px"
                   weight={300}
                   color={currentStep >= i ? 'brand-secondary' : 'gray-5'}
                 >

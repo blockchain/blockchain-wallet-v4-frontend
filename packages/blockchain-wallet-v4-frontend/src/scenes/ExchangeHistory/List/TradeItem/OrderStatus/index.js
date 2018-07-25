@@ -23,44 +23,44 @@ const renderStatus = status => {
     case 'complete':
       return (
         <FormattedMessage
-          id='scenes.exchangehistory.list.orderstatus.complete'
-          defaultMessage='Complete'
+          id="scenes.exchangehistory.list.orderstatus.complete"
+          defaultMessage="Complete"
         />
       )
     case 'failed':
       return (
         <FormattedMessage
-          id='scenes.exchangehistory.list.orderstatus.failed'
-          defaultMessage='Failed'
+          id="scenes.exchangehistory.list.orderstatus.failed"
+          defaultMessage="Failed"
         />
       )
     case 'error':
       return (
         <FormattedMessage
-          id='scenes.exchangehistory.list.orderstatus.error'
-          defaultMessage='Error'
+          id="scenes.exchangehistory.list.orderstatus.error"
+          defaultMessage="Error"
         />
       )
     case 'no_deposits':
     case 'received':
       return (
         <FormattedMessage
-          id='scenes.exchangehistory.list.orderstatus.pending'
-          defaultMessage='In progress'
+          id="scenes.exchangehistory.list.orderstatus.pending"
+          defaultMessage="In progress"
         />
       )
     case 'resolved':
       return (
         <FormattedMessage
-          id='scenes.exchangehistory.list.orderstatus.refunded'
-          defaultMessage='Refunded'
+          id="scenes.exchangehistory.list.orderstatus.refunded"
+          defaultMessage="Refunded"
         />
       )
     default:
       return (
         <FormattedMessage
-          id='scenes.exchangehistory.list.orderstatus.unknown'
-          defaultMessage='Unknown'
+          id="scenes.exchangehistory.list.orderstatus.unknown"
+          defaultMessage="Unknown"
         />
       )
   }

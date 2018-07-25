@@ -44,47 +44,47 @@ const ImportBtcAddress = props => {
   } = props
 
   return (
-    <Modal size='large' position={position}>
+    <Modal size="large" position={position}>
       <Form onSubmit={handleSubmit}>
         <Wrapper>
-          <ModalHeader icon='up-arrow-in-circle' onClose={close}>
+          <ModalHeader icon="up-arrow-in-circle" onClose={close}>
             <FormattedMessage
-              id='modals.importbtcaddress.title'
-              defaultMessage='Import Existing Bitcoin Address'
+              id="modals.importbtcaddress.title"
+              defaultMessage="Import Existing Bitcoin Address"
             />
           </ModalHeader>
           <ModalBody>
             <Title>
               <FormattedMessage
-                id='modals.importbtcaddress.importtype'
-                defaultMessage='What do you want to import?'
+                id="modals.importbtcaddress.importtype"
+                defaultMessage="What do you want to import?"
               />
             </Title>
             <RadioContainer>
               <Field
-                name='address-type'
-                value='internal'
+                name="address-type"
+                value="internal"
                 props={{ id: 'internal', value: 'internal' }}
                 validate={[]}
                 component={RadioButton}
               >
                 <FormattedHTMLMessage
-                  id='modals.importbtcaddress.generated_in_wallet'
-                  defaultMessage='Existing address generated in <span>this wallet</span>.'
+                  id="modals.importbtcaddress.generated_in_wallet"
+                  defaultMessage="Existing address generated in <span>this wallet</span>."
                 />
               </Field>
             </RadioContainer>
             <RadioContainer>
               <Field
-                name='address-type'
-                value='external'
+                name="address-type"
+                value="external"
                 props={{ id: 'external', value: 'external' }}
                 validate={[]}
                 component={RadioButton}
               >
                 <FormattedHTMLMessage
-                  id='modals.importbtcaddress.generated_outside_wallet'
-                  defaultMessage='Existing address generated <span>outside this wallet</span>.'
+                  id="modals.importbtcaddress.generated_outside_wallet"
+                  defaultMessage="Existing address generated <span>outside this wallet</span>."
                 />
               </Field>
             </RadioContainer>
@@ -92,16 +92,16 @@ const ImportBtcAddress = props => {
             {isAddressExternal && <ImportExternalBtcAddress priv={priv} />}
           </ModalBody>
           {isAddressExternal && (
-            <ModalFooter align='right'>
+            <ModalFooter align="right">
               <Button
-                type='submit'
-                nature='primary'
+                type="submit"
+                nature="primary"
                 capitalize
                 disabled={submitting || invalid}
               >
                 <FormattedMessage
-                  id='modals.importbtcaddress.button'
-                  defaultMessage='Import'
+                  id="modals.importbtcaddress.button"
+                  defaultMessage="Import"
                 />
               </Button>
             </ModalFooter>

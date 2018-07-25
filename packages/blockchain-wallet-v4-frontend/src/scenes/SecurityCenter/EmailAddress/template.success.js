@@ -111,30 +111,30 @@ const EmailAddress = props => {
       if (isVerified) {
         return (
           <FormattedMessage
-            id='scenes.security.email.verifiedtitle'
-            defaultMessage='Email Address'
+            id="scenes.security.email.verifiedtitle"
+            defaultMessage="Email Address"
           />
         )
       }
       return (
         <FormattedMessage
-          id='scenes.security.email.unverifiedemail.title'
-          defaultMessage='Verify Email Address'
+          id="scenes.security.email.unverifiedemail.title"
+          defaultMessage="Verify Email Address"
         />
       )
     }
     if (ui.changeEmailToggled) {
       return (
         <FormattedMessage
-          id='scenes.security.email.verifiedemail.change'
-          defaultMessage='Change Email Address'
+          id="scenes.security.email.verifiedemail.change"
+          defaultMessage="Change Email Address"
         />
       )
     }
     return (
       <FormattedMessage
-        id='scenes.security.email.unverifiedemail.verifyemail'
-        defaultMessage='Verify Email Address'
+        id="scenes.security.email.unverifiedemail.verifyemail"
+        defaultMessage="Verify Email Address"
       />
     )
   }
@@ -146,17 +146,17 @@ const EmailAddress = props => {
           <React.Fragment>
             <EmailExplanation>
               <FormattedMessage
-                id='scenes.security.email.verifieddescription'
-                defaultMessage='You’ve verified '
+                id="scenes.security.email.verifieddescription"
+                defaultMessage="You’ve verified "
               />
               {email}
               <FormattedMessage
-                id='scenes.security.email.verifieddescription2'
-                defaultMessage='. Select ‘Change Email’ to modify this existing address. '
+                id="scenes.security.email.verifieddescription2"
+                defaultMessage=". Select ‘Change Email’ to modify this existing address. "
               />
               <FormattedMessage
-                id='scenes.security.email.verifieddescription3'
-                defaultMessage=' We will use this email to authorize logins, send payment notifications, and notify you of wallet updates.'
+                id="scenes.security.email.verifieddescription3"
+                defaultMessage=" We will use this email to authorize logins, send payment notifications, and notify you of wallet updates."
               />
             </EmailExplanation>
           </React.Fragment>
@@ -165,13 +165,13 @@ const EmailAddress = props => {
       return (
         <EmailExplanation>
           <FormattedMessage
-            id='scenes.security.email.unverifieddescription'
-            defaultMessage='We have sent a verification email to '
+            id="scenes.security.email.unverifieddescription"
+            defaultMessage="We have sent a verification email to "
           />
           {email}
           <FormattedMessage
-            id='scenes.security.email.unverifieddescription2'
-            defaultMessage='. Please enter the code you’ve received to your email in order to complete the verification process. We will use this email to authorize logins, send payment notifications, and notify you of wallet updates.'
+            id="scenes.security.email.unverifieddescription2"
+            defaultMessage=". Please enter the code you’ve received to your email in order to complete the verification process. We will use this email to authorize logins, send payment notifications, and notify you of wallet updates."
           />
         </EmailExplanation>
       )
@@ -179,35 +179,35 @@ const EmailAddress = props => {
     if (ui.changeEmailToggled) {
       return (
         <FormattedMessage
-          id='scenes.security.email.yourverifiedemailaddress'
-          defaultMessage='Your verified email address is used to send login codes when suspicious or unusual activity is detected, to remind you of your wallet login ID, and to send payment alerts when you receive funds.'
+          id="scenes.security.email.yourverifiedemailaddress"
+          defaultMessage="Your verified email address is used to send login codes when suspicious or unusual activity is detected, to remind you of your wallet login ID, and to send payment alerts when you receive funds."
         />
       )
     }
     return (
       <React.Fragment>
-        <Text size='14px' weight={200}>
+        <Text size="14px" weight={200}>
           <FormattedMessage
-            id='scenes.security.email.verify.wehavesentcode'
-            defaultMessage='We have sent a verification code to'
+            id="scenes.security.email.verify.wehavesentcode"
+            defaultMessage="We have sent a verification code to"
           />
           <span>&nbsp;{email}</span>
           <FormattedMessage
-            id='scenes.security.email.verify.pleaseenter'
-            defaultMessage='.  Please enter this code below to complete your email verification process.'
+            id="scenes.security.email.verify.pleaseenter"
+            defaultMessage=".  Please enter this code below to complete your email verification process."
           />
         </Text>
         <ResendContainer>
-          <Text size='14px' weight={200}>
+          <Text size="14px" weight={200}>
             <FormattedMessage
-              id='scenes.security.email.verify.didnotreceive'
-              defaultMessage='Didn’t receive the verification email?'
+              id="scenes.security.email.verify.didnotreceive"
+              defaultMessage="Didn’t receive the verification email?"
             />
           </Text>
-          <Link onClick={props.handleResend} size='14px' weight={300}>
+          <Link onClick={props.handleResend} size="14px" weight={300}>
             <FormattedMessage
-              id='scenes.security.email.verify.resend'
-              defaultMessage='Resend email'
+              id="scenes.security.email.verify.resend"
+              defaultMessage="Resend email"
             />
           </Link>
         </ResendContainer>
@@ -242,7 +242,7 @@ const EmailAddress = props => {
     <GridContainer>
       <IconAndHeaderContainer success={ui.successToggled}>
         <IconContainer>
-          <SecurityIcon name='email' enabled={isVerified} />
+          <SecurityIcon name="email" enabled={isVerified} />
         </IconContainer>
         <EmailSecuritySummary>
           <SecurityHeader>{securityHeaderHelper()}</SecurityHeader>
@@ -254,29 +254,29 @@ const EmailAddress = props => {
       <EmailSecurityComponent>
         {uiHelper() && !verified ? (
           <React.Fragment>
-            <EmailButton nature='primary' onClick={props.handleVerifyClick}>
+            <EmailButton nature="primary" onClick={props.handleVerifyClick}>
               <FormattedMessage
-                id='scenes.security.email.settings.updateform.sendcode'
-                defaultMessage='Send Code'
+                id="scenes.security.email.settings.updateform.sendcode"
+                defaultMessage="Send Code"
               />
             </EmailButton>
             <ChangeEmailText
-              color='brand-secondary'
+              color="brand-secondary"
               weight={300}
               onClick={props.handleChangeEmailView}
             >
               <FormattedMessage
-                id='scenes.security.email.upateform.changetext'
-                defaultMessage='Change Your Email'
+                id="scenes.security.email.upateform.changetext"
+                defaultMessage="Change Your Email"
               />
             </ChangeEmailText>
           </React.Fragment>
         ) : null}
         {uiHelper() && verified ? (
-          <EmailButton nature='primary' onClick={props.handleChangeEmailView}>
+          <EmailButton nature="primary" onClick={props.handleChangeEmailView}>
             <FormattedMessage
-              id='scenes.security.email.settings.updateform.change'
-              defaultMessage='Change Email'
+              id="scenes.security.email.settings.updateform.change"
+              defaultMessage="Change Email"
             />
           </EmailButton>
         ) : null}

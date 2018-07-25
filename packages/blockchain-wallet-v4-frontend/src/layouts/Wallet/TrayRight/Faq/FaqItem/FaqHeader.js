@@ -26,7 +26,7 @@ const Toggler = styled(Icon)`
 const FaqHeader = props => (
   <Wrapper onClick={props.handleToggle}>
     {props.children}
-    <Toggler name='down-arrow' size='16px' cursor toggled={props.toggled} />
+    <Toggler name="down-arrow" size="16px" cursor toggled={props.toggled} />
   </Wrapper>
 )
 

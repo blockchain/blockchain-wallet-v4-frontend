@@ -207,7 +207,7 @@ const Item = styled.li`
 `
 
 class MenuItem extends Component {
-  render () {
+  render() {
     const { children, hasMenu, onChange, flexibleSpace } = this.props
     return flexibleSpace ? (
       <Item style={{ flexGrow: 1 }} />

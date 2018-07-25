@@ -56,7 +56,7 @@ const otherSide = side => {
 }
 
 class QuoteInput extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       side: 'input',
@@ -69,7 +69,7 @@ class QuoteInput extends Component {
     this.updateFields = this.updateFields.bind(this)
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     if (prevProps.type !== this.props.type) this.fetchQuoteDebounced()
     this.props.quoteR.map(quote => {
       if (quote.id !== path(['quoteR', 'data', 'id'], prevProps)) {
@@ -78,7 +78,7 @@ class QuoteInput extends Component {
     })
   }
 
-  updateFields (quote) {
+  updateFields(quote) {
     if (!this.state.userInput) return null
     let fiat =
       this.state.side === 'input' ? this.state.input : quote.quoteAmount
@@ -150,7 +150,7 @@ class QuoteInput extends Component {
     this.props.onFetchQuote(quote)
   }
 
-  render () {
+  render() {
     let { spec, disabled } = this.props
     let { input, output, userInput } = this.state
 

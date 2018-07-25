@@ -9,15 +9,15 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import TransactionReport from './template'
 
 class TransactionReportContainer extends React.PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     this.props.actions.initialized()
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.actions.destroyed()
   }
 
-  render () {
+  render() {
     const {
       position,
       total,

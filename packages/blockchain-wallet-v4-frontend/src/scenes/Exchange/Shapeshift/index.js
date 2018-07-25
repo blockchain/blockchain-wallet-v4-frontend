@@ -9,11 +9,11 @@ import Success from './template.success'
 import { getData } from './selectors'
 
 class ShapeshiftContainer extends React.Component {
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.actions.destroyed()
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: value => <Success step={value.step} />,
       Failure: () => <Error />,

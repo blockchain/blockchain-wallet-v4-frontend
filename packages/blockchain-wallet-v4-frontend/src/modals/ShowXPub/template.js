@@ -26,12 +26,12 @@ const ClickableText = styled(Text)`
 
 const FirstStep = () => (
   <div>
-    <Text size='13px' color='error' weight={500} uppercase>
-      <FormattedMessage id='modals.xpub.warning' defaultMessage='Warning' />
+    <Text size="13px" color="error" weight={500} uppercase>
+      <FormattedMessage id="modals.xpub.warning" defaultMessage="Warning" />
     </Text>
-    <Text size='14px' style={{ marginTop: 10 }} weight={300}>
+    <Text size="14px" style={{ marginTop: 10 }} weight={300}>
       <FormattedMessage
-        id='modals.xpub.warning.message'
+        id="modals.xpub.warning.message"
         defaultMessage="Don't share your Extended Public Key (xPub) with an untrusted source. Anyone with access to this can keep track of your payments and may be able to disrupt access to your wallet."
       />
     </Text>
@@ -61,30 +61,30 @@ const ShowXPubTemplate = ({
   xpub,
   onContinue
 }) => (
-  <Modal size='large' position={position} total={total}>
-    <ModalHeader icon='lock' closeButton={false}>
+  <Modal size="large" position={position} total={total}>
+    <ModalHeader icon="lock" closeButton={false}>
       <FormattedMessage
-        id='modals.xpub.title'
-        defaultMessage='Extended Public Key'
+        id="modals.xpub.title"
+        defaultMessage="Extended Public Key"
       />
     </ModalHeader>
     <ModalBody>
       {step === 0 ? <FirstStep /> : <SecondStep xpub={xpub} />}
     </ModalBody>
-    <ModalFooter align='right'>
+    <ModalFooter align="right">
       <ClickableText
-        size='small'
+        size="small"
         weight={300}
         style={{ marginRight: 15 }}
         onClick={close}
       >
-        <FormattedMessage id='modals.xpub.close' defaultMessage='Close' />
+        <FormattedMessage id="modals.xpub.close" defaultMessage="Close" />
       </ClickableText>
       {step === 0 && (
-        <Button nature='primary' onClick={onContinue}>
+        <Button nature="primary" onClick={onContinue}>
           <FormattedMessage
-            id='modals.xpub.continue'
-            defaultMessage='Continue'
+            id="modals.xpub.continue"
+            defaultMessage="Continue"
           />
         </Button>
       )}

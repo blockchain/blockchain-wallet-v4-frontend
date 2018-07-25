@@ -6,16 +6,16 @@ import modalEnhancer from 'providers/ModalEnhancer'
 import ConfirmTemplate from './template.js'
 
 class ConfirmContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  onSubmit () {
+  onSubmit() {
     this.props.actions.submitConfirmation(this.props.value)
   }
 
-  render () {
+  render() {
     return <ConfirmTemplate {...this.props} onSubmit={this.onSubmit} />
   }
 }

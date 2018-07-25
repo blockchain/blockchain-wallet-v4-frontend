@@ -8,18 +8,18 @@ import Recover from './template.js'
 import { actions, selectors } from 'data'
 
 class RecoverContainer extends React.PureComponent {
-  constructor () {
+  constructor() {
     super()
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  onSubmit () {
+  onSubmit() {
     const network = settings.NETWORK_BITCOIN
     const { mnemonic, email, password, language } = this.props
     this.props.authActions.restore(mnemonic, email, password, language, network)
   }
 
-  render () {
+  render() {
     const { data, previousStep } = this.props
     const busy = data.cata({
       Success: () => false,

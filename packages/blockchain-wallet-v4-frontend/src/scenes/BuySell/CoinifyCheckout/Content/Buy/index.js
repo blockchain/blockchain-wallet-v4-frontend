@@ -8,13 +8,13 @@ import Loading from 'components/BuySell/Loading'
 import Failure from 'components/BuySell/Failure'
 
 class CoinifyBuyContainer extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.startBuy = this.startBuy.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.coinifyActions.initializeCheckoutForm('buy')
     this.props.coinifyDataActions.fetchTrades()
     this.props.coinifyDataActions.getKyc()
@@ -24,7 +24,7 @@ class CoinifyBuyContainer extends React.Component {
     }
   }
 
-  startBuy () {
+  startBuy() {
     const { buyQuoteR, paymentMedium, coinifyActions } = this.props
     coinifyActions.coinifyLoading()
     buyQuoteR.map(q =>
@@ -32,7 +32,7 @@ class CoinifyBuyContainer extends React.Component {
     )
   }
 
-  render () {
+  render() {
     const {
       data,
       modalActions,

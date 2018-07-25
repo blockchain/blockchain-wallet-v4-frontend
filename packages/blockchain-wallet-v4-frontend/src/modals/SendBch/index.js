@@ -10,15 +10,15 @@ import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 
 class SendBchContainer extends React.PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     this.props.actions.initialized()
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.actions.destroyed()
   }
 
-  render () {
+  render() {
     const { step, position, total, closeAll } = this.props
 
     return (

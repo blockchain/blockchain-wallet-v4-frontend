@@ -33,36 +33,36 @@ const Settings = props => {
     <SettingWrapper>
       <Text>{currentWhitelist.data}</Text>
       {!updateToggled && (
-        <Button nature='primary' onClick={handleToggle}>
+        <Button nature="primary" onClick={handleToggle}>
           <FormattedMessage
-            id='scenes.securitysettings.advancedsettings.ipwhitelist.settings.change'
-            defaultMessage='Add'
+            id="scenes.securitysettings.advancedsettings.ipwhitelist.settings.change"
+            defaultMessage="Add"
           />
         </Button>
       )}
       {updateToggled && (
         <SettingForm onSubmit={handleSubmit}>
           <Input
-            name='IPWhitelist'
+            name="IPWhitelist"
             validate={[validIpList]}
             component={TextBox}
           />
           <ButtonWrapper>
-            <Button nature='empty' capitalize onClick={handleCancel}>
+            <Button nature="empty" capitalize onClick={handleCancel}>
               <FormattedMessage
-                id='scenes.securitysettings.advancedsettings.ipwhitelist.settings.cancel'
-                defaultMessage='Cancel'
+                id="scenes.securitysettings.advancedsettings.ipwhitelist.settings.cancel"
+                defaultMessage="Cancel"
               />
             </Button>
             <Button
-              type='submit'
-              nature='primary'
+              type="submit"
+              nature="primary"
               capitalize
               disabled={submitting || invalid}
             >
               <FormattedMessage
-                id='scenes.securitysettings.advancedsettings.ipwhitelist.settings.save'
-                defaultMessage='Save'
+                id="scenes.securitysettings.advancedsettings.ipwhitelist.settings.save"
+                defaultMessage="Save"
               />
             </Button>
           </ButtonWrapper>

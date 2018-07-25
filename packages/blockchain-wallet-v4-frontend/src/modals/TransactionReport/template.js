@@ -72,11 +72,11 @@ const FirstStep = props => {
   } = props
 
   return (
-    <Modal size='medium' position={position} total={total}>
+    <Modal size="medium" position={position} total={total}>
       <ModalHeader onClose={closeAll}>
         <FormattedMessage
-          id='modals.transactionreport.export'
-          defaultMessage='Export {coin} transactions history'
+          id="modals.transactionreport.export"
+          defaultMessage="Export {coin} transactions history"
           values={{ coin }}
         />
       </ModalHeader>
@@ -84,39 +84,39 @@ const FirstStep = props => {
         <Form onSubmit={handleSubmit}>
           <Container>
             <Row>
-              <Text size='13px' weight={400} capitalize>
+              <Text size="13px" weight={400} capitalize>
                 <FormattedMessage
-                  id='modals.transactionreport.selectwallet'
-                  defaultMessage='Select wallet'
+                  id="modals.transactionreport.selectwallet"
+                  defaultMessage="Select wallet"
                 />
               </Text>
             </Row>
-            <Row margin='30px'>
+            <Row margin="30px">
               <Field
-                name='from'
+                name="from"
                 component={SelectBoxBitcoinAddresses}
                 coin={coin}
               />
             </Row>
             <Row>
-              <Text size='13px' weight={400} capitalize>
+              <Text size="13px" weight={400} capitalize>
                 <FormattedMessage
-                  id='modals.transactionreport.selecttimerange'
-                  defaultMessage='Select time range'
+                  id="modals.transactionreport.selecttimerange"
+                  defaultMessage="Select time range"
                 />
               </Text>
             </Row>
-            <Row margin='30px'>
+            <Row margin="30px">
               <TimeContainer>
                 <Field
-                  name='start'
+                  name="start"
                   validate={[required, validStartDate]}
                   component={DateBoxDebounced}
                   isValidDate={isValidStartDate}
                 />
-                <Icon name='right-arrow' size='30px' />
+                <Icon name="right-arrow" size="30px" />
                 <Field
-                  name='end'
+                  name="end"
                   validate={[required, validEndDate]}
                   component={DateBoxDebounced}
                   isValidDate={isValidEndDate}
@@ -125,20 +125,20 @@ const FirstStep = props => {
             </Row>
           </Container>
           <Footer>
-            <Link size='13px' weight={300} fullwidth onClick={closeAll}>
+            <Link size="13px" weight={300} fullwidth onClick={closeAll}>
               <FormattedMessage
-                id='modals.transactionreport.firststep.close'
-                defaultMessage='Close'
+                id="modals.transactionreport.firststep.close"
+                defaultMessage="Close"
               />
             </Link>
             <Button
-              type='submit'
-              nature='primary'
+              type="submit"
+              nature="primary"
               disabled={submitting || invalid}
             >
               <FormattedMessage
-                id='modals.transactionreport.firststep.generate'
-                defaultMessage='Export CSV'
+                id="modals.transactionreport.firststep.generate"
+                defaultMessage="Export CSV"
               />
             </Button>
             {csvData && <CSVDownload data={csvData} />}

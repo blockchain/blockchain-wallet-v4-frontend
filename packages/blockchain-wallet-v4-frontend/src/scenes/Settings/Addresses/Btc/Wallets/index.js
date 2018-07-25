@@ -9,20 +9,20 @@ import { formValueSelector } from 'redux-form'
 import DataError from 'components/DataError'
 
 class BitcoinWalletsContainer extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.handleRefresh = this.handleRefresh.bind(this)
   }
 
-  shouldComponentUpdate (nextProps) {
+  shouldComponentUpdate(nextProps) {
     return !Remote.Loading.is(nextProps.data)
   }
 
-  handleRefresh () {
+  handleRefresh() {
     this.props.actions.fetchData()
   }
 
-  render () {
+  render() {
     const { search, data, ...rest } = this.props
 
     return data.cata({

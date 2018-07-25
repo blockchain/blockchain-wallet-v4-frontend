@@ -119,16 +119,16 @@ const SelectPartner = props => {
       return (
         <UnavailableContainer>
           {!ui.submittedEmail ? (
-            <Text size='14px' weight={300} style={spacing('mb-15')}>
+            <Text size="14px" weight={300} style={spacing('mb-15')}>
               {equals(country, 'US') ? (
                 <FormattedMessage
-                  id='selectpartner.unavailable.unfortunatelystate'
-                  defaultMessage='Unfortunately buy & sell is not available in your state at this time. To be notified when we expand to your location, sign up below.'
+                  id="selectpartner.unavailable.unfortunatelystate"
+                  defaultMessage="Unfortunately buy & sell is not available in your state at this time. To be notified when we expand to your location, sign up below."
                 />
               ) : (
                 <FormattedMessage
-                  id='selectpartner.unavailable.unfortunatelycountry'
-                  defaultMessage='Unfortunately buy & sell is not available in your country at this time. To be notified when we expand to your location, sign up below.'
+                  id="selectpartner.unavailable.unfortunatelycountry"
+                  defaultMessage="Unfortunately buy & sell is not available in your country at this time. To be notified when we expand to your location, sign up below."
                 />
               )}
             </Text>
@@ -136,35 +136,35 @@ const SelectPartner = props => {
           {!ui.submittedEmail ? (
             <span>
               <Field
-                name='email'
+                name="email"
                 validate={validEmail}
                 component={TextBox}
-                placeholder='Add your email here'
+                placeholder="Add your email here"
               />
               <Button
                 style={spacing('mt-15')}
-                nature='primary'
+                nature="primary"
                 onClick={submitEmail}
                 disabled={validEmail(email)}
               >
                 <FormattedMessage
-                  id='selectpartner.unavailable.notifyme'
-                  defaultMessage='Notify Me When This Becomes Available'
+                  id="selectpartner.unavailable.notifyme"
+                  defaultMessage="Notify Me When This Becomes Available"
                 />
               </Button>
             </span>
           ) : (
             <SubmittedWrapper>
-              <Text size='16px' color='brand-primary'>
+              <Text size="16px" color="brand-primary">
                 <FormattedMessage
-                  id='selectpartner.unavailable.thanks'
-                  defaultMessage='Thanks!'
+                  id="selectpartner.unavailable.thanks"
+                  defaultMessage="Thanks!"
                 />
               </Text>
-              <Text size='14px' weight={300}>
+              <Text size="14px" weight={300}>
                 <FormattedMessage
-                  id='selectpartner.unavailable.sendemail'
-                  defaultMessage='We will send an email to {email} once buy & sell are available for your area.'
+                  id="selectpartner.unavailable.sendemail"
+                  defaultMessage="We will send an email to {email} once buy & sell are available for your area."
                   values={{ email: <strong>{email}</strong> }}
                 />
               </Text>
@@ -184,28 +184,28 @@ const SelectPartner = props => {
         <Intro>
           <PartnerHeader>
             <FormattedMessage
-              id='selectpartner.header'
-              defaultMessage='Introducing Buy & Sell'
+              id="selectpartner.header"
+              defaultMessage="Introducing Buy & Sell"
             />
           </PartnerHeader>
           <PartnerSubHeader>
             <FormattedMessage
-              id='selectpartner.subheader'
-              defaultMessage='You can now buy & sell bitcoin directly from your wallet and have the exchanged funds deposited into your bank account.'
+              id="selectpartner.subheader"
+              defaultMessage="You can now buy & sell bitcoin directly from your wallet and have the exchanged funds deposited into your bank account."
             />
           </PartnerSubHeader>
           <PartnerSubHeader style={spacing('mt-15')}>
             <FormattedMessage
-              id='selectpartner.subheader2'
+              id="selectpartner.subheader2"
               defaultMessage="Select your location below, verify your identity, and before you know it, you'll be on your way to making your crypto dreams a reality!"
             />
           </PartnerSubHeader>
         </Intro>
         <SelectionContainer>
-          <Text size='14px'>
+          <Text size="14px">
             <FormattedMessage
-              id='selectpartner.selectcountry'
-              defaultMessage='Select your country:'
+              id="selectpartner.selectcountry"
+              defaultMessage="Select your country:"
             />
           </Text>
           <FieldWrapper>
@@ -213,7 +213,7 @@ const SelectPartner = props => {
               <FormGroup>
                 <FormItem>
                   <Field
-                    name='country'
+                    name="country"
                     validate={[required, onPartnerCountryWhitelist]}
                     component={SelectBoxCountry}
                     errorBottom
@@ -224,7 +224,7 @@ const SelectPartner = props => {
                 <FormGroup style={spacing('mt-5')}>
                   <FormItem>
                     <Field
-                      name='state'
+                      name="state"
                       validate={[required, onPartnerStateWhitelist]}
                       component={SelectBoxUSState}
                       errorBottom
@@ -233,15 +233,15 @@ const SelectPartner = props => {
                 </FormGroup>
               ) : null}
               <Button
-                nature='primary'
+                nature="primary"
                 uppercase
-                type='submit'
+                type="submit"
                 disabled={invalid || pristine}
                 style={spacing('mt-35')}
               >
                 <FormattedMessage
-                  id='selectpartner.getstarted'
-                  defaultMessage='get started'
+                  id="selectpartner.getstarted"
+                  defaultMessage="get started"
                 />
               </Button>
             </form>

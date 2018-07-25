@@ -24,25 +24,25 @@ const Container = styled.div`
 const Empty = props => (
   <Wrapper>
     <Container>
-      <Image name='blue-logo' width='40px' height='40px' />
-      <Text size='16px' weight={300}>
+      <Image name="blue-logo" width="40px" height="40px" />
+      <Text size="16px" weight={300}>
         <FormattedMessage
-          id='scenes.home.activitylist.empty.notx'
-          defaultMessage='No transactions yet? No problem.'
+          id="scenes.home.activitylist.empty.notx"
+          defaultMessage="No transactions yet? No problem."
         />
       </Text>
-      <Text size='16px' weight={300}>
+      <Text size="16px" weight={300}>
         <FormattedMessage
-          id='scenes.home.activitylist.empty.funds'
-          defaultMessage='Get started by adding some funds to your wallet!'
+          id="scenes.home.activitylist.empty.funds"
+          defaultMessage="Get started by adding some funds to your wallet!"
         />
       </Text>
       {props.partner ? (
-        <LinkContainer to='/buy-sell'>
-          <Button uppercase rounded nature='primary'>
+        <LinkContainer to="/buy-sell">
+          <Button uppercase rounded nature="primary">
             <FormattedMessage
-              id='scenes.home.activitylist.empty.buybitcoin'
-              defaultMessage='Buy Bitcoin'
+              id="scenes.home.activitylist.empty.buybitcoin"
+              defaultMessage="Buy Bitcoin"
             />
           </Button>
         </LinkContainer>
@@ -50,12 +50,12 @@ const Empty = props => (
         <Button
           uppercase
           rounded
-          nature='primary'
+          nature="primary"
           onClick={props.handleRequest}
         >
           <FormattedMessage
-            id='scenes.home.activitylist.empty.requestfunds'
-            defaultMessage='Request Funds'
+            id="scenes.home.activitylist.empty.requestfunds"
+            defaultMessage="Request Funds"
           />
         </Button>
       )}

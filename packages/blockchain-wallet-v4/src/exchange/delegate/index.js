@@ -5,7 +5,7 @@ import { btc } from '../../redux/common/selectors'
 import { getDefaultAccountIndex } from '../../redux/wallet/selectors'
 
 export class ExchangeDelegate {
-  constructor (state, api, partner) {
+  constructor(state, api, partner) {
     this._trades = []
     this._debug = false
     this.labelBase = 'Exchange order'
@@ -14,43 +14,43 @@ export class ExchangeDelegate {
     this._partner = partner
   }
 
-  get state () {
+  get state() {
     return this._state
   }
 
-  get trades () {
+  get trades() {
     return this._trades
   }
 
-  get api () {
+  get api() {
     return this._api
   }
 
-  get partner () {
+  get partner() {
     return this._partner
   }
 
-  save () {
+  save() {
     return Promise.resolve() // CHEAT: save metadata in rootSaga
   }
 
-  email () {
+  email() {
     return this._state.settingsPath.data.email
   }
 
-  mobile () {
+  mobile() {
     return this._state.settingsPath.data.sms_number
   }
 
-  isEmailVerified () {
+  isEmailVerified() {
     return this._state.settingsPath.data.email_verified
   }
 
-  isMobileVerified () {
+  isMobileVerified() {
     return this._state.settingsPath.data.sms_verified
   }
 
-  getToken (partner, options) {
+  getToken(partner, options) {
     options = options || {}
 
     const guid = this.state.walletPath.wallet.guid
@@ -68,7 +68,7 @@ export class ExchangeDelegate {
       fields.partner = partner
     }
 
-    return this.api.getTokenForDelegate(fields).then(function (res) {
+    return this.api.getTokenForDelegate(fields).then(function(res) {
       if (res.success) {
         return res.token
       } else {
@@ -77,24 +77,24 @@ export class ExchangeDelegate {
     })
   }
 
-  monitorAddress (address, callback) {
+  monitorAddress(address, callback) {
     // TODO: monitor address
     console.log('Monitor address: ' + address)
   }
 
-  checkAddress (address) {
+  checkAddress(address) {
     // TODO: implement check address
   }
 
-  getReceiveAddress (trade) {
+  getReceiveAddress(trade) {
     // TODO: getReceiveAddress
   }
 
-  findLastExchangeIndex () {
+  findLastExchangeIndex() {
     // TODO: implement findLastExchangeIndex
   }
 
-  reserveReceiveAddress () {
+  reserveReceiveAddress() {
     const isProd = prop('walletOptionsPath', this.state)
       .map(path(['platforms', 'web', this.partner, 'config', 'production']))
       .getOrFail(`Missing ${this.partner} production flag in walletOptions`)
@@ -119,22 +119,22 @@ export class ExchangeDelegate {
     }
   }
 
-  releaseReceiveAddress (trade) {
+  releaseReceiveAddress(trade) {
     // console.log('delegate.releaseReceiveAddress', trade)
     // TODO: releaseReceiveAddress
   }
 
-  serializeExtraFields (obj, trade) {
+  serializeExtraFields(obj, trade) {
     obj.account_index = trade._account_index
     obj.receive_index = trade._receive_index
   }
 
-  deserializeExtraFields (obj, trade) {
+  deserializeExtraFields(obj, trade) {
     trade._account_index = obj.account_index
     trade._receive_index = obj.receive_index
   }
 
-  toJSON () {
+  toJSON() {
     return ''
   }
 }

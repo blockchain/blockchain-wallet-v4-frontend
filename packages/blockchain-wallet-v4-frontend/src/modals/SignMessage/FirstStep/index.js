@@ -7,7 +7,7 @@ import { actions } from 'data'
 import FirstStep from './template'
 
 class FirstStepContainer extends React.PureComponent {
-  render () {
+  render() {
     const { address, closeAll, message, signMessageActions } = this.props
 
     return (

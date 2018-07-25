@@ -44,20 +44,20 @@ const KYCNotification = props => {
     <Wrapper>
       {(status === 'pending' || status === 'reviewing') && canTrade ? (
         <LimitsNotice>
-          <Text size='12px' weight={300}>
+          <Text size="12px" weight={300}>
             {type === 'sell' ? (
               <Fragment>
                 <FormattedMessage
-                  id='scenes.buysell.coinifycheckout.content.kycnotification.limitsnotice.sell'
-                  defaultMessage='While your identity gets verified, you can sell up to '
+                  id="scenes.buysell.coinifycheckout.content.kycnotification.limitsnotice.sell"
+                  defaultMessage="While your identity gets verified, you can sell up to "
                 />
                 {sellMax} BTC.
               </Fragment>
             ) : (
               <Fragment>
                 <FormattedMessage
-                  id='scenes.buysell.coinifycheckout.content.kycnotification.limitsnotice.buy'
-                  defaultMessage='While your identity gets verified, you can buy up to '
+                  id="scenes.buysell.coinifycheckout.content.kycnotification.limitsnotice.buy"
+                  defaultMessage="While your identity gets verified, you can buy up to "
                 />
                 {symbol}
                 {limits.max}.
@@ -68,21 +68,21 @@ const KYCNotification = props => {
       ) : null}
       <ISXContainer>
         <Text
-          size='13px'
-          color='brand-primary'
+          size="13px"
+          color="brand-primary"
           weight={400}
           style={spacing('mb-20')}
         >
           {path(['text'], header)}
         </Text>
-        <Text size='13px' weight={300} style={spacing('mb-20')}>
+        <Text size="13px" weight={300} style={spacing('mb-20')}>
           {path(['text'], body)}
         </Text>
         {status === 'pending' ||
         status === 'rejected' ||
         status === 'expired' ? (
-          <Button onClick={() => onTrigger(kyc)} nature='empty-secondary'>
-            <Text size='13px' color='brand-secondary'>
+          <Button onClick={() => onTrigger(kyc)} nature="empty-secondary">
+            <Text size="13px" color="brand-secondary">
               {path(['text'], kycNotificationButtonHelper(status))}
             </Text>
           </Button>

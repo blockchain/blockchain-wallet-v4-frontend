@@ -58,103 +58,103 @@ const Trade = ({ trade, close, status, subscriptions }) => {
         </Text>
       </ModalHeader>
       <ModalBody>
-        <Text size='13px' weight={300}>
+        <Text size="13px" weight={300}>
           {bodyStatus.text}
         </Text>
-        <TableTitle size='13px' weight={400}>
+        <TableTitle size="13px" weight={400}>
           <FormattedMessage
-            id='orderdetails.orderdetails'
-            defaultMessage='Order Details'
+            id="orderdetails.orderdetails"
+            defaultMessage="Order Details"
           />
         </TableTitle>
         <StyledOrderDetailsTable>
           <OrderDetailsRow>
-            <Text size='13px' weight={300}>
+            <Text size="13px" weight={300}>
               <FormattedMessage
-                id='orderdetails.coinifytradeid'
-                defaultMessage='Coinify Trade ID'
+                id="orderdetails.coinifytradeid"
+                defaultMessage="Coinify Trade ID"
               />
             </Text>
-            <Text size='13px' weight={300}>{`CNY-${prop('id', trade)}`}</Text>
+            <Text size="13px" weight={300}>{`CNY-${prop('id', trade)}`}</Text>
           </OrderDetailsRow>
           <OrderDetailsRow>
-            <Text size='13px' weight={300}>
+            <Text size="13px" weight={300}>
               <FormattedMessage
-                id='orderdetails.date'
-                defaultMessage='Date Initialized'
+                id="orderdetails.date"
+                defaultMessage="Date Initialized"
               />
             </Text>
-            <Text size='13px' weight={300}>
+            <Text size="13px" weight={300}>
               {date}
             </Text>
           </OrderDetailsRow>
           <OrderDetailsRow>
             {trade.isBuy ? (
-              <Text size='13px' weight={300}>
+              <Text size="13px" weight={300}>
                 <FormattedMessage
-                  id='orderdetails.amounttopurchase'
-                  defaultMessage='Bitcoin Purchased'
+                  id="orderdetails.amounttopurchase"
+                  defaultMessage="Bitcoin Purchased"
                 />
               </Text>
             ) : (
-              <Text size='13px' weight={300}>
+              <Text size="13px" weight={300}>
                 <FormattedMessage
-                  id='orderdetails.amounttosell'
-                  defaultMessage='Bitcoin Sold'
+                  id="orderdetails.amounttosell"
+                  defaultMessage="Bitcoin Sold"
                 />
               </Text>
             )}
-            <Text size='13px' weight={300}>
+            <Text size="13px" weight={300}>
               {prop('btcAmount', details)}
             </Text>
           </OrderDetailsRow>
         </StyledOrderDetailsTable>
-        <TableTitle size='13px' weight={400}>
+        <TableTitle size="13px" weight={400}>
           <FormattedMessage
-            id='orderdetails.payoutdetails'
-            defaultMessage='Payout Details'
+            id="orderdetails.payoutdetails"
+            defaultMessage="Payout Details"
           />
         </TableTitle>
         <StyledOrderDetailsTable>
           {!trade.isBuy && (
             <OrderDetailsRow>
-              <Text size='13px' weight={300}>
+              <Text size="13px" weight={300}>
                 <FormattedMessage
-                  id='orderdetails.bankaccount'
-                  defaultMessage='Bank Account'
+                  id="orderdetails.bankaccount"
+                  defaultMessage="Bank Account"
                 />
               </Text>
-              <Text size='13px' weight={300}>
+              <Text size="13px" weight={300}>
                 {prop('bankAccountNumber', trade)}
               </Text>
             </OrderDetailsRow>
           )}
           <OrderDetailsRow>
             {trade.isBuy ? (
-              <Text size='13px' weight={300}>
+              <Text size="13px" weight={300}>
                 <FormattedMessage
-                  id='orderdetails.totalcost'
-                  defaultMessage='Total Cost'
+                  id="orderdetails.totalcost"
+                  defaultMessage="Total Cost"
                 />
               </Text>
             ) : (
-              <Text size='13px' weight={300}>
+              <Text size="13px" weight={300}>
                 <FormattedMessage
-                  id='orderdetails.totaltobereceived'
-                  defaultMessage='Total To Be Received'
+                  id="orderdetails.totaltobereceived"
+                  defaultMessage="Total To Be Received"
                 />
               </Text>
             )}
-            <Text size='13px' weight={300} color='success'>
+            <Text size="13px" weight={300} color="success">
               {prop('total', details)}
             </Text>
           </OrderDetailsRow>
         </StyledOrderDetailsTable>
         {isPendingSell && (
-          <Text size='12px' weight={300}>
+          <Text size="12px" weight={300}>
             <FormattedMessage
-              id='orderdetails.footnote'
-              defaultMessage='*Please note: depending on your bank’s tranfers policies, you will see the funds reflected in your account within 1-2 days from the transfer. '
+              id="orderdetails.footnote"
+              defaultMessage="*Please note: depending on your bank’s tranfers policies, you will see the funds reflected in your account within 1-2 days from the transfer. "
             />
           </Text>
         )}
@@ -162,10 +162,10 @@ const Trade = ({ trade, close, status, subscriptions }) => {
           <Recurring trade={trade} subscription={subscription} />
         ) : null}
         <ButtonRow>
-          <Button width='100px' onClick={close} nature='primary'>
+          <Button width="100px" onClick={close} nature="primary">
             <FormattedMessage
-              id='modals.coinifytradedetails.trade.close'
-              defaultMessage='Close'
+              id="modals.coinifytradedetails.trade.close"
+              defaultMessage="Close"
             />
           </Button>
         </ButtonRow>

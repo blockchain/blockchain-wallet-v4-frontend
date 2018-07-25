@@ -116,7 +116,7 @@ export default ({ api, coreSagas, options }) => {
     return payment
   }
 
-  const resumePayment = function (coin, payment) {
+  const resumePayment = function(coin, payment) {
     switch (coin) {
       case 'BCH':
         return coreSagas.payment.bch.create({

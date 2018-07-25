@@ -3,10 +3,10 @@ import React from 'react'
 import DidYouKnow from './template.js'
 
 class DidYouKnowContainer extends React.PureComponent {
-  componentWillMount () {
+  componentWillMount() {
     this.number = Math.trunc(Math.random() * 21 + 1)
   }
-  render () {
+  render() {
     return <DidYouKnow number={this.number} />
   }
 }

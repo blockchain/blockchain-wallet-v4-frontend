@@ -8,17 +8,17 @@ import Template from './template'
 import { path } from 'ramda'
 
 class SfoxEnterMicroDeposits extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.sfoxActions.sfoxNotAsked()
   }
 
-  handleSubmit (e) {
+  handleSubmit(e) {
     const deposits = {
       amount1: parseFloat(this.props.deposit1),
       amount2: parseFloat(this.props.deposit2)
@@ -26,7 +26,7 @@ class SfoxEnterMicroDeposits extends React.PureComponent {
     this.props.sfoxActions.submitMicroDeposits(deposits)
   }
 
-  render () {
+  render() {
     const status = this.props.status.cata({
       Success: () => 'success',
       Failure: err => err,

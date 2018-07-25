@@ -8,7 +8,7 @@ import { renameKeys } from 'services/RamdaCookingBook'
 import * as languageService from 'services/LanguageService'
 
 class SelectBoxLanguages extends React.PureComponent {
-  render () {
+  render() {
     const { language, languages, ...rest } = this.props
     const items = [
       ...map(renameKeys({ name: 'text', language: 'value' }))(languages)
