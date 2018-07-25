@@ -1432,7 +1432,7 @@
   "scenes.faq.group.walletfunctionality.answer11.two":
     "Blockchain has our own bitcoin specific block explorer that launched in August 2011, and was created as a way for anyone to study bitcoin transactions, along with a variety of helpful charts and statistics about activity on the network.",
   "scenes.faq.group.walletfunctionality.answer12.one":
-    "Since bitcoin cash is a fork of the bitcoin block chain, its address format previously looked nearly identical to that of bitcoin, which was very confusing to those using it. Now, when you want to send or receive bitcoin cash, you can immediately identify that you’re using the correct address thanks to the added prefix that looks like this: bitcoincash:qpm2qsznhks23z7629mms6s4cwef74vcwvy22gdx6a.",
+    "Since bitcoin cash is a fork of the bitcoin block chain, its address format previously looked nearly identical to that of bitcoin, which was very confusing to those using it. Now, when you want to send or receive bitcoin cash, you can immediately identify that you’re using the correct address thanks to the added prefix that looks like this: ’bitcoincash:’ in front of your bch address.",
   "scenes.faq.group.walletfunctionality.answer12.two":
     "Although you can technically still transact to and from legacy BCH addresses, we strongly recommend adopting this new format to eliminate confusion.",
   "scenes.faq.group.walletfunctionality.answer2.one":
