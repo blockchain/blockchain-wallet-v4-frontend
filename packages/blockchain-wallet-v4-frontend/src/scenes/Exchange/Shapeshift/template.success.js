@@ -7,47 +7,18 @@ import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 import ThirdStep from './ThirdStep'
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  width: 100%;
-  box-sizing: border-box;
-`
-
 const Shapeshift = props => {
   switch (props.step) {
     case 0:
-      return (
-        <Wrapper>
-          <StateRegistrationStep />
-        </Wrapper>
-      )
+      return <StateRegistrationStep />
     case 1:
-      return (
-        <Wrapper>
-          <FirstStep />
-        </Wrapper>
-      )
+      return <FirstStep />
     case 2:
-      return (
-        <Wrapper>
-          <SecondStep />
-        </Wrapper>
-      )
+      return <SecondStep />
     case 3:
-      return (
-        <Wrapper>
-          <ThirdStep />
-        </Wrapper>
-      )
+      return <ThirdStep />
     default:
-      return (
-        <Wrapper>
-          <FirstStep />
-        </Wrapper>
-      )
+      return <FirstStep />
   }
 }
 
