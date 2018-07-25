@@ -1,18 +1,25 @@
-import { put, select } from 'redux-saga/effects'
+import { put, select, call } from 'redux-saga/effects'
 import { actions, selectors } from 'data'
+import profileSagas from 'data/modules/profile/sagas'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 import * as A from './actions'
 import {
+  STEPS,
   PERSONAL_STEPS,
   EMAIL_STEPS,
   SMS_STEPS,
   EMAIL_FORM,
-  SMS_NUMBER_FORM
+  SMS_NUMBER_FORM,
+  PERSONAL_FORM,
+  ADDRESS_FORM
 } from './model'
 
 export const logLocation = 'components/identityVerification/sagas'
 
-export default ({ api, coreSagas }) => {
+export default ({ api }) => {
+  const { createUser, updateUser } = profileSagas({ api })
+
   const derivePersonalStep = ({
     email,
     emailVerified,
@@ -85,13 +92,86 @@ export default ({ api, coreSagas }) => {
     yield put(actions.modules.settings.updateMobile(smsNumber))
   }
 
+  const savePersonalData = function*() {
+    try {
+      const data = yield select(selectors.form.getFormValues(PERSONAL_FORM))
+      yield put(actions.form.startSubmit(PERSONAL_FORM))
+      yield call(createUser, { payload: { data } })
+      yield put(A.setVertificationStep(STEPS.address))
+      yield put(actions.form.stopSubmit(PERSONAL_FORM))
+    } catch (e) {
+      yield put(actions.form.stopSubmit(PERSONAL_FORM, e))
+      yield put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'savePersonalData',
+          `Error saving personal data: ${e}`
+        )
+      )
+    }
+  }
+
+  const fetchSupportedCountries = function*() {
+    try {
+      yield put(A.setSupportedCountries(Remote.Loading))
+      const countries = yield call(api.getSupportedCountries)
+      yield put(A.setSupportedCountries(Remote.Success(countries)))
+    } catch (e) {
+      yield put(A.setSupportedCountries(Remote.Failure(e)))
+      actions.logs.logErrorMessage(
+        logLocation,
+        'fetchSupportedCountries',
+        `Error fetching supported countries: ${e}`
+      )
+    }
+  }
+
+  const findAddressesByZipcode = function*({ payload }) {
+    try {
+      const { zipcode } = payload
+      yield put(A.setAddresses(Remote.Loading))
+      const addresses = yield call(api.getAddressesByZipcode, zipcode)
+      yield put(A.setAddresses(Remote.Success(addresses)))
+    } catch (e) {
+      yield put(A.setAddresses(Remote.Failure(e)))
+      actions.logs.logErrorMessage(
+        logLocation,
+        'findAddressesByZipcode',
+        `Error fetching addresses: ${e}`
+      )
+    }
+  }
+
+  const saveAddress = function*() {
+    try {
+      const data = yield select(selectors.form.getFormValues(ADDRESS_FORM))
+      yield put(actions.form.startSubmit(PERSONAL_FORM))
+      yield call(updateUser, { payload: { data } })
+      yield put(A.setVertificationStep(STEPS.verify))
+      yield put(actions.form.stopSubmit(PERSONAL_FORM))
+    } catch (e) {
+      yield put(actions.form.stopSubmit(PERSONAL_FORM, e))
+      yield put(
+        actions.logs.logErrorMessage(
+          logLocation,
+          'saveAddress',
+          `Error saving address: ${e}`
+        )
+      )
+    }
+  }
+
   return {
+    fetchSupportedCountries,
+    findAddressesByZipcode,
+    resendEmailCode,
+    resendSmsCode,
+    saveAddress,
+    savePersonalData,
     updatePersonalStep,
     updateEmail,
-    verifyEmail,
     updateSmsNumber,
     verifySmsNumber,
-    resendEmailCode,
-    resendSmsCode
+    verifyEmail
   }
 }

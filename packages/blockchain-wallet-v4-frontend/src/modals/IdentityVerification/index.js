@@ -64,11 +64,7 @@ class IdentityVerification extends React.PureComponent {
   getStepComponent = step => {
     const { actions, modalActions, position, total } = this.props
     if (step === STEPS.address)
-      return (
-        <Address
-          handleSubmit={actions.setVertificationStep.bind(null, STEPS.verify)}
-        />
-      )
+      return <Address onSubmit={actions.saveAddress} />
 
     if (step === STEPS.verify)
       return (
@@ -80,11 +76,8 @@ class IdentityVerification extends React.PureComponent {
         />
       )
 
-    return (
-      <Personal
-        handleSubmit={actions.setVertificationStep.bind(null, STEPS.address)}
-      />
-    )
+    if (step === STEPS.personal)
+      return <Personal handleSubmit={actions.savePersonalData} />
   }
 
   render () {
@@ -105,7 +98,6 @@ class IdentityVerification extends React.PureComponent {
               adjuster={0.1667}
               barFullWidth
               flexEnd
-              minWidth='135px'
               maxWidth='135px'
               step={step}
               stepMap={stepMap}

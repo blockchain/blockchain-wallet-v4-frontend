@@ -1,13 +1,5 @@
 import * as AT from './actionTypes'
 
-export const setOnfidoEnabled = enabled => ({
-  type: AT.SET_ONFIDO_ENABLED,
-  payload: { enabled }
-})
-export const setVertificationStep = step => ({
-  type: AT.SET_VERIFICATION_STEP,
-  payload: { step }
-})
 export const setPersonalStep = step => ({
   type: AT.SET_PERSONAL_STEP,
   payload: { step }
@@ -32,3 +24,19 @@ export const setFormBusy = busy => ({
   type: AT.SET_FORM_BUSY,
   payload: { busy }
 })
+
+export const setSupportedCountries = countries => ({
+  type: AT.SET_SUPPORTED_COUNTRIES,
+  payload: { countries }
+})
+export const setAddresses = addresses => ({
+  type: AT.SET_ADDRESSES,
+  payload: { addresses }
+})
+
+export const savePersonalData = () => ({ type: AT.SAVE_PERSONAL_DATA })
+export const saveAddress = () => ({ type: AT.SAVE_ADDRESS })
+export const fetchSupportedCountries = () => ({
+  type: AT.FETCH_SUPPORTED_COUNTRIES
+})
+export const findAddressesByZipcode = () => ({ type: AT.FIND_ADDRESSES })

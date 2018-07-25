@@ -60,7 +60,7 @@ export default function*({ api, bchSocket, btcSocket, ethSocket, options }) {
     fork(alerts),
     fork(auth({ api, coreSagas })),
     fork(components({ api, coreSagas, options })),
-    fork(modules({ coreSagas })),
+    fork(modules({ api, coreSagas })),
     fork(preferences()),
     fork(goals({ coreSagas })),
     fork(wallet({ coreSagas })),

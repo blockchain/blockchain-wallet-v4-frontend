@@ -1,0 +1,3 @@
+export const SET_USER_DATA = '@DATA.PROFILE.SET_USER_DATA'
+
+export const SIGN_IN = '@EVENT.PROFILE.SIGN_IN'

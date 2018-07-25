@@ -5,7 +5,7 @@ export default ({ apiUrl, post, put }) => {
     //   endPoint: '/users'
     //   data: { ...userData }
     // })
-    Promise.resolve(userData)
+    Promise.resolve({ id: '1234', state: 'CREATED', kycState: 'NONE' })
 
   const updateUser = (userId, userData) =>
     // put({

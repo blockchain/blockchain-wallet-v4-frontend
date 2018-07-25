@@ -76,11 +76,9 @@ const Logo = styled(Image)`
 
 const StepIndicator = props => {
   const { step, stepMap, minWidth, maxWidth, flexEnd } = props
-  const isEven = n => n % 2 === 0
   const steps = Object.keys(stepMap)
   const index = steps.indexOf(step) + 1
-  const adjuster = isEven(steps.length) ? 0.5 / steps.length : 0
-  const width = index / steps.length - adjuster
+  const width = (index - 0.5) / steps.length
 
   return (
     <Wrapper flexEnd={flexEnd}>

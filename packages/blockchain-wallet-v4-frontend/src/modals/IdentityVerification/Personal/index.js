@@ -82,7 +82,6 @@ class PersonalContainer extends React.PureComponent {
           countryCode={countryCode}
           editEmail={actions.setPersonalStep.bind(null, PERSONAL_STEPS.email)}
           editSms={actions.setPersonalStep.bind(null, PERSONAL_STEPS.smsNumber)}
-          formBusy={formBusy}
         />
       )
     }

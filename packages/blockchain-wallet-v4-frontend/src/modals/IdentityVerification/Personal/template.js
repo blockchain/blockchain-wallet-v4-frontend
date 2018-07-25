@@ -123,7 +123,6 @@ const Personal = ({
   countryCode,
   emailVerified,
   smsVerified,
-  formBusy,
   editEmail,
   editSms
 }) => (
@@ -287,14 +286,13 @@ const Personal = ({
           disabled={
             invalid ||
             submitting ||
-            formBusy ||
             !smsNumber ||
             !email ||
             !smsVerified ||
             !emailVerified
           }
         >
-          {!formBusy ? (
+          {!submitting ? (
             <FormattedMessage
               id='identityverification.personal.continue'
               defaultMessage='Continue'

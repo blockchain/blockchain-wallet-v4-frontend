@@ -2,7 +2,7 @@ import { takeLatest } from 'redux-saga/effects'
 import * as AT from './actionTypes'
 import sagas from './sagas'
 
-export default ({ api, coreSagas }) => {
+export default ({ api }) => {
   const {
     updatePersonalStep,
     updateEmail,
@@ -10,8 +10,12 @@ export default ({ api, coreSagas }) => {
     resendEmailCode,
     updateSmsNumber,
     verifySmsNumber,
-    resendSmsCode
-  } = sagas({ api, coreSagas })
+    resendSmsCode,
+    savePersonalData,
+    saveAddress,
+    fetchSupportedCountries,
+    findAddressesByZipcode
+  } = sagas({ api })
 
   return function*() {
     yield takeLatest(AT.UPDATE_PERSONAL_STEP, updatePersonalStep)
@@ -21,5 +25,9 @@ export default ({ api, coreSagas }) => {
     yield takeLatest(AT.UPDATE_SMS_NUMBER, updateSmsNumber)
     yield takeLatest(AT.VERIFY_SMS_NUMBER, verifySmsNumber)
     yield takeLatest(AT.RESEND_SMS_CODE, resendSmsCode)
+    yield takeLatest(AT.SAVE_PERSONAL_DATA, savePersonalData)
+    yield takeLatest(AT.SAVE_ADDRESS, saveAddress)
+    yield takeLatest(AT.FETCH_SUPPORTED_COUNTRIES, fetchSupportedCountries)
+    yield takeLatest(AT.FIND_ADDRESSES, findAddressesByZipcode)
   }
 }
