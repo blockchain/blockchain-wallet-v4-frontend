@@ -142,3 +142,10 @@ export const RequiredUSZipCodeMessage = () => (
     defaultMessage='Must be a valid US Zipcode'
   />
 )
+
+export const InvalidZipCodeMessage = () => (
+  <FormattedMessage
+    id='formhelper.requiredzipcode'
+    defaultMessage='Invalid zipcode'
+  />
+)

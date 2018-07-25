@@ -73,13 +73,6 @@ class BuySellContainer extends React.PureComponent {
         partner: 'sfox'
       }
     }
-    if (path(['unocoin', 'token'], buySell)) {
-      // TODO replace token
-      return {
-        component: <span>Unocoin</span>,
-        partner: ''
-      }
-    }
     if (path(['coinify', 'offline_token'], buySell)) {
       return {
         component: (

@@ -59,3 +59,30 @@ export const sfoxSellBtcPaymentUpdatedFailure = err => ({
   type: AT.SFOX_SELL_BTC_PAYMENT_UPDATED_FAILURE,
   payload: err
 })
+
+export const initializeJumio = () => ({ type: AT.INITIALIZE_JUMIO })
+export const completeJumio = () => ({ type: AT.COMPLETE_JUMIO })
+export const fetchJumioStatusLoading = () => ({
+  type: AT.FETCH_JUMIO_STATUS_LOADING
+})
+export const fetchJumioStatusSuccess = payload => ({
+  type: AT.FETCH_JUMIO_STATUS_SUCCESS,
+  payload
+})
+export const fetchJumioStatusFailure = error => ({
+  type: AT.FETCH_JUMIO_STATUS_FAILURE,
+  payload: error
+})
+
+export const fetchJumioToken = () => ({ type: AT.FETCH_JUMIO_TOKEN })
+export const fetchJumioTokenLoading = () => ({
+  type: AT.FETCH_JUMIO_TOKEN_LOADING
+})
+export const fetchJumioTokenSuccess = payload => ({
+  type: AT.FETCH_JUMIO_TOKEN_SUCCESS,
+  payload
+})
+export const fetchJumioTokenFailure = error => ({
+  type: AT.FETCH_JUMIO_TOKEN_FAILURE,
+  payload: error
+})

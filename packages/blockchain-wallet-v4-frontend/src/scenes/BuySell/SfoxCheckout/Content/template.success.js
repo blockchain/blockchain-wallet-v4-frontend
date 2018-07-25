@@ -10,8 +10,9 @@ import { FormattedMessage } from 'react-intl'
 import { Remote } from 'blockchain-wallet-v4/src'
 import Stepper, { StepView } from 'components/Utilities/Stepper'
 import OrderCheckout from './OrderCheckout'
+import JumioStatus from './JumioStatus'
 import { OrderDetails, OrderSubmit } from './OrderReview'
-import Helper from 'components/BuySell/FAQ'
+import renderFaq from 'components/FaqDropdown'
 import EmptyOrderHistoryContainer from 'components/BuySell/EmptyOrderHistory'
 import SiftScience from 'modals/SfoxExchangeData/sift-science.js'
 import media from 'services/ResponsiveService'
@@ -24,7 +25,7 @@ const CheckoutWrapper = styled.div`
 `
 const OrderSubmitWrapper = CheckoutWrapper.extend`
   width: 35%;
-  padding: 30px 30px 30px 10%;
+  padding: 0px 30px 30px 10%;
   ${media.mobile`
     padding: 0px;
   `};
@@ -50,7 +51,7 @@ const SfoxBuySellContainer = styled.div`
     flex-direction: column;
   `};
 `
-const faqList = [
+const faqQuestions = [
   {
     question: (
       <FormattedMessage
@@ -95,9 +96,6 @@ const faqList = [
   }
 ]
 
-const faqListHelper = () =>
-  faqList.map(el => <Helper question={el.question} answer={el.answer} />)
-
 const isPending = t => equals(prop('state', t), 'processing')
 const isCompleted = t => !isPending(t)
 
@@ -127,6 +125,7 @@ const Success = props => {
 
   const accounts = Remote.of(props.value.accounts).getOrElse([])
   const profile = Remote.of(props.value.profile).getOrElse({
+    processingTimes: { usd: { buy: 40320, sell: 7200 } },
     account: { verification_status: {} },
     limits: { buy: 0, sell: 0 }
   })
@@ -171,7 +170,10 @@ const Success = props => {
                 type={'buy'}
               />
             </CheckoutWrapper>
-            <OrderSubmitWrapper>{faqListHelper()}</OrderSubmitWrapper>
+            <OrderSubmitWrapper>
+              <JumioStatus />
+              {renderFaq(faqQuestions)}
+            </OrderSubmitWrapper>
           </SfoxBuySellContainer>
         </StepView>
         <StepView step={1}>
@@ -181,6 +183,7 @@ const Success = props => {
                 quoteR={buyQuoteR}
                 account={accounts[0]}
                 onRefreshQuote={refreshBuyQuote}
+                profile={profile}
                 type={'buy'}
               />
             </CheckoutWrapper>
@@ -202,20 +205,25 @@ const Success = props => {
     return (
       <Stepper key='SellStepper' initialStep={0}>
         <StepView step={0}>
-          <CheckoutWrapper>
-            <OrderCheckout
-              quoteR={sellQuoteR}
-              account={accounts[0]}
-              onFetchQuote={fetchSellQuote}
-              reason={reason}
-              disableButton={disableButton}
-              enableButton={enableButton}
-              buttonStatus={buttonStatus}
-              finishAccountSetup={finishAccountSetup}
-              limits={limits.sell}
-              type={'sell'}
-            />
-          </CheckoutWrapper>
+          <SfoxBuySellContainer>
+            <CheckoutWrapper>
+              <OrderCheckout
+                quoteR={sellQuoteR}
+                account={accounts[0]}
+                onFetchQuote={fetchSellQuote}
+                reason={reason}
+                disableButton={disableButton}
+                enableButton={enableButton}
+                buttonStatus={buttonStatus}
+                finishAccountSetup={finishAccountSetup}
+                limits={limits.sell}
+                type={'sell'}
+              />
+            </CheckoutWrapper>
+            <OrderSubmitWrapper>
+              <JumioStatus />
+            </OrderSubmitWrapper>
+          </SfoxBuySellContainer>
         </StepView>
         <StepView step={1}>
           <SfoxBuySellContainer>
@@ -224,6 +232,7 @@ const Success = props => {
                 quoteR={sellQuoteR}
                 account={accounts[0]}
                 onRefreshQuote={refreshSellQuote}
+                profile={profile}
                 type={'sell'}
               />
             </CheckoutWrapper>

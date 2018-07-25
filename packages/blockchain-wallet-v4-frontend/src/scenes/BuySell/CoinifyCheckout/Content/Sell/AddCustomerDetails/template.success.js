@@ -17,7 +17,7 @@ import {
   InputWrapper,
   PartnerHeader,
   PartnerSubHeader
-} from 'components/BuySell/Signup'
+} from 'components/IdentityVerification'
 import { SelectBoxCountry, TextBox } from 'components/Form'
 
 const SpaceRow = styled.div`

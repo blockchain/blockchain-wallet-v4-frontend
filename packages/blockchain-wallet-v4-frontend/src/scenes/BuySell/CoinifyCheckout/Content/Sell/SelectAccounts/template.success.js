@@ -19,7 +19,7 @@ import {
   ColRight,
   ColRightInner,
   Row
-} from 'components/BuySell/Signup'
+} from 'components/IdentityVerification'
 
 const RowContent = styled(Row)`
   padding-left: 10px;

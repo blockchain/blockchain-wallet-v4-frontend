@@ -12,7 +12,7 @@ import {
   PartnerHeader,
   PartnerSubHeader,
   ColRight
-} from 'components/BuySell/Signup'
+} from 'components/IdentityVerification'
 import { getRateFromQuote } from 'services/CoinifyService'
 
 const SummaryWrapper = styled.div`

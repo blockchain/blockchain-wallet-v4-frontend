@@ -16,7 +16,7 @@ import {
   ColRight,
   ColRightInner,
   Row
-} from 'components/BuySell/Signup'
+} from 'components/IdentityVerification'
 import media from 'services/ResponsiveService'
 
 const CheckoutWrapper = styled.div`

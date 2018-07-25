@@ -28,7 +28,7 @@ import {
   PartnerSubHeader,
   ErrorWrapper,
   ColRightInner
-} from 'components/BuySell/Signup'
+} from 'components/IdentityVerification'
 import media from 'services/ResponsiveService'
 
 const LockIcon = styled(Icon)`
@@ -193,7 +193,7 @@ const Identity = props => {
               </Text>
             )}
           </ErrorWrapper>
-          {props.faqs()}
+          {props.faqs}
         </ColRightInner>
       </ColRight>
     </IdentityForm>
