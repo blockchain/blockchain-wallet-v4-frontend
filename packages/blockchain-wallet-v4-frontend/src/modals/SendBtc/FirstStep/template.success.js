@@ -9,7 +9,7 @@ import {
   validBitcoinAddress,
   validBitcoinPrivateKey
 } from 'services/FormHelper'
-import { Button, Icon, Link, Text, Tooltip } from 'blockchain-info-components'
+import { Button, Icon, Link, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import {
   FiatConvertor,
   Form,
@@ -262,12 +262,9 @@ const FirstStep = props => {
               id='modals.sendbtc.firststep.description'
               defaultMessage='Description: '
             />
-            <Tooltip>
-              <FormattedMessage
-                id='modals.sendbtc.firststep.sharetooltip'
-                defaultMessage='Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.'
-              />
-            </Tooltip>
+            <TooltipHost id='sendbtc.firststep.sharetooltip'>
+              <TooltipIcon name='question-in-circle' />
+            </TooltipHost>
           </FormLabel>
           <Field
             name='description'
