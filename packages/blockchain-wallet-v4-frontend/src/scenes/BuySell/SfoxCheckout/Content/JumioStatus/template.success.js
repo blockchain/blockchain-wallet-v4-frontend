@@ -133,8 +133,8 @@ export const Success = ({ jumioStatus, profile, onClick }) => {
         ) : (
           <Button onClick={onClick} nature='light' uppercase>
             <FormattedMessage
-              id='scenes.buysell.sfoxcheckout.content.jumio.button.tryagain'
-              defaultMessage='Try Again'
+              id='scenes.buysell.sfoxcheckout.content.jumio.button.complete_verification'
+              defaultMessage='Complete Verification'
             />
           </Button>
         )
