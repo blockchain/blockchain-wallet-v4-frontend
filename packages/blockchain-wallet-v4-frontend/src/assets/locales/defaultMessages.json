@@ -893,6 +893,19 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Select state",
+        "id": "components.selectboxregion.placeholder.state"
+      },
+      {
+        "defaultMessage": "Select region",
+        "id": "components.selectboxregion.placeholder.region"
+      }
+    ],
+    "path": "src/components/Form/SelectBoxRegion/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Default",
         "id": "components.selectboxtheme.default"
       },
@@ -1126,6 +1139,16 @@
   {
     "descriptors": [
       {
+        "defaultMessage":
+          "Your transaction will be complete after it has {minConfirmations} confirmations.",
+        "id": "scenes.transactions.content.list.listitem.transactionunconfirmed"
+      }
+    ],
+    "path": "src/components/TxFeedTooltips/index.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Exchange",
         "id": "scenes.exchange.menutop.exchange"
       },
@@ -1319,6 +1342,16 @@
       }
     ],
     "path": "src/layouts/Wallet/MenuTop/Balance/EthBalance/template.error.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Pending Balance",
+        "id": "scenes.wallet.menutop.balance.sfoxpendingbalance"
+      }
+    ],
+    "path":
+      "src/layouts/Wallet/MenuTop/Balance/SfoxPendingBalance/template.success.json"
   },
   {
     "descriptors": [
@@ -2651,8 +2684,71 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Verify Your Identity",
+        "id": "modals.confirm.title.verify_identity"
+      },
+      {
+        "defaultMessage": "Confirm",
+        "id": "modals.confirm.title"
+      },
+      {
+        "defaultMessage":
+          "Verifying your identity will raise your buy and sell limits, allowing you to trade higher amounts. It will also speed up waiting times for trades. It only takes a few minutes to go through the process.",
+        "id": "modals.confirm.message.verify_identity"
+      },
+      {
+        "defaultMessage": "Please confirm.",
+        "id": "modals.confirm.message"
+      },
+      {
+        "defaultMessage": "I'll Do This Later",
+        "id": "modals.confirm.cancel.verify_identity"
+      },
+      {
         "defaultMessage": "Cancel",
         "id": "modals.confirm.button.cancel"
+      },
+      {
+        "defaultMessage": "Verify My Identity",
+        "id": "modals.confirm.confirm.verify_identity"
+      },
+      {
+        "defaultMessage": "OK",
+        "id": "modals.confirm.button"
+      }
+    ],
+    "path": "src/modals/Confirm/helpers.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Verify Your Identity",
+        "id": "modals.confirm.title.verify_identity"
+      },
+      {
+        "defaultMessage": "Confirm",
+        "id": "modals.confirm.title"
+      },
+      {
+        "defaultMessage":
+          "Verifying your identity will raise your buy and sell limits, allowing you to trade higher amounts. It will also speed up waiting times for trades. It only takes a few minutes to go through the process.",
+        "id": "modals.confirm.message.verify_identity"
+      },
+      {
+        "defaultMessage": "Please confirm.",
+        "id": "modals.confirm.message"
+      },
+      {
+        "defaultMessage": "I'll Do This Later",
+        "id": "modals.confirm.cancel.verify_identity"
+      },
+      {
+        "defaultMessage": "Cancel",
+        "id": "modals.confirm.button.cancel"
+      },
+      {
+        "defaultMessage": "Verify My Identity",
+        "id": "modals.confirm.confirm.verify_identity"
       },
       {
         "defaultMessage": "OK",
@@ -2784,6 +2880,61 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Why do you need this information?",
+        "id": "identityverification.address.faq.whycollect.question"
+      },
+      {
+        "defaultMessage":
+          "To comply with government regulated anti-money laundering legislation, we need to obtain additional information in order to verify your identity.",
+        "id": "identityverification.address.faq.whycollect.answer"
+      },
+      {
+        "defaultMessage": "Address Details",
+        "id": "identityverification.address.header"
+      },
+      {
+        "defaultMessage":
+          "There's so much we'd love to know about you, but we only need a few things.",
+        "id": "identityverification.address.subheader"
+      },
+      {
+        "defaultMessage": "Address",
+        "id": "identityverification.address.address"
+      },
+      {
+        "defaultMessage": "Address 2",
+        "id": "identityverification.address.address2"
+      },
+      {
+        "defaultMessage": "City",
+        "id": "identityverification.address.city"
+      },
+      {
+        "defaultMessage": "State",
+        "id": "identityverification.address.state"
+      },
+      {
+        "defaultMessage": "Region",
+        "id": "identityverification.address.region"
+      },
+      {
+        "defaultMessage": "Zip Code",
+        "id": "identityverification.address.zipcode"
+      },
+      {
+        "defaultMessage": "Country",
+        "id": "identityverification.address.country"
+      },
+      {
+        "defaultMessage": "Continue",
+        "id": "identityverification.address.continue"
+      }
+    ],
+    "path": "src/modals/IdentityVerification/Address.json"
+  },
+  {
+    "descriptors": [
+      {
         "defaultMessage": "Personal",
         "id": "modals.identityverification.steps.personal"
       },
@@ -2823,12 +2974,12 @@
         "id": "identityverification.personal.email.confirm"
       },
       {
-        "defaultMessage": "Send Email Verification Code",
-        "id": "identityverification.personal.email.number"
-      },
-      {
         "defaultMessage": "We emailed a verification code to {email}",
         "id": "identityverification.personal.email.code"
+      },
+      {
+        "defaultMessage": "Send Email Verification Code",
+        "id": "identityverification.personal.email.number"
       },
       {
         "defaultMessage": "Continue",
@@ -2862,12 +3013,12 @@
         "id": "identityverification.personal.mobile.entermobilenumber"
       },
       {
-        "defaultMessage": "Send My Code",
-        "id": "identityverification.personal.mobile.sendmycode"
-      },
-      {
         "defaultMessage": "Enter the code we just sent to {smsNumber}",
         "id": "identityverification.personal.mobile.entercode"
+      },
+      {
+        "defaultMessage": "Send My Code",
+        "id": "identityverification.personal.mobile.sendmycode"
       },
       {
         "defaultMessage": "Continue",
@@ -2934,6 +3085,33 @@
       }
     ],
     "path": "src/modals/IdentityVerification/Personal/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Why do you need this information?",
+        "id": "identityverification.verify.faq.whycollect.question"
+      },
+      {
+        "defaultMessage":
+          "To comply with government regulated anti-money laundering legislation, we need to obtain additional information in order to verify your identity.",
+        "id": "identityverification.verify.faq.whycollect.answer"
+      },
+      {
+        "defaultMessage": "Verify Your Identity",
+        "id": "identityverification.verify.header"
+      },
+      {
+        "defaultMessage":
+          "Good news – you’re almost done! Just grab your photo ID and mobile phone to complete your verification. This will only take a few minutes.",
+        "id": "identityverification.verify.subheader"
+      },
+      {
+        "defaultMessage": "Verify My Identity",
+        "id": "identityverification.verify.verify"
+      }
+    ],
+    "path": "src/modals/IdentityVerification/Verify.json"
   },
   {
     "descriptors": [
@@ -3486,6 +3664,16 @@
       }
     ],
     "path": "src/modals/RequestBtc/FirstStep/validationMessages.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage":
+          "Share this address with others, and they can send you BTC directly to your wallet. Your address changes with every payment. You can also create a request by attaching an amount below.",
+        "id": "modals.requestbitcoin.firststep.sharetooltip"
+      }
+    ],
+    "path": "src/modals/RequestBtc/index.json"
   },
   {
     "descriptors": [
@@ -5062,10 +5250,6 @@
         "id": "orderdetails.totaltobereceived"
       },
       {
-        "defaultMessage": "Estimated Delivery of Funds",
-        "id": "orderdetails.fundsdelivery"
-      },
-      {
         "defaultMessage": "Close",
         "id": "sfoxtradedetails.close"
       }
@@ -6129,6 +6313,23 @@
   {
     "descriptors": [
       {
+        "defaultMessage": "Buy Limit: {buyLimit}",
+        "id": "scenes.buysell.sfoxcheckout.content.jumio.buylimit"
+      },
+      {
+        "defaultMessage": "Sell Limit: {sellLimit}",
+        "id": "scenes.buysell.sfoxcheckout.content.jumio.selllimit"
+      },
+      {
+        "defaultMessage":
+          "Your purchases will be available in your Blockchain wallet in {buyProcessingTime} days. Your sell trades will take {sellProcessingTime} days to process into your bank account.",
+        "id": "scenes.buysell.sfoxcheckout.content.jumio.profile"
+      },
+      {
+        "defaultMessage": "Success! Identity Verification Complete",
+        "id": "scenes.buysell.sfoxcheckout.content.jumio.title.completed"
+      },
+      {
         "defaultMessage": "Identity Verification Pending",
         "id": "scenes.buysell.sfoxcheckout.content.jumio.title.pending"
       },
@@ -6138,13 +6339,23 @@
       },
       {
         "defaultMessage":
-          "It looks like you tried to verify your identity but never finished.",
+          "You're almost there! The uploaded information is being reviewed. This should just take a few minutes.",
+        "id":
+          "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio"
+      },
+      {
+        "defaultMessage":
+          "Your identity verification is incomplete. Please continue to follow the steps to complete the process.",
         "id": "scenes.buysell.sfoxcheckout.content.jumio.body.pending"
       },
       {
         "defaultMessage":
-          "There was a problem with your identity verification documents. Please try again.",
+          "The system has failed to verify your identity. Contact support@sfox.com for more information.",
         "id": "scenes.buysell.sfoxcheckout.content.jumio.body.failed"
+      },
+      {
+        "defaultMessage": "Refresh Status",
+        "id": "scenes.buysell.sfoxcheckout.content.jumio.button.refresh"
       },
       {
         "defaultMessage": "Try Again",
@@ -6710,6 +6921,45 @@
       }
     ],
     "path": "src/scenes/Exchange/Shapeshift/ThirdStep/template.success.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage":
+          "This quote may change depending on the market price at the time of your transaction.",
+        "id": "scenes.exchange.shapeshift.firststep.tooltip"
+      },
+      {
+        "defaultMessage": "Learn more",
+        "id": "scenes.exchange.shapeshift.firststep.tooltip2"
+      },
+      {
+        "defaultMessage":
+          "This fee is used to send the outgoing exchange funds to ShapeShift.",
+        "id": "scenes.exchange.shapeshift.secondstep.txfeeexplanation"
+      },
+      {
+        "defaultMessage":
+          "This rate may change depending on the market price at the time of your transaction.",
+        "id": "scenes.exchange.shapeshift.secondstep.ratetooltip"
+      },
+      {
+        "defaultMessage":
+          "ShapeShift will use this fee to send the incoming exchange funds to your wallet.",
+        "id": "scenes.exchange.shapeshift.secondstep.networkfeetooltip"
+      },
+      {
+        "defaultMessage":
+          "This rate may change depending on the market price at the time of your transaction.",
+        "id": "modals.exchange.shapeshift.exchangetooltip"
+      },
+      {
+        "defaultMessage":
+          "This fee is used to send the incoming exchange funds from ShapeShift.",
+        "id": "modals.exchange.shapeshift.feetooltip"
+      }
+    ],
+    "path": "src/scenes/Exchange/Shapeshift/Tooltips/index.json"
   },
   {
     "descriptors": [
@@ -7905,6 +8155,52 @@
     ],
     "path":
       "src/scenes/SecurityCenter/Advanced/LoginIpRestriction/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Change",
+        "id":
+          "scenes.securitysettings.basicsecurity.passwordhint.settings.change"
+      },
+      {
+        "defaultMessage": "Cancel",
+        "id":
+          "scenes.securitysettings.basicsecurity.passwordhint.settings.cancel"
+      },
+      {
+        "defaultMessage": "Change",
+        "id": "scenes.securitysettings.basicsecurity.passwordhint.settings.save"
+      }
+    ],
+    "path":
+      "src/scenes/SecurityCenter/Advanced/PasswordHint/Settings/template.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "Password Hint",
+        "id": "scenes.settings.passwordhint.title"
+      },
+      {
+        "defaultMessage": "Hint Stored",
+        "id": "scenes.security.passwordhint.stored"
+      },
+      {
+        "defaultMessage": "Not Stored",
+        "id": "scenes.security.passwordhint.notstored"
+      },
+      {
+        "defaultMessage": "Blockchain cannot reset your password.",
+        "id": "scenes.settings.passwordhint.description1"
+      },
+      {
+        "defaultMessage":
+          "Create a memorable password hint that we can send to your verified email address in case you forget your password.",
+        "id": "scenes.settings.passwordhint.description2"
+      }
+    ],
+    "path": "src/scenes/SecurityCenter/Advanced/PasswordHint/template.json"
   },
   {
     "descriptors": [
@@ -10371,6 +10667,10 @@
       {
         "defaultMessage": "Must be a valid US Zipcode",
         "id": "formhelper.requireduszipcode"
+      },
+      {
+        "defaultMessage": "Invalid zipcode",
+        "id": "formhelper.requiredzipcode"
       }
     ],
     "path": "src/services/FormHelper/validationMessages.json"
@@ -10404,7 +10704,7 @@
       },
       {
         "defaultMessage":
-          "Your buy trade has been initiated. You will receive your funds on {date}.",
+          "Your buy trade has been initiated. You will receive your bitcoin in 3-5 business days.",
         "id":
           "scenes.services.sfoxservice.buysellorderhistory.list.orderstatusbody.buy.processing"
       },
@@ -10426,7 +10726,7 @@
       },
       {
         "defaultMessage":
-          "Your sell trade has been initiated. You will receive your funds on {date}.",
+          "Your sell trade has been initiated. You will receive your funds in 3-5 business days.",
         "id":
           "scenes.services.sfoxservice.buysellorderhistory.list.orderstatusbody.sell.processing"
       },

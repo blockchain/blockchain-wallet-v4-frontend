@@ -400,6 +400,8 @@
   "components.qrreader.warning": "Your browser does not have webcam support.",
   "components.selectboxbitcoin.watchonly": "Non-Spendable",
   "components.selectboxcountry.label": "Select country",
+  "components.selectboxregion.placeholder.region": "Select region",
+  "components.selectboxregion.placeholder.state": "Select state",
   "components.selectboxstate.label": "Select country",
   "components.selectboxtheme.complement": "Complement",
   "components.selectboxtheme.default": "Default",
@@ -443,7 +445,23 @@
   "formhelper.requirednumber": "Invalid number",
   "formhelper.requiredssn": "Must be valid SSN",
   "formhelper.requireduszipcode": "Must be a valid US Zipcode",
+  "formhelper.requiredzipcode": "Invalid zipcode",
   "formhelper.samepasswordascurrent": "Password is the same as current",
+  "identityverification.address.address": "Address",
+  "identityverification.address.address2": "Address 2",
+  "identityverification.address.city": "City",
+  "identityverification.address.continue": "Continue",
+  "identityverification.address.country": "Country",
+  "identityverification.address.faq.whycollect.answer":
+    "To comply with government regulated anti-money laundering legislation, we need to obtain additional information in order to verify your identity.",
+  "identityverification.address.faq.whycollect.question":
+    "Why do you need this information?",
+  "identityverification.address.header": "Address Details",
+  "identityverification.address.region": "Region",
+  "identityverification.address.state": "State",
+  "identityverification.address.subheader":
+    "There's so much we'd love to know about you, but we only need a few things.",
+  "identityverification.address.zipcode": "Zip Code",
   "identityverification.personal.continue": "Continue",
   "identityverification.personal.dateofbirth": "Your Birthday (MM/DD/YYYY)",
   "identityverification.personal.edit": "edit",
@@ -483,6 +501,14 @@
     "There's so much we'd love to know about you, but we only need a few things.",
   "identityverification.personal.verifiedemail": "Verified Email Address",
   "identityverification.personal.verifiedmobile": "Verified Phone Number",
+  "identityverification.verify.faq.whycollect.answer":
+    "To comply with government regulated anti-money laundering legislation, we need to obtain additional information in order to verify your identity.",
+  "identityverification.verify.faq.whycollect.question":
+    "Why do you need this information?",
+  "identityverification.verify.header": "Verify Your Identity",
+  "identityverification.verify.subheader":
+    "Good news – you’re almost done! Just grab your photo ID and mobile phone to complete your verification. This will only take a few minutes.",
+  "identityverification.verify.verify": "Verify My Identity",
   "layouts.public.footer.about": "About",
   "layouts.public.footer.blog": "Blog",
   "layouts.public.footer.explorer": "Data",
@@ -561,6 +587,13 @@
   "modals.coinifytradedetails.trade.close": "Close",
   "modals.confirm.button": "OK",
   "modals.confirm.button.cancel": "Cancel",
+  "modals.confirm.cancel.verify_identity": "I'll Do This Later",
+  "modals.confirm.confirm.verify_identity": "Verify My Identity",
+  "modals.confirm.message": "Please confirm.",
+  "modals.confirm.message.verify_identity":
+    "Verifying your identity will raise your buy and sell limits, allowing you to trade higher amounts. It will also speed up waiting times for trades. It only takes a few minutes to go through the process.",
+  "modals.confirm.title": "Confirm",
+  "modals.confirm.title.verify_identity": "Verify Your Identity",
   "modals.deleteaddresslabel.cancel": "Cancel",
   "modals.disable2fa.disable": "Disable",
   "modals.disable2fa.sure": "Are you sure you wish to disable the",
@@ -957,7 +990,6 @@
   "orderdetails.date": "Date Initialized",
   "orderdetails.footnote":
     "*Please note: depending on your bank’s tranfers policies, you will see the funds reflected in your account within 1-2 days from the transfer.",
-  "orderdetails.fundsdelivery": "Estimated Delivery of Funds",
   "orderdetails.orderdetails": "Order Details",
   "orderdetails.payoutdetails": "Payout Details",
   "orderdetails.recurring.amount": "Amount:",
@@ -1076,10 +1108,20 @@
     "There was a problem with your identity verification documents. Please try again.",
   "scenes.buysell.sfoxcheckout.content.jumio.body.pending":
     "It looks like you tried to verify your identity but never finished.",
+  "scenes.buysell.sfoxcheckout.content.jumio.body.pending.awaitingjumio":
+    "You're almost there! The uploaded information is being reviewed. This should just take a few minutes.",
   "scenes.buysell.sfoxcheckout.content.jumio.button.failed": "Try Again",
   "scenes.buysell.sfoxcheckout.content.jumio.button.pending":
     "Complete Verification",
+  "scenes.buysell.sfoxcheckout.content.jumio.button.refresh": "Refresh Status",
   "scenes.buysell.sfoxcheckout.content.jumio.button.tryagain": "Try Again",
+  "scenes.buysell.sfoxcheckout.content.jumio.buylimit": "Buy Limit: {buyLimit}",
+  "scenes.buysell.sfoxcheckout.content.jumio.profile":
+    "Your purchases will be available in your Blockchain wallet in {buyProcessingTime} days. Your sell trades will take {sellProcessingTime} days to process into your bank account.",
+  "scenes.buysell.sfoxcheckout.content.jumio.selllimit":
+    "Sell Limit: {sellLimit}",
+  "scenes.buysell.sfoxcheckout.content.jumio.title.completed":
+    "Success! Identity Verification Complete",
   "scenes.buysell.sfoxcheckout.content.jumio.title.failed":
     "Identity Verification Failed",
   "scenes.buysell.sfoxcheckout.content.jumio.title.pending":
@@ -1869,6 +1911,8 @@
     "We have sent a verification code to",
   "scenes.security.email.yourverifiedemailaddress":
     "Your verified email address is used to send login codes when suspicious or unusual activity is detected, to remind you of your wallet login ID, and to send payment alerts when you receive funds.",
+  "scenes.security.passwordhint.notstored": "Not Stored",
+  "scenes.security.passwordhint.stored": "Hint Stored",
   "scenes.security.tor.allowed": "Allowed",
   "scenes.security.tor.blocked": "Blocked",
   "scenes.security.twostepsetup.sms": "Use codes sent via SMS",
@@ -2033,6 +2077,11 @@
   "scenes.securitysettings.apiaccess.description2": "to get started.",
   "scenes.securitysettings.apiaccess.getstarted": "here",
   "scenes.securitysettings.apiaccess.title": "API Access",
+  "scenes.securitysettings.basicsecurity.passwordhint.settings.cancel":
+    "Cancel",
+  "scenes.securitysettings.basicsecurity.passwordhint.settings.change":
+    "Change",
+  "scenes.securitysettings.basicsecurity.passwordhint.settings.save": "Change",
   "scenes.securitysettings.basicsecurity.recoveryphrase.description":
     "Your backup phrase contains all of the private keys within your wallet. Please write these 12 words down, in order, and keep them somewhere safe offline. This phrase gives you (or anyone who has it) a way to restore your wallet and access your funds.",
   "scenes.securitysettings.basicsecurity.recoveryphrase.description.verifyphrase":
@@ -2224,6 +2273,11 @@
   "scenes.settings.manage_addresses.edit_name": "Edit Name",
   "scenes.settings.manage_addresses.make_default": "Make Default",
   "scenes.settings.manage_addresses.show_xpub": "Show xPub",
+  "scenes.settings.passwordhint.description1":
+    "Blockchain cannot reset your password.",
+  "scenes.settings.passwordhint.description2":
+    "Create a memorable password hint that we can send to your verified email address in case you forget your password.",
+  "scenes.settings.passwordhint.title": "Password Hint",
   "scenes.settings.preferences.autologout.updateform.minutes": "Minutes",
   "scenes.settings.preferences.bitcoinlinkhandling.description":
     "Enable this to allow your Blockchain Wallet to handle bitcoin payment links in the web browser.",
@@ -2411,6 +2465,7 @@
   "scenes.wallet.menutop.balance.bchbalance": "Bitcoin Cash Balance",
   "scenes.wallet.menutop.balance.bitcoinbalance": "Bitcoin Balance",
   "scenes.wallet.menutop.balance.etherbalance": "Ether Balance",
+  "scenes.wallet.menutop.balance.sfoxpendingbalance": "Pending Balance",
   "scenes.wallet.menutop.balance.totalbalance": "Total Balance",
   "scenes.wallet.menutop.balance.watchonlybchbalance": "Non-Spendable",
   "scenes.wallet.menutop.balance.watchonlybtcbalance": "Non-Spendable",
